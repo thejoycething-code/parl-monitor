@@ -452,7 +452,29 @@ Reproductive Rights Bill, lost 30 to 85 with 36 abstaining, Sinn Féin's 33
 among them); 17 live bills on our ground, 2 enacted, 2 defeated, 10 lapsed
 and not restored.
 
-## The judge (wired 9 October 2026, on since 9 October)
+## The judge (wired 9 October 2026; the free session judge is the default)
+
+**The free session judge is the default route** (Christopher, 9 October
+2026: "Switch US, Ireland and Australia scoring to the free route"):
+`jobs/ie-session-judge.sh` on the Mac Mini, **Fridays 18:30 London** after
+the weekly, has Claude Code on the work subscription score up to **100**
+pending items (bills, divisions with their amendments, questions, speeches
+on the member's own words), 25 to a session, newest first, through
+`tools/ie_triage.py --queue-out / --queue-in` (plan allowance, no API spend),
+then rewrites the week's edition with the scores (no DM). See
+docs/mac-mini.md, "Session judges". **`IE_JUDGE`, the paid API judge below,
+is the alternative and is off.**
+
+**Why 100.** A sitting week adds about 50 items on our ground (36 questions,
+13 speeches, a bill or division; phase 2 below), so 100 always covers the
+week. The published store of 9 October 2026 had nothing pending (52 bills
+and divisions, all scored by the API judge); the questions and debates
+backfill (about 3,000 items, by the phase 2 scratch run) arrives with the
+Mini's first run and drains at some 50 a week, newest first, so the edition's
+week is always scored and the old ones follow. Raise `SESSION_JUDGE_MAX` in
+the plist to drain it faster.
+
+The paid API judge:
 
 `tools/ie_triage.py`, modelled on `tools/us_triage.py`: the same judge, model
 and rubric (`src/triage.py`) with an **Irish frame** (the abortion Act of
@@ -463,8 +485,9 @@ text or amendment matched; a division that only inherits takes its bill's
 score. Scores are written once, ever; `--rescore` re-queues one.
 
 **SPEND NEEDS A YES.** The weekly runs it only when the repository variable
-`IE_JUDGE` is `on`, as `US_JUDGE` gates the US judge. **It is on** (Christopher,
-9 October 2026). The first `--dry-run`, before phase 2: 42 items (31 bills,
+`IE_JUDGE` is `on`, as `US_JUDGE` gates the US judge. It was on from 9 October
+2026 (Christopher) until the same day's move to the session judge; **it is
+off**. The first `--dry-run`, before phase 2: 42 items (31 bills,
 11 divisions), 11 calls, about $0.10. With questions and speeches, see
 phase 2 above.
 
@@ -636,7 +659,8 @@ weekly's 10:00 and 12:00. One slot only: GitHub keeps one pending run per
 state group, so a retry slot could cancel the US run. Watched by the failure
 alert and `tools/coverage.py` (members, bills and divisions all weekly).
 **It runs only once merged to main**, and the launchd job needs installing
-on the Mini (docs/mac-mini.md).
+on the Mini (docs/mac-mini.md). The session judge follows on Fridays at 18:30
+London (Mini only, `ops/launchd/net.citizengo.parlmonitor.ie-session-judge.plist`).
 
 ## The same-day vote brief (built 9 October 2026, branch `vote-briefs`)
 
@@ -684,7 +708,7 @@ Parity with the UK Division watch (Christopher: "start the same-day vote briefs"
 ## Open questions for Christopher
 
 Settled: the assumed decisions (confirmed 9 October 2026); the judge
-(`IE_JUDGE` on, 9 October 2026; its phase 2 backlog is above); the Irish
+(the free session judge by default, `IE_JUDGE` the paid alternative and off, 9 October 2026; its phase 2 backlog is above); the Irish
 vocabulary (adopted at taxonomy v1.20, narrowed or rejected term by term).
 
 1. **The watchlist** (`config/watchlist-ie.yaml`, 8 bills): especially the

@@ -30,8 +30,10 @@ their text is on aph.gov.au, which refuses our collectors, so they always
 read "bill only" until phase 1b.
 
 SCORES ARE OPTIONAL. Everything renders with no judge run at all (CLAUDE.md:
-everything must run with TRIAGE=stub). The judge (tools/au_triage.py) runs
-only when the repository variable AU_JUDGE is 'on'.
+everything must run with TRIAGE=stub). The judge (tools/au_triage.py) is
+the free session judge (jobs/au-session-judge.sh, Claude Code on the Mac
+Mini after the weekly, which rewrites this edition with its scores), or the
+paid API judge when the repository variable AU_JUDGE is 'on'.
 
 Read-only on the store.
 """
@@ -522,8 +524,11 @@ def render_edition(conn, today):
               + conn.execute("SELECT COUNT(*) FROM au_divisions WHERE triage_score IS NOT NULL")
               .fetchone()[0])
     score_note = ("Scores [0-3] and why-lines come from the judge (tools/au_triage.py, "
-                  "Australian frame)." if scored else
-                  "**No item is scored yet**: the Australian judge has not been run, so items "
+                  "Australian frame): the session judge, Claude Code on the Mac Mini on the plan "
+                  "allowance, or the paid API judge (AU_JUDGE)." if scored else
+                  "**No item is scored yet**: the session judge (Claude Code on the Mac Mini, "
+                  "after the weekly) has not scored them and the paid API judge (AU_JUDGE) is "
+                  "off, so items "
                   "are ranked by stage and date and carry where they stand in place of a "
                   "why-line.")
     week = divisions_on_our_ground(conn, since, today)

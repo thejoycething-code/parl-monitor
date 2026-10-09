@@ -108,8 +108,10 @@ jobs:
         # jobs/au-weekly.sh is shared with the Mac Mini runner. Here it does
         # not publish (AU_PUBLISH=false); the two publish steps below run
         # under the commit step's condition, as in every store workflow. The
-        # judge runs only when the repository variable AU_JUDGE is 'on'
-        # (SPEND NEEDS A YES, 5 August 2026); it is not on. The DM goes to
+        # paid API judge runs only when the repository variable AU_JUDGE is
+        # 'on' (SPEND NEEDS A YES, 5 August 2026); it is the alternative and
+        # off. The free default is the session judge, Mini only
+        # (jobs/au-session-judge.sh, Fridays 03:10). The DM goes to
         # Christopher alone (decided 9 October 2026).
         if: always() && steps.fetch.outcome == 'success'
         env:

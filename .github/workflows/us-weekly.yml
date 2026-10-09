@@ -144,9 +144,10 @@ jobs:
           EOF
       - name: Collect, judge, write the edition and DM, publish raw archive and store
         # jobs/us-weekly.sh is shared with the Mac Mini runner. It publishes
-        # the raw archive and the store itself. The judge runs only when the
-        # repository variable US_JUDGE is 'on' (SPEND NEEDS A YES, 5 August
-        # 2026; the backlog was about $1.83 by tools/us_triage.py --dry-run).
+        # the raw archive and the store itself. The paid API judge runs only
+        # when the repository variable US_JUDGE is 'on' (SPEND NEEDS A YES,
+        # 5 August 2026); it is the alternative and off. The free default is
+        # the session judge, Mini only (jobs/us-session-judge.sh, Fridays 19:30).
         # senate_only is the Mini asking for the half senate.gov refuses it.
         if: always() && steps.fetch.outcome == 'success'
         env:

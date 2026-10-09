@@ -419,7 +419,26 @@ September, so the top line says so and the divisions section shows the last
 age enforcement bill's passage on 10 September); 15 bills before Parliament
 and 4 Acts on our ground.
 
-## The judge (on since 9 October 2026)
+## The judge (the free session judge is the default, 9 October 2026)
+
+**The free session judge is the default route** (Christopher, 9 October
+2026: "Switch US, Ireland and Australia scoring to the free route"):
+`jobs/au-session-judge.sh` on the Mac Mini, **Fridays 03:10 London** after
+the weekly, has Claude Code on the work subscription score up to **100**
+pending items (bills, divisions and speeches on their own words), 25 to a
+session, newest first, through `tools/au_triage.py --queue-out / --queue-in`
+(plan allowance, no API spend), then rewrites the week's edition with the
+scores (no DM). See docs/mac-mini.md, "Session judges". **`AU_JUDGE`, the
+paid API judge below, is the alternative and is off.**
+
+**Why 100.** The published store of 9 October 2026 had nothing pending (97
+bills and divisions, all scored by the API judge). Speeches are not yet in
+it: the debates backfill holds about 690 on their own words and arrives over
+the weekly's first three runs; after that a sitting week adds about 30 items
+(some 25 speeches, a few divisions and bills). 100 covers the week, newest
+first, and drains the backfill at some 70 a week.
+
+The paid API judge:
 
 `tools/au_triage.py`, modelled on `tools/us_triage.py`: the same judge and
 rubric with an Australian frame (voluntary assisted dying, the Sex
@@ -427,8 +446,8 @@ Discrimination Act, "child abuse material", the eSafety Commissioner,
 vilification; bills are given by title only, and the judge is told not to
 invent contents). It judges bills of the current Parliament on our ground and
 divisions whose own words matched. It runs only when the repository
-variable `AU_JUDGE` is `on`, and **Christopher turned it on on 9 October
-2026.** Measured by `--dry-run` on the scratch database before that: **62
+variable `AU_JUDGE` is `on`. Christopher turned it on on 9 October 2026 and
+moved scoring to the session judge the same day; **it is off**. Measured by `--dry-run` on the scratch database before that: **62
 items (19 bills, 43 divisions), about 16 calls, roughly $0.15** for the whole
 backlog, then only new items each sitting week.
 
@@ -519,7 +538,7 @@ speech (speaker, party, kind, debate and bill, a quoted line of at most 200
 characters, the Hansard link, the areas and what they matched on), the
 week's or the last 30 days', 20 at most; the DM gets a count.
 
-**The judge** (`AU_JUDGE` is on) takes speeches whose OWN words matched, on
+**The judge** (the session judge, or `AU_JUDGE` when on) takes speeches whose OWN words matched, on
 the stored excerpt, as for US floor speeches; one that only takes its
 bill's areas is the bill's story. `--dry-run` on the scratch store: **690
 speeches, about 173 calls, roughly $1.64** for the backlog (the 62 bills
@@ -604,7 +623,8 @@ once for both slots, so the gate allows 200 minutes rather than 75: 02:00
 London is 01:00 UTC in summer, three hours before the retry. Watched by the
 failure alert and `tools/coverage.py` (members and bills weekly, because the
 member lists and the Register's Acts are re-read every run; divisions a
-month plus a month's grace, because Canberra sits in blocks).
+month plus a month's grace, because Canberra sits in blocks). The session judge follows on Fridays
+at 03:10 London (Mini only, `ops/launchd/net.citizengo.parlmonitor.au-session-judge.plist`).
 
 ## The next-morning vote brief (built 9 October 2026, branch `vote-briefs`)
 
@@ -676,7 +696,7 @@ probed.
 
 Settled on 9 October 2026, kept for the record: the assumed decisions
 (confirmed); the vocabulary (adopted at taxonomy v1.20, narrowed or rejected
-term by term, above); the judge (`AU_JUDGE` on since 9 October); the
+term by term, above); the judge (the free session judge by default; `AU_JUDGE` the paid alternative, off, since 9 October); the
 aph.gov.au probe (GitHub's runners refused, run 37887925082; the Mini probe
 is pending in docs/mac-mini.md; the APH Web Manager was emailed asking for
 access). On the vocabulary, one loose end: "Human Rights Bill" was rejected

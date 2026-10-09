@@ -28,8 +28,13 @@
 #     US_RECLASSIFY=true    re-derive stored areas first (taxonomy change)
 #     US_SENATE_ONLY=true   the Senate-only half GitHub runs for the Mini
 #     US_RECORD_BUDGET=N    seconds for the Congressional Record step
-#     US_JUDGE=on           score new items (Christopher's yes; read from the
-#                           repo variable when unset and gh is available)
+#     US_JUDGE=on           score new items with the PAID API judge (read from
+#                           the repo variable when unset and gh is available).
+#                           The paid alternative, OFF: since 9 October 2026
+#                           the free default is the session judge,
+#                           jobs/us-session-judge.sh (Claude Code on the Mini,
+#                           Fridays 19:30), which rewrites this edition with
+#                           its scores. US_RESCORE stays with this paid path.
 #
 # THE CONGRESS COMES FROM THE DATE (src/us_store.congress_on): the 119th
 # until 2 January 2027, the 120th from 3 January. For the first 45 days of a
