@@ -207,6 +207,16 @@ class Members(unittest.TestCase):
                          .fetchone()[0], 1)
 
 
+class Roles(unittest.TestCase):
+    def test_diputados_role_from_the_seat_with_the_board_noted(self):
+        rec = {"id": 1, "slug": "x", "acf": {"nombre": "X", "Diputado(a)": "Diputada Nacional"},
+               "cargo": [12]}
+        cargos = {12: "Directiva", 13: "Comisión o comité"}
+        self.assertEqual(bor.parse_dip_member(rec, cargos)["role"], "Diputada Nacional (Directiva)")
+        rec["cargo"] = [13]
+        self.assertEqual(bor.parse_dip_member(rec, cargos)["role"], "Diputada Nacional")
+
+
 class Bills(unittest.TestCase):
     def pull(self, conn, client=None, today=TODAY, watch=None):
         client = client or FakeClient(full_routes())

@@ -165,7 +165,12 @@ def parse_dip_member(rec, cargos=None):
     return {
         "member_key": "diputados/{0}".format(rec["slug"]),
         "chamber": "diputados", "name": name, "party": None, "party_code": None,
-        "department": None, "role": ", ".join(names) or role, "titular": None,
+        # acf names the seat ('Diputada Nacional', all 255); the cargo
+        # taxonomy adds 'Directiva' for the seven on the chamber's board.
+        "department": None,
+        "role": "{0} ({1})".format(role, "Directiva") if role and "Directiva" in names
+        else role or (", ".join(names) or None),
+        "titular": None,
         "source_id": rec.get("id"), "link": rec.get("link"),
         "as_of": (rec.get("modified") or "")[:10] or None,
     }
