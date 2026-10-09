@@ -1728,6 +1728,11 @@ TABLES = (
     "co_attendance",
     "co_divisions",
     "co_votes",
+    # Bolivia's Asamblea Legislativa Plurinacional (tools/bo_rollcalls.py),
+    # created by src/bo_store.ensure_schema -- declared from day one.
+    "bo_members",
+    "bo_bills",
+    "bo_bill_changes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -2048,4 +2053,6 @@ def init_db(conn):
     ar_store.ensure_schema(conn)
     from src import co_store
     co_store.ensure_schema(conn)
+    from src import bo_store
+    bo_store.ensure_schema(conn)
     return conn

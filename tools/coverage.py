@@ -116,6 +116,8 @@ PIPELINES = {
     "Argentina weekly": (7, 4, "Argentina's National Congress: expedientes, Senate roll calls"),
     # Scheduled 9 October 2026, Thursdays (co-weekly.yml; the Mac Mini first).
     "Colombia weekly": (7, 4, "Colombia's Congress: both chambers' bills, attendance, Senate roll calls"),
+    # Scheduled 9 October 2026, Sundays (bo-weekly.yml; the Mac Mini first).
+    "Bolivia weekly": (7, 4, "Bolivia's Asamblea: Diputados and Senado members and proyectos de ley"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -446,6 +448,13 @@ FEEDS = [
     ("co_bills", "last_seen", 7, 4, "Cámara and Senate bill registers (Colombia weekly)"),
     ("co_members", "last_seen", 7, 4, "Cámara attendance roster and Senate roll-call names (Colombia weekly)"),
     ("co_divisions", "last_seen", 7, 4, "Senate published roll calls, frozen at 2024-09-25 (Colombia weekly)"),
+    # Bolivia (9 October 2026). MEASURED which re-stamp: both chambers' member
+    # lists, the current legislative year's Diputados bills and every Senado
+    # stage list are re-read whole every run, so members and bills move every
+    # week, recess included. bo_bill_changes is new rows only and carries no
+    # sighting column. There are no vote tables: none is published.
+    ("bo_members", "last_seen", 7, 4, "Diputados and Senado members (Bolivia weekly)"),
+    ("bo_bills", "last_seen", 7, 4, "Proyectos de ley, both chambers (Bolivia weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -564,6 +573,7 @@ PIPELINE_FEEDS = {
     # Divisions left out for the same reason as the US: a recess week cannot move them.
     "Argentina weekly": ["ar_bills", "ar_members"],
     "Colombia weekly": ["co_bills", "co_members"],
+    "Bolivia weekly": ["bo_bills", "bo_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -623,6 +633,8 @@ AWAITING_FIRST_RUN = {
                          "scheduled 9 October 2026; its tables fill on its first run"),
     "Colombia weekly": (("co_bills", "co_members", "co_divisions"),
                         "scheduled 9 October 2026; its tables fill on its first run"),
+    "Bolivia weekly": (("bo_members", "bo_bills"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
