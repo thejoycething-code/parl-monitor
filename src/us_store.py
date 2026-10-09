@@ -108,9 +108,80 @@ SCHEMA = (
     )""",
     "CREATE INDEX IF NOT EXISTS us_divisions_bill ON us_divisions (bill_key)",
     "CREATE INDEX IF NOT EXISTS us_votes_member ON us_votes (bioguide)",
+    # EXECUTIVE ACTIONS (Christopher, 9 October 2026): the Federal Register's
+    # presidential documents, final rules and proposed rules, from
+    # tools/us_federal_register.py. Keyed on the FR document number, the one
+    # identifier the Register never reissues ('2025-02194').
+    """CREATE TABLE IF NOT EXISTS us_fr_documents (
+        document_number TEXT PRIMARY KEY, -- '2025-02194'
+        doc_type     TEXT NOT NULL,      -- 'Presidential Document' / 'Rule' / 'Proposed Rule'
+        subtype      TEXT,               -- 'Executive Order', 'Proclamation', 'Memorandum', ...
+        title        TEXT,
+        abstract     TEXT,               -- the agency's summary; NULL on presidential documents
+        action       TEXT,               -- 'Final rule.', 'Notice of proposed rulemaking.'
+        agencies     TEXT,               -- JSON list of agency names
+        topics       TEXT,               -- JSON list of CFR index terms
+        publication_date TEXT NOT NULL,  -- ISO date in the Register
+        signing_date TEXT,               -- presidential documents only
+        effective_on TEXT,
+        comments_close_on TEXT,          -- a proposed rule's comment deadline, as printed
+        eo_number    TEXT,               -- executive orders only
+        citation     TEXT,               -- '90 FR 8771'
+        docket_ids   TEXT,               -- JSON list
+        comment_url  TEXT,               -- regulations.gov, where the agency gives one
+        html_url     TEXT,
+        significant  INTEGER,            -- OIRA 'significant' flag, where printed
+        areas        TEXT,               -- JSON list (shared taxonomy)
+        matched_terms TEXT,
+        tier         INTEGER,
+        triage_score INTEGER,
+        why_it_matters TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    "CREATE INDEX IF NOT EXISTS us_fr_documents_pub ON us_fr_documents (publication_date)",
+    "CREATE INDEX IF NOT EXISTS us_fr_documents_close ON us_fr_documents (comments_close_on)",
+    # THE SUPREME COURT (Christopher, 9 October 2026), from tools/us_courts.py:
+    # opinions from the term's slip-opinion page and certiorari grants read
+    # out of the order lists. One table, two kinds of row:
+    #   'opinion/<term>/<R-number>'  e.g. 'opinion/25/62' (the Court's own
+    #                                running number within the term)
+    #   'grant/<docket>'             e.g. 'grant/24-539'
+    """CREATE TABLE IF NOT EXISTS us_court_cases (
+        case_key     TEXT PRIMARY KEY,
+        kind         TEXT NOT NULL,      -- 'opinion' / 'grant'
+        term         TEXT,               -- October Term, two digits: '25' is OT2025
+        docket       TEXT,               -- '24-539', or an application '25A312'
+        case_name    TEXT,               -- 'Chiles v. Salazar'
+        title        TEXT,               -- the docket's full caption, where read
+        decided      TEXT,               -- ISO date: the opinion's, or the grant's order date
+        summary      TEXT,               -- the Court's one-line holding, or the question presented
+        justice      TEXT,               -- the opinion's author code ('R', 'PC', 'EK')
+        citation     TEXT,               -- '609 U.S. 422' once assigned
+        url          TEXT,               -- the opinion PDF, or the docket page
+        order_url    TEXT,               -- the order list that granted it
+        areas        TEXT,
+        matched_terms TEXT,
+        tier         INTEGER,
+        triage_score INTEGER,
+        why_it_matters TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    # Every order PDF read, once: an order list is final when published, so
+    # this is what makes the grant reader incremental.
+    """CREATE TABLE IF NOT EXISTS us_court_orders (
+        url          TEXT PRIMARY KEY,
+        term         TEXT,
+        order_date   TEXT,               -- ISO date, from the file name (MMDDYY)
+        kind         TEXT,               -- 'Order List' / 'Miscellaneous Order'
+        grants       INTEGER,            -- plenary certiorari grants found in it
+        read_at      TEXT
+    )""",
 )
 
-TABLES = ("us_members", "us_bills", "us_cosponsors", "us_divisions", "us_votes")
+TABLES = ("us_members", "us_bills", "us_cosponsors", "us_divisions", "us_votes",
+          "us_fr_documents", "us_court_cases", "us_court_orders")
 
 MEMBER_UPSERT = (
     "INSERT INTO us_members (bioguide, name, party, state, district, chamber, "
