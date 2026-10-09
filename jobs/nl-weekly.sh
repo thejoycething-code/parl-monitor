@@ -19,6 +19,14 @@
 # store is not worth the divergence of a published store whose sidecar never
 # got committed, and the next run re-reads whatever this one missed (the
 # collector re-reads a six-week window every week).
+#
+# THE EDITION (10 October 2026): after the collector, the Dutch weekly
+# edition (tools/nl_monitor.py, src/country_edition.py) is rendered to
+# editions/nl-monitor-<date>.md and DMed to Chris alone. Once a day: an
+# edition already committed for today is rewritten, not resent. Its failure
+# is a [gap] line and never costs the store.
+#
+# mini_run: commit editions
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -30,6 +38,18 @@ if [ "${NL_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/nl_rollcalls.py --budget-seconds 2700 || rc=$?
+# The edition, from the store just collected (not when the collector failed
+# outright: a half-read week is not worth a DM).
+export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  TODAY=$(date +%Y-%m-%d)
+  if git ls-files --error-unmatch "editions/nl-monitor-$TODAY.md" >/dev/null 2>&1; then
+    echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+    python3 tools/nl_monitor.py --edition || echo "  [gap] the edition failed to render"
+  else
+    python3 tools/nl_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
+  fi
+fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "nl-rollcalls failed (exit $rc); nothing published"
   exit "$rc"

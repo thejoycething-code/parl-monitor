@@ -115,6 +115,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NL_RECLASSIFY: ${{ inputs.reclassify }}
+          # The edition DMs Chris alone (src/country_edition.py forces his id).
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
         run: bash jobs/nl-weekly.sh | tee /tmp/nl-weekly.log
       - name: Health summary
         if: always()
@@ -140,7 +143,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/
+          git add data/ editions/
           git diff --cached --quiet || git commit -m "Netherlands weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
           # jittered waits, and never retry while stuck mid-rebase.

@@ -1,0 +1,18 @@
+# Belgium edition noise rules (src/noise.py; format documented there).
+# Hand-edited. Patterns match folded text (Dutch and French titles both
+# appear): lower case, accents stripped. A watched item is never filtered.
+#
+# Measured on the scoping store (9 October 2026, reclassified under
+# taxonomy-nl and taxonomy-fr v0.1 for `be`): the sittings of July to
+# October hold two votes on our ground, both on the watched euthanasia
+# leave dossier 56/1338. The Chamber's interpellation motions ("Moties
+# ingediend tot besluit van de interpellatie") carry no dossier and no
+# areas, so they never reach the edition; the agenda votes below would
+# otherwise inherit a dossier's areas.
+procedural_votes:
+  - '\b(goedkeuring|wijziging) van de agenda\b'
+  - "\\b(approbation|modification) de l'ordre du jour\\b"
+  - '^\W*moties ingediend tot besluit van de interpellatie'
+alert:
+  title_tier1: true
+  distinct_terms: 2
