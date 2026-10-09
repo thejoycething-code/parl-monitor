@@ -88,7 +88,16 @@ jobs:
     # for the House half: 5.5 minutes. Later weeks read the bulk bills again
     # (they are re-read whole, which is what re-stamps last_seen) and only
     # the new votes.
-    timeout-minutes: 60
+    #
+    # 120 minutes, matching the Mini's JOB_TIMEOUT of 7200 s (9 October 2026).
+    # The step budgets in jobs/us-weekly.sh add up to: roll calls 2700 s,
+    # Federal Register under 120 s (its whole backfill), Supreme Court order
+    # PDFs 900 s (its 18-minute first backfill drains over two weeks), week
+    # ahead 600 s, judge 1800 s when US_JUDGE is on: about 6100 s, plus the
+    # store and archive transfers. In a new Congress's first 45 days the
+    # catch-up adds up to 1200 s; that is the one week that could press the
+    # limit with the judge on, and each step still stops at its own budget.
+    timeout-minutes: 120
     env:
       PYTHONUNBUFFERED: "1"
     steps:

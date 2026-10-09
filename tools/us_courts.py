@@ -53,7 +53,7 @@ import urllib.parse
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt, us_store  # noqa: E402
+from src import db, drain, filter as filt, us_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "us-courts"
@@ -383,7 +383,7 @@ def read_grant(conn, client, docket, name, term, decided, order_url, tax, wl, to
     return res.issue_areas, gap
 
 
-def pull_grants(conn, client, today, terms, tax, wl, log=print, limit=None):
+def pull_grants(conn, client, today, terms, tax, wl, log=print, limit=None, budget=None):
     """Every unread order PDF of the terms, and the grants in it."""
     try:
         import pypdf  # noqa: F401
@@ -404,6 +404,9 @@ def pull_grants(conn, client, today, terms, tax, wl, log=print, limit=None):
             continue
         for url, kind in sorted((x for x in listing if x[0] not in held),
                                 key=lambda x: order_date(x[0]) or ""):
+            if budget is not None and budget.exhausted():
+                log("  " + budget.disclose("Supreme Court order PDFs", pdfs))
+                return pdfs, grants, ours, gaps
             if limit is not None and pdfs >= limit:
                 log("  order PDF cap ({0}) reached; the rest are read next run "
                     "-- disclosed, not silent".format(limit))
@@ -471,6 +474,9 @@ def main():
                                     "(default: the current term and the last)")
     ap.add_argument("--limit", type=int, help="read at most this many order PDFs")
     ap.add_argument("--no-orders", action="store_true", help="opinions only")
+    ap.add_argument("--budget-seconds", type=float, default=None,
+                    help="stop reading order PDFs after this long; the rest wait for the "
+                         "next run (the first backfill is about 18 minutes)")
     ap.add_argument("--reclassify", action="store_true")
     args = ap.parse_args()
     conn = db.init_db(db.connect(args.db))
@@ -490,7 +496,9 @@ def main():
     wl = empty_watchlist()
     _r, _o, gaps = pull_opinions(conn, client, today, terms, tax, wl)
     if not args.no_orders:
-        _p, _g, _o2, g2 = pull_grants(conn, client, today, terms, tax, wl, limit=args.limit)
+        budget = drain.Budget(args.budget_seconds) if args.budget_seconds else None
+        _p, _g, _o2, g2 = pull_grants(conn, client, today, terms, tax, wl, limit=args.limit,
+                                      budget=budget)
         gaps += g2
     stamp(conn, today)
     conn.close()

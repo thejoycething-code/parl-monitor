@@ -192,6 +192,20 @@ class PullTests(unittest.TestCase):
                                         log=lambda *a: None)[:2], (0, 0))
         self.assertEqual(len(client.urls), before + 1)          # the listing only
 
+    def test_a_spent_budget_stops_before_the_next_pdf_and_marks_nothing_read(self):
+        class Spent:
+            def exhausted(self):
+                return True
+
+            def disclose(self, what, done):
+                return "budget spent after {0} {1}".format(done, what)
+        conn = store()
+        listing = "<a href='/orders/courtorders/102124zor_n758.pdf'>Order List</a>"
+        client = FakeClient({"ordersofthecourt/24": listing})
+        self.assertEqual(uc.pull_grants(conn, client, "2026-10-09", ["24"], TAX, WL,
+                                        log=lambda *a: None, budget=Spent()), (0, 0, 0, 0))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM us_court_orders").fetchone()[0], 0)
+
     def test_robots_disallowed_paths_are_never_fetched(self):
         self.assertFalse(uc.allowed("https://www.supremecourt.gov/RSS/Cases/JSON/24-539.json"))
         self.assertTrue(uc.allowed(uc.SLIP.format(term="25")))
