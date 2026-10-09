@@ -71,7 +71,10 @@ docs/mac-mini-runner.md (the migration list for the launchd runner) is not on th
 |---|---|---|---|
 | `au-weekly` | Fridays 02:00 (`ops/launchd/net.citizengo.parlmonitor.au-weekly.plist`) | Fridays 02:00, retry 04:00 (`.github/workflows/au-weekly.yml`) | `MINI_LAST_AU_WEEKLY`, grace 200 minutes |
 
-- **One script, two callers:** `jobs/au-weekly.sh` runs `tools/au_rollcalls.py`, then publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`), as `tools/mini_run.sh` requires. It needs the store, so it carries no `no-store` line.
+- **One script, two callers:** `jobs/au-weekly.sh` runs `tools/au_rollcalls.py`, the judge when the repo variable `AU_JUDGE` is `on` (it is not), then the edition (`tools/au_monitor.py --edition --dm`), and on the Mini publishes the raw archive and the store itself (`raw_state.py --push`, `db_state.py --push`), as `tools/mini_run.sh` requires. It needs the store, so it carries no `no-store` line; its `# mini_run: commit editions` line makes the runner commit `editions/` too.
+- **Speaks once a day**, as the US weekly: an edition already committed for today is rewritten without resending the DM.
+- **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch) and, only when `AU_JUDGE` is `on`, `ANTHROPIC_API_KEY`.
+- **The aph.gov.au probe** can be run here by hand, read-only: `python3 tools/au_probe.py --out /tmp/au-probe` (Christopher decides; see docs/australia-scope.md).
 - **Heartbeat name:** on the Mini there is no `GITHUB_WORKFLOW`, so the script sets it to "Australia weekly"; otherwise `db_state.py --push` would stamp the run as "local" and the coverage watch would never see it.
 - **Why 200 minutes of grace:** the Mini runs once and must cover both GitHub slots. 02:00 London is 01:00 UTC in summer, three hours before the 04:00 retry.
 - **Exit codes:** the collector exits 3 when it stored what it could and recorded gaps; the script publishes and exits 0 so the commit step runs. Any other failure publishes nothing and exits non-zero.

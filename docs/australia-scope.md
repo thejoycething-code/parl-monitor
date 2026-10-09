@@ -4,13 +4,13 @@ Probed live on 9 October 2026, from the laptop. Every number below was
 measured, not estimated; where a sentence rests on background knowledge
 rather than a measurement, it says so. Federal Parliament only (House of
 Representatives and Senate); the states and territories are scoped briefly at
-the end. Phase 1 is built on the `australia` branch and has run once into a
-scratch database. Nothing is merged, scheduled for real or published.
+the end. Phase 1, the edition and the judge are built on the `australia`
+branch and have run once into a scratch database. Nothing is merged,
+scheduled for real or published.
 
-## Decisions to confirm (assumed, mirroring the US)
+## Decisions (Christopher, 9 October 2026)
 
-None of these has been put to Christopher yet. Each copies the decision he
-took for the US on 9 October 2026.
+Proposed on the US pattern and confirmed by Christopher on 9 October 2026.
 
 - **Own edition.** Australia gets its own edition, not a section of another,
   and it **goes to Christopher alone** until it is good.
@@ -53,7 +53,8 @@ collated, never campaigned, and is not counted as our ground, as in the US.
 - **The APH's own member ID (PHID)** sits beside ours for 219 of the 226
   sitting members: the Parliamentary Handbook gave exactly one match on
   surname and electorate or state. The other 7 are left blank, never guessed.
-- **Scheduled on the branch, not live.** `jobs/au-weekly.sh`, the Mini-gated
+- **The edition and the judge are built too** (below), and everything is
+  **scheduled on the branch, not live.** `jobs/au-weekly.sh`, the Mini-gated
   `.github/workflows/au-weekly.yml` and the launchd plist are written; the
   workflow runs only once merged to main (see "The weekly schedule").
 
@@ -363,12 +364,59 @@ spell, Senate pairs are recorded, and second reading amendments name their
 movers. Private senators' bills and motions are a strong signal in the Senate
 (Cash's s1500 and its two divisions), much as US cosponsorship is.
 
+## The edition (built 9 October 2026)
+
+`tools/au_monitor.py --edition --dm` writes `editions/au-monitor-<date>.md`
+and DMs a short summary to Christopher alone (U05LJP0BT61), modelled on the
+US edition. Sections: top lines, dates that matter, divisions this week
+(folded where the same question was put again; tally, pairs and the party
+split, Paired shown by party; the last 30 days when Parliament did not sit),
+bills that moved (a new stage in the Hansard, or assent), new bills, bills
+before Parliament, Acts of this Parliament, and coverage, which says plainly
+what aph.gov.au blocks. No verdicts: "agreed to" and "negatived" are ayes
+against noes. Each division says whether its own words matched or only its
+bill did. It renders with no scores at all. Speaks once a day: an edition
+already committed for today is rewritten, not resent (as the US weekly).
+
+Rendered from the scratch database for 9 October 2026: no sitting since 17
+September, so the top line says so and the divisions section shows the last
+30 days (13 divisions on our ground, nine of them the social media minimum
+age enforcement bill's passage on 10 September); 15 bills before Parliament
+and 4 Acts on our ground.
+
+## The judge (built, NOT on)
+
+`tools/au_triage.py`, modelled on `tools/us_triage.py`: the same judge and
+rubric with an Australian frame (voluntary assisted dying, the Sex
+Discrimination Act, "child abuse material", the eSafety Commissioner,
+vilification; bills are given by title only, and the judge is told not to
+invent contents). It judges bills of the current Parliament on our ground and
+divisions whose own words matched. **It runs only when the repository
+variable `AU_JUDGE` is `on`, and it is not on: SPEND NEEDS A YES.** Measured
+by `--dry-run` on the scratch database: **62 items (19 bills, 43 divisions),
+about 16 calls, roughly $0.15** for the whole backlog.
+
+## The aph.gov.au probe (prepared, NOT run)
+
+`.github/workflows/au-probe.yml` (workflow_dispatch only; no store, no
+commit, no secrets) asks once from a GitHub runner, and `tools/au_probe.py`
+asks the same from the Mac Mini by hand: Bills Search, a bill homepage
+(r7512), the ParlInfo bill page and a Senate Hansard day, Votes and
+Proceedings, the Journals of the Senate, the sitting calendar, committees,
+Senate estimates and the High Court. Each answer's status and a short text
+sample go to the step summary, and the replies to an artifact kept 7 days.
+It uses `tools/probe_hosts.py`'s rules unchanged: robots.txt honoured, at
+least 3 seconds between requests, and a challenge or 403 stops the host for
+the run, never worked around. Christopher decides whether to run it.
+
 ## The weekly schedule
 
 `.github/workflows/au-weekly.yml`: **Friday 02:00 UTC, retry 04:00 UTC**,
 gated by `mini-check.yml` with job `AU_WEEKLY`; the Mac Mini runs it first,
 Fridays 02:00 London (`ops/launchd/net.citizengo.parlmonitor.au-weekly.plist`,
-`jobs/au-weekly.sh`). Canberra sits Monday to Thursday; 02:00 UTC Friday is
+`jobs/au-weekly.sh`, which collects, runs the judge when it is on, writes the
+edition and sends the DM; its `# mini_run: commit editions` line makes the
+Mini commit `editions/` beside `data/`). Canberra sits Monday to Thursday; 02:00 UTC Friday is
 13:00 in Canberra (AEDT), after OpenAustralia's 09:05 parse has picked up
 Thursday. The slot collides with no other workflow (every file in
 `.github/workflows` was checked, and a test checks it) and stays clear of
@@ -436,8 +484,7 @@ probed.
 
 ## Open questions for Christopher
 
-1. **Confirm the assumed decisions**: own edition, to you alone at first;
-   shared taxonomy; federal first.
+1. ~~Confirm the assumed decisions~~: confirmed 9 October 2026.
 2. **The proposed Australian vocabulary** (above): add to the shared
    taxonomy, keep in the watchlist, or drop, term by term.
 3. **Scope**: the Combatting Antisemitism, Hate and Extremism package is in
@@ -445,10 +492,12 @@ probed.
    decision. Should area 8 apply too? Is the Human Rights Bill ours? Are the
    Online Safety bills (adult cyber abuse, feeds, likeness) ours, or only
    the children's ones?
-4. **A probe of aph.gov.au from GitHub's runners and from the Mini**, to see
-   whether the WAF block is the laptop's network. It means running a
-   workflow, so it needs your go-ahead. Phase 1b depends on it.
+4. **Run the aph.gov.au probe?** Prepared (`au-probe.yml`, `tools/au_probe.py`),
+   not run: it shows whether the WAF block is the laptop's network. Phase 1b
+   depends on it.
 5. **Keys**: TheyVoteForYou and OpenAustralia keys are free but need an
    account in your name or the team's. Not needed now.
 6. **Which states first**, once you have decided; Victoria and South
    Australia are the only two that answer the laptop.
+7. **Turn the judge on?** About $0.15 for the backlog (measured by --dry-run), then only new items each
+   sitting week: set the repository variable `AU_JUDGE` to `on`.
