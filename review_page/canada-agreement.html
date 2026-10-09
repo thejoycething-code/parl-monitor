@@ -111,6 +111,7 @@ tr:last-child td { border-bottom: 0 }
     <h1>Canada Agreement Review</h1>
     <span class="sub" id="who-line">Loading…</span>
     <span class="spacer"></span>
+    <button class="btn ghost" type="button" id="preview-btn" hidden>See Greg's view</button>
     <label class="sub" for="round-pick">Round</label>
     <select id="round-pick"><option value="">—</option></select>
     <div class="progress" id="progress" hidden><div class="bar"><i id="bar-fill" style="width:0%"></i></div><span id="progress-text"></span></div>
@@ -160,7 +161,10 @@ const SHOW = { "++": "++", "+": "+", "0": "0", "-": "−", "--": "−−", "?": 
 const REASONS = ["Not enough information", "Record is out of date", "Vote read the wrong way", "Voted with the party, not conviction",
                  "Public statements say otherwise", "Wrong issue for this member", "Changed position since"];
 const S = { db: null, user: null, uid: null, owner: false, rounds: [], round: "", items: [], mine: {}, marker: null,
-            revealed: {}, ours: {}, reviewers: {}, markers: {}, unsubs: [], readOnly: false, draft: {} };
+            revealed: {}, ours: {}, reviewers: {}, markers: {}, unsubs: [], readOnly: false, draft: {}, preview: false };
+// The owner can preview the reviewer's card and try the buttons; those
+// decisions are saved under the owner's own id, which the results leave out.
+const asReviewer = () => !S.owner || S.preview;
 const $ = (id) => document.getElementById(id);
 function el(tag, attrs, ...kids) {
   const n = document.createElement(tag);
@@ -199,6 +203,11 @@ async function boot() {
     if (next !== S.round) selectRound(next); else render();
   }, (e) => { $("who-line").textContent = "The review store could not be reached (" + e.code + ")."; });
   $("round-pick").addEventListener("change", (e) => selectRound(e.target.value));
+  if (S.owner) {
+    const pb = $("preview-btn"); pb.hidden = false;
+    pb.addEventListener("click", () => { S.preview = !S.preview; pb.textContent = S.preview ? "Back to owner view" : "See Greg's view";
+      $("who-line").textContent = S.preview ? "Previewing Greg's view. Your clicks are saved as yours and left out of the results." : "Owner view: every reviewer's decisions, and the amendments to answer."; render(); });
+  }
   $("jur-pick").addEventListener("change", render);
   $("state-pick").addEventListener("change", render);
 }
@@ -262,7 +271,7 @@ async function saveDecision(item, decision, amendTo, reasons, note) {
   }
 }
 async function sendBack() {
-  if (!S.uid || S.readOnly || sent()) return;
+  if (!S.uid || S.readOnly || sent() || S.owner) return;
   try { await S.db.doc("scores/" + S.uid).set({ ...(S.marker || {}), reviewer: true, ["sent_" + S.round]: new Date().toISOString() }); }
   catch (e) { alertLine("The round was not sent (" + (e && e.code) + "). Try again in a moment."); }
 }
@@ -291,7 +300,7 @@ function stats(list) {
 
 function renderOwner() {
   const panel = $("owner-panel");
-  panel.hidden = !S.owner || !S.round;
+  panel.hidden = !S.owner || S.preview || !S.round;
   const banner = $("back-banner");
   banner.hidden = true;
   if (panel.hidden) return;
@@ -299,7 +308,7 @@ function renderOwner() {
   const st = stats(all);
   const amended = all.filter((d) => d.decision === "amend");
   const open = amended.filter((d) => !d.amend_status);
-  const back = Object.entries(S.markers).filter(([, m]) => m && m["sent_" + S.round]);
+  const back = Object.entries(S.markers).filter(([id, m]) => id !== S.uid && m && m["sent_" + S.round]);
   if (back.length) {
     banner.hidden = false;
     banner.replaceChildren(el("b", { text: (roundDoc().name || S.round) + " is back. Review the changes." }),
@@ -392,8 +401,8 @@ function card(it) {
       o.based_on ? el("span", { class: "meta", text: "based on " + o.based_on }) : null));
     if ((o.evidence || []).length) body.append(el("ul", { class: "evidence" }, ...o.evidence.map((e) => el("li", { text: e }))));
   } else body.append(el("div", { class: "meta", text: "Our column is not loaded for this member yet." }));
-  if (!S.owner && o) body.append(decideBox(it, mine, o));
-  if (S.owner) {
+  if (asReviewer() && o) body.append(decideBox(it, mine, o));
+  if (S.owner && !S.preview) {
     const theirs = Object.keys(S.reviewers).map((r) => S.reviewers[r][it.id]).filter((t) => t && t.decision);
     const line = el("div", { class: "verdict" }, el("span", { class: "meta", text: "Reviewer:" }));
     if (!theirs.length) line.append(el("span", { class: "meta", text: "not decided yet" }));
@@ -409,12 +418,12 @@ function card(it) {
 
 function renderSendbar() {
   const bar = $("sendbar");
-  bar.hidden = S.owner || !S.items.length || !S.uid;
+  bar.hidden = !asReviewer() || !S.items.length || !S.uid;
   if (bar.hidden) return;
   const done = S.items.filter((i) => (S.mine[i.id] || {}).decision).length;
   if (sent()) { bar.replaceChildren(el("b", { text: "Sent back " + new Date(S.marker["sent_" + S.round]).toLocaleString() + "." }), el("span", { class: "meta", text: "Christopher has been told to review your changes. Thank you." })); return; }
   const btn = el("button", { class: "btn big", type: "button", text: "Send round back", onclick: sendBack });
-  btn.disabled = S.readOnly || done < S.items.length;
+  btn.disabled = S.readOnly || done < S.items.length || S.owner;   // in preview the owner never sends a round back
   bar.replaceChildren(el("span", { class: "meta", text: done < S.items.length ? (S.items.length - done) + " member(s) still to decide before you can send the round back." : "All " + S.items.length + " decided." }), btn);
 }
 
@@ -424,12 +433,12 @@ function render() {
   renderOwner();
   renderSendbar();
   const done = S.items.filter((i) => (S.mine[i.id] || {}).decision).length;
-  $("progress").hidden = S.owner || !has;
+  $("progress").hidden = !asReviewer() || !has;
   if (has) { $("bar-fill").style.width = pct(done, S.items.length).replace("—", "0%"); $("progress-text").textContent = done + " of " + S.items.length + " decided"; }
   const jur = $("jur-pick").value, state = $("state-pick").value;
   const shown = S.items.filter((i) => {
     if (jur && i.jurisdiction !== jur) return false;
-    const dec = S.owner ? (decisionsAll().find((d) => d.item === i.id) || {}).decision : (S.mine[i.id] || {}).decision;
+    const dec = !asReviewer() ? (decisionsAll().find((d) => d.item === i.id) || {}).decision : (S.mine[i.id] || {}).decision;
     if (state === "todo") return !dec; if (state) return dec === state;
     return true;
   });
