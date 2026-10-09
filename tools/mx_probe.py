@@ -6,8 +6,10 @@
 Built 9 October 2026 because every Mexican federal host refuses the laptop
 (diputados.gob.mx: TCP timeout from a BT address in London; senado.gob.mx:
 an Imperva/Incapsula challenge), while GitHub's runners reach the Chamber
-of Deputies. It runs from .github/workflows/mx-probe.yml and writes nothing
-but data/raw/<date>/mx-probe_*.json.gz, which the workflow uploads.
+of Deputies. It ran from a one-off workflow, .github/workflows/mx-probe.yml
+(push-triggered on the mexico branch; removed once the collector had run
+live on a runner, recoverable from commit bd1b04cb), and writes nothing but
+data/raw/<date>/mx-probe_*.json.gz.
 
 Rules, the same as tools/probe_hosts.py:
   * every request goes through src/http.py (honest UA, retries, archive);
