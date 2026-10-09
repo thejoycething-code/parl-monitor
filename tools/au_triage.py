@@ -4,6 +4,8 @@ ground, per division whose OWN words matched, and per speech (tools/au_debates.p
 whose OWN words matched.
 
     python3 tools/au_triage.py --dry-run                # count and cost, send nothing
+    python3 tools/au_triage.py --queue-out /tmp/q.md --limit 25   # for a session
+    python3 tools/au_triage.py --queue-in /tmp/q.md               # apply its scores
     python3 tools/au_triage.py                          # the newest LIMIT unscored
     python3 tools/au_triage.py --db /tmp/au.db --dry-run
 
@@ -15,7 +17,8 @@ SPEND NEEDS A YES. The repo rule (Christopher, 5 August 2026): any Anthropic
 spend beyond the budgeted weekly UK passes is announced with an estimate
 first; --dry-run prints it. The Australia weekly runs this step only when the
 repository variable AU_JUDGE is 'on', which is how the yes is recorded:
-Christopher turned it on on 9 October 2026.
+Christopher turned it on on 9 October 2026, and the same day moved
+scoring to the free session judge below, so it goes off.
 
 WHAT IS JUDGED. au_bills of the current Parliament on our ground,
 migration-only excluded (collated, never campaigned), newest stage first.
@@ -30,6 +33,21 @@ bill's areas is the bill's story, as for divisions.
 
 SCORED ONCE, EVER. --rescore <key> puts one back on a human's say-so.
 Spend lands in api_spend as 'au-triage'.
+
+THE SESSION JUDGE, FREE (9 October 2026, Christopher: "Switch US, Ireland
+and Australia scoring to the free route"; the DEFAULT route since).
+--queue-out writes the newest --limit pending items, with the Australian frame
+and the very text the API judge would read, to a file in
+src/session_queue.py's format, under this judge's own marker line. A Claude
+Code session on the Mac Mini, on the work subscription, fills in SCORE and
+WHY (jobs/au-session-judge.sh through tools/session_judge.sh). --queue-in
+reads it back STRICTLY, item by item (one digit 0-3 and a why-line, or
+refused with its reason; another judge's file is refused whole), and
+applies the scores through apply() exactly as API scores are applied; the
+rows carry no model column, so session_scores notes each one as model
+'claude-code-session'. Once ever still holds: a row scored meanwhile is not
+overwritten. Neither flag needs ANTHROPIC_API_KEY or spends anything;
+AU_JUDGE (the paid API path) stays the alternative, and off.
 """
 
 from __future__ import annotations
@@ -43,7 +61,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import au_store, db, drain, spend, triage  # noqa: E402
+from src import au_store, db, drain, spend, triage, session_queue  # noqa: E402
 
 SLICE = 4
 LIMIT = 800
@@ -81,6 +99,7 @@ SYSTEM_PROMPT_AU = triage.SYSTEM_PROMPT.replace(
 assert SYSTEM_PROMPT_AU != triage.SYSTEM_PROMPT
 
 SOURCES = {"au_bills": "bill_id", "au_divisions": "division_key", "au_speeches": "speech_key"}
+QUEUE_MARKER = "<!-- au-session-queue v1 -->"
 PARLIAMENT = 48
 
 
@@ -167,6 +186,7 @@ def rescore(conn, key):
         return 0
     n = conn.execute("UPDATE {0} SET triage_score = NULL, why_it_matters = NULL "
                      "WHERE {1} = ?".format(table, SOURCES[table]), (k,)).rowcount
+    session_queue.forget(conn, table + ":" + k)
     conn.commit()
     return n
 
@@ -202,6 +222,47 @@ def judge(conn, items, api_key, today, log=print, budget=None, transport=None):
     return scored, gaps[0]
 
 
+def counts_by_table(items):
+    out = {t: 0 for t in SOURCES}
+    for it in items:
+        table = it.id.partition(":")[0]
+        out[table] = out.get(table, 0) + 1
+    return out
+
+
+def queue_out(conn, path, today, limit, log=print):
+    """Write the newest `limit` pending items, with the Australian frame and the
+    text the API judge would read, for a Claude Code session to score.
+    Returns (written, still pending after)."""
+    queued = pending(conn)
+    items = queued[:max(0, limit)]
+    n = session_queue.write_queue(path, items, "Australian Federal Parliament judge queue, {0}".format(today), QUEUE_MARKER,
+                                  SYSTEM_PROMPT_AU)
+    c = counts_by_table(items)
+    log("au-triage: session queue: {0} item(s) written to {1} ({2}); {3} unscored on "
+        "our ground in all.".format(n, path, ", ".join(
+            "{0} {1}".format(v, k) for k, v in c.items() if v) or "none", len(queued)))
+    return n, len(queued) - n
+
+
+def queue_in(conn, path, today, log=print):
+    """Apply a filled-in queue, item by item. Returns (scored, refused, blank),
+    or None when the file is not this judge's queue."""
+    results, refused, blank = session_queue.read_queue(path, QUEUE_MARKER)
+    if refused and refused[0][0] == "(file)":
+        log("  [gap] session queue {0} refused: {1}".format(path, refused[0][1]))
+        return None
+    good, more = session_queue.check_rows(conn, results, SOURCES, "Australian")
+    refused = refused + more
+    scored = apply(conn, good)
+    session_queue.record(conn, "au", good, today)
+    for iid, why in refused:
+        log("  [gap] queue item refused: {0}: {1}".format(iid, why))
+    log("au-triage: session queue: {0} item(s) scored, {1} refused, {2} left blank "
+        "(they stay pending for the next run).".format(scored, len(refused), len(blank)))
+    return scored, len(refused), len(blank)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -210,11 +271,24 @@ def main():
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
     ap.add_argument("--rescore", nargs="+", metavar="KEY")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--date", default=datetime.date.today().isoformat())
+    q = ap.add_mutually_exclusive_group()
+    q.add_argument("--queue-out", metavar="PATH",
+                   help="write the newest --limit pending items for a Claude Code session; no spend")
+    q.add_argument("--queue-in", metavar="PATH",
+                   help="apply a session's SCORE/WHY lines from PATH; no spend")
     args = ap.parse_args()
     conn = db.init_db(db.connect(args.db))
-    today = datetime.date.today().isoformat()
+    today = args.date
     for key in args.rescore or []:
         print("au-triage: {0} row(s) re-queued for {1}".format(rescore(conn, key), key))
+    if args.queue_out:
+        queue_out(conn, args.queue_out, today, args.limit)
+        return 0
+    if args.queue_in:
+        got = queue_in(conn, args.queue_in, today)
+        conn.close()
+        return 1 if got is None else 0
     queued = pending(conn)
     items = queued[:args.limit]
     if args.dry_run:

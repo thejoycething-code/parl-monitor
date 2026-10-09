@@ -28,6 +28,8 @@ import os
 import re
 from dataclasses import dataclass
 
+SESSION_MODEL = "claude-code-session"
+
 MAX_WHY_CHARS = 400
 
 HEADER = """# {title}
@@ -155,3 +157,52 @@ def read_queue(path, marker):
             cur["why"] = wm.group(1)
     close(cur)
     return results, refused, blank
+
+
+# For the judges whose score lives on the row (US, Ireland, Australia).
+PROVENANCE_SQL = """CREATE TABLE IF NOT EXISTS session_scores (
+    item      TEXT PRIMARY KEY,   -- '<table>:<key>', the queue's item id
+    judge     TEXT NOT NULL,      -- 'us', 'ie', 'au'
+    model     TEXT NOT NULL,      -- 'claude-code-session'
+    score     INTEGER,
+    scored_at TEXT
+)"""
+
+
+def check_rows(conn, results, sources, label):
+    """Vet read_queue results against row-scored tables ({table: key column}).
+    Returns ([triage.TriageResult] to apply, [(id, reason)] refused): an id
+    of another table or a row not in the store is refused, and so is a row
+    already scored (scores are written once ever; --rescore clears one)."""
+    from src import triage
+    good, refused = [], []
+    for res in results:
+        table, _, key = res.id.partition(":")
+        if table not in sources:
+            refused.append((res.id, "not a {0} item".format(label)))
+            continue
+        row = conn.execute("SELECT triage_score FROM {0} WHERE {1} = ?".format(
+            table, sources[table]), (key,)).fetchone()
+        if row is None:
+            refused.append((res.id, "not a {0} item in the store".format(label)))
+        elif row[0] is not None:
+            refused.append((res.id, "already scored; scores are written once ever (--rescore)"))
+        else:
+            good.append(triage.TriageResult(id=res.id, score=res.score, areas=[],
+                                            why_it_matters=res.why))
+    return good, refused
+
+
+def record(conn, judge, results, today, model=SESSION_MODEL):
+    """Note which rows a session scored (the rows have no model column)."""
+    conn.execute(PROVENANCE_SQL)
+    conn.executemany("INSERT OR REPLACE INTO session_scores (item, judge, model, score, scored_at) "
+                     "VALUES (?,?,?,?,?)",
+                     [(r.id, judge, model, r.score, today) for r in results])
+    conn.commit()
+
+
+def forget(conn, item):
+    """A --rescore clears the row's score; clear its session note with it."""
+    conn.execute(PROVENANCE_SQL)
+    conn.execute("DELETE FROM session_scores WHERE item = ?", (item,))
