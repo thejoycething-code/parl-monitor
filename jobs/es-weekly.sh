@@ -21,6 +21,7 @@
 # gaps (in the gaps table and as [gap] lines in the log): that run is still
 # published, and this script exits 0 so the caller commits the sidecars with
 # it. Any other failure publishes NOTHING and exits non-zero.
+# mini_run: commit editions
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -37,6 +38,20 @@ if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   exit "$rc"
 fi
 [ "$rc" -eq 3 ] && echo "es-rollcalls recorded gaps; publishing what it stored"
+# The weekly edition (src/country_edition.py, tools/es_monitor.py), to Chris
+# alone by DM, archived to editions/. Once a day: an edition already
+# committed for today is rewritten, not resent. A failed render never stops
+# the publish below.
+export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+TODAY=$(date +%Y-%m-%d)
+if git ls-files --error-unmatch "editions/es-monitor-$TODAY.md" >/dev/null 2>&1; then
+  echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+  python3 tools/es_monitor.py --edition \
+    || echo "  [gap] es-monitor: the edition failed to render; the store is still published"
+else
+  python3 tools/es_monitor.py --edition --dm \
+    || echo "  [gap] es-monitor: the edition or its DM failed; the store is still published"
+fi
 # The archive before the store: a store that cites payloads the archive
 # lacks is the worse of the two failures. Both merge, never clobber.
 python3 tools/raw_state.py --push
