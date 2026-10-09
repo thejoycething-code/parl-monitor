@@ -297,6 +297,154 @@ def vote_lines(conn, groups, names):
     return out
 
 
+# --- executive actions and the Supreme Court (9 October 2026) ---------------
+#
+# Christopher said yes to both sections on 9 October 2026. Each is a view of
+# its own table (tools/us_federal_register.py, tools/us_courts.py), and each
+# renders on an empty or missing table: a store that has not run those
+# collectors yet says so rather than failing the edition.
+
+CLOSING_SOON_DAYS = 14
+
+
+def _rows(conn, sql, params=()):
+    conn.row_factory = sqlite3.Row
+    try:
+        return [r for r in conn.execute(sql, params).fetchall() if visible(r["areas"])]
+    except sqlite3.OperationalError:
+        return []
+
+
+def safe_count(conn, sql):
+    try:
+        return conn.execute(sql).fetchone()[0]
+    except sqlite3.OperationalError:
+        return 0
+
+
+def fr_label(r):
+    """'Executive Order 14187', 'Proclamation', 'Final rule', 'Proposed rule'."""
+    if r["doc_type"] == "Presidential Document":
+        return "{0}{1}".format(r["subtype"] or "Presidential document",
+                               " " + r["eo_number"] if r["eo_number"] else "")
+    return {"Rule": "Final rule", "Proposed Rule": "Proposed rule"}.get(r["doc_type"],
+                                                                         r["doc_type"])
+
+
+def fr_agency(r):
+    names = json.loads(r["agencies"] or "[]")
+    return names[-1] if names else "?"
+
+
+def executive_section(conn, since, today, names):
+    new = _rows(conn, "SELECT * FROM us_fr_documents WHERE publication_date > ? AND "
+                      "publication_date <= ? ORDER BY publication_date DESC", (since, today))
+    open_ = _rows(conn, "SELECT * FROM us_fr_documents WHERE doc_type='Proposed Rule' AND "
+                        "comments_close_on >= ? ORDER BY comments_close_on, document_number",
+                  (today,))
+    out = ["## Executive actions", "",
+           "*The Federal Register: executive orders, proclamations and memoranda, final rules "
+           "and proposed rules, matched on their titles and the agency's abstract "
+           "(presidential documents have no abstract and match on the title alone).*", "",
+           "### New on our ground this week ({0})".format(len(new)), ""]
+    for r in new:
+        out.append("- {0} **{1}**, {2}: [{3}]({4}). *{5}; areas: {6}.*{7}".format(
+            score_mark(r["triage_score"]), fr_label(r), r["publication_date"],
+            clip(r["title"], 120), r["html_url"], fr_agency(r),
+            names_of(visible(r["areas"]), names),
+            " Comments close {0}.".format(r["comments_close_on"]) if r["comments_close_on"] else ""))
+        if r["why_it_matters"]:
+            out.append("  - *{0}*".format(oneline(r["why_it_matters"])))
+    if not new:
+        out.append("*Nothing new on our ground in the Federal Register this week.*")
+    out += ["", "### Open for comment ({0})".format(len(open_)), "",
+            "*Proposed rules on our ground whose comment period has not closed: the one "
+            "executive-branch step where anyone can put a view on the record.*", ""]
+    for r in open_:
+        days = (datetime.date.fromisoformat(r["comments_close_on"])
+                - datetime.date.fromisoformat(today)).days
+        when = "closes {0} ({1} day{2})".format(r["comments_close_on"], days,
+                                               "" if days == 1 else "s")
+        out.append("- {0} {1}: [{2}]({3}), {4}.{5} *Areas: {6}.*".format(
+            score_mark(r["triage_score"]),
+            "**" + when + "**" if days <= CLOSING_SOON_DAYS else when,
+            clip(r["title"], 110), r["html_url"], fr_agency(r),
+            " [Comment]({0}).".format(r["comment_url"]) if r["comment_url"] else "",
+            names_of(visible(r["areas"]), names)))
+    if not open_:
+        out.append("*No proposed rule on our ground is open for comment.*")
+    out.append("")
+    return out
+
+
+def court_section(conn, since, today, names):
+    week = _rows(conn, "SELECT * FROM us_court_cases WHERE decided > ? AND decided <= ? "
+                       "ORDER BY decided DESC, case_key", (since, today))
+    opinions = _rows(conn, "SELECT * FROM us_court_cases WHERE kind='opinion'")
+    try:
+        all_dockets = {d.strip() for (x,) in conn.execute(
+            "SELECT docket FROM us_court_cases WHERE kind='opinion'") for d in (x or "").split(",")}
+    except sqlite3.OperationalError:
+        all_dockets = set()
+    pending = [r for r in _rows(conn, "SELECT * FROM us_court_cases WHERE kind='grant' "
+                                      "ORDER BY decided DESC")
+               if r["docket"] not in all_dockets]
+    term = max((r["term"] for r in opinions if r["term"]), default=None)
+    this_term = sorted((r for r in opinions if r["term"] == term),
+                       key=lambda r: r["decided"] or "", reverse=True)
+
+    def line(r):
+        what = ("opinion, {0}".format(r["citation"]) if r["kind"] == "opinion" and r["citation"]
+                else "opinion" if r["kind"] == "opinion" else "certiorari granted")
+        return "- {0} [{1}]({2}) (No. {3}), {4}, {5}: {6} *Areas: {7}.*".format(
+            score_mark(r["triage_score"]), r["case_name"] or "?", r["url"], r["docket"] or "?",
+            what, r["decided"] or "?", clip(r["summary"] or "question presented not read", 260),
+            names_of(visible(r["areas"]), names))
+
+    out = ["## Supreme Court", "",
+           "*Opinions are matched on the Court's one-line holding, grants on the question "
+           "presented; the case name alone is party names and matches nothing.*", "",
+           "### This week ({0})".format(len(week)), ""]
+    out += [line(r) for r in week] or ["*No opinion or grant on our ground this week.*"]
+    out += ["", "### Granted, awaiting decision ({0})".format(len(pending)), ""]
+    out += [line(r) for r in pending] or ["*None on our ground.*"]
+    if term:
+        out += ["", "### Decided on our ground, October Term 20{0} ({1})".format(
+            term, len(this_term)), ""]
+        out += [line(r) for r in this_term] or ["*None.*"]
+    out.append("")
+    return out
+
+
+def executive_court_tops(conn, since, today):
+    """Top lines from the two sections: what is new, and what closes soon."""
+    out = []
+    fr = _rows(conn, "SELECT * FROM us_fr_documents WHERE publication_date > ? AND "
+                     "publication_date <= ?", (since, today))
+    if fr:
+        out.append("- {0} executive action(s) on our ground in the Federal Register, "
+                   "among them {1}: {2}.".format(len(fr), fr_label(fr[0]).lower()
+                                                 if fr[0]["doc_type"] != "Presidential Document"
+                                                 else fr_label(fr[0]), clip(fr[0]["title"], 80)))
+    soon = (datetime.date.fromisoformat(today)
+            + datetime.timedelta(days=CLOSING_SOON_DAYS)).isoformat()
+    closing = _rows(conn, "SELECT * FROM us_fr_documents WHERE doc_type='Proposed Rule' AND "
+                          "comments_close_on >= ? AND comments_close_on <= ? "
+                          "ORDER BY comments_close_on", (today, soon))
+    if closing:
+        out.append("- **{0} comment period(s) on our ground close within {1} days**, the first "
+                   "on {2}: {3}.".format(len(closing), CLOSING_SOON_DAYS,
+                                         closing[0]["comments_close_on"],
+                                         clip(closing[0]["title"], 80)))
+    court = _rows(conn, "SELECT * FROM us_court_cases WHERE decided > ? AND decided <= ?",
+                  (since, today))
+    if court:
+        out.append("- **Supreme Court**: {0}.".format("; ".join(
+            "{0} ({1})".format(r["case_name"], "opinion" if r["kind"] == "opinion"
+                               else "certiorari granted") for r in court[:3])))
+    return out
+
+
 def render_edition(conn, today):
     conn.row_factory = sqlite3.Row
     names = area_names()
@@ -345,6 +493,7 @@ def render_edition(conn, today):
                            last_vote(conn, "house") or "?", last_vote(conn, "senate") or "?"))
     if new:
         tops.append("- {0} new bill(s) on our ground were introduced.".format(len(new)))
+    tops += executive_court_tops(conn, since, today)
     out += tops or ["*Nothing moved on our ground this week.*"]
     out.append("")
 
@@ -401,6 +550,9 @@ def render_edition(conn, today):
     out += ([BILL_HEAD] + [bill_row(r, names) for r in sorted(
         laws, key=lambda r: r["latest_action_at"] or "", reverse=True)]) if laws else ["*None.*"]
 
+    out += [""] + executive_section(conn, since, today, names)
+    out += court_section(conn, since, today, names)
+
     # Coverage
     n = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
     out += ["", "## Coverage", "",
@@ -412,10 +564,19 @@ def render_edition(conn, today):
                 n("SELECT COUNT(*) FROM us_divisions WHERE chamber='house'"),
                 n("SELECT COUNT(*) FROM us_divisions WHERE chamber='senate'"),
                 last_pull(conn) or "unknown"),
+            "- **Executive and Court:** {0} Federal Register documents since 20 January 2025 "
+            "({1} on our ground); {2} Supreme Court opinions and {3} certiorari grants "
+            "({4} on our ground).".format(
+                safe_count(conn, "SELECT COUNT(*) FROM us_fr_documents"),
+                len(_rows(conn, "SELECT areas FROM us_fr_documents")),
+                safe_count(conn, "SELECT COUNT(*) FROM us_court_cases WHERE kind='opinion'"),
+                safe_count(conn, "SELECT COUNT(*) FROM us_court_cases WHERE kind='grant'"),
+                len(_rows(conn, "SELECT areas FROM us_court_cases"))),
             "- **Not yet collected:** amendment purposes for House votes (needs the "
             "Congress.gov key), the Congressional Record (floor debates), committee hearings, "
-            "the weekly floor schedule, the Federal Register and executive orders, and the "
-            "fifty state legislatures (needs the Open States key).",
+            "the weekly floor schedule, Federal Register notices (only presidential "
+            "documents and rules are read), Supreme Court dockets beyond the granted cases, "
+            "and the fifty state legislatures (needs the Open States key).",
             "- **Migration** is matched and stored but not shown, as in every edition here.",
             "- Specification and decisions: [docs/us-scope.md]({0}docs/us-scope.md).".format(REPO),
             ""]
@@ -441,6 +602,7 @@ def dm_summary(conn, today, path=None):
                      "Senate {1}.".format(last_vote(conn, "house") or "?",
                                           last_vote(conn, "senate") or "?"))
     lines.append("{0} bill(s) moved, {1} new.".format(len(moved), len(new)))
+    lines += [t.replace("**", "*") for t in executive_court_tops(conn, since, today)]
     top = rank_bills([b for b in moved + new if stage(b)[0] <= 4 or b in new])[:5]
     for r in top:
         why = r["why_it_matters"]
