@@ -396,18 +396,29 @@ variable `AU_JUDGE` is `on`, and it is not on: SPEND NEEDS A YES.** Measured
 by `--dry-run` on the scratch database: **62 items (19 bills, 43 divisions),
 about 16 calls, roughly $0.15** for the whole backlog.
 
-## The aph.gov.au probe (prepared, NOT run)
+## The aph.gov.au probe: GitHub's runners are refused too (9 October 2026)
 
-`.github/workflows/au-probe.yml` (workflow_dispatch only; no store, no
-commit, no secrets) asks once from a GitHub runner, and `tools/au_probe.py`
-asks the same from the Mac Mini by hand: Bills Search, a bill homepage
-(r7512), the ParlInfo bill page and a Senate Hansard day, Votes and
-Proceedings, the Journals of the Senate, the sitting calendar, committees,
-Senate estimates and the High Court. Each answer's status and a short text
-sample go to the step summary, and the replies to an artifact kept 7 days.
-It uses `tools/probe_hosts.py`'s rules unchanged: robots.txt honoured, at
-least 3 seconds between requests, and a challenge or 403 stops the host for
-the run, never worked around. Christopher decides whether to run it.
+Christopher: "run the probe". `au-probe.yml` cannot be dispatched until it is
+on main, so the same targets went through the existing read-only
+`probe-hosts.yml` (run 37887925082, same rules: robots.txt honoured, a 403 or
+challenge stops the host, nothing worked around):
+
+| Host | From a GitHub runner |
+|---|---|
+| www.aph.gov.au | robots.txt answered **403** (411 bytes): host stopped |
+| parlinfo.aph.gov.au | robots.txt answered **403** (7,963 bytes, the WAF page): host stopped |
+| www.hcourt.gov.au | robots.txt **timed out**: host stopped |
+| eresources.hcourt.gov.au | 301 to www.hcourt.gov.au, which timed out |
+
+So the block is not the laptop's network: APH refuses GitHub's runners as
+well, and the High Court does not answer them. **The open route
+(OpenAustralia + the Handbook API + the Federal Register of Legislation) is
+the collector's route, not a stopgap.** What remains to try is the Mac Mini
+by hand once this is merged (`python3 tools/au_probe.py --out /tmp/au-probe`),
+and, failing that, asking the Parliamentary Library or APH web team for
+access (a polite email, as for PEI); phase 1b (committee-stage amendment
+sheets), bill digests and the sitting calendar wait on one of those.
+`au-probe.yml` stays for a later re-test.
 
 ## The weekly schedule
 
