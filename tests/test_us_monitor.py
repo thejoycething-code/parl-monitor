@@ -162,6 +162,14 @@ class JudgeQueueTests(unittest.TestCase):
         self.assertEqual(ust.rescore(conn, "119/hr/21"), 1)
         self.assertEqual(len(ust.pending(conn)), 1)
 
+    def test_an_amendment_votes_purpose_reaches_the_judge(self):
+        conn = store()
+        vote(conn, "house-119-1-245", "house", 245, "2025-09-10", "119/hr/3838", "H R 3838", [3], [3])
+        conn.execute("UPDATE us_divisions SET amendment_text='to prohibit gender transition "
+                     "procedures' WHERE division_key='house-119-1-245'")
+        (item,) = ust.pending(conn)
+        self.assertIn("Amendment: to prohibit gender transition procedures", item.text)
+
     def test_the_estimate_is_dollars_not_zero(self):
         self.assertGreater(ust.estimate_usd(769), 1.0)
         self.assertLess(ust.estimate_usd(769), 5.0)

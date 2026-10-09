@@ -18,6 +18,12 @@ on:
         description: "Reclassify stored US bills and votes under the current taxonomy"
         type: boolean
         default: false
+      rescore:
+        # Keys to judge again, space-separated ('119/hr/28',
+        # 'us_divisions:house-119-1-240'). Spend: announce it first.
+        description: "US items to re-judge, space-separated keys (costs API credit)"
+        type: string
+        default: ""
       senate_only:
         # Dispatched by the Mac Mini when senate.gov refuses it (jobs/us-weekly.sh):
         # Senate votes only, published, no edition.
@@ -133,6 +139,7 @@ jobs:
           US_JUDGE: ${{ vars.US_JUDGE }}
           US_RECLASSIFY: ${{ inputs.reclassify }}
           US_SENATE_ONLY: ${{ inputs.senate_only }}
+          US_RESCORE: ${{ inputs.rescore }}
         run: bash jobs/us-weekly.sh
       - name: Health summary
         if: always()
