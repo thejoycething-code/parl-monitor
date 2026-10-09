@@ -2,7 +2,8 @@
 # US weekly: members, bills, House roll calls and Senate votes of the current
 # Congress, the week ahead (floor lists and committee meetings, both
 # chambers), the Federal Register's executive actions and the Supreme Court
-# (9 October 2026), the judge when US_JUDGE is on, then the edition and its DM.
+# (9 October 2026), the Congressional Record's floor speeches, the judge when
+# US_JUDGE is on, then the edition and its DM.
 #
 # Called by .github/workflows/us-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh us-weekly. One script, two callers (docs/mac-mini.md).
@@ -25,6 +26,7 @@
 #
 #     US_RECLASSIFY=true    re-derive stored areas first (taxonomy change)
 #     US_SENATE_ONLY=true   the Senate-only half GitHub runs for the Mini
+#     US_RECORD_BUDGET=N    seconds for the Congressional Record step
 #     US_JUDGE=on           score new items (Christopher's yes; read from the
 #                           repo variable when unset and gh is available)
 #
@@ -128,6 +130,19 @@ python3 tools/us_federal_register.py | tee "$LOG/us-federal-register.log" \
   || echo "  [gap] Federal Register step failed; this week's executive actions may be missing"
 python3 tools/us_courts.py --budget-seconds 900 | tee "$LOG/us-courts.log" \
   || echo "  [gap] Supreme Court step failed; this week's opinions and grants may be missing"
+
+# The Congressional Record (phase 3a, 9 October 2026): floor speeches on our
+# ground, before the judge (which scores them) and the edition (its Floor
+# debate section). Keyed: without CONGRESS_API_KEY it is one [gap] line and
+# the edition says what it already holds. The 119th Congress's backfill is
+# about 22,000 granule pages at three or four a second, some two hours; it
+# drains newest first under a budget a week (10 minutes on GitHub, whose job
+# stops at 120; 20 on the Mini, whose stops at three hours), so recent weeks
+# are read first and the rest arrive over the following weeks.
+if [ -n "${GITHUB_ACTIONS:-}" ]; then RECORD_BUDGET="${US_RECORD_BUDGET:-600}"
+else RECORD_BUDGET="${US_RECORD_BUDGET:-1200}"; fi
+python3 tools/us_record.py --budget-seconds "$RECORD_BUDGET" | tee "$LOG/us-record.log" \
+  || echo "  [gap] Congressional Record step ended with gaps; the edition shows what the store holds"
 
 JUDGE="${US_JUDGE:-}"
 if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then
