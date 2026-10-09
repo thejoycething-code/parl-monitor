@@ -81,5 +81,45 @@ class RenderTests(unittest.TestCase):
         self.assertIn("coverage is unknown", text)
 
 
+class GitHubMinutesTests(unittest.TestCase):
+    """The minutes line counts as billing does and tracks the going-private bar."""
+
+    def test_each_job_rounds_up_and_skipped_jobs_are_free(self):
+        jobs = [{"conclusion": "success", "started_at": "2026-10-09T10:00:00Z", "completed_at": "2026-10-09T10:00:05Z"},
+                {"conclusion": "success", "started_at": "2026-10-09T10:00:00Z", "completed_at": "2026-10-09T10:02:01Z"},
+                {"conclusion": "skipped", "started_at": "2026-10-09T10:00:00Z", "completed_at": "2026-10-09T10:09:00Z"},
+                {"conclusion": None, "started_at": "2026-10-09T10:00:00Z", "completed_at": None}]
+        self.assertEqual(hs.job_minutes(jobs), 1 + 3)
+
+    def _rows(self, per_day, today_minutes=0):
+        now = datetime.datetime(2026, 10, 20, 6, 30, tzinfo=UTC)
+        rows = [(now - datetime.timedelta(hours=1), "workflow_dispatch", today_minutes)]
+        for back, mins in enumerate(per_day, 1):      # back=1 is yesterday
+            rows.append((now - datetime.timedelta(days=back, hours=1), "schedule", mins))
+        return now, rows
+
+    def test_streak_counts_whole_days_back_from_yesterday(self):
+        now, rows = self._rows([20, 30, 59, 61, 10, 10, 10, 10], today_minutes=500)
+        m = hs.minutes_summary(rows, now)
+        self.assertEqual(m["streak"], 3)           # 20, 30, 59 -- then 61 breaks it
+        self.assertEqual(m["week"], 20 + 30 + 59 + 61 + 10 + 10 + 10)
+
+    def test_seven_quiet_days_say_ready(self):
+        now, rows = self._rows([25] * 8)
+        m = hs.minutes_summary(rows, now)
+        self.assertEqual(m["streak"], 7)
+        self.assertIn("ready to make the repo private", hs.render(now, [], [], [], None, m))
+
+    def test_last_24h_is_split_by_trigger(self):
+        now, rows = self._rows([25] * 8, today_minutes=40)
+        text = hs.render(now, [], [], [], None, hs.minutes_summary(rows, now))
+        self.assertIn("last 24h: 40 (hand-started 40)", text)
+        self.assertIn("7 needed before going private", hs.render(now, [], [], [], None,
+                      hs.minutes_summary(self._rows([25, 80] + [25] * 6)[1], now)))
+
+    def test_unreadable_minutes_say_so(self):
+        self.assertIn("could not count GitHub's minutes", hs.render(NOW, [], [], [], None, None))
+
+
 if __name__ == "__main__":
     unittest.main()

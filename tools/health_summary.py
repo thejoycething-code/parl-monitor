@@ -8,6 +8,9 @@ neither one's failure alerts say what the other did. This says it all at once:
 
   * what ran in the last 24 hours on the Mini (from its own logs) and on
     GitHub, what failed, and what is running or queued now;
+  * GitHub Actions minutes: the last 24 hours by trigger, the 7-day
+    average, and how many whole days in a row came in under 60 -- the
+    plan's bar for making the repo private again (7 in a row);
   * every overdue source from tools/coverage.py, EVERY day, with the ones
     first seen in the last day marked NEW. The coverage watch itself now
     alerts only on new or worsening problems (coverage.py --state), so this
@@ -117,6 +120,91 @@ def read_github(since):
             if r["workflowName"] not in GITHUB_IGNORE and _ts(r["createdAt"]) >= since]
 
 
+# GITHUB MINUTES (docs/mac-mini-runner.md, "Going private"). A public repo's
+# billing page shows none, so they are counted the way billing counts them:
+# each job's run time rounded UP to the minute; skipped jobs bill nothing.
+PRIVATE_BAR = 60          # minutes a day
+PRIVATE_DAYS = 7          # whole days in a row under the bar
+TRIGGERS = (("workflow_dispatch", "hand-started"), ("schedule", "schedule"),
+            ("push", "push"), ("workflow_run", "alerts"))
+
+
+def job_minutes(jobs):
+    """Billable-style minutes of one run's jobs: each rounded up, skipped free."""
+    total = 0
+    for job in jobs:
+        if job.get("conclusion") in (None, "skipped") or not job.get("started_at") \
+                or not job.get("completed_at"):
+            continue
+        secs = (_ts(job["completed_at"]) - _ts(job["started_at"])).total_seconds()
+        if secs > 0:
+            total += -(-int(secs) // 60)
+    return total
+
+
+def _gh_json_pages(path):
+    out = subprocess.run(["gh", "api", "--paginate", path], capture_output=True, text=True)
+    if out.returncode:
+        raise RuntimeError(out.stderr.strip()[:200])
+    dec, text, i, pages = json.JSONDecoder(), out.stdout, 0, []
+    while i < len(text):
+        while i < len(text) and text[i].isspace():
+            i += 1
+        if i < len(text):
+            page, i = dec.raw_decode(text, i)
+            pages.append(page)
+    return pages
+
+
+def read_minutes(now, days=PRIVATE_DAYS + 1):
+    """[(created, event, minutes)] for every run in the last `days` days, or None."""
+    import concurrent.futures
+    since = (now - datetime.timedelta(days=days)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    try:
+        runs = [r for page in _gh_json_pages(
+            "repos/{0}/actions/runs?per_page=100&created=>={1}".format(REPO, since))
+            for r in page.get("workflow_runs", [])]
+
+        def one(run):
+            jobs = [j for page in _gh_json_pages(
+                "repos/{0}/actions/runs/{1}/jobs?per_page=100&filter=all".format(REPO, run["id"]))
+                for j in page.get("jobs", [])]
+            return (_ts(run["created_at"]), run["event"], job_minutes(jobs))
+
+        with concurrent.futures.ThreadPoolExecutor(8) as pool:
+            return list(pool.map(one, runs))
+    except Exception:                                        # noqa: BLE001
+        return None
+
+
+def minutes_summary(rows, now):
+    """{last24, by_trigger, week, per_day, streak} from read_minutes' rows.
+
+    per_day and the streak count WHOLE UTC days only (today is partial): the
+    streak is how many days in a row, ending yesterday, came in under the bar.
+    """
+    since = now - datetime.timedelta(hours=24)
+    last = [(e, m) for c, e, m in rows if c >= since]
+    by = {}
+    for event, mins in last:
+        by[event] = by.get(event, 0) + mins
+    today = now.date()
+    per_day = {}
+    for created, _e, mins in rows:
+        day = created.date()
+        if day < today:
+            per_day[day] = per_day.get(day, 0) + mins
+    week_days = [today - datetime.timedelta(days=k) for k in range(1, PRIVATE_DAYS + 1)]
+    week = sum(per_day.get(d, 0) for d in week_days)
+    streak = 0
+    for d in week_days:
+        if per_day.get(d, 0) >= PRIVATE_BAR:
+            break
+        streak += 1
+    return {"last24": sum(m for _e, m in last), "by_trigger": by, "week": week,
+            "per_day": per_day, "streak": streak}
+
+
 def overdue_sources(db_path, state_path, today):
     """[(text, is_new)] from coverage.check, or None if the store is unreadable."""
     import coverage
@@ -144,7 +232,7 @@ def london(when):
         return when.strftime("%a %H:%MZ")
 
 
-def render(now, mini, github, overdue, running_job):
+def render(now, mini, github, overdue, running_job, minutes=None):
     out = ["*parl-monitor health, {0} London*".format(london(now))]
 
     out.append("\n*Mac Mini, last 24h*")
@@ -186,6 +274,24 @@ def render(now, mini, github, overdue, running_job):
         for name, created, status, _c in live:
             out.append("• :hourglass: {0}: {1} since {2}".format(name, status, london(created)))
 
+    out.append("\n*GitHub minutes*")
+    if minutes is None:
+        out.append("• could not count GitHub's minutes")
+    else:
+        named = dict(TRIGGERS)
+        parts = ["{0} {1}".format(named.get(e, e), m) for e, m in
+                 sorted(minutes["by_trigger"].items(), key=lambda kv: -kv[1]) if m]
+        out.append("• last 24h: {0}{1}".format(minutes["last24"],
+                                                " ({0})".format(", ".join(parts)) if parts else ""))
+        out.append("• last 7 whole days: {0}, about {1} a day".format(
+            minutes["week"], round(minutes["week"] / PRIVATE_DAYS)))
+        if minutes["streak"] >= PRIVATE_DAYS:
+            out.append("• :white_check_mark: {0} days in a row under {1}: ready to make the repo "
+                       "private".format(minutes["streak"], PRIVATE_BAR))
+        else:
+            out.append("• {0} day(s) in a row under {1} ({2} needed before going private)".format(
+                minutes["streak"], PRIVATE_BAR, PRIVATE_DAYS))
+
     out.append("\n*Overdue sources*")
     if overdue is None:
         out.append("• could not read the store, so coverage is unknown")
@@ -197,6 +303,11 @@ def render(now, mini, github, overdue, running_job):
         for text, is_new in sorted(overdue, key=lambda x: not x[1]):
             out.append("• {0}{1}".format("*NEW* " if is_new else "", text))
     return "\n".join(out)
+
+
+def minutes_or_none(now):
+    rows = read_minutes(now)
+    return None if rows is None else minutes_summary(rows, now)
 
 
 def main(argv=None):
@@ -214,7 +325,7 @@ def main(argv=None):
     text = render(now, read_mini(LOGS, since), read_github(since),
                   overdue_sources(os.path.join(ROOT, "data", "parl-monitor.db"), STATE,
                                   now.date()),
-                  running)
+                  running, minutes_or_none(now))
     print(text)
     if "--dm" in argv:
         from src import publish
