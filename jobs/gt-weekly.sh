@@ -28,6 +28,17 @@ cd "$(dirname "$0")/.."
 # on the workflow's name; on the Mini there is no GITHUB_WORKFLOW, so name it
 # here or the coverage watch would never see the Mini's runs.
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Guatemala weekly}"
+# Fortnightly (X9, 10 October 2026): a scheduled run does the work only in
+# an EVEN ISO week. On GitHub the workflow's gate decides; here the Mini's
+# weekly launchd slot skips itself in an odd week. GT_FORCE=true overrides
+# (a run by hand).
+if [ -z "${GITHUB_ACTIONS:-}" ] && [ "${GT_FORCE:-}" != "true" ]; then
+  week=$(date -u +%V)
+  if [ $((10#$week % 2)) -ne 0 ]; then
+    echo "gt-weekly: ISO week $week is odd; Guatemala runs fortnightly (X9), nothing to do"
+    exit 0
+  fi
+fi
 if [ "${GT_RECLASSIFY:-}" = "true" ]; then
   python3 tools/gt_rollcalls.py --reclassify
 fi

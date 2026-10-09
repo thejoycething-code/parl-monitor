@@ -1,18 +1,25 @@
 name: Guatemala weekly
 on:
   schedule:
-    # Saturday 09:00 UTC, retry 12:00 UTC (9 October 2026). Guatemala's
+    # Saturday 07:30 UTC, retry 10:30 UTC (9 October 2026). Guatemala's
     # plenary sits Tuesday to Thursday and its session and vote pages are up
-    # the same day; Saturday reads the whole week. Clear of main's Saturday
-    # crons (05:30, 06:00, 07:00, 10:00, 14:00, 18:00, 21:00, 23:00) and of
-    # Spain's 08:00 and 11:00.
+    # the same day; Saturday reads the whole week. Moved from 09:00/12:00 at
+    # the countries merge (10 October 2026): Switzerland holds 09:00.
+    #
+    # FORTNIGHTLY (X9, Chris, 10 October 2026): Guatemala and Mexico run on
+    # GitHub Actions every second week, to save Actions minutes. The crons
+    # stay weekly; the gate below lets a scheduled run through only in an
+    # EVEN ISO week (Mexico takes the odd ones, so the two never spend the
+    # same week's minutes), and jobs/gt-weekly.sh skips the Mini's run in an
+    # odd week the same way. A hand dispatch always runs. Across a 53-week
+    # year two odd weeks meet; that costs one extra week's wait, once.
     #
     # THE LAPTOP IS REFUSED: www.congreso.gob.gt (Imperva Incapsula) answered
     # the scoping laptop with 403 challenges and GitHub's runners with 200s.
     # If the Mac Mini is refused too, the collector exits 1 there, publishes
     # nothing and does not stamp MINI_LAST_GT_WEEKLY, so this backup runs.
-    - cron: "0 9 * * 6"
-    - cron: "0 12 * * 6"
+    - cron: "30 7 * * 6"
+    - cron: "30 10 * * 6"
   workflow_dispatch:
     inputs:
       reclassify:
@@ -36,10 +43,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # The Mac Mini runs this on Saturdays at 09:00 London (tools/mini_run.sh
+  # The Mac Mini runs this on Saturdays at 07:30 London (tools/mini_run.sh
   # gt-weekly); these crons are the backup. The Mini runs ONCE for both
-  # slots, so its run must count for the 12:00 retry too: at 09:00 London in
-  # summer it stamps 08:00 UTC, four hours before that slot, hence a grace
+  # slots, so its run must count for the 10:30 retry too: at 07:30 London in
+  # summer it stamps 06:30 UTC, four hours before that slot, hence a grace
   # of 260 minutes rather than the default 75.
   mini-check:
     uses: ./.github/workflows/mini-check.yml
@@ -48,7 +55,7 @@ jobs:
       grace-minutes: 260
 
   # The second slot is a retry, not a second pass (copied from us-weekly.yml):
-  # when the 09:00 backup already ran today, 12:00 has nothing to do.
+  # when the 07:30 backup already ran today, 10:30 has nothing to do.
   gate:
     needs: mini-check
     if: needs.mini-check.outputs.run == 'true'
@@ -63,6 +70,11 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "dispatched by hand; running"; echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          WEEK=$(date -u +%V)
+          if [ $((10#$WEEK % 2)) -ne 0 ]; then
+            echo "fortnightly (X9): ISO week $WEEK is odd, not a Guatemala week"
+            echo "go=false" >> "$GITHUB_OUTPUT"; exit 0
           fi
           TODAY=$(date -u +%Y-%m-%d)T00:00:00Z
           BUSY=$(gh api "repos/${{ github.repository }}/actions/workflows/gt-weekly.yml/runs?per_page=50" \
@@ -87,7 +99,7 @@ jobs:
     # session pages and about 2,660 vote pages at one request every two
     # seconds, cut at 45 minutes by the collector's own budget and resumed by
     # the next run (docs/guatemala-scope.md). Later weeks read only new
-    # sessions and the last fortnight's.
+    # sessions and the last four weeks'.
     timeout-minutes: 60
     env:
       PYTHONUNBUFFERED: "1"

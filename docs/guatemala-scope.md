@@ -230,10 +230,18 @@ fixtures in `tests/fixtures/gt/` (212 KB), `tests/test_gt_rollcalls.py`
 - **Challenge handling**: a 403 or a challenge body raises `Challenged`; the
   run records a gap, exits 1 and publishes nothing.
 - **Weekly job**: `jobs/gt-weekly.sh`, `ops/launchd/net.citizengo.parlmonitor.gt-weekly.plist`
-  (Saturdays 09:00 London; **do not install until the Mini curl check
-  passes**), `.github/workflows/gt-weekly.yml` (Saturdays 09:00 and 12:00 UTC,
-  gated by mini-check with `GT_WEEKLY`, grace 260 minutes). Registered with the
-  failure alert and the coverage watch.
+  (Saturdays 07:30 London; **do not install until the Mini curl check
+  passes**), `.github/workflows/gt-weekly.yml` (Saturdays 07:30 and 10:30 UTC,
+  moved from 09:00 and 12:00 at the countries merge because Switzerland holds
+  09:00; gated by mini-check with `GT_WEEKLY`, grace 260 minutes). Registered
+  with the failure alert and the coverage watch.
+- **Fortnightly (X9, Chris, 10 October 2026)**: Guatemala and Mexico run on
+  GitHub Actions every second week to save Actions minutes. Guatemala takes
+  the even ISO weeks (Mexico the odd), enforced by the workflow's gate and by
+  `jobs/gt-weekly.sh` on the Mini (`GT_FORCE=true` overrides by hand). The
+  coverage watch expects a 14-day cadence, and sessions are re-read for 28
+  days (`REREAD_DAYS`) so a vote filed late is still caught. Backfill budgets
+  are unchanged.
 - Verified offline end to end against the archived runner pages: 500
   initiatives, 12 sessions, 83 divisions, 7 vote pages, 160 deputies, 1,120
   positions; the 5272 votes of 8 March 2022 carry areas [1, 5, 6, 9] from the

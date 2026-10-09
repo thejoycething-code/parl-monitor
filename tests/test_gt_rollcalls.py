@@ -322,5 +322,43 @@ class Schema(unittest.TestCase):
         self.assertTrue(all(k.isdigit() for k in w))
 
 
+class FortnightlyTests(unittest.TestCase):
+    """X9 (Chris, 10 October 2026): Guatemala runs every second week, in even
+    ISO weeks; a hand dispatch always runs."""
+
+    def _run_sh(self, env_extra):
+        import subprocess
+        env = {k: v for k, v in os.environ.items() if k != "GITHUB_ACTIONS"}
+        env.update(env_extra)
+        # Stop before the collector: a fake python3 on PATH records the call.
+        tmp = tempfile.mkdtemp()
+        fake = os.path.join(tmp, "python3")
+        with open(fake, "w") as fh:
+            fh.write("#!/bin/sh\necho CALLED \"$@\"\nexit 1\n")
+        os.chmod(fake, 0o755)
+        env["PATH"] = tmp + os.pathsep + env.get("PATH", "")
+        return subprocess.run(["bash", os.path.join(ROOT, "jobs", "gt-weekly.sh")],
+                              env=env, capture_output=True, text=True)
+
+    def test_the_gate_lets_only_even_weeks_through(self):
+        with open(os.path.join(ROOT, ".github", "workflows", "gt-weekly.yml"), encoding="utf-8") as fh:
+            yml = fh.read()
+        self.assertIn("WEEK=$(date -u +%V)", yml)
+        self.assertIn("$((10#$WEEK % 2)) -ne 0", yml)
+
+    def test_the_mini_skips_an_odd_week_unless_forced(self):
+        import datetime as dt
+        odd = dt.date.today().isocalendar()[1] % 2 == 1
+        res = self._run_sh({})
+        if odd:
+            self.assertEqual(res.returncode, 0)
+            self.assertIn("fortnightly", res.stdout)
+            self.assertNotIn("CALLED", res.stdout)
+        else:
+            self.assertIn("CALLED", res.stdout)
+        forced = self._run_sh({"GT_FORCE": "true"})
+        self.assertIn("CALLED", forced.stdout)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -39,7 +39,7 @@ each item.
 | X6 | Source party history before relying on party at the vote (HR, CL, GT) |
 | X7 | Tesseract OCR on the Mini: yes (PE, HR, CO later phases) |
 | X8 | Constitutional courts as a later phase: yes |
-| X9 | Open: Chris asked for the Actions-minutes cost and alternatives for GT and MX |
+| X9 | Guatemala and Mexico run on GitHub Actions fortnightly rather than weekly, to save Actions minutes (GT in even ISO weeks, MX in odd); backfill budgets as built |
 | X11 | Gender-violence and femicide laws: in, tier 2 |
 | X12 | Contraception in area 1 at tier 2, everywhere |
 | X13 | Antisemitism out, consistent with the US |

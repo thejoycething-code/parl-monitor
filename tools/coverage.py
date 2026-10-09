@@ -106,7 +106,8 @@ PIPELINES = {
     # Scheduled 9 October 2026, Saturdays (ec-weekly.yml; the Mac Mini first).
     "Ecuador weekly": (7, 4, "Ecuador's Asamblea Nacional: plenary votes, members"),
     # Scheduled 9 October 2026, Saturdays (gt-weekly.yml; the Mac Mini first).
-    "Guatemala weekly": (7, 4, "Guatemala's Congreso: initiatives, plenary votes, deputies"),
+    # Fortnightly since 10 October 2026 (X9): a 14-day cadence.
+    "Guatemala weekly": (14, 4, "Guatemala's Congreso: initiatives, plenary votes, deputies"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -407,9 +408,9 @@ FEEDS = [
     # periods run 14 January to 15 May and 1 August to 30 November: the
     # mid-year recess is 77 days, hence a month plus two months' grace.
     # gt_votes carries no sighting column.
-    ("gt_members", "last_seen", 7, 4, "Congreso deputies (Guatemala weekly)"),
-    ("gt_initiatives", "last_seen", 7, 4, "Congreso initiatives (Guatemala weekly)"),
-    ("gt_sessions", "last_seen", 7, 4, "Congreso plenary sessions (Guatemala weekly)"),
+    ("gt_members", "last_seen", 14, 4, "Congreso deputies (Guatemala weekly)"),
+    ("gt_initiatives", "last_seen", 14, 4, "Congreso initiatives (Guatemala weekly)"),
+    ("gt_sessions", "last_seen", 14, 4, "Congreso plenary sessions (Guatemala weekly)"),
     ("gt_divisions", "last_seen", 31, 62, "Congreso plenary votes (Guatemala weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- Guatemala weekly on the Mac Mini: Saturdays at 09:00 London, after the
-     Congreso's Tuesday-Thursday plenary week. The GitHub crons (09:00 and
-     12:00 UTC on Saturdays, .github/workflows/gt-weekly.yml) are the backup
+<!-- Guatemala weekly on the Mac Mini: Saturdays at 07:30 London, after the
+     Congreso's Tuesday-Thursday plenary week. The GitHub crons (07:30 and
+     10:30 UTC on Saturdays, .github/workflows/gt-weekly.yml) are the backup
      and skip themselves when this has run (the gate allows 260 minutes,
-     because 09:00 London is 08:00 UTC in summer, four hours before the
+     because 07:30 London is 06:30 UTC in summer, four hours before the
      retry slot).
      BEFORE INSTALLING: check the Mini is not refused by www.congreso.gob.gt
      (the scoping laptop was; GitHub's runners were not). From the Mini:
@@ -24,7 +24,7 @@
   </array>
   <key>StartCalendarInterval</key>
   <array>
-    <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>9</integer><key>Minute</key><integer>0</integer></dict>
+    <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>7</integer><key>Minute</key><integer>30</integer></dict>
   </array>
   <key>StandardOutPath</key>
   <string>/Users/christopherjoyce/runner/logs/gt-weekly.log</string>

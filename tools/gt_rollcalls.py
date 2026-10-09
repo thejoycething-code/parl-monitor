@@ -89,8 +89,10 @@ SINCE = "2024-01-14"
 # is spread over several runs by the budget.
 THROTTLE_S = 2.0
 # Sessions re-read even when already stored: a vote added to a session page
-# after our first read is picked up within two weeks.
-REREAD_DAYS = 14
+# after our first read is picked up on a later run. Four weeks since the run
+# went fortnightly (X9, 10 October 2026), so every session is re-read at
+# least once after the run that first saw it.
+REREAD_DAYS = 28
 HIDDEN_AREAS = (11,)   # migration: collated, never campaigned (repo-wide rule)
 CHALLENGE_MARKERS = ("_Incapsula_Resource", "Incapsula incident ID",
                      "Attention Required! | Cloudflare", "cf-chl-")
