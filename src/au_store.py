@@ -1,0 +1,177 @@
+"""Tables for the Australian Federal Parliament monitor (phase 1, 9 October
+2026): members, bills, House and Senate divisions and every member's vote.
+
+See docs/australia-scope.md for what was measured and why. The schema follows
+the US precedent (src/us_store.py): its own module, idempotent statements,
+created by db.init_db so every store carries it and db.TABLES stays true.
+
+SEPARATION GUARANTEE. Nothing outside tools/au_*.py writes these tables, and
+nothing here touches another jurisdiction's table.
+
+KEYS.
+  * A bill is the Parliament's own bill ID, 'r7532' (introduced in the House)
+    or 's1518' (introduced in the Senate). It is the ID ParlInfo, the Hansard
+    and the Federal Register of Legislation all use. Titles are never keys:
+    "Treasury Laws Amendment (2025 Measures No. 1) Bill" exists in every
+    Parliament.
+  * A member is the OpenAustralia PERSON ID ('10007'), the identity the
+    division lists carry (through an office ID that resolves to a person).
+    The APH's own PHID ('R36') is kept beside it where the Parliamentary
+    Handbook gives exactly one match, never a guessed one.
+  * A division is '<chamber>-<date>-<number>', 'senate-2026-09-17-8': each
+    chamber numbers its divisions from 1 on every sitting day.
+
+PARTY IS STORED PER VOTE, as in Canada and the US: `au_votes.party` is the
+party of the office spell the division list names (OpenAustralia opens a new
+office ID when a member changes party). `au_members.party` is only the latest.
+
+A BILL LAPSES WITH ITS PARLIAMENT. When the House is dissolved for an
+election every bill before either House lapses; it comes back, if at all,
+under a new ID. Nothing in a bill's own record says so, so `au_bills.parliament`
+is what a board reads, never `last_stage`.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+
+SCHEMA = (
+    """CREATE TABLE IF NOT EXISTS au_members (
+        person_id    TEXT PRIMARY KEY,   -- OpenAustralia person ID: '10007'
+        name         TEXT,
+        party        TEXT,               -- latest seen; see au_votes.party
+        house        TEXT,               -- 'house' / 'senate', latest office
+        electorate   TEXT,               -- House division, or the senator's state
+        phid         TEXT,               -- APH Parliamentary Handbook ID, only when unambiguous
+        current      INTEGER,            -- 1 while an office is open
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS au_offices (
+        office_id    TEXT PRIMARY KEY,   -- 'member/857', 'lord/100969' (OpenAustralia)
+        person_id    TEXT NOT NULL,
+        house        TEXT,
+        party        TEXT,               -- the party for THIS spell (see role)
+        role         TEXT,               -- 'PRES', 'DPRES', 'SPK', 'CWM': OpenAustralia
+                                         -- opens a spell for the chair and writes the
+                                         -- role where the party goes; party is then the
+                                         -- person's last real party before it
+        electorate   TEXT,
+        from_date    TEXT,
+        to_date      TEXT                -- '9999-12-31' while open
+    )""",
+    """CREATE TABLE IF NOT EXISTS au_bills (
+        bill_id      TEXT PRIMARY KEY,   -- 'r7532' / 's1518'
+        parliament   INTEGER,            -- 48: the Parliament it was first seen in
+        origin       TEXT,               -- 'house' / 'senate', from the ID's prefix
+        title        TEXT,               -- as the Hansard heading names it
+        first_date   TEXT,               -- first sitting day the Hansard names it
+        last_stage   TEXT,               -- 'Second Reading', 'Third Reading', ...
+        last_stage_chamber TEXT,
+        last_stage_date TEXT,
+        act_id       TEXT,               -- Federal Register of Legislation: 'C2026A00005'
+        act_name     TEXT,
+        assent_date  TEXT,
+        areas        TEXT,               -- JSON list; taxonomy + watchlist-au by key
+        matched_terms TEXT,              -- JSON list
+        tier         INTEGER,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS au_divisions (
+        division_key TEXT PRIMARY KEY,   -- 'senate-2026-09-17-8'
+        chamber      TEXT NOT NULL,      -- 'house' / 'senate'
+        parliament   INTEGER,
+        date         TEXT NOT NULL,
+        number       INTEGER NOT NULL,   -- the day's division number
+        time         TEXT,
+        major_heading TEXT,
+        minor_heading TEXT,              -- 'Universities Accord (...) Bill 2026; Second Reading'
+        bill_ids     TEXT,               -- JSON list: every bill tagged on the debate (cognates)
+        question     TEXT,               -- the Chair's words: 'The question is that ...'
+        motion       TEXT,               -- the nearest 'I move ...' before it, if any
+        ayes         INTEGER,
+        noes         INTEGER,
+        pairs        INTEGER,
+        own_areas    TEXT,               -- JSON: matched on the division's OWN text
+        areas        TEXT,               -- JSON: own + every tagged bill's
+        matched_terms TEXT,
+        tier         INTEGER,
+        source_url   TEXT,               -- the ParlInfo Hansard page
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS au_votes (
+        division_key TEXT NOT NULL,
+        person_id    TEXT NOT NULL,
+        office_id    TEXT,
+        position     TEXT,               -- 'Aye' / 'No' / 'Paired' (side not published)
+        party        TEXT,               -- AT THE VOTE: the office spell's party
+        electorate   TEXT,
+        PRIMARY KEY (division_key, person_id)
+    )""",
+    # One row per Hansard day file read, with the listing's own modified stamp:
+    # OpenAustralia re-parses old days (all of June 2026 was rewritten on 25
+    # August), so a file is re-read only when its stamp moves.
+    """CREATE TABLE IF NOT EXISTS au_hansard_files (
+        path         TEXT PRIMARY KEY,   -- 'senate_debates/2026-09-17.xml'
+        chamber      TEXT,
+        date         TEXT,
+        listed_modified TEXT,            -- as the directory listing gives it
+        read_at      TEXT,
+        divisions    INTEGER
+    )""",
+    "CREATE INDEX IF NOT EXISTS au_votes_member ON au_votes (person_id)",
+    "CREATE INDEX IF NOT EXISTS au_offices_person ON au_offices (person_id)",
+)
+
+TABLES = ("au_members", "au_offices", "au_bills", "au_divisions", "au_votes",
+          "au_hansard_files")
+
+
+def ensure_schema(conn):
+    for stmt in SCHEMA:
+        conn.execute(stmt)
+    conn.commit()
+    return conn
+
+
+# --- the Australian watchlist, applied by bill KEY ---------------------------
+#
+# As in the US: a key is exact, a title term is not. "Sex Discrimination
+# Amendment" names a dozen bills a Parliament, most of them about something
+# else; the one that matters is a bill ID.
+
+_WATCH = {}
+
+
+def watchlist(path=None):
+    """{bill_id: (areas, why)} from config/watchlist-au.yaml."""
+    import yaml
+    path = path or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                "config", "watchlist-au.yaml")
+    if path not in _WATCH:
+        with open(path, encoding="utf-8") as fh:
+            raw = yaml.safe_load(fh) or {}
+        _WATCH[path] = {k: (list(v.get("areas") or []), v.get("why"))
+                        for k, v in (raw.get("bills") or {}).items()}
+    return _WATCH[path]
+
+
+def add_watch_areas(res, bill_id, path=None):
+    """Union a watched bill's areas into a FilterResult, in place, and say so
+    in watchlist_hits so the stored row shows where the area came from."""
+    hit = watchlist(path).get(bill_id)
+    if not hit:
+        return res
+    areas, _why = hit
+    res.issue_areas = sorted(set(res.issue_areas or []) | set(areas))
+    res.watchlist_hits = list(res.watchlist_hits or []) + ["watch:" + bill_id]
+    if res.tier is None:
+        res.tier = 2
+    return res
+
+
+def dumps(values):
+    return json.dumps(values or [])
