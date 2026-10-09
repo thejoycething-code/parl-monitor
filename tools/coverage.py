@@ -89,6 +89,8 @@ PIPELINES = {
     "Portugal weekly": (7, 4, "Portugal's Assembleia da Republica: initiatives, votes, deputies"),
     # Scheduled 9 October 2026, Tuesdays (sk-weekly.yml; the Mac Mini first).
     "Slovakia weekly": (7, 4, "Slovakia's Národná rada: prints, votes, positions, interpellations"),
+    # Scheduled 9 October 2026, Saturdays (hr-weekly.yml; the Mac Mini first).
+    "Croatia weekly": (7, 4, "Croatia's Sabor: agendas and recorded votes"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -309,6 +311,13 @@ FEEDS = [
     ("sk_bills", "last_seen", 7, 4, "Národná rada prints (Slovakia weekly)"),
     ("sk_divisions", "last_seen", 7, 4, "Národná rada votes (Slovakia weekly)"),
     ("sk_interpellations", "last_seen", 7, 4, "Národná rada interpellations (Slovakia weekly)"),
+    # Croatia (9 October 2026). MEASURED which re-stamp: the member list is
+    # re-read whole every run, and the two latest sessions' agendas are
+    # re-read every run, so hr_members and hr_items move every week, recess
+    # included (the latest session's agenda stays up through the summer).
+    # hr_divisions is in ONCE_EVER; hr_votes carries no sighting column.
+    ("hr_members", "last_seen", 7, 4, "Sabor members (Croatia weekly)"),
+    ("hr_items", "last_seen", 7, 4, "Sabor agenda items (Croatia weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -403,6 +412,8 @@ PIPELINE_FEEDS = {
     "Portugal weekly": ["pt_initiatives", "pt_divisions", "pt_members"],
     # Every Slovak list is re-read whole and re-stamped each run.
     "Slovakia weekly": ["sk_bills", "sk_members", "sk_divisions"],
+    # Votes left out: new rows only, so a recess week cannot move them.
+    "Croatia weekly": ["hr_items", "hr_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -438,6 +449,8 @@ AWAITING_FIRST_RUN = {
                         "scheduled 9 October 2026; its tables fill on its first run"),
     "Slovakia weekly": (("sk_members", "sk_bills", "sk_divisions", "sk_interpellations"),
                         "scheduled 9 October 2026; its tables fill on its first run"),
+    "Croatia weekly": (("hr_members", "hr_items", "hr_divisions"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
@@ -543,6 +556,11 @@ ONCE_EVER = {
     "ni_sponsors": "fetched once per motion",
     "eu_speeches": "one row per speech, stored once",
     "eu_divisions": "one row per roll call, stored once",
+    # Croatia (9 October 2026): tools/hr_rollcalls.py fetches the vote only
+    # for items whose vote_state is unset, so a vote is written once, and the
+    # Sabor breaks from mid-July to mid-September.
+    "hr_divisions": "new rows only: one row per agenda vote, fetched once; "
+                    "quiet through the summer recess",
     # MEASURED 23 September 2026, after eleven days of "LOST WORK" that was
     # no such thing. tools/eu_courts.py builds `known` from the stored item
     # ids and SKIPS anything already held, so a judgment is written once and
