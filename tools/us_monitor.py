@@ -738,6 +738,7 @@ def executive_court_tops(conn, since, today):
 LOWER_NAME = {"ca": "Assembly", "ny": "Assembly", "nv": "Assembly", "wi": "Assembly",
               "nj": "General Assembly", "md": "House of Delegates", "va": "House of Delegates",
               "wv": "House of Delegates"}
+STATE_LINES = 8                 # per state, per week; the rest are counted
 STATE_EVENTS = (("law_at", "signed into law"), ("vetoed_at", "vetoed"),
                 ("passed_upper_at", "passed"), ("passed_lower_at", "passed"),
                 ("introduced_at", "introduced"))
@@ -761,6 +762,10 @@ def state_event(r, since, today):
             if label == "passed":
                 chamber = chamber_name(r["state"], "upper" if col == "passed_upper_at" else "lower")
                 label = "{0} in the {1}".format("adopted" if resolution else "passed", chamber)
+            elif label == "signed into law" and resolution:
+                # California files resolutions with the Secretary of State
+                # ("chaptered"), which Open States marks as becoming law.
+                label = "adopted"
             return rank, label, d
     return None
 
@@ -799,14 +804,24 @@ def states_section(conn, since, today, names):
     out.append("")
     for st in sorted(by_state, key=lambda s: us_states_store.STATES.get(s, s)):
         out += ["### {0}".format(us_states_store.STATES.get(st, st.upper())), ""]
-        for r, (rank, label, d) in sorted(by_state[st], key=lambda x: (x[1][0], x[0]["bill_key"])):
+        # Furthest step first; then the judge's score, then tier 1 before
+        # tier 2 (a 'kinship care' match is tier 2 and usually noise).
+        ranked = sorted(by_state[st], key=lambda x: (
+            x[1][0], -(x[0]["triage_score"] if x[0]["triage_score"] is not None else -1),
+            x[0]["tier"] or 2, x[0]["bill_key"]))
+        for r, (rank, label, d) in ranked[:STATE_LINES]:
             ident = "{0} {1}".format(st.upper(), r["identifier"])
             link = "[{0}]({1})".format(ident, r["url"]) if r["url"] else ident
-            out.append("- {0} {1}: {2}. *{3} {4}; areas: {5}.*".format(
-                score_mark(r["triage_score"]), link, clip(r["title"], 110), label.capitalize(), d,
-                names_of(visible(r["areas"]), names)))
+            title = clip(r["title"], 110).rstrip(".")
+            out.append("- {0} {1}: {2}{6} *{3} {4}; areas: {5}.*".format(
+                score_mark(r["triage_score"]), link, title,
+                label[:1].upper() + label[1:], d, names_of(visible(r["areas"]), names),
+                "" if title.endswith("…") else "."))
             if r["why_it_matters"]:
                 out.append("  - *{0}*".format(oneline(r["why_it_matters"])))
+        if len(ranked) > STATE_LINES:
+            out.append("- _...and {0} more in {1}; the store holds them all._".format(
+                len(ranked) - STATE_LINES, us_states_store.STATES.get(st, st.upper())))
         out.append("")
     if not week:
         sitting = conn.execute(
@@ -821,7 +836,7 @@ def states_section(conn, since, today, names):
 
 def states_tops(conn, since, today):
     week = states_week(conn, since, today)
-    laws = [(r, ev) for r, ev in week if ev[1] == "signed into law"]
+    laws = [(r, ev) for r, ev in week if ev[1] == "signed into law"]  # resolutions say "adopted"
     if not laws:
         return []
     return ["- **{0} state bill(s) on our ground signed into law this week** ({1}).".format(
