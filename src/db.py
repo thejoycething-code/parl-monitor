@@ -1755,6 +1755,11 @@ TABLES = (
     "uy_questions",
     "uy_sittings",
     "uy_laws",
+    # The Latam monitor's light checks (tools/ve_news.py, tools/nic_gaceta.py),
+    # created by src/latam_store.ensure_schema -- declared from day one.
+    "ve_news",
+    "nic_gazette_issues",
+    "nic_gazette_items",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -2083,4 +2088,6 @@ def init_db(conn):
     hn_store.ensure_schema(conn)
     from src import uy_store
     uy_store.ensure_schema(conn)
+    from src import latam_store
+    latam_store.ensure_schema(conn)
     return conn
