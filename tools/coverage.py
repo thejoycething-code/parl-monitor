@@ -231,6 +231,18 @@ FEEDS = [
     ("au_members", "last_seen", 7, 4, "Federal Parliament members (Australia weekly)"),
     ("au_bills", "last_seen", 7, 4, "Federal bills, from Hansard and the Register of Legislation (Australia weekly)"),
     ("au_divisions", "last_seen", 31, 31, "House and Senate divisions (Australia weekly)"),
+    # Australia's week ahead (tools/au_schedule.py, 9 October 2026). MEASURED
+    # on that day's live run, in a recess: the Register listed 277
+    # instruments open for disallowance and every one is re-stamped each run,
+    # and the Handbook's Parliaments are re-read whole, so both move weekly.
+    # A sitting day is re-stamped only while some open instrument's clock
+    # still ends on it; in the summer recess (early December to early
+    # February) instruments registered then are not yet tabled and carry no
+    # last day, so the days ahead can thin out: a month plus two months'
+    # recess grace.
+    ("au_instruments", "last_seen", 7, 4, "instruments open for disallowance (Australia week ahead)"),
+    ("au_parliaments", "last_seen", 7, 4, "the Handbook's Parliaments, for a dissolution (Australia week ahead)"),
+    ("au_sitting_days", "last_seen", 31, 62, "sitting days ahead, from the Register's disallowance clock (Australia week ahead)"),
     # The week ahead (tools/us_schedule.py, 9 October 2026). MEASURED on the
     # live run of that day, in the election recess: us_schedule_weeks gains
     # or re-stamps a row for every week and source ASKED, 404 or not, so it
@@ -722,6 +734,11 @@ AWAITING_FIRST_RUN = {
     # stamps "US schedule" at the end of every stored run. Keyed on the step,
     # not on "US weekly", whose heartbeat already exists and would leave
     # these new tables crying wipe until the step first ran.
+    # A STEP heartbeat: tools/au_schedule.py stamps "AU week ahead" after
+    # every run that read the Register's list.
+    "AU week ahead": (("au_instruments", "au_sitting_days", "au_parliaments"),
+                      "week-ahead step added to Australia weekly 9 October 2026; its "
+                      "tables fill on the step's first run"),
     "US schedule": (("us_schedule", "us_meetings", "us_schedule_weeks"),
                     "week-ahead step added to US weekly 9 October 2026; its tables "
                     "fill on the step's first run"),

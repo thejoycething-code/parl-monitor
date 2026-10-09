@@ -1,6 +1,7 @@
 #!/bin/bash
 # Australia weekly: members, bills and House and Senate divisions of the
-# Federal Parliament (tools/au_rollcalls.py), the judge when AU_JUDGE is on,
+# Federal Parliament (tools/au_rollcalls.py), the week ahead
+# (tools/au_schedule.py), the judge when AU_JUDGE is on,
 # the edition and its DM to Christopher (tools/au_monitor.py), then (on the
 # Mini) publish the raw archive and the store.
 #
@@ -52,6 +53,13 @@ if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "au-rollcalls failed (exit $rc); no edition, nothing published"
   exit "$rc"
 fi
+
+# The week ahead (tools/au_schedule.py): the Register's open-for-disallowance
+# list and the Handbook's Parliaments, a few requests, about 20 seconds. After
+# the collector, because an instrument joins its enabling Act's bill through
+# au_bills. A failure is a gap, never a lost edition: the edition then says
+# when the week ahead was last read, or that it never was.
+python3 tools/au_schedule.py || echo "  [gap] au-schedule exited non-zero; Coming up shows the last read"
 
 JUDGE="${AU_JUDGE:-}"
 if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then

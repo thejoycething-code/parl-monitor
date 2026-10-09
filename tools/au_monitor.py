@@ -251,6 +251,161 @@ def last_pull(conn):
         return None
 
 
+# --- coming up (tools/au_schedule.py) -------------------------------------------
+#
+# The APH sitting calendar, the Notice Papers and the Daily Programs are on
+# aph.gov.au, which refuses our collectors, so which bill comes up on which
+# day cannot be known here. What can: the sitting days the Federal Register
+# of Legislation counts disallowance to (each last day for disallowance still
+# ahead is a day that House is due to sit), the instruments on our ground
+# whose disallowance window is open, any notice of a disallowance motion on
+# them, and whether the Parliamentary Handbook records a dissolution.
+
+AHEAD_DAYS = 60
+SCHEDULE_HEARTBEAT = "AU week ahead"
+
+
+def long_date(iso, weekday=True):
+    """'2026-10-12' -> 'Monday 12 October' (British order, no comma)."""
+    d = datetime.date.fromisoformat(iso)
+    return "{0}{1} {2}".format(d.strftime("%A ") if weekday else "", d.day, d.strftime("%B"))
+
+
+def day_runs(dates):
+    """['2026-10-12', '2026-10-13', '2026-10-15'] -> '12 to 13 October, 15 October':
+    consecutive days (weekends bridged) folded into one run."""
+    runs = []
+    for iso in sorted(dates):
+        d = datetime.date.fromisoformat(iso)
+        if runs and 0 < (d - runs[-1][1]).days <= (3 if runs[-1][1].weekday() == 4 else 1):
+            runs[-1][1] = d
+        else:
+            runs.append([d, d])
+    out = []
+    for a, b in runs:
+        if a == b:
+            out.append("{0} {1}".format(a.day, a.strftime("%B")))
+        elif a.month == b.month:
+            out.append("{0} to {1} {2}".format(a.day, b.day, b.strftime("%B")))
+        else:
+            out.append("{0} {1} to {2} {3}".format(a.day, a.strftime("%B"), b.day, b.strftime("%B")))
+    return ", ".join(out)
+
+
+def instrument_url(title_id):
+    return "https://www.legislation.gov.au/{0}/asmade".format(title_id)
+
+
+def coming_up(conn, today):
+    """Everything the section and the DM need, or None when the week ahead
+    was never collected into this store."""
+    conn.row_factory = sqlite3.Row
+    try:
+        read = conn.execute("SELECT last_run, note FROM source_runs WHERE source=?",
+                            (SCHEDULE_HEARTBEAT,)).fetchone()
+    except sqlite3.Error:
+        return None
+    if not read:
+        return None
+    until = (datetime.date.fromisoformat(today) + datetime.timedelta(days=AHEAD_DAYS)).isoformat()
+    days = {ch: [r[0] for r in conn.execute(
+        "SELECT date FROM au_sitting_days WHERE chamber=? AND date >= ? AND date <= ? ORDER BY date",
+        (ch, today, until))] for ch in ("house", "senate")}
+    open_all = conn.execute("SELECT COUNT(*) FROM au_instruments WHERE open=1").fetchone()[0]
+    ours = [r for r in conn.execute("SELECT * FROM au_instruments WHERE open=1 ORDER BY "
+                                    "COALESCE(MIN(last_day_house, last_day_senate), "
+                                    "last_day_house, last_day_senate, '9999'), title_id")
+            if visible(r["areas"])]
+    parl = conn.execute("SELECT * FROM au_parliaments WHERE parliament=?", (PARLIAMENT,)).fetchone()
+    return {"read": read["last_run"], "days": days, "open": open_all, "ours": ours, "parl": parl}
+
+
+def _motions(r):
+    try:
+        events = json.loads(r["scrutiny"] or "[]")
+    except (TypeError, ValueError):
+        events = []
+    return [e for e in events if e.get("type") == "DisallowanceMotion"]
+
+
+def instrument_line(r, names, today):
+    def last(day):
+        if not day:
+            return "no clock running"
+        return "{0}{1}".format(long_date(day, weekday=False), " (passed)" if day < today else "")
+    source = {"own": "its own name", "act": "the Act it is made under",
+              "bill": "the bill its Act came from"}.get(r["areas_from"], "?")
+    out = ["- [{0}]({1}) {2}: last day to disallow, House {3}, Senate {4}. *Areas: {5} "
+           "(matched on {6}).*".format(r["title_id"], instrument_url(r["title_id"]),
+                                       clip(r["name"], 110), last(r["last_day_house"]),
+                                       last(r["last_day_senate"]),
+                                       names_of(visible(r["areas"]), names), source)]
+    if r["bill_id"]:
+        out.append("  - Made under the Act of [{0}]({1}).".format(r["bill_id"], bill_url(r["bill_id"])))
+    for m in _motions(r):
+        out.append("  - **Notice of a disallowance motion**: {0}, {1}, {2}{3}.".format(
+            m.get("sponsor") or "sponsor not recorded", (m.get("house") or "?").title(),
+            long_date(m["date"], weekday=False) if m.get("date") else "date not recorded",
+            ", outcome: {0}".format(m["outcome"]) if m.get("outcome") else ""))
+    return out
+
+
+def render_coming_up(conn, today, names):
+    c = coming_up(conn, today)
+    head = "## Coming up"
+    if c is None:
+        return [head, "", "*The week ahead was not collected for this edition "
+                          "(tools/au_schedule.py has not run on this store).*", ""]
+    out = [head, "",
+           "*The sitting calendar, the Notice Papers and the Daily Programs are on aph.gov.au, "
+           "which refuses our collectors, so this cannot say which bill comes up or when. What "
+           "it can see, from the Federal Register of Legislation and the Parliamentary Handbook "
+           "(read {0}):*".format(c["read"]), ""]
+    parl = c["parl"]
+    if parl is not None and parl["dissolution"]:
+        out += ["**The {0}th Parliament was dissolved on {1}** (Parliamentary Handbook): every "
+                "bill before it has lapsed.".format(PARLIAMENT, parl["dissolution"]), ""]
+    for ch in ("house", "senate"):
+        days = c["days"][ch]
+        label = "House" if ch == "house" else "Senate"
+        if days:
+            out.append("- **{0}**: next sitting {1}; days due to sit in the next {2} days: "
+                       "{3}.".format(label, long_date(days[0]), AHEAD_DAYS, day_runs(days)))
+        else:
+            out.append("- **{0}**: no sitting day ahead is visible.".format(label))
+    out += ["", "*These are the days the Register counts disallowance to: every one is a sitting "
+                "day, but a sitting day on which no instrument's clock ends is missing, and "
+                "Senate estimates are not shown.*", ""]
+    out.append("**Instruments open for disallowance on our ground: {0} of {1}.**".format(
+        len(c["ours"]), c["open"]))
+    if c["ours"]:
+        out.append("")
+        for r in c["ours"]:
+            out += instrument_line(r, names, today)
+    else:
+        out.append("*None of the instruments the Register lists as open for disallowance is "
+                   "on our ground (by name, by the Act it is made under, or by the bill that "
+                   "Act came from).*")
+    out.append("")
+    return out
+
+
+def coming_up_dm(conn, today):
+    c = coming_up(conn, today)
+    if c is None:
+        return None
+    parts = []
+    for ch, label in (("house", "House"), ("senate", "Senate")):
+        days = c["days"][ch]
+        parts.append("{0} next sits {1}".format(label, long_date(days[0], weekday=False))
+                     if days else "{0}: no sitting day visible".format(label))
+    parts.append("{0} instrument(s) on our ground open for disallowance".format(len(c["ours"])))
+    motions = sum(len(_motions(r)) for r in c["ours"])
+    if motions:
+        parts.append("{0} disallowance motion(s) on them".format(motions))
+    return "*Coming up:* " + "; ".join(parts) + " (from the Register; the APH calendar is blocked)."
+
+
 # --- rendering ---------------------------------------------------------------
 
 BILL_HEAD = ("| Bill | Areas | Stage | Why it matters, or where it stands |\n"
@@ -351,9 +506,17 @@ def render_edition(conn, today):
         if days >= 0:
             out.append("- **{0} at the latest** ({1} days): {2}. **{3} bill(s) on our ground are "
                        "before Parliament now.**".format(date, days, what, len(live)))
+    ahead = coming_up(conn, today)
+    nxt = [d[0] for d in (ahead["days"].values() if ahead else []) if d]
+    if nxt:
+        out.append("- **{0}**: Parliament next sits (the House or the Senate; see Coming up). "
+                   "The last sitting day in the store is {1}.".format(
+                       long_date(min(nxt)), last_sitting(conn) or "?"))
     out += ["- **The sitting calendar and Senate estimates** are published on aph.gov.au, which "
-            "refuses our collectors; this edition cannot count down to them. The last sitting "
+            "refuses our collectors; the sitting days in Coming up are read from the Federal "
+            "Register of Legislation's disallowance clock, not the calendar. The last sitting "
             "day in the store is {0}.".format(last_sitting(conn) or "?"), ""]
+    out += render_coming_up(conn, today, names)
 
     if week:
         out += ["## Divisions this week ({0})".format(len(week)), ""]
@@ -396,8 +559,9 @@ def render_edition(conn, today):
             "page on every request). So this edition has no bill texts, explanatory memoranda, "
             "bills digests or sponsors, no amendment sheets (committee-stage amendments read "
             "\"bill only\"), no Votes and Proceedings or Journals of the Senate, no sitting "
-            "calendar, no Senate estimates, no committee inquiries or submissions, and no "
-            "e-petitions. Divisions and bill stages come from the OpenAustralia Foundation's "
+            "calendar (the sitting days in Coming up are the Federal Register of Legislation's "
+            "disallowance clock), no Notice Papers or Daily Programs, no Senate estimates, no "
+            "committee inquiries or submissions, and no e-petitions. Divisions and bill stages come from the OpenAustralia Foundation's "
             "parse of the official Hansard; Acts from the Federal Register of Legislation.",
             "- **Not yet collected:** debates (the same Hansard files), the High Court, and the "
             "states and territories.",
@@ -431,6 +595,9 @@ def dm_summary(conn, today, path=None):
             "*[{0}]* ".format(r["triage_score"]) if r["triage_score"] is not None else "",
             r["bill_id"], clip(r["title"], 80), stage(r)[1],
             "\n   _{0}_".format(oneline(why)) if why else ""))
+    ahead = coming_up_dm(conn, today)
+    if ahead:
+        lines.append(ahead)
     lines.append("_Areas from taxonomy v{0} plus watchlist-au; bills matched on titles only "
                  "(aph.gov.au refuses our collectors)._".format(taxonomy_version()))
     if path:
