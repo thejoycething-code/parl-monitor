@@ -90,9 +90,6 @@ ARCHIVE_GRACE_DAYS = 21
 # Days re-read even when archived, in case documents are filed late.
 REREAD_DAYS = 14
 HIDDEN_AREAS = (11,)   # migration: collated, never campaigned (repo-wide rule)
-POSITIONS = {"SI:": "SI", "NO:": "NO", "ABST.": "ABST", "ABST:": "ABST",
-             "No Votado": "No Votado"}
-
 
 # --- small helpers ------------------------------------------------------------
 
@@ -227,133 +224,106 @@ def pieza_key(legislature, session, orden):
 
 # --- the vote PDF --------------------------------------------------------------------
 
-KNOWN_PARTIES = ("NUEVAS IDEAS", "ARENA", "PCN", "PDC", "VAMOS", "FMLN", "GANA",
-                 "NUESTRO TIEMPO", "CD")
-
-
 def parse_vote_pdf(raw):
     """The vote PDF as a dict, or None when no text could be read.
 
     {meeting, vote_name, started, totals: {SI, NO, ABST, No Votado},
      groups: {party: [yes, no]}, positions: [(name, party, position)]}
 
-    Two layouts, both measured on 9 October 2026 in the 2024-2027
-    legislature. From late July 2025 the export is in English ("Meeting:",
-    "Vote name:", "Individual Voting Results"), positions grouped by
-    position with the party on each line ("KALEFF BONILLA<tab>NUEVAS
-    IDEAS"). Before that it is in Spanish ("Reunión:", "Nombre de Voto:",
-    "Resultados de Votos Individuales"), positions grouped by party, then by
-    position, one name a line in mixed case ("Francisco Lira"); the first
-    page is an image of the totals and carries no text. Names are stored as
-    printed: the two layouts spell the same deputy differently."""
+    THREE LAYOUTS in the 2024-2027 legislature alone, measured on
+    9 October 2026, all from the same voting system:
+      * to mid-2025: labels in Spanish ("Reunión:", "Nombre de Voto:",
+        "Resultados de Votos Individuales"), group totals as a party line
+        followed by "SI: n" lines, positions grouped by PARTY then position,
+        one name a line in mixed case ("Francisco Lira"); the first page is
+        an image of the totals with no text;
+      * from about July 2025: Spanish labels, but group totals as one row
+        a party ("NUEVAS IDEAS<tab>54<tab>0") and positions grouped by
+        POSITION, each line "NAME<tab>PARTY" in capitals;
+      * from about 2026: the same with English labels ("Meeting:",
+        "Vote name:", "Individual Voting Results").
+    One parser reads all three: labels in either language, a party set by a
+    line that is only a party's name, a position by a header line, and a
+    name line's own party suffix winning when it has one. Names are stored
+    as printed: the layouts spell the same deputy differently."""
     pages = sv_pdf.pdf_lines(raw)
     lines = [ln for p in pages for ln in p]
     if not lines:
         return None
-    if any(ln.startswith(("Nombre de Voto", "Resultados de Votos")) for ln in lines):
-        return _parse_vote_es(lines)
-    return _parse_vote_en(lines)
-
-
-def _blank():
-    return {"meeting": None, "vote_name": None, "started": None, "totals": {},
-            "groups": {}, "positions": []}
-
-
-def _parse_vote_en(lines):
-    out = _blank()
-    i = 0
-    section = None
-    position = None
-    raw_positions = []
-    while i < len(lines):
-        ln = lines[i]
-        cells = ln.split("\t")
-        head = cells[0].strip()
-        if head == "Meeting:":
-            out["meeting"] = " ".join(cells[1:]).strip()
-        elif head == "Vote name:":
-            name_lines = [" ".join(cells[1:]).strip()]
-            j = i + 1
-            while j < len(lines) and not lines[j].startswith(("Vote subject", "Vote start")):
-                name_lines.append(lines[j].strip())
-                j += 1
-            out["vote_name"] = " ".join(n for n in name_lines if n)
-            i = j
-            continue
-        elif head == "Vote start:":
-            out["started"] = _iso_ts(" ".join(cells[1:]))
-        elif ln.startswith("Total Voting Results"):
-            section = "totals"
-        elif ln.startswith("Group Voting Results"):
-            section = "groups"
-        elif ln.startswith("Individual Voting Results"):
-            section = "individual"
-        elif section == "totals" and head in POSITIONS and len(cells) > 1 and cells[-1].strip().isdigit():
-            out["totals"][POSITIONS[head]] = int(cells[-1])
-        elif section == "groups":
-            nums = [c for c in cells[1:] if c.strip().isdigit()]
-            if head and nums and not head.endswith(":") and not head.startswith("Total"):
-                out["groups"][head] = [int(n) for n in nums]
-        elif section == "individual":
-            if ln.strip() in POSITIONS or head in POSITIONS and len(cells) == 1:
-                position = POSITIONS.get(ln.strip()) or POSITIONS[head]
-            elif position and ln.strip() not in (".", ""):
-                raw_positions.append((ln, position))
-        i += 1
-    parties = sorted(set(out["groups"]) | set(KNOWN_PARTIES), key=len, reverse=True)
-    for ln, pos in raw_positions:
-        text = re.sub(r"\s+", " ", ln.replace("\t", " ")).strip()
-        party = next((p for p in parties if text.upper().endswith(" " + p)), None)
-        name = text[:-len(party)].strip() if party else text
-        out["positions"].append((name, party, pos))
-    return out
-
-
-_ES_POSITIONS = {"SI:": "SI", "SÍ:": "SI", "NO:": "NO", "ABST.": "ABST", "ABST:": "ABST",
-                 "No se Votó": "No Votado", "No se votó": "No Votado", "No Votado": "No Votado"}
-
-
-def _parse_vote_es(lines):
-    out = _blank()
+    out = {"meeting": None, "vote_name": None, "started": None, "totals": {},
+           "groups": {}, "positions": []}
     section = None
     party = None
     position = None
-    for ln in lines:
+    i = 0
+    while i < len(lines):
+        ln = lines[i]
         cells = [c.strip() for c in ln.split("\t")]
         head = cells[0]
         rest = " ".join(cells[1:]).strip()
-        if head == "Reunión:":
+        bare = re.sub(r"\s+", " ", ln.replace("\t", " ")).strip()
+        if head in ("Meeting:", "Reunión:"):
             out["meeting"] = rest
-        elif head == "Nombre de Voto:":
-            out["vote_name"] = rest
-        elif head == "Inicio de los votos:":
+        elif head in ("Vote name:", "Nombre de Voto:"):
+            name = [rest]
+            j = i + 1
+            while j < len(lines) and not lines[j].startswith(_AFTER_NAME):
+                name.append(lines[j].strip())
+                j += 1
+            out["vote_name"] = " ".join(n for n in name if n)
+            i = j
+            continue
+        elif head in ("Vote start:", "Inicio de los votos:"):
             out["started"] = _iso_ts(rest)
-        elif ln.startswith("Resultados de Votos Totales"):
-            section = "totals"
-        elif ln.startswith("Resultados de Votos en Grupo"):
-            section, party = "groups", None
-        elif ln.startswith("Resultados de Votos Individuales"):
+        elif ln.startswith(("Total Voting Results", "Resultados de Votos Totales")):
+            section, party, position = "totals", None, None
+        elif ln.startswith(("Group Voting Results", "Resultados de Votos en Grupo")):
+            section, party, position = "groups", None, None
+        elif ln.startswith(("Individual Voting Results", "Resultados de Votos Individuales")):
             section, party, position = "individual", None, None
         elif section == "totals":
-            if head in _ES_POSITIONS and len(cells) > 1 and cells[1].isdigit():
-                out["totals"][_ES_POSITIONS[head]] = int(cells[1])
+            num = next((c for c in cells[1:] if c.isdigit()), None)
+            if head in _POS and num is not None:
+                out["totals"][_POS[head]] = int(num)
         elif section == "groups":
-            if ln.strip().upper() in KNOWN_PARTIES or (len(cells) == 1 and ln.isupper() and head not in _ES_POSITIONS):
-                party = ln.strip()
+            nums = [int(c) for c in cells[1:] if c.isdigit()]
+            if _is_party(bare) and not nums:
+                party = bare
                 out["groups"].setdefault(party, [0, 0])
-            elif party and head in ("SI:", "SÍ:", "NO:") and len(cells) > 1 and cells[1].isdigit():
-                out["groups"][party][0 if head != "NO:" else 1] = int(cells[1])
+            elif head in _POS and party and nums:
+                if _POS[head] in ("SI", "NO"):
+                    out["groups"][party][0 if _POS[head] == "SI" else 1] = nums[0]
+            elif nums and head not in _POS and not head.lower().startswith("total"):
+                out["groups"][head] = nums[:2]
         elif section == "individual":
-            if ln.strip() in out["groups"] or ln.strip().upper() in KNOWN_PARTIES:
-                party, position = ln.strip(), None
-            elif ln.strip() in _ES_POSITIONS:
-                position = _ES_POSITIONS[ln.strip()]
-            elif party and position and ln.strip() not in (".", ""):
-                out["positions"].append((re.sub(r"\s+", " ", ln.replace("\t", " ")).strip(), party, position))
+            if bare in _POS or (head in _POS and len(cells) == 1):
+                position = _POS.get(bare) or _POS[head]
+            elif _is_party(bare, out["groups"]):
+                party, position = bare, None
+            elif position and bare not in (".", ""):
+                own = next((p for p in _parties(out["groups"]) if bare.upper().endswith(" " + p)), None)
+                name = bare[:-len(own)].strip() if own else bare
+                out["positions"].append((name, own or party, position))
+        i += 1
     if "No Votado" not in out["totals"] and out["positions"]:
         out["totals"]["No Votado"] = sum(1 for p in out["positions"] if p[2] == "No Votado")
     return out
+
+
+KNOWN_PARTIES = ("NUEVAS IDEAS", "ARENA", "PCN", "PDC", "VAMOS", "FMLN", "GANA",
+                 "NUESTRO TIEMPO", "CD")
+_POS = {"SI:": "SI", "SÍ:": "SI", "NO:": "NO", "ABST.": "ABST", "ABST:": "ABST",
+        "No Votado": "No Votado", "No se Votó": "No Votado", "No se votó": "No Votado"}
+_AFTER_NAME = ("Vote subject", "Vote start", "Asunto de votos", "Inicio de los votos", "Reunión",
+               "Nombre de Agenda")
+
+
+def _parties(groups=None):
+    return sorted(set(groups or ()) | set(KNOWN_PARTIES), key=len, reverse=True)
+
+
+def _is_party(text, groups=None):
+    return text.upper() in KNOWN_PARTIES or text in (groups or {})
 
 
 def _iso_ts(text):

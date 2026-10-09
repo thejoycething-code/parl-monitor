@@ -2,7 +2,7 @@
 (tools/sv_rollcalls.py, src/sv_pdf.py). No network.
 
 Fixtures under tests/fixtures/sv/ are real responses saved on 9 October 2026.
-The four vote PDFs had their image, metadata and embedded font-program
+The five vote PDFs had their image, metadata and embedded font-program
 streams emptied to keep the repository small (345-545 KB -> 48-111 KB);
 every page content stream, font dictionary and ToUnicode map is untouched,
 and the text read from each file was checked to be identical before and
@@ -177,6 +177,18 @@ class VotePdfTests(unittest.TestCase):
         self.assertIn(("Claudia Ortiz", "VAMOS", "NO"), v["positions"])
         self.assertIn(("Francisco Lira", "ARENA", "No Votado"), v["positions"])
         self.assertEqual(sum(1 for p in v["positions"] if p[1] == "NUEVAS IDEAS" and p[2] == "SI"), 52)
+
+    def test_the_hybrid_layout_of_late_2025(self):
+        """Spanish labels, English structure: positions by position, the
+        party on each line. Routed by label alone it read nothing."""
+        v = sv.parse_vote_pdf(fixture("vote-pieza-3a-dt-2025-10-hybrid-layout.pdf"))
+        self.assertEqual(v["meeting"], "PLENARIA ORDINARIA #80")
+        self.assertEqual(v["vote_name"], "PIEZA 3A DISPENSA DE TRÁMITES")
+        self.assertEqual(v["totals"], {"SI": 57, "NO": 0, "ABST": 0, "No Votado": 3})
+        self.assertEqual(v["groups"]["NUEVAS IDEAS"], [54, 0])
+        self.assertEqual(len(v["positions"]), 60)
+        self.assertIn(("MARICELA DE GUARDADO", "NUEVAS IDEAS", "SI"), v["positions"])
+        self.assertIn(("CLAUDIA ORTIZ", "VAMOS", "No Votado"), v["positions"])
 
     def test_garbage_is_none_not_an_exception(self):
         self.assertIsNone(sv.parse_vote_pdf(b"not a pdf"))
