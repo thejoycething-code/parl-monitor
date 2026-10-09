@@ -36,6 +36,7 @@ on:
       # was written and went dark for eleven days with nobody told.
       - "Germany weekly"
       - "Canada weekly"
+      - "US weekly"
       # Canada's provincial legislatures (the eight of 3 October 2026, then
       # Nova Scotia), registered the day the workflow was written. Every province's step exits 1 on a
       # gap, so a failure here is often one legislature, named in the summary.

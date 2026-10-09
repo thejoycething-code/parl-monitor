@@ -1551,6 +1551,13 @@ TABLES = (
     "ca_committee_meetings",
     "ca_testimony",
     "ca_senate_sittings",
+    # United States Congress (tools/us_rollcalls.py), created by
+    # src/us_store.ensure_schema -- declared from day one.
+    "us_members",
+    "us_bills",
+    "us_cosponsors",
+    "us_divisions",
+    "us_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1823,4 +1830,6 @@ def init_db(conn):
     ca_store.ensure_schema(conn)
     from src import prov_store
     prov_store.ensure_schema(conn)
+    from src import us_store
+    us_store.ensure_schema(conn)
     return conn

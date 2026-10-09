@@ -654,13 +654,15 @@ class CollectTests(unittest.TestCase):
         self.assertEqual((stats["records_read"], stats["divisions"], stats["tally_gaps"]), (2, 1, 0))
         row = conn.execute("SELECT division_key, bill_key, stage, yeas, nays, positions_ok, areas, result "
                            "FROM prov_divisions WHERE kind='recorded'").fetchone()
+        # Area 5 since taxonomy v1.17 (9 October 2026): "gender ideology" is a
+        # tier 1 term (American vocabulary), filed under sex-based rights.
         self.assertEqual(tuple(row), ("bc-43-2-2026-02-19-119.1",
                                       "bc-43-2/x-gender-ideology-and-child-protection-act", "First Reading",
-                                      38, 49, 1, "[3, 6]", "Motion negatived on the following division"))
+                                      38, 49, 1, "[3, 5, 6]", "Motion negatived on the following division"))
         bill = conn.execute("SELECT number, title_en, sponsor, latest_stage, areas FROM prov_bills "
                             "WHERE bill_key='bc-43-2/x-gender-ideology-and-child-protection-act'").fetchone()
         self.assertEqual(tuple(bill), (None, "Gender Ideology and Child Protection Act", "Tara Armstrong",
-                                       "First Reading refused", "[3, 6]"))
+                                       "First Reading refused", "[3, 5, 6]"))
         rustad = conn.execute("SELECT v.position, v.party_at_vote FROM prov_votes v JOIN prov_members m "
                               "ON m.prov='bc' AND m.member_key=v.member_key WHERE m.surname='Rustad'").fetchone()
         # Party at the vote: that sitting's own list of members, not the API's

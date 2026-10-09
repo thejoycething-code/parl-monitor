@@ -75,7 +75,8 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.15 (the same day): "gender expression", and Quebec's laicity terms.
         # v1.16 (2 October 2026): "right to withdraw" guarded, and the
         # [without:] veto for organ-donor leave in labour codes.
-        self.assertEqual(version, "1.16")
+        # v1.17 (9 October 2026): American vocabulary, merged into the areas.
+        self.assertEqual(version, "1.17")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
@@ -674,3 +675,4 @@ class GenderExpressionEverywhereTests(unittest.TestCase):
 
     def test_quebec_laicity_in_english(self):
         self.assertIn(8, self._areas("taxonomy.yaml", "An Act respecting the laicity of the State"))
+
