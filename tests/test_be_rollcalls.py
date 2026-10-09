@@ -329,6 +329,14 @@ class StoreTests(unittest.TestCase):
         self.assertIn("EUTHANASIE", json.loads(eurovoc))
         self.assertEqual(status, "PENDANT CHAMBRE")
 
+    def test_a_server_that_starts_refusing_ends_the_drain(self):
+        conn = store()
+        self._run(conn)
+        client = FakeClient(fail=("flwbn.cfm",))
+        read, g, left = ber.pull_dossiers(conn, client, TODAY, cap=50, log=lambda *_: None)
+        self.assertEqual((read, g), (0, ber.DOSSIER_BREAKER))
+        self.assertEqual(len([u for u in client.calls if "flwbn.cfm" in u]), ber.DOSSIER_BREAKER)
+
     def test_reclassify_is_stable_and_offline(self):
         conn = store()
         self._run(conn)

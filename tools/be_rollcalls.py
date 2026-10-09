@@ -81,7 +81,15 @@ RECENT = (HOST + "/kvvcr/showpage.cfm?section=/flwb/recent&language=fr&cfm=/site
           "LastDocument.cfm")
 BUDGET_S = 2700.0
 REREAD_LAST = 3        # the newest sittings are read again each run: the record is corrected
-DOSSIER_CAP = 150      # dossier pages per run, at five seconds each: 12.5 minutes
+# Dossier pages per run, at five seconds each: about nine minutes. MEASURED
+# 9 October 2026: after about 520 requests in 46 minutes (143 sittings, the
+# index and 272 dossier pages) the server began resetting connections. A
+# weekly run stays far below that; the first run reads the 143 sittings,
+# the index and this many pages, about 285 requests.
+DOSSIER_CAP = 100
+# Consecutive refused dossier pages that end the drain for this run: a
+# server that has started resetting connections is asking us to stop.
+DOSSIER_BREAKER = 3
 GAPS_EXIT = 3          # stored what it could, recorded gaps: jobs/be-weekly.sh publishes
 
 MONTHS_FR = {"janvier": 1, "février": 2, "fevrier": 2, "mars": 3, "avril": 4, "mai": 5,
@@ -594,8 +602,11 @@ def pull_dossiers(conn, client, today, legislature=CURRENT_LEGISLATURE, budget=N
         log("  [gap] recent documents listing")
         recent = []
     queue = dossier_queue(conn, legislature, recent)
-    read = gaps = 0
+    read = gaps = refused = 0
     for number in queue:
+        if refused >= DOSSIER_BREAKER:
+            log("  {0} dossier pages refused in a row; the drain stops for this run".format(refused))
+            break
         if read >= cap or (budget and budget.exhausted()):
             if budget and budget.exhausted():
                 log(budget.disclose("dossier page(s)", read))
@@ -605,9 +616,11 @@ def pull_dossiers(conn, client, today, legislature=CURRENT_LEGISLATURE, budget=N
                                    "dossier-{0}-{1}".format(legislature, number))
         except FetchError as exc:
             gaps += 1
+            refused += 1
             _gap(conn, today, "dossier {0}/{1}: {2}".format(legislature, number, exc))
             log("  [gap] dossier {0}/{1}".format(legislature, number))
             continue
+        refused = 0
         d = parse_dossier(decode(raw))
         read += 1
         if not d["title_fr"]:
