@@ -207,6 +207,39 @@ abortions", "drag show*" and "drag performance*", "restroom access" and
 minors" guarded by library or school. Not candidates: "SAFE Act" (13 of 14
 are other acts), "drag" alone (20 of 23 are drag racing), "bathroom" alone.
 
+**Done at taxonomy v1.20** (Christopher, 9 October 2026: "Add the state
+keyword and other candidates to the taxonomy"). Measured against v1.19 over
+all 66 current sessions read whole from the bulk files (215,543 bills; the
+watchlist applied, so a bill already keyed does not count): 117 state bills
+gain an area, 91 of them newly on our ground. Adopted: "women's bill of
+rights", "sex-based classification*", "human biological sex*" (tier 1, area
+5); "Riley Gaines", "girls sports", "female athletic*", and "restroom access"
+and "multiple-occupancy" guarded by sex company (tier 2, area 5); "Given Name
+Act" (tier 1) and "given name*" guarded by school, student, pupil or pronoun
+(tier 2, area 6); "End of Life Options" and "End-of-Life Option* Act" (tier 1,
+area 2); "born alive infant*", "reproductive freedom" and "legally protected
+health care" (tier 1, area 1), and "shield law*" vetoed by press company (tier
+2); "abortions" (tier 1), which covers "chemical abortions" and was the larger
+find (the plural never matched); "gender transition*" guarded by minors
+company (tier 1) and bare (tier 2), and "help not harm" (tier 1, area 3);
+"drag show*", "drag performance*" and "harmful to minors" bare (tier 2, area
+6). The library guard on "harmful to minors" caught 6 bills against 29 bare,
+and the rest are age verification for adult sites and library materials, so
+the term is bare and tier 2. By term, bills gaining: harmful to minors 29,
+gender transition 17, abortions 16, reproductive freedom 9, online safety 8,
+drag 8, trafficking in persons 5, blasphemy 5, Equality Act 4 (Hawaii's
+resolutions), End of Life Options 3, Riley Gaines 3, legally protected health
+care 3, born alive infant 2, restroom access 2, multiple-occupancy 2, women's
+bill of rights 1, shield law 1. Terms that today catch only watchlisted bills
+(sex-based classification, human biological sex, Given Name Act, help not
+harm) were kept because a key is one session's bill and the names come back
+in the next. The 46 watchlist entries stay. Still not terms: "SAFE Act", bare
+"drag", "bathroom", bare "born alive" (two Rhode Island criminal-code bills),
+and bare "gender identity" (232 state bills would gain area 5, nearly all
+anti-discrimination boilerplate). Stored bills are re-derived by
+`--reclassify`, which narrows only; a session's bills the old net missed are
+picked up by `--full` (a bulk re-read), see Gotchas.
+
 ## Sessions in October 2026
 
 By Open States' dates, seven legislatures have a session open on 9 October:
@@ -320,10 +353,8 @@ empty tables until the first run.
 2. **The tier.** Default (250 a day) works with the bulk fallback. Bronze
    (1,000 a day) would let the sitting-season weeks run by API alone; it is
    a request to Open States, not a purchase we can make from here.
-3. **Taxonomy terms** for the state names above (women's bill of rights,
-   end-of-life options, born alive infant, Riley Gaines, gender transition
-   for minors, reproductive freedom, legally protected health care, drag
-   shows, given name). Until then the 46 watchlist entries stand in.
+3. ~~Taxonomy terms~~ for the state names above: adopted at v1.20
+   (9 October 2026), above. The 46 watchlist entries stay.
 4. **Noise in area 6 and 12** from "foster care", "child protection" and
    "human trafficking" in state subject indexes: guard them for the states,
    or leave them to the judge?

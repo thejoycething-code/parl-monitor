@@ -150,6 +150,32 @@ area, all on our ground (H.R. 1015, H.R. 5592, H.R. 10127 area 3; H.R. 4138
 area 5); no UK, devolved, EU, Canadian, Federal Register or Supreme Court
 row gains.
 
+**Taxonomy v1.20** (Christopher, 9 October 2026: "Add the state keyword and
+other candidates to the taxonomy"; the state, Irish and Australian
+candidates, and the misses above not yet added). Measured against v1.19:
+18 US bills gain an area (13 newly on our ground), 4 Federal Register
+documents and 3 Supreme Court grants; no roll call changes. From this
+document: "trafficking in persons" (area 12, tier 2, with the "human
+trafficking" border vetoes) now catches the Trafficking in Persons
+determination and four bills (SAVE Girls Act, S. 48; Orphanage Trafficking
+Prevention, H.R. 4732; No Escaping Justice, H.R. 7857; Countering Russian
+Trafficking, H.R. 9450), at the cost of two Standards of Conduct rules for
+the judge to drop; "Faith Office" (area 8, tier 2) the White House Faith
+Office order; "Equality Act" guarded by sexual-orientation or gender-identity
+company and vetoed by "Equality Act 2010" (area 5, tier 2), which adds the
+Veterans Healthcare Equality Act (H.R. 5635) and four Hawaii resolutions
+while H.R. 15 and S. 1503 keep their watchlist keys. From the other lists,
+in Congress: "abortions" (the plural never matched: the Protecting Life in
+Health Savings Accounts Acts, the Defense of Conscience in Health Care Act,
+the Preventing Forced Abortions Act), "gender transition*" (the Empower
+Parents to Protect their Kids Acts, the Right to Treat Act, the Protecting
+Our Kids from Harmful Research Act; Mahmoud, Chiles and International
+Partners v. Ferguson), "Riley Gaines" (the Riley Gaines Act, H.R. 7368),
+"shield law*" (the D.C. Shield Law Repeal Act, H.R. 6372 and S. 3327) and
+"online safety". Still not terms: DEI, antisemitism (scope decisions), and
+"Fostering the Future" ("foster care" stays the term). Stored rows pick it
+up only when the US weekly runs with `US_RECLASSIFY=true`.
+
 ## Executive actions and the Supreme Court: built, 9 October 2026
 
 Both run in the US weekly (`jobs/us-weekly.sh`) after the roll calls and

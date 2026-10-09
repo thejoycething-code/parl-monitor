@@ -221,6 +221,35 @@ names for things the taxonomy knows:
 | parental choice | 6 | 2 | "Parental Choice in Education", a Dáil motion, missed |
 | Coimisiún na Meán | 7 | 2 | The online safety regulator, named in Irish in English texts |
 
+**Adopted at taxonomy v1.20** (Christopher, 9 October 2026: "Add the state
+keyword and other candidates to the taxonomy"), each measured against v1.19
+on the stored Irish bills and divisions and on every other stored corpus
+(docs/keyword-taxonomy.md has the per-term counts). In Ireland 4 bills and 6
+divisions gain an area, all of them newly on our ground: the Ban on Sex for
+Rent Bill 2022; the Broadcasting (Amendment) Bill 2026 and the Broadcasting
+(All Ireland Service) (Amendment) Bill 2025 (on "Coimisiún na Meán", tier 2,
+so the judge weighs them), the Seanad's two Online Safety motion divisions,
+and the Dáil's two Parental Choice in Education divisions.
+
+- **As proposed:** "dying with dignity" (area 2, tier 1), "online safety"
+  (7, tier 2), "age-assurance" (7, tier 1), "aggravated by hatred" (7, tier
+  2; no row today), "assisted human reproduction" (10, tier 1), "sex for
+  rent" (12, tier 1), "Coimisiún na Meán" (7, tier 2).
+- **Narrowed:** "blasphem\*" joined area 8 at **tier 1** (blasphemy laws are
+  religious-freedom ground: 28 Westminster ledger rows and 5 Holyrood items
+  gain area 8, all of them Pakistan, Egypt, Asia Bibi and the like); "human
+  tissue" is guarded by transplant, donation, donor, post-mortem or
+  authorisation company (bare, it took two Florida HIV bills); "parental
+  choice" is adopted only as "parental choice in education" (bare, it took
+  Idaho's Parental Choice Tax Credit, early-learning rates and a nappy
+  motion).
+- **Rejected:** "protected characteristic\*" (Senedd standards and transport
+  questions, California employment bills: the phrase is the Equality Act's
+  everyday vocabulary, and area 5 already carries the singular at tier 2).
+- Stored rows pick it up only when the Irish weekly runs with
+  `IE_RECLASSIFY=true` (`tools/ie_rollcalls.py --reclassify`); the watchlist
+  (`config/watchlist-ie.yaml`) is unchanged.
+
 ### What it caught that it should not have
 
 - **The Minister for Justice, Home Affairs and Migration.** The department's
@@ -503,8 +532,8 @@ on the Mini (docs/mac-mini.md).
 
 1. ~~The assumed decisions~~: confirmed 9 October 2026. **The judge**:
    may `IE_JUDGE` be set to `on`? The backlog is about $0.10.
-2. **The proposed Irish vocabulary** (table above): which terms join the
-   shared list?
+2. ~~The proposed Irish vocabulary~~: adopted at taxonomy v1.20, narrowed
+   or rejected term by term (above).
 3. **The watchlist** (`config/watchlist-ie.yaml`, 8 bills): especially the
    free-speech entries (SLAPP, Media Regulation, the intimate-image bills).
    Are they our ground?
