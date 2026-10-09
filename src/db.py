@@ -1566,6 +1566,13 @@ TABLES = (
     "au_divisions",
     "au_votes",
     "au_hansard_files",
+    # Australia's week ahead (tools/au_schedule.py, 9 October 2026), same module.
+    "au_instruments",
+    "au_sitting_days",
+    "au_parliaments",
+    # Australian debates (tools/au_debates.py, 9 October 2026), same module.
+    "au_speeches",
+    "au_debate_days",
     # The week ahead (tools/us_schedule.py, 9 October 2026).
     "us_schedule",
     "us_meetings",
@@ -1599,6 +1606,12 @@ TABLES = (
     "ie_bill_debates",
     "ie_divisions",
     "ie_votes",
+    # Ireland phase 2 (tools/ie_questions.py, ie_debates.py, ie_schedule.py).
+    "ie_questions",
+    "ie_speeches",
+    "ie_windows",
+    "ie_schedule",
+    "ie_schedule_days",
     # Austria's Parliament (tools/at_rollcalls.py), created by
     # src/at_store.ensure_schema -- declared from day one.
     "at_members",

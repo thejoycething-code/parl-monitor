@@ -102,10 +102,10 @@ inheriting.
 **The rule** (documented once, in `tools/us_rollcalls.py`; the en bloc
 test is `us_store.has_own_purpose`, shared with the edition): `own_areas`
 is always what the vote's own text matched, now including the amendment
-text. A House vote whose amendment text is a real purpose takes `own_areas`
-**alone**; every other vote (passage, recommit, rules, en bloc, Senate
-votes, an amendment no source has explained yet) still adds its bill's
-areas. The edition prints the purpose
+text. A vote, House or Senate (Senate since 9 October 2026, below), whose
+amendment text is a real purpose takes `own_areas` **alone**; every other
+vote (passage, recommit, rules, cloture on a bill, en bloc, a substitute,
+an amendment no source has explained yet) still adds its bill's areas. The edition prints the purpose
 under the vote and says "matched on amendment purpose".
 
 **Measured on the 119th Congress, BILLSTATUS alone, no key** (676 House
@@ -523,12 +523,70 @@ shutdown-CR cloture vote taken again and again, which the edition must
 fold. Unlike the House, a Senate amendment vote carries the amendment's
 **purpose** ("To prohibit the use of funds..."), and the vote file carries
 the bill's long title, so Senate votes classify on their own text before
-the bill lends anything.
+the bill lends anything; an amendment vote stands on its purpose alone, as
+a House one does (next section).
 
 Positions are keyed on LIS IDs and mapped to Bioguide: sitting senators from
 the crosswalk (all 100 carry one), former senators from the historical
 crosswalk, fetched only when an unknown ID appears. An ID nobody knows is
 dropped and recorded as a gap, never stored under a guess.
+
+### Senate amendment purposes: the House rule, both chambers (9 October 2026)
+
+A Senate amendment vote names its amendment's purpose in the vote file
+itself (`<amendment_purpose>`, repeated as the vote's document text), so it
+needs no second source: `parse_senate_vote` stores it in the same fields as
+the House (`amendment_text`, `amendment_key` '119/samdt/4236',
+`purpose_source` **'senate-vote'**), which the edition, the judge and the
+5CA readings already read. The vote on the amendment, a motion to table it,
+to waive the Budget Act against it, cloture on it and a point of order on
+it all carry the amendment's purpose and stand on it. `--reclassify` fills
+the rows stored before this from their stored description (title |
+purpose | purpose); a description that is not that shape gives no text.
+
+Still inheriting, in both chambers (`us_store.has_own_purpose`): an en
+bloc or multi-amendment vote ("Amdts. Nos."), and a purpose that names no
+subject: **"In the nature of a substitute."** (the whole bill, rewritten:
+the One Big Beautiful Bill's, every appropriations substitute), the
+Senate's tree-filling placeholder **"To improve the bill."** and a bare
+**"To strike section 2019."** No House row carries one of these, so no
+House vote changes. Cloture on a bill (the shutdown CR's thirteen cloture
+votes on H.R. 5371, the seven on H.R. 7147) has no amendment and inherits
+as before; folding the repeats is the edition's job.
+
+**Measured on a scratch copy of the store** (the 915 stored Senate votes of
+the 119th, reclassified at taxonomy v1.20 before and after; no fetch):
+
+- **171 Senate amendment votes; 170 carry a purpose** (one waiver vote has
+  "No Statement of Purpose on File."); **148 now stand on it**, 22 are
+  substitutes or placeholders and keep inheriting.
+- **Senate votes on our ground: 188 before, 112 after.** All 76 that left
+  were amendment votes that had only inherited: S. 2, the Secure America Act (22), H.R. 1 (19),
+  S. 2296, the NDAA FY2026 (9), H.R. 4, the rescissions package (8),
+  H.R. 3944 (7), H.R. 7148 (6), H.R. 1968 (4), H.R. 5371 (1).
+- **Areas that stop being inherited** (vote-area pairs): parental rights
+  and education 61, abortion 54, sex-based rights 19, civil liberties 16,
+  assisted dying 5, surrogacy 1. Two amendment votes keep an area on their
+  own purpose: Duckworth's IVF reserve fund (S.Con.Res. 7, surrogacy and
+  embryology) and the reserve fund extending the ban on Medicaid payments
+  to abortion providers (S.Con.Res. 33, abortion). House roll calls
+  unchanged (84).
+
+**Real votes that drop out because the taxonomy misses the Senate's
+wording** (listed, the taxonomy not edited; Christopher's call):
+
+- Senate 2025 vote 356 (H.R. 1): "a deduction for expenses of **home
+  educators**" (parental rights and education).
+- Senate 2025 vote 358 (H.R. 1): "eliminate a program of qualified
+  elementary and secondary education **scholarships for public, private,
+  or religious schools**" (parental rights and education; school choice).
+- Senate 2025 vote 402 (H.R. 4): "strike the rescission of funds
+  appropriated for Global Health programs, including **family planning and
+  reproductive health**" (abortion: the overseas family planning money).
+- Borderline, for a reading: 2025 vote 512 (S. 2296), the Epstein
+  documents (trafficking?), and 2026 vote 148 (S. 2), limits on
+  contributions to Super PACs (free speech?). The two voter-ID votes
+  (2026 votes 144 and 151) and the migration-only votes are not ours.
 
 ### (Superseded) Senate roll calls: blocked from the laptop
 

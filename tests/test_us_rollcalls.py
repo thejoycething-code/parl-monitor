@@ -4,6 +4,7 @@ import importlib.util
 import io
 import json
 import os
+import re
 import sqlite3
 import sys
 import unittest
@@ -625,3 +626,97 @@ class AmendmentTests(unittest.TestCase):
                             "2026-10-09", "KEY", tax=TAX, wl=WL, log=lambda *a: None)
         usr.reclassify(self.conn, TAX, log=lambda *a: None)
         self.assertEqual(json.loads(self.row()[3]), [])
+
+
+def senate_amendment_vote(number="4236", purpose="To strike all earmarks.",
+                          title="Motion to Table Lee Amdt. No. 4236",
+                          question="On the Motion to Table"):
+    """The Born-Alive cloture file, rewritten as an amendment vote the way
+    senate.gov prints one: the purpose in <amendment> and again as the
+    vote's document text (the stored 119th shows it on all 170)."""
+    raw = fixture("vote_119_1_00011.xml").decode("utf-8")
+    raw = re.sub(r"<amendment>.*?</amendment>",
+                 "<amendment><amendment_number>S.Amdt. {0}</amendment_number>"
+                 "<amendment_to_document_number>S. 6</amendment_to_document_number>"
+                 "<amendment_purpose>{1}</amendment_purpose></amendment>".format(number, purpose),
+                 raw, flags=re.S)
+    raw = re.sub(r"<vote_document_text>.*?</vote_document_text>",
+                 "<vote_document_text>{0}</vote_document_text>".format(purpose), raw, flags=re.S)
+    raw = re.sub(r"<vote_title>.*?</vote_title>", "<vote_title>{0}</vote_title>".format(title), raw)
+    raw = re.sub(r"<question>.*?</question>", "<question>{0}</question>".format(question), raw)
+    return raw.encode("utf-8")
+
+
+class SenatePurposeTests(unittest.TestCase):
+    """Senate parity (9 October 2026): a Senate amendment vote stands on the
+    amendment's own purpose, as a House one does."""
+
+    def setUp(self):
+        self.conn = store()
+        b = usr.parse_billstatus(bill_xml(btype="S", number=6, title="Appropriations Act",
+                                          summary="Continues the Hyde Amendment."))
+        usr.store_bill(self.conn, b, usr.classify_bill(TAX, WL, b), "2026-10-09")
+        self.bill_areas = usr._bill_areas(self.conn, "119/s/6")
+        self.assertIn(1, self.bill_areas)
+
+    def test_the_purpose_is_stored_in_the_house_fields(self):
+        d = usr.parse_senate_vote(senate_amendment_vote())
+        self.assertEqual((d["amendment_num"], d["amendment_text"], d["amendment_key"],
+                          d["purpose_source"]),
+                         ("S.Amdt. 4236", "To strike all earmarks.", "119/samdt/4236",
+                          "senate-vote"))
+        d["positions"] = []  # resolve_senators' job; not this test's
+        usr.store_division(self.conn, d, TAX, WL, "2026-10-09")
+        row = self.conn.execute("SELECT amendment_key, amendment_text, purpose_source, "
+                                "amendment_checked, areas FROM us_divisions").fetchone()
+        self.assertEqual(tuple(row), ("119/samdt/4236", "To strike all earmarks.", "senate-vote",
+                                      "2026-10-09", "[]"))
+
+    def test_a_vote_with_no_purpose_or_no_amendment_has_no_text(self):
+        self.assertIsNone(usr.parse_senate_vote(fixture("vote_119_1_00011.xml"))["amendment_text"])
+        d = usr.parse_senate_vote(senate_amendment_vote(purpose=usr.NO_PURPOSE))
+        self.assertIsNone(d["amendment_text"])
+        self.assertIsNone(d["purpose_source"])
+
+    def test_an_unrelated_amendment_stops_borrowing_and_a_relevant_one_is_ours(self):
+        """A motion to table carries the amendment's purpose and stands on it."""
+        off = usr.parse_senate_vote(senate_amendment_vote(
+            purpose="To eliminate funding for the United States African Development Foundation."))
+        self.assertEqual(usr.classify_division(TAX, WL, off, self.bill_areas)[1], [])
+        on = usr.parse_senate_vote(senate_amendment_vote(
+            purpose="To prohibit the use of funds for abortion.", question="On the Amendment"))
+        self.assertEqual(usr.classify_division(TAX, WL, on, self.bill_areas)[1], [1])
+
+    def test_a_substitute_a_placeholder_and_an_en_bloc_vote_still_inherit(self):
+        for purpose in ("In the nature of a substitute.", "To improve the bill.",
+                        "To strike section 2019.", "Amdts. Nos. 2310 and 2311, en bloc."):
+            d = usr.parse_senate_vote(senate_amendment_vote(purpose=purpose))
+            self.assertIn(1, usr.classify_division(TAX, WL, d, self.bill_areas)[1], purpose)
+
+    def test_cloture_on_a_bill_still_inherits(self):
+        d = usr.parse_senate_vote(fixture("vote_119_1_00648.xml"))
+        self.assertEqual(usr.classify_division(TAX, WL, d, [1])[1], [1])
+
+    def test_reclassify_backfills_rows_stored_before_parity(self):
+        d = usr.parse_senate_vote(senate_amendment_vote())
+        d["positions"] = []  # resolve_senators' job; not this test's
+        usr.store_division(self.conn, d, TAX, WL, "2026-10-09")
+        # As the store held it before: no text, and the bill's areas borrowed.
+        self.conn.execute("UPDATE us_divisions SET amendment_key=NULL, amendment_text=NULL, "
+                          "purpose_source=NULL, amendment_checked=NULL, areas='[1]'")
+        usr.reclassify(self.conn, TAX, log=lambda *a: None)
+        row = self.conn.execute("SELECT amendment_key, amendment_text, purpose_source, areas "
+                                "FROM us_divisions").fetchone()
+        self.assertEqual(tuple(row), ("119/samdt/4236", "To strike all earmarks.",
+                                      "senate-vote", "[]"))
+
+    def test_the_stored_purpose_is_read_only_when_it_is_unambiguous(self):
+        self.assertEqual(usr.senate_purpose("T | To x. | To x.", "S.Amdt. 1"), "To x.")
+        self.assertIsNone(usr.senate_purpose("T | No Statement of Purpose on File.", "S.Amdt. 1"))
+        self.assertIsNone(usr.senate_purpose("T | A bill to x.", "S.Amdt. 1"))
+        self.assertIsNone(usr.senate_purpose("T | To x. | To x.", None))
+
+    def test_the_rule_no_longer_asks_the_chamber(self):
+        for chamber in ("house", "senate", None):
+            self.assertTrue(us_store.has_own_purpose("To strike all earmarks.", chamber))
+            self.assertFalse(us_store.has_own_purpose("In the nature of a substitute.", chamber))
