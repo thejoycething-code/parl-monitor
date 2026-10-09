@@ -20,6 +20,7 @@ import importlib.util
 import json
 import os
 import sys
+import sqlite3
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -361,6 +362,24 @@ class JobTests(unittest.TestCase):
         plist = self.read("ops", "launchd", "net.citizengo.parlmonitor.nl-weekly.plist")
         self.assertIn("<string>nl-weekly</string>", plist)
         self.assertIn("tools/mini_run.sh", plist)
+
+
+class DerivedPositionsTests(unittest.TestCase):
+    """X5 (Chris, 10 October 2026): a show of hands gives each member their
+    fractie's position, labelled derived; a roll call is a fact."""
+
+    def test_show_of_hands_is_derived_roll_call_is_not(self):
+        conn = sqlite3.connect(":memory:")
+        nl_store.ensure_schema(conn)
+        conn.execute("INSERT INTO nl_members (persoon_id, name, fractie) VALUES ('p1', 'A', 'VVD'), ('p2', 'B', 'VVD')")
+        conn.execute("INSERT INTO nl_votes (stemming_id, besluit_id, kind, fractie, actor, position) "
+                     "VALUES ('s1', 'b1', 'fractie', 'VVD', 'VVD', 'Voor')")
+        conn.execute("INSERT INTO nl_votes (stemming_id, besluit_id, kind, fractie, persoon_id, actor, position) "
+                     "VALUES ('s2', 'b2', 'lid', 'VVD', 'p1', 'A', 'Tegen')")
+        a = nl_store.derived_member_positions(conn, "b1")
+        self.assertEqual(sorted((r["member_id"], r["derived"]) for r in a), [("p1", True), ("p2", True)])
+        b = nl_store.derived_member_positions(conn, "b2")
+        self.assertEqual([(r["member_id"], r["position"], r["derived"]) for r in b], [("p1", "Tegen", False)])
 
 
 if __name__ == "__main__":

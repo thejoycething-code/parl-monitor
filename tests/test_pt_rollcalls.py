@@ -277,5 +277,23 @@ class GapTests(unittest.TestCase):
             ptr.fetch_dataset(Client(), "members", "XVII")
 
 
+class DerivedPositionsTests(unittest.TestCase):
+    """X5 (Chris, 10 October 2026): named deputies are facts, the rest of a
+    whole-group row is derived and labelled so; counted blocks are never spread."""
+
+    def test_named_breakaway_is_fact_and_the_group_is_derived(self):
+        conn = sqlite3.connect(":memory:")
+        pt_store.ensure_schema(conn)
+        conn.execute("INSERT INTO pt_members (cad_id, name, party, situation) VALUES "
+                     "(1, 'Ana', 'PS', 'Efetivo'), (2, 'Rui', 'PS', 'Efetivo'), (3, 'Eva', 'PSD', 'Efetivo')")
+        conn.execute("INSERT INTO pt_group_votes VALUES ('v', 'PS', 'Abstencao', NULL), "
+                     "('v', 'PS', 'A Favor', 1), ('v', 'PSD', 'Contra', 60)")
+        conn.execute("INSERT INTO pt_votes VALUES ('v', 'Ana', 'PS', 'A Favor', 1)")
+        rows = {r["member_id"]: r for r in pt_store.derived_member_positions(conn, "v")}
+        self.assertEqual((rows[1]["position"], rows[1]["derived"]), ("A Favor", False))
+        self.assertEqual((rows[2]["position"], rows[2]["derived"]), ("Abstencao", True))
+        self.assertNotIn(3, rows)          # a counted block is not spread
+
+
 if __name__ == "__main__":
     unittest.main()

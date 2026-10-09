@@ -347,5 +347,28 @@ class Schema(unittest.TestCase):
         at_store.ensure_schema(conn)
 
 
+class DerivedPositionsTests(unittest.TestCase):
+    """X5 (Chris, 10 October 2026): member records derived from the Klub,
+    labelled as derived, never stored."""
+
+    def test_members_take_their_klubs_position_labelled_derived(self):
+        conn = sqlite3.connect(":memory:")
+        at_store.ensure_schema(conn)
+        conn.execute("INSERT INTO at_divisions (division_key, item_key, body) VALUES ('d', 'i', 'NR')")
+        conn.execute("INSERT INTO at_votes VALUES ('d', 'ÖVP', 'Dafür'), ('d', 'SPÖ', 'Dagegen')")
+        conn.execute("INSERT INTO at_members (pad, name, chamber, klub) VALUES "
+                     "('1', 'A', 'NR', 'ÖVP'), ('2', 'B', 'BR', 'ÖVP'), ('3', 'C', 'NR', 'SPÖ')")
+        rows = at_store.derived_member_positions(conn, "d")
+        self.assertEqual({(r["member_id"], r["position"]) for r in rows}, {("1", "Dafür"), ("3", "Dagegen")})
+        self.assertTrue(all(r["derived"] for r in rows))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM at_votes").fetchone()[0], 2)
+
+    def test_a_committee_vote_derives_nothing(self):
+        conn = sqlite3.connect(":memory:")
+        at_store.ensure_schema(conn)
+        conn.execute("INSERT INTO at_divisions (division_key, item_key, body) VALUES ('d', 'i', 'Justizausschuss')")
+        self.assertEqual(at_store.derived_member_positions(conn, "d"), [])
+
+
 if __name__ == "__main__":
     unittest.main()
