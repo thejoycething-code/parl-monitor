@@ -1,0 +1,4 @@
+# Round 1: can a GitHub runner reach the Asamblea at all? Home, SIL, open data.
+--max 25 --show-links 120 --follow 'Consultas_SIL|datosabiertos|Votaci|Expediente|Proyecto' 'https://www.asamblea.go.cr/' 'https://www.asamblea.go.cr/Centro_de_informacion/Consultas_SIL/SitePages/SIL.aspx' 'https://www.asamblea.go.cr/Centro_de_informacion/Consultas_SIL/SitePages/ConsultaProyectos.aspx'
+--max 15 --show-links 120 --follow 'dataset|api|datos|csv|json' 'https://datosabiertos.asamblea.go.cr/' 'http://datosabiertos.asamblea.go.cr/'
+--max 4 --show-links 60 'http://www.asamblea.go.cr/' 'https://www.asamblea.go.cr/_layouts/15/listfeed.aspx?List=4294af46%2D2e41%2D480c%2D8a67%2D42cb4bd69605' 'https://sil.asamblea.go.cr/' 'https://www.asamblea.go.cr/glcp/SitePages/Inicio.aspx'
