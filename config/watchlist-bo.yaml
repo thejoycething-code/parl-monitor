@@ -1,0 +1,35 @@
+# Bolivia watchlist (tools/bo_rollcalls.py). Keyed by the canonical bill key
+# (src/bo_store.py: 'PL <n>/<year>-<year> CD|CS', 'LEY <n>'), NEVER by title.
+# A watched bill gains these areas on top of whatever the taxonomy finds, and
+# its row says "watch:<key>" in matched_terms.
+#
+# DRAFT, 9 October 2026: the bills the measurement in docs/bolivia-scope.md
+# found on our ground in the current legislative year, so they are visible
+# before taxonomy-es exists (the English taxonomy matches none of them).
+# Chris confirms or prunes. Areas are the taxonomy's numbers
+# (1 abortion ... 13 organ donation).
+bills:
+  "PL 691/2025-2026 CD":
+    areas: [2]
+    why: "Ley de cuidados paliativos, muerte digna y eutanasia; in committee (Constitucion), filed 19 Aug 2026"
+  "PL 790/2025-2026 CD":
+    areas: [13]
+    why: "Donation and transplant of organs, tissues and cells"
+  "PL 788/2025-2026 CD":
+    areas: [9]
+    why: "Amends Ley 603, Codigo de las Familias y del Proceso Familiar (arts 210, 440)"
+  "PL 158/2025-2026 CS":
+    areas: [9]
+    why: "Senado bill amending the Codigo de las Familias"
+  "PL 126/2025-2026 CS":
+    areas: [9]
+    why: "Senado bill amending Ley 603, Codigo de las Familias"
+  "PL 238/2025-2026 CS":
+    areas: [7, 8]
+    why: "Libertad de conciencia, neutralidad evaluativa y prevencion del acoso politico en la educacion superior"
+  "PL 603/2025-2026 CD":
+    areas: [7]
+    why: "Reconciliacion nacional, igualdad real y proteccion contra la discriminacion y el acoso en redes sociales (speech)"
+  "PL 415/2025-2026 CD":
+    areas: [6]
+    why: "Amends Ley 070 (Avelino Sinani-Elizardo Perez education law), arts 55, 61, 63"
