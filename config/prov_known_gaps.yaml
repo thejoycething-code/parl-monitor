@@ -48,6 +48,26 @@ nb:
       (November 2016); 56-4 to 58-2 list none ("available upon request through
       the Legislative Library"), so those sessions' votes carry no party at
       the vote. One gap per session.
+  # 58-4's Hansard listing (legnb.ca/en/house-business/hansard/58/4) links two
+  # PDFs for the whole session, "03 2017-10-26b.pdf" and "30 2018-02-01b.pdf"
+  # (fetched from the Mac Mini, 9 October 2026). The days with a recorded
+  # division between them have no Hansard, so no party at the vote.
+  - contains: "nb 2018-02-08: no Hansard listed for the day"
+    reviewed: 2026-10-09
+    why: &nb_58_4 >-
+      legnb.ca lists two Hansards for 58-4 (26 October 2017 and 1 February
+      2018) and none for 8 or 9 February 2018; as for 56-4 to 58-2, the rest
+      is "available upon request through the Legislative Library". The
+      division is stored; its votes carry no party.
+  - contains: "nb 2018-02-08: no party at the vote that day"
+    reviewed: 2026-10-09
+    why: *nb_58_4
+  - contains: "nb 2018-02-09: no Hansard listed for the day"
+    reviewed: 2026-10-09
+    why: *nb_58_4
+  - contains: "nb 2018-02-09: no party at the vote that day"
+    reviewed: 2026-10-09
+    why: *nb_58_4
   - contains: "nb-57-3-2013-05-07: the listing files the Journal of 2013-05-08"
     reviewed: 2026-10-02
     why: >-
