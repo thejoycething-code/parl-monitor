@@ -109,5 +109,25 @@ class SameStepsAsTheWorkflowTests(unittest.TestCase):
             self.assertRegex(flow, r"cover-hours: [1-9]\d*", wf)
 
 
+class HardenedPushLoopTests(unittest.TestCase):
+    """docs/mac-mini-runner.md, step 4 (9 October 2026). The old loop was
+    `pull --rebase || true` then three pushes 5-15 s apart: a rebase conflict
+    left the tree mid-rebase, every retry then failed, and 372 human commits
+    in three weeks kept winning the race. Every workflow that pushes now
+    aborts a failed rebase, waits longer, and fails the step loudly."""
+
+    def test_no_workflow_keeps_the_old_loop(self):
+        for path in glob.glob(os.path.join(ROOT, ".github", "workflows", "*.yml")):
+            text = open(path, encoding="utf-8").read()
+            if "git push" not in text or "for attempt in" not in text:
+                continue
+            name = os.path.basename(path)
+            self.assertNotRegex(text, r"git pull --rebase[^\n]*\|\| true", name + ": retries while mid-rebase")
+            self.assertIn("git rebase --abort", text, name)
+            self.assertIn("for attempt in 1 2 3 4 5 6", text, name)
+            self.assertTrue("never reached origin" in text or 'echo "push failed six times"; exit 1' in text,
+                            name + ": a loop that falls out must fail the step")
+
+
 if __name__ == "__main__":
     unittest.main()
