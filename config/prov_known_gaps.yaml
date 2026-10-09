@@ -11,6 +11,11 @@
 #     why: "The 9 June 2023 Journal is served truncated (129,024 bytes, no %%EOF) on every fetch."
 
 nb:
+  - contains: "nb-61-2-2026-05-28: "
+    reviewed: 2026-10-09
+    why: >-
+      legnb.ca serves the PDF cut off inside its text (1,257,984 bytes, no xref to rebuild); its index lists no other copy and the bil/e/plain variants answer the site's not-found page (9 Oct 2026). To solve: Asana 1219341037128199.
+      Logged as known on Christopher's instruction, 9 Oct 2026 ("Log the leftover gaps as known gaps").
   - contains: "2023-06-09"
     reviewed: 2026-10-03
     why: "The 9 June 2023 Journal is served truncated (129,024 bytes, no %%EOF) on every fetch."
@@ -143,6 +148,16 @@ ab:
 # refuted by the sittings either side on every read (src/ingest/prov_bc.py,
 # refute_lone_lists) and never used. Reviewed 2 October 2026.
 bc:
+  - contains: "bc-43-1-2025-05-13-pm: "
+    reviewed: 2026-10-09
+    why: >-
+      0 of 708 speaker turns resolved to a member: the day's roster is missing or the labels changed. To solve: Asana 1219341037128199.
+      Logged as known on Christopher's instruction, 9 Oct 2026 ("Log the leftover gaps as known gaps").
+  - contains: "bc-43-2-2026-04-20-am: "
+    reviewed: 2026-10-09
+    why: >-
+      0 of 43 speaker turns resolved to a member: the day's roster is missing or the labels changed. To solve: Asana 1219341037128199.
+      Logged as known on Christopher's instruction, 9 Oct 2026 ("Log the leftover gaps as known gaps").
   - contains: "bc 2022-10-03: that issue's list is not the day's"
     reviewed: 2026-10-02
     why: >-
@@ -160,6 +175,11 @@ bc:
 # is a copy of the 26th) read from Hansard's own division lists. Left: a
 # V&P served only in French (a day with no division) and a blank stray link.
 mb:
+  - contains: "mb-43-1-2024-05-10-c: "
+    reviewed: 2026-10-09
+    why: >-
+      The day summary (43rd_1st/vol_54c/summary_c.html) links no HTML transcript at all, measured 9 Oct 2026. To solve: Asana 1219341037128199.
+      Logged as known on Christopher's instruction, 9 Oct 2026 ("Log the leftover gaps as known gaps").
   - contains: "business/42nd/4th/votes_036.pdf: HTTP Error 300"
     reviewed: 2026-10-02
     why: >-
@@ -182,6 +202,16 @@ mb:
 # vote, placed at Christopher's decision); these are the record's own, with
 # Hansard's evidence. The tally check is untouched.
 "on":
+  - contains: "on-39-2-2010-11-22: "
+    reviewed: 2026-10-09
+    why: >-
+      no speaker turns parsed: a page layout the Ontario reader does not yet handle (the 2010 unclassed layout and the empty-span labels were fixed 9 Oct 2026; this day is neither). To solve: Asana 1219341037128199.
+      Logged as known on Christopher's instruction, 9 Oct 2026 ("Log the leftover gaps as known gaps").
+  - contains: "on-41-2-2016-11-02: "
+    reviewed: 2026-10-09
+    why: >-
+      no speaker turns parsed: a page layout the Ontario reader does not yet handle. To solve: Asana 1219341037128199.
+      Logged as known on Christopher's instruction, 9 Oct 2026 ("Log the leftover gaps as known gaps").
   - contains: "on-42-1-2019-04-04-1: tally check failed"
     reviewed: 2026-10-02
     why: >-
@@ -223,6 +253,11 @@ mb:
 # end to end on a scratch store, 7 October 2026. What is left is the record's
 # own; each entry names the evidence.
 nl:
+  - contains: "nl-50-1-2022-10-03: "
+    reviewed: 2026-10-09
+    why: >-
+      assembly.nl.ca serves this Hansard page truncated (no closing </html>). To solve: Asana 1219341037128199.
+      Logged as known on Christopher's instruction, 9 Oct 2026 ("Log the leftover gaps as known gaps").
   - contains: "nl-46-3-2010-05-19-1: tally check failed"
     reviewed: 2026-10-07
     why: >-
