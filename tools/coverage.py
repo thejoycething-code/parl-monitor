@@ -261,7 +261,14 @@ AWAITING_FIRST_RUN = {
 # here, so a new source cannot arrive unwatched AND unexplained -- which
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
-EXEMPT = {}
+EXEMPT = {
+    # Ireland (9 October 2026): collected by tools/ie_rollcalls.py, which no
+    # workflow runs yet. These move to FEEDS the day the Ireland weekly is
+    # scheduled, as the US tables did.
+    "ie_members": "Oireachtas rosters; no scheduled writer until the Ireland weekly exists",
+    "ie_bills": "Oireachtas bills; no scheduled writer until the Ireland weekly exists",
+    "ie_divisions": "Oireachtas divisions; no scheduled writer until the Ireland weekly exists",
+}
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they
