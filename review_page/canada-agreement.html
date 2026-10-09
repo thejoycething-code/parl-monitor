@@ -89,6 +89,13 @@ textarea { width: 100%; min-height: 2.4em; resize: vertical; background: var(--b
 .banner b { font: 600 1.05rem var(--display) }
 .sendbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px }
 .src { font-size: .72rem; color: var(--muted) }
+.stepper { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; justify-content: space-between }
+.stepper .count { font: 600 1rem var(--display); font-variant-numeric: tabular-nums }
+.stepper .nav { display: flex; gap: 8px }
+.one .card { padding: 20px 22px; grid-template-columns: 132px minmax(0, 1fr) }
+.one .face { width: 132px; height: 164px }
+.one .who { font-size: 1.2rem }
+@media (max-width: 520px) { .one .card { grid-template-columns: 1fr } .one .face { width: 96px; height: 120px } }
 .src a { color: inherit }
 @media (max-width: 520px) { .card { grid-template-columns: 1fr } .face { width: 72px; height: 88px } }
 .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px }
@@ -144,6 +151,7 @@ tr:last-child td { border-bottom: 0 }
   <div class="filters" id="filters" hidden>
     <label for="jur-pick">Show</label>
     <select id="jur-pick"><option value="">All jurisdictions</option></select>
+    <button class="btn ghost" type="button" id="view-btn">Show all as a list</button>
     <select id="state-pick"><option value="">All members</option><option value="todo">Not yet decided</option><option value="approve">Approved</option><option value="amend">Amended</option></select>
   </div>
 
@@ -161,7 +169,8 @@ const SHOW = { "++": "++", "+": "+", "0": "0", "-": "−", "--": "−−", "?": 
 const REASONS = ["Not enough information", "Record is out of date", "Vote read the wrong way", "Voted with the party, not conviction",
                  "Public statements say otherwise", "Wrong issue for this member", "Changed position since"];
 const S = { db: null, user: null, uid: null, owner: false, rounds: [], round: "", items: [], mine: {}, marker: null,
-            revealed: {}, ours: {}, reviewers: {}, markers: {}, unsubs: [], readOnly: false, draft: {}, preview: false };
+            revealed: {}, ours: {}, reviewers: {}, markers: {}, unsubs: [], readOnly: false, draft: {}, preview: false, view: "one", cur: null };
+try { const v = localStorage.getItem("review-view"); if (v === "list" || v === "one") S.view = v; } catch (e) {}
 // The owner can preview the reviewer's card and try the buttons; those
 // decisions are saved under the owner's own id, which the results leave out.
 const asReviewer = () => !S.owner || S.preview;
@@ -210,6 +219,13 @@ async function boot() {
   }
   $("jur-pick").addEventListener("change", render);
   $("state-pick").addEventListener("change", render);
+  $("view-btn").addEventListener("click", () => { S.view = S.view === "one" ? "list" : "one";
+    try { localStorage.setItem("review-view", S.view); } catch (e) {} render(); });
+  document.addEventListener("keydown", (e) => {
+    if (S.view !== "one" || !asReviewer() || /^(TEXTAREA|INPUT|SELECT)$/.test((e.target || {}).tagName || "")) return;
+    if (e.key === "ArrowRight") { step(1); e.preventDefault(); }
+    else if (e.key === "ArrowLeft") { step(-1); e.preventDefault(); }
+  });
 }
 
 function selectRound(id) {
@@ -265,6 +281,7 @@ async function saveDecision(item, decision, amendTo, reasons, note) {
     if (!S.marker) await S.db.doc("scores/" + S.uid).set({ reviewer: true, updated: body.decided_at });
     await S.db.doc("scores/" + S.uid + "/items/" + item.id).set(body);
     delete S.draft[item.id];
+    if (S.view === "one") nextUndecided(item.id);
   } catch (e) {
     if (e && e.code === "invalid_argument") { S.readOnly = true; render(); }
     else alertLine("Your decision was not saved (" + (e && e.code) + "). Try again in a moment.");
@@ -427,6 +444,29 @@ function renderSendbar() {
   bar.replaceChildren(el("span", { class: "meta", text: done < S.items.length ? (S.items.length - done) + " member(s) still to decide before you can send the round back." : "All " + S.items.length + " decided." }), btn);
 }
 
+// One member at a time (Christopher, 9 October 2026).
+function shownItems() {
+  const jur = $("jur-pick").value, state = $("state-pick").value;
+  return S.items.filter((i) => {
+    if (jur && i.jurisdiction !== jur) return false;
+    const dec = !asReviewer() ? (decisionsAll().find((d) => d.item === i.id) || {}).decision : (S.mine[i.id] || {}).decision;
+    if (state === "todo") return !dec; if (state) return dec === state;
+    return true;
+  });
+}
+function step(delta) {
+  const list = shownItems(); if (!list.length) return;
+  const at = Math.max(0, list.findIndex((i) => i.id === S.cur));
+  S.cur = list[Math.min(list.length - 1, Math.max(0, at + delta))].id; render();
+  window.scrollTo({ top: 0 });
+}
+function nextUndecided(fromId) {
+  const list = shownItems(); const at = list.findIndex((i) => i.id === fromId);
+  const after = [...list.slice(at + 1), ...list.slice(0, Math.max(0, at))];
+  const next = after.find((i) => !(S.mine[i.id] || {}).decision && i.id !== fromId);
+  if (next) { S.cur = next.id; window.scrollTo({ top: 0 }); }
+}
+
 function render() {
   const has = !!S.round && S.items.length > 0;
   $("filters").hidden = !has;
@@ -435,17 +475,27 @@ function render() {
   const done = S.items.filter((i) => (S.mine[i.id] || {}).decision).length;
   $("progress").hidden = !asReviewer() || !has;
   if (has) { $("bar-fill").style.width = pct(done, S.items.length).replace("—", "0%"); $("progress-text").textContent = done + " of " + S.items.length + " decided"; }
-  const jur = $("jur-pick").value, state = $("state-pick").value;
-  const shown = S.items.filter((i) => {
-    if (jur && i.jurisdiction !== jur) return false;
-    const dec = !asReviewer() ? (decisionsAll().find((d) => d.item === i.id) || {}).decision : (S.mine[i.id] || {}).decision;
-    if (state === "todo") return !dec; if (state) return dec === state;
-    return true;
-  });
+  const shown = shownItems();
+  const one = S.view === "one" && asReviewer();
+  $("view-btn").hidden = !asReviewer();
+  $("view-btn").textContent = one ? "Show all as a list" : "One at a time";
   const cards = $("cards");
+  cards.classList.toggle("one", one);
   if (!S.round) { cards.replaceChildren(el("div", { class: "empty", text: S.rounds.length ? "Choose a round above." : "No round has been loaded yet." })); return; }
   if (!S.items.length) { cards.replaceChildren(el("div", { class: "empty", text: "This round has no members loaded yet." })); return; }
   const focus = document.activeElement && document.activeElement.id;
+  if (one && shown.length) {
+    if (!shown.some((i) => i.id === S.cur)) S.cur = (shown.find((i) => !(S.mine[i.id] || {}).decision) || shown[0]).id;
+    const at = shown.findIndex((i) => i.id === S.cur);
+    const prev = el("button", { class: "btn ghost", type: "button", text: "← Previous", onclick: () => step(-1) });
+    const next = el("button", { class: "btn ghost", type: "button", text: "Next →", onclick: () => step(1) });
+    prev.disabled = at <= 0; next.disabled = at >= shown.length - 1;
+    cards.replaceChildren(
+      el("div", { class: "stepper" }, el("span", { class: "count", text: "Member " + (at + 1) + " of " + shown.length }),
+        el("span", { class: "meta", text: "Approve or amend, and the next member opens. Arrow keys move too." }),
+        el("div", { class: "nav" }, prev, next)),
+      card(shown[at]));
+  } else
   cards.replaceChildren(...(shown.length ? shown.map(card) : [el("div", { class: "empty", text: "Nothing matches this filter." })]));
   if (focus && $(focus)) { const f = $(focus); f.focus(); if (f.setSelectionRange && f.value) f.setSelectionRange(f.value.length, f.value.length); }
 }
