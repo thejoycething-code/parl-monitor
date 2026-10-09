@@ -19,6 +19,10 @@
 # every write is an upsert, so a re-run completes the job.
 set -o pipefail
 cd "$(dirname "$0")/.."
+# The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
+# workflow's name; on the Mac Mini there is no GITHUB_WORKFLOW, so name it, or
+# tools/coverage.py would see this pipeline stop the day GitHub's backup skips.
+export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Day sweep}"
 LOGS="${DAY_SWEEP_LOGS:-/tmp}"
 SLOT="${DAY_SWEEP_SLOT:-$( [ "$(TZ=Europe/London date +%H)" -lt 12 ] && echo morning || echo evening )}"
 
