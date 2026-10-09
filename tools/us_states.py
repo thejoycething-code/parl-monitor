@@ -12,24 +12,42 @@ Decided by Christopher, 9 October 2026: all 50 state legislatures, after
 Congress, through Open States. Measured the same day; docs/us-states-scope.md
 has the numbers.
 
-TWO ROUTES, ONE SHAPE.
+NO PAID TIER (Christopher, 9 October 2026: "upgrading tiers costs a huge
+amount"; Open States quoted $2,900 a year for 1,000 requests a day). So the
+bulk files carry the weekly read and the free key only fills the last day.
 
-  * BULK, keyless, for every FIRST read of a session: Open States publishes
-    one CSV zip per session (bills, abstracts, actions, sponsorships,
-    sources, votes, every legislator's position). The URL and the file's
-    generation stamp come from the API's jurisdiction list. The most recent
-    session of all fifty is 2.1 GB and 209,743 bills, read in about seven
-    minutes on the laptop; not archived (the URL and stamp, kept in
-    uss_sessions, are the provenance, as for the Holyrood year dumps).
-  * API, keyed, for the WEEKLY read: /bills by action_since (never
-    updated_since: Open States re-stamps 'updated' whenever its scrapers
-    re-run, so 3,746 bills were 'updated' in a week of October when 622
-    had an action). The key's tier is 'default': 10 requests a minute,
-    250 a day (measured from a 429 body; the tiers are in the API's source).
-    So requests are spaced 6.5 s apart, a run spends at most --api-budget
-    (default 200), and a state whose week runs past --max-pages pages, or
-    that the budget cannot cover, falls back to its bulk file, read only
-    for bills with an action since the window opened.
+  * BULK, keyless, for EVERY read: Open States publishes one CSV zip per
+    session (bills, abstracts, actions, sponsorships, sources, votes, every
+    legislator's position). Its exporter runs nightly (about 23:00 UTC) and
+    writes a NEW file, under a new random name, for every session with a
+    bill changed that day (openstates.org bulk/management/commands/
+    bulk_export.py; measured: 25 sessions stamped 8 October 23:02-23:21 UTC,
+    and 43 to 48 of the year's sessions stamped the day of each archived
+    in-session listing, 2022 and 2023). So a session whose stamp is newer
+    than the one we read has changed, and one whose stamp is not has not.
+    The URL and stamp come from the API's jurisdiction list (two keyed
+    requests a run: the files cannot be listed without it). A first read
+    takes the file whole; after that only bills with an action since the
+    session's data_through (less OVERLAP_DAYS). Not archived (the URL and
+    stamp, kept in uss_sessions, are the provenance).
+  * THE FILE LAGS THE API BY ABOUT A DAY: actions scraped after the night's
+    export are in the next file (Pennsylvania, 9 October: five resolutions
+    acted on 8 October were in the API and not in the file of 8 October
+    23:18). So data_through is the stamp's date less ZIP_LAG_DAYS.
+  * API TOP-UP, keyed, for that last day only, and only for bills already on
+    our ground that moved in the last LIVE_DAYS: /bills with session,
+    action_since and up to 20 identifiers a request (the API's own cap),
+    states in order of salience (live bills on our ground, then tier-1
+    bills). Measured: 68 to 90 requests in a sitting week of spring 2026,
+    a handful in recess. Never updated_since: Open States re-stamps
+    'updated' whenever its scrapers re-run.
+  * THE KEY'S DAY IS GUARDED BY A LEDGER in the store (uss_api_ledger, per
+    UTC day): a run spends at most --api-budget (150) and never takes the
+    day past --daily-cap (225 of the tier's 250), so a backup run the same
+    day, or a hand probe, cannot overrun. A 429 for the day closes the
+    ledger for the rest of it. Requests are spaced 6.5 s apart (10 a minute).
+  * A session with no bulk file yet (a special session called this week) is
+    read by the API for the last month, as before.
 
 THE KEY is openstates_api_key in config/secrets.yaml or OPENSTATES_API_KEY
 in the environment; it travels only as the X-API-KEY header, never in a
@@ -81,10 +99,16 @@ TAXONOMY = os.path.join(ROOT, "config", "taxonomy.yaml")
 INCLUDES = ("sponsorships", "abstracts", "actions", "votes", "sources", "other_titles")
 PER_PAGE = 20                   # the API refuses more: "must be in [1, 20]"
 API_SPACING_S = 6.5             # default tier: 10 a minute
-API_BUDGET = 200                # of 250 a day: room for a hand probe the same day
-MAX_PAGES = 10                  # a state needing more than this reads its bulk file
+API_BUDGET = 150                # one run's keyed requests (two of them the jurisdiction list)
+DAILY_CAP = 225                 # all runs in a UTC day, of the tier's 250: room for a hand probe
+TIER_DAY = 250                  # the default tier's day (measured from a 429 body)
+MAX_PAGES = 10                  # a no-bulk session needing more API pages waits for its file
+IDS_PER_REQUEST = 20            # the API refuses more ("up to 20 identifiers in one request")
 OVERLAP_DAYS = 3                # a late-posted action is re-seen
-MAX_LOOKBACK_DAYS = 30          # the weekly window never opens further back
+ZIP_LAG_DAYS = 1                # the nightly file holds actions scraped before it, not that day's
+LIVE_DAYS = 30                  # top-up only bills on our ground that moved this recently
+STALE_DAYS = 3                  # a file this far behind (an export missed) is topped up first
+MAX_LOOKBACK_DAYS = 30          # the API window for a session with no bulk file
 BUDGET_S = 1500.0
 CURRENT_DAYS = 365
 ZIP_FRESH_DAYS = 45
@@ -119,22 +143,67 @@ class ApiSpent(Exception):
     """The run's request budget, or the key's day, is used up."""
 
 
+def utc_day():
+    return datetime.datetime.now(datetime.timezone.utc).date().isoformat()
+
+
+class Ledger:
+    """Keyed requests per UTC day, kept in the store (uss_api_ledger).
+
+    Every runner fetches the store before it runs and publishes it after,
+    so a GitHub backup on the day the Mini ran, or a second run by hand,
+    sees what the day has already spent. Each request is written (and
+    committed) BEFORE it is sent: a refused or crashed request still
+    counted against Open States' day."""
+
+    def __init__(self, conn, cap=DAILY_CAP, day=utc_day):
+        self.conn, self.cap, self._day = conn, cap, day
+
+    def spent(self):
+        row = self.conn.execute("SELECT requests FROM uss_api_ledger WHERE day=?",
+                                (self._day(),)).fetchone()
+        return row[0] if row else 0
+
+    def left(self):
+        return max(0, self.cap - self.spent())
+
+    def add(self, n=1):
+        self.conn.execute(
+            "INSERT INTO uss_api_ledger (day, requests, last_at) VALUES (?,?,?) "
+            "ON CONFLICT(day) DO UPDATE SET requests=requests+excluded.requests, "
+            "last_at=excluded.last_at",
+            (self._day(), n, datetime.datetime.now(datetime.timezone.utc).isoformat(
+                timespec="seconds")))
+        self.conn.commit()
+
+    def close_day(self):
+        """Open States refused for the day: nothing more today, from any run."""
+        spent = self.spent()
+        if spent < TIER_DAY:
+            self.add(TIER_DAY - spent)
+
+
 class OpenStates:
-    """Keyed GETs, spaced API_SPACING_S apart and counted against a budget.
+    """Keyed GETs, spaced API_SPACING_S apart and counted against a run
+    budget and, when given one, the day's ledger.
 
     A 429 for the minute waits the minute out once; a 429 for the day ends
-    the API for this run (the rest read their bulk files)."""
+    the API for this run and closes the ledger for the day."""
 
     def __init__(self, client, key, budget=API_BUDGET, spacing=API_SPACING_S,
-                 sleep=time.sleep, clock=time.monotonic, archive=True, log=print):
+                 sleep=time.sleep, clock=time.monotonic, archive=True, log=print, ledger=None):
         self.client, self.key, self.budget, self.spacing = client, key, budget, spacing
         self.sleep, self.clock, self.archive, self.log = sleep, clock, archive, log
+        self.ledger = ledger
         self.used = 0
         self.refused = None
         self._last = None
 
     def remaining(self):
-        return 0 if self.refused else max(0, self.budget - self.used)
+        if self.refused:
+            return 0
+        left = max(0, self.budget - self.used)
+        return min(left, self.ledger.left()) if self.ledger else left
 
     def _wait(self):
         if self._last is not None:
@@ -146,9 +215,16 @@ class OpenStates:
     def get(self, path, params, slug):
         for attempt in (1, 2):
             if not self.remaining():
-                raise ApiSpent(self.refused or "request budget of {0} spent".format(self.budget))
+                if self.refused:
+                    raise ApiSpent(self.refused)
+                if self.ledger and not self.ledger.left():
+                    raise ApiSpent("the day's ledger is at its cap ({0} of {1} keyed requests "
+                                   "today, UTC)".format(self.ledger.spent(), self.ledger.cap))
+                raise ApiSpent("request budget of {0} spent".format(self.budget))
             self._wait()
             self.used += 1
+            if self.ledger:
+                self.ledger.add()
             url = API + path + ("?" + urlencode(params, doseq=True) if params else "")
             try:
                 raw = self.client.get_bytes(url, FEED, slug, headers={"X-API-KEY": self.key})
@@ -167,6 +243,8 @@ class OpenStates:
                 if code == 429:
                     self.refused = "Open States refused for the rest of the day: {0}".format(
                         body.strip() or "429")
+                    if self.ledger:
+                        self.ledger.close_day()
                     raise ApiSpent(self.refused)
                 if attempt == 1 and (code is None or code >= 500):
                     # A timeout or a server error (measured: a 'read operation
@@ -520,6 +598,16 @@ def known_ids(conn, state):
 
 # --- the two routes --------------------------------------------------------------
 
+def zip_through(stamp):
+    """How far a bulk file is good for: the day before its stamp. The
+    nightly export holds what the scrapers had by then, and the day's own
+    actions are mostly scraped after it (measured, Pennsylvania 8 October)."""
+    day = iso(stamp)
+    if not day:
+        return None
+    return (datetime.date.fromisoformat(day) - datetime.timedelta(days=ZIP_LAG_DAYS)).isoformat()
+
+
 def bulk_read(conn, client, tax, wl, s, today, tally, since=None, log=print):
     """Read one session's bulk file: whole (first read, --full) or only bills
     with an action since `since`. Returns True when read."""
@@ -553,12 +641,12 @@ def bulk_read(conn, client, tax, wl, s, today, tally, since=None, log=print):
     if since:
         conn.execute("UPDATE uss_sessions SET read_zip_updated=?, read_via='bulk', "
                      "data_through=?, read_at=? WHERE state=? AND session=?",
-                     (stamp, iso(stamp), today, st, s["session"]))
+                     (stamp, zip_through(stamp), today, st, s["session"]))
     else:
         conn.execute("UPDATE uss_sessions SET read_zip_updated=?, read_via='bulk', "
                      "data_through=?, bills_read=?, bills_ours=?, read_at=? "
                      "WHERE state=? AND session=?",
-                     (stamp, iso(stamp), n, tally.ours - before, today, st, s["session"]))
+                     (stamp, zip_through(stamp), n, tally.ours - before, today, st, s["session"]))
     conn.commit()
     log("  {0} {1}: bulk ({2}), {3} bill(s) {4}, {5} on our ground".format(
         st.upper(), s["session"], iso(stamp), n, "with an action since " + since if since else "read",
@@ -631,54 +719,138 @@ def pull_people(conn, client, st, today, log=print):
     return n
 
 
-def collect_state(conn, client, api, tax, wl, st, sessions, today, args, tally, log=print):
-    """One state's run: first reads by bulk, then the week by API (or bulk)."""
+def bulk_window(through):
+    """Bills with an action since this date are re-read from a changed file."""
+    if not through:
+        return None
+    return (datetime.date.fromisoformat(through)
+            - datetime.timedelta(days=OVERLAP_DAYS)).isoformat()
+
+
+def collect_state(conn, client, tax, wl, st, sessions, today, args, tally, log=print):
+    """One state's bulk files: a session never read is read whole; one whose
+    file has a newer stamp than the one read, only for bills with an action
+    since its data_through (less the overlap); one whose file has not
+    changed is not downloaded at all (Open States writes a new file whenever
+    a bill of the session changes). Returns the current sessions with no
+    bulk file and never read, for the API."""
     cur = current_sessions(sessions, today)
-    unread = [s for s in cur if s.get("zip_url") and not read_state(conn, st, s["session"])[2]]
-    read = [s for s in cur if read_state(conn, st, s["session"])[2] and s not in unread]
-    for s in unread if not args.full else [s for s in cur if s.get("zip_url")]:
-        bulk_read(conn, client, tax, wl, s, today, tally, log=log)
-    if args.full:
-        return
-    if not read:
-        if unread or not cur:
-            return
-        # Current sessions, none with a bulk file and none read yet (a
-        # special session called this week): the API, for the last month.
-        read = cur
-        args = argparse.Namespace(**dict(vars(args), since=args.since or (
-            datetime.date.fromisoformat(today) - datetime.timedelta(days=30)).isoformat()))
-    if args.since:
-        since = args.since
-    else:
-        through = [read_state(conn, st, s["session"])[1] for s in read]
-        through = [t for t in through if t]
-        start = min(through) if through else today
-        since = (datetime.date.fromisoformat(start)
-                 - datetime.timedelta(days=OVERLAP_DAYS)).isoformat()
-        # A session whose bulk file has not been regenerated for months
-        # (Arkansas 2025, last stamped August 2025) would otherwise hold the
-        # window open on every session of the state for ever.
-        floor = (datetime.date.fromisoformat(today)
-                 - datetime.timedelta(days=MAX_LOOKBACK_DAYS)).isoformat()
-        since = max(since, floor)
-    outcome = api_read(conn, api, tax, wl, st, since, today, tally,
-                       max_pages=args.max_pages, log=log) if api else "spent"
-    if outcome == "done":
-        for s in read:
+    for s in cur:
+        if not s.get("zip_url"):
+            continue
+        read_stamp, through, read_at = read_state(conn, st, s["session"])
+        if args.full or not read_at:
+            bulk_read(conn, client, tax, wl, s, today, tally, log=log)
+        elif args.since or (s.get("zip_updated") or "") > (read_stamp or ""):
+            bulk_read(conn, client, tax, wl, s, today, tally,
+                      since=args.since or bulk_window(through) or today, log=log)
+    return [s for s in cur if not s.get("zip_url") and not read_state(conn, st, s["session"])[2]]
+
+
+def read_new_sessions(conn, api, tax, wl, st, sessions, today, args, tally, log=print):
+    """A current session with no bulk file yet (a special session called this
+    week): the API, for the last month, all of the state's sessions."""
+    since = args.since or (datetime.date.fromisoformat(today)
+                           - datetime.timedelta(days=MAX_LOOKBACK_DAYS)).isoformat()
+    if api_read(conn, api, tax, wl, st, since, today, tally, max_pages=args.max_pages,
+                log=log) == "done":
+        for s in sessions:
             conn.execute("UPDATE uss_sessions SET read_via='api', data_through=?, read_at=? "
                          "WHERE state=? AND session=?", (today, today, st, s["session"]))
         conn.commit()
-        return
-    stale = [s for s in read if s.get("zip_url")
-             and (s.get("zip_updated") or "") > (read_state(conn, st, s["session"])[0] or "")]
-    for s in stale:
-        bulk_read(conn, client, tax, wl, s, today, tally, since=since, log=log)
-    if not stale:
-        log("  {0}: API {1} and no bulk file newer than the last read; the store stands "
-            "at {2}".format(st.upper(), {"spent": "spent", "failed": "refused"}.get(
-                outcome, "too costly"),
-                            min((read_state(conn, st, s["session"])[1] or "?") for s in read)))
+    else:
+        log("  {0}: {1} has no bulk file yet and the API could not read it; next week".format(
+            st.upper(), ", ".join(s["session"] for s in sessions)))
+
+
+# --- the top-up: the last day, by API, bills on our ground only --------------------
+
+def live_bills(conn, st, session, today, live_days=LIVE_DAYS):
+    """Identifiers of the session's bills on our ground that moved in the
+    last live_days, most recent first."""
+    cutoff = (datetime.date.fromisoformat(today) - datetime.timedelta(days=live_days)).isoformat()
+    conn.row_factory = None
+    rows = conn.execute("SELECT identifier, areas FROM uss_bills WHERE state=? AND session=? "
+                        "AND latest_action_at >= ? ORDER BY latest_action_at DESC, "
+                        "COALESCE(tier, 9), identifier", (st, session, cutoff)).fetchall()
+    return [ident for ident, areas in rows if on_our_ground(json.loads(areas or "[]"))]
+
+
+def salience(conn, st, today, live_days=LIVE_DAYS):
+    """(bills on our ground that moved lately, tier-1 bills on our ground)."""
+    cutoff = (datetime.date.fromisoformat(today) - datetime.timedelta(days=live_days)).isoformat()
+    conn.row_factory = None
+    live = tier1 = 0
+    for areas, at, tier in conn.execute(
+            "SELECT areas, latest_action_at, tier FROM uss_bills WHERE state=?", (st,)):
+        if on_our_ground(json.loads(areas or "[]")):
+            live += (at or "") >= cutoff
+            tier1 += tier == 1
+    return live, tier1
+
+
+def topup_plan(conn, by_state, states, today):
+    """[(state, session, since, [identifiers])], states in order of
+    salience: a file more than STALE_DAYS behind first (an export missed),
+    then live bills on our ground, then tier-1 bills. Only sessions read
+    from a bulk file with days still to cover, and only live bills."""
+    stale_day = (datetime.date.fromisoformat(today)
+                 - datetime.timedelta(days=STALE_DAYS)).isoformat()
+    per_state = []
+    for st in states:
+        items = []
+        for s in current_sessions(by_state.get(st, []), today):
+            _, through, read_at = read_state(conn, st, s["session"])
+            if not read_at or not through or through >= today:
+                continue
+            ids = live_bills(conn, st, s["session"], today)
+            if ids:
+                items.append((st, s["session"], through, ids))
+        if items:
+            stale = min(i[2] for i in items) < stale_day
+            live, tier1 = salience(conn, st, today)
+            per_state.append(((not stale, -live, -tier1, st), items))
+    return [i for _, items in sorted(per_state) for i in items]
+
+
+def topup(conn, api, tax, wl, plan, today, tally, log=print):
+    """Read the plan's bills that moved since their file's data_through, 20
+    identifiers a request. Returns (requests, bills refreshed, states done,
+    states left for want of budget)."""
+    used0 = api.used
+    refreshed = 0
+    done, left = [], []
+    for st, session, since, ids in plan:
+        if not api.remaining():
+            left.append(st)
+            continue
+        got = []
+        complete = True
+        for i in range(0, len(ids), IDS_PER_REQUEST):
+            batch = ids[i:i + IDS_PER_REQUEST]
+            params = {"jurisdiction": st, "session": session, "action_since": since,
+                      "identifier": batch, "include": list(INCLUDES), "per_page": PER_PAGE}
+            try:
+                d = api.get("/bills", params, "topup-{0}-{1}-{2}-{3}".format(
+                    st, session, since, i // IDS_PER_REQUEST + 1))
+            except ApiSpent:
+                complete = False
+                break
+            except FetchError as exc:
+                _gap(conn, today, "{0} {1}: top-up refused ({2}); the next bulk file "
+                     "stands in".format(st.upper(), session,
+                                        getattr(exc.cause, "code", None) or str(exc.cause)[:60]))
+                complete = False
+                break
+            got += d.get("results") or []
+        known = known_ids(conn, st)
+        keep_and_store(conn, tax, wl, [bill_from_api(b) for b in got], today, tally, known)
+        conn.commit()
+        refreshed += len(got)
+        (done if complete else left).append(st)
+        log("  {0} {1}: top-up, {2} of {3} live bill(s) on our ground moved since {4}{5}".format(
+            st.upper(), session, len(got), len(ids), since, "" if complete else " (stopped short)"))
+    return api.used - used0, refreshed, sorted(set(done)), sorted(set(left) - set(done))
 
 
 def order_states(conn, states):
@@ -750,13 +922,17 @@ def main(argv=None):
                     help="postal codes, comma-separated (default: all fifty)")
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--raw-dir", default=os.path.join(ROOT, "data", "raw"))
-    ap.add_argument("--since", help="ISO date: read bills with an action since then "
-                                    "(default: from what each state's store holds)")
+    ap.add_argument("--since", help="ISO date: re-read every current bulk file for bills with an "
+                                    "action since then (default: each session's data_through)")
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
     ap.add_argument("--api-budget", type=int, default=API_BUDGET,
-                    help="keyed requests this run may spend (the key allows 250 a day)")
+                    help="keyed requests this run may spend, the jurisdiction list included")
+    ap.add_argument("--daily-cap", type=int, default=DAILY_CAP,
+                    help="keyed requests all runs may spend in a UTC day (the tier allows 250)")
     ap.add_argument("--max-pages", type=int, default=MAX_PAGES,
-                    help="a state whose week needs more API pages reads its bulk file")
+                    help="API pages a session with no bulk file may take")
+    ap.add_argument("--no-topup", action="store_true",
+                    help="bulk files only: two keyed requests (the jurisdiction list)")
     ap.add_argument("--full", action="store_true",
                     help="re-read every current session's bulk file whole (after a taxonomy "
                          "change that widens the net)")
@@ -764,7 +940,7 @@ def main(argv=None):
     ap.add_argument("--reclassify", action="store_true",
                     help="re-derive stored bills' areas, offline")
     ap.add_argument("--dry-run", action="store_true",
-                    help="list the plan (two keyed requests), store nothing")
+                    help="list the plan (two keyed requests, in the ledger), store nothing else")
     args = ap.parse_args(argv)
     today = datetime.date.today().isoformat()
     states = [s.strip().lower() for s in args.states.split(",") if s.strip()] or sorted(uss.STATES)
@@ -785,16 +961,20 @@ def main(argv=None):
             _gap(conn, today, "no openstates_api_key: the state legislatures were not read")
             conn.commit()
         return 0
+    conn = db.init_db(db.connect(args.db))
+    ledger = Ledger(conn, cap=args.daily_cap)
     client = HttpClient(raw_dir=args.raw_dir)
     api_client = HttpClient(raw_dir=args.raw_dir, max_retries=0)
-    api = OpenStates(api_client, key, budget=args.api_budget, archive=not args.dry_run)
+    api = OpenStates(api_client, key, budget=args.api_budget, archive=not args.dry_run,
+                     ledger=ledger)
+    print("us-states: {0} keyed request(s) already spent today (UTC); this run may spend {1}".format(
+        ledger.spent(), api.remaining()))
     try:
         jurs = jurisdictions(api)
     except (FetchError, ApiSpent) as exc:
         print("  [gap] us-states: the jurisdiction list was refused ({0})".format(
             getattr(getattr(exc, "cause", None), "code", exc)))
         if not args.dry_run:
-            conn = db.init_db(db.connect(args.db))
             _gap(conn, today, "Open States jurisdiction list refused; no state read")
             conn.commit()
         return 1
@@ -803,17 +983,24 @@ def main(argv=None):
         st = uss.state_of(j.get("id"))
         if st in uss.STATES:
             by_state[st] = session_rows(j)
-    conn = db.init_db(db.connect(args.db))
     if args.dry_run:
         for st in states:
             cur = current_sessions(by_state.get(st, []), today)
-            print("  {0}: {1}".format(st.upper(), "; ".join(
-                "{0} ({1}{2})".format(s["session"], "bulk " + iso(s["zip_updated"])
-                                      if s["zip_url"] else "no bulk file",
-                                      ", read " + read_state(conn, st, s["session"])[2]
-                                      if read_state(conn, st, s["session"])[2] else ", unread")
-                for s in cur) or "no current session"))
-        print("us-states: dry run, {0} keyed request(s) spent; nothing stored".format(api.used))
+            parts = []
+            for s in cur:
+                stamp, through, read_at = read_state(conn, st, s["session"])
+                state = ("unread" if not read_at else
+                         "changed since read" if (s["zip_updated"] or "") > (stamp or "")
+                         else "unchanged")
+                parts.append("{0} ({1}, {2})".format(
+                    s["session"], "bulk " + iso(s["zip_updated"]) if s["zip_url"]
+                    else "no bulk file", state))
+            print("  {0}: {1}".format(st.upper(), "; ".join(parts) or "no current session"))
+        plan = topup_plan(conn, by_state, [s for s in states if s in by_state], today)
+        need = sum(-(-len(ids) // IDS_PER_REQUEST) for _, _, _, ids in plan)
+        print("us-states: dry run, {0} keyed request(s) spent; a top-up now would take {1} "
+              "request(s) for {2} live bill(s) in {3} state(s); nothing stored".format(
+                  api.used, need, sum(len(i[3]) for i in plan), len({i[0] for i in plan})))
         return 0
     for st in by_state:
         for s in by_state[st]:
@@ -828,16 +1015,44 @@ def main(argv=None):
     tally = Tally()
     done = 0
     people = 0
-    for st in order_states(conn, [s for s in states if s in by_state]):
+    no_bulk = {}
+    present = [s for s in states if s in by_state]
+    # 1. The bulk files, every state, in rotation.
+    for st in order_states(conn, present):
         if budget.exhausted():
             print(budget.disclose("state(s)", done))
             break
         if not args.no_people:
             people += pull_people(conn, client, st, today)
-        collect_state(conn, client, api if api.remaining() else None, tax, wl, st,
-                      by_state[st], today, args, tally)
+        new = collect_state(conn, client, tax, wl, st, by_state[st], today, args, tally)
+        if new:
+            no_bulk[st] = new
         done += 1
     conn.commit()
+    # 2. Sessions with no bulk file yet, by API (rare: a special session).
+    for st, sessions in no_bulk.items():
+        if args.full or budget.exhausted() or not api.remaining():
+            break
+        read_new_sessions(conn, api, tax, wl, st, sessions, today, args, tally)
+    # 3. The top-up: the last day, by API, live bills on our ground only.
+    if not (args.no_topup or args.full):
+        plan = topup_plan(conn, by_state, present, today)
+        if budget.exhausted():
+            print("  us-states: no time left for the top-up; the bulk files stand "
+                  "({0} state(s) would have been topped up)".format(len({p[0] for p in plan})))
+        elif plan:
+            before = api.used
+            reached = set()
+            for item in plan:
+                if budget.exhausted() or not api.remaining():
+                    break
+                reached.add(item[0])
+                topup(conn, api, tax, wl, [item], today, tally)
+            skipped = sorted({p[0] for p in plan} - reached)
+            print("  us-states: top-up spent {0} keyed request(s) over {1} state(s){2}".format(
+                api.used - before, len(reached),
+                "; not reached (time or request budget): " + ", ".join(
+                    s.upper() for s in skipped) if skipped else ""))
     if api.refused:
         _gap(conn, today, api.refused)
         print("  [gap] " + api.refused)
@@ -845,9 +1060,10 @@ def main(argv=None):
                         (today, FEED)).fetchone()[0]
     stamp_heartbeat(conn, today)
     print("us-states: {0} of {1} state(s) read; {2} bill(s) read, {3} kept, {4} on our ground; "
-          "{5} vote(s) with {6} position(s); {7} legislator(s); {8} keyed request(s); "
-          "{9:.0f}s".format(done, len(states), tally.read, tally.stored, tally.ours, tally.votes,
-                            tally.positions, people, api.used, budget.spent()))
+          "{5} vote(s) with {6} position(s); {7} legislator(s); {8} keyed request(s) this run, "
+          "{9} today (cap {10}); {11:.0f}s".format(
+              done, len(states), tally.read, tally.stored, tally.ours, tally.votes,
+              tally.positions, people, api.used, ledger.spent(), ledger.cap, budget.spent()))
     summary(conn)
     conn.close()
     return 1 if gaps else 0

@@ -37,6 +37,10 @@ bills in `tools/us_triage.py`, a step in `jobs/us-weekly.sh`, entries in
 
 ## The finding that shapes everything: two routes
 
+(The weekly read described here, API first with the bulk files as fallback,
+was replaced the same evening by bulk files first and an API top-up of the
+last day: see "No paid tier" below. The measurements stand.)
+
 **The per-session bulk files are open.** The API's jurisdiction list (two
 keyed requests) names, for every session, a CSV zip on
 `data.openstates.org/csv/latest/` with its generation stamp. Those files
@@ -78,6 +82,182 @@ read of all fifty takes about 16 minutes on the laptop, so on GitHub alone it
 would spread over two or three weeks; the Mini does it in one. No block
 rotation is needed for the API: a recess week is 65 requests, a sitting week
 about 130 with the bulk fallback, both under 250.
+
+## No paid tier (measured 9 October 2026)
+
+Open States quoted Christopher $2,900 a year for 1,000 requests a day and
+$7,900 for 10,000. Christopher: "upgrading tiers costs a huge amount, so we
+may need to explore other methods." There is no budget, so the route below
+works on the free key (250 a day) and would work, but for the last day of
+each week, with no key beyond the two-request session list.
+
+**Recommendation: bulk files for the whole week, the free key for the last
+day only.** Built in `tools/us_states.py`. A weekly run spends **2 keyed
+requests** for the session list plus a **top-up of 68 to 90** in a sitting
+week (a handful in recess), never more than 150 a run or 225 a UTC day
+across all runs (a ledger in the store, `uss_api_ledger`). No daily Mini job
+is needed: see "Why not spread it over the week" below.
+
+### 1. How often the bulk files are regenerated
+
+- **The exporter writes a new file, under a new random name, for every
+  session with a bill changed in the window, nightly.** Read in its source
+  (`openstates/openstates.org`, `bulk/management/commands/bulk_export.py`):
+  `export_all_states(--with-updates-days)` picks sessions with a bill whose
+  `updated_at` is recent, and each export is `<ST>_<session>_csv_<random>.zip`
+  uploaded beside the old ones (old URLs keep answering: a 2022 Minnesota
+  file still does). Open States re-stamps `updated_at` whenever a scraper
+  re-runs, so a sitting legislature gets a new file every night.
+- **Measured now (recess):** of the 66 current sessions, **25 were stamped
+  8 October between 23:02 and 23:21 UTC** (one nightly pass, alphabetical,
+  AK to WI), 26 within the week (1,111 MB), the rest when they last changed
+  (Texas 89R: 5 August 2025, after its last action). S3 `Last-Modified`
+  equals the stamp the API lists.
+- **Measured in session (the Wayback Machine's copies of the old listing
+  page, openstates.org/data/session-csv/, which printed every file's
+  "updated" date):** 27 January 2023, **48 of 50** sessions of 2023 stamped
+  26 January; 19 April 2023, **48 of 53** stamped that day; 1 February 2022,
+  43 of 44 stamped 31 January (on 19 January 2022 they were monthly, 1
+  January: the daily cadence dates from the end of January 2022). The
+  bucket itself cannot be listed (403), and the listing page now needs a
+  login, so the URLs come from the API's jurisdiction list: **2 keyed
+  requests a run**.
+- **The file lags the API by about a day.** Pennsylvania's file of 8 October
+  23:18 UTC holds actions to 7 October; the API (read at 13:00 the next day)
+  had 187 bills with an action since 5 October against the file's 183: the
+  difference is five resolutions acted on 8 October and scraped at 02:10 to
+  02:26 UTC on the 9th (plus one bill the file had and the API page not).
+  New Jersey's file of 8 October holds actions to 5 October; two bills acted
+  on 8 October were in the API only. New York matched exactly (6 and 6). So
+  a Friday 09:00 UTC run has, from the files, the week to Wednesday or
+  Thursday, and `data_through` is the stamp's day less one.
+- **Conditional GET works but does not matter.** `If-None-Match` and
+  `If-Modified-Since` on an unchanged file answer 304 with no body; but a
+  changed file has a new URL, so the collector compares the listed stamp
+  with the one it read and never downloads an unchanged file at all.
+- **Sizes and times (laptop, home connection, about 8 MB/s):** New York
+  2025-2026 184 MB in 23 s, California 162 MB in 26 s, Texas 89R 145 MB in
+  19 s, Pennsylvania 88 MB in 11 s, Massachusetts 45 MB in 10 s, New Jersey
+  20 MB in 3 s; all 66 current files 2,175 MB. Reading a file for a week's
+  bills: New York and California under 3 s in recess; Texas for a sitting
+  stretch of 2025 (491 bills on our ground kept) 28 s, New Jersey 12 s,
+  Massachusetts 41 s (its votes). In January to June 2027 most legislatures
+  start new sessions, whose files begin small and grow: about 1 to 2 GB and
+  10 to 15 minutes a week, inside the Mini's 30 minutes. GitHub's 10
+  minutes may not finish in a sitting week; the rotation carries the rest.
+
+### 2. The free key, used only where the files cannot reach
+
+- **Busy days are too big for `action_since` by state.** From the files:
+  Texas had 1,690 bills with an action on 14 March 2025 (85 pages of 20),
+  New York 15,331 on 7 January 2026, Massachusetts 8,248 on 27 February 2025;
+  a sitting week costs 687 to 949 pages across the fifty.
+- **So the top-up asks by bill number.** `/bills` takes `session`,
+  `action_since` and **up to 20 identifiers a request** (the API's own cap,
+  read in `openstates/api-v3`, `api/bills.py`; tried live: Pennsylvania SR
+  387 and SR 393 back, the four quiet bills not). It asks only for bills on
+  our ground in the store that moved in the last 30 days, since the file's
+  `data_through`. Measured from the stored actions: **860 such bills in 43
+  sessions for the 30 days to 17 April 2026 (68 requests) and 1,251 in 46
+  sessions to 3 March 2026 (90 requests)**; 161 of them moved on Thursday 5
+  March alone, in 38 states. Asking every bill on our ground would be 256
+  requests; the 30-day rule is what makes it fit.
+- **States in order of salience:** a file more than three days behind (an
+  export missed) first, then most live bills on our ground, then most tier-1
+  bills. A run stops at its time or request budget and says which states it
+  did not reach; the next file covers them.
+- **Live test (laptop, scratch copy of the store, 9 October):** Pennsylvania,
+  New Jersey, New York and Texas, files unchanged since read, so nothing
+  downloaded; top-up 3 requests (NJ 11 live bills, PA 7, NY 3; Texas none
+  live), one Pennsylvania bill refreshed with its vote; 5 keyed requests in
+  all, 27 s.
+- **The ledger.** `uss_api_ledger` counts keyed requests per UTC day in the
+  store, written before each request is sent (a refused request still
+  counts), checked before each. Defaults: 150 a run, 225 a day (25 kept for
+  a hand probe). A 429 for the day closes the ledger to 250 for every later
+  run that day. The Mini and GitHub's backup both fetch the store first, so
+  a backup run the same day sees what the Mini spent; a run that crashes
+  before publishing leaves the day uncounted for the other runner, which
+  is why a run's own budget (150) is also capped and why the day refusal is
+  handled.
+- **Why not spread it over the week.** The edition is weekly and the files
+  are a day behind whatever day they are read, so reading them daily does
+  not make Friday's edition fresher; only the last day needs the API, and
+  that is about 90 requests in session, a third of one day. A daily job
+  would download every changed file seven times a week (7 to 14 GB from
+  Open States' bucket) for nothing the edition prints. If daily alerts on
+  state bills are wanted later, the same collector with `--no-people` run
+  each morning on the Mini, under the same ledger, is the way: about 2 + 30
+  keyed requests a day.
+- **Zips only is a flag away:** `--no-topup` spends the 2 list requests and
+  nothing else; the edition is then good to Wednesday or Thursday.
+
+### 3. Running Open States' own scrapers (measured 9 October 2026)
+
+Measured in a scratch directory on the laptop; nothing installed in the repo.
+
+- **Licence:** openstates-scrapers is GPL v3, openstates-core MIT. Running
+  them internally is fine; copyleft bites only if a modified version is
+  redistributed.
+- **Weight:** a shallow clone is 6.5 MB; it needs Python 3.13 (the Mini and
+  laptop ship 3.9, so a separate `uv` venv), 121 packages (Django 3.2, boto3,
+  pandas, pymupdf...), a 397 MB venv, 40 s to install. Scraping writes JSON
+  and needs no Postgres. The Docker image is 890 MB and amd64-only, so it
+  would run emulated on the Mini: the venv is the better route.
+- **Per state, the bills scraper:**
+
+| State | Source | Extra | Cost of a run |
+|---|---|---|---|
+| Texas | State FTP, one XML per bill, plus a capitol.texas.gov page for companions | none | No incremental mode. Measured: 146 requests and 118 bills in 10 minutes (about 4.8 s a bill); a 10-11k-bill regular session is **about 14-15 hours a run** |
+| New York | NY Senate Open Legislation API plus one Assembly vote page per bill | a free NY key (not requested) | Incremental `window=7d`: 1 API call + 2 per changed bill |
+| California | `pubinfo_2025.zip`, **1.29 GB**, loaded into a local MySQL | a MySQL server | one large download a run |
+| New Jersey | The Legislature's own bulk zips (CSV tables + 6 vote zips) | none | about 7 requests: cheap |
+| Massachusetts | JSON list, then an HTML crawl per bill with roll-call PDFs | none | about 35k requests, about 10 hours at 60 a minute |
+
+**Verdict:** free and easy to install, but cheap only for New Jersey (and
+New York with a free key). Texas and Massachusetts are long full crawls and
+California needs MySQL and a 1.3 GB download every run. Not adopted: the
+bulk-plus-top-up route above already keeps these states current a day
+behind, for at most 150 keyed requests a run. If one state ever matters
+enough to be same-day, New Jersey's bulk zips or New York's API
+(`window=7d`) are the ones to self-run.
+
+### 4. LegiScan's free tier (measured from what is reachable, 9 October 2026)
+
+- **legiscan.com** (its API page, terms, datasets) answers a Cloudflare
+  challenge to our client: recorded, not bypassed. **api.legiscan.com is not
+  behind it**: the API manual (v1.91, revision 20250317) downloads from there.
+- **Limit:** "Public service keys have a monthly limit of 30,000 queries"
+  (the manual).
+- **Change detection:** load each session's dataset (getDatasetList /
+  getDataset: a base64 ZIP of every bill, vote and person, rebuilt weekly),
+  then `getMasterListRaw` per state compares an MD5 `change_hash` per bill,
+  and `getBill` fetches only the changed ones. Minimum refresh: master list
+  hourly, bill 3 hours, datasets weekly.
+- **Budget:** a daily master-list check for 50 states is about 1,500 queries
+  a month; with changed bills and weekly datasets, well under 30,000.
+- **Licence:** search snippets of legiscan.com say CC BY 4.0, but the wording
+  could not be read through Cloudflare. **Christopher reads
+  https://legiscan.com/legiscan and /terms-of-service in a normal browser**
+  before we rely on it.
+- **Key:** a free OneVote account at legiscan.com, then the API form at
+  https://legiscan.com/legiscan. Christopher does this himself; questions to
+  api@legiscan.com.
+- **Verdict:** the best free route to same-day data for all 50 states, if the
+  licence suits. Not needed for the route above, which is a day behind.
+
+### 5. The states' own sources (measured from the UK, 9 October 2026)
+
+| State | Source | Key | From the UK | What it gives | Verdict |
+|---|---|---|---|---|---|
+| Texas | anonymous FTP `ftp.legis.state.tx.us/bills/<session>/billhistory/` | no | answers (FTP only; https times out) | one XML per bill (actions with times, sponsors, subjects, committees, versions), rebuilt nightly at 02:00 in session; **no member roll calls**; the Acceptable Use notice asks data users to use the FTP | easy |
+| California | `downloads.leginfo.legislature.ca.gov` | no | answers | full session 1.2 GB; nightly change files of 2 KB to 1.2 MB (about 21:20 Pacific), with votes per member | moderate (one load, then daily deltas) |
+| New York | `legislation.nysenate.gov/api/3` | free key | **times out** | bills, updates since a time, per-member votes for both houses | easy once keyed, but needs a US runner |
+| New Jersey | `pub.njleg.gov/leg-databases/` | no (expected) | **times out** | bills, actions, votes, sponsors (not measured) | needs a US runner to measure |
+| Massachusetts | `malegislature.gov/api` | no (inferred) | **refused** | document list; history and roll calls need HTML | moderate to hard, needs a US runner |
+
+New York, New Jersey and Massachusetts look closed to non-US addresses, so
+any direct collector for them would run on GitHub's runners, not the Mini.
 
 ## What Open States gives, per state
 
@@ -317,9 +497,9 @@ empty tables until the first run.
 1. **The Actions secret and the Mini.** `OPENSTATES_API_KEY` must be added as
    a repository secret and to `~/runner/env` on the Mini; until then the step
    is one [gap] a week.
-2. **The tier.** Default (250 a day) works with the bulk fallback. Bronze
-   (1,000 a day) would let the sitting-season weeks run by API alone; it is
-   a request to Open States, not a purchase we can make from here.
+2. **The tier.** No paid tier (no budget). The free key's 250 a day carries
+   the "No paid tier" route with room to spare; the options that need
+   Christopher are listed there (keys to request, nothing to buy).
 3. **Taxonomy terms** for the state names above (women's bill of rights,
    end-of-life options, born alive infant, Riley Gaines, gender transition
    for minors, reproductive freedom, legally protected health care, drag
