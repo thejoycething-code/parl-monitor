@@ -1,0 +1,17 @@
+# Argentine watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed
+# by anyone who campaigns in Argentina.
+#
+# Until a Spanish term list is approved (docs/argentina-scope.md, "Proposed
+# Spanish terms"), this file is the ONLY source of areas for Argentina: the
+# English taxonomy is blind to Spanish. It carries expedientes found on our
+# ground while scoping, each with what is known about it and from where.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/ar_store.add_watch_areas). Keys are
+# '<chamber>/<number>-<origin>-<year>' in each chamber's OWN numbering:
+#   dip/5346-D-2026   a Diputados expediente, as HCDN prints it (unpadded)
+#   sen/159-PE-2025   the Senate's number for the same kind of item
+# A bill that passes one chamber gets a new number in the other, so a bill
+# watched through both chambers needs both keys. Bills lapse under Ley 13.640
+# (two parliamentary years without sanction) and come back, if at all, under
+# new numbers: re-key every entry each March.
+expedientes: {}
