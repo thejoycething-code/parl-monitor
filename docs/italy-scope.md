@@ -409,20 +409,23 @@ not a copy.
 
 ## The weekly job
 
-`jobs/it-weekly.sh` runs `tools/it_rollcalls.py --budget-seconds 2700` and
-publishes the raw archive and the store (exit 3 means "stored what it
-could, with gaps": still published). Two callers:
+`jobs/it-weekly.sh` runs `tools/it_rollcalls.py --budget-seconds 2700`
+(exit 3 means "stored what it could, with gaps": still published). Two
+callers:
 
 - **Mac Mini, first**: Saturdays 01:00 London,
   `ops/launchd/net.citizengo.parlmonitor.it-weekly.plist` calling
-  `tools/mini_run.sh it-weekly`. Install after merge to main:
+  `tools/mini_run.sh it-weekly`; the script publishes the raw archive and
+  the store itself, as `mini_run.sh` requires. Install after merge to main:
   `cp ops/launchd/net.citizengo.parlmonitor.it-weekly.plist ~/Library/LaunchAgents/`
   then `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.it-weekly.plist`.
 - **GitHub Actions, backup**: `.github/workflows/it-weekly.yml`, Saturdays
   01:00 and 02:00 UTC, behind `mini-check` with `job: IT_WEEKLY` and a
   200-minute grace (01:00 London is 00:00 UTC in summer), then the
-  same-day retry gate. A hand dispatch can reclassify first
-  (`IT_RECLASSIFY`).
+  same-day retry gate. There the script runs with `IT_PUBLISH=false` and
+  the workflow publishes in its own "Publish the raw archive" and "Publish
+  the store" steps, as the repo's guard tests require. A hand dispatch can
+  reclassify first (`IT_RECLASSIFY`).
 - Watched by the failure alert (`alert.yml`) and `tools/coverage.py`: bills
   and members weekly (both are re-read whole), divisions a month plus a
   month's grace (recesses).
@@ -435,6 +438,11 @@ could, with gaps": still published). Two callers:
 - `tools/coverage.py`: one `PIPELINES` entry ("Italy weekly"), three `FEEDS`
   rows, one `PIPELINE_FEEDS` entry, one `AWAITING_FIRST_RUN` entry.
 - `.github/workflows/alert.yml`: one line, `"Italy weekly"`.
+- `tests/test_db_state.py`: the plain-HTTP lint now also skips a URL
+  inside SPARQL's angle brackets (`<http://dati.senato.it/osr/>`), as it
+  already skipped XML namespaces in braces. The Senate's IRIs are
+  identifiers in the http scheme; the endpoint itself is fetched over
+  https.
 
 Everything else is Italy's own: `src/it_store.py`, `tools/it_rollcalls.py`,
 `config/watchlist-it.yaml`, `tests/test_it_rollcalls.py`,

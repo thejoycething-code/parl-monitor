@@ -84,7 +84,6 @@ SITTING_RANGE = 25     # Senate sittings per vote query (about 450 votes)
 CAMERA_LOOKBACK_DAYS = 14
 OPENPOLIS_PAGE = 500   # the API's maximum page size
 
-OSR = "http://dati.senato.it/osr/"
 # The Senate's position predicates. osr:votante and osr:presente are
 # supersets of these and are not read; a senator on none of them was absent.
 SENATE_POSITIONS = {"favorevole": "aye", "contrario": "no", "astenuto": "abstain",
@@ -161,10 +160,12 @@ def q_senate_max_sitting(leg):
                        "osr:legislatura {0} ; osr:numeroSeduta ?n }}").format(int(leg))
 
 
-def q_senate_positions(vote_uri):
+def q_senate_positions(vote_id):
+    """vote_id: '19-232-24'. The IRI is an identifier, written in SPARQL's
+    angle brackets, never fetched (the dataset's IRIs are http://)."""
     preds = ", ".join("osr:" + p for p in SENATE_POSITIONS)
-    return PREFIXES + "SELECT ?p ?s WHERE {{ <{0}> ?p ?s FILTER(?p IN ({1})) }} LIMIT {2}".format(
-        vote_uri, preds, SPARQL_CAP)
+    return PREFIXES + ("SELECT ?p ?s WHERE {{ <http://dati.senato.it/votazione/{0}> ?p ?s "
+                       "FILTER(?p IN ({1})) }} LIMIT {2}").format(vote_id, preds, SPARQL_CAP)
 
 
 # --- parsing (pure) ------------------------------------------------------------
@@ -227,7 +228,7 @@ def attach_subjects(bills, rows):
 
 
 def senate_vote_key(uri):
-    """'http://dati.senato.it/votazione/19-167-42' -> ('senato-19-167-42', 19, 167, 42)."""
+    """'<dati.senato.it>/votazione/19-167-42' -> ('senato-19-167-42', 19, 167, 42)."""
     hit = re.search(r"/votazione/(\d+)-(\d+)-(\d+)$", uri or "")
     if not hit:
         return None
@@ -300,7 +301,7 @@ def parse_senate_positions(rows):
     order = list(SENATE_POSITIONS)
     best = {}
     for r in rows:
-        pred = (r.get("p") or "").replace(OSR, "")
+        pred = re.sub(r"^.*/osr/", "", r.get("p") or "")
         hit = re.search(r"/senatore/(\d+)$", r.get("s") or "")
         if pred not in SENATE_POSITIONS or not hit:
             continue
@@ -656,8 +657,8 @@ def pull_positions(conn, client, today, members, leg=LEGISLATURE, log=print, bud
         try:
             if chamber == "senato":
                 _, lg, sitting, num = key.split("-")
-                uri = "http://dati.senato.it/votazione/{0}-{1}-{2}".format(lg, sitting, num)
-                rows = sparql(client, q_senate_positions(uri), "senate-positions-" + key)
+                vote_id = "{0}-{1}-{2}".format(lg, sitting, num)
+                rows = sparql(client, q_senate_positions(vote_id), "senate-positions-" + key)
                 positions = []
                 for member, position in parse_senate_positions(rows):
                     groups = (members.get(member) or {}).get("groups")

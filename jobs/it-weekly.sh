@@ -5,8 +5,9 @@
 #
 # Called by .github/workflows/it-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh it-weekly. One script, two callers. Both callers fetch
-# the store first and commit data/ afterwards; publishing is this script's
-# own last step, as mini_run.sh requires.
+# the store first and commit data/ afterwards. On the Mini, publishing is
+# this script's own last step, as mini_run.sh requires; the workflow sets
+# IT_PUBLISH=false and publishes in its own steps.
 #
 #     IT_RECLASSIFY=true    re-derive every stored IT bill's and division's
 #                           areas, offline, before the pull (after the Italian
@@ -33,7 +34,11 @@ if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "it-rollcalls failed (exit $rc); nothing published"
   exit "$rc"
 fi
-[ "$rc" -eq 3 ] && echo "it-rollcalls recorded gaps; publishing what it stored"
+[ "$rc" -eq 3 ] && echo "it-rollcalls recorded gaps; they are in the gaps table and the log"
+# On GitHub the workflow publishes in steps of its own (IT_PUBLISH=false).
+if [ "${IT_PUBLISH:-true}" = "false" ]; then
+  exit 0
+fi
 # The archive before the store: a store that cites payloads the archive
 # lacks is the worse of the two failures. Both merge, never clobber.
 python3 tools/raw_state.py --push
