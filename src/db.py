@@ -1636,6 +1636,14 @@ TABLES = (
     # phase 0), created by src/hu_store.ensure_schema -- declared from day one.
     "hu_gazette_issues",
     "hu_gazette_entries",
+    # The Országgyűlés's record (HU7, 10 October 2026): members, papers,
+    # recorded votes and positions, loaded once from karzat's open data
+    # (tools/hu_karzat_backfill.py) until the W-API token arrives (HU1).
+    "hu_members",
+    "hu_papers",
+    "hu_divisions",
+    "hu_votes",
+    "hu_sources",
     # Italy's Parliament (tools/it_rollcalls.py), created by
     # src/it_store.ensure_schema -- declared from day one.
     "it_members",

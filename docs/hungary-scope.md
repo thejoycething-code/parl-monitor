@@ -477,10 +477,15 @@ Later phases and items for Chris (not built at the merge):
   telecoms decree. **HU4 applied:** an amendment is stored with rule `HU4`
   and shown as watched whatever its words. **A taxonomy fix for Chris:**
   with accents folded, `válás*` (divorce) matches "választás" (election);
-  both of its hits in the term's gazette were elections. The collector
-  guards it (`FALSE_FRIENDS`); the guard belongs in
-  `docs/keyword-taxonomy-hu.md` as `{term: "válás*", without: ["választ*"]}`
-  when the list is next regenerated.
+  both of its hits in the term's gazette were elections. **Fixed at the
+  source, 10 October 2026 (taxonomy-hu v0.2, branch `hu-karzat`):**
+  `válás*` is replaced by its explicit forms (válás, válást, válási*,
+  válásá*, válások*, válásr*, ...), none of which folds to "valasz", so
+  neither "választás" (election) nor "válasz"/"választ" (answer, the word in
+  every interpellation-answer vote) matches; a veto on `választ*` would have
+  missed "válasz". The collector's `FALSE_FRIENDS` guard is gone. Measured
+  on the backfill: the two election entries stay off area 9, nothing else
+  changed, and the divorce forms still match.
 - **Backfill measured** (laptop, 9 October 2026, scratch store, not
   published; the Mini's first scheduled run makes the real one): 108
   issues from No. 44 of 9 May to No. 151 of 9 October, 736 contents
@@ -505,7 +510,7 @@ Later phases and items for Chris (not built at the merge):
   backup Wednesdays 03:00 and 05:00 UTC, gated by `mini-check` with
   `HU_WEEKLY` (docs/mac-mini.md).
 
-## HU7: karzat's data, how it would be loaded (not built)
+## HU7: karzat's data, how it would be loaded (the plan; built, see below)
 
 karzat publishes a downloadable open dataset: its derived tables are files
 in its GitHub repository, `data/derived/` (licensed CC BY 4.0 there; code
@@ -528,3 +533,69 @@ parlament.hu. When phase 1 is built:
   provenance.
 - Karzat's own caveat stands: the underlying record conveys no rights,
   which is why it is a bridge to our own token, not a substitute.
+
+## HU7, as built (10 October 2026, branch `hu-karzat`)
+
+- **Loader:** `tools/hu_karzat_backfill.py`, run by hand on the Mac Mini
+  through `jobs/hu-karzat-backfill.sh` (docs/mac-mini.md; no plist, no
+  workflow: the source is static). It asks the GitHub API for karzat's
+  newest commit touching `data/derived/` (or takes `KARZAT_COMMIT`), reads
+  `votes_index.json`, `votes_positions.json`, `iromany_records.json` and
+  `mps.json` at that commit from raw.githubusercontent.com through
+  `src/http.py`, archives them, and loads the term from 9 May 2026. Never
+  parlament.hu, never karzat's site.
+- **Tables** (`src/hu_store.py`, declared in `db.TABLES`): `hu_members`
+  (p_azon), `hu_papers` (paper number, 'T/324'), `hu_divisions` (the vote's
+  timestamp, '2026.07.13.18:19:08', as the W-API keys it), `hu_votes`
+  (vote, member: the record's own position and the group at the vote),
+  `hu_sources` (one row per load: commit, licence, attribution, window,
+  counts). Every row has `source = 'karzat@<commit>'` and `as_of`. A vote's
+  motion ('324/14', the consolidated text) is joined to its paper by the
+  paper's number in the term, never by title. karzat's positions name
+  members by p_azon (201 of 201 checked against `mps.json`). Upserts only,
+  so a rerun (or a karzat update) is safe; a row from any other source
+  (the W-API, later) is never overwritten.
+- **Rules:** taxonomy-hu on the paper's title; a vote takes its paper's
+  areas. HU4: every paper titled "Magyarország Alaptörvényének ...
+  módosítása", and every vote on it, carries `rule = 'HU4'` and is shown
+  whatever its words. HU5: a vote on accepting a minister's answer to an
+  interpellation carries `rule = 'HU5'` and counts, on our ground when the
+  interpellation is. Procedural votes (urgency, the exceptional procedure,
+  departures from the standing orders, hearing an out-of-scope amendment)
+  are left out by `config/edition-noise-hu.yaml` unless watched or HU4.
+- **Attribution (CC BY 4.0):** "Votes, papers and members before the
+  parliament's own feed from karzat (github.com/abognar-git/karzat, open
+  data under CC BY 4.0), derived from the Országgyűlés's record", in
+  `hu_sources`; a line on every karzat-derived item in an edition, the full
+  attribution with the data's date and commit under Coverage whenever such
+  an item is shown, and in the standing notice and the DM's second line
+  while karzat's rows are in the store.
+- **Edition:** "Recorded votes" (tally, the majority needed, the record's
+  words for the motion and result, the split by group at the vote, members
+  against their group's majority; a bill's amendments and final vote as one
+  group), "New on our ground" (bills, resolutions, reports) and "Questions"
+  (interpellations, written and urgent questions), each only in the week of
+  its own date: after 28 August the weekly editions carry the gazette
+  alone. The one-off read, "since 9 May", is
+  `tools/hu_karzat_backfill.py --summary`; the Mini job writes it to
+  `editions/hu-karzat-backfill.md`.
+- **Measured** (laptop, 10 October 2026, commit 4f932a3a0513 of 3 September
+  2026, into a scratch copy of the gazette backfill store; not published):
+  201 members, 586 papers (71 bills), 272 votes from 9 May to 28 August
+  2026 (266 by name, 5 secret ballots, 1 quorum call), 53,084 positions,
+  every member code placed and every motion joined to its paper. On our
+  ground: 65 papers and 48 votes (8 under HU4, 12 interpellation answers
+  under HU5; migration included, which is stored but not shown). The
+  summary shows 43 votes, 18 bills and resolutions and 33 questions; 3
+  procedural votes are left out.
+- **Cross-checked against the gazette:** all 54 promulgated bills and
+  resolutions agree with the gazette store (issue, date, and the Act's
+  designation where karzat gives one). The two amendments: the sixteenth,
+  T/51, passed 15 June 2026 by 135 to 50 with 6 abstaining (two-thirds of
+  all MPs needed, 133), promulgated in No. 74 of 19 June, whose heading is
+  dated 15 June; the seventeenth, T/324, passed 13 July 2026 by 139 to 6
+  (motion 324/14, Fidesz and KDNP not voting), promulgated in No. 92 of 18
+  July, heading dated 13 July. Acts XX (T/122, passed 23 June, published 26
+  June) and XXIV (T/123, 30 June, 30 June) agree too. The watchlist's
+  earlier "promulgated 15 June" and "13 July" were the vote dates, now
+  corrected.

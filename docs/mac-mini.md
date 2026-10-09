@@ -227,6 +227,23 @@ The Magyar Közlöny (Hungary's official gazette) and the Hungarian edition (HU6
 - **Install on the Mini** (after the branch is merged to main): `bash ops/install_country_jobs.sh` (it lists `hu-weekly`), or `cp ops/launchd/net.citizengo.parlmonitor.hu-weekly.plist ~/Library/LaunchAgents/` then `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.hu-weekly.plist`.
 - **Source:** magyarkozlony.hu answered the laptop on 9 and 10 October 2026 with the honest UA; its robots.txt disallows nothing. Never parlament.hu.
 
+## Hungary: the karzat backfill, by hand, once (10 October 2026, branch `hu-karzat`)
+
+HU7: the 43rd term's papers, recorded votes and member positions from 9 May to 28 August 2026, from karzat's open data (github.com/abognar-git/karzat, `data/derived/`, CC BY 4.0), until the W-API token (HU1). karzat stopped updating around 28 August, so this is a **manual job, not a feed**: no plist, no workflow, no schedule. After the branch is merged to main, on the Mini:
+
+    cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh hu-karzat-backfill \
+      >> ~/runner/logs/hu-karzat-backfill.log 2>&1 &
+
+    # pin a karzat commit:          KARZAT_COMMIT=4f932a3a0513b67fc4b2adf31aa9536ae928ae16
+    # reload a commit already in:   FORCE=true
+
+- **What it does:** `jobs/hu-karzat-backfill.sh` runs `tools/hu_karzat_backfill.py` (the GitHub API for karzat's newest data commit, then four JSON files from raw.githubusercontent.com at that commit, about 4 MB, archived to `data/raw/<date>/hu-karzat_*`; never parlament.hu, never karzat's site), loads `hu_members`, `hu_papers`, `hu_divisions`, `hu_votes` and `hu_sources`, writes the one-off read for Chris, `editions/hu-karzat-backfill.md` ("since 9 May": every vote and paper on our ground, with the attribution; no DM), then publishes the raw archive and the store. `# mini_run: commit editions` commits the summary.
+- **Seconds, not minutes:** measured on the laptop, the load takes under a second once the files are fetched.
+- **Rerunning is safe:** every write is an upsert on the parliament's own keys; a commit already loaded is skipped unless `FORCE=true`; a row from the House's own record (the W-API, later) is never overwritten.
+- **Heartbeat name:** "Hungary karzat backfill" (`tools/coverage.py` ON_DEMAND), never the weekly's.
+- **After a taxonomy or watchlist change:** the weekly's `HU_RECLASSIFY=true` re-derives karzat's rows too (`tools/hu_karzat_backfill.py --reclassify`, offline).
+- **The summary again, any time:** `python3 tools/hu_karzat_backfill.py --summary` (stdout) or `--out FILE`.
+
 ## Latam monthly and the Latam alerts (10 October 2026, branch `latam`)
 
 The Latam monitor (docs/country-decisions-2026-10-10.md, "Edition structure"): one monthly edition for the fifteen CitizenGO Latam countries, to Chris alone by DM, plus instant alerts between editions.
@@ -337,6 +354,11 @@ with the end of its output. Nothing caps the clock here, but give
     cd ~ && CA_RETAG=true JOB_TIMEOUT=3600 \
       nohup ~/runner/parl-monitor/tools/mini_run.sh ca-backfill \
       >> ~/runner/logs/ca-backfill.log 2>&1 &
+
+    # Hungary, once: karzat's open data, 9 May to 28 August 2026 (HU7; see
+    # "Hungary: the karzat backfill" above).
+    cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh hu-karzat-backfill \
+      >> ~/runner/logs/hu-karzat-backfill.log 2>&1 &
 
 They record their own heartbeats ("Provinces backfill", "Canada backfill"),
 never the weekly's. They hold the lock while they run, so the scheduled jobs

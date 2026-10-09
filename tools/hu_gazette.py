@@ -240,44 +240,18 @@ def load_taxonomy(path=TAXONOMY):
     return filt.load_taxonomy(path, country="hu")
 
 
-# Accent folding (X3) makes a few Hungarian terms false friends: `válás*`
-# (divorce) folds to "valas", which starts "választás" (election) and
-# "választása" (its election of). MEASURED on the term's gazette: two of two
-# `válás*` hits were elections (party funding after the general election, the
-# election of lay judges), none a divorce. A term listed here stands only when
-# its pattern matches the folded title; until the taxonomy carries the guard
-# itself (docs/keyword-taxonomy-hu.md, for Chris), the collector applies it.
-FALSE_FRIENDS = {"válás*": re.compile(r"\bvalas(?!zt)")}
-
-
-def _term_areas(tax):
-    """{term: {(area, tier)}} from a compiled taxonomy."""
-    out = {}
-    for area, tiers in tax.terms.items():
-        for tier, compiled in tiers.items():
-            for entry in compiled:
-                out.setdefault(entry[0], set()).add((area, tier))
-    return out
-
-
 def classify(tax, wl, designation, title, kind):
     """(areas, terms, tier, rule, watched) for one entry, on its title alone
     (the designation names only the issuer: 'NMHH rendelet' would file every
     telecoms regulator's decree under free speech). The watchlist is applied
     by key, never by title; a watched entry takes its areas."""
+    # The taxonomy itself keeps divorce from matching elections and answers
+    # (taxonomy-hu v0.2: `válás*` replaced by its explicit forms, because
+    # accents fold, X3, and "valas" begins "választás" and "válasz").
     res = filt.filter_item(tax, _NO_WATCH, title or "")
     terms = list(res.matched_terms or [])
-    folded = filt._fold(title or "").lower()
-    dropped = [t for t in terms if t in FALSE_FRIENDS and not FALSE_FRIENDS[t].search(folded)]
-    if dropped:
-        terms = [t for t in terms if t not in dropped]
-        by_term = _term_areas(tax)
-        hits = set().union(*[by_term.get(t, set()) for t in terms]) if terms else set()
-        areas = {a for a, _ in hits}
-        tier = min((tr for _, tr in hits), default=None)
-    else:
-        areas = set(res.issue_areas or [])
-        tier = res.tier
+    areas = set(res.issue_areas or [])
+    tier = res.tier
     rule = "HU4" if kind == "fundamental_law" else None
     entry = wl.get(hu_store.norm(designation))
     watched = entry is not None

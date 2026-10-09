@@ -143,6 +143,15 @@ class Classification(unittest.TestCase):
         self.assertEqual(hg.classify(self.tax, {}, "x", title, "ke_decision")[0], [])
         areas, terms, *_ = hg.classify(self.tax, {}, "x", "A válás utáni kapcsolattartásról", "act")
         self.assertIn(9, areas)
+        # Fixed in the taxonomy itself (v0.2), not by a collector guard: an
+        # election, an answer, and the divorce forms that must still match.
+        self.assertFalse(hasattr(hg, "FALSE_FRIENDS"))
+        for t in ("A pártok választási kampányának finanszírozásáról",
+                  "Országgyűlés az interpellációs választ elfogadta", "a miniszter válasza"):
+            self.assertEqual(hg.classify(self.tax, {}, "x", t, "act")[0], [], t)
+        for t in ("a válást követő eljárás", "A válási eljárásról", "a szülők válásának hatásai",
+                  "a válásra vonatkozó szabályok", "a válások száma"):
+            self.assertIn(9, hg.classify(self.tax, {}, "x", t, "act")[0], t)
 
     def test_designation_alone_files_nothing(self):
         self.assertEqual(hg.classify(self.tax, {}, "7/2026. (V. 26.) NMHH rendelet",

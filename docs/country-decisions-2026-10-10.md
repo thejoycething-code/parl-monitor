@@ -108,8 +108,12 @@ MX5, CO5, PE3, BO3, GT3, HN6, DO3. Panama's stays empty (PA5 deferred).
   (`src/editions/hu.py`) reports what became law with a standing line that
   bills and votes await the token, and `hu-weekly` runs Wednesdays 03:00
   London on the Mini. HU7: karzat publishes its derived tables as files in
-  its GitHub repository (`data/derived/`, CC BY 4.0), so they may be used;
-  the loading plan is in docs/hungary-scope.md, not built yet.
+  its GitHub repository (`data/derived/`, CC BY 4.0), so they may be used.
+  HU7 built 10 October 2026 (branch `hu-karzat`): a one-off, hand-run Mini
+  job (`jobs/hu-karzat-backfill.sh`) loads the term's papers, votes and
+  positions to 28 August 2026, credited to karzat (name, link, CC BY 4.0)
+  wherever they appear; see docs/hungary-scope.md, "HU7, as built". The
+  divorce term no longer matches elections (taxonomy-hu v0.2).
 - Brazil: Portuguese source text with English takeaways (BR5).
 - Brazil: BR3 and BR4 terms approved by Chris on 10 October 2026, added to
   `docs/keyword-taxonomy-pt.md` as areas 14 (gambling and betting) and 15

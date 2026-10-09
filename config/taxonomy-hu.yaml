@@ -1,7 +1,7 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy-hu.md
 # Regenerate: python3 tools/generate_taxonomy.py --lang hu
-version: 0.1
+version: 0.2
 areas:
   1_abortion:
     tier1: ["abortusz*", "terhességmegszakítás*", "terhesség-megszakítás*", "magzati élet*", "magzatvédel*", "magzati szívhang*", "fogantatás*", "abortusztablett*", "abortuszpirul*", Mifegyne, "mifepriszton*", "életvédő*"]
@@ -38,8 +38,8 @@ areas:
     # note: Hungary: antiszemitizmus* removed under X13.
   9_marriage_family:
     tier1: ["házasság*", "egy férfi és egy nő", "anya nő, az apa férfi", "élettársi kapcsolat*", "bejegyzett élettárs*", "azonos nemű*", "örökbefogad*", "családtámogatás*", "családpolitik*", "családvédel*", "Családvédelmi Akcióterv*", "babaváró*", CSOK, "családi otthonteremtési kedvezmény*", "családi adókedvezmény*", "gyermekgondozási díj*", GYED, GYES, "gyermeknevelési támogatás*", "családi pótlék*"]
-    tier2: ["családok*", "családi*", "családügy*", "családbarát*", "sokgyermekes*", "nagycsalád*", "demográfi*", "népességfogy*", "gyermekvállalás*", "édesanyá*", "anyák*", "szülési szabadság*", "apasági szabadság*", "gyermekgondozás*", "gyermektartás*", "szülői felügyelet*", "válás*", "kapcsolattartás*"]
-    # note: Hungary: Family benefits (CSOK, babaváró, GYED, GYES) at tier 1 as drafted.
+    tier2: ["családok*", "családi*", "családügy*", "családbarát*", "sokgyermekes*", "nagycsalád*", "demográfi*", "népességfogy*", "gyermekvállalás*", "édesanyá*", "anyák*", "szülési szabadság*", "apasági szabadság*", "gyermekgondozás*", "gyermektartás*", "szülői felügyelet*", válás, válást, "válási*", "válásá*", "válások*", "válásuk*", "válásr*", "válásb*", "válásn*", "válásh*", válással, válásig, válásért, válástól, váláskor, "kapcsolattartás*"]
+    # note: Hungary: Family benefits (CSOK, babaváró, GYED, GYES) at tier 1 as drafted. Divorce (v0.2, 10 October 2026): `válás*` is replaced by its explicit forms, because accents fold (X3) and the stem then matched "választás" (election) and "válasz"/"választ" (answer, the word in every vote on accepting a minister's reply to an interpellation, HU5). Measured: on the term's gazette, 2 of 2 `válás*` hits were elections; on karzat's 586 term-43 paper titles, 12 of 12 were elections, "választja" (chooses) or "Válaszra" (for an answer); and the record's words on all 59 interpellation-answer votes matched. None was a divorce. The forms cover the case endings and the possessive (válása, válásának) and none folds to "valasz".
   10_surrogacy_embryology:
     tier1: ["béranyaság*", "dajkaterhesség*", "helyettesítő anyaság*", "embrió*", "lombik*", "mesterséges megtermékenyítés*", "asszisztált reprodukci*", "reprodukciós eljárás*", "humán reprodukci*", "petesejt*", "ivarsejt*", "spermadonáci*", "őssejt*", "klónoz*", "génszerkeszt*", "méhen kívüli megtermékenyítés*", IVF]
     tier2: ["meddőség*", "termékenység*", "reprodukciós*", "Humánreprodukciós*"]
