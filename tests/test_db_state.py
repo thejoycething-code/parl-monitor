@@ -9,6 +9,7 @@ import json
 import os
 import sys
 import unittest
+from unittest import mock
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -391,6 +392,37 @@ class FailureAlertTests(unittest.TestCase):
         self.assertNotIn("was not published", msg)
         self.assertIn("upsert", msg)
 
+
+
+class LiveAssetTests(unittest.TestCase):
+    """Two machines publish the store without a shared lock (the Mac Mini
+    runner and GitHub): the release's own digest must be one we have seen."""
+
+    def assets(self, *pairs):
+        return [{"name": n, "digest": d} for n, d in pairs]
+
+    def test_our_store_on_the_release_passes(self):
+        self.assertTrue(db_state.live_asset_is_ours(["aaa", "bbb"], self.assets((db_state.ASSET, "bbb"))))
+
+    def test_an_uploaded_store_we_never_saw_is_refused(self):
+        self.assertFalse(db_state.live_asset_is_ours(["aaa"], self.assets((db_state.ASSET, "ccc"))))
+
+    def test_a_push_part_way_through_is_refused(self):
+        self.assertFalse(db_state.live_asset_is_ours(["aaa"], self.assets((db_state.PREV, "aaa"))))
+        self.assertFalse(db_state.live_asset_is_ours(
+            ["aaa"], self.assets((db_state.ASSET, "aaa"), (db_state.PREV, "zzz"))))
+
+    def test_an_unreadable_release_or_no_asset_does_not_block(self):
+        self.assertTrue(db_state.live_asset_is_ours(["aaa"], []))
+        with mock.patch.object(db_state, "_release_assets", return_value=None):
+            self.assertTrue(db_state.live_asset_is_ours(["aaa"]))
+
+    def test_lineage_checks_the_live_asset_after_the_pointer(self):
+        with mock.patch.object(db_state, "published_sha", return_value="aaa"), \
+             mock.patch.object(db_state, "held_shas", return_value=["aaa"]), \
+             mock.patch.object(db_state, "_release_assets",
+                               return_value=self.assets((db_state.ASSET, "ccc"))):
+            self.assertFalse(db_state.check_lineage())
 
 if __name__ == "__main__":
     unittest.main()
