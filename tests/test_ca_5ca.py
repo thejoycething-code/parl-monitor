@@ -329,8 +329,14 @@ class StanceFileTests(unittest.TestCase):
         and its source; migration (area 11) is never placed."""
         divs = c5.load_stance(section="divisions")
         # Confirmed 8 October 2026 on delegation ("Score for me and Greg can
-        # amend if necessary"): no draft remains.
-        self.assertEqual([k for k, e in divs.items() if e.get("draft")], [])
+        # amend if necessary"): no draft remains from that batch. Later
+        # divisions may arrive as drafts for Christopher to sign (C-218,
+        # drafted 10 October 2026); a draft places nobody.
+        LATER_DRAFTS = {"commons-45-1-177"}
+        self.assertEqual([k for k, e in divs.items() if e.get("draft") and k not in LATER_DRAFTS], [])
+        for k in LATER_DRAFTS & set(divs):
+            if divs[k].get("draft"):
+                self.assertEqual(c5.status(divs[k]), "draft", k)
         new = {k: e for k, e in divs.items() if e.get("moved_by") or c5.status(e) == "unplaceable"}
         valued = [k for k, e in new.items() if c5.status(e) == "confirmed"]
         for k in valued:
