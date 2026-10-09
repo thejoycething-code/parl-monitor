@@ -1715,6 +1715,12 @@ TABLES = (
     "mx_iniciativas",
     "mx_divisions",
     "mx_votes",
+    # Argentina's National Congress (tools/ar_rollcalls.py), created by
+    # src/ar_store.ensure_schema -- declared from day one.
+    "ar_members",
+    "ar_bills",
+    "ar_divisions",
+    "ar_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -2031,4 +2037,6 @@ def init_db(conn):
     gt_store.ensure_schema(conn)
     from src import mx_store
     mx_store.ensure_schema(conn)
+    from src import ar_store
+    ar_store.ensure_schema(conn)
     return conn

@@ -1,0 +1,92 @@
+{
+ "help": "https://datos.hcdn.gob.ar:443/api/3/action/help_show?name=datastore_search_sql",
+ "success": true,
+ "result": {
+  "records": [
+   {
+    "PUBLICACION_FECHA": "2026-09-01T00:00:00",
+    "TIPO": "LEY",
+    "PROYECTO_ID": "HCDN294210",
+    "CAMARA_ORIGEN": "Diputados",
+    "AUTOR": "GLINSKI, JOSE",
+    "EXP_DIPUTADOS": "4399-D-2026",
+    "TITULO": "PRESUPUESTOS MINIMOS PARA LA PREVENCION DE INCENDIOS FORESTALES Y RURALES EN ZONAS DE INTERFASE MEDIANTE LA GESTION DEL COMBUSTIBLE FORESTAL.",
+    "PUBLICACION_ID": "HCDN144TP124",
+    "EXP_SENADO": ""
+   },
+   {
+    "PUBLICACION_FECHA": "2026-09-01T00:00:00",
+    "TIPO": "LEY",
+    "PROYECTO_ID": "HCDN294211",
+    "CAMARA_ORIGEN": "Diputados",
+    "AUTOR": "MOREAU, CECILIA",
+    "EXP_DIPUTADOS": "4404-D-2026",
+    "TITULO": "DECLARASE LA EMERGENCIA NACIONAL EN SALUD MENTAL EN TODO EL TERRITORIO DE LA REPUBLICA ARGENTINA POR EL PLAZO DE DOS AÑOS.",
+    "PUBLICACION_ID": "HCDN144TP124",
+    "EXP_SENADO": ""
+   },
+   {
+    "PUBLICACION_FECHA": "2026-09-01T00:00:00",
+    "TIPO": "RESOLUCION",
+    "PROYECTO_ID": "HCDN294216",
+    "CAMARA_ORIGEN": "Diputados",
+    "AUTOR": "GONZALEZ, DIOGENES IGNACIO",
+    "EXP_DIPUTADOS": "4402-D-2026",
+    "TITULO": "REQUERIR AL PODER EJECUTIVO DISPONGA LAS MEDIDAS NECESARIAS PARA LA PREVENCION Y ASISTENCIA ANTE SITUACIONES DE RIESGO DE SUICIDIO EN EL PUENTE INTERPROVINCIAL GENERAL MANUEL BELGRANO, QUE UNE LAS PROVINCIAS DEL CHACO Y CORRIENTES.",
+    "PUBLICACION_ID": "HCDN144TP124",
+    "EXP_SENADO": ""
+   },
+   {
+    "PUBLICACION_FECHA": "2026-09-01T00:00:00",
+    "TIPO": "DECLARACION",
+    "PROYECTO_ID": "HCDN294239",
+    "CAMARA_ORIGEN": "Diputados",
+    "AUTOR": "FERNANDEZ, ELIA MARINA",
+    "EXP_DIPUTADOS": "4421-D-2026",
+    "TITULO": "EXPRESAR BENEPLACITO A LA SELECCION ARGENTINA DE HOCKEY FEMENINO, \"LAS LEONAS\", POR LA OBTENCION DEL TITULO EN EL MUNDIAL 2026, DISPUTADO EN BELGICA Y LOS PAISES BAJOS.",
+    "PUBLICACION_ID": "HCDN144TP124",
+    "EXP_SENADO": ""
+   }
+  ],
+  "fields": [
+   {
+    "type": "text",
+    "id": "PROYECTO_ID"
+   },
+   {
+    "type": "text",
+    "id": "TITULO"
+   },
+   {
+    "type": "timestamp",
+    "id": "PUBLICACION_FECHA"
+   },
+   {
+    "type": "text",
+    "id": "PUBLICACION_ID"
+   },
+   {
+    "type": "text",
+    "id": "CAMARA_ORIGEN"
+   },
+   {
+    "type": "text",
+    "id": "EXP_DIPUTADOS"
+   },
+   {
+    "type": "text",
+    "id": "EXP_SENADO"
+   },
+   {
+    "type": "text",
+    "id": "TIPO"
+   },
+   {
+    "type": "text",
+    "id": "AUTOR"
+   }
+  ],
+  "sql": "SELECT \"PROYECTO_ID\",\"TITULO\",\"PUBLICACION_FECHA\",\"PUBLICACION_ID\",\"CAMARA_ORIGEN\",\"EXP_DIPUTADOS\",\"EXP_SENADO\",\"TIPO\",\"AUTOR\" FROM \"22b2d52c-7a0e-426b-ac0a-a3326c388ba6\" WHERE \"PUBLICACION_FECHA\" >= '2026-09-01' ORDER BY \"PROYECTO_ID\" LIMIT 5000 OFFSET 0"
+ },
+ "_fixture_note": "Trimmed from a real datastore_search_sql reply (datos.hcdn.gob.ar, Proyectos Parlamentarios since 2026-09-01), 9 October 2026: 4 of 652 records kept, untouched."
+}
