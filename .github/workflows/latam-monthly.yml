@@ -1,19 +1,17 @@
-name: Panama weekly
+name: Latam monthly
 on:
   schedule:
-    # Saturday 17:30 UTC, retry 21:30 UTC (9 October 2026). The Asamblea's
-    # plenary sits Monday to Thursday (an orden del dia for each day); by
-    # Saturday the week's stage changes are in segLegis. 17:30 UTC is 12:30 in
-    # Panama, which keeps UTC-5 all year. Moved from 12:00/16:00 at the
-    # countries merge (10 October 2026): Portugal holds Saturday 16:00.
-    - cron: "30 17 * * 6"
-    - cron: "30 21 * * 6"
+    # The 1st of each month, 12:15 UTC, retry 15:15 UTC (10 October 2026).
+    # Nothing else on main starts at :15, and the 1st falls on any weekday,
+    # so the slot was chosen clear of every weekly's hour: the nearest are
+    # Dominican Republic weekly (Sundays 12:00) and Bolivia weekly (Sundays
+    # 12:30), and they only queue behind it in the parl-monitor-state group.
+    - cron: "15 12 1 * *"
+    - cron: "15 15 1 * *"
   workflow_dispatch:
     inputs:
       reclassify:
-        # After a Spanish taxonomy or watchlist-pa change: re-derive every
-        # stored PA bill's areas, offline, before the pull.
-        description: "Reclassify stored PA bills under the current taxonomy"
+        description: "Reclassify the Venezuela and Nicaragua rows under the current taxonomy-es"
         type: boolean
         default: false
 
@@ -31,19 +29,17 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # The Mac Mini runs this on Saturdays at 17:30 London (tools/mini_run.sh
-  # pa-weekly); these crons are the backup. The Mini runs ONCE for both
-  # slots, so its run must count for the 21:30 retry too: at 17:30 London in
-  # summer it stamps 16:30 UTC, five hours before that slot, hence a grace
-  # of 320 minutes rather than the default 75.
+  # The Mac Mini runs this on the 1st at 13:15 London (tools/mini_run.sh
+  # latam-monthly); these crons are the backup. The Mini's run must count for
+  # the 15:15 retry too: in summer it stamps 12:15 UTC, three hours before
+  # that slot, hence a grace of 200 minutes.
   mini-check:
     uses: ./.github/workflows/mini-check.yml
     with:
-      job: PA_WEEKLY
-      grace-minutes: 320
+      job: LATAM_MONTHLY
+      grace-minutes: 200
 
-  # The second slot is a retry, not a second pass (copied from us-weekly.yml):
-  # when the 17:30 backup already ran today, 21:30 has nothing to do.
+  # The second slot is a retry, not a second edition.
   gate:
     needs: mini-check
     if: needs.mini-check.outputs.run == 'true'
@@ -60,7 +56,7 @@ jobs:
             echo "dispatched by hand; running"; echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
           fi
           TODAY=$(date -u +%Y-%m-%d)T00:00:00Z
-          BUSY=$(gh api "repos/${{ github.repository }}/actions/workflows/pa-weekly.yml/runs?per_page=50" \
+          BUSY=$(gh api "repos/${{ github.repository }}/actions/workflows/latam-monthly.yml/runs?per_page=50" \
                  --jq "[.workflow_runs[]
                         | select(.created_at >= \"$TODAY\")
                         | select(.id != ${{ github.run_id }})
@@ -74,16 +70,13 @@ jobs:
             echo "go=true" >> "$GITHUB_OUTPUT"
           fi
 
-  pull:
+  edition:
     needs: gate
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
-    # Every run walks all of segLegis (47 postback pages, about five minutes
-    # measured from the laptop on 9 October 2026) plus the stage histories of
-    # bills whose stage moved and up to 15 orden-del-dia PDFs. Whether
-    # sistemas.asamblea.gob.pa answers GitHub's runners is NOT yet measured
-    # (docs/panama-scope.md); the Mini is the runtime that was measured.
-    timeout-minutes: 60
+    # About 3 Venezuela list pages and 35 articles, and about 21 gazette
+    # issues of 1.6 MB, all at one request every two seconds: under 5 minutes.
+    timeout-minutes: 45
     env:
       PYTHONUNBUFFERED: "1"
     steps:
@@ -94,7 +87,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: pip install pyyaml pypdf
+        run: pip install pyyaml
       - name: Fetch the store
         id: fetch
         env:
@@ -104,27 +97,23 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/raw_state.py --pull
-      - name: Bills, stage histories, orden del dia and deputies (Asamblea); publish
-        # jobs/pa-weekly.sh is shared with the Mac Mini runner. It publishes
-        # the raw archive and then the store itself (tools/raw_state.py,
-        # then tools/db_state.py), only when the collector finished, gaps
-        # included; the next step commits the sidecars.
-        if: steps.fetch.outcome == 'success'
+      - name: Venezuela and Nicaragua checks, alerts, the edition and its DM, publish
+        if: always() && steps.fetch.outcome == 'success'
         env:
-          # Latam alerts: a DM to Chris per watched or tier-1 item (latam_alerts.py)
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PA_RECLASSIFY: ${{ inputs.reclassify }}
-        run: bash jobs/pa-weekly.sh | tee /tmp/pa-weekly.log
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
+          LATAM_RECLASSIFY: ${{ inputs.reclassify }}
+        run: bash jobs/latam-monthly.sh
       - name: Health summary
         if: always()
         run: |
           {
-            echo "## Panama weekly"
+            echo "## Latam monthly"
             echo '```'
-            grep -hE "pa-rollcalls:|store:|\[gap\]" /tmp/pa-weekly.log 2>/dev/null | head -25 || echo "(no summary lines)"
+            grep -hE "ve-news:|nic-gaceta:|latam-alerts:|edition:|dm:|\[gap\]" /tmp/ve-news.log /tmp/nic-gaceta.log /tmp/latam-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
             echo '```'
-            TOTAL=$({ grep -hc "\[gap\]" /tmp/pa-weekly.log 2>/dev/null \
+            TOTAL=$({ grep -hc "\[gap\]" /tmp/ve-news.log /tmp/nic-gaceta.log /tmp/latam-*.log 2>/dev/null \
                       || true; } | awk '{s+=$1} END {print s+0}')
             if [ "$TOTAL" -gt 0 ]; then
               echo "**$TOTAL gap(s) this run** - see the step log."
@@ -133,15 +122,12 @@ jobs:
             fi
           } >> "$GITHUB_STEP_SUMMARY"
       - name: Commit state
-        # Paired with the publish inside the job script -- an uncommitted
-        # sidecar next to a published store is the divergence this repo has
-        # already paid for.
         if: always() && steps.fetch.outcome == 'success'
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/
-          git diff --cached --quiet || git commit -m "Panama weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
+          git add data/ editions/
+          git diff --cached --quiet || git commit -m "Latam monthly: $(date -u +%Y-%m-%dT%H:%M)Z"
           for attempt in 1 2 3; do
             git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
             git push && break
