@@ -140,18 +140,29 @@ job_failed=
 # and each push rewrites its sidecar. A store that changed while its
 # sidecar did not was never published: committing then would go out half.
 STAGE="commit state"
+store_unpublished=
 if [ data/parl-monitor.db -nt data/.store-pulled ] && git diff --quiet -- data/parl-monitor.db.json; then
-  fail "the job changed the store but did not publish it (db_state.py --push)${job_failed:+; the job itself: $job_failed}"
+  store_unpublished="the job changed the store but did not publish it (db_state.py --push)${job_failed:+; the job itself: $job_failed}"
 fi
-git add -A data
-# A job that writes outside data/ names the folder: "# mini_run: commit editions".
-for extra in $(sed -n 's/^# mini_run: commit //p' "jobs/$JOB.sh"); do
-  case "$extra" in data|data/*|""|/*|*..*) continue ;; esac
-  [ -e "$extra" ] && git add -A -- "$extra"
-done
+if [ -n "$store_unpublished" ]; then
+  # The raw archive is pushed BEFORE the store, so it may already be
+  # published when the store loses its upload (9 Oct 2026: the sk backfill
+  # lost to a concurrent publish, its raw-2026-10-09.tar was live, its
+  # data/raw.json was never committed, and every later pull refused the
+  # folder). Commit that one sidecar -- it records a publish that happened --
+  # and nothing else; the store failure is reported after the push.
+  git diff --quiet -- data/raw.json || git add -- data/raw.json
+else
+  git add -A data
+  # A job that writes outside data/ names the folder: "# mini_run: commit editions".
+  for extra in $(sed -n 's/^# mini_run: commit //p' "jobs/$JOB.sh"); do
+    case "$extra" in data|data/*|""|/*|*..*) continue ;; esac
+    [ -e "$extra" ] && git add -A -- "$extra"
+  done
+fi
 pushed=
 if ! git diff --cached --quiet; then
-  git commit -q -m "$JOB (Mini): $(date -u +%Y-%m-%dT%H:%M)Z"
+  git commit -q -m "$JOB (Mini): $(date -u +%Y-%m-%dT%H:%M)Z${store_unpublished:+ (raw archive only; store not published)}"
   STAGE=push
   for attempt in 1 2 3 4 5 6; do
     if git pull -q --rebase --autostash origin "$REF"; then
@@ -169,6 +180,11 @@ if ! git diff --cached --quiet; then
 else
   echo "  nothing to commit"
 fi
+
+# 4a. A store that was not published fails the run now that the raw
+# archive's sidecar (if it moved) is safely on main.
+STAGE="commit state"
+[ -n "$store_unpublished" ] && fail "$store_unpublished"
 
 # 4b. Now the job's own failure, if it had one. No slot is recorded, so the
 # GitHub backup runs the slot again.
