@@ -323,6 +323,35 @@ done
 
 - **A dry run by hand** (prints what would be briefed, sends nothing, writes into a scratch folder): `python3 tools/us_division_brief.py --since 2026-09-15 --no-dm --out /tmp/briefs --raw-dir /tmp/raw` (same flags for `ie_` and `au_`). Optional heartbeats: `HC_US_DIVISION_WATCH`, `HC_IE_DIVISION_WATCH`, `HC_AU_DIVISION_WATCH`.
 
+## Provinces session judge (9 October 2026, branch `prov-free-judge`)
+
+Christopher asked for free alternatives to API-paid scoring ("Do option 2, then set up option 3"). Option 3: **Claude Code on the Mini scores the provinces' pending items on the work subscription's plan allowance, not the API.** It is the default provincial judge; `PROV_JUDGE` (the paid API judge inside the Provinces weekly) stays the alternative, and off.
+
+- **Job:** `jobs/prov-session-judge.sh` through `tools/mini_run.sh`, Wednesdays **16:15 London** (`ops/launchd/net.citizengo.parlmonitor.prov-session-judge.plist`, `JOB_TIMEOUT` 5400), after the Provinces weekly's 11:00 slot (it queues on the runner lock if the weekly is still going) and clear of the 19:00 Division watch. **Mini only:** no GitHub workflow and no `mini-check` gate, because the CLI and the subscription live here. Heartbeat "Provinces session judge" (`tools/coverage.py` ON_DEMAND, no cadence expected); a failure DMs through `mini_run.sh` as for every job.
+- **Steps:** `tools/session_judge.sh tools/prov_triage.py 100 25`: up to four rounds of `prov_triage.py --queue-out` (the newest 25 pending items, noise-muted ones left out, with the provincial frame and the text the API judge would read) -> `claude -p` fills in SCORE and WHY -> `prov_triage.py --queue-in` (strict, item by item: one digit 0-3 and a why-line or refused with its reason; written to `prov_scores` exactly as API scores are, model `claude-code-session`, once ever). It stops at 100 items offered (`SESSION_JUDGE_MAX`) or when a round scores nothing, and logs `session judge: N item(s) scored this run`. Then it rewrites the week's edition with the scores (no DM; the weekly sent it), and publishes the raw archive and the store.
+- **The exact command** (in a fresh temp folder holding only `queue.md`; the prompt goes on stdin):
+
+```
+claude -p --model sonnet --tools Read,Edit --allowedTools Read,Edit \
+  --permission-mode acceptEdits --strict-mcp-config --no-session-persistence \
+  --restricted --permission-prompts none
+```
+
+  `--tools Read,Edit` is all it has; `--restricted` confines those to the folder and ignores user and project settings; `--permission-prompts none` denies anything that would ask; `--strict-mcp-config` loads no MCP server. `ANTHROPIC_API_KEY` and `ANTHROPIC_AUTH_TOKEN` are unset for it, so a key in `~/runner/env` can never turn it into API spend. Tried on the laptop on 9 October 2026 with two invented items (13 seconds, both scored, file parsed clean); never against the real store there.
+- **If `claude` is missing, signed out, or signed in with an API key** (`claude auth status --json` must say `loggedIn` with `authMethod` `claude.ai`), or lacks `--restricted` / `--permission-prompts`: one `[gap]` line, exit clean, the store not opened or published.
+- **Install on the Mini** (after the branch is merged to main):
+
+```
+claude auth status --text          # must show the work account (claude.ai), not an API key
+cd ~/runner/parl-monitor && git pull --ff-only
+cp ops/launchd/net.citizengo.parlmonitor.prov-session-judge.plist ~/Library/LaunchAgents/
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.prov-session-judge.plist
+```
+
+  Claude Code must be installed for the user launchd runs as (`~/.local/bin/claude` is on `mini_run.sh`'s PATH) and signed in to the **work account** (`claude auth login`). Each run uses plan allowance (four short sessions of 25 items a week at most), not API spend. A first run by hand: `cd ~ && JOB_TIMEOUT=5400 ~/runner/parl-monitor/tools/mini_run.sh prov-session-judge`.
+- **Backlog:** 375 provincial items were unscored on our ground on the store of 9 October 2026 once the noise filter's mutes are left out (426 before); at 100 a week the backlog clears in four weeks, newest first. Raise `SESSION_JUDGE_MAX` in the plist's environment to go faster.
+- **For the US, Irish and Australian judges later:** the queue (`src/session_queue.py`) and the runner (`tools/session_judge.sh <judge tool> <max> <chunk>`) are generic. A judge adopts them by giving its tool `--queue-out PATH` (its `pending()` items, its own frame, its own marker line) and `--queue-in PATH` (`session_queue.read_queue`, then its own `apply()` with model `claude-code-session`), plus a `jobs/<cc>-session-judge.sh` and plist on this pattern with its own heartbeat name. Not built for them yet.
+
 ## Backfills run on the Mini (9 October 2026)
 
 Dispatching a backfill to GitHub cost 2,604 Actions minutes in one week

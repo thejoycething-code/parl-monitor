@@ -1,0 +1,73 @@
+# Canadian provinces edition noise rules (src/prov_noise.py; format there).
+# Free and deterministic, no model (Christopher, 9 October 2026: "Do option
+# 2"). Hand-edited; this is not a generated file. The same single-file shape
+# as config/edition-noise-<cc>.yaml (src/noise.py reads its general keys),
+# plus `exclude_in_area`, which takes ONE area off an item and leaves the rest.
+#
+# A mute drops the area from the EDITION only (tools/prov_monitor.py), never
+# from the store; an item with no shown area left is muted, and the edition's
+# Coverage section counts them. A watched item, and anything a signed reading
+# in config/prov_stance.yaml covers, is never muted.
+#
+# Patterns match folded text (lower case, accents stripped) of the item's
+# heading: a bill's titles; a division's bills' titles, stage and question; a
+# speech's debate subject and rubric. only_terms: every term the item matched
+# in that area is one of these.
+#
+# MEASURED on a read-only copy of the store (prov tables as published 9
+# October 2026: 314 bills, 857 divisions and 13,051 speeches on our ground),
+# every bill and every division with its own areas read by hand; speeches
+# reviewed by debate heading for each suspect term. Counts per rule are what
+# it muted then (docs/canada-provinces-scope.md, "Noise filter").
+
+exclude_titles: []
+
+exclude_in_area:
+  1:   # Abortion
+    - only_terms: ['Down syndrome']
+      except_title: 'harvey|expectant|prenatal|screening for down'
+      reason: 'Down syndrome day acts, members statements and disability services are not abortion; Harvey''s Law (prenatal information) stays'
+  2:   # Assisted dying
+    - only_terms: [euthanasia, euthanasie]
+      title: 'animal|cruelty|puppy|puppies|veterinar|breeders|wildlife|\bdogs?\b|chiens|faune'
+      reason: 'euthanasia of animals in animal-welfare, veterinary and wildlife bills is not assisted dying'
+    - only_terms: [coercion]
+      title: 'labour|employment|workplace|working|leave|non-disclosure|domestic|sexual violence|back to school'
+      reason: 'coercion in labour, leave and non-disclosure bills is workplace or domestic abuse, not assisted dying'
+  5:   # Sex based rights
+    - only_terms: ['gender expression', 'gender-based violence', 'self-identification', transgender]
+      title: 'travel grant|safe night out|psychotherapy|residential tenanc|workers compensation|municipal affairs|street checks|vocational|red tape|statutes amendment act|interpersonal violence|domestic violence|violence leave|workplace|working albertans|labour standards|employment standards|non-disclosure|universities|colleges|post-secondary|sexual violence|group living|seniors|board parity|human trafficking|back to school'
+      reason: 'gender expression in a list of protected grounds in an unrelated statute is boilerplate, not a sex-based rights measure'
+  6:   # Parental rights education
+    - only_terms: ['droits parentaux']
+      reason: 'Quebec "droits parentaux" in labour and legal-services statutes are parental leave rights, not parental rights in education'
+    - only_terms: ['enseignement a la maison']
+      title: 'public security|securite publique'
+      reason: 'home schooling named in a public security omnibus is incidental'
+    - only_terms: ['religious education']
+      title: '^bill pr\d+|property taxation'
+      reason: 'religious education in a private incorporation bill or a tax exemption is the body''s objects, not parental rights'
+  7:   # Free speech, privacy and civil liberties
+    - only_terms: ['Article 7']
+      reason: '"Article 7" is a section number in burden-reduction and UNDRIP acts, not a civil-liberties term'
+    - only_terms: ['freedom of expression']
+      title: 'rights of indigenous peoples|status of the artist|arts professions|residents. bill of rights'
+      reason: 'freedom of expression as an artist''s or care resident''s listed right, not a free-speech measure'
+    - only_terms: ['freedom of speech', 'free speech']
+      title: '^\W*(matter of privilege|point of order|point of privilege|speaker.s ruling)|parliamentary privilege|under the protection of freedom of speech'
+      reason: 'a member''s parliamentary privilege of speech in a procedural ruling is not a free-speech policy'
+  8:   # Freedom of religion
+    - only_terms: ['laicite']
+      title: '^\W*appropriation act'
+      reason: 'laicite in an Appropriation Act is the name of the minister''s portfolio being funded'
+  9:   # Marriage family
+    - only_terms: [filiation]
+      title: 'fiscal measures|budget speech'
+      reason: 'filiation in Quebec budget bills is a tax definition of a dependant'
+  10:  # Surrogacy embryology
+    - only_terms: [surrogate]
+      except_title: 'famil|parent|surroga|maintenance|ruby'
+      reason: '"surrogate" alone is a substitute decision-maker (wills, estates, supported living, court rules, offshore accords), not surrogacy'
+    - only_terms: ['embryon*', 'gamete*']
+      title: 'securities act|protocol of amendment|internal trade'
+      reason: 'embryos and gametes in a securities or internal-trade bill are a list of regulated goods'

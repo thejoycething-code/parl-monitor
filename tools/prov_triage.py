@@ -6,6 +6,8 @@ ground, per division whose OWN text matched, and per recent Hansard speech.
     python3 tools/prov_triage.py                        # the newest LIMIT unscored
     python3 tools/prov_triage.py --limit 500 --budget-seconds 1200
     python3 tools/prov_triage.py --rescore prov_bills:ab-31-2/26
+    python3 tools/prov_triage.py --queue-out /tmp/q.md --limit 25   # for a session
+    python3 tools/prov_triage.py --queue-in /tmp/q.md               # apply its scores
 
 Built 9 October 2026 for the provinces edition (tools/prov_monitor.py),
 modelled on tools/us_triage.py and tools/ie_triage.py. Same judge, model and
@@ -35,6 +37,19 @@ SCORES LIVE IN prov_scores, NOT ON THE ROWS (src/prov_store.py): a Hansard
 day read again rewrites its speeches, and a score on the row would be lost.
 SCORED ONCE, EVER. --rescore <item> puts one back on a human's say-so.
 Spend lands in api_spend as 'prov-triage'.
+
+THE SESSION JUDGE, FREE (9 October 2026, Christopher's "option 3"; the
+DEFAULT route). --queue-out writes the newest --limit pending items, with
+the provincial frame and the very text the API judge would read, to a file
+in src/session_queue.py's format, leaving out items the noise filter
+(config/prov-noise.yaml) mutes from the edition. A Claude Code session on
+the Mac Mini, on the work subscription, fills in SCORE and WHY
+(jobs/prov-session-judge.sh). --queue-in reads it back STRICTLY, item by
+item (one digit 0-3 and a why-line, or refused with its reason), and applies
+the scores to prov_scores exactly as API scores are applied, model
+'claude-code-session'. Once ever still holds: an item scored meanwhile is
+not overwritten. Neither flag needs ANTHROPIC_API_KEY or spends anything;
+PROV_JUDGE (the paid API path below) stays the alternative, and off.
 """
 
 from __future__ import annotations
@@ -48,7 +63,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, drain, spend, triage, prov_store  # noqa: E402
+from src import db, drain, spend, triage, prov_store, session_queue  # noqa: E402
 
 SLICE = 4
 LIMIT = 500
@@ -94,6 +109,8 @@ SYSTEM_PROMPT_PROV = triage.SYSTEM_PROMPT.replace(
 assert SYSTEM_PROMPT_PROV != triage.SYSTEM_PROMPT
 
 TABLES = ("prov_bills", "prov_divisions", "prov_speeches")
+QUEUE_MARKER = "<!-- prov-session-queue v1 -->"
+SESSION_MODEL = "claude-code-session"
 
 
 def _ours(areas_json):
@@ -122,9 +139,43 @@ def scored_items(conn):
     return {r[0] for r in conn.execute("SELECT item FROM prov_scores")}
 
 
-def pending(conn, today, all_speeches=False, recent_days=RECENT_DAYS):
-    """Unscored items on our ground, newest first, migration-only excluded."""
+def _muter(conn, noise):
+    """skip(kind, row) -> True when the noise filter mutes the item from the
+    edition (src/prov_noise.py); None when no filter is asked for."""
+    if noise is None:
+        return None
+    titles = {r[0]: " ".join(x for x in (r[1], r[2]) if x) for r in conn.execute(
+        "SELECT bill_key, title_en, title_fr FROM prov_bills")}
+    linked = {}
+    for k, b in conn.execute("SELECT division_key, bill_key FROM prov_division_bills"):
+        linked.setdefault(k, []).append(b)
+
+    def skip(kind, r):
+        try:
+            terms = json.loads(r["matched_terms"] or "[]")
+        except (TypeError, ValueError, IndexError):
+            terms = []
+        areas = json.loads(r["areas"] or "[]")
+        if kind == "bill":
+            key, heading, bills = r["bill_key"], titles.get(r["bill_key"], ""), [r["bill_key"]]
+        elif kind == "division":
+            key = r["division_key"]
+            bills = linked.get(key) or ([r["bill_key"]] if r["bill_key"] else [])
+            heading = " ".join([titles.get(b, "") for b in bills] + [
+                r["stage"] or "", r["vote_on"] or "", r["question"] or ""])
+        else:
+            key, bills = r["speech_id"], ([r["bill_key"]] if r["bill_key"] else [])
+            heading = " ".join(x for x in (r["subject"], r["rubric"]) if x)
+        shown, muted = noise.judge(kind, key, heading, areas, terms, bills)
+        return bool(muted) and not shown
+    return skip
+
+
+def pending(conn, today, all_speeches=False, recent_days=RECENT_DAYS, noise=None):
+    """Unscored items on our ground, newest first, migration-only excluded.
+    noise (a src/prov_noise.ProvNoise): leave out items it mutes."""
     done = scored_items(conn)
+    skip = _muter(conn, noise) or (lambda kind, r: False)
     dated = []
     ours = {}
     for r in conn.execute("SELECT * FROM prov_bills WHERE areas NOT IN ('[]', '[11]')"):
@@ -133,7 +184,7 @@ def pending(conn, today, all_speeches=False, recent_days=RECENT_DAYS):
             continue
         ours[r["bill_key"]] = True
         item = "prov_bills:" + r["bill_key"]
-        if item in done:
+        if item in done or skip("bill", r):
             continue
         title = "{0} Bill {1} ({2}-{3}): {4}".format(
             NAMES.get(r["prov"], r["prov"]), r["number"] or "?", r["legislature"], r["session"],
@@ -154,7 +205,7 @@ def pending(conn, today, all_speeches=False, recent_days=RECENT_DAYS):
         if not areas or (r["bill_key"] and ours.get(r["bill_key"])):
             continue
         item = "prov_divisions:" + r["division_key"]
-        if item in done:
+        if item in done or skip("division", r):
             continue
         title = "{0} division, {1}: {2}".format(
             NAMES.get(r["prov"], r["prov"]), r["date"] or "?", r["stage"] or r["vote_on"] or "")
@@ -179,7 +230,7 @@ def pending(conn, today, all_speeches=False, recent_days=RECENT_DAYS):
         if not areas:
             continue
         item = "prov_speeches:" + r["speech_id"]
-        if item in done:
+        if item in done or skip("speech", r):
             continue
         title = "{0} Hansard, {1}: {2} ({3}) on {4}".format(
             NAMES.get(r["prov"], r["prov"]), r["date"] or "?",
@@ -269,6 +320,49 @@ def judge(conn, items, api_key, today, log=print, budget=None, transport=None):
     return scored, gaps[0]
 
 
+def queue_out(conn, path, today, limit, all_speeches=False, log=print):
+    """Write the newest `limit` pending items, noise-muted ones left out, for a
+    Claude Code session to score. Returns (written, still pending after)."""
+    from src import prov_noise
+    nz = prov_noise.ProvNoise(signed=prov_noise.signed_keys(conn))
+    queued = pending(conn, today, all_speeches=all_speeches, noise=nz)
+    items = queued[:max(0, limit)]
+    n = session_queue.write_queue(
+        path, items, "Canadian provinces judge queue, {0}".format(today), QUEUE_MARKER,
+        SYSTEM_PROMPT_PROV)
+    c = counts_by_table(items)
+    log("prov-triage: session queue: {0} item(s) written to {1} ({2} bills, {3} divisions, "
+        "{4} speeches); {5} unscored on our ground in all, noise-muted items left out.".format(
+            n, path, c["prov_bills"], c["prov_divisions"], c["prov_speeches"], len(queued)))
+    return n, len(queued) - n
+
+
+def queue_in(conn, path, today, log=print):
+    """Apply a filled-in queue, item by item. Returns (scored, refused, blank),
+    or None when the file is not this judge's queue."""
+    results, refused, blank = session_queue.read_queue(path, QUEUE_MARKER)
+    if refused and refused[0][0] == "(file)":
+        log("  [gap] session queue {0} refused: {1}".format(path, refused[0][1]))
+        return None
+    done = scored_items(conn)
+    good = []
+    for res in results:
+        table = res.id.partition(":")[0]
+        if table not in TABLES or not _prov_of(conn, res.id):
+            refused.append((res.id, "not a provincial item in the store"))
+        elif res.id in done:
+            refused.append((res.id, "already scored; scores are written once ever (--rescore)"))
+        else:
+            good.append(triage.TriageResult(id=res.id, score=res.score, areas=[],
+                                            why_it_matters=res.why))
+    scored = apply(conn, good, today, model=SESSION_MODEL)
+    for iid, why in refused:
+        log("  [gap] queue item refused: {0}: {1}".format(iid, why))
+    log("prov-triage: session queue: {0} item(s) scored, {1} refused, {2} left blank "
+        "(they stay pending for the next run).".format(scored, len(refused), len(blank)))
+    return scored, len(refused), len(blank)
+
+
 def counts_by_table(items):
     out = {t: 0 for t in TABLES}
     for it in items:
@@ -287,6 +381,11 @@ def main():
                     help="judge every speech on our ground, not only the last {0} days".format(RECENT_DAYS))
     ap.add_argument("--date", default=datetime.date.today().isoformat())
     ap.add_argument("--dry-run", action="store_true")
+    q = ap.add_mutually_exclusive_group()
+    q.add_argument("--queue-out", metavar="PATH",
+                   help="write the newest --limit pending items for a Claude Code session; no spend")
+    q.add_argument("--queue-in", metavar="PATH",
+                   help="apply a session's SCORE/WHY lines from PATH; no spend")
     args = ap.parse_args()
     conn = db.init_db(db.connect(args.db))
     import sqlite3
@@ -295,6 +394,16 @@ def main():
     for item in args.rescore or []:
         print("prov-triage: {0} score(s) removed for {1}; judged again this run".format(
             rescore(conn, item), item))
+    if args.queue_out:
+        queue_out(conn, args.queue_out, today, args.limit, all_speeches=args.all_speeches)
+        return 0
+    if args.queue_in:
+        got = queue_in(conn, args.queue_in, today)
+        dist = dict(conn.execute("SELECT score, COUNT(*) FROM prov_scores GROUP BY 1").fetchall())
+        print("  prov_scores so far: {0}".format(
+            ", ".join("{0}: {1}".format(k, dist[k]) for k in sorted(dist)) or "none"))
+        conn.close()
+        return 1 if got is None else 0
     queued = pending(conn, today, all_speeches=args.all_speeches)
     items = queued[:args.limit]
     if args.dry_run:

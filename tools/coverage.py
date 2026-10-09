@@ -844,6 +844,13 @@ ON_DEMAND = {
                          "when the taxonomy or the cutoff changes.",
     "Score stance": "workflow_dispatch only: scores outstanding refs "
                     "when someone asks for it.",
+    "Provinces session judge": "Mac Mini only (jobs/prov-session-judge.sh, "
+                               "Wednesdays after the Provinces weekly): Claude "
+                               "Code scores pending provincial items on the plan "
+                               "allowance; no GitHub workflow, and a run with "
+                               "nothing pending or claude signed out publishes "
+                               "nothing, so no cadence is expected; mini_run.sh "
+                               "DMs its failures.",
     "Provinces backfill": "run by hand on the Mac Mini (jobs/prov-backfill.sh): "
                           "a province's earlier sessions or Hansard days, read "
                           "until nothing is owed; never the weekly's heartbeat.",
