@@ -19,7 +19,18 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this first, the 3rd of each month, 07:00 London (tools/mini_run.sh upr-monthly;
+  # 9 October 2026). Every cron here is the backup: skipped while the Mini
+  # runs it and for 20 hours after.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: UPR_MONTHLY
+      cover-hours: 20
+
   upr:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     # 30 terms, each paging at 100 rows; the broad ones ("freedom of religion",
     # 2,943) dominate. Measured at well under 20 minutes.

@@ -68,10 +68,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this first, Wednesdays 11:00 London (tools/mini_run.sh prov-weekly;
+  # 9 October 2026). Every cron here is the backup: skipped while the Mini
+  # runs it and for 20 hours after.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: PROV_WEEKLY
+      cover-hours: 20
+
   # THE SECOND SLOT IS A RETRY, NOT A SECOND PASS -- copied from ca-weekly.yml.
   # A skipped job bills nothing; an in-progress run counts as done; a hand
   # dispatch is never gated.
   gate:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:

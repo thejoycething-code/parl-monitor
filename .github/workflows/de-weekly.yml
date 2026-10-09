@@ -30,6 +30,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this first, Sundays 20:00 London (tools/mini_run.sh de-weekly;
+  # 9 October 2026). Every cron here is the backup: skipped while the Mini
+  # runs it and for 20 hours after.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: DE_WEEKLY
+      cover-hours: 20
+
   # THE SECOND SLOT IS A RETRY, NOT A SECOND PASS. Copied from eu-weekly.yml,
   # which learned it the expensive way: two slots existed so a dropped cron
   # still got the week done, and nothing stopped the later one repeating the
@@ -40,6 +49,8 @@ jobs:
   # behind the first on the state group and run anyway. A hand dispatch is
   # never gated.
   gate:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
