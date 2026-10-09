@@ -22,7 +22,12 @@ name: Devolved watch
 on:
   schedule:
     - cron: "30 19 * * 1-4"     # Mon-Thu 20:30 London (BST), the evening pass
-    - cron: "45 11 * * 2-5"     # Tue-Fri 12:45 London (BST), the next-day pass
+    # Tue, Thu, Fri 12:45 London (BST), the next-day pass. NOT Wednesday on
+    # GitHub: 10:00-18:00 UTC Wednesday belongs to the Provinces weekly in
+    # the parl-monitor-state group (tests/test_prov_schedule.py). The Mini
+    # still runs Wednesday's 12:45, and GitHub's Wednesday evening pass
+    # looks back a week, so the backup loses nothing but a few hours.
+    - cron: "45 11 * * 2,4,5"
   workflow_dispatch:
     inputs:
       nation:
@@ -53,7 +58,7 @@ concurrency:
 jobs:
   # The Mac Mini runs this at 20:30 London Mon-Thu and 12:45 Tue-Fri
   # (tools/mini_run.sh devolved-watch); these crons are the backup and skip
-  # a slot the Mini already ran.
+  # a slot the Mini already ran (all but Wednesday's 12:45: see above).
   mini-check:
     uses: ./.github/workflows/mini-check.yml
     with:

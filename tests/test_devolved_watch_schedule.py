@@ -79,8 +79,10 @@ class WiringTests(unittest.TestCase):
 
 class ScheduleTests(unittest.TestCase):
     def test_github_crons_are_the_plist_slots_in_bst(self):
+        """Less Wednesday's midday slot, which GitHub leaves to the Provinces
+        weekly's window (10:00-18:00 UTC, tests/test_prov_schedule.py)."""
         _doc, slots = plist_slots("devolved-watch")
-        london = sorted((d % 7, h, m) for d, h, m in slots)
+        london = sorted((d % 7, h, m) for d, h, m in slots if (d, h, m) != (3, 12, 45))
         utc = sorted((d, h + 1, m) for c in crons("devolved-watch.yml") for d, h, m in expand(c))
         self.assertEqual(london, utc)
 

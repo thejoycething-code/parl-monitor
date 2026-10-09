@@ -9,7 +9,8 @@
      Westminster division watch's runner slots (19:00 and 22:00 Mon-Thu,
      14:00, 16:00 and 18:00 Fri): a run takes a minute or two.
      The GitHub crons (19:30 and 11:45 UTC) were set in BST for these London
-     hours; launchd keeps London time, so the Mini holds them all year.
+     hours, less Wednesday midday (the Provinces weekly's window on GitHub);
+     launchd keeps London time, so the Mini holds them all year.
      Install: cp to ~/Library/LaunchAgents, then
      launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.devolved-watch.plist -->
 <plist version="1.0">
