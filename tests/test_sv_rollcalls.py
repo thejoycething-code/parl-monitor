@@ -96,6 +96,8 @@ class LabelTests(unittest.TestCase):
                          ("dictamen", 26))
         self.assertEqual(sv.classify_label("Dictamen #11 Favorable - Ley para la Estabilidad del Sistema Financiero")[:2],
                          ("dictamen", 11))
+        self.assertEqual(sv.classify_label("COMISION DE HACIENDA DICTAMEN No148 FAVORABLE")[:2], ("dictamen", 148))
+        self.assertEqual(sv.classify_label("HACIENDA DICTAMEN No2 FAVORABLE")[:2], ("dictamen", 2))
 
     def test_pieza_labels(self):
         self.assertEqual(sv.classify_label("PIEZA 2A FS"), ("pieza", 2, "FS", None))

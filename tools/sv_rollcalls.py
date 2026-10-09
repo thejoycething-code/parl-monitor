@@ -136,7 +136,7 @@ def classify_label(label):
         elif re.match(r"(FS|FONDO)", rest):
             stage = "FS"
         return "pieza", int(m.group(1)), stage, None
-    m = re.search(r"DICT(?:AMEN|\.)?\s*(?:No\.?|N[º°]|#)?\s*#?\s*(\d+)", up)
+    m = re.search(r"DICT(?:AMEN|\.)?\s*(?:N[Ooº°]\.?)?\s*#?\s*(\d+)", up)
     if m:
         committee = re.sub(r"^(COMISION|COMISIÓN|COM\.)\s+(DE\s+)?", "", up[:m.start()]).strip(" ,-")
         return "dictamen", int(m.group(1)), None, committee or None
