@@ -20,6 +20,13 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
+      - name: TLS chains (why urllib refuses sitl, web and sil)
+        run: |
+          for h in sitl.diputados.gob.mx web.diputados.gob.mx sil.gobernacion.gob.mx gaceta.diputados.gob.mx; do
+            echo "### $h"
+            echo | timeout 20 openssl s_client -connect $h:443 -servername $h -showcerts 2>&1 | grep -E "^ *[0-9] s:|^ *i:|Verify return|verify error" | head -12 || true
+            curl -sS -A "CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)" -m 30 -o /dev/null -w "curl %{http_code} %{size_download}\n" https://$h/ || true
+          done 2>&1 | tee tls.log
       - name: Probe
         run: |
           while IFS= read -r line; do
@@ -34,4 +41,5 @@ jobs:
           path: |
             data/raw
             probe.log
+            tls.log
           retention-days: 7

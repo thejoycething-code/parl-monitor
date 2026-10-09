@@ -1,7 +1,5 @@
-# Round 1: discovery
---max 45 --follow 'votaci|lanordi|tabla|iniciativ|gp_indice|gp_hoy' https://gaceta.diputados.gob.mx/gp_indice.html https://gaceta.diputados.gob.mx/gp_hoy.html
---max 30 --follow 'votaci|estadistico|listados|iniciativ' https://sitl.diputados.gob.mx/LXVI_leg/votacionesxperiodonplxvi.php?pert=1 https://sitl.diputados.gob.mx/LXVI_leg/listado_diputados_gpnp.php?tipot=TOTAL https://sitl.diputados.gob.mx/LXVI_leg/
---max 6 https://web.diputados.gob.mx/ https://www.diputados.gob.mx/LeyesBiblio/index.htm https://datos.diputados.gob.mx/
---max 4 https://www.senado.gob.mx/66/votaciones https://www.senado.gob.mx/
---max 4 https://sil.gobernacion.gob.mx/portal https://nsil.gobernacion.gob.mx/
---max 3 https://www.datos.gob.mx/ https://datos.gob.mx/busca/api/3/action/package_search?q=votaciones
+# Round 2: one vote end to end, the iniciativas indexes, members
+--max 14 --follow 'Votaciones/66/.*(tabla|lista|grupo|nominal|voto)|/voto66/' https://gaceta.diputados.gob.mx/Gaceta/Votaciones/66/tabla2or2-1.php3 https://gaceta.diputados.gob.mx/Gaceta/Votaciones/66/tabla3or1-1.php3
+--max 12 --show-links 120 --follow 'gp66_|Iniciativas/66|inis/66|base/inis' https://gaceta.diputados.gob.mx/gp_inis.html https://gaceta.diputados.gob.mx/base/inis/gp_b_indice.html https://gaceta.diputados.gob.mx/gp_dictas.html https://gaceta.diputados.gob.mx/gp_asistencias.html
+--max 3 https://gaceta.diputados.gob.mx/Busquedas/index.html https://gaceta.diputados.gob.mx/Gaceta/Votaciones/66/vot66_a3primero.html
+--max 3 http://sitl.diputados.gob.mx/LXVI_leg/votacionesxperiodonplxvi.php?pert=1
