@@ -319,6 +319,238 @@ def division_lines(conn, groups, names):
     return out
 
 
+# --- phase 2: questions, debate, the week ahead ------------------------------
+
+QUESTION_LINES = 15       # the week's questions listed; the rest are counted by area
+DEBATE_GROUPS = 10        # debate sections listed
+DEBATE_QUOTES = 2         # excerpts per section
+AHEAD_DAYS = 10           # 'Coming up' looks this far past the edition date
+FROM_LABEL = {"own": "own words", "watch": "watchlist bill", "bill": "the bill's title",
+              "heading": "the debate's title"}
+
+
+def _table(conn, name):
+    try:
+        conn.execute("SELECT 1 FROM {0} LIMIT 1".format(name))
+        return True
+    except sqlite3.Error:
+        return False
+
+
+def questions_on_our_ground(conn, since, until):
+    conn.row_factory = sqlite3.Row
+    rows = conn.execute("SELECT * FROM ie_questions WHERE date > ? AND date <= ? "
+                        "ORDER BY date DESC, question_key", (since, until)).fetchall()
+    return [r for r in rows if visible(r["areas"])]
+
+
+def questions_asked(conn, since, until):
+    """Questions read in the weeks the window touches, from ie_windows: the
+    volume behind the ones on our ground. None when no such week was read."""
+    first = datetime.date.fromisoformat(since) + datetime.timedelta(days=1)
+    lo = (first - datetime.timedelta(days=first.weekday())).isoformat()
+    row = conn.execute("SELECT COUNT(*), SUM(records) FROM ie_windows WHERE feed='questions' "
+                       "AND status='read' AND week_of >= ? AND week_of <= ?", (lo, until)).fetchone()
+    return row[1] if row and row[0] else None
+
+
+def speeches_on_our_ground(conn, since, until):
+    conn.row_factory = sqlite3.Row
+    rows = conn.execute(
+        "SELECT s.*, b.title AS bill_title, b.triage_score AS bill_score FROM ie_speeches s "
+        "LEFT JOIN ie_bills b ON b.bill_key = s.bill_key WHERE s.date > ? AND s.date <= ? "
+        "ORDER BY s.date DESC, s.speech_key", (since, until)).fetchall()
+    return [r for r in rows if visible(r["areas"])]
+
+
+def debate_groups(rows):
+    """One group per debate section, the sections with most members on our
+    ground first."""
+    groups, order = {}, []
+    for r in rows:
+        k = (r["debate_uri"], r["debate_section"])
+        if k not in groups:
+            groups[k] = []
+            order.append(k)
+        groups[k].append(r)
+    return sorted((groups[k] for k in order),
+                  key=lambda g: (-max((x["triage_score"] if x["triage_score"] is not None else -1)
+                                      for x in g), -len(g), g[0]["date"]), reverse=False)
+
+
+def _who(r):
+    party = PARTY_SHORT.get(r["party"], r["party"]) if r["party"] else None
+    return "{0}{1}".format(r["speaker"] or r["member_code"], " ({0})".format(party) if party else "")
+
+
+def question_lines(rows, names):
+    out = []
+    ranked = sorted(rows, key=lambda r: (-(r["triage_score"] if r["triage_score"] is not None else -1),
+                                         r["date"]), reverse=False)
+    for r in ranked[:QUESTION_LINES]:
+        asker = r["asker"] or r["member_code"]
+        party = PARTY_SHORT.get(r["party"], r["party"]) if r["party"] else None
+        # The takeaway line only, and the link: never the answer (CLAUDE.md).
+        answer = ("*Answer ({0}): {1}*".format(
+            "{0}, {1}".format(r["answer_by"], r["answer_shape"]) if r["answer_shape"] and r["answer_by"]
+            else (r["answer_by"] or r["answer_shape"] or "the Minister"),
+            clip(r["answer_takeaway"], 200)) if r["answer_takeaway"] else
+            "*Not answered in the record yet.*" if not r["answered"] else "*Answered; see the link.*")
+        out.append("- {0} **{1}**{2}, {3} to the {4}, [{5}]({6}): {7} {8} *Areas: {9}.*".format(
+            score_mark(r["triage_score"]), asker, " ({0})".format(party) if party else "",
+            r["date"], r["minister"] or r["department"] or "Government", clip(r["heading"], 60),
+            r["url"] or "#", clip(r["question"], 170), answer,
+            names_of(visible(r["areas"]), names)))
+        if r["why_it_matters"]:
+            out.append("  - *{0}*".format(oneline(r["why_it_matters"])))
+    rest = ranked[QUESTION_LINES:]
+    if rest:
+        by_area = {}
+        for r in rest:
+            for a in visible(r["areas"]):
+                by_area[a] = by_area.get(a, 0) + 1
+        out.append("- · and {0} more on our ground: {1}.".format(len(rest), ", ".join(
+            "{0} {1}".format(names.get(a, a), n) for a, n in
+            sorted(by_area.items(), key=lambda x: -x[1]))))
+    return out
+
+
+def debate_lines(conn, groups, names):
+    out = []
+    for g in groups[:DEBATE_GROUPS]:
+        r = g[0]
+        where = chamber_label(r)
+        title = ("[{0}]({1})".format(clip(r["bill_title"] or r["section_title"], 90),
+                                     bill_url(r["bill_key"]))
+                 if r["bill_key"] else clip(r["section_title"], 90))
+        froms = sorted({x["areas_from"] for x in g if x["areas_from"]})
+        areas = sorted({a for x in g for a in visible(x["areas"])})
+        score = max((x["triage_score"] for x in g if x["triage_score"] is not None),
+                    default=r["bill_score"])
+        out.append("- {0} **{1}**, {2}, {3} ([debate]({4})): {5} member(s) on our ground: {6}. "
+                   "*Areas: {7} (matched on {8}).*".format(
+                       score_mark(score), where, r["date"], title, r["url"] or "#", len(g),
+                       ", ".join(_who(x) for x in g[:8]) + (" and {0} more".format(len(g) - 8)
+                                                           if len(g) > 8 else ""),
+                       names_of(areas, names), ", ".join(FROM_LABEL.get(f, f) for f in froms)))
+        for x in sorted(g, key=lambda x: (x["areas_from"] != "own", -(x["words"] or 0)))[:DEBATE_QUOTES]:
+            if x["excerpt"]:
+                out.append("  - {0}: \"{1}\"".format(_who(x), clip(x["excerpt"], 300)))
+        why = next((x["why_it_matters"] for x in g if x["why_it_matters"]), None)
+        if why:
+            out.append("  - *{0}*".format(oneline(why)))
+    if len(groups) > DEBATE_GROUPS:
+        out.append("- · and {0} more debate(s) with a member on our ground.".format(
+            len(groups) - DEBATE_GROUPS))
+    return out
+
+
+def coming_up(conn, today):
+    """The week ahead from ie_schedule, or None when it was never collected."""
+    if not _table(conn, "ie_schedule_days"):
+        return None
+    conn.row_factory = sqlite3.Row
+    last = (datetime.date.fromisoformat(today) + datetime.timedelta(days=AHEAD_DAYS)).isoformat()
+    days = conn.execute("SELECT * FROM ie_schedule_days WHERE date > ? AND date <= ? "
+                        "ORDER BY date", (today, last)).fetchall()
+    seen = conn.execute("SELECT MAX(last_seen) FROM ie_schedule_days").fetchone()[0]
+    if not seen:
+        return None
+    rows = conn.execute(
+        "SELECT s.*, b.title AS bill_title, b.areas AS bill_areas, b.triage_score AS bill_score "
+        "FROM ie_schedule s LEFT JOIN ie_bills b ON b.bill_key = s.bill_key "
+        "WHERE s.date > ? AND s.date <= ? ORDER BY s.date, s.time, s.item_key",
+        (today, last)).fetchall()
+    notes = {r["chamber"]: r["note"] for r in conn.execute(
+        "SELECT chamber, note FROM ie_schedule_days WHERE note IS NOT NULL AND last_seen = ? "
+        "ORDER BY date", (seen,)).fetchall()}
+    out = {"first": today, "last": last, "read": seen, "chambers": {}}
+    for chamber in ("dail", "seanad", "committee"):
+        listed = [d for d in days if d["chamber"] == chamber and d["status"] == "listed"]
+        items = [r for r in rows if r["chamber"] == chamber]
+        ours = [r for r in items if visible(r["bill_areas"]) or visible(r["own_areas"])]
+        out["chambers"][chamber] = {"days": [d["date"] for d in listed], "items": items,
+                                    "ours": ours, "note": notes.get(chamber)}
+    return out
+
+
+def _resumes(note):
+    """'Dáil Éireann resumes on Tuesday, 13 October 2026' -> '2026-10-13', or None."""
+    import re
+    hit = re.search(r"resumes on \w+,? (\d{1,2}) (\w+) (\d{4})", note or "")
+    if not hit:
+        return None
+    try:
+        return datetime.datetime.strptime(" ".join(hit.groups()), "%d %B %Y").date().isoformat()
+    except ValueError:
+        return None
+
+
+def schedule_line(r, names):
+    areas = sorted(set(visible(r["bill_areas"])) | set(visible(r["own_areas"])))
+    if r["bill_key"] and r["bill_title"]:
+        what = "[{0}]({1}): {2}".format(clip(r["bill_title"], 90), bill_url(r["bill_key"]),
+                                        clip(r["text"], 120))
+    else:
+        what = clip(r["text"], 140)
+    return "- {0} **{1}**{2}{3}: {4}. *Areas: {5} (matched on {6}).*".format(
+        score_mark(r["bill_score"]), r["date"], " {0}".format(r["time"]) if r["time"] else "",
+        ", {0}".format(r["committee"]) if r["committee"] else "", what.rstrip("."),
+        names_of(areas, names), "the bill" if visible(r["bill_areas"]) else "the line's own text")
+
+
+def render_coming_up(conn, today, names):
+    c = coming_up(conn, today)
+    head = "## Coming up"
+    if c is None:
+        return [head, "", "*The week ahead was not collected for this edition "
+                          "(tools/ie_schedule.py has not run on this store).*", ""]
+    first = (datetime.date.fromisoformat(c["first"]) + datetime.timedelta(days=1)).isoformat()
+    out = ["{0}: {1} to {2}".format(head, first, c["last"]), "",
+           "*From the Oireachtas's detailed schedule, read {0}. What is scheduled on our ground, "
+           "by the bill's key where the schedule links it, else by the line's own words. A "
+           "sitting can be rearranged after this was read.*".format(c["read"]), ""]
+    for chamber, label in (("dail", "Dáil"), ("seanad", "Seanad"), ("committee", "Committees")):
+        ch = c["chambers"][chamber]
+        if ch["days"]:
+            out.append("**{0}.** {1} item(s) on {2} day(s) posted, {3} on our ground.".format(
+                label, len(ch["items"]), len(ch["days"]), len(ch["ours"])))
+            out += [schedule_line(r, names) for r in ch["ours"]]
+        else:
+            back = _resumes(ch["note"])
+            if back and back > c["last"]:
+                out.append("**{0}.** In recess: it resumes on {1}.".format(label, back))
+            elif back:
+                out.append("**{0}.** No business posted yet for the coming days; it resumes "
+                           "on {1}. The Dáil's week is usually posted after its Business "
+                           "Committee meets.".format(label, back) if chamber == "dail" else
+                           "**{0}.** No business posted yet; it resumes on {1}.".format(label, back))
+            else:
+                out.append("**{0}.** No business posted for these days.".format(label))
+        out.append("")
+    return out
+
+
+def coming_up_dm(conn, today):
+    c = coming_up(conn, today)
+    if c is None:
+        return None
+    parts = []
+    for chamber, label in (("dail", "Dáil"), ("seanad", "Seanad"), ("committee", "committees")):
+        ch = c["chambers"][chamber]
+        if ch["days"]:
+            parts.append("{0}: {1} item(s) on our ground".format(label, len(ch["ours"])))
+        else:
+            back = _resumes(ch["note"])
+            parts.append("{0}: {1}".format(label, "in recess to {0}".format(back)
+                                           if back and back > c["last"] else
+                                           "nothing posted yet"))
+    named = [r["bill_title"] for ch in c["chambers"].values() for r in ch["ours"]
+             if r["bill_key"] and r["bill_title"]]
+    return "*Coming up:* " + "; ".join(parts) + "." + (
+        " " + "; ".join(clip(t, 60) for t in list(dict.fromkeys(named))[:3]) + "." if named else "")
+
+
 def render_edition(conn, today):
     conn.row_factory = sqlite3.Row
     names = area_names()
@@ -339,6 +571,10 @@ def render_edition(conn, today):
     lapsed = bills_where(conn, "alive = 0 AND act IS NULL AND status IN ('Current', 'Lapsed')")
     defeated = bills_where(conn, "status IN ('Defeated', 'Withdrawn') AND last_stage_house IN (?, ?)",
                            ("dail/{0}".format(DAIL), "seanad/{0}".format(SEANAD)))
+    questions = questions_on_our_ground(conn, since, today) if _table(conn, "ie_questions") else []
+    asked = questions_asked(conn, since, today) if _table(conn, "ie_windows") else None
+    speeches = speeches_on_our_ground(conn, since, today) if _table(conn, "ie_speeches") else []
+    debates = debate_groups(speeches)
 
     out = ["# Ireland Oireachtas Monitor",
            "### Week ending {0} | Edition {1} | {2}th Dáil, {3}th Seanad".format(
@@ -364,6 +600,15 @@ def render_edition(conn, today):
                            last_division(conn, "dail") or "?", last_division(conn, "seanad") or "?"))
     if new:
         tops.append("- {0} new bill(s) on our ground were introduced.".format(len(new)))
+    if debates:
+        g = debates[0]
+        tops.append("- **Debate:** {0} member(s) spoke on our ground in {1} debate(s); the most "
+                    "in {2} ({3}, {4}).".format(len(speeches), len(debates), clip(
+                        g[0]["bill_title"] or g[0]["section_title"], 70), chamber_label(g[0]),
+                        g[0]["date"]))
+    if questions:
+        tops.append("- **Questions:** {0} parliamentary question(s) on our ground{1}.".format(
+            len(questions), " of {0:,} asked".format(asked) if asked else ""))
     out += tops or ["*Nothing moved on our ground this week.*"]
     out.append("")
 
@@ -380,6 +625,9 @@ def render_edition(conn, today):
         out.append("- **{0}** ({1}): {2}.{3}".format(date, when, what, extra))
     out += ["- *Sittings:* {0}".format(SITTING_NOTE), ""]
 
+    # The week ahead
+    out += render_coming_up(conn, today, names)
+
     # Divisions
     if week:
         out += ["## Divisions this week ({0})".format(len(week)), ""]
@@ -395,6 +643,24 @@ def render_edition(conn, today):
                       if not all(read_and_blank(x) for x in g)][:LATEST_GROUPS]
             out += ["*None in the last 30 days. The latest on our ground:*", ""]
             out += division_lines(conn, latest, names) or ["*None this Dáil.*"]
+    out.append("")
+
+    # Debate
+    out += ["## Debate this week ({0} member(s) in {1} debate(s))".format(len(speeches), len(debates)),
+            "", "*Members whose own words in a debate matched our ground, or who spoke at length "
+            "in a debate on a bill or motion whose own title is on our ground (docs/ireland-scope.md "
+            "has the rule). An excerpt of what they said, never the speech; the debate is at "
+            "the link.*", ""]
+    out += debate_lines(conn, debates, names) or ["*No member spoke on our ground this week, "
+                                                  "or the record is not yet published.*"]
+    out.append("")
+
+    # Questions
+    out += ["## Questions this week ({0} on our ground{1})".format(
+        len(questions), ", of {0:,} asked".format(asked) if asked else ""), "",
+        "*Parliamentary questions whose own words are on our ground (the Minister's office is "
+        "struck before matching). One line of the answer and the link; never the answer.*", ""]
+    out += question_lines(questions, names) or ["*None on our ground this week.*"]
     out.append("")
 
     # Bills
@@ -440,14 +706,30 @@ def render_edition(conn, today):
                 n("SELECT COUNT(*) FROM ie_divisions WHERE chamber='committee'"),
                 n("SELECT COUNT(*) FROM ie_divisions WHERE amendment_text IS NOT NULL"),
                 last_pull(conn) or "unknown"),
-            "- **Not yet collected:** parliamentary questions (written and oral, about 8,000 a "
-            "sitting month), debate transcripts beyond the amendment votes, committee "
-            "hearings, bill text (PDF only), gov.ie consultations (refused from the laptop), "
+            "- **Questions and debate:** {0} and {1}. Weeks are read newest first; the "
+            "backfill to the Dáil's first sitting drains over runs.".format(
+                coverage_line(conn, "questions", "question(s)"),
+                coverage_line(conn, "debates-", "member speech(es)")),
+            "- **Not yet collected:** committee hearings' witnesses (members' words in committee "
+            "are read), bill text (PDF only), gov.ie consultations (refused from the laptop), "
             "statutory instruments and Iris Oifigiúil (its robots.txt forbids collection).",
             "- **Migration** is matched and stored but not shown, as in every edition here.",
             "- Specification and decisions: [docs/ireland-scope.md]({0}docs/ireland-scope.md).".format(
                 REPO), ""]
     return "\n".join(out)
+
+
+def coverage_line(conn, feed, what):
+    """'5,284 question(s) read in 4 week(s) back to 2026-09-14, 52 on our ground'."""
+    if not _table(conn, "ie_windows"):
+        return "{0}: not collected".format(what)
+    row = conn.execute("SELECT COUNT(DISTINCT week_of), COALESCE(SUM(items),0), "
+                       "COALESCE(SUM(ours),0), MIN(week_of) FROM ie_windows WHERE feed LIKE ? "
+                       "AND status='read'", (feed + "%",)).fetchone()
+    if not row[0]:
+        return "{0}: not read yet".format(what)
+    return "{0:,} {1} read in {2} week(s) back to {3}, {4:,} on our ground".format(
+        row[1], what, row[0], row[3], row[2])
 
 
 def dm_summary(conn, today, path=None):
@@ -473,6 +755,15 @@ def dm_summary(conn, today, path=None):
                                           last_division(conn, "seanad") or "?"))
     lines.append("{0} bill(s) moved, {1} new; {2} live on our ground.".format(
         len(moved), len(new), len(live)))
+    if _table(conn, "ie_speeches"):
+        speeches = speeches_on_our_ground(conn, since, today)
+        questions = questions_on_our_ground(conn, since, today)
+        lines.append("Debate: {0} member(s) on our ground in {1} debate(s). Questions: {2} on "
+                     "our ground.".format(len(speeches), len(debate_groups(speeches)),
+                                         len(questions)))
+    ahead = coming_up_dm(conn, today)
+    if ahead:
+        lines.append(ahead)
     for r in rank_bills(moved + new)[:5]:
         why = r["why_it_matters"]
         lines.append("• {0}{1} ({2}){3}".format(

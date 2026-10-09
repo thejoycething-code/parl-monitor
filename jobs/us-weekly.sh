@@ -37,7 +37,7 @@
 # votes and its bills' final statuses still land; the edition then shows its
 # unenacted bills as fallen. tools/us_schedule.py derives the Congress itself.
 #
-# mini_run: commit editions
+# mini_run: commit editions partner_site docs
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -215,6 +215,16 @@ fi
 # until one is signed every sheet is an evidence list and says so.
 python3 tools/us_5ca.py --all | tee "$LOG/us-5ca.log" \
   || echo "  [gap] the 5CA sheets failed; last week's stand"
+
+# The vote tracker and member profiles (tools/make_us_votes.py ->
+# partner_site/us-votes.html and docs/us-votes.html): offline, from the same
+# store, seconds, AFTER the 5CA step because profiles show 5CA placements and
+# both read config/us_stance.yaml the same way. Directions only from SIGNED
+# readings; with none signed the page shows the record and labels nobody.
+# The page is committed with this run; the partner site ships it at its next
+# deploy (Monday publish's Deploy tracker deploys the committed partner_site/).
+python3 tools/make_us_votes.py | tee "$LOG/us-votes.log" \
+  || echo "  [gap] the US vote tracker failed to build; last week's page stands"
 
 TODAY=$(date +%Y-%m-%d)
 if git ls-files --error-unmatch "editions/us-monitor-$TODAY.md" >/dev/null 2>&1; then

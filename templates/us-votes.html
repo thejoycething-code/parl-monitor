@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How did your member of Congress vote? · CitizenGO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#4285f4; --white:#fff; --grey-100:#EEEEEE; --grey-300:#C4C4C4;
+  --ink:#52575C; --green:#55B159; --red:#DB544F;
+  --blue-deep:#2f6fe0; --blue-tint:#EAF1FE; --line:#E4E6E9;
+  --font:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--white);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6}
+a{color:var(--blue);text-decoration:none} a:hover{color:var(--blue-deep);text-decoration:underline}
+h1,h2,h3{color:#20242a;font-weight:700;letter-spacing:-.01em}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px}
+header{border-bottom:1px solid var(--line);padding:14px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:900;font-size:19px;color:#20242a}
+.brand span{color:var(--blue)}
+.tag{font-size:11px;font-weight:700;letter-spacing:.14em;color:#9aa1a9}
+.hero{padding:34px 0 8px}
+.kicker{font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--blue-deep);margin-bottom:8px}
+.hero h1{font-size:38px;line-height:1.15;margin-bottom:12px}
+.sub{font-size:15.5px;max-width:66ch}
+.signoff{font-size:13.5px;background:#f6f7f9;border:1px solid #e2e5e9;border-radius:10px;padding:12px 15px;margin:18px 0 4px}
+.signoff b{color:#20242a}
+.searchbox{margin:22px 0 8px}
+.searchbox label,.filters label{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--blue-deep)}
+#q{width:100%;margin-top:8px;padding:15px 17px;font-size:16.5px;font-family:var(--font);
+  border:2px solid var(--grey-300);border-radius:10px;outline:none}
+#q:focus{border-color:var(--blue)}
+.filters{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0 4px}
+.filters div{display:flex;flex-direction:column;min-width:140px;flex:1}
+.filters select{margin-top:5px;padding:9px 10px;font:inherit;font-size:14.5px;border:1px solid var(--grey-300);
+  border-radius:8px;background:#fff}
+.dd{position:relative}
+#opts{position:absolute;left:0;right:0;top:2px;background:#fff;border:1px solid var(--line);
+  border-radius:9px;box-shadow:0 8px 22px rgba(16,24,40,.12);display:none;z-index:5;max-height:330px;overflow:auto}
+#opts.open{display:block}
+.opt{display:flex;gap:10px;align-items:baseline;padding:10px 14px;cursor:pointer;font-size:14.5px}
+.opt:hover,.opt.active{background:var(--blue-tint)}
+.badge{font-size:9px;font-weight:700;letter-spacing:.06em;background:var(--blue);color:#fff;
+  border-radius:4px;padding:2px 6px}
+.badge.c{background:#8a6d1f}
+.opt small{color:#9aa1a9}
+.divcard{background:#fff;border:1px solid #eef0f3;border-radius:12px;box-shadow:0 1px 3px rgba(16,24,40,.08);
+  padding:17px 19px;margin:14px 0}
+.divcard h3{font-size:17px;font-weight:500;line-height:1.35}
+.meta{font-size:12px;color:#9aa1a9;margin-top:4px}
+.motion{font-size:13.5px;margin-top:7px}
+.tally{font-size:13.5px;margin-top:8px}
+.tally b{font-weight:600}
+.nover{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#4a5058;
+  background:#f0f1f3;border:1px solid #e2e5e9;border-radius:4px;padding:2px 7px;margin-left:8px;vertical-align:middle}
+.signedtag{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#fff;
+  background:var(--blue-deep);border-radius:4px;padding:2px 7px;margin-left:8px;vertical-align:middle}
+.whyline{font-size:13px;color:#6c727a;font-style:italic;margin-top:7px}
+.grouprow{font-size:12.5px;color:#6c727a;margin-top:8px}
+details summary{cursor:pointer;font-size:13px;font-weight:500;color:var(--blue-deep);margin-top:9px}
+.lobby{font-size:12.5px;margin-top:8px}
+.lobby b{display:block;color:#20242a;font-weight:500;margin-bottom:2px}
+.lobby a{white-space:nowrap}
+.mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin:10px 0}
+.mitem{border:1px solid #eef0f3;border-radius:9px;padding:9px 12px;font-size:14px}
+.mitem small{display:block;color:#9aa1a9;font-size:12px}
+/* member card */
+.mepcard{background:var(--blue);border-radius:14px;color:#fff;padding:22px 24px;margin:18px 0 6px}
+.mepcard h2{color:#fff;font-size:27px}
+.mep-meta{font-size:13.5px;color:#dbe6fb;margin-top:5px}
+.mep-meta b{color:#fff;font-weight:500}
+.mep-meta a{color:#fff;text-decoration:underline}
+h2.sec{margin-top:26px;font-size:18px}
+.secnote{font-size:13px;color:#6c727a;margin-top:3px}
+.vrow{display:flex;gap:16px;background:#fff;border:1px solid #eef0f3;border-radius:12px;
+  box-shadow:0 1px 3px rgba(16,24,40,.08);padding:16px 18px;margin:12px 0;align-items:flex-start}
+.vbox{flex:0 0 150px;text-align:center;color:#fff;border-radius:9px;padding:13px 8px}
+.vbox .w{display:block;font-weight:700;font-size:14.5px;letter-spacing:.05em}
+.vbox .s{display:block;font-size:11.5px;opacity:.93;margin-top:3px}
+.vbox.G{background:var(--green)} .vbox.B{background:var(--red)}
+.vbox.N{background:#7b8794}
+.vbox.X{background:#eceef1;color:#5f6670;border:1px solid #dde1e6}
+.vbody{min-width:0}
+.vbody h3{font-size:16px;font-weight:500;line-height:1.35}
+.sent{font-size:13.5px;color:var(--ink);margin-top:6px}
+table.fca{border-collapse:collapse;width:100%;font-size:13.5px;margin-top:8px}
+table.fca td{border-bottom:1px solid #eef0f3;padding:6px 8px;vertical-align:top}
+table.fca td.col{font-weight:700;width:70px;text-align:center}
+.pending{color:#8a9099;font-style:italic}
+ul.lines{list-style:none;margin-top:6px}
+ul.lines li{font-size:13.5px;padding:6px 0;border-bottom:1px solid #f1f2f4}
+ul.lines .d{display:inline-block;min-width:92px;color:#9aa1a9;font-size:12px}
+.wd{font-size:10px;font-weight:700;letter-spacing:.05em;color:#8a6d1f;border:1px solid #e3d7b5;
+  border-radius:4px;padding:1px 5px;margin-left:6px}
+.note{font-size:13px;color:#6c727a;border-left:3px solid #dfe3e8;padding-left:12px;margin:20px 0}
+.back{display:inline-block;margin-top:18px;font-size:13.5px}
+footer{border-top:1px solid var(--line);margin-top:44px;padding:18px 0 40px;font-size:12.5px;color:#9aa1a9}
+@media(max-width:560px){.vrow{flex-direction:column}.vbox{flex:none;width:100%}
+.hero h1{font-size:29px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="brand">GO <span>CITIZEN</span></div>
+  <div class="tag">VOTING RECORDS · US CONGRESS</div>
+</div></header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">US CONGRESS · RECORDED VOTES</div>
+    <h1>How did your member of Congress vote?</h1>
+    <p class="sub">Recorded votes in the House and the Senate on the issues we track,
+    from the Clerk's and the Senate's own roll calls, with each member's bills and
+    floor speeches on the same ground. Search by name or by state, or filter by
+    chamber, state and party.</p>
+    <div class="signoff" id="signoff"></div>
+  </div>
+
+  <div class="searchbox">
+    <label for="q">FIND A MEMBER BY NAME OR STATE</label>
+    <input id="q" autocomplete="off" placeholder="Member name or state (e.g. Texas or TX)…">
+    <div class="dd"><div id="opts" role="listbox"></div></div>
+  </div>
+  <div class="filters">
+    <div><label for="fch">CHAMBER</label><select id="fch"><option value="">Both</option>
+      <option value="house">House</option><option value="senate">Senate</option></select></div>
+    <div><label for="fst">STATE</label><select id="fst"><option value="">All states</option></select></div>
+    <div><label for="fpa">PARTY</label><select id="fpa"><option value="">All parties</option></select></div>
+  </div>
+
+  <div id="main"></div>
+
+  <footer class="wrap" style="padding-left:0;padding-right:0">
+    Built from the Clerk of the House's and the Senate's roll-call records, Congress.gov's
+    bill status files (sponsors and cosponsors) and GovInfo's Congressional Record.
+    Whether a vote was for or against our side is a human judgement, made per roll call
+    and shown only once it is signed off; a roll call without a signed reading shows the
+    record with no judgement. Party is the party at the vote.
+  </footer>
+</div>
+
+<script>
+const DATA = /*__DATA__*/{};
+
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g,
+  c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = (s) => String(s ?? "").toLowerCase()
+  .normalize("NFD").replace(/[̀-ͯ]/g, "");
+const fmtD = (iso) => { if (!iso) return "?"; const [y,m,d] = iso.split("-");
+  return `${+d} ${["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+m]} ${y}`; };
+const PARTY = {R:"Republican", D:"Democrat", I:"Independent", ID:"Independent Democrat", L:"Libertarian"};
+const partyName = (p) => PARTY[p] || p || "party unknown";
+const STATES = {AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",
+  CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",
+  IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",
+  MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",
+  NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",
+  NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",
+  RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",
+  VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming",
+  DC:"District of Columbia",PR:"Puerto Rico",GU:"Guam",VI:"US Virgin Islands",AS:"American Samoa",
+  MP:"Northern Mariana Islands",XX:"Delegate (territory)"};
+const stateName = (s) => STATES[s] || s || "?";
+const POSWORD = {Y:"YEA", N:"NAY", P:"PRESENT", V:"NOT VOTING", O:"OTHER"};
+const CH = {house:"House", senate:"Senate"};
+const areaName = (a) => DATA.areas[String(a)] || ("area " + a);
+
+const M = DATA.members;
+const byId = Object.fromEntries(M.map((m, i) => [m.id, {...m, i}]));
+const where = (m) => m.delegate ? "Delegate" :
+  (m.chamber === "house" && m.district ? `${m.state}-${m.district}` : (m.state || "?"));
+const short = (m) => `${m.party || "?"}-${where(m)}`;
+const memberLink = (m) => `<a href="#member/${esc(m.id)}">${esc(m.name)}</a>`;
+
+// --- the sign-off line, from the data, never hard-coded --------------------
+(function(){
+  const r = DATA.readings || {}, f = r.file || {};
+  const el = document.getElementById("signoff");
+  el.innerHTML = r.divisions_signed
+    ? `<b>${r.divisions_signed} of ${DATA.divisions.length} roll calls carry a signed reading</b>;
+       only those show whether a vote was for or against our side. The other
+       ${r.divisions_awaiting} are shown as the record, with their reading awaiting sign-off.`
+    : `<b>Readings awaiting sign-off.</b> None of the ${DATA.divisions.length} roll calls below has a
+       signed reading yet, so this page shows how each member voted and what the motion was,
+       and labels no one for or against our side. 5CA placements are likewise awaiting sign-off.`;
+})();
+
+// --- filters -----------------------------------------------------------------
+const fch = document.getElementById("fch"), fst = document.getElementById("fst"),
+      fpa = document.getElementById("fpa");
+[...new Set(M.map(m => m.state).filter(Boolean))].sort((a,b) => stateName(a).localeCompare(stateName(b)))
+  .forEach(s => fst.insertAdjacentHTML("beforeend", `<option value="${esc(s)}">${esc(stateName(s))}</option>`));
+[...new Set(M.map(m => m.party).filter(Boolean))].sort()
+  .forEach(p => fpa.insertAdjacentHTML("beforeend", `<option value="${esc(p)}">${esc(partyName(p))}</option>`));
+const F = () => ({ch: fch.value, st: fst.value, pa: fpa.value});
+const memberPasses = (m, f) => (!f.st || m.state === f.st) && (!f.pa || m.party === f.pa)
+  && (!f.ch || m.chamber === f.ch);
+
+// --- the division card ----------------------------------------------------------
+function readingTag(d){
+  if (d.direction) return `<span class="signedtag">SIGNED READING</span>`;
+  if (d.reading === "signed: evidence only") return `<span class="nover">SIGNED: EVIDENCE ONLY</span>`;
+  return `<span class="nover">READING AWAITING SIGN-OFF</span>`;
+}
+function divTitle(d){
+  const bill = d.bill_label ? esc(d.bill_label) + (d.bill_title ? " · " + esc(d.bill_title) : "") : "";
+  return bill || esc(d.question);
+}
+function partyRow(d){
+  return Object.entries(d.parties || {})
+    .sort((a,b) => (b[1].Y+b[1].N+b[1].P+b[1].V) - (a[1].Y+a[1].N+a[1].P+a[1].V))
+    .map(([p, c]) => `${esc(partyName(p))} ${c.Y} yea, ${c.N} nay${c.P ? ", " + c.P + " present" : ""}${
+      c.V ? ", " + c.V + " not voting" : ""}`).join(" · ");
+}
+function lobbies(d, f){
+  const groups = {Y:[], N:[], P:[], V:[], O:[]};
+  for (let i = 0; i < d.pos.length; i++){
+    const c = d.pos[i]; if (c === ".") continue;
+    const m = M[i]; if (!memberPasses({...m, chamber: d.chamber}, {...f, ch: ""})) continue;
+    groups[c].push(m);
+  }
+  const n = Object.values(groups).reduce((a, g) => a + g.length, 0);
+  const body = ["Y","N","P","V","O"].filter(k => groups[k].length).map(k =>
+    `<div class="lobby"><b>${POSWORD[k]} (${groups[k].length})</b>${
+      groups[k].map(m => `${memberLink(m)} <small>(${esc(short(m))})</small>`).join(", ")}</div>`).join("");
+  return {n, body};
+}
+function divCard(d, f){
+  const lb = lobbies(d, f || {});
+  const dir = d.direction;
+  const signedLine = dir ? `<div class="whyline">Signed reading: a Yea was ${
+      dir.ours === "Yea" ? "for our side" : dir.ours === "Nay" ? "against our side" : "not directional"}.${
+      dir.aye_means ? " " + esc(dir.aye_means) : ""}</div>` : "";
+  return `<div class="divcard" id="d-${esc(d.key)}">
+    <h3>${divTitle(d)}${readingTag(d)}</h3>
+    <div class="meta">${fmtD(d.date)} · ${CH[d.chamber]} roll call ${d.roll} (${d.congress}th Congress) ·
+      ${(d.areas || []).map(areaName).map(esc).join(", ")}</div>
+    <div class="motion"><b>${esc(d.question)}</b>${d.amendment ? " · " + esc(d.amendment) : ""}${
+      d.motion ? `<br>${esc(d.motion)}` : ""}</div>
+    <div class="tally"><b>${d.yeas ?? "?"}</b> yea, <b>${d.nays ?? "?"}</b> nay${
+      d.present ? `, <b>${d.present}</b> present` : ""}${d.not_voting ? `, <b>${d.not_voting}</b> not voting` : ""}
+      · ${esc(d.result || "")}${d.url ? ` · <a href="${esc(d.url)}" rel="noopener">official record</a>` : ""}${
+      d.bill_url ? ` · <a href="${esc(d.bill_url)}" rel="noopener">bill</a>` : ""}</div>
+    <div class="grouprow"><b>How the parties divided:</b> ${partyRow(d)}</div>
+    ${signedLine}
+    <details><summary>How each member voted${(f && (f.st || f.pa)) ? " (filtered)" : ""}: ${lb.n}</summary>${lb.body ||
+      '<div class="lobby">No member matches the filters on this roll call.</div>'}</details>
+  </div>`;
+}
+
+function renderList(){
+  const f = F();
+  const divs = DATA.divisions.filter(d => !f.ch || d.chamber === f.ch);
+  let members = "";
+  if (f.st || f.pa){
+    const ms = M.filter(m => memberPasses(m, f) && m.in_office);
+    members = `<h2 class="sec">Members: ${ms.length}</h2>
+      <div class="mlist">${ms.map(m => `<div class="mitem">${memberLink(m)}
+        <small>${esc(partyName(m.party))} · ${esc(CH[m.chamber] || "")} · ${esc(where(m))}</small></div>`).join("")}</div>`;
+  }
+  document.getElementById("main").innerHTML = `${members}
+    <h2 class="sec">The roll calls we track: ${divs.length}</h2>
+    <p class="secnote">Newest first. Open a card to see every member's position; names link to profiles.</p>
+    ${divs.map(d => divCard(d, f)).join("")}
+    <p class="note">${M.filter(m => m.in_office).length} members in office are listed, and
+    ${M.filter(m => !m.in_office).length} former members who voted on a roll call here.</p>`;
+}
+
+// --- the member profile ----------------------------------------------------------
+function voteRow(d, code){
+  let cls = "X", word = POSWORD[code], sub = "", sent = "";
+  if (code === "Y" || code === "N"){
+    cls = "N";
+    const dir = d.direction;
+    if (dir){
+      const v = code === "Y" ? dir.yea : dir.nay;
+      const why = code === "Y" ? dir.why_yea : dir.why_nay;
+      if (v > 0){ cls = "G"; word = "GOOD VOTE"; sub = "(" + POSWORD[code].toLowerCase() + ")"; sent = why; }
+      else if (v < 0){ cls = "B"; word = "BAD VOTE"; sub = "(" + POSWORD[code].toLowerCase() + ")"; sent = why; }
+      else { sub = "signed: no direction"; }
+    } else if (d.reading === "signed: evidence only"){
+      sub = "signed: evidence only";
+    } else {
+      sub = "reading awaiting sign-off";
+    }
+  } else if (code === "V"){
+    sent = "No position recorded. Members miss votes for many ordinary reasons; the record gives none.";
+  }
+  return `<div class="vrow">
+    <div class="vbox ${cls}"><span class="w">${esc(word)}</span>${sub ? `<span class="s">${esc(sub)}</span>` : ""}</div>
+    <div class="vbody"><h3>${divTitle(d)}</h3>
+      <div class="meta">${fmtD(d.date)} · ${CH[d.chamber]} roll call ${d.roll} · ${esc(d.result || "")} ${
+        d.yeas ?? "?"}-${d.nays ?? "?"}${d.url ? ` · <a href="${esc(d.url)}" rel="noopener">record</a>` : ""}</div>
+      <div class="sent"><b>${esc(d.question)}</b>${d.amendment ? " · " + esc(d.amendment) : ""}${
+        d.motion ? ": " + esc(d.motion) : ""}</div>
+      ${sent ? `<div class="whyline">${esc(sent)}</div>` : ""}
+    </div></div>`;
+}
+
+function renderMember(id){
+  const m = byId[id];
+  if (!m){ renderList(); return; }
+  const mine = DATA.divisions.filter(d => d.pos[m.i] && d.pos[m.i] !== ".");
+  const place = (DATA.placements || {})[m.id] || {};
+  const fca = (DATA.five_ca_areas || []).map(a => {
+    const p = place[String(a)];
+    return `<tr><td>${esc(areaName(a))}</td>${p
+      ? `<td class="col">${esc(p.column)}</td><td>${esc(p.based_on)}${p.capped ? " · capped (missed the latest decisive vote)" : ""}${
+          p.mixed ? " · mixed record" : ""}</td>`
+      : `<td class="col pending">·</td><td class="pending">awaiting sign-off</td>`}</tr>`;
+  }).join("");
+  const bills = (DATA.member_bills || {})[m.id] || [];
+  const billLine = ([bi, kind, date, wd]) => {
+    const b = DATA.bills[bi];
+    let dir = "";
+    if (b.direction){
+      const v = kind === "S" ? b.direction.sponsored : b.direction.cosponsored;
+      if (!wd && v != null && v !== 0) dir = ` <span class="${v > 0 ? "signedtag" : "nover"}">${
+        v > 0 ? "FOR OUR SIDE" : "AGAINST OUR SIDE"} (signed)</span>`;
+    }
+    return `<li><span class="d">${fmtD(date)}</span>${kind === "S" ? "<b>Sponsored</b>" : "Cosponsored"}
+      ${b.url ? `<a href="${esc(b.url)}" rel="noopener">${esc(b.label)}</a>` : esc(b.label)} ${esc(b.title)}${
+      b.law ? ` <small>(${esc(b.law)})</small>` : ""}${wd ? `<span class="wd">WITHDREW ${esc(fmtD(wd))}</span>` : ""}${dir}</li>`;
+  };
+  const SHOW = 12;
+  const sp = (DATA.speeches || {})[m.id];
+  const nS = bills.filter(b => b[1] === "S").length, nC = bills.length - nS,
+        nW = bills.filter(b => b[3]).length;
+  document.getElementById("main").innerHTML = `
+    <a class="back" href="#">← All roll calls</a>
+    <div class="mepcard"><h2>${esc(m.name)}</h2>
+      <div class="mep-meta"><b>${esc(partyName(m.party))}</b> · ${esc(CH[m.chamber] || "chamber unknown")} ·
+        ${m.delegate ? "Delegate" : esc(stateName(m.state)) + (m.chamber === "house" && m.district ? ", district " + esc(m.district) : "")}
+        · ${m.in_office ? "In office" : "Not in office"} ·
+        Bioguide <a href="https://bioguide.congress.gov/search/bio/${esc(m.id)}" rel="noopener">${esc(m.id)}</a></div>
+    </div>
+
+    <h2 class="sec">5CA placement by area</h2>
+    <p class="secnote">Placed only from signed readings of votes and bills. Until a reading is signed,
+      an area shows "awaiting sign-off", which is not a judgement either way.</p>
+    <table class="fca">${fca}</table>
+
+    <h2 class="sec">Recorded votes on our ground: ${mine.length}</h2>
+    <p class="secnote">The member's position and the motion put. A vote shows as good or bad only
+      under a signed reading.</p>
+    ${mine.map(d => voteRow(d, d.pos[m.i])).join("") || '<p class="note">No recorded vote on a roll call we track.</p>'}
+
+    <h2 class="sec">Bills on our ground: ${nS} sponsored, ${nC} cosponsored${nW ? `, ${nW} withdrawn` : ""}</h2>
+    <p class="secnote">Bills whose text or record matched an issue we track, newest first. A withdrawn
+      cosponsorship is a public reversal and is shown as such.</p>
+    <ul class="lines">${bills.slice(0, SHOW).map(billLine).join("") || '<li>None.</li>'}</ul>
+    ${bills.length > SHOW ? `<details><summary>${bills.length - SHOW} more</summary>
+      <ul class="lines">${bills.slice(SHOW).map(billLine).join("")}</ul></details>` : ""}
+
+    <h2 class="sec">Floor speeches on our ground: ${sp ? sp.count : 0}</h2>
+    ${sp ? `<p class="secnote">The latest ${sp.latest.length}, from the Congressional Record. Speeches show
+      activity, never direction.</p>
+      <ul class="lines">${sp.latest.map(s => `<li><span class="d">${fmtD(s.date)}</span>${
+        s.url ? `<a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a>` : esc(s.title)}</li>`).join("")}</ul>`
+      : '<p class="secnote">None recorded on our ground.</p>'}
+
+    <p class="note">Positions come from the Clerk's and the Senate's roll calls; sponsorships from
+    Congress.gov's bill status files. A roll call without a signed reading shows how the member
+    voted and what the motion was, without judgement.</p>`;
+  window.scrollTo(0, 0);
+}
+
+// --- search ------------------------------------------------------------------
+const q = document.getElementById("q"), dd = document.getElementById("opts");
+let opts = [], active = -1;
+function buildOpts(val){
+  const t = norm(val); if (t.length < 2) return [];
+  const out = [];
+  for (const s of [...new Set(M.map(m => m.state).filter(Boolean))])
+    if (norm(stateName(s)).includes(t) || norm(s) === t) out.push({type:"s", code:s, label:stateName(s)});
+  for (const m of M){
+    if (out.length >= 12) break;
+    if (norm(m.name).includes(t))
+      out.push({type:"m", id:m.id, label:m.name, small:partyName(m.party) + " · " + (CH[m.chamber] || "") + " · " + where(m) + (m.in_office ? "" : " · former")});
+  }
+  return out.slice(0, 12);
+}
+function renderDD(){
+  if (!opts.length){ dd.classList.remove("open"); return; }
+  dd.innerHTML = opts.map((o,i) => `<div class="opt ${i===active?"active":""}" data-i="${i}">
+    <span class="badge ${o.type==="s"?"c":""}">${o.type==="s"?"STATE":"MEMBER"}</span>
+    <span>${esc(o.label)}${o.small?` <small>· ${esc(o.small)}</small>`:""}</span></div>`).join("");
+  dd.classList.add("open");
+  dd.querySelectorAll(".opt").forEach(el =>
+    el.addEventListener("mousedown", e => { e.preventDefault(); choose(+el.dataset.i); }));
+}
+function choose(i){
+  const o = opts[i]; if (!o) return;
+  dd.classList.remove("open"); active = -1;
+  q.value = o.label;
+  if (o.type === "m"){ location.hash = "member/" + o.id; return; }
+  fst.value = o.code;
+  if (location.hash) location.hash = ""; else renderList();
+}
+q.addEventListener("input", () => { opts = buildOpts(q.value); active = opts.length?0:-1; renderDD(); });
+q.addEventListener("keydown", e => {
+  if (e.key === "ArrowDown"){ e.preventDefault(); if (opts.length){ active=(active+1)%opts.length; renderDD(); } }
+  else if (e.key === "ArrowUp"){ e.preventDefault(); if (opts.length){ active=(active-1+opts.length)%opts.length; renderDD(); } }
+  else if (e.key === "Enter"){ e.preventDefault(); if (active >= 0) choose(active); }
+  else if (e.key === "Escape"){ dd.classList.remove("open"); }
+});
+q.addEventListener("blur", () => setTimeout(() => dd.classList.remove("open"), 150));
+[fch, fst, fpa].forEach(el => el.addEventListener("change", () => {
+  if (location.hash) location.hash = ""; else renderList(); }));
+
+function route(){
+  const h = location.hash.match(/^#member\/([A-Z0-9]+)$/);
+  if (h && byId[h[1]]) renderMember(h[1]); else renderList();
+}
+window.addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>
