@@ -16,9 +16,6 @@ nb:
     why: >-
       legnb.ca serves the PDF cut off inside its text (1,257,984 bytes, no xref to rebuild); its index lists no other copy and the bil/e/plain variants answer the site's not-found page (9 Oct 2026). To solve: Asana 1219341037128199.
       Logged as known on Christopher's instruction, 9 Oct 2026 ("Log the leftover gaps as known gaps").
-  - contains: "2023-06-09"
-    reviewed: 2026-10-03
-    why: "The 9 June 2023 Journal is served truncated (129,024 bytes, no %%EOF) on every fetch."
   # New Brunswick: the 2010 backfill (CI run 37026741496), re-read 2 October
   # 2026 on a scratch store. What is left is the record's own.
   - contains: "nb 56-4: no roster for the session"

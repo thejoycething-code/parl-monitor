@@ -79,7 +79,7 @@ import re
 from urllib.parse import quote, urljoin
 
 from src import prov_classify as pc, prov_names as pn, prov_store as ps
-from src.prov_fetch import (Unreadable, html_text, join_fragments, pdf_rows, pdf_text, sessions_sorted, slug,
+from src.prov_fetch import (Unreadable, rebuild_cut_xref, html_text, join_fragments, pdf_rows, pdf_text, sessions_sorted, slug,
                             split_columns, year_span)
 
 PROV = "nb"
@@ -1789,15 +1789,54 @@ def clear_sitting(conn, legislature, session, date):
     return len(keys)
 
 
+# A Journal's close: "And then, 6 p.m., the House adjourned." (or until a day).
+_JOURNAL_CLOSE = re.compile(r"House\s+adjourned|s[ée]ance\s+est\s+lev[ée]e", re.I)
+
+
+def journal_text(raw):
+    """The Journal's text. legnb.ca serves many Journals cut off inside their
+    closing cross-reference table -- ten of the seventeen unread days stop at
+    exactly 129,024 bytes (measured 9 October 2026, as its Hansards do). The
+    table is rebuilt from the objects (prov_fetch.rebuild_cut_xref) and the
+    text taken only when it still ends on the House adjourning; anything
+    else stays Unreadable, a gap, never an empty day."""
+    try:
+        return pdf_text(raw)
+    except Unreadable as exc:
+        fixed = rebuild_cut_xref(raw) if "truncated" in str(exc) else None
+        if fixed is None:
+            raise
+        text = pdf_text(fixed)
+        if not _JOURNAL_CLOSE.search(text[-1500:]):
+            raise Unreadable("{0}; cross-reference rebuilt, but the text does not reach the "
+                             "adjournment".format(exc))
+        return text
+
+
+def load_journal_urls(path=None):
+    """`journal_urls:` (nb) -- a day the sessional listing files under
+    ANOTHER day's Journal, with the day's own Journal found on legnb.ca by
+    its file-name pattern (sitting number, yymmdd) and read to confirm its
+    date. Needs date, listed, document, verified_against and why; it is used
+    only while the listing still links `listed` for that date (9 Oct 2026)."""
+    return {str(a["date"]): a for a in pn._reviewed(
+        PROV, "journal_urls", ("date", "listed", "document", "verified_against", "why"), path)}
+
+
 def read_sitting(ctx, legislature, session, rec, resolver, wl):
     """Read one day's Journal. Returns (divisions, gaps_in_it)."""
     date, url = rec["date"], rec["url"]
+    fix = load_journal_urls().get(str(date))
+    if fix and fix["listed"] == url:
+        ctx.log("  nb {0}: the listing links {1}; reading the day's own Journal {2} (reviewed, "
+                "config/prov_record.yaml)".format(date, url, fix["document"]))
+        url = fix["document"]
     skey = ps.sitting_key(PROV, legislature, session, date)
     raw = ctx.bytes(url, "journal-{0}".format(date))
     if raw is None:
         return 0, 1
     try:
-        text = pdf_text(raw)
+        text = journal_text(raw)
     except Unreadable as exc:
         ctx.gap("{0}: {1}: {2}".format(skey, url, exc))
         ps.store_sitting(ctx.conn, PROV, skey, date, url, status="unreadable")

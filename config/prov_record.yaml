@@ -621,6 +621,33 @@ provinces:
           (6 December 2012) and appears in neither list of this division.
           Read from CI on 7 October 2026 (probe-hosts run 37568416383).
   "nb":
+    # The day's own Journal where the listing links another day's (Christopher, 9 Oct 2026:
+    # "Something else must need doing to cover gaps"). Read by prov_nb.read_sitting.
+    journal_urls:
+      - date: "2014-05-20"
+        listed: "https://www.legnb.ca/content/house_business/57/4/journals/69140521e.pdf"
+        document: "https://www.legnb.ca/content/house_business/57/4/journals/68140520e.pdf"
+        verified_against: "the file's own heading, read 9 Oct 2026: Daily sitting 68, Tuesday, May 20, 2014"
+        why: >-
+          The sessional listing links 69140521e.pdf (the Journal of 21 May) under 2014-05-20; the day's own
+          Journal is served at 68140520e.pdf, found by the file-name pattern (sitting
+          number, yymmdd) and confirmed by its heading.
+      - date: "2016-07-05"
+        listed: "https://www.legnb.ca/content/house_business/58/2/journals/37160706e.pdf"
+        document: "https://www.legnb.ca/content/house_business/58/2/journals/36160705e.pdf"
+        verified_against: "the file's own heading, read 9 Oct 2026: Daily sitting 36, Tuesday, July 5, 2016"
+        why: >-
+          The sessional listing links 37160706e.pdf (the Journal of 6 July) under 2016-07-05; the day's own
+          Journal is served at 36160705e.pdf, found by the file-name pattern (sitting
+          number, yymmdd) and confirmed by its heading.
+      - date: "2019-05-28"
+        listed: "https://www.legnb.ca/content/house_business/59/2/journals/19190328e.pdf"
+        document: "https://www.legnb.ca/content/house_business/59/2/journals/29190528e.pdf"
+        verified_against: "the file's own heading, read 9 Oct 2026: Daily sitting 29, Tuesday, May 28, 2019"
+        why: >-
+          The sessional listing links 19190328e.pdf (the Journal of 28 March) under 2019-05-28; the day's own
+          Journal is served at 29190528e.pdf, found by the file-name pattern (sitting
+          number, yymmdd) and confirmed by its heading.
     label_aliases:
       - printed: "Mr. Russel"
         member: kevin-russell

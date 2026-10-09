@@ -70,6 +70,32 @@ class RebuildTests(unittest.TestCase):
         self.assertTrue(h.ADJOURNED.search("the House is now adjourned."))
 
 
+class JournalRebuildTests(unittest.TestCase):
+    """The daily Journals (the vote record) are cut the same way: ten of
+    seventeen unread days stopped at exactly 129,024 bytes (9 Oct 2026)."""
+
+    def test_a_cut_journal_reads_when_it_reaches_the_adjournment(self):
+        from src.ingest import prov_nb as nb
+        body, whole = pdf("And then, 6 p.m., the House adjourned.")
+        self.assertIn("House adjourned", nb.journal_text(whole[:len(body) + 2000]))
+
+    def test_a_cut_journal_that_stops_short_stays_unreadable(self):
+        from src.ingest import prov_nb as nb
+        body, whole = pdf("Madam Speaker ruled the point well taken.")
+        with self.assertRaises(Unreadable):
+            nb.journal_text(whole[:len(body) + 2000])
+
+
+class JournalUrlTests(unittest.TestCase):
+    def test_three_misfiled_days_have_their_own_journal(self):
+        from src.ingest import prov_nb as nb
+        fixes = nb.load_journal_urls()
+        self.assertEqual(sorted(fixes), ["2014-05-20", "2016-07-05", "2019-05-28"])
+        for d, f in fixes.items():
+            self.assertTrue(f["document"].endswith(d[2:].replace("-", "") + "e.pdf"), d)
+            self.assertNotEqual(f["document"], f["listed"])
+
+
 class NarratedOpeningTests(unittest.TestCase):
     def test_a_set_piece_speech_opens_in_narration(self):
         """27 October 2022: the whole sitting was one Throne Speech reply."""
