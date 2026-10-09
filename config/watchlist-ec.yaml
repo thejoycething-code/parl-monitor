@@ -1,0 +1,25 @@
+# Ecuador watchlist (9 October 2026), applied by DIVISION KEY, never by title
+# (src/ec_store.watch_areas).
+#
+# Keys are 'ec-<votingId>', the Asamblea's own vote number in its datos
+# parlamentarios service. Bills would be the better key, but no vote carries
+# a bill number and the bill systems are closed or frozen
+# (docs/ecuador-scope.md); a `bills:` section keyed by trámite number joins
+# this file when phase 2 has a bill source.
+#
+# Until the Spanish taxonomy proposed in docs/ecuador-scope.md is approved,
+# areas are NULL everywhere and this file is the only thing that lends them.
+# Every entry below was found by the draft terms and read by hand.
+divisions:
+  # Ley Orgánica que Regula la Interrupción Voluntaria del Embarazo para
+  # Niñas, Adolescentes y Mujeres en caso de Violación: the law the
+  # Constitutional Court ordered in 2021 (sentencia 34-19-IN/21).
+  "ec-1002665": {areas: [1], why: "IVE en caso de violación, second debate, 17 February 2022: motion (Moreira) 66-40-27"}
+  "ec-1002666": {areas: [1], why: "IVE en caso de violación, second debate, 17 February 2022: the approving motion (Moreira), 75-41-14"}
+  "ec-1002667": {areas: [1], why: "IVE en caso de violación, 17 February 2022: reconsideration of the approval, defeated 41-78-11"}
+  "ec-1002697": {areas: [1], why: "IVE en caso de violación, President Lasso's partial veto, 5 April 2022: motion 75-49-11"}
+  "ec-1002698": {areas: [1], why: "IVE en caso de violación, partial veto, 5 April 2022: reconsideration, 50-80-7"}
+  "ec-1002706": {areas: [1], why: "IVE en caso de violación, partial veto, 14 April 2022: motion 17-73-40"}
+  "ec-1003822": {areas: [1], why: "Bill to register the deaths of 'concebidos no nacidos', first debate, 28 April 2025: the committee's motion to archive it"}
+  "ec-1003814": {areas: [8], why: "Proyecto de Ley Orgánica de Libertad e Igualdad Religiosa, first-debate report recommending archive, 23 April 2025"}
+  "ec-1003863": {areas: [6], why: "Código Orgánico de Protección Integral a Niñas, Niños y Adolescentes, second debate, 12 May 2025: the new children's code, replacing the 2003 Código de la Niñez y Adolescencia"}
