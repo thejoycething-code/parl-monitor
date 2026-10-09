@@ -390,8 +390,8 @@ Westminster's sections map as follows: **bills** (Hansard-named bills and
 their stages, Acts from the Register), **divisions** (House and Senate, with
 pairs), **Senate motions and references** (the Senate's business on our
 ground is often a motion or a committee referral with no bill: gender
-dysphoria guidelines, age assurance, documents orders), and later
-**debates** (the same Hansard files). No PQ equivalent is reachable
+dysphoria guidelines, age assurance, documents orders), and **debates**
+(the same Hansard files; built 9 October 2026, see "Debates"). No PQ equivalent is reachable
 (questions on notice are on aph.gov.au); petitions likewise.
 
 **The 5CA translates.** Every vote carries the member and the party of the
@@ -456,6 +456,76 @@ Manager was emailed on 9 October 2026** asking for access, as was done for
 PEI. Phase 1b (committee-stage amendment sheets), bill digests, the Notice
 Papers and the full sitting calendar wait on one of those. `au-probe.yml`
 stays for a later re-test.
+
+## Debates (built 9 October 2026)
+
+Christopher, 9 October 2026: "build Australian debates". `tools/au_debates.py`,
+modelled on `tools/us_record.py`, reads **the same OpenAustralia day files**
+as the divisions (not archived a second time: `tools/au_rollcalls.py`
+archives each one) and stores, in `au_speeches`, every speech or Senate
+motion **on our ground**: speaker (OpenAustralia person ID, the APH PHID
+where `au_members` has one, the name and the party of the office spell at
+the time), chamber, date, debate headings, the bill IDs the debate is ON
+(its `<bills>` tags), kind (`speech`, `motion` when the speaker opens by
+moving one that is not a bill's routine reading or the closure, `notice`
+under the Senate's NOTICES heading), word count, an excerpt of **at most 400
+characters** (the speech itself is never stored), the OpenAustralia page and
+the ParlInfo page the parse names. `au_debate_days` tracks each day file's
+listing stamp, so a re-parsed day is read again (and its unscored speeches
+replaced).
+
+**A speech is everything one person said in one section of the day** (a
+minor heading and what follows), interjections aside, as the US takes
+everything one member said in one granule. A segment OpenAustralia could not
+attribute ("Honourable senators interjecting", 'unknown') is counted, never
+given to anyone.
+
+**The rule** (copied from `tools/us_record.py`, one place:
+`classify_speech`):
+
+- `own_areas`: the speaker's own words, passage by passage, a passage
+  counting only on a tier-1 term. The debate's minor heading counts as a
+  passage only for a speech of 150 words or more: in the Australian Hansard a
+  bill debate's minor heading IS the bill's title.
+- A bill lends its areas in two narrow cases only (`areas_from`): **watch**,
+  the debate is on a bill on `config/watchlist-au.yaml` (by key) and the
+  speaker said at least 40 words (the one departure from the US rule: an
+  Australian section holds the whips' and the chair's one-line procedure
+  on the bill, which a US granule rarely does); **bill**, the speech matched
+  nothing itself, the debate is on a bill whose own title (taxonomy only)
+  is on our ground, and the speaker said at least 150 words.
+
+**Measured** (live, into a scratch database, 9 October 2026): the whole
+48th Parliament, **158 day files (86 House, 72 Senate) in 20.6 minutes**,
+about 8 s a file, most of it the per-passage matching (5 s for a 760 KB
+Senate day). **22,892 speeches read** (House 14,189, Senate 8,703), **758
+on our ground stored** (House 372, Senate 386) from 183 members; 396
+segments with no identifiable speaker. By kind and source: 635 speeches on
+their own words, 34 by a watched bill, 24 by a bill's title; 61 motions (51
+own words, 10 watched bill); 4 notices. 737 of the 758 carry a PHID.
+Noise the shared taxonomy brings, for the judge to drop: "Down syndrome"
+(23, mostly the NDIS), "Islamophobia" (35, condolence and social cohesion
+debates) and procedural chairs reading a watched bill's title in committee.
+
+**In the job**: after the collector (so `au_offices` knows every speaker),
+newest days first under a **10-minute budget**, so the backfill drains over
+three weekly runs and a sitting week then costs about a minute. A gap-free
+run stamps the step heartbeat "AU debates"; coverage watches
+`au_debate_days` weekly (every listed day is re-stamped each run) and
+`au_speeches` a month plus two months' recess grace.
+
+**In the edition**: a "Debate" section after the divisions, one line per
+speech (speaker, party, kind, debate and bill, a quoted line of at most 200
+characters, the Hansard link, the areas and what they matched on), the
+week's or the last 30 days', 20 at most; the DM gets a count.
+
+**The judge** (`AU_JUDGE` is on) takes speeches whose OWN words matched, on
+the stored excerpt, as for US floor speeches; one that only takes its
+bill's areas is the bill's story. `--dry-run` on the scratch store: **690
+speeches, about 173 calls, roughly $1.64** for the backlog (the 62 bills
+and divisions are already scored in the real store), then only new speeches
+each sitting week. Because the backfill drains newest first over three
+runs, the backlog's spend lands over those three weeks.
 
 ## The week ahead (built 9 October 2026)
 
@@ -544,10 +614,11 @@ month plus a month's grace, because Canberra sits in blocks).
    APH bill homepages, which refuse the laptop and GitHub's runners (9
    October 2026). Waiting on the Mini probe (pending) and the APH Web
    Manager, emailed 9 October 2026.
-3. **Phase 2: debates and Senate motions in full** (the same Hansard files:
-   speeches on our ground, the motion texts), and the full **sitting
-   calendar**, Notice Papers and Senate estimates (blocked today; the sitting
-   days the Register's disallowance clock reveals are built, above).
+3. **Phase 2: debates and Senate motions** (built, above: speeches and
+   motions on our ground from the same Hansard files), and the full
+   **sitting calendar**, Notice Papers and Senate estimates (blocked today;
+   the sitting days the Register's disallowance clock reveals are built,
+   above).
 4. **Phase 3: the Australian 5CA** (votes, pairs, private bills, second
    reading amendments).
 5. **Phase 4: states and territories**, in the order the open data allows
