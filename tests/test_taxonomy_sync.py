@@ -267,10 +267,52 @@ class GermanTaxonomyTests(unittest.TestCase):
             with open(config, "r", encoding="utf-8") as handle:
                 loaded[lang] = set((yaml.safe_load(handle).get("areas") or {}))
         # Every language, not only German (10 October 2026: the country
-        # editions' languages carry the same thirteen keys).
+        # editions' languages carry the same thirteen keys). A language may
+        # ADD a country-only area (Brazil's gambling and drug
+        # decriminalisation, BR3/BR4), which the next test holds to its
+        # terms being tagged; it may never drop or rename a shared one.
         for lang, keys in loaded.items():
-            self.assertEqual(keys, loaded["en"],
+            self.assertEqual(keys & loaded["en"], loaded["en"],
                              "taxonomy-%s must describe the same areas as English" % lang)
+            extra = keys - loaded["en"]
+            self.assertTrue(extra <= COUNTRY_ONLY_AREAS.get(lang, set()),
+                            "taxonomy-%s adds undeclared areas %s" % (lang, sorted(extra)))
+
+    def test_a_country_only_area_matches_for_its_country_alone(self):
+        """BR3/BR4 (10 October 2026): areas 14 and 15 are Brazil's alone.
+        Every term in them carries [only: br], so Portugal, which shares the
+        file, loads both areas empty and matches what it matched before."""
+        import yaml
+        from src import digest, filter as filt
+        for lang, keys in COUNTRY_ONLY_AREAS.items():
+            config = generate_taxonomy.MASTERS[lang][1]
+            with open(config, "r", encoding="utf-8") as handle:
+                areas = yaml.safe_load(handle)["areas"]
+            for key in keys:
+                terms = areas[key]["tier1"] + areas[key]["tier2"]
+                self.assertTrue(terms, key)
+                for t in terms:
+                    self.assertTrue(isinstance(t, dict) and t.get("only"),
+                                    "%s: %r is not country-tagged" % (key, t))
+                num = int(key.split("_", 1)[0])
+                self.assertIn(num, digest.AREA_NAMES, "%s has no display name" % key)
+        path = generate_taxonomy.MASTERS["pt"][1]
+        br, pt = filt.load_taxonomy(path, country="br"), filt.load_taxonomy(path, country="pt")
+        self.assertEqual(pt.terms[14], {1: [], 2: []})
+        self.assertEqual(pt.terms[15], {1: [], 2: []})
+        wl = filt.Watchlist(entities=[], bill_titles=[], act_shorts=[])
+        for text, area in (
+                ("Dispõe sobre a modalidade lotérica denominada apostas de quota fixa", 14),
+                ("Dispõe sobre a exploração de jogos e apostas; jogo do bicho, cassinos e bingos", 14),
+                ("Altera o art. 5º da Constituição Federal (PEC 45/2023), porte de drogas", 15),
+                ("Altera a Lei 11.343 para viabilizar medicamentos de cannabis", 15)):
+            self.assertIn(area, filt.filter_item(br, wl, text).issue_areas, text)
+            self.assertNotIn(area, filt.filter_item(pt, wl, text).issue_areas, text)
+
+
+# Areas a shared language list may carry beyond English's, with every term in
+# them tagged [only: ...]. Brazil's BR3 and BR4 (10 October 2026).
+COUNTRY_ONLY_AREAS = {"pt": {"14_gambling", "15_drug_decriminalisation"}}
 
 
 class QuebecTaxonomyTests(unittest.TestCase):
