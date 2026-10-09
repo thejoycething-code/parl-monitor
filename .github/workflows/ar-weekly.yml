@@ -162,11 +162,17 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add data/
           git diff --cached --quiet || git commit -m "Argentina weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
-          for attempt in 1 2 3; do
-            git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
-            git push && break
-            echo "push rejected (attempt $attempt); retrying"
-            sleep $((attempt * 5))
+          # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
+          # jittered waits, and never retry while stuck mid-rebase.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)"; then
+              git push && break
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            echo "push not landed (attempt $attempt); retrying"
+            sleep $(( attempt * 10 + RANDOM % 10 ))
           done
           git fetch -q origin "$(git rev-parse --abbrev-ref HEAD)"
           if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
