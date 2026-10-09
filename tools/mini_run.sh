@@ -75,7 +75,14 @@ git rebase -q "origin/$REF" || { git rebase --abort; fail "rebase onto origin/$R
 STAGE="fetch the store"
 GH_TOKEN=$(gh auth token) || fail "gh is not signed in"
 export GH_TOKEN
-python3 tools/db_state.py --pull || fail "db_state --pull"
+# The store is 895MB and every pull downloads it whole, so a job that never
+# touches it says so with a "mini_run: no-store" line in its script.
+if grep -q '^# mini_run: no-store' "jobs/$JOB.sh"; then
+  echo "  no store needed"
+  rm -f data/.store-pulled data/parl-monitor.db
+else
+  python3 tools/db_state.py --pull || fail "db_state --pull"
+fi
 
 # 3. The job, under a time limit (perl alarm: macOS ships no timeout(1)).
 STAGE="jobs/$JOB.sh"
@@ -84,11 +91,13 @@ rc=$?
 [ "$rc" -eq 142 ] && fail "timed out after ${JOB_TIMEOUT}s"
 [ "$rc" -ne 0 ] && fail "exit $rc"
 
-# 4. Commit data/ only. This wrapper does not publish the store or the raw
-# archive yet; a job that changed the store must not go out half-published.
+# 4. Commit data/ only. Publishing the store and the raw archive is the
+# job's own last step (db_state.py / raw_state.py --push, as on GitHub),
+# and each push rewrites its sidecar. A store that changed while its
+# sidecar did not was never published: committing then would go out half.
 STAGE="commit state"
-if [ data/parl-monitor.db -nt data/.store-pulled ]; then
-  fail "the job changed the store, and mini_run cannot publish stores yet"
+if [ data/parl-monitor.db -nt data/.store-pulled ] && git diff --quiet -- data/parl-monitor.db.json; then
+  fail "the job changed the store but did not publish it (db_state.py --push)"
 fi
 git add -A data
 if ! git diff --cached --quiet; then

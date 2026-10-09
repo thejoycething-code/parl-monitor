@@ -170,8 +170,13 @@ class WiringTests(unittest.TestCase):
         src = open(os.path.join(ROOT, ".github", "workflows", "division-watch.yml"), encoding="utf-8").read()
         self.assertIn("* * 5", src)                 # Fridays: Private Members' Bills
         self.assertIn("* * 1-4", src)
-        self.assertIn("tools/division_brief.py", src)
-        self.assertNotIn("db_state.py", src)        # touches no store, so no pull/push to get wrong
+        # The work lives in jobs/division-watch.sh, shared with the Mac Mini.
+        self.assertIn("jobs/division-watch.sh", src)
+        job = open(os.path.join(ROOT, "jobs", "division-watch.sh"), encoding="utf-8").read()
+        self.assertIn("tools/division_brief.py", job)
+        for text in (src, job):
+            self.assertNotIn("db_state.py", text)   # touches no store, so no pull/push to get wrong
+        self.assertIn("# mini_run: no-store", job)  # and the Mini does not pull one either
 
     def test_a_failure_is_reported(self):
         alert = open(os.path.join(ROOT, ".github", "workflows", "alert.yml"), encoding="utf-8").read()

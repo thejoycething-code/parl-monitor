@@ -3,6 +3,7 @@
 import importlib.util
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -209,6 +210,10 @@ class RepoWiringTests(unittest.TestCase):
     def test_the_archive_writers_without_a_store_publish_it(self):
         for name in ("division-watch.yml", "deploy-tracker.yml"):
             src = open(os.path.join(WORKFLOWS, name), encoding="utf-8").read()
+            # A workflow that hands its work to a jobs/ script (shared with
+            # the Mac Mini runner) publishes from that script.
+            for job in re.findall(r"jobs/[\w-]+\.sh", src):
+                src += open(os.path.join(WORKFLOWS, "..", "..", job), encoding="utf-8").read()
             self.assertIn("raw_state.py --push", src, name)
 
     def test_the_merge_driver_is_bound(self):
