@@ -19,7 +19,17 @@ legislatures are a later decision, taken in blocks (see the end).
   is not a term of its own: it is caught where it meets the areas already
   watched (gender, sex-based rights, schools).
 - **The US edition goes to Christopher alone** until it is good.
-- Not yet decided: the executive-actions section.
+- **Executive actions: yes** (9 October 2026). A section of the US edition
+  from the Federal Register: executive orders, proclamations and memoranda,
+  final and proposed rules, with comment-period close dates. Classified
+  through the shared taxonomy, noise guarded and measured. Built the same
+  day (below).
+- **Supreme Court: yes** (9 October 2026). A section of its own: the term's
+  opinions, the certiorari grants from the order lists, and the docket
+  (caption and question presented) for each grant. Built the same day.
+- **A US guard on area 12: yes** (9 October 2026). Immigration and
+  border-enforcement bills must not land in area 12 on "human trafficking"
+  alone. Taxonomy v1.18; measured below.
 
 ## Phase 1: built, 9 October 2026
 
@@ -49,6 +59,119 @@ Act, the Protect Children's Innocence Act.
 - **Not scheduled.** The three sighting tables are exempt in
   `tools/coverage.py` until a US weekly workflow exists; that exemption must
   move to FEEDS when it does.
+
+## Executive actions and the Supreme Court: built, 9 October 2026
+
+Both run in the US weekly (`jobs/us-weekly.sh`) after the roll calls and
+before the judge; a refused source is a [gap] line, never a stopped
+edition. Live runs went into a scratch copy of the store, not the store.
+
+### Federal Register (`tools/us_federal_register.py`, `us_fr_documents`)
+
+`federalregister.gov/api/v1/documents.json`, keyless. Types PRESDOCU, RULE
+and PRORULE; agency notices (about 10,000 since January 2025, nearly all
+permits, meetings and information collections) are not read. Keyed on the
+FR document number; first backfill from 20 January 2025, then incremental
+by publication date with a fourteen-day overlap, so corrections and
+reopened comment periods are re-seen. Matched on title, abstract, action
+line and CFR index terms; never the body.
+
+| 20 Jan 2025 to 9 Oct 2026 | Read | On our ground |
+|---|---|---|
+| Presidential documents | 650 | 13 |
+| Final rules | 4,522 | 22 |
+| Proposed rules | 2,800 | 19 |
+| **All** | **7,972** | **54** |
+
+A first run takes under two minutes (8 pages of 1,000).
+
+**Noise, measured.** "Euthanasia" never reaches the matched text: the 13
+documents carrying it are animal welfare and carry it in the body. Seven
+documents were noise and are now guarded: two EPA air-toxics rules (a
+pollutant "surrogate"), one EPA wildlife-contraceptive pesticide tolerance,
+one Livestock Indemnity rule ("unborn" livestock), all three vetoed in
+taxonomy v1.18; and three USCIS rules carrying the CFR index term "Adoption
+and foster care", which is printed on every 8 CFR rule and is dropped in
+the collector where "Aliens" or "Immigration" sits beside it. Left in on
+purpose: CMS hospice and home-health payment rules (tier 2, area 2's
+positive flank; the FY2027 hospice rule discusses medical aid in dying)
+and a CFPB coerced-debt rule (tier 2 "coercion"), for the judge to weigh.
+
+**What it finds.** The January and February 2025 orders on gender ideology,
+the Hyde Amendment, the Mexico City Policy, chemical and surgical
+mutilation, K-12 indoctrination, women's sports, anti-Christian bias and
+IVF; the Religious Liberty Commission; State's two foreign-assistance rules
+(Protecting Life, Combating Gender Ideology); the Title IX recodification;
+the HHS disability rule on gender dysphoria. **Misses on the title alone:**
+the White House Faith Office order, "Fostering the Future for American
+Children and Families", the annual Trafficking in Persons determinations
+("trafficking in persons" is not a term), and the DEI orders (DEI is not a
+term by decision).
+
+**The section.** New on our ground this week, and every proposed rule on
+our ground still open for comment with its close date and regulations.gov
+link, bold when it closes within fourteen days and named in the top lines.
+On 9 October 2026 one is open: ACF's "Reforming Federal Reporting and
+Assessments in Child Welfare", closing 4 November 2026.
+
+### Supreme Court (`tools/us_courts.py`, `us_court_cases`, `us_court_orders`)
+
+All on supremecourt.gov, keyless, one request a second (robots.txt:
+Crawl-delay 1; /rss/, /images/ and /cdn/ disallowed and not used). Nothing
+refused us; one docket page timed out and is a gap.
+
+- **Opinions:** `opinions/slipopinion/<term>`, re-read whole each run. The
+  link's title attribute carries the Court's one-sentence holding, which is
+  what is matched (case names are party names).
+- **Grants:** every order list and miscellaneous order PDF of the term,
+  read once (`us_court_orders`); plenary certiorari grants are taken out,
+  grant-vacate-remand orders and stays left out. For each grant the docket
+  page gives the caption and the questions-presented PDF, which is what is
+  matched.
+- First run reads from October Term 2024 (about eighteen minutes, 275
+  PDFs); later runs read the current term and the last.
+
+| OT2024 to 9 Oct 2026 | Read | On our ground |
+|---|---|---|
+| Opinions (OT2024, OT2025) | 140 | 7 |
+| Certiorari grants | 114 | 13 |
+
+On our ground: Skrmetti, Mahmoud v. Taylor, Medina v. Planned Parenthood,
+Free Speech Coalition v. Paxton, Catholic Charities, Chiles v. Salazar,
+West Virginia v. B. P. J.; grants including Little v. Hecox, St. Isidore,
+First Choice Women's Resource Centers, Landor, and Crowther v. Board of
+Regents. **Missed:** the First Choice opinion (its holding speaks of a
+subpoena and donors, not pregnancy centres); the grant is caught.
+The docket's JSON (under /RSS/) is not used; the granted/noted list page
+was empty when probed.
+
+### Area 12 guard (taxonomy v1.18)
+
+`"human trafficking" [without: "border security", "unlawful immigration",
+"illegal immigration", "illegal alien*"]`. The first two are the words of
+the CRS subject term "Border security and unlawful immigration".
+
+- **US bills in area 12: 90 before, 74 after.** The 16 that left: Kayla
+  Hamilton Act (H.R. 4371), Secure America Act (S. 2), both FY2026 NDAA
+  texts (S. 1071, S. 2296), Stopping Border Surges, Expedited Removal of
+  Criminal Aliens, Shadow Wolves, SHIELD Against CCP, the Mexico security
+  and drug-trafficking bills, and seven appropriations and reconciliation
+  vehicles (H.R. 1, H.R. 7148, H.R. 4213, H.R. 7006, H.R. 1968, H.R. 5371).
+- **Roll calls in area 12: 160 before, 15 after**, almost all NDAA and
+  appropriations amendment votes that inherited it.
+- **Stay:** H.R. 1503 (Stop Forced Organ Harvesting), the Trafficking
+  Survivors Relief Acts, the Human Trafficking Survivor Tax Relief Acts,
+  the trafficking victims protection reauthorizations, the WISE Act, and
+  the Stop Human Trafficking of Unaccompanied Migrant Children Act (it
+  carries none of the vetoes; a judgement call worth a look).
+- **UK and elsewhere:** re-derived across 203,662 Holyrood, Senedd, NI
+  and EU rows, none changed; no Westminster item is in area 12, and none
+  of the 1,010 Westminster member events in area 12 carries the company in
+  its stored excerpt. Canada would move on re-derivation: 7 Commons
+  speeches (Bill C-12, border management), 2 committee testimonies and 4
+  provincial speeches from 12 to 11. That is the rule working as meant;
+  Canada's retag is additive, so stored rows keep their tags until
+  re-derived.
 
 ## The finding that shapes everything
 
@@ -115,9 +238,10 @@ as with "pornograph*" in Canada):
 
 ### What it caught that it should not have
 
-Area 12 (trafficking) is noisy in the US: "human trafficking" appears in
+Area 12 (trafficking) was noisy in the US: "human trafficking" appears in
 almost every border and immigration bill (Kayla Hamilton Act, Secure America
-Act, the FY2026 NDAA), so those land in 12 when they are really area 11. The
+Act, the FY2026 NDAA), so those landed in 12 when they are really area 11.
+Guarded at taxonomy v1.18 (above). The
 CBDC and encryption terms pull in crypto-market and telecoms bills (CLARITY
 Act, a housing bill, a mobile-networks bill). Triage would score these low,
 but area 12 needs a US guard.
@@ -276,7 +400,7 @@ Westminster's sections map as follows: bills (BILLSTATUS), divisions (House
 roll calls, Senate when unblocked), debates (Congressional Record), What's
 On (floor schedule plus committee meetings), consultations (Federal Register
 comment periods). No PQs, no EDMs, no petitions. Add an **executive actions**
-section (executive orders and agency rules), which Westminster does not need.
+section (executive orders and agency rules), which Westminster does not need. (Built 9 October 2026, with a Supreme Court section.)
 
 **The 5CA translates.** Every member has a Bioguide ID, every House vote
 carries positions and party-at-the-time, and cosponsorship is a strong
@@ -368,7 +492,8 @@ jurisdictions). Possible build orders:
    be requested in his name or the team's. Phase 1b needs it.
 3. ~~Taxonomy~~: shared list, merged into the areas (decided 9 October; v1.17).
 4. **Scope:** DEI, antisemitism, contraception. In or out?
-5. **Executive actions** as a section: yes or no?
+5. ~~Executive actions~~: yes, with the Supreme Court (decided and built
+   9 October 2026).
 6. ~~Senate~~: built 9 October; collected from CI, where senate.gov answers.
 7. ~~Which state block first?~~ All 50 (decided 9 October), via Open
    States: **an account and API key are needed**.
