@@ -73,6 +73,8 @@ PIPELINES = {
     "Ireland weekly": (7, 4, "the Oireachtas: Dail, Seanad and committee divisions, bills, members"),
     # Scheduled 9 October 2026, Saturdays (at-weekly.yml; the Mac Mini first).
     "Austria weekly": (7, 4, "Austria's Parliament: Nationalrat and Bundesrat items and Klub votes"),
+    # Scheduled 9 October 2026, Thursdays (nl-weekly.yml; the Mac Mini first).
+    "Netherlands weekly": (7, 4, "Tweede Kamer: fracties, members, votes and positions"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -214,6 +216,17 @@ FEEDS = [
     ("at_items", "last_seen", 7, 4, "Nationalrat and Bundesrat items (Austria weekly)"),
     ("at_members", "last_seen", 7, 4, "Nationalrat and Bundesrat members (Austria weekly)"),
     ("at_divisions", "last_seen", 31, 31, "Klub votes on our ground (Austria weekly)"),
+    # Netherlands (9 October 2026). MEASURED which re-stamp: the fracties and
+    # the 150 current seats are re-read whole every run, so they move every
+    # week, recess included. Votes are re-stamped whenever they fall in the
+    # six-week window the collector re-reads, so they stop moving about six
+    # weeks into the summer recess (the Kamer did not vote between 2 July and
+    # 3 September 2026): a month plus a month's grace, as for the US. A zaak
+    # is re-stamped with its vote, so it gets the same.
+    ("nl_members", "last_seen", 7, 4, "Tweede Kamer members (Netherlands weekly)"),
+    ("nl_fracties", "last_seen", 7, 4, "Tweede Kamer fracties (Netherlands weekly)"),
+    ("nl_divisions", "last_seen", 31, 31, "Tweede Kamer votes (Netherlands weekly)"),
+    ("nl_zaken", "last_seen", 31, 31, "Zaken voted on in the Tweede Kamer (Netherlands weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -293,6 +306,8 @@ PIPELINE_FEEDS = {
     "Ireland weekly": ["ie_members", "ie_bills", "ie_divisions"],
     # Divisions left out for the same reason: a recess week cannot move them.
     "Austria weekly": ["at_items", "at_members"],
+    # Re-read whole every run; votes are left out for the US's reason.
+    "Netherlands weekly": ["nl_members", "nl_fracties"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -312,6 +327,8 @@ AWAITING_FIRST_RUN = {
                          "scheduled 9 October 2026; its tables fill on its first run"),
     "Austria weekly": (("at_items", "at_members", "at_divisions"),
                        "scheduled 9 October 2026; its tables fill on its first run"),
+    "Netherlands weekly": (("nl_members", "nl_fracties", "nl_divisions"),
+                           "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py

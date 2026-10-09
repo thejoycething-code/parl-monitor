@@ -1590,6 +1590,13 @@ TABLES = (
     "at_items",
     "at_divisions",
     "at_votes",
+    # The Netherlands' Tweede Kamer (tools/nl_rollcalls.py), created by
+    # src/nl_store.ensure_schema -- declared from day one.
+    "nl_fracties",
+    "nl_members",
+    "nl_zaken",
+    "nl_divisions",
+    "nl_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1870,4 +1877,6 @@ def init_db(conn):
     ie_store.ensure_schema(conn)
     from src import at_store
     at_store.ensure_schema(conn)
+    from src import nl_store
+    nl_store.ensure_schema(conn)
     return conn
