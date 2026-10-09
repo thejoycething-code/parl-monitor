@@ -31,6 +31,7 @@ Scope calls applied while merging:
 - Portugal X2: shared taxonomy-pt, PT spelling variants and PT-only statutes tagged in only
 - Portugal PT2 family policy (area 9), PT3 school choice (area 6), PT4 face covering (area 8), PT5 Church abuse (area 8): all kept as drafted
 - Portugal Bracketed guards converted: dador* [with: órgãos, tecidos, transplant*] [without: dador de sangue]
+- Brazil BR3 and BR4 (Chris approved the terms on 10 October 2026): gambling and betting (area 14) and drug decriminalisation (area 15) added as Brazil-only areas; every term in them carries [only: br], so Portugal's collector loads both areas empty and matches exactly what it matched before
 
 ## Issue areas
 
@@ -114,6 +115,19 @@ Scope calls applied while merging:
 - **Tier 1:** "doação de órgãos"; "doação presumida"; "doador presumido"; "consentimento presumido"; "tráfico de órgãos"; transplante* [only: pt]; "dádiva de órgãos"; "colheita de órgãos"; "morte cerebral"; RENNDA [only: pt]; dador* [with: órgãos, tecidos, transplant*] [without: "dador de sangue"] [only: pt]
 - **Tier 2:** transplante*; "morte encefálica" [only: br]; "doador* de órgãos" [only: br]
 - **Notes:** Brazil: Draft list. Portugal: Unguarded 'dador' matched six blood-donor bills and nothing else, hence the guard.
+
+### 14. Gambling and betting {#14_gambling}
+
+- **Name:** Gambling and betting
+- **Tier 1:** "jogos de azar" [only: br]; "apostas esportivas" [only: br]; "apostas de quota fixa" [only: br]; bets [only: br]; "Lei das Bets" [only: br]; "Lei 14.790" [only: br]; cassino* [only: br]; "jogo do bicho" [only: br]; "marco regulatório dos jogos" [only: br]; "PL 2234/2022" [only: br]; "PL 442/1991" [only: br]
+- **Tier 2:** bingo* [with: legaliz*, autoriz*, explora*] [only: br]; apostas [with: online, esportiv*, digital] [only: br]; "jogo online" [only: br]; ludopatia [only: br]; "jogo patológico" [only: br]; "vício em apostas" [only: br]; "publicidade de apostas" [only: br]
+- **Notes:** Brazil: BR3, approved 10 October 2026. Lei 14.790/2023 legalised fixed-odds sports betting; PL 2234/2022 (Senate) and PL 442/1991 (Câmara) are one casino, bingo and jogo do bicho legalisation bill, the Câmara's record 15460 presented in 1991 and renumbered on reaching the Senate (both numbers checked on the Câmara and Senado open data, 9 October 2026). Measured on the Câmara's 2024 bills (5,516 PL, PEC, PLP, PDL, MPV, PRC): 80 match, 78 of them on no other area, mostly bills amending Lei 14.790 or barring Bolsa Família money from betting; in the 2026 scoping store (156 bills, 211 votes) none. Statutes are cited as "Lei nº 14.790", which the bare "Lei 14.790" phrase misses (1 hit); the bills are caught by "apostas de quota fixa" (51) instead.
+
+### 15. Drug decriminalisation {#15_drug_decriminalisation}
+
+- **Tier 1:** "descriminalização das drogas" [only: br]; "descriminalização do porte" [only: br]; "porte de drogas" [only: br]; "porte de maconha" [only: br]; "legalização da maconha" [only: br]; "RE 635659" [only: br]; "PEC 45/2023" [only: br]; "PEC das Drogas" [only: br]; "cultivo de cannabis" [only: br]; "Lei de Drogas" [only: br]; "Lei 11.343" [only: br]
+- **Tier 2:** cannabis [only: br]; maconha [only: br]; canabidiol [only: br]; "cannabis medicinal" [only: br]; "PL 399/2015" [only: br]; "drogas ilícitas" [only: br]; "dependência química" [only: br]; "comunidades terapêuticas" [only: br]
+- **Notes:** Brazil: BR4, approved 10 October 2026. RE 635659 is the STF case decriminalising small-quantity cannabis possession (2024; not checked, the STF portal refused the request); PEC 45/2023 is Congress's amendment criminalising possession of any amount; PL 399/2015 is the medical-cannabis bill (its ementa: medicines from Cannabis sativa); comunidades terapêuticas (mostly church-run rehab) are tier 2 because their funding is a recurring fight. Numbers checked on the Câmara and Senado open data and Lei 11.343/2006 on the Senado's legislation service, 9 October 2026. Measured on the Câmara's 2024 bills: 27 match, 26 on no other area (Lei 11.343 amendments, cannabis, motions to annul the CNAS and CONANDA resolutions on comunidades terapêuticas); in the 2026 scoping store 2 bills and 2 votes, both on dependência química.
 
 ## Global exclusions
 
