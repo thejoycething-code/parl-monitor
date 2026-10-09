@@ -1,13 +1,13 @@
 name: Belgium weekly
 on:
   schedule:
-    # Saturday 03:00 UTC, retry 05:00 UTC (9 October 2026). The Chamber votes
+    # Saturday 02:30 UTC, retry 04:30 UTC (9 October 2026). The Chamber votes
     # in plenary on Thursday afternoons and the sitting's record is on
     # lachambre.be by the evening, so Saturday morning has the week's votes
-    # with a day to spare. Clear of every other workflow's cron: Saturday
-    # holds 05:30, 06:00, 07:00, 10:00, 14:00, 18:00 and 23:00 only.
-    - cron: "0 3 * * 6"
-    - cron: "0 5 * * 6"
+    # with a day to spare. Moved from 03:00/05:00 at the countries merge
+    # (10 October 2026): Austria holds those Saturday slots.
+    - cron: "30 2 * * 6"
+    - cron: "30 4 * * 6"
   workflow_dispatch:
     inputs:
       reclassify:
@@ -31,10 +31,10 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # The Mac Mini runs this on Saturdays at 03:00 London (tools/mini_run.sh
+  # The Mac Mini runs this on Saturdays at 02:30 London (tools/mini_run.sh
   # be-weekly); these crons are the backup. The Mini runs ONCE for both
-  # slots, so its run must count for the 05:00 retry too: at 03:00 London in
-  # summer it stamps 02:00 UTC, three hours before that slot, hence a grace
+  # slots, so its run must count for the 04:30 retry too: at 02:30 London in
+  # summer it stamps 01:30 UTC, three hours before that slot, hence a grace
   # of 200 minutes rather than the default 75.
   mini-check:
     uses: ./.github/workflows/mini-check.yml
@@ -43,7 +43,7 @@ jobs:
       grace-minutes: 200
 
   # The second slot is a retry, not a second pass (copied from us-weekly.yml):
-  # when the 03:00 backup already ran today, 05:00 has nothing to do.
+  # when the 02:30 backup already ran today, 04:30 has nothing to do.
   gate:
     needs: mini-check
     if: needs.mini-check.outputs.run == 'true'

@@ -398,19 +398,19 @@ class ScheduleTests(unittest.TestCase):
 
     def test_one_mini_run_covers_both_slots_summer_and_winter(self):
         utc = dt.timezone.utc
-        for last in ("2026-07-11T02:00:05Z", "2026-11-14T03:00:05Z"):    # 03:00 London, BST / GMT
+        for last in ("2026-07-11T01:30:05Z", "2026-11-14T02:30:05Z"):    # 02:30 London, BST / GMT
             day_ = last[:10]
-            for hour in (3, 5):
-                now = dt.datetime.fromisoformat(day_ + "T{0:02d}:05:00".format(hour)).replace(tzinfo=utc)
-                self.assertFalse(self._decide("0 {0} * * 6".format(hour), now, last), (last, hour))
+            for hour in (2, 4):
+                now = dt.datetime.fromisoformat(day_ + "T{0:02d}:35:00".format(hour)).replace(tzinfo=utc)
+                self.assertFalse(self._decide("30 {0} * * 6".format(hour), now, last), (last, hour))
 
     def test_last_weeks_mini_run_does_not_cover_this_week(self):
-        now = dt.datetime(2026, 10, 17, 3, 5, tzinfo=dt.timezone.utc)
-        self.assertTrue(self._decide("0 3 * * 6", now, "2026-10-10T02:00:05Z"))
+        now = dt.datetime(2026, 10, 17, 2, 35, tzinfo=dt.timezone.utc)
+        self.assertTrue(self._decide("30 2 * * 6", now, "2026-10-10T01:30:05Z"))
 
     def test_the_slots_collide_with_no_other_workflow(self):
         import glob
-        self.assertEqual(self.crons, ["0 3 * * 6", "0 5 * * 6"])
+        self.assertEqual(self.crons, ["30 2 * * 6", "30 4 * * 6"])
         others = set()
         for path in glob.glob(os.path.join(ROOT, ".github", "workflows", "*.yml")):
             if path.endswith("be-weekly.yml"):
@@ -426,7 +426,7 @@ class ScheduleTests(unittest.TestCase):
                   encoding="utf-8") as fh:
             plist = fh.read()
         self.assertIn("<string>be-weekly</string>", plist)
-        self.assertIn("<key>Weekday</key><integer>6</integer><key>Hour</key><integer>3</integer>", plist)
+        self.assertIn("<key>Weekday</key><integer>6</integer><key>Hour</key><integer>2</integer><key>Minute</key><integer>30</integer>", plist)
         self.assertTrue(os.path.exists(os.path.join(ROOT, "jobs", "be-weekly.sh")))
 
 

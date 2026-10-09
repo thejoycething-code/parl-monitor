@@ -233,9 +233,9 @@ Nothing on our ground. Worth a phase of its own only for completeness.
   dossiers found by the proposed terms and read by title. A division takes
   its dossier's areas.
 - **Scheduled Mini-first:** `jobs/be-weekly.sh`, launchd
-  `ops/launchd/net.citizengo.parlmonitor.be-weekly.plist` (Saturdays 03:00
-  London) and the backup `.github/workflows/be-weekly.yml` (Saturdays 03:00
-  and 05:00 UTC, gated by `mini-check` with `BE_WEEKLY`, grace 200 minutes).
+  `ops/launchd/net.citizengo.parlmonitor.be-weekly.plist` (Saturdays 02:30
+  London) and the backup `.github/workflows/be-weekly.yml` (Saturdays 02:30
+  and 04:30 UTC, gated by `mini-check` with `BE_WEEKLY`, grace 200 minutes).
   Saturday, because the Chamber votes on Thursday afternoons. The first run
   is about 45 minutes (the time budget); later weeks about five. **It runs
   only once merged to main** (GitHub schedules from the default branch), and
@@ -394,7 +394,8 @@ Everything else is new and Belgium's own: `src/be_store.py`,
 4. **Merge to main** when ready, so the backup schedule exists, and **install
    the plist on the Mac Mini** (`MINI_LAST_BE_WEEKLY` is then stamped by
    `tools/mini_run.sh`). The Saturday 03:00 and 05:00 UTC slots were free
-   on 9 October; other country branches may want them.
+   on 9 October; at the countries merge (10 October) Austria kept them and
+   Belgium moved to 02:30 and 04:30.
 5. **Edition and DM:** phase 2 needs the term list first. Say if a votes-only
    weekly DM (watchlist dossiers, new votes) is wanted before that.
 6. Not needed: no key, no account, no paid service. The Chamber's
