@@ -1,0 +1,24 @@
+{
+ "data": {
+  "current_page": 1,
+  "data": [
+   {
+    "id": 1029,
+    "titulo": "P.L. N° 743/2025-2026 C.D.",
+    "numero": "743",
+    "asunto": "QUE DECLARA DE PRIORIDAD Y NECESIDAD PÚBLICA NACIONAL LA CONCLUSIÓN DE LA CIUDADELA DE LA SALUD DEL DEPARTAMENTO DE COCHABAMBA.",
+    "documento": "images/a2cf183f-be95-4138-a3ed-aac82664ef4d_1790103487.pdf"
+   },
+   {
+    "id": 964,
+    "titulo": "P.L. N° 238/2025-2026 C.S.",
+    "numero": "238",
+    "asunto": "DE PROTECCIÓN DE LA LIBERTAD DE CONCIENCIA, NEUTRALIDAD EVALUATIVA Y PREVENCIÓN DEL ACOSO POLÍTICO EN LA EDUCACIÓN SUPERIOR.",
+    "documento": "images/a286efbf-83a2-4038-8bfc-5ed0876c9be8_1787004316.pdf"
+   }
+  ],
+  "last_page": 1,
+  "total": 2,
+  "per_page": 100
+ }
+}

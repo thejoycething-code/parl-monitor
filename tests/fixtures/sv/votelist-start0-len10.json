@@ -1,0 +1,77 @@
+{
+ "draw": "1",
+ "recordsTotal": "6710",
+ "recordsFiltered": "6710",
+ "data": [
+  {
+   "documentofk": "A8688AB6-7602-43F5-BBDF-4241A8C01E95",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/A8688AB6-7602-43F5-BBDF-4241A8C01E95.pdf  target=\"_blank\" >COMISION DE INFRAESTRUCTURA Y DESARROLLO TERRITORIAL DICTAMEN #39 FAVORABLE </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "129",
+   "fecha": "07/10/2026"
+  },
+  {
+   "documentofk": "6BF7CE1C-48AF-476E-A0BB-C4B20CB3F2ED",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/6BF7CE1C-48AF-476E-A0BB-C4B20CB3F2ED.pdf  target=\"_blank\" >COMISION DE INFRAESTRUCTURA Y DESARROLLO TERRITORIAL DICTAMEN #38 FAVORABLE </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "129",
+   "fecha": "07/10/2026"
+  },
+  {
+   "documentofk": "B8C8D02E-27AB-4F82-AFC8-64914ABC3F4F",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/B8C8D02E-27AB-4F82-AFC8-64914ABC3F4F.pdf  target=\"_blank\" >COMISION DE SALUD, AGRICULTURA Y MEDIO AMBIENTE DICTAMEN #27 FAVORABLE </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "129",
+   "fecha": "07/10/2026"
+  },
+  {
+   "documentofk": "D947FF10-8901-4146-9510-6A01A8D9CB27",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/D947FF10-8901-4146-9510-6A01A8D9CB27.pdf  target=\"_blank\" >PIEZA 1A DT </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "129",
+   "fecha": "07/10/2026"
+  },
+  {
+   "documentofk": "61C47464-E186-4899-91F0-21ABEA0FD8B8",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/61C47464-E186-4899-91F0-21ABEA0FD8B8.pdf  target=\"_blank\" >PIEZA 2A FS </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "128",
+   "fecha": "29/09/2026"
+  },
+  {
+   "documentofk": "AADEF635-8A93-43D7-8E6C-39EE0F3AD8E7",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/AADEF635-8A93-43D7-8E6C-39EE0F3AD8E7.pdf  target=\"_blank\" >PIEZA 2A DT </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "128",
+   "fecha": "29/09/2026"
+  },
+  {
+   "documentofk": "457C4A8D-A3F0-4113-9213-466EEEA59F68",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/457C4A8D-A3F0-4113-9213-466EEEA59F68.pdf  target=\"_blank\" >PIEZA 1A FS </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "128",
+   "fecha": "29/09/2026"
+  },
+  {
+   "documentofk": "29CACB48-6A9B-4F4E-9B1D-A63F80F36BDC",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/29CACB48-6A9B-4F4E-9B1D-A63F80F36BDC.pdf  target=\"_blank\" >PIEZA 1A DT </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "128",
+   "fecha": "29/09/2026"
+  },
+  {
+   "documentofk": "BF14FBE8-982C-4153-AF7E-C19C44F53F99",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/BF14FBE8-982C-4153-AF7E-C19C44F53F99.pdf  target=\"_blank\" >COMISION DE HACIENDA DICTAMEN # 267 FAVORABLE </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "128",
+   "fecha": "29/09/2026"
+  },
+  {
+   "documentofk": "5D2E8A73-539F-4C8A-AB86-66A31193BD2C",
+   "leyenda": "<a href=/sites/default/files/documents/votaciones/5D2E8A73-539F-4C8A-AB86-66A31193BD2C.pdf  target=\"_blank\" >COMISION DE HACIENDA DICTAMEN # 266 FAVORABLE </a>",
+   "legislatura": "2024-2027",
+   "no_sesion": "128",
+   "fecha": "29/09/2026"
+  }
+ ]
+}

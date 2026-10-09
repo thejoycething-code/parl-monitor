@@ -1,0 +1,46 @@
+{
+ "dados": {
+  "id": 2611313,
+  "uri": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2611313",
+  "siglaTipo": "PLP",
+  "codTipo": 140,
+  "numero": 74,
+  "ano": 2026,
+  "ementa": "Dispõe sobre regras relativas a benefícios tributários e despesas obrigatórias no exercício de 2026.",
+  "dataApresentacao": "2026-03-23T17:21",
+  "uriOrgaoNumerador": "https://dadosabertos.camara.leg.br/api/v2/orgaos/4",
+  "statusProposicao": {
+   "dataHora": "2026-09-04T00:00",
+   "sequencia": 50,
+   "siglaOrgao": "MESA",
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/4",
+   "uriUltimoRelator": "https://dadosabertos.camara.leg.br/api/v2/deputados/204436",
+   "regime": "Urgência (Art. 155, RICD)",
+   "descricaoTramitacao": "Transformado em Norma Jurídica com Veto Parcial",
+   "codTipoTramitacao": "1012",
+   "descricaoSituacao": "Transformado em Norma Jurídica",
+   "codSituacao": 1140,
+   "despacho": "Transformado na Lei Complementar 237/2026. DOU 15/09/2026 PÁG 01 COL 01 - Edição Extra C. Vetado parcialmente. MSC-PE 751/26. Razões do veto: DOU 15/09/2026 PÁG 03 COL 01 - Edição Extra C.",
+   "url": null,
+   "ambito": "Regimental",
+   "apreciacao": "Proposição Sujeita à Apreciação do Plenário"
+  },
+  "uriAutores": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2611313/autores",
+  "descricaoTipo": "Projeto de Lei Complementar",
+  "ementaDetalhada": "",
+  "keywords": "Inaplicação, Lei de Diretrizes Orçamentárias (LDO), 2026, Regime Especial de Tributação para Serviços de Datacenter (REDATA), segurança jurídica, concessão, benefício fiscal, tributação.",
+  "uriPropPrincipal": null,
+  "uriPropAnterior": null,
+  "uriPropPosterior": null,
+  "urlInteiroTeor": "https://www.camara.leg.br/proposicoesWeb/prop_mostrarintegra?codteor=3102864",
+  "urnFinal": null,
+  "texto": null,
+  "justificativa": null
+ },
+ "links": [
+  {
+   "rel": "self",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2611313"
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProyectosLeyColeccion xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://opendata.camara.cl/camaradiputados/v1">
+  <ProyectoLey>
+    <Id>18835</Id>
+    <NumeroBoletin>18173-21</NumeroBoletin>
+    <Nombre>Modifica la Ley General de Pesca y Acuicultura, con el objeto de exceptuar a los armadores que señala, de la prohibición establecida en materia de artes y aparejos de pesca para la extracción de jibia</Nombre>
+    <FechaIngreso>2026-04-08T00:00:00</FechaIngreso>
+    <TipoIniciativa Valor="2">Moción</TipoIniciativa>
+    <CamaraOrigen Valor="2">Senado</CamaraOrigen>
+    <Admisible>true</Admisible>
+  </ProyectoLey>
+  <ProyectoLey>
+    <Id>19006</Id>
+    <NumeroBoletin>18327-07</NumeroBoletin>
+    <Nombre>Modifica la ley N° 18.918, orgánica constitucional del Congreso Nacional, para sancionar el incumplimiento de funciones parlamentarias durante la semana distrital</Nombre>
+    <FechaIngreso>2026-06-04T00:00:00</FechaIngreso>
+    <TipoIniciativa Valor="2">Moción</TipoIniciativa>
+    <CamaraOrigen Valor="1">Cámara de Diputados</CamaraOrigen>
+    <Admisible>true</Admisible>
+  </ProyectoLey>
+  <ProyectoLey>
+    <Id>18795</Id>
+    <NumeroBoletin>18132-04</NumeroBoletin>
+    <Nombre>Modifica la ley Nº 20.370, General de Educación, para sancionar a padres y apoderados cuyos hijos o pupilos participen en hechos constitutivos de acoso escolar</Nombre>
+    <FechaIngreso>2026-03-17T00:00:00</FechaIngreso>
+    <TipoIniciativa Valor="2">Moción</TipoIniciativa>
+    <CamaraOrigen Valor="1">Cámara de Diputados</CamaraOrigen>
+    <Admisible>true</Admisible>
+  </ProyectoLey>
+</ProyectosLeyColeccion>

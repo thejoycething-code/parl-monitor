@@ -1,0 +1,56 @@
+# Chile watchlist, keyed by BOLETÍN (never by title). Applied by
+# src/cl_store.add_watch_areas to the bill and, through it, to every vote on
+# it. Each entry was found in the live probe of 9 October 2026 (see
+# docs/chile-scope.md) and is here because its title alone would not say
+# which area it is, or says it in words the term list should not carry.
+#
+# Merged bills (refundidos) are listed one by one: the Senate keeps them as
+# separate boletines with the matrix named in each record.
+bills:
+  # Euthanasia: passed the Cámara in 2021, in the Senate's second trámite
+  # since, merged under 7736-11 (the matrix).
+  "7736-11":
+    areas: [2]
+    why: "Euthanasia, the matrix bill: 'asistencia médica con el objeto de acelerar la muerte'"
+  "9644-11":
+    areas: [2]
+    why: "Euthanasia, merged into 7736-11"
+  "11745-11":
+    areas: [2]
+    why: "Euthanasia, merged into 7736-11"
+  "11577-11":
+    areas: [2]
+    why: "Euthanasia, merged into 7736-11; its title is a patients' rights amendment"
+  # Gender medicine for minors. The titles avoid the vocabulary ("intervenciones
+  # jurídicas, médicas o ideológicas que puedan alterar de manera irreversible
+  # su desarrollo"), so they are watched by key.
+  "17571-18":
+    areas: [3]
+    why: "Protects minors from irreversible medical or legal interventions (gender transition)"
+  "17586-18":
+    areas: [3]
+    why: "Protects minors from irreversible medical or legal interventions (gender transition)"
+  "17636-18":
+    areas: [3]
+    why: "Bans practices, treatments or surgery against children's healthy development (gender transition)"
+  "17798-11":
+    areas: [3]
+    why: "Bans surgical or hormonal sex-change interventions under 18"
+  # Abortion.
+  "17564-11":
+    areas: [1]
+    why: "Interrupción voluntaria del embarazo: elective abortion within a time limit"
+  "17494-07":
+    areas: [1]
+    why: "Constitutional protection of the life of the human being in gestation"
+  "17728-11":
+    areas: [1]
+    why: "Removes the rape ground of the three-grounds law (Ley 21.030)"
+  # Parental rights in education.
+  "17930-04":
+    areas: [6]
+    why: "Regulates the parents' preferential right and duty to educate their children"
+  # Religious freedom.
+  "17967-07":
+    areas: [8]
+    why: "Creates a constitutional action protecting freedom of conscience, religion and worship"

@@ -643,7 +643,11 @@ class PlainHttpTests(unittest.TestCase):
                             # flagging it would train people to ignore this
                             # check. The brace is what distinguishes it, and
                             # nothing else in this repo fetches a braced URL.
-                            if line[max(0, m.start() - 1)] == "{":
+                            # So is an IRI in SPARQL's angle brackets
+                            # ("<http://dati.senato.it/osr/>", Italy, 9 October
+                            # 2026): the endpoint is fetched over https and the
+                            # dataset's own identifiers are http.
+                            if line[max(0, m.start() - 1)] in "{<":
                                 continue
                             offenders.append("{0}:{1} {2}".format(
                                 os.path.relpath(path, ROOT), n, m.group(0)))

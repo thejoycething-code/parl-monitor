@@ -35,7 +35,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this first, at 04:00 London on Mondays (tools/mini_run.sh monday-publish;
+  # 9 October 2026). Every trigger here is the backup: the gate skips while
+  # the Mini is running it (MINI_RUN_MONDAY_PUBLISH) and, for 20 hours after the
+  # Mini ran it, skips every slot, retries included.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: MONDAY_PUBLISH
+      cover-hours: 20
+
   publish:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     # SIXTY (21 Sept 2026): a dispatched dry run was killed by the 30-minute
     # wall inside run_monday.py with nothing in the log, because Python
@@ -289,3 +301,18 @@ jobs:
         # start this run. Deleted whatever the run's outcome.
         if: always() && github.event_name == 'push' && env.SKIP != '1'
         run: git push origin --delete "${{ github.ref_name }}" || echo "trigger branch already gone"
+
+  # The cloud routine's trigger branch is not state; the publish job deletes it
+  # at its end. When the gate skips a push run (the Mini published), that job
+  # never runs, so the branch is deleted here instead.
+  tidy-trigger:
+    needs: mini-check
+    if: github.event_name == 'push' && needs.mini-check.outputs.run != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          gh api -X DELETE "repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }}"
+          || echo "trigger branch already gone"

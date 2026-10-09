@@ -1,0 +1,147 @@
+{
+ "pages": 4,
+ "count": 3,
+ "header": [
+  {
+   "filterable": false,
+   "orig_link_rnr": 2,
+   "link_rnr": 12,
+   "hidden": false,
+   "rnr": 1,
+   "label": "Name",
+   "sortable": true,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": false,
+   "rnr": 2,
+   "label": "Klub",
+   "sortable": true,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": false,
+   "rnr": 4,
+   "label": "Wahlkreis",
+   "sortable": true,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": false,
+   "rnr": 5,
+   "label": "Bundesland",
+   "sortable": true,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": true,
+   "rnr": 6,
+   "label": "pad_sortier",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": true,
+   "rnr": 7,
+   "label": "Liste",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": true,
+   "rnr": 8,
+   "label": "RSS-Description",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": true,
+   "rnr": 9,
+   "label": "RSS-Pfad",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": true,
+   "rnr": 10,
+   "label": "RSS-Titel",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": true,
+   "rnr": 11,
+   "label": "Sort_FR",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": true,
+   "rnr": 12,
+   "label": "Sort_WP",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": true,
+   "label": "link",
+   "sortable": false,
+   "additionalinfo": false
+  }
+ ],
+ "rows": [
+  [
+   "Aldali Lisa",
+   "<span title=\"NEOS Parlamentsklub\" class=\"zeigeTooltip\">NEOS</span>",
+   "B Bundeswahlvorschlag",
+   "<span title=\"Bundeswahlvorschlag\" class=\"zeigeTooltip\">BWV</span>",
+   "Aldali",
+   null,
+   "Name:\nAldali Lisa\n<br />\nVorname:\nLisa\n<br />\nNachname:\nAldali\n<br />\nAk. Grad:\n\n<br />\nAk. Grad nachg.:\n\n<br />\nFraktion:\n<span title=\"NEOS Parlamentsklub\" class=\"zeigeTooltip\">NEOS</span>\n<br />\nWahlkreis:\nB Bundeswahlvorschlag\n<br />\nBundesland:\nBundeswahlvorschlag\n<br />\n",
+   "/person/38385",
+   "Aldali Lisa",
+   "NEOS",
+   "NEOS",
+   "/person/38385"
+  ],
+  [
+   "Auer Katrin, Mag.",
+   "<span title=\"Die Sozialdemokratische Parlamentsfraktion - Klub der sozialdemokratischen Abgeordneten zum Nationalrat, Bundesrat und Europäischen Parlament\" class=\"zeigeTooltip\">SPÖ</span>",
+   "4D Traunviertel",
+   "<span title=\"Oberösterreich\" class=\"zeigeTooltip\">O</span>",
+   "Auer",
+   null,
+   "Name:\nAuer Katrin, Mag.\n<br />\nVorname:\nKatrin\n<br />\nNachname:\nAuer\n<br />\nAk. Grad:\nMag.\n<br />\nAk. Grad nachg.:\n\n<br />\nFraktion:\n<span title=\"Die Sozialdemokratische Parlamentsfraktion - Klub der sozialdemokratischen Abgeordneten zum Nationalrat, Bundesrat und Europäischen Parlament\" class=\"zeigeTooltip\">SPÖ</span>\n<br />\nWahlkreis:\n4D Traunviertel\n<br />\nBundesland:\nOberösterreich\n<br />\n",
+   "/person/30688",
+   "Auer Katrin, Mag.",
+   "SPÖ",
+   "SPÖ",
+   "/person/30688"
+  ],
+  [
+   "Auinger-Oberzaucher Gertraud, Mag.",
+   "<span title=\"NEOS Parlamentsklub\" class=\"zeigeTooltip\">NEOS</span>",
+   "3 Niederösterreich",
+   "<span title=\"Niederösterreich\" class=\"zeigeTooltip\">N</span>",
+   "Auinger-Oberzaucher",
+   null,
+   "Name:\nAuinger-Oberzaucher Gertraud, Mag.\n<br />\nVorname:\nGertraud\n<br />\nNachname:\nAuinger-Oberzaucher\n<br />\nAk. Grad:\nMag.\n<br />\nAk. Grad nachg.:\n\n<br />\nFraktion:\n<span title=\"NEOS Parlamentsklub\" class=\"zeigeTooltip\">NEOS</span>\n<br />\nWahlkreis:\n3 Niederösterreich\n<br />\nBundesland:\nNiederösterreich\n<br />\n",
+   "/person/30668",
+   "Auinger-Oberzaucher Gertraud, Mag.",
+   "NEOS",
+   "NEOS",
+   "/person/30668"
+  ]
+ ]
+}

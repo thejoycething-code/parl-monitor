@@ -1,0 +1,469 @@
+{
+ "DetalheLegislatura": {
+  "dtfim": null,
+  "dtini": "2025-06-03",
+  "id": "108",
+  "sigla": "XVII",
+  "siglaAntiga": "XVII"
+ },
+ "GruposParlamentares": [
+  {
+   "nome": "Partido Social Democrata",
+   "sigla": "PSD"
+  },
+  {
+   "nome": "Chega",
+   "sigla": "CH"
+  },
+  {
+   "nome": "Partido Socialista",
+   "sigla": "PS"
+  },
+  {
+   "nome": "Iniciativa Liberal",
+   "sigla": "IL"
+  },
+  {
+   "nome": "Livre",
+   "sigla": "L"
+  },
+  {
+   "nome": "Partido Comunista Português",
+   "sigla": "PCP"
+  },
+  {
+   "nome": "Centro Democrático Social - Partido Popular",
+   "sigla": "CDS-PP"
+  },
+  {
+   "nome": "Bloco De Esquerda",
+   "sigla": "BE"
+  },
+  {
+   "nome": "Pessoas-Animais-Natureza",
+   "sigla": "PAN"
+  },
+  {
+   "nome": "Juntos Pelo Povo",
+   "sigla": "JPP"
+  }
+ ],
+ "Deputados": [
+  {
+   "DepCadId": 2051.0,
+   "DepCargo": null,
+   "DepCPDes": "Aveiro",
+   "DepCPId": 1.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 15830.0,
+   "DepNomeCompleto": "Pedro Nuno de Oliveira Santos",
+   "DepNomeParlamentar": "Pedro Nuno Santos",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2026-04-22"
+    },
+    {
+     "sioDes": "Suspenso(Eleito)",
+     "sioDtFim": "2026-04-21",
+     "sioDtInicio": "2025-10-24"
+    },
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": "2025-10-23",
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 5677.0,
+   "DepCargo": null,
+   "DepCPDes": "Faro",
+   "DepCPId": 8.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 16101.0,
+   "DepNomeCompleto": "Luís Miguel da Graça Nunes",
+   "DepNomeParlamentar": "Luís Graça",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo Definitivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2025-11-29"
+    },
+    {
+     "sioDes": "Efetivo Temporário",
+     "sioDtFim": "2025-11-28",
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 162.0,
+   "DepCargo": null,
+   "DepCPDes": "Lisboa",
+   "DepCPId": 11.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 16516.0,
+   "DepNomeCompleto": "Edite de Fátima Santos Marreiros Estrela",
+   "DepNomeParlamentar": "Edite Estrela",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 9331.0,
+   "DepCargo": null,
+   "DepCPDes": "Lisboa",
+   "DepCPId": 11.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 16517.0,
+   "DepNomeCompleto": "Frederico André Branco dos Reis Francisco",
+   "DepNomeParlamentar": "Frederico Francisco",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 8888.0,
+   "DepCargo": null,
+   "DepCPDes": "Lisboa",
+   "DepCPId": 11.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 16518.0,
+   "DepNomeCompleto": "Pedro Manuel Amaro Martins Vaz",
+   "DepNomeParlamentar": "Pedro Vaz",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 4452.0,
+   "DepCargo": null,
+   "DepCPDes": "Lisboa",
+   "DepCPId": 11.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 16519.0,
+   "DepNomeCompleto": "Isabel de Lima Mayer Alves Moreira",
+   "DepNomeParlamentar": "Isabel Alves Moreira",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 9332.0,
+   "DepCargo": null,
+   "DepCPDes": "Lisboa",
+   "DepCPId": 11.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 16521.0,
+   "DepNomeCompleto": "Eva Marise Cruzeiro Alexandre",
+   "DepNomeParlamentar": "Eva Cruzeiro",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 6706.0,
+   "DepCargo": null,
+   "DepCPDes": "Lisboa",
+   "DepCPId": 11.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 16522.0,
+   "DepNomeCompleto": "Miguel de Oliveira Pires da Costa de Matos",
+   "DepNomeParlamentar": "Miguel Matos",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2026-09-30"
+    },
+    {
+     "sioDes": "Suspenso(Eleito)",
+     "sioDtFim": "2026-09-29",
+     "sioDtInicio": "2026-08-26"
+    },
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": "2026-08-25",
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 8982.0,
+   "DepCargo": null,
+   "DepCPDes": "Porto",
+   "DepCPId": 13.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 16847.0,
+   "DepNomeCompleto": "Sofia Alexandra Correia Pereira",
+   "DepNomeParlamentar": "Sofia Pereira",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 9483.0,
+   "DepCargo": null,
+   "DepCPDes": "Porto",
+   "DepCPId": 13.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 16854.0,
+   "DepNomeCompleto": "Dália Miranda Lopes Eira",
+   "DepNomeParlamentar": "Dália Miranda",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 6731.0,
+   "DepCargo": null,
+   "DepCPDes": "Porto",
+   "DepCPId": 13.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 16856.0,
+   "DepNomeCompleto": "José Carlos Ribeiro Barbosa",
+   "DepNomeParlamentar": "José Carlos Barbosa",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 6870.0,
+   "DepCargo": null,
+   "DepCPDes": "Viana do Castelo",
+   "DepCPId": 16.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 17118.0,
+   "DepNomeCompleto": "Marina Sola Gonçalves",
+   "DepNomeParlamentar": "Marina Gonçalves",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 1517.0,
+   "DepCargo": null,
+   "DepCPDes": "Vila Real",
+   "DepCPId": 17.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7263.0,
+     "gpSigla": "PS"
+    }
+   ],
+   "DepId": 17148.0,
+   "DepNomeCompleto": "Rui Jorge Cordeiro Gonçalves dos Santos",
+   "DepNomeParlamentar": "Rui Jorge Santos",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  },
+  {
+   "DepCadId": 6535.0,
+   "DepCargo": null,
+   "DepCPDes": "Lisboa",
+   "DepCPId": 11.0,
+   "DepGP": [
+    {
+     "gpDtFim": "2026-10-08",
+     "gpDtInicio": "2025-06-03",
+     "gpId": 7262.0,
+     "gpSigla": "CH"
+    }
+   ],
+   "DepId": 16252.0,
+   "DepNomeCompleto": "André Claro Amaral Ventura",
+   "DepNomeParlamentar": "André Ventura",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": null,
+     "sioDtInicio": "2026-02-09"
+    },
+    {
+     "sioDes": "Suspenso(Eleito)",
+     "sioDtFim": "2026-02-08",
+     "sioDtInicio": "2026-02-01"
+    },
+    {
+     "sioDes": "Suspenso(Eleito)",
+     "sioDtFim": "2026-01-31",
+     "sioDtInicio": "2026-01-01"
+    },
+    {
+     "sioDes": "Efetivo",
+     "sioDtFim": "2025-12-31",
+     "sioDtInicio": "2025-06-03"
+    }
+   ],
+   "LegDes": "XVII",
+   "Videos": null
+  }
+ ],
+ "SessoesLegislativas": [
+  {
+   "dataFim": "2026-09-15",
+   "dataInicio": "2025-06-03",
+   "numSessao": "1"
+  },
+  {
+   "dataFim": null,
+   "dataInicio": "2026-09-15",
+   "numSessao": "2"
+  }
+ ]
+}

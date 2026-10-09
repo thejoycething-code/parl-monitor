@@ -1,0 +1,267 @@
+[
+ {
+  "id": 49898,
+  "date": "2026-08-19T15:34:11",
+  "modified": "2026-08-19T15:34:12",
+  "slug": "pl-no-691-2025-2026",
+  "link": "https://diputados.gob.bo/leyes/pl-no-691-2025-2026/",
+  "estado_de_ley": [
+   173,
+   7
+  ],
+  "comision_de_ley": [
+   160
+  ],
+  "legislatura_de_ley": [
+   274
+  ],
+  "acf": {
+   "titulo": "PL No 691/2025-2026",
+   "descripcion": "PROYECTO DE \"LEY DE CUIDADOS PALIATIVOS, MUERTE DIGNA Y EUTANASIA\"",
+   "gestion": 2026,
+   "estado_de_ley": "Proyecto de Ley en Tratamiento",
+   "proyecto_de_ley_inicial": null,
+   "informes_de_comision": "",
+   "proyecto_de_ley_aprobado": null,
+   "proyecto_de_ley_sancionado": null,
+   "proyecto_de_ley_con_modificaciones": null,
+   "archivo_ley": 49908,
+   "ley_nro": "PL No 691/2025-2026"
+  }
+ },
+ {
+  "id": 50517,
+  "date": "2026-10-05T16:37:00",
+  "modified": "2026-10-05T16:37:00",
+  "slug": "pl-no-820-2025-2026",
+  "link": "https://diputados.gob.bo/leyes/pl-no-820-2025-2026/",
+  "estado_de_ley": [
+   173,
+   7
+  ],
+  "comision_de_ley": [
+   167
+  ],
+  "legislatura_de_ley": [
+   274
+  ],
+  "acf": {
+   "titulo": "PL No 820/2025-2026",
+   "descripcion": "PROYECTO DE \"LEY DE FORTALECIMIENTO, INSTITUCIONALIZACION Y MODERNIZACION DE LA CAJA NACIONAL DE SALUD\"",
+   "gestion": 2026,
+   "estado_de_ley": "Proyecto de Ley en Tratamiento",
+   "proyecto_de_ley_inicial": null,
+   "informes_de_comision": "",
+   "proyecto_de_ley_aprobado": null,
+   "proyecto_de_ley_sancionado": null,
+   "proyecto_de_ley_con_modificaciones": null,
+   "archivo_ley": 50518,
+   "ley_nro": "PL No 820/2025-2026"
+  }
+ },
+ {
+  "id": 50502,
+  "date": "2026-10-02T21:12:05",
+  "modified": "2026-10-02T21:13:51",
+  "slug": "pls-291-2025-2026",
+  "link": "https://diputados.gob.bo/leyes/pls-291-2025-2026/",
+  "estado_de_ley": [
+   174,
+   6
+  ],
+  "comision_de_ley": [
+   160
+  ],
+  "legislatura_de_ley": [
+   274
+  ],
+  "acf": {
+   "titulo": "PLS-291/2025-2026",
+   "descripcion": "PROYECTO DE LEY DE MODIFICACION AL ARTICULO 25 DE LA LEY Nº 260, LEY ORGANICA DEL MINISTERIO PUBLICO DE 11 DE JULIO DE 2012",
+   "gestion": 2026,
+   "estado_de_ley": "Proyecto de Ley Sancionado",
+   "proyecto_de_ley_inicial": 50503,
+   "informes_de_comision": "",
+   "proyecto_de_ley_aprobado": 50504,
+   "proyecto_de_ley_sancionado": null,
+   "proyecto_de_ley_con_modificaciones": "",
+   "archivo_ley": "",
+   "ley_nro": "PLS-291/2025-2026"
+  }
+ },
+ {
+  "id": 34148,
+  "date": "2024-10-23T16:52:07",
+  "modified": "2024-10-23T16:52:07",
+  "slug": "pla-429-2023-2024",
+  "link": "https://diputados.gob.bo/leyes/pla-429-2023-2024/",
+  "estado_de_ley": [
+   174,
+   5
+  ],
+  "comision_de_ley": [
+   163
+  ],
+  "legislatura_de_ley": [
+   185
+  ],
+  "acf": {
+   "titulo": "PLA 429-2023-2024",
+   "descripcion": "PROYECTO DE LEY QUE APRUEBA LA TRANSFERENCIA A TÍTULO GRATUITO, DE UN BIEN INMUEBLE DE PROPIEDAD DEL GOBIERNO AUTÓNOMO MUNICIPAL DE ENTRE RÍOS, “PLANTA INDUSTRIALIZADORA DE PIÑA EN EL TROPICO DE COCHABAMBA”, A FAVOR DE LA EMPRESA BOLIVIANA DE ALIMENTOS Y DERIVADOS – EBA",
+   "gestion": 2024,
+   "estado_de_ley": "Proyecto de Ley Aprobado",
+   "proyecto_de_ley_inicial": "",
+   "informes_de_comision": "",
+   "proyecto_de_ley_aprobado": null,
+   "proyecto_de_ley_sancionado": null,
+   "proyecto_de_ley_con_modificaciones": null,
+   "archivo_ley": 34149,
+   "ley_nro": "PLA 429-2023-2024"
+  }
+ },
+ {
+  "id": 31112,
+  "date": "2024-06-27T18:53:42",
+  "modified": "2024-06-27T18:53:46",
+  "slug": "pl-no-429-2023-2024",
+  "link": "https://diputados.gob.bo/leyes/pl-no-429-2023-2024/",
+  "estado_de_ley": [
+   173,
+   133
+  ],
+  "comision_de_ley": [
+   163
+  ],
+  "legislatura_de_ley": [
+   185
+  ],
+  "acf": {
+   "titulo": "PL No 429/2023-2024",
+   "descripcion": "PROYECTO DE LEY QUE APRUEBA LA TRANSFERENCIA A TÍTULO GRATUITO, DE UN BIEN INMUEBLE DE PROPIEDAD DEL GOBIERNO AUTÓNOMO MUNICIPAL DE ENTRE RÍOS, “PLANTA INDUSTRIALIZADORA DE PIÑA EN EL TROPICO DE COCHABAMBA”, A FAVOR DE LA EMPRESA BOLIVIANA DE ALIMENTOS Y DERIVADOS – EBA",
+   "gestion": 2024,
+   "estado_de_ley": "Proyecto de Ley Archivado",
+   "proyecto_de_ley_inicial": null,
+   "informes_de_comision": "",
+   "proyecto_de_ley_aprobado": null,
+   "proyecto_de_ley_sancionado": null,
+   "proyecto_de_ley_con_modificaciones": null,
+   "archivo_ley": 31097,
+   "ley_nro": "PL No 429/2023-2024"
+  }
+ },
+ {
+  "id": 30154,
+  "date": "2024-05-10T16:05:07",
+  "modified": "2024-05-10T16:05:25",
+  "slug": "pl-no-411-2023-2024",
+  "link": "https://diputados.gob.bo/leyes/pl-no-411-2023-2024/",
+  "estado_de_ley": [
+   173,
+   133
+  ],
+  "comision_de_ley": [
+   163
+  ],
+  "legislatura_de_ley": [
+   185
+  ],
+  "acf": {
+   "titulo": "PL No 411/2023-2024",
+   "descripcion": "PROYECTO DE LEY QUE APRUEBA LA ENAJENACIÓN A TÍTULO GRATUITO DE UN TERRENO DE PPROPIEDAD DEL GOBIERNO MUNICIPAL DE MONTERO, A FAVOR DE LA POLICÍA BOLIVIANA, PARA LA CONSTRUCCIÓN E IMPLEMENTACIÓN DE LA ESTACIÓN POLICIAL INTEGRAL-EPI MONTERO.",
+   "gestion": 2024,
+   "estado_de_ley": "Proyecto de Ley Archivado",
+   "proyecto_de_ley_inicial": null,
+   "informes_de_comision": "",
+   "proyecto_de_ley_aprobado": null,
+   "proyecto_de_ley_sancionado": null,
+   "proyecto_de_ley_con_modificaciones": null,
+   "archivo_ley": 30140,
+   "ley_nro": "PL No 411/2023-2024"
+  }
+ },
+ {
+  "id": 34144,
+  "date": "2024-10-23T16:47:11",
+  "modified": "2024-10-23T16:47:11",
+  "slug": "pla-411-2023-2024",
+  "link": "https://diputados.gob.bo/leyes/pla-411-2023-2024/",
+  "estado_de_ley": [
+   174,
+   5
+  ],
+  "comision_de_ley": [
+   163
+  ],
+  "legislatura_de_ley": [
+   185
+  ],
+  "acf": {
+   "titulo": "PLA 411-2023-2024",
+   "descripcion": "PROYECTO DE LEY QUE APRUEBA LA ENAJENACIÓN A TÍTULO GRATUITO DE UN TERRENO DE PPROPIEDAD DEL GOBIERNO MUNICIPAL DE MONTERO, A FAVOR DE LA POLICÍA BOLIVIANA, PARA LA CONSTRUCCIÓN E IMPLEMENTACIÓN DE LA ESTACIÓN POLICIAL INTEGRAL-EPI MONTERO.",
+   "gestion": 2024,
+   "estado_de_ley": "Proyecto de Ley Aprobado",
+   "proyecto_de_ley_inicial": "",
+   "informes_de_comision": "",
+   "proyecto_de_ley_aprobado": null,
+   "proyecto_de_ley_sancionado": null,
+   "proyecto_de_ley_con_modificaciones": null,
+   "archivo_ley": 34145,
+   "ley_nro": "PLA 411-2023-2024"
+  }
+ },
+ {
+  "id": 7024,
+  "date": "2022-02-02T12:08:50",
+  "modified": "2022-02-07T17:12:15",
+  "slug": "ley-no-1257",
+  "link": "https://diputados.gob.bo/leyes/ley-no-1257/",
+  "estado_de_ley": [
+   3
+  ],
+  "comision_de_ley": [],
+  "legislatura_de_ley": [],
+  "acf": {
+   "titulo": "Ley de 24 de octubre de 2019 ",
+   "descripcion": "Ley de fomento a la adquisición estatal de bienes nacionales, que fomenta, impulsa y promueve la producción nacional, estableciendo como política pública del estado la adquisición de bienes de producción nacional en las contrataciones estatales.",
+   "gestion": 2019,
+   "estado_de_ley": "Ley Promulgada",
+   "proyecto_de_ley_inicial": "",
+   "informes_de_comision": "",
+   "proyecto_de_ley_aprobado": "",
+   "proyecto_de_ley_sancionado": "",
+   "proyecto_de_ley_con_modificaciones": "",
+   "archivo_ley": 6379,
+   "ley_nro": "1257"
+  }
+ },
+ {
+  "id": 18702,
+  "date": "2022-10-30T15:10:20",
+  "modified": "2023-08-28T16:46:30",
+  "slug": "pla-386-21",
+  "link": "https://diputados.gob.bo/leyes/pla-386-21/",
+  "estado_de_ley": [
+   174,
+   5
+  ],
+  "comision_de_ley": [
+   163
+  ],
+  "legislatura_de_ley": [
+   178
+  ],
+  "acf": {
+   "titulo": "PLA 386-21",
+   "descripcion": "PROYECTO DE LEY DE “TRANSFERENCIA Y/O ENAJENACION A TITULO GRATUITO DE UN BIEN INMUEBLE TERRENO URBANO DE 16.321.03 M2 DE PROPIEDAD DEL GOBIERNO AUTONOMO MUNICIPAL DE MONTEAGUDO A FAVOR DEL GOBIERNO AUTONOMO DEPARTAMENTAL DE CHUQUISACA CON USO EXCLUSIVO PARA LA CONSTRUCCION DE INFRAESTRUCTURA PARA EL INSTITUTO TECNOLOGICO SUPERIOR DE MONTEAGUDO.”",
+   "gestion": 2021,
+   "estado_de_ley": "Proyecto de Ley Aprobado",
+   "proyecto_de_ley_inicial": 18203,
+   "informes_de_comision": 18703,
+   "proyecto_de_ley_aprobado": null,
+   "proyecto_de_ley_sancionado": null,
+   "proyecto_de_ley_con_modificaciones": null,
+   "archivo_ley": "",
+   "ley_nro": ""
+  }
+ }
+]

@@ -1,0 +1,15 @@
+# Slovak watchlist -- GROUNDWORK DRAFT (9 October 2026), for Christopher to
+# confirm. See docs/slovakia-scope.md.
+#
+# The Slovak taxonomy (config/taxonomy-sk.yaml, once approved) does most of
+# the work. This file carries only what it cannot: prints whose titles say
+# nothing about our ground. Slovak prints are titled by the act they amend,
+# so a constitutional amendment reads "...ktorým sa mení a dopĺňa Ústava
+# Slovenskej republiky" whatever it changes.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/sk_store.add_watch_areas). Keys are
+# '<term>/<tlač>'. Print numbers restart with every electoral term, so every
+# entry must be re-keyed when the 10th term begins after the next election.
+bills:
+  "9/733": {areas: [5, 6, 9, 10],
+            why: "Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 against). Recognises two sexes only, gives Slovakia sovereignty on cultural and ethical questions, makes sex education subject to parents' consent, reserves adoption to married couples and bans surrogacy. Its title names only the Constitution, so no term can find it."}

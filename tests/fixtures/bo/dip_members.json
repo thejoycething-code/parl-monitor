@@ -1,0 +1,34 @@
+[
+ {
+  "id": 48538,
+  "date": "2026-05-28T09:40:09",
+  "modified": "2026-07-23T11:35:37",
+  "slug": "aida-luz-tuchani-lurici",
+  "link": "https://diputados.gob.bo/diputados/aida-luz-tuchani-lurici/",
+  "cargo": [],
+  "departamento": [],
+  "acf": {
+   "nombre": "Aida Luz Tuchani Lurici",
+   "foto": 49639,
+   "Diputado(a)": "Diputado Nacional",
+   "fecha_de_nacimiento": null,
+   "biografia": "(trimmed for the fixture)"
+  }
+ },
+ {
+  "id": 48536,
+  "date": "2026-05-28T09:31:12",
+  "modified": "2026-05-28T09:35:25",
+  "slug": "luis-andres-pena-stierlin",
+  "link": "https://diputados.gob.bo/diputados/luis-andres-pena-stierlin/",
+  "cargo": [],
+  "departamento": [],
+  "acf": {
+   "nombre": "Luis Andres Peña Stierlin",
+   "foto": 48537,
+   "Diputado(a)": "Diputado Nacional",
+   "fecha_de_nacimiento": null,
+   "biografia": "(trimmed for the fixture)"
+  }
+ }
+]

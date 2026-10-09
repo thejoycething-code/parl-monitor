@@ -1,0 +1,18 @@
+# A few terms from the PROPOSED Slovak list (docs/slovakia-scope.md), for
+# tests only. Not the approved taxonomy: config/taxonomy-sk.yaml does not
+# exist until Christopher signs the list off.
+version: test
+areas:
+  1_abortion:
+    tier1: ["potrat*", "umel* preruš* tehotenstva", "73/1986"]
+    tier2: []
+  5_sex_based_rights:
+    tier1: ["rodov* ideológi*", "zmen* pohlav*", "LGBT*"]
+    tier2: []
+  9_marriage_family:
+    tier1: ["36/2005 Z. z."]
+    tier2: ["o rodine"]
+  11_migration:
+    tier1: []
+    tier2: ["azyl*"]
+exclusions_global: []

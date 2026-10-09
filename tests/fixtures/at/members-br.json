@@ -1,0 +1,103 @@
+{
+ "pages": 2,
+ "count": 3,
+ "header": [
+  {
+   "filterable": false,
+   "hidden": true,
+   "rnr": 1,
+   "label": "pad_intern",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "orig_link_rnr": 3,
+   "link_rnr": 8,
+   "hidden": false,
+   "rnr": 2,
+   "label": "Name",
+   "sortable": true,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": false,
+   "rnr": 3,
+   "label": "Fraktion",
+   "sortable": true,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": false,
+   "rnr": 4,
+   "label": "Wahlpartei",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": true,
+   "rnr": 5,
+   "label": "Wahlkreis",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": false,
+   "rnr": 6,
+   "label": "Bundesland",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": true,
+   "rnr": 7,
+   "label": "pad_sortier",
+   "sortable": false,
+   "additionalinfo": false
+  },
+  {
+   "filterable": false,
+   "hidden": true,
+   "label": "link",
+   "sortable": false,
+   "additionalinfo": false
+  }
+ ],
+ "rows": [
+  [
+   "33457",
+   "Amhof Nikolaus",
+   "<span title=\"Freiheitliche Bundesratsfraktion\" class=\"zeigeTooltip\">FPÖ</span>",
+   "<span title=\"Freiheitliche Partei Österreichs\" class=\"zeigeTooltip\">FPÖ</span>",
+   "9 Wien",
+   "Wien",
+   "Amhof",
+   "/person/33457"
+  ],
+  [
+   "24110",
+   "Arpa Claudia, Mag.<sup>a</sup>",
+   "<span title=\"Bundesratsfraktion der SPÖ\" class=\"zeigeTooltip\">SPÖ</span>",
+   "<span title=\"Sozialdemokratische Partei Österreichs\" class=\"zeigeTooltip\">SPÖ</span>",
+   "2 Kärnten",
+   "Kärnten",
+   "Arpa",
+   "/person/24110"
+  ],
+  [
+   "33456",
+   "Auer-Stüger Stephan, Mag.",
+   "<span title=\"Bundesratsfraktion der SPÖ\" class=\"zeigeTooltip\">SPÖ</span>",
+   "<span title=\"Sozialdemokratische Partei Österreichs\" class=\"zeigeTooltip\">SPÖ</span>",
+   "9 Wien",
+   "Wien",
+   "Auer-Stüger",
+   "/person/33456"
+  ]
+ ]
+}

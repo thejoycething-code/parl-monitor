@@ -1,0 +1,70 @@
+{
+ "dados": [
+  {
+   "tipoVoto": "Sim",
+   "dataRegistroVoto": "2026-07-01T18:05:49",
+   "deputado_": {
+    "id": 204391,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/204391",
+    "nome": "José Nelto",
+    "siglaPartido": "UNIÃO",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/38009",
+    "siglaUf": "GO",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/204391.jpg",
+    "email": "dep.josenelto@camara.leg.br"
+   }
+  },
+  {
+   "tipoVoto": "Não",
+   "dataRegistroVoto": "2026-07-01T18:05:06",
+   "deputado_": {
+    "id": 204355,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/204355",
+    "nome": "Da Vitoria",
+    "siglaPartido": "PP",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37903",
+    "siglaUf": "ES",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/204355.jpg",
+    "email": "dep.davitoria@camara.leg.br"
+   }
+  },
+  {
+   "tipoVoto": "Sim",
+   "dataRegistroVoto": "2026-07-01T18:04:59",
+   "deputado_": {
+    "id": 104552,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/104552",
+    "nome": "Socorro Neri",
+    "siglaPartido": "PP",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37903",
+    "siglaUf": "AC",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/104552.jpg",
+    "email": "dep.socorroneri@camara.leg.br"
+   }
+  },
+  {
+   "tipoVoto": "Sim",
+   "dataRegistroVoto": "2026-07-01T18:04:57",
+   "deputado_": {
+    "id": 74060,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/74060",
+    "nome": "Daniel Almeida",
+    "siglaPartido": "PCdoB",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36779",
+    "siglaUf": "BA",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/74060.jpg",
+    "email": "dep.danielalmeida@camara.leg.br"
+   }
+  }
+ ],
+ "links": [
+  {
+   "rel": "self",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8/votos"
+  }
+ ]
+}

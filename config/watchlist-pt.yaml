@@ -1,0 +1,160 @@
+# Portugal watchlist: initiatives of the Assembleia da Republica on CitizenGO
+# ground, keyed by initiative KEY '<legislature>/<IniTipo>/<number>', never
+# by title (src/pt_store.py). Applied by tools/pt_rollcalls.py on every pull
+# and on --reclassify.
+#
+# IniTipo letters: J projeto de lei, P proposta de lei (Government),
+# R projeto de resolucao, D projeto de deliberacao.
+#
+# Why this file matters more in Portugal than elsewhere: until Chris approves
+# a Portuguese term list (proposed in docs/portugal-scope.md), the collector
+# classifies with the shared English taxonomy, which matched 5 of the 2,328
+# initiatives of the XVII legislature. These entries are what the edition
+# can see in the meantime. Seeded 9 October 2026 from the live dumps of the
+# XV, XVI and XVII legislatures; every key was read off the Assembleia's
+# own record.
+#
+# Earlier legislatures are listed for a --legislature backfill and for the
+# 5CA; the weekly pulls only the current one (XVII).
+
+initiatives:
+  # --- XVII legislature (from 3 June 2025) ---------------------------------
+  XVII/J/479:
+    areas: [3]
+    why: "CDS-PP bill banning puberty blockers and cross-sex hormones for minors; approved on generality 20 March 2026 (PSD, CH, CDS-PP for), now in committee."
+  XVII/J/47:
+    areas: [8]
+    why: "Chega bill banning face coverings in public places (the burqa ban); approved and published as law, final vote 17 July 2026."
+  XVII/J/493:
+    areas: [5]
+    why: "BE bill amending Lei 38/2018 (self-determination of gender identity) and its implementation; rejected on generality 20 March 2026."
+  XVII/J/486:
+    areas: [5]
+    why: "Amends the legal regime for change of sex and first name in the civil register."
+  XVII/J/391:
+    areas: [5]
+    why: "Updates the procedure for change of sex and first name in the civil register, with protections cited for minors."
+  XVII/R/364:
+    areas: [3, 5]
+    why: "Calls for suspension of the SNS technical manual on care of transgender people."
+  XVII/J/88:
+    areas: [1]
+    why: "Chega bill protecting the pregnant woman and the unborn child (nascituro); rejected on generality 11 July 2025."
+  XVII/R/1202:
+    areas: [1]
+    why: "BE resolution on effective and timely access to abortion (IVG) in the SNS."
+  XVII/R/897:
+    areas: [10]
+    why: "IL resolution calling on the Government to regulate surrogacy (gestacao de substituicao) under the existing law."
+  XVII/J/623:
+    areas: [10]
+    why: "Statute of the national council for medically assisted procreation (CNPMA); amends Lei 32/2006."
+  XVII/R/35:
+    areas: [6]
+    why: "CDS-PP resolution calling for revision of the Cidadania e Desenvolvimento school subject, 'free of ideological agendas'."
+  XVII/R/1015:
+    areas: [6]
+    why: "Chega resolution on ideological neutrality in the school system."
+  XVII/R/205:
+    areas: [6]
+    why: "Cross-curricular sex education in schools."
+  XVII/J/630:
+    areas: [7]
+    why: "Amends the Penal Code to bound prosecution by freedom of expression."
+  XVII/J/628:
+    areas: [7]
+    why: "Strengthens the criminal framework for hate crimes."
+  XVII/R/255:
+    areas: [7]
+    why: "Rejection of the EU Chat Control regulation (COM/2022/209); rejected 19 September 2025."
+  XVII/R/260:
+    areas: [7]
+    why: "Opposition to Chat Control in the EU; rejected 19 September 2025."
+  XVII/R/282:
+    areas: [7]
+    why: "Rejection of the Chat Control regulation; rejected 19 September 2025."
+  XVII/R/287:
+    areas: [7]
+    why: "Rejection of COM/2022/209 (Chat Control); rejected 19 September 2025."
+  XVII/R/1144:
+    areas: [7]
+    why: "Opposition to the European Democracy Shield; rejected 25 September 2026."
+  XVII/R/557:
+    areas: [12]
+    why: "National plan to help women leave prostitution."
+  XVII/J/566:
+    areas: [8]
+    why: "Compensation for victims of sexual abuse in the Catholic Church equated with court awards."
+  XVII/P/74:
+    areas: [8]
+    why: "Government bill exempting Church abuse compensation from income tax."
+
+  # --- XVI legislature (2024-2025) -----------------------------------------
+  XVI/J/264:
+    areas: [1]
+    why: "Third amendment to Lei 16/2007 (abortion law); rejected 10 January 2025 in the abortion package."
+  XVI/J/324:
+    areas: [1]
+    why: "Amends Lei 16/2007 on abortion; rejected 10 January 2025."
+  XVI/J/403:
+    areas: [1]
+    why: "Widens access to abortion; rejected 10 January 2025."
+  XVI/J/405:
+    areas: [1]
+    why: "Abortion consultation and conscientious objection; rejected 10 January 2025."
+  XVI/J/408:
+    areas: [1]
+    why: "Information for pregnant women before abortion (Lei 16/2007); rejected 10 January 2025."
+  XVI/J/410:
+    areas: [1]
+    why: "Extends the abortion time limit; rejected 10 January 2025."
+  XVI/J/412:
+    areas: [1]
+    why: "Protection of the pregnant woman and the unborn child; rejected 10 January 2025."
+  XVI/R/513:
+    areas: [1]
+    why: "Access to abortion (IVG); rejected 10 January 2025."
+  XVI/R/514:
+    areas: [1]
+    why: "Hiring non-objecting doctors to guarantee abortion access; rejected 10 January 2025."
+  XVI/J/345:
+    areas: [6]
+    why: "New legal regime for the Cidadania e Desenvolvimento subject; rejected 14 February 2025."
+  XVI/R/611:
+    areas: [6]
+    why: "Remove ideological content from Cidadania e Desenvolvimento; approved on generality 14 February 2025."
+  XVI/R/290:
+    areas: [2]
+    why: "Calls for the regulations that would make the euthanasia law (Lei 22/2023) operative; rejected 27 September 2024."
+
+  # --- XV legislature (2022-2024) ------------------------------------------
+  XV/J/5:
+    areas: [2]
+    why: "BE euthanasia bill; one of four merged into Lei 22/2023 (morte medicamente assistida), published 25 May 2023 after two vetoes and a confirmation vote on 12 May 2023."
+  XV/J/74:
+    areas: [2]
+    why: "PS euthanasia bill merged into Lei 22/2023."
+  XV/J/83:
+    areas: [2]
+    why: "PAN euthanasia bill merged into Lei 22/2023."
+  XV/J/111:
+    areas: [2]
+    why: "IL euthanasia bill merged into Lei 22/2023."
+  XV/R/62:
+    areas: [2]
+    why: "Proposal for a referendum on euthanasia; rejected 9 June 2022, PSD split by name."
+  XV/J/209:
+    areas: [4]
+    why: "Livre bill banning conversion practices; merged into the law published 29 January 2024."
+  XV/J/707:
+    areas: [4]
+    why: "PS bill banning 'conversion therapies'; merged into the law published 29 January 2024."
+  XV/J/332:
+    areas: [5, 6]
+    why: "Measures schools must adopt to implement Lei 38/2018 (gender self-identification in schools); passed 15 December 2023, then vetoed."
+  XV/J/21:
+    areas: [5]
+    why: "First amendment to Lei 38/2018; passed 15 December 2023, then vetoed."
+  XV/J/359:
+    areas: [5]
+    why: "Strengthens the right to self-determination of gender identity; passed 15 December 2023, then vetoed."

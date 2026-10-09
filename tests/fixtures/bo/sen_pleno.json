@@ -1,0 +1,93 @@
+{
+ "data": [
+  {
+   "id": 78,
+   "nombre": "DIEGO ESTEBAN MATEO",
+   "apellidos": "ÁVILA NAVAJAS",
+   "bancada_id": 1,
+   "foto_perfil": "images/a06fe1fb-160d-481a-b856-e7af58548cfb_1764023931.jpeg",
+   "brigada": "80",
+   "titular_id": null,
+   "suplente_id": {
+    "id": 135,
+    "nombre": "LUZMAYA",
+    "bancada": null,
+    "brigada_catalogo": null
+   },
+   "es_titular": 83,
+   "cargo_directiva_id": 216,
+   "bancada": {
+    "id": 1,
+    "nombre": "PARTIDO DEMOCRATA CRISTIANO",
+    "sigla": "PDC"
+   },
+   "brigada_catalogo": {
+    "id": 80,
+    "name": "Tarija",
+    "order": 6
+   },
+   "cargo_directiva_catalogo": {
+    "id": 216,
+    "name": "Presidente"
+   }
+  },
+  {
+   "id": 73,
+   "nombre": "CARMEN SOLEDAD",
+   "apellidos": "CHAPETON TANCARA",
+   "bancada_id": 3,
+   "foto_perfil": "images/a06fd69f-cebc-46de-8111-835070f577e4_1764022026.jpeg",
+   "brigada": "75",
+   "titular_id": null,
+   "suplente_id": {
+    "id": 137,
+    "nombre": "NILTON",
+    "bancada": null,
+    "brigada_catalogo": null
+   },
+   "es_titular": 83,
+   "cargo_directiva_id": 217,
+   "bancada": {
+    "id": 3,
+    "nombre": "ALIANZA UNIDAD",
+    "sigla": "UNIDAD"
+   },
+   "brigada_catalogo": {
+    "id": 75,
+    "name": "La Paz",
+    "order": 2
+   },
+   "cargo_directiva_catalogo": {
+    "id": 217,
+    "name": "1ra Vicepresidencia"
+   }
+  },
+  {
+   "id": 108,
+   "nombre": "HUGO MARCELO",
+   "apellidos": "CORTEZ CALVIMONTES",
+   "bancada_id": 2,
+   "foto_perfil": "images/a08037be-5156-40fd-afd2-3062ba859278_1764725514.jpg",
+   "brigada": "74",
+   "titular_id": {
+    "id": 93,
+    "nombre": "TOMASA",
+    "apellidos": "YARHUI JACOME"
+   },
+   "suplente_id": null,
+   "es_titular": 84,
+   "cargo_directiva_id": null,
+   "bancada": {
+    "id": 2,
+    "nombre": "ALIANZA LIBRE",
+    "sigla": "LIBRE"
+   },
+   "brigada_catalogo": {
+    "id": 74,
+    "name": "Chuquisaca",
+    "order": 1
+   },
+   "cargo_directiva_catalogo": null
+  }
+ ]
+}

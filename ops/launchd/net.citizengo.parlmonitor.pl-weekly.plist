@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Poland weekly on the Mac Mini: Sundays at 04:00 London, after the Sejm's
+     Tuesday-Friday sitting weeks (votes are usually taken on the last day).
+     The GitHub crons (04:00 and 07:00 UTC on Sundays,
+     .github/workflows/pl-weekly.yml) are the backup and skip themselves when
+     this has run (the gate allows 260 minutes, because 04:00 London is 03:00
+     UTC in summer, four hours before the retry slot). JOB_TIMEOUT is 75
+     minutes: the collector stops itself at 45 and the first backfill run
+     also reads the full print and process lists.
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.pl-weekly.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.pl-weekly</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>pl-weekly</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>JOB_TIMEOUT</key>
+    <string>4500</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Weekday</key><integer>0</integer><key>Hour</key><integer>4</integer><key>Minute</key><integer>0</integer></dict>
+  </array>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/pl-weekly.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/pl-weekly.log</string>
+</dict>
+</plist>
