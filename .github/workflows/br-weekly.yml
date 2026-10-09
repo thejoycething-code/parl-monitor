@@ -109,8 +109,8 @@ jobs:
         run: python3 tools/raw_state.py --pull
       - name: Members, nominal votes and their bills (Câmara and Senado); publish
         # jobs/br-weekly.sh is shared with the Mac Mini runner. It publishes
-        # the raw archive and then the store itself (raw_state.py --push,
-        # then db_state.py --push), and only when the collector finished, gaps
+        # the raw archive and then the store itself (tools/raw_state.py,
+        # then tools/db_state.py), and only when the collector finished, gaps
         # included; the next step commits the sidecars.
         if: steps.fetch.outcome == 'success'
         env:
