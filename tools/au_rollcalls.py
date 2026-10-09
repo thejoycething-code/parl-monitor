@@ -4,7 +4,7 @@
     python3 tools/au_rollcalls.py                     # the current (48th) Parliament
     python3 tools/au_rollcalls.py --dry-run           # list and parse one day, store nothing
     python3 tools/au_rollcalls.py --reclassify        # re-derive areas, offline
-    python3 tools/au_rollcalls.py --db /tmp/au.db     # anywhere but the store
+    python3 tools/au_rollcalls.py --db /tmp/au.db --raw-dir /tmp/au-raw   # a scratch run
 
 PHASE 1 (9 October 2026). See docs/australia-scope.md. No edition reads these
 tables yet. Every source is open and keyless:
@@ -679,8 +679,8 @@ def summary(conn, log=print):
             n("SELECT COUNT(*) FROM au_bills WHERE parliament < {0}".format(CURRENT_PARLIAMENT))))
 
 
-def make_client():
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+def make_client(raw_dir=None):
+    client = HttpClient(raw_dir=raw_dir or os.path.join(ROOT, "data", "raw"))
     client.set_host_throttle("data.openaustralia.org.au", OA_THROTTLE_S)
     return client
 
@@ -691,6 +691,8 @@ def main():
     ap.add_argument("--parliament", type=int, default=CURRENT_PARLIAMENT,
                     choices=sorted(PARLIAMENTS))
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
+    ap.add_argument("--raw-dir", help="archive raw payloads here instead of data/raw "
+                    "(for a scratch run beside --db)")
     ap.add_argument("--no-members", action="store_true")
     ap.add_argument("--no-days", action="store_true", help="skip the Hansard day files")
     ap.add_argument("--no-acts", action="store_true")
@@ -701,7 +703,7 @@ def main():
     ap.add_argument("--dry-run", action="store_true",
                     help="read both listings and the latest day, store nothing")
     args = ap.parse_args()
-    client = make_client()
+    client = make_client(args.raw_dir)
     today = datetime.date.today().isoformat()
     if args.dry_run:
         for chamber, folder in CHAMBERS:
