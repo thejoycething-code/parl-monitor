@@ -1,0 +1,49 @@
+name: Australia probe
+
+# 9 October 2026, PREPARED, NOT RUN: Christopher decides whether to run it.
+# www.aph.gov.au and ParlInfo refused the laptop with an Azure WAF block page
+# on every request, and the High Court failed at the TLS layer
+# (docs/australia-scope.md). This asks the same sources once from a GitHub
+# runner -- Bills Search, a bill homepage, ParlInfo, Votes and Proceedings,
+# the Journals of the Senate, the sitting calendar, committees, Senate
+# estimates and the High Court -- and puts a table with a text sample of each
+# in the step summary. The same probe runs from the Mac Mini by hand:
+#     python3 tools/au_probe.py --out /tmp/au-probe
+#
+# READ-ONLY: no store, no commit, no secrets, nothing published. GET only,
+# the repo's honest User-Agent, robots.txt honoured, at least 3 s between
+# requests to a host (tools/probe_hosts.py rules). A bot challenge or a 403
+# stops the host for the run: recorded, never worked around. What came back
+# is uploaded as a workflow artifact, kept 7 days.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Ask each source once, politely
+        run: python3 tools/au_probe.py --out au-probe --summary "$GITHUB_STEP_SUMMARY" | tee au-probe.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: au-probe
+          path: |
+            au-probe
+            au-probe.log
+          retention-days: 7
