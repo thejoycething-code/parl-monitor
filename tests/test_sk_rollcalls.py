@@ -181,13 +181,15 @@ class TaxonomyFindingTests(unittest.TestCase):
         self.assertEqual(res.issue_areas, [1])
         self.assertEqual(res.tier, 1)
 
-    def test_a_stem_that_keeps_the_ending_does_not(self):
-        """'prerušeni*' misses 'prerušení': í is not i. The draft list
-        made exactly this mistake before it was measured."""
+    def test_a_stem_that_keeps_the_ending_now_matches_too(self):
+        """'prerušeni*' missed 'prerušení' (í is not i) until the shared
+        filter learned to fold accents at the countries merge (X3, 10
+        October 2026). The draft list made exactly this mistake before it
+        was measured; folding makes the stem forgiving."""
         bad = filt.Taxonomy(version="x", terms={1: {1: [
             ("umel* prerušeni* tehotenstva",) + filt._compile_term("umel* prerušeni* tehotenstva")
             + ([], [])], 2: []}}, exclusions=set())
-        self.assertEqual(filt.filter_item(bad, WL, self.TITLE).issue_areas, [])
+        self.assertEqual(filt.filter_item(bad, WL, self.TITLE).issue_areas, [1])
 
     def test_the_law_number_is_a_term(self):
         res = filt.filter_item(TAX, WL, "zákon, ktorým sa mení zákon č. 36/2005 Z. z. o rodine")
