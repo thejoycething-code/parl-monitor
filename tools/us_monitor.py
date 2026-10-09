@@ -256,6 +256,222 @@ def last_pull(conn):
         return None
 
 
+# --- the week ahead (tools/us_schedule.py) ----------------------------------
+#
+# What is SCHEDULED, from us_schedule (one bill at one event, keyed on the
+# bill key) and us_meetings, joined to us_bills for areas and scores. The
+# House floor list is by WEEK and never names the day; committee meetings
+# carry their date. us_schedule_weeks says what each source answered for
+# each week asked, which is how the edition tells "the House is out" from
+# "nothing on our ground" and "the Senate was not read".
+
+KIND_LABEL = {"markup": "markup", "hearing": "hearing", "meeting": "meeting", "floor": "floor"}
+CATEGORY_LABEL = {"suspension": "under suspension of the rules (two-thirds, no amendments)",
+                  "rule": "under a rule", "may be considered": "may be considered"}
+
+
+def ahead_window(today):
+    """(first, last) day of the week ahead, as tools/us_schedule.window."""
+    day = datetime.date.fromisoformat(today)
+    nxt = day if day.weekday() == 0 else day + datetime.timedelta(days=7 - day.weekday())
+    return day, nxt + datetime.timedelta(days=6)
+
+
+def long_date(iso, weekday=True):
+    """'2026-09-16' -> 'Wednesday 16 September' (British order, no comma)."""
+    d = datetime.date.fromisoformat(iso)
+    return "{0}{1} {2}".format(d.strftime("%A ") if weekday else "", d.day, d.strftime("%B"))
+
+
+def _monday(day):
+    return day - datetime.timedelta(days=day.weekday())
+
+
+def week_status(conn, chamber, source, weeks):
+    """{week_of: (status, items, note)} for the weeks asked."""
+    marks = ",".join("?" * len(weeks))
+    return {r[0]: (r[1], r[2], r[3]) for r in conn.execute(
+        "SELECT week_of, status, items, note FROM us_schedule_weeks WHERE chamber=? AND "
+        "source=? AND week_of IN ({0})".format(marks), [chamber, source] + list(weeks))}
+
+
+def scheduled_rows(conn, where, params=()):
+    """us_schedule rows joined to their bill, on our ground by the bill's
+    areas or the line's own text."""
+    conn.row_factory = sqlite3.Row
+    rows = conn.execute(
+        "SELECT s.*, b.title AS bill_title, b.areas AS bill_areas, b.triage_score, "
+        "b.why_it_matters, b.latest_action, b.law, b.bill_type FROM us_schedule s "
+        "LEFT JOIN us_bills b ON b.bill_key = s.bill_key WHERE " + where, params).fetchall()
+    return [r for r in rows if visible(r["bill_areas"]) or visible(r["own_areas"])]
+
+
+def _sched_areas(r, names):
+    bill, own = visible(r["bill_areas"]), visible(r["own_areas"])
+    return "{0} (matched on {1})".format(names_of(sorted(set(bill) | set(own)), names),
+                                         "the bill" if bill else "the line's own text")
+
+
+def coming_up(conn, today):
+    """Everything the section and the DM need, or None when the week ahead
+    was never collected into this store."""
+    first, last = ahead_window(today)
+    weeks = sorted({_monday(first).isoformat(), _monday(last).isoformat()})
+    try:
+        floor = week_status(conn, "house", "floor", weeks)
+    except sqlite3.Error:
+        return None
+    if not floor:
+        return None
+    lo, hi = first.isoformat(), last.isoformat()
+    house_floor = scheduled_rows(conn, "s.chamber='house' AND s.kind='floor' AND "
+                                       "s.status='listed' AND s.week_of IN ({0})".format(
+                                           ",".join("?" * len(weeks))), weeks)
+    committee = scheduled_rows(conn, "s.kind!='floor' AND s.date >= ? AND s.date <= ?", (lo, hi))
+    conn.row_factory = sqlite3.Row
+    meetings = conn.execute("SELECT * FROM us_meetings WHERE date >= ? AND date <= ? "
+                            "ORDER BY date, time, meeting_key", (lo, hi)).fetchall()
+    ours_by_meeting = {}
+    for r in committee:
+        ours_by_meeting.setdefault(r["meeting_key"], []).append(r)
+    ours_meetings = [m for m in meetings
+                     if visible(m["own_areas"]) or m["meeting_key"] in ours_by_meeting]
+    last_list = conn.execute(
+        "SELECT week_of, items FROM us_schedule_weeks WHERE chamber='house' AND source='floor' "
+        "AND status='listed' AND week_of < ? ORDER BY week_of DESC LIMIT 1", (weeks[0],)).fetchone()
+    last_ours = len(scheduled_rows(conn, "s.chamber='house' AND s.kind='floor' AND "
+                                         "s.status='listed' AND s.week_of=?",
+                                   (last_list[0],))) if last_list else 0
+    return {"first": lo, "last": hi, "weeks": weeks, "floor": floor,
+            "house_cmte": week_status(conn, "house", "committees", weeks),
+            "senate_floor": week_status(conn, "senate", "floor", weeks),
+            "senate_cmte": week_status(conn, "senate", "committees", weeks),
+            "house_floor": house_floor, "meetings": meetings, "ours_meetings": ours_meetings,
+            "ours_by_meeting": ours_by_meeting, "last_list": last_list, "last_ours": last_ours}
+
+
+def _house_out(c):
+    return not any(v[0] == "listed" for v in c["floor"].values()) and \
+        any(v[0] == "none" for v in c["floor"].values())
+
+
+def _senate_refused(c):
+    marks = list(c["senate_floor"].values()) + list(c["senate_cmte"].values())
+    return bool(marks) and all(v[0] == "refused" for v in marks)
+
+
+def sitting_note(note):
+    """'2026-09-14: Convene at 3:00 p.m.' -> 'Monday 14 September: Convene at 3:00 p.m.'"""
+    head, _sep, rest = (note or "").partition(": ")
+    try:
+        return "{0}: {1}".format(long_date(head), rest.strip())
+    except ValueError:
+        return oneline(note)
+
+
+def floor_line(r, names):
+    label = bill_label(r["bill_key"])
+    return "- {0} [{1}]({2}) {3}: week of {4}, {5}. *Areas: {6}.*{7}".format(
+        score_mark(r["triage_score"]), label, bill_url(r["bill_key"]),
+        clip(r["bill_title"] or r["text"], 90), long_date(r["week_of"], weekday=False),
+        CATEGORY_LABEL.get(r["category"], r["category"] or "listed"), _sched_areas(r, names),
+        " [Text]({0})".format(r["doc_url"]) if r["doc_url"] else "")
+
+
+def meeting_lines(m, rows, names):
+    when = long_date(m["date"]) + (" {0}".format(m["time"]) if m["time"] else "")
+    status = "" if m["status"] in (None, "scheduled") else " **({0})**".format(m["status"].upper())
+    out = ["- **{0}**, {1} {2}, {3}{4}: [{5}]({6}).{7}".format(
+        when, m["chamber"].title(), m["committee"] or "committee",
+        KIND_LABEL.get(m["kind"], m["kind"] or "meeting"), status, clip(m["title"], 110),
+        m["url"], " *Areas: {0} (matched on the meeting's own text).*".format(
+            names_of(visible(m["own_areas"]), names)) if visible(m["own_areas"]) else "")]
+    for r in rows:
+        out.append("  - {0} [{1}]({2}) {3}. *Areas: {4}.*".format(
+            score_mark(r["triage_score"]), bill_label(r["bill_key"]), bill_url(r["bill_key"]),
+            clip(r["bill_title"] or r["text"], 90), _sched_areas(r, names)))
+    return out
+
+
+def render_coming_up(conn, today, names):
+    c = coming_up(conn, today)
+    head = "## Coming up"
+    if c is None:
+        return [head, "", "*The week ahead was not collected for this edition "
+                          "(tools/us_schedule.py has not run on this store).*", ""]
+    out = ["{0}: {1} to {2}".format(head, long_date(c["first"], weekday=False),
+                                    long_date(c["last"], weekday=False)), "",
+           "*What is scheduled on our ground. The House floor list is the Majority Leader's "
+           "for the week and never says which day a bill comes up; committee meetings carry "
+           "their date. A meeting can be postponed or cancelled after this was read.*", ""]
+    # House floor
+    if _house_out(c):
+        last = c["last_list"]
+        out.append("**House floor.** The House is out: no floor list is posted for the week of "
+                   "{0}.{1}".format(long_date(c["weeks"][-1], weekday=False),
+                                    " Its last list, for the week of {0}, held {1} item(s), "
+                                    "{2} on our ground.".format(
+                                        long_date(last[0], weekday=False), last[1] or 0,
+                                        c["last_ours"]) if last else ""))
+    else:
+        listed = [w for w in c["weeks"] if c["floor"].get(w, ("",))[0] == "listed"]
+        counts = "; ".join("week of {0}: {1} item(s)".format(long_date(w, weekday=False),
+                                                              c["floor"][w][1] or 0) for w in listed)
+        out.append("**House floor** ({0}), {1} on our ground.".format(
+            counts or "no list read", len(c["house_floor"])))
+        if c["house_floor"]:
+            out.append("")
+            out += [floor_line(r, names) for r in sorted(
+                c["house_floor"], key=lambda r: (r["week_of"], -(r["triage_score"] or -1),
+                                                 r["bill_key"]))]
+    out.append("")
+    # Committees, both chambers
+    house_meetings = [m for m in c["meetings"] if m["chamber"] == "house"]
+    senate_meetings = [m for m in c["meetings"] if m["chamber"] == "senate"]
+    ours = c["ours_meetings"]
+    senate_read = bool(c["senate_cmte"]) and not _senate_refused(c)
+    out.append("**Committees.** House: {0}. Senate: {1}. On our ground: {2}.".format(
+        "{0} meeting(s) posted".format(len(house_meetings)) if house_meetings else
+        "no meeting posted for these days",
+        "{0} meeting(s) posted".format(len(senate_meetings)) if senate_read else "not read",
+        len(ours)))
+    if ours:
+        out.append("")
+        for m in ours:
+            out += meeting_lines(m, c["ours_by_meeting"].get(m["meeting_key"], []), names)
+    out.append("")
+    # Senate floor
+    if _senate_refused(c):
+        out.append("**Senate.** Not read for this edition: senate.gov refused the machine that "
+                   "ran it (it answers GitHub's runners, where the Senate half runs).")
+    elif not c["senate_floor"] and not c["senate_cmte"]:
+        out.append("**Senate.** Not collected for these weeks.")
+    else:
+        notes = [v[2] for w, v in sorted(c["senate_floor"].items()) if v[0] == "listed" and v[2]]
+        out.append("**Senate floor.** {0}".format(
+            "Next sitting, " + sitting_note(notes[-1]) if notes else "No sitting posted."))
+    out.append("")
+    return out
+
+
+def coming_up_dm(conn, today):
+    """One line for the DM."""
+    c = coming_up(conn, today)
+    if c is None:
+        return None
+    parts = []
+    if _house_out(c):
+        parts.append("House out (no floor list for the week of {0})".format(
+            long_date(c["weeks"][-1], weekday=False)))
+    else:
+        parts.append("{0} bill(s) on our ground on the House floor list".format(
+            len(c["house_floor"])))
+    parts.append("{0} committee meeting(s) on our ground".format(len(c["ours_meetings"])))
+    if _senate_refused(c):
+        parts.append("Senate schedule not read")
+    return "*Coming up:* " + "; ".join(parts) + "."
+
+
 # --- rendering ---------------------------------------------------------------
 
 def bill_row(r, names):
@@ -361,6 +577,8 @@ def render_edition(conn, today):
         out.append("- **{0}** ({1} days): {2}.{3}".format(date, days, what, extra))
     out.append("")
 
+    out += render_coming_up(conn, today, names)
+
     # Votes
     if week_votes:
         out += ["## Recorded votes this week ({0})".format(len(week_votes)), ""]
@@ -412,10 +630,13 @@ def render_edition(conn, today):
                 n("SELECT COUNT(*) FROM us_divisions WHERE chamber='house'"),
                 n("SELECT COUNT(*) FROM us_divisions WHERE chamber='senate'"),
                 last_pull(conn) or "unknown"),
+            "- **The week ahead** (tools/us_schedule.py): the House floor list, House and "
+            "Senate committee hearings and markups, and the Senate's next sitting, keyed on "
+            "bill numbers.",
             "- **Not yet collected:** amendment purposes for House votes (needs the "
-            "Congress.gov key), the Congressional Record (floor debates), committee hearings, "
-            "the weekly floor schedule, the Federal Register and executive orders, and the "
-            "fifty state legislatures (needs the Open States key).",
+            "Congress.gov key), the Congressional Record (floor debates), the Federal Register "
+            "and executive orders, and the fifty state legislatures (needs the Open States "
+            "key).",
             "- **Migration** is matched and stored but not shown, as in every edition here.",
             "- Specification and decisions: [docs/us-scope.md]({0}docs/us-scope.md).".format(REPO),
             ""]
@@ -441,6 +662,9 @@ def dm_summary(conn, today, path=None):
                      "Senate {1}.".format(last_vote(conn, "house") or "?",
                                           last_vote(conn, "senate") or "?"))
     lines.append("{0} bill(s) moved, {1} new.".format(len(moved), len(new)))
+    ahead = coming_up_dm(conn, today)
+    if ahead:
+        lines.append(ahead)
     top = rank_bills([b for b in moved + new if stage(b)[0] <= 4 or b in new])[:5]
     for r in top:
         why = r["why_it_matters"]
