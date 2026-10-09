@@ -24,9 +24,11 @@ from __future__ import annotations
 import argparse
 import os
 import re
+import ssl
 import sys
+import urllib.request
 import urllib.robotparser
-from urllib.parse import urldefrag, urljoin, urlsplit
+from urllib.parse import parse_qsl, urldefrag, urljoin, urlsplit
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -64,15 +66,24 @@ def main(argv=None):
     ap.add_argument("--delay", type=float, default=2.0)
     ap.add_argument("--show-links", type=int, default=80)
     ap.add_argument("--raw-dir", default=os.path.join(ROOT, "data", "raw"))
+    ap.add_argument("--extra-ca", default=os.path.join(ROOT, "config", "mx-ca-intermediates.pem"))
     args = ap.parse_args(argv)
 
-    client = HttpClient(args.raw_dir, max_retries=1, backoff=(5.0,), default_timeout=45)
+    ctx = ssl.create_default_context()
+    if args.extra_ca:
+        ctx.load_verify_locations(cafile=args.extra_ca)
+    opener = urllib.request.build_opener(urllib.request.HTTPSHandler(context=ctx))
+    client = HttpClient(args.raw_dir, max_retries=1, backoff=(5.0,), default_timeout=45,
+                        opener=opener)
     follow = re.compile(args.follow, re.I) if args.follow else None
     robots, stopped, seen = {}, {}, set()
     queue = list(args.urls)
     fetched = 0
     while queue and fetched < args.max:
         url = urldefrag(queue.pop(0))[0]
+        post = url.startswith("POST:")
+        if post:
+            url = url[5:]
         if url in seen:
             continue
         seen.add(url)
@@ -97,7 +108,16 @@ def main(argv=None):
             print("ROBOTS-DISALLOWED\t{0}".format(url))
             continue
         try:
-            raw = client.get_bytes(url, FEED, parts.netloc + parts.path + "-" + (parts.query or ""))
+            slug = parts.netloc + parts.path + "-" + (parts.query or "")
+            if post:
+                # A form the site's own pages submit to look up a list (the
+                # Gaceta's per-vote member lists). Read-only; archived.
+                target = url.split("?", 1)[0]
+                raw = client.post_form(target, parse_qsl(parts.query), FEED, "post-" + slug,
+                                       archive=True)
+                raw = raw if isinstance(raw, bytes) else raw.encode("utf-8")
+            else:
+                raw = client.get_bytes(url, FEED, slug)
         except FetchError as exc:
             print("ERR\t{0}\t{1}".format(url, exc.cause))
             if not isinstance(getattr(exc.cause, "code", None), int):

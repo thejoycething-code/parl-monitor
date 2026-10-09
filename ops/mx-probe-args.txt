@@ -1,5 +1,5 @@
-# Round 2: one vote end to end, the iniciativas indexes, members
---max 14 --follow 'Votaciones/66/.*(tabla|lista|grupo|nominal|voto)|/voto66/' https://gaceta.diputados.gob.mx/Gaceta/Votaciones/66/tabla2or2-1.php3 https://gaceta.diputados.gob.mx/Gaceta/Votaciones/66/tabla3or1-1.php3
---max 12 --show-links 120 --follow 'gp66_|Iniciativas/66|inis/66|base/inis' https://gaceta.diputados.gob.mx/gp_inis.html https://gaceta.diputados.gob.mx/base/inis/gp_b_indice.html https://gaceta.diputados.gob.mx/gp_dictas.html https://gaceta.diputados.gob.mx/gp_asistencias.html
---max 3 https://gaceta.diputados.gob.mx/Busquedas/index.html https://gaceta.diputados.gob.mx/Gaceta/Votaciones/66/vot66_a3primero.html
---max 3 http://sitl.diputados.gob.mx/LXVI_leg/votacionesxperiodonplxvi.php?pert=1
+# Round 3: per-member positions (Gaceta form, SITL), SIL with the chain fixed
+--max 3 --show-links 40 'POST:https://gaceta.diputados.gob.mx/voto66/ordi22/lanordi22.php3?evento=1&lola[11]=452' 'POST:https://gaceta.diputados.gob.mx/voto66/ordi22/lanordi22.php3?evento=1&lola[15]=47' 'POST:https://gaceta.diputados.gob.mx/voto66/ordi22/lanordi22.php3?evento=1&lola[72]=1'
+--max 16 --show-links 120 --follow 'votacion|estadistico|listados|curricula' https://sitl.diputados.gob.mx/LXVI_leg/votacionesxperiodonplxvi.php?pert=1 https://sitl.diputados.gob.mx/LXVI_leg/listado_diputados_gpnp.php?tipot=TOTAL
+--max 8 --show-links 120 --follow 'portal/|Votaci|Busqueda|Numeralia' https://sil.gobernacion.gob.mx/portal https://sil.gobernacion.gob.mx/portal/AsuntosLegislativos/busquedaBasica
+--max 2 https://web.diputados.gob.mx/
