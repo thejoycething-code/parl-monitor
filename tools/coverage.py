@@ -66,6 +66,8 @@ PIPELINES = {
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
     "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
+    # Scheduled 9 October 2026, Fridays (ie-weekly.yml; the Mac Mini first).
+    "Ireland weekly": (7, 4, "the Oireachtas: Dail, Seanad and committee divisions, bills, members"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -158,6 +160,15 @@ FEEDS = [
     ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
     ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
     ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
+    # Ireland (9 October 2026). MEASURED which re-stamp: tools/ie_rollcalls.py
+    # re-reads both rosters, every bill with an event since the Dail first
+    # met, and every division of both Houses whole on each run, and all three
+    # upserts set last_seen. So unlike the US divisions these move every
+    # week, recess included (the Dail divided on no day between 15 July and
+    # 16 September 2026 except a recall on 28 August).
+    ("ie_members", "last_seen", 7, 4, "Dail and Seanad rosters (Ireland weekly)"),
+    ("ie_bills", "last_seen", 7, 4, "Oireachtas bills (Ireland weekly)"),
+    ("ie_divisions", "last_seen", 7, 4, "Dail, Seanad and committee divisions (Ireland weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -230,6 +241,8 @@ PIPELINE_FEEDS = {
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
     # Divisions are left out: new rows only, so a recess week cannot move them.
     "US weekly": ["us_bills", "us_members"],
+    # All three are re-read whole and re-stamped every run (see FEEDS).
+    "Ireland weekly": ["ie_members", "ie_bills", "ie_divisions"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -241,6 +254,8 @@ PIPELINE_FEEDS = {
 # excuse expires by itself: once source_runs holds the pipeline, an empty
 # table is OVERDUE again, so this entry can never hide a later wipe.
 AWAITING_FIRST_RUN = {
+    "Ireland weekly": (("ie_members", "ie_bills", "ie_divisions"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
     "US weekly": (("us_bills", "us_members", "us_divisions"),
                   "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
