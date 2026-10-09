@@ -59,6 +59,13 @@ if [ "$JUDGE" = "on" ]; then
   python3 tools/ie_triage.py --budget-seconds 1200 | tee "$LOG_DIR/ie-triage.log" || rc=$?
 fi
 
+# The 5CA sheets (tools/ie_5ca.py, data/5ca/ie-5ca-*.csv): offline, from the
+# store just collected, as prov_5ca.py runs in the provinces weekly. Only
+# SIGNED readings in config/ie_stance.yaml place anyone. A failure is a gap,
+# never a lost week.
+python3 tools/ie_5ca.py --all | tee "$LOG_DIR/ie-5ca.log" \
+  || echo "  [gap] the 5CA sheets failed; last week's stand"
+
 TODAY=$(date +%Y-%m-%d)
 if git ls-files --error-unmatch "editions/ie-monitor-$TODAY.md" >/dev/null 2>&1; then
   echo "edition for $TODAY already committed: rewriting it, not resending the DM"

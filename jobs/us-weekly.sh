@@ -209,6 +209,13 @@ if [ "$JUDGE" = "on" ]; then
     || echo "  [gap] the judge left items unscored; they are retried next run"
 fi
 
+# The 5CA sheets (tools/us_5ca.py, data/5ca/us-5ca-*.csv): offline, from the
+# store just collected, seconds to run, as prov_5ca.py runs in the provinces
+# weekly. They place members only from SIGNED readings in config/us_stance.yaml;
+# until one is signed every sheet is an evidence list and says so.
+python3 tools/us_5ca.py --all | tee "$LOG/us-5ca.log" \
+  || echo "  [gap] the 5CA sheets failed; last week's stand"
+
 TODAY=$(date +%Y-%m-%d)
 if git ls-files --error-unmatch "editions/us-monitor-$TODAY.md" >/dev/null 2>&1; then
   echo "edition for $TODAY already committed: rewriting it, not resending the DM"
