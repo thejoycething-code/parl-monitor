@@ -1566,6 +1566,15 @@ TABLES = (
     "au_divisions",
     "au_votes",
     "au_hansard_files",
+    # Ireland, the Oireachtas (tools/ie_rollcalls.py), created by
+    # src/ie_store.ensure_schema -- declared from day one.
+    "ie_members",
+    "ie_member_parties",
+    "ie_bills",
+    "ie_sponsors",
+    "ie_bill_debates",
+    "ie_divisions",
+    "ie_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1842,4 +1851,6 @@ def init_db(conn):
     us_store.ensure_schema(conn)
     from src import au_store
     au_store.ensure_schema(conn)
+    from src import ie_store
+    ie_store.ensure_schema(conn)
     return conn
