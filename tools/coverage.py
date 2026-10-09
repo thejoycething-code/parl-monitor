@@ -309,6 +309,11 @@ ONCE_EVER = {
     # quiet in recess.
     "ca_senators": "written only when a Senate vote on our ground is fetched",
     "ca_sittings": "one row per Hansard sitting read, stored once",
+    # El Salvador (9 October 2026): sessions and piezas are written only for
+    # the sitting days the session archive returns, so a recess week writes
+    # none; sv_dictamenes is watched for the same pipeline.
+    "sv_sessions": "one row per Asamblea plenary session read; quiet in recess",
+    "sv_piezas": "one row per piece of correspondence a session read; quiet in recess",
     # read_at is when the ISSUE was read, one row per issue: a write-once
     # table, not a sighting column the cadence check may use (RecessTests).
     "ca_gazette_issues": "one row per Gazette issue read, stored once",
