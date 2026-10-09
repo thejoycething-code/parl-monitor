@@ -103,6 +103,13 @@ MX5, CO5, PE3, BO3, GT3, HN6, DO3. Panama's stays empty (PA5 deferred).
 - Hungary: register for the W-API token (HU1, name to confirm); write to the
   Office if the CAPTCHA persists (HU2); build the gazette collector now (HU6);
   use karzat's CC BY data with attribution (HU7).
+  HU6 built 10 October 2026 (branch `hu-gazette`): `tools/hu_gazette.py`
+  reads the Magyar Közlöny's contents, the Hungarian edition
+  (`src/editions/hu.py`) reports what became law with a standing line that
+  bills and votes await the token, and `hu-weekly` runs Wednesdays 03:00
+  London on the Mini. HU7: karzat publishes its derived tables as files in
+  its GitHub repository (`data/derived/`, CC BY 4.0), so they may be used;
+  the loading plan is in docs/hungary-scope.md, not built yet.
 - Brazil: Portuguese source text with English takeaways (BR5).
 - Brazil: BR3 and BR4 terms approved by Chris on 10 October 2026, added to
   `docs/keyword-taxonomy-pt.md` as areas 14 (gambling and betting) and 15
