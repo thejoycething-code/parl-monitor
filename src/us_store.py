@@ -1,5 +1,6 @@
 """Tables for the US Congress monitor (phase 1, 9 October 2026): members,
-bills with their cosponsors, House roll calls and every member's position.
+bills with their cosponsors, House roll calls and every member's position,
+and the week ahead (us_schedule, us_meetings, us_schedule_weeks).
 
 See docs/us-scope.md for what was measured and why. The schema follows the
 Canadian precedent (src/ca_store.py): its own module, idempotent statements,
@@ -20,12 +21,27 @@ Clerk printed on that roll call. `us_members.party` is only the latest seen.
 A BILL DIES WITH ITS CONGRESS. Every pending bill falls when the Congress
 ends (3 January of odd years). Nothing in a bill's own record says so, so
 `us_bills.congress` is what the board reads, never `latest_action`.
+
+THE CURRENT CONGRESS IS A DATE, NOT A CONSTANT. Congress n sits from noon on
+3 January of 1789 + 2(n - 1) (the Twentieth Amendment) to 3 January two
+years later: the 119th from 3 January 2025, the 120th from 3 January 2027.
+Its first session is the odd year, its second the even one. 1 and 2 January
+of an odd year still belong to the old Congress. `congress_on` and
+`session_on` are what the collector, the job script (`us_rollcalls.py
+--print-congress`) and the edition read; nothing hard-codes 119 any more.
+
+AMENDMENT PURPOSES (phase 1b): `us_divisions.amendment_key`,
+`amendment_text` and `purpose_source` ('billstatus', keyless and first, or
+'congress-api', keyed, for what BILLSTATUS has not explained yet). The rule
+that uses them is in tools/us_rollcalls.py.
 """
 
 from __future__ import annotations
 
+import datetime
 import json
 import os
+import re
 
 SCHEMA = (
     """CREATE TABLE IF NOT EXISTS us_members (
@@ -106,11 +122,146 @@ SCHEMA = (
         state        TEXT,
         PRIMARY KEY (division_key, bioguide)
     )""",
+    # THE WEEK AHEAD (tools/us_schedule.py, 9 October 2026). What is
+    # scheduled, never what happened: the House floor list, committee
+    # hearings and markups in both chambers, and the Senate's next sitting.
+    # A row of us_schedule is one BILL at one scheduled event, keyed on the
+    # bill KEY (never its title) and joined to us_bills for areas and
+    # scores. A hearing that names no bill lives in us_meetings alone.
+    """CREATE TABLE IF NOT EXISTS us_schedule (
+        sched_key    TEXT PRIMARY KEY,   -- 'house-floor-2026-09-14/119/hr/28',
+                                         -- 'house-cmte-119568/119/hr/4615'
+        bill_key     TEXT NOT NULL,      -- '119/hr/28'
+        chamber      TEXT NOT NULL,      -- 'house' / 'senate'
+        kind         TEXT NOT NULL,      -- 'floor', 'markup', 'hearing', 'meeting'
+        week_of      TEXT NOT NULL,      -- the Monday of the week, ISO
+        date         TEXT,               -- the day, when the source gives one
+                                         -- (the House floor list is by WEEK)
+        meeting_key  TEXT,               -- us_meetings, for committee rows
+        category     TEXT,               -- floor: 'suspension' / 'rule' / 'may be considered'
+        legis_num    TEXT,               -- as the source printed it: 'H.R. 309'
+        text         TEXT,               -- the source's own line for the item
+        doc_url      TEXT,               -- the text the House posted for the week
+        status       TEXT,               -- 'listed', 'removed', 'scheduled',
+                                         -- 'postponed', 'cancelled'
+        own_areas    TEXT,               -- JSON: matched on the line's OWN text
+        matched_terms TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS us_meetings (
+        meeting_key  TEXT PRIMARY KEY,   -- 'house-119568'; 'senate-SSJU-2026-09-17-10:00'
+        chamber      TEXT NOT NULL,
+        event_id     TEXT,               -- the House repository's EventID
+        committee    TEXT,
+        kind         TEXT,               -- 'markup', 'hearing', 'meeting'
+        title        TEXT,
+        date         TEXT,               -- ISO
+        time         TEXT,
+        location     TEXT,
+        status       TEXT,               -- 'scheduled', 'postponed', 'cancelled'
+        url          TEXT,
+        bills        TEXT,               -- JSON list of bill KEYS named
+        own_areas    TEXT,               -- JSON: matched on the title and bill lines
+        matched_terms TEXT,
+        tier         INTEGER,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    # One row per (chamber, source, week) ASKED, whatever came back: a list,
+    # nothing posted (the House answers 404 for a week it is out), or a
+    # refusal. It is how the edition can say "the House is out" rather than
+    # "nothing on our ground", and it moves on every run, recess included.
+    """CREATE TABLE IF NOT EXISTS us_schedule_weeks (
+        chamber      TEXT NOT NULL,
+        source       TEXT NOT NULL,      -- 'floor' / 'committees'
+        week_of      TEXT NOT NULL,      -- Monday, ISO
+        status       TEXT,               -- 'listed', 'none', 'refused'
+        items        INTEGER,            -- rows the source listed (all, not only ours)
+        note         TEXT,               -- e.g. the Senate's "Convene for a pro forma session"
+        first_seen   TEXT,
+        last_seen    TEXT,
+        PRIMARY KEY (chamber, source, week_of)
+    )""",
     "CREATE INDEX IF NOT EXISTS us_divisions_bill ON us_divisions (bill_key)",
+    "CREATE INDEX IF NOT EXISTS us_schedule_bill ON us_schedule (bill_key)",
+    "CREATE INDEX IF NOT EXISTS us_schedule_week ON us_schedule (week_of)",
     "CREATE INDEX IF NOT EXISTS us_votes_member ON us_votes (bioguide)",
+    # EXECUTIVE ACTIONS (Christopher, 9 October 2026): the Federal Register's
+    # presidential documents, final rules and proposed rules, from
+    # tools/us_federal_register.py. Keyed on the FR document number, the one
+    # identifier the Register never reissues ('2025-02194').
+    """CREATE TABLE IF NOT EXISTS us_fr_documents (
+        document_number TEXT PRIMARY KEY, -- '2025-02194'
+        doc_type     TEXT NOT NULL,      -- 'Presidential Document' / 'Rule' / 'Proposed Rule'
+        subtype      TEXT,               -- 'Executive Order', 'Proclamation', 'Memorandum', ...
+        title        TEXT,
+        abstract     TEXT,               -- the agency's summary; NULL on presidential documents
+        action       TEXT,               -- 'Final rule.', 'Notice of proposed rulemaking.'
+        agencies     TEXT,               -- JSON list of agency names
+        topics       TEXT,               -- JSON list of CFR index terms
+        publication_date TEXT NOT NULL,  -- ISO date in the Register
+        signing_date TEXT,               -- presidential documents only
+        effective_on TEXT,
+        comments_close_on TEXT,          -- a proposed rule's comment deadline, as printed
+        eo_number    TEXT,               -- executive orders only
+        citation     TEXT,               -- '90 FR 8771'
+        docket_ids   TEXT,               -- JSON list
+        comment_url  TEXT,               -- regulations.gov, where the agency gives one
+        html_url     TEXT,
+        significant  INTEGER,            -- OIRA 'significant' flag, where printed
+        areas        TEXT,               -- JSON list (shared taxonomy)
+        matched_terms TEXT,
+        tier         INTEGER,
+        triage_score INTEGER,
+        why_it_matters TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    "CREATE INDEX IF NOT EXISTS us_fr_documents_pub ON us_fr_documents (publication_date)",
+    "CREATE INDEX IF NOT EXISTS us_fr_documents_close ON us_fr_documents (comments_close_on)",
+    # THE SUPREME COURT (Christopher, 9 October 2026), from tools/us_courts.py:
+    # opinions from the term's slip-opinion page and certiorari grants read
+    # out of the order lists. One table, two kinds of row:
+    #   'opinion/<term>/<R-number>'  e.g. 'opinion/25/62' (the Court's own
+    #                                running number within the term)
+    #   'grant/<docket>'             e.g. 'grant/24-539'
+    """CREATE TABLE IF NOT EXISTS us_court_cases (
+        case_key     TEXT PRIMARY KEY,
+        kind         TEXT NOT NULL,      -- 'opinion' / 'grant'
+        term         TEXT,               -- October Term, two digits: '25' is OT2025
+        docket       TEXT,               -- '24-539', or an application '25A312'
+        case_name    TEXT,               -- 'Chiles v. Salazar'
+        title        TEXT,               -- the docket's full caption, where read
+        decided      TEXT,               -- ISO date: the opinion's, or the grant's order date
+        summary      TEXT,               -- the Court's one-line holding, or the question presented
+        justice      TEXT,               -- the opinion's author code ('R', 'PC', 'EK')
+        citation     TEXT,               -- '609 U.S. 422' once assigned
+        url          TEXT,               -- the opinion PDF, or the docket page
+        order_url    TEXT,               -- the order list that granted it
+        areas        TEXT,
+        matched_terms TEXT,
+        tier         INTEGER,
+        triage_score INTEGER,
+        why_it_matters TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    # Every order PDF read, once: an order list is final when published, so
+    # this is what makes the grant reader incremental.
+    """CREATE TABLE IF NOT EXISTS us_court_orders (
+        url          TEXT PRIMARY KEY,
+        term         TEXT,
+        order_date   TEXT,               -- ISO date, from the file name (MMDDYY)
+        kind         TEXT,               -- 'Order List' / 'Miscellaneous Order'
+        grants       INTEGER,            -- plenary certiorari grants found in it
+        read_at      TEXT
+    )""",
 )
 
-TABLES = ("us_members", "us_bills", "us_cosponsors", "us_divisions", "us_votes")
+TABLES = ("us_members", "us_bills", "us_cosponsors", "us_divisions", "us_votes",
+          "us_schedule", "us_meetings", "us_schedule_weeks",
+          "us_fr_documents", "us_court_cases", "us_court_orders")
 
 MEMBER_UPSERT = (
     "INSERT INTO us_members (bioguide, name, party, state, district, chamber, "
@@ -142,6 +293,10 @@ ADDED_COLUMNS = (
     ("us_divisions", "amendment_key", "TEXT"),      # '119/hamdt/150'
     ("us_divisions", "amendment_text", "TEXT"),     # description | purpose
     ("us_divisions", "amendment_checked", "TEXT"),
+    # Which source gave amendment_text: 'billstatus' (the bulk files, keyless,
+    # tried first) or 'congress-api' (keyed, only for what BILLSTATUS has not
+    # explained yet). Added with the keyless route, 9 October 2026.
+    ("us_divisions", "purpose_source", "TEXT"),
 )
 
 
@@ -154,6 +309,81 @@ def ensure_schema(conn):
             conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, column, kind))
     conn.commit()
     return conn
+
+
+# --- does a vote stand on its own amendment purpose? -------------------------
+#
+# Shared by the collector (tools/us_rollcalls.classify_division, where the
+# rule is documented) and the edition, so both read it the same way.
+
+EN_BLOC = re.compile(r"\ben bloc\b|comprised of the following amendments", re.I)
+
+
+def has_own_purpose(amendment_text, chamber="house"):
+    """True for a HOUSE vote whose amendment text is a real purpose, not an
+    en bloc list of amendment numbers."""
+    return bool(amendment_text) and (chamber or "house") == "house" \
+        and not EN_BLOC.search(amendment_text)
+
+
+# --- which Congress is sitting ----------------------------------------------
+
+FIRST_CONGRESS_YEAR = 1789
+
+
+def _as_date(day=None):
+    if day is None:
+        return datetime.date.today()
+    if isinstance(day, str):
+        return datetime.date.fromisoformat(day[:10])
+    return day
+
+
+def congress_start(congress):
+    """3 January of the Congress's first year: 119 -> 2025-01-03."""
+    return datetime.date(FIRST_CONGRESS_YEAR + 2 * (int(congress) - 1), 1, 3)
+
+
+def congress_end(congress):
+    """The day the Congress ends, which is the next one's first day."""
+    return congress_start(int(congress) + 1)
+
+
+def congress_on(day=None):
+    """The Congress sitting on a date: 2026-10-09 -> 119, 2027-01-02 -> 119,
+    2027-01-03 -> 120."""
+    d = _as_date(day)
+    year = d.year
+    if year % 2 == 1 and d < datetime.date(year, 1, 3):
+        year -= 1
+    return (year - FIRST_CONGRESS_YEAR) // 2 + 1
+
+
+def session_on(day=None):
+    """1 in the Congress's odd (first) year, 2 in its even one."""
+    d = _as_date(day)
+    return 1 if d.year == congress_start(congress_on(d)).year else 2
+
+
+def congress_ended(congress, day=None):
+    """True once the Congress is over: every bill of it not enacted has fallen."""
+    return _as_date(day) >= congress_end(congress)
+
+
+# Weeks after a new Congress starts during which the old one is collected
+# too: the last votes and bill statuses of the old Congress keep arriving in
+# BILLSTATUS (a bill presented before 3 January can be signed after it, and
+# the Library of Congress catches up on actions for weeks).
+CATCH_UP_DAYS = 45
+
+
+def catch_up_congress(day=None):
+    """The previous Congress while its records are still settling, else None."""
+    d = _as_date(day)
+    current = congress_on(d)
+    if (d - congress_start(current)).days < CATCH_UP_DAYS:
+        return current - 1
+    return None
 
 
 # --- the US watchlist, applied by bill KEY ---------------------------------
