@@ -15,7 +15,8 @@ name: Mini check
 #         needs: mini-check
 #         if: needs.mini-check.outputs.run == 'true'
 #
-# A hand dispatch always runs, and when in doubt the backup runs.
+# A hand dispatch runs unless the Mini is running the job at that moment
+# (MINI_RUN_<JOB>); when in doubt the backup runs.
 on:
   workflow_call:
     inputs:
@@ -31,6 +32,10 @@ on:
         description: "Only for a cron with no fixed hours: how recent counts as this slot"
         type: number
         default: 20
+      cover-hours:
+        description: "For workflows with retry slots: a Mini run this recent covers every slot (0 = off)"
+        type: number
+        default: 0
     outputs:
       run:
         description: "'true' when the real job should run"
@@ -55,8 +60,10 @@ jobs:
           EVENT: ${{ github.event_name }}
           SCHEDULE: ${{ github.event.schedule }}
           LAST: ${{ vars[format('MINI_LAST_{0}', inputs.job)] }}
+          RUNNING: ${{ vars[format('MINI_RUN_{0}', inputs.job)] }}
         run: >-
           python3 tools/mini_check.py --job "${{ inputs.job }}"
           --event "$EVENT" --schedule "$SCHEDULE" --last "$LAST"
           --grace-minutes ${{ inputs.grace-minutes }}
           --window-hours ${{ inputs.window-hours }}
+          --cover-hours ${{ inputs.cover-hours }} --running "$RUNNING"
