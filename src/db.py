@@ -1558,6 +1558,14 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # Australia's Federal Parliament (tools/au_rollcalls.py), created by
+    # src/au_store.ensure_schema -- declared from day one.
+    "au_members",
+    "au_offices",
+    "au_bills",
+    "au_divisions",
+    "au_votes",
+    "au_hansard_files",
     # The week ahead (tools/us_schedule.py, 9 October 2026).
     "us_schedule",
     "us_meetings",
@@ -1850,6 +1858,8 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import au_store
+    au_store.ensure_schema(conn)
     from src import ie_store
     ie_store.ensure_schema(conn)
     return conn

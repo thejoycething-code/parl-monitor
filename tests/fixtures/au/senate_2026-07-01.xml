@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<debates>
+<major-heading id="uk.org.publicwhip/lords/2026-07-01.175.1" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A1%2F7%2F2026;rec=0;resCount=Default">
+BILLS </major-heading>
+<minor-heading id="uk.org.publicwhip/lords/2026-07-01.175.2" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A1%2F7%2F2026;rec=0;resCount=Default">
+Sex Discrimination Amendment (Restoring Common Sense and Recognising Biological Sex) Bill 2026; First Reading </minor-heading>
+<bills>
+  <bill id="s1500" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/s1500">Sex Discrimination Amendment (Restoring Common Sense and Recognising Biological Sex) Bill 2026</bill>
+ </bills>
+<speech approximate_duration="300" approximate_wordcount="34" id="uk.org.publicwhip/lords/2026-07-01.175.3" speakerid="uk.org.publicwhip/lord/100252" speakername="Michaelia Cash" talktype="speech" time="17:17" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A1%2F7%2F2026;rec=0;resCount=Default">
+<p>I move:</p><p class="italic">That the following bill be introduced:</p><p class="italic">A Bill for an Act to amend the Sex Discrimination Act 1984, and for related purposes.</p><p class="italic"> <i>A division having been called and the bells being rung—</i></p> </speech>
+<speech approximate_duration="0" approximate_wordcount="10" id="uk.org.publicwhip/lords/2026-07-01.175.8" speakerid="uk.org.publicwhip/lord/100920" speakername="Jess Walsh" talktype="interjection" time="17:17" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A1%2F7%2F2026;rec=0;resCount=Default">
+<p>President, I seek leave to cancel the division.</p><p>Leave granted.</p> </speech>
+<speech approximate_duration="0" approximate_wordcount="11" id="uk.org.publicwhip/lords/2026-07-01.175.9" speakerid="uk.org.publicwhip/lord/100944" speakername="Sue Lines" talktype="interjection" time="17:17" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A1%2F7%2F2026;rec=0;resCount=Default">
+<p>The question is that the bill be introduced.</p><p>Question agreed to.</p> </speech>
+<speech approximate_duration="0" approximate_wordcount="20" id="uk.org.publicwhip/lords/2026-07-01.175.10" speakerid="uk.org.publicwhip/lord/100252" speakername="Michaelia Cash" talktype="continuation" time="17:17" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A1%2F7%2F2026;rec=0;resCount=Default">
+<p>I present the bill and move:</p><p class="italic">That this bill may proceed without formalities and be now read a first time.</p> </speech>
+<speech approximate_duration="0" approximate_wordcount="14" id="uk.org.publicwhip/lords/2026-07-01.175.11" speakerid="uk.org.publicwhip/lord/100944" speakername="Sue Lines" talktype="interjection" time="17:17" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A1%2F7%2F2026;rec=0;resCount=Default">
+<p>The question is that the motion as moved by Senator Cash be agreed to.</p><p /> </speech>
+<division divdate="2026-07-01" divnumber="16" id="uk.org.publicwhip/lords/2026-07-01.176.1" nospeaker="true" time="17:20" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A1%2F7%2F2026;rec=0;resCount=Default">
+  <bills>
+   <bill id="s1500" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/s1500">Sex Discrimination Amendment (Restoring Common Sense and Recognising Biological Sex) Bill 2026</bill>
+  </bills>
+  <divisioncount ayes="21" noes="30" pairs="11" tellerayes="0" tellernoes="0" />
+  <memberlist vote="aye">
+   <member id="uk.org.publicwhip/lord/100902" vote="aye">Alex Antic</member>
+   <member id="uk.org.publicwhip/lord/100899" vote="aye">Wendy Askew</member>
+   <member id="uk.org.publicwhip/lord/100932" vote="aye">Ralph Babet</member>
+   <member id="uk.org.publicwhip/lord/100969" vote="aye">Sean Bell</member>
+   <member id="uk.org.publicwhip/lord/100971" vote="aye">Slade Brockman</member>
+   <member id="uk.org.publicwhip/lord/100933" vote="aye">Ross Cadell</member>
+   <member id="uk.org.publicwhip/lord/100252" vote="aye">Michaelia Cash</member>
+   <member id="uk.org.publicwhip/lord/100880" vote="aye">Richard Mansell Colbeck</member>
+   <member id="uk.org.publicwhip/lord/100851" vote="aye">Jonathon Duniam</member>
+   <member id="uk.org.publicwhip/lord/100921" vote="aye">Sarah Henderson</member>
+   <member id="uk.org.publicwhip/lord/100947" vote="aye">Maria Kovacic</member>
+   <member id="uk.org.publicwhip/lord/100934" vote="aye">Kerrynne Liddle</member>
+   <member id="uk.org.publicwhip/lord/100911" vote="aye">Susan McDonald</member>
+   <member id="uk.org.publicwhip/lord/100970" vote="aye">Andrew McLachlan</member>
+   <member id="uk.org.publicwhip/lord/100935" vote="aye">Jacinta Nampijinpa Price</member>
+   <member id="uk.org.publicwhip/lord/100913" vote="aye">Matt O'Sullivan</member>
+   <member id="uk.org.publicwhip/lord/100849" vote="aye">James Paterson</member>
+   <member id="uk.org.publicwhip/lord/100915" vote="aye">Malcolm Roberts</member>
+   <member id="uk.org.publicwhip/lord/100306" vote="aye">Anne Ruston</member>
+   <member id="uk.org.publicwhip/lord/100916" vote="aye">Paul Scarr</member>
+   <member id="uk.org.publicwhip/lord/100967" vote="aye">Tyron Whitten</member>
+  </memberlist>
+  <memberlist vote="no">
+   <member id="uk.org.publicwhip/lord/100931" vote="no">Penny Allman-Payne</member>
+   <member id="uk.org.publicwhip/lord/100961" vote="no">Michelle Ananda-Rajah</member>
+   <member id="uk.org.publicwhip/lord/100026" vote="no">Carol Louise Brown</member>
+   <member id="uk.org.publicwhip/lord/100900" vote="no">Raff Ciccone</member>
+   <member id="uk.org.publicwhip/lord/100957" vote="no">Dorinda Cox</member>
+   <member id="uk.org.publicwhip/lord/100951" vote="no">Lisa Darmanin</member>
+   <member id="uk.org.publicwhip/lord/100960" vote="no">Josh Dolega</member>
+   <member id="uk.org.publicwhip/lord/100883" vote="no">Mehreen Faruqi</member>
+   <member id="uk.org.publicwhip/lord/100950" vote="no">Varun Ghosh</member>
+   <member id="uk.org.publicwhip/lord/100928" vote="no">Karen Grogan</member>
+   <member id="uk.org.publicwhip/lord/100256" vote="no">Sarah Hanson-Young</member>
+   <member id="uk.org.publicwhip/lord/100952" vote="no">Steph Hodgins-May</member>
+   <member id="uk.org.publicwhip/lord/100944" vote="no">Sue Lines</member>
+   <member id="uk.org.publicwhip/lord/100847" vote="no">Nick McKim</member>
+   <member id="uk.org.publicwhip/lord/100312" vote="no">Deborah O'Neill</member>
+   <member id="uk.org.publicwhip/lord/100937" vote="no">Barbara Pocock</member>
+   <member id="uk.org.publicwhip/lord/100938" vote="no">David Pocock</member>
+   <member id="uk.org.publicwhip/lord/100178" vote="no">Helen Beatrice Polley</member>
+   <member id="uk.org.publicwhip/lord/100917" vote="no">Tony Sheldon</member>
+   <member id="uk.org.publicwhip/lord/100939" vote="no">David Shoebridge</member>
+   <member id="uk.org.publicwhip/lord/100874" vote="no">Jordon Steele-John</member>
+   <member id="uk.org.publicwhip/lord/100213" vote="no">Glenn Sterle</member>
+   <member id="uk.org.publicwhip/lord/100940" vote="no">Jana Stewart</member>
+   <member id="uk.org.publicwhip/lord/100972" vote="no">Tammy Tyrrell</member>
+   <member id="uk.org.publicwhip/lord/100965" vote="no">Charlotte Walker</member>
+   <member id="uk.org.publicwhip/lord/100920" vote="no">Jess Walsh</member>
+   <member id="uk.org.publicwhip/lord/100884" vote="no">Larissa Waters</member>
+   <member id="uk.org.publicwhip/lord/100864" vote="no">Murray Watt</member>
+   <member id="uk.org.publicwhip/lord/100305" vote="no">Peter Stuart Whish-Wilson</member>
+   <member id="uk.org.publicwhip/lord/100966" vote="no">Ellie Whiteaker</member>
+  </memberlist>
+  <pairs>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100956">Leah Blyth</member>
+    <member id="uk.org.publicwhip/lord/100853">Anthony Chisholm</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100904">Andrew Bragg</member>
+    <member id="uk.org.publicwhip/lord/100861">Malarndirri McCarthy</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100827">Matthew Canavan</member>
+    <member id="uk.org.publicwhip/lord/100908">Nita Green</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100905">Claire Chandler</member>
+    <member id="uk.org.publicwhip/lord/100845">Jenny McAllister</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100962">Jessica Collins</member>
+    <member id="uk.org.publicwhip/lord/100918">Marielle Smith</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100859">Jane Hume</member>
+    <member id="uk.org.publicwhip/lord/100963">Richard Dowling</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100910">Jacqui Lambie</member>
+    <member id="uk.org.publicwhip/lord/100903">Tim Ayres</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100833">James McGrath</member>
+    <member id="uk.org.publicwhip/lord/100241">Penny Ying Yen Wong</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100291">Bridget McKenzie</member>
+    <member id="uk.org.publicwhip/lord/100855">Don Farrell</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100949">Dave Sharma</member>
+    <member id="uk.org.publicwhip/lord/100907">Katy Gallagher</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100303">Dean Smith</member>
+    <member id="uk.org.publicwhip/lord/100964">Corinne Mulholland</member>
+   </pair>
+  </pairs>
+ </division>
+</debates>

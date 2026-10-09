@@ -67,6 +67,8 @@ PIPELINES = {
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
     "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
+    # Scheduled 9 October 2026, Fridays (au-weekly.yml; the Mac Mini first).
+    "Australia weekly": (7, 4, "Australia's Federal Parliament: bills, House and Senate divisions"),
     # Scheduled 9 October 2026, Fridays (ie-weekly.yml; the Mac Mini first).
     "Ireland weekly": (7, 4, "the Oireachtas: Dail, Seanad and committee divisions, bills, members"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
@@ -161,6 +163,18 @@ FEEDS = [
     ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
     ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
     ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
+    # Australia (9 October 2026). MEASURED which re-stamp: the OpenAustralia
+    # member lists are re-read whole every run, and every bill that became an
+    # Act is re-stamped from the Federal Register's listing every run, so
+    # members and bills move every week, recess included. Divisions move only
+    # when a Hansard day file is new or re-parsed, and Canberra sits in
+    # blocks (no sitting day between 17 September and 9 October 2026, nor
+    # between 2 July and 11 August): a month plus a month's grace, as for
+    # the US. au_offices, au_votes and au_hansard_files carry no sighting
+    # column.
+    ("au_members", "last_seen", 7, 4, "Federal Parliament members (Australia weekly)"),
+    ("au_bills", "last_seen", 7, 4, "Federal bills, from Hansard and the Register of Legislation (Australia weekly)"),
+    ("au_divisions", "last_seen", 31, 31, "House and Senate divisions (Australia weekly)"),
     # The week ahead (tools/us_schedule.py, 9 October 2026). MEASURED on the
     # live run of that day, in the election recess: us_schedule_weeks gains
     # or re-stamps a row for every week and source ASKED, 404 or not, so it
@@ -261,6 +275,8 @@ PIPELINE_FEEDS = {
     # Divisions are left out: new rows only, so a recess week cannot move them.
     "US weekly": ["us_bills", "us_members", "us_schedule_weeks", "us_schedule",
                   "us_fr_documents", "us_court_cases"],
+    # Divisions left out for the same reason as the US: a recess week cannot move them.
+    "Australia weekly": ["au_bills", "au_members"],
     # All three are re-read whole and re-stamped every run (see FEEDS).
     "Ireland weekly": ["ie_members", "ie_bills", "ie_divisions"],
     # The two provincial tables re-stamped on every run; prov_divisions is
@@ -278,6 +294,8 @@ AWAITING_FIRST_RUN = {
                        "scheduled 9 October 2026; its tables fill on its first run"),
     "US weekly": (("us_bills", "us_members", "us_divisions"),
                   "scheduled 9 October 2026; its tables fill on its first run"),
+    "Australia weekly": (("au_members", "au_bills", "au_divisions"),
+                         "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
