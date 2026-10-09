@@ -94,13 +94,22 @@ MONTHS_FR = {"janvier": 1, "février": 2, "fevrier": 2, "mars": 3, "avril": 4, "
 # "nominatif : 1" in 2025) and, in the first sittings of 2024, the other way
 # round, "Vote nominatif - Naamstemming: 1", with the French label first in
 # every count too ("Oui 80 Ja", "Non 0 Nee", "Abstentions 0 Onthoudingen").
-VOTE_MARK = re.compile(r"\(\s*Stemming\s*/\s*vote\s*(\d+)\s*\)")
-DETAIL_SPLIT = re.compile(r"DETAIL VAN DE NAAMSTEMMINGEN", re.I)
+# A counted vote shares the numbering: "(Elektronische telling/comptage
+# électronique 1)" (sitting 56/96).
+VOTE_MARK = re.compile(r"\(\s*(?:Stemming\s*/\s*vote|Elektronische telling\s*/\s*comptage "
+                       r"électronique)\s*(\d+)\s*\)", re.I)
+# The annex starts at its heading; a sitting whose only recorded vote was a
+# count heads it "ELEKTRONISCHE TELLING COMPTAGE ELECTRONIQUE" (56/48).
+DETAIL_SPLIT = re.compile(r"(?i:DETAIL VAN DE NAAMSTEMMINGEN)|ELEKTRONISCHE TELLING\W+COMPTAGE ELECTRONIQUE")
+# "Ce compte rendu n'a pas d'annexe." (56/81, 10 December 2025): the record
+# itself says the votes it took have no name list.
+NO_ANNEX = re.compile(r"Ce compte rendu n'a pas d'annexe")
 # Some votes are counted, not named: "Comptage électronique - Elektronische
-# telling: 2 Oui 128 Ja" (sitting 56/12). Their annex entry has counts only.
+# telling: 2 Oui 128 Ja" (sitting 56/12), "Elektronische telling - comptage
+# électronique: 1" (56/80). Their annex entry has counts only.
 DETAIL_HEAD = re.compile(r"(Naamstemming\s*-\s*Vote nominatif|Vote nominatif\s*-\s*Naamstemming|"
                          r"Comptage électronique\s*[-\u2013]\s*Elektronische telling|"
-                         r"Elektronische telling\s*[-\u2013]\s*Comptage électronique)\s*:\s*(\d+)")
+                         r"Elektronische telling\s*[-\u2013]\s*Comptage électronique)\s*:\s*(\d+)", re.I)
 COUNTS = re.compile(r"^\s*Ja\s+(\d+)\s+Oui\s+Nee\s+(\d+)\s+Non\s+Onthoudingen\s+(\d+)\s+Abstentions")
 SECTIONS = (("yes", re.compile(r"\b(?:Ja\s+(\d+)\s+Oui|Oui\s+(\d+)\s+Ja)\b")),
             ("no", re.compile(r"\b(?:Nee\s+(\d+)\s+Non|Non\s+(\d+)\s+Nee)\b")),
@@ -321,8 +330,10 @@ def parse_sitting(raw, legislature, number):
             problems.append("sitting {0}/{1}: vote {2} is in the annex but not the body".format(
                 legislature, number, vote_no))
         if vote_no not in detail:
-            problems.append("sitting {0}/{1}: vote {2} has no name list in the annex".format(
-                legislature, number, vote_no))
+            problems.append("sitting {0}/{1}: vote {2} has no name list {3}".format(
+                legislature, number, vote_no,
+                "(the record says it has no annex)" if NO_ANNEX.search(text) and not detail
+                else "in the annex"))
         if d.get("no_detail") and d.get("kind") != "count":
             problems.append("sitting {0}/{1}: vote {2}: the record says its name list is not "
                             "available for technical reasons".format(legislature, number, vote_no))
@@ -402,9 +413,20 @@ def pull_members(conn, client, today, legislature=CURRENT_LEGISLATURE):
     return len(seen), len(now)
 
 
+def _rotations(folded):
+    """Every word order that keeps the name's sequence: 'van der donckt wim'
+    also as 'wim van der donckt'. One record (sitting 56/72, vote 13) prints
+    "Forename Surname" for the whole list, and a multi-word surname cannot be
+    split, so every rotation is indexed and only a unique one is trusted."""
+    words = folded.split()
+    return {" ".join(words[i:] + words[:i]) for i in range(1, len(words))}
+
+
 def member_index(conn):
-    """{folded name: (member_key, group)}; a name two members share maps to None."""
+    """{folded name: (member_key, group)}; a name two members share maps to None.
+    Rotated forms are added under ('rot', name) keys, never over a real name."""
     index = {}
+    rotated = {}
     for key, name, group, leg in conn.execute(
             "SELECT member_key, name, party_group, legislature FROM be_members "
             "ORDER BY legislature"):
@@ -413,6 +435,10 @@ def member_index(conn):
             index[k] = None
         else:
             index[k] = (key, group)
+        for r in _rotations(k):
+            rotated[r] = None if (r in rotated and rotated[r] and rotated[r][0] != key) else (key, group)
+    for r, v in rotated.items():
+        index[("rot", r)] = v
     return index
 
 
@@ -426,7 +452,9 @@ def resolve(index, name):
     key = fold(name)
     if key in index:
         return index[key]
-    hits = [v for k, v in index.items() if v and k.startswith(key + " ")]
+    if ("rot", key) in index:
+        return index[("rot", key)]
+    hits = [v for k, v in index.items() if v and isinstance(k, str) and k.startswith(key + " ")]
     return hits[0] if len(hits) == 1 else None
 
 

@@ -345,6 +345,23 @@ class ResolveTests(unittest.TestCase):
         self.assertIsNone(ber.resolve(index, "Prévot"))          # two candidates: no guess
         self.assertIsNone(ber.resolve(index, "Nobody Here"))
 
+    def test_a_list_printed_forename_first_resolves_through_the_store(self):
+        conn = store()
+        ber.pull_members(conn, FakeClient(), TODAY)
+        index = ber.member_index(conn)
+        self.assertEqual(ber.resolve(index, "Wim Van der Donckt"),
+                         ber.resolve(index, "Van der Donckt Wim"))
+        self.assertIsNotNone(ber.resolve(index, "Katrijn van Riet"))
+
+    def test_a_sitting_whose_only_vote_was_a_count(self):
+        raw = ("<p>du jeudi 12 juin 2025</p><p>(Elektronische telling/comptage électronique 1)</p>"
+               "<p>En conséquence, le quorum est atteint.</p><p>Ce compte rendu n'a pas d'annexe.</p>"
+               "<h1>ELEKTRONISCHE TELLING</h1><h1>COMPTAGE ELECTRONIQUE</h1>"
+               "<p>Elektronische telling &#8211; Comptage électronique: 1 Ja 76 Oui</p>").encode("cp1252")
+        p = ber.parse_sitting(raw, 56, 48)
+        self.assertEqual(p["problems"], [])
+        self.assertEqual([(d["kind"], d["yes"]) for d in p["divisions"]], [("count", 76)])
+
 
 class WatchlistTests(unittest.TestCase):
     def test_every_entry_is_keyed_by_document_number_with_areas_and_a_reason(self):
