@@ -87,6 +87,40 @@ divisions:
       The split is not a party line: 24 NDP members and 8 Liberals voted Yea.
       Those 32 are the people this area's 5CA exists to find.
 
+  - key: commons-45-1-177
+    draft: true
+    title: "2nd reading of Bill C-218 (MAID: mental disorder is not a grievous and irremediable condition)"
+    dated: 2026-10-07
+    result: "Negatived 141-187, 6 paired"
+    lobbies: "Yea: Conservative 133, NDP 5, Liberal 2, Green 1. Nay: Liberal 166, Bloc 21. Paired: Conservative 3, Liberal 3"
+    moved_by: "Tamara Jansen (Conservative), private member's bill"
+    source: "https://www.parl.ca/DocumentViewer/en/45-1/bill/C-218/first-reading; https://www.ourcommons.ca/members/en/votes/45/1/177"
+    text: >
+      That Bill C-218, An Act to amend the Criminal Code (medical assistance
+      in dying), be now read a second time and referred to a committee. The
+      bill replaces Criminal Code s.241.2(2.1) so that "a mental disorder is
+      not a grievous and irremediable medical condition", permanently, with
+      coordinating amendments that override the 2021 Act's sunset of the
+      exclusion (MAID for mental illness alone is otherwise due on 17 March
+      2027).
+    # DRAFTED 10 October 2026 (Christopher: "Draft the C-218 reading for me
+    # to sign"). TEXT READ from the first-reading bill. The same question as
+    # C-314 in the 44th Parliament (commons-44-1-423), scored +2/-2 at
+    # second reading and confirmed on 2 October; this follows it exactly.
+    # Paired members place nobody, as everywhere in this file.
+    yea: 2
+    why_yea: >
+      Voted to advance a bill keeping MAID permanently closed to people whose
+      sole condition is a mental disorder.
+    nay: -2
+    why_nay: >
+      Voted to stop, at second reading, a bill that would have kept MAID
+      closed to people whose sole condition is a mental disorder, before it
+      opens in March 2027.
+    note: >
+      Not a straight party line: 5 NDP members, 2 Liberals and the Green
+      member voted Yea.
+
   - key: commons-44-1-641
     title: "2nd reading of Bill C-62 (delay MAID for mental illness to 2027)"
     dated: 2024-02-14
