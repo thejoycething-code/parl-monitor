@@ -5,20 +5,24 @@ the repo's honest User-Agent and a half-second throttle. Every number below
 was measured, not estimated. The national Oireachtas only (Dáil and Seanad);
 local government and the Assembly in Belfast are out of scope here.
 
-## Decisions (assumed, for Christopher to confirm)
+## Decisions (Christopher, 9 October 2026)
 
-These mirror the US decisions of 9 October. None has been confirmed for
-Ireland yet.
+These mirror the US decisions of the same day. The first four were assumed
+in the first draft of this document and confirmed by Christopher on
+9 October 2026.
 
-- **Own edition.** Ireland gets its own edition, not a section of the UK one.
-- **To Christopher alone at first**, until it is good.
+- **Own edition.** Ireland gets its own edition, not a section of the UK one
+  (`tools/ie_monitor.py`, below).
+- **To Christopher alone at first**, until it is good: a Slack DM, nothing
+  posted to a channel.
 - **Shared English taxonomy, unchanged.** `docs/keyword-taxonomy.md` and
   `config/taxonomy.yaml` were not touched. Irish vocabulary is *proposed*
   below for Christopher to approve. Named bills whose titles miss sit in
   `config/watchlist-ie.yaml`, applied by bill key.
 - **Scope: the national Oireachtas first** (Dáil, Seanad and their
   committees).
-- **Contraception is a life issue** (area 1), as decided for the US. It
+- **Contraception is a life issue** (area 1), as decided for the US (the
+  shared taxonomy carries it). It
   matters here: the Health (Provision of Contraception Prescribing Service in
   Retail Pharmacy Businesses) Act 2026 lands in area 1 on that rule alone.
 
@@ -52,6 +56,48 @@ of each list and stores nothing.
 - **Every division is re-read whole each week.** It is 9 requests, and it is
   what re-stamps `last_seen` for the coverage watch, so unlike the US
   divisions these move in recess too.
+
+## Phase 1b: amendment votes given their own text (built 9 October 2026)
+
+`tools/ie_rollcalls.py` now reads the debate transcript behind every
+amendment division ("Amendment put:", "Amendment to amendment put:",
+"Seanad amendment put:", "Recommendation put:"). Each transcript is the
+day's Akoma Ntoso XML (keyless, the debate URI with `/debate/mul@/main.xml`);
+each division in it is a `<voting eId="vote_N">` pointing at its "Amendment
+put:" summary, and walking back from there to the nearest "I move amendment
+No. 9: In page 21, line 9, ..." gives the amendment as moved. The walk stops
+at an earlier disposal ("put and declared lost", "not moved", "agreed to"),
+so a division never takes someone else's amendment. The text (from "I move",
+at most 1,200 characters) is stored in `ie_divisions.amendment_text` with
+`amendment_ref` ("amendment No. 9"), and joins the division's **own** text.
+`own_areas` and `areas` keep the US meaning: own text alone, and own plus
+the bill's. Measured on the first run:
+
+| | Amendment divisions | Amendment found |
+|---|---|---|
+| On bills (all stages, both Houses, committee) | 248 | 201 |
+| On motions | 106 | 24 |
+| Other (no bill, no motion) | 16 | 5 |
+| **All** (126 transcripts, 57 seconds, no gaps) | **370** | **230** |
+
+By chamber: Dáil 77 of 195, Seanad 121 of 138, committee 32 of 37. Motion
+amendments are mostly moved on the Tuesday and divided on the Wednesday, so
+the transcript of the division's day does not hold them: those keep
+`amendment_text = ''` (read, nothing found) rather than a guess.
+
+**The effect.** Divisions on our ground on their own text went from **6 to
+11**, and divisions on our ground in all from 40 to 45. The new five: an
+opposition amendment to the Criminal Justice (International Cooperation on
+Electronic Evidence) Bill invoking the EU Rule of Law Conditionality
+Regulation (area 7, lost 65 to 79), two amendments to the Criminal Law,
+Civil Law and Defence Bill on children's evidence (area 6), an amendment to
+a Seanad amendment of the International Protection Bill on representatives
+for children (area 6), and a Seanad motion amendment on domestic violence
+(area 5). Triage should decide which of these are ours. **The Mental Health
+Bill's amendment votes were read too: 27 of its 28, and not one matched
+anything of its own.** They still carry the bill's area 6, but the edition
+now folds them into one count line ("27 amendment divisions ... read and
+matched nothing of their own") instead of listing 27 findings.
 
 ## The finding that shapes everything
 
@@ -212,9 +258,8 @@ places, both free:
   2024, **PDF only** (no XML anywhere in the bill data: 545 bill versions,
   0 with XML).
 
-Phase 1b reads the transcript to name the amendment behind each division,
-then its text from the list. Until then `own_areas` and `areas` are kept
-apart, as in the US.
+Phase 1b (above) now reads the transcript; the amendment lists stay unread,
+since the motion as moved quotes the amendment's text in almost every case.
 
 **Motions** are the other half of the Dáil's divisions: 207 divisions on
 motions (mostly Private Members' business), none on our ground. The motion
@@ -341,7 +386,57 @@ the latest, on drugs use, has reported. The 2016 to 2018 Assembly is the one
 that recommended repealing the Eighth Amendment, so a new one is worth an
 alert, not a weekly pull.
 
-## What an Irish edition would look like (proposal)
+## The edition (built 9 October 2026)
+
+`tools/ie_monitor.py` (`--edition`, `--dm`, `--print`, `--date`), modelled
+on `tools/us_monitor.py`, writes `editions/ie-monitor-<date>.md` and DMs a
+short summary to Christopher alone (U05LJP0BT61). Read-only on the store.
+
+- **Sections:** top lines (or, in a quiet week, "no division on our ground
+  this week" with the last Dáil and Seanad division dates); dates that matter
+  (Budget 2027, the latest dissolution date with the count of live bills
+  that would lapse, the sitting pattern); divisions this week, folded where
+  the same question was put repeatedly, each with outcome, Tá-Níl(-Staon),
+  the party split at the vote and what matched (own text, amendment, or
+  bill only), and in a quiet month the latest divisions on our ground;
+  bills that moved; new bills (by First Stage date); live bills (by the
+  `alive` rule, never the API's `status`); enacted; defeated or withdrawn;
+  lapsed and not restored; coverage.
+- **No verdicts.** No line says who won. A Government amendment that carries
+  on a Private Members' bill can end it, and only a human says which way a
+  vote cut.
+- **Inherited areas marked**, and amendments read and blank folded (above).
+- **Renders with no scores**, and says so.
+- **Speaks once a day**, as `jobs/us-weekly.sh` does: an edition already
+  committed for today is rewritten, not resent. `jobs/ie-weekly.sh` runs it
+  after the collector (even in a week with gaps), and both the workflow and
+  the Mini (`# mini_run: commit editions`) commit `editions/`.
+- **PQs are not in it yet**: they are not collected (phase 2). The coverage
+  section says so.
+
+The first render, from the scratch database of 9 October 2026: no division
+on our ground this week (the Dáil last divided on 6 October, the Seanad on
+16 July); the latest on our ground listed with party splits (the
+Reproductive Rights Bill, lost 30 to 85 with 36 abstaining, Sinn Féin's 33
+among them); 17 live bills on our ground, 2 enacted, 2 defeated, 10 lapsed
+and not restored.
+
+## The judge (wired 9 October 2026, not on)
+
+`tools/ie_triage.py`, modelled on `tools/us_triage.py`: the same judge, model
+and rubric (`src/triage.py`) with an **Irish frame** (the abortion Act of
+2018 and the three-day wait, Dying with Dignity, AHR, gender recognition,
+RSE and patronage, Coimisiún na Meán, hate offences, referendum bills,
+timed amendments). It judges bills on our ground and divisions whose own
+text or amendment matched; a division that only inherits takes its bill's
+score. Scores are written once, ever; `--rescore` re-queues one.
+
+**SPEND NEEDS A YES.** The weekly runs it only when the repository variable
+`IE_JUDGE` is `on`, as `US_JUDGE` gates the US judge. It is **not on**.
+`--dry-run` on the scratch store: **42 items (31 bills, 11 divisions), 11
+calls, about $0.10.**
+
+## What an Irish edition would look like (the proposal it was built from)
 
 Westminster's sections map well: bills, divisions (Dáil, Seanad and
 committee, with party at the vote), PQs (written and oral, with answers),
@@ -360,6 +455,8 @@ makes a Wednesday-night brief the natural same-day product.
 
 `.github/workflows/ie-weekly.yml`, gated by `mini-check.yml` (job
 `IE_WEEKLY`): **Friday 08:30 UTC** cron, the Mac Mini at **09:30 London**
+(half an hour before the Mini's US weekly at 10:00 London; the runner's lock
+queues one behind the other for up to 30 minutes)
 (`ops/launchd/net.citizengo.parlmonitor.ie-weekly.plist`), both through
 `jobs/ie-weekly.sh`. Friday 08:30 collides with no other cron in the repo
 (checked against every workflow, and tested), and is clear of the US
@@ -373,9 +470,8 @@ on the Mini (docs/mac-mini.md).
 
 1. **Phase 1 (built): members, bills, divisions with every vote.** Plenary
    and committee divisions, joined to bills by debate section ID.
-2. **Phase 1b: amendments.** Name the amendment behind each division from
-   the transcript, its text from the amendment list PDF. Without it the
-   Mental Health Bill's 31 votes are unreadable.
+2. **Phase 1b (built): amendments.** The amendment behind each division from
+   the transcript. The edition and the judge (off) are built too.
 3. **Phase 2: PQs and debates.** PQs paged by month, offices struck before
    matching. Debate transcripts for motions and for the 8 unjoined divisions.
 4. **Phase 3: consultations and statutory instruments**, once gov.ie is
@@ -405,8 +501,8 @@ on the Mini (docs/mac-mini.md).
 
 ## Open questions for Christopher
 
-1. **The assumed decisions above**: own edition, to Christopher alone,
-   shared taxonomy, the Oireachtas first. Confirm or change.
+1. ~~The assumed decisions~~: confirmed 9 October 2026. **The judge**:
+   may `IE_JUDGE` be set to `on`? The backlog is about $0.10.
 2. **The proposed Irish vocabulary** (table above): which terms join the
    shared list?
 3. **The watchlist** (`config/watchlist-ie.yaml`, 8 bills): especially the
