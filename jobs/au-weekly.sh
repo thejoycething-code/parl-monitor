@@ -7,7 +7,8 @@
 #
 # Called by .github/workflows/au-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh au-weekly. One script, two callers. Both callers fetch
-# the store first and commit data/ afterwards.
+# the store first and commit data/, editions/, partner_site/ and docs/
+# afterwards.
 #
 #     AU_RECLASSIFY=true    re-derive every stored AU bill's and division's
 #                           areas, offline, before the pull (after a taxonomy
@@ -35,7 +36,7 @@
 # run (the Mini, or a GitHub backup) has sent the DM: it is rewritten, not
 # resent, as jobs/us-weekly.sh does.
 #
-# mini_run: commit editions
+# mini_run: commit editions partner_site docs
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -85,6 +86,15 @@ fi
 # SIGNED readings in config/au_stance.yaml place anyone. A failure is a gap,
 # never a lost week.
 python3 tools/au_5ca.py --all || echo "  [gap] the 5CA sheets failed; last week's stand"
+
+# The vote tracker and member profiles (tools/make_au_votes.py ->
+# partner_site/au-votes.html and docs/au-votes.html): offline, from the same
+# store, seconds, AFTER the 5CA step because profiles show 5CA placements and
+# both read config/au_stance.yaml the same way. Directions only from SIGNED
+# readings; with none signed the page shows the record and labels nobody.
+# Committed with this run; the partner site ships it at its next deploy.
+python3 tools/make_au_votes.py \
+  || echo "  [gap] the Australian vote tracker failed to build; last week's page stands"
 
 TODAY=$(date +%Y-%m-%d)
 if git ls-files --error-unmatch "editions/au-monitor-$TODAY.md" >/dev/null 2>&1; then

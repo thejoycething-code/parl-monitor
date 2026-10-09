@@ -6,7 +6,8 @@
 #
 # Called by .github/workflows/ie-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh ie-weekly. One script, two callers (docs/mac-mini.md).
-# Both callers fetch the store first and commit data/ and editions/ after.
+# Both callers fetch the store first and commit data/, editions/, partner_site/
+# and docs/ after.
 #
 #     IE_RECLASSIFY=true   re-derive stored areas offline first (after a
 #                          taxonomy or watchlist-ie change)
@@ -33,7 +34,7 @@
 # it is rewritten, not resent. The edition is written even in a week with
 # gaps; it says what it holds.
 #
-# mini_run: commit editions
+# mini_run: commit editions partner_site docs
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat names the pipeline, not "local", when the Mini runs this
@@ -106,6 +107,15 @@ fi
 # never a lost week.
 python3 tools/ie_5ca.py --all | tee "$LOG_DIR/ie-5ca.log" \
   || echo "  [gap] the 5CA sheets failed; last week's stand"
+
+# The vote tracker and member profiles (tools/make_ie_votes.py ->
+# partner_site/ie-votes.html and docs/ie-votes.html): offline, from the same
+# store, seconds, AFTER the 5CA step because profiles show 5CA placements and
+# both read config/ie_stance.yaml the same way. Directions only from SIGNED
+# readings; with none signed the page shows the record and labels nobody.
+# Committed with this run; the partner site ships it at its next deploy.
+python3 tools/make_ie_votes.py | tee "$LOG_DIR/ie-votes.log" \
+  || echo "  [gap] the Irish vote tracker failed to build; last week's page stands"
 
 TODAY=$(date +%Y-%m-%d)
 if git ls-files --error-unmatch "editions/ie-monitor-$TODAY.md" >/dev/null 2>&1; then
