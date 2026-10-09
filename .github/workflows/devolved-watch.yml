@@ -1,0 +1,111 @@
+name: Devolved watch
+
+# The same-day vote briefs for Holyrood, the Senedd and the Assembly
+# (Christopher, 2026-10-09: parity with the Westminster division watch).
+# For each NEW division on our ground it writes
+# data/briefs/<nation>-division-<id>.md and DMs Christopher alone: the
+# question, result, tally, party split, what matched, the link and the 5CA
+# reading status (the signed direction, or "awaiting sign-off").
+#
+# Speaks once per division: a brief that exists is neither rewritten nor
+# resent, and every run looks back seven days, so the evening and next-day
+# slots are two passes over one week, not retries.
+#
+# WHEN (measured 2026-10-09, tools/devolved_brief.py): Holyrood published 17
+# of 27 sitting days' divisions the same evening, 17:08-19:00 London, and 7
+# the next morning, 09:10-12:22. The Senedd votes Tuesday and Wednesday
+# evenings and the Assembly divides Monday and Tuesday, neither with a
+# publication stamp; each brief records when the watch first saw it.
+#
+# Touches no store: no pull, no push, no sidecar. The payloads it fetches are
+# archived under data/raw and published to the raw-archive release.
+on:
+  schedule:
+    - cron: "30 19 * * 1-4"     # Mon-Thu 20:30 London (BST), the evening pass
+    # Tue, Thu, Fri 12:45 London (BST), the next-day pass. NOT Wednesday on
+    # GitHub: 10:00-18:00 UTC Wednesday belongs to the Provinces weekly in
+    # the parl-monitor-state group (tests/test_prov_schedule.py). The Mini
+    # still runs Wednesday's 12:45, and GitHub's Wednesday evening pass
+    # looks back a week, so the backup loses nothing but a few hours.
+    - cron: "45 11 * * 2,4,5"
+  workflow_dispatch:
+    inputs:
+      nation:
+        description: "scotland | wales | ni (blank = all three)"
+        required: false
+        default: ""
+      since:
+        description: "Look back to this date (YYYY-MM-DD; blank = seven days)"
+        required: false
+        default: ""
+      force:
+        description: "Rewrite and resend briefs that already exist"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+# Commits the raw sidecar and briefs alongside the workflows that publish state.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  # The Mac Mini runs this at 20:30 London Mon-Thu and 12:45 Tue-Fri
+  # (tools/mini_run.sh devolved-watch); these crons are the backup and skip
+  # a slot the Mini already ran (all but Wednesday's 12:45: see above).
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: DEVOLVED_WATCH
+
+  brief:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Brief new devolved divisions, publish the raw archive
+        # jobs/devolved-watch.sh is shared with the Mac Mini runner.
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEVOLVED_NATION: ${{ inputs.nation }}
+          DEVOLVED_SINCE: ${{ inputs.since }}
+          DEVOLVED_FORCE: ${{ inputs.force }}
+        run: |
+          bash jobs/devolved-watch.sh | tee /tmp/devolved-brief.log
+          { echo "## Devolved watch"; echo '```'; cat /tmp/devolved-brief.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit briefs and archived payloads
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "bot@parl-monitor.invalid"
+          git add data/raw.json data/briefs
+          git diff --cached --quiet && exit 0
+          git commit -m "Devolved brief $(date -u +%FT%H:%MZ)"
+          # Hardened loop (docs/mac-mini-runner.md, step 4): never retry
+          # while stuck mid-rebase, and wait long enough to lose a race once.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin main; then
+              git push origin main && exit 0
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            sleep $(( attempt * 10 + RANDOM % 10 ))
+          done
+          echo "push failed six times"; exit 1

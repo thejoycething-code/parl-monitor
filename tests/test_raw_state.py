@@ -217,8 +217,8 @@ class RepoWiringTests(unittest.TestCase):
                 self.assertIn("raw_state.py --pull", src, os.path.basename(path))
 
     def test_the_archive_writers_without_a_store_publish_it(self):
-        for name in ("division-watch.yml", "deploy-tracker.yml", "us-division-watch.yml",
-                     "ie-division-watch.yml", "au-division-watch.yml"):
+        for name in ("division-watch.yml", "devolved-watch.yml", "deploy-tracker.yml",
+                     "us-division-watch.yml", "ie-division-watch.yml", "au-division-watch.yml"):
             src = with_jobs(open(os.path.join(WORKFLOWS, name), encoding="utf-8").read())
             self.assertIn("raw_state.py --push", src, name)
 

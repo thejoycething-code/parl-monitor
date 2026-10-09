@@ -811,11 +811,13 @@ class RetrySlotsAreGuardedTests(unittest.TestCase):
 
     # Two slots that are two different passes, not a retry: the Day sweep runs
     # in the evening and again next morning for text Hansard publishes late,
-    # and the Division watch polls the House through a sitting day.
+    # and the Division watch polls the House through a sitting day; the
+    # Devolved watch looks back a week in an evening pass and a next-day pass.
     # The US, Ireland and Australia division watches (9 October 2026) poll
     # the same way: each slot looks for divisions the last one could not see.
-    DIFFERENT_PASSES = ("day-sweep.yml", "division-watch.yml", "us-division-watch.yml",
-                        "ie-division-watch.yml", "au-division-watch.yml")
+    DIFFERENT_PASSES = ("day-sweep.yml", "division-watch.yml", "devolved-watch.yml",
+                        "us-division-watch.yml", "ie-division-watch.yml",
+                        "au-division-watch.yml")
 
     def _scheduled(self):
         import glob

@@ -152,6 +152,14 @@ jobs:
         # not published state. Offline, no API calls; a sheet that places
         # nobody is deleted and the run says so.
         run: python3 tools/devolved_5ca.py --nation scotland | tee /tmp/sp-5ca.log
+      - name: Rebuild the MSP votes page with each member's record
+        if: always()
+        # Member profiles on our ground (Christopher, 2026-10-09: parity
+        # with Westminster): divisions with the signed 5CA reading, questions,
+        # motions, speeches and 5CA placement per area, offline from the store
+        # this run just refreshed (src/devolved_intel.py). Deployed with the
+        # partner site; committed below so the deploy finds it.
+        run: python3 tools/make_msp_votes.py | tee /tmp/sp-profiles.log
       - name: Health summary
         # Gap lines lifted into the run summary so the Actions page answers
         # "did this week work" at a glance -- same reasoning as ni-weekly.
@@ -197,7 +205,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "bot@parl-monitor.invalid"
-          git add data/parl-monitor.db.json data/raw.json
+          git add data/parl-monitor.db.json data/raw.json partner_site/msp-votes.html docs/msp-votes.html
           git diff --cached --quiet || git commit -m "Holyrood weekly refresh $(date -u +%F)"
           # Retry: the rebase closes most of the race, but a push can
           # still lose one, and the store was ALREADY published above --
