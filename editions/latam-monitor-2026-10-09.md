@@ -4,17 +4,17 @@
 
 _Edition sample, covering 9 September 2026 to 9 October 2026. Monthly, to Chris by DM; watched and tier-1 items also arrive as instant alerts between editions._
 
-> **How to read this edition.** Each country's items come from its own store, classified by the shared Spanish taxonomy (taxonomy-es v0.1, country-tagged terms, approved without a native read, X4) and the country's watchlist. The AI judge is off (X16), so nothing has been read for relevance by a model: items are ordered by tier (watched and tier 1 first) and a tier-2 match can still be noise. Titles are the source's own Spanish, verbatim; the English around them is ours. Tallies, results and party splits are the record; whether a vote helped or hurt is a human call and is never made here. Migration is matched and stored but not shown.
+> **How to read this edition.** Each country's items come from its own store, classified by the shared Spanish taxonomy (taxonomy-es v0.1, country-tagged terms, approved without a native read, X4) and the country's watchlist. The AI judge is off (X16), so nothing has been read for relevance by a model: items are ordered by tier (watched and tier 1 first) and a tier-2 match can still be noise. Titles are the source's own Spanish, verbatim; the English around them is ours. Tallies, results and party splits are the record; whether a vote helped or hurt is a human call and is never made here. Migration is matched and stored but not shown. Procedural votes, the patterns in config/latam-noise.yaml and Chris's mutes are left out (counted under Coverage); a watched item never is.
 
 ## This month
 
-**100 item(s) on our ground in 9 countries**, 7 of them watched.
+**79 item(s) on our ground in 9 countries**, 9 of them watched.
 
 | Country | On our ground | Watched |
 |---|---|---|
-| [Dominican Republic](#dominican-republic) | 6 new bills, 13 stage moves, 9 recorded votes | 1 |
-| [Honduras](#honduras) | 2 agenda items, 21 press items | 1 |
 | [Peru](#peru) | 16 new bills | 2 |
+| [Dominican Republic](#dominican-republic) | 6 new bills, 8 stage moves, 1 recorded vote | 1 |
+| [Honduras](#honduras) | 2 agenda items, 13 press items | 3 |
 | [Uruguay](#uruguay) | 9 pedidos, 1 law | - |
 | [Bolivia](#bolivia) | 6 register updates | 2 |
 | [Panama](#panama) | 1 new bill, 5 stage moves | - |
@@ -24,90 +24,6 @@ _Edition sample, covering 9 September 2026 to 9 October 2026. Monthly, to Chris 
 
 **Nothing new on our ground:** Ecuador, Guatemala.
 **Access pending:** Costa Rica (waiting on the Asamblea Legislativa to clear access, CR1); Paraguay (waiting on the Senate's IT office to clear access, PY1).
-
-## Dominican Republic
-
-_Congreso Nacional. 6 new bills, 13 stage moves, 9 recorded votes. Store last read 9 October 2026._
-
-- **New bill** · 06417-2024-2028-CD · 5 Oct · religious freedom · tier 1 · **watched**
-  *Proyecto de ley que regula la libertad religiosa de conciencia y de cultos; y crea el registro nacional de entidades religiosas.*
-  Status: “Depositado”. Watched: Religious freedom of conscience and worship, with a national register of religious bodies.
-- **Stage move** · 06215-2024-2028-CD · 17 Sep · organ donation · tier 1
-  *Proyecto de ley que modifica la Ley núm. 329-98, del 11 de agosto de 1998, que regula la donación y legado, extracción, conservación e intercambio para trasplante de órganos y tejidos humanos y su reglamento de aplicación.*
-  Moved: “Enviado a Comisión”.
-- **New bill** · 06359-2024-2028-CD · 17 Sep · surrogacy and embryology · tier 1
-  *Proyecto de ley de técnicas de reproducción humana asistida de la República Dominicana.*
-  Status: “Enviado a Comisión”.
-- **New bill** · 06336-2024-2028-CD · 15 Sep · organ donation · tier 1
-  *Proyecto de ley que introduce modificaciones a la Ley núm. 329-98, del 11 de agosto de 1998, que regula la donación y legado, extracción, conservación e intercambio para trasplante de órganos y tejidos humanos y su reglamento de aplicación.*
-  Status: “Enviado a Comisión”.
-- **Recorded vote** · cd/22796 · 7 Oct · religious freedom
-  *El diputado presidente propuso y sometió a votación que el proyecto de resolución fuese liberado del trámite de lectura.*
-  Tally: 96 for, 0 against
-  Areas from the bill it names (03810-2024-2028-CD), not the vote's own words.
-- **Recorded vote** · cd/22797 · 7 Oct · religious freedom
-  *Sometido a votación el informe presentado por la Comisión Permanente de Reconocimientos.*
-  Tally: 108 for, 0 against
-  Areas from the bill it names (03810-2024-2028-CD), not the vote's own words.
-- **Recorded vote** · cd/22798 · 7 Oct · religious freedom
-  *Sometido a votación el proyecto de resolución, con su informe, en única discusión.*
-  Tally: 103 for, 0 against
-  Areas from the bill it names (03810-2024-2028-CD), not the vote's own words.
-- **Recorded vote** · cd/22803 · 7 Oct · abortion
-  *El diputado presidente propuso y sometió a votación que el nonagésimo segundo grupo de resoluciones internas fuese liberado del trámite de lectura y dejado sobre la mesa hasta la próxima semana.*
-  Tally: 98 for, 0 against
-  Areas from the bill it names (02953-2024-2028-CD, 03566-2024-2028-CD, 03608-2024-2028-CD), not the vote's own words.
-- **Recorded vote** · cd/22772 · 29 Sep · marriage and family
-  *El diputado presidente propuso y sometió a votación que el proyecto de ley fuese remitido a estudio de una Comisión Bicameral.*
-  Tally: 114 for, 0 against
-  Areas from the bill it names (06384-2024-2028-CD), not the vote's own words.
-  By party (for-against): PRM 88-0, FP 17-0, PLD 4-0, DXC-ALPAÍS 2-0, PRD-PQDC 2-0, PRSC 1-0
-  190 member positions stored.
-- **Recorded vote** · cd/22749 · 22 Sep · religious freedom
-  *La diputada vicepresidenta en funciones de presidenta propuso y sometió a votación que el proyecto de resolución fuese dejado sobre la mesa.*
-  Tally: 103 for, 0 against
-  Areas from the bill it names (03810-2024-2028-CD), not the vote's own words.
-- **Recorded vote** · cd/22734 · 16 Sep · parental rights and education
-  *Sometidas a votación las modificaciones, leídas por Secretaría, propuestas por la diputada Eduviges María Bautista Gomera a los informes y a los proyectos correspondientes al octogésimo octavo grupo de proyectos de resoluciones internas.*
-  Tally: 104 for, 0 against
-  Areas from the bill it names (03628-2024-2028-CD, 03888-2024-2028-CD, 03980-2024-2028-CD), not the vote's own words.
-- **Recorded vote** · cd/22735 · 16 Sep · parental rights and education
-  *Sometidos a votación los informes presentados a los proyectos contenidos en el octogésimo octavo grupo de proyectos de resoluciones internas, con sus modificaciones.*
-  Tally: 100 for, 0 against
-  Areas from the bill it names (03628-2024-2028-CD, 03888-2024-2028-CD, 03980-2024-2028-CD), not the vote's own words.
-- _And 16 more on our ground (3 new bills, 12 stage moves, 1 recorded vote), lower in the order; in the store._
-
-## Honduras
-
-_Congreso Nacional. 2 agenda items, 21 press items. Store last read 9 October 2026._
-
-- **On the plenary agenda** · EXP-2026-1219 · 21 Sep · parental rights and education, religious freedom · tier 1 · **watched**
-  *Plan Nacional de Lectura de la Biblia en centros educativos*
-  Listed by: “Comisión Especial”. Watched: Plan Nacional de Lectura de la Biblia en centros educativos: the Congreso president's initiative instructing the Secretaría de Educación to design and run a Bible-reading plan in schools (press release of 22 September 2…
-  Session: SESIÓN DE Comisión Especial 21 DE SEPTIEMBRE DEL 2026.
-- **Congress press item** · press-6abfe174f02476394aff4ad2 · 2 Oct · free speech and civil liberties · tier 1
-  *Delegación parlamentaria hondureña visita el Senado español*
-- **Congress press item** · press-6abeb893f02476394aff42ee · 1 Oct · free speech and civil liberties · tier 1
-  *Presidente Zambrano reitera defensa de la democracia durante Foro Parlamentario Iberoamericano*
-- **Congress press item** · press-6abaea5ef53d0bb2d82a8da4 · 28 Sep · parental rights and education · tier 1
-  *Agenda legislativa suma iniciativas para educación, salud y abastecimiento de agua*
-- **Congress press item** · press-6ab6c72a10111506d4a7da25 · 25 Sep · free speech and civil liberties · tier 1
-  *Congreso Nacional abre en SPS su primera sede regional para atender directamente a ciudadanos*
-- **Congress press item** · press-6ab591e210111506d4a7d171 · 24 Sep · prostitution and trafficking · tier 1
-  *Diputado propone expulsar y prohibir reingreso a extranjeros que cometan delitos graves en Honduras*
-- **Congress press item** · press-6ab29914f02476394afea9d1 · 22 Sep · religious freedom · tier 1
-  *Zambrano promueve Plan Nacional de Lectura de la Biblia y Valores en las escuelas*
-- **Congress press item** · press-6aaedbf7f02476394afe6757 · 19 Sep · free speech and civil liberties · tier 1
-  *Consejo Nacional de Seguridad declara terroristas a 3 grupos criminales, anuncia Zambrano*
-- **Congress press item** · press-6aa20fde10111506d4a591b2 · 10 Sep · organ donation · tier 1
-  *Comisión de Salud dictamina a favor la Ley de Trasplante de Órganos y Tejidos en Seres Humanos*
-- **Congress press item** · press-6aa1bcd9e87b2068fceafb36 · 9 Sep · prostitution and trafficking · tier 1
-  *Comisiones del Congreso acuerdan crear equipos de trabajo en seguridad con embajada de EE.UU.*
-- **Congress press item** · press-6abb0ddc10111506d4a80b85 · 29 Sep · marriage and family · tier 2
-  *En vigencia ley aprobada por CN que endurece reclusión de grupos declarados terroristas*
-- **Congress press item** · press-6ab6a97810111506d4a7d8f1 · 25 Sep · abortion · tier 2
-  *Hospital Leonardo Martínez recibe 500.000 lempiras del Congreso para fortalecer atención materno-infantil*
-- _And 11 more on our ground (1 agenda item, 10 press items), lower in the order; in the store._
 
 ## Peru
 
@@ -150,6 +66,87 @@ _Congreso de la República. 16 new bills. Store last read 9 October 2026._
   *ACTUALIZACIÓN DE CONFORMIDAD CON LA SEGUNDA DISPOSICIÓN COMPLEMENTARIA TRANSITORIA DEL REGLAMENTO DEL CONGRESO - (ANTES PL 02921/2022-CR - CONGRESO). PROPOSICIÓN LEGISLATIVA QUE MODIFICA LA LEY 30364, LEY PARA PREVENIR, SANCIONAR Y ERRADICAR LA VIOLENCIA CONTRA LAS MUJERES Y LOS INTEGRANTES DEL GRUPO FAMILIAR, A FIN DE PROMOVER UNA CULTURA DE PREVENCIÓN DE LA VIOLENCIA CONTRA LA MUJER Y LOS INTEG…*
   Status: “EN COMISIÓN”.
 - _And 4 more on our ground (4 new bills), lower in the order; in the store._
+
+## Dominican Republic
+
+_Congreso Nacional. 6 new bills, 8 stage moves, 1 recorded vote. Store last read 9 October 2026._
+
+- **New bill** · 06417-2024-2028-CD · 5 Oct · religious freedom · tier 1 · **watched**
+  *Proyecto de ley que regula la libertad religiosa de conciencia y de cultos; y crea el registro nacional de entidades religiosas.*
+  Status: “Depositado”. Watched: Religious freedom of conscience and worship, with a national register of religious bodies.
+- **Stage move** · 06215-2024-2028-CD · 17 Sep · organ donation · tier 1
+  *Proyecto de ley que modifica la Ley núm. 329-98, del 11 de agosto de 1998, que regula la donación y legado, extracción, conservación e intercambio para trasplante de órganos y tejidos humanos y su reglamento de aplicación.*
+  Moved: “Enviado a Comisión”.
+- **New bill** · 06359-2024-2028-CD · 17 Sep · surrogacy and embryology · tier 1
+  *Proyecto de ley de técnicas de reproducción humana asistida de la República Dominicana.*
+  Status: “Enviado a Comisión”.
+- **New bill** · 06336-2024-2028-CD · 15 Sep · organ donation · tier 1
+  *Proyecto de ley que introduce modificaciones a la Ley núm. 329-98, del 11 de agosto de 1998, que regula la donación y legado, extracción, conservación e intercambio para trasplante de órganos y tejidos humanos y su reglamento de aplicación.*
+  Status: “Enviado a Comisión”.
+- **Recorded vote** · cd/22772 · 29 Sep · marriage and family
+  *El diputado presidente propuso y sometió a votación que el proyecto de ley fuese remitido a estudio de una Comisión Bicameral.*
+  Tally: 114 for, 0 against
+  Areas from the bill it names (06384-2024-2028-CD), not the vote's own words.
+  By party (for-against): PRM 88-0, FP 17-0, PLD 4-0, DXC-ALPAÍS 2-0, PRD-PQDC 2-0, PRSC 1-0
+  190 member positions stored.
+- **Stage move** · 05681-2024-2028-CD · 30 Sep · parental rights and education · tier 2
+  *Proyecto de ley que garantiza la enseñanza permanente de la educación moral y cívica en el sistema educativo preuniversitario de la República Dominicana.*
+  Moved: “Fusionado”.
+- **Stage move** · 05282-2024-2028-CD · 28 Sep · parental rights and education · tier 2
+  *Proyecto de ley para la inclusión obligatoria de moral y cívica en el sistema educativo dominicano. TÍTULO MODIFICADO: Ley para la inclusión obligatoria de la asignatura Educación Moral y Cívica en el sistema educativo preuniversitario dominicano.*
+  Moved: “Despachado”.
+- **New bill** · 06384-2024-2028-CD · 28 Sep · marriage and family · tier 2
+  *Proyecto de ley del Código Civil de la República Dominicana.*
+  Status: “Enviado a Comisión”.
+- **Stage move** · 03641-2024-2028-CD · 22 Sep · sex-based rights · tier 2
+  *Proyecto de resolución de la Cámara de Diputados mediante el cual solicita al presidente de la República instruir al Ministerio de la Mujer instalar y poner en funcionamiento una casa de acogida o refugio para mujeres y sus dependientes en situación de violencia de género o intrafamiliar en la provincia Peravia. TÍTULO MODIFICADO: Resolución núm. 00340-04, del 1.o de julio de 2026, de la Cámara d…*
+  Moved: “Aprobado en única lectura”.
+- **Stage move** · 04862-2024-2028-CD · 16 Sep · sex-based rights · tier 2
+  *Proyecto de ley orgánica del sistema nacional para la tutela efectiva, monitoreo telemático y respuesta táctica ante la violencia de género, familiar e intrafamiliar. (DI)*
+  Moved: “Perimido”.
+- **Stage move** · 05587-2024-2028-CD · 16 Sep · parental rights and education · tier 2
+  *Proyecto de resolución de la Cámara de Diputados mediante la cual solicita al presidente de la República instruir al Ministerio de Educación (MINERD) para la evaluación de la implementación de las normativas de convivencia escolar y el fortalecimiento de la autoridad docente en el sistema educativo dominicano. TÍTULO MODIFICADO: Resolución núm. 00377-06, del 16 de septiembre de 2026, de la Cámara…*
+  Moved: “Aprobado en única lectura”.
+- **Stage move** · 05566-2024-2028-CD · 10 Sep · religious freedom · tier 2
+  *Proyecto de ley que establece el régimen de pensiones especiales para ministros del culto.*
+  Moved: “Depositado”.
+- _And 3 more on our ground (2 new bills, 1 stage move), lower in the order; in the store._
+
+## Honduras
+
+_Congreso Nacional. 2 agenda items, 13 press items. Store last read 9 October 2026._
+
+- **Congress press item** · press-6abaea5ef53d0bb2d82a8da4 · 28 Sep · parental rights and education · tier 1 · **watched**
+  *Agenda legislativa suma iniciativas para educación, salud y abastecimiento de agua*
+  Watched.
+- **Congress press item** · press-6ab29914f02476394afea9d1 · 22 Sep · religious freedom · tier 1 · **watched**
+  *Zambrano promueve Plan Nacional de Lectura de la Biblia y Valores en las escuelas*
+  Watched.
+- **On the plenary agenda** · EXP-2026-1219 · 21 Sep · parental rights and education, religious freedom · tier 1 · **watched**
+  *Plan Nacional de Lectura de la Biblia en centros educativos*
+  Listed by: “Comisión Especial”. Watched: Plan Nacional de Lectura de la Biblia en centros educativos: the Congreso president's initiative instructing the Secretaría de Educación to design and run a Bible-reading plan in schools (press release of 22 September 2…
+  Session: SESIÓN DE Comisión Especial 21 DE SEPTIEMBRE DEL 2026.
+- **Congress press item** · press-6abfe174f02476394aff4ad2 · 2 Oct · free speech and civil liberties · tier 1
+  *Delegación parlamentaria hondureña visita el Senado español*
+- **Congress press item** · press-6abeb893f02476394aff42ee · 1 Oct · free speech and civil liberties · tier 1
+  *Presidente Zambrano reitera defensa de la democracia durante Foro Parlamentario Iberoamericano*
+- **Congress press item** · press-6ab591e210111506d4a7d171 · 24 Sep · prostitution and trafficking · tier 1
+  *Diputado propone expulsar y prohibir reingreso a extranjeros que cometan delitos graves en Honduras*
+- **Congress press item** · press-6aa20fde10111506d4a591b2 · 10 Sep · organ donation · tier 1
+  *Comisión de Salud dictamina a favor la Ley de Trasplante de Órganos y Tejidos en Seres Humanos*
+- **Congress press item** · press-6aa1bcd9e87b2068fceafb36 · 9 Sep · prostitution and trafficking · tier 1
+  *Comisiones del Congreso acuerdan crear equipos de trabajo en seguridad con embajada de EE.UU.*
+- **Congress press item** · press-6ab45c42f53d0bb2d82a43f6 · 23 Sep · assisted dying · tier 2
+  *Comisión de Salud conoce reducción de mora quirúrgica y proyectos del Hospital San Felipe*
+- **Congress press item** · press-6ab1e99df53d0bb2d82a1043 · 22 Sep · sex-based rights · tier 2
+  *Cámara Legislativa recibe propuesta de reformas electorales de sociedad civil*
+- **On the plenary agenda** · EXP-2026-1232 · 21 Sep · religious freedom · tier 2
+  *Partida para restauración de templos en Ocotepeque*
+  Listed by: “Comisión Especial”.
+  Session: SESIÓN DE Comisión Especial 21 DE SEPTIEMBRE DEL 2026.
+- **Congress press item** · press-6aa4bdbdf53d0bb2d82888a7 · 12 Sep · religious freedom · tier 2
+  *Congreso Nacional dona 100.000 lempiras para construcción de iglesia Santa Teresita en Valladolid*
+- _And 3 more on our ground (3 press items), lower in the order; in the store._
 
 ## Uruguay
 
@@ -348,16 +345,7 @@ _Asamblea Nacional. No recorded votes are published and the bill register stoppe
 
 _No parliamentary section (NI1). La Gaceta, the official gazette, is read for religious-freedom items: cancellations of the legal status of churches, religious associations and NGOs (NI2; tools/nic_gaceta.py)._
 
-- 17 issue(s) read, 9 Sep to 8 Oct; 2 religious-freedom notice(s); 25 other notice(s) matched other areas and are not shown.
-
-- **Gazette notice** · 2026/181/3 · 5 Oct · religious freedom · tier 1
-  *Reg. 2026-00950 - M. 46069041 - Valor C$ 190.00 ACUERDO MINISTERIAL No. 08-2026-OSFL La suscrita Ministra del Ministerio del Interior de la República de Nicarag*
-  In: “La Gaceta No. 181”.
-  [Source](https://www.lagaceta.gob.ni/la-gaceta-no-181-lunes-05-de-octubre-de-2026/)
-- **Gazette notice** · 2026/181/4 · 5 Oct · religious freedom · tier 2
-  *9587 3. Asociación Departamental de Ajedrez Boaco (ADABA). SEGUNDO: La Representación Legal de los OSFL Deportivas, será ejercida en la forma que determinen su*
-  In: “La Gaceta No. 181”.
-  [Source](https://www.lagaceta.gob.ni/la-gaceta-no-181-lunes-05-de-octubre-de-2026/)
+- 17 issue(s) read, 9 Sep to 8 Oct; 0 religious-freedom notice(s); 24 other notice(s) matched other areas and are not shown; 2 matched notice(s) with no cancellation or religious body in them were left out (config/latam-noise.yaml).
 
 ## Coverage
 
@@ -377,5 +365,6 @@ _No parliamentary section (NI1). La Gaceta, the official gazette, is read for re
 - **Nicaragua:** La Gaceta only, monthly; the Assembly's votes are not followed (NI1).
 - **Guatemala** is collected fortnightly on GitHub (X9), so a month holds two pulls.
 - Stage moves for Colombia, Chile, Peru, Ecuador, Guatemala, Uruguay and El Salvador come from the alert pass, which sees a watched bill's status change between collections; their stores keep no change dates.
+- **Left out by the noise filters** (config/latam-noise.yaml, config/latam-mute.yaml; never a watched item): Dominican Republic 8 (6 procedural votes, 1 excluded title, 1 vote on excluded bills only); Nicaragua 2 (2 items without the required context).
 - Specification and decisions: [docs/country-decisions-2026-10-10.md](https://github.com/thejoycething-code/parl-monitor/blob/main/docs/country-decisions-2026-10-10.md).
 
