@@ -1,6 +1,8 @@
 """Tables for the US Congress monitor (phase 1, 9 October 2026): members,
 bills with their cosponsors, House roll calls and every member's position,
-and the week ahead (us_schedule, us_meetings, us_schedule_weeks).
+and the week ahead (us_schedule, us_meetings, us_schedule_weeks); the
+Congressional Record's floor speeches on our ground (us_record_days,
+us_record_speeches, us_record_bills; phase 3a).
 
 See docs/us-scope.md for what was measured and why. The schema follows the
 Canadian precedent (src/ca_store.py): its own module, idempotent statements,
@@ -247,6 +249,81 @@ SCHEMA = (
         first_seen   TEXT,
         last_seen    TEXT
     )""",
+    # THE CONGRESSIONAL RECORD (phase 3a, 9 October 2026), from
+    # tools/us_record.py: GovInfo's CREC collection, one package per day,
+    # one granule per segment of the day (a debate, a statement, a
+    # resolution's text). The rule for what is stored and how it is
+    # classified is documented once, in tools/us_record.py.
+    #
+    # One row per DAY asked of GovInfo, whatever it held: a pro forma day
+    # with no speech is read, not missed.
+    """CREATE TABLE IF NOT EXISTS us_record_days (
+        package_id   TEXT PRIMARY KEY,   -- 'CREC-2026-09-17'; 'CREC-2025-01-03-v171'
+        date         TEXT NOT NULL,      -- ISO, the issue's date
+        congress     INTEGER,
+        last_modified TEXT,              -- GovInfo's lastModified when read
+        granules     INTEGER,            -- every granule in the day
+        speech_granules INTEGER,         -- granules with a member speaking, procedure left out
+        speeches     INTEGER,            -- member turns read (one member in one granule)
+        ours         INTEGER,            -- of those, on our ground (stored)
+        unresolved   INTEGER,            -- turns whose label named no member in the metadata
+        status       TEXT,               -- 'read' / 'gap'
+        note         TEXT,
+        read_at      TEXT,               -- when the day was last read
+        first_seen   TEXT,
+        last_seen    TEXT                -- when the listing last showed it
+    )""",
+    # ONE ROW PER MEMBER PER GRANULE, ON OUR GROUND ONLY: everything a member
+    # said in one segment of the day, joined. Keyed on the granule ID, never a
+    # title. The text is NOT stored: an excerpt (the best-matching passage,
+    # for the takeaway line and a quote) and the word count. The granule's
+    # own page is the provenance.
+    """CREATE TABLE IF NOT EXISTS us_record_speeches (
+        speech_key   TEXT PRIMARY KEY,   -- 'CREC-2026-09-17-pt1-PgS4774-3/M001244'
+        granule_id   TEXT NOT NULL,      -- 'CREC-2026-09-17-pt1-PgS4774-3'
+        package_id   TEXT NOT NULL,
+        date         TEXT NOT NULL,
+        chamber      TEXT NOT NULL,      -- 'house' / 'senate'
+        section      TEXT,               -- 'house', 'senate', 'extensions' (of Remarks)
+        sub_class    TEXT,               -- GovInfo's subGranuleClass: 'SLEGISLATIVE', ...
+        title        TEXT,               -- the granule's heading
+        citation     TEXT,               -- '172 Cong. Rec. S4774'
+        bioguide     TEXT,               -- NULL when the label named no known member
+        speaker      TEXT,               -- the label as printed: 'Mrs. MOODY'
+        name         TEXT,               -- 'Ashley Moody'
+        party        TEXT,               -- AT THE TIME, from the granule's metadata
+        state        TEXT,
+        words        INTEGER,
+        bill_keys    TEXT,               -- JSON: bills the granule cites, its subject first
+        subject_bill TEXT,               -- the bill the granule is ABOUT (title or headline), or NULL
+        own_areas    TEXT,               -- JSON: matched on the speech's own words and heading
+        areas        TEXT,               -- JSON: own, plus a watched or subject bill (the rule)
+        areas_from   TEXT,               -- 'own' / 'watch' / 'bill'
+        matched_terms TEXT,
+        tier         INTEGER,
+        excerpt      TEXT,               -- the best-matching passage, clipped
+        url          TEXT,               -- the granule's details page on govinfo.gov
+        triage_score INTEGER,
+        why_it_matters TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    # Every bill a SPEECH granule cites, ours or not, keyed on the bill KEY
+    # ('119/hr/28'): the per-bill count of floor speeches reads this.
+    # context is GovInfo's: TITLE and HEADERLINE mean the granule is about
+    # the bill; FIRSTPARAGRAPH and OTHER are citations.
+    """CREATE TABLE IF NOT EXISTS us_record_bills (
+        granule_id   TEXT NOT NULL,
+        bill_key     TEXT NOT NULL,
+        context      TEXT,               -- the strongest context seen in the granule
+        date         TEXT,
+        chamber      TEXT,
+        speakers     INTEGER,            -- members speaking in the granule
+        PRIMARY KEY (granule_id, bill_key)
+    )""",
+    "CREATE INDEX IF NOT EXISTS us_record_speeches_date ON us_record_speeches (date)",
+    "CREATE INDEX IF NOT EXISTS us_record_speeches_member ON us_record_speeches (bioguide)",
+    "CREATE INDEX IF NOT EXISTS us_record_bills_bill ON us_record_bills (bill_key)",
     # Every order PDF read, once: an order list is final when published, so
     # this is what makes the grant reader incremental.
     """CREATE TABLE IF NOT EXISTS us_court_orders (
@@ -261,7 +338,8 @@ SCHEMA = (
 
 TABLES = ("us_members", "us_bills", "us_cosponsors", "us_divisions", "us_votes",
           "us_schedule", "us_meetings", "us_schedule_weeks",
-          "us_fr_documents", "us_court_cases", "us_court_orders")
+          "us_fr_documents", "us_court_cases", "us_court_orders",
+          "us_record_days", "us_record_speeches", "us_record_bills")
 
 MEMBER_UPSERT = (
     "INSERT INTO us_members (bioguide, name, party, state, district, chamber, "
@@ -421,6 +499,15 @@ def add_watch_areas(res, bill_key, path=None):
     if res.tier is None:
         res.tier = 2
     return res
+
+
+def clean_key(value):
+    """An API key as a secrets file may hold it: pasted from Markdown, the
+    key in config/secrets.yaml arrived wrapped in backticks (9 October 2026)
+    and every keyed request answered 401 or 403. Surrounding whitespace,
+    quotes and backticks are dropped; None or empty stays None."""
+    v = (value or "").strip().strip("`'\"").strip()
+    return v or None
 
 
 def dumps(values):

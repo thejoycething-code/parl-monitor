@@ -1575,6 +1575,11 @@ TABLES = (
     "us_fr_documents",
     "us_court_cases",
     "us_court_orders",
+    # The Congressional Record (tools/us_record.py, phase 3a, 9 October
+    # 2026), same module.
+    "us_record_days",
+    "us_record_speeches",
+    "us_record_bills",
     # Ireland, the Oireachtas (tools/ie_rollcalls.py), created by
     # src/ie_store.ensure_schema -- declared from day one.
     "ie_members",

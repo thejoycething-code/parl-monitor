@@ -582,7 +582,9 @@ CG_AMENDMENT = "https://api.congress.gov/v3/amendment/{0}/{1}/{2}?format=json"
 
 def congress_key():
     from src import publish
-    return publish.load_secrets().get("congress_api_key") or None
+    # clean_key: the key once arrived wrapped in backticks, and every keyed
+    # request was refused (9 October 2026).
+    return us_store.clean_key(publish.load_secrets().get("congress_api_key"))
 
 
 def _cg(client, url, slug, key):
