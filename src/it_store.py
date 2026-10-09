@@ -31,7 +31,8 @@ GROUP IS STORED PER VOTE, as party is in Canada and the US: Italian members
 change parliamentary group often. `it_votes.grp` is the group at the vote;
 `it_members.grp` is only the latest.
 
-POSITIONS ARE STORED ONLY FOR VOTES ON OUR GROUND. The 19th legislature has
+POSITIONS ARE STORED FOR EVERY VOTE since X15 (Chris, 10 October 2026), our
+ground first. Before that, ONLY FOR VOTES ON OUR GROUND. The 19th legislature has
 about 1.6 million Senate positions and 9.6 million Camera positions (Openpolis
 count); storing them all would treble the store for votes nobody reads. A
 division on our ground with `positions_fetched = 0` is fetched on the next

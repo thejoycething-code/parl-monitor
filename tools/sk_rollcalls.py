@@ -359,9 +359,12 @@ def pending_positions(conn, term, everything=False):
         "ORDER BY voting_id DESC", (term,)).fetchall()
     cols = ("voting_id", "areas", "agreed", "disagreed", "abstained", "not_voting", "absent")
     out = [dict(zip(cols, r)) for r in rows]
+    ours = [r for r in out if on_our_ground(json.loads(r["areas"] or "[]"))]
     if everything:
-        return out
-    return [r for r in out if on_our_ground(json.loads(r["areas"] or "[]"))]
+        # X15 (10 October 2026): every position, but our ground first, so the
+        # backlog of the rest never delays a vote that matters.
+        return ours + [r for r in out if r not in ours]
+    return ours
 
 
 def pull_positions(conn, client, today, term=CURRENT_TERM, everything=False, budget=None,
@@ -504,7 +507,9 @@ def main():
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--taxonomy", help="term list to classify with (default: config/taxonomy-sk.yaml "
                                        "when it exists, otherwise none)")
-    ap.add_argument("--positions", choices=("ours", "all", "none"), default="ours",
+    # X15 (Chris, 10 October 2026): store every member position. "all" reads
+    # our ground first, then the rest as the budget allows, week by week.
+    ap.add_argument("--positions", choices=("ours", "all", "none"), default="all",
                     help="which votes' per-member pages to read (default: ours)")
     ap.add_argument("--no-interpellations", action="store_true")
     ap.add_argument("--reclassify", action="store_true",

@@ -253,7 +253,8 @@ class TestPulls(unittest.TestCase):
         members, g = itr.pull_senators(conn, client, "2026-10-09")
         self.assertEqual(g, 0)
         fetched, gaps = itr.pull_positions(conn, client, "2026-10-09", members)
-        self.assertEqual((fetched, gaps), (24, 0))
+        # X15 (10 October 2026): every vote of the sitting, our 24 first.
+        self.assertEqual((fetched, gaps), (45, 0))
         n = conn.execute("SELECT COUNT(*) FROM it_votes WHERE division_key='senato-19-232-24'"
                          ).fetchone()[0]
         self.assertGreater(n, 100)

@@ -645,19 +645,27 @@ def pull_camera_votes(conn, client, today, tax, wl, leg=LEGISLATURE, log=print, 
 
 
 def pull_positions(conn, client, today, members, leg=LEGISLATURE, log=print, budget=None):
-    """Positions for every division on our ground that has none yet, newest
-    first. Returns (fetched, gaps)."""
-    todo = [(k, ch, d, a) for k, ch, d, a in conn.execute(
+    """Positions for every division that has none yet, newest first, our
+    ground before the rest (X15, Chris, 10 October 2026: store every member
+    position; until then only our ground was read). Returns (fetched, gaps).
+    A budget spent with OUR ground still owed is a gap; the rest of the
+    backlog is disclosed in the log and drains week by week."""
+    rows = conn.execute(
         "SELECT division_key, chamber, date, areas FROM it_divisions WHERE legislature=? "
-        "AND positions_fetched=0 ORDER BY date DESC, division_key DESC", (leg,))
-        if on_our_ground(json.loads(a or "[]"))]
+        "AND positions_fetched=0 ORDER BY date DESC, division_key DESC", (leg,)).fetchall()
+    ours = [r for r in rows if on_our_ground(json.loads(r[3] or "[]"))]
+    todo = ours + [r for r in rows if not on_our_ground(json.loads(r[3] or "[]"))]
     fetched = gaps = 0
     for key, chamber, date, _areas in todo:
         if budget is not None and budget.exhausted():
             log(budget.disclose("division positions", fetched))
-            _gap(conn, today, "positions: budget spent with {0} division(s) left".format(
-                len(todo) - fetched), log)
-            return fetched, gaps + 1
+            if fetched < len(ours):
+                _gap(conn, today, "positions: budget spent with {0} division(s) on our ground "
+                     "left".format(len(ours) - fetched), log)
+                return fetched, gaps + 1
+            log("  positions: {0} division(s) off our ground still owed; next run".format(
+                len(todo) - fetched))
+            return fetched, gaps
         try:
             if chamber == "senato":
                 _, lg, sitting, num = key.split("-")

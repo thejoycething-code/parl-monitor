@@ -39,7 +39,9 @@ config/taxonomy-qc.yaml, and the two are unioned: on the titles of the
 current legislature the German list found 163 on our ground, the French
 109, and they agreed on only 57.
 
-POSITIONS ARE STORED FOR DIVISIONS ON OUR GROUND ONLY (the Canada rule).
+POSITIONS FOR EVERY DIVISION (X15, Chris, 10 October 2026), our ground
+first. Until then they were stored for divisions on our ground only (the
+Canada rule), which is what the next lines measured.
 The Nationalrat cast 4,201 votes in this legislature, which is 840,000
 positions; a division that gains an area on --reclassify has its positions
 fetched on the next run (Voting by IdVote, or the session spreadsheet).
@@ -886,12 +888,14 @@ def derive_division_areas(conn, tax):
 
 def backfill_positions(conn, client, today, sessions, cache, log=print, budget=None,
                        limit=None):
-    """Positions for every division on our ground that has none yet.
-    Returns (filled, gaps)."""
-    todo = [(k, c, v, s, a) for (k, c, v, s, a) in conn.execute(
+    """Positions for every division that has none yet: our ground first,
+    then the rest (X15, Chris, 10 October 2026: store every member position;
+    until then only our ground was read). Returns (filled, gaps)."""
+    rows = conn.execute(
         "SELECT division_key, council, vote_id, session_id, areas FROM ch_divisions "
-        "WHERE COALESCE(positions, 0) = 0 ORDER BY division_key")
-        if on_our_ground(json.loads(a or "[]"))]
+        "WHERE COALESCE(positions, 0) = 0 ORDER BY division_key").fetchall()
+    todo = ([r for r in rows if on_our_ground(json.loads(r[4] or "[]"))]
+            + [r for r in rows if not on_our_ground(json.loads(r[4] or "[]"))])
     names = SrNames(conn)
     by_id = {s["id"]: s for s in sessions}
     filled = gaps = 0
