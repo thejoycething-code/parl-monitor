@@ -222,7 +222,12 @@ _SMALL = {"v.": "v.", "et": "et", "al.": "al.", "of": "of", "and": "and", "the":
           "for": "for", "in": "in", "on": "on", "to": "to"}
 _UPPER = {"EPA", "FCC", "FTC", "NLRB", "FDA", "DHS", "HHS", "USA", "US", "LLC", "TX",
           "CA", "NY", "FL", "WA", "DC", "TPS", "FBI", "IRS", "CIA", "ATF", "DOJ", "LP", "II",
-          "III", "NJ", "DCJ", "BP"}
+          "III", "NJ", "DCJ", "BP"} | {
+    # State abbreviations as the Clerk prints them ('ATT'Y GEN. OF OK'),
+    # less the four that are also English words (IN, OR, ME, HI).
+    "AL", "AK", "AZ", "AR", "CO", "CT", "DE", "GA", "ID", "IL", "IA", "KS", "KY", "LA",
+    "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NM", "NC", "ND", "OH",
+    "OK", "PA", "RI", "SC", "SD", "TN", "UT", "VT", "VA", "WV", "WI", "WY"}
 
 
 def case_name(caps):
@@ -231,10 +236,10 @@ def case_name(caps):
     for i, w in enumerate((caps or "").split()):
         bare = w.strip(",.;:()")
         low = w.lower()
-        if bare.upper() in _UPPER or "&" in bare:
-            words.append(w.upper())
-        elif i and low in _SMALL:
+        if i and low in _SMALL:
             words.append(_SMALL[low])
+        elif bare.upper() in _UPPER or "&" in bare:
+            words.append(w.upper())
         else:
             words.append(w[:1].upper() + w[1:].lower())
     return " ".join(words)

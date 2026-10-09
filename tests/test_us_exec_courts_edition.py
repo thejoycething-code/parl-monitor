@@ -113,6 +113,9 @@ class CourtTests(unittest.TestCase):
         case(self.conn, "grant/26-100", "grant", "Doe v. State", "26-100", "2026-10-05", [3],
              summary="Whether a ban on puberty blockers survives scrutiny.", term="26")
         case(self.conn, "opinion/25/40", "opinion", "Tax v. Revenue", "25-1", "2026-05-01", [])
+        # Consolidated under another docket, granted before the cutoff.
+        case(self.conn, "grant/24-38", "grant", "Little v. Hecox", "24-38", "2025-07-03", [5],
+             term="25")
 
     def test_this_week_pending_and_decided(self):
         text = usm.render_edition(self.conn, TODAY)
@@ -122,9 +125,14 @@ class CourtTests(unittest.TestCase):
         pending = sec.split("### Granted, awaiting decision")[1].split("### Decided")[0]
         self.assertIn("Doe v. State", pending)
         self.assertNotIn("Chiles", pending)                         # decided since
+        self.assertNotIn("Hecox", pending)                          # before the cutoff
         self.assertIn("### Decided on our ground, October Term 2025 (1)", sec)
         self.assertNotIn("Tax v. Revenue", sec)
         self.assertIn("Supreme Court**: Doe v. State (certiorari granted)", text)
+
+    def test_the_cutoff_follows_the_courts_june(self):
+        self.assertEqual(usm.grant_cutoff("2026-10-09"), "2026-01-20")
+        self.assertEqual(usm.grant_cutoff("2026-03-01"), "2025-01-20")
 
     def test_the_dm_carries_the_court_line(self):
         self.assertIn("Doe v. State", usm.dm_summary(self.conn, TODAY))

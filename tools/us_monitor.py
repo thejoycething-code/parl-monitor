@@ -377,6 +377,12 @@ def executive_section(conn, since, today, names):
     return out
 
 
+def grant_cutoff(today):
+    """20 January of the year of the last June the Court has finished."""
+    d = datetime.date.fromisoformat(today)
+    return "{0}-01-20".format(d.year if d.month >= 7 else d.year - 1)
+
+
 def court_section(conn, since, today, names):
     week = _rows(conn, "SELECT * FROM us_court_cases WHERE decided > ? AND decided <= ? "
                        "ORDER BY decided DESC, case_key", (since, today))
@@ -386,9 +392,15 @@ def court_section(conn, since, today, names):
             "SELECT docket FROM us_court_cases WHERE kind='opinion'") for d in (x or "").split(",")}
     except sqlite3.OperationalError:
         all_dockets = set()
+    # A grant is awaiting decision until an opinion carries its docket. The
+    # slip-opinion page lists only the LEAD docket of consolidated cases
+    # (Little v. Hecox went with West Virginia v. B. P. J.), so a grant made
+    # before the cutoff is taken as decided: a case granted by mid-January is
+    # argued and decided by the end of June.
+    cutoff = grant_cutoff(today)
     pending = [r for r in _rows(conn, "SELECT * FROM us_court_cases WHERE kind='grant' "
                                       "ORDER BY decided DESC")
-               if r["docket"] not in all_dockets]
+               if r["docket"] not in all_dockets and (r["decided"] or "") >= cutoff]
     term = max((r["term"] for r in opinions if r["term"]), default=None)
     this_term = sorted((r for r in opinions if r["term"] == term),
                        key=lambda r: r["decided"] or "", reverse=True)
@@ -406,7 +418,9 @@ def court_section(conn, since, today, names):
            "presented; the case name alone is party names and matches nothing.*", "",
            "### This week ({0})".format(len(week)), ""]
     out += [line(r) for r in week] or ["*No opinion or grant on our ground this week.*"]
-    out += ["", "### Granted, awaiting decision ({0})".format(len(pending)), ""]
+    out += ["", "### Granted, awaiting decision ({0})".format(len(pending)), "",
+            "*Grants since {0} with no opinion yet; earlier ones were decided last term, "
+            "some under a consolidated case's docket.*".format(cutoff), ""]
     out += [line(r) for r in pending] or ["*None on our ground.*"]
     if term:
         out += ["", "### Decided on our ground, October Term 20{0} ({1})".format(
