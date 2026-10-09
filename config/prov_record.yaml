@@ -1754,3 +1754,17 @@ provinces:
           The Journal's roll call with this division's totals (45-60-2)
           reads both homonyms by riding, Mme Ouellet (Vachon) among those abstaining: the bare
           label is Martine Ouellet.
+  "sk":
+    label_aliases:
+      - printed: "Barrett Kropf"
+        member: "barret-kropf"
+        date: 2025-05-05
+        document: "https://docs.legassembly.sk.ca/legdocs/Assembly/Minutes/30L1S/20250505Minutes-HTML.htm"
+        verified_against: >-
+          The same day's Minutes print "Barret Kropf" in the other division's yeas; the 30th
+          Legislature's Hansard covers list one Kropf (Barret Kropf, Dakota-Arm River) and no
+          Barrett. Read 9 Oct 2026.
+        why: >-
+          The second division of 5 May 2025 prints "Barrett Kropf" among the yeas. It was the
+          division's only unresolved label (Christopher, 9 Oct 2026: "Something else must need
+          doing to cover gaps").
