@@ -1,0 +1,2 @@
+# Round 2: the SIL's own hosts (the iframe behind ConsultaProyectos.aspx) and the plain-HTTP SIL box.
+--max 6 --show-links 80 'https://consultassil3.asamblea.go.cr/frmConsultaProyectos.aspx' 'https://consultassil.asamblea.go.cr/' 'http://sil.asamblea.go.cr/' 'http://biblioteca.asamblea.go.cr/' 'https://www.asamblea.go.cr/glcp/votaciones_plenario/Forms/AllItems.aspx'
