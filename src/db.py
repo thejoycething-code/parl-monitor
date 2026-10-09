@@ -1558,6 +1558,15 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # El Salvador's Asamblea Legislativa (tools/sv_rollcalls.py), created by
+    # src/sv_store.ensure_schema -- declared from day one.
+    "sv_members",
+    "sv_sessions",
+    "sv_dictamenes",
+    "sv_piezas",
+    "sv_divisions",
+    "sv_votes",
+    "sv_vote_days",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1832,4 +1841,6 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import sv_store
+    sv_store.ensure_schema(conn)
     return conn
