@@ -874,6 +874,12 @@ ONCE_EVER = {
     # taxonomy matches it, so most months add none; nic_gazette_issues (no
     # sighting column) records every issue read.
     "nic_gazette_items": "written only for La Gaceta notices on our ground; most months add none",
+    # Hungary (10 October 2026, HU7): loaded once, by hand, from karzat's open
+    # data (jobs/hu-karzat-backfill.sh), a static source that ends on 28 August
+    # 2026; nothing re-stamps them until the W-API's collector (HU1) exists.
+    "hu_members": "loaded once by hand from karzat's static open data (HU7); no feed re-stamps them",
+    "hu_papers": "loaded once by hand from karzat's static open data (HU7); no feed re-stamps them",
+    "hu_divisions": "loaded once by hand from karzat's static open data (HU7), votes to 28 August 2026",
     # 8 October 2026, MEASURED: the Sunday pull writes sections only for the
     # sitting days of the week just ended (run_weekly.sweep_hansard_sections),
     # so both Houses in conference recess means no rows, and it failed the
