@@ -222,14 +222,42 @@ behind, for at most 150 keyed requests a run. If one state ever matters
 enough to be same-day, New Jersey's bulk zips or New York's API
 (`window=7d`) are the ones to self-run.
 
-### 4 and 5. LegiScan and the states' own sources (not yet measured)
+### 4. LegiScan's free tier (measured from what is reachable, 9 October 2026)
 
-LegiScan's free tier (reportedly 30,000 queries a month; a free key
-Christopher would request himself; its site showed a Cloudflare challenge
-before and was not bypassed) and the official bulk sources beyond the above
-(Texas FTP, California downloads, New York's API, New Jersey and
-Massachusetts) are documented as options only. None is needed for the route
-above.
+- **legiscan.com** (its API page, terms, datasets) answers a Cloudflare
+  challenge to our client: recorded, not bypassed. **api.legiscan.com is not
+  behind it**: the API manual (v1.91, revision 20250317) downloads from there.
+- **Limit:** "Public service keys have a monthly limit of 30,000 queries"
+  (the manual).
+- **Change detection:** load each session's dataset (getDatasetList /
+  getDataset: a base64 ZIP of every bill, vote and person, rebuilt weekly),
+  then `getMasterListRaw` per state compares an MD5 `change_hash` per bill,
+  and `getBill` fetches only the changed ones. Minimum refresh: master list
+  hourly, bill 3 hours, datasets weekly.
+- **Budget:** a daily master-list check for 50 states is about 1,500 queries
+  a month; with changed bills and weekly datasets, well under 30,000.
+- **Licence:** search snippets of legiscan.com say CC BY 4.0, but the wording
+  could not be read through Cloudflare. **Christopher reads
+  https://legiscan.com/legiscan and /terms-of-service in a normal browser**
+  before we rely on it.
+- **Key:** a free OneVote account at legiscan.com, then the API form at
+  https://legiscan.com/legiscan. Christopher does this himself; questions to
+  api@legiscan.com.
+- **Verdict:** the best free route to same-day data for all 50 states, if the
+  licence suits. Not needed for the route above, which is a day behind.
+
+### 5. The states' own sources (measured from the UK, 9 October 2026)
+
+| State | Source | Key | From the UK | What it gives | Verdict |
+|---|---|---|---|---|---|
+| Texas | anonymous FTP `ftp.legis.state.tx.us/bills/<session>/billhistory/` | no | answers (FTP only; https times out) | one XML per bill (actions with times, sponsors, subjects, committees, versions), rebuilt nightly at 02:00 in session; **no member roll calls**; the Acceptable Use notice asks data users to use the FTP | easy |
+| California | `downloads.leginfo.legislature.ca.gov` | no | answers | full session 1.2 GB; nightly change files of 2 KB to 1.2 MB (about 21:20 Pacific), with votes per member | moderate (one load, then daily deltas) |
+| New York | `legislation.nysenate.gov/api/3` | free key | **times out** | bills, updates since a time, per-member votes for both houses | easy once keyed, but needs a US runner |
+| New Jersey | `pub.njleg.gov/leg-databases/` | no (expected) | **times out** | bills, actions, votes, sponsors (not measured) | needs a US runner to measure |
+| Massachusetts | `malegislature.gov/api` | no (inferred) | **refused** | document list; history and roll calls need HTML | moderate to hard, needs a US runner |
+
+New York, New Jersey and Massachusetts look closed to non-US addresses, so
+any direct collector for them would run on GitHub's runners, not the Mini.
 
 ## What Open States gives, per state
 
