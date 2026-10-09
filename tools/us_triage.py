@@ -109,9 +109,12 @@ def pending(conn):
             continue
         title = "{0} vote {1} ({2}) {3}".format(r["chamber"].title(), r["roll"],
                                                  r["date"] or "?", r["legis_num"] or "")
-        text = " ".join("{0}. {1}. {2}Result: {3}.".format(
+        # The amendment's own purpose (phase 1b) is the substance of a House
+        # amendment vote, whose Clerk description is usually blank: without it
+        # the judge scored the NDAA gender-transition amendment 1 (9 October).
+        text = " ".join("{0}. {1}. {2}. Result: {3}.".format(
             r["question"] or "", r["description"] or "",
-            "Amendment: {0}. ".format(r["amendment_text"]) if r["amendment_text"] else "",
+            "Amendment: {0}".format(r["amendment_text"]) if r["amendment_text"] else "",
             r["result"] or "?").split())
         dated.append((r["date"] or "",
                       triage.TriageItem(id="us_divisions:" + r["division_key"], title=title,

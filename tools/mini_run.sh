@@ -43,6 +43,7 @@ fail() {
   hc="HC_$UPPER"; [ -n "${!hc:-}" ] && curl -fsS -m 10 --retry 3 "${!hc}/fail" >/dev/null
   # Never let the alerter mask the failure: it prints when Slack is down.
   ( cd "$CLONE" 2>/dev/null &&
+    FAILED_DETAIL="$(tail -n 15 "${JOBLOG:-/dev/null}" 2>/dev/null)" \
     FAILED_WORKFLOW="Mini: $JOB" FAILED_STEP="$STAGE" \
     FAILED_RUN_URL="Mac Mini log: $RUNNER/logs/$JOB.log" \
     python3 tools/alert_failure.py )
@@ -98,19 +99,26 @@ else
 fi
 
 # 3. The job, under a time limit (perl alarm: macOS ships no timeout(1)).
+# Its output also goes to logs/<job>.last, whose tail the failure DM quotes.
 STAGE="jobs/$JOB.sh"
-perl -e 'alarm shift; exec @ARGV' "$JOB_TIMEOUT" bash "jobs/$JOB.sh"
-rc=$?
-[ "$rc" -eq 142 ] && fail "timed out after ${JOB_TIMEOUT}s"
-[ "$rc" -ne 0 ] && fail "exit $rc"
+JOBLOG="$RUNNER/logs/$JOB.last"
+perl -e 'alarm shift; exec @ARGV' "$JOB_TIMEOUT" bash "jobs/$JOB.sh" 2>&1 | tee "$JOBLOG"
+rc=${PIPESTATUS[0]}
+job_failed=
+[ "$rc" -eq 142 ] && job_failed="timed out after ${JOB_TIMEOUT}s"
+[ "$rc" -ne 0 ] && [ -z "$job_failed" ] && job_failed="exit $rc"
 
-# 4. Commit data/, plus any folder the job names. Publishing the store and
+# 4. Commit data/, plus any folder the job names. EVEN WHEN THE JOB FAILED,
+# as GitHub's "Commit state" steps do (if: always()): a job publishes what it
+# completed before failing, and a published store or archive whose sidecar is
+# never committed leaves main pointing at the old one, so every later pull
+# refuses the sha. The failure is reported once state is safe (step 4b). Publishing the store and
 # the raw archive is the job's own last step (db_state.py / raw_state.py --push, as on GitHub),
 # and each push rewrites its sidecar. A store that changed while its
 # sidecar did not was never published: committing then would go out half.
 STAGE="commit state"
 if [ data/parl-monitor.db -nt data/.store-pulled ] && git diff --quiet -- data/parl-monitor.db.json; then
-  fail "the job changed the store but did not publish it (db_state.py --push)"
+  fail "the job changed the store but did not publish it (db_state.py --push)${job_failed:+; the job itself: $job_failed}"
 fi
 git add -A data
 # A job that writes outside data/ names the folder: "# mini_run: commit editions".
@@ -138,6 +146,11 @@ if ! git diff --cached --quiet; then
 else
   echo "  nothing to commit"
 fi
+
+# 4b. Now the job's own failure, if it had one. No slot is recorded, so the
+# GitHub backup runs the slot again.
+STAGE="jobs/$JOB.sh"
+[ -n "$job_failed" ] && fail "$job_failed"
 
 # 5. Record the slot, so the GitHub backup skips itself. Only for main: a
 # branch test must not tell production that the slot ran.

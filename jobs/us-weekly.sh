@@ -134,6 +134,11 @@ if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2
   JUDGE=$(gh variable get US_JUDGE -R thejoycething-code/parl-monitor 2>/dev/null || true)
 fi
 if [ "$JUDGE" = "on" ]; then
+  # US_RESCORE: space-separated keys to judge again on a human's say-so
+  # ('119/hr/28', 'us_divisions:house-119-1-240'). Spend: announce it.
+  if [ -n "${US_RESCORE:-}" ]; then
+    python3 tools/us_triage.py --rescore $US_RESCORE --dry-run | tee "$LOG/us-triage-rescore.log"
+  fi
   python3 tools/us_triage.py --limit 800 --budget-seconds 1800 | tee "$LOG/us-triage.log"
 fi
 

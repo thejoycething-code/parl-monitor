@@ -54,6 +54,11 @@ def message(env=None):
         lines = [":rotating_light: *{0}* failed.".format(name)]
     if step:
         lines.append("Step: {0}".format(step))
+    # The Mac Mini runner has no run page to link, so it sends the end of the
+    # job's own output instead (tools/mini_run.sh).
+    detail = (env.get("FAILED_DETAIL") or "").strip()
+    if detail:
+        lines.append("```\n{0}\n```".format(detail[-2500:]))
     lines.append(url)
     lines.append("_Whatever the run completed WAS published (the publish "
                  "step runs on failure too, so partial progress is not "
