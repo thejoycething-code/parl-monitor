@@ -134,3 +134,19 @@ docs/mac-mini-runner.md (the migration list for the launchd runner) is not on th
 - **Exit codes:** the collector exits 3 when it stored what it could and recorded gaps; the script publishes and exits 0 so the commit step runs. Any other failure publishes nothing and exits non-zero.
 - **Install on the Mini** (after the branch is merged to main, because `mini_run.sh` records the slot only for main): `cp ops/launchd/net.citizengo.parlmonitor.co-weekly.plist ~/Library/LaunchAgents/` then `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.co-weekly.plist`.
 - **Sources:** www.camara.gov.co, leyes.senado.gov.co and www.datos.gov.co all answered the laptop on 9 October 2026 with the honest UA. Whether the Mini's network fares differently has not been tried.
+
+## Latam monthly and the Latam alerts (10 October 2026, branch `latam`)
+
+The Latam monitor (docs/country-decisions-2026-10-10.md, "Edition structure"): one monthly edition for the fifteen CitizenGO Latam countries, to Chris alone by DM, plus instant alerts between editions.
+
+| Job | Mini (launchd, London time) | GitHub backup (UTC) | Gate |
+|---|---|---|---|
+| `latam-monthly` | the 1st of each month, 13:15 (`ops/launchd/net.citizengo.parlmonitor.latam-monthly.plist`) | the 1st, 12:15, retry 15:15 (`.github/workflows/latam-monthly.yml`) | `MINI_LAST_LATAM_MONTHLY`, grace 200 minutes |
+
+- **What it runs:** `jobs/latam-monthly.sh`: Venezuela's news check (`tools/ve_news.py`), Nicaragua's La Gaceta check (`tools/nic_gaceta.py`), the alerts for those two, then `tools/latam_monitor.py --edition --dm` and the publish. It needs the store (it reads every Latam country's tables), so it carries no `no-store` line, and it commits `editions/` (`# mini_run: commit editions`). An edition already committed for the day is rewritten, not resent.
+- **The slot:** nothing on main starts at :15, and the 1st falls on any weekday, so the slot avoids every weekly's hour (the nearest: Dominican Republic weekly, Sundays 12:00; Bolivia weekly, Sundays 12:30). Saturday is untouched except when the 1st is a Saturday, and then only at :15.
+- **The alerts ride on the country jobs.** Each Latam country's weekly script (`jobs/{co,cl,pe,ec,bo,uy,gt,pa,hn,sv,do}-weekly.sh`) runs `tools/latam_alerts.py --country <cc> --send` straight after its collector, on the Mini and on GitHub alike; each workflow passes `SLACK_BOT_TOKEN` to that step. The ledger is `data/latam-alerts/<cc>.json` (one file per country, so two jobs never edit one file), committed with `data/`. The first pass for a country seeds the ledger and sends nothing. On the Mini the token comes from `~/runner/env`, as for Division watch; without it the DM is reported skipped and the run goes on.
+- **No consolidated `latam-weekly`.** Each country's Mini plist and GitHub workflow stay as they are: a single plist running eleven collectors in sequence would need every workflow's gate moved to one `MINI_LAST_LATAM_WEEKLY` stamp at one time, and the collectors' slots were spread on purpose (Thursday to Sunday). Guatemala stays fortnightly on GitHub (X9).
+- **Heartbeat name:** "Latam monthly", watched by tools/coverage.py (31 days, 7 of grace, as the UPR monthly) and the failure alert.
+- **Install on the Mini** (after the branch is merged to main): `cp ops/launchd/net.citizengo.parlmonitor.latam-monthly.plist ~/Library/LaunchAgents/` then `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.latam-monthly.plist`.
+- **Sources:** www.asambleanacional.gob.ve (robots.txt allows all) and www.lagaceta.gob.ni (robots.txt 404, nothing disallowed; the issue PDF is embedded in each issue page) both answered the laptop on 9 October 2026 with the honest UA.
