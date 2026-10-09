@@ -1,0 +1,23 @@
+# Dominican Republic watchlist (tools/do_rollcalls.py): iniciativas whose
+# areas are added BY KEY, never by title. Keys are the Camara de Diputados'
+# own numbers as its SIL prints them. A DRAFT of 9 October 2026, read by
+# hand from the SIL's titles; for Chris (ideally with someone who campaigns
+# in the Dominican Republic) to review. Areas are the shared CitizenGO
+# numbers: 1 abortion, 5 sex-based rights and gender ideology, 6 parental
+# rights and education, 8 freedom of religion.
+bills:
+  "04557-2024-2028-CD":
+    areas: [1]
+    why: "The Penal Code, promulgated as Ley 74-25 (3 August 2025): the vehicle of the long three causales fight."
+  "06038-2024-2028-CD":
+    areas: [1]
+    why: "Amends Ley 74-25, the Penal Code; promulgated as Ley 44-26. Any later amendment can reopen the abortion articles."
+  "11466-2020-2024-CD":
+    areas: [1]
+    why: "The 2020-2024 Penal Code bill, left on the table at second reading when that period ended; the causales votes of that Congress hang on it."
+  "06115-2024-2028-CD":
+    areas: [5, 6]
+    why: "Recognises parents' prior right to choose their children's sex education; bans comprehensive sexuality education and gender ideology in schools. Deposited 27 July 2026."
+  "06417-2024-2028-CD":
+    areas: [8]
+    why: "Religious freedom of conscience and worship, with a national register of religious bodies. Deposited 5 October 2026; earlier versions lapsed (04711, 03483)."

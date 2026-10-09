@@ -1673,6 +1673,13 @@ TABLES = (
     "cl_bills",
     "cl_divisions",
     "cl_votes",
+    # Dominican Republic Congress (tools/do_rollcalls.py), created by
+    # src/do_store.ensure_schema -- declared from day one.
+    "do_members",
+    "do_bills",
+    "do_sessions",
+    "do_divisions",
+    "do_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1977,4 +1984,6 @@ def init_db(conn):
     br_store.ensure_schema(conn)
     from src import cl_store
     cl_store.ensure_schema(conn)
+    from src import do_store
+    do_store.ensure_schema(conn)
     return conn

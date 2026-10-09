@@ -1,0 +1,89 @@
+{
+ "page": 2,
+ "pageSize": 10,
+ "total": 12,
+ "results": [
+  {
+   "legislador": {
+    "ocupacion": null,
+    "representacion": null,
+    "voto": null,
+    "profesion": null,
+    "telefonoOficina": null,
+    "correoInstitucional": null,
+    "partido": {
+     "id": 0,
+     "nombre": "DXC-ALPAÍS",
+     "siglas": "DXC-ALPAÍS"
+    },
+    "foto": null,
+    "funcion": null,
+    "funcionId": null,
+    "telefonoMovil": null,
+    "fechaNacimiento": null,
+    "correoElectronicoInstitucional": null,
+    "nombre": null,
+    "siglas": null,
+    "nivelRepresentacion": null,
+    "provincia": null,
+    "otrosTitulosProfesionales": null,
+    "ejercicio": null,
+    "periodo": null,
+    "sexo": null,
+    "estadoCivil": null,
+    "circunscripcion": null,
+    "id": 0,
+    "legisladorId": 3478,
+    "nombres": "MARTÍNEZ MORONTA",
+    "apellidos": "PEDRO ANTONIO",
+    "nombreCompleto": "MARTÍNEZ MORONTA PEDRO ANTONIO",
+    "cargo": null
+   },
+   "id": 3915208,
+   "numeroVotacion": null,
+   "votoId": "SV",
+   "voto": "No Voto"
+  },
+  {
+   "legislador": {
+    "ocupacion": null,
+    "representacion": null,
+    "voto": null,
+    "profesion": null,
+    "telefonoOficina": null,
+    "correoInstitucional": null,
+    "partido": {
+     "id": 0,
+     "nombre": "INDEP",
+     "siglas": "INDEP"
+    },
+    "foto": null,
+    "funcion": null,
+    "funcionId": null,
+    "telefonoMovil": null,
+    "fechaNacimiento": null,
+    "correoElectronicoInstitucional": null,
+    "nombre": null,
+    "siglas": null,
+    "nivelRepresentacion": null,
+    "provincia": null,
+    "otrosTitulosProfesionales": null,
+    "ejercicio": null,
+    "periodo": null,
+    "sexo": null,
+    "estadoCivil": null,
+    "circunscripcion": null,
+    "id": 0,
+    "legisladorId": 3637,
+    "nombres": "PÉREZ GÓMEZ",
+    "apellidos": "RAFAEL ANTONIO",
+    "nombreCompleto": "PÉREZ GÓMEZ RAFAEL ANTONIO",
+    "cargo": null
+   },
+   "id": 3915231,
+   "numeroVotacion": null,
+   "votoId": "SV",
+   "voto": "No Voto"
+  }
+ ]
+}
