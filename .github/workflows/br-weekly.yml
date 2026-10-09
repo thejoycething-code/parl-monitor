@@ -80,10 +80,11 @@ jobs:
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     # The first run backfills the 57th legislature (2023 onwards): about
-    # 1,600 Câmara nominal votes, one positions request each at about a
-    # second, plus the Senate's yearly lists. The collector stops at its own
-    # 2,700 s budget and the next run resumes, so no run needs more than the
-    # hour. Measured from the laptop: see docs/brazil-scope.md. Later weeks
+    # 1,600 Câmara nominal votes, one positions request each at about 3 s
+    # (about 90 minutes in all), plus the Senate's yearly lists. The
+    # collector stops at its own 2,700 s budget and the next run resumes, so
+    # the backfill spreads over two or three weeks and no run needs more than
+    # the hour. Measured from the laptop: see docs/brazil-scope.md. Later weeks
     # read the current year's files and only the votes that are new.
     timeout-minutes: 60
     env:
