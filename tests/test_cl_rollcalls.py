@@ -308,6 +308,13 @@ class PullTests(unittest.TestCase):
         clr.pull_senate(conn, client, TAX, "2026-10-09", senators, days=14)
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM cl_divisions").fetchone()[0], nv)
 
+    def test_watched_bills_are_read_every_run(self):
+        conn = store()
+        client = FakeClient({clr.SEN + "tramitacion.php": b"<proyectos></proyectos>"})
+        clr.pull_senate(conn, client, TAX, "2026-10-09", [], days=14)
+        for boletin in cl_store.watchlist():
+            self.assertIn(clr.SEN_BILL.format(clr.boletin_number(boletin)), client.calls)
+
     def test_senate_window_is_capped(self):
         conn = store()
         client = FakeClient({clr.SEN + "tramitacion.php": fx("senado-tramitacion.xml")})

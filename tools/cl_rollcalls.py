@@ -30,6 +30,8 @@ tables yet. Every source is open and keyless:
         authors, stage, urgency AND every Senate vote with each senator's
         position. The slashes must be percent-encoded, and the service
         refuses a date more than a month back;
+      - tramitacion.php?boletin=7736: one bill's record, read every run for
+        each watched bill (config/watchlist-cl.yaml);
       - votaciones.php?boletin=15805: the Senate votes on one bill. It takes
         the NUMBER only; '15805-07' gets an HTML "No existe" page at HTTP 200.
   * www.senado.cl/senadoras-y-senadores/listado-de-senadoras-y-senadores:
@@ -93,6 +95,7 @@ DEPUTIES = CAM + "WSDiputado.asmx/retornarDiputadosPeriodoActual"
 SEN = "https://tramitacion.senado.cl/wspublico/"
 SEN_SINCE = SEN + "tramitacion.php?fecha={0}"
 SEN_VOTES = SEN + "votaciones.php?boletin={0}"
+SEN_BILL = SEN + "tramitacion.php?boletin={0}"
 SENATORS_VIGENTES = SEN + "senadores_vigentes.php"
 SENATORS_PAGE = "https://www.senado.cl/senadoras-y-senadores/listado-de-senadoras-y-senadores"
 
@@ -596,6 +599,18 @@ def pull_members(conn, client, today, log=print):
         gaps += 1
     for d in deputies:
         store_member(conn, d, "camara", today)
+    senators, g = fetch_senators(conn, client, today, log)
+    gaps += g
+    for s in senators:
+        store_member(conn, s, "senado", today)
+    conn.commit()
+    return len(deputies), len(senators), senators, gaps
+
+
+def fetch_senators(conn, client, today, log=print):
+    """The 50 senators from the senado.cl listing; the stale service if not.
+    Returns (senators, gaps)."""
+    gaps = 0
     senators = None
     try:
         senators = parse_senators_page(client.get_text(SENATORS_PAGE, FEED, "senators-page"))
@@ -616,10 +631,7 @@ def pull_members(conn, client, today, log=print):
             _gap(conn, today, "senators: {0}".format(exc))
             log("  [gap] senators: {0}".format(str(exc)[:80]))
             gaps += 1
-    for s in senators:
-        store_member(conn, s, "senado", today)
-    conn.commit()
-    return len(deputies), len(senators), senators, gaps
+    return senators, gaps
 
 
 def pull_new_bills(conn, client, tax, today, years, log=print):
@@ -788,8 +800,31 @@ def pull_senate(conn, client, tax, today, senators, days=SENATE_DAYS, log=print,
         nvotes += s
         ours += o
         conn.commit()
+    # Every watched bill, every run: the watchlist holds bills that can sit
+    # untouched for years (the euthanasia bill has waited in the Senate since
+    # 2021), and a quiet bill appears in neither the window nor the yearly lists.
+    done = {p["boletin"] for p in projects}
+    for boletin in sorted(cl_store.watchlist()):
+        if boletin in done:
+            continue
+        try:
+            recs = parse_senate_projects(client.get_bytes(
+                SEN_BILL.format(boletin_number(boletin)), FEED, "senate-bill-" + boletin))
+        except FetchError as exc:
+            _gap(conn, today, "watched bill {0}: {1}".format(boletin, exc))
+            log("  [gap] watched bill {0}: {1}".format(boletin, str(exc)[:70]))
+            gaps += 1
+            continue
+        for p in recs or ():
+            if p["boletin"] != boletin:
+                continue
+            store_bill(conn, tax, p, today)
+            s, o = store_senate_votes(conn, tax, boletin, p["votes"], index, today, unresolved)
+            nvotes += s
+            ours += o
+            done.add(boletin)
+        conn.commit()
     if backfill:
-        done = {p["boletin"] for p in projects}
         for boletin, areas in conn.execute("SELECT boletin, areas FROM cl_bills").fetchall():
             if boletin in done or not on_our_ground(json.loads(areas or "[]")):
                 continue
@@ -911,12 +946,11 @@ def main(argv=None):
         nd, ns, senators, g = pull_members(conn, client, today)
         gaps += g
         print("cl-rollcalls: {0} deputies, {1} senators".format(nd, ns))
-    else:
-        senators = [{"member_key": mk, "name": nm, "party": party, "given": None,
-                     "surname1": None, "surname2": None}
-                    for mk, nm, party in conn.execute(
-                        "SELECT member_key, name, party FROM cl_members WHERE chamber='senado' "
-                        "AND source_id IS NOT NULL")]
+    elif not args.no_senate:
+        # Senate votes name senators by printed name: the list's name parts
+        # are needed to resolve them, and the store keeps only the full name.
+        senators, g = fetch_senators(conn, client, today)
+        gaps += g
     if not args.no_bills:
         years = ([int(y) for y in args.bill_years.split(",") if y.strip()] if args.bill_years
                  else [int(today[:4]) - 1, int(today[:4])])
