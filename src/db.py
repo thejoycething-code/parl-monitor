@@ -1624,6 +1624,13 @@ TABLES = (
     "be_sittings",
     "be_divisions",
     "be_votes",
+    # France's Assemblee nationale (tools/fr_rollcalls.py), created by
+    # src/fr_store.ensure_schema -- declared from day one.
+    "fr_members",
+    "fr_groups",
+    "fr_dossiers",
+    "fr_divisions",
+    "fr_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1914,4 +1921,6 @@ def init_db(conn):
     ch_store.ensure_schema(conn)
     from src import be_store
     be_store.ensure_schema(conn)
+    from src import fr_store
+    fr_store.ensure_schema(conn)
     return conn
