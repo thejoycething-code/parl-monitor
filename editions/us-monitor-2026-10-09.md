@@ -1,7 +1,7 @@
 # US Congress Monitor
 ### Week ending 2026-10-09 | Edition 1 | 119th Congress
 
-> **How to read this edition.** Areas come from the shared taxonomy (v1.17), whose American terms were added on 9 October 2026 and have not yet been reviewed by anyone who campaigns in the US. Bills are matched on their titles, their Congressional Research Service subject terms and summary. A vote takes its bill's areas, so every vote line says whether its **own** text matched or only its **bill** did: on spending and defence bills the second kind is often noise until amendment purposes are collected. Results, tallies and party splits are the record; whether a vote helped or hurt is a human call and is never made here. Scores [0-3] and why-lines come from the judge (src/triage.py, US frame).
+> **How to read this edition.** Areas come from the shared taxonomy (v1.17), whose American terms were added on 9 October 2026 and have not yet been reviewed by anyone who campaigns in the US. Bills are matched on their titles, their Congressional Research Service subject terms and summary. A vote takes its bill's areas, so every vote line says whether its **own** text matched or only its **bill** did. A House amendment vote is matched on the amendment's own description and purpose (from Congress.gov) and borrows nothing from the bill, so a vote to defund an unrelated programme no longer shows up because the spending bill mentions the Hyde Amendment. Results, tallies and party splits are the record; whether a vote helped or hurt is a human call and is never made here. Scores [0-3] and why-lines come from the judge (src/triage.py, US frame).
 
 ## Top lines
 
@@ -114,7 +114,7 @@ _...and 81 more._
 ## Coverage
 
 - **Collected:** 19596 bills and resolutions (753 on our ground), 676 House and 915 Senate roll calls, every member's position on each, every cosponsorship. Last pull: 2026-10-09.
-- **Not yet collected:** amendment purposes for House votes (needs the Congress.gov key), the Congressional Record (floor debates), committee hearings, the weekly floor schedule, the Federal Register and executive orders, and the fifty state legislatures (needs the Open States key).
+- **Not yet collected:** the Congressional Record (floor debates), committee hearings, the weekly floor schedule, the Federal Register and executive orders, and the fifty state legislatures (needs the Open States key).
 - **Migration** is matched and stored but not shown, as in every edition here.
 - Specification and decisions: [docs/us-scope.md](https://github.com/thejoycething-code/parl-monitor/blob/main/docs/us-scope.md).
 
