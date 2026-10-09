@@ -1,0 +1,14 @@
+# Spain watchlist (9 October 2026), applied by initiative KEY, never by title
+# (src/es_store.watch_areas).
+#
+# The Spanish taxonomy, once Christopher approves the term list proposed in
+# docs/spain-scope.md, does most of the work. This file carries only what it
+# cannot: initiatives whose titles name nothing on our ground but whose
+# content is ours.
+#
+# Keys are '<legislature>/<type>/<number>', the Congreso's own expediente
+# number: '15/121/000052'. Numbers restart every legislature, and the
+# dissolution of 6 October 2026 ended every pending XV initiative, so entries
+# for the XVI (convenes 23 December 2026) need new keys. XV entries stay for
+# the record of votes already taken.
+initiatives: {}
