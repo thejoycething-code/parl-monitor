@@ -70,6 +70,15 @@ class FakeClient:
         self.fail = fail
         self.asked = []
 
+    def get_bytes(self, url, feed, slug, archive=True, **kw):
+        self.asked.append(url)
+        if "transcript" in self.fail:
+            raise FetchError(url, feed, slug, 1, "HTTP 503")
+        if url.endswith("seanad/2025-11-05/debate/mul@/main.xml"):
+            with gzip.open(os.path.join(FX, "transcript-seanad-2025-11-05.xml.gz"), "rb") as fh:
+                return fh.read()
+        raise FetchError(url, feed, slug, 1, "HTTP 404")
+
     def get_json(self, url, feed, slug, archive=True, **kw):
         self.asked.append(url)
         parts = urlsplit(url)
@@ -300,6 +309,78 @@ class DivisionTests(unittest.TestCase):
         self.assertEqual(gaps, 1)
 
 
+class AmendmentTests(unittest.TestCase):
+    """Phase 1b: the amendment behind 'Amendment put:', from the transcript."""
+
+    def raw(self):
+        with gzip.open(os.path.join(FX, "transcript-seanad-2025-11-05.xml.gz"), "rb") as fh:
+            return fh.read()
+
+    def test_the_mover_before_each_division_is_the_amendment(self):
+        found = ier.amendments_in(self.raw())
+        self.assertEqual(found["vote_1"][0], "amendment No. 1")
+        self.assertTrue(found["vote_1"][1].startswith("I move amendment No. 1: In page 3, line 9"))
+        self.assertTrue(found["vote_2"][1].startswith("I move amendment No. 2: In page 3, lines 13"))
+        # The motion to receive the Bill for final consideration moves no amendment.
+        self.assertEqual(found["vote_3"], (None, ""))
+
+    def test_a_disposal_stops_the_walk_back(self):
+        xml = ("<akomaNtoso><debate><debateBody><debateSection eId='dbsect_1'>"
+               "<speech eId='spk_1'><p>I move amendment No. 4: to delete abortion.</p></speech>"
+               "<summary eId='sum_1'>Amendment put and declared lost.</summary>"
+               "<speech eId='spk_2'><p>We now come to the next group.</p></speech>"
+               "<summary eId='sum_2'>Amendment put:</summary>"
+               "<voting eId='vote_9' refersTo='#sum_2'/>"
+               "</debateSection></debateBody></debate></akomaNtoso>").encode("utf-8")
+        self.assertEqual(ier.amendments_in(xml)["vote_9"], (None, ""))
+
+    def test_amendment_votes_take_their_own_text_and_keep_it_on_the_next_pull(self):
+        conn = loaded()
+        client = FakeClient()
+        ier.pull_divisions(conn, client, "2026-10-09", (("seanad", 27),), committees=False,
+                           tax=TAX, wl=WL, log=lambda *a: None)
+        read, _ours, gaps = ier.read_amendments(conn, client, "2026-10-09", tax=TAX, wl=WL,
+                                                log=lambda *a: None)
+        self.assertEqual((read, gaps), (1, 0))
+        row = conn.execute("SELECT amendment_ref, amendment_text FROM ie_divisions "
+                           "WHERE division_key='seanad/27/2025-11-05/vote_1'").fetchone()
+        self.assertEqual(row[0], "amendment No. 1")
+        # Read once: the next pull neither refetches nor forgets it.
+        client.asked.clear()
+        ier.pull_divisions(conn, client, "2026-10-09", (("seanad", 27),), committees=False,
+                           tax=TAX, wl=WL, log=lambda *a: None)
+        self.assertEqual(ier.read_amendments(conn, client, "2026-10-09", tax=TAX, wl=WL,
+                                             log=lambda *a: None), (0, 0, 0))
+        self.assertFalse([u for u in client.asked if u.endswith(".xml")])
+        self.assertEqual(conn.execute("SELECT amendment_ref FROM ie_divisions WHERE "
+                                      "division_key='seanad/27/2025-11-05/vote_1'").fetchone()[0],
+                         "amendment No. 1")
+
+    def test_the_amendment_is_own_text_and_the_bill_still_lends_its_areas(self):
+        d = {"debate_title": "Mental Health Bill 2024: Report Stage", "subject": "Amendment put:",
+             "amendment_text": "I move amendment No. 2: to insert a ban on conversion therapy"}
+        own, areas = ier.classify_division(TAX, WL, d, [6])
+        self.assertIn(4, own.issue_areas)
+        self.assertEqual(areas, sorted(set(own.issue_areas) | {6}))
+        own, areas = ier.classify_division(TAX, WL, dict(d, amendment_text="to delete line 4"), [6])
+        self.assertEqual((own.issue_areas, areas), ([], [6]))
+
+    def test_a_refused_transcript_is_a_gap_and_is_tried_again(self):
+        conn = loaded()
+        ier.pull_divisions(conn, FakeClient(), "2026-10-09", (("seanad", 27),), committees=False,
+                           tax=TAX, wl=WL, log=lambda *a: None)
+        read, _o, gaps = ier.read_amendments(conn, FakeClient(fail=("transcript",)), "2026-10-09",
+                                             tax=TAX, wl=WL, log=lambda *a: None)
+        self.assertEqual((read, gaps), (0, 1))
+        self.assertIsNone(conn.execute("SELECT amendment_text FROM ie_divisions WHERE "
+                                       "division_key='seanad/27/2025-11-05/vote_1'").fetchone()[0])
+
+    def test_the_transcript_url(self):
+        self.assertEqual(ier.transcript_url(
+            "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2025-07-09/debate/main"),
+            "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2025-07-09/debate/mul@/main.xml")
+
+
 class PagingTests(unittest.TestCase):
     def test_paging_runs_to_a_short_page_not_to_the_count(self):
         client = FakeClient()
@@ -358,6 +439,13 @@ class ScheduleTests(unittest.TestCase):
             job = fh.read()
         self.assertLess(job.index("raw_state.py --push"), job.index("db_state.py --push"))
         self.assertNotIn("mini_run: no-store", job)   # it writes the store
+        self.assertIn("# mini_run: commit editions", job)
+        # Speaks once a day: an edition already committed is rewritten, not resent.
+        self.assertIn('git ls-files --error-unmatch "editions/ie-monitor-$TODAY.md"', job)
+        self.assertIn("git add data/ editions/", text)
+        # The judge is wired to the repo variable and is not on by default.
+        self.assertIn("IE_JUDGE: ${{ vars.IE_JUDGE }}", text)
+        self.assertIn('if [ "$JUDGE" = "on" ]', job)
 
     def test_the_mini_runs_the_london_hour_the_cron_names_in_summer(self):
         import plistlib

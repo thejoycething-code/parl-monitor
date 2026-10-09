@@ -65,9 +65,12 @@ A first test by hand: `RUNNER_REF=main bash ~/runner/parl-monitor/tools/mini_run
 
 ## Ireland weekly on the runner (9 October 2026, not yet installed)
 
-`docs/mac-mini-runner.md` is not on this branch, so the Ireland weekly is noted here for its migration list. It is the first job built Mini-first that **writes the store**:
+Like the US weekly, it **writes the store** and sends a DM:
 
 - `jobs/ie-weekly.sh` (one script, two callers): `tools/ie_rollcalls.py`, then, on the Mini, `raw_state.py --push` and `db_state.py --push`. There it exits 0 once both are published, even when the collector recorded gaps, because `mini_run.sh` commits `data/` only after a clean exit and a published store without its committed sidecar is refused by every later pull. Gaps stay in the gaps table and the log, and on the Mini they page nobody yet. On GitHub the workflow sets `IE_PUBLISH=false` and publishes with its own guarded steps, as us-weekly does, so a gap turns the run red and the store and sidecar still land.
 - It exports `GITHUB_WORKFLOW="Ireland weekly"` when unset, so a Mini run stamps the pipeline's heartbeat rather than "local".
+- **The edition** (`tools/ie_monitor.py`) is written by the same script after the collector, and its `# mini_run: commit editions` line makes the runner commit `editions/` beside `data/`. It **speaks once a day**: an edition already committed for today is rewritten without resending the DM. The DM goes to Christopher alone (`SLACK_DM_USER_ID` defaults to U05LJP0BT61); `~/runner/env` already holds `SLACK_BOT_TOKEN` for Division watch.
+- **The judge** (`tools/ie_triage.py`) runs only when the repo variable `IE_JUDGE` is `on` (read with `gh variable get` on the Mini); then `~/runner/env` also needs `ANTHROPIC_API_KEY`. It is off.
+- The Mini runs it at 09:30 London, half an hour before the US weekly at 10:00; the lock queues the second for up to 30 minutes.
 - launchd: `ops/launchd/net.citizengo.parlmonitor.ie-weekly.plist`, Fridays 09:30 London. Backup: `.github/workflows/ie-weekly.yml`, cron `30 8 * * 5`, gated by `mini-check.yml` with job `IE_WEEKLY`. In winter (GMT) the GitHub slot comes an hour before the Mini, so a punctual backup can run first and the Mini then runs again; both are idempotent.
 - Install after merge to main: copy the plist to `~/Library/LaunchAgents` and `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.ie-weekly.plist`. Optional heartbeat: `HC_IE_WEEKLY` in `~/runner/env`.

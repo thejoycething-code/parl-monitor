@@ -5,12 +5,11 @@ on:
     # and takes most of its divisions in Wednesday's weekly division time
     # (339 of 429 in the 34th Dail), so Friday morning has the whole week.
     # Chosen from every cron in .github/workflows: Friday already holds
-    # 06:00 (Holyrood), 07:00 (day sweep), 10:00 and 12:00 (US weekly),
+    # 06:00 (Holyrood), 07:00 (day sweep), 10:00 (US weekly),
     # 13:00, 15:00 and 17:00 (division watch) and 21:00, plus 05:30 and 23:00
     # daily, 08:00 on the 10th (member profiles) and 06:00 on the 3rd (UPR).
-    # 08:30 is none of them,
-    # and it is done long before the US slot: the measured run is about a
-    # minute of fetching. One slot only: GitHub keeps ONE pending run per
+    # 08:30 is none of them, and it is done long before the US slot: the
+    # measured run is about a minute of fetching. One slot only: GitHub keeps ONE pending run per
     # state group, so a retry slot could cancel the US weekly's.
     - cron: "30 8 * * 5"
   workflow_dispatch:
@@ -48,8 +47,10 @@ jobs:
     if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     # Measured from the laptop, 9 October 2026: the whole 34th Dail and 27th
-    # Seanad (419 bills, 711 divisions, 73,129 votes) in 11.5 seconds. The
-    # store pull and push are most of the time.
+    # Seanad (419 bills, 711 divisions, 73,129 votes) in 11.5 seconds, plus
+    # 57 seconds for the 126 debate transcripts behind 370 amendment votes on
+    # the first run (later weeks read only new ones). The store pull and push
+    # are most of the time.
     timeout-minutes: 30
     env:
       PYTHONUNBUFFERED: "1"
@@ -71,13 +72,26 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/raw_state.py --pull
-      - name: Members, bills and divisions (34th Dail, 27th Seanad)
+      - name: Write secrets file
+        # The DM goes to Christopher alone (9 October 2026, confirmed: the
+        # Irish edition is his until it is good), as for the US edition.
+        run: |
+          cat > config/secrets.yaml <<EOF
+          slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
+          slack_dm_user_id: U05LJP0BT61
+          EOF
+      - name: Collect (34th Dail, 27th Seanad), judge, write the edition and DM
         if: always() && steps.fetch.outcome == 'success'
         # jobs/ie-weekly.sh is shared with the Mac Mini runner. IE_PUBLISH
         # false: the steps below publish, guarded like every other publisher,
         # and the script exits with the collector's status, so a gap turns
-        # this step red.
+        # this step red (after the edition is written). The judge runs only
+        # when the repository variable IE_JUDGE is 'on' (SPEND NEEDS A YES,
+        # 5 August 2026; the backlog was about $0.10 by
+        # tools/ie_triage.py --dry-run on 9 October 2026). It is not on.
         env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          IE_JUDGE: ${{ vars.IE_JUDGE }}
           IE_PUBLISH: "false"
           IE_RECLASSIFY: ${{ inputs.reclassify }}
           IE_LOG: /tmp/ie-rollcalls.log
@@ -88,7 +102,7 @@ jobs:
           {
             echo "## Ireland weekly"
             echo '```'
-            grep -hE "ie-rollcalls:|store:|\[gap\]|ie-weekly:" /tmp/ie-weekly.log 2>/dev/null | head -25 || echo "(no summary lines)"
+            grep -hE "ie-rollcalls:|ie-triage:|store:|edition:|dm:|\[gap\]|ie-weekly:" /tmp/ie-weekly.log 2>/dev/null | head -25 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/ie-rollcalls.log 2>/dev/null \
                       || true; } | awk '{s+=$1} END {print s+0}')
@@ -118,7 +132,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/
+          git add data/ editions/
           git diff --cached --quiet || git commit -m "Ireland weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           for attempt in 1 2 3; do
             git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
