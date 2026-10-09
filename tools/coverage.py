@@ -78,15 +78,15 @@ PIPELINES = {
     # Scheduled 9 October 2026, Sundays (pl-weekly.yml; the Mac Mini first).
     "Poland weekly": (7, 4, "Polish Sejm: prints, processes, recorded votes, and the Polish edition"),
     # Scheduled 9 October 2026, Saturdays (it-weekly.yml; the Mac Mini first).
-    "Italy weekly": (7, 4, "Italy's Parliament: bills, Senate and Camera votes"),
+    "Italy weekly": (7, 4, "Italy's Parliament: bills, Senate and Camera votes, and the Italian edition"),
     # Scheduled 9 October 2026, Saturdays (ch-weekly.yml; the Mac Mini first).
-    "Switzerland weekly": (7, 4, "Swiss Federal Assembly: businesses, Nationalrat and Staenderat votes"),
+    "Switzerland weekly": (7, 4, "Swiss Federal Assembly: businesses, Nationalrat and Staenderat votes, and the Swiss edition"),
     # Scheduled 9 October 2026, Saturdays (be-weekly.yml; the Mac Mini first).
     "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes, and the Belgian edition"),
     # Scheduled 9 October 2026, Saturdays (fr-weekly.yml; the Mac Mini first).
-    "France weekly": (7, 4, "France's Assemblee nationale: dossiers, scrutins, deputies"),
+    "France weekly": (7, 4, "France's Assemblee nationale: dossiers, scrutins, deputies, and the French edition"),
     # Scheduled 9 October 2026, Saturdays (pt-weekly.yml; the Mac Mini first).
-    "Portugal weekly": (7, 4, "Portugal's Assembleia da Republica: initiatives, votes, deputies"),
+    "Portugal weekly": (7, 4, "Portugal's Assembleia da Republica: initiatives, votes, deputies, and the Portuguese edition"),
     # Scheduled 9 October 2026, Tuesdays (sk-weekly.yml; the Mac Mini first).
     "Slovakia weekly": (7, 4, "Slovakia's Národná rada: prints, votes, positions, interpellations"),
     # Scheduled 9 October 2026, Saturdays (hr-weekly.yml; the Mac Mini first).
