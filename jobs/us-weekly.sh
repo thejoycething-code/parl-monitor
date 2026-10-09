@@ -37,7 +37,7 @@
 # mini_run: commit editions
 set -eo pipefail
 cd "$(dirname "$0")/.."
-# The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
+# The heartbeat (source_runs, stamped when the store is published) is keyed on the
 # workflow's name; on the Mac Mini there is no GITHUB_WORKFLOW, so name it, or
 # tools/coverage.py would see this pipeline stop the day GitHub's backup skips.
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-US weekly}"
