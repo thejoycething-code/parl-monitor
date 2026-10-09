@@ -124,6 +124,9 @@ PIPELINES = {
     "Honduras weekly": (7, 4, "Honduras's Congreso Nacional: agendas, expedientes, press, Gaceta"),
     # Scheduled 9 October 2026, Saturdays (uy-weekly.yml; the Mac Mini first).
     "Uruguay weekly": (7, 4, "Uruguay: Cámara de Representantes roll, pedidos de informes, Diario index; IMPO laws"),
+    # Scheduled 10 October 2026, the 1st of each month (latam-monthly.yml; the
+    # Mac Mini first). Monthly, so a month plus a week's grace, as the UPR.
+    "Latam monthly": (31, 7, "Latam monitor: Venezuela's Assembly news, Nicaragua's La Gaceta, the edition"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -489,6 +492,10 @@ FEEDS = [
     ("uy_questions", "last_seen", 7, 4, "Pedidos de informes (Uruguay weekly)"),
     ("uy_sittings", "last_seen", 7, 4, "Diario de Sesiones index (Uruguay weekly)"),
     ("uy_laws", "last_seen", 31, 31, "Laws promulgated, from IMPO (Uruguay weekly)"),
+    # Venezuela (10 October 2026). MEASURED: every run re-stamps each item the
+    # list pages show back to a week before the newest stored, so the table
+    # moves every month even when nothing is on our ground.
+    ("ve_news", "last_seen", 31, 7, "Asamblea Nacional Legislativa news (Latam monthly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -615,6 +622,7 @@ PIPELINE_FEEDS = {
     "Honduras weekly": ["hn_members", "hn_bills", "hn_gazette", "hn_sessions"],
     # Laws left out: new rows only, so a quiet week cannot move them.
     "Uruguay weekly": ["uy_members", "uy_questions", "uy_sittings"],
+    "Latam monthly": ["ve_news"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -683,6 +691,8 @@ AWAITING_FIRST_RUN = {
                         "scheduled 9 October 2026; its tables fill on its first run"),
     "Uruguay weekly": (("uy_members", "uy_questions", "uy_sittings", "uy_laws"),
                        "scheduled 9 October 2026; its tables fill on its first run"),
+    "Latam monthly": (("ve_news",),
+                      "scheduled 10 October 2026; its table fills on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
@@ -742,6 +752,10 @@ ON_DEMAND = {
 # only gains rows goes quiet in recess through no fault of anyone, and
 # alarming on it would train people to ignore the alert.
 ONCE_EVER = {
+    # Nicaragua (10 October 2026): a gazette notice is stored only when the
+    # taxonomy matches it, so most months add none; nic_gazette_issues (no
+    # sighting column) records every issue read.
+    "nic_gazette_items": "written only for La Gaceta notices on our ground; most months add none",
     # 8 October 2026, MEASURED: the Sunday pull writes sections only for the
     # sitting days of the week just ended (run_weekly.sweep_hansard_sections),
     # so both Houses in conference recess means no rows, and it failed the
