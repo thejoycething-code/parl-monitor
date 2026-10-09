@@ -80,10 +80,10 @@ jobs:
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     # The first run backfills the 2024-2027 legislature: 784 vote PDFs and
-    # about 106 days of the session archive, cut at 45 minutes by the
-    # collector's own budget and resumed by the next run
-    # (docs/el-salvador-scope.md). Later weeks read only new votes, days not
-    # yet filed and the last fortnight's days.
+    # its 890 days of the session archive, cut at 45 minutes by the
+    # collector's own budget and resumed by the next run (about six runs;
+    # docs/el-salvador-scope.md). Later weeks read only new votes and the
+    # last 21 days of the archive.
     timeout-minutes: 60
     env:
       PYTHONUNBUFFERED: "1"

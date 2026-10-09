@@ -14,10 +14,12 @@
 #                           config/taxonomy-es.yaml or watchlist-sv changes)
 #
 # The first run backfills the 2024-2027 legislature: 784 votes (one PDF
-# each, about 350 KB, not archived) and about 106 sitting days from the
-# session archive (1 to 45 s a call). The budget (45 minutes, half of it at
-# most for the archive) stops it cleanly and the next run resumes from the
-# store, so the backfill is spread over three or four runs.
+# each, about 400 KB, not archived) and every one of its 890 days from the
+# session archive (about 37 s a sitting day, 1 s a day without one). About
+# four hours in all: the budget (45 minutes, half of it at most for the
+# archive) stops each run cleanly and the next resumes from the store, so
+# at this budget the backfill takes about six Sundays
+# (docs/el-salvador-scope.md).
 #
 # Exit codes. The collector exits 3 when it stored what it could and recorded
 # gaps (in the gaps table and as [gap] lines in the log): that run is still

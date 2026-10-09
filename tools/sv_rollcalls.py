@@ -19,8 +19,9 @@ live, answering the honest CitizenGO User-Agent:
     The leyenda is the vote's only label and names no subject:
     "COMISION DE HACIENDA DICTAMEN # 267 FAVORABLE", "PIEZA 2A FS".
   * the vote PDF, sites/default/files/documents/votaciones/<GUID>.pdf
-    (about 350 KB, a voting-system export saved from Word): totals, totals
-    by party, and every deputy's position under SI / NO / ABST. / No Votado.
+    (about 400 KB, a voting-system export saved from Word): totals, totals
+    by party, and every deputy's position under SI / NO / ABST. / No Votado,
+    in three layouts within the 2024-2027 legislature (parse_vote_pdf).
     Read with src/sv_pdf.py, stdlib only. NOT archived to data/raw (350 KB
     each, a dozen a week); the GUID URL is the provenance and the parsed
     positions are stored.
@@ -29,9 +30,12 @@ live, answering the honest CitizenGO User-Agent:
     74 s). JSON: the day's sessions (GUID, type, number) and the first
     session's documents, including `dicta` (number, committee, result,
     EXPEDIENTE, extract) and `piezas` (order, short title, extract). This is
-    where a vote learns what it was about. A day appears in the archive some
-    days after the sitting (7 October was not there on 9 October), so a day
-    not yet archived is retried, not a gap, until ARCHIVE_GRACE_DAYS pass.
+    where a vote learns what it was about. EVERY CALENDAR DAY is asked
+    once, not only vote days: sessions 41 to 64 and 98 published no
+    recorded vote but are in the archive. A day appears some days after the
+    sitting (7 October was not there on 9 October) and an unfiled day
+    answers exactly like a day with no sitting, so recent days are asked
+    again until ARCHIVE_GRACE_DAYS pass.
   * sesion-plenaria/get-archivos-ajax -- POST {sesion: GUID}: one session's
     documents, for the second session of a day with two (40 s a call).
   * asamblea/diputados -- the 60 sitting deputies, with GUID and party.
