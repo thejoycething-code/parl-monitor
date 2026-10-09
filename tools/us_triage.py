@@ -23,7 +23,9 @@ queued behind a dead one. Votes are judged ONLY where their own text matched
 score in the edition, so judging it again would pay twice for one story.
 Since 9 October 2026 also the Federal Register documents (us_fr_documents)
 and Supreme Court opinions and grants (us_court_cases) on our ground, each
-on the text its collector classified.
+on the text its collector classified, and floor speeches from the
+Congressional Record (us_record_speeches) whose OWN words matched, on the
+stored excerpt (the text itself is never stored).
 
 SCORED ONCE, EVER. --rescore <key> puts one back on a human's say-so.
 Spend lands in api_spend as 'us-triage'.
@@ -59,7 +61,8 @@ SYSTEM_PROMPT_US = triage.SYSTEM_PROMPT.replace(
     "You are the triage layer of CitizenGO UK's parliamentary monitor. CitizenGO campaigns",
     "You are the triage layer of CitizenGO's US Congress monitor, covering bills and recorded "
     "votes in the House of Representatives and the Senate, executive orders and agency rules "
-    "in the Federal Register, and Supreme Court opinions and grants of certiorari. Never mark an item down for not "
+    "in the Federal Register, Supreme Court opinions and grants of certiorari, and members' "
+    "floor speeches in the Congressional Record. Never mark an item down for not "
     "being British: an American matter in one of these areas is fully in scope. American "
     "names to know: 'medical aid in dying' and 'Death with Dignity' are assisted suicide; "
     "the Hyde Amendment and Planned Parenthood funding are abortion; Title IX disputes over "
@@ -72,11 +75,23 @@ SYSTEM_PROMPT_US = triage.SYSTEM_PROMPT.replace(
     "and its CRS summary; a VOTE by its question and its own text; an EXECUTIVE ACTION by "
     "its title and the agency's abstract (a proposed rule open for comment is something "
     "campaigners can act on); a COURT item by the case name and the Court's holding or the "
-    "question presented. CitizenGO campaigns", 1)
+    "question presented; a FLOOR SPEECH by the member, the debate's heading and the passage "
+    "of the speech that matched (score what the member said and how prominent the "
+    "debate is, never the size of the bill). CitizenGO campaigns", 1)
 assert SYSTEM_PROMPT_US != triage.SYSTEM_PROMPT
 
 SOURCES = {"us_bills": "bill_key", "us_divisions": "division_key",
-           "us_fr_documents": "document_number", "us_court_cases": "case_key"}
+           "us_fr_documents": "document_number", "us_court_cases": "case_key",
+           "us_record_speeches": "speech_key"}
+
+
+def _try(conn, sql):
+    """Rows of a table an older store may not have yet."""
+    import sqlite3
+    try:
+        return conn.execute(sql).fetchall()
+    except sqlite3.OperationalError:
+        return []
 
 
 def _ours(areas_json):
@@ -149,6 +164,27 @@ def pending(conn):
             r["summary"] or "not read").split())
         dated.append((r["decided"] or "",
                       triage.TriageItem(id="us_court_cases:" + r["case_key"], title=title,
+                                        text=text[:1500], tier=r["tier"] or 2,
+                                        issue_areas=areas, watchlist_hit=False)))
+    # Floor speeches (phase 3a, 9 October 2026): judged on what the member
+    # said, never on the bill. Only a speech whose OWN words matched: one
+    # that only borrows its debate's bill (areas_from 'bill' or 'watch')
+    # takes the bill's score in the edition, as an inheriting vote does.
+    for r in _try(conn, "SELECT * FROM us_record_speeches WHERE triage_score IS NULL "
+                        "AND own_areas NOT IN ('[]', '[11]')"):
+        areas = _ours(r["own_areas"])
+        if not areas:
+            continue
+        title = "Floor speech, {0} {1}, {2} ({3}-{4}): {5}".format(
+            "Senate" if r["chamber"] == "senate" else "House", r["date"] or "?",
+            r["name"] or r["speaker"] or "?", r["party"] or "?", r["state"] or "?",
+            r["title"] or "")
+        bills = ", ".join(json.loads(r["bill_keys"] or "[]")[:5])
+        text = " ".join("{0} Bills cited: {1}. Matched: {2}.".format(
+            r["excerpt"] or "", bills or "none",
+            ", ".join(json.loads(r["matched_terms"] or "[]")[:8])).split())
+        dated.append((r["date"] or "",
+                      triage.TriageItem(id="us_record_speeches:" + r["speech_key"], title=title,
                                         text=text[:1500], tier=r["tier"] or 2,
                                         issue_areas=areas, watchlist_hit=False)))
     dated.sort(key=lambda d: (d[0], d[1].id), reverse=True)
