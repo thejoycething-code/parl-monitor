@@ -57,7 +57,11 @@ DIVS = [  # key, chamber, house_key, committee, date, subject, bill, own, areas,
      None, "[1, 11]", "[1, 11]", None),
     ("seanad/27/2026-04-01/vote_9", "seanad", "seanad/27", None, "2026-04-01", "Question put:",
      None, "[7]", "[7]", None),
+    # Own text matched, but the judge scored it 0 and nobody reads it: off the page.
+    ("dail/34/2026-02-01/vote_5", "dail", "dail/34", None, "2026-02-01", "Question put:",
+     None, "[1]", "[1]", None),
 ]
+JUDGED_ZERO = ("dail/34/2026-02-01/vote_5", "dail/34/2026-06-17/vote_149")  # the second is read
 VOTES = {
     "dail/34/2026-06-17/vote_149": {"Ally.D.2024": "No", "Opp.D.2024": "Yes"},
     "dail/34/2026-06-18/vote_150": {"Ally.D.2024": "No", "Opp.D.2024": "Yes"},
@@ -66,6 +70,7 @@ VOTES = {
     "dail/34/2026-03-01/vote_20": {"Ally.D.2024": "Yes", "Opp.D.2024": "No"},
     "dail/34/2026-03-02/vote_21": {"Ally.D.2024": "Yes", "Gone.D.2024": "No"},
     "seanad/27/2026-04-01/vote_9": {"Sen.S.2025": "Yes"},
+    "dail/34/2026-02-01/vote_5": {"Ally.D.2024": "Yes"},
 }
 STANCE = {
     "divisions": [
@@ -99,6 +104,8 @@ def store():
                       areas, "amendment No. 3" if amend else None, amend))
         for code, pos in VOTES[key].items():
             conn.execute("INSERT INTO ie_votes VALUES (?,?,?,?)", (key, code, pos, party[code]))
+    for key in JUDGED_ZERO:
+        conn.execute("UPDATE ie_divisions SET triage_score=0 WHERE division_key=?", (key,))
     for key, title, source, areas, score in (
             ("2026/10", "Abortion Bill", "Private Member", "[1]", None),
             ("2026/11", "Migration Bill", "Private Member", "[11]", None),
@@ -160,6 +167,14 @@ class OurGroundTests(unittest.TestCase):
             "dail/34/2026-06-17/vote_149", "dail/34/2026-06-19/vote_151",
             "committee/health/2026-05-05/vote_1", "dail/34/2026-03-02/vote_21",
             "seanad/27/2026-04-01/vote_9"})
+
+    def test_judged_zero_division_is_off_unless_the_stance_file_reads_it(self):
+        divs = by_key(build())
+        self.assertNotIn("dail/34/2026-02-01/vote_5", divs)      # scored 0, unread
+        self.assertIn("dail/34/2026-06-17/vote_149", divs)        # scored 0, draft reading
+        self.assertIn("dail/34/2026-03-02/vote_21", divs)         # unscored stays
+        signed = by_key(build(signed_keys=("dail/34/2026-06-17/vote_149",)))
+        self.assertIn("dail/34/2026-06-17/vote_149", signed)      # scored 0, signed reading
 
     def test_migration_hidden(self):
         data = build()

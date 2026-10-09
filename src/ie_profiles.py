@@ -26,8 +26,10 @@ panel, House, sitting or not) and the member's record ON OUR GROUND only:
 ON OUR GROUND. A division is listed by tools/ie_5ca.listed for some visible
 taxonomy area (its own text matched, the stance file reads it, or it is a
 stage question on a bill the stance file reads), exactly as on the 5CA
-sheets. A bill, question or speech when its stored VISIBLE areas are not empty
-and the judge has not scored it 0 (a bill the stance file reads always is).
+sheets, less a division the judge scored 0 that the stance file does not
+read (signed or draft). A bill, question or speech when its stored VISIBLE
+areas are not empty and the judge has not scored it 0 (a bill the stance
+file reads always is).
 Migration (src/partner.py HIDDEN_AREAS) is matched and stored, never shown.
 
 COMMITTEE DIVISIONS ARE FLAGGED, AND KEPT APART. A committee division is
@@ -102,7 +104,11 @@ def division_url(d):
 
 
 def listed_areas(d, entries, bill_entries):
-    """The visible areas on which tools/ie_5ca.listed lists this division."""
+    """The visible areas on which tools/ie_5ca.listed lists this division,
+    less any the judge scored 0 ("not ours") that the stance file does not read
+    (signed or draft: a reading always keeps its division on the page)."""
+    if d.get("triage_score") == 0 and d["division_key"] not in entries:
+        return []
     own = set(_areas(d["own_areas"]))
     amendment = "amendment" in (d["subject"] or "").lower()
     out = []

@@ -45,13 +45,16 @@ DIVS = [  # key, chamber, own, areas
     ("senate-2026-09-15-1", "senate", "[11]", "[11]"),      # migration only
     ("senate-2026-09-14-1", "senate", "[3, 11]", "[3, 11]"),
     ("house-2026-09-10-1", "house", "[1]", "[1]"),
+    ("senate-2026-09-13-1", "senate", "[3]", "[3]"),      # judged 0, unread: off the page
 ]
+JUDGED_ZERO = ("senate-2026-09-13-1", "senate-2026-09-17-8")  # the second is read
 VOTES = {
     "senate-2026-09-17-8": {"101": "No", "102": "Aye", "103": "Paired"},
     "senate-2026-09-16-2": {"101": "No", "102": "Aye"},
     "senate-2026-09-15-1": {"101": "Aye", "102": "No"},
     "senate-2026-09-14-1": {"101": "Aye", "102": "Paired"},
     "house-2026-09-10-1": {"201": "Aye"},
+    "senate-2026-09-13-1": {"101": "Aye"},
 }
 STANCE = {
     "divisions": [
@@ -84,6 +87,8 @@ def store():
         for pid, pos in VOTES[key].items():
             conn.execute("INSERT INTO au_votes (division_key, person_id, position, party) "
                          "VALUES (?,?,?,?)", (key, pid, pos, party[pid]))
+    for key in JUDGED_ZERO:
+        conn.execute("UPDATE au_divisions SET triage_score=0 WHERE division_key=?", (key,))
     conn.execute("INSERT INTO au_bills (bill_id, title, areas) VALUES ('s1518', 'Sex "
                  "Discrimination Amendment Bill', '[3]')")
     for i, kind in enumerate(("speech", "motion", "notice", "speech")):
@@ -124,6 +129,13 @@ class OurGroundTests(unittest.TestCase):
     def test_only_divisions_on_our_ground_are_listed(self):
         self.assertEqual(set(by_key(build())), {"senate-2026-09-17-8", "senate-2026-09-14-1",
                                                 "house-2026-09-10-1"})
+
+    def test_judged_zero_division_is_off_unless_the_stance_file_reads_it(self):
+        divs = by_key(build())
+        self.assertNotIn("senate-2026-09-13-1", divs)             # scored 0, unread
+        self.assertIn("senate-2026-09-17-8", divs)                # scored 0, draft reading
+        self.assertIn("senate-2026-09-14-1", divs)                # unscored stays
+        self.assertIn("senate-2026-09-17-8", by_key(build(signed_keys=("senate-2026-09-17-8",))))
 
     def test_migration_hidden(self):
         data = build()

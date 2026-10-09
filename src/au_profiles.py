@@ -24,9 +24,10 @@ section, as tools/au_5ca.py places nobody on one.
 
 ON OUR GROUND. A division is listed by tools/au_5ca.listed for some visible
 area (its own text matched, or the stance file reads it), exactly as on the
-5CA sheets. A speech when its stored VISIBLE areas are not empty and the
-judge has not scored it 0. Migration (src/partner.py HIDDEN_AREAS) is matched
-and stored, never shown.
+5CA sheets, less a division the judge scored 0 that the stance file does
+not read (signed or draft). A speech when its stored VISIBLE areas are not
+empty and the judge has not scored it 0. Migration (src/partner.py
+HIDDEN_AREAS) is matched and stored, never shown.
 
 PAIRS ARE SHOWN AS PAIRS. Hansard lists who was paired but not which side each
 partner took (tools/au_rollcalls.py stores 'Paired', never guessing). A pair
@@ -80,7 +81,11 @@ def phid_url(phid):
 
 
 def listed_areas(d, entries):
-    """The visible areas on which tools/au_5ca.listed lists this division."""
+    """The visible areas on which tools/au_5ca.listed lists this division,
+    less any the judge scored 0 ("not ours") that the stance file does not read
+    (signed or draft: a reading always keeps its division on the page)."""
+    if d.get("triage_score") == 0 and d["division_key"] not in entries:
+        return []
     own = set(_areas(d["own_areas"]))
     return [a for a in _areas(d["areas"]) if d["division_key"] in entries or a in own]
 
