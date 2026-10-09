@@ -1,0 +1,17 @@
+# Test-only Spanish term list (tests/test_pe_rollcalls.py). NOT the proposed
+# taxonomy-es: that awaits Chris's approval (docs/peru-scope.md). Accented on
+# purpose, to prove the collector folds both sides.
+version: test
+areas:
+  1_abortion:
+    tier1: ["aborto terapéutico", "concebido*"]
+    tier2: []
+  6_parental_rights_education:
+    tier1: ["Con mis hijos no te metas"]
+    tier2: [{term: "currículo nacional", with: ["sexual*", "género"]}]
+  11_migration:
+    tier1: ["migración"]
+    tier2: []
+  13_organ_donation:
+    tier1: ["donación de órganos"]
+    tier2: []
