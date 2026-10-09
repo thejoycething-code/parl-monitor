@@ -70,7 +70,18 @@ their weeklies; the UK, devolved and EU retag ran on GitHub, did its work, and
 then refused to publish because a Mini job was publishing at the same moment.
 Run it here instead, then Canada's (the two commands under "Backfills" below:
 `retag-backfill` with `RETAG_BASELINE=9437b29d~1`, then `ca-backfill` with
-`CA_RETAG=true`). Expected, from the GitHub run's dry part: sp_items +118
+`CA_RETAG=true`). Then the US: its GitHub reclassify runs did their work twice
+and lost the store race to Mini jobs both times, so run the weekly here with
+both inputs (no DM: today's edition is already committed, so it is rewritten,
+not resent):
+
+    cd ~ && US_RECLASSIFY=true US_STATES_FULL=true JOB_TIMEOUT=10800 \
+      nohup ~/runner/parl-monitor/tools/mini_run.sh us-weekly \
+      >> ~/runner/logs/us-weekly.log 2>&1 &
+
+One at a time: each holds the runner's lock, so starting all three just
+queues them (up to LOCK_WAIT each); better to start the next when the last
+has finished. Expected, from the GitHub run's dry part: sp_items +118
 gained, eu_speeches refused by the trust check (its mapping is wrong, so it is
 left alone, as designed).
 
