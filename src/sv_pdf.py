@@ -23,7 +23,9 @@ import re
 import zlib
 
 _OBJ = re.compile(rb"(\d+)\s+0\s+obj(.*?)endobj", re.S)
-_STREAM = re.compile(rb"stream\r?\n(.*?)\r?\nendstream", re.S)
+# InDesign (the Magyar Közlöny) ends a stream with a bare CR before
+# "endstream"; Word with CRLF or LF.
+_STREAM = re.compile(rb"stream\r?\n(.*?)(?:\r\n|\n|\r)?endstream", re.S)
 _TOKEN = re.compile(
     rb"\((?:\\.|[^\\)])*\)"          # literal string (Word escapes its parens)
     rb"|<<|>>"
@@ -153,12 +155,33 @@ class _Doc:
         return raw
 
     def deref(self, body, key):
-        """Value of /key in body, following one indirect reference."""
+        """Value of /key in body, following one indirect reference. A direct
+        dictionary is read to its balancing ">>" (InDesign nests them:
+        /Resources << /ExtGState << ... >> /Font << ... >> >>)."""
         m = re.search(rb"/" + key + rb"\s*(\d+)\s+0\s+R", body)
         if m:
             return self.objs.get(int(m.group(1)), b"")
-        m = re.search(rb"/" + key + rb"\s*(<<.*?>>|\[[^\]]*\])", body, re.S)
-        return m.group(1) if m else b""
+        m = re.search(rb"/" + key + rb"\s*(<<|\[)", body)
+        if not m:
+            return b""
+        if m.group(1) == b"[":
+            end = body.find(b"]", m.end())
+            return body[m.start(1):end + 1] if end >= 0 else b""
+        depth, i = 0, m.start(1)
+        while i < len(body) - 1:
+            two = body[i:i + 2]
+            if two == b"<<":
+                depth += 1
+                i += 2
+                continue
+            if two == b">>":
+                depth -= 1
+                i += 2
+                if depth == 0:
+                    return body[m.start(1):i]
+                continue
+            i += 1
+        return b""
 
     def font(self, num):
         if num in self._fonts:
@@ -176,7 +199,12 @@ class _Doc:
             first = int(fm.group(1)) if fm else 0
             warr = self.deref(body, b"Widths")
             widths = [float(x) for x in re.findall(rb"[-\d.]+", warr)]
-            cmap = {}  # WinAnsi text decodes faithfully; trust it over a subset CMap
+            # WinAnsi text decodes faithfully; trust it over a subset CMap.
+            # A font with its own /Differences (InDesign puts the Hungarian
+            # ő and ű, and the ligatures, at codes 24-31) keeps the CMap.
+            enc = self.deref(body, b"Encoding")
+            if b"/Differences" not in enc:
+                cmap = {}
         f = _Font(cid=cid, cmap=cmap, first_char=first, widths=widths)
         self._fonts[num] = f
         return f
@@ -289,13 +317,17 @@ def _fragments(stream, fonts):
     return frags
 
 
-def pdf_lines(data, y_tolerance=2.0, cell_gap=4.0):
-    """List of pages, each a list of text lines top to bottom."""
+def pdf_lines(data, y_tolerance=2.0, cell_gap=4.0, max_pages=None):
+    """List of pages, each a list of text lines top to bottom. max_pages
+    reads only the first pages (the Magyar Közlöny's contents are on the
+    first one or two of an issue that can run to 1,000)."""
     try:
         doc = _Doc(data)
         page_nums = doc.pages()
     except Exception:  # a damaged file is a gap, not a crash
         return []
+    if max_pages:
+        page_nums = page_nums[:max_pages]
     pages = []
     for num in page_nums:
         try:
