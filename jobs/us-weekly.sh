@@ -118,7 +118,8 @@ if [ -n "$CATCH_UP" ]; then
     || echo "  [gap] catch-up of the ${CATCH_UP}th Congress ended with gaps; the current one still runs"
 fi
 python3 tools/us_rollcalls.py --congress "$CONGRESS" --budget-seconds 2700 "${SENATE_ARGS[@]}" \
-  | tee "$LOG/us-rollcalls.log"
+  | tee "$LOG/us-rollcalls.log" \
+  || echo "  [gap] Congress step ended with gaps; what it stored stands"
 
 # The week ahead, after the bills (its rows join us_bills for areas) and
 # before the edition that prints it. Non-zero means a gap, recorded in the
@@ -197,17 +198,25 @@ if [ "$JUDGE" = "on" ]; then
   # US_RESCORE: space-separated keys to judge again on a human's say-so
   # ('119/hr/28', 'us_divisions:house-119-1-240'). Spend: announce it.
   if [ -n "${US_RESCORE:-}" ]; then
-    python3 tools/us_triage.py --rescore $US_RESCORE --dry-run | tee "$LOG/us-triage-rescore.log"
+    python3 tools/us_triage.py --rescore $US_RESCORE --dry-run | tee "$LOG/us-triage-rescore.log" \
+      || echo "  [gap] the rescore listing failed"
   fi
-  python3 tools/us_triage.py --limit 800 --budget-seconds 1800 | tee "$LOG/us-triage.log"
+  # A judge gap must not cost the run: on 9 October 2026 one item the judge
+  # could not parse (us_bills:119/s/48) exited 1 here, set -e stopped the
+  # script before the publish below, and the reclassify, the states, the
+  # Record and 204 paid scores were all thrown away with the runner.
+  python3 tools/us_triage.py --limit 800 --budget-seconds 1800 | tee "$LOG/us-triage.log" \
+    || echo "  [gap] the judge left items unscored; they are retried next run"
 fi
 
 TODAY=$(date +%Y-%m-%d)
 if git ls-files --error-unmatch "editions/us-monitor-$TODAY.md" >/dev/null 2>&1; then
   echo "edition for $TODAY already committed: rewriting it, not resending the DM"
-  python3 tools/us_monitor.py --edition | tee "$LOG/us-monitor.log"
+  python3 tools/us_monitor.py --edition | tee "$LOG/us-monitor.log" \
+    || echo "  [gap] the edition failed to render"
 else
-  python3 tools/us_monitor.py --edition --dm | tee "$LOG/us-monitor.log"
+  python3 tools/us_monitor.py --edition --dm | tee "$LOG/us-monitor.log" \
+    || echo "  [gap] the edition or its DM failed"
 fi
 
 # The raw archive before the store: a store citing payloads the archive
