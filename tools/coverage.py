@@ -158,6 +158,17 @@ FEEDS = [
     ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
     ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
     ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
+    # The week ahead (tools/us_schedule.py, 9 October 2026). MEASURED on the
+    # live run of that day, in the election recess: us_schedule_weeks gains
+    # or re-stamps a row for every week and source ASKED, 404 or not, so it
+    # moves every run. us_schedule moves every run too: when no week ahead
+    # is listed, the latest list the House posted (14 September) is read
+    # again. Committee meetings are only re-stamped while they are posted,
+    # and the House posts none in recess, so a month plus a month's grace,
+    # as for the roll calls.
+    ("us_schedule_weeks", "last_seen", 7, 4, "the week ahead, one row per week and source asked (US weekly)"),
+    ("us_schedule", "last_seen", 7, 7, "bills scheduled for the floor or a committee (US weekly)"),
+    ("us_meetings", "last_seen", 31, 31, "House and Senate committee meetings (US weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -229,7 +240,7 @@ PIPELINE_FEEDS = {
     # the Gazette can legitimately be quiet, which would cry clobber.
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
     # Divisions are left out: new rows only, so a recess week cannot move them.
-    "US weekly": ["us_bills", "us_members"],
+    "US weekly": ["us_bills", "us_members", "us_schedule_weeks", "us_schedule"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -245,6 +256,13 @@ AWAITING_FIRST_RUN = {
                   "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
+    # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
+    # stamps "US schedule" at the end of every stored run. Keyed on the step,
+    # not on "US weekly", whose heartbeat already exists and would leave
+    # these new tables crying wipe until the step first ran.
+    "US schedule": (("us_schedule", "us_meetings", "us_schedule_weeks"),
+                    "week-ahead step added to US weekly 9 October 2026; its tables "
+                    "fill on the step's first run"),
     # A STEP heartbeat, not a workflow's: tools/prov_speeches.py stamps
     # "Provinces speeches" into source_runs at the end of every stored run.
     # Keyed on the workflow it would have expired at the first vote backfill
