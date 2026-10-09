@@ -23,7 +23,9 @@ none moved the other. That is the Bill's defeat, and the page says so on
 each of their pages rather than leaving a reader to diff two lists.
 
 Reads sp_scored (verdicts), sp_events (what they said), dv_post (their
-posts) and sp_members. Writes nothing.
+posts) and sp_members, and each member's record on our ground through
+src/devolved_intel.py (divisions with the signed 5CA reading, questions,
+motions, speeches, 5CA placement per area). Writes nothing to the store.
 """
 
 from __future__ import annotations
@@ -39,7 +41,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db
+from src import db, devolved_intel
 
 CONFIG = os.path.join(ROOT, "config", "holyrood_votes.yaml")
 TEMPLATE = os.path.join(ROOT, "templates", "msp-votes.html")
@@ -197,9 +199,17 @@ def build(conn):
             "record": record.get(pid, {}),
             "switched": [s1, fin] if switched else None,
         })
+    # THE RECORD ON OUR GROUND (9 October 2026): every division, question,
+    # motion and speech on our issues, with the signed 5CA reading where one
+    # exists and the member's placement per area. src/devolved_intel.py.
+    profiles = devolved_intel.build("scotland", conn,
+                                    members=[m["id"] for m in members])
+    for m in members:
+        m["intel"] = profiles.get(m["id"])
     return {
         "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M") + " local",
         "areas": {str(k): v for k, v in AREAS.items()},
+        "intelAreas": devolved_intel.area_labels(),
         "divisions": out_divs,
         "members": members,
     }
@@ -225,6 +235,8 @@ def main():
     print("{0} MSPs; {1} with a scored vote, {2} with a record, "
           "{3} who switched".format(len(data["members"]), scored, with_record,
                                     switched))
+    print("on our ground: " + devolved_intel.stats(
+        {m["id"]: m["intel"] for m in data["members"] if m.get("intel")}))
     unsigned = [d["short"] for d in data["divisions"] if not d["ours"]]
     if unsigned:
         print("  NOT signed off, shown without a verdict: {0}".format(unsigned))
