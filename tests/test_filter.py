@@ -785,3 +785,68 @@ class EveryTermCanMatchTests(unittest.TestCase):
                         if not rx.search(text):
                             dead.append("{0} {1}: {2}".format(name, area, term))
         self.assertEqual(dead, [], "these terms can never match anything")
+
+
+class AccentFoldingTests(unittest.TestCase):
+    """X3 (country decisions, 10 October 2026): accents fold for matching and
+    every letter in any script is a word character."""
+
+    def _rx(self, term):
+        rx, cs = filt._compile_term(term)
+        return lambda text: bool(rx.search(filt._fold(text) if cs else filt._norm(text)))
+
+    def test_accented_term_matches_text_with_and_without_accents(self):
+        m = self._rx("eutanásia")
+        self.assertTrue(m("Projeto de lei sobre a eutanásia"))
+        self.assertTrue(m("PROJETO SOBRE EUTANASIA"))
+
+    def test_unaccented_term_matches_accented_text(self):
+        m = self._rx("educacion sexual")
+        self.assertTrue(m("Ley de Educación Sexual Integral"))
+
+    def test_letters_without_decomposition_fold(self):
+        self.assertTrue(self._rx("małżeńst*")("Ustawa o MAŁŻEŃSTWIE"))
+        self.assertTrue(self._rx("malzenstwo")("o małżeństwo"))
+        self.assertTrue(self._rx("đak")("Đak i škola"))
+        self.assertTrue(self._rx("Schwangerschaftsabbruch")("Schwangerschaftsabbruch"))
+        self.assertTrue(self._rx("Strasse")("Straße"))
+
+    def test_non_ascii_letter_is_a_word_character(self):
+        # "rod" must not match inside "rodič" (Slovak "parent") or after ő.
+        m = self._rx("rod")
+        self.assertFalse(m("zákonný rodič"))
+        self.assertFalse(m("őrod"))
+        self.assertTrue(m("rod a rodina"))
+
+    def test_non_latin_neighbour_still_bounds(self):
+        # A Cyrillic letter is a letter: no match glued to one.
+        self.assertFalse(self._rx("gender")("genderж"))
+
+    def test_hungarian_double_acute(self):
+        m = self._rx("gyermekvédelmi")
+        self.assertTrue(m("a gyermekvédelmi törvény"))
+        self.assertTrue(self._rx("tőrvény")("törvény"))  # ő and ö both fold to o
+
+    def test_ascii_text_unchanged(self):
+        self.assertEqual(filt._fold("Children's – RSE"), "Children's - RSE")
+        self.assertEqual(filt._fold("plain ascii"), "plain ascii")
+
+    def test_acronyms_still_case_sensitive(self):
+        m = self._rx("CARE")
+        self.assertTrue(m("the charity CARE said"))
+        self.assertFalse(m("social care"))
+
+    def test_underscore_still_separates(self):
+        self.assertTrue(self._rx("abortion")("tag_abortion_x"))
+
+    def test_filter_item_folds_end_to_end(self):
+        import tempfile, yaml
+        path = os.path.join(tempfile.mkdtemp(), "t.yaml")
+        with open(path, "w", encoding="utf-8") as fh:
+            yaml.safe_dump({"version": "t", "areas": {"1_life": {
+                "tier1": ["aborto"], "tier2": ["anticoncepción"]}}}, fh, allow_unicode=True)
+        tax = filt.load_taxonomy(path)
+        wl = filt.Watchlist(entities=[], bill_titles=[], act_shorts=[])
+        r = filt.filter_item(tax, wl, "Proyecto sobre ABORTÓ y anticoncepcion")
+        self.assertEqual(r.tier, 1)
+        self.assertEqual(sorted(r.matched_terms), ["aborto", "anticoncepción"])

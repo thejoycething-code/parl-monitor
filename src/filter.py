@@ -17,6 +17,7 @@ entity is included at minimum score 2 regardless of keyword match.
 from __future__ import annotations
 
 import re
+import unicodedata
 from dataclasses import dataclass, field
 
 import yaml
@@ -37,13 +38,44 @@ _HYPHENS = str.maketrans({
 })
 
 
+# Letters that carry no Unicode decomposition, so NFD cannot strip them
+# (X3, country decisions of 10 October 2026). Polish ł, Croatian đ, Nordic ø
+# and the German sharp s (Swiss German writes "ss" throughout).
+_NO_DECOMP = str.maketrans({
+    "\u0142": "l", "\u0141": "L",    # ł Ł
+    "\u0111": "d", "\u0110": "D",    # đ Đ
+    "\u00f8": "o", "\u00d8": "O",    # ø Ø
+    "\u0131": "i",                   # dotless ı
+    "\u00df": "ss",                  # ß
+    "\u00e6": "ae", "\u00c6": "AE",  # æ Æ
+    "\u0153": "oe", "\u0152": "OE",  # œ Œ (French "œuvre", "vœu")
+})
+
+
+def _strip_accents(text):
+    """Fold accents away so that "aborto"/"abórto", "Selbsttötung"/
+    "Selbsttotung" and "eutanázia"/"eutanasia" are one word to the matcher.
+
+    Both the term and the text pass through here, so a term written with its
+    accents still matches text written with them (and without them, which is
+    how many parliamentary titles and URLs arrive). ASCII text is returned
+    untouched, which keeps the English pipelines byte-identical.
+    """
+    if text.isascii():
+        return text
+    decomposed = unicodedata.normalize("NFD", text.translate(_NO_DECOMP))
+    return unicodedata.normalize("NFC", "".join(
+        c for c in decomposed if not unicodedata.combining(c)))
+
+
 def _fold(text):
-    """Fold smart quotes to straight quotes and the hyphen family to '-'.
+    """Fold smart quotes to straight quotes, the hyphen family to '-' and
+    accented letters to their base letter.
 
     Em dashes are left alone: they separate clauses, never join words.
     """
-    return ((text or "").replace("’", "'").replace("‘", "'")
-            .replace("“", '"').replace("”", '"').translate(_HYPHENS))
+    return _strip_accents((text or "").replace("’", "'").replace("‘", "'")
+                          .replace("“", '"').replace("”", '"').translate(_HYPHENS))
 
 
 def _norm(text):
@@ -68,6 +100,15 @@ def _is_acronym(raw):
     return len(raw) <= 6 and sum(1 for c in raw[1:] if c.isupper()) >= 1 and raw[0].isupper() and not raw[1:].islower()
 
 
+# Word boundaries. Any letter or digit in any script is a word character
+# (X3): before 10 October 2026 only [a-z0-9] were, so a Polish, Hungarian or
+# Croatian term could match inside a longer word whose neighbour was ł, ő or
+# č, and a term ending in a non-ASCII letter could never be bounded at all.
+# The underscore is excluded so "_" still separates, as it did before.
+_LEFT = r"(?<![^\W_])"
+_RIGHT = r"(?![^\W_])"
+
+
 def _compile_term(term):
     """Compile a term into (regex, case_sensitive).
 
@@ -79,10 +120,10 @@ def _compile_term(term):
     raw = (term[:-1] if stem else term).strip()
     if _is_acronym(raw):
         core = _fold(raw)  # preserve case
-        left, right = r"(?<![A-Za-z0-9])", ("" if stem else r"(?![A-Za-z0-9])")
+        left, right = _LEFT, ("" if stem else _RIGHT)
         return re.compile(left + _escape_inner_stars(core) + right), True
     core = _norm(raw)
-    left, right = r"(?<![a-z0-9])", ("" if stem else r"(?![a-z0-9])")
+    left, right = _LEFT, ("" if stem else _RIGHT)
     return re.compile(left + _escape_inner_stars(core) + right), False
 
 
