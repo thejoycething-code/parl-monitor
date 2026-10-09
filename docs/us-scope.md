@@ -232,12 +232,75 @@ with Bioguide, LIS (Senate vote ID), GovTrack, OpenSecrets, Wikidata and
 other IDs. It is a volunteer project, but it is the standard crosswalk and
 the Bioguide IDs come from Congress. Use it for identity, not for votes.
 
-### Floor schedule: works today, open, no key
+### Floor schedule and committee meetings: built 9 October 2026, no key
 
-`docs.house.gov/billsthisweek/<yyyymmdd>/<yyyymmdd>.xml` is the Majority
-Leader's list for the week, with bill text links. The latest is the week of
-14 September 2026. Nothing has been posted since, because the House is out
-campaigning ahead of the midterms. This is the What's On equivalent.
+The What's On equivalent. `tools/us_schedule.py` reads what is SCHEDULED
+from today to the Sunday after the coming Monday (a Friday run: ten days)
+into `us_schedule` (one bill at one event, keyed on the bill key and joined
+to `us_bills` for areas and scores), `us_meetings` (every committee meeting,
+with or without a bill) and `us_schedule_weeks` (what each source answered
+for each week asked). The edition prints it as **Coming up**, after the
+dates that matter. Run from `jobs/us-weekly.sh` after the bills and before
+the edition. Sources, all keyless:
+
+- **House floor:** `docs.house.gov/billsthisweek/<yyyymmdd>/<yyyymmdd>.xml`,
+  the Majority Leader's list for the week, by WEEK only (it never says which
+  day). A week the House is out answers **404**, read as "no list", not a
+  failure. `docs.house.gov/floor/` names the latest week posted; when no
+  week ahead is listed, that list is read again so the edition can say when
+  the House last scheduled business, and the table keeps moving in recess.
+- **House committees:** the repository's day pages
+  (`Committee/Calendar/ByDay.aspx?DayID=<mmddyyyy>`), then each meeting's
+  page for its kind, its status (rescheduled, postponed, cancelled) and its
+  "Text of Legislation". The week view is NOT complete (14 meetings for the
+  week of 14 September against 17 on the 16th alone). The "Meeting XML" is a
+  postback, and on the one markup tried its `<legis-num>` dropped the bill
+  type on half the bills ("10355" for H.R. 10355), so the page is read.
+- **Senate committees:** `senate.gov/general/committee_schedules/hearings.xml`,
+  with the bills each meeting takes as `<AssociatedDocument>` (`PN`, a
+  nomination, is left out).
+- **Senate floor:** `senate.gov/legislative/schedule/floor_schedule.htm`, the
+  next sitting only ("Convene at 3:00 p.m."), rarely with a bill.
+
+**senate.gov refuses the laptop** (403, as for the roll calls) and answered
+the `probe-hosts` workflow from GitHub on 9 October. So the Senate half runs
+in the Senate-only GitHub run the Mini asks for (`--senate-only`, in the
+same branch of `jobs/us-weekly.sh` as the Senate votes); locally it logs one
+`[gap]`, marks the weeks `refused`, and the edition says the Senate was not
+read. A refusal never overwrites a week an earlier run read. The Senate
+fixtures of the week of 14 September are senate.gov's own files as the
+Internet Archive saved them that morning; the recess ones came from the
+probe workflow.
+
+Each scheduled bill is classified on its OWN line too (`own_areas`): the
+floor item's text, the House legislation entry, the Senate document
+description. Never the meeting's title, which would lend one bill's words to
+every other bill on the agenda (the first build gave all ten bills of a
+Senate Commerce markup "free speech" because one of them was the JAWBONE
+Act).
+
+**Measured, week of 14 to 18 September 2026** (the last the House sat; live
+for the House, fixtures for the Senate, joined to the real store):
+
+| | Listed | Bill rows | On our ground |
+|---|---|---|---|
+| House floor list | 78 items (3 categories), every one naming a bill | 78 | 2: H.R. 7834 Safe Cloud Storage Act, H.R. 9086 Foreign Service Modernization Act |
+| House committee meetings | 41 (30 hearings, 9 markups, 2 meetings) | 118 | 0 |
+| Senate committee meetings | 17 (13 hearings, 4 business meetings) | 39 | 1: the Commerce markup taking S. 4749, the JAWBONE Act |
+
+Every one of the 235 bill rows joined a bill already in `us_bills`. The
+week took 47 requests and 11 seconds. **Live, 9 October 2026** (into a
+scratch copy of the store): no list for the weeks of 5 and 12 October (404),
+no House committee meeting on any of the ten days, the 14 September list
+read again, and the House committee week of 14 September read once as a
+seed (a first run in recess would otherwise leave `us_meetings` empty for
+weeks, which the coverage watch reads as a wipe); Senate one gap.
+
+Watched by `tools/coverage.py`: `us_schedule_weeks` weekly (a row per week
+asked, every run), `us_schedule` weekly with a week's grace, `us_meetings` a
+month plus a month's grace (the House posts no meeting in recess). The step
+stamps its own heartbeat, `US schedule`, which excuses the empty tables
+until its first run.
 
 ### Congressional Record (debates): works, keyed
 
@@ -288,7 +351,7 @@ position, so it can sit just under a vote in the evidence hierarchy.
 
 `.github/workflows/us-weekly.yml`: Friday 10:00 UTC, retry 12:00 (06:00 in
 Washington, after Thursday's votes). Members, all bills (the BILLSTATUS zips
-are re-read whole), new House roll calls, new Senate votes. Watched by the
+are re-read whole), new House roll calls, new Senate votes, the week ahead. Watched by the
 failure alert and `tools/coverage.py` (bills and members weekly; votes a
 month plus a month's grace, because the House cast no vote between
 16 September and the midterms). A hand dispatch can reclassify first.
@@ -304,8 +367,8 @@ month plus a month's grace, because the House cast no vote between
    misses above.
 2. **Phase 1b: amendment purposes.** Needs the Congress.gov key. Without it
    the NDAA and appropriations votes are unreadable.
-3. **Phase 2: Senate votes (built 9 October)**, then the **floor
-   schedule** and the **Federal Register**.
+3. **Phase 2: Senate votes and the week ahead (floor lists, committee
+   meetings; both built 9 October)**, then the **Federal Register**.
 4. **Phase 3: Congressional Record** debate packs and the US 5CA (votes +
    cosponsorships).
 5. **Phase 4: state legislatures, in blocks.** See below.

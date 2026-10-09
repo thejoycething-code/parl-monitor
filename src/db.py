@@ -1558,6 +1558,10 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # The week ahead (tools/us_schedule.py, 9 October 2026).
+    "us_schedule",
+    "us_meetings",
+    "us_schedule_weeks",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",

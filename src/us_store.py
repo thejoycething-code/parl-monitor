@@ -1,5 +1,6 @@
 """Tables for the US Congress monitor (phase 1, 9 October 2026): members,
-bills with their cosponsors, House roll calls and every member's position.
+bills with their cosponsors, House roll calls and every member's position,
+and the week ahead (us_schedule, us_meetings, us_schedule_weeks).
 
 See docs/us-scope.md for what was measured and why. The schema follows the
 Canadian precedent (src/ca_store.py): its own module, idempotent statements,
@@ -106,11 +107,75 @@ SCHEMA = (
         state        TEXT,
         PRIMARY KEY (division_key, bioguide)
     )""",
+    # THE WEEK AHEAD (tools/us_schedule.py, 9 October 2026). What is
+    # scheduled, never what happened: the House floor list, committee
+    # hearings and markups in both chambers, and the Senate's next sitting.
+    # A row of us_schedule is one BILL at one scheduled event, keyed on the
+    # bill KEY (never its title) and joined to us_bills for areas and
+    # scores. A hearing that names no bill lives in us_meetings alone.
+    """CREATE TABLE IF NOT EXISTS us_schedule (
+        sched_key    TEXT PRIMARY KEY,   -- 'house-floor-2026-09-14/119/hr/28',
+                                         -- 'house-cmte-119568/119/hr/4615'
+        bill_key     TEXT NOT NULL,      -- '119/hr/28'
+        chamber      TEXT NOT NULL,      -- 'house' / 'senate'
+        kind         TEXT NOT NULL,      -- 'floor', 'markup', 'hearing', 'meeting'
+        week_of      TEXT NOT NULL,      -- the Monday of the week, ISO
+        date         TEXT,               -- the day, when the source gives one
+                                         -- (the House floor list is by WEEK)
+        meeting_key  TEXT,               -- us_meetings, for committee rows
+        category     TEXT,               -- floor: 'suspension' / 'rule' / 'may be considered'
+        legis_num    TEXT,               -- as the source printed it: 'H.R. 309'
+        text         TEXT,               -- the source's own line for the item
+        doc_url      TEXT,               -- the text the House posted for the week
+        status       TEXT,               -- 'listed', 'removed', 'scheduled',
+                                         -- 'postponed', 'cancelled'
+        own_areas    TEXT,               -- JSON: matched on the line's OWN text
+        matched_terms TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS us_meetings (
+        meeting_key  TEXT PRIMARY KEY,   -- 'house-119568'; 'senate-SSJU-2026-09-17-10:00'
+        chamber      TEXT NOT NULL,
+        event_id     TEXT,               -- the House repository's EventID
+        committee    TEXT,
+        kind         TEXT,               -- 'markup', 'hearing', 'meeting'
+        title        TEXT,
+        date         TEXT,               -- ISO
+        time         TEXT,
+        location     TEXT,
+        status       TEXT,               -- 'scheduled', 'postponed', 'cancelled'
+        url          TEXT,
+        bills        TEXT,               -- JSON list of bill KEYS named
+        own_areas    TEXT,               -- JSON: matched on the title and bill lines
+        matched_terms TEXT,
+        tier         INTEGER,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    # One row per (chamber, source, week) ASKED, whatever came back: a list,
+    # nothing posted (the House answers 404 for a week it is out), or a
+    # refusal. It is how the edition can say "the House is out" rather than
+    # "nothing on our ground", and it moves on every run, recess included.
+    """CREATE TABLE IF NOT EXISTS us_schedule_weeks (
+        chamber      TEXT NOT NULL,
+        source       TEXT NOT NULL,      -- 'floor' / 'committees'
+        week_of      TEXT NOT NULL,      -- Monday, ISO
+        status       TEXT,               -- 'listed', 'none', 'refused'
+        items        INTEGER,            -- rows the source listed (all, not only ours)
+        note         TEXT,               -- e.g. the Senate's "Convene for a pro forma session"
+        first_seen   TEXT,
+        last_seen    TEXT,
+        PRIMARY KEY (chamber, source, week_of)
+    )""",
     "CREATE INDEX IF NOT EXISTS us_divisions_bill ON us_divisions (bill_key)",
+    "CREATE INDEX IF NOT EXISTS us_schedule_bill ON us_schedule (bill_key)",
+    "CREATE INDEX IF NOT EXISTS us_schedule_week ON us_schedule (week_of)",
     "CREATE INDEX IF NOT EXISTS us_votes_member ON us_votes (bioguide)",
 )
 
-TABLES = ("us_members", "us_bills", "us_cosponsors", "us_divisions", "us_votes")
+TABLES = ("us_members", "us_bills", "us_cosponsors", "us_divisions", "us_votes",
+          "us_schedule", "us_meetings", "us_schedule_weeks")
 
 MEMBER_UPSERT = (
     "INSERT INTO us_members (bioguide, name, party, state, district, chamber, "

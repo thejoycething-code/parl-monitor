@@ -1,6 +1,7 @@
 #!/bin/bash
 # US weekly: members, bills, House roll calls and Senate votes of the current
-# Congress, the judge when US_JUDGE is on, then the edition and its DM.
+# Congress, the week ahead (floor lists and committee meetings, both
+# chambers), the judge when US_JUDGE is on, then the edition and its DM.
 #
 # Called by .github/workflows/us-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh us-weekly. One script, two callers (docs/mac-mini.md).
@@ -44,6 +45,8 @@ fi
 if [ "${US_SENATE_ONLY:-}" = "true" ]; then
   python3 tools/us_rollcalls.py --congress 119 --no-bills --no-rolls --no-members \
     --budget-seconds 1500 | tee "$LOG/us-rollcalls.log"
+  python3 tools/us_schedule.py --senate-only | tee "$LOG/us-schedule.log" \
+    || echo "  [gap] the Senate week ahead stopped early; its gaps are in the store"
   python3 tools/raw_state.py --push
   python3 tools/db_state.py --push
   exit 0
@@ -83,6 +86,12 @@ fi
 
 python3 tools/us_rollcalls.py --congress 119 --budget-seconds 2700 "${SENATE_ARGS[@]}" \
   | tee "$LOG/us-rollcalls.log"
+
+# The week ahead, after the bills (its rows join us_bills for areas) and
+# before the edition that prints it. Non-zero means a gap, recorded in the
+# store and said in the edition; it never stops the week's edition.
+python3 tools/us_schedule.py "${SENATE_ARGS[@]}" | tee "$LOG/us-schedule.log" \
+  || echo "  [gap] the week ahead stopped early; the edition says what it has"
 
 JUDGE="${US_JUDGE:-}"
 if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then
