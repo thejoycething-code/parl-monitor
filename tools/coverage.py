@@ -160,9 +160,9 @@ FEEDS = [
     ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
     ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
     ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
-    # Honduras (9 October 2026). MEASURED which re-stamp: the deputies and the
-    # four "recent expedientes" lists are re-read whole every run, so both
-    # move every week; press releases arrive at about 150 a month. Agenda
+    # Honduras (9 October 2026). MEASURED which re-stamp: the deputies, the
+    # sessions list and the four "recent expedientes" lists are re-read whole
+    # every run, so all three move every week; press releases arrive at about 150 a month. Agenda
     # items move only when a session is new or within the three-week re-read,
     # and the Congreso's ordinary sessions end on 31 October (extendable):
     # a month plus two months' grace covers the recess. La Gaceta's current
@@ -171,6 +171,7 @@ FEEDS = [
     ("hn_bills", "last_seen", 7, 4, "Congreso Nacional expedientes (Honduras weekly)"),
     ("hn_news", "last_seen", 7, 4, "Congreso Nacional press releases (Honduras weekly)"),
     ("hn_gazette", "last_seen", 7, 4, "La Gaceta issues (Honduras weekly)"),
+    ("hn_sessions", "last_seen", 7, 4, "Congreso Nacional sessions list (Honduras weekly)"),
     ("hn_agenda_items", "last_seen", 31, 62, "Congreso Nacional session agendas (Honduras weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
@@ -245,7 +246,7 @@ PIPELINE_FEEDS = {
     # Divisions are left out: new rows only, so a recess week cannot move them.
     "US weekly": ["us_bills", "us_members"],
     # Agenda items left out as for US divisions: a recess cannot move them.
-    "Honduras weekly": ["hn_members", "hn_bills", "hn_gazette"],
+    "Honduras weekly": ["hn_members", "hn_bills", "hn_gazette", "hn_sessions"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -259,7 +260,8 @@ PIPELINE_FEEDS = {
 AWAITING_FIRST_RUN = {
     "US weekly": (("us_bills", "us_members", "us_divisions"),
                   "scheduled 9 October 2026; its tables fill on its first run"),
-    "Honduras weekly": (("hn_members", "hn_bills", "hn_news", "hn_gazette", "hn_agenda_items"),
+    "Honduras weekly": (("hn_members", "hn_bills", "hn_news", "hn_gazette", "hn_sessions",
+                         "hn_agenda_items"),
                         "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
