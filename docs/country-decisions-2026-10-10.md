@@ -309,6 +309,39 @@ the Mac Mini would be a judge at zero API cost. Nothing below is built.
   would fix the Polish case at the source; the taxonomy is generated, so it
   is left for the next term-list round.
 
+### Batch 2: Italy, Switzerland, France, Portugal (branch `editions-it-ch-fr-pt`)
+
+- Adapters `src/editions/{it,ch,fr,pt}.py` on the framework unchanged;
+  entry points `tools/{it,ch,fr,pt}_monitor.py`; the edition is the last
+  step of `jobs/{it,ch,fr,pt}-weekly.sh` (Portugal's skips a backfill run,
+  `PT_LEGISLATURE` set).
+- Italy: bills of both chambers; Senate and Camera votes with every
+  member's position and the group at the vote. Switzerland: businesses
+  (German title, French when the German is "Titel folgt"), both councils'
+  votes; the Nationalrat's tallies are counted from positions and no
+  result is shown (it publishes none); the watchlist is re-keyed from the
+  Geschaeftsnummer to the printed number. France: dossiers by their latest
+  act (the store keeps no deposit date), scrutins with group split and
+  mises au point counted, scheduled committee acts in the week ahead.
+  Portugal: group sides as printed, named deputies as facts, member
+  positions DERIVED and labelled (X5).
+- FR4: no Journal officiel collector yet, so the France week ahead carries
+  a standing "Aide a mourir: decrees to watch" note, read from a `decrees`
+  list on the law's entry in `config/watchlist-fr.yaml` (hand-edited: the
+  list is drawn from the text as first adopted and must be checked against
+  the promulgated law).
+- Samples (SAMPLE, never sent), 9 September to 9 October 2026, from the
+  scoping raw archives replayed offline through the collectors (no
+  network): Italy 13 items (1 left out), Switzerland 80 (2 left out),
+  France 4 plus the FR4 note, Portugal 20. Noise measured there and over
+  each whole store: Italy, a hunting-wardens' conscience bill and Holy See
+  solar-farm agreements, plus quorum checks (an Italian "ordine del
+  giorno" is a resolution, never procedure); Switzerland, animal welfare
+  (ritual slaughter kept) and disability insurance by title, about 15
+  tier-2 or single-term questions left for the mute list; France, the
+  demande de suspension de seance; Portugal, requests to waive the final
+  drafting.
+
 ## Not acted on
 
 - U1 (Uruguay Ley 20.431 referendum): ignore.
