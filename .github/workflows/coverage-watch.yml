@@ -26,7 +26,17 @@ defaults:
     shell: bash -eo pipefail {0}
 
 jobs:
+  # The Mac Mini runs this daily at 05:30 London (tools/mini_run.sh coverage);
+  # this cron is the backup and skips itself when the Mini already ran.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: COVERAGE
+      window-hours: 20
+
   coverage:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

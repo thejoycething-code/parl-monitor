@@ -1,0 +1,73 @@
+name: Mini check
+
+# The gate in front of every scheduled workflow (docs/mac-mini-runner.md,
+# step 3). The Mac Mini runs each job first, at the slot's exact time, and
+# records it in the repo variable MINI_LAST_<JOB> (tools/mini_run.sh).
+# GitHub's own cron starts hours late or not at all, so its run is only the
+# backup: it goes ahead only when the Mini has NOT run recently.
+#
+#     jobs:
+#       mini-check:
+#         uses: ./.github/workflows/mini-check.yml
+#         with: { job: COVERAGE, window-hours: 20 }
+#       coverage:
+#         needs: mini-check
+#         if: needs.mini-check.outputs.run == 'true'
+#
+# A hand dispatch always runs. So does a schedule when the variable is
+# missing or unreadable: when in doubt, the backup runs. The Mini records a
+# slot only after a clean run, so a Mini failure lets GitHub rescue the day.
+#
+# window-hours is how recent counts as "this slot": under the job's
+# interval (20 for a daily job), over GitHub's worst lateness (~13h seen).
+on:
+  workflow_call:
+    inputs:
+      job:
+        description: "Job name as in MINI_LAST_<JOB>, e.g. COVERAGE"
+        required: true
+        type: string
+      window-hours:
+        required: true
+        type: number
+    outputs:
+      run:
+        description: "'true' when the real job should run"
+        value: ${{ jobs.check.outputs.run }}
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          LAST: ${{ vars[format('MINI_LAST_{0}', inputs.job)] }}
+          WINDOW: ${{ inputs.window-hours }}
+          JOB: ${{ inputs.job }}
+        run: |
+          run=true
+          age=
+          if [ -n "$LAST" ] && last=$(date -u -d "$LAST" +%s 2>/dev/null); then
+            age=$(( ( $(date -u +%s) - last ) / 60 ))
+          fi
+          if [ "$EVENT" != schedule ]; then
+            why="$EVENT: always runs (Mini last ran ${LAST:-never}${age:+, $age min ago})"
+          elif [ -z "$LAST" ]; then
+            why="no MINI_LAST_$JOB recorded: running as backup"
+          elif [ -z "$age" ]; then
+            why="MINI_LAST_$JOB='$LAST' is unreadable: running as backup"
+          elif [ "$age" -lt $(( WINDOW * 60 )) ]; then
+            run=false
+            why="the Mini ran this slot at $LAST ($age min ago): skipping"
+          else
+            why="the Mini last ran at $LAST ($age min ago, over ${WINDOW}h): rescuing the slot"
+          fi
+          echo "$why"
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+          echo "**Mini check ($JOB):** $why" >> "$GITHUB_STEP_SUMMARY"
