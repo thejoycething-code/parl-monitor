@@ -46,6 +46,9 @@ DIVS = [  # key, date, bill, question, own_areas, areas, text
     ("house-119-1-90", "2025-03-11", "119/hr/1968", "On Agreeing to the Amendment", "[]", "[1]",
      "A </script> amendment"),
     ("house-119-2-1", "2026-09-16", None, "Quorum", "[]", "[]", None),
+    # Migration is matched and stored but never shown (HIDDEN_AREAS).
+    ("house-119-1-170", "2025-06-12", "119/hr/2056", "On Passage", "[11]", "[11]", None),
+    ("house-119-1-171", "2025-06-12", "119/hr/2057", "On Passage", "[1, 11]", "[1, 11]", None),
     ("senate-119-1-11", "2025-01-22", "119/s/6", "On Cloture on the Motion to Proceed", "[1]",
      "[1]", "Motion to Proceed to S. 6"),
 ]
@@ -53,7 +56,9 @@ VOTES = {
     "house-119-1-26": {"A1": "Nay", "O1": "Yea", "G1": "Nay"},
     "house-119-1-27": {"A1": "Yea", "O1": "Nay", "G1": "Not Voting", "DL": "Present"},
     "house-119-1-90": {"A1": "Yea", "O1": "Nay"},
-    "house-119-2-1": {"A1": "Yea", "O1": "Yea"},          # Gone has left; latest House roll
+    "house-119-2-1": {"A1": "Yea", "O1": "Yea"},
+    "house-119-1-170": {"A1": "Yea", "O1": "Nay"},
+    "house-119-1-171": {"A1": "Yea", "O1": "Nay"},          # Gone has left; latest House roll
     "senate-119-1-11": {"S1": "Yea"},
 }
 STANCE = {
@@ -97,6 +102,12 @@ def store():
     conn.execute("INSERT INTO us_bills (bill_key, congress, bill_type, number, title, sponsor, "
                  "introduced, areas, triage_score) VALUES ('119/hr/98', 119, 'hr', 98, "
                  "'Judged not ours', 'A1', '2025-01-03', '[7]', 0)")
+    conn.execute("INSERT INTO us_bills (bill_key, congress, bill_type, number, title, sponsor, "
+                 "introduced, areas) VALUES ('119/hr/2056', 119, 'hr', 2056, 'Migration only', "
+                 "'O1', '2025-01-03', '[11]')")
+    conn.execute("INSERT INTO us_bills (bill_key, congress, bill_type, number, title, sponsor, "
+                 "introduced, areas) VALUES ('119/hr/2057', 119, 'hr', 2057, 'Mixed', "
+                 "'O1', '2025-01-03', '[7, 11]')")
     conn.execute("INSERT INTO us_cosponsors VALUES ('119/hr/21', 'O1', '2025-01-05', '2025-02-01', 0)")
     conn.execute("INSERT INTO us_cosponsors VALUES ('119/hr/21', 'S1', '2025-01-05', NULL, 1)")
     for i in range(5):
@@ -137,7 +148,18 @@ def by_key(data):
 class OurGroundTests(unittest.TestCase):
     def test_only_divisions_on_our_ground_are_listed(self):
         keys = set(by_key(build()))
-        self.assertEqual(keys, {"house-119-1-26", "house-119-1-27", "senate-119-1-11"})
+        self.assertEqual(keys, {"house-119-1-26", "house-119-1-27", "senate-119-1-11",
+                                "house-119-1-171"})
+
+    def test_hidden_areas_never_shown(self):
+        data = build()
+        divs = by_key(data)
+        self.assertNotIn("house-119-1-170", divs)            # migration only: drops out
+        self.assertEqual(divs["house-119-1-171"]["areas"], [1])
+        bills = {b["key"]: b for b in data["bills"]}
+        self.assertNotIn("119/hr/2056", bills)
+        self.assertEqual(bills["119/hr/2057"]["areas"], [7])
+        self.assertNotIn("11", data["areas"])
 
     def test_positions_party_splits_and_members(self):
         data = build()
@@ -230,7 +252,7 @@ class PageTests(unittest.TestCase):
         page = mk.render(build())
         self.assertNotIn("/*__DATA__*/", page)
         blob = re.search(r"const DATA = (\{.*?\});\n", page, re.S).group(1)
-        self.assertEqual(len(json.loads(blob)["divisions"]), 3)
+        self.assertEqual(len(json.loads(blob)["divisions"]), 4)
         self.assertEqual(page.lower().count("</script>"), 1)
 
     def test_main_writes_the_page_from_a_store_file(self):

@@ -42,6 +42,7 @@ import datetime
 import json
 
 from src import readings5ca as r5
+from src.partner import HIDDEN_AREAS
 
 POS_CODE = {"Yea": "Y", "Nay": "N", "Present": "P", "Not Voting": "V"}
 # Anything else (a name in a Speaker election) is 'O', shown as recorded: never
@@ -54,8 +55,10 @@ BILL_TYPES = {"hr": "H.R.", "s": "S.", "hres": "H.Res.", "sres": "S.Res.", "hjre
 
 
 def _areas(text):
+    """The VISIBLE areas: migration (HIDDEN_AREAS) is matched and stored but
+    never shown, as in every edition here (tools/us_monitor.py)."""
     try:
-        return [int(a) for a in json.loads(text or "[]")]
+        return [int(a) for a in json.loads(text or "[]") if int(a) not in HIDDEN_AREAS]
     except (ValueError, TypeError):
         return []
 
@@ -96,7 +99,7 @@ def division_url(d):
 def listed_areas(d, entries, bill_entries):
     """The taxonomy areas on which this roll call is evidence (module docstring)."""
     out = []
-    own = set(_areas(d["own_areas"]))
+    own = set(_areas(d["own_areas"]))   # visible areas only: a hidden-only vote drops out
     q = (d["question"] or "").lower()
     for area in _areas(d["areas"]):
         if d["division_key"] in entries or area in own:
@@ -322,7 +325,7 @@ def build(conn, entries, bill_entries, area_names, placements=None, today=None):
     signed = sum(1 for d in out_divs if d["reading"] == "signed")
     return {
         "built": today,
-        "areas": {str(k): v for k, v in sorted(area_names.items())},
+        "areas": {str(k): v for k, v in sorted(area_names.items()) if k not in HIDDEN_AREAS},
         "members": out_members,
         "divisions": out_divs,
         "bills": out_bills,
