@@ -288,7 +288,9 @@ def nicaragua_section(conn, since, until, items):
     relig = items
     got = latam.rows(conn, "SELECT COUNT(*) FROM nic_gazette_items WHERE substr(date,1,10) > ? AND "
                            "substr(date,1,10) <= ?", (since, until))
-    other = (got[0][0] if got else 0) - len(relig)
+    matched8 = len(latam.nic_items(conn, since, until))   # before the noise filters
+    other = (got[0][0] if got else 0) - matched8
+    filtered = matched8 - len(relig)
     out = ["## Nicaragua (La Gaceta)", "",
            "_No parliamentary section (NI1). La Gaceta, the official gazette, is read for "
            "religious-freedom items: cancellations of the legal status of churches, religious "
@@ -296,11 +298,13 @@ def nicaragua_section(conn, since, until, items):
     if not n:
         out.append("- La Gaceta was not read for this period (no issues stored); see Coverage.")
     else:
-        out.append("- {0} issue(s) read, {1} to {2}{3}; {4} religious-freedom notice(s){5}.".format(
+        out.append("- {0} issue(s) read, {1} to {2}{3}; {4} religious-freedom notice(s){5}{6}.".format(
             n, short_date(first), short_date(last),
             " ({0} without a text layer)".format(blind) if blind else "",
             len(relig), "; {0} other notice(s) matched other areas and are not shown".format(other)
-            if other else ""))
+            if other else "",
+            "; {0} matched notice(s) with no cancellation or religious body in them were left out "
+            "(config/latam-noise.yaml)".format(filtered) if filtered else ""))
         if relig:
             out.append("")
             for it in relig[:10]:

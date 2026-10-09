@@ -390,5 +390,208 @@ class NicaraguaTests(unittest.TestCase):
         self.assertIsNone(nic_gaceta.embedded_pdf("<html>no pdf</html>"))
 
 
+class NoiseTests(Fixture):
+    """The free noise filters (src/latam_noise.py) with the repo's own
+    config/latam-noise.yaml copied into the fixture config directory."""
+
+    def setUp(self):
+        super().setUp()
+        from src import latam_noise
+        self.noise = latam_noise
+        latam_noise.clear()
+        shutil.copy(os.path.join(ROOT, "config", "latam-noise.yaml"), self.cfg)
+        self.mute({})
+        with open(os.path.join(self.cfg, "watchlist-hn.yaml"), "w") as fh:
+            fh.write("expedientes:\n  \"EXP-2026-0390\": {areas: [6], match: [\"Ley de Derechos "
+                     "Parentales\"], why: \"Ley de Derechos Parentales. Flagship.\"}\n")
+        latam._WATCH.clear()
+        x = self.conn.execute
+        # Dominican Republic: a substantive vote, a referral, two procedural
+        # motions, an honours resolution and the vote that passed it.
+        x("INSERT INTO do_bills (bill_key, period, title, deposited, status, areas, tier, "
+          "matched_terms) VALUES "
+          "('B-1','2024-2028','Proyecto de ley que modifica el Código Penal.','2026-01-10',"
+          "'En agenda','[1]',2,'[\"Codigo Penal\"]')")
+        x("INSERT INTO do_bills (bill_key, period, title, deposited, status, areas, tier, "
+          "matched_terms) VALUES "
+          "('B-2','2024-2028','Proyecto de resolución mediante el cual otorga un reconocimiento "
+          "a la Iglesia X.','2026-09-20','Aprobado','[8]',2,'[\"iglesia\"]')")
+        votes = (("cd/1", "Sometido a votación el proyecto de ley, en segunda discusión.", '["B-1"]'),
+                 ("cd/2", "El diputado presidente propuso y sometió a votación que el proyecto de ley "
+                          "fuese remitido a estudio de una Comisión Bicameral.", '["B-1"]'),
+                 ("cd/3", "El diputado presidente propuso y sometió a votación que el proyecto de ley "
+                          "fuese liberado del trámite de lectura.", '["B-1"]'),
+                 ("cd/4", "Sometido a votación el nonagésimo grupo de resoluciones internas.", '["B-1"]'),
+                 ("cd/5", "Sometido a votación el proyecto de resolución, en única discusión.", '["B-2"]'))
+        for key, motion, refs in votes:
+            x("INSERT INTO do_divisions (division_key, date, motion, yes, no, bill_refs, own_areas, "
+              "areas) VALUES (?,?,?,?,?,?,?,?)", (key, "2026-10-01", motion, 90, 10, refs, "[]",
+                                                  '[8]' if refs == '["B-2"]' else '[1]'))
+        # Honduras press: free speech in the body only; a decree number; a
+        # watched bill's name; a tier-1 term in the headline.
+        press = (("h1", "Delegación visita el Senado español", "Defendemos la libertad de expresión.",
+                  '["libertad de expresión"]'),
+                 ("h2", "Congreso reforma el régimen de asociaciones", "Mediante el Decreto 45-2026 se "
+                  "regula la libertad de expresión.", '["libertad de expresión"]'),
+                 ("h3", "Agenda legislativa de la semana", "Incluye la Ley de Derechos Parentales.",
+                  '["Ley de Derechos Parentales"]'),
+                 ("h4", "Diputados debaten la libertad religiosa", "...", '["libertad religiosa"]'))
+        for pid, title, body, terms in press:
+            x("INSERT INTO hn_news (post_id, created_at, title, body, areas, matched_terms, tier) "
+              "VALUES (?,?,?,?,?,?,1)", (pid, "2026-09-27T10:00:00Z", title, body, "[7]", terms))
+        # Nicaragua: an approval of a sports association's legal status.
+        x("INSERT INTO nic_gazette_items (item_key, issue, date, url, heading, text, areas, tier) VALUES "
+          "('2026/184/40',184,'2026-10-08','u','Acuerdo Ministerial No. 9-2026-OSFL',"
+          "'acuerda aprobar Personalidad Jurídica a la Asociación de Ajedrez','[8]',1)")
+        self.conn.commit()
+
+    def tearDown(self):
+        self.noise.clear()
+        super().tearDown()
+
+    def mute(self, data):
+        import yaml
+        with open(os.path.join(self.cfg, "latam-mute.yaml"), "w") as fh:
+            yaml.safe_dump(data, fh)
+        self.noise.clear()
+
+    def render(self):
+        return latam_monitor.render_edition(self.conn, TODAY, SINCE, ledger={"moves": []},
+                                            config_dir=self.cfg)
+
+    def it(self, cc, kind, title, tier=1, terms=(), watched=False, body="", refs=()):
+        return latam.item(cc, kind, "k", "2026-10-01", title, [7], tier, watched,
+                          terms=json.dumps(list(terms)), body=body, refs=refs)
+
+    def test_procedural_votes_leave_the_edition_and_are_counted(self):
+        text = self.render()
+        self.assertIn("cd/1", text)                       # substantive
+        self.assertIn("cd/2", text)                       # referral: where the fight moves
+        self.assertNotIn("cd/3", text)                    # reading dispensed
+        self.assertNotIn("cd/4", text)                    # bulk internal resolutions
+        self.assertIn("Dominican Republic 4 (2 procedural votes, 1 excluded title, "
+                      "1 vote on excluded bills only)", text)
+
+    def test_honours_and_the_votes_on_them_leave(self):
+        text = self.render()
+        self.assertNotIn("otorga un reconocimiento", text)
+        self.assertNotIn("cd/5", text)
+
+    def test_default_procedural_patterns_are_anchored(self):
+        def drop(title):
+            return self.noise.drop_reason(self.it("pe", "vote", title), self.cfg)
+        self.assertEqual(drop("Aprobación del orden del día"), "procedural vote")
+        self.assertEqual(drop("Orden del día: sesión del 3 de octubre"), "procedural vote")
+        self.assertEqual(drop("Aprobación del acta de la sesión anterior"), "procedural vote")
+        self.assertEqual(drop("Verificación del quórum"), "procedural vote")
+        self.assertEqual(drop("Se declara un receso de quince minutos"), "procedural vote")
+        self.assertIsNone(drop("Encomienda para un proyecto de ley de modificación al Código Penal, "
+                               "para tenerlo en el orden del día de mañana"))
+        self.assertIsNone(drop("Proyecto de ley que protege la vida desde la concepción"))
+        # a bill (not a vote) titled with the words is not a procedural vote
+        self.assertIsNone(self.noise.drop_reason(self.it("pe", "new", "Aprobación del orden del día"),
+                                                 self.cfg))
+
+    def test_watched_items_are_never_filtered(self):
+        it = self.it("do", "vote", "El proyecto fuese liberado del trámite de lectura.", watched=True)
+        self.assertIsNone(self.noise.drop_reason(it, self.cfg))
+        it = self.it("do", "new", "Otorga un reconocimiento", watched=True)
+        self.assertIsNone(self.noise.drop_reason(it, self.cfg))
+
+    def test_nicaragua_gazette_needs_a_cancellation_or_a_church(self):
+        text = self.render()
+        self.assertIn("cancela la personalidad jurídica", text)
+        self.assertNotIn("Ajedrez", text)
+        self.assertIn("1 matched notice(s) with no cancellation or religious body in them were left out",
+                      text)
+
+    def test_alert_evidence(self):
+        reason = lambda it: self.noise.alert_reason(it, self.cfg)  # noqa: E731
+        # a tier-1 term in the title
+        self.assertEqual(reason(self.it("pe", "new", "Ley de libertad religiosa",
+                                        terms=["libertad religiosa"])), "tier-1 term in the title")
+        # one term, in the body only: edition-only
+        self.assertIsNone(reason(self.it("ve", "news", "Comité de Postulaciones Judiciales",
+                                         terms=["libertad de expresión"])))
+        # two distinct terms will do; variants of one term count once
+        self.assertEqual(reason(self.it("ve", "news", "Foro", terms=["libertad de expresión",
+                                                                    "libertad de prensa"])),
+                         "2 distinct terms")
+        self.assertIsNone(reason(self.it("ve", "news", "Foro",
+                                         terms=["desinformaci*", "desinformación"])))
+        # migration terms are not shown, so they do not count
+        self.assertIsNone(reason(self.it("hn", "news", "Expulsión", terms=["migración", "asilo",
+                                                                         "trata de personas"])))
+        # tier 2 and register updates never alert unless watched
+        self.assertIsNone(reason(self.it("pe", "new", "Ley de libertad religiosa", tier=2)))
+        self.assertIsNone(reason(self.it("bo", "updated", "Ley de libertad religiosa")))
+        self.assertEqual(reason(self.it("pe", "new", "Nada", tier=2, watched=True)), "watched")
+
+    def test_variants_count_as_one_term(self):
+        it = self.it("hn", "press", "x", terms=["trasplante* de órganos", "trasplante de órganos",
+                                                "trasplante*", "tráfico de órganos"])
+        self.assertEqual(self.noise.distinct_terms(it), 2)
+
+    def test_honduras_press_alerts_only_on_watch_number_or_headline(self):
+        self.run_alerts()
+        keys = self.run_alerts(unseed=True)
+        self.assertNotIn("hn|press|press-h1", keys)       # body-only: edition-only
+        self.assertIn("hn|press|press-h2", keys)          # a decree number
+        self.assertIn("hn|press|press-h3", keys)          # names a watched bill
+        self.assertIn("hn|press|press-h4", keys)          # tier-1 term in the headline
+        text = self.render()
+        self.assertIn("Delegación visita el Senado español", text)   # still in the edition
+
+    def run_alerts(self, unseed=False):
+        if unseed:
+            for name in os.listdir(self.ledgers):
+                path = os.path.join(self.ledgers, name)
+                with open(path) as fh:
+                    ledger = json.load(fh)
+                ledger["sent"] = {}
+                with open(path, "w") as fh:
+                    json.dump(ledger, fh)
+        got = latam_alerts.run(self.conn, ["hn", "do", "nic", "uy"], TODAY, 30, True, 50,
+                               lambda text: {"ok": True}, self.ledgers, self.cfg, log=lambda *a: None)
+        return sorted(k for _, k, _ in got)
+
+    def test_mute_list(self):
+        self.mute({"items": ["hn|press|press-h4", "uy|L50/07799"],
+                   "patterns": [{"cc": "hn", "title": "agenda legislativa"}], "mute_in_edition": True})
+        self.run_alerts()
+        keys = self.run_alerts(unseed=True)
+        self.assertNotIn("hn|press|press-h4", keys)
+        self.assertNotIn("uy|pedido|L50/07799", keys)
+        self.assertIn("hn|press|press-h3", keys)          # watched: a pattern never mutes it
+        text = self.render()
+        self.assertNotIn("Diputados debaten la libertad religiosa", text)
+        self.assertIn("muted item", text)
+
+    def test_mute_pattern_spares_watched_items_and_edition_can_ignore_it(self):
+        self.mute({"patterns": [{"title": "agenda legislativa"}, {"title": "senado espanol"}],
+                   "mute_in_edition": False})
+        self.run_alerts()
+        keys = self.run_alerts(unseed=True)
+        self.assertIn("hn|press|press-h3", keys)          # watched: only its key mutes it
+        text = self.render()
+        self.assertIn("Delegación visita el Senado español", text)   # the edition ignores the list
+
+    def test_no_noise_file_keeps_the_old_rule(self):
+        os.remove(os.path.join(self.cfg, "latam-noise.yaml"))
+        self.noise.clear()
+        self.assertEqual(self.noise.alert_reason(self.it("ve", "news", "Comité",
+                                                         terms=["libertad de expresión"]), self.cfg),
+                         "tier 1")
+        self.assertIsNone(self.noise.drop_reason(self.it("do", "vote", "fuese liberado del trámite de "
+                                                         "lectura"), self.cfg))
+
+    def test_press_watch_matches_key_or_phrase_folded(self):
+        wl = {"EXP-2026-0390": {"match": ["Ley de Derechos Parentales"]}}
+        self.assertEqual(latam.press_watch(wl, "LEY DE DERECHOS PARENTALES avanza", ""),
+                         ["EXP-2026-0390"])
+        self.assertEqual(latam.press_watch(wl, "x", "expediente EXP-2026-0390"), ["EXP-2026-0390"])
+        self.assertEqual(latam.press_watch(wl, "Derechos humanos", ""), [])
+
+
 if __name__ == "__main__":
     unittest.main()
