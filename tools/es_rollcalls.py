@@ -73,6 +73,10 @@ VOTES_LANDING = BASE + "/es/opendata/votaciones"
 MEMBERS_PAGE = BASE + "/es/opendata/diputados"
 INITIATIVES_PAGE = BASE + "/es/opendata/iniciativas"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "es"
 BUDGET_S = drain.DEFAULT_S
 # congreso.es is a Liferay portal serving the whole public site; a second
 # between requests keeps a first-run backfill (about 3,000 vote files for
@@ -249,7 +253,7 @@ def parse_vote_json(raw):
 def load_taxonomy(path=None):
     """The Spanish taxonomy, or None while none exists (areas stay NULL)."""
     path = path or TAXONOMY_ES
-    return filt.load_taxonomy(path) if os.path.exists(path) else None
+    return filt.load_taxonomy(path, country=TAXONOMY_COUNTRY) if os.path.exists(path) else None
 
 
 def empty_watchlist():

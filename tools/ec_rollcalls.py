@@ -27,10 +27,10 @@ and keyless, measured live:
 
 NO BILL NUMBER, NO MEMBER ID, NO PARTY ON A VOTE: see src/ec_store.py.
 
-CLASSIFICATION waits for a Spanish taxonomy (config/taxonomy-ec.yaml,
-proposed in docs/ecuador-scope.md, generated only once Christopher approves
-it). Until then areas stay NULL -- unclassified, not "nothing found" -- and
-only config/watchlist-ec.yaml, applied by division KEY, lends areas.
+CLASSIFICATION is the shared Spanish taxonomy (config/taxonomy-es.yaml,
+approved 10 October 2026, X1/X4), loaded for country "ec" so Ecuador's own
+terms apply and other countries' do not, plus config/watchlist-ec.yaml
+applied by division KEY.
 
 Separation guarantee: writes ec_* tables and the shared gaps table only.
 ONE WRITER AT A TIME on the store.
@@ -62,7 +62,13 @@ VOTES_URL = (API + "reports/votingList?datePeriod={period}&dateIn={start}&dateOu
 DETAIL_URL = API + "assemblyman/votingDetail?idVoting={vid}"
 MEMBERS_URL = API + "assemblyman/assemblymemberlist"
 ROSTER_URL = "https://www.asambleanacional.gob.ec/es/pleno-asambleistas"
-TAXONOMY_EC = os.path.join(ROOT, "config", "taxonomy-ec.yaml")
+# The shared Spanish list (X1, 10 October 2026), not an Ecuadorian file:
+# Ecuador's own terms are tagged [only: ec] in it.
+TAXONOMY_EC = os.path.join(ROOT, "config", "taxonomy-es.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "ec"
 BUDGET_S = drain.DEFAULT_S
 # The www robots.txt asks for Crawl-delay 1; the datos service answers a
 # detail in about 1.1 s (up to 4 s) and is the same institution's server.
@@ -244,7 +250,7 @@ def parse_roster(page):
 def load_taxonomy(path=None):
     """The Spanish (Ecuador) taxonomy, or None while none exists (areas NULL)."""
     path = path or TAXONOMY_EC
-    return filt.load_taxonomy(path) if os.path.exists(path) else None
+    return filt.load_taxonomy(path, country=TAXONOMY_COUNTRY) if os.path.exists(path) else None
 
 
 def empty_watchlist():
@@ -490,7 +496,7 @@ def main():
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--raw-dir", default=os.path.join(ROOT, "data", "raw"))
     ap.add_argument("--taxonomy", help="classify with this taxonomy file "
-                                       "(default config/taxonomy-ec.yaml when it exists)")
+                                       "(default config/taxonomy-es.yaml when it exists)")
     ap.add_argument("--no-members", action="store_true")
     ap.add_argument("--no-votes", action="store_true")
     ap.add_argument("--index-only", action="store_true",
@@ -508,7 +514,7 @@ def main():
         conn.close()
         return 0
     if tax is None:
-        print("ec-rollcalls: no Spanish taxonomy yet (config/taxonomy-ec.yaml); "
+        print("ec-rollcalls: no Spanish taxonomy yet (config/taxonomy-es.yaml); "
               "areas stay NULL, only watchlist-ec lends areas")
     client = HttpClient(raw_dir=args.raw_dir, throttle=THROTTLE_S)
     today = datetime.date.today().isoformat()

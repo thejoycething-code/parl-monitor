@@ -28,7 +28,8 @@ KLUB VOTES, NOT MEMBER VOTES. Austria records who voted how by Klub; only a
 namentliche Abstimmung names members (5 in the Nationalrat in XXVIII), and
 those names are in the Stenographisches Protokoll, by surname. Phase 1b.
 
-CLASSIFICATION is config/taxonomy-de.yaml, unchanged, on the item's title,
+CLASSIFICATION is config/taxonomy-atch.yaml (taxonomy-de plus the approved
+Austrian additions, 10 October 2026) on the item's title,
 plus config/watchlist-at.yaml by item key. The Schlagworte are stored but not
 matched: the Parliament's own tag "Familienpolitik" is a tier-1 term in
 taxonomy-de and would put 49 items in area 9 where titles put 3 (measured).
@@ -58,7 +59,14 @@ from src import at_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "at-rollcalls"
-TAXONOMY = os.path.join(ROOT, "config", "taxonomy-de.yaml")
+# taxonomy-atch (10 October 2026): every term of taxonomy-de plus the
+# approved Austrian and Swiss additions (AT1-AT3), generated as an addendum
+# so the Bundestag's taxonomy-de.yaml is untouched.
+TAXONOMY = os.path.join(ROOT, "config", "taxonomy-atch.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "at"
 HOST = "www.parlament.gv.at"
 BASE = "https://" + HOST
 ITEMS = BASE + "/Filter/api/filter/data/101?js=eval&showAll=true"
@@ -236,7 +244,7 @@ def store_items(conn, items, tax, wl, today, wl_path=None):
 
 def pull_items(conn, client, today, gp=CURRENT_GP, tax=None, wl=None, log=print, wl_path=None):
     """Both chambers' lists. Returns (items stored, on our ground, gaps)."""
-    tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
+    tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY, country=TAXONOMY_COUNTRY)
     wl = wl if wl is not None else empty_watchlist()
     stored = ours = gaps = 0
     for chamber in CHAMBERS:
@@ -531,7 +539,7 @@ def pull_details(conn, client, today, robots=None, log=print, limit=None, budget
 
 def reclassify(conn, tax=None, log=print, wl_path=None):
     """Re-derive item areas, then the divisions' (which carry their item's)."""
-    tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
+    tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY, country=TAXONOMY_COUNTRY)
     wl = empty_watchlist()
     changed = 0
     for key, title, areas in conn.execute(
@@ -587,7 +595,7 @@ def main():
     client = make_client()
     today = datetime.date.today().isoformat()
     if args.dry_run:
-        tax = filt.load_taxonomy(TAXONOMY)
+        tax = filt.load_taxonomy(TAXONOMY, country=TAXONOMY_COUNTRY)
         wl = empty_watchlist()
         for chamber in CHAMBERS:
             reply = client.post_json(ITEMS, json.dumps({"NRBR": [chamber], "GP_CODE": [args.gp]}),
@@ -608,7 +616,7 @@ def main():
         summary(conn)
         conn.close()
         return 0
-    tax = filt.load_taxonomy(TAXONOMY)
+    tax = filt.load_taxonomy(TAXONOMY, country=TAXONOMY_COUNTRY)
     wl = empty_watchlist()
     budget = drain.Budget(args.budget_seconds)
     gaps = 0

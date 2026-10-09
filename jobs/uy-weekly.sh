@@ -10,7 +10,7 @@
 #
 #     UY_RECLASSIFY=true    re-derive every stored UY question's and law's
 #                           areas, offline, before the pull (after
-#                           config/taxonomy-uy.yaml or watchlist-uy changes)
+#                           config/taxonomy-es.yaml or watchlist-uy changes)
 #
 # The first run backfills the laws from Ley 20.380 (September 2024): about
 # 150 laws at IMPO's Crawl-delay of ten seconds. The budget (45 minutes)

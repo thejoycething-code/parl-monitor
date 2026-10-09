@@ -73,6 +73,10 @@ from src.http import FetchError, HttpClient  # noqa: E402
 FEED = "sk-rollcalls"
 CURRENT_TERM = 9
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy-sk.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "sk"
 OPENDATA = "https://www.nrsr.sk/opendata/1/sk/"
 VOTE_PAGE = "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID={0}"
 BUDGET_S = drain.DEFAULT_S
@@ -115,7 +119,7 @@ def load_taxonomy(path=None):
     """The approved Slovak taxonomy, or none at all. Never the English one:
     on 9 October 2026 it matched 1 of 1,551 Slovak prints."""
     path = path or TAXONOMY
-    return filt.load_taxonomy(path) if os.path.exists(path) else empty_taxonomy()
+    return filt.load_taxonomy(path, country=TAXONOMY_COUNTRY) if os.path.exists(path) else empty_taxonomy()
 
 
 def on_our_ground(areas):

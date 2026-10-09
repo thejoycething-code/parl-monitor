@@ -64,6 +64,10 @@ VOTE_INDEX = API + "/term{0}/votings"
 SITTING = API + "/term{0}/votings/{1}"
 VOTE = API + "/term{0}/votings/{1}/{2}"
 TAXONOMY_PL = os.path.join(ROOT, "config", "taxonomy-pl.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "pl"
 THROTTLE_S = 1.0
 PAGE = 500
 # Sittings re-read on every run even when their count already matches: a
@@ -142,7 +146,7 @@ def vote_problems(v):
 
 def load_taxonomy(path=TAXONOMY_PL):
     """The Polish taxonomy, or None until Chris approves it."""
-    return filt.load_taxonomy(path) if os.path.exists(path) else None
+    return filt.load_taxonomy(path, country=TAXONOMY_COUNTRY) if os.path.exists(path) else None
 
 
 def empty_watchlist():

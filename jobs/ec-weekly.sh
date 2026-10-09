@@ -10,7 +10,7 @@
 #
 #     EC_RECLASSIFY=true    re-derive every stored EC division's areas,
 #                           offline, before the pull (after
-#                           config/taxonomy-ec.yaml or watchlist-ec changes)
+#                           config/taxonomy-es.yaml or watchlist-ec changes)
 #
 # The first run backfills period 8 (14 May 2025 onwards): about 520 vote
 # details at one request a second plus the service's own second, roughly

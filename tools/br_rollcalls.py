@@ -71,6 +71,10 @@ FEED = "br-rollcalls"
 # The 57th legislature opened on 1 February 2023 and runs to 31 January 2027.
 LEGISLATURE_START_YEAR = 2023
 TAXONOMY_PT = os.path.join(ROOT, "config", "taxonomy-pt.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "br"
 CAMARA_API = "https://dadosabertos.camara.leg.br/api/v2"
 CAMARA_BULK = "https://dadosabertos.camara.leg.br/arquivos/{0}/json/{0}-{1}.json"
 SENADO = "https://legis.senado.leg.br/dadosabertos"
@@ -523,7 +527,7 @@ def pull_members(conn, client, today, log=print):
 
 def load_taxonomy(path=TAXONOMY_PT):
     """The Portuguese taxonomy, once it exists; None until then."""
-    return filt.load_taxonomy(path) if os.path.exists(path) else None
+    return filt.load_taxonomy(path, country=TAXONOMY_COUNTRY) if os.path.exists(path) else None
 
 
 def empty_watchlist():

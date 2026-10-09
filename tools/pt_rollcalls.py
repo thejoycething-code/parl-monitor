@@ -65,6 +65,10 @@ FEED = "pt-rollcalls"
 CURRENT_LEGISLATURE = "XVII"
 TAXONOMY_PT = os.path.join(ROOT, "config", "taxonomy-pt.yaml")
 TAXONOMY_EN = os.path.join(ROOT, "config", "taxonomy.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "pt"
 SITE = "https://www.parlamento.pt"
 DATASETS = {
     "initiatives": ("/Cidadania/Paginas/DAIniciativas.aspx", "Iniciativas"),
@@ -332,7 +336,7 @@ def store_division(conn, d, ini_key_, ini_areas, tax, wl, resolver, today):
 def store_records(conn, records, today, tax=None, wl=None, log=print):
     """Every initiative and its votes. Returns (initiatives, ours, divisions,
     divisions ours, unresolved names)."""
-    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path())
+    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path(), country=TAXONOMY_COUNTRY)
     wl = wl if wl is not None else empty_watchlist()
     resolver = Resolver(conn)
     n = ours = nd = ours_d = unresolved = 0
@@ -398,7 +402,7 @@ def store_members(conn, members, today):
 def reclassify(conn, tax=None, log=print):
     """Re-derive initiative areas, then division areas, offline, after a
     taxonomy or watchlist change. Initiatives first: votes inherit from them."""
-    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path())
+    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path(), country=TAXONOMY_COUNTRY)
     wl = empty_watchlist()
     changed_i = changed_d = 0
     for key, title, epigraph, areas in conn.execute(

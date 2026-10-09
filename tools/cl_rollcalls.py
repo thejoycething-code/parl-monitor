@@ -84,6 +84,10 @@ from src.http import FetchError, HttpClient  # noqa: E402
 FEED = "cl-rollcalls"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
 TAXONOMY_EN = os.path.join(ROOT, "config", "taxonomy.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "cl"
 
 CAM = "https://opendata.camara.cl/camaradiputados/WServices/"
 VOTES_YEAR = CAM + "WSLegislativo.asmx/retornarVotacionesXAnno?prmAnno={0}"
@@ -919,7 +923,7 @@ def main(argv=None):
     if tax_path == TAXONOMY_EN:
         print("cl-rollcalls: config/taxonomy-es.yaml not approved yet; classifying with the "
               "English taxonomy, which is nearly blind to Spanish (areas PROVISIONAL)")
-    tax = filt.load_taxonomy(tax_path)
+    tax = filt.load_taxonomy(tax_path, country=TAXONOMY_COUNTRY)
     if args.dry_run:
         votes = parse_vote_list(client.get_bytes(VOTES_YEAR.format(today[:4]), FEED, "dry",
                                                  archive=False)) or []

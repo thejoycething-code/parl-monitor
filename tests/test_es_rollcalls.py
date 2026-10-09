@@ -376,12 +376,14 @@ class Classification(unittest.TestCase):
         for key in es_store.watchlist():
             self.assertRegex(key, r"^\d{2}/\d{3}/\d{6}$")
 
-    def test_no_spanish_taxonomy_ships_yet(self):
-        # The term list is PROPOSED in docs/spain-scope.md; the yaml is
-        # generated only once Christopher approves it. When it lands, this
-        # test is the reminder to delete it.
-        self.assertFalse(os.path.exists(esr.TAXONOMY_ES))
-        self.assertIsNone(esr.load_taxonomy())
+    def test_the_shared_spanish_taxonomy_ships(self):
+        # Approved 10 October 2026 (X1, X4): config/taxonomy-es.yaml, loaded
+        # for Spain, so the [only: es] terms apply and other countries' do not.
+        self.assertTrue(os.path.exists(esr.TAXONOMY_ES))
+        tax = esr.load_taxonomy()
+        terms = {t[0] for tiers in tax.terms.values() for ts in tiers.values() for t in ts}
+        self.assertIn("Ley Orgánica 2/2010", terms)        # Spain's own
+        self.assertNotIn("ley 27.610", terms)              # Argentina's
 
 
 class Members(unittest.TestCase):

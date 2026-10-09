@@ -61,6 +61,10 @@ from src.http import FetchError, HttpClient  # noqa: E402
 FEED = "bo-rollcalls"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
 TAXONOMY_EN = os.path.join(ROOT, "config", "taxonomy.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "bo"
 BUDGET_S = 1800.0
 HIDDEN_AREAS = (11,)   # migration is collated, never campaigned
 RECENT_DAYS = 21       # three weekly runs' overlap for older bills that move
@@ -114,7 +118,7 @@ def load_taxonomy(path=None):
                                      encoding="utf-8") as tmp:
         yaml.safe_dump(raw, tmp, allow_unicode=True)
     try:
-        return filt.load_taxonomy(tmp.name)
+        return filt.load_taxonomy(tmp.name, country=TAXONOMY_COUNTRY)
     finally:
         os.unlink(tmp.name)
 

@@ -70,6 +70,10 @@ from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "co-rollcalls"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "co"
 WATCHLIST = os.path.join(ROOT, "config", "watchlist-co.yaml")
 
 CAMARA_PAGE = "https://www.camara.gov.co/proyectos-de-ley/"
@@ -205,7 +209,7 @@ def load_taxonomy_es(path=TAXONOMY_ES):
     file does not exist (it is generated only once Chris approves the list)."""
     if not os.path.exists(path):
         return None
-    tax = filt.load_taxonomy(path)
+    tax = filt.load_taxonomy(path, country=TAXONOMY_COUNTRY)
     for tiers in tax.terms.values():
         for tier, compiled in tiers.items():
             refolded = []

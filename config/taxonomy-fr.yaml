@@ -13,7 +13,7 @@ areas:
     # note: France: aide à mourir measured 931 scrutins, 1 dossier, 7 questions. Belgium: Eurovoc EUTHANASIE dossier 56/1338 caught by title terms. Switzerland: French titles say 'assistance au suicide' where the Quebec list has 'suicide assisté' and 'aide au suicide' (5 titles missed).
   3_gender_medicine_children:
     tier1: ["dysphorie de genre", "bloqueur* de puberté", "bloqueur* d'hormones", "inhibiteur* de puberté", "mineur* transgenre*", "enfant* transgenre*", {term: "transition de genre", with: ["mineur*", "enfant*", "jeune*", "élève*"]}, "Comité de sages sur l'identité de genre", {term: "questionnement de genre", only: [fr]}, {term: "transidentité*", with: ["mineur*", "enfant*", "jeune*", "élève*"]}, {term: transition, with: ["mineur*", "enfant*"]}, "changement de sexe"]
-    tier2: ["transgenre*", "identité de genre", "affirmation de genre", "personne* trans", "détransition*", "réassignation sexuelle", "transidentité*"]
+    tier2: ["transgenre*", "identité de genre", "affirmation de genre", "personne* trans", "détransition*", "réassignation sexuelle", {term: "transidentité*", only: [fr]}]
     # note: France: questionnement de genre caught DLR5L16N49654; transidentité* guarded at tier 1, bare at tier 2. Belgium: Only the guarded transition term is new beside taxonomy-qc. Switzerland: Counterpart of Geschlechtsumwandlung.
   4_conversion_practices:
     tier1: ["thérapie* de conversion", "pratique* de conversion", "thérapie* réparatrice*"]

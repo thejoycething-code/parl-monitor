@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       reclassify:
-        # After a taxonomy-uy or watchlist-uy change: re-derive every stored
+        # After a taxonomy-es or watchlist-uy change: re-derive every stored
         # UY question's and law's areas, offline, before the pull.
         description: "Reclassify stored UY questions and laws under the current taxonomy"
         type: boolean

@@ -70,6 +70,10 @@ SENATO_SPARQL = "https://dati.senato.it/sparql"
 OPENPOLIS = "https://service.opdm.openpolis.io/api-openparlamento/v1/{0}/"
 TAXONOMY_IT = os.path.join(ROOT, "config", "taxonomy-it.yaml")
 TAXONOMY_EN = os.path.join(ROOT, "config", "taxonomy.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "it"
 BUDGET_S = drain.DEFAULT_S
 # Migration is collated, never campaigned (src/partner.py HIDDEN_AREAS).
 HIDDEN_AREAS = (11,)
@@ -694,7 +698,7 @@ def reclassify(conn, tax=None, log=print, watch_path=None):
     """Re-derive bill areas, then division areas, offline, after a taxonomy or
     watchlist change. Bills first: divisions inherit from them, through every
     reading in bill_keys."""
-    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path())
+    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path(), country=TAXONOMY_COUNTRY)
     wl = empty_watchlist()
     changed_b = changed_d = 0
     for key, title, short, subjects, areas in conn.execute(
@@ -763,7 +767,7 @@ def main():
                                   (data.get("results") or [{}])[0].get("identifier")))
         return 0
     conn = db.init_db(db.connect(args.db))
-    tax = filt.load_taxonomy(tax_path)
+    tax = filt.load_taxonomy(tax_path, country=TAXONOMY_COUNTRY)
     print("it-rollcalls: taxonomy {0} (v{1})".format(os.path.basename(tax_path), tax.version))
     if args.reclassify:
         reclassify(conn, tax)

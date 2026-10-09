@@ -66,6 +66,10 @@ PERIODS = {"2024-2028": 2761, "2020-2024": 2760}
 CURRENT_PERIOD = "2024-2028"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
 TAXONOMY_EN = os.path.join(ROOT, "config", "taxonomy.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "do"
 BUDGET_S = 2700.0
 HIDDEN_AREAS = (11,)   # migration is collated, never campaigned
 PAGE = 10              # the SIL's fixed page size
@@ -107,7 +111,7 @@ def load_taxonomy(path=None):
                                      encoding="utf-8") as tmp:
         yaml.safe_dump(raw, tmp, allow_unicode=True)
     try:
-        return filt.load_taxonomy(tmp.name)
+        return filt.load_taxonomy(tmp.name, country=TAXONOMY_COUNTRY)
     finally:
         os.unlink(tmp.name)
 

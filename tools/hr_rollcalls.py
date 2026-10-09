@@ -77,6 +77,10 @@ VOTE = SITE + "/hr/rezultati-glasovanja-servis/{0}/"
 MEMBERS = (SITE + "/hr/zastupnici?field_saziv_target_id_all={0}"
            "&field_status_mandata_target_id=&page={1}")
 TAXONOMY_HR = os.path.join(ROOT, "config", "taxonomy-hr.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "hr"
 # sabor.hr answers a session agenda in 4-10 seconds; one request a second is
 # polite. The first full read (2,139 agenda items, 1,034 voted, 790 with a
 # record) took 30 minutes from the laptop on 9 October 2026.
@@ -226,7 +230,7 @@ def vote_problems(v):
 
 def load_taxonomy(path=TAXONOMY_HR):
     """The Croatian taxonomy, or None until Chris approves it."""
-    return filt.load_taxonomy(path) if os.path.exists(path) else None
+    return filt.load_taxonomy(path, country=TAXONOMY_COUNTRY) if os.path.exists(path) else None
 
 
 def empty_watchlist():

@@ -13,7 +13,7 @@ fails if the two drift (`tests/test_taxonomy_sync.py`).
 ## How it was made
 
 Merged on 10 October 2026 from the proposed lists in the scope documents of Italy, Switzerland (`docs/<country>-scope.md`), which Chris approved as drafted (X4) with the scope calls in `docs/country-decisions-2026-10-10.md`.
-A term one country proposed as its own (a statute number, a national body, a national spelling) carries `[only: <code>]` and matches only for that country's collector; every other term is shared. Where countries proposed one term at different tiers, the shared copy takes the lower tier and the countries that asked for tier 1 get a tagged tier-1 copy, so no country is promoted past its own list.
+A term one country proposed as its own (a statute number, a national body, a national spelling) carries `[only: <code>]` and matches only for that country's collector; every other term is shared. Where countries proposed one term at different tiers, the shared copy takes the lower tier and the countries that asked for tier 1 get a tagged tier-1 copy, so no country is promoted past its own list. A term that one country guarded and another left bare is shared only in its guarded form; the bare copy is tagged for the countries that proposed it bare.
 Accents fold for matching (X3), so accented and unaccented spellings are one term.
 
 Scope calls applied while merging:

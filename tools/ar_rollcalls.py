@@ -79,6 +79,10 @@ from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "ar-rollcalls"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "ar"
 
 SENADO = "https://www.senado.gob.ar"
 ACTAS = SENADO + "/votaciones/actas"
@@ -257,7 +261,7 @@ def load_terms(path=None):
     English file would only produce false comfort (see the module docstring)."""
     path = path or TAXONOMY_ES
     if os.path.exists(path):
-        return filt.load_taxonomy(path)
+        return filt.load_taxonomy(path, country=TAXONOMY_COUNTRY)
     return filt.Taxonomy(version="none", terms={}, exclusions=set())
 
 

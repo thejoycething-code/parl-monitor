@@ -76,6 +76,10 @@ DOC_URL = "https://sistemas.asamblea.gob.pa/segLegis/Documents/{0}.pdf"
 MEMBERS_URL = SITE + "/Data/Diputado/List?page=1&pageSize=100&search="
 AGENDA_URL = SITE + "/Data/OrdenDia/21/0/List"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "pa"
 BUDGET_S = drain.DEFAULT_S
 # segLegis answers a GET in about a second but a paging postback in 5 to 25
 # seconds, and dropped TLS handshakes three times in one 47-page walk (9
@@ -283,7 +287,7 @@ def load_taxonomy(path=None):
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
             fh.write(text)
-        return filt.load_taxonomy(tmp)
+        return filt.load_taxonomy(tmp, country=TAXONOMY_COUNTRY)
     finally:
         os.unlink(tmp)
 

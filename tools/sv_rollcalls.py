@@ -84,6 +84,10 @@ SESSION_FILES = BASE + "/sesion-plenaria/get-archivos-ajax"
 MEMBERS_PAGE = BASE + "/asamblea/diputados"
 DOCS = BASE + "/sites/default/files/documents/{folder}/{fk}.pdf"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "sv"
 # asamblea.gob.sv is one Drupal server for the whole public site, and its
 # archive queries are slow (1 to 45 s measured); two seconds between calls.
 THROTTLE_S = 2.0
@@ -373,7 +377,7 @@ def parse_members(page):
 def load_taxonomy(path=None):
     """The Spanish taxonomy, or None while none exists (areas stay NULL)."""
     path = path or TAXONOMY_ES
-    return filt.load_taxonomy(path) if os.path.exists(path) else None
+    return filt.load_taxonomy(path, country=TAXONOMY_COUNTRY) if os.path.exists(path) else None
 
 
 def classify(tax, keys, *texts):

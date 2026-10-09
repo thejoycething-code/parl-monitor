@@ -213,7 +213,9 @@ class ClassifyTests(unittest.TestCase):
         fr = chr_.parse_business(business(20250415, "Procréation médicalement assistée pour "
                                                     "les femmes seules", lang="FR"))
         a_de, a_fr, areas, terms, tier = chr_.classify_business(TAX, de, fr)
-        self.assertEqual(a_de, [])          # the Swiss legal term is not in taxonomy-de
+        # The Swiss legal term was not in taxonomy-de; since 10 October 2026
+        # the approved Swiss additions (taxonomy-atch) know it.
+        self.assertEqual(a_de, [10])
         self.assertEqual(a_fr, [10])        # the French list knows PMA
         self.assertEqual(areas, [10])
 
@@ -225,7 +227,10 @@ class ClassifyTests(unittest.TestCase):
         self.assertIn("watch:20253944", terms)
         other = chr_.parse_business(business(20990001, "Rahmenregulierung im Bereich des "
                                                        "assistierten Suizids"))
-        self.assertEqual(chr_.classify_business(TAX, other, None)[2], [])
+        # The same title under another number lends no WATCH term. (Since the
+        # Swiss additions of 10 October 2026 its own words reach area 2.)
+        self.assertNotIn("watch:20990001", chr_.classify_business(TAX, other, None)[3])
+        self.assertNotIn("watch:20253944", chr_.classify_business(TAX, other, None)[3])
 
     def test_watchlist_file_is_sound(self):
         wl = ch_store.watchlist()

@@ -80,6 +80,10 @@ INITIATIVES_PAGE = BASE + "/seccion_informacion_legislativa/iniciativas"
 INITIATIVE_SEARCH = BASE + "/buscador_iniciativas/{0}"
 MEMBERS_PAGE = BASE + "/"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "gt"
 BUDGET_S = drain.DEFAULT_S
 # The X legislature (2024-2028) was installed on 14 January 2024. The first
 # run backfills from here: 195 sessions and their votes.
@@ -297,7 +301,7 @@ def parse_members(page):
 def load_taxonomy(path=None):
     """The Spanish taxonomy, or None while none exists (areas stay NULL)."""
     path = path or TAXONOMY_ES
-    return filt.load_taxonomy(path) if os.path.exists(path) else None
+    return filt.load_taxonomy(path, country=TAXONOMY_COUNTRY) if os.path.exists(path) else None
 
 
 def empty_watchlist():

@@ -36,10 +36,9 @@ NOT READ, AND WHY: parlamento.gub.uy (bills, the Senate, committees,
 legislators) answers 403 to every path, robots.txt included, from the laptop
 and from GitHub's runners. The block is recorded, never worked around.
 
-CLASSIFICATION waits for a Uruguayan taxonomy (config/taxonomy-uy.yaml,
-proposed in docs/uruguay-scope.md, generated only once Christopher approves
-it). Until then areas stay NULL, and only config/watchlist-uy.yaml, applied
-by key ('ley:20431'), lends areas. ACCENTS ARE FOLDED ON BOTH SIDES: the
+CLASSIFICATION is the shared Spanish taxonomy (config/taxonomy-es.yaml,
+approved 10 October 2026, X1/X4), loaded for country "uy", plus
+config/watchlist-uy.yaml applied by key ('ley:20431'). ACCENTS ARE FOLDED ON BOTH SIDES: the
 Parliament writes titles in capitals and often drops the accents
 ("ADOPCION", "GENERO"), and src/filter.py matches accents exactly, so this
 module folds the taxonomy's terms and the text alike (measured: 19 bills
@@ -75,7 +74,13 @@ QUESTIONS_URL = DIP + "DApedidosInformes.json"
 SITTINGS_URL = DIP + "DAdiarioSesiones.json"
 IMPO = "https://www.impo.com.uy"
 LAW_URL = IMPO + "/bases/leyes/{n}-{y}"
-TAXONOMY_UY = os.path.join(ROOT, "config", "taxonomy-uy.yaml")
+# The shared Spanish list (X1, 10 October 2026); Uruguay's own terms are
+# tagged [only: uy] in it.
+TAXONOMY_UY = os.path.join(ROOT, "config", "taxonomy-es.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "uy"
 BUDGET_S = drain.DEFAULT_S
 THROTTLE_S = 1.0
 IMPO_CRAWL_DELAY = 10.0     # www.impo.com.uy/robots.txt, measured 9 October 2026
@@ -168,7 +173,7 @@ def load_taxonomy(path=None):
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
             yaml.safe_dump(raw, fh, allow_unicode=True)
-        return filt.load_taxonomy(tmp)
+        return filt.load_taxonomy(tmp, country=TAXONOMY_COUNTRY)
     finally:
         os.unlink(tmp)
 
@@ -494,7 +499,7 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--taxonomy", help="classify with this taxonomy file "
-                                       "(default config/taxonomy-uy.yaml when it exists)")
+                                       "(default config/taxonomy-es.yaml when it exists)")
     ap.add_argument("--no-members", action="store_true")
     ap.add_argument("--no-questions", action="store_true")
     ap.add_argument("--no-sittings", action="store_true")
@@ -513,7 +518,7 @@ def main():
         conn.close()
         return 0
     if tax is None:
-        print("uy-rollcalls: no Uruguayan taxonomy yet (config/taxonomy-uy.yaml); "
+        print("uy-rollcalls: no Spanish taxonomy yet (config/taxonomy-es.yaml); "
               "areas stay NULL, only watchlist-uy lends areas")
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S)
     today = datetime.date.today().isoformat()

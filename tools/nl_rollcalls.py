@@ -68,6 +68,10 @@ from src.http import FetchError, HttpClient  # noqa: E402
 FEED = "nl-rollcalls"
 BASE = "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/"
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy-nl.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "nl"
 # The current Kamer was installed after the election of 29 October 2025;
 # 52 of today's 150 seats carry this start date (the rest are later
 # replacements, or members re-seated from the previous Kamer). The first
@@ -145,7 +149,7 @@ def on_our_ground(areas):
 def load_taxonomy(path=TAXONOMY, log=print):
     """The Dutch taxonomy, or an empty one until Chris approves it."""
     if path and os.path.exists(path):
-        return filt.load_taxonomy(path)
+        return filt.load_taxonomy(path, country=TAXONOMY_COUNTRY)
     log("  taxonomy-nl: not yet approved (docs/netherlands-scope.md); areas come "
         "from config/watchlist-nl.yaml alone until it is")
     return filt.Taxonomy(version="none", terms={}, exclusions=set())

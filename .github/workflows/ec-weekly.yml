@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       reclassify:
-        # After a taxonomy-ec or watchlist-ec change: re-derive every stored
+        # After a taxonomy-es or watchlist-ec change: re-derive every stored
         # EC division's areas, offline, before the pull.
         description: "Reclassify stored EC divisions under the current taxonomy"
         type: boolean

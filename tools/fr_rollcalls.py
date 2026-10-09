@@ -78,6 +78,10 @@ LEGISLATURE = 17
 CHAMBER = "an"
 TAXONOMY_FR = os.path.join(ROOT, "config", "taxonomy-fr.yaml")
 TAXONOMY_QC = os.path.join(ROOT, "config", "taxonomy-qc.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "fr"
 BASE = "https://data.assemblee-nationale.fr/static/openData/repository/{0}/"
 SCRUTINS = BASE + "loi/scrutins/Scrutins.json.zip"
 DOSSIERS = BASE + "loi/dossiers_legislatifs/Dossiers_Legislatifs.json.zip"
@@ -356,7 +360,7 @@ def pull_dossiers(conn, client, today, legislature=LEGISLATURE, tax=None, wl=Non
                   zip_dir=None):
     """Every dossier of the legislature, re-read whole. Returns (dossiers,
     read, ours): the dict is what the scrutins are joined against."""
-    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path())
+    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path(), country=TAXONOMY_COUNTRY)
     wl = wl if wl is not None else empty_watchlist()
     dossiers = read_dossiers(get_zip(client, DOSSIERS.format(legislature), "dossiers", zip_dir))
     ours = 0
@@ -516,7 +520,7 @@ def pull_scrutins(conn, client, today, dossiers, legislature=LEGISLATURE, tax=No
                   zip_dir=None, log=print):
     """Scrutins not yet stored, and those of the last REFRESH_DAYS again.
     Returns (stored, ours, gaps)."""
-    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path())
+    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path(), country=TAXONOMY_COUNTRY)
     wl = wl if wl is not None else empty_watchlist()
     zf = get_zip(client, SCRUTINS.format(legislature), "scrutins", zip_dir)
     return store_scrutins(conn, zf, today, dossiers, legislature, tax, wl, log)
@@ -555,7 +559,7 @@ def store_scrutins(conn, zf, today, dossiers, legislature, tax, wl, log=print):
 def reclassify(conn, tax=None, log=print):
     """Re-derive dossier areas, then division areas, offline, after a
     taxonomy or watchlist change. Dossiers first: divisions inherit."""
-    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path())
+    tax = tax if tax is not None else filt.load_taxonomy(taxonomy_path(), country=TAXONOMY_COUNTRY)
     wl = empty_watchlist()
     changed_d = changed_v = 0
     for (ref, title, docs, areas) in conn.execute(
@@ -613,7 +617,7 @@ def main():
         return 0
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=1.0)
     today = datetime.date.today().isoformat()
-    tax = filt.load_taxonomy(taxonomy_path())
+    tax = filt.load_taxonomy(taxonomy_path(), country=TAXONOMY_COUNTRY)
     wl = empty_watchlist()
     gaps = 0
     if not args.no_members:

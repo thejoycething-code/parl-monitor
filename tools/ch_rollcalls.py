@@ -76,8 +76,16 @@ from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "ch-rollcalls"
 CURRENT_PERIOD = 52
-TAXONOMY_DE = os.path.join(ROOT, "config", "taxonomy-de.yaml")
-TAXONOMY_FR = os.path.join(ROOT, "config", "taxonomy-qc.yaml")
+# 10 October 2026: the addenda. taxonomy-atch is taxonomy-de plus the Swiss
+# and Austrian German additions; taxonomy-fr is Quebec's French plus France's,
+# Belgium's and Switzerland's (CH2-CH4). taxonomy-de and taxonomy-qc are
+# unchanged for the Bundestag and Quebec.
+TAXONOMY_DE = os.path.join(ROOT, "config", "taxonomy-atch.yaml")
+TAXONOMY_FR = os.path.join(ROOT, "config", "taxonomy-fr.yaml")
+# The country this collector matches for: a shared language list
+# (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
+# [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
+TAXONOMY_COUNTRY = "ch"
 ODATA = "https://ws.parlament.ch/odata.svc/"
 SR_XLSX = "https://www.parlament.ch/centers/documents/de/Abstimmungen_SR_{0}_DE.xlsx"
 BUDGET_S = drain.DEFAULT_S
@@ -190,8 +198,8 @@ def empty_watchlist():
 
 class Taxonomies:
     def __init__(self, de=None, fr=None):
-        self.de = de if de is not None else filt.load_taxonomy(TAXONOMY_DE)
-        self.fr = fr if fr is not None else filt.load_taxonomy(TAXONOMY_FR)
+        self.de = de if de is not None else filt.load_taxonomy(TAXONOMY_DE, country=TAXONOMY_COUNTRY)
+        self.fr = fr if fr is not None else filt.load_taxonomy(TAXONOMY_FR, country=TAXONOMY_COUNTRY)
         self.wl = empty_watchlist()
 
 
