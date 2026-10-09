@@ -1659,6 +1659,13 @@ TABLES = (
     "es_divisions",
     "es_votes",
     "es_vote_days",
+    # Brazil's National Congress (tools/br_rollcalls.py), created by
+    # src/br_store.ensure_schema -- declared from day one.
+    "br_members",
+    "br_bills",
+    "br_divisions",
+    "br_votes",
+    "br_orientations",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1959,4 +1966,6 @@ def init_db(conn):
     hr_store.ensure_schema(conn)
     from src import es_store
     es_store.ensure_schema(conn)
+    from src import br_store
+    br_store.ensure_schema(conn)
     return conn

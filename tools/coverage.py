@@ -93,6 +93,8 @@ PIPELINES = {
     "Croatia weekly": (7, 4, "Croatia's Sabor: agendas and recorded votes"),
     # Scheduled 9 October 2026, Saturdays (es-weekly.yml; the Mac Mini first).
     "Spain weekly": (7, 4, "Spain's Congreso de los Diputados: initiatives, plenary votes, deputies"),
+    # Scheduled 9 October 2026, Saturdays (br-weekly.yml; the Mac Mini first).
+    "Brazil weekly": (7, 4, "Brazil's National Congress: Câmara and Senado nominal votes"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -332,6 +334,16 @@ FEEDS = [
     ("es_members", "last_seen", 7, 4, "Congreso deputies (Spain weekly)"),
     ("es_initiatives", "last_seen", 7, 4, "Congreso legislative initiatives (Spain weekly)"),
     ("es_divisions", "last_seen", 31, 92, "Congreso plenary votes (Spain weekly)"),
+    # Brazil (9 October 2026). MEASURED which re-stamp: the member lists of
+    # both houses are re-read whole every run, and every nominal vote of the
+    # current year (and every bill it links) is re-upserted from the
+    # Câmara's yearly file and the Senate's yearly list every run. Divisions
+    # nonetheless get a month plus a month's grace, as for the US: in
+    # January the new year's file is empty until Congress returns in
+    # February. br_votes and br_orientations carry no sighting column.
+    ("br_members", "last_seen", 7, 4, "Câmara and Senado members (Brazil weekly)"),
+    ("br_bills", "last_seen", 7, 4, "Proposições the nominal votes are about (Brazil weekly)"),
+    ("br_divisions", "last_seen", 31, 31, "Câmara and Senado nominal votes (Brazil weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -430,6 +442,10 @@ PIPELINE_FEEDS = {
     "Croatia weekly": ["hr_items", "hr_members"],
     # Divisions left out as for the US: a recess (or a dissolution) cannot move them.
     "Spain weekly": ["es_initiatives", "es_members"],
+    # Members only: bills and divisions are re-stamped from the current
+    # year's votes, and in January the new year holds none, so a clean run
+    # cannot move them until Congress returns in February.
+    "Brazil weekly": ["br_members"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -469,6 +485,8 @@ AWAITING_FIRST_RUN = {
                        "scheduled 9 October 2026; its tables fill on its first run"),
     "Spain weekly": (("es_members", "es_initiatives", "es_divisions"),
                      "scheduled 9 October 2026; its tables fill on its first run"),
+    "Brazil weekly": (("br_members", "br_bills", "br_divisions"),
+                      "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
