@@ -5,6 +5,46 @@ measured, not estimated. Groundwork only: nothing is built, scheduled or
 stored, and the probe data sits outside the repo. Congress only; the state
 legislatures are a later decision, taken in blocks (see the end).
 
+## Decisions (Christopher, 9 October 2026)
+
+- **Own edition.** The US gets its own edition, not a section.
+- **Shared keyword list.** American terms go into the shared taxonomy as an
+  addendum (docs/keyword-taxonomy.md, "Addendum: American vocabulary",
+  v1.17), not a US-only list. Named bills whose titles would collide go in
+  `config/watchlist-us.yaml`, applied by bill key.
+- **All 50 state legislatures**, after Congress.
+- Not yet decided: DEI, antisemitism, contraception (left out of the
+  addendum); the executive-actions section.
+
+## Phase 1: built, 9 October 2026
+
+`tools/us_rollcalls.py` into `us_members`, `us_bills`, `us_cosponsors`,
+`us_divisions` and `us_votes` (schema in `src/us_store.py`, declared in
+`db.TABLES`). Live run into a scratch database, not the store:
+
+| | Read | On our ground |
+|---|---|---|
+| Bills and resolutions, 119th Congress | 19,596 | 715 |
+| House roll calls | 676 | 121 |
+| Member positions | 292,248 | |
+| Cosponsorships | 182,211 | |
+| Members (crosswalk + former members from bills and votes) | 556 | |
+
+Five and a half minutes, no gaps. The addendum took bills on our ground
+from 650 to 715 and caught votes the unchanged taxonomy missed: the
+Stopping Indoctrination and Protecting Kids Act, the Do No Harm in Medicaid
+Act, the Protect Children's Innocence Act.
+
+- **Every position is stored.** The positions come in the same file as the
+  vote, so there is no per-division fetch to save, unlike Canada.
+- **Votes inherit their bill's areas**; `own_areas` keeps the vote's own
+  match apart. The cost is visible already: all 21 FY2027 NDAA amendment
+  votes carry area 8 because the bill's summary mentions chaplains. Phase 1b
+  (amendment purposes) is what separates them.
+- **Not scheduled.** The three sighting tables are exempt in
+  `tools/coverage.py` until a US weekly workflow exists; that exemption must
+  move to FEEDS when it does.
+
 ## The finding that shapes everything
 
 **The English taxonomy mostly works in the US, but only if a vote is joined
@@ -244,32 +284,52 @@ position, so it can sit just under a vote in the evidence hierarchy.
   must be keyed per Congress, with the short title as the link between
   versions.
 
-## State legislatures: the blocks question (not scoped yet)
+## State legislatures: all 50 (decided 9 October 2026, not built)
+
+Christopher wants all 50. That rules out one scraper per state as a first
+step: fifty sites, most part-time, each with its own format. The route is an
+aggregator, probed 9 October 2026:
+
+- **Open States / Plural Policy** covers all 50 (plus DC and Puerto Rico)
+  in one schema: bills, actions, sponsors, votes, people.
+  - People: `data.openstates.org/people/current/<state>.csv`, **open, no
+    key** (Texas: 117 KB).
+  - Bills and votes: API v3 (`v3.openstates.org`) **needs a free API key**
+    (403 without one), tied to an account.
+  - Bulk per-session downloads (`open.pluralpolicy.com/data/`) sit **behind
+    a login**.
+  - So Christopher (or the team) needs to create the account. Claude cannot.
+- **LegiScan**: the API needs a key, and the site answered our probe with a
+  Cloudflare bot challenge. Not built on, per the Canada rule on bot
+  detection.
+
+Open questions before building: the API key's rate limit (to be read from the
+account page, not guessed) decides whether one weekly run can cover 50
+states or has to rotate through them in blocks; and the vote coverage of
+part-time legislatures needs measuring per state. The original idea of
+blocks still applies to the build order, if not to the scope:
+
+
 
 As in Canada, much of the ground is state-level: abortion law since Dobbs,
 gender medicine for minors, school policy, assisted dying (legal in about a dozen
-jurisdictions). There are 50 legislatures, most part-time, with very different
-sites. Possible ways to block them, for Christopher to choose:
+jurisdictions). Possible build orders:
 
 - **By issue salience:** states with live fights on our ground first.
 - **By session calendar:** most legislatures sit January to spring; Texas
   meets in odd years only. A block that sits in 2027 is worth doing first.
-- **By data source:** a third-party aggregator (Open States / Plural Policy,
-  LegiScan) covers all 50 in one schema, which would collapse 50 scrapers
-  into one collector. Not probed. Terms of use and keys to check.
 
 ## Open questions for Christopher
 
-1. **Who reads it?** Is there a CitizenGO US team or campaigner, and do they
-   want an edition of their own or a section?
+1. ~~Who reads it?~~ Own edition (decided 9 October). Still open: who the
+   readers are, for Slack routing and the Asana owner.
 2. **The Congress.gov / api.data.gov key.** Free and immediate, but it should
    be requested in his name or the team's. Phase 1b needs it.
-3. **Taxonomy:** Equality Act (US), Comstock, mifepristone, gender
-   transition / experimentation, life at conception, personhood, Section 230,
-   COPPA, Title IX. US watchlist, or the shared term list?
+3. ~~Taxonomy~~: shared list, as an addendum (decided 9 October; v1.17).
 4. **Scope:** DEI, antisemitism, contraception. In or out?
 5. **Executive actions** as a section: yes or no?
 6. **Senate:** re-test from CI. If it is blocked there too, the fallback is
    GovTrack or ProPublica-style third parties, which the Canada rule says not to
    build on.
-7. **Which state block first?**
+7. ~~Which state block first?~~ All 50 (decided 9 October), via Open
+   States: **an account and API key are needed**.
