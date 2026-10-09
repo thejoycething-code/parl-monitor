@@ -206,7 +206,7 @@ names for things the taxonomy knows:
   barrier. Whether school admission by religion is our ground is a scope
   question.
 
-### Proposed Irish vocabulary (for Christopher; not added)
+### Irish vocabulary (proposed 9 October 2026; adopted at v1.20, below)
 
 | Term | Area | Tier | Why |
 |---|---|---|---|
@@ -346,7 +346,8 @@ robots.txt allows everything. Fast: a 200-record page in 0.3 to 1.5 s.
   the URI path. `chamber_type=committee` gives committee divisions (61 since
   November 2024), where Committee Stage amendments are voted.
 - `/questions`: written and oral PQs with answers (`show_answers`). 8,052 in
-  September 2026 (7,933 written, 119 oral); 72 on our ground.
+  September 2026 (7,933 written, 119 oral); 72 on our ground. Dáil only:
+  the Seanad has none. Collected since phase 2.
 - `/debates`: 178 Dáil and 157 Seanad debate records in this Oireachtas,
   1,060 committee records, each with an Akoma Ntoso XML transcript.
 - `/constituencies` (43), `/parties` (11 in the Dáil), `/houses`.
@@ -375,7 +376,9 @@ matching needs a PDF step (as `src/ca_gazette_pdf.py` does for Canada).
 
 `oireachtas.ie/en/debates/questions/` answers with an AWS WAF "Human
 Verification" CAPTCHA (status 405). Not used, per the rule on bot detection.
-The API carries everything the edition needs.
+The API carries everything the edition needs except the week ahead, which
+comes from `/en/detailed-schedule/`: that page answers, and robots.txt
+allows it (phase 2).
 
 ### Irish-language text
 
@@ -440,8 +443,7 @@ short summary to Christopher alone (U05LJP0BT61). Read-only on the store.
   committed for today is rewritten, not resent. `jobs/ie-weekly.sh` runs it
   after the collector (even in a week with gaps), and both the workflow and
   the Mini (`# mini_run: commit editions`) commit `editions/`.
-- **PQs are not in it yet**: they are not collected (phase 2). The coverage
-  section says so.
+- **Questions, debate and the week ahead** since phase 2 (below).
 
 The first render, from the scratch database of 9 October 2026: no division
 on our ground this week (the Dáil last divided on 6 October, the Seanad on
@@ -450,7 +452,7 @@ Reproductive Rights Bill, lost 30 to 85 with 36 abstaining, Sinn Féin's 33
 among them); 17 live bills on our ground, 2 enacted, 2 defeated, 10 lapsed
 and not restored.
 
-## The judge (wired 9 October 2026, not on)
+## The judge (wired 9 October 2026, on since 9 October)
 
 `tools/ie_triage.py`, modelled on `tools/us_triage.py`: the same judge, model
 and rubric (`src/triage.py`) with an **Irish frame** (the abortion Act of
@@ -461,9 +463,150 @@ text or amendment matched; a division that only inherits takes its bill's
 score. Scores are written once, ever; `--rescore` re-queues one.
 
 **SPEND NEEDS A YES.** The weekly runs it only when the repository variable
-`IE_JUDGE` is `on`, as `US_JUDGE` gates the US judge. It is **not on**.
-`--dry-run` on the scratch store: **42 items (31 bills, 11 divisions), 11
-calls, about $0.10.**
+`IE_JUDGE` is `on`, as `US_JUDGE` gates the US judge. **It is on** (Christopher,
+9 October 2026). The first `--dry-run`, before phase 2: 42 items (31 bills,
+11 divisions), 11 calls, about $0.10. With questions and speeches, see
+phase 2 above.
+
+## Phase 2: questions, debates and the week ahead (built 9 October 2026)
+
+Three new steps in `jobs/ie-weekly.sh`, after the collector and before the
+judge, each with its own `source_runs` heartbeat ('IE schedule', 'IE
+questions', 'IE debates'). Schema in `src/ie_store.py`: `ie_questions`,
+`ie_speeches`, `ie_windows` (one row per feed and week read, with what was
+read and stored, by area: the measurement survives without the rows),
+`ie_schedule` and `ie_schedule_days`. Measured by a live backfill into a
+scratch store on 9 October 2026 (`--db /tmp/...`), never the real one.
+
+### Parliamentary questions (`tools/ie_questions.py`)
+
+`/questions?show_answers=true`, a week (Monday to Sunday) at a time, pages
+of 1,000 to a short page. **Dáil only**: the Seanad has no PQs, and the
+API's chamber filter is ignored on `/questions` (every record is the
+Dáil's). Stored **on our ground only**, on the question's own words and
+heading, the Minister's office struck first (`strip_offices`, which now
+strikes "Department of Justice, Home Affairs and Migration" too). The answer
+never lends an area. A row keeps one sentence of the answer
+(`answer_takeaway`, at most 200 characters), its shape and who gave it; the
+edition prints that line and the link, never the answer.
+
+| Since the 34th Dáil met (98 weeks from 25 November 2024) | |
+|---|---|
+| Questions read | **130,612** (65 weeks with any; the rest recess or dissolution) |
+| A sitting week | about **2,000** asked (most 4,313), **36** on our ground |
+| On our ground, stored | **2,367** (2,333 written, 34 oral) |
+| By area (a question can carry two) | parental rights 546, sex-based rights 516, free speech 387, abortion 333, surrogacy and embryology 226, gender medicine for children 151, assisted dying 147, others under 50; migration-only not stored |
+| Answer shapes | **448 "referred for direct reply"** (the HSE will answer the Deputy), 71 no settled position, 48 data not held, 33 no policy, 18 passed on, 14 deferred; the rest substantive |
+| Time | **9.6 minutes** for the whole backfill (about 6 s a week) |
+
+The takeaway is the sentence carrying a decline when there is one (the
+Northern Irish shapes in `src/ni_answers.py`, less devolution's "not our
+remit", plus two Irish ones: referred to the HSE for direct reply, and a
+deferred reply), else the first that says something ("I propose to take
+Questions Nos. 554 and 581 together" and thanks are passed over). The
+answering label is printed two ways: with the Minister's name in brackets,
+or the bare office run straight into the text ("Minister for Health As this
+is an operational matter..."); the bare office is struck only when it is
+the office asked or its Minister of State. 35 of 2,350 answers kept no
+label. Not archived raw: a week with answers is 3 to 6 MB, every byte
+re-fetchable.
+
+### Debate speeches (`tools/ie_debates.py`)
+
+`/debates`, plenary (`chamber_type=house`) and committee apart, a week at a
+time. Each record carries every section's full text inline with each
+speaker's memberCode, so no XML is read. A **speech** is all one member said
+in one debate section. Oral PQ sections (debateType `question`) are skipped:
+`ie_questions` holds them. Leaders' Questions, Questions on Policy or
+Legislation, Topical Issues and Commencement Matters are read. Committee
+witnesses carry no memberCode and are not stored.
+
+**The rule** (copied from the US Congressional Record, `tools/us_record.py`,
+and made narrower; documented in the module): areas come from the member's
+**own words**, passage by passage, tier 1 only, the office struck first.
+Something is lent only when the member's own words matched nothing **and**
+they spoke at least 150 words, in three cases: the section's bill is on
+`config/watchlist-ie.yaml` ('watch', by key); the bill's **short title**
+is on our ground ('bill'; never the long title, the Mental Health Bill's
+"parental consent" lesson); or there is no bill and the section's own
+title matched ('heading', a motion). The bill is the one whose record lists
+the section (`ie_bill_debates`, the divisions' ID join), else the bill the
+section names by URI. Never a title.
+
+| Since the 34th Dáil met (98 weeks) | Plenary | Committee |
+|---|---|---|
+| Debate records read | 336 | 1,061 |
+| Member speeches read | 19,239 | 3,537 |
+| On our ground, stored | 603 | 98 (88 rows after upserts) |
+| A sitting week (plenary) | about 406 speeches, 13 on our ground | |
+
+691 rows stored: **653 on the member's own words, 37 lent by a watchlist
+bill, 1 by a bill's title** (the heading lend found none). By area: free
+speech 308, abortion 184, parental rights 87, marriage and family 79, sex-
+based rights 78, surrogacy 42, migration 37 (with another area). The
+sections with most: Pride statements (27 and 22), the Harassment (intimate
+images) Bill Second Stage (27), the Reproductive Rights Bill (25), the
+Online Safety (Recommender Algorithms) Bill (22), the Three Day Wait Bill
+(18, and 13 at the Health committee). **16.7 minutes** for the whole
+backfill, almost all of it CPU (the passage matcher), not the network.
+Excerpts are at most 400 characters, cut around the term that matched.
+
+### The week ahead (`tools/ie_schedule.py`)
+
+**The API has no schedule**: `/debates` and `/questions` return nothing for a
+future date, and the swagger lists no order paper. The keyless official
+source is the Oireachtas's own **detailed schedule page**,
+`www.oireachtas.ie/en/detailed-schedule/` (1.7 MB, one tab each for the
+Dáil, the Seanad and committees, about two weeks back and as far ahead as
+anything is posted). It answers our UA (unlike the debate and question
+pages, which are behind the WAF CAPTCHA), and robots.txt forbids only
+query strings and search, so it is read without one, once a run, and
+archived. Lines are **keyed by the bill link** they carry
+(`/en/bills/bill/2026/19/`); a bill named without a link (most Dáil lines
+and committee agendas) keeps its printed name as text, no key.
+
+Read on Friday 9 October 2026: the **Seanad** had its week posted (16
+items on 13 to 15 October, the Media Regulation Bill's Committee Stage on
+the 14th, a watchlist bill), **committees** 24 meetings (the SLAPP Bill's
+Committee Stage at the Select Committee on Justice on the 13th, by its
+link), and the **Dáil** nothing: "No business is currently scheduled. Dáil
+Éireann resumes on Tuesday, 13 October 2026". The Dáil's week follows its
+Business Committee report, later than a Friday-morning run. The edition
+says which, and says "in recess" when the resumption date is past its
+window. Also probed: the Dáil's order-paper app (`dailbusiness.oir.ie`) has
+a keyless JSON API (`dailbusinessapi.oir.ie/api/v1/dailbusiness/items`)
+with `isSittingDay`, `indicativeBusiness` and the Business Committee report
+PDF, but it held no business for the coming week that morning, so there
+was nothing to build a parser against. Worth a second look when a week is
+posted.
+
+### In the edition and the judge
+
+`tools/ie_monitor.py` gains **Coming up** (after the dates), **Debate this
+week** (grouped by section: chamber, date, the bill by key, the members and
+parties, two excerpts, what matched) and **Questions this week** (asker and
+party, the office, heading and link, the question clipped, the answer's one
+line; 15 listed, the rest counted by area), a top line each, and DM lines
+for debate, questions and the week ahead. `tools/ie_triage.py` now queues
+questions and speeches on their own words (a lent speech takes its bill's
+score, as an inheriting division does), newest first, 200 a run.
+
+**Backlog by `--dry-run` on the backfilled scratch store: 3,072 unscored
+items, about $7.31 if judged at once (768 calls); the weekly's 200 a run is
+about $0.48 a run.** A sitting week adds about 50 (36 questions, 13
+speeches), so the old backlog drains in roughly 20 weeks, newest first.
+
+### Running it
+
+Each step gets what the job has left, capped: **5 minutes each on GitHub**
+(the backup; the workflow's timeout is now 45 minutes) and **15 (questions)
+and 20 (debates) on the Mini**, always keeping 20 minutes for the judge and
+5 for the edition and the store. At the measured rates the first Mini run
+drains the whole questions backfill and most of the debates one. Coverage
+watches `ie_windows` and `ie_schedule_days` weekly (both move every run,
+recess included) and `ie_questions`, `ie_speeches` and `ie_schedule` with a
+month plus a month's grace (the summer recess was 62 days, less the
+fortnight the re-read keeps rows fresh).
 
 ## What an Irish edition would look like (the proposal it was built from)
 
@@ -500,9 +643,10 @@ on the Mini (docs/mac-mini.md).
 1. **Phase 1 (built): members, bills, divisions with every vote.** Plenary
    and committee divisions, joined to bills by debate section ID.
 2. **Phase 1b (built): amendments.** The amendment behind each division from
-   the transcript. The edition and the judge (off) are built too.
-3. **Phase 2: PQs and debates.** PQs paged by month, offices struck before
-   matching. Debate transcripts for motions and for the 8 unjoined divisions.
+   the transcript. The edition and the judge (on since 9 October) are built too.
+3. **Phase 2 (built 9 October 2026): PQs, debates and the week ahead.** PQs
+   and speeches paged by week, offices struck before matching; the
+   Oireachtas detailed schedule for Coming up.
 4. **Phase 3: consultations and statutory instruments**, once gov.ie is
    tested from CI.
 5. **Phase 4: the Irish 5CA** (votes, sponsorships, PQs).
@@ -530,17 +674,19 @@ on the Mini (docs/mac-mini.md).
 
 ## Open questions for Christopher
 
-1. ~~The assumed decisions~~: confirmed 9 October 2026. **The judge**:
-   may `IE_JUDGE` be set to `on`? The backlog is about $0.10.
-2. ~~The proposed Irish vocabulary~~: adopted at taxonomy v1.20, narrowed
-   or rejected term by term (above).
-3. **The watchlist** (`config/watchlist-ie.yaml`, 8 bills): especially the
+Settled: the assumed decisions (confirmed 9 October 2026); the judge
+(`IE_JUDGE` on, 9 October 2026; its phase 2 backlog is above); the Irish
+vocabulary (adopted at taxonomy v1.20, narrowed or rejected term by term).
+
+1. **The watchlist** (`config/watchlist-ie.yaml`, 8 bills): especially the
    free-speech entries (SLAPP, Media Regulation, the intimate-image bills).
-   Are they our ground?
-4. **Scope questions**: school admission by religion (the baptism barrier),
+   Are they our ground? Since phase 2 it also lends to speeches (37 so far)
+   and puts both bills in Coming up this week.
+2. **Scope questions**: school admission by religion (the baptism barrier),
    guardianship bills, pregnancy loss leave, the Mental Health Bill's
    consent provisions.
-5. **Iris Oifigiúil** forbids robots. Ask them, read it by hand, or leave it?
-6. **gov.ie**: may a one-off probe workflow test it from GitHub's runners?
-7. **Committee divisions**: kept (61 so far, 48 on bills). Committee
-   *hearings* (witnesses, as in Canada's committees) are a later decision.
+3. **Iris Oifigiúil** forbids robots. Ask them, read it by hand, or leave it?
+4. **gov.ie**: may a one-off probe workflow test it from GitHub's runners?
+5. **Committee hearings**: committee divisions are kept (61, 48 on bills)
+   and members' words in committee are read (98 speeches on our ground);
+   witnesses' evidence (as in Canada's committees) is not. Collect it?

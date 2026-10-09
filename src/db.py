@@ -1606,6 +1606,12 @@ TABLES = (
     "ie_bill_debates",
     "ie_divisions",
     "ie_votes",
+    # Ireland phase 2 (tools/ie_questions.py, ie_debates.py, ie_schedule.py).
+    "ie_questions",
+    "ie_speeches",
+    "ie_windows",
+    "ie_schedule",
+    "ie_schedule_days",
     # Austria's Parliament (tools/at_rollcalls.py), created by
     # src/at_store.ensure_schema -- declared from day one.
     "at_members",
