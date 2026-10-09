@@ -1,0 +1,61 @@
+# GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
+# Source of truth: docs/keyword-taxonomy-hu.md
+# Regenerate: python3 tools/generate_taxonomy.py --lang hu
+version: 0.1
+areas:
+  1_abortion:
+    tier1: ["abortusz*", "terhességmegszakítás*", "terhesség-megszakítás*", "magzati élet*", "magzatvédel*", "magzati szívhang*", "fogantatás*", "abortusztablett*", "abortuszpirul*", Mifegyne, "mifepriszton*", "életvédő*"]
+    tier2: ["magzat*", "reproduktív jog*", "reproduktív egészség*", "babamentő inkubátor*", "inkubátor*", "koraszülött*", "várandósgondoz*", "születendő gyermek*", "méhen belül*", "prenatális*", "magzatdiagnosztik*"]
+    # note: Hungary: Measured on karzat's derived data and the probe corpora; terms need trailing * because Hungarian is agglutinative.
+  2_assisted_dying:
+    tier1: ["eutanázi*", "asszisztált öngyilkosság*", "asszisztált halál*", "orvosi segítséggel történő", "méltó halál*", "önrendelkezés az élet végén", "életvégi döntés*", "Karsai Dániel*"]
+    tier2: ["palliatív*", "hospice*", "életfenntartó kezelés*", "ellátás visszautasítás*", "öngyilkosság-megelőzés*", "öngyilkosságmegelőzés*", "élet végén", "haldokló*"]
+    # note: No terms proposed for this area.
+  3_gender_medicine_children:
+    tier1: ["nemátalakító*", "nemváltó műtét*", "nemi átalakít*", "pubertásblokkol*", "pubertásgátl*", "nemi diszfóri*", "nemi inkongruenci*", "detranzíci*"]
+    tier2: [{term: "hormonterápi*", with: ["gyermek*", "gyerek*", "kiskorú*", "fiatalkorú*"]}, {term: "nemi identitás*", with: ["gyermek*", "gyerek*", "kiskorú*", "fiatalkorú*"]}, {term: "tranzíci*", with: ["gyermek*", "gyerek*", "kiskorú*", "fiatalkorú*"]}]
+    # note: No terms proposed for this area.
+  4_conversion_practices:
+    tier1: ["konverziós terápi*", "konverziós gyakorlat*", "konverziós kezelés*", "reparatív terápi*", "átnevelő terápi*"]
+    tier2: [{term: "lelkigondoz*", with: [konverziós, "tilalom*", "szexuális irányultság*"]}]
+    # note: No terms proposed for this area.
+  5_sex_based_rights:
+    tier1: ["születési nem*", "nem megváltoztatás*", "nemváltoztatás*", "nem módosítás*", "nemi hovatartozás*", "biológiai nem*", "transznemű*", "transz személy*", "interszex*", "nembinár*", "nem binár*", "genderideológi*", "gender-ideológi*", "társadalmi nem*", "isztambuli egyezmény*", "férfi vagy nő", "LMBT*"]
+    tier2: ["homoszexualit*", "homoszexuális*", "szexuális irányultság*", "nemi irányultság*", {term: "irányultság*", with: [szexuális, nemi, "LMBT*", "homoszexu*"]}, "nemi identitás*", "egyenlő bánásmód*", "Egyenlő Bánásmód Hatóság*", "nők elleni erőszak*", "kapcsolati erőszak*", "femicid*", "nőgyilkosság*", {term: "női sport*", with: ["transz*", "biológiai nem*", "születési nem*", "LMBT*"]}]
+    # note: No terms proposed for this area.
+  6_parental_rights_education:
+    tier1: ["gyermekvédelmi törvény*", "gyermekvédelmi népszavazás*", "pedofilellenes*", "pedofil bűnelkövető*", "szexuális nevelés*", "szexuális felvilágosítás*", "érzékenyítő*", "érzékenyítés*", "szülői jog*", "szülők joga*", "nevelési jog*", "otthonoktatás*", "magántanuló*", "egyéni munkarend*", "testi, szellemi és erkölcsi fejlődés*", "megfelelő testi, szellemi", "Pride*"]
+    tier2: ["gyermekvédel*", "Nemzeti alaptanterv*", NAT, "tankönyv*", "hit- és erkölcstan*", "köznevelés*", {term: "közösségi média*", with: ["gyermek*", "gyerek*", "kiskorú*", "fiatalkorú*"]}, {term: "mobiltelefon*", with: ["iskol*", "tanuló*", "diák*"]}, {term: "digitális eszköz*", with: ["gyermek*", "gyerek*", "kiskorú*", "fiatalkorú*"]}, "korhatár-ellenőrzés*", "életkor-ellenőrzés*", "életkor-ellenőrző*", "kiskorúak védel*", "gyermekek védel*", "gyermekjog*", "tankötelezettség*"]
+    # note: Hungary: Pride* sits in area 6 as drafted (children); the Assembly Act terms are in area 7.
+  7_free_speech_online_safety:
+    name: "Free speech, privacy and civil liberties"
+    tier1: ["szólásszabadság*", "véleménynyilvánítás szabadság*", "véleménynyilvánítási szabadság*", "sajtószabadság*", "gyűlöletbeszéd*", "gyűlöletkelt*", "közösség elleni uszítás*", "rémhírterjesztés*", "Szuverenitásvédelmi Hivatal*", "szuverenitásvédel*", "közélet átláthatóság*", "külföldről támogatott szervezet*", "cenzúr*", "Pegasus*", "kémprogram*", "gyülekezési jog*", "gyülekezési törvény*", "gyülekezési szabadság*", "arcfelismer*", "digitális szolgáltatásokról szóló", DSA]
+    tier2: ["dezinformáci*", "álhír*", "gyűlöletbűncselekmény*", "gyűlölet-bűncselekmény*", "megfigyel*", "adatvédel*", "titkos információgyűjtés*", "médiaszabályoz*", "médiaszolgáltatás*", "közmédia*", "Médiatanács*", NMHH, "politikai reklám*", "platformszolgáltató*", "online platform*", "chatkontroll*", "külföldi befolyás*", "külföldi támogatás*", "civil szervezet*"]
+    # note: Hungary: Sovereignty Protection Office, 2025 transparency bill and foreign-funding terms in area 7 as drafted.
+  8_freedom_of_religion:
+    tier1: ["vallásszabadság*", "lelkiismereti és vallásszabadság*", "lelkiismereti szabadság*", "egyházi törvény*", "egyháztörvény*", "bevett egyház*", "elismert egyház*", "nyilvántartásba vett egyház*", "keresztényüldözés*", "üldözött keresztény*", "keresztények üldözés*", "Hungary Helps", "istenkáromlás*", "vallási közösség*", "vallási kisebbség*", "keresztény kisebbség*"]
+    tier2: ["egyházi*", "egyház*", "hitoktatás*", "hitélet*", "vallási jelkép*", "keresztény kultúr*", "zsidó közösség*", "iszlám*", "muszlim*", "lelkész*"]
+    # note: Hungary: antiszemitizmus* removed under X13.
+  9_marriage_family:
+    tier1: ["házasság*", "egy férfi és egy nő", "anya nő, az apa férfi", "élettársi kapcsolat*", "bejegyzett élettárs*", "azonos nemű*", "örökbefogad*", "családtámogatás*", "családpolitik*", "családvédel*", "Családvédelmi Akcióterv*", "babaváró*", CSOK, "családi otthonteremtési kedvezmény*", "családi adókedvezmény*", "gyermekgondozási díj*", GYED, GYES, "gyermeknevelési támogatás*", "családi pótlék*"]
+    tier2: ["családok*", "családi*", "családügy*", "családbarát*", "sokgyermekes*", "nagycsalád*", "demográfi*", "népességfogy*", "gyermekvállalás*", "édesanyá*", "anyák*", "szülési szabadság*", "apasági szabadság*", "gyermekgondozás*", "gyermektartás*", "szülői felügyelet*", "válás*", "kapcsolattartás*"]
+    # note: Hungary: Family benefits (CSOK, babaváró, GYED, GYES) at tier 1 as drafted.
+  10_surrogacy_embryology:
+    tier1: ["béranyaság*", "dajkaterhesség*", "helyettesítő anyaság*", "embrió*", "lombik*", "mesterséges megtermékenyítés*", "asszisztált reprodukci*", "reprodukciós eljárás*", "humán reprodukci*", "petesejt*", "ivarsejt*", "spermadonáci*", "őssejt*", "klónoz*", "génszerkeszt*", "méhen kívüli megtermékenyítés*", IVF]
+    tier2: ["meddőség*", "termékenység*", "reprodukciós*", "Humánreprodukciós*"]
+    # note: No terms proposed for this area.
+  11_migration:
+    tier1: ["migráci*", "migráns*", "bevándorl*", "menedékjog*", "menekült*", "határzár*", "tranzitzón*", "illegális határátlép*", "migrációs paktum*", "embercsempész*", "kitoloncol*", "kiutasít*"]
+    tier2: ["vendégmunkás*", "harmadik országbeli*", "idegenrendészet*", "Országos Idegenrendészeti*", "tartózkodási engedély*", "letelepedés*", "határvédel*", "határőrizet*", {term: "kvót*", with: ["menekült*", "migráns*", "bevándorl*", "menedékjog*", "áttelepít*"]}, "áttelepítés*"]
+    # note: No terms proposed for this area.
+  12_prostitution:
+    name: "Prostitution, trafficking and sexual exploitation"
+    tier1: ["prostitúci*", "prostituált*", "emberkereskedelem*", "emberkereskedő*", "kéjelgés*", "szexmunk*", "szexuális kizsákmányol*", "gyermekpornográf*", "gyermekek szexuális*", "szexuális bántalmaz*"]
+    tier2: ["pornográf*", "pedofil*", "szexuális visszaélés*", "szexuális erőszak*", "szexuális zaklatás*", "kényszermunk*", "Nemzeti Koordinátor az emberkereskedelem*"]
+    # note: No terms proposed for this area.
+  13_organ_donation:
+    name: Organ donation and transplant ethics
+    tier1: ["szervadományoz*", "szervátültet*", "szervdonáci*", "szervdonor*", "transzplantáci*", "feltételezett beleegyezés*", "agyhalál*", "szervkereskedelem*", "szerv- és szövetátültet*"]
+    tier2: ["szövetadományoz*", "donor*", "halott ember szerv*"]
+    # note: No terms proposed for this area.
+exclusions_global: [nem, meleg, élet, család, gyermek, jog, egyház, védelem]

@@ -266,8 +266,11 @@ class GermanTaxonomyTests(unittest.TestCase):
         for lang, (_m, config) in generate_taxonomy.MASTERS.items():
             with open(config, "r", encoding="utf-8") as handle:
                 loaded[lang] = set((yaml.safe_load(handle).get("areas") or {}))
-        self.assertEqual(loaded["de"], loaded["en"],
-                         "the two taxonomies must describe the same areas")
+        # Every language, not only German (10 October 2026: the country
+        # editions' languages carry the same thirteen keys).
+        for lang, keys in loaded.items():
+            self.assertEqual(keys, loaded["en"],
+                             "taxonomy-%s must describe the same areas as English" % lang)
 
 
 class QuebecTaxonomyTests(unittest.TestCase):
@@ -703,7 +706,7 @@ class CountryTagAndAddendumTests(unittest.TestCase):
         self.assertEqual(generate_taxonomy._yaml_term('"Ley 4/2023" [only: ES, ar]'),
                          '{term: "Ley 4/2023", only: [es, ar]}')
         self.assertEqual(generate_taxonomy._yaml_term('registo* [with: civil] [only: pt]'),
-                         '{term: registo*, with: [civil], only: [pt]}')
+                         '{term: "registo*", with: [civil], only: [pt]}')
 
     def test_addendum_appends_without_touching_the_base(self):
         base = ("0.3", {"1_abortion": {"name": None, "note": "b", "tier1": ["avortement*"], "tier2": []},

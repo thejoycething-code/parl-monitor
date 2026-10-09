@@ -165,6 +165,11 @@ def _yaml_term(term):
     term = bare
     if term.startswith('"') and term.endswith('"'):
         return term
+    # A bare term YAML would read as something other than a string: a law
+    # number ("27.610", "2010") is a float or an int, "no" and "si" can be
+    # booleans to some loaders. Quoted, it stays the text it is.
+    if re.fullmatch(r"[-+0-9.,_/ :eE]+|(?i:y|n|yes|no|on|off|true|false|null|~)", term):
+        return '"' + term + '"'
     if re.search(r"[:#\[\]{},&*!|>'\"%@`]", term) or term != term.strip():
         return '"' + term.replace('"', '\\"') + '"'
     return term
