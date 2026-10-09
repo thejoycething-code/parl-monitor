@@ -141,7 +141,7 @@ def why_watched(it, config_dir=None):
 def takeaway(it, config_dir=None):
     """The English line under an item: what happened, where it stands."""
     bits = []
-    if it["status"]:
+    if it["status"] and it["kind"] != "news":   # a news item's status is only its watch key
         label = {"moved": "Moved", "updated": "Status", "report": "Committee",
                  "pedido": "Answer", "agenda": "Listed by", "gazette": "In",
                  "news": "Watched item"}.get(it["kind"], "Status")
