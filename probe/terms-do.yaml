@@ -1,0 +1,85 @@
+# MEASUREMENT DRAFT ONLY (probe/, not config). The proposed Spanish terms
+# for the Dominican Republic, as listed in docs/dominican-republic-scope.md.
+version: measure-do
+areas:
+  1_abortion:
+    tier1: ["aborto*", "interrupcion voluntaria del embarazo", "interrupcion del embarazo",
+            "tres causales", "causales", "no nacido*", "por nacer", "desde la concepcion",
+            "vida desde la concepcion", "misoprostol", "mifepristona", "pildora del dia despues",
+            "anticoncepcion de emergencia", "objecion de conciencia"]
+    tier2: ["salud sexual y reproductiva", "derechos sexuales y reproductivos",
+            "derechos reproductivos", "embarazo* en adolescentes", "embarazo adolescente",
+            "embarazo infantil", "mortalidad materna", "planificacion familiar",
+            "anticoncepcion", "anticonceptivo*", "duelo gestacional", "muerte perinatal", "madre* gestante*",
+            {term: "embarazada*", with: ["adolescente*", "nina*", "violacion", "incesto", "riesgo"]}, "Codigo Penal"]
+  2_assisted_dying:
+    tier1: ["eutanasia", "muerte digna", "muerte asistida", "suicidio asistido",
+            "suicidio medicamente asistido", "homicidio piadoso"]
+    tier2: ["cuidados paliativos", "voluntad anticipada", "voluntades anticipadas",
+            "testamento vital", "limitacion del esfuerzo terapeutico"]
+  3_gender_medicine_children:
+    tier1: ["bloqueadores de la pubertad", "bloqueadores puberales", "hormonizacion",
+            "transicion de genero", "reasignacion de sexo", "cambio de sexo",
+            "afirmacion de genero", "disforia de genero", "menores trans"]
+    tier2: ["infancias trans", "ninez trans"]
+  4_conversion_practices:
+    tier1: ["terapia* de conversion", "ECOSIEG", "esfuerzos de cambio de orientacion sexual"]
+    tier2: ["terapias reparativas"]
+  5_sex_based_rights:
+    tier1: ["identidad de genero", "ideologia de genero", "enfoque de genero",
+            "perspectiva de genero", "personas trans", "transgenero*", "transexual*",
+            "lenguaje inclusivo", "LGBT*", "LGTB*", "LGBTI*", "LGTBI*",
+            "igualdad y no discriminacion", "no discriminacion", "orientacion sexual"]
+    tier2: ["igualdad de genero", "equidad de genero", "diversidad sexual",
+            "politica de genero"]
+  6_parental_rights_education:
+    tier1: ["educacion sexual integral", "educacion integral en sexualidad",
+            "derecho preferente de los padres", "derecho de los padres", "patria potestad",
+            "autoridad parental", "educacion en el hogar", "educacion en casa", "homeschooling",
+            "pin parental", "Con mis hijos no te metas", "Biblia en las escuelas",
+            "lectura de la Biblia"]
+    tier2: [{term: "curricul*", with: ["sexual*", "genero", "familia", "valores", "religio*", "moral*", "padres", "biblia"]},
+            "padres de familia", "Asociacion de Padres", "textos escolares", "libertad de ensenanza",
+            "educacion sexual", "educacion moral", "educacion en valores", "orientacion y psicologia"]
+  7_free_speech_online_safety:
+    tier1: ["libertad de expresion", "discurso de odio", "delitos de odio", "incitacion al odio",
+            "censura previa", "difamacion", "injuria*"]
+    tier2: ["libertad de prensa", "libertad de informacion", "desinformacion", "noticias falsas",
+            "verificacion de edad", "ciberacoso", "ciberdelito*", "delitos de alta tecnologia",
+            {term: "redes sociales", with: ["nino*", "menor*", "adolescente*"]},
+            "ley de expresion"]
+  8_freedom_of_religion:
+    tier1: ["libertad religiosa", "libertad de conciencia", "libertad de culto*",
+            "igualdad religiosa", "entidades religiosas", "confesion* religiosa*",
+            "educacion religiosa", "simbolos religiosos", "iglesias evangelicas",
+            "Concordato", "asociaciones religiosas", "extremismo religioso", "sharia", "mezquitas"]
+    tier2: ["Iglesia Catolica", "Santa Sede", "lugares de culto", "Dia de la Biblia",
+            "Dia Nacional de la Biblia", "iglesia* evangelica*", "iglesia* cristiana*"]
+  9_marriage_family:
+    tier1: ["matrimonio igualitario", "matrimonio entre personas del mismo sexo",
+            "union civil", "uniones civiles", "parejas del mismo sexo", "adopcion homoparental",
+            "matrimonio infantil", "uniones tempranas", "union* libre*", "union* de hecho",
+            "Consenso de Ginebra"]
+    tier2: ["divorcio", "proteccion de la familia", "fortalecimiento de la familia",
+            "Codigo Civil", "Codigo de Familia", "codigo de la familia", "Ley de Familia", "adopcion",
+            "orientacion parental", "corresponsabilidad familiar", "matrimonio*", "pension* alimentaria*",
+            "Codigo para el Sistema de Proteccion"]
+  10_surrogacy_embryology:
+    tier1: ["gestacion subrogada", "maternidad subrogada", "vientre* de alquiler",
+            "reproduccion humana asistida", "tecnicas de reproduccion asistida",
+            "fecundacion in vitro", "clonacion humana"]
+    tier2: ["reproduccion asistida", "embrion*", "banco de ovulos", "donacion de gametos"]
+  11_migration:
+    tier1: ["migracion", "migraciones", "migrante*", "extranjeros", "refugiado*",
+            "Direccion General de Migracion", "haitian*", "indocumentad*", "naturalizacion",
+            "nacionalidad"]
+    tier2: ["frontera", "regularizacion migratoria", "Ley General de Migracion"]
+  12_prostitution:
+    tier1: ["trata de personas", "trafico de personas", "trafico ilicito de migrantes",
+            "prostitucion", "explotacion sexual", "proxenetismo", "pornografia*",
+            "abuso sexual infantil", "trabajo sexual"]
+    tier2: ["explotacion sexual comercial", "turismo sexual"]
+  13_organ_donation:
+    tier1: ["donacion de organos", "trasplante de organos", "donante* de organos",
+            "trafico de organos", "donacion y trasplante"]
+    tier2: ["trasplante*", "tejidos humanos", "INCORT"]
