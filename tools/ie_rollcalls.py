@@ -23,7 +23,7 @@ Houses of the Oireachtas Open Data API (api.oireachtas.ie/v1).
                                       -- committee divisions (61), where
     Committee Stage amendments are voted.
 
-Each list is read whole every week: it is about 15 requests, a minute, and
+Each list is read whole every week: 9 requests and 12 seconds (measured), and
 it is what re-stamps last_seen for the coverage watch.
 
 A DIVISION NAMES NO BILL. The vote record has `isBill: false` on all 711
