@@ -282,6 +282,17 @@ class PullTests(unittest.TestCase):
         s = self.pull(FakeClient(senate_pages()))
         self.assertEqual(s["new"], 1)
 
+    def test_a_refused_expediente_page_is_repaired_on_a_later_run(self):
+        s = self.pull(FakeClient(senate_pages(), fail=("verExp/",)))
+        self.assertEqual(s["gaps"], 1)
+        self.assertEqual(self.conn.execute("SELECT title FROM ar_bills WHERE exp_key='sen/159-PE-2025'")
+                         .fetchone(), (None,))
+        client = FakeClient(senate_pages())
+        self.pull(client)
+        self.assertEqual(len([c for c in client.calls if "verExp/" in c]), 1)
+        self.assertIsNotNone(self.conn.execute(
+            "SELECT title FROM ar_bills WHERE exp_key='sen/159-PE-2025'").fetchone()[0])
+
     def test_pdf_only_row_is_stored_without_positions(self):
         s = self.pull(FakeClient(senate_pages()), years=(2025,))
         self.assertEqual((s["new"], s["gaps"]), (1, 0))

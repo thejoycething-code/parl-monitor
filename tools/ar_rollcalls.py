@@ -102,6 +102,7 @@ FIRST_PROYECTOS_DATE = "2024-03-01"     # period 142, the start of phase 1's win
 
 BUDGET_S = drain.DEFAULT_S
 GAPS_EXIT = 3          # stored what it could, recorded gaps: jobs/ar-weekly.sh publishes
+EXP_REPAIR_LIMIT = 25  # Senate expediente pages re-asked per run after a refusal
 HIDDEN_AREAS = (11,)   # migration is collated, never campaigned (src/partner.py)
 
 COUNT_WORDS = {"AFIRMATIVOS": "ayes", "NEGATIVOS": "noes", "ABSTENCIONES": "abstentions",
@@ -438,6 +439,27 @@ class HistoricRoster:
 
 # --- Senate: actas ---------------------------------------------------------------
 
+def fetch_senate_expediente(conn, client, today, tax, wl, exp_key, number, origin, eyear, tipo,
+                            log=print, wl_path=None):
+    """Read one expediente page and store it. Stored even when refused (with
+    no title), so the acta's link resolves and the repair pass finds it.
+    Returns False on a refusal (a gap is recorded)."""
+    ok = True
+    try:
+        exp = parse_ver_exp(client.get_text(
+            VER_EXP.format(number, eyear % 100, origin, tipo), FEED,
+            "senado-exp-{0}-{1}-{2}".format(origin, number, eyear)))
+    except FetchError as exc:
+        _gap(conn, today, "senado expediente {0}: {1}".format(exp_key, exc))
+        log("  [gap] expediente {0}: {1}".format(exp_key, str(exc)[:70]))
+        exp, ok = {}, False
+    store_bill(conn, tax, wl, {"exp_key": exp_key, "chamber": "senado", "number": number,
+                               "origin": origin, "year": eyear, "tipo": tipo,
+                               "title": exp.get("title"), "exp_other": exp.get("exp_other"),
+                               "law": exp.get("law")}, today, wl_path)
+    return ok
+
+
 def pull_senate(conn, client, today, years, tax, wl, log=print, budget=None, wl_path=None,
                 limit=None):
     stats = {"listed": 0, "new": 0, "ours": 0, "gaps": 0, "votes": 0, "dropped": 0,
@@ -447,6 +469,16 @@ def pull_senate(conn, client, today, years, tax, wl, log=print, budget=None, wl_
                                           "WHERE chamber='senado'")}
     fetched_exps = set()
     done = 0
+    # Repair first: an expediente whose page was refused on an earlier run is
+    # stored with no title, and no new acta may ever name it again.
+    for exp_key, number, origin, eyear, tipo in conn.execute(
+            "SELECT exp_key, number, origin, year, tipo FROM ar_bills WHERE chamber='senado' "
+            "AND title IS NULL AND number IS NOT NULL LIMIT ?", (EXP_REPAIR_LIMIT,)).fetchall():
+        fetched_exps.add(exp_key)
+        if not fetch_senate_expediente(conn, client, today, tax, wl, exp_key, number, origin,
+                                       eyear, tipo, log, wl_path):
+            stats["gaps"] += 1
+        stats["expedientes"] += 1
     for year in years:
         try:
             page = client.post_form(ACTAS, {"busqueda_actas[anio]": str(year),
@@ -478,19 +510,9 @@ def pull_senate(conn, client, today, years, tax, wl, log=print, budget=None, wl_
                 if row and row[0]:
                     continue
                 fetched_exps.add(exp_key)
-                try:
-                    exp = parse_ver_exp(client.get_text(
-                        VER_EXP.format(number, eyear % 100, origin, tipo), FEED,
-                        "senado-exp-{0}-{1}-{2}".format(origin, number, eyear)))
-                except FetchError as exc:
-                    _gap(conn, today, "senado expediente {0}: {1}".format(exp_key, exc))
-                    log("  [gap] expediente {0}: {1}".format(exp_key, str(exc)[:70]))
+                if not fetch_senate_expediente(conn, client, today, tax, wl, exp_key, number, origin,
+                                               eyear, tipo, log, wl_path):
                     stats["gaps"] += 1
-                    exp = {}
-                store_bill(conn, tax, wl, {"exp_key": exp_key, "chamber": "senado", "number": number,
-                                           "origin": origin, "year": eyear, "tipo": tipo,
-                                           "title": exp.get("title"), "exp_other": exp.get("exp_other"),
-                                           "law": exp.get("law")}, today, wl_path)
                 stats["expedientes"] += 1
             detail = None
             if a["has_detail"]:
