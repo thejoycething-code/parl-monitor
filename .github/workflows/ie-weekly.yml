@@ -1,0 +1,130 @@
+name: Ireland weekly
+on:
+  schedule:
+    # Friday 08:30 UTC (9 October 2026). The Dail sits Tuesday to Thursday
+    # and takes most of its divisions in Wednesday's weekly division time
+    # (339 of 429 in the 34th Dail), so Friday morning has the whole week.
+    # Chosen from every cron in .github/workflows: Friday already holds
+    # 06:00 (Holyrood), 07:00 (day sweep), 10:00 and 12:00 (US weekly),
+    # 13:00, 15:00 and 17:00 (division watch) and 21:00, plus 05:30 and 23:00
+    # daily, 08:00 on the 10th (member profiles) and 06:00 on the 3rd (UPR).
+    # 08:30 is none of them,
+    # and it is done long before the US slot: the measured run is about a
+    # minute of fetching. One slot only: GitHub keeps ONE pending run per
+    # state group, so a retry slot could cancel the US weekly's.
+    - cron: "30 8 * * 5"
+  workflow_dispatch:
+    inputs:
+      reclassify:
+        # After a taxonomy or watchlist-ie change: re-derive every stored
+        # Irish bill's and division's areas, offline, before the pull.
+        description: "Reclassify stored Irish bills and divisions under the current taxonomy"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+# Same group as everything that commits data/: one writer at a time.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  # The Mac Mini runs this at 09:30 London on Fridays (tools/mini_run.sh
+  # ie-weekly, ops/launchd/net.citizengo.parlmonitor.ie-weekly.plist); this
+  # cron is the backup and skips itself when the Mini already ran.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: IE_WEEKLY
+
+  pull:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    # Measured from the laptop, 9 October 2026: the whole 34th Dail and 27th
+    # Seanad (419 bills, 711 divisions, 73,129 votes) in 11.5 seconds. The
+    # store pull and push are most of the time.
+    timeout-minutes: 30
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Fetch the store
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Fetch the raw archive
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --pull
+      - name: Members, bills and divisions (34th Dail, 27th Seanad), then publish
+        id: job
+        if: steps.fetch.outcome == 'success'
+        # jobs/ie-weekly.sh is shared with the Mac Mini runner. It runs the
+        # collector, then publishes the archive before the store
+        # (tools/raw_state.py --push, then tools/db_state.py --push), and
+        # exits 0 once both are published even when the collector recorded
+        # gaps, so the sidecar below always lands with the store.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IE_RECLASSIFY: ${{ inputs.reclassify }}
+          IE_LOG: /tmp/ie-rollcalls.log
+        run: bash jobs/ie-weekly.sh | tee /tmp/ie-weekly.log
+      - name: Health summary
+        if: always()
+        run: |
+          {
+            echo "## Ireland weekly"
+            echo '```'
+            grep -hE "ie-rollcalls:|store:|\[gap\]|ie-weekly:" /tmp/ie-weekly.log 2>/dev/null | head -25 || echo "(no summary lines)"
+            echo '```'
+            TOTAL=$({ grep -hc "\[gap\]" /tmp/ie-rollcalls.log 2>/dev/null \
+                      || true; } | awk '{s+=$1} END {print s+0}')
+            if [ "$TOTAL" -gt 0 ]; then
+              echo "**$TOTAL gap(s) this run** - see the step log."
+            else
+              echo "**No gaps.**"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit state
+        # Paired with the publish inside jobs/ie-weekly.sh -- an uncommitted
+        # sidecar next to a published store is the divergence this repo has
+        # already paid for.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Ireland weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
+            git push && break
+            echo "push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 5))
+          done
+          git fetch -q origin "$(git rev-parse --abbrev-ref HEAD)"
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "the sidecar commit never reached origin"; exit 1
+          fi
+      - name: Fail on gaps
+        # After the commit, so the store and its sidecar land first; this is
+        # what turns a run with gaps red for the failure alert.
+        if: always() && steps.job.outcome == 'success'
+        run: |
+          if grep -q "\[gap\]" /tmp/ie-rollcalls.log 2>/dev/null; then
+            echo "the collector recorded gaps; see the Health summary"; exit 1
+          fi

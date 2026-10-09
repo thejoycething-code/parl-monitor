@@ -322,6 +322,66 @@ class ReclassifyTests(unittest.TestCase):
         self.assertEqual(ier.reclassify(conn, tax=TAX, log=lambda *a: None), (0, 0))
 
 
+class ScheduleTests(unittest.TestCase):
+    """Mini first, GitHub as backup, in a slot no other workflow uses."""
+
+    WORKFLOWS = os.path.join(ROOT, ".github", "workflows")
+
+    def _crons(self):
+        import glob
+        import re
+        out = {}
+        for path in glob.glob(os.path.join(self.WORKFLOWS, "*.yml")):
+            with open(path, encoding="utf-8") as fh:
+                out[os.path.basename(path)] = re.findall(r'^\s*- cron: "([^"]+)"', fh.read(), re.M)
+        return out
+
+    def test_the_slot_collides_with_no_other_cron(self):
+        crons = self._crons()
+        mine = crons.pop("ie-weekly.yml")
+        self.assertEqual(mine, ["30 8 * * 5"])
+        for name, theirs in crons.items():
+            for c in theirs:
+                minute, hour, _dom, _mon, dow = c.split()
+                same_time = minute == "30" and "8" in hour.replace("-", ",").split(",")
+                same_day = dow in ("*", "5") or ("-" in dow and int(dow[0]) <= 5 <= int(dow[-1]))
+                self.assertFalse(same_time and same_day, "{0}: {1}".format(name, c))
+
+    def test_the_workflow_is_gated_by_the_mini_and_shares_its_job_script(self):
+        with open(os.path.join(self.WORKFLOWS, "ie-weekly.yml"), encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertIn("uses: ./.github/workflows/mini-check.yml", text)
+        self.assertIn("job: IE_WEEKLY", text)
+        self.assertIn("bash jobs/ie-weekly.sh", text)
+        self.assertIn("group: parl-monitor-state", text)
+        with open(os.path.join(ROOT, "jobs", "ie-weekly.sh"), encoding="utf-8") as fh:
+            job = fh.read()
+        self.assertLess(job.index("raw_state.py --push"), job.index("db_state.py --push"))
+        self.assertNotIn("mini_run: no-store", job)   # it writes the store
+
+    def test_the_mini_runs_the_london_hour_the_cron_names_in_summer(self):
+        import plistlib
+        with open(os.path.join(ROOT, "ops", "launchd",
+                               "net.citizengo.parlmonitor.ie-weekly.plist"), "rb") as fh:
+            plist = plistlib.load(fh)
+        self.assertEqual(plist["ProgramArguments"][-1], "ie-weekly")
+        self.assertTrue(plist["ProgramArguments"][1].startswith("/Users/christopherjoyce/runner/"))
+        self.assertEqual(plist["StartCalendarInterval"],
+                         [{"Weekday": 5, "Hour": 9, "Minute": 30}])
+
+    def test_a_mini_run_covers_the_slot_and_github_skips(self):
+        import datetime as dt
+        spec = importlib.util.spec_from_file_location(
+            "mini_check", os.path.join(ROOT, "tools", "mini_check.py"))
+        mc = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mc)
+        now = dt.datetime(2026, 10, 16, 11, 0, tzinfo=dt.timezone.utc)   # a late backup
+        run, _why = mc.decide("schedule", "30 8 * * 5", "2026-10-16T08:30:04Z", now)
+        self.assertFalse(run)
+        run, _why = mc.decide("schedule", "30 8 * * 5", "2026-10-09T08:30:04Z", now)
+        self.assertTrue(run)
+
+
 class WatchlistTests(unittest.TestCase):
     def test_every_entry_is_a_bill_key_with_areas_and_a_reason(self):
         for key, (areas, why) in ie_store.watchlist().items():
