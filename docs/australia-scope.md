@@ -4,9 +4,9 @@ Probed live on 9 October 2026, from the laptop. Every number below was
 measured, not estimated; where a sentence rests on background knowledge
 rather than a measurement, it says so. Federal Parliament only (House of
 Representatives and Senate); the states and territories are scoped briefly at
-the end. Phase 1, the edition and the judge are built on the `australia`
-branch and have run once into a scratch database. Nothing is merged,
-scheduled for real or published.
+the end. Phase 1, the edition and the judge are on main and scheduled
+(Fridays; "The weekly schedule"); the week ahead is built on the
+`au-week-ahead` branch and has run once into a scratch database.
 
 ## Decisions (Christopher, 9 October 2026)
 
@@ -54,9 +54,9 @@ collated, never campaigned, and is not counted as our ground, as in the US.
   sitting members: the Parliamentary Handbook gave exactly one match on
   surname and electorate or state. The other 7 are left blank, never guessed.
 - **The edition and the judge are built too** (below), and everything is
-  **scheduled on the branch, not live.** `jobs/au-weekly.sh`, the Mini-gated
-  `.github/workflows/au-weekly.yml` and the launchd plist are written; the
-  workflow runs only once merged to main (see "The weekly schedule").
+  scheduled: `jobs/au-weekly.sh`, the Mini-gated
+  `.github/workflows/au-weekly.yml` and the launchd plist are on main (see
+  "The weekly schedule").
 
 ## The finding that shapes everything
 
@@ -69,10 +69,9 @@ curl's default alike. That is where Bills Search, the bills digests, the
 explanatory memoranda, Votes and Proceedings, the Journals of the Senate,
 committee inquiries and submissions, the e-petitions and the sitting calendar
 all live. It was not worked around: bot detection is never worked around in
-this repo. Whether GitHub's runners or the Mac Mini fare better is untested
-(the US Senate refused the laptop and answered CI); a probe from either is
-the first thing to try, and needs Christopher's go-ahead because it means
-running a workflow.
+this repo. GitHub's runners are refused too (run 37887925082, 9 October
+2026; below); the Mac Mini probe is pending (docs/mac-mini.md), and the APH
+Web Manager was emailed on 9 October asking for access.
 
 The route that works is the **OpenAustralia Foundation's parse of the
 official Hansard** (`data.openaustralia.org.au`, open, keyless, one XML file
@@ -364,8 +363,10 @@ C2026A00005: the Act's own text only).
 Bills Search and bill homepages, bills digests, explanatory memoranda,
 Votes and Proceedings, Journals of the Senate, the Senate's division
 records, committee inquiries and submissions, Senate estimates, House and
-Senate e-petitions, the sitting calendar, and every ParlInfo search and
-download. All on www.aph.gov.au or parlinfo.aph.gov.au.
+Senate e-petitions, the sitting calendar, the House and Senate Notice Papers
+and Daily Programs, and every ParlInfo search and download. All on
+www.aph.gov.au or parlinfo.aph.gov.au. None of it was found mirrored on a
+host that answers (below, "The week ahead").
 
 ### Keyed, not needed for phase 1
 
@@ -418,17 +419,18 @@ September, so the top line says so and the divisions section shows the last
 age enforcement bill's passage on 10 September); 15 bills before Parliament
 and 4 Acts on our ground.
 
-## The judge (built, NOT on)
+## The judge (on since 9 October 2026)
 
 `tools/au_triage.py`, modelled on `tools/us_triage.py`: the same judge and
 rubric with an Australian frame (voluntary assisted dying, the Sex
 Discrimination Act, "child abuse material", the eSafety Commissioner,
 vilification; bills are given by title only, and the judge is told not to
 invent contents). It judges bills of the current Parliament on our ground and
-divisions whose own words matched. **It runs only when the repository
-variable `AU_JUDGE` is `on`, and it is not on: SPEND NEEDS A YES.** Measured
-by `--dry-run` on the scratch database: **62 items (19 bills, 43 divisions),
-about 16 calls, roughly $0.15** for the whole backlog.
+divisions whose own words matched. It runs only when the repository
+variable `AU_JUDGE` is `on`, and **Christopher turned it on on 9 October
+2026.** Measured by `--dry-run` on the scratch database before that: **62
+items (19 bills, 43 divisions), about 16 calls, roughly $0.15** for the whole
+backlog, then only new items each sitting week.
 
 ## The aph.gov.au probe: GitHub's runners are refused too (9 October 2026)
 
@@ -447,12 +449,74 @@ challenge stops the host, nothing worked around):
 So the block is not the laptop's network: APH refuses GitHub's runners as
 well, and the High Court does not answer them. **The open route
 (OpenAustralia + the Handbook API + the Federal Register of Legislation) is
-the collector's route, not a stopgap.** What remains to try is the Mac Mini
-by hand once this is merged (`python3 tools/au_probe.py --out /tmp/au-probe`),
-and, failing that, asking the Parliamentary Library or APH web team for
-access (a polite email, as for PEI); phase 1b (committee-stage amendment
-sheets), bill digests and the sitting calendar wait on one of those.
-`au-probe.yml` stays for a later re-test.
+the collector's route, not a stopgap.** Two things are in hand, neither
+done: the **Mac Mini probe** by hand (`python3 tools/au_probe.py --out
+/tmp/au-probe`; steps in docs/mac-mini.md, pending), and the **APH Web
+Manager was emailed on 9 October 2026** asking for access, as was done for
+PEI. Phase 1b (committee-stage amendment sheets), bill digests, the Notice
+Papers and the full sitting calendar wait on one of those. `au-probe.yml`
+stays for a later re-test.
+
+## The week ahead (built 9 October 2026)
+
+**The calendar is blocked, so what is reachable was measured.** Every probe
+below was made from the laptop on 9 October 2026 with the honest UA; nothing
+was worked around.
+
+| Source | Answers? | Forward-looking? |
+|---|---|---|
+| Parliamentary Handbook API (`handbookapi.aph.gov.au/api`) | yes (OData, 16 entity sets) | **No sitting days or calendar.** Its sets are Parliaments, individuals, records of service, parties, states, electorates, committees and members, ministries. `parliaments` gives each Parliament's opening and **dissolution date** (empty for the 48th): the one forward signal, an election called. Committees carry no inquiries or deadlines. The bare host answers 403 (an IIS directory listing refused), not the WAF. |
+| OpenAustralia (`data.openaustralia.org.au`) | yes | **Nothing.** The index holds `members/`, `scrapedxml/` (the two debates folders), `origxml/`, `rewritexml/` and the parser log: all after the fact. |
+| Federal Register of Legislation (`api.prod.legislation.gov.au/v1`) | yes | **Yes: disallowance.** No bills (Acts only, after assent). Its search grammar (read from the website's own code) has `openfordisallowance(n)`: **277 legislative instruments open for disallowance**, one request, 4 s, 138 KB, each with the **last day the House and the Senate can disallow it** and the Acts it is made under. Per instrument, `parliamentaryScrutiny` gives tabling dates and any **notice of a disallowance motion** with its sponsor: reading all 277 took 262 s and found **1** (Senator Price, Senate, 16 September 2026, on the VET Regulator charges determination, F2026L00816). A `$filter` on the scrutiny events is refused (400, an untranslatable query), so motions cannot be listed in one request. |
+| data.gov.au (CKAN search: "sitting calendar parliament", "notice paper") | yes | **No federal calendar or Notice Paper**: 391 and 1,930 hits, NSW annual reports and consultations. |
+| Notice Papers, Daily Programs, committee inquiry deadlines on any other host | not found | All on aph.gov.au / ParlInfo (403). |
+
+**The sitting days hidden in the disallowance clock.** A last day for
+disallowance is the fifteenth sitting day after the instrument was tabled in
+that House, counted on the Register's own copy of the sitting calendar. So
+**every last day still ahead is a day that House is due to sit.** On 9
+October 2026 the 277 instruments gave 24 such days: **House** 12 to 15
+October, 26 to 29 October, 23 to 26 November; **Senate** 12 to 15 October, 16
+to 19 November, 23 to 26 November (the Senate's absence in the week of 26
+October is consistent with supplementary estimates, background only). It is a
+lower bound: a sitting day on which no instrument's clock ends is missing,
+and estimates are not shown. A last day of 9999-12-31 means no clock is
+running in that House (not yet tabled there, or a disallowance motion is
+pending: F2026L00816's Senate day is 9999 since Senator Price's notice).
+
+**What is built.** `tools/au_schedule.py`, run by `jobs/au-weekly.sh` after
+the collector (about 20 seconds; live into a scratch database on 9 October
+2026: 277 open, 0 on our ground, 24 sitting days ahead, 2 Parliaments, no
+gaps). Three tables in `src/au_store.py`:
+
+- `au_instruments`, keyed on the Register's title ID (`F2026L00968`): name,
+  last day per House (NULL when no clock runs), the enabling Acts, `bill_id`
+  where an enabling Act is one this Parliament passed (`au_bills.act_id`: the
+  r7512-style key; 4 of the 277 on 9 October), areas and where they came
+  from (`own`: its name; `act`: a principal Act on the new `acts:` list in
+  `config/watchlist-au.yaml`, by Register ID; `bill`: the enabling bill, only
+  when that bill is on our ground), the scrutiny events (read only for
+  instruments on our ground), and `open`.
+- `au_sitting_days` (chamber, date): every last day still ahead, with how
+  many clocks end on it.
+- `au_parliaments`: the Handbook's Parliaments, for a dissolution.
+
+Instruments on our ground on 9 October 2026: **none** (two migration
+instruments matched, area 11, collated and hidden). The `acts:` list is
+groundwork for Christopher (Online Safety Act 2021, Sex Discrimination Act
+1984, Marriage Act 1961, the Classification Act 1995, the two 2002 embryo and
+cloning Acts): an eSafety industry code or standard laid under the Online
+Safety Act would show here with its disallowance window.
+
+**In the edition**: "Coming up" after "Dates that matter": the next sitting
+day of each House and the days due in the next 60, the instruments on our
+ground open for disallowance with each House's last day and any motion, a
+dissolution if the Handbook records one, and a plain statement that the
+calendar, Notice Papers and Daily Programs are blocked so which bill comes
+up cannot be said. "Dates that matter" gains the next sitting day. The DM
+gets one line. Watched by `tools/coverage.py` (instruments and Parliaments
+weekly; sitting days a month plus two months' grace for the summer recess),
+excused until the step's own heartbeat ("AU week ahead") first lands.
 
 ## The weekly schedule
 
@@ -470,21 +534,20 @@ once for both slots, so the gate allows 200 minutes rather than 75: 02:00
 London is 01:00 UTC in summer, three hours before the retry. Watched by the
 failure alert and `tools/coverage.py` (members and bills weekly, because the
 member lists and the Register's Acts are re-read every run; divisions a
-month plus a month's grace, because Canberra sits in blocks). **It runs only
-once merged to main.**
+month plus a month's grace, because Canberra sits in blocks).
 
 ## Proposed phasing
 
 1. **Phase 1 (built): divisions, bills, members** from the Hansard, the
    Handbook and the Register, as above.
 2. **Phase 1b: amendment sheets and bill texts.** Needs ParlInfo or the
-   APH bill homepages, which refuse the laptop. First step: one probe from
-   GitHub's runners and one from the Mini (each needs Christopher's go-ahead).
-   If both are refused, ask the Parliamentary Library or the Department of
-   the House for access, as was done for PEI in Canada.
+   APH bill homepages, which refuse the laptop and GitHub's runners (9
+   October 2026). Waiting on the Mini probe (pending) and the APH Web
+   Manager, emailed 9 October 2026.
 3. **Phase 2: debates and Senate motions in full** (the same Hansard files:
-   speeches on our ground, the motion texts), and the weekly **sitting
-   calendar** and Senate estimates (blocked today).
+   speeches on our ground, the motion texts), and the full **sitting
+   calendar**, Notice Papers and Senate estimates (blocked today; the sitting
+   days the Register's disallowance clock reveals are built, above).
 4. **Phase 3: the Australian 5CA** (votes, pairs, private bills, second
    reading amendments).
 5. **Phase 4: states and territories**, in the order the open data allows
@@ -494,11 +557,13 @@ once merged to main.**
 
 - **No sitting day between 17 September and 9 October 2026** (measured: the
   OpenAustralia mirror's daily files are empty for every weekday since).
-- **The sitting calendar for October to December 2026 and the dates of
-  Senate estimates could not be read**: both are on aph.gov.au, which
-  refuses the laptop. Background only: supplementary budget estimates are
-  normally held in late October or early November, and both Houses
-  normally sit into early December. Confirm from a network the APH answers.
+- **Sitting days ahead, from the Register's disallowance clock** (9 October
+  2026; a lower bound, see "The week ahead"): House 12 to 15 October, 26 to
+  29 October, 23 to 26 November; Senate 12 to 15 October, 16 to 19 November,
+  23 to 26 November.
+- **The full sitting calendar and the dates of Senate estimates could not be
+  read**: both are on aph.gov.au. Background only: supplementary budget
+  estimates are normally held in late October or early November.
 - **Mid-2028 at the latest: the next election**, and with it every pending
   bill lapses at once (see "How bills lapse").
 
@@ -529,20 +594,31 @@ probed.
 
 ## Open questions for Christopher
 
-1. ~~Confirm the assumed decisions~~: confirmed 9 October 2026.
-2. ~~The proposed Australian vocabulary~~: adopted at taxonomy v1.20,
-   narrowed or rejected term by term (above); the watchlist stays.
-3. **Scope**: the Combatting Antisemitism, Hate and Extremism package is in
-   on area 7 (hate speech law) while antisemitism itself is out in the US
-   decision. Should area 8 apply too? Is the Human Rights Bill ours? Are the
-   Online Safety bills (adult cyber abuse, feeds, likeness) ours, or only
-   the children's ones?
-4. **Run the aph.gov.au probe?** Prepared (`au-probe.yml`, `tools/au_probe.py`),
-   not run: it shows whether the WAF block is the laptop's network. Phase 1b
-   depends on it.
+Settled on 9 October 2026, kept for the record: the assumed decisions
+(confirmed); the vocabulary (adopted at taxonomy v1.20, narrowed or rejected
+term by term, above); the judge (`AU_JUDGE` on since 9 October); the
+aph.gov.au probe (GitHub's runners refused, run 37887925082; the Mini probe
+is pending in docs/mac-mini.md; the APH Web Manager was emailed asking for
+access). On the vocabulary, one loose end: "Human Rights Bill" was rejected
+at v1.20 for noise (Scotland's Human Rights Bill pulled in environment and
+child-poverty debates), so the federal one is ours only by key: r7488 is on
+`config/watchlist-au.yaml` now, and any successor bill could go there by key
+too if Christopher wants it.
+
+Still open:
+
+1. **Area 8 for the hate package.** The Combatting Antisemitism, Hate and
+   Extremism package is in on area 7 (hate speech law) while antisemitism
+   itself is out in the US decision. Should area 8 (who may preach what)
+   apply too? The bill text is on the blocked site.
+2. **The adult Online Safety bills** (adult cyber abuse s1487, feeds s1491,
+   likeness s1471): ours, or only the children's ones?
+3. **The Human Rights Bill** (r7488, on the watchlist by key for areas 7
+   and 8): is it ours?
+4. **Which states first**, once you have decided; Victoria and South
+   Australia are the only two that answer the laptop.
 5. **Keys**: TheyVoteForYou and OpenAustralia keys are free but need an
    account in your name or the team's. Not needed now.
-6. **Which states first**, once you have decided; Victoria and South
-   Australia are the only two that answer the laptop.
-7. **Turn the judge on?** About $0.15 for the backlog (measured by --dry-run), then only new items each
-   sitting week: set the repository variable `AU_JUDGE` to `on`.
+6. **The principal Acts list** (`acts:` in `config/watchlist-au.yaml`, new
+   with the week ahead): groundwork, not reviewed. Add or drop Acts by their
+   Register ID.
