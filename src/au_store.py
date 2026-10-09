@@ -130,9 +130,23 @@ TABLES = ("au_members", "au_offices", "au_bills", "au_divisions", "au_votes",
           "au_hansard_files")
 
 
+# The judge's score and why-line (tools/au_triage.py), added after the first
+# live run (9 October 2026). Scored once, ever, as every judge here is.
+ADDED_COLUMNS = (
+    ("au_bills", "triage_score", "INTEGER"),
+    ("au_bills", "why_it_matters", "TEXT"),
+    ("au_divisions", "triage_score", "INTEGER"),
+    ("au_divisions", "why_it_matters", "TEXT"),
+)
+
+
 def ensure_schema(conn):
     for stmt in SCHEMA:
         conn.execute(stmt)
+    for table, column, kind in ADDED_COLUMNS:
+        have = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+        if column not in have:
+            conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, column, kind))
     conn.commit()
     return conn
 

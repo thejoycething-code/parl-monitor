@@ -320,6 +320,10 @@ def heading_stage(minor):
     parts = [p.strip() for p in (minor or "").split(";") if p.strip()]
     if len(parts) < 2 or re.search(r"\bBills?\b", parts[-1]):
         return None
+    # "...Bill 2026; Order for the Production of Documents" is a Senate order
+    # about the bill, not a stage of it.
+    if parts[-1].lower().startswith("order for the production"):
+        return None
     return parts[-1]
 
 

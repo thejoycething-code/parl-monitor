@@ -149,6 +149,7 @@ class DayParsingTests(unittest.TestCase):
         self.assertEqual(aur.heading_stage("X Bill 2026; Y Bill 2026; Third Reading"), "Third Reading")
         self.assertIsNone(aur.heading_stage("Appropriation Bill (No. 1) 2025-2026"))
         self.assertIsNone(aur.heading_stage("Cognates; Customs Tariff Amendment Bill 2025"))
+        self.assertIsNone(aur.heading_stage("X Bill 2026; Order for the Production of Documents"))
 
 
 class MemberTests(unittest.TestCase):
