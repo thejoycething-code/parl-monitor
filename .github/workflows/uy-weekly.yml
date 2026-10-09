@@ -1,0 +1,152 @@
+name: Uruguay weekly
+on:
+  schedule:
+    # Saturday 09:30 UTC, retry 12:30 UTC (9 October 2026). The Cámara de
+    # Representantes sits on Tuesdays and Wednesdays; its open-data files are
+    # regenerated every evening (Last-Modified about 18:30 UTC), and IMPO
+    # publishes a law about a week after promulgation, so once a week is
+    # enough. Clear of every other workflow's cron on main: Saturday holds
+    # 05:30, 06:00, 07:00, 10:00, 14:00, 18:00, 21:00 and 23:00 only.
+    - cron: "30 9 * * 6"
+    - cron: "30 12 * * 6"
+  workflow_dispatch:
+    inputs:
+      reclassify:
+        # After a taxonomy-uy or watchlist-uy change: re-derive every stored
+        # UY question's and law's areas, offline, before the pull.
+        description: "Reclassify stored UY questions and laws under the current taxonomy"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  actions: read      # the gate reads this workflow's own runs
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+# Same group as everything that commits data/: one writer at a time.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  # The Mac Mini runs this on Saturdays at 09:30 London (tools/mini_run.sh
+  # uy-weekly); these crons are the backup. The Mini runs ONCE for both
+  # slots, so its run must count for the 12:30 retry too: at 09:30 London in
+  # summer it stamps 08:30 UTC, four hours before that slot, hence a grace
+  # of 260 minutes rather than the default 75.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: UY_WEEKLY
+      grace-minutes: 260
+
+  # The second slot is a retry, not a second pass (copied from us-weekly.yml):
+  # when the 09:30 backup already ran today, 12:30 has nothing to do.
+  gate:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "dispatched by hand; running"; echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          TODAY=$(date -u +%Y-%m-%d)T00:00:00Z
+          BUSY=$(gh api "repos/${{ github.repository }}/actions/workflows/uy-weekly.yml/runs?per_page=50" \
+                 --jq "[.workflow_runs[]
+                        | select(.created_at >= \"$TODAY\")
+                        | select(.id != ${{ github.run_id }})
+                        | select(.conclusion == \"success\" or .status == \"in_progress\" or .status == \"queued\")]
+                       | length" 2>/dev/null || echo 0)
+          if [ "${BUSY:-0}" -gt 0 ]; then
+            echo "$BUSY run(s) already succeeded or are running today; this retry slot has nothing to do"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "no earlier run today; this slot does the work"
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  pull:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    # The first run backfills the laws from Ley 20.380 at IMPO's ten-second
+    # Crawl-delay, cut at 45 minutes by the collector's own budget and
+    # resumed by the next run (docs/uruguay-scope.md). Later weeks read three
+    # files and a handful of laws.
+    timeout-minutes: 60
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Fetch the store
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Fetch the raw archive
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --pull
+      - name: Deputies, pedidos de informes, Diario index (Cámara) and laws (IMPO); publish
+        # jobs/uy-weekly.sh is shared with the Mac Mini runner. It publishes
+        # the raw archive and then the store itself (tools/raw_state.py,
+        # then tools/db_state.py), only when the collector finished, gaps
+        # included; the next step commits the sidecars.
+        if: steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UY_RECLASSIFY: ${{ inputs.reclassify }}
+        run: bash jobs/uy-weekly.sh | tee /tmp/uy-weekly.log
+      - name: Health summary
+        if: always()
+        run: |
+          {
+            echo "## Uruguay weekly"
+            echo '```'
+            grep -hE "uy-rollcalls:|store:|\[gap\]" /tmp/uy-weekly.log 2>/dev/null | head -25 || echo "(no summary lines)"
+            echo '```'
+            TOTAL=$({ grep -hc "\[gap\]" /tmp/uy-weekly.log 2>/dev/null \
+                      || true; } | awk '{s+=$1} END {print s+0}')
+            if [ "$TOTAL" -gt 0 ]; then
+              echo "**$TOTAL gap(s) this run** - see the step log."
+            else
+              echo "**No gaps.**"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit state
+        # Paired with the publish inside the job script -- an uncommitted
+        # sidecar next to a published store is the divergence this repo has
+        # already paid for.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Uruguay weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
+            git push && break
+            echo "push rejected (attempt $attempt); retrying"
+            sleep $((attempt * 5))
+          done
+          git fetch -q origin "$(git rev-parse --abbrev-ref HEAD)"
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "the sidecar commit never reached origin"; exit 1
+          fi

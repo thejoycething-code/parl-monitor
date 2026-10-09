@@ -66,6 +66,8 @@ PIPELINES = {
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
     "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
+    # Scheduled 9 October 2026, Saturdays (uy-weekly.yml; the Mac Mini first).
+    "Uruguay weekly": (7, 4, "Uruguay: Cámara de Representantes roll, pedidos de informes, Diario index; IMPO laws"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -158,6 +160,14 @@ FEEDS = [
     ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
     ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
     ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
+    # Uruguay (9 October 2026). MEASURED which re-stamp: the roll, the
+    # pedidos de informes and the Diario index are re-read whole every run,
+    # so all three move every week. Laws move only when IMPO has a new one
+    # (about two a week, fewer in the January recess): a month plus a month.
+    ("uy_members", "last_seen", 7, 4, "Cámara de Representantes roll (Uruguay weekly)"),
+    ("uy_questions", "last_seen", 7, 4, "Pedidos de informes (Uruguay weekly)"),
+    ("uy_sittings", "last_seen", 7, 4, "Diario de Sesiones index (Uruguay weekly)"),
+    ("uy_laws", "last_seen", 31, 31, "Laws promulgated, from IMPO (Uruguay weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -230,6 +240,8 @@ PIPELINE_FEEDS = {
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
     # Divisions are left out: new rows only, so a recess week cannot move them.
     "US weekly": ["us_bills", "us_members"],
+    # Laws left out: new rows only, so a quiet week cannot move them.
+    "Uruguay weekly": ["uy_members", "uy_questions", "uy_sittings"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -243,6 +255,8 @@ PIPELINE_FEEDS = {
 AWAITING_FIRST_RUN = {
     "US weekly": (("us_bills", "us_members", "us_divisions"),
                   "scheduled 9 October 2026; its tables fill on its first run"),
+    "Uruguay weekly": (("uy_members", "uy_questions", "uy_sittings", "uy_laws"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, not a workflow's: tools/prov_speeches.py stamps
