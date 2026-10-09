@@ -104,14 +104,21 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/raw_state.py --pull
-      - name: Members, bills, divisions and Acts (48th Parliament)
-        # jobs/au-weekly.sh is shared with the Mac Mini runner. Here it only
-        # collects (AU_PUBLISH=false); the two publish steps below run under
-        # the commit step's condition, as in every store workflow.
+      - name: Collect, judge (if on), write the edition and DM
+        # jobs/au-weekly.sh is shared with the Mac Mini runner. Here it does
+        # not publish (AU_PUBLISH=false); the two publish steps below run
+        # under the commit step's condition, as in every store workflow. The
+        # judge runs only when the repository variable AU_JUDGE is 'on'
+        # (SPEND NEEDS A YES, 5 August 2026); it is not on. The DM goes to
+        # Christopher alone (decided 9 October 2026).
         if: always() && steps.fetch.outcome == 'success'
         env:
           AU_PUBLISH: "false"
           AU_RECLASSIFY: ${{ inputs.reclassify }}
+          AU_JUDGE: ${{ vars.AU_JUDGE }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
         run: bash jobs/au-weekly.sh | tee /tmp/au-weekly.log
       - name: Health summary
         if: always()
@@ -119,7 +126,7 @@ jobs:
           {
             echo "## Australia weekly"
             echo '```'
-            grep -hE "au-rollcalls:|store:|PHID|\[gap\]" /tmp/au-weekly.log 2>/dev/null | head -25 || echo "(no summary lines)"
+            grep -hE "au-rollcalls:|au-triage:|store:|PHID|edition:|dm:|\[gap\]" /tmp/au-weekly.log 2>/dev/null | head -25 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/au-weekly.log 2>/dev/null \
                       || true; } | awk '{s+=$1} END {print s+0}')
@@ -149,7 +156,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/
+          git add data/ editions/
           git diff --cached --quiet || git commit -m "Australia weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           for attempt in 1 2 3; do
             git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
