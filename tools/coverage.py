@@ -281,6 +281,20 @@ FEEDS = [
     ("ie_members", "last_seen", 7, 4, "Dail and Seanad rosters (Ireland weekly)"),
     ("ie_bills", "last_seen", 7, 4, "Oireachtas bills (Ireland weekly)"),
     ("ie_divisions", "last_seen", 7, 4, "Dail, Seanad and committee divisions (Ireland weekly)"),
+    # Ireland phase 2 (9 October 2026). MEASURED which re-stamp: questions
+    # and debates are read a week at a time and the last fourteen days are
+    # read again every run, so ie_windows moves every run, recess included;
+    # the schedule page is read whole every run, so ie_schedule_days does
+    # too. A question or speech on our ground is re-stamped only while its
+    # week is re-read, and a schedule line only while it is posted; the Dail
+    # rose on 16 July and returned on 16 September 2026 (62 days), so a month
+    # plus a month's grace, the US rule, covers a summer recess less the
+    # fortnight the re-read keeps them fresh.
+    ("ie_windows", "last_seen", 7, 4, "Oireachtas question and debate weeks read (Ireland weekly)"),
+    ("ie_schedule_days", "last_seen", 7, 4, "Oireachtas schedule days, as the page lists them (Ireland weekly)"),
+    ("ie_schedule", "last_seen", 31, 31, "Dail, Seanad and committee business scheduled (Ireland weekly)"),
+    ("ie_questions", "last_seen", 31, 31, "parliamentary questions on our ground (Ireland weekly)"),
+    ("ie_speeches", "last_seen", 31, 31, "Oireachtas debate speeches on our ground (Ireland weekly)"),
     # Austria (9 October 2026). MEASURED which re-stamp: both chambers' item
     # lists and both member lists are re-read whole every run, so items and
     # members move every week, recess included. A division is re-stamped only
@@ -595,7 +609,9 @@ PIPELINE_FEEDS = {
     # Divisions left out for the same reason as the US: a recess week cannot move them.
     "Australia weekly": ["au_bills", "au_members"],
     # All three are re-read whole and re-stamped every run (see FEEDS).
-    "Ireland weekly": ["ie_members", "ie_bills", "ie_divisions"],
+    # ie_windows and ie_schedule_days move every run too (see FEEDS); the
+    # questions, speeches and schedule lines do not in a recess.
+    "Ireland weekly": ["ie_members", "ie_bills", "ie_divisions", "ie_windows", "ie_schedule_days"],
     # Divisions left out for the same reason: a recess week cannot move them.
     "Austria weekly": ["at_items", "at_members"],
     # Re-read whole every run; votes are left out for the US's reason.
@@ -750,6 +766,20 @@ AWAITING_FIRST_RUN = {
     "US record": (("us_record_days", "us_record_speeches", "us_record_bills"),
                   "Congressional Record step added to US weekly 9 October 2026; its "
                   "tables fill on the step's first run"),
+    # STEP heartbeats for Ireland's phase 2 (9 October 2026): each of
+    # tools/ie_schedule.py, ie_questions.py and ie_debates.py stamps its own
+    # source_runs row ('IE schedule' after every stored run, the other two
+    # after a run with no gap), because the Ireland weekly had its heartbeat
+    # before these tables existed.
+    "IE schedule": (("ie_schedule", "ie_schedule_days"),
+                    "week-ahead step added to Ireland weekly 9 October 2026; its tables "
+                    "fill on the step's first run"),
+    "IE questions": (("ie_questions",),
+                     "questions step added to Ireland weekly 9 October 2026; the table "
+                     "fills on the step's first run"),
+    "IE debates": (("ie_speeches",),
+                   "debates step added to Ireland weekly 9 October 2026; the table "
+                   "fills on the step's first run"),
     "Provinces speeches": (("prov_speeches", "prov_speech_sittings"),
                            "Hansard speeches step added to Provinces weekly 2 October 2026; "
                            "its tables fill on the step's first run"),
