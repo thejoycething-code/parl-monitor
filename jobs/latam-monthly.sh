@@ -27,7 +27,7 @@
 # mini_run: commit editions
 set -eo pipefail
 cd "$(dirname "$0")/.."
-# The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
+# The heartbeat (source_runs, stamped when the store is published) is keyed on the
 # workflow's name; on the Mini there is no GITHUB_WORKFLOW, so name it here.
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Latam monthly}"
 # The DM goes to Chris alone (the tools also force his id).
