@@ -103,6 +103,8 @@ PIPELINES = {
     "El Salvador weekly": (7, 4, "El Salvador's Asamblea Legislativa: recorded votes, dictámenes, piezas, deputies"),
     # Scheduled 9 October 2026, Saturdays (pe-weekly.yml; the Mac Mini first).
     "Peru weekly": (7, 4, "Peru's Congress: Senado and Diputados members, proyectos, plenary votes"),
+    # Scheduled 9 October 2026, Saturdays (ec-weekly.yml; the Mac Mini first).
+    "Ecuador weekly": (7, 4, "Ecuador's Asamblea Nacional: plenary votes, members"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -389,6 +391,13 @@ FEEDS = [
     ("pe_members", "last_seen", 7, 4, "Senado and Diputados members (Peru weekly)"),
     ("pe_bills", "last_seen", 7, 4, "Proyectos de ley, Sistema de Proyectos de Ley (Peru weekly)"),
     ("pe_divisions", "last_seen", 31, 31, "Plenary votes from the chambers' vote records (Peru weekly)"),
+    # Ecuador (9 October 2026). MEASURED which re-stamp: the register and the
+    # roster are re-read whole every run, and the vote list is re-read from
+    # the last stored vote's date less a fortnight, so the latest votes are
+    # re-stamped every run even in a recess. ec_votes has no sighting column.
+    ("ec_members", "last_seen", 7, 4, "Asamblea member register (Ecuador weekly)"),
+    ("ec_roster", "last_seen", 7, 4, "Asamblea sitting roster (Ecuador weekly)"),
+    ("ec_divisions", "last_seen", 7, 4, "Asamblea plenary votes (Ecuador weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -499,6 +508,8 @@ PIPELINE_FEEDS = {
     "El Salvador weekly": ["sv_members"],
     # Votes left out for the same reason as the US: a recess week cannot move them.
     "Peru weekly": ["pe_bills", "pe_members"],
+    # All three re-stamp every run (see FEEDS).
+    "Ecuador weekly": ["ec_divisions", "ec_members", "ec_roster"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -548,6 +559,8 @@ AWAITING_FIRST_RUN = {
                            "scheduled 9 October 2026; its tables fill on its first run"),
     "Peru weekly": (("pe_members", "pe_bills", "pe_divisions"),
                     "scheduled 9 October 2026; its tables fill on its first run"),
+    "Ecuador weekly": (("ec_members", "ec_roster", "ec_divisions"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
