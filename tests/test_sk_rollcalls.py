@@ -2,9 +2,11 @@
 interpellations (tools/sk_rollcalls.py). No network: real responses saved
 on 9 October 2026 under tests/fixtures/sk."""
 
+import datetime as dt
 import importlib.util
 import json
 import os
+import re
 import sqlite3
 import sys
 import unittest
@@ -287,6 +289,59 @@ class WatchlistTests(unittest.TestCase):
             self.assertTrue(spec.get("why"))
             self.assertTrue(spec.get("areas"))
             self.assertTrue(all(1 <= a <= 13 for a in spec["areas"]))
+
+
+class ScheduleTests(unittest.TestCase):
+    """The weekly runs on the Mini first; GitHub is the backup."""
+
+    def setUp(self):
+        spec = importlib.util.spec_from_file_location(
+            "mini_check", os.path.join(ROOT, "tools", "mini_check.py"))
+        self.mc = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.mc)
+        with open(os.path.join(ROOT, ".github", "workflows", "sk-weekly.yml"), encoding="utf-8") as fh:
+            self.yml = fh.read()
+        self.crons = re.findall(r'cron:\s*"([^"]+)"', self.yml)
+
+    def _decide(self, cron, now, last):
+        return self.mc.decide("schedule", cron, last, now, grace_minutes=200)[0]
+
+    def test_one_mini_run_covers_both_slots_summer_and_winter(self):
+        utc = dt.timezone.utc
+        for last in ("2026-07-07T01:00:05Z", "2026-11-10T02:00:05Z"):    # 02:00 London, BST / GMT
+            for hour in (2, 4):
+                now = dt.datetime.fromisoformat(last[:10] + "T{0:02d}:05:00".format(hour)).replace(
+                    tzinfo=utc)
+                self.assertFalse(self._decide("0 {0} * * 2".format(hour), now, last), (last, hour))
+
+    def test_last_weeks_mini_run_does_not_cover_this_week(self):
+        now = dt.datetime(2026, 10, 13, 2, 5, tzinfo=dt.timezone.utc)
+        self.assertTrue(self._decide("0 2 * * 2", now, "2026-10-06T01:00:05Z"))
+
+    def test_the_slots_collide_with_no_other_workflow(self):
+        import glob
+        self.assertEqual(self.crons, ["0 2 * * 2", "0 4 * * 2"])
+        others = set()
+        for path in glob.glob(os.path.join(ROOT, ".github", "workflows", "*.yml")):
+            if path.endswith("sk-weekly.yml"):
+                continue
+            with open(path, encoding="utf-8") as fh:
+                others |= set(re.findall(r'^\s*-\s*cron:\s*"([^"]+)"', fh.read(), re.M))
+        self.assertFalse(set(self.crons) & others)
+
+    def test_the_gate_the_plist_and_the_job_agree(self):
+        self.assertIn("job: SK_WEEKLY", self.yml)
+        self.assertIn("grace-minutes: 200", self.yml)
+        self.assertIn('SK_PUBLISH: "false"', self.yml)
+        with open(os.path.join(ROOT, "ops", "launchd", "net.citizengo.parlmonitor.sk-weekly.plist"),
+                  encoding="utf-8") as fh:
+            plist = fh.read()
+        self.assertIn("<string>sk-weekly</string>", plist)
+        self.assertIn("<key>Weekday</key><integer>2</integer><key>Hour</key><integer>2</integer>", plist)
+        with open(os.path.join(ROOT, "jobs", "sk-weekly.sh"), encoding="utf-8") as fh:
+            job = fh.read()
+        self.assertIn('GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Slovakia weekly}"', job)
+        self.assertIn("db_state.py --push", job)
 
 
 if __name__ == "__main__":
