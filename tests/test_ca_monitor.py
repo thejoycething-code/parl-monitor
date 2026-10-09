@@ -227,5 +227,23 @@ class StageTests(unittest.TestCase):
         self.assertEqual(cam.stage_rank({"royal_assent_at": "2026", "number": "C-9", "last_stage": ""}), 11)
 
 
+class WiringTests(unittest.TestCase):
+    def test_both_callers_write_the_edition_and_commit_it(self):
+        job = open(os.path.join(ROOT, "jobs", "ca-weekly.sh"), encoding="utf-8").read()
+        flow = open(os.path.join(ROOT, ".github", "workflows", "ca-weekly.yml"), encoding="utf-8").read()
+        for text in (job, flow):
+            self.assertIn("python3 tools/ca_monitor.py --edition --dm", text)
+            self.assertIn("editions/ca-monitor-$TODAY.md", text)
+            # After the judge, before the store is published.
+            self.assertLess(text.index("python3 tools/ca_triage.py"),
+                            text.index("python3 tools/ca_monitor.py"))
+            self.assertLess(text.index("python3 tools/ca_monitor.py"),
+                            text.index("python3 tools/db_state.py --push"))
+        self.assertIn("# mini_run: commit editions", job)
+        self.assertIn("git add data/ editions/", flow)
+        self.assertIn("U05LJP0BT61", job)
+        self.assertIn("slack_dm_user_id: U05LJP0BT61", flow)
+
+
 if __name__ == "__main__":
     unittest.main()

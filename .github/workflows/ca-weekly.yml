@@ -357,13 +357,36 @@ jobs:
           SECS="${{ inputs.judge_seconds }}"; SECS="${SECS:-1200}"
           if [ "$SECS" -gt 2700 ]; then SECS=2700; fi
           python3 tools/ca_triage.py --limit 2000 --budget-seconds "$SECS" | tee /tmp/ca-triage.log
+      - name: Write secrets file
+        # The DM goes to Christopher alone (9 October 2026), as for the US and
+        # Irish editions. Nothing posts to a channel.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          cat > config/secrets.yaml <<EOF
+          slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
+          slack_dm_user_id: U05LJP0BT61
+          EOF
+      - name: The edition, and its DM to Christopher
+        # AFTER the collectors and the judge (tools/ca_monitor.py, 9 October
+        # 2026). SPEAKS ONCE A DAY, as jobs/ca-weekly.sh does: an edition
+        # already committed for today means the Mini (or an earlier run) has
+        # sent the DM, so it is rewritten, not resent.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          if git ls-files --error-unmatch "editions/ca-monitor-$TODAY.md" >/dev/null 2>&1; then
+            echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+            python3 tools/ca_monitor.py --edition | tee /tmp/ca-monitor.log
+          else
+            python3 tools/ca_monitor.py --edition --dm | tee /tmp/ca-monitor.log
+          fi
       - name: Health summary
         if: always()
         run: |
           {
             echo "## Canada weekly"
             echo '```'
-            grep -hE "ca-rollcalls:|ca-senate:|ca-senate-debates:|ca-committees:|ca-courts:|ca-hansard:|ca-petitions:|ca-gazette:|ca-triage:|ca-retag:|backfill|\[gap\]" \
+            grep -hE "edition:|dm:|ca-rollcalls:|ca-senate:|ca-senate-debates:|ca-committees:|ca-courts:|ca-hansard:|ca-petitions:|ca-gazette:|ca-triage:|ca-retag:|backfill|\[gap\]" \
               /tmp/ca-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/ca-*.log 2>/dev/null \
@@ -394,7 +417,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/
+          git add data/ editions/
           git diff --cached --quiet || git commit -m "Canada weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
           # jittered waits, and never retry while stuck mid-rebase.
