@@ -237,10 +237,12 @@ the year's listing, knocks on votaciones and stops.
   title's own match apart.
 - **Scheduled Mini-first, not yet installed.** `jobs/ar-weekly.sh` (one
   script, two callers), `ops/launchd/net.citizengo.parlmonitor.ar-weekly.plist`
-  (Saturdays 03:00 London) and `.github/workflows/ar-weekly.yml` (Saturdays
-  03:00 and 05:00 UTC, gated by `mini-check.yml` with job `AR_WEEKLY` and a
-  200-minute grace, as Australia's). Saturday 03:00 UTC is midnight in
-  Buenos Aires, after the Wednesday and Thursday sessions. The 2024-2025
+  (Saturdays 18:30 London) and `.github/workflows/ar-weekly.yml` (Saturdays
+  18:30 and 20:30 UTC, gated by `mini-check.yml` with job `AR_WEEKLY` and a
+  200-minute grace, as Australia's). Moved from 03:00 and 05:00 at the
+  countries merge (10 October 2026), where Austria kept those slots; 18:30
+  UTC is mid-afternoon in Buenos Aires, after the Wednesday and Thursday
+  sessions. The 2024-2025
   Senate backfill is a one-off (`--years 2024 2025 2026`), not part of the
   weekly.
 - **Tests:** `tests/test_ar_rollcalls.py`, 28 tests on trimmed real
@@ -495,8 +497,8 @@ unescapes them.
    conversion therapy, ESI, children online, trafficking and sex work);
    please check them. Until the Spanish list is approved they are the only
    areas the Argentine store holds.
-6. **The slot** (Saturdays 03:00 London on the Mini, 03:00 and 05:00 UTC on
-   GitHub) and, after the merge, installing the plist on the Mini; set no
+6. **The slot** (Saturdays 18:30 London on the Mini, 18:30 and 20:30 UTC on
+   GitHub, since the countries merge) and, after the merge, installing the plist on the Mini; set no
    `MINI_LAST_AR_WEEKLY` until then.
 7. **The first run's Senate window.** The weekly reads the current year. The
    2024 and 2025 actas (188, none on our ground) are a one-off; say if you
