@@ -88,11 +88,11 @@ PIPELINES = {
     # Scheduled 9 October 2026, Saturdays (pt-weekly.yml; the Mac Mini first).
     "Portugal weekly": (7, 4, "Portugal's Assembleia da Republica: initiatives, votes, deputies"),
     # Scheduled 9 October 2026, Tuesdays (sk-weekly.yml; the Mac Mini first).
-    "Slovakia weekly": (7, 4, "Slovakia's Národná rada: prints, votes, positions, interpellations"),
+    "Slovakia weekly": (7, 4, "Slovakia's Národná rada: prints, votes, positions, interpellations, and the Slovak edition"),
     # Scheduled 9 October 2026, Saturdays (hr-weekly.yml; the Mac Mini first).
-    "Croatia weekly": (7, 4, "Croatia's Sabor: agendas and recorded votes"),
+    "Croatia weekly": (7, 4, "Croatia's Sabor: agendas and recorded votes, and the Croatian edition"),
     # Scheduled 9 October 2026, Saturdays (es-weekly.yml; the Mac Mini first).
-    "Spain weekly": (7, 4, "Spain's Congreso de los Diputados: initiatives, plenary votes, deputies"),
+    "Spain weekly": (7, 4, "Spain's Congreso de los Diputados: initiatives, plenary votes, deputies, and the Spanish edition"),
     # Scheduled 9 October 2026, Saturdays (br-weekly.yml; the Mac Mini first).
     "Brazil weekly": (7, 4, "Brazil's National Congress: Câmara and Senado nominal votes, and the Brazilian edition"),
     # Scheduled 9 October 2026, Thursdays (cl-weekly.yml; the Mac Mini first).
