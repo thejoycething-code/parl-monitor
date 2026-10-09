@@ -1558,6 +1558,13 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # Peru's Congress (tools/pe_rollcalls.py), created by
+    # src/pe_store.ensure_schema -- declared from day one.
+    "pe_members",
+    "pe_bills",
+    "pe_divisions",
+    "pe_votes",
+    "pe_vote_files",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1832,4 +1839,6 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import pe_store
+    pe_store.ensure_schema(conn)
     return conn
