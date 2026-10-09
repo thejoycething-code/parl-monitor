@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Polish keyword taxonomy
 
-**Version 0.1 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 ## Purpose
 
@@ -66,9 +66,9 @@ Scope calls applied while merging:
 ### 7. Free speech, privacy and civil liberties {#7_free_speech_online_safety}
 
 - **Name:** Free speech, privacy and civil liberties
-- **Tier 1:** "mow* nienawiści"; "przestępstw* z nienawiści"; "przestępstw* motywowan* uprzedzeniami"; "wolnoś* słowa"; "wolnoś* wypowiedzi"; "swobod* wypowiedzi"; cenzur*; "akt* o usługach cyfrowych"; "usługach cyfrowych"; "weryfikacj* wieku"; "art. 256" [with: "kodeks* karn*"]; "art. 257" [with: "kodeks* karn*"]; "znieważeni* grupy"; "nawoływani* do nienawiści"; "pandemi* traktat*"; "porozumieni* pandemiczn*"; "Międzynarodow* Przepis* Zdrowotn*"
-- **Tier 2:** dezinformacj*; pornograf*; "treści szkodliw*"; "treści nielegaln*"; "platform* internetow*"; "platform* cyfrow*"; "media społecznościow*"; "mediów społecznościowych"; szyfrowani*; inwigilacj*; Pegasus*; "kontrol* operacyjn*"; "radiofonii i telewizji"; "Krajow* Rad* Radiofonii"; zniesławieni*; "Światow* Organizacj* Zdrowia"; "Europejsk* Konwencj* Praw Człowieka"
-- **Notes:** No terms proposed for this area.
+- **Tier 1:** "mow* nienawiści"; "przestępstw* z nienawiści"; "przestępstw* motywowan* uprzedzeniami"; "wolnoś* słowa"; "wolnoś* wypowiedzi"; "swobod* wypowiedzi"; cenzur*; "akt* o usługach cyfrowych"; "usługach cyfrowych"; "weryfikacj* wieku" [with: internecie, internetu, online, pornograf*, "platform* internetow*", "platform* cyfrow*", "stron* internetow*", "serwis* internetow*", "usług* cyfrow*"]; "art. 256" [with: "kodeks* karn*"]; "art. 257" [with: "kodeks* karn*"]; "znieważeni* grupy"; "nawoływani* do nienawiści"; "pandemi* traktat*"; "porozumieni* pandemiczn*"; "Międzynarodow* Przepis* Zdrowotn*"
+- **Tier 2:** dezinformacj*; pornograf*; "treści szkodliw*"; "treści nielegaln*"; "platform* internetow*"; "platform* cyfrow*"; "media społecznościow*"; "mediów społecznościowych"; szyfrowani*; inwigilacj*; Pegasus*; "kontrol* operacyjn*"; "radiofonii i telewizji" [without: "wychowaniu w trzeźwości"]; "Krajow* Rad* Radiofonii"; zniesławieni*; "Światow* Organizacj* Zdrowia"; "Europejsk* Konwencj* Praw Człowieka"
+- **Notes:** v0.2: "weryfikacj* wieku" needs an online, platform or pornography context and "radiofonii i telewizji" is vetoed by "wychowaniu w trzeźwości": on the 9 October scoping store the alcohol bills (druki 2007 and 2010: age checks at the till, a ban on alcohol advertising in broadcasting) matched area 7 through them, 24 votes; the online age-verification bill (10/1006) still matches.
 
 ### 8. Freedom of religion or belief {#8_freedom_of_religion}
 
