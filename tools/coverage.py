@@ -122,6 +122,8 @@ PIPELINES = {
     "Panama weekly": (7, 4, "Panama's Asamblea Nacional: bills, stages, orden del dia, deputies"),
     # Scheduled 9 October 2026, Sundays (hn-weekly.yml; the Mac Mini first).
     "Honduras weekly": (7, 4, "Honduras's Congreso Nacional: agendas, expedientes, press, Gaceta"),
+    # Scheduled 9 October 2026, Saturdays (uy-weekly.yml; the Mac Mini first).
+    "Uruguay weekly": (7, 4, "Uruguay: Cámara de Representantes roll, pedidos de informes, Diario index; IMPO laws"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -479,6 +481,14 @@ FEEDS = [
     ("hn_gazette", "last_seen", 7, 4, "La Gaceta issues (Honduras weekly)"),
     ("hn_sessions", "last_seen", 7, 4, "Congreso Nacional sessions list (Honduras weekly)"),
     ("hn_agenda_items", "last_seen", 31, 62, "Congreso Nacional session agendas (Honduras weekly)"),
+    # Uruguay (9 October 2026). MEASURED which re-stamp: the roll, the
+    # pedidos de informes and the Diario index are re-read whole every run,
+    # so all three move every week. Laws move only when IMPO has a new one
+    # (about two a week, fewer in the January recess): a month plus a month.
+    ("uy_members", "last_seen", 7, 4, "Cámara de Representantes roll (Uruguay weekly)"),
+    ("uy_questions", "last_seen", 7, 4, "Pedidos de informes (Uruguay weekly)"),
+    ("uy_sittings", "last_seen", 7, 4, "Diario de Sesiones index (Uruguay weekly)"),
+    ("uy_laws", "last_seen", 31, 31, "Laws promulgated, from IMPO (Uruguay weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -603,6 +613,8 @@ PIPELINE_FEEDS = {
     "Panama weekly": ["pa_bills", "pa_members", "pa_agenda"],
     # Agenda items left out as for US divisions: a recess cannot move them.
     "Honduras weekly": ["hn_members", "hn_bills", "hn_gazette", "hn_sessions"],
+    # Laws left out: new rows only, so a quiet week cannot move them.
+    "Uruguay weekly": ["uy_members", "uy_questions", "uy_sittings"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -669,6 +681,8 @@ AWAITING_FIRST_RUN = {
     "Honduras weekly": (("hn_members", "hn_bills", "hn_news", "hn_gazette", "hn_sessions",
                          "hn_agenda_items"),
                         "scheduled 9 October 2026; its tables fill on its first run"),
+    "Uruguay weekly": (("uy_members", "uy_questions", "uy_sittings", "uy_laws"),
+                       "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, as "Provinces speeches" below: tools/us_schedule.py
