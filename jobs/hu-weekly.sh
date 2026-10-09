@@ -10,7 +10,8 @@
 #
 #     HU_RECLASSIFY=true    re-derive every stored entry's areas, offline,
 #                           before the pull (after config/taxonomy-hu.yaml or
-#                           config/watchlist-hu.yaml changes)
+#                           config/watchlist-hu.yaml changes), and karzat's
+#                           papers and votes (HU7) with them
 #
 # The first run backfills the 43rd term from 9 May 2026: about 150 issues,
 # one PDF each at one request every 2 s (about 60 MB, ten minutes). The
@@ -38,6 +39,8 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Hungary weekly}"
 if [ "${HU_RECLASSIFY:-}" = "true" ]; then
   python3 tools/hu_gazette.py --reclassify
+  # karzat's papers and votes (HU7), when loaded: the same terms, offline.
+  python3 tools/hu_karzat_backfill.py --reclassify
 fi
 rc=0
 python3 tools/hu_gazette.py --budget-seconds 1800 || rc=$?
