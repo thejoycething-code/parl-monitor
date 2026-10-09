@@ -183,6 +183,10 @@ class HttpClient:
 
         self._hosts = {}
         self._hosts_guard = threading.Lock()
+        # The headers of the last reply (or refusal), so a caller can read a
+        # rate limit off them (Open States, 9 October 2026). Sequential
+        # callers only: a parallel caller would see another request's.
+        self.last_headers = {}
 
     # -- public API ---------------------------------------------------------
 
@@ -394,6 +398,7 @@ class HttpClient:
                 return self._request_once(url, timeout, extra_headers)
             except urllib.error.HTTPError as exc:
                 last_error = exc
+                self.last_headers = dict(exc.headers.items()) if exc.headers else {}
                 if exc.code not in _RETRYABLE_STATUS:
                     raise FetchError(url, feed, slug, attempts, exc)
                 if (exc.code in _LIMITED_RETRY_STATUS
@@ -441,6 +446,8 @@ class HttpClient:
             if "TLSV1_ALERT_PROTOCOL_VERSION" not in str(exc):
                 raise
             return self._fetch_via_curl(url, timeout, exc)
+        headers = getattr(response, "headers", None)
+        self.last_headers = dict(headers.items()) if headers is not None else {}
         try:
             return response.read()
         finally:
