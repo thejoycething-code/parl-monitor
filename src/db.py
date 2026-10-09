@@ -1558,6 +1558,12 @@ TABLES = (
     "us_cosponsors",
     "us_divisions",
     "us_votes",
+    # Croatia's Sabor (tools/hr_rollcalls.py), created by
+    # src/hr_store.ensure_schema -- declared from day one.
+    "hr_members",
+    "hr_items",
+    "hr_divisions",
+    "hr_votes",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1832,4 +1838,6 @@ def init_db(conn):
     prov_store.ensure_schema(conn)
     from src import us_store
     us_store.ensure_schema(conn)
+    from src import hr_store
+    hr_store.ensure_schema(conn)
     return conn
