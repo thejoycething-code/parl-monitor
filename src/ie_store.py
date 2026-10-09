@@ -147,9 +147,29 @@ TABLES = ("ie_members", "ie_member_parties", "ie_bills", "ie_sponsors",
           "ie_bill_debates", "ie_divisions", "ie_votes")
 
 
+# Added with the edition (9 October 2026). The judge's score and why-line
+# (tools/ie_triage.py), scored once, ever, as every judge here is; and the
+# amendment behind an amendment vote, read from the debate transcript
+# (phase 1b, tools/ie_rollcalls.py): amendment_text NULL = not read yet,
+# '' = read, but no mover found before the division.
+ADDED_COLUMNS = (
+    ("ie_bills", "introduced", "TEXT"),        # First Stage date (the edition's "new")
+    ("ie_bills", "triage_score", "INTEGER"),
+    ("ie_bills", "why_it_matters", "TEXT"),
+    ("ie_divisions", "triage_score", "INTEGER"),
+    ("ie_divisions", "why_it_matters", "TEXT"),
+    ("ie_divisions", "amendment_ref", "TEXT"),
+    ("ie_divisions", "amendment_text", "TEXT"),
+)
+
+
 def ensure_schema(conn):
     for stmt in SCHEMA:
         conn.execute(stmt)
+    for table, column, kind in ADDED_COLUMNS:
+        have = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+        if column not in have:
+            conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, column, kind))
     conn.commit()
     return conn
 

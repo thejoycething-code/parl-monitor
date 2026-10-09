@@ -288,8 +288,16 @@ def parse_bill(rec, current=()):
         if d.get("uri") and d.get("debateSectionId"):
             debates.append({"uri": d["uri"], "section": d["debateSectionId"],
                             "date": d.get("date"), "title": d.get("showAs")})
+    first, any_stage = [], []
+    for st in b.get("stages") or []:
+        ev = st.get("event") or {}
+        ds = [d.get("date") for d in ev.get("dates") or [] if d.get("date")]
+        any_stage += ds
+        if ev.get("showAs") == "First Stage":
+            first += ds
     out = {
         "year": int(b["billYear"]), "number": int(b["billNo"]),
+        "introduced": min(first or any_stage) if (first or any_stage) else None,
         "title": (b.get("shortTitleEn") or "").strip() or None,
         "title_ga": (b.get("shortTitleGa") or "").strip() or None,
         "long_title": strip_tags(b.get("longTitleEn")),
@@ -342,6 +350,7 @@ def store_bill(conn, b, res, today):
          b["act_title"], b["last_updated"], b["url"], ie_store.dumps(res.issue_areas),
          ie_store.dumps((res.matched_terms or []) + (res.watchlist_hits or [])), res.tier,
          today, today))
+    conn.execute("UPDATE ie_bills SET introduced=? WHERE bill_key=?", (b.get("introduced"), key))
     conn.execute("DELETE FROM ie_sponsors WHERE bill_key=?", (key,))
     for s in b["sponsors"]:
         sponsor = s["member_code"] or s["office"]
@@ -452,9 +461,13 @@ def join_bill(conn, d):
 
 
 def classify_division(tax, wl, d, bill_areas):
-    """(own FilterResult, combined areas). The bill lends its areas."""
+    """(own FilterResult, combined areas). The bill lends its areas.
+
+    A division's OWN text is its debate title, its subject line and, for an
+    amendment vote, the amendment as moved (phase 1b, read_amendments)."""
     own = filt.filter_item(tax, wl, strip_offices(d.get("debate_title")),
                            strip_offices(d.get("subject")),
+                           strip_offices(d.get("amendment_text")),
                            title=strip_offices(d.get("debate_title")))
     return own, sorted(set(own.issue_areas or []) | set(bill_areas or []))
 
@@ -497,6 +510,12 @@ def store_division(conn, d, tax, wl, today, parties):
     """Store one division and its votes. Returns (areas, gap details)."""
     gaps = []
     bkey, candidates = join_bill(conn, d)
+    # The amendment read from the transcript on an earlier run stays part of
+    # the division's own text when the list is re-read.
+    prior = conn.execute("SELECT amendment_text FROM ie_divisions WHERE division_key=?",
+                         (d["key"],)).fetchone()
+    if prior and prior[0]:
+        d = dict(d, amendment_text=prior[0])
     if candidates > 1:
         gaps.append("{0}: debate section {1} carries {2} bills; none joined".format(
             d["key"], d["debate_section"], candidates))
@@ -572,6 +591,116 @@ def pull_divisions(conn, client, today, houses, since=DAIL_START, committees=Tru
     return stored, ours, gaps
 
 
+# --- phase 1b: the amendment behind an amendment vote ------------------------
+#
+# The division record says "Amendment put:" and stops. The debate transcript
+# (Akoma Ntoso XML, one file per sitting day, keyless) has the rest: each
+# division is a <voting eId="vote_N"> whose refersTo names the summary
+# "Amendment put:", and before that summary, in the same debate, a member
+# says "I move amendment No. 9: In page 21, line 9, after 'Act' to insert...".
+# That motion, from "I move" to the end of the speech, capped, is the
+# amendment's own text. Where no mover is found before an earlier disposal
+# ("Amendment put and declared lost", "not moved"), the text is stored as ''
+# -- read, nothing found -- and the vote keeps only its bill's areas, marked
+# as inherited. Amendments to Private Members' MOTIONS are often moved on an
+# earlier day than their deferred division, so most of those end ''.
+
+AMENDMENT_SUBJECTS = ("Amendment put", "Amendment to amendment put", "Seanad amendment put",
+                      "Recommendation put")
+MOVER = re.compile(r"\bI move (?:the following )?(?:amendment|recommendation)s?\b"
+                   r"|\bI move amendment No", re.I)
+AMENDMENT_NO = re.compile(r"(?:amendment|recommendation)s?\s+No[.:]?\s*(\d+)", re.I)
+# A summary that disposes of an earlier amendment: walking back past it would
+# hand this division someone else's motion.
+DISPOSED = re.compile(r"\b(put and declared|agreed to|not moved|withdrawn|negatived|"
+                      r"put and agreed|The (?:Dáil|Seanad|Committee) divided)", re.I)
+AMENDMENT_CHARS = 1200
+LOOKBACK = 60
+
+
+def transcript_url(debate_uri):
+    """'.../debateRecord/dail/2025-07-09/debate/main' -> its XML."""
+    return re.sub(r"/debate/main$", "/debate/mul@/main.xml", debate_uri or "")
+
+
+def amendments_in(raw):
+    """{vote_id: (amendment_ref, text)} for every division in one transcript.
+
+    Text '' means the division was found but no mover before it."""
+    import xml.etree.ElementTree as ET
+    root = ET.fromstring(raw)
+    ns = root.tag.split("}")[0] + "}" if root.tag.startswith("{") else ""
+    order, index, votings = [], {}, {}
+    for el in root.iter():
+        tag = el.tag[len(ns):] if ns and el.tag.startswith(ns) else el.tag
+        if tag in ("speech", "summary"):
+            index[el.get("eId")] = len(order)
+            order.append((tag, " ".join(t.strip() for t in el.itertext() if t.strip())))
+        elif tag == "voting" and el.get("eId"):
+            votings[el.get("eId")] = (el.get("refersTo") or "").lstrip("#")
+    out = {}
+    for vote_id, anchor in votings.items():
+        at = index.get(anchor)
+        if at is None:
+            continue
+        ref, text = None, ""
+        for tag, body in reversed(order[max(0, at - LOOKBACK):at]):
+            if tag == "summary" and DISPOSED.search(body):
+                break
+            hit = MOVER.search(body) if tag == "speech" else None
+            if hit:
+                text = " ".join(body[hit.start():].split())[:AMENDMENT_CHARS]
+                num = AMENDMENT_NO.search(text)
+                ref = "amendment No. {0}".format(num.group(1)) if num else None
+                break
+        out[vote_id] = (ref, text)
+    return out
+
+
+def read_amendments(conn, client, today, tax=None, wl=None, log=print, budget=None):
+    """Give every unread amendment vote its own text. Returns (read, ours, gaps).
+
+    One transcript per sitting day, fetched only while one of its amendment
+    votes is unread; a refused transcript is a gap and is tried next week."""
+    tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
+    wl = wl if wl is not None else empty_watchlist()
+    likes = " OR ".join("subject LIKE ?" for _ in AMENDMENT_SUBJECTS)
+    rows = conn.execute(
+        "SELECT division_key, vote_id, debate_uri, debate_title, subject, bill_key "
+        "FROM ie_divisions WHERE amendment_text IS NULL AND (" + likes + ")",
+        tuple(s + "%" for s in AMENDMENT_SUBJECTS)).fetchall()
+    by_day = {}
+    for r in rows:
+        by_day.setdefault(r[2], []).append(r)
+    read = ours = gaps = 0
+    for done, (uri, divs) in enumerate(sorted(by_day.items())):
+        if budget is not None and budget.exhausted():
+            log("  " + budget.disclose("debate transcripts", done))
+            break
+        try:
+            found = amendments_in(client.get_bytes(transcript_url(uri), FEED,
+                                                   "transcript-{0}".format(done), archive=False))
+        except (FetchError, ValueError, SyntaxError) as exc:
+            # ElementTree's ParseError is a SyntaxError.
+            _gap(conn, today, "transcript {0}: {1}".format(uri, str(exc)[:120]))
+            log("  [gap] transcript {0}: {1}".format(uri.split("debateRecord/")[-1], str(exc)[:60]))
+            gaps += 1
+            continue
+        for key, vote_id, _uri, title, subject, bkey in divs:
+            ref, text = found.get(vote_id, (None, ""))
+            own, areas = classify_division(tax, wl, {"debate_title": title, "subject": subject,
+                                                     "amendment_text": text},
+                                           _bill_areas(conn, bkey))
+            conn.execute("UPDATE ie_divisions SET amendment_ref=?, amendment_text=?, own_areas=?, "
+                         "areas=?, matched_terms=?, tier=? WHERE division_key=?",
+                         (ref, text, ie_store.dumps(own.issue_areas), ie_store.dumps(areas),
+                          ie_store.dumps(own.matched_terms), own.tier, key))
+            read += 1
+            ours += on_our_ground(own.issue_areas)
+        conn.commit()
+    return read, ours, gaps
+
+
 # --- offline -----------------------------------------------------------------
 
 def reclassify(conn, tax=None, log=print, watch_path=None):
@@ -589,10 +718,11 @@ def reclassify(conn, tax=None, log=print, watch_path=None):
         conn.execute("UPDATE ie_bills SET areas=?, matched_terms=?, tier=? WHERE bill_key=?",
                      (new, ie_store.dumps((res.matched_terms or []) + (res.watchlist_hits or [])),
                       res.tier, key))
-    for key, bkey, title, subject, areas in conn.execute(
-            "SELECT division_key, bill_key, debate_title, subject, areas "
+    for key, bkey, title, subject, amendment, areas in conn.execute(
+            "SELECT division_key, bill_key, debate_title, subject, amendment_text, areas "
             "FROM ie_divisions").fetchall():
-        own, combined = classify_division(tax, wl, {"debate_title": title, "subject": subject},
+        own, combined = classify_division(tax, wl, {"debate_title": title, "subject": subject,
+                                                     "amendment_text": amendment},
                                           _bill_areas(conn, bkey))
         new = ie_store.dumps(combined)
         changed_d += new != (areas or "[]")
@@ -635,6 +765,8 @@ def main():
     ap.add_argument("--no-bills", action="store_true")
     ap.add_argument("--no-divisions", action="store_true")
     ap.add_argument("--no-committees", action="store_true", help="skip committee divisions")
+    ap.add_argument("--no-amendments", action="store_true",
+                    help="skip reading amendment votes' text from the debate transcripts")
     ap.add_argument("--reclassify", action="store_true",
                     help="re-derive areas for stored bills and divisions, offline")
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
@@ -686,6 +818,11 @@ def main():
         gaps += g
         print("ie-rollcalls: {0} division(s) stored, {1} on our ground, {2} gap(s)".format(
             stored, ours, g))
+    if not args.no_divisions and not args.no_amendments:
+        read, ours, g = read_amendments(conn, client, today, tax=tax, wl=wl, budget=budget)
+        gaps += g
+        print("ie-rollcalls: {0} amendment vote(s) read from the transcripts, {1} on our "
+              "ground on their own text, {2} gap(s)".format(read, ours, g))
     summary(conn)
     conn.close()
     return 1 if gaps else 0
