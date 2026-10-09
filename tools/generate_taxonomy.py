@@ -189,7 +189,11 @@ def emit_yaml(version, areas, exclusions, master=None, lang="en"):
         "# GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).",
         "# Source of truth: {0}".format(source),
         "# Regenerate: {0}".format(regen),
-        "version: {0}".format(version),
+        # A version ending in zero is quoted (v1.20, 9 October 2026): bare,
+        # YAML reads 1.20 as the float 1.2, and every edition that prints
+        # the taxonomy version from the yaml would have said "v1.2".
+        "version: {0}".format('"{0}"'.format(version)
+                              if re.fullmatch(r"\d+\.\d*0", str(version)) else version),
         "areas:",
     ]
     for key, spec in areas.items():
