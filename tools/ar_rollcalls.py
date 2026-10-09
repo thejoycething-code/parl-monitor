@@ -33,17 +33,19 @@ it once, briefly, and says what it got; a refusal is the known state and is
 NOT a gap (it would turn every weekly red for a block we already know of).
 If it ever answers, the log says so loudly.
 
-DATOS.HCDN.GOB.AR TURNS AWAY A CLIENT WHOSE QUERY HANGS. On 9 October 2026
-it stopped accepting connections from the laptop four times, for ten to
-forty minutes, each time straight after a request that hung past a minute
-(the 5 MB CSV download, aggregate and wide sorted SQL queries, an OFFSET
-page), while a GitHub runner was answered throughout. A plain query for
-one month of the register answered at once. So: one calendar month per
-request, no ORDER BY and no OFFSET, at most DATOS_MAX_REQUESTS a run, one
-every DATOS_THROTTLE_S seconds, and the first refusal ends the pull for the
-run (a gap; the next run starts again). The weekly re-reads the last 45 days
-(two or three months) and then walks the backfill one month further back
-per spare request, newest first, until FIRST_PROYECTOS_DATE.
+DATOS.HCDN.GOB.AR TURNS CLIENTS AWAY. On 9 October 2026 it stopped
+accepting connections from the laptop five times, for ten to sixty minutes,
+while a GitHub runner was answered throughout. The first blocks came straight
+after requests that hung (the 5 MB CSV download, aggregate, sorted and
+OFFSET queries); by the evening the laptop got one request per block, even a
+one-month query that had answered in three seconds that morning. The rule is
+not documented; a fresh address got about twenty-five requests before its
+first block. So: one calendar month per request, no ORDER BY and no OFFSET,
+at most DATOS_MAX_REQUESTS a run, one every DATOS_THROTTLE_S seconds, and
+the first refusal ends the pull for the run (a gap; the next run starts
+again). The weekly re-reads the last 45 days (three months) and then walks
+the backfill one month further back per spare request, newest first, until
+FIRST_PROYECTOS_DATE.
 
 CLASSIFICATION. The English taxonomy is blind to Spanish (docs/germany-scope.md
 made the same finding for German). Until Christopher approves a Spanish term
@@ -806,22 +808,36 @@ def main():
     wl = empty_watchlist()
     budget = drain.Budget(args.budget_seconds)
     gaps = 0
+    def members(label, fn):
+        try:
+            count = fn(conn, client, today)
+            print("ar-rollcalls: {0} sitting {1}".format(count, label))
+            return 0
+        except (FetchError, ValueError, KeyError, TypeError) as exc:
+            _gap(conn, today, "members {0}: {1}".format(label, exc))
+            conn.commit()
+            print("  [gap] members {0}: {1}".format(label, str(exc)[:80]))
+            return 1
+
     if not args.no_members:
-        for label, fn in (("senadores", pull_senators), ("diputados", pull_diputados)):
-            try:
-                count = fn(conn, client, today)
-                print("ar-rollcalls: {0} sitting {1}".format(count, label))
-            except (FetchError, ValueError, KeyError, TypeError) as exc:
-                _gap(conn, today, "members {0}: {1}".format(label, exc))
-                conn.commit()
-                print("  [gap] members {0}: {1}".format(label, str(exc)[:80]))
-                gaps += 1
+        gaps += members("senadores", pull_senators)
+    # The register before the Diputados roster: both ask datos.hcdn.gob.ar,
+    # which turns a client away after very few requests on a bad day, and the
+    # register is the one that matters. A refused register skips the roster
+    # rather than knock on a door already closed.
+    register_refused = False
     if not args.no_proyectos:
         rows, ours, g = pull_proyectos(conn, client, today, tax, wl, since=args.since, budget=budget,
                                        max_requests=DATOS_MAX_REQUESTS - (0 if args.no_members else 1))
         gaps += g
+        register_refused = bool(g)
         print("ar-rollcalls: {0} Diputados expediente(s) read, {1} on our ground; {2} gap(s)".format(
             rows, ours, g))
+    if not args.no_members:
+        if register_refused:
+            print("ar-rollcalls: Diputados roster not asked (datos.hcdn.gob.ar refused the register)")
+        else:
+            gaps += members("diputados", pull_diputados)
     if not args.no_senate:
         s = pull_senate(conn, client, today, args.years or default_years(today), tax, wl,
                         budget=budget, limit=args.limit)
