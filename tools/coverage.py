@@ -66,6 +66,8 @@ PIPELINES = {
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
     "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
     "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
+    # Scheduled 9 October 2026, Tuesdays (sk-weekly.yml; the Mac Mini first).
+    "Slovakia weekly": (7, 4, "Slovakia's Národná rada: prints, votes, positions, interpellations"),
     # Scheduled 3 October 2026, Wednesdays (prov-weekly.yml). Grace 4 as for
     # the other weeklies.
     "Provinces weekly": (7, 4, "Canada's provincial legislatures: AB SK BC MB ON NB NL QC NS"),
@@ -158,6 +160,15 @@ FEEDS = [
     ("us_bills", "last_seen", 7, 4, "Congress bills (US weekly)"),
     ("us_members", "last_seen", 7, 4, "Congress members crosswalk (US weekly)"),
     ("us_divisions", "last_seen", 31, 31, "House and Senate roll calls (US weekly)"),
+    # Slovakia (9 October 2026). MEASURED which re-stamp: the open data's
+    # member, print, vote and interpellation lists are each one call that
+    # returns the whole term, and tools/sk_rollcalls.py upserts every row with
+    # last_seen on every run, recess included. So all four move weekly.
+    # sk_votes carries no sighting column.
+    ("sk_members", "last_seen", 7, 4, "Národná rada members (Slovakia weekly)"),
+    ("sk_bills", "last_seen", 7, 4, "Národná rada prints (Slovakia weekly)"),
+    ("sk_divisions", "last_seen", 7, 4, "Národná rada votes (Slovakia weekly)"),
+    ("sk_interpellations", "last_seen", 7, 4, "Národná rada interpellations (Slovakia weekly)"),
     # Canada's provinces (3 October 2026). MEASURED which re-stamp, writer by
     # writer: Alberta, BC and Newfoundland upsert their whole roster on every
     # run (Quebec's when a week old, and prov-weekly re-reads it weekly), and
@@ -230,6 +241,8 @@ PIPELINE_FEEDS = {
     "Canada weekly": ["ca_divisions", "ca_bills", "ca_members"],
     # Divisions are left out: new rows only, so a recess week cannot move them.
     "US weekly": ["us_bills", "us_members"],
+    # Every Slovak list is re-read whole and re-stamped each run.
+    "Slovakia weekly": ["sk_bills", "sk_members", "sk_divisions"],
     # The two provincial tables re-stamped on every run; prov_divisions is
     # write-once in practice (ONCE_EVER) and cannot support this check.
     "Provinces weekly": ["prov_members", "prov_bills"],
@@ -243,6 +256,8 @@ PIPELINE_FEEDS = {
 AWAITING_FIRST_RUN = {
     "US weekly": (("us_bills", "us_members", "us_divisions"),
                   "scheduled 9 October 2026; its tables fill on its first run"),
+    "Slovakia weekly": (("sk_members", "sk_bills", "sk_divisions", "sk_interpellations"),
+                        "scheduled 9 October 2026; its tables fill on its first run"),
     "Provinces weekly": (("prov_members", "prov_bills", "prov_divisions", "prov_sittings"),
                          "scheduled 3 October 2026; its tables fill on its first run"),
     # A STEP heartbeat, not a workflow's: tools/prov_speeches.py stamps
