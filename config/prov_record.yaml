@@ -621,6 +621,26 @@ provinces:
           (6 December 2012) and appears in neither list of this division.
           Read from CI on 7 October 2026 (probe-hosts run 37568416383).
   "nb":
+    # A member of the current legislature who has left (Christopher, 9 Oct 2026). Read by
+    # prov_nb.fetch_current until the 61st's compiled Journal lists everyone who sat.
+    former_members:
+      - member: "mike-dawson"
+        name: "Mike Dawson"
+        legislature: 61
+        riding: "Miramichi West"
+        party: "Progressive Conservative Party of New Brunswick"
+        start: "2024-11-27"
+        end: "2025-03-25"
+        document: "https://www.legnb.ca/content/house_business/61/1/journals/17250325e.pdf"
+        verified_against: >-
+          The Journals of 28 Nov and 12 Dec 2024 print "Mr. Dawson" in their divisions; the
+          Journal of 25 Mar 2025 records "Madam Speaker recognized Mr. Dawson to make a farewell
+          speech in the House"; the Legislative Library's election database gives the reason
+          for the 6 Oct 2025 Miramichi West by-election as "Dawson, Mike - resigned".
+        why: >-
+          Re-elected for Miramichi West (PC) in Oct 2024, he resigned in March 2025 to stand
+          federally, so he is on no current members page. Start is the 61st's first sitting
+          in the store; end is his last recorded day, the farewell speech.
     # The day's own Journal where the listing links another day's (Christopher, 9 Oct 2026:
     # "Something else must need doing to cover gaps"). Read by prov_nb.read_sitting.
     journal_urls:

@@ -740,10 +740,30 @@ def fetch_current(ctx, legislature):
         ps.replace_terms(ctx.conn, PROV, r["key"], [{
             "legislature": legislature, "party": r["party"], "riding": r["riding"],
             "start": None, "end": None, "party_dated": 0}], "roster")
+    # A member of THIS legislature who has since left is on no page legnb.ca
+    # serves until the compiled Journal appears (none yet for the 61st, 9 Oct
+    # 2026): reviewed `former_members`, dated from the Journal, fill the gap.
+    gone = [f for f in load_former_members() if int(f["legislature"]) == legislature]
+    for f in gone:
+        ps.upsert_member(ctx.conn, PROV, f["member"], name=f["name"], surname=f["name"].split()[-1],
+                         given=" ".join(f["name"].split()[:-1]), riding=f["riding"], party=f["party"], sitting=0)
+        ps.replace_terms(ctx.conn, PROV, f["member"], [{
+            "legislature": legislature, "party": f["party"], "riding": f["riding"],
+            "start": str(f["start"]), "end": str(f["end"]), "party_dated": 0}], "roster-former")
     ctx.conn.commit()
-    ctx.log("  nb roster: {0} current member(s) (legislature {1}; party undated)".format(
-        len(rows), legislature))
+    ctx.log("  nb roster: {0} current member(s), {1} reviewed former member(s) (legislature {2}; "
+            "party undated)".format(len(rows), len(gone), legislature))
     return len(rows)
+
+
+def load_former_members(path=None):
+    """`former_members:` (nb) -- a member of the CURRENT legislature who has
+    left it, so is on neither the current members page nor (until it is
+    published) a compiled Journal. Needs member, name, legislature, riding,
+    party, start, end, document, verified_against and why (9 Oct 2026: Mike
+    Dawson, whose 'Mr. Dawson' in two 2024 divisions resolved to nobody)."""
+    return pn._reviewed(PROV, "former_members", ("member", "name", "legislature", "riding", "party", "start",
+                                                 "end", "document", "verified_against", "why"), path)
 
 
 # -- party at the vote: the Hansard's list of members -------------------------
