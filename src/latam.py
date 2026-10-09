@@ -158,14 +158,49 @@ def watchlist(cc, config_dir=None):
 
 
 def item(cc, kind, key, date, title, areas, tier, watched=False, status=None, url=None,
-         lines=None):
+         lines=None, terms=None, body=None, refs=None):
+    """`terms` are the collector's stored matched terms, `body` any text the
+    collector classified beyond the title (a press release's body), `refs`
+    the titles of the bills a vote names. None of the three is rendered:
+    the noise filters (src/latam_noise.py) read them."""
     return {"cc": cc, "kind": kind, "key": str(key), "date": day(date), "title": clean(title),
             "status": clean(status) or None, "areas": list(areas), "tier": tier,
-            "watched": bool(watched), "url": url, "lines": list(lines or [])}
+            "watched": bool(watched), "url": url, "lines": list(lines or []),
+            "terms": terms_of(terms), "body": body or "", "refs": list(refs or [])}
+
+
+def terms_of(raw):
+    """Matched terms from a JSON list column, the watchlist markers dropped."""
+    try:
+        got = json.loads(raw) if isinstance(raw, str) else (raw or [])
+    except (TypeError, ValueError):
+        return []
+    return [str(t) for t in got if t and not str(t).startswith(("watch:", "watchlist"))]
 
 
 def on_ground(areas_raw, watched):
     return bool(areas_of(areas_raw)) or watched
+
+
+def press_watch(wl, title, body):
+    """Watch keys a press item names: the key itself (an expediente number)
+    or one of the entry's `match` phrases (the bill's name, as Venezuela's
+    hand-watched items carry), case- and accent-insensitive."""
+    from src.filter import _fold
+    text = _fold("{0} {1}".format(title or "", body or "")).lower()
+    return [k for k, v in wl.items()
+            if _fold(k).lower() in text
+            or any(_fold(m).lower() in text for m in (v.get("match") or []))]
+
+
+def bill_titles(conn, table, keys):
+    """The titles of the bills a vote names, in order, for the noise filters."""
+    out = []
+    for k in keys or []:
+        got = rows(conn, "SELECT title FROM {0} WHERE bill_key=?".format(table), (k,))
+        if got and got[0][0]:
+            out.append(got[0][0])
+    return out
 
 
 # --- votes: tallies and party splits ----------------------------------------------
@@ -232,7 +267,7 @@ def matched_line(own_raw, refs):
 
 def vote_item(cc, key, date, title, areas_raw, tier, watched, yes, no, abstain=None,
               result=None, split=None, positions=None, url=None, split_label="By party",
-              matched=None):
+              matched=None, terms=None, refs=None):
     lines = [tally(yes, no, abstain, result)]
     if matched:
         lines.append(matched)
@@ -243,7 +278,7 @@ def vote_item(cc, key, date, title, areas_raw, tier, watched, yes, no, abstain=N
     if p:
         lines.append(p)
     return item(cc, "vote", key, date, title, areas_of(areas_raw), tier, watched, url=url,
-                lines=lines)
+                lines=lines, terms=terms, refs=refs)
 
 
 # --- the adapters, one per collected country -----------------------------------
@@ -258,7 +293,8 @@ def items_co(conn, since, until, wl):
         w = r["bill_key"] in wl or (r["other_key"] or "") in wl
         if on_ground(r["areas"], w):
             out.append(item("co", "new", r["bill_key"], r["filed_at"], r["nickname"] or r["title"],
-                            areas_of(r["areas"]), r["tier"], w, r["status"], r["url"]))
+                            areas_of(r["areas"]), r["tier"], w, r["status"], r["url"],
+                            terms=r["matched_terms"]))
     for r in rows(conn, "SELECT * FROM co_divisions WHERE " + _win("date"), (since, until)):
         w = (r["bill_key"] or "") in wl
         if not on_ground(r["areas"], w):
@@ -267,7 +303,7 @@ def items_co(conn, since, until, wl):
                                   "USING (member_key) WHERE v.division_key=?", (r["division_key"],))
         n = sum(a + b for a, b in split.values())
         out.append(vote_item("co", r["division_key"], r["date"], r["question"], r["areas"], None, w,
-                             r["yes"], r["no"], split=split, positions=n))
+                             r["yes"], r["no"], split=split, positions=n, terms=r["matched_terms"]))
     return out
 
 
@@ -277,7 +313,8 @@ def items_cl(conn, since, until, wl):
         w = r["boletin"] in wl
         if on_ground(r["areas"], w):
             out.append(item("cl", "new", r["boletin"], r["introduced"], r["title"],
-                            areas_of(r["areas"]), r["tier"], w, r["status"] or r["stage"]))
+                            areas_of(r["areas"]), r["tier"], w, r["status"] or r["stage"],
+                            terms=r["matched_terms"]))
     for r in rows(conn, "SELECT * FROM cl_divisions WHERE " + _win("date"), (since, until)):
         w = (r["boletin"] or "") in wl
         if not on_ground(r["areas"], w):
@@ -289,7 +326,7 @@ def items_cl(conn, since, until, wl):
         out.append(vote_item("cl", r["division_key"], r["date"], title, r["areas"], r["tier"], w,
                              r["yes"], r["no"], r["abstain"], r["result"], split,
                              n[0][0] if n else None,
-                             matched=matched_line(r["own_areas"], [r["boletin"]])))
+                             matched=matched_line(r["own_areas"], [r["boletin"]]), terms=r["matched_terms"]))
     return out
 
 
@@ -299,7 +336,8 @@ def items_pe(conn, since, until, wl):
         w = r["bill_key"] in wl
         if on_ground(r["areas"], w):
             out.append(item("pe", "new", r["bill_key"], r["presented"], r["title"],
-                            areas_of(r["areas"]), r["tier"], w, r["status"]))
+                            areas_of(r["areas"]), r["tier"], w, r["status"],
+                            terms=r["matched_terms"]))
     for r in rows(conn, "SELECT * FROM pe_divisions WHERE " + _win("date"), (since, until)):
         refs = json.loads(r["bill_refs"] or "[]")
         w = any(k in wl for k in refs)
@@ -311,7 +349,7 @@ def items_pe(conn, since, until, wl):
         out.append(vote_item("pe", r["division_key"], r["date"], r["subject"], r["areas"], r["tier"],
                              w, r["yes"], r["no"], r["abstain"], None, split,
                              n[0][0] if n else None, r["source_url"], "By bancada",
-                             matched_line(r["own_areas"], refs)))
+                             matched_line(r["own_areas"], refs), terms=r["matched_terms"]))
     return out
 
 
@@ -327,7 +365,7 @@ def items_ec(conn, since, until, wl):
         title = " / ".join(x for x in (r["theme"], r["proposal"]) if x)
         out.append(vote_item("ec", r["division_key"], r["date"], title, r["areas"], r["tier"], w,
                              r["yes"], r["no"], (r["abstain"] or 0) + (r["blank"] or 0) or None,
-                             None, split, r["positions"], None, "By party on the current roster"))
+                             None, split, r["positions"], None, "By party on the current roster", terms=r["matched_terms"]))
     return out
 
 
@@ -336,7 +374,7 @@ def items_bo(conn, since, until, wl):
     is news when its register entry changed this month: a logged status move
     (bo_bill_changes, old value known) or a register modification."""
     out, moved = [], set()
-    for r in rows(conn, "SELECT c.*, b.title, b.areas, b.tier, b.dip_link FROM bo_bill_changes c "
+    for r in rows(conn, "SELECT c.*, b.title, b.areas, b.tier, b.dip_link, b.matched_terms FROM bo_bill_changes c "
                         "JOIN bo_bills b USING (bill_key) WHERE c.old IS NOT NULL AND "
                         + _win("c.seen"), (since, until)):
         w = r["bill_key"] in wl
@@ -344,14 +382,16 @@ def items_bo(conn, since, until, wl):
             moved.add(r["bill_key"])
             out.append(item("bo", "moved", r["bill_key"], r["seen"], r["title"],
                             areas_of(r["areas"]), r["tier"], w,
-                            "{0} → {1}".format(clean(r["old"]), clean(r["new"])), r["dip_link"]))
+                            "{0} → {1}".format(clean(r["old"]), clean(r["new"])), r["dip_link"],
+                            terms=r["matched_terms"]))
     for r in rows(conn, "SELECT * FROM bo_bills WHERE " + _win("dip_modified"), (since, until)):
         w = r["bill_key"] in wl
         if r["bill_key"] not in moved and on_ground(r["areas"], w):
             out.append(item("bo", "updated", r["bill_key"], r["dip_modified"], r["title"],
                             areas_of(r["areas"]), r["tier"], w,
                             " / ".join(x for x in (r["dip_status"], r["sen_stage"]) if x),
-                            r["dip_link"]))
+                            r["dip_link"],
+                            terms=r["matched_terms"]))
     return out
 
 
@@ -363,14 +403,16 @@ def items_uy(conn, since, until, wl):
             out.append(item("uy", "pedido", r["question_key"], r["date"], r["tema"],
                             areas_of(r["areas"]), r["tier"], w, r["estado"], r["url_oficio"],
                             ["Asked of {0} by {1}.".format(clean(r["organismo"]).title(),
-                                                          clean(r["autores"]))]))
+                                                          clean(r["autores"]))],
+                                                          terms=r["matched_terms"]))
     for r in rows(conn, "SELECT * FROM uy_laws WHERE " + _win("promulgated"), (since, until)):
         key = "ley:{0}".format(r["law_number"])
         w = key in wl
         if on_ground(r["areas"], w):
             out.append(item("uy", "law", key, r["promulgated"],
                             "Ley {0}: {1}".format(r["law_number"], r["name"] or ""),
-                            areas_of(r["areas"]), r["tier"], w, None, r["url"]))
+                            areas_of(r["areas"]), r["tier"], w, None, r["url"],
+                            terms=r["matched_terms"]))
     return out
 
 
@@ -380,7 +422,8 @@ def items_gt(conn, since, until, wl):
         w = r["numero"] in wl
         if on_ground(r["areas"], w):
             out.append(item("gt", "new", "Iniciativa " + r["numero"], r["conocio_pleno"], r["resumen"],
-                            areas_of(r["areas"]), r["tier"], w, "Plenary took notice", r["pdf_url"]))
+                            areas_of(r["areas"]), r["tier"], w, "Plenary took notice", r["pdf_url"],
+                            terms=r["matched_terms"]))
     for r in rows(conn, "SELECT * FROM gt_divisions WHERE " + _win("date"), (since, until)):
         w = (r["iniciativa"] or "") in wl
         if not on_ground(r["areas"], w):
@@ -390,7 +433,7 @@ def items_gt(conn, since, until, wl):
                             (r["division_key"],))
         out.append(vote_item("gt", r["division_key"], r["date"], r["title"], r["areas"], r["tier"], w,
                              r["yes"], r["no"], None, None, split, r["positions"], None,
-                             "By current bloc (GT4)"))
+                             "By current bloc (GT4)", terms=r["matched_terms"]))
     return out
 
 
@@ -400,8 +443,10 @@ def items_pa(conn, since, until, wl):
         w = str(r["ficha"]) in wl
         if on_ground(r["areas"], w):
             out.append(item("pa", "new", "Ficha {0}".format(r["ficha"]), r["presented"], r["title"],
-                            areas_of(r["areas"]), r["tier"], w, r["stage"], r["doc_url"]))
-    for r in rows(conn, "SELECT s.*, b.title, b.areas, b.tier, b.doc_url, b.presented FROM pa_bill_stages s "
+                            areas_of(r["areas"]), r["tier"], w, r["stage"], r["doc_url"],
+                            terms=r["matched_terms"]))
+    for r in rows(conn, "SELECT s.*, b.title, b.areas, b.tier, b.doc_url, b.presented, b.matched_terms "
+                        "FROM pa_bill_stages s "
                         "JOIN pa_bills b USING (ficha) WHERE " + _win("s.date")
                         + " ORDER BY s.ficha, s.seq", (since, until)):
         w = str(r["ficha"]) in wl
@@ -410,7 +455,8 @@ def items_pa(conn, since, until, wl):
             continue
         out.append(item("pa", "moved", "Ficha {0}".format(r["ficha"]), r["date"], r["title"],
                         areas_of(r["areas"]), r["tier"], w,
-                        "{0}: {1}".format(clean(r["stage"]), clean(r["comment"])), r["doc_url"]))
+                        "{0}: {1}".format(clean(r["stage"]), clean(r["comment"])), r["doc_url"],
+                        terms=r["matched_terms"]))
     return out
 
 
@@ -421,7 +467,8 @@ def items_hn(conn, since, until, wl):
         if on_ground(r["areas"], w):
             kind = "new" if (r["estado"] or "Iniciativa") == "Iniciativa" else "moved"
             out.append(item("hn", kind, r["numero"] or r["project_id"], r["fecha"], r["titulo"],
-                            areas_of(r["areas"]), r["tier"], w, r["estado"]))
+                            areas_of(r["areas"]), r["tier"], w, r["estado"],
+                            terms=r["matched_terms"]))
     for r in rows(conn, "SELECT a.*, s.schedule, s.name AS session FROM hn_agenda_items a JOIN hn_sessions s "
                         "USING (room_id) WHERE " + _win("s.schedule"), (since, until)):
         w = (r["project_number"] or "") in wl
@@ -429,17 +476,19 @@ def items_hn(conn, since, until, wl):
             out.append(item("hn", "agenda", r["project_number"] or "agenda-{0}".format(r["room_item_id"]),
                             r["schedule"], r["name"], areas_of(r["areas"]), r["tier"], w,
                             clean(r["list_name"]) or None,
-                            lines=["Session: {0}.".format(clean(r["session"]))]))
+                            lines=["Session: {0}.".format(clean(r["session"]))],
+                            terms=r["matched_terms"]))
     for r in rows(conn, "SELECT * FROM hn_news WHERE " + _win("created_at"), (since, until)):
         if on_ground(r["areas"], False):
-            w = any(k in (r["body"] or "") + (r["title"] or "") for k in wl)
+            body = " ".join(x for x in (r["description"], r["body"]) if x)
+            w = bool(press_watch(wl, r["title"], body))
             out.append(item("hn", "press", "press-" + str(r["post_id"]), r["created_at"], r["title"],
-                            areas_of(r["areas"]), r["tier"], w))
+                            areas_of(r["areas"]), r["tier"], w, terms=r["matched_terms"], body=body))
     for r in rows(conn, "SELECT * FROM hn_gazette WHERE " + _win("date"), (since, until)):
         if on_ground(r["areas"], False):
             out.append(item("hn", "gazette", "Gaceta {0}".format(r["issue"]), r["date"],
                             clip(r["summary"], 300), areas_of(r["areas"]), r["tier"], False,
-                            url=r["url"]))
+                            url=r["url"], terms=r["matched_terms"], body=r["summary"]))
     return out
 
 
@@ -451,7 +500,8 @@ def items_sv(conn, since, until, wl):
         if on_ground(r["areas"], w):
             out.append(item("sv", "report", "Dictamen {0}".format(r["dictamen_key"]), r["date"],
                             r["extracto"], areas_of(r["areas"]), r["tier"], w,
-                            "{0}, {1}".format(clean(r["comision"]), clean(r["resultado"])), r["pdf_url"]))
+                            "{0}, {1}".format(clean(r["comision"]), clean(r["resultado"])), r["pdf_url"],
+                            terms=r["matched_terms"]))
     for r in rows(conn, "SELECT v.*, d.extracto AS d_text, p.leyenda AS p_title, p.extracto AS p_text "
                         "FROM sv_divisions v LEFT JOIN sv_dictamenes d ON d.dictamen_key = v.item_key "
                         "LEFT JOIN sv_piezas p ON p.pieza_key = v.item_key WHERE " + _win("v.date"),
@@ -467,7 +517,7 @@ def items_sv(conn, since, until, wl):
         title = "{0}: {1}".format(clean(r["label"]), clip(what, 400)) if what else r["label"]
         out.append(vote_item("sv", r["division_key"], r["date"], title, r["areas"], r["tier"], w,
                              r["yes"], r["no"], r["abstain"], None, groups, r["positions"],
-                             r["pdf_url"]))
+                             r["pdf_url"], terms=r["matched_terms"]))
     return out
 
 
@@ -477,13 +527,15 @@ def items_do(conn, since, until, wl):
         w = r["bill_key"] in wl
         if on_ground(r["areas"], w):
             out.append(item("do", "new", r["bill_key"], r["deposited"], r["title"],
-                            areas_of(r["areas"]), r["tier"], w, r["status"]))
+                            areas_of(r["areas"]), r["tier"], w, r["status"],
+                            terms=r["matched_terms"]))
     for r in rows(conn, "SELECT * FROM do_bills WHERE " + _win("last_change")
                   + " AND substr(deposited,1,10) <= ?", (since, until, since)):
         w = r["bill_key"] in wl
         if on_ground(r["areas"], w):
             out.append(item("do", "moved", r["bill_key"], r["last_change"], r["title"],
-                            areas_of(r["areas"]), r["tier"], w, r["status"]))
+                            areas_of(r["areas"]), r["tier"], w, r["status"],
+                            terms=r["matched_terms"]))
     for r in rows(conn, "SELECT * FROM do_divisions WHERE " + _win("date"), (since, until)):
         refs = json.loads(r["bill_refs"] or "[]")
         w = any(k in wl for k in refs)
@@ -493,7 +545,8 @@ def items_do(conn, since, until, wl):
                             (r["division_key"],))
         out.append(vote_item("do", r["division_key"], r["date"], r["motion"] or r["title"], r["areas"],
                              r["tier"], w, r["yes"], r["no"], r["abstain"], None, split,
-                             r["positions"], matched=matched_line(r["own_areas"], refs)))
+                             r["positions"], matched=matched_line(r["own_areas"], refs),
+                             terms=r["matched_terms"], refs=bill_titles(conn, "do_bills", refs)))
     return out
 
 
@@ -513,7 +566,8 @@ def ve_items(conn, since, until, config_dir=None):
         if on_ground(r["areas"], bool(hit)):
             areas = sorted(set(areas_of(r["areas"])) | {a for k in hit for a in wl[k].get("areas", [])})
             out.append(item("ve", "news", r["url"], r["date"], r["title"], areas, r["tier"],
-                            bool(hit), hit[0] if hit else None, r["url"]))
+                            bool(hit), hit[0] if hit else None, r["url"], terms=r["matched_terms"],
+                            body=r["body"]))
     return out
 
 
@@ -528,7 +582,8 @@ def nic_items(conn, since, until):
         if 8 in areas_of(r["areas"]):
             out.append(item("nic", "gazette", r["item_key"], r["date"], r["heading"],
                             areas_of(r["areas"]), r["tier"], False,
-                            "La Gaceta No. {0}".format(r["issue"]), r["url"]))
+                            "La Gaceta No. {0}".format(r["issue"]), r["url"], terms=r["matched_terms"],
+                            body=r["text"]))
     return out
 
 
