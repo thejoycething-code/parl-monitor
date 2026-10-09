@@ -1639,6 +1639,13 @@ TABLES = (
     "pt_divisions",
     "pt_group_votes",
     "pt_votes",
+    # Slovakia's Národná rada (tools/sk_rollcalls.py), created by
+    # src/sk_store.ensure_schema -- declared from day one.
+    "sk_members",
+    "sk_bills",
+    "sk_divisions",
+    "sk_votes",
+    "sk_interpellations",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -1933,4 +1940,6 @@ def init_db(conn):
     fr_store.ensure_schema(conn)
     from src import pt_store
     pt_store.ensure_schema(conn)
+    from src import sk_store
+    sk_store.ensure_schema(conn)
     return conn
