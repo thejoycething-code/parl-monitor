@@ -71,7 +71,9 @@ HONESTY = (
     "(watched and tier 1 first) and a tier-2 match can still be noise. Titles are the "
     "source's own Spanish, verbatim; the English around them is ours. Tallies, results "
     "and party splits are the record; whether a vote helped or hurt is a human call and "
-    "is never made here. Migration is matched and stored but not shown."
+    "is never made here. Migration is matched and stored but not shown. Procedural votes, "
+    "the patterns in config/latam-noise.yaml and Chris's mutes are left out (counted under "
+    "Coverage); a watched item never is."
 )
 
 
@@ -211,12 +213,42 @@ def last_seen(conn, cc):
 
 # --- the edition ------------------------------------------------------------------
 
-def gather(conn, since, until, ledger=None, config_dir=None):
-    """{cc: [scored items]} for every country, quiet ones included as []."""
+def gather(conn, since, until, ledger=None, config_dir=None, dropped=None):
+    """{cc: [scored items]} for every country, quiet ones included as [].
+    `dropped`, when a dict, gets {cc: [items the noise filters left out]}."""
     out = {}
     for cc, _, _ in latam.COUNTRIES:
-        out[cc] = latam.score(latam.country_items(conn, cc, since, until, ledger, config_dir))
+        gone = []
+        out[cc] = latam.score(latam.country_items(conn, cc, since, until, ledger, config_dir,
+                                                  gone))
+        if dropped is not None and gone:
+            dropped[cc] = gone
     return out
+
+
+# src/latam_noise.drop_reason's reasons, singular and plural.
+DROPPED = {"procedural vote": ("procedural vote", "procedural votes"),
+           "excluded title": ("excluded title", "excluded titles"),
+           "names only excluded bills": ("vote on excluded bills only", "votes on excluded bills only"),
+           "missing required context": ("item without the required context",
+                                        "items without the required context"),
+           "muted": ("muted item", "muted items")}
+
+
+def dropped_line(dropped):
+    """'Dominican Republic 10 (9 procedural votes, 1 excluded title); ...'"""
+    parts = []
+    for cc, _, _ in latam.COUNTRIES:
+        gone = dropped.get(cc)
+        if not gone:
+            continue
+        why = {}
+        for it in gone:
+            why[it["dropped"]] = why.get(it["dropped"], 0) + 1
+        parts.append("{0} {1} ({2})".format(latam.NAMES[cc], len(gone), ", ".join(
+            "{0} {1}".format(n, DROPPED.get(w, (w, w))[n != 1])
+            for w, n in sorted(why.items(), key=lambda kv: (-kv[1], kv[0])))))
+    return "; ".join(parts)
 
 
 def venezuela_section(conn, since, until, items, config_dir=None):
@@ -256,7 +288,9 @@ def nicaragua_section(conn, since, until, items):
     relig = items
     got = latam.rows(conn, "SELECT COUNT(*) FROM nic_gazette_items WHERE substr(date,1,10) > ? AND "
                            "substr(date,1,10) <= ?", (since, until))
-    other = (got[0][0] if got else 0) - len(relig)
+    matched8 = len(latam.nic_items(conn, since, until))   # before the noise filters
+    other = (got[0][0] if got else 0) - matched8
+    filtered = matched8 - len(relig)
     out = ["## Nicaragua (La Gaceta)", "",
            "_No parliamentary section (NI1). La Gaceta, the official gazette, is read for "
            "religious-freedom items: cancellations of the legal status of churches, religious "
@@ -264,11 +298,13 @@ def nicaragua_section(conn, since, until, items):
     if not n:
         out.append("- La Gaceta was not read for this period (no issues stored); see Coverage.")
     else:
-        out.append("- {0} issue(s) read, {1} to {2}{3}; {4} religious-freedom notice(s){5}.".format(
+        out.append("- {0} issue(s) read, {1} to {2}{3}; {4} religious-freedom notice(s){5}{6}.".format(
             n, short_date(first), short_date(last),
             " ({0} without a text layer)".format(blind) if blind else "",
             len(relig), "; {0} other notice(s) matched other areas and are not shown".format(other)
-            if other else ""))
+            if other else "",
+            "; {0} matched notice(s) with no cancellation or religious body in them were left out "
+            "(config/latam-noise.yaml)".format(filtered) if filtered else ""))
         if relig:
             out.append("")
             for it in relig[:10]:
@@ -281,7 +317,8 @@ def render_edition(conn, today, since=None, sample=False, ledger=None, config_di
     since, until = window(today, since)
     if ledger is None:
         ledger = latam.load_ledger()
-    got = gather(conn, since, until, ledger, config_dir)
+    dropped = {}
+    got = gather(conn, since, until, ledger, config_dir, dropped)
     d = datetime.date.fromisoformat(today)
     title = "# Latam Monitor - {0} {1}".format(MONTHS[d.month - 1], d.year)
     out = [title, ""]
@@ -356,6 +393,8 @@ def render_edition(conn, today, since=None, sample=False, ledger=None, config_di
             "- Stage moves for Colombia, Chile, Peru, Ecuador, Guatemala, Uruguay and El Salvador "
             "come from the alert pass, which sees a watched bill's status change between "
             "collections; their stores keep no change dates.",
+            "- **Left out by the noise filters** (config/latam-noise.yaml, config/latam-mute.yaml; "
+            "never a watched item): {0}.".format(dropped_line(dropped) or "nothing this month"),
             "- Specification and decisions: [docs/country-decisions-2026-10-10.md]({0}docs/"
             "country-decisions-2026-10-10.md).".format(REPO), ""]
     text = "\n".join(out)
