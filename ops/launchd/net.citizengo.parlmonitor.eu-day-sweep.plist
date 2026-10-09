@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- EU day sweep on the Mac Mini (docs/mac-mini-runner.md): 00:00 London daily.
+     That is the GitHub cron's 23:00 UTC in summer and 00:00 UTC in winter,
+     after the Day sweep's 22:00 London run (the lock queues it if that run
+     is still going).
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.eu-day-sweep.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.eu-day-sweep</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>eu-day-sweep</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict><key>Hour</key><integer>0</integer><key>Minute</key><integer>0</integer></dict>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/eu-day-sweep.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/eu-day-sweep.log</string>
+</dict>
+</plist>
