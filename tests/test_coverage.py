@@ -333,6 +333,55 @@ class OnceEverIsMeasuredNotAssumedTests(unittest.TestCase):
                     "for {1}".format(table, pipeline))
 
 
+class StateTests(unittest.TestCase):
+    """--state: say a problem once, again only when it is a week worse
+    (docs/mac-mini-runner.md, step 5)."""
+
+    D = datetime.date(2026, 10, 9)
+
+    def setUp(self):
+        self.cov = _load("coverage")
+
+    def test_a_new_problem_is_new(self):
+        new, worse, known, resolved, nxt = self.cov.triage([("feed:ni_votes", 12)], {}, self.D)
+        self.assertEqual((new, worse, known, resolved), (["feed:ni_votes"], [], [], []))
+        self.assertEqual(nxt["feed:ni_votes"]["reported_age"], 12)
+
+    def test_a_day_older_is_not_worse(self):
+        state = {"feed:ni_votes": {"first": "2026-10-08", "reported_age": 12, "reported": "2026-10-08"}}
+        new, worse, known, _r, nxt = self.cov.triage([("feed:ni_votes", 13)], state, self.D)
+        self.assertEqual((new, worse, known), ([], [], ["feed:ni_votes"]))
+        self.assertEqual(nxt["feed:ni_votes"]["reported_age"], 12)   # unchanged: still measured from 12
+
+    def test_a_week_older_is_worse_and_resets_the_mark(self):
+        state = {"feed:ni_votes": {"first": "2026-10-02", "reported_age": 12, "reported": "2026-10-02"}}
+        _n, worse, _k, _r, nxt = self.cov.triage([("feed:ni_votes", 19)], state, self.D)
+        self.assertEqual(worse, ["feed:ni_votes"])
+        self.assertEqual(nxt["feed:ni_votes"]["reported_age"], 19)
+        self.assertEqual(nxt["feed:ni_votes"]["first"], "2026-10-02")
+
+    def test_an_ageless_problem_is_said_once(self):
+        state = {"empty:eu_divisions": {"first": "2026-10-01", "reported_age": None, "reported": "2026-10-01"}}
+        new, worse, known, _r, _x = self.cov.triage([("empty:eu_divisions", None)], state, self.D)
+        self.assertEqual((new, worse, known), ([], [], ["empty:eu_divisions"]))
+
+    def test_a_cleared_problem_is_dropped_and_comes_back_as_new(self):
+        state = {"feed:ni_votes": {"first": "2026-10-01", "reported_age": 12, "reported": "2026-10-01"}}
+        _n, _w, _k, resolved, nxt = self.cov.triage([], state, self.D)
+        self.assertEqual((resolved, nxt), (["feed:ni_votes"], {}))
+        new = self.cov.triage([("feed:ni_votes", 9)], nxt, self.D)[0]
+        self.assertEqual(new, ["feed:ni_votes"])
+
+    def test_check_keys_every_problem_it_reports(self):
+        conn = sqlite3.connect(":memory:")
+        conn.execute("CREATE TABLE source_runs (source TEXT, last_run TEXT)")
+        conn.execute("INSERT INTO source_runs VALUES ('Sunday pull', '2026-09-01')")
+        found = []
+        overdue = self.cov.check(conn, today=self.D, log=lambda *a: None, found=found)
+        self.assertEqual(len(found), len(overdue))
+        self.assertIn(("pipeline:Sunday pull", 38), found)
+
+
 if __name__ == "__main__":
     unittest.main()
 

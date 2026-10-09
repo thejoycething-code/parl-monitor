@@ -477,11 +477,21 @@ def parse_minutes(blocks):
     return divisions, voices, bill_titles
 
 
-def resolve_division(raw, resolver, date, legislature):
+def resolver_for(conn, base=None, aliases=None):
+    """The roster resolver, wrapped in the reviewed label aliases
+    (config/prov_record.yaml), which apply only after it finds nobody, on
+    their own day and in their own Minutes. Saskatchewan alone never read
+    them: the 'Barrett Kropf' alias of 9 October 2026 changed nothing until
+    this wrapper, and the 5 May 2025 division kept failing its tally."""
+    base = base or pn.Resolver.from_conn(conn, PROV)
+    return pn.Aliased(base, pn.load_aliases(PROV) if aliases is None else aliases, base=base)
+
+
+def resolve_division(raw, resolver, date, legislature, document=None):
     votes = []
     for position, labels in (("Yea", raw["yea_labels"]), ("Nay", raw["nay_labels"])):
         for k, label in enumerate(labels, 1):
-            key, how = resolver.resolve(label, date, legislature)
+            key, how = resolver.resolve(label, date, legislature, document=document)
             votes.append({"position": position, "ordinal": k, "raw_label": label, "member_key": key,
                           "how": how,
                           "party_at_vote": resolver.party_at(key, date, legislature) if key else None})
@@ -549,8 +559,8 @@ def read_sitting(ctx, rec, wl):
         quick = raw
     if has_division(quick):
         roster_for_day(ctx, rec)
-    resolver = pn.Resolver.from_conn(ctx.conn, PROV)
-    vocab = _vocab(resolver)
+    resolver = resolver_for(ctx.conn)
+    vocab = _vocab(resolver.base)
     blocks = blocks_from_html(raw) if rec["minutes_html"] else blocks_from_pdf(raw, vocab)
     divisions, voices, titles = parse_minutes(blocks)
     for number, title in titles.items():
@@ -562,7 +572,7 @@ def read_sitting(ctx, rec, wl):
     gaps = 0
     kept = set()
     for d in divisions:
-        votes, ok, note = resolve_division(d, resolver, date, leg)
+        votes, ok, note = resolve_division(d, resolver, date, leg, document=url)
         bkey = ps.bill_key(PROV, leg, sess, d["bill_number"]) if d["bill_number"] else None
         b_areas, b_terms, b_tier = ps.bill_areas(ctx.conn, bkey)
         res = pc.classify(ctx.tax, wl, PROV, texts=[d["question"]], bill_key=bkey,
