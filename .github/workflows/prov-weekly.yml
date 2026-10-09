@@ -28,7 +28,7 @@ on:
       # A dispatch with `provinces` set runs the backfill INSTEAD of the
       # weekly steps (the weekly keeps its Wednesday slot).
       provinces:
-        description: "Backfill these provinces, space-separated (ab sk bc mb on nb nl qc ns); blank = the weekly"
+        description: "Backfill these provinces (ab sk bc mb on nb nl qc ns); blank = the weekly. Backfills run on the Mac Mini first: jobs/prov-backfill.sh"
         type: string
         default: ""
       since:

@@ -24,7 +24,10 @@ class HeartbeatNameTests(unittest.TestCase):
                 continue
             m = re.search(r'GITHUB_WORKFLOW="\$\{GITHUB_WORKFLOW:-([^}]+)\}"', src)
             self.assertIsNotNone(m, os.path.basename(path) + " publishes the store but names no pipeline")
-            self.assertIn(m.group(1), coverage.PIPELINES, os.path.basename(path))
+            # A scheduled pipeline, or a hand-run backfill with its own name
+            # (never the weekly's: a backfill must not mask a dead weekly).
+            self.assertTrue(m.group(1) in coverage.PIPELINES or m.group(1) in coverage.ON_DEMAND,
+                            os.path.basename(path) + ": " + m.group(1))
             self.assertLess(m.start(), push.start(), path)
 
 

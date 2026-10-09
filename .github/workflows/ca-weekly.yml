@@ -25,7 +25,7 @@ on:
         # -- plus the 44th Parliament's divisions, and the Gazette since
         # the 45th Parliament opened. A run cut short by its budget resumes
         # where it stopped when dispatched again.
-        description: "Also run the one-off backfill (announce it first)"
+        description: "Also run the one-off backfill (announce it first). Backfills run on the Mac Mini first: jobs/ca-backfill.sh"
         type: boolean
         default: false
       # BACK TO 2020 (26 September 2026). Earlier sessions are whole
