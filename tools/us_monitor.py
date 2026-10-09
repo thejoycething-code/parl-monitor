@@ -564,7 +564,11 @@ def vote_lines(conn, groups, names):
                        r["yeas"], r["nays"], party_split(conn, r["division_key"]) or "no split",
                        names_of(visible(r["areas"]), names), matched))
         if r["amendment_text"]:
-            out.append("  - {0}: {1}".format(clip(r["amendment_author"] or "Amendment", 60),
+            # The Senate names no author; its vote title does ("Motion to
+            # Table Lee Amdt. No. 4236").
+            label = r["amendment_author"] or (
+                (r["description"] or "").split(" | ")[0] if r["chamber"] == "senate" else "")
+            out.append("  - {0}: {1}".format(clip(label or "Amendment", 60),
                                              clip(r["amendment_text"], 240)))
         elif r["amendment_author"] or (r["chamber"] == "senate" and "Amdt" in (r["description"] or "")):
             out.append("  - {0}".format(clip(r["amendment_author"] or r["description"], 200)))
@@ -1115,13 +1119,17 @@ def render_edition(conn, today):
             "- **House amendment purposes** come first from the BILLSTATUS bulk files "
             "(keyless, a few days behind the floor), then from Congress.gov for what they have "
             "not explained (with a key): {0} of {1} House amendment votes carry one ({2} "
-            "from Congress.gov). An amendment vote without one still takes its bill's "
-            "areas.".format(
+            "from Congress.gov). A Senate amendment vote carries its purpose in the vote "
+            "file ({3} of {4}). An amendment vote without one, or with only \"In the nature "
+            "of a substitute\", still takes its bill's areas.".format(
                 n("SELECT COUNT(*) FROM us_divisions WHERE chamber='house' "
                   "AND amendment_text IS NOT NULL"),
                 n("SELECT COUNT(*) FROM us_divisions WHERE chamber='house' "
                   "AND amendment_author IS NOT NULL"),
-                n("SELECT COUNT(*) FROM us_divisions WHERE purpose_source='congress-api'")),
+                n("SELECT COUNT(*) FROM us_divisions WHERE purpose_source='congress-api'"),
+                n("SELECT COUNT(*) FROM us_divisions WHERE purpose_source='senate-vote'"),
+                n("SELECT COUNT(*) FROM us_divisions WHERE chamber='senate' "
+                  "AND amendment_num IS NOT NULL")),
 
             "- **Executive and Court:** {0} Federal Register documents since 20 January 2025 "
             "({1} on our ground); {2} Supreme Court opinions and {3} certiorari grants "

@@ -218,6 +218,20 @@ class CanadaRollCallTests(unittest.TestCase):
         self.assertEqual(keys, ["45-1/C-266", "45-1/C-34"], "S-1 is pro forma")
         self.assertEqual(conn.execute("SELECT is_government FROM ca_bills WHERE number='C-34'").fetchone()[0], 1)
 
+    def test_stage_dates_and_type_come_from_the_list(self):
+        """The list's LatestBillEventDateTime is a placeholder and its
+        IsGovernmentBill is False for every bill (9 October 2026)."""
+        b = {"PassedHouseFirstReadingDateTime": "2025-06-20T08:12:37.303-04:00",
+             "PassedHouseSecondReadingDateTime": "2026-10-08T15:00:00-04:00",
+             "LatestBillEventDateTime": "0001-01-01T00:00:00",
+             "BillDocumentTypeNameEn": "House Government Bill", "IsGovernmentBill": False}
+        self.assertEqual(car.introduced_at(b), "2025-06-20")
+        self.assertEqual(car.last_stage_at(b), "2026-10-08")
+        self.assertEqual(car.is_government(b), 1)
+        self.assertEqual(car.is_government({"BillDocumentTypeNameEn": "Private Member\u2019s Bill"}), 0)
+        self.assertIsNone(car.last_stage_at({"ReceivedRoyalAssentDateTime": "0001-01-01T00:00:00"}))
+        self.assertIsNone(car.is_government({}))
+
     def test_session_codes_are_validated(self):
         self.assertEqual(car.parse_session("44-1"), (44, 1))
         with self.assertRaises(ValueError):
