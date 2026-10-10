@@ -97,6 +97,10 @@ KINDS = {
     "law": "Law promulgated",
     "gazette": "Gazette notice",
     "news": "Assembly news item",
+    # Added 10 October 2026 (parity phases, set B): X8 constitutional courts
+    # (src/courts.py) and Bolivia's written questions (BO4).
+    "ruling": "Constitutional court",
+    "question": "Written question",
 }
 
 
@@ -553,6 +557,100 @@ def items_do(conn, since, until, wl):
     return out
 
 
+def items_rulings(conn, cc, since, until):
+    """X8: the country's constitutional court rulings, exhortations and
+    hearings on our ground (src/courts.py, `<cc>_rulings`): decided in the
+    window, or first seen in it when decided at most courts.LATE_DAYS before
+    it. Never watched (a ruling has no watchlist key)."""
+    from src import courts
+    out = []
+    for r in courts.news_rows(conn, cc, since, until):
+        out.append(item(cc, "ruling", r["ruling_key"], r["date"], r["title"],
+                        areas_of(r["areas"]), r["tier"], False, None, r["url"],
+                        [courts.takeaway(r)] + courts.lines(r), terms=r["matched_terms"],
+                        body=r["summary"]))
+    return out
+
+
+COURTS = ("co", "ec", "pe")
+
+
+def items_bo_questions(conn, since, until, wl):
+    """BO4: written questions on our ground filed in the window, both
+    chambers (tools/bo_questions.py)."""
+    out = []
+    for r in rows(conn, "SELECT * FROM bo_questions WHERE " + _win("date"), (since, until)):
+        w = r["question_key"] in wl
+        if not on_ground(r["areas"], w):
+            continue
+        try:
+            askers = [a for a in json.loads(r["askers"] or "[]") if a]
+        except (TypeError, ValueError):
+            askers = []
+        who = ", ".join(a for a in askers if not a.startswith("senado/")) or "a member not on the current roll"
+        out.append(item("bo", "question", r["question_key"], r["date"], clip(r["summary"], 400),
+                        areas_of(r["areas"]), r["tier"], w,
+                        "answered on {0}".format(r["answered"]) if r["answered"] else None,
+                        r["doc_url"] or r["url"],
+                        ["Asked of {0} by {1} ({2}).".format(clean(r["addressee"]) or "?", who,
+                                                             "Senado" if r["chamber"] == "senado"
+                                                             else "Cámara de Diputados")],
+                        terms=r["matched_terms"]))
+    return out
+
+
+UY_LATE_DAYS = 200
+
+
+def items_uy_diario(conn, since, until, wl):
+    """UY5: the vote totals of each Diario section on our ground
+    (tools/uy_diario.py), one item per section: sat in the window, or first
+    read in it when the sitting was at most UY_LATE_DAYS before (the Diario
+    index runs months behind)."""
+    try:
+        floor = (datetime.date.fromisoformat(since)
+                 - datetime.timedelta(days=UY_LATE_DAYS)).isoformat()
+    except ValueError:
+        floor = since
+    seed = rows(conn, "SELECT MIN(substr(first_seen,1,10)) FROM uy_diario_votes")
+    seed = (seed[0][0] if seed else None) or ""
+    # Rows first read on the table's first day (the backlog) count only by
+    # their sitting date, as src/courts.news_rows does for rulings.
+    got = rows(conn, "SELECT * FROM uy_diario_votes WHERE (" + _win("date") + ") OR ("
+               + _win("first_seen") + " AND substr(first_seen,1,10) != ? AND "
+               "substr(date,1,10) > ?) ORDER BY diario, seq",
+               (since, until, since, until, seed, floor))
+    groups = {}
+    for r in got:
+        key = "Diario {0} section {1}".format(r["diario"], r["section_no"])
+        w = key in wl or ("carpeta:" + (r["carpeta"] or "")) in wl
+        if not on_ground(r["areas"], w):
+            continue
+        groups.setdefault(key, []).append((r, w))
+    out = []
+    for key, vs in groups.items():
+        r0 = vs[0][0]
+        lines = ["Uruguay's Diario de Sesiones prints totals only; no member's vote is "
+                 "recorded. Sitting of {0}{1}.".format(
+                     r0["date"], ", carpeta " + r0["carpeta"] if r0["carpeta"] else "")]
+        for r, _ in vs[:8]:
+            if r["yes"] is not None and r["no"] is not None:
+                count = "{0} for, {1} against, {2} present".format(r["yes"], r["no"], r["present"])
+            elif r["yes"] is not None:
+                count = "{0} for{1}".format(r["yes"], " of {0} present".format(r["present"])
+                                            if r["present"] else "")
+            else:
+                count = "count not printed"
+            lines.append("{0}: {1}; \u201c{2}\u201d.".format(
+                clip(r["question"] or "Vote", 160).rstrip("."), count, r["result"] or "?"))
+        if len(vs) > 8:
+            lines.append("And {0} more vote(s) in this section.".format(len(vs) - 8))
+        out.append(item("uy", "vote", key, r0["date"], r0["section_title"], areas_of(r0["areas"]),
+                        r0["tier"], any(w for _, w in vs), None, None, lines,
+                        terms=r0["matched_terms"]))
+    return out
+
+
 ADAPTERS = {"co": items_co, "cl": items_cl, "pe": items_pe, "ec": items_ec, "bo": items_bo,
             "uy": items_uy, "gt": items_gt, "pa": items_pa, "hn": items_hn, "sv": items_sv,
             "do": items_do}
@@ -621,6 +719,12 @@ def country_items(conn, cc, since, until, ledger=None, config_dir=None, dropped=
         return []
     else:
         got = ADAPTERS[cc](conn, since, until, watchlist(cc, config_dir))
+        if cc in COURTS:
+            got += items_rulings(conn, cc, since, until)
+        if cc == "bo":
+            got += items_bo_questions(conn, since, until, watchlist(cc, config_dir))
+        if cc == "uy":
+            got += items_uy_diario(conn, since, until, watchlist(cc, config_dir))
         if cc not in SOURCE_MOVES:
             got += ledger_moves(ledger, cc, since, until)
         got = collapse(got)
