@@ -333,6 +333,13 @@ FEEDS = [
     # weeks into the summer recess (the Kamer did not vote between 2 July and
     # 3 September 2026): a month plus a month's grace, as for the US. A zaak
     # is re-stamped with its vote, so it gets the same.
+    # The new countries' week ahead (10 October 2026, src/agenda.py): one
+    # table, written by a step of each country's weekly (NL, PL, CH, BR, IT,
+    # FR, AT, ES, AR). Every point a run reads is re-stamped, and the Dutch and
+    # French agendas are never empty (procedure meetings, study groups), so
+    # the table moves every week whatever the councils do.
+    ("country_agenda", "last_seen", 7, 4, "Week-ahead agendas of the country editions "
+     "(a step of each country's weekly)"),
     ("nl_members", "last_seen", 7, 4, "Tweede Kamer members (Netherlands weekly)"),
     ("nl_fracties", "last_seen", 7, 4, "Tweede Kamer fracties (Netherlands weekly)"),
     ("nl_divisions", "last_seen", 31, 31, "Tweede Kamer votes (Netherlands weekly)"),
@@ -1038,9 +1045,24 @@ def table_exists(conn, table):
     return bool(row)
 
 
-def awaiting_first_run(table, seen):
+# A table filled by a STEP several pipelines share, so no one pipeline's
+# first heartbeat can excuse it: excused while empty until a date, then
+# OVERDUE like any other. table -> (until, why). Additive, 10 October 2026.
+AWAITING_STEP_UNTIL = {
+    "country_agenda": ("2026-10-24", "the week-ahead step (tools/country_agenda.py) joins "
+                       "nine country weeklies on merge; it fills on the first of them"),
+}
+
+
+def awaiting_first_run(table, seen, today=None):
     """The reason an EMPTY table is excused, or None: only while the pipeline
-    that fills it has never stamped a heartbeat (AWAITING_FIRST_RUN)."""
+    that fills it has never stamped a heartbeat (AWAITING_FIRST_RUN), or, for
+    a shared step, until its date (AWAITING_STEP_UNTIL)."""
+    step = AWAITING_STEP_UNTIL.get(table)
+    if step:
+        today = (today or datetime.date.today())
+        if str(today) <= step[0]:
+            return "{0} (until {1})".format(step[1], step[0])
     for pipeline, (tables, why) in AWAITING_FIRST_RUN.items():
         if table in tables and pipeline not in seen:
             return "{0}: {1}".format(pipeline, why)
