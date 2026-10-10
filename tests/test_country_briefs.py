@@ -220,6 +220,30 @@ class NotReadyTests(Base):
         self.assertFalse(os.path.exists(os.path.join(self.out, slug + ".md")))
 
 
+class KeyDateTests(Base):
+    def test_an_official_date_too_close_proposes_urgent_and_a_ladder(self):
+        s = [x for x in cb.subjects(self.conn, "pl", TODAY, config_dir=self.cfg_dir)
+             if x["key"] == "10/2110"][0]
+        s["next_date"] = "2026-10-20"
+        b = cb.build(self.conn, "pl", s, self.cfg, TODAY, config_dir=self.cfg_dir)
+        self.assertEqual(dict(b["header"])["Urgency"], "Urgent")
+        prepare = dict((k, v) for k, v, _ in b["prepare"])
+        self.assertIn("**Start (", prepare["Why is it urgent that we take action now?"])
+        general = dict((k, v) for k, v, _ in b["general"])
+        self.assertIn("2026-10-16", general["Estimated date for Delivering Signatures"])
+        s["next_date"] = "2026-12-15"
+        b = cb.build(self.conn, "pl", s, self.cfg, TODAY, config_dir=self.cfg_dir)
+        self.assertEqual(dict(b["header"])["Urgency"], "Non-Urgent")
+
+    def test_no_date_means_no_invented_deadline(self):
+        s = [x for x in cb.subjects(self.conn, "pl", TODAY, config_dir=self.cfg_dir)
+             if x["key"] == "10/2110"][0]
+        b = cb.build(self.conn, "pl", s, self.cfg, TODAY, config_dir=self.cfg_dir)
+        self.assertEqual(dict(b["header"])["Urgency"], "Non-Urgent")
+        prepare = dict((k, v) for k, v, _ in b["prepare"])
+        self.assertTrue(prepare["Why is it urgent that we take action now?"].startswith("[CAMPAIGNER:"))
+
+
 class ConfirmedTests(Base):
     def test_confirmations_reach_an_unedited_brief_next_week(self):
         self.run_step()
