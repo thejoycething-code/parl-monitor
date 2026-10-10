@@ -1826,7 +1826,6 @@ TABLES = (
     "ch_record_reads",
     "at_speeches",
     "at_record_reads",
-    "pl_speeches",
     "pl_questions",
     "pl_record_reads",
     "fr_speeches",

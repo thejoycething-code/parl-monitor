@@ -291,6 +291,68 @@ class BrazilTests(unittest.TestCase):
                          "Request for information from Deputada X (PL) to Ministro da Saúde")
 
 
+class FranceTests(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        import fr_chamber
+        cls.fr = fr_chamber
+        cls.date, cls.items = fr_chamber.parse_sitting(fixture("fr", "compte-rendu-2027o1n011.xml.gz"))
+
+    def test_debates_are_the_level_one_points_and_each_question(self):
+        debates = {i[0] for i in self.items}
+        self.assertIn("Questions au gouvernement: Mobilisation lycéenne", debates)
+        self.assertTrue(any(d and d.startswith("Réponse intégrale aux violences") for d in debates))
+        self.assertEqual(self.date, "2026-10-07")
+
+    def test_the_chair_is_left_out_and_turns_are_joined(self):
+        self.assertFalse([i for i in self.items if self.fr.CHAIR.match(i[2])])
+        pairs = [(i[0], i[1]) for i in self.items]
+        for a, b in zip(pairs, pairs[1:]):
+            self.assertNotEqual(a, b)                           # consecutive turns merged
+        self.assertEqual(self.fr.split_name("Mme Sandrine Josso (Dem)"),
+                         ("Mme Sandrine Josso", "Dem"))
+
+    def test_sessions_and_uids(self):
+        self.assertEqual(self.fr.sessions_for("2026-09-01", "2026-10-10"),
+                         ["S2026E1", "S2026E2", "S2027O1"])
+        self.assertEqual(self.fr.uid("S2027O1", 12), "CRSANR5L17S2027O1N012")
+
+    def test_questions_classified_on_the_index_not_the_text(self):
+        import zipfile
+        with open(os.path.join(FIX, "fr", "questions-ecrites-sample.json.zip"), "rb") as fh:
+            zf = zipfile.ZipFile(fh)
+            qs = {n: self.fr.parse_question(json.loads(zf.read(n))["question"], "written")
+                  for n in zf.namelist()}
+        taxes = cs.load_taxonomies("fr")
+        condoms = qs["json/QANR5L17QE18270.json"]
+        self.assertEqual(condoms["question_id"], "QE 18270")
+        self.assertEqual(condoms["party"], "GDR")
+        self.assertTrue(condoms["asker"].startswith("M. Stéphane Peu"))
+        self.assertIn(1, cs.classify_question(taxes, condoms["title"], condoms["text"]).areas)
+        music = qs["json/QANR5L17QE18826.json"]          # its text names 'soins palliatifs'
+        self.assertFalse(cs.classify_question(taxes, music["title"], music["text"]))
+
+
+class PolandTests(unittest.TestCase):
+
+    def test_interpellations(self):
+        import pl_chamber
+        recs = json.loads(fixture("pl", "interpellations-sample.json.gz"))
+        conn = store()
+        conn.execute("INSERT INTO pl_members (mp_key, term, mp_id, name, club) VALUES "
+                     "('10/36', 10, 36, 'Posłanka X', 'KO')")
+        roster = pl_chamber.members(conn)
+        taxes = cs.load_taxonomies("pl")
+        got = {r["num"]: pl_chamber.parse(r, "interpellation", roster) for r in recs}
+        child = got[20130]
+        self.assertEqual(child["question_id"], "I 10/20130")
+        self.assertEqual((child["asker"], child["party"]), ("Posłanka X and 7 other(s)", "KO"))
+        self.assertIn(6, cs.classify_question(taxes, child["title"]).areas)
+        self.assertFalse(cs.classify_question(taxes, got[20311]["title"]))
+        self.assertTrue(got[20311]["url"].startswith("https://sejm.gov.pl/"))
+
+
 class EditionTests(unittest.TestCase):
     """Speeches grouped by debate, questions one each, in the framework."""
 
