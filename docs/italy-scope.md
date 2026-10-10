@@ -501,9 +501,36 @@ Applied on the `countries` branch:
 
 Later phases and items for Chris (not built at the merge):
 
-- Phase: dati.camera.it SPARQL as the Camera's backup source, or main when quicker (IT2). Needs fixtures from the live service and a member-key crosswalk (Openpolis to persistent IDs); not built at the merge.
+- Phase: dati.camera.it SPARQL as the Camera's backup source, or main when quicker (IT2). BUILT 10 October 2026 (branch `parity-phases-a`): see "IT2, as built" below.
 - Phase: regional councils after national (IT3).
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/it/` from the store each weekly run (`tools/member_profiles.py it`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
+
+## IT2, as built (10 October 2026, branch `parity-phases-a`)
+
+Inside `tools/it_rollcalls.py`; `IT_CAMERA_SOURCE` chooses `auto` (default),
+`openpolis` or `camera`.
+
+- **Vote keys never change**: both sources carry the Camera's own vote ID
+  (`camera-vs19_723_001`), and dati.camera.it's description and title give
+  Openpolis's title, so the bill inference reads the same text. A vote
+  already stored keeps its stored title.
+- **The list**: Openpolis first; if it refuses its first page, the same
+  window from dati.camera.it, month by month (two FILTERs: the Camera's
+  firewall rejects `&&` with `<`).
+- **Positions, "main when quicker"**: dati.camera.it answers a vote's
+  positions in about 0.3 s against Openpolis's 2 to 4, but records the
+  absent and those on mission alike. So votes on our ground read Openpolis
+  first (it keeps mission apart), and the X15 backlog off our ground reads
+  dati.camera.it first; each falls back to the other, and a vote Openpolis
+  still shows all 'SEC' is taken from the Camera. `positions_source`
+  records which.
+- **Members**: the Camera's deputies are matched to the Openpolis keys by
+  name, then by surname within the group (all 399 of vs19_147_041 matched;
+  the two disagreed on one position, the sitting's president), and the
+  Camera's ID is kept in `it_members.camera_id`; an unmatched deputy is
+  keyed `CD:<Camera ID>`, never guessed.
+- **Measured live**: the list for 16 September to 8 October 2026, 157
+  votes, in one second; five votes' positions in five seconds.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

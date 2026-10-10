@@ -1,5 +1,6 @@
-"""France: the Assemblée nationale, from the fr_* tables (src/fr_store.py,
-tools/fr_rollcalls.py). The Sénat is a later phase (FR5).
+"""France: the Assemblée nationale and, since FR5 (10 October 2026), the
+Sénat, from the fr_* tables (src/fr_store.py, tools/fr_rollcalls.py,
+tools/fr_senat.py).
 
 Items: every dossier législatif on our ground (taxonomy-fr for `fr`, plus
 config/watchlist-fr.yaml by dossier uid) whose latest act fell in the
@@ -16,6 +17,18 @@ majority; nothing is derived. A mise au point (a deputy saying afterwards
 they meant otherwise) never changes the record and is counted, not
 applied. A dossier's scrutins are one group, the vote solennel or the vote
 on the whole text decisive.
+
+THE SÉNAT (FR5). Its scrutins sit in fr_divisions with chamber 'senat' and
+every senator's position with the group at the vote, so they render like
+the Assemblée's, said to be the Sénat's. The Senate's data records the
+votes for and against and the majority required, never a word for the
+outcome, so no result is shown for them, only the counts and the absolute
+majority of votes cast (half the votes cast, plus one, rounded down). A
+Senate scrutin on a law the Assemblée also has is grouped with the
+Assemblée's dossier. Senate-only dossiers (fr_senat_dossiers, 'SEN-...')
+on our ground are new items when first deposited in the window, and any
+Senate dossier on our ground with a sitting already scheduled in the next
+two weeks is in the week ahead.
 
 FR4 (Chris, 10 October 2026): the first job is the aide à mourir law's
 application decrees. There is no Journal officiel collector yet, so the
@@ -38,6 +51,8 @@ from src import agenda
 from src import country_edition as ce
 
 AN = "https://www.assemblee-nationale.fr/dyn/{0}"
+SENAT_SCRUTIN = "https://www.senat.fr/scrutin-public/{0}/scr{0}-{1}.html"
+SENAT_DOSSIER = "https://www.senat.fr/dossier-legislatif/{0}.html"
 POS_YES, POS_NO, POS_ABST = ("pour",), ("contre",), ("abstention",)
 NO_LINE = ("NI",)
 AIDE_A_MOURIR = "DLR5L17N51670"
@@ -63,7 +78,10 @@ def dossier_url(ref, an_path=None):
     return AN.format("{0}/dossiers/{1}".format(legislature_of(ref), an_path or ref))
 
 
-def scrutin_url(legislature, number):
+def scrutin_url(legislature, number, chamber="an"):
+    if chamber == "senat":
+        # For a Senate scrutin `legislature` holds its session year (fr_store).
+        return SENAT_SCRUTIN.format(legislature, number)
     return AN.format("{0}/scrutins/{1}".format(legislature, number))
 
 
@@ -106,14 +124,23 @@ def _votes(conn, since, until, wl):
     out = []
     groups = {g["organe_ref"]: g["abbr"] or g["organe_ref"]
               for g in ce.rows(conn, "SELECT organe_ref, abbr FROM fr_groups")}
+    senat_titles = {r["dossier_ref"]: r["title"] for r in
+                    ce.rows(conn, "SELECT dossier_ref, title FROM fr_senat_dossiers")}
     for r in ce.rows(conn, "SELECT d.*, s.title AS dossier_title FROM fr_divisions d "
                            "LEFT JOIN fr_dossiers s USING (dossier_ref) WHERE "
                            + ce.window_sql("d.date"), (since, until)):
+        senat = r["chamber"] == "senat"
         w = bool(r["dossier_ref"]) and r["dossier_ref"] in wl
         if not ce.on_ground(r["areas"], w):
             continue
-        lines = [ce.tally_line(r["pour"], r["contre"], r["abstentions"], r["result"],
-                               VOTE_TYPES.get(r["vote_type"], r["vote_type"]))]
+        if senat:
+            cast = (r["pour"] or 0) + (r["contre"] or 0)
+            lines = [ce.tally_line(r["pour"], r["contre"], r["abstentions"], None,
+                                   "Sénat, scrutin public; absolute majority of votes cast: "
+                                   "{0}".format(cast // 2 + 1) if cast else "Sénat, scrutin public")]
+        else:
+            lines = [ce.tally_line(r["pour"], r["contre"], r["abstentions"], r["result"],
+                                   VOTE_TYPES.get(r["vote_type"], r["vote_type"]))]
         got = ce.rows(conn, "SELECT m.name, v.acteur_ref, v.group_ref, v.position, v.intended FROM fr_votes v "
                             "LEFT JOIN fr_members m USING (acteur_ref) WHERE v.division_key=?",
                             (r["division_key"],))
@@ -130,23 +157,59 @@ def _votes(conn, since, until, wl):
             lines.append("{0} mise(s) au point: deputies who said afterwards they meant to vote "
                          "otherwise; the record above stands.".format(mises))
         title = ce.clean(r["title"])
-        final = r["vote_type"] == "SPS" or title.lower().startswith(("l'ensemble", "l’ensemble"))
-        take = "Assemblée nationale, scrutin {0}".format(r["number"])
+        bare = title.lower()[4:] if senat and title.lower().startswith("sur ") else title.lower()
+        final = r["vote_type"] == "SPS" or bare.startswith(("l'ensemble", "l’ensemble"))
+        if senat:
+            take = "Sénat, scrutin {0} of the {1}-{2} session".format(
+                r["number"], r["legislature"], int(r["legislature"]) + 1)
+        else:
+            take = "Assemblée nationale, scrutin {0}".format(r["number"])
         if r["dossier_ref"]:
             take += ", on dossier {0}".format(r["dossier_ref"])
             if r["dossier_via"] == "title":
                 take += " (joined by its title)"
         out.append(ce.vote("fr", r["division_key"], r["date"], title, ce.areas_of(r["areas"]),
-                           r["tier"], w, lines, url=scrutin_url(r["legislature"], r["number"]),
+                           r["tier"], w, lines,
+                           url=scrutin_url(r["legislature"], r["number"], r["chamber"]),
                            terms=r["matched_terms"], takeaway=take,
                            own=bool(ce.areas_of(r["own_areas"])),
-                           group=r["dossier_ref"] or None, group_title=r["dossier_title"],
+                           group=r["dossier_ref"] or None,
+                           group_title=r["dossier_title"] or senat_titles.get(r["dossier_ref"]),
                            final=final, watch_key=r["dossier_ref"] if w else None))
     return out
 
 
+def _senat_watched(r, wl):
+    for k in (r["dossier_ref"], r["an_dossier_ref"]):
+        if k and k in wl:
+            return k
+    return None
+
+
+def _senat_item(r, wl, kind, take):
+    hit = _senat_watched(r, wl)
+    return ce.item("fr", kind, r["dossier_ref"], r["deposited"] if kind == "new"
+                   else r["last_sitting"], r["title"], ce.areas_of(r["areas"]), r["tier"],
+                   hit is not None, status=r["state"], url=SENAT_DOSSIER.format(r["signet"]),
+                   terms=r["matched_terms"], takeaway=take, watch_key=hit)
+
+
+def _senat_dossiers(conn, since, until, wl):
+    """FR5: Senate-only dossiers on our ground first deposited in the window
+    (a dossier the Assemblée also has comes through the Assemblée's)."""
+    out = []
+    for r in ce.rows(conn, "SELECT * FROM fr_senat_dossiers WHERE an_dossier_ref IS NULL AND "
+                     + ce.window_sql("deposited"), (since, until)):
+        if not ce.on_ground(r["areas"], _senat_watched(r, wl) is not None):
+            continue
+        out.append(_senat_item(r, wl, "new", "Sénat: {0}, deposited on {1}".format(
+            ce.clean(r["kind"]) or "dossier", ce.long_date(ce.day(r["deposited"])))))
+    return out
+
+
 def items(conn, since, until, wl):
-    return _dossiers(conn, since, until, wl) + _votes(conn, since, until, wl)
+    return (_dossiers(conn, since, until, wl) + _votes(conn, since, until, wl)
+            + _senat_dossiers(conn, since, until, wl))
 
 
 def decrees_note(today, wl):
@@ -185,6 +248,13 @@ def week_ahead(conn, today, wl):
         if not ce.on_ground(r["areas"], r["dossier_ref"] in wl) or r["dossier_ref"] in covered:
             continue
         out.append(_dossier_item(r, wl, "agenda", _take(r, ahead=True)))
+    # FR5: Senate sittings already scheduled on dossiers on our ground.
+    for r in ce.rows(conn, "SELECT * FROM fr_senat_dossiers WHERE "
+                     + ce.window_sql("last_sitting"), (today, until)):
+        if not ce.on_ground(r["areas"], _senat_watched(r, wl) is not None):
+            continue
+        out.append(_senat_item(r, wl, "agenda", "Sénat: {0}, sitting scheduled on {1}".format(
+            ce.clean(r["kind"]) or "dossier", ce.long_date(ce.day(r["last_sitting"])))))
     note = decrees_note(today, wl)
     if note:
         out.append(note)
@@ -192,14 +262,18 @@ def week_ahead(conn, today, wl):
 
 
 COUNTRY = ce.Country(
-    cc="fr", name="France", chamber="Assemblée nationale", language="French",
+    cc="fr", name="France", chamber="Assemblée nationale and Sénat", language="French",
     taxonomies=(("taxonomy-fr.yaml", "fr"),),
     items=items, week_ahead=week_ahead, ahead_note=agenda.ahead_note_fn("fr"),
     flag=":flag-fr:",
-    members_note=("Every scrutin public names every deputy's position with the group at the "
-                  "vote; nothing is derived, and a mise au point is counted, never applied"),
+    members_note=("Every scrutin public names every deputy's or senator's position with the "
+                  "group at the vote; nothing is derived, and a mise au point is counted, never "
+                  "applied"),
     coverage=("Dossiers, scrutins and deputies come from the Assemblée nationale's open data "
-              "(the weekly zips are archived, FR3). The Sénat is a later phase (FR5).",
+              "(the weekly zips are archived, FR3).",
+              "The Sénat (FR5) comes from data.senat.fr's Dosleg dump, read at most weekly and "
+              "only when it changed; it records no outcome word, so Senate votes show their "
+              "counts and the majority required.",
               "The store keeps a dossier's latest act only: an act in the week that a later "
               "scheduled act has overtaken shows under the week ahead instead.",
               "The aide à mourir decrees (FR4) have no collector yet: the week ahead carries a "

@@ -10,7 +10,12 @@
 #
 #     NL_RECLASSIFY=true    re-derive every stored NL zaak's and vote's areas,
 #                           offline, before the pull (after Chris approves
-#                           config/taxonomy-nl.yaml, or a watchlist-nl change)
+#                           config/taxonomy-nl.yaml, or a watchlist-nl change),
+#                           the Eerste Kamer's included (NL4)
+#
+# THE EERSTE KAMER (NL4, 10 October 2026): tools/nl_eerstekamer.py runs after
+# the Tweede Kamer's collector, reading eerstekamer.nl's vote pages back to two
+# weeks before its newest stored vote (the first run back to June 2023).
 #
 # Exit codes. The collector exits 3 when it stored what it could and recorded
 # gaps (in the gaps table and as [gap] lines in the log): that run is still
@@ -36,9 +41,23 @@ export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Netherlands weekly}"
 if [ "${NL_RECLASSIFY:-}" = "true" ]; then
   python3 tools/nl_rollcalls.py --reclassify
   python3 tools/nl_chamber.py --reclassify
+  python3 tools/nl_eerstekamer.py --reclassify
 fi
 rc=0
 python3 tools/nl_rollcalls.py --budget-seconds 2700 || rc=$?
+# The Eerste Kamer (NL4, 10 October 2026): its vote pages on eerstekamer.nl,
+# politely (one page a second, robots.txt respected). A gap (exit 3) is
+# reported like the Tweede Kamer's; a failure is logged and never stops the
+# Tweede Kamer's publish below (the EK pull commits only at its end).
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  ek=0
+  python3 tools/nl_eerstekamer.py --budget-seconds 600 || ek=$?
+  if [ "$ek" -eq 3 ]; then
+    rc=3
+  elif [ "$ek" -ne 0 ]; then
+    echo "  [gap] nl-eerstekamer failed (exit $ek); the Tweede Kamer is still published"
+  fi
+fi
 # What was said and asked in the chamber (tools/nl_chamber.py, parity layer 5):
 # time-boxed to what is left of the hour, never fatal, skipped on GitHub.
 bash tools/chamber_step.sh nl "$SECONDS"

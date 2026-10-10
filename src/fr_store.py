@@ -24,6 +24,24 @@ scrutin publishes its positions group by group, so `fr_votes.group_ref` is
 the group the deputy sat in on that day. `fr_members.group_ref` is only the
 latest seen.
 
+THE SENAT (FR5, Chris, 10 October 2026; added additively by
+tools/fr_senat.py). Senators, Senate groups, scrutins and positions go into
+the same tables, told apart by `chamber = 'senat'`:
+  * a senator is their Senate matricule ('14263U'), as the Senate's own
+    files key them; a Senate group is 'senat:<code>' ('senat:UC');
+  * a Senate scrutin is 'senat-<session>-<number>' ('senat-2025-317'), and
+    for it `legislature` holds the SESSION year it was cast in (the 2025-26
+    session is 2025), the Senate numbering its scrutins by session;
+  * `result` is NULL for a Senate scrutin: the dump records the votes for
+    and against and the majority required, never a word for the outcome,
+    and none is derived here;
+  * its `dossier_ref` is the Assemblee's dossier uid when the Senate's own
+    record (loi.url_an) or the Assemblee's (senat_url) links the two, else
+    'SEN-<signet>' ('SEN-ppl24-661'), a row of fr_senat_dossiers.
+fr_senat_dossiers holds the Senate's dossiers active since the 2024-25
+session; fr_senat_dump records the bulk file's headers, so it is downloaded
+at most weekly and only when it changed.
+
 A MISE AU POINT IS NOT A VOTE. A deputy may say afterwards that they meant
 to vote otherwise (1,593 of the 8,621 scrutins of the 17th legislature
 carry at least one). The official result never changes, so `position` is
@@ -109,10 +127,37 @@ SCHEMA = (
         PRIMARY KEY (division_key, acteur_ref)
     )""",
     "CREATE INDEX IF NOT EXISTS fr_divisions_dossier ON fr_divisions (dossier_ref)",
+    # --- the Senat (FR5, 10 October 2026; tools/fr_senat.py) --------------------
+    """CREATE TABLE IF NOT EXISTS fr_senat_dossiers (
+        dossier_ref  TEXT PRIMARY KEY,   -- 'SEN-ppl24-661' (the Senate's signet)
+        signet       TEXT NOT NULL,      -- 'ppl24-661'
+        loicod       TEXT,               -- the Dosleg key
+        kind         TEXT,               -- 'proposition de loi', 'projet de loi', ...
+        title        TEXT,               -- kind + the full title, encoding repaired
+        short_title  TEXT,               -- the Senate's own short name (loient)
+        state        TEXT,               -- 'en cours de discussion', 'promulgué ou adopté', ...
+        an_dossier_ref TEXT,             -- the Assemblee's uid when either side links them
+        deposited    TEXT,               -- ISO date of its first text in the Senate
+        last_sitting TEXT,               -- ISO date of its latest (or next scheduled) sitting
+        areas        TEXT,               -- JSON: taxonomy + watchlist-fr (by signet or AN uid)
+        matched_terms TEXT,
+        tier         INTEGER,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS fr_senat_dump (
+        url          TEXT PRIMARY KEY,
+        last_modified TEXT,              -- the server's Last-Modified
+        etag         TEXT,
+        size         INTEGER,
+        fetched_at   TEXT,               -- ISO date of the last download
+        parsed_at    TEXT                -- ISO date it was last read into the store
+    )""",
     "CREATE INDEX IF NOT EXISTS fr_votes_member ON fr_votes (acteur_ref)",
 )
 
-TABLES = ("fr_members", "fr_groups", "fr_dossiers", "fr_divisions", "fr_votes")
+TABLES = ("fr_members", "fr_groups", "fr_dossiers", "fr_divisions", "fr_votes",
+          "fr_senat_dossiers", "fr_senat_dump")
 
 MEMBER_UPSERT = (
     "INSERT INTO fr_members (acteur_ref, chamber, name, civility, group_ref, department, "
@@ -167,6 +212,17 @@ def add_watch_areas(res, dossier_ref, path=None):
     if res.tier is None:
         res.tier = 2
     return res
+
+
+def senat_dossier_areas(conn, dossier_ref):
+    """The areas of a Senate-only dossier ('SEN-...'), [] when unknown (FR5).
+    tools/fr_rollcalls.py's reclassify lends them to Senate scrutins."""
+    try:
+        row = conn.execute("SELECT areas FROM fr_senat_dossiers WHERE dossier_ref=?",
+                           (dossier_ref,)).fetchone()
+    except Exception:                                   # noqa: BLE001 (an old store)
+        return []
+    return json.loads(row[0] or "[]") if row else []
 
 
 def dumps(values):

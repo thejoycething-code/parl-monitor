@@ -1640,6 +1640,10 @@ TABLES = (
     "nl_zaken",
     "nl_divisions",
     "nl_votes",
+    # The Eerste Kamer (NL4, 10 October 2026; tools/nl_eerstekamer.py).
+    "nl_ek_bills",
+    "nl_ek_divisions",
+    "nl_ek_votes",
     # Poland's Sejm (tools/pl_rollcalls.py), created by
     # src/pl_store.ensure_schema -- declared from day one.
     "pl_members",
@@ -1686,6 +1690,9 @@ TABLES = (
     "fr_dossiers",
     "fr_divisions",
     "fr_votes",
+    # The Senat (FR5, 10 October 2026; tools/fr_senat.py).
+    "fr_senat_dossiers",
+    "fr_senat_dump",
     # Portugal's Assembleia da Republica (tools/pt_rollcalls.py), created by
     # src/pt_store.ensure_schema -- declared from day one.
     "pt_members",
