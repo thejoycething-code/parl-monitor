@@ -1,0 +1,112 @@
+# Campaign briefs for the new countries (tools/country_briefs.py,
+# src/country_briefs.py). Hand-edited. 10 October 2026.
+#
+# language: "local" writes each brief's campaigner text in the country's own
+# language (Chris, 10 October 2026: "in the country's language"); "en" writes
+# it in English, as rulebook rule 6 (docs/brief-builder/rulebook.md) and the
+# German briefs do. Cell labels, the form's header values and the Builder tab
+# are English either way.
+language: local
+
+campaigner:
+  name: Christopher Joyce
+  email: cjoyce@citizengo.net
+
+# Per country:
+#   list         the Asana form's List value (rulebook cell 5)
+#   lang         phrase table in src/brief_phrases.py
+#   language     cell 16's language and variant (English, for the copy step)
+#   chamber      the deciding body, in the country's own words
+#   chambers     the store's chamber codes -> names (bicameral countries)
+#   members      what members are called, plural, in the country's language
+#   terms        institutional terms for cell 16, in the country's language
+#   publisher    the primary source's name for cell 28
+#   glossary     official term -> CitizenGO framing, by bill key (cell 1;
+#                rulebook dependency 1, starts empty)
+#   allies, opponents   the registers (rulebook: campaigner-maintained, start
+#                empty); a proposed addition goes on the Builder tab first
+countries:
+  es: {list: HO, lang: es, language: "Spanish (Spain)", chamber: "Congreso de los Diputados",
+       members: diputados, publisher: "Congreso de los Diputados",
+       terms: "diputados, el Congreso, el Pleno, toma en consideración, enmiendas, la Comisión"}
+  it: {list: IT, lang: it, language: "Italian", chamber: "Parlamento",
+       chambers: {camera: "Camera dei deputati", senato: "Senato della Repubblica", C: "Camera dei deputati", S: "Senato della Repubblica"},
+       members: parlamentari, publisher: "Parlamento italiano",
+       terms: "deputati e senatori, l'Aula, la Commissione, il disegno di legge, la votazione finale, gli emendamenti"}
+  fr: {list: FR, lang: fr, language: "French (France)", chamber: "Assemblée nationale",
+       members: députés, publisher: "Assemblée nationale",
+       terms: "les députés, l'Assemblée nationale, la séance publique, la commission, le scrutin public, les amendements"}
+  nl: {list: NL BE, lang: nl, language: "Dutch (Netherlands)", chamber: "Tweede Kamer",
+       members: Kamerleden, publisher: "Tweede Kamer",
+       terms: "Kamerleden, de Tweede Kamer, de plenaire stemming, moties, amendementen, het wetsvoorstel"}
+  be: {list: NL BE, lang: nl, language: "Dutch (Belgian)", chamber: "Kamer van volksvertegenwoordigers",
+       members: Kamerleden, publisher: "De Kamer",
+       terms: "Kamerleden, de Kamer, de plenaire vergadering, de commissie, het wetsvoorstel, amendementen"}
+  at: {list: DE AT, lang: de, language: "German (Austrian)", chamber: "Nationalrat",
+       chambers: {NR: Nationalrat, BR: Bundesrat},
+       members: Abgeordneten, publisher: "Parlament Österreich",
+       terms: "Abgeordnete, der Nationalrat, das Plenum, der Ausschuss, die Regierungsvorlage, der Entschließungsantrag"}
+  ch: {list: DE CH, lang: de, swiss: true, language: "German (Swiss: ss, never ß)", chamber: "Bundesversammlung",
+       chambers: {NR: Nationalrat, SR: Ständerat, N: Nationalrat, S: Ständerat},
+       members: Ratsmitglieder, publisher: "Das Schweizer Parlament",
+       terms: "Nationalrätinnen und Nationalräte, Ständerätinnen und Ständeräte, die Gesamtabstimmung, die Kommission, die Vorlage"}
+  pl: {list: PL, lang: pl, language: "Polish", chamber: "Sejm",
+       members: posłowie, publisher: "Sejm RP",
+       terms: "posłowie, Sejm, pierwsze czytanie, głosowanie nad całością, poprawki, druk sejmowy"}
+  pt: {list: PT PT, lang: pt, language: "Portuguese (Portugal)", chamber: "Assembleia da República",
+       members: deputados, publisher: "Assembleia da República",
+       terms: "deputados, a Assembleia da República, a votação na generalidade, a especialidade, a votação final global"}
+  hr: {list: HR, lang: hr, language: "Croatian", chamber: "Hrvatski sabor",
+       members: zastupnici, publisher: "Hrvatski sabor",
+       terms: "zastupnici, Sabor, prvo čitanje, drugo čitanje, amandmani, glasovanje"}
+  sk: {list: SK, lang: sk, language: "Slovak", chamber: "Národná rada SR",
+       members: poslanci, publisher: "Národná rada Slovenskej republiky",
+       terms: "poslanci, Národná rada, prvé čítanie, druhé čítanie, pozmeňujúce návrhy, hlasovanie"}
+  hu: {list: HU, lang: hu, language: "Hungarian", chamber: "Országgyűlés",
+       members: képviselők, publisher: "Országgyűlés",
+       terms: "képviselők, az Országgyűlés, általános vita, részletes vita, zárószavazás, módosító javaslat"}
+  br: {list: PT BR, lang: pt, language: "Portuguese (Brazil)", chamber: "Congresso Nacional",
+       chambers: {camara: "Câmara dos Deputados", senado: "Senado Federal"},
+       members: parlamentares, publisher: "Congresso Nacional",
+       terms: "deputados e senadores, a Câmara, o Senado, o plenário, o projeto de lei, a PEC, as emendas"}
+  ar: {list: ES AR, lang: es, language: "Spanish (Latin American, Argentina)", chamber: "Congreso de la Nación",
+       chambers: {senado: "Senado de la Nación", sen: "Senado de la Nación", diputados: "Cámara de Diputados de la Nación", dip: "Cámara de Diputados de la Nación"},
+       members: legisladores, publisher: "Congreso de la Nación Argentina",
+       terms: "diputados y senadores, la Cámara, el Senado, la sesión, el dictamen, el expediente"}
+  mx: {list: ES MX, lang: es, language: "Spanish (Latin American, Mexico)", chamber: "Cámara de Diputados",
+       members: diputados, publisher: "Cámara de Diputados",
+       terms: "diputados, la Cámara de Diputados, el Pleno, el dictamen, en lo general y en lo particular, la iniciativa"}
+  cl: {list: ES LATAM, lang: es, language: "Spanish (Latin American, Chile)", chamber: "Congreso Nacional",
+       chambers: {camara: "Cámara de Diputadas y Diputados", senado: "Senado"},
+       members: parlamentarios, publisher: "Congreso Nacional de Chile",
+       terms: "diputados y senadores, la Sala, el boletín, el primer trámite, la comisión mixta"}
+  pe: {list: ES LATAM, lang: es, language: "Spanish (Latin American, Peru)", chamber: "Congreso de la República",
+       members: congresistas, publisher: "Congreso de la República del Perú",
+       terms: "congresistas, el Pleno, el dictamen, el proyecto de ley, la segunda votación"}
+  ec: {list: ES LATAM, lang: es, language: "Spanish (Latin American, Ecuador)", chamber: "Asamblea Nacional",
+       members: asambleístas, publisher: "Asamblea Nacional del Ecuador",
+       terms: "asambleístas, el Pleno, el primer debate, el segundo debate, la comisión"}
+  do: {list: ES LATAM, lang: es, language: "Spanish (Latin American, Dominican Republic)", chamber: "Cámara de Diputados",
+       members: diputados, publisher: "Cámara de Diputados de la República Dominicana",
+       terms: "diputados, el Pleno, la primera lectura, la segunda lectura, la comisión"}
+  sv: {list: ES LATAM, lang: es, language: "Spanish (Latin American, El Salvador)", chamber: "Asamblea Legislativa",
+       members: diputados, publisher: "Asamblea Legislativa de El Salvador",
+       terms: "diputados, el Pleno, el dictamen, la pieza de correspondencia, el expediente"}
+  gt: {list: ES LATAM, lang: es, language: "Spanish (Latin American, Guatemala)", chamber: "Congreso de la República",
+       members: diputados, publisher: "Congreso de la República de Guatemala",
+       terms: "diputados, el Pleno, la iniciativa, el tercer debate, la redacción final"}
+  co: {list: ES LATAM, lang: es, language: "Spanish (Latin American, Colombia)", chamber: "Congreso de la República",
+       members: congresistas, publisher: "Congreso de la República de Colombia",
+       terms: "congresistas, la plenaria, el primer debate, la ponencia, el proyecto de ley"}
+  bo: {list: ES LATAM, lang: es, language: "Spanish (Latin American, Bolivia)", chamber: "Asamblea Legislativa Plurinacional",
+       members: asambleístas, publisher: "Asamblea Legislativa Plurinacional",
+       terms: "asambleístas, la Cámara de Diputados, la Cámara de Senadores, el proyecto de ley"}
+  uy: {list: ES LATAM, lang: es, language: "Spanish (Latin American, Uruguay)", chamber: "Asamblea General",
+       members: legisladores, publisher: "Parlamento del Uruguay",
+       terms: "diputados y senadores, la Cámara, el Senado, el repartido, el proyecto de ley"}
+  pa: {list: ES LATAM, lang: es, language: "Spanish (Latin American, Panama)", chamber: "Asamblea Nacional",
+       members: diputados, publisher: "Asamblea Nacional de Panamá",
+       terms: "diputados, el Pleno, el primer debate, el tercer debate, el anteproyecto"}
+  hn: {list: ES LATAM, lang: es, language: "Spanish (Latin American, Honduras)", chamber: "Congreso Nacional",
+       members: diputados, publisher: "Congreso Nacional de Honduras",
+       terms: "diputados, el Pleno, el dictamen, el decreto, el debate"}
