@@ -46,6 +46,26 @@ then this runs with NO terms: everything is stored, only watchlist prints
 are on our ground, and only their votes get positions. --taxonomy points it
 at a draft for measuring.
 
+BILL DOCUMENTS (SK6, Chris, 10 October 2026). Where a title says only
+which act a print amends, the bill itself says what it does. Each print's
+web page (sid=zakony/cpt, keyed by term and print number) lists its
+documents; the collector reads the two that say what a bill does, the bill
+text ("Návrh zákona") and the explanatory memorandum ("Dôvodová správa"),
+as Word files (a .docx is a zip of XML: src/eudoc.paragraphs) or PDFs
+(src/sv_pdf.pdf_lines, stdlib), and matches them passage by passage with
+the same taxonomy (src/filter.match_passages: only passages with a tier-1
+term count, so a stray tier-2 word in thirty pages lends nothing). Which
+prints: every bill (typ 1) whose title amends an act ("ktorým sa mení /
+dopĺňa", 821 of the term's 926 bills on 10 October 2026) or a constitutional
+law, and every print already on our ground, ours first, then newest first,
+within --doc-budget-seconds (default 15 minutes a week; the term's backlog
+drains in about six weeks at the speeds measured, the print page taking 2 to
+270 seconds). A print is read once (docs_read); a page that fails is a gap
+and is retried next week; a document that is neither Word nor PDF (old .doc)
+is noted in doc_ids and not retried. A vote inherits its print's areas, so
+a print the documents bring onto our ground brings its votes, and their
+positions are queued as for any other vote on our ground.
+
 CHECKED, NOT TRUSTED. A vote page whose positions do not add up to the
 totals in the open data is stored and recorded as a gap. A page with no
 position table (a secret ballot, an ID that is not a vote) stores nothing.
@@ -67,7 +87,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, drain, filter as filt, sk_store  # noqa: E402
+from src import db, drain, eudoc, filter as filt, sk_store, sv_pdf  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "sk-rollcalls"
@@ -79,6 +99,16 @@ TAXONOMY = os.path.join(ROOT, "config", "taxonomy-sk.yaml")
 TAXONOMY_COUNTRY = "sk"
 OPENDATA = "https://www.nrsr.sk/opendata/1/sk/"
 VOTE_PAGE = "https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID={0}"
+# SK6: a print's page (its documents) and one document.
+PRINT_PAGE = ("https://www.nrsr.sk/web/Default.aspx?sid=zakony/cpt&ZakZborID=13"
+              "&CisObdobia={term}&ID={tlac}")
+DOCUMENT = "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID={0}"
+# The document categories that say what a bill does (the part in brackets
+# after each document's name on the print page).
+DOC_CATEGORIES = ("Návrh zákona", "Dôvodová správa")
+DOC_BUDGET_S = 900
+# A bill titled by the act it amends, or a constitutional law.
+AMENDS = re.compile(r"ktorým sa (?:mení|menia|dopĺňa|dopĺňajú)|ústavn\w* zákon", re.I)
 BUDGET_S = drain.DEFAULT_S
 # Migration is collated, never campaigned (src/partner.py HIDDEN_AREAS).
 HIDDEN_AREAS = (11,)
@@ -201,6 +231,7 @@ def classify_bill(tax, wl, b):
 
 def store_bill(conn, b, res, today):
     key = bill_key(b["term"], b["tlac"])
+    sk_store.add_document_areas(conn, res, key)       # SK6: never drop what documents found
     conn.execute(
         "INSERT INTO sk_bills (bill_key, term, tlac, od_id, type_id, type_name, title, delivered, "
         "areas, matched_terms, tier, first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) "
@@ -406,6 +437,147 @@ def pull_positions(conn, client, today, term=CURRENT_TERM, everything=False, bud
     return read, gaps
 
 
+# --- bill documents (SK6) ------------------------------------------------------
+
+_DOC_LINK = re.compile(r"<a href='[^']*Download\.aspx\?DocID=(\d+)'[^>]*>\s*"
+                       r'<img src="[^"]*/img/(\w+)\.gif"\s*alt="([^"]*)"')
+
+
+def parse_print_page(text):
+    """[{id, fmt, name, category}] from a print's page. The image's alt text
+    reads 'Name (Category)': 'Dôvodová správa - všeobecná (Dôvodová správa)'."""
+    out = []
+    for doc_id, fmt, alt in _DOC_LINK.findall(text or ""):
+        alt = html.unescape(alt).strip()
+        m = re.match(r"^(.*?)\s*\(([^()]*)\)\s*$", alt)
+        name, category = (m.group(1), m.group(2)) if m else (alt, "")
+        out.append({"id": int(doc_id), "fmt": fmt.lower(), "name": name.strip(),
+                    "category": category.strip()})
+    return out
+
+
+def wanted_documents(docs):
+    return [d for d in docs if d["category"] in DOC_CATEGORIES]
+
+
+def document_text(blob, fmt):
+    """The text of a Word (.docx) or PDF document; '' for anything else."""
+    if not blob:
+        return ""
+    if blob[:2] == b"PK":                             # .docx, whatever the icon says
+        return "\n".join(eudoc.paragraphs(blob))
+    if blob[:5] == b"%PDF-":
+        return "\n".join(line for page in sv_pdf.pdf_lines(blob) for line in page)
+    return ""
+
+
+def document_candidates(conn, term):
+    """Prints whose documents are still unread: bills that amend an act or
+    are constitutional, and anything on our ground; ours first, newest first."""
+    rows = conn.execute(
+        "SELECT bill_key, tlac, title, type_id, areas, delivered FROM sk_bills WHERE term=? "
+        "AND docs_read IS NULL ORDER BY delivered DESC, CAST(tlac AS INTEGER) DESC",
+        (term,)).fetchall()
+    ours = [r for r in rows if on_our_ground(json.loads(r[4] or "[]"))]
+    rest = [r for r in rows if r not in ours and r[3] == 1 and AMENDS.search(r[2] or "")]
+    return ours + rest
+
+
+def classify_documents(tax, wl, texts, known=()):
+    """(areas, terms, excerpt) over the documents' passages (tier 1 only).
+    The excerpt is the strongest passage for an area the title did not
+    already give (`known`), so it shows why the documents matter; failing
+    that, the strongest passage."""
+    matches = []
+    for text in texts:
+        matches.extend(filt.match_passages(tax, wl, text))
+    areas, terms, excerpt = filt.aggregate_passages(matches, max_excerpt=300)
+    new = [m for m in matches if set(m.result.issue_areas or []) - set(known)]
+    if new:
+        _a, _t, excerpt = filt.aggregate_passages(new, max_excerpt=300)
+    return areas, terms, excerpt
+
+
+def rederive_divisions(conn, bkey, tax, wl):
+    """A print's areas changed: its votes inherit them again."""
+    for vid, name in conn.execute("SELECT voting_id, name FROM sk_divisions WHERE bill_key=?",
+                                  (bkey,)).fetchall():
+        own, combined = classify_division(tax, wl, {"name": name}, _bill_areas(conn, bkey))
+        conn.execute("UPDATE sk_divisions SET areas=? WHERE voting_id=?",
+                     (sk_store.dumps(combined), vid))
+
+
+def read_documents(conn, client, today, term=CURRENT_TERM, tax=None, wl=None, budget=None,
+                   limit=None, log=print):
+    """SK6: read the documents of the prints still owed. Returns (read,
+    gained, gaps): prints read, prints the documents brought onto our ground
+    or into a new area, and pages that failed."""
+    tax = tax if tax is not None else load_taxonomy()
+    wl = wl if wl is not None else empty_watchlist()
+    read = gained = gaps = 0
+    for bkey, tlac, _title, _type, areas_raw, _d in document_candidates(conn, term):
+        if limit is not None and read >= limit:
+            log("  document cap ({0}) reached; the rest on the next run".format(limit))
+            break
+        if budget is not None and budget.exhausted():
+            log(budget.disclose("print documents", read))
+            break
+        try:
+            page = client.get_text(PRINT_PAGE.format(term=term, tlac=tlac), FEED,
+                                   "print-{0}-{1}".format(term, tlac))
+        except FetchError as exc:
+            _gap(conn, today, "print {0} page: {1}".format(bkey, exc))
+            log("  [gap] print {0}: {1}".format(bkey, str(exc)[:70]))
+            gaps += 1
+            continue
+        texts, notes = [], []
+        for d in wanted_documents(parse_print_page(page)):
+            try:
+                blob = client.get_bytes(DOCUMENT.format(d["id"]), FEED,
+                                        "doc-{0}".format(d["id"]))
+                text = document_text(blob, d["fmt"])
+            except FetchError as exc:
+                notes.append({"id": d["id"], "name": d["name"], "fmt": d["fmt"],
+                              "error": str(exc)[:120]})
+                continue
+            except Exception as exc:                    # noqa: BLE001 (a malformed file)
+                text = ""
+                notes.append({"id": d["id"], "name": d["name"], "fmt": d["fmt"],
+                              "unreadable": type(exc).__name__})
+                continue
+            notes.append({"id": d["id"], "name": d["name"], "fmt": d["fmt"], "chars": len(text)})
+            if text:
+                texts.append(text)
+        if any("error" in n for n in notes):
+            # A document refused: not marked read, so the whole print is
+            # tried again next week.
+            _gap(conn, today, "print {0}: a document was refused".format(bkey))
+            gaps += 1
+            continue
+        areas, terms, excerpt = classify_documents(tax, wl, texts, json.loads(areas_raw or "[]"))
+        conn.execute("UPDATE sk_bills SET docs_read=?, doc_ids=?, doc_areas=?, doc_terms=?, "
+                     "doc_excerpt=? WHERE bill_key=?",
+                     (today, json.dumps(notes, ensure_ascii=False), sk_store.dumps(areas),
+                      sk_store.dumps(terms), excerpt, bkey))
+        before = json.loads(areas_raw or "[]")
+        merged = sorted(set(before) | set(areas or []))
+        if merged != sorted(before):
+            gained += 1
+            row = conn.execute("SELECT matched_terms, tier FROM sk_bills WHERE bill_key=?",
+                               (bkey,)).fetchone()
+            mt = json.loads(row[0] or "[]")
+            mt += [t for t in terms if t not in mt]
+            conn.execute("UPDATE sk_bills SET areas=?, matched_terms=?, tier=? WHERE bill_key=?",
+                         (sk_store.dumps(merged), sk_store.dumps(mt),
+                          row[1] if row[1] is not None else 2, bkey))
+            rederive_divisions(conn, bkey, tax, wl)
+            log("  [documents] {0}: {1} -> {2} ({3})".format(
+                bkey, before or "[]", merged, ", ".join(terms[:4])))
+        conn.commit()
+        read += 1
+    return read, gained, gaps
+
+
 # --- interpellations ------------------------------------------------------------
 
 def parse_interpellations(records):
@@ -463,6 +635,7 @@ def reclassify(conn, tax=None, log=print):
     for (key, term, tlac, title, areas) in conn.execute(
             "SELECT bill_key, term, tlac, title, areas FROM sk_bills").fetchall():
         res = classify_bill(tax, wl, {"term": term, "tlac": tlac, "title": title})
+        sk_store.add_document_areas(conn, res, key)
         new = sk_store.dumps(res.issue_areas)
         changed_b += new != (areas or "[]")
         conn.execute("UPDATE sk_bills SET areas=?, matched_terms=?, tier=? WHERE bill_key=?",
@@ -512,6 +685,11 @@ def main():
     ap.add_argument("--positions", choices=("ours", "all", "none"), default="all",
                     help="which votes' per-member pages to read (default: ours)")
     ap.add_argument("--no-interpellations", action="store_true")
+    ap.add_argument("--no-documents", action="store_true",
+                    help="skip reading bill documents (SK6)")
+    ap.add_argument("--doc-budget-seconds", type=float, default=DOC_BUDGET_S,
+                    help="clock budget for bill documents (SK6; default %(default)s)")
+    ap.add_argument("--doc-limit", type=int, help="stop after this many prints' documents")
     ap.add_argument("--reclassify", action="store_true",
                     help="re-derive areas for stored prints, votes and interpellations, offline")
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
@@ -550,6 +728,15 @@ def main():
     if not args.no_interpellations:
         read, ours = pull_interpellations(conn, client, today, args.term, tax, wl)
         print("sk-rollcalls: {0} interpellation(s), {1} on our ground".format(read, ours))
+    if not args.no_documents:
+        # SK6, before the positions: a print the documents bring onto our
+        # ground queues its votes' positions for the drain below.
+        read, gained, g = read_documents(conn, client, today, args.term, tax, wl,
+                                         budget=drain.Budget(args.doc_budget_seconds),
+                                         limit=args.doc_limit)
+        gaps += g
+        print("sk-rollcalls: documents of {0} print(s) read, {1} gained an area, {2} gap(s)"
+              .format(read, gained, g))
     if args.positions != "none":
         read, g = pull_positions(conn, client, today, args.term,
                                  everything=args.positions == "all", budget=budget,

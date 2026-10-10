@@ -28,7 +28,8 @@
 # gap turns the GitHub step red and the failure alert hears of it.
 #
 # The vote pages are slow (1.7 to 96 seconds each, measured 9 October 2026),
-# so the collector stops reading them at 45 minutes and the next run resumes;
+# so the collector stops reading them at 35 minutes (and the bill documents,
+# SK6, at 10) and the next run resumes;
 # everything else it reads in under a minute.
 # mini_run: commit editions
 set -eo pipefail
@@ -41,7 +42,10 @@ if [ "${SK_RECLASSIFY:-}" = "true" ]; then
   python3 tools/sk_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/sk_rollcalls.py --budget-seconds 2700 || rc=$?
+# SK6 (10 October 2026): the bill documents take the first 10 minutes of the
+# old 45-minute positions budget, so the job's length is unchanged (the
+# Mini's JOB_TIMEOUT and the workflow's are both an hour).
+python3 tools/sk_rollcalls.py --doc-budget-seconds 600 --budget-seconds 2100 || rc=$?
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   # The weekly edition (src/country_edition.py, tools/sk_monitor.py), to Chris
   # alone by DM, archived to editions/. Once a day: an edition already
