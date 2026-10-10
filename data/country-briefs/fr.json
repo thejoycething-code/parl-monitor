@@ -1,0 +1,46 @@
+{
+ "fr-nomination-de-rapporteur-ruanr5l17s2027idc461260pt37876": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "d122ea8911321855532d6a0d4198545945370ce44de0b067278a0b98737f0df6",
+  "generated": "2026-10-10",
+  "key": "RUANR5L17S2027IDC461260PT37876",
+  "ready": false,
+  "sha": "d2dff91df2049d1543ef8fc351ff1bf82d3c905412c356feef07dbb56ffac977",
+  "title": "Nomination de rapporteur"
+ },
+ "fr-proteger-les-mineurs-contre-les-dangers-des-rese-dlr5l17n54708": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "8b8b0eda064a1b03029bcc8ca2d91b812f164cd61f44685a16dcc472932590a9",
+  "generated": "2026-10-10",
+  "key": "DLR5L17N54708",
+  "ready": false,
+  "sha": "488eb5476ae9c744540d7ba9f566313321822bad0e313b1c55a270529a843fbb",
+  "title": "Protéger les mineurs contre les dangers des réseaux sociaux"
+ },
+ "fr-rapport-d-information-depose-en-application-de-l-dlr5l17n55019": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "9f10689e4f0d71517968c8a0f9768a940724419bd0467a5c4bf1afa7d8466a36",
+  "generated": "2026-10-10",
+  "key": "DLR5L17N55019",
+  "ready": false,
+  "sha": "e3c73b121466425b07c25c23b675ebceb68cb016c2fac1a6af4fbe7413a0c6f8",
+  "title": "Rapport d'information déposé en application de l'article 145 du règlement, par la commission des affaires culturelles et de l'éducation, en conclusion des travaux d'une mission d'information sur l’instruction en famille"
+ },
+ "fr-supprimer-la-clause-de-conscience-specifique-en-dlr5l17n54992": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "c9d188978e9191d1e1d50d8dceda92ae61b45cbf562d7f6d8ea89ce966f2f5b6",
+  "generated": "2026-10-10",
+  "key": "DLR5L17N54992",
+  "ready": false,
+  "sha": "a609e2d4659c0ee1177b0f37bc54e948f2a03fe8967f79241a314ee0ffedc195",
+  "title": "Supprimer la clause de conscience spécifique en matière d’interruption volontaire de grossesse"
+ }
+}
