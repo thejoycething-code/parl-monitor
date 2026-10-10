@@ -264,6 +264,35 @@ aide a mourir law: each needs its text read. Peru, El Salvador and Guatemala
 have bill directions but no qualifying votes in any store yet.
 
 
+## The new countries' tracker and partner sheet (10 October 2026, branch `camp-5ca-sheets`)
+
+`tools/make_country_5ca_web.py`, the new-country counterpart of
+`make_5ca_tracker.py`: ONE page with a country switcher (twenty-one
+countries do not fit the UK tracker's single scroll), the tracker's look and
+per-area block (the gradient bar, the change since last week, the names
+behind each decisive column).
+
+* **One gate.** The page reads `country5ca.publishable_sheets`, the same
+  generator `run_sheets` now uses for the CSVs, so a page and a sheet cannot
+  disagree: an area appears only with a confirmed reading that places
+  someone.
+* **Before sign-off** each country shows "Awaiting sign-off: N readings"
+  (proposed, procedural, need reading) and no placement of any kind; a
+  country with no qualifying vote says so. A country awaiting sign-off needs
+  no store; one with confirmed readings whose store cannot be read is "not
+  shown this week" internally and kept off the partner page (fail closed).
+* **Internal** `docs/5ca-countries.html`: every country, plus the signer and
+  the sign-off guide for each, and a hover with "based on" and confidence.
+* **Partner** `partner_site/5ca-countries.html`: written only while at least
+  one country has a confirmed placement, those countries only; removed
+  otherwise. `src/partner.py` links it in the partner nav only while the file
+  exists. No signers, guides or confidence.
+* **AT, PT, NL**: a note above the sheets, and a DERIVED tag on each member
+  placed from the group's vote (X5).
+* English, as the UK 5CA pages; members and parties as each parliament
+  names them. Weekly in `jobs/editions-session-judge.sh` after
+  `country_5ca.py`; the Monday deploy ships the partner page.
+
 ## Campaign targets and outcomes for the new countries (10 October 2026, branch `camp-targets`)
 
 `tools/country_campaign.py` (src/country_campaign.py) is the UK's
