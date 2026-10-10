@@ -586,5 +586,29 @@ class FranceScopeTests(unittest.TestCase):
                 self.assertTrue(c5.entry_in_scope("fr", e, wl), k)
 
 
+class OnKeyTests(Base):
+    def test_on_key_is_written_quoted_and_both_spellings_read(self):
+        self.draft()
+        path = c5.stance_path("pl", self.cfg)
+        with open(path, encoding="utf-8") as h:
+            text = h.read()
+        self.assertNotRegex(text, r"(?m)^    on: ")
+        self.assertRegex(text, r'(?m)^    "on": ')
+        quoted = self.entries()
+        self.assertNotIn(True, quoted["pl-10-1-1"])
+        self.assertEqual(quoted["pl-10-1-1"]["on"], "Pkt. 5 Sprawozdanie")
+        with open(path, "w", encoding="utf-8") as h:          # a legacy file: bare `on:`
+            h.write(text.replace('    "on": ', "    on: "))
+        legacy = self.entries()
+        self.assertEqual(legacy, quoted)
+        self.assertEqual(r5.load_stance(path)["pl-10-1-1"]["on"], "Pkt. 5 Sprawozdanie")
+        self.assertIn("- **On:** Pkt. 5", c5.signoff_markdown("pl", self.cfg))
+
+    def test_live_files_quote_the_key(self):
+        for cc in c5.COUNTRIES:
+            with open(c5.stance_path(cc), encoding="utf-8") as h:
+                self.assertNotRegex(h.read(), r"(?m)^    on: ", cc)
+
+
 if __name__ == "__main__":
     unittest.main()

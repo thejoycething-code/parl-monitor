@@ -659,6 +659,16 @@ def doc_path(cc, docs_dir=None):
     return os.path.join(docs_dir or DOCS, "5ca-{0}-readings.md".format(cc))
 
 
+def norm_entry(e):
+    """An entry with YAML 1.1's boolean key put right: a bare `on:` reads as
+    True, so the writer quotes it ("on":) and every reader accepts both."""
+    if isinstance(e, dict) and True in e:
+        e = dict(e)
+        val = e.pop(True)
+        e.setdefault("on", val)
+    return e
+
+
 def load(cc, config_dir=None):
     """(divisions, bill_directions, meta), each {key: entry}, drafts included."""
     import yaml
@@ -667,8 +677,8 @@ def load(cc, config_dir=None):
         return {}, {}, {}
     with open(path, encoding="utf-8") as h:
         cfg = yaml.safe_load(h) or {}
-    divs = {str(e["key"]): e for e in (cfg.get("divisions") or []) if e.get("key")}
-    bills = {str(e["key"]): e for e in (cfg.get("bill_directions") or []) if e.get("key")}
+    divs = {str(e["key"]): norm_entry(e) for e in (cfg.get("divisions") or []) if e.get("key")}
+    bills = {str(e["key"]): norm_entry(e) for e in (cfg.get("bill_directions") or []) if e.get("key")}
     return divs, bills, {k: v for k, v in cfg.items() if k not in ("divisions", "bill_directions")}
 
 
@@ -737,7 +747,8 @@ def entry_yaml(e):
             val = v
         else:
             val = _q(v)
-        lines.append("{0}{1}: {2}".format("  - " if not lines else "    ", k, val))
+        name = '"on"' if k == "on" else k          # a bare `on` is boolean True in YAML 1.1
+        lines.append("{0}{1}: {2}".format("  - " if not lines else "    ", name, val))
     return "\n".join(lines) + "\n"
 
 
@@ -1112,7 +1123,7 @@ def prune_out_of_scope(cc, config_dir=None, wl=None, dry_run=False, log=print):
     if not text.endswith("\n"):
         text += "\n"
     import yaml
-    after = {str(e["key"]): e for e in (yaml.safe_load(text).get("divisions") or [])}
+    after = {str(e["key"]): norm_entry(e) for e in (yaml.safe_load(text).get("divisions") or [])}
     want = {k: e for k, e in divs.items() if k not in set(got["removed"])}
     if after != want:
         raise SystemExit("{0}: the pruned file would not hold exactly the kept entries; "
