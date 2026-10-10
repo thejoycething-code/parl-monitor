@@ -885,7 +885,10 @@ ON_DEMAND = {
                               "readings, rewrites their sign-off guides and "
                               "sheets, and sends the weekly stances-awaiting-"
                               "sign-off digest (tools/country_5ca.py, "
-                              "tools/stance_digest.py): offline, no table written.",
+                              "tools/stance_digest.py), and writes the 5CA "
+                              "tracker and gated partner sheet "
+                              "(tools/make_country_5ca_web.py): offline, no "
+                              "table written.",
     "Provinces backfill": "run by hand on the Mac Mini (jobs/prov-backfill.sh): "
                           "a province's earlier sessions or Hansard days, read "
                           "until nothing is owed; never the weekly's heartbeat.",
