@@ -337,6 +337,12 @@ FEEDS = [
     ("nl_fracties", "last_seen", 7, 4, "Tweede Kamer fracties (Netherlands weekly)"),
     ("nl_divisions", "last_seen", 31, 31, "Tweede Kamer votes (Netherlands weekly)"),
     ("nl_zaken", "last_seen", 31, 31, "Zaken voted on in the Tweede Kamer (Netherlands weekly)"),
+    # The Eerste Kamer (NL4, 10 October 2026): votes are re-stamped while
+    # they sit in the two weeks the collector re-reads behind its newest, so
+    # a recess stops them as it stops the Tweede Kamer's.
+    ("nl_ek_divisions", "last_seen", 31, 31, "Eerste Kamer votes, from its web pages (Netherlands weekly, NL4)"),
+    # A bill is re-stamped with its vote, so the same.
+    ("nl_ek_bills", "last_seen", 31, 31, "Bills the Eerste Kamer voted on (Netherlands weekly, NL4)"),
     # Poland (9 October 2026). MEASURED which re-stamp: the deputy list, the
     # print list and every process page are re-read whole on every run, so
     # those move every week, recess included. Votes move only when a sitting
@@ -396,6 +402,10 @@ FEEDS = [
     ("fr_dossiers", "last_seen", 7, 4, "Assemblee nationale dossiers legislatifs (France weekly)"),
     ("fr_members", "last_seen", 7, 4, "Assemblee nationale deputies (France weekly)"),
     ("fr_divisions", "last_seen", 31, 31, "Assemblee nationale scrutins (France weekly)"),
+    # The Senat (FR5, 10 October 2026): every active dossier is re-stamped
+    # each time the Dosleg dump is read, which is at most weekly and only
+    # when it changed (it is regenerated nightly), so about every seven days.
+    ("fr_senat_dossiers", "last_seen", 14, 7, "Senat dossiers, from the Dosleg dump (France weekly, FR5)"),
     # Portugal (9 October 2026). MEASURED which re-stamp: the Assembleia's
     # dumps are per legislature and re-read whole every run, and every
     # initiative, vote and deputy in them is upserted, so all three move every
@@ -823,6 +833,17 @@ AWAITING_FIRST_RUN = {
     "IE debates": (("ie_speeches",),
                    "debates step added to Ireland weekly 9 October 2026; the table "
                    "fills on the step's first run"),
+    # STEP heartbeats for the parity phases of 10 October 2026: each step
+    # stamps its own source_runs row after a stored run, because the weekly
+    # it belongs to had its heartbeat before these tables existed.
+    # tools/nl_eerstekamer.py (NL4) stamps "NL Eerste Kamer"; tools/fr_senat.py
+    # (FR5) stamps "FR Senat" after it has read the dump into the store.
+    "NL Eerste Kamer": (("nl_ek_divisions", "nl_ek_bills"),
+                        "Eerste Kamer step (NL4) added to Netherlands weekly 10 October "
+                        "2026; its tables fill on the step's first run"),
+    "FR Senat": (("fr_senat_dossiers",),
+                 "Senat step (FR5) added to France weekly 10 October 2026; the table "
+                 "fills on the step's first run"),
     "Provinces speeches": (("prov_speeches", "prov_speech_sittings"),
                            "Hansard speeches step added to Provinces weekly 2 October 2026; "
                            "its tables fill on the step's first run"),
@@ -880,6 +901,10 @@ ON_DEMAND = {
     "Canada backfill": "run by hand on the Mac Mini (jobs/ca-backfill.sh): "
                        "earlier sessions, the Gazette, federal backfills and "
                        "repairs; the Tuesday weekly does the routine reads.",
+    "Slovakia documents backfill": "run by hand on the Mac Mini "
+                                   "(jobs/sk-docs-backfill.sh, SK6): the term's "
+                                   "backlog of bill documents, rerun until no print "
+                                   "is owed; the weekly reads new prints' documents.",
     "Hungary karzat backfill": "run by hand on the Mac Mini, once "
                                "(jobs/hu-karzat-backfill.sh): the 43rd term's "
                                "papers and votes to 28 August 2026 from karzat's "
