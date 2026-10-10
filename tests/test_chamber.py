@@ -353,6 +353,25 @@ class PolandTests(unittest.TestCase):
         self.assertTrue(got[20311]["url"].startswith("https://sejm.gov.pl/"))
 
 
+class PortugalTests(unittest.TestCase):
+
+    def test_questions_and_requests(self):
+        import pt_chamber
+        rec = {"Assunto": "Acesso ao planeamento familiar e a métodos contracetivos",
+               "Autores": [{"GP": "PCP", "idCadastro": "1", "nome": "Paula Santos"}],
+               "DataEnvio": "2026-10-02", "Destinatarios": [
+                   {"nomeEntidade": "Ministra da Saúde", "respostas": [
+                       {"dataResposta": "2026-11-02"}]}],
+               "Id": "231000", "Legislatura": "XVII", "Nr": "102", "Sessao": "2",
+               "Tipo": "Pergunta"}
+        q = pt_chamber.parse(rec)
+        self.assertEqual(q["question_id"], "XVII/2/P/102")
+        self.assertEqual((q["asker"], q["party"], q["addressee"], q["answered"]),
+                         ("Paula Santos", "PCP", "Ministra da Saúde", "2026-11-02"))
+        self.assertIn(1, cs.classify_question(cs.load_taxonomies("pt"), q["title"]).areas)
+        self.assertEqual(pt_chamber.parse(dict(rec, Tipo="Requerimento"))["kind"], "request")
+
+
 class EditionTests(unittest.TestCase):
     """Speeches grouped by debate, questions one each, in the framework."""
 
