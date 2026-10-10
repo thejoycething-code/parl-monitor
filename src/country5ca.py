@@ -1291,41 +1291,65 @@ def sheet_path(cc, chamber, area, out_dir=None):
         cc, r5.slug(str(chamber)), r5.slug(name)))
 
 
-def run_sheets(conn, cc, config_dir=None, out_dir=None, today=None, log=print):
-    """Write a sheet for every chamber and area with at least one CONFIRMED
-    reading that places someone; remove a sheet whose readings are no longer
-    confirmed. Returns the paths written."""
-    from src.latam import AREA_LABELS
-    spec = SPECS[cc]
-    entries, _, _ = load(cc, config_dir)
+def sheet_pairs(cc, entries):
+    """Every (chamber, area) a country's readings touch, excluded areas left out."""
     excluded = r5.excluded_areas(ROOT)
-    out_dir = out_dir or OUT_DIR
     pairs = set()
     for e in entries.values():
         for a in e.get("areas") or []:
             if a not in excluded:
                 pairs.add((str(e.get("chamber") or ""), a))
-    written = []
-    for chamber, area in sorted(pairs, key=lambda p: (str(p[0]), p[1])):
-        path = sheet_path(cc, chamber, area, out_dir)
-        rows, listed, latest = build_rows(conn, cc, chamber, area, entries, today)
-        signed = [e for e in listed if _is_confirmed(e)]
+    return sorted(pairs, key=lambda p: (str(p[0]), p[1]))
+
+
+def publishable_sheets(conn, cc, config_dir=None, today=None, entries=None):
+    """THE GATE, shared by the CSV sheets and the web pages (tools/make_country_5ca_web.py):
+    yield one dict per chamber and area that has at least one CONFIRMED reading
+    placing someone, and None-valued `rows` for the rest so a caller can remove a
+    stale output. Keys: chamber, area, rows, listed, signed, unsigned, placed."""
+    if entries is None:
+        entries = load(cc, config_dir)[0]
+    for chamber, area in sheet_pairs(cc, entries):
+        listed_here = [e for e in entries.values()
+                       if area in (e.get("areas") or []) and str(e.get("chamber") or "") == chamber]
+        if not any(_is_confirmed(e) for e in listed_here):
+            # No confirmed reading here: nothing can place anyone, so the store
+            # is not even read (a country awaiting sign-off needs no store).
+            yield {"chamber": chamber, "area": area, "rows": None, "listed": listed_here,
+                   "signed": 0, "unsigned": 0, "placed": 0}
+            continue
+        rows, listed, _latest = build_rows(conn, cc, chamber, area, entries, today)
         placed = [r for r in rows if r["column"] != "0"]
-        if not signed or not placed:
+        s, u = r5.area_counts([{"division_key": str(e["key"])} for e in listed],
+                              {str(e["key"]): e for e in listed})
+        yield {"chamber": chamber, "area": area, "rows": rows if placed else None,
+               "listed": listed, "signed": s, "unsigned": u, "placed": len(placed)}
+
+
+def run_sheets(conn, cc, config_dir=None, out_dir=None, today=None, log=print):
+    """Write a sheet for every chamber and area with at least one CONFIRMED
+    reading that places someone; remove a sheet whose readings are no longer
+    confirmed. Returns the paths written."""
+    from src.latam import AREA_LABELS
+    out_dir = out_dir or OUT_DIR
+    written = []
+    for sh in publishable_sheets(conn, cc, config_dir, today):
+        chamber, area, rows = sh["chamber"], sh["area"], sh["rows"]
+        path = sheet_path(cc, chamber, area, out_dir)
+        if rows is None:
             if os.path.exists(path):
                 os.remove(path)
                 log("  {0} {1}: no confirmed reading places anyone now; removed {2}".format(
                     cc, area, os.path.basename(path)))
             continue
-        s, u = r5.area_counts([{"division_key": str(e["key"])} for e in listed],
-                              {str(e["key"]): e for e in listed})
-        footer = r5.readings_line(s, u, AREA_LABELS.get(area, str(area)))
+        footer = r5.readings_line(sh["signed"], sh["unsigned"], AREA_LABELS.get(area, str(area)))
         if cc in PARTY_GROUP:
             footer += " Rows marked [DERIVED] carry the group's vote, not the member's own (X5)."
         tally = r5.write_sheet(path, rows, footer)
         written.append(path)
         log("  {0} {1} {2}: {3} placed; {4} confirmed / {5} unconfirmed -> {6}  ({7})".format(
-            cc, chamber, AREA_LABELS.get(area, area), len(placed), s, u, os.path.basename(path),
+            cc, chamber, AREA_LABELS.get(area, area), sh["placed"], sh["signed"], sh["unsigned"],
+            os.path.basename(path),
             "  ".join("{0} x{1}".format(c, tally[c]) for c in r5.COLUMNS)))
     return written
 

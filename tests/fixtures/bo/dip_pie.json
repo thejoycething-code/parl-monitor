@@ -1,0 +1,82 @@
+[
+ {
+  "id": 40479,
+  "date": "2025-09-15T16:53:55",
+  "modified": "2025-09-15T16:53:55",
+  "slug": "p-i-e-n-0957-2024-2025",
+  "link": "https://diputados.gob.bo/peticiones-informe/p-i-e-n-0957-2024-2025/",
+  "title": {
+   "rendered": "P.I.E. N° 0957/2024-2025"
+  },
+  "tipo_de_peticion_de_informe": [
+   22
+  ],
+  "legislatura_de_pie": [
+   219
+  ],
+  "acf": {
+   "nro_pie_o_pio": "P.I.E. N° 0957/2024-2025",
+   "fecha_de_ingreso": "20250808",
+   "peticionario": [
+    "SANTOS MAMANI ESPINOZA"
+   ],
+   "destino": "Ministerio de Desarrollo Productivo y Economía Plural - Ministro de Desarrollo Productivo y Economía Plural",
+   "resumen": "Informe, de acuerdo a la dispuesto en el Articulo 2 del Decreto Supremo N° 29230, cuáles son las occiones realizadas por las máximas autoridades de EMAPA, para cubrir la demanda de harina en el sector de productores de Pan de Batalla que se benefician de este producto subvencionado desde la gestión 2024 a la fecha. Remita documentación de respaldo.\r\n",
+   "archivo": ""
+  }
+ },
+ {
+  "id": 40478,
+  "date": "2025-09-15T16:53:19",
+  "modified": "2025-09-15T16:53:19",
+  "slug": "p-i-e-n-0956-2024-2025",
+  "link": "https://diputados.gob.bo/peticiones-informe/p-i-e-n-0956-2024-2025/",
+  "title": {
+   "rendered": "P.I.E. N° 0956/2024-2025"
+  },
+  "tipo_de_peticion_de_informe": [
+   22
+  ],
+  "legislatura_de_pie": [
+   219
+  ],
+  "acf": {
+   "nro_pie_o_pio": "P.I.E. N° 0956/2024-2025",
+   "fecha_de_ingreso": "20250805",
+   "peticionario": [
+    "MARIA ELENA REQUE ASCIMANI"
+   ],
+   "destino": "Ministerio de Justicia y Transparencia Institucional",
+   "resumen": "Informe, qué mecanismos tiene el Viceministerio de Defensa de los Derechos del Usuario y Consumidor, para certificar que los productos del subsidio de lactancia entregados, cumplen con estándares mínimos de calidad e inocuidad. Adjunte la documentación correspondiente que incluya contratos, presupuestos, etc\r\n",
+   "archivo": ""
+  }
+ },
+ {
+  "id": 40477,
+  "date": "2025-09-15T16:52:23",
+  "modified": "2025-09-15T16:52:23",
+  "slug": "p-i-e-n-0955-2024-2025",
+  "link": "https://diputados.gob.bo/peticiones-informe/p-i-e-n-0955-2024-2025/",
+  "title": {
+   "rendered": "P.I.E. N° 0955/2024-2025"
+  },
+  "tipo_de_peticion_de_informe": [
+   22
+  ],
+  "legislatura_de_pie": [
+   219
+  ],
+  "acf": {
+   "nro_pie_o_pio": "P.I.E. N° 0955/2024-2025",
+   "fecha_de_ingreso": "20250805",
+   "peticionario": [
+    "ALBERTO VLADIMIR ASTORGA TORREZ",
+    "MARIA ELENA REQUE ASCIMANI",
+    "MERY MAMANI CORONADO"
+   ],
+   "destino": "Ministerio de Gobierno - Ministro de Gobierno",
+   "resumen": "Informe, cuál ha sido el flujo migratorio del ciudadano Alejandro Pedro Bulgheroni, durante el último año en territorio boliviano, especificando fechas de ingreso y salida, tipo de visa utilizada y puntos de ingreso y egreso. Adjunte la documentación correspondiente\r\n",
+   "archivo": ""
+  }
+ }
+]

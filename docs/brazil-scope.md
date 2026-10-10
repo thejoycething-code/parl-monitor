@@ -446,7 +446,7 @@ document. No taxonomy file, no `src/http.py` change.
    or from the paged API by date and type (about 80 requests a year).
 3. **Phase 3: agenda and tramitação**: the Câmara's `eventos` + `pauta` and
    the Senate's monthly agenda as the What's On equivalent, and tramitação
-   steps for watched bills (committee, rapporteur, urgency).
+   steps for watched bills (committee, rapporteur, urgency). **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/br.py`, a step of the weekly job): both agendas, matched to bills by number; tramitação steps not yet.
 4. **Phase 4: edition and 5CA**: a Portuguese-language or English-language
    edition (Christopher's call), triage, and a Brazilian 5CA from positions
    plus orientations. Divisions are signed by hand, as everywhere.
@@ -518,6 +518,7 @@ Later phases and items for Chris (not built at the merge):
 
 - BR3 (gambling) and BR4 (drug decriminalisation) are in scope but the scope proposed no terms or area: they need terms before they match.
 - Portuguese source text with English takeaways (BR5): the edition phase.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/br/` from the store each weekly run (`tools/member_profiles.py br`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

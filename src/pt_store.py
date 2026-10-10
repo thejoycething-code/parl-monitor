@@ -124,8 +124,14 @@ SCHEMA = (
     "CREATE INDEX IF NOT EXISTS pt_votes_member ON pt_votes (cad_id)",
 )
 
+# X8 (10 October 2026): the constitutional court's rulings on our ground, one
+# shape for every country (src/courts.py); written only by tools/pt_courts.py.
+from src import courts as _courts  # noqa: E402
+
+SCHEMA = SCHEMA + _courts.schema("pt")
+
 TABLES = ("pt_members", "pt_initiatives", "pt_authors", "pt_divisions",
-          "pt_group_votes", "pt_votes")
+          "pt_group_votes", "pt_votes", "pt_rulings")
 
 
 def ensure_schema(conn):

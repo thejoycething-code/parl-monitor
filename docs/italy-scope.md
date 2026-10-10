@@ -402,7 +402,7 @@ not a copy.
    subject lives. This, not the bill title, separates the abortion amendment
    from the rest of a decree (the omnibus problem above).
 4. **Phase 2**: questions (6,840 Senate questions in the 19th; Camera via
-   SPARQL when it answers), committee sittings, the agenda.
+   SPARQL when it answers), committee sittings, the agenda. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/it.py`, a step of the weekly job): the Camera's monthly Assembly calendar (Accept: text/html, which camera.it needs); the Senate refuses us, and committee convocations are not read.
 5. **Phase 3**: the Italian 5CA (positions are already stored per group per
    vote; first signers and co-signers are in both sources).
 6. **Phase 4: the twenty regional councils** (below).
@@ -499,6 +499,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: dati.camera.it SPARQL as the Camera's backup source, or main when quicker (IT2). Needs fixtures from the live service and a member-key crosswalk (Openpolis to persistent IDs); not built at the merge.
 - Phase: regional councils after national (IT3).
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/it/` from the store each weekly run (`tools/member_profiles.py it`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

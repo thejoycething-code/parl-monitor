@@ -384,7 +384,7 @@ phase 4, after the terms are approved.
    most of the 393 matched zaken live, and most never reach a vote. Then
    document bodies (the PDFs behind `Document/resource`), matched by
    passage as `src/eudoc.py` does for the EU. And the agenda
-   (`Activiteit`) for a week-ahead.
+   (`Activiteit`) for a week-ahead. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/nl.py`, a step of the weekly job): `Activiteit` with its `Agendapunt`s and zaken, three weeks ahead; 661 points on 10 October, 12 on our ground.
 4. **Eerste Kamer.** Handelingen from the KOOP SRU service, plus the
    party-by-party results on eerstekamer.nl bill and motion pages. Votes
    there are by party ("bij zitten en opstaan") with occasional roll calls.
@@ -442,6 +442,7 @@ Later phases and items for Chris (not built at the merge):
 - The DM carries votes only (NL3): for the edition phase.
 - Phase: the Eerste Kamer via its web pages (NL4).
 - Chris reads the open-data disclaimer (NL5) before the weekly runs unattended.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/nl/` from the store each weekly run (`tools/member_profiles.py nl`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Show-of-hands positions are DERIVED from the fractie vote (X5), labelled; roll calls are recorded per member.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

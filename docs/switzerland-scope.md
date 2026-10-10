@@ -358,7 +358,7 @@ channel that matters most to CitizenGO.
 3. **Phase 2: the edition.** A Swiss monitor and triage on the US pattern
    (`tools/us_monitor.py`, `tools/us_triage.py`), to Christopher by Slack DM.
    Session-driven: four three-week sessions a year plus a special session,
-   so most weeks are quiet and four are full.
+   so most weeks are quiet and four are full. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/ch.py`, a step of the weekly job): the councils' `Meeting` and `Subject` records by business number; none ahead until the Wintersession programme is in the open data.
 4. **Phase 3: initiatives and referendums.** The voteinfo results, and the
    Chancellery's signature-collection chronology once its data source is
    found. Consultations (Vernehmlassungen, fedlex.admin.ch, answers 200) and
@@ -426,6 +426,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: the Italian texts (CH6): fetch the Italian business records (a third Language pass), store title_it, and match `config/taxonomy-it.yaml` for `ch`. Not built at the merge: it needs a schema column, a fetch pass and fixtures.
 - The scope's veto on the Quebec IVG term and guard on euthanasie change base terms, so they are not in the addendum.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/ch/` from the store each weekly run (`tools/member_profiles.py ch`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

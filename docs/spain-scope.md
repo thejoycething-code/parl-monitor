@@ -423,7 +423,7 @@ phrase, a compound or guarded.
    dispatch `es-weekly` with "reclassify". The numbers above become the
    store's.
 3. **Phase 2.** PNLs, motions and written questions through the initiative
-   search endpoint (or per-initiative pages); the week-ahead agenda; laws
+   search endpoint (or per-initiative pages); the week-ahead agenda (**Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/es.py`, a step of the weekly job): the weekly agenda page; fills when the XVI sits; the plenary's order of the day, a PDF, is not read); laws
    in force from the BOE. This is where most of Spain's activity on our
    ground lives.
 4. **Phase 3.** The Spanish edition and DM (`tools/es_monitor.py`, the
@@ -522,6 +522,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: the Spanish edition (ES6, build now): a DM edition on the store, as the US and Australian ones. Not built at the merge; next.
 - Senado open-data contact (ES5): a message in Chris's name, not sent by the pipeline.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/es/` from the store each weekly run (`tools/member_profiles.py es`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

@@ -344,7 +344,7 @@ Hass im Netz).
    on items on our ground, weekly on the Mini with a GitHub backup.
 2. **1b:** namentliche Abstimmungen, member by member, from the protocol;
    Ministerialentwürfe (find the list ID) so drafts in Begutachtung are seen
-   before they reach the Nationalrat; the week ahead from Termine.
+   before they reach the Nationalrat; the week ahead from Termine. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/at.py`, a step of the weekly job): Termine and each Tagesordnung, d.B. and A(E) numbers as item keys, robots.txt checked per document.
 3. **2:** an edition (Slack DM to Christopher, as the US), the triage judge
    on Austrian items (German prompt, as Germany's), Klub-level 5CA, speeches
    from the protocols (the debate entries on each history page already name
@@ -420,6 +420,7 @@ Later phases and items for Chris (not built at the merge):
 
 - meineabgeordneten.at licence (AT5): a request in Chris's name.
 - Phase: the Landtage after national (AT6).
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/at/` from the store each weekly run (`tools/member_profiles.py at`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Member positions are DERIVED from the Klub votes (X5) and labelled on every line; Anträge and Anfragen naming the member (`at_items.persons`) are listed.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

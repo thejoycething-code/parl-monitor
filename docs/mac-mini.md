@@ -290,6 +290,25 @@ The own-edition countries (docs/country-decisions-2026-10-10.md, "Edition struct
 - **The DM** goes to Chris alone: the scripts default `SLACK_DM_USER_ID` to U05LJP0BT61 and the code forces it whatever the secrets say. On the Mini the token comes from `~/runner/env` (`SLACK_BOT_TOKEN`, already there); the workflows pass the secret. Without a token the DM is reported skipped and the run goes on.
 - **Noise:** `config/edition-noise-<cc>.yaml` and `config/edition-mute-<cc>.yaml` (src/noise.py, the Latam filters generalised; no model, X16).
 
+## Week ahead for the country editions (10 October 2026, branch `parity-week-ahead`)
+
+Handover item 4. `tools/country_agenda.py <cc>` reads a country's agenda into the shared `country_agenda` table (src/agenda.py; one source module per country in `src/agendas/`), matches each point to the store's bills by number and flags watched and tier-1 points; the edition's "Week ahead" section shows the next fortnight and its Coverage line says how far the agenda reaches and when the next sitting is.
+
+- **A step, not a job.** It runs inside `jobs/{nl,pl,ch,br,it,fr,at,es,ar}-weekly.sh`, after the collector and before the edition, so it needs no plist, no workflow and no slot: nothing to install beyond the usual `git pull`. Its failure is a `[gap]` line; it never stops the publish or the edition. It adds well under a minute to each weekly (NL one OData page, PL one call, CH two, BR up to 80 pautas at a second each, IT two pages, FR one 8 MB zip, AT the Termine list and up to 40 agendas, ES and AR three or four week pages).
+- **Sources:** NL Tweede Kamer OData (Activiteit, Agendapunt); PL Sejm API proceedings (planned sittings included); CH Parliament Webservices (Meeting, Subject: empty between sessions); BR Câmara eventos and pauta, Senado plenary agenda; IT the Camera's Assembly calendar (the Senate refuses us); FR the AN's Agenda.json.zip (archived, as FR3); AT Termine and Tagesordnungen (robots.txt checked per document); ES the Congreso's weekly agenda page (dissolved until 23 December: the section fills when the XVI sits); AR the Senate's agenda of activities (cultural events left out; not the Diputados agenda on www.hcdn.gob.ar).
+- **A failed read keeps the last good one**: the edition shows it with its date in the Coverage line, and the gap is in the gaps table as `<cc>-agenda`. The Sejm API did not answer the laptop at times on 10 October (40 s timeouts); with the client's retries the PL step can take a few minutes before it gives up.
+- **By hand:** `python3 tools/country_agenda.py pl --db /tmp/x.db` reads into a scratch store; never run it on the runner's store while a weekly is publishing.
+
+## Member profiles in the country weeklies (10 October 2026, branch `parity-profiles`)
+
+Handover item 3: one Markdown profile per member with a record on our ground, for the 23 countries with a member list (`profiles/<cc>/`, an `index.md` per country), from `src/member_profiles.py` through `tools/member_profiles.py <cc>`.
+
+- **No new plists, workflows or cron slots.** It is a step of each country's existing weekly (`jobs/<cc>-weekly.sh`; Mexico's `jobs/mx-collect.sh` on GitHub), after the collector and before the publish, only when the collector stored something (exit 0 or 3). It reads the store and takes seconds; a failure is a `[gap] member-profiles` line and never costs the store.
+- **Committed with the store:** each script's `# mini_run: commit` line now names `profiles` (beside `editions` where the country has one), and each workflow's commit step adds `profiles/`. The directory is rewritten whole: a member who no longer has a record loses their file. Nothing is posted or DMed.
+- **Croatia** first reads plenary transcripts for party history (`tools/hr_party_history.py`, X6): edoc.sabor.hr, one request a second, newest first, ten minutes a run (`HR_TRANSCRIPT_SECONDS`); the 11th Sabor's ~950 transcripts drain over the first few weeks, then a run reads the week's new ones.
+- **Chile** first asks the BCN for senators' party history (`tools/cl_senate_parties.py`, one SPARQL request to datos.bcn.cl, which asks for a 10-second crawl delay).
+- Nothing to install on the Mini beyond the usual `git pull` of the runner clone.
+
 ## Installing the country jobs (10 October 2026)
 
 One command installs every country-edition job and the Latam monthly, after the runner clone has pulled main:
@@ -391,13 +410,80 @@ Chris approved the free session judge for the fifteen country editions and the L
 - **If `claude` is missing, signed out or on an API key:** one `[gap]` line, exit clean, nothing rewritten or published; the editions render as before and the Latam alerts stop holding once the judge has scored nothing for 14 days.
 - **Install on the Mini** (after the branch is merged to main): `claude auth status --text` must show Chris's claude.ai account, then `cd ~/runner/parl-monitor && git pull --ff-only && bash ops/install_country_jobs.sh` (it installs this job with the country jobs and prints the claude sign-in state). A first run by hand: `cd ~ && JOB_TIMEOUT=5400 ~/runner/parl-monitor/tools/mini_run.sh editions-session-judge`. To see what is pending without scoring: `python3 tools/edition_judge.py`.
 
+## Courts, Bolivian questions, Uruguay's Diario totals and OCR (10 October 2026, branch `parity-phases-b`)
+
+Parity work, set B (docs/country-parity-handover.md, item 6). **No new
+scheduled job and no new plist**: each piece is a step inside a country
+weekly that already runs on the Mini (and on its GitHub backup), after the
+collector and before the alerts or the edition. Each records its own gaps in
+the store and never stops its weekly.
+
+| Weekly (existing slot) | New step | What it reads | Added time |
+|---|---|---|---|
+| `co-weekly` (Thu 09:30) | `tools/co_courts.py` (X8, CO4) | the Corte Constitucional's exhortations file, datos.gov.co `fbtr-7k2r`, whole | one request |
+| `ec-weekly` (Sat 15:30) | `tools/ec_courts.py` (X8) | the Corte Constitucional's WordPress API: judgment summaries, bulletins, statements since 30 days before the newest held | 1-2 requests |
+| `pe-weekly` (Sat 16:00) | `tools/pe_courts.py` (X8) | the Tribunal Constitucional's press notes, at its robots.txt Crawl-delay of 30 s | about 4 minutes |
+| `pe-weekly` | `tools/pe_ocr.py` (X7) | Tesseract over the scan-only vote records; skips without Tesseract | 0 until installed |
+| `pt-weekly` (Sat 15:00) | `tools/pt_courts.py` (X8) | the Tribunal Constitucional's acórdãos: 30 s apart, at most ten read, no retries; a 429 ends it with one gap | about 6 minutes |
+| `bo-weekly` (Sun 11:00) | `tools/bo_questions.py` (BO4) | written questions, Senado API and Diputados WordPress, newest three pages each | about 10 s |
+| `uy-weekly` (Sun 08:00) | `tools/uy_diario.py` (UY5) | up to four new Diarios de Sesiones (PDF, pypdf), vote totals only | about 1 minute |
+
+The Uruguay workflow now installs `pypdf==6.14.2`, as Peru's does; the
+Portugal workflow's timeout is 40 minutes (was 30).
+Portugal, Ecuador and Peru share Saturday afternoon (15:00, 15:30, 16:00):
+Portugal's few extra minutes can push Ecuador's start back behind the
+runner's lock, which queues it; nothing is lost.
+
+**Once, by hand, after the merge and before those weeklies' next runs**, the
+backlog (the editions treat what a table holds on its first day as history,
+never as news, so this seeds them quietly):
+
+    cd ~ && JOB_TIMEOUT=3600 nohup ~/runner/parl-monitor/tools/mini_run.sh latam-courts-backfill \
+      >> ~/runner/logs/latam-courts-backfill.log 2>&1 &
+
+`jobs/latam-courts-backfill.sh`: Colombia's file, Ecuador's Court since
+2019, Peru's whole press-note archive (the RSS feed, 4,378 notes, 15 MB, one
+request), every Bolivian question (after refreshing the members), and the L
+legislature's Diarios (about 80 PDFs). About 25 minutes; heartbeat "Latam
+courts backfill" (ON_DEMAND). Portugal's court is not backfilled: it is read
+ten rulings a week.
+
+### OCR (Tesseract, X7)
+
+Approved 10 October 2026 (X7): Tesseract, free and local, reads the scans
+no text layer covers: Peru's signed vote records (wired: `tools/pe_ocr.py`
+in `pe-weekly`), and, once their document layers exist, Croatia's
+opposition bills and Colombia's Gazette vote registers. Design and limits:
+`src/ocr.py`. **Nothing is installed by the code**, and every step skips
+cleanly ("[skip] pe-ocr: tesseract not installed") until this is done.
+
+To install, on the Mini, as the runner's user (Homebrew, no paid service):
+
+    brew install tesseract tesseract-lang
+    tesseract --version                       # 5.x
+    tesseract --list-langs | grep -E '^(spa|hrv)$'   # both must be listed
+
+`tesseract-lang` brings every language's data (spa for Peru and Colombia,
+hrv for Croatia; about 650 MB). If launchd's PATH lacks Homebrew's bin,
+`src/ocr.py` also looks in `/opt/homebrew/bin` and `/usr/local/bin`, or set
+`TESSERACT_CMD` in the job's environment. Check without reading anything:
+
+    cd ~/runner/parl-monitor && python3 tools/pe_ocr.py --check
+
+What it does once installed: up to three scan-only Peru vote records a run
+(`pe_vote_files.text_layer = 0`), each page's embedded image through
+`tesseract -l spa --psm 6`, the text stored in `pe_vote_ocr` with the
+engine's version. **It parses no positions**: a parser for OCR'd vote
+sheets, tested against hand-checked sheets, is the next step and is not
+built. GitHub's runners have no Tesseract, so the backup skips the step.
 ## New-country 5CA stance steps and the sign-off digest (10 October 2026, branch `parity-5ca`)
 
-Two offline steps at the head of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only), after the week's country weeklies and before the judge; no new job, no new slot, no GitHub workflow:
+Three offline steps at the head of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only), after the week's country weeklies and before the judge; no new job, no new slot, no GitHub workflow:
 
 - `python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets`: for each new country with member-level or party-group votes (IT, CH, FR, NL, BE, PL, HR, SK, ES, BR, AR, MX, HU, AT, PT, CL, PE, EC, DO, SV, GT), appends drafts for the week's new watched and tier-1 votes to `config/<cc>_stance.yaml` (rules, no AI; an existing entry is never touched), rewrites `docs/5ca-<cc>-readings.md` (a box ticked but not yet applied stays ticked), and writes `data/5ca/<cc>-5ca-*.csv` from CONFIRMED readings only. Seconds; reads the store, writes no table.
+- `python3 tools/make_country_5ca_web.py` (camp-5ca-sheets, 10 October 2026): the new countries' 5CA tracker and partner sheet, one page with a country switcher. `docs/5ca-countries.html` (internal) every week, every country: area sheets from confirmed readings, or "Awaiting sign-off: N readings" and no placement. `partner_site/5ca-countries.html` only for the countries with a confirmed reading that places someone; with none it is not written (and a stale one is removed), and the partner nav links it only while it exists. Monday's deploy ships it. Change since last week: `data/5ca/country-web-state.json`. Seconds; reads the store only for a country with a confirmed reading.
 - `python3 tools/stance_digest.py --dm`: one DM to Chris, at most once per ISO week (`data/stance-digest/<year>-W<week>.md` records the send), listing what awaits sign-off by country. Nothing waiting, nothing sent.
-- Commit: `# mini_run: commit editions config docs` (the job writes `config/*_stance.yaml` and `docs/5ca-*-readings.md`). A failure in either step is a `[gap]` line; the judge still runs.
+- Commit: `# mini_run: commit editions config docs partner_site` (the job writes `config/*_stance.yaml`, `docs/5ca-*-readings.md`, `docs/5ca-countries.html` and, once a reading is confirmed, `partner_site/5ca-countries.html`). A failure in either step is a `[gap]` line; the judge still runs.
 - **Nothing on the Mini confirms a reading.** Confirming is `python3 tools/country_5ca.py --cc CC --sign-from-doc --by NAME` (or `--confirm KEY --by NAME`), run by a person on a laptop, then pushed. `--by` must be Chris or a name in `config/stance_signers.yaml`.
 - Install: nothing new; the next `git pull` on the runner picks the steps up.
 
@@ -442,6 +528,11 @@ with the end of its output. Nothing caps the clock here, but give
     cd ~ && CA_RETAG=true JOB_TIMEOUT=3600 \
       nohup ~/runner/parl-monitor/tools/mini_run.sh ca-backfill \
       >> ~/runner/logs/ca-backfill.log 2>&1 &
+
+    # Latam courts, Bolivian questions, Uruguay's Diarios, once (see "Courts,
+    # Bolivian questions, Uruguay's Diario totals and OCR" above).
+    cd ~ && JOB_TIMEOUT=3600 nohup ~/runner/parl-monitor/tools/mini_run.sh latam-courts-backfill \
+      >> ~/runner/logs/latam-courts-backfill.log 2>&1 &
 
     # Hungary, once: karzat's open data, 9 May to 28 August 2026 (HU7; see
     # "Hungary: the karzat backfill" above).

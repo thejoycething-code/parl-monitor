@@ -415,6 +415,7 @@ Later phases and items for Chris (not built at the merge):
 
 - A votes-only DM before the full edition (BE6): the edition phase.
 - Not expressible as additions to the Quebec base: the euthanasie animal veto and the tier differences the scope proposed against taxonomy-qc. They need a Belgium-specific override if wanted.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/be/` from the store each weekly run (`tools/member_profiles.py be`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. The vote lists print names only: the group shown is the member's group when the vote was stored, labelled "not party at the vote".
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

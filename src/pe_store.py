@@ -116,7 +116,29 @@ SCHEMA = (
     "CREATE INDEX IF NOT EXISTS pe_bills_chamber ON pe_bills (chamber, number)",
 )
 
-TABLES = ("pe_members", "pe_bills", "pe_divisions", "pe_votes", "pe_vote_files")
+# X8 (10 October 2026): the constitutional court's rulings on our ground, one
+# shape for every country (src/courts.py); written only by tools/pe_courts.py.
+from src import courts as _courts  # noqa: E402
+
+SCHEMA = SCHEMA + _courts.schema("pe")
+
+# X7 (10 October 2026; tools/pe_ocr.py, src/ocr.py): Tesseract's reading of
+# the scan-only vote records (pe_vote_files.text_layer = 0). Stored as
+# evidence beside the scan, never parsed into positions (src/ocr.py).
+SCHEMA = SCHEMA + (
+    """CREATE TABLE IF NOT EXISTS pe_vote_ocr (
+        url          TEXT PRIMARY KEY,   -- the scan, as in pe_vote_files
+        engine       TEXT,               -- 'tesseract 5.5.1' as it reports itself
+        lang         TEXT,               -- 'spa'
+        pages        INTEGER,
+        chars        INTEGER,
+        text         TEXT,               -- page texts joined, '\f' between pages
+        read_at      TEXT
+    )""",
+)
+
+TABLES = ("pe_members", "pe_bills", "pe_divisions", "pe_votes", "pe_vote_files", "pe_rulings",
+          "pe_vote_ocr")
 
 
 def ensure_schema(conn):

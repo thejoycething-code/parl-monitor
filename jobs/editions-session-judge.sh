@@ -35,12 +35,16 @@
 # in every new country (by rules, no AI; nothing is ever confirmed here),
 # rewrite each docs/5ca-<cc>-readings.md keeping any ticks not yet applied,
 # write the 5CA sheets from CONFIRMED readings only (data/5ca/<cc>-5ca-*.csv),
+# then the new countries' 5CA tracker and partner sheet
+# (tools/make_country_5ca_web.py: docs/5ca-countries.html always;
+# partner_site/5ca-countries.html only for countries with a confirmed reading
+# that places someone, removed when none has; Monday's deploy ships it),
 # then the weekly "stances awaiting sign-off" digest, one DM to Chris, once
 # per ISO week (tools/stance_digest.py). A failure is a [gap] line; the
 # judge still runs. They read the store and write no table, so they need no
 # publish of their own.
 #
-# mini_run: commit editions config docs
+# mini_run: commit editions config docs partner_site
 set -o pipefail
 cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Editions session judge}"
@@ -50,6 +54,7 @@ export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 
 python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets \
   || echo "  [gap] the 5CA stance step failed for a country; the others stand"
+python3 tools/make_country_5ca_web.py || echo "  [gap] the new-country 5CA pages failed; last week's stand"
 python3 tools/stance_digest.py --dm || echo "  [gap] the stance digest DM failed; next week's covers it"
 
 rc=0

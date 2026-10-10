@@ -33,7 +33,7 @@
 # edition already committed for today is rewritten, not resent. Its failure
 # is a [gap] line and never costs the store.
 #
-# mini_run: commit editions briefs
+# mini_run: commit editions profiles briefs
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -45,6 +45,12 @@ if [ "${CH_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/ch_rollcalls.py --budget-seconds 2700 || rc=$?
+# The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
+# into the store after the collector, so its bills match this week's store
+# and the edition below shows it. Its failure is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_agenda.py ch || echo "  [gap] the week-ahead agenda step failed"
+fi
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM).
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
@@ -56,6 +62,13 @@ if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; }; then
   else
     python3 tools/ch_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
   fi
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/ch/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py ch \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "ch-rollcalls failed (exit $rc); nothing published"

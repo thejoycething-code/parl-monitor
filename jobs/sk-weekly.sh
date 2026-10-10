@@ -30,7 +30,7 @@
 # The vote pages are slow (1.7 to 96 seconds each, measured 9 October 2026),
 # so the collector stops reading them at 45 minutes and the next run resumes;
 # everything else it reads in under a minute.
-# mini_run: commit editions briefs
+# mini_run: commit editions profiles briefs
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -57,6 +57,13 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
     python3 tools/sk_monitor.py --edition --dm \
       || echo "  [gap] sk-monitor: the edition or its DM failed; the store is still published"
   fi
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/sk/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py sk \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
 if [ "${SK_PUBLISH:-true}" = "false" ]; then
   exit "$rc"

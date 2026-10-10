@@ -375,7 +375,7 @@ October.
    (315 MB; the exposes sommaires say what an amendment does, which the
    scrutin title does not).
 4. **Phase 3: the agenda and the regulatory side.** The AN agenda (dossier
-   refs on every point) as the week ahead; written questions on our ground
+   refs on every point) as the week ahead (**Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/fr.py`, a step of the weekly job): Agenda.json.zip, archived as FR3; 216 points on 10 October); written questions on our ground
    (the measure above: 93 a year on headings alone); the Journal officiel
    for the decrees applying the aide a mourir law.
 5. **Phase 4: edition and 5CA.** A France edition to Christopher by Slack
@@ -438,6 +438,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: follow the aide a mourir decrees first (FR4): a watch on the Journal officiel's implementing decrees once the law passes.
 - Phase: the Senat (FR5, go ahead): votes and dossiers from senat.fr open data. Not built at the merge.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/fr/` from the store each weekly run (`tools/member_profiles.py fr`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

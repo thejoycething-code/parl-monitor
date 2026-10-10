@@ -30,6 +30,7 @@ import datetime
 import re
 import sys
 
+from src import agenda
 from src import country_edition as ce
 
 CC = "es"
@@ -249,7 +250,7 @@ def divisions(conn, since, until, wl):
                                 date=_ddmmyyyy(r["date"])),
             takeaway=sentence(takeaway), group=("es", key), group_title=r["title"],
             final=is_final(r["subgroup"], r["title"]),
-            own=False if own is False else None))
+            own=False if own is False else None, division=r["division_key"]))
     return out
 
 
@@ -292,6 +293,7 @@ COUNTRY = ce.Country(
     cc=CC, name="Spain", chamber="Congreso de los Diputados", language="Spanish",
     taxonomies=(("taxonomy-es.yaml", "es"),),
     items=items, notice=edition_notice,
+    week_ahead=agenda.week_ahead_fn(CC), ahead_note=agenda.ahead_note_fn(CC),
     members_note=("Member positions are the Congreso's own, by name, with the parliamentary "
                   "group printed in each vote file, so a member against their group's majority "
                   "is named"),
@@ -299,8 +301,10 @@ COUNTRY = ce.Country(
         "The Congreso only: www.senado.es refuses our requests (Akamai 403, ES5 pending); "
         "the Senado's amendments and vetoes show when the Congreso votes on them.",
         "Non-binding motions and motions appear when the plenary votes on them; written "
-        "questions and the week's agenda are not collected yet (phase 2), and no stage-move "
-        "history is stored, so there is no stage-moves section.",
+        "questions are not collected yet (phase 2), and no stage-move history is stored, so "
+        "there is no stage-moves section.",
+        "The week ahead is the Congreso's weekly agenda page, classified on its own words; "
+        "the plenary's order of the day (a PDF) is not read.",
     ),
 )
 
