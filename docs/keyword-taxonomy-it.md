@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Italian keyword taxonomy
 
-**Version 0.1 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 ## Purpose
 
@@ -26,11 +26,15 @@ Scope calls applied while merging:
 - Italy Parenthetical 'with' and 'without' lists converted to [with: ...] and [without: ...] guards
 - Switzerland CH6: Italian list to be run on Swiss Italian texts; no Swiss additions proposed
 
+Noise round (v0.2, 10 October 2026, approved by Chris).
+
+- `"vita umana"` (area 1, tier 1) needs life-issue company: conception, the unborn, embryos, the foetus, pregnancy, abortion, end of life, euthanasia or assisted suicide. Measured on the Italian records of the Swiss 52nd legislature (10,178 businesses, raw archive of 10 October 2026): on our ground 431 to 428, the three lost all noise (23.4425 and 23.4426, the biodiversity crisis and "gravi conseguenze per la vita umana"; 25.4455, health insurers' investments that "mettono a rischio la salute o la vita umana"). Italy's own store: the five bills that carry "vita umana" (the capacità giuridica del concepito bill and the four Giornata della vita nascente bills) keep area 1.
+
 ## Issue areas
 
 ### 1. Abortion {#1_abortion}
 
-- **Tier 1:** aborto; aborti; abortiv*; "interruzione volontaria di gravidanza"; "interruzione volontaria della gravidanza"; "interruzioni volontarie di gravidanza"; IVG; "legge 194" [only: it]; "legge n. 194" [only: it]; "legge 22 maggio 1978, n. 194" [only: it]; "194 del 1978" [only: it]; 194/1978 [only: it]; RU486; "RU 486"; mifepristone; "tutela della vita nascente"; "vita nascente"; "diritti del concepito"; "capacità giuridica del concepito"; "riconoscimento del concepito"; nascituro; nascituri; "Movimento per la vita" [only: it]; "centri di aiuto alla vita" [only: it]; "battito cardiaco fetale"; "vita umana"; "sepoltura dei feti"
+- **Tier 1:** aborto; aborti; abortiv*; "interruzione volontaria di gravidanza"; "interruzione volontaria della gravidanza"; "interruzioni volontarie di gravidanza"; IVG; "legge 194" [only: it]; "legge n. 194" [only: it]; "legge 22 maggio 1978, n. 194" [only: it]; "194 del 1978" [only: it]; 194/1978 [only: it]; RU486; "RU 486"; mifepristone; "tutela della vita nascente"; "vita nascente"; "diritti del concepito"; "capacità giuridica del concepito"; "riconoscimento del concepito"; nascituro; nascituri; "Movimento per la vita" [only: it]; "centri di aiuto alla vita" [only: it]; "battito cardiaco fetale"; "vita umana" [with: concepimento, concepit*, nascitur*, embrion*, feto, feti, fetal*, gravidanz*, abort*, "fine vita", "fine della vita", eutanasi*, "suicidio assistito"]; "sepoltura dei feti"
 - **Tier 2:** "obiezione di coscienza" [with: gravidanza, aborto, 194, ginecolog*, interruzione]; "consultori familiari"; "consultorio familiare"; "salute riproduttiva"; "diritti riproduttivi"; "salute sessuale e riproduttiva"; sepoltura [with: feti, "prodotti abortivi", "prodotti del concepimento"]; "diagnosi prenatale"; "aborto spontaneo"; "parto in anonimato"; "culle per la vita"
 - **Notes:** Italy: Measured on the Senate and Camera records; Law 194/1978 variants are Italy-only.
 
