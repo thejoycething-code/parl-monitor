@@ -1,0 +1,29 @@
+{
+ "cc": "it",
+ "date": "2026-10-14",
+ "built": "2026-10-10",
+ "sample": true,
+ "subject": "19/S.104",
+ "title": "Disposizioni in materia di morte volontaria medicalmente assistita",
+ "ids": [
+  "19/S.104",
+  "senato-19-423-1"
+ ],
+ "areas": [
+  2
+ ],
+ "chamber": "senato",
+ "bill_votes": [
+  "senato-19-423-1"
+ ],
+ "decisive": [
+  "senato-19-423-1"
+ ],
+ "topic_votes": [],
+ "agenda": [],
+ "agenda_state": "uncollected",
+ "confirmed_readings": 0,
+ "members": 189,
+ "watch": [],
+ "speakers": []
+}
