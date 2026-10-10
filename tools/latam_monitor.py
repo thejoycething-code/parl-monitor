@@ -157,7 +157,7 @@ def takeaway(it, config_dir=None):
     bits = []
     if it["status"] and it["kind"] != "news":   # a news item's status is only its watch key
         label = {"moved": "Moved", "updated": "Status", "report": "Committee",
-                 "pedido": "Answer", "agenda": "Listed by", "gazette": "In",
+                 "pedido": "Answer", "question": "Status", "agenda": "Listed by", "gazette": "In",
                  "news": "Watched item"}.get(it["kind"], "Status")
         status = it["status"]
         if it["kind"] == "news":
@@ -197,15 +197,17 @@ def counts(items):
 
 def count_text(items):
     c = counts(items)
-    order = ("new", "moved", "updated", "vote", "report", "agenda", "pedido", "law", "press",
-             "gazette", "news")
+    order = ("new", "moved", "updated", "vote", "report", "agenda", "pedido", "question", "law",
+             "ruling", "press", "gazette", "news")
     names = {"new": ("new bill", "new bills"), "moved": ("stage move", "stage moves"),
              "updated": ("register update", "register updates"),
              "vote": ("recorded vote", "recorded votes"),
              "report": ("committee report", "committee reports"),
              "agenda": ("agenda item", "agenda items"), "pedido": ("pedido", "pedidos"),
              "law": ("law", "laws"), "press": ("press item", "press items"),
-             "gazette": ("gazette notice", "gazette notices"), "news": ("news item", "news items")}
+             "gazette": ("gazette notice", "gazette notices"), "news": ("news item", "news items"),
+             "question": ("written question", "written questions"),
+             "ruling": ("court ruling", "court rulings")}
     return ", ".join("{0} {1}".format(c[k], names[k][c[k] != 1]) for k in order if c.get(k))
 
 

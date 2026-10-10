@@ -36,6 +36,13 @@ if [ "${CO_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/co_rollcalls.py --budget-seconds 1800 || rc=$?
+# X8/CO4 (10 October 2026): the Corte Constitucional's exhortations to
+# Congress (tools/co_courts.py, one request).
+# Gaps go to the store; a failure never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/co_courts.py \
+    || echo "  [gap] co-courts recorded gaps or failed; the next run retries"
+fi
 # Instant Latam alerts (tools/latam_alerts.py): this country's watched and
 # tier-1 items, a short DM each to Chris alone, de-duplicated in
 # data/latam-alerts/co.json (committed with data/). Never stops the run.

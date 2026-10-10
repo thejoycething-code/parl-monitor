@@ -97,9 +97,36 @@ SCHEMA = (
         PRIMARY KEY (bill_key, seen, field)
     )""",
     "CREATE INDEX IF NOT EXISTS bo_bills_leg ON bo_bills (legislatura, origin, number)",
+    # BO4 (10 October 2026; tools/bo_questions.py): written questions to the
+    # executive, peticiones de informe escrito, the only member-attributed
+    # record Bolivia publishes (votes are never released).
+    """CREATE TABLE IF NOT EXISTS bo_questions (
+        question_key TEXT PRIMARY KEY,   -- 'senado/PIE 1039/2025-2026', 'diputados/PIE 957/2024-2025'
+        chamber      TEXT NOT NULL,      -- 'senado' / 'diputados'
+        kind         TEXT,               -- 'PIE' (escrito) / 'PIO' (oral)
+        number       INTEGER,
+        legislatura  TEXT,               -- '2025-2026'
+        date         TEXT,               -- received (Senado) / filed (Diputados), ISO
+        addressee    TEXT,               -- the ministry or office asked, verbatim
+        summary      TEXT,               -- what was asked, verbatim
+        askers       TEXT,               -- JSON list of names as printed (or resolved)
+        asker_keys   TEXT,               -- JSON list of bo_members keys; NULL entries unresolved
+        answered     TEXT,               -- ISO date of the answer, when the chamber records one
+        answer_url   TEXT,
+        doc_url      TEXT,
+        url          TEXT,
+        source_id    INTEGER,            -- Senado API id / WordPress post id
+        updated      TEXT,               -- the source's own modified date
+        areas        TEXT,               -- JSON list; taxonomy-es for bo
+        matched_terms TEXT,
+        tier         INTEGER,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    "CREATE INDEX IF NOT EXISTS bo_questions_date ON bo_questions (date)",
 )
 
-TABLES = ("bo_members", "bo_bills", "bo_bill_changes")
+TABLES = ("bo_members", "bo_bills", "bo_bill_changes", "bo_questions")
 
 
 def ensure_schema(conn):

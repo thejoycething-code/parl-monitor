@@ -471,6 +471,22 @@ Later phases and items for Chris (not built at the merge):
 - The bill portal's embedded login stays unused (EC4).
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/ec/` from the store each weekly run (`tools/member_profiles.py ec`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. The vote service prints no party: the party shown is the current roster's, labelled.
 
+## Parity work, set B (10 October 2026, branch `parity-phases-b`)
+
+- **X8, built:** `tools/ec_courts.py`, a step in `ec-weekly`: the Corte
+  Constitucional's own WordPress API (www.corteconstitucional.gob.ec,
+  `/wp-json/wp/v2/posts`, keyless, robots.txt disallows nothing), three
+  categories: Novedades jurisprudenciales (one plain-language summary per
+  judgment, 1,182), Boletines comunicacionales (192) and Comunicados (127).
+  The Actividades jurisdiccionales category (session agendas, lists of case
+  numbers) is not read. Into `ec_rulings`, keyed on the case number
+  ('ec:34-19-IN/21') or the post id, classified on the Court's summary,
+  never the judgment (esacc's PDF). Measured live: 555 posts since January
+  2024, 58 on our ground after a court guard on "causales" (it matched
+  fourteen rulings on grounds for annulling arbitral awards and none on
+  abortion; the same guard belongs in docs/keyword-taxonomy-es.md at the
+  next term-list round). The weekly reads from 30 days before the newest
+  held; the hand-run `jobs/latam-courts-backfill.sh` reads from 2019.
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/ec_stance.yaml` holds 3 bill direction(s) (Claude's drafts from the watchlist) and 7 vote reading(s): 0 with proposed values, 0 procedural, 7 need reading, 0 confirmed. Guide: `docs/5ca-ec-readings.md`; confirm with `python3 tools/country_5ca.py --cc ec --sign-from-doc --by NAME`. Sheets (`data/5ca/ec-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Ecuador (`config/stance_signers.yaml`). Drafted from the Ecuador run store: seven tier-1 or watched votes, all 'Conocer y resolver' reports that need reading.

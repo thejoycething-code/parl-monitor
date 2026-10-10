@@ -91,7 +91,7 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
                   (member profiles read positions by it; not rendered)
 
    KINDS (section): new, moved, vote, question, answer, report, agenda,
-   law, updated, press, gazette, news, pedido. A vote's `lines` carry the
+   law, ruling, updated, press, gazette, news, pedido. A vote's `lines` carry the
    tally, the party split and the member-position line: build them with
    tally_line(), split_line(), members_line(), derived_line().
 
@@ -139,6 +139,8 @@ Change log of the interface (additive only):
                    decisive vote's.
   10 October 2026  the session judge's scores (src/edition_judge.py): items
                    carry `judge` and `judge_why`; nothing for adapters to do.
+  10 October 2026  kind "ruling" (X8, a constitutional court's rulings;
+                   src/courts.py), its section after Laws.
   10 October 2026  Country.ahead_note: a Coverage line for the week ahead
                    (how far the agenda reaches, the next sitting). The
                    agendas of the new countries are one shared table and
@@ -195,6 +197,9 @@ SECTIONS = (
     ("moved", "Stage moves", "stage move", "stage moves"),
     ("report", "Committee reports", "committee report", "committee reports"),
     ("law", "Laws", "law", "laws"),
+    # 10 October 2026 (X8): a constitutional court's rulings on our ground
+    # (src/courts.py); Portugal's adapter adds them.
+    ("ruling", "Constitutional court", "court ruling", "court rulings"),
     ("question", "Questions", "question", "questions"),
     ("answer", "Answers", "answer", "answers"),
     ("pedido", "Requests for information", "request for information",

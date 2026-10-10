@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>5CA: the new countries (internal)</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+body { font: 15px/1.55 Roboto, sans-serif; color:#52575C; background:#FFF; max-width:70rem;
+       margin:0 auto; padding:1rem 1.5rem 3rem; }
+h1 { color:#52575C; font-size:1.4rem; border-bottom:4px solid #4285f4; padding-bottom:.4rem; }
+h2 { color:#52575C; font-size:1.2rem; margin:1.4rem 0 .3rem; }
+.banner { background:#FFEBAD; border-left:4px solid #DB544F; padding:.6rem 1rem;
+          font-size:.88em; border-radius:0 4px 4px 0; }
+.switch { display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; margin:1.1rem 0 .4rem;
+          font-size:.9em; }
+.switch select { font:inherit; padding:.32rem .5rem; border:1px solid #C8D0DC; border-radius:4px;
+                 background:#FFF; color:#52575C; max-width:100%; }
+.status { font-size:.9em; margin:.2rem 0 .8rem; }
+.await { border:2px dashed #C3C8CF; border-radius:8px; padding:1.1rem 1.3rem; margin:1rem 0; }
+.await b.big { display:block; font-size:1.25rem; color:#52575C; margin-bottom:.3rem; }
+.await p { margin:.3rem 0; font-size:.9em; }
+.side { font-size:.82em; opacity:.8; }
+.area { border:1px solid #EEEEEE; border-radius:8px; padding:1rem 1.2rem; margin:1rem 0; }
+.area h3 { color:#4285f4; font-size:1.05rem; margin:0 0 .1rem; }
+.evidence { font-size:.82em; opacity:.8; margin:0 0 .7rem; }
+.bar { display:flex; height:1.5rem; border-radius:4px; overflow:hidden; margin:.5rem 0 .3rem; }
+.seg { font-size:.7em; color:#FFF; display:flex; align-items:center;
+       justify-content:center; font-weight:700; }
+.seg.pp { background:#55B159; } .seg.p { background:#9ccf9e; color:#2f4030; }
+.seg.z { background:#EEEEEE; color:#52575C; }
+.seg.m { background:#e9a09d; color:#4a2523; } .seg.mm { background:#DB544F; }
+.legend { font-size:.76em; display:flex; gap:.9rem; flex-wrap:wrap; margin:.2rem 0 .6rem; }
+.legend i { width:.7em; height:.7em; border-radius:2px; display:inline-block; margin-right:.25em; }
+.delta { font-size:.8em; margin:.4rem 0; }
+.delta b { color:#4285f4; }
+.up { color:#55B159; font-weight:700; } .down { color:#DB544F; font-weight:700; }
+details { border-left:3px solid #EEEEEE; padding-left:.8rem; margin:.5rem 0; }
+summary { cursor:pointer; font-size:.86em; font-weight:700; color:#4285f4; }
+ul { padding-left:1.1rem; margin:.35rem 0; font-size:.84em; }
+li { margin:.16rem 0; }
+.tag { display:inline-block; font-size:10px; font-weight:700; line-height:1; padding:2px 4px;
+       border-radius:3px; margin-left:4px; vertical-align:middle; }
+.tag.d { background:#e5e7eb; color:#374151; }
+.tag.f { background:#fde68a; color:#7c5a00; }
+.note { font-size:.84em; background:#F7F9FC; border-left:3px solid #4285f4; padding:.5rem .8rem;
+        margin:.6rem 0; }
+.aside { font-size:.8em; opacity:.8; margin:.35rem 0; }
+.foot { font-size:.8em; opacity:.7; border-top:1px solid #EEEEEE;
+        margin-top:2rem; padding-top:.8rem; }
+code { font-size:.92em; }
+.js .country { display:none; } .js .country.on { display:block; }
+@media print { .switch { display:none; } .js .country { display:block; } }
+</style></head><body>
+<h1>Five Column Analysis: the new countries <span style="font-weight:400;font-size:.68em">week commencing 2026-10-05</span></h1>
+<p class="banner"><strong>Internal.</strong> CitizenGO's 5CA placements in the new country editions. A member is placed only by a recorded vote whose reading a named person has confirmed in <code>config/&lt;cc&gt;_stance.yaml</code>; until then a country shows how many readings await sign-off, and no placement.</p>
+
+<div class="switch"><label for="cc">Country</label>
+<select id="cc"><option value="it">Italy (awaiting sign-off: 137)</option><option value="ch">Switzerland (awaiting sign-off: 82)</option><option value="fr">France (awaiting sign-off: 1,050)</option><option value="nl">Netherlands (awaiting sign-off: 212)</option><option value="be">Belgium (awaiting sign-off: 4)</option><option value="pl">Poland (awaiting sign-off: 185)</option><option value="hr">Croatia (awaiting sign-off: 12)</option><option value="sk">Slovakia (awaiting sign-off: 43)</option><option value="es">Spain (awaiting sign-off: 86)</option><option value="br">Brazil (awaiting sign-off: 7)</option><option value="ar">Argentina (awaiting sign-off: 2)</option><option value="mx">Mexico (awaiting sign-off: 3)</option><option value="hu">Hungary (awaiting sign-off: 24)</option><option value="at">Austria (awaiting sign-off: 19)</option><option value="pt">Portugal (awaiting sign-off: 40)</option><option value="cl">Chile (awaiting sign-off: 5)</option><option value="pe">Peru (awaiting sign-off: 0)</option><option value="ec">Ecuador (awaiting sign-off: 7)</option><option value="do">Dominican Republic (awaiting sign-off: 94)</option><option value="sv">El Salvador (awaiting sign-off: 0)</option><option value="gt">Guatemala (awaiting sign-off: 0)</option></select>
+<span class="side">0 of 21 countries with confirmed placements; 2,012 readings await sign-off.</span></div>
+
+<p class="legend">
+<span><i style="background:#55B159"></i>++ strong ally</span>
+<span><i style="background:#9ccf9e"></i>+ leans our way</span>
+<span><i style="background:#EEEEEE"></i>0 no placement</span>
+<span><i style="background:#e9a09d"></i>- leans against</span>
+<span><i style="background:#DB544F"></i>-- strong opponent</span>
+</p>
+
+<section class="country" id="cc-it"><h2>Italy</h2>
+<div class="await"><b class="big">Awaiting sign-off: 137 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 9 proposed, 1 procedural, 127 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-it-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc it --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-ch"><h2>Switzerland</h2>
+<div class="await"><b class="big">Awaiting sign-off: 82 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 1 proposed, 0 procedural, 81 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-ch-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc ch --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-fr"><h2>France</h2>
+<div class="await"><b class="big">Awaiting sign-off: 1,050 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 10 proposed, 0 procedural, 1,040 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-fr-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc fr --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-nl"><h2>Netherlands</h2>
+<div class="await"><b class="big">Awaiting sign-off: 212 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 2 proposed, 0 procedural, 210 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-nl-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc nl --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-be"><h2>Belgium</h2>
+<div class="await"><b class="big">Awaiting sign-off: 4 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 3 proposed, 0 procedural, 1 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-be-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc be --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-pl"><h2>Poland</h2>
+<div class="await"><b class="big">Awaiting sign-off: 185 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 24 proposed, 4 procedural, 157 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-pl-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc pl --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-hr"><h2>Croatia</h2>
+<div class="await"><b class="big">Awaiting sign-off: 12 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 0 proposed, 0 procedural, 12 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-hr-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc hr --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-sk"><h2>Slovakia</h2>
+<div class="await"><b class="big">Awaiting sign-off: 43 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 3 proposed, 10 procedural, 30 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-sk-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc sk --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-es"><h2>Spain</h2>
+<div class="await"><b class="big">Awaiting sign-off: 86 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 1 proposed, 4 procedural, 81 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-es-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc es --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-br"><h2>Brazil</h2>
+<div class="await"><b class="big">Awaiting sign-off: 7 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 2 proposed, 2 procedural, 3 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-br-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc br --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-ar"><h2>Argentina</h2>
+<div class="await"><b class="big">Awaiting sign-off: 2 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 0 proposed, 0 procedural, 2 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-ar-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc ar --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-mx"><h2>Mexico</h2>
+<div class="await"><b class="big">Awaiting sign-off: 3 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 0 proposed, 0 procedural, 3 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-mx-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc mx --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-hu"><h2>Hungary</h2>
+<div class="await"><b class="big">Awaiting sign-off: 24 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 2 proposed, 1 procedural, 21 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-hu-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc hu --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-at"><h2>Austria</h2>
+<div class="await"><b class="big">Awaiting sign-off: 19 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 3 proposed, 1 procedural, 15 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-at-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc at --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-pt"><h2>Portugal</h2>
+<div class="await"><b class="big">Awaiting sign-off: 40 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 11 proposed, 8 procedural, 21 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-pt-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc pt --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-cl"><h2>Chile</h2>
+<div class="await"><b class="big">Awaiting sign-off: 5 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 0 proposed, 0 procedural, 5 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-cl-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc cl --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-pe"><h2>Peru</h2>
+<div class="await"><b class="big">No votes on our ground to read yet</b><p>The store holds no watched or tier-1 vote for this country yet, so there is nothing to sign off and no one to place.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-pe-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc pe --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-ec"><h2>Ecuador</h2>
+<div class="await"><b class="big">Awaiting sign-off: 7 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 0 proposed, 0 procedural, 7 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-ec-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc ec --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-do"><h2>Dominican Republic</h2>
+<div class="await"><b class="big">Awaiting sign-off: 94 readings</b><p>No member is placed until a named person confirms CitizenGO's reading of a vote. Waiting: 0 proposed, 12 procedural, 82 needing a person to read the text first.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-do-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc do --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-sv"><h2>El Salvador</h2>
+<div class="await"><b class="big">No votes on our ground to read yet</b><p>The store holds no watched or tier-1 vote for this country yet, so there is nothing to sign off and no one to place.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-sv-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc sv --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<section class="country" id="cc-gt"><h2>Guatemala</h2>
+<div class="await"><b class="big">No votes on our ground to read yet</b><p>The store holds no watched or tier-1 vote for this country yet, so there is nothing to sign off and no one to place.</p>
+<p class="side">Sign-off guide: <code>docs/5ca-gt-readings.md</code>; confirm with <code>python3 tools/country_5ca.py --cc gt --sign-from-doc --by NAME</code>. Who signs: Chris (no country signer named yet in <code>config/stance_signers.yaml</code>).</p>
+</div>
+</section>
+
+<p class="foot">Generated 2026-10-10 from the parliamentary monitor's country stores. A member is
+placed by a recorded vote only once CitizenGO's reading of that vote (which side is ours) is
+confirmed by a named person; the strongest such vote decides, and a member with votes on both
+sides is flagged. Totals count sitting members only. Readings and the sign-off: <code>config/&lt;cc&gt;_stance.yaml</code>, <code>docs/5ca-&lt;cc&gt;-readings.md</code>; full sheets: <code>data/5ca/&lt;cc&gt;-5ca-*.csv</code>.</p>
+<script>
+(function () {
+  document.documentElement.className = "js";
+  var sel = document.getElementById("cc");
+  function show(cc) {
+    var all = document.querySelectorAll(".country"), hit = false;
+    for (var i = 0; i < all.length; i++) {
+      var on = all[i].id === "cc-" + cc;
+      all[i].className = "country" + (on ? " on" : "");
+      hit = hit || on;
+    }
+    if (!hit && all.length) { all[0].className = "country on"; cc = all[0].id.slice(3); }
+    sel.value = cc;
+  }
+  sel.addEventListener("change", function () {
+    show(sel.value);
+    if (history.replaceState) history.replaceState(null, "", "#" + sel.value);
+  });
+  show((location.hash || "").replace("#", "") || sel.value);
+})();
+</script>
+</body></html>

@@ -95,7 +95,8 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: pip install pyyaml
+        # pypdf pinned as in pe-weekly.yml: UY5 reads the Diario PDFs.
+        run: pip install pyyaml pypdf==6.14.2
       - name: Fetch the store
         id: fetch
         env:
