@@ -35,9 +35,13 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Brazil weekly}"
 if [ "${BR_RECLASSIFY:-}" = "true" ]; then
   python3 tools/br_rollcalls.py --reclassify
+  python3 tools/br_chamber.py --reclassify
 fi
 rc=0
 python3 tools/br_rollcalls.py --budget-seconds 2700 || rc=$?
+# What was said and asked in the chamber (tools/br_chamber.py, parity layer 5):
+# time-boxed to what is left of the hour, never fatal, skipped on GitHub.
+bash tools/chamber_step.sh br "$SECONDS"
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.

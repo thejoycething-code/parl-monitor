@@ -407,6 +407,10 @@ Kept minimal for the thirteen-branch merge:
 
 Everything else is new and Netherlands-only.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: plenary Handelingen (the VLOS XML Verslagen from the OData portal, the corrected Eindpublicatie preferred, re-read when a newer version appears) and Kamervragen (Schriftelijke and Mondelinge vragen as zaken, asker, fractie and minister), `tools/nl_chamber.py`, a step of the Netherlands weekly. Speeches are matched passage by passage in the speaker's own words, never the sitting; the chair is never stored. In the edition ("Said in the chamber", "Questions"); the DM stays votes only (NL3). Committee debates are not read (budget). Measured 28 September to 9 October 2026: 6 plenary reports, 6,000 turns, 66 on our ground (most of them migration, which is stored and not shown); 93 questions, 7 on our ground.
+
 ## Waiting on Chris
 
 1. **Approve or correct the Dutch term list** above (ideally with a Dutch
@@ -440,10 +444,57 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - The DM carries votes only (NL3): for the edition phase.
-- Phase: the Eerste Kamer via its web pages (NL4).
+- Phase: the Eerste Kamer via its web pages (NL4). BUILT 10 October 2026 (branch `parity-phases-a`): see "NL4, as built" below.
 - Chris reads the open-data disclaimer (NL5) before the weekly runs unattended.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/nl/` from the store each weekly run (`tools/member_profiles.py nl`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Show-of-hands positions are DERIVED from the fractie vote (X5), labelled; roll calls are recorded per member.
+
+## NL4, as built (10 October 2026, branch `parity-phases-a`)
+
+`tools/nl_eerstekamer.py`, a step of `jobs/nl-weekly.sh` after the Tweede
+Kamer's collector, reading eerstekamer.nl's "Stemmingen per vergaderdag"
+pages (robots.txt respected, one page a second, archived) into
+`nl_ek_bills`, `nl_ek_divisions` and `nl_ek_votes` (`src/nl_store.py`).
+The SRU Handelingen route was not needed: the vote pages carry every vote.
+
+- **What a vote holds**: the title as printed, the Kamerstuk reference
+  (key `ek-<date>-<reference>`, joint motions under every dossier they
+  name), the method (show of hands, roll call, hamerstuk, unanimous, or
+  without a vote), the Kamer's own result word, and the sides: fracties on a
+  show of hands, every senator with their fractie on a roll call, and the
+  fracties asking for their dissent to be recorded on a hamerstuk. Nothing
+  is derived for members on a show of hands.
+- **Classified** with taxonomy-nl for `nl` and watchlist-nl by dossier, the
+  same numbers as the Tweede Kamer's; a motion inherits its bill's areas.
+- **Measured** (scratch store, 10 October 2026, back to June 2023): 1,108
+  votes on 736 bills, 16 roll calls, 13 on our ground (area 11 left out),
+  among them the conversion-practices ban (36178, roll call, adopted 16 June
+  2026, watched), the trafficking law (36547, 29 September 2026), the
+  sexual offences law (36222) and the donor-children bill (35870). 46 pages
+  in about 45 seconds on a first run; one to three pages a week after.
+- **Edition**: the Dutch edition's votes section carries the Eerste Kamer's
+  votes on our ground beside the Tweede Kamer's, each said to be the Eerste
+  Kamer's. Sample: `docs/parity-samples/nl-eerstekamer-2026-06-17.md`.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/nl_stance.yaml` holds 10 bill direction(s) (Claude's drafts from the watchlist) and 212 vote reading(s): 2 with proposed values, 0 procedural, 210 need reading, 0 confirmed. Guide: `docs/5ca-nl-readings.md`; confirm with `python3 tools/country_5ca.py --cc nl --sign-from-doc --by NAME`. Sheets (`data/5ca/nl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Netherlands (`config/stance_signers.yaml`). Most votes are by show of hands: members are DERIVED from their fractie's vote (X5) and labelled; a roll call is the member's own. A motion tabled in a bill's dossier never takes the bill's direction: its own text decides.
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country nl --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country nl --date YYYY-MM-DD --item 37027 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country nl --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/nl-<date>-<slug> --onside
+
+It writes `data/packs/nl-<date>-<slug>/`: `pack.md` and `checklist.md` in Dutch (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: roll calls (hoofdelijke stemmingen) give each member's own position; the show-of-hands votes give the fractie's, so those member rows are DERIVED (X5), marked `*`, and never count as breaking with the group.
+Agenda slot: read by bill key from the `country_agenda` table (the week-ahead layer, src/agenda.py) once the country's weekly step has read the agenda; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/nl_stance.yaml`; none is confirmed yet, so every pack shows
+"wacht op goedkeuring" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

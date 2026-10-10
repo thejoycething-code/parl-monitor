@@ -290,6 +290,17 @@ The own-edition countries (docs/country-decisions-2026-10-10.md, "Edition struct
 - **The DM** goes to Chris alone: the scripts default `SLACK_DM_USER_ID` to U05LJP0BT61 and the code forces it whatever the secrets say. On the Mini the token comes from `~/runner/env` (`SLACK_BOT_TOKEN`, already there); the workflows pass the secret. Without a token the DM is reported skipped and the run goes on.
 - **Noise:** `config/edition-noise-<cc>.yaml` and `config/edition-mute-<cc>.yaml` (src/noise.py, the Latam filters generalised; no model, X16).
 
+## Chamber step: debates, speeches and questions (10 October 2026, branch `parity-debates`)
+
+What was said and asked in the chamber, for the new country editions (parity layer 5; `src/chamber_store.py`, one collector per country, `tools/<cc>_chamber.py`). Built for the Netherlands, Switzerland, Austria, France, Belgium (speeches) and the Netherlands, Poland, France, Portugal, Brazil (questions).
+
+- **No new plists, jobs or workflows.** Each is a step of its country's existing weekly (`jobs/{nl,ch,at,fr,be,pl,pt,br}-weekly.sh`), between the collector and the edition, through `bash tools/chamber_step.sh <cc> "$SECONDS"`, so nothing needs installing: the Mini picks it up on its next `git pull`.
+- **Time-boxed to the hour.** The step gets what is left of 55 minutes of the job, at most ten (`JOB_TIMEOUT` is 3600 on the Mini; Poland's is 4500); under a minute left, it says so and skips, and the next run's three-week lookback reads what it missed.
+- **Never fatal, never on GitHub.** A failure is a `[gap]` line (and a row in `gaps`); the store, the edition and the publish go on. On GitHub (`GITHUB_ACTIONS=true`, the backup) the step is skipped: the backups' timeouts are 30 to 60 minutes and the Mini catches up.
+- **First run reads from 1 September 2026**, so the tables are not empty when tools/coverage.py starts watching them (`<CC> chamber` step heartbeats, AWAITING_FIRST_RUN until then). Austria's first run takes two or three weeklies to drain (one request per speech).
+- **Reclassify:** each `<CC>_RECLASSIFY=true` run also runs `tools/<cc>_chamber.py --reclassify`.
+- **By hand on the Mini** (one writer at a time; never while a weekly runs): `cd ~/runner/parl-monitor && python3 tools/nl_chamber.py --since 2026-09-01`.
+
 ## Week ahead for the country editions (10 October 2026, branch `parity-week-ahead`)
 
 Handover item 4. `tools/country_agenda.py <cc>` reads a country's agenda into the shared `country_agenda` table (src/agenda.py; one source module per country in `src/agendas/`), matches each point to the store's bills by number and flags watched and tier-1 points; the edition's "Week ahead" section shows the next fortnight and its Coverage line says how far the agenda reaches and when the next sitting is.
@@ -539,6 +550,12 @@ with the end of its output. Nothing caps the clock here, but give
     cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh hu-karzat-backfill \
       >> ~/runner/logs/hu-karzat-backfill.log 2>&1 &
 
+    # Slovakia, SK6: the term's backlog of bill documents (about 836 prints,
+    # two and a half hours at nrsr.sk's speed); 55 minutes a run, so run it
+    # three times, never on a Tuesday morning (the Slovak weekly).
+    cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh sk-docs-backfill \
+      >> ~/runner/logs/sk-docs-backfill.log 2>&1 &
+
 They record their own heartbeats ("Provinces backfill", "Canada backfill"),
 never the weekly's. They hold the lock while they run, so the scheduled jobs
 queue behind them (up to two hours): start a long one when the calendar is
@@ -548,3 +565,18 @@ The GitHub dispatch forms still work, as a fallback.
 The scoping probes (`*-probe.yml`, `probe-hosts.yml`) stay on GitHub: they
 exist to ask whether a site answers GitHub's runners, which only a runner
 can answer. They are one-off; delete each once its collector is built.
+
+## Later phases, set A (10 October 2026, branch `parity-phases-a`)
+
+No new scheduled job and no new plist: each phase is a step in a weekly the
+Mini already runs, so `ops/install_country_jobs.sh` is unchanged. After the
+merge the runner picks them up on its next `git pull` (mini_run.sh does it).
+
+| Phase | Where it runs | What the Mini does |
+|---|---|---|
+| FR5, the Senat | `jobs/fr-weekly.sh`, after `fr_rollcalls.py` (Saturdays) | `tools/fr_senat.py`: one 1-byte request for the Dosleg dump's headers; downloads the 16 MB zip only when it changed and the last download is six or more days old; about 15 seconds to load. Its own heartbeat "FR Senat". |
+| NL4, the Eerste Kamer | `jobs/nl-weekly.sh`, after `nl_rollcalls.py` (Thursdays) | `tools/nl_eerstekamer.py`: eerstekamer.nl's vote pages, one a second, back to two weeks before the newest stored vote. The first run reads back to June 2023: 46 pages, about 3 minutes. Heartbeat "NL Eerste Kamer". |
+| IT2, the Camera's SPARQL | `jobs/it-weekly.sh`, inside `it_rollcalls.py` | Nothing new to install. `IT_CAMERA_SOURCE=openpolis` or `camera` in `~/runner/env` overrides the default `auto`. |
+| CH6, Swiss Italian texts | `jobs/ch-weekly.sh`, inside `ch_rollcalls.py` | A third language pass (22 more pages on a full read, a few on a weekly one). The first weekly after the merge reads every business's Italian record once (about 6,700 have one; Fragestunde questions mostly do not and are marked so). |
+| SK6, Slovak bill documents | `jobs/sk-weekly.sh` (Tuesdays): documents get the first 10 minutes of the old 45-minute positions budget | The backlog by hand: `sk-docs-backfill` above, three runs. |
+

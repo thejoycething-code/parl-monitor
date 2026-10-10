@@ -1640,6 +1640,10 @@ TABLES = (
     "nl_zaken",
     "nl_divisions",
     "nl_votes",
+    # The Eerste Kamer (NL4, 10 October 2026; tools/nl_eerstekamer.py).
+    "nl_ek_bills",
+    "nl_ek_divisions",
+    "nl_ek_votes",
     # Poland's Sejm (tools/pl_rollcalls.py), created by
     # src/pl_store.ensure_schema -- declared from day one.
     "pl_members",
@@ -1686,6 +1690,9 @@ TABLES = (
     "fr_dossiers",
     "fr_divisions",
     "fr_votes",
+    # The Senat (FR5, 10 October 2026; tools/fr_senat.py).
+    "fr_senat_dossiers",
+    "fr_senat_dump",
     # Portugal's Assembleia da Republica (tools/pt_rollcalls.py), created by
     # src/pt_store.ensure_schema -- declared from day one.
     "pt_members",
@@ -1827,6 +1834,27 @@ TABLES = (
     "ve_news",
     "nic_gazette_issues",
     "nic_gazette_items",
+    # What was said and asked in the chamber in the new country editions
+    # (parity layer 5, 10 October 2026; tools/<cc>_chamber.py), created by src/chamber_store.ensure_schema for
+    # every code in chamber_store.COUNTRIES -- declared from day one.
+    "nl_speeches",
+    "nl_questions",
+    "nl_record_reads",
+    "ch_speeches",
+    "ch_record_reads",
+    "at_speeches",
+    "at_record_reads",
+    "pl_questions",
+    "pl_record_reads",
+    "fr_speeches",
+    "fr_questions",
+    "fr_record_reads",
+    "br_questions",
+    "br_record_reads",
+    "pt_questions",
+    "pt_record_reads",
+    "be_speeches",
+    "be_record_reads",
     # The new countries' week ahead (tools/country_agenda.py), one table for
     # every country keyed (cc, item_id), created by src/agenda.ensure_schema
     # -- declared from day one.
@@ -2168,6 +2196,8 @@ def init_db(conn):
     uy_store.ensure_schema(conn)
     from src import latam_store
     latam_store.ensure_schema(conn)
+    from src import chamber_store
+    chamber_store.ensure_schema(conn)
     from src import agenda
     agenda.ensure_schema(conn)
     return conn

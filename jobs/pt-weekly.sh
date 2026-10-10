@@ -41,6 +41,7 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Portugal weekly}"
 if [ "${PT_RECLASSIFY:-}" = "true" ]; then
   python3 tools/pt_rollcalls.py --reclassify
+  python3 tools/pt_chamber.py --reclassify
 fi
 rc=0
 # PT6 (10 October 2026): PT_LEGISLATURE=XV or XVI reads that legislature's
@@ -59,6 +60,12 @@ python3 tools/pt_rollcalls.py --budget-seconds 2700 "${leg[@]}" || rc=$?
 if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; } && [ -z "${PT_LEGISLATURE:-}" ]; then
   python3 tools/pt_courts.py \
     || echo "  [gap] pt-courts recorded gaps or failed; the next run retries"
+fi
+# What was said and asked in the chamber (tools/pt_chamber.py, parity layer 5):
+# time-boxed to what is left of the hour, never fatal, skipped on GitHub and
+# on a backfill run (PT_LEGISLATURE set).
+if [ -z "${PT_LEGISLATURE:-}" ]; then
+  bash tools/chamber_step.sh pt "$SECONDS"
 fi
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM; nor on a backfill run,

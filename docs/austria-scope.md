@@ -385,6 +385,10 @@ local store that a fresh worktree does not carry. The frozen
 `data/raw/2026-08-01` fixtures were copied in from the main checkout to run
 the rest; without them a further 63 fail for the same reason.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: debate speeches from each sitting's history page and the provisional protocol, one speech file at a time (the full Stenographisches Protokoll lags months), `tools/at_chamber.py`, a step of the Austrian weekly, budget-drained, interjections cut before matching. Speech files listed before they are published (404) are read when they appear, not counted as gaps. Questions are not collected here: the edition already carries J and AB. Measured 22 September to 9 October 2026: 285 speeches read, 24 on our ground.
+
 ## Waiting on Chris
 
 1. **Klub votes as the record.** Accept that an Austrian member's position is
@@ -425,3 +429,23 @@ Later phases and items for Chris (not built at the merge):
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/at_stance.yaml` holds 9 bill direction(s) (Claude's drafts from the watchlist) and 19 vote reading(s): 3 with proposed values, 1 procedural, 15 need reading, 0 confirmed. Guide: `docs/5ca-at-readings.md`; confirm with `python3 tools/country_5ca.py --cc at --sign-from-doc --by NAME`. Sheets (`data/5ca/at-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Austria (`config/stance_signers.yaml`). Only the Klub's vote is recorded, so every member row is DERIVED from it (X5) and labelled; committee votes are not sheeted (no membership list).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country at --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country at --date YYYY-MM-DD --item XXVIII/I/525 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country at --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/at-<date>-<slug> --onside
+
+It writes `data/packs/at-<date>-<slug>/`: `pack.md` and `checklist.md` in German (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: the group's vote is the record, so every member row is DERIVED (X5), marked `*`, and never counts as a member's own position or as breaking with the group.
+Agenda slot: read by bill key from the `country_agenda` table (the week-ahead layer, src/agenda.py) once the country's weekly step has read the agenda; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/at_stance.yaml`; none is confirmed yet, so every pack shows
+"Freigabe ausstehend" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

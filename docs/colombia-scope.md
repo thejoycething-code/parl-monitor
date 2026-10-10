@@ -476,3 +476,26 @@ Later phases and items for Chris (not built at the merge):
   the list as open data (a request from Chris).
 - **X7:** designed only (`src/ocr.py`, install steps in docs/mac-mini.md);
   the Gaceta vote images wait for the Gaceta document layer (phase 3).
+
+- Phase (X8): the Constitutional Court section (CO4).
+- Phase (X7): OCR for scanned records.
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country co --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country co --date YYYY-MM-DD --item camara/2026/114 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country co --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/co-<date>-<slug> --onside
+
+It writes `data/packs/co-<date>-<slug>/`: `pack.md` and `checklist.md` in Spanish (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. No member-level votes are collected here, so a pack holds the item and the agenda slot only, and says so.
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/co_stance.yaml`; none is confirmed yet, so every pack shows
+"pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

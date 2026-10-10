@@ -10,7 +10,11 @@
 #
 #     FR_RECLASSIFY=true    re-derive every stored FR dossier's and division's
 #                           areas, offline, before the pull (after a taxonomy
-#                           or watchlist-fr change)
+#                           or watchlist-fr change), the Senat's included (FR5)
+#
+# THE SENAT (FR5, 10 October 2026): tools/fr_senat.py runs after the
+# Assemblee's collector; it downloads data.senat.fr's Dosleg dump at most
+# weekly and only when it changed, and otherwise does nothing.
 #
 # Exit codes. The collector exits 3 when it stored what it could and recorded
 # gaps (in the gaps table and as [gap] lines in the log): that run is still
@@ -32,9 +36,28 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-France weekly}"
 if [ "${FR_RECLASSIFY:-}" = "true" ]; then
   python3 tools/fr_rollcalls.py --reclassify
+  python3 tools/fr_chamber.py --reclassify
+  python3 tools/fr_senat.py --reclassify
 fi
 rc=0
 python3 tools/fr_rollcalls.py || rc=$?
+# The Senat (FR5, 10 October 2026): data.senat.fr's Dosleg dump, downloaded
+# at most weekly and only when it changed (a one-byte request reads its
+# headers first), after the Assemblee so a Senate dossier can be joined to
+# the Assemblee's. A gap (exit 3) is reported like the Assemblee's; a failure
+# is logged and never stops the Assemblee's publish below.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  sr=0
+  python3 tools/fr_senat.py || sr=$?
+  if [ "$sr" -eq 3 ]; then
+    rc=3
+  elif [ "$sr" -ne 0 ]; then
+    echo "  [gap] fr-senat failed (exit $sr); the Assemblee is still published"
+  fi
+fi
+# What was said and asked in the chamber (tools/fr_chamber.py, parity layer 5):
+# time-boxed to what is left of the hour, never fatal, skipped on GitHub.
+bash tools/chamber_step.sh fr "$SECONDS"
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.

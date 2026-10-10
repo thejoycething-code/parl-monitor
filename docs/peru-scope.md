@@ -427,3 +427,23 @@ Later phases and items for Chris (not built at the merge):
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/pe_stance.yaml` holds 2 bill direction(s) (Claude's drafts from the watchlist) and 0 vote reading(s): 0 with proposed values, 0 procedural, 0 need reading, 0 confirmed. Guide: `docs/5ca-pe-readings.md`; confirm with `python3 tools/country_5ca.py --cc pe --sign-from-doc --by NAME`. Sheets (`data/5ca/pe-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Peru (`config/stance_signers.yaml`). No qualifying vote in any store yet (the scans were lost; phase 1 holds few votes on our ground).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country pe --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country pe --date YYYY-MM-DD --item 00502-2026-2031-CD [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country pe --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/pe-<date>-<slug> --onside
+
+It writes `data/packs/pe-<date>-<slug>/`: `pack.md` and `checklist.md` in Spanish (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/pe_stance.yaml`; none is confirmed yet, so every pack shows
+"pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

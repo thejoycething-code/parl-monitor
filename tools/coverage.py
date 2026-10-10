@@ -344,6 +344,12 @@ FEEDS = [
     ("nl_fracties", "last_seen", 7, 4, "Tweede Kamer fracties (Netherlands weekly)"),
     ("nl_divisions", "last_seen", 31, 31, "Tweede Kamer votes (Netherlands weekly)"),
     ("nl_zaken", "last_seen", 31, 31, "Zaken voted on in the Tweede Kamer (Netherlands weekly)"),
+    # The Eerste Kamer (NL4, 10 October 2026): votes are re-stamped while
+    # they sit in the two weeks the collector re-reads behind its newest, so
+    # a recess stops them as it stops the Tweede Kamer's.
+    ("nl_ek_divisions", "last_seen", 31, 31, "Eerste Kamer votes, from its web pages (Netherlands weekly, NL4)"),
+    # A bill is re-stamped with its vote, so the same.
+    ("nl_ek_bills", "last_seen", 31, 31, "Bills the Eerste Kamer voted on (Netherlands weekly, NL4)"),
     # Poland (9 October 2026). MEASURED which re-stamp: the deputy list, the
     # print list and every process page are re-read whole on every run, so
     # those move every week, recess included. Votes move only when a sitting
@@ -403,6 +409,10 @@ FEEDS = [
     ("fr_dossiers", "last_seen", 7, 4, "Assemblee nationale dossiers legislatifs (France weekly)"),
     ("fr_members", "last_seen", 7, 4, "Assemblee nationale deputies (France weekly)"),
     ("fr_divisions", "last_seen", 31, 31, "Assemblee nationale scrutins (France weekly)"),
+    # The Senat (FR5, 10 October 2026): every active dossier is re-stamped
+    # each time the Dosleg dump is read, which is at most weekly and only
+    # when it changed (it is regenerated nightly), so about every seven days.
+    ("fr_senat_dossiers", "last_seen", 14, 7, "Senat dossiers, from the Dosleg dump (France weekly, FR5)"),
     # Portugal (9 October 2026). MEASURED which re-stamp: the Assembleia's
     # dumps are per legislature and re-read whole every run, and every
     # initiative, vote and deputy in them is upserted, so all three move every
@@ -603,6 +613,21 @@ FEEDS = [
     ("prov_members", "last_seen", 7, 4, "provincial rosters (Provinces weekly)"),
     ("prov_bills", "last_seen", 7, 4, "provincial bills, from each session's listing (Provinces weekly)"),
 ]
+
+# What was said and asked in the chamber, new country editions (parity layer
+# 5, 10 October 2026; tools/<cc>_chamber.py, src/chamber_store.py). MEASURED
+# which re-stamp: every run lists the last three weeks of reports and
+# re-stamps each one it lists in <cc>_record_reads, read again or not, so the
+# table moves every run while the chamber sits and for three weeks after.
+# Swiss sessions are three weeks a quarter (2 October to 30 November 2026 is
+# 59 days) and the Dutch, Polish and Austrian summer recesses run about ten
+# weeks, so a month plus a month's grace, the Irish rule. The speeches and
+# questions themselves are rows on our ground only (ONCE_EVER below).
+from src import chamber_store as _chamber  # noqa: E402
+
+FEEDS += [("{0}_record_reads".format(cc), "last_seen", 31, 31,
+           "{0} chamber reports and question batches read ({0} weekly)".format(cc.upper()))
+          for cc in _chamber.COUNTRIES]
 
 # Which feeds each pipeline is responsible for. This drives the check
 # that actually catches a CLOBBER: a pipeline that ran yesterday whose
@@ -855,10 +880,30 @@ AWAITING_FIRST_RUN = {
     "IE debates": (("ie_speeches",),
                    "debates step added to Ireland weekly 9 October 2026; the table "
                    "fills on the step's first run"),
+    # STEP heartbeats for the parity phases of 10 October 2026: each step
+    # stamps its own source_runs row after a stored run, because the weekly
+    # it belongs to had its heartbeat before these tables existed.
+    # tools/nl_eerstekamer.py (NL4) stamps "NL Eerste Kamer"; tools/fr_senat.py
+    # (FR5) stamps "FR Senat" after it has read the dump into the store.
+    "NL Eerste Kamer": (("nl_ek_divisions", "nl_ek_bills"),
+                        "Eerste Kamer step (NL4) added to Netherlands weekly 10 October "
+                        "2026; its tables fill on the step's first run"),
+    "FR Senat": (("fr_senat_dossiers",),
+                 "Senat step (FR5) added to France weekly 10 October 2026; the table "
+                 "fills on the step's first run"),
     "Provinces speeches": (("prov_speeches", "prov_speech_sittings"),
                            "Hansard speeches step added to Provinces weekly 2 October 2026; "
                            "its tables fill on the step's first run"),
 }
+# STEP heartbeats for the chamber collectors (parity layer 5): each
+# tools/<cc>_chamber.py stamps '<CC> chamber' after a run with no gap, and its
+# first run reads from 1 September 2026 so the tables do not start empty.
+AWAITING_FIRST_RUN.update({
+    _chamber.heartbeat(cc): (_chamber.tables(cc),
+                             "chamber step (speeches and questions) added to the {0} weekly "
+                             "10 October 2026; its tables fill on the step's first run"
+                             .format(cc.upper()))
+    for cc in _chamber.COUNTRIES})
 
 # Tables carrying a sighting column that are DELIBERATELY not watched,
 # each with its reason. The structural test allows only what is declared
@@ -920,6 +965,10 @@ ON_DEMAND = {
     "Canada backfill": "run by hand on the Mac Mini (jobs/ca-backfill.sh): "
                        "earlier sessions, the Gazette, federal backfills and "
                        "repairs; the Tuesday weekly does the routine reads.",
+    "Slovakia documents backfill": "run by hand on the Mac Mini "
+                                   "(jobs/sk-docs-backfill.sh, SK6): the term's "
+                                   "backlog of bill documents, rerun until no print "
+                                   "is owed; the weekly reads new prints' documents.",
     "Latam courts backfill": "run by hand on the Mac Mini, once, after the "
                              "parity merge (jobs/latam-courts-backfill.sh): the X8 "
                              "courts, BO4 questions and UY5 Diarios seeded before "
@@ -1059,6 +1108,14 @@ ONCE_EVER = {
     "un_documents": "UN pipeline is paused",
     "un_calendar": "UN pipeline is paused",
 }
+
+# The chamber collectors' rows are written only for speeches and questions
+# on our ground, re-stamped only while their report is re-read: a quiet week
+# or a recess adds none (tools/<cc>_chamber.py).
+ONCE_EVER.update({t: "speeches or questions on our ground only, from tools/{0}_chamber.py; a "
+                     "quiet week or a recess adds none".format(t.split("_")[0])
+                  for cc in _chamber.COUNTRIES for t in _chamber.tables(cc)
+                  if not t.endswith("_record_reads")})
 
 
 def age_of(conn, table, col, today):

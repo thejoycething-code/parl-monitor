@@ -1559,3 +1559,46 @@ Measured for the devolved watch (tools/devolved_brief.py), probing live on Frida
 * **Assembly** `GetVotesOnDivision_JSON` carries the division's own time (`DivisionDate`, to the second: 21:40 on 28 September, the latest of the session so far) and no publication stamp. `GetDivisionResult_JSON` gives the untruncated title, the outcome as announced, and tallies by designation (501653: 70 ayes = 29 Nationalist + 26 Unionist + 15 Other). The 5 and 6 October divisions and that week's Hansard were all present by the Friday. The list's `endDate` is EXCLUSIVE of a division later in the day: 28 September to 28 September omitted the 21:40 division.
 * Every brief records when the watch first saw its division ("First seen by the devolved watch ..."), so the Senedd's and the Assembly's lag measures itself from the first sitting week; tighten the slots from those stamps.
 
+## Later phases, set A: what the sources did (10 October 2026)
+
+Probed live from the laptop through `src/http.py` on 10 October 2026.
+
+* **dati.camera.it/sparql (IT2)** answered every query in about 0.3 s (it
+  was down for two hours on 9 October). Its web firewall answers a query
+  holding both `&&` and `<` with an HTML "Request Rejected" page (HTTP 200):
+  a date range must be two `FILTER`s. Votes key exactly as Openpolis's
+  (`vs19_723_001`); a vote's `dc:description` then `dc:title` give
+  Openpolis's title. Positions are `ocd:voto` records with the deputy's
+  Camera ID and `dc:type` ("Favorevole", "Contrario", "Astensione", "Non ha
+  votato", "Ha votato" on a secret ballot); "Non ha votato" covers both the
+  absent and those on mission, which Openpolis tells apart. The Camera's
+  names are the names in use ("CUPERLO GIANNI"), Openpolis's the registry
+  names ("Giovanni Cuperlo"): 379 of 399 matched whole, all 399 with the
+  surname within the group.
+* **data.senat.fr Dosleg (FR5)**: the scope's "lost apostrophes"
+  ("lensemble", "lannee") are U+0092 characters a terminal does not show:
+  923 titles carry U+0092, 38 U+009C, 30 U+0096, and none has truly lost
+  its apostrophe. `scr` has no outcome word (`soslib` and `scrbaspag` are
+  NULL on all 696 recent scrutins). 11 scrutins of the 2024-25 session have
+  positions in `votsen` (3,821) but no row in `scr`. The Senate's
+  `loi.url_an` names the Assemblee's path slug (`fin_de_vie_17e.asp`) more
+  often than its uid. The dump's Last-Modified was 9 October 01:47 UTC on
+  10 October at 00:31: it is not regenerated every night.
+* **eerstekamer.nl (NL4)**: robots.txt disallows only search, print, sort,
+  comment and doubled start parameters. "Stemmingen per vergaderdag" pages
+  25 votes at a time (`start_006=<n>&dlastinprev=<date>`), 46 pages back to
+  June 2023, 0.7 to 1 s each. Methods printed: "Stemming bij zitten en
+  opstaan", "Hoofdelijke stemming", "Hamerstuk", "Algemene stemmen",
+  "Zonder stemmen"; a result "staken" (a tie) once.
+* **ws.parlament.ch (CH6)**: the Italian Business records exist for 6,739
+  of the 52nd legislature's 10,178 businesses; 3,416 of the 3,564
+  Fragestunde questions have none (published in the language asked).
+* **nrsr.sk print pages (SK6)**: `sid=zakony/cpt&ZakZborID=13&CisObdobia=9&ID=<tlač>`
+  lists the documents, keyed by term and print number, so no ID mapping is
+  needed (its all-documents ZIP link carries `MasterId=10308` for tlač 418,
+  the open data's `id`; the legislative-process page's MasterID is another
+  number, as the scope found). The page took 2 to
+  270 seconds; `Dynamic/Download.aspx?DocID=<n>` serves the .docx or PDF in
+  under a second. 25 prints' documents took 281 seconds (about 11 a print).
+  No robots.txt (404).
+
