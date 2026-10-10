@@ -230,7 +230,7 @@ def subjects(conn, cc, today, recent_days=RECENT_DAYS, config_dir=None):
     changed stage or was voted on) within `recent_days`. Only recent ones
     become NEW briefs; the rest are kept so an existing brief can refresh."""
     today_d = datetime.date.fromisoformat(today)
-    items, wl, country = _items(conn, cc, "0001-01-01", today, config_dir)
+    items, wl, country = _items(conn, cc, "1900-01-01", today, config_dir)
     since = (today_d - datetime.timedelta(days=recent_days)).isoformat()
     recent_items, _, _ = _items(conn, cc, since, today, config_dir)
     recent_keys, recent_bill = set(), {}
@@ -280,7 +280,7 @@ def subjects(conn, cc, today, recent_days=RECENT_DAYS, config_dir=None):
         vts = sorted(votes.get(key, []), key=lambda v: (v["date"] or "", v["key"]))
         dates = [d for d in [it["date"], latest["date"]] + [v["date"] for v in vts] if d]
         nxt = sorted(a["date"] for a in ahead
-                     if a.get("date") and a["date"] >= today
+                     if a.get("date") and a["date"] > today       # a standing note is dated today
                      and key in ({a.get("key"), a.get("watch_key"), a.get("group")} | set(a.get("refs") or [])))
         m = SPONSOR.search(latest.get("takeaway") or it.get("takeaway") or "")
         out.append({
