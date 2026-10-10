@@ -522,3 +522,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: the Spanish edition (ES6, build now): a DM edition on the store, as the US and Australian ones. Not built at the merge; next.
 - Senado open-data contact (ES5): a message in Chris's name, not sent by the pipeline.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/es_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 86 vote reading(s): 1 with proposed values, 4 procedural, 81 need reading, 0 confirmed. Guide: `docs/5ca-es-readings.md`; confirm with `python3 tools/country_5ca.py --cc es --sign-from-doc --by NAME`. Sheets (`data/5ca/es-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Spain (`config/stance_signers.yaml`). Spain's own edition resumes after 23 December; the drafts stand meanwhile.

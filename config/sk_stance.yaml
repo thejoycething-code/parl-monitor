@@ -1,0 +1,706 @@
+# Slovakia: what a recorded vote MEANS for CitizenGO, for the 5CA.
+#
+# Written by tools/country_5ca.py (src/country5ca.py), the 5CA-with-sign-off
+# layer of docs/country-parity-handover.md (item 2), 10 October 2026. The
+# rule is Canada's: which lobby is CitizenGO's is a HUMAN judgement, and
+# nothing places anyone until a named person has confirmed it.
+#
+# status:
+#   draft          proposed by the drafter's rules (or by Claude): unsigned,
+#                  places nobody.
+#   needs_reading  no direction proposed: the drafter could not tell which
+#                  side is ours without reading the text. A person writes
+#                  `yea:`/`nay:` (and why lines), then confirms.
+#   confirmed      signed: `confirmed_by:` (a named person) and
+#                  `confirmed_on:` (the date) are both required, or it still
+#                  counts as unsigned.
+#
+# To confirm: tick the box in docs/5ca-sk-readings.md and run
+#   python3 tools/country_5ca.py --cc sk --sign-from-doc --by NAME
+# or confirm by key:
+#   python3 tools/country_5ca.py --cc sk --confirm KEY [KEY ...] --by NAME
+# To strike a reading for good, write `placeable: false` and a `reason:`.
+#
+# bill_directions: whether PASSING a bill or motion is with CitizenGO
+# (`with`) or against it (`against`). Drafted by Claude on 10 October 2026
+# from each watchlist entry's own description, never from a model call; a
+# bill with no line gets no proposed values. Edit or add lines here: the
+# next --draft uses them for NEW votes (an existing entry is never
+# rewritten).
+#
+# divisions: one entry per watched or tier-1 vote, appended by --draft.
+# Keys are the store's division keys. `yea:`/`nay:` are the stance (-2..2)
+# of voting Yes / No as the chamber records it (Za / Proti). An
+# abstention never places anyone. Keep `divisions:` the LAST section: the
+# drafter appends to the end of this file.
+
+
+bill_directions:
+  - key: "9/733"
+    direction: with
+    status: draft
+    areas: [5, 6, 9, 10]
+    why: "Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 against). Recognises two sexes only, gives Slovakia sovereignty on cultural and ethical questions, makes sex education subject to pare"
+    drafted: "Claude, 10 October 2026, from config/watchlist-sk.yaml"
+
+divisions:
+
+  # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
+  - key: "55270"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Vladimíry MARCINKOVEJ, Vladimíra LEDECKÉHO a Ondreja DOSTÁLA na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších pre"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Vladimíry MARCINKOVEJ, Vladimíra LEDECKÉHO a Ondreja DOSTÁLA na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení n"
+    dated: "2024-09-24"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh neprešiel; Za 44, Proti 44, Abstain 45"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/418: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Vladimíry MARCINKOVEJ, Vladimíra LEDECKÉHO a Ondreja DOSTÁLA na vydanie zákona, ktorým sa' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "55317"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA, Lucie PLAVÁKOVEJ a Zory JAUROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 308/1991 Zb. o slobode náboženskej viery a postavení cirkví a náboženských spoločn"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA, Lucie PLAVÁKOVEJ a Zory JAUROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 308/1991 Zb. o slobode náboženskej viery a"
+    dated: "2024-10-01"
+    chamber: "nrsr"
+    areas: [8]
+    tier: 1
+    result: "Návrh neprešiel; Za 36, Proti 52, Abstain 49"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/393: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA, Lucie PLAVÁKOVEJ a Zory JAUROVEJ na vydanie zákona, ktorým sa mení ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "55364"
+    status: needs_reading
+    title: "Návrh poslanca Narodnej rady Slovenskej republiky Rastislava KRÁTKEHO na prijatie uznesenia Národnej rady Slovenskej republiky k uzneseniu Európskeho parlamentu z 11. aprila 2024 o začlenení práva na umelé prerušenie tehotenstva do Charty z"
+    on: "Návrh poslanca Národnej rady Slovenskej republiky Rastislava KRÁTKEHO na prijatie uznesenia Národnej rady Slovenskej republiky k uzneseniu Európskeho parlamentu z 11. aprila 2024 o začlenení práva na"
+    dated: "2024-10-03"
+    chamber: "nrsr"
+    areas: [1]
+    tier: 1
+    result: "Návrh neprešiel; Za 17, Proti 31, Abstain 73"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/266: CitizenGO's position on 'Návrh poslanca Národnej rady Slovenskej republiky Rastislava KRÁTKEHO na prijatie uznesenia Národnej rady Slovenskej republiky k uzneseniu E' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "55399"
+    status: needs_reading
+    title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - prvé čítanie. Hlasovanie o tom, aby bol návrh zákona prerokovaný v druhom čítaní."
+    on: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
+    dated: "2024-10-23"
+    chamber: "nrsr"
+    areas: [8]
+    tier: 1
+    result: "Návrh prešiel; Za 99, Proti 1, Abstain 36"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/511: CitizenGO's position on 'Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "55400"
+    status: draft
+    title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - prvé čítanie. Hlasovanie o pridelení návrhu zákona výborom a určení lehoty na prerokovanie."
+    on: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
+    dated: "2024-10-23"
+    chamber: "nrsr"
+    areas: [8]
+    tier: 1
+    result: "Návrh prešiel; Za 98, Proti 1, Abstain 38"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských ): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 8 (religious freedom). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "55573"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Jany HANULlAKOVEJ, Veroniky VESLÁROVEJ a Richarda DUBOVICKÉHO na vydanie zákona, ktorým sa dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Jany HANULlAKOVEJ, Veroniky VESLÁROVEJ a Richarda DUBOVICKÉHO na vydanie zákona, ktorým sa dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnen"
+    dated: "2024-11-05"
+    chamber: "nrsr"
+    areas: [5, 9]
+    tier: 1
+    result: "Návrh neprešiel; Za 47, Proti 45, Abstain 47"
+    lobbies: "Za: PS 28, SaS 11, KDH 8. Proti: SMER - SD 40, SNS 5. Abstain: HLAS - SD 27, SLOVENSKO 12, ? 4, SNS 3, SMER - SD 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Návrh poslancov Národnej rady Slovenskej republiky Jany HANULlAKOVEJ, Veroniky VESLÁROVEJ a Richarda DUBOVICKÉHO na vyda'): read the question put, then write yea/nay."
+    reasoning: "Area 5 (sex-based rights), 9 (marriage and family). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "55669"
+    status: needs_reading
+    title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - druhé čítanie. Hlasovanie o pozmeňujúcich návrhoch zo spoločnej správy výborov – body 1 a 2."
+    on: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
+    dated: "2024-11-27"
+    chamber: "nrsr"
+    areas: [8]
+    tier: 1
+    result: "Návrh prešiel; Za 95, Proti 0, Abstain 41"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 27, SLOVENSKO 10, KDH 9, SNS 8. Abstain: PS 32, SaS 7, ? 1, SLOVENSKO 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských '): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 8 (religious freedom)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "55670"
+    status: draft
+    title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - druhé čítanie. Hlasovanie o pristúpení k tretiemu čítaniu ihneď."
+    on: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
+    dated: "2024-11-27"
+    chamber: "nrsr"
+    areas: [8]
+    tier: 1
+    result: "Návrh prešiel; Za 93, Proti 7, Abstain 34"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 26, SLOVENSKO 9, KDH 9, SNS 8. Proti: SaS 6, ? 1. Abstain: PS 32, SaS 1, SLOVENSKO 1"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských ): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 8 (religious freedom). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "55671"
+    status: needs_reading
+    title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - tretie čítanie. Hlasovanie o návrhu zákona ako o celku."
+    on: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
+    dated: "2024-11-27"
+    chamber: "nrsr"
+    areas: [8]
+    tier: 1
+    result: "Návrh prešiel; Za 96, Proti 3, Abstain 35"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 27, SLOVENSKO 11, KDH 9, SNS 8. Proti: SaS 3. Abstain: PS 30, SaS 3, ? 1, SLOVENSKO 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/511: CitizenGO's position on 'Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56254"
+    status: draft
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - prvé čítanie. (Zlúčená rozprava o tlačiach č. 733 a č. 712.) Hlasovanie o tom, aby bol návrh zákona"
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-04-09"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh prešiel; Za 81, Proti 40, Abstain 22"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 26, SNS 8, ? 4, SLOVENSKO 2. Proti: PS 29, SaS 10, ? 1. Abstain: KDH 11, SLOVENSKO 11"
+    vote_kind: "final"
+    yea: 2
+    why_yea: "Voted Za on 9/733 (Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 agai): for passing it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Proti on 9/733 (Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 agai): against passing it, against CitizenGO's position."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). Bill direction on file for 9/733 (a draft): passing it is WITH us -- Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 against). Recognises two sexes only, gives Slovakia sovereignty on cultural and ethical questions, makes sex educa. This vote is a vote on the whole text or the motion itself, so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56255"
+    status: draft
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - prvé čítanie. (Zlúčená rozprava o tlačiach č. 733 a č. 712.) Hlasovanie o pridelení návrhu zákona v"
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-04-09"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh prešiel; Za 81, Proti 36, Abstain 26"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 26, SNS 8, ? 4, SLOVENSKO 2. Proti: PS 29, SaS 6, ? 1. Abstain: KDH 11, SLOVENSKO 11, SaS 4"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56356"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na vydanie zákona, ktorým sa mení zákon č. 73/1986 Zb. o umelom prerušení tehotenstva v znení neskorších predpisov (tlač 593) - prvé čítanie. Hlasovanie o"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na vydanie zákona, ktorým sa mení zákon č. 73/1986 Zb. o umelom prerušení tehotenstva v znení neskorších predpisov"
+    dated: "2025-04-15"
+    chamber: "nrsr"
+    areas: [1]
+    tier: 1
+    result: "Návrh neprešiel; Za 25, Proti 41, Abstain 74"
+    lobbies: "Za: SLOVENSKO 13, KDH 11, SMER - SD 1. Proti: PS 31, SaS 9, SMER - SD 1. Abstain: SMER - SD 38, HLAS - SD 24, SNS 8, ? 4"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/593: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na vydanie zákona, ktorým sa mení zákon č. 73/1986 Zb. ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56534"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 673) - p"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v z"
+    dated: "2025-06-03"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh neprešiel; Za 42, Proti 0, Abstain 97"
+    lobbies: "Za: PS 29, SaS 11, ? 1, SLOVENSKO 1. Abstain: SMER - SD 39, HLAS - SD 26, KDH 11, SLOVENSKO 9, SNS 8, ? 4"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/673: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/200' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56671"
+    status: needs_reading
+    title: "Návrh skupiny poslancov Národnej rady Slovenskej republiky na prijatie uznesenia Národnej rady Slovenskej republiky k Európskej iniciatíve občanov s názvom \"My Voice, My Choice: For Safe And Accessible Abortion\" (\"Môj hlas, moja voľba: Za b"
+    on: "Návrh skupiny poslancov Národnej rady Slovenskej republiky na prijatie uznesenia Národnej rady Slovenskej republiky k Európskej iniciatíve občanov s názvom \"My Voice, My Choice: For Safe And Accessibl"
+    dated: "2025-06-17"
+    chamber: "nrsr"
+    areas: [1]
+    tier: 1
+    result: "Návrh neprešiel; Za 24, Proti 43, Abstain 73"
+    lobbies: "Za: SLOVENSKO 12, KDH 8, SaS 1, PS 1, SMER - SD 1, ? 1. Proti: PS 31, SaS 8, SMER - SD 3, ? 1. Abstain: SMER - SD 36, HLAS - SD 26, SNS 8, ? 3"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Návrh skupiny poslancov Národnej rady Slovenskej republiky na prijatie uznesenia Národnej rady Slovenskej republiky k Eu'): read the question put, then write yea/nay."
+    reasoning: "Area 1 (abortion). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56672"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na prijatie uznesenia Národnej rady Slovenskej republiky k odmietnutiu financovania tzv. \"potratove] turistiky\" a k podpore suverenity členských štátov v o"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na prijatie uznesenia Národnej rady Slovenskej republiky k odmietnutiu financovania tzv. \"potratove] turistiky\" a k"
+    dated: "2025-06-17"
+    chamber: "nrsr"
+    areas: [1]
+    tier: 1
+    result: "Návrh neprešiel; Za 27, Proti 41, Abstain 74"
+    lobbies: "Za: SLOVENSKO 13, KDH 8, SMER - SD 4, PS 1, ? 1. Proti: PS 31, SaS 9, ? 1. Abstain: SMER - SD 37, HLAS - SD 26, SNS 8, ? 3"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/843: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na prijatie uznesenia Národnej rady Slovenskej republik' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56684"
+    status: draft
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o návrhu posl. Dostál - nepokračovať v rokovaní o návrhu zákona."
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-06-17"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh neprešiel; Za 45, Proti 91"
+    lobbies: "Za: PS 33, SaS 11, ? 1. Proti: SMER - SD 41, HLAS - SD 25, KDH 10, SNS 8, ? 4, SLOVENSKO 2, SaS 1"
+    vote_kind: "reject"
+    yea: -2
+    why_yea: "Voted Za on 9/733 (Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 agai): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Proti on 9/733 (Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 agai): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). Bill direction on file for 9/733 (a draft): passing it is WITH us -- Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 against). Recognises two sexes only, gives Slovakia sovereignty on cultural and ethical questions, makes sex educa. This vote is a motion to reject the text (the sides are swapped), so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56685"
+    status: draft
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o skrátení lehoty k návrhom podaným v rozprave."
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-06-17"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh prešiel; Za 90, Proti 44"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 25, KDH 10, SNS 8, ? 4, SLOVENSKO 2. Proti: PS 33, SaS 10, ? 1"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56686"
+    status: needs_reading
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - Podmanický."
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-06-17"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh neprešiel; Za 0, Proti 134"
+    lobbies: "Proti: SMER - SD 41, PS 33, HLAS - SD 25, SaS 10, KDH 10, SNS 8, ? 5, SLOVENSKO 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56687"
+    status: needs_reading
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - J. Horecký , 1. návr"
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-06-17"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh prešiel; Za 90, Proti 44"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 25, KDH 10, SNS 8, ? 4, SLOVENSKO 2. Proti: PS 33, SaS 10, ? 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56688"
+    status: needs_reading
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - J. Horecký, 1. návrh"
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-06-17"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh neprešiel; Za 0, Proti 134"
+    lobbies: "Proti: SMER - SD 41, PS 33, HLAS - SD 25, SaS 10, KDH 10, SNS 8, ? 5, SLOVENSKO 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56689"
+    status: needs_reading
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - J. Horecký , 2. návr"
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-06-17"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh prešiel; Za 90, Proti 44"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 25, KDH 10, SNS 8, ? 4, SLOVENSKO 2. Proti: PS 33, SaS 10, ? 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56690"
+    status: needs_reading
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - M. Čaučík."
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-06-17"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh neprešiel; Za 24, Proti 71, Abstain 50"
+    lobbies: "Za: SLOVENSKO 13, KDH 10, SMER - SD 1. Proti: PS 33, HLAS - SD 24, SaS 10, SNS 3, ? 1. Abstain: SMER - SD 40, SNS 5, ? 4, HLAS - SD 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56691"
+    status: needs_reading
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - M. Čellár."
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-06-17"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh neprešiel; Za 25, Proti 59, Abstain 62"
+    lobbies: "Za: HLAS - SD 25. Proti: PS 33, SLOVENSKO 14, SaS 10, ? 1, SNS 1. Abstain: SMER - SD 41, KDH 10, SNS 7, ? 4"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56692"
+    status: needs_reading
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - Z. Plevíková."
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-06-17"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh prešiel; Za 90, Proti 44"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 25, KDH 10, SNS 8, ? 4, SLOVENSKO 2. Proti: PS 33, SaS 10, ? 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56965"
+    status: draft
+    title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - tretie čítanie. Hlasovanie o ústavnom zákone ako o celku."
+    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    dated: "2025-09-26"
+    chamber: "nrsr"
+    areas: [5, 6, 9, 10]
+    watched: "9/733"
+    result: "Návrh prešiel; Za 90, Proti 7"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 25, KDH 9, SNS 8, ? 4, SLOVENSKO 3. Proti: SaS 7"
+    vote_kind: "final"
+    yea: 2
+    why_yea: "Voted Za on 9/733 (Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 agai): for passing it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Proti on 9/733 (Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 agai): against passing it, against CitizenGO's position."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). Bill direction on file for 9/733 (a draft): passing it is WITH us -- Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 against). Recognises two sexes only, gives Slovakia sovereignty on cultural and ethical questions, makes sex educa. This vote is a vote on the whole text or the motion itself, so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "57870"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
+    dated: "2026-05-05"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 144, Proti 0"
+    lobbies: "Za: SMER - SD 41, PS 31, HLAS - SD 24, SaS 11, SLOVENSKO 11, KDH 10, SNS 8, ? 8"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1252: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "57871"
+    status: draft
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
+    dated: "2026-05-05"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 145, Proti 0"
+    lobbies: "Za: SMER - SD 41, PS 31, HLAS - SD 25, SaS 11, SLOVENSKO 11, KDH 10, SNS 8, ? 8"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a ): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 9 (marriage and family). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "57917"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    dated: "2026-05-05"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 77, Proti 39, Abstain 19"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 24, SNS 8, ? 4. Proti: PS 29, KDH 9, ? 1. Abstain: SaS 9, SLOVENSKO 7, ? 2, KDH 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1272: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, kto' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "57918"
+    status: draft
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    dated: "2026-05-05"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 77, Proti 45, Abstain 12"
+    lobbies: "Za: SMER - SD 40, HLAS - SD 24, SNS 8, ? 5. Proti: PS 28, KDH 10, SLOVENSKO 6, ? 1. Abstain: SaS 9, ? 2, SLOVENSKO 1"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 9 (marriage and family). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "57919"
+    status: needs_reading
+    title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - prvé čítanie."
+    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    dated: "2026-05-06"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 76, Proti 38, Abstain 20"
+    lobbies: "Za: SMER - SD 39, HLAS - SD 24, SNS 8, ? 4, PS 1. Proti: PS 27, SaS 9, SMER - SD 1, ? 1. Abstain: SLOVENSKO 10, KDH 8, ? 2"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1254: CitizenGO's position on 'Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rod' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "57920"
+    status: draft
+    title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - prvé čítanie."
+    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    dated: "2026-05-06"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 76, Proti 37, Abstain 23"
+    lobbies: "Za: SMER - SD 40, HLAS - SD 24, SNS 8, ? 4. Proti: PS 30, SLOVENSKO 6, ? 1. Abstain: SaS 9, KDH 8, SLOVENSKO 4, ? 2"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č.): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 9 (marriage and family). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "57935"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1218) -"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v z"
+    dated: "2026-05-07"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh neprešiel; Za 49, Proti 41, Abstain 35"
+    lobbies: "Za: PS 26, SLOVENSKO 9, KDH 6, SaS 6, ? 2. Proti: SMER - SD 38, SNS 2, ? 1. Abstain: HLAS - SD 25, SNS 5, ? 3, SMER - SD 2"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1218: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/200' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "58023"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    dated: "2026-06-02"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 85, Proti 33, Abstain 28"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 25, SNS 8, SLOVENSKO 6, ? 4, KDH 1. Proti: PS 32, SLOVENSKO 1. Abstain: KDH 11, SaS 10, SLOVENSKO 4, ? 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "58024"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    dated: "2026-06-02"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh neprešiel; Za 57, Proti 79, Abstain 11"
+    lobbies: "Za: PS 32, KDH 12, SLOVENSKO 11, ? 2. Proti: SMER - SD 41, HLAS - SD 25, SNS 8, ? 5. Abstain: SaS 10, ? 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "58025"
+    status: draft
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    dated: "2026-06-02"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 79, Proti 69, Abstain 1"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 25, SNS 8, ? 4, SaS 1. Proti: PS 33, KDH 12, SLOVENSKO 11, SaS 10, ? 3. Abstain: ? 1"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 9 (marriage and family). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "58027"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    dated: "2026-06-02"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 79, Proti 42, Abstain 8"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 25, SNS 8, ? 5. Proti: PS 24, KDH 12, SLOVENSKO 5, ? 1. Abstain: SaS 7, ? 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1272: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, kto' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "58250"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
+    dated: "2026-09-15"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh neprešiel; Za 52, Proti 50, Abstain 39"
+    lobbies: "Za: PS 29, SaS 11, KDH 10, ? 2. Proti: SMER - SD 40, SNS 7, ? 3. Abstain: HLAS - SD 25, SLOVENSKO 11, SNS 2, ? 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a '): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "58251"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
+    dated: "2026-09-15"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 78, Proti 0, Abstain 62"
+    lobbies: "Za: SMER - SD 40, HLAS - SD 25, SNS 9, ? 4. Abstain: PS 29, SLOVENSKO 11, KDH 10, SaS 10, ? 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a '): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "58252"
+    status: needs_reading
+    title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
+    on: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
+    dated: "2026-09-15"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 78, Proti 0, Abstain 59"
+    lobbies: "Za: SMER - SD 40, HLAS - SD 25, SNS 9, ? 4. Abstain: PS 29, SaS 11, KDH 9, SLOVENSKO 8, ? 2"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1252: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "58269"
+    status: draft
+    title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - druhé čítanie"
+    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    dated: "2026-09-16"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 77, Proti 23, Abstain 41"
+    lobbies: "Za: SMER - SD 40, HLAS - SD 25, SNS 9, ? 3. Proti: SaS 11, SLOVENSKO 10, ? 2. Abstain: PS 27, KDH 12, ? 2"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č.): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 9 (marriage and family). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "58270"
+    status: needs_reading
+    title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - druhé čítanie"
+    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    dated: "2026-09-16"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 118, Proti 1, Abstain 20"
+    lobbies: "Za: SMER - SD 40, PS 26, HLAS - SD 25, SaS 11, SNS 9, ? 6, KDH 1. Proti: SLOVENSKO 1. Abstain: KDH 11, SLOVENSKO 8, ? 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č.'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "58271"
+    status: draft
+    title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - druhé čítanie"
+    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    dated: "2026-09-16"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 77, Proti 12, Abstain 51"
+    lobbies: "Za: SMER - SD 41, HLAS - SD 24, SNS 9, ? 3. Proti: SaS 11, SLOVENSKO 1. Abstain: PS 27, KDH 12, SLOVENSKO 8, ? 4"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č.): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 9 (marriage and family). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "58272"
+    status: needs_reading
+    title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - tretie čítani"
+    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    dated: "2026-09-16"
+    chamber: "nrsr"
+    areas: [9]
+    tier: 1
+    result: "Návrh prešiel; Za 106, Proti 1, Abstain 34"
+    lobbies: "Za: SMER - SD 41, PS 27, HLAS - SD 25, SNS 9, ? 4. Proti: SLOVENSKO 1. Abstain: KDH 12, SaS 11, SLOVENSKO 8, ? 3"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1254: CitizenGO's position on 'Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rod' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"

@@ -1,0 +1,278 @@
+# Belgium: what a recorded vote MEANS for CitizenGO, for the 5CA.
+#
+# Written by tools/country_5ca.py (src/country5ca.py), the 5CA-with-sign-off
+# layer of docs/country-parity-handover.md (item 2), 10 October 2026. The
+# rule is Canada's: which lobby is CitizenGO's is a HUMAN judgement, and
+# nothing places anyone until a named person has confirmed it.
+#
+# status:
+#   draft          proposed by the drafter's rules (or by Claude): unsigned,
+#                  places nobody.
+#   needs_reading  no direction proposed: the drafter could not tell which
+#                  side is ours without reading the text. A person writes
+#                  `yea:`/`nay:` (and why lines), then confirms.
+#   confirmed      signed: `confirmed_by:` (a named person) and
+#                  `confirmed_on:` (the date) are both required, or it still
+#                  counts as unsigned.
+#
+# To confirm: tick the box in docs/5ca-be-readings.md and run
+#   python3 tools/country_5ca.py --cc be --sign-from-doc --by NAME
+# or confirm by key:
+#   python3 tools/country_5ca.py --cc be --confirm KEY [KEY ...] --by NAME
+# To strike a reading for good, write `placeable: false` and a `reason:`.
+#
+# bill_directions: whether PASSING a bill or motion is with CitizenGO
+# (`with`) or against it (`against`). Drafted by Claude on 10 October 2026
+# from each watchlist entry's own description, never from a model call; a
+# bill with no line gets no proposed values. Edit or add lines here: the
+# next --draft uses them for NEW votes (an existing entry is never
+# rewritten).
+#
+# divisions: one entry per watched or tier-1 vote, appended by --draft.
+# Keys are the store's division keys. `yea:`/`nay:` are the stance (-2..2)
+# of voting Yes / No as the chamber records it (Ja / Oui / Nee / Non). An
+# abstention never places anyone. Keep `divisions:` the LAST section: the
+# drafter appends to the end of this file.
+
+
+bill_directions:
+  - key: "56/30"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Revision of article 22 of the Constitution to recognise a right to abortion (vrijwillige zwangerschapsafbreking / IVG)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/35"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Private member's bill relaxing the conditions for abortion."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/40"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Bill amending the abortion rules. The Justice committee proposed its rejection; the plenary adopted that proposal on 25 June 2026 (division 56/131/27, 93-37-0)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/42"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Private member's bill 'updating' the abortion law."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/44"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Bill on abortion (zwangerschapsafbreking / interruption de grossesse)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/270"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Bill to remove abortion from the criminal law entirely and relax its conditions."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/822"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Private member's bill relaxing the conditions for abortion (a second text after 56/35)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/1122"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Constitutional revision inserting an article 23bis on sexual and reproductive rights, including a right to abortion and to contraception."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/1150"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Resolution to strengthen access to 'safe and affordable' abortion as part of health care."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/1266"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Declaration of revision of Title II of the Constitution to guarantee a right to abortion."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/1303"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Resolution recognising 'harm' to people convicted under the former criminal provisions on abortion."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/153"
+    direction: with
+    status: draft
+    areas: [1]
+    why: "Rules on stillborn children (levenloos geboren kinderen / enfants nés sans vie): legal recognition of the unborn child."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/170"
+    direction: with
+    status: draft
+    areas: [1]
+    why: "Recognition of and support for parents of stillborn children, and bereavement leave on losing a child."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/1080"
+    direction: with
+    status: draft
+    areas: [1]
+    why: "Civil Code: recognition (erkenning) of a stillborn child."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/368"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Recognised institutions allowed to supply emergency contraception."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/183"
+    direction: against
+    status: draft
+    areas: [2]
+    why: "Euthanasia law of 28 May 2002: extends the advance euthanasia declaration (wilsverklaring) to people who have lost capacity, i.e. dementia."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/1338"
+    direction: against
+    status: draft
+    areas: [2]
+    why: "Bereavement leave around 'planned euthanasia' (and palliative leave). Adopted 8 October 2026, 134-0-1 (division 56/143/5): it treats euthanasia as a scheduled event in employment law."
+    flag: "Adopted 134-0-1: a near-unanimous vote tells few members apart."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/335"
+    direction: with
+    status: draft
+    areas: [3]
+    why: "Resolution for a cautious approach to the medical transition of children with gender dysphoria and an independent KCE review of gender clinics. A text CitizenGO would SUPPORT."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/63"
+    direction: against
+    status: draft
+    areas: [7]
+    why: "Revision of article 150 of the Constitution so that all expressions inciting hatred are prosecuted alike (press offences go to the assize court today, which in practice means no prosecution except for racism)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/1071"
+    direction: with
+    status: draft
+    areas: [7]
+    why: "Resolution rejecting the EU 'Chat Control' (CSAM) regulation."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/149"
+    direction: against
+    status: draft
+    areas: [8]
+    why: "Ban on visible religious or philosophical symbols (signes convictionnels) for federal civil servants. The plenary adopted the committee's proposal to reject it on 26 February 2026 (division 56/95/21, 92-37-3)."
+    flag: "Read as against: a ban on religious symbols reaches Christians too (area 8, religious freedom). CitizenGO supports Portugal's face-covering law (PT4), a different question: confirm."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/428"
+    direction: against
+    status: draft
+    areas: [8]
+    why: "'LIGNE' bill: state neutrality and a ban on visible religious symbols for federal public servants."
+    flag: "Read as against: a ban on religious symbols reaches Christians too (area 8, religious freedom). CitizenGO supports Portugal's face-covering law (PT4), a different question: confirm."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/429"
+    direction: against
+    status: draft
+    areas: [8]
+    why: "Electoral Code: ban on visible religious symbols for polling station staff."
+    flag: "Read as against: a ban on religious symbols reaches Christians too (area 8, religious freedom). CitizenGO supports Portugal's face-covering law (PT4), a different question: confirm."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/594"
+    direction: against
+    status: draft
+    areas: [8]
+    why: "Constitutional revision to enshrine the 'political laicity' of the State."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/1713"
+    direction: with
+    status: draft
+    areas: [8]
+    why: "Resolution on combating the persecution of Christians worldwide (christenvervolging / christianophobie). A text CitizenGO would SUPPORT."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/204"
+    direction: against
+    status: draft
+    areas: [9]
+    why: "Extends the presumption of paternity and co-motherhood (meemoederschap) to legally cohabiting couples: filiation law."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+  - key: "56/134"
+    direction: against
+    status: draft
+    areas: [10]
+    why: "Bill on surrogacy (zwangerschap voor anderen / gestation pour autrui). Belgium has no surrogacy statute; this would create one."
+    drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
+
+divisions:
+
+  # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
+  - key: "56/95/21"
+    status: draft
+    title: "Voorstel tot verwerping door de commissie voor Binnenlandse Zaken, Veiligheid, Migratie en Bestuurszaken van het wetsvoorstel betreffende de objectieve neutraliteit van de personeelsleden van het federaal openbaar ambt, waarbij het hun verb"
+    on: "Wetsvoorstel betreffende de objectieve neutraliteit van de personeelsleden van het federaal openbaar ambt, waarbij het hun verboden is bij de uitoefening van hun ambt zichtbare tekens van een geloofs-"
+    dated: "2026-02-26"
+    chamber: "kamer"
+    areas: [8, 11]
+    watched: "56/149"
+    result: "adopted; Ja / Oui 92, Nee / Non 37, Abstain 3"
+    lobbies: "Ja / Oui: N-VA 23, Les Engagés 14, MR 13, Vooruit 11, PVDA-PTB 11, cd&v 10, Ecolo-Groen 9, ? 1. Nee / Non: VB 18, PS 13, Anders. 5, DéFI 1. Abstain: MR 1, Anders. 1, ? 1"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Ja / Oui on 56/149 (Ban on visible religious or philosophical symbols (signes convictionnels) for federal civi): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Nee / Non on 56/149 (Ban on visible religious or philosophical symbols (signes convictionnels) for federal civi): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 8 (religious freedom), 11 (migration). Bill direction on file for 56/149 (a draft): passing it is AGAINST us -- Ban on visible religious or philosophical symbols (signes convictionnels) for federal civil servants. The plenary adopted the committee's proposal to reject it on 26 February 2026 (division 56/95/21, . This vote is a motion to reject the text (the sides are swapped), so Ja / Oui is with us."
+    flag: "On the bill's direction: Read as against: a ban on religious symbols reaches Christians too (area 8, religious freedom). CitizenGO supports Portugal's face-covering law (PT4), a different question: confirm."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56/131/27"
+    status: draft
+    title: "Voorstel tot verwerping door de commissie voor Justitie van het wetsvoorstel tot wijziging van de regelgeving met betrekking tot de vrijwillige zwangerschapsafbreking (40/1-2)"
+    on: "Ontwerp tot wijziging van de regelgeving met betrekking tot de vrijwillige zwangerschapsafbreking."
+    dated: "2026-06-25"
+    chamber: "kamer"
+    areas: [1]
+    watched: "56/40"
+    result: "adopted; Ja / Oui 93, Nee / Non 37"
+    lobbies: "Ja / Oui: N-VA 23, VB 17, MR 15, Les Engagés 14, Vooruit 12, cd&v 11, ? 1. Nee / Non: PS 11, PVDA-PTB 11, Ecolo-Groen 8, Anders. 6, DéFI 1"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Ja / Oui on 56/40 (Bill amending the abortion rules): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Nee / Non on 56/40 (Bill amending the abortion rules): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 1 (abortion). Bill direction on file for 56/40 (a draft): passing it is AGAINST us -- Bill amending the abortion rules. The Justice committee proposed its rejection; the plenary adopted that proposal on 25 June 2026 (division 56/131/27, 93-37-0). This vote is a motion to reject the text (the sides are swapped), so Ja / Oui is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56/143/4"
+    status: needs_reading
+    title: "Aangehouden amendement en artikel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof (nieuw opschrift) (1338/1-9)"
+    on: "Wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof."
+    dated: "2026-10-08"
+    chamber: "kamer"
+    areas: [2]
+    watched: "56/1338"
+    result: "rejected; Ja / Oui 55, Nee / Non 75, Abstain 5"
+    lobbies: "Ja / Oui: VB 18, PVDA-PTB 14, PS 11, Ecolo-Groen 8, MR 3, DéFI 1. Nee / Non: N-VA 22, Les Engagés 13, Vooruit 12, MR 11, cd&v 9, Anders. 7, INDEP 1. Abstain: PS 4, Ecolo-Groen 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Aangehouden amendement en artikel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van ge'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 2 (assisted dying). The bill's direction (56/1338: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "56/143/5"
+    status: draft
+    title: "Geheel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof (nieuw opschrift) (1338/6)"
+    on: "Wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof."
+    dated: "2026-10-08"
+    chamber: "kamer"
+    areas: [2]
+    watched: "56/1338"
+    result: "adopted; Ja / Oui 134, Nee / Non 0, Abstain 1"
+    lobbies: "Ja / Oui: N-VA 22, VB 18, PS 14, MR 14, PVDA-PTB 14, Les Engagés 13, Vooruit 12, Ecolo-Groen 9, cd&v 9, Anders. 7, DéFI 1, INDEP 1. Abstain: PS 1"
+    vote_kind: "final"
+    yea: -2
+    why_yea: "Voted Ja / Oui on 56/1338 (Bereavement leave around 'planned euthanasia' (and palliative leave)): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Nee / Non on 56/1338 (Bereavement leave around 'planned euthanasia' (and palliative leave)): against passing it, with CitizenGO's position."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for 56/1338 (a draft): passing it is AGAINST us -- Bereavement leave around 'planned euthanasia' (and palliative leave). Adopted 8 October 2026, 134-0-1 (division 56/143/5): it treats euthanasia as a scheduled event in employment law. This vote is a vote on the whole text or the motion itself, so Ja / Oui is against us."
+    flag: "On the bill's direction: Adopted 134-0-1: a near-unanimous vote tells few members apart."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"

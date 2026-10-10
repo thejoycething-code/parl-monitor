@@ -391,6 +391,16 @@ Chris approved the free session judge for the fifteen country editions and the L
 - **If `claude` is missing, signed out or on an API key:** one `[gap]` line, exit clean, nothing rewritten or published; the editions render as before and the Latam alerts stop holding once the judge has scored nothing for 14 days.
 - **Install on the Mini** (after the branch is merged to main): `claude auth status --text` must show Chris's claude.ai account, then `cd ~/runner/parl-monitor && git pull --ff-only && bash ops/install_country_jobs.sh` (it installs this job with the country jobs and prints the claude sign-in state). A first run by hand: `cd ~ && JOB_TIMEOUT=5400 ~/runner/parl-monitor/tools/mini_run.sh editions-session-judge`. To see what is pending without scoring: `python3 tools/edition_judge.py`.
 
+## New-country 5CA stance steps and the sign-off digest (10 October 2026, branch `parity-5ca`)
+
+Two offline steps at the head of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only), after the week's country weeklies and before the judge; no new job, no new slot, no GitHub workflow:
+
+- `python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets`: for each new country with member-level or party-group votes (IT, CH, FR, NL, BE, PL, HR, SK, ES, BR, AR, MX, HU, AT, PT, CL, PE, EC, DO, SV, GT), appends drafts for the week's new watched and tier-1 votes to `config/<cc>_stance.yaml` (rules, no AI; an existing entry is never touched), rewrites `docs/5ca-<cc>-readings.md` (a box ticked but not yet applied stays ticked), and writes `data/5ca/<cc>-5ca-*.csv` from CONFIRMED readings only. Seconds; reads the store, writes no table.
+- `python3 tools/stance_digest.py --dm`: one DM to Chris, at most once per ISO week (`data/stance-digest/<year>-W<week>.md` records the send), listing what awaits sign-off by country. Nothing waiting, nothing sent.
+- Commit: `# mini_run: commit editions config docs` (the job writes `config/*_stance.yaml` and `docs/5ca-*-readings.md`). A failure in either step is a `[gap]` line; the judge still runs.
+- **Nothing on the Mini confirms a reading.** Confirming is `python3 tools/country_5ca.py --cc CC --sign-from-doc --by NAME` (or `--confirm KEY --by NAME`), run by a person on a laptop, then pushed. `--by` must be Chris or a name in `config/stance_signers.yaml`.
+- Install: nothing new; the next `git pull` on the runner picks the steps up.
+
 ## Backfills run on the Mini (9 October 2026)
 
 Dispatching a backfill to GitHub cost 2,604 Actions minutes in one week
