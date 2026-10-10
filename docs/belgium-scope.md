@@ -415,3 +415,7 @@ Later phases and items for Chris (not built at the merge):
 
 - A votes-only DM before the full edition (BE6): the edition phase.
 - Not expressible as additions to the Quebec base: the euthanasie animal veto and the tier differences the scope proposed against taxonomy-qc. They need a Belgium-specific override if wanted.
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/be.json` (`src/country_vote_brief.py`, step in `jobs/be-weekly.sh`). Briefed after each weekly collection. Groups are as the member list stood when stored, not at the vote, and the brief says so. See docs/mac-mini.md, "Vote briefs for the new countries".

@@ -465,3 +465,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - Chris reads the parlamento.pt reuse terms (PT7).
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/pt.json` (`src/country_vote_brief.py`, step in `jobs/pt-weekly.sh`). Briefed after each weekly collection. Group votes, positions derived (X5); only the deputies the record names as voting apart are named. See docs/mac-mini.md, "Vote briefs for the new countries".

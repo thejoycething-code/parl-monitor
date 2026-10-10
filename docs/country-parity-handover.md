@@ -14,7 +14,7 @@ Everything it built is on main. Read this with
 | Weekly edition, Slack DM to Chris | yes | yes | yes | yes | 14 own editions + Hungary gazette edition + one monthly Latam edition |
 | Triage | API judge | API judge | API or session judge | session judge (provinces) | free session judge, Sundays 16:45 (`tools/edition_judge.py`) |
 | Noise filters, mute lists | yes | partly | yes | yes | yes (`src/noise.py`, `config/edition-noise-<cc>.yaml`) |
-| Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | **no** |
+| Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | yes, 20 countries (`src/country_vote_brief.py`): daily for NL, PL, CH, BR, IT; after the weekly for the rest |
 | 5CA (member stance, five columns) | yes | yes | yes | yes | **no** |
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **no** |
 | Member profiles | yes | yes | US yes | no | **no** |
@@ -40,7 +40,15 @@ New-country collectors and what their vote data supports:
 
 ## The parity work, in priority order
 
-### 1. Same-day vote briefs (cheapest win)
+### 1. Same-day vote briefs (cheapest win) -- BUILT 10 October 2026
+
+Branch `parity-vote-briefs`: `src/country_vote_brief.py` (shared, from the
+editions' and the Latam monitor's own readers), `src/vote_brief_sources.py`
+(the daily direct readers), `tools/country_vote_briefs.py`, a step in each
+country's weekly job and one daily Mini job (`jobs/vote-briefs-daily.sh`);
+see docs/mac-mini.md, "Vote briefs for the new countries", and the samples
+in `docs/vote-brief-samples/`. The plan as written:
+
 Generalise `src/vote_brief.py` (IE/AU/US already share it) to the new
 countries with member-level votes, reading from each `<cc>_store` after the
 weekly collection, or from the source directly where it is cheap (NL OData,

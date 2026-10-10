@@ -438,3 +438,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: follow the aide a mourir decrees first (FR4): a watch on the Journal officiel's implementing decrees once the law passes.
 - Phase: the Senat (FR5, go ahead): votes and dossiers from senat.fr open data. Not built at the merge.
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/fr.json` (`src/country_vote_brief.py`, step in `jobs/fr-weekly.sh`). Briefed after each weekly collection. Not daily: the Assemblée publishes its scrutins only as one 27 MB nightly zip. See docs/mac-mini.md, "Vote briefs for the new countries".

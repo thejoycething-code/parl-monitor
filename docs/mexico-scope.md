@@ -423,3 +423,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - The Senate stays out per its robots.txt (MX4).
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/mx.json` (`src/country_vote_brief.py`, step in `jobs/mx-collect.sh`). Briefed after each fortnightly collection. Fortnightly, on GitHub (X9), after jobs/mx-collect.sh. See docs/mac-mini.md, "Vote briefs for the new countries".

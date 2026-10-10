@@ -469,3 +469,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - The bill portal's embedded login stays unused (EC4).
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/ec.json` (`src/country_vote_brief.py`, step in `jobs/ec-weekly.sh`). Briefed after each weekly collection. Party as the Asamblea's roster stands, not at the vote, and the brief says so. See docs/mac-mini.md, "Vote briefs for the new countries".

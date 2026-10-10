@@ -420,3 +420,7 @@ Later phases and items for Chris (not built at the merge):
 
 - meineabgeordneten.at licence (AT5): a request in Chris's name.
 - Phase: the Landtage after national (AT6).
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/at.json` (`src/country_vote_brief.py`, step in `jobs/at-weekly.sh`). Briefed after each weekly collection. Klub votes: member positions are derived (X5), so no member is named. See docs/mac-mini.md, "Vote briefs for the new countries".

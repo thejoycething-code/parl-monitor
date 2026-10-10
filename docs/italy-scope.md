@@ -499,3 +499,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: dati.camera.it SPARQL as the Camera's backup source, or main when quicker (IT2). Needs fixtures from the live service and a member-key crosswalk (Openpolis to persistent IDs); not built at the merge.
 - Phase: regional councils after national (IT3).
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/it.json` (`src/country_vote_brief.py`, step in `jobs/it-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Senate's SPARQL endpoint and Openpolis for the Camera (positions held while Openpolis shows 'SEC'); dati.senato.it answered 403 to the laptop on 10 October, to be checked from the Mini. See docs/mac-mini.md, "Vote briefs for the new countries".

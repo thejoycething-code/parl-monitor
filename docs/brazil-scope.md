@@ -518,3 +518,7 @@ Later phases and items for Chris (not built at the merge):
 
 - BR3 (gambling) and BR4 (drug decriminalisation) are in scope but the scope proposed no terms or area: they need terms before they match.
 - Portuguese source text with English takeaways (BR5): the edition phase.
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/br.json` (`src/country_vote_brief.py`, step in `jobs/br-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Câmara's API v2 (nominal votes told by the count in their description) and the Senado's vote API. See docs/mac-mini.md, "Vote briefs for the new countries".

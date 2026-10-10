@@ -401,3 +401,7 @@ Later phases and items for Chris (not built at the merge):
 - Not built: the expediente endpoint (PE2, reversed on 10 October 2026). Its identifiers are AES-encrypted with a key in the public front end; Chris decided to leave it out, so bill detail stays at what the list endpoint gives.
 - Phase: regional councils (PE4).
 - Phase (X7): OCR for scan-only sessions.
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/pe.json` (`src/country_vote_brief.py`, step in `jobs/pe-weekly.sh`). Briefed after each weekly collection. See docs/mac-mini.md, "Vote briefs for the new countries".

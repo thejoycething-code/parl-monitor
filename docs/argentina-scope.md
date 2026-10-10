@@ -520,3 +520,7 @@ Later phases and items for Chris (not built at the merge):
 
 - AR2-AR4: Diputados votes tried from the Mini, the register read gently, and www.hcdn.gob.ar read only by the scheduled monitor script, never by a Claude session.
 - AR7: the Ley 13.640 lapse rule confirmed.
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/ar.json` (`src/country_vote_brief.py`, step in `jobs/ar-weekly.sh`). Briefed after each weekly collection. The Senate only (Diputados votes are blocked, AR2). See docs/mac-mini.md, "Vote briefs for the new countries".

@@ -383,3 +383,7 @@ Later phases and items for Chris (not built at the merge):
 - The Constitutional Court access request (GT5): Chris.
 - X6: party history.
 - PDFs are not fetched (robots.txt).
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/gt.json` (`src/country_vote_brief.py`, step in `jobs/gt-weekly.sh`). Briefed after each fortnightly collection. Nobody is named against their bloc until party history is sourced (X6, GT4). See docs/mac-mini.md, "Vote briefs for the new countries".

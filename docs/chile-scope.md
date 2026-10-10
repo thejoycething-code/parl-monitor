@@ -396,3 +396,7 @@ Later phases and items for Chris (not built at the merge):
 
 - X6: source party history before relying on party at the vote.
 - The Senate-vote backfill still reads bills on our ground only; X15 would widen it.
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/cl.json` (`src/country_vote_brief.py`, step in `jobs/cl-weekly.sh`). Briefed after each weekly collection. Nobody is named against their party until party history is sourced (X6). See docs/mac-mini.md, "Vote briefs for the new countries".

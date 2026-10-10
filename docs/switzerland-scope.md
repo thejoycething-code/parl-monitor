@@ -426,3 +426,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: the Italian texts (CH6): fetch the Italian business records (a third Language pass), store title_it, and match `config/taxonomy-it.yaml` for `ch`. Not built at the merge: it needs a schema column, a fetch pass and fixtures.
 - The scope's veto on the Quebec IVG term and guard on euthanasie change base terms, so they are not in the addendum.
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/ch.json` (`src/country_vote_brief.py`, step in `jobs/ch-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Nationalrat's votes during a session (OData); the Ständerat's come with the weekly, as its spreadsheets do. See docs/mac-mini.md, "Vote briefs for the new countries".
