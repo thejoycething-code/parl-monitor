@@ -423,7 +423,7 @@ phrase, a compound or guarded.
    dispatch `es-weekly` with "reclassify". The numbers above become the
    store's.
 3. **Phase 2.** PNLs, motions and written questions through the initiative
-   search endpoint (or per-initiative pages); the week-ahead agenda; laws
+   search endpoint (or per-initiative pages); the week-ahead agenda (**Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/es.py`, a step of the weekly job): the weekly agenda page; fills when the XVI sits; the plenary's order of the day, a PDF, is not read); laws
    in force from the BOE. This is where most of Spain's activity on our
    ground lives.
 4. **Phase 3.** The Spanish edition and DM (`tools/es_monitor.py`, the

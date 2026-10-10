@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import json
 
+from src import agenda
 from src import country_edition as ce
 
 SEJM = "https://www.sejm.gov.pl/Sejm{0}.nsf"
@@ -103,7 +104,9 @@ COUNTRY = ce.Country(
     cc="pl", name="Poland", chamber="Sejm", language="Polish",
     taxonomies=(("taxonomy-pl.yaml", "pl"),),
     items=items, flag=":flag-pl:",
+    week_ahead=agenda.week_ahead_fn("pl"), ahead_note=agenda.ahead_note_fn("pl"),
     members_note="Every deputy's position on every vote is stored, with the club at the vote",
     coverage=("The Senate is not collected (PL2: the gap is accepted).",
-              "The Sejm's planned sittings and agendas (the week ahead) are phase 2."),
+              "The week ahead is the Sejm's agenda for its next sittings: a point is dated "
+              "to its sitting's first day, and points the Marshal may add are marked."),
 )

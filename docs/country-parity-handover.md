@@ -20,7 +20,7 @@ Everything it built is on main. Read this with
 | Member profiles | yes | yes | US yes | no | **no** |
 | Debates / speeches | yes | yes | IE, AU | yes | **no** |
 | Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press) |
-| Week ahead / agenda | yes | yes | yes | no | partial (HR, BE; framework supports it) |
+| Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | **no** (courts approved as a later phase, X8) |
 | Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | **no** |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
@@ -79,6 +79,27 @@ The framework already renders a week-ahead section when a store holds
 agenda data. Add agenda collection where the source has it: NL (OData
 Activiteit), PL (Sejm proceedings), CH (sessions), BR (Câmara pauta), IT, FR,
 AT (Sitzungen), ES (from 23 December).
+
+**Built 10 October 2026 (branch `parity-week-ahead`).** One table and one
+collector for all of them (`src/agenda.py`, `country_agenda`;
+`tools/country_agenda.py <cc>`), a source module per country
+(`src/agendas/<cc>.py`), run as a step of each country's weekly job after
+its collector. Points are matched to the store's bills by number only
+(Kamerstuk/zaak, druk/process, Geschäftsnummer, proposição, Atto Camera,
+dossier ref, d.B./A(E), expediente); watched and tier-1 points are flagged,
+and the edition's Coverage line says how far each agenda reaches and when
+the next sitting is. Measured on the live sources that day: NL 661 points
+(12 on our ground), PL sitting 67's 41 points (the abortion bill, druk 223,
+watched), BR 47, IT 48 (the Camera's October calendar), FR 216, AT 31, CH
+none (between sessions), ES 17 (dissolved: the Diputación Permanente),
+AR the Senate's committee meetings (cultural events left out).
+Not done: the Italian Senate (refuses us), the Spanish plenary's order of
+the day (a PDF), committee convocations in IT and CH, the Argentine
+Diputados agenda (www.hcdn.gob.ar, AR4: left to a later decision), Belgium
+(no open agenda source probed), Portugal, Slovakia, Hungary, Mexico and
+the Latam monitor's countries (monthly, no week-ahead section; their
+agendas are HTML per day or PDF: Colombia, Peru, the Dominican Republic;
+Panama's orden del día is already collected in pa_agenda but not shown).
 
 ### 5. Debates, speeches, questions
 Per country where the source is open: NL Handelingen, PL transcripts (the
