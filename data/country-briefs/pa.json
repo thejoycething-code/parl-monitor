@@ -1,0 +1,46 @@
+{
+ "pa-que-adiciona-disposiciones-al-codigo-de-la-famil-ficha-8037": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "2fd38916b8f055ec83559a084d240c0d034cdaefb121cdc84986df28700138f4",
+  "generated": "2026-10-10",
+  "key": "Ficha 8037",
+  "ready": false,
+  "sha": "9075f124a7aa5ddb06c92487e8472e59cdbe5eb2d62d60b41996fe5f431c98b3",
+  "title": "QUE ADICIONA DISPOSICIONES AL CODIGO DE LA FAMILIA, RELATIVAS AL PROCEDIMIENTO SUMARIO DE LA TUTELA"
+ },
+ "pa-que-establece-el-marco-regulatorio-de-las-activi-ficha-7936": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "fa7fb947f855724b7a38ed55fd31f4b30a21e9e497dbf14022a9560eae2b3b0e",
+  "generated": "2026-10-10",
+  "key": "Ficha 7936",
+  "ready": false,
+  "sha": "65853106ef29341a04d796c1e1bd37d43a5aa5025d59db5f9c27084cd4b70cc3",
+  "title": "QUE ESTABLECE EL MARCO REGULATORIO DE LAS ACTIVIDADES RELACIONADAS CON LA OBTENCION Y UTILIZACION CLINICA CON FINES TERAPEUTICOS DE COMPONENTES ANATOMICOS"
+ },
+ "pa-que-modifica-el-articulo-211-del-codigo-penal-y-ficha-8466": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "5ab266c28737335f105efdf40eabac489ef9df6d19337ae2cf47f61fdd1df5d4",
+  "generated": "2026-10-10",
+  "key": "Ficha 8466",
+  "ready": false,
+  "sha": "510ecebc4cbeabdf2dad34f9c53ff052ead3fb129ea483693794f147a19f457a",
+  "title": "QUE MODIFICA EL ARTICULO 211 DEL CODIGO PENAL Y FORTALECE LA RESPONSABILIDAD DERIVADA DE LOS DEBERES INHERENTES A LA PATRIA POTESTAD"
+ },
+ "pa-que-modifica-y-adiciona-articulos-al-codigo-de-l-ficha-8434": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "fb6205981bd9a5622589f8d0f7db373e2505a32ac2700e996d5cab85d7f54e56",
+  "generated": "2026-10-10",
+  "key": "Ficha 8434",
+  "ready": false,
+  "sha": "383e695f211a95a326db00cbf6e8637bf38d975f8b5d6253412533f58ff41124",
+  "title": "QUE MODIFICA Y ADICIONA ARTICULOS AL CODIGO DE LA FAMILIA Y CREA LA PENSION COMPENSATORIA MATRIMONIAL"
+ }
+}
