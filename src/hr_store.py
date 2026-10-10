@@ -99,12 +99,38 @@ SCHEMA = (
         party_seen   TEXT,               -- see the module docstring
         PRIMARY KEY (division_key, slug)
     )""",
+    # PARTY HISTORY FROM THE TRANSCRIPTS (X6, 10 October 2026;
+    # tools/hr_party_history.py). Every contribution in a plenary transcript
+    # (edoc.sabor.hr FonogramView) is headed "Surname, Name (PARTY)" under
+    # the day's date, so each heading is one dated sighting of a member's
+    # party. hr_transcripts is the walk's own record (one row per transcript
+    # id read, so a run resumes); hr_party_seen is one row per member, day and
+    # party, which src/member_profiles.py folds into spells. Additive: no
+    # other hr_ table changes, and hr_votes.party_seen keeps its meaning.
+    """CREATE TABLE IF NOT EXISTS hr_transcripts (
+        tdrid        INTEGER PRIMARY KEY, -- FonogramView.aspx?tdrid=
+        saziv        TEXT,               -- 'XI' as printed; NULL: no transcript
+        session_no   TEXT,               -- '12'
+        title        TEXT,               -- the agenda item, as printed
+        first_date   TEXT,               -- ISO, the first day heading
+        last_date    TEXT,
+        speakers     INTEGER,            -- headings with a party read
+        read_at      TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS hr_party_seen (
+        slug         TEXT NOT NULL,      -- an hr_members slug
+        date         TEXT NOT NULL,      -- ISO, the day of the contribution
+        party        TEXT NOT NULL,      -- as printed in the heading: 'HDZ', 'Nezavisni'
+        tdrid        INTEGER,            -- the transcript it was read in (latest)
+        PRIMARY KEY (slug, date, party)
+    )""",
     "CREATE INDEX IF NOT EXISTS hr_items_bill ON hr_items (bill_key)",
     "CREATE INDEX IF NOT EXISTS hr_divisions_bill ON hr_divisions (bill_key)",
     "CREATE INDEX IF NOT EXISTS hr_votes_member ON hr_votes (slug)",
 )
 
-TABLES = ("hr_members", "hr_items", "hr_divisions", "hr_votes")
+TABLES = ("hr_members", "hr_items", "hr_divisions", "hr_votes", "hr_transcripts",
+          "hr_party_seen")
 
 
 def ensure_schema(conn):

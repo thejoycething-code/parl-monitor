@@ -1707,6 +1707,8 @@ TABLES = (
     "hr_items",
     "hr_divisions",
     "hr_votes",
+    "hr_transcripts",      # party history from transcripts (X6, 10 October 2026)
+    "hr_party_seen",
     # Spain's Congreso de los Diputados (tools/es_rollcalls.py), created by
     # src/es_store.ensure_schema -- declared from day one.
     "es_members",
