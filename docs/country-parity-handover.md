@@ -18,8 +18,8 @@ Everything it built is on main. Read this with
 | 5CA (member stance, five columns) | yes | yes | yes | yes | **no** |
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **no** |
 | Member profiles | yes | yes | US yes | no | **no** |
-| Debates / speeches | yes | yes | IE, AU | yes | **no** |
-| Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press) |
+| Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (no open source) |
+| Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press |
 | Week ahead / agenda | yes | yes | yes | no | partial (HR, BE; framework supports it) |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | **no** (courts approved as a later phase, X8) |
 | Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | **no** |
@@ -75,6 +75,28 @@ AT (Sitzungen), ES (from 23 December).
 Per country where the source is open: NL Handelingen, PL transcripts (the
 endpoint timed out on 9 October), AT Stenographische Protokolle, CH, FR, IT
 Senate, BR. Written questions where cheap (BR, PL interpellations, FR).
+
+
+**Done, 10 October 2026 (branch `parity-debates`).** One shared module,
+`src/chamber_store.py` (tables `<cc>_speeches`, `<cc>_questions`,
+`<cc>_record_reads`; per-speech classification; the run loop; the edition
+items), and one collector per country, `tools/<cc>_chamber.py`, run as a
+step of each country's weekly through `tools/chamber_step.sh` (time-boxed to
+what is left of the hour, at most ten minutes, never fatal, skipped on
+GitHub). The edition gains "Said in the chamber" (one entry per debate,
+speakers with a short excerpt each) and fills "Questions"; a Coverage line
+says how many reports and speeches were read. Guard against long transcripts:
+a speech is matched passage by passage in its own words (tier 1 in the
+passage, or tier 2 when the debate's title is tier 1); a sitting is never
+matched whole; the chair is never stored. Built: Netherlands (Handelingen,
+Kamervragen), Switzerland (Bulletin, per-language lists), Austria (speeches
+from the provisional protocol), France (comptes rendus, QE and QAG), Belgium
+(Integraal Verslag), Poland (interpellations, written questions), Portugal
+(perguntas and requerimentos), Brazil (requerimentos de informação). Not
+built, with the reason in each scope doc's phase list: Polish transcripts,
+Brazilian speeches, Italy (the Senate's SPARQL refuses us, 403), Spain
+(dissolved until 23 December), Croatia and Slovakia debates, Belgian written
+questions. The first Mini run of each step reads from 1 September 2026.
 
 ### 6. Later phases already approved (in each scope doc's phase list)
 French Senate (FR5), Eerste Kamer via web pages (NL4), Slovak bill documents

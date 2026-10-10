@@ -385,6 +385,10 @@ local store that a fresh worktree does not carry. The frozen
 `data/raw/2026-08-01` fixtures were copied in from the main checkout to run
 the rest; without them a further 63 fail for the same reason.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: debate speeches from each sitting's history page and the provisional protocol, one speech file at a time (the full Stenographisches Protokoll lags months), `tools/at_chamber.py`, a step of the Austrian weekly, budget-drained, interjections cut before matching. Speech files listed before they are published (404) are read when they appear, not counted as gaps. Questions are not collected here: the edition already carries J and AB. Measured 22 September to 9 October 2026: 285 speeches read, 24 on our ground.
+
 ## Waiting on Chris
 
 1. **Klub votes as the record.** Accept that an Austrian member's position is

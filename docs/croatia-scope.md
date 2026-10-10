@@ -472,6 +472,10 @@ New files: `src/hr_store.py`, `tools/hr_rollcalls.py`,
 `ops/launchd/net.citizengo.parlmonitor.hr-weekly.plist`,
 `.github/workflows/hr-weekly.yml`, this document.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+NOT built in this pass (time, not access). The sources are open and measured in this doc: the transcripts (`FonogramView.aspx?tdrid=<id>&type=HTML`, speaker and party on every contribution, linked from each item page) and the questions (`ZastupnickaPitanja.aspx`, detail pages by sequential id). Both fit `src/chamber_store.py` as a `tools/hr_chamber.py` the way Belgium's record does.
+
 ## Waiting on Chris
 
 1. **Approve or amend the Croatian terms above**, ideally with a native

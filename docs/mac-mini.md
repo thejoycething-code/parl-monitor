@@ -290,6 +290,17 @@ The own-edition countries (docs/country-decisions-2026-10-10.md, "Edition struct
 - **The DM** goes to Chris alone: the scripts default `SLACK_DM_USER_ID` to U05LJP0BT61 and the code forces it whatever the secrets say. On the Mini the token comes from `~/runner/env` (`SLACK_BOT_TOKEN`, already there); the workflows pass the secret. Without a token the DM is reported skipped and the run goes on.
 - **Noise:** `config/edition-noise-<cc>.yaml` and `config/edition-mute-<cc>.yaml` (src/noise.py, the Latam filters generalised; no model, X16).
 
+## Chamber step: debates, speeches and questions (10 October 2026, branch `parity-debates`)
+
+What was said and asked in the chamber, for the new country editions (parity layer 5; `src/chamber_store.py`, one collector per country, `tools/<cc>_chamber.py`). Built for the Netherlands, Switzerland, Austria, France, Belgium (speeches) and the Netherlands, Poland, France, Portugal, Brazil (questions).
+
+- **No new plists, jobs or workflows.** Each is a step of its country's existing weekly (`jobs/{nl,ch,at,fr,be,pl,pt,br}-weekly.sh`), between the collector and the edition, through `bash tools/chamber_step.sh <cc> "$SECONDS"`, so nothing needs installing: the Mini picks it up on its next `git pull`.
+- **Time-boxed to the hour.** The step gets what is left of 55 minutes of the job, at most ten (`JOB_TIMEOUT` is 3600 on the Mini; Poland's is 4500); under a minute left, it says so and skips, and the next run's three-week lookback reads what it missed.
+- **Never fatal, never on GitHub.** A failure is a `[gap]` line (and a row in `gaps`); the store, the edition and the publish go on. On GitHub (`GITHUB_ACTIONS=true`, the backup) the step is skipped: the backups' timeouts are 30 to 60 minutes and the Mini catches up.
+- **First run reads from 1 September 2026**, so the tables are not empty when tools/coverage.py starts watching them (`<CC> chamber` step heartbeats, AWAITING_FIRST_RUN until then). Austria's first run takes two or three weeklies to drain (one request per speech).
+- **Reclassify:** each `<CC>_RECLASSIFY=true` run also runs `tools/<cc>_chamber.py --reclassify`.
+- **By hand on the Mini** (one writer at a time; never while a weekly runs): `cd ~/runner/parl-monitor && python3 tools/nl_chamber.py --since 2026-09-01`.
+
 ## Installing the country jobs (10 October 2026)
 
 One command installs every country-edition job and the Latam monthly, after the runner clone has pulled main:

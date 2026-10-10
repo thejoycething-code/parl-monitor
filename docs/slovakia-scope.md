@@ -356,6 +356,10 @@ as for German) once approved.
    and the week ahead from `General/MeetingProgram`.
 5. Later: debates (rozprava) for quotes; committees.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+NOT built in this pass. The edition already carries the interpellations (sk_interpellations). The debates (rozprava, stenographic records) were not probed; a `tools/sk_chamber.py` on `src/chamber_store.py` is the route once they are.
+
 ## Waiting on Chris
 
 1. **Approve, cut or extend the proposed term list** above, so

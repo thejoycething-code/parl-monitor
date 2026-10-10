@@ -407,6 +407,10 @@ Kept minimal for the thirteen-branch merge:
 
 Everything else is new and Netherlands-only.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: plenary Handelingen (the VLOS XML Verslagen from the OData portal, the corrected Eindpublicatie preferred, re-read when a newer version appears) and Kamervragen (Schriftelijke and Mondelinge vragen as zaken, asker, fractie and minister), `tools/nl_chamber.py`, a step of the Netherlands weekly. Speeches are matched passage by passage in the speaker's own words, never the sitting; the chair is never stored. In the edition ("Said in the chamber", "Questions"); the DM stays votes only (NL3). Committee debates are not read (budget). Measured 28 September to 9 October 2026: 6 plenary reports, 6,000 turns, 66 on our ground (most of them migration, which is stored and not shown); 93 questions, 7 on our ground.
+
 ## Waiting on Chris
 
 1. **Approve or correct the Dutch term list** above (ideally with a Dutch
