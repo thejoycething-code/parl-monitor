@@ -862,7 +862,7 @@ def draft_entry(cc, r, bills, pos=None, today=None):
     return e
 
 
-def draft(conn, cc, config_dir=None, today=None, log=print):
+def draft(conn, cc, config_dir=None, today=None, log=print, wl=None):
     """Append drafts for every qualifying division not yet in the stance file.
     Returns {'new': n, 'draft': n, 'procedural': n, 'needs_reading': n,
     'existing': n}. An existing entry is never touched."""
@@ -871,7 +871,7 @@ def draft(conn, cc, config_dir=None, today=None, log=print):
     divs, bills, _ = load(cc, config_dir)
     counts = {"new": 0, "draft": 0, "procedural": 0, "needs_reading": 0, "existing": len(divs)}
     blocks = []
-    for r in qualifying(conn, cc):
+    for r in qualifying(conn, cc, wl):
         if r["key"] in divs:
             continue
         e = draft_entry(cc, r, bills, positions(conn, cc, r["key"]), today)
