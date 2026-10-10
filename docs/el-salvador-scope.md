@@ -464,3 +464,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - The unpublished votes (SV6): a request in Chris's name.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/sv_stance.yaml` holds 0 bill direction(s) (Claude's drafts from the watchlist) and 0 vote reading(s): 0 with proposed values, 0 procedural, 0 need reading, 0 confirmed. Guide: `docs/5ca-sv-readings.md`; confirm with `python3 tools/country_5ca.py --cc sv --sign-from-doc --by NAME`. Sheets (`data/5ca/sv-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for El Salvador (`config/stance_signers.yaml`). No qualifying vote in the store yet (the 784 votes read carry no area).

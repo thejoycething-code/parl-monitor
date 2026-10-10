@@ -469,3 +469,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - The bill portal's embedded login stays unused (EC4).
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/ec_stance.yaml` holds 3 bill direction(s) (Claude's drafts from the watchlist) and 7 vote reading(s): 0 with proposed values, 0 procedural, 7 need reading, 0 confirmed. Guide: `docs/5ca-ec-readings.md`; confirm with `python3 tools/country_5ca.py --cc ec --sign-from-doc --by NAME`. Sheets (`data/5ca/ec-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Ecuador (`config/stance_signers.yaml`). Drafted from the Ecuador run store: seven tier-1 or watched votes, all 'Conocer y resolver' reports that need reading.

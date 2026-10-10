@@ -499,3 +499,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: dati.camera.it SPARQL as the Camera's backup source, or main when quicker (IT2). Needs fixtures from the live service and a member-key crosswalk (Openpolis to persistent IDs); not built at the merge.
 - Phase: regional councils after national (IT3).
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/it_stance.yaml` holds 15 bill direction(s) (Claude's drafts from the watchlist) and 137 vote reading(s): 9 with proposed values, 1 procedural, 127 need reading, 0 confirmed. Guide: `docs/5ca-it-readings.md`; confirm with `python3 tools/country_5ca.py --cc it --sign-from-doc --by NAME`. Sheets (`data/5ca/it-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Italy (`config/stance_signers.yaml`).
