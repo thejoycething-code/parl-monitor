@@ -61,7 +61,7 @@ def addressee(ementa):
     m = ADDRESSEE.search(ementa or "")
     if not m:
         return None
-    return HONORIFIC.sub("", " ".join(m.group(0).split()))[:100] or None
+    return HONORIFIC.sub("", " ".join(m.group(0).split()))[:160] or None
 
 
 def author(run, pid):

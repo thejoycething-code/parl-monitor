@@ -112,6 +112,13 @@ class GuardTests(unittest.TestCase):
                                cs.classify_title(self.taxes, "Wet afbreking abortus"))
         self.assertFalse(m)
 
+    def test_the_excerpt_shows_the_term(self):
+        body = ("Voorzitter, " + "de begroting en de lasten en de rente " * 30 +
+                "en daarom spreek ik over abortus vandaag. " + "Meer over de begroting. " * 20)
+        m = cs.classify_speech(self.taxes, body)
+        self.assertIn("abortus", m.excerpt)
+        self.assertLessEqual(len(m.excerpt), cs.EXCERPT)
+
     def test_questions_take_tier_two(self):
         m = cs.classify_question(self.taxes, "Vragen over anticonceptie voor jongeren")
         self.assertEqual((m.areas, m.tier), ([1], 2))
@@ -387,11 +394,12 @@ class BelgiumTests(unittest.TestCase):
         date, items = be_chamber.parse_record(raw)
         self.assertEqual(date, "2026-10-08")
         self.assertEqual(len(items), 2)
-        item_no, debate, who, party, text = items[0]
+        item_no, debate, who, party, text, office = items[0]
         self.assertEqual((item_no, who, party), ("02", "Els Van Hoof", "cd&v"))
         self.assertTrue(debate.startswith("Vraag van Els Van Hoof"))
         self.assertEqual(text, "Mijnheer de minister, de euthanasiewet.\nTweede alinea.")
         self.assertNotIn("Niet van de spreker", items[1][4])
+        self.assertEqual((items[1][2], items[1][5]), ("Frank Vandenbroucke", "ministre"))
 
     def test_a_maintenance_page_is_not_a_record(self):
         import be_chamber
@@ -447,6 +455,9 @@ class EditionTests(unittest.TestCase):
         self.assertIn("Said in the chamber: 1 report(s) read in the window, 900 speeches", text)
         self.assertNotIn("—", text)
         self.assertNotIn("Demonstratierecht", dm)                # NL3: the DM is votes only
+
+    def test_reclassify_a_country_without_questions(self):
+        cs.reclassify(self.conn, "ch", log=lambda *_: None)    # no ch_questions table
 
     def test_reclassify_keeps_rows(self):
         self.conn.execute("UPDATE nl_speeches SET text='niets ter zake' WHERE speech_id='vg#0'")

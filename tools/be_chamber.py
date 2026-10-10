@@ -61,7 +61,7 @@ def _text(markup):
 
 
 def parse_record(raw):
-    """(date, [(item_no, debate, speaker, party, text)]) from one sitting."""
+    """(date, [(item_no, debate, speaker, party, text, office)]) from one sitting."""
     markup = be.decode(raw)
     date = None
     m = re.search(r"du (?:lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche) (\d{1,2})(?:er)? "
@@ -85,15 +85,18 @@ def parse_record(raw):
         if "oraspr" in body:
             nm = NUMBERED.match(text)
             if nm:
-                current = [item, nm.group(3).strip(), nm.group(4), [nm.group(5)]]
+                # "Annelies Verlinden, ministre": the office after a comma.
+                who, _, office = nm.group(3).partition(",")
+                current = [item, " ".join(who.split()), nm.group(4), [nm.group(5)],
+                           " ".join(office.split()) or None]
                 out.append(current)
             else:
                 current = None                  # the chair, or a procedural line
             continue
         if current is not None:
             current[3].append(text)
-    speeches = [(i, titles.get(i), who, party, "\n".join(p for p in paras if p))
-                for i, who, party, paras in out]
+    speeches = [(i, titles.get(i), who, party, "\n".join(p for p in paras if p), office)
+                for i, who, party, paras, office in out]
     return date, speeches
 
 
@@ -131,7 +134,7 @@ def speeches(run):
         if date <= run.since:
             break
         titles, kept, matched = {}, [], 0
-        for i, (item_no, debate, who, party, text) in enumerate(items):
+        for i, (item_no, debate, who, party, text, office) in enumerate(items):
             if debate not in titles:
                 titles[debate] = cs.classify_title(run.taxes, debate)
             m = cs.classify_speech(run.taxes, text, titles[debate])
@@ -143,7 +146,7 @@ def speeches(run):
             run.speech({"speech_id": sid, "doc_id": doc_id, "date": date,
                         "debate_id": "{0}-{1}".format(doc_id, item_no), "debate": debate,
                         "speaker": who, "party": party,
-                        "role": "member" if party else "government",
+                        "role": office or ("member" if party else "government"),
                         "person_id": None, "text": text, "url": url,
                         "title_areas": titles[debate].areas}, m)
         if not run.dry_run:

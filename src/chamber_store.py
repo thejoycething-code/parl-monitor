@@ -40,8 +40,8 @@ is never pasted into an edition: the row keeps at most whether and when it
 was answered.
 
 IN THE EDITION (src/country_edition.py, kinds "speech" and "question"):
-speeches are grouped by debate, one entry per debate and sitting, naming the
-speakers on our ground with a short excerpt each (the source's own words,
+speeches are grouped by debate, one entry per debate in the window (its days
+named), naming the speakers on our ground with a short excerpt each (the source's own words,
 verbatim, in the original language); questions are one entry each. A
 country's coverage lines say what was read in the window.
 
@@ -93,7 +93,8 @@ SCHEMA = (
         doc_id       TEXT,               -- the report it came from ({cc}_record_reads)
         date         TEXT,               -- ISO date of the sitting
         chamber      TEXT,               -- where the source has two
-        debate_id    TEXT,               -- the agenda item / debate, as the source keys it
+        debate_id    TEXT,               -- the debate: its title's short_id where the source
+                                         -- restarts its own numbering each sitting
         debate       TEXT,               -- its title, verbatim
         speaker      TEXT,               -- as printed
         party        TEXT,               -- AT THE SPEECH, as printed
@@ -242,7 +243,45 @@ def classify_speech(taxes, body, title_match=None):
                     matches.append(filt.PassageMatch(passage=passage, result=res))
         tier = 2 if matches else None
     areas, terms, excerpt = filt.aggregate_passages(matches, max_excerpt=EXCERPT)
+    if matches:
+        excerpt = centred_excerpt(max(matches, key=lambda m: (
+            1 if m.result.tier == 1 else 0,
+            len(m.result.matched_terms) + len(m.result.watchlist_hits),
+            -len(m.passage))), terms) or excerpt
     return Match(areas, terms, tier if areas else None, excerpt)
+
+
+def centred_excerpt(match, terms, width=EXCERPT - 8):
+    """The passage clipped AROUND its first matched term, so the excerpt the
+    edition quotes shows why the speech is there (a 900-character passage
+    clipped from its start often does not)."""
+    import unicodedata
+    passage = " ".join(match.passage.split())
+    if len(passage) <= width:
+        return passage
+
+    def fold(t):
+        return "".join(c for c in unicodedata.normalize("NFKD", t)
+                       if not unicodedata.combining(c)).lower()
+
+    folded = fold(passage)
+    at = None
+    for term in terms:
+        stem = fold(str(term)).replace("*", "").strip()
+        i = folded.find(stem) if stem else -1
+        if i >= 0 and (at is None or i < at):
+            at = i
+    if at is None:
+        return None
+    start = max(0, at - width // 3)
+    end = min(len(passage), start + width)
+    start = max(0, end - width)
+    if start:
+        start = passage.find(" ", start) + 1 or start
+    if end < len(passage):
+        end = passage.rfind(" ", start, end) if passage.rfind(" ", start, end) > start else end
+    return ("..." if start else "") + passage[start:end].strip() + ("..." if end < len(passage)
+                                                                  else "")
 
 
 def classify_question(taxes, *fields):
@@ -412,11 +451,14 @@ def edition_items(conn, cc, since, until, wl):
                      .format(cc, ce.window_sql("date")), (since, until)):
         if not ce.areas_of(r["areas"]):
             continue
-        k = (r["date"], r["chamber"] or "", r["debate_id"] or r["debate"] or r["doc_id"])
+        # One entry per debate in the window: a bill debated over three days
+        # is one item, its days named in the takeaway.
+        k = (r["chamber"] or "", r["debate_id"] or r["debate"] or r["doc_id"])
         groups.setdefault(k, []).append(r)
-    for (date, chamber, debate_id), rs in groups.items():
+    for (chamber, debate_id), rs in groups.items():
         areas = sorted({a for r in rs for a in ce.areas_of(r["areas"])})
         tiers = [r["tier"] for r in rs if r["tier"]]
+        days = sorted({r["date"] for r in rs if r["date"]})
         names = []
         for r in rs:
             n = r["speaker"] or "an unnamed speaker"
@@ -424,17 +466,20 @@ def edition_items(conn, cc, since, until, wl):
                 names.append(n)
         lines = []
         for r in rs[:MAX_SPEAKERS]:
-            lines.append("{0}: “{1}”".format(_speaker(r), ce.clip(ce.clean(r["excerpt"]), EXCERPT)))
+            lines.append("{0}{1}: “{2}”".format(
+                _speaker(r), " ({0})".format(ce.short_date(r["date"])) if len(days) > 1 else "",
+                ce.clip(ce.clean(r["excerpt"]), EXCERPT)))
         if len(rs) > MAX_SPEAKERS:
             lines.append("And {0} more speech(es) on our ground in this debate, in the store."
                          .format(len(rs) - MAX_SPEAKERS))
-        take = "{0} speech{1} on our ground{2}, each matched in its own words: {3}".format(
+        take = "{0} speech{1} on our ground{2}{3}, each matched in its own words: {4}".format(
             len(rs), "" if len(rs) == 1 else "es", " ({0})".format(chamber) if chamber else "",
+            " on {0}".format(", ".join(ce.short_date(d) for d in days)) if len(days) > 1 else "",
             ", ".join(names[:8]) + (" and others" if len(names) > 8 else ""))
-        key = "debate-" + short_id(date, chamber, debate_id)
-        out.append(ce.item(cc, "speech", key, date,
+        key = "debate-" + short_id(chamber, debate_id)
+        out.append(ce.item(cc, "speech", key, days[-1] if days else rs[0]["date"],
                            rs[0]["debate"] or "(debate title not published)", areas,
-                           min(tiers) if tiers else None, False, url=rs[0]["url"],
+                           min(tiers) if tiers else None, False, url=rs[-1]["url"],
                            lines=lines, terms=rs[0]["matched_terms"], takeaway=take))
     for r in ce.rows(conn, "SELECT * FROM {0}_questions WHERE {1} ORDER BY date, question_id"
                      .format(cc, ce.window_sql("date")), (since, until)):
@@ -542,8 +587,12 @@ def reclassify(conn, cc, taxes=None, log=print, route=None):
     areas: rows are never deleted here, and the edition skips them."""
     taxes = taxes if taxes is not None else load_taxonomies(cc)
     changed = 0
-    for sid, debate, text, areas in conn.execute(
-            "SELECT speech_id, debate, text, areas FROM {0}_speeches".format(cc)).fetchall():
+    mine = tables(cc)
+    speeches_sql = ("SELECT speech_id, debate, text, areas FROM {0}_speeches".format(cc)
+                    if "{0}_speeches".format(cc) in mine else "SELECT 1, 2, 3, 4 WHERE 0")
+    questions_sql = ("SELECT question_id, title, text, areas FROM {0}_questions".format(cc)
+                     if "{0}_questions".format(cc) in mine else "SELECT 1, 2, 3, 4 WHERE 0")
+    for sid, debate, text, areas in conn.execute(speeches_sql).fetchall():
         use, words = route(text) if route else (taxes, text)
         m = classify_speech(use, words, classify_title(taxes, debate))
         new = dumps(m.areas)
@@ -551,8 +600,7 @@ def reclassify(conn, cc, taxes=None, log=print, route=None):
         conn.execute("UPDATE {0}_speeches SET areas=?, matched_terms=?, tier=?, excerpt=? "
                      "WHERE speech_id=?".format(cc),
                      (new, json.dumps(m.terms, ensure_ascii=False), m.tier, m.excerpt, sid))
-    for qid, title, text, areas in conn.execute(
-            "SELECT question_id, title, text, areas FROM {0}_questions".format(cc)).fetchall():
+    for qid, title, text, areas in conn.execute(questions_sql).fetchall():
         m = classify_question(taxes, title, text)
         new = dumps(m.areas)
         changed += new != (areas or "[]")

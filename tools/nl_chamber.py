@@ -194,7 +194,7 @@ def speeches(run):
             kept.append(sid)
             matched += 1
             run.speech({"speech_id": sid, "doc_id": doc_id, "date": date, "chamber": None,
-                        "debate_id": debate_id, "debate": debate, "speaker": name,
+                        "debate_id": cs.short_id(debate or debate_id), "debate": debate, "speaker": name,
                         "party": fractie, "role": role_of(functie), "person_id": None,
                         "text": text, "url": BASE + "Verslag({0})/resource".format(v["Id"]),
                         "title_areas": titles[debate].areas}, m)

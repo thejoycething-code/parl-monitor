@@ -234,7 +234,8 @@ def speeches(run):
             kept.append(sid)
             matched += 1
             run.speech({"speech_id": sid, "doc_id": doc_id, "date": iso(day),
-                        "chamber": COUNCILS.get(council, council), "debate_id": subj,
+                        "chamber": COUNCILS.get(council, council),
+                        "debate_id": cs.short_id(debate or subj),
                         "debate": debate, "speaker": r.get("SpeakerFullName"),
                         "party": "/".join(p for p in (r.get("ParlGroupAbbreviation"),
                                                       r.get("CantonAbbreviation")) if p) or None,

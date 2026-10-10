@@ -269,7 +269,7 @@ def speeches(run):
                 kept.append(sid)
                 matched += 1
                 run.speech({"speech_id": sid, "doc_id": doc_id, "date": date,
-                            "debate_id": cs.short_id(doc_id, debate), "debate": debate,
+                            "debate_id": cs.short_id(debate or doc_id), "debate": debate,
                             "speaker": split_name(name)[0],
                             "party": roster.get(actor) or split_name(name)[1],
                             "role": quality or "member", "person_id": actor or None,

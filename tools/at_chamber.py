@@ -187,7 +187,8 @@ def speeches(run):
                 hit = matched = matched + 1
                 run.speech({"speech_id": "{0}#{1}".format(doc_id, os.path.basename(file_id)),
                             "doc_id": doc_id, "date": date, "chamber": chamber,
-                            "debate_id": debate_id, "debate": debate, "speaker": who,
+                            "debate_id": cs.short_id(debate or debate_id), "debate": debate,
+                            "speaker": who,
                             "party": party, "role": role_of(kind, party), "person_id": None,
                             "text": text, "url": url, "title_areas": titles[debate].areas}, m)
             if not run.dry_run:
