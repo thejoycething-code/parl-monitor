@@ -93,8 +93,8 @@ class AtTheVote(Base):
         self.assertEqual(files, ["anna-nowak-10-1.md", "index.md", "jan-kowalski-10-2.md"])
         text = open(os.path.join(out, "pl", "anna-nowak-10-1.md"), encoding="utf-8").read()
         self.assertIn(mp.SAMPLE_MARK, text)
-        self.assertIn("**YES** · KO (at the vote", text)
-        self.assertIn("*Pkt 3. Projekt ustawy o ochronie życia*", text)
+        self.assertIn("| 1 Jun 2026 | YES | KO (at the vote) | [głosowanie nad całością; on: "
+                      "Pkt 3. Projekt ustawy o ochronie życia]", text)
         self.assertIn("never a verdict", text)
         self.assertNotIn("—", text)
         index = open(os.path.join(out, "pl", "index.md"), encoding="utf-8").read()
@@ -184,7 +184,7 @@ class Derived(Base):
         self.assertEqual((v["position"], v["party"], v["basis"]), ("Dagegen", "FPÖ", mp.DERIVED))
         self.assertEqual(data["members"]["2"].authored[0]["key"], "XXVIII/I/525")
         text = mp.render_member(data, data["members"]["2"])
-        self.assertIn("DERIVED from the group, not recorded per member", text)
+        self.assertIn("| Dagegen (DERIVED) | FPÖ (group's vote, X5) |", text)
         self.assertIn("DERIVED positions (1", text)
         self.assertNotIn("Recorded positions", text)
 
@@ -216,6 +216,26 @@ class ChileSpells(Base):
         self.assertEqual(d["party"], "PRI")
         self.assertIn("militancias", d["basis"])
         self.assertEqual(len(data["members"]["S-1110"].history), 2)
+
+
+class Size(Base):
+    def test_the_table_shows_the_latest_votes_and_counts_them_all(self):
+        conn = pl_store_with_votes()
+        rows = [("pl-10-61-{0}".format(n), 10, 61, n, "2026-07-{0:02d}T10:00".format(n % 28 + 1),
+                 "ELECTRONIC", "Pkt {0}. Projekt ustawy o rodzinie".format(n), "t", "[]", 1, 1, 0,
+                 "[9]", "[9]", 2) for n in range(1, mp.MAX_VOTES_SHOWN + 6)]
+        conn.executemany("INSERT INTO pl_divisions (division_key, term, sitting, number, "
+                         "voted_at, kind, title, topic, process_keys, yes, no, abstain, areas, "
+                         "own_areas, tier) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", rows)
+        conn.executemany("INSERT INTO pl_votes (division_key, mp_key, position, club) "
+                         "VALUES (?,?,?,?)", [(r[0], "10/1", "NO", "KO") for r in rows])
+        data = self.build(conn, "pl")
+        text = mp.render_member(data, data["members"]["10/1"])
+        self.assertIn("Recorded positions ({0})".format(len(rows) + 1), text)
+        self.assertEqual(text.count("| NO | KO"), mp.MAX_VOTES_SHOWN)
+        self.assertIn("{0} earlier vote(s) on our ground".format(len(rows) + 1 - mp.MAX_VOTES_SHOWN),
+                      text)
+        self.assertIn("marriage and family: “NO” {0}".format(len(rows)), text)
 
 
 class Names(unittest.TestCase):

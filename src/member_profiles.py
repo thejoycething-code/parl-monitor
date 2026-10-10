@@ -76,8 +76,15 @@ from src import country_edition as ce
 from src import latam
 
 ALL_TIME = "0000-00-00"
-MAX_VOTES_SHOWN = 200
-MAX_LINKED_SHOWN = 100
+# Size, measured on the scoping stores (10 October 2026): every vote in full
+# came to 143 MB of Markdown (France alone, 629 deputies by 1,221 votes, over
+# 100 MB). A profile is a member's summary, not the vote record: the counts
+# cover every vote, the table the latest MAX_VOTES_SHOWN, one row each; the
+# full record stays in the store and the weekly editions. At 20 rows the 23
+# scoping stores gave about 30 MB in 5,000 files (1.5 MB gzipped).
+MAX_VOTES_SHOWN = 20
+MAX_LINKED_SHOWN = 20
+TITLE_CLIP = 140
 SAMPLE_MARK = "SAMPLE PROFILE"
 GENERATOR = "tools/member_profiles.py"
 
@@ -255,6 +262,7 @@ class Spec:
     group_labels: Optional[str] = None   # SQL: code, label (France's organe refs)
     extra: Optional[str] = None          # SQL: key, label, value (shown under identity)
     notes: tuple = ()                    # extra lines for the profile's notes
+    vote_note: Optional[Callable] = None # fn(vote) -> a short note for its table row
 
 
 def sql_positions(sql):
@@ -371,6 +379,16 @@ def _hr_party_at(ctx, m, date, recorded):
         return seen, "seen in debate around the vote, from the Sabor's transcripts, X6"
     return recorded or m.party, ("as listed when the vote was collected, not party at the "
                                  "vote, X6")
+
+
+def _hr_note(v):
+    """Croatia: on a conclusion not to accept a bill, "for" was to reject it."""
+    t = v.get("takeaway") or ""
+    if "conclusion NOT to accept" in t:
+        return "question put: a conclusion not to accept the bill, so 'for' was to reject it"
+    if "has not been read" in t:
+        return "question put not read yet"
+    return None
 
 
 def _pt_authored(conn, wl):
@@ -553,7 +571,7 @@ SPECS = {
               "mandate = 'Aktivan' FROM hr_members",
         sql_positions("SELECT v.slug, m.name, v.party_seen, v.position FROM hr_votes v "
                       "LEFT JOIN hr_members m USING (slug) WHERE v.division_key = ?"),
-        basis="as_listed", history=_hr_history, party_at=_hr_party_at,
+        basis="as_listed", history=_hr_history, party_at=_hr_party_at, vote_note=_hr_note,
         party_note="The Sabor's vote service prints no party. Where the plenary transcripts "
                    "show the member speaking for a party on both sides of a vote's date, that "
                    "party is shown and said to come from the transcripts; otherwise the party "
@@ -850,38 +868,71 @@ def _flags(v):
     return " · ".join(bits)
 
 
-def vote_line(v):
-    party = "{0} ({1})".format(md(v["party"]), v["basis"]) if v["party"] else \
-        "party not known ({0})".format(v["basis"])
-    head = "- {0}: **{1}**{2} · {3} · {4}".format(
-        date_long(v["date"]), md(v["position"]),
-        " (DERIVED from the group, not recorded per member)" if v["derived"] else "", party,
-        _flags(v))
-    out = [head, "  *{0}*".format(md(ce.clip(v["title"], 300)) or "(no title published)")]
-    if v.get("group_title") and v["group_title"] != v["title"]:
-        out.append("  On: *{0}*".format(md(ce.clip(v["group_title"], 200))))
-    bits = []
-    if v.get("takeaway"):
-        bits.append(ce.sentence(v["takeaway"]))
-    if v.get("own") is False:
-        bits.append("Its areas come from the bill it belongs to, not its own words.")
-    if v.get("judge") is not None:
-        bits.append("Session judge: {0}/3{1}".format(
-            v["judge"], ": " + ce.clean(v["judge_why"]) if v.get("judge_why") else "."))
-    if bits:
-        out.append("  " + " ".join(bits))
+def short_basis(basis):
+    """The party-at-the-vote basis in a table cell's words."""
+    b = basis or ""
+    if b == DERIVED:
+        return "group's vote, X5"
+    if b == AT_VOTE:
+        return "at the vote"
+    if "transcripts" in b:
+        return "seen in debate, transcripts"
+    if "BCN" in b:
+        return "on the day, BCN"
+    if "militancias" in b:
+        return "on the day, militancias" if "no militancia" not in b else b
+    if "not party at the vote" in b:
+        return "as listed, not at the vote"
+    return b
+
+
+def vote_row(spec, v):
+    text = v["title"] or ""
+    if v.get("group_title") and v["group_title"] != text:
+        text = "{0}; on: {1}".format(text, v["group_title"]) if text else v["group_title"]
+    title = md(ce.clip(text, TITLE_CLIP)) or "(no title)"
     if v.get("url"):
-        out.append("  [Source]({0})".format(v["url"]))
-    return out
+        title = "[{0}]({1})".format(title, v["url"])
+    marks = []
+    if v.get("watched"):
+        marks.append("**watched**")
+    if v.get("own") is False:
+        marks.append("bill's areas")
+    note = spec.vote_note(v) if spec.vote_note else None
+    if note:
+        marks.append(note)
+    position = md(v["position"]) + (" (DERIVED)" if v["derived"] else "")
+    party = "{0} ({1})".format(md(v["party"]), short_basis(v["basis"])) if v["party"] else \
+        "not known ({0})".format(short_basis(v["basis"]))
+    areas = ce.area_text(v["areas"]) or "watched"
+    if v.get("tier"):
+        areas += ", tier {0}".format(v["tier"])
+    return "| {0} | {1} | {2} | {3}{4} | {5} |".format(
+        ce.short_date(v["date"]) + " " + (v["date"] or "")[:4], position, party, title,
+        " · " + " · ".join(marks) if marks else "", areas)
 
 
-def linked_line(r):
-    head = "- {0}: *{1}* ({2}) · {3}".format(
-        date_long(r["date"]) if r.get("date") else "date not recorded",
-        md(ce.clip(r["title"], 300)) or "(no title published)", md(r["key"]), _flags(r))
-    out = [head, "  Role: {0}.{1}".format(md(r["role"]).rstrip("."),
-                                         " [Source]({0})".format(r["url"]) if r.get("url") else "")]
-    return out
+def linked_row(r):
+    title = md(ce.clip(r["title"] or "", TITLE_CLIP)) or "(no title)"
+    if r.get("url"):
+        title = "[{0}]({1})".format(title, r["url"])
+    areas = ce.area_text(r["areas"]) or "watched"
+    if r.get("watched"):
+        areas += ", **watched**"
+    return "| {0} | {1} | {2} | {3} | {4} |".format(
+        (ce.short_date(r["date"]) + " " + r["date"][:4]) if r.get("date") else "",
+        title, md(r["key"]), md(r["role"]).rstrip("."), areas)
+
+
+def by_area(votes):
+    """'abortion: “pour” 3, “contre” 1; ...' over every vote."""
+    areas = {}
+    for v in votes:
+        for a in v["areas"] or [None]:
+            areas.setdefault(a, []).append(v)
+    return "; ".join("{0}: {1}".format(ce.area_text([a]) if a else "watched only",
+                                      position_counts(vs))
+                     for a, vs in sorted(areas.items(), key=lambda kv: (kv[0] is None, kv[0] or 0)))
 
 
 def position_counts(votes):
@@ -941,24 +992,32 @@ def render_member(data, m, sample=False):
         if derived:
             out.append("DERIVED positions ({0}, from the group's vote, X5; not recorded per "
                        "member): {1}.".format(len(derived), position_counts(derived)))
-        out.append("")
-        for v in m.votes[:MAX_VOTES_SHOWN]:
-            out += vote_line(v)
+        out.append("By area (every vote): {0}.".format(by_area(m.votes)))
+        out += ["", "{0}:".format("Every vote" if len(m.votes) <= MAX_VOTES_SHOWN else
+                                  "The latest {0}".format(MAX_VOTES_SHOWN)), "",
+                "| Date | Position | Party at the vote | Vote | Areas |",
+                "|---|---|---|---|---|"]
+        out += [vote_row(spec, v) for v in m.votes[:MAX_VOTES_SHOWN]]
         if len(m.votes) > MAX_VOTES_SHOWN:
-            out.append("- ... and {0} earlier vote(s) on our ground.".format(
-                len(m.votes) - MAX_VOTES_SHOWN))
+            out += ["", "{0} earlier vote(s) on our ground are counted above; each is in the "
+                        "store and in the week's edition.".format(len(m.votes) - MAX_VOTES_SHOWN)]
         out.append("")
     for title, lst in (("Bills and items on our ground they authored or introduced", m.authored),
                        ("Questions on our ground", m.questions)):
         if not lst:
             continue
-        out += ["## {0} ({1})".format(title, len(lst)), ""]
-        for r in lst[:MAX_LINKED_SHOWN]:
-            out += linked_line(r)
+        out += ["## {0} ({1})".format(title, len(lst)), "",
+                "| Date | Title | Key | Role | Areas |", "|---|---|---|---|---|"]
+        out += [linked_row(r) for r in lst[:MAX_LINKED_SHOWN]]
         if len(lst) > MAX_LINKED_SHOWN:
-            out.append("- ... and {0} more.".format(len(lst) - MAX_LINKED_SHOWN))
+            out += ["", "{0} earlier item(s) are in the store.".format(
+                len(lst) - MAX_LINKED_SHOWN)]
         out.append("")
-    out += ["## Notes", ""] + ["- " + n for n in notes(data)]
+    out += ["## Notes", "", "- Party: " + spec.party_note,
+            "- How these profiles are built, and what they never say: [the index's notes]"
+            "(index.md#notes)."]
+    if data.get("attribution"):
+        out.append("- Source attribution: {0}.".format(data["attribution"].rstrip(".")))
     return "\n".join(out).rstrip() + "\n"
 
 
@@ -969,6 +1028,10 @@ def notes(data):
            "judge's score where it has read the vote. Titles are the source's own, "
            "verbatim.".format(data["name"]),
            "Party: " + spec.party_note,
+           "In the vote table, the party's basis: 'at the vote' (the record names it), "
+           "'as listed, not at the vote' (X6: the record names none), 'group's vote, X5' (the "
+           "position is DERIVED from the group's vote, never recorded per member), or the "
+           "party-history source that covers the day.",
            "No verdicts: which way a vote cut for our side is a signed judgement (5CA) that "
            "this country does not have yet."]
     out += list(spec.notes)
