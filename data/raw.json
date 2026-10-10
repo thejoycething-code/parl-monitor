@@ -430,8 +430,8 @@
     "2026-10-10": {
       "bytes": 200398124,
       "files": 11950,
-      "published_by": "run 38041827976",
-      "published_utc": "2026-10-10T10:07:55Z",
+      "published_by": "local",
+      "published_utc": "2026-10-10T10:33:27Z",
       "sha256": "3943a09b0d80819c626c976c6d11fe0f96b96e7a502d7853405b399dbfa98663"
     },
     "eu-probe-2026-09-01": {
