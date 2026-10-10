@@ -160,6 +160,23 @@ class FrameworkTests(Base):
         self.assertIn("P 2-1", ce.split_line(ce.group_counts([(g, p) for _, g, p in rows])))
         self.assertIn("DERIVED", ce.derived_line(5, "basis"))
 
+    def test_members_without_a_group_never_break_from_one(self):
+        # Slovakia's non-attached deputies, stored with no club, voted 2-1:
+        # the one in the minority broke from nobody.
+        rows = [("A", "Smer", "z"), ("B", "Smer", "z"), ("C", "Smer", "p"),
+                ("D", "no club", "z"), ("E", "no club", "z"), ("F", "no club", "p")]
+        self.assertEqual(ce.rebels(rows, ("z",), ("p",)), ["C (Smer)"])
+        for label in ("Nezaradení", "Poslanci, ktorí nie sú členmi poslaneckých klubov",
+                      "Niezrzeszeni", "niez.", "Non-inscrits", "fraktionslos", "Independiente",
+                      "independent", "független", "Ninsc", "Misto", "Grupo Mixto", "S.Part."):
+            rows = [("A", label, "yes"), ("B", label, "yes"), ("C", label, "no")]
+            self.assertEqual(ce.rebels(rows), [], label)
+            self.assertTrue(ce.no_group_line(label), label)
+        # Short codes that are a real group elsewhere stay with their adapter:
+        # "SP" is Switzerland's Social Democrats.
+        rows = [("A", "SP", "yes"), ("B", "SP", "yes"), ("C", "SP", "no")]
+        self.assertEqual(ce.rebels(rows), ["C (SP)"])
+
 
 class PolishTests(Base):
     """why_watched's first sentence, grouped vote lines, and the notice,

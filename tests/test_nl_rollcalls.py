@@ -335,6 +335,27 @@ class WatchlistTests(unittest.TestCase):
         nl_store.add_watch_areas(res, "2026Z99999", ["99999"])
         self.assertEqual((res.issue_areas, res.tier), ([], None))
 
+    def test_the_eu_council_dossier_is_not_watched_whole(self):
+        # 21501-02 (Raad Algemene Zaken en Raad Buitenlandse Zaken) holds
+        # every motion on the EU Council agenda. Only the rainbow-flag motion
+        # in it is watched, by its zaaknummer; its neighbours are not.
+        wl = nl_store.watchlist()
+        self.assertNotIn("21501-02", wl["dossiers"])
+        self.assertNotIn("21501", wl["dossiers"])
+        res = filt.FilterResult()
+        nl_store.add_watch_areas(res, "2026Z12889", ["21501-02"])
+        self.assertEqual((res.issue_areas, res.tier, res.watchlist_hits), ([], None, []))
+        res = filt.FilterResult()
+        nl_store.add_watch_areas(res, "2026Z21728", ["21501-02"])
+        self.assertEqual(res.watchlist_hits, ["watch:zaak:2026Z21728"])
+        from src import country5ca
+        flat = {k: {} for group in wl.values() for k in group}
+        spec = country5ca.SPECS["nl"]
+        self.assertIsNone(country5ca.watched_key(
+            spec, {"zaak_nummer": "2026Z12889", "dossiers": '["21501-02"]'}, flat))
+        self.assertEqual(country5ca.watched_key(
+            spec, {"zaak_nummer": "2026Z21728", "dossiers": '["21501-02"]'}, flat), "2026Z21728")
+
 
 class JobTests(unittest.TestCase):
     """The Mini-first weekly: one script, two callers."""

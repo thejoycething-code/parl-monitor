@@ -49,6 +49,9 @@ def store():
                      "VALUES (?,?,?,?)", ("XVII/182847", party, pos, n))
     conn.execute("INSERT INTO pt_votes (division_key, name, party, position, cad_id) VALUES "
                  "('XVII/182847', 'Pedro Vaz', 'PS', 'A Favor', 10)")
+    # A non-inscribed deputy is named because they have no group to vote with.
+    conn.execute("INSERT INTO pt_votes (division_key, name, party, position, cad_id) VALUES "
+                 "('XVII/182847', 'Joana Livre', 'Ninsc', 'Contra', NULL)")
     for cad, name, party in ((1, "Ana", "PSD"), (2, "Bruno", "PSD"), (3, "Carla", "CH"),
                              (10, "Pedro Vaz", "PS"), (11, "Rui", "PS"), (12, "Sara", "PCP")):
         conn.execute("INSERT INTO pt_members (cad_id, name, party, situation) VALUES "
@@ -73,6 +76,7 @@ class PortugueseEdition(unittest.TestCase):
     def test_named_deputy_is_a_fact(self):
         self.assertIn("Named in the record (broke from their group): Pedro Vaz (PS, for).",
                       self.text)
+        self.assertNotIn("Joana Livre", self.text)      # Ninsc: no group to break from
 
     def test_member_positions_derived_and_labelled(self):
         # PSD 2 + CH 1 + PS 1 (Rui; Pedro Vaz is named) + PCP 1 = 5 derived.
