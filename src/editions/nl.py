@@ -15,6 +15,15 @@ names any who voted against their fractie's majority.
 Amendments and the bill they amend are one group (the dossier), with the
 bill's own vote as the decisive one; motions stand alone, since motions
 filed in one dossier are separate questions.
+
+THE EERSTE KAMER (NL4, added 10 October 2026): its votes on our ground from
+the nl_ek_* tables (tools/nl_eerstekamer.py, read from eerstekamer.nl's vote
+pages), in the same section, each titled as the Senate prints it and said
+to be the Eerste Kamer's. A show of hands names the fracties for and
+against; nothing is derived for members (the collector reads no member
+list). A roll call names every senator with their fractie at the vote. A
+hamerstuk passed without a vote, with any fracties that asked for their
+dissent to be recorded.
 """
 
 from __future__ import annotations
@@ -44,7 +53,76 @@ def _sides(conn, besluit_id):
     return sides
 
 
+EK = "Eerste Kamer"
+
+
+def _ek_watched(dossier, wl):
+    """'36945-I' is watched as itself or as '36945'."""
+    if not dossier:
+        return None
+    for k in (dossier, dossier.split("-")[0]):
+        if k in wl:
+            return k
+    return None
+
+
+def eerste_kamer(conn, since, until, wl):
+    """The Eerste Kamer's votes on our ground in the window (NL4)."""
+    out = []
+    for r in ce.rows(conn, "SELECT * FROM nl_ek_divisions WHERE " + ce.window_sql("date"),
+                     (since, until)):
+        hit = _ek_watched(r["dossier"], wl)
+        if not ce.on_ground(r["areas"], hit is not None):
+            continue
+        sides = ce.rows(conn, "SELECT kind, actor, fractie, position FROM nl_ek_votes "
+                              "WHERE division_key=? ORDER BY actor", (r["division_key"],))
+        method = r["method"] or "vote"
+        if r["roll_call"]:
+            pairs = [(v["actor"], v["fractie"], v["position"]) for v in sides
+                     if v["kind"] == "lid"]
+            lines = [ce.tally_line(r["voor"], r["tegen"], None, r["result"],
+                                   "Eerste Kamer, roll call, senators"),
+                     ce.split_line(ce.group_counts([(f, p) for _, f, p in pairs],
+                                                   ("voor",), ("tegen",), ()), "By fractie"),
+                     ce.members_line(len(pairs), ce.rebels(pairs, ("voor",), ("tegen",)),
+                                     "Fracties as printed at the vote.")]
+        elif method.lower() == "hamerstuk":
+            noted = [v["actor"] for v in sides if v["position"] == "aantekening"]
+            lines = ["Passed as a hamerstuk, without a vote; result as recorded: “{0}”.".format(
+                r["result"] or "aangenomen")]
+            if noted:
+                lines.append("Asked for their dissent to be recorded (aantekening): {0}.".format(
+                    ", ".join(noted)))
+        else:
+            voor = [v["actor"] for v in sides if v["position"] == "voor"]
+            tegen = [v["actor"] for v in sides if v["position"] == "tegen"]
+            lines = ["Eerste Kamer, {0}; result as recorded: “{1}”.".format(
+                         method[0].lower() + method[1:], r["result"] or "?"),
+                     ce.side_line(voor, tegen, "By fractie"),
+                     "No member positions: a show of hands records fracties only, and none "
+                     "are derived for the Eerste Kamer." if voor or tegen else None]
+        what = {"bill": "Bill", "motion": "Motion", "amendment": "Amendment"}.get(
+            r["kind"], "Item")
+        take = "{0}: {1} {2}".format(EK, what, r["ref"])
+        if r["kind"] != "bill" and r["dossier"]:
+            take += ", in dossier {0}".format(r["dossier"])
+        out.append(ce.vote("nl", r["division_key"], r["date"], r["title"],
+                           ce.areas_of(r["areas"]), r["tier"], hit is not None, lines,
+                           url=r["url"], terms=r["matched_terms"], takeaway=ce.clip(take, 260),
+                           group="ek-" + r["dossier"] if r["kind"] != "motion" and r["dossier"]
+                           else None,
+                           group_title="{0}: {1}".format(EK, r["dossier"])
+                           if r["kind"] != "motion" and r["dossier"] else None,
+                           final=r["kind"] == "bill", own=bool(ce.areas_of(r["own_areas"])),
+                           watch_key=hit))
+    return out
+
+
 def items(conn, since, until, wl):
+    return tweede_kamer(conn, since, until, wl) + eerste_kamer(conn, since, until, wl)
+
+
+def tweede_kamer(conn, since, until, wl):
     out = []
     for r in ce.rows(conn, "SELECT d.*, z.soort, z.onderwerp, z.titel, z.dossiers, "
                            "z.dossier_titels, z.own_areas, z.matched_terms, z.tier "
@@ -94,7 +172,7 @@ def items(conn, since, until, wl):
 
 
 COUNTRY = ce.Country(
-    cc="nl", name="Netherlands", chamber="Tweede Kamer", language="Dutch",
+    cc="nl", name="Netherlands", chamber="Tweede Kamer and Eerste Kamer", language="Dutch",
     taxonomies=(("taxonomy-nl.yaml", "nl"),),
     items=items, kinds=("vote",), dm_kinds=("vote",), flag=":flag-nl:",
     members_note=("Most votes are by show of hands, one position per fractie; member "
@@ -103,6 +181,8 @@ COUNTRY = ce.Country(
                   "Roll calls record every member"),
     coverage=("Votes only (NL3): the store holds the zaken the Kamer voted on; new bills and "
               "stage moves are not collected.",
-              "The Eerste Kamer is not collected yet (NL4).",
+              "The Eerste Kamer (NL4) is read from eerstekamer.nl's vote pages, the only source "
+              "of its votes: fracties for and against on a show of hands, every senator on a "
+              "roll call.",
               "Positions can arrive days after the vote; the collector re-reads six weeks."),
 )
