@@ -783,7 +783,7 @@ def build(conn, cc, today, config_dir=None):
         if m:
             m.history = spells
     wl = watchlist(cc, config_dir)
-    unresolved = 0
+    unresolved = unmatched = 0
     items = vote_items(conn, cc, today, config_dir) if spec.positions else []
     for it in items:
         div = it.get("division") or it["key"]
@@ -813,7 +813,7 @@ def build(conn, cc, today, config_dir=None):
         for row in (fn(conn, wl) if fn else []):
             m = ros.resolve(row.get("member_id"), row.get("name"), make_stub=False)
             if m is None:
-                unresolved += 1
+                unmatched += 1
                 continue
             getattr(m, field_).append(row)
     for m in ros.by_key.values():
@@ -823,6 +823,7 @@ def build(conn, cc, today, config_dir=None):
         m.at_votes.sort(key=lambda p: (p[1] or "", p[0]))
     return {"cc": cc, "name": country_name(cc), "today": today, "spec": spec,
             "members": ros.by_key, "votes": len(items), "unresolved": unresolved,
+            "unmatched": unmatched,
             "attribution": attribution(conn, cc)}
 
 
@@ -1067,8 +1068,12 @@ def render_index(data, written, sample=False):
                "store.".format(
                    date_long(data["today"]), len(members), len(with_record), data["votes"]))
     if data["unresolved"]:
-        out.append("{0} record line(s) name someone not matched to exactly one listed member; "
-                   "they are shown under the printed name.".format(data["unresolved"]))
+        out.append("{0} vote position(s) name someone not matched to exactly one listed "
+                   "member; they are shown under the printed name.".format(data["unresolved"]))
+    if data.get("unmatched"):
+        out.append("{0} author or questioner line(s) on our ground name no listed member (the "
+                   "government, a committee, the other chamber, or a name not matched to "
+                   "exactly one member); they are not attributed.".format(data["unmatched"]))
     out += ["", "| Member | Party | Chamber | Constituency or region | Votes | Authored | "
                 "Questions |", "|---|---|---|---|---|---|---|"]
     for m in members:
