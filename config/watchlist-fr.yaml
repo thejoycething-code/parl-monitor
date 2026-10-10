@@ -13,6 +13,21 @@
 # Assemblee nationale's dossier uid: 'DLR5L<legislature>N<number>'. A dossier
 # keeps its key across readings and across the navette with the Senat; it
 # does not survive a dissolution unless the Senat has adopted it.
+#
+# 5CA SIGN-OFF SCOPE (Chris, 10 October 2026): France's stance sign-off
+# (config/fr_stance.yaml, src/country5ca.py) covers only votes on the whole
+# text and motions to reject it, plus the amendment and article votes listed
+# here, under their dossier's entry, as an optional `amendments:` list:
+#
+#   "DLR5L17N51670": {areas: [2], why: "...",
+#                     amendments: ["an-17-1773", "n° 3"]}
+#
+# Each item is either a division key from the store ('an-17-1773', exact)
+# or an amendment number as the Assemblee's wording gives it ("n° 3" or 3),
+# which opts in every vote in that dossier on that number (numbers restart
+# with each reading, so the key is the exact form). The next
+# `tools/country_5ca.py --draft` drafts a newly watched vote for sign-off.
+# No amendment is watched yet.
 dossiers:
   "DLR5L17N51670": {areas: [2],
                     why: "Droit a l'aide a mourir (dossier 'Fin de vie'). Adopted in lecture definitive 15 July 2026, Conseil constitutionnel conforme 14 August, promulgated 18 August 2026. 380 scrutins name the dossier; 931 scrutin titles say 'aide a mourir'. The Quebec list knows 'aide medicale a mourir' only.",

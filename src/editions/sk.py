@@ -111,6 +111,18 @@ def tally(conn, voting_id):
     return out
 
 
+def positions(conn, r):
+    """(name, club at the vote, position) for every member, [] for a secret
+    ballot or before the positions are read."""
+    if r["is_secret"]:
+        return []
+    return [(m["name"] or "member {0}".format(m["mp_id"]), m["club"] or "no club",
+             (m["position"] or "").lower())
+            for m in ce.rows(conn, "SELECT v.mp_id, v.club, v.position, m.name FROM sk_votes v "
+                             "LEFT JOIN sk_members m ON m.mp_id = v.mp_id WHERE v.voting_id = ?",
+                             (r["voting_id"],))]
+
+
 def vote_lines(conn, r):
     result = ce.clean(r["result"]) or None
     if r["is_secret"]:
@@ -124,11 +136,7 @@ def vote_lines(conn, r):
             n, t.get("N", 0), t.get("0", 0))
         lines = [ce.tally_line(t.get("Z", 0), t.get("P", 0), t.get("?", 0), result=result,
                                how=how)]
-        pos = [(m["name"] or "member {0}".format(m["mp_id"]), m["club"] or "no club",
-                (m["position"] or "").lower())
-               for m in ce.rows(conn, "SELECT v.mp_id, v.club, v.position, m.name FROM sk_votes v "
-                                "LEFT JOIN sk_members m ON m.mp_id = v.mp_id WHERE v.voting_id = ?",
-                                (r["voting_id"],))]
+        pos = positions(conn, r)
         lines.append(ce.split_line(ce.group_counts([(c, p) for _, c, p in pos], YES, NO, ABSTAIN),
                                    label="By club at the vote"))
         lines.append(ce.members_line(len(pos), ce.rebels(pos, YES, NO)))
@@ -161,13 +169,16 @@ def votes(conn, since, until, wl):
             takeaway = (takeaway + ". " if takeaway else "") + "The record says {0}".format(res)
         own = bool(ce.areas_of(r["own_areas"])) if r["own_areas"] is not None else None
         head, _ = split_label(r["name"])
+        pos = positions(conn, r)
         out.append(ce.vote(
             CC, key, r["date"], vote_title(r["name"]), ce.areas_of(r["areas"]), r["tier"],
             watched, vote_lines(conn, r), terms=r["matched_terms"], body=ce.clean(r["name"]),
             url=VOTE_URL.format(id=r["voting_id"]), takeaway=sentence(takeaway) or None,
             group=("sk", key), group_title=bill_title(conn, r["bill_key"]) or head,
             final="ako o celku" in _fold(r["name"]),
-            own=False if own is False else None, division=r["voting_id"]))
+            own=False if own is False else None,
+            positions=pos or None, rebels=ce.rebels(pos, YES, NO) if pos else None,
+            division=r["voting_id"]))
     return out
 
 

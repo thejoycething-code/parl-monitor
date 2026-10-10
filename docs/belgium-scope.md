@@ -444,3 +444,7 @@ hand with `--speakers` (matched to the member list) once known. Placements come 
 readings confirmed in `config/be_stance.yaml`; none is confirmed yet, so every pack shows
 "wacht op goedkeuring" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/be.json` (`src/country_vote_brief.py`, step in `jobs/be-weekly.sh`). Briefed after each weekly collection. Groups are as the member list stood when stored, not at the vote, and the brief says so. See docs/mac-mini.md, "Vote briefs for the new countries".

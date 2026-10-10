@@ -14,15 +14,16 @@ Everything it built is on main. Read this with
 | Weekly edition, Slack DM to Chris | yes | yes | yes | yes | 14 own editions + Hungary gazette edition + one monthly Latam edition |
 | Triage | API judge | API judge | API or session judge | session judge (provinces) | free session judge, Sundays 16:45 (`tools/edition_judge.py`) |
 | Noise filters, mute lists | yes | partly | yes | yes | yes (`src/noise.py`, `config/edition-noise-<cc>.yaml`) |
-| Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | **no** |
+| Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | yes, 20 countries (`src/country_vote_brief.py`): daily for NL, PL, CH, BR, IT; after the weekly for the rest |
 | 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5). Tracker and partner sheet built 10 Oct (`tools/make_country_5ca_web.py`, branch `camp-5ca-sheets`): `docs/5ca-countries.html` weekly, "awaiting sign-off: N readings" per country; partner page gated until a country has a confirmed placement |
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct: 2,012 drafts in 18 countries (71 with proposed values, 43 procedural, 1,898 need reading), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
+| Campaign targets and outcomes (`ca_campaign.py`, the 5CA Evaluate) | yes | no | no | no | **built** 10 Oct (`tools/country_campaign.py`, branch `camp-targets`): open, targets, add, find, outcome, score; targets from confirmed readings only, candidates by vote record until then; petition numbers none yet (UK only) |
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
 | Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (no open source) |
 | Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
 | Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
-| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); briefs and targets **no** |
+| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); campaign briefs **built** 10 Oct (`tools/country_briefs.py`, branch `camp-briefs`, a weekly step): drafts in the country's language, NOT READY until stances are confirmed; targets **no** |
 | Debate today, live read | yes | no | no | no | **built** 10 Oct (`tools/country_debate_today.py`, `tools/country_live_debate.py`, branch `camp-live-debate`) for the four countries whose chamber publishes the same day: NL, CH, FR, BE; not AT (next day or later) or the question-only countries. Before sign-off the live read names no contradiction ("awaiting sign-off"); debate today is a step of the 16:45 net task |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
@@ -42,7 +43,15 @@ New-country collectors and what their vote data supports:
 
 ## The parity work, in priority order
 
-### 1. Same-day vote briefs (cheapest win)
+### 1. Same-day vote briefs (cheapest win) -- BUILT 10 October 2026
+
+Branch `parity-vote-briefs`: `src/country_vote_brief.py` (shared, from the
+editions' and the Latam monitor's own readers), `src/vote_brief_sources.py`
+(the daily direct readers), `tools/country_vote_briefs.py`, a step in each
+country's weekly job and one daily Mini job (`jobs/vote-briefs-daily.sh`);
+see docs/mac-mini.md, "Vote briefs for the new countries", and the samples
+in `docs/vote-brief-samples/`. The plan as written:
+
 Generalise `src/vote_brief.py` (IE/AU/US already share it) to the new
 countries with member-level votes, reading from each `<cc>_store` after the
 weekly collection, or from the source directly where it is cheap (NL OData,
@@ -171,6 +180,19 @@ X7 OCR designed and guarded (`src/ocr.py`, `tools/pe_ocr.py`; install steps in
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only
 once 5CA exists for a country, and only where CitizenGO runs campaigns there.
 
+**Campaign targets and outcomes built 10 October 2026 (branch `camp-targets`;
+docs/5ca-notes.md, "Campaign targets and outcomes for the new countries").**
+`tools/country_campaign.py` (src/country_campaign.py) is `ca_campaign.py` for
+every country in `src/country5ca.COUNTRIES`: open a campaign on an area in a
+chamber (a snapshot of the confirmed-only 5CA), suggest targets (`+`, `-`,
+mixed confirmed records), add targets by name (`--by`), find and record the
+outcome vote with our side, score it. Before sign-off it suggests nobody and
+lists candidates by vote record, each "not a target until the stance is
+confirmed". Petition performance joins from `data/looker/<cc>_campaigns.tsv`
+(the UK export's shape); no country has one yet, and the command says so.
+Manual only, no job. Still open: Chris to pull the first country export from
+Looker (the list prefix per country is a guess: `PL`, `IT`, ...).
+
 **Debate packs built 10 October 2026 (branch `camp-debate-packs`).**
 `tools/country_debate_pack.py --country cc --date D --find WORDS | --item KEY`
 (src/country_debatepack.py) assembles one upcoming or recent debate on our
@@ -200,6 +222,21 @@ person or the session judge (`--queue-out` / `--reads`); until then
 "awaiting sign-off". Debate today is STEP 1B of the existing 16:45 net task
 (`ops/scheduled-tasks/debate-day-net.md`): recreate that task from the file.
 Table and usage: docs/debate-pack-social.md, "New countries".
+
+**Campaign briefs built 10 October 2026 (branch `camp-briefs`).**
+`tools/country_briefs.py` (`src/country_briefs.py`, phrases in
+`src/brief_phrases.py`, lists and languages in `config/country-briefs.yaml`)
+drafts an RF4 brief per watched or tier-1 bill that moved in the last 90 days,
+in every new country with a collector (the fourteen own editions and eleven
+Latam countries), as a step of its weekly job. Facts from the store only, no
+AI call; every cell the record cannot fill is a `[CAMPAIGNER: ...]` line. The
+ask, the 5CA, the targets and the segment split come from CONFIRMED stances
+only, so every brief is NOT READY until its bill's direction
+(`--confirm-direction`, new in `tools/country_5ca.py`) and every reading of
+its votes are confirmed. Unedited briefs refresh weekly; edited ones are left
+alone. Open: the language (Chris asked for the country's language; rulebook
+rule 6 and the German briefs say English, one config line switches), the
+framing glossary, the allies and opponents registers and Bluebook access.
 
 ## Blocked, waiting on replies (letters drafted in Chris's Gmail)
 

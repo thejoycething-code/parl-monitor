@@ -498,3 +498,7 @@ hand with `--speakers` (matched to the member list) once known. Placements come 
 readings confirmed in `config/nl_stance.yaml`; none is confirmed yet, so every pack shows
 "wacht op goedkeuring" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/nl.json` (`src/country_vote_brief.py`, step in `jobs/nl-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Tweede Kamer's OData, one request; a show of hands waits up to two days for its positions. See docs/mac-mini.md, "Vote briefs for the new countries".

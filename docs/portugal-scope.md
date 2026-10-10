@@ -510,3 +510,7 @@ hand with `--speakers` (matched to the member list) once known. Placements come 
 readings confirmed in `config/pt_stance.yaml`; none is confirmed yet, so every pack shows
 "a aguardar validação" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/pt.json` (`src/country_vote_brief.py`, step in `jobs/pt-weekly.sh`). Briefed after each weekly collection. Group votes, positions derived (X5); only the deputies the record names as voting apart are named. See docs/mac-mini.md, "Vote briefs for the new countries".

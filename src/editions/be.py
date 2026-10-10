@@ -82,11 +82,12 @@ def _votes(conn, since, until, wl):
         lines = [ce.tally_line(r["yes"], r["no"], r["abstain"], r["result_fr"],
                                "nominal vote" if r["kind"] == "nominal" else "counted"),
                  "FR: *{0}*".format(ce.clip(title_fr, 300)) if title_fr else None]
+        reb = ce.rebels(pairs) if pairs else None
         if pairs:
             lines.append(ce.split_line(ce.group_counts([(g, p) for _, g, p in pairs]),
                                        "By group"))
             lines.append(ce.members_line(
-                len(pairs), ce.rebels(pairs),
+                len(pairs), reb,
                 "Groups are as the member list stood when stored, not at the vote."))
         heading = (r["heading_nl"] or "").lower() + " " + (r["heading_fr"] or "").lower()
         final = any(heading.strip().startswith(f) or (" " + f + " ") in heading[:40]
@@ -98,7 +99,8 @@ def _votes(conn, since, until, wl):
                                ", on dossier " + r["dossier_key"] if r["dossier_key"] else "",
                                ", outcome " + r["outcome"] if r["outcome"] else ""),
                            group=r["dossier_key"], group_title=r["d_title_nl"],
-                           final=final, watch_key=r["dossier_key"]))
+                           final=final, watch_key=r["dossier_key"],
+                           positions=pairs or None, rebels=reb))
     return out
 
 

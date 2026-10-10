@@ -49,7 +49,7 @@ divisions:
   - key: "cd/21441"
     status: needs_reading
     title: "Sometido a votación el proyecto de ley (contentivo del informe presentado por la Comisión Bicameral, que fusiona esta iniciativa con las números: 03715-2024-2028-CD, 03842-2024-2028-CD, 03864-2024-2028-CD y 03927-2024-2028-CD), en primera d"
-    on: "Sesión 054, Votación 036"
+    "on": "Sesión 054, Votación 036"
     dated: "2025-07-23"
     chamber: "cd"
     areas: [1]
@@ -64,7 +64,7 @@ divisions:
   - key: "cd/21448"
     status: draft
     title: "(Se continúa la numeración del archivo de votación iniciado en la sesión ordinaria No.54 de este día.) El diputado presidente propuso y sometió a votación que el proyecto de ley fuese dejado sobre la mesa momentáneamente."
-    on: "Sesión 054, Votación 043"
+    "on": "Sesión 054, Votación 043"
     dated: "2025-07-23"
     chamber: "cd"
     areas: [1]
@@ -80,7 +80,7 @@ divisions:
   - key: "cd/21451"
     status: draft
     title: "El diputado presidente propuso y sometió una modificación al orden del día para que fuesen incorporadas las iniciativas números: 04557-2024-2028-CD y 03746-2024-2028-CD."
-    on: "Sesión 054, Votación 031"
+    "on": "Sesión 054, Votación 031"
     dated: "2025-07-23"
     chamber: "cd"
     areas: [1]
@@ -96,7 +96,7 @@ divisions:
   - key: "cd/21453"
     status: draft
     title: "El diputado presidente propuso y sometió a votación que el proyecto de ley y el informe fuesen liberados del trámite de la disponibilidad previa de la documentación."
-    on: "Sesión 054, Votación 033"
+    "on": "Sesión 054, Votación 033"
     dated: "2025-07-23"
     chamber: "cd"
     areas: [1]
@@ -112,7 +112,7 @@ divisions:
   - key: "cd/21454"
     status: draft
     title: "El diputado presidente propuso y sometió a votación que el proyecto de ley fuese liberado de los trámites correspondientes."
-    on: "Sesión 054, Votación 034"
+    "on": "Sesión 054, Votación 034"
     dated: "2025-07-23"
     chamber: "cd"
     areas: [1]
@@ -128,7 +128,7 @@ divisions:
   - key: "cd/21455"
     status: draft
     title: "El diputado presidente propuso y sometió a votación que el conocimiento del proyecto de ley fuese declarado de urgencia."
-    on: "Sesión 054, Votación 035"
+    "on": "Sesión 054, Votación 035"
     dated: "2025-07-23"
     chamber: "cd"
     areas: [1]
@@ -144,7 +144,7 @@ divisions:
   - key: "cd/21480"
     status: draft
     title: "El diputado presidente propuso y sometió a votación que el proyecto de ley fuese dejado sobre la mesa."
-    on: "Sesión 058, Votación 005"
+    "on": "Sesión 058, Votación 005"
     dated: "2025-07-25"
     chamber: "cd"
     areas: [1]
@@ -160,7 +160,7 @@ divisions:
   - key: "cd/21498"
     status: draft
     title: "El diputado presidente propuso y sometió a votación que el proyecto de ley fuese remitido, de nuevo, a estudio de una Comisión Especial, a plazo fijo de dos (02) horas."
-    on: "Sesión 001, Votación 006"
+    "on": "Sesión 001, Votación 006"
     dated: "2025-07-29"
     chamber: "cd"
     areas: [1]
@@ -176,7 +176,7 @@ divisions:
   - key: "cd/21528"
     status: draft
     title: "El diputado presidente propuso y sometió a votación que en virtud de lo que establece el párrafo 1) del artículo 114 del Reglamento, el informe fuese liberado del trámite de la disponibilidad previa de la documentación."
-    on: "Sesión 003, Votación 002"
+    "on": "Sesión 003, Votación 002"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -192,7 +192,7 @@ divisions:
   - key: "cd/21529"
     status: needs_reading
     title: "El diputado presidente propuso y sometió a votación que fuesen dejados sobre la mesa todos los puntos de la estructura 11, excepto el punto 11.6, para pasar a conocerlo."
-    on: "Sesión 003, Votación 003"
+    "on": "Sesión 003, Votación 003"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -207,7 +207,7 @@ divisions:
   - key: "cd/21533"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado presidente Alfredo Pacheco Osoria, que dice: 1. Modificar el párrafo III del artículo 13, del informe, para que diga: ‘Párrafo III.- En el caso de las iglesias, los"
-    on: "Sesión 003, Votación 007"
+    "on": "Sesión 003, Votación 007"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -222,7 +222,7 @@ divisions:
   - key: "cd/21534"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación, presentada por los diputados Wandy Modesto Batista Gómez y Alfredo Pacheco Osoria, que dice: ‘1. Eliminar el párrafo del artículo 27 del informe. 2. Modificar el párrafo III del artículo 133"
-    on: "Sesión 003, Votación 008"
+    "on": "Sesión 003, Votación 008"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -237,7 +237,7 @@ divisions:
   - key: "cd/21535"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación al proyecto presentada por el diputado Edward Enrique Cruz Asunción: “Artículo 251. Entre los casos que tipifican la estafa agravada, incluir como numeral 8) a los dominicanos residentes en e"
-    on: "Sesión 003, Votación 009"
+    "on": "Sesión 003, Votación 009"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -252,7 +252,7 @@ divisions:
   - key: "cd/21536"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación, presentada por el diputado Sadoky Duarte Suárez, leída por el diputado presidente."
-    on: "Sesión 003, Votación 010"
+    "on": "Sesión 003, Votación 010"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -267,7 +267,7 @@ divisions:
   - key: "cd/21537"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Carlos de Pérez Juan, que dice: ‘Artículo 240.- Excepciones de persecución penal por robo. No habrá lugar a persecución penal si la víctima del robo es un descendie"
-    on: "Sesión 003, Votación 011"
+    "on": "Sesión 003, Votación 011"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -282,7 +282,7 @@ divisions:
   - key: "cd/21538"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Wandy Modesto Batista Gómez del proyecto, que dice: “Propuesta de modificar el artículo 29 del proyecto, sobre penas complementarias. Artículo 29.- Penas complement"
-    on: "Sesión 003, Votación 012"
+    "on": "Sesión 003, Votación 012"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -297,7 +297,7 @@ divisions:
   - key: "cd/21539"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Ramón Antonio Raposo Rodríguez, que dice: ‘Eliminar el artículo 397 del informe’."
-    on: "Sesión 003, Votación 013"
+    "on": "Sesión 003, Votación 013"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -312,7 +312,7 @@ divisions:
   - key: "cd/21540"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado José David Báez Reinoso, que dice: “Modificar el artículo 96: Inducción al suicidio, para que diga lo siguiente: Artículo 96. Inducción al suicidio. Comete inducció"
-    on: "Sesión 003, Votación 014"
+    "on": "Sesión 003, Votación 014"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -327,7 +327,7 @@ divisions:
   - key: "cd/21541"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación, leída por el diputado presidente, presentada por el diputado Wandy Modesto Batista Gómez. Nota de la Relatora-Taquígrafa Parlamentaria: La votación 015 fue detenida por disposición de la pre"
-    on: "Sesión 003, Votación 015"
+    "on": "Sesión 003, Votación 015"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -342,7 +342,7 @@ divisions:
   - key: "cd/21542"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación al proyecto, presentada por el diputado Wandy Modesto Batista Gómez, que dice: ‘Agregar un artículo que regule las medidas de seguridad, para casos de inimputables, después del artículo 71, p"
-    on: "Sesión 003, Votación 016"
+    "on": "Sesión 003, Votación 016"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -357,7 +357,7 @@ divisions:
   - key: "cd/21543"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación, leída por el diputado presidente, presentada por la diputada Kinsberly Taveras Duarte."
-    on: "Sesión 003, Votación 017"
+    "on": "Sesión 003, Votación 017"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -372,7 +372,7 @@ divisions:
   - key: "cd/21544"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por la diputada Rafaela González González, que dice: ‘Propuesta de mejora artículo 111 del proyecto Código Penal. No será sancionada la terminación del embarazo cuando, para salvar"
-    on: "Sesión 003, Votación 018"
+    "on": "Sesión 003, Votación 018"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -388,7 +388,7 @@ divisions:
   - key: "cd/21545"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por la diputada Llaniris del Carmen Espinal Cabrera, que dice: Agregar al numeral 4) del artículo 275 lo siguiente: ‘Parques Nacionales o cualquier otra categoría de áreas protegid"
-    on: "Sesión 003, Votación 019"
+    "on": "Sesión 003, Votación 019"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -403,7 +403,7 @@ divisions:
   - key: "cd/21546"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por los diputados Charles Noel Mariotti Paz y Fanny Selinés Méndez Simonó, que dice: ‘Modificar el segundo artículo agregado después del artículo 254 en el informe para que diga: A"
-    on: "Sesión 003, Votación 020"
+    "on": "Sesión 003, Votación 020"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -418,7 +418,7 @@ divisions:
   - key: "cd/21547"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por la diputada Ycelmary Brito O´Neal, que dice: 'Modificar el artículo 200 del proyecto, para que diga: Artículo 200.- Falsedad de documentos y firmas. Quien, de manera fraudulent"
-    on: "Sesión 003, Votación 021"
+    "on": "Sesión 003, Votación 021"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -433,7 +433,7 @@ divisions:
   - key: "cd/21548"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Heriberto Aracena Montilla, que dice: Modificar el numeral 1) del artículo 236 para que diga de la manera siguiente: ‘Si para cometerlo se utiliza un vehículo de mo"
-    on: "Sesión 003, Votación 022"
+    "on": "Sesión 003, Votación 022"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -448,7 +448,7 @@ divisions:
   - key: "cd/21549"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por la diputada Ycelmary Brito O´Neal, que dice: 1. Modificar el artículo 219 del informe, para que diga: Artículo 219.- Difamación. Constituye difamación la alusión o imputación p"
-    on: "Sesión 003, Votación 023"
+    "on": "Sesión 003, Votación 023"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1, 7]
@@ -464,7 +464,7 @@ divisions:
   - key: "cd/21550"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Elías Wessin Chávez, que dice: “Agregar una sección al capítulo I del Título I, Libro IV, y renumerar los artículos siguientes, para que diga: Sección VII Infraccio"
-    on: "Sesión 003, Votación 024"
+    "on": "Sesión 003, Votación 024"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -479,7 +479,7 @@ divisions:
   - key: "cd/21551"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Mélido Mercedes Castillo, que dice: ‘Eliminar el artículo 300, Contrato sin cumplimiento de requisitos legales’."
-    on: "Sesión 003, Votación 025"
+    "on": "Sesión 003, Votación 025"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -494,7 +494,7 @@ divisions:
   - key: "cd/21552"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación, leída por el diputado presidente, presentada por los diputados Ydenia Doñé Tiburcio, Mélido Mercedes Castillo y Elías Wessin Chávez, que dice: ‘Agregar un párrafo II al Artículo 184 para que"
-    on: "Sesión 003, Votación 026"
+    "on": "Sesión 003, Votación 026"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1, 11]
@@ -510,7 +510,7 @@ divisions:
   - key: "cd/21553"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por los diputados Ydenia Doñé Tiburcio y Elías Wessin Chávez, que dice: ‘Agregar un párrafo al Artículo 83 para que diga: Artículo 83.- Genocidio. Párrafo.- No constituirá desplaza"
-    on: "Sesión 003, Votación 027"
+    "on": "Sesión 003, Votación 027"
     dated: "2025-07-30"
     chamber: "cd"
     areas: [1]
@@ -525,7 +525,7 @@ divisions:
   - key: "cd/21506"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por la diputada Indhira Shary de Jesús de Morla, que dice: “La persona que se introduzca sin autorización en una propiedad inmobiliaria, ya sea urbana o rural pública o privada, sin el consentim"
-    on: "Sesión 003, Votación 041"
+    "on": "Sesión 003, Votación 041"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -540,7 +540,7 @@ divisions:
   - key: "cd/21507"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por el diputado Wandy Modesto Batista Gómez, que dice: “1. Modificar el mandato 58 del informe para que diga: ‘58. En el artículo 147 del proyecto modificar el párrafo II para que diga:’; 2. Mod"
-    on: "Sesión 003, Votación 042"
+    "on": "Sesión 003, Votación 042"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -555,7 +555,7 @@ divisions:
   - key: "cd/21508"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por los diputados Eugenio Cedeño Areche y Carlos de Pérez Juan, que dice: “Modificar en el informe el art. 141 párrafo único, para que diga: Párrafo. Las infracciones de agresión sexual, agresió"
-    on: "Sesión 003, Votación 043"
+    "on": "Sesión 003, Votación 043"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -570,7 +570,7 @@ divisions:
   - key: "cd/21509"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por el diputado Eugenio Cedeño Areche y otros diputados, que dice: “Incluir dos párrafos al art 184 que se lean: Párrafo II. Las previsiones de este artículo se aplican sin detrimento de la libe"
-    on: "Sesión 003, Votación 044"
+    "on": "Sesión 003, Votación 044"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1, 8]
@@ -586,7 +586,7 @@ divisions:
   - key: "cd/21510"
     status: needs_reading
     title: "Sometida a votación, por segunda vez, la modificación propuesta por el diputado Eugenio Cedeño Areche y otros diputados, que dice: “Incluir dos párrafos al art 184 que se lean: Párrafo II. Las previsiones de este artículo se aplican sin det"
-    on: "Sesión 003, Votación 045"
+    "on": "Sesión 003, Votación 045"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1, 8]
@@ -602,7 +602,7 @@ divisions:
   - key: "cd/21511"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por el diputado Braulio de Jesús Espinal Tavárez, que dice: “Modificar el artículo 297 propuesto en el informe eliminar “, las instituciones” y escribir en plural la palabra “depositarios”, para"
-    on: "Sesión 003, Votación 046"
+    "on": "Sesión 003, Votación 046"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -617,7 +617,7 @@ divisions:
   - key: "cd/21512"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por el diputado José Manuel Caraballo Gómez, que dice: “Que en el artículo 2 el principio 13 vuelva como estaba en la propuesta del Código que llegó del Senado”."
-    on: "Sesión 003, Votación 047"
+    "on": "Sesión 003, Votación 047"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -632,7 +632,7 @@ divisions:
   - key: "cd/21513"
     status: needs_reading
     title: "Sometida a votación la modificación presentada por los diputados Eugenio Cedeño Areche, Daritza Felicidad Zapata Díaz y Robinson de Jesús Díaz Mejía, que dice: “Reconsiderar la pena impuesta en el art 133, párrafo III, manteniendo la pena a"
-    on: "Sesión 003, Votación 048"
+    "on": "Sesión 003, Votación 048"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -647,7 +647,7 @@ divisions:
   - key: "cd/21514"
     status: needs_reading
     title: "Sometido a votación el informe presentado por la Comisión Especial, con sus modificaciones."
-    on: "Sesión 003, Votación 049"
+    "on": "Sesión 003, Votación 049"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -662,7 +662,7 @@ divisions:
   - key: "cd/21515"
     status: needs_reading
     title: "Sometido a votación el proyecto de ley, con su informe y sus modificaciones, en segunda discusión."
-    on: "Sesión 003, Votación 050"
+    "on": "Sesión 003, Votación 050"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -677,7 +677,7 @@ divisions:
   - key: "cd/21554"
     status: needs_reading
     title: "Sometida a votación que la propuesta de modificación presentada por la diputada Mirna Josefina López Francisco de Matos fuese dejada sobre la mesa."
-    on: "Sesión 003, Votación 028"
+    "on": "Sesión 003, Votación 028"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -692,7 +692,7 @@ divisions:
   - key: "cd/21555"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Wandy Modesto Batista Gómez, que dice: ‘Modificar el artículo 296 para que diga: ‘Artículo 296. Obstaculización de Ejecución de Sentencia o Decisión Judicial. El fu"
-    on: "Sesión 003, Votación 029"
+    "on": "Sesión 003, Votación 029"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -707,7 +707,7 @@ divisions:
   - key: "cd/21556"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Mélido Mercedes Castillo, que dice: ‘Eliminar el artículo 189 relativo a la Prostitución’."
-    on: "Sesión 003, Votación 030"
+    "on": "Sesión 003, Votación 030"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1, 12]
@@ -723,7 +723,7 @@ divisions:
   - key: "cd/21557"
     status: needs_reading
     title: "Sometida a votación la modificación presentada por el diputado Mélido Mercedes Castillo, que dice: “Modificar el numeral 6) del artículo 2 del informe, para que diga: Artículo 2.- Principios fundamentales. […] 6) Principio de presunción de"
-    on: "Sesión 003, Votación 031"
+    "on": "Sesión 003, Votación 031"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -738,7 +738,7 @@ divisions:
   - key: "cd/21558"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por los diputados Ydenia Doñé Tiburcio, Rafael Augusto Castillo Casado, Heriberto Aracena Montilla y Juan Carlos Echavarría Milané, que dice: ‘Modificación al artículo 184, para ag"
-    on: "Sesión 003, Votación 032"
+    "on": "Sesión 003, Votación 032"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -754,7 +754,7 @@ divisions:
   - key: "cd/21559"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Willy Enrique Sánchez González, que dice: ‘Eliminar el Párrafo I del Artículo 8 del proyecto de Código Penal’."
-    on: "Sesión 003, Votación 033"
+    "on": "Sesión 003, Votación 033"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -770,7 +770,7 @@ divisions:
   - key: "cd/21560"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Wandy Modesto Batista Gómez, que dice: ‘1. Propuesta de modificación del artículo 133, sobre agresión sexual, pues las agresiones sexuales agravadas se sancionan ac"
-    on: "Sesión 003, Votación 034"
+    "on": "Sesión 003, Votación 034"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -785,7 +785,7 @@ divisions:
   - key: "cd/21561"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por la diputada Dorina Yajaira Rodríguez Salazar y otros diputados, que dice: ‘Párrafo III. Artículo 133. Si la agresión sexual se comete contra un niño, niña, adolescente o person"
-    on: "Sesión 003, Votación 035"
+    "on": "Sesión 003, Votación 035"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -800,7 +800,7 @@ divisions:
   - key: "cd/21562"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Pedro Antonio Martínez Moronta, que dice: ‘Modificar el Artículo 111 del proyecto aprobado en primera lectura, para que diga: Artículo 111.- Eximentes. La interrupc"
-    on: "Sesión 003, Votación 036"
+    "on": "Sesión 003, Votación 036"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -816,7 +816,7 @@ divisions:
   - key: "cd/21563"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por la diputada Gabriela María Abreu Santos, que dice: ‘Eliminar el inciso 3 del artículo 124 por redundancia con el párrafo II del artículo 123’."
-    on: "Sesión 003, Votación 037"
+    "on": "Sesión 003, Votación 037"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -831,7 +831,7 @@ divisions:
   - key: "cd/21564"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por el diputado Jorge Leonardo Tavárez Valdez, que dice: “Propuesta de Modificación al Artículo 78 del Proyecto de Código Penal. Texto actual del artículo 78: Artículo 78. Causas de extinción de"
-    on: "Sesión 003, Votación 038"
+    "on": "Sesión 003, Votación 038"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -847,7 +847,7 @@ divisions:
   - key: "cd/21565"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Brailyn Miguel Vargas Núñez, que dice: “1. Artículo 250, modificar donde dice ‘a que entregue valores, fondos o un bien,’, para que diga: ‘a que entregue valores, f"
-    on: "Sesión 003, Votación 039"
+    "on": "Sesión 003, Votación 039"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -862,7 +862,7 @@ divisions:
   - key: "cd/21566"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación, leída por Secretaría, presentada por el diputado Adelso de Jesús Ruben Contreras, que dice: “Artículo Número 293 o el correspondiente.- Revisión ilegítima de Vehículos y Garantías Procedimen"
-    on: "Sesión 003, Votación 040"
+    "on": "Sesión 003, Votación 040"
     dated: "2025-07-31"
     chamber: "cd"
     areas: [1]
@@ -877,7 +877,7 @@ divisions:
   - key: "cd/22473"
     status: draft
     title: "El diputado presidente propuso y sometió a votación una modificación al orden del día, para que fuesen incluidas las iniciativas números: 06015-2024-2028-CD, 06026-2024-2028-CD y 06038-2024-2028-CD, en la estructura 10."
-    on: "Sesión 039, Votación 001"
+    "on": "Sesión 039, Votación 001"
     dated: "2026-07-08"
     chamber: "cd"
     areas: [1]
@@ -893,7 +893,7 @@ divisions:
   - key: "cd/22477"
     status: draft
     title: "Sometido a votación que el proyecto de ley fuese remitido a la Comisión Bicameral designada para el estudio de las iniciativas 06015-2024-2028-CD y 06026-2024-2028-CD."
-    on: "Sesión 039, Votación 005"
+    "on": "Sesión 039, Votación 005"
     dated: "2026-07-08"
     chamber: "cd"
     areas: [1]
@@ -909,7 +909,7 @@ divisions:
   - key: "cd/22502"
     status: draft
     title: "El diputado presidente propuso y sometió a votación que los proyectos de ley correspondientes a los puntos del 12.2 al 12.10 fuesen liberados del trámite de lectura."
-    on: "Sesión 041, Votación 002"
+    "on": "Sesión 041, Votación 002"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -925,7 +925,7 @@ divisions:
   - key: "cd/22503"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por el diputado presidente Alfredo Pacheco Osoria, que dice: “Agregar un nuevo considerando quinto y reenumerar los siguientes al proyecto propuesto en el informe, para que diga: ‘Considerando q"
-    on: "Sesión 041, Votación 003"
+    "on": "Sesión 041, Votación 003"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -941,7 +941,7 @@ divisions:
   - key: "cd/22504"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por el diputado Charles Noel Mariotti Tapia, que dice: “Art. 393 Entrada en vigencia. La presente ley entrará en vigencia a partir de los 18 meses de su publicación\"."
-    on: "Sesión 041, Votación 004"
+    "on": "Sesión 041, Votación 004"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -956,7 +956,7 @@ divisions:
   - key: "cd/22505"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por los diputados Amado Antonio Díaz Jiménez, Carolin Mercedes de la Cruz y Wandy Modesto Batista Gómez, que dice: “Modificar el numeral 5 del artículo 211 propuesto en el informe, para que diga"
-    on: "Sesión 041, Votación 005"
+    "on": "Sesión 041, Votación 005"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 7, 9]
@@ -972,7 +972,7 @@ divisions:
   - key: "cd/22506"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por los diputados Braulio Espinal y otros diputados, que dice: “Modificar el numeral 4 del párrafo VI del artículo 8 propuesto en el informe, para que diga: Artículo 8.- Párrafo VI.- 4) Programa"
-    on: "Sesión 041, Votación 006"
+    "on": "Sesión 041, Votación 006"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 5, 9]
@@ -988,7 +988,7 @@ divisions:
   - key: "cd/22507"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por los diputados Indhira Shary de Jesús Morla y otros diputados, leída por el presidente Alfredo Pacheco Osoria, que dice: “Incluir un párrafo en el artículo 238, para que diga: Estafa inmobili"
-    on: "Sesión 041, Votación 007"
+    "on": "Sesión 041, Votación 007"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1003,7 +1003,7 @@ divisions:
   - key: "cd/22508"
     status: needs_reading
     title: "Sometida a votación, por segunda vez, la modificación propuesta por los diputados Indhira Shary de Jesús Morla y otros diputados, leída por el presidente Alfredo Pacheco Osoria, que dice: “Incluir un párrafo en el artículo 238, para que dig"
-    on: "Sesión 041, Votación 008"
+    "on": "Sesión 041, Votación 008"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1018,7 +1018,7 @@ divisions:
   - key: "cd/22509"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por los diputados Carolin Mercedes de la Cruz y otros diputados, que dice: “Modificar el párrafo I del artículo 8 propuesto en el informe, para que diga: Artículo 8.- Párrafo I.- Las personas ju"
-    on: "Sesión 041, Votación 009"
+    "on": "Sesión 041, Votación 009"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1033,7 +1033,7 @@ divisions:
   - key: "cd/22510"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por los diputados Carolin Mercedes de la Cruz y otros diputados, que dice: ‘Eliminar el párrafo del artículo 269 propuesto en el informe.’."
-    on: "Sesión 041, Votación 010"
+    "on": "Sesión 041, Votación 010"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1048,7 +1048,7 @@ divisions:
   - key: "cd/22511"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por los diputados Carolin Mercedes de la Cruz y otros diputados, que dice: \"Eliminar el párrafo del artículo 269 propuesto en el informe.\""
-    on: "Sesión 041, Votación 011"
+    "on": "Sesión 041, Votación 011"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1063,7 +1063,7 @@ divisions:
   - key: "cd/22512"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por la diputada Carolin Mercedes de la Cruz, que dice: “Modificar el artículo 144 propuesto en el informe, para que diga: ‘Artículo 144.- Acoso agravado. El acoso agravado será sancionado con do"
-    on: "Sesión 041, Votación 012"
+    "on": "Sesión 041, Votación 012"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1078,7 +1078,7 @@ divisions:
   - key: "cd/22513"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por el diputado Eugenio Cedeño Areche, que dice: “Modificar el artículo 123 propuesto en el informe, para que diga: Artículo 123.- Acoso u hostigamiento cibernético. Comete acoso o hostigamiento"
-    on: "Sesión 041, Votación 013"
+    "on": "Sesión 041, Votación 013"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 7, 9]
@@ -1094,7 +1094,7 @@ divisions:
   - key: "cd/22514"
     status: needs_reading
     title: "Sometida a votación, la modificación propuesta por el diputado Eugenio Cedeño Areche, que dice: “Modificar el numeral 1) del párrafo IV del artículo 8 propuesto en el informe, para que diga: Artículo 8.- Párrafo IV.- 1) La persona jurídica"
-    on: "Sesión 041, Votación 014"
+    "on": "Sesión 041, Votación 014"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1109,7 +1109,7 @@ divisions:
   - key: "cd/22515"
     status: needs_reading
     title: "Sometida a votación, la modificación propuesta por el diputado Eugenio Cedeño Areche, que dice: “Mover los artículos 143 y 144 de la Ley Orgánica que instituye el Código Penal de la República Dominicana, núm. 74-25, del 03 de agosto de 2025"
-    on: "Sesión 041, Votación 015"
+    "on": "Sesión 041, Votación 015"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1125,7 +1125,7 @@ divisions:
   - key: "cd/22516"
     status: needs_reading
     title: "Sometida a votación, la modificación propuesta por el diputado Pedro Antonio Martínez Moronta, que dice: “1. Modificar el artículo 110 de la Ley núm.74-25 para que diga: Artículo 110.- Aborto forzado. El aborto practicado en contra de la vo"
-    on: "Sesión 041, Votación 016"
+    "on": "Sesión 041, Votación 016"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1141,7 +1141,7 @@ divisions:
   - key: "cd/22517"
     status: needs_reading
     title: "Sometidas a votación las modificaciones propuestas por el Bloque de diputados de la Fuerza del Pueblo, leídas por Secretaría."
-    on: "Sesión 041, Votación 017"
+    "on": "Sesión 041, Votación 017"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1156,7 +1156,7 @@ divisions:
   - key: "cd/22518"
     status: needs_reading
     title: "Sometida a votación la modificación propuesta por el diputado Eugenio Cedeño Areche, que dice: “Mantener los artículos 143 y 144 según el orden establecido en la Ley Orgánica que instituye el Código Penal de la República Dominicana, núm. 74"
-    on: "Sesión 041, Votación 018"
+    "on": "Sesión 041, Votación 018"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1172,7 +1172,7 @@ divisions:
   - key: "cd/22519"
     status: needs_reading
     title: "Sometido a votación el informe presentado por la Comisión Bicameral que fusiona esta iniciativa con las iniciativas números 06026-2024-2028-CD, 06015-2024-2028-CD, 04642-2024-2028-CD, 05750-2024-2028-CD, 05914-2024-2028-CD, 05947-2024-2028-"
-    on: "Sesión 041, Votación 019"
+    "on": "Sesión 041, Votación 019"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1187,7 +1187,7 @@ divisions:
   - key: "cd/22520"
     status: needs_reading
     title: "Sometido a votación el proyecto de ley, con su informe que lo fusiona con las iniciativas números 06026-2024-2028-CD, 06015-2024-2028-CD, 04642-2024-2028-CD, 05750-2024-2028-CD, 05914-2024-2028-CD, 05947-2024-2028-CD, 05998-2024-2028-CD y 0"
-    on: "Sesión 041, Votación 020"
+    "on": "Sesión 041, Votación 020"
     dated: "2026-07-18"
     chamber: "cd"
     areas: [1, 9]
@@ -1202,7 +1202,7 @@ divisions:
   - key: "cd/22529"
     status: draft
     title: "El diputado presidente propuso y sometió a votación que los proyectos de ley fuesen liberados de los trámites correspondientes."
-    on: "Sesión 042, Votación 009"
+    "on": "Sesión 042, Votación 009"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1218,7 +1218,7 @@ divisions:
   - key: "cd/22530"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por los diputados Indhira Shary de Jesús de Morla y Edward Enrique Cruz Asunción, que dice: “Agregar un artículo al proyecto de ley aprobado en primera lectura, que será el 20, y s"
-    on: "Sesión 042, Votación 010"
+    "on": "Sesión 042, Votación 010"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1234,7 +1234,7 @@ divisions:
   - key: "cd/22531"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por los diputados Wandy Modesto Batista Gómez y Eugenio Cedeño Areche, que dice: “Modificar el artículo 177, modificado por el artículo 12 del proyecto aprobado en primera lectura,"
-    on: "Sesión 042, Votación 011"
+    "on": "Sesión 042, Votación 011"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9, 12]
@@ -1250,7 +1250,7 @@ divisions:
   - key: "cd/22532"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por la diputada Elida Yalis Soto Mordán, al artículo 123, leída por el diputado presidente."
-    on: "Sesión 042, Votación 012"
+    "on": "Sesión 042, Votación 012"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1265,7 +1265,7 @@ divisions:
   - key: "cd/22533"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por los diputados Wandy Modesto Batista Gómez y Eugenio Cedeño Areche, que dice: “Agregar un artículo al proyecto de ley aprobado en primera lectura, que será el 11, y se renumeran"
-    on: "Sesión 042, Votación 013"
+    "on": "Sesión 042, Votación 013"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1281,7 +1281,7 @@ divisions:
   - key: "cd/22534"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Wandy Modesto Batista Gómez y Eugenio Cedeño Areche, que dice: “Agregar un artículo al proyecto de ley aprobado en primera lectura, que será el 10, y se renumeran l"
-    on: "Sesión 042, Votación 014"
+    "on": "Sesión 042, Votación 014"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1297,7 +1297,7 @@ divisions:
   - key: "cd/22535"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Wandy Modesto Batista Gómez y Eugenio Cedeño Areche, que dice: “Modificar el artículo 141, modificado por el artículo 9 del proyecto aprobado en primera lectura, pa"
-    on: "Sesión 042, Votación 015"
+    "on": "Sesión 042, Votación 015"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1313,7 +1313,7 @@ divisions:
   - key: "cd/22536"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por la diputada Tayluma Monserrat Calderón Fortuna, que dice: “Agregar un artículo al proyecto de ley aprobado en primera lectura, que será el 5, y se renumeran los siguientes, par"
-    on: "Sesión 042, Votación 016"
+    "on": "Sesión 042, Votación 016"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1329,7 +1329,7 @@ divisions:
   - key: "cd/22537"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por la diputada Estamy Rafaela Colón Tatis, al artículo 219, leída por el diputado presidente."
-    on: "Sesión 042, Votación 017"
+    "on": "Sesión 042, Votación 017"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1344,7 +1344,7 @@ divisions:
   - key: "cd/22538"
     status: needs_reading
     title: "Sometida a votación, por segunda vez, la propuesta de modificación presentada por la diputada Estamy Rafaela Colón Tatis, al artículo 219, leída por el diputado presidente."
-    on: "Sesión 042, Votación 018"
+    "on": "Sesión 042, Votación 018"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1359,7 +1359,7 @@ divisions:
   - key: "cd/22539"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por la diputada Tayluma Monserrat Calderón Fortuna, al artículo 354, leída por el diputado presidente."
-    on: "Sesión 042, Votación 019"
+    "on": "Sesión 042, Votación 019"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1374,7 +1374,7 @@ divisions:
   - key: "cd/22540"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Abelardo Antonio Rutinel Arzeno, al artículo 198, leída por el diputado presidente."
-    on: "Sesión 042, Votación 020"
+    "on": "Sesión 042, Votación 020"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1389,7 +1389,7 @@ divisions:
   - key: "cd/22541"
     status: needs_reading
     title: "Sometida a votación, por segunda vez, la propuesta de modificación presentada por el diputado Abelardo Antonio Rutinel Arzeno, al artículo 198, leída por el diputado presidente."
-    on: "Sesión 042, Votación 021"
+    "on": "Sesión 042, Votación 021"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1404,7 +1404,7 @@ divisions:
   - key: "cd/22542"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Wandy Modesto Batista Gómez y Eugenio Cedeño Areche, que dice: “Agregar un artículo al proyecto de ley aprobado en primera lectura, que será el 11, y se renumeran l"
-    on: "Sesión 042, Votación 022"
+    "on": "Sesión 042, Votación 022"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 8, 9, 11]
@@ -1420,7 +1420,7 @@ divisions:
   - key: "cd/22543"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Nolberto Ortiz de la Cruz, al artículo 121, leída por el diputado presidente."
-    on: "Sesión 042, Votación 023"
+    "on": "Sesión 042, Votación 023"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1435,7 +1435,7 @@ divisions:
   - key: "cd/22544"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Julio Emil Durán Rodríguez, que dice: “Aplicar en las vistas las correcciones de datos necesarios según corresponda, validados de acuerdo a la Gaceta Oficial del Po"
-    on: "Sesión 042, Votación 024"
+    "on": "Sesión 042, Votación 024"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1450,7 +1450,7 @@ divisions:
   - key: "cd/22545"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Nolberto Ortiz de la Cruz, al artículo 145, leída por el diputado presidente."
-    on: "Sesión 042, Votación 025"
+    "on": "Sesión 042, Votación 025"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1465,7 +1465,7 @@ divisions:
   - key: "cd/22546"
     status: needs_reading
     title: "Sometida a votación la propuesta de modificación presentada por el diputado Nolberto Ortiz de la Cruz, al artículo 146, leída por el diputado presidente."
-    on: "Sesión 042, Votación 026"
+    "on": "Sesión 042, Votación 026"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]
@@ -1480,7 +1480,7 @@ divisions:
   - key: "cd/22547"
     status: needs_reading
     title: "Sometido a votación el proyecto de ley, orgánica, con su informe y sus modificaciones, en segunda discusión."
-    on: "Sesión 042, Votación 027"
+    "on": "Sesión 042, Votación 027"
     dated: "2026-07-20"
     chamber: "cd"
     areas: [1, 9]

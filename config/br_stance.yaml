@@ -109,7 +109,7 @@ divisions:
   - key: "camara-2351506-102"
     status: draft
     title: "Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1; Total: 472."
-    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    "on": "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
     dated: "2026-05-28"
     chamber: "camara"
     areas: [8]
@@ -126,7 +126,7 @@ divisions:
   - key: "camara-2351506-104"
     status: draft
     title: "Aprovada, em primeiro turno, a Proposta de Emenda à Constituição nº 5, de 2023, na forma da Emenda Aglutinativa Substitutiva nº 3. Sim: 385; Não: 93; Abstenção: 7; Total: 485."
-    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    "on": "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
     dated: "2026-05-28"
     chamber: "camara"
     areas: [8]
@@ -145,7 +145,7 @@ divisions:
   - key: "camara-2351506-108"
     status: needs_reading
     title: "Mantido o texto. Sim: 340; Não: 110; Abstenção: 7; Total: 457."
-    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    "on": "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
     dated: "2026-05-28"
     chamber: "camara"
     areas: [8]
@@ -161,7 +161,7 @@ divisions:
   - key: "camara-2351506-112"
     status: needs_reading
     title: "Mantido o texto. Sim: 342; Não: 113; Abstenção: 5; Total: 460."
-    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    "on": "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
     dated: "2026-05-28"
     chamber: "camara"
     areas: [8]
@@ -177,7 +177,7 @@ divisions:
   - key: "camara-2351506-115"
     status: needs_reading
     title: "Mantido o texto. Sim: 335; Não: 117; Abstenção: 5; Total: 457."
-    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    "on": "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
     dated: "2026-05-28"
     chamber: "camara"
     areas: [8]
@@ -193,7 +193,7 @@ divisions:
   - key: "camara-2351506-122"
     status: draft
     title: "Aprovada, em segundo turno, a Proposta de Emenda à Constituição n° 5, de 2023. Sim: 368; Não: 96; Abstenção: 7; Total: 471."
-    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    "on": "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
     dated: "2026-05-28"
     chamber: "camara"
     areas: [8]
@@ -212,7 +212,7 @@ divisions:
   - key: "camara-2351506-95"
     status: draft
     title: "Rejeitado o Requerimento. Sim: 102; Não: 322; Abstenção: 1; Total: 425."
-    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    "on": "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
     dated: "2026-05-28"
     chamber: "camara"
     areas: [8]

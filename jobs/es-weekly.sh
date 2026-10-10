@@ -21,7 +21,7 @@
 # gaps (in the gaps table and as [gap] lines in the log): that run is still
 # published, and this script exits 0 so the caller commits the sidecars with
 # it. Any other failure publishes NOTHING and exits non-zero.
-# mini_run: commit editions profiles
+# mini_run: commit editions profiles briefs
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -46,6 +46,14 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/member_profiles.py es \
     || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
+# Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
+# this country's watched and tier-1 votes not briefed yet, written to
+# data/briefs/ and sent in one DM to Chris alone, de-duplicated in
+# data/vote-briefs/es.json (committed with data/). Never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_vote_briefs.py --country es --send \
+    || echo "  [gap] vote briefs failed for es; the next run retries"
+fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "es-rollcalls failed (exit $rc); nothing published"
   exit "$rc"
@@ -65,6 +73,13 @@ else
   python3 tools/es_monitor.py --edition --dm \
     || echo "  [gap] es-monitor: the edition or its DM failed; the store is still published"
 fi
+# Campaign brief drafts (tools/country_briefs.py, src/country_briefs.py): a
+# draft RF4 brief in briefs/ for each new watched or tier-1 bill, NOT READY
+# until its stances are confirmed in config/es_stance.yaml; unedited briefs
+# are refreshed. Offline, from the store as it stands; sends nothing. A
+# failure is a [gap] line and never costs the store.
+python3 tools/country_briefs.py --cc es \
+  || echo "  [gap] country-briefs failed for es; last week's briefs stand"
 # The archive before the store: a store that cites payloads the archive
 # lacks is the worse of the two failures. Both merge, never clobber.
 python3 tools/raw_state.py --push

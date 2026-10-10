@@ -45,7 +45,14 @@ def load_stance(path, section="divisions"):
         return {}
     with open(path, encoding="utf-8") as handle:
         cfg = yaml.safe_load(handle) or {}
-    return {str(e["key"]): e for e in (cfg.get(section) or []) if e.get("key")}
+    out = {}
+    for e in cfg.get(section) or []:
+        if e.get("key"):
+            if True in e:                  # YAML 1.1 reads a bare `on:` key as True
+                e = dict(e)
+                e.setdefault("on", e.pop(True))
+            out[str(e["key"])] = e
+    return out
 
 
 def status(entry):
