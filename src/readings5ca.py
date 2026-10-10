@@ -53,9 +53,22 @@ def status(entry):
 
     Draft first: an unsigned call, even "evidence only", is still unsigned.
     Unread before confirmed: an entry with no values has nothing to apply
-    even once its draft line is gone."""
+    even once its draft line is gone.
+
+    ADDED 10 October 2026 (src/country5ca.py, the new country editions): an
+    entry with a `status:` field is read by it. `needs_reading` is unread,
+    `draft` is a draft, and `confirmed` counts only with both `confirmed_by`
+    (a named person) and `confirmed_on` (a date); without them it stays a
+    draft. Entries without `status:` (every older stance file) read exactly
+    as before."""
     if not entry:
         return "none"
+    st = entry.get("status")
+    if st is not None:
+        if st == "needs_reading":
+            return "unread"
+        if st != "confirmed" or not (entry.get("confirmed_by") and entry.get("confirmed_on")):
+            return "draft"
     if entry.get("draft"):
         return "draft"
     if entry.get("placeable") is False:
