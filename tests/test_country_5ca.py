@@ -14,7 +14,7 @@ import unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import at_store, pl_store  # noqa: E402
+from src import at_store, fr_store, pl_store  # noqa: E402
 from src import country5ca as c5  # noqa: E402
 from src import readings5ca as r5  # noqa: E402
 
@@ -403,6 +403,187 @@ class DigestTests(Base):
     def test_nothing_waiting_sends_nothing(self):
         with tempfile.TemporaryDirectory() as tmp:
             self.assertIsNone(c5.digest_text("2026-10-11", tmp, tmp, countries=("pl",)))
+
+
+# --- France: the sign-off scope (Chris, 10 October 2026) -------------------------------
+
+FR_DOSSIER = "DLR5L17N51670"
+FR_DIVS = [
+    # key, number, title, dossier
+    ("an-17-1", 1, "l'ensemble de la proposition de loi relative au droit à l'aide à mourir "
+                   "(première lecture).", FR_DOSSIER),
+    ("an-17-2", 2, "la motion de rejet préalable, déposée par M. Hetzel, de la proposition de loi "
+                   "relative au droit à l'aide à mourir.", FR_DOSSIER),
+    ("an-17-3", 3, "l'amendement n° 3 de M. Sitzenstuhl de suppression de l'article premier.",
+     FR_DOSSIER),
+    ("an-17-4", 4, "l'amendement n° 77 de Mme Dupont à l'article 2.", FR_DOSSIER),
+    ("an-17-5", 5, "l'article premier de la proposition de loi relative au droit à l'aide à mourir.",
+     FR_DOSSIER),
+    ("an-17-6", 6, "l'amendement n° 12 de M. Martin à l'article 4.", FR_DOSSIER),
+]
+FR_BILLS = """
+bill_directions:
+  - key: "DLR5L17N51670"
+    direction: against
+    status: draft
+    why: "Droit a l'aide a mourir."
+
+divisions:
+"""
+
+
+def fr_wl(amendments=None):
+    entry = {"areas": [2]}
+    if amendments is not None:
+        entry["amendments"] = amendments
+    return {FR_DOSSIER: entry}
+
+
+class FranceScopeTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.cfg = os.path.join(self.tmp.name, "config")
+        os.makedirs(self.cfg)
+        with open(c5.stance_path("fr", self.cfg), "w", encoding="utf-8") as h:
+            h.write(c5.header("fr") + FR_BILLS)
+        path = os.path.join(self.tmp.name, "store.db")
+        conn = sqlite3.connect(path)
+        fr_store.ensure_schema(conn)
+        for key, number, title, dossier in FR_DIVS:
+            conn.execute("INSERT INTO fr_divisions (division_key, chamber, legislature, number, date, "
+                         "result, title, dossier_ref, pour, contre, abstentions, areas, tier) "
+                         "VALUES (?,'an',17,?,'2025-05-16','adopté',?,?,80,40,1,'[2]',1)",
+                         (key, number, title, dossier))
+        conn.commit()
+        conn.close()
+        self.conn = c5.connect_ro(path)
+
+    def tearDown(self):
+        self.conn.close()
+        self.tmp.cleanup()
+
+    def draft(self, wl):
+        return c5.draft(self.conn, "fr", self.cfg, "2026-10-10", QUIET, wl=wl)
+
+    def entries(self):
+        return c5.load("fr", self.cfg)[0]
+
+    def test_scope_rule(self):
+        wl = fr_wl()
+        for kind in ("final", "reject", "inverted"):
+            self.assertTrue(c5.in_scope("fr", kind, "k", "x", FR_DOSSIER, wl), kind)
+        for kind in ("amendment", "other"):
+            self.assertFalse(c5.in_scope("fr", kind, "k", "x", FR_DOSSIER, wl), kind)
+        self.assertFalse(c5.in_scope("fr", "procedural", "k", "demande de suspension de séance",
+                                     FR_DOSSIER, wl))
+        self.assertTrue(c5.in_scope("fr", "procedural", "k", "suspension de séance avant le vote "
+                                    "sur l'ensemble du projet de loi", FR_DOSSIER, wl))
+        # Every other country is unchanged: everything is in scope.
+        self.assertIsNone(c5.SPECS["pl"].scope)
+        self.assertTrue(c5.in_scope("pl", "amendment", "k", "poprawka 1", None, {}))
+
+    def test_drafter_skips_out_of_scope_votes(self):
+        got = self.draft(fr_wl())
+        self.assertEqual((got["new"], got["out_of_scope"]), (2, 4))
+        self.assertEqual(sorted(self.entries()), ["an-17-1", "an-17-2"])
+
+    def test_watched_amendments_opt_in_by_key_or_number(self):
+        wl = fr_wl(["an-17-5", "n° 3", 77])
+        self.assertEqual(c5.amendment_numbers(FR_DIVS[2][2]), {"3"})
+        got = self.draft(wl)
+        self.assertEqual(got["out_of_scope"], 1)                # only amendment n° 12
+        e = self.entries()
+        self.assertEqual(sorted(e), ["an-17-1", "an-17-2", "an-17-3", "an-17-4", "an-17-5"])
+        self.assertEqual(e["an-17-3"]["status"], "needs_reading")
+        # A number watched under another dossier opts nothing in here.
+        other = {"DLR5L17N99999": {"amendments": ["12"]}, FR_DOSSIER: {}}
+        self.assertFalse(c5.in_scope("fr", "amendment", "an-17-6", FR_DIVS[5][2], FR_DOSSIER, other))
+
+    def _everything_drafted(self):
+        # The file as it stood before the scope: every vote drafted.
+        orig = c5.SPECS["fr"].scope
+        c5.SPECS["fr"].scope = None
+        try:
+            self.draft(fr_wl())
+        finally:
+            c5.SPECS["fr"].scope = orig
+        self.assertEqual(len(self.entries()), 6)
+
+    def test_prune_removes_only_untouched_out_of_scope_entries(self):
+        self._everything_drafted()
+        path = c5.stance_path("fr", self.cfg)
+        with open(path, encoding="utf-8") as h:
+            text = h.read()
+        got = c5.prune_out_of_scope("fr", self.cfg, wl=fr_wl(["an-17-5"]), log=QUIET)
+        self.assertEqual(sorted(got["removed"]), ["an-17-3", "an-17-4", "an-17-6"])
+        self.assertEqual(got["kept"], [])
+        after = self.entries()
+        self.assertEqual(sorted(after), ["an-17-1", "an-17-2", "an-17-5"])
+        with open(path, encoding="utf-8") as h:
+            pruned = h.read()
+        self.assertIn("bill_directions:", pruned)
+        self.assertTrue(pruned.startswith(text.split("divisions:")[0]))
+        again = c5.prune_out_of_scope("fr", self.cfg, wl=fr_wl(["an-17-5"]), log=QUIET)
+        self.assertEqual(again["removed"], [])
+
+    def test_prune_keeps_confirmed_and_hand_edited(self):
+        self._everything_drafted()
+        path = c5.stance_path("fr", self.cfg)
+        with open(path, encoding="utf-8") as h:
+            lines = h.read().splitlines(keepends=True)
+        out, current = [], None
+        for line in lines:
+            k = c5.line_key(line)
+            current = k if k is not None else current
+            if current == "an-17-3" and line.strip() == "status: needs_reading":
+                # A person wrote the values and confirmed it.
+                line = ("    status: confirmed\n    confirmed_by: \"Christopher\"\n"
+                        "    confirmed_on: \"2026-10-10\"\n    yea: 2\n    nay: -2\n")
+            elif current == "an-17-4" and line.strip() == "status: needs_reading":
+                line = "    status: needs_reading\n    yea: -1\n"         # values, not yet signed
+            elif current == "an-17-6" and line.strip() == "status: needs_reading":
+                line = ("    status: draft\n    placeable: false\n"
+                        "    reason: \"Struck: a duplicate.\"\n")       # a person's strike
+            out.append(line)
+        with open(path, "w", encoding="utf-8") as h:
+            h.write("".join(out))
+        before = self.entries()
+        got = c5.prune_out_of_scope("fr", self.cfg, wl=fr_wl(), log=QUIET)
+        self.assertEqual(sorted(got["removed"]), ["an-17-5"])
+        self.assertEqual(sorted(k for k, _ in got["kept"]), ["an-17-3", "an-17-4", "an-17-6"])
+        after = self.entries()
+        for k in ("an-17-1", "an-17-2", "an-17-3", "an-17-4", "an-17-6"):
+            self.assertEqual(after[k], before[k], k)
+
+    def test_prune_keeps_an_entry_with_a_comment(self):
+        self._everything_drafted()
+        path = c5.stance_path("fr", self.cfg)
+        with open(path, encoding="utf-8") as h:
+            text = h.read()
+        text = text.replace('  - key: "an-17-4"\n', '  - key: "an-17-4"\n    # read: ours is Contre\n', 1)
+        with open(path, "w", encoding="utf-8") as h:
+            h.write(text)
+        got = c5.prune_out_of_scope("fr", self.cfg, wl=fr_wl(), log=QUIET)
+        self.assertIn("an-17-4", [k for k, _ in got["kept"]])
+        self.assertIn("an-17-4", self.entries())
+
+    def test_dry_run_writes_nothing_and_other_countries_have_no_scope(self):
+        self._everything_drafted()
+        path = c5.stance_path("fr", self.cfg)
+        with open(path, encoding="utf-8") as h:
+            text = h.read()
+        got = c5.prune_out_of_scope("fr", self.cfg, wl=fr_wl(), dry_run=True, log=QUIET)
+        self.assertEqual(len(got["removed"]), 4)
+        with open(path, encoding="utf-8") as h:
+            self.assertEqual(h.read(), text)
+        self.assertEqual(c5.prune_out_of_scope("pl", self.cfg, log=QUIET), {"removed": [], "kept": []})
+
+    def test_live_france_file_is_in_scope(self):
+        wl = c5.SPECS["fr"].watchlist_fn()
+        divs = c5.load("fr")[0]
+        for k, e in divs.items():
+            if c5.hand_edited(e) is None:
+                self.assertTrue(c5.entry_in_scope("fr", e, wl), k)
 
 
 if __name__ == "__main__":
