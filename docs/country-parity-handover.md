@@ -24,6 +24,7 @@ Everything it built is on main. Read this with
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
 | Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
 | Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); campaign briefs **built** 10 Oct (`tools/country_briefs.py`, branch `camp-briefs`, a weekly step): drafts in the country's language, NOT READY until stances are confirmed; targets **no** |
+| Debate today, live read | yes | no | no | no | **built** 10 Oct (`tools/country_debate_today.py`, `tools/country_live_debate.py`, branch `camp-live-debate`) for the four countries whose chamber publishes the same day: NL, CH, FR, BE; not AT (next day or later) or the question-only countries. Before sign-off the live read names no contradiction ("awaiting sign-off"); debate today is a step of the 16:45 net task |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
@@ -202,6 +203,25 @@ the campaigner checklist, in the country's language (src/debatepack_i18n.py).
 Manual, no job. Placements only from confirmed readings: until a signer
 confirms, every pack renders "awaiting sign-off". Usage in each scope doc and
 docs/debate-pack-social.md, "New countries".
+
+**Debate today and the live read built 10 October 2026 (branch
+`camp-live-debate`).** `tools/country_debate_today.py` and
+`tools/country_live_debate.py` (src/country_live.py), the UK pair generalised,
+for the countries whose chamber source publishes the day's speeches the same
+day, measured on the live sources: the Netherlands (Handelingen, 2.5 to 3
+hours behind, re-issued all day), Switzerland (the Bulletin, during the
+sitting by the Parliament's account; to confirm in the Wintersession),
+France (each sitting's compte rendu the same night) and Belgium (the
+Thursday record the same evening). Not Austria (speech files the next day or
+later), nor Poland, Brazil, Portugal (questions only) or any country without
+a speech collector. The day is read by each country's own collector into an
+in-memory store; the real store is only read. The live read sets each
+speaker's words beside their votes on the area and names a contradiction
+only when the vote's reading is CONFIRMED and the words have been read by a
+person or the session judge (`--queue-out` / `--reads`); until then
+"awaiting sign-off". Debate today is STEP 1B of the existing 16:45 net task
+(`ops/scheduled-tasks/debate-day-net.md`): recreate that task from the file.
+Table and usage: docs/debate-pack-social.md, "New countries".
 
 **Campaign briefs built 10 October 2026 (branch `camp-briefs`).**
 `tools/country_briefs.py` (`src/country_briefs.py`, phrases in
