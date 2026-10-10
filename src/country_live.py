@@ -520,6 +520,8 @@ def render(cc, date, debate, rows, divs, as_of=None):
                     lines.append("    voted " + _vote_line(t))
             elif s["member"]:
                 lines.append("    no recorded vote on these areas in the store")
+            if s["state"] == "consistent":
+                lines.append("    words read {0}: in line with the confirmed vote".format(s["read"]))
             if s["state"] == "words not read":
                 lines.append("    words not read yet: no contradiction named (fill --reads)")
         lines.append("")

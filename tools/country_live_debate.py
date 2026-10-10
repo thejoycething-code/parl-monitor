@@ -64,6 +64,8 @@ def main(argv=None):
     ap.add_argument("--out", help="also write the read to this file")
     ap.add_argument("--dm", action="store_true", help="DM the read to Chris")
     args = ap.parse_args(argv)
+    if args.reads and not os.path.exists(args.reads):
+        ap.error("no reads file at {0}".format(args.reads))
 
     client = HttpClient(raw_dir=args.raw_dir, throttle=1.0)
     speeches, docs, gaps = cl.read_day(args.cc, args.date, client, args.db, args.budget_seconds,

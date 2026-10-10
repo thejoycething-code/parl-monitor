@@ -216,6 +216,8 @@ class LiveTests(Base):
         self.assertIsNone(kinds["M. Paul Petit"])             # words not read
         self.assertIn("against us (confirmed by Christopher, 2026-10-10)", text)
         self.assertIn("words not read yet", text)
+        _, rows, _, text = self.live(reads={"m. jean dupont": "against"}, status="confirmed")
+        self.assertIn("words read against: in line with the confirmed vote", text)
         self.assertNotIn("AWAITING SIGN-OFF", text)
 
     def test_confirmed_but_unread_names_nothing(self):
