@@ -203,14 +203,14 @@ def _strip(value):
 
 def an_uid(url):
     """'https://www.assemblee-nationale.fr/dyn/17/dossiers/DLR5L17N53656' or
-    'http://www.assemblee-nationale.fr/17/dossiers/DLR5L17N53225.asp' ->
+    '(http) www.assemblee-nationale.fr/17/dossiers/DLR5L17N53225.asp' ->
     'DLR5L17N53225'; None for an AN path slug (resolved by fr_dossiers)."""
     m = re.search(r"(DLR5L\d+N\d+)", url or "")
     return m.group(1) if m else None
 
 
 def an_slug(url):
-    """'http://www.assemblee-nationale.fr/17/dossiers/fin_de_vie_17e.asp' ->
+    """'(http) www.assemblee-nationale.fr/17/dossiers/fin_de_vie_17e.asp' ->
     'fin_de_vie_17e', the Assemblee's titreChemin (fr_dossiers.an_path)."""
     m = re.search(r"/dossiers/([A-Za-z0-9_-]+?)(?:\.asp)?(?:[?#].*)?$", url or "")
     return m.group(1) if m and not m.group(1).startswith("DLR5") else None

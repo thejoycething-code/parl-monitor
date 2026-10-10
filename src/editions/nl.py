@@ -69,6 +69,8 @@ def _ek_watched(dossier, wl):
 def eerste_kamer(conn, since, until, wl):
     """The Eerste Kamer's votes on our ground in the window (NL4)."""
     out = []
+    bill_titles = {r["dossier"]: r["title"] for r in
+                   ce.rows(conn, "SELECT dossier, title FROM nl_ek_bills")}
     for r in ce.rows(conn, "SELECT * FROM nl_ek_divisions WHERE " + ce.window_sql("date"),
                      (since, until)):
         hit = _ek_watched(r["dossier"], wl)
@@ -111,7 +113,8 @@ def eerste_kamer(conn, since, until, wl):
                            url=r["url"], terms=r["matched_terms"], takeaway=ce.clip(take, 260),
                            group="ek-" + r["dossier"] if r["kind"] != "motion" and r["dossier"]
                            else None,
-                           group_title="{0}: {1}".format(EK, r["dossier"])
+                           group_title=(bill_titles.get(r["dossier"]) or
+                                        "{0}: {1}".format(EK, r["dossier"]))
                            if r["kind"] != "motion" and r["dossier"] else None,
                            final=r["kind"] == "bill", own=bool(ce.areas_of(r["own_areas"])),
                            watch_key=hit))

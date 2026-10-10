@@ -411,4 +411,41 @@ Applied on the `countries` branch:
 
 Later phases and items for Chris (not built at the merge):
 
-- Phase 2: bill documents (SK6).
+- Phase 2: bill documents (SK6). BUILT 10 October 2026 (branch `parity-phases-a`): see "SK6, as built" below.
+
+## SK6, as built (10 October 2026, branch `parity-phases-a`)
+
+`tools/sk_rollcalls.py` reads, for every amending or constitutional bill
+and every print already on our ground (836 on 10 October 2026), the print's
+page (`sid=zakony/cpt`, keyed by term and print number) and its two
+documents that say what a bill does: the bill text ("Návrh zákona") and the
+explanatory memorandum ("Dôvodová správa"), Word or PDF, stdlib only. They
+are matched passage by passage with taxonomy-sk (tier-1 passages only, as
+the EU's documents are). New columns on `sk_bills`: `docs_read`, `doc_ids`,
+`doc_areas`, `doc_terms`, `doc_excerpt`; a print's areas keep its document
+areas through every re-read of its title, its votes inherit them, and their
+positions are queued like any vote on our ground.
+
+- **Weekly**: the documents take the first 10 minutes of the job's old
+  45-minute positions budget (new prints, a few a week). **Backlog**: by
+  hand on the Mini, `jobs/sk-docs-backfill.sh` (55 minutes a run, about
+  three runs: 3 to 11 seconds a print at the speeds measured).
+- **Measured** on the first 25 prints (ours first): 7 gained an area the
+  title did not give, among them tlač 1218 (amends the Family Act; the
+  memorandum is about banning corporal punishment, area 6), 1140 (registry
+  law; the unborn child and parental rights), 1367 (online protection of
+  minors: age verification, sexual exploitation), 1397 (hate speech and the
+  registration of churches).
+- **Then 120 more** (10 October 2026, 399 seconds, about 3 seconds a print
+  at that hour): of the amending bills off our ground, 17 came onto it by
+  their documents, mostly real (Family Act amendments, child protection
+  online, foster care, freedom of expression, a bill on gender identity and
+  the Istanbul Convention). Noise to fix in the next term-list round:
+  "eutanázi*" caught a veterinary bill (animal euthanasia; Italy's list
+  guards the same word), and police omnibus bills (1439, 1445) list the
+  crimes they cover (child pornography, trafficking) and take four or five
+  areas from one passage each.
+- **Edition**: a print on our ground by its documents alone says so, with
+  the passage that matched. Sample: `docs/parity-samples/sk-documents-2026-03-30.md`.
+- **Not built**: the legislative stage from the print's process page, and
+  EUROVOC descriptors.

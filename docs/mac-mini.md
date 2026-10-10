@@ -428,6 +428,12 @@ with the end of its output. Nothing caps the clock here, but give
     cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh hu-karzat-backfill \
       >> ~/runner/logs/hu-karzat-backfill.log 2>&1 &
 
+    # Slovakia, SK6: the term's backlog of bill documents (about 836 prints,
+    # two and a half hours at nrsr.sk's speed); 55 minutes a run, so run it
+    # three times, never on a Tuesday morning (the Slovak weekly).
+    cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh sk-docs-backfill \
+      >> ~/runner/logs/sk-docs-backfill.log 2>&1 &
+
 They record their own heartbeats ("Provinces backfill", "Canada backfill"),
 never the weekly's. They hold the lock while they run, so the scheduled jobs
 queue behind them (up to two hours): start a long one when the calendar is
@@ -437,3 +443,18 @@ The GitHub dispatch forms still work, as a fallback.
 The scoping probes (`*-probe.yml`, `probe-hosts.yml`) stay on GitHub: they
 exist to ask whether a site answers GitHub's runners, which only a runner
 can answer. They are one-off; delete each once its collector is built.
+
+## Later phases, set A (10 October 2026, branch `parity-phases-a`)
+
+No new scheduled job and no new plist: each phase is a step in a weekly the
+Mini already runs, so `ops/install_country_jobs.sh` is unchanged. After the
+merge the runner picks them up on its next `git pull` (mini_run.sh does it).
+
+| Phase | Where it runs | What the Mini does |
+|---|---|---|
+| FR5, the Senat | `jobs/fr-weekly.sh`, after `fr_rollcalls.py` (Saturdays) | `tools/fr_senat.py`: one 1-byte request for the Dosleg dump's headers; downloads the 16 MB zip only when it changed and the last download is six or more days old; about 15 seconds to load. Its own heartbeat "FR Senat". |
+| NL4, the Eerste Kamer | `jobs/nl-weekly.sh`, after `nl_rollcalls.py` (Thursdays) | `tools/nl_eerstekamer.py`: eerstekamer.nl's vote pages, one a second, back to two weeks before the newest stored vote. The first run reads back to June 2023: 46 pages, about 3 minutes. Heartbeat "NL Eerste Kamer". |
+| IT2, the Camera's SPARQL | `jobs/it-weekly.sh`, inside `it_rollcalls.py` | Nothing new to install. `IT_CAMERA_SOURCE=openpolis` or `camera` in `~/runner/env` overrides the default `auto`. |
+| CH6, Swiss Italian texts | `jobs/ch-weekly.sh`, inside `ch_rollcalls.py` | A third language pass (22 more pages on a full read, a few on a weekly one). The first weekly after the merge reads every business's Italian record once (about 6,700 have one; Fragestunde questions mostly do not and are marked so). |
+| SK6, Slovak bill documents | `jobs/sk-weekly.sh` (Tuesdays): documents get the first 10 minutes of the old 45-minute positions budget | The backlog by hand: `sk-docs-backfill` above, three runs. |
+

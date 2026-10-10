@@ -208,7 +208,8 @@ def q_senate_positions(vote_id):
 CAMERA_PREFIXES = ("PREFIX ocd: <http://dati.camera.it/ocd/>\n"
                    "PREFIX dc: <http://purl.org/dc/elements/1.1/>\n"
                    "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n")
-CAMERA_VOTE_IRI = "http://dati.camera.it/ocd/votazione.rdf/{0}"
+# An identifier in SPARQL's angle brackets, never fetched.
+CAMERA_VOTE_IRI = "<http://dati.camera.it/ocd/votazione.rdf/{0}>"
 
 
 def q_camera_votes(leg, lo, hi):
@@ -229,7 +230,7 @@ def q_camera_votes(leg, lo, hi):
 def q_camera_positions(ident):
     """Every deputy's ocd:voto on one vote ('vs19_147_041')."""
     return CAMERA_PREFIXES + """SELECT DISTINCT ?dep ?label ?type ?grp WHERE {{
- ?voto a ocd:voto ; ocd:rif_votazione <{0}> ; ocd:rif_deputato ?dep ; dc:type ?type .
+ ?voto a ocd:voto ; ocd:rif_votazione {0} ; ocd:rif_deputato ?dep ; dc:type ?type .
  OPTIONAL {{ ?voto rdfs:label ?label }} OPTIONAL {{ ?voto ocd:siglaGruppo ?grp }}
 }} LIMIT {1}""".format(CAMERA_VOTE_IRI.format(ident), SPARQL_CAP)
 
