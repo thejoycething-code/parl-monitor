@@ -39,6 +39,17 @@ division on our ground with `positions_fetched = 0` is fetched on the next
 run, so a taxonomy change that brings an old vote onto our ground heals
 itself.
 
+THE CAMERA HAS TWO SOURCES (IT2, Chris, 10 October 2026: keep Openpolis,
+add the official dati.camera.it service as a backup, or main when it is
+quicker). Both carry the Camera's own vote identifier, so a division key
+never depends on the source. A Camera member read from dati.camera.it is
+matched to their Openpolis key by name ('C:207'); `it_members.camera_id`
+keeps the Camera's own deputy ID ('302422') once matched, and a deputy who
+matches no Openpolis member is keyed 'CD:<Camera deputy ID>' rather than
+guessed. `it_divisions.positions_source` says where a division's positions
+came from ('openpolis' / 'camera'). Added 10 October 2026, additively
+(ADDED_COLUMNS).
+
 A BILL LAPSES WITH ITS LEGISLATURE. The 19th ends by October 2027 at the
 latest; every pending bill dies and comes back, if at all, under a new
 number. `it_bills.legislature` is what a board reads, never `status`.
@@ -117,10 +128,21 @@ SCHEMA = (
 
 TABLES = ("it_members", "it_bills", "it_divisions", "it_votes")
 
+# Columns added after a table was first shipped: (table, column, type).
+# IT2 (10 October 2026): the dati.camera.it backup for the Camera.
+ADDED_COLUMNS = (
+    ("it_members", "camera_id", "TEXT"),            # the Camera's deputy ID, '302422'
+    ("it_divisions", "positions_source", "TEXT"),   # 'openpolis' / 'camera'
+)
+
 
 def ensure_schema(conn):
     for stmt in SCHEMA:
         conn.execute(stmt)
+    for table, column, kind in ADDED_COLUMNS:
+        have = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+        if column not in have:
+            conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, column, kind))
     conn.commit()
     return conn
 

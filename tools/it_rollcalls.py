@@ -42,6 +42,31 @@ sitting (forward for amendments and articles, which precede the bill's
 orders of the day; backward for a final vote, which follows them), and say
 so in bill_inferred. Motions and resolutions take no bill.
 
+IT2: THE CAMERA'S OWN SERVICE AS BACKUP, OR MAIN WHEN QUICKER (Chris,
+10 October 2026). dati.camera.it/sparql answered on 10 October 2026 (0.3 s
+a query; it was down for two hours on the 9th), with every Camera vote of
+the 19th legislature, totals, and every deputy's vote as an ocd:voto
+record. It keys votes exactly as Openpolis does ('vs19_723_001'), so
+nothing is re-keyed whichever source a row came from. IT_CAMERA_SOURCE
+chooses: 'auto' (the default), 'openpolis' or 'camera'.
+
+  * The vote LIST: Openpolis first (it was two days ahead of the Camera on
+    9 October); if Openpolis refuses, the same window is read from
+    dati.camera.it by month. With 'camera', dati.camera.it only.
+  * POSITIONS: dati.camera.it answers a vote's positions in about 0.3 s
+    against Openpolis's 2 to 4, ten times quicker, but it records a deputy
+    on mission and an absent one alike ("Non ha votato", stored 'absent'),
+    where Openpolis says which ('mission' / 'absent'). So 'auto' reads
+    votes ON OUR GROUND from Openpolis first (the richer record) and the
+    X15 backlog of votes OFF our ground from dati.camera.it first (the
+    quicker), each falling back to the other; a vote Openpolis still shows
+    all 'SEC' is taken from dati.camera.it when the Camera has published it.
+    `positions_source` records which. The Camera names deputies, not
+    Openpolis memberships: each is matched to its Openpolis key by name
+    (accents and apostrophes folded, word order ignored) and its Camera ID
+    kept in it_members.camera_id; one that matches no member, or two, is
+    keyed 'CD:<Camera ID>', never guessed.
+
 OMNIBUS. TESEO classifies a bill as a whole ('Generale') and article by
 article ('Articoli'). Only the general terms are used: the article terms of
 a single budget law span half the thesaurus, and they put 243 Camera votes
@@ -67,6 +92,11 @@ from src.http import FetchError, HttpClient  # noqa: E402
 FEED = "it-rollcalls"
 LEGISLATURE = 19
 SENATO_SPARQL = "https://dati.senato.it/sparql"
+# IT2: the Camera's own SPARQL endpoint (see the module docstring).
+CAMERA_SPARQL = "https://dati.camera.it/sparql"
+CAMERA_SOURCES = ("auto", "openpolis", "camera")
+# The 19th legislature's first Camera sitting; the first run reads from here.
+CAMERA_LEGISLATURE_START = {19: "2022-10-13"}
 OPENPOLIS = "https://service.opdm.openpolis.io/api-openparlamento/v1/{0}/"
 TAXONOMY_IT = os.path.join(ROOT, "config", "taxonomy-it.yaml")
 TAXONOMY_EN = os.path.join(ROOT, "config", "taxonomy.yaml")
@@ -99,10 +129,11 @@ CAMERA_POSITIONS = {"AYE": "aye", "NO": "no", "ABST": "abstain", "PRES": "presen
 
 # --- SPARQL ------------------------------------------------------------------
 
-def sparql(client, query, slug):
+def sparql(client, query, slug, endpoint=SENATO_SPARQL):
     """Rows of a SELECT as plain {var: value} dicts. The Senate's answers carry
-    raw control characters inside some titles, which strict JSON refuses."""
-    url = SENATO_SPARQL + "?" + urllib.parse.urlencode(
+    raw control characters inside some titles, which strict JSON refuses.
+    `endpoint` is the Senate's by default; IT2 passes the Camera's."""
+    url = endpoint + "?" + urllib.parse.urlencode(
         {"query": query, "format": "application/sparql-results+json"})
     raw = client.get_bytes(url, FEED, slug)
     data = json.loads(raw.decode("utf-8"), strict=False)
@@ -170,6 +201,168 @@ def q_senate_positions(vote_id):
     preds = ", ".join("osr:" + p for p in SENATE_POSITIONS)
     return PREFIXES + ("SELECT ?p ?s WHERE {{ <http://dati.senato.it/votazione/{0}> ?p ?s "
                        "FILTER(?p IN ({1})) }} LIMIT {2}").format(vote_id, preds, SPARQL_CAP)
+
+
+# --- the Camera's own endpoint (IT2) ---------------------------------------------
+
+CAMERA_PREFIXES = ("PREFIX ocd: <http://dati.camera.it/ocd/>\n"
+                   "PREFIX dc: <http://purl.org/dc/elements/1.1/>\n"
+                   "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n")
+CAMERA_VOTE_IRI = "http://dati.camera.it/ocd/votazione.rdf/{0}"
+
+
+def q_camera_votes(leg, lo, hi):
+    """Camera votes dated lo <= date < hi (YYYYMMDD strings). Every resource
+    is typed twice, hence DISTINCT. The range is two FILTERs, never one with
+    '&&': the Camera's web firewall answers a query holding both '&&' and
+    '<' with a 'Request Rejected' page (measured 10 October 2026)."""
+    return CAMERA_PREFIXES + """SELECT DISTINCT ?v ?date ?title ?desc ?fin ?seg ?fav ?con ?ast ?appr WHERE {{
+ ?v a ocd:votazione ; ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_{0}> ;
+    dc:date ?date ; dc:title ?title .
+ OPTIONAL {{ ?v dc:description ?desc }} OPTIONAL {{ ?v ocd:votazioneFinale ?fin }}
+ OPTIONAL {{ ?v ocd:votazioneSegreta ?seg }} OPTIONAL {{ ?v ocd:favorevoli ?fav }}
+ OPTIONAL {{ ?v ocd:contrari ?con }} OPTIONAL {{ ?v ocd:astenuti ?ast }}
+ OPTIONAL {{ ?v ocd:approvato ?appr }}
+ FILTER(?date >= "{1}") FILTER(?date < "{2}") }} LIMIT {3}""".format(int(leg), lo, hi, SPARQL_CAP)
+
+
+def q_camera_positions(ident):
+    """Every deputy's ocd:voto on one vote ('vs19_147_041')."""
+    return CAMERA_PREFIXES + """SELECT DISTINCT ?dep ?label ?type ?grp WHERE {{
+ ?voto a ocd:voto ; ocd:rif_votazione <{0}> ; ocd:rif_deputato ?dep ; dc:type ?type .
+ OPTIONAL {{ ?voto rdfs:label ?label }} OPTIONAL {{ ?voto ocd:siglaGruppo ?grp }}
+}} LIMIT {1}""".format(CAMERA_VOTE_IRI.format(ident), SPARQL_CAP)
+
+
+# dc:type of an ocd:voto, measured 10 October 2026. "Non ha votato" covers
+# both the absent and those on mission; "Ha votato" is a secret ballot.
+CAMERA_SPARQL_POSITIONS = {"favorevole": "aye", "contrario": "no", "astensione": "abstain",
+                           "astenuto": "abstain", "non ha votato": "absent",
+                           "ha votato": "secret", "presidente": "present",
+                           "in missione": "mission"}
+_GENERIC_TITLE = re.compile(r"^\s*votazione(?:\s+finale)?\s*$", re.I)
+
+
+def camera_sparql_title(title, desc):
+    """The vote's title as Openpolis writes it: the description, then the
+    Camera's title unless that is only 'Votazione' / 'Votazione finale'.
+    vs19_147_041 -> 'Ordine del giorno n. 9/887 E ABB./19 ZAN ALESSANDRO
+    (PD-IDP) - Votazione Ordine del giorno 9/887 E ABB./19 PDL n. 0887';
+    vs19_723_001 -> 'PDL 2822-B - VOTO FINALE'."""
+    parts = []
+    for p in ((desc or "").strip(), (title or "").strip()):
+        p = re.sub(r"\s+", " ", p)
+        if p and p not in parts and not (p is not None and _GENERIC_TITLE.match(p) and parts):
+            parts.append(p)
+    return " - ".join(parts)
+
+
+def _camera_ident(uri):
+    hit = re.search(r"/votazione\.rdf/(vs\d+_\d+_\d+)$", uri or "")
+    return hit.group(1) if hit else None
+
+
+def parse_camera_sparql_list(rows, leg=LEGISLATURE):
+    """dati.camera.it rows -> the dicts parse_camera_list makes from
+    Openpolis, plus the totals (which Openpolis gives only per vote)."""
+    out = {}
+    for r in rows or []:
+        ident = _camera_ident(r.get("v"))
+        hit = re.match(r"^vs\d+_(\d+)_(\d+)$", ident or "")
+        if not hit:
+            continue
+        raw = (r.get("date") or "")[:8]
+        date = "{0}-{1}-{2}".format(raw[:4], raw[4:6], raw[6:8]) if len(raw) == 8 else None
+        d = out.setdefault(ident, {
+            "key": "camera-" + ident, "ident": ident, "chamber": "camera",
+            "legislature": int(leg), "sitting": int(hit.group(1)), "number": int(hit.group(2)),
+            "date": date, "title": camera_sparql_title(r.get("title"), r.get("desc")),
+            "is_final": int(r.get("fin") == "1"), "is_secret": r.get("seg") == "1",
+            "outcome": {"1": "Approvata", "0": "Respinta"}.get(r.get("appr")),
+            "ayes": _int(r.get("fav")), "noes": _int(r.get("con")),
+            "abstentions": _int(r.get("ast"))})
+        if not d["title"] and (r.get("title") or r.get("desc")):
+            d["title"] = camera_sparql_title(r.get("title"), r.get("desc"))
+    return sorted(out.values(), key=lambda v: (v["date"] or "", v["sitting"], v["number"]),
+                  reverse=True)
+
+
+def parse_camera_sparql_positions(rows):
+    """[(camera_id, name, grp, position)] from q_camera_positions rows. The
+    label reads 'CUPERLO GIANNI (PD-IDP) ha votato favorevole'."""
+    out = {}
+    for r in rows or []:
+        hit = re.search(r"/deputato\.rdf/d(\d+)_\d+$", r.get("dep") or "")
+        if not hit:
+            continue
+        label = r.get("label") or ""
+        name = re.split(r"\s+\(|\s+ha votato|\s+non ha votato", label, 1)[0].strip() or None
+        kind = (r.get("type") or "").strip().lower()
+        out[hit.group(1)] = (hit.group(1), name, r.get("grp"),
+                             CAMERA_SPARQL_POSITIONS.get(kind, kind or None))
+    return sorted(out.values())
+
+
+def name_tokens(name):
+    """'CUPERLO GIANNI' and 'Gianni Cuperlo' -> ('CUPERLO', 'GIANNI'):
+    accents folded, apostrophes and hyphens dropped, order ignored."""
+    import unicodedata
+    text = unicodedata.normalize("NFKD", name or "")
+    text = "".join(c for c in text if not unicodedata.combining(c))
+    text = re.sub(r"['’`]", "", text).replace("-", " ").upper()
+    return tuple(sorted(t for t in re.split(r"\s+", text) if t))
+
+
+class CameraNames:
+    """Matches dati.camera.it deputies to the Openpolis member keys already
+    stored. By Camera ID first (once matched, kept in it_members.camera_id),
+    then by the whole name, then by surname within the group; an ambiguous
+    or unknown deputy gets 'CD:<Camera ID>'.
+
+    Why three steps: the two sources name 5 per cent of deputies differently
+    (measured on vs19_147_041, 10 October 2026: 379 of 399 matched whole).
+    The Camera prints the name in use ('CUPERLO GIANNI', 'BICCHIELLI PINO'),
+    Openpolis the registry name ('Giovanni Cuperlo', 'Giuseppe Bicchielli')
+    or more given names ('Andrea Giorgio Felice Maria Orsini'). The Camera
+    label leads with the surname, so an Openpolis member whose last name
+    word appears in the label, in the same group, and who is the only such
+    member, is the deputy."""
+
+    def __init__(self, conn):
+        self.by_id, by_name, self.members = {}, {}, []
+        for key, name, cid, grp in conn.execute(
+                "SELECT member_key, name, camera_id, grp FROM it_members WHERE chamber='camera'"):
+            # Only an Openpolis key is remembered by Camera ID: a 'CD:' key is
+            # a stopgap, and the deputy is matched again once Openpolis has them.
+            if cid and key.startswith("C:"):
+                self.by_id[cid] = key
+            if key.startswith("C:") and name:
+                toks = name_tokens(name)
+                by_name.setdefault(toks, set()).add(key)
+                last = name_tokens(name.split()[-1])
+                self.members.append((key, last[-1] if last else None, grp))
+        self.by_name = {k: next(iter(v)) for k, v in by_name.items() if len(v) == 1}
+
+    def _by_surname(self, name, grp):
+        toks = set(name_tokens(name))
+        hits = [k for k, last, g in self.members if last and last in toks]
+        if grp:
+            same = [k for k in hits if k in {m for m, _l, g in self.members if g == grp}]
+            if len(same) == 1:
+                return same[0]
+        return hits[0] if len(hits) == 1 else None
+
+    def resolve(self, camera_id, name, grp=None):
+        """(member_key, matched): matched False for a 'CD:' key."""
+        if camera_id in self.by_id:
+            return self.by_id[camera_id], True
+        key = self.by_name.get(name_tokens(name)) if name else None
+        if not key and name:
+            key = self._by_surname(name, grp)
+        if key:
+            self.by_id[camera_id] = key
+            return key, True
+        return "CD:" + camera_id, False
 
 
 # --- parsing (pure) ------------------------------------------------------------
@@ -593,16 +786,15 @@ def pull_senate_votes(conn, client, today, tax, wl, leg=LEGISLATURE, log=print, 
     return read, ours, gaps
 
 
-def pull_camera_votes(conn, client, today, tax, wl, leg=LEGISLATURE, log=print, budget=None):
-    """Camera votes from Openpolis, newest first, down to CAMERA_LOOKBACK_DAYS
-    behind the newest stored (the whole legislature on the first run).
-    Returns (read, ours, gaps)."""
-    row = conn.execute("SELECT MAX(date) FROM it_divisions WHERE chamber='camera' "
-                       "AND legislature=?", (leg,)).fetchone()
-    cutoff = None
-    if row[0]:
-        cutoff = (datetime.date.fromisoformat(row[0]) -
-                  datetime.timedelta(days=CAMERA_LOOKBACK_DAYS)).isoformat()
+def camera_source():
+    """IT_CAMERA_SOURCE: 'auto' (default), 'openpolis' or 'camera' (IT2)."""
+    value = (os.environ.get("IT_CAMERA_SOURCE") or "auto").strip().lower()
+    return value if value in CAMERA_SOURCES else "auto"
+
+
+def _openpolis_list(conn, client, today, leg, cutoff, log, budget):
+    """(votes, gaps, refused): refused is True when the first page failed,
+    which is when the Camera's own service is asked instead."""
     url = OPENPOLIS.format(leg) + "votings/?branch=C&page_size={0}".format(OPENPOLIS_PAGE)
     seen, page, gaps = [], 0, 0
     while url:
@@ -614,6 +806,9 @@ def pull_camera_votes(conn, client, today, tax, wl, leg=LEGISLATURE, log=print, 
         try:
             data = client.get_json(url, FEED, "camera-votings-{0}-p{1}".format(leg, page + 1))
         except FetchError as exc:
+            if page == 0:
+                log("  Openpolis refused the Camera vote list ({0})".format(str(exc)[:80]))
+                return [], 0, True
             _gap(conn, today, "Camera votes page {0}: {1}".format(page + 1, exc), log)
             gaps += 1
             break
@@ -623,6 +818,82 @@ def pull_camera_votes(conn, client, today, tax, wl, leg=LEGISLATURE, log=print, 
         if cutoff and batch and min(v["date"] or "" for v in batch) < cutoff:
             break
         url = data.get("next")
+    return seen, gaps, False
+
+
+def _months(start, end):
+    """[(lo, hi)] YYYYMMDD month windows covering start..end (ISO dates)."""
+    d = datetime.date.fromisoformat(start).replace(day=1)
+    stop = datetime.date.fromisoformat(end)
+    out = []
+    while d <= stop:
+        nxt = (d.replace(day=28) + datetime.timedelta(days=4)).replace(day=1)
+        out.append((max(d, datetime.date.fromisoformat(start)).strftime("%Y%m%d"),
+                    nxt.strftime("%Y%m%d")))
+        d = nxt
+    return out
+
+
+def camera_sparql_list(conn, client, today, leg, cutoff, log=print, budget=None):
+    """(votes, gaps): the Camera's votes from dati.camera.it, month by month
+    from `cutoff` (the legislature's start on a first run). A month that
+    comes back at the 10,000-row cap may be truncated: a gap."""
+    start = cutoff or CAMERA_LEGISLATURE_START.get(int(leg), "2022-10-13")
+    end = (datetime.date.fromisoformat(today) + datetime.timedelta(days=1)).isoformat()
+    seen, gaps = [], 0
+    for lo, hi in _months(start, end):
+        if budget is not None and budget.exhausted():
+            log(budget.disclose("Camera vote months", len(seen)))
+            _gap(conn, today, "Camera votes (dati.camera.it): budget spent at {0}".format(lo), log)
+            return seen, gaps + 1
+        try:
+            rows = sparql(client, q_camera_votes(leg, lo, hi),
+                          "camera-sparql-votes-{0}-{1}".format(leg, lo), endpoint=CAMERA_SPARQL)
+        except (FetchError, ValueError) as exc:
+            _gap(conn, today, "Camera votes (dati.camera.it) {0}: {1}".format(lo, exc), log)
+            gaps += 1
+            continue
+        if len(rows) >= SPARQL_CAP:
+            _gap(conn, today, "Camera votes (dati.camera.it) {0}: answer at the cap".format(lo), log)
+            gaps += 1
+        seen.extend(v for v in parse_camera_sparql_list(rows, leg)
+                    if not cutoff or (v["date"] or "") >= cutoff)
+    return seen, gaps
+
+
+def pull_camera_votes(conn, client, today, tax, wl, leg=LEGISLATURE, log=print, budget=None,
+                      source=None):
+    """Camera votes, newest first, down to CAMERA_LOOKBACK_DAYS behind the
+    newest stored (the whole legislature on the first run): from Openpolis,
+    or from dati.camera.it when Openpolis refuses or IT_CAMERA_SOURCE says
+    'camera' (IT2). Returns (read, ours, gaps)."""
+    source = source or camera_source()
+    row = conn.execute("SELECT MAX(date) FROM it_divisions WHERE chamber='camera' "
+                       "AND legislature=?", (leg,)).fetchone()
+    cutoff = None
+    if row[0]:
+        cutoff = (datetime.date.fromisoformat(row[0]) -
+                  datetime.timedelta(days=CAMERA_LOOKBACK_DAYS)).isoformat()
+    refused = True
+    seen, gaps = [], 0
+    if source != "camera":
+        seen, gaps, refused = _openpolis_list(conn, client, today, leg, cutoff, log, budget)
+    if refused and source != "openpolis":
+        log("it-rollcalls: Camera vote list from dati.camera.it (IT2)")
+        seen, gaps = camera_sparql_list(conn, client, today, leg, cutoff, log, budget)
+    elif refused:
+        _gap(conn, today, "Camera votes: Openpolis refused page 1", log)
+        gaps += 1
+    # A vote already stored keeps its title: the two sources word some titles
+    # differently, and the title is what the bill inference read.
+    stored_titles = {}
+    if refused:
+        for v in seen:
+            got = conn.execute("SELECT title FROM it_divisions WHERE division_key=?",
+                               (v["key"],)).fetchone()
+            if got and got[0]:
+                stored_titles[v["key"]] = got[0]
+                v["title"] = got[0]
     # Bills by sitting: a sitting's votes may straddle two pages, and the
     # inference reads the whole sitting, stored rows included.
     sittings = {}
@@ -644,12 +915,62 @@ def pull_camera_votes(conn, client, today, tax, wl, leg=LEGISLATURE, log=print, 
     return len(seen), ours, gaps
 
 
-def pull_positions(conn, client, today, members, leg=LEGISLATURE, log=print, budget=None):
+def camera_positions_openpolis(conn, client, today, key, leg, log=print):
+    """(positions, counts) from Openpolis, or (None, None) while every
+    position is still 'SEC'. Raises FetchError."""
+    ident = key[len("camera-"):]
+    rec = client.get_json(OPENPOLIS.format(leg) + "votings/{0}/".format(ident),
+                          FEED, "camera-voting-" + ident)
+    counts, plist, published = parse_camera_detail(rec)
+    if not published:
+        return None, None
+    positions = []
+    for member, name, grp, position in plist:
+        upsert_member(conn, member, "camera", name, grp, None, today)
+        positions.append((member, position, grp))
+    return positions, counts
+
+
+def camera_positions_sparql(conn, client, today, key, names, log=print):
+    """Positions from dati.camera.it (IT2), deputies matched to their
+    Openpolis keys by `names` (CameraNames). None when the Camera has no
+    record of the vote's positions yet. Raises FetchError."""
+    ident = key[len("camera-"):]
+    rows = sparql(client, q_camera_positions(ident), "camera-sparql-positions-" + ident,
+                  endpoint=CAMERA_SPARQL)
+    plist = parse_camera_sparql_positions(rows)
+    if not plist:
+        return None
+    positions, unmatched = [], 0
+    for cid, name, grp, position in plist:
+        member, matched = names.resolve(cid, name, grp)
+        if matched:
+            conn.execute("UPDATE it_members SET camera_id=? WHERE member_key=? "
+                         "AND camera_id IS NULL", (cid, member))
+        else:
+            unmatched += 1
+            upsert_member(conn, member, "camera", name, grp, None, today)
+            conn.execute("UPDATE it_members SET camera_id=? WHERE member_key=?", (cid, member))
+        positions.append((member, position, grp))
+    if unmatched:
+        log("  {0}: {1} deputy(ies) matched no Openpolis member; keyed by Camera ID".format(
+            key, unmatched))
+    return positions
+
+
+def pull_positions(conn, client, today, members, leg=LEGISLATURE, log=print, budget=None,
+                   source=None):
     """Positions for every division that has none yet, newest first, our
     ground before the rest (X15, Chris, 10 October 2026: store every member
     position; until then only our ground was read). Returns (fetched, gaps).
     A budget spent with OUR ground still owed is a gap; the rest of the
-    backlog is disclosed in the log and drains week by week."""
+    backlog is disclosed in the log and drains week by week.
+
+    The Camera's positions come from Openpolis or dati.camera.it in the
+    order IT_CAMERA_SOURCE and the vote's ground choose (IT2, the module
+    docstring); either failing, the other is asked."""
+    source = source or camera_source()
+    names = None
     rows = conn.execute(
         "SELECT division_key, chamber, date, areas FROM it_divisions WHERE legislature=? "
         "AND positions_fetched=0 ORDER BY date DESC, division_key DESC", (leg,)).fetchall()
@@ -676,20 +997,47 @@ def pull_positions(conn, client, today, members, leg=LEGISLATURE, log=print, bud
                     groups = (members.get(member) or {}).get("groups")
                     positions.append((member, position, group_on(groups, date)))
             else:
-                ident = key[len("camera-"):]
-                rec = client.get_json(OPENPOLIS.format(leg) + "votings/{0}/".format(ident),
-                                      FEED, "camera-voting-" + ident)
-                counts, plist, published = parse_camera_detail(rec)
-                if not published:
-                    log("  {0}: positions not yet published (all 'SEC'); next run".format(key))
+                if names is None:
+                    names = CameraNames(conn)
+                if source == "openpolis":
+                    order = ("openpolis",)
+                elif source == "camera":
+                    order = ("camera",)
+                elif on_our_ground(json.loads(_areas or "[]")):
+                    order = ("openpolis", "camera")
+                else:
+                    order = ("camera", "openpolis")
+                positions, used, errors, unpublished = None, None, [], False
+                for src in order:
+                    try:
+                        if src == "openpolis":
+                            positions, counts = camera_positions_openpolis(
+                                conn, client, today, key, leg, log)
+                            if positions is None:
+                                unpublished = True
+                            else:
+                                conn.execute("UPDATE it_divisions SET ayes=?, noes=?, "
+                                             "abstentions=? WHERE division_key=?",
+                                             (counts["ayes"], counts["noes"],
+                                              counts["abstentions"], key))
+                        else:
+                            positions = camera_positions_sparql(conn, client, today, key,
+                                                                names, log)
+                            if positions is None:
+                                unpublished = True
+                    except (FetchError, ValueError) as exc:
+                        errors.append("{0}: {1}".format(src, exc))
+                        positions = None
+                    if positions is not None:
+                        used = src
+                        break
+                if positions is None:
+                    if errors and not unpublished:
+                        raise FetchError(key, FEED, key, 1, "; ".join(errors))
+                    log("  {0}: positions not yet published; next run".format(key))
                     continue
-                conn.execute("UPDATE it_divisions SET ayes=?, noes=?, abstentions=? "
-                             "WHERE division_key=?",
-                             (counts["ayes"], counts["noes"], counts["abstentions"], key))
-                positions = []
-                for member, name, grp, position in plist:
-                    upsert_member(conn, member, "camera", name, grp, None, today)
-                    positions.append((member, position, grp))
+                conn.execute("UPDATE it_divisions SET positions_source=? WHERE division_key=?",
+                             (used, key))
         except FetchError as exc:
             _gap(conn, today, "positions {0}: {1}".format(key, exc), log)
             gaps += 1
@@ -798,6 +1146,7 @@ def main():
         gaps += g
         print("it-rollcalls: {0} Senate vote(s) read, {1} on our ground, {2} gap(s)".format(
             read, ours, g))
+    print("it-rollcalls: Camera source {0} (IT_CAMERA_SOURCE; IT2)".format(camera_source()))
     if not args.no_camera:
         read, ours, g = pull_camera_votes(conn, client, today, tax, wl, leg, budget=budget)
         gaps += g
