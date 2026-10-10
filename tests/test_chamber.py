@@ -231,6 +231,66 @@ class SwitzerlandTests(unittest.TestCase):
         self.assertEqual(text, "Frau Kollegin, Sie argumentieren")
 
 
+class AustriaTests(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        import at_chamber
+        cls.at = at_chamber
+        cls.page = json.loads(fixture("at", "sitzung-xxviii-96-kinderschutz.json.gz"))
+        cls.html = fixture("at", "rede-a-16-19-18-01017985.html.gz").decode("utf-8")
+
+    def test_contributions_carry_the_debate_and_the_speech_file(self):
+        got = self.at.contributions(self.page)
+        self.assertEqual(len(got), 18)
+        debate_id, debate, who, party, kind, url = got[0]
+        self.assertEqual((who, party), ("Ricarda Berger", "FPÖ"))
+        self.assertEqual(debate, "Dringlicher Antrag zum Kinderschutz")
+        self.assertTrue(url.startswith("https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/96/"))
+        self.assertNotIn("#", url)
+        minister = [g for g in got if "Regierungsbank" in g[4]][0]
+        self.assertEqual(self.at.role_of(minister[4], minister[3]), "Federal Government")
+
+    def test_speech_text_is_the_speech_alone(self):
+        text = self.at.speech_text(self.html)
+        self.assertIn("Abtreibung", text)
+        self.assertNotIn("Die angezeigte Rede", text)
+        self.assertNotIn("Sitzung, XXVIII. GP", text)
+        self.assertNotIn("Beifall", text)                       # the benches, not the speaker
+        m = cs.classify_speech(cs.load_taxonomies("at"), text)
+        self.assertIn(1, m.areas)
+
+    def test_interjections_never_lend_an_area(self):
+        text = self.at.speech_text("<main><p>Name (FPÖ), 96. Sitzung, XXVIII. GP des NR, 19:13 "
+                                   "RN/149 19.13 Abgeordnete Name (FPÖ): Wir reden über das "
+                                   "Budget. (Ruf bei der FPÖ: Abtreibung ist Mord!) Danke.</p>"
+                                   "</main>")
+        self.assertEqual(text.split(), "Wir reden über das Budget. Danke.".split())
+
+
+class BrazilTests(unittest.TestCase):
+
+    def test_addressee_from_the_ementa(self):
+        import br_chamber
+        self.assertEqual(br_chamber.addressee(
+            "Requer informações ao Ministro de Estado da Saúde, Sr. Alexandre Padilha, acerca "
+            "de eventuais reuniões"), "Ministro de Estado da Saúde")
+        self.assertEqual(br_chamber.addressee(
+            "Requer informações ao Ministério das Relações Exteriores acerca das providências"),
+            "Ministério das Relações Exteriores")
+
+    def test_untracked_answers_are_not_called_unanswered(self):
+        conn = store()
+        cs.store_question(conn, "br", {
+            "question_id": "RIC 1/2026", "kind": "request", "date": "2026-10-08",
+            "title": "Requer informações sobre o aborto legal", "asker": "Deputada X",
+            "party": "PL", "addressee": "Ministro da Saúde", "answered": "untracked"},
+            cs.Match([1], ["aborto"], 1), TODAY)
+        got = cs.edition_items(conn, "br", "2026-10-01", "2026-10-09", {})
+        self.assertEqual(got[0]["takeaway"],
+                         "Request for information from Deputada X (PL) to Ministro da Saúde")
+
+
 class EditionTests(unittest.TestCase):
     """Speeches grouped by debate, questions one each, in the framework."""
 

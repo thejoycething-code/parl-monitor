@@ -67,7 +67,7 @@ COUNTRIES = {
     "at": ("speeches",),
     "pl": ("speeches", "questions"),
     "fr": ("speeches", "questions"),
-    "br": ("speeches", "questions"),
+    "br": ("questions",),
 }
 
 
@@ -116,7 +116,9 @@ SCHEMA = (
         asker        TEXT,               -- as printed; several joined by '; '
         party        TEXT,               -- at the question, where given
         addressee    TEXT,               -- the minister or office asked
-        answered     TEXT,               -- ISO date of the answer, or NULL
+        answered     TEXT,               -- ISO date of the answer, 'yes' (answered, date not
+                                         -- given), 'untracked' (the source does not say),
+                                         -- or NULL (no answer yet)
         url          TEXT,
         areas        TEXT,               -- JSON: the question's own words only
         matched_terms TEXT,
@@ -367,11 +369,16 @@ def stamp(conn, heartbeat, today, note):
 def gap(conn, feed, detail, log=print):
     """A gap in the shared gaps table and a [gap] line in the log."""
     from src import db
-    log("  [gap] {0}: {1}".format(feed, detail))
     try:
-        db.record_gap(conn, feed, detail)
+        db.record_gap(conn, feed, detail)           # prints the [gap] line itself
     except Exception:                               # noqa: BLE001
-        pass
+        log("  [gap] {0}: {1}".format(feed, detail))
+
+
+def not_found(exc):
+    """True when a fetch failed on a 404 (a document listed before it is
+    published), which is not a gap: it is read when it appears."""
+    return "HTTP Error 404" in str(exc) or "404" in str(getattr(exc, "cause", "") or "")
 
 
 # --- the edition ---------------------------------------------------------------------
@@ -444,6 +451,8 @@ def edition_items(conn, cc, since, until, wl):
         answered = r["answered"]
         if answered and re.match(r"\d{4}-\d{2}-\d{2}", answered):
             take += "; answered {0}".format(ce.short_date(answered[:10]))
+        elif answered == "untracked":
+            pass
         elif answered:
             take += "; answered"
         else:

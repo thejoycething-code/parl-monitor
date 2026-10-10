@@ -1832,7 +1832,6 @@ TABLES = (
     "fr_speeches",
     "fr_questions",
     "fr_record_reads",
-    "br_speeches",
     "br_questions",
     "br_record_reads",
     # Canadian provinces (tools/prov_collect.py), created by
