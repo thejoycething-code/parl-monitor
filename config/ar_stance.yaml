@@ -85,7 +85,7 @@ divisions:
   - key: "sen-acta-2480"
     status: needs_reading
     title: "EN GENERAL: Modificación del art. 139 del Código Penal tipificando la sustracción y/o comercialización de menores de edad."
-    on: "Modificación del art. 139 del Código Penal tipificando la sustracción y/o comercialización de menores de edad."
+    "on": "Modificación del art. 139 del Código Penal tipificando la sustracción y/o comercialización de menores de edad."
     dated: "2024-07-04"
     chamber: "senado"
     areas: [12]
@@ -100,7 +100,7 @@ divisions:
   - key: "sen-acta-2486"
     status: needs_reading
     title: "EN GENERAL Y EN PARTICULAR: Modificación del Código Penal de la Nación sobre la sustracción y/o comercialización de menores de edad."
-    on: "Modificación del Código Penal de la Nación sobre la sustracción y/o comercialización de menores de edad."
+    "on": "Modificación del Código Penal de la Nación sobre la sustracción y/o comercialización de menores de edad."
     dated: "2024-08-22"
     chamber: "senado"
     areas: [12]

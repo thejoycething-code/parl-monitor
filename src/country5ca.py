@@ -129,7 +129,8 @@ def areas_of(raw):
 class Spec:
     def __init__(self, cc, name, div_sql, positions, roster, yea, nay, abstain=(),
                  refs=None, hint=None, labels=("Yes", "No"), derived=None,
-                 watchlist=None, extra_watched=None, chambers=None, note="", own_key=None):
+                 watchlist=None, extra_watched=None, chambers=None, note="", own_key=None,
+                 scope=None):
         self.cc, self.name = cc, name
         self.div_sql, self.positions_sql, self.roster_sql = div_sql, positions, roster
         self.yea = {fold(x) for x in yea}
@@ -144,6 +145,10 @@ class Spec:
         self.chambers = chambers or {}
         self.note = note
         self.own_key = own_key            # fn(row) -> the key of the item voted on itself
+        # The sign-off scope: fn(kind, key, question, watch_key, wl) -> bool,
+        # whether a vote is drafted for sign-off at all. None: every
+        # qualifying vote (every country but France).
+        self.scope = scope
 
     def side(self, position):
         p = fold(position)
@@ -222,6 +227,68 @@ def _derive(module, cc):
     return derive
 
 
+# --- the sign-off scope ----------------------------------------------------------------
+#
+# Chris, 10 October 2026: France's 5CA sign-off is limited to the votes that
+# decide a text (on the whole text, a motion to reject it, or a Yes recorded
+# as rejecting it) and to the amendment and article votes a person has
+# explicitly WATCHED in the country's watchlist, under the dossier's entry:
+#
+#     "DLR5L17N51670": {areas: [2], why: "...",
+#                       amendments: ["an-17-1773", "n° 3"]}
+#
+# An item is a store division key (exact) or an amendment number as the
+# Assemblee's own wording gives it ("l'amendement n° 3 ..."), which matches
+# any vote in that dossier on that number (numbers restart with each reading,
+# so the division key is the exact form). A procedural vote is in scope only
+# when its wording is about the whole text (a final-vote-related procedure),
+# or when it is watched. Everything else is out of scope: not drafted, and
+# prunable while unsigned and untouched (`prune_out_of_scope`).
+
+FINAL_KINDS = ("final", "reject", "inverted")
+_AMENDMENT_NO = re.compile(r"amendements?\s+n\s*[°ºo]\.?\s*(\d+)")
+
+
+def amendment_numbers(question):
+    """The amendment numbers named in a vote's wording, as strings."""
+    return set(_AMENDMENT_NO.findall(fold(question)[:QUESTION_CHARS]))
+
+
+def watched_items(wl, watch_key):
+    """(division keys, amendment numbers) opted in under a dossier's
+    `amendments:` list in the watchlist."""
+    entry = (wl or {}).get(watch_key) if watch_key else None
+    keys, numbers = set(), set()
+    for item in (entry.get("amendments") or []) if isinstance(entry, dict) else []:
+        text = str(item).strip()
+        m = re.match(r"^(?:n\s*[°ºo]\.?\s*)?(\d+)$", text, re.I)
+        if m:
+            numbers.add(m.group(1))
+        elif text:
+            keys.add(text)
+    return keys, numbers
+
+
+def is_watched_item(key, question, watch_key, wl):
+    keys, numbers = watched_items(wl, watch_key)
+    return str(key) in keys or bool(numbers & amendment_numbers(question))
+
+
+def final_or_watched(kinds=FINAL_KINDS):
+    """A scope: votes of `kinds`, final-vote-related procedure, and the
+    explicitly watched amendment and article votes."""
+    def scope(kind, key, question, watch_key, wl):
+        if kind in kinds:
+            return True
+        if is_watched_item(key, question, watch_key, wl):
+            return True
+        if kind == "procedural":
+            q = fold(question)[:QUESTION_CHARS]
+            return any(re.search(p, q) for p in FINAL_FIRST + FINAL)
+        return False
+    return scope
+
+
 SPECS = {
     "it": Spec(
         "it", "Italy",
@@ -266,7 +333,9 @@ SPECS = {
         "LEFT JOIN fr_groups g ON g.organe_ref = m.group_ref",
         ("pour",), ("contre",), ("abstention",), refs=lambda r: [r["dossier_ref"]] if r["dossier_ref"] else [],
         labels=("Pour", "Contre"), watchlist=_edition_watchlist("fr"),
-        chambers={"an": "Assemblée nationale"}),
+        chambers={"an": "Assemblée nationale"}, scope=final_or_watched(),
+        note="Sign-off is limited to final votes, motions to reject and the amendment or "
+             "article votes watched in config/watchlist-fr.yaml (Chris, 10 October 2026)."),
     "nl": Spec(
         "nl", "Netherlands",
         "SELECT d.besluit_id AS key, 'tk' AS chamber, d.date, "
@@ -590,6 +659,16 @@ def doc_path(cc, docs_dir=None):
     return os.path.join(docs_dir or DOCS, "5ca-{0}-readings.md".format(cc))
 
 
+def norm_entry(e):
+    """An entry with YAML 1.1's boolean key put right: a bare `on:` reads as
+    True, so the writer quotes it ("on":) and every reader accepts both."""
+    if isinstance(e, dict) and True in e:
+        e = dict(e)
+        val = e.pop(True)
+        e.setdefault("on", val)
+    return e
+
+
 def load(cc, config_dir=None):
     """(divisions, bill_directions, meta), each {key: entry}, drafts included."""
     import yaml
@@ -598,8 +677,8 @@ def load(cc, config_dir=None):
         return {}, {}, {}
     with open(path, encoding="utf-8") as h:
         cfg = yaml.safe_load(h) or {}
-    divs = {str(e["key"]): e for e in (cfg.get("divisions") or []) if e.get("key")}
-    bills = {str(e["key"]): e for e in (cfg.get("bill_directions") or []) if e.get("key")}
+    divs = {str(e["key"]): norm_entry(e) for e in (cfg.get("divisions") or []) if e.get("key")}
+    bills = {str(e["key"]): norm_entry(e) for e in (cfg.get("bill_directions") or []) if e.get("key")}
     return divs, bills, {k: v for k, v in cfg.items() if k not in ("divisions", "bill_directions")}
 
 
@@ -668,7 +747,8 @@ def entry_yaml(e):
             val = v
         else:
             val = _q(v)
-        lines.append("{0}{1}: {2}".format("  - " if not lines else "    ", k, val))
+        name = '"on"' if k == "on" else k          # a bare `on` is boolean True in YAML 1.1
+        lines.append("{0}{1}: {2}".format("  - " if not lines else "    ", name, val))
     return "\n".join(lines) + "\n"
 
 
@@ -718,6 +798,31 @@ def qualifying(conn, cc, wl=None):
         r["watch_key"] = w
         out.append(r)
     return out
+
+
+def in_scope(cc, kind, key, question, watch_key, wl):
+    """Whether a vote is inside the country's sign-off scope (Spec.scope)."""
+    spec = SPECS[cc]
+    if spec.scope is None:
+        return True
+    return bool(spec.scope(kind, key, question, watch_key, wl))
+
+
+def row_in_scope(cc, r, wl):
+    """in_scope for a store row (its kind read as draft_entry reads it)."""
+    spec = SPECS[cc]
+    if spec.scope is None:
+        return True
+    kind = vote_kind(r.get("question"), spec.hint(r))[0]
+    return in_scope(cc, kind, r["key"], r.get("question"), r.get("watch_key"), wl)
+
+
+def entry_in_scope(cc, e, wl):
+    """in_scope for a stance-file entry (no store needed)."""
+    if SPECS[cc].scope is None:
+        return True
+    kind = e.get("vote_kind") or vote_kind(e.get("title"))[0]
+    return in_scope(cc, kind, e.get("key"), e.get("title"), e.get("watched"), wl)
 
 
 def positions(conn, cc, key):
@@ -869,10 +974,15 @@ def draft(conn, cc, config_dir=None, today=None, log=print, wl=None):
     spec = SPECS[cc]
     path = stance_path(cc, config_dir)
     divs, bills, _ = load(cc, config_dir)
-    counts = {"new": 0, "draft": 0, "procedural": 0, "needs_reading": 0, "existing": len(divs)}
+    counts = {"new": 0, "draft": 0, "procedural": 0, "needs_reading": 0, "existing": len(divs),
+              "out_of_scope": 0}
+    wl = spec.watchlist_fn() if wl is None and spec.scope is not None else wl
     blocks = []
     for r in qualifying(conn, cc, wl):
         if r["key"] in divs:
+            continue
+        if not row_in_scope(cc, r, wl):
+            counts["out_of_scope"] += 1
             continue
         e = draft_entry(cc, r, bills, positions(conn, cc, r["key"]), today)
         divs[r["key"]] = e
@@ -906,11 +1016,129 @@ def draft(conn, cc, config_dir=None, today=None, log=print, wl=None):
     with open(path, "w", encoding="utf-8") as h:
         h.write(text)
     log("{0}: {1} new draft(s) -> {2} ({3} with proposed values, {4} procedural, {5} need "
-        "reading; {6} already on file)".format(spec.name, counts["new"], os.path.relpath(path, ROOT)
-                                               if path.startswith(ROOT) else path, counts["draft"],
-                                               counts["procedural"], counts["needs_reading"],
-                                               counts["existing"]))
+        "reading; {6} already on file{7})".format(
+            spec.name, counts["new"], os.path.relpath(path, ROOT) if path.startswith(ROOT) else path,
+            counts["draft"], counts["procedural"], counts["needs_reading"], counts["existing"],
+            "; {0} outside the sign-off scope, not drafted".format(counts["out_of_scope"])
+            if counts["out_of_scope"] else ""))
     return counts
+
+
+# --- pruning what the scope leaves out --------------------------------------------------
+#
+# Only an entry the drafter wrote and nobody has touched may go: unsigned
+# (`needs_reading` or `draft`), stamped `drafted:` by the drafter, carrying no
+# value, strike or signature a person writes (yea/nay, why lines, a
+# `placeable: false` other than the drafter's own procedural one,
+# confirmed_by/confirmed_on) and no comment inside the entry. Anything else
+# outside the scope is kept and reported.
+
+HUMAN_KEYS = ("yea", "nay", "why_yea", "why_nay", "confirmed_by", "confirmed_on")
+
+
+def hand_edited(e):
+    """None when an entry is exactly as the drafter leaves it, else why not."""
+    if e.get("status") not in ("needs_reading", "draft"):
+        return "status {0}".format(e.get("status"))
+    if not str(e.get("drafted") or "").startswith(DRAFTED_BY):
+        return "not stamped by the drafter"
+    got = [k for k in HUMAN_KEYS if e.get(k) not in (None, "")]
+    if got:
+        return "has " + ", ".join(got)
+    if e.get("placeable") is False or e.get("reason"):
+        drafted_strike = (e.get("status") == "draft" and e.get("vote_kind") == "procedural"
+                          and str(e.get("reason") or "").startswith("Procedural ("))
+        if not drafted_strike:
+            return "has a placeable: false strike"
+    if e.get("status") == "draft" and e.get("placeable") is not False:
+        return "a draft with no values"
+    return None
+
+
+def _entry_blocks(lines):
+    """[(key, start, end)] for every `divisions` entry: the `- key:` line and
+    the lines indented under it (end exclusive)."""
+    out, in_divs, i = [], False, 0
+    while i < len(lines):
+        line = lines[i]
+        if re.match(r"^[A-Za-z_]+:", line):
+            in_divs = line.startswith("divisions:")
+        k = line_key(line) if in_divs else None
+        if k is None:
+            i += 1
+            continue
+        lead = len(line) - len(line.lstrip(" "))
+        j = i + 1
+        while j < len(lines) and lines[j].strip() and \
+                len(lines[j]) - len(lines[j].lstrip(" ")) > lead + 1:
+            j += 1
+        out.append((k, i, j))
+        i = j
+    return out
+
+
+def prune_out_of_scope(cc, config_dir=None, wl=None, dry_run=False, log=print):
+    """Remove from config/<cc>_stance.yaml every entry outside the sign-off
+    scope that is unsigned and untouched (`hand_edited`). A text edit:
+    comments, bill directions and every other entry are left as they are.
+    Returns {'removed': [keys], 'kept': [(key, why)]}."""
+    spec = SPECS[cc]
+    got = {"removed": [], "kept": []}
+    if spec.scope is None:
+        log("{0}: no sign-off scope; nothing to prune".format(spec.name))
+        return got
+    wl = spec.watchlist_fn() if wl is None else wl
+    divs, _, _ = load(cc, config_dir)
+    path = stance_path(cc, config_dir)
+    if not divs:
+        return got
+    with open(path, encoding="utf-8") as h:
+        lines = h.read().splitlines(keepends=True)
+    drop = set()
+    for k, start, end in _entry_blocks(lines):
+        e = divs.get(k)
+        if e is None or entry_in_scope(cc, e, wl):
+            continue
+        why = hand_edited(e)
+        if why is None and any(ln.lstrip().startswith("#") for ln in lines[start:end]):
+            why = "a comment inside the entry"
+        if why:
+            got["kept"].append((k, why))
+            continue
+        drop.update(range(start, end))
+        got["removed"].append(k)
+    out = [ln for n, ln in enumerate(lines) if n not in drop]
+    # A `# --- drafted ...` separator with no entry left under it goes too.
+    tidy = []
+    for n, ln in enumerate(out):
+        if re.match(r"^\s*# --- drafted ", ln):
+            rest = out[n + 1:]
+            nxt = next((x for x in rest if x.strip()), "")
+            if not nxt or re.match(r"^\s*# --- drafted ", nxt) or re.match(r"^[A-Za-z_]+:", nxt):
+                while tidy and not tidy[-1].strip():
+                    tidy.pop()
+                continue
+        tidy.append(ln)
+    text = "".join(tidy)
+    if not text.endswith("\n"):
+        text += "\n"
+    import yaml
+    after = {str(e["key"]): norm_entry(e) for e in (yaml.safe_load(text).get("divisions") or [])}
+    want = {k: e for k, e in divs.items() if k not in set(got["removed"])}
+    if after != want:
+        raise SystemExit("{0}: the pruned file would not hold exactly the kept entries; "
+                         "nothing written".format(path))
+    if got["removed"] and not dry_run:
+        with open(path, "w", encoding="utf-8") as h:
+            h.write(text)
+    for k, why in got["kept"]:
+        log("  kept {0} (outside the scope, but {1})".format(k, why))
+    log("{0}: {1} {2} unsigned, untouched entr{3} outside the sign-off scope; {4} kept "
+        "(hand-edited or signed); {5} left in scope".format(
+            spec.name, "would remove" if dry_run else "removed", len(got["removed"]),
+            "y" if len(got["removed"]) == 1 else "ies", len(got["kept"]),
+            len(divs) - len(got["removed"]) - len(got["kept"])))
+    return got
 
 
 # --- the sign-off --------------------------------------------------------------------

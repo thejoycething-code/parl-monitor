@@ -279,7 +279,7 @@ divisions:
   - key: "XVII/139198"
     status: draft
     title: "Votação na generalidade:"
-    on: "Pela garantia de proteção à mulher grávida e ao nascituro em todas as fases e circunstâncias e o reforço de redes de apoio e cuidados"
+    "on": "Pela garantia de proteção à mulher grávida e ao nascituro em todas as fases e circunstâncias e o reforço de redes de apoio e cuidados"
     dated: "2025-07-11"
     chamber: "ar"
     areas: [1]
@@ -297,7 +297,7 @@ divisions:
   - key: "XVII/139244"
     status: needs_reading
     title: "Votação na generalidade: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 3/XVII/1.ª (GOV) e ao Projeto de Lei n.º 61/XVII/1.ª (CH) – Altera a Lei"
-    on: "Altera a Lei n.º 23/2007, de 4 de julho, que aprova o regime jurídico de entrada, permanência, saída e afastamento de estrangeiros do território nacional"
+    "on": "Altera a Lei n.º 23/2007, de 4 de julho, que aprova o regime jurídico de entrada, permanência, saída e afastamento de estrangeiros do território nacional"
     dated: "2025-07-16"
     chamber: "ar"
     areas: [11]
@@ -312,7 +312,7 @@ divisions:
   - key: "XVII/139245"
     status: needs_reading
     title: "Votação final global: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 3/XVII/1.ª (GOV) e ao Projeto de Lei n.º 61/XVII/1.ª (CH) – Altera a Lei n."
-    on: "Altera a Lei n.º 23/2007, de 4 de julho, que aprova o regime jurídico de entrada, permanência, saída e afastamento de estrangeiros do território nacional"
+    "on": "Altera a Lei n.º 23/2007, de 4 de julho, que aprova o regime jurídico de entrada, permanência, saída e afastamento de estrangeiros do território nacional"
     dated: "2025-07-16"
     chamber: "ar"
     areas: [11]
@@ -327,7 +327,7 @@ divisions:
   - key: "XVII/139246"
     status: draft
     title: "Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresentação de reclamações contra inexatidões relativamente ao Texto de substituição, apresentado pela Comissão de Assuntos Cons"
-    on: "Altera a Lei n.º 23/2007, de 4 de julho, que aprova o regime jurídico de entrada, permanência, saída e afastamento de estrangeiros do território nacional"
+    "on": "Altera a Lei n.º 23/2007, de 4 de julho, que aprova o regime jurídico de entrada, permanência, saída e afastamento de estrangeiros do território nacional"
     dated: "2025-07-16"
     chamber: "ar"
     areas: [11]
@@ -343,7 +343,7 @@ divisions:
   - key: "XVII/139247"
     status: needs_reading
     title: "Votação na generalidade: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 3/XVII/1.ª (GOV) e ao Projeto de Lei n.º 61/XVII/1.ª (CH) – Altera a Lei"
-    on: "Restringe as normas em matéria de entrada e permanência em território nacional, alterando a Lei n.º 23/2007, de 04 de julho"
+    "on": "Restringe as normas em matéria de entrada e permanência em território nacional, alterando a Lei n.º 23/2007, de 04 de julho"
     dated: "2025-07-16"
     chamber: "ar"
     areas: [11]
@@ -358,7 +358,7 @@ divisions:
   - key: "XVII/139248"
     status: needs_reading
     title: "Votação final global: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 3/XVII/1.ª (GOV) e ao Projeto de Lei n.º 61/XVII/1.ª (CH) – Altera a Lei n."
-    on: "Restringe as normas em matéria de entrada e permanência em território nacional, alterando a Lei n.º 23/2007, de 04 de julho"
+    "on": "Restringe as normas em matéria de entrada e permanência em território nacional, alterando a Lei n.º 23/2007, de 04 de julho"
     dated: "2025-07-16"
     chamber: "ar"
     areas: [11]
@@ -373,7 +373,7 @@ divisions:
   - key: "XVII/139249"
     status: draft
     title: "Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresentação de reclamações contra inexatidões relativamente ao Texto de substituição, apresentado pela Comissão de Assuntos Cons"
-    on: "Restringe as normas em matéria de entrada e permanência em território nacional, alterando a Lei n.º 23/2007, de 04 de julho"
+    "on": "Restringe as normas em matéria de entrada e permanência em território nacional, alterando a Lei n.º 23/2007, de 04 de julho"
     dated: "2025-07-16"
     chamber: "ar"
     areas: [11]
@@ -389,7 +389,7 @@ divisions:
   - key: "XVII/139250"
     status: needs_reading
     title: "Votação final global: Texto Final, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 2/XVII/1.ª (GOV) e ao Projeto de Lei n.º 60/XVII/1.ª (CH) – Cria a Unidade Nacional d"
-    on: "Cria a Unidade Nacional de Estrangeiros e Fronteiras, na Polícia de Segurança Pública"
+    "on": "Cria a Unidade Nacional de Estrangeiros e Fronteiras, na Polícia de Segurança Pública"
     dated: "2025-07-16"
     chamber: "ar"
     areas: [11]
@@ -404,7 +404,7 @@ divisions:
   - key: "XVII/139251"
     status: draft
     title: "Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresentação de reclamações contra inexatidões relativamente ao Texto de substituição, apresentado pela Comissão de Assuntos Cons"
-    on: "Cria a Unidade Nacional de Estrangeiros e Fronteiras, na Polícia de Segurança Pública"
+    "on": "Cria a Unidade Nacional de Estrangeiros e Fronteiras, na Polícia de Segurança Pública"
     dated: "2025-07-16"
     chamber: "ar"
     areas: [11]
@@ -420,7 +420,7 @@ divisions:
   - key: "XVII/139252"
     status: needs_reading
     title: "Votação final global: Texto Final, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 2/XVII/1.ª (GOV) e ao Projeto de Lei n.º 60/XVII/1.ª (CH) – Cria a Unidade Nacional d"
-    on: "Cria a Unidade Nacional de Polícia de Estrangeiros e Fronteiras da Polícia de Segurança Pública"
+    "on": "Cria a Unidade Nacional de Polícia de Estrangeiros e Fronteiras da Polícia de Segurança Pública"
     dated: "2025-07-16"
     chamber: "ar"
     areas: [11]
@@ -435,7 +435,7 @@ divisions:
   - key: "XVII/139253"
     status: draft
     title: "Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresentação de reclamações contra inexatidões relativamente ao Texto de substituição, apresentado pela Comissão de Assuntos Cons"
-    on: "Cria a Unidade Nacional de Polícia de Estrangeiros e Fronteiras da Polícia de Segurança Pública"
+    "on": "Cria a Unidade Nacional de Polícia de Estrangeiros e Fronteiras da Polícia de Segurança Pública"
     dated: "2025-07-16"
     chamber: "ar"
     areas: [11]
@@ -451,7 +451,7 @@ divisions:
   - key: "XVII/139648"
     status: draft
     title: "Votação na generalidade:"
-    on: "Recomenda ao Governo que rejeite o Regulamento COM/2022/209, conhecido como ‘‘Chat Control’’"
+    "on": "Recomenda ao Governo que rejeite o Regulamento COM/2022/209, conhecido como ‘‘Chat Control’’"
     dated: "2025-09-19"
     chamber: "ar"
     areas: [7]
@@ -469,7 +469,7 @@ divisions:
   - key: "XVII/139649"
     status: draft
     title: "Votação na generalidade:"
-    on: "Recomenda ao Governo que se oponha, no seio da União Europeia, à aprovação da “Chat Control Law”"
+    "on": "Recomenda ao Governo que se oponha, no seio da União Europeia, à aprovação da “Chat Control Law”"
     dated: "2025-09-19"
     chamber: "ar"
     areas: [7]
@@ -487,7 +487,7 @@ divisions:
   - key: "XVII/139650"
     status: draft
     title: "Votação na generalidade:"
-    on: "Recomenda a rejeição da Proposta de Regulamento Chat Control"
+    "on": "Recomenda a rejeição da Proposta de Regulamento Chat Control"
     dated: "2025-09-19"
     chamber: "ar"
     areas: [7]
@@ -505,7 +505,7 @@ divisions:
   - key: "XVII/139652"
     status: draft
     title: "Votação na generalidade:"
-    on: "Recomenda ao Governo que rejeite a proposta de Regulamento da Comissão Europeia (COM/2022/209), conhecido por “Chat Control”"
+    "on": "Recomenda ao Governo que rejeite a proposta de Regulamento da Comissão Europeia (COM/2022/209), conhecido por “Chat Control”"
     dated: "2025-09-19"
     chamber: "ar"
     areas: [7]
@@ -523,7 +523,7 @@ divisions:
   - key: "XVII/139792"
     status: needs_reading
     title: "Votação final global: Texto Final, apresentado Comissão de Negócios Estrangeiros e Comunidades Portuguesas, relativo ao Projeto de Resolução n.º 149/XVII/1.ª (PAN)"
-    on: "Recomenda ao Governo que ative mecanismos urgentes para o acolhimento de crianças provenientes da Faixa de Gaza em necessidade de cuidados médicos especializados"
+    "on": "Recomenda ao Governo que ative mecanismos urgentes para o acolhimento de crianças provenientes da Faixa de Gaza em necessidade de cuidados médicos especializados"
     dated: "2025-09-26"
     chamber: "ar"
     areas: [11]
@@ -538,7 +538,7 @@ divisions:
   - key: "XVII/139930"
     status: draft
     title: "Votação na generalidade:"
-    on: "Proíbe a ocultação do rosto em espaços públicos salvo determinadas exceções"
+    "on": "Proíbe a ocultação do rosto em espaços públicos salvo determinadas exceções"
     dated: "2025-10-17"
     chamber: "ar"
     areas: [8]
@@ -557,7 +557,7 @@ divisions:
   - key: "XVII/140043"
     status: needs_reading
     title: "Votação na generalidade: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 1/XVII/1.ª (GOV) – Décima primeira alteração à Lei n.º 37/81, de 3 de ou"
-    on: "Altera a Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade"
+    "on": "Altera a Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade"
     dated: "2025-10-28"
     chamber: "ar"
     areas: [11]
@@ -572,7 +572,7 @@ divisions:
   - key: "XVII/140052"
     status: needs_reading
     title: "Votação final global: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 1/XVII/1.ª (GOV) – Décima primeira alteração à Lei n.º 37/81, de 3 de outub"
-    on: "Altera a Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade"
+    "on": "Altera a Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade"
     dated: "2025-10-28"
     chamber: "ar"
     areas: [11]
@@ -586,7 +586,7 @@ divisions:
   - key: "XVII/170721"
     status: needs_reading
     title: "Votação Deliberação: Texto Final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesas, relativo ao Projeto de Resolução n.º 512/XVII/1.ª (L)"
-    on: "Recomenda ao Governo que una esforços para auxiliar a Guiné- Bissau a restaurar a sua estabilidade democrática"
+    "on": "Recomenda ao Governo que una esforços para auxiliar a Guiné- Bissau a restaurar a sua estabilidade democrática"
     dated: "2026-02-13"
     chamber: "ar"
     areas: [11]
@@ -600,7 +600,7 @@ divisions:
   - key: "XVII/171122"
     status: needs_reading
     title: "Votação na generalidade:"
-    on: "Actualiza a regulação do procedimento de mudança de sexo e de nome próprio no registo civil, em particular no que diz respeito à protecção das crianças e jovens, à luz da evidência científica mais rec"
+    "on": "Actualiza a regulação do procedimento de mudança de sexo e de nome próprio no registo civil, em particular no que diz respeito à protecção das crianças e jovens, à luz da evidência científica mais rec"
     dated: "2026-03-20"
     chamber: "ar"
     areas: [5]
@@ -615,7 +615,7 @@ divisions:
   - key: "XVII/171123"
     status: draft
     title: "Votação na generalidade:"
-    on: "Protege a integridade das crianças e proíbe a utilização de bloqueadores da puberdade e/ou terapia hormonal no tratamento da incongruência ou disforia de género em menores de 18 anos"
+    "on": "Protege a integridade das crianças e proíbe a utilização de bloqueadores da puberdade e/ou terapia hormonal no tratamento da incongruência ou disforia de género em menores de 18 anos"
     dated: "2026-03-20"
     chamber: "ar"
     areas: [3]
@@ -633,7 +633,7 @@ divisions:
   - key: "XVII/171124"
     status: needs_reading
     title: "Votação na generalidade:"
-    on: "Altera o regime jurídico de mudança de sexo e de nome próprio no registo civil"
+    "on": "Altera o regime jurídico de mudança de sexo e de nome próprio no registo civil"
     dated: "2026-03-20"
     chamber: "ar"
     areas: [5]
@@ -648,7 +648,7 @@ divisions:
   - key: "XVII/171125"
     status: draft
     title: "Votação na generalidade:"
-    on: "Altera a Lei n.º 38/2018, de 7 de agosto e estabelece o quadro jurídico da sua implementação"
+    "on": "Altera a Lei n.º 38/2018, de 7 de agosto e estabelece o quadro jurídico da sua implementação"
     dated: "2026-03-20"
     chamber: "ar"
     areas: [5]
@@ -666,7 +666,7 @@ divisions:
   - key: "XVII/171782"
     status: draft
     title: "Votação do recurso da decisão do PAR:"
-    on: "Altera a Lei n.º 38/2018, de 7 de agosto e estabelece o quadro jurídico da sua implementação"
+    "on": "Altera a Lei n.º 38/2018, de 7 de agosto e estabelece o quadro jurídico da sua implementação"
     dated: "2026-03-20"
     chamber: "ar"
     areas: [5]
@@ -682,7 +682,7 @@ divisions:
   - key: "XVII/172085"
     status: needs_reading
     title: "Votação na generalidade:"
-    on: "Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares das compensações financeiras às vítimas de abusos sexuais ocorridos no contexto da Igreja Católica em"
+    "on": "Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares das compensações financeiras às vítimas de abusos sexuais ocorridos no contexto da Igreja Católica em"
     dated: "2026-06-12"
     chamber: "ar"
     areas: [8]
@@ -696,7 +696,7 @@ divisions:
   - key: "XVII/172086"
     status: needs_reading
     title: "Votação na generalidade:"
-    on: "Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a indemnizações fixadas por decisão judicial ou arbitral ou resultantes de acordo homologado judicialmente"
+    "on": "Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a indemnizações fixadas por decisão judicial ou arbitral ou resultantes de acordo homologado judicialmente"
     dated: "2026-06-12"
     chamber: "ar"
     areas: [8]
@@ -711,7 +711,7 @@ divisions:
   - key: "XVII/172100"
     status: draft
     title: "Requerimento Baixa Comissão sem Votação (Generalidade): Requerimento, apresentado pelo CH, solicitando a baixa à Comissão de Assuntos Constitucionais, Direitos, Liberdade e Garantias, sem votação, por 60 dias, do Projeto de Lei n.º 630/XVII"
-    on: "Altera o Código Penal balizando os limites da ação penal no respeito pela liberdade de expressão"
+    "on": "Altera o Código Penal balizando os limites da ação penal no respeito pela liberdade de expressão"
     dated: "2026-06-12"
     chamber: "ar"
     areas: [7]
@@ -727,7 +727,7 @@ divisions:
   - key: "XVII/172141"
     status: draft
     title: "Votação na generalidade:"
-    on: "Reforça o enquadramento penal dos crimes de ódio em Portugal"
+    "on": "Reforça o enquadramento penal dos crimes de ódio em Portugal"
     dated: "2026-06-12"
     chamber: "ar"
     areas: [7]
@@ -745,7 +745,7 @@ divisions:
   - key: "XVII/172157"
     status: needs_reading
     title: "Votação final global: Texto final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesas, relativo aos Projetos de Resolução n.os 721/XVII/1.ª (L), 841/XVII/1.ª (IL), 844/XVII/1.ª (CH), 856/XVII/1.ª (PAN) e 864/XVII/1"
-    on: "Recomenda ao Governo que condene o bloqueio imposto a Cuba e denuncie o recrudescimento da instabilidade na ilha"
+    "on": "Recomenda ao Governo que condene o bloqueio imposto a Cuba e denuncie o recrudescimento da instabilidade na ilha"
     dated: "2026-06-12"
     chamber: "ar"
     areas: [11]
@@ -760,7 +760,7 @@ divisions:
   - key: "XVII/172158"
     status: needs_reading
     title: "Votação final global: Texto final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesas, relativo aos Projetos de Resolução n.os 721/XVII/1.ª (L), 841/XVII/1.ª (IL), 844/XVII/1.ª (CH), 856/XVII/1.ª (PAN) e 864/XVII/1"
-    on: "Recomenda ao Governo que defenda o povo cubano e promova o respeito pelos direitos, liberdades e garantias fundamentais em Cuba"
+    "on": "Recomenda ao Governo que defenda o povo cubano e promova o respeito pelos direitos, liberdades e garantias fundamentais em Cuba"
     dated: "2026-06-12"
     chamber: "ar"
     areas: [11]
@@ -775,7 +775,7 @@ divisions:
   - key: "XVII/172159"
     status: needs_reading
     title: "Votação final global: Texto final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesas, relativo aos Projetos de Resolução n.os 721/XVII/1.ª (L), 841/XVII/1.ª (IL), 844/XVII/1.ª (CH), 856/XVII/1.ª (PAN) e 864/XVII/1"
-    on: "Recomenda ao Governo que realize todos os esforços políticos e diplomáticos no sentido de pressionar o regime cubano e conduzir à plena democratização da República de Cuba"
+    "on": "Recomenda ao Governo que realize todos os esforços políticos e diplomáticos no sentido de pressionar o regime cubano e conduzir à plena democratização da República de Cuba"
     dated: "2026-06-12"
     chamber: "ar"
     areas: [11]
@@ -790,7 +790,7 @@ divisions:
   - key: "XVII/172160"
     status: needs_reading
     title: "Votação final global: Texto final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesas, relativo aos Projetos de Resolução n.os 721/XVII/1.ª (L), 841/XVII/1.ª (IL), 844/XVII/1.ª (CH), 856/XVII/1.ª (PAN) e 864/XVII/1"
-    on: "Pela defesa de uma solução diplomática para o confronto entre os Estados Unidos da América e a República de Cuba"
+    "on": "Pela defesa de uma solução diplomática para o confronto entre os Estados Unidos da América e a República de Cuba"
     dated: "2026-06-12"
     chamber: "ar"
     areas: [11]
@@ -805,7 +805,7 @@ divisions:
   - key: "XVII/172161"
     status: needs_reading
     title: "Votação final global: Texto final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesas, relativo aos Projetos de Resolução n.os 721/XVII/1.ª (L), 841/XVII/1.ª (IL), 844/XVII/1.ª (CH), 856/XVII/1.ª (PAN) e 864/XVII/1"
-    on: "Em defesa do povo cubano contra a tirania do regime comunista"
+    "on": "Em defesa do povo cubano contra a tirania do regime comunista"
     dated: "2026-06-12"
     chamber: "ar"
     areas: [11]
@@ -820,7 +820,7 @@ divisions:
   - key: "XVII/172452"
     status: needs_reading
     title: "Votação final global: Texto final, apresentado pela Comissão de Orçamento, Finanças e Administração Pública, relativo à Proposta de Lei n.º 74/XVII/1.ª (GOV) e aos Projetos de Lei n.ºs 566/XVII/1.ª (BE) , 645/XVII/1.ª (CH) e 652/XVII/1.ª (L"
-    on: "Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares das compensações financeiras às vítimas de abusos sexuais ocorridos no contexto da Igreja Católica em"
+    "on": "Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares das compensações financeiras às vítimas de abusos sexuais ocorridos no contexto da Igreja Católica em"
     dated: "2026-07-03"
     chamber: "ar"
     areas: [8]
@@ -834,7 +834,7 @@ divisions:
   - key: "XVII/172453"
     status: draft
     title: "Requerimento dispensa redação final: Requerimento oral, apresentado pelo PSD, a solicitar a dispensa de redação final e do prazo para apresentação de reclamações contra inexatidões relativamente ao Texto final, apresentado pela Comissão de"
-    on: "Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares das compensações financeiras às vítimas de abusos sexuais ocorridos no contexto da Igreja Católica em"
+    "on": "Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares das compensações financeiras às vítimas de abusos sexuais ocorridos no contexto da Igreja Católica em"
     dated: "2026-07-03"
     chamber: "ar"
     areas: [8]
@@ -849,7 +849,7 @@ divisions:
   - key: "XVII/172454"
     status: needs_reading
     title: "Votação final global: Texto final, apresentado pela Comissão de Orçamento, Finanças e Administração Pública, relativo à Proposta de Lei n.º 74/XVII/1.ª (GOV) e aos Projetos de Lei n.ºs 566/XVII/1.ª (BE) , 645/XVII/1.ª (CH) e 652/XVII/1.ª (L"
-    on: "Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a indemnizações fixadas por decisão judicial ou arbitral ou resultantes de acordo homologado judicialmente"
+    "on": "Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a indemnizações fixadas por decisão judicial ou arbitral ou resultantes de acordo homologado judicialmente"
     dated: "2026-07-03"
     chamber: "ar"
     areas: [8]
@@ -863,7 +863,7 @@ divisions:
   - key: "XVII/172455"
     status: draft
     title: "Requerimento dispensa redação final: Texto final, apresentado pela Comissão de Orçamento, Finanças e Administração Pública, relativo à Proposta de Lei n.º 74/XVII/1.ª (GOV) e aos Projetos de Lei n.ºs 566/XVII/1.ª (BE) , 645/XVII/1.ª (CH) e"
-    on: "Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a indemnizações fixadas por decisão judicial ou arbitral ou resultantes de acordo homologado judicialmente"
+    "on": "Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a indemnizações fixadas por decisão judicial ou arbitral ou resultantes de acordo homologado judicialmente"
     dated: "2026-07-03"
     chamber: "ar"
     areas: [8]
@@ -878,7 +878,7 @@ divisions:
   - key: "XVII/172580"
     status: draft
     title: "Votação final global: Texto Final, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo ao Projeto de Lei n.º 47/XVII/1.ª (CH)"
-    on: "Proíbe a ocultação do rosto em espaços públicos salvo determinadas exceções"
+    "on": "Proíbe a ocultação do rosto em espaços públicos salvo determinadas exceções"
     dated: "2026-07-17"
     chamber: "ar"
     areas: [8]
@@ -897,7 +897,7 @@ divisions:
   - key: "XVII/182933"
     status: draft
     title: "Votação final:"
-    on: "Recomenda ao Governo que se oponha resolutamente à adopção do European Democracy Shield"
+    "on": "Recomenda ao Governo que se oponha resolutamente à adopção do European Democracy Shield"
     dated: "2026-09-25"
     chamber: "ar"
     areas: [7]

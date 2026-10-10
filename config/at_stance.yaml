@@ -97,7 +97,7 @@ divisions:
   - key: "XXVIII/UEA/26@XXVIII/NRSITZ/15#73"
     status: draft
     title: "Unselbständiger Entschließungsantrag"
-    on: "Schutz der biologischen Geschlechter vor woker Genderideologie"
+    "on": "Schutz der biologischen Geschlechter vor woker Genderideologie"
     dated: "2025-03-27"
     chamber: "NR"
     areas: [5]
@@ -116,7 +116,7 @@ divisions:
   - key: "XXVIII/UEA/106@XXVIII/NRSITZ/37#175"
     status: draft
     title: "Unselbständiger Entschließungsantrag"
-    on: "Umwandlung von Eingetragener Partnerschaft in Ehe ermöglichen!"
+    "on": "Umwandlung von Eingetragener Partnerschaft in Ehe ermöglichen!"
     dated: "2025-07-10"
     chamber: "NR"
     areas: [9]
@@ -135,7 +135,7 @@ divisions:
   - key: "XXVIII/UEA/117@XXVIII/NRSITZ/39#85"
     status: needs_reading
     title: "Unselbständiger Entschließungsantrag"
-    on: "Kopftuchverbot an Österreichs Schulen"
+    "on": "Kopftuchverbot an Österreichs Schulen"
     dated: "2025-07-11"
     chamber: "NR"
     areas: [8]
@@ -150,7 +150,7 @@ divisions:
   - key: "BR/UEA-BR/761@BR/BRSITZ/980#28"
     status: needs_reading
     title: "Antrag"
-    on: "Kopftuchverbot an Österreichs Schulen"
+    "on": "Kopftuchverbot an Österreichs Schulen"
     dated: "2025-07-17"
     chamber: "BR"
     areas: [8]
@@ -165,7 +165,7 @@ divisions:
   - key: "XXVIII/UEA/121@XXVIII/NRSITZ/41#121.7"
     status: needs_reading
     title: "Unselbständiger Entschließungsantrag"
-    on: "Waffen sichern – Leben schützen. Klare Gesetze für Waffenverwahrung zum Schutz vor Suiziden und Femiziden"
+    "on": "Waffen sichern – Leben schützen. Klare Gesetze für Waffenverwahrung zum Schutz vor Suiziden und Femiziden"
     dated: "2025-09-24"
     chamber: "NR"
     areas: [5]
@@ -180,7 +180,7 @@ divisions:
   - key: "BR/UEA-BR/771@BR/BRSITZ/981#45.5"
     status: needs_reading
     title: "Antrag"
-    on: "Waffen sichern - Leben schützen. Klare Gesetze für Waffenverwahrung zum Schutz vor Suiziden und Femiziden"
+    "on": "Waffen sichern - Leben schützen. Klare Gesetze für Waffenverwahrung zum Schutz vor Suiziden und Femiziden"
     dated: "2025-10-09"
     chamber: "BR"
     areas: [5]
@@ -195,7 +195,7 @@ divisions:
   - key: "XXVIII/UEA/158@XXVIII/NRSITZ/57#37.2"
     status: needs_reading
     title: "Unselbständiger Entschließungsantrag"
-    on: "Kopftuchverbot für Lehrerinnen und Schulpersonal"
+    "on": "Kopftuchverbot für Lehrerinnen und Schulpersonal"
     dated: "2025-12-11"
     chamber: "NR"
     areas: [8]
@@ -210,7 +210,7 @@ divisions:
   - key: "BR/UEA-BR/792@BR/BRSITZ/985#142.2"
     status: needs_reading
     title: "Antrag"
-    on: "Kopftuchverbot für Lehrerinnen und Schulpersonal"
+    "on": "Kopftuchverbot für Lehrerinnen und Schulpersonal"
     dated: "2025-12-18"
     chamber: "BR"
     areas: [8]
@@ -225,7 +225,7 @@ divisions:
   - key: "XXVIII/UEA/177@XXVIII/NRSITZ/73#76.2"
     status: needs_reading
     title: "Unselbständiger Entschließungsantrag"
-    on: "Wirksame Schutzzonen vor Abtreibungsgegner:innen jetzt!"
+    "on": "Wirksame Schutzzonen vor Abtreibungsgegner:innen jetzt!"
     dated: "2026-03-26"
     chamber: "NR"
     areas: [1]
@@ -240,7 +240,7 @@ divisions:
   - key: "XXVIII/I/475@XXVIII/NRSITZ/77#70"
     status: needs_reading
     title: "Gesetzesvorschlag in zweiter Lesung"
-    on: "Organtransplantationsgesetz, Änderung"
+    "on": "Organtransplantationsgesetz, Änderung"
     dated: "2026-05-20"
     chamber: "NR"
     areas: [13]
@@ -255,7 +255,7 @@ divisions:
   - key: "XXVIII/I/475@XXVIII/NRSITZ/77#70+2"
     status: needs_reading
     title: "Gesetzesvorschlag in dritter Lesung"
-    on: "Organtransplantationsgesetz, Änderung"
+    "on": "Organtransplantationsgesetz, Änderung"
     dated: "2026-05-20"
     chamber: "NR"
     areas: [13]
@@ -270,7 +270,7 @@ divisions:
   - key: "XXVIII/I/475@BR/BRSITZ/991#80"
     status: needs_reading
     title: "Antrag, keinen Einspruch zu erheben,"
-    on: "Organtransplantationsgesetz, Änderung"
+    "on": "Organtransplantationsgesetz, Änderung"
     dated: "2026-06-03"
     chamber: "BR"
     areas: [13]
@@ -284,7 +284,7 @@ divisions:
   - key: "XXVIII/A/295@XXVIII/NRSITZ/83#2.7"
     status: draft
     title: "Antrag des Abgeordneten David Stögmüller auf Fristsetzung zur Berichterstattung durch den Gleichbehandlungsausschuss (855/GO)"
-    on: "Konversionsmaßnahmen-Schutz-Gesetz – Konv-Sch-G"
+    "on": "Konversionsmaßnahmen-Schutz-Gesetz – Konv-Sch-G"
     dated: "2026-06-11"
     chamber: "NR"
     areas: [4]
@@ -300,7 +300,7 @@ divisions:
   - key: "XXVIII/A/504@XXVIII/NRSITZ/87#106"
     status: draft
     title: "Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen"
-    on: "Schluss mit Gender-Ideologie an Schulen!"
+    "on": "Schluss mit Gender-Ideologie an Schulen!"
     dated: "2026-07-07"
     chamber: "NR"
     areas: [3, 5, 6]
@@ -319,7 +319,7 @@ divisions:
   - key: "XXVIII/AA/78@XXVIII/NRSITZ/87#210"
     status: needs_reading
     title: "Antrag"
-    on: "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
+    "on": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
     dated: "2026-07-07"
     chamber: "NR"
     areas: [2]
@@ -335,7 +335,7 @@ divisions:
   - key: "XXVIII/I/525@XXVIII/NRSITZ/87#205.1"
     status: needs_reading
     title: "Abänderungsantrag der Abgeordneten Mag. Johanna Jachs, Mag. Selma Yildirim, Mag. Sophie Marie Wotschke, Kolleginnen und Kollegen (AA-78)"
-    on: "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
+    "on": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
     dated: "2026-07-07"
     chamber: "NR"
     areas: [2]
@@ -351,7 +351,7 @@ divisions:
   - key: "XXVIII/I/525@XXVIII/NRSITZ/87#210"
     status: needs_reading
     title: "Gesetzesvorschlag in zweiter Lesung"
-    on: "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
+    "on": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
     dated: "2026-07-07"
     chamber: "NR"
     areas: [2]
@@ -367,7 +367,7 @@ divisions:
   - key: "XXVIII/I/525@XXVIII/NRSITZ/87#210+2"
     status: needs_reading
     title: "Gesetzesvorschlag in dritter Lesung"
-    on: "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
+    "on": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
     dated: "2026-07-07"
     chamber: "NR"
     areas: [2]
@@ -383,7 +383,7 @@ divisions:
   - key: "XXVIII/I/525@BR/BRSITZ/993#22"
     status: needs_reading
     title: "Antrag, keinen Einspruch zu erheben,"
-    on: "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
+    "on": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
     dated: "2026-07-15"
     chamber: "BR"
     areas: [2]

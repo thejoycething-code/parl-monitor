@@ -49,7 +49,7 @@ divisions:
   - key: "55270"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Vladimíry MARCINKOVEJ, Vladimíra LEDECKÉHO a Ondreja DOSTÁLA na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších pre"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Vladimíry MARCINKOVEJ, Vladimíra LEDECKÉHO a Ondreja DOSTÁLA na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení n"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Vladimíry MARCINKOVEJ, Vladimíra LEDECKÉHO a Ondreja DOSTÁLA na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení n"
     dated: "2024-09-24"
     chamber: "nrsr"
     areas: [9]
@@ -63,7 +63,7 @@ divisions:
   - key: "55317"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA, Lucie PLAVÁKOVEJ a Zory JAUROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 308/1991 Zb. o slobode náboženskej viery a postavení cirkví a náboženských spoločn"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA, Lucie PLAVÁKOVEJ a Zory JAUROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 308/1991 Zb. o slobode náboženskej viery a"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA, Lucie PLAVÁKOVEJ a Zory JAUROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 308/1991 Zb. o slobode náboženskej viery a"
     dated: "2024-10-01"
     chamber: "nrsr"
     areas: [8]
@@ -77,7 +77,7 @@ divisions:
   - key: "55364"
     status: needs_reading
     title: "Návrh poslanca Narodnej rady Slovenskej republiky Rastislava KRÁTKEHO na prijatie uznesenia Národnej rady Slovenskej republiky k uzneseniu Európskeho parlamentu z 11. aprila 2024 o začlenení práva na umelé prerušenie tehotenstva do Charty z"
-    on: "Návrh poslanca Národnej rady Slovenskej republiky Rastislava KRÁTKEHO na prijatie uznesenia Národnej rady Slovenskej republiky k uzneseniu Európskeho parlamentu z 11. aprila 2024 o začlenení práva na"
+    "on": "Návrh poslanca Národnej rady Slovenskej republiky Rastislava KRÁTKEHO na prijatie uznesenia Národnej rady Slovenskej republiky k uzneseniu Európskeho parlamentu z 11. aprila 2024 o začlenení práva na"
     dated: "2024-10-03"
     chamber: "nrsr"
     areas: [1]
@@ -91,7 +91,7 @@ divisions:
   - key: "55399"
     status: needs_reading
     title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - prvé čítanie. Hlasovanie o tom, aby bol návrh zákona prerokovaný v druhom čítaní."
-    on: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
+    "on": "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
     dated: "2024-10-23"
     chamber: "nrsr"
     areas: [8]
@@ -105,7 +105,7 @@ divisions:
   - key: "55400"
     status: draft
     title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - prvé čítanie. Hlasovanie o pridelení návrhu zákona výborom a určení lehoty na prerokovanie."
-    on: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
+    "on": "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
     dated: "2024-10-23"
     chamber: "nrsr"
     areas: [8]
@@ -120,7 +120,7 @@ divisions:
   - key: "55573"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Jany HANULlAKOVEJ, Veroniky VESLÁROVEJ a Richarda DUBOVICKÉHO na vydanie zákona, ktorým sa dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Jany HANULlAKOVEJ, Veroniky VESLÁROVEJ a Richarda DUBOVICKÉHO na vydanie zákona, ktorým sa dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnen"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Jany HANULlAKOVEJ, Veroniky VESLÁROVEJ a Richarda DUBOVICKÉHO na vydanie zákona, ktorým sa dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnen"
     dated: "2024-11-05"
     chamber: "nrsr"
     areas: [5, 9]
@@ -135,7 +135,7 @@ divisions:
   - key: "55669"
     status: needs_reading
     title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - druhé čítanie. Hlasovanie o pozmeňujúcich návrhoch zo spoločnej správy výborov – body 1 a 2."
-    on: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
+    "on": "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
     dated: "2024-11-27"
     chamber: "nrsr"
     areas: [8]
@@ -150,7 +150,7 @@ divisions:
   - key: "55670"
     status: draft
     title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - druhé čítanie. Hlasovanie o pristúpení k tretiemu čítaniu ihneď."
-    on: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
+    "on": "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
     dated: "2024-11-27"
     chamber: "nrsr"
     areas: [8]
@@ -166,7 +166,7 @@ divisions:
   - key: "55671"
     status: needs_reading
     title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - tretie čítanie. Hlasovanie o návrhu zákona ako o celku."
-    on: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
+    "on": "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
     dated: "2024-11-27"
     chamber: "nrsr"
     areas: [8]
@@ -181,7 +181,7 @@ divisions:
   - key: "56254"
     status: draft
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - prvé čítanie. (Zlúčená rozprava o tlačiach č. 733 a č. 712.) Hlasovanie o tom, aby bol návrh zákona"
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-04-09"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -199,7 +199,7 @@ divisions:
   - key: "56255"
     status: draft
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - prvé čítanie. (Zlúčená rozprava o tlačiach č. 733 a č. 712.) Hlasovanie o pridelení návrhu zákona v"
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-04-09"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -215,7 +215,7 @@ divisions:
   - key: "56356"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na vydanie zákona, ktorým sa mení zákon č. 73/1986 Zb. o umelom prerušení tehotenstva v znení neskorších predpisov (tlač 593) - prvé čítanie. Hlasovanie o"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na vydanie zákona, ktorým sa mení zákon č. 73/1986 Zb. o umelom prerušení tehotenstva v znení neskorších predpisov"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na vydanie zákona, ktorým sa mení zákon č. 73/1986 Zb. o umelom prerušení tehotenstva v znení neskorších predpisov"
     dated: "2025-04-15"
     chamber: "nrsr"
     areas: [1]
@@ -230,7 +230,7 @@ divisions:
   - key: "56534"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 673) - p"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v z"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v z"
     dated: "2025-06-03"
     chamber: "nrsr"
     areas: [9]
@@ -245,7 +245,7 @@ divisions:
   - key: "56671"
     status: needs_reading
     title: "Návrh skupiny poslancov Národnej rady Slovenskej republiky na prijatie uznesenia Národnej rady Slovenskej republiky k Európskej iniciatíve občanov s názvom \"My Voice, My Choice: For Safe And Accessible Abortion\" (\"Môj hlas, moja voľba: Za b"
-    on: "Návrh skupiny poslancov Národnej rady Slovenskej republiky na prijatie uznesenia Národnej rady Slovenskej republiky k Európskej iniciatíve občanov s názvom \"My Voice, My Choice: For Safe And Accessibl"
+    "on": "Návrh skupiny poslancov Národnej rady Slovenskej republiky na prijatie uznesenia Národnej rady Slovenskej republiky k Európskej iniciatíve občanov s názvom \"My Voice, My Choice: For Safe And Accessibl"
     dated: "2025-06-17"
     chamber: "nrsr"
     areas: [1]
@@ -260,7 +260,7 @@ divisions:
   - key: "56672"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na prijatie uznesenia Národnej rady Slovenskej republiky k odmietnutiu financovania tzv. \"potratove] turistiky\" a k podpore suverenity členských štátov v o"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na prijatie uznesenia Národnej rady Slovenskej republiky k odmietnutiu financovania tzv. \"potratove] turistiky\" a k"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na prijatie uznesenia Národnej rady Slovenskej republiky k odmietnutiu financovania tzv. \"potratove] turistiky\" a k"
     dated: "2025-06-17"
     chamber: "nrsr"
     areas: [1]
@@ -275,7 +275,7 @@ divisions:
   - key: "56684"
     status: draft
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o návrhu posl. Dostál - nepokračovať v rokovaní o návrhu zákona."
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -293,7 +293,7 @@ divisions:
   - key: "56685"
     status: draft
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o skrátení lehoty k návrhom podaným v rozprave."
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -309,7 +309,7 @@ divisions:
   - key: "56686"
     status: needs_reading
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - Podmanický."
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -324,7 +324,7 @@ divisions:
   - key: "56687"
     status: needs_reading
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - J. Horecký , 1. návr"
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -339,7 +339,7 @@ divisions:
   - key: "56688"
     status: needs_reading
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - J. Horecký, 1. návrh"
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -354,7 +354,7 @@ divisions:
   - key: "56689"
     status: needs_reading
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - J. Horecký , 2. návr"
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -369,7 +369,7 @@ divisions:
   - key: "56690"
     status: needs_reading
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - M. Čaučík."
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -384,7 +384,7 @@ divisions:
   - key: "56691"
     status: needs_reading
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - M. Čellár."
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -399,7 +399,7 @@ divisions:
   - key: "56692"
     status: needs_reading
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - Z. Plevíková."
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -414,7 +414,7 @@ divisions:
   - key: "56965"
     status: draft
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - tretie čítanie. Hlasovanie o ústavnom zákone ako o celku."
-    on: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
+    "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-09-26"
     chamber: "nrsr"
     areas: [5, 6, 9, 10]
@@ -432,7 +432,7 @@ divisions:
   - key: "57870"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
     dated: "2026-05-05"
     chamber: "nrsr"
     areas: [9]
@@ -447,7 +447,7 @@ divisions:
   - key: "57871"
     status: draft
     title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
     dated: "2026-05-05"
     chamber: "nrsr"
     areas: [9]
@@ -463,7 +463,7 @@ divisions:
   - key: "57917"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
     dated: "2026-05-05"
     chamber: "nrsr"
     areas: [9]
@@ -478,7 +478,7 @@ divisions:
   - key: "57918"
     status: draft
     title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
     dated: "2026-05-05"
     chamber: "nrsr"
     areas: [9]
@@ -494,7 +494,7 @@ divisions:
   - key: "57919"
     status: needs_reading
     title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - prvé čítanie."
-    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    "on": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
     dated: "2026-05-06"
     chamber: "nrsr"
     areas: [9]
@@ -509,7 +509,7 @@ divisions:
   - key: "57920"
     status: draft
     title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - prvé čítanie."
-    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    "on": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
     dated: "2026-05-06"
     chamber: "nrsr"
     areas: [9]
@@ -525,7 +525,7 @@ divisions:
   - key: "57935"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1218) -"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v z"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v z"
     dated: "2026-05-07"
     chamber: "nrsr"
     areas: [9]
@@ -540,7 +540,7 @@ divisions:
   - key: "58023"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
     dated: "2026-06-02"
     chamber: "nrsr"
     areas: [9]
@@ -555,7 +555,7 @@ divisions:
   - key: "58024"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
     dated: "2026-06-02"
     chamber: "nrsr"
     areas: [9]
@@ -570,7 +570,7 @@ divisions:
   - key: "58025"
     status: draft
     title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
     dated: "2026-06-02"
     chamber: "nrsr"
     areas: [9]
@@ -586,7 +586,7 @@ divisions:
   - key: "58027"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
     dated: "2026-06-02"
     chamber: "nrsr"
     areas: [9]
@@ -601,7 +601,7 @@ divisions:
   - key: "58250"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
     dated: "2026-09-15"
     chamber: "nrsr"
     areas: [9]
@@ -616,7 +616,7 @@ divisions:
   - key: "58251"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
     dated: "2026-09-15"
     chamber: "nrsr"
     areas: [9]
@@ -631,7 +631,7 @@ divisions:
   - key: "58252"
     status: needs_reading
     title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
-    on: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
+    "on": "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
     dated: "2026-09-15"
     chamber: "nrsr"
     areas: [9]
@@ -646,7 +646,7 @@ divisions:
   - key: "58269"
     status: draft
     title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - druhé čítanie"
-    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    "on": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
     dated: "2026-09-16"
     chamber: "nrsr"
     areas: [9]
@@ -662,7 +662,7 @@ divisions:
   - key: "58270"
     status: needs_reading
     title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - druhé čítanie"
-    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    "on": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
     dated: "2026-09-16"
     chamber: "nrsr"
     areas: [9]
@@ -677,7 +677,7 @@ divisions:
   - key: "58271"
     status: draft
     title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - druhé čítanie"
-    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    "on": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
     dated: "2026-09-16"
     chamber: "nrsr"
     areas: [9]
@@ -693,7 +693,7 @@ divisions:
   - key: "58272"
     status: needs_reading
     title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - tretie čítani"
-    on: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
+    "on": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
     dated: "2026-09-16"
     chamber: "nrsr"
     areas: [9]

@@ -56,7 +56,7 @@ divisions:
   - key: "2026.05.26.15:52:39"
     status: needs_reading
     title: "Országgyűlés az interpellációs választ elfogadta"
-    on: "Mi a Kormány terve a Migrációs Paktum kapcsán?"
+    "on": "Mi a Kormány terve a Migrációs Paktum kapcsán?"
     dated: "2026-05-26"
     chamber: "ogy"
     areas: [11]
@@ -71,7 +71,7 @@ divisions:
   - key: "2026.06.01.16:02:22"
     status: needs_reading
     title: "Országgyűlés az interpellációs választ elfogadta"
-    on: "Ki védi meg a szülők jogait a gyermekek szexuális nevelésében?"
+    "on": "Ki védi meg a szülők jogait a gyermekek szexuális nevelésében?"
     dated: "2026-06-01"
     chamber: "ogy"
     areas: [6, 12]
@@ -86,7 +86,7 @@ divisions:
   - key: "2026.06.08.16:04:34"
     status: needs_reading
     title: "Országgyűlés az interpellációs választ elfogadta"
-    on: "Két igen és két nem? A Tisza-kormány mit gondol az azonos neműek házasságáról?"
+    "on": "Két igen és két nem? A Tisza-kormány mit gondol az azonos neműek házasságáról?"
     dated: "2026-06-08"
     chamber: "ogy"
     areas: [9]
@@ -101,7 +101,7 @@ divisions:
   - key: "2026.06.15.17:19:04"
     status: needs_reading
     title: "összegző módosító javaslat minősített többséget igénylő része elfogadva"
-    on: "Magyarország Alaptörvényének tizenhatodik módosítása"
+    "on": "Magyarország Alaptörvényének tizenhatodik módosítása"
     dated: "2026-06-15"
     chamber: "ogy"
     areas: []
@@ -117,7 +117,7 @@ divisions:
   - key: "2026.06.15.17:20:04"
     status: needs_reading
     title: "önálló indítvány minősített többséget igénylő része elfogadva"
-    on: "Magyarország Alaptörvényének tizenhatodik módosítása"
+    "on": "Magyarország Alaptörvényének tizenhatodik módosítása"
     dated: "2026-06-15"
     chamber: "ogy"
     areas: []
@@ -133,7 +133,7 @@ divisions:
   - key: "2026.06.22.16:07:12"
     status: needs_reading
     title: "Országgyűlés az interpellációs választ elfogadta"
-    on: "Hozzáférhetővé teszi-e a kormány az abortusztablettát?"
+    "on": "Hozzáférhetővé teszi-e a kormány az abortusztablettát?"
     dated: "2026-06-22"
     chamber: "ogy"
     areas: [1]
@@ -148,7 +148,7 @@ divisions:
   - key: "2026.06.22.16:43:58"
     status: needs_reading
     title: "Országgyűlés az interpellációs választ elfogadta"
-    on: "Visszautasítja a kormány az Amnesty International és a Helsinki Bizottság követeléseit a migráció kapcsán?"
+    "on": "Visszautasítja a kormány az Amnesty International és a Helsinki Bizottság követeléseit a migráció kapcsán?"
     dated: "2026-06-22"
     chamber: "ogy"
     areas: [11]
@@ -163,7 +163,7 @@ divisions:
   - key: "2026.06.23.10:39:06"
     status: needs_reading
     title: "túlterjeszkedő módosító javaslat szabályszerű"
-    on: "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
+    "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
     chamber: "ogy"
     areas: [7]
@@ -179,7 +179,7 @@ divisions:
   - key: "2026.06.23.10:40:01"
     status: needs_reading
     title: "bizottsági javaslat túlterjeszkedő módosító javaslat tárgyalására elfogadva"
-    on: "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
+    "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
     chamber: "ogy"
     areas: [7]
@@ -195,7 +195,7 @@ divisions:
   - key: "2026.06.23.10:40:39"
     status: needs_reading
     title: "túlterjeszkedő módosító javaslat elfogadva"
-    on: "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
+    "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
     chamber: "ogy"
     areas: [7]
@@ -211,7 +211,7 @@ divisions:
   - key: "2026.06.23.10:41:26"
     status: needs_reading
     title: "módosító javaslat fenntartása elutasítva"
-    on: "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
+    "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
     chamber: "ogy"
     areas: [7]
@@ -227,7 +227,7 @@ divisions:
   - key: "2026.06.23.10:42:16"
     status: needs_reading
     title: "összegző módosító javaslat minősített többséget igénylő része elfogadva"
-    on: "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
+    "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
     chamber: "ogy"
     areas: [7]
@@ -243,7 +243,7 @@ divisions:
   - key: "2026.06.23.10:42:51"
     status: needs_reading
     title: "összegző módosító javaslat egyszerű többséget igénylő része elfogadva"
-    on: "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
+    "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
     chamber: "ogy"
     areas: [7]
@@ -259,7 +259,7 @@ divisions:
   - key: "2026.06.23.10:44:01"
     status: draft
     title: "önálló indítvány minősített többséget igénylő része elfogadva"
-    on: "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
+    "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
     chamber: "ogy"
     areas: [7]
@@ -279,7 +279,7 @@ divisions:
   - key: "2026.06.23.10:44:38"
     status: draft
     title: "önálló indítvány egyszerű többséget igénylő része elfogadva"
-    on: "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
+    "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
     chamber: "ogy"
     areas: [7]
@@ -299,7 +299,7 @@ divisions:
   - key: "2026.06.30.10:43:59"
     status: needs_reading
     title: "összegző módosító javaslat elfogadva"
-    on: "A Szuverenitásvédelmi Hivatal megszüntetéséről"
+    "on": "A Szuverenitásvédelmi Hivatal megszüntetéséről"
     dated: "2026-06-30"
     chamber: "ogy"
     areas: [7]
@@ -315,7 +315,7 @@ divisions:
   - key: "2026.06.30.10:44:57"
     status: needs_reading
     title: "önálló indítvány minősített többséget igénylő része elfogadva"
-    on: "A Szuverenitásvédelmi Hivatal megszüntetéséről"
+    "on": "A Szuverenitásvédelmi Hivatal megszüntetéséről"
     dated: "2026-06-30"
     chamber: "ogy"
     areas: [7]
@@ -331,7 +331,7 @@ divisions:
   - key: "2026.06.30.10:45:32"
     status: needs_reading
     title: "önálló indítvány egyszerű többséget igénylő része elfogadva"
-    on: "A Szuverenitásvédelmi Hivatal megszüntetéséről"
+    "on": "A Szuverenitásvédelmi Hivatal megszüntetéséről"
     dated: "2026-06-30"
     chamber: "ogy"
     areas: [7]
@@ -347,7 +347,7 @@ divisions:
   - key: "2026.07.06.14:22:31"
     status: draft
     title: "sürgősségi javaslat elfogadva"
-    on: "Magyarország Alaptörvényének tizenhetedik módosítása"
+    "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-06"
     chamber: "ogy"
     areas: []
@@ -364,7 +364,7 @@ divisions:
   - key: "2026.07.13.18:16:02"
     status: needs_reading
     title: "módosító javaslat fenntartása elutasítva"
-    on: "Magyarország Alaptörvényének tizenhetedik módosítása"
+    "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-13"
     chamber: "ogy"
     areas: []
@@ -380,7 +380,7 @@ divisions:
   - key: "2026.07.13.18:16:48"
     status: needs_reading
     title: "módosító javaslat fenntartása elutasítva"
-    on: "Magyarország Alaptörvényének tizenhetedik módosítása"
+    "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-13"
     chamber: "ogy"
     areas: []
@@ -396,7 +396,7 @@ divisions:
   - key: "2026.07.13.18:17:32"
     status: needs_reading
     title: "módosító javaslat fenntartása elutasítva"
-    on: "Magyarország Alaptörvényének tizenhetedik módosítása"
+    "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-13"
     chamber: "ogy"
     areas: []
@@ -412,7 +412,7 @@ divisions:
   - key: "2026.07.13.18:18:22"
     status: needs_reading
     title: "összegző módosító javaslat minősített többséget igénylő része elfogadva"
-    on: "Magyarország Alaptörvényének tizenhetedik módosítása"
+    "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-13"
     chamber: "ogy"
     areas: []
@@ -428,7 +428,7 @@ divisions:
   - key: "2026.07.13.18:19:08"
     status: needs_reading
     title: "önálló indítvány minősített többséget igénylő része elfogadva"
-    on: "Magyarország Alaptörvényének tizenhetedik módosítása"
+    "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-13"
     chamber: "ogy"
     areas: []
