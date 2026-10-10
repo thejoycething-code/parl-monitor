@@ -1,0 +1,138 @@
+{
+ "head": {
+  "link": [],
+  "vars": [
+   "sen",
+   "party",
+   "label",
+   "start",
+   "end"
+  ]
+ },
+ "results": {
+  "distinct": false,
+  "ordered": true,
+  "bindings": [
+   {
+    "sen": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "1110"
+    },
+    "party": {
+     "type": "uri",
+     "value": "http://datos.bcn.cl/recurso/cl/organismo/partido-politico/partido-democrata-cristiano"
+    },
+    "label": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "Partido Demócrata Cristiano"
+    },
+    "start": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "2002-03-11"
+    },
+    "end": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "2010-03-10"
+    }
+   },
+   {
+    "sen": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "1110"
+    },
+    "party": {
+     "type": "uri",
+     "value": "http://datos.bcn.cl/recurso/cl/organismo/partido-politico/partido-regionalista-de-los-independientes"
+    },
+    "label": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "Partido Regionalista de los Independientes"
+    },
+    "start": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "2010-03-11"
+    },
+    "end": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "2014-03-10"
+    }
+   },
+   {
+    "sen": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "1110"
+    },
+    "party": {
+     "type": "uri",
+     "value": "http://datos.bcn.cl/recurso/cl/organismo/partido-politico/independiente"
+    },
+    "label": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "Independiente"
+    },
+    "start": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "2014-03-11"
+    },
+    "end": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "2024-01-08"
+    }
+   },
+   {
+    "sen": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "1110"
+    },
+    "party": {
+     "type": "uri",
+     "value": "http://datos.bcn.cl/recurso/cl/organismo/partido-politico/partido-por-la-democracia"
+    },
+    "label": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "Partido Por la Democracia"
+    },
+    "start": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "2024-01-08"
+    }
+   },
+   {
+    "sen": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "1341"
+    },
+    "party": {
+     "type": "uri",
+     "value": "http://datos.bcn.cl/recurso/cl/organismo/partido-politico/partido-democrata-cristiano"
+    },
+    "label": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "Partido Demócrata Cristiano"
+    },
+    "end": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "2008-01-08"
+    }
+   }
+  ]
+ }
+}

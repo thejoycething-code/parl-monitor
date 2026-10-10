@@ -518,7 +518,28 @@ Later phases and items for Chris (not built at the merge):
 
 - BR3 (gambling) and BR4 (drug decriminalisation) are in scope but the scope proposed no terms or area: they need terms before they match.
 - Portuguese source text with English takeaways (BR5): the edition phase.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/br/` from the store each weekly run (`tools/member_profiles.py br`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/br_stance.yaml` holds 11 bill direction(s) (Claude's drafts from the watchlist) and 7 vote reading(s): 2 with proposed values, 2 procedural, 3 need reading, 0 confirmed. Guide: `docs/5ca-br-readings.md`; confirm with `python3 tools/country_5ca.py --cc br --sign-from-doc --by NAME`. Sheets (`data/5ca/br-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Brazil (`config/stance_signers.yaml`).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country br --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country br --date YYYY-MM-DD --item "PL 1904/2024" [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country br --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/br-<date>-<slug> --onside
+
+It writes `data/packs/br-<date>-<slug>/`: `pack.md` and `checklist.md` in Portuguese (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: read by bill key from the `country_agenda` table (the week-ahead layer, src/agenda.py) once the country's weekly step has read the agenda; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/br_stance.yaml`; none is confirmed yet, so every pack shows
+"a aguardar validação" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

@@ -412,6 +412,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - Phase 2: bill documents (SK6). BUILT 10 October 2026 (branch `parity-phases-a`): see "SK6, as built" below.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/sk/` from the store each weekly run (`tools/member_profiles.py sk`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Interpellations the member asked are listed.
 
 ## SK6, as built (10 October 2026, branch `parity-phases-a`)
 
@@ -453,3 +454,23 @@ positions are queued like any vote on our ground.
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/sk_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 43 vote reading(s): 3 with proposed values, 10 procedural, 30 need reading, 0 confirmed. Guide: `docs/5ca-sk-readings.md`; confirm with `python3 tools/country_5ca.py --cc sk --sign-from-doc --by NAME`. Sheets (`data/5ca/sk-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Slovakia (`config/stance_signers.yaml`).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country sk --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country sk --date YYYY-MM-DD --item 9/733 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country sk --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/sk-<date>-<slug> --onside
+
+It writes `data/packs/sk-<date>-<slug>/`: `pack.md` and `checklist.md` in Slovak (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/sk_stance.yaml`; none is confirmed yet, so every pack shows
+"čaká na schválenie" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

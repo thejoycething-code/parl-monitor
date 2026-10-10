@@ -383,6 +383,7 @@ Later phases and items for Chris (not built at the merge):
 - The Constitutional Court access request (GT5): Chris. X8 (10 October 2026): recorded as a gap and skipped; cc.gob.gt challenges every client (403 Cloudflare from the laptop, a challenge from a runner), which we never work around.
 - X6: party history.
 - PDFs are not fetched (robots.txt).
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/gt/` from the store each weekly run (`tools/member_profiles.py gt`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Party (X6): the per-vote PDFs are closed to robots, so the bloc shown is the current one, labelled "as listed, not party at the vote".
 
 ## Parity work, set B (10 October 2026, branch `parity-phases-b`)
 
@@ -394,3 +395,23 @@ Later phases and items for Chris (not built at the merge):
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/gt_stance.yaml` holds 5 bill direction(s) (Claude's drafts from the watchlist) and 0 vote reading(s): 0 with proposed values, 0 procedural, 0 need reading, 0 confirmed. Guide: `docs/5ca-gt-readings.md`; confirm with `python3 tools/country_5ca.py --cc gt --sign-from-doc --by NAME`. Sheets (`data/5ca/gt-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Guatemala (`config/stance_signers.yaml`). The store is on GitHub (X9); the Sunday step drafts from the published store once Guatemala's votes are in it. Party is the current bloc (X6).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country gt --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country gt --date YYYY-MM-DD --item 5272 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country gt --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/gt-<date>-<slug> --onside
+
+It writes `data/packs/gt-<date>-<slug>/`: `pack.md` and `checklist.md` in Spanish (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance). Groups are as the member list gives them (X6), not party at the vote.
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/gt_stance.yaml`; none is confirmed yet, so every pack shows
+"pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

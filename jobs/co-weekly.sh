@@ -24,6 +24,7 @@
 # committed, and the next run re-reads whatever this one missed. With
 # CO_PUBLISH=false the collector's exit code is passed straight through, so a
 # gap turns the GitHub step red and the failure alert hears of it.
+# mini_run: commit profiles
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -48,6 +49,13 @@ fi
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/latam_alerts.py --country co --send \
     || echo "  [gap] latam-alerts failed for co; the next run retries"
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/co/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py co \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
 if [ "${CO_PUBLISH:-true}" = "false" ]; then
   exit "$rc"

@@ -522,7 +522,28 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: the Spanish edition (ES6, build now): a DM edition on the store, as the US and Australian ones. Not built at the merge; next.
 - Senado open-data contact (ES5): a message in Chris's name, not sent by the pipeline.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/es/` from the store each weekly run (`tools/member_profiles.py es`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/es_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 86 vote reading(s): 1 with proposed values, 4 procedural, 81 need reading, 0 confirmed. Guide: `docs/5ca-es-readings.md`; confirm with `python3 tools/country_5ca.py --cc es --sign-from-doc --by NAME`. Sheets (`data/5ca/es-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Spain (`config/stance_signers.yaml`). Spain's own edition resumes after 23 December; the drafts stand meanwhile.
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country es --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country es --date YYYY-MM-DD --item 15/102/000001 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country es --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/es-<date>-<slug> --onside
+
+It writes `data/packs/es-<date>-<slug>/`: `pack.md` and `checklist.md` in Spanish (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: read by bill key from the `country_agenda` table (the week-ahead layer, src/agenda.py) once the country's weekly step has read the agenda; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/es_stance.yaml`; none is confirmed yet, so every pack shows
+"pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".
