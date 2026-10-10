@@ -161,7 +161,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/ editions/
+          git add data/ editions/ profiles/
           git diff --cached --quiet || git commit -m "Portugal weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
           # jittered waits, and never retry while stuck mid-rebase.
