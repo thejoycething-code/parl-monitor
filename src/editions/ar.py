@@ -35,6 +35,7 @@ import datetime
 import json
 import re
 
+from src import agenda
 from src import country_edition as ce
 from src.filter import _fold
 
@@ -268,6 +269,7 @@ COUNTRY = ce.Country(
     cc=CC, name="Argentina", chamber="Senado and Cámara de Diputados de la Nación",
     language="Spanish", taxonomies=(("taxonomy-es.yaml", "ar"),), items=items,
     flag=":flag-ar:", post_render=post_render,
+    week_ahead=agenda.week_ahead_fn(CC), ahead_note=agenda.ahead_note_fn(CC),
     members_note=("Senate roll calls carry every senator's position and bloc at the vote; "
                   "Diputados roll calls are not collected (votaciones.hcdn.gob.ar refuses our "
                   "clients), so Diputados appears through its register of expedientes only"),
@@ -276,8 +278,10 @@ COUNTRY = ce.Country(
         "and the Diputados register of expedientes, read gently (one month a request, a few "
         "requests a run) because datos.hcdn.gob.ar turns clients away.",
         "Blocked: Diputados roll calls (AR2: to be tried from the Mini).",
-        "Not yet collected: the full Senate register, both chambers' agendas, committee "
-        "dictámenes, and the provincial legislatures.",
+        "Not yet collected: the full Senate register, the Chamber of Deputies' agenda, "
+        "committee dictámenes, and the provincial legislatures.",
+        "The week ahead is the Senate's agenda of activities (committee meetings and their "
+        "Temario, sessions), classified on its own words.",
         "Lapse dates follow Ley 13.640 (AR7) and are computed, not printed by either chamber.",
     ),
 )

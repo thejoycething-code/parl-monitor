@@ -384,7 +384,7 @@ phase 4, after the terms are approved.
    most of the 393 matched zaken live, and most never reach a vote. Then
    document bodies (the PDFs behind `Document/resource`), matched by
    passage as `src/eudoc.py` does for the EU. And the agenda
-   (`Activiteit`) for a week-ahead.
+   (`Activiteit`) for a week-ahead. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/nl.py`, a step of the weekly job): `Activiteit` with its `Agendapunt`s and zaken, three weeks ahead; 661 points on 10 October, 12 on our ground.
 4. **Eerste Kamer.** Handelingen from the KOOP SRU service, plus the
    party-by-party results on eerstekamer.nl bill and motion pages. Votes
    there are by party ("bij zitten en opstaan") with occasional roll calls.

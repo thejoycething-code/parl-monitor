@@ -358,7 +358,7 @@ channel that matters most to CitizenGO.
 3. **Phase 2: the edition.** A Swiss monitor and triage on the US pattern
    (`tools/us_monitor.py`, `tools/us_triage.py`), to Christopher by Slack DM.
    Session-driven: four three-week sessions a year plus a special session,
-   so most weeks are quiet and four are full.
+   so most weeks are quiet and four are full. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/ch.py`, a step of the weekly job): the councils' `Meeting` and `Subject` records by business number; none ahead until the Wintersession programme is in the open data.
 4. **Phase 3: initiatives and referendums.** The voteinfo results, and the
    Chancellery's signature-collection chronology once its data source is
    found. Consultations (Vernehmlassungen, fedlex.admin.ch, answers 200) and
