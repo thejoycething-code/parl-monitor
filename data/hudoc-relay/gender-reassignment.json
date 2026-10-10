@@ -1,8 +1,19 @@
 {
- "fetched_on": "2026-10-09",
+ "fetched_on": "2026-10-10",
  "reply": {
-  "resultcount": 1,
+  "resultcount": 2,
   "results": [
+   {
+    "columns": {
+     "appno": "33037/22",
+     "conclusion": null,
+     "docname": "CASE OF T.H. AGAINST THE CZECH REPUBLIC",
+     "doctype": "Resolution - Execution",
+     "itemid": "001-252833",
+     "kpdate": "2026-09-16",
+     "respondent": null
+    }
+   },
    {
     "columns": {
      "appno": "40888/17;54006/20;12918/19",
@@ -17,6 +28,6 @@
   ],
   "via": "rss"
  },
- "start": "2026-07-11",
+ "start": "2026-07-12",
  "term": "gender reassignment"
 }
