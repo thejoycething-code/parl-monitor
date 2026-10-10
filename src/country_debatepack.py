@@ -156,13 +156,27 @@ def agenda_points(conn, cc, start, end):
     return out
 
 
+def agenda_read(conn, cc):
+    """True once the week-ahead collector has read this country's agenda
+    (a country_agenda_runs row), so 'no point found' means what it says."""
+    try:
+        return conn.execute("SELECT 1 FROM country_agenda_runs WHERE cc = ? LIMIT 1",
+                            (cc,)).fetchone() is not None
+    except sqlite3.OperationalError:
+        return False
+
+
 def adapter_ahead(conn, cc, today, config_dir=None):
-    """The edition adapter's own week ahead (France, Croatia on main), or None."""
+    """The edition adapter's own week ahead (France, Croatia on main), or None
+    when it has none, or when its week ahead is the agenda table's
+    (src/agenda.py) and that has not been read for this country."""
     if cc not in EDITIONS:
         return None
     from src import country_edition as ce
     country = ce.adapter(cc)
     if not country.week_ahead:
+        return None
+    if getattr(country.week_ahead, "__module__", "") == "src.agenda":
         return None
     conn.row_factory = sqlite3.Row
     try:
@@ -549,6 +563,22 @@ def profile_link(cc, member_id, name, profiles_dir=None):
     return None
 
 
+_PROFILE_VOTES = re.compile(r"^## .*\((\d+)\)\s*$")
+
+
+def profile_votes(path):
+    """The count in the profile's 'Votes on our ground (N)' heading, or None."""
+    try:
+        with open(path, encoding="utf-8") as h:
+            for line in h:
+                if line.startswith("## Votes"):
+                    hit = _PROFILE_VOTES.match(line.strip())
+                    return int(hit.group(1)) if hit else None
+    except OSError:
+        return None
+    return None
+
+
 def name_tokens(name):
     words = re.findall(r"[\w'-]+\.?", fold(name))
     return frozenset(w.strip("'-") for w in words if not w.endswith(".") and len(w.strip("'-")) > 1)
@@ -595,14 +625,14 @@ def assemble(conn, cc, date, subject, chamber=None, speakers=(), config_dir=None
             "ids": sorted(ids), "bill_votes": bill, "decisive": decisive, "topic_votes": topic,
             "chamber": chamber, "member_votes": cc in c5.SPECS,
             "derived": cc in c5.PARTY_GROUP}
-    # The agenda slot: the agenda table by ID, then the adapter's week ahead.
+    # The agenda slot: the agenda table by ID, then the adapter's own week ahead.
     points = agenda_points(conn, cc, _plus(date, -7), _plus(date, AHEAD_DAYS))
     slot = []
-    if points is not None:
+    if points is not None and agenda_read(conn, cc):
+        pack["agenda_state"] = "collected"
         for p in points:
             if set(p["bill_keys"] + p["refs"] + p["watch_keys"]) & ids:
                 slot.append(p)
-        pack["agenda_state"] = "collected"
     else:
         ahead = adapter_ahead(conn, cc, _plus(date, -7), config_dir)
         if ahead is None:
@@ -630,6 +660,7 @@ def assemble(conn, cc, date, subject, chamber=None, speakers=(), config_dir=None
     pack["placements"], pack["confirmed"] = place, n_confirmed
     for r in recs.values():
         r["profile"] = profile_link(cc, r["member_id"], r["name"], profiles_dir)
+        r["profile_votes"] = profile_votes(r["profile"]) if r["profile"] else None
     pack["speakers"] = match_speakers(conn, cc, speakers) if speakers else []
     watch = sorted((r for r in recs.values() if r["broke"]),
                    key=lambda r: (-len(r["broke"]), fold(r["name"])))
@@ -770,6 +801,8 @@ def render_pack(pack, sample=False, folder=None):
                     bits.append(bill_cell(rec, spec, lang))
                 if rec["topic"]:
                     bits.append(topic_counts(spec, lang, rec))
+                if rec.get("profile_votes") is not None:
+                    bits.append(T("profile_votes", n=rec["profile_votes"]))
             out.append("- **{0}** ({1})".format(m.get("name"), "; ".join(b for b in bits if b)))
     else:
         out.append(T("speakers_none"))
@@ -789,6 +822,8 @@ def render_pack(pack, sample=False, folder=None):
                 d.get("date") or "?", clip(d.get("question"), 80))
             if len(r["broke"]) > 1:
                 line += " (+{0})".format(len(r["broke"]) - 1)
+            if r.get("profile_votes") is not None:
+                line += "; " + T("profile_votes", n=r["profile_votes"])
             out.append(line)
         if len(pack["watch"]) > MAX_WATCH:
             out.append("- " + T("and_more", n=len(pack["watch"]) - MAX_WATCH))

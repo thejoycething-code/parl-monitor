@@ -32,6 +32,7 @@ TASK_KEYS = ("task_reading", "task_agenda", "task_text", "task_members", "task_s
 
 TEXT = {
     "en": {
+        "profile_votes": "profile: {n} recorded position(s) on our ground in all",
         "other_votes": "{n} more vote(s) on this bill (amendments, articles, procedure) are not shown; their keys are in pack.json.",
         "title": "Debate pack",
         "sample": "SAMPLE: built from a scoping store with test confirmations. Never send.",
@@ -111,6 +112,7 @@ TEXT = {
             13: "organ donation", 14: "gambling and betting", 15: "drug decriminalisation"},
     },
     "es": {
+        "profile_votes": "perfil: {n} posición(es) registradas en nuestro terreno en total",
         "other_votes": "Otras {n} votaciones sobre este proyecto (enmiendas, artículos, trámite) no se muestran; sus claves están en pack.json.",
         "title": "Dosier del debate",
         "sample": "MUESTRA: hecho con un almacén de prueba y confirmaciones de prueba. No enviar.",
@@ -191,6 +193,7 @@ TEXT = {
             14: "juego y apuestas", 15: "despenalización de drogas"},
     },
     "it": {
+        "profile_votes": "profilo: {n} posizione/i registrate nel nostro ambito in tutto",
         "other_votes": "Altre {n} votazioni su questo atto (emendamenti, articoli, procedura) non sono mostrate; le chiavi sono in pack.json.",
         "title": "Dossier per il dibattito",
         "sample": "CAMPIONE: costruito da un archivio di prova con conferme di prova. Non inviare.",
@@ -271,6 +274,7 @@ TEXT = {
             14: "gioco d'azzardo e scommesse", 15: "depenalizzazione delle droghe"},
     },
     "fr": {
+        "profile_votes": "profil : {n} position(s) enregistrée(s) sur notre terrain au total",
         "other_votes": "{n} autres scrutins sur ce texte (amendements, articles, procédure) ne sont pas affichés ; leurs clés sont dans pack.json.",
         "title": "Dossier de débat",
         "sample": "ÉCHANTILLON : construit à partir d'une base d'essai et de confirmations d'essai. Ne pas envoyer.",
@@ -351,6 +355,7 @@ TEXT = {
             14: "jeux d'argent", 15: "dépénalisation des drogues"},
     },
     "de": {
+        "profile_votes": "Profil: insgesamt {n} erfasste Stimme(n) in unserem Themenfeld",
         "other_votes": "Weitere {n} Abstimmungen zu dieser Vorlage (Änderungsanträge, Artikel, Verfahren) sind nicht aufgeführt; ihre Schlüssel stehen in pack.json.",
         "title": "Debattenmappe",
         "sample": "MUSTER: aus einem Testbestand mit Testbestätigungen erstellt. Nicht versenden.",
@@ -431,6 +436,7 @@ TEXT = {
             14: "Glücksspiel und Wetten", 15: "Entkriminalisierung von Drogen"},
     },
     "nl": {
+        "profile_votes": "profiel: in totaal {n} geregistreerde stem(men) op ons terrein",
         "other_votes": "Nog {n} stemmingen over dit voorstel (amendementen, artikelen, procedure) staan hier niet; hun sleutels staan in pack.json.",
         "title": "Debatdossier",
         "sample": "PROEF: gemaakt uit een testbestand met testbevestigingen. Niet versturen.",
@@ -511,6 +517,7 @@ TEXT = {
             14: "kansspelen", 15: "decriminalisering van drugs"},
     },
     "pl": {
+        "profile_votes": "profil: łącznie {n} zarejestrowanych stanowisk w naszym obszarze",
         "other_votes": "Kolejne głosowania nad tym projektem ({n}: poprawki, artykuły, sprawy proceduralne) nie są pokazane; ich klucze są w pack.json.",
         "title": "Pakiet na debatę",
         "sample": "PRÓBKA: przygotowana z bazy testowej z testowymi zatwierdzeniami. Nie wysyłać.",
@@ -591,6 +598,7 @@ TEXT = {
             14: "hazard i zakłady", 15: "dekryminalizacja narkotyków"},
     },
     "pt": {
+        "profile_votes": "perfil: {n} posição(ões) registada(s) no nosso terreno no total",
         "other_votes": "Outras {n} votações sobre esta matéria (propostas de alteração, artigos, procedimento) não são mostradas; as chaves estão em pack.json.",
         "title": "Dossiê do debate",
         "sample": "AMOSTRA: feita a partir de uma base de teste com confirmações de teste. Não enviar.",
@@ -671,6 +679,7 @@ TEXT = {
             14: "jogo e apostas", 15: "descriminalização das drogas"},
     },
     "hr": {
+        "profile_votes": "profil: ukupno {n} zabilježenih glasova u našem području",
         "other_votes": "Još {n} glasovanja o ovom prijedlogu (amandmani, članci, postupak) nije prikazano; njihovi ključevi su u pack.json.",
         "title": "Paket za raspravu",
         "sample": "UZORAK: izrađen iz probne baze s probnim potvrdama. Ne slati.",
@@ -750,6 +759,7 @@ TEXT = {
             14: "igre na sreću i klađenje", 15: "dekriminalizacija droga"},
     },
     "sk": {
+        "profile_votes": "profil: spolu {n} zaznamenaných hlasov v našej oblasti",
         "other_votes": "Ďalšie hlasovania o tomto návrhu ({n}: pozmeňujúce návrhy, články, procedúra) nie sú zobrazené; ich kľúče sú v pack.json.",
         "title": "Podklady k rozprave",
         "sample": "VZORKA: pripravené zo skúšobnej databázy so skúšobnými potvrdeniami. Neposielať.",
@@ -829,6 +839,7 @@ TEXT = {
             14: "hazard a stávkovanie", 15: "dekriminalizácia drog"},
     },
     "hu": {
+        "profile_votes": "profil: összesen {n} rögzített szavazat a mi területünkön",
         "other_votes": "További {n} szavazás erről az irományról (módosító javaslatok, cikkek, eljárás) nem szerepel itt; kulcsaik a pack.json fájlban vannak.",
         "title": "Vitacsomag",
         "sample": "MINTA: próba-adatbázisból, próba-jóváhagyásokkal készült. Nem küldhető ki.",

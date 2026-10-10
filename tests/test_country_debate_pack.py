@@ -115,6 +115,10 @@ def add_agenda(path, rows):
         body TEXT, kind TEXT, title TEXT, detail TEXT, refs TEXT, bill_keys TEXT, url TEXT,
         status TEXT, own_areas TEXT, areas TEXT, matched_terms TEXT, tier INTEGER,
         watch_keys TEXT, first_seen TEXT, last_seen TEXT, PRIMARY KEY (cc, item_id))""")
+    conn.execute("CREATE TABLE country_agenda_runs (cc TEXT, run_date TEXT, items INTEGER, "
+                 "on_ground INTEGER, horizon TEXT, next_sitting TEXT, note TEXT)")
+    conn.execute("INSERT INTO country_agenda_runs VALUES ('pl', '2026-10-10', 2, 1, "
+                 "'2026-10-16', '2026-10-15', NULL)")
     for r in rows:
         conn.execute("INSERT INTO country_agenda (cc, item_id, date, time, body, kind, title, "
                      "refs, bill_keys, url, status, areas, tier, watch_keys) "
@@ -256,11 +260,13 @@ class AssembleTests(Base):
     def test_profile_link_only_when_the_profile_exists(self):
         prof = os.path.join(self.tmp.name, "profiles")
         os.makedirs(os.path.join(prof, "pl"))
-        open(os.path.join(prof, "pl", "anna-adamska-10-1.md"), "w").close()
+        with open(os.path.join(prof, "pl", "anna-adamska-10-1.md"), "w", encoding="utf-8") as h:
+            h.write("# Anna Adamska\n\n## Votes on our ground (12)\n")
         p = dp.assemble(self.conn, "pl", "2026-10-14", self.subject(), config_dir=self.cfg,
                         today="2026-10-10", profiles_dir=prof)
         self.assertTrue(p["members"]["10/1"]["profile"].endswith("anna-adamska-10-1.md"))
         self.assertIsNone(p["members"]["10/2"]["profile"])
+        self.assertEqual(p["members"]["10/1"]["profile_votes"], 12)
 
     def test_derived_positions_are_starred(self):
         rec = {"bill": [({"date": "2026-01-01", "key": "k"},
