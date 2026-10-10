@@ -32,7 +32,7 @@ not yet:
   sittings on 10 October; it is a gap and never a sitting read.
 - **False friends in the taxonomies, for Chris** (the lists are generated
   files, not changed here; each wants a guard in its keyword-taxonomy doc):
-  - taxonomy-fr `séparatisme` (area 8) matched "séparatisme social" in the
+  - taxonomy-fr `séparatisme` (area 8) matched "séparatisme territorial et social" in the
     debate on low-emission zones (5 speeches, France).
   - taxonomy-pt `fim de vida` (area 2) matched "Veículos em Fim de Vida"
     (end-of-life vehicles), a request to the environment minister (Portugal).
