@@ -255,7 +255,10 @@ class HttpClient:
         answers "format json not implemented yet" to the default Accept,
         which puts JSON first; the Italian agenda sends Accept: text/html.
         """
-        raw = self._fetch(url, feed, slug, timeout, archive=archive, extra_headers=headers)
+        if headers:
+            raw = self._fetch(url, feed, slug, timeout, archive=archive, extra_headers=headers)
+        else:   # the old call, unchanged: subclasses and test doubles override _fetch
+            raw = self._fetch(url, feed, slug, timeout, archive=archive)
         if fallback_encoding:
             try:
                 return raw.decode("utf-8")
