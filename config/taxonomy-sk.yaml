@@ -1,14 +1,14 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy-sk.md
 # Regenerate: python3 tools/generate_taxonomy.py --lang sk
-version: 0.1
+version: 0.2
 areas:
   1_abortion:
     tier1: ["potrat*", "umel* preruš* tehotenstva", "73/1986", "interrupci*", "nenaroden*", "ochran* nenaroden*", "počat* život*", "od počatia", "potratov* tabletk*", "mifepriston*", Medabon, "ochran* života od počatia", "Pochod za život"]
     tier2: ["reprodukčn* zdravi*", "reprodukčn* práv*", "výhrad* vo svedomí", "výhrad* svedomia", "antikoncepci*", "mŕtvo naroden*", "Down* syndróm*", "tehotn* žen*", "prenatáln* diagnosti*", "anonymn* pôrod*", "hniezd* záchrany"]
     # note: Slovakia: Run over NR SR prints, votes and interpellations; 73/1986 is the Abortion Act.
   2_assisted_dying:
-    tier1: ["eutanázi*", "asistovan* samovražd*", "asistovan* smr*", "asistovan* umieran*", "dôstojn* smr*"]
+    tier1: [{term: "eutanázi*", without: ["zvier*", "veterin*"]}, "asistovan* samovražd*", "asistovan* smr*", "asistovan* umieran*", "dôstojn* smr*"]
     tier2: ["paliatív*", "hospic*", "nevyliečiteľn* chor*", "konc* život*"]
     # note: No terms proposed for this area.
   3_gender_medicine_children:
@@ -25,19 +25,19 @@ areas:
     # note: Slovakia: dv* pohlav* is the 2025 constitutional amendment's 'two sexes'; LGBT* is case-sensitive.
   6_parental_rights_education:
     tier1: ["sexuáln* výchov*", "výchov* k manželstvu a rodičovstvu", "práv* rodičov", "informovan* súhlas* rodič*", "súhlas* zákonn* zástupc*", "domác* vzdelávan*", "nábožensk* výchov*", "telesn* tresta*"]
-    tier2: ["individuáln* vzdelávan*", "etick* výchov*", "školsk* zákon*", "obsah* vzdelávania", "vzdelávac* program*", "ochran* detí", "ochran* maloletých", "sociáln* siet*", "sexuáln* zneužívan*", "mimoškolsk* vzdelávan*", "cirkevn* škol*", "sociálnoprávn* ochran*", "245/2008", "305/2005"]
+    tier2: ["individuáln* vzdelávan*", "etick* výchov*", "školsk* zákon*", "obsah* vzdelávania", "vzdelávac* program*", "ochran* detí", "ochran* maloletých", "sociáln* siet*", {term: "sexuáln* zneužívan*", without: ["detsk* pornografi*", "závažn* trestn* činnos*"]}, "mimoškolsk* vzdelávan*", "cirkevn* škol*", "sociálnoprávn* ochran*", "245/2008", "305/2005"]
     # note: Slovakia: školsk* zákon* and 245/2008 kept as a net for triage (SK3): it brings in 14 prints.
   7_free_speech_online_safety:
     name: "Free speech, privacy and civil liberties"
     tier1: ["slobod* prejavu", "cenzúr*", "nenávistn* prejav*", "overovan* veku", "overeni* veku", "pandemick* zmluv*", "pandemick* dohod*", "Medzinárodn* zdravotn* predpis*", "digitáln* identit*", "digitáln* eur*", "zahraničn* agent*"]
-    tier2: ["dezinformáci*", "hoax*", "extrémizm*", "digitáln* služb*", "pornografi*", "Svetov* zdravotníck* organizáci*", WHO, "mimovládn* neziskov* organizáci*", "slobod* zhromažďovania", "hanobeni*", "213/1997"]
+    tier2: ["dezinformáci*", "hoax*", "extrémizm*", "digitáln* služb*", {term: "pornografi*", without: ["detsk* pornografi*", "závažn* trestn* činnos*", "sexuáln* vykorisťovan*"]}, "Svetov* zdravotníck* organizáci*", WHO, "mimovládn* neziskov* organizáci*", "slobod* zhromažďovania", "hanobeni*", "213/1997"]
     # note: Slovakia: 213/1997 (NGO Act) kept at tier 2 (SK2); its 2025 amendment brought 54 votes into the area.
   8_freedom_of_religion:
     tier1: ["slobod* náboženstva", "slobod* vierovyznania", "nábožensk* slobod*", "prenasledovan* kresťanov", "registráci* cirkví", "financovan* cirkví", "Svät* stolic*", "slobod* svedomia", "postaveni* cirkví", "308/1991", "370/2019"]
     tier2: ["cirkv*", "cirkevn*", "nábožensk* spoločnos*", "duchovn* služb*", "náboženstv*", "vierovyznan*", "kresťan*"]
     # note: No terms proposed for this area.
   9_marriage_family:
-    tier1: ["zväz* muža a ženy", "zväzok medzi mužom a ženou", "registrovan* partnerstv*", "životn* partnerstv*", "partnersk* zväz*", "36/2005 Z. z.", "rovnakého pohlavia", "spolužitie osôb"]
+    tier1: ["zväz* muža a ženy", "zväzok medzi mužom a ženou", "registrovan* partnerstv*", "životn* partnerstv*", "partnersk* zväz*", "36/2005 Z. z.", {term: "rovnakého pohlavia", with: ["manžel*", "partner*", páry, párov, páru, pármi, "zväz*", "rodičovstv*", "osvojen*", "adopci*", "sobáš*"]}, "spolužitie osôb"]
     tier2: ["manželstv*", "osvojeni*", "rozvod*", "rodinn* politik*", "demografi*", "pôrodnos*", "natalit*", "rodičovsk* dôchod*", "rodičovsk* príspev*", "náhradn* starostlivos*", "pestúnsk*", "o rodine"]
     # note: Slovakia: rodičovsk* príspev* and rodičovsk* dôchod* kept in area 9 tier 2 (SK4).
   10_surrogacy_embryology:
@@ -50,8 +50,8 @@ areas:
     # note: No terms proposed for this area.
   12_prostitution:
     name: "Prostitution, trafficking and sexual exploitation"
-    tier1: ["kupliarstv*", "nevestin*", "sexuáln* vykorisťovan*", "kúp* sexuáln* služ*", "nákup* sexuáln* služ*", "obchodovan* so ženami"]
-    tier2: ["prostitúci*", "obchodovan* s ľuďmi", "sexuáln* služ*"]
+    tier1: ["kupliarstv*", "nevestin*", {term: "sexuáln* vykorisťovan*", without: ["detsk* pornografi*", "závažn* trestn* činnos*"]}, "kúp* sexuáln* služ*", "nákup* sexuáln* služ*", "obchodovan* so ženami"]
+    tier2: ["prostitúci*", {term: "obchodovan* s ľuďmi", without: ["detsk* pornografi*", "závažn* trestn* činnos*"]}, "sexuáln* služ*"]
     # note: No terms proposed for this area.
   13_organ_donation:
     name: Organ donation and transplant ethics
