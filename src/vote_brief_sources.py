@@ -43,7 +43,11 @@ Measured costs per run on a sitting day (9-10 October 2026 shapes):
 
 France is NOT read daily: the Assemblée publishes its scrutins only as one
 27 MB nightly zip (docs/france-scope.md), so French votes are briefed after
-the Saturday collection (jobs/fr-weekly.sh).
+the Saturday collection (jobs/fr-weekly.sh). Reading only the zip's newest
+members by HTTP range was tried on 10 October 2026 (the server honours
+Range): its CDN answered two successive range requests from two different
+builds of the file (26,987,736 and 26,960,828 bytes, no ETag check
+possible across them), so a partial read cannot be trusted to be one file.
 """
 
 from __future__ import annotations
