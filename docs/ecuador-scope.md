@@ -484,8 +484,8 @@ Later phases and items for Chris (not built at the merge):
   never the judgment (esacc's PDF). Measured live: 555 posts since January
   2024, 58 on our ground after a court guard on "causales" (it matched
   fourteen rulings on grounds for annulling arbitral awards and none on
-  abortion; the same guard belongs in docs/keyword-taxonomy-es.md at the
-  next term-list round). The weekly reads from 30 days before the newest
+  abortion; the guard now lives in docs/keyword-taxonomy-es.md, v0.2 of
+  10 October 2026, and the court-side mask is gone). The weekly reads from 30 days before the newest
   held; the hand-run `jobs/latam-courts-backfill.sh` reads from 2019.
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
