@@ -1835,6 +1835,8 @@ TABLES = (
     "br_record_reads",
     "pt_questions",
     "pt_record_reads",
+    "be_speeches",
+    "be_record_reads",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",

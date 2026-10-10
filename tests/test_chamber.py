@@ -372,6 +372,34 @@ class PortugalTests(unittest.TestCase):
         self.assertEqual(pt_chamber.parse(dict(rec, Tipo="Requerimento"))["kind"], "request")
 
 
+class BelgiumTests(unittest.TestCase):
+
+    def test_record_speakers_parties_and_items(self):
+        import be_chamber
+        raw = ("<html><body><h2>01 Agenda</h2><h2>02 Vraag van Els Van Hoof aan Frank "
+               "Vandenbroucke over \"Euthanasie\"</h2><p>Plenumvergadering du jeudi 8 octobre "
+               "2026</p><p class=NormalNL><span class=oraspr>02.01</span><span class=oraspr> "
+               "Els Van Hoof </span>(cd&amp;v): Mijnheer de minister, de euthanasiewet.</p>"
+               "<p>Tweede alinea.</p><p class=NormalNL><span class=oraspr>De voorzitter</span>: "
+               "Dank u.</p><p>Niet van de spreker.</p><p><span class=oraspr>02.02</span> "
+               "<span class=oraspr>Frank Vandenbroucke</span>, ministre: Antwoord.</p>"
+               "</body></html>").encode("cp1252")
+        date, items = be_chamber.parse_record(raw)
+        self.assertEqual(date, "2026-10-08")
+        self.assertEqual(len(items), 2)
+        item_no, debate, who, party, text = items[0]
+        self.assertEqual((item_no, who, party), ("02", "Els Van Hoof", "cd&v"))
+        self.assertTrue(debate.startswith("Vraag van Els Van Hoof"))
+        self.assertEqual(text, "Mijnheer de minister, de euthanasiewet.\nTweede alinea.")
+        self.assertNotIn("Niet van de spreker", items[1][4])
+
+    def test_a_maintenance_page_is_not_a_record(self):
+        import be_chamber
+        date, items = be_chamber.parse_record(b"<html><p>Site under maintenance!</p></html>")
+        self.assertIsNone(date)
+        self.assertEqual(items, [])
+
+
 class EditionTests(unittest.TestCase):
     """Speeches grouped by debate, questions one each, in the framework."""
 

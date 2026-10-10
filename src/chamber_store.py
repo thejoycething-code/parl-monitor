@@ -69,6 +69,7 @@ COUNTRIES = {
     "fr": ("speeches", "questions"),
     "br": ("questions",),
     "pt": ("questions",),
+    "be": ("speeches",),
 }
 
 
