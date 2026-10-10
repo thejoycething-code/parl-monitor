@@ -29,7 +29,6 @@ None of the 45 watched item(s) moved in this edition's period.
 - Initiatives, votes and deputies come from the Assembleia's open data (Iniciativas and InformacaoBase, XVII legislature).
 - Constitutional court: the Tribunal Constitucional's acórdãos of the Plenário and the Secções, read slowly (it rate-limits), on their opening and dispositivo.
 - A vote's areas are mostly its initiative's: the record describes amendments and requerimentos only. The record does not tell a deputy who voted with their group from one who was absent.
-- Questions: 1 batch(es) read in the window, 485 questions in them, 7 on our ground.
 - No agenda is collected yet, so there is no week-ahead section.
 - **Left out by the noise filters** (config/edition-noise-pt.yaml, config/edition-mute-pt.yaml; never a watched item): nothing.
 - Decisions: [docs/country-decisions-2026-10-10.md](https://github.com/thejoycething-code/parl-monitor/blob/main/docs/country-decisions-2026-10-10.md).
