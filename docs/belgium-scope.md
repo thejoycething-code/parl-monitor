@@ -420,3 +420,23 @@ Later phases and items for Chris (not built at the merge):
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/be_stance.yaml` holds 27 bill direction(s) (Claude's drafts from the watchlist) and 4 vote reading(s): 3 with proposed values, 0 procedural, 1 need reading, 0 confirmed. Guide: `docs/5ca-be-readings.md`; confirm with `python3 tools/country_5ca.py --cc be --sign-from-doc --by NAME`. Sheets (`data/5ca/be-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Belgium (`config/stance_signers.yaml`).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country be --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country be --date YYYY-MM-DD --item 56/30 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country be --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/be-<date>-<slug> --onside
+
+It writes `data/packs/be-<date>-<slug>/`: `pack.md` and `checklist.md` in Dutch (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/be_stance.yaml`; none is confirmed yet, so every pack shows
+"wacht op goedkeuring" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

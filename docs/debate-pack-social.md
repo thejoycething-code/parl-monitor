@@ -372,3 +372,45 @@ previous sequence is kept as `sequence-previous.md`). Onside is still the checkl
 decision; the judge only orders it. `debate_report.py --publish --with-clips` then adds
 a "Best speeches" section to the canvas and uploads the reel and the chosen full-speech
 clips into the thread (the Slack app needs the `files:write` scope for that).
+
+## New countries (10 October 2026)
+
+`tools/country_debate_pack.py` (src/country_debatepack.py) builds a pack for one
+upcoming or recent debate in any of the 26 new countries with a store (the fifteen
+own editions and the eleven collected Latam countries). Manual, like the UK and
+German packs; no scheduled job, no network, no AI call.
+
+    python3 tools/country_debate_pack.py --country pl --date 2026-10-15 --list
+    python3 tools/country_debate_pack.py --country pl --date 2026-10-15 --item 10/2110 --speakers "Name; Name"
+    python3 tools/country_debate_pack.py --pack data/packs/pl-2026-10-15-<slug> --onside
+
+The pack (`data/packs/<cc>-<date>-<slug>/`) is written for campaigners in the
+country's language (`src/debatepack_i18n.py`: Spanish, Italian, French, German,
+Dutch, Polish, Portuguese, Croatian, Slovak, Hungarian; the frame only, titles and
+positions verbatim), as the German briefs are in German; the README is English.
+It holds the item and its bill (the edition's classification, never a raw keyword
+hit), the agenda slot (`country_agenda` by bill key once the country's weekly step has
+read it, the adapter's own week ahead for Croatia, otherwise "not collected"), every recorded vote on the bill with the split by group, the latest
+votes on the same areas, likely speakers (named with `--speakers`: no new
+country's source publishes a list ahead), the members who broke with their group
+(arithmetic, not a stance), every member's record with a link to
+`profiles/<cc>/` when the member-profiles step has written one, and the
+checklist: the campaigner's tasks before the debate, then one `ONSIDE:` line per
+group and per member to watch (yes and no are read in every pack language).
+
+**Placements come only from CONFIRMED readings** in `config/<cc>_stance.yaml`
+(src/country5ca.build_rows). With none confirmed, as on 10 October, every pack
+says "awaiting sign-off" in its own language and places nobody; a draft with
+proposed values places nobody either. Party-group countries (Austria, Portugal,
+the Netherlands' show of hands) mark DERIVED member rows with `*` (X5).
+
+Samples (SAMPLE, nothing confirmed), from the Italian scoping archive replayed
+offline: `data/packs/it-2026-10-14-disposizioni-in-materia-di-morte-volontaria/`
+(the Senate's assisted-dying bill, 19/S.104: 189 senators' positions on its
+June vote, group splits, two named speakers), and
+`data/packs/it-2026-10-30-modifiche-al-codice-penale-e-altre-disposizi/` (an
+upcoming debate: the Camera's religious-fundamentalism bill, 19/C.2562, on the
+Camera's calendar for 30 October, read live by `tools/country_agenda.py` into a
+scratch copy; no Camera vote on it yet). Tested against scratch confirmations
+too: confirming the S.104 vote placed 88 senators ++ and 59 -- on area 2, and
+nothing else changed.

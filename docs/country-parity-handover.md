@@ -23,7 +23,7 @@ Everything it built is on main. Read this with
 | Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b`) |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
 | Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
-| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | **no** |
+| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); briefs and targets **no** |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 
 New-country collectors and what their vote data supports:
@@ -159,6 +159,17 @@ confirmed". Petition performance joins from `data/looker/<cc>_campaigns.tsv`
 (the UK export's shape); no country has one yet, and the command says so.
 Manual only, no job. Still open: Chris to pull the first country export from
 Looker (the list prefix per country is a guess: `PL`, `IT`, ...).
+
+**Debate packs built 10 October 2026 (branch `camp-debate-packs`).**
+`tools/country_debate_pack.py --country cc --date D --find WORDS | --item KEY`
+(src/country_debatepack.py) assembles one upcoming or recent debate on our
+ground for the 15 own-edition and 11 collected Latam countries: the item and
+bill, the agenda slot, the votes on the bill and topic, likely speakers
+(`--speakers`), members to watch, every member's record and profile link, and
+the campaigner checklist, in the country's language (src/debatepack_i18n.py).
+Manual, no job. Placements only from confirmed readings: until a signer
+confirms, every pack renders "awaiting sign-off". Usage in each scope doc and
+docs/debate-pack-social.md, "New countries".
 
 ## Blocked, waiting on replies (letters drafted in Chris's Gmail)
 
