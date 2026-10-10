@@ -5,6 +5,8 @@ SAMPLE, never sent. Measured 10 October 2026 over the 52nd legislature's 10,178 
 and that neither the German (taxonomy-atch) nor the French (taxonomy-fr) text did. Hand-checked:
 most are ours (WHO and the International Health Regulations, sexual violence, smartphones in
 schools, international adoption, deepfakes); noise is marked. Migration (area 11) is left out.
+The three 'vita umana' rows marked noise leave from taxonomy-it v0.2 (10 October 2026), which
+needs life-issue company for the term; the table is left as measured.
 
 | Number | Type | Italian title | Areas | Terms | Note |
 |---|---|---|---|---|---|

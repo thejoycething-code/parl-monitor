@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Slovak keyword taxonomy
 
-**Version 0.1 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 ## Purpose
 
@@ -26,6 +26,14 @@ Scope calls applied while merging:
 - Slovakia X13: no antisemitism terms
 - Slovakia Law numbers marked country-only
 
+Noise round (v0.2, 10 October 2026, approved by Chris). Measured on the bill documents (SK6) of the 160 prints read into the 10 October scoping store, re-read from the raw archive with v0.1 and v0.2: prints on our ground by their documents 42 to 40, every change below read and noise.
+
+- `eutanázi*` (area 2) is vetoed by `zvier*` and `veterin*`, as Italy vetoes `eutanasia` by animal words: print 1415 (the veterinary surgeons' act, whose curriculum lists "sedácie, anestézie a eutanázie" of animals) leaves area 2.
+- Crime catalogues: `"sexuáln* vykorisťovan*"` (area 12, tier 1), `"obchodovan* s ľuďmi"` (area 12), `"sexuáln* zneužívan*"` (area 6) and `pornografi*` (area 7) are vetoed in a passage that also names child pornography (`"detsk* pornografi*"`) or serious crime (`"závažn* trestn* činnos*"`), and `pornografi*` also where pornography is named as a form of sexual exploitation. A Police Act or criminal-procedure passage that lists offences ("sexuálne zneužívanie, sexuálne vykorisťovanie detí a detská pornografia"; "nelegálna migrácia, obchodovanie s ľuďmi alebo výroba detskej pornografie"; the title of directive 2011/93/EÚ) no longer lends areas 6, 7 and 12. The guard is per passage, not per title, so a genuine trafficking bill keeps its own passages: print 1439 (the criminal-procedure omnibus that transposes the anti-trafficking directive 2024/1712, a new offence of using a trafficking victim's services, exploitation for surrogacy) keeps areas 6, 9, 10, 11 and 12 and loses only 7; print 1486 (the child certificate) is unchanged.
+- `"rovnakého pohlavia"` (area 9) needs couple, marriage, partnership, union, parenthood or adoption company: "osobnú prehliadku vykonáva osoba rovnakého pohlavia" (a search by an officer of the same sex) is not same-sex marriage. Print 733's passages on same-sex marriage and parenthood still match.
+- Result: print 1445 (Police Act, passenger records) goes from areas 6, 7, 9, 11 and 12 to 11 (illegal migration, which its passages are about); 1439 from 6, 7, 9, 10, 11, 12 to 6, 9, 10, 11, 12 (9 now only from the transposition table's family act); 1491 (Criminal Code: under-12s presumed defenceless), on our ground only through citing directive 2011/93/EÚ, leaves; 1415 leaves. No title, vote or interpellation in the store changes.
+- A print whose documents were already read keeps its stored document areas (`doc_areas`) until it is read again: reset `docs_read` for prints 1415, 1439, 1445 and 1491 in a store that read them under v0.1.
+
 ## Issue areas
 
 ### 1. Abortion {#1_abortion}
@@ -36,7 +44,7 @@ Scope calls applied while merging:
 
 ### 2. Assisted dying and end of life {#2_assisted_dying}
 
-- **Tier 1:** eutanázi*; "asistovan* samovražd*"; "asistovan* smr*"; "asistovan* umieran*"; "dôstojn* smr*"
+- **Tier 1:** eutanázi* [without: zvier*, veterin*]; "asistovan* samovražd*"; "asistovan* smr*"; "asistovan* umieran*"; "dôstojn* smr*"
 - **Tier 2:** paliatív*; hospic*; "nevyliečiteľn* chor*"; "konc* život*"
 - **Notes:** No terms proposed for this area.
 
@@ -61,14 +69,14 @@ Scope calls applied while merging:
 ### 6. Parental rights and education {#6_parental_rights_education}
 
 - **Tier 1:** "sexuáln* výchov*"; "výchov* k manželstvu a rodičovstvu"; "práv* rodičov"; "informovan* súhlas* rodič*"; "súhlas* zákonn* zástupc*"; "domác* vzdelávan*"; "nábožensk* výchov*"; "telesn* tresta*"
-- **Tier 2:** "individuáln* vzdelávan*"; "etick* výchov*"; "školsk* zákon*"; "obsah* vzdelávania"; "vzdelávac* program*"; "ochran* detí"; "ochran* maloletých"; "sociáln* siet*"; "sexuáln* zneužívan*"; "mimoškolsk* vzdelávan*"; "cirkevn* škol*"; "sociálnoprávn* ochran*"; 245/2008; 305/2005
+- **Tier 2:** "individuáln* vzdelávan*"; "etick* výchov*"; "školsk* zákon*"; "obsah* vzdelávania"; "vzdelávac* program*"; "ochran* detí"; "ochran* maloletých"; "sociáln* siet*"; "sexuáln* zneužívan*" [without: "detsk* pornografi*", "závažn* trestn* činnos*"]; "mimoškolsk* vzdelávan*"; "cirkevn* škol*"; "sociálnoprávn* ochran*"; 245/2008; 305/2005
 - **Notes:** Slovakia: školsk* zákon* and 245/2008 kept as a net for triage (SK3): it brings in 14 prints.
 
 ### 7. Free speech, privacy and civil liberties {#7_free_speech_online_safety}
 
 - **Name:** Free speech, privacy and civil liberties
 - **Tier 1:** "slobod* prejavu"; cenzúr*; "nenávistn* prejav*"; "overovan* veku"; "overeni* veku"; "pandemick* zmluv*"; "pandemick* dohod*"; "Medzinárodn* zdravotn* predpis*"; "digitáln* identit*"; "digitáln* eur*"; "zahraničn* agent*"
-- **Tier 2:** dezinformáci*; hoax*; extrémizm*; "digitáln* služb*"; pornografi*; "Svetov* zdravotníck* organizáci*"; WHO; "mimovládn* neziskov* organizáci*"; "slobod* zhromažďovania"; hanobeni*; 213/1997
+- **Tier 2:** dezinformáci*; hoax*; extrémizm*; "digitáln* služb*"; pornografi* [without: "detsk* pornografi*", "závažn* trestn* činnos*", "sexuáln* vykorisťovan*"]; "Svetov* zdravotníck* organizáci*"; WHO; "mimovládn* neziskov* organizáci*"; "slobod* zhromažďovania"; hanobeni*; 213/1997
 - **Notes:** Slovakia: 213/1997 (NGO Act) kept at tier 2 (SK2); its 2025 amendment brought 54 votes into the area.
 
 ### 8. Freedom of religion or belief {#8_freedom_of_religion}
@@ -79,7 +87,7 @@ Scope calls applied while merging:
 
 ### 9. Marriage and family {#9_marriage_family}
 
-- **Tier 1:** "zväz* muža a ženy"; "zväzok medzi mužom a ženou"; "registrovan* partnerstv*"; "životn* partnerstv*"; "partnersk* zväz*"; "36/2005 Z. z."; "rovnakého pohlavia"; "spolužitie osôb"
+- **Tier 1:** "zväz* muža a ženy"; "zväzok medzi mužom a ženou"; "registrovan* partnerstv*"; "životn* partnerstv*"; "partnersk* zväz*"; "36/2005 Z. z."; "rovnakého pohlavia" [with: manžel*, partner*, páry, párov, páru, pármi, zväz*, rodičovstv*, osvojen*, adopci*, sobáš*]; "spolužitie osôb"
 - **Tier 2:** manželstv*; osvojeni*; rozvod*; "rodinn* politik*"; demografi*; pôrodnos*; natalit*; "rodičovsk* dôchod*"; "rodičovsk* príspev*"; "náhradn* starostlivos*"; pestúnsk*; "o rodine"
 - **Notes:** Slovakia: rodičovsk* príspev* and rodičovsk* dôchod* kept in area 9 tier 2 (SK4).
 
@@ -98,8 +106,8 @@ Scope calls applied while merging:
 ### 12. Prostitution, trafficking and sexual exploitation {#12_prostitution}
 
 - **Name:** Prostitution, trafficking and sexual exploitation
-- **Tier 1:** kupliarstv*; nevestin*; "sexuáln* vykorisťovan*"; "kúp* sexuáln* služ*"; "nákup* sexuáln* služ*"; "obchodovan* so ženami"
-- **Tier 2:** prostitúci*; "obchodovan* s ľuďmi"; "sexuáln* služ*"
+- **Tier 1:** kupliarstv*; nevestin*; "sexuáln* vykorisťovan*" [without: "detsk* pornografi*", "závažn* trestn* činnos*"]; "kúp* sexuáln* služ*"; "nákup* sexuáln* služ*"; "obchodovan* so ženami"
+- **Tier 2:** prostitúci*; "obchodovan* s ľuďmi" [without: "detsk* pornografi*", "závažn* trestn* činnos*"]; "sexuáln* služ*"
 - **Notes:** No terms proposed for this area.
 
 ### 13. Organ donation and transplant ethics {#13_organ_donation}

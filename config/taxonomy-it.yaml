@@ -1,10 +1,10 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy-it.md
 # Regenerate: python3 tools/generate_taxonomy.py --lang it
-version: 0.1
+version: 0.2
 areas:
   1_abortion:
-    tier1: [aborto, aborti, "abortiv*", "interruzione volontaria di gravidanza", "interruzione volontaria della gravidanza", "interruzioni volontarie di gravidanza", IVG, {term: "legge 194", only: [it]}, {term: "legge n. 194", only: [it]}, {term: "legge 22 maggio 1978, n. 194", only: [it]}, {term: "194 del 1978", only: [it]}, {term: "194/1978", only: [it]}, RU486, "RU 486", mifepristone, "tutela della vita nascente", "vita nascente", "diritti del concepito", "capacità giuridica del concepito", "riconoscimento del concepito", nascituro, nascituri, {term: "Movimento per la vita", only: [it]}, {term: "centri di aiuto alla vita", only: [it]}, "battito cardiaco fetale", "vita umana", "sepoltura dei feti"]
+    tier1: [aborto, aborti, "abortiv*", "interruzione volontaria di gravidanza", "interruzione volontaria della gravidanza", "interruzioni volontarie di gravidanza", IVG, {term: "legge 194", only: [it]}, {term: "legge n. 194", only: [it]}, {term: "legge 22 maggio 1978, n. 194", only: [it]}, {term: "194 del 1978", only: [it]}, {term: "194/1978", only: [it]}, RU486, "RU 486", mifepristone, "tutela della vita nascente", "vita nascente", "diritti del concepito", "capacità giuridica del concepito", "riconoscimento del concepito", nascituro, nascituri, {term: "Movimento per la vita", only: [it]}, {term: "centri di aiuto alla vita", only: [it]}, "battito cardiaco fetale", {term: "vita umana", with: [concepimento, "concepit*", "nascitur*", "embrion*", feto, feti, "fetal*", "gravidanz*", "abort*", "fine vita", "fine della vita", "eutanasi*", "suicidio assistito"]}, "sepoltura dei feti"]
     tier2: [{term: "obiezione di coscienza", with: [gravidanza, aborto, "194", "ginecolog*", interruzione]}, "consultori familiari", "consultorio familiare", "salute riproduttiva", "diritti riproduttivi", "salute sessuale e riproduttiva", {term: sepoltura, with: [feti, "prodotti abortivi", "prodotti del concepimento"]}, "diagnosi prenatale", "aborto spontaneo", "parto in anonimato", "culle per la vita"]
     # note: Italy: Measured on the Senate and Camera records; Law 194/1978 variants are Italy-only.
   2_assisted_dying:

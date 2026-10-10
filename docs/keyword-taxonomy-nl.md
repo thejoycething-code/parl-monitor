@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Dutch (Netherlands and Flanders) keyword taxonomy
 
-**Version 0.1 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 ## Purpose
 
@@ -32,6 +32,10 @@ Scope calls applied while merging:
 - Belgium Area 11: no terms proposed in the doc; left empty
 - Belgium Guards written from prose: belemmeringsdelict, bedenktijd, transitie, leeftijdsverificatie, neutraliteit; euthanasie veto
 
+Noise round (v0.2, 10 October 2026, approved by Chris).
+
+- `transitie` (area 3, tier 1) needed child company (kinderen, jongeren, minderjarigen, kind*), which a schooling debate always has. It now needs gender or medical company instead (`gender*`, `geslacht*`, `transgender*`, `hormo*`, `puberteit*`), one term in place of the two. Measured on the Tweede Kamer's verslagen of 28 September to 8 October (4,146 speeches from the raw archive): on our ground 66 to 65, the one lost the passend onderwijs debate of 30 September ("een transitie naar een nieuw systeem", noise). The Dutch and Belgian bill, vote and dossier stores are unchanged.
+
 ## Issue areas
 
 ### 1. Abortion {#1_abortion}
@@ -48,7 +52,7 @@ Scope calls applied while merging:
 
 ### 3. Gender medicine and children {#3_gender_medicine_children}
 
-- **Tier 1:** puberteitsremmer*; puberteitsremming*; genderdysforie*; geslachtsincongruentie*; genderzorg [only: nl]; transgenderzorg; transzorg; "geslachtsaanpassende behandeling*"; "geslachtsaanpassende operatie*"; "genderbevestigende zorg"; "genderbevestigende behandeling*"; "Dutch protocol" [only: nl]; "Nederlandse protocol" [only: nl]; detransitie* [only: nl]; genderteam* [only: nl]; transitie [with: kinderen, jongeren, minderjarigen, puberteit]; genderdysforie; "transgender minderjarige*"; transgenderjongere*; transitie [with: minderjarige*, kind*]
+- **Tier 1:** puberteitsremmer*; puberteitsremming*; genderdysforie*; geslachtsincongruentie*; genderzorg [only: nl]; transgenderzorg; transzorg; "geslachtsaanpassende behandeling*"; "geslachtsaanpassende operatie*"; "genderbevestigende zorg"; "genderbevestigende behandeling*"; "Dutch protocol" [only: nl]; "Nederlandse protocol" [only: nl]; detransitie* [only: nl]; genderteam* [only: nl]; transitie [with: gender*, geslacht*, transgender*, hormo*, puberteit*]; genderdysforie; "transgender minderjarige*"; transgenderjongere*
 - **Tier 2:** genderzorg; detransitie*; genderidentiteit [with: kind*, jongeren, minderjarigen]; hormoonbehandeling* [with: kind*, jongeren, minderjarigen]; "transgender jongeren"; transgenderjongeren; "Kennis- en Zorgcentrum Genderdysforie" [only: nl]; transgender*; genderidentiteit [only: be]; genderkliniek* [only: be]
 - **Notes:** Netherlands: Measured: 5 zaken; includes the Gezondheidsraad advice on transgender care for minors. Belgium: Measured: found 56/335, the resolution for a cautious approach and a KCE review.
 

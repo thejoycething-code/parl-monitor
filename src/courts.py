@@ -133,37 +133,22 @@ def empty_watchlist():
 
 
 # Court prose uses some of our terms in a legal sense. Measured on Ecuador's
-# 555 summaries of 2024-2026 (10 October 2026): "causales" (tier 1, area 1,
-# meant for the abortion "causales") matched fourteen rulings on grounds for
-# annulling an arbitral award, for a cassation appeal or for dismissal, and
-# none on abortion. A court text needs the company below for these words to
-# count; without it the word is masked and the text matched again. The
-# taxonomy itself is generated and is not edited here: the same guard belongs
-# in docs/keyword-taxonomy-es.md at the next term-list round.
-COURT_GUARDS = (
-    (re.compile(r"\bcausal(?:es)?\b", re.I),
-     re.compile(r"abort|embaraz|gestaci|no nacid", re.I)),
-)
-
-
-def _guarded(text):
-    for word, company in COURT_GUARDS:
-        if word.search(text) and not company.search(text):
-            text = word.sub(" ", text)
-    return text
+# 555 summaries of 2024-2026 (10 October 2026): "causales" (meant for the
+# abortion "causales") matched fourteen rulings on grounds for annulling an
+# arbitral award, for a cassation appeal or for dismissal, and none on
+# abortion. That guard lived here as a court-side mask until the taxonomy
+# carried it: since taxonomy-es v0.2 (10 October 2026) "causales" needs
+# abortion, pregnancy, gestation or unborn company in the term list itself,
+# for every Spanish-language collector, so no court-side mask is needed.
 
 
 def classify(tax, title, *texts):
     """(areas, matched_terms, tier) for a ruling: the taxonomy over its title
-    and the classified text, after COURT_GUARDS. Accents fold in
-    src/filter.py (X3)."""
+    and the classified text. Accents fold in src/filter.py (X3)."""
     if tax is None:
         return [], [], None
     from src import filter as filt
-    whole = " ".join(t for t in (title,) + texts if t)
     fields = [title or ""] + [t for t in texts if t]
-    if _guarded(whole) != whole:
-        fields = [_guarded(f) for f in fields]
     res = filt.filter_item(tax, empty_watchlist(), *fields)
     return sorted(set(res.issue_areas or [])), list(res.matched_terms or []), res.tier
 
