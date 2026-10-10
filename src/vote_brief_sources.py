@@ -449,15 +449,26 @@ class IT:
         leg = itr.LEGISLATURE
         tax = itr.filt.load_taxonomy(itr.taxonomy_path(), country=itr.TAXONOMY_COUNTRY)
         wl = itr.empty_watchlist()
-        hi = int(itr.sparql(client, itr.q_senate_max_sitting(leg),
-                            "brief-senate-max-sitting")[0]["hi"])
-        senate = [d for d in itr.parse_senate_votes(itr.sparql(
-            client, itr.q_senate_votes(leg, max(hi - 3, 0), hi + 1),
-            "brief-senate-votes-{0}".format(hi))).values() if (d["date"] or "") >= since]
-        url = itr.OPENPOLIS.format(leg) + "votings/?branch=C&page_size={0}".format(IT.CAMERA_PAGE)
-        data = client.get_json(url, itr.FEED, "brief-camera-votings-{0}".format(today))
-        camera = [v for v in itr.parse_camera_list(data.get("results"), leg)
-                  if (v["date"] or "") >= since]
+        senate, camera, failed = [], [], []
+        try:                  # the two chambers' sources fail apart (dati.senato.it 403, 10 Oct)
+            hi = int(itr.sparql(client, itr.q_senate_max_sitting(leg),
+                                "brief-senate-max-sitting")[0]["hi"])
+            senate = [d for d in itr.parse_senate_votes(itr.sparql(
+                client, itr.q_senate_votes(leg, max(hi - 3, 0), hi + 1),
+                "brief-senate-votes-{0}".format(hi))).values() if (d["date"] or "") >= since]
+        except (FetchError, ValueError, KeyError, IndexError, TypeError) as exc:
+            failed.append("Senate")
+            log("  [gap] it: the Senate's SPARQL endpoint did not answer: {0}".format(str(exc)[:100]))
+        try:
+            url = itr.OPENPOLIS.format(leg) + "votings/?branch=C&page_size={0}".format(IT.CAMERA_PAGE)
+            data = client.get_json(url, itr.FEED, "brief-camera-votings-{0}".format(today))
+            camera = [v for v in itr.parse_camera_list(data.get("results"), leg)
+                      if (v["date"] or "") >= since]
+        except (FetchError, ValueError) as exc:
+            failed.append("Camera")
+            log("  [gap] it: Openpolis did not answer: {0}".format(str(exc)[:100]))
+        if len(failed) == 2:
+            raise ValueError("neither chamber's source answered")
         sittings = {}
         for v in camera:
             sittings.setdefault(v["sitting"], []).append(v)
@@ -467,11 +478,14 @@ class IT:
                 v["bill_key"], v["bill_inferred"] = bills.get(v["key"], (None, 0))
                 v["bill_keys"] = [v["bill_key"]] if v["bill_key"] else []
         fases = sorted({k.split("/", 1)[1] for d in senate + camera for k in itr._keys(d) if "/" in k})
-        if fases:
-            rows = itr.sparql(client, q_bills_by_fase(leg, fases), "brief-bills-{0}".format(today))
-            subj = itr.sparql(client, q_teseo_by_fase(leg, fases), "brief-teseo-{0}".format(today))
-            for b in itr.attach_subjects(itr.parse_bills(rows, leg), subj).values():
-                itr.store_bill(conn, b, itr.classify_bill(tax, wl, b), today)
+        if fases and "Senate" not in failed:
+            try:
+                rows = itr.sparql(client, q_bills_by_fase(leg, fases), "brief-bills-{0}".format(today))
+                subj = itr.sparql(client, q_teseo_by_fase(leg, fases), "brief-teseo-{0}".format(today))
+                for b in itr.attach_subjects(itr.parse_bills(rows, leg), subj).values():
+                    itr.store_bill(conn, b, itr.classify_bill(tax, wl, b), today)
+            except (FetchError, ValueError) as exc:
+                log("  [gap] it: the readings voted on were not read: {0}".format(str(exc)[:100]))
         for d in senate + camera:
             itr.store_division(conn, d, tax, wl, today)
         conn.commit()

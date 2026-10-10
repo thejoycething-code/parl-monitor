@@ -521,6 +521,16 @@ class DailyReaderTests(unittest.TestCase):
         self.assertEqual(done, conn.execute("SELECT COUNT(*) FROM it_divisions WHERE "
                                             "areas != '[]'").fetchone()[0])
 
+    def test_italy_one_chambers_source_failing_costs_the_other_nothing(self):
+        camera = _json("it", "camera_votings_p337.json")
+        client = FakeClient([("votings/?branch=C", camera)])   # the Senate answers 404
+        said = []
+        n = vs.IT.collect(scratch(), client, "2023-07-31", "2023-07-31", log=said.append)
+        self.assertEqual(n, sum(1 for r in camera["results"] if r["sitting"]["date"] >= "2023-07-31"))
+        self.assertTrue(any("[gap] it: the Senate" in s for s in said))
+        with self.assertRaises(ValueError):
+            vs.IT.collect(scratch(), FakeClient([]), "2023-07-31", "2023-07-31", log=said.append)
+
     def test_a_failing_reader_is_a_gap_and_costs_the_others_nothing(self):
         said = []
         broken = FakeClient([])
