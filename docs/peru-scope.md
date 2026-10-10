@@ -401,6 +401,7 @@ Later phases and items for Chris (not built at the merge):
 - Not built: the expediente endpoint (PE2, reversed on 10 October 2026). Its identifiers are AES-encrypted with a key in the public front end; Chris decided to leave it out, so bill detail stays at what the list endpoint gives.
 - Phase: regional councils (PE4).
 - Phase (X7): OCR for scan-only sessions. Designed and wired 10 October 2026 (`tools/pe_ocr.py`, see below); waits for Tesseract on the Mini.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/pe/` from the store each weekly run (`tools/member_profiles.py pe`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## Parity work, set B (10 October 2026, branch `parity-phases-b`)
 

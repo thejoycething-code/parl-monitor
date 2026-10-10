@@ -453,6 +453,7 @@ Later phases and items for Chris (not built at the merge):
 - No votes for now (CO3).
 - Phase (X8): the Constitutional Court section (CO4). Built 10 October 2026 (exhortations file; see below).
 - Phase (X7): OCR for scanned records. Designed 10 October 2026 (`src/ocr.py`); the Gaceta is not collected yet, so nothing calls it for Colombia.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/co/` from the store each weekly run (`tools/member_profiles.py co`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. The vote files print no party: the party shown is the member list's latest, labelled; bills by author are listed.
 
 ## Parity work, set B (10 October 2026, branch `parity-phases-b`)
 

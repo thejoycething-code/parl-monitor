@@ -520,6 +520,7 @@ Later phases and items for Chris (not built at the merge):
 
 - AR2-AR4: Diputados votes tried from the Mini, the register read gently, and www.hcdn.gob.ar read only by the scheduled monitor script, never by a Claude session.
 - AR7: the Ley 13.640 lapse rule confirmed.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/ar/` from the store each weekly run (`tools/member_profiles.py ar`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

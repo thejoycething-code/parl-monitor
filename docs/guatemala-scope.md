@@ -383,6 +383,7 @@ Later phases and items for Chris (not built at the merge):
 - The Constitutional Court access request (GT5): Chris. X8 (10 October 2026): recorded as a gap and skipped; cc.gob.gt challenges every client (403 Cloudflare from the laptop, a challenge from a runner), which we never work around.
 - X6: party history.
 - PDFs are not fetched (robots.txt).
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/gt/` from the store each weekly run (`tools/member_profiles.py gt`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Party (X6): the per-vote PDFs are closed to robots, so the bloc shown is the current one, labelled "as listed, not party at the vote".
 
 ## Parity work, set B (10 October 2026, branch `parity-phases-b`)
 
