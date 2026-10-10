@@ -486,6 +486,9 @@ def classify_division(tax, wl, s, dossier_areas):
 def _dossier_areas(conn, ref):
     if not ref:
         return []
+    if ref.startswith("SEN-"):
+        # A Senate-only dossier (FR5, tools/fr_senat.py).
+        return fr_store.senat_dossier_areas(conn, ref)
     row = conn.execute("SELECT areas FROM fr_dossiers WHERE dossier_ref=?", (ref,)).fetchone()
     return json.loads(row[0] or "[]") if row else []
 

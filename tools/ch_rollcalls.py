@@ -39,6 +39,20 @@ config/taxonomy-qc.yaml, and the two are unioned: on the titles of the
 current legislature the German list found 163 on our ground, the French
 109, and they agreed on only 57.
 
+ITALIAN TOO (CH6, Chris, 10 October 2026). Every business is also published
+in Italian, and config/taxonomy-it.yaml (Italy's list; its Italy-only terms
+are tagged [only: it] and dropped for `ch`) is matched on the Italian title
+and submitted text, unioned like the other two (`areas_it`). A third
+language pass reads the Italian records alongside the German and French
+ones; businesses read by ID (refetch_businesses, two languages, unchanged)
+get theirs from fill_italian, ID_BATCH to a request, on the same run. The
+Italian list is NOT run on a vote's own text: the secretariat writes those in
+German or French, where Italian terms are false friends (the Italian tier-1
+"IVG" is the German abbreviation of the Invalidity Insurance Act). A
+business refreshed in German and French only keeps its stored Italian
+result (areas_it, terms_it), so the Italian areas never drop out between
+passes.
+
 POSITIONS FOR EVERY DIVISION (X15, Chris, 10 October 2026), our ground
 first. Until then they were stored for divisions on our ground only (the
 Canada rule), which is what the next lines measured.
@@ -84,6 +98,8 @@ CURRENT_PERIOD = 52
 # unchanged for the Bundestag and Quebec.
 TAXONOMY_DE = os.path.join(ROOT, "config", "taxonomy-atch.yaml")
 TAXONOMY_FR = os.path.join(ROOT, "config", "taxonomy-fr.yaml")
+# CH6: Italy's list on the Italian texts, for `ch` ([only: it] terms dropped).
+TAXONOMY_IT = os.path.join(ROOT, "config", "taxonomy-it.yaml")
 # The country this collector matches for: a shared language list
 # (taxonomy-es, -pt, -nl, -it, -fr, -atch) tags a country's own terms
 # [only: ...] and filter.load_taxonomy keeps only ours (10 October 2026).
@@ -199,9 +215,14 @@ def empty_watchlist():
 
 
 class Taxonomies:
-    def __init__(self, de=None, fr=None):
+    def __init__(self, de=None, fr=None, it=None):
         self.de = de if de is not None else filt.load_taxonomy(TAXONOMY_DE, country=TAXONOMY_COUNTRY)
         self.fr = fr if fr is not None else filt.load_taxonomy(TAXONOMY_FR, country=TAXONOMY_COUNTRY)
+        # CH6. None when the file is absent: the Italian pass then stores
+        # titles and matches nothing.
+        if it is None and os.path.exists(TAXONOMY_IT):
+            it = filt.load_taxonomy(TAXONOMY_IT, country=TAXONOMY_COUNTRY)
+        self.it = it
         self.wl = empty_watchlist()
 
 
@@ -253,9 +274,38 @@ def classify_business(tax, de, fr):
     return a_de, a_fr, sorted(set(a_de) | set(a_fr) | set(w_areas)), terms, tier
 
 
-def store_business(conn, tax, de, fr, today):
-    base = de or fr
+def classify_italian(tax, it):
+    """(areas_it, terms_it, tier) for the Italian record (CH6), title first,
+    then the submitted text, as classify_business does for the other two."""
+    if not it or getattr(tax, "it", None) is None:
+        return [], [], None
+    res = filt.filter_item(tax.it, tax.wl, it.get("title") or "", it.get("text") or "",
+                           title=it.get("title") or "")
+    return list(res.issue_areas), list(res.matched_terms), res.tier
+
+
+def _stored_italian(conn, bid):
+    """The Italian result already stored, for a refresh without the Italian
+    record: (title_it, areas_it, terms_it, tier_it) or (None, [], [], None)."""
+    row = conn.execute("SELECT title_it, areas_it, terms_it, tier_it FROM ch_businesses "
+                       "WHERE business_id=?", (bid,)).fetchone() if bid is not None else None
+    if not row:
+        return None, [], [], None
+    return row[0], json.loads(row[1] or "[]"), json.loads(row[2] or "[]"), row[3]
+
+
+def store_business(conn, tax, de, fr, today, it=None):
+    base = de or fr or it
     a_de, a_fr, areas, terms, tier = classify_business(tax, de, fr)
+    if it is not None:
+        title_it = it.get("title")
+        a_it, t_it, tier_it = classify_italian(tax, it)
+    else:
+        title_it, a_it, t_it, tier_it = _stored_italian(conn, base["id"])
+    if a_it:
+        areas = sorted(set(areas) | set(a_it))
+        terms = terms + [t for t in t_it if t not in terms]
+        tier = min(t for t in (tier, tier_it) if t) if (tier or tier_it) else None
     conn.execute(
         "INSERT INTO ch_businesses (business_id, short_number, business_type, title_de, "
         "title_fr, submitted_by, submission_date, submission_council, legislative_period, "
@@ -278,6 +328,10 @@ def store_business(conn, tax, de, fr, today):
          base["department"], (de or base)["tags"], base["modified"],
          ch_store.dumps(a_de), ch_store.dumps(a_fr), ch_store.dumps(areas),
          ch_store.dumps(terms), tier, today, today))
+    if title_it is not None or it is not None:
+        conn.execute("UPDATE ch_businesses SET title_it=COALESCE(?, title_it), areas_it=?, "
+                     "terms_it=?, tier_it=? WHERE business_id=?",
+                     (title_it, ch_store.dumps(a_it), ch_store.dumps(t_it), tier_it, base["id"]))
     return areas
 
 
@@ -291,6 +345,10 @@ def _pair(de_rows, fr_rows):
         seen.add(b["id"])
     out.extend((None, b) for bid, b in fr.items() if bid not in seen)
     return out
+
+
+def _italian_by_id(it_rows):
+    return {r["ID"]: parse_business(r) for r in it_rows or []}
 
 
 def pull_businesses(conn, client, tax, today, period=CURRENT_PERIOD, log=print, full=False):
@@ -312,9 +370,24 @@ def pull_businesses(conn, client, tax, today, period=CURRENT_PERIOD, log=print, 
                                     BUSINESS_FIELDS), slug + "-de"),
         fetch_all(client, odata_url("Business", "Language eq 'FR' and " + cond,
                                     BUSINESS_FIELDS), slug + "-fr"))
+    # CH6: the Italian records of the same businesses. A refused Italian
+    # pass is not fatal: the German and French results are stored, the
+    # Italian ones kept from before, and fill_italian retries the missing.
+    try:
+        italian = _italian_by_id(fetch_all(
+            client, odata_url("Business", "Language eq 'IT' and " + cond, BUSINESS_FIELDS),
+            slug + "-it"))
+    except (FetchError, ValueError) as exc:
+        log("ch-rollcalls: Italian pass refused ({0}); kept the stored Italian results".format(
+            str(exc)[:80]))
+        italian = None
     ours = 0
     for de, fr in pairs:
-        ours += on_our_ground(store_business(conn, tax, de, fr, today))
+        bid = (de or fr)["id"]
+        ours += on_our_ground(store_business(conn, tax, de, fr, today,
+                                             it=(italian or {}).get(bid)))
+    if italian is not None:
+        _no_italian(conn, [(de or fr)["id"] for de, fr in pairs if (de or fr)["id"] not in italian])
     conn.commit()
     log("ch-rollcalls: {0} business(es) read ({1}), {2} on our ground".format(
         len(pairs), "since " + since[:10] if since else "legislature {0}".format(period), ours))
@@ -361,6 +434,67 @@ def refetch_businesses(conn, client, tax, today, ids, log=print, budget=None):
                 _gap(conn, today, "business {0}: the service has no record".format(bid))
                 gaps += 1
         conn.commit()
+    return got, gaps
+
+
+def _no_italian(conn, ids):
+    """Mark businesses the service has no Italian record for (title_it = '',
+    not NULL), so fill_italian does not ask again every week. Measured on
+    10 October 2026: 3,416 of the legislature's 3,564 Fragestunde questions
+    are published only in the language they were asked in."""
+    for bid in ids:
+        conn.execute("UPDATE ch_businesses SET title_it='' WHERE business_id=? "
+                     "AND title_it IS NULL", (bid,))
+
+
+def fill_italian(conn, client, tax, today, ids=None, log=print, budget=None):
+    """CH6: read the Italian record of every business that has none yet
+    (title_it NULL), ID_BATCH to a request, and re-derive its areas with the
+    Italian result added. Returns (got, gaps). A business the service has no
+    Italian record for is marked title_it = '' (no gap: Fragestunde
+    questions are published in one language) and not asked again; a refused
+    request is a gap."""
+    if ids is None:
+        ids = [b for (b,) in conn.execute(
+            "SELECT business_id FROM ch_businesses WHERE title_it IS NULL ORDER BY business_id")]
+    ids = sorted({int(i) for i in ids})
+    got = gaps = 0
+    for start in range(0, len(ids), ID_BATCH):
+        if budget is not None and budget.exhausted():
+            log(budget.disclose("Italian businesses", got))
+            break
+        chunk = ids[start:start + ID_BATCH]
+        ors = " or ".join("ID eq {0}".format(i) for i in chunk)
+        try:
+            italian = _italian_by_id(fetch_all(client, odata_url(
+                "Business", "Language eq 'IT' and ({0})".format(ors), BUSINESS_FIELDS),
+                "business-{0}-{1}-it".format(chunk[0], len(chunk))))
+        except (FetchError, ValueError) as exc:
+            _gap(conn, today, "businesses {0}..{1} IT: {2}".format(chunk[0], chunk[-1], exc))
+            gaps += 1
+            continue
+        _no_italian(conn, [b for b in chunk if b not in italian])
+        for bid, it in italian.items():
+            row = conn.execute("SELECT areas_de, areas_fr, areas, matched_terms, tier "
+                               "FROM ch_businesses WHERE business_id=?", (bid,)).fetchone()
+            if not row:
+                continue
+            a_it, t_it, tier_it = classify_italian(tax, it)
+            w_areas, _hit = ch_store.watch_areas(bid)
+            base = (set(json.loads(row[0] or "[]")) | set(json.loads(row[1] or "[]"))
+                    | set(w_areas))
+            terms = json.loads(row[3] or "[]")
+            terms += [t for t in t_it if t not in terms]
+            tiers = [t for t in (row[4], tier_it) if t]
+            conn.execute("UPDATE ch_businesses SET title_it=?, areas_it=?, terms_it=?, tier_it=?, "
+                         "areas=?, matched_terms=?, tier=? WHERE business_id=?",
+                         (it.get("title") or "", ch_store.dumps(a_it), ch_store.dumps(t_it), tier_it,
+                          ch_store.dumps(sorted(base | set(a_it))), ch_store.dumps(terms),
+                          min(tiers) if tiers else None, bid))
+            got += 1
+        conn.commit()
+    if ids:
+        log("ch-rollcalls: Italian records read for {0} of {1} business(es)".format(got, len(ids)))
     return got, gaps
 
 
@@ -1018,6 +1152,7 @@ def reclassify(conn, client, tax=None, period=CURRENT_PERIOD, log=print):
         "SELECT business_id FROM ch_businesses WHERE COALESCE(legislative_period, 0) != ?",
         (int(period),))]
     refetch_businesses(conn, client, tax, today, older, log=log)
+    fill_italian(conn, client, tax, today, older, log=log)
     after = dict(conn.execute("SELECT business_id, areas FROM ch_businesses"))
     changed_b = sum(1 for k, v in after.items() if before.get(k, "[]") != v)
     changed_d = derive_division_areas(conn, tax)
@@ -1093,6 +1228,10 @@ def main():
         gaps += g
         print("ch-rollcalls: {0} new NR and {1} new SR division(s), {2} gap(s)".format(nr, sr, g))
         _got, g = pull_missing_businesses(conn, client, tax, today, budget=budget)
+        gaps += g
+        # CH6: the Italian record of any business still without one (the
+        # older ones a vote named, read above in German and French).
+        _got, g = fill_italian(conn, client, tax, today, budget=budget)
         gaps += g
         derive_division_areas(conn, tax)
         filled, g = backfill_positions(conn, client, today, sessions, cache, budget=budget,
