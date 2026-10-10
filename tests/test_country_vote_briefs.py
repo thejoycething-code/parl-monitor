@@ -278,13 +278,13 @@ class RenderTests(Base):
         def say(key):
             with mock.patch.object(cvb, "stance_path", lambda cc: stance):
                 return cvb.stance_status("xx", key)
-        a = ce.vote("xx", "2026Z1", "2026-10-08", "Motie", [1], 1, True, [], division_key="besluit-1")
+        a = ce.vote("xx", "2026Z1", "2026-10-08", "Motie", [1], 1, True, [], division="besluit-1")
         self.assertEqual(cvb.stance_key(a), "besluit-1")
         self.assertIn("awaiting sign-off", say(cvb.stance_key(a)))
         self.assertIn("awaiting sign-off", say("besluit-2"))      # confirmed needs a name and a date
         self.assertIn("to read first", say("besluit-3"))
-        b = ce.vote("xx", "2026Z1", "2026-10-08", "Motie", [1], 1, True, [], division_key="2026Z1")
-        self.assertNotIn("division_key", b)                          # same as the key: not stored
+        b = ce.vote("xx", "2026Z1", "2026-10-08", "Motie", [1], 1, True, [], division=None)
+        self.assertNotIn("division", b)
         self.assertNotEqual(cvb.vote_id(a), cvb.vote_id(b))
 
     def test_the_dm_is_capped(self):

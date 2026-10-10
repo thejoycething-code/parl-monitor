@@ -10,7 +10,11 @@
 #
 #     FR_RECLASSIFY=true    re-derive every stored FR dossier's and division's
 #                           areas, offline, before the pull (after a taxonomy
-#                           or watchlist-fr change)
+#                           or watchlist-fr change), the Senat's included (FR5)
+#
+# THE SENAT (FR5, 10 October 2026): tools/fr_senat.py runs after the
+# Assemblee's collector; it downloads data.senat.fr's Dosleg dump at most
+# weekly and only when it changed, and otherwise does nothing.
 #
 # Exit codes. The collector exits 3 when it stored what it could and recorded
 # gaps (in the gaps table and as [gap] lines in the log): that run is still
@@ -23,7 +27,7 @@
 # edition already committed for today is rewritten, not resent. Its failure
 # is a [gap] line and never costs the store.
 #
-# mini_run: commit editions
+# mini_run: commit editions profiles
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when db_state.py publishes) is keyed on the
@@ -32,9 +36,24 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-France weekly}"
 if [ "${FR_RECLASSIFY:-}" = "true" ]; then
   python3 tools/fr_rollcalls.py --reclassify
+  python3 tools/fr_senat.py --reclassify
 fi
 rc=0
 python3 tools/fr_rollcalls.py || rc=$?
+# The Senat (FR5, 10 October 2026): data.senat.fr's Dosleg dump, downloaded
+# at most weekly and only when it changed (a one-byte request reads its
+# headers first), after the Assemblee so a Senate dossier can be joined to
+# the Assemblee's. A gap (exit 3) is reported like the Assemblee's; a failure
+# is logged and never stops the Assemblee's publish below.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  sr=0
+  python3 tools/fr_senat.py || sr=$?
+  if [ "$sr" -eq 3 ]; then
+    rc=3
+  elif [ "$sr" -ne 0 ]; then
+    echo "  [gap] fr-senat failed (exit $sr); the Assemblee is still published"
+  fi
+fi
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.
@@ -52,6 +71,13 @@ if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; }; then
   else
     python3 tools/fr_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
   fi
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/fr/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py fr \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
 # Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
 # this country's watched and tier-1 votes not briefed yet, written to

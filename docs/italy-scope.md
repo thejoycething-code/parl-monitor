@@ -497,12 +497,60 @@ Applied on the `countries` branch:
 
 Later phases and items for Chris (not built at the merge):
 
-- Phase: dati.camera.it SPARQL as the Camera's backup source, or main when quicker (IT2). Needs fixtures from the live service and a member-key crosswalk (Openpolis to persistent IDs); not built at the merge.
+- Phase: dati.camera.it SPARQL as the Camera's backup source, or main when quicker (IT2). BUILT 10 October 2026 (branch `parity-phases-a`): see "IT2, as built" below.
 - Phase: regional councils after national (IT3).
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/it/` from the store each weekly run (`tools/member_profiles.py it`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
+
+## IT2, as built (10 October 2026, branch `parity-phases-a`)
+
+Inside `tools/it_rollcalls.py`; `IT_CAMERA_SOURCE` chooses `auto` (default),
+`openpolis` or `camera`.
+
+- **Vote keys never change**: both sources carry the Camera's own vote ID
+  (`camera-vs19_723_001`), and dati.camera.it's description and title give
+  Openpolis's title, so the bill inference reads the same text. A vote
+  already stored keeps its stored title.
+- **The list**: Openpolis first; if it refuses its first page, the same
+  window from dati.camera.it, month by month (two FILTERs: the Camera's
+  firewall rejects `&&` with `<`).
+- **Positions, "main when quicker"**: dati.camera.it answers a vote's
+  positions in about 0.3 s against Openpolis's 2 to 4, but records the
+  absent and those on mission alike. So votes on our ground read Openpolis
+  first (it keeps mission apart), and the X15 backlog off our ground reads
+  dati.camera.it first; each falls back to the other, and a vote Openpolis
+  still shows all 'SEC' is taken from the Camera. `positions_source`
+  records which.
+- **Members**: the Camera's deputies are matched to the Openpolis keys by
+  name, then by surname within the group (all 399 of vs19_147_041 matched;
+  the two disagreed on one position, the sitting's president), and the
+  Camera's ID is kept in `it_members.camera_id`; an unmatched deputy is
+  keyed `CD:<Camera ID>`, never guessed.
+- **Measured live**: the list for 16 September to 8 October 2026, 157
+  votes, in one second; five votes' positions in five seconds.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/it_stance.yaml` holds 15 bill direction(s) (Claude's drafts from the watchlist) and 137 vote reading(s): 9 with proposed values, 1 procedural, 127 need reading, 0 confirmed. Guide: `docs/5ca-it-readings.md`; confirm with `python3 tools/country_5ca.py --cc it --sign-from-doc --by NAME`. Sheets (`data/5ca/it-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Italy (`config/stance_signers.yaml`).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country it --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country it --date YYYY-MM-DD --item 19/C.72 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country it --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/it-<date>-<slug> --onside
+
+It writes `data/packs/it-<date>-<slug>/`: `pack.md` and `checklist.md` in Italian (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: read by bill key from the `country_agenda` table (the week-ahead layer, src/agenda.py) once the country's weekly step has read the agenda; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/it_stance.yaml`; none is confirmed yet, so every pack shows
+"in attesa di firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".
 
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 

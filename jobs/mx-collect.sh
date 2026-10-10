@@ -37,6 +37,13 @@ rc=0
 # nine pages each at one a second); the budget stops it cleanly and the rest
 # drains on later runs.
 python3 tools/mx_rollcalls.py --budget-seconds 2400 || rc=$?
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/mx/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py mx \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
+fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "mx-rollcalls failed (exit $rc)"
   exit "$rc"

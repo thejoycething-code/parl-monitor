@@ -299,6 +299,16 @@ Handover item 4. `tools/country_agenda.py <cc>` reads a country's agenda into th
 - **A failed read keeps the last good one**: the edition shows it with its date in the Coverage line, and the gap is in the gaps table as `<cc>-agenda`. The Sejm API did not answer the laptop at times on 10 October (40 s timeouts); with the client's retries the PL step can take a few minutes before it gives up.
 - **By hand:** `python3 tools/country_agenda.py pl --db /tmp/x.db` reads into a scratch store; never run it on the runner's store while a weekly is publishing.
 
+## Member profiles in the country weeklies (10 October 2026, branch `parity-profiles`)
+
+Handover item 3: one Markdown profile per member with a record on our ground, for the 23 countries with a member list (`profiles/<cc>/`, an `index.md` per country), from `src/member_profiles.py` through `tools/member_profiles.py <cc>`.
+
+- **No new plists, workflows or cron slots.** It is a step of each country's existing weekly (`jobs/<cc>-weekly.sh`; Mexico's `jobs/mx-collect.sh` on GitHub), after the collector and before the publish, only when the collector stored something (exit 0 or 3). It reads the store and takes seconds; a failure is a `[gap] member-profiles` line and never costs the store.
+- **Committed with the store:** each script's `# mini_run: commit` line now names `profiles` (beside `editions` where the country has one), and each workflow's commit step adds `profiles/`. The directory is rewritten whole: a member who no longer has a record loses their file. Nothing is posted or DMed.
+- **Croatia** first reads plenary transcripts for party history (`tools/hr_party_history.py`, X6): edoc.sabor.hr, one request a second, newest first, ten minutes a run (`HR_TRANSCRIPT_SECONDS`); the 11th Sabor's ~950 transcripts drain over the first few weeks, then a run reads the week's new ones.
+- **Chile** first asks the BCN for senators' party history (`tools/cl_senate_parties.py`, one SPARQL request to datos.bcn.cl, which asks for a 10-second crawl delay).
+- Nothing to install on the Mini beyond the usual `git pull` of the runner clone.
+
 ## Installing the country jobs (10 October 2026)
 
 One command installs every country-edition job and the Latam monthly, after the runner clone has pulled main:
@@ -528,6 +538,12 @@ with the end of its output. Nothing caps the clock here, but give
     cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh hu-karzat-backfill \
       >> ~/runner/logs/hu-karzat-backfill.log 2>&1 &
 
+    # Slovakia, SK6: the term's backlog of bill documents (about 836 prints,
+    # two and a half hours at nrsr.sk's speed); 55 minutes a run, so run it
+    # three times, never on a Tuesday morning (the Slovak weekly).
+    cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh sk-docs-backfill \
+      >> ~/runner/logs/sk-docs-backfill.log 2>&1 &
+
 They record their own heartbeats ("Provinces backfill", "Canada backfill"),
 never the weekly's. They hold the lock while they run, so the scheduled jobs
 queue behind them (up to two hours): start a long one when the calendar is
@@ -537,3 +553,18 @@ The GitHub dispatch forms still work, as a fallback.
 The scoping probes (`*-probe.yml`, `probe-hosts.yml`) stay on GitHub: they
 exist to ask whether a site answers GitHub's runners, which only a runner
 can answer. They are one-off; delete each once its collector is built.
+
+## Later phases, set A (10 October 2026, branch `parity-phases-a`)
+
+No new scheduled job and no new plist: each phase is a step in a weekly the
+Mini already runs, so `ops/install_country_jobs.sh` is unchanged. After the
+merge the runner picks them up on its next `git pull` (mini_run.sh does it).
+
+| Phase | Where it runs | What the Mini does |
+|---|---|---|
+| FR5, the Senat | `jobs/fr-weekly.sh`, after `fr_rollcalls.py` (Saturdays) | `tools/fr_senat.py`: one 1-byte request for the Dosleg dump's headers; downloads the 16 MB zip only when it changed and the last download is six or more days old; about 15 seconds to load. Its own heartbeat "FR Senat". |
+| NL4, the Eerste Kamer | `jobs/nl-weekly.sh`, after `nl_rollcalls.py` (Thursdays) | `tools/nl_eerstekamer.py`: eerstekamer.nl's vote pages, one a second, back to two weeks before the newest stored vote. The first run reads back to June 2023: 46 pages, about 3 minutes. Heartbeat "NL Eerste Kamer". |
+| IT2, the Camera's SPARQL | `jobs/it-weekly.sh`, inside `it_rollcalls.py` | Nothing new to install. `IT_CAMERA_SOURCE=openpolis` or `camera` in `~/runner/env` overrides the default `auto`. |
+| CH6, Swiss Italian texts | `jobs/ch-weekly.sh`, inside `ch_rollcalls.py` | A third language pass (22 more pages on a full read, a few on a weekly one). The first weekly after the merge reads every business's Italian record once (about 6,700 have one; Fragestunde questions mostly do not and are marked so). |
+| SK6, Slovak bill documents | `jobs/sk-weekly.sh` (Tuesdays): documents get the first 10 minutes of the old 45-minute positions budget | The backlog by hand: `sk-docs-backfill` above, three runs. |
+

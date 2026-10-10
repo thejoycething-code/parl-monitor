@@ -411,11 +411,69 @@ Applied on the `countries` branch:
 
 Later phases and items for Chris (not built at the merge):
 
-- Phase 2: bill documents (SK6).
+- Phase 2: bill documents (SK6). BUILT 10 October 2026 (branch `parity-phases-a`): see "SK6, as built" below.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/sk/` from the store each weekly run (`tools/member_profiles.py sk`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Interpellations the member asked are listed.
+
+## SK6, as built (10 October 2026, branch `parity-phases-a`)
+
+`tools/sk_rollcalls.py` reads, for every amending or constitutional bill
+and every print already on our ground (836 on 10 October 2026), the print's
+page (`sid=zakony/cpt`, keyed by term and print number) and its two
+documents that say what a bill does: the bill text ("Návrh zákona") and the
+explanatory memorandum ("Dôvodová správa"), Word or PDF, stdlib only. They
+are matched passage by passage with taxonomy-sk (tier-1 passages only, as
+the EU's documents are). New columns on `sk_bills`: `docs_read`, `doc_ids`,
+`doc_areas`, `doc_terms`, `doc_excerpt`; a print's areas keep its document
+areas through every re-read of its title, its votes inherit them, and their
+positions are queued like any vote on our ground.
+
+- **Weekly**: the documents take the first 10 minutes of the job's old
+  45-minute positions budget (new prints, a few a week). **Backlog**: by
+  hand on the Mini, `jobs/sk-docs-backfill.sh` (55 minutes a run, about
+  three runs: 3 to 11 seconds a print at the speeds measured).
+- **Measured** on the first 25 prints (ours first): 7 gained an area the
+  title did not give, among them tlač 1218 (amends the Family Act; the
+  memorandum is about banning corporal punishment, area 6), 1140 (registry
+  law; the unborn child and parental rights), 1367 (online protection of
+  minors: age verification, sexual exploitation), 1397 (hate speech and the
+  registration of churches).
+- **Then 120 more** (10 October 2026, 399 seconds, about 3 seconds a print
+  at that hour): of the amending bills off our ground, 17 came onto it by
+  their documents, mostly real (Family Act amendments, child protection
+  online, foster care, freedom of expression, a bill on gender identity and
+  the Istanbul Convention). Noise to fix in the next term-list round:
+  "eutanázi*" caught a veterinary bill (animal euthanasia; Italy's list
+  guards the same word), and police omnibus bills (1439, 1445) list the
+  crimes they cover (child pornography, trafficking) and take four or five
+  areas from one passage each.
+- **Edition**: a print on our ground by its documents alone says so, with
+  the passage that matched. Sample: `docs/parity-samples/sk-documents-2026-03-30.md`.
+- **Not built**: the legislative stage from the print's process page, and
+  EUROVOC descriptors.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/sk_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 43 vote reading(s): 3 with proposed values, 10 procedural, 30 need reading, 0 confirmed. Guide: `docs/5ca-sk-readings.md`; confirm with `python3 tools/country_5ca.py --cc sk --sign-from-doc --by NAME`. Sheets (`data/5ca/sk-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Slovakia (`config/stance_signers.yaml`).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country sk --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country sk --date YYYY-MM-DD --item 9/733 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country sk --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/sk-<date>-<slug> --onside
+
+It writes `data/packs/sk-<date>-<slug>/`: `pack.md` and `checklist.md` in Slovak (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/sk_stance.yaml`; none is confirmed yet, so every pack shows
+"čaká na schválenie" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".
 
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 

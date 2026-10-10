@@ -17,6 +17,7 @@
 # published, and this script exits 0 so the caller commits the sidecars with
 # it. Any other failure publishes NOTHING and exits non-zero: the next run
 # re-reads whatever this one missed (the Cámara pull resumes from the store).
+# mini_run: commit profiles
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -43,6 +44,16 @@ fi
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/latam_alerts.py --country cl --send \
     || echo "  [gap] latam-alerts failed for cl; the next run retries"
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/cl/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  # X6: senators' party history from the BCN (tools/cl_senate_parties.py).
+  python3 tools/cl_senate_parties.py \
+    || echo "  [gap] cl-senate-parties: the BCN query failed; Senate parties stay as listed"
+  python3 tools/member_profiles.py cl \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "cl-rollcalls failed (exit $rc); nothing published"

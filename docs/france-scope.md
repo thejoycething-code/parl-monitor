@@ -421,7 +421,7 @@ buildings, associations), so they matter for campaigns rather than law.
 5. **A French reader.** As with Quebec and Germany, the terms are measured
    but not read by someone who campaigns in France. Worth one pass before
    the edition goes beyond Christopher.
-6. **Senat phase 2**: confirm it is wanted before the 126 MB dump is read
+6. **Senat phase 2** (answered: FR5, go ahead; built 10 October 2026): confirm it is wanted before the 126 MB dump is read
    weekly (about 16 MB to download).
 
 ## Decisions of 10 October 2026 (applied at the countries merge)
@@ -437,11 +437,67 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - Phase: follow the aide a mourir decrees first (FR4): a watch on the Journal officiel's implementing decrees once the law passes.
-- Phase: the Senat (FR5, go ahead): votes and dossiers from senat.fr open data. Not built at the merge.
+- Phase: the Senat (FR5, go ahead): votes and dossiers from senat.fr open data. BUILT 10 October 2026 (branch `parity-phases-a`): see "FR5, as built" below.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/fr/` from the store each weekly run (`tools/member_profiles.py fr`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
+
+## FR5, as built (10 October 2026, branch `parity-phases-a`)
+
+`tools/fr_senat.py`, a step of `jobs/fr-weekly.sh` after the Assemblee's
+collector. It reads data.senat.fr's Dosleg dump at most weekly and only when
+it changed (a one-byte request reads Last-Modified, ETag and size first;
+`fr_senat_dump` remembers them), plus `ODSEN_GENERAL.json` and
+`ODSEN_HISTOGROUPES.json` for senators and their dated group spells.
+
+- **Same tables as the Assemblee**, `chamber = 'senat'`: senators keyed by
+  matricule, groups `senat:<code>` shown by the name the senators' file
+  prints ("Les Républicains" for the internal code UMP), scrutins
+  `senat-<session>-<number>` with every position and the group at the vote,
+  and `fr_senat_dossiers` for the Senate's dossiers since 2024-25. Schema in
+  `src/fr_store.py`.
+- **The encoding**: every C1 character is read back as Windows-1252. The
+  apostrophes the scope thought lost ("lensemble") were U+0092 all along
+  (docs/api-notes.md).
+- **Joined to the Assemblee**: 593 of the 696 scrutins since the 2024-25
+  session reach a dossier (16 by the Senate's own chain, 577 by a unique
+  title); 756 of 865 Senate dossiers are linked to the Assemblee's (the
+  Senate's `url_an`, by uid or path slug, or the Assemblee's `senat_url`),
+  so the aide a mourir law's 28 Senate scrutins sit in the Assemblee's
+  dossier `DLR5L17N51670`, watched.
+- **No result word**: the dump has none, so `result` is NULL and the
+  edition prints the counts and the absolute majority of votes cast.
+- **Measured** (scratch store, 10 October 2026): 865 dossiers, 696
+  scrutins, 64 on our ground, 2,012 senators, 242,058 positions, about 15
+  seconds to load.
+- **Sample**: `docs/parity-samples/fr-senat-2026-01-28.md` (SAMPLE, never
+  sent), 19 to 28 January 2026: the Senate's first-reading votes on the
+  aide a mourir law (rejected 122 to 181 on 28 January, as the Senate
+  recorded it) and on the palliative care bill, group by group.
+- **Not built**: AN amendments (315 MB), Senate amendments (Ameli), Senate
+  questions and debates.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/fr_stance.yaml` holds 7 bill direction(s) (Claude's drafts from the watchlist) and 1050 vote reading(s): 10 with proposed values, 0 procedural, 1040 need reading, 0 confirmed. Guide: `docs/5ca-fr-readings.md`; confirm with `python3 tools/country_5ca.py --cc fr --sign-from-doc --by NAME`. Sheets (`data/5ca/fr-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for France (`config/stance_signers.yaml`). 1,040 of the 1,050 drafts are amendments and articles of the aide a mourir law: each needs its text read before it can place anyone.
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country fr --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country fr --date YYYY-MM-DD --item DLR5L17N51670 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country fr --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/fr-<date>-<slug> --onside
+
+It writes `data/packs/fr-<date>-<slug>/`: `pack.md` and `checklist.md` in French (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: read by bill key from the `country_agenda` table (the week-ahead layer, src/agenda.py) once the weekly step has read the agenda; until then, the edition's own week ahead (scheduled acts on the dossier). Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/fr_stance.yaml`; none is confirmed yet, so every pack shows
+"en attente de validation" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".
 
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 

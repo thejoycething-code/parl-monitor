@@ -243,8 +243,8 @@ def vote_id(it):
 def stance_key(it):
     """The store's division key, which config/<cc>_stance.yaml uses
     (src/country5ca.py): the item's own key unless the adapter keyed the
-    vote on its zaak or bill and said so (`division_key`)."""
-    return it.get("division_key") or it["key"]
+    vote on its zaak or bill and said so (`division`)."""
+    return it.get("division") or it["key"]
 
 
 def ledger_path(cc, directory=None):

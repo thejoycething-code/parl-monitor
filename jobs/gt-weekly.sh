@@ -22,6 +22,7 @@
 # commits the sidecars with it. Exit 1 includes a BOT CHALLENGE (the scoping
 # laptop was refused by the site's WAF; GitHub's runners were not): nothing
 # is published, and on the Mini the GitHub backup then runs at its slot.
+# mini_run: commit profiles
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed
@@ -59,6 +60,13 @@ fi
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/latam_alerts.py --country gt --send \
     || echo "  [gap] latam-alerts failed for gt; the next run retries"
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/gt/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py gt \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "gt-rollcalls failed (exit $rc); nothing published"

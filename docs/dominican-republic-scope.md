@@ -460,10 +460,31 @@ Later phases and items for Chris (not built at the merge):
 
 - Chamber-only votes (DO2).
 - The Senate credentials in its front end stay unused (S2).
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/do/` from the store each weekly run (`tools/member_profiles.py do`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/do_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 94 vote reading(s): 0 with proposed values, 12 procedural, 82 need reading, 0 confirmed. Guide: `docs/5ca-do-readings.md`; confirm with `python3 tools/country_5ca.py --cc do --sign-from-doc --by NAME`. Sheets (`data/5ca/do-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Dominican Republic (`config/stance_signers.yaml`).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country do --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country do --date YYYY-MM-DD --item 04557-2024-2028-CD [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country do --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/do-<date>-<slug> --onside
+
+It writes `data/packs/do-<date>-<slug>/`: `pack.md` and `checklist.md` in Spanish (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/do_stance.yaml`; none is confirmed yet, so every pack shows
+"pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".
 
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 

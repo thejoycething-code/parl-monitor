@@ -21,7 +21,7 @@
 # gaps (in the gaps table and as [gap] lines in the log): that run is still
 # published, and this script exits 0 so the caller commits the sidecars with
 # it. Any other failure publishes NOTHING and exits non-zero.
-# mini_run: commit editions
+# mini_run: commit editions profiles
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -38,6 +38,13 @@ python3 tools/es_rollcalls.py --budget-seconds 2700 || rc=$?
 # and the edition below shows it. Its failure is a [gap] line, never the run's.
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/country_agenda.py es || echo "  [gap] the week-ahead agenda step failed"
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/es/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py es \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
 # Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
 # this country's watched and tier-1 votes not briefed yet, written to

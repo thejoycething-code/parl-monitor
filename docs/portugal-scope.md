@@ -465,6 +465,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - Chris reads the parlamento.pt reuse terms (PT7).
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/pt/` from the store each weekly run (`tools/member_profiles.py pt`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Named deputies are recorded facts; every other position is DERIVED from the group vote (X5), labelled; initiatives the deputy authored (`pt_authors`) are listed.
 
 ## Parity work, set B (10 October 2026, branch `parity-phases-b`)
 
@@ -485,6 +486,26 @@ Later phases and items for Chris (not built at the merge):
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/pt_stance.yaml` holds 39 bill direction(s) (Claude's drafts from the watchlist) and 40 vote reading(s): 11 with proposed values, 8 procedural, 21 need reading, 0 confirmed. Guide: `docs/5ca-pt-readings.md`; confirm with `python3 tools/country_5ca.py --cc pt --sign-from-doc --by NAME`. Sheets (`data/5ca/pt-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Portugal (`config/stance_signers.yaml`). Groups vote as blocks: deputies named in the record are facts, every other deputy is DERIVED from the group's vote (X5) and labelled.
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country pt --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country pt --date YYYY-MM-DD --item XVII/J/479 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country pt --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/pt-<date>-<slug> --onside
+
+It writes `data/packs/pt-<date>-<slug>/`: `pack.md` and `checklist.md` in Portuguese (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: the group's vote is the record, so every member row is DERIVED (X5), marked `*`, and never counts as a member's own position or as breaking with the group.
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/pt_stance.yaml`; none is confirmed yet, so every pack shows
+"a aguardar validação" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".
 
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 

@@ -33,7 +33,7 @@
 # edition already committed for today is rewritten, not resent. Its failure
 # is a [gap] line and never costs the store.
 #
-# mini_run: commit editions
+# mini_run: commit editions profiles
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -62,6 +62,13 @@ if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; }; then
   else
     python3 tools/ch_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
   fi
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/ch/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py ch \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
 # Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
 # this country's watched and tier-1 votes not briefed yet, written to
