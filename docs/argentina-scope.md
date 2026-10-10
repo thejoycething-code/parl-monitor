@@ -524,3 +524,23 @@ Later phases and items for Chris (not built at the merge):
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/ar_stance.yaml` holds 7 bill direction(s) (Claude's drafts from the watchlist) and 2 vote reading(s): 0 with proposed values, 0 procedural, 2 need reading, 0 confirmed. Guide: `docs/5ca-ar-readings.md`; confirm with `python3 tools/country_5ca.py --cc ar --sign-from-doc --by NAME`. Sheets (`data/5ca/ar-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Argentina (`config/stance_signers.yaml`).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country ar --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country ar --date YYYY-MM-DD --item dip/4139-D-2026 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country ar --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/ar-<date>-<slug> --onside
+
+It writes `data/packs/ar-<date>-<slug>/`: `pack.md` and `checklist.md` in Spanish (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: read by bill key from the `country_agenda` table once the week-ahead layer (branch `parity-week-ahead`) is merged and its weekly step has run; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/ar_stance.yaml`; none is confirmed yet, so every pack shows
+"pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

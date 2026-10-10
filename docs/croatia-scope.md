@@ -516,3 +516,23 @@ Later phases and items for Chris (not built at the merge):
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/hr_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 12 vote reading(s): 0 with proposed values, 0 procedural, 12 need reading, 0 confirmed. Guide: `docs/5ca-hr-readings.md`; confirm with `python3 tools/country_5ca.py --cc hr --sign-from-doc --by NAME`. Sheets (`data/5ca/hr-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Croatia (`config/stance_signers.yaml`). Party is as listed until party history is sourced (X6). Croatia's `yes_means_reject` flag swaps the sides.
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country hr --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country hr --date YYYY-MM-DD --item 11/41 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country hr --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/hr-<date>-<slug> --onside
+
+It writes `data/packs/hr-<date>-<slug>/`: `pack.md` and `checklist.md` in Croatian (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance). Groups are as the member list gives them (X6), not party at the vote.
+Agenda slot: the edition's own week ahead (the current session's items awaiting debate or a vote). Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/hr_stance.yaml`; none is confirmed yet, so every pack shows
+"čeka potvrdu" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

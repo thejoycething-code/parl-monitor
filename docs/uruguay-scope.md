@@ -485,3 +485,23 @@ Later phases and items for Chris (not built at the merge):
 - Probe parlamento.gub.uy from the Mini first (UY1).
 - Phase: vote totals from the Diario de Sesiones PDFs (UY5, build now). Not built at the merge.
 - UY3 (pedidos reported) and UY4 (INAU guarded): the Latam edition.
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country uy --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country uy --date YYYY-MM-DD --item ley:20431 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country uy --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/uy-<date>-<slug> --onside
+
+It writes `data/packs/uy-<date>-<slug>/`: `pack.md` and `checklist.md` in Spanish (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. No member-level votes are collected here, so a pack holds the item and the agenda slot only, and says so.
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/uy_stance.yaml`; none is confirmed yet, so every pack shows
+"pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

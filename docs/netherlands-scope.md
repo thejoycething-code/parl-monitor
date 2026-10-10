@@ -446,3 +446,23 @@ Later phases and items for Chris (not built at the merge):
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/nl_stance.yaml` holds 10 bill direction(s) (Claude's drafts from the watchlist) and 212 vote reading(s): 2 with proposed values, 0 procedural, 210 need reading, 0 confirmed. Guide: `docs/5ca-nl-readings.md`; confirm with `python3 tools/country_5ca.py --cc nl --sign-from-doc --by NAME`. Sheets (`data/5ca/nl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Netherlands (`config/stance_signers.yaml`). Most votes are by show of hands: members are DERIVED from their fractie's vote (X5) and labelled; a roll call is the member's own. A motion tabled in a bill's dossier never takes the bill's direction: its own text decides.
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country nl --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country nl --date YYYY-MM-DD --item 37027 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country nl --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/nl-<date>-<slug> --onside
+
+It writes `data/packs/nl-<date>-<slug>/`: `pack.md` and `checklist.md` in Dutch (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: roll calls (hoofdelijke stemmingen) give each member's own position; the show-of-hands votes give the fractie's, so those member rows are DERIVED (X5), marked `*`, and never count as breaking with the group.
+Agenda slot: read by bill key from the `country_agenda` table once the week-ahead layer (branch `parity-week-ahead`) is merged and its weekly step has run; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/nl_stance.yaml`; none is confirmed yet, so every pack shows
+"wacht op goedkeuring" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

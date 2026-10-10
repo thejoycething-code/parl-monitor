@@ -430,3 +430,23 @@ Later phases and items for Chris (not built at the merge):
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/ch_stance.yaml` holds 3 bill direction(s) (Claude's drafts from the watchlist) and 82 vote reading(s): 1 with proposed values, 0 procedural, 81 need reading, 0 confirmed. Guide: `docs/5ca-ch-readings.md`; confirm with `python3 tools/country_5ca.py --cc ch --sign-from-doc --by NAME`. Sheets (`data/5ca/ch-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Switzerland (`config/stance_signers.yaml`). 24.026 (individual taxation) has no direction until Chris confirms it is our ground (the watchlist's own note).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country ch --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country ch --date YYYY-MM-DD --item 25.3944 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country ch --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/ch-<date>-<slug> --onside
+
+It writes `data/packs/ch-<date>-<slug>/`: `pack.md` and `checklist.md` in German (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: read by bill key from the `country_agenda` table once the week-ahead layer (branch `parity-week-ahead`) is merged and its weekly step has run; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/ch_stance.yaml`; none is confirmed yet, so every pack shows
+"Freigabe ausstehend" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".
