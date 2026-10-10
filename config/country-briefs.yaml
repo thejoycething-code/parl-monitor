@@ -1,12 +1,12 @@
 # Campaign briefs for the new countries (tools/country_briefs.py,
 # src/country_briefs.py). Hand-edited. 10 October 2026.
 #
-# language: "local" writes each brief's campaigner text in the country's own
-# language (Chris, 10 October 2026: "in the country's language"); "en" writes
-# it in English, as rulebook rule 6 (docs/brief-builder/rulebook.md) and the
-# German briefs do. Cell labels, the form's header values and the Builder tab
+# language: "en" writes the campaigner text in English, as rulebook rule 6
+# (docs/brief-builder/rulebook.md) and the German briefs do (Chris, 10
+# October 2026: "keep briefs in English per rule 6"); "local" would write it
+# in the country's own language. Cell labels, the form's header values and the Builder tab
 # are English either way.
-language: local
+language: en
 
 campaigner:
   name: Christopher Joyce

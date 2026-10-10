@@ -110,6 +110,9 @@ class Base(unittest.TestCase):
             h.write(WATCHLIST)
         self.conn = make_store(os.path.join(t, "store.db"))
         self.cfg = cb.load_config()
+        # These tests check the country-language phrases; the shipped config
+        # writes English (rule 6), so pin the local mode here.
+        self.cfg["language"] = "local"
         wl = {"10/2110": {"areas": [9]}}
         c5.draft(self.conn, "pl", self.cfg_dir, TODAY, QUIET, wl=wl)
         self._wl = c5.SPECS["pl"].watchlist_fn
@@ -383,3 +386,9 @@ class WiringTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LanguageDecisionTests(unittest.TestCase):
+    def test_shipped_config_writes_english_per_rule_6(self):
+        # Chris, 10 October 2026: "keep briefs in English per rule 6".
+        self.assertEqual(cb.load_config().get("language"), "en")

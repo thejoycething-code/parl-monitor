@@ -388,3 +388,5 @@ judge stays off (X16).** The local-model idea above stays unbuilt.
 
 - U1 (Uruguay Ley 20.431 referendum): ignore.
 - S1, S2 (Congreso Visible debug mode, DR Senate credentials): leave.
+
+- **Campaign briefs language (10 October 2026):** briefs for the new countries are written in English, per brief rulebook rule 6, like the German briefs (`language: en` in `config/country-briefs.yaml`).
