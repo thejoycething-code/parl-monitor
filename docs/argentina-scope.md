@@ -449,7 +449,7 @@ unescapes them.
    (Argentine terms in their own marked block), and `--reclassify`. Add the
    full Senate register through the `fechaMesa` search (cookie-aware POST).
    A US-style judge (`ar_triage`) once there is something to score.
-3. **Phase 3.** Agendas of both chambers (the What's On equivalent), the
+3. **Phase 3.** Agendas of both chambers (the What's On equivalent; **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/ar.py`, a step of the weekly job): the Senate's agenda of activities only; the Diputados agenda on www.hcdn.gob.ar is not read), the
    Diputados movimientos and dictámenes datasets (committee stage, already
    on CKAN), and an edition, `tools/ar_monitor.py`, DMed to Christopher.
 4. **Diputados roll calls** whenever `votaciones.hcdn.gob.ar` can be reached

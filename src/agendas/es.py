@@ -27,7 +27,7 @@ from src import agenda
 from src.http import FetchError
 
 CC = "es"
-SOURCE = "the Congreso's weekly agenda (HTML)"
+SOURCE = "the Congreso's weekly agenda page"
 BILLS = ("es_initiatives", "initiative_key", "objeto")
 FEED = "es-agenda"
 BASE = "https://www.congreso.es"

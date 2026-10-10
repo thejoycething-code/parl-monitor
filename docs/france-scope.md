@@ -375,7 +375,7 @@ October.
    (315 MB; the exposes sommaires say what an amendment does, which the
    scrutin title does not).
 4. **Phase 3: the agenda and the regulatory side.** The AN agenda (dossier
-   refs on every point) as the week ahead; written questions on our ground
+   refs on every point) as the week ahead (**Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/fr.py`, a step of the weekly job): Agenda.json.zip, archived as FR3; 216 points on 10 October); written questions on our ground
    (the measure above: 93 a year on headings alone); the Journal officiel
    for the decrees applying the aide a mourir law.
 5. **Phase 4: edition and 5CA.** A France edition to Christopher by Slack

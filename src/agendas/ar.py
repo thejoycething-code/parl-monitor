@@ -28,7 +28,7 @@ from src import agenda
 from src.http import FetchError
 
 CC = "ar"
-SOURCE = "the Senate's agenda of activities (HTML)"
+SOURCE = "the Senate's agenda of activities"
 BILLS = ("ar_bills", "exp_key", "title")
 FEED = "ar-agenda"
 HOST = "https://www.senado.gob.ar"

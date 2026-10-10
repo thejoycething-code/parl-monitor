@@ -446,7 +446,7 @@ document. No taxonomy file, no `src/http.py` change.
    or from the paged API by date and type (about 80 requests a year).
 3. **Phase 3: agenda and tramitação**: the Câmara's `eventos` + `pauta` and
    the Senate's monthly agenda as the What's On equivalent, and tramitação
-   steps for watched bills (committee, rapporteur, urgency).
+   steps for watched bills (committee, rapporteur, urgency). **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/br.py`, a step of the weekly job): both agendas, matched to bills by number; tramitação steps not yet.
 4. **Phase 4: edition and 5CA**: a Portuguese-language or English-language
    edition (Christopher's call), triage, and a Brazilian 5CA from positions
    plus orientations. Divisions are signed by hand, as everywhere.

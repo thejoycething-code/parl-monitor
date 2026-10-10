@@ -426,7 +426,7 @@ after the 2027 election.
    votes and new processes on our ground, Slack DM to Chris only), with the
    reject-motion reading of YES built in.
 3. **Phase 2:** week ahead from `/proceedings` (planned sittings with their
-   agendas, already published for 20 to 23 October); interpellations and
+   agendas, already published for 20 to 23 October; **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/pl.py`, a step of the weekly job): sitting 67's 41 points, the druk 223 abortion bill among the possible additions, watched); interpellations and
    written questions (about 600 interpellations a month, 5.6% on our ground by
    title); process stages for the board (committee, readings, Senate,
    President, veto, ELI publication).
