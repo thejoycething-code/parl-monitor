@@ -488,6 +488,9 @@ Applied on the `countries` branch:
 - Term list approved (PL1); `config/taxonomy-pl.yaml` generated.
 - The Senate gap is accepted (PL2).
 
+## Member profiles (10 October 2026)
+
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/pl/` from the store each weekly run (`tools/member_profiles.py pl`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/pl_stance.yaml` holds 21 bill direction(s) (Claude's drafts from the watchlist) and 185 vote reading(s): 24 with proposed values, 4 procedural, 157 need reading, 0 confirmed. Guide: `docs/5ca-pl-readings.md`; confirm with `python3 tools/country_5ca.py --cc pl --sign-from-doc --by NAME`. Sheets (`data/5ca/pl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Poland (`config/stance_signers.yaml`).

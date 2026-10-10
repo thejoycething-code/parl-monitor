@@ -260,7 +260,8 @@ def votes(conn, since, until, wl):
                      takeaway=". ".join(bits), group=("hu", paper) if paper else None,
                      group_title=r["title"],
                      final=any(f in (r["outcome"] or "") for f in FINAL),
-                     watch_key=paper if own_watch else (HU4 if hu4 else None))
+                     watch_key=paper if own_watch else (HU4 if hu4 else None),
+                     division=r["vote_ts"])
         it["karzat"] = hu_store.is_karzat(r["source"])
         out.append(it)
     return out

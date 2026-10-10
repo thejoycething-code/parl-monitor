@@ -18,11 +18,11 @@ Everything it built is on main. Read this with
 | 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5). Tracker and partner sheet built 10 Oct (`tools/make_country_5ca_web.py`, branch `camp-5ca-sheets`): `docs/5ca-countries.html` weekly, "awaiting sign-off: N readings" per country; partner page gated until a country has a confirmed placement |
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct: 2,012 drafts in 18 countries (71 with proposed values, 43 procedural, 1,898 need reading), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
 | Campaign targets and outcomes (`ca_campaign.py`, the 5CA Evaluate) | yes | no | no | no | **built** 10 Oct (`tools/country_campaign.py`, branch `camp-targets`): open, targets, add, find, outcome, score; targets from confirmed readings only, candidates by vote record until then; petition numbers none yet (UK only) |
-| Member profiles | yes | yes | US yes | no | **no** |
+| Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
 | Debates / speeches | yes | yes | IE, AU | yes | **no** |
-| Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press) |
+| Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b`) |
+| Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
 | Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
-| Committees, courts, petitions, consultations | yes | yes | US courts | yes | **no** (courts approved as a later phase, X8) |
 | Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | **no** |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 
@@ -75,6 +75,21 @@ Reuse the US/DE profile code. X6 applies: party at the vote needs party
 history before member-level claims (HR, CL, GT currently show party as
 listed).
 
+**Built 10 October 2026 (branch `parity-profiles`).** `src/member_profiles.py`
+(one generic generator, a few SQL statements per country) and
+`tools/member_profiles.py <cc>`, a step of every new country's weekly job:
+`profiles/<cc>/<member>.md` and `index.md` for AR, AT, BE, BR, CH, CL, CO,
+DO, EC, ES, FR, GT, HR, HU, IT, MX, NL, PE, PL, PT, SK, SV, UY. Votes come
+from each edition adapter with its noise rules and judge scores (the
+framework's `item(division=)` field, additive); positions verbatim; party at
+the vote with its basis on every line. X6: Croatia's transcripts
+(`tools/hr_party_history.py`, `hr_party_seen`) and Chile's senators from the
+BCN (`tools/cl_senate_parties.py`); Guatemala, Ecuador, Colombia and Belgium
+labelled "not party at the vote". X5: AT, PT, NL positions DERIVED, labelled.
+Authorship where the store links it (PT, AT, FR, BE, CH, AR, PE, CL, CO);
+questions for SK, UY, AT. Not built: Bolivia, Panama, Honduras (no member
+records on our ground), Mexico authorship (presenter is prose).
+
 ### 4. Week ahead
 The framework already renders a week-ahead section when a store holds
 agenda data. Add agenda collection where the source has it: NL (OData
@@ -114,6 +129,19 @@ French Senate (FR5), Eerste Kamer via web pages (NL4), Slovak bill documents
 the Mini (X7: PE scans, HR opposition bills, CO Gazette), Swiss Italian texts
 (CH6), Italy's official Camera service as backup (IT2), regions and
 Landtage after national (IT3, AT6, PE4).
+
+**Set B, built 10 October 2026 (branch `parity-phases-b`):** X8
+constitutional courts for Colombia (the exhortations file; the Court's
+press releases are behind a keyed API and are not read), Ecuador (the
+Court's WordPress API), Peru (the Tribunal's press notes, at its 30 s
+Crawl-delay) and Portugal (acórdãos, 30 s apart, ten a week), into
+`<cc>_rulings` (`src/courts.py`) and the Latam edition and the Portuguese
+edition; Guatemala's court is a recorded gap (GT5). UY5 Diario vote totals
+(`tools/uy_diario.py`), BO4 written questions (`tools/bo_questions.py`),
+X7 OCR designed and guarded (`src/ocr.py`, `tools/pe_ocr.py`; install steps in
+`docs/mac-mini.md`, nothing installed). One hand-run backfill after merge:
+`jobs/latam-courts-backfill.sh`. Samples: `editions/latam-monitor-2026-06-30.md`,
+`editions/latam-monitor-2025-08-31.md`, `editions/pt-monitor-2023-02-05.md`.
 
 ### 7. Campaign tools
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only
