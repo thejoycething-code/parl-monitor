@@ -1815,6 +1815,11 @@ TABLES = (
     "ve_news",
     "nic_gazette_issues",
     "nic_gazette_items",
+    # The new countries' week ahead (tools/country_agenda.py), one table for
+    # every country keyed (cc, item_id), created by src/agenda.ensure_schema
+    # -- declared from day one.
+    "country_agenda",
+    "country_agenda_runs",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -2151,4 +2156,6 @@ def init_db(conn):
     uy_store.ensure_schema(conn)
     from src import latam_store
     latam_store.ensure_schema(conn)
+    from src import agenda
+    agenda.ensure_schema(conn)
     return conn
