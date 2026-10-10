@@ -17,6 +17,7 @@ Everything it built is on main. Read this with
 | Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | **no** |
 | 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5). Tracker and partner sheet built 10 Oct (`tools/make_country_5ca_web.py`, branch `camp-5ca-sheets`): `docs/5ca-countries.html` weekly, "awaiting sign-off: N readings" per country; partner page gated until a country has a confirmed placement |
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct: 2,012 drafts in 18 countries (71 with proposed values, 43 procedural, 1,898 need reading), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
+| Campaign targets and outcomes (`ca_campaign.py`, the 5CA Evaluate) | yes | no | no | no | **built** 10 Oct (`tools/country_campaign.py`, branch `camp-targets`): open, targets, add, find, outcome, score; targets from confirmed readings only, candidates by vote record until then; petition numbers none yet (UK only) |
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
 | Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (no open source) |
 | Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
@@ -169,6 +170,19 @@ X7 OCR designed and guarded (`src/ocr.py`, `tools/pe_ocr.py`; install steps in
 ### 7. Campaign tools
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only
 once 5CA exists for a country, and only where CitizenGO runs campaigns there.
+
+**Campaign targets and outcomes built 10 October 2026 (branch `camp-targets`;
+docs/5ca-notes.md, "Campaign targets and outcomes for the new countries").**
+`tools/country_campaign.py` (src/country_campaign.py) is `ca_campaign.py` for
+every country in `src/country5ca.COUNTRIES`: open a campaign on an area in a
+chamber (a snapshot of the confirmed-only 5CA), suggest targets (`+`, `-`,
+mixed confirmed records), add targets by name (`--by`), find and record the
+outcome vote with our side, score it. Before sign-off it suggests nobody and
+lists candidates by vote record, each "not a target until the stance is
+confirmed". Petition performance joins from `data/looker/<cc>_campaigns.tsv`
+(the UK export's shape); no country has one yet, and the command says so.
+Manual only, no job. Still open: Chris to pull the first country export from
+Looker (the list prefix per country is a guess: `PL`, `IT`, ...).
 
 **Debate packs built 10 October 2026 (branch `camp-debate-packs`).**
 `tools/country_debate_pack.py --country cc --date D --find WORDS | --item KEY`
