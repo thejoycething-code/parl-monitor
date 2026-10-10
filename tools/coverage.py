@@ -404,6 +404,9 @@ FEEDS = [
     ("pt_members", "last_seen", 7, 4, "Assembleia deputies (Portugal weekly)"),
     ("pt_initiatives", "last_seen", 7, 4, "Assembleia initiatives (Portugal weekly)"),
     ("pt_divisions", "last_seen", 7, 4, "Assembleia plenary votes (Portugal weekly)"),
+    # X8 (10 October 2026): every acórdão on the court's landing page is
+    # re-stamped when listed (tools/pt_courts.py register()), so it moves weekly.
+    ("pt_rulings", "last_seen", 7, 4, "Tribunal Constitucional acórdãos (Portugal weekly)"),
     # Slovakia (9 October 2026). MEASURED which re-stamp: the open data's
     # member, print, vote and interpellation lists are each one call that
     # returns the whole term, and tools/sk_rollcalls.py upserts every row with
@@ -479,6 +482,9 @@ FEEDS = [
     ("pe_members", "last_seen", 7, 4, "Senado and Diputados members (Peru weekly)"),
     ("pe_bills", "last_seen", 7, 4, "Proyectos de ley, Sistema de Proyectos de Ley (Peru weekly)"),
     ("pe_divisions", "last_seen", 31, 31, "Plenary votes from the chambers' vote records (Peru weekly)"),
+    # X8 (10 October 2026): the press-note listing's first page is re-stamped
+    # every run (tools/pe_courts.py), new notes or not.
+    ("pe_rulings", "last_seen", 7, 4, "Tribunal Constitucional press notes (Peru weekly)"),
     # Ecuador (9 October 2026). MEASURED which re-stamp: the register and the
     # roster are re-read whole every run, and the vote list is re-read from
     # the last stored vote's date less a fortnight, so the latest votes are
@@ -486,6 +492,9 @@ FEEDS = [
     ("ec_members", "last_seen", 7, 4, "Asamblea member register (Ecuador weekly)"),
     ("ec_roster", "last_seen", 7, 4, "Asamblea sitting roster (Ecuador weekly)"),
     ("ec_divisions", "last_seen", 7, 4, "Asamblea plenary votes (Ecuador weekly)"),
+    # X8 (10 October 2026): the Court's posts of the 30 days before the newest
+    # held are re-read and re-stamped every run (tools/ec_courts.py).
+    ("ec_rulings", "last_seen", 7, 4, "Corte Constitucional judgments and bulletins (Ecuador weekly)"),
     # Guatemala (9 October 2026). MEASURED which re-stamp: the deputy cards,
     # the 500-initiative listing and the session list are re-read whole every
     # run, so those three move every week. Divisions move only when a session
@@ -523,6 +532,9 @@ FEEDS = [
     ("co_bills", "last_seen", 7, 4, "Cámara and Senate bill registers (Colombia weekly)"),
     ("co_members", "last_seen", 7, 4, "Cámara attendance roster and Senate roll-call names (Colombia weekly)"),
     ("co_divisions", "last_seen", 7, 4, "Senate published roll calls, frozen at 2024-09-25 (Colombia weekly)"),
+    # X8/CO4 (10 October 2026): the exhortations file is re-read whole and
+    # every row re-stamped each run (tools/co_courts.py).
+    ("co_rulings", "last_seen", 7, 4, "Corte Constitucional exhortations, datos.gov.co (Colombia weekly)"),
     # Bolivia (9 October 2026). MEASURED which re-stamp: both chambers' member
     # lists, the current legislative year's Diputados bills and every Senado
     # stage list are re-read whole every run, so members and bills move every
@@ -530,6 +542,9 @@ FEEDS = [
     # sighting column. There are no vote tables: none is published.
     ("bo_members", "last_seen", 7, 4, "Diputados and Senado members (Bolivia weekly)"),
     ("bo_bills", "last_seen", 7, 4, "Proyectos de ley, both chambers (Bolivia weekly)"),
+    # BO4 (10 October 2026): the newest three pages of each chamber's
+    # questions are re-read and re-stamped every run (tools/bo_questions.py).
+    ("bo_questions", "last_seen", 7, 4, "Written questions, both chambers (Bolivia weekly)"),
     # Panama (9 October 2026). MEASURED which re-stamp: the deputies list and
     # every segLegis bill row are re-read whole every run, so both move every
     # week. The orden del dia list (its 25 newest documents) is re-read and
@@ -726,7 +741,7 @@ AWAITING_FIRST_RUN = {
                        "scheduled 9 October 2026; its tables fill on its first run"),
     "France weekly": (("fr_dossiers", "fr_members", "fr_divisions"),
                       "scheduled 9 October 2026; its tables fill on its first run"),
-    "Portugal weekly": (("pt_members", "pt_initiatives", "pt_divisions"),
+    "Portugal weekly": (("pt_members", "pt_initiatives", "pt_divisions", "pt_rulings"),
                         "scheduled 9 October 2026; its tables fill on its first run"),
     "Slovakia weekly": (("sk_members", "sk_bills", "sk_divisions", "sk_interpellations"),
                         "scheduled 9 October 2026; its tables fill on its first run"),
@@ -742,9 +757,9 @@ AWAITING_FIRST_RUN = {
                                   "scheduled 9 October 2026; its tables fill on its first run"),
     "El Salvador weekly": (("sv_members", "sv_divisions", "sv_dictamenes", "sv_sessions", "sv_piezas"),
                            "scheduled 9 October 2026; its tables fill on its first run"),
-    "Peru weekly": (("pe_members", "pe_bills", "pe_divisions"),
+    "Peru weekly": (("pe_members", "pe_bills", "pe_divisions", "pe_rulings"),
                     "scheduled 9 October 2026; its tables fill on its first run"),
-    "Ecuador weekly": (("ec_members", "ec_roster", "ec_divisions"),
+    "Ecuador weekly": (("ec_members", "ec_roster", "ec_divisions", "ec_rulings"),
                        "scheduled 9 October 2026; its tables fill on its first run"),
     "Guatemala weekly": (("gt_members", "gt_initiatives", "gt_sessions", "gt_divisions"),
                          "scheduled 9 October 2026; its tables fill on its first run"),
@@ -752,16 +767,17 @@ AWAITING_FIRST_RUN = {
                       "written 9 October 2026; its tables fill on its first run"),
     "Argentina weekly": (("ar_members", "ar_bills", "ar_divisions"),
                          "scheduled 9 October 2026; its tables fill on its first run"),
-    "Colombia weekly": (("co_bills", "co_members", "co_divisions"),
+    "Colombia weekly": (("co_bills", "co_members", "co_divisions", "co_rulings"),
                         "scheduled 9 October 2026; its tables fill on its first run"),
-    "Bolivia weekly": (("bo_members", "bo_bills"),
+    "Bolivia weekly": (("bo_members", "bo_bills", "bo_questions"),
                        "scheduled 9 October 2026; its tables fill on its first run"),
     "Panama weekly": (("pa_members", "pa_bills", "pa_agenda"),
                       "scheduled 10 October 2026; its tables fill on its first run"),
     "Honduras weekly": (("hn_members", "hn_bills", "hn_news", "hn_gazette", "hn_sessions",
                          "hn_agenda_items"),
                         "scheduled 9 October 2026; its tables fill on its first run"),
-    "Uruguay weekly": (("uy_members", "uy_questions", "uy_sittings", "uy_laws"),
+    "Uruguay weekly": (("uy_members", "uy_questions", "uy_sittings", "uy_laws",
+                        "uy_diario_votes"),
                        "scheduled 9 October 2026; its tables fill on its first run"),
     "Latam monthly": (("ve_news", "nic_gazette_items"),
                       "scheduled 10 October 2026; its table fills on its first run"),
@@ -880,6 +896,10 @@ ON_DEMAND = {
     "Canada backfill": "run by hand on the Mac Mini (jobs/ca-backfill.sh): "
                        "earlier sessions, the Gazette, federal backfills and "
                        "repairs; the Tuesday weekly does the routine reads.",
+    "Latam courts backfill": "run by hand on the Mac Mini, once, after the "
+                             "parity merge (jobs/latam-courts-backfill.sh): the X8 "
+                             "courts, BO4 questions and UY5 Diarios seeded before "
+                             "their weeklies take over; no cadence is expected.",
     "Hungary karzat backfill": "run by hand on the Mac Mini, once "
                                "(jobs/hu-karzat-backfill.sh): the 43rd term's "
                                "papers and votes to 28 August 2026 from karzat's "
@@ -900,6 +920,10 @@ ON_DEMAND = {
 # only gains rows goes quiet in recess through no fault of anyone, and
 # alarming on it would train people to ignore the alert.
 ONCE_EVER = {
+    # UY5 (10 October 2026): one row per vote total, written once when its
+    # Diario is read (tools/uy_diario.py); the Diario index lags by months, so
+    # weeks pass with nothing new.
+    "uy_diario_votes": "one row per Diario vote total, written once; the index lags by months",
     # Nicaragua (10 October 2026): a gazette notice is stored only when the
     # taxonomy matches it, so most months add none; nic_gazette_issues (no
     # sighting column) records every issue read.
