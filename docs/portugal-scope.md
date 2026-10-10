@@ -431,6 +431,10 @@ Everything else is Portugal's own: `tools/pt_rollcalls.py`,
 `src/pt_store.py`, `config/watchlist-pt.yaml`, `tests/test_pt_rollcalls.py`,
 `tests/fixtures/pt/`, `jobs/pt-weekly.sh`, the plist and `pt-weekly.yml`.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: written questions and requests (PerguntasRequerimentos, one 7.8 MB file found through pt_rollcalls' dataset discovery), `tools/pt_chamber.py`, a step of the Portuguese weekly; the first answer's date is recorded. 485 sent since 1 September 2026, 8 on our ground. Debates are not collected: the Intervencoes dataset is empty for the XVII and the Diário is page-by-page PDF.
+
 ## Waiting on Chris
 
 1. **Approve or correct the Portuguese term list above**, ideally with a

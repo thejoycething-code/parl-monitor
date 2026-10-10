@@ -394,6 +394,10 @@ Nothing else outside the Swiss files: no taxonomy, no `src/http.py`
 change, no change to `tools/mini_run.sh` (it runs `jobs/ch-weekly.sh` by
 name).
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: the Amtliches Bulletin speech by speech (OData `Transcript`, Language DE, Type 1; business titles from `SubjectBusiness`), `tools/ch_chamber.py`, a step of the Swiss weekly. Each speech is read with the list of its own language (function words decide; `LanguageOfText` is empty for a third of speeches), and 'IVG' outside an abortion paragraph is masked as the disability-insurance law (measured: ten false abortion hits on the 26.029 inclusion bill). Questions are not collected here: the edition already carries the Vorstösse. Herbstsession 2026 (7 September to 2 October): 2,399 speeches read, 70 on our ground.
+
 ## Waiting on Chris
 
 1. **The Swiss terms** above: which go into the shared lists, and where (a
@@ -424,9 +428,33 @@ Applied on the `countries` branch:
 
 Later phases and items for Chris (not built at the merge):
 
-- Phase: the Italian texts (CH6): fetch the Italian business records (a third Language pass), store title_it, and match `config/taxonomy-it.yaml` for `ch`. Not built at the merge: it needs a schema column, a fetch pass and fixtures.
+- Phase: the Italian texts (CH6). BUILT 10 October 2026 (branch `parity-phases-a`): see "CH6, as built" below.
 - The scope's veto on the Quebec IVG term and guard on euthanasie change base terms, so they are not in the addendum.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/ch/` from the store each weekly run (`tools/member_profiles.py ch`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
+
+## CH6, as built (10 October 2026, branch `parity-phases-a`)
+
+`tools/ch_rollcalls.py` reads a third language: every business's Italian
+record (`Language eq 'IT'`) alongside the German and French, and matches
+`config/taxonomy-it.yaml` for `ch` (its `[only: it]` terms dropped) on the
+Italian title and submitted text. New columns on `ch_businesses`:
+`title_it`, `areas_it`, `terms_it`, `tier_it`; `areas` is now the union of
+all three languages and the watchlist. A business refreshed in German and
+French only keeps its stored Italian result; one with no Italian record is
+marked (`title_it = ''`) and not asked again. The Italian list is never run
+on a vote's own text (written in German or French, where Italian terms are
+false friends: "IVG").
+
+Measured over the 52nd legislature (10,178 businesses, 10 October 2026):
+6,739 have an Italian record (3,416 of the 3,564 Fragestunde questions do
+not); the Italian list matches 431; **56 businesses are on our ground by
+the Italian text alone**, mostly WHO and International Health Regulations
+motions (area 7: "OMS", "Regolamento sanitario internazionale", 25), then
+sexual violence, smartphones in schools, international adoption,
+deepfakes. Noise to watch in the next term-list round: tier-1 "vita umana"
+caught three biodiversity and health-insurance titles, "accanimento
+terapeutico" one used figuratively (the Energy Charter Treaty). The Swiss
+edition's coverage note says the Italian texts are read.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

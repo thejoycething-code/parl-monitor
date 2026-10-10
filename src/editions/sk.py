@@ -19,6 +19,12 @@ A vote's label is the print's title, its reading, then the question put
 title here, both verbatim, so each line of a group says which vote it was;
 the print's own title heads the group. Votes on one print in one week fold
 into one entry; the vote on the bill as a whole is the decisive one.
+
+BILL DOCUMENTS (SK6, 10 October 2026). A print whose title only names the
+act it amends may be on our ground by its documents (the bill text or the
+explanatory memorandum, tools/sk_rollcalls.read_documents). Such a print
+says so, with the passage that matched, so a reader knows the title will
+not show why it is here.
 """
 
 from __future__ import annotations
@@ -173,12 +179,46 @@ def new_prints(conn, since, until, wl):
         if not ce.on_ground(r["areas"], watched):
             continue
         kind = BILL_TYPES.get(_fold(r["type_name"]).strip(), ce.clean(r["type_name"]))
+        take = "{0}, print (tlač) {1}, delivered to the House".format(kind, r["tlac"])
+        lines = []
+        doc_only = document_only_areas(r)
+        if doc_only:
+            take += "; on our ground ({0}) by its documents, not its title".format(
+                ce.area_text(doc_only))
+            if r["doc_excerpt"]:
+                lines.append("From the documents: “{0}”".format(ce.clip(r["doc_excerpt"], 240)))
         out.append(ce.item(
             CC, "new", r["bill_key"], r["delivered"], r["title"], ce.areas_of(r["areas"]),
             r["tier"], watched, url=PRINT_URL.format(term=r["term"], tlac=r["tlac"]),
-            terms=r["matched_terms"],
-            takeaway="{0}, print (tlač) {1}, delivered to the House".format(kind, r["tlac"])))
+            terms=r["matched_terms"], lines=lines or None, takeaway=take))
     return out
+
+
+def document_only_areas(r):
+    """SK6: the shown areas only the print's documents found (not its title
+    or the watchlist); [] on a store without the columns."""
+    if "doc_areas" not in r.keys() or not r["doc_areas"]:
+        return []
+    from src import filter as filt
+    from src import sk_store
+    title = set(filt.filter_item(_title_taxonomy(), filt.Watchlist(
+        entities=[], bill_titles=[], act_shorts=[]), r["title"] or "").issue_areas)
+    title |= set(sk_store.watchlist().get(r["bill_key"], ([], None))[0])
+    return sorted(a for a in set(ce.areas_of(r["doc_areas"])) - title
+                  if a not in ce.HIDDEN_AREAS)
+
+
+_TAX = []
+
+
+def _title_taxonomy():
+    if not _TAX:
+        import os
+        from src import filter as filt
+        path = os.path.join(ce.CONFIG, "taxonomy-sk.yaml")
+        _TAX.append(filt.load_taxonomy(path, country=CC) if os.path.exists(path)
+                    else filt.Taxonomy(version="none", terms={}, exclusions=set()))
+    return _TAX[0]
 
 
 def interpellations(conn, since, until, wl):
@@ -221,9 +261,11 @@ COUNTRY = ce.Country(
         "Member positions are read only for votes on our ground, newest first, within the "
         "weekly job's budget; a vote without them shows the open data's totals with "
         "absences left out.",
-        "Print titles name the act they amend, so a print whose title says only that "
-        "(tlač 733, the 2025 constitutional amendment) is watched by key; the bill "
-        "documents are phase 2 (SK6).",
+        "Print titles name the act they amend, so the bill text and explanatory memorandum "
+        "of amending bills are read too (SK6), passage by passage, tier-1 terms only; a "
+        "print on our ground by its documents alone says so. The term's backlog of "
+        "documents is read by hand on the Mini (jobs/sk-docs-backfill.sh); tlač 733 stays "
+        "watched by key.",
         "The legislative stage of each print is not collected yet (phase 2), so there is "
         "no stage-moves section.",
     ),

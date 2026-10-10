@@ -407,6 +407,10 @@ Kept minimal for the thirteen-branch merge:
 
 Everything else is new and Netherlands-only.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: plenary Handelingen (the VLOS XML Verslagen from the OData portal, the corrected Eindpublicatie preferred, re-read when a newer version appears) and Kamervragen (Schriftelijke and Mondelinge vragen as zaken, asker, fractie and minister), `tools/nl_chamber.py`, a step of the Netherlands weekly. Speeches are matched passage by passage in the speaker's own words, never the sitting; the chair is never stored. In the edition ("Said in the chamber", "Questions"); the DM stays votes only (NL3). Committee debates are not read (budget). Measured 28 September to 9 October 2026: 6 plenary reports, 6,000 turns, 66 on our ground (most of them migration, which is stored and not shown); 93 questions, 7 on our ground.
+
 ## Waiting on Chris
 
 1. **Approve or correct the Dutch term list** above (ideally with a Dutch
@@ -440,9 +444,36 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - The DM carries votes only (NL3): for the edition phase.
-- Phase: the Eerste Kamer via its web pages (NL4).
+- Phase: the Eerste Kamer via its web pages (NL4). BUILT 10 October 2026 (branch `parity-phases-a`): see "NL4, as built" below.
 - Chris reads the open-data disclaimer (NL5) before the weekly runs unattended.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/nl/` from the store each weekly run (`tools/member_profiles.py nl`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Show-of-hands positions are DERIVED from the fractie vote (X5), labelled; roll calls are recorded per member.
+
+## NL4, as built (10 October 2026, branch `parity-phases-a`)
+
+`tools/nl_eerstekamer.py`, a step of `jobs/nl-weekly.sh` after the Tweede
+Kamer's collector, reading eerstekamer.nl's "Stemmingen per vergaderdag"
+pages (robots.txt respected, one page a second, archived) into
+`nl_ek_bills`, `nl_ek_divisions` and `nl_ek_votes` (`src/nl_store.py`).
+The SRU Handelingen route was not needed: the vote pages carry every vote.
+
+- **What a vote holds**: the title as printed, the Kamerstuk reference
+  (key `ek-<date>-<reference>`, joint motions under every dossier they
+  name), the method (show of hands, roll call, hamerstuk, unanimous, or
+  without a vote), the Kamer's own result word, and the sides: fracties on a
+  show of hands, every senator with their fractie on a roll call, and the
+  fracties asking for their dissent to be recorded on a hamerstuk. Nothing
+  is derived for members on a show of hands.
+- **Classified** with taxonomy-nl for `nl` and watchlist-nl by dossier, the
+  same numbers as the Tweede Kamer's; a motion inherits its bill's areas.
+- **Measured** (scratch store, 10 October 2026, back to June 2023): 1,108
+  votes on 736 bills, 16 roll calls, 13 on our ground (area 11 left out),
+  among them the conversion-practices ban (36178, roll call, adopted 16 June
+  2026, watched), the trafficking law (36547, 29 September 2026), the
+  sexual offences law (36222) and the donor-children bill (35870). 46 pages
+  in about 45 seconds on a first run; one to three pages a week after.
+- **Edition**: the Dutch edition's votes section carries the Eerste Kamer's
+  votes on our ground beside the Tweede Kamer's, each said to be the Eerste
+  Kamer's. Sample: `docs/parity-samples/nl-eerstekamer-2026-06-17.md`.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

@@ -7,6 +7,11 @@ follows the US precedent (src/us_store.py): its own module, idempotent
 statements, created by db.init_db so every store carries it and db.TABLES
 stays true.
 
+THE EERSTE KAMER (NL4, added 10 October 2026, additively): nl_ek_bills,
+nl_ek_divisions and nl_ek_votes, written by tools/nl_eerstekamer.py from
+eerstekamer.nl's vote pages. Separate tables, because the Senate has no
+zaaknummers and its show-of-hands votes name fracties only.
+
 SEPARATION GUARANTEE. Nothing outside tools/nl_*.py writes these tables,
 and nothing here touches another jurisdiction's table.
 
@@ -102,9 +107,55 @@ SCHEMA = (
     "CREATE INDEX IF NOT EXISTS nl_votes_besluit ON nl_votes (besluit_id)",
     "CREATE INDEX IF NOT EXISTS nl_votes_persoon ON nl_votes (persoon_id)",
     "CREATE INDEX IF NOT EXISTS nl_divisions_zaak ON nl_divisions (zaak_nummer)",
+    # --- the Eerste Kamer (NL4, 10 October 2026; tools/nl_eerstekamer.py) ------
+    # Read from eerstekamer.nl's "Stemmingen per vergaderdag" pages: no API
+    # exists. Keyed by sitting date and Kamerstuk reference, never by title.
+    """CREATE TABLE IF NOT EXISTS nl_ek_bills (
+        dossier      TEXT PRIMARY KEY,   -- Kamerstuk number as printed: '36791', '36945-I'
+        title        TEXT,               -- the bill's title on the vote list
+        url          TEXT,               -- its eerstekamer.nl page
+        last_vote    TEXT,               -- ISO date of the latest vote seen on it
+        last_result  TEXT,               -- 'aangenomen' / 'verworpen', the Kamer's word
+        areas        TEXT,               -- JSON: taxonomy-nl + watchlist-nl by dossier
+        matched_terms TEXT,
+        tier         INTEGER,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS nl_ek_divisions (
+        division_key TEXT PRIMARY KEY,   -- 'ek-20261006-37020-M' (date + Kamerstuk reference)
+        date         TEXT NOT NULL,
+        kind         TEXT,               -- 'bill' / 'motion' / 'amendment' / 'other'
+        dossier      TEXT,               -- '37020'; what the watchlist is keyed on
+        ref          TEXT,               -- '37020-M', '36791', 'CLXXVII-F'
+        title        TEXT,               -- as printed: 'Motie-Beukering (...) over ...'
+        url          TEXT,
+        method       TEXT,               -- 'Stemming bij zitten en opstaan' / 'Hoofdelijke stemming' / 'Hamerstuk'
+        result       TEXT,               -- 'aangenomen' / 'verworpen', the Kamer's word
+        roll_call    INTEGER,            -- 1: every senator recorded by name
+        voor         INTEGER,            -- roll call only: senators for
+        tegen        INTEGER,            -- roll call only: senators against
+        aantekening  TEXT,               -- JSON: fracties recording dissent on a hamerstuk
+        own_areas    TEXT,
+        areas        TEXT,               -- JSON: own + the bill's (motions on a bill dossier)
+        matched_terms TEXT,
+        tier         INTEGER,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS nl_ek_votes (
+        division_key TEXT NOT NULL,
+        kind         TEXT NOT NULL,      -- 'fractie' (show of hands) / 'lid' (roll call)
+        actor        TEXT NOT NULL,      -- the fractie, or the senator's name as printed
+        fractie      TEXT,               -- the senator's fractie AT THE VOTE, as printed
+        position     TEXT,               -- 'voor' / 'tegen' / 'aantekening'
+        PRIMARY KEY (division_key, kind, actor)
+    )""",
+    "CREATE INDEX IF NOT EXISTS nl_ek_divisions_dossier ON nl_ek_divisions (dossier)",
 )
 
-TABLES = ("nl_fracties", "nl_members", "nl_zaken", "nl_divisions", "nl_votes")
+TABLES = ("nl_fracties", "nl_members", "nl_zaken", "nl_divisions", "nl_votes",
+          "nl_ek_bills", "nl_ek_divisions", "nl_ek_votes")
 
 
 def ensure_schema(conn):

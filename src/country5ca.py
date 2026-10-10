@@ -1222,6 +1222,70 @@ def confirm(cc, keys, by, on=None, config_dir=None, log=print):
     return ok
 
 
+def direction_confirmed(b):
+    """True when a `bill_directions` entry is signed: `status: confirmed`
+    with both `confirmed_by` and `confirmed_on`, as a division reading.
+    Added 10 October 2026 for the campaign briefs (src/country_briefs.py):
+    a brief's ask follows the bill's direction, so the direction needs the
+    same named sign-off before a campaigner sees it as a recommendation."""
+    return bool(b) and b.get("status") == "confirmed" and bool(b.get("confirmed_by")) \
+        and bool(b.get("confirmed_on")) and b.get("direction") in ("with", "against")
+
+
+def confirm_direction(cc, keys, by, on=None, config_dir=None, log=print):
+    """Confirm `bill_directions` entries by key, as `confirm` does readings:
+    status draft -> confirmed, with confirmed_by and confirmed_on. Only the
+    bill_directions section is touched. Returns the keys confirmed."""
+    by = (by or "").strip()
+    if not by:
+        raise SystemExit("--by NAME is required: a confirmation names the person")
+    allowed = signers(cc)
+    if by not in allowed:
+        raise SystemExit("{0} is not a named signer for {1} ({2}); add them to "
+                         "config/stance_signers.yaml first".format(by, cc, ", ".join(allowed)))
+    on = on or datetime.date.today().isoformat()
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", on):
+        raise SystemExit("--on must be an ISO date")
+    _, bills, _ = load(cc, config_dir)
+    want, refused = set(), []
+    for k in keys:
+        b = bills.get(k)
+        if not b:
+            refused.append((k, "no such bill direction"))
+        elif b.get("status") == "confirmed":
+            refused.append((k, "already confirmed"))
+        elif b.get("direction") not in ("with", "against"):
+            refused.append((k, "no direction (with/against) to confirm"))
+        else:
+            want.add(k)
+    path = stance_path(cc, config_dir)
+    with open(path, encoding="utf-8") as h:
+        lines = h.read().splitlines(keepends=True)
+    out, current, in_bills, ok = [], None, False, []
+    for line in lines:
+        if re.match(r"^[A-Za-z_]+:", line):
+            in_bills = line.startswith("bill_directions:")
+        k = line_key(line)
+        if k is not None:
+            current = k if in_bills and k in want else None
+        if current and re.match(r"^\s*status:\s*draft\s*(#.*)?$", line):
+            ind = re.match(r"^(\s*)", line).group(1)
+            out.append("{0}status: confirmed\n{0}confirmed_by: {1}\n{0}confirmed_on: \"{2}\"\n".format(
+                ind, _q(by), on))
+            ok.append(current)
+            current = None
+            continue
+        out.append(line)
+    if ok:
+        with open(path, "w", encoding="utf-8") as h:
+            h.write("".join(out))
+    for k, why in refused:
+        log("  refused {0}: {1}".format(k, why))
+    log("{0}: confirmed {1} bill direction(s) by {2} on {3}{4}".format(
+        cc, len(ok), by, on, ": " + ", ".join(ok) if ok else ""))
+    return ok
+
+
 def sign_from_doc(cc, by, on=None, config_dir=None, docs_dir=None, log=print):
     with open(doc_path(cc, docs_dir), encoding="utf-8") as h:
         keys = r5.ticked_keys(h.read())

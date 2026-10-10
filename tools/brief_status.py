@@ -20,7 +20,11 @@ sys.path.insert(0, ROOT)
 
 from src import db
 
-VALID = ("rejected", "approved", "pending", "generated")
+# 'not-ready' and 'draft' are the new countries' campaign briefs
+# (tools/country_briefs.py): NOT READY until their stances are confirmed,
+# then 'draft' as the German briefs. Neither is picked up by the Drive
+# publisher (pending / generated only).
+VALID = ("rejected", "approved", "pending", "generated", "draft", "not-ready")
 
 
 def main():

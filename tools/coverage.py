@@ -72,60 +72,60 @@ PIPELINES = {
     # Scheduled 9 October 2026, Fridays (ie-weekly.yml; the Mac Mini first).
     "Ireland weekly": (7, 4, "the Oireachtas: Dail, Seanad and committee divisions, bills, members"),
     # Scheduled 9 October 2026, Saturdays (at-weekly.yml; the Mac Mini first).
-    "Austria weekly": (7, 4, "Austria's Parliament: Nationalrat and Bundesrat items and Klub votes, and the Austrian edition"),
+    "Austria weekly": (7, 4, "Austria's Parliament: Nationalrat and Bundesrat items and Klub votes, and the Austrian edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Thursdays (nl-weekly.yml; the Mac Mini first).
-    "Netherlands weekly": (7, 4, "Tweede Kamer: fracties, members, votes and positions, and the Dutch edition"),
+    "Netherlands weekly": (7, 4, "Tweede Kamer: fracties, members, votes and positions, and the Dutch edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Sundays (pl-weekly.yml; the Mac Mini first).
-    "Poland weekly": (7, 4, "Polish Sejm: prints, processes, recorded votes, and the Polish edition"),
+    "Poland weekly": (7, 4, "Polish Sejm: prints, processes, recorded votes, and the Polish edition; campaign brief drafts"),
     # Scheduled 10 October 2026, Wednesdays (hu-weekly.yml; the Mac Mini first).
-    "Hungary weekly": (7, 4, "Hungary's Magyar Közlöny (phase 0: what became law), and the Hungarian edition"),
+    "Hungary weekly": (7, 4, "Hungary's Magyar Közlöny (phase 0: what became law), and the Hungarian edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (it-weekly.yml; the Mac Mini first).
-    "Italy weekly": (7, 4, "Italy's Parliament: bills, Senate and Camera votes, and the Italian edition"),
+    "Italy weekly": (7, 4, "Italy's Parliament: bills, Senate and Camera votes, and the Italian edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (ch-weekly.yml; the Mac Mini first).
-    "Switzerland weekly": (7, 4, "Swiss Federal Assembly: businesses, Nationalrat and Staenderat votes, and the Swiss edition"),
+    "Switzerland weekly": (7, 4, "Swiss Federal Assembly: businesses, Nationalrat and Staenderat votes, and the Swiss edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (be-weekly.yml; the Mac Mini first).
-    "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes, and the Belgian edition"),
+    "Belgium weekly": (7, 4, "Belgium's federal Chamber: dossiers and recorded votes, and the Belgian edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (fr-weekly.yml; the Mac Mini first).
-    "France weekly": (7, 4, "France's Assemblee nationale: dossiers, scrutins, deputies, and the French edition"),
+    "France weekly": (7, 4, "France's Assemblee nationale: dossiers, scrutins, deputies, and the French edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (pt-weekly.yml; the Mac Mini first).
-    "Portugal weekly": (7, 4, "Portugal's Assembleia da Republica: initiatives, votes, deputies, and the Portuguese edition"),
+    "Portugal weekly": (7, 4, "Portugal's Assembleia da Republica: initiatives, votes, deputies, and the Portuguese edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Tuesdays (sk-weekly.yml; the Mac Mini first).
-    "Slovakia weekly": (7, 4, "Slovakia's Národná rada: prints, votes, positions, interpellations, and the Slovak edition"),
+    "Slovakia weekly": (7, 4, "Slovakia's Národná rada: prints, votes, positions, interpellations, and the Slovak edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (hr-weekly.yml; the Mac Mini first).
-    "Croatia weekly": (7, 4, "Croatia's Sabor: agendas and recorded votes, and the Croatian edition"),
+    "Croatia weekly": (7, 4, "Croatia's Sabor: agendas and recorded votes, and the Croatian edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (es-weekly.yml; the Mac Mini first).
-    "Spain weekly": (7, 4, "Spain's Congreso de los Diputados: initiatives, plenary votes, deputies, and the Spanish edition"),
+    "Spain weekly": (7, 4, "Spain's Congreso de los Diputados: initiatives, plenary votes, deputies, and the Spanish edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (br-weekly.yml; the Mac Mini first).
-    "Brazil weekly": (7, 4, "Brazil's National Congress: Câmara and Senado nominal votes, and the Brazilian edition"),
+    "Brazil weekly": (7, 4, "Brazil's National Congress: Câmara and Senado nominal votes, and the Brazilian edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Thursdays (cl-weekly.yml; the Mac Mini first).
-    "Chile weekly": (7, 4, "Chile's National Congress: bills, Cámara and Senate votes"),
+    "Chile weekly": (7, 4, "Chile's National Congress: bills, Cámara and Senate votes; campaign brief drafts"),
     # Scheduled 9 October 2026, Sundays (do-weekly.yml; the Mac Mini first).
-    "Dominican Republic weekly": (7, 4, "Dominican Republic: Camara de Diputados iniciativas, sessions, votes"),
+    "Dominican Republic weekly": (7, 4, "Dominican Republic: Camara de Diputados iniciativas, sessions, votes; campaign brief drafts"),
     # Scheduled 9 October 2026, Sundays (sv-weekly.yml; the Mac Mini first).
-    "El Salvador weekly": (7, 4, "El Salvador's Asamblea Legislativa: recorded votes, dictámenes, piezas, deputies"),
+    "El Salvador weekly": (7, 4, "El Salvador's Asamblea Legislativa: recorded votes, dictámenes, piezas, deputies; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (pe-weekly.yml; the Mac Mini first).
-    "Peru weekly": (7, 4, "Peru's Congress: Senado and Diputados members, proyectos, plenary votes"),
+    "Peru weekly": (7, 4, "Peru's Congress: Senado and Diputados members, proyectos, plenary votes; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (ec-weekly.yml; the Mac Mini first).
-    "Ecuador weekly": (7, 4, "Ecuador's Asamblea Nacional: plenary votes, members"),
+    "Ecuador weekly": (7, 4, "Ecuador's Asamblea Nacional: plenary votes, members; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (gt-weekly.yml; the Mac Mini first).
     # Fortnightly since 10 October 2026 (X9): a 14-day cadence.
-    "Guatemala weekly": (14, 4, "Guatemala's Congreso: initiatives, plenary votes, deputies"),
+    "Guatemala weekly": (14, 4, "Guatemala's Congreso: initiatives, plenary votes, deputies; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (mx-weekly.yml; the Mac Mini is the
     # clock, GitHub does the work: diputados.gob.mx refuses UK addresses).
     # Fortnightly since 10 October 2026 (X9): a 14-day cadence.
-    "Mexico weekly": (14, 4, "Mexico's Chamber of Deputies: iniciativas, votes, positions, and the fortnightly Mexican edition"),
+    "Mexico weekly": (14, 4, "Mexico's Chamber of Deputies: iniciativas, votes, positions, and the fortnightly Mexican edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (ar-weekly.yml; the Mac Mini first).
-    "Argentina weekly": (7, 4, "Argentina's National Congress: expedientes, Senate roll calls, and the Argentine edition"),
+    "Argentina weekly": (7, 4, "Argentina's National Congress: expedientes, Senate roll calls, and the Argentine edition; campaign brief drafts"),
     # Scheduled 9 October 2026, Thursdays (co-weekly.yml; the Mac Mini first).
-    "Colombia weekly": (7, 4, "Colombia's Congress: both chambers' bills, attendance, Senate roll calls"),
+    "Colombia weekly": (7, 4, "Colombia's Congress: both chambers' bills, attendance, Senate roll calls; campaign brief drafts"),
     # Scheduled 9 October 2026, Sundays (bo-weekly.yml; the Mac Mini first).
-    "Bolivia weekly": (7, 4, "Bolivia's Asamblea: Diputados and Senado members and proyectos de ley"),
+    "Bolivia weekly": (7, 4, "Bolivia's Asamblea: Diputados and Senado members and proyectos de ley; campaign brief drafts"),
     # Scheduled 10 October 2026, Saturdays (pa-weekly.yml; the Mac Mini first).
-    "Panama weekly": (7, 4, "Panama's Asamblea Nacional: bills, stages, orden del dia, deputies"),
+    "Panama weekly": (7, 4, "Panama's Asamblea Nacional: bills, stages, orden del dia, deputies; campaign brief drafts"),
     # Scheduled 9 October 2026, Sundays (hn-weekly.yml; the Mac Mini first).
-    "Honduras weekly": (7, 4, "Honduras's Congreso Nacional: agendas, expedientes, press, Gaceta"),
+    "Honduras weekly": (7, 4, "Honduras's Congreso Nacional: agendas, expedientes, press, Gaceta; campaign brief drafts"),
     # Scheduled 9 October 2026, Saturdays (uy-weekly.yml; the Mac Mini first).
-    "Uruguay weekly": (7, 4, "Uruguay: Cámara de Representantes roll, pedidos de informes, Diario index; IMPO laws"),
+    "Uruguay weekly": (7, 4, "Uruguay: Cámara de Representantes roll, pedidos de informes, Diario index; IMPO laws; campaign brief drafts"),
     # Scheduled 10 October 2026, the 1st of each month (latam-monthly.yml; the
     # Mac Mini first). Monthly, so a month plus a week's grace, as the UPR.
     "Latam monthly": (31, 7, "Latam monitor: Venezuela's Assembly news, Nicaragua's La Gaceta, the edition"),
@@ -344,6 +344,12 @@ FEEDS = [
     ("nl_fracties", "last_seen", 7, 4, "Tweede Kamer fracties (Netherlands weekly)"),
     ("nl_divisions", "last_seen", 31, 31, "Tweede Kamer votes (Netherlands weekly)"),
     ("nl_zaken", "last_seen", 31, 31, "Zaken voted on in the Tweede Kamer (Netherlands weekly)"),
+    # The Eerste Kamer (NL4, 10 October 2026): votes are re-stamped while
+    # they sit in the two weeks the collector re-reads behind its newest, so
+    # a recess stops them as it stops the Tweede Kamer's.
+    ("nl_ek_divisions", "last_seen", 31, 31, "Eerste Kamer votes, from its web pages (Netherlands weekly, NL4)"),
+    # A bill is re-stamped with its vote, so the same.
+    ("nl_ek_bills", "last_seen", 31, 31, "Bills the Eerste Kamer voted on (Netherlands weekly, NL4)"),
     # Poland (9 October 2026). MEASURED which re-stamp: the deputy list, the
     # print list and every process page are re-read whole on every run, so
     # those move every week, recess included. Votes move only when a sitting
@@ -403,6 +409,10 @@ FEEDS = [
     ("fr_dossiers", "last_seen", 7, 4, "Assemblee nationale dossiers legislatifs (France weekly)"),
     ("fr_members", "last_seen", 7, 4, "Assemblee nationale deputies (France weekly)"),
     ("fr_divisions", "last_seen", 31, 31, "Assemblee nationale scrutins (France weekly)"),
+    # The Senat (FR5, 10 October 2026): every active dossier is re-stamped
+    # each time the Dosleg dump is read, which is at most weekly and only
+    # when it changed (it is regenerated nightly), so about every seven days.
+    ("fr_senat_dossiers", "last_seen", 14, 7, "Senat dossiers, from the Dosleg dump (France weekly, FR5)"),
     # Portugal (9 October 2026). MEASURED which re-stamp: the Assembleia's
     # dumps are per legislature and re-read whole every run, and every
     # initiative, vote and deputy in them is upserted, so all three move every
@@ -603,6 +613,21 @@ FEEDS = [
     ("prov_members", "last_seen", 7, 4, "provincial rosters (Provinces weekly)"),
     ("prov_bills", "last_seen", 7, 4, "provincial bills, from each session's listing (Provinces weekly)"),
 ]
+
+# What was said and asked in the chamber, new country editions (parity layer
+# 5, 10 October 2026; tools/<cc>_chamber.py, src/chamber_store.py). MEASURED
+# which re-stamp: every run lists the last three weeks of reports and
+# re-stamps each one it lists in <cc>_record_reads, read again or not, so the
+# table moves every run while the chamber sits and for three weeks after.
+# Swiss sessions are three weeks a quarter (2 October to 30 November 2026 is
+# 59 days) and the Dutch, Polish and Austrian summer recesses run about ten
+# weeks, so a month plus a month's grace, the Irish rule. The speeches and
+# questions themselves are rows on our ground only (ONCE_EVER below).
+from src import chamber_store as _chamber  # noqa: E402
+
+FEEDS += [("{0}_record_reads".format(cc), "last_seen", 31, 31,
+           "{0} chamber reports and question batches read ({0} weekly)".format(cc.upper()))
+          for cc in _chamber.COUNTRIES]
 
 # Which feeds each pipeline is responsible for. This drives the check
 # that actually catches a CLOBBER: a pipeline that ran yesterday whose
@@ -855,10 +880,30 @@ AWAITING_FIRST_RUN = {
     "IE debates": (("ie_speeches",),
                    "debates step added to Ireland weekly 9 October 2026; the table "
                    "fills on the step's first run"),
+    # STEP heartbeats for the parity phases of 10 October 2026: each step
+    # stamps its own source_runs row after a stored run, because the weekly
+    # it belongs to had its heartbeat before these tables existed.
+    # tools/nl_eerstekamer.py (NL4) stamps "NL Eerste Kamer"; tools/fr_senat.py
+    # (FR5) stamps "FR Senat" after it has read the dump into the store.
+    "NL Eerste Kamer": (("nl_ek_divisions", "nl_ek_bills"),
+                        "Eerste Kamer step (NL4) added to Netherlands weekly 10 October "
+                        "2026; its tables fill on the step's first run"),
+    "FR Senat": (("fr_senat_dossiers",),
+                 "Senat step (FR5) added to France weekly 10 October 2026; the table "
+                 "fills on the step's first run"),
     "Provinces speeches": (("prov_speeches", "prov_speech_sittings"),
                            "Hansard speeches step added to Provinces weekly 2 October 2026; "
                            "its tables fill on the step's first run"),
 }
+# STEP heartbeats for the chamber collectors (parity layer 5): each
+# tools/<cc>_chamber.py stamps '<CC> chamber' after a run with no gap, and its
+# first run reads from 1 September 2026 so the tables do not start empty.
+AWAITING_FIRST_RUN.update({
+    _chamber.heartbeat(cc): (_chamber.tables(cc),
+                             "chamber step (speeches and questions) added to the {0} weekly "
+                             "10 October 2026; its tables fill on the step's first run"
+                             .format(cc.upper()))
+    for cc in _chamber.COUNTRIES})
 
 # Tables carrying a sighting column that are DELIBERATELY not watched,
 # each with its reason. The structural test allows only what is declared
@@ -920,6 +965,10 @@ ON_DEMAND = {
     "Canada backfill": "run by hand on the Mac Mini (jobs/ca-backfill.sh): "
                        "earlier sessions, the Gazette, federal backfills and "
                        "repairs; the Tuesday weekly does the routine reads.",
+    "Slovakia documents backfill": "run by hand on the Mac Mini "
+                                   "(jobs/sk-docs-backfill.sh, SK6): the term's "
+                                   "backlog of bill documents, rerun until no print "
+                                   "is owed; the weekly reads new prints' documents.",
     "Latam courts backfill": "run by hand on the Mac Mini, once, after the "
                              "parity merge (jobs/latam-courts-backfill.sh): the X8 "
                              "courts, BO4 questions and UY5 Diarios seeded before "
@@ -1059,6 +1108,14 @@ ONCE_EVER = {
     "un_documents": "UN pipeline is paused",
     "un_calendar": "UN pipeline is paused",
 }
+
+# The chamber collectors' rows are written only for speeches and questions
+# on our ground, re-stamped only while their report is re-read: a quiet week
+# or a recess adds none (tools/<cc>_chamber.py).
+ONCE_EVER.update({t: "speeches or questions on our ground only, from tools/{0}_chamber.py; a "
+                     "quiet week or a recess adds none".format(t.split("_")[0])
+                  for cc in _chamber.COUNTRIES for t in _chamber.tables(cc)
+                  if not t.endswith("_record_reads")})
 
 
 def age_of(conn, table, col, today):
