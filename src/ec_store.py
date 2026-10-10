@@ -104,7 +104,13 @@ SCHEMA = (
     "CREATE INDEX IF NOT EXISTS ec_votes_member ON ec_votes (name_key)",
 )
 
-TABLES = ("ec_members", "ec_roster", "ec_divisions", "ec_votes")
+# X8 (10 October 2026): the constitutional court's rulings on our ground, one
+# shape for every country (src/courts.py); written only by tools/ec_courts.py.
+from src import courts as _courts  # noqa: E402
+
+SCHEMA = SCHEMA + _courts.schema("ec")
+
+TABLES = ("ec_members", "ec_roster", "ec_divisions", "ec_votes", "ec_rulings")
 
 
 def ensure_schema(conn):

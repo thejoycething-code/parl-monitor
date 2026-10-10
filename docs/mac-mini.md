@@ -400,6 +400,72 @@ Chris approved the free session judge for the fifteen country editions and the L
 - **If `claude` is missing, signed out or on an API key:** one `[gap]` line, exit clean, nothing rewritten or published; the editions render as before and the Latam alerts stop holding once the judge has scored nothing for 14 days.
 - **Install on the Mini** (after the branch is merged to main): `claude auth status --text` must show Chris's claude.ai account, then `cd ~/runner/parl-monitor && git pull --ff-only && bash ops/install_country_jobs.sh` (it installs this job with the country jobs and prints the claude sign-in state). A first run by hand: `cd ~ && JOB_TIMEOUT=5400 ~/runner/parl-monitor/tools/mini_run.sh editions-session-judge`. To see what is pending without scoring: `python3 tools/edition_judge.py`.
 
+## Courts, Bolivian questions, Uruguay's Diario totals and OCR (10 October 2026, branch `parity-phases-b`)
+
+Parity work, set B (docs/country-parity-handover.md, item 6). **No new
+scheduled job and no new plist**: each piece is a step inside a country
+weekly that already runs on the Mini (and on its GitHub backup), after the
+collector and before the alerts or the edition. Each records its own gaps in
+the store and never stops its weekly.
+
+| Weekly (existing slot) | New step | What it reads | Added time |
+|---|---|---|---|
+| `co-weekly` (Thu 09:30) | `tools/co_courts.py` (X8, CO4) | the Corte Constitucional's exhortations file, datos.gov.co `fbtr-7k2r`, whole | one request |
+| `ec-weekly` (Sat 15:30) | `tools/ec_courts.py` (X8) | the Corte Constitucional's WordPress API: judgment summaries, bulletins, statements since 30 days before the newest held | 1-2 requests |
+| `pe-weekly` (Sat 16:00) | `tools/pe_courts.py` (X8) | the Tribunal Constitucional's press notes, at its robots.txt Crawl-delay of 30 s | about 4 minutes |
+| `pe-weekly` | `tools/pe_ocr.py` (X7) | Tesseract over the scan-only vote records; skips without Tesseract | 0 until installed |
+| `pt-weekly` (Sat 15:00) | `tools/pt_courts.py` (X8) | the Tribunal Constitucional's acórdãos: 30 s apart, at most ten read, no retries; a 429 ends it with one gap | about 6 minutes |
+| `bo-weekly` (Sun 11:00) | `tools/bo_questions.py` (BO4) | written questions, Senado API and Diputados WordPress, newest three pages each | about 10 s |
+| `uy-weekly` (Sun 08:00) | `tools/uy_diario.py` (UY5) | up to four new Diarios de Sesiones (PDF, pypdf), vote totals only | about 1 minute |
+
+The Uruguay workflow now installs `pypdf==6.14.2`, as Peru's does; the
+Portugal workflow's timeout is 40 minutes (was 30).
+Portugal, Ecuador and Peru share Saturday afternoon (15:00, 15:30, 16:00):
+Portugal's few extra minutes can push Ecuador's start back behind the
+runner's lock, which queues it; nothing is lost.
+
+**Once, by hand, after the merge and before those weeklies' next runs**, the
+backlog (the editions treat what a table holds on its first day as history,
+never as news, so this seeds them quietly):
+
+    cd ~ && JOB_TIMEOUT=3600 nohup ~/runner/parl-monitor/tools/mini_run.sh latam-courts-backfill \
+      >> ~/runner/logs/latam-courts-backfill.log 2>&1 &
+
+`jobs/latam-courts-backfill.sh`: Colombia's file, Ecuador's Court since
+2019, Peru's whole press-note archive (the RSS feed, 4,378 notes, 15 MB, one
+request), every Bolivian question (after refreshing the members), and the L
+legislature's Diarios (about 80 PDFs). About 25 minutes; heartbeat "Latam
+courts backfill" (ON_DEMAND). Portugal's court is not backfilled: it is read
+ten rulings a week.
+
+### OCR (Tesseract, X7)
+
+Approved 10 October 2026 (X7): Tesseract, free and local, reads the scans
+no text layer covers: Peru's signed vote records (wired: `tools/pe_ocr.py`
+in `pe-weekly`), and, once their document layers exist, Croatia's
+opposition bills and Colombia's Gazette vote registers. Design and limits:
+`src/ocr.py`. **Nothing is installed by the code**, and every step skips
+cleanly ("[skip] pe-ocr: tesseract not installed") until this is done.
+
+To install, on the Mini, as the runner's user (Homebrew, no paid service):
+
+    brew install tesseract tesseract-lang
+    tesseract --version                       # 5.x
+    tesseract --list-langs | grep -E '^(spa|hrv)$'   # both must be listed
+
+`tesseract-lang` brings every language's data (spa for Peru and Colombia,
+hrv for Croatia; about 650 MB). If launchd's PATH lacks Homebrew's bin,
+`src/ocr.py` also looks in `/opt/homebrew/bin` and `/usr/local/bin`, or set
+`TESSERACT_CMD` in the job's environment. Check without reading anything:
+
+    cd ~/runner/parl-monitor && python3 tools/pe_ocr.py --check
+
+What it does once installed: up to three scan-only Peru vote records a run
+(`pe_vote_files.text_layer = 0`), each page's embedded image through
+`tesseract -l spa --psm 6`, the text stored in `pe_vote_ocr` with the
+engine's version. **It parses no positions**: a parser for OCR'd vote
+sheets, tested against hand-checked sheets, is the next step and is not
+built. GitHub's runners have no Tesseract, so the backup skips the step.
 ## New-country 5CA stance steps and the sign-off digest (10 October 2026, branch `parity-5ca`)
 
 Three offline steps at the head of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only), after the week's country weeklies and before the judge; no new job, no new slot, no GitHub workflow:
@@ -442,6 +508,11 @@ with the end of its output. Nothing caps the clock here, but give
     cd ~ && CA_RETAG=true JOB_TIMEOUT=3600 \
       nohup ~/runner/parl-monitor/tools/mini_run.sh ca-backfill \
       >> ~/runner/logs/ca-backfill.log 2>&1 &
+
+    # Latam courts, Bolivian questions, Uruguay's Diarios, once (see "Courts,
+    # Bolivian questions, Uruguay's Diario totals and OCR" above).
+    cd ~ && JOB_TIMEOUT=3600 nohup ~/runner/parl-monitor/tools/mini_run.sh latam-courts-backfill \
+      >> ~/runner/logs/latam-courts-backfill.log 2>&1 &
 
     # Hungary, once: karzat's open data, 9 May to 28 August 2026 (HU7; see
     # "Hungary: the karzat backfill" above).

@@ -511,7 +511,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - X6: source party history before relying on party at the vote.
-- Phase (X7): Tesseract OCR on the Mini for scanned records.
+- Phase (X7): Tesseract OCR on the Mini for scanned records. Designed 10 October 2026 (`src/ocr.py`, `hrv` language data in the install steps of docs/mac-mini.md); waits for the phase-3 document layer, which does not exist yet.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

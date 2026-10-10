@@ -42,8 +42,17 @@ if [ "${BO_RECLASSIFY:-}" = "true" ]; then
 fi
 args=(--budget-seconds 1800)
 [ "${BO_BACKFILL:-}" = "true" ] && args+=(--backfill)
+qargs=()
+[ "${BO_BACKFILL:-}" = "true" ] && qargs+=(--backfill)
 rc=0
 python3 tools/bo_rollcalls.py "${args[@]}" || rc=$?
+# BO4 (10 October 2026): written questions, both chambers
+# (tools/bo_questions.py); the backfill flag reads every page once.
+# Gaps go to the store; a failure never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/bo_questions.py "${qargs[@]}" \
+    || echo "  [gap] bo-questions recorded gaps or failed; the next run retries"
+fi
 # Instant Latam alerts (tools/latam_alerts.py): this country's watched and
 # tier-1 items, a short DM each to Chris alone, de-duplicated in
 # data/latam-alerts/bo.json (committed with data/). Never stops the run.

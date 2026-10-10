@@ -33,6 +33,13 @@ if [ "${EC_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/ec_rollcalls.py --budget-seconds 2700 || rc=$?
+# X8 (10 October 2026): the Corte Constitucional's judgments and bulletins
+# (tools/ec_courts.py, its WordPress API, one or two requests).
+# Gaps go to the store; a failure never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/ec_courts.py \
+    || echo "  [gap] ec-courts recorded gaps or failed; the next run retries"
+fi
 # Instant Latam alerts (tools/latam_alerts.py): this country's watched and
 # tier-1 items, a short DM each to Chris alone, de-duplicated in
 # data/latam-alerts/ec.json (committed with data/). Never stops the run.
