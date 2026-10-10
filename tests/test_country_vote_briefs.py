@@ -260,9 +260,7 @@ class RenderTests(Base):
                      "    why_yea: 'CitizenGO supports this'\n")
         self.run_pass()
         self.items = [vote("v5", watched=True, title="Motion — the bill was defeated")]
-        real = vote_brief.stance_status
-        with mock.patch.object(vote_brief, "stance_status",
-                               lambda cc, key, path=None: real(cc, key, stance)):
+        with mock.patch.object(cvb, "stance_path", lambda cc: stance):
             self.run_pass()
         text = open(self.briefs()[0], encoding="utf-8").read() + self.sent[0][1]
         self.assertNotIn("—", text)
@@ -270,6 +268,24 @@ class RenderTests(Base):
         self.assertNotIn("CitizenGO supports", text)
         ours = text.replace("the bill was defeated", "")       # the record's own words aside
         self.assertIsNone(vote_brief.VERDICT_WORDS.search(ours))
+
+    def test_the_new_stance_files_are_read_by_the_stores_division_key(self):
+        stance = os.path.join(self.tmp, "xx_stance.yaml")
+        with open(stance, "w") as fh:
+            fh.write("divisions:\n  - key: 'besluit-1'\n    status: draft\n    yea: 2\n    nay: -2\n"
+                     "  - key: 'besluit-2'\n    status: confirmed\n    yea: 2\n    nay: -2\n"
+                     "  - key: 'besluit-3'\n    status: needs_reading\n")
+        def say(key):
+            with mock.patch.object(cvb, "stance_path", lambda cc: stance):
+                return cvb.stance_status("xx", key)
+        a = ce.vote("xx", "2026Z1", "2026-10-08", "Motie", [1], 1, True, [], division_key="besluit-1")
+        self.assertEqual(cvb.stance_key(a), "besluit-1")
+        self.assertIn("awaiting sign-off", say(cvb.stance_key(a)))
+        self.assertIn("awaiting sign-off", say("besluit-2"))      # confirmed needs a name and a date
+        self.assertIn("to read first", say("besluit-3"))
+        b = ce.vote("xx", "2026Z1", "2026-10-08", "Motie", [1], 1, True, [], division_key="2026Z1")
+        self.assertNotIn("division_key", b)                          # same as the key: not stored
+        self.assertNotEqual(cvb.vote_id(a), cvb.vote_id(b))
 
     def test_the_dm_is_capped(self):
         self.run_pass()

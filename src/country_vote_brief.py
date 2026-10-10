@@ -76,6 +76,7 @@ import re
 
 from src import country_edition as ce
 from src import latam, vote_brief
+from src import readings5ca as r5
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LEDGER_DIR = os.path.join(ROOT, "data", "vote-briefs")
@@ -280,6 +281,34 @@ def awaiting_positions(it):
         it.get("rebels") is None and not it.get("rebels_note")
 
 
+# --- the 5CA reading's status -------------------------------------------------------
+
+_STANCES = {}
+
+
+def stance_path(cc):
+    return os.path.join(ROOT, "config", "{0}_stance.yaml".format(cc))
+
+
+def stance_status(cc, key):
+    """vote_brief.stance_status, with each stance file read once per change
+    (the new countries' files hold hundreds of drafted readings, and a
+    brief asks once per vote)."""
+    path = stance_path(cc)
+    stamp = os.path.getmtime(path) if os.path.exists(path) else None
+    if path not in _STANCES or _STANCES[path][0] != stamp:
+        _STANCES[path] = (stamp, r5.load_stance(path, "divisions") if stamp else {})
+    rel = os.path.relpath(path, ROOT)
+    status = r5.status(_STANCES[path][1].get(str(key)))
+    return {
+        "none": "no 5CA reading for this vote yet ({0} has no entry).".format(rel),
+        "draft": "reading awaiting sign-off (a draft in {0}).".format(rel),
+        "unread": "listed in {0} to read first; no reading proposed.".format(rel),
+        "unplaceable": "signed as evidence only in {0}: it places no member.".format(rel),
+        "confirmed": "reading signed in {0}.".format(rel),
+    }[status]
+
+
 # --- grouping and rendering --------------------------------------------------------
 
 def group_key(it):
@@ -366,7 +395,7 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
         " Terms: {0}.".format(", ".join(ce.terms_of(head.get("terms"))[:8]))
         if ce.terms_of(head.get("terms")) else ""))
     out.append("")
-    out.append("**5CA:** {0}".format(vote_brief.stance_status(cc, stance_key(head))))
+    out.append("**5CA:** {0}".format(stance_status(cc, stance_key(head))))
     out.append("")
     for i, it in enumerate(votes, 1):
         label = "Decisive vote" if it.get("final") else (
@@ -380,7 +409,7 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
             out.append("*Areas from the bill it names, not the vote's own words.*")
             out.append("")
         if it is not head:
-            out.append("5CA: {0}".format(vote_brief.stance_status(cc, stance_key(it))))
+            out.append("5CA: {0}".format(stance_status(cc, stance_key(it))))
             out.append("")
         for line in it["lines"]:
             out.append("- " + line)
@@ -420,7 +449,7 @@ def dm_entry(cc, votes, reasons, brief_url):
             lines.append("  " + rebels_text(dict(it, rebels_note=None), MAX_DM_REBELS))
     if len(votes) > MAX_DM_VOTES:
         lines.append("• and {0} more vote(s) on it, in the brief.".format(len(votes) - MAX_DM_VOTES))
-    lines.append("5CA: {0}".format(vote_brief.stance_status(cc, stance_key(head))))
+    lines.append("5CA: {0}".format(stance_status(cc, stance_key(head))))
     lines.append("Brief: {0}".format(brief_url))
     if head.get("url"):
         lines.append("Record: {0}".format(head["url"]))

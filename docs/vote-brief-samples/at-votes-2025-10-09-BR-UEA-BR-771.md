@@ -1,10 +1,10 @@
 # SAMPLE (never sent). Austria vote brief: Waffen sichern - Leben schützen. Klare Gesetze für Waffenverwahrung zum Schutz vor Suiziden und Femiziden
 
-*Nationalrat and Bundesrat, 9 October 2025. 1 recorded vote on our ground. Generated 2026-10-10T02:16. Facts of the record only: what a vote meant is a signed human reading (config/at_stance.yaml), never this brief's.*
+*Nationalrat and Bundesrat, 9 October 2025. 1 recorded vote on our ground. Generated 2026-10-10T02:28. Facts of the record only: what a vote meant is a signed human reading (config/at_stance.yaml), never this brief's.*
 
 **Why it is here:** tier-1 term in the title. Areas: sex-based rights. Terms: Femizid*.
 
-**5CA:** no 5CA reading for this vote yet (config/at_stance.yaml has no entry).
+**5CA:** listed in config/at_stance.yaml to read first; no reading proposed.
 
 ## Vote: Antrag
 
@@ -20,4 +20,4 @@ Record: [https://www.parlament.gv.at/dokument/BR/BRSITZ/981/fnameorig_1756327.ht
 
 ---
 
-No meaning is attached here. Positions are the record's own words; a reading is signed through the 5CA sign-off guide for config/at_stance.yaml.
+No meaning is attached here. Positions are the record's own words; a reading of config/at_stance.yaml is signed through its guide, docs/5ca-at-readings.md (tools/country_5ca.py).

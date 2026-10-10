@@ -1,6 +1,6 @@
 # SAMPLE (never sent). Portugal vote brief: Criminaliza a esterilização forçada de pessoas com deficiência e/ou incapazes e garante a proteção dos seus direitos sexuais e reprodutivos
 
-*Assembleia da República, 18 December 2025. 1 recorded vote on our ground. Generated 2026-10-10T02:17. Facts of the record only: what a vote meant is a signed human reading (config/pt_stance.yaml), never this brief's.*
+*Assembleia da República, 18 December 2025. 1 recorded vote on our ground. Generated 2026-10-10T02:28. Facts of the record only: what a vote meant is a signed human reading (config/pt_stance.yaml), never this brief's.*
 
 **Why it is here:** tier-1 term in the title. Areas: abortion.
 
@@ -20,4 +20,4 @@ Record: [https://www.parlamento.pt/ActividadeParlamentar/Paginas/DetalheIniciati
 
 ---
 
-No meaning is attached here. Positions are the record's own words; a reading is signed through the 5CA sign-off guide for config/pt_stance.yaml.
+No meaning is attached here. Positions are the record's own words; a reading of config/pt_stance.yaml is signed through its guide, docs/5ca-pt-readings.md (tools/country_5ca.py).
