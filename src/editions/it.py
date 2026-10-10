@@ -15,13 +15,15 @@ final vote are one group, keyed on the reading, with the final vote
 had its bill inferred by the collector (`bill_inferred`); its areas then
 come from that bill, and the edition says so.
 
-No agenda is collected, so there is no week ahead.
+The week ahead is the Camera's calendar of the Assembly's work
+(src/agendas/it.py); the Senate's is not read (senato.it refuses us).
 """
 
 from __future__ import annotations
 
 import json
 
+from src import agenda
 from src import country_edition as ce
 
 POS_YES, POS_NO, POS_ABST = ("aye",), ("no",), ("abstain",)
@@ -137,11 +139,14 @@ COUNTRY = ce.Country(
     cc="it", name="Italy", chamber="Senato and Camera dei Deputati", language="Italian",
     taxonomies=(("taxonomy-it.yaml", "it"),),
     items=items, flag=":flag-it:",
+    week_ahead=agenda.week_ahead_fn("it"), ahead_note=agenda.ahead_note_fn("it"),
     members_note=("Both chambers record every member's position, with the group at the vote; "
                   "nothing is derived"),
     coverage=("Bills of both chambers and every recorded vote come from dati.senato.it; the "
               "Camera's votes from Openpolis (IT2: dati.camera.it as backup is a later phase).",
               "Bill statuses are the Senate's own terse words ('assegnato (no esame)', 'esame "
               "in comm.'). A bill lapses with the 19th legislature (by October 2027).",
-              "Regional councils are a later phase (IT3)."),
+              "Regional councils are a later phase (IT3).",
+              "The week ahead is the Camera's Assembly calendar only: the Senate's calendar "
+              "is not read (senato.it refuses us), nor are committee convocations."),
 )

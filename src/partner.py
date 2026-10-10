@@ -498,6 +498,17 @@ def vote_pages_nav(site_dir):
     return "Other parliaments' votes: " + " | ".join(links) + "<br>"
 
 
+def countries_5ca_nav(site_dir):
+    """The link to the new countries' 5CA page, or '' while it is gated off.
+
+    tools/make_country_5ca_web.py writes partner_site/5ca-countries.html only
+    once a country has a confirmed reading that places someone, and removes
+    it otherwise; the nav follows the file."""
+    if not os.path.exists(os.path.join(site_dir, "5ca-countries.html")):
+        return ""
+    return '<a href="/5ca-countries.html">5CA: other countries</a> | '
+
+
 def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None, pq_background=None):
     """Write index.html (latest) + archive/<week>.html + auth middleware."""
     os.makedirs(os.path.join(site_dir, "archive"), exist_ok=True)
@@ -510,7 +521,8 @@ def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None, pq
            '<a href="/5ca-peers.html">5CA peers</a> | '
            '<a href="/5ca-matrix.html">Cross-issue matrix</a> | '
            '<a href="/5ca-peers-matrix.html">Peers matrix</a> | '
-           '<a href="/5ca.html">Five Column Analysis tracker</a> | '
+           '<a href="/5ca.html">Five Column Analysis tracker</a> | ' +
+           countries_5ca_nav(site_dir) +
            '<a href="/questions.html">Questions and answers</a> | '
            '<a href="/petitions.html">E-petitions on our ground</a> | '
            '<a href="/issues.html">Issue pages</a> | '

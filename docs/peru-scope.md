@@ -400,4 +400,29 @@ Later phases and items for Chris (not built at the merge):
 
 - Not built: the expediente endpoint (PE2, reversed on 10 October 2026). Its identifiers are AES-encrypted with a key in the public front end; Chris decided to leave it out, so bill detail stays at what the list endpoint gives.
 - Phase: regional councils (PE4).
-- Phase (X7): OCR for scan-only sessions.
+- Phase (X7): OCR for scan-only sessions. Designed and wired 10 October 2026 (`tools/pe_ocr.py`, see below); waits for Tesseract on the Mini.
+
+## Parity work, set B (10 October 2026, branch `parity-phases-b`)
+
+- **X8, built:** `tools/pe_courts.py`, a step in `pe-weekly`: the Tribunal
+  Constitucional's press notes (www.tc.gob.pe/institucional/notas-de-prensa/,
+  keyless HTML; its REST API exposes no posts), at robots.txt's
+  `Crawl-delay: 30`. Weekly: the listing's first page (more only while all
+  are new), and a note's own page only when its headline reports a ruling
+  or a hearing or its words match our ground, at most six. Kinds: `ruling`,
+  `hearing`, or `press` (lectures, book fairs, visits: stored, never shown).
+  The RSS feed holds the whole archive (4,378 notes back to 2001, 15 MB): read
+  once by the hand-run backfill. Measured on it: 411 ruling notes (41 on our
+  ground), 683 hearing notes (14), 3,284 institutional (never shown); the
+  rulings on our ground include the crucifix and Bible in courts (2011),
+  the minimum-membership rule for religious bodies (2021) and the same-sex
+  marriage and surrogacy hearings. The sentencias themselves are not read:
+  the Tribunal's jurisprudence search was not probed for an open listing.
+- **X7, wired behind a guard:** `tools/pe_ocr.py`, a step in `pe-weekly`
+  after the court: with Tesseract on the Mini it reads up to three scan-only
+  vote records a run (`pe_vote_files.text_layer = 0`) into `pe_vote_ocr`;
+  without it, one "[skip]" line. It parses no positions (src/ocr.py).
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/pe_stance.yaml` holds 2 bill direction(s) (Claude's drafts from the watchlist) and 0 vote reading(s): 0 with proposed values, 0 procedural, 0 need reading, 0 confirmed. Guide: `docs/5ca-pe-readings.md`; confirm with `python3 tools/country_5ca.py --cc pe --sign-from-doc --by NAME`. Sheets (`data/5ca/pe-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Peru (`config/stance_signers.yaml`). No qualifying vote in any store yet (the scans were lost; phase 1 holds few votes on our ground).

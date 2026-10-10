@@ -1,0 +1,2161 @@
+# Italy: what a recorded vote MEANS for CitizenGO, for the 5CA.
+#
+# Written by tools/country_5ca.py (src/country5ca.py), the 5CA-with-sign-off
+# layer of docs/country-parity-handover.md (item 2), 10 October 2026. The
+# rule is Canada's: which lobby is CitizenGO's is a HUMAN judgement, and
+# nothing places anyone until a named person has confirmed it.
+#
+# status:
+#   draft          proposed by the drafter's rules (or by Claude): unsigned,
+#                  places nobody.
+#   needs_reading  no direction proposed: the drafter could not tell which
+#                  side is ours without reading the text. A person writes
+#                  `yea:`/`nay:` (and why lines), then confirms.
+#   confirmed      signed: `confirmed_by:` (a named person) and
+#                  `confirmed_on:` (the date) are both required, or it still
+#                  counts as unsigned.
+#
+# To confirm: tick the box in docs/5ca-it-readings.md and run
+#   python3 tools/country_5ca.py --cc it --sign-from-doc --by NAME
+# or confirm by key:
+#   python3 tools/country_5ca.py --cc it --confirm KEY [KEY ...] --by NAME
+# To strike a reading for good, write `placeable: false` and a `reason:`.
+#
+# bill_directions: whether PASSING a bill or motion is with CitizenGO
+# (`with`) or against it (`against`). Drafted by Claude on 10 October 2026
+# from each watchlist entry's own description, never from a model call; a
+# bill with no line gets no proposed values. Edit or add lines here: the
+# next --draft uses them for NEW votes (an existing entry is never
+# rewritten).
+#
+# divisions: one entry per watched or tier-1 vote, appended by --draft.
+# Keys are the store's division keys. `yea:`/`nay:` are the stance (-2..2)
+# of voting Yes / No as the chamber records it (Favorevole / Contrario). An
+# abstention never places anyone. Keep `divisions:` the LAST section: the
+# drafter appends to the end of this file.
+
+
+bill_directions:
+  - key: "19/S.165"
+    direction: with
+    status: draft
+    areas: [1]
+    why: "Amends article 1 of the Civil Code to give the conceived child legal capacity (capacità giuridica del concepito)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/S.171"
+    direction: with
+    status: draft
+    areas: [1]
+    why: "Istituzione della Giornata della vita nascente: a national day for unborn life."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/C.2064"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Amends Law 194/1978 on choice and access to abortion (Sportiello, M5S, 2024)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/C.1825"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Constitutional bill (Sportiello): a right to abortion in article 32 of the Constitution."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/S.1597"
+    direction: against
+    status: draft
+    areas: [2]
+    why: "Disposizioni in materia di aiuto medico alla morte volontaria: a popular-initiative bill, presented 15 July 2025, in committee. 'Aiuto medico' is a phrase the first draft of the terms missed."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/S.104"
+    direction: against
+    status: draft
+    areas: [2]
+    why: "Morte volontaria medicalmente assistita (Bazoli and others), in committee since the start of the legislature."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/C.2575"
+    direction: with
+    status: draft
+    areas: [3]
+    why: "Appropriatezza prescrittiva dei farmaci per la disforia di genere: the government bill (Schillaci, Roccella) on puberty-blocking drugs for minors, presented 11 August 2025, in committee."
+    flag: "Read as restricting puberty-blocking drugs for minors; check the final text."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/C.401"
+    direction: against
+    status: draft
+    areas: [5, 7]
+    why: "Discrimination and violence on grounds of sex, gender, sexual orientation and gender identity (Zan and others): the ddl Zan re-presented, with its speech implications."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/C.402"
+    direction: against
+    status: draft
+    areas: [4]
+    why: "Ban on conversion therapy for minors (Zan): terapie volte alla conversione dell'orientamento sessuale."
+    flag: "A conversion-therapy ban: CitizenGO has opposed these as reaching counselling and speech; confirm."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/C.2423"
+    direction: with
+    status: draft
+    areas: [6]
+    why: "Consenso informato in ambito scolastico: parents' prior consent to sex and relationships education in schools, the government bill (Valditara). Camera reading, approved."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/S.1735"
+    direction: with
+    status: draft
+    areas: [6]
+    why: "The same bill at the Senate, presented 4 December 2025; the Senate's record says 'appr. definit. Legge'."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/C.1885"
+    direction: with
+    status: draft
+    areas: [6]
+    why: "Bans curriculum objectives founded on 'teorie del gender' (Ravetto and others). Assigned, not examined."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/C.887"
+    direction: with
+    status: draft
+    areas: [10]
+    why: "Surrogacy as a universal crime (reato universale), Camera reading, voted 26 July 2023. Its title names only article 12 of Law 40/2004."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/S.824"
+    direction: with
+    status: draft
+    areas: [10]
+    why: "The same bill at the Senate; became law ('appr. definit. Legge')."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+  - key: "19/S.130"
+    direction: against
+    status: draft
+    areas: [9, 10]
+    why: "Marriage and civil union for all, with parentage for same-sex couples (Maiorino and others)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
+
+divisions:
+
+  # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
+  - key: "camera-vs19_052_001"
+    status: needs_reading
+    title: "Conversione decreto flussi migratori"
+    dated: "2023-02-15"
+    chamber: "camera"
+    areas: [11]
+    tier: 1
+    result: "Approvata"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for this item: CitizenGO's position on 'Conversione decreto flussi migratori' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_141_013"
+    status: draft
+    title: "Questioni pregiudiziali di costituzionalità n. 1 GIANASSI FEDERICO (PD-IDP) ed altri e n. 2 MAGI RICCARDO (MISTO) e DELLA VEDOVA BENEDETTO (MISTO) - Votazione pregiudiziale PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-18"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 124, Contrario 187, Abstain 8"
+    lobbies: "Favorevole: PD-IDP 60, M5S 40, AZ-PER-RE 9, AVS 9, MISTO 6. Contrario: FDI 97, LEGA 48, FI-PPE 28, NM(N-C-U-I)-M 9, AZ-PER-RE 3, MISTO 2. Abstain: AZ-PER-RE 7, MISTO 1"
+    vote_kind: "reject"
+    yea: -2
+    why_yea: "Voted Favorevole on 19/C.887 (Surrogacy as a universal crime (reato universale), Camera reading, voted 26 July 2023. Its): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Contrario on 19/C.887 (Surrogacy as a universal crime (reato universale), Camera reading, voted 26 July 2023. Its): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 19/C.887 (a draft): passing it is WITH us -- Surrogacy as a universal crime (reato universale), Camera reading, voted 26 July 2023. Its title names only article 12 of Law 40/2004. This vote is a motion to reject the text (the sides are swapped), so Favorevole is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_002"
+    status: needs_reading
+    title: "Identici emendamenti 1.2 D'ORSO VALENTINA (M5S), 1.1001 GRIMALDI MARCO (AVS) e 1.1024 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.2 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 112, Contrario 172, Abstain 10"
+    lobbies: "Favorevole: PD-IDP 52, M5S 39, AVS 9, AZ-PER-RE 7, MISTO 5. Contrario: FDI 93, LEGA 44, FI-PPE 24, NM(N-C-U-I)-M 7, AZ-PER-RE 4. Abstain: AZ-PER-RE 6, MISTO 4"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Identici emendamenti 1.2 D'ORSO VALENTINA (M5S), 1.1001 GRIMALDI MARCO (AVS) e 1.1024 ZAN ALESSANDRO (PD-IDP) - Votazion'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_003"
+    status: needs_reading
+    title: "Emendamento 1.7 APPENDINO CHIARA (M5S) - Votazione Emendamento 1.7 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 118, Contrario 168, Abstain 8"
+    lobbies: "Favorevole: PD-IDP 51, M5S 40, AZ-PER-RE 17, MISTO 6, AVS 4. Contrario: FDI 93, LEGA 42, FI-PPE 26, NM(N-C-U-I)-M 7. Abstain: AVS 5, MISTO 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.7 APPENDINO CHIARA (M5S) - Votazione Emendamento 1.7 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_004"
+    status: needs_reading
+    title: "Emendamento 1.1025 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.1025 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 109, Contrario 184, Abstain 4"
+    lobbies: "Favorevole: PD-IDP 51, M5S 40, AZ-PER-RE 7, MISTO 6, AVS 5. Contrario: FDI 92, LEGA 46, FI-PPE 27, AZ-PER-RE 9, NM(N-C-U-I)-M 6, AVS 4. Abstain: MISTO 3, AZ-PER-RE 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.1025 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.1025 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_005"
+    status: needs_reading
+    title: "Emendamento 1.1026 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.1026 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 110, Contrario 177, Abstain 10"
+    lobbies: "Favorevole: PD-IDP 52, M5S 41, AZ-PER-RE 7, MISTO 5, AVS 5. Contrario: FDI 92, LEGA 43, FI-PPE 27, NM(N-C-U-I)-M 7, AVS 4, AZ-PER-RE 4. Abstain: AZ-PER-RE 6, MISTO 4"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.1026 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.1026 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_006"
+    status: needs_reading
+    title: "Emendamento 1.1027 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.1027 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 111, Contrario 173, Abstain 13"
+    lobbies: "Favorevole: PD-IDP 52, M5S 40, AVS 9, AZ-PER-RE 6, MISTO 4. Contrario: FDI 91, LEGA 45, FI-PPE 27, NM(N-C-U-I)-M 7, AZ-PER-RE 3. Abstain: AZ-PER-RE 8, MISTO 5"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.1027 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.1027 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_007"
+    status: needs_reading
+    title: "Emendamento 1.8 APPENDINO CHIARA (M5S) - Votazione Emendamento 1.8 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 114, Contrario 170, Abstain 14"
+    lobbies: "Favorevole: PD-IDP 52, M5S 40, AZ-PER-RE 9, AVS 9, MISTO 4. Contrario: FDI 92, LEGA 44, FI-PPE 27, NM(N-C-U-I)-M 7. Abstain: AZ-PER-RE 8, MISTO 5, LEGA 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.8 APPENDINO CHIARA (M5S) - Votazione Emendamento 1.8 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_008"
+    status: needs_reading
+    title: "Emendamento 1.1023 MAGI RICCARDO (MISTO) - Votazione Emendamento 1.1023 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 9, Contrario 191, Abstain 44"
+    lobbies: "Favorevole: AVS 5, MISTO 2, AZ-PER-RE 1, M5S 1. Contrario: FDI 90, LEGA 45, FI-PPE 25, AZ-PER-RE 15, NM(N-C-U-I)-M 7, AVS 4, MISTO 4, PD-IDP 1. Abstain: M5S 39, AZ-PER-RE 2, MISTO 2, PD-IDP 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.1023 MAGI RICCARDO (MISTO) - Votazione Emendamento 1.1023 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_009"
+    status: needs_reading
+    title: "Emendamento 1.9 QUARTINI ANDREA (M5S) - Votazione Emendamento 1.9 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 99, Contrario 168, Abstain 23"
+    lobbies: "Favorevole: PD-IDP 52, M5S 41, MISTO 3, AZ-PER-RE 2, LEGA 1. Contrario: FDI 90, LEGA 41, FI-PPE 24, NM(N-C-U-I)-M 7, AZ-PER-RE 6. Abstain: AVS 8, AZ-PER-RE 8, MISTO 6, FI-PPE 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.9 QUARTINI ANDREA (M5S) - Votazione Emendamento 1.9 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_010"
+    status: needs_reading
+    title: "Emendamento 1.1013 MAGI RICCARDO (MISTO) - Votazione Emendamento 1.1013 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 3, Contrario 274, Abstain 7"
+    lobbies: "Favorevole: MISTO 3. Contrario: FDI 89, PD-IDP 46, LEGA 42, M5S 38, FI-PPE 26, AZ-PER-RE 15, NM(N-C-U-I)-M 7, MISTO 6, AVS 5. Abstain: AVS 5, AZ-PER-RE 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.1013 MAGI RICCARDO (MISTO) - Votazione Emendamento 1.1013 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_011"
+    status: needs_reading
+    title: "Emendamento 1.14 QUARTINI ANDREA (M5S) - Votazione Emendamento 1.14 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 94, Contrario 173, Abstain 19"
+    lobbies: "Favorevole: PD-IDP 51, M5S 40, MISTO 2, AZ-PER-RE 1. Contrario: FDI 89, LEGA 42, FI-PPE 20, AZ-PER-RE 8, NM(N-C-U-I)-M 7, AVS 5, MISTO 2. Abstain: AZ-PER-RE 9, AVS 5, MISTO 4, FI-PPE 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.14 QUARTINI ANDREA (M5S) - Votazione Emendamento 1.14 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_012"
+    status: needs_reading
+    title: "Emendamento 1.1010 MAGI RICCARDO (MISTO) - Votazione Emendamento 1.1010 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 104, Contrario 175, Abstain 12"
+    lobbies: "Favorevole: PD-IDP 51, M5S 39, AZ-PER-RE 5, AVS 5, MISTO 4. Contrario: FDI 91, LEGA 43, FI-PPE 25, NM(N-C-U-I)-M 6, AVS 5, AZ-PER-RE 5. Abstain: AZ-PER-RE 8, MISTO 4"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.1010 MAGI RICCARDO (MISTO) - Votazione Emendamento 1.1010 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_013"
+    status: needs_reading
+    title: "Emendamento 1.1008 MONTARULI AUGUSTA (FDI) - Votazione Emendamento 1.1008 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Approvata"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.1008 MONTARULI AUGUSTA (FDI) - Votazione Emendamento 1.1008 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_014"
+    status: needs_reading
+    title: "Emendamento 1.15 D'ORSO VALENTINA (M5S) - Votazione Emendamento 1.15 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 118, Contrario 162, Abstain 7"
+    lobbies: "Favorevole: PD-IDP 49, M5S 39, AZ-PER-RE 18, MISTO 6, AVS 5, FI-PPE 1. Contrario: FDI 87, LEGA 45, FI-PPE 24, NM(N-C-U-I)-M 6. Abstain: AVS 5, MISTO 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.15 D'ORSO VALENTINA (M5S) - Votazione Emendamento 1.15 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_015"
+    status: needs_reading
+    title: "Emendamento 1.16 D'ORSO VALENTINA (M5S) - Votazione Emendamento 1.16 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 116, Contrario 164, Abstain 11"
+    lobbies: "Favorevole: PD-IDP 51, M5S 41, AZ-PER-RE 17, MISTO 5, AVS 2. Contrario: FDI 87, LEGA 46, FI-PPE 25, NM(N-C-U-I)-M 6. Abstain: AVS 8, MISTO 2, FI-PPE 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emendamento 1.16 D'ORSO VALENTINA (M5S) - Votazione Emendamento 1.16 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_016"
+    status: needs_reading
+    title: "Articolo 1 - Votazione Articolo 1 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Approvata; Favorevole 167, Contrario 111, Abstain 9"
+    lobbies: "Favorevole: FDI 87, LEGA 46, FI-PPE 25, NM(N-C-U-I)-M 5, AZ-PER-RE 4. Contrario: PD-IDP 50, M5S 38, AVS 9, AZ-PER-RE 8, MISTO 5, FI-PPE 1. Abstain: AZ-PER-RE 6, MISTO 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo 1 - Votazione Articolo 1 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_017"
+    status: needs_reading
+    title: "Articolo aggiuntivo 1.01 D'ORSO VALENTINA (M5S) - Votazione Emendamento 1.01 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 111, Contrario 167, Abstain 12"
+    lobbies: "Favorevole: PD-IDP 52, M5S 39, AVS 10, MISTO 6, AZ-PER-RE 4. Contrario: FDI 87, LEGA 46, FI-PPE 25, NM(N-C-U-I)-M 5, AZ-PER-RE 4. Abstain: AZ-PER-RE 9, MISTO 2, FI-PPE 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo aggiuntivo 1.01 D'ORSO VALENTINA (M5S) - Votazione Emendamento 1.01 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_018"
+    status: needs_reading
+    title: "Articolo aggiuntivo 1.02 D'ORSO VALENTINA (M5S) - Votazione Emendamento 1.02 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 106, Contrario 170, Abstain 10"
+    lobbies: "Favorevole: PD-IDP 50, M5S 37, AVS 9, AZ-PER-RE 5, MISTO 5. Contrario: FDI 88, LEGA 45, FI-PPE 27, NM(N-C-U-I)-M 5, AZ-PER-RE 5. Abstain: AZ-PER-RE 7, MISTO 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo aggiuntivo 1.02 D'ORSO VALENTINA (M5S) - Votazione Emendamento 1.02 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_019"
+    status: needs_reading
+    title: "Articolo aggiuntivo 1.03 APPENDINO CHIARA (M5S) - Votazione Emendamento 1.03 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 113, Contrario 171, Abstain 9"
+    lobbies: "Favorevole: PD-IDP 52, M5S 38, AVS 10, MISTO 7, AZ-PER-RE 6. Contrario: FDI 89, LEGA 46, FI-PPE 27, NM(N-C-U-I)-M 5, AZ-PER-RE 4. Abstain: AZ-PER-RE 7, MISTO 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo aggiuntivo 1.03 APPENDINO CHIARA (M5S) - Votazione Emendamento 1.03 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_020"
+    status: needs_reading
+    title: "Articolo aggiuntivo 1.01015 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01015 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 110, Contrario 174, Abstain 3"
+    lobbies: "Favorevole: PD-IDP 54, M5S 36, AVS 10, AZ-PER-RE 5, MISTO 5. Contrario: FDI 87, LEGA 44, FI-PPE 27, AZ-PER-RE 9, NM(N-C-U-I)-M 5, MISTO 2. Abstain: AZ-PER-RE 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo aggiuntivo 1.01015 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01015 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_021"
+    status: needs_reading
+    title: "Articolo aggiuntivo 1.01011 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01011 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 114, Contrario 173, Abstain 3"
+    lobbies: "Favorevole: PD-IDP 53, M5S 39, AVS 10, AZ-PER-RE 6, MISTO 6. Contrario: FDI 87, LEGA 45, FI-PPE 26, AZ-PER-RE 9, NM(N-C-U-I)-M 5, MISTO 1. Abstain: AZ-PER-RE 2, MISTO 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo aggiuntivo 1.01011 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01011 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_022"
+    status: needs_reading
+    title: "Articolo aggiuntivo 1.01014 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01014 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 112, Contrario 171, Abstain 4"
+    lobbies: "Favorevole: PD-IDP 52, M5S 39, AVS 10, MISTO 6, AZ-PER-RE 5. Contrario: FDI 88, LEGA 42, FI-PPE 26, AZ-PER-RE 8, NM(N-C-U-I)-M 7. Abstain: AZ-PER-RE 3, MISTO 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo aggiuntivo 1.01014 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01014 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_023"
+    status: needs_reading
+    title: "Articolo aggiuntivo 1.01008 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01008 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 109, Contrario 172, Abstain 5"
+    lobbies: "Favorevole: PD-IDP 51, M5S 38, AVS 10, AZ-PER-RE 5, MISTO 5. Contrario: FDI 87, LEGA 44, FI-PPE 25, AZ-PER-RE 8, NM(N-C-U-I)-M 7, MISTO 1. Abstain: AZ-PER-RE 3, MISTO 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo aggiuntivo 1.01008 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01008 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_024"
+    status: needs_reading
+    title: "Articolo aggiuntivo 1.01006 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01006 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 114, Contrario 172, Abstain 3"
+    lobbies: "Favorevole: PD-IDP 53, M5S 38, AVS 10, MISTO 8, AZ-PER-RE 5. Contrario: FDI 88, LEGA 44, FI-PPE 25, AZ-PER-RE 8, NM(N-C-U-I)-M 7. Abstain: AZ-PER-RE 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo aggiuntivo 1.01006 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01006 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_025"
+    status: needs_reading
+    title: "Articolo aggiuntivo 1.01004 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01004 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 109, Contrario 171, Abstain 4"
+    lobbies: "Favorevole: PD-IDP 51, M5S 37, AVS 9, MISTO 7, AZ-PER-RE 5. Contrario: FDI 88, LEGA 43, FI-PPE 26, NM(N-C-U-I)-M 7, AZ-PER-RE 7. Abstain: AZ-PER-RE 4"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo aggiuntivo 1.01004 ZAN ALESSANDRO (PD-IDP) - Votazione Emendamento 1.01004 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_026"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./1 ORRICO ANNA LAURA (M5S) - Votazione Ordine del giorno 9/887 E ABB./1 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 107, Contrario 146, Abstain 4"
+    lobbies: "Favorevole: PD-IDP 49, M5S 35, AVS 10, AZ-PER-RE 8, MISTO 5. Contrario: FDI 83, LEGA 39, FI-PPE 20, NM(N-C-U-I)-M 4. Abstain: AZ-PER-RE 3, MISTO 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./1 ORRICO ANNA LAURA (M5S) - Votazione Ordine del giorno 9/887 E ABB./1 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_027"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./2 D'ORSO VALENTINA (M5S) - Votazione Ordine del giorno 9/887 E ABB./2 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 104, Contrario 154, Abstain 10"
+    lobbies: "Favorevole: PD-IDP 48, M5S 38, AVS 10, AZ-PER-RE 4, MISTO 4. Contrario: FDI 86, LEGA 42, FI-PPE 22, NM(N-C-U-I)-M 4. Abstain: AZ-PER-RE 7, MISTO 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./2 D'ORSO VALENTINA (M5S) - Votazione Ordine del giorno 9/887 E ABB./2 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_028"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./3 GIULIANO CARLA (M5S) - Votazione Ordine del giorno 9/887 E ABB./3 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 97, Contrario 155, Abstain 15"
+    lobbies: "Favorevole: PD-IDP 48, M5S 37, AVS 5, MISTO 4, AZ-PER-RE 3. Contrario: FDI 87, LEGA 42, FI-PPE 22, NM(N-C-U-I)-M 4. Abstain: AZ-PER-RE 7, AVS 5, MISTO 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./3 GIULIANO CARLA (M5S) - Votazione Ordine del giorno 9/887 E ABB./3 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_029"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./4 APPENDINO CHIARA (M5S) - Votazione Ordine del giorno 9/887 E ABB./4 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 110, Contrario 157, Abstain 8"
+    lobbies: "Favorevole: PD-IDP 50, M5S 39, AVS 10, MISTO 7, AZ-PER-RE 4. Contrario: FDI 89, LEGA 41, FI-PPE 21, NM(N-C-U-I)-M 6. Abstain: AZ-PER-RE 7, MISTO 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./4 APPENDINO CHIARA (M5S) - Votazione Ordine del giorno 9/887 E ABB./4 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_030"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./5 QUARTINI ANDREA (M5S) - Votazione Ordine del giorno 9/887 E ABB./5 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 101, Contrario 166, Abstain 13"
+    lobbies: "Favorevole: PD-IDP 50, M5S 40, AVS 5, MISTO 4, AZ-PER-RE 2. Contrario: FDI 90, LEGA 42, FI-PPE 22, NM(N-C-U-I)-M 6, AZ-PER-RE 5, MISTO 1. Abstain: AZ-PER-RE 6, AVS 4, MISTO 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./5 QUARTINI ANDREA (M5S) - Votazione Ordine del giorno 9/887 E ABB./5 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_031"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./6 RICCIARDI MARIANNA (M5S) - Votazione Ordine del giorno 9/887 E ABB./6 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 108, Contrario 162, Abstain 11"
+    lobbies: "Favorevole: PD-IDP 51, M5S 40, AVS 9, MISTO 5, AZ-PER-RE 3. Contrario: FDI 89, LEGA 42, FI-PPE 23, NM(N-C-U-I)-M 6, AZ-PER-RE 2. Abstain: AZ-PER-RE 8, MISTO 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./6 RICCIARDI MARIANNA (M5S) - Votazione Ordine del giorno 9/887 E ABB./6 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_032"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./7 SPORTIELLO GILDA (M5S) - Votazione Ordine del giorno 9/887 E ABB./7 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 105, Contrario 164, Abstain 13"
+    lobbies: "Favorevole: PD-IDP 51, M5S 40, AVS 9, MISTO 4, AZ-PER-RE 1. Contrario: FDI 90, LEGA 42, FI-PPE 23, NM(N-C-U-I)-M 6, AZ-PER-RE 3. Abstain: AZ-PER-RE 9, MISTO 4"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./7 SPORTIELLO GILDA (M5S) - Votazione Ordine del giorno 9/887 E ABB./7 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_033"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./8 DI LAURO CARMEN (M5S) - Votazione Ordine del giorno 9/887 E ABB./8 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 110, Contrario 161, Abstain 11"
+    lobbies: "Favorevole: PD-IDP 51, M5S 40, AVS 10, AZ-PER-RE 5, MISTO 4. Contrario: FDI 90, LEGA 42, FI-PPE 23, NM(N-C-U-I)-M 6. Abstain: AZ-PER-RE 8, MISTO 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./8 DI LAURO CARMEN (M5S) - Votazione Ordine del giorno 9/887 E ABB./8 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_034"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./9 MAGI RICCARDO (MISTO) - Votazione Ordine del giorno 9/887 E ABB./9 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 116, Contrario 161, Abstain 3"
+    lobbies: "Favorevole: PD-IDP 50, M5S 38, AZ-PER-RE 12, AVS 10, MISTO 6. Contrario: FDI 89, LEGA 42, FI-PPE 24, NM(N-C-U-I)-M 6. Abstain: MISTO 2, AZ-PER-RE 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./9 MAGI RICCARDO (MISTO) - Votazione Ordine del giorno 9/887 E ABB./9 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_035"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./10, sulla parte dispositiva, PICCOLOTTI ELISABETTA (AVS) - Votazione Ordine del giorno 9/887 E ABB./10, PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Approvata; Favorevole 272, Contrario 1, Abstain 2"
+    lobbies: "Favorevole: FDI 85, PD-IDP 50, M5S 38, LEGA 38, FI-PPE 24, AZ-PER-RE 13, AVS 10, MISTO 8, NM(N-C-U-I)-M 6. Contrario: FDI 1. Abstain: FDI 1, LEGA 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./10, sulla parte dispositiva, PICCOLOTTI ELISABETTA (AVS) - Votazione Ordine del giorno'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_036"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./10, sulle premesse, PICCOLOTTI ELISABETTA (AVS) - Votazione Ordine del giorno 9/887 E ABB./10, PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 103, Contrario 164, Abstain 18"
+    lobbies: "Favorevole: PD-IDP 50, M5S 39, MISTO 5, AVS 5, AZ-PER-RE 4. Contrario: FDI 91, LEGA 43, FI-PPE 24, NM(N-C-U-I)-M 6. Abstain: AZ-PER-RE 9, AVS 5, MISTO 3, FI-PPE 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./10, sulle premesse, PICCOLOTTI ELISABETTA (AVS) - Votazione Ordine del giorno 9/887 E '): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_037"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./11 GRIMALDI MARCO (AVS) - Votazione Ordine del giorno 9/887 E ABB./11 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 116, Contrario 164, Abstain 6"
+    lobbies: "Favorevole: PD-IDP 51, M5S 39, AZ-PER-RE 10, AVS 10, MISTO 6. Contrario: FDI 91, LEGA 43, FI-PPE 24, NM(N-C-U-I)-M 6. Abstain: AZ-PER-RE 4, MISTO 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./11 GRIMALDI MARCO (AVS) - Votazione Ordine del giorno 9/887 E ABB./11 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_038"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./12 GHIRRA FRANCESCA (AVS) - Votazione Ordine del giorno 9/887 E ABB./12 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 105, Contrario 163, Abstain 8"
+    lobbies: "Favorevole: PD-IDP 51, M5S 38, AVS 8, AZ-PER-RE 5, MISTO 3. Contrario: FDI 88, LEGA 43, FI-PPE 24, NM(N-C-U-I)-M 6, MISTO 2. Abstain: AZ-PER-RE 7, MISTO 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./12 GHIRRA FRANCESCA (AVS) - Votazione Ordine del giorno 9/887 E ABB./12 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_039"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./17, come riformulato, CARFAGNA MARIA ROSARIA (AIV-RE) - Votazione Ordine del giorno 9/887 E ABB./17, PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Approvata; Favorevole 280, Contrario 0, Abstain 1"
+    lobbies: "Favorevole: FDI 91, PD-IDP 52, LEGA 42, M5S 36, FI-PPE 24, AZ-PER-RE 13, AVS 9, MISTO 7, NM(N-C-U-I)-M 6. Abstain: LEGA 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./17, come riformulato, CARFAGNA MARIA ROSARIA (AIV-RE) - Votazione Ordine del giorno 9/'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_040"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./18 GIANASSI FEDERICO (PD-IDP) - Votazione Ordine del giorno 9/887 E ABB./18 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 111, Contrario 163, Abstain 9"
+    lobbies: "Favorevole: PD-IDP 52, M5S 38, AVS 9, AZ-PER-RE 8, MISTO 4. Contrario: FDI 90, LEGA 43, FI-PPE 24, NM(N-C-U-I)-M 6. Abstain: AZ-PER-RE 6, MISTO 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./18 GIANASSI FEDERICO (PD-IDP) - Votazione Ordine del giorno 9/887 E ABB./18 PDL n. 088'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_041"
+    status: needs_reading
+    title: "Ordine del giorno n. 9/887 E ABB./19 ZAN ALESSANDRO (PD-IDP) - Votazione Ordine del giorno 9/887 E ABB./19 PDL n. 0887"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    watched: "19/C.887"
+    result: "Respinta; Favorevole 103, Contrario 159, Abstain 13"
+    lobbies: "Favorevole: PD-IDP 50, M5S 38, AVS 9, MISTO 4, AZ-PER-RE 2. Contrario: FDI 87, LEGA 42, FI-PPE 24, NM(N-C-U-I)-M 5, AZ-PER-RE 1. Abstain: AZ-PER-RE 9, MISTO 3, M5S 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Ordine del giorno n. 9/887 E ABB./19 ZAN ALESSANDRO (PD-IDP) - Votazione Ordine del giorno 9/887 E ABB./19 PDL n. 0887'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/C.887: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_147_042"
+    status: draft
+    title: "Maternità surrogata reato universale"
+    on: "Modifica all'articolo 12 della legge 19 febbraio 2004, n. 40, in materia di perseguibilità del reato di surrogazione di maternità commesso all'estero da cittadino italiano"
+    dated: "2023-07-26"
+    chamber: "camera"
+    areas: [10]
+    tier: 1
+    watched: "19/C.887"
+    result: "Approvata; Favorevole 166, Contrario 109, Abstain 4"
+    lobbies: "Favorevole: FDI 92, LEGA 37, FI-PPE 24, NM(N-C-U-I)-M 7, AZ-PER-RE 5, MISTO 1. Contrario: PD-IDP 51, M5S 33, AVS 10, MISTO 8, AZ-PER-RE 7. Abstain: AZ-PER-RE 4"
+    vote_kind: "final"
+    yea: 2
+    why_yea: "Voted Favorevole on 19/C.887 (Surrogacy as a universal crime (reato universale), Camera reading, voted 26 July 2023. Its): for passing it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Contrario on 19/C.887 (Surrogacy as a universal crime (reato universale), Camera reading, voted 26 July 2023. Its): against passing it, against CitizenGO's position."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 19/C.887 (a draft): passing it is WITH us -- Surrogacy as a universal crime (reato universale), Camera reading, voted 26 July 2023. Its title names only article 12 of Law 40/2004. This vote is a vote on the whole text or the motion itself, so Favorevole is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_203_034"
+    status: needs_reading
+    title: "Fiducia conversione decreto immigrazione e sicurezza"
+    on: "Conversione in legge, con modificazioni, del decreto-legge 5 ottobre 2023, n. 133, recante disposizioni urgenti in materia di immigrazione e protezione internazionale, nonché per il supporto alle poli"
+    dated: "2023-11-27"
+    chamber: "camera"
+    areas: [11]
+    tier: 1
+    result: "Approvata"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Fiducia conversione decreto immigrazione e sicurezza'): read the question put, then write yea/nay."
+    reasoning: "Area 11 (migration). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_204_047"
+    status: needs_reading
+    title: "Conversione decreto immigrazione e sicurezza"
+    on: "Conversione in legge, con modificazioni, del decreto-legge 5 ottobre 2023, n. 133, recante disposizioni urgenti in materia di immigrazione e protezione internazionale, nonché per il supporto alle poli"
+    dated: "2023-11-28"
+    chamber: "camera"
+    areas: [11]
+    tier: 1
+    result: "Approvata"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 19/C.1458: CitizenGO's position on 'Conversione in legge, con modificazioni, del decreto-legge 5 ottobre 2023, n. 133, recante disposizioni urgenti in materia di immigrazione e' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_232_068"
+    status: needs_reading
+    title: "Ratifica accordo Italia-Albania in tema di immigrazione"
+    on: "Ratifica ed esecuzione del Protocollo tra il Governo della Repubblica italiana e il Consiglio dei ministri della Repubblica di Albania per il rafforzamento della collaborazione in materia migratoria,"
+    dated: "2024-01-24"
+    chamber: "camera"
+    areas: [11]
+    tier: 1
+    result: "Approvata"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 19/C.1620: CitizenGO's position on 'Ratifica ed esecuzione del Protocollo tra il Governo della Repubblica italiana e il Consiglio dei ministri della Repubblica di Albania per i' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_345_082"
+    status: draft
+    title: "Dichiarazione di urgenza della proposta di legge n. 617: Modifiche alla legge 5 febbraio 1992, n. 91, recante nuove norme sulla cittadinanza - Votazione PDL n. 0617"
+    on: "Modifiche alla legge 5 febbraio 1992, n. 91, recante nuove norme sulla cittadinanza"
+    dated: "2024-09-12"
+    chamber: "camera"
+    areas: [11]
+    tier: 1
+    result: "Respinta"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Dichiarazione di urgenza della proposta di legge n. 617: Modifiche alla legge 5 febbraio 1992, n. 91, recante nuove norm): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 11 (migration). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-1"
+    status: draft
+    title: "Votazione questione pregiudiziale"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 65, Contrario 87"
+    lobbies: "Favorevole: PD-IDP 30, M5S 23, IV-CR 5, Misto 4, Aut (SVP-PATT, Cb) 3. Contrario: FdI 50, LSP-PSd'Az 18, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 5, Misto 1"
+    vote_kind: "reject"
+    yea: -2
+    why_yea: "Voted Favorevole on 19/S.824 (The same bill at the Senate): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Contrario on 19/S.824 (The same bill at the Senate): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 19/S.824 (a draft): passing it is WITH us -- The same bill at the Senate; became law ('appr. definit. Legge'). This vote is a motion to reject the text (the sides are swapped), so Favorevole is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-10"
+    status: needs_reading
+    title: "Em. 1.15, Lopreiato e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 31, Contrario 85, Abstain 28"
+    lobbies: "Favorevole: M5S 20, Misto 6, Aut (SVP-PATT, Cb) 4, IV-CR 1. Contrario: FdI 50, LSP-PSd'Az 17, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: PD-IDP 22, IV-CR 4, Aut (SVP-PATT, Cb) 1, M5S 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.15, Lopreiato e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-11"
+    status: needs_reading
+    title: "Em. 1.16, Castellone e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 54, Contrario 86, Abstain 5"
+    lobbies: "Favorevole: PD-IDP 22, M5S 20, Misto 6, Aut (SVP-PATT, Cb) 5, IV-CR 1. Contrario: FdI 51, LSP-PSd'Az 17, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: IV-CR 4, M5S 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.16, Castellone e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-12"
+    status: needs_reading
+    title: "Em. 1.17, Bilotti e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 54, Contrario 85, Abstain 5"
+    lobbies: "Favorevole: PD-IDP 22, M5S 20, Misto 6, Aut (SVP-PATT, Cb) 5, IV-CR 1. Contrario: FdI 50, LSP-PSd'Az 17, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: IV-CR 4, M5S 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.17, Bilotti e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-13"
+    status: needs_reading
+    title: "ODG G1.100, Castellone e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 55, Contrario 86, Abstain 6"
+    lobbies: "Favorevole: PD-IDP 24, M5S 21, Misto 4, Aut (SVP-PATT, Cb) 4, IV-CR 2. Contrario: FdI 51, LSP-PSd'Az 17, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: IV-CR 3, Misto 2, Aut (SVP-PATT, Cb) 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG G1.100, Castellone e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-14"
+    status: needs_reading
+    title: "ODG G1.101, Maiorino e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 60, Contrario 85, Abstain 1"
+    lobbies: "Favorevole: PD-IDP 24, M5S 21, Misto 6, Aut (SVP-PATT, Cb) 5, IV-CR 4. Contrario: FdI 50, LSP-PSd'Az 17, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: PD-IDP 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG G1.101, Maiorino e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-15"
+    status: needs_reading
+    title: "ODG G1.102, Maiorino e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 62, Contrario 84"
+    lobbies: "Favorevole: PD-IDP 25, M5S 21, Misto 6, IV-CR 5, Aut (SVP-PATT, Cb) 5. Contrario: FdI 50, LSP-PSd'Az 17, FI-BP-PPE 12, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG G1.102, Maiorino e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-16"
+    status: needs_reading
+    title: "ODG G1.104, Scalfarotto"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 61, Contrario 83"
+    lobbies: "Favorevole: PD-IDP 24, M5S 21, Misto 6, IV-CR 5, Aut (SVP-PATT, Cb) 5. Contrario: FdI 49, LSP-PSd'Az 17, FI-BP-PPE 12, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG G1.104, Scalfarotto'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-17"
+    status: needs_reading
+    title: "ODG G1.105, Maiorino e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 60, Contrario 83"
+    lobbies: "Favorevole: PD-IDP 23, M5S 21, Misto 6, IV-CR 5, Aut (SVP-PATT, Cb) 5. Contrario: FdI 50, LSP-PSd'Az 17, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG G1.105, Maiorino e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-18"
+    status: needs_reading
+    title: "ODG G1.106, Castellone e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 61, Contrario 84"
+    lobbies: "Favorevole: PD-IDP 24, M5S 21, Misto 6, IV-CR 5, Aut (SVP-PATT, Cb) 5. Contrario: FdI 50, LSP-PSd'Az 17, FI-BP-PPE 12, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG G1.106, Castellone e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-19"
+    status: needs_reading
+    title: "ODG G1.107, Castellone e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 28, Contrario 85, Abstain 30"
+    lobbies: "Favorevole: M5S 20, Aut (SVP-PATT, Cb) 3, Misto 2, IV-CR 2, PD-IDP 1. Contrario: FdI 50, LSP-PSd'Az 17, FI-BP-PPE 12, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1, PD-IDP 1. Abstain: PD-IDP 21, Misto 4, IV-CR 2, Aut (SVP-PATT, Cb) 2, M5S 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG G1.107, Castellone e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-2"
+    status: needs_reading
+    title: "Emm. 1.1, 1.2, 1.3, 1.4 e 1.100"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 63, Contrario 84"
+    lobbies: "Favorevole: PD-IDP 26, M5S 22, Misto 6, Aut (SVP-PATT, Cb) 5, IV-CR 4. Contrario: FdI 49, LSP-PSd'Az 17, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emm. 1.1, 1.2, 1.3, 1.4 e 1.100'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-20"
+    status: needs_reading
+    title: "ODG G1.108, Castellone e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 55, Contrario 83, Abstain 3"
+    lobbies: "Favorevole: PD-IDP 21, M5S 20, Misto 6, Aut (SVP-PATT, Cb) 5, IV-CR 3. Contrario: FdI 49, LSP-PSd'Az 17, FI-BP-PPE 12, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: PD-IDP 2, M5S 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG G1.108, Castellone e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-21"
+    status: needs_reading
+    title: "ODG G1.109, Maiorino e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 27, Contrario 82, Abstain 32"
+    lobbies: "Favorevole: M5S 20, Misto 2, IV-CR 2, PD-IDP 2, Aut (SVP-PATT, Cb) 1. Contrario: FdI 48, LSP-PSd'Az 17, FI-BP-PPE 12, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: PD-IDP 22, Misto 4, Aut (SVP-PATT, Cb) 4, IV-CR 1, M5S 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG G1.109, Maiorino e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-22"
+    status: needs_reading
+    title: "Articolo 1"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "approvato; Favorevole 82, Contrario 64, Abstain 1"
+    lobbies: "Favorevole: FdI 49, LSP-PSd'Az 16, FI-BP-PPE 12, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Contrario: PD-IDP 27, M5S 21, Misto 6, IV-CR 5, Aut (SVP-PATT, Cb) 5. Abstain: LSP-PSd'Az 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-23"
+    status: needs_reading
+    title: "Em. 1.0.1, Scalfarotto"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 56, Contrario 81, Abstain 1"
+    lobbies: "Favorevole: M5S 21, PD-IDP 19, Misto 6, IV-CR 5, Aut (SVP-PATT, Cb) 5. Contrario: FdI 48, LSP-PSd'Az 16, FI-BP-PPE 12, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: PD-IDP 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.0.1, Scalfarotto'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-24"
+    status: draft
+    title: "Votazione finale"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "approvato; Favorevole 84, Contrario 58"
+    lobbies: "Favorevole: FdI 52, LSP-PSd'Az 16, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Contrario: PD-IDP 23, M5S 20, Misto 5, IV-CR 5, Aut (SVP-PATT, Cb) 5"
+    vote_kind: "final"
+    yea: 2
+    why_yea: "Voted Favorevole on 19/S.824 (The same bill at the Senate): for passing it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Contrario on 19/S.824 (The same bill at the Senate): against passing it, against CitizenGO's position."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 19/S.824 (a draft): passing it is WITH us -- The same bill at the Senate; became law ('appr. definit. Legge'). This vote is a vote on the whole text or the motion itself, so Favorevole is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-3"
+    status: needs_reading
+    title: "Em. 1.7, Lopreiato e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 57, Contrario 83"
+    lobbies: "Favorevole: PD-IDP 22, M5S 22, Misto 5, Aut (SVP-PATT, Cb) 5, IV-CR 3. Contrario: FdI 48, LSP-PSd'Az 17, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.7, Lopreiato e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-4"
+    status: needs_reading
+    title: "Em. 1.8, Castellone e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 59, Contrario 84, Abstain 3"
+    lobbies: "Favorevole: PD-IDP 25, M5S 21, Misto 5, IV-CR 4, Aut (SVP-PATT, Cb) 4. Contrario: FdI 50, LSP-PSd'Az 17, FI-BP-PPE 12, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: Aut (SVP-PATT, Cb) 1, M5S 1, Misto 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.8, Castellone e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-5"
+    status: needs_reading
+    title: "Em. 1.9, Castellone e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 57, Contrario 83, Abstain 5"
+    lobbies: "Favorevole: PD-IDP 23, M5S 22, IV-CR 4, Aut (SVP-PATT, Cb) 4, Misto 3, FdI 1. Contrario: FdI 49, LSP-PSd'Az 17, FI-BP-PPE 12, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: Misto 3, PD-IDP 1, Aut (SVP-PATT, Cb) 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.9, Castellone e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-6"
+    status: needs_reading
+    title: "Em. 1.10, Bilotti e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 61, Contrario 86, Abstain 1"
+    lobbies: "Favorevole: PD-IDP 24, M5S 22, Misto 5, IV-CR 5, Aut (SVP-PATT, Cb) 5. Contrario: FdI 50, LSP-PSd'Az 18, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: Misto 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.10, Bilotti e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-7"
+    status: needs_reading
+    title: "Em. 1.11, Castellone e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 29, Contrario 88, Abstain 30"
+    lobbies: "Favorevole: M5S 21, Misto 4, Aut (SVP-PATT, Cb) 2, IV-CR 1, PD-IDP 1. Contrario: FdI 51, LSP-PSd'Az 18, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1, PD-IDP 1. Abstain: PD-IDP 21, IV-CR 4, Aut (SVP-PATT, Cb) 3, Misto 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.11, Castellone e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-8"
+    status: needs_reading
+    title: "Em. 1.12, Maiorino e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 55, Contrario 87, Abstain 5"
+    lobbies: "Favorevole: PD-IDP 23, M5S 20, Misto 6, Aut (SVP-PATT, Cb) 5, IV-CR 1. Contrario: FdI 51, LSP-PSd'Az 18, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, Misto 1. Abstain: IV-CR 4, M5S 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.12, Maiorino e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-232-9"
+    status: needs_reading
+    title: "Em. 1.13, Bilotti e altri"
+    on: "Modifica alla legge 19 febbraio 2004, n. 40, in materia di reato di surrogazione di maternità commesso all'estero"
+    dated: "2024-10-16"
+    chamber: "senato"
+    areas: [10]
+    watched: "19/S.824"
+    result: "respinto; Favorevole 54, Contrario 89, Abstain 3"
+    lobbies: "Favorevole: PD-IDP 22, M5S 20, Misto 6, Aut (SVP-PATT, Cb) 5, IV-CR 1. Contrario: FdI 51, LSP-PSd'Az 18, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 4, IV-CR 2, Misto 1. Abstain: IV-CR 2, PD-IDP 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.13, Bilotti e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (19/S.824: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_387_092"
+    status: needs_reading
+    title: "Fiducia conversione decreto lavoratori stranieri, caporalato, flussi migratori"
+    on: "Conversione in legge del decreto-legge 11 ottobre 2024, n. 145, recante disposizioni urgenti in materia di ingresso in Italia di lavoratori stranieri, di tutela e assistenza alle vittime di caporalato"
+    dated: "2024-11-26"
+    chamber: "camera"
+    areas: [11]
+    tier: 1
+    result: "Approvata; Favorevole 180, Contrario 106, Abstain 4"
+    lobbies: "Favorevole: FDI 96, LEGA 42, FI-PPE 33, NM(N-C-U-I)-M 8, MISTO 1. Contrario: PD-IDP 46, M5S 38, AVS 9, IV-C-RE 5, AZ-PER-RE 4, MISTO 4. Abstain: MISTO 4"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Fiducia conversione decreto lavoratori stranieri, caporalato, flussi migratori'): read the question put, then write yea/nay."
+    reasoning: "Area 11 (migration). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_388_001"
+    status: needs_reading
+    title: "Conversione decreto lavoratori stranieri, caporalato, flussi migratori"
+    dated: "2024-11-27"
+    chamber: "camera"
+    areas: [11]
+    tier: 1
+    result: "Approvata; Favorevole 152, Contrario 108, Abstain 4"
+    lobbies: "Favorevole: FDI 79, LEGA 35, FI-PPE 30, NM(N-C-U-I)-M 7, MISTO 1. Contrario: PD-IDP 54, M5S 34, AZ-PER-RE 7, AVS 6, IV-C-RE 4, MISTO 3. Abstain: MISTO 4"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for this item: CitizenGO's position on 'Conversione decreto lavoratori stranieri, caporalato, flussi migratori' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_482_086"
+    status: needs_reading
+    title: "Conversione decreto cittadinanza italiana"
+    on: "Conversione in legge, con modificazioni, del decreto-legge 28 marzo 2025, n. 36, recante disposizioni urgenti in materia di cittadinanza"
+    dated: "2025-05-20"
+    chamber: "camera"
+    areas: [11]
+    tier: 1
+    result: "Approvata"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 19/C.2402: CitizenGO's position on 'Conversione in legge, con modificazioni, del decreto-legge 28 marzo 2025, n. 36, recante disposizioni urgenti in materia di cittadinanza' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_563_003"
+    status: draft
+    title: "DDL 2423-A E AB - Q PREG COST 1,2,3 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-11-11"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "reject"
+    yea: -2
+    why_yea: "Voted Favorevole on 19/C.2423 (Consenso informato in ambito scolastico: parents' prior consent to sex and relationships e): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Contrario on 19/C.2423 (Consenso informato in ambito scolastico: parents' prior consent to sex and relationships e): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 6 (parental rights and education). Bill direction on file for 19/C.2423 (a draft): passing it is WITH us -- Consenso informato in ambito scolastico: parents' prior consent to sex and relationships education in schools, the government bill (Valditara). Camera reading, approved. This vote is a motion to reject the text (the sides are swapped), so Favorevole is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_563_004"
+    status: draft
+    title: "DDL 2423-A E AB - Q PREG MERITO N 1 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-11-11"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "reject"
+    yea: -2
+    why_yea: "Voted Favorevole on 19/C.2423 (Consenso informato in ambito scolastico: parents' prior consent to sex and relationships e): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Contrario on 19/C.2423 (Consenso informato in ambito scolastico: parents' prior consent to sex and relationships e): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 6 (parental rights and education). Bill direction on file for 19/C.2423 (a draft): passing it is WITH us -- Consenso informato in ambito scolastico: parents' prior consent to sex and relationships education in schools, the government bill (Valditara). Camera reading, approved. This vote is a motion to reject the text (the sides are swapped), so Favorevole is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_563_005"
+    status: needs_reading
+    title: "DDL 2423-A E AB - EM 1.3, 1.5 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-11-11"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('DDL 2423-A E AB - EM 1.3, 1.5 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_564_001"
+    status: needs_reading
+    title: "DDL 2423-A E AB - EM 1.38 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-11-12"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('DDL 2423-A E AB - EM 1.38 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_565_001"
+    status: needs_reading
+    title: "DDL 2423-A E AB - EM 1.134 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-11-13"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('DDL 2423-A E AB - EM 1.134 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_001"
+    status: needs_reading
+    title: "DDL 2423-A E ABB - EM 1.144 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('DDL 2423-A E ABB - EM 1.144 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_002"
+    status: needs_reading
+    title: "EM 1.1006 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 1.1006 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_003"
+    status: needs_reading
+    title: "EM 1.145 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 1.145 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_004"
+    status: needs_reading
+    title: "EM 1.149 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 1.149 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_005"
+    status: needs_reading
+    title: "EM 1.158 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 1.158 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_006"
+    status: needs_reading
+    title: "EM 1.164 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 1.164 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_007"
+    status: needs_reading
+    title: "EM 1.187 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 1.187 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_008"
+    status: needs_reading
+    title: "EM 1.1011 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 1.1011 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_009"
+    status: needs_reading
+    title: "EM 1.171, 1.172 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 1.171, 1.172 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_010"
+    status: needs_reading
+    title: "EM 1.173 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 1.173 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_011"
+    status: needs_reading
+    title: "EM 1.1000, 1.1001, 1.1002, 1.1005 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Approvata"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 1.1000, 1.1001, 1.1002, 1.1005 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_012"
+    status: needs_reading
+    title: "ARTICOLO 1 - Votazione Articolo 1"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Approvata"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ARTICOLO 1 - Votazione Articolo 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_013"
+    status: needs_reading
+    title: "EM 2.2, 2.4 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 2.2, 2.4 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_014"
+    status: needs_reading
+    title: "EM 2.26 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 2.26 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_015"
+    status: needs_reading
+    title: "ARTICOLO 2 - Votazione Articolo 2"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Approvata"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ARTICOLO 2 - Votazione Articolo 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_016"
+    status: needs_reading
+    title: "EM 3.3 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 3.3 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_017"
+    status: needs_reading
+    title: "EM 3.6 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('EM 3.6 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_018"
+    status: needs_reading
+    title: "ARTICOLO 3 - Votazione Articolo 3"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Approvata"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ARTICOLO 3 - Votazione Articolo 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_019"
+    status: needs_reading
+    title: "ART AGG 3.02 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ART AGG 3.02 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_020"
+    status: needs_reading
+    title: "ART AGG 3.05 - Votazione"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ART AGG 3.05 - Votazione'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_021"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/2 - Votazione Ordine del giorno 9/2423-A E ABB/2"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/2 - Votazione Ordine del giorno 9/2423-A E ABB/2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_022"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/3 - Votazione Ordine del giorno 9/2423-A E ABB/3"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/3 - Votazione Ordine del giorno 9/2423-A E ABB/3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_023"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/4 - Votazione Ordine del giorno 9/2423-A E ABB/4"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/4 - Votazione Ordine del giorno 9/2423-A E ABB/4'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_024"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/5 - Votazione Ordine del giorno 9/2423-A E ABB/5"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/5 - Votazione Ordine del giorno 9/2423-A E ABB/5'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_025"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/6 - Votazione Ordine del giorno 9/2423-A E ABB/6"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/6 - Votazione Ordine del giorno 9/2423-A E ABB/6'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_026"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/8 - Votazione Ordine del giorno 9/2423-A E ABB/8"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/8 - Votazione Ordine del giorno 9/2423-A E ABB/8'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_027"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/9 - Votazione Ordine del giorno 9/2423-A E ABB/9"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/9 - Votazione Ordine del giorno 9/2423-A E ABB/9'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_028"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/10 - Votazione Ordine del giorno 9/2423-A E ABB/10"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/10 - Votazione Ordine del giorno 9/2423-A E ABB/10'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_029"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/11 - Votazione Ordine del giorno 9/2423-A E ABB/11"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/11 - Votazione Ordine del giorno 9/2423-A E ABB/11'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_030"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/12 - Votazione Ordine del giorno 9/2423-A E ABB/12"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/12 - Votazione Ordine del giorno 9/2423-A E ABB/12'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_031"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/13 - Votazione Ordine del giorno 9/2423-A E ABB/13"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/13 - Votazione Ordine del giorno 9/2423-A E ABB/13'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_032"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/14 - Votazione Ordine del giorno 9/2423-A E ABB/14"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/14 - Votazione Ordine del giorno 9/2423-A E ABB/14'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_033"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/17 - Votazione Ordine del giorno 9/2423-A E ABB/17"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/17 - Votazione Ordine del giorno 9/2423-A E ABB/17'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_034"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/18 - Votazione Ordine del giorno 9/2423-A E ABB/18"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/18 - Votazione Ordine del giorno 9/2423-A E ABB/18'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_035"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/19 - Votazione Ordine del giorno 9/2423-A E ABB/19"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/19 - Votazione Ordine del giorno 9/2423-A E ABB/19'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_036"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/20 - Votazione Ordine del giorno 9/2423-A E ABB/20"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/20 - Votazione Ordine del giorno 9/2423-A E ABB/20'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_037"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/21 - Votazione Ordine del giorno 9/2423-A E ABB/21"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/21 - Votazione Ordine del giorno 9/2423-A E ABB/21'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_038"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/22 - Votazione Ordine del giorno 9/2423-A E ABB/22"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/22 - Votazione Ordine del giorno 9/2423-A E ABB/22'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_039"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/23 - Votazione Ordine del giorno 9/2423-A E ABB/23"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/23 - Votazione Ordine del giorno 9/2423-A E ABB/23'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_040"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/24 - Votazione Ordine del giorno 9/2423-A E ABB/24"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/24 - Votazione Ordine del giorno 9/2423-A E ABB/24'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_576_041"
+    status: needs_reading
+    title: "ODG 9/2423-A E ABB/25 - Votazione Ordine del giorno 9/2423-A E ABB/25"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2025-12-02"
+    chamber: "camera"
+    areas: [6]
+    watched: "19/C.2423"
+    result: "Respinta"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG 9/2423-A E ABB/25 - Votazione Ordine del giorno 9/2423-A E ABB/25'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/C.2423: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-423-1"
+    status: draft
+    title: "Votazione questione sospensiva"
+    on: "Disposizioni in materia di morte volontaria medicalmente assistita"
+    dated: "2026-06-03"
+    chamber: "senato"
+    areas: [2]
+    watched: "19/S.104"
+    result: "approvato; Favorevole 88, Contrario 59"
+    lobbies: "Favorevole: FdI 49, LSP-PSd'Az 19, FI-BP-PPE 13, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 7. Contrario: PD-IDP 27, M5S 20, IV-CR 6, Aut (SVP-PATT, Cb) 4, Misto 2"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Favorevole on 19/S.104 (Morte volontaria medicalmente assistita (Bazoli and others), in committee since the start ): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Contrario on 19/S.104 (Morte volontaria medicalmente assistita (Bazoli and others), in committee since the start ): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for 19/S.104 (a draft): passing it is AGAINST us -- Morte volontaria medicalmente assistita (Bazoli and others), in committee since the start of the legislature. This vote is a motion to reject the text (the sides are swapped), so Favorevole is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-1"
+    status: draft
+    title: "Votazione questione pregiudiziale"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 45, Contrario 74, Abstain 4"
+    lobbies: "Favorevole: PD-IDP 23, M5S 18, Misto 2, Aut (SVP-PATT, Cb) 2. Contrario: FdI 47, LSP-PSd'Az 17, FI-BP-PPE 7, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3. Abstain: IV-CR 4"
+    vote_kind: "reject"
+    yea: -2
+    why_yea: "Voted Favorevole on 19/S.1735 (The same bill at the Senate, presented 4 December 2025; the Senate's record says 'appr): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Contrario on 19/S.1735 (The same bill at the Senate, presented 4 December 2025; the Senate's record says 'appr): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 6 (parental rights and education). Bill direction on file for 19/S.1735 (a draft): passing it is WITH us -- The same bill at the Senate, presented 4 December 2025; the Senate's record says 'appr. definit. Legge'. This vote is a motion to reject the text (the sides are swapped), so Favorevole is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-10"
+    status: needs_reading
+    title: "Em. 2.0.2 (1a parte) , D'Elia e altri"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 49, Contrario 80"
+    lobbies: "Favorevole: PD-IDP 25, M5S 15, IV-CR 4, Misto 3, Aut (SVP-PATT, Cb) 2. Contrario: FdI 49, LSP-PSd'Az 17, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 2.0.2 (1a parte) , D'Elia e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-11"
+    status: needs_reading
+    title: "Em. 2.0.104, Maiorino e altri"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 49, Contrario 80"
+    lobbies: "Favorevole: PD-IDP 25, M5S 15, IV-CR 4, Misto 3, Aut (SVP-PATT, Cb) 2. Contrario: FdI 49, LSP-PSd'Az 17, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 2.0.104, Maiorino e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-12"
+    status: needs_reading
+    title: "Emm. 3.1 e 3.2"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 48, Contrario 79"
+    lobbies: "Favorevole: PD-IDP 24, M5S 15, IV-CR 4, Misto 3, Aut (SVP-PATT, Cb) 2. Contrario: FdI 49, LSP-PSd'Az 16, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Emm. 3.1 e 3.2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-13"
+    status: needs_reading
+    title: "Em. 3.3, D'Elia e altri"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 48, Contrario 78"
+    lobbies: "Favorevole: PD-IDP 24, M5S 15, IV-CR 4, Misto 3, Aut (SVP-PATT, Cb) 2. Contrario: FdI 49, LSP-PSd'Az 15, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 3.3, D'Elia e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-14"
+    status: needs_reading
+    title: "Articolo 3"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "approvato; Favorevole 81, Contrario 49"
+    lobbies: "Favorevole: FdI 50, LSP-PSd'Az 17, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3. Contrario: PD-IDP 25, M5S 15, IV-CR 4, Misto 3, Aut (SVP-PATT, Cb) 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Articolo 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-15"
+    status: needs_reading
+    title: "Em. 3.0.1, D'Elia e altri"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 50, Contrario 79"
+    lobbies: "Favorevole: PD-IDP 25, M5S 15, IV-CR 4, Misto 3, Aut (SVP-PATT, Cb) 2, FdI 1. Contrario: FdI 49, LSP-PSd'Az 17, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 3.0.1, D'Elia e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-16"
+    status: draft
+    title: "Votazione finale"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "approvato; Favorevole 78, Contrario 38"
+    lobbies: "Favorevole: FdI 49, LSP-PSd'Az 15, FI-BP-PPE 12, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 2. Contrario: PD-IDP 18, M5S 13, Misto 3, IV-CR 3, Aut (SVP-PATT, Cb) 1"
+    vote_kind: "final"
+    yea: 2
+    why_yea: "Voted Favorevole on 19/S.1735 (The same bill at the Senate, presented 4 December 2025; the Senate's record says 'appr): for passing it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Contrario on 19/S.1735 (The same bill at the Senate, presented 4 December 2025; the Senate's record says 'appr): against passing it, against CitizenGO's position."
+    reasoning: "Area 6 (parental rights and education). Bill direction on file for 19/S.1735 (a draft): passing it is WITH us -- The same bill at the Senate, presented 4 December 2025; the Senate's record says 'appr. definit. Legge'. This vote is a vote on the whole text or the motion itself, so Favorevole is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-2"
+    status: needs_reading
+    title: "Em. 1.23 (1a parte) , D'Elia e altri"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 46, Contrario 75"
+    lobbies: "Favorevole: PD-IDP 22, M5S 17, IV-CR 3, Misto 2, Aut (SVP-PATT, Cb) 2. Contrario: FdI 46, LSP-PSd'Az 16, FI-BP-PPE 10, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.23 (1a parte) , D'Elia e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-4"
+    status: needs_reading
+    title: "Em. 1.53, D'Elia e altri"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 46, Contrario 76"
+    lobbies: "Favorevole: PD-IDP 23, M5S 16, IV-CR 3, Misto 2, Aut (SVP-PATT, Cb) 2. Contrario: FdI 46, LSP-PSd'Az 17, FI-BP-PPE 10, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.53, D'Elia e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-5"
+    status: needs_reading
+    title: "Em. 1.55, D'Elia e altri"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 46, Contrario 78"
+    lobbies: "Favorevole: PD-IDP 23, M5S 16, IV-CR 3, Misto 2, Aut (SVP-PATT, Cb) 2. Contrario: FdI 46, LSP-PSd'Az 18, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.55, D'Elia e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-6"
+    status: needs_reading
+    title: "Em. 1.106, Maiorino e altri"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 46, Contrario 78"
+    lobbies: "Favorevole: PD-IDP 23, M5S 16, IV-CR 3, Misto 2, Aut (SVP-PATT, Cb) 2. Contrario: FdI 46, LSP-PSd'Az 18, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.106, Maiorino e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-7"
+    status: needs_reading
+    title: "Em. 1.75, De Cristofaro e altri"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 46, Contrario 77"
+    lobbies: "Favorevole: PD-IDP 23, M5S 15, Misto 3, IV-CR 3, Aut (SVP-PATT, Cb) 2. Contrario: FdI 46, LSP-PSd'Az 17, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Em. 1.75, De Cristofaro e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-8"
+    status: needs_reading
+    title: "ODG G1.1, De Cristofaro e altri"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 45, Contrario 77"
+    lobbies: "Favorevole: PD-IDP 23, M5S 15, Misto 3, IV-CR 3, Aut (SVP-PATT, Cb) 1. Contrario: FdI 47, LSP-PSd'Az 16, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG G1.1, De Cristofaro e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "senato-19-424-9"
+    status: needs_reading
+    title: "ODG G2.102, Maiorino e altri"
+    on: "Disposizioni in materia di consenso informato in ambito scolastico"
+    dated: "2026-06-04"
+    chamber: "senato"
+    areas: [6]
+    watched: "19/S.1735"
+    result: "respinto; Favorevole 46, Contrario 81, Abstain 1"
+    lobbies: "Favorevole: PD-IDP 24, M5S 15, Misto 3, IV-CR 2, Aut (SVP-PATT, Cb) 2. Contrario: FdI 50, LSP-PSd'Az 17, FI-BP-PPE 11, Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP 3. Abstain: PD-IDP 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('ODG G2.102, Maiorino e altri'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 6 (parental rights and education). The bill's direction (19/S.1735: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camera-vs19_702_053"
+    status: needs_reading
+    title: "Ratifica accordo di cooperazione con l'Albania su diversi temi tra cui l'immigrazione"
+    on: "Ratifica ed esecuzione dell'Accordo tra il Governo della Repubblica Italiana e il Consiglio dei Ministri della Repubblica di Albania in materia di cooperazione strategica nei settori dell'assistenza s"
+    dated: "2026-08-03"
+    chamber: "camera"
+    areas: [11]
+    tier: 1
+    result: "Approvata"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 19/C.2788: CitizenGO's position on 'Ratifica ed esecuzione dell'Accordo tra il Governo della Repubblica Italiana e il Consiglio dei Ministri della Repubblica di Albania in mate' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"

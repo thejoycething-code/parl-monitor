@@ -384,7 +384,7 @@ phase 4, after the terms are approved.
    most of the 393 matched zaken live, and most never reach a vote. Then
    document bodies (the PDFs behind `Document/resource`), matched by
    passage as `src/eudoc.py` does for the EU. And the agenda
-   (`Activiteit`) for a week-ahead.
+   (`Activiteit`) for a week-ahead. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/nl.py`, a step of the weekly job): `Activiteit` with its `Agendapunt`s and zaken, three weeks ahead; 661 points on 10 October, 12 on our ground.
 4. **Eerste Kamer.** Handelingen from the KOOP SRU service, plus the
    party-by-party results on eerstekamer.nl bill and motion pages. Votes
    there are by party ("bij zitten en opstaan") with occasional roll calls.
@@ -469,3 +469,7 @@ The SRU Handelingen route was not needed: the vote pages carry every vote.
 - **Edition**: the Dutch edition's votes section carries the Eerste Kamer's
   votes on our ground beside the Tweede Kamer's, each said to be the Eerste
   Kamer's. Sample: `docs/parity-samples/nl-eerstekamer-2026-06-17.md`.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/nl_stance.yaml` holds 10 bill direction(s) (Claude's drafts from the watchlist) and 212 vote reading(s): 2 with proposed values, 0 procedural, 210 need reading, 0 confirmed. Guide: `docs/5ca-nl-readings.md`; confirm with `python3 tools/country_5ca.py --cc nl --sign-from-doc --by NAME`. Sheets (`data/5ca/nl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Netherlands (`config/stance_signers.yaml`). Most votes are by show of hands: members are DERIVED from their fractie's vote (X5) and labelled; a roll call is the member's own. A motion tabled in a bill's dossier never takes the bill's direction: its own text decides.

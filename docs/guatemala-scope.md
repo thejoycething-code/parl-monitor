@@ -380,6 +380,17 @@ Later phases and items for Chris (not built at the merge):
 
 - Run the curl check from the Mini (GT1).
 - Current bloc only (GT4).
-- The Constitutional Court access request (GT5): Chris.
+- The Constitutional Court access request (GT5): Chris. X8 (10 October 2026): recorded as a gap and skipped; cc.gob.gt challenges every client (403 Cloudflare from the laptop, a challenge from a runner), which we never work around.
 - X6: party history.
 - PDFs are not fetched (robots.txt).
+
+## Parity work, set B (10 October 2026, branch `parity-phases-b`)
+
+- **X8: a recorded gap.** The Corte de Constitucionalidad (cc.gob.gt)
+  challenges every client, so no court collector was built for Guatemala;
+  the bot check is never solved or bypassed. The route is GT5 (Chris asks the
+  Court for access). Colombia, Ecuador, Peru and Portugal have theirs
+  (src/courts.py).
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/gt_stance.yaml` holds 5 bill direction(s) (Claude's drafts from the watchlist) and 0 vote reading(s): 0 with proposed values, 0 procedural, 0 need reading, 0 confirmed. Guide: `docs/5ca-gt-readings.md`; confirm with `python3 tools/country_5ca.py --cc gt --sign-from-doc --by NAME`. Sheets (`data/5ca/gt-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Guatemala (`config/stance_signers.yaml`). The store is on GitHub (X9); the Sunday step drafts from the published store once Guatemala's votes are in it. Party is the current bloc (X6).

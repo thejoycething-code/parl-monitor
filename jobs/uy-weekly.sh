@@ -32,6 +32,13 @@ if [ "${UY_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/uy_rollcalls.py --budget-seconds 2700 || rc=$?
+# UY5 (10 October 2026): vote totals from the Diario de Sesiones PDFs
+# (tools/uy_diario.py, up to four new Diarios a run).
+# Gaps go to the store; a failure never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/uy_diario.py \
+    || echo "  [gap] uy-diario recorded gaps or failed; the next run retries"
+fi
 # Instant Latam alerts (tools/latam_alerts.py): this country's watched and
 # tier-1 items, a short DM each to Chris alone, de-duplicated in
 # data/latam-alerts/uy.json (committed with data/). Never stops the run.

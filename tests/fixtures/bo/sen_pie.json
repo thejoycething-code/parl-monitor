@@ -1,0 +1,234 @@
+{
+ "data": {
+  "current_page": 1,
+  "data": [
+   {
+    "id": 4004,
+    "titulo": "P.I.E. N°1039/2025-2026 RESPUESTA",
+    "tipo": 113,
+    "fecha_recepcion": "2026-05-27",
+    "resumen": "1. Informe y adjunte documentación de respaldo en qué etapa se encuentra la petición de áreas mineras por parte de la COOPERATIVA MINERA COFOMIN R.L.",
+    "destinatario": {
+     "id": 115,
+     "name": "Órgano Ejecutivo"
+    },
+    "destinatario_escrito_id": 115,
+    "tipo_destinatario": "Ministro de Minería y Metalurgia",
+    "fecha_destinatario": "2026-05-28",
+    "gestion_focalizacion": 2026,
+    "doc_archivo": "images/a23a11f5-fea9-4fa3-84a9-3a67745f616e_1783702931.pdf",
+    "fecha_respuesta": "2026-06-25",
+    "fecha_remision_peticionario": "2026-07-08",
+    "conminatoria": null,
+    "doc_archivo_respuesta": "images/a23a11f5-ff7c-4a8c-8bb4-4b7cb6b14779_1783702931.pdf",
+    "observacion": null,
+    "created_at": "2026-06-01T21:07:26.000000Z",
+    "updated_at": "2026-07-10T17:02:11.000000Z",
+    "version": 2,
+    "statusCode": "A",
+    "peticionario": [
+     {
+      "pie_id": 4004,
+      "senador_id": 101
+     }
+    ]
+   },
+   {
+    "id": 4003,
+    "titulo": "P.I.E. N°1038/2025-2026 RESPUESTA",
+    "tipo": 113,
+    "fecha_recepcion": "2026-05-27",
+    "resumen": "1. Informe si existe alguna auditoría en curso, programada o concluida respecto al proyecto IBAE, indicando número de auditoría, período auditado y estado actual. Adjunte documentación correspondiente.",
+    "destinatario": {
+     "id": 118,
+     "name": "Contraloría General del Estado"
+    },
+    "destinatario_escrito_id": 118,
+    "tipo_destinatario": "Contralor General del Estado",
+    "fecha_destinatario": "2026-05-29",
+    "gestion_focalizacion": 2026,
+    "doc_archivo": "images/a21dd6d5-289d-428a-aa47-c757d2ed02ec_1782490420.pdf",
+    "fecha_respuesta": "2026-06-16",
+    "fecha_remision_peticionario": "2026-06-24",
+    "conminatoria": null,
+    "doc_archivo_respuesta": "images/a21dd6d5-29ad-4208-b24d-154cb0bcc747_1782490420.pdf",
+    "observacion": null,
+    "created_at": "2026-06-01T21:04:03.000000Z",
+    "updated_at": "2026-06-26T16:13:40.000000Z",
+    "version": 2,
+    "statusCode": "A",
+    "peticionario": [
+     {
+      "pie_id": 4003,
+      "senador_id": 90
+     }
+    ]
+   },
+   {
+    "id": 3987,
+    "titulo": "P.I.E. N°1022/2025-2026 RESPUESTA",
+    "tipo": 113,
+    "fecha_recepcion": "2026-05-28",
+    "resumen": "1. Informe usted si cursa en los archivos del Comando en Jefe de las Fuerzas Armadas del Estado Mayor General de Bolivia el Memorándum Dpto-1 EMG Secc. “A” N° 608/18, de fecha 17 de diciembre de 2018, que resuelve dejar sin efecto legal el Memorándum DPTO 1-PER. DIV. “F” SDA N°  73/18. (Adjunte fotocopia legalizada deI nombrado documento y la fecha de recepción del mismo).",
+    "destinatario": {
+     "id": 115,
+     "name": "Órgano Ejecutivo"
+    },
+    "destinatario_escrito_id": 115,
+    "tipo_destinatario": "Ministro de Defensa",
+    "fecha_destinatario": "2026-05-28",
+    "gestion_focalizacion": 2026,
+    "doc_archivo": "images/a25dfe4b-f526-4742-be4b-5d725208d58b_1785245820.pdf",
+    "fecha_respuesta": "2026-07-09",
+    "fecha_remision_peticionario": "2026-07-28",
+    "conminatoria": null,
+    "doc_archivo_respuesta": "images/a25dfe4b-f61e-4809-a7fc-2b87b26e4844_1785245820.pdf",
+    "observacion": null,
+    "created_at": "2026-06-01T18:58:29.000000Z",
+    "updated_at": "2026-07-28T13:37:00.000000Z",
+    "version": 2,
+    "statusCode": "A",
+    "peticionario": [
+     {
+      "pie_id": 3987,
+      "senador_id": 97
+     },
+     {
+      "pie_id": 3987,
+      "senador_id": 99
+     },
+     {
+      "pie_id": 3987,
+      "senador_id": 94
+     }
+    ]
+   },
+   {
+    "id": 3986,
+    "titulo": "P.I.E. N°1021/2025-2026",
+    "tipo": 113,
+    "fecha_recepcion": "2026-05-27",
+    "resumen": "1. Informe usted y fundamente las normas constitucionales, legales y reglamentarias aplicadas para los procesos de ascensos del personal militar de las Fuerzas Armadas (FF.AA.) antes de la promulgación de la Ley de Ascensos N° 1416 del 31 de diciembre de 2021. (Adjunte fotocopias legalizadas de las partes pertinentes).",
+    "destinatario": {
+     "id": 115,
+     "name": "Órgano Ejecutivo"
+    },
+    "destinatario_escrito_id": 115,
+    "tipo_destinatario": "Ministro de Defensa",
+    "fecha_destinatario": "2026-05-28",
+    "gestion_focalizacion": 2026,
+    "doc_archivo": "images/a1ebc3b9-976e-47e5-b772-fc7519517849_1780339731.pdf",
+    "fecha_respuesta": null,
+    "fecha_remision_peticionario": null,
+    "conminatoria": "",
+    "doc_archivo_respuesta": "",
+    "observacion": "",
+    "created_at": "2026-06-01T18:48:51.000000Z",
+    "updated_at": "2026-06-01T18:48:51.000000Z",
+    "version": 1,
+    "statusCode": "A",
+    "peticionario": [
+     {
+      "pie_id": 3986,
+      "senador_id": 97
+     },
+     {
+      "pie_id": 3986,
+      "senador_id": 99
+     },
+     {
+      "pie_id": 3986,
+      "senador_id": 94
+     }
+    ]
+   }
+  ],
+  "first_page_url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=1",
+  "from": 1,
+  "last_page": 48,
+  "last_page_url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=48",
+  "links": [
+   {
+    "url": null,
+    "label": "pagination.previous",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=1",
+    "label": "1",
+    "active": true
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=2",
+    "label": "2",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=3",
+    "label": "3",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=4",
+    "label": "4",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=5",
+    "label": "5",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=6",
+    "label": "6",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=7",
+    "label": "7",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=8",
+    "label": "8",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=9",
+    "label": "9",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=10",
+    "label": "10",
+    "active": false
+   },
+   {
+    "url": null,
+    "label": "...",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=47",
+    "label": "47",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=48",
+    "label": "48",
+    "active": false
+   },
+   {
+    "url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=2",
+    "label": "pagination.next",
+    "active": false
+   }
+  ],
+  "next_page_url": "https://apisi.senado.gob.bo/page/peticion-informe-escrito?page=2",
+  "path": "https://apisi.senado.gob.bo/page/peticion-informe-escrito",
+  "per_page": 100,
+  "prev_page_url": null,
+  "to": 100,
+  "total": 4770
+ }
+}

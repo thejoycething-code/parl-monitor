@@ -60,6 +60,53 @@ RF4 = [
     ("RF#4/2", "What's the cost to freedom and our values if we lose?"),
 ]
 
+# How each RF4 question is scored, agreed with the UK team (October 2026) so
+# Plan and Evaluate use one rule and two campaigners land on the same number.
+# Summaries only: the full procedure, sources and links live in the private
+# citizengo-brief-evaluation skill, never in this public repo. The scores
+# themselves stay blank (the campaigner's judgement).
+RF4_RULES = {
+    "RF#1": ("Scoring rule: whole number 0-10, never negative. Net audience "
+             "(new + reactivated - unsubscribes, email series) and EUR raised "
+             "(one-time + first monthly) each get a 0-10 band against the "
+             "rolling EN GB benchmark: audience 2 from the median, 3 from "
+             "p75, 4 from p90; money 2 from p25, 3 from the median, 4 from "
+             "p75, 5 from p90; doubling steps above. Weighted 85/15 for "
+             "acquisition (30/70 fundraising, 50/50 other) and rounded. Same "
+             "rule at Plan and Evaluate."),
+    "RF#2": ("Scoring rule: how widely the fight helps our cause and allies, "
+             "not CitizenGO's own visibility. 1 minimal good; 2 the cause kept "
+             "visible beyond our list; 3 one ally helped directly (joint "
+             "action, partnership, single-ally win); 4 several allies; 5-6 the "
+             "wider movement gained. Staff, spokespeople and paid creators are "
+             "not allies; unpaid outsiders who sign our emails or join are. "
+             "Delivering signatures never lifts RF#2."),
+    "RF#3": ("Scoring rule: what actually happens to opponents. 1 opposition "
+             "expressed, no response; 2 they had to take notice; 3 a "
+             "documented cost to one opponent; 4 costs across the opposing "
+             "camp; 5-6 a lasting setback. Our own activity counts 1 at most; "
+             "an attack on CitizenGO scores only if it cost the attacker."),
+    "RF#4/1": ("Scoring rule: score the outcome, not our contribution: the "
+               "gain if won (partial wins get partial credit); 0 if lost or "
+               "not yet decided."),
+    "RF#4/2": ("Scoring rule: +10 to -10. A loss that would have happened "
+               "regardless of our input is the status quo (0); negative only "
+               "if our campaign made things worse; positive if something was "
+               "still gained."),
+}
+
+
+def with_rules(hints):
+    """Each RF4 evidence hint followed by its scoring rule, in RF4 order.
+
+    Hints beyond the five questions are kept as they are.
+    """
+    out = list(hints)
+    for i, (code, _) in enumerate(RF4):
+        if i < len(out):
+            out[i] = (out[i] + " " + RF4_RULES[code]).strip()
+    return out
+
 NARRATIVE_FIELDS = [
     ("campaign_name", "A campaign headline in the house pattern: 'Tell "
      "<decision-maker>: <the stake in one line>'. Never the official title "
@@ -1248,8 +1295,9 @@ def main():
             rf4_ally_hint,
             "Opponent organisations are not tracked by the monitor; campaigner's knowledge.",
             "If we win: see 'good outcome' above. Score the value, not the odds.",
-            "If we lose: see 'bad outcome' above. Usually 0 unless losing accelerates harm.",
+            "If we lose: see 'bad outcome' above.",
         ]
+        rf4_hints = with_rules(rf4_hints)
         timeline = []
         if s.get("next_key_date"):
             timeline.append((s["next_key_date"],

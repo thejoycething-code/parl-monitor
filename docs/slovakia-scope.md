@@ -449,3 +449,7 @@ positions are queued like any vote on our ground.
   the passage that matched. Sample: `docs/parity-samples/sk-documents-2026-03-30.md`.
 - **Not built**: the legislative stage from the print's process page, and
   EUROVOC descriptors.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/sk_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 43 vote reading(s): 3 with proposed values, 10 procedural, 30 need reading, 0 confirmed. Guide: `docs/5ca-sk-readings.md`; confirm with `python3 tools/country_5ca.py --cc sk --sign-from-doc --by NAME`. Sheets (`data/5ca/sk-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Slovakia (`config/stance_signers.yaml`).

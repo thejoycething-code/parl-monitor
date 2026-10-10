@@ -34,6 +34,12 @@ FR4 (Chris, 10 October 2026): the first job is the aide à mourir law's
 application decrees. There is no Journal officiel collector yet, so the
 week ahead carries a standing note, "Aide à mourir: decrees to watch",
 drawn from the `decrees` list of the law's entry in config/watchlist-fr.yaml.
+
+THE WEEK AHEAD (10 October 2026): the AN's ordre du jour, séances and
+committee meetings, from its Agenda.json.zip (src/agendas/fr.py, read into
+country_agenda by the weekly job), each point matched to its dossier by
+ref. A dossier's scheduled act from fr_dossiers is still shown when the
+agenda has no point on that dossier; the FR4 note comes last.
 """
 
 from __future__ import annotations
@@ -41,6 +47,7 @@ from __future__ import annotations
 import datetime
 import json
 
+from src import agenda
 from src import country_edition as ce
 
 AN = "https://www.assemblee-nationale.fr/dyn/{0}"
@@ -226,14 +233,19 @@ def decrees_note(today, wl):
 
 
 def week_ahead(conn, today, wl):
-    """Acts already scheduled for the next two weeks on dossiers on our
-    ground (committee meetings, mostly), then the FR4 standing note."""
+    """The AN's agenda points on our ground (src/agenda.py), then acts
+    already scheduled on dossiers on our ground that the agenda does not
+    cover, then the FR4 standing note."""
     until = (datetime.date.fromisoformat(today)
              + datetime.timedelta(days=AHEAD_DAYS)).isoformat()
-    out = []
+    out = agenda.ahead_items(conn, "fr", today, wl, AHEAD_DAYS)
+    covered = set()
+    for r in ce.rows(conn, "SELECT refs FROM country_agenda WHERE cc = 'fr' AND date >= ? "
+                     "AND date <= ?", (today, until)):
+        covered.update(agenda.loads(r["refs"]))
     for r in ce.rows(conn, "SELECT * FROM fr_dossiers WHERE " + ce.window_sql("last_act_at"),
                      (today, until)):
-        if not ce.on_ground(r["areas"], r["dossier_ref"] in wl):
+        if not ce.on_ground(r["areas"], r["dossier_ref"] in wl) or r["dossier_ref"] in covered:
             continue
         out.append(_dossier_item(r, wl, "agenda", _take(r, ahead=True)))
     # FR5: Senate sittings already scheduled on dossiers on our ground.
@@ -252,7 +264,8 @@ def week_ahead(conn, today, wl):
 COUNTRY = ce.Country(
     cc="fr", name="France", chamber="Assemblée nationale and Sénat", language="French",
     taxonomies=(("taxonomy-fr.yaml", "fr"),),
-    items=items, week_ahead=week_ahead, flag=":flag-fr:",
+    items=items, week_ahead=week_ahead, ahead_note=agenda.ahead_note_fn("fr"),
+    flag=":flag-fr:",
     members_note=("Every scrutin public names every deputy's or senator's position with the "
                   "group at the vote; nothing is derived, and a mise au point is counted, never "
                   "applied"),
