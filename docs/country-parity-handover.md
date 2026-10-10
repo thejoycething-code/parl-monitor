@@ -19,9 +19,9 @@ Everything it built is on main. Read this with
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **no** |
 | Member profiles | yes | yes | US yes | no | **no** |
 | Debates / speeches | yes | yes | IE, AU | yes | **no** |
-| Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press) |
+| Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b`) |
 | Week ahead / agenda | yes | yes | yes | no | partial (HR, BE; framework supports it) |
-| Committees, courts, petitions, consultations | yes | yes | US courts | yes | **no** (courts approved as a later phase, X8) |
+| Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
 | Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | **no** |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 
@@ -83,6 +83,19 @@ French Senate (FR5), Eerste Kamer via web pages (NL4), Slovak bill documents
 the Mini (X7: PE scans, HR opposition bills, CO Gazette), Swiss Italian texts
 (CH6), Italy's official Camera service as backup (IT2), regions and
 Landtage after national (IT3, AT6, PE4).
+
+**Set B, built 10 October 2026 (branch `parity-phases-b`):** X8
+constitutional courts for Colombia (the exhortations file; the Court's
+press releases are behind a keyed API and are not read), Ecuador (the
+Court's WordPress API), Peru (the Tribunal's press notes, at its 30 s
+Crawl-delay) and Portugal (acórdãos, 30 s apart, ten a week), into
+`<cc>_rulings` (`src/courts.py`) and the Latam edition and the Portuguese
+edition; Guatemala's court is a recorded gap (GT5). UY5 Diario vote totals
+(`tools/uy_diario.py`), BO4 written questions (`tools/bo_questions.py`),
+X7 OCR designed and guarded (`src/ocr.py`, `tools/pe_ocr.py`; install steps in
+`docs/mac-mini.md`, nothing installed). One hand-run backfill after merge:
+`jobs/latam-courts-backfill.sh`. Samples: `editions/latam-monitor-2026-06-30.md`,
+`editions/latam-monitor-2025-08-31.md`, `editions/pt-monitor-2023-02-05.md`.
 
 ### 7. Campaign tools
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only

@@ -380,6 +380,14 @@ Later phases and items for Chris (not built at the merge):
 
 - Run the curl check from the Mini (GT1).
 - Current bloc only (GT4).
-- The Constitutional Court access request (GT5): Chris.
+- The Constitutional Court access request (GT5): Chris. X8 (10 October 2026): recorded as a gap and skipped; cc.gob.gt challenges every client (403 Cloudflare from the laptop, a challenge from a runner), which we never work around.
 - X6: party history.
 - PDFs are not fetched (robots.txt).
+
+## Parity work, set B (10 October 2026, branch `parity-phases-b`)
+
+- **X8: a recorded gap.** The Corte de Constitucionalidad (cc.gob.gt)
+  challenges every client, so no court collector was built for Guatemala;
+  the bot check is never solved or bypassed. The route is GT5 (Chris asks the
+  Court for access). Colombia, Ecuador, Peru and Portugal have theirs
+  (src/courts.py).
