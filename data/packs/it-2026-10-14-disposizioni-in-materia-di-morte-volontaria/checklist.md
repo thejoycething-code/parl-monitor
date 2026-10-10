@@ -1,6 +1,6 @@
 # Lista di controllo per la campagna: Disposizioni in materia di morte volontaria medicalmente assistita
 
-**CAMPIONE: costruito da un archivio di prova con conferme di prova. Non inviare.**
+**CAMPIONE: costruito da un archivio di prova. Non inviare.**
 
 ## Prima del dibattito
 

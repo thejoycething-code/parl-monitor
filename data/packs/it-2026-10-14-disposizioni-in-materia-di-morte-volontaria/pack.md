@@ -1,6 +1,6 @@
 # Dossier per il dibattito: Disposizioni in materia di morte volontaria medicalmente assistita
 
-**CAMPIONE: costruito da un archivio di prova con conferme di prova. Non inviare.**
+**CAMPIONE: costruito da un archivio di prova. Non inviare.**
 
 *Preparato il 2026-10-10 dall'archivio; nulla è stato scaricato.*
 

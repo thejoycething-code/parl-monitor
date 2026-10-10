@@ -405,5 +405,13 @@ says "awaiting sign-off" in its own language and places nobody; a draft with
 proposed values places nobody either. Party-group countries (Austria, Portugal,
 the Netherlands' show of hands) mark DERIVED member rows with `*` (X5).
 
-Sample (SAMPLE, from the Italian scoping archive replayed offline, nothing
-confirmed): `data/packs/it-2026-10-14-disposizioni-in-materia-di-morte-volontaria/`.
+Samples (SAMPLE, nothing confirmed), from the Italian scoping archive replayed
+offline: `data/packs/it-2026-10-14-disposizioni-in-materia-di-morte-volontaria/`
+(the Senate's assisted-dying bill, 19/S.104: 189 senators' positions on its
+June vote, group splits, two named speakers), and
+`data/packs/it-2026-10-30-modifiche-al-codice-penale-e-altre-disposizi/` (an
+upcoming debate: the Camera's religious-fundamentalism bill, 19/C.2562, on the
+Camera's calendar for 30 October, read live by `tools/country_agenda.py` into a
+scratch copy; no Camera vote on it yet). Tested against scratch confirmations
+too: confirming the S.104 vote placed 88 senators ++ and 59 -- on area 2, and
+nothing else changed.

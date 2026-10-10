@@ -523,7 +523,8 @@ def bill_cell(rec, spec=None, lang="en"):
 
 def placements(conn, cc, areas, config_dir=None, today=None):
     """({member_id: ['area: column']}, confirmed readings on these areas).
-    Built ONLY from confirmed readings (src/country5ca.build_rows); with none
+    Through src/country5ca.publishable_sheets, THE GATE the 5CA sheets and
+    web pages share: only CONFIRMED readings place anyone, and with none
     confirmed nothing is computed and the pack renders 'awaiting sign-off'."""
     if cc not in c5.SPECS:
         return {}, 0
@@ -533,15 +534,14 @@ def placements(conn, cc, areas, config_dir=None, today=None):
     if not confirmed:
         return {}, 0
     out = {}
-    pairs = sorted({(str(e.get("chamber") or ""), a) for e in confirmed
-                    for a in (e.get("areas") or []) if a in areas})
-    for chamber, area in pairs:
-        rows, _listed, _latest = c5.build_rows(conn, cc, chamber, area, entries, today)
-        for row in rows:
+    for sheet in c5.publishable_sheets(conn, cc, config_dir, today, entries):
+        if sheet["area"] not in areas or not sheet["rows"]:
+            continue
+        for row in sheet["rows"]:
             if row.get("column") and row["column"] != "0":
                 derived = " [DERIVED]" if "[DERIVED]" in (row.get("decision_maker") or "") else ""
                 out.setdefault(str(row["person_id"]), []).append(
-                    "{0}: {1}{2}".format(area, row["column"], derived))
+                    "{0}: {1}{2}".format(sheet["area"], row["column"], derived))
     return out, len(confirmed)
 
 
