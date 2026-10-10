@@ -236,7 +236,8 @@ class HttpClient:
         raw = self._fetch(url, feed, slug, timeout, archive=archive)
         return json.loads(raw.decode("utf-8"))
 
-    def get_text(self, url, feed, slug, timeout=None, archive=True, fallback_encoding=None):
+    def get_text(self, url, feed, slug, timeout=None, archive=True, fallback_encoding=None,
+                 headers=None):
         """Fetch and archive a response, returning decoded text.
 
         Used for the HTML/XML feeds (legislation.gov.uk, Holyrood scrape).
@@ -249,8 +250,15 @@ class HttpClient:
         (the Canada Gazette's pre-2020 pages: the é of Montréal as one byte,
         0xE9). With it set, a reply that is not valid UTF-8 is decoded with it
         instead of mangled.
+
+        headers (10 October 2026, additive): extra request headers. camera.it
+        answers "format json not implemented yet" to the default Accept,
+        which puts JSON first; the Italian agenda sends Accept: text/html.
         """
-        raw = self._fetch(url, feed, slug, timeout, archive=archive)
+        if headers:
+            raw = self._fetch(url, feed, slug, timeout, archive=archive, extra_headers=headers)
+        else:   # the old call, unchanged: subclasses and test doubles override _fetch
+            raw = self._fetch(url, feed, slug, timeout, archive=archive)
         if fallback_encoding:
             try:
                 return raw.decode("utf-8")
@@ -358,7 +366,7 @@ class HttpClient:
         host = urlsplit(url).netloc
         return self.host_user_agents.get(host, self.user_agent)
 
-    def _fetch(self, url, feed, slug, timeout, archive=True):
+    def _fetch(self, url, feed, slug, timeout, archive=True, extra_headers=None):
         timeout = self.default_timeout if timeout is None else timeout
         host = urlsplit(url).netloc
         state = self._host_state(host)
@@ -368,7 +376,7 @@ class HttpClient:
         with state.semaphore:
             self._throttle(state)
             try:
-                raw = self._request_with_retries(url, feed, slug, timeout)
+                raw = self._request_with_retries(url, feed, slug, timeout, extra_headers)
             except FetchError:
                 # 14 Sept 2026: parliament.scot answered CI at 09:16 and refused
                 # the laptop at 10:40, and the edition could not be re-rendered
