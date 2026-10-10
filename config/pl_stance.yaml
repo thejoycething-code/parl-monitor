@@ -1,0 +1,3001 @@
+# Poland: what a recorded vote MEANS for CitizenGO, for the 5CA.
+#
+# Written by tools/country_5ca.py (src/country5ca.py), the 5CA-with-sign-off
+# layer of docs/country-parity-handover.md (item 2), 10 October 2026. The
+# rule is Canada's: which lobby is CitizenGO's is a HUMAN judgement, and
+# nothing places anyone until a named person has confirmed it.
+#
+# status:
+#   draft          proposed by the drafter's rules (or by Claude): unsigned,
+#                  places nobody.
+#   needs_reading  no direction proposed: the drafter could not tell which
+#                  side is ours without reading the text. A person writes
+#                  `yea:`/`nay:` (and why lines), then confirms.
+#   confirmed      signed: `confirmed_by:` (a named person) and
+#                  `confirmed_on:` (the date) are both required, or it still
+#                  counts as unsigned.
+#
+# To confirm: tick the box in docs/5ca-pl-readings.md and run
+#   python3 tools/country_5ca.py --cc pl --sign-from-doc --by NAME
+# or confirm by key:
+#   python3 tools/country_5ca.py --cc pl --confirm KEY [KEY ...] --by NAME
+# To strike a reading for good, write `placeable: false` and a `reason:`.
+#
+# bill_directions: whether PASSING a bill or motion is with CitizenGO
+# (`with`) or against it (`against`). Drafted by Claude on 10 October 2026
+# from each watchlist entry's own description, never from a model call; a
+# bill with no line gets no proposed values. Edit or add lines here: the
+# next --draft uses them for NEW votes (an existing entry is never
+# rewritten).
+#
+# divisions: one entry per watched or tier-1 vote, appended by --draft.
+# Keys are the store's division keys. `yea:`/`nay:` are the stance (-2..2)
+# of voting Yes / No as the chamber records it (Za / Przeciw). An
+# abstention never places anyone. Keep `divisions:` the LAST section: the
+# drafter appends to the end of this file.
+
+
+bill_directions:
+  - key: "10/176"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent. Title says only 'Kodeks karny'. Rejected at final vote on 12 July 2024, 215 to 218 (sitting 15, vote 9)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/177"
+    direction: against
+    status: draft
+    areas: [1, 8]
+    why: "O bezpiecznym przerywaniu ciąży: abortion as a health service to 12 weeks, narrows the conscience clause. Survived a motion to reject at first reading, 12 April 2024."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/223"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Amends the 1993 family planning act to reverse the Constitutional Tribunal's October 2020 ruling (eugenic ground restored)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/224"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "O świadomym rodzicielstwie: a right to end a pregnancy, state role in family planning."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/611"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Kodeks karny: partial decriminalisation of abortion and of helping a woman to one. A motion to reject at first reading failed on 8 November 2024, 216 to 232."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/25"
+    direction: with
+    status: draft
+    areas: [5, 9]
+    why: "Citizens' bill 'Tak dla rodziny, nie dla gender': withdraw from the Istanbul Convention and draft a family-rights convention. Carried over from the 9th term; rejected at first reading on 22 February 2024, 234 to 189."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/26"
+    direction: with
+    status: draft
+    areas: [5]
+    why: "Citizens' bill 'Stop LGBT': bans assemblies promoting same-sex relations or gender change. Rejected at first reading on 22 February 2024, 233 to 189."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/876"
+    direction: against
+    status: draft
+    areas: [5, 7]
+    why: "Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disability, age, sex and sexual orientation."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/2623"
+    direction: with
+    status: draft
+    areas: [5]
+    why: "Kodeks pracy: repeals the duty to use gender-neutral job titles in job adverts."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/1457"
+    direction: against
+    status: draft
+    areas: [9]
+    why: "O związkach partnerskich: registered partnerships, open to same-sex couples."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/1458"
+    direction: against
+    status: draft
+    areas: [9]
+    why: "Implementing act for the partnerships bill 10/1457."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/2110"
+    direction: against
+    status: draft
+    areas: [9]
+    why: "O statusie osoby najbliższej (government): registered cohabitation contracts. Passed 29 May 2026 (230 to 198); the President asked the Sejm to reconsider it."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/2111"
+    direction: against
+    status: draft
+    areas: [9]
+    why: "Implementing act for 10/2110."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/1603"
+    direction: with
+    status: draft
+    areas: [6, 8]
+    why: "Citizens' bill: compulsory religion or ethics, two hours a week, in every school; reverses the 2024-25 cuts to religion lessons."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/1006"
+    direction: with
+    status: draft
+    areas: [6, 7]
+    why: "Citizens' bill: age verification for pornographic sites, blocking for refusal."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/2697"
+    direction: with
+    status: draft
+    areas: [6, 7]
+    why: "Government bill on protecting minors from online pornography: age verification by digital service providers."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/1757"
+    direction: against
+    status: draft
+    areas: [7]
+    why: "DSA implementation (usługi drogą elektroniczną): takedown orders for illegal content, the free-speech fight of 2025-26."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/2694"
+    direction: against
+    status: draft
+    areas: [7]
+    why: "Second DSA implementation bill: UKE as the digital services coordinator, disinformation and illegal-content procedures."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/29"
+    direction: with
+    status: draft
+    areas: [8, 7]
+    why: "Citizens' bill: protects expressing views grounded in one's religion in the Criminal Code. Carried over from the 9th term."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/2145"
+    direction: with
+    status: draft
+    areas: [8]
+    why: "Resolution condemning the public desecration of a religious symbol in a school."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+  - key: "10/31"
+    direction: against
+    status: draft
+    areas: [10]
+    why: "Citizens' bill (passed, Dz.U. 2023 poz. 2730): state-funded IVF programme."
+    flag: "State-funded IVF: CitizenGO's objection is to embryo loss; confirm."
+    drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
+
+divisions:
+
+  # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
+  - key: "pl-10-1-31"
+    status: draft
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 13 Pierwsze czytanie obywatelskiego projektu ustawy o zmianie ustawy o świadczeniach opieki zdrowotnej finansowanych ze środków publicznych (druk nr 31)"
+    dated: "2023-11-28"
+    chamber: "sejm"
+    areas: [10]
+    tier: 1
+    watched: "10/31"
+    result: "Za 94, Przeciw 304, Abstain 43"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/31 (Citizens' bill (passed, Dz.U. 2023 poz): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/31 (Citizens' bill (passed, Dz.U. 2023 poz): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 10/31 (a draft): passing it is AGAINST us -- Citizens' bill (passed, Dz.U. 2023 poz. 2730): state-funded IVF programme. This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    flag: "On the bill's direction: State-funded IVF: CitizenGO's objection is to embryo loss; confirm."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-1-36"
+    status: needs_reading
+    title: "poprawki nr 1 i 4"
+    on: "Pkt. 22 Sprawozdanie Komisji o obywatelskim projekcie ustawy o zmianie ustawy o świadczeniach opieki zdrowotnej finansowanych ze środków publicznych (druki nr 31 i 69)"
+    dated: "2023-11-29"
+    chamber: "sejm"
+    areas: [10]
+    tier: 1
+    watched: "10/31"
+    result: "Za 245, Przeciw 168, Abstain 28"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 1 i 4'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (10/31: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-1-37"
+    status: needs_reading
+    title: "wniosek mniejszości 1"
+    on: "Pkt. 22 Sprawozdanie Komisji o obywatelskim projekcie ustawy o zmianie ustawy o świadczeniach opieki zdrowotnej finansowanych ze środków publicznych (druki nr 31 i 69)"
+    dated: "2023-11-29"
+    chamber: "sejm"
+    areas: [10]
+    tier: 1
+    watched: "10/31"
+    result: "Za 145, Przeciw 247, Abstain 48"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('wniosek mniejszości 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (10/31: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-1-38"
+    status: needs_reading
+    title: "poprawka nr 3, wniosek mniejszości nr 3"
+    on: "Pkt. 22 Sprawozdanie Komisji o obywatelskim projekcie ustawy o zmianie ustawy o świadczeniach opieki zdrowotnej finansowanych ze środków publicznych (druki nr 31 i 69)"
+    dated: "2023-11-29"
+    chamber: "sejm"
+    areas: [10]
+    tier: 1
+    watched: "10/31"
+    result: "Za 176, Przeciw 238, Abstain 25"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka nr 3, wniosek mniejszości nr 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (10/31: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-1-39"
+    status: needs_reading
+    title: "wniosek mniejszości 4"
+    on: "Pkt. 22 Sprawozdanie Komisji o obywatelskim projekcie ustawy o zmianie ustawy o świadczeniach opieki zdrowotnej finansowanych ze środków publicznych (druki nr 31 i 69)"
+    dated: "2023-11-29"
+    chamber: "sejm"
+    areas: [10]
+    tier: 1
+    watched: "10/31"
+    result: "Za 185, Przeciw 244, Abstain 12"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('wniosek mniejszości 4'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 10 (surrogacy and embryology). The bill's direction (10/31: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-1-40"
+    status: draft
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 22 Sprawozdanie Komisji o obywatelskim projekcie ustawy o zmianie ustawy o świadczeniach opieki zdrowotnej finansowanych ze środków publicznych (druki nr 31 i 69)"
+    dated: "2023-11-29"
+    chamber: "sejm"
+    areas: [10]
+    tier: 1
+    watched: "10/31"
+    result: "Za 268, Przeciw 118, Abstain 50"
+    vote_kind: "final"
+    yea: -2
+    why_yea: "Voted Za on 10/31 (Citizens' bill (passed, Dz.U. 2023 poz): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/31 (Citizens' bill (passed, Dz.U. 2023 poz): against passing it, with CitizenGO's position."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 10/31 (a draft): passing it is AGAINST us -- Citizens' bill (passed, Dz.U. 2023 poz. 2730): state-funded IVF programme. This vote is a vote on the whole text or the motion itself, so Za is against us."
+    flag: "On the bill's direction: State-funded IVF: CitizenGO's objection is to embryo loss; confirm."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-6-15"
+    status: draft
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 7 Pierwsze czytanie obywatelskiego projektu ustawy Tak dla rodziny, nie dla gender (druk nr 25) - kontynuacja"
+    dated: "2024-02-22"
+    chamber: "sejm"
+    areas: [5, 9]
+    tier: 1
+    watched: "10/25"
+    result: "Za 234, Przeciw 189"
+    vote_kind: "reject"
+    yea: -2
+    why_yea: "Voted Za on 10/25 (Citizens' bill 'Tak dla rodziny, nie dla gender': withdraw from the Istanbul Convention an): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/25 (Citizens' bill 'Tak dla rodziny, nie dla gender': withdraw from the Istanbul Convention an): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 5 (sex-based rights), 9 (marriage and family). Bill direction on file for 10/25 (a draft): passing it is WITH us -- Citizens' bill 'Tak dla rodziny, nie dla gender': withdraw from the Istanbul Convention and draft a family-rights convention. Carried over from the 9th term; rejected at first reading on 22 February 2. This vote is a motion to reject the text (the sides are swapped), so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-6-16"
+    status: draft
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 8 Pierwsze czytanie obywatelskiego projektu ustawy o zmianie ustawy z dnia 24 lipca 2015 r. - Prawo o zgromadzeniach oraz niektórych innych ustaw (druk nr 26) - kontynuacja"
+    dated: "2024-02-22"
+    chamber: "sejm"
+    areas: [5]
+    tier: 1
+    watched: "10/26"
+    result: "Za 233, Przeciw 189"
+    vote_kind: "reject"
+    yea: -2
+    why_yea: "Voted Za on 10/26 (Citizens' bill 'Stop LGBT': bans assemblies promoting same-sex relations or gender change): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/26 (Citizens' bill 'Stop LGBT': bans assemblies promoting same-sex relations or gender change): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 5 (sex-based rights). Bill direction on file for 10/26 (a draft): passing it is WITH us -- Citizens' bill 'Stop LGBT': bans assemblies promoting same-sex relations or gender change. Rejected at first reading on 22 February 2024, 233 to 189. This vote is a motion to reject the text (the sides are swapped), so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-15-8"
+    status: draft
+    title: "wniosek o odrzucenie w całości projektu."
+    on: "Pkt. 1 Sprawozdanie Komisji o poselskim projekcie ustawy o zmianie ustawy - Kodeks karny (druki nr 176 i 477)"
+    dated: "2024-07-12"
+    chamber: "sejm"
+    areas: [1]
+    tier: 1
+    watched: "10/176"
+    result: "Za 215, Przeciw 216, Abstain 2"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 1 (abortion). Bill direction on file for 10/176 (a draft): passing it is AGAINST us -- Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent. Title says only 'Kodeks karny'. Rejected at final vote on 12 July 2024, 215 to 218 (sitting 15, vote 9). This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-15-9"
+    status: draft
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 1 Sprawozdanie Komisji o poselskim projekcie ustawy o zmianie ustawy - Kodeks karny (druki nr 176 i 477)"
+    dated: "2024-07-12"
+    chamber: "sejm"
+    areas: [1]
+    tier: 1
+    watched: "10/176"
+    result: "Za 215, Przeciw 218, Abstain 2"
+    vote_kind: "final"
+    yea: -2
+    why_yea: "Voted Za on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): against passing it, with CitizenGO's position."
+    reasoning: "Area 1 (abortion). Bill direction on file for 10/176 (a draft): passing it is AGAINST us -- Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent. Title says only 'Kodeks karny'. Rejected at final vote on 12 July 2024, 215 to 218 (sitting 15, vote 9). This vote is a vote on the whole text or the motion itself, so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-16-76"
+    status: draft
+    title: "wniosek o przystąpienie do głosowania nad projektem bez odsyłania go do komisji"
+    on: "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
+    dated: "2024-07-26"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    result: "Za 240, Przeciw 197"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (wniosek o przystąpienie do głosowania nad projektem bez odsyłania go do komisji): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 7 (free speech and civil liberties). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-16-77"
+    status: needs_reading
+    title: "poprawka 1"
+    on: "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
+    dated: "2024-07-26"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    result: "Za 194, Przeciw 240"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-16-78"
+    status: needs_reading
+    title: "poprawka 2"
+    on: "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
+    dated: "2024-07-26"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    result: "Za 181, Przeciw 254"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-16-79"
+    status: needs_reading
+    title: "poprawka 3"
+    on: "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
+    dated: "2024-07-26"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    result: "Za 180, Przeciw 251, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-16-80"
+    status: needs_reading
+    title: "poprawka 4"
+    on: "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
+    dated: "2024-07-26"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    result: "Za 193, Przeciw 240"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 4'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-16-81"
+    status: needs_reading
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
+    dated: "2024-07-26"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    result: "Za 255, Przeciw 178"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 10/529: CitizenGO's position on 'Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalnośc' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-21-38"
+    status: draft
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 7 Pierwsze czytanie poselskiego projektu ustawy o zmianie ustawy - Kodeks karny (druk nr 611)"
+    dated: "2024-11-08"
+    chamber: "sejm"
+    areas: [1]
+    tier: 1
+    watched: "10/611"
+    result: "Za 216, Przeciw 232, Abstain 4"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/611 (Kodeks karny: partial decriminalisation of abortion and of helping a woman to one): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/611 (Kodeks karny: partial decriminalisation of abortion and of helping a woman to one): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 1 (abortion). Bill direction on file for 10/611 (a draft): passing it is AGAINST us -- Kodeks karny: partial decriminalisation of abortion and of helping a woman to one. A motion to reject at first reading failed on 8 November 2024, 216 to 232. This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-21-81"
+    status: needs_reading
+    title: "wniosek o skrócenie terminu, o którym mowa w art. 37 ust. 4 regulaminu Sejmu w sprawie przedłożenia z druku nr 789"
+    on: "Wniosek o skrócenie terminu, o którym mowa w art. 37 ust. 4 regulaminu Sejmu w sprawie przedłożenia z druku nr 789"
+    dated: "2024-11-08"
+    chamber: "sejm"
+    areas: [1]
+    tier: 1
+    result: "Za 233, Przeciw 209, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('wniosek o skrócenie terminu, o którym mowa w art. 37 ust. 4 regulaminu Sejmu w sprawie przedłożenia z druku nr 789'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 1 (abortion)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-21-82"
+    status: draft
+    title: "wniosek o przejście do drugiego czytania bez kierowania do komisji"
+    on: "Pkt. 28 Pierwsze czytanie przedstawionego przez Prezydium Sejmu projektu uchwały o zmianie uchwały w sprawie powołania i wyboru składu osobowego Komisji Nadzwyczajnej do rozpatrzenia projektów ustaw d"
+    dated: "2024-11-08"
+    chamber: "sejm"
+    areas: [1]
+    tier: 1
+    result: "Za 232, Przeciw 212"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (wniosek o przejście do drugiego czytania bez kierowania do komisji): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 1 (abortion). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-21-83"
+    status: needs_reading
+    title: "głosowanie nad całością projektu"
+    on: "Pkt. 28 Pierwsze czytanie przedstawionego przez Prezydium Sejmu projektu uchwały o zmianie uchwały w sprawie powołania i wyboru składu osobowego Komisji Nadzwyczajnej do rozpatrzenia projektów ustaw d"
+    dated: "2024-11-08"
+    chamber: "sejm"
+    areas: [1]
+    tier: 1
+    result: "Za 233, Przeciw 209, Abstain 2"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 10/789: CitizenGO's position on 'Pkt. 28 Pierwsze czytanie przedstawionego przez Prezydium Sejmu projektu uchwały o zmianie uchwały w sprawie powołania i wyboru składu osobo' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-25-12"
+    status: draft
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 9 Pierwsze czytanie rządowego projektu ustawy o zmianie ustawy - Kodeks karny (druk nr 876)"
+    dated: "2024-12-20"
+    chamber: "sejm"
+    areas: [4, 5, 7]
+    tier: 1
+    watched: "10/876"
+    result: "Za 192, Przeciw 238"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/876 (Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disabi): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/876 (Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disabi): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights), 7 (free speech and civil liberties). Bill direction on file for 10/876 (a draft): passing it is AGAINST us -- Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disability, age, sex and sexual orientation. This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-30-12"
+    status: draft
+    title: "wniosek o odrzucenie w całości projektu."
+    on: "Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks karny (druki nr 876, 984 i 984-A)"
+    dated: "2025-03-06"
+    chamber: "sejm"
+    areas: [4, 5, 7]
+    tier: 1
+    watched: "10/876"
+    result: "Za 199, Przeciw 240, Abstain 1"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/876 (Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disabi): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/876 (Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disabi): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights), 7 (free speech and civil liberties). Bill direction on file for 10/876 (a draft): passing it is AGAINST us -- Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disability, age, sex and sexual orientation. This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-30-13"
+    status: needs_reading
+    title: "poprawki nr 1, 4 i 10"
+    on: "Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks karny (druki nr 876, 984 i 984-A)"
+    dated: "2025-03-06"
+    chamber: "sejm"
+    areas: [4, 5, 7]
+    tier: 1
+    watched: "10/876"
+    result: "Za 30, Przeciw 410"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 1, 4 i 10'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights), 7 (free speech and civil liberties). The bill's direction (10/876: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-30-14"
+    status: needs_reading
+    title: "poprawki nr 2, 5 i 11"
+    on: "Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks karny (druki nr 876, 984 i 984-A)"
+    dated: "2025-03-06"
+    chamber: "sejm"
+    areas: [4, 5, 7]
+    tier: 1
+    watched: "10/876"
+    result: "Za 238, Przeciw 200"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 2, 5 i 11'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights), 7 (free speech and civil liberties). The bill's direction (10/876: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-30-15"
+    status: needs_reading
+    title: "poprawka 9"
+    on: "Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks karny (druki nr 876, 984 i 984-A)"
+    dated: "2025-03-06"
+    chamber: "sejm"
+    areas: [4, 5, 7]
+    tier: 1
+    watched: "10/876"
+    result: "Za 30, Przeciw 408"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 9'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights), 7 (free speech and civil liberties). The bill's direction (10/876: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-30-16"
+    status: draft
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks karny (druki nr 876, 984 i 984-A)"
+    dated: "2025-03-06"
+    chamber: "sejm"
+    areas: [4, 5, 7]
+    tier: 1
+    watched: "10/876"
+    result: "Za 238, Przeciw 201"
+    vote_kind: "final"
+    yea: -2
+    why_yea: "Voted Za on 10/876 (Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disabi): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/876 (Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disabi): against passing it, with CitizenGO's position."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights), 7 (free speech and civil liberties). Bill direction on file for 10/876 (a draft): passing it is AGAINST us -- Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disability, age, sex and sexual orientation. This vote is a vote on the whole text or the motion itself, so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-35-52"
+    status: draft
+    title: "wniosek o uzupełnienie porządku dziennego."
+    on: "Rozstrzygnięcie przez Sejm wniosku o uzupełnienie porządku dziennego o punkt: Informacja Prezesa Rady Ministrów na temat udziału Polski w mechanizmie solidarności określonego przez pakt migracyjny"
+    dated: "2025-05-21"
+    chamber: "sejm"
+    areas: [11]
+    tier: 1
+    result: "Za 192, Przeciw 224"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (wniosek o uzupełnienie porządku dziennego.): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 11 (migration). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-38-35"
+    status: needs_reading
+    title: "poprawka"
+    on: "Pkt. 12 Sprawozdanie Komisji o poselskich projektach uchwał:- w sprawie niewprowadzania w życie przepisów aktów prawnych składających się na tzw. Pakt o migracji i azylu,- w sprawie zobowiązania Rządu"
+    dated: "2025-07-09"
+    chamber: "sejm"
+    areas: [11]
+    tier: 1
+    watched: "10/1043"
+    result: "Za 194, Przeciw 241"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 11 (migration)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-38-36"
+    status: needs_reading
+    title: "wniosek mniejszości 1"
+    on: "Pkt. 12 Sprawozdanie Komisji o poselskich projektach uchwał:- w sprawie niewprowadzania w życie przepisów aktów prawnych składających się na tzw. Pakt o migracji i azylu,- w sprawie zobowiązania Rządu"
+    dated: "2025-07-09"
+    chamber: "sejm"
+    areas: [11]
+    tier: 1
+    watched: "10/1043"
+    result: "Za 176, Przeciw 241, Abstain 19"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('wniosek mniejszości 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 11 (migration)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-38-37"
+    status: needs_reading
+    title: "wniosek mniejszości 2"
+    on: "Pkt. 12 Sprawozdanie Komisji o poselskich projektach uchwał:- w sprawie niewprowadzania w życie przepisów aktów prawnych składających się na tzw. Pakt o migracji i azylu,- w sprawie zobowiązania Rządu"
+    dated: "2025-07-09"
+    chamber: "sejm"
+    areas: [11]
+    tier: 1
+    watched: "10/1043"
+    result: "Za 196, Przeciw 237"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('wniosek mniejszości 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 11 (migration)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-38-38"
+    status: needs_reading
+    title: "wniosek mniejszości 3"
+    on: "Pkt. 12 Sprawozdanie Komisji o poselskich projektach uchwał:- w sprawie niewprowadzania w życie przepisów aktów prawnych składających się na tzw. Pakt o migracji i azylu,- w sprawie zobowiązania Rządu"
+    dated: "2025-07-09"
+    chamber: "sejm"
+    areas: [11]
+    tier: 1
+    watched: "10/1043"
+    result: "Za 175, Przeciw 259, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('wniosek mniejszości 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 11 (migration)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-38-39"
+    status: needs_reading
+    title: "wniosek mniejszości 4"
+    on: "Pkt. 12 Sprawozdanie Komisji o poselskich projektach uchwał:- w sprawie niewprowadzania w życie przepisów aktów prawnych składających się na tzw. Pakt o migracji i azylu,- w sprawie zobowiązania Rządu"
+    dated: "2025-07-09"
+    chamber: "sejm"
+    areas: [11]
+    tier: 1
+    watched: "10/1043"
+    result: "Za 178, Przeciw 241, Abstain 19"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('wniosek mniejszości 4'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 11 (migration)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-38-40"
+    status: needs_reading
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 12 Sprawozdanie Komisji o poselskich projektach uchwał:- w sprawie niewprowadzania w życie przepisów aktów prawnych składających się na tzw. Pakt o migracji i azylu,- w sprawie zobowiązania Rządu"
+    dated: "2025-07-09"
+    chamber: "sejm"
+    areas: [11]
+    tier: 1
+    watched: "10/1043"
+    result: "Za 222, Przeciw 14, Abstain 3"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 10/1043, 10/1044, 10/1274: CitizenGO's position on 'Pkt. 12 Sprawozdanie Komisji o poselskich projektach uchwał:- w sprawie niewprowadzania w życie przepisów aktów prawnych składających się na' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-41-30"
+    status: draft
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 41 Pierwsze czytanie obywatelskiego projektu ustawy o zmianie ustawy o systemie oświaty oraz ustawy - Prawo oświatowe (druk nr 1603)"
+    dated: "2025-09-26"
+    chamber: "sejm"
+    areas: [6, 8]
+    tier: 1
+    watched: "10/1603"
+    result: "Za 191, Przeciw 231, Abstain 4"
+    vote_kind: "reject"
+    yea: -2
+    why_yea: "Voted Za on 10/1603 (Citizens' bill: compulsory religion or ethics, two hours a week, in every school): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/1603 (Citizens' bill: compulsory religion or ethics, two hours a week, in every school): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 6 (parental rights and education), 8 (religious freedom). Bill direction on file for 10/1603 (a draft): passing it is WITH us -- Citizens' bill: compulsory religion or ethics, two hours a week, in every school; reverses the 2024-25 cuts to religion lessons. This vote is a motion to reject the text (the sides are swapped), so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-43-70"
+    status: draft
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 20 Pierwsze czytanie rządowego projektu ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druk nr 1757)"
+    dated: "2025-10-17"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 204, Przeciw 241"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/1757 (DSA implementation (usługi drogą elektroniczną): takedown orders for illegal content, the ): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/1757 (DSA implementation (usługi drogą elektroniczną): takedown orders for illegal content, the ): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for 10/1757 (a draft): passing it is AGAINST us -- DSA implementation (usługi drogą elektroniczną): takedown orders for illegal content, the free-speech fight of 2025-26. This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-47"
+    status: draft
+    title: "wniosek o odrzucenie w całości projektu."
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 199, Przeciw 240"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/1757 (DSA implementation (usługi drogą elektroniczną): takedown orders for illegal content, the ): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/1757 (DSA implementation (usługi drogą elektroniczną): takedown orders for illegal content, the ): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for 10/1757 (a draft): passing it is AGAINST us -- DSA implementation (usługi drogą elektroniczną): takedown orders for illegal content, the free-speech fight of 2025-26. This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-48"
+    status: needs_reading
+    title: "poprawki nr 1, 7, 11, 15, 17-18, 20, 24-25, 39, 49, 52 i 55"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 204, Przeciw 237"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 1, 7, 11, 15, 17-18, 20, 24-25, 39, 49, 52 i 55'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-49"
+    status: needs_reading
+    title: "poprawka 2"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 261, Przeciw 179"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-50"
+    status: needs_reading
+    title: "poprawka 3"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 255, Przeciw 185"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-51"
+    status: needs_reading
+    title: "poprawki nr 4 i 12"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 191, Przeciw 234, Abstain 13"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 4 i 12'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-52"
+    status: needs_reading
+    title: "poprawka 5"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 203, Przeciw 235"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 5'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-53"
+    status: needs_reading
+    title: "poprawki nr 6, 10 i 14"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 256, Przeciw 181"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 6, 10 i 14'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-54"
+    status: needs_reading
+    title: "poprawki nr 8-9"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 200, Przeciw 234"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 8-9'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-55"
+    status: needs_reading
+    title: "poprawka 13"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 241, Przeciw 180, Abstain 17"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 13'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-56"
+    status: needs_reading
+    title: "poprawki nr 16, 54 oraz 56-57"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 242, Przeciw 181, Abstain 17"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 16, 54 oraz 56-57'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-57"
+    status: needs_reading
+    title: "poprawka 19"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 244, Przeciw 178, Abstain 17"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 19'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-58"
+    status: needs_reading
+    title: "poprawka 21"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 202, Przeciw 237, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 21'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-59"
+    status: needs_reading
+    title: "poprawka 22"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 257, Przeciw 180"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 22'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-60"
+    status: needs_reading
+    title: "poprawka 23"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 241, Przeciw 180, Abstain 17"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 23'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-61"
+    status: needs_reading
+    title: "poprawka 26"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 204, Przeciw 237"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 26'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-62"
+    status: needs_reading
+    title: "poprawka 27"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 254, Przeciw 181"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 27'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-63"
+    status: needs_reading
+    title: "poprawki nr 28-29"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 196, Przeciw 240"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 28-29'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-64"
+    status: needs_reading
+    title: "poprawka 30"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 254, Przeciw 183"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 30'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-65"
+    status: needs_reading
+    title: "poprawka 31"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 240, Przeciw 182, Abstain 17"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 31'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-66"
+    status: needs_reading
+    title: "poprawka 32"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 258, Przeciw 184"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 32'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-67"
+    status: needs_reading
+    title: "poprawka 33"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 259, Przeciw 183"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 33'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-68"
+    status: needs_reading
+    title: "poprawka 34"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 240, Przeciw 199"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 34'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-69"
+    status: needs_reading
+    title: "poprawka 35"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 253, Przeciw 182"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 35'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-70"
+    status: needs_reading
+    title: "poprawka 36"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 256, Przeciw 183"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 36'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-71"
+    status: needs_reading
+    title: "poprawka 37"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 239, Przeciw 182, Abstain 17"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 37'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-72"
+    status: needs_reading
+    title: "poprawka 38"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 256, Przeciw 183"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 38'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-73"
+    status: needs_reading
+    title: "poprawki nr 40-41"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 254, Przeciw 183"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 40-41'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-74"
+    status: needs_reading
+    title: "poprawka 42"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 256, Przeciw 182"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 42'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-75"
+    status: needs_reading
+    title: "poprawki nr 43 i 51"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 241, Przeciw 183, Abstain 17"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 43 i 51'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-76"
+    status: needs_reading
+    title: "poprawki nr 44-45"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 257, Przeciw 180"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 44-45'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-77"
+    status: needs_reading
+    title: "poprawki nr 46-47"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 258, Przeciw 183"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 46-47'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-78"
+    status: needs_reading
+    title: "poprawki nr 48 i 50"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 258, Przeciw 184"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 48 i 50'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-79"
+    status: needs_reading
+    title: "poprawka 53"
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 257, Przeciw 183"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 53'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-45-80"
+    status: draft
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 14 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 1757, 1922 i 1922-A)"
+    dated: "2025-11-21"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 237, Przeciw 200, Abstain 5"
+    vote_kind: "final"
+    yea: -2
+    why_yea: "Voted Za on 10/1757 (DSA implementation (usługi drogą elektroniczną): takedown orders for illegal content, the ): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/1757 (DSA implementation (usługi drogą elektroniczną): takedown orders for illegal content, the ): against passing it, with CitizenGO's position."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for 10/1757 (a draft): passing it is AGAINST us -- DSA implementation (usługi drogą elektroniczną): takedown orders for illegal content, the free-speech fight of 2025-26. This vote is a vote on the whole text or the motion itself, so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-41"
+    status: needs_reading
+    title: "poprawka 1"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 17, Przeciw 406"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-42"
+    status: needs_reading
+    title: "poprawki nr 2, 6-8, 10, 13-14, 19-20, 22-24, 29-30 oraz 32-37"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 0, Przeciw 238, Abstain 176"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 2, 6-8, 10, 13-14, 19-20, 22-24, 29-30 oraz 32-37'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-43"
+    status: needs_reading
+    title: "poprawka 3"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 0, Przeciw 275, Abstain 136"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-44"
+    status: needs_reading
+    title: "poprawka 4"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 0, Przeciw 395, Abstain 24"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 4'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-45"
+    status: needs_reading
+    title: "poprawka 5"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 0, Przeciw 409"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 5'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-46"
+    status: needs_reading
+    title: "poprawka 9"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 0, Przeciw 403, Abstain 20"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 9'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-47"
+    status: needs_reading
+    title: "poprawka 11"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 7, Przeciw 409, Abstain 6"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 11'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-48"
+    status: needs_reading
+    title: "poprawka 12"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 0, Przeciw 418, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 12'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-49"
+    status: needs_reading
+    title: "poprawki nr 15, 17-18 i 26"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 237, Przeciw 25, Abstain 162"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 15, 17-18 i 26'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-50"
+    status: needs_reading
+    title: "poprawka 16"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 0, Przeciw 419"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 16'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-51"
+    status: needs_reading
+    title: "poprawka 21"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 0, Przeciw 422"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 21'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-52"
+    status: needs_reading
+    title: "poprawka 25"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 1, Przeciw 421"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 25'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-53"
+    status: needs_reading
+    title: "poprawka 27"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 0, Przeciw 421"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 27'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-54"
+    status: needs_reading
+    title: "poprawka 28"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 0, Przeciw 399, Abstain 21"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 28'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-55"
+    status: needs_reading
+    title: "poprawka 31"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 21, Przeciw 253, Abstain 145"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 31'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-48-56"
+    status: needs_reading
+    title: "poprawki nr 38-39"
+    on: "Pkt. 20 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2069 i 2091)"
+    dated: "2025-12-18"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/1757"
+    result: "Za 0, Przeciw 420"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 38-39'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/1757: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-50-105"
+    status: needs_reading
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 24 Pierwsze czytanie rządowego projektu ustawy o zmianie ustawy - Kodeks rodzinny i opiekuńczy oraz niektórych innych ustaw (druk nr 2121)"
+    dated: "2026-01-23"
+    chamber: "sejm"
+    areas: [1, 9]
+    tier: 1
+    result: "Za 188, Przeciw 233, Abstain 2"
+    vote_kind: "reject"
+    read_first: "A motion to reject the text (the sides are swapped), but no bill direction is on file for 10/2121: CitizenGO's position on 'Pkt. 24 Pierwsze czytanie rządowego projektu ustawy o zmianie ustawy - Kodeks rodzinny i opiekuńczy oraz niektórych innych ustaw (druk nr 21' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 1 (abortion), 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-51-72"
+    status: draft
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 24 Pierwsze czytanie rządowego projektu ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druk nr 2110)"
+    dated: "2026-02-13"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 199, Przeciw 233, Abstain 3"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/2110 (O statusie osoby najbliższej (government): registered cohabitation contracts): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/2110 (O statusie osoby najbliższej (government): registered cohabitation contracts): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 10/2110 (a draft): passing it is AGAINST us -- O statusie osoby najbliższej (government): registered cohabitation contracts. Passed 29 May 2026 (230 to 198); the President asked the Sejm to reconsider it. This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-51-73"
+    status: draft
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 25 Pierwsze czytanie rządowego projektu ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druk nr 2111)"
+    dated: "2026-02-13"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 202, Przeciw 232, Abstain 2"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/2111 (Implementing act for 10/2110): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/2111 (Implementing act for 10/2110): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 10/2111 (a draft): passing it is AGAINST us -- Implementing act for 10/2110. This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-51-77"
+    status: needs_reading
+    title: "wniosek o odrzucenie projektu uchwały w pierwszym czytaniu"
+    on: "Pkt. 29 Pierwsze czytanie poselskiego projektu uchwały w sprawie powołania Komisji Nadzwyczajnej do spraw ustaw dotyczących statusu osób najbliższych (druki nr 2202 i 2202-A)"
+    dated: "2026-02-13"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    result: "Za 190, Przeciw 229, Abstain 4"
+    vote_kind: "reject"
+    read_first: "A motion to reject the text (the sides are swapped), but no bill direction is on file for 10/2202: CitizenGO's position on 'Pkt. 29 Pierwsze czytanie poselskiego projektu uchwały w sprawie powołania Komisji Nadzwyczajnej do spraw ustaw dotyczących statusu osób naj' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-51-78"
+    status: draft
+    title: "wniosek o przystąpienie do drugiego czytania bez kierowania projektu do komisji"
+    on: "Pkt. 29 Pierwsze czytanie poselskiego projektu uchwały w sprawie powołania Komisji Nadzwyczajnej do spraw ustaw dotyczących statusu osób najbliższych (druki nr 2202 i 2202-A)"
+    dated: "2026-02-13"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    result: "Za 230, Przeciw 190, Abstain 4"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (wniosek o przystąpienie do drugiego czytania bez kierowania projektu do komisji): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 9 (marriage and family). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-51-79"
+    status: needs_reading
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 29 Pierwsze czytanie poselskiego projektu uchwały w sprawie powołania Komisji Nadzwyczajnej do spraw ustaw dotyczących statusu osób najbliższych (druki nr 2202 i 2202-A)"
+    dated: "2026-02-13"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    result: "Za 229, Przeciw 187, Abstain 4"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 10/2202: CitizenGO's position on 'Pkt. 29 Pierwsze czytanie poselskiego projektu uchwały w sprawie powołania Komisji Nadzwyczajnej do spraw ustaw dotyczących statusu osób naj' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-52-78"
+    status: needs_reading
+    title: "głosowanie nad przyjęciem wniosku z druków."
+    on: "Pkt. 23 Wybór składu osobowego Komisji Nadzwyczajnej do rozpatrzenia projektów ustaw dotyczących statusu osoby najbliższej w związku i umowy o wspólnym pożyciu (druki nr 2282 i 2282-A)"
+    dated: "2026-02-27"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    result: "Za 255, Przeciw 173, Abstain 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('głosowanie nad przyjęciem wniosku z druków.'): read the question put, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-53-62"
+    status: needs_reading
+    title: "wniosek o odrzucenie w całości projektu."
+    on: "Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks rodzinny i opiekuńczy oraz niektórych innych ustaw (druki nr 2121, 2233 i 2233-A)"
+    dated: "2026-03-13"
+    chamber: "sejm"
+    areas: [1, 9]
+    tier: 1
+    result: "Za 188, Przeciw 238, Abstain 4"
+    vote_kind: "reject"
+    read_first: "A motion to reject the text (the sides are swapped), but no bill direction is on file for 10/2121: CitizenGO's position on 'Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks rodzinny i opiekuńczy oraz niektórych innych ustaw (druki ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 1 (abortion), 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-53-63"
+    status: needs_reading
+    title: "poprawka 1"
+    on: "Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks rodzinny i opiekuńczy oraz niektórych innych ustaw (druki nr 2121, 2233 i 2233-A)"
+    dated: "2026-03-13"
+    chamber: "sejm"
+    areas: [1, 9]
+    tier: 1
+    result: "Za 238, Przeciw 194, Abstain 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 1 (abortion), 9 (marriage and family)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-53-64"
+    status: needs_reading
+    title: "poprawka 2"
+    on: "Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks rodzinny i opiekuńczy oraz niektórych innych ustaw (druki nr 2121, 2233 i 2233-A)"
+    dated: "2026-03-13"
+    chamber: "sejm"
+    areas: [1, 9]
+    tier: 1
+    result: "Za 241, Przeciw 176, Abstain 20"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 1 (abortion), 9 (marriage and family)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-53-65"
+    status: needs_reading
+    title: "poprawka 3"
+    on: "Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks rodzinny i opiekuńczy oraz niektórych innych ustaw (druki nr 2121, 2233 i 2233-A)"
+    dated: "2026-03-13"
+    chamber: "sejm"
+    areas: [1, 9]
+    tier: 1
+    result: "Za 241, Przeciw 190, Abstain 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 1 (abortion), 9 (marriage and family)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-53-66"
+    status: needs_reading
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks rodzinny i opiekuńczy oraz niektórych innych ustaw (druki nr 2121, 2233 i 2233-A)"
+    dated: "2026-03-13"
+    chamber: "sejm"
+    areas: [1, 9]
+    tier: 1
+    result: "Za 242, Przeciw 187, Abstain 2"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 10/2121: CitizenGO's position on 'Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks rodzinny i opiekuńczy oraz niektórych innych ustaw (druki ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 1 (abortion), 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-73"
+    status: needs_reading
+    title: "poprawka 1"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 240, Przeciw 4, Abstain 178"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-74"
+    status: needs_reading
+    title: "poprawka 2"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 203, Przeciw 228"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-75"
+    status: needs_reading
+    title: "poprawka 3"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 437, Przeciw 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-76"
+    status: needs_reading
+    title: "poprawka 4"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 236, Przeciw 2, Abstain 200"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 4'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-77"
+    status: needs_reading
+    title: "poprawka 5"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 25, Przeciw 212, Abstain 187"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 5'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-78"
+    status: needs_reading
+    title: "poprawka 6"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 419, Przeciw 3, Abstain 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 6'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-79"
+    status: needs_reading
+    title: "poprawki nr 7-8"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 418, Przeciw 0, Abstain 23"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 7-8'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-80"
+    status: needs_reading
+    title: "poprawka 9"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 236, Przeciw 2, Abstain 198"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 9'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-81"
+    status: needs_reading
+    title: "poprawka 10"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 28, Przeciw 408"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 10'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-82"
+    status: needs_reading
+    title: "poprawki nr 11 i 17"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 412, Przeciw 1, Abstain 20"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 11 i 17'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-83"
+    status: needs_reading
+    title: "poprawka 12"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 29, Przeciw 387, Abstain 21"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 12'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-84"
+    status: needs_reading
+    title: "poprawka 13"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 38, Przeciw 397"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 13'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-85"
+    status: needs_reading
+    title: "poprawka 14"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 416, Przeciw 0, Abstain 21"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 14'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-86"
+    status: needs_reading
+    title: "poprawka 15"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 415, Przeciw 0, Abstain 20"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 15'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-87"
+    status: needs_reading
+    title: "poprawka 16"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 240, Przeciw 21, Abstain 170"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 16'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-88"
+    status: needs_reading
+    title: "poprawka 18"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 437, Przeciw 0"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 18'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-89"
+    status: needs_reading
+    title: "poprawka 19"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 418, Przeciw 0, Abstain 21"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 19'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-90"
+    status: needs_reading
+    title: "poprawka 20"
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 241, Przeciw 179, Abstain 21"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 20'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-57-91"
+    status: needs_reading
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr 2488, 2542 i 2542-A)"
+    dated: "2026-05-15"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 359, Przeciw 23, Abstain 59"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 10/2488: CitizenGO's position on 'Pkt. 26 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych środkach ochrony osób uczestniczących w debacie publicznej (druki nr' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-1"
+    status: needs_reading
+    title: "wniosek o uzupełnienie porządku dziennego oraz wniosek o skrócenie terminu, o którym mowa w art. 44 ust. 3 regulaminu Sejmu w sprawie sprawozdania z druku nr 2593"
+    on: "Głosowanie proceduralne dotyczące druku nr 2593"
+    dated: "2026-05-27"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 219, Przeciw 193, Abstain 2"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('wniosek o uzupełnienie porządku dziennego oraz wniosek o skrócenie terminu, o którym mowa w art. 44 ust. 3 regulaminu Se'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2110: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-2"
+    status: needs_reading
+    title: "wniosek o uzupełnienie porządku dziennego oraz wniosek o skrócenie terminu, o którym mowa w art. 44 ust. 3 regulaminu Sejmu w sprawie sprawozdania z druku nr 2594"
+    on: "Głosowanie proceduralne dotyczące druku nr 2594"
+    dated: "2026-05-27"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 218, Przeciw 193, Abstain 3"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('wniosek o uzupełnienie porządku dziennego oraz wniosek o skrócenie terminu, o którym mowa w art. 44 ust. 3 regulaminu Se'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-100"
+    status: needs_reading
+    title: "poprawka 66"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 229, Przeciw 200"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 66'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-101"
+    status: needs_reading
+    title: "poprawka 67"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 229, Przeciw 197"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 67'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-102"
+    status: needs_reading
+    title: "poprawka 68"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 230, Przeciw 200"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 68'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-103"
+    status: draft
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 230, Przeciw 200, Abstain 1"
+    vote_kind: "final"
+    yea: -2
+    why_yea: "Voted Za on 10/2111 (Implementing act for 10/2110): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/2111 (Implementing act for 10/2110): against passing it, with CitizenGO's position."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 10/2111 (a draft): passing it is AGAINST us -- Implementing act for 10/2110. This vote is a vote on the whole text or the motion itself, so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-130"
+    status: needs_reading
+    title: "poprawka 1"
+    on: "Pkt. 24 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o szczególnych środkach ochrony w postępowaniu cywilnym osób uczestniczących w debacie publicznej (druki nr 2584 i 2590)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 3, Przeciw 239, Abstain 176"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-131"
+    status: needs_reading
+    title: "poprawka 2"
+    on: "Pkt. 24 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o szczególnych środkach ochrony w postępowaniu cywilnym osób uczestniczących w debacie publicznej (druki nr 2584 i 2590)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 192, Przeciw 231"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-132"
+    status: needs_reading
+    title: "poprawka 3"
+    on: "Pkt. 24 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o szczególnych środkach ochrony w postępowaniu cywilnym osób uczestniczących w debacie publicznej (druki nr 2584 i 2590)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 0, Przeciw 236, Abstain 192"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-133"
+    status: needs_reading
+    title: "poprawka 4"
+    on: "Pkt. 24 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o szczególnych środkach ochrony w postępowaniu cywilnym osób uczestniczących w debacie publicznej (druki nr 2584 i 2590)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [7]
+    tier: 1
+    watched: "10/2488"
+    result: "Za 5, Przeciw 252, Abstain 171"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 4'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-54"
+    status: draft
+    title: "wniosek o odrzucenie w całości projektu."
+    on: "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 197, Przeciw 230, Abstain 1"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/2110 (O statusie osoby najbliższej (government): registered cohabitation contracts): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/2110 (O statusie osoby najbliższej (government): registered cohabitation contracts): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 10/2110 (a draft): passing it is AGAINST us -- O statusie osoby najbliższej (government): registered cohabitation contracts. Passed 29 May 2026 (230 to 198); the President asked the Sejm to reconsider it. This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-55"
+    status: needs_reading
+    title: "poprawki nr 1-3, 6, 8-10, 13, 16-35, 37 i 40"
+    on: "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 11, Przeciw 418"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 1-3, 6, 8-10, 13, 16-35, 37 i 40'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2110: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-56"
+    status: needs_reading
+    title: "poprawki nr 4-5, 7, 11, 14, 36 i 38"
+    on: "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 8, Przeciw 419"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 4-5, 7, 11, 14, 36 i 38'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2110: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-57"
+    status: needs_reading
+    title: "wniosek mniejszości 1"
+    on: "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 23, Przeciw 395, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('wniosek mniejszości 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2110: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-58"
+    status: needs_reading
+    title: "wniosek mniejszości 2"
+    on: "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 5, Przeciw 421, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('wniosek mniejszości 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2110: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-59"
+    status: needs_reading
+    title: "poprawka 12"
+    on: "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 227, Przeciw 199, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 12'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2110: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-60"
+    status: needs_reading
+    title: "poprawka 15"
+    on: "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 227, Przeciw 195, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 15'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2110: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-61"
+    status: needs_reading
+    title: "poprawka 39"
+    on: "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 229, Przeciw 195, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 39'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2110: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-62"
+    status: draft
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 230, Przeciw 198, Abstain 1"
+    vote_kind: "final"
+    yea: -2
+    why_yea: "Voted Za on 10/2110 (O statusie osoby najbliższej (government): registered cohabitation contracts): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/2110 (O statusie osoby najbliższej (government): registered cohabitation contracts): against passing it, with CitizenGO's position."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 10/2110 (a draft): passing it is AGAINST us -- O statusie osoby najbliższej (government): registered cohabitation contracts. Passed 29 May 2026 (230 to 198); the President asked the Sejm to reconsider it. This vote is a vote on the whole text or the motion itself, so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-63"
+    status: draft
+    title: "wniosek o odrzucenie w całości projektu."
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 193, Przeciw 228, Abstain 1"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/2111 (Implementing act for 10/2110): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/2111 (Implementing act for 10/2110): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 10/2111 (a draft): passing it is AGAINST us -- Implementing act for 10/2110. This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-64"
+    status: needs_reading
+    title: "poprawki nr 1, 38 oraz 44-46"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 6, Przeciw 414, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 1, 38 oraz 44-46'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-65"
+    status: needs_reading
+    title: "poprawka 2"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 229, Przeciw 179, Abstain 19"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-66"
+    status: needs_reading
+    title: "poprawka nr 3, wniosek mniejszości nr 1"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 7, Przeciw 423"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka nr 3, wniosek mniejszości nr 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-67"
+    status: needs_reading
+    title: "poprawka nr 4, wniosek mniejszości nr 2"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 7, Przeciw 421"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka nr 4, wniosek mniejszości nr 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-68"
+    status: needs_reading
+    title: "poprawka nr 5, wniosek mniejszości nr 3"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 7, Przeciw 425"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka nr 5, wniosek mniejszości nr 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-69"
+    status: needs_reading
+    title: "poprawka 6"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 230, Przeciw 202"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 6'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-70"
+    status: needs_reading
+    title: "poprawka 7"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 232, Przeciw 194"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 7'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-71"
+    status: needs_reading
+    title: "poprawki nr 8-12, 14-17, 20-22, 26-30 i 57"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 232, Przeciw 197"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 8-12, 14-17, 20-22, 26-30 i 57'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-72"
+    status: needs_reading
+    title: "poprawka 13"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 231, Przeciw 199"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 13'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-73"
+    status: needs_reading
+    title: "poprawka 18"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 228, Przeciw 198, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 18'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-74"
+    status: needs_reading
+    title: "poprawka 19"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 229, Przeciw 194"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 19'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-75"
+    status: needs_reading
+    title: "poprawki nr 23-24 i 33"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 229, Przeciw 199"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 23-24 i 33'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-76"
+    status: needs_reading
+    title: "poprawka 25"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 230, Przeciw 195"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 25'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-77"
+    status: needs_reading
+    title: "poprawka 31"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 231, Przeciw 196"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 31'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-78"
+    status: needs_reading
+    title: "poprawka 32"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 230, Przeciw 198"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 32'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-79"
+    status: needs_reading
+    title: "poprawki nr 34 i 65"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 227, Przeciw 196"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 34 i 65'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-80"
+    status: needs_reading
+    title: "poprawki nr 35 i 52"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 228, Przeciw 200"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 35 i 52'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-81"
+    status: needs_reading
+    title: "poprawka 36"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 230, Przeciw 195"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 36'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-82"
+    status: needs_reading
+    title: "poprawka 37"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 227, Przeciw 200"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 37'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-83"
+    status: needs_reading
+    title: "poprawki nr 39-42"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 10, Przeciw 419"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 39-42'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-84"
+    status: needs_reading
+    title: "poprawka 43"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 12, Przeciw 410"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 43'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-85"
+    status: needs_reading
+    title: "poprawka 47"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 229, Przeciw 200"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 47'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-86"
+    status: needs_reading
+    title: "poprawka 48"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 227, Przeciw 201"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 48'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-87"
+    status: needs_reading
+    title: "poprawka 49"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 228, Przeciw 202"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 49'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-88"
+    status: needs_reading
+    title: "poprawka 50"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 227, Przeciw 199"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 50'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-89"
+    status: needs_reading
+    title: "poprawka 51"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 225, Przeciw 198"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 51'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-90"
+    status: needs_reading
+    title: "poprawka 53"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 230, Przeciw 201"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 53'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-91"
+    status: needs_reading
+    title: "poprawka 54"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 228, Przeciw 199"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 54'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-92"
+    status: needs_reading
+    title: "poprawki nr 55-56"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 231, Przeciw 202"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 55-56'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-93"
+    status: needs_reading
+    title: "poprawka 58"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 228, Przeciw 201"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 58'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-94"
+    status: needs_reading
+    title: "poprawka 59"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 230, Przeciw 200"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 59'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-95"
+    status: needs_reading
+    title: "poprawka 60"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 229, Przeciw 197"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 60'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-96"
+    status: needs_reading
+    title: "poprawka 61"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 231, Przeciw 199"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 61'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-97"
+    status: needs_reading
+    title: "poprawka 62"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 226, Przeciw 200"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 62'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-98"
+    status: needs_reading
+    title: "poprawka 63"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 230, Przeciw 199"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 63'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-58-99"
+    status: needs_reading
+    title: "poprawka 64"
+    on: "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)"
+    dated: "2026-05-29"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 229, Przeciw 201"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 64'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). The bill's direction (10/2111: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-61-40"
+    status: draft
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 14 Pierwsze czytanie poselskiego projektu ustawy o zmianie ustawy - Kodeks pracy (druk nr 2623) - kontynuacja"
+    dated: "2026-07-03"
+    chamber: "sejm"
+    areas: [5]
+    tier: 1
+    watched: "10/2623"
+    result: "Za 237, Przeciw 195"
+    vote_kind: "reject"
+    yea: -2
+    why_yea: "Voted Za on 10/2623 (Kodeks pracy: repeals the duty to use gender-neutral job titles in job adverts): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/2623 (Kodeks pracy: repeals the duty to use gender-neutral job titles in job adverts): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 5 (sex-based rights). Bill direction on file for 10/2623 (a draft): passing it is WITH us -- Kodeks pracy: repeals the duty to use gender-neutral job titles in job adverts. This vote is a motion to reject the text (the sides are swapped), so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-63-29"
+    status: needs_reading
+    title: "poprawka 1"
+    on: "Pkt. 9 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2694, 2815 i 2815-A)"
+    dated: "2026-07-31"
+    chamber: "sejm"
+    areas: [7]
+    tier: 2
+    watched: "10/2694"
+    result: "Za 421, Przeciw 1, Abstain 21"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/2694: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-63-30"
+    status: needs_reading
+    title: "poprawka 2"
+    on: "Pkt. 9 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2694, 2815 i 2815-A)"
+    dated: "2026-07-31"
+    chamber: "sejm"
+    areas: [7]
+    tier: 2
+    watched: "10/2694"
+    result: "Za 410, Przeciw 19, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/2694: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-63-31"
+    status: needs_reading
+    title: "poprawki nr 3 i 5"
+    on: "Pkt. 9 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2694, 2815 i 2815-A)"
+    dated: "2026-07-31"
+    chamber: "sejm"
+    areas: [7]
+    tier: 2
+    watched: "10/2694"
+    result: "Za 264, Przeciw 183, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawki nr 3 i 5'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/2694: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-63-32"
+    status: needs_reading
+    title: "poprawka 7"
+    on: "Pkt. 9 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2694, 2815 i 2815-A)"
+    dated: "2026-07-31"
+    chamber: "sejm"
+    areas: [7]
+    tier: 2
+    watched: "10/2694"
+    result: "Za 197, Przeciw 240, Abstain 7"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 7'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/2694: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-63-33"
+    status: needs_reading
+    title: "poprawka 8"
+    on: "Pkt. 9 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2694, 2815 i 2815-A)"
+    dated: "2026-07-31"
+    chamber: "sejm"
+    areas: [7]
+    tier: 2
+    watched: "10/2694"
+    result: "Za 421, Przeciw 3, Abstain 20"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 8'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/2694: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-63-34"
+    status: needs_reading
+    title: "poprawka 9"
+    on: "Pkt. 9 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2694, 2815 i 2815-A)"
+    dated: "2026-07-31"
+    chamber: "sejm"
+    areas: [7]
+    tier: 2
+    watched: "10/2694"
+    result: "Za 204, Przeciw 237, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 9'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/2694: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-63-35"
+    status: needs_reading
+    title: "poprawka 10"
+    on: "Pkt. 9 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2694, 2815 i 2815-A)"
+    dated: "2026-07-31"
+    chamber: "sejm"
+    areas: [7]
+    tier: 2
+    watched: "10/2694"
+    result: "Za 419, Przeciw 2, Abstain 22"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 10'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/2694: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-63-36"
+    status: draft
+    title: "głosowanie nad całością projektu."
+    on: "Pkt. 9 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2694, 2815 i 2815-A)"
+    dated: "2026-07-31"
+    chamber: "sejm"
+    areas: [7]
+    tier: 2
+    watched: "10/2694"
+    result: "Za 249, Przeciw 6, Abstain 190"
+    vote_kind: "final"
+    yea: -2
+    why_yea: "Voted Za on 10/2694 (Second DSA implementation bill: UKE as the digital services coordinator, disinformation an): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/2694 (Second DSA implementation bill: UKE as the digital services coordinator, disinformation an): against passing it, with CitizenGO's position."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for 10/2694 (a draft): passing it is AGAINST us -- Second DSA implementation bill: UKE as the digital services coordinator, disinformation and illegal-content procedures. This vote is a vote on the whole text or the motion itself, so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-63-44"
+    status: needs_reading
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    on: "Pkt. 22 Pierwsze czytanie obywatelskiego projektu ustawy o ochronie bezpieczeństwa wewnętrznego w związku z realizacją polityki migracyjnej Unii Europejskiej (druk nr 2602)"
+    dated: "2026-07-31"
+    chamber: "sejm"
+    areas: [11]
+    tier: 1
+    watched: "10/2602"
+    result: "Za 247, Przeciw 199"
+    vote_kind: "reject"
+    read_first: "A motion to reject the text (the sides are swapped), but no bill direction is on file for 10/2602: CitizenGO's position on 'Pkt. 22 Pierwsze czytanie obywatelskiego projektu ustawy o ochronie bezpieczeństwa wewnętrznego w związku z realizacją polityki migracyjnej ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-64-63"
+    status: needs_reading
+    title: "poprawka 1"
+    on: "Pkt. 27 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o świadczeniu usług drogą elektroniczną oraz niektórych innych ustaw (druki nr 2993 i 3016)"
+    dated: "2026-09-04"
+    chamber: "sejm"
+    areas: [7]
+    tier: 2
+    watched: "10/2694"
+    result: "Za 0, Przeciw 409, Abstain 21"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('poprawka 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (10/2694: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-65-10"
+    status: draft
+    title: "głosowanie nad ponownym uchwaleniem ustawy"
+    on: "Pkt. 27 Sprawozdanie Komisji o wniosku Prezydenta Rzeczypospolitej Polskiej o ponowne rozpatrzenie ustawy z dnia 29 maja 2026 r. o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (dru"
+    dated: "2026-09-17"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2110"
+    result: "Za 232, Przeciw 199"
+    vote_kind: "final"
+    yea: -2
+    why_yea: "Voted Za on 10/2110 (O statusie osoby najbliższej (government): registered cohabitation contracts): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/2110 (O statusie osoby najbliższej (government): registered cohabitation contracts): against passing it, with CitizenGO's position."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 10/2110 (a draft): passing it is AGAINST us -- O statusie osoby najbliższej (government): registered cohabitation contracts. Passed 29 May 2026 (230 to 198); the President asked the Sejm to reconsider it. This vote is a vote on the whole text or the motion itself, so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "pl-10-65-11"
+    status: draft
+    title: "głosowanie nad ponownym uchwaleniem ustawy"
+    on: "Pkt. 28 Sprawozdanie Komisji o wniosku Prezydenta Rzeczypospolitej Polskiej o ponowne rozpatrzenie ustawy z dnia 29 maja 2026 r. - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku"
+    dated: "2026-09-17"
+    chamber: "sejm"
+    areas: [9]
+    tier: 1
+    watched: "10/2111"
+    result: "Za 232, Przeciw 200"
+    vote_kind: "final"
+    yea: -2
+    why_yea: "Voted Za on 10/2111 (Implementing act for 10/2110): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/2111 (Implementing act for 10/2110): against passing it, with CitizenGO's position."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 10/2111 (a draft): passing it is AGAINST us -- Implementing act for 10/2110. This vote is a vote on the whole text or the motion itself, so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"

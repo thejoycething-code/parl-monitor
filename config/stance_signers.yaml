@@ -1,0 +1,32 @@
+# Who may confirm a 5CA reading, per country (src/country5ca.py).
+#
+# Chris ("Christopher" or "Chris") may always confirm, for every country. A
+# country team member confirms only once named here: `tools/country_5ca.py
+# --confirm ... --by NAME` and `--sign-from-doc --by NAME` refuse anyone else.
+# The handover (docs/country-parity-handover.md, item 2) asks Chris who signs
+# off per country; country teams are the natural owners. Every list is empty
+# until he names them. Write names exactly as they should appear in
+# `confirmed_by:`.
+
+signers:
+  it: []   # Italy
+  ch: []   # Switzerland
+  fr: []   # France
+  nl: []   # Netherlands
+  be: []   # Belgium
+  pl: []   # Poland
+  hr: []   # Croatia
+  sk: []   # Slovakia
+  es: []   # Spain
+  br: []   # Brazil
+  ar: []   # Argentina
+  mx: []   # Mexico
+  hu: []   # Hungary
+  at: []   # Austria
+  pt: []   # Portugal
+  cl: []   # Chile
+  pe: []   # Peru
+  ec: []   # Ecuador
+  do: []   # Dominican Republic
+  sv: []   # El Salvador
+  gt: []   # Guatemala

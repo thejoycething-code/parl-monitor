@@ -1,0 +1,27 @@
+# Croatia 5CA: readings to sign
+
+Drafted by `tools/country_5ca.py` (src/country5ca.py) from the store's watched and tier-1 votes, by rules, never by a model. **Nothing here places anyone until a named person confirms it.**
+
+**How to sign.** Tick `[x]` on each reading you accept as drafted, then run `python3 tools/country_5ca.py --cc hr --sign-from-doc --by NAME` (it sets `status: confirmed` with `confirmed_by` and `confirmed_on` in `config/hr_stance.yaml`). To change a value, edit the stance file first. A reading that needs reading has no box: write `yea:`/`nay:` in the stance file, set `status: draft`, then confirm it.
+
+Counts: 0 proposed, 0 procedural (evidence only), 12 need reading, 0 confirmed.
+
+## Needs reading (no box: write the values first)
+
+- `hr-11-214487` 2026-05-15 KONAČNI PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, drugo čitanje, P.Z.E. br. 262 - predlagate [final]: A vote on the whole text or the motion itself, but no bill direction is on file for 11/262, item:214487: CitizenGO's position on 'KONAČNI PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, drugo čitanje, P.Z.E. 
+- `hr-11-214348` 2026-04-30 PRIJEDLOG ZAKONA O DOPUNI OBITELJSKOG ZAKONA, prvo čitanje, P.Z. br. 244 - predlagatelj: Klub zastupnika SDP-a [inverted]: A vote whose Yes rejects the text (the record says so), but no bill direction is on file for 11/244, item:214348: CitizenGO's position on 'PRIJEDLOG ZAKONA O DOPUNI OBITELJSKOG ZAKONA, prvo čitanje, P.Z. br. 244 - predla
+- `hr-11-214240` 2026-03-27 PRIJEDLOG ODLUKE O OSNIVANJU ISTRAŽNOG POVJERENSTVA ZA UTVRĐIVANJE INSTITUCIONALNIH PROPUSTA U SUSTAVU ZAŠTITE [other]: The kind of vote could not be read from its wording ('PRIJEDLOG ODLUKE O OSNIVANJU ISTRAŽNOG POVJERENSTVA ZA UTVRĐIVANJE INSTITUCIONALNIH PROPUSTA U SUSTAVU ZAŠTITE OD NASILJ'): read the question put, then write yea/nay.
+- `hr-11-214304` 2026-03-06 KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA [final]: A vote on the whole text or the motion itself, but no bill direction is on file for 11/228, item:214304: CitizenGO's position on 'KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA Z
+- `hr-11-214147` 2026-03-06 PRIJEDLOG ZAKONA O DIGITALNOJ ZAŠTITI DJECE, prvo čitanje, P.Z. br. 213 - predlagatelj: Klub zastupnika Možemo [inverted]: A vote whose Yes rejects the text (the record says so), but no bill direction is on file for 11/213, item:214147: CitizenGO's position on 'PRIJEDLOG ZAKONA O DIGITALNOJ ZAŠTITI DJECE, prvo čitanje, P.Z. br. 213 - predlag
+- `hr-11-214280` 2026-02-20 PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, prvo čitanje, P.Z.E. br. 262 - predlagateljica: Vl [final]: A vote on the whole text or the motion itself, but no bill direction is on file for 11/262, item:214280: CitizenGO's position on 'PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, prvo čitanje, P.Z.E. br. 262 -
+- `hr-11-214089` 2025-12-05 PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARN [final]: A vote on the whole text or the motion itself, but no bill direction is on file for 11/228, item:214089: CitizenGO's position on 'PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJS
+- `hr-11-213747` 2025-10-24 PRIJEDLOG ZAKONA O IZMJENI I DOPUNI ZAKONA O RAVNOPRAVNOSTI SPOLOVA, prvo čitanje, P.Z. br. 169 - predlagatelj [inverted]: A vote whose Yes rejects the text (the record says so), but no bill direction is on file for 11/169, item:213747: CitizenGO's position on 'PRIJEDLOG ZAKONA O IZMJENI I DOPUNI ZAKONA O RAVNOPRAVNOSTI SPOLOVA, prvo čitanje
+- `hr-11-213442` 2025-03-28 KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. [final]: A vote on the whole text or the motion itself, but no bill direction is on file for 11/53, item:213442: CitizenGO's position on 'KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 
+- `hr-11-213382` 2025-02-21 KONAČNI PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, drugo čitanje, P.Z.E. br. 63 - predlagatel [final]: A vote on the whole text or the motion itself, but no bill direction is on file for 11/63, item:213382: CitizenGO's position on 'KONAČNI PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, drugo čitanje, P.Z.E. b
+- `hr-11-213008` 2024-10-25 PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, prvo čitanje, P.Z.E. br. 63 - predlagateljica: Vla [final]: A vote on the whole text or the motion itself, but no bill direction is on file for 11/63, item:213008: CitizenGO's position on 'PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, prvo čitanje, P.Z.E. br. 63 - p
+- `hr-11-212876` 2024-10-11 PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDIN [final]: A vote on the whole text or the motion itself, but no bill direction is on file for 11/53, item:212876: CitizenGO's position on 'PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LIST
+
+## Bill directions on file (inputs to the drafts; they place nobody)
+
+- `11/41` with: Withdrawal from the Istanbul Convention (repeal of the ratification act). Private member's bill, Marijan Pavlicek; on the agenda of every session since the 2nd, never debated. (draft)
+

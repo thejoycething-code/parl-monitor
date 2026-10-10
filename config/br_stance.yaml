@@ -1,0 +1,227 @@
+# Brazil: what a recorded vote MEANS for CitizenGO, for the 5CA.
+#
+# Written by tools/country_5ca.py (src/country5ca.py), the 5CA-with-sign-off
+# layer of docs/country-parity-handover.md (item 2), 10 October 2026. The
+# rule is Canada's: which lobby is CitizenGO's is a HUMAN judgement, and
+# nothing places anyone until a named person has confirmed it.
+#
+# status:
+#   draft          proposed by the drafter's rules (or by Claude): unsigned,
+#                  places nobody.
+#   needs_reading  no direction proposed: the drafter could not tell which
+#                  side is ours without reading the text. A person writes
+#                  `yea:`/`nay:` (and why lines), then confirms.
+#   confirmed      signed: `confirmed_by:` (a named person) and
+#                  `confirmed_on:` (the date) are both required, or it still
+#                  counts as unsigned.
+#
+# To confirm: tick the box in docs/5ca-br-readings.md and run
+#   python3 tools/country_5ca.py --cc br --sign-from-doc --by NAME
+# or confirm by key:
+#   python3 tools/country_5ca.py --cc br --confirm KEY [KEY ...] --by NAME
+# To strike a reading for good, write `placeable: false` and a `reason:`.
+#
+# bill_directions: whether PASSING a bill or motion is with CitizenGO
+# (`with`) or against it (`against`). Drafted by Claude on 10 October 2026
+# from each watchlist entry's own description, never from a model call; a
+# bill with no line gets no proposed values. Edit or add lines here: the
+# next --draft uses them for NEW votes (an existing entry is never
+# rewritten).
+#
+# divisions: one entry per watched or tier-1 vote, appended by --draft.
+# Keys are the store's division keys. `yea:`/`nay:` are the stance (-2..2)
+# of voting Yes / No as the chamber records it (Sim / Não). An
+# abstention never places anyone. Keep `divisions:` the LAST section: the
+# drafter appends to the end of this file.
+
+
+bill_directions:
+  - key: "PL 1904/2024"
+    direction: with
+    status: draft
+    areas: [1]
+    why: "Equates abortion after 22 weeks of gestation with homicide, including after rape. The ementa only cites arts. 124-128 of the Penal Code; 'aborto' is in the Câmara's keywords."
+    drafted: "Claude, 10 October 2026, from config/watchlist-br.yaml"
+  - key: "PEC 164/2012"
+    direction: with
+    status: draft
+    areas: [1]
+    why: "Constitutional amendment: inviolability of the right to life from conception, in the head of art. 5. The ementa says only 'new wording for the head of art. 5'. Voted in the CCJC in 2024."
+    drafted: "Claude, 10 October 2026, from config/watchlist-br.yaml"
+  - key: "PL 478/2007"
+    direction: with
+    status: draft
+    areas: [1]
+    why: "Estatuto do Nascituro (Statute of the Unborn Child)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-br.yaml"
+  - key: "PL 5167/2009"
+    direction: with
+    status: draft
+    areas: [9]
+    why: "Bars recognising same-sex unions as marriage; approved by the family committee (CPASF) in October 2023. The ementa only cites art. 1,521 of the Civil Code."
+    drafted: "Claude, 10 October 2026, from config/watchlist-br.yaml"
+  - key: "PL 580/2007"
+    direction: against
+    status: draft
+    areas: [9]
+    why: "Civil contract of 'união homoafetiva'; PL 5167/2009 was attached to it."
+    drafted: "Claude, 10 October 2026, from config/watchlist-br.yaml"
+  - key: "PL 6583/2013"
+    direction: with
+    status: draft
+    areas: [9]
+    why: "Estatuto da Família: defines the family entity."
+    drafted: "Claude, 10 October 2026, from config/watchlist-br.yaml"
+  - key: "PL 7180/2014"
+    direction: with
+    status: draft
+    areas: [6]
+    why: "Escola sem Partido (original bill). The ementa only cites art. 3 of the education law (LDB)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-br.yaml"
+  - key: "PL 246/2019"
+    direction: with
+    status: draft
+    areas: [6]
+    why: "Programa Escola sem Partido (2019 bill)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-br.yaml"
+  - key: "PL 1338/2022"
+    direction: with
+    status: draft
+    areas: [6]
+    why: "Home education (educação domiciliar). Passed the Câmara in 2022 as PL 3179/2012 and renumbered on reaching the Senate."
+    drafted: "Claude, 10 October 2026, from config/watchlist-br.yaml"
+  - key: "PL 2630/2020"
+    direction: against
+    status: draft
+    areas: [7]
+    why: "The 'PL das Fake News': platform regulation. Its ementa ('Liberdade, Responsabilidade e Transparência na Internet') carries no term."
+    drafted: "Claude, 10 October 2026, from config/watchlist-br.yaml"
+  - key: "PEC 5/2023"
+    direction: with
+    status: draft
+    areas: [8]
+    why: "Extends tax immunity for religious organisations (art. 150 of the Constitution). Eight nominal votes in the Câmara, 2023-26."
+    drafted: "Claude, 10 October 2026, from config/watchlist-br.yaml"
+
+divisions:
+
+  # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
+  - key: "camara-2351506-102"
+    status: draft
+    title: "Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1; Total: 472."
+    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    dated: "2026-05-28"
+    chamber: "camara"
+    areas: [8]
+    tier: 2
+    watched: "PEC 5/2023"
+    result: "approved; Sim 467, Não 4, Abstain 2"
+    lobbies: "Sim: PL 96, PT 56, PSD 46, UNIÃO 44, REPUBLICANOS 40, PP 37, MDB 32, PODE 26, PSDB 18, PSB 15, PSOL 12, PCdoB 10, PDT 7, SOLIDARIEDADE 6, PV 6, AVANTE 5, NOVO 4, REDE 3, CIDADANIA 2, PRD 2. Não: MISSÃO 1, PCdoB 1, PDT 1, PSB 1. Abstain: PSB 1"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1; Total: 472.): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 8 (religious freedom). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camara-2351506-104"
+    status: draft
+    title: "Aprovada, em primeiro turno, a Proposta de Emenda à Constituição nº 5, de 2023, na forma da Emenda Aglutinativa Substitutiva nº 3. Sim: 385; Não: 93; Abstenção: 7; Total: 485."
+    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    dated: "2026-05-28"
+    chamber: "camara"
+    areas: [8]
+    tier: 2
+    watched: "PEC 5/2023"
+    result: "approved; Sim 385, Não 93, Abstain 8"
+    lobbies: "Sim: PL 96, PSD 46, UNIÃO 45, REPUBLICANOS 42, PP 37, MDB 31, PODE 26, PSDB 16, PSB 12, PDT 8, SOLIDARIEDADE 6, NOVO 5, AVANTE 5, PCdoB 4, CIDADANIA 2, PRD 2, PV 1, PT 1. Não: PT 58, PSOL 12, PCdoB 5, PV 5, MDB 4, PSB 3, PP 1, PSD 1, PSDB 1, REDE 1, MISSÃO 1, PDT 1. Abstain: REDE 2, PT 2, PSB 1, PCdoB 1, MDB 1"
+    vote_kind: "final"
+    yea: 2
+    why_yea: "Voted Sim on PEC 5/2023 (Extends tax immunity for religious organisations (art): for passing it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Não on PEC 5/2023 (Extends tax immunity for religious organisations (art): against passing it, against CitizenGO's position."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for PEC 5/2023 (a draft): passing it is WITH us -- Extends tax immunity for religious organisations (art. 150 of the Constitution). Eight nominal votes in the Câmara, 2023-26. This vote is a vote on the whole text or the motion itself, so Sim is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camara-2351506-108"
+    status: needs_reading
+    title: "Mantido o texto. Sim: 340; Não: 110; Abstenção: 7; Total: 457."
+    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    dated: "2026-05-28"
+    chamber: "camara"
+    areas: [8]
+    tier: 2
+    watched: "PEC 5/2023"
+    result: "Sim 340, Não 110, Abstain 8"
+    lobbies: "Sim: PL 92, PSD 42, REPUBLICANOS 38, UNIÃO 37, PP 35, PODE 26, MDB 17, PSDB 15, PSB 12, PDT 7, SOLIDARIEDADE 5, AVANTE 5, NOVO 4, PCdoB 2, CIDADANIA 1, PRD 1, PV 1. Não: PT 55, MDB 14, PSOL 12, PCdoB 8, PSD 4, PV 4, PSB 3, PP 3, PSDB 2, CIDADANIA 1, REDE 1, MISSÃO 1, PDT 1, UNIÃO 1. Abstain: REDE 2, PSB 1, PT 1, UNIÃO 1, SOLIDARIEDADE 1, MDB 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Mantido o texto. Sim: 340; Não: 110; Abstenção: 7; Total: 457.'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 8 (religious freedom). The bill's direction (PEC 5/2023: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camara-2351506-112"
+    status: needs_reading
+    title: "Mantido o texto. Sim: 342; Não: 113; Abstenção: 5; Total: 460."
+    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    dated: "2026-05-28"
+    chamber: "camara"
+    areas: [8]
+    tier: 2
+    watched: "PEC 5/2023"
+    result: "Sim 342, Não 113, Abstain 6"
+    lobbies: "Sim: PL 92, PSD 41, UNIÃO 39, REPUBLICANOS 38, PP 37, PODE 26, MDB 17, PSDB 14, PSB 11, PDT 7, SOLIDARIEDADE 6, AVANTE 5, NOVO 4, PCdoB 2, PV 1, CIDADANIA 1, PRD 1. Não: PT 59, MDB 15, PSOL 12, PCdoB 6, PSD 5, PV 5, PSB 3, PP 2, PSDB 2, CIDADANIA 1, REDE 1, MISSÃO 1, PDT 1. Abstain: REDE 2, PSB 1, PT 1, MDB 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Mantido o texto. Sim: 342; Não: 113; Abstenção: 5; Total: 460.'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 8 (religious freedom). The bill's direction (PEC 5/2023: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camara-2351506-115"
+    status: needs_reading
+    title: "Mantido o texto. Sim: 335; Não: 117; Abstenção: 5; Total: 457."
+    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    dated: "2026-05-28"
+    chamber: "camara"
+    areas: [8]
+    tier: 2
+    watched: "PEC 5/2023"
+    result: "Sim 335, Não 117, Abstain 6"
+    lobbies: "Sim: PL 92, UNIÃO 42, PSD 40, REPUBLICANOS 37, PP 35, PODE 26, MDB 15, PSDB 13, PSB 10, PDT 7, SOLIDARIEDADE 5, AVANTE 5, NOVO 4, PCdoB 2, CIDADANIA 1, PRD 1. Não: PT 60, MDB 17, PSOL 12, PCdoB 7, PSD 5, PV 5, PSB 4, PSDB 3, PP 2, REDE 1, PDT 1. Abstain: REDE 2, PSB 1, PT 1, MDB 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Mantido o texto. Sim: 335; Não: 117; Abstenção: 5; Total: 457.'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 8 (religious freedom). The bill's direction (PEC 5/2023: with) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camara-2351506-122"
+    status: draft
+    title: "Aprovada, em segundo turno, a Proposta de Emenda à Constituição n° 5, de 2023. Sim: 368; Não: 96; Abstenção: 7; Total: 471."
+    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    dated: "2026-05-28"
+    chamber: "camara"
+    areas: [8]
+    tier: 2
+    watched: "PEC 5/2023"
+    result: "approved; Sim 368, Não 96, Abstain 8"
+    lobbies: "Sim: PL 95, UNIÃO 42, PSD 42, REPUBLICANOS 40, PP 37, MDB 30, PODE 26, PSDB 17, PSB 11, PDT 7, SOLIDARIEDADE 6, AVANTE 5, NOVO 4, PCdoB 3, PV 1, CIDADANIA 1, PRD 1. Não: PT 60, PSOL 11, PCdoB 5, PV 5, PSB 3, MDB 3, PSD 2, UNIÃO 2, PP 1, PSDB 1, REDE 1, MISSÃO 1, PDT 1. Abstain: REDE 2, PT 2, PSB 1, PCdoB 1, MDB 1"
+    vote_kind: "final"
+    yea: 2
+    why_yea: "Voted Sim on PEC 5/2023 (Extends tax immunity for religious organisations (art): for passing it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Não on PEC 5/2023 (Extends tax immunity for religious organisations (art): against passing it, against CitizenGO's position."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for PEC 5/2023 (a draft): passing it is WITH us -- Extends tax immunity for religious organisations (art. 150 of the Constitution). Eight nominal votes in the Câmara, 2023-26. This vote is a vote on the whole text or the motion itself, so Sim is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camara-2351506-95"
+    status: draft
+    title: "Rejeitado o Requerimento. Sim: 102; Não: 322; Abstenção: 1; Total: 425."
+    on: "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    dated: "2026-05-28"
+    chamber: "camara"
+    areas: [8]
+    tier: 2
+    watched: "PEC 5/2023"
+    result: "rejected; Sim 102, Não 322, Abstain 2"
+    lobbies: "Sim: PT 57, PSOL 12, PCdoB 10, PV 5, PSB 3, PP 3, PSD 3, REDE 2, PDT 2, MDB 2, PL 1, REPUBLICANOS 1, MISSÃO 1. Não: PL 87, PSD 39, REPUBLICANOS 38, UNIÃO 37, PP 28, MDB 25, PODE 23, PSDB 17, PSB 9, SOLIDARIEDADE 5, AVANTE 5, NOVO 4, PDT 3, CIDADANIA 1, PRD 1. Abstain: MDB 1"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Rejeitado o Requerimento. Sim: 102; Não: 322; Abstenção: 1; Total: 425.): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 8 (religious freedom). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
