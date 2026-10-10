@@ -39,7 +39,9 @@ Le collocazioni derivano solo da letture confermate da una persona indicata per 
 
 ## Probabili oratori
 
-La fonte non pubblica l'elenco degli oratori prima del dibattito. Quando lo fa, rigenerare il dossier con --speakers "Nome; Nome"; fino ad allora leggere prima i membri da seguire qui sotto.
+Indicati per questo dibattito:
+- **Lucio Malan** (FdI; Favorevole (2026-06-03))
+- **Alfredo Bazoli** (PD-IDP; Contrario (2026-06-03))
 
 ## Membri da seguire
 

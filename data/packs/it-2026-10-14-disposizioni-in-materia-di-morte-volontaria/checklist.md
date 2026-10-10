@@ -62,4 +62,18 @@ NOTE:
 ### group: Misto
 - voti: 2026-06-03, Votazione questione sospensiva: Contrario 2
 ONSIDE: 
+NOTE: 
+
+## Membri
+
+### member: Lucio Malan
+- Gruppo: FdI
+- Su questo atto: Favorevole (2026-06-03)
+ONSIDE: 
+NOTE: 
+
+### member: Alfredo Bazoli
+- Gruppo: PD-IDP
+- Su questo atto: Contrario (2026-06-03)
+ONSIDE: 
 NOTE:
