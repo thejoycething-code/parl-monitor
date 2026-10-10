@@ -481,7 +481,9 @@ it changed (a one-byte request reads Last-Modified, ETag and size first;
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
-Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/fr_stance.yaml` holds 7 bill direction(s) (Claude's drafts from the watchlist) and 1050 vote reading(s): 10 with proposed values, 0 procedural, 1040 need reading, 0 confirmed. Guide: `docs/5ca-fr-readings.md`; confirm with `python3 tools/country_5ca.py --cc fr --sign-from-doc --by NAME`. Sheets (`data/5ca/fr-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for France (`config/stance_signers.yaml`). 1,040 of the 1,050 drafts are amendments and articles of the aide a mourir law: each needs its text read before it can place anyone.
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/fr_stance.yaml` holds 7 bill direction(s) (Claude's drafts from the watchlist) and 13 vote reading(s): 10 with proposed values, 0 procedural, 3 need reading, 0 confirmed. Guide: `docs/5ca-fr-readings.md`; confirm with `python3 tools/country_5ca.py --cc fr --sign-from-doc --by NAME`. Sheets (`data/5ca/fr-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for France (`config/stance_signers.yaml`).
+
+**Sign-off scope (Chris, 10 October 2026): final votes and watched amendments only.** France's sign-off covers votes on the whole text and motions to reject it (and procedure about the whole text); an amendment or article vote is drafted only when listed under its dossier's `amendments:` in `config/watchlist-fr.yaml`, by division key (`an-17-1773`) or amendment number (`"n° 3"`, any vote in that dossier on that number). The first drafts had held 1,050 readings, 1,037 of them amendments and articles of the aide a mourir law; `tools/country_5ca.py --cc fr --prune-out-of-scope` removed those 1,037 (all unsigned and untouched; a confirmed or hand-edited entry is never removed). No amendment is watched yet. Branch `fr-signoff-scope`.
 
 
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
@@ -502,3 +504,7 @@ hand with `--speakers` (matched to the member list) once known. Placements come 
 readings confirmed in `config/fr_stance.yaml`; none is confirmed yet, so every pack shows
 "en attente de validation" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/fr.json` (`src/country_vote_brief.py`, step in `jobs/fr-weekly.sh`). Briefed after each weekly collection. Not daily: the Assemblée publishes its scrutins only as one 27 MB nightly zip, and reading only its newest members by HTTP range is unsafe (on 10 October its CDN served two builds of the file, 26,987,736 and 26,960,828 bytes, to successive range requests). See docs/mac-mini.md, "Vote briefs for the new countries".

@@ -139,10 +139,20 @@ def group_split(raw):
     return {g: list(v[:3]) for g, v in got.items() if isinstance(v, list)}
 
 
+def positions(conn, dkey):
+    return [(r["name"], r["party"], r["position"]) for r in ce.rows(
+        conn, "SELECT m.name, v.party, v.position FROM mx_votes v LEFT JOIN mx_members m "
+              "USING (member_key) WHERE v.division_key=?", (dkey,))]
+
+
 def rebels(conn, dkey):
-    got = ce.rows(conn, "SELECT m.name, v.party, v.position FROM mx_votes v LEFT JOIN mx_members m "
-                        "USING (member_key) WHERE v.division_key=?", (dkey,))
-    return ce.rebels([(r["name"], r["party"], r["position"]) for r in got], YES, NO)
+    return ce.rebels(positions(conn, dkey), YES, NO)
+
+
+def _brief_positions(conn, dkey):
+    """The same-day vote brief's fields (src/country_vote_brief.py)."""
+    pos = positions(conn, dkey)
+    return {"positions": pos or None, "rebels": ce.rebels(pos, YES, NO) if pos else None}
 
 
 def items(conn, since, until, wl):
@@ -176,7 +186,8 @@ def items(conn, since, until, wl):
              ce.split_line(group_split(d["groups"]), "By group"),
              ce.members_line(d["positions"], rebels(conn, d["division_key"]))],
             url=SITL_VOTE.format(d["votaciont"]) if d["legislature"] == 66 else None, terms=terms, refs=refs,
-            takeaway=take, own=bool(ce.areas_of(d["own_areas"])), watch_key=wkey))
+            takeaway=take, own=bool(ce.areas_of(d["own_areas"])), watch_key=wkey,
+            **_brief_positions(conn, d["division_key"])))
     for r in inis.values():
         watched = r["ini_key"] in wl
         if not ce.on_ground(r["areas"], watched):

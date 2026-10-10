@@ -209,7 +209,7 @@ divisions:
   - key: "56/95/21"
     status: draft
     title: "Voorstel tot verwerping door de commissie voor Binnenlandse Zaken, Veiligheid, Migratie en Bestuurszaken van het wetsvoorstel betreffende de objectieve neutraliteit van de personeelsleden van het federaal openbaar ambt, waarbij het hun verb"
-    on: "Wetsvoorstel betreffende de objectieve neutraliteit van de personeelsleden van het federaal openbaar ambt, waarbij het hun verboden is bij de uitoefening van hun ambt zichtbare tekens van een geloofs-"
+    "on": "Wetsvoorstel betreffende de objectieve neutraliteit van de personeelsleden van het federaal openbaar ambt, waarbij het hun verboden is bij de uitoefening van hun ambt zichtbare tekens van een geloofs-"
     dated: "2026-02-26"
     chamber: "kamer"
     areas: [8, 11]
@@ -228,7 +228,7 @@ divisions:
   - key: "56/131/27"
     status: draft
     title: "Voorstel tot verwerping door de commissie voor Justitie van het wetsvoorstel tot wijziging van de regelgeving met betrekking tot de vrijwillige zwangerschapsafbreking (40/1-2)"
-    on: "Ontwerp tot wijziging van de regelgeving met betrekking tot de vrijwillige zwangerschapsafbreking."
+    "on": "Ontwerp tot wijziging van de regelgeving met betrekking tot de vrijwillige zwangerschapsafbreking."
     dated: "2026-06-25"
     chamber: "kamer"
     areas: [1]
@@ -246,7 +246,7 @@ divisions:
   - key: "56/143/4"
     status: needs_reading
     title: "Aangehouden amendement en artikel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof (nieuw opschrift) (1338/1-9)"
-    on: "Wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof."
+    "on": "Wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof."
     dated: "2026-10-08"
     chamber: "kamer"
     areas: [2]
@@ -261,7 +261,7 @@ divisions:
   - key: "56/143/5"
     status: draft
     title: "Geheel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof (nieuw opschrift) (1338/6)"
-    on: "Wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof."
+    "on": "Wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof."
     dated: "2026-10-08"
     chamber: "kamer"
     areas: [2]

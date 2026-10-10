@@ -241,6 +241,22 @@ sheet and the checkbox format are `src/readings5ca.py`'s, unchanged.
   owners). `readings5ca.status` now reads this `status:` field (additive:
   files without it read as before), so a `confirmed` entry with no name or
   date is still a draft everywhere, the vote briefs included.
+* **The sign-off scope** (Chris, 10 October 2026). A spec may limit what is
+  drafted for sign-off (`Spec.scope`; none means every qualifying vote, as
+  for every country but France). France's is `final_or_watched`: votes on
+  the whole text, motions to reject it and inverted votes; procedure only
+  when its wording is about the whole text; and amendment or article votes
+  only when listed under their dossier's `amendments:` in
+  `config/watchlist-fr.yaml`, by division key (exact) or by amendment number
+  as the Assemblee words it (any vote in that dossier on that number). The
+  drafter skips the rest and counts them. `--prune-out-of-scope`
+  (`--dry-run` to see first) removes out-of-scope entries that are unsigned
+  and untouched: stamped by the drafter, no yea/nay or why lines, no
+  `confirmed_by`, no `placeable: false` but the drafter's own procedural
+  one, no comment inside the entry. Everything else is kept and reported,
+  and the edit is checked to leave every kept entry exactly as it was.
+  France, 10 October: 1,050 entries to 13 (10 proposed, 3 need reading);
+  1,037 amendment and article drafts removed, none kept.
 * **The sheets** (`--sheets`, `data/5ca/<cc>-5ca-<chamber>-<area>.csv`) are
   written only for a chamber and area with a confirmed reading that places
   someone, and removed when that stops being true, so no unconfirmed stance
@@ -260,7 +276,8 @@ Initial drafts (10 October 2026), from the 9-10 October scoping and edition
 stores (the published store held no rows for these countries yet): 2,012
 entries in 18 countries, 71 with proposed values, 43 procedural, 1,898 need
 reading, none confirmed. France alone is 1,050, nearly all amendments to the
-aide a mourir law: each needs its text read. Peru, El Salvador and Guatemala
+aide a mourir law: each needs its text read. (France was cut to 13 the same day by
+the sign-off scope above: 975 entries in all.) Peru, El Salvador and Guatemala
 have bill directions but no qualifying votes in any store yet.
 
 
@@ -292,3 +309,54 @@ behind each decisive column).
 * English, as the UK 5CA pages; members and parties as each parliament
   names them. Weekly in `jobs/editions-session-judge.sh` after
   `country_5ca.py`; the Monday deploy ships the partner page.
+
+## Campaign targets and outcomes for the new countries (10 October 2026, branch `camp-targets`)
+
+`tools/country_campaign.py` (src/country_campaign.py) is the UK's
+`tools/ca_campaign.py` (the Evaluate phase, src/evaluate.py) and
+`tools/campaign_targets.py` for every country in `src/country5ca.COUNTRIES`.
+A campaign is one area in one chamber; its state is one JSON file,
+`data/campaigns/<cc>/<slug>.json`, committed by whoever runs the command. The
+store is read-only; nothing is fetched, posted or scheduled (manual only).
+
+* **open** snapshots every sitting member's placement from
+  `country5ca.build_rows`, so from CONFIRMED readings only. Before sign-off
+  every member is at 0 and the campaign is stored as "awaiting sign-off":
+  it holds no prediction. Re-opening the slug after sign-off retakes the
+  snapshot and keeps targets and outcomes.
+* **targets** suggests targets from confirmed placements only: `+` (secure),
+  `-` (move) and a mixed confirmed record. `++` are allies, `--` are not
+  expected to move, `0` has no confirmed evidence. Members who voted on the
+  area's unconfirmed votes are listed as candidates by vote record (how they
+  voted, in the chamber's words, by group), each "not a target until the
+  stance is confirmed", never ordered by an implied direction.
+* **add** records a person's choice (`--by NAME`). A member with no confirmed
+  placement needs `--reason` and is stored as "chosen by NAME, no confirmed
+  stance", never as a suggestion.
+* **find** searches the store's divisions and shows each one's reading
+  status; **outcome** records the vote and OUR side (`yes`/`no` as the
+  chamber records it). A side that contradicts a confirmed reading is
+  refused; with no confirmed reading the side is recorded as stated by the
+  person, and the score says so.
+* **score** reports with us, against, abstained (a recorded abstention only)
+  and did not vote (absent, on mission, present only), by placement group
+  and for the targets, with the UK's circularity warning; a snapshot taken
+  before sign-off gives counts only. `--csv` writes
+  `data/5ca/<cc>-5ca-evaluate-<slug>-<date>.csv`. DERIVED positions (AT,
+  PT, NL show of hands, X5) are counted and labelled.
+* **performance** joins petition numbers from `data/looker/<cc>_campaigns.tsv`,
+  the same Looker export as the UK's `en_gb_campaigns.tsv`
+  (docs/campaign-benchmarks.md) filtered on the country's list prefix: by a
+  campaign's `--petition` ids, then by area (the English keyword table of
+  `log_campaign_performance.py`, so foreign slugs may stay unmapped and are
+  counted), then members named in a petition. No country has an export yet,
+  and the command says so and prints the query and the file it expects.
+
+Sample (scratch config only, never committed): Italy, Camera, area 10, with
+the 2023 questione pregiudiziale on surrogacy as a universal crime confirmed
+at -1/+1 in a scratch copy. Open: 187 at +, 124 at -, 103 at 0; 311
+suggested targets. Outcome the final vote of 26 July 2023, our side
+Favorevole: 166 with us, 109 against, 4 abstained, 121 did not vote; the
+placement held for 251 of 252 members it tested (flagged circular: the vote
+predates the snapshot). Before sign-off the same campaign suggests nobody
+and lists 350 candidates by vote record over 42 unconfirmed votes.

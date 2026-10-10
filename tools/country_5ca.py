@@ -7,14 +7,23 @@
     python3 tools/country_5ca.py --cc pl --sign-from-doc --by Christopher
     python3 tools/country_5ca.py --cc pl --confirm pl-10-58-62 --by Christopher [--on 2026-10-10]
     python3 tools/country_5ca.py --cc pl --sheets            # data/5ca/pl-5ca-*.csv (confirmed only)
+    python3 tools/country_5ca.py --cc pl --confirm-direction 10/2110 --by Christopher
     python3 tools/country_5ca.py --all-countries --counts
+    python3 tools/country_5ca.py --cc fr --prune-out-of-scope [--dry-run]
     python3 tools/country_5ca.py --cc pl --draft --db /path/to/store.db
     python3 tools/country_5ca.py --draft --db-map stores.txt # "cc path" per line (initial drafts)
 
 Reads the store only, read-only; fetches nothing, posts nothing. Drafting is
 by rules (no AI call). Nothing it does confirms a reading: only --confirm and
 --sign-from-doc do, and both need a named person (--by), who must be Chris or
-listed for that country in config/stance_signers.yaml.
+listed for that country in config/stance_signers.yaml. --confirm-direction
+signs a bill's direction (`bill_directions`) the same way; the campaign briefs
+(tools/country_briefs.py) take their ask from it only once it is confirmed.
+
+--prune-out-of-scope removes the entries outside a country's sign-off scope
+(France: final votes, motions to reject and watched amendments only) that
+are unsigned and untouched; a confirmed or hand-edited entry is always kept
+and reported. It reads the stance file and the watchlist, not the store.
 
 Countries: {countries}.
 """
@@ -44,7 +53,12 @@ def main(argv=None):
     ap.add_argument("--signoff-doc", action="store_true", help="rewrite docs/5ca-<cc>-readings.md")
     ap.add_argument("--sheets", action="store_true", help="write the 5CA sheets (confirmed only)")
     ap.add_argument("--counts", action="store_true")
+    ap.add_argument("--prune-out-of-scope", action="store_true",
+                    help="remove unsigned, untouched entries outside the sign-off scope")
+    ap.add_argument("--dry-run", action="store_true", help="with --prune-out-of-scope: write nothing")
     ap.add_argument("--confirm", nargs="+", metavar="KEY")
+    ap.add_argument("--confirm-direction", nargs="+", metavar="BILL",
+                    help="confirm bill_directions entries (the campaign briefs' ask follows them)")
     ap.add_argument("--sign-from-doc", action="store_true")
     ap.add_argument("--by", help="the named person confirming")
     ap.add_argument("--on", help="the date of the confirmation (default today)")
@@ -69,22 +83,32 @@ def main(argv=None):
         ap.error("unknown country: {0} (have {1})".format(", ".join(bad), ", ".join(c5.COUNTRIES)))
     if not ccs:
         ap.error("--cc CC, --all-countries or --db-map")
-    if (args.confirm or args.sign_from_doc) and len(ccs) != 1:
+    if (args.confirm or args.sign_from_doc or args.confirm_direction) and len(ccs) != 1:
         ap.error("confirm one country at a time")
+    if args.confirm_direction:
+        c5.confirm_direction(ccs[0], args.confirm_direction, args.by, args.on)
+        return 0
     if args.confirm:
         c5.confirm(ccs[0], args.confirm, args.by, args.on)
         return 0
     if args.sign_from_doc:
         c5.sign_from_doc(ccs[0], args.by, args.on)
         return 0
-    if not (args.draft or args.signoff_doc or args.sheets or args.counts):
-        ap.error("say what to do: --draft, --signoff-doc, --sheets, --counts, --confirm "
-                 "or --sign-from-doc")
+    if not (args.draft or args.signoff_doc or args.sheets or args.counts
+            or args.prune_out_of_scope):
+        ap.error("say what to do: --draft, --signoff-doc, --sheets, --counts, --confirm, "
+                 "--sign-from-doc or --prune-out-of-scope")
+    if args.prune_out_of_scope:
+        for cc in ccs:
+            if os.path.exists(c5.stance_path(cc)):
+                c5.prune_out_of_scope(cc, dry_run=args.dry_run)
 
     rc = 0
     for cc in ccs:
         path = stores.get(cc, args.db)
         need_store = args.draft or args.sheets
+        if not (need_store or args.signoff_doc):
+            continue
         conn = None
         if need_store:
             if not os.path.exists(path):
@@ -104,7 +128,7 @@ def main(argv=None):
         finally:
             if conn is not None:
                 conn.close()
-    if args.counts or args.draft:
+    if args.counts or args.draft or args.prune_out_of_scope:
         print("\nconfig/<cc>_stance.yaml, by country (proposed / procedural / need reading / "
               "confirmed):")
         for cc in ccs:

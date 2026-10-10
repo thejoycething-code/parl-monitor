@@ -204,6 +204,12 @@ def _positions(conn, key):
 YES, NO, ABSTAIN = ("sí", "si"), ("no",), ("abstención", "abstencion")
 
 
+def _brief_positions(conn, r):
+    """The same-day vote brief's fields (src/country_vote_brief.py)."""
+    pos = [] if r["assent"] else _positions(conn, r["division_key"])
+    return {"positions": pos or None, "rebels": ce.rebels(pos, YES, NO) if pos else None}
+
+
 def vote_lines(conn, r):
     if r["assent"]:
         return ["Tally: agreed by assent, with no recorded vote."]
@@ -250,7 +256,8 @@ def divisions(conn, since, until, wl):
                                 date=_ddmmyyyy(r["date"])),
             takeaway=sentence(takeaway), group=("es", key), group_title=r["title"],
             final=is_final(r["subgroup"], r["title"]),
-            own=False if own is False else None, division=r["division_key"]))
+            own=False if own is False else None, division=r["division_key"],
+            **_brief_positions(conn, r)))
     return out
 
 
