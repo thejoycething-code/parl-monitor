@@ -52,6 +52,12 @@ FIRST RUN SEEDS. The first pass for a country records everything currently
 on the list and sends nothing, so switching alerts on never floods Chris
 with the backlog; a seeded pass says so in its log.
 
+A VOTE THE SAME-DAY VOTE BRIEF HAS SPOKEN FOR is not alerted again
+(10 October 2026, src/country_vote_brief.py): the brief runs first in each
+Latam weekly job, records each vote in data/vote-briefs/<cc>.json, and
+carries more (the party split, the members who broke from their party).
+A vote the brief has not recorded alerts as before.
+
 AT MOST --max (default 8) DMs a run; the rest go in one closing DM that
 counts them and points to the coming edition.
 
@@ -115,6 +121,19 @@ def save(ledger, today, directory=None):
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(ledger, fh, ensure_ascii=False, indent=1, sort_keys=True)
         fh.write("\n")
+
+
+VOTE_BRIEF_DIR = None   # data/vote-briefs (src/country_vote_brief.LEDGER_DIR) when None
+
+
+def briefed(it, cache):
+    """True for a vote the same-day vote brief has already sent."""
+    if it["kind"] != "vote":
+        return False
+    from src import country_vote_brief as cvb
+    if it["cc"] not in cache:
+        cache[it["cc"]] = cvb.load(it["cc"], VOTE_BRIEF_DIR)["sent"] if it["cc"] in cvb.LATAM else {}
+    return cvb.vote_id(it) in cache[it["cc"]]
 
 
 def alert_key(it):
@@ -212,7 +231,9 @@ def run(conn, countries, today, days=DEFAULT_DAYS, send=False, max_dms=DEFAULT_M
     for cc in countries:
         ledger = load(cc, directory)
         items = candidates(conn, cc, today, days, ledger, config_dir)
-        fresh = [it for it in items if alert_key(it) not in ledger["sent"]]
+        cache = {}
+        fresh = [it for it in items if alert_key(it) not in ledger["sent"]
+                 and not briefed(it, cache)]
         if not ledger["seeded"]:
             for it in items:
                 ledger["sent"][alert_key(it)] = today

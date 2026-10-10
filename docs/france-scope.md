@@ -502,3 +502,7 @@ hand with `--speakers` (matched to the member list) once known. Placements come 
 readings confirmed in `config/fr_stance.yaml`; none is confirmed yet, so every pack shows
 "en attente de validation" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/fr.json` (`src/country_vote_brief.py`, step in `jobs/fr-weekly.sh`). Briefed after each weekly collection. Not daily: the Assemblée publishes its scrutins only as one 27 MB nightly zip, and reading only its newest members by HTTP range is unsafe (on 10 October its CDN served two builds of the file, 26,987,736 and 26,960,828 bytes, to successive range requests). See docs/mac-mini.md, "Vote briefs for the new countries".

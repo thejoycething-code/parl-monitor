@@ -155,13 +155,12 @@ def _votes(conn, since, until, wl):
                 yes_m, "; a no: “{0}”.".format(no_m) if no_m else "."))
         elif no_m:
             lines.append("A no meant: “{0}”.".format(no_m))
+        reb = ce.rebels(pairs, POS_YES, POS_NO, skip=NO_LINE) if pairs else None
         if pairs:
             lines.append(ce.split_line(ce.group_counts([(g, p) for _, g, p in pairs],
                                                        POS_YES, POS_NO, POS_ABST),
                                        "By Fraktion"))
-            lines.append(ce.members_line(len(pairs), ce.rebels(pairs, POS_YES, POS_NO,
-                                                               skip=NO_LINE),
-                                         "Fraktion as printed on the vote."))
+            lines.append(ce.members_line(len(pairs), reb, "Fraktion as printed on the vote."))
         what = TYPES.get(r["business_type"], r["business_type"] or "business")
         take = "{0}, on {1} {2}".format(council, what[0].lower() + what[1:], key or "")
         if r["draft_title"]:
@@ -176,7 +175,8 @@ def _votes(conn, since, until, wl):
                            group="{0}:{1}".format(r["council"], key) if key else None,
                            group_title=title_of(r["title_de"], r["title_fr"]),
                            final=any(f in title.lower() for f in FINAL),
-                           watch_key=key if w else None))
+                           watch_key=key if w else None,
+                           positions=pairs or None, rebels=reb))
     return out
 
 

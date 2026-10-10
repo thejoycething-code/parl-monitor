@@ -74,10 +74,11 @@ def _votes(conn, since, until, wl):
                             "pl_members m USING (mp_key) WHERE v.division_key=?",
                             (r["division_key"],))
         pairs = [(v["name"] or "?", v["club"], v["position"]) for v in got]
+        reb = ce.rebels(pairs, POS_YES, POS_NO, skip=("niez.",)) if pairs else None
         if pairs:
             lines.append(ce.split_line(ce.group_counts([(c, p) for _, c, p in pairs],
                                                        POS_YES, POS_NO, POS_ABST), "By club"))
-            lines.append(ce.members_line(len(pairs), ce.rebels(pairs, POS_YES, POS_NO, skip=("niez.",)),
+            lines.append(ce.members_line(len(pairs), reb,
                                          "Clubs as the vote record names them."))
         else:
             lines.append("Deputies' positions not read yet; the collector reads them next run.")
@@ -92,7 +93,8 @@ def _votes(conn, since, until, wl):
                                ", on process " + ", ".join(procs) if procs else ""),
                            group=group, group_title=r["title"], refs=[r["title"]],
                            final=any(f in ce.noise_mod.fold(topic) for f in FINAL),
-                           own=bool(ce.areas_of(r["own_areas"])), watch_key=hit))
+                           own=bool(ce.areas_of(r["own_areas"])), watch_key=hit,
+                           positions=pairs or None, rebels=reb))
     return out
 
 

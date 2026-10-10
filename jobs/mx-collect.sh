@@ -60,6 +60,14 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
     python3 tools/mx_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
   fi
 fi
+# Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
+# this country's watched and tier-1 votes not briefed yet, written to
+# data/briefs/ and sent in one DM to Chris alone, de-duplicated in
+# data/vote-briefs/mx.json (committed with data/). Never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_vote_briefs.py --country mx --send \
+    || echo "  [gap] vote briefs failed for mx; the next run retries"
+fi
 # Campaign brief drafts (tools/country_briefs.py, src/country_briefs.py): a
 # draft RF4 brief in briefs/ for each new watched or tier-1 bill, NOT READY
 # until its stances are confirmed in config/mx_stance.yaml; unedited briefs

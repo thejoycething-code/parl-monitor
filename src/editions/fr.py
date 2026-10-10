@@ -146,12 +146,11 @@ def _votes(conn, since, until, wl):
                             (r["division_key"],))
         pairs = [(v["name"] or v["acteur_ref"], groups.get(v["group_ref"], v["group_ref"]), v["position"])
                  for v in got]
+        reb = ce.rebels(pairs, POS_YES, POS_NO, skip=NO_LINE) if pairs else None
         if pairs:
             lines.append(ce.split_line(ce.group_counts([(g, p) for _, g, p in pairs],
                                                        POS_YES, POS_NO, POS_ABST), "By group"))
-            lines.append(ce.members_line(len(pairs), ce.rebels(pairs, POS_YES, POS_NO,
-                                                               skip=NO_LINE),
-                                         "Groups as at the vote."))
+            lines.append(ce.members_line(len(pairs), reb, "Groups as at the vote."))
         mises = sum(1 for v in got if v["intended"])
         if mises:
             lines.append("{0} mise(s) au point: deputies who said afterwards they meant to vote "
@@ -175,7 +174,8 @@ def _votes(conn, since, until, wl):
                            own=bool(ce.areas_of(r["own_areas"])),
                            group=r["dossier_ref"] or None,
                            group_title=r["dossier_title"] or senat_titles.get(r["dossier_ref"]),
-                           final=final, watch_key=r["dossier_ref"] if w else None))
+                           final=final, watch_key=r["dossier_ref"] if w else None,
+                           positions=pairs or None, rebels=reb))
     return out
 
 

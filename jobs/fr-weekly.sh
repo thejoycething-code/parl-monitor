@@ -83,6 +83,14 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/member_profiles.py fr \
     || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
+# Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
+# this country's watched and tier-1 votes not briefed yet, written to
+# data/briefs/ and sent in one DM to Chris alone, de-duplicated in
+# data/vote-briefs/fr.json (committed with data/). Never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_vote_briefs.py --country fr --send \
+    || echo "  [gap] vote briefs failed for fr; the next run retries"
+fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "fr-rollcalls failed (exit $rc); nothing published"
   exit "$rc"

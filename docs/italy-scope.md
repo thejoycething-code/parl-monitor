@@ -555,3 +555,7 @@ hand with `--speakers` (matched to the member list) once known. Placements come 
 readings confirmed in `config/it_stance.yaml`; none is confirmed yet, so every pack shows
 "in attesa di firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/it.json` (`src/country_vote_brief.py`, step in `jobs/it-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Senate's SPARQL endpoint and Openpolis for the Camera (positions held while Openpolis shows 'SEC'); dati.senato.it answered 403 to the laptop on 10 October, to be checked from the Mini. See docs/mac-mini.md, "Vote briefs for the new countries".
