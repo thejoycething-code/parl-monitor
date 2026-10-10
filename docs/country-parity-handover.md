@@ -1,10 +1,75 @@
-# Country editions: parity plan and handover (10 October 2026)
+# Country editions: parity plan and handover (updated 10 October 2026)
 
 Written by the personal-account Claude session that built the 30 new
-countries (9-10 October 2026), for Chris's work-account Claude to take over.
-Everything it built is on main. Read this with
-`docs/country-decisions-2026-10-10.md` (Chris's signed-off decisions) and each
-`docs/<country>-scope.md` (sources, quirks, phase lists, "Waiting on Chris").
+countries and their parity layers (9-10 October 2026), for Chris's
+work-account Claude to take over. Everything it built is merged to main.
+Read this with `docs/country-decisions-2026-10-10.md` (Chris's signed-off
+decisions, the spec) and each `docs/<country>-scope.md` (sources, quirks,
+phase lists, "Waiting on Chris"). The Mini runbook is `docs/mac-mini.md`.
+
+## Start here: where things stand
+
+**Built and merged (PRs on thejoycething-code/parl-monitor):** collectors and
+weekly jobs for 30 countries (#14), Brazil areas 14-15 (#17), Latam monitor
+and alerts (#19, noise filters #23), Mini install script (#20), the edition
+framework and 14 own editions (#47, #49, #50, #52, fixes #55), Hungary gazette
+and karzat backfill (#57, #58), free session judge (#60), 5CA with sign-off
+(#65, France scope #77), week ahead (#66), member profiles (#67), 5CA tracker
+and partner sheet (#68), campaign targets (#69), constitutional courts, UY5,
+BO4, OCR stub (#70), debate packs (#71), later phases set A (#72), debates and
+questions (#73), campaign briefs (#74, English per rule 6 #75), same-day vote
+briefs (#76), debate today and live read (#78), taxonomy noise round (#79),
+small fixes (#80).
+
+**Nothing is published from a 5CA yet.** Every stance is a draft: 975
+readings await sign-off across the countries (France limited to final votes
+and watched amendments). Briefs, packs, targets, the partner sheet and the
+live read all render "awaiting sign-off" until a named person confirms.
+
+**Waiting on Chris (decisions and actions):**
+
+1. Name a signer per country in `config/stance_signers.yaml` (country teams
+   are the natural owners), then start confirming readings
+   (`docs/5ca-<cc>-readings.md`, `tools/country_5ca.py --cc CC --sign-from-doc --by NAME`).
+2. Review the flagged bill directions in the stance files (Belgium's
+   religious-symbol bans read as against us while CitizenGO supports
+   Portugal's face-covering law; IVF; the euthanasia referendum).
+3. Check France's five aide a mourir decrees in `config/watchlist-fr.yaml`
+   against the promulgated law (drafted from the first-reading text).
+4. Check the Looker list prefix per country before the first petition export
+   (`docs/campaign-benchmarks.md`; the prefixes are guesses).
+5. Send the parliament emails drafted in his Gmail (three still lack an
+   address): Hungary W-API token, Spain Senado, Costa Rica, Paraguay, El
+   Salvador missing votes, Guatemala court, meineabgeordneten.at.
+6. Update the work account's **debate-day-net** scheduled task from
+   `ops/scheduled-tasks/debate-day-net.md` (adds STEP 1B, debate today for
+   NL, CH, FR, BE). It lives on the work account, not the personal one.
+7. Whether the Dutch edition (votes only, NL3) should show the week ahead.
+8. Whether the one watched Dutch motion in dossier 21501-02 (the rainbow-flag
+   motion, zaak 2026Z21728) should stay watched.
+
+**Still to run on the Mini (store writers, one at a time):**
+
+- `latam-courts-backfill` (about 25 minutes; queued on 10 October behind the
+  weeklies as the one-shot launchd job `net.citizengo.parlmonitor.oneshot-courts`;
+  check `~/runner/logs/latam-courts-backfill.log`, then
+  `launchctl bootout gui/$(id -u)/net.citizengo.parlmonitor.oneshot-courts`).
+- `sk-docs-backfill`, three runs of about 55 minutes, never on a Tuesday
+  morning (docs/mac-mini.md).
+- Install Tesseract when wanted (X7; steps in docs/mac-mini.md) to switch on
+  the OCR steps.
+- Check the first `vote-briefs-daily` log: can the Mini reach `dati.senato.it`
+  (it refuses the laptop)?
+- The first Sunday 16:45 run of `editions-session-judge` (Claude Code on the
+  Mini is signed in to the work account; over SSH it reports "Not logged in"
+  because the keychain is locked for SSH, which is expected).
+
+**What could come next (not started):** regions and Länder (IT3, AT6, PE4,
+Spain's autonomous communities, Mexico's states); Croatia and Slovakia
+debates; Polish transcripts when the Sejm endpoint answers; Brazilian
+speeches (cost); Belgian, Portuguese, Slovak, Hungarian and Mexican agendas;
+committees and petitions; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
+2027); a native read of each language's term list.
 
 ## What exists now
 
@@ -16,14 +81,14 @@ Everything it built is on main. Read this with
 | Noise filters, mute lists | yes | partly | yes | yes | yes (`src/noise.py`, `config/edition-noise-<cc>.yaml`) |
 | Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | yes, 20 countries (`src/country_vote_brief.py`): daily for NL, PL, CH, BR, IT; after the weekly for the rest |
 | 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5). Tracker and partner sheet built 10 Oct (`tools/make_country_5ca_web.py`, branch `camp-5ca-sheets`): `docs/5ca-countries.html` weekly, "awaiting sign-off: N readings" per country; partner page gated until a country has a confirmed placement |
-| Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct: 2,012 drafts in 18 countries (71 with proposed values, 43 procedural, 1,898 need reading), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
+| Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct (#65): 975 readings awaiting sign-off after France was limited to final votes and watched amendments (#77), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
 | Campaign targets and outcomes (`ca_campaign.py`, the 5CA Evaluate) | yes | no | no | no | **built** 10 Oct (`tools/country_campaign.py`, branch `camp-targets`): open, targets, add, find, outcome, score; targets from confirmed readings only, candidates by vote record until then; petition numbers none yet (UK only) |
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
-| Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (no open source) |
+| Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (questions only), HR, SK |
 | Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
 | Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
-| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); campaign briefs **built** 10 Oct (`tools/country_briefs.py`, branch `camp-briefs`, a weekly step): drafts in the country's language, NOT READY until stances are confirmed; targets **no** |
+| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); campaign briefs **built** 10 Oct (`tools/country_briefs.py`, a weekly step): drafts in English per rulebook rule 6 (#75), NOT READY until stances are confirmed; targets **built** (#69) |
 | Debate today, live read | yes | no | no | no | **built** 10 Oct (`tools/country_debate_today.py`, `tools/country_live_debate.py`, branch `camp-live-debate`) for the four countries whose chamber publishes the same day: NL, CH, FR, BE; not AT (next day or later) or the question-only countries. Before sign-off the live read names no contradiction ("awaiting sign-off"); debate today is a step of the 16:45 net task |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
@@ -158,10 +223,8 @@ questions. The first Mini run of each step reads from 1 September 2026.
 Set A BUILT 10 October 2026 (branch `parity-phases-a`; each scope doc's
 "as built" section): French Senate (FR5), Eerste Kamer via web pages (NL4),
 Slovak bill documents (SK6), Swiss Italian texts (CH6), Italy's official
-Camera service (IT2). Still to build: Uruguay vote totals from Diario PDFs
-(UY5), Bolivian written questions (BO4), constitutional courts (X8: CO, EC, PT, PE, GT), OCR with Tesseract on
-the Mini (X7: PE scans, HR opposition bills, CO Gazette), regions and
-Landtage after national (IT3, AT6, PE4).
+Camera service (IT2). Set B below covers UY5, BO4, X8 and X7. Still to
+build: regions and Landtage after national (IT3, AT6, PE4).
 
 **Set B, built 10 October 2026 (branch `parity-phases-b`):** X8
 constitutional courts for Colombia (the exhortations file; the Court's
@@ -220,7 +283,8 @@ speaker's words beside their votes on the area and names a contradiction
 only when the vote's reading is CONFIRMED and the words have been read by a
 person or the session judge (`--queue-out` / `--reads`); until then
 "awaiting sign-off". Debate today is STEP 1B of the existing 16:45 net task
-(`ops/scheduled-tasks/debate-day-net.md`): recreate that task from the file.
+(`ops/scheduled-tasks/debate-day-net.md`): the task lives on Chris's work
+account; update it from the file.
 Table and usage: docs/debate-pack-social.md, "New countries".
 
 **Campaign briefs built 10 October 2026 (branch `camp-briefs`).**
@@ -234,9 +298,9 @@ ask, the 5CA, the targets and the segment split come from CONFIRMED stances
 only, so every brief is NOT READY until its bill's direction
 (`--confirm-direction`, new in `tools/country_5ca.py`) and every reading of
 its votes are confirmed. Unedited briefs refresh weekly; edited ones are left
-alone. Open: the language (Chris asked for the country's language; rulebook
-rule 6 and the German briefs say English, one config line switches), the
-framing glossary, the allies and opponents registers and Bluebook access.
+alone. Language: English, per rulebook rule 6 (Chris, 10 October 2026; #75).
+Open: the framing glossary, the allies and opponents registers and Bluebook
+access.
 
 ## Blocked, waiting on replies (letters drafted in Chris's Gmail)
 
@@ -263,7 +327,10 @@ framing glossary, the allies and opponents registers and Bluebook access.
   on the Mini under the work account's plan, capped at about 100 items a week.
 - Never dispatch store-writing GitHub workflows from the laptop (they lose the
   publish race to Mini jobs). One store-writing Mini job at a time.
-- Guatemala and Mexico run on GitHub, fortnightly (alternate ISO weeks).
+- Guatemala and Mexico run on GitHub, fortnightly (alternate ISO weeks), as
+  their sites refuse UK connections (the Mini included).
+- Member-level claims: non-attached members are never counted as breaking
+  from a group (#80); party at the vote needs history (X6) or a label.
 - New Mini jobs: add them to `ops/install_country_jobs.sh` and rerun it on the
   Mini (`cd ~/runner/parl-monitor && git pull --ff-only && bash ops/install_country_jobs.sh`).
 - Ownership: the 30 new countries and Latam were this session's; US, IE, AU,
@@ -271,6 +338,18 @@ framing glossary, the allies and opponents registers and Bluebook access.
 
 ## Reaching the Mini
 
-The Mini's Claude sessions run on the work account. A personal-account session
-reaches the Mini only by SSH with the `parl_mini` key (approved by Chris on 10
-October). A work-account session on the Mini can run Mini steps directly.
+The Mini's Claude sessions run on the work account, so a personal-account
+session cannot message them. From the laptop the Mini is reachable by SSH
+with the `parl_mini` key (Chris approved, 10 October):
+`ssh -i ~/.ssh/parl_mini -o IdentitiesOnly=yes christopherjoyce@christophers-mac-mini.local`.
+
+- **Do not start `mini_run.sh` over plain SSH:** `gh` reads its login from
+  the keychain, which SSH cannot open, so the job fails at "mark running"
+  (HTTP 401). Run hand jobs as a one-shot launchd job instead: write a plist
+  to /tmp with `RunAtLoad` true and `KeepAlive` false, `launchctl bootstrap
+  gui/$(id -u) <plist>`, then `launchctl bootout` it when done.
+- Over SSH, `claude` and `gh` live in `~/.local/bin`.
+- Installing a new plist: `ops/install_country_jobs.sh` (idempotent), or copy
+  one plist from `git show origin/main:ops/launchd/<label>.plist` and
+  bootstrap it, without pulling the runner clone while jobs are running.
+- A work-account session on the Mini can run Mini steps directly.
