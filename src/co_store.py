@@ -96,6 +96,12 @@ SCHEMA = (
     "CREATE INDEX IF NOT EXISTS co_votes_member ON co_votes(member_key)",
 )
 
+# X8 (10 October 2026): the constitutional court's rulings on our ground, one
+# shape for every country (src/courts.py); written only by tools/co_courts.py.
+from src import courts as _courts  # noqa: E402
+
+SCHEMA = SCHEMA + _courts.schema("co")
+
 
 def ensure_schema(conn):
     for statement in SCHEMA:

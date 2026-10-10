@@ -389,9 +389,8 @@ country's language (`src/debatepack_i18n.py`: Spanish, Italian, French, German,
 Dutch, Polish, Portuguese, Croatian, Slovak, Hungarian; the frame only, titles and
 positions verbatim), as the German briefs are in German; the README is English.
 It holds the item and its bill (the edition's classification, never a raw keyword
-hit), the agenda slot (`country_agenda` by bill key once the week-ahead layer is
-merged, the adapter's own week ahead for France and Croatia, otherwise "not
-collected"), every recorded vote on the bill with the split by group, the latest
+hit), the agenda slot (`country_agenda` by bill key once the country's weekly step has
+read it, the adapter's own week ahead for Croatia, otherwise "not collected"), every recorded vote on the bill with the split by group, the latest
 votes on the same areas, likely speakers (named with `--speakers`: no new
 country's source publishes a list ahead), the members who broke with their group
 (arithmetic, not a stance), every member's record with a link to

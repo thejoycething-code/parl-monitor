@@ -455,6 +455,7 @@ Later phases and items for Chris (not built at the merge):
 - Phase: the gazette collector (HU6, build now). **Built 10 October 2026, branch `hu-gazette`**: see "Phase 0, as built" below.
 - W-API token registration (HU1, name to confirm) and a letter to the Office if the CAPTCHA persists (HU2): Chris. The CAPTCHA is never solved or bypassed.
 - karzat's CC BY data with attribution (HU7) when the collector is written.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/hu/` from the store each weekly run (`tools/member_profiles.py hu`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Votes come from karzat (9 May to 28 August 2026), with its attribution.
 
 ## Phase 0, as built (10 October 2026, branch `hu-gazette`)
 

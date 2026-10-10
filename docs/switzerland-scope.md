@@ -426,6 +426,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: the Italian texts (CH6): fetch the Italian business records (a third Language pass), store title_it, and match `config/taxonomy-it.yaml` for `ch`. Not built at the merge: it needs a schema column, a fetch pass and fixtures.
 - The scope's veto on the Quebec IVG term and guard on euthanasie change base terms, so they are not in the addendum.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/ch/` from the store each weekly run (`tools/member_profiles.py ch`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
@@ -445,7 +446,7 @@ It writes `data/packs/ch-<date>-<slug>/`: `pack.md` and `checklist.md` in German
 translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
 `members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
 this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
-Agenda slot: read by bill key from the `country_agenda` table once the week-ahead layer (branch `parity-week-ahead`) is merged and its weekly step has run; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+Agenda slot: read by bill key from the `country_agenda` table (the week-ahead layer, src/agenda.py) once the country's weekly step has read the agenda; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
 hand with `--speakers` (matched to the member list) once known. Placements come only from
 readings confirmed in `config/ch_stance.yaml`; none is confirmed yet, so every pack shows
 "Freigabe ausstehend" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New

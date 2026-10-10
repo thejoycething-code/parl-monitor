@@ -420,6 +420,7 @@ Later phases and items for Chris (not built at the merge):
 
 - meineabgeordneten.at licence (AT5): a request in Chris's name.
 - Phase: the Landtage after national (AT6).
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/at/` from the store each weekly run (`tools/member_profiles.py at`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Member positions are DERIVED from the Klub votes (X5) and labelled on every line; Anträge and Anfragen naming the member (`at_items.persons`) are listed.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
@@ -439,7 +440,7 @@ It writes `data/packs/at-<date>-<slug>/`: `pack.md` and `checklist.md` in German
 translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
 `members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
 this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: the group's vote is the record, so every member row is DERIVED (X5), marked `*`, and never counts as a member's own position or as breaking with the group.
-Agenda slot: read by bill key from the `country_agenda` table once the week-ahead layer (branch `parity-week-ahead`) is merged and its weekly step has run; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+Agenda slot: read by bill key from the `country_agenda` table (the week-ahead layer, src/agenda.py) once the country's weekly step has read the agenda; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
 hand with `--speakers` (matched to the member list) once known. Placements come only from
 readings confirmed in `config/at_stance.yaml`; none is confirmed yet, so every pack shows
 "Freigabe ausstehend" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New

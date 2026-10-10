@@ -26,6 +26,7 @@
 # committed, and the next run re-reads whatever this one missed. With
 # PE_PUBLISH=false the collector's exit code is passed straight through, so a
 # gap turns the GitHub step red and the failure alert hears of it.
+# mini_run: commit profiles
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -37,12 +38,33 @@ if [ "${PE_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/pe_rollcalls.py --budget-seconds 2700 || rc=$?
+# X8 (10 October 2026): the Tribunal Constitucional's press notes on rulings
+# and hearings (tools/pe_courts.py; Crawl-delay 30 s, about four minutes).
+# Gaps go to the store; a failure never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/pe_courts.py \
+    || echo "  [gap] pe-courts recorded gaps or failed; the next run retries"
+fi
+# X7 (10 October 2026): Tesseract over the scan-only vote records
+# (tools/pe_ocr.py). Without tesseract it prints one [skip] line and exits 0.
+# Gaps go to the store; a failure never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/pe_ocr.py \
+    || echo "  [gap] pe-ocr recorded gaps or failed; the next run retries"
+fi
 # Instant Latam alerts (tools/latam_alerts.py): this country's watched and
 # tier-1 items, a short DM each to Chris alone, de-duplicated in
 # data/latam-alerts/pe.json (committed with data/). Never stops the run.
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/latam_alerts.py --country pe --send \
     || echo "  [gap] latam-alerts failed for pe; the next run retries"
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/pe/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py pe \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
 if [ "${PE_PUBLISH:-true}" = "false" ]; then
   exit "$rc"

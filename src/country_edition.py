@@ -72,7 +72,7 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
    `areas_of(row["areas"])` is non-empty or its key is watched
    (`on_ground(areas_raw, watched)`); never add an item on a keyword alone.
 
-3. AN ITEM is a dict (src/latam.py's shape, plus five optional fields):
+3. AN ITEM is a dict (src/latam.py's shape, plus six optional fields):
 
        cc, kind, key, date, title, status, areas, tier, watched, url,
        lines, terms, body, refs,
@@ -87,9 +87,11 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
                   dossier's, not the item's own words (rendered as a note,
                   and usable by `edition_evidence: own_words` in the noise
                   rules)
+       division   a vote's division key in the store, when `key` is not it
+                  (member profiles read positions by it; not rendered)
 
    KINDS (section): new, moved, vote, question, answer, report, agenda,
-   law, updated, press, gazette, news, pedido. A vote's `lines` carry the
+   law, ruling, updated, press, gazette, news, pedido. A vote's `lines` carry the
    tally, the party split and the member-position line: build them with
    tally_line(), split_line(), members_line(), derived_line().
 
@@ -137,12 +139,18 @@ Change log of the interface (additive only):
                    decisive vote's.
   10 October 2026  the session judge's scores (src/edition_judge.py): items
                    carry `judge` and `judge_why`; nothing for adapters to do.
+  10 October 2026  kind "ruling" (X8, a constitutional court's rulings;
+                   src/courts.py), its section after Laws.
   10 October 2026  Country.ahead_note: a Coverage line for the week ahead
                    (how far the agenda reaches, the next sitting). The
                    agendas of the new countries are one shared table and
                    collector (src/agenda.py): an adapter sets
                    week_ahead=agenda.week_ahead_fn(cc) and
                    ahead_note=agenda.ahead_note_fn(cc).
+  10 October 2026  item(..., division=): the store key of a vote's division
+                   when the item's `key` is not it (a bill key, a zaak);
+                   src/member_profiles.py reads each vote's member positions
+                   by it. Absent means `key` is the division key.
 
 Read-only on the store.
 """
@@ -189,6 +197,9 @@ SECTIONS = (
     ("moved", "Stage moves", "stage move", "stage moves"),
     ("report", "Committee reports", "committee report", "committee reports"),
     ("law", "Laws", "law", "laws"),
+    # 10 October 2026 (X8): a constitutional court's rulings on our ground
+    # (src/courts.py); Portugal's adapter adds them.
+    ("ruling", "Constitutional court", "court ruling", "court rulings"),
     ("question", "Questions", "question", "questions"),
     ("answer", "Answers", "answer", "answers"),
     ("pedido", "Requests for information", "request for information",
@@ -291,11 +302,13 @@ def watchlist_file(cc, config_dir=None):
 
 def item(cc, kind, key, date, title, areas, tier, watched=False, status=None, url=None,
          lines=None, terms=None, body=None, refs=None, takeaway=None, group=None,
-         group_title=None, final=False, own=None, watch_key=None):
+         group_title=None, final=False, own=None, watch_key=None, division=None):
     it = latam.item(cc, kind, key, date, title, areas, tier, watched, status, url, lines,
                     terms, body, refs)
     it.update(takeaway=clean(takeaway) or None, group=group, group_title=clean(group_title)
               or None, final=bool(final), own=own, watch_key=watch_key)
+    if division is not None:
+        it["division"] = str(division)
     return it
 
 

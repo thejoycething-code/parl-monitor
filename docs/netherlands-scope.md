@@ -442,6 +442,7 @@ Later phases and items for Chris (not built at the merge):
 - The DM carries votes only (NL3): for the edition phase.
 - Phase: the Eerste Kamer via its web pages (NL4).
 - Chris reads the open-data disclaimer (NL5) before the weekly runs unattended.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/nl/` from the store each weekly run (`tools/member_profiles.py nl`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Show-of-hands positions are DERIVED from the fractie vote (X5), labelled; roll calls are recorded per member.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
@@ -461,7 +462,7 @@ It writes `data/packs/nl-<date>-<slug>/`: `pack.md` and `checklist.md` in Dutch 
 translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
 `members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
 this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: roll calls (hoofdelijke stemmingen) give each member's own position; the show-of-hands votes give the fractie's, so those member rows are DERIVED (X5), marked `*`, and never count as breaking with the group.
-Agenda slot: read by bill key from the `country_agenda` table once the week-ahead layer (branch `parity-week-ahead`) is merged and its weekly step has run; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+Agenda slot: read by bill key from the `country_agenda` table (the week-ahead layer, src/agenda.py) once the country's weekly step has read the agenda; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
 hand with `--speakers` (matched to the member list) once known. Placements come only from
 readings confirmed in `config/nl_stance.yaml`; none is confirmed yet, so every pack shows
 "wacht op goedkeuring" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New

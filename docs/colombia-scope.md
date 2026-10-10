@@ -451,6 +451,32 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - No votes for now (CO3).
+- Phase (X8): the Constitutional Court section (CO4). Built 10 October 2026 (exhortations file; see below).
+- Phase (X7): OCR for scanned records. Designed 10 October 2026 (`src/ocr.py`); the Gaceta is not collected yet, so nothing calls it for Colombia.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/co/` from the store each weekly run (`tools/member_profiles.py co`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. The vote files print no party: the party shown is the member list's latest, labelled; bills by author are listed.
+
+## Parity work, set B (10 October 2026, branch `parity-phases-b`)
+
+- **X8/CO4, built:** `tools/co_courts.py`, a step in `co-weekly`: the
+  Corte Constitucional's exhortations file (datos.gov.co `fbtr-7k2r`), one
+  request, read whole weekly into `co_rulings` (kind `exhortation`, keyed on
+  the judgment, 'C-055/22'), classified on the exhortation's own text with
+  taxonomy-es for `co`. Measured live on 10 October 2026: 203 rows, 54 on our
+  ground (the scope's draft list found 37; the approved list is broader,
+  area 5 especially). They reach the Latam edition and the alerts as
+  "Constitutional court" items: decided in the window, or first seen in it
+  when decided at most 120 days before (src/courts.py); the first day's
+  load is history, never news.
+- **The press releases (comunicados) are NOT read.** The Court's site lists
+  them through an API that wants a key held in the site's own code
+  (`X-APIWEB-KEY`; /API/ is also disallowed by robots.txt), which our rules
+  forbid using. The PDFs sit under /comunicados/ (allowed), but their names
+  carry the sitting dates in prose ("comunicado-28-septiembre-9-y-10-de-2026.pdf")
+  and cannot be found without the list. Route: ask the Court to publish
+  the list as open data (a request from Chris).
+- **X7:** designed only (`src/ocr.py`, install steps in docs/mac-mini.md);
+  the Gaceta vote images wait for the Gaceta document layer (phase 3).
+
 - Phase (X8): the Constitutional Court section (CO4).
 - Phase (X7): OCR for scanned records.
 

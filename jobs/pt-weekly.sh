@@ -32,7 +32,7 @@
 # edition already committed for today is rewritten, not resent. Its failure
 # is a [gap] line and never costs the store.
 #
-# mini_run: commit editions
+# mini_run: commit editions profiles
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -52,6 +52,14 @@ case "${PT_LEGISLATURE:-}" in
   *) echo "pt-weekly: unknown legislature '${PT_LEGISLATURE}'"; exit 2 ;;
 esac
 python3 tools/pt_rollcalls.py --budget-seconds 2700 "${leg[@]}" || rc=$?
+# X8 (10 October 2026): the Tribunal Constitucional's acórdãos
+# (tools/pt_courts.py): 30 s between requests, at most ten rulings read, so
+# about six minutes; a 429 ends it with one gap. Not on a backfill run.
+# Gaps go to the store; a failure never stops the run.
+if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; } && [ -z "${PT_LEGISLATURE:-}" ]; then
+  python3 tools/pt_courts.py \
+    || echo "  [gap] pt-courts recorded gaps or failed; the next run retries"
+fi
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM; nor on a backfill run,
 # PT_LEGISLATURE set).
@@ -64,6 +72,13 @@ if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; } && [ -z "${PT_LEGISLATURE:-}" ]; then
   else
     python3 tools/pt_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
   fi
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/pt/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py pt \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
 if [ "${PT_PUBLISH:-true}" = "false" ]; then
   exit "$rc"

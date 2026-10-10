@@ -157,7 +157,7 @@ def votes(conn, since, until, wl):
             vote_lines(conn, r, how), terms=r["matched_terms"], url=r["url"] or
             VOTE_URL.format(tid=r["tid"]), takeaway=sentence(takeaway) or None,
             group=("hr", key), group_title=title,
-            final=_fold(title).startswith("konacni prijedlog")))
+            final=_fold(title).startswith("konacni prijedlog"), division=r["division_key"]))
     return out
 
 

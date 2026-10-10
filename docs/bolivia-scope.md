@@ -376,6 +376,26 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - Bills only (BO2).
+- Phase 2: written questions (BO4). Built 10 October 2026 (`tools/bo_questions.py`, see below).
+
+## Parity work, set B (10 October 2026, branch `parity-phases-b`)
+
+- **BO4, built:** `tools/bo_questions.py`, a step in `bo-weekly`: the
+  Senado's `peticion-informe-escrito` API (4,770, back to 2015; the asking
+  senators by API id, resolved to names through bo_members; the answer PDF
+  and date) and the Diputados' `wp/v2/peticiones-informe` (2,312; askers by
+  name, matched to bo_members by folded name). Into `bo_questions`, keyed
+  'senado/PIE 1039/2025-2026'; nine Senado records reuse a printed number
+  and are kept apart by their id. Classified on the summary and the
+  addressee. Measured on the full read: 64 Senado and 50 Diputados questions
+  on our ground, mostly tier 2 (gender-violence statistics, trafficking
+  cases, school curricula). **The Diputados list stops on 15 September
+  2025**: nothing since the new Assembly took office. Askers of earlier
+  Assemblies are not on today's roll and stay as printed. The Latam edition
+  shows them as "Written question" items (sample:
+  `editions/latam-monitor-2026-06-30.md`). A question records what a member
+  asked about, never a position.
+
 - Phase 2: written questions (BO4).
 
 
