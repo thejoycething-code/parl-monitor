@@ -171,7 +171,8 @@ def votes(conn, since, until, wl):
             group=("sk", key), group_title=bill_title(conn, r["bill_key"]) or head,
             final="ako o celku" in _fold(r["name"]),
             own=False if own is False else None,
-            positions=pos or None, rebels=ce.rebels(pos, YES, NO) if pos else None))
+            positions=pos or None, rebels=ce.rebels(pos, YES, NO) if pos else None,
+            division_key=r["voting_id"]))
     return out
 
 

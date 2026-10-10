@@ -37,6 +37,20 @@ if [ "${PE_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/pe_rollcalls.py --budget-seconds 2700 || rc=$?
+# X8 (10 October 2026): the Tribunal Constitucional's press notes on rulings
+# and hearings (tools/pe_courts.py; Crawl-delay 30 s, about four minutes).
+# Gaps go to the store; a failure never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/pe_courts.py \
+    || echo "  [gap] pe-courts recorded gaps or failed; the next run retries"
+fi
+# X7 (10 October 2026): Tesseract over the scan-only vote records
+# (tools/pe_ocr.py). Without tesseract it prints one [skip] line and exits 0.
+# Gaps go to the store; a failure never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/pe_ocr.py \
+    || echo "  [gap] pe-ocr recorded gaps or failed; the next run retries"
+fi
 # Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
 # this country's watched and tier-1 votes not briefed yet, written to
 # data/briefs/ and sent in one DM to Chris alone, de-duplicated in

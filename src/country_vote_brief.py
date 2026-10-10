@@ -236,7 +236,14 @@ def vote_id(it):
     """Country, key, date and title: several adapters key a vote on its bill
     (Spain, Slovakia, Croatia), so the key alone is not one vote."""
     h = hashlib.sha1((it.get("title") or "").encode("utf-8")).hexdigest()[:10]
-    return "{0}|{1}|{2}|{3}".format(it["cc"], it["key"], it["date"], h)
+    return "{0}|{1}|{2}|{3}".format(it["cc"], stance_key(it), it["date"], h)
+
+
+def stance_key(it):
+    """The store's division key, which config/<cc>_stance.yaml uses
+    (src/country5ca.py): the item's own key unless the adapter keyed the
+    vote on its zaak or bill and said so (`division_key`)."""
+    return it.get("division_key") or it["key"]
 
 
 def ledger_path(cc, directory=None):
@@ -344,7 +351,6 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
     votes = order(votes)
     head = votes[0]
     topic = head.get("group_title") or head["title"] or head["key"]
-    stance_key = head.get("watch_key") or head["key"]
     out = ["# {0}{1} vote brief: {2}".format("SAMPLE (never sent). " if sample else "",
                                              country_name(cc), ce.clip(topic, 160)), ""]
     out.append("*{0}, {1}. {2} recorded vote{3} on our ground. Generated {4}. Facts of the "
@@ -360,7 +366,7 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
         " Terms: {0}.".format(", ".join(ce.terms_of(head.get("terms"))[:8]))
         if ce.terms_of(head.get("terms")) else ""))
     out.append("")
-    out.append("**5CA:** {0}".format(vote_brief.stance_status(cc, stance_key)))
+    out.append("**5CA:** {0}".format(vote_brief.stance_status(cc, stance_key(head))))
     out.append("")
     for i, it in enumerate(votes, 1):
         label = "Decisive vote" if it.get("final") else (
@@ -372,6 +378,9 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
             out.append("")
         if it.get("own") is False:
             out.append("*Areas from the bill it names, not the vote's own words.*")
+            out.append("")
+        if it is not head:
+            out.append("5CA: {0}".format(vote_brief.stance_status(cc, stance_key(it))))
             out.append("")
         for line in it["lines"]:
             out.append("- " + line)
@@ -387,7 +396,8 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
     out.append("---")
     out.append("")
     out.append("No meaning is attached here. Positions are the record's own words; a reading "
-               "is signed through the 5CA sign-off guide for config/{0}_stance.yaml.".format(cc))
+               "of config/{0}_stance.yaml is signed through its guide, docs/5ca-{0}-readings.md "
+               "(tools/country_5ca.py).".format(cc))
     return vote_brief.house_style("\n".join(out) + "\n")
 
 
@@ -410,7 +420,7 @@ def dm_entry(cc, votes, reasons, brief_url):
             lines.append("  " + rebels_text(dict(it, rebels_note=None), MAX_DM_REBELS))
     if len(votes) > MAX_DM_VOTES:
         lines.append("• and {0} more vote(s) on it, in the brief.".format(len(votes) - MAX_DM_VOTES))
-    lines.append("5CA: {0}".format(vote_brief.stance_status(cc, head.get("watch_key") or head["key"])))
+    lines.append("5CA: {0}".format(vote_brief.stance_status(cc, stance_key(head))))
     lines.append("Brief: {0}".format(brief_url))
     if head.get("url"):
         lines.append("Record: {0}".format(head["url"]))

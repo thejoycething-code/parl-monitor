@@ -18,6 +18,7 @@ Abänderungsantrag share an anchor in the protocol), so votes are folded by
 
 from __future__ import annotations
 
+from src import agenda
 from src import at_store
 from src import country_edition as ce
 
@@ -175,6 +176,7 @@ COUNTRY = ce.Country(
     cc="at", name="Austria", chamber="Nationalrat and Bundesrat", language="German",
     taxonomies=(("taxonomy-atch.yaml", "at"),),
     items=items, flag=":flag-at:",
+    week_ahead=agenda.week_ahead_fn("at"), ahead_note=agenda.ahead_note_fn("at"),
     members_note=("Votes are recorded by Klub only; member positions shown are DERIVED from "
                   "the Klub vote (X5), with the Klub at the member's latest sighting"),
     coverage=("Votes are read from the history pages of items on our ground; a namentliche "

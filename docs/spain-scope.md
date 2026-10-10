@@ -423,7 +423,7 @@ phrase, a compound or guarded.
    dispatch `es-weekly` with "reclassify". The numbers above become the
    store's.
 3. **Phase 2.** PNLs, motions and written questions through the initiative
-   search endpoint (or per-initiative pages); the week-ahead agenda; laws
+   search endpoint (or per-initiative pages); the week-ahead agenda (**Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/es.py`, a step of the weekly job): the weekly agenda page; fills when the XVI sits; the plenary's order of the day, a PDF, is not read); laws
    in force from the BOE. This is where most of Spain's activity on our
    ground lives.
 4. **Phase 3.** The Spanish edition and DM (`tools/es_monitor.py`, the
@@ -522,6 +522,10 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: the Spanish edition (ES6, build now): a DM edition on the store, as the US and Australian ones. Not built at the merge; next.
 - Senado open-data contact (ES5): a message in Chris's name, not sent by the pipeline.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/es_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 86 vote reading(s): 1 with proposed values, 4 procedural, 81 need reading, 0 confirmed. Guide: `docs/5ca-es-readings.md`; confirm with `python3 tools/country_5ca.py --cc es --sign-from-doc --by NAME`. Sheets (`data/5ca/es-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Spain (`config/stance_signers.yaml`). Spain's own edition resumes after 23 December; the drafts stand meanwhile.
 
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 

@@ -20,11 +20,13 @@ positions and no result is shown; the Staenderat's spreadsheets publish
 both. A business's votes (articles, the Gesamtabstimmung) are one group,
 the Gesamtabstimmung or Schlussabstimmung decisive.
 
-No agenda is collected, so there is no week ahead.
+The week ahead is the councils' order of business from the sessions programme
+(src/agendas/ch.py): empty between sessions, which the Coverage line says.
 """
 
 from __future__ import annotations
 
+from src import agenda
 from src import ch_store
 from src import country_edition as ce
 
@@ -182,6 +184,7 @@ COUNTRY = ce.Country(
     cc="ch", name="Switzerland", chamber="Nationalrat and Ständerat", language="German or French",
     taxonomies=(("taxonomy-atch.yaml", "ch"), ("taxonomy-fr.yaml", "ch")),
     items=items, watchlist=watchlist, flag=":flag-ch:",
+    week_ahead=agenda.week_ahead_fn("ch"), ahead_note=agenda.ahead_note_fn("ch"),
     members_note=("Both councils record every member's position, with the Fraktion at the vote; "
                   "the Nationalrat's tallies are counted from those positions"),
     coverage=("Businesses and Nationalrat votes come from the Parliament's OData service; "

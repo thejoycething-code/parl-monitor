@@ -424,6 +424,10 @@ Later phases and items for Chris (not built at the merge):
 
 - The Senate stays out per its robots.txt (MX4).
 
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/mx_stance.yaml` holds 11 bill direction(s) (Claude's drafts from the watchlist) and 3 vote reading(s): 0 with proposed values, 0 procedural, 3 need reading, 0 confirmed. Guide: `docs/5ca-mx-readings.md`; confirm with `python3 tools/country_5ca.py --cc mx --sign-from-doc --by NAME`. Sheets (`data/5ca/mx-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Mexico (`config/stance_signers.yaml`).
+
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/mx.json` (`src/country_vote_brief.py`, step in `jobs/mx-collect.sh`). Briefed after each fortnightly collection. Fortnightly, on GitHub (X9), after jobs/mx-collect.sh. See docs/mac-mini.md, "Vote briefs for the new countries".

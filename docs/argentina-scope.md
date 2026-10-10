@@ -449,7 +449,7 @@ unescapes them.
    (Argentine terms in their own marked block), and `--reclassify`. Add the
    full Senate register through the `fechaMesa` search (cookie-aware POST).
    A US-style judge (`ar_triage`) once there is something to score.
-3. **Phase 3.** Agendas of both chambers (the What's On equivalent), the
+3. **Phase 3.** Agendas of both chambers (the What's On equivalent; **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/ar.py`, a step of the weekly job): the Senate's agenda of activities only; the Diputados agenda on www.hcdn.gob.ar is not read), the
    Diputados movimientos and dictámenes datasets (committee stage, already
    on CKAN), and an edition, `tools/ar_monitor.py`, DMed to Christopher.
 4. **Diputados roll calls** whenever `votaciones.hcdn.gob.ar` can be reached
@@ -520,6 +520,10 @@ Later phases and items for Chris (not built at the merge):
 
 - AR2-AR4: Diputados votes tried from the Mini, the register read gently, and www.hcdn.gob.ar read only by the scheduled monitor script, never by a Claude session.
 - AR7: the Ley 13.640 lapse rule confirmed.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/ar_stance.yaml` holds 7 bill direction(s) (Claude's drafts from the watchlist) and 2 vote reading(s): 0 with proposed values, 0 procedural, 2 need reading, 0 confirmed. Guide: `docs/5ca-ar-readings.md`; confirm with `python3 tools/country_5ca.py --cc ar --sign-from-doc --by NAME`. Sheets (`data/5ca/ar-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Argentina (`config/stance_signers.yaml`).
 
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 

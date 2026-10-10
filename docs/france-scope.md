@@ -375,7 +375,7 @@ October.
    (315 MB; the exposes sommaires say what an amendment does, which the
    scrutin title does not).
 4. **Phase 3: the agenda and the regulatory side.** The AN agenda (dossier
-   refs on every point) as the week ahead; written questions on our ground
+   refs on every point) as the week ahead (**Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/fr.py`, a step of the weekly job): Agenda.json.zip, archived as FR3; 216 points on 10 October); written questions on our ground
    (the measure above: 93 a year on headings alone); the Journal officiel
    for the decrees applying the aide a mourir law.
 5. **Phase 4: edition and 5CA.** A France edition to Christopher by Slack
@@ -438,6 +438,10 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: follow the aide a mourir decrees first (FR4): a watch on the Journal officiel's implementing decrees once the law passes.
 - Phase: the Senat (FR5, go ahead): votes and dossiers from senat.fr open data. Not built at the merge.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/fr_stance.yaml` holds 7 bill direction(s) (Claude's drafts from the watchlist) and 1050 vote reading(s): 10 with proposed values, 0 procedural, 1040 need reading, 0 confirmed. Guide: `docs/5ca-fr-readings.md`; confirm with `python3 tools/country_5ca.py --cc fr --sign-from-doc --by NAME`. Sheets (`data/5ca/fr-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for France (`config/stance_signers.yaml`). 1,040 of the 1,050 drafts are amendments and articles of the aide a mourir law: each needs its text read before it can place anyone.
 
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 

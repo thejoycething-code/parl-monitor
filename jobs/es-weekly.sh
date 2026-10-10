@@ -33,6 +33,12 @@ if [ "${ES_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/es_rollcalls.py --budget-seconds 2700 || rc=$?
+# The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
+# into the store after the collector, so its bills match this week's store
+# and the edition below shows it. Its failure is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_agenda.py es || echo "  [gap] the week-ahead agenda step failed"
+fi
 # Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
 # this country's watched and tier-1 votes not briefed yet, written to
 # data/briefs/ and sent in one DM to Chris alone, de-duplicated in

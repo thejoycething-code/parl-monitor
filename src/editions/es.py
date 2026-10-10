@@ -30,6 +30,7 @@ import datetime
 import re
 import sys
 
+from src import agenda
 from src import country_edition as ce
 
 CC = "es"
@@ -206,7 +207,8 @@ YES, NO, ABSTAIN = ("sí", "si"), ("no",), ("abstención", "abstencion")
 def _brief_positions(conn, r):
     """The same-day vote brief's fields (src/country_vote_brief.py)."""
     pos = [] if r["assent"] else _positions(conn, r["division_key"])
-    return {"positions": pos or None, "rebels": ce.rebels(pos, YES, NO) if pos else None}
+    return {"positions": pos or None, "rebels": ce.rebels(pos, YES, NO) if pos else None,
+            "division_key": r["division_key"]}
 
 
 def vote_lines(conn, r):
@@ -299,6 +301,7 @@ COUNTRY = ce.Country(
     cc=CC, name="Spain", chamber="Congreso de los Diputados", language="Spanish",
     taxonomies=(("taxonomy-es.yaml", "es"),),
     items=items, notice=edition_notice,
+    week_ahead=agenda.week_ahead_fn(CC), ahead_note=agenda.ahead_note_fn(CC),
     members_note=("Member positions are the Congreso's own, by name, with the parliamentary "
                   "group printed in each vote file, so a member against their group's majority "
                   "is named"),
@@ -306,8 +309,10 @@ COUNTRY = ce.Country(
         "The Congreso only: www.senado.es refuses our requests (Akamai 403, ES5 pending); "
         "the Senado's amendments and vetoes show when the Congreso votes on them.",
         "Non-binding motions and motions appear when the plenary votes on them; written "
-        "questions and the week's agenda are not collected yet (phase 2), and no stage-move "
-        "history is stored, so there is no stage-moves section.",
+        "questions are not collected yet (phase 2), and no stage-move history is stored, so "
+        "there is no stage-moves section.",
+        "The week ahead is the Congreso's weekly agenda page, classified on its own words; "
+        "the plenary's order of the day (a PDF) is not read.",
     ),
 )
 

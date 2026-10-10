@@ -483,5 +483,25 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - Probe parlamento.gub.uy from the Mini first (UY1).
-- Phase: vote totals from the Diario de Sesiones PDFs (UY5, build now). Not built at the merge.
+- Phase: vote totals from the Diario de Sesiones PDFs (UY5, build now). Built 10 October 2026 (`tools/uy_diario.py`, see below).
 - UY3 (pedidos reported) and UY4 (INAU guarded): the Latam edition.
+
+## Parity work, set B (10 October 2026, branch `parity-phases-b`)
+
+- **UY5, built:** `tools/uy_diario.py`, a step in `uy-weekly`: up to four
+  new Diarios a run from the Cámara's JSON index (uy_sittings, L
+  legislature), each PDF read with pypdf (www.diputados.gub.uy, http only;
+  parlamento.gub.uy is not tried). Every result line ("Sesenta y cuatro
+  votos afirmativos y veintinueve votos negativos en noventa y tres
+  presentes: AFIRMATIVA", "Setenta y cuatro en setenta y cinco:
+  AFIRMATIVA", "Setenta y tres por la afirmativa") becomes one row of
+  `uy_diario_votes`: section and its carpeta (from the Sumario), the
+  sentence that put the question, ayes, noes (printed only on the electronic
+  register; never inferred), those present, the result word. The section
+  title is classified. TOTALS ONLY: no name is printed, so nothing here can
+  feed a 5CA. Checked by hand on Diario 4578 (the euthanasia sitting): all
+  36 results, the general vote 64-29 of 93, the palliative-care additive
+  30-63 NEGATIVA; Diario 4636: 41 results, 40 counted (one prints "El
+  resultado es: AFIRMATIVA" only). The Latam edition shows a section's
+  votes as one item (sample: `editions/latam-monitor-2025-08-31.md`). The
+  backlog (about 80 Diarios) is read once by `jobs/latam-courts-backfill.sh`.

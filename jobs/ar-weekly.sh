@@ -52,6 +52,12 @@ if [ "${AR_SENATE_BACKFILL:-}" = "true" ]; then
   years=(--years 2024 2025 "$(date -u +%Y)")
 fi
 python3 tools/ar_rollcalls.py --budget-seconds 2700 "${years[@]}" || rc=$?
+# The week ahead (src/agenda.py, tools/country_agenda.py): the Senate's agenda
+# read into the store after the collector, so its expedientes match this week's
+# store and the edition below shows it. Its failure is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_agenda.py ar || echo "  [gap] the week-ahead agenda step failed"
+fi
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM).
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"

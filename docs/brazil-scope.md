@@ -446,7 +446,7 @@ document. No taxonomy file, no `src/http.py` change.
    or from the paged API by date and type (about 80 requests a year).
 3. **Phase 3: agenda and tramitação**: the Câmara's `eventos` + `pauta` and
    the Senate's monthly agenda as the What's On equivalent, and tramitação
-   steps for watched bills (committee, rapporteur, urgency).
+   steps for watched bills (committee, rapporteur, urgency). **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/br.py`, a step of the weekly job): both agendas, matched to bills by number; tramitação steps not yet.
 4. **Phase 4: edition and 5CA**: a Portuguese-language or English-language
    edition (Christopher's call), triage, and a Brazilian 5CA from positions
    plus orientations. Divisions are signed by hand, as everywhere.
@@ -518,6 +518,10 @@ Later phases and items for Chris (not built at the merge):
 
 - BR3 (gambling) and BR4 (drug decriminalisation) are in scope but the scope proposed no terms or area: they need terms before they match.
 - Portuguese source text with English takeaways (BR5): the edition phase.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/br_stance.yaml` holds 11 bill direction(s) (Claude's drafts from the watchlist) and 7 vote reading(s): 2 with proposed values, 2 procedural, 3 need reading, 0 confirmed. Guide: `docs/5ca-br-readings.md`; confirm with `python3 tools/country_5ca.py --cc br --sign-from-doc --by NAME`. Sheets (`data/5ca/br-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Brazil (`config/stance_signers.yaml`).
 
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 

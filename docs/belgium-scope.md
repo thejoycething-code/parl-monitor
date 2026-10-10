@@ -416,6 +416,10 @@ Later phases and items for Chris (not built at the merge):
 - A votes-only DM before the full edition (BE6): the edition phase.
 - Not expressible as additions to the Quebec base: the euthanasie animal veto and the tier differences the scope proposed against taxonomy-qc. They need a Belgium-specific override if wanted.
 
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/be_stance.yaml` holds 27 bill direction(s) (Claude's drafts from the watchlist) and 4 vote reading(s): 3 with proposed values, 0 procedural, 1 need reading, 0 confirmed. Guide: `docs/5ca-be-readings.md`; confirm with `python3 tools/country_5ca.py --cc be --sign-from-doc --by NAME`. Sheets (`data/5ca/be-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Belgium (`config/stance_signers.yaml`).
+
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/be.json` (`src/country_vote_brief.py`, step in `jobs/be-weekly.sh`). Briefed after each weekly collection. Groups are as the member list stood when stored, not at the vote, and the brief says so. See docs/mac-mini.md, "Vote briefs for the new countries".

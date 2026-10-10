@@ -19,6 +19,10 @@ initiative's votes (generality, specialty, final global) are one group, the
 final global vote decisive.
 
 No agenda is collected, so there is no week ahead.
+
+Rulings (X8, 10 October 2026): the Tribunal Constitucional's acórdãos on our
+ground (pt_rulings, tools/pt_courts.py), classified on each ruling's opening
+and dispositivo, never its whole text; context only, never a member's stance.
 """
 
 from __future__ import annotations
@@ -151,8 +155,23 @@ def _votes(conn, since, until, wl):
     return out
 
 
+def _rulings(conn, since, until):
+    """X8: the Tribunal Constitucional's acórdãos on our ground
+    (tools/pt_courts.py), by decision date or, published late, by when the
+    monitor first read them (src/courts.news_rows)."""
+    from src import courts
+    out = []
+    for r in courts.news_rows(conn, "pt", since, until):
+        out.append(ce.item("pt", "ruling", r["ruling_key"], r["date"], r["title"],
+                           ce.areas_of(r["areas"]), r["tier"], False, url=r["url"],
+                           lines=courts.lines(r), terms=r["matched_terms"],
+                           body=r["summary"], takeaway=courts.takeaway(r)))
+    return out
+
+
 def items(conn, since, until, wl):
-    return _initiatives(conn, since, until, wl) + _votes(conn, since, until, wl)
+    return (_initiatives(conn, since, until, wl) + _votes(conn, since, until, wl)
+            + _rulings(conn, since, until))
 
 
 COUNTRY = ce.Country(
@@ -164,6 +183,8 @@ COUNTRY = ce.Country(
                   "vote (X5), with the deputy's latest group, and labelled as derived"),
     coverage=("Initiatives, votes and deputies come from the Assembleia's open data "
               "(Iniciativas and InformacaoBase, XVII legislature).",
+              "Constitutional court: the Tribunal Constitucional's acórdãos of the Plenário and "
+              "the Secções, read slowly (it rate-limits), on their opening and dispositivo.",
               "A vote's areas are mostly its initiative's: the record describes amendments and "
               "requerimentos only. The record does not tell a deputy who voted with their group "
               "from one who was absent."),

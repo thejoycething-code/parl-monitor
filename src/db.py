@@ -1694,6 +1694,9 @@ TABLES = (
     "pt_divisions",
     "pt_group_votes",
     "pt_votes",
+    # X8 constitutional courts (tools/<cc>_courts.py; src/courts.py), created
+    # by each country's store module -- declared from day one.
+    "pt_rulings",
     # Slovakia's Národná rada (tools/sk_rollcalls.py), created by
     # src/sk_store.ensure_schema -- declared from day one.
     "sk_members",
@@ -1751,12 +1754,15 @@ TABLES = (
     "pe_divisions",
     "pe_votes",
     "pe_vote_files",
+    "pe_rulings",
+    "pe_vote_ocr",
     # Ecuador's Asamblea Nacional (tools/ec_rollcalls.py), created by
     # src/ec_store.ensure_schema -- declared from day one.
     "ec_members",
     "ec_roster",
     "ec_divisions",
     "ec_votes",
+    "ec_rulings",
     # Guatemala's Congreso de la República (tools/gt_rollcalls.py), created
     # by src/gt_store.ensure_schema -- declared from day one.
     "gt_members",
@@ -1783,11 +1789,13 @@ TABLES = (
     "co_attendance",
     "co_divisions",
     "co_votes",
+    "co_rulings",
     # Bolivia's Asamblea Legislativa Plurinacional (tools/bo_rollcalls.py),
     # created by src/bo_store.ensure_schema -- declared from day one.
     "bo_members",
     "bo_bills",
     "bo_bill_changes",
+    "bo_questions",
     # Panama's Asamblea Nacional (tools/pa_rollcalls.py), created by
     # src/pa_store.ensure_schema -- declared from day one. No votes table:
     # the Asamblea publishes no per-member votes (docs/panama-scope.md).
@@ -1810,11 +1818,18 @@ TABLES = (
     "uy_questions",
     "uy_sittings",
     "uy_laws",
+    "uy_diario_reads",
+    "uy_diario_votes",
     # The Latam monitor's light checks (tools/ve_news.py, tools/nic_gaceta.py),
     # created by src/latam_store.ensure_schema -- declared from day one.
     "ve_news",
     "nic_gazette_issues",
     "nic_gazette_items",
+    # The new countries' week ahead (tools/country_agenda.py), one table for
+    # every country keyed (cc, item_id), created by src/agenda.ensure_schema
+    # -- declared from day one.
+    "country_agenda",
+    "country_agenda_runs",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -2151,4 +2166,6 @@ def init_db(conn):
     uy_store.ensure_schema(conn)
     from src import latam_store
     latam_store.ensure_schema(conn)
+    from src import agenda
+    agenda.ensure_schema(conn)
     return conn

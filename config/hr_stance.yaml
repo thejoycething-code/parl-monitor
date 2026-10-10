@@ -1,0 +1,219 @@
+# Croatia: what a recorded vote MEANS for CitizenGO, for the 5CA.
+#
+# Written by tools/country_5ca.py (src/country5ca.py), the 5CA-with-sign-off
+# layer of docs/country-parity-handover.md (item 2), 10 October 2026. The
+# rule is Canada's: which lobby is CitizenGO's is a HUMAN judgement, and
+# nothing places anyone until a named person has confirmed it.
+#
+# status:
+#   draft          proposed by the drafter's rules (or by Claude): unsigned,
+#                  places nobody.
+#   needs_reading  no direction proposed: the drafter could not tell which
+#                  side is ours without reading the text. A person writes
+#                  `yea:`/`nay:` (and why lines), then confirms.
+#   confirmed      signed: `confirmed_by:` (a named person) and
+#                  `confirmed_on:` (the date) are both required, or it still
+#                  counts as unsigned.
+#
+# To confirm: tick the box in docs/5ca-hr-readings.md and run
+#   python3 tools/country_5ca.py --cc hr --sign-from-doc --by NAME
+# or confirm by key:
+#   python3 tools/country_5ca.py --cc hr --confirm KEY [KEY ...] --by NAME
+# To strike a reading for good, write `placeable: false` and a `reason:`.
+#
+# bill_directions: whether PASSING a bill or motion is with CitizenGO
+# (`with`) or against it (`against`). Drafted by Claude on 10 October 2026
+# from each watchlist entry's own description, never from a model call; a
+# bill with no line gets no proposed values. Edit or add lines here: the
+# next --draft uses them for NEW votes (an existing entry is never
+# rewritten).
+#
+# divisions: one entry per watched or tier-1 vote, appended by --draft.
+# Keys are the store's division keys. `yea:`/`nay:` are the stance (-2..2)
+# of voting Yes / No as the chamber records it (Za / Protiv). An
+# abstention never places anyone. Keep `divisions:` the LAST section: the
+# drafter appends to the end of this file.
+
+
+bill_directions:
+  - key: "11/41"
+    direction: with
+    status: draft
+    areas: [5]
+    why: "Withdrawal from the Istanbul Convention (repeal of the ratification act). Private member's bill, Marijan Pavlicek; on the agenda of every session since the 2nd, never debated."
+    drafted: "Claude, 10 October 2026, from config/watchlist-hr.yaml"
+
+divisions:
+
+  # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
+  - key: "hr-11-212876"
+    status: needs_reading
+    title: "PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH USLUGA I IZMJENI DIREKTIVE 2000/31/EZ (AKT O DIGITALNIM USLUGAMA), prvo čitanje, P.Z.E. br. 53 - predla"
+    dated: "2024-10-11"
+    chamber: "sabor"
+    areas: [7]
+    tier: 1
+    result: "Na 3. sjednici, 11. listopada 2024. donesen je zaključak da se prihvaća Prijedlog zakona. Sve primjedbe, prijedlozi i mi; Za 116, Protiv 0, Abstain 14"
+    lobbies: "Za: HDZ 56, SDP 27, NZ 8, DP 8, NPS 2, DOMINO 2, HSLS 2, Centar 2, Drito 2, HSU 1, stranka Nezavisni 1, GLAS 1, DO i SIP 1, IDS 1, HNS 1, HDS 1. Abstain: Možemo! 10, Most 3, NZ 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/53, item:212876: CitizenGO's position on 'PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH USL' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "hr-11-213008"
+    status: needs_reading
+    title: "PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, prvo čitanje, P.Z.E. br. 63 - predlagateljica: Vlada Republike Hrvatske"
+    dated: "2024-10-25"
+    chamber: "sabor"
+    areas: [11]
+    tier: 1
+    result: "Za 85, Protiv 5, Abstain 39"
+    lobbies: "Za: HDZ 55, NZ 8, DP 8, SDSS 3, DOMINO 2, IDS 2, NPS 1, HSU 1, HSLS 1, stranka Nezavisni 1, Centar 1, HNS 1, HDS 1. Protiv: Most 5. Abstain: SDP 24, Možemo! 10, Drito 2, NZ 1, GLAS 1, DO i SIP 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/63, item:213008: CitizenGO's position on 'PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, prvo čitanje, P.Z.E. br. 63 - predlagateljica: Vlada Republike Hrvatske' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "hr-11-213382"
+    status: needs_reading
+    title: "KONAČNI PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, drugo čitanje, P.Z.E. br. 63 - predlagateljica: Vlada Republike Hrvatske"
+    dated: "2025-02-21"
+    chamber: "sabor"
+    areas: [11]
+    tier: 1
+    result: "Za 76, Protiv 37, Abstain 5"
+    lobbies: "Za: HDZ 55, NZ 8, DP 7, HSLS 2, HSU 1, stranka Nezavisni 1, HNS 1, HDS 1. Protiv: SDP 24, Možemo! 4, DOMINO 3, NZ 2, Most 1, GLAS 1, DO i SIP 1, Drito 1. Abstain: Možemo! 4, Centar 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/63, item:213382: CitizenGO's position on 'KONAČNI PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, drugo čitanje, P.Z.E. br. 63 - predlagateljica: Vlada Republike Hrvatske' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "hr-11-213442"
+    status: needs_reading
+    title: "KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH USLUGA I IZMJENI DIREKTIVE 2000/31/EZ (AKT O DIGITALNIM USLUGAMA), drugo čitanje, P.Z.E br. 53"
+    dated: "2025-03-28"
+    chamber: "sabor"
+    areas: [7]
+    tier: 1
+    result: "Zakon je donesen na 5. sjednici, 28. ožujka 2025. (107 glasova \"za\", 9 \"suzdržanih\").; Za 107, Protiv 0, Abstain 9"
+    lobbies: "Za: HDZ 56, SDP 22, NZ 9, DP 7, Možemo! 2, HSLS 2, NPS 1, HSU 1, stranka Nezavisni 1, GLAS 1, DO i SIP 1, Centar 1, SDSS 1, HNS 1, HDS 1. Abstain: Možemo! 7, NZ 1, Most 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/53, item:213442: CitizenGO's position on 'KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITA' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "hr-11-213747"
+    status: needs_reading
+    title: "PRIJEDLOG ZAKONA O IZMJENI I DOPUNI ZAKONA O RAVNOPRAVNOSTI SPOLOVA, prvo čitanje, P.Z. br. 169 - predlagateljice: zastupnice Anka Mrak-Taritaš i Dalija Orešković"
+    dated: "2025-10-24"
+    chamber: "sabor"
+    areas: [5]
+    tier: 2
+    watched: "11/169"
+    result: "Na 7. sjednici, 24. listopada 2025. donesen je zaključak da se ne prihvaća Prijedlog zakona (77 glasova \"za\", 43 \"protiv; Za 77, Protiv 43"
+    lobbies: "Za: HDZ 54, NZ 9, DP 7, HSLS 2, HSU 1, SDP 1, stranka Nezavisni 1, HNS 1, HDS 1. Protiv: SDP 29, Možemo! 9, NPS 1, HDZ 1, GLAS 1, DO i SIP 1, IDS 1"
+    vote_kind: "inverted"
+    read_first: "A vote whose Yes rejects the text (the record says so), but no bill direction is on file for 11/169, item:213747: CitizenGO's position on 'PRIJEDLOG ZAKONA O IZMJENI I DOPUNI ZAKONA O RAVNOPRAVNOSTI SPOLOVA, prvo čitanje, P.Z. br. 169 - predlagateljice: zastupnice Anka Mrak-Tari' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "hr-11-214089"
+    status: needs_reading
+    title: "PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI DIREKTIVE 2010/13/EU (EUROPSKI AKT O SLOBODI MEDIJA), prvo čitanje, P.Z.E. br. 228 - predlagateljica: Vlada"
+    dated: "2025-12-05"
+    chamber: "sabor"
+    areas: [7]
+    tier: 1
+    result: "Na 8. sjednici, 5. prosinca 2025. donesen je zaključak da se prihvaća Prijedlog zakona. Sve primjedbe, prijedlozi i mišl; Za 76, Protiv 31, Abstain 8"
+    lobbies: "Za: HDZ 54, NZ 9, DP 7, HSLS 2, HSU 1, stranka Nezavisni 1, HNS 1, HDS 1. Protiv: SDP 26, Most 3, NZ 1, GLAS 1. Abstain: Možemo! 6, Centar 2"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/228, item:214089: CitizenGO's position on 'PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI DIREKTIV' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "hr-11-214280"
+    status: needs_reading
+    title: "PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, prvo čitanje, P.Z.E. br. 262 - predlagateljica: Vlada Republike Hrvatske"
+    dated: "2026-02-20"
+    chamber: "sabor"
+    areas: [11]
+    tier: 1
+    result: "Za 77, Protiv 7, Abstain 46"
+    lobbies: "Za: HDZ 54, NZ 9, DP 7, HSLS 2, NPS 1, HSU 1, stranka Nezavisni 1, HNS 1, HDS 1. Protiv: Most 3, DOMINO 2, NZ 1, Drito 1. Abstain: SDP 30, Možemo! 10, Centar 2, IDS 1, GLAS 1, DO i SIP 1, SDSS 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/262, item:214280: CitizenGO's position on 'PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, prvo čitanje, P.Z.E. br. 262 - predlagateljica: Vlada Republike Hrvatske' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "hr-11-214147"
+    status: needs_reading
+    title: "PRIJEDLOG ZAKONA O DIGITALNOJ ZAŠTITI DJECE, prvo čitanje, P.Z. br. 213 - predlagatelj: Klub zastupnika Možemo!"
+    dated: "2026-03-06"
+    chamber: "sabor"
+    areas: [6, 7]
+    tier: 1
+    watched: "11/213"
+    result: "Na 9. sjednici, 6. ožujka 2026. donesen je zaključak da se ne prihvaća Prijedlog zakona (76 glasova \"za\", 44 \"protiv\", 4; Za 76, Protiv 44, Abstain 4"
+    lobbies: "Za: HDZ 55, NZ 8, DP 7, HSLS 2, HSU 1, stranka Nezavisni 1, HNS 1, HDS 1. Protiv: SDP 28, Možemo! 10, Centar 2, NPS 1, GLAS 1, DO i SIP 1, Drito 1. Abstain: DOMINO 3, Hrvatski suverenisti 1"
+    vote_kind: "inverted"
+    read_first: "A vote whose Yes rejects the text (the record says so), but no bill direction is on file for 11/213, item:214147: CitizenGO's position on 'PRIJEDLOG ZAKONA O DIGITALNOJ ZAŠTITI DJECE, prvo čitanje, P.Z. br. 213 - predlagatelj: Klub zastupnika Možemo!' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 6 (parental rights and education), 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "hr-11-214304"
+    status: needs_reading
+    title: "KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI DIREKTIVE 2010/13/EU (EUROPSKI AKT O SLOBODI MEDIJA), drugo čitanje, P.Z.E. br. 228 - predlagateljic"
+    dated: "2026-03-06"
+    chamber: "sabor"
+    areas: [7]
+    tier: 1
+    result: "Zakon je donesen na 9. sjednici, 6. ožujka 2026. (78 glasova \"za\", 57 \"protiv\").; Za 78, Protiv 57"
+    lobbies: "Za: HDZ 55, NZ 9, DP 7, HSLS 2, HSU 1, stranka Nezavisni 1, HNS 1, HDS 1, Dario Zurovec - NL 1. Protiv: SDP 31, Možemo! 10, DOMINO 3, Most 3, Centar 2, Drito 2, NZ 1, Hrvatski suverenisti 1, IDS 1, GLAS 1, DO i SIP 1, SDSS 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/228, item:214304: CitizenGO's position on 'KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "hr-11-214240"
+    status: needs_reading
+    title: "PRIJEDLOG ODLUKE O OSNIVANJU ISTRAŽNOG POVJERENSTVA ZA UTVRĐIVANJE INSTITUCIONALNIH PROPUSTA U SUSTAVU ZAŠTITE OD NASILJA NAD ŽENAMA KOJI REZULTIRAJU VELIKIM BROJEM FEMICIDA - predlagatelji: 16 zastupnika u Hrvatskome saboru"
+    dated: "2026-03-27"
+    chamber: "sabor"
+    areas: [5]
+    tier: 1
+    watched: "item:214240"
+    result: "Odluka nije donesena na 9. sjednici, 27. ožujka 2026. (44 glasa \"za\", 81 \"protiv\").; Za 44, Protiv 81"
+    lobbies: "Za: SDP 28, Možemo! 10, Centar 1, NPS 1, GLAS 1, DO i SIP 1, IDS 1, SDSS 1. Protiv: HDZ 55, NZ 8, DP 7, DOMINO 3, HSLS 2, HSU 1, Hrvatski suverenisti 1, stranka Nezavisni 1, HNS 1, HDS 1, Dario Zurovec - NL 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('PRIJEDLOG ODLUKE O OSNIVANJU ISTRAŽNOG POVJERENSTVA ZA UTVRĐIVANJE INSTITUCIONALNIH PROPUSTA U SUSTAVU ZAŠTITE OD NASILJ'): read the question put, then write yea/nay."
+    reasoning: "Area 5 (sex-based rights). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "hr-11-214348"
+    status: needs_reading
+    title: "PRIJEDLOG ZAKONA O DOPUNI OBITELJSKOG ZAKONA, prvo čitanje, P.Z. br. 244 - predlagatelj: Klub zastupnika SDP-a"
+    dated: "2026-04-30"
+    chamber: "sabor"
+    areas: [9]
+    tier: 1
+    watched: "11/244"
+    result: "Na 10. sjednici, 30. travnja 2026. donesen je zaključak da se ne prihvaća Prijedlog zakona (78 glasova \"za\", 42 \"protiv\"; Za 78, Protiv 42, Abstain 2"
+    lobbies: "Za: HDZ 55, NZ 8, DP 7, HSLS 2, HSU 1, stranka Nezavisni 1, HNS 1, HSS 1, HDS 1, Dario Zurovec - NL 1. Protiv: SDP 26, Možemo! 10, Centar 2, IDS 2, GLAS 1, DO i SIP 1. Abstain: Most 2"
+    vote_kind: "inverted"
+    read_first: "A vote whose Yes rejects the text (the record says so), but no bill direction is on file for 11/244, item:214348: CitizenGO's position on 'PRIJEDLOG ZAKONA O DOPUNI OBITELJSKOG ZAKONA, prvo čitanje, P.Z. br. 244 - predlagatelj: Klub zastupnika SDP-a' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "hr-11-214487"
+    status: needs_reading
+    title: "KONAČNI PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, drugo čitanje, P.Z.E. br. 262 - predlagateljica: Vlada Republike Hrvatske"
+    dated: "2026-05-15"
+    chamber: "sabor"
+    areas: [11]
+    tier: 1
+    result: "Za 80, Protiv 0, Abstain 37"
+    lobbies: "Za: HDZ 54, NZ 9, DP 6, HSLS 2, IDS 2, HSU 1, stranka Nezavisni 1, SDSS 1, HNS 1, HSS 1, HDS 1, Dario Zurovec - NL 1. Abstain: SDP 23, Možemo! 9, Centar 2, NZ 1, GLAS 1, DO i SIP 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/262, item:214487: CitizenGO's position on 'KONAČNI PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O STRANCIMA, drugo čitanje, P.Z.E. br. 262 - predlagateljica: Vlada Republike Hrvatsk' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 11 (migration). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"

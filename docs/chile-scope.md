@@ -397,6 +397,10 @@ Later phases and items for Chris (not built at the merge):
 - X6: source party history before relying on party at the vote.
 - The Senate-vote backfill still reads bills on our ground only; X15 would widen it.
 
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/cl_stance.yaml` holds 13 bill direction(s) (Claude's drafts from the watchlist) and 5 vote reading(s): 0 with proposed values, 0 procedural, 5 need reading, 0 confirmed. Guide: `docs/5ca-cl-readings.md`; confirm with `python3 tools/country_5ca.py --cc cl --sign-from-doc --by NAME`. Sheets (`data/5ca/cl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Chile (`config/stance_signers.yaml`).
+
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/cl.json` (`src/country_vote_brief.py`, step in `jobs/cl-weekly.sh`). Briefed after each weekly collection. Nobody is named against their party until party history is sourced (X6). See docs/mac-mini.md, "Vote briefs for the new countries".

@@ -159,7 +159,7 @@ def votes(conn, since, until, wl):
             group=("hr", key), group_title=title,
             final=_fold(title).startswith("konacni prijedlog"),
             rebels_note="No member is named against their party until party history is "
-                        "sourced (X6)."))
+                        "sourced (X6).", division_key=r["division_key"]))
     return out
 
 
