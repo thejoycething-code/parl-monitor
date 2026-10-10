@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Portuguese (shared) keyword taxonomy
 
-**Version 0.1 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 ## Purpose
 
@@ -33,6 +33,10 @@ Scope calls applied while merging:
 - Portugal Bracketed guards converted: dador* [with: órgãos, tecidos, transplant*] [without: dador de sangue]
 - Brazil BR3 and BR4 (Chris approved the terms on 10 October 2026): gambling and betting (area 14) and drug decriminalisation (area 15) added as Brazil-only areas; every term in them carries [only: br], so Portugal's collector loads both areas empty and matches exactly what it matched before
 
+Noise round (v0.2, 10 October 2026, approved by Chris).
+
+- `"fim de vida"` (area 2, tier 2) is vetoed by vehicle and waste company (`veículo*`, `automóve*`, `resíduo*`, VFV). Measured on the Portuguese and Brazilian scoping and chamber-layer stores: one item lost, the request on the "Sistema Integrado de Gestão de Veículos em Fim de Vida" (XVII/2/R/11), noise; over the Assembleia's initiatives of the XV, XVI and XVII legislatures the one title with the phrase (the Rede Nacional de Cuidados Paliativos bill) still matches. Brazil unchanged.
+
 ## Issue areas
 
 ### 1. Abortion {#1_abortion}
@@ -44,7 +48,7 @@ Scope calls applied while merging:
 ### 2. Assisted dying and end of life {#2_assisted_dying}
 
 - **Tier 1:** eutanásia*; "suicídio assistido"; "morte assistida"; "morte digna"; distanásia [only: br]; ortotanásia [only: br]; "morte medicamente assistida" [only: pt]; "Lei n.º 22/2023" [only: pt]; eutanásia; "suicídio medicamente assistido"; "antecipação da morte"
-- **Tier 2:** distanásia; "cuidados paliativos"; "diretivas antecipadas de vontade"; "testamento vital"; "terminalidade da vida"; "prevenção do suicídio"; "fim de vida"; "directivas antecipadas de vontade" [only: pt]; "obstinação terapêutica"
+- **Tier 2:** distanásia; "cuidados paliativos"; "diretivas antecipadas de vontade"; "testamento vital"; "terminalidade da vida"; "prevenção do suicídio"; "fim de vida" [without: veículo*, automóve*, resíduo*, VFV]; "directivas antecipadas de vontade" [only: pt]; "obstinação terapêutica"
 - **Notes:** Brazil: Draft list; ortotanásia is the Brazilian addition to the shared vocabulary. Portugal: 'Cuidados paliativos' is twelve of the XVII's twelve area-2 matches (palliative funding); drop it if it floods.
 
 ### 3. Gender medicine and children {#3_gender_medicine_children}

@@ -1,7 +1,7 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy-pt.md
 # Regenerate: python3 tools/generate_taxonomy.py --lang pt
-version: 0.1
+version: 0.2
 areas:
   1_abortion:
     tier1: ["aborto*", "abortamento*", "abortiv*", "nascituro*", "interrupção voluntária da gravidez", "interrupção da gravidez", "interrupção da gestação", "interrupção de gravidez", "interrupção de gestação", {term: "desde a concepção", only: [br]}, "assistolia fetal", mifepristona, misoprostol, {term: Cytotec, only: [br]}, {term: "ADPF 442", only: [br]}, {term: "bolsa estupro", only: [br]}, "anencefal*", {term: "direitos sexuais e reprodutivos", only: [pt]}, "interrupção voluntária de gravidez", {term: IVG, only: [pt]}, {term: "Lei n.º 16/2007", only: [pt]}, {term: "Lei 16/2007", only: [pt]}, {term: "vida intrauterina", only: [pt]}, "vida pré-natal", "pílula abortiva", "objeção de consciência", {term: "objecção de consciência", only: [pt]}, "objetor*", {term: "objector*", only: [pt]}]
@@ -9,7 +9,7 @@ areas:
     # note: Brazil: Measured in the Câmara record; ADPF 442 is the STF case on decriminalisation to 12 weeks, 'bolsa estupro' the campaigners' name for the Estatuto do Nascituro payment. Portugal: Drafted and measured on the XVII dump; Lei 16/2007 is the 2007 referendum law, pre-1990 spellings kept for older texts.
   2_assisted_dying:
     tier1: ["eutanásia*", "suicídio assistido", "morte assistida", "morte digna", {term: distanásia, only: [br]}, {term: ortotanásia, only: [br]}, {term: "morte medicamente assistida", only: [pt]}, {term: "Lei n.º 22/2023", only: [pt]}, eutanásia, "suicídio medicamente assistido", "antecipação da morte"]
-    tier2: [distanásia, "cuidados paliativos", "diretivas antecipadas de vontade", "testamento vital", "terminalidade da vida", "prevenção do suicídio", "fim de vida", {term: "directivas antecipadas de vontade", only: [pt]}, "obstinação terapêutica"]
+    tier2: [distanásia, "cuidados paliativos", "diretivas antecipadas de vontade", "testamento vital", "terminalidade da vida", "prevenção do suicídio", {term: "fim de vida", without: ["veículo*", "automóve*", "resíduo*", VFV]}, {term: "directivas antecipadas de vontade", only: [pt]}, "obstinação terapêutica"]
     # note: Brazil: Draft list; ortotanásia is the Brazilian addition to the shared vocabulary. Portugal: 'Cuidados paliativos' is twelve of the XVII's twelve area-2 matches (palliative funding); drop it if it floods.
   3_gender_medicine_children:
     tier1: ["bloqueador* de puberdade", "bloqueador* puberais", "bloqueio puberal", "bloqueio da puberdade", "hormonização cruzada", "terapia hormonal cruzada", "redesignação sexual", "redesignação de sexo", {term: "cirurgia* de transgenitalização", only: [br]}, {term: transgenitalização, only: [br]}, {term: "disforia de gênero", only: [br, pt]}, {term: "incongruência de gênero", only: [br, pt]}, "crianças trans", {term: "crianças transgênero", only: [br]}, "adolescentes trans", {term: "processo transexualizador", only: [br]}, {term: "afirmação de gênero", only: [br, pt]}, detransição, destransição, "bloqueadores da puberdade", {term: "bloqueadores hormonais", only: [pt]}, {term: "transição de género", only: [pt]}, "cirurgia de redesignação", "reatribuição de sexo"]
