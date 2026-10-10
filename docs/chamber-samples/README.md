@@ -39,6 +39,11 @@ not yet:
   - taxonomy-nl `transitie` (area 3, guarded with kinderen/jongeren) matched
     the debate on passend onderwijs (30 September), where the "transitie" is
     to inclusive schooling and the children are pupils (Netherlands).
+  - All three are fixed at the source in the noise round of 10 October
+    2026 (taxonomy-fr, -pt and -nl v0.2): `séparatisme` needs religious or
+    laïcité company, `fim de vida` is vetoed by vehicles and waste, and
+    `transitie` needs gender or medical company. The samples above are left
+    as rendered.
   - Migration (area 11) is most of the Dutch, Austrian and Swiss matches; it
     is stored and, as everywhere, not shown.
 - **Questions** are one entry each, with the asker, their group, the
