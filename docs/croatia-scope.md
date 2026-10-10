@@ -541,3 +541,9 @@ hand with `--speakers` (matched to the member list) once known. Placements come 
 readings confirmed in `config/hr_stance.yaml`; none is confirmed yet, so every pack shows
 "čeka potvrdu" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
+
+- Phase (X7): Tesseract OCR on the Mini for scanned records.
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/hr.json` (`src/country_vote_brief.py`, step in `jobs/hr-weekly.sh`). Briefed after each weekly collection. Nobody is named against their party until party history is sourced (X6). See docs/mac-mini.md, "Vote briefs for the new countries".

@@ -57,6 +57,18 @@ def _sides(conn, besluit_id):
     return sides
 
 
+def apart(conn, besluit_id):
+    """'Name (Fractie)' for each member the Kamer recorded voting apart from
+    their own fractie on a show of hands (a member row whose position differs
+    from the fractie's row; motion 2026Z08607, tools/nl_rollcalls.tally)."""
+    rows_ = ce.rows(conn, "SELECT kind, actor, fractie, position FROM nl_votes WHERE besluit_id=?",
+                    (besluit_id,))
+    group = {v["fractie"]: v["position"] for v in rows_ if v["kind"] == "fractie"}
+    return sorted("{0} ({1})".format(ce.clean(v["actor"]), v["fractie"]) for v in rows_
+                  if v["kind"] == "lid" and v["fractie"] in group
+                  and v["position"] != group[v["fractie"]])
+
+
 EK = "Eerste Kamer"
 
 
@@ -145,15 +157,17 @@ def tweede_kamer(conn, since, until, wl):
         roll = (r["stemmingssoort"] or "").lower().startswith("hoofdelijk")
         lines = [ce.tally_line(r["voor"], r["tegen"], None, r["besluit_tekst"],
                                "roll call, members" if roll else "show of hands, seats")]
+        pairs, reb, note = None, None, None
         if r["positions_pending"]:
             lines.append("Positions not yet published by the Kamer; the result stands.")
         elif roll:
             got = ce.rows(conn, "SELECT actor, fractie, position FROM nl_votes WHERE besluit_id=? "
                                 "AND kind='lid'", (r["besluit_id"],))
             pairs = [(v["actor"], v["fractie"], v["position"]) for v in got]
+            reb = ce.rebels(pairs, ("voor",), ("tegen",))
             lines.append(ce.split_line(ce.group_counts([(f, p) for _, f, p in pairs],
                                                        ("voor",), ("tegen",), ()), "By fractie"))
-            lines.append(ce.members_line(len(pairs), ce.rebels(pairs, ("voor",), ("tegen",))))
+            lines.append(ce.members_line(len(pairs), reb))
         else:
             sides = _sides(conn, r["besluit_id"])
             lines.append(ce.side_line(sides["Voor"], sides["Tegen"], "By fractie (seats)"))
@@ -161,6 +175,10 @@ def tweede_kamer(conn, since, until, wl):
                        if m["derived"]]
             lines.append(ce.derived_line(len(derived),
                                          "fractie vote; every member the store lists under that fractie, former members included"))
+            reb = apart(conn, r["besluit_id"])
+            note = ("A show of hands: one position per fractie, member positions DERIVED "
+                    "(X5); a member is named only when the Kamer recorded them voting apart "
+                    "from their fractie.")
         soort = r["soort"] or ""
         group = dossiers[0] if dossiers and soort not in ("Motie",) else None
         dossier = "{0}{1}".format(dossiers[0], ": " + titles[0] if titles else "") \
@@ -174,7 +192,8 @@ def tweede_kamer(conn, since, until, wl):
                            takeaway=ce.clip(take, 260), group=group,
                            group_title=titles[0] if group and titles else None,
                            final=soort in BILLS, own=bool(ce.areas_of(r["own_areas"])),
-                           watch_key=hit, refs=titles, division=r["besluit_id"]))
+                           watch_key=hit, refs=titles, positions=pairs, rebels=reb,
+                           rebels_note=note, division=r["besluit_id"]))
     return out
 
 

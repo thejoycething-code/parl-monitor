@@ -1,0 +1,75 @@
+{
+ "dados": [
+  {
+   "id": "2645346-18",
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2645346-18",
+   "data": "2026-09-02",
+   "dataHoraRegistro": "2026-09-02T13:53:25",
+   "siglaOrgao": "PLEN",
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/180",
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/82955",
+   "proposicaoObjeto": null,
+   "uriProposicaoObjeto": null,
+   "descricao": "Aprovado o Projeto de Decreto Legislativo nº 995, de 2026 (Aprova a indicação do Sr. Rodrigo Otávio Soares Pacheco para o cargo de Ministro do Tribunal de Contas da União). Sim: 404; Não: 61; Abstenção: 1; Total: 466.",
+   "aprovacao": 1
+  },
+  {
+   "id": "2643915-8",
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2643915-8",
+   "data": "2026-09-01",
+   "dataHoraRegistro": "2026-09-01T17:57:04",
+   "siglaOrgao": "PLEN",
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/180",
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/82944",
+   "proposicaoObjeto": "REQ 4063/2026",
+   "uriProposicaoObjeto": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2643915",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 320; Não: 67; Abstenção: 1; Total: 388.",
+   "aprovacao": 1
+  },
+  {
+   "id": "2379032-83",
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2379032-83",
+   "data": "2026-09-02",
+   "dataHoraRegistro": "2026-09-02T18:33:40",
+   "siglaOrgao": "PLEN",
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/180",
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/82956",
+   "proposicaoObjeto": null,
+   "uriProposicaoObjeto": null,
+   "descricao": "Aprovada a Redação Final assinada pelo relator, Dep. Padre João (PT-MG).",
+   "aprovacao": 1
+  },
+  {
+   "id": "2379032-81",
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2379032-81",
+   "data": "2026-09-02",
+   "dataHoraRegistro": "2026-09-02T18:32:31",
+   "siglaOrgao": "PLEN",
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/180",
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/82956",
+   "proposicaoObjeto": null,
+   "uriProposicaoObjeto": null,
+   "descricao": "Mantido o texto.",
+   "aprovacao": null
+  },
+  {
+   "id": "2379032-78",
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2379032-78",
+   "data": "2026-09-02",
+   "dataHoraRegistro": "2026-09-02T18:28:27",
+   "siglaOrgao": "PLEN",
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/180",
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/82956",
+   "proposicaoObjeto": null,
+   "uriProposicaoObjeto": null,
+   "descricao": "Aprovado o Substitutivo ao Projeto de Lei nº 3.904, de 2023, adotado pelo relator da Comissão de Agricultura, Pecuária, Abastecimento e Desenvolvimento, ressalvado o destaque.",
+   "aprovacao": 1
+  }
+ ],
+ "links": [
+  {
+   "rel": "self",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/votacoes?dataInicio=2026-09-01&dataFim=2026-09-03&itens=200&ordem=DESC&ordenarPor=dataHoraRegistro"
+  }
+ ]
+}

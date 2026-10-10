@@ -72,6 +72,14 @@ fi
 if [ "${SK_PUBLISH:-true}" = "false" ]; then
   exit "$rc"
 fi
+# Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
+# this country's watched and tier-1 votes not briefed yet, written to
+# data/briefs/ and sent in one DM to Chris alone, de-duplicated in
+# data/vote-briefs/sk.json (committed with data/). Never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_vote_briefs.py --country sk --send \
+    || echo "  [gap] vote briefs failed for sk; the next run retries"
+fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "sk-rollcalls failed (exit $rc); nothing published"
   exit "$rc"
