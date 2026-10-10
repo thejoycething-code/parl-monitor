@@ -29,6 +29,7 @@ from __future__ import annotations
 import json
 import re
 
+from src import agenda
 from src import country_edition as ce
 from src.filter import _fold
 
@@ -260,7 +261,7 @@ def items(conn, since, until, wl):
 COUNTRY = ce.Country(
     cc=CC, name="Brazil", chamber="Câmara dos Deputados and Senado Federal",
     language="Portuguese", taxonomies=(("taxonomy-pt.yaml", "br"),), items=items,
-    flag=":flag-br:",
+    flag=":flag-br:", week_ahead=agenda.week_ahead_fn(CC), ahead_note=agenda.ahead_note_fn(CC),
     members_note=("Positions are stored for every nominal vote, with each member's party at "
                   "the vote; most decisions in both houses are symbolic votes, which record no "
                   "position and are not in the store. A Senate secret ballot records only who "
@@ -269,7 +270,9 @@ COUNTRY = ce.Country(
         "Collected: every nominal vote of both houses with positions, the Câmara leaders' "
         "orientations, and the proposições those votes name (tools/br_rollcalls.py, phase 1).",
         "Not yet collected: the bill register (phase 2), so a bill filed but never voted is "
-        "not seen; committee agendas and tramitação steps (phase 3); the state assemblies.",
+        "not seen; tramitação steps (phase 3); the state assemblies.",
+        "The week ahead is the Câmara's pauta (plenary and committees) and the Senado's "
+        "plenary agenda, matched to bills by number.",
         "Areas 14 (gambling and betting) and 15 (drug decriminalisation) are Brazil's own "
         "(BR3, BR4).",
     ),
