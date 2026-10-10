@@ -59,3 +59,109 @@ bill_directions:
     drafted: "Claude, 10 October 2026, from config/watchlist-ec.yaml"
 
 divisions:
+
+  # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
+  - key: "ec-1004054"
+    status: needs_reading
+    title: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Donación y Trasplante de Órganos, Tejidos y Células / Archivo del Proyecto de Ley Orgánica Reformatoria a la Ley Orgá"
+    on: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Donación y Trasplante de Órganos, Tejidos y Células"
+    dated: "2025-09-10"
+    chamber: "asamblea"
+    areas: [13]
+    tier: 1
+    result: "Sí 78, No 54, Abstain 4"
+    lobbies: "Sí: Acción Democrática Nacional (ADN) 43, ? 24, Pachakutik 5, 15 2, 26 2, Revolución Ciudadana 1, 16 1. No: Revolución Ciudadana 45, ? 6, Pachakutik 2, 16 1. Abstain: ? 2, 26 1, Partido Social Cristiano 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica '): read the question put, then write yea/nay."
+    reasoning: "Area 13 (organ donation). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "ec-1004055"
+    status: needs_reading
+    title: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Donación y Trasplante de Órganos, Tejidos y Células / Reconsideración del Archivo del Proyecto de Ley Orgánica Reform"
+    on: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Donación y Trasplante de Órganos, Tejidos y Células"
+    dated: "2025-09-10"
+    chamber: "asamblea"
+    areas: [13]
+    tier: 1
+    result: "Sí 54, No 80, Abstain 2"
+    lobbies: "Sí: Revolución Ciudadana 45, ? 6, Pachakutik 2, 16 1. No: Acción Democrática Nacional (ADN) 43, ? 25, Pachakutik 5, 26 3, 15 2, Revolución Ciudadana 1, 16 1. Abstain: Partido Social Cristiano 1, ? 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica '): read the question put, then write yea/nay."
+    reasoning: "Area 13 (organ donation). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "ec-1004115"
+    status: needs_reading
+    title: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Humana, Unificado / Aprobación del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Hum"
+    on: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Humana, Unificado"
+    dated: "2025-10-22"
+    chamber: "asamblea"
+    areas: [11]
+    tier: 1
+    result: "Sí 88, No 58, Abstain 2"
+    lobbies: "Sí: Acción Democrática Nacional (ADN) 47, ? 24, Pachakutik 8, 26 4, 15 3, Partido Social Cristiano 1, 16 1. No: Revolución Ciudadana 48, ? 9, 16 1. Abstain: Revolución Ciudadana 1, ? 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica '): read the question put, then write yea/nay."
+    reasoning: "Area 11 (migration). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "ec-1004116"
+    status: needs_reading
+    title: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Humana, Unificado / Reconsideración de la Aprobación del Proyecto de Ley Orgánica Reformatoria a la Ley Org"
+    on: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Humana, Unificado"
+    dated: "2025-10-22"
+    chamber: "asamblea"
+    areas: [11]
+    tier: 1
+    result: "Sí 60, No 88"
+    lobbies: "Sí: Revolución Ciudadana 49, ? 10, 16 1. No: Acción Democrática Nacional (ADN) 48, ? 23, Pachakutik 8, 26 4, 15 3, Partido Social Cristiano 1, 16 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica '): read the question put, then write yea/nay."
+    reasoning: "Area 11 (migration). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "ec-1004126"
+    status: needs_reading
+    title: "Proyecto de Resolución para reconocer y destacar la reducción, entre los años 2023 y 2025, de más del 90% de la migración irregular de ciudadanos ecuatorianos, gracias a la implementación de políticas, planes y programas orientados a promov"
+    on: "Proyecto de Resolución para reconocer y destacar la reducción, entre los años 2023 y 2025, de más del 90% de la migración irregular de ciudadanos ecuatorianos, gracias a la implementación de políticas"
+    dated: "2025-10-28"
+    chamber: "asamblea"
+    areas: [11]
+    tier: 1
+    result: "Sí 76, No 55, Abstain 7"
+    lobbies: "Sí: Acción Democrática Nacional (ADN) 48, ? 19, 15 3, Pachakutik 3, 26 2, 16 1. No: Revolución Ciudadana 41, ? 10, Pachakutik 3, 16 1. Abstain: Pachakutik 2, 26 2, ? 2, Partido Social Cristiano 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Proyecto de Resolución para reconocer y destacar la reducción, entre los años 2023 y 2025, de más del 90% de la migració'): read the question put, then write yea/nay."
+    reasoning: "Area 11 (migration). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "ec-1004205"
+    status: needs_reading
+    title: "Conocer el Informe para Primer Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica contra la trata de personas y el tráfico ilícito de migrantes / Archivo del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica contra la"
+    on: "Conocer el Informe para Primer Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica contra la trata de personas y el tráfico ilícito de migrantes"
+    dated: "2025-12-09"
+    chamber: "asamblea"
+    areas: [11, 12]
+    tier: 1
+    result: "Sí 0, No 67, Abstain 80"
+    lobbies: "No: Revolución Ciudadana 50, ? 13, Pachakutik 3, 16 1. Abstain: Acción Democrática Nacional (ADN) 51, ? 17, 26 4, Pachakutik 4, 15 3, 16 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Conocer el Informe para Primer Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica contra la trata de per'): read the question put, then write yea/nay."
+    reasoning: "Area 11 (migration), 12 (prostitution and trafficking). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "ec-1004767"
+    status: needs_reading
+    title: "Conocer el Informe del Proceso de Fiscalización sobre las actuaciones institucionales y administrativas relacionadas con los procesos de contratación pública y gestión administrativa vinculados a la adquisición de 60 trolebuses eléctricos p"
+    on: "Conocer el Informe del Proceso de Fiscalización sobre las actuaciones institucionales y administrativas relacionadas con los procesos de contratación pública y gestión administrativa vinculados a la a"
+    dated: "2026-06-23"
+    chamber: "asamblea"
+    areas: [11]
+    tier: 1
+    result: "Sí 83, No 54, Abstain 4"
+    lobbies: "Sí: Acción Democrática Nacional (ADN) 42, ? 29, Pachakutik 5, 26 4, 15 2, 16 1. No: Revolución Ciudadana 39, ? 13, Pachakutik 2. Abstain: ? 2, 16 1, Partido Social Cristiano 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Conocer el Informe del Proceso de Fiscalización sobre las actuaciones institucionales y administrativas relacionadas con'): read the question put, then write yea/nay."
+    reasoning: "Area 11 (migration). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
