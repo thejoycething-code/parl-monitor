@@ -263,6 +263,7 @@ class Spec:
     extra: Optional[str] = None          # SQL: key, label, value (shown under identity)
     notes: tuple = ()                    # extra lines for the profile's notes
     vote_note: Optional[Callable] = None # fn(vote) -> a short note for its table row
+    position_words: Optional[dict] = None  # a source's position CODES, spelt out beside them
 
 
 def sql_positions(sql):
@@ -565,7 +566,10 @@ SPECS = {
                      "GROUP BY 1, 3",
         extra="SELECT mp_id, 'Elected on the list of', party FROM sk_members",
         questions=_sk_questions,
-        party_note="The club the vote page groups each member under (no club: independent)."),
+        position_words={"Z": "za", "P": "proti", "?": "zdržal sa", "N": "nehlasoval",
+                        "0": "neprítomný"},
+        party_note="The club the vote page groups each member under (no club: independent). "
+                   "Positions are the Národná rada's codes, with its word beside each."),
     "hr": Spec(
         "hr", "SELECT slug, name, party, 'Hrvatski sabor', constituency, "
               "mandate = 'Aktivan' FROM hr_members",
@@ -691,7 +695,7 @@ SPECS = {
                    "list's latest, as listed, not party at the vote."),
     "uy": Spec(
         "uy", "SELECT name, name, party, chamber, departamento, NULL FROM uy_members",
-        None, basis="as_listed", listed_label=AS_LISTED_ROSTER,
+        None, basis="as_listed", listed_label="as listed on the member roster",
         questions=_uy_questions,
         party_note="Uruguay publishes no member-level votes we can reach (the Parliament's "
                    "main site refuses us): profiles hold questions only."),
@@ -886,6 +890,12 @@ def short_basis(basis):
     return b
 
 
+def spelt(spec, position):
+    """A coded position with the source's own word beside it: 'Z (za)'."""
+    word = (spec.position_words or {}).get(position)
+    return "{0} ({1})".format(position, word) if word else position
+
+
 def vote_row(spec, v):
     text = v["title"] or ""
     if v.get("group_title") and v["group_title"] != text:
@@ -901,7 +911,7 @@ def vote_row(spec, v):
     note = spec.vote_note(v) if spec.vote_note else None
     if note:
         marks.append(note)
-    position = md(v["position"]) + (" (DERIVED)" if v["derived"] else "")
+    position = md(spelt(spec, v["position"])) + (" (DERIVED)" if v["derived"] else "")
     party = "{0} ({1})".format(md(v["party"]), short_basis(v["basis"])) if v["party"] else \
         "not known ({0})".format(short_basis(v["basis"]))
     areas = ce.area_text(v["areas"]) or "watched"
@@ -924,21 +934,22 @@ def linked_row(r):
         title, md(r["key"]), md(r["role"]).rstrip("."), areas)
 
 
-def by_area(votes):
+def by_area(votes, spec=None):
     """'abortion: “pour” 3, “contre” 1; ...' over every vote."""
     areas = {}
     for v in votes:
         for a in v["areas"] or [None]:
             areas.setdefault(a, []).append(v)
     return "; ".join("{0}: {1}".format(ce.area_text([a]) if a else "watched only",
-                                      position_counts(vs))
+                                      position_counts(vs, spec))
                      for a, vs in sorted(areas.items(), key=lambda kv: (kv[0] is None, kv[0] or 0)))
 
 
-def position_counts(votes):
+def position_counts(votes, spec=None):
     counts = {}
     for v in votes:
-        counts[v["position"]] = counts.get(v["position"], 0) + 1
+        k = spelt(spec, v["position"]) if spec else v["position"]
+        counts[k] = counts.get(k, 0) + 1
     return ", ".join("“{0}” {1}".format(md(k), n)
                      for k, n in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])))
 
@@ -988,11 +999,11 @@ def render_member(data, m, sample=False):
         out += ["## Votes on our ground ({0})".format(len(m.votes)), ""]
         if recorded:
             out.append("Recorded positions ({0}): {1}.".format(len(recorded),
-                                                               position_counts(recorded)))
+                                                               position_counts(recorded, spec)))
         if derived:
             out.append("DERIVED positions ({0}, from the group's vote, X5; not recorded per "
-                       "member): {1}.".format(len(derived), position_counts(derived)))
-        out.append("By area (every vote): {0}.".format(by_area(m.votes)))
+                       "member): {1}.".format(len(derived), position_counts(derived, spec)))
+        out.append("By area (every vote): {0}.".format(by_area(m.votes, spec)))
         out += ["", "{0}:".format("Every vote" if len(m.votes) <= MAX_VOTES_SHOWN else
                                   "The latest {0}".format(MAX_VOTES_SHOWN)), "",
                 "| Date | Position | Party at the vote | Vote | Areas |",
