@@ -874,6 +874,13 @@ ON_DEMAND = {
                               "allowance; no GitHub workflow, and a run with "
                               "claude signed out publishes nothing, so no "
                               "cadence is expected; mini_run.sh DMs its failures.",
+    "Daily vote briefs": "Mac Mini only (jobs/vote-briefs-daily.sh, 21:40 "
+                         "Mon-Fri and 06:40 Tue-Sat London): the Netherlands, "
+                         "Poland, Switzerland, Brazil and Italy read directly "
+                         "into a throwaway store; it never publishes the "
+                         "store, so it stamps no heartbeat, and each "
+                         "country's weekly step is its backstop; mini_run.sh "
+                         "DMs its failures.",
     "Provinces backfill": "run by hand on the Mac Mini (jobs/prov-backfill.sh): "
                           "a province's earlier sessions or Hansard days, read "
                           "until nothing is owed; never the weekly's heartbeat.",

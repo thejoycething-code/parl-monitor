@@ -33,6 +33,15 @@ if [ "${EC_RECLASSIFY:-}" = "true" ]; then
 fi
 rc=0
 python3 tools/ec_rollcalls.py --budget-seconds 2700 || rc=$?
+# Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
+# this country's watched and tier-1 votes not briefed yet, written to
+# data/briefs/ and sent in one DM to Chris alone, de-duplicated in
+# data/vote-briefs/ec.json (committed with data/). Before the alerts:
+# a vote briefed here is not alerted again. Never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_vote_briefs.py --country ec --send \
+    || echo "  [gap] vote briefs failed for ec; the next run retries"
+fi
 # Instant Latam alerts (tools/latam_alerts.py): this country's watched and
 # tier-1 items, a short DM each to Chris alone, de-duplicated in
 # data/latam-alerts/ec.json (committed with data/). Never stops the run.
