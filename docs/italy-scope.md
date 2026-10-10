@@ -499,3 +499,4 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: dati.camera.it SPARQL as the Camera's backup source, or main when quicker (IT2). Needs fixtures from the live service and a member-key crosswalk (Openpolis to persistent IDs); not built at the merge.
 - Phase: regional councils after national (IT3).
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/it/` from the store each weekly run (`tools/member_profiles.py it`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.

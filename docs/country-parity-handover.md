@@ -17,7 +17,7 @@ Everything it built is on main. Read this with
 | Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | **no** |
 | 5CA (member stance, five columns) | yes | yes | yes | yes | **no** |
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **no** |
-| Member profiles | yes | yes | US yes | no | **no** |
+| Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
 | Debates / speeches | yes | yes | IE, AU | yes | **no** |
 | Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press) |
 | Week ahead / agenda | yes | yes | yes | no | partial (HR, BE; framework supports it) |
@@ -64,6 +64,21 @@ votes on our ground, watched-bill authorship where the source has it).
 Reuse the US/DE profile code. X6 applies: party at the vote needs party
 history before member-level claims (HR, CL, GT currently show party as
 listed).
+
+**Built 10 October 2026 (branch `parity-profiles`).** `src/member_profiles.py`
+(one generic generator, a few SQL statements per country) and
+`tools/member_profiles.py <cc>`, a step of every new country's weekly job:
+`profiles/<cc>/<member>.md` and `index.md` for AR, AT, BE, BR, CH, CL, CO,
+DO, EC, ES, FR, GT, HR, HU, IT, MX, NL, PE, PL, PT, SK, SV, UY. Votes come
+from each edition adapter with its noise rules and judge scores (the
+framework's `item(division=)` field, additive); positions verbatim; party at
+the vote with its basis on every line. X6: Croatia's transcripts
+(`tools/hr_party_history.py`, `hr_party_seen`) and Chile's senators from the
+BCN (`tools/cl_senate_parties.py`); Guatemala, Ecuador, Colombia and Belgium
+labelled "not party at the vote". X5: AT, PT, NL positions DERIVED, labelled.
+Authorship where the store links it (PT, AT, FR, BE, CH, AR, PE, CL, CO);
+questions for SK, UY, AT. Not built: Bolivia, Panama, Honduras (no member
+records on our ground), Mexico authorship (presenter is prose).
 
 ### 4. Week ahead
 The framework already renders a week-ahead section when a store holds

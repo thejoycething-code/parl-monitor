@@ -420,3 +420,4 @@ Later phases and items for Chris (not built at the merge):
 
 - meineabgeordneten.at licence (AT5): a request in Chris's name.
 - Phase: the Landtage after national (AT6).
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/at/` from the store each weekly run (`tools/member_profiles.py at`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Member positions are DERIVED from the Klub votes (X5) and labelled on every line; Anträge and Anfragen naming the member (`at_items.persons`) are listed.

@@ -512,3 +512,4 @@ Later phases and items for Chris (not built at the merge):
 
 - X6: source party history before relying on party at the vote.
 - Phase (X7): Tesseract OCR on the Mini for scanned records.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/hr/` from the store each weekly run (`tools/member_profiles.py hr`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Party history from the plenary transcripts (X6): `tools/hr_party_history.py` reads each transcript's "Surname, Name (PARTY)" headings into `hr_party_seen`, and a vote line shows the party seen in debate around the vote, or the listed party labelled "not party at the vote".

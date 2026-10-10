@@ -464,3 +464,4 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - The unpublished votes (SV6): a request in Chris's name.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/sv/` from the store each weekly run (`tools/member_profiles.py sv`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. The vote PDFs print names only, matched to the member list by name (a short form only when it fits exactly one member).

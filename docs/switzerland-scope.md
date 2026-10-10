@@ -426,3 +426,4 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: the Italian texts (CH6): fetch the Italian business records (a third Language pass), store title_it, and match `config/taxonomy-it.yaml` for `ch`. Not built at the merge: it needs a schema column, a fetch pass and fixtures.
 - The scope's veto on the Quebec IVG term and guard on euthanasie change base terms, so they are not in the addendum.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/ch/` from the store each weekly run (`tools/member_profiles.py ch`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.

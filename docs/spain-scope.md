@@ -522,3 +522,4 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: the Spanish edition (ES6, build now): a DM edition on the store, as the US and Australian ones. Not built at the merge; next.
 - Senado open-data contact (ES5): a message in Chris's name, not sent by the pipeline.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/es/` from the store each weekly run (`tools/member_profiles.py es`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.

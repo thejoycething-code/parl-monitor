@@ -487,3 +487,7 @@ Applied on the `countries` branch:
 
 - Term list approved (PL1); `config/taxonomy-pl.yaml` generated.
 - The Senate gap is accepted (PL2).
+
+## Member profiles (10 October 2026)
+
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/pl/` from the store each weekly run (`tools/member_profiles.py pl`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.

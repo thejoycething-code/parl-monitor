@@ -396,3 +396,4 @@ Later phases and items for Chris (not built at the merge):
 
 - X6: source party history before relying on party at the vote.
 - The Senate-vote backfill still reads bills on our ground only; X15 would widen it.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/cl/` from the store each weekly run (`tools/member_profiles.py cl`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Party history (X6): deputies from the Cámara's militancias (already stored); senators from the BCN's open data (`tools/cl_senate_parties.py`, one SPARQL query a week, `cl_party_spells` rows for S- members), so a Senate vote shows the party on the day where the BCN covers it.

@@ -460,3 +460,4 @@ Later phases and items for Chris (not built at the merge):
 
 - Chamber-only votes (DO2).
 - The Senate credentials in its front end stay unused (S2).
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/do/` from the store each weekly run (`tools/member_profiles.py do`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
