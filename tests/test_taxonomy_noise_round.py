@@ -146,6 +146,21 @@ class SpanishTests(unittest.TestCase):
         self.assertNotIn(1, areas(tax("es", "ec"), art146))
         self.assertIn(1, areas(tax("es", "cl"), "el aborto en tres causales"))
 
+    def test_tres_causales_needs_abortion_company(self):
+        # Chile's euthanasia bill 17732-11 regulates "la eutanasia en tres
+        # causales": assisted dying, not abortion.
+        for cc in ("cl", "do"):
+            es = tax("es", cc)
+            for text in ("Regula la eutanasia en tres causales",
+                         "Modifica diversos cuerpos legales para regular la eutanasia en tres causales"):
+                got = areas(es, text)
+                self.assertNotIn(1, got, (cc, text))
+                self.assertIn(2, got, (cc, text))
+            for text in ("Regula la despenalización de la interrupción voluntaria del embarazo en tres causales",
+                         "el aborto en tres causales",
+                         "tres causales: riesgo de vida de la mujer embarazada"):
+                self.assertIn(1, areas(es, text), (cc, text))
+
     def test_the_court_side_mask_is_gone(self):
         # The guard now lives in taxonomy-es; src/courts.py no longer masks.
         self.assertFalse(hasattr(courts, "COURT_GUARDS"))
