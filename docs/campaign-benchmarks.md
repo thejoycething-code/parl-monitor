@@ -734,3 +734,16 @@ comparable is the Islamophobia free-speech campaign at 16% acquisition. That is
 the benchmark change doing exactly what it was built to do — but it also means
 an area 7 expectation written last week and one written today are not measuring
 the same population.
+
+## Per-country exports for the new countries (10 October 2026)
+
+`tools/country_campaign.py performance --cc CC` (src/country_campaign.py)
+reads `data/looker/<cc>_campaigns.tsv`: the query above with
+`program: "<PREFIX>%"` for the country's list, saved in the same TSV shape
+(header `program bound looker_topic start_date signatures new_members otd_eur
+md_eur sent_emails`, `#` lines for when and how). The prefix is taken as the
+country code in capitals (`PL`, `IT`, `ES`, ...), a guess to check in Looker
+before the first pull; the report lists the prefixes it found. The file is
+read, never loaded into the store and never pooled with the UK's numbers. No
+country has one yet; until it does the command says "no campaign performance
+data yet" and nothing is estimated.
