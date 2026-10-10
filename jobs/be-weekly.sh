@@ -37,9 +37,13 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Belgium weekly}"
 if [ "${BE_RECLASSIFY:-}" = "true" ]; then
   python3 tools/be_rollcalls.py --reclassify
+  python3 tools/be_chamber.py --reclassify
 fi
 rc=0
 python3 tools/be_rollcalls.py --budget-seconds 2700 || rc=$?
+# What was said and asked in the chamber (tools/be_chamber.py, parity layer 5):
+# time-boxed to what is left of the hour, never fatal, skipped on GitHub.
+bash tools/chamber_step.sh be "$SECONDS"
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM).
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"

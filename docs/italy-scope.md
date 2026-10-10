@@ -464,6 +464,10 @@ dying (Toscana's 2025 regional law), the consultori and the pro-life
 associations admitted to them, school and family policy. Each council publishes its
 own way; no aggregator was probed.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+NOT built. The Senate's SPARQL endpoint (questions as osr:SindacatoIspettivo, speeches as osr:Intervento) answered 403 to every query from the laptop and from the Mac Mini on 10 October 2026, simple ones included; the Italy weekly's own Senate position queries were refused the same way in its last run (gaps in its log). Adding queries to a host that is refusing us would make it worse: ask the Senate's open-data office, or wait for the 403s to clear, before building questions or speeches.
+
 ## Waiting on Chris
 
 1. **Approve, cut or correct the Italian term list** above (ideally with an

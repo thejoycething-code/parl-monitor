@@ -379,6 +379,10 @@ Everything else is new and Belgium's own: `src/be_store.py`,
 `ops/launchd/net.citizengo.parlmonitor.be-weekly.plist`,
 `.github/workflows/be-weekly.yml` and this file.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: plenary speeches from the Integraal Verslag (the record be_rollcalls reads), speaker and group from the record's own `oraspr` spans, both language lists on every speech, the five-second crawl delay kept, `tools/be_chamber.py`, a step of the Belgian weekly. A "Site under maintenance" page (answered 200 for sittings 138 to 140 on 10 October 2026) is a gap, never a sitting read. Written questions are NOT built: the API pages them ten at a time with no date or order, and the bulk archive lagged a month (deposits to 7 September on 9 October).
+
 ## Waiting on Chris
 
 1. **Approve, cut or correct the proposed Dutch and French terms** above

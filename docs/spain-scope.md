@@ -476,6 +476,10 @@ otherwise: `src/es_store.py`, `tools/es_rollcalls.py`,
 `.github/workflows/es-weekly.yml`, `tests/test_es_rollcalls.py`,
 `tests/fixtures/es/`, this document.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+NOT built yet. The Cortes were dissolved on 6 October 2026 (Real Decreto 806/2026; election 29 November, the XVI legislature convenes on 23 December), so there are no plenary sittings or questions to read until then. The source is open (the Congreso's intervenciones file and the Diario de Sesiones); build with the new legislature.
+
 ## Waiting on Chris
 
 1. **Approve or amend the Spanish terms above**, ideally after a read by
