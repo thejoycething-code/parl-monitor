@@ -147,6 +147,18 @@ MX5, CO5, PE3, BO3, GT3, HN6, DO3. Panama's stays empty (PA5 deferred).
 - Quebec: `config/taxonomy-qc.yaml` stays unchanged. The Belgian and Swiss
   requests to edit existing Quebec terms (the IVG veto, the euthanasie guard
   and the tier differences) are declined; country additions stay additions.
+- France 5CA sign-off scope: limited to final votes and watched amendments.
+  Only a vote on the whole text, a motion to reject it (or a Yes recorded as
+  rejecting it), procedure about the whole text, and the amendment or
+  article votes listed under a dossier's `amendments:` in
+  `config/watchlist-fr.yaml` (by division key, or by amendment number within
+  that dossier) are drafted for sign-off. Built on branch `fr-signoff-scope`
+  as a per-country scope on `country5ca.Spec` (every other country keeps the
+  full scope) and a reusable `tools/country_5ca.py --prune-out-of-scope`
+  (never removes a confirmed or hand-edited entry). Run for France the same
+  day: 1,037 unsigned, untouched amendment and article entries removed, 13
+  final and reject votes left (10 proposed, 3 need reading), none kept for
+  hand edits. No amendment is watched yet.
 
 ## The Latam monitor as built (branch `latam`)
 

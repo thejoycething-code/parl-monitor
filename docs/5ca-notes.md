@@ -241,6 +241,22 @@ sheet and the checkbox format are `src/readings5ca.py`'s, unchanged.
   owners). `readings5ca.status` now reads this `status:` field (additive:
   files without it read as before), so a `confirmed` entry with no name or
   date is still a draft everywhere, the vote briefs included.
+* **The sign-off scope** (Chris, 10 October 2026). A spec may limit what is
+  drafted for sign-off (`Spec.scope`; none means every qualifying vote, as
+  for every country but France). France's is `final_or_watched`: votes on
+  the whole text, motions to reject it and inverted votes; procedure only
+  when its wording is about the whole text; and amendment or article votes
+  only when listed under their dossier's `amendments:` in
+  `config/watchlist-fr.yaml`, by division key (exact) or by amendment number
+  as the Assemblee words it (any vote in that dossier on that number). The
+  drafter skips the rest and counts them. `--prune-out-of-scope`
+  (`--dry-run` to see first) removes out-of-scope entries that are unsigned
+  and untouched: stamped by the drafter, no yea/nay or why lines, no
+  `confirmed_by`, no `placeable: false` but the drafter's own procedural
+  one, no comment inside the entry. Everything else is kept and reported,
+  and the edit is checked to leave every kept entry exactly as it was.
+  France, 10 October: 1,050 entries to 13 (10 proposed, 3 need reading);
+  1,037 amendment and article drafts removed, none kept.
 * **The sheets** (`--sheets`, `data/5ca/<cc>-5ca-<chamber>-<area>.csv`) are
   written only for a chamber and area with a confirmed reading that places
   someone, and removed when that stops being true, so no unconfirmed stance
@@ -260,7 +276,8 @@ Initial drafts (10 October 2026), from the 9-10 October scoping and edition
 stores (the published store held no rows for these countries yet): 2,012
 entries in 18 countries, 71 with proposed values, 43 procedural, 1,898 need
 reading, none confirmed. France alone is 1,050, nearly all amendments to the
-aide a mourir law: each needs its text read. Peru, El Salvador and Guatemala
+aide a mourir law: each needs its text read. (France was cut to 13 the same day by
+the sign-off scope above: 975 entries in all.) Peru, El Salvador and Guatemala
 have bill directions but no qualifying votes in any store yet.
 
 
