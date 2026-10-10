@@ -1,6 +1,6 @@
 # Parliamentary Monitor: French (France, Belgium, Switzerland) keyword taxonomy
 
-**Version 0.1 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 **Extends:** qc
 
@@ -37,6 +37,10 @@ Scope calls applied while merging:
 - Switzerland X12: no contraception term in the Swiss doc
 - Switzerland CH2: individual taxation / marriage penalty added to area 9; CH3: E-ID added to area 7 tier 2 (the doc names the term E-ID without a tier); CH4: Verhüllungsverbot added to area 8 tier 1
 - Switzerland Only terms absent from config/taxonomy-qc.yaml are listed
+
+Noise round (v0.2, 10 October 2026, approved by Chris).
+
+- `séparatisme` (area 8, France only) needs religious, Islamist, laïcité, worship, communitarianism or "principes de la République" company. Measured on the French scoping and chamber-layer stores: the five speeches of the low-emission-zones debate of 8 October ("un séparatisme territorial et social") and the dossier "Lutter contre le séparatisme social dans nos territoires" leave area 8; nothing else in the stores carried the word. Belgium, Switzerland and Quebec are untouched (the term is France-only and taxonomy-qc is unchanged).
 
 ## Issue areas
 
@@ -83,7 +87,7 @@ Scope calls applied while merging:
 
 ### 8. Freedom of religion or belief {#8_freedom_of_religion}
 
-- **Tier 1:** séparatisme [only: fr]; "loi de 1905" [only: fr]; christianophobie [only: fr]; antichrétien* [only: fr]; "principes de la République" [with: culte*, religi*, association*, laïcité] [only: fr]; entrisme [with: islamis*, religi*, communautari*] [only: fr]; profanation* [with: église*, "lieu de culte", cimetière*, tombe*]; "liberté de culte"; "ministres des cultes" [only: be]; "signes convictionnels" [only: be]; foulard*; "secret de la confession" [only: be]; "abattage rituel"; "abattage sans étourdissement"; "chrétien* persécuté*"
+- **Tier 1:** séparatisme [with: religi*, islamis*, laïcité, laïque*, culte*, cultuel*, "principes de la République", communautaris*, entrisme, mosquée*, imam*] [only: fr]; "loi de 1905" [only: fr]; christianophobie [only: fr]; antichrétien* [only: fr]; "principes de la République" [with: culte*, religi*, association*, laïcité] [only: fr]; entrisme [with: islamis*, religi*, communautari*] [only: fr]; profanation* [with: église*, "lieu de culte", cimetière*, tombe*]; "liberté de culte"; "ministres des cultes" [only: be]; "signes convictionnels" [only: be]; foulard*; "secret de la confession" [only: be]; "abattage rituel"; "abattage sans étourdissement"; "chrétien* persécuté*"
 - **Tier 2:** islamisme; islamiste* [only: fr]; prosélytisme [only: fr]; "port du voile" [only: fr]; abaya* [only: fr]; "Frères musulmans" [only: fr]; "convictions philosophiques"; neutralité [with: religi*, État]; cultes; "fabriques d'église" [only: be]; imam; imams; mosquée*; "persécution* des chrétiens"; voile [with: école*, enfant*]
 - **Notes:** France: Political Islam in area 8 (FR2); entrisme 5 dossiers, 31 questions; islamisme terms tier 2 as drafted. Belgium: Religious-symbol bans and laicity (BE4); 'neutralité fiscale' matched unguarded neutralité; 'imam*' matched Imamoglu so whole words. Switzerland: Antisémitisme removed by X13; voile guarded to school and children (10 titles missed).
 
