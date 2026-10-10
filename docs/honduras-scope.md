@@ -469,3 +469,23 @@ Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non
 Applied on the `countries` branch:
 
 - Term list approved (HN2, HN3 criminal defamation, HN4 emergency contraception tier 1, HN5 prayer sessions and church grants) and merged into the shared `config/taxonomy-es.yaml` (`docs/keyword-taxonomy-es.md`), loaded for this country's code.
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country hn --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country hn --date YYYY-MM-DD --item EXP-2026-0390 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country hn --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/hn-<date>-<slug> --onside
+
+It writes `data/packs/hn-<date>-<slug>/`: `pack.md` and `checklist.md` in Spanish (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. No member-level votes are collected here, so a pack holds the item and the agenda slot only, and says so.
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/hn_stance.yaml`; none is confirmed yet, so every pack shows
+"pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".
