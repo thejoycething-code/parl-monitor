@@ -90,7 +90,11 @@ _REF = re.compile(r'\(<a href="(/(?:wetsvoorstel|motiedossier|kamerstukdossier|b
 # The decision line: 'Stemming bij zitten en opstaan, aangenomen' (a show of
 # hands, its sides folded under it), 'Hoofdelijke stemming, verworpen' (a roll
 # call), 'Algemene stemmen, aangenomen' (unanimous, no sides) or 'Hamerstuk'.
-_METHOD = re.compile(r'<a href="[^"]*">\s*([^<]*?,\s*(?:aangenomen|verworpen)[^<]*?)\s*</a>',
+# 'Zonder stemmen' (passed without a vote) is printed with or without its
+# result word.
+METHODS = ("Stemming bij zitten en opstaan", "Hoofdelijke stemming", "Algemene stemmen",
+           "Zonder stemmen")
+_METHOD = re.compile(r'<a href="[^"]*">\s*((?:' + "|".join(METHODS) + r')[^<]*?)\s*</a>',
                      re.S | re.I)
 _HAMER = re.compile(r'<a href="[^"]*">\s*Hamerstuk\s*</a>')
 _SIDE = re.compile(r"<strong>([^<:]+):</strong>\s*(.*?)<br\s*/?>", re.S)
@@ -121,24 +125,33 @@ def parse_date(day, month, year):
 
 
 def reference(link_text):
-    """'37.020, M' -> ('37020', '37020-M'); '36.791' -> ('36791', '36791');
+    """(dossier, reference) from the Kamerstuk link's text:
+    '37.020, M' -> ('37020', '37020-M'); '36.791' -> ('36791', '36791');
     '36.455 (R2188)' -> ('36455', '36455');
-    '36.945 I' -> ('36945-I', '36945-I'); 'EK CLXXVII  F' -> ('CLXXVII',
-    'CLXXVII-F'); 'CLXXVII' -> ('CLXXVII', 'CLXXVII')."""
+    '36.945 I' -> ('36945-I', '36945-I'); '36.800 M, F' -> ('36800-M', '36800-M-F');
+    '36.703 / 36.704 / 36.855, O' -> ('36703', '36703-36704-36855-O');
+    'EK CLXXVII  F' -> ('CLXXVII', 'CLXXVII-F'); 'CLXXVII' -> ('CLXXVII', 'CLXXVII').
+    Words that are not a Kamerstuk number ('nog niet als Kamerstuk
+    gepubliceerd') are dropped."""
     t = re.sub(r"\s+", " ", html.unescape(link_text or "")).strip()
     t = re.sub(r"^EK\s+", "", t)
     t = re.sub(r"\s*\([^()]*\)", "", t).strip()    # '36.455 (R2188)': the Rijkswet number
-    m = re.match(r"^(\d{1,3}(?:\.\d{3})?)(?:\s+([A-Z]+))?(?:,\s*(.+))?$", t)
+    m = re.match(r"^([IVXLCDM]+)(?:\s+([A-Z]{1,3}))?$", t)
     if m:
-        number = m.group(1).replace(".", "")
-        dossier = number + ("-" + m.group(2) if m.group(2) else "")
-        ref = dossier + ("-" + re.sub(r"\s+", "", m.group(3)) if m.group(3) else "")
-        return dossier, ref
-    m = re.match(r"^([IVXLCDM]+)(?:\s+(.+))?$", t)
-    if m:
-        return m.group(1), m.group(1) + ("-" + re.sub(r"\s+", "", m.group(2)) if m.group(2) else "")
-    clean = re.sub(r"[^\w.-]+", "-", t).strip("-")
-    return clean or None, clean or None
+        return m.group(1), m.group(1) + ("-" + m.group(2) if m.group(2) else "")
+    head, sep, tail = t.rpartition(",")
+    letter = tail.strip() if sep and re.match(r"^[A-Z]{1,3}\d*$", tail.strip()) else None
+    if not letter:
+        head = t
+    parts = []
+    for part in head.split("/"):
+        pm = re.match(r"^\s*(\d{1,3}(?:\.\d{3})?)(?:\s+([A-Z]+))?\b", part)
+        if pm:
+            parts.append(pm.group(1).replace(".", "") + ("-" + pm.group(2) if pm.group(2) else ""))
+    if not parts:
+        clean = re.sub(r"[^\w.-]+", "-", t).strip("-")
+        return clean or None, clean or None
+    return parts[0], "-".join(parts) + ("-" + letter if letter else "")
 
 
 def kind_of(path):
@@ -224,20 +237,22 @@ def on_our_ground(areas):
     return any(a not in HIDDEN_AREAS for a in (areas or []))
 
 
-def _watch_keys(dossier):
-    """'36945-I' is watched as itself or as '36945'."""
-    if not dossier:
-        return []
-    keys = [dossier]
-    base = dossier.split("-")[0]
-    if base != dossier:
-        keys.append(base)
+def _watch_keys(dossier, ref=None):
+    """'36945-I' is watched as itself or as '36945'; a motion in several
+    dossiers ('36703-36704-36855-O') under any of them."""
+    keys = []
+    for k in [dossier] + re.findall(r"\b\d{5}\b", ref or ""):
+        if not k:
+            continue
+        for x in (k, k.split("-")[0]):
+            if x not in keys:
+                keys.append(x)
     return keys
 
 
-def classify(tax, wl, title, dossier, watch_path=None):
+def classify(tax, wl, title, dossier, watch_path=None, ref=None):
     res = filt.filter_item(tax, wl, title or "")
-    return nl_store.add_watch_areas(res, None, _watch_keys(dossier), watch_path)
+    return nl_store.add_watch_areas(res, None, _watch_keys(dossier, ref), watch_path)
 
 
 def _gap(conn, today, detail, log=print):
@@ -270,7 +285,7 @@ def _bill_areas(conn, dossier):
 
 def store_vote(conn, v, tax, wl, today, watch_path=None):
     """Upsert one vote and its sides. Returns its combined areas."""
-    own = classify(tax, wl, v["title"], v["dossier"], watch_path)
+    own = classify(tax, wl, v["title"], v["dossier"], watch_path, v["ref"])
     if v["kind"] == "bill":
         store_bill(conn, v, own, today)
     lent = _bill_areas(conn, v["dossier"]) if v["kind"] != "bill" else []
@@ -365,9 +380,9 @@ def reclassify(conn, tax=None, log=print, watch_path=None):
                      (nl_store.dumps(res.issue_areas),
                       nl_store.dumps((res.matched_terms or []) + (res.watchlist_hits or [])),
                       res.tier, dossier))
-    for key, kind, dossier, title, areas in conn.execute(
-            "SELECT division_key, kind, dossier, title, areas FROM nl_ek_divisions").fetchall():
-        own = classify(tax, wl, title, dossier, watch_path)
+    for key, kind, dossier, ref, title, areas in conn.execute(
+            "SELECT division_key, kind, dossier, ref, title, areas FROM nl_ek_divisions").fetchall():
+        own = classify(tax, wl, title, dossier, watch_path, ref)
         lent = _bill_areas(conn, dossier) if kind != "bill" else []
         new = nl_store.dumps(sorted(set(own.issue_areas or []) | set(lent)))
         changed += new != (areas or "[]")

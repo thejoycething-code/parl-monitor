@@ -103,6 +103,10 @@ class ParseTests(unittest.TestCase):
         self.assertEqual(ek.reference("36.800 M, F"), ("36800-M", "36800-M-F"))
         self.assertEqual(ek.reference("36.455 (R2188)"), ("36455", "36455"))
         self.assertEqual(ek.reference("EK CLXXVII  F"), ("CLXXVII", "CLXXVII-F"))
+        self.assertEqual(ek.reference("36.703 / 36.704 / 36.855, O"),
+                         ("36703", "36703-36704-36855-O"))
+        self.assertEqual(ek._watch_keys("36703", "36703-36704-36855-O"),
+                         ["36703", "36704", "36855"])
 
     def test_lists(self):
         self.assertEqual(ek.split_list("BBB, PVV en SGP"), ["BBB", "PVV", "SGP"])
