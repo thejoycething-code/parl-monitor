@@ -346,5 +346,25 @@ class ScheduleTests(unittest.TestCase):
         self.assertIn("db_state.py --push", job)
 
 
+
+class EditionRebelTests(unittest.TestCase):
+    """The edition names members who voted against their club's majority;
+    a non-attached deputy (stored with no club) has no club to break from."""
+
+    def test_no_club_members_are_not_against_their_group(self):
+        from src import country_edition as ce
+        from src.editions import sk
+        conn = sqlite3.connect(":memory:")
+        conn.execute("CREATE TABLE sk_votes (voting_id, mp_id, club, position)")
+        conn.execute("CREATE TABLE sk_members (mp_id, name)")
+        votes = [(1, "Smer", "Z"), (2, "Smer", "Z"), (3, "Smer", "P"),
+                 (4, None, "Z"), (5, None, "Z"), (6, None, "P")]
+        for mp, club, pos in votes:
+            conn.execute("INSERT INTO sk_votes VALUES (9, ?, ?, ?)", (mp, club, pos))
+            conn.execute("INSERT INTO sk_members VALUES (?, ?)", (mp, "Member %d" % mp))
+        pos = sk.positions(conn, {"is_secret": 0, "voting_id": 9})
+        self.assertEqual(len(pos), 6)
+        self.assertEqual(ce.rebels(pos, sk.YES, sk.NO), ["Member 3 (Smer)"])
+
 if __name__ == "__main__":
     unittest.main()

@@ -125,6 +125,9 @@ def _votes(conn, since, until, wl):
                          (r["division_key"],))
         named = ce.rows(conn, "SELECT name, party, position FROM pt_votes WHERE division_key=? "
                               "ORDER BY name", (r["division_key"],))
+        # A non-inscribed deputy (Ninsc) is named because they have no group,
+        # not because they broke from one.
+        named = [n for n in named if not ce.no_group_line(n["party"])]
         derived = [m for m in pt_store.derived_member_positions(conn, r["division_key"])
                    if m["derived"]]
         lines = ["Result as recorded: “{0}” ({1}).".format(result, how),

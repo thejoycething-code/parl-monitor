@@ -168,6 +168,10 @@ Change log of the interface (additive only):
                    brief renders them. An adapter that passes none still
                    briefs, from its lines. The brief reads the 5CA stance
                    files by `division` (above) when set.
+  10 October 2026  rebels() leaves out members with no group line to break
+                   by default (INDEPENDENT: no club, non-attached,
+                   independents, mixed groups), as the vote brief did; an
+                   adapter's skip= still adds its own short codes.
 
 Read-only on the store.
 """
@@ -414,14 +418,45 @@ def group_counts(pairs, yes=("yes",), no=("no",), abstain=("abstain",)):
     return out
 
 
+# Members with no group line to break, as each source labels them (folded):
+# non-attached deputies, independents and mixed groups. A member without a
+# club is not "against their group": they have none. Short codes that are a
+# real group somewhere else ("SP" is Switzerland's Social Democrats, "NI"
+# could be anything) stay with the adapter that knows them (skip=).
+INDEPENDENT = frozenset({
+    "no club", "no group", "",
+    "indep", "ind", "independent", "independents", "independant", "independants",
+    "independiente", "independientes", "independente", "independentes",
+    "onafhankelijk", "onafhankelijken",
+    "nezaradeni", "nezaradeny", "nezaradena",
+    "poslanci, ktori nie su clenmi poslaneckych klubov",
+    "niez.", "niezrzeszeni", "niezrzeszony", "niezrzeszona",
+    "non-inscrits", "non inscrits", "non-inscrit", "non inscrit",
+    "ninsc", "n insc", "nao inscrito", "nao inscrita", "nao inscritos",
+    "fraktionslos", "fraktionslose", "ohne klub", "ohne klubzugehorigkeit",
+    "fuggetlen", "fuggetlen kepviselo", "fuggetlen kepviselok",
+    "nezavisni", "nezavisan", "nezavisna",
+    "misto", "gruppo misto", "nessun gruppo",
+    "mixto", "grupo mixto", "grupo parlamentario mixto", "gmx",
+    "sin bancada", "sin grupo", "sin partido", "sin bloque", "s/p",
+    "sem partido", "s.part.", "s.part", "s/partido",
+})
+
+
+def no_group_line(group):
+    """True for a non-attached member or an independent (see INDEPENDENT)."""
+    return noise_mod.fold(group or "").strip() in INDEPENDENT
+
+
 def rebels(rows_, yes=("yes",), no=("no",), skip=()):
     """'Name (Group)' for members who voted yes/no against their group's
-    yes/no majority, from (name, group, position) rows. Groups in `skip`
-    (independents, who have no group line to break) are left out."""
+    yes/no majority, from (name, group, position) rows. Members with no
+    group line to break are left out: no group at all, the non-attached and
+    independents (INDEPENDENT), and any group in `skip`."""
     counts = group_counts([(g, p) for _, g, p in rows_], yes, no)
     out = []
     for name, g, p in rows_:
-        if not g or g in skip:
+        if not g or g in skip or no_group_line(g):
             continue
         c = counts.get(g)
         if not c or c[0] == c[1]:

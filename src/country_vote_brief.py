@@ -118,9 +118,7 @@ LATAM_CAVEAT = {"ec": "Party as the Asamblea's roster stands, not at the vote.",
                 "gt": "Bloc as the Congreso's roster stands (GT4: current bloc only)."}
 # Members with no group line to break: independents and mixed groups, as
 # each source labels them (the adapters skip some already; the rest here).
-INDEPENDENT = {"indep", "ind", "independiente", "independientes", "independent", "independente",
-               "independant", "no club", "niez.", "misto", "nessun gruppo", "fraktionslos", "ni",
-               "non-inscrits", "non inscrits", "no group", "sin bancada", "s/p", "sp"}
+INDEPENDENT = ce.INDEPENDENT | {"ni", "sp"}
 YES = tuple(sorted(latam.YES))
 NO = tuple(sorted(latam.NO))
 
