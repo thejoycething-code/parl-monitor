@@ -15,8 +15,8 @@ Everything it built is on main. Read this with
 | Triage | API judge | API judge | API or session judge | session judge (provinces) | free session judge, Sundays 16:45 (`tools/edition_judge.py`) |
 | Noise filters, mute lists | yes | partly | yes | yes | yes (`src/noise.py`, `config/edition-noise-<cc>.yaml`) |
 | Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | **no** |
-| 5CA (member stance, five columns) | yes | yes | yes | yes | **no** |
-| Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **no** |
+| 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5) |
+| Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct: 2,012 drafts in 18 countries (71 with proposed values, 43 procedural, 1,898 need reading), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
 | Debates / speeches | yes | yes | IE, AU | yes | **no** |
 | Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press) |
@@ -57,6 +57,15 @@ tracker. Without sign-off the 5CA cannot be published. Ask Chris who signs
 off per country (country teams are the natural owners). Start with the
 countries with the richest member data and live campaigns: Poland, Italy,
 Spain (after 23 December), Croatia, Slovakia, Brazil.
+
+**Built 10 October 2026 (branch `parity-5ca`; docs/5ca-notes.md, "The new
+country editions").** `tools/country_5ca.py` drafts readings for every
+watched and tier-1 vote by rules (area, the bill's direction from a
+`bill_directions` line, the kind of vote; `needs_reading` where unclear),
+confirms only with `--by NAME` and a date, and writes sheets from confirmed
+readings only. `tools/stance_digest.py` DMs Chris the weekly list of what
+waits. Still open: Chris to name the signer per country in
+`config/stance_signers.yaml`, and to confirm the first readings.
 
 ### 3. Member profiles
 One profile per member from the stores already collected (party history,

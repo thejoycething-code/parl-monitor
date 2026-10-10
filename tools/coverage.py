@@ -882,7 +882,12 @@ ON_DEMAND = {
                               "editions and the Latam monitor on the plan "
                               "allowance; no GitHub workflow, and a run with "
                               "claude signed out publishes nothing, so no "
-                              "cadence is expected; mini_run.sh DMs its failures.",
+                              "cadence is expected; mini_run.sh DMs its failures. "
+                              "It first drafts the new countries' 5CA stance "
+                              "readings, rewrites their sign-off guides and "
+                              "sheets, and sends the weekly stances-awaiting-"
+                              "sign-off digest (tools/country_5ca.py, "
+                              "tools/stance_digest.py): offline, no table written.",
     "Provinces backfill": "run by hand on the Mac Mini (jobs/prov-backfill.sh): "
                           "a province's earlier sessions or Hansard days, read "
                           "until nothing is owed; never the weekly's heartbeat.",

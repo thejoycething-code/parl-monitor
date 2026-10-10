@@ -413,3 +413,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase 2: bill documents (SK6).
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/sk/` from the store each weekly run (`tools/member_profiles.py sk`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Interpellations the member asked are listed.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/sk_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 43 vote reading(s): 3 with proposed values, 10 procedural, 30 need reading, 0 confirmed. Guide: `docs/5ca-sk-readings.md`; confirm with `python3 tools/country_5ca.py --cc sk --sign-from-doc --by NAME`. Sheets (`data/5ca/sk-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Slovakia (`config/stance_signers.yaml`).

@@ -439,3 +439,7 @@ Later phases and items for Chris (not built at the merge):
 - Phase: follow the aide a mourir decrees first (FR4): a watch on the Journal officiel's implementing decrees once the law passes.
 - Phase: the Senat (FR5, go ahead): votes and dossiers from senat.fr open data. Not built at the merge.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/fr/` from the store each weekly run (`tools/member_profiles.py fr`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/fr_stance.yaml` holds 7 bill direction(s) (Claude's drafts from the watchlist) and 1050 vote reading(s): 10 with proposed values, 0 procedural, 1040 need reading, 0 confirmed. Guide: `docs/5ca-fr-readings.md`; confirm with `python3 tools/country_5ca.py --cc fr --sign-from-doc --by NAME`. Sheets (`data/5ca/fr-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for France (`config/stance_signers.yaml`). 1,040 of the 1,050 drafts are amendments and articles of the aide a mourir law: each needs its text read before it can place anyone.

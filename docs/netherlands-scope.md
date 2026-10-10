@@ -443,3 +443,7 @@ Later phases and items for Chris (not built at the merge):
 - Phase: the Eerste Kamer via its web pages (NL4).
 - Chris reads the open-data disclaimer (NL5) before the weekly runs unattended.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/nl/` from the store each weekly run (`tools/member_profiles.py nl`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Show-of-hands positions are DERIVED from the fractie vote (X5), labelled; roll calls are recorded per member.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/nl_stance.yaml` holds 10 bill direction(s) (Claude's drafts from the watchlist) and 212 vote reading(s): 2 with proposed values, 0 procedural, 210 need reading, 0 confirmed. Guide: `docs/5ca-nl-readings.md`; confirm with `python3 tools/country_5ca.py --cc nl --sign-from-doc --by NAME`. Sheets (`data/5ca/nl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Netherlands (`config/stance_signers.yaml`). Most votes are by show of hands: members are DERIVED from their fractie's vote (X5) and labelled; a roll call is the member's own. A motion tabled in a bill's dossier never takes the bill's direction: its own text decides.

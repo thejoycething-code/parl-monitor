@@ -29,13 +29,28 @@
 # then the raw archive and the store. When claude is missing or not signed
 # in, a [gap] line and a clean exit: nothing is touched or published.
 #
-# mini_run: commit editions
+# THE 5CA STANCE STEPS (10 October 2026; src/country5ca.py, docs/5ca-notes.md
+# "The new country editions"), first and offline, seconds to run: draft
+# config/<cc>_stance.yaml entries for the week's new watched and tier-1 votes
+# in every new country (by rules, no AI; nothing is ever confirmed here),
+# rewrite each docs/5ca-<cc>-readings.md keeping any ticks not yet applied,
+# write the 5CA sheets from CONFIRMED readings only (data/5ca/<cc>-5ca-*.csv),
+# then the weekly "stances awaiting sign-off" digest, one DM to Chris, once
+# per ISO week (tools/stance_digest.py). A failure is a [gap] line; the
+# judge still runs. They read the store and write no table, so they need no
+# publish of their own.
+#
+# mini_run: commit editions config docs
 set -o pipefail
 cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Editions session judge}"
 export PYTHONUNBUFFERED=1
 # The DMs go to Chris alone (the tools also force his id).
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+
+python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets \
+  || echo "  [gap] the 5CA stance step failed for a country; the others stand"
+python3 tools/stance_digest.py --dm || echo "  [gap] the stance digest DM failed; next week's covers it"
 
 rc=0
 bash tools/session_judge.sh tools/edition_judge.py "${SESSION_JUDGE_MAX:-100}" 25

@@ -421,3 +421,7 @@ Later phases and items for Chris (not built at the merge):
 - meineabgeordneten.at licence (AT5): a request in Chris's name.
 - Phase: the Landtage after national (AT6).
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/at/` from the store each weekly run (`tools/member_profiles.py at`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Member positions are DERIVED from the Klub votes (X5) and labelled on every line; Anträge and Anfragen naming the member (`at_items.persons`) are listed.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/at_stance.yaml` holds 9 bill direction(s) (Claude's drafts from the watchlist) and 19 vote reading(s): 3 with proposed values, 1 procedural, 15 need reading, 0 confirmed. Guide: `docs/5ca-at-readings.md`; confirm with `python3 tools/country_5ca.py --cc at --sign-from-doc --by NAME`. Sheets (`data/5ca/at-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Austria (`config/stance_signers.yaml`). Only the Klub's vote is recorded, so every member row is DERIVED from it (X5) and labelled; committee votes are not sheeted (no membership list).

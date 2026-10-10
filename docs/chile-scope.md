@@ -397,3 +397,7 @@ Later phases and items for Chris (not built at the merge):
 - X6: source party history before relying on party at the vote.
 - The Senate-vote backfill still reads bills on our ground only; X15 would widen it.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/cl/` from the store each weekly run (`tools/member_profiles.py cl`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Party history (X6): deputies from the Cámara's militancias (already stored); senators from the BCN's open data (`tools/cl_senate_parties.py`, one SPARQL query a week, `cl_party_spells` rows for S- members), so a Senate vote shows the party on the day where the BCN covers it.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/cl_stance.yaml` holds 13 bill direction(s) (Claude's drafts from the watchlist) and 5 vote reading(s): 0 with proposed values, 0 procedural, 5 need reading, 0 confirmed. Guide: `docs/5ca-cl-readings.md`; confirm with `python3 tools/country_5ca.py --cc cl --sign-from-doc --by NAME`. Sheets (`data/5ca/cl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Chile (`config/stance_signers.yaml`).

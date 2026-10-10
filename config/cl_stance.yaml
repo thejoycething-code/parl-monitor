@@ -1,0 +1,194 @@
+# Chile: what a recorded vote MEANS for CitizenGO, for the 5CA.
+#
+# Written by tools/country_5ca.py (src/country5ca.py), the 5CA-with-sign-off
+# layer of docs/country-parity-handover.md (item 2), 10 October 2026. The
+# rule is Canada's: which lobby is CitizenGO's is a HUMAN judgement, and
+# nothing places anyone until a named person has confirmed it.
+#
+# status:
+#   draft          proposed by the drafter's rules (or by Claude): unsigned,
+#                  places nobody.
+#   needs_reading  no direction proposed: the drafter could not tell which
+#                  side is ours without reading the text. A person writes
+#                  `yea:`/`nay:` (and why lines), then confirms.
+#   confirmed      signed: `confirmed_by:` (a named person) and
+#                  `confirmed_on:` (the date) are both required, or it still
+#                  counts as unsigned.
+#
+# To confirm: tick the box in docs/5ca-cl-readings.md and run
+#   python3 tools/country_5ca.py --cc cl --sign-from-doc --by NAME
+# or confirm by key:
+#   python3 tools/country_5ca.py --cc cl --confirm KEY [KEY ...] --by NAME
+# To strike a reading for good, write `placeable: false` and a `reason:`.
+#
+# bill_directions: whether PASSING a bill or motion is with CitizenGO
+# (`with`) or against it (`against`). Drafted by Claude on 10 October 2026
+# from each watchlist entry's own description, never from a model call; a
+# bill with no line gets no proposed values. Edit or add lines here: the
+# next --draft uses them for NEW votes (an existing entry is never
+# rewritten).
+#
+# divisions: one entry per watched or tier-1 vote, appended by --draft.
+# Keys are the store's division keys. `yea:`/`nay:` are the stance (-2..2)
+# of voting Yes / No as the chamber records it (Afirmativo / En contra). An
+# abstention never places anyone. Keep `divisions:` the LAST section: the
+# drafter appends to the end of this file.
+
+
+bill_directions:
+  - key: "7736-11"
+    direction: against
+    status: draft
+    areas: [2]
+    why: "Euthanasia, the matrix bill: 'asistencia médica con el objeto de acelerar la muerte'"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "9644-11"
+    direction: against
+    status: draft
+    areas: [2]
+    why: "Euthanasia, merged into 7736-11"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "11745-11"
+    direction: against
+    status: draft
+    areas: [2]
+    why: "Euthanasia, merged into 7736-11"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "11577-11"
+    direction: against
+    status: draft
+    areas: [2]
+    why: "Euthanasia, merged into 7736-11; its title is a patients' rights amendment"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "17571-18"
+    direction: with
+    status: draft
+    areas: [3]
+    why: "Protects minors from irreversible medical or legal interventions (gender transition)"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "17586-18"
+    direction: with
+    status: draft
+    areas: [3]
+    why: "Protects minors from irreversible medical or legal interventions (gender transition)"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "17636-18"
+    direction: with
+    status: draft
+    areas: [3]
+    why: "Bans practices, treatments or surgery against children's healthy development (gender transition)"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "17798-11"
+    direction: with
+    status: draft
+    areas: [3]
+    why: "Bans surgical or hormonal sex-change interventions under 18"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "17564-11"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Interrupción voluntaria del embarazo: elective abortion within a time limit"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "17494-07"
+    direction: with
+    status: draft
+    areas: [1]
+    why: "Constitutional protection of the life of the human being in gestation"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "17728-11"
+    direction: with
+    status: draft
+    areas: [1]
+    why: "Removes the rape ground of the three-grounds law (Ley 21.030)"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "17930-04"
+    direction: with
+    status: draft
+    areas: [6]
+    why: "Regulates the parents' preferential right and duty to educate their children"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+  - key: "17967-07"
+    direction: with
+    status: draft
+    areas: [8]
+    why: "Creates a constitutional action protecting freedom of conscience, religion and worship"
+    drafted: "Claude, 10 October 2026, from config/watchlist-cl.yaml"
+
+divisions:
+
+  # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
+  - key: "senado-16709-f5b00dd9443e"
+    status: needs_reading
+    title: "Proyecto de ley, iniciado en Moción de los Honorables Senadores señoras Núñez y Órdenes, y señores Castro González, Gahona y Macaya, en primer trámite constitucional, que modifica la ley N° 20.418, que fija normas sobre información, orienta"
+    on: "Modifica la ley N° 20.418, que fija normas sobre información, orientación y prestaciones en materia de regulación de la fertilidad, para promover la información y educación sobre la infertilidad"
+    dated: "2025-01-29"
+    chamber: "senado"
+    areas: [6, 10]
+    tier: 1
+    result: "Afirmativo 17, En contra 0"
+    lobbies: "Afirmativo: ? 6, U.D.I. 2, P.D.C. 2, Independiente 2, P.S. 1, R.N. 1, P.C 1, F.R.E.V.S. 1, Demócratas 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 16709-11: CitizenGO's position on 'Modifica la ley N° 20.418, que fija normas sobre información, orientación y prestaciones en materia de regulación de la fertilidad, para pro' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 6 (parental rights and education), 10 (surrogacy and embryology). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camara-88946"
+    status: needs_reading
+    title: "Boletín N° 18216-05 Renovación de una indicación de la diputada Ana María Gazmuri para agregar un artículo nuevo permanente, de cuyo tenor dará lectura el señor Secretario: “Artículo nuevo permanente.- Modifícase la ley N° 16.282, que fija"
+    on: "Para la reconstrucción nacional y el desarrollo económico y social"
+    dated: "2026-05-20"
+    chamber: "camara"
+    areas: [1]
+    tier: 1
+    result: "Aprobado; Afirmativo 80, En contra 69, Abstain 4"
+    lobbies: "Afirmativo: IND 17, FA 14, PDG 12, PS 10, PC 8, DC 7, PPD 4, PL 2, RN 2, PSC 1, PAH 1, ? 1, PR 1. En contra: PREP 28, UDI 12, RN 8, PNL 8, IND 8, PSC 2, EVOP 2, PDG 1. Abstain: DEM 1, PDG 1, RN 1, FRVS 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Boletín N° 18216-05 Renovación de una indicación de la diputada Ana María Gazmuri para agregar un artículo nuevo permane'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 1 (abortion)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camara-89307"
+    status: needs_reading
+    title: "Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artículo primero del proyecto: “4. Incorpórase, antes del artículo 9º, un artículo 8º sexies nuevo (o el adjetivo numeral qu"
+    on: "Modifica diversos cuerpos legales, con el objeto de facilitar la creación de nuevos establecimientos educacionales"
+    dated: "2026-07-07"
+    chamber: "camara"
+    areas: [9, 11]
+    tier: 1
+    result: "Rechazado; Afirmativo 59, En contra 85"
+    lobbies: "Afirmativo: IND 14, FA 12, PS 9, PC 8, DC 6, PPD 4, PL 2, PAH 1, ? 1, FRVS 1, PR 1. En contra: PREP 27, UDI 12, PDG 12, RN 11, IND 10, PNL 8, PSC 2, EVOP 2, DEM 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artí'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 9 (marriage and family), 11 (migration)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camara-89383"
+    status: needs_reading
+    title: "Boletín N° 18399-06 Artículo único del proyecto, en los términos propuestos por la Comisión de Gobierno Interior, Nacionalidad, Ciudadanía y Regionalización."
+    on: "Declara feriado regional el 10 de agosto de los años 2026 y 2027 en reemplazo de los feriados que indica"
+    dated: "2026-07-13"
+    chamber: "camara"
+    areas: [11]
+    tier: 1
+    result: "Aprobado; Afirmativo 103, En contra 0, Abstain 34"
+    lobbies: "Afirmativo: IND 19, PDG 13, FA 12, PS 10, RN 9, UDI 9, DC 7, PC 6, PNL 6, PPD 3, PL 2, EVOP 2, DEM 1, PAH 1, ? 1, FRVS 1, PR 1. Abstain: PREP 27, PSC 3, IND 3, UDI 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Boletín N° 18399-06 Artículo único del proyecto, en los términos propuestos por la Comisión de Gobierno Interior, Nacion'): read the question put, then write yea/nay."
+    reasoning: "Area 11 (migration). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "camara-90141"
+    status: needs_reading
+    title: "Boletín N° 18584-25 Indicación renovada de la diputada Schneider y los diputados Salinas, Pinilla y Araya, Jaime, para agregar un inciso final nuevo al artículo 268 septies del Código Penal, del siguiente tenor: ‘No constituirán los delitos"
+    on: "Modifica el Código Penal para ampliar el ámbito de aplicación del delito de interrupción u obstaculización de la libre circulación y del funcionamiento de los servicios de transporte"
+    dated: "2026-09-23"
+    chamber: "camara"
+    areas: [7]
+    tier: 1
+    result: "Rechazado; Afirmativo 63, En contra 70, Abstain 1"
+    lobbies: "Afirmativo: IND 13, FA 11, PDG 11, PS 8, DC 6, PC 6, PPD 3, PL 2, PAH 1, ? 1, PR 1. En contra: PREP 24, UDI 12, RN 10, IND 9, PNL 8, PCCH 2, EVOP 2, PDG 2, DEM 1. Abstain: IND 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Boletín N° 18584-25 Indicación renovada de la diputada Schneider y los diputados Salinas, Pinilla y Araya, Jaime, para a'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"

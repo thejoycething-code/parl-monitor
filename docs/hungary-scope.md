@@ -600,3 +600,7 @@ parlament.hu. When phase 1 is built:
   June) and XXIV (T/123, 30 June, 30 June) agree too. The watchlist's
   earlier "promulgated 15 June" and "13 July" were the vote dates, now
   corrected.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/hu_stance.yaml` holds 2 bill direction(s) (Claude's drafts from the watchlist) and 24 vote reading(s): 2 with proposed values, 1 procedural, 21 need reading, 0 confirmed. Guide: `docs/5ca-hu-readings.md`; confirm with `python3 tools/country_5ca.py --cc hu --sign-from-doc --by NAME`. Sheets (`data/5ca/hu-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Hungary (`config/stance_signers.yaml`). karzat records only (9 May to 28 August 2026) until the W-API token arrives; members are matched by name.
