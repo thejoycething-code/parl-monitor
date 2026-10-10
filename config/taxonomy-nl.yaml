@@ -1,7 +1,7 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy-nl.md
 # Regenerate: python3 tools/generate_taxonomy.py --lang nl
-version: 0.1
+version: 0.2
 areas:
   1_abortion:
     tier1: ["abortus*", "zwangerschapsafbreking*", "afbreking van de zwangerschap", "afbreking zwangerschap", {term: "Wet afbreking zwangerschap", only: [nl]}, {term: Wafz, only: [nl]}, "abortuspil*", {term: "overtijdbehandeling*", only: [nl]}, "abortuskliniek*", "laatabortus*", {term: "late zwangerschapsafbreking*", only: [nl]}, {term: bedenktijd, only: [nl]}, "ongeboren leven", "ongeboren kind*", levensbescherming, {term: "Schreeuw om Leven", only: [nl]}, {term: "bufferzone*", with: ["abortus*", "kliniek*", "zwangerschap*"]}, abortus, zwangerschapsafbreking, {term: belemmeringsdelict, with: ["abortus*", "zwangerschapsafbreking*"], only: [be]}]
@@ -12,7 +12,7 @@ areas:
     tier2: ["voltooid leven", "levensbeëindiging*", "palliatieve zorg", "palliatieve sedatie", "hospice*", suïcidepreventie, "zelfdoding*", "levenseinde*", {term: "psychisch lijden", with: ["euthanasie*", "levenseinde*"]}, {term: dementie, with: ["euthanasie*", "levenseinde*"]}, "palliatie*", {term: "psychisch lijden", only: [be]}]
     # note: Netherlands: Measured: 24 zaken; hospice* also catches hospice funding. Belgium: Measured: 6 dossiers, 2 tier 1 (56/183, 56/1338); euthanasie vetoed beside animal words.
   3_gender_medicine_children:
-    tier1: ["puberteitsremmer*", "puberteitsremming*", "genderdysforie*", "geslachtsincongruentie*", {term: genderzorg, only: [nl]}, transgenderzorg, transzorg, "geslachtsaanpassende behandeling*", "geslachtsaanpassende operatie*", "genderbevestigende zorg", "genderbevestigende behandeling*", {term: "Dutch protocol", only: [nl]}, {term: "Nederlandse protocol", only: [nl]}, {term: "detransitie*", only: [nl]}, {term: "genderteam*", only: [nl]}, {term: transitie, with: [kinderen, jongeren, minderjarigen, puberteit]}, genderdysforie, "transgender minderjarige*", "transgenderjongere*", {term: transitie, with: ["minderjarige*", "kind*"]}]
+    tier1: ["puberteitsremmer*", "puberteitsremming*", "genderdysforie*", "geslachtsincongruentie*", {term: genderzorg, only: [nl]}, transgenderzorg, transzorg, "geslachtsaanpassende behandeling*", "geslachtsaanpassende operatie*", "genderbevestigende zorg", "genderbevestigende behandeling*", {term: "Dutch protocol", only: [nl]}, {term: "Nederlandse protocol", only: [nl]}, {term: "detransitie*", only: [nl]}, {term: "genderteam*", only: [nl]}, {term: transitie, with: ["gender*", "geslacht*", "transgender*", "hormo*", "puberteit*"]}, genderdysforie, "transgender minderjarige*", "transgenderjongere*"]
     tier2: [genderzorg, "detransitie*", {term: genderidentiteit, with: ["kind*", jongeren, minderjarigen]}, {term: "hormoonbehandeling*", with: ["kind*", jongeren, minderjarigen]}, "transgender jongeren", transgenderjongeren, {term: "Kennis- en Zorgcentrum Genderdysforie", only: [nl]}, "transgender*", {term: genderidentiteit, only: [be]}, {term: "genderkliniek*", only: [be]}]
     # note: Netherlands: Measured: 5 zaken; includes the Gezondheidsraad advice on transgender care for minors. Belgium: Measured: found 56/335, the resolution for a cautious approach and a KCE review.
   4_conversion_practices:
