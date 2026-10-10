@@ -64,7 +64,7 @@ divisions:
   - key: "ec-1004054"
     status: needs_reading
     title: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Donación y Trasplante de Órganos, Tejidos y Células / Archivo del Proyecto de Ley Orgánica Reformatoria a la Ley Orgá"
-    on: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Donación y Trasplante de Órganos, Tejidos y Células"
+    "on": "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Donación y Trasplante de Órganos, Tejidos y Células"
     dated: "2025-09-10"
     chamber: "asamblea"
     areas: [13]
@@ -79,7 +79,7 @@ divisions:
   - key: "ec-1004055"
     status: needs_reading
     title: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Donación y Trasplante de Órganos, Tejidos y Células / Reconsideración del Archivo del Proyecto de Ley Orgánica Reform"
-    on: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Donación y Trasplante de Órganos, Tejidos y Células"
+    "on": "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Donación y Trasplante de Órganos, Tejidos y Células"
     dated: "2025-09-10"
     chamber: "asamblea"
     areas: [13]
@@ -94,7 +94,7 @@ divisions:
   - key: "ec-1004115"
     status: needs_reading
     title: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Humana, Unificado / Aprobación del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Hum"
-    on: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Humana, Unificado"
+    "on": "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Humana, Unificado"
     dated: "2025-10-22"
     chamber: "asamblea"
     areas: [11]
@@ -109,7 +109,7 @@ divisions:
   - key: "ec-1004116"
     status: needs_reading
     title: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Humana, Unificado / Reconsideración de la Aprobación del Proyecto de Ley Orgánica Reformatoria a la Ley Org"
-    on: "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Humana, Unificado"
+    "on": "Conocer y resolver respecto del Informe para Segundo Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica de Movilidad Humana, Unificado"
     dated: "2025-10-22"
     chamber: "asamblea"
     areas: [11]
@@ -124,7 +124,7 @@ divisions:
   - key: "ec-1004126"
     status: needs_reading
     title: "Proyecto de Resolución para reconocer y destacar la reducción, entre los años 2023 y 2025, de más del 90% de la migración irregular de ciudadanos ecuatorianos, gracias a la implementación de políticas, planes y programas orientados a promov"
-    on: "Proyecto de Resolución para reconocer y destacar la reducción, entre los años 2023 y 2025, de más del 90% de la migración irregular de ciudadanos ecuatorianos, gracias a la implementación de políticas"
+    "on": "Proyecto de Resolución para reconocer y destacar la reducción, entre los años 2023 y 2025, de más del 90% de la migración irregular de ciudadanos ecuatorianos, gracias a la implementación de políticas"
     dated: "2025-10-28"
     chamber: "asamblea"
     areas: [11]
@@ -139,7 +139,7 @@ divisions:
   - key: "ec-1004205"
     status: needs_reading
     title: "Conocer el Informe para Primer Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica contra la trata de personas y el tráfico ilícito de migrantes / Archivo del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica contra la"
-    on: "Conocer el Informe para Primer Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica contra la trata de personas y el tráfico ilícito de migrantes"
+    "on": "Conocer el Informe para Primer Debate del Proyecto de Ley Orgánica Reformatoria a la Ley Orgánica contra la trata de personas y el tráfico ilícito de migrantes"
     dated: "2025-12-09"
     chamber: "asamblea"
     areas: [11, 12]
@@ -154,7 +154,7 @@ divisions:
   - key: "ec-1004767"
     status: needs_reading
     title: "Conocer el Informe del Proceso de Fiscalización sobre las actuaciones institucionales y administrativas relacionadas con los procesos de contratación pública y gestión administrativa vinculados a la adquisición de 60 trolebuses eléctricos p"
-    on: "Conocer el Informe del Proceso de Fiscalización sobre las actuaciones institucionales y administrativas relacionadas con los procesos de contratación pública y gestión administrativa vinculados a la a"
+    "on": "Conocer el Informe del Proceso de Fiscalización sobre las actuaciones institucionales y administrativas relacionadas con los procesos de contratación pública y gestión administrativa vinculados a la a"
     dated: "2026-06-23"
     chamber: "asamblea"
     areas: [11]

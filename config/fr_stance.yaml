@@ -87,7 +87,7 @@ divisions:
   - key: "an-17-1725"
     status: needs_reading
     title: "l'ensemble de la proposition de loi visant à lutter contre la pédocriminalité (première lecture)."
-    on: "Lutter contre la pédocriminalité"
+    "on": "Lutter contre la pédocriminalité"
     dated: "2025-05-15"
     chamber: "an"
     areas: [12]
@@ -433,7 +433,7 @@ divisions:
   - key: "an-17-2106"
     status: draft
     title: "l’ensemble de la proposition de loi visant à garantir l'égal accès de tous à l’accompagnement et aux soins palliatifs (première lecture)."
-    on: "Soins palliatifs et d’accompagnement"
+    "on": "Soins palliatifs et d’accompagnement"
     dated: "2025-05-27"
     chamber: "an"
     areas: [2]
@@ -453,7 +453,7 @@ divisions:
   - key: "an-17-2107"
     status: draft
     title: "l’ensemble de la proposition de loi relative au droit à l’aide à mourir (première lecture)."
-    on: "Fin de vie"
+    "on": "Fin de vie"
     dated: "2025-05-27"
     chamber: "an"
     areas: [2]
@@ -488,7 +488,7 @@ divisions:
   - key: "an-17-5156"
     status: draft
     title: "sur la motion de rejet préalable, déposée par Mme Mathilde Panot, de la proposition de loi visant à protéger les mineurs des risques auxquels les expose l'utilisation des réseaux sociaux (première lecture)."
-    on: "Protéger les mineurs des risques auxquels les expose l’utilisation des réseaux sociaux"
+    "on": "Protéger les mineurs des risques auxquels les expose l’utilisation des réseaux sociaux"
     dated: "2026-01-26"
     chamber: "an"
     areas: [7]
@@ -543,7 +543,7 @@ divisions:
   - key: "an-17-5192"
     status: draft
     title: "l'ensemble de la proposition de loi visant à protéger les mineurs des risques auxquels les expose l'utilisation des réseaux sociaux (première lecture)."
-    on: "Protéger les mineurs des risques auxquels les expose l’utilisation des réseaux sociaux"
+    "on": "Protéger les mineurs des risques auxquels les expose l’utilisation des réseaux sociaux"
     dated: "2026-01-26"
     chamber: "an"
     areas: [7]
@@ -563,7 +563,7 @@ divisions:
   - key: "an-17-5244"
     status: needs_reading
     title: "l'ensemble de la proposition de loi visant à réparer les préjudices causés par la transplantation de mineurs de La Réunion en France hexagonale de 1962 à 1984 (première lecture)."
-    on: "Réparer les préjudices causés par la transplantation de mineurs de La Réunion en France hexagonale de 1962 à 1984"
+    "on": "Réparer les préjudices causés par la transplantation de mineurs de La Réunion en France hexagonale de 1962 à 1984"
     dated: "2026-01-28"
     chamber: "an"
     areas: [13]
@@ -870,7 +870,7 @@ divisions:
   - key: "an-17-5728"
     status: draft
     title: "l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture)."
-    on: "Soins palliatifs et d’accompagnement"
+    "on": "Soins palliatifs et d’accompagnement"
     dated: "2026-02-25"
     chamber: "an"
     areas: [2]
@@ -890,7 +890,7 @@ divisions:
   - key: "an-17-5729"
     status: draft
     title: "l'ensemble de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture)."
-    on: "Fin de vie"
+    "on": "Fin de vie"
     dated: "2026-02-25"
     chamber: "an"
     areas: [2]
@@ -909,7 +909,7 @@ divisions:
   - key: "an-17-7432"
     status: draft
     title: "la motion de rejet péalable, déposée par M. Patrick Hetzel, de la proposition de loi relative au droit à l'aide à mourir (nouvelle lecture)."
-    on: "Fin de vie"
+    "on": "Fin de vie"
     dated: "2026-06-22"
     chamber: "an"
     areas: [2]
@@ -1305,7 +1305,7 @@ divisions:
   - key: "an-17-7894"
     status: draft
     title: "l'ensemble de la proposition de loi relative au droit à l'aide à mourir (nouvelle lecture)."
-    on: "Fin de vie"
+    "on": "Fin de vie"
     dated: "2026-06-30"
     chamber: "an"
     areas: [2]
@@ -1324,7 +1324,7 @@ divisions:
   - key: "an-17-8280"
     status: draft
     title: "l'ensemble de la proposition de loi relative au droit à l'aide à mourir (lecture définitive)."
-    on: "Fin de vie"
+    "on": "Fin de vie"
     dated: "2026-07-15"
     chamber: "an"
     areas: [2]
@@ -1343,7 +1343,7 @@ divisions:
   - key: "an-17-8431"
     status: draft
     title: "l'ensemble de la proposition de loi visant à protéger les mineurs des risques auxquels les expose l'utilisation des réseaux sociaux (texte de la commission mixte paritaire)."
-    on: "Protéger les mineurs des risques auxquels les expose l’utilisation des réseaux sociaux"
+    "on": "Protéger les mineurs des risques auxquels les expose l’utilisation des réseaux sociaux"
     dated: "2026-07-21"
     chamber: "an"
     areas: [7]
