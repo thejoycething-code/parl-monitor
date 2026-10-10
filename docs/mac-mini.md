@@ -401,6 +401,16 @@ Two offline steps at the head of `jobs/editions-session-judge.sh` (Sundays 16:45
 - **Nothing on the Mini confirms a reading.** Confirming is `python3 tools/country_5ca.py --cc CC --sign-from-doc --by NAME` (or `--confirm KEY --by NAME`), run by a person on a laptop, then pushed. `--by` must be Chris or a name in `config/stance_signers.yaml`.
 - Install: nothing new; the next `git pull` on the runner picks the steps up.
 
+## New-country campaign brief drafts (10 October 2026, branch `camp-briefs`)
+
+One offline step in each new country's weekly job (`jobs/<cc>-weekly.sh` for the fourteen own editions and the eleven collected Latam countries, `jobs/mx-collect.sh` for Mexico, which collects on GitHub), after the collector and the edition or alerts, before the publish; no new job, no new slot:
+
+- `python3 tools/country_briefs.py --cc CC`: drafts an RF4 Campaigns Brief (`briefs/<cc>-<title>-<key>.md` and `.csv`, plus `-5ca.csv` once CONFIRMED readings place anyone) for each watched or tier-1 bill that moved in the last 90 days, at most eight new ones a run; refreshes the unedited briefs it wrote before (a fingerprint in `data/country-briefs/<cc>.json`), leaves an edited one alone. Campaigner text in the country's language (`config/country-briefs.yaml`), facts from the store only, no AI call. Every brief is **NOT READY** (banner, form Notes line, `brief_log` status `not-ready`) until the bill's direction and every reading of its watched or tier-1 votes in `config/<cc>_stance.yaml` are confirmed by a named person; then `draft`. Seconds; writes `brief_log` rows in the store before it is published.
+- Commit: `briefs` added to each job's `# mini_run: commit` line, and `briefs/` to each workflow's `git add`. A failure is a `[gap]` line; the store is still published.
+- **It sends nothing**: no DM, no Asana task, no Drive upload (the UK and German editions carry no brief line, so the country editions do not either). `not-ready` and `draft` are not statuses the Drive publisher picks up.
+- **Nothing on the Mini confirms anything.** A bill's direction is confirmed on a laptop with `python3 tools/country_5ca.py --cc CC --confirm-direction KEY --by NAME` (readings as above), then pushed; the next weekly refreshes the brief.
+- Install: nothing new; the next `git pull` on the runner picks the step up.
+
 ## Backfills run on the Mini (9 October 2026)
 
 Dispatching a backfill to GitHub cost 2,604 Actions minutes in one week

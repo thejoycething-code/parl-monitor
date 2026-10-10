@@ -22,7 +22,7 @@ Everything it built is on main. Read this with
 | Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press) |
 | Week ahead / agenda | yes | yes | yes | no | partial (HR, BE; framework supports it) |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | **no** (courts approved as a later phase, X8) |
-| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | **no** |
+| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | campaign briefs **built** 10 Oct (`tools/country_briefs.py`, branch `camp-briefs`): drafts in the country's language, NOT READY until stances are confirmed; debate packs and targets **no** |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 
 New-country collectors and what their vote data supports:
@@ -96,6 +96,21 @@ Landtage after national (IT3, AT6, PE4).
 ### 7. Campaign tools
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only
 once 5CA exists for a country, and only where CitizenGO runs campaigns there.
+
+**Campaign briefs built 10 October 2026 (branch `camp-briefs`).**
+`tools/country_briefs.py` (`src/country_briefs.py`, phrases in
+`src/brief_phrases.py`, lists and languages in `config/country-briefs.yaml`)
+drafts an RF4 brief per watched or tier-1 bill that moved in the last 90 days,
+in every new country with a collector (the fourteen own editions and eleven
+Latam countries), as a step of its weekly job. Facts from the store only, no
+AI call; every cell the record cannot fill is a `[CAMPAIGNER: ...]` line. The
+ask, the 5CA, the targets and the segment split come from CONFIRMED stances
+only, so every brief is NOT READY until its bill's direction
+(`--confirm-direction`, new in `tools/country_5ca.py`) and every reading of
+its votes are confirmed. Unedited briefs refresh weekly; edited ones are left
+alone. Open: the language (Chris asked for the country's language; rulebook
+rule 6 and the German briefs say English, one config line switches), the
+framing glossary, the allies and opponents registers and Bluebook access.
 
 ## Blocked, waiting on replies (letters drafted in Chris's Gmail)
 

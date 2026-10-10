@@ -346,10 +346,12 @@ class WiringTests(unittest.TestCase):
     def test_each_configured_country_job_runs_the_step_and_commits_briefs(self):
         cfg = cb.load_config()
         for cc in cfg["countries"]:
-            path = os.path.join(ROOT, "jobs", "{0}-weekly.sh".format(cc))
-            text = open(path, encoding="utf-8").read()
+            # Mexico collects on GitHub (X9): its Mini job only dispatches.
+            job = "mx-collect.sh" if cc == "mx" else "{0}-weekly.sh".format(cc)
+            text = open(os.path.join(ROOT, "jobs", job), encoding="utf-8").read()
             self.assertIn("tools/country_briefs.py --cc {0}".format(cc), text, cc)
-            self.assertRegex(text, r"# mini_run: commit .*\bbriefs\b", cc)
+            if cc != "mx":
+                self.assertRegex(text, r"# mini_run: commit .*\bbriefs\b", cc)
             wf = os.path.join(ROOT, ".github", "workflows", "{0}-weekly.yml".format(cc))
             if os.path.exists(wf):
                 self.assertIn("briefs/", open(wf, encoding="utf-8").read(), cc)
