@@ -34,7 +34,7 @@
 # is rewritten, not resent. Its failure is a [gap] line and never costs the
 # store.
 #
-# mini_run: commit editions profiles
+# mini_run: commit editions profiles briefs
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -85,6 +85,13 @@ if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   exit "$rc"
 fi
 [ "$rc" -eq 3 ] && echo "ar-rollcalls recorded gaps; publishing what it stored"
+# Campaign brief drafts (tools/country_briefs.py, src/country_briefs.py): a
+# draft RF4 brief in briefs/ for each new watched or tier-1 bill, NOT READY
+# until its stances are confirmed in config/ar_stance.yaml; unedited briefs
+# are refreshed. Offline, from the store as it stands; sends nothing. A
+# failure is a [gap] line and never costs the store.
+python3 tools/country_briefs.py --cc ar \
+  || echo "  [gap] country-briefs failed for ar; last week's briefs stand"
 # The archive before the store: a store that cites payloads the archive
 # lacks is the worse of the two failures. Both merge, never clobber.
 python3 tools/raw_state.py --push

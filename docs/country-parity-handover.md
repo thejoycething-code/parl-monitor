@@ -22,7 +22,7 @@ Everything it built is on main. Read this with
 | Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
 | Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
-| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); briefs and targets **no** |
+| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); campaign briefs **built** 10 Oct (`tools/country_briefs.py`, branch `camp-briefs`, a weekly step): drafts in the country's language, NOT READY until stances are confirmed; targets **no** |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
@@ -180,6 +180,21 @@ the campaigner checklist, in the country's language (src/debatepack_i18n.py).
 Manual, no job. Placements only from confirmed readings: until a signer
 confirms, every pack renders "awaiting sign-off". Usage in each scope doc and
 docs/debate-pack-social.md, "New countries".
+
+**Campaign briefs built 10 October 2026 (branch `camp-briefs`).**
+`tools/country_briefs.py` (`src/country_briefs.py`, phrases in
+`src/brief_phrases.py`, lists and languages in `config/country-briefs.yaml`)
+drafts an RF4 brief per watched or tier-1 bill that moved in the last 90 days,
+in every new country with a collector (the fourteen own editions and eleven
+Latam countries), as a step of its weekly job. Facts from the store only, no
+AI call; every cell the record cannot fill is a `[CAMPAIGNER: ...]` line. The
+ask, the 5CA, the targets and the segment split come from CONFIRMED stances
+only, so every brief is NOT READY until its bill's direction
+(`--confirm-direction`, new in `tools/country_5ca.py`) and every reading of
+its votes are confirmed. Unedited briefs refresh weekly; edited ones are left
+alone. Open: the language (Chris asked for the country's language; rulebook
+rule 6 and the German briefs say English, one config line switches), the
+framing glossary, the allies and opponents registers and Bluebook access.
 
 ## Blocked, waiting on replies (letters drafted in Chris's Gmail)
 
