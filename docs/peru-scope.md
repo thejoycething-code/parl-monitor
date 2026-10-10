@@ -422,3 +422,7 @@ Later phases and items for Chris (not built at the merge):
   after the court: with Tesseract on the Mini it reads up to three scan-only
   vote records a run (`pe_vote_files.text_layer = 0`) into `pe_vote_ocr`;
   without it, one "[skip]" line. It parses no positions (src/ocr.py).
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/pe_stance.yaml` holds 2 bill direction(s) (Claude's drafts from the watchlist) and 0 vote reading(s): 0 with proposed values, 0 procedural, 0 need reading, 0 confirmed. Guide: `docs/5ca-pe-readings.md`; confirm with `python3 tools/country_5ca.py --cc pe --sign-from-doc --by NAME`. Sheets (`data/5ca/pe-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Peru (`config/stance_signers.yaml`). No qualifying vote in any store yet (the scans were lost; phase 1 holds few votes on our ground).

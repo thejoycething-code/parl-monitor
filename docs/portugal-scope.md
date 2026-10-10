@@ -482,3 +482,6 @@ Later phases and items for Chris (not built at the merge):
   case). Acórdão 5/2023 classifies as area 2, tier 1, "morte medicamente
   assistida". The edition has a "Constitutional court" section (sample:
   `editions/pt-monitor-2023-02-05.md`). No backfill: ten a week.
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/pt_stance.yaml` holds 39 bill direction(s) (Claude's drafts from the watchlist) and 40 vote reading(s): 11 with proposed values, 8 procedural, 21 need reading, 0 confirmed. Guide: `docs/5ca-pt-readings.md`; confirm with `python3 tools/country_5ca.py --cc pt --sign-from-doc --by NAME`. Sheets (`data/5ca/pt-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Portugal (`config/stance_signers.yaml`). Groups vote as blocks: deputies named in the record are facts, every other deputy is DERIVED from the group's vote (X5) and labelled.

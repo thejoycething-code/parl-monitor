@@ -15,13 +15,13 @@ Everything it built is on main. Read this with
 | Triage | API judge | API judge | API or session judge | session judge (provinces) | free session judge, Sundays 16:45 (`tools/edition_judge.py`) |
 | Noise filters, mute lists | yes | partly | yes | yes | yes (`src/noise.py`, `config/edition-noise-<cc>.yaml`) |
 | Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | **no** |
-| 5CA (member stance, five columns) | yes | yes | yes | yes | **no** |
-| Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **no** |
+| 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5) |
+| Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct: 2,012 drafts in 18 countries (71 with proposed values, 43 procedural, 1,898 need reading), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
 | Member profiles | yes | yes | US yes | no | **no** |
 | Debates / speeches | yes | yes | IE, AU | yes | **no** |
 | Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b`) |
-| Week ahead / agenda | yes | yes | yes | no | partial (HR, BE; framework supports it) |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
+| Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
 | Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | **no** |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 
@@ -58,6 +58,15 @@ off per country (country teams are the natural owners). Start with the
 countries with the richest member data and live campaigns: Poland, Italy,
 Spain (after 23 December), Croatia, Slovakia, Brazil.
 
+**Built 10 October 2026 (branch `parity-5ca`; docs/5ca-notes.md, "The new
+country editions").** `tools/country_5ca.py` drafts readings for every
+watched and tier-1 vote by rules (area, the bill's direction from a
+`bill_directions` line, the kind of vote; `needs_reading` where unclear),
+confirms only with `--by NAME` and a date, and writes sheets from confirmed
+readings only. `tools/stance_digest.py` DMs Chris the weekly list of what
+waits. Still open: Chris to name the signer per country in
+`config/stance_signers.yaml`, and to confirm the first readings.
+
 ### 3. Member profiles
 One profile per member from the stores already collected (party history,
 votes on our ground, watched-bill authorship where the source has it).
@@ -70,6 +79,27 @@ The framework already renders a week-ahead section when a store holds
 agenda data. Add agenda collection where the source has it: NL (OData
 Activiteit), PL (Sejm proceedings), CH (sessions), BR (Câmara pauta), IT, FR,
 AT (Sitzungen), ES (from 23 December).
+
+**Built 10 October 2026 (branch `parity-week-ahead`).** One table and one
+collector for all of them (`src/agenda.py`, `country_agenda`;
+`tools/country_agenda.py <cc>`), a source module per country
+(`src/agendas/<cc>.py`), run as a step of each country's weekly job after
+its collector. Points are matched to the store's bills by number only
+(Kamerstuk/zaak, druk/process, Geschäftsnummer, proposição, Atto Camera,
+dossier ref, d.B./A(E), expediente); watched and tier-1 points are flagged,
+and the edition's Coverage line says how far each agenda reaches and when
+the next sitting is. Measured on the live sources that day: NL 661 points
+(12 on our ground), PL sitting 67's 41 points (the abortion bill, druk 223,
+watched), BR 47, IT 48 (the Camera's October calendar), FR 216, AT 31, CH
+none (between sessions), ES 17 (dissolved: the Diputación Permanente),
+AR the Senate's committee meetings (cultural events left out).
+Not done: the Italian Senate (refuses us), the Spanish plenary's order of
+the day (a PDF), committee convocations in IT and CH, the Argentine
+Diputados agenda (www.hcdn.gob.ar, AR4: left to a later decision), Belgium
+(no open agenda source probed), Portugal, Slovakia, Hungary, Mexico and
+the Latam monitor's countries (monthly, no week-ahead section; their
+agendas are HTML per day or PDF: Colombia, Peru, the Dominican Republic;
+Panama's orden del día is already collected in pa_agenda but not shown).
 
 ### 5. Debates, speeches, questions
 Per country where the source is open: NL Handelingen, PL transcripts (the

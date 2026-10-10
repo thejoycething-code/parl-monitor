@@ -1,0 +1,149 @@
+# Mexico: what a recorded vote MEANS for CitizenGO, for the 5CA.
+#
+# Written by tools/country_5ca.py (src/country5ca.py), the 5CA-with-sign-off
+# layer of docs/country-parity-handover.md (item 2), 10 October 2026. The
+# rule is Canada's: which lobby is CitizenGO's is a HUMAN judgement, and
+# nothing places anyone until a named person has confirmed it.
+#
+# status:
+#   draft          proposed by the drafter's rules (or by Claude): unsigned,
+#                  places nobody.
+#   needs_reading  no direction proposed: the drafter could not tell which
+#                  side is ours without reading the text. A person writes
+#                  `yea:`/`nay:` (and why lines), then confirms.
+#   confirmed      signed: `confirmed_by:` (a named person) and
+#                  `confirmed_on:` (the date) are both required, or it still
+#                  counts as unsigned.
+#
+# To confirm: tick the box in docs/5ca-mx-readings.md and run
+#   python3 tools/country_5ca.py --cc mx --sign-from-doc --by NAME
+# or confirm by key:
+#   python3 tools/country_5ca.py --cc mx --confirm KEY [KEY ...] --by NAME
+# To strike a reading for good, write `placeable: false` and a `reason:`.
+#
+# bill_directions: whether PASSING a bill or motion is with CitizenGO
+# (`with`) or against it (`against`). Drafted by Claude on 10 October 2026
+# from each watchlist entry's own description, never from a model call; a
+# bill with no line gets no proposed values. Edit or add lines here: the
+# next --draft uses them for NEW votes (an existing entry is never
+# rewritten).
+#
+# divisions: one entry per watched or tier-1 vote, appended by --draft.
+# Keys are the store's division keys. `yea:`/`nay:` are the stance (-2..2)
+# of voting Yes / No as the chamber records it (A favor / En contra). An
+# abstention never places anyone. Keep `divisions:` the LAST section: the
+# drafter appends to the end of this file.
+
+
+bill_directions:
+  - key: "66/62"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Código Penal Federal, the crime of abortion: reform and repeal (Morena, Benítez Tiburcio). Justice committee, extension granted."
+    drafted: "Claude, 10 October 2026, from config/watchlist-mx.yaml"
+  - key: "66/226"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "'Salud reproductiva y aborto seguro': Ley General de Salud and Código Penal Federal (Movimiento Ciudadano group)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-mx.yaml"
+  - key: "66/1130"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Interrupción legal del embarazo: Código Penal Federal articles 329, 332 and a new 331 Bis (PT, Lilia Aguilar Gil)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-mx.yaml"
+  - key: "66/1244"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Interrupción legal del embarazo: Código Penal Federal articles 329 and 330 (PT, Rojo Pimentel)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-mx.yaml"
+  - key: "66/1956"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Decriminalisation of abortion in the Código Penal Federal and the Ley General de Salud (Morena, Ealy Díaz)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-mx.yaml"
+  - key: "66/1955"
+    direction: against
+    status: draft
+    areas: [1]
+    why: "Constitutional 'right to decide' on reproduction, article 4 (Morena, Ealy Díaz); companion of 66/1956."
+    drafted: "Claude, 10 October 2026, from config/watchlist-mx.yaml"
+  - key: "66/774"
+    direction: with
+    status: draft
+    areas: [1, 8]
+    why: "Conscientious objection for health professionals, Ley General de Salud (PAN, Ramírez Barba): the positive flank."
+    drafted: "Claude, 10 October 2026, from config/watchlist-mx.yaml"
+  - key: "66/6709"
+    direction: against
+    status: draft
+    areas: [2]
+    why: "Decriminalisation and regulation of euthanasia, Ley General de Salud and Código Penal Federal (Morena, García Hernández)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-mx.yaml"
+  - key: "66/3543"
+    direction: against
+    status: draft
+    areas: [2]
+    why: "'Muerte asistida', Ley General de Salud and Código Penal Federal (Morena, Jiménez Vásquez)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-mx.yaml"
+  - key: "66/7722"
+    direction: against
+    status: draft
+    areas: [10]
+    why: "Maternidad subrogada: new article 67 Bis of the Ley General de Salud (PVEM, Carrillo Soberanis)."
+    drafted: "Claude, 10 October 2026, from config/watchlist-mx.yaml"
+  - key: "66/7629"
+    direction: with
+    status: draft
+    areas: [10, 12]
+    why: "Prohibition of gestación subrogada, framed through the trafficking law (PT, Merino Escamilla): the abolitionist side."
+    drafted: "Claude, 10 October 2026, from config/watchlist-mx.yaml"
+
+divisions:
+
+  # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
+  - key: "dip-66-199"
+    status: needs_reading
+    title: "DECRETO POR EL QUE SE REFORMAN, ADICIONAN Y DEROGAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL PARA LA IGUALDAD ENTRE MUJERES Y HOMBRES; DE LA LEY GENERAL DE ACCESO DE LAS MUJERES A UNA VIDA LIBRE DE VIOLENCIA; DEL CÓDIGO NACIONAL DE PROCEDIM"
+    dated: "2025-12-02"
+    chamber: "diputados"
+    areas: [5, 11]
+    tier: 1
+    result: "A favor 442, En contra 0"
+    lobbies: "A favor: MORENA 219, PAN 64, PVEM 56, PT 45, PRI 31, MC 26, IND 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('DECRETO POR EL QUE SE REFORMAN, ADICIONAN Y DEROGAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL PARA LA IGUALDAD ENTRE MUJE'): read the question put, then write yea/nay."
+    reasoning: "Area 5 (sex-based rights), 11 (migration). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "dip-66-200"
+    status: needs_reading
+    title: "DECRETO POR EL QUE SE REFORMAN, ADICIONAN Y DEROGAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL PARA LA IGUALDAD ENTRE MUJERES Y HOMBRES; DE LA LEY GENERAL DE ACCESO DE LAS MUJERES A UNA VIDA LIBRE DE VIOLENCIA; DEL CÓDIGO NACIONAL DE PROCEDIM"
+    dated: "2025-12-02"
+    chamber: "diputados"
+    areas: [5, 11]
+    tier: 1
+    result: "A favor 333, En contra 70, Abstain 22"
+    lobbies: "A favor: MORENA 211, PVEM 54, PT 41, MC 25, IND 1, PRI 1. En contra: PAN 61, PRI 9. Abstain: PRI 21, MC 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('DECRETO POR EL QUE SE REFORMAN, ADICIONAN Y DEROGAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL PARA LA IGUALDAD ENTRE MUJE'): read the question put, then write yea/nay."
+    reasoning: "Area 5 (sex-based rights), 11 (migration). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  - key: "dip-66-234"
+    status: needs_reading
+    title: "DECRETO POR EL QUE SE ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE TURISMO, EN MATERIA DE TRATA DE PERSONAS (EN LO GENERAL Y EN LO PARTICULAR)"
+    dated: "2026-03-03"
+    chamber: "diputados"
+    areas: [12]
+    tier: 1
+    result: "A favor 463, En contra 0"
+    lobbies: "A favor: MORENA 233, PAN 67, PVEM 59, PT 42, PRI 34, MC 27, IND 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 66/1952, 66/2199, 66/2615, 66/2786: CitizenGO's position on 'DECRETO POR EL QUE SE ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE TURISMO, EN MATERIA DE TRATA DE PERSONAS (EN LO GENERAL Y EN LO ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
