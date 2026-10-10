@@ -141,7 +141,13 @@ def _votes(conn, since, until, wl):
                            own=bool(ce.areas_of(r["own_areas"])),
                            group=r["ini_key"] or None, group_title=r["ini_title"],
                            final=any(f in phase.lower() for f in FINAL),
-                           watch_key=r["ini_key"] if w else None))
+                           watch_key=r["ini_key"] if w else None,
+                           rebels=["{0} ({1}, {2})".format(ce.clean(n["name"]), n["party"],
+                                                           dict(SIDES).get(n["position"], n["position"]))
+                                   for n in named],
+                           rebels_note="Group votes; member positions DERIVED (X5). Only the "
+                                       "deputies the record names as voting apart from their "
+                                       "group are named."))
     return out
 
 

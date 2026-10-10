@@ -161,7 +161,9 @@ def _votes(conn, since, until, wl):
                                                              r["item_key"]),
                            group=r["item_key"], group_title=r["item_title"],
                            watch_key=r["item_key"],
-                           final=any(f in question.lower() for f in FINAL)))
+                           final=any(f in question.lower() for f in FINAL),
+                           rebels_note="Klub votes: member positions are DERIVED from the "
+                                       "Klub (X5), so no member is on record breaking from it."))
     return out
 
 

@@ -104,12 +104,11 @@ def _votes(conn, since, until, wl):
                             "it_members m USING (member_key) WHERE v.division_key=?",
                             (r["division_key"],))
         pairs = [(v["name"] or v["member_key"], v["grp"], v["position"]) for v in got]
+        reb = ce.rebels(pairs, POS_YES, POS_NO, skip=NO_LINE) if pairs else None
         if pairs:
             lines.append(ce.split_line(ce.group_counts([(g, p) for _, g, p in pairs],
                                                        POS_YES, POS_NO, POS_ABST), "By group"))
-            lines.append(ce.members_line(len(pairs), ce.rebels(pairs, POS_YES, POS_NO,
-                                                               skip=NO_LINE),
-                                         "Groups as at the vote."))
+            lines.append(ce.members_line(len(pairs), reb, "Groups as at the vote."))
         else:
             lines.append("Member positions not read yet; the next weekly run fetches them.")
         if r["bill_inferred"]:
@@ -125,7 +124,8 @@ def _votes(conn, since, until, wl):
                            url=bill_url(bill, r["id_ddl"]) if bill else None,
                            terms=r["matched_terms"], takeaway=take, own=own,
                            group=bill or None, group_title=r["bill_title"],
-                           final=bool(r["is_final"]), watch_key=hit, refs=keys or None))
+                           final=bool(r["is_final"]), watch_key=hit, refs=keys or None,
+                           positions=pairs or None, rebels=reb))
     return out
 
 

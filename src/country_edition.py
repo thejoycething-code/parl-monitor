@@ -135,6 +135,14 @@ Change log of the interface (additive only):
                    decisive vote's.
   10 October 2026  the session judge's scores (src/edition_judge.py): items
                    carry `judge` and `judge_why`; nothing for adapters to do.
+  10 October 2026  same-day vote briefs (src/country_vote_brief.py): a vote
+                   may carry `positions` [(name, group, position)] as
+                   stored, `rebels` (the FULL list of "Name (Group)" who
+                   voted against their group's majority, never truncated)
+                   and `rebels_note` (why nobody is named: X5 derived, X6
+                   party history). The edition ignores all three; the
+                   brief renders them. An adapter that passes none still
+                   briefs, from its lines.
 
 Read-only on the store.
 """
@@ -282,11 +290,19 @@ def watchlist_file(cc, config_dir=None):
 
 def item(cc, kind, key, date, title, areas, tier, watched=False, status=None, url=None,
          lines=None, terms=None, body=None, refs=None, takeaway=None, group=None,
-         group_title=None, final=False, own=None, watch_key=None):
+         group_title=None, final=False, own=None, watch_key=None, positions=None,
+         rebels=None, rebels_note=None):
     it = latam.item(cc, kind, key, date, title, areas, tier, watched, status, url, lines,
                     terms, body, refs)
     it.update(takeaway=clean(takeaway) or None, group=group, group_title=clean(group_title)
               or None, final=bool(final), own=own, watch_key=watch_key)
+    # For the same-day vote brief only (src/country_vote_brief.py).
+    if positions is not None:
+        it["positions"] = list(positions)
+    if rebels is not None:
+        it["rebels"] = list(rebels)
+    if rebels_note:
+        it["rebels_note"] = rebels_note
     return it
 
 

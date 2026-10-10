@@ -161,11 +161,14 @@ def party_split(conn, dkey):
     return ce.group_counts(pairs, POSITIONS_YES, POSITIONS_NO, POSITIONS_ABSTAIN), len(pairs)
 
 
+def positions(conn, dkey):
+    return [(r["name"], r["party"], r["position"]) for r in ce.rows(
+        conn, "SELECT m.name, v.party, v.position FROM br_votes v LEFT JOIN br_members m "
+              "USING (member_key) WHERE v.division_key=?", (dkey,))]
+
+
 def rebels(conn, dkey):
-    got = ce.rows(conn, "SELECT m.name, v.party, v.position FROM br_votes v LEFT JOIN br_members m "
-                        "USING (member_key) WHERE v.division_key=?", (dkey,))
-    return ce.rebels([(r["name"], r["party"], r["position"]) for r in got],
-                     POSITIONS_YES, POSITIONS_NO)
+    return ce.rebels(positions(conn, dkey), POSITIONS_YES, POSITIONS_NO)
 
 
 def orientation_line(conn, dkey):
@@ -173,6 +176,16 @@ def orientation_line(conn, dkey):
         conn, "SELECT bloc, orientation FROM br_orientations WHERE division_key=?", (dkey,))}
     shown = ["{0} {1}".format(b, got[b]) for b in LEADERS if got.get(b)]
     return ("Leaders' orientations (as recorded): " + ", ".join(shown) + ".") if shown else None
+
+
+def _brief_positions(conn, d):
+    """The same-day vote brief's fields (src/country_vote_brief.py); a
+    secret ballot names who voted, not how, so nobody is named."""
+    if d["secret"]:
+        return {"rebels_note": "A secret ballot: the record says who voted, not how."}
+    pos = positions(conn, d["division_key"])
+    return {"positions": pos or None,
+            "rebels": ce.rebels(pos, POSITIONS_YES, POSITIONS_NO) if pos else None}
 
 
 def vote_lines(conn, d):
@@ -229,7 +242,8 @@ def items(conn, since, until, wl):
             terms=terms, refs=refs, takeaway=take, own=own, watch_key=wkey,
             group=("bill", d["chamber"], d["bill_key"]) if d["bill_key"] else None,
             group_title=group_title,
-            final=bool(FINAL.search(_fold(d["description"] or "").lower()))))
+            final=bool(FINAL.search(_fold(d["description"] or "").lower())),
+            **_brief_positions(conn, d)))
     for b in ce.rows(conn, "SELECT * FROM br_bills WHERE " + ce.window_sql("presented"),
                      (since, until)):
         wkey = watched_key(b, b["bill_key"], wl)

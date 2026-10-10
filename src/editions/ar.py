@@ -200,8 +200,9 @@ def senate_split(conn, dkey):
     got = ce.rows(conn, "SELECT m.name, v.bloc, v.position FROM ar_votes v LEFT JOIN ar_members m "
                         "USING (member_key) WHERE v.division_key=?", (dkey,))
     pairs = [(r["bloc"], r["position"]) for r in got]
-    reb = ce.rebels([(r["name"], r["bloc"], r["position"]) for r in got], YES, NO)
-    return ce.group_counts(pairs, YES, NO, ABSTAIN), len(got), reb
+    triples = [(r["name"], r["bloc"], r["position"]) for r in got]
+    reb = ce.rebels(triples, YES, NO)
+    return ce.group_counts(pairs, YES, NO, ABSTAIN), len(got), reb, triples
 
 
 def items(conn, since, until, wl):
@@ -215,7 +216,7 @@ def items(conn, since, until, wl):
         watched = wkey is not None
         if not ce.on_ground(d["areas"], watched):
             continue
-        groups, n, reb = senate_split(conn, d["division_key"])
+        groups, n, reb, triples = senate_split(conn, d["division_key"])
         terms = list(ce.terms_of(d["matched_terms"]))
         refs = []
         for k in keys:
@@ -241,7 +242,8 @@ def items(conn, since, until, wl):
             own=bool(ce.areas_of(d["own_areas"])),
             group=("acta", d["date"], tuple(keys) if keys else title_root),
             group_title=refs[0] if refs else None,
-            final="GENERAL" in (d["vote_type"] or "").upper()))
+            final="GENERAL" in (d["vote_type"] or "").upper(),
+            positions=triples or None, rebels=reb if triples else None))
     for r in ce.rows(conn, "SELECT * FROM ar_bills WHERE " + ce.window_sql("published"),
                      (since, until)):
         wkey = r["exp_key"] if r["exp_key"] in wl else (
