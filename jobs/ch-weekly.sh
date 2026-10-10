@@ -33,7 +33,7 @@
 # edition already committed for today is rewritten, not resent. Its failure
 # is a [gap] line and never costs the store.
 #
-# mini_run: commit editions profiles
+# mini_run: commit editions profiles briefs
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -42,9 +42,13 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Switzerland weekly}"
 if [ "${CH_RECLASSIFY:-}" = "true" ]; then
   python3 tools/ch_rollcalls.py --reclassify
+  python3 tools/ch_chamber.py --reclassify
 fi
 rc=0
 python3 tools/ch_rollcalls.py --budget-seconds 2700 || rc=$?
+# What was said and asked in the chamber (tools/ch_chamber.py, parity layer 5):
+# time-boxed to what is left of the hour, never fatal, skipped on GitHub.
+bash tools/chamber_step.sh ch "$SECONDS"
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.
@@ -86,6 +90,13 @@ if [ "${CH_PUBLISH:-true}" = "false" ]; then
   exit "$rc"
 fi
 [ "$rc" -eq 3 ] && echo "ch-rollcalls recorded gaps; publishing what it stored"
+# Campaign brief drafts (tools/country_briefs.py, src/country_briefs.py): a
+# draft RF4 brief in briefs/ for each new watched or tier-1 bill, NOT READY
+# until its stances are confirmed in config/ch_stance.yaml; unedited briefs
+# are refreshed. Offline, from the store as it stands; sends nothing. A
+# failure is a [gap] line and never costs the store.
+python3 tools/country_briefs.py --cc ch \
+  || echo "  [gap] country-briefs failed for ch; last week's briefs stand"
 # The archive before the store: a store that cites payloads the archive
 # lacks is the worse of the two failures. Both merge, never clobber.
 python3 tools/raw_state.py --push

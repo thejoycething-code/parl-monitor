@@ -90,8 +90,8 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
        division   a vote's division key in the store, when `key` is not it
                   (member profiles read positions by it; not rendered)
 
-   KINDS (section): new, moved, vote, question, answer, report, agenda,
-   law, ruling, updated, press, gazette, news, pedido. A vote's `lines` carry the
+   KINDS (section): new, moved, vote, question, answer, speech, report,
+   agenda, law, ruling, updated, press, gazette, news, pedido. A vote's `lines` carry the
    tally, the party split and the member-position line: build them with
    tally_line(), split_line(), members_line(), derived_line().
 
@@ -139,6 +139,14 @@ Change log of the interface (additive only):
                    decisive vote's.
   10 October 2026  the session judge's scores (src/edition_judge.py): items
                    carry `judge` and `judge_why`; nothing for adapters to do.
+  10 October 2026  what was said and asked in the chamber (parity layer 5,
+                   src/chamber_store.py): a new kind "speech" ("Said in the
+                   chamber", one entry per debate), and gather() adds the
+                   country's <cc>_speeches and <cc>_questions items to the
+                   adapter's own, with a Coverage line saying what was read.
+                   Nothing for adapters to do; a country whose `kinds` names
+                   its kinds must add "speech" and "question" to show them
+                   (the Netherlands does; its DM stays votes only, NL3).
   10 October 2026  kind "ruling" (X8, a constitutional court's rulings;
                    src/courts.py), its section after Laws.
   10 October 2026  Country.ahead_note: a Coverage line for the week ahead
@@ -180,6 +188,7 @@ from typing import Callable, Optional
 
 import yaml
 
+from src import chamber_store
 from src import edition_judge
 from src import latam
 from src import noise as noise_mod
@@ -211,6 +220,7 @@ SECTIONS = (
     ("ruling", "Constitutional court", "court ruling", "court rulings"),
     ("question", "Questions", "question", "questions"),
     ("answer", "Answers", "answer", "answers"),
+    ("speech", "Said in the chamber", "debate", "debates"),
     ("pedido", "Requests for information", "request for information",
      "requests for information"),
     ("updated", "Updated on the register", "register update", "register updates"),
@@ -503,7 +513,8 @@ def gather(conn, country, since, until, config_dir=None, dropped=None):
     Items the filters leave out go to `dropped` (a list), with their reason."""
     conn.row_factory = sqlite3.Row
     wl = watchlist_of(country, config_dir)
-    got = country.items(conn, since, until, wl) or []
+    got = list(country.items(conn, since, until, wl) or [])
+    got += chamber_store.edition_items(conn, country.cc, since, until, wl)
     if country.kinds:
         got = [it for it in got if it["kind"] in country.kinds]
     kept, out = noise_for(country).split(got, config_dir)
@@ -886,6 +897,7 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
     out += ["## Coverage", "",
             "- Store last read {0}.".format(long_date(seen) if seen else "never")]
     out += ["- " + clean(c) for c in country.coverage]
+    out += ["- " + clean(c) for c in chamber_store.coverage_lines(conn, country.cc, since, until)]
     if country.ahead_note:
         note = country.ahead_note(conn, today)
         if note:

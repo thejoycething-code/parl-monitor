@@ -483,6 +483,10 @@ Sergipe, Tocantins. Much of the school-policy fight (Escola sem Partido,
 "linguagem neutra" bans, gender in curricula) and many municipal laws sit
 here, as Germany's Länder carry part of its ground.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: the Câmara's requerimentos de informação (siglaTipo RIC), classified on the ementa, author and party asked for only when on our ground, `tools/br_chamber.py`, a step of the Brazilian weekly. 449 since 1 August 2026, 15 on our ground. NOT built: speeches. The API gives discursos only per deputy (513 requests a week at about five seconds each, measured 10 October 2026): a Mini-only job of its own if wanted.
+
 ## Waiting on Chris
 
 1. **Approve, cut or correct the Portuguese terms above**, ideally with a

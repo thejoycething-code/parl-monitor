@@ -1,10 +1,13 @@
 """The Netherlands: the Tweede Kamer's votes, from the nl_* tables
 (src/nl_store.py, tools/nl_rollcalls.py).
 
-VOTES ONLY (NL3, Chris, 10 October 2026: the DM carries votes only). The
+VOTES FIRST (NL3, Chris, 10 October 2026: the DM carries votes only). The
 store holds the zaken the Kamer voted on, so the edition is its votes on our
 ground: motions, amendments and bills, each with the Kamer's own words for
-the result, the seats for and against and the fracties on each side.
+the result, the seats for and against and the fracties on each side. Since
+parity layer 5 (10 October 2026) the edition also carries what was said in
+the plenary and the Kamervragen on our ground (tools/nl_chamber.py,
+src/chamber_store.py); the DM stays votes only.
 
 A show of hands records one position per fractie; per X5 each member is
 given their fractie's position and the edition says so, DERIVED, with the
@@ -197,14 +200,14 @@ def tweede_kamer(conn, since, until, wl):
 COUNTRY = ce.Country(
     cc="nl", name="Netherlands", chamber="Tweede Kamer and Eerste Kamer", language="Dutch",
     taxonomies=(("taxonomy-nl.yaml", "nl"),),
-    items=items, kinds=("vote",), dm_kinds=("vote",), flag=":flag-nl:",
+    items=items, kinds=("vote", "speech", "question"), dm_kinds=("vote",), flag=":flag-nl:",
     week_ahead=agenda.week_ahead_fn("nl"), ahead_note=agenda.ahead_note_fn("nl"),
     members_note=("Most votes are by show of hands, one position per fractie; member "
                   "positions shown for them are DERIVED from the fractie vote (X5), given to "
                   "every member the store lists under that fractie by their latest fractie. "
                   "Roll calls record every member"),
-    coverage=("Votes only (NL3): the store holds the zaken the Kamer voted on; new bills and "
-              "stage moves are not collected.",
+    coverage=("Votes, plenary speeches and Kamervragen; the DM carries votes only (NL3). New "
+              "bills and stage moves are not collected; committee debates are not read.",
               "The Eerste Kamer (NL4) is read from eerstekamer.nl's vote pages, the only source "
               "of its votes: fracties for and against on a show of hands, every senator on a "
               "roll call.",

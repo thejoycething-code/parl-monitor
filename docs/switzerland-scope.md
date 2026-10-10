@@ -394,6 +394,10 @@ Nothing else outside the Swiss files: no taxonomy, no `src/http.py`
 change, no change to `tools/mini_run.sh` (it runs `jobs/ch-weekly.sh` by
 name).
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: the Amtliches Bulletin speech by speech (OData `Transcript`, Language DE, Type 1; business titles from `SubjectBusiness`), `tools/ch_chamber.py`, a step of the Swiss weekly. Each speech is read with the list of its own language (function words decide; `LanguageOfText` is empty for a third of speeches), and 'IVG' outside an abortion paragraph is masked as the disability-insurance law (measured: ten false abortion hits on the 26.029 inclusion bill). Questions are not collected here: the edition already carries the Vorstösse. Herbstsession 2026 (7 September to 2 October): 2,399 speeches read, 70 on our ground.
+
 ## Waiting on Chris
 
 1. **The Swiss terms** above: which go into the shared lists, and where (a

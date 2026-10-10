@@ -290,6 +290,17 @@ The own-edition countries (docs/country-decisions-2026-10-10.md, "Edition struct
 - **The DM** goes to Chris alone: the scripts default `SLACK_DM_USER_ID` to U05LJP0BT61 and the code forces it whatever the secrets say. On the Mini the token comes from `~/runner/env` (`SLACK_BOT_TOKEN`, already there); the workflows pass the secret. Without a token the DM is reported skipped and the run goes on.
 - **Noise:** `config/edition-noise-<cc>.yaml` and `config/edition-mute-<cc>.yaml` (src/noise.py, the Latam filters generalised; no model, X16).
 
+## Chamber step: debates, speeches and questions (10 October 2026, branch `parity-debates`)
+
+What was said and asked in the chamber, for the new country editions (parity layer 5; `src/chamber_store.py`, one collector per country, `tools/<cc>_chamber.py`). Built for the Netherlands, Switzerland, Austria, France, Belgium (speeches) and the Netherlands, Poland, France, Portugal, Brazil (questions).
+
+- **No new plists, jobs or workflows.** Each is a step of its country's existing weekly (`jobs/{nl,ch,at,fr,be,pl,pt,br}-weekly.sh`), between the collector and the edition, through `bash tools/chamber_step.sh <cc> "$SECONDS"`, so nothing needs installing: the Mini picks it up on its next `git pull`.
+- **Time-boxed to the hour.** The step gets what is left of 55 minutes of the job, at most ten (`JOB_TIMEOUT` is 3600 on the Mini; Poland's is 4500); under a minute left, it says so and skips, and the next run's three-week lookback reads what it missed.
+- **Never fatal, never on GitHub.** A failure is a `[gap]` line (and a row in `gaps`); the store, the edition and the publish go on. On GitHub (`GITHUB_ACTIONS=true`, the backup) the step is skipped: the backups' timeouts are 30 to 60 minutes and the Mini catches up.
+- **First run reads from 1 September 2026**, so the tables are not empty when tools/coverage.py starts watching them (`<CC> chamber` step heartbeats, AWAITING_FIRST_RUN until then). Austria's first run takes two or three weeklies to drain (one request per speech).
+- **Reclassify:** each `<CC>_RECLASSIFY=true` run also runs `tools/<cc>_chamber.py --reclassify`.
+- **By hand on the Mini** (one writer at a time; never while a weekly runs): `cd ~/runner/parl-monitor && python3 tools/nl_chamber.py --since 2026-09-01`.
+
 ## Week ahead for the country editions (10 October 2026, branch `parity-week-ahead`)
 
 Handover item 4. `tools/country_agenda.py <cc>` reads a country's agenda into the shared `country_agenda` table (src/agenda.py; one source module per country in `src/agendas/`), matches each point to the store's bills by number and flags watched and tier-1 points; the edition's "Week ahead" section shows the next fortnight and its Coverage line says how far the agenda reaches and when the next sitting is.
@@ -495,6 +506,16 @@ Three offline steps at the head of `jobs/editions-session-judge.sh` (Sundays 16:
 - Commit: `# mini_run: commit editions config docs partner_site` (the job writes `config/*_stance.yaml`, `docs/5ca-*-readings.md`, `docs/5ca-countries.html` and, once a reading is confirmed, `partner_site/5ca-countries.html`). A failure in either step is a `[gap]` line; the judge still runs.
 - **Nothing on the Mini confirms a reading.** Confirming is `python3 tools/country_5ca.py --cc CC --sign-from-doc --by NAME` (or `--confirm KEY --by NAME`), run by a person on a laptop, then pushed. `--by` must be Chris or a name in `config/stance_signers.yaml`.
 - Install: nothing new; the next `git pull` on the runner picks the steps up.
+
+## New-country campaign brief drafts (10 October 2026, branch `camp-briefs`)
+
+One offline step in each new country's weekly job (`jobs/<cc>-weekly.sh` for the fourteen own editions and the eleven collected Latam countries, `jobs/mx-collect.sh` for Mexico, which collects on GitHub), after the collector and the edition or alerts, before the publish; no new job, no new slot:
+
+- `python3 tools/country_briefs.py --cc CC`: drafts an RF4 Campaigns Brief (`briefs/<cc>-<title>-<key>.md` and `.csv`, plus `-5ca.csv` once CONFIRMED readings place anyone) for each watched or tier-1 bill that moved in the last 90 days, at most eight new ones a run; refreshes the unedited briefs it wrote before (a fingerprint in `data/country-briefs/<cc>.json`), leaves an edited one alone. Campaigner text in the country's language (`config/country-briefs.yaml`), facts from the store only, no AI call. Every brief is **NOT READY** (banner, form Notes line, `brief_log` status `not-ready`) until the bill's direction and every reading of its watched or tier-1 votes in `config/<cc>_stance.yaml` are confirmed by a named person; then `draft`. Seconds; writes `brief_log` rows in the store before it is published.
+- Commit: `briefs` added to each job's `# mini_run: commit` line, and `briefs/` to each workflow's `git add`. A failure is a `[gap]` line; the store is still published.
+- **It sends nothing**: no DM, no Asana task, no Drive upload (the UK and German editions carry no brief line, so the country editions do not either). `not-ready` and `draft` are not statuses the Drive publisher picks up.
+- **Nothing on the Mini confirms anything.** A bill's direction is confirmed on a laptop with `python3 tools/country_5ca.py --cc CC --confirm-direction KEY --by NAME` (readings as above), then pushed; the next weekly refreshes the brief.
+- Install: nothing new; the next `git pull` on the runner picks the step up.
 
 ## Backfills run on the Mini (9 October 2026)
 
