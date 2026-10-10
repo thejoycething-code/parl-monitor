@@ -249,7 +249,7 @@ def divisions(conn, since, until, wl):
                                 date=_ddmmyyyy(r["date"])),
             takeaway=sentence(takeaway), group=("es", key), group_title=r["title"],
             final=is_final(r["subgroup"], r["title"]),
-            own=False if own is False else None))
+            own=False if own is False else None, division=r["division_key"]))
     return out
 
 
