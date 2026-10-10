@@ -516,3 +516,7 @@ Later phases and items for Chris (not built at the merge):
 
 - X6: source party history before relying on party at the vote.
 - Phase (X7): Tesseract OCR on the Mini for scanned records.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/hr_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 12 vote reading(s): 0 with proposed values, 0 procedural, 12 need reading, 0 confirmed. Guide: `docs/5ca-hr-readings.md`; confirm with `python3 tools/country_5ca.py --cc hr --sign-from-doc --by NAME`. Sheets (`data/5ca/hr-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Croatia (`config/stance_signers.yaml`). Party is as listed until party history is sourced (X6). Croatia's `yes_means_reject` flag swaps the sides.

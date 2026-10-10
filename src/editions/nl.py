@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import json
 
+from src import agenda
 from src import country_edition as ce
 from src import nl_store
 
@@ -100,6 +101,7 @@ COUNTRY = ce.Country(
     cc="nl", name="Netherlands", chamber="Tweede Kamer", language="Dutch",
     taxonomies=(("taxonomy-nl.yaml", "nl"),),
     items=items, kinds=("vote", "speech", "question"), dm_kinds=("vote",), flag=":flag-nl:",
+    week_ahead=agenda.week_ahead_fn("nl"), ahead_note=agenda.ahead_note_fn("nl"),
     members_note=("Most votes are by show of hands, one position per fractie; member "
                   "positions shown for them are DERIVED from the fractie vote (X5), given to "
                   "every member the store lists under that fractie by their latest fractie. "

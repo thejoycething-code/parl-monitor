@@ -209,3 +209,57 @@ and none places anyone. `src/eureadings.py` writes the guide
 sign a draft that proposes no side. The absence rule now caps ++ for an MEP in
 the chamber that day who did not vote on the latest signed division
 (docs/eu-monitor-spec.md, 9 October 2026).
+
+## The new country editions (10 October 2026, branch `parity-5ca`)
+
+Parity item 2 of docs/country-parity-handover.md, for every new country whose
+store holds member-level votes (IT, CH, FR, BE, PL, HR, SK, ES, BR, AR, MX,
+HU, CL, PE, EC, DO, SV, GT) or party-group votes (AT, PT, NL: X5). One
+module, `src/country5ca.py`, one tool, `tools/country_5ca.py`, and one spec
+per store (the SQL for its divisions, positions and roster); placement, the
+sheet and the checkbox format are `src/readings5ca.py`'s, unchanged.
+
+* **The drafter** (`--draft`) appends to `config/<cc>_stance.yaml` one entry
+  per watched or tier-1 vote not yet there, and never rewrites an entry. No
+  model is called (X16): values are proposed only for a vote on the whole
+  text (or the motion itself) or a motion to reject it, on a bill whose
+  direction is on file in the same file's `bill_directions` (written by
+  Claude from each watchlist's own description, 10 October, drafts too).
+  An amendment, an article, a motion tabled in a bill's dossier, a bill
+  with no direction and wording the rules do not recognise are all
+  `status: needs_reading`, with a `read_first:` line; procedure is a draft
+  with `placeable: false`. The kind of vote is read from its own wording in
+  its own language (`vote_kind`), the store's own flags winning (Italy's
+  `is_final`, Croatia's `yes_means_reject`, Guatemala's `procedural`).
+* **The sign-off** is Canada's C-218 path made explicit: `status: draft` ->
+  `status: confirmed` with `confirmed_by:` and `confirmed_on:`, by
+  `--confirm KEY --by NAME` or by ticking `docs/5ca-<cc>-readings.md` and
+  `--sign-from-doc --by NAME`. A `needs_reading` entry cannot be confirmed
+  until a person writes its values; a confirmation without a name is
+  refused; the name must be Chris or listed for the country in
+  `config/stance_signers.yaml` (all lists empty: Chris to name the country
+  owners). `readings5ca.status` now reads this `status:` field (additive:
+  files without it read as before), so a `confirmed` entry with no name or
+  date is still a draft everywhere, the vote briefs included.
+* **The sheets** (`--sheets`, `data/5ca/<cc>-5ca-<chamber>-<area>.csv`) are
+  written only for a chamber and area with a confirmed reading that places
+  someone, and removed when that stops being true, so no unconfirmed stance
+  reaches a published 5CA. An unconfirmed vote shows on a row only as
+  "awaiting sign-off -- not placed", with no direction. AT, PT and NL rows
+  come from the stores' own X5 derivations: labelled `[DERIVED]`, weight 4
+  against a recorded vote's 5, confidence "derived (group vote ...)". The
+  absence cap applies to member-level rows only, and only where the store
+  records the member as present but not voting on the latest confirmed
+  decisive vote.
+* **The digest** (`tools/stance_digest.py --dm`): one DM to Chris a week,
+  by country, of what waits (proposed, procedural, needs reading, ticks not
+  yet applied), the newest proposed readings by key. Both steps run at the
+  head of `jobs/editions-session-judge.sh` (Sundays 16:45, Mini only).
+
+Initial drafts (10 October 2026), from the 9-10 October scoping and edition
+stores (the published store held no rows for these countries yet): 2,012
+entries in 18 countries, 71 with proposed values, 43 procedural, 1,898 need
+reading, none confirmed. France alone is 1,050, nearly all amendments to the
+aide a mourir law: each needs its text read. Peru, El Salvador and Guatemala
+have bill directions but no qualifying votes in any store yet.
+

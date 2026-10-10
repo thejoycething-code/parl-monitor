@@ -1816,8 +1816,7 @@ TABLES = (
     "nic_gazette_issues",
     "nic_gazette_items",
     # What was said and asked in the chamber in the new country editions
-    # (parity layer 5, 10 October 2026; tools/<cc>_speeches.py and
-    # tools/<cc>_questions.py), created by src/chamber_store.ensure_schema for
+    # (parity layer 5, 10 October 2026; tools/<cc>_chamber.py), created by src/chamber_store.ensure_schema for
     # every code in chamber_store.COUNTRIES -- declared from day one.
     "nl_speeches",
     "nl_questions",
@@ -1837,6 +1836,11 @@ TABLES = (
     "pt_record_reads",
     "be_speeches",
     "be_record_reads",
+    # The new countries' week ahead (tools/country_agenda.py), one table for
+    # every country keyed (cc, item_id), created by src/agenda.ensure_schema
+    # -- declared from day one.
+    "country_agenda",
+    "country_agenda_runs",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -2175,4 +2179,6 @@ def init_db(conn):
     latam_store.ensure_schema(conn)
     from src import chamber_store
     chamber_store.ensure_schema(conn)
+    from src import agenda
+    agenda.ensure_schema(conn)
     return conn

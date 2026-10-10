@@ -426,7 +426,7 @@ after the 2027 election.
    votes and new processes on our ground, Slack DM to Chris only), with the
    reject-motion reading of YES built in.
 3. **Phase 2:** week ahead from `/proceedings` (planned sittings with their
-   agendas, already published for 20 to 23 October); interpellations and
+   agendas, already published for 20 to 23 October; **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/pl.py`, a step of the weekly job): sitting 67's 41 points, the druk 223 abortion bill among the possible additions, watched); interpellations and
    written questions (about 600 interpellations a month, 5.6% on our ground by
    title); process stages for the board (committee, readings, Senate,
    President, veto, ELI publication).
@@ -491,3 +491,7 @@ Applied on the `countries` branch:
 
 - Term list approved (PL1); `config/taxonomy-pl.yaml` generated.
 - The Senate gap is accepted (PL2).
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/pl_stance.yaml` holds 21 bill direction(s) (Claude's drafts from the watchlist) and 185 vote reading(s): 24 with proposed values, 4 procedural, 157 need reading, 0 confirmed. Guide: `docs/5ca-pl-readings.md`; confirm with `python3 tools/country_5ca.py --cc pl --sign-from-doc --by NAME`. Sheets (`data/5ca/pl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Poland (`config/stance_signers.yaml`).

@@ -46,6 +46,8 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
            taxonomies=(("taxonomy-atch.yaml", "at"),),   # config files + code
            items=items,              # required, see 2
            week_ahead=None,          # optional: fn(conn, today, wl) -> [item]
+           ahead_note=None,          # optional: fn(conn, today) -> str, the
+                                     # week ahead's Coverage line
            kinds=None,               # None = every kind; ("vote",) = votes only
            dm_kinds=None,            # kinds the DM counts and leads with
            watchlist=None,           # optional: fn(config_dir) -> {key: entry};
@@ -143,6 +145,12 @@ Change log of the interface (additive only):
                    Nothing for adapters to do; a country whose `kinds` names
                    its kinds must add "speech" and "question" to show them
                    (the Netherlands does; its DM stays votes only, NL3).
+  10 October 2026  Country.ahead_note: a Coverage line for the week ahead
+                   (how far the agenda reaches, the next sitting). The
+                   agendas of the new countries are one shared table and
+                   collector (src/agenda.py): an adapter sets
+                   week_ahead=agenda.week_ahead_fn(cc) and
+                   ahead_note=agenda.ahead_note_fn(cc).
 
 Read-only on the store.
 """
@@ -226,6 +234,7 @@ class Country:
     taxonomies: tuple
     items: Callable
     week_ahead: Optional[Callable] = None
+    ahead_note: Optional[Callable] = None
     kinds: Optional[tuple] = None
     dm_kinds: Optional[tuple] = None
     watchlist: Optional[Callable] = None
@@ -795,8 +804,11 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
             country.period, country.chamber, long_date(first), long_date(until)), ""]
         out += ["- Watchlist: {0} item(s), none moved.".format(len(wl)),
                 "- Store last read {0}.".format(long_date(seen) if seen else "never"),
-                "- Left out by the noise filters: {0}.".format(dropped_text(dropped) or "nothing"),
-                ""]
+                "- Left out by the noise filters: {0}.".format(dropped_text(dropped) or "nothing")]
+        note = country.ahead_note(conn, today) if country.ahead_note else None
+        if note:
+            out.append("- " + clean(note))
+        out.append("")
         return finish(conn, country, today, out, wl)
 
     out.append(honesty(country, edition_judge.judged(got)))
@@ -856,7 +868,11 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
             "- Store last read {0}.".format(long_date(seen) if seen else "never")]
     out += ["- " + clean(c) for c in country.coverage]
     out += ["- " + clean(c) for c in chamber_store.coverage_lines(conn, country.cc, since, until)]
-    if not country.week_ahead:
+    if country.ahead_note:
+        note = country.ahead_note(conn, today)
+        if note:
+            out.append("- " + clean(note))
+    elif not country.week_ahead:
         out.append("- No agenda is collected yet, so there is no week-ahead section.")
     out += ["- **Left out by the noise filters** (config/edition-noise-{0}.yaml, "
             "config/edition-mute-{0}.yaml; never a watched item): {1}.".format(

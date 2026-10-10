@@ -402,7 +402,7 @@ not a copy.
    subject lives. This, not the bill title, separates the abortion amendment
    from the rest of a decree (the omnibus problem above).
 4. **Phase 2**: questions (6,840 Senate questions in the 19th; Camera via
-   SPARQL when it answers), committee sittings, the agenda.
+   SPARQL when it answers), committee sittings, the agenda. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/it.py`, a step of the weekly job): the Camera's monthly Assembly calendar (Accept: text/html, which camera.it needs); the Senate refuses us, and committee convocations are not read.
 5. **Phase 3**: the Italian 5CA (positions are already stored per group per
    vote; first signers and co-signers are in both sources).
 6. **Phase 4: the twenty regional councils** (below).
@@ -503,3 +503,7 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: dati.camera.it SPARQL as the Camera's backup source, or main when quicker (IT2). Needs fixtures from the live service and a member-key crosswalk (Openpolis to persistent IDs); not built at the merge.
 - Phase: regional councils after national (IT3).
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/it_stance.yaml` holds 15 bill direction(s) (Claude's drafts from the watchlist) and 137 vote reading(s): 9 with proposed values, 1 procedural, 127 need reading, 0 confirmed. Guide: `docs/5ca-it-readings.md`; confirm with `python3 tools/country_5ca.py --cc it --sign-from-doc --by NAME`. Sheets (`data/5ca/it-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Italy (`config/stance_signers.yaml`).

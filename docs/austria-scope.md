@@ -344,7 +344,7 @@ Hass im Netz).
    on items on our ground, weekly on the Mini with a GitHub backup.
 2. **1b:** namentliche Abstimmungen, member by member, from the protocol;
    Ministerialentwürfe (find the list ID) so drafts in Begutachtung are seen
-   before they reach the Nationalrat; the week ahead from Termine.
+   before they reach the Nationalrat; the week ahead from Termine. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/at.py`, a step of the weekly job): Termine and each Tagesordnung, d.B. and A(E) numbers as item keys, robots.txt checked per document.
 3. **2:** an edition (Slack DM to Christopher, as the US), the triage judge
    on Austrian items (German prompt, as Germany's), Klub-level 5CA, speeches
    from the protocols (the debate entries on each history page already name
@@ -424,3 +424,7 @@ Later phases and items for Chris (not built at the merge):
 
 - meineabgeordneten.at licence (AT5): a request in Chris's name.
 - Phase: the Landtage after national (AT6).
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/at_stance.yaml` holds 9 bill direction(s) (Claude's drafts from the watchlist) and 19 vote reading(s): 3 with proposed values, 1 procedural, 15 need reading, 0 confirmed. Guide: `docs/5ca-at-readings.md`; confirm with `python3 tools/country_5ca.py --cc at --sign-from-doc --by NAME`. Sheets (`data/5ca/at-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Austria (`config/stance_signers.yaml`). Only the Klub's vote is recorded, so every member row is DERIVED from it (X5) and labelled; committee votes are not sheeted (no membership list).
