@@ -89,7 +89,7 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
                   rules)
 
    KINDS (section): new, moved, vote, question, answer, speech, report,
-   agenda, law, updated, press, gazette, news, pedido. A vote's `lines` carry the
+   agenda, law, ruling, updated, press, gazette, news, pedido. A vote's `lines` carry the
    tally, the party split and the member-position line: build them with
    tally_line(), split_line(), members_line(), derived_line().
 
@@ -145,6 +145,8 @@ Change log of the interface (additive only):
                    Nothing for adapters to do; a country whose `kinds` names
                    its kinds must add "speech" and "question" to show them
                    (the Netherlands does; its DM stays votes only, NL3).
+  10 October 2026  kind "ruling" (X8, a constitutional court's rulings;
+                   src/courts.py), its section after Laws.
   10 October 2026  Country.ahead_note: a Coverage line for the week ahead
                    (how far the agenda reaches, the next sitting). The
                    agendas of the new countries are one shared table and
@@ -198,6 +200,9 @@ SECTIONS = (
     ("moved", "Stage moves", "stage move", "stage moves"),
     ("report", "Committee reports", "committee report", "committee reports"),
     ("law", "Laws", "law", "laws"),
+    # 10 October 2026 (X8): a constitutional court's rulings on our ground
+    # (src/courts.py); Portugal's adapter adds them.
+    ("ruling", "Constitutional court", "court ruling", "court rulings"),
     ("question", "Questions", "question", "questions"),
     ("answer", "Answers", "answer", "answers"),
     ("speech", "Said in the chamber", "debate", "debates"),

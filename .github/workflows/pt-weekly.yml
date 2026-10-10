@@ -91,7 +91,7 @@ jobs:
     # Every run re-reads the whole legislature: five requests, the largest a
     # 97 MB JSON file (82 seconds from the laptop on 9 October 2026, 5.6 MB
     # gzipped in the raw archive), then a few seconds of parsing.
-    timeout-minutes: 30
+    timeout-minutes: 40
     env:
       PYTHONUNBUFFERED: "1"
     steps:

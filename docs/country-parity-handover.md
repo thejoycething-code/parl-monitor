@@ -15,13 +15,13 @@ Everything it built is on main. Read this with
 | Triage | API judge | API judge | API or session judge | session judge (provinces) | free session judge, Sundays 16:45 (`tools/edition_judge.py`) |
 | Noise filters, mute lists | yes | partly | yes | yes | yes (`src/noise.py`, `config/edition-noise-<cc>.yaml`) |
 | Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | **no** |
-| 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5) |
+| 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5). Tracker and partner sheet built 10 Oct (`tools/make_country_5ca_web.py`, branch `camp-5ca-sheets`): `docs/5ca-countries.html` weekly, "awaiting sign-off: N readings" per country; partner page gated until a country has a confirmed placement |
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct: 2,012 drafts in 18 countries (71 with proposed values, 43 procedural, 1,898 need reading), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
 | Member profiles | yes | yes | US yes | no | **no** |
 | Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (no open source) |
-| Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press |
+| Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
+| Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
 | Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
-| Committees, courts, petitions, consultations | yes | yes | US courts | yes | **no** (courts approved as a later phase, X8) |
 | Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | **no** |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 
@@ -135,6 +135,19 @@ French Senate (FR5), Eerste Kamer via web pages (NL4), Slovak bill documents
 the Mini (X7: PE scans, HR opposition bills, CO Gazette), Swiss Italian texts
 (CH6), Italy's official Camera service as backup (IT2), regions and
 Landtage after national (IT3, AT6, PE4).
+
+**Set B, built 10 October 2026 (branch `parity-phases-b`):** X8
+constitutional courts for Colombia (the exhortations file; the Court's
+press releases are behind a keyed API and are not read), Ecuador (the
+Court's WordPress API), Peru (the Tribunal's press notes, at its 30 s
+Crawl-delay) and Portugal (acórdãos, 30 s apart, ten a week), into
+`<cc>_rulings` (`src/courts.py`) and the Latam edition and the Portuguese
+edition; Guatemala's court is a recorded gap (GT5). UY5 Diario vote totals
+(`tools/uy_diario.py`), BO4 written questions (`tools/bo_questions.py`),
+X7 OCR designed and guarded (`src/ocr.py`, `tools/pe_ocr.py`; install steps in
+`docs/mac-mini.md`, nothing installed). One hand-run backfill after merge:
+`jobs/latam-courts-backfill.sh`. Samples: `editions/latam-monitor-2026-06-30.md`,
+`editions/latam-monitor-2025-08-31.md`, `editions/pt-monitor-2023-02-05.md`.
 
 ### 7. Campaign tools
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only

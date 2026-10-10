@@ -102,9 +102,46 @@ SCHEMA = (
     )""",
     "CREATE INDEX IF NOT EXISTS uy_questions_date ON uy_questions (date)",
     "CREATE INDEX IF NOT EXISTS uy_sittings_date ON uy_sittings (date)",
+    # UY5 (10 October 2026; tools/uy_diario.py): vote TOTALS read from the
+    # Diario de Sesiones PDFs. Uruguay records no names (see the docstring),
+    # so a row is one vote's count, never a member's position.
+    """CREATE TABLE IF NOT EXISTS uy_diario_reads (
+        chamber      TEXT NOT NULL,
+        diario       INTEGER NOT NULL,
+        date         TEXT,                -- the sitting's ISO date
+        pages        INTEGER,
+        chars        INTEGER,             -- text read; 0 = no text layer (a scan)
+        votes        INTEGER,             -- results found
+        unparsed     INTEGER,             -- results whose numbers could not be read
+        read_at      TEXT,
+        PRIMARY KEY (chamber, diario)
+    )""",
+    """CREATE TABLE IF NOT EXISTS uy_diario_votes (
+        chamber       TEXT NOT NULL,
+        diario        INTEGER NOT NULL,
+        seq           INTEGER NOT NULL,   -- the result's order in the Diario, from 1
+        date          TEXT,               -- the sitting's ISO date
+        section_no    INTEGER,            -- the Diario's numbered section: 43
+        section_title TEXT,               -- verbatim: 'Muerte digna (Regulación)'
+        carpeta       TEXT,               -- '133/2025' when the section names one
+        question      TEXT,               -- what was put, the Diario's words, clipped
+        yes           INTEGER,
+        no            INTEGER,            -- printed only on the electronic register
+        present       INTEGER,
+        result        TEXT,               -- 'AFIRMATIVA' / 'NEGATIVA', verbatim
+        electronic    INTEGER,            -- 1: 'Se abre el registro' (counted yes and no)
+        raw           TEXT,               -- the result line as printed
+        areas         TEXT,               -- JSON list, the SECTION's (taxonomy-es for uy)
+        matched_terms TEXT,
+        tier          INTEGER,
+        first_seen    TEXT,
+        PRIMARY KEY (chamber, diario, seq)
+    )""",
+    "CREATE INDEX IF NOT EXISTS uy_diario_votes_date ON uy_diario_votes (date)",
 )
 
-TABLES = ("uy_members", "uy_questions", "uy_sittings", "uy_laws")
+TABLES = ("uy_members", "uy_questions", "uy_sittings", "uy_laws", "uy_diario_reads",
+          "uy_diario_votes")
 
 
 def ensure_schema(conn):
