@@ -442,7 +442,28 @@ Later phases and items for Chris (not built at the merge):
 
 - Phase: follow the aide a mourir decrees first (FR4): a watch on the Journal officiel's implementing decrees once the law passes.
 - Phase: the Senat (FR5, go ahead): votes and dossiers from senat.fr open data. Not built at the merge.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/fr/` from the store each weekly run (`tools/member_profiles.py fr`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/fr_stance.yaml` holds 7 bill direction(s) (Claude's drafts from the watchlist) and 1050 vote reading(s): 10 with proposed values, 0 procedural, 1040 need reading, 0 confirmed. Guide: `docs/5ca-fr-readings.md`; confirm with `python3 tools/country_5ca.py --cc fr --sign-from-doc --by NAME`. Sheets (`data/5ca/fr-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for France (`config/stance_signers.yaml`). 1,040 of the 1,050 drafts are amendments and articles of the aide a mourir law: each needs its text read before it can place anyone.
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country fr --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country fr --date YYYY-MM-DD --item DLR5L17N51670 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country fr --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/fr-<date>-<slug> --onside
+
+It writes `data/packs/fr-<date>-<slug>/`: `pack.md` and `checklist.md` in French (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
+Agenda slot: read by bill key from the `country_agenda` table (the week-ahead layer, src/agenda.py) once the weekly step has read the agenda; until then, the edition's own week ahead (scheduled acts on the dossier). Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/fr_stance.yaml`; none is confirmed yet, so every pack shows
+"en attente de validation" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

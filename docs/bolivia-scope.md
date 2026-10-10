@@ -395,3 +395,25 @@ Later phases and items for Chris (not built at the merge):
   shows them as "Written question" items (sample:
   `editions/latam-monitor-2026-06-30.md`). A question records what a member
   asked about, never a position.
+
+- Phase 2: written questions (BO4).
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country bo --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country bo --date YYYY-MM-DD --item "PL 691/2025-2026 CD" [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country bo --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/bo-<date>-<slug> --onside
+
+It writes `data/packs/bo-<date>-<slug>/`: `pack.md` and `checklist.md` in Spanish (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. No member-level votes are collected here, so a pack holds the item and the agenda slot only, and says so.
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/bo_stance.yaml`; none is confirmed yet, so every pack shows
+"pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

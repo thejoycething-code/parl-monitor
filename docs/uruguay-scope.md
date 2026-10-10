@@ -486,6 +486,7 @@ Later phases and items for Chris (not built at the merge):
 - Phase: vote totals from the Diario de Sesiones PDFs (UY5, build now). Built 10 October 2026 (`tools/uy_diario.py`, see below).
 - UY3 (pedidos reported) and UY4 (INAU guarded): the Latam edition.
 
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/uy/` from the store each weekly run (`tools/member_profiles.py uy`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. No member-level votes are reachable, so profiles hold the pedidos de informes the member signed.
 ## Parity work, set B (10 October 2026, branch `parity-phases-b`)
 
 - **UY5, built:** `tools/uy_diario.py`, a step in `uy-weekly`: up to four
@@ -505,3 +506,23 @@ Later phases and items for Chris (not built at the merge):
   resultado es: AFIRMATIVA" only). The Latam edition shows a section's
   votes as one item (sample: `editions/latam-monitor-2025-08-31.md`). The
   backlog (about 80 Diarios) is read once by `jobs/latam-courts-backfill.sh`.
+
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country uy --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country uy --date YYYY-MM-DD --item ley:20431 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country uy --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/uy-<date>-<slug> --onside
+
+It writes `data/packs/uy-<date>-<slug>/`: `pack.md` and `checklist.md` in Spanish (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. No member-level votes are collected here, so a pack holds the item and the agenda slot only, and says so.
+Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/uy_stance.yaml`; none is confirmed yet, so every pack shows
+"pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".

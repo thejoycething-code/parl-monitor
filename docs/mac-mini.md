@@ -310,6 +310,16 @@ Handover item 4. `tools/country_agenda.py <cc>` reads a country's agenda into th
 - **A failed read keeps the last good one**: the edition shows it with its date in the Coverage line, and the gap is in the gaps table as `<cc>-agenda`. The Sejm API did not answer the laptop at times on 10 October (40 s timeouts); with the client's retries the PL step can take a few minutes before it gives up.
 - **By hand:** `python3 tools/country_agenda.py pl --db /tmp/x.db` reads into a scratch store; never run it on the runner's store while a weekly is publishing.
 
+## Member profiles in the country weeklies (10 October 2026, branch `parity-profiles`)
+
+Handover item 3: one Markdown profile per member with a record on our ground, for the 23 countries with a member list (`profiles/<cc>/`, an `index.md` per country), from `src/member_profiles.py` through `tools/member_profiles.py <cc>`.
+
+- **No new plists, workflows or cron slots.** It is a step of each country's existing weekly (`jobs/<cc>-weekly.sh`; Mexico's `jobs/mx-collect.sh` on GitHub), after the collector and before the publish, only when the collector stored something (exit 0 or 3). It reads the store and takes seconds; a failure is a `[gap] member-profiles` line and never costs the store.
+- **Committed with the store:** each script's `# mini_run: commit` line now names `profiles` (beside `editions` where the country has one), and each workflow's commit step adds `profiles/`. The directory is rewritten whole: a member who no longer has a record loses their file. Nothing is posted or DMed.
+- **Croatia** first reads plenary transcripts for party history (`tools/hr_party_history.py`, X6): edoc.sabor.hr, one request a second, newest first, ten minutes a run (`HR_TRANSCRIPT_SECONDS`); the 11th Sabor's ~950 transcripts drain over the first few weeks, then a run reads the week's new ones.
+- **Chile** first asks the BCN for senators' party history (`tools/cl_senate_parties.py`, one SPARQL request to datos.bcn.cl, which asks for a 10-second crawl delay).
+- Nothing to install on the Mini beyond the usual `git pull` of the runner clone.
+
 ## Installing the country jobs (10 October 2026)
 
 One command installs every country-edition job and the Latam monthly, after the runner clone has pulled main:

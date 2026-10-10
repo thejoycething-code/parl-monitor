@@ -17,12 +17,12 @@ Everything it built is on main. Read this with
 | Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | **no** |
 | 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5). Tracker and partner sheet built 10 Oct (`tools/make_country_5ca_web.py`, branch `camp-5ca-sheets`): `docs/5ca-countries.html` weekly, "awaiting sign-off: N readings" per country; partner page gated until a country has a confirmed placement |
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct: 2,012 drafts in 18 countries (71 with proposed values, 43 procedural, 1,898 need reading), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
-| Member profiles | yes | yes | US yes | no | **no** |
+| Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
 | Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (no open source) |
 | Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
 | Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
-| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | **no** |
+| Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); briefs and targets **no** |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 
 New-country collectors and what their vote data supports:
@@ -73,6 +73,21 @@ votes on our ground, watched-bill authorship where the source has it).
 Reuse the US/DE profile code. X6 applies: party at the vote needs party
 history before member-level claims (HR, CL, GT currently show party as
 listed).
+
+**Built 10 October 2026 (branch `parity-profiles`).** `src/member_profiles.py`
+(one generic generator, a few SQL statements per country) and
+`tools/member_profiles.py <cc>`, a step of every new country's weekly job:
+`profiles/<cc>/<member>.md` and `index.md` for AR, AT, BE, BR, CH, CL, CO,
+DO, EC, ES, FR, GT, HR, HU, IT, MX, NL, PE, PL, PT, SK, SV, UY. Votes come
+from each edition adapter with its noise rules and judge scores (the
+framework's `item(division=)` field, additive); positions verbatim; party at
+the vote with its basis on every line. X6: Croatia's transcripts
+(`tools/hr_party_history.py`, `hr_party_seen`) and Chile's senators from the
+BCN (`tools/cl_senate_parties.py`); Guatemala, Ecuador, Colombia and Belgium
+labelled "not party at the vote". X5: AT, PT, NL positions DERIVED, labelled.
+Authorship where the store links it (PT, AT, FR, BE, CH, AR, PE, CL, CO);
+questions for SK, UY, AT. Not built: Bolivia, Panama, Honduras (no member
+records on our ground), Mexico authorship (presenter is prose).
 
 ### 4. Week ahead
 The framework already renders a week-ahead section when a store holds
@@ -152,6 +167,17 @@ X7 OCR designed and guarded (`src/ocr.py`, `tools/pe_ocr.py`; install steps in
 ### 7. Campaign tools
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only
 once 5CA exists for a country, and only where CitizenGO runs campaigns there.
+
+**Debate packs built 10 October 2026 (branch `camp-debate-packs`).**
+`tools/country_debate_pack.py --country cc --date D --find WORDS | --item KEY`
+(src/country_debatepack.py) assembles one upcoming or recent debate on our
+ground for the 15 own-edition and 11 collected Latam countries: the item and
+bill, the agenda slot, the votes on the bill and topic, likely speakers
+(`--speakers`), members to watch, every member's record and profile link, and
+the campaigner checklist, in the country's language (src/debatepack_i18n.py).
+Manual, no job. Placements only from confirmed readings: until a signer
+confirms, every pack renders "awaiting sign-off". Usage in each scope doc and
+docs/debate-pack-social.md, "New countries".
 
 ## Blocked, waiting on replies (letters drafted in Chris's Gmail)
 

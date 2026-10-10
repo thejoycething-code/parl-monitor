@@ -428,6 +428,13 @@ FEEDS = [
     # re-read every run, so hr_members and hr_items move every week, recess
     # included (the latest session's agenda stays up through the summer).
     # hr_divisions is in ONCE_EVER; hr_votes carries no sighting column.
+    # hr_transcripts and hr_party_seen (X6 party history, 10 October 2026,
+    # tools/hr_party_history.py) carry no sighting column either: the walk
+    # drains under a clock and adds rows only when the Sabor has debated, so
+    # a recess week adds none. The weekly log's "hr-party-history:" line
+    # says what each run read. Member profiles (profiles/<cc>/, every new
+    # country's weekly job) are files, not tables: their job's log line
+    # ("member-profiles <cc>:") and the commit are the record.
     ("hr_members", "last_seen", 7, 4, "Sabor members (Croatia weekly)"),
     ("hr_items", "last_seen", 7, 4, "Sabor agenda items (Croatia weekly)"),
     # Spain (9 October 2026). MEASURED which re-stamp: the deputies and
@@ -457,7 +464,9 @@ FEEDS = [
     # year and last, so members and bills move every week, district week
     # included. Divisions move only when a chamber votes: a month plus a
     # month's grace, as for the US. cl_party_spells and cl_votes carry no
-    # sighting column.
+    # sighting column. Senators' spells in cl_party_spells come from the BCN
+    # (tools/cl_senate_parties.py, X6, 10 October 2026), replaced whole each
+    # run for each senator the BCN answers for.
     ("cl_members", "last_seen", 7, 4, "Deputies and senators (Chile weekly)"),
     ("cl_bills", "last_seen", 7, 4, "Bills by boletín (Chile weekly)"),
     ("cl_divisions", "last_seen", 31, 31, "Cámara and Senate votes (Chile weekly)"),

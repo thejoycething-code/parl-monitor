@@ -93,7 +93,7 @@ def items(conn, since, until, wl):
                            takeaway=ce.clip(take, 260), group=group,
                            group_title=titles[0] if group and titles else None,
                            final=soort in BILLS, own=bool(ce.areas_of(r["own_areas"])),
-                           watch_key=hit, refs=titles))
+                           watch_key=hit, refs=titles, division=r["besluit_id"]))
     return out
 
 

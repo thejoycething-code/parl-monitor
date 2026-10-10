@@ -25,6 +25,7 @@
 # gaps (in the gaps table and as [gap] lines in the log): that run is still
 # published, and this script exits 0 so the caller commits the sidecars with
 # it. Any other failure publishes NOTHING and exits non-zero.
+# mini_run: commit profiles
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -42,6 +43,13 @@ python3 tools/sv_rollcalls.py --budget-seconds 2700 || rc=$?
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/latam_alerts.py --country sv --send \
     || echo "  [gap] latam-alerts failed for sv; the next run retries"
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/sv/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py sv \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
 fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "sv-rollcalls failed (exit $rc); nothing published"
