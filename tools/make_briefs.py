@@ -84,11 +84,15 @@ RF4_RULES = {
     "RF#3": ("Scoring rule: what actually happens to opponents. 1 opposition "
              "expressed, no response; 2 they had to take notice; 3 a "
              "documented cost to one opponent; 4 costs across the opposing "
-             "camp; 5-6 a lasting setback. Our own activity counts 1 at most; "
-             "an attack on CitizenGO scores only if it cost the attacker."),
+             "camp; 5-6 a lasting setback; 0 if there is no real opponent. Name "
+             "the opponent. Our own activity counts 1 at most; an outcome "
+             "counts only where the campaign was part of the documented "
+             "pressure; an attack on CitizenGO scores only if it cost the "
+             "attacker."),
     "RF#4/1": ("Scoring rule: score the outcome, not our contribution: the "
                "gain if won (partial wins get partial credit); 0 if lost or "
-               "not yet decided."),
+               "not yet decided. About 3 for a single decision on one case, "
+               "4 for a narrow new law, 5-6 for a broad law or precedent."),
     "RF#4/2": ("Scoring rule: +10 to -10. A loss that would have happened "
                "regardless of our input is the status quo (0); negative only "
                "if our campaign made things worse; positive if something was "
@@ -446,8 +450,9 @@ def rf1_expectation(conn, areas):
     to make.
     """
     try:
-        rows = conn.execute("SELECT signatures, new_members, raised_eur, areas "
-                            "FROM campaign_performance").fetchall()
+        rows = conn.execute("SELECT signatures, new_members, reactivated, "
+                            "raised_eur, areas FROM campaign_performance"
+                            ).fetchall()
     except Exception:
         rows = []
     hits = [r for r in rows
@@ -559,8 +564,20 @@ def rf1_expectation(conn, areas):
                             "donation attribution stops.".format(
                                 money_dropped, MONEY_COMPLETE_BEFORE))
 
+    # RF#1 is scored on NET audience (new + reactivated - unsubscribes), so
+    # the block carries the two extra inputs and the net line (agreed with
+    # the UK team, October 2026). Reactivations have a lifetime baseline in
+    # campaign_performance; unsubscribes are not in the store at all, and
+    # saying so beats a blank that reads as though a baseline existed.
     return [("Expected signatures", better("signatures", "signatures")),
             ("Expected new members", better("new_members", "new_members")),
+            ("Expected reactivated members", band("reactivated")),
+            ("Expected unsubscribes",
+             "NOT HELD: unsubscribes are not in the store. Estimate them "
+             "from the planned email sends."),
+            ("Expected net audience",
+             "new + reactivated - unsubscribes, from the three rows above. "
+             "This is the audience figure RF#1 is scored on."),
             ("Expected EUR raised", money_basis)]
 
 
@@ -1275,7 +1292,11 @@ def main():
             tally, top_for, top_against, n = fca_tally(conn, area, cfg, house)
             fca_block = (
                 "Suggested gradient for **{0}** ({1}, {2} decision-makers): "
-                "{3}\n\nStrongest allies: {4}\n\nStrongest opponents: {5}\n\n"
+                "{3}\n\nMost aligned on this topic: {4}\n\nLeast aligned on "
+                "this topic: {5}\n\nThis is a TOPIC stance, not support for or "
+                "opposition to this subject: check who actually backs it (a "
+                "bill the Government supports has ministers among its "
+                "backers even when they sit low on the topic gradient).\n\n"
                 "Full sheet: docs/5ca-sheets.html (Commons) / docs/5ca-peers.html "
                 "(Lords); paste-in CSV via `python3 tools/make_5ca.py {6}{7}`."
             ).format(
@@ -1285,7 +1306,9 @@ def main():
                 "; ".join(top_for) or "none placed ++",
                 "; ".join(top_against) or "none placed --",
                 area, " --peers" if house == "Lords" else "")
-            rf4_ally_hint = ("5CA {0}: {1} with us (++/+), {2} against (-/--)."
+            rf4_ally_hint = ("5CA {0} topic stance: {1} with us (++/+), {2} "
+                             "against (-/--). A topic gradient, not this "
+                             "subject's backers: check who supports it."
                              .format(house, tally["++"] + tally["+"],
                                      tally["-"] + tally["--"]))
 

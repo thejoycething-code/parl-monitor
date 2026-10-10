@@ -85,7 +85,7 @@ class ThresholdTests(unittest.TestCase):
 
     def test_an_empty_store_does_not_raise(self):
         rows = mb.rf1_expectation(self.conn, [1])
-        self.assertEqual(len(rows), 3)
+        self.assertEqual(len(rows), 6)
 
 
 class BaselineShapeTests(unittest.TestCase):
@@ -104,11 +104,21 @@ class BaselineShapeTests(unittest.TestCase):
         for token in ("median", "p25", "p75", "n="):
             self.assertIn(token, sigs)
 
-    def test_three_metrics_always_returned_in_order(self):
+    def test_metrics_always_returned_in_order(self):
         rows = mb.rf1_expectation(self.conn, [6])
         self.assertEqual([m for m, _b in rows],
                          ["Expected signatures", "Expected new members",
+                          "Expected reactivated members",
+                          "Expected unsubscribes", "Expected net audience",
                           "Expected EUR raised"])
+
+    def test_net_audience_inputs_are_explicit(self):
+        """RF#1 is scored on net audience: unsubscribes are not in the
+        store, and the block says so rather than leaving a silent blank."""
+        rows = dict(mb.rf1_expectation(self.conn, [6]))
+        self.assertIn("NOT HELD", rows["Expected unsubscribes"])
+        self.assertIn("new + reactivated - unsubscribes",
+                      rows["Expected net audience"])
 
     def test_money_is_reported_as_not_held_when_unpopulated(self):
         """raised_eur is null on all 366 live rows. Saying so beats an empty
@@ -253,7 +263,7 @@ class LookerSourceTests(unittest.TestCase):
         conn = fresh()          # no looker_campaigns at all
         seed(conn, [(20000, 900, None, "[1]")])
         rows = mb.rf1_expectation(conn, [1])
-        self.assertEqual(len(rows), 3)
+        self.assertEqual(len(rows), 6)
         conn.close()
 
 

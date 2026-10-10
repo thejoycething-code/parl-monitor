@@ -41,6 +41,14 @@ class RF4RulesTest(unittest.TestCase):
         self.assertIn("85/15", r["RF#1"])
         self.assertIn("never lifts RF#2", r["RF#2"])
         self.assertIn("status quo (0)", r["RF#4/2"])
+        self.assertIn("0 if there is no real opponent", r["RF#3"])
+        self.assertIn("4 for a narrow new law", r["RF#4/1"])
+
+    def test_the_topic_gradient_is_not_presented_as_this_subjects_opponents(self):
+        src = open(os.path.join(ROOT, "tools", "make_briefs.py"),
+                   encoding="utf-8").read()
+        self.assertIn("This is a TOPIC stance", src)
+        self.assertIn("not this \"\n                             \"subject's backers", src)
 
     def test_scores_stay_blank_in_the_csv(self):
         import csv
