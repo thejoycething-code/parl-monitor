@@ -18,8 +18,8 @@ Everything it built is on main. Read this with
 | 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5). Tracker and partner sheet built 10 Oct (`tools/make_country_5ca_web.py`, branch `camp-5ca-sheets`): `docs/5ca-countries.html` weekly, "awaiting sign-off: N readings" per country; partner page gated until a country has a confirmed placement |
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct: 2,012 drafts in 18 countries (71 with proposed values, 43 procedural, 1,898 need reading), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
-| Debates / speeches | yes | yes | IE, AU | yes | **no** |
-| Parliamentary questions | yes | no | IE | no | only where collected (SK interpellations, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b`) |
+| Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (no open source) |
+| Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
 | Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
 | Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); briefs and targets **no** |
@@ -121,6 +121,28 @@ Panama's orden del día is already collected in pa_agenda but not shown).
 Per country where the source is open: NL Handelingen, PL transcripts (the
 endpoint timed out on 9 October), AT Stenographische Protokolle, CH, FR, IT
 Senate, BR. Written questions where cheap (BR, PL interpellations, FR).
+
+
+**Done, 10 October 2026 (branch `parity-debates`).** One shared module,
+`src/chamber_store.py` (tables `<cc>_speeches`, `<cc>_questions`,
+`<cc>_record_reads`; per-speech classification; the run loop; the edition
+items), and one collector per country, `tools/<cc>_chamber.py`, run as a
+step of each country's weekly through `tools/chamber_step.sh` (time-boxed to
+what is left of the hour, at most ten minutes, never fatal, skipped on
+GitHub). The edition gains "Said in the chamber" (one entry per debate,
+speakers with a short excerpt each) and fills "Questions"; a Coverage line
+says how many reports and speeches were read. Guard against long transcripts:
+a speech is matched passage by passage in its own words (tier 1 in the
+passage, or tier 2 when the debate's title is tier 1); a sitting is never
+matched whole; the chair is never stored. Built: Netherlands (Handelingen,
+Kamervragen), Switzerland (Bulletin, per-language lists), Austria (speeches
+from the provisional protocol), France (comptes rendus, QE and QAG), Belgium
+(Integraal Verslag), Poland (interpellations, written questions), Portugal
+(perguntas and requerimentos), Brazil (requerimentos de informação). Not
+built, with the reason in each scope doc's phase list: Polish transcripts,
+Brazilian speeches, Italy (the Senate's SPARQL refuses us, 403), Spain
+(dissolved until 23 December), Croatia and Slovakia debates, Belgian written
+questions. The first Mini run of each step reads from 1 September 2026.
 
 ### 6. Later phases already approved (in each scope doc's phase list)
 Set A BUILT 10 October 2026 (branch `parity-phases-a`; each scope doc's

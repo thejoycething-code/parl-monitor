@@ -399,6 +399,10 @@ buildings, associations), so they matter for campaigns rather than law.
 - Overseas collectivities with their own law-making (lois du pays): the
   Congress of New Caledonia and the Assembly of French Polynesia.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: the compte rendu intégral of every sitting (`/dyn/opendata/CRSANR5L17S2027O1N012.xml`, walked by number from the last read, a session never read entered by a binary search on the date) and the questions écrites and questions au gouvernement (the nightly dumps, classified on the Assemblée's own index, never the full text), `tools/fr_chamber.py`, a step of the French weekly. The two question dumps (55 MB) are not archived (rebuilt nightly, re-fetchable). Measured 20 September to 9 October 2026: 17 sittings, 4,448 speeches, 118 on our ground (99 in the bill on sexual and sexist violence); 643 written questions, 15 on our ground.
+
 ## Waiting on Chris
 
 1. **Approve, amend or reject the proposed France term list** (the table

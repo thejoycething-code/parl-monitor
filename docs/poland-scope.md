@@ -458,6 +458,10 @@ then `launchctl bootstrap gui/$(id -u)
 ~/Library/LaunchAgents/net.citizengo.parlmonitor.pl-weekly.plist`. The repo
 variable `MINI_LAST_PL_WEEKLY` is written by the Mini's first clean run.
 
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: interpellations and written questions (`/interpellations`, `/writtenQuestions`, newest first), `tools/pl_chamber.py`, a step of the Polish weekly; the asker's club from pl_members. 212 interpellations and 38 written questions from 26 September to 9 October 2026, 7 on our ground. NOT built: debate transcripts. `/proceedings/66/2026-10-08/transcripts` gave no reply in 30 seconds twice on 9 October and in 45 seconds twice on 10 October (the proceedings list answered 502 that day); given up cleanly, to retry by hand.
+
 ## Waiting on Chris
 
 1. **Approve, cut or extend the Polish terms above.** Nothing is classified

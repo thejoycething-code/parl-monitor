@@ -614,6 +614,21 @@ FEEDS = [
     ("prov_bills", "last_seen", 7, 4, "provincial bills, from each session's listing (Provinces weekly)"),
 ]
 
+# What was said and asked in the chamber, new country editions (parity layer
+# 5, 10 October 2026; tools/<cc>_chamber.py, src/chamber_store.py). MEASURED
+# which re-stamp: every run lists the last three weeks of reports and
+# re-stamps each one it lists in <cc>_record_reads, read again or not, so the
+# table moves every run while the chamber sits and for three weeks after.
+# Swiss sessions are three weeks a quarter (2 October to 30 November 2026 is
+# 59 days) and the Dutch, Polish and Austrian summer recesses run about ten
+# weeks, so a month plus a month's grace, the Irish rule. The speeches and
+# questions themselves are rows on our ground only (ONCE_EVER below).
+from src import chamber_store as _chamber  # noqa: E402
+
+FEEDS += [("{0}_record_reads".format(cc), "last_seen", 31, 31,
+           "{0} chamber reports and question batches read ({0} weekly)".format(cc.upper()))
+          for cc in _chamber.COUNTRIES]
+
 # Which feeds each pipeline is responsible for. This drives the check
 # that actually catches a CLOBBER: a pipeline that ran yesterday whose
 # data is weeks old did not fail -- it succeeded and its work was thrown
@@ -880,6 +895,15 @@ AWAITING_FIRST_RUN = {
                            "Hansard speeches step added to Provinces weekly 2 October 2026; "
                            "its tables fill on the step's first run"),
 }
+# STEP heartbeats for the chamber collectors (parity layer 5): each
+# tools/<cc>_chamber.py stamps '<CC> chamber' after a run with no gap, and its
+# first run reads from 1 September 2026 so the tables do not start empty.
+AWAITING_FIRST_RUN.update({
+    _chamber.heartbeat(cc): (_chamber.tables(cc),
+                             "chamber step (speeches and questions) added to the {0} weekly "
+                             "10 October 2026; its tables fill on the step's first run"
+                             .format(cc.upper()))
+    for cc in _chamber.COUNTRIES})
 
 # Tables carrying a sighting column that are DELIBERATELY not watched,
 # each with its reason. The structural test allows only what is declared
@@ -1084,6 +1108,14 @@ ONCE_EVER = {
     "un_documents": "UN pipeline is paused",
     "un_calendar": "UN pipeline is paused",
 }
+
+# The chamber collectors' rows are written only for speeches and questions
+# on our ground, re-stamped only while their report is re-read: a quiet week
+# or a recess adds none (tools/<cc>_chamber.py).
+ONCE_EVER.update({t: "speeches or questions on our ground only, from tools/{0}_chamber.py; a "
+                     "quiet week or a recess adds none".format(t.split("_")[0])
+                  for cc in _chamber.COUNTRIES for t in _chamber.tables(cc)
+                  if not t.endswith("_record_reads")})
 
 
 def age_of(conn, table, col, today):

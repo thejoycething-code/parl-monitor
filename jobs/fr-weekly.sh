@@ -36,6 +36,7 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-France weekly}"
 if [ "${FR_RECLASSIFY:-}" = "true" ]; then
   python3 tools/fr_rollcalls.py --reclassify
+  python3 tools/fr_chamber.py --reclassify
   python3 tools/fr_senat.py --reclassify
 fi
 rc=0
@@ -54,6 +55,9 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
     echo "  [gap] fr-senat failed (exit $sr); the Assemblee is still published"
   fi
 fi
+# What was said and asked in the chamber (tools/fr_chamber.py, parity layer 5):
+# time-boxed to what is left of the hour, never fatal, skipped on GitHub.
+bash tools/chamber_step.sh fr "$SECONDS"
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.
