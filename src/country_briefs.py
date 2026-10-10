@@ -31,13 +31,12 @@ CONFIRMED STANCES ONLY. A brief recommends nothing a person has not signed:
     every reading of the bill's watched or tier-1 votes are confirmed. Then
     it says READY (brief_log status `draft`, as the German briefs).
 
-THE LANGUAGE. The campaigner text is in the country's language
-(src/brief_phrases.py, config `language: local`), as Chris asked on 10
-October 2026; the cell labels are the template's own, the header values are
-the Asana form's (English, rulebook cell 1 keeps the Campaign Name English),
-and the Builder tab is English. `language: en` in the config switches the
-campaigner text to English, which is what rulebook rule 6 and the German
-briefs do.
+THE LANGUAGE. The campaigner text is in English (config `language: en`),
+as rulebook rule 6 and the German briefs require (Chris, 10 October 2026:
+"keep briefs in English per rule 6"); the cell labels are the template's
+own, the header values are the Asana form's, and the Builder tab is English.
+`language: local` would write the campaigner text in the country's language
+from src/brief_phrases.py (no native read).
 
 UPDATE MODE (rulebook "Entry points and modes"). One brief per subject ever.
 Each weekly run re-renders a brief whose file is exactly what the builder
@@ -789,9 +788,13 @@ def builder_notes(cc, subject, state, fca, votes, ccfg, lang, today, nxt, earlie
             out.append("  - {0} {1} '{2}' {3} {4}".format(v["date"], v.get("chamber") or "",
                                                          clip(v["question"], 90), v.get("tally") or "",
                                                          clip(v.get("result"), 40) or "").rstrip())
-    out.append("Language: campaigner text in {0} ({1}), written from a phrase table without a "
-               "native read (src/brief_phrases.py). Rulebook rule 6 says English: set `language: en` "
-               "in config/country-briefs.yaml to switch.".format(ccfg.get("language"), lang))
+    if lang == "en":
+        out.append("Language: campaigner text in English (rulebook rule 6); the petition itself "
+                   "is in {0}.".format(ccfg.get("language")))
+    else:
+        out.append("Language: campaigner text in {0} ({1}), written from a phrase table without a "
+                   "native read (src/brief_phrases.py). Rulebook rule 6 says English: set "
+                   "`language: en` in config/country-briefs.yaml to switch.".format(ccfg.get("language"), lang))
     out.append("Not available to the builder: Bluebook (comparables, TIM, RF#1), the Asana campaigns "
                "calendar (launch clash check), postcode member counts, the framing glossary "
                "({0} entries), the allies and opponents registers ({1} / {2}), the hostile-outlet "
