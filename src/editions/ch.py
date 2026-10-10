@@ -3,8 +3,12 @@
 
 Items: every business (Geschaeft / objet) on our ground. The collector
 matched the German text with taxonomy-atch and the French with taxonomy-fr,
-both for `ch`, plus config/watchlist-ch.yaml by Geschaeftsnummer (CH6, the
-Italian texts, is a later phase). A business submitted in the window is new
+both for `ch`, and since CH6 (10 October 2026) the Italian with Italy's
+taxonomy-it for `ch`, plus config/watchlist-ch.yaml by Geschaeftsnummer.
+taxonomy-it is deliberately not in COUNTRY.taxonomies: the noise filters
+re-read German and French titles with those lists, where Italian terms are
+false friends ("IVG"); an Italian matched term still counts as a distinct
+term. A business submitted in the window is new
 (questions, interpellations and Fragestunde questions have their own
 section); an older motion, postulate, initiative or Federal Council
 business whose status changed in the window is a stage move, with the
@@ -186,8 +190,8 @@ COUNTRY = ce.Country(
                   "the Nationalrat's tallies are counted from those positions"),
     coverage=("Businesses and Nationalrat votes come from the Parliament's OData service; "
               "Ständerat votes from its session spreadsheets.",
-              "Matched on German (taxonomy-atch) and French (taxonomy-fr) texts. The Italian "
-              "texts are not read yet (CH6, a later phase).",
+              "Matched on German (taxonomy-atch), French (taxonomy-fr) and, since CH6, Italian "
+              "(taxonomy-it, Italy's list without its Italy-only terms) texts.",
               "Statuses are the Parliament's own German words. Cantonal parliaments and federal "
               "popular votes are later phases."),
 )
