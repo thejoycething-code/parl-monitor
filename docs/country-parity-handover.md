@@ -24,6 +24,7 @@ Everything it built is on main. Read this with
 | Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
 | Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); briefs and targets **no** |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
+| Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
 New-country collectors and what their vote data supports:
 
@@ -122,11 +123,12 @@ endpoint timed out on 9 October), AT Stenographische Protokolle, CH, FR, IT
 Senate, BR. Written questions where cheap (BR, PL interpellations, FR).
 
 ### 6. Later phases already approved (in each scope doc's phase list)
-French Senate (FR5), Eerste Kamer via web pages (NL4), Slovak bill documents
-(SK6), Uruguay vote totals from Diario PDFs (UY5), Bolivian written questions
-(BO4), constitutional courts (X8: CO, EC, PT, PE, GT), OCR with Tesseract on
-the Mini (X7: PE scans, HR opposition bills, CO Gazette), Swiss Italian texts
-(CH6), Italy's official Camera service as backup (IT2), regions and
+Set A BUILT 10 October 2026 (branch `parity-phases-a`; each scope doc's
+"as built" section): French Senate (FR5), Eerste Kamer via web pages (NL4),
+Slovak bill documents (SK6), Swiss Italian texts (CH6), Italy's official
+Camera service (IT2). Still to build: Uruguay vote totals from Diario PDFs
+(UY5), Bolivian written questions (BO4), constitutional courts (X8: CO, EC, PT, PE, GT), OCR with Tesseract on
+the Mini (X7: PE scans, HR opposition bills, CO Gazette), regions and
 Landtage after national (IT3, AT6, PE4).
 
 **Set B, built 10 October 2026 (branch `parity-phases-b`):** X8

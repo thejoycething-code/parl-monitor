@@ -421,7 +421,7 @@ buildings, associations), so they matter for campaigns rather than law.
 5. **A French reader.** As with Quebec and Germany, the terms are measured
    but not read by someone who campaigns in France. Worth one pass before
    the edition goes beyond Christopher.
-6. **Senat phase 2**: confirm it is wanted before the 126 MB dump is read
+6. **Senat phase 2** (answered: FR5, go ahead; built 10 October 2026): confirm it is wanted before the 126 MB dump is read
    weekly (about 16 MB to download).
 
 ## Decisions of 10 October 2026 (applied at the countries merge)
@@ -437,8 +437,43 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - Phase: follow the aide a mourir decrees first (FR4): a watch on the Journal officiel's implementing decrees once the law passes.
-- Phase: the Senat (FR5, go ahead): votes and dossiers from senat.fr open data. Not built at the merge.
+- Phase: the Senat (FR5, go ahead): votes and dossiers from senat.fr open data. BUILT 10 October 2026 (branch `parity-phases-a`): see "FR5, as built" below.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/fr/` from the store each weekly run (`tools/member_profiles.py fr`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
+
+## FR5, as built (10 October 2026, branch `parity-phases-a`)
+
+`tools/fr_senat.py`, a step of `jobs/fr-weekly.sh` after the Assemblee's
+collector. It reads data.senat.fr's Dosleg dump at most weekly and only when
+it changed (a one-byte request reads Last-Modified, ETag and size first;
+`fr_senat_dump` remembers them), plus `ODSEN_GENERAL.json` and
+`ODSEN_HISTOGROUPES.json` for senators and their dated group spells.
+
+- **Same tables as the Assemblee**, `chamber = 'senat'`: senators keyed by
+  matricule, groups `senat:<code>` shown by the name the senators' file
+  prints ("Les Républicains" for the internal code UMP), scrutins
+  `senat-<session>-<number>` with every position and the group at the vote,
+  and `fr_senat_dossiers` for the Senate's dossiers since 2024-25. Schema in
+  `src/fr_store.py`.
+- **The encoding**: every C1 character is read back as Windows-1252. The
+  apostrophes the scope thought lost ("lensemble") were U+0092 all along
+  (docs/api-notes.md).
+- **Joined to the Assemblee**: 593 of the 696 scrutins since the 2024-25
+  session reach a dossier (16 by the Senate's own chain, 577 by a unique
+  title); 756 of 865 Senate dossiers are linked to the Assemblee's (the
+  Senate's `url_an`, by uid or path slug, or the Assemblee's `senat_url`),
+  so the aide a mourir law's 28 Senate scrutins sit in the Assemblee's
+  dossier `DLR5L17N51670`, watched.
+- **No result word**: the dump has none, so `result` is NULL and the
+  edition prints the counts and the absolute majority of votes cast.
+- **Measured** (scratch store, 10 October 2026): 865 dossiers, 696
+  scrutins, 64 on our ground, 2,012 senators, 242,058 positions, about 15
+  seconds to load.
+- **Sample**: `docs/parity-samples/fr-senat-2026-01-28.md` (SAMPLE, never
+  sent), 19 to 28 January 2026: the Senate's first-reading votes on the
+  aide a mourir law (rejected 122 to 181 on 28 January, as the Senate
+  recorded it) and on the palliative care bill, group by group.
+- **Not built**: AN amendments (315 MB), Senate amendments (Ameli), Senate
+  questions and debates.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 

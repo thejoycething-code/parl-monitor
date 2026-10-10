@@ -25,6 +25,12 @@ KEYS.
 
 PARTY IS STORED PER VOTE: `ch_votes.parl_group` is the Fraktion printed on
 that vote. `ch_members.parl_group` is only the latest seen.
+
+ITALIAN (CH6, Chris, 10 October 2026: run the Italian list on the Italian
+texts too). Added 10 October 2026, additively: `ch_businesses.title_it`,
+`areas_it` (config/taxonomy-it.yaml for `ch` on the Italian title and
+submitted text), `terms_it` and `tier_it`, created on old stores by ensure_schema
+(ADDED_COLUMNS). `areas` is now de | fr | it | watchlist.
 """
 
 from __future__ import annotations
@@ -78,7 +84,7 @@ SCHEMA = (
         modified     TEXT,               -- the record's own Modified stamp
         areas_de     TEXT,               -- JSON: taxonomy-de on the German text
         areas_fr     TEXT,               -- JSON: taxonomy-qc on the French text
-        areas        TEXT,               -- JSON: de | fr | watchlist-ch by number
+        areas        TEXT,               -- JSON: de | fr | it | watchlist-ch by number
         matched_terms TEXT,              -- JSON
         tier         INTEGER,
         first_seen   TEXT,
@@ -125,10 +131,23 @@ SCHEMA = (
 
 TABLES = ("ch_members", "ch_sessions", "ch_businesses", "ch_divisions", "ch_votes")
 
+# Columns added after a table was first shipped: (table, column, type).
+# CH6 (10 October 2026): the Italian pass.
+ADDED_COLUMNS = (
+    ("ch_businesses", "title_it", "TEXT"),
+    ("ch_businesses", "areas_it", "TEXT"),   # JSON: taxonomy-it (for ch) on the Italian text
+    ("ch_businesses", "terms_it", "TEXT"),   # JSON: the Italian matched terms
+    ("ch_businesses", "tier_it", "INTEGER"), # the Italian match's own tier
+)
+
 
 def ensure_schema(conn):
     for stmt in SCHEMA:
         conn.execute(stmt)
+    for table, column, kind in ADDED_COLUMNS:
+        have = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+        if column not in have:
+            conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, column, kind))
     conn.commit()
     return conn
 

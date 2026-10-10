@@ -25,6 +25,16 @@ vote page grouped the member under on that day. Slovak MPs change clubs
 mid-term (HLAS listed 40 members ever and 24 current on 9 October 2026), so
 `sk_members.club` is only the latest the open data reports.
 
+BILL DOCUMENTS (SK6, Chris, 10 October 2026; added additively): a print's
+title names the act it amends, not what it does, so the collector reads the
+bill text and the explanatory memorandum of amending bills and of prints on
+our ground, and matches them passage by passage (src/filter.match_passages,
+tier-1 passages only, as src/eudoc.py does for the EU). sk_bills gains
+`docs_read` (when, NULL = not yet), `doc_ids` (JSON: the documents read,
+with what came of each), `doc_areas`, `doc_terms` and `doc_excerpt`.
+`areas` is the title's areas, the watchlist's and doc_areas together, and
+stays so through every re-read of the title (ADDED_COLUMNS).
+
 POSITIONS ARE FETCHED ONLY WHERE THEY MATTER. The vote list is one JSON
 call; each vote's positions are one slow HTML page (1.7 to 96 seconds each,
 measured). `sk_divisions.positions_at` says when they were read; NULL means
@@ -120,6 +130,16 @@ SCHEMA = (
 
 TABLES = ("sk_members", "sk_bills", "sk_divisions", "sk_votes", "sk_interpellations")
 
+# Columns added after a table was first shipped: (table, column, type).
+# SK6 (10 October 2026): the bill documents.
+ADDED_COLUMNS = (
+    ("sk_bills", "docs_read", "TEXT"),     # ISO date the documents were read; NULL = not yet
+    ("sk_bills", "doc_ids", "TEXT"),       # JSON [{id, name, fmt, chars}] read, or the reason not
+    ("sk_bills", "doc_areas", "TEXT"),     # JSON: areas the documents' passages support
+    ("sk_bills", "doc_terms", "TEXT"),     # JSON: the terms those passages matched
+    ("sk_bills", "doc_excerpt", "TEXT"),   # the strongest matching passage, clipped
+)
+
 # The source's position codes, for display. Stored as the code itself.
 POSITIONS = {"Z": "za", "P": "proti", "?": "zdržal sa", "N": "nehlasoval", "0": "neprítomný"}
 
@@ -127,8 +147,34 @@ POSITIONS = {"Z": "za", "P": "proti", "?": "zdržal sa", "N": "nehlasoval", "0":
 def ensure_schema(conn):
     for stmt in SCHEMA:
         conn.execute(stmt)
+    for table, column, kind in ADDED_COLUMNS:
+        have = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+        if column not in have:
+            conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, column, kind))
     conn.commit()
     return conn
+
+
+def add_document_areas(conn, res, bill_key):
+    """Union a print's stored document areas and terms (SK6) into a title
+    FilterResult, in place, so re-reading the title never drops what the
+    documents found. A print on our ground by its documents alone is tier 2:
+    a term deep in a long text is weaker evidence than one in the title."""
+    try:
+        row = conn.execute("SELECT doc_areas, doc_terms FROM sk_bills WHERE bill_key=?",
+                           (bill_key,)).fetchone() if bill_key else None
+    except Exception:                                   # noqa: BLE001 (an old store)
+        row = None
+    areas = json.loads(row[0] or "[]") if row else []
+    if not areas:
+        return res
+    res.issue_areas = sorted(set(res.issue_areas or []) | set(areas))
+    terms = list(res.matched_terms or [])
+    terms += [t for t in json.loads(row[1] or "[]") if t not in terms]
+    res.matched_terms = terms
+    if res.tier is None:
+        res.tier = 2
+    return res
 
 
 # --- the Slovak watchlist, applied by print KEY -----------------------------
