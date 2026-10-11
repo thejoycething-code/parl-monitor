@@ -66,10 +66,9 @@ live read all render "awaiting sign-off" until a named person confirms.
 12. Speech clips: France and Belgium need prior agreement for video
     (communication@assemblee-nationale.fr; the Chamber), then set
     `fr.agreement` / `be.agreement` in `config/clip-sources.yaml`.
-13. Whether to make the Mini's run slot first in, first out (a ticket queue
-    in `tools/mini_run.sh`): on 10 October the Austria weekly waited two hours
-    and lost every round to newer arrivals. Proposed, not built. Keep hand
-    backfills out of the overnight weekly window either way.
+13. DONE (11 October 2026, #95): the Mini's run slot is first in, first out
+    (a ticket queue in `tools/mini_run.sh`). Keep hand backfills out of the
+    overnight weekly window.
 14. Whether to raise the weekly free-judge cap (`SESSION_JUDGE_MAX`, about
     100 items): 295 vote meanings wait for it.
 
