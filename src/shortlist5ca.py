@@ -37,7 +37,10 @@ HOW (points, by rules, no AI call; each reason is printed with the item):
     (data/country-briefs/<cc>.json, the brief's bill) +10;
   * recent: within 90 days +15, a year +10, two years +5;
   * only collated-only areas (config/stance_overrides.yaml
-    `excluded_from_5ca`, e.g. migration): -100, last, it can never place anyone.
+    `excluded_from_5ca`, e.g. migration): -100, last, it can never place anyone;
+  * no longer on our ground in the store (a reclassification took its areas,
+    src/country5ca.off_ground; needs the store): -100, last, marked with the
+    command that prunes it.
 
 Ties go to the newer vote, then the key.
 
@@ -331,6 +334,10 @@ def score(cc, k, e, ctx, today):
     if areas and all(a in ctx["excluded"] for a in areas):
         pts -= 100
         why.append("collated-only area: places nobody (lowest)")
+    if k in ctx.get("off_ground", ()):
+        pts -= 100
+        why.append("no longer on our ground in the store (reclassified): prune with "
+                   "tools/country_5ca.py --cc {0} --prune-off-ground (lowest)".format(cc))
     return pts, why
 
 
@@ -359,7 +366,12 @@ def rank(cc, config_dir=None, conn=None, today=None, campaigns_dir=None, briefs_
     ctx = {"decisive": last_decisive(divs), "groups": gs,
            "meanings": meanings_for(cc, pending, conn, config_dir),
            "campaigns": campaign_context(cc, campaigns_dir), "briefs": brief_context(cc, briefs_dir),
-           "excluded": excluded}
+           "excluded": excluded, "off_ground": set()}
+    if conn is not None:
+        try:
+            ctx["off_ground"] = c5.off_ground(conn, cc) & set(pending)
+        except Exception:
+            ctx["off_ground"] = set()
     out = []
     for k, e in pending.items():
         pts, why = score(cc, k, e, ctx, today)
@@ -489,7 +501,7 @@ def shortlist_markdown(cc, ranked, today=None, top=TOP, per_area=PER_AREA):
             "per two members against their group (at most +10). Meaning line ready +10 (quoting "
             "the source +3). A campaign outcome +25, on a campaign's ground +10, feeding a brief "
             "+10. Within 90 days +15, a year +10, two years +5. Collated-only areas -100 (last: "
-            "they place nobody). Ties: newer first.", ""]
+            "they place nobody); no longer on our ground in the store -100. Ties: newer first.", ""]
     return "\n".join(out) + "\n"
 
 

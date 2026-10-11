@@ -429,7 +429,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - Phase: the Italian texts (CH6). BUILT 10 October 2026 (branch `parity-phases-a`): see "CH6, as built" below.
-- The scope's veto on the Quebec IVG term and guard on euthanasie change base terms, so they are not in the addendum.
+- The scope's veto on the Quebec IVG term and guard on euthanasie change base terms, so they are not in the addendum. BUILT for IVG on 11 October 2026 (branch `ch-ivg-guard`): the addendum's `- **Replaces:** IVG` line (tools/generate_taxonomy.py) swaps Quebec's bare IVG for `IVG [only: fr, be]` and, for `ch`, IVG guarded by abortion or pregnancy words (French, German, Italian); taxonomy-it does the same. It applies to every Swiss path that loads the lists (votes, businesses, chamber, petitions, agenda, sweep). Measured on the store of 11 October 2026: 14 divisions lose area 1 (22.062 x5, 24.066 x5, 24.078 x4), no business or speech changes, and France and Belgium are unchanged. After it lands, run the Swiss weekly once with `CH_RECLASSIFY=true` (docs/mac-mini.md), then `tools/country_5ca.py --cc ch --prune-off-ground`.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/ch/` from the store each weekly run (`tools/member_profiles.py ch`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## CH6, as built (10 October 2026, branch `parity-phases-a`)
