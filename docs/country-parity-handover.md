@@ -38,7 +38,10 @@ recorded (#106); members' length of service, with derived positions now only for
 readings only, to Chris alone (a canvas shared with his ID, never a channel);
 reruns rewrite the same canvas, and a Sunday step refreshes canvases whose
 confirmed readings changed. Silent until the first reading is confirmed.
-Also the publish-collision fix (#109).
+Also the publish-collision fix (#109). Portugal's plenary attendance (#113:
+every XVII sitting's roll, absence reasons verbatim) and France's HATVP
+declared interests (#114: members' own items only; spouses' and other
+third parties' sections are dropped at parse time and never stored).
 
 **Nothing is published from a 5CA yet.** Every stance is a draft: 975
 readings await sign-off across the countries (France limited to final votes
