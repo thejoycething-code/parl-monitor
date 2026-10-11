@@ -1,8 +1,8 @@
 # Judge evaluation
 
-*Agreement between the judge's score and a human verdict on the same item. The human verdict is the truth here; this measures the judge. Generated 2026-10-05.*
+*Agreement between the judge's score and a human verdict on the same item. The human verdict is the truth here; this measures the judge. Generated 2026-10-11.*
 
-Banked verdicts: 13024 live. Labelled: 11 (10 by explicit sample verdict, 1 by review priority).
+Banked verdicts: 13062 live. Labelled: 11 (10 by explicit sample verdict, 1 by review priority).
 
 ## By jurisdiction
 
@@ -10,8 +10,8 @@ Banked verdicts: 13024 live. Labelled: 11 (10 by explicit sample verdict, 1 by r
 
 | Jurisdiction | Banked | Labelled | Exact | Within one | Digest precision |
 |---|---|---|---|---|---|
-| Germany | 12722 | 0 | - | - | - |
-| Westminster | 302 | 11 | 91% | 100% | 86% |
+| Germany | 12753 | 0 | - | - | - |
+| Westminster | 309 | 11 | 91% | 100% | 86% |
 
 ## Answer kind
 
@@ -63,10 +63,10 @@ Banked with a kind: 111. Labelled by a reviewer: 0.
 |---|---|---|---|---|
 | ? | historic | 2026-08-03 | 2026-09-07 | 70 |
 | 0069e56f1a3a | claude-sonnet-5 | 2026-09-07 | 2026-09-21 | 109 |
-| 036dbc3a178a | claude-sonnet-5 | 2026-09-21 | 2026-09-28 | 10268 |
+| 036dbc3a178a | claude-sonnet-5 | 2026-09-21 | 2026-10-05 | 10299 |
 | 0668d754c487 | claude-sonnet-5 | 2026-09-21 | 2026-09-21 | 659 |
 | 6db1958af018 | claude-sonnet-5 | 2026-09-21 | 2026-09-21 | 1727 |
 | 70a677ad2a81 | claude-sonnet-5 | 2026-09-21 | 2026-09-21 | 62 |
 | d4a5cab41f34 | claude-sonnet-5 | 2026-09-21 | 2026-09-21 | 53 |
 | dedb038be4b9 | claude-sonnet-5 | 2026-09-21 | 2026-09-21 | 15 |
-| f27f6873282d | claude-sonnet-5 | 2026-09-28 | 2026-10-05 | 61 |
+| f27f6873282d | claude-sonnet-5 | 2026-09-28 | 2026-10-12 | 68 |
