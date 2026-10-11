@@ -2999,3 +2999,122 @@ divisions:
     why_nay: "Voted Przeciw on 10/2111 (Implementing act for 10/2110): against passing it, with CitizenGO's position."
     reasoning: "Area 9 (marriage and family). Bill direction on file for 10/2111 (a draft): passing it is AGAINST us -- Implementing act for 10/2110. This vote is a vote on the whole text or the motion itself, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  # --- drafted 2026-10-11 by tools/country_5ca.py (rules, no AI) ---
+  - key: "pl-10-9-28"
+    status: draft
+    title: "wniosek o odrzucenie projektu z druku nr 176 w pierwszym czytaniu."
+    "on": "Pkt. 10., 11., 12. i 13 Pierwsze czytanie poselskiego projektu ustawy o zmianie ustawy - Kodeks karny (druk nr 176)Pierwsze czytanie poselskiego projektu ustawy o bezpiecznym przerywaniu ciąży (druk n"
+    dated: "2024-04-12"
+    chamber: "sejm"
+    areas: [1, 8, 9]
+    tier: 1
+    watched: "10/176"
+    result: "Za 204, Przeciw 223, Abstain 15"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 1 (abortion), 8 (religious freedom), 9 (marriage and family). Bill direction on file for 10/176 (a draft): passing it is AGAINST us -- Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent. Title says only 'Kodeks karny'. Rejected at final vote on 12 July 2024, 215 to 218 (sitting 15, vote 9). This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "pl-10-9-29"
+    status: draft
+    title: "wniosek o odrzucenie projektu z druku nr 177 w pierwszym czytaniu."
+    "on": "Pkt. 10., 11., 12. i 13 Pierwsze czytanie poselskiego projektu ustawy o zmianie ustawy - Kodeks karny (druk nr 176)Pierwsze czytanie poselskiego projektu ustawy o bezpiecznym przerywaniu ciąży (druk n"
+    dated: "2024-04-12"
+    chamber: "sejm"
+    areas: [1, 8, 9]
+    tier: 1
+    watched: "10/176"
+    result: "Za 206, Przeciw 222, Abstain 16"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 1 (abortion), 8 (religious freedom), 9 (marriage and family). Bill direction on file for 10/176 (a draft): passing it is AGAINST us -- Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent. Title says only 'Kodeks karny'. Rejected at final vote on 12 July 2024, 215 to 218 (sitting 15, vote 9). This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "pl-10-9-30"
+    status: draft
+    title: "wniosek o odrzucenie projektu z druku nr 223 w pierwszym czytaniu."
+    "on": "Pkt. 10., 11., 12. i 13 Pierwsze czytanie poselskiego projektu ustawy o zmianie ustawy - Kodeks karny (druk nr 176)Pierwsze czytanie poselskiego projektu ustawy o bezpiecznym przerywaniu ciąży (druk n"
+    dated: "2024-04-12"
+    chamber: "sejm"
+    areas: [1, 8, 9]
+    tier: 1
+    watched: "10/176"
+    result: "Za 171, Przeciw 244, Abstain 23"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 1 (abortion), 8 (religious freedom), 9 (marriage and family). Bill direction on file for 10/176 (a draft): passing it is AGAINST us -- Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent. Title says only 'Kodeks karny'. Rejected at final vote on 12 July 2024, 215 to 218 (sitting 15, vote 9). This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "pl-10-9-31"
+    status: draft
+    title: "wniosek o odrzucenie projektu z druku nr 224 w pierwszym czytaniu."
+    "on": "Pkt. 10., 11., 12. i 13 Pierwsze czytanie poselskiego projektu ustawy o zmianie ustawy - Kodeks karny (druk nr 176)Pierwsze czytanie poselskiego projektu ustawy o bezpiecznym przerywaniu ciąży (druk n"
+    dated: "2024-04-12"
+    chamber: "sejm"
+    areas: [1, 8, 9]
+    tier: 1
+    watched: "10/176"
+    result: "Za 206, Przeciw 222, Abstain 16"
+    vote_kind: "reject"
+    yea: 2
+    why_yea: "Voted Za on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Przeciw on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 1 (abortion), 8 (religious freedom), 9 (marriage and family). Bill direction on file for 10/176 (a draft): passing it is AGAINST us -- Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent. Title says only 'Kodeks karny'. Rejected at final vote on 12 July 2024, 215 to 218 (sitting 15, vote 9). This vote is a motion to reject the text (the sides are swapped), so Za is with us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "pl-10-9-38"
+    status: needs_reading
+    title: "wniosek o niezwłoczne przystąpienie do drugiego czytania projektu ustawy"
+    "on": "Pkt. 21 Pierwsze czytanie przedstawionego przez Prezydium Sejmu projektu uchwały w sprawie powołania i wyboru składu osobowego Komisji Nadzwyczajnej do rozpatrzenia projektów ustaw dotyczących prawa d"
+    dated: "2024-04-12"
+    chamber: "sejm"
+    areas: [1]
+    tier: 1
+    result: "Za 241, Przeciw 197, Abstain 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('wniosek o niezwłoczne przystąpienie do drugiego czytania projektu ustawy'): read the question put, then write yea/nay."
+    reasoning: "Area 1 (abortion). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "pl-10-9-39"
+    status: needs_reading
+    title: "głosowanie nad całością projektu."
+    "on": "Pkt. 21 Pierwsze czytanie przedstawionego przez Prezydium Sejmu projektu uchwały w sprawie powołania i wyboru składu osobowego Komisji Nadzwyczajnej do rozpatrzenia projektów ustaw dotyczących prawa d"
+    dated: "2024-04-12"
+    chamber: "sejm"
+    areas: [1]
+    tier: 1
+    result: "Za 241, Przeciw 182, Abstain 14"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 10/306: CitizenGO's position on 'Pkt. 21 Pierwsze czytanie przedstawionego przez Prezydium Sejmu projektu uchwały w sprawie powołania i wyboru składu osobowego Komisji Nadzw' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "pl-10-10-19"
+    status: draft
+    title: "wniosek o odrzucenie projektu w pierwszym czytaniu."
+    "on": "Pkt. 10 Pierwsze czytanie obywatelskiego projektu ustawy o zmianie ustawy - Kodeks karny (druk nr 29)"
+    dated: "2024-04-26"
+    chamber: "sejm"
+    areas: [7, 8]
+    tier: 1
+    watched: "10/29"
+    result: "Za 230, Przeciw 188, Abstain 7"
+    vote_kind: "reject"
+    yea: -2
+    why_yea: "Voted Za on 10/29 (Citizens' bill: protects expressing views grounded in one's religion in the Criminal Code): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Przeciw on 10/29 (Citizens' bill: protects expressing views grounded in one's religion in the Criminal Code): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 7 (free speech and civil liberties), 8 (religious freedom). Bill direction on file for 10/29 (a draft): passing it is WITH us -- Citizens' bill: protects expressing views grounded in one's religion in the Criminal Code. Carried over from the 9th term. This vote is a motion to reject the text (the sides are swapped), so Za is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
