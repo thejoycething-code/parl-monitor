@@ -1602,3 +1602,26 @@ Probed live from the laptop through `src/http.py` on 10 October 2026.
   under a second. 25 prints' documents took 281 seconds (about 11 a print).
   No robots.txt (404).
 
+## The store as a gzipped release asset (11 October 2026)
+
+GitHub caps each release asset at 2 GiB. The store was 1.76 GB on 11 October
+(sqlite dbstat), up from about 1.0 GB on 9 October, so `tools/db_state.py`
+now publishes `parl-monitor.db.gz` instead of the raw `parl-monitor.db`.
+
+* **Level 4, stdlib gzip, streamed.** On the 963 MB store of 9 October:
+  level 1 3.6x in 6 s, level 3 3.8x in 8 s, level 4 4.0x in 8 s, level 6
+  4.3x in 17 s. On a generated 1.9 GB store of high-entropy text: level 1
+  2.5x in 14 s, level 4 2.85x in 24 s, level 6 2.9x in 103 s. Decompressing
+  and hashing takes about 2 s a GB at any level.
+* **The sidecar keeps the uncompressed sha256 and bytes**, which is what a
+  pull verifies after decompressing and what the lineage guard compares, so a
+  sidecar written by either version means the same store. `gz_sha256` is the
+  asset's own digest: GitHub's `digest` on the asset equals it, and the
+  live-asset check, the push's upload check and `tools/merge_sidecar.py`
+  read it.
+* **Both assets exist only during the switch.** Where they do, the newer by
+  `created_at` is the live one (a rename keeps `created_at`).
+* **Still to come:** past 1.6 GB uncompressed or 1.5 GB compressed every push
+  warns. Gzip buys roughly 4x on today's data, but the store doubled in
+  three days of backfills; the lasting fix is splitting it into several
+  assets (one per region, say), each under the limit.
