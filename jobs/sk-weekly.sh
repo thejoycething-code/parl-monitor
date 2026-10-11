@@ -40,6 +40,7 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Slovakia weekly}"
 if [ "${SK_RECLASSIFY:-}" = "true" ]; then
   python3 tools/sk_rollcalls.py --reclassify
+  python3 tools/sk_chamber.py --reclassify
 fi
 rc=0
 # SK6 (10 October 2026): the bill documents take the first 10 minutes of the
@@ -48,7 +49,12 @@ rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 35 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/sk_rollcalls.py --doc-budget-seconds 600 --budget-seconds "$(bash tools/collector_budget.sh 2100 "$SECONDS" 600)" || rc=$?
+python3 tools/sk_rollcalls.py --doc-budget-seconds 600 --budget-seconds "$(bash tools/collector_budget.sh 2100 "$SECONDS" "$(( 600 + ${SK_CHAMBER_SECONDS:-300} ))")" || rc=$?
+# What was said in the Národná rada (tools/sk_chamber.py, remaining speech
+# coverage, 11 October 2026): the debate record of the last three weeks,
+# speech by speech, before the edition so it carries "Said in the chamber".
+# Time-boxed, never fatal, skipped on GitHub.
+bash tools/chamber_step.sh sk "$SECONDS"
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   # The weekly edition (src/country_edition.py, tools/sk_monitor.py), to Chris
   # alone by DM, archived to editions/. Once a day: an edition already

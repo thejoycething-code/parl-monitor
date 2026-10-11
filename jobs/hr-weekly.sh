@@ -33,12 +33,19 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Croatia weekly}"
 if [ "${HR_RECLASSIFY:-}" = "true" ]; then
   python3 tools/hr_rollcalls.py --reclassify
+  python3 tools/hr_chamber.py --reclassify
 fi
 rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/hr_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" "${HR_TRANSCRIPT_SECONDS:-600}")" || rc=$?
+python3 tools/hr_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" "$(( ${HR_TRANSCRIPT_SECONDS:-600} + ${HR_CHAMBER_SECONDS:-300} ))")" || rc=$?
+# What was said in the Sabor (tools/hr_chamber.py, remaining speech coverage,
+# 11 October 2026): the newest transcripts, speech by speech, before the
+# edition so it carries "Said in the chamber", and before the party history
+# below, which then finds those pages already read (the chamber step stores
+# their party sightings too). Time-boxed, never fatal, skipped on GitHub.
+bash tools/chamber_step.sh hr "$SECONDS"
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   # The weekly edition (src/country_edition.py, tools/hr_monitor.py), to Chris
   # alone by DM, archived to editions/. Once a day: an edition already

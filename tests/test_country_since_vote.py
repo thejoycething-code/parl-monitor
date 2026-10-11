@@ -128,9 +128,11 @@ class Base(unittest.TestCase):
 
 class GatherTests(Base):
     def test_countries_are_the_speech_and_vote_ones(self):
-        self.assertEqual(set(sv.COUNTRIES), {"nl", "ch", "at", "fr", "be"})
+        # HR, SK, PL and BR since their speeches (11 October 2026, gaps-speeches).
+        self.assertEqual(set(sv.COUNTRIES), {"nl", "ch", "at", "fr", "be", "hr", "sk", "pl",
+                                             "br"})
         with self.assertRaises(ValueError):
-            sv.gather(None, "pl")
+            sv.gather(None, "pt")                   # questions only
 
     def test_last_vote_is_the_final_on_the_day_and_only_later_words_count(self):
         got = self.gather()

@@ -938,8 +938,9 @@ AWAITING_FIRST_RUN = {
 AWAITING_FIRST_RUN.update({
     _chamber.heartbeat(cc): (_chamber.tables(cc),
                              "chamber step (speeches and questions) added to the {0} weekly "
-                             "10 October 2026; its tables fill on the step's first run"
-                             .format(cc.upper()))
+                             "{1}; its tables fill on the step's first run"
+                             .format(cc.upper(), "11 October 2026" if cc in ("hr", "sk")
+                                     else "10 October 2026"))
     for cc in _chamber.COUNTRIES})
 
 # Tables carrying a sighting column that are DELIBERATELY not watched,
@@ -1248,6 +1249,16 @@ AWAITING_STEP_UNTIL = {
                        "nine country weeklies on merge; it fills on the first of them"),
     "country_petitions": ("2026-10-25", "the petitions step (tools/country_petitions.py) joins "
                           "eleven country weeklies on merge; it fills on the first of them"),
+    # Speeches added to two chamber steps that already stamp their heartbeat
+    # with questions (11 October 2026, branch gaps-speeches): excused while
+    # empty until the chamber has sat and spoken on our ground. The Sejm sits
+    # again 20 to 23 October; the Câmara barely sat in the October election
+    # month (the second round is 25 October).
+    "pl_speeches": ("2026-11-08", "speeches added to the Polish chamber step (tools/"
+                    "pl_chamber.py) 11 October 2026; they fill as the Sejm sits"),
+    "br_speeches": ("2026-11-30", "speeches added to the Brazilian chamber step (tools/"
+                    "br_chamber.py) 11 October 2026; they fill as the Câmara sits after the "
+                    "election"),
 }
 
 

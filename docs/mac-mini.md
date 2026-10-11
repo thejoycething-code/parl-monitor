@@ -301,6 +301,14 @@ What was said and asked in the chamber, for the new country editions (parity lay
 - **Reclassify:** each `<CC>_RECLASSIFY=true` run also runs `tools/<cc>_chamber.py --reclassify`.
 - **By hand on the Mini** (one writer at a time; never while a weekly runs): `cd ~/runner/parl-monitor && python3 tools/nl_chamber.py --since 2026-09-01`.
 
+**Remaining speech coverage (11 October 2026, branch `gaps-speeches`).** Speeches for Croatia, Slovakia, Poland and Brazil on the same layer. Still no new plists, jobs or workflows:
+
+- **Croatia and Slovakia** gain the step: `bash tools/chamber_step.sh hr|sk "$SECONDS"` right after the collector in `jobs/hr-weekly.sh` and `jobs/sk-weekly.sh`, before the edition. Each collector's budget now also keeps back the step's time (`HR_CHAMBER_SECONDS`, `SK_CHAMBER_SECONDS`, 300 each by default). In Croatia the step runs before the party history (`tools/hr_party_history.py`) and hands it every transcript it reads, so nothing is fetched twice. `HR_RECLASSIFY` / `SK_RECLASSIFY` also re-derive the speeches.
+- **Poland and Brazil**: speeches are a second feed of the existing step (`tools/pl_chamber.py`, `tools/br_chamber.py`), after the questions. Poland's is one request per statement (about 290 a sitting day): it drains newest day first and resumes where it stopped (each statement read is remembered). Brazil's is one list for the window plus one page per speech whose Câmara summary is on our ground (a few dozen a sitting week).
+- **First runs**: Croatia's and Slovakia's read from 1 September 2026 (new heartbeats `HR chamber`, `SK chamber`); Poland's and Brazil's speeches read the three-week lookback, and `pl_speeches` / `br_speeches` are excused while empty until 8 and 30 November (tools/coverage.py AWAITING_STEP_UNTIL).
+- **By hand on the Mini** (one writer at a time): `python3 tools/pl_chamber.py --only speeches --since 2026-09-01` drains September's Polish sittings (about 3,000 statements, under an hour).
+- No live read for any of the four: none is a measured same-day source (src/country_live.py NOT_QUALIFYING says why per country).
+
 ## Week ahead for the country editions (10 October 2026, branch `parity-week-ahead`)
 
 Handover item 4. `tools/country_agenda.py <cc>` reads a country's agenda into the shared `country_agenda` table (src/agenda.py; one source module per country in `src/agendas/`), matches each point to the store's bills by number and flags watched and tier-1 points; the edition's "Week ahead" section shows the next fortnight and its Coverage line says how far the agenda reaches and when the next sitting is.

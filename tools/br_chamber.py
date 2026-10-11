@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Brazil: the Câmara's requests for information (requerimentos de informação).
+"""Brazil: the Câmara's requests for information and plenary speeches.
 
     python3 tools/br_chamber.py                      # the last three weeks
     python3 tools/br_chamber.py --since 2026-09-01
@@ -21,11 +21,30 @@ deputy's party): two requests per stored item, none for the rest. Whether it
 was answered is not read: the register's situation field says where the
 request is, not what the minister said.
 
-SPEECHES ARE NOT COLLECTED (yet). The API gives discursos only per deputy
-(/deputados/<id>/discursos): 513 requests a week at about five seconds each
-from the laptop (measured 10 October 2026), 40 minutes against a weekly job
-that already spends up to 45 on votes. A Mini-only job of its own would do
-it; that is a scheduling decision for Chris, not built here.
+SPEECHES (11 October 2026, branch gaps-speeches), within a small budget.
+The open-data API gives discursos only per deputy (513 requests a week), so
+the step reads the Câmara's own search by date instead: the SitCamaraWS
+service ListarDiscursosPlenario (www.camara.leg.br/SitCamaraWS/
+SessoesReunioes.asmx, keyless; robots.txt disallows none of /SitCamaraWS or
+/internet/sitaqweb, measured 11 October 2026) lists every plenary speech in
+a date range in ONE request (August 2026: 239 speeches, 300 KB): session,
+phase (Ordem do Dia, Breves Comunicações, ...), speaker with party and
+state at the speech, the Câmara's own index terms (txtIndexacao) and its
+summary (sumário). The index and summary are only a PRE-FILTER: a speech
+whose summary or index is on our ground (tier 1 or 2; 26 of August's 239) is
+then read whole, one request each, from the Câmara's speech page
+(internet/sitaqweb/TextoHTML.asp, about 6 KB), and stored only if its OWN
+WORDS match (the long-transcript guard, src/chamber_store.py). The words of
+anyone the speech quotes taking the floor (the President's interventions,
+"O SR. PRESIDENTE (...) -") and the stage notes ("(Palmas.)") are cut. So a
+sitting week costs one list and a few dozen speech pages. A speech the
+summary misses is missed: the summary is written by the Câmara's own
+indexers and names the subjects spoken on.
+
+The speaker's member_key comes from br_members (the Câmara's deputies, by
+name and state); a guest at a solemn session has none. The list of 1 to 9
+October 2026 was empty (an election week); summaries follow the sitting by
+days, so Brazil is not a same-day source (no live read).
 """
 
 from __future__ import annotations
@@ -130,5 +149,187 @@ def questions(run):
             .format(len(listed), run.since, matched))
 
 
+# --- speeches ------------------------------------------------------------------------
+
+LIST = ("https://www.camara.leg.br/SitCamaraWS/SessoesReunioes.asmx/ListarDiscursosPlenario"
+        "?dataIni={0}&dataFim={1}&codigoSessao=&parteNomeParlamentar=&siglaPartido=&siglaUF=")
+TEXT = ("https://www.camara.leg.br/internet/sitaqweb/TextoHTML.asp?etapa=5&nuSessao={sessao}"
+        "&nuQuarto={quarto}&nuOrador={orador}&nuInsercao={insercao}&sgFaseSessao={fase}"
+        "&Data={data}")
+SIGLAS = (("Proposta de Emenda à Constituição", "PEC"), ("Projeto de Lei Complementar", "PLP"),
+          ("Projeto de Lei", "PL"), ("Medida Provisória", "MPV"),
+          ("Projeto de Decreto Legislativo", "PDL"), ("Projeto de Resolução", "PRC"))
+_BILL = re.compile(r"(Proposta de Emenda à Constituição|Projeto de Lei Complementar|"
+                   r"Projeto de Lei|Medida Provisória|Projeto de Decreto Legislativo|"
+                   r"Projeto de Resolução)(?:\s*\([A-Z]+\))?\s+n[ºo°]\s*([\d.]+),?\s+de\s+(\d{4})")
+_LABEL = re.compile(r"(?:\bO SR\.|\bA SRA\.)\s+([^()\n]{2,80}?)\s*\(([^)]*)\)\s*[-–—]\s*")
+_STAGE = re.compile(r"\((?:Palmas|Pausa|Manifestação|Manifestações|Risos|Apupos|Vaias|"
+                    r"Não identificad|Intervenção|Intervenções|Tumulto|Soa a campainha|"
+                    r"Procede-se)[^()]*\)")
+
+
+def _iso(ddmmyyyy):
+    d, m, y = (ddmmyyyy or "").strip()[:10].split("/")
+    return "{0}-{1}-{2}".format(y, m, d)
+
+
+def _br(iso):
+    y, m, d = iso.split("-")
+    return "{0}/{1}/{2}".format(d, m, y)
+
+
+def listed_speeches(xml_text):
+    """[{sessao, data, fase, fase_desc, orador, nome, partido, uf, hora, quarto,
+    insercao, indexacao, sumario}] from ListarDiscursosPlenario."""
+    import xml.etree.ElementTree as ET
+    out = []
+    root = ET.fromstring(xml_text)
+    for s in root.iter("sessao"):
+        sessao = (s.findtext("codigo") or "").strip()
+        data = (s.findtext("data") or "").strip()
+        for f in s.iter("faseSessao"):
+            for d in f.iter("discurso"):
+                hora = (d.findtext("horaInicioDiscurso") or "").strip()
+                out.append({
+                    "sessao": sessao, "data": _iso(data) if data else None,
+                    "fase": (f.findtext("codigo") or "").strip(),
+                    "fase_desc": (f.findtext("descricao") or "").strip(),
+                    "orador": (d.findtext("orador/numero") or "").strip(),
+                    "nome": (d.findtext("orador/nome") or "").strip(),
+                    "partido": (d.findtext("orador/partido") or "").strip() or None,
+                    "uf": (d.findtext("orador/uf") or "").strip() or None,
+                    "hora": hora[11:16] if len(hora) >= 16 else None,
+                    "quarto": (d.findtext("numeroQuarto") or "").strip(),
+                    "insercao": (d.findtext("numeroInsercao") or "").strip(),
+                    "indexacao": (d.findtext("txtIndexacao") or "").strip(),
+                    "sumario": (d.findtext("sumario") or "").strip()})
+    return out
+
+
+def speech_words(page):
+    """The speaker's own words from a TextoHTML page: from the first
+    'O SR. NAME (PARTY - UF. ...) -' label on, keeping only the turns of
+    that first speaker (an interruption by the chair or a colleague is cut),
+    without the stage notes."""
+    t = re.sub(r"(?is)<(script|style)\b.*?</\1>", " ", page or "")
+    t = re.sub(r"(?i)<\s*(br|/p|/div)\b[^>]*>", "\n", t)
+    import html as htmlmod
+    t = htmlmod.unescape(re.sub(r"<[^>]+>", " ", t))
+    t = "\n".join(" ".join(ln.split()) for ln in t.split("\n") if ln.strip())
+    labels = list(_LABEL.finditer(t))
+    if not labels:
+        return ""
+    first = " ".join(labels[0].group(1).split()).upper()
+    parts = []
+    for i, m in enumerate(labels):
+        end = labels[i + 1].start() if i + 1 < len(labels) else len(t)
+        if " ".join(m.group(1).split()).upper() == first:
+            parts.append(t[m.end():end])
+    words = _STAGE.sub(" ", "\n".join(parts))
+    return "\n".join(" ".join(ln.split()) for ln in words.split("\n") if ln.strip())
+
+
+def bill_of(sumario):
+    """'PL 956/2015' named first in a summary, or None."""
+    m = _BILL.search(sumario or "")
+    if not m:
+        return None
+    sigla = next(code for words, code in SIGLAS if m.group(1) == words)
+    return "{0} {1}/{2}".format(sigla, int(m.group(2).replace(".", "")), m.group(3))
+
+
+def deputies(conn):
+    """{(folded name, UF): member_key} of the Câmara; shared keys map to None."""
+    from src.noise import fold
+    out = {}
+    try:
+        rows = conn.execute("SELECT member_key, name, uf FROM br_members WHERE chamber = 'camara'"
+                            ).fetchall()
+    except Exception:                               # noqa: BLE001
+        return {}
+    for key, name, uf in rows:
+        k = (" ".join(fold(name or "").lower().split()), uf)
+        out[k] = None if k in out else key
+    return out
+
+
+def speeches(run):
+    from src.noise import fold
+    try:
+        raw = run.client.get_text(LIST.format(_br(run.since), _br(run.today)), FEED,
+                                  "discursos-{0}-{1}".format(run.since, run.today), timeout=120)
+        listed = listed_speeches(raw)
+    except (FetchError, ValueError, SyntaxError) as exc:
+        run.gap("speech list since {0} unreadable: {1}".format(run.since, str(exc)[:100]))
+        return
+    members = deputies(run.conn)
+    ementas = {}
+    sessions = {}
+    for sp in listed:
+        sessions.setdefault((sp["sessao"], sp["data"]), {"n": 0, "pre": 0, "matched": 0,
+                                                         "chars": 0, "done": 0})["n"] += 1
+    fetched = 0
+    for sp in listed:
+        sess = sessions[(sp["sessao"], sp["data"])]
+        pre = cs.classify_question(run.taxes, sp["sumario"], sp["indexacao"])
+        if not pre:
+            sess["done"] += 1
+            continue
+        sess["pre"] += 1
+        sid = "{0}#{1}-{2}".format(sp["sessao"], sp["quarto"], sp["insercao"])
+        if cs.read_state(run.conn, CC, sid)[1] == "read":
+            sess["done"] += 1
+            continue
+        if run.out_of_time("speeches", fetched):
+            break
+        url = TEXT.format(sessao=sp["sessao"], quarto=sp["quarto"], orador=sp["orador"],
+                          insercao=sp["insercao"], fase=sp["fase"], data=_br(sp["data"]))
+        try:
+            page = run.client.get_text(url, FEED, "texto-{0}-{1}-{2}".format(
+                sp["sessao"], sp["quarto"], sp["insercao"]))
+        except FetchError as exc:
+            run.gap("speech {0} unreadable: {1}".format(sid, str(exc)[:80]))
+            continue
+        fetched += 1
+        sess["done"] += 1
+        words = speech_words(page)
+        sess["chars"] += len(words)
+        bill = bill_of(sp["sumario"])
+        if bill and bill not in ementas:
+            row = run.conn.execute("SELECT ementa FROM br_bills WHERE bill_key=?",
+                                   (bill,)).fetchone()
+            ementas[bill] = row[0] if row and row[0] else None
+        if bill:
+            debate = "{0}{1}".format(bill, ": " + ementas[bill] if ementas.get(bill) else "")
+            debate_id = bill
+        else:
+            debate = "{0}, sessão {1}".format(sp["fase_desc"] or sp["fase"], sp["sessao"])
+            debate_id = cs.short_id(sp["sessao"], sp["fase"])
+        title = cs.classify_title(run.taxes, debate)
+        m = cs.classify_speech(run.taxes, words, title)
+        hit = 0
+        if m:
+            hit = 1
+            sess["matched"] += 1
+            key = members.get((" ".join(fold(sp["nome"]).lower().split()), sp["uf"]))
+            run.speech({"speech_id": sid, "doc_id": "sessao-{0}".format(sp["sessao"]),
+                        "date": sp["data"], "chamber": "Câmara dos Deputados",
+                        "debate_id": debate_id, "debate": debate, "speaker": sp["nome"],
+                        "party": sp["partido"], "role": "member" if key else
+                        "not a deputy on the roster", "person_id": key, "text": words,
+                        "url": url, "title_areas": title.areas}, m)
+        if not run.dry_run:
+            cs.mark_read(run.conn, CC, sid, "speech-file", sp["data"], None, 1, hit, len(words),
+                         run.today)
+    for (sessao, data), s in sorted(sessions.items(), key=lambda x: (x[0][1] or "", x[0][0])):
+        run.read("sessao-{0}".format(sessao), "speeches", data,
+                 "{0} pre-filtered on the summary".format(s["pre"]), s["n"], s["matched"],
+                 s["chars"], "read" if s["done"] >= s["n"] else "partial")
+    run.log("  [discursos] {0} plenary speech(es) since {1} in {2} session(s); {3} on our ground "
+            "by the Câmara's summary, read whole; {4} on our ground in their own words".format(
+                len(listed), run.since, len(sessions), sum(s["pre"] for s in sessions.values()),
+                sum(s["matched"] for s in sessions.values())))
+
+
 if __name__ == "__main__":
-    sys.exit(cs.main(CC, {"questions": questions}, doc=__doc__))
+    sys.exit(cs.main(CC, {"questions": questions, "speeches": speeches}, doc=__doc__))

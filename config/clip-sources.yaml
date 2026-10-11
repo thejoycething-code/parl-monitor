@@ -163,18 +163,34 @@ br:
   source: "Camara dos Deputados (WebCamara, YouTube)"
   terms: >-
     Videos of legislative activity are CC BY 4.0; the Camara's watermark must
-    not be removed. Open, but there are no Brazilian speeches in the store
-    (speeches not collected: the per-deputy cost, handover item 5), so there is
-    nothing to align a clip to. Build when speeches are collected.
+    not be removed. Open. Plenary speeches are collected from 11 October 2026
+    (tools/br_chamber.py, branch gaps-speeches); the clip step itself is not
+    built yet.
   terms_url: "https://www2.camara.leg.br/a-camara/documentos-e-pesquisa/arquivo/acervo-por-tipo/videos"
 
 pl:
   status: not-built
   source: "Sejm transmissions (sejm.gov.pl, the Sejm's YouTube)"
   terms: >-
-    No reuse terms for the video found on 11 October 2026; and no Polish
-    speeches in the store (the transcript endpoint never answered, handover
-    item 5). Nothing to align to.
+    No reuse terms for the video found on 11 October 2026. Speeches are
+    collected from 11 October 2026 (tools/pl_chamber.py, branch
+    gaps-speeches: the transcript endpoint answered on the retry); clips wait
+    for reuse terms.
+
+hr:
+  status: not-built
+  source: "Hrvatski sabor (edoc.sabor.hr 'Snimka rasprave', the Sabor's video)"
+  terms: >-
+    Speeches are collected from 11 October 2026 (tools/hr_chamber.py, branch
+    gaps-speeches); the video's reuse terms were not looked for. Not built.
+
+sk:
+  status: not-built
+  source: "NR SR video archive (tv.nrsr.sk, each speech's own video)"
+  terms: >-
+    Speeches are collected from 11 October 2026 (tools/sk_chamber.py, branch
+    gaps-speeches), each with its own video link; the video's reuse terms were
+    not looked for. Not built.
 
 it:
   status: not-built
