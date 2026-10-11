@@ -58,6 +58,14 @@ fr:
   - match: "commission des lois"
     areas: [7, 8, 9]
     why: the law committee (constitution, civil law, freedoms)
+  # Two HATVP rules (below) read before the committees' own, so a declared
+  # school or association is not described as the Assemblée's body.
+  - match: "^(?!delegation).*droits des femmes"
+    areas: [5]
+    why: a women's rights organisation
+  - match: "(ecole|college|lycee|education|concertation).*\\bprivee?\\b"
+    areas: [6]
+    why: independent (private) schooling
   - match: "droits des femmes"
     areas: [1, 5, 12]
     why: the women's rights delegation
@@ -82,6 +90,36 @@ fr:
   - match: "discriminations raciales ou religieuses"
     areas: [8]
     why: the study group on racial and religious discrimination
+  # Organisations named in the HATVP declarations of interests (src/fr_hatvp.py,
+  # 11 October 2026): an association, school or church body the member
+  # declares a role in, read by the ORGANISATION'S name only.
+  - match: "\\bogec\\b|enseignement catholique"
+    areas: [6]
+    why: a Catholic school's governing body (OGEC)
+  - match: "diocese|diocesaine|paroisse|\\beglise|catholique|protestant|evangelique|consistoire|chretien"
+    areas: [8]
+    why: a church or Christian organisation
+  - match: "laicite|libre pensee|grand orient|franc.?macon"
+    areas: [8]
+    why: a secularist or masonic organisation
+  - match: "planning familial|alliance vita|fondation jerome lejeune|\\bsos tout.petits"
+    areas: [1]
+    why: an organisation working on abortion
+  - match: "\\badmd\\b|droit de mourir|jalmalv|soins palliatifs|fin de vie"
+    areas: [2]
+    why: an assisted-dying or end-of-life organisation
+  - match: "\\blgbt|homophobie|transphobie"
+    areas: [3, 4]
+    why: an LGBT organisation
+  - match: "femmes solidaires|osez le feminisme|fondation des femmes|lobby europeen des femmes"
+    areas: [5]
+    why: a women's rights organisation
+  - match: "mouvement du nid|amicale du nid"
+    areas: [12]
+    why: an organisation working on prostitution
+  - match: "manif pour tous|syndicat de la famille|\\budaf\\b|\\bunaf\\b|associations? familiales"
+    areas: [9]
+    why: a family association
 
 nl:
   - match: "volksgezondheid, welzijn en sport"

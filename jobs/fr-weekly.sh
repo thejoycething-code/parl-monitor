@@ -95,6 +95,16 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/member_intel.py fr \
     || echo "  [gap] member-intel: fr not fully read; last week's rows kept"
 fi
+# Declared interests (tools/fr_hatvp.py, src/fr_hatvp.py): the HATVP's declarations of
+# interests and activities of sitting députés and sénateurs, the declarant's own items only
+# (spouses' and collaborators' sections are skipped at parse time), into mi_interests
+# before the profiles read them. Monthly: the tool asks at most every four weeks whether
+# the 80 MB declarations.xml changed (If-Modified-Since) and downloads it only when it did;
+# otherwise it does nothing. A failure is a [gap] line; last month's rows stand.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/fr_hatvp.py \
+    || echo "  [gap] fr-hatvp: declarations not read; last month's rows kept"
+fi
 # Attendance (tools/country_attendance.py, src/attendance.py): the Assemblée's commission présences and agenda dossiers (Agenda.json.zip, 8 MB, one request),
 # into att_sittings / att_marks / att_referrals before the profiles read them. A failure is a
 # [gap] line; last week's rows stand and the store is still published.
