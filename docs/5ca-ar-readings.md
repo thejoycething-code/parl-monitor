@@ -9,7 +9,9 @@ Counts: 0 proposed, 0 procedural (evidence only), 2 need reading, 0 confirmed.
 ## Needs reading (no box: write the values first)
 
 - `sen-acta-2486` 2024-08-22 EN GENERAL Y EN PARTICULAR: Modificación del Código Penal de la Nación sobre la sustracción y/o comercializaci [final]: A vote on the whole text or the motion itself, but no bill direction is on file for this item: CitizenGO's position on 'Modificación del Código Penal de la Nación sobre la sustracción y/o comercialización de menores de e
+  - Meaning: **Afirmativo** = to approve the text “Modificación del Código Penal de la Nación sobre la sustracción y/o comercialización de…” in general and in its articles, in one vote; **Negativo** = against approving it. _(by rule, from the vote's wording and the bill)_
 - `sen-acta-2480` 2024-07-04 EN GENERAL: Modificación del art. 139 del Código Penal tipificando la sustracción y/o comercialización de meno [amendment]: An amendment, an article or one point ('EN GENERAL: Modificación del art. 139 del Código Penal tipificando la sustracción y/o comercialización de menores de eda'): which side is ours depends on its text, which the store 
+  - Meaning: **Afirmativo** = to adopt the amendment or part put to the vote (“EN GENERAL: Modificación del art. 139 del Código Penal tipificando la…”) on the text “Modificación del art. 139 del Código Penal tipificando la sustracción y/o…”; **Negativo** = against adopting it, leaving the text as it stood. _(by rule, from the vote's wording and the bill)_
 
 ## Bill directions on file (inputs to the drafts; they place nobody)
 

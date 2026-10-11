@@ -9,6 +9,7 @@ Counts: 0 proposed, 0 procedural (evidence only), 3 need reading, 0 confirmed.
 ## Needs reading (no box: write the values first)
 
 - `dip-66-234` 2026-03-03 DECRETO POR EL QUE SE ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE TURISMO, EN MATERIA DE TRATA DE PE [final]: A vote on the whole text or the motion itself, but no bill direction is on file for 66/1952, 66/2199, 66/2615, 66/2786: CitizenGO's position on 'DECRETO POR EL QUE SE ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE
+  - Meaning: **A favor** = to approve the text “DECRETO POR EL QUE SE ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE TURISMO, EN…” in general and in its articles, in one vote; **En contra** = against approving it. _(by rule, from the vote's wording and the bill)_
 - `dip-66-200` 2025-12-02 DECRETO POR EL QUE SE REFORMAN, ADICIONAN Y DEROGAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL PARA LA IGUALDAD  [other]: The kind of vote could not be read from its wording ('DECRETO POR EL QUE SE REFORMAN, ADICIONAN Y DEROGAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL PARA LA IGUALDAD ENTRE MUJE'): read the question put, then write yea/nay.
 - `dip-66-199` 2025-12-02 DECRETO POR EL QUE SE REFORMAN, ADICIONAN Y DEROGAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL PARA LA IGUALDAD  [other]: The kind of vote could not be read from its wording ('DECRETO POR EL QUE SE REFORMAN, ADICIONAN Y DEROGAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL PARA LA IGUALDAD ENTRE MUJE'): read the question put, then write yea/nay.
 

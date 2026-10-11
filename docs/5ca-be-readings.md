@@ -11,7 +11,9 @@ Counts: 3 proposed, 0 procedural (evidence only), 1 need reading, 0 confirmed.
 ### [ ] `56/143/5` Geheel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof (nieuw op
 
 - **When / result:** 2026-10-08; Kamer; adopted; Ja / Oui 134, Nee / Non 0, Abstain 1
+- **On:** Wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof.
 - **Lobbies:** Ja / Oui: N-VA 22, VB 18, PS 14, MR 14, PVDA-PTB 14, Les Engagés 13, Vooruit 12, Ecolo-Groen 9, cd&v 9, Anders. 7, DéFI 1, INDEP 1. Abstain: PS 1
+- Meaning: **Ja / Oui** = to pass 56/1338 (Bereavement leave around 'planned euthanasia' (and palliative leave)) as a whole; **Nee / Non** = against passing it. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** Ja / Oui -2 (Voted Ja / Oui on 56/1338 (Bereavement leave around 'planned euthanasia' (and palliative leave)): for passing it, against CitizenGO's position.); Nee / Non +2 (Voted Nee / Non on 56/1338 (Bereavement leave around 'planned euthanasia' (and palliative leave)): against passing it, with CitizenGO's position.)
 - **Reasoning:** Area 2 (assisted dying). Bill direction on file for 56/1338 (a draft): passing it is AGAINST us -- Bereavement leave around 'planned euthanasia' (and palliative leave). Adopted 8 October 2026, 134-0-1 (division 56/143/5): it treats euthanasia as a scheduled event in employment law. This vote is a vote on the whole text or the motion itself, so Ja / Oui is against us.
 - **Flag for you:** On the bill's direction: Adopted 134-0-1: a near-unanimous vote tells few members apart.
@@ -19,14 +21,18 @@ Counts: 3 proposed, 0 procedural (evidence only), 1 need reading, 0 confirmed.
 ### [ ] `56/131/27` Voorstel tot verwerping door de commissie voor Justitie van het wetsvoorstel tot wijziging van de regelgeving met betrekking tot de vrijwillige zwangerschapsafb
 
 - **When / result:** 2026-06-25; Kamer; adopted; Ja / Oui 93, Nee / Non 37
+- **On:** Ontwerp tot wijziging van de regelgeving met betrekking tot de vrijwillige zwangerschapsafbreking.
 - **Lobbies:** Ja / Oui: N-VA 23, VB 17, MR 15, Les Engagés 14, Vooruit 12, cd&v 11, ? 1. Nee / Non: PS 11, PVDA-PTB 11, Ecolo-Groen 8, Anders. 6, DéFI 1
+- Meaning: **Ja / Oui** = to reject 56/40 (Bill amending the abortion rules) outright at this stage (a motion to reject); **Nee / Non** = against rejecting it, so it goes on. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** Ja / Oui +2 (Voted Ja / Oui on 56/40 (Bill amending the abortion rules): for rejecting it, with CitizenGO's position.); Nee / Non -2 (Voted Nee / Non on 56/40 (Bill amending the abortion rules): against rejecting it, against CitizenGO's position.)
 - **Reasoning:** Area 1 (abortion). Bill direction on file for 56/40 (a draft): passing it is AGAINST us -- Bill amending the abortion rules. The Justice committee proposed its rejection; the plenary adopted that proposal on 25 June 2026 (division 56/131/27, 93-37-0). This vote is a motion to reject the text (the sides are swapped), so Ja / Oui is with us.
 
 ### [ ] `56/95/21` Voorstel tot verwerping door de commissie voor Binnenlandse Zaken, Veiligheid, Migratie en Bestuurszaken van het wetsvoorstel betreffende de objectieve neutrali
 
 - **When / result:** 2026-02-26; Kamer; adopted; Ja / Oui 92, Nee / Non 37, Abstain 3
+- **On:** Wetsvoorstel betreffende de objectieve neutraliteit van de personeelsleden van het federaal openbaar ambt, waarbij het hun verboden is bij de uitoefening van hun ambt zichtbare tekens van een geloofs-
 - **Lobbies:** Ja / Oui: N-VA 23, Les Engagés 14, MR 13, Vooruit 11, PVDA-PTB 11, cd&v 10, Ecolo-Groen 9, ? 1. Nee / Non: VB 18, PS 13, Anders. 5, DéFI 1. Abstain: MR 1, Anders. 1, ? 1
+- Meaning: **Ja / Oui** = to reject 56/149 (Ban on visible religious or philosophical symbols (signes convictionnels) for federal civil servants) outright at this stage (a motion to reject); **Nee / Non** = against rejecting it, so it goes on. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** Ja / Oui +2 (Voted Ja / Oui on 56/149 (Ban on visible religious or philosophical symbols (signes convictionnels) for federal civi): for rejecting it, with CitizenGO's position.); Nee / Non -2 (Voted Nee / Non on 56/149 (Ban on visible religious or philosophical symbols (signes convictionnels) for federal civi): against rejecting it, against CitizenGO's position.)
 - **Reasoning:** Area 8 (religious freedom), 11 (migration). Bill direction on file for 56/149 (a draft): passing it is AGAINST us -- Ban on visible religious or philosophical symbols (signes convictionnels) for federal civil servants. The plenary adopted the committee's proposal to reject it on 26 February 2026 (division 56/95/21, . This vote is a motion to reject the text (the sides are swapped), so Ja / Oui is with us.
 - **Flag for you:** On the bill's direction: Read as against: a ban on religious symbols reaches Christians too (area 8, religious freedom). CitizenGO supports Portugal's face-covering law (PT4), a different question: confirm.
@@ -34,6 +40,7 @@ Counts: 3 proposed, 0 procedural (evidence only), 1 need reading, 0 confirmed.
 ## Needs reading (no box: write the values first)
 
 - `56/143/4` 2026-10-08 Aangehouden amendement en artikel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in ge [amendment]: An amendment, an article or one point ('Aangehouden amendement en artikel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van ge'): which side is ours depends on its text, which the store 
+  - Meaning: **Ja / Oui** = to adopt the amendment and article held over from the earlier vote to 56/1338 (Bereavement leave around 'planned euthanasia' (and palliative leave)); **Nee / Non** = against adopting it. _(by rule, from the vote's wording and the bill)_
 
 ## Bill directions on file (inputs to the drafts; they place nobody)
 

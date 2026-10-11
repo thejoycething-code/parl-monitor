@@ -2,7 +2,7 @@
 
 _Sejm. Edition 1, covering 5 October 2026 to 11 October 2026. Weekly, to Chris by DM._
 
-> **How to read this edition.** Items come from the Poland store, classified by taxonomy-pl v0.2 (approved without a native read, X4) and config/watchlist-pl.yaml. The AI judge is off (X16): nothing has been read for relevance by a model, items are ordered by tier (watched and tier 1 first), and a tier-2 match can still be noise. Titles are the source's own Polish, verbatim; the English around them is ours. Tallies, results and splits are the record; whether a vote helped or hurt is a human call and is never made here. Every deputy's position on every vote is stored, with the club at the vote. Migration is matched and stored but not shown. Procedural votes, the patterns in config/edition-noise-pl.yaml and Chris's mutes are left out (counted under Coverage); a watched item never is.
+> **How to read this edition.** Items come from the Poland store, classified by taxonomy-pl v0.2 (approved without a native read, X4) and config/watchlist-pl.yaml. 1 item(s) here were read for relevance by the free session judge (Claude Code on the Mac Mini, on the plan allowance; the paid API judge stays off, X16): each shows its score [0-3] and why-line, an unwatched item it scored 0 is left out (counted under Coverage), and the scores order the items. The rest are ordered by tier (watched and tier 1 first), and a tier-2 match among them can still be noise. Titles are the source's own Polish, verbatim; the English around them is ours. Tallies, results and splits are the record; whether a vote helped or hurt is a human call and is never made here. Every deputy's position on every vote is stored, with the club at the vote. Migration is matched and stored but not shown. Procedural votes, the patterns in config/edition-noise-pl.yaml and Chris's mutes are left out (counted under Coverage); a watched item never is.
 
 ## In brief
 
@@ -16,6 +16,7 @@ Leading:
 - **Stage move** · 10/611 · 8 Oct · abortion · tier 1 · **watched**
   *Poselski projekt ustawy o zmianie ustawy - Kodeks karny*
   Legislative process 10/611, projekt ustawy; latest stage on 8 October 2026. Status: “Praca w komisjach po I czytaniu”. Watched: Kodeks karny: partial decriminalisation of abortion and of helping a woman to one.
+  _Judge 3/3: A bill to decriminalise abortion and assistance with it has passed first reading and is now in committee. This is the moment to lobby Polish MPs._
   [Source](https://www.sejm.gov.pl/Sejm10.nsf/PrzebiegProc.xsp?nr=611)
 
 ## Questions

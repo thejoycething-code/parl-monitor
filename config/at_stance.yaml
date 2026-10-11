@@ -395,3 +395,49 @@ divisions:
     read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/I/525: CitizenGO's position on 'Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 2 (assisted dying). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  # --- drafted 2026-10-11 by tools/country_5ca.py (rules, no AI) ---
+  - key: "XXVIII/UEA/139@XXVIII/NRSITZ/44#214.2"
+    status: needs_reading
+    title: "Unselbständiger Entschließungsantrag"
+    "on": "Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht"
+    dated: "2025-10-15"
+    chamber: "NR"
+    areas: [5]
+    tier: 1
+    result: "abgelehnt"
+    lobbies: "Dafür: FPÖ 57. Dagegen: ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16 (counts include members DERIVED from their group's vote, X5)"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/UEA/139: CitizenGO's position on 'Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "XXVIII/A/506@XXVIII/NRSITZ/81#112.2"
+    status: needs_reading
+    title: "Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen"
+    "on": "Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht"
+    dated: "2026-06-10"
+    chamber: "NR"
+    areas: [5]
+    tier: 1
+    result: "angenommen"
+    lobbies: "Dafür: ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16. Dagegen: FPÖ 57 (counts include members DERIVED from their group's vote, X5)"
+    vote_kind: "reject"
+    read_first: "A motion to reject the text (the sides are swapped), but no bill direction is on file for XXVIII/A/506: CitizenGO's position on 'Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "XXVIII/A/507@XXVIII/NRSITZ/81#112.1"
+    status: needs_reading
+    title: "Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen"
+    "on": "Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht"
+    dated: "2026-06-10"
+    chamber: "NR"
+    areas: [5]
+    tier: 1
+    result: "angenommen"
+    lobbies: "Dafür: ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16. Dagegen: FPÖ 57 (counts include members DERIVED from their group's vote, X5)"
+    vote_kind: "reject"
+    read_first: "A motion to reject the text (the sides are swapped), but no bill direction is on file for XXVIII/A/507: CitizenGO's position on 'Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
