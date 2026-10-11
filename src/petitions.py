@@ -52,7 +52,8 @@ and consultations"). An item on our ground or watched appears when, in the
 edition's window, it is NEW (first seen), crossed a THRESHOLD (a signature
 milestone between the last snapshot before the window and the latest in
 it), SURGED (gained SURGE signatures or votes in the window: a public vote
-on a bill has no threshold, only movement), or CLOSES (in the window or within CLOSING_DAYS after it). Lines give
+on a bill has no threshold, only movement), or CLOSES (in the window or within CLOSING_DAYS after it; for an item
+with a signature threshold, only once it is CLOSING_SHARE of the way). Lines give
 the signatures and the week's movement, the threshold and what reaching it
 does, and the dates. A "For campaigns" line flags what could matter to a
 CitizenGO campaign: open, on our ground, and near a threshold or closing
@@ -81,6 +82,7 @@ TEXT_CAP = 8000           # an item's own text kept for classification
 SUMMARY_CAP = 600
 CLOSING_DAYS = 14         # "closes soon": in the window or this many days after
 NEAR_SHARE = 0.5          # "near a threshold": at least half way to the next one
+CLOSING_SHARE = 0.25      # a deadline is news for a counted item only this far to its threshold
 SURGE = 10000             # signatures or votes gained in the window that make news alone
 DETAIL_LIMIT = 60         # item pages read per source per run
 DETAIL_SECONDS = 600      # and no new item page once a country's run is this old
@@ -492,6 +494,18 @@ def is_open(r, today):
     return not closes or closes >= today
 
 
+def closing_counts(signatures, thresholds):
+    """Whether an item's deadline is news: always for an item with no
+    threshold or no count (a consultation, a Petition with no quorum), and
+    for a counted item only once it is CLOSING_SHARE of the way to its next
+    threshold (Brazil's ideas close by the dozen each week with a few dozen
+    supports; their deadlines are not news)."""
+    nxt = next_threshold(signatures, thresholds)
+    if not thresholds or signatures is None or nxt is None:
+        return True
+    return signatures >= CLOSING_SHARE * nxt[0]
+
+
 def campaign_note(r, today, signatures, thresholds):
     """Why an open item on our ground could matter to a CitizenGO campaign, or None."""
     if not is_open(r, today):
@@ -502,7 +516,7 @@ def campaign_note(r, today, signatures, thresholds):
     if nxt and signatures is not None and signatures >= NEAR_SHARE * nxt[0]:
         bits.append("{0:.0f}% of the way to {1} signatures".format(
             100.0 * signatures / nxt[0], _fmt(nxt[0])))
-    if left is not None and 0 <= left <= CLOSING_DAYS:
+    if left is not None and 0 <= left <= CLOSING_DAYS and closing_counts(signatures, thresholds):
         bits.append("closes in {0} day{1}".format(left, "" if left == 1 else "s"))
     if r["kind"] == "consultation":
         bits.append("still taking responses")
@@ -542,7 +556,8 @@ def edition_items(conn, cc, since, until, wl):
         # A crossing needs a count from before the window: on a source's first
         # run there is none, and a threshold passed long ago is not news.
         passed = crossed(before, now, thresholds) if before is not None and not is_new else []
-        closing = bool(r["closes"]) and since < r["closes"] <= soon
+        closing = (bool(r["closes"]) and since < r["closes"] <= soon
+                   and closing_counts(now, thresholds))
         surge = (not is_new and before is not None and now is not None
                  and now - before >= SURGE)
         if not (is_new or passed or closing or surge):

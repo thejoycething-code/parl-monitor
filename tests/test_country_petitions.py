@@ -290,6 +290,15 @@ class EditionItems(unittest.TestCase):
         self.assertEqual(len(got), 1)
         self.assertTrue(got[0]["watched"])
 
+    def test_a_far_off_deadline_is_not_news(self):
+        conn = store_db()
+        seeded(conn, "2026-10-04", [e("i-8", 20, closes="2026-10-15")])
+        seeded(conn, "2026-10-11", [e("i-8", 22, closes="2026-10-15")])
+        self.assertEqual(P.edition_items(conn, "fr", "2026-10-04", "2026-10-11", {}), [])
+        self.assertTrue(P.closing_counts(None, [[100000, "x"]]))
+        self.assertTrue(P.closing_counts(30000, [[100000, "x"]]))
+        self.assertFalse(P.closing_counts(22, [[100000, "x"]]))
+
     def test_consultation_campaign_note(self):
         r = {"closes": "2026-11-30", "kind": "consultation"}
         self.assertIn("still taking responses", P.campaign_note(r, "2026-10-11", None, []))
