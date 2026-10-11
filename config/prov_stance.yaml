@@ -3388,7 +3388,8 @@ divisions:
   # RULED 12 October 2026 (docs/country-decisions-2026-10-12.md): "religious-symbol bans
   # are all with us, veils included". The symbol and face-covering readings
   # (Bills 21, 52, 62, 94 of 2011 and 2025, the 2017 and 2019 motions) are flipped;
-  # Bill 9 (43-2), which adds a ban on prayer on public premises, is left for him. Where the stored
+  # Bill 9 (43-2), which adds a ban on prayer on public premises, stays AGAINST us (Chris,
+  # 12 October 2026: "Keep the flips, Bill 9 against"). Where the stored
   # areas came from stray words (Bill 9's 'expression de genre', Bill 94's
   # home-schooling face rule, Bill 59's marriage clauses, Bill 70's
   # 'identité de genre'), the reading states its own `areas:`.
@@ -3473,8 +3474,8 @@ divisions:
     # schools; 'interdit la pratique religieuse dans un lieu sous l'autorité' of a body bound by
     # laicity; and denies subsidy accreditation to a school whose curriculum teaching 'est
     # fondée sur des normes ou des préceptes religieux' or that selects pupils or staff on
-    # religious criteria. LAICITY JUDGEMENT FOR CHRISTOPHER: read as a restriction of religious
-    # freedom (Yea against our side), per the brief. The stored areas [5, 7, 8] come from
+    # religious criteria. RULED 12 October 2026 (Chris: "Keep the flips, Bill 9 against"): it
+    # goes beyond dress to ban religious practice, so a Yea stays against our side. The stored areas [5, 7, 8] come from
     # 'expression de genre' and 'liberté académique' in the text; the reading states [8].
     yea: -2
     why_yea: "Voted to pass Bill 9, extending the religious-symbols ban to daycare and subsidised private-school staff, banning religious practice on public-institution premises and cutting subsidies to faith-based schools."

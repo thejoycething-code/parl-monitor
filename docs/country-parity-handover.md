@@ -123,8 +123,8 @@ check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
     until the flag is cleared.
 19. OPEN: six mixed bills left for a person (listed in the shortlists, each
     with a "Left for a person" flag): NL 2026Z08649, 2025Z00250, 2026Z12645;
-    FR DLR5L17N53936; PL 10/529; HR 11/228. Also Quebec's Bill 9 (43-2),
-    which adds a ban on prayer on public premises to the symbol ban.
+    FR DLR5L17N53936; PL 10/529; HR 11/228. (Quebec's Bill 9 decided 12
+    October 2026: against us; the other Quebec laicity flips kept.)
 
 **Still to run on the Mini (store writers, one at a time):**
 
