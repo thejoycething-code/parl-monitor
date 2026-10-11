@@ -99,12 +99,16 @@ None of the 7 watched item(s) moved in this edition's period.
   *Aide à mourir: decrees to watch*
   A standing note, not a new event (FR4): the law is promulgated and what happens next is regulatory. No collector reads the Journal officiel yet, so these are checked by hand. Watched: Droit a l'aide a mourir (dossier 'Fin de vie').
   To watch for in the Journal officiel:
-  - The decree in Conseil d'État on the procedure: how a request is made and recorded, the collegial assessment and its time limits.
-  - The Haute Autorité de santé's list of the lethal substances that may be used, and its good-practice recommendations.
-  - The decree setting up the commission de contrôle et d'évaluation: its membership and how it works.
-  - The rules for preparing, dispensing and returning the lethal substance (pharmacies à usage intérieur).
-  - The decree on the information system that records each step of a procedure, after the CNIL's opinion.
-  Drawn from the text as the Assemblée adopted it at first reading; check each against the law as promulgated on 18 August 2026 before relying on it. Also watch for any bill or resolution to repeal or amend the law.
+  - The decree in Conseil d'État on the procedure (art. 13, L.1111-12-11): information, the request and its confirmation, checking the conditions, access to the art. 427-1 register.
+  - The Haute Autorité de santé's recommendations on the lethal substances and good practice (L.161-37 23° CSS): not a decree; its working group sat until 8 October 2026.
+  - The decree in Conseil d'État on the commission de contrôle et d'évaluation (art. 15, L.1111-12-13 IV): its membership and independence.
+  - The ministerial arrêtés designating the pharmacies à usage intérieur that prepare and dispense the substance (art. 6, L.1111-12-4 VIII; art. 16, L.5121-1).
+  - The decree in Conseil d'État on the information system recording each step, after the CNIL's opinion (art. 15, L.1111-12-13 II).
+  - The decree in Conseil d'État, after the CNIL's opinion, on the register of conscience-clause declarations (L.1111-12-13 I 3°).
+  - The joint health and social security arrêté on prices and fees (art. 17 II), due by about 18 November 2026.
+  - The decree setting when the art. 427-1 register check starts (art. 5 II), by 31 December 2028 at the latest.
+  - The ordonnance extending the law overseas (art. 19), due within a year of promulgation.
+  Checked on 11 October 2026 against the promulgated text, Loi n° 2026-794 du 18 août 2026 relative au droit à l'aide à mourir (JORF n° 192, 19 August 2026, texte n° 1, JORFTEXT000054706877): none of these texts is published yet. The Légifrance échéancier could not be read (script wall), so the list follows the law's own articles. Also watch for any bill or resolution to repeal or amend the law.
   [Source](https://www.assemblee-nationale.fr/dyn/17/dossiers/fin_de_vie_17e)
 - **Agenda item** · RUANR5L17S2027IDC461260PT37876 · 14 Oct · parental rights and education, free speech and civil liberties · tier 1
   *Nomination de rapporteur*

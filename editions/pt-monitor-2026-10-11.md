@@ -7,4 +7,5 @@ _Assembleia da República. Edition 2, covering 11 October 2026 to 11 October 202
 - Watchlist: 45 item(s), none moved.
 - Store last read 11 October 2026.
 - Left out by the noise filters: nothing.
+- Week ahead (the Assembleia's Agenda Parlamentar): the agenda has not been read yet.
 
