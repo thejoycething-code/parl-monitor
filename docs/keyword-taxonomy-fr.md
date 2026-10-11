@@ -46,9 +46,10 @@ Noise round (v0.2, 10 October 2026, approved by Chris).
 
 ### 1. Abortion {#1_abortion}
 
-- **Tier 1:** "liberté garantie à la femme" [only: fr]; "clause de conscience" [with: IVG, "interruption* volontaire*", avortement*]; "délit d'entrave" [with: IVG, "interruption* volontaire*", avortement*] [only: fr]; "délit d'entrave" [only: be]
+- **Replaces:** IVG
+- **Tier 1:** IVG [only: fr, be]; IVG [with: avortement*, grossesse*, "interruption* volontaire*", Abtreibung*, Schwangerschaft*, Fristenregelung*, aborto, aborti, gravidanza] [only: ch]; "liberté garantie à la femme" [only: fr]; "clause de conscience" [with: IVG, "interruption* volontaire*", avortement*]; "délit d'entrave" [with: IVG, "interruption* volontaire*", avortement*] [only: fr]; "délit d'entrave" [only: be]
 - **Tier 2:** "Planning familial" [only: fr]; "délai de réflexion" [with: avortement*, IVG, "interruption* volontaire*", "interruption* de grossesse"] [only: be]; "enfant* né* sans vie" [only: be]; contracepti*
-- **Notes:** France: Measured on AN 2024-2026 data: délit d'entrave 5 written questions; clause de conscience caught DLR5L17N54992. Belgium: Measured on 1,776 dossier titles; stillborn-child bills in area 1 (BE3); délai de réflexion unguarded caught an electricity-contracts bill.
+- **Notes:** France: Measured on AN 2024-2026 data: délit d'entrave 5 written questions; clause de conscience caught DLR5L17N54992. Belgium: Measured on 1,776 dossier titles; stillborn-child bills in area 1 (BE3); délai de réflexion unguarded caught an electricity-contracts bill. Switzerland (11 October 2026): Quebec's bare tier-1 IVG is replaced here, unchanged for France and Belgium and guarded by abortion or pregnancy words for Switzerland, where "IVG" is mostly the German abbreviation of the Invalidity Insurance Act (Bundesgesetz über die Invalidenversicherung). Measured on the store of 11 October 2026: it alone filed 14 votes as abortion (22.062, 24.066 and the AHV survivors' pensions bill 24.078, cited as "Ziff. II 1. IVG Art. 37"); the two Swiss businesses it matched with abortion company (23.3762, 25.7606) keep area 1.
 
 ### 2. Assisted dying and end of life {#2_assisted_dying}
 

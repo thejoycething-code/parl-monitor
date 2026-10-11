@@ -522,6 +522,8 @@ Later phases and items for Chris (not built at the merge):
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/hr_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 12 vote reading(s): 0 with proposed values, 0 procedural, 12 need reading, 0 confirmed. Guide: `docs/5ca-hr-readings.md`; confirm with `python3 tools/country_5ca.py --cc hr --sign-from-doc --by NAME`. Sheets (`data/5ca/hr-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Croatia (`config/stance_signers.yaml`). Party is as listed until party history is sourced (X6). Croatia's `yes_means_reject` flag swaps the sides.
 
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-hr-shortlist.md` ranks the 12 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `hr-11-213747` (2025-10-24, a vote whose Yes rejects the text; the decisive one; split HDZ, SDP (2 against their group)). It confirms nothing.
+
 
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 

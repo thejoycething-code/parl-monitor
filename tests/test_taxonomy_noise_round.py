@@ -106,6 +106,36 @@ class FrenchTests(unittest.TestCase):
         self.assertNotIn(8, areas(tax("fr", "be"), "le séparatisme islamiste"))
 
 
+class SwissIvgTests(unittest.TestCase):
+    """'IVG' is abortion in French and Italian and, in a Swiss text, mostly
+    the Invalidity Insurance Act (11 October 2026). The texts are the store's:
+    the AHV survivors' pensions bill 24.078 (24 September 2025), the autism
+    early-intervention bill 24.066 and the Fristenregelung postulate 23.3762."""
+
+    AHV = ("Art. 35 (gilt auch für Ziff. II 1. IVG Art. 37 Abs. 1bis und "
+           "Übergangsbestimmung, Ziff. III Abs. 5)")
+    AUTISM = ("Bundesgesetz über die Invalidenversicherung IVG (Intensive Frühintervention "
+              "bei Autismus-Spektrum-Störungen, IFI). Änderung")
+
+    def test_the_invalidity_insurance_act_is_not_abortion_for_ch(self):
+        for lang in ("fr", "it"):
+            for text in (self.AHV, self.AUTISM, "Modification de la LAI et de l'IVG"):
+                self.assertNotIn(1, areas(tax(lang, "ch"), text), (lang, text))
+
+    def test_ivg_with_abortion_company_still_counts_for_ch(self):
+        for lang in ("fr", "it"):
+            self.assertIn(1, areas(tax(lang, "ch"), "Evaluation der Fristenregelung (IVG), "
+                                                    "Schwangerschaft"))
+        self.assertIn(1, areas(tax("fr", "ch"), "Accès à l'IVG: la grossesse non désirée"))
+        self.assertIn(1, areas(tax("it", "ch"), "IVG e aborto farmacologico"))
+
+    def test_france_belgium_and_italy_keep_bare_ivg(self):
+        for lang, cc in (("fr", "fr"), ("fr", "be"), ("it", "it")):
+            self.assertIn(1, areas(tax(lang, cc), "Allonger le délai d'accès à l'IVG"), cc)
+            hits = filt.filter_item(tax(lang, cc), WL, "Proposition de loi IVG").matched_terms
+            self.assertIn("IVG", hits, cc)
+
+
 class PortugueseTests(unittest.TestCase):
     def setUp(self):
         self.pt = tax("pt", "pt")

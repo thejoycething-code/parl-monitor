@@ -429,7 +429,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - Phase: the Italian texts (CH6). BUILT 10 October 2026 (branch `parity-phases-a`): see "CH6, as built" below.
-- The scope's veto on the Quebec IVG term and guard on euthanasie change base terms, so they are not in the addendum.
+- The scope's veto on the Quebec IVG term and guard on euthanasie change base terms, so they are not in the addendum. BUILT for IVG on 11 October 2026 (branch `ch-ivg-guard`): the addendum's `- **Replaces:** IVG` line (tools/generate_taxonomy.py) swaps Quebec's bare IVG for `IVG [only: fr, be]` and, for `ch`, IVG guarded by abortion or pregnancy words (French, German, Italian); taxonomy-it does the same. It applies to every Swiss path that loads the lists (votes, businesses, chamber, petitions, agenda, sweep). Measured on the store of 11 October 2026: 14 divisions lose area 1 (22.062 x5, 24.066 x5, 24.078 x4), no business or speech changes, and France and Belgium are unchanged. After it lands, run the Swiss weekly once with `CH_RECLASSIFY=true` (docs/mac-mini.md), then `tools/country_5ca.py --cc ch --prune-off-ground`.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/ch/` from the store each weekly run (`tools/member_profiles.py ch`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## CH6, as built (10 October 2026, branch `parity-phases-a`)
@@ -459,6 +459,8 @@ edition's coverage note says the Italian texts are read.
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/ch_stance.yaml` holds 3 bill direction(s) (Claude's drafts from the watchlist) and 82 vote reading(s): 1 with proposed values, 0 procedural, 81 need reading, 0 confirmed. Guide: `docs/5ca-ch-readings.md`; confirm with `python3 tools/country_5ca.py --cc ch --sign-from-doc --by NAME`. Sheets (`data/5ca/ch-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Switzerland (`config/stance_signers.yaml`). 24.026 (individual taxation) has no direction until Chris confirms it is our ground (the watchlist's own note).
+
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-ch-shortlist.md` ranks the 82 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `nr-36076` (2026-04-29, a vote on the whole text; the decisive one; this year). It confirms nothing.
 
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
@@ -516,3 +518,7 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 ## Debate report (built 11 October 2026, branch `ukp2-debate-report`)
 
 `tools/country_debate_report.py` (src/country_debatereport.py; docs/debate-pack-social.md, "Debate report, new countries"): after a debate, an English report from templates over the record (each speaker on our ground with a verbatim passage in the language spoken and its translation, by a person or the free session judge on the Mini; the bill's votes and the latest on the same ground, with tallies, group splits and vote meanings) and draft social copy; a DM to Chris alone for approval; after `--approve --by NAME`, `--publish` makes the Slack canvas shared with Chris alone. Manual, no job, no paid AI, nothing posted to a channel or a social network. AWAITING SIGN-OFF, with no verdicts, until the readings of the votes shown are confirmed.
+
+## Words since the last vote (built 11 October 2026, branch `ukp2-since-last-vote`)
+
+`tools/country_since_vote.py --cc ch` (src/country_since_vote.py; docs/debate-pack-social.md, "Between votes, new countries"): per area, each member's last recorded vote on it and their speeches since, with excerpts. Drift is named only once the vote's reading is confirmed and a person or the free session judge has read the words (`--queue-out` / `--reads`); until then "awaiting sign-off", ranked by recency and volume. Manual, no job; `tools/member_profiles.py ch --since-vote` adds it to the profiles. Every member's vote is recorded, so drift can be named once a reading is confirmed and the words read. Sample: `docs/since-vote-samples/ch-2026-10-11.md`. Found while hand-checking: the French taxonomy's `IVG` (abortion) also matches the German `IVG` (Invalidenversicherungsgesetz), so the AHV survivors' pension votes of 24 September 2025 (24.078) are tier 1, area 1; reported to Chris.

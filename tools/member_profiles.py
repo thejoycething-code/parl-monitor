@@ -4,6 +4,7 @@
     python3 tools/member_profiles.py pl                 # profiles/pl/, the weekly step
     python3 tools/member_profiles.py pl hr cl           # several countries
     python3 tools/member_profiles.py hr --db /tmp/hr.db --out /tmp/p --sample
+    python3 tools/member_profiles.py fr --since-vote    # + "Words since the last vote"
 
 One Markdown profile per member with a record on our ground (votes, bills
 authored, questions), and profiles/<cc>/index.md listing every member. The
@@ -40,6 +41,9 @@ def main(argv=None):
                     help="the store's reading date (default today)")
     ap.add_argument("--sample", action="store_true",
                     help="mark every file SAMPLE (a scoping store, never published)")
+    ap.add_argument("--since-vote", action="store_true",
+                    help="add the optional 'Words since the last vote' section (NL, CH, AT, FR, "
+                         "BE; src/country_since_vote.py)")
     args = ap.parse_args(argv)
     bad = [c for c in args.countries if c not in mp.SPECS]
     if bad:
@@ -51,7 +55,7 @@ def main(argv=None):
     rc = 0
     for cc in args.countries:
         try:
-            data = mp.build(conn, cc, args.date)
+            data = mp.build(conn, cc, args.date, since_vote=args.since_vote)
             written, removed = mp.write(data, args.out, sample=args.sample)
         except Exception:  # one country's failure never costs the others
             traceback.print_exc()
