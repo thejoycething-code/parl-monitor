@@ -582,6 +582,49 @@ The store reached 1.76 GB on 11 October (1.0 GB on 9 October) against GitHub's 2
 - **The switch:** the Mini runs main's `db_state.py` on every job (the wrapper updates the runner clone before it pulls) and every workflow checks out main, so once this is merged every reader and writer is on the new code. The first compressed push deletes the raw asset; until then pulls take the raw one. A run that started before the merge pulls the raw asset as before; if it then pushes after a compressed publish, the lineage guard refuses it, because the sidecar on main names a store it never held. A branch test (`RUNNER_REF`) or a laptop on a branch without this change cannot pull once the raw asset is gone: merge main first.
 - **Size guard:** every push warns (a `::warning::` annotation on GitHub) once the store passes 1.6 GB uncompressed or the .gz passes 1.5 GB, and refuses outright above 2 GiB compressed rather than fail mid-upload. The 07:30 health DM has a "Store" line with both sizes and the same warnings. At 1.76 GB the first warning is already on: the next step is splitting the store into several assets.
 
+## The runner's lock: first in, first out (11 October 2026)
+
+Every job goes through `tools/mini_run.sh`, which lets one job at a time
+touch the runner clone and the store. Until 11 October the lock was a bare
+`mkdir` poll every 15 seconds, not a queue: whichever waiter happened to look
+when the lock came free took it. On 10 October `at-weekly` arrived at 02:00
+UTC and waited 7,200 s while `hr-weekly`, `latam-courts-backfill`,
+`be-weekly` and `us-division-watch` each took the lock ahead of it; its
+failure then named whoever held the lock at that moment, which misled us.
+
+**How it works now:**
+
+- Each waiter writes a ticket in `~/runner/locks/queue/`, named by its
+  arrival (microseconds since the epoch, from perl's Time::HiRes) and its
+  PID; the file holds the job name. `ls ~/runner/locks/queue` is the queue,
+  oldest first; `cat ~/runner/locks/state/job` is the holder.
+- Only the oldest LIVE ticket may take the lock (`mkdir ~/runner/locks/state`).
+  A ticket whose PID is gone, or whose PID now runs something other than
+  `mini_run`, is removed with a log line ("dropped the ticket of pid N").
+- The holder removes its ticket as soon as it has the lock, and a failure or
+  an exit removes it too.
+- A lock whose owner is dead (a crash or a power cut) is stale, and the head
+  of the queue takes it over ("stale lock from pid N (job); taking it"), as
+  before.
+- `LOCK_WAIT` (two hours) is still the cap, counted from the job's own
+  arrival. A job that gives up says who was in its way, in queue order,
+  for example:
+
+      FAILED at lock: waited 7200s; ahead of us when we gave up: hr-weekly, be-weekly; holder: latam-courts-backfill
+
+  A job that has to wait says so once when it arrives ("queued for the
+  lock; ahead of us: ...; holder: ...").
+- The self-update is unchanged: when step 2 brings a new wrapper, the run
+  re-execs it under the same PID, which still holds the lock, so it takes no
+  ticket and never queues a second time.
+- The first runs after the merge may still meet an old wrapper waiting with
+  a bare poll (no ticket). It can take the lock out of turn once; it cannot
+  break anything, because `mkdir` still decides who holds the lock.
+
+Tests: `tests/test_mini_run_lock.py` runs the lock block itself under
+`/bin/bash` with several waiters in a temp folder (arrival order, a dead
+waiter's ticket, the stale lock, the failure line, the re-exec).
+
 ## Backfills run on the Mini (9 October 2026)
 
 Dispatching a backfill to GitHub cost 2,604 Actions minutes in one week
@@ -635,6 +678,21 @@ never the weekly's. They hold the lock while they run, so the scheduled jobs
 queue behind them (up to two hours): start a long one when the calendar is
 quiet (`launchctl list | grep parlmonitor` and the plists list the times).
 The GitHub dispatch forms still work, as a fallback.
+
+**Keep hand-run backfills out of the overnight country-weekly window,
+00:00 to 05:00 London.** The plists put these jobs there: Italy 01:00,
+Croatia 01:30, Belgium 02:30 and Austria 03:00 on Saturdays; the Sunday pull
+02:00 and Poland 04:00 on Sundays; the Monday publish 04:00 on Mondays;
+Slovakia 02:00 on Tuesdays; Hungary 03:00 on Wednesdays; the Netherlands
+03:00 on Thursdays; Australia 02:00 (and its session judge 03:10) on Fridays;
+plus the US division watch at 01:40 and 04:40 and the Australian one at
+01:20, Tuesday to Saturday. The lock is first in, first out, so a backfill
+started there does not jump the queue, but every job that arrives after it
+waits for all of it. A backfill should be finished, not just started, before
+00:00: start it no later than midnight minus its `JOB_TIMEOUT`. Friday
+night is the worst night: on 10 October the hand-run
+`latam-courts-backfill` took the lock in the middle of the Saturday weeklies,
+and Austria's weekly gave up after 7,200 s.
 
 The scoping probes (`*-probe.yml`, `probe-hosts.yml`) stay on GitHub: they
 exist to ask whether a site answers GitHub's runners, which only a runner

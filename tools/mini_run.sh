@@ -44,8 +44,10 @@ STARTED=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 echo "$STARTED mini_run $JOB (ref $REF)"
 
 STAGE=start
+TICKET=
 fail() {
   echo "  FAILED at $STAGE: $*"
+  [ -n "$TICKET" ] && rm -f "$TICKET"
   [ -d "$LOCK" ] && [ "$(cat "$LOCK/pid" 2>/dev/null)" = "$$" ] && rm -rf "$LOCK"
   hc="HC_$UPPER"; [ -n "${!hc:-}" ] && curl -fsS -m 10 --retry 3 "${!hc}/fail" >/dev/null
   # Never let the alerter mask the failure: it prints when Slack is down.
@@ -57,22 +59,71 @@ fail() {
   exit 1
 }
 
-# 1. The lock. mkdir is atomic; macOS has no flock. A lock whose owner is
-# dead is stale (a crash or a power cut) and is taken over.
+# 1. The lock, first in, first out (11 October 2026). mkdir is atomic; macOS
+# has no flock. A bare mkdir poll is not a queue: on 10 October at-weekly
+# arrived at 02:00 UTC and waited 7,200 s while hr-weekly,
+# latam-courts-backfill, be-weekly and us-division-watch took the lock ahead
+# of it. So each waiter writes a ticket in locks/queue, named by its arrival
+# (microseconds since the epoch) and its PID, holding its job name. Only the
+# oldest LIVE ticket may take the lock; a ticket whose process is gone (or
+# whose PID now belongs to something that is not mini_run) is removed. The
+# holder removes its ticket once it has the lock. A lock whose owner is dead
+# is stale (a crash or a power cut) and the head of the queue takes it over.
+# LOCK_WAIT is counted from this job's own arrival.
 STAGE=lock
-mkdir -p "$RUNNER/locks" "$RUNNER/logs"
-waited=0
-# A re-run of a newer wrapper (step 2) keeps the PID, so the lock is still ours.
-until [ "$(cat "$LOCK/pid" 2>/dev/null)" = "$$" ] || mkdir "$LOCK" 2>/dev/null; do
-  owner=$(cat "$LOCK/pid" 2>/dev/null)
-  if [ -n "$owner" ] && ! kill -0 "$owner" 2>/dev/null; then
-    echo "  stale lock from pid $owner ($(cat "$LOCK/job" 2>/dev/null)); taking it"
-    rm -rf "$LOCK"; continue
+QUEUE="$RUNNER/locks/queue"
+LOCK_POLL="${LOCK_POLL:-15}"   # seconds between looks; the tests shorten it
+mkdir -p "$RUNNER/locks" "$QUEUE" "$RUNNER/logs"
+arrived=$(date +%s)
+queue_live() {   # the live tickets, oldest first; dead ones are removed
+  for qt in $(LC_ALL=C ls -1 "$QUEUE" 2>/dev/null); do
+    qpid=${qt##*-}
+    [ "$qpid" = "$$" ] && { echo "$qt"; continue; }
+    if kill -0 "$qpid" 2>/dev/null; then
+      case "$(ps -p "$qpid" -o command= 2>/dev/null)" in *mini_run*) echo "$qt"; continue ;; esac
+    fi
+    echo "  dropped the ticket of pid $qpid ($(cat "$QUEUE/$qt" 2>/dev/null)): not running" >&2
+    rm -f "$QUEUE/$qt"
+  done
+}
+queue_jobs() {   # job names of the tickets given on stdin, comma-separated
+  out=
+  while read -r qt; do
+    [ -n "$qt" ] && out="${out:+$out, }$(cat "$QUEUE/$qt" 2>/dev/null)"
+  done
+  echo "${out:-none}"
+}
+trap '[ -n "$TICKET" ] && rm -f "$TICKET"' EXIT
+said=
+while :; do
+  # A re-run of a newer wrapper (step 2) keeps the PID, so the lock is still
+  # ours: it takes no ticket and never queues a second time.
+  [ "$(cat "$LOCK/pid" 2>/dev/null)" = "$$" ] && break
+  if [ -z "$TICKET" ]; then
+    TICKET="$QUEUE/$(perl -MTime::HiRes=time -e 'printf "%017d", time() * 1000000')-$$"
   fi
-  [ "$waited" -ge "$LOCK_WAIT" ] && fail "lock held by $(cat "$LOCK/job" 2>/dev/null) for ${waited}s"
-  sleep 15; waited=$((waited + 15))
+  [ -f "$TICKET" ] || echo "$JOB" > "$TICKET"   # (again, if something removed it)
+  live=$(queue_live)
+  if [ "$(echo "$live" | head -n 1)" = "${TICKET##*/}" ]; then
+    mkdir "$LOCK" 2>/dev/null && break
+    owner=$(cat "$LOCK/pid" 2>/dev/null)
+    if [ -n "$owner" ] && ! kill -0 "$owner" 2>/dev/null; then
+      echo "  stale lock from pid $owner ($(cat "$LOCK/job" 2>/dev/null)); taking it"
+      rm -rf "$LOCK"; continue
+    fi
+  fi
+  ahead=$(echo "$live" | sed "/^${TICKET##*/}\$/,\$d" | queue_jobs)
+  holder=$(cat "$LOCK/job" 2>/dev/null); holder=${holder:-none}
+  waited=$(( $(date +%s) - arrived ))
+  [ "$waited" -ge "$LOCK_WAIT" ] &&
+    fail "waited ${waited}s; ahead of us when we gave up: $ahead; holder: $holder"
+  [ -z "$said" ] && echo "  queued for the lock; ahead of us: $ahead; holder: $holder"
+  said=1
+  sleep "$LOCK_POLL"
 done
 echo $$ > "$LOCK/pid"; echo "$JOB" > "$LOCK/job"
+[ -n "$TICKET" ] && rm -f "$TICKET"
+TICKET=
 
 # 1b. Say so on GitHub: MINI_RUN_<JOB> makes every GitHub trigger of this job
 # skip while it is set (tools/mini_check.py), a hand dispatch included. The
@@ -82,6 +133,7 @@ echo $$ > "$LOCK/pid"; echo "$JOB" > "$LOCK/job"
 # nothing runs here, and GitHub's backup does the slot.
 marked=
 cleanup() {
+  [ -n "$TICKET" ] && rm -f "$TICKET"
   [ -n "$marked" ] && gh variable delete "MINI_RUN_$UPPER" -R thejoycething-code/parl-monitor >/dev/null 2>&1
   [ "$(cat "$LOCK/pid" 2>/dev/null)" = "$$" ] && rm -rf "$LOCK"
 }
