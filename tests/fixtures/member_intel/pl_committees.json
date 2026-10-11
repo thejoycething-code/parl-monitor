@@ -1,0 +1,142 @@
+[
+ {
+  "appointmentDate": "2023-11-21",
+  "code": "ASW",
+  "compositionDate": "2023-11-21",
+  "members": [
+   {
+    "club": "PiS",
+    "firstName": "Lidia",
+    "id": 468,
+    "joinDate": "2024-06-26",
+    "lastFirstName": "Czechak Lidia",
+    "lastName": "Czechak"
+   },
+   {
+    "club": "PiS",
+    "firstName": "Jarosław",
+    "id": 452,
+    "joinDate": "2023-11-21",
+    "lastFirstName": "Zieliński Jarosław",
+    "lastName": "Zieliński"
+   },
+   {
+    "club": "PiS",
+    "firstName": "Grzegorz",
+    "id": 436,
+    "joinDate": "2023-11-21",
+    "lastFirstName": "Woźniak Grzegorz",
+    "lastName": "Woźniak"
+   }
+  ],
+  "name": "Komisja Administracji i Spraw Wewnętrznych",
+  "nameGenitive": "Komisji Administracji i Spraw Wewnętrznych",
+  "phone": "(22) 694-18-44, 694-14-93, 694-19-38, FAX 694-28-53",
+  "scope": "Do zakresu działania Komisji należą sprawy administracji państwowej oraz bezpieczeństwa, ładu i porządku publicznego.",
+  "subCommittees": [
+   "ASW01N",
+   "ASW01S",
+   "ASW02N",
+   "ASW02S",
+   "ASW03N",
+   "ASW03S",
+   "ASW04N",
+   "ASW04S"
+  ],
+  "type": "STANDING"
+ },
+ {
+  "appointmentDate": "2023-11-21",
+  "code": "PSR",
+  "compositionDate": "2023-11-21",
+  "members": [
+   {
+    "club": "PiS",
+    "firstName": "Marcin",
+    "id": 116,
+    "joinDate": "2023-11-21",
+    "lastFirstName": "Grabowski Marcin",
+    "lastName": "Grabowski"
+   },
+   {
+    "club": "PiS",
+    "firstName": "Urszula",
+    "function": "zastępca przewodniczącego",
+    "id": 315,
+    "joinDate": "2023-11-21",
+    "lastFirstName": "Rusecka Urszula",
+    "lastName": "Rusecka"
+   },
+   {
+    "club": "PiS",
+    "firstName": "Wioletta",
+    "id": 476,
+    "joinDate": "2024-06-28",
+    "lastFirstName": "Kulpa Wioletta",
+    "lastName": "Kulpa"
+   }
+  ],
+  "name": "Komisja Polityki Społecznej i Rodziny",
+  "nameGenitive": "Komisji Polityki Społecznej i Rodziny",
+  "phone": "(22) 694-18-51, 694-26-58",
+  "scope": "Do zakresu działania Komisji należą sprawy kształtowania polityki społecznej państwa, problemów socjalnych, ubezpieczeń społecznych, świadczeń socjalnych, pomocy społecznej, komunalnego budownictwa mieszkaniowego i problemów osób niepełnosprawnych i kombatantów oraz sprawy prawa pracy, w tym ochrony pracowników, bezpieczeństwa i higieny pracy, równego traktowania w zatrudnieniu, a także systemów płac i kosztów utrzymania, walki z bezrobociem, rynku pracy, kosztów pracy, zatrudnienia i ochrony praw pracowniczych obywateli polskich w krajach Unii Europejskiej, zatrudnienia absolwentów, a także sprawy wynikające bezpośrednio z funkcjonowania rodziny, wypełniania jej ról i zadań oraz występowania z propozycjami regulacji prawnych dotyczących tych zagadnień oraz sprawy dotyczące ochrony praw kobiet i zapewnienia im równych szans w życiu zawodowym i społecznym, a także sprawy związane z przestrzeganiem konstytucyjnej zasady równych praw kobiet i mężczyzn.",
+  "subCommittees": [
+   "PSR01N",
+   "PSR01S",
+   "PSR02N",
+   "PSR02S",
+   "PSR03N",
+   "PSR03S",
+   "PSR04S",
+   "PSR05S"
+  ],
+  "type": "STANDING"
+ },
+ {
+  "appointmentDate": "2023-11-21",
+  "code": "ZDR",
+  "compositionDate": "2023-11-21",
+  "members": [
+   {
+    "club": "PiS",
+    "firstName": "Grzegorz",
+    "id": 216,
+    "joinDate": "2023-11-21",
+    "lastFirstName": "Lorek Grzegorz",
+    "lastName": "Lorek"
+   },
+   {
+    "club": "PiS",
+    "firstName": "Katarzyna",
+    "function": "zastępca przewodniczącego",
+    "id": 353,
+    "joinDate": "2023-11-29",
+    "lastFirstName": "Sójka Katarzyna",
+    "lastName": "Sójka"
+   },
+   {
+    "club": "PiS",
+    "firstName": "Józefa",
+    "id": 367,
+    "joinDate": "2023-11-21",
+    "lastFirstName": "Szczurek-Żelazko Józefa",
+    "lastName": "Szczurek-Żelazko"
+   }
+  ],
+  "name": "Komisja Zdrowia",
+  "nameGenitive": "Komisji Zdrowia",
+  "phone": "(22) 694-10-20,  694-21-03, 694-18-27",
+  "scope": "Do zakresu działania Komisji należą sprawy ochrony zdrowia.",
+  "subCommittees": [
+   "ZDR01N",
+   "ZDR01S",
+   "ZDR02N",
+   "ZDR02S",
+   "ZDR03N",
+   "ZDR03S",
+   "ZDR04N",
+   "ZDR04S"
+  ],
+  "type": "STANDING"
+ }
+]
