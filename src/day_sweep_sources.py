@@ -71,8 +71,10 @@ MEASURED COSTS (11 October 2026, from the laptop; a quiet weekend):
 from __future__ import annotations
 
 import datetime
+import html
 import json
 import os
+import re
 import sys
 import urllib.parse
 
@@ -82,7 +84,7 @@ if TOOLS not in sys.path:
     sys.path.insert(0, TOOLS)
 
 
-SWEEP = ("nl", "pl", "ch", "br", "it", "at", "fr", "es", "ar",
+SWEEP = ("nl", "pl", "ch", "br", "it", "at", "fr", "es", "be", "pt", "hr", "sk", "ar",
          "cl", "pe", "ec", "bo", "do", "pa", "hn", "uy")
 LATAM = ("cl", "pe", "ec", "bo", "do", "pa", "hn", "uy")   # the Latam alerts' path
 AGENDA_DAYS = 14            # what the sweep reads ahead, as the edition shows
@@ -100,6 +102,14 @@ class Reader:
         return 0
 
     extra_items = None
+
+
+def _throttle(client, host, seconds):
+    """The collector's per-host throttle on the sweep's client, where it has one
+    (a NoArchive wrapper passes the call through)."""
+    setter = getattr(client, "set_host_throttle", None)
+    if setter:
+        setter(host, seconds)
 
 
 def chamber_run(cc, conn, client, since, today, log=print, budget=QUESTION_BUDGET_S):
@@ -367,14 +377,91 @@ class AT(Reader):
 
 # --- France --------------------------------------------------------------------------
 
+FR_LIST = "https://www.assemblee-nationale.fr/dyn/{0}/dossiers?page={1}&limit={2}"
+FR_CRAWL_DELAY_S = 30.0        # www.assemblee-nationale.fr robots.txt, 11 October 2026
+FR_PAGE = 50
+FR_MAX_PAGES = 3
+FR_MONTHS = {"janvier": 1, "février": 2, "mars": 3, "avril": 4, "mai": 5, "juin": 6,
+             "juillet": 7, "août": 8, "septembre": 9, "octobre": 10, "novembre": 11,
+             "décembre": 12}
+FR_DEPOT = re.compile(r"Dépôt [^<]{0,60}? le \w+ (\d{1,2})(?:er)? (\w+) (\d{4})")
+# The reading the list prints -> the act-code prefix the edition reads as new.
+FR_READING = (("Lecture unique", "ANLUNI"), ("1ère lecture", "AN1"))
+
+
+def fr_dossiers(markup, legislature):
+    """[dossier as fr_rollcalls.parse_dossier shapes it] from one page of the
+    AN's dossier list. The list gives the deposit date, not the latest act:
+    the deposit is stored as the act (the edition's "new"), the stage in the
+    AN's own words as its label."""
+    out = []
+    for block in markup.split("_style-dossier-legislatif")[1:]:
+        uid = re.search(r"data-id=\"(DLR\w+)", block)
+        link = re.search(r"(?s)<a class=\"link _big\" href=\"/dyn/\d+/dossiers/([^\"]+)\">(.*?)</a>",
+                         block)
+        proc = re.search(r"(?s)<span class=\"_bold\">(.*?)</span>", block)
+        depot = FR_DEPOT.search(html.unescape(block))
+        stage = re.search(r"(?s)_colored-primary _bold\">(.*?)</span>", block)
+        if not (uid and link and depot and depot.group(2).lower() in FR_MONTHS):
+            continue
+        stage = _squash(stage.group(1)) if stage else ""
+        stage = stage.split(":", 1)[-1].strip()
+        prefix = next((p for word, p in FR_READING if stage.startswith(word)), None)
+        out.append({"uid": uid.group(1), "legislature": legislature, "title": _squash(link.group(2)),
+                    "an_path": link.group(1), "senat_url": None,
+                    "procedure": _squash(proc.group(1)) if proc else None, "initiator": None,
+                    "last_act": prefix + "-DEPOT" if prefix else None,
+                    "last_act_label": stage.split(",", 1)[-1].strip() or None,
+                    "last_act_at": datetime.date(int(depot.group(3)),
+                                                 FR_MONTHS[depot.group(2).lower()],
+                                                 int(depot.group(1))).isoformat(),
+                    "promulgated_at": None, "doc_titles": []})
+    return out
+
+
 class FR(Reader):
-    """The Assemblée's ordre du jour only (src/agendas/fr.py), once a day; its
-    bills and questions stay with the Saturday collection (see the costs
-    above). The agenda zip is fetched unarchived and archived on a day it
-    yields an alert (archive_hit)."""
+    """The Assemblée's ordre du jour (src/agendas/fr.py), once a day, and the
+    dossiers deposited in the window: the AN's own dossier list, newest
+    deposit first, 50 a page (one page covers about ten days), classified and
+    stored as the weekly does (fr_rollcalls.classify_dossier, store_dossier),
+    on the dossier's short title only (the list carries no document titles).
+    Written questions stay with the Saturday collection: the Journal officiel
+    publishes them once a week. The agenda zip is fetched unarchived and
+    archived on a day it yields an alert (archive_hit)."""
 
     ONCE_A_DAY = True
     ARCHIVE_ON_HIT = True
+
+    @staticmethod
+    def collect(conn, client, since, today, log=print):
+        import fr_rollcalls as frr
+        from src import filter as filt
+        _throttle(client, "www.assemblee-nationale.fr", FR_CRAWL_DELAY_S)
+        lists = getattr(client, "client", client)     # archived as usual: only the zip waits
+
+        leg = frr.LEGISLATURE
+        tax = filt.load_taxonomy(frr.taxonomy_path(), country=frr.TAXONOMY_COUNTRY)
+        wl = frr.empty_watchlist()
+        n = ours = 0
+        for page in range(1, FR_MAX_PAGES + 1):
+            got = fr_dossiers(lists.get_text(FR_LIST.format(leg, page, FR_PAGE), frr.FEED,
+                                              "sweep-dossiers-{0}-p{1}".format(today, page)), leg)
+            if not got:
+                if page == 1:
+                    raise ValueError("the AN's dossier list carries no dossier")
+                break
+            for d in got:
+                if d["last_act_at"] <= since or not d["last_act"]:
+                    continue
+                res = frr.classify_dossier(tax, wl, d)
+                frr.store_dossier(conn, d, res, today)
+                n += 1
+                ours += frr.on_our_ground(res.issue_areas)
+            if min(d["last_act_at"] for d in got) <= since:
+                break
+        conn.commit()
+        log("fr: {0} dossier(s) deposited since {1}, {2} on our ground".format(n, since, ours))
+        return n
 
 
 # --- Spain ---------------------------------------------------------------------------
@@ -432,10 +519,7 @@ class AR(Reader):
         from src.http import FetchError
         start = (datetime.date.fromisoformat(since) + datetime.timedelta(days=1)).isoformat()
         end = (datetime.date.fromisoformat(today) + datetime.timedelta(days=1)).isoformat()
-        try:
-            client.set_host_throttle("datos.hcdn.gob.ar", arr.DATOS_THROTTLE_S)
-        except AttributeError:
-            pass
+        _throttle(client, "datos.hcdn.gob.ar", arr.DATOS_THROTTLE_S)
         try:
             payload = client.get_json(arr._sql_url(arr.proyectos_sql(start, end)), arr.FEED,
                                       "sweep-proyectos-{0}".format(start), timeout=60)
@@ -460,18 +544,277 @@ class AR(Reader):
         return n
 
 
+def _squash(text):
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", text or ""))).strip()
+
+
+# --- Belgium -------------------------------------------------------------------------
+
+BE_ROW = re.compile(r"(?is)flwbn\.cfm\?lang=\w&legislat=(\d+)&dossierID=(\d+)\">\s*\d+\s*</A>"
+                    r"\s*</div>\s*</td>\s*<td>\s*<div class=\"linklist_1\">(.*?)</div>")
+BE_DOC = re.compile(r"(?is)docn=\d+K\d{4}(\d{3})&[^>]*>\s*\d{3}\s*</A>\s*Dat\w*\s*:\s*"
+                    r"(\d{2})/(\d{2})/(\d{4})\s*([^<]*)")
+
+
+def be_recent(markup):
+    """{(legislature, number): (title, deposited or None)} from the recent-
+    documents listing: deposited is the date of the dossier's document 001
+    when the listing carries it (the dossier was opened that week)."""
+    out = {}
+    for leg, num, cell in BE_ROW.findall(markup):
+        title = _squash(re.split(r"(?i)<br\s*/?>", cell, maxsplit=1)[0]) or None
+        first = None
+        for docnum, d, m, y, _label in BE_DOC.findall(cell):
+            if docnum == "001":
+                first = "{0}-{1}-{2}".format(y, m, d)
+        out[(int(leg), int(num))] = (title, first)
+    return out
+
+
+class BE(Reader):
+    """Dossiers opened in the window: the Chamber's recent-documents listing
+    (the week's documents by dossier), in French and in Dutch; a dossier
+    whose document 001 is dated in the window is new, stored with both
+    titles and that date as its deposit, and classified as the weekly does
+    (be_rollcalls._upsert_dossier). No dossier page is read, so doc_type,
+    status and authors stay empty until the weekly reads the page; the
+    edition then says "Dossier 56/1800". The date is document 001's, which
+    can follow the Chamber's own deposit date by a day or two."""
+
+    AGENDA = False
+
+    @staticmethod
+    def collect(conn, client, since, today, log=print):
+        import be_rollcalls as be
+        _throttle(client, "www.lachambre.be", be.CRAWL_DELAY_S)
+        fr = be_recent(be.decode(client.get_bytes(be.RECENT, be.FEED, "sweep-recent-fr")))
+        if not fr:
+            raise ValueError("the recent-documents listing carries no dossier")
+        new = {k: v for k, v in fr.items() if v[1] and v[1] > since}
+        nl = {}
+        if new:
+            nl = be_recent(be.decode(client.get_bytes(be.RECENT.replace("language=fr", "language=nl"),
+                                                      be.FEED, "sweep-recent-nl")))
+        ours = 0
+        for (leg, num), (title_fr, deposited) in sorted(new.items()):
+            key = be._upsert_dossier(conn, leg, num, today, title_fr=title_fr,
+                                     title_nl=(nl.get((leg, num)) or (None, None))[0],
+                                     deposited=deposited)
+            row = conn.execute("SELECT areas FROM be_dossiers WHERE dossier_key=?", (key,)).fetchone()
+            ours += bool(row and row[0] not in (None, "[]"))
+        conn.commit()
+        log("be: {0} dossier(s) opened since {1}, {2} on our ground".format(len(new), since, ours))
+        return len(new)
+
+
+# --- Portugal ------------------------------------------------------------------------
+
+PT_LATEST = "/Paginas/UltimasIniciativasEntradas.aspx"
+PT_ROW = re.compile(r"(?s)<p class=\"date\">\s*(\d\d)\.(\d\d)\s*</p>\s*<p class=\"time\">\s*(\d{4})"
+                    r"\s*</p>.*?DetalheIniciativa\.aspx\?BID=(\d+)[^>]*>\s*<p class=\"title\">"
+                    r"\s*(.*?)\s*</p>.*?<p class=\"desc\">\s*(.*?)\s*</p>")
+PT_NAME = re.compile(r"^(.+?)\s+(\d+)/([IVXL]+)/\d+\s*(?:\[(.*)\])?$")
+# The Assembleia's IniTipo letters, as its dumps print them beside IniDescTipo.
+PT_TYPES = {"Projeto de Lei": "J", "Proposta de Lei": "P", "Projeto de Resolução": "R",
+            "Proposta de Resolução": "S", "Projeto de Deliberação": "D",
+            "Apreciação Parlamentar": "A", "Inquérito Parlamentar": "I",
+            "Projeto de Revisão Constitucional": "C"}
+PT_GROUP = re.compile(r"^[A-Z][A-Z\-]*$")
+PT_NOT_GROUPS = ("PAR",)       # the President of the Assembleia, not a group
+
+
+def pt_latest(markup):
+    """Initiatives from the latest-entries page, as pt_rollcalls.parse_initiative
+    shapes them (no events, no votes: the page has neither)."""
+    out = []
+    for d, m, y, bid, name, desc in PT_ROW.findall(markup):
+        got = PT_NAME.match(_squash(name))
+        if not got:
+            continue
+        type_desc, number, leg, by = got.groups()
+        itype = PT_TYPES.get(type_desc)
+        if not itype:
+            continue
+        who = [w.strip() for w in re.split(r"[,/]", by or "") if w.strip()]
+        groups = who and all(PT_GROUP.match(w) and w not in PT_NOT_GROUPS for w in who)
+        out.append({"key": "{0}/{1}/{2}".format(leg, itype, int(number)), "ini_id": int(bid),
+                    "legislature": leg, "type": itype, "type_desc": type_desc,
+                    "number": int(number), "title": _squash(desc) or None, "epigraph": None,
+                    "authors_gp": sorted(who) if groups else [],
+                    "author_other": None if groups else (by or None), "authors": [],
+                    "entered": "{0}-{1}-{2}".format(y, m, d), "latest_phase": None,
+                    "latest_phase_at": None, "law_published": None, "vetoes": 0,
+                    "text_url": None, "divisions": []})
+    return out
+
+
+class PT(Reader):
+    """Initiatives entered in the window, from the Assembleia's latest-entries
+    page (the website's own list, four weeks deep), classified and stored as
+    the weekly does (pt_rollcalls.classify_initiative, store_initiative). The
+    page gives each one's number, type, author and title; its phases and
+    votes are the weekly's (the 97 MB Iniciativas dump)."""
+
+    AGENDA = False
+
+    @staticmethod
+    def collect(conn, client, since, today, log=print):
+        import pt_rollcalls as pt
+        from src import filter as filt
+        if hasattr(client, "enable_gzip"):
+            client.enable_gzip("www.parlamento.pt")
+        page = client.get_text(pt.SITE + PT_LATEST, pt.FEED, "sweep-latest-{0}".format(today))
+        listed = pt_latest(page)
+        if not listed:
+            raise ValueError("the latest-initiatives page lists nothing")
+        tax = filt.load_taxonomy(pt.taxonomy_path(), country=pt.TAXONOMY_COUNTRY)
+        wl = pt.empty_watchlist()
+        n = ours = 0
+        for ini in listed:
+            if ini["legislature"] != pt.CURRENT_LEGISLATURE or ini["entered"] <= since:
+                continue
+            res = pt.classify_initiative(tax, wl, ini)
+            pt.store_initiative(conn, ini, res, today)
+            n += 1
+            ours += pt.on_our_ground(res.issue_areas)
+        conn.commit()
+        log("pt: {0} initiative(s) entered since {1}, {2} on our ground".format(n, since, ours))
+        return n
+
+
+# --- Croatia -------------------------------------------------------------------------
+
+HR_NEW_ACTS = "/hr/sjednice/novi-akti"
+HR_ROW = re.compile(r"(?s)<div class=\"date export-row-data\">\s*(\d\d)\.(\d\d)\.(\d{4})\.\s*</div>"
+                    r"\s*<div class=\"title export-row-data\">(.*?)</div>.*?<a href=\"([^\"]+)\">")
+HR_TABLE = """CREATE TABLE IF NOT EXISTS hr_sweep_acts (
+    act_key       TEXT PRIMARY KEY,   -- the bill '11/352', or 'act:<page slug>'
+    received      TEXT,               -- the date the list prints
+    title         TEXT,
+    url           TEXT,
+    bill_key      TEXT,
+    areas         TEXT,
+    matched_terms TEXT,
+    tier          INTEGER,
+    first_seen    TEXT
+)"""
+
+
+def hr_new_acts(markup):
+    out = []
+    for d, m, y, title, href in HR_ROW.findall(markup):
+        href = html.unescape(href).replace("/index.php/", "/", 1)
+        out.append({"received": "{0}-{1}-{2}".format(y, m, d), "title": _squash(title),
+                    "url": ("https://www.sabor.hr" + href) if href.startswith("/") else href,
+                    "slug": href.rstrip("/").rsplit("/", 1)[-1]})
+    return out
+
+
+class HR(Reader):
+    """Acts received by the Sabor and not yet on a plenary agenda (its "Novi
+    akti" list, dated). The Croatian edition's new items are agenda
+    appearances (hr_items, keyed on the agenda's tid and new against the
+    store's history), which a throwaway store cannot tell; so these are the
+    sweep's own items (extra_items), classified with the collector's own
+    hr_rollcalls.classify and keyed on the bill ('11/352') as the edition
+    keys it, so the week's edition and the sweep never alert one bill twice.
+    An act put on an agenda the day it arrives leaves the list unseen; the
+    weekly carries it."""
+
+    AGENDA = False
+
+    @staticmethod
+    def collect(conn, client, since, today, log=print):
+        import hr_rollcalls as hr
+        _throttle(client, "www.sabor.hr", hr.THROTTLE_S)
+        page = client.get_text(hr.SITE + HR_NEW_ACTS, hr.FEED, "sweep-novi-akti-{0}".format(today))
+        acts = hr_new_acts(page)
+        if not acts and "export-row-data" not in page:
+            raise ValueError("the new-acts page has changed: no rows found")
+        conn.execute(HR_TABLE)
+        tax = hr.load_taxonomy()
+        n = ours = 0
+        for a in acts:
+            if a["received"] <= since:
+                continue
+            bill_key, _marker = hr.parse_bill(a["title"])
+            areas, matched, tier = hr.classify(tax, a["title"], None, bill_key)
+            conn.execute(
+                "INSERT OR REPLACE INTO hr_sweep_acts (act_key, received, title, url, bill_key, "
+                "areas, matched_terms, tier, first_seen) VALUES (?,?,?,?,?,?,?,?,?)",
+                (bill_key or "act:" + a["slug"], a["received"], a["title"], a["url"], bill_key,
+                 areas, matched, tier, today))
+            n += 1
+            ours += hr.on_our_ground(areas)
+        conn.commit()
+        log("hr: {0} act(s) received since {1}, {2} on our ground".format(n, since, ours))
+        return n
+
+    @staticmethod
+    def extra_items(conn, since, until, wl):
+        from src import country_edition as ce
+        out = []
+        for r in ce.rows(conn, "SELECT * FROM hr_sweep_acts WHERE " + ce.window_sql("received"),
+                         (since, until)):
+            watched = bool(r["bill_key"]) and r["bill_key"] in wl
+            if not ce.on_ground(r["areas"], watched):
+                continue
+            out.append(ce.item("hr", "new", r["act_key"], r["received"], r["title"],
+                               ce.areas_of(r["areas"]), r["tier"], watched, url=r["url"],
+                               terms=r["matched_terms"],
+                               takeaway="Received by the Sabor; not yet on a plenary agenda",
+                               watch_key=r["bill_key"] if watched else None))
+        return out
+
+
+# --- Slovakia ------------------------------------------------------------------------
+
+class SK(Reader):
+    """Prints (tlače) delivered and interpellations submitted in the window:
+    the term's two open-data lists (one call each; the API takes no date
+    filter), parsed, classified and stored as the weekly does, only the
+    window's rows kept. A print's documents (SK6) and its votes' positions
+    stay the weekly's."""
+
+    AGENDA = False
+
+    @staticmethod
+    def collect(conn, client, since, today, log=print):
+        import sk_rollcalls as skr
+        from src import filter as filt
+        term = skr.CURRENT_TERM
+        tax, wl = skr.load_taxonomy(), skr.empty_watchlist()
+        bills = skr.parse_bills(skr._od(client, "Bill/Bills?termNr={0}".format(term),
+                                        "sweep-bills-{0}-{1}".format(term, today)))
+        n = ours = 0
+        for b in bills:
+            if (b["delivered"] or "")[:10] <= since:
+                continue
+            res = skr.classify_bill(tax, wl, b)
+            skr.store_bill(conn, b, res, today)
+            n += 1
+            ours += skr.on_our_ground(res.issue_areas)
+        asked = skr.parse_interpellations(skr._od(
+            client, "Interpellation/Interpellations?termNr={0}".format(term),
+            "sweep-interpellations-{0}-{1}".format(term, today)))
+        q = 0
+        for i in asked:
+            if (i["submitted"] or "")[:10] <= since:
+                continue
+            res = filt.filter_item(tax, wl, i["subject"])
+            skr.store_interpellation(conn, i, res, today)
+            q += 1
+            ours += skr.on_our_ground(res.issue_areas)
+        conn.commit()
+        log("sk: {0} print(s) delivered and {1} interpellation(s) submitted since {2}, {3} on "
+            "our ground".format(n, q, since, ours))
+        return n + q
+
+
 # --- Latin America (read through the Latam alerts' path, src/country_day_sweep.py) --
 
 def _day_after(since):
     return (datetime.date.fromisoformat(since) + datetime.timedelta(days=1)).isoformat()
-
-
-def _throttle(client, host, seconds):
-    """The collector's per-host throttle on the sweep's client, where it has one
-    (a NoArchive wrapper passes the call through)."""
-    setter = getattr(client, "set_host_throttle", None)
-    if setter:
-        setter(host, seconds)
 
 
 # --- Chile ---------------------------------------------------------------------------
@@ -875,7 +1218,7 @@ class UY(Reader):
 
 
 READERS = {"nl": NL, "pl": PL, "ch": CH, "br": BR, "it": IT, "at": AT, "fr": FR, "es": ES,
-           "ar": AR, "cl": CL, "pe": PE, "ec": EC, "bo": BO, "do": DO, "pa": PA, "hn": HN,
+           "be": BE, "pt": PT, "hr": HR, "sk": SK, "ar": AR, "cl": CL, "pe": PE, "ec": EC, "bo": BO, "do": DO, "pa": PA, "hn": HN,
            "uy": UY}
 
 

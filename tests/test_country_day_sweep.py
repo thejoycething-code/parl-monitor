@@ -329,6 +329,35 @@ class NewReaderTests(unittest.TestCase):
         self.assertFalse(any("votingDetail" in c[0] for c in client.calls))
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM ec_votes").fetchone()[0], 0)
 
+    def test_hr_new_acts_are_the_sweeps_own_items(self):
+        client = FakeClient([("novi-akti", _fix("day-sweep", "hr-novi-akti.html.gz"))])
+        conn = scratch()
+        n = sources.HR.collect(conn, client, "2026-10-04", "2026-10-11", log=lambda *a: None)
+        self.assertGreater(n, 0)
+        conn.execute("UPDATE hr_sweep_acts SET areas='[1]', tier=1")
+        got = sources.HR.extra_items(conn, "2026-10-04", "2026-10-11", {})
+        self.assertEqual(len(got), n)
+        self.assertTrue(all(i["kind"] == "new" for i in got))
+        self.assertTrue(any("/" in i["key"] for i in got))     # keyed on the bill, as the edition
+
+    def test_be_dossiers_opened_in_the_window(self):
+        client = FakeClient([("language=nl", _fix("day-sweep", "be-recent-nl.html.gz")),
+                             ("LastDocument", _fix("day-sweep", "be-recent-fr.html.gz"))])
+        conn = scratch()
+        n = sources.BE.collect(conn, client, "2026-10-04", "2026-10-11", log=lambda *a: None)
+        self.assertEqual(len(client.calls), 2)
+        self.assertGreater(n, 0)
+        both = conn.execute("SELECT COUNT(*) FROM be_dossiers WHERE title_nl IS NOT NULL "
+                            "AND title_fr IS NOT NULL").fetchone()[0]
+        self.assertEqual(both, n)
+
+    def test_pt_initiatives_entered_in_the_window(self):
+        client = FakeClient([("UltimasIniciativas", _fix("day-sweep", "pt-latest.html.gz"))])
+        conn = scratch()
+        n = sources.PT.collect(conn, client, "2026-10-04", "2026-10-11", log=lambda *a: None)
+        self.assertGreater(n, 0)
+        self.assertLess(n, 60)                                  # the page is four weeks deep
+
     def test_latam_countries_go_through_the_latam_path(self):
         self.assertEqual(set(sweep.LATAM), {"cl", "pe", "ec", "bo", "do", "pa", "hn", "uy"})
         self.assertTrue(set(sweep.LATAM) <= set(sources.SWEEP))
@@ -469,7 +498,17 @@ class ReaderTests(unittest.TestCase):
     def test_spain_waits_for_the_new_legislature_and_france_reads_its_agenda_only(self):
         self.assertEqual(sources.ES.ACTIVE_FROM, "2026-12-23")
         self.assertTrue(sources.FR.ONCE_A_DAY and sources.FR.ARCHIVE_ON_HIT)
-        self.assertEqual(sources.FR.collect(None, None, SINCE, TODAY), 0)
+        page = _fix("day-sweep", "fr-dossiers-p1.html.gz")
+        client = sources.NoArchive(FakeClient([("dossiers?page=1&", page)]))
+        conn = scratch()
+        n = sources.FR.collect(conn, client, "2026-10-06", "2026-10-11", log=lambda *a: None)
+        self.assertEqual(len(client.client.calls), 1)          # one page covers the window
+        self.assertTrue(client.client.calls[0][1])             # the list is archived as usual
+        self.assertEqual(client.fetched, [])                   # only the agenda zip waits
+        self.assertGreater(n, 0)
+        _c, wide = sweep.sweep_country("fr", type("R", (sources.FR,), {"AGENDA": False}))
+        got = wide.items(conn, "2026-10-06", "2026-10-11", ce.watchlist_of(_c))
+        self.assertIn(("new", "DLR5L17N55023"), [(i["kind"], i["key"]) for i in got])
         self.assertEqual(set(sources.SWEEP), set(sources.READERS))
 
 
