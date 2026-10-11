@@ -16,7 +16,7 @@ Every vote:
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
 | 8 Oct 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag, keinen Einspruch zu erheben; on: Familienlastenausgleichsgesetz, Kinderbetreuungsgeldgesetz, Änderung](https://www.parlament.gv.at/gegenstand/XXVIII/I/590) | marriage and family, tier 2 |
-| 15 Jul 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Antrag, keinen Einspruch zu erheben; on: Sterbeverfügungsgesetz-Novelle 2026 - StVfG-Nov 2026](https://www.parlament.gv.at/dokument/BR/BRSITZ/993/A_-_14_33_24_01005588.html#22) · **watched** | assisted dying, tier 1 |
+| 15 Jul 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Antrag, keinen Einspruch zu erheben; on: Sterbeverfügungsgesetz-Novelle 2026 - StVfG-Nov 2026](https://www.parlament.gv.at/dokument/BR/BRSITZ/993/A_-_14_33_24_01005588.html#22) · **watched** · their vote meant: to raise no objection to XXVIII/I/525 (Sterbeverfügungsgesetz-Novelle 2026 (Regierungsvorlage)), letting the law proceed (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
 | 25 Jun 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag, keinen Einspruch zu erheben; on: Unterstützungsfondsgesetz - Alleinerziehende - UFG-AE](https://www.parlament.gv.at/dokument/BR/BRSITZ/992/A_-_13_53_16_00983717.html#58) | marriage and family, tier 2 |
 | 3 Jun 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag, keinen Einspruch zu erheben; on: Obsorge für unbegleitete Minderjährige-Gesetz - ObUM-G](https://www.parlament.gv.at/dokument/BR/BRSITZ/991/A_-_13_56_11_00969374.html#52.3) | marriage and family, tier 2 |
 | 3 Jun 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Unselbständiger Entschließungsantrag der Bundesräte Günter Pröller, Kolleginnen und Kollegen betreffend Verpflichtende Altersfestsetzung be…](https://www.parlament.gv.at/dokument/BR/BRSITZ/991/A_-_12_28_30_00969110.html#38.1) | marriage and family, tier 2 |
@@ -39,6 +39,12 @@ Every vote:
 |---|---|---|---|---|
 | 18 Dec 2025 | [Kopftuchverbot für Lehrerinnen und Schulpersonal](https://www.parlament.gv.at/gegenstand/BR/UEA-BR/792) | BR/UEA-BR/792 | named on the item (Unselbständiger Entschließungsantrag - BR) | religious freedom |
 | 17 Jul 2025 | [Kopftuchverbot an Österreichs Schulen](https://www.parlament.gv.at/gegenstand/BR/UEA-BR/761) | BR/UEA-BR/761 | named on the item (Unselbständiger Entschließungsantrag - BR) | religious freedom |
+
+## Committees and groups (12)
+
+- **Committees:** **Ausschuss für Familie und Jugend des Bundesrates (Ersatzmitglied, since 26 June 2025)** (on our ground: the family committee); **Gesundheitsausschuss des Bundesrates (Ersatzmitglied, since 26 June 2025)** (on our ground: the health committee); **Gleichbehandlungsausschuss des Bundesrates (Mitglied, since 26 June 2025)** (on our ground: the equal treatment committee); Ausschuss für Arbeit, Soziales und Konsumentenschutz des Bundesrates (Mitglied, since 26 June 2025); Ausschuss für BürgerInnenrechte und Petitionen des Bundesrates (Mitglied, since 26 June 2025); Ausschuss für Tourismus, Kunst und Kultur des Bundesrates (Mitglied, since 26 June 2025); Ausschuss für Verkehr des Bundesrates (Ersatzmitglied, since 26 June 2025); Finanzausschuss des Bundesrates (Ersatzmitglied, since 26 June 2025); Ständiger gemeinsamer Ausschuss im Sinne des § 9 des Finanz-Verfassungsgesetzes 1948 vom Bundesrat entsendet (Ersatzmitglied, since 26 June 2025); Unterrichtsausschuss des Bundesrates (Mitglied, since 26 June 2025); Unterrichtsausschuss des Bundesrates (Vorsitzende, since 26 June 2025); Wirtschaftsausschuss des Bundesrates (Mitglied, since 26 June 2025).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
 
 ## Notes
 

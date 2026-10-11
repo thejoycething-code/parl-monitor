@@ -1,0 +1,68 @@
+{
+ "at-anti-gesichtsverhullungsgesetz-und-strafgesetzbu-xxviii-a-1054": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "f604e643510c97e78e99150655bc7a2790715929040e85e15bdb5404785fa90c",
+  "generated": "2026-10-11",
+  "key": "XXVIII/A/1054",
+  "ready": false,
+  "sha": "7bb79199e032045cb6ccf211e1104fe785d19d1f2af4a359b5b1cd557bc43955",
+  "title": "Anti-Gesichtsverhüllungsgesetz- und Strafgesetzbuch-Novelle 2026"
+ },
+ "at-es-gibt-nur-zwei-geschlechter-novelle-xxviii-a-1021": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "5ef7681fa2f53d1cc5eda04903d5cd746ec7cff694acb7e691e585b9a185a87c",
+  "generated": "2026-10-11",
+  "key": "XXVIII/A/1021",
+  "ready": false,
+  "sha": "24f6dc99f41ec37e09ca5eae58dd44a80710846f2612b9324f37dd60da78923e",
+  "title": "Es-gibt-nur-zwei-Geschlechter-Novelle"
+ },
+ "at-schutz-christlicher-minderheiten-als-voraussetzu-xxviii-a-1022": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "1d84a861b5b4dedf3c49fce1466886f9a7d8238b8a147fc13c059a4a1afabaf7",
+  "generated": "2026-10-11",
+  "key": "XXVIII/A/1022",
+  "ready": false,
+  "sha": "15ddf1624ee028ce2b6f09c36a37372f4d007d50d6912adf51dd9c93524dda6b",
+  "title": "Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe"
+ },
+ "at-sterbeverfugungsgesetz-novelle-2026-stvfg-nov-20-xxviii-i-525": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "f87c9e5c3058a51bdb9958d883cbe474630ecf4d62ff7159f613ae775bae265b",
+  "generated": "2026-10-11",
+  "key": "XXVIII/I/525",
+  "ready": false,
+  "sha": "388dc34ce74ccd17093bd4d414784b96dfa288698042d90be38a5a59fa928be4",
+  "title": "Sterbeverfügungsgesetz-Novelle 2026 - StVfG-Nov 2026"
+ },
+ "at-verbesserung-der-sterbeverfugung-xxviii-a-1026": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "c24059502b92142e9e60d0940235006520e9bb0a016e52aa2f5bf6cf05825844",
+  "generated": "2026-10-11",
+  "key": "XXVIII/A/1026",
+  "ready": false,
+  "sha": "16e5051c7925614304d58f9686e8bd5bd9cc6e9dd49596ed7ef409b026e68d5c",
+  "title": "Verbesserung der Sterbeverfügung"
+ },
+ "at-verscharfung-des-schutzes-vor-zwangsverschleieru-xxviii-a-1059": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "a06100cc5b42249e1f030c7bf47ee5820fe8b6421340cde2d2e01303e8250591",
+  "generated": "2026-10-11",
+  "key": "XXVIII/A/1059",
+  "ready": false,
+  "sha": "e1edcf91d727224db886496efffa1c250e35104e324a5a1c05f5603ae59232e6",
+  "title": "Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internationalem Vorbild"
+ }
+}

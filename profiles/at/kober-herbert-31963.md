@@ -16,7 +16,7 @@ Every vote:
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
 | 8 Oct 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag, keinen Einspruch zu erheben; on: Familienlastenausgleichsgesetz, Kinderbetreuungsgeldgesetz, Änderung](https://www.parlament.gv.at/gegenstand/XXVIII/I/590) | marriage and family, tier 2 |
-| 15 Jul 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Antrag, keinen Einspruch zu erheben; on: Sterbeverfügungsgesetz-Novelle 2026 - StVfG-Nov 2026](https://www.parlament.gv.at/dokument/BR/BRSITZ/993/A_-_14_33_24_01005588.html#22) · **watched** | assisted dying, tier 1 |
+| 15 Jul 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Antrag, keinen Einspruch zu erheben; on: Sterbeverfügungsgesetz-Novelle 2026 - StVfG-Nov 2026](https://www.parlament.gv.at/dokument/BR/BRSITZ/993/A_-_14_33_24_01005588.html#22) · **watched** · their vote meant: to raise no objection to XXVIII/I/525 (Sterbeverfügungsgesetz-Novelle 2026 (Regierungsvorlage)), letting the law proceed (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
 | 25 Jun 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag, keinen Einspruch zu erheben; on: Unterstützungsfondsgesetz - Alleinerziehende - UFG-AE](https://www.parlament.gv.at/dokument/BR/BRSITZ/992/A_-_13_53_16_00983717.html#58) | marriage and family, tier 2 |
 | 3 Jun 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag, keinen Einspruch zu erheben; on: Obsorge für unbegleitete Minderjährige-Gesetz - ObUM-G](https://www.parlament.gv.at/dokument/BR/BRSITZ/991/A_-_13_56_11_00969374.html#52.3) | marriage and family, tier 2 |
 | 3 Jun 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Unselbständiger Entschließungsantrag der Bundesräte Günter Pröller, Kolleginnen und Kollegen betreffend Verpflichtende Altersfestsetzung be…](https://www.parlament.gv.at/dokument/BR/BRSITZ/991/A_-_12_28_30_00969110.html#38.1) | marriage and family, tier 2 |
@@ -32,6 +32,12 @@ Every vote:
 | 17 Jul 2025 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Antrag; on: Kopftuchverbot an Österreichs Schulen](https://www.parlament.gv.at/dokument/BR/BRSITZ/980/fnameorig_1752660.html#28) | religious freedom, tier 1 |
 | 8 May 2025 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Unselbständiger Entschließungsantrag; on: Menschenrechte der LGBTIQ+ Community auf europäischer und internationaler Ebene](https://www.parlament.gv.at/dokument/BR/BRSITZ/977/fnameorig_1726283.html#80) | sex-based rights, tier 2 |
 | 13 Mar 2025 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag, keinen Einspruch zu erheben; on: Familienlastenausgleichsgesetz, Kinderbetreuungsgeldgesetz, Änderung](https://www.parlament.gv.at/dokument/BR/BRSITZ/975/fnameorig_1708974.html#55) | marriage and family, tier 2 |
+
+## Committees and groups (15)
+
+- **Committees:** **Gleichbehandlungsausschuss des Bundesrates (Mitglied, since 26 June 2025)** (on our ground: the equal treatment committee); **Justizausschuss des Bundesrates (Ersatzmitglied, since 26 June 2025)** (on our ground: the justice committee); Ausschuss für Arbeit, Soziales und Konsumentenschutz des Bundesrates (Ersatzmitglied, since 26 June 2025); Ausschuss für Innovation, Technologie und Zukunft des Bundesrates (Ersatzmitglied, since 26 June 2025); Ausschuss für Land-, Forst- und Wasserwirtschaft des Bundesrates (Ersatzmitglied, since 29 September 2026); Ausschuss für Sportangelegenheiten des Bundesrates (Mitglied, since 26 June 2025); Ausschuss für Verfassung und Föderalismus des Bundesrates (Ersatzmitglied, since 26 June 2025); Ausschuss für Verkehr des Bundesrates (Ersatzmitglied, since 26 June 2025); Geschäftsordnungsausschuss des Bundesrates (Ersatzmitglied, since 26 June 2025); Landesverteidigungsausschuss des Bundesrates (Mitglied, since 26 June 2025); Ständiger gemeinsamer Ausschuss im Sinne des § 9 des Finanz-Verfassungsgesetzes 1948 vom Bundesrat entsendet (Ersatzmitglied, since 26 June 2025); Umweltausschuss des Bundesrates (Mitglied, since 26 June 2025); Unterrichtsausschuss des Bundesrates (Mitglied, since 26 June 2025); Unvereinbarkeitsausschuss des Bundesrates (Mitglied, since 26 June 2025); Wirtschaftsausschuss des Bundesrates (Ersatzmitglied, since 26 June 2025).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
 
 ## Notes
 
