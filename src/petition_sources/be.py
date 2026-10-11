@@ -12,7 +12,9 @@ dates of the open petitions are read in aliased batches,
 { i1428: initiative(id:1428) { signatureStartDate signatureEndDate } ... }.
 Only open petitions, and those closed under a month ago, are stored.
 
-THRESHOLD (the Chamber's petition rules): 25,000 signatures, with at least
+THRESHOLD (Law of 2 May 2019 on petitions to the Chamber, art. 4, al. 1,
+1°; checked 11 October 2026; the Chamber's Rules only set how the hearing
+runs): 25,000 signatures from residents aged 16 or over, with at least
 14,500 from Flanders, 8,000 from Wallonia and 2,500 from Brussels, give the
 petitioner a hearing in committee. The regional split is not published, so
 the count shown is the total.

@@ -161,6 +161,7 @@ Left blank at build time (rulebook cell 35).
 - Tier: B (open parliamentary data, the DO store). Drafted by tools/country_briefs.py (rules and the record; no AI model).
 - Subject: WATCHED `06417-2024-2028-CD`, no link, areas 8 (religious freedom).
 - Watchlist note: Religious freedom of conscience and worship, with a national register of religious bodies. Deposited 5 October 2026; earlier versions lapsed (04711, 03483).
+- Session judge: A new religious freedom bill would also create a national register of religious bodies. Registration terms decide whether churches gain protection or face state control, so the text needs scrutiny now.
 - Key dates: introduced 2026-10-05; last recorded event 2026-10-05; next none in the store (no Urgent proposed: news-only dates never trigger it).
 - Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days skip weekends only; the country's public holidays are not checked.
 - SIGN-OFF: no bill direction on file for `06417-2024-2028-CD`. Add a `bill_directions` line (direction with/against, why) to config/do_stance.yaml, then confirm it: `python3 tools/country_5ca.py --cc do --confirm-direction 06417-2024-2028-CD --by NAME`.
@@ -173,3 +174,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-11 tools/country_briefs.py drafted every cell
+- 2026-10-11 tools/country_briefs.py refreshed by the builder

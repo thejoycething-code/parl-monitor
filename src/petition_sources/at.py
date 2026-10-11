@@ -17,8 +17,10 @@ PETITIONEN AND BÜRGERINITIATIVEN: Filter list 143 (the /beteiligen page),
 POST with {"AKTIV":["J"],"ITYP":["BI","PET"]}: the open ones (24 PET, 20 BI)
 with their online support count (Unterstützungen) and statements. Neither
 has a closing date: they stay open while the Petitionsausschuss handles
-them. A Bürgerinitiative needs 500 signatures to be filed at all, so every
-one listed has passed it; no further threshold applies.
+them. A Bürgerinitiative needs 500 signatures to be filed at all
+(Geschäftsordnungsgesetz 1975 § 100(1) Z 2, checked 11 October 2026), so
+every one listed has passed it; no further threshold applies. A Volksbegehren
+is dealt with by the Nationalrat at 100,000 signatures (B-VG Art. 41(2)).
 
 VOLKSBEGEHREN: the interior ministry's list of registered popular
 initiatives collecting support declarations (www.bmi.gv.at/411/, one table:
