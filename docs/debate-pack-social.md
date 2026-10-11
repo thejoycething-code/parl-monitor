@@ -156,6 +156,18 @@ sign-off is the one hand step that unlocks the rest.
   lists the other side's members whose words since their last vote lean our way,
   and ours who have drifted. Areas are matched as a JSON list, never as a
   substring (area 2 is not area 12).
+* **Between votes, new countries** (11 October 2026). `tools/country_since_vote.py
+  --cc nl|ch|at|fr|be [--area N] [--since D] [--write]`: per area, each member's last
+  recorded vote on it and what they have said on it since, with excerpts. Unlike the
+  UK command it never infers drift from scores: drift is NAMED only where the vote's
+  reading is CONFIRMED (`config/<cc>_stance.yaml`) and a person or the free session
+  judge has read the words since (`--queue-out` writes the template, keyed by area,
+  member and the latest speech's date, so a new speech makes a read stale; `--reads`
+  loads it; `read_by` must name the reader). Voted against us and read "with" or
+  "unclear": DRIFTING OUR WAY; voted with us and read "against": DRIFTING AWAY. Until
+  then every row is "awaiting sign-off", ranked by recency and volume. A group's vote
+  (X5: NL shows of hands, every Austrian vote) never names drift and is never queued.
+  `tools/member_profiles.py <cc> --since-vote` adds the same rows to each profile.
 
 ## sequence.md
 

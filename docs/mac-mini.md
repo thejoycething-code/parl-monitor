@@ -731,6 +731,14 @@ UK parity for the new country editions: Chris may cut or edit before an edition 
 - **The fix:** every country weekly's collector budget is `tools/collector_budget.sh <cap> "$SECONDS" [later]`: the smaller of the old cap and `JOB_TIMEOUT` less what the job has spent, less its own later budgeted steps, less 20 minutes for the publish and 5 for the unbudgeted steps. Under the hour that is about 35 minutes; a longer plist `JOB_TIMEOUT` gives back up to the cap. On GitHub the cap is unchanged. `tools/mini_run.sh` now exports `JOB_TIMEOUT`, so jobs see the real limit (Ireland's weekly had assumed three hours). The chamber step, Ireland's questions and debates and the US Congressional Record keep the same 20 minutes for the transfers on the Mini.
 - **If the store keeps growing** and the upload passes 20 minutes, raise `PUBLISH_S` in `tools/collector_budget.sh` (and the `TRANSFERS` of `jobs/ie-weekly.sh` and `jobs/us-weekly.sh`).
 
+## Words since the last vote for the new countries (11 October 2026, branch `ukp2-since-last-vote`)
+
+No job and no Mini step: `tools/country_since_vote.py --cc nl|ch|at|fr|be` is a hand
+command (docs/debate-pack-social.md, "Between votes, new countries"). It opens the store
+read-only, so it runs while a weekly holds it, and writes only `data/briefs/<cc>-since-vote*.md`
+(with `--write`) and a reads template (`--queue-out`). The optional profile section
+(`tools/member_profiles.py <cc> --since-vote`) is not switched on in any weekly.
+
 ## Speech clips for the new countries (11 October 2026, branch `ukp-speech-clips`)
 
 No job: `tools/country_clips.py` is a hand command (docs/debate-pack-social.md, "Speech
