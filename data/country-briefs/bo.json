@@ -1,0 +1,68 @@
+{
+ "bo-proyecto-de-ley-de-cuidados-paliativos-muerte-di-pl-691-2025-2026-cd": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "14aef0322c956843c89d1738af889ede8c6d7f5d50792e9f6fe7e73844ca3861",
+  "generated": "2026-10-11",
+  "key": "PL 691/2025-2026 CD",
+  "ready": false,
+  "sha": "743e2daf3932271ddee077e2ec9e2893fad589df48ec390edc899148c2fb0768",
+  "title": "PROYECTO DE \"LEY DE CUIDADOS PALIATIVOS, MUERTE DIGNA Y EUTANASIA\""
+ },
+ "bo-proyecto-de-ley-de-reconciliacion-nacional-igual-pl-603-2025-2026-cd": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "6aa2c7fe4590dcd4172713823e2bf610872268b0afc994407e8dcd4718f81e46",
+  "generated": "2026-10-11",
+  "key": "PL 603/2025-2026 CD",
+  "ready": false,
+  "sha": "4d9f83a3ee6ab53a81207509c90978f856c3b9d1de31a4a6ebea930f99c0cb9e",
+  "title": "PROYECTO DE \"LEY DE RECONCILIACION NACIONAL, IGUALDAD REAL Y PROTECCION CONTRA LA DISCRIMINACION Y EL ACOSO EN REDES SOCIALES\""
+ },
+ "bo-proyecto-de-ley-incorporacion-ley-de-voto-constr-pl-625-2025-2026-cd": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "56aec2faf816bf06e5648a2d5259df30238aa599f9e42b09366d5dbed71cb32c",
+  "generated": "2026-10-11",
+  "key": "PL 625/2025-2026 CD",
+  "ready": false,
+  "sha": "1fd832ac806a96086641a536f6141e2f5837346e3c380be1e0fe894c2c798106",
+  "title": "PROYECTO DE LEY \"INCORPORACION LEY DE \"VOTO CONSTRUCTIVO DE CENSURA AL FISCAL GENERAL O A LA FISCAL GENERAL DEL ESTADO PLURINACIONAL DE BOLIVIA\"\""
+ },
+ "bo-proyecto-de-ley-integral-de-prevencion-atencion-pl-797-2025-2026-cd": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "ef837fdfe3b7d1f283e552a3df6ae185d0e606a818b15b324f7febe8c7f4e94a",
+  "generated": "2026-10-11",
+  "key": "PL 797/2025-2026 CD",
+  "ready": false,
+  "sha": "b6a4c62dddd971f175a0f5aaeecbb4c848cebaa3abc17e5007d6e5e2f0126074",
+  "title": "PROYECTO DE \"LEY INTEGRAL DE PREVENCION, ATENCION Y PROTECCION SANITARIA DE LAS PERSONAS CON ENFEREMEDAD RENAL CRONICA, AGILIZACION DE DONACION Y TRASPLANTE DE ORGANOS, Y GARANTIA DE INMUNOSUPRESORES\""
+ },
+ "bo-proyecto-de-ley-modificacion-de-los-articulos-21-pl-788-2025-2026-cd": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "254543aafe19ab1f2bef9c69d16c5dff4f24c04814f24555b129ab265d5f40ac",
+  "generated": "2026-10-11",
+  "key": "PL 788/2025-2026 CD",
+  "ready": false,
+  "sha": "a3a8071d856f51b4ecdc259b0ecd0edf929cfbdc4c6a1ddfa82a4f20e1efde6d",
+  "title": "PROYECTO DE LEY \"MODIFICACION DE LOS ARTICULOS 210 (PROCEDIMIENTO) Y 440 (ACTOS DE LA AUDIENCIA inciso e.) DE LA LEY 603 CODIGO DE LAS FAMILIAS Y EL PROCESO FAMILIAR\""
+ },
+ "bo-proyecto-de-ley-para-el-fomento-regulacion-y-con-pl-790-2025-2026-cd": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "faf0bdeff30ac8a7312255c65010605f1bf9054e86c49b2c1cb7565d8935f057",
+  "generated": "2026-10-11",
+  "key": "PL 790/2025-2026 CD",
+  "ready": false,
+  "sha": "29da2f9de0320e0da14317c72d745b06eab0efd4926e6f0987da7530282a50ee",
+  "title": "PROYECTO DE LEY \"PARA EL FOMENTO, REGULACIÓN Y CONTROL DE LA DONACIÓN Y TRASPLANTE DE ÓRGANOS, TEJIDOS Y CÉLULAS EN BOLIVIA”"
+ }
+}
