@@ -16,6 +16,9 @@ live, answering the honest CitizenGO User-Agent:
   * sesion-plenaria/votaciones-ajax -- THE VOTE LIST, a DataTables
     server-side endpoint (GET, `start`/`length`, newest first): 6,710 votes
     from May 2012, each {documentofk, fecha, no_sesion, legislatura, leyenda}.
+    Read 500 rows a page, falling back to 100 (the page's own largest size)
+    when a 500-row page fails; a list that answers neither is a gap and the
+    run stops cleanly (11 October 2026).
     The leyenda is the vote's only label and names no subject:
     "COMISION DE HACIENDA DICTAMEN # 267 FAVORABLE", "PIEZA 2A FS".
   * the vote PDF, sites/default/files/documents/votaciones/<GUID>.pdf
@@ -92,6 +95,17 @@ TAXONOMY_COUNTRY = "sv"
 # archive queries are slow (1 to 45 s measured); two seconds between calls.
 THROTTLE_S = 2.0
 LIST_PAGE = 500
+# The largest page the Asamblea's own Votaciones page offers (its DataTables
+# length menu: 10, 25, 50, 100). On 11 October 2026 the Mini's request for
+# 500 rows failed four times while the site root answered; probed from the
+# laptop the same afternoon the endpoint, its GET parameters and the page's
+# script were unchanged and 10, 100 and 500 rows all answered (1 s, 1 s,
+# 6 s), so a failed 500-row page is asked again at this size before the
+# list is given up (pull_vote_list).
+LIST_PAGE_FALLBACK = 100
+# Statuses that mean the site is refusing us rather than failing: a block or
+# a challenge. Never worked around; the run records the gap and stops.
+REFUSED_STATUS = (401, 403, 429, 503)
 # A sitting day missing from the archive this long after it happened is a
 # gap; before that it is simply not filed yet and is retried.
 ARCHIVE_GRACE_DAYS = 21
@@ -534,17 +548,66 @@ def _division_areas(conn):
 
 # --- pulling -------------------------------------------------------------------------
 
+class VoteListUnavailable(Exception):
+    """The vote list could not be read at either page size. `refused` is
+    True for a block or a challenge (REFUSED_STATUS, or a page that is not
+    the list's JSON), False for a site that did not answer."""
+
+    def __init__(self, detail, refused):
+        super().__init__(detail)
+        self.refused = refused
+
+
+def _refused(exc):
+    if isinstance(exc, ValueError):
+        return True   # HTML (a challenge or an error page) where JSON was due
+    return getattr(getattr(exc, "cause", None), "code", None) in REFUSED_STATUS
+
+
+def _list_page(client, start, length):
+    """One page of the vote list, checked to be the DataTables JSON."""
+    slug = "votaciones-{0}".format(start) if length == LIST_PAGE else \
+        "votaciones-{0}-{1}".format(start, length)
+    payload = client.get_json(VOTE_LIST.format(start=start, length=length), FEED, slug)
+    if not isinstance(payload, dict) or not isinstance(payload.get("data"), list):
+        raise ValueError("not the vote list: {0}".format(str(payload)[:120]))
+    return payload
+
+
 def pull_vote_list(conn, client, today, legislature=None, log=print, full=False):
     """Read the vote list newest first; store the current legislature's rows.
     Stops at the first page holding a vote already stored (unless `full`).
-    Returns the legislature read."""
+    A page that fails at LIST_PAGE rows is asked again at LIST_PAGE_FALLBACK,
+    and the rest of the list is read at that size. If the first page fails
+    at both sizes, VoteListUnavailable; a later page is a gap, and the run
+    goes on with what was read. Returns the legislature read."""
     start = 0
+    length = LIST_PAGE
     seen_old = False
     total = None
     stored = 0
     while True:
-        payload = client.get_json(VOTE_LIST.format(start=start, length=LIST_PAGE), FEED,
-                                  "votaciones-{0}".format(start))
+        try:
+            payload = _list_page(client, start, length)
+        except (FetchError, ValueError) as exc:
+            if length == LIST_PAGE:
+                log("  vote list: {0} rows from {1} failed ({2}); asking for {3}, the "
+                    "page's own size".format(length, start, str(exc)[:160], LIST_PAGE_FALLBACK))
+                length = LIST_PAGE_FALLBACK
+                try:
+                    payload = _list_page(client, start, length)
+                except (FetchError, ValueError) as exc2:
+                    exc = exc2
+                    payload = None
+            else:
+                payload = None
+            if payload is None:
+                detail = "vote list from row {0}: {1}".format(start, str(exc)[:200])
+                if start == 0 or legislature is None:
+                    raise VoteListUnavailable(detail, _refused(exc))
+                _gap(conn, today, detail)
+                log("  [gap] " + detail)
+                break
         total = total_of(payload) if total is None else total
         rows = parse_vote_list(payload)
         if not rows:
@@ -560,8 +623,8 @@ def pull_vote_list(conn, client, today, legislature=None, log=print, full=False)
             stored += 1
         conn.commit()
         past = any(v["legislature"] != legislature for v in rows)
-        start += LIST_PAGE
-        if past or (seen_old and not full) or len(rows) < LIST_PAGE or (total and start >= total):
+        start += length
+        if past or (seen_old and not full) or len(rows) < length or (total and start >= total):
             break
     log("  vote list: {0} rows of the {1} legislature read ({2} on the site in all)"
         .format(stored, legislature, total))
@@ -777,9 +840,17 @@ def main(argv=None):
     try:
         full = args.full_list or not conn.execute("SELECT 1 FROM sv_divisions LIMIT 1").fetchone()
         leg = pull_vote_list(conn, client, today, args.legislature, full=full)
-    except (FetchError, ValueError) as exc:
-        print("sv-rollcalls: the vote list failed: {0}".format(exc))
-        return 1
+    except VoteListUnavailable as exc:
+        # Nothing new can be read without the list: record the gap and stop
+        # cleanly, so the run still publishes and next week tries again. A
+        # block or a challenge is never worked around.
+        what = "refused (a block or a challenge)" if exc.refused else "did not answer"
+        detail = "the site {0}: {1}; stopped, the next run retries".format(what, exc)
+        _gap(conn, today, detail)
+        conn.commit()
+        print("  [gap] " + detail)
+        summary(conn)
+        return 3
     if not args.no_members:
         try:
             pull_members(conn, client, today)

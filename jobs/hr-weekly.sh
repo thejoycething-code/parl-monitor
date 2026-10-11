@@ -35,7 +35,10 @@ if [ "${HR_RECLASSIFY:-}" = "true" ]; then
   python3 tools/hr_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/hr_rollcalls.py --budget-seconds 2700 || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/hr_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" "${HR_TRANSCRIPT_SECONDS:-600}")" || rc=$?
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   # The weekly edition (src/country_edition.py, tools/hr_monitor.py), to Chris
   # alone by DM, archived to editions/. Once a day: an edition already

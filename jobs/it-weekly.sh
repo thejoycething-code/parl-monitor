@@ -34,15 +34,27 @@ cd "$(dirname "$0")/.."
 # the coverage watch would never see the Mini's runs.
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Italy weekly}"
 if [ "${IT_RECLASSIFY:-}" = "true" ]; then
+  python3 tools/country_petitions.py it --reclassify
   python3 tools/it_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/it_rollcalls.py --budget-seconds 2700 || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/it_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" || rc=$?
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/country_agenda.py it || echo "  [gap] the week-ahead agenda step failed"
+fi
+# Petitions and consultations (tools/country_petitions.py, src/petitions.py):
+# this country's open petitions, initiatives and consultations read into the
+# store before the edition, which shows the new ones on our ground, the
+# thresholds crossed and the deadlines. Its failure is a [gap] line, never
+# the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_petitions.py it || echo "  [gap] the petitions step failed"
 fi
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM).
@@ -58,6 +70,13 @@ if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; }; then
   else
     python3 tools/it_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
   fi
+fi
+# Member intelligence (tools/member_intel.py, src/member_intel.py): the Camera's organ memberships, dati.camera.it SPARQL,
+# into mi_groups / mi_interests before the profiles read them. A failure is a
+# [gap] line; last week's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_intel.py it \
+    || echo "  [gap] member-intel: it not fully read; last week's rows kept"
 fi
 # Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/it/
 # rewritten from the store just collected and committed with it; never posted

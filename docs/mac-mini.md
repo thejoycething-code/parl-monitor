@@ -295,7 +295,7 @@ The own-edition countries (docs/country-decisions-2026-10-10.md, "Edition struct
 What was said and asked in the chamber, for the new country editions (parity layer 5; `src/chamber_store.py`, one collector per country, `tools/<cc>_chamber.py`). Built for the Netherlands, Switzerland, Austria, France, Belgium (speeches) and the Netherlands, Poland, France, Portugal, Brazil (questions).
 
 - **No new plists, jobs or workflows.** Each is a step of its country's existing weekly (`jobs/{nl,ch,at,fr,be,pl,pt,br}-weekly.sh`), between the collector and the edition, through `bash tools/chamber_step.sh <cc> "$SECONDS"`, so nothing needs installing: the Mini picks it up on its next `git pull`.
-- **Time-boxed to the hour.** The step gets what is left of 55 minutes of the job, at most ten (`JOB_TIMEOUT` is 3600 on the Mini; Poland's is 4500); under a minute left, it says so and skips, and the next run's three-week lookback reads what it missed.
+- **Time-boxed to the hour.** The step gets what is left of the job's `JOB_TIMEOUT` (3600 on the Mini; Poland's is 4500) after 25 minutes for the publish and the later steps, at most ten (`tools/collector_budget.sh`); a minute or less left, it says so and skips, and the next run's three-week lookback reads what it missed.
 - **Never fatal, never on GitHub.** A failure is a `[gap]` line (and a row in `gaps`); the store, the edition and the publish go on. On GitHub (`GITHUB_ACTIONS=true`, the backup) the step is skipped: the backups' timeouts are 30 to 60 minutes and the Mini catches up.
 - **First run reads from 1 September 2026**, so the tables are not empty when tools/coverage.py starts watching them (`<CC> chamber` step heartbeats, AWAITING_FIRST_RUN until then). Austria's first run takes two or three weeklies to drain (one request per speech).
 - **Reclassify:** each `<CC>_RECLASSIFY=true` run also runs `tools/<cc>_chamber.py --reclassify`.
@@ -310,6 +310,16 @@ Handover item 4. `tools/country_agenda.py <cc>` reads a country's agenda into th
 - **A failed read keeps the last good one**: the edition shows it with its date in the Coverage line, and the gap is in the gaps table as `<cc>-agenda`. The Sejm API did not answer the laptop at times on 10 October (40 s timeouts); with the client's retries the PL step can take a few minutes before it gives up.
 - **By hand:** `python3 tools/country_agenda.py pl --db /tmp/x.db` reads into a scratch store; never run it on the runner's store while a weekly is publishing.
 
+## Petitions and consultations for the country editions (11 October 2026, branch `ukp-petitions-consult`)
+
+`tools/country_petitions.py <cc>` reads a country's petitions, citizens' initiatives and government consultations into the shared `country_petitions` table (src/petitions.py; one source module per country in `src/petition_sources/`), classifies them with the country's taxonomies, snapshots signature counts, and the edition's "Petitions and consultations" section shows the new ones on our ground, thresholds crossed and deadlines.
+
+- **A step, not a job.** It runs inside `jobs/{fr,at,ch,it,pt,pl,be,nl,br,ar,co}-weekly.sh`, after the collector and before the edition (Colombia's rows go to the monthly Latam edition), so there is no plist, workflow or slot to add: nothing to install beyond the usual `git pull`. Its failure is a `[gap]` line (`<cc>-petitions-<source>` in the gaps table) and never stops the publish or the edition. Each `<CC>_RECLASSIFY=true` run also runs `--reclassify`.
+- **Time:** seconds for most (one to three requests). France reads 21 listing pages and up to 60 item pages a run (a few minutes on the first runs, while the Sénat's 89 and the AN's matching petitions are read). Brazil's e-Cidadania pages take 20 seconds to several minutes each (measured 11 October): each listing stops paging after 10 minutes, and item pages stop at 15 a run (`--detail-limit 15`) or once the country's step is 10 minutes old (`DETAIL_SECONDS`, every country), so the Brazilian step is bounded at about half an hour and the rest is read next week.
+- **The first run is the baseline**: everything already open is stored but not shown as new; only items opened in the edition's window are. From the second run, new items, thresholds crossed and 10,000-signature weeks appear.
+- **Campaign view:** `python3 tools/country_petitions.py it at --report` prints every open item on our ground, nearest a threshold first, offline (read-only).
+- **By hand:** `python3 tools/country_petitions.py fr --db /tmp/x.db` into a scratch store; never on the runner's store while a weekly is publishing.
+
 ## Member profiles in the country weeklies (10 October 2026, branch `parity-profiles`)
 
 Handover item 3: one Markdown profile per member with a record on our ground, for the 23 countries with a member list (`profiles/<cc>/`, an `index.md` per country), from `src/member_profiles.py` through `tools/member_profiles.py <cc>`.
@@ -319,6 +329,15 @@ Handover item 3: one Markdown profile per member with a record on our ground, fo
 - **Croatia** first reads plenary transcripts for party history (`tools/hr_party_history.py`, X6): edoc.sabor.hr, one request a second, newest first, ten minutes a run (`HR_TRANSCRIPT_SECONDS`); the 11th Sabor's ~950 transcripts drain over the first few weeks, then a run reads the week's new ones.
 - **Chile** first asks the BCN for senators' party history (`tools/cl_senate_parties.py`, one SPARQL request to datos.bcn.cl, which asks for a 10-second crawl delay).
 - Nothing to install on the Mini beyond the usual `git pull` of the runner clone.
+
+## Member intelligence in seven country weeklies (11 October 2026, branch `ukp-member-intel`)
+
+Committees, cross-party groups and registers of interests (`tools/member_intel.py <cc>`, `src/member_intel.py`) for BR, NL, CH, PL, FR, IT and AT, into the store's `mi_groups`, `mi_interests` and `mi_runs`; the profiles step that follows shows them (handover section 3b).
+
+- **No new plists, workflows or cron slots.** A step of `jobs/<cc>-weekly.sh` for those seven, just before the member profiles, only when the collector stored something (exit 0 or 3). A failure is a `[gap] member-intel` line; last week's rows stand and the store is still published.
+- **Cost per run:** PL one request; AT two; IT one SPARQL query; FR the 5 MB AMO10 zip; CH about four OData pages; NL about a dozen OData pages; BR one 7.7 MB bulk file, four pages of fronts, then the members of the 8 fronts on our ground and an eighth of the other 312 (about 50 requests at 3 s, under three minutes). `python3 tools/member_intel.py br --full` reads every front at once (about 15 minutes) and is never needed in the weekly.
+- **Coverage:** `mi_runs.last_seen` is watched (`tools/coverage.py`, cadence 7, grace 4); the log line `member-intel <cc>:` says what each source gave.
+- Nothing to install beyond the usual `git pull` of the runner clone.
 
 ## Installing the country jobs (10 October 2026)
 
@@ -616,3 +635,9 @@ UK parity for the new country editions: Chris may cut or edit before an edition 
 - **Not reviewed, still immediate:** the same-day vote briefs (`country_vote_briefs.py --send`, daily and in each weekly), the Latam instant alerts, the stance digest.
 - **Install on the Mini** (after merge): `cd ~/runner/parl-monitor && git pull --ff-only && bash ops/install_country_jobs.sh` (it now lists `edition-publish`). Check: `python3 tools/edition_review.py --status`; a rehearsal that sends nothing: `python3 tools/edition_review.py --publish --dry-run --now 2026-10-12T06:31+01:00`.
 - **If the Mini is down:** nothing is lost; the windows wait in `data/edition-reviews/` and the next run sends every edition then due. A weekly run by its GitHub backup opens its review the same way.
+
+## Collector budgets leave room for the publish (11 October 2026, branch `do-sv-fixes`)
+
+- **What broke:** the Dominican Republic's first backfill on the Mini (10 October) spent its fixed 45-minute collector budget, then the vote briefs, alerts, profiles, briefs and the publish ran past `JOB_TIMEOUT` (3600 s) and it was killed before it published. On the Mini the store upload alone takes 13 to 16 minutes (raw archive to store `published_utc` in the sidecars of the Mini's runs on 10 and 11 October: a 1.64 to 1.76 GB store), against about 40 seconds on GitHub.
+- **The fix:** every country weekly's collector budget is `tools/collector_budget.sh <cap> "$SECONDS" [later]`: the smaller of the old cap and `JOB_TIMEOUT` less what the job has spent, less its own later budgeted steps, less 20 minutes for the publish and 5 for the unbudgeted steps. Under the hour that is about 35 minutes; a longer plist `JOB_TIMEOUT` gives back up to the cap. On GitHub the cap is unchanged. `tools/mini_run.sh` now exports `JOB_TIMEOUT`, so jobs see the real limit (Ireland's weekly had assumed three hours). The chamber step, Ireland's questions and debates and the US Congressional Record keep the same 20 minutes for the transfers on the Mini.
+- **If the store keeps growing** and the upload passes 20 minutes, raise `PUBLISH_S` in `tools/collector_budget.sh` (and the `TRANSFERS` of `jobs/ie-weekly.sh` and `jobs/us-weekly.sh`).

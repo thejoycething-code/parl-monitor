@@ -431,3 +431,9 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 - `partner_site/cl-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: deputies on the day from the militancias, senators from the BCN where it covers the vote (X6), otherwise as listed.
 - Records only: no vote is labelled for or against our side until its reading in `config/cl_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
+Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`). The Cámara's committee service (`WSComision.asmx/retornarComisionesVigentes`) lists two committees with their 2022-26 members, stale since the legislature that began in March 2026; worth a recheck. The Senate's committees were not probed.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Not built.** congresovirtual.cl (the chambers' consultations) answers 403 to robots.txt and its home page; government consultations are spread over ministry sites with no central list.

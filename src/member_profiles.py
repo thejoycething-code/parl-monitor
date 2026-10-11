@@ -56,6 +56,17 @@ PARTY AT THE VOTE, three bases, always stated (X5, X6):
 For Croatia and Chile the sourced history overrides the listed party where
 it covers the vote's date, and says so on the line.
 
+MEMBER INTELLIGENCE (additive, 11 October 2026, src/member_intel.py): where
+the store holds mi_groups / mi_interests rows for the country (BR, NL, CH,
+PL, FR, IT, AT), each profile gains "Committees and groups" and "Declared
+interests", flagged on our ground by the group's NAME through
+config/member-intel-groups.yaml; a flagged membership counts as a record (a
+profile is written for it); the index gains "Groups on our ground". Rows are
+matched by the store key the source gave, else by the printed name through
+the Roster (one listed member or none). Brazil's Spec has `party_line`: the
+Câmara's orientação de bancada beside each position, the only published whip
+line. Countries without those rows render exactly as before.
+
 SPECS. One `Spec` per country below, each a few SQL statements over that
 country's own tables; adding a country is adding a Spec. Read-only on the
 store.
@@ -152,6 +163,8 @@ class Member:
     votes: list = dataclasses.field(default_factory=list)
     authored: list = dataclasses.field(default_factory=list)
     questions: list = dataclasses.field(default_factory=list)
+    groups: list = dataclasses.field(default_factory=list)       # src/member_intel.py rows
+    interests: list = dataclasses.field(default_factory=list)
     history: list = dataclasses.field(default_factory=list)      # (party, start, end, source)
     at_votes: list = dataclasses.field(default_factory=list)     # (party, first, last)
 
@@ -264,6 +277,7 @@ class Spec:
     notes: tuple = ()                    # extra lines for the profile's notes
     vote_note: Optional[Callable] = None # fn(vote) -> a short note for its table row
     position_words: Optional[dict] = None  # a source's position CODES, spelt out beside them
+    party_line: Optional[Callable] = None  # fn(conn) -> fn(division, party) -> (bloc, orientation)
 
 
 def sql_positions(sql):
@@ -471,6 +485,62 @@ def _uy_questions(conn, wl):
         url=lambda r: r["url_oficio"])
 
 
+def _br_party_line(conn):
+    """Brazil's orientação de bancada (br_orientations): fn(division, party)
+    -> (bloc, orientation) for the party itself or a federation naming it
+    ('Fdr PT-PCdoB-PV' for PT). The Câmara's truncated bloc names ('Bl
+    UniPpFdrPsdbCid...') name no party exactly and are never matched."""
+    table = {}
+    for div, bloc, orientation in _rows(conn, "SELECT division_key, bloc, orientation "
+                                              "FROM br_orientations"):
+        table.setdefault(div, []).append((bloc, orientation))
+
+    def lookup(div, party):
+        if not party:
+            return None
+        p = fold(party)
+        rows = table.get(div) or ()
+        for bloc, orientation in rows:
+            if fold(bloc) == p:
+                return bloc, orientation
+        for bloc, orientation in rows:
+            if fold(bloc).startswith("fdr ") and p in re.split(r"[-/ ]+", fold(bloc)[4:]):
+                return bloc, orientation
+        return None
+    return lookup
+
+
+def party_line_mark(v):
+    """'party line: Não' (with the federation's name when it was the federation's)."""
+    pl = v.get("party_line")
+    if not pl:
+        return None
+    bloc, orientation = pl
+    whose = "" if fold(bloc) == fold(v.get("party")) else " ({0})".format(md(bloc))
+    return "party line{0}: {1}".format(whose, md(orientation))
+
+
+def party_line_counts(votes):
+    """{'followed': n, 'differed': n, 'free vote': n, 'other': n} over the votes
+    that carry an orientation; a position is compared only when both it and the
+    orientation are one of Sim / Não / Abstenção / Obstrução."""
+    comparable = {"sim", "nao", "abstencao", "obstrucao"}
+    out = {}
+    for v in votes:
+        pl = v.get("party_line")
+        if not pl:
+            continue
+        o, p = fold(pl[1]), fold(v["position"])
+        if o == "liberado":
+            k = "free vote"
+        elif o in comparable and p in comparable:
+            k = "followed" if o == p else "differed"
+        else:
+            k = "other"
+        out[k] = out.get(k, 0) + 1
+    return out
+
+
 AS_LISTED_ROSTER = "as listed on the member roster, not party at the vote, X6"
 
 SPECS = {
@@ -598,7 +668,11 @@ SPECS = {
                       "LEFT JOIN br_members m USING (member_key) WHERE v.division_key = ?"),
         vote_parties="SELECT v.member_key, NULL, v.party, MIN(d.date), MAX(d.date) FROM br_votes "
                      "v JOIN br_divisions d USING (division_key) GROUP BY 1, 3",
-        party_note="The party the vote record names at each vote."),
+        party_line=_br_party_line,
+        party_note="The party the vote record names at each vote. Beside each Câmara "
+                   "position, the orientation the party (or its federation) gave for that "
+                   "vote, as the Câmara publishes it (orientação de bancada): the only whip "
+                   "line any of these parliaments publishes."),
     "ar": Spec(
         "ar", "SELECT member_key, name, bloc, chamber, province, current FROM ar_members",
         sql_positions("SELECT v.member_key, m.name, v.bloc, v.position FROM ar_votes v "
@@ -809,6 +883,11 @@ def build(conn, cc, today, config_dir=None):
             m = ros.resolve(mid, name, make_stub=False)
             if m and party:
                 m.at_votes.append((labels.get(str(party), party), ce.day(first), ce.day(last)))
+    line = spec.party_line(conn) if spec.party_line else None
+    if line:
+        for m in ros.by_key.values():
+            for v in m.votes:
+                v["party_line"] = line(v["division"], v["party"])
     for field_, fn in (("authored", spec.authored), ("questions", spec.questions)):
         for row in (fn(conn, wl) if fn else []):
             m = ros.resolve(row.get("member_id"), row.get("name"), make_stub=False)
@@ -821,7 +900,9 @@ def build(conn, cc, today, config_dir=None):
         for lst in (m.authored, m.questions):
             lst.sort(key=lambda v: (v["date"] or "", v["key"]), reverse=True)
         m.at_votes.sort(key=lambda p: (p[1] or "", p[0]))
+    intel = attach_intel(conn, cc, ros, config_dir)
     return {"cc": cc, "name": country_name(cc), "today": today, "spec": spec,
+            "intel": intel,
             "members": ros.by_key, "votes": len(items), "unresolved": unresolved,
             "unmatched": unmatched,
             "attribution": attribution(conn, cc)}
@@ -841,6 +922,47 @@ def party_of(spec, ctx, m, date, recorded, derived):
     return recorded or m.party, spec.listed_label
 
 
+def attach_intel(conn, cc, ros, config_dir=None):
+    """Committees, groups and interests (src/member_intel.py) onto the roster's
+    members: by the store key the source gave, else by the printed name
+    (exactly one listed member, or nothing). Each row carries `flag`, (areas,
+    why) when config/member-intel-groups.yaml reads its name as on our
+    ground. Returns a summary for the index, or None when the country has no
+    member-intel rows."""
+    from src import member_intel as mi
+    groups, interests = mi.rows_for(conn, cc)
+    if not groups and not interests:
+        return None
+    path = os.path.join(config_dir, mi.CONFIG_NAME) if config_dir else mi.CONFIG
+    flags = mi.load_flags(path)
+    unmatched, flagged = 0, {}
+    for field_, rows, label in (("groups", groups, "group_name"),
+                                ("interests", interests, "text")):
+        seen = set()
+        for r in rows:
+            m = ros.resolve(r.get("member_key"), r.get("name"), make_stub=False)
+            if m is None:
+                unmatched += 1
+                continue
+            k = (m.key, r.get("kind"), r[label], r.get("role"), r.get("category"))
+            if k in seen:
+                continue
+            seen.add(k)
+            r = dict(r, flag=mi.flag(flags, cc, r[label]))
+            getattr(m, field_).append(r)
+            if r["flag"]:
+                entry = flagged.setdefault((field_, r[label]), {
+                    "areas": r["flag"][0], "why": r["flag"][1], "kind": r.get("kind"),
+                    "members": set()})
+                entry["members"].add(m.key)
+    for m in ros.by_key.values():
+        m.groups.sort(key=lambda g: (not g["flag"], mi.KINDS.index(g["kind"])
+                                     if g["kind"] in mi.KINDS else 9, fold(g["group_name"])))
+        m.interests.sort(key=lambda i: (not i["flag"], fold(i.get("category")), fold(i["text"])))
+    return {"unmatched": unmatched, "flagged": flagged, "groups": len(groups),
+            "interests": len(interests), "sources": mi.sources_line(conn, cc)}
+
+
 def attribution(conn, cc):
     """A third-party source's attribution line, where the store records one
     (Hungary's karzat, hu_sources)."""
@@ -854,7 +976,10 @@ def attribution(conn, cc):
 # --- rendering ------------------------------------------------------------------------
 
 def has_record(m):
-    return bool(m.votes or m.authored or m.questions)
+    """A member gets a profile for a record on our ground: a vote, a bill, a
+    question, or a membership or declared interest the config flags."""
+    return bool(m.votes or m.authored or m.questions
+                or any(g.get("flag") for g in m.groups + m.interests))
 
 
 def filename(m):
@@ -912,6 +1037,9 @@ def vote_row(spec, v):
     note = spec.vote_note(v) if spec.vote_note else None
     if note:
         marks.append(note)
+    line = party_line_mark(v)
+    if line:
+        marks.append(line)
     position = md(spelt(spec, v["position"])) + (" (DERIVED)" if v["derived"] else "")
     party = "{0} ({1})".format(md(v["party"]), short_basis(v["basis"])) if v["party"] else \
         "not known ({0})".format(short_basis(v["basis"]))
@@ -1005,6 +1133,13 @@ def render_member(data, m, sample=False):
             out.append("DERIVED positions ({0}, from the group's vote, X5; not recorded per "
                        "member): {1}.".format(len(derived), position_counts(derived, spec)))
         out.append("By area (every vote): {0}.".format(by_area(m.votes, spec)))
+        lines = party_line_counts(m.votes)
+        if lines:
+            out.append("Party line (the orientation the Câmara publishes for the member's party "
+                       "or federation) on {0} vote(s): {1}.".format(
+                           sum(lines.values()), ", ".join(
+                               "{0} {1}".format(k, lines[k]) for k in
+                               ("followed", "differed", "free vote", "other") if k in lines)))
         out += ["", "{0}:".format("Every vote" if len(m.votes) <= MAX_VOTES_SHOWN else
                                   "The latest {0}".format(MAX_VOTES_SHOWN)), "",
                 "| Date | Position | Party at the vote | Vote | Areas |",
@@ -1025,12 +1160,80 @@ def render_member(data, m, sample=False):
             out += ["", "{0} earlier item(s) are in the store.".format(
                 len(lst) - MAX_LINKED_SHOWN)]
         out.append("")
+    out += render_intel(m)
     out += ["## Notes", "", "- Party: " + spec.party_note,
             "- How these profiles are built, and what they never say: [the index's notes]"
             "(index.md#notes)."]
     if data.get("attribution"):
         out.append("- Source attribution: {0}.".format(data["attribution"].rstrip(".")))
     return "\n".join(out).rstrip() + "\n"
+
+
+def _group_text(g):
+    bits = [md(g["role"])] if g.get("role") else []
+    if g.get("start"):
+        bits.append("since " + date_long(g["start"]) if len(g["start"]) == 10 else
+                    "since " + g["start"])
+    text = md(g["group_name"]) + (" ({0})".format(", ".join(bits)) if bits else "")
+    if g.get("flag"):
+        text = "**{0}** (on our ground: {1})".format(text, md(g["flag"][1]))
+    return text
+
+
+MAX_INTERESTS_SHOWN = 40
+
+
+def render_intel(m):
+    """The member's committees, groups and declared interests, flagged ones first."""
+    from src import member_intel as mi
+    out = []
+    if m.groups:
+        out += ["## Committees and groups ({0})".format(len(m.groups)), ""]
+        for kind in mi.KINDS:
+            gs = [g for g in m.groups if g["kind"] == kind]
+            if gs:
+                out.append("- **{0}:** {1}.".format(mi.KIND_WORDS[kind], "; ".join(
+                    _group_text(g) for g in gs)))
+        out += ["", "As the parliament records them; a group is flagged on our ground by its "
+                    "name only, never by how its members vote.", ""]
+    if m.interests:
+        out += ["## Declared interests ({0})".format(len(m.interests)), "",
+                "| Category | Interest | Function | Paid | Period |", "|---|---|---|---|---|"]
+        for i in m.interests[:MAX_INTERESTS_SHOWN]:
+            text = md(i["text"])
+            if i.get("flag"):
+                text = "**{0}** (on our ground: {1})".format(text, md(i["flag"][1]))
+            period = " to ".join(x for x in (i.get("start"), i.get("end") or
+                                             ("now" if i.get("start") else None)) if x)
+            out.append("| {0} | {1} | {2} | {3} | {4} |".format(
+                md(i.get("category")) or "", text, md(i.get("role")) or "",
+                md(i.get("paid")) or "", period))
+        if len(m.interests) > MAX_INTERESTS_SHOWN:
+            out += ["", "{0} more in the register.".format(len(m.interests) - MAX_INTERESTS_SHOWN)]
+        out += ["", "The register's own words; nothing here is a judgement of the interest.", ""]
+    return out
+
+
+def render_flagged(data, written):
+    """The index's list of groups and interests on our ground, with members."""
+    intel = data.get("intel") or {}
+    if not intel.get("flagged"):
+        return []
+    members = data["members"]
+    out = ["## Groups on our ground", "",
+           "Committees, cross-party groups and declared interests whose NAME the config reads "
+           "as on our ground (config/member-intel-groups.yaml), with the members the "
+           "parliament records in them. Membership is not a stance.", ""]
+    for (field_, name), e in sorted(intel["flagged"].items(),
+                                    key=lambda kv: (kv[0][0], -len(kv[1]["members"]),
+                                                    fold(kv[0][1]))):
+        names = sorted((members[k] for k in e["members"]), key=lambda m: fold(m.name))
+        listed = ", ".join("[{0}]({1})".format(md(m.name), written[m.key]) if m.key in written
+                           else md(m.name) for m in names)
+        what = "declared interest" if field_ == "interests" else e["kind"].replace("_", "-")
+        out.append("- **{0}** ({1}; {2}; {3} member(s)): {4}.".format(
+            md(name), what, md(e["why"]), len(names), listed))
+    return out + [""]
 
 
 def notes(data):
@@ -1047,6 +1250,14 @@ def notes(data):
            "No verdicts: which way a vote cut for our side is a signed judgement (5CA) that "
            "this country does not have yet."]
     out += list(spec.notes)
+    intel = data.get("intel")
+    if intel:
+        out.append("Committees, groups and declared interests: the parliament's own open data "
+                   "(src/member_intel.py; {0}). A membership is shown as recorded; a group is "
+                   "flagged on our ground by its name only (config/member-intel-groups.yaml)."
+                   "{1}".format(intel.get("sources") or "sources not recorded",
+                                " {0} row(s) named no listed member and are not shown.".format(
+                                    intel["unmatched"]) if intel.get("unmatched") else ""))
     if data.get("attribution"):
         out.append("Source attribution: {0}.".format(data["attribution"].rstrip(".")))
     out.append("Generated by {0} from the store each week; do not edit by hand.".format(GENERATOR))
@@ -1081,7 +1292,8 @@ def render_index(data, written, sample=False):
         out.append("| {0} | {1} | {2} | {3} | {4} | {5} | {6} |".format(
             name, md(m.party) or "", md(m.chamber) or "", md(m.region) or "",
             len(m.votes) or "", len(m.authored) or "", len(m.questions) or ""))
-    out += ["", "## Notes", ""] + ["- " + n for n in notes(data)]
+    out += [""] + render_flagged(data, written)
+    out += ["## Notes", ""] + ["- " + n for n in notes(data)]
     return "\n".join(out).rstrip() + "\n"
 
 

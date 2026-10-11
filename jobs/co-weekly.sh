@@ -32,10 +32,14 @@ cd "$(dirname "$0")/.."
 # the coverage watch would never see the Mini's runs.
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Colombia weekly}"
 if [ "${CO_RECLASSIFY:-}" = "true" ]; then
+  python3 tools/country_petitions.py co --reclassify
   python3 tools/co_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/co_rollcalls.py --budget-seconds 1800 || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 30 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/co_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 1800 "$SECONDS")" || rc=$?
 # X8/CO4 (10 October 2026): the Corte Constitucional's exhortations to
 # Congress (tools/co_courts.py, one request).
 # Gaps go to the store; a failure never stops the run.
@@ -56,6 +60,13 @@ fi
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/member_profiles.py co \
     || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
+fi
+# Petitions and consultations (tools/country_petitions.py, src/petitions.py):
+# SUCOP's draft regulations open for comment, read into the store for the
+# monthly Latam edition (src/latam.py PETITIONS), which shows the new ones on
+# our ground and their deadlines. Its failure is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_petitions.py co || echo "  [gap] the petitions step failed"
 fi
 if [ "${CO_PUBLISH:-true}" = "false" ]; then
   exit "$rc"

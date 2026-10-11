@@ -340,6 +340,13 @@ FEEDS = [
     # the table moves every week whatever the councils do.
     ("country_agenda", "last_seen", 7, 4, "Week-ahead agendas of the country editions "
      "(a step of each country's weekly)"),
+    # The new countries' petitions and consultations (11 October 2026,
+    # src/petitions.py): one table, written by a step of eleven weeklies (FR,
+    # AT, CH, IT, PT, PL, BE, NL, BR, AR, CO). Every item a run lists is
+    # re-stamped, and the French, Belgian, Brazilian and Austrian lists are
+    # never empty (petitions stay open for years), so it moves every week.
+    ("country_petitions", "last_seen", 7, 4, "Petitions and consultations of the country "
+     "editions (a step of each country's weekly)"),
     ("nl_members", "last_seen", 7, 4, "Tweede Kamer members (Netherlands weekly)"),
     ("nl_fracties", "last_seen", 7, 4, "Tweede Kamer fracties (Netherlands weekly)"),
     ("nl_divisions", "last_seen", 31, 31, "Tweede Kamer votes (Netherlands weekly)"),
@@ -624,6 +631,16 @@ FEEDS = [
 # weeks, so a month plus a month's grace, the Irish rule. The speeches and
 # questions themselves are rows on our ground only (ONCE_EVER below).
 from src import chamber_store as _chamber  # noqa: E402
+
+# Member intelligence (11 October 2026, tools/member_intel.py): committees,
+# cross-party groups and registers of interests for BR, NL, CH, PL, FR, IT and
+# AT, a step of each of those weeklies before the profiles. mi_runs is
+# stamped by every source read in full, whatever the parliament did, so it
+# moves every week; the newest stamp over all seven is what this watches. Each
+# source's own stamp is in mi_runs (cc, source, last_seen) and the weekly log's
+# "member-intel <cc>:" line says what it read.
+FEEDS += [("mi_runs", "last_seen", 7, 4,
+           "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT weeklies)")]
 
 FEEDS += [("{0}_record_reads".format(cc), "last_seen", 31, 31,
            "{0} chamber reports and question batches read ({0} weekly)".format(cc.upper()))
@@ -910,7 +927,14 @@ AWAITING_FIRST_RUN.update({
 # here, so a new source cannot arrive unwatched AND unexplained -- which
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
-EXEMPT = {}
+EXEMPT = {
+    # 11 October 2026: one row per petition per run (src/petitions.py), the
+    # history behind "passed a threshold this week". Its parent,
+    # country_petitions, is watched; a snapshot table that stopped moving
+    # would mean the parent stopped too.
+    "country_petition_snapshots": "per-run signature snapshots of country_petitions, "
+                                  "which is watched (FEEDS)",
+}
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they
@@ -1176,6 +1200,8 @@ def table_exists(conn, table):
 AWAITING_STEP_UNTIL = {
     "country_agenda": ("2026-10-24", "the week-ahead step (tools/country_agenda.py) joins "
                        "nine country weeklies on merge; it fills on the first of them"),
+    "country_petitions": ("2026-10-25", "the petitions step (tools/country_petitions.py) joins "
+                          "eleven country weeklies on merge; it fills on the first of them"),
 }
 
 
