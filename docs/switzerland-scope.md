@@ -483,3 +483,7 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/ch.json` (`src/country_vote_brief.py`, step in `jobs/ch-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Nationalrat's votes during a session (OData); the Ständerat's come with the weekly, as its spreadsheets do. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
+
+What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-ch.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-ch-readings.md. On the store of 11 October 2026: 82 watched or tier-1 votes, 32 with an English rule line, 50 whose rule line quotes the source (offered to the session judge), 0 the rules cannot read. Sample: [docs/vote-meaning-samples/ch.md](vote-meaning-samples/ch.md).

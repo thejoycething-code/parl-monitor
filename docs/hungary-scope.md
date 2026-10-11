@@ -624,3 +624,7 @@ hand with `--speakers` (matched to the member list) once known. Placements come 
 readings confirmed in `config/hu_stance.yaml`; none is confirmed yet, so every pack shows
 "jóváhagyásra vár" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
+
+## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
+
+What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-hu.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-hu-readings.md. On the store of 11 October 2026: 24 watched or tier-1 votes, 16 with an English rule line, 3 whose rule line quotes the source (offered to the session judge), 5 the rules cannot read. Sample: [docs/vote-meaning-samples/hu.md](vote-meaning-samples/hu.md).

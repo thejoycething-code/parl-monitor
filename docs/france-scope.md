@@ -508,3 +508,7 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/fr.json` (`src/country_vote_brief.py`, step in `jobs/fr-weekly.sh`). Briefed after each weekly collection. Not daily: the Assemblée publishes its scrutins only as one 27 MB nightly zip, and reading only its newest members by HTTP range is unsafe (on 10 October its CDN served two builds of the file, 26,987,736 and 26,960,828 bytes, to successive range requests). See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
+
+What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-fr.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-fr-readings.md. On the store of 11 October 2026: 1106 watched or tier-1 votes, 1080 with an English rule line, 26 whose rule line quotes the source (offered to the session judge), 0 the rules cannot read. Sample: [docs/vote-meaning-samples/fr.md](vote-meaning-samples/fr.md).
