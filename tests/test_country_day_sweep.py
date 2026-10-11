@@ -232,6 +232,52 @@ class RunTests(Base):
         self.assertIsNone(text)
 
 
+class LatamTests(Base):
+    """Latam countries go through the Latam alerts' reader, rule and ledger,
+    both ways (gaps-day-sweep, 11 October 2026)."""
+
+    def latam_item(self, key, kind="new", tier=1, watched=False, title=None):
+        from src import latam
+        return latam.item("co", kind, key, "2026-10-08",
+                          title or "Proyecto de ley sobre aborto " + key, [1], tier, watched,
+                          status="Radicado", url="https://example.org/" + key)
+
+    def run_latam(self, items, record=True):
+        self.latam_dir = os.path.join(self.tmp, "latam-alerts")
+        with mock.patch("src.latam.country_items", lambda *a, **k: list(items)):
+            return sweep.run(sqlite3.connect(":memory:"), ["co"], SINCE, TODAY, today=TODAY,
+                             out_dir=self.out, record=record, directory=self.ledgers,
+                             config_dir=self.cfg, generated="2026-10-09T22:00",
+                             log=lambda *a: None, editions_dir=self.editions,
+                             latam_dir=self.latam_dir)
+
+    def test_latam_rule_and_both_ledgers(self):
+        import latam_alerts
+        a, b = self.latam_item("100/26C"), self.latam_item("101/26C")
+        moved = self.latam_item("102/26C", kind="moved", watched=True)
+        self.assertIsNone(self.run_latam([a])[0])                 # first pass seeds silently
+        self.assertEqual(latam_alerts.load("co", self.latam_dir)["sent"], {})
+        led = latam_alerts.load("co", self.latam_dir)
+        led["sent"]["co|new|101/26C"] = "2026-10-08"               # the weekly sent it
+        latam_alerts.save(led, TODAY, self.latam_dir)
+        c = self.latam_item("103/26C", tier=2)                    # tier 2, not watched
+        d = self.latam_item("104/26C", tier=2, watched=True)
+        text, blocks, _p = self.run_latam([a, b, moved, c, d])
+        self.assertEqual([it["key"] for it, _r in blocks[0][1]], ["104/26C"])
+        self.assertIn("Colombia", text)
+        self.assertIn("New bill", text)
+        sent = latam_alerts.load("co", self.latam_dir)["sent"]
+        self.assertIn("co|new|104/26C", sent)                     # the weekly step skips it
+        self.assertIsNone(self.run_latam([a, b, d])[0])           # never twice
+
+    def test_latam_ledger_untouched_without_record(self):
+        import latam_alerts
+        sweep.save(dict(sweep.load("co", self.ledgers), seeded="x"), TODAY, self.ledgers)
+        text, _b, _p = self.run_latam([self.latam_item("9/26C", watched=True)], record=False)
+        self.assertIn("9/26C", text)
+        self.assertFalse(os.path.exists(latam_alerts.ledger_path("co", self.latam_dir)))
+
+
 class CollectTests(Base):
     def test_gated_once_a_day_and_failing_readers(self):
         class Bad(sources.Reader):

@@ -76,6 +76,13 @@ EDITION_DAYS = 21
 KEEP_DAYS = 400
 MAX_DM_ITEMS = 20
 KIND_LABEL = {"new": "New", "question": "Question", "agenda": "On the agenda"}
+# Latam countries read through the Latam alerts' path, de-duplicated against
+# its ledger (data/latam-alerts/<cc>.json) both ways: what tools/latam_alerts.py
+# sent is not alerted here, and what this run alerts is recorded there, so
+# the alert step after the weekly collection does not send it again.
+LATAM = ("co", "cl", "pe", "ec", "bo", "do", "sv", "pa", "hn", "uy")
+LATAM_NOT_SWEPT = ("moved", "updated")
+LATAM_LEDGER_DIR = None     # data/latam-alerts (src/latam.LEDGER_DIR) when None
 HEAD = re.compile(r"^\s*- \*\*[^*]+\*\* · (.+?) · ", re.M)
 
 
@@ -121,8 +128,33 @@ def sweep_country(cc, reader=None):
     return country, dataclasses.replace(country, kinds=None, items=items)
 
 
+def latam_candidates(conn, cc, since, until, config_dir=None):
+    """[(item, why)] for a Latam country: the Latam alerts' own reader and rule
+    (src/latam.country_items, tools/latam_alerts.qualifies: watched, or tier 1
+    with config/latam-noise.yaml's minimum evidence, or judged 2 or 3), so the
+    daily pass alerts exactly what the alert step after the weekly collection
+    would. Stage moves and register re-stamps stay with that step: the
+    scratch store holds no earlier status to move from."""
+    from src import latam, latam_noise
+    import latam_alerts
+    out = []
+    for it in latam.country_items(conn, cc, since, until, None, config_dir):
+        if it["kind"] in LATAM_NOT_SWEPT or not latam_alerts.qualifies(it, config_dir):
+            continue
+        reason = "watched" if it.get("watched") else (
+            "tier 1, judge {0}/3".format(it["judge"]) if it.get("judge") is not None
+            else latam_noise.alert_reason(it, config_dir) or "tier 1")
+        bits = ([it["status"]] if it.get("status") else []) + list(it.get("lines") or [])[:1]
+        it = dict(it, takeaway="; ".join(latam.clean(b) for b in bits if b) or None,
+                  latam_key=latam_alerts.alert_key(it))
+        out.append((it, reason))
+    return out
+
+
 def candidates(conn, cc, since, until, config_dir=None, reader=None):
     """[(item, why)] for the country's new items in the window that qualify."""
+    if cc in LATAM:
+        return latam_candidates(conn, cc, since, until, config_dir)
     country, wide = sweep_country(cc, reader)
     nz = ce.noise_for(country)
     got = ce.gather(conn, wide, since, until, config_dir)
@@ -132,6 +164,8 @@ def candidates(conn, cc, since, until, config_dir=None, reader=None):
 # --- never twice -------------------------------------------------------------------
 
 def sweep_id(it):
+    if it.get("latam_key"):
+        return it["latam_key"]
     if it["kind"] == "agenda":
         anchor = it.get("watch_key") or noise_mod.fold(it.get("title") or it["key"])[:80]
         return "{0}|agenda|{1}|{2}".format(it["cc"], anchor, it["date"])
@@ -195,12 +229,46 @@ def vote_keys(votes):
     return out
 
 
+def latam_load(cc, directory=None):
+    import latam_alerts
+    return latam_alerts.load(cc, directory or LATAM_LEDGER_DIR)
+
+
+def latam_record(ledger, picked, today, directory=None):
+    """Record what this run alerted in the Latam alerts' ledger, so the alert
+    step after the country's weekly collection does not send it again. One
+    file per country; the Mini's run queue keeps the two jobs apart."""
+    import latam_alerts
+    for it, _r in picked:
+        ledger["sent"][it["latam_key"]] = today
+        ledger.get("held", {}).pop(it["latam_key"], None)
+    latam_alerts.save(ledger, today, directory or LATAM_LEDGER_DIR)
+
+
 # --- rendering ---------------------------------------------------------------------
+
+def country_name(cc):
+    if cc in LATAM:
+        from src import latam
+        return latam.NAMES.get(cc, cc)
+    return cvb.country_name(cc)
+
+
+def flag(cc):
+    return ":flag-{0}:".format(cc) if cc in LATAM else cvb.flag(cc)
+
+
+def label(it):
+    if it["cc"] in LATAM:
+        from src import latam
+        return latam.KINDS.get(it["kind"], it["kind"])
+    return KIND_LABEL.get(it["kind"], it["kind"])
+
 
 def entry_lines(it, reason):
     when = ce.short_date(it["date"])
     head = "• *{0}* {1}, {2}{3}: _{4}_".format(
-        KIND_LABEL.get(it["kind"], it["kind"]), ce.clip(it["key"], 40),
+        label(it), ce.clip(it["key"], 40),
         "sitting " if it["kind"] == "agenda" else "", when,
         ce.clip(it["title"], 220) or "(no title published)")
     bits = []
@@ -217,7 +285,7 @@ def entry_lines(it, reason):
 
 def country_block(cc, picked):
     head = "{0} *{1}: {2} new on our ground*".format(
-        cvb.flag(cc), cvb.country_name(cc), len(picked))
+        flag(cc), country_name(cc), len(picked))
     lines = [head]
     for it, reason in picked:
         lines += entry_lines(it, reason)
@@ -232,11 +300,11 @@ def report_markdown(today, blocks, generated=None, sample=False):
            "(src/country_day_sweep.py).*".format(
                generated or datetime.datetime.now().isoformat(timespec="minutes")), ""]
     for cc, picked in blocks:
-        out.append("## {0}".format(cvb.country_name(cc)))
+        out.append("## {0}".format(country_name(cc)))
         out.append("")
         for it, reason in picked:
             out.append("- **{0}** · {1} · {2} · {3}{4}".format(
-                KIND_LABEL.get(it["kind"], it["kind"]), it["key"], ce.short_date(it["date"]),
+                label(it), it["key"], ce.short_date(it["date"]),
                 reason, " · tier 1" if it.get("tier") == 1 else ""))
             out.append("  *{0}*".format(ce.clip(it["title"], 400) or "(no title published)"))
             if it.get("takeaway"):
@@ -296,7 +364,7 @@ def collect(conn, client, since, today, countries=sources.SWEEP, log=print, dire
 
 def run(conn, countries, since, until, today=None, out_dir=BRIEFS, record=True, directory=None,
         config_dir=None, skip_keys=(), generated=None, log=print, sample=False,
-        editions_dir=None):
+        editions_dir=None, latam_dir=None):
     """Plan every new qualifying item of `countries` in (since, until] (agenda
     points ahead of `until`). Returns (DM text or None, [(cc, [(item, why)])],
     report path or None). Nothing is sent here: tools/country_vote_briefs.py
@@ -313,12 +381,17 @@ def run(conn, countries, since, until, today=None, out_dir=BRIEFS, record=True, 
             log("  [gap] {0}: the sweep's reader failed: {1}".format(cc, str(exc)[:160]))
             continue
         seen_in = edition_keys(cc, today, directory=editions_dir)
+        latam_ledger = latam_load(cc, latam_dir) if cc in LATAM else None
         picked, ids = [], set()
         for it, reason in got:
             sid = sweep_id(it)
             if sid in ledger["sent"] or sid in ids:
                 continue
             ids.add(sid)
+            if latam_ledger is not None and sid in latam_ledger["sent"]:
+                log("  {0}: {1} already sent by the Latam alerts".format(cc, it["key"]))
+                ledger["sent"][sid] = today
+                continue
             if ce.clip(it["key"], 60) in seen_in:
                 log("  {0}: {1} already in an edition".format(cc, it["key"]))
                 ledger["sent"][sid] = today
@@ -342,6 +415,8 @@ def run(conn, countries, since, until, today=None, out_dir=BRIEFS, record=True, 
         ledger["read"] = today
         if record:
             save(ledger, today, directory)
+            if latam_ledger is not None and picked:
+                latam_record(latam_ledger, picked, today, latam_dir)
         if picked:
             picked.sort(key=lambda p: (p[0]["kind"] != "new", not p[0].get("watched"),
                                        p[0]["kind"], p[0]["date"], p[0]["key"]))
