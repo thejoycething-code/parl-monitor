@@ -38,10 +38,14 @@ def london(text):
 
 
 class SettingsTests(unittest.TestCase):
-    def test_defaults_on_for_own_editions_and_latam_only(self):
+    def test_shipped_config_is_off_for_every_edition(self):
+        # Chris, 11 October 2026: review off (the UK retired its loop on 21 August).
         cfg = er.load_config()
         for cc in er.CCS:
-            self.assertTrue(er.enabled(cc, cfg), cc)
+            self.assertFalse(er.enabled(cc, cfg), cc)
+        on = {"default": {"review": True}, "countries": {cc: {} for cc in er.CCS}}
+        for cc in er.CCS:
+            self.assertTrue(er.enabled(cc, on), cc)
         for cc in ("uk", "de", "us", "ie", "au", "ca", "co"):
             self.assertFalse(er.enabled(cc, cfg), cc)
         self.assertEqual(set((cfg.get("countries") or {})), set(er.CCS))
@@ -257,7 +261,10 @@ class MainHoldsTheDmTests(tce.AustriaTests):
         self.conn.commit()
         self.conn.backup(disk)
         disk.close()
-        self.saved = (er.REVIEWS, er.STATE, ce.EDITIONS, ce.send_dm)
+        self.saved = (er.REVIEWS, er.STATE, ce.EDITIONS, ce.send_dm, er.CONFIG)
+        er.CONFIG = os.path.join(self.tmp, "edition-review.yaml")
+        with open(er.CONFIG, "w", encoding="utf-8") as h:
+            h.write("default:\n  review: true\n  publish_at: \"06:30\"\n  after_days: 1\ncountries:\n  at: {}\n")
         er.REVIEWS = os.path.join(self.tmp, "reviews")
         er.STATE = os.path.join(self.tmp, "state")
         ce.EDITIONS = self.eds
@@ -265,7 +272,7 @@ class MainHoldsTheDmTests(tce.AustriaTests):
         ce.send_dm = lambda text: self.sent.append(text) or {"message_ts": "1"}
 
     def tearDown(self):
-        er.REVIEWS, er.STATE, ce.EDITIONS, ce.send_dm = self.saved
+        er.REVIEWS, er.STATE, ce.EDITIONS, ce.send_dm, er.CONFIG = self.saved
         super().tearDown()
 
     def test_dm_is_held_for_review(self):

@@ -19,7 +19,10 @@
 # ("latam") read this file.
 
 default:
-  review: true
+  # OFF (Chris, 11 October 2026): the UK retired its review loop on 21 August
+  # 2026, so editions go out at once as before. Set `review: true` here or on a
+  # country's line to switch the window on.
+  review: false
   publish_at: "06:30"
   after_days: 1
 
