@@ -15,6 +15,17 @@ Permanente, the Mesa and events; the section fills when the XVI sits, with
 no edit here. Initiative numbers printed in a row ('122/000123') become
 keys with the legislature ('16/122/000123'), the keys of es_initiatives
 and config/watchlist-es.yaml.
+
+THE PLENARY'S ORDER OF THE DAY (11 October 2026, additive). The weekly
+page's plenary row links the order of the day as a PDF
+(/backoffice_doc/atp/orden_dia/pleno_197_15092026.pdf). It has a text
+layer (measured on sitting 197: 7 pages, every item with its 'Núm. expte'),
+so the PDF is read (pypdf, imported only here) and split into one point per
+numbered item, dated by the day heading it falls under ('MARTES, 15 DE
+SEPTIEMBRE'), with the section ('I. Toma en consideración de Proposiciones
+de Ley.') as its status and the expediente as its ref. Those points replace
+the summary row they came from; a PDF that cannot be read leaves the row.
+Nothing to read until the XVI sits (23 December).
 """
 
 from __future__ import annotations
@@ -48,6 +59,20 @@ EXP = re.compile(r"\b(\d{3}/\d{6})\b")
 LEG = re.compile(r"idLegislaturaElegida=(\d+)")
 SESSION = re.compile(r"idOrgano=(\d+)&(?:amp;)?idSesion=(\d+)")
 TIME = re.compile(r"(\d{1,2}):(\d{2})")
+ORDER_PDF = re.compile(r'href="(/backoffice_doc/atp/orden_dia/[^"]+\.pdf)"')
+MAX_PDFS = 6
+# The order of the day's PDF, as its text layer reads.
+OD_SESSION = re.compile(r"Sesi[oó]n\s+n[ºo°]\s*(\d+)", re.I)
+OD_YEAR = re.compile(r"\b\d{1,2}\s+de\s+\w+\s+de\s+(\d{4})\b", re.I)
+OD_DAY = re.compile(r"^(?:LUNES|MARTES|MI[EÉ]RCOLES|JUEVES|VIERNES|S[AÁ]BADO|DOMINGO),\s+"
+                    r"(\d{1,2})\s+DE\s+([A-ZÁÉÍÓÚ]+)\s*$")
+OD_SECTION = re.compile(r"^([IVXL]+)\s?\.\s+(.+)$")
+OD_ITEM = re.compile(r"^(\d{1,3})\.\s+(.+)$")
+OD_EXPTE = re.compile(r"N[úu]m\.\s*expte\.?\s*(\d{3}/\d{6})", re.I)
+OD_SKIP = re.compile(r"^(?:Procedimiento|Texto|Enmiendas|Retirada de firmas|\d{1,3}|"
+                     r"A las .*horas?|\"?BOCG\..*)$", re.I)
+# The text layer splits a word before an accented letter ('acompa ñados').
+OD_SPLIT = re.compile(r"([a-zñáéíóúü]{2}) ([ñáéíóúü][a-zñáéíóúü])")
 # The links' own words, which say nothing about the business.
 BOILER = re.compile(r"\s*\b(?:Ver directo|YouTube|Nota de prensa|Ver acta del \S+)\s*\.?", re.I)
 
@@ -105,9 +130,111 @@ def parse_week(page):
             item_id = ("{0}-org{1}-s{2}".format(date, s.group(1), s.group(2)) if s
                        else "{0}-{1}-{2}".format(date, time or "x", n))
             link = re.search(r'href="(https://www\.congreso\.es/actualidad/sesiones[^"]+)"', tr)
-            out.append(agenda.point(item_id, date, text, body, kind_of(text), time, place,
-                                    refs=refs, url=html.unescape(link.group(1)) if link else None))
+            pt = agenda.point(item_id, date, text, body, kind_of(text), time, place,
+                              refs=refs, url=html.unescape(link.group(1)) if link else None)
+            pdf = ORDER_PDF.search(tr)
+            if pdf and pt["kind"] == "plenary":
+                pt["pdf"] = BASE + pdf.group(1)
+            out.append(pt)
     return out
+
+
+def pdf_text(blob):
+    """The text layer of a PDF, page by page; None without pypdf."""
+    try:
+        import io
+        import pypdf
+    except ImportError:
+        return None
+    reader = pypdf.PdfReader(io.BytesIO(blob))
+    return "\n".join(p.extract_text() or "" for p in reader.pages)
+
+
+def parse_order(text, url, fallback_date=None):
+    """Points from the plenary order of the day's text."""
+    text = OD_SPLIT.sub(r"\1\2", text or "")
+    sess = OD_SESSION.search(text)
+    session = sess.group(1) if sess else "x"
+    year_m = OD_YEAR.search(text)
+    year = int(year_m.group(1)) if year_m else int((fallback_date or "2026")[:4])
+    date, section, cur, out = fallback_date, None, None, []
+
+    def close():
+        if not cur:
+            return
+        words = " ".join(cur["lines"])
+        exp = OD_EXPTE.findall(words)
+        title = " ".join(OD_EXPTE.sub("", words).replace("()", " ").split()).strip(" .") + "."
+        leg = legislature(cur["date"], "")
+        # A question is classified on what it asks, never on who asks it (a
+        # deputy named '... de la Iglesia' is not on religious freedom).
+        asks = title.split(":", 1)[1] if title.upper().startswith("PREGUNTA") and ":" in title \
+            else None
+        out.append(agenda.point("pleno-{0}-{1}".format(session, cur["n"]), cur["date"], title,
+                                "Pleno", "plenary", detail=None,
+                                refs=["{0}/{1}".format(leg, x) for x in exp], url=url,
+                                status=cur["section"], text=asks))
+
+    for raw in text.split("\n"):
+        line = " ".join(raw.split())
+        if not line:
+            continue
+        day = OD_DAY.match(line)
+        if day:
+            close()
+            cur = None
+            try:
+                date = datetime.date(year, MONTHS.index(day.group(2).lower()) + 1,
+                                     int(day.group(1))).isoformat()
+            except ValueError:
+                pass
+            continue
+        sec = OD_SECTION.match(line)
+        if sec and not OD_ITEM.match(line):
+            close()
+            cur = None
+            section = sec.group(2).strip()
+            continue
+        item = OD_ITEM.match(line)
+        if item and date:
+            close()
+            cur = {"n": item.group(1), "date": date, "section": section,
+                   "lines": [item.group(2)]}
+            continue
+        if cur is None or OD_SKIP.match(line):
+            continue
+        if line.startswith('"BOCG') or line.startswith("\u201cBOCG"):
+            continue
+        cur["lines"].append(line)
+    close()
+    return out
+
+
+def read_orders(client, points, log=print):
+    """Replace each plenary row that links its order of the day with the
+    PDF's items; (points, gaps)."""
+    urls = list(dict.fromkeys(p["pdf"] for p in points if p.get("pdf")))
+    gaps, replaced = [], set()
+    out = [p for p in points]
+    for url in urls[:MAX_PDFS]:
+        try:
+            blob = client.get_bytes(url, FEED, "orden-" + url.rsplit("/", 1)[-1])
+        except FetchError as exc:
+            gaps.append("order of the day {0} unreadable: {1}".format(url.rsplit("/", 1)[-1],
+                                                                     str(exc)[:60]))
+            continue
+        try:
+            text = pdf_text(blob)
+        except Exception as exc:                    # noqa: BLE001 - a damaged PDF
+            gaps.append("order of the day {0}: no text ({1})".format(url.rsplit("/", 1)[-1],
+                                                                    str(exc)[:60]))
+            continue
+        first = min((p["date"] for p in points if p.get("pdf") == url), default=None)
+        got = parse_order(text, url, first) if text else []
+        if got:
+            replaced.add(url)
+            out += got
+    return [p for p in out if p.get("pdf") not in replaced], gaps
 
 
 def weeks(today, days):
@@ -134,6 +261,9 @@ def fetch(client, today, days, log=print):
             gaps.append("week of {0} unreadable: {1}".format(monday, str(exc)[:80]))
             continue
         points += [p for p in parse_week(page) if today <= p["date"] <= end]
+    points, pdf_gaps = read_orders(client, points, log)
+    points = [p for p in points if p["date"] and today <= p["date"] <= end]
+    gaps += pdf_gaps
     plenary = sorted(p["date"] for p in points if p["kind"] == "plenary")
     note = None
     if today < XVI_CONVENES:

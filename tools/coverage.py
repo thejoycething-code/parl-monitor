@@ -335,7 +335,7 @@ FEEDS = [
     # is re-stamped with its vote, so it gets the same.
     # The new countries' week ahead (10 October 2026, src/agenda.py): one
     # table, written by a step of each country's weekly (NL, PL, CH, BR, IT,
-    # FR, AT, ES, AR). Every point a run reads is re-stamped, and the Dutch and
+    # FR, AT, ES, AR; BE, PT, SK from 11 October 2026). Every point a run reads is re-stamped, and the Dutch and
     # French agendas are never empty (procedure meetings, study groups), so
     # the table moves every week whatever the councils do.
     ("country_agenda", "last_seen", 7, 4, "Week-ahead agendas of the country editions "
@@ -1254,7 +1254,7 @@ def table_exists(conn, table):
 # OVERDUE like any other. table -> (until, why). Additive, 10 October 2026.
 AWAITING_STEP_UNTIL = {
     "country_agenda": ("2026-10-24", "the week-ahead step (tools/country_agenda.py) joins "
-                       "nine country weeklies on merge; it fills on the first of them"),
+                       "twelve country weeklies on merge; it fills on the first of them"),
     "country_petitions": ("2026-10-25", "the petitions step (tools/country_petitions.py) joins "
                           "eleven country weeklies on merge; it fills on the first of them"),
 }

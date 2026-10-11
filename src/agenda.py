@@ -16,7 +16,9 @@ WHAT A COUNTRY SUPPLIES (src/agendas/<cc>.py):
     CC = "nl"
     SOURCE = "the Tweede Kamer's open data (Activiteit, Agendapunt)"
     BILLS = ("nl_zaken", "zaak_nummer", "onderwerp")   # table, key, title;
-                                       # None when the store has no such table
+                                       # None when the store has no such table;
+                                       # an optional 4th names the tier column
+                                       # (None: the table keeps no tier)
     def fetch(client, today, days, log=print) -> Fetched
     def resolve(conn, refs) -> refs    # optional: printed numbers to store keys
 
@@ -180,12 +182,15 @@ def bill_rows(conn, bills, keys):
     """{key: (areas, tier, title)} for the keys present in the bill table."""
     if not bills or not keys:
         return {}
-    table, keycol, titlecol = bills
+    table, keycol, titlecol = bills[:3]
+    # A fourth element names the tier column; None when the table has none
+    # (be_dossiers: Belgium keeps no tier, 11 October 2026, additive).
+    tiercol = bills[3] if len(bills) > 3 else "tier"
     out = {}
     for k in keys:
         try:
-            r = conn.execute("SELECT areas, tier, {0} FROM {1} WHERE {2} = ?".format(
-                titlecol, table, keycol), (k,)).fetchone()
+            r = conn.execute("SELECT areas, {0}, {1} FROM {2} WHERE {3} = ?".format(
+                tiercol or "NULL", titlecol, table, keycol), (k,)).fetchone()
         except Exception:                       # noqa: BLE001 - table missing
             return out
         if r is not None:

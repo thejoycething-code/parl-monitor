@@ -30,7 +30,7 @@ sys.path.insert(0, ROOT)
 from src import agenda, db  # noqa: E402
 from src.http import HttpClient  # noqa: E402
 
-COUNTRIES = ("nl", "pl", "ch", "br", "it", "fr", "at", "es", "ar")
+COUNTRIES = ("nl", "pl", "ch", "br", "it", "fr", "at", "es", "ar", "be", "pt", "sk")
 
 
 def main(argv=None):

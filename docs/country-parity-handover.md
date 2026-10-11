@@ -169,8 +169,10 @@ publish seen".
 **What could come next (not started):** regions and Länder (IT3, AT6, PE4,
 Spain's autonomous communities, Mexico's states); Croatia and Slovakia
 debates; Polish transcripts when the Sejm endpoint answers; Brazilian
-speeches (cost); Belgian, Portuguese, Slovak, Hungarian and Mexican agendas;
-committee agendas; Croatian and Slovak speeches; daily sweep for BE, PT, HR, SK, HU,
+speeches (cost); Hungarian and Mexican agendas (Belgian, Portuguese and
+Slovak agendas, Polish committees and the Spanish plenary PDF were built
+on 11 October, branch `gaps-week-ahead`); Swiss committee agendas
+(confidential); Croatian and Slovak speeches; daily sweep for BE, PT, HR, SK, HU,
 AR, MX and Latam; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1 2027); a
 native read of each language's term list.
 
@@ -198,7 +200,7 @@ native read of each language's term list.
 | Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (questions only), HR, SK |
 | Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees. **Petitions and consultations built** 11 Oct (`src/petitions.py`, `tools/country_petitions.py`, branch `ukp-petitions-consult`), a step of 11 weeklies and an edition section: FR (AN and Sénat e-petitions), AT (Ministerialentwürfe in Begutachtung, Petitionen, Bürgerinitiativen, Volksbegehren), CH (Vernehmlassungen, Petitionen, Volksinitiativen in collection), IT (firmereferendum initiatives and referendums, ParteciPa), PT (petições), PL (Sejm consultations, citizens' bills), BE (Chamber petitions), NL (petitions handed to the Kamer), BR (e-Cidadania ideas and public vote, Brasil Participativo), AR (consultapublica), CO (SUCOP, in the Latam edition); not NL internetconsultatie or PL legislacja (robots.txt), ES (no central list), CL (403), MX |
-| Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
+| Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; **11 Oct (branch `gaps-week-ahead`)**: BE (Chamber eMeeting XML, plenary and committees), PT (Agenda Parlamentar, plenary and committees), SK (programme of a convened sitting), PL committee sittings, ES plenary order of the day read from its PDF; committees were already in for NL, FR, AT, BR; samples `docs/week-ahead-samples/`. Not HU (CAPTCHA), MX (hosts refuse UK; orden del día only on the day), CH committees (confidential), Latam (item 4) |
 | Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); campaign briefs **built** 10 Oct (`tools/country_briefs.py`, a weekly step): drafts in English per rulebook rule 6 (#75), NOT READY until stances are confirmed; targets **built** (#69) |
 | Speech clips for social (`social_cut`, `speech_cut`, `pick_speeches`) | yes | no | no | no | **built** 11 Oct (`tools/country_clips.py`, branch `ukp-speech-clips`, manual, nothing posted): CH and AT open (each speech's own official MP4); NL manual (Debat Direct's archive answers us with a placeholder: a person downloads the speech, `--video`); FR and BE located to the second but the cut refuses until the parliament's written agreement is recorded (`config/clip-sources.yaml`); BR, PL, IT, ES not built (no speeches stored). Not yet run end to end: the Mini lacks the footage bundle |
 | Debate today, live read | yes | no | no | no | **built** 10 Oct (`tools/country_debate_today.py`, `tools/country_live_debate.py`, branch `camp-live-debate`) for the four countries whose chamber publishes the same day: NL, CH, FR, BE; not AT (next day or later) or the question-only countries. Before sign-off the live read names no contradiction ("awaiting sign-off"); debate today is a step of the 16:45 net task |
@@ -540,6 +542,30 @@ Diputados agenda (www.hcdn.gob.ar, AR4: left to a later decision), Belgium
 the Latam monitor's countries (monthly, no week-ahead section; their
 agendas are HTML per day or PDF: Colombia, Peru, the Dominican Republic;
 Panama's orden del día is already collected in pa_agenda but not shown).
+
+**Built 11 October 2026 (branch `gaps-week-ahead`).** Belgium
+(`src/agendas/be.py`): the Chamber's eMeeting service, plain XML behind
+the viewer (`/agenda/api/meetings/week/<y>/<w>/calendar.xml`, then each
+meeting's agenda.xml), plenary and committees, one point per item in Dutch
+with the French, dossier keys from the links ('56/1338'); 5-second crawl
+delay per robots.txt; `bill_rows` now accepts a table with no tier column
+(additive). Portugal (`src/agendas/pt.py`): the Agenda Parlamentar's
+calendar JSON (Plenário, Comissão Permanente, committees), one point per
+numbered or listed item, keys from the printed numbers ('XVII/J/623') and
+the linked IniIds through pt_initiatives. Slovakia (`src/agendas/sk.py`):
+the open data's Meetings and MeetingProgram, print keys ('9/1324'); empty
+until a sitting is convened. Poland: committee and subcommittee sittings
+(`/committees/sittings/<date>`), prints as refs. Spain: the plenary row's
+order of the day PDF has a text layer; it is split into its numbered items
+with their expedientes (fills from 23 December). Steps added to
+`jobs/{be,pt,sk}-weekly.sh`. Live reads of 11 October: BE 54 points (the
+government's declaration week, nothing on our ground), PT 291 (the PMA
+initiatives on 15 October, watched; the gender-procedure hearing in the
+Constitutional Affairs committee, watched XVII/J/479), SK none convened, PL
+46 with committees. Not built: Mexico (hosts refuse UK addresses; the
+orden del día appears on the morning of the sitting), Swiss committee
+agendas (confidential; dates only, in a planning PDF), Hungary (CAPTCHA).
+NL, FR, AT and BR already read committee meetings.
 
 ### 5. Debates, speeches, questions
 Per country where the source is open: NL Handelingen, PL transcripts (the

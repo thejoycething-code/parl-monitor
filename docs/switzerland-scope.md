@@ -351,6 +351,8 @@ channel that matters most to CitizenGO.
 
 ## Phase plan
 
+**Committee agendas (11 October 2026): not built.** Committee meetings are confidential; each committee publishes only a planning PDF of meeting dates (Sitzungsplanung), and the Webservices' Preconsultation records carry no forward dates. The week ahead stays the sessions programme.
+
 1. **Phase 1 (built):** members, sessions, businesses in DE and FR, both
    councils' votes, positions on our ground, the watchlist by number.
 2. **Phase 1b: the Swiss terms.** Christopher's decision on the proposals
