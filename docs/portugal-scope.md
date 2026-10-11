@@ -398,6 +398,8 @@ form is given so the two lists can be merged.
 
 ## Phase plan
 
+**Week ahead (11 October 2026, branch `gaps-week-ahead`): built.** The Agenda Parlamentar's calendar JSON (agenda.parlamento.pt: Plenário, Comissão Permanente, committees; `src/agendas/pt.py`, a step of `jobs/pt-weekly.sh`), matched to `pt_initiatives` by printed number and by IniId. The 'Agenda: NOT PROBED' note above is superseded.
+
 1. **Built** (above): deputies, initiatives, votes, group and named
    positions, authorship, watchlist, weekly job.
 2. **Portuguese list** once Chris approves it: generate
@@ -509,7 +511,7 @@ It writes `data/packs/pt-<date>-<slug>/`: `pack.md` and `checklist.md` in Portug
 translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
 `members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
 this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: the group's vote is the record, so every member row is DERIVED (X5), marked `*`, and never counts as a member's own position or as breaking with the group.
-Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+Agenda slot: from the week ahead (`country_agenda`, built 11 October 2026); the pack says when the agenda names no slot. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
 hand with `--speakers` (matched to the member list) once known. Placements come only from
 readings confirmed in `config/pt_stance.yaml`; none is confirmed yet, so every pack shows
 "a aguardar validação" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
