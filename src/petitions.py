@@ -51,7 +51,8 @@ THE EDITION (src/country_edition.py, kind "petition", section "Petitions
 and consultations"). An item on our ground or watched appears when, in the
 edition's window, it is NEW (first seen), crossed a THRESHOLD (a signature
 milestone between the last snapshot before the window and the latest in
-it), or CLOSES (in the window or within CLOSING_DAYS after it). Lines give
+it), SURGED (gained SURGE signatures or votes in the window: a public vote
+on a bill has no threshold, only movement), or CLOSES (in the window or within CLOSING_DAYS after it). Lines give
 the signatures and the week's movement, the threshold and what reaching it
 does, and the dates. A "For campaigns" line flags what could matter to a
 CitizenGO campaign: open, on our ground, and near a threshold or closing
@@ -80,6 +81,7 @@ TEXT_CAP = 8000           # an item's own text kept for classification
 SUMMARY_CAP = 600
 CLOSING_DAYS = 14         # "closes soon": in the window or this many days after
 NEAR_SHARE = 0.5          # "near a threshold": at least half way to the next one
+SURGE = 10000             # signatures or votes gained in the window that make news alone
 DETAIL_LIMIT = 60         # item pages read per source per run
 
 KINDS = {
@@ -235,10 +237,32 @@ def countries():
 
 # --- classification ----------------------------------------------------------
 
-def taxonomies(cc, config_dir=None):
-    from src import agenda
+def _adapter(cc):
+    """The country's edition adapter, or None (a Latam country in the monthly
+    Latam edition, which names its own TAXONOMIES in its source module)."""
     from src import country_edition as ce
-    return agenda.taxonomies(ce.adapter(cc), config_dir)
+    try:
+        return ce.adapter(cc)
+    except ImportError:
+        return None
+
+
+def taxonomies(cc, config_dir=None, mod=None):
+    """The country's taxonomies: its edition adapter's list, or the source
+    module's TAXONOMIES ((file, code), ...) for a country without one."""
+    from src import agenda
+    country = _adapter(cc)
+    if country is None:
+        mod = mod or module(cc)
+        country = collections.namedtuple("C", "taxonomies")(getattr(mod, "TAXONOMIES", ()))
+    return agenda.taxonomies(country, config_dir)
+
+
+def watchlist(cc, config_dir=None):
+    from src import country_edition as ce
+    from src import latam
+    country = _adapter(cc)
+    return ce.watchlist_of(country, config_dir) if country else latam.watchlist(cc, config_dir)
 
 
 def classify(e, taxes, wl):
@@ -353,8 +377,8 @@ def collect(conn, cc, client, today, config_dir=None, log=print, mod=None, detai
     from src import db
     mod = mod or module(cc)
     ensure_schema(conn)
-    taxes = taxonomies(cc, config_dir)
-    wl = ce.watchlist_of(ce.adapter(cc), config_dir)
+    taxes = taxonomies(cc, config_dir, mod)
+    wl = watchlist(cc, config_dir)
     total = ground_total = gaps_total = 0
     for src in mod.SOURCES:
         feed = "{0}-petitions-{1}".format(cc, src.code)
@@ -405,7 +429,7 @@ def reclassify(conn, cc, config_dir=None, log=print):
     from src import country_edition as ce
     ensure_schema(conn)
     taxes = taxonomies(cc, config_dir)
-    wl = ce.watchlist_of(ce.adapter(cc), config_dir)
+    wl = watchlist(cc, config_dir)
     changed = 0
     for r in conn.execute("SELECT item_id, title, summary, text, refs, areas FROM "
                           "country_petitions WHERE cc=?", (cc,)).fetchall():
@@ -513,7 +537,9 @@ def edition_items(conn, cc, since, until, wl):
             or since < (r["opened"] or "") <= until)
         passed = crossed(before, now, thresholds) if not is_new else []
         closing = bool(r["closes"]) and since < r["closes"] <= soon
-        if not (is_new or passed or closing):
+        surge = (not is_new and before is not None and now is not None
+                 and now - before >= SURGE)
+        if not (is_new or passed or closing or surge):
             continue
         what = KINDS.get(r["kind"], (r["kind"] or "Petition").capitalize())
         take = what
@@ -524,13 +550,17 @@ def edition_items(conn, cc, since, until, wl):
             events.append("new this {0}".format("week"))
         if passed:
             events.append("passed {0} signatures".format(_fmt(passed[-1][0])))
+        elif surge:
+            events.append("{0:+,} {1} in the window".format(
+                now - before, "votes" if r["kind"] == "public_vote" else "signatures"))
         if closing:
             events.append("closed {0}".format(ce.short_date(r["closes"])) if r["closes"] <= until
                           else "closes {0}".format(ce.short_date(r["closes"])))
         take += ": " + ", ".join(events)
         lines = []
         if now is not None:
-            line = "Signatures: {0}".format(_fmt(now))
+            line = "{0}: {1}".format("Votes cast" if r["kind"] == "public_vote" else
+                                     "Signatures", _fmt(now))
             if before is not None and now != before and not is_new:
                 line += " ({0:+,} since {1})".format(now - before, ce.short_date(since))
             nxt = next_threshold(now, thresholds)
@@ -592,3 +622,54 @@ def coverage_lines(conn, cc, since, until):
             bit += " ({0})".format(ce.clean(r[4]).rstrip("."))
         bits.append(bit)
     return ["Petitions and consultations: " + "; ".join(bits) + "."]
+
+
+# --- the campaign view ------------------------------------------------------------
+
+def campaign_report(conn, cc, today, limit=25):
+    """Markdown: the country's OPEN items on our ground (or watched), those
+    nearest a threshold or a deadline first, each with what makes it matter
+    to a campaign. For Chris and the country team; never posted."""
+    from src import country_edition as ce
+    wl = watchlist(cc)
+    rows_ = ce.rows(conn, "SELECT * FROM country_petitions WHERE cc = ? AND last_seen = "
+                          "(SELECT MAX(last_seen) FROM country_petitions WHERE cc = ?)", (cc, cc))
+    scored = []
+    for r in rows_:
+        watched = any(k in wl for k in [r["item_id"], r["item_id"].split(":", 1)[-1]]
+                      + loads(r["refs"]))
+        if not ce.on_ground(r["areas"], watched) or not is_open(r, today):
+            continue
+        thresholds = [t for t in loads(r["thresholds"]) if isinstance(t, list) and t]
+        nxt = next_threshold(r["signatures"], thresholds)
+        share = (r["signatures"] or 0) / float(nxt[0]) if nxt and r["signatures"] is not None else 0
+        left = _days(today, r["closes"]) if r["closes"] else None
+        scored.append((-(share), left if left is not None else 10 ** 6, r, nxt, watched))
+    scored.sort(key=lambda x: (x[0], x[1]))
+    out = ["## {0}: open on our ground ({1})".format(cc.upper(), len(scored)), ""]
+    if not scored:
+        return out + ["Nothing open on our ground in the latest read.", ""]
+    for _, left, r, nxt, watched in scored[:limit]:
+        bits = [KINDS.get(r["kind"], r["kind"] or "Item")]
+        if r["signatures"] is not None:
+            bits.append("{0} {1}".format(_fmt(r["signatures"]), "votes" if r["kind"] ==
+                                         "public_vote" else "signatures"))
+        if nxt and r["signatures"] is not None:
+            bits.append("{0:.0f}% of {1}".format(100.0 * (r["signatures"] or 0) / nxt[0],
+                                                  _fmt(nxt[0])))
+        elif nxt:
+            bits.append("{0} needed, no count published".format(_fmt(nxt[0])))
+        if r["yes_count"] is not None:
+            bits.append("{0} for, {1} against".format(_fmt(r["yes_count"]), _fmt(r["no_count"])))
+        if r["closes"]:
+            bits.append("closes {0}".format(ce.long_date(r["closes"])))
+        if watched:
+            bits.append("watched")
+        note = campaign_note(r, today, r["signatures"], [t for t in loads(r["thresholds"])
+                                                          if isinstance(t, list) and t])
+        out.append("- *{0}* ({1}). {2}.{3} [Source]({4})".format(
+            ce.clip(r["title"], 200), ce.area_text(ce.areas_of(r["areas"])) or "watched",
+            "; ".join(bits), " " + note if note else "", r["url"]))
+    if len(scored) > limit:
+        out.append("- _And {0} more in the store._".format(len(scored) - limit))
+    return out + [""]

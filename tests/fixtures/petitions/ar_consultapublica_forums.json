@@ -1,0 +1,158 @@
+[
+ {
+  "id": "6ab55da3ac3a7b821f5fcdf8",
+  "name": "transporteautomotores",
+  "title": "Participación ciudadana sobre propuestas para los servicios de colectivos de Jurisdicción Nacional L143 - L136 - L163",
+  "summary": "",
+  "visibility": "public",
+  "createdAt": "2026-09-24T17:28:03.305Z",
+  "coverUrl": "https://www.argentina.gob.ar/sites/default/files/imagen_presentacion.jpeg",
+  "topicsAttrs": [
+   {
+    "name": "pregunta",
+    "title": "Pregunta a definir con la consulta",
+    "description": "Colocar aquí la pregunta que será definida en el eje de la consulta",
+    "mandatory": true,
+    "kind": "String",
+    "max": 128,
+    "min": 0
+   }
+  ],
+  "initialTags": [],
+  "extra": {
+   "linkCierre": "",
+   "palabrasCierre": "",
+   "contentType": "ejes",
+   "ownerUrl": "https://www.argentina.gob.ar/transporte",
+   "owner": "Secretaría de Transporte",
+   "hidden": false,
+   "closingAt": "2026-10-03T00:00:00.000Z",
+   "richSummary": "<div style=\"text-align: justify;\"><b>Una red de transporte más eficiente y adecuada a las necesidades de movilidad</b></div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">La Secretaría de Transporte impulsa un proceso de optimización de la red de servicios públicos de transporte automotor de pasajeros de Jurisdicción Nacional, orientado a mejorar su funcionamiento, adecuar la oferta a las necesidades actuales de movilidad y promover una utilización más eficiente de los recursos destinados a la prestación de los servicios.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">En este marco, se ponen a consideración distintas propuestas de reorganización de los servicios, que contemplan la adecuación de recorridos, frecuencias y parámetros operativos, así como la revisión de aquellas prestaciones cuya demanda y cobertura territorial requieren una evaluación específica, considerando la oferta de transporte disponible y las alternativas de movilidad para los usuarios.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Los proyectos que se presentan comprenden la reorganización de los servicios de la Línea 143 y la solicitud presentada por la empresa para dejar sin efecto la autorización de las Líneas 136 y 163. Su evaluación forma parte del análisis de la red de transporte de jurisdicción nacional, en el marco de una evaluación integral de la red de transporte de jurisdicción nacional.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Para cada caso, se analizaron los patrones de movilidad y la demanda de pasajeros, la oferta existente, la cobertura territorial, los servicios alternativos y las características de la operación, con el objetivo de identificar oportunidades de mejora en la distribución de los recursos y en la organización de los servicios.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Sobre la base de esta información, se proponen adecuaciones de recorridos, frecuencias, cabeceras, parque móvil u otros parámetros operativos, procurando que los recursos disponibles sean asignados eficientemente. En particular, la evaluación de las Líneas 136 y 163 considera conjuntamente la red de transporte que permanecería disponible ante el eventual cese de ambas prestaciones y los sectores que requieren una revisión específica.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">De esta manera, la Secretaría de Transporte continúa avanzando en la modernización del sistema de transporte automotor de jurisdicción nacional, mediante una planificación de los servicios basada en criterios técnicos de demanda, cobertura y eficiencia operativa, con el objetivo de adecuar progresivamente la oferta a las necesidades de movilidad de los usuarios.&nbsp;</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\"><b>Publicidad y participación ciudadana</b></div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">La Secretaría de Transporte busca promover e incrementar los mecanismos de participación, intercambio de ideas, consulta y cultura democrática como medio de defensa de los derechos de los usuarios de servicios públicos.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">La participación ciudadana en el proceso de toma de decisiones requiere de espacios en los que los interesados puedan presentar su perspectiva individual, grupal o colectiva sobre la medida puesta a consideración, en un contexto de igualdad de condiciones y respeto por el disenso.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">La presente consulta reúne tres propuestas relativas a servicios de colectivos de jurisdicción nacional. Las modificaciones de parámetros operativos de la Línea 143 se someten a participación ciudadana en el marco de la Resolución N° 55/2026 de la Secretaría de Transporte. Por su parte, respecto de las Líneas 136 y 163 se pone a consideración la solicitud presentada por la empresa para dejar sin efecto la autorización para operar ambos servicios.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">La publicación conjunta permite consultar las propuestas y sus antecedentes técnicos y presentar opiniones, observaciones y sugerencias sobre cada línea, que contribuyan a su evaluación. Los aportes recibidos serán analizados según las actuaciones de cada proyecto.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">La publicación de una iniciativa no implica su aprobación definitiva. Una vez finalizado el período de participación, las presentaciones recibidas serán analizadas por las áreas técnicas competentes y consideradas en la elaboración del informe final correspondiente, el cual estará disponible en <a href=\"http://www.argentina.gob.ar/transporte\">www.argentina.gob.ar/transporte</a> e integrará el proceso administrativo de los proyectos en cuestión.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\"><b>La participación en esta consulta es:</b></div><div style=\"text-align: justify;\"><br></div><ul><li style=\"text-align: justify;\"><b>Abierta a toda la ciudadanía:</b> Puede participar cualquier persona física o jurídica, pública o privada, que desee realizar aportes relacionados con la propuesta.</li><li style=\"text-align: justify;\"><b>No vinculante:</b> Las declaraciones realizadas por la ciudadanía no imponen ninguna obligación efectiva.</li></ul><ul><li style=\"text-align: justify;\"><b>Gratuita:</b> En tanto el participante no requiera la reproducción de documentos, datos o instrumentos. En ese caso, los costos de reproducción correrán a cargo de la persona que lo solicite.</li><li style=\"text-align: justify;\"><b>Pública:</b> Todas las opiniones serán publicadas en esta página web desde el comienzo de la convocatoria hasta su finalización.</li></ul><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Las opiniones, observaciones y sugerencias podrán presentarse exclusivamente a través del canal habilitado, <b>desde el lunes 28.09.26 hasta el viernes 02.10.26, inclusive.</b></div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Para facilitar su adecuada evaluación, se recomienda que los aportes identifiquen claramente la línea, el recorrido, el sector territorial o el aspecto de la propuesta al que se refieren.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">A continuación se encuentran los ejes que conforman la consulta. En el <b>eje 1</b> podrán consultarse los proyectos, antecedentes y la documentación técnica que sustenta las propuestas de los <b>ejes 2 al 7</b>. </div><div style=\"text-align: justify;\"><br></div>"
+  },
+  "owner": {
+   "id": "573a19bd8a227d03002652c6",
+   "fullName": "Consulta Pública",
+   "displayName": "Consulta Pública",
+   "avatar": "https://nube.innovacion.gob.ar/apps/files_sharing/publicpreview/M6FSW3sWeGXqDct?file=/&fileId=12918478&x=2560&y=1440&a=true&etag=25ac4ad588f94777bb30a445a8e04b9c",
+   "locale": "es"
+  },
+  "privileges": {}
+ },
+ {
+  "id": "6aa1a3c1a3a035264072b7b8",
+  "name": "transporteautomotor",
+  "title": "Participación ciudadana para modificaciones en los servicios de colectivos de Jurisdicción Nacional",
+  "summary": "",
+  "visibility": "public",
+  "createdAt": "2026-09-09T18:21:53.933Z",
+  "coverUrl": "https://www.argentina.gob.ar/sites/default/files/imagen_1_15.jpg",
+  "topicsAttrs": [
+   {
+    "name": "pregunta",
+    "title": "Pregunta a definir con la consulta",
+    "description": "Colocar aquí la pregunta que será definida en el eje de la consulta",
+    "mandatory": true,
+    "kind": "String",
+    "max": 128,
+    "min": 0
+   }
+  ],
+  "initialTags": [],
+  "extra": {
+   "linkCierre": "https://nube.innovacion.gob.ar/s/cXYMmNFPoJ4abP3",
+   "palabrasCierre": "",
+   "contentType": "ejes",
+   "ownerUrl": "https://www.argentina.gob.ar/transporte",
+   "owner": "Secretaría de Transporte",
+   "hidden": false,
+   "closingAt": "2026-09-19T00:00:00.000Z",
+   "richSummary": "<div style=\"text-align: justify;\"><b>Una red de transporte más eficiente y adecuada a las necesidades de movilidad</b></div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">La Secretaría de Transporte impulsa un proceso de optimización de la red de servicios públicos de transporte automotor de pasajeros de Jurisdicción Nacional, orientado a mejorar su funcionamiento y adecuar la oferta a las necesidades actuales de movilidad de los usuarios de transporte público.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Las modificaciones propuestas buscan promover una utilización más eficiente de los recursos destinados a la prestación, reducir recorridos improductivos o sobreofertados y fortalecer la accesibilidad, la conectividad y la integración del sistema de transporte.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Para ello, se analizan los patrones de movilidad y demanda, la oferta existente, la cobertura territorial, la disponibilidad de servicios alternativos y las características operativas de cada línea. Sobre la base de esta información, se proponen adecuaciones de recorridos, frecuencias, cabeceras, parque móvil u otros parámetros operativos, procurando que los recursos disponibles sean asignados eficientemente donde resulten más necesarios para la prestación del servicio.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">El proyecto de modificación, sus antecedentes y la documentación técnica que lo sustenta se encuentran disponibles para su consulta: </div><ul><li style=\"text-align: justify;\"><b>Propuesta de modificación:</b> consultá el proyecto y visualizá los recorridos actuales y propuestos en el mapa interactivo.\n\n</li></ul><div style=\"text-align: justify;\"><a href=\"https://www.google.com/maps/d/edit?mid=1SuNhsLv03uBm6Hj24wnzDudsJiz0wmM&amp;usp=sharing\">https://www.google.com/maps/d/edit?mid=1SuNhsLv03uBm6Hj24wnzDudsJiz0wmM&amp;usp=sharing</a>&nbsp;\n\n</div><ul><li style=\"text-align: justify;\"><b>Antecedentes técnicos:</b> accedé al expediente en el que tramita la iniciativa y consultá los informes elaborados por las áreas competentes.\n\n</li></ul><div style=\"text-align: justify;\"><a href=\"https://nube.innovacion.gob.ar/s/2ZPDaTetmtgiHko \">https://nube.innovacion.gob.ar/s/2ZPDaTetmtgiHko </a>&nbsp;</div><div style=\"text-align: justify;\"><img src=\"https://www.argentina.gob.ar/sites/default/files/cuadro.exp_.png\"></div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\"><b>Publicidad y participación ciudadana</b></div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">La Secretaría de Transporte está comprometida con fortalecer la transparencia para construir un Estado al servicio de la ciudadanía. Es por eso que se busca promover e incrementar los mecanismos de participación, intercambio de ideas, consulta y cultura democrática como medio de defensa de los derechos de los usuarios de servicios públicos.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">La participación ciudadana en el proceso de toma de decisiones requiere de espacios en que los interesados puedan presentar su perspectiva individual, grupal o colectiva sobre la medida puesta a consideración, en un marco de igualdad de condiciones y respeto por el disenso.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">En el marco de la Resolución N° 55/2026 de la Secretaría de Transporte, las propuestas de modificación de parámetros operativos son sometidas a una instancia de publicidad y participación ciudadana antes de la adopción de una decisión definitiva.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\"><b>Esta instancia tiene por objeto poner a disposición de la ciudadanía la propuesta y sus antecedentes, y recibir opiniones, observaciones y sugerencias que contribuyan a su evaluación.</b></div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">La publicación de una iniciativa no implica su aprobación definitiva. Una vez finalizado el período de participación, las presentaciones recibidas serán analizadas por las áreas técnicas competentes y consideradas en la elaboración del informe final correspondiente, el cual estará disponible en <a href=\"http://www.argentina.gob.ar/transporte\">www.argentina.gob.ar/transporte</a> e integrará el proceso administrativo del proyecto en cuestión.&nbsp;</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\"><b>La participación en esta consulta es:</b></div><ul><li style=\"text-align: justify;\"><b>Abierta a toda la ciudadanía: </b>Puede participar cualquier persona física o jurídica, pública o privada, que desee realizar aportes relacionados con la propuesta.</li><li style=\"text-align: justify;\"><b>No vinculante:</b> Las declaraciones realizadas por la ciudadanía no imponen ninguna obligación efectiva.&nbsp;</li><li style=\"text-align: justify;\"><b>Gratuita:</b> en tanto el participante no requiere de la reproducción de documentos, datos o instrumentos. En ese caso, los costos de reproducción correrán a cargo de la persona que lo solicite.</li><li style=\"text-align: justify;\"><b>Pública:</b> Todas las opiniones serán publicadas en esta página web desde el momento que comience la convocatoria hasta su finalización.</li></ul><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Los interesados podrán participar de la consulta <b>desde el lunes 14.09.2026&nbsp;hasta el viernes 18.09.2026, inclusive.</b></div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Para facilitar su adecuada evaluación, se recomienda que los aportes identifiquen claramente la línea, el recorrido, el sector territorial o el aspecto de la propuesta al que se refieren.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\"><b>¡Conocé la propuesta en cada uno de los ejes de la consulta y hacé tu aporte!</b></div>"
+  },
+  "owner": {
+   "id": "573a19bd8a227d03002652c6",
+   "fullName": "Consulta Pública",
+   "displayName": "Consulta Pública",
+   "avatar": "https://nube.innovacion.gob.ar/apps/files_sharing/publicpreview/M6FSW3sWeGXqDct?file=/&fileId=12918478&x=2560&y=1440&a=true&etag=25ac4ad588f94777bb30a445a8e04b9c",
+   "locale": "es"
+  },
+  "privileges": {}
+ },
+ {
+  "id": "6a0f557dde0cd720306864cd",
+  "name": "metrologia2026",
+  "title": "ACTUALIZACIÓN DEL REGLAMENTO TÉCNICO Y METROLÓGICO DE MEDIDAS DE MASA “PESAS”",
+  "summary": "",
+  "visibility": "public",
+  "createdAt": "2026-05-21T18:57:01.043Z",
+  "coverUrl": "https://www.argentina.gob.ar/sites/default/files/metrologia2.jpg ",
+  "topicsAttrs": [
+   {
+    "name": "pregunta",
+    "title": "Pregunta a definir con la consulta",
+    "description": "Colocar aquí la pregunta que será definida en el eje de la consulta",
+    "mandatory": true,
+    "kind": "String",
+    "max": 128,
+    "min": 0
+   }
+  ],
+  "initialTags": [],
+  "extra": {
+   "linkCierre": "https://nube.innovacion.gob.ar/s/XFx6tRr4qCKgdyE",
+   "palabrasCierre": "",
+   "contentType": "ejes",
+   "ownerUrl": "https://www.argentina.gob.ar/economia/industria-y-comercio",
+   "owner": "Secretaría de Industria, Comercio y PyME",
+   "hidden": false,
+   "closingAt": "2026-06-22T00:00:00.000Z",
+   "richSummary": "<div style=\"text-align: justify;\">La Secretaría de Industria, Comercio y de la Pequeña y Mediana Empresa se encuentra abocada a actualizar los Reglamentos Técnicos y Metrológicos que se encuentran vigentes en el marco de la Ley N.º 19.511, de Metrología, que estableció el Sistema Métrico Legal de la Argentina (SIMELA), el régimen de patrones nacionales y de instrumentos de medición.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">En esta oportunidad, se encuentra en proceso de actualización el Reglamento Técnico y Metrológico de Medidas de Masa “Pesas”, establecida mediante la Resolución ex Secretaría de Comercio del Ministerio de Economía, N.º 456 de fecha 02 de diciembre de 1983.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">La propuesta de actualización se encuentra basada en la Recomendación Internacional de la Organización Internacional de Metrología Legal, OIML R111/2004, adecuada a las capacidades y necesidades como Reglamento Técnico y Metrológico Nacional.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Esta iniciativa surge en el marco de la actualización de reglamentos que a la fecha se encuentran desactualizados y donde existen normas internacionales actualizadas.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Los reglamentos técnicos son una herramienta que fomenta la innovación y el acceso a las nuevas tecnologías, mejora la infraestructura de calidad involucrada en el proceso, promueve las inversiones creando mercados más previsibles, y optimiza la productividad, permitiendo un uso más eficiente de los recursos.&nbsp;</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Los instrumentos de medición reglamentados y sus Reglamentos Técnicos y Metrológicos se encuentran amparados bajo la Ley de Metrología N.º 19.511, Decreto Reglamentario N.º 960/2017 y su Resolución ex SCI N.º 611/2019 y sus modificatorias.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\">Durante el proceso de elaboración del reglamento técnico, hubo trabajo en conjunto entre la Secretaría de Industria, Comercio y de la Pequeña y Mediana Empresa, las principales empresas fabricantes e importadores de esta clase de instrumentos, los laboratorios de ensayo y organismos de certificación reconocidos y acreditados, así como también el Organismo Argentino de Acreditación (OAA).</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\"><b>OBJETIVO DE LA CONSULTA PÚBLICA</b></div><div style=\"text-align: justify;\">La presente consulta tiene por finalidad establecer un ámbito formal de participación y articulación entre la autoridad de aplicación y los actores alcanzados por el sistema de Metrología Legal, en el marco de la implementación de nuevas políticas públicas, a fin de recabar observaciones y aportes técnicos de los fabricantes e importadores de esta clase de instrumentos, los Laboratorios de ensayo y Organismos de certificación reconocidos y acreditados, así como también el Organismo Argentino de Acreditación (OAA), que contribuyan a la adecuada ejecución del proyecto.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\"><b>FINALIZADA LA CONSULTA PÚBLICA</b></div><div style=\"text-align: justify;\">Los resultados obtenidos en el marco de la presente consulta pública, incluyendo opiniones, observaciones, sugerencias y comentarios, serán objeto de análisis técnico interno por parte de la autoridad competente. Sobre la base de dicho análisis, se evaluará la pertinencia de introducir modificaciones al proyecto, y se elaborará un documento final que será elevado a consideración de las Autoridades para su eventual aprobación.</div><div style=\"text-align: justify;\"><br></div><div style=\"text-align: justify;\"><b>La consulta estará disponible hasta el 22/06/2026.</b></div>"
+  },
+  "owner": {
+   "id": "573a19bd8a227d03002652c6",
+   "fullName": "Consulta Pública",
+   "displayName": "Consulta Pública",
+   "avatar": "https://nube.innovacion.gob.ar/apps/files_sharing/publicpreview/M6FSW3sWeGXqDct?file=/&fileId=12918478&x=2560&y=1440&a=true&etag=25ac4ad588f94777bb30a445a8e04b9c",
+   "locale": "es"
+  },
+  "privileges": {}
+ },
+ {
+  "id": "69fce4acde0cd7587f686202",
+  "name": "transportemayo2026",
+  "title": " Actualización y Optimización del Sistema de Transporte Nacional",
+  "summary": "",
+  "visibility": "public",
+  "createdAt": "2026-05-07T19:14:52.334Z",
+  "coverUrl": "https://i.postimg.cc/1tKLzxL5/Whats-App-Image-2026-05-07-at-4-06-29-PM.jpg",
+  "topicsAttrs": [
+   {
+    "name": "pregunta",
+    "title": "Pregunta a definir con la consulta",
+    "description": "Colocar aquí la pregunta que será definida en el eje de la consulta",
+    "mandatory": true,
+    "kind": "String",
+    "max": 128,
+    "min": 0
+   }
+  ],
+  "initialTags": [],
+  "extra": {
+   "linkCierre": "https://nube.innovacion.gob.ar/s/cSdgDKr4aoq6aQq",
+   "palabrasCierre": "",
+   "contentType": "ejes",
+   "ownerUrl": "www.argentina.gob.ar/transporte",
+   "owner": "Secretaría de Transporte",
+   "hidden": false,
+   "closingAt": "2026-05-14T00:00:00.000Z",
+   "richSummary": "<div>La Secretaría de Transporte está comprometida con fortalecer la transparencia para construir un Estado al servicio de la ciudadanía. Es por eso que se busca promover e incrementar los mecanismos de participación, intercambio de ideas, consulta y cultura democrática como medio de defensa de los derechos de los usuarios de servicios públicos.</div><div><br></div><div>La participación ciudadana en el proceso de toma de decisiones requiere de espacios en que los interesados puedan presentar su perspectiva individual, grupal o colectiva sobre la medida puesta a consideración, en un marco de igualdad de condiciones y respeto por el disenso.</div><div><br></div><div>La participación en esta consulta es:</div><div><b>Abierta a toda la ciudadanía:</b> Cualquier persona física, jurídica, pública o privada puede participar.</div><div><b>No vinculante:</b> Las declaraciones realizadas por la ciudadanía no imponen ninguna obligación efectiva.&nbsp;</div><div><b>Gratuita:</b> en tanto el participante no requiere de la reproducción de documentos, datos o instrumentos. En ese caso, los costos de reproducción correrán a cargo de la persona que lo solicite.</div><div><b>Pública:</b> Todas las opiniones serán publicadas en esta página web desde el momento que comience la convocatoria hasta su finalización.</div><div><b>Informe de cierre:</b> Una vez finalizada la consulta, se realizará un informe que reflejará las principales opiniones sobre el tema puesto a consulta. El mismo estará disponible en <a href=\"http://www.argentina.gob.ar/transporte\">www.argentina.gob.ar/transporte</a> e integrará el proceso administrativo del proyecto en cuestión.&nbsp;</div><div><br></div><div>El objetivo de este foro es informar y recoger las opiniones, aportes e inquietudes de la ciudadanía sobre las medidas de adecuación tarifaria y normativa necesarias para garantizar la continuidad de los servicios públicos de transporte automotor y ferroviario de Jurisdicción Nacional.</div><div><br></div><div>Estas medidas se presentan con el objetivo de consolidar un sistema de transporte moderno, transparente y financieramente sostenible, priorizando siempre la seguridad operativa y la protección de los usuarios que más lo necesitan.</div><div><br></div><div>El proyecto puesto a consideración puede consultarse <a href=\"https://nube.innovacion.gob.ar/s/H6bkiKGZQJXgdi9\">acá</a>.</div><div><br></div><div>Consulte los cuadros tarifarios propuestos <a href=\"https://nube.innovacion.gob.ar/s/XWBp8nFRnFa64xS\">acá</a>.</div><div><br></div><div>El expediente en el que tramita dicho proyecto y en el que se encuentran los informes técnicos que lo sustentan puede visualizarse <a href=\"https://nube.innovacion.gob.ar/s/emG3aYXfPe5jrBH\">acá.</a></div><div><br></div><div><br></div>"
+  },
+  "owner": {
+   "id": "573a19bd8a227d03002652c6",
+   "fullName": "Consulta Pública",
+   "displayName": "Consulta Pública",
+   "avatar": "https://nube.innovacion.gob.ar/apps/files_sharing/publicpreview/M6FSW3sWeGXqDct?file=/&fileId=12918478&x=2560&y=1440&a=true&etag=25ac4ad588f94777bb30a445a8e04b9c",
+   "locale": "es"
+  },
+  "privileges": {}
+ }
+]

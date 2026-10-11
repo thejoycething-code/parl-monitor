@@ -6,6 +6,7 @@ src/petition_sources/).
     python3 tools/country_petitions.py fr
     python3 tools/country_petitions.py at ch --no-detail
     python3 tools/country_petitions.py fr --reclassify      # offline
+    python3 tools/country_petitions.py fr at --report       # open on our ground, offline
     python3 tools/country_petitions.py fr --db /tmp/sample.db
 
 Run as a step of the country's weekly job (jobs/<cc>-weekly.sh), after its
@@ -42,10 +43,17 @@ def main(argv=None):
     ap.add_argument("--no-detail", action="store_true", help="listings only, no item pages")
     ap.add_argument("--detail-limit", type=int, default=petitions.DETAIL_LIMIT)
     ap.add_argument("--reclassify", action="store_true", help="re-derive areas, offline")
+    ap.add_argument("--report", action="store_true",
+                    help="print the open items on our ground (Markdown), offline")
     args = ap.parse_args(argv)
 
     today = args.date or datetime.date.today().isoformat()
     conn = db.init_db(db.connect(args.db))
+    if args.report:
+        for cc in args.cc:
+            print("\n".join(petitions.campaign_report(conn, cc, today)))
+        conn.close()
+        return 0
     if args.reclassify:
         for cc in args.cc:
             petitions.reclassify(conn, cc)

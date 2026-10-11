@@ -1,0 +1,461 @@
+{
+ "data": {
+  "initiatives": [
+   {
+    "id": "1428",
+    "slug": "i-1428",
+    "reference": "pétition-INIT-2026-10-1428",
+    "state": "published",
+    "signatureType": "online",
+    "publishedAt": "2026-10-05T16:55:22+02:00",
+    "createdAt": "2026-10-05T16:51:29+02:00",
+    "updatedAt": "2026-10-05T16:57:05+02:00",
+    "onlineVotes": 0,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "56_2025-2026/169 - Modification d'une mesure relative à la législation sur les retraites",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "56_2025-2026/169 - Modification d'une mesure relative à la législation sur les retraites"
+      },
+      {
+       "locale": "nl",
+       "text": "56_2025-2026/169 - Wijziging maatregel pensioenwetgeving"
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "1407",
+    "slug": "i-1407",
+    "reference": "pétition-INIT-2026-09-1407",
+    "state": "published",
+    "signatureType": "online",
+    "publishedAt": "2026-10-01T18:14:19+02:00",
+    "createdAt": "2026-09-06T00:07:53+02:00",
+    "updatedAt": "2026-10-01T18:14:19+02:00",
+    "onlineVotes": 1,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "56_2025-2026/167 - Demande de révision de la loi portant interdiction de fumer Horeca",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "56_2025-2026/167 - Demande de révision de la loi portant interdiction de fumer Horeca"
+      },
+      {
+       "locale": "nl",
+       "text": "56_2025-2026/167 - Verzoek tot herziening van de wet houdende een totaal rookverbod op horecaterrassen"
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "1368",
+    "slug": "i-1368",
+    "reference": "pétition-INIT-2026-07-1368",
+    "state": "examinated",
+    "signatureType": "online",
+    "publishedAt": "2026-08-03T13:25:10+02:00",
+    "createdAt": "2026-07-20T13:55:37+02:00",
+    "updatedAt": "2026-10-06T14:18:03+02:00",
+    "onlineVotes": 0,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "56_2025-2026/147 - Plainte relative à une pratique bancaire structurelle lors du transfert d’actions cotées en bourse issues d’une succession",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "56_2025-2026/147 - Plainte relative à une pratique bancaire structurelle lors du transfert d’actions cotées en bourse issues d’une succession"
+      },
+      {
+       "locale": "nl",
+       "text": "56_2025-2026/147 - Klacht over structurele bankpraktijk bij overdracht van beurs genoteerde aandelen uit een erfenis"
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "1363",
+    "slug": "i-1363",
+    "reference": "pétition-INIT-2026-07-1363",
+    "state": "examinated",
+    "signatureType": "online",
+    "publishedAt": "2026-08-03T11:31:20+02:00",
+    "createdAt": "2026-07-16T14:20:40+02:00",
+    "updatedAt": "2026-10-06T14:16:37+02:00",
+    "onlineVotes": 0,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "56_2025-2026/140 - Une mesure d’assouplissement pour les travailleurs et les fonctionnaires âgés bénéficiant d’une reconnaissance de handicap",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "56_2025-2026/140 - Une mesure d’assouplissement pour les travailleurs et les fonctionnaires âgés bénéficiant d’une reconnaissance de handicap"
+      },
+      {
+       "locale": "nl",
+       "text": "56_2025-2026/140 - Milderende maatregel pensioenhervorming voor oudere werknemers/ambtenaren met een erkende arbeidshandicap"
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "1355",
+    "slug": "i-1355",
+    "reference": "pétition-INIT-2026-07-1355",
+    "state": "debatted",
+    "signatureType": "online",
+    "publishedAt": "2026-07-02T10:04:22+02:00",
+    "createdAt": "2026-07-02T10:00:56+02:00",
+    "updatedAt": "2026-09-02T10:17:38+02:00",
+    "onlineVotes": 237,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "56_2025-2026/115 - Pétition relative à la réforme du contrôle technique des véhicules - PÉTITION RETIRÉE ET REMPLACÉE PAR 56_2025-2026/134",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "56_2025-2026/115 - Pétition relative à la réforme du contrôle technique des véhicules - PÉTITION RETIRÉE ET REMPLACÉE PAR 56_2025-2026/134"
+      },
+      {
+       "locale": "nl",
+       "text": "56_2025-2026/115 - Verzoekschrift inzake de hervorming van de technische keuring van voertuigen - PETITIE INGETROKKEN EN VERVANGEN DOOR 56_2025-2026/134"
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "1324",
+    "slug": "i-1324",
+    "reference": "pétition-INIT-2026-05-1324",
+    "state": "intermediate_answer",
+    "signatureType": "online",
+    "publishedAt": "2026-06-04T09:03:12+02:00",
+    "createdAt": "2026-05-22T22:28:17+02:00",
+    "updatedAt": "2026-10-01T14:57:26+02:00",
+    "onlineVotes": 0,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "56_2025-2026/103 - Des soins complémentaires abordables : augmentez le taux de remboursement !",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "56_2025-2026/103 - Des soins complémentaires abordables : augmentez le taux de remboursement !"
+      },
+      {
+       "locale": "nl",
+       "text": "56_2025-2026/103 - Complementaire zorg betaalbaar: verhoog terugbetaling!"
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "1285",
+    "slug": "i-1285",
+    "reference": "pétition-INIT-2026-02-1285",
+    "state": "intermediate_answer",
+    "signatureType": "online",
+    "publishedAt": "2026-02-03T14:21:51+01:00",
+    "createdAt": "2026-02-03T14:12:58+01:00",
+    "updatedAt": "2026-03-16T10:04:46+01:00",
+    "onlineVotes": 0,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "56_2025-2026/44 -  Contre la publication d’extraits vidéo de députés réalisés au sein du Parlement.",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "56_2025-2026/44 -  Contre la publication d’extraits vidéo de députés réalisés au sein du Parlement."
+      },
+      {
+       "locale": "nl",
+       "text": "56_2025-2026/44 - Tegen de publicatie van videofragmenten van parlementsleden gemaakt in het Parlement."
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "1164",
+    "slug": "i-1164",
+    "reference": "pétition-INIT-2025-06-1164",
+    "state": "rejected",
+    "signatureType": "online",
+    "publishedAt": "2025-06-30T14:02:33+02:00",
+    "createdAt": "2025-06-30T12:05:20+02:00",
+    "updatedAt": "2025-10-29T04:00:00+01:00",
+    "onlineVotes": 0,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "56_2024-2025/48 - Pétition pour l'application du droit pénal belge dans les cas de harcèlement et discrimination au sein des institutions de l'UE",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "56_2024-2025/48 - Pétition pour l'application du droit pénal belge dans les cas de harcèlement et discrimination au sein des institutions de l'UE"
+      },
+      {
+       "locale": "nl",
+       "text": "56_2024-2025/48 - Petitie voor de toepassing van het Belgische strafrecht bij pesten en discriminatie binnen de EU-instellingen"
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "1155",
+    "slug": "i-1155",
+    "reference": "pétition-INIT-2025-06-1155",
+    "state": "rejected",
+    "signatureType": "online",
+    "publishedAt": "2025-06-19T09:18:32+02:00",
+    "createdAt": "2025-06-09T11:30:45+02:00",
+    "updatedAt": "2025-10-18T05:00:00+02:00",
+    "onlineVotes": 0,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "56_2024-2025/83 - Pétition réclamant la condamnation d'Israël pour avoir intercepté le navire humanitaire « Madleen » et exigeant que l'aide humanitaire soit autorisée",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "56_2024-2025/83 - Pétition réclamant la condamnation d'Israël pour avoir intercepté le navire humanitaire « Madleen » et exigeant que l'aide humanitaire soit autorisée"
+      },
+      {
+       "locale": "nl",
+       "text": "56_2024-2025/83 - Verzoekschrift tot veroordeling van Israël door het onderscheppen van de humanitaire hulp 'Madleen'-schip en druk zetten tot toelaten humanitaire hulp"
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "1093",
+    "slug": "i-1093",
+    "reference": "pétition-INIT-2025-01-1093",
+    "state": "classified",
+    "signatureType": "online",
+    "publishedAt": "2025-01-23T11:21:25+01:00",
+    "createdAt": "2025-01-04T23:08:11+01:00",
+    "updatedAt": "2025-11-07T09:31:59+01:00",
+    "onlineVotes": 6,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "56_2024-2025/26 - Rendez-nous nos 600 heures !",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "56_2024-2025/26 - Rendez-nous nos 600 heures !"
+      },
+      {
+       "locale": "nl",
+       "text": "56_2024-2025/26 - Geef ons onze 600 uren terug ! "
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "1007",
+    "slug": "i-1007",
+    "reference": "pétition-INIT-2024-05-1007",
+    "state": "debatted",
+    "signatureType": "online",
+    "publishedAt": "2024-05-31T11:56:21+02:00",
+    "createdAt": "2024-05-15T13:28:29+02:00",
+    "updatedAt": "2025-09-15T16:49:20+02:00",
+    "onlineVotes": 0,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "55_2023-2024/55 - Modification de la loi relative à la prévention du blanchiment de capitaux",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "55_2023-2024/55 - Modification de la loi relative à la prévention du blanchiment de capitaux"
+      },
+      {
+       "locale": "nl",
+       "text": "55_2023-2024/55 - Verzoekschrift tot wijziging van de wet tot voorkoming van het witwassen van geld"
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "697",
+    "slug": "i-697",
+    "reference": "pétition-INIT-2022-02-697",
+    "state": "classified",
+    "signatureType": "online",
+    "publishedAt": "2022-02-11T13:39:28+01:00",
+    "createdAt": "2022-02-02T13:57:40+01:00",
+    "updatedAt": "2025-04-24T15:28:00+02:00",
+    "onlineVotes": 3545,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "55_2021-2022/37 - Pétition afin de compléter les auditions dans le cadre du débat sur l’obligation vaccinale au sein de la Chambre ",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "55_2021-2022/37 - Pétition afin de compléter les auditions dans le cadre du débat sur l’obligation vaccinale au sein de la Chambre "
+      },
+      {
+       "locale": "nl",
+       "text": "55_2021-2022/37 - Petitie om de hoorzittingen in het kader van de debatten over verplichte vaccinatie in de Kamer aan te vullen"
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   },
+   {
+    "id": "653",
+    "slug": "i-653",
+    "reference": "pétition-INIT-2021-12-653",
+    "state": "debatted",
+    "signatureType": "online",
+    "publishedAt": "2021-12-17T15:58:46+01:00",
+    "createdAt": "2021-12-13T10:24:42+01:00",
+    "updatedAt": "2024-05-27T14:05:31+02:00",
+    "onlineVotes": 87388,
+    "offlineVotes": 0,
+    "title": {
+     "translation": "55_2021-2022/15 - Pétition norme salariale",
+     "translations": [
+      {
+       "locale": "de",
+       "text": null
+      },
+      {
+       "locale": "fr",
+       "text": "55_2021-2022/15 - Pétition norme salariale"
+      },
+      {
+       "locale": "nl",
+       "text": "55_2021-2022/15 - Petitie loonnorm"
+      }
+     ]
+    },
+    "initiativeType": {
+     "id": "3",
+     "title": {
+      "translation": "Pétitions"
+     }
+    }
+   }
+  ]
+ }
+}

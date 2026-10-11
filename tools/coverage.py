@@ -340,6 +340,13 @@ FEEDS = [
     # the table moves every week whatever the councils do.
     ("country_agenda", "last_seen", 7, 4, "Week-ahead agendas of the country editions "
      "(a step of each country's weekly)"),
+    # The new countries' petitions and consultations (11 October 2026,
+    # src/petitions.py): one table, written by a step of eleven weeklies (FR,
+    # AT, CH, IT, PT, PL, BE, NL, BR, AR, CO). Every item a run lists is
+    # re-stamped, and the French, Belgian, Brazilian and Austrian lists are
+    # never empty (petitions stay open for years), so it moves every week.
+    ("country_petitions", "last_seen", 7, 4, "Petitions and consultations of the country "
+     "editions (a step of each country's weekly)"),
     ("nl_members", "last_seen", 7, 4, "Tweede Kamer members (Netherlands weekly)"),
     ("nl_fracties", "last_seen", 7, 4, "Tweede Kamer fracties (Netherlands weekly)"),
     ("nl_divisions", "last_seen", 31, 31, "Tweede Kamer votes (Netherlands weekly)"),
@@ -1156,6 +1163,8 @@ def table_exists(conn, table):
 AWAITING_STEP_UNTIL = {
     "country_agenda": ("2026-10-24", "the week-ahead step (tools/country_agenda.py) joins "
                        "nine country weeklies on merge; it fills on the first of them"),
+    "country_petitions": ("2026-10-25", "the petitions step (tools/country_petitions.py) joins "
+                          "eleven country weeklies on merge; it fills on the first of them"),
 }
 
 
