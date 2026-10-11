@@ -4,6 +4,8 @@
     python3 tools/country_vote_briefs.py --country pl                # from the store, print only
     python3 tools/country_vote_briefs.py --country pl --send         # brief, DM Chris, record
     python3 tools/country_vote_briefs.py --daily --send              # the daily direct pass
+    python3 tools/country_vote_briefs.py --daily --no-seed --out /tmp/b --raw-dir /tmp/raw
+                                                                      # a dry run, nothing sent
     python3 tools/country_vote_briefs.py --country it --db /tmp/it.db --since 2026-09-09 \\
         --out /tmp/briefs --no-seed                                   # a sample, nothing recorded
 
@@ -23,7 +25,15 @@ directory, never data/; it is deleted afterwards. A reader that fails is a
 [gap] line and costs the other countries nothing. jobs/vote-briefs-daily.sh
 runs it on the Mac Mini, and publishes the raw payloads it archived.
 
-Without --send nothing is sent and the ledger is not touched (briefs are
+THE DAILY SWEEP (11 October 2026; src/country_day_sweep.py, readers in
+src/day_sweep_sources.py): the same --daily run then reads what is NEW on
+our ground (bills, motions, questions, agenda points) for the Netherlands,
+Poland, Switzerland, Brazil, Italy, Austria, France (its agenda, once a day)
+and Spain (from 23 December 2026) into the same scratch store, and the run
+sends ONE DM: the vote briefs, then the new items; nothing when nothing.
+--no-sweep leaves it out; --sweep-only skips the votes.
+
+Without --send nothing is sent and the ledgers are not touched (briefs are
 still written, to --out). The DM goes to Chris alone (U05LJP0BT61).
 """
 
@@ -41,6 +51,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
+from src import country_day_sweep as sweep  # noqa: E402
 from src import country_vote_brief as cvb  # noqa: E402
 from src import db  # noqa: E402
 from src import vote_brief_sources as sources  # noqa: E402
@@ -75,6 +86,57 @@ def daily(client, since, today, countries=sources.DAILY, log=print, scratch_dir=
     return conn, path, read
 
 
+def daily_with_sweep(conn, client, countries, since, today, args, ledger_dir=None,
+                     sender=None, secrets=None, log=print):
+    """The daily run: the vote briefs, then the sweep of new items into the same
+    scratch store, then ONE DM for both (nothing when both are empty)."""
+    entries = []
+    cvb.run(conn, countries, since, today, today=today, out_dir=args.out, dm=args.send,
+            directory=ledger_dir, label="Same-day vote briefs", sample=args.no_seed,
+            entries_out=entries, log=log)
+    skip = set()
+    for cc in countries:                  # every qualifying vote: its bill is the brief's
+        try:
+            skip |= sweep.vote_keys(it for it, _r in cvb.candidates(conn, cc, since, today))
+        except Exception:                 # noqa: BLE001 - the brief logged its own gap
+            pass
+    read, held = sweep.collect(conn, client, since, today, log=log, directory=ledger_dir)
+    text, blocks, path = sweep.run(conn, read, since, today, today=today, out_dir=args.out,
+                                   record=args.send, directory=ledger_dir, skip_keys=skip,
+                                   log=log, sample=args.no_seed)
+    for cc, c in held.items():            # France's agenda zip: archived on a day it alerts
+        if any(b[0] == cc for b in blocks):
+            sweep.sources.archive_hit(client, c.fetched, log=log)
+    n_items = sum(len(p) for _cc, p in blocks)
+    if not entries and not text:
+        log("Nothing to send: no vote brief and nothing new on our ground.")
+        return 0
+    parts = [sweep.header(len(entries), n_items)]
+    parts += entries[:cvb.MAX_DM_BRIEFS]
+    if len(entries) > cvb.MAX_DM_BRIEFS:
+        parts.append("_and {0} more vote brief(s) in data/briefs/._".format(
+            len(entries) - cvb.MAX_DM_BRIEFS))
+    if text:
+        parts.append(text)
+    dm = vote_brief_style("\n\n".join(parts))
+    if path:
+        log("sweep: wrote {0}".format(os.path.relpath(path, ROOT) if path.startswith(ROOT)
+                                      else path))
+    if not args.send:
+        log("DM not sent (no --send). It would read:\n" + dm)
+        return 0
+    res = cvb.send(dm, secrets, sender)
+    log("DM: {0} ({1} brief(s), {2} new item(s))".format(
+        "sent" if res.get("message_ts") or res.get("ok") else
+        res.get("skipped") or res.get("error") or "sent", len(entries), n_items))
+    return 0
+
+
+def vote_brief_style(text):
+    from src import vote_brief
+    return vote_brief.house_style(text)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -91,9 +153,17 @@ def main(argv=None):
                     help="brief even on a country's first pass (samples; implies no ledger)")
     ap.add_argument("--out", default=cvb.BRIEFS)
     ap.add_argument("--raw-dir", default=os.path.join(ROOT, "data", "raw"))
+    ap.add_argument("--no-sweep", action="store_true",
+                    help="--daily: brief the votes only, no sweep of new items")
+    ap.add_argument("--sweep-only", action="store_true",
+                    help="--daily: the sweep of new items only, no vote readers")
     args = ap.parse_args(argv)
     if bool(args.country) == bool(args.daily):
         ap.error("give --country (from the store) or --daily (direct), not both")
+    if (args.no_sweep or args.sweep_only) and not args.daily:
+        ap.error("--no-sweep and --sweep-only go with --daily")
+    if args.no_sweep and args.sweep_only:
+        ap.error("--no-sweep or --sweep-only, not both")
     bad = [c for c in args.country or [] if c not in cvb.COUNTRIES]
     if bad:
         ap.error("no vote brief for: {0}".format(", ".join(bad)))
@@ -107,10 +177,13 @@ def main(argv=None):
         ledger_dir = tempfile.mkdtemp(prefix="vote-briefs-ledger-")
         for cc in args.country or sources.DAILY:
             cvb.save(dict(cvb.load(cc, ledger_dir), seeded="sample"), today, ledger_dir)
+        for cc in sweep.sources.SWEEP:
+            sweep.save(dict(sweep.load(cc, ledger_dir), seeded="sample"), today, ledger_dir)
     scratch = None
     if args.daily:
         client = HttpClient(raw_dir=args.raw_dir)
-        conn, scratch, countries = daily(client, since, today)
+        conn, scratch, countries = daily(client, since, today,
+                                         countries=() if args.sweep_only else sources.DAILY)
         label = "Same-day vote briefs"
     else:
         if not os.path.exists(args.db):
@@ -122,6 +195,8 @@ def main(argv=None):
         label = "Vote briefs after the {0} collection".format(
             ", ".join(cvb.country_name(c) for c in countries))
     try:
+        if args.daily and not args.no_sweep:
+            return daily_with_sweep(conn, client, countries, since, today, args, ledger_dir)
         cvb.run(conn, countries, since, today, today=today, out_dir=args.out, dm=args.send,
                 directory=ledger_dir, label=label, sample=args.no_seed)
         if args.send and not args.daily:
