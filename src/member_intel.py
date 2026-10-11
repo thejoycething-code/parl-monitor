@@ -117,7 +117,7 @@ SCHEMA = (
         role        TEXT,               -- 'Membro', 'Voorzitter', 'Titolare', verbatim
         start       TEXT,
         end         TEXT,
-        seen        TEXT NOT NULL
+        last_seen   TEXT NOT NULL
     )""",
     "CREATE INDEX IF NOT EXISTS mi_groups_cc ON mi_groups (cc, member_key)",
     """CREATE TABLE IF NOT EXISTS mi_interests (
@@ -132,13 +132,13 @@ SCHEMA = (
         paid        TEXT,               -- the register's own word on payment
         start       TEXT,
         end         TEXT,
-        seen        TEXT NOT NULL
+        last_seen   TEXT NOT NULL
     )""",
     "CREATE INDEX IF NOT EXISTS mi_interests_cc ON mi_interests (cc, member_key)",
     """CREATE TABLE IF NOT EXISTS mi_runs (
         cc          TEXT NOT NULL,
         source      TEXT NOT NULL,
-        ran         TEXT NOT NULL,      -- last successful read
+        last_seen   TEXT NOT NULL,      -- last successful read
         full_ran    TEXT,               -- last read of everything (Brazil's fronts)
         groups      INTEGER,
         interests   INTEGER,
@@ -218,19 +218,19 @@ def replace(conn, cc, source, today, groups=(), interests=(), full=None, note=No
         conn.execute("DELETE FROM mi_interests WHERE cc=? AND source=?", (cc, source))
         conn.executemany(
             "INSERT INTO mi_groups (cc, source, member_key, member_ref, name, kind, group_type, "
-            "group_key, group_name, role, start, end, seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            "group_key, group_name, role, start, end, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
             [(cc, source, g["member_key"], g["member_ref"], g["name"], g["kind"],
               g["group_type"], g["group_key"], g["group_name"], g["role"], g["start"], g["end"],
               today) for g in groups])
         conn.executemany(
             "INSERT INTO mi_interests (cc, source, member_key, member_ref, name, category, text, "
-            "role, paid, start, end, seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+            "role, paid, start, end, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
             [(cc, source, i["member_key"], i["member_ref"], i["name"], i["category"], i["text"],
               i["role"], i["paid"], i["start"], i["end"], today) for i in interests])
         old = conn.execute("SELECT full_ran FROM mi_runs WHERE cc=? AND source=?",
                            (cc, source)).fetchone()
         conn.execute(
-            "INSERT OR REPLACE INTO mi_runs (cc, source, ran, full_ran, groups, interests, note) "
+            "INSERT OR REPLACE INTO mi_runs (cc, source, last_seen, full_ran, groups, interests, note) "
             "VALUES (?,?,?,?,?,?,?)",
             (cc, source, today, today if full else (old[0] if old else None), len(groups),
              len(interests), note))
@@ -296,7 +296,7 @@ def sources_line(conn, cc):
     """'br-frentes 11 October 2026 (3,412 rows); ...' for the profile notes."""
     if not has_tables(conn):
         return None
-    got = conn.execute("SELECT source, ran, groups, interests FROM mi_runs WHERE cc=? "
+    got = conn.execute("SELECT source, last_seen, groups, interests FROM mi_runs WHERE cc=? "
                        "ORDER BY source", (cc,)).fetchall()
     return "; ".join("{0} read {1} ({2} row(s))".format(s, r, (g or 0) + (i or 0))
                      for s, r, g, i in got) or None

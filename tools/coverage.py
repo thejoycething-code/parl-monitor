@@ -630,9 +630,9 @@ from src import chamber_store as _chamber  # noqa: E402
 # AT, a step of each of those weeklies before the profiles. mi_runs is
 # stamped by every source read in full, whatever the parliament did, so it
 # moves every week; the newest stamp over all seven is what this watches. Each
-# source's own stamp is in mi_runs (cc, source, ran) and the weekly log's
+# source's own stamp is in mi_runs (cc, source, last_seen) and the weekly log's
 # "member-intel <cc>:" line says what it read.
-FEEDS += [("mi_runs", "ran", 7, 4,
+FEEDS += [("mi_runs", "last_seen", 7, 4,
            "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT weeklies)")]
 
 FEEDS += [("{0}_record_reads".format(cc), "last_seen", 31, 31,

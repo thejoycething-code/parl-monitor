@@ -326,7 +326,7 @@ Committees, cross-party groups and registers of interests (`tools/member_intel.p
 
 - **No new plists, workflows or cron slots.** A step of `jobs/<cc>-weekly.sh` for those seven, just before the member profiles, only when the collector stored something (exit 0 or 3). A failure is a `[gap] member-intel` line; last week's rows stand and the store is still published.
 - **Cost per run:** PL one request; AT two; IT one SPARQL query; FR the 5 MB AMO10 zip; CH about four OData pages; NL about a dozen OData pages; BR one 7.7 MB bulk file, four pages of fronts, then the members of the 8 fronts on our ground and an eighth of the other 312 (about 50 requests at 3 s, under three minutes). `python3 tools/member_intel.py br --full` reads every front at once (about 15 minutes) and is never needed in the weekly.
-- **Coverage:** `mi_runs.ran` is watched (`tools/coverage.py`, cadence 7, grace 4); the log line `member-intel <cc>:` says what each source gave.
+- **Coverage:** `mi_runs.last_seen` is watched (`tools/coverage.py`, cadence 7, grace 4); the log line `member-intel <cc>:` says what each source gave.
 - Nothing to install beyond the usual `git pull` of the runner clone.
 
 ## Installing the country jobs (10 October 2026)
