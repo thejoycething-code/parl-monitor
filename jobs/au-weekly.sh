@@ -54,7 +54,10 @@ if [ "${AU_RECLASSIFY:-}" = "true" ]; then
   python3 tools/au_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/au_rollcalls.py --budget-seconds 2700 || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/au_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" || rc=$?
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "au-rollcalls failed (exit $rc); no edition, nothing published"
   exit "$rc"

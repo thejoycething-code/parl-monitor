@@ -5,11 +5,12 @@
 #
 #     bash tools/chamber_step.sh <cc> "$SECONDS"
 #
-# TIME. The weeklies run under the Mini's JOB_TIMEOUT of an hour and their
-# collectors may spend 45 minutes, so this step gets whatever is left of 55
-# minutes, at most ten (the second argument is the job's own $SECONDS). Less
-# than a minute left: it says so and skips; the next run's three-week
-# lookback reads what this one did not.
+# TIME. The weeklies run under the Mini's JOB_TIMEOUT (an hour unless the
+# plist says otherwise), so this step gets what is left of it after the
+# publish and the later steps (tools/collector_budget.sh), at most ten
+# minutes (the second argument is the job's own $SECONDS). A minute or less
+# left: it says so and skips; the next run's three-week lookback reads what
+# this one did not.
 #
 # NOT ON GITHUB. The GitHub workflows are the backup for a Mini that did not
 # run, with their own 30 to 60 minute timeouts and the Actions minutes to
@@ -23,9 +24,8 @@ if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
   echo "chamber step: skipped on GitHub (the Mini's next run catches up)"
   exit 0
 fi
-budget=$(( 3300 - spent ))
-[ "$budget" -gt 600 ] && budget=600
-if [ "$budget" -lt 60 ]; then
+budget=$(bash tools/collector_budget.sh 600 "$spent")
+if [ "$budget" -le 60 ]; then
   echo "  [gap] ${cc}-chamber: no time left this run (${spent}s spent); the next run reads it"
   exit 0
 fi

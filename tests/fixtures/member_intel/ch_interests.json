@@ -1,0 +1,128 @@
+{
+ "d": [
+  {
+   "__metadata": {
+    "id": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'9536a88c-8142-43de-96da-2613b262928f',Language='DE')",
+    "uri": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'9536a88c-8142-43de-96da-2613b262928f',Language='DE')",
+    "type": "itsystems.Pd.DataServices.DataModel.PersonInterest"
+   },
+   "Persons": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'9536a88c-8142-43de-96da-2613b262928f',Language='DE')/Persons"
+    }
+   },
+   "ID": "9536a88c-8142-43de-96da-2613b262928f",
+   "Language": "DE",
+   "OrganizationType": 6,
+   "OrganizationTypeText": "Vorstand",
+   "OrganizationTypeShortText": "V",
+   "FunctionInAgency": 3,
+   "FunctionInAgencyText": "Mitglied",
+   "FunctionInAgencyShortText": "M",
+   "Agency": "F",
+   "PersonNumber": 4331,
+   "Modified": "/Date(1791556089517)/",
+   "InterestType": 3,
+   "InterestTypeText": "Verein",
+   "InterestTypeShortText": "Ve.",
+   "FirstName": "Marc",
+   "LastName": "Jost",
+   "InterestName": "Swiss eMobility",
+   "SortOrder": 110,
+   "Paid": false
+  },
+  {
+   "__metadata": {
+    "id": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'73481018-307f-4b4b-9824-36e0b0169e18',Language='DE')",
+    "uri": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'73481018-307f-4b4b-9824-36e0b0169e18',Language='DE')",
+    "type": "itsystems.Pd.DataServices.DataModel.PersonInterest"
+   },
+   "Persons": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'73481018-307f-4b4b-9824-36e0b0169e18',Language='DE')/Persons"
+    }
+   },
+   "ID": "73481018-307f-4b4b-9824-36e0b0169e18",
+   "Language": "DE",
+   "OrganizationType": 13,
+   "OrganizationTypeText": "Direktion",
+   "OrganizationTypeShortText": "D",
+   "FunctionInAgency": 4,
+   "FunctionInAgencyText": "Direktor(in)",
+   "FunctionInAgencyShortText": "Dir.",
+   "Agency": "F",
+   "PersonNumber": 4331,
+   "Modified": "/Date(1791556089517)/",
+   "InterestType": 3,
+   "InterestTypeText": "Verein",
+   "InterestTypeShortText": "Ve.",
+   "FirstName": "Marc",
+   "LastName": "Jost",
+   "InterestName": "First Step Forum",
+   "SortOrder": 110,
+   "Paid": true
+  },
+  {
+   "__metadata": {
+    "id": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'fe0b7d00-f3d9-41bd-9d7c-5bcf50cb133a',Language='DE')",
+    "uri": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'fe0b7d00-f3d9-41bd-9d7c-5bcf50cb133a',Language='DE')",
+    "type": "itsystems.Pd.DataServices.DataModel.PersonInterest"
+   },
+   "Persons": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'fe0b7d00-f3d9-41bd-9d7c-5bcf50cb133a',Language='DE')/Persons"
+    }
+   },
+   "ID": "fe0b7d00-f3d9-41bd-9d7c-5bcf50cb133a",
+   "Language": "DE",
+   "OrganizationType": 6,
+   "OrganizationTypeText": "Vorstand",
+   "OrganizationTypeShortText": "V",
+   "FunctionInAgency": 3,
+   "FunctionInAgencyText": "Mitglied",
+   "FunctionInAgencyShortText": "M",
+   "Agency": "F",
+   "PersonNumber": 4331,
+   "Modified": "/Date(1791556089520)/",
+   "InterestType": 3,
+   "InterestTypeText": "Verein",
+   "InterestTypeShortText": "Ve.",
+   "FirstName": "Marc",
+   "LastName": "Jost",
+   "InterestName": "Schweizerische Evangelische Allianz",
+   "SortOrder": 110,
+   "Paid": false
+  },
+  {
+   "__metadata": {
+    "id": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'6344b913-ecd2-41c7-a644-98dcd9120810',Language='DE')",
+    "uri": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'6344b913-ecd2-41c7-a644-98dcd9120810',Language='DE')",
+    "type": "itsystems.Pd.DataServices.DataModel.PersonInterest"
+   },
+   "Persons": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/PersonInterest(ID=guid'6344b913-ecd2-41c7-a644-98dcd9120810',Language='DE')/Persons"
+    }
+   },
+   "ID": "6344b913-ecd2-41c7-a644-98dcd9120810",
+   "Language": "DE",
+   "OrganizationType": 2,
+   "OrganizationTypeText": "Stiftungsrat",
+   "OrganizationTypeShortText": "Sr.",
+   "FunctionInAgency": 3,
+   "FunctionInAgencyText": "Mitglied",
+   "FunctionInAgencyShortText": "M",
+   "Agency": "F",
+   "PersonNumber": 4331,
+   "Modified": "/Date(1791556089517)/",
+   "InterestType": 4,
+   "InterestTypeText": "Stiftung",
+   "InterestTypeShortText": "Stift.",
+   "FirstName": "Marc",
+   "LastName": "Jost",
+   "InterestName": "Fondation Gobat pour la paix",
+   "SortOrder": 100,
+   "Paid": false
+  }
+ ]
+}

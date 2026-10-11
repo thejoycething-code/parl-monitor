@@ -1602,6 +1602,17 @@ Probed live from the laptop through `src/http.py` on 10 October 2026.
   under a second. 25 prints' documents took 281 seconds (about 11 a print).
   No robots.txt (404).
 
+* **asamblea.gob.sv vote list (11 October 2026)**: the Mini's
+  `sesion-plenaria/votaciones-ajax?...&length=500` failed four times on 11
+  October while the site root answered 200. Probed from the laptop that
+  afternoon through src/http.py (honest UA; robots.txt disallows only Drupal's
+  admin and user paths): the Votaciones page's own script is unchanged (GET,
+  DataTables `serverSide`, no CSRF token or extra header, default page size
+  10), and 10, 100 and 500 rows all answered (1, 1 and 6 s; still 6,710 votes).
+  No challenge was seen. The collector now asks again at 100 rows (the
+  page's largest length) when a 500-row page fails, and a list that answers
+  neither is a gap: the run stops cleanly and publishes (tools/sv_rollcalls.py).
+
 ## The store as a gzipped release asset (11 October 2026)
 
 GitHub caps each release asset at 2 GiB. The store was 1.76 GB on 11 October
