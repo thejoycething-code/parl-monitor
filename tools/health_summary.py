@@ -2,6 +2,7 @@
 
     python3 tools/health_summary.py              # print it
     python3 tools/health_summary.py --dm         # and DM it
+    python3 tools/health_summary.py --logs DIR --offline   # a copy of the logs, no GitHub
 
 Jobs now run in two places, the Mac Mini first and GitHub as the backup, and
 neither one's failure alerts say what the other did. This says it all at once:
@@ -11,8 +12,15 @@ neither one's failure alerts say what the other did. This says it all at once:
   * GitHub Actions minutes: the last 24 hours by trigger, the 7-day
     average, and how many whole days in a row came in under 60 -- the
     plan's bar for making the repo private again (7 in a row);
+  * the new countries (11 October 2026, src/country_health.py): ONE compact
+    section per region, Europe and Latam, plus a line for their shared jobs
+    (daily vote briefs, the editions session judge): failed and stale jobs
+    first, then step gaps in each job's last run (edition, vote briefs, judge,
+    agenda, chamber, courts, backfill, ...), editions behind their cadence and
+    these countries' overdue sources. A clean region is one line;
   * every overdue source from tools/coverage.py, EVERY day, with the ones
-    first seen in the last day marked NEW. The coverage watch itself now
+    first seen in the last day marked NEW (the new countries' under their
+    region instead). The coverage watch itself now
     alerts only on new or worsening problems (coverage.py --state), so this
     is where a known one stays visible.
 
@@ -53,11 +61,11 @@ def _ts(text):
         tzinfo=datetime.timezone.utc)
 
 
-def mini_runs(lines, since):
-    """[(job, started, outcome)] from one mini_run log, newest last.
+def mini_runs_full(lines):
+    """[(job, started, outcome, gaps)] from one mini_run log, oldest first.
 
-    outcome: "ok", "FAILED at <stage>: <why>", or "running" when the log
-    ends inside a run (it may still be going, or it died without a word).
+    As mini_runs, at any age, and with each run's own "[gap]" lines (stripped)
+    for the country section (src/country_health.py, 11 October 2026).
     """
     runs, cur, rerun = [], None, False
     for line in lines:
@@ -65,9 +73,12 @@ def mini_runs(lines, since):
         if m:
             # After "re-running the new one" the wrapper starts over in the
             # same process: one run, not an unfinished one and a second.
-            if cur and not (rerun and cur[0] == m.group(2)):
+            if cur and rerun and cur[0] == m.group(2):
+                rerun = False
+                continue
+            if cur:
                 runs.append(cur)
-            cur, rerun = [m.group(2), _ts(m.group(1)), "running"], False
+            cur, rerun = [m.group(2), _ts(m.group(1)), "running", []], False
             continue
         if cur is None:
             continue
@@ -84,12 +95,26 @@ def mini_runs(lines, since):
             cur[2] = "FAILED at " + f.group(1).strip()
             runs.append(cur)
             cur = None
+            continue
+        if "[gap]" in line:
+            cur[3].append(line.strip())
     if cur:
         runs.append(cur)
-    return [tuple(r) for r in runs if r[1] >= since]
+    return [tuple(r) for r in runs]
 
 
-def read_mini(logs, since):
+def mini_runs(lines, since):
+    """[(job, started, outcome)] from one mini_run log, newest last.
+
+    outcome: "ok", "FAILED at <stage>: <why>", or "running" when the log
+    ends inside a run (it may still be going, or it died without a word).
+    """
+    return [(j, s, o) for j, s, o, _g in mini_runs_full(lines) if s >= since]
+
+
+def read_mini_full(logs):
+    """Every run in the Mini's logs (the last 400 kB of each), with its gap
+    lines, oldest first; None when there are no logs."""
     runs = []
     if not os.path.isdir(logs):
         return None
@@ -99,8 +124,15 @@ def read_mini(logs, since):
         path = os.path.join(logs, name)
         with open(path, encoding="utf-8", errors="replace") as handle:
             handle.seek(max(0, os.path.getsize(path) - 400_000))
-            runs.extend(mini_runs(handle.read().splitlines(), since))
+            runs.extend(mini_runs_full(handle.read().splitlines()))
     return sorted((r for r in runs if r[0] != SELF), key=lambda r: r[1])
+
+
+def read_mini(logs, since, full=None):
+    full = read_mini_full(logs) if full is None else full
+    if full is None:
+        return None
+    return [(j, s, o) for j, s, o, _g in full if s >= since]
 
 
 def read_github(since):
@@ -205,8 +237,10 @@ def minutes_summary(rows, now):
             "per_day": per_day, "streak": streak}
 
 
-def overdue_sources(db_path, state_path, today):
-    """[(text, is_new)] from coverage.check, or None if the store is unreadable."""
+def overdue_found(db_path, state_path, today):
+    """[(key, age, text, is_new)] from coverage.check, or None if the store is
+    unreadable. The key lets the country section (src/country_health.py) take
+    the new countries' problems out of the general list."""
     import coverage
     if not os.path.exists(db_path):
         return None
@@ -220,8 +254,14 @@ def overdue_sources(db_path, state_path, today):
         conn.close()
     state = coverage.load_state(state_path)
     fresh = {(today - datetime.timedelta(days=1)).isoformat(), today.isoformat()}
-    return [(text, state.get(key, {}).get("first", today.isoformat()) in fresh)
-            for (key, _age), text in zip(found, lines)]
+    return [(key, age, text, state.get(key, {}).get("first", today.isoformat()) in fresh)
+            for (key, age), text in zip(found, lines)]
+
+
+def overdue_sources(db_path, state_path, today):
+    """[(text, is_new)] from coverage.check, or None if the store is unreadable."""
+    found = overdue_found(db_path, state_path, today)
+    return None if found is None else [(t, n) for _k, _a, t, n in found]
 
 
 def london(when):
@@ -232,7 +272,13 @@ def london(when):
         return when.strftime("%a %H:%MZ")
 
 
-def render(now, mini, github, overdue, running_job, minutes=None):
+def render(now, mini, github, overdue, running_job, minutes=None, countries=None,
+           moved=0, country_jobs=()):
+    """The summary text. `countries`: the lines of src/country_health.section,
+    placed after the Mini and GitHub runs; `moved`: how many overdue sources
+    that section took out of the general list (said in its heading);
+    `country_jobs`: the jobs whose failures that section names, so the Mini
+    list does not name them twice."""
     out = ["*parl-monitor health, {0} London*".format(london(now))]
 
     out.append("\n*Mac Mini, last 24h*")
@@ -244,11 +290,20 @@ def render(now, mini, github, overdue, running_job, minutes=None):
         failed = [r for r in mini if r[2].startswith("FAILED")]
         ok = [r for r in mini if r[2] == "ok"]
         out.append("• {0} run(s): {1} ok, {2} failed".format(len(mini), len(ok), len(failed)))
+        hidden = 0
         for job, started, outcome in failed:
+            if job in country_jobs:
+                hidden += 1
+                continue
             out.append("• :x: {0} at {1}: {2}".format(job, london(started), outcome[10:][:160]))
         for job, started, outcome in mini:
             if outcome == "running" and job != running_job:
+                if job in country_jobs:
+                    hidden += 1
+                    continue
                 out.append("• :warning: {0} at {1} never finished".format(job, london(started)))
+        if hidden:
+            out.append("• {0} more on the new countries' jobs: see Country editions".format(hidden))
     if running_job:
         out.append("• running now: {0}".format(running_job))
 
@@ -274,6 +329,9 @@ def render(now, mini, github, overdue, running_job, minutes=None):
         for name, created, status, _c in live:
             out.append("• :hourglass: {0}: {1} since {2}".format(name, status, london(created)))
 
+    if countries:
+        out.extend(countries)
+
     out.append("\n*GitHub minutes*")
     if minutes is None:
         out.append("• could not count GitHub's minutes")
@@ -292,7 +350,8 @@ def render(now, mini, github, overdue, running_job, minutes=None):
             out.append("• {0} day(s) in a row under {1} ({2} needed before going private)".format(
                 minutes["streak"], PRIVATE_BAR, PRIVATE_DAYS))
 
-    out.append("\n*Overdue sources*")
+    out.append("\n*Overdue sources*{0}".format(
+        " (the new countries' {0} are under Country editions)".format(moved) if moved else ""))
     if overdue is None:
         out.append("• could not read the store, so coverage is unknown")
     elif not overdue:
@@ -310,6 +369,12 @@ def minutes_or_none(now):
     return None if rows is None else minutes_summary(rows, now)
 
 
+def _arg(argv, name):
+    if name in argv and argv.index(name) + 1 < len(argv):
+        return argv[argv.index(name) + 1]
+    return None
+
+
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     now = datetime.datetime.now(datetime.timezone.utc)
@@ -322,10 +387,24 @@ def main(argv=None):
         pass
     if running == SELF:
         running = None
-    text = render(now, read_mini(LOGS, since), read_github(since),
-                  overdue_sources(os.path.join(ROOT, "data", "parl-monitor.db"), STATE,
-                                  now.date()),
-                  running, minutes_or_none(now))
+    logs = _arg(argv, "--logs") or LOGS
+    full = read_mini_full(logs)
+    found = overdue_found(os.path.join(ROOT, "data", "parl-monitor.db"), STATE, now.date())
+    countries, rest, moved = None, None if found is None else [(t, n) for _k, _a, t, n in found], 0
+    from src import country_health
+    try:
+        import coverage
+        countries, rest = country_health.section(full, found, now, london, running,
+                                                 coverage.PIPELINES, ROOT)
+        moved = 0 if found is None else len(found) - len(rest)
+    except Exception as exc:                                # noqa: BLE001
+        countries = ["\n*Country editions (new countries)*",
+                     "• the country section failed: {0}".format(str(exc)[:160])]
+    offline = "--offline" in argv
+    text = render(now, read_mini(logs, since, full), None if offline else read_github(since),
+                  rest, running, None if offline else minutes_or_none(now),
+                  countries=countries, moved=moved,
+                  country_jobs=country_health.all_jobs() if countries else ())
     print(text)
     if "--dm" in argv:
         from src import publish
