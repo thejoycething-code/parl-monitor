@@ -956,6 +956,7 @@ ATTENDANCE_TEXT = {
                                    "call: usually one member per party takes part."),
         "att_note": "A count of the record, never a judgement: an absence may be leave or a mission.",
         "part_line": "voted in {cast} of {of} recorded votes in the year to {last} (derived from the vote records)",
+        "plen_line": "present at {a} of {n} plenary sittings, {first} to {last} ({x} excused or with a reason given; the parliament's roll)",
     },
     "es": {
         "att_period": "Sesiones de la comisión contadas: del {a} al {b}, el registro disponible.",
@@ -972,6 +973,7 @@ ATTENDANCE_TEXT = {
         "att_basis_participants": "Base: la lista de participantes del parlamento; no es una lista de asistencia.",
         "att_note": "Un recuento del registro, nunca un juicio: una ausencia puede ser licencia o misión.",
         "part_line": "votó en {cast} de {of} votaciones registradas en el año hasta el {last} (derivado de los registros de votación)",
+        "plen_line": "presente en {a} de {n} sesiones plenarias, del {first} al {last} ({x} con justificación; registro de asistencia del parlamento)",
     },
     "pt": {
         "att_period": "Reuniões da comissão contadas: de {a} a {b}, o registo disponível.",
@@ -988,6 +990,7 @@ ATTENDANCE_TEXT = {
         "att_basis_participants": "Base: a lista de participantes; não é uma lista de presença.",
         "att_note": "Uma contagem do registo, nunca um juízo: uma ausência pode ser licença ou missão.",
         "part_line": "votou em {cast} de {of} votações registadas no ano até {last} (derivado dos registos de votação)",
+        "plen_line": "presente em {a} de {n} reuniões plenárias, de {first} a {last} ({x} ausências justificadas, em missão ou noutro órgão; registo de presenças do parlamento)",
     },
     "fr": {
         "att_period": "Réunions de la commission comptées : du {a} au {b}, le relevé disponible.",
@@ -1004,6 +1007,7 @@ ATTENDANCE_TEXT = {
         "att_basis_participants": "Base : la liste des participants ; ce n'est pas un relevé de présence.",
         "att_note": "Un décompte du relevé, jamais un jugement : une absence peut être un congé ou une mission.",
         "part_line": "a voté dans {cast} des {of} scrutins enregistrés sur l'année jusqu'au {last} (déduit des relevés de vote)",
+        "plen_line": "présent(e) à {a} des {n} séances plénières, du {first} au {last} ({x} excusé(e)s ou avec motif ; registre de présence du parlement)",
     },
     "nl": {
         "att_period": "Getelde commissiedebatten: van {a} tot {b}, de beschikbare registratie.",
@@ -1021,6 +1025,7 @@ ATTENDANCE_TEXT = {
                                    "presentielijst: meestal neemt één woordvoerder per fractie deel."),
         "att_note": "Een telling van de registratie, nooit een oordeel.",
         "part_line": "stemde in {cast} van {of} geregistreerde stemmingen in het jaar tot {last} (afgeleid uit de stemregistraties)",
+        "plen_line": "aanwezig bij {a} van {n} plenaire vergaderingen, {first} tot {last} ({x} met reden of verontschuldigd; presentielijst van het parlement)",
     },
     "it": {
         "att_period": "Sedute della commissione contate: dal {a} al {b}, il registro disponibile.",
@@ -1037,6 +1042,7 @@ ATTENDANCE_TEXT = {
         "att_basis_participants": "Base: l'elenco dei partecipanti; non è un appello.",
         "att_note": "Un conteggio del registro, mai un giudizio: un'assenza può essere un congedo o una missione.",
         "part_line": "ha votato in {cast} di {of} votazioni registrate nell'anno fino al {last} (derivato dai tabulati)",
+        "plen_line": "presente a {a} di {n} sedute plenarie, dal {first} al {last} ({x} giustificate o in missione; registro delle presenze del parlamento)",
     },
     "de": {
         "att_period": "Gezählte Kommissionssitzungen: {a} bis {b}, der vorhandene Bestand.",
@@ -1053,6 +1059,7 @@ ATTENDANCE_TEXT = {
         "att_basis_participants": "Grundlage: die Liste der Teilnehmenden; keine Anwesenheitsliste.",
         "att_note": "Eine Zählung des Bestands, nie ein Urteil: eine Abwesenheit kann Urlaub oder eine Mission sein.",
         "part_line": "stimmte in {cast} von {of} erfassten Abstimmungen im Jahr bis {last} ab (abgeleitet aus den Abstimmungsprotokollen)",
+        "plen_line": "anwesend in {a} von {n} Plenarsitzungen, {first} bis {last} ({x} entschuldigt oder mit Grund; Anwesenheitsliste des Parlaments)",
     },
     "pl": {
         "att_period": "Liczone posiedzenia komisji: od {a} do {b}, dostępny rejestr.",
@@ -1069,6 +1076,7 @@ ATTENDANCE_TEXT = {
         "att_basis_participants": "Podstawa: lista uczestników; to nie jest lista obecności.",
         "att_note": "Liczenie rejestru, nigdy ocena: nieobecność może oznaczać urlop lub delegację.",
         "part_line": "głosował(a) w {cast} z {of} zarejestrowanych głosowań w roku do {last} (wyliczone z wyników głosowań)",
+        "plen_line": "obecny/a na {a} z {n} posiedzeń plenarnych, od {first} do {last} ({x} usprawiedliwionych; lista obecności parlamentu)",
     },
     "hr": {
         "att_period": "Brojene sjednice odbora: od {a} do {b}, dostupna evidencija.",
@@ -1085,6 +1093,7 @@ ATTENDANCE_TEXT = {
         "att_basis_participants": "Osnova: popis sudionika; nije popis nazočnosti.",
         "att_note": "Brojanje evidencije, nikad sud: odsutnost može biti dopust ili službeni put.",
         "part_line": "glasovao/la u {cast} od {of} zabilježenih glasovanja u godini do {last} (izvedeno iz evidencije glasovanja)",
+        "plen_line": "nazočan/na na {a} od {n} plenarnih sjednica, od {first} do {last} ({x} opravdano; evidencija nazočnosti parlamenta)",
     },
     "sk": {
         "att_period": "Počítané schôdze výboru: od {a} do {b}, dostupný záznam.",
@@ -1101,6 +1110,7 @@ ATTENDANCE_TEXT = {
         "att_basis_participants": "Základ: zoznam účastníkov; nie je to prezenčná listina.",
         "att_note": "Počet zo záznamu, nikdy úsudok: neprítomnosť môže byť dovolenka alebo služobná cesta.",
         "part_line": "hlasoval(a) v {cast} z {of} zaznamenaných hlasovaní v roku do {last} (odvodené zo záznamov hlasovania)",
+        "plen_line": "prítomný/á na {a} z {n} plenárnych schôdzí, od {first} do {last} ({x} ospravedlnených; prezenčná listina parlamentu)",
     },
     "hu": {
         "att_period": "Számolt bizottsági ülések: {a} és {b} között, a rendelkezésre álló nyilvántartás.",
@@ -1117,6 +1127,7 @@ ATTENDANCE_TEXT = {
         "att_basis_participants": "Alap: a résztvevők listája; nem jelenléti ív.",
         "att_note": "A nyilvántartás számlálása, soha nem ítélet: a távollét lehet szabadság vagy kiküldetés.",
         "part_line": "{of} rögzített szavazásból {cast} alkalommal szavazott a(z) {last} napjáig tartó évben (a szavazási adatokból számítva)",
+        "plen_line": "{n} plenáris ülésből {a} alkalommal volt jelen, {first} és {last} között ({x} igazolt távollét; a parlament jelenléti íve)",
     },
 }
 for _lang, _rows in ATTENDANCE_TEXT.items():

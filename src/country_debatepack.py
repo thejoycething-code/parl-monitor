@@ -681,11 +681,39 @@ def assemble(conn, cc, date, subject, chamber=None, speakers=(), config_dir=None
     pack["attendance_collected"] = cc in ATTENDANCE_COUNTRIES
     part, _basis = attendance.participation(conn, cc, today)
     pack["participation"] = part
+    # The plenary roll (additive, 11 October 2026): where the parliament
+    # publishes a roll for every plenary sitting and the votes give no
+    # participation (Portugal votes by group), each named speaker's and
+    # member to watch's plenary presence, from the roll.
+    pack["plenary"] = plenary_roll(conn, cc) if cc in PLENARY_ROLL_PACKS else {}
     return pack
 
 
 # Countries whose committee attendance is collected (src/attendance.py FETCHERS).
 ATTENDANCE_COUNTRIES = ("br", "fr", "cl", "nl", "co")
+# Countries whose packs show the plenary roll beside the speakers and the
+# members to watch (Portugal, whose votes are by group). Chile and Colombia
+# have a plenary roll too; their packs are left as they were.
+PLENARY_ROLL_PACKS = ("pt",)
+
+
+def plenary_roll(conn, cc):
+    """{member key: summary row} for the plenary, from a roll (src/attendance.py)."""
+    out = {}
+    for who, rows in attendance.summaries(conn, cc).items():
+        r = next((x for x in rows if x["body_kind"] == "plenary" and x["roll"] == "roll"), None)
+        if r:
+            out[who] = r
+    return out
+
+
+def plenary_bit(pack, member_id, T):
+    """'present at 113 of 119 plenary sittings ...' or None."""
+    r = (pack.get("plenary") or {}).get(str(member_id))
+    if not r:
+        return None
+    return T("plen_line", a=r["attended"], n=r["of"], x=r["excused"], first=r["first"] or "?",
+             last=r["last"] or "?")
 MAX_ATTENDANCE_ROWS = 80
 
 
@@ -871,6 +899,9 @@ def render_pack(pack, sample=False, folder=None):
             part = (pack.get("participation") or {}).get(str(m["member_id"]))
             if part:
                 bits.append(T("part_line", **part))
+            plen = plenary_bit(pack, m["member_id"], T)
+            if plen:
+                bits.append(plen)
             out.append("- **{0}** ({1})".format(m.get("name"), "; ".join(b for b in bits if b)))
     else:
         out.append(T("speakers_none"))
@@ -895,6 +926,9 @@ def render_pack(pack, sample=False, folder=None):
             part = (pack.get("participation") or {}).get(str(r["member_id"]))
             if part:
                 line += "; " + T("part_line", **part)
+            plen = plenary_bit(pack, r["member_id"], T)
+            if plen:
+                line += "; " + plen
             out.append(line)
         if len(pack["watch"]) > MAX_WATCH:
             out.append("- " + T("and_more", n=len(pack["watch"]) - MAX_WATCH))

@@ -324,6 +324,117 @@ class Packs(unittest.TestCase):
             self.assertIn("1", i18n.text(lang, "part_line", **r))
 
 
+class PortugalClient(FakeClient):
+    """The index's second page comes only by postback (post_form)."""
+    def __init__(self, answers, posted):
+        super().__init__(answers)
+        self.posted, self.posts = posted, []
+
+    def post_form(self, url, fields, feed, slug, **_):
+        self.posts.append(dict(fields).get("__EVENTTARGET"))
+        return self.posted
+
+
+class Portugal(unittest.TestCase):
+    def test_index_rows_pager_and_total(self):
+        rows, pages, total = att.parse_pt_index(text("pt_reunioes_1.html"))
+        self.assertEqual(rows[0], {"bid": "387162", "date": "2026-10-07", "number": "8",
+                                   "kind": "Ordinária", "legislature": "XVII", "session": "2"})
+        self.assertEqual(len(rows), 3)
+        self.assertEqual(list(pages), [2])
+        self.assertTrue(pages[2].endswith("dpgResults$ctl00$ctl01"))
+        self.assertEqual(total, 5)
+        form = dict(att.pt_form(text("pt_reunioes_1.html"), pages[2]))
+        self.assertEqual(form["__EVENTTARGET"], pages[2])
+        self.assertIn("__VIEWSTATE", form)
+
+    def test_sitting_roll_with_the_motive_verbatim(self):
+        s, marks = att.parse_pt_sitting(text("pt_reuniao_387162.html"), "387162")
+        self.assertEqual((s["sitting_key"], s["body_kind"], s["date"], s["roll"]),
+                         ("pt-rp-387162", "plenary", "2026-10-07", "roll"))
+        got = {m["name"]: (m["member_key"], m["status"], m["present"], m["excused"])
+               for m in marks}
+        self.assertEqual(got["Adriana Rodrigues"], ("7489", "Presença (P)", 1, 0))
+        self.assertEqual(got["Ana Gabriela Cabilhas"],
+                         ("8179", "Falta Justificada (FJ): Casamento", 0, 1))
+        self.assertEqual(got["Alberto Fonseca"][1:], ("Ausência em Missão Parlamentar (AMP)", 0, 1))
+        self.assertEqual(got["Daniel Teixeira"][1:], ("Falta", 0, 0))
+        self.assertEqual(got["Miguel Matos"][1:], ("Presença Noutro Órgão (PNO)", 0, 1))
+
+    def test_status_words(self):
+        self.assertEqual(att.pt_status("Falta Injustificada (FI)"), (0, 0))
+        self.assertEqual(att.pt_status("Falta ao Quórum de Votação"), (0, 0))
+        self.assertEqual(att.pt_status("Presença (P)"), (1, 0))
+        self.assertEqual(att.pt_status("Something new"), (None, 0))
+
+    def _client(self):
+        return PortugalClient([("reunioesplenarias.aspx", text("pt_reunioes_1.html")),
+                               ("DetalheReuniaoPlenaria.aspx", text("pt_reuniao_387162.html"))],
+                              text("pt_reunioes_2.html"))
+
+    def test_backfill_in_blocks_then_the_newest_page_only(self):
+        conn = fresh()
+        client = self._client()
+        att.collect(conn, client, "pt", TODAY, log=QUIET, max_sittings=3)
+        stored = {k for (k,) in conn.execute("SELECT sitting_key FROM att_sittings WHERE cc='pt'")}
+        self.assertEqual(stored, {"pt-rp-387162", "pt-rp-387160", "pt-rp-387159"})
+        self.assertEqual(client.posts, [])              # three in hand: no second page
+        client = self._client()
+        att.collect(conn, client, "pt", TODAY, log=QUIET, max_sittings=3)
+        self.assertEqual(len(client.posts), 1)          # page 2, by postback
+        stored = {k for (k,) in conn.execute("SELECT sitting_key FROM att_sittings WHERE cc='pt'")}
+        self.assertEqual(len(stored), 5)
+        note = conn.execute("SELECT note FROM att_runs WHERE cc='pt'").fetchone()[0]
+        self.assertIn("5 of 5 listed sittings stored", note)
+        client = self._client()
+        att.collect(conn, client, "pt", TODAY, log=QUIET)
+        self.assertEqual(client.posts, [])              # all stored: the newest page only
+        # Sittings of the last three weeks are read again (a Falta justified later).
+        reads = [u for u in client.asked if "Detalhe" in u]
+        self.assertEqual(len(reads), 3)
+
+    def test_summary_counts_excused_apart(self):
+        conn = fresh()
+        att.collect(conn, self._client(), "pt", TODAY, log=QUIET, max_sittings=1)
+        rows = att.summaries(conn, "pt")
+        r = rows["8179"][0]
+        self.assertEqual((r["body_kind"], r["attended"], r["of"], r["excused"], r["absent"]),
+                         ("plenary", 0, 1, 1, 0))
+        self.assertEqual(rows["8832"][0]["absent"], 1)
+        self.assertIn("present at 1 of 1", att.row_text(rows["7489"][0]))
+
+    def test_verified_against_the_roster_and_member_service(self):
+        from src import member_service as ms
+        conn = fresh()
+        conn.execute("CREATE TABLE pt_members (cad_id INTEGER PRIMARY KEY, name TEXT)")
+        conn.executemany("INSERT INTO pt_members VALUES (?,?)",
+                         [(7489, "Adriana Rodrigues"), (8179, "Ana Gabriela Cabilhas")])
+        ms.ensure(conn)
+        ms.replace(conn, "pt", "pt-informacaobase", TODAY,
+                   [ms.period("7489", "7489", "Adriana Rodrigues", "AR", "XVII", "2025-06-03")],
+                   [ms.spell("7489", "7489", "Adriana Rodrigues", "group", "PSD", "PSD",
+                             "2025-06-03"),
+                    ms.spell("8179", "8179", "Ana Gabriela Cabilhas", "group", "PSD", "PSD",
+                             "2025-06-03")])
+        s, marks = att.parse_pt_sitting(text("pt_reuniao_387162.html"), "387162")
+        got = att.pt_verify(conn, [s], marks)
+        self.assertEqual((got["marks"], got["in_roster"], got["name_match"], got["seated"],
+                          got["group_match"], got["no_service"]), (5, 2, 2, 1, 1, 4))
+
+    def test_pack_shows_the_plenary_roll_for_portugal_only(self):
+        conn = fresh()
+        att.collect(conn, self._client(), "pt", TODAY, log=QUIET, max_sittings=1)
+        self.assertEqual(cdp.PLENARY_ROLL_PACKS, ("pt",))
+        pack = {"plenary": cdp.plenary_roll(conn, "pt")}
+        T = lambda key, **kw: i18n.text("pt", key, **kw)  # noqa: E731
+        line = cdp.plenary_bit(pack, "8179", T)
+        self.assertIn("presente em 0 de 1 reuniões plenárias", line)
+        self.assertIn("1 ausências justificadas", line)
+        self.assertIsNone(cdp.plenary_bit(pack, "999", T))
+        self.assertIn("present at", i18n.text("en", "plen_line", a=1, n=2, x=0, first="a",
+                                               last="b"))
+
+
 class Tool(unittest.TestCase):
     def test_a_failing_country_is_a_gap_and_the_rest_still_run(self):
         from tools import country_attendance as tool

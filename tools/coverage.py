@@ -651,13 +651,14 @@ FEEDS += [("mi_runs", "last_seen", 7, 4,
 FEEDS += [("ms_runs", "last_seen", 7, 4,
            "length of service: members' periods and dated groups (18 country weeklies)")]
 # Attendance (11 October 2026, tools/country_attendance.py, src/attendance.py):
-# committee and plenary attendance for BR, FR, CL, NL and CO, a step of each of
+# committee and plenary attendance for BR, FR, CL, NL and CO, and (from the
+# same day, branch pt-attendance) Portugal's plenary roll, a step of each of
 # those weeklies before the profiles. att_runs is stamped by every source read,
 # whatever the parliament did, so it moves every week; the newest stamp over
-# the five is what this watches, and the weekly log's "attendance <cc>:" line
+# the six is what this watches, and the weekly log's "attendance <cc>:" line
 # says what each read.
 FEEDS += [("att_runs", "last_seen", 7, 4,
-           "attendance: committee and plenary sittings (BR FR CL NL CO weeklies)")]
+           "attendance: committee and plenary sittings (BR FR CL NL CO PT weeklies)")]
 
 FEEDS += [("{0}_record_reads".format(cc), "last_seen", 31, 31,
            "{0} chamber reports and question batches read ({0} weekly)".format(cc.upper()))
