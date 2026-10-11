@@ -484,6 +484,10 @@ countries".
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/ch.json` (`src/country_vote_brief.py`, step in `jobs/ch-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Nationalrat's votes during a session (OData); the Ständerat's come with the weekly, as its spreadsheets do. See docs/mac-mini.md, "Vote briefs for the new countries".
 
+## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
+
+What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-ch.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-ch-readings.md. On the store of 11 October 2026: 82 watched or tier-1 votes, 32 with an English rule line, 50 whose rule line quotes the source (offered to the session judge), 0 the rules cannot read. Sample: [docs/vote-meaning-samples/ch.md](vote-meaning-samples/ch.md).
+
 ## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
 
 - `partner_site/ch-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: the party or group the vote record names at each vote.

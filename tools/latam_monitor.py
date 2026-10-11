@@ -190,6 +190,9 @@ def item_lines(it, config_dir=None):
     judge = edition_judge.why_line(it)
     if judge:
         out.append("  " + judge)
+    if it.get("meaning"):          # src/vote_meanings.py
+        from src import vote_meanings
+        out.append("  " + vote_meanings.line(it))
     for line in it["lines"]:
         out.append("  " + latam.clean(line))
     if it["url"]:

@@ -454,6 +454,10 @@ countries".
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/at.json` (`src/country_vote_brief.py`, step in `jobs/at-weekly.sh`). Briefed after each weekly collection. Klub votes: member positions are derived (X5), so no member is named. See docs/mac-mini.md, "Vote briefs for the new countries".
 
+## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
+
+What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-at.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-at-readings.md. On the store of 11 October 2026: 21 watched or tier-1 votes, 7 with an English rule line, 10 whose rule line quotes the source (offered to the session judge), 4 the rules cannot read. Sample: [docs/vote-meaning-samples/at.md](vote-meaning-samples/at.md).
+
 ## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
 
 - `partner_site/at-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: every member position is DERIVED from the Klub's vote (X5) and labelled so; nobody is ever counted against their group.

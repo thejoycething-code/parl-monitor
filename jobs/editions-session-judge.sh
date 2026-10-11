@@ -27,7 +27,8 @@
 # leads an edition already sent; the Latam alert pass for every country, so
 # the tier-1 items held for the judge go out now if it scored them 2 or 3;
 # then the raw archive and the store. When claude is missing or not signed
-# in, a [gap] line and a clean exit: nothing is touched or published.
+# in, a [gap] line: nothing is scored or rewritten, and only the store (with
+# the rule-made vote meanings, below) is published.
 #
 # THE 5CA STANCE STEPS (10 October 2026; src/country5ca.py, docs/5ca-notes.md
 # "The new country editions"), first and offline, seconds to run: draft
@@ -78,28 +79,54 @@ python3 tools/stance_digest.py --dm || echo "  [gap] the stance digest DM failed
 # (no NOT READY drafts there); debate packs are unaffected.
 python3 tools/country_drive.py --ready-only || echo "  [gap] country-drive: some briefs or packs did not reach Drive; the next run retries"
 
+# THE VOTE MEANINGS (11 October 2026; src/vote_meanings.py): first the rule
+# lines (offline, seconds) for every watched and tier-1 vote in the new
+# countries, stored per division in vote_meanings; then, AFTER the editions'
+# scores and only with what is left of the same weekly budget, the session
+# judge writes the lines the rules could not (YES/NO, tools/vote_meanings.py).
+python3 tools/vote_meanings.py --rules || echo "  [gap] the vote-meaning rules failed for a country"
+
 rc=0
-bash tools/session_judge.sh tools/edition_judge.py "${SESSION_JUDGE_MAX:-100}" 25
+MAX="${SESSION_JUDGE_MAX:-100}"
+JLOG=$(mktemp "${TMPDIR:-/tmp}/editions-judge.XXXXXX")
+bash tools/session_judge.sh tools/edition_judge.py "${SESSION_JUDGE_MAX:-100}" 25 > "$JLOG" 2>&1
 jrc=$?
+cat "$JLOG"
+offered=$(sed -n 's/.*; \([0-9][0-9]*\) offered, cap.*/\1/p' "$JLOG" | tail -1)
+rm -f "$JLOG"
 vote_pages() {
   python3 tools/make_country_votes.py || echo "  [gap] the new-country vote pages failed; last week's stand"
 }
+gap=""
 if [ "$jrc" -eq 3 ]; then
+  gap=1                       # a gap, already logged: no judge this week
   vote_pages                  # offline, no judge needed; committed by mini_run.sh
-  exit 0                      # a gap, already logged; nothing to publish
+else
+  [ "$jrc" -eq 0 ] || rc=1
+  left=$((MAX - ${offered:-$MAX}))
+  if [ "$left" -gt 0 ]; then
+    echo "vote meanings: $left of the week's $MAX session items left after the scores"
+    SESSION_JUDGE_PROMPT="$(python3 -c 'import sys; sys.path.insert(0, "tools"); import vote_meanings; print(vote_meanings.MEANING_PROMPT)')" \
+      bash tools/session_judge.sh tools/vote_meanings.py "$left" 25 || rc=1
+  else
+    echo "vote meanings: the scores used the week's $MAX session items; the meanings wait a week"
+  fi
 fi
-[ "$jrc" -eq 0 ] || rc=1
 
-# The week's editions, rewritten with the scores; one DM only if a lead changed.
-python3 tools/edition_judge.py --rerender --dm || { echo "  [gap] the rewrite failed"; rc=1; }
+if [ -z "$gap" ]; then
+  # The week's editions, rewritten with the scores and the meaning lines; one
+  # DM only if a lead changed.
+  python3 tools/edition_judge.py --rerender --dm || { echo "  [gap] the rewrite failed"; rc=1; }
 
-# The vote pages, tracker and bill timelines, with this week's scores.
-vote_pages
+  # The vote pages, tracker and bill timelines, with this week's scores.
+  vote_pages
 
-# The Latam alerts, every country: releases what was held for the judge.
-python3 tools/latam_alerts.py --send || echo "  [gap] latam-alerts failed; the next country run retries"
+  # The Latam alerts, every country: releases what was held for the judge.
+  python3 tools/latam_alerts.py --send || echo "  [gap] latam-alerts failed; the next country run retries"
 
-# The archive before the store; both merge, never clobber.
-python3 tools/raw_state.py --push || rc=1
+  # The archive before the store; both merge, never clobber.
+  python3 tools/raw_state.py --push || rc=1
+fi
+# The store: the scores and meanings, or (on a gap) the rule-made meanings alone.
 python3 tools/db_state.py --push || rc=1
 exit $rc

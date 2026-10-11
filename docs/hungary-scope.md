@@ -625,6 +625,10 @@ readings confirmed in `config/hu_stance.yaml`; none is confirmed yet, so every p
 "jóváhagyásra vár" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
 
+## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
+
+What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-hu.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-hu-readings.md. On the store of 11 October 2026: 24 watched or tier-1 votes, 16 with an English rule line, 3 whose rule line quotes the source (offered to the session judge), 5 the rules cannot read. Sample: [docs/vote-meaning-samples/hu.md](vote-meaning-samples/hu.md).
+
 ## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
 
 - `partner_site/hu-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: the faction the karzat record names (9 May to 28 August 2026 only, until the W-API token).

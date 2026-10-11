@@ -1312,14 +1312,26 @@ def _fmt(v):
     return "no value" if v is None else "{0:+d}".format(v)
 
 
-def signoff_markdown(cc, config_dir=None, keep_ticks=()):
+def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
     """docs/5ca-<cc>-readings.md: the proposed readings and the procedural
     calls as checkboxes (tick, then --sign-from-doc --by NAME), the ones that
     need reading as a list. `keep_ticks` are keys ticked in the previous
-    version and not yet applied: they stay ticked."""
+    version and not yet applied: they stay ticked.
+
+    Additive, 11 October 2026: each entry shows what a Yes and a No meant
+    (src/vote_meanings.py). `meanings` ({key: meaning}, from the store) when
+    given; otherwise, and for keys it lacks, a person's line or the rule over
+    the entry's own wording."""
     spec = SPECS[cc]
     divs, bills, _ = load(cc, config_dir)
     keep = set(keep_ticks)
+    from src import vote_meanings as vm
+    people, _ = vm.overrides(cc, config_dir)
+    wl, _ = vm._context(cc, config_dir)
+
+    def meaning(k, e):
+        m = (meanings or {}).get(k) or vm.entry_meaning(cc, e, config_dir, people, wl, bills)
+        return vm.line(m, cc) if m else None
     groups = {"proposed": [], "procedural": [], "needs_reading": [], "confirmed": []}
     for k, e in divs.items():
         st = e.get("status")
@@ -1361,6 +1373,8 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=()):
                 out.append("- **On:** " + r5.clip(e["on"], 300))
             if e.get("lobbies"):
                 out.append("- **Lobbies:** " + r5.clip(e["lobbies"], 400))
+            if meaning(k, e):
+                out.append("- " + meaning(k, e))
             out.append("- **Proposed direction:** {0} {1} ({2}); {3} {4} ({5})".format(
                 labels["yea"], _fmt(e.get("yea")), r5.clip(e.get("why_yea"), 220),
                 labels["nay"], _fmt(e.get("nay")), r5.clip(e.get("why_nay"), 220)))
@@ -1376,6 +1390,8 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=()):
             out.append("### {0} `{1}` {2}".format(box, k, r5.clip(e.get("title"), 160)))
             out.append("")
             out.append("- {0}; {1}".format(e.get("dated") or "?", r5.clip(e.get("reason"), 300)))
+            if meaning(k, e):
+                out.append("- " + meaning(k, e))
             out.append("")
     if groups["needs_reading"]:
         out += ["## Needs reading (no box: write the values first)", ""]
@@ -1383,6 +1399,8 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=()):
             out.append("- `{0}` {1} {2} [{3}]: {4}".format(
                 k, e.get("dated") or "?", r5.clip(e.get("title"), 110), e.get("vote_kind") or "?",
                 r5.clip(e.get("read_first"), 220)))
+            if meaning(k, e):
+                out.append("  - " + meaning(k, e))
         out.append("")
     if groups["confirmed"]:
         out += ["## Confirmed", ""]
@@ -1392,6 +1410,8 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=()):
             out.append("- {0} {1} / {2} {3}; confirmed by {4} on {5}".format(
                 labels["yea"], _fmt(e.get("yea")), labels["nay"], _fmt(e.get("nay")),
                 e.get("confirmed_by"), e.get("confirmed_on")))
+            if meaning(k, e):
+                out.append("- " + meaning(k, e))
             out.append("")
     if bills:
         out += ["## Bill directions on file (inputs to the drafts; they place nobody)", ""]
@@ -1402,10 +1422,11 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=()):
     return "\n".join(out) + "\n"
 
 
-def write_signoff_doc(cc, config_dir=None, docs_dir=None, log=print):
+def write_signoff_doc(cc, config_dir=None, docs_dir=None, log=print, conn=None):
     """Rewrite the guide, keeping ticks on entries not yet confirmed (the
     weekly job must never throw away a tick a person made). Returns the
-    keys ticked but not applied."""
+    keys ticked but not applied. With `conn` (additive, 11 October 2026) the
+    meaning lines come from the store (src/vote_meanings.py)."""
     path = doc_path(cc, docs_dir)
     keep = []
     if os.path.exists(path):
@@ -1416,8 +1437,12 @@ def write_signoff_doc(cc, config_dir=None, docs_dir=None, log=print):
     divs, _, _ = load(cc, config_dir)
     if not divs:
         return keep
+    meanings = None
+    if conn is not None:
+        from src import vote_meanings as vm
+        meanings = vm.lookup_many(conn, cc, list(divs), config_dir)
     with open(path, "w", encoding="utf-8") as h:
-        h.write(signoff_markdown(cc, config_dir, keep))
+        h.write(signoff_markdown(cc, config_dir, keep, meanings))
     if keep:
         log("  {0}: {1} ticked in the guide but not yet confirmed (run --sign-from-doc --by NAME)"
             .format(cc, len(keep)))

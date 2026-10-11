@@ -106,6 +106,7 @@ committees and petitions; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
 | Debate today, live read | yes | no | no | no | **built** 10 Oct (`tools/country_debate_today.py`, `tools/country_live_debate.py`, branch `camp-live-debate`) for the four countries whose chamber publishes the same day: NL, CH, FR, BE; not AT (next day or later) or the question-only countries. Before sign-off the live read names no contradiction ("awaiting sign-off"); debate today is a step of the 16:45 net task |
 | Health summary, Drive | health DM; briefs and debate footage on Drive | health DM | health DM | health DM | **built** 11 Oct (branch `ukp-health-drive`): the 07:30 health DM has one compact section per region (Europe, Latam) plus shared jobs, failed and stale jobs first, step gaps by step, editions behind, the countries' overdue sources (`src/country_health.py`); briefs as Sheets from the UK template and real debate packs on Drive under `Country editions/<Country>/` in the Automated Briefs shared drive, a step of the Sunday `editions-session-judge` (`tools/country_drive.py`, ledger `data/country-drive.json`, at most 30 new sheets a run) |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
+| Vote meanings (what a Yes and a No meant) | yes (`meaning_aye`/`meaning_no`, written by hand) | no | no | no | **built** 11 Oct (`src/vote_meanings.py`, `tools/vote_meanings.py`, branch `ukp-meanings`): every watched and tier-1 vote in the 21 countries with recorded votes, rules first, then the free session judge after the editions' scores within the same ~100 items a week; stored per division (`vote_meanings`); a person overrides in `config/vote-meanings-<cc>.yaml`; shown in editions, the Latam monitor, vote briefs, profiles, debate packs and the 5CA readings guides |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
 New-country collectors and what their vote data supports:
@@ -360,6 +361,26 @@ its votes are confirmed. Unedited briefs refresh weekly; edited ones are left
 alone. Language: English, per rulebook rule 6 (Chris, 10 October 2026; #75).
 Open: the framing glossary, the allies and opponents registers and Bluebook
 access.
+
+### 8. Vote meanings (what a Yes and a No meant)
+
+**Built 11 October 2026 (branch `ukp-meanings`).** `src/vote_meanings.py`
+and `tools/vote_meanings.py` give each watched and tier-1 vote in the 21
+countries of `src/country5ca.COUNTRIES` one plain-English line for each
+lobby, stored per division in the store's `vote_meanings` table with its
+source. Rules first (the kind of vote from its wording, named forms such as
+Poland's re-passage over a veto, Spain's toma en consideración, the Latin
+American "en lo general", Switzerland's own Bedeutung lines through a fixed
+table, and the bill's English description from the watchlist or
+`bill_directions`); then the free session judge, in the Sunday
+editions-session-judge job AFTER the editions' scores and only with what is
+left of the week's ~100 items, for votes the rules cannot read and lines
+that can only quote a source title. A person overrides any line in
+`config/vote-meanings-<cc>.yaml` (file-based, like the UK). A meaning says
+what a lobby voted for, never whose side it was on: the stance stays a
+signed reading. Not covered: Colombia, Bolivia, Panama, Honduras, Uruguay,
+Venezuela and Nicaragua (no recorded votes per division to attach a line
+to; Uruguay's Diario totals are not divisions of a bill).
 
 ### 8. Public vote pages, vote tracker and bill timelines (UK feature parity)
 
