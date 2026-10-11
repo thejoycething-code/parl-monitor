@@ -460,6 +460,8 @@ edition's coverage note says the Italian texts are read.
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/ch_stance.yaml` holds 3 bill direction(s) (Claude's drafts from the watchlist) and 82 vote reading(s): 1 with proposed values, 0 procedural, 81 need reading, 0 confirmed. Guide: `docs/5ca-ch-readings.md`; confirm with `python3 tools/country_5ca.py --cc ch --sign-from-doc --by NAME`. Sheets (`data/5ca/ch-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Switzerland (`config/stance_signers.yaml`). 24.026 (individual taxation) has no direction until Chris confirms it is our ground (the watchlist's own note).
 
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-ch-shortlist.md` ranks the 82 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `nr-36076` (2026-04-29, a vote on the whole text; the decisive one; this year). It confirms nothing.
+
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:

@@ -36,13 +36,15 @@
 # in every new country (by rules, no AI; nothing is ever confirmed here),
 # rewrite each docs/5ca-<cc>-readings.md keeping any ticks not yet applied,
 # write the 5CA sheets from CONFIRMED readings only (data/5ca/<cc>-5ca-*.csv),
+# rewrite each docs/5ca-<cc>-shortlist.md (11 October 2026, src/shortlist5ca.py:
+# the waiting readings ranked by what to sign first; it confirms nothing),
 # then the new countries' 5CA tracker and partner sheet
 # (tools/make_country_5ca_web.py: docs/5ca-countries.html always;
 # partner_site/5ca-countries.html only for countries with a confirmed reading
 # that places someone, removed when none has; Monday's deploy ships it),
 # then the weekly "stances awaiting sign-off" digest, one DM to Chris, once
-# per ISO week (tools/stance_digest.py). A failure is a [gap] line; the
-# judge still runs. They read the store and write no table, so they need no
+# per ISO week, led by each country's top 5 to sign (tools/stance_digest.py).
+# A failure is a [gap] line; the judge still runs. They read the store and write no table, so they need no
 # publish of their own.
 #
 # DRIVE (11 October 2026; tools/country_drive.py, src/country_drive.py): the
@@ -71,7 +73,7 @@ export PYTHONUNBUFFERED=1
 # The DMs go to Chris alone (the tools also force his id).
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 
-python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets \
+python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets --shortlist \
   || echo "  [gap] the 5CA stance step failed for a country; the others stand"
 python3 tools/make_country_5ca_web.py || echo "  [gap] the new-country 5CA pages failed; last week's stand"
 python3 tools/stance_digest.py --dm || echo "  [gap] the stance digest DM failed; next week's covers it"
