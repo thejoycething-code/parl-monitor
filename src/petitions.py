@@ -373,7 +373,6 @@ def collect(conn, cc, client, today, config_dir=None, log=print, mod=None, detai
             detail_limit=DETAIL_LIMIT):
     """One country's petitions and consultations: fetch, classify, read the
     pages that need it, store. Returns (listed, on ground, gaps)."""
-    from src import country_edition as ce
     from src import db
     mod = mod or module(cc)
     ensure_schema(conn)
@@ -426,7 +425,6 @@ def collect(conn, cc, client, today, config_dir=None, log=print, mod=None, detai
 
 def reclassify(conn, cc, config_dir=None, log=print):
     """Re-derive stored rows' areas offline (after a taxonomy change)."""
-    from src import country_edition as ce
     ensure_schema(conn)
     taxes = taxonomies(cc, config_dir)
     wl = watchlist(cc, config_dir)

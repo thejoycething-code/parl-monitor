@@ -32,7 +32,6 @@ Participa+Brasil (closed).
 
 from __future__ import annotations
 
-import datetime
 import html as htmlmod
 import json
 import re
