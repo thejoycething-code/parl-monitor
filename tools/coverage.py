@@ -966,6 +966,15 @@ ON_DEMAND = {
                          "store, so it stamps no heartbeat, and each "
                          "country's weekly step is its backstop; mini_run.sh "
                          "DMs its failures.",
+    "Edition publish": "Mac Mini only (jobs/edition-publish.sh, 06:31 and "
+                       "18:31 London daily): sends the new country editions "
+                       "and the Latam monthly whose review window has ended "
+                       "(src/edition_review.py, config/edition-review.yaml), "
+                       "then the week's one combined Asana reading task. It "
+                       "reads the store and never publishes it, so it stamps "
+                       "no heartbeat; an edition left unsent waits in "
+                       "data/edition-reviews/ for the next run; mini_run.sh "
+                       "DMs its failures.",
     "Provinces backfill": "run by hand on the Mac Mini (jobs/prov-backfill.sh): "
                           "a province's earlier sessions or Hansard days, read "
                           "until nothing is owed; never the weekly's heartbeat.",

@@ -64,6 +64,16 @@ live read all render "awaiting sign-off" until a named person confirms.
   Mini is signed in to the work account; over SSH it reports "Not logged in"
   because the keychain is locked for SSH, which is expected).
 
+**The review window (11 October 2026, branch `ukp-review-window`):** the
+new country editions are no longer DMed straight after each weekly. Each
+weekly writes a draft and `reviews/<cc>-review-<date>.md`; Chris may cut or
+edit items, add a note, hold or send now until 06:30 London the next morning
+(per country in `config/edition-review.yaml`), when the Mini's
+`edition-publish` job DMs the edition, honouring the review, and keeps one
+combined Asana reading task for the week. Unedited, it goes out unchanged.
+Install `edition-publish` on the Mini (`ops/install_country_jobs.sh`) and
+check `asana_pat` is in the Mini's `config/secrets.yaml`.
+
 **What could come next (not started):** regions and Länder (IT3, AT6, PE4,
 Spain's autonomous communities, Mexico's states); Croatia and Slovakia
 debates; Polish transcripts when the Sejm endpoint answers; Brazilian
@@ -77,6 +87,7 @@ committees and petitions; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
 |---|---|---|---|---|---|
 | Collector (bills, votes, members) | yes | yes | yes | yes | yes, 25 countries (see below) |
 | Weekly edition, Slack DM to Chris | yes | yes | yes | yes | 14 own editions + Hungary gazette edition + one monthly Latam edition |
+| Weekly review window (edit or cut before the DM, Asana reading task) | yes (Sunday pull review file, Monday publish; the UK editorial loop and its Asana task were retired 21 Aug) | no | no | no | **built** 11 Oct (`src/edition_review.py`, `tools/edition_review.py`, `config/edition-review.yaml`, branch `ukp-review-window`): all 15 own editions and the Latam monthly write `reviews/<cc>-review-<date>.md` (keep / cut / edit, note, hold / now, merge-preserving) and DM at 06:30 London the next morning via the Mini job `edition-publish` (06:31, 18:31); one combined Asana reading task a week; vote briefs and Latam alerts stay immediate |
 | Triage | API judge | API judge | API or session judge | session judge (provinces) | free session judge, Sundays 16:45 (`tools/edition_judge.py`) |
 | Noise filters, mute lists | yes | partly | yes | yes | yes (`src/noise.py`, `config/edition-noise-<cc>.yaml`) |
 | Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | yes, 20 countries (`src/country_vote_brief.py`): daily for NL, PL, CH, BR, IT; after the weekly for the rest |

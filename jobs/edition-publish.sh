@@ -25,6 +25,7 @@
 # mini_run: commit editions
 set -o pipefail
 cd "$(dirname "$0")/.."
+export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Edition publish}"
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 export PYTHONUNBUFFERED=1
 python3 tools/edition_review.py --due
