@@ -1231,7 +1231,7 @@ def render_member(data, m, sample=False):
                 len(lst) - MAX_LINKED_SHOWN)]
         out.append("")
     out += render_intel(m)
-    out += ["## Notes", "", "- Party: " + spec.party_note,
+    out += ["## Notes", "", "- Party: " + party_note(data),
             "- How these profiles are built, and what they never say: [the index's notes]"
             "(index.md#notes)."]
     if data.get("attribution"):
@@ -1254,7 +1254,8 @@ def render_service(data, m):
     else:
         out.append("- Not in the service source read ({0}): nothing is said about this "
                    "member's service.".format("; ".join(
-                       "{0}, {1}".format(r["source"], date_long(r["last_seen"]))
+                       "{0}, {1}: {2}".format(r["source"], date_long(r["last_seen"]),
+                                              r["covers"] or "coverage not recorded")
                        for r in service["runs"])))
     out += [""]
     for kind, words in (("group", "Group"), ("party", "Party")):
@@ -1335,13 +1336,26 @@ def render_flagged(data, written):
     return out + [""]
 
 
+def party_note(data):
+    """The spec's line on what party means, and, for a party-group country
+    with dated service rows, that derived positions follow the day's group."""
+    spec = data["spec"]
+    note = spec.party_note
+    if spec.basis == "derived" and (data.get("service") or {}).get("by_member"):
+        note += (" Since 11 October 2026, where the parliament dates a member's seats and "
+                 "group (src/member_service.py), a DERIVED position is given only for a day the "
+                 "member sat, by the group they were in that day; otherwise by the latest group, "
+                 "as labelled.")
+    return note
+
+
 def notes(data):
     spec = data["spec"]
     out = ["On our ground means what the {0} edition shows: the collector's classification "
            "(taxonomy and watchlist), the edition's noise rules and mutes, and the session "
            "judge's score where it has read the vote. Titles are the source's own, "
            "verbatim.".format(data["name"]),
-           "Party: " + spec.party_note,
+           "Party: " + party_note(data),
            "In the vote table, the party's basis: 'at the vote' (the record names it), "
            "'as listed, not at the vote' (X6: the record names none), 'group's vote, X5' (the "
            "position is DERIVED from the group's vote, never recorded per member), or the "

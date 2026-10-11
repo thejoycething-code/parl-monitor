@@ -211,6 +211,25 @@ class Parsers(unittest.TestCase):
         self.assertEqual(got["terms"][0]["term"], "6")
 
 
+class Links(unittest.TestCase):
+    def test_portugal_first_legislature_comes_in_two_parts(self):
+        anchors = [("https://app.parlamento.pt/webutils/docs/doc.txt?path=a", "InformacaoBaseIA_json.txt"),
+                   ("https://app.parlamento.pt/webutils/docs/doc.txt?path=b", "InformacaoBaseIB_json.txt"),
+                   ("https://app.parlamento.pt/webutils/docs/doc.xml?path=c", "InformacaoBaseIA.xml"),
+                   ("https://app.parlamento.pt/webutils/docs/doc.txt?path=d", "InformacaoBaseII_json.txt")]
+        self.assertEqual([p for p, _h in ms.pt_json_links(anchors, "InformacaoBase", "I")],
+                         ["A", "B"])
+        self.assertEqual(ms.pt_json_links(anchors, "InformacaoBase", "II")[0][0], "")
+
+    def test_a_longer_printed_name_matches_one_listed_member_only(self):
+        ros = mp.Roster([mp.Member("C:1", "Piero Fassino"), mp.Member("C:2", "Anna Rossi"),
+                         mp.Member("C:3", "Anna Maria Rossi")])
+        self.assertEqual(ms.longer_name(ros, "PIERO FRANCO RODOLFO FASSINO"), "C:1")
+        self.assertIsNone(ms.longer_name(ros, "ANNA MARIA ROSSI BIANCHI"))   # two fit
+        self.assertEqual(ms.term_label("be", ["55", "56"]), "legislature 55, 56")
+        self.assertEqual(ms.term_label("at", ["XXVI.-XXVIII. GP"]), "XXVI.-XXVIII. GP")
+
+
 class WhatMayBeSaid(unittest.TestCase):
     def test_at_least_only_when_the_run_starts_on_the_sources_first_day(self):
         p = ms.period("1", "1", None, "TK", None, "2008-01-01", None)

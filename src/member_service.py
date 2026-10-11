@@ -385,9 +385,20 @@ def attach(svc, roster):
             _merge(out, m.key, s)
     for name, ref, s in svc["by_name"]:
         m = roster.resolve(None, name, make_stub=False) if name else None
-        if m is not None:
-            _merge(out, m.key, s)
+        key = m.key if m is not None else (longer_name(roster, name) if name else None)
+        if key is not None:
+            _merge(out, key, s)
     return out
+
+
+def longer_name(roster, name):
+    """The one listed member whose every name word (two or more) is in a
+    longer printed name ('Piero Fassino' in 'PIERO FRANCO RODOLFO FASSINO'),
+    or None when none or several are."""
+    from src import member_profiles as mp
+    words = mp.name_tokens(name)
+    hits = {key for toks, key in getattr(roster, "_listed", ()) if len(toks) >= 2 and toks <= words}
+    return hits.pop() if len(hits) == 1 else None
 
 
 def _merge(out, key, s):
@@ -1125,23 +1136,42 @@ def fetch_pt(conn, client, today, log=print, **_):
     legs = list(dict.fromkeys(legs))
     if not legs:
         raise ValueError("the InformacaoBase page lists no legislature")
-    periods, spells = [], []
+    periods, spells, read = [], [], []
     for leg in legs:
         folder = pt.folder_link(page, leg)
         listing = client.get_text(folder, FEED, "pt-folder-{0}".format(leg), archive=False)
-        url = pt.json_link(listing, stem, leg)
-        if not url:
-            raise ValueError("no {0}{1}_json.txt".format(stem, leg))
-        data = json.loads(client.get_bytes(url, FEED, "pt-base-{0}".format(leg),
-                                           timeout=300).decode("utf-8-sig"))
-        p, s = parse_pt_base(data, keep)
-        periods += p
-        spells += s
+        urls = pt_json_links(pt.anchors(listing), stem, leg)
+        if not urls:
+            if leg == legs[0]:
+                raise ValueError("no {0}{1}_json.txt".format(stem, leg))
+            log("  pt: legislature {0} lists no {1} JSON; not read".format(leg, stem))
+            continue
+        for part, url in urls:
+            data = json.loads(client.get_bytes(url, FEED, "pt-base-{0}{1}".format(leg, part),
+                                               timeout=300).decode("utf-8-sig"))
+            p, s = parse_pt_base(data, keep)
+            periods += p
+            spells += s
+        read.append(leg)
     log("  pt: {0} legislature(s), {1} period(s), {2} group spell(s)".format(
-        len(legs), len(periods), len(spells)))
+        len(read), len(periods), len(spells)))
     return {"pt-informacaobase": (periods, spells, {
-        "covers": "every legislature from the I (1976) to the {0}, each deputy's situations "
-                  "and groups (InformacaoBase)".format(legs[0]), "covers_from": None})}
+        "covers": "every legislature from the {0} to the {1}, each deputy's situations and "
+                  "groups (InformacaoBase)".format(read[-1], read[0]),
+        "covers_from": None if read[-1] == "I" else min(
+            (p["start"] for p in periods if p["start"]), default=None)})}
+
+
+def pt_json_links(anchors, stem, leg):
+    """[(part, href)] for <stem><leg>_json.txt, or the parts the first
+    legislature is split in (InformacaoBaseIA_json.txt, ...IB_json.txt)."""
+    pat = re.compile(r"^{0}{1}([A-Z]?)_json\.txt$".format(re.escape(stem), re.escape(leg)))
+    out = []
+    for href, text in anchors:
+        m = pat.match(text or "")
+        if m and "webutils/docs/" in href:
+            out.append((m.group(1), href))
+    return out
 
 
 def _sparql(client, endpoint, query, slug):
@@ -1462,9 +1492,24 @@ def long_date(iso_):
         return iso_ or "date not given"
 
 
+# What each source calls a term, for the words "legislature 13, 14".
+TERM_WORD = {"be": "legislature", "hr": "saziv", "es": "legislature", "it": "legislature",
+             "fr": "legislature", "pt": "legislature", "br": "legislature", "pl": "term",
+             "sk": "term", "mx": "legislature"}
+
+
+def term_label(cc, terms):
+    """'legislature 13, 14, 15' (or the source's own label, Austria's 'XXVI.-XXVIII. GP')."""
+    terms = [t for t in terms if t]
+    if not terms:
+        return None
+    if all(re.match(r"^[0-9IVXLC]+$", t) for t in terms):
+        return "{0} {1}".format(TERM_WORD.get(cc, "term"), ", ".join(terms))
+    return ", ".join(terms)
+
+
 def term_words(cc, t):
-    label = t["term"] or "term"
-    bits = [label if not label.isdigit() else "term {0}".format(label)]
+    bits = [term_label(cc, [t["term"]]) or "term"]
     if t.get("start") or t.get("end"):
         bits.append("{0} to {1}".format(long_date(t["start"]) if t.get("start") else "?",
                                         long_date(t["end"]) if t.get("end") else "?"))
@@ -1495,8 +1540,8 @@ def lines(cc, s, covers, today, current=None):
     out = []
     if got["since"]:
         bits = [chamber_words(cc, got["since_chamber"]) or "this chamber"]
-        if [t for t in got["since_terms"] if t]:
-            bits.append("term " + ", ".join(got["since_terms"]))
+        if term_label(cc, got["since_terms"]):
+            bits.append(term_label(cc, got["since_terms"]))
         if got["since_grp"]:
             bits.append(" / ".join(got["since_grp"]))
         out.append("**Serving since:** {0}{1} ({2}; the current unbroken run of periods, as "
@@ -1514,8 +1559,8 @@ def lines(cc, s, covers, today, current=None):
             ch = chamber_words(cc, e["chamber"])
             if ch and ch != chamber_words(cc, got["since_chamber"]):
                 bits.append(ch)
-            if e["terms"]:
-                bits.append("term " + ", ".join(e["terms"]))
+            if term_label(cc, e["terms"]):
+                bits.append(term_label(cc, e["terms"]))
             if e["grp"]:
                 bits.append(" / ".join(e["grp"]))
             items.append(" (".join([bits[0], "; ".join(bits[1:]) + ")"]) if len(bits) > 1
@@ -1547,5 +1592,5 @@ def short(cc, s, covers, today, current=None):
     if got["ended"]:
         return "last period ended {0}".format(long_date(got["ended"]))
     if got["terms"]:
-        return "terms in the source: " + ", ".join(t["term"] or "?" for t in got["terms"])
+        return "in the source: " + (term_label(cc, [t["term"] for t in got["terms"]]) or "terms")
     return None

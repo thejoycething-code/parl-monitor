@@ -269,7 +269,7 @@ def build(conn, cc, today, config_dir=None, max_divisions=MAX_DIVISIONS):
     wl = mp.watchlist(cc, config_dir)
     return {
         "cc": cc, "name": mp.country_name(cc), "today": today,
-        "basis": spec.basis, "party_note": spec.party_note,
+        "basis": spec.basis, "party_note": mp.party_note({"spec": spec, "service": service}),
         "store_note": c5.SPECS[cc].note if cc in c5.SPECS else "",
         "labels": [yes_label, no_label],
         "members": member_list, "words": words.items, "groups": groups.items,
