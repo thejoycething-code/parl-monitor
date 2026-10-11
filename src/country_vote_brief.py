@@ -493,9 +493,14 @@ def plan(conn, cc, since, until, today, ledger, config_dir=None, log=print):
 
 def run(conn, countries, since, until, today=None, out_dir=BRIEFS, dm=True, secrets=None,
         sender=None, directory=None, config_dir=None, generated=None, log=print, label=None,
-        sample=False):
+        sample=False, entries_out=None):
     """Brief every new qualifying vote of `countries` in (since, until]. One DM
-    for the whole run. Returns the number of briefs written."""
+    for the whole run. Returns the number of briefs written.
+
+    Additive, 11 October 2026 (the daily sweep, src/country_day_sweep.py):
+    with `entries_out` (a list) the DM entries are appended to it and NOTHING
+    is sent here, so the daily job sends one DM for its vote briefs and its
+    new items together."""
     today = today or until
     os.makedirs(out_dir, exist_ok=True)
     entries, written = [], 0
@@ -536,7 +541,9 @@ def run(conn, countries, since, until, today=None, out_dir=BRIEFS, dm=True, secr
             cc, len(planned), sum(len(v) for _k, v, _r in planned)))
         if dm:
             save(ledger, today, directory)
-    if entries:
+    if entries and entries_out is not None:
+        entries_out.extend(entries)
+    elif entries:
         shown = entries[:MAX_DM_BRIEFS]
         text = "\n\n".join(shown)
         head = ":ballot_box_with_ballot: *{0}: {1} vote brief{2}*".format(
