@@ -642,6 +642,15 @@ from src import chamber_store as _chamber  # noqa: E402
 FEEDS += [("mi_runs", "last_seen", 7, 4,
            "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT weeklies)")]
 
+# Attendance (11 October 2026, tools/country_attendance.py, src/attendance.py):
+# committee and plenary attendance for BR, FR, CL, NL and CO, a step of each of
+# those weeklies before the profiles. att_runs is stamped by every source read,
+# whatever the parliament did, so it moves every week; the newest stamp over
+# the five is what this watches, and the weekly log's "attendance <cc>:" line
+# says what each read.
+FEEDS += [("att_runs", "last_seen", 7, 4,
+           "attendance: committee and plenary sittings (BR FR CL NL CO weeklies)")]
+
 FEEDS += [("{0}_record_reads".format(cc), "last_seen", 31, 31,
            "{0} chamber reports and question batches read ({0} weekly)".format(cc.upper()))
           for cc in _chamber.COUNTRIES]

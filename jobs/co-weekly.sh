@@ -54,6 +54,13 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/latam_alerts.py --country co --send \
     || echo "  [gap] latam-alerts failed for co; the next run retries"
 fi
+# Attendance (tools/country_attendance.py, src/attendance.py): Colombia's plenary attendance, copied from co_attendance (no fetch),
+# into att_sittings / att_marks / att_referrals before the profiles read them. A failure is a
+# [gap] line; last week's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_attendance.py co \
+    || echo "  [gap] attendance: co not fully read; last week's rows kept"
+fi
 # Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/co/
 # rewritten from the store just collected and committed with it; never posted
 # or DMed. A failure is a [gap] line and never costs the store.

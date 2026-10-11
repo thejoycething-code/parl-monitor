@@ -501,6 +501,8 @@ Phase list: **done**. A same-day alert for new bills, motions, questions and age
 
 Member intelligence: **built** 11 October 2026 (`tools/member_intel.py ch`, a step of `jobs/ch-weekly.sh`, branch `ukp-member-intel`): committee memberships (`MemberCommittee`) and the register of interests (`PersonInterest`, the Interessenbindungen: organisation, type, function, paid or honorary) from ws.parlament.ch, sitting members only. SGK, WBK and RK, and pro-life, church, assisted-dying and LGBT organisations among the interests, are flagged on our ground (by name). The parliamentary groups (parlamentarische Gruppen) are not in the OData.
 
+Attendance (11 October 2026, branch `ukp2-attendance`): committee meetings are confidential, so no committee attendance. Plenary vote participation is DERIVED from the stored votes ('Nicht teilgenommen', 'Entschuldigt'; the presiding member left out) and shown in profiles and debate packs with its basis.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Vernehmlassungen: built**, from the fedlex SPARQL endpoint (status 2, running; the ConsultationPhase end date is the deadline). 28 running on 11 October.

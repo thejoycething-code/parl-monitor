@@ -1,0 +1,119 @@
+{
+ "value": [
+  {
+   "Id": "eabccf4a-6ee1-410b-9d54-144a9ed0d923",
+   "Soort": "Wetgevingsoverleg",
+   "Onderwerp": "Materieel",
+   "Datum": "2026-10-01T15:00:00+02:00",
+   "Voortouwnaam": "vaste commissie voor Defensie",
+   "Voortouwcommissie_Id": "524d5de6-83dd-4754-9e1e-c10fc49ad9be",
+   "ActiviteitActor": [
+    {
+     "ActorNaam": "M.C.H. Boon",
+     "Relatie": "Deelnemer",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "0004fa63-2652-43fe-9866-4130ca4652d8"
+    },
+    {
+     "ActorNaam": "P.C. (Peter) de Groot",
+     "Relatie": "Deelnemer",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "a0b48551-42b7-4c55-9556-6b997d978ff2"
+    },
+    {
+     "ActorNaam": "S.E.M. Dobbe",
+     "Relatie": "Afgemeld",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "21cc8db0-5084-4e4d-a083-99df36fa6170"
+    },
+    {
+     "ActorNaam": "S.R.T. van Baarle",
+     "Relatie": "Deelnemer",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "859e1824-cc60-4304-9293-dca932ebbed2"
+    },
+    {
+     "ActorNaam": "M.H. Jagtenberg",
+     "Relatie": "Deelnemer",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "dc160d87-fc55-486d-9b55-a307330e4da0"
+    },
+    {
+     "ActorNaam": "A. Nanninga",
+     "Relatie": "Deelnemer",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "a4eb6b9e-dd6c-4cc8-a95c-ccb76860b162"
+    },
+    {
+     "ActorNaam": "S.E.M. Dobbe",
+     "Relatie": "Afgemeld",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "21cc8db0-5084-4e4d-a083-99df36fa6170"
+    }
+   ],
+   "Zaak": [
+    {
+     "Nummer": "2026Z19510",
+     "Kamerstukdossier": [
+      {
+       "Nummer": 37020
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "Id": "93c67a95-7e18-4b1b-98b7-0970e5676f7f",
+   "Soort": "Wetgevingsoverleg",
+   "Onderwerp": "Pakket Belastingplan 2026  (eerste termijn Regering plus tweede termijn Kamer en regering)",
+   "Datum": "2025-11-19T11:00:00+01:00",
+   "Voortouwnaam": "vaste commissie voor Financiën",
+   "Voortouwcommissie_Id": "d38afba0-042f-4f3b-b0c8-b2df24eba6a7",
+   "ActiviteitActor": [
+    {
+     "ActorNaam": "P.A. Grinwis",
+     "Relatie": "Deelnemer",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "d38ca3cf-9803-48dc-8592-c67c4430168e"
+    },
+    {
+     "ActorNaam": "E.H.J. Heijnen",
+     "Relatie": "Bewindspersoon c.a.",
+     "Functie": "staatssecretaris van Financiën",
+     "Persoon_Id": "ee1468c5-3199-4724-b355-aea1b67d9609"
+    },
+    {
+     "ActorNaam": "H. Oosterhuis",
+     "Relatie": "Deelnemer",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "5f70fd14-3d7a-4936-9667-d76b0d524a61"
+    },
+    {
+     "ActorNaam": "M.P. Hoogeveen",
+     "Relatie": "Afgemeld",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "6938f6a4-a336-4f91-bd93-deed5f45e3f0"
+    },
+    {
+     "ActorNaam": "E. Vlottes",
+     "Relatie": "Deelnemer",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "71653caa-dc3a-4441-80cb-34f6a737ee1e"
+    },
+    {
+     "ActorNaam": "L.C.J. Stultiens",
+     "Relatie": "Deelnemer",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "7a727f46-0e36-493f-8779-736d3250fb27"
+    },
+    {
+     "ActorNaam": "M.P. Hoogeveen",
+     "Relatie": "Afgemeld",
+     "Functie": "Tweede Kamerlid",
+     "Persoon_Id": "6938f6a4-a336-4f91-bd93-deed5f45e3f0"
+    }
+   ],
+   "Zaak": []
+  }
+ ]
+}

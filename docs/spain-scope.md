@@ -573,6 +573,8 @@ Phase list: **done**. A same-day alert for new bills, motions, questions and age
 
 Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`). The Cortes were dissolved on 5 October; the Congreso's committee compositions return with the XVI legislature, and the declarations of activities and assets are scanned PDFs. Revisit after 23 December.
 
+Attendance (11 October 2026, branch `ukp2-attendance`): the Congreso publishes no attendance file (and the Cortes are dissolved). Plenary vote participation is DERIVED from the stored votes ('No vota', which covers both absence and presence without voting) and labelled so.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Not built.** The Congreso has no e-petitions and the government's "participación pública" is about 22 separate ministry pages, each in its own format (transparencia.gob.es/participacionciudadana/participacionproyectosnormativos).

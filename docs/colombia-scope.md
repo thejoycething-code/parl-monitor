@@ -512,3 +512,5 @@ countries".
 - First read: 46 drafts, 4 on our ground (protocols on press freedom and on women and LGBTIQ+ people, a regulation of Ley 2137 de 2021).
 
 Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/co.py`, `tools/country_petitions.py co` as a step of `jobs/co-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.
+
+Attendance: **shown** (11 October 2026, branch `ukp2-attendance`): the Cámara's plenary attendance already collected (`co_attendance`, datos.gov.co 48i3-vuny) is copied into the shared attendance tables by `tools/country_attendance.py co` (a step of `jobs/co-weekly.sh`, no fetch) and shown in the profiles. Note: the published store of 11 October held no `co_*` rows.

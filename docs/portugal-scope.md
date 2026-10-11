@@ -534,3 +534,5 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Not covered: ConsultaLEX (postbacks, no item addresses, none open); citizens' initiatives arrive as bills in the store.
 
 Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/pt.py`, `tools/country_petitions.py pt` as a step of `jobs/pt-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.
+
+Attendance (11 October 2026, branch `ukp2-attendance`): **not built**. Plenary presence is published (parlamento.pt, "Presenças às Reuniões Plenárias") as one PDF per sitting: open, but needs a PDF reader per sitting; a later round. Votes are by group, so no participation figure.

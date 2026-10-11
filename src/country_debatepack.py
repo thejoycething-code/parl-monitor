@@ -71,6 +71,7 @@ import os
 import re
 import sqlite3
 
+from src import attendance
 from src import country5ca as c5
 from src import debatepack_i18n as i18n
 from src import readings5ca as r5
@@ -673,7 +674,57 @@ def assemble(conn, cc, date, subject, chamber=None, speakers=(), config_dir=None
     watch = sorted((r for r in recs.values() if r["broke"]),
                    key=lambda r: (-len(r["broke"]), fold(r["name"])))
     pack["watch"] = watch
+    # Attendance (src/attendance.py): the committee(s) handling the bill, and
+    # the plenary vote participation derived from the votes where they list
+    # absences, for the named speakers and the members to watch.
+    pack["attendance"] = committee_attendance(conn, cc, sorted(set(bill_keys) | ids))
+    pack["attendance_collected"] = cc in ATTENDANCE_COUNTRIES
+    part, _basis = attendance.participation(conn, cc, today)
+    pack["participation"] = part
     return pack
+
+
+# Countries whose committee attendance is collected (src/attendance.py FETCHERS).
+ATTENDANCE_COUNTRIES = ("br", "fr", "cl", "nl", "co")
+MAX_ATTENDANCE_ROWS = 80
+
+
+def committee_attendance(conn, cc, keys):
+    """[{body, roll, sittings_on_bill, members: [{member_id, name, party, row,
+    on_bill}]}] for each committee the store links to the bill (its
+    referrals) that has attendance stored. Members of the committee only,
+    least attended first."""
+    refs = attendance.referrals_for(conn, cc, keys)
+    if not refs:
+        return []
+    on = attendance.bill_sittings(conn, cc, keys)
+    summ = attendance.summaries(conn, cc)
+    ros = roster(conn, cc)
+    seats = attendance._memberships(conn, cc)
+    out = []
+    for ref in refs:
+        sittings = on.get(ref["body_key"], [])
+        bill_marks = attendance.on_bill(conn, cc, sittings)
+        # The committee's current members (member intelligence), where known:
+        # a roll lists everyone who ever sat, ministers and departed members too.
+        current = {mk for mk, bk in seats if bk == str(ref["body_key"])}
+        rows = []
+        for who, lst in summ.items():
+            if current and who not in current:
+                continue
+            r = next((x for x in lst if x["body_key"] == ref["body_key"] and x["member"]), None)
+            if r is None:
+                continue
+            m = ros.get(who) or {}
+            rows.append({"member_id": who, "name": m.get("name") or r.get("name") or who,
+                         "party": m.get("party"), "row": r, "on_bill": bill_marks.get(who)})
+        if not rows:
+            continue
+        rows.sort(key=lambda x: (bool(x["row"].get("substitute")),
+                                 x["row"]["attended"] / max(1, x["row"]["of"]), fold(x["name"])))
+        out.append({"body": ref, "roll": rows[0]["row"]["roll"], "sittings_on_bill": len(sittings),
+                    "members": rows})
+    return out
 
 
 # --- rendering ---------------------------------------------------------------------------
@@ -817,6 +868,9 @@ def render_pack(pack, sample=False, folder=None):
                     bits.append(topic_counts(spec, lang, rec))
                 if rec.get("profile_votes") is not None:
                     bits.append(T("profile_votes", n=rec["profile_votes"]))
+            part = (pack.get("participation") or {}).get(str(m["member_id"]))
+            if part:
+                bits.append(T("part_line", **part))
             out.append("- **{0}** ({1})".format(m.get("name"), "; ".join(b for b in bits if b)))
     else:
         out.append(T("speakers_none"))
@@ -838,12 +892,18 @@ def render_pack(pack, sample=False, folder=None):
                 line += " (+{0})".format(len(r["broke"]) - 1)
             if r.get("profile_votes") is not None:
                 line += "; " + T("profile_votes", n=r["profile_votes"])
+            part = (pack.get("participation") or {}).get(str(r["member_id"]))
+            if part:
+                line += "; " + T("part_line", **part)
             out.append(line)
         if len(pack["watch"]) > MAX_WATCH:
             out.append("- " + T("and_more", n=len(pack["watch"]) - MAX_WATCH))
     else:
         out.append(T("watch_none"))
     out.append("")
+
+    # Attendance at the committee handling the bill (src/attendance.py).
+    out += render_attendance(pack, T)
 
     # Members.
     out += ["## " + T("section_members"), "", T("members_intro")]
@@ -870,6 +930,47 @@ def render_pack(pack, sample=False, folder=None):
     if any(r["profile"] for r in pack["members"].values()):
         out.append("- profiles/{0}/".format(cc))
     return "\n".join(out).rstrip() + "\n"
+
+
+def render_attendance(pack, T):
+    """The committee(s) handling the bill and who attended their sittings."""
+    att = pack.get("attendance") or []
+    if not att and not pack.get("attendance_collected"):
+        return ["## " + T("section_attendance"), "", T("att_uncollected"), ""]
+    out = ["## " + T("section_attendance"), ""]
+    if not att:
+        return out + [T("att_none"), ""]
+    for a in att:
+        b = a["body"]
+        if b.get("first_date"):
+            out.append("### " + T("att_body", body=clean(b["body_name"]), a=b["first_date"],
+                                  b=b.get("last_date") or b["first_date"],
+                                  n=a["sittings_on_bill"]))
+        else:
+            out.append("### " + T("att_body_nodates", body=clean(b["body_name"])))
+        firsts = [m["row"]["first"] for m in a["members"] if m["row"].get("first")]
+        lasts = [m["row"]["last"] for m in a["members"] if m["row"].get("last")]
+        if firsts:
+            out += ["", T("att_period", a=min(firsts), b=max(lasts))]
+        out += ["", "| {0} | {1} | {2} | {3} |".format(T("col_member"), T("col_group"),
+                                                      T("att_col_sittings"), T("att_col_bill")),
+                "|---|---|---|---|"]
+        word = "att_took_part" if a["roll"] == "participants" else "att_attended"
+        for m in a["members"][:MAX_ATTENDANCE_ROWS]:
+            r = m["row"]
+            cell = T(word, a=r["attended"], n=r["of"])
+            if r.get("excused"):
+                cell += " (+{0} exc.)".format(r["excused"])
+            if r.get("substitute"):
+                cell += " ({0})".format(clean(r.get("role")) or "-")
+            ob = T(word, a=m["on_bill"][0], n=m["on_bill"][1]) if m.get("on_bill") else "-"
+            out.append("| {0} | {1} | {2} | {3} |".format(_cell(m["name"]), _cell(m["party"] or "-"),
+                                                          cell, ob))
+        if len(a["members"]) > MAX_ATTENDANCE_ROWS:
+            out.append("")
+            out.append(T("att_more", n=len(a["members"]) - MAX_ATTENDANCE_ROWS))
+        out += ["", T("att_basis_" + a["roll"]), ""]
+    return out + [T("att_note"), ""]
 
 
 def member_rows(pack, folder=None):
@@ -1021,7 +1122,15 @@ def write_pack(pack, folder=None, sample=False, root=None):
              "agenda": [p.get("item_id") or p.get("title") for p in pack["agenda"]],
              "agenda_state": pack["agenda_state"], "confirmed_readings": pack["confirmed"],
              "members": len(pack["members"]), "watch": [r["member_id"] for r in pack["watch"]],
-             "speakers": [g for g, _m in pack["speakers"]]}
+             "speakers": [g for g, _m in pack["speakers"]],
+             "attendance": [{"body_key": a["body"]["body_key"], "body": a["body"]["body_name"],
+                             "roll": a["roll"], "sittings_on_bill": a["sittings_on_bill"],
+                             "members": [{"member_id": m["member_id"], "name": m["name"],
+                                          "attended": m["row"]["attended"], "of": m["row"]["of"],
+                                          "excused": m["row"]["excused"],
+                                          "on_bill": list(m["on_bill"]) if m.get("on_bill") else None}
+                                         for m in a["members"]]}
+                            for a in pack.get("attendance") or []]}
     with open(os.path.join(folder, "pack.json"), "w", encoding="utf-8") as h:
         json.dump(state, h, ensure_ascii=False, indent=1)
     return folder

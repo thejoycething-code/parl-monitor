@@ -95,6 +95,13 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/member_intel.py fr \
     || echo "  [gap] member-intel: fr not fully read; last week's rows kept"
 fi
+# Attendance (tools/country_attendance.py, src/attendance.py): the Assemblée's commission présences and agenda dossiers (Agenda.json.zip, 8 MB, one request),
+# into att_sittings / att_marks / att_referrals before the profiles read them. A failure is a
+# [gap] line; last week's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_attendance.py fr \
+    || echo "  [gap] attendance: fr not fully read; last week's rows kept"
+fi
 # Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/fr/
 # rewritten from the store just collected and committed with it; never posted
 # or DMed. A failure is a [gap] line and never costs the store.

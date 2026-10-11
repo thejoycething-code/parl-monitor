@@ -56,6 +56,15 @@ PARTY AT THE VOTE, three bases, always stated (X5, X6):
 For Croatia and Chile the sourced history overrides the listed party where
 it covers the vote's date, and says so on the line.
 
+ATTENDANCE (additive, 11 October 2026, src/attendance.py): where the store
+holds att_sittings rows (BR, FR, CL, NL, CO) each profile gains "Attendance":
+each committee and the plenary, "attended N of M sittings" with the basis of
+the count (a roll; a register of who was present, counted from the day the
+member joined; or, for the Netherlands, who took part, never a roll); and,
+where the stored votes list absences (IT, CH, PL, ES, AR, PE, DO, HU), the
+plenary vote participation, labelled DERIVED with its basis. Attendance never
+makes a profile on its own (has_record is unchanged).
+
 MEMBER INTELLIGENCE (additive, 11 October 2026, src/member_intel.py): where
 the store holds mi_groups / mi_interests rows for the country (BR, NL, CH,
 PL, FR, IT, AT), each profile gains "Committees and groups" and "Declared
@@ -176,6 +185,8 @@ class Member:
     interests: list = dataclasses.field(default_factory=list)
     history: list = dataclasses.field(default_factory=list)      # (party, start, end, source)
     at_votes: list = dataclasses.field(default_factory=list)     # (party, first, last)
+    attendance: list = dataclasses.field(default_factory=list)   # src/attendance.py summary rows
+    participation: Optional[dict] = None                         # derived plenary vote participation
     since_vote: list = dataclasses.field(default_factory=list)   # src/country_since_vote.py rows
 
 
@@ -912,9 +923,10 @@ def build(conn, cc, today, config_dir=None, since_vote=False):
             lst.sort(key=lambda v: (v["date"] or "", v["key"]), reverse=True)
         m.at_votes.sort(key=lambda p: (p[1] or "", p[0]))
     intel = attach_intel(conn, cc, ros, config_dir)
+    attendance = attach_attendance(conn, cc, ros, today)
     since = attach_since_vote(conn, cc, ros, config_dir) if since_vote else None
     return {"cc": cc, "since_vote": since, "name": country_name(cc), "today": today, "spec": spec,
-            "intel": intel,
+            "intel": intel, "attendance": attendance,
             "members": ros.by_key, "votes": len(items), "unresolved": unresolved,
             "unmatched": unmatched,
             "attribution": attribution(conn, cc)}
@@ -973,6 +985,34 @@ def attach_intel(conn, cc, ros, config_dir=None):
         m.interests.sort(key=lambda i: (not i["flag"], fold(i.get("category")), fold(i["text"])))
     return {"unmatched": unmatched, "flagged": flagged, "groups": len(groups),
             "interests": len(interests), "sources": mi.sources_line(conn, cc)}
+
+
+def attach_attendance(conn, cc, ros, today=None):
+    """Committee and plenary attendance (src/attendance.py) and the plenary
+    vote participation derived from the stored votes, onto the roster's
+    members: by the store key the source gave, else by the printed name
+    (exactly one listed member, or nothing). Returns a summary for the notes,
+    or None when the country has neither."""
+    from src import attendance as att
+    rows = att.summaries(conn, cc)
+    part, part_basis = att.participation(conn, cc, today)
+    if not rows and not part:
+        return None
+    unmatched = 0
+    for key, lst in rows.items():
+        m = ros.resolve(key, lst[0].get("name"), make_stub=False)
+        if m is None:
+            unmatched += 1
+            continue
+        m.attendance = lst
+    for key, r in part.items():
+        m = ros.resolve(key, r.get("name"), make_stub=False)
+        if m is None:
+            continue
+        m.participation = r
+    return {"members": len(rows), "unmatched": unmatched, "sources": att.sources_line(conn, cc),
+            "participation_basis": part_basis, "rolls": sorted({x["roll"] for lst in rows.values()
+                                                                 for x in lst})}
 
 
 def attach_since_vote(conn, cc, ros, config_dir=None):
@@ -1207,6 +1247,7 @@ def render_member(data, m, sample=False):
                 len(lst) - MAX_LINKED_SHOWN)]
         out.append("")
     out += render_intel(m)
+    out += render_attendance(m, data.get("attendance"))
     if m.since_vote:
         from src import country_since_vote as sv
         out += sv.profile_section(m.since_vote)
@@ -1230,6 +1271,35 @@ def _group_text(g):
 
 
 MAX_INTERESTS_SHOWN = 40
+MAX_ATTENDANCE_SHOWN = 12
+
+
+def render_attendance(m, info):
+    """The member's attendance: each committee and the plenary, as the
+    parliament records it, then the plenary vote participation (derived)."""
+    from src import attendance as att
+    if not info or not (m.attendance or m.participation):
+        return []
+    out = ["## Attendance", ""]
+    for r in m.attendance[:MAX_ATTENDANCE_SHOWN]:
+        what = "Plenary" if r["body_kind"] == "plenary" else md(r["body_name"])
+        out.append("- **{0}**: {1}.".format(what, att.row_text(r)))
+    if len(m.attendance) > MAX_ATTENDANCE_SHOWN:
+        out.append("- {0} more body(ies) in the store.".format(
+            len(m.attendance) - MAX_ATTENDANCE_SHOWN))
+    if m.participation:
+        out.append("- **Plenary votes** (derived): {0}, {1} to {2}.".format(
+            att.participation_text(m.participation), m.participation["first"],
+            m.participation["last"]))
+    out.append("")
+    bases = []
+    for roll in sorted({r["roll"] for r in m.attendance}):
+        bases.append("sittings: " + att.ROLL_WORDS[roll])
+    if m.participation and info.get("participation_basis"):
+        bases.append("plenary votes: " + info["participation_basis"])
+    out += ["Basis: {0}. A count of what the parliament recorded, never a judgement: an "
+            "absence may be leave, a mission or a pair.".format("; ".join(bases)), ""]
+    return out
 
 
 def render_intel(m):
@@ -1311,6 +1381,21 @@ def notes(data):
                    "{1}".format(intel.get("sources") or "sources not recorded",
                                 " {0} row(s) named no listed member and are not shown.".format(
                                     intel["unmatched"]) if intel.get("unmatched") else ""))
+    att_info = data.get("attendance")
+    if att_info:
+        bits = []
+        if att_info.get("sources"):
+            bits.append("sittings from the parliament's own open data (src/attendance.py; "
+                        "{0})".format(att_info["sources"]))
+        if att_info.get("participation_basis"):
+            bits.append("plenary vote participation derived {0}".format(
+                att_info["participation_basis"]))
+        out.append("Attendance: {0}. Statuses are the record's own; excused absences are "
+                   "counted apart; nothing is inferred where a record lists no "
+                   "absences.{1}".format("; ".join(bits), " {0} member(s) in the attendance "
+                                         "record matched no listed member and are not shown."
+                                         .format(att_info["unmatched"]) if
+                                         att_info.get("unmatched") else ""))
     if data.get("attribution"):
         out.append("Source attribution: {0}.".format(data["attribution"].rstrip(".")))
     out.append("Generated by {0} from the store each week; do not edit by hand.".format(GENERATOR))
