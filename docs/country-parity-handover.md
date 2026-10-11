@@ -84,6 +84,7 @@ committees and petitions; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct (#65): 975 readings awaiting sign-off after France was limited to final votes and watched amendments (#77), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
 | Campaign targets and outcomes (`ca_campaign.py`, the 5CA Evaluate) | yes | no | no | no | **built** 10 Oct (`tools/country_campaign.py`, branch `camp-targets`): open, targets, add, find, outcome, score; targets from confirmed readings only, candidates by vote record until then; petition numbers none yet (UK only) |
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
+| Public vote pages, vote tracker, bill timelines | yes (`mp-votes.html`, devolved, timelines) | yes (`de-votes.html`) | yes (`us-`, `ie-`, `au-votes.html`) | no | **built** 11 Oct (`tools/make_country_votes.py`, src/country_votes.py, branch `ukp-vote-pages`): `partner_site/<cc>-votes.html` for the 22 countries with member or party-group votes, `votes-countries.html` (tracker) and `bill-timelines.html` (watched bills: stages, agenda slots, votes), behind the partner passphrase, weekly in `editions-session-judge`; records only, no for/against before a reading is CONFIRMED; X5 derived and X6 as-listed labelled, non-attached never counted (#80) |
 | Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (questions only), HR, SK |
 | Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
@@ -302,6 +303,34 @@ its votes are confirmed. Unedited briefs refresh weekly; edited ones are left
 alone. Language: English, per rulebook rule 6 (Chris, 10 October 2026; #75).
 Open: the framing glossary, the allies and opponents registers and Bluebook
 access.
+
+### 8. Public vote pages, vote tracker and bill timelines (UK feature parity)
+
+**Built 11 October 2026 (branch `ukp-vote-pages`).** `src/country_votes.py` and
+`tools/make_country_votes.py`, one generator for every new country with
+member-level or party-group votes (IT, CH, FR, NL, BE, AT, PT, PL, SK, HR,
+ES, HU, BR, AR, MX, CL, PE, EC, DO, SV, GT, CO), generalising
+`make_au_votes.py`, `make_us_votes.py`, `make_ie_votes.py` and the UK
+tracker. Three outputs in `partner_site/`, behind the partner passphrase like
+every UK vote page: `<cc>-votes.html` (the votes on our ground as the edition
+classifies them, latest 300, with the store's tally and result, the split by
+party or group, who voted against their group's majority and every member's
+position verbatim, plus a member search; template
+`templates/country-votes.html`), `votes-countries.html` (one row per country
+and the latest votes across all of them) and `bill-timelines.html` (each
+watched bill the store holds: introduced, the stages the store keeps, Spain's
+whole procedural history, every `country_agenda` slot, every recorded vote,
+its end). Members, parties and party bases come from
+`src/member_profiles.py` (X5 DERIVED and X6 as-listed labelled on every
+line); tallies and readings from `src/country5ca.py`. "Against their group"
+counts recorded positions whose party is the party at the vote only: never
+the non-attached (#80), never derived or as-listed parties. A division whose
+reading is not CONFIRMED ships with no direction at all ("awaiting
+sign-off"); no page places anyone in a 5CA column. The partner nav links the
+tracker and the timelines (src/partner.py `VOTE_PAGES`) once they exist.
+Weekly: a step of `jobs/editions-session-judge.sh` after the judge (and on a
+judge gap), committed with `partner_site`, shipped by Monday's deploy.
+Watchlist `why:` lines are never shown (they hold internal reasoning).
 
 ## Blocked, waiting on replies (letters drafted in Chris's Gmail)
 

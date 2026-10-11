@@ -507,6 +507,14 @@ Three offline steps at the head of `jobs/editions-session-judge.sh` (Sundays 16:
 - **Nothing on the Mini confirms a reading.** Confirming is `python3 tools/country_5ca.py --cc CC --sign-from-doc --by NAME` (or `--confirm KEY --by NAME`), run by a person on a laptop, then pushed. `--by` must be Chris or a name in `config/stance_signers.yaml`.
 - Install: nothing new; the next `git pull` on the runner picks the steps up.
 
+## New-country vote pages, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+One offline step in `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only), after the judge's rewrite so its scores decide what is on our ground, and also on a judge gap (exit 3), since the pages need no judge; no new job, no new slot, no GitHub workflow:
+
+- `python3 tools/make_country_votes.py`: `partner_site/<cc>-votes.html` for each new country with votes on our ground (a country with none gets no page, a stale one is removed), `partner_site/votes-countries.html` (the tracker) and `partner_site/bill-timelines.html` (watched bills). Reads the store and `config/` only, about a minute; writes no table. Records only: no vote is labelled for or against our side until its reading is CONFIRMED.
+- Commit: the job's existing `# mini_run: commit editions config docs partner_site`; Monday's deploy ships the pages behind the partner passphrase. A failure is a `[gap]` line; last week's pages stand.
+- Install: nothing new; the next `git pull` on the runner picks the step up.
+
 ## New-country campaign brief drafts (10 October 2026, branch `camp-briefs`)
 
 One offline step in each new country's weekly job (`jobs/<cc>-weekly.sh` for the fourteen own editions and the eleven collected Latam countries, `jobs/mx-collect.sh` for Mexico, which collects on GitHub), after the collector and the edition or alerts, before the publish; no new job, no new slot:

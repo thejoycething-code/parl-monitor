@@ -425,3 +425,9 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/cl.json` (`src/country_vote_brief.py`, step in `jobs/cl-weekly.sh`). Briefed after each weekly collection. Nobody is named against their party until party history is sourced (X6). See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/cl-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: deputies on the day from the militancias, senators from the BCN where it covers the vote (X6), otherwise as listed.
+- Records only: no vote is labelled for or against our side until its reading in `config/cl_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.

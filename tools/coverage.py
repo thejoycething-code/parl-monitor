@@ -964,7 +964,12 @@ ON_DEMAND = {
                               "data/country-drive.json, not a table). The daily "
                               "health summary watches this and every other "
                               "new-country job by its Mini log "
-                              "(src/country_health.py), cadence from its plist.",
+                              "(src/country_health.py), cadence from its plist. "
+                              "After the judge it rebuilds the new countries' "
+                              "vote pages, vote tracker and bill timelines in "
+                              "partner_site/ (tools/make_country_votes.py, "
+                              "records only, no verdict before sign-off), "
+                              "which Monday's deploy ships.",
     "Daily vote briefs": "Mac Mini only (jobs/vote-briefs-daily.sh, 21:40 "
                          "Mon-Fri and 06:40 Tue-Sat London): the Netherlands, "
                          "Poland, Switzerland, Brazil and Italy read directly "
