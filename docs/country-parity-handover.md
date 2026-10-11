@@ -82,8 +82,12 @@ live read all render "awaiting sign-off" until a named person confirms.
 - Austria and Portugal weeklies: rerun 11 October 2026 (kickstarted after the
   Slovak runs, queued in order by the FIFO run slot, #95); both published and
   sent their editions.
-- Speech clips need ffmpeg and faster-whisper on the Mini (step 3 of
-  `tools/macmini_setup.sh`); the first cut downloads Whisper's ~480 MB model.
+- Speech clip tools: INSTALLED 11 October 2026 (user site of the Mini's
+  /usr/bin/python3 3.9: imageio-ffmpeg with ffmpeg 7.1, yt-dlp 2025.10.14,
+  faster-whisper 1.2.1; Whisper "small" pre-fetched, 464 MB in
+  ~/.cache/huggingface). Clips can be cut for CH and AT, and NL from a
+  hand-downloaded video; FR and BE refuse until agreement is recorded. No test
+  clip cut yet.
 - Compressed publish: VERIFIED 11 October 2026. The store (1.77 GB) uploads
   as `parl-monitor.db.gz`, 431 MB, compressed in 16 s; the raw asset is gone
   from the release. The size warning fires because the uncompressed store is
