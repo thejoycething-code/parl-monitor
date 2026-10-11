@@ -148,6 +148,7 @@ native read of each language's term list.
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
 | Public vote pages, vote tracker, bill timelines | yes (`mp-votes.html`, devolved, timelines) | yes (`de-votes.html`) | yes (`us-`, `ie-`, `au-votes.html`) | no | **built** 11 Oct (`tools/make_country_votes.py`, src/country_votes.py, branch `ukp-vote-pages`): `partner_site/<cc>-votes.html` for the 22 countries with member or party-group votes, `votes-countries.html` (tracker) and `bill-timelines.html` (watched bills: stages, agenda slots, votes), behind the partner passphrase, weekly in `editions-session-judge`; records only, no for/against before a reading is CONFIRMED; X5 derived and X6 as-listed labelled, non-attached never counted (#80) |
 | Member intelligence (interests, cross-party groups, committees, whip lines) | yes (`pull_interests.py`, `load_appgs.py`, `pull_pbc_attendance.py`, `annotate_whips.py`) | part | no | no | **built** 11 Oct (`tools/member_intel.py`, `src/member_intel.py`, branch `ukp-member-intel`), a step of 7 weeklies before the profiles: BR fronts (frentes parlamentares) and organs, NL committee seats and nevenfuncties, CH committees and Interessenbindungen, PL committees, FR committees, délégations and groupes d'études, IT Camera organs, AT committee functions. Groups on our ground flagged by name (`config/member-intel-groups.yaml`) in each profile and a "Groups on our ground" list in each index. Whip: Brazil's orientação de bancada beside each Câmara position (the only published whip). Not built: FR HATVP (open, heavy, later), AT interests, ES (dissolved), AR, CL (stale service), IT Senate (403) |
+| Committee and plenary attendance | yes (`pull_pbc_attendance.py`, bill committees) | no | no | no | **built** 11 Oct (`src/attendance.py`, `tools/country_attendance.py`, branch `ukp2-attendance`), a step of 5 weeklies before the profiles: BR committee and plenary presence register, FR commission présences, CL plenary and committee rolls, NL committee-debate participants ("took part", not a roll), CO plenary (co_attendance); committee-to-bill referrals for BR, FR, NL; plenary vote participation DERIVED from the votes for IT, CH, PL, ES, AR, PE, DO, HU. Shown in profiles and debate packs. Not built: PL, CH, AT, IT committees (none published), PT (PDF per sitting, later), ES, PE, PA (PDFs) |
 | Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (questions only), HR, SK |
 | Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees. **Petitions and consultations built** 11 Oct (`src/petitions.py`, `tools/country_petitions.py`, branch `ukp-petitions-consult`), a step of 11 weeklies and an edition section: FR (AN and Sénat e-petitions), AT (Ministerialentwürfe in Begutachtung, Petitionen, Bürgerinitiativen, Volksbegehren), CH (Vernehmlassungen, Petitionen, Volksinitiativen in collection), IT (firmereferendum initiatives and referendums, ParteciPa), PT (petições), PL (Sejm consultations, citizens' bills), BE (Chamber petitions), NL (petitions handed to the Kamer), BR (e-Cidadania ideas and public vote, Brasil Participativo), AR (consultapublica), CO (SUCOP, in the Latam edition); not NL internetconsultatie or PL legislacja (robots.txt), ES (no central list), CL (403), MX |
@@ -299,8 +300,71 @@ declarations are scanned PDFs); Argentina (Senate open data lists
 committees without members, Diputados unreachable); Chile (the Cámara's
 committee service still lists 2022-26 members); Italy's Senate (SPARQL 403
 from the laptop); Poland's parliamentary teams (zespoły, not in the API);
-attendance (no source publishes it per member beyond the vote records
-already held). Not probed: BE, PT, HR, SK, HU and the rest of Latin America.
+attendance (built separately, 3c below). Not probed: BE, PT, HR, SK, HU and
+the rest of Latin America.
+
+### 3c. Attendance -- BUILT 11 October 2026 (branch `ukp2-attendance`)
+
+The UK's `tools/pull_pbc_attendance.py` (who attended each bill committee
+sitting) generalised: `src/attendance.py`, `tools/country_attendance.py`, a
+step of the BR, FR, CL, NL and CO weeklies after member intelligence and
+before the profiles. Four tables: `att_sittings` (one per sitting: body,
+date, the kind of roll, the bills its own agenda names), `att_marks` (one per
+member per sitting, status verbatim), `att_referrals` (which committee
+handled which bill) and `att_runs`.
+
+What each country reads (probed 11 October 2026, all open, no key):
+
+- **BR** Câmara: the year's bulk presence register
+  (`eventosPresencaDeputados`, who was present at each committee meeting and
+  plenary session; deliberative plenary sessions only), with each event's
+  organ and type. The register lists only who was present, so a member's
+  sittings count from the day they joined the committee (member
+  intelligence's `br-orgaos` start dates); a non-member's attendance is shown
+  as attended only. Referrals: each bill on our ground's tramitações. 1,189
+  sittings (70 plenary), 58,764 marks in 2026.
+- **FR** Assemblée: the Agenda open data's commission présences ("présent",
+  "absent", "excusé", per member, as at the foot of each compte rendu) and
+  the dossiers on each meeting's agenda (the referrals). 3,403 meetings of
+  the 17th legislature (433 of them friendship groups, stored but not
+  counted), 181,230 marks, 541 bill-committee links. The séances
+  carry no presence list.
+- **CL** Cámara: every plenary session's roll ("Asiste" / "No Asiste" with
+  the justification verbatim), 98 sessions in 2026, 15,186 marks; the
+  committee service knows only two current committees (Salud, which is on
+  our ground, and Ética), the same stale service member intelligence hit.
+  No referral link.
+- **NL** Tweede Kamer: committee debates, wetgevingsoverleggen and
+  notaoverleggen this term with their participants ("Deelnemer") and zaken.
+  NOT a roll call: usually one spokesperson per fractie takes part, so the
+  count says "took part in", labelled on every line. 284 debates, 2,463
+  participations, 99 referrals.
+- **CO** Cámara plenary: `co_attendance` (datos.gov.co 48i3-vuny), copied
+  across so every country renders alike.
+
+Plenary vote participation, DERIVED from the stored votes where the record
+lists who did not vote: IT (assente, in missione, presente non votante), CH
+(Nicht teilgenommen, Entschuldigt), PL (ABSENT, PRESENT), ES (No vota), AR
+(AUSENTE), PE (AUS, the licences), DO (AU, SV), HU (four non-voting codes);
+the 365 days to the newest stored vote; excused absences counted apart;
+basis stated with every figure. Not for FR, BE, HR, EC or the Câmara's votes:
+their records list only those who voted, and an absence is never inferred.
+
+Shown in each member profile ("Attendance": per committee and the plenary,
+"attended N of M sittings", with its basis) and in each debate pack (a new
+section in the pack's language: the committee(s) handling the bill, each
+member's sittings attended and sittings on this bill attended, least
+attended first; participation beside the named speakers and the members to
+watch). Samples: `docs/samples/attendance/`.
+
+Not built, and why: Poland (committee sittings carry no attendance, scanned
+lists); Switzerland and Austria (committee meetings closed; AT votes by
+group); Italy (the Camera publishes no committee presence; participation
+from votes); Portugal (plenary presence is a PDF per sitting on
+parlamento.pt, open but needs a PDF reader: a later round); Spain (dissolved,
+no attendance file); Peru, Panama and the Dominican Senate (PDFs only);
+Argentina, Ecuador, Mexico, Belgium, Croatia, Slovakia (no attendance file
+found).
 
 ### 4. Week ahead
 The framework already renders a week-ahead section when a store holds

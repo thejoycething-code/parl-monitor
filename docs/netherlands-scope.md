@@ -518,6 +518,8 @@ Phase list: **done**. A same-day alert for new bills, motions, questions and age
 
 Member intelligence: **built** 11 October 2026 (`tools/member_intel.py nl`, a step of `jobs/nl-weekly.sh`, branch `ukp-member-intel`): current committee seats (vast and plaatsvervangend, `CommissieZetelVastPersoon`, `CommissieZetelVervangerPersoon`) and current nevenfuncties (`PersoonNevenfunctie`, with the register's word on payment) from the gegevensmagazijn OData (CC0), sitting members only. The VWS and Justitie en Veiligheid committees are flagged on our ground in the profiles. No whip is published.
 
+Attendance: **built** (11 October 2026, branch `ukp2-attendance`) (`tools/country_attendance.py nl`, a step of `jobs/nl-weekly.sh`): every commissiedebat, wetgevingsoverleg and notaoverleg of this term (`Activiteit`, with `ActiviteitActor` and `Zaak`), its lead committee (`Voortouwcommissie_Id`) and its participants ("Deelnemer"; "Afgemeld" not counted): 284 debates, 2,463 participations, 99 zaak links. NOT a roll call: usually one spokesperson per fractie takes part, so every count says "took part in". Votes are mostly by fractie, so there is no plenary figure.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Petitions handed to the Tweede Kamer: built**, the OData Activiteit of kind 'Petitie' (the hand-over appointment; no counts). The edition's `kinds` now includes "petition"; its DM stays votes only (NL3).

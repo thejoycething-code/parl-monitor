@@ -438,6 +438,8 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 
 Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`). The Cámara's committee service (`WSComision.asmx/retornarComisionesVigentes`) lists two committees with their 2022-26 members, stale since the legislature that began in March 2026; worth a recheck. The Senate's committees were not probed.
 
+Attendance: **built** (11 October 2026, branch `ukp2-attendance`) (`tools/country_attendance.py cl`, a step of `jobs/cl-weekly.sh`): every plenary session's roll (`WSSala.asmx/retornarSesionAsistencia`, "Asiste" / "No Asiste" with the justification verbatim: licencia médica, impedimento grave, desafuero, misión oficial), 98 sessions and 15,186 marks in 2026, one request per new session. Committees: the same stale `WSComision` service as member intelligence, two committees (Salud, Ética) and sessions only to 3 March 2026. No referral link. The Senate is not read.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Not built.** congresovirtual.cl (the chambers' consultations) answers 403 to robots.txt and its home page; government consultations are spread over ministry sites with no central list.

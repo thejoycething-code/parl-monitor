@@ -469,6 +469,8 @@ Phase list: **done**. A same-day alert for new bills, motions, questions and age
 
 Member intelligence: **built** 11 October 2026 (`tools/member_intel.py at`, a step of `jobs/at-weekly.sh`, branch `ukp-member-intel`): every committee function of the Nationalrat's XXVIII period and the Bundesrat's current ones (list 250 of the parlament.gv.at Filter API, two requests), with role and start date. Committee votes now have a membership list to read against. Interests: the Unvereinbarkeits declarations are HTML per member and meineabgeordneten.at needs a licence (AT5); not built.
 
+Attendance (11 October 2026, branch `ukp2-attendance`): **not built**: committee meetings are not public and votes are by group, so there is neither attendance nor a participation figure.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Ministerialentwürfe: built.** The list ID was found: Filter list 81 (POST `{"GP_CODE":["XXVIII"]}`), with the Begutachtungsfrist and the count of Stellungnahmen; drafts in Begutachtung (10 on 11 October) are stored as consultations with their deadline.
