@@ -1165,7 +1165,9 @@ def fetch_pt(conn, client, today, log=print, **_):
 def pt_json_links(anchors, stem, leg):
     """[(part, href)] for <stem><leg>_json.txt, or the parts the first
     legislature is split in (InformacaoBaseIA_json.txt, ...IB_json.txt)."""
-    pat = re.compile(r"^{0}{1}([A-Z]?)_json\.txt$".format(re.escape(stem), re.escape(leg)))
+    # The parts are lettered A and B: never a Roman numeral's letter, so the
+    # I legislature's pattern cannot take the II's file.
+    pat = re.compile(r"^{0}{1}([AB]?)_json\.txt$".format(re.escape(stem), re.escape(leg)))
     out = []
     for href, text in anchors:
         m = pat.match(text or "")
