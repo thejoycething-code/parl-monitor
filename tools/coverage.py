@@ -917,7 +917,14 @@ AWAITING_FIRST_RUN.update({
 # here, so a new source cannot arrive unwatched AND unexplained -- which
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
-EXEMPT = {}
+EXEMPT = {
+    # 11 October 2026: one row per petition per run (src/petitions.py), the
+    # history behind "passed a threshold this week". Its parent,
+    # country_petitions, is watched; a snapshot table that stopped moving
+    # would mean the parent stopped too.
+    "country_petition_snapshots": "per-run signature snapshots of country_petitions, "
+                                  "which is watched (FEEDS)",
+}
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they
