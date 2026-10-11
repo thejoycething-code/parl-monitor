@@ -6,13 +6,17 @@
     python3 tools/country_attendance.py br --years 2025 2026   # a backfill of earlier years
     python3 tools/country_attendance.py cl --db /tmp/cl.db     # a scratch store
     python3 tools/country_attendance.py --participation pl     # print the derived vote participation
+    python3 tools/country_attendance.py pt --budget-seconds 600   # PT plenary rolls, a page per sitting
 
 Who attended the committee and plenary sittings, from each parliament's own
 open data, into att_sittings / att_marks / att_referrals in the store: the
 Câmara's presence register (BR), the Assemblée's commission présences (FR),
 the Chilean Cámara's session and committee attendance (CL), the Tweede
-Kamer's committee-debate participants (NL, "took part", not a roll call), and
-Colombia's plenary attendance already in co_attendance (CO). The profiles
+Kamer's committee-debate participants (NL, "took part", not a roll call),
+Colombia's plenary attendance already in co_attendance (CO), and the
+Assembleia's plenary roll, one page per sitting (PT, from 11 October 2026:
+at most PT_MAX_SITTINGS rolls and --budget-seconds a run, so the XVII
+legislature's backfill spreads over the first few weekly runs). The profiles
 step that follows (tools/member_profiles.py) shows it, with the plenary vote
 participation derived from the stored votes where they list absences (IT,
 CH, PL, ES, AR, PE, DO, HU); the debate packs show who attended the
@@ -46,6 +50,12 @@ def main(argv=None):
     ap.add_argument("--raw", default=os.path.join(ROOT, "data", "raw"))
     ap.add_argument("--date", default=datetime.date.today().isoformat())
     ap.add_argument("--years", nargs="+", help="BR, CL: the years to read (default: this year)")
+    ap.add_argument("--budget-seconds", type=float, default=None,
+                    help="PT: stop reading sitting rolls after this many seconds "
+                         "(tools/collector_budget.sh); the rest are read next run")
+    ap.add_argument("--max-sittings", type=int, default=None,
+                    help="PT: at most this many sitting rolls this run (default "
+                         "src/attendance.PT_MAX_SITTINGS)")
     ap.add_argument("--participation", action="store_true",
                     help="print each member's derived plenary vote participation; fetch nothing")
     args = ap.parse_args(argv)
@@ -70,7 +80,8 @@ def main(argv=None):
     rc = 0
     for cc in args.countries:
         try:
-            done = att.collect(conn, client, cc, args.date, years=args.years)
+            done = att.collect(conn, client, cc, args.date, years=args.years,
+                               budget=args.budget_seconds, max_sittings=args.max_sittings)
         except (FetchError, ValueError, KeyError, sqlite3.Error) as exc:
             print("  [gap] attendance {0}: {1}; last run's rows kept".format(cc, str(exc)[:200]))
             rc = 3
