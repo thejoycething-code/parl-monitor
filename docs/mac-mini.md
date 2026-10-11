@@ -310,6 +310,16 @@ Handover item 4. `tools/country_agenda.py <cc>` reads a country's agenda into th
 - **A failed read keeps the last good one**: the edition shows it with its date in the Coverage line, and the gap is in the gaps table as `<cc>-agenda`. The Sejm API did not answer the laptop at times on 10 October (40 s timeouts); with the client's retries the PL step can take a few minutes before it gives up.
 - **By hand:** `python3 tools/country_agenda.py pl --db /tmp/x.db` reads into a scratch store; never run it on the runner's store while a weekly is publishing.
 
+## Petitions and consultations for the country editions (11 October 2026, branch `ukp-petitions-consult`)
+
+`tools/country_petitions.py <cc>` reads a country's petitions, citizens' initiatives and government consultations into the shared `country_petitions` table (src/petitions.py; one source module per country in `src/petition_sources/`), classifies them with the country's taxonomies, snapshots signature counts, and the edition's "Petitions and consultations" section shows the new ones on our ground, thresholds crossed and deadlines.
+
+- **A step, not a job.** It runs inside `jobs/{fr,at,ch,it,pt,pl,be,nl,br,ar,co}-weekly.sh`, after the collector and before the edition (Colombia's rows go to the monthly Latam edition), so there is no plist, workflow or slot to add: nothing to install beyond the usual `git pull`. Its failure is a `[gap]` line (`<cc>-petitions-<source>` in the gaps table) and never stops the publish or the edition. Each `<CC>_RECLASSIFY=true` run also runs `--reclassify`.
+- **Time:** seconds for most (one to three requests). France reads 21 listing pages and up to 60 item pages a run (a few minutes on the first runs, while the Sénat's 89 and the AN's matching petitions are read). Brazil's e-Cidadania pages take 20 to 60 seconds each: 8 listing pages and at most 15 idea pages a run (`--detail-limit 15`), so up to about 20 minutes on the first run and a few after.
+- **The first run is the baseline**: everything already open is stored but not shown as new; only items opened in the edition's window are. From the second run, new items, thresholds crossed and 10,000-signature weeks appear.
+- **Campaign view:** `python3 tools/country_petitions.py it at --report` prints every open item on our ground, nearest a threshold first, offline (read-only).
+- **By hand:** `python3 tools/country_petitions.py fr --db /tmp/x.db` into a scratch store; never on the runner's store while a weekly is publishing.
+
 ## Member profiles in the country weeklies (10 October 2026, branch `parity-profiles`)
 
 Handover item 3: one Markdown profile per member with a record on our ground, for the 23 countries with a member list (`profiles/<cc>/`, an `index.md` per country), from `src/member_profiles.py` through `tools/member_profiles.py <cc>`.

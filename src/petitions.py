@@ -535,7 +535,9 @@ def edition_items(conn, cc, since, until, wl):
         is_new = since < (r["first_seen"] or "") <= until and (
             (r["first_seen"] or "") > baseline.get(r["item_id"].split(":", 1)[0], "")
             or since < (r["opened"] or "") <= until)
-        passed = crossed(before, now, thresholds) if not is_new else []
+        # A crossing needs a count from before the window: on a source's first
+        # run there is none, and a threshold passed long ago is not news.
+        passed = crossed(before, now, thresholds) if before is not None and not is_new else []
         closing = bool(r["closes"]) and since < r["closes"] <= soon
         surge = (not is_new and before is not None and now is not None
                  and now - before >= SURGE)
@@ -547,7 +549,7 @@ def edition_items(conn, cc, since, until, wl):
             take += " ({0})".format(r["body"])
         events = []
         if is_new:
-            events.append("new this {0}".format("week"))
+            events.append("new in this edition")
         if passed:
             events.append("passed {0} signatures".format(_fmt(passed[-1][0])))
         elif surge:
@@ -591,7 +593,8 @@ def edition_items(conn, cc, since, until, wl):
         note = campaign_note(r, until, now, thresholds)
         if note:
             lines.append(note)
-        date = r["first_seen"] if is_new else (r["closes"] if closing and r["closes"] <= until
+        opened_in = since < (r["opened"] or "") <= until
+        date = (r["opened"] if opened_in else r["first_seen"]) if is_new else (r["closes"] if closing and r["closes"] <= until
                                                else until)
         out.append(ce.item(cc, "petition", r["item_id"], date, r["title"], ce.areas_of(r["areas"]),
                            r["tier"], bool(watch), status=r["status"], url=r["url"], lines=lines,

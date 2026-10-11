@@ -483,3 +483,11 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/ch.json` (`src/country_vote_brief.py`, step in `jobs/ch-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Nationalrat's votes during a session (OData); the Ständerat's come with the weekly, as its spreadsheets do. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Vernehmlassungen: built**, from the fedlex SPARQL endpoint (status 2, running; the ConsultationPhase end date is the deadline). 28 running on 11 October.
+- **Petitionen: built**, Curia Vista OData, BusinessType 10, the last year's submissions. No counts.
+- **Volksinitiativen in collection: built** from the Federal Gazette notices (Vorprüfung without a Zustandekommen, Rückzug or Fristablauf notice); the deadline is computed as 18 months after the Vorprüfung (Art. 71 BPR), and labelled so. The Bundeskanzlei's own list is a chart whose data API robots.txt disallows.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/ch.py`, `tools/country_petitions.py ch` as a step of `jobs/ch-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

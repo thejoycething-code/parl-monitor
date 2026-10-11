@@ -549,3 +549,10 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/ar.json` (`src/country_vote_brief.py`, step in `jobs/ar-weekly.sh`). Briefed after each weekly collection. The Senate only (Diputados votes are blocked, AR2). See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **National public consultations: built**, consultapublica.argentina.gob.ar (/api/forum/all): few a year, none open on 11 October.
+- Not covered: neither chamber publishes petitions.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/ar.py`, `tools/country_petitions.py ar` as a step of `jobs/ar-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

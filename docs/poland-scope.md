@@ -522,3 +522,11 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/pl.json` (`src/country_vote_brief.py`, step in `jobs/pl-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Sejm API, with the bills' areas from data/vote-briefs/pl-parents.json, which the weekly writes from the store (the print endpoints timed out on 10 October). See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Sejm public consultations on bills: built**, from the Sejm API's bills list (publicConsultationStartDate/EndDate); **citizens' bills** (applicantType CITIZENS) from the same list.
+- First read: 4 consultations on our ground (education law, the Penal Code among them).
+- Not covered: www.sejm.gov.pl's petitions, legislacja.gov.pl and legislacja.rcl.gov.pl disallow every crawler in robots.txt; senat.gov.pl answers 403.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/pl.py`, `tools/country_petitions.py pl` as a step of `jobs/pl-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

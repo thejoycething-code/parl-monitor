@@ -344,7 +344,7 @@ Hass im Netz).
    on items on our ground, weekly on the Mini with a GitHub backup.
 2. **1b:** namentliche Abstimmungen, member by member, from the protocol;
    Ministerialentwürfe (find the list ID) so drafts in Begutachtung are seen
-   before they reach the Nationalrat; the week ahead from Termine. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/at.py`, a step of the weekly job): Termine and each Tagesordnung, d.B. and A(E) numbers as item keys, robots.txt checked per document.
+   before they reach the Nationalrat (**built 11 October 2026**, Filter list 81; see the end of this file); the week ahead from Termine. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/at.py`, a step of the weekly job): Termine and each Tagesordnung, d.B. and A(E) numbers as item keys, robots.txt checked per document.
 3. **2:** an edition (Slack DM to Christopher, as the US), the triage judge
    on Austrian items (German prompt, as Germany's), Klub-level 5CA, speeches
    from the protocols (the debate entries on each history page already name
@@ -453,3 +453,12 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/at.json` (`src/country_vote_brief.py`, step in `jobs/at-weekly.sh`). Briefed after each weekly collection. Klub votes: member positions are derived (X5), so no member is named. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Ministerialentwürfe: built.** The list ID was found: Filter list 81 (POST `{"GP_CODE":["XXVIII"]}`), with the Begutachtungsfrist and the count of Stellungnahmen; drafts in Begutachtung (10 on 11 October) are stored as consultations with their deadline.
+- **Petitionen and Bürgerinitiativen: built**, from Filter list 143 (the /beteiligen page; `{"AKTIV":["J"],"ITYP":["BI","PET"]}`), with the online support count. No closing date.
+- **Volksbegehren: built**, the BMI's registered list (www.bmi.gv.at/411/): title and registration date only; 8,969 declarations ask for a signing week, no counts published.
+- First read: two Bürgerinitiativen and three Volksbegehren on our ground ("Mut zeigen!" on pregnancy loss, "Abtreibungs-Strafgesetz-Paragraphen streichen", "Abtreibungspille rezeptfrei").
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/at.py`, `tools/country_petitions.py at` as a step of `jobs/at-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

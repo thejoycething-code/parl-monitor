@@ -249,7 +249,8 @@ class EditionItems(unittest.TestCase):
         self.assertIn("passed 100,000 signatures", got["an:i-1"]["takeaway"])
         self.assertTrue(any("+11,000 since" in ln for ln in got["an:i-1"]["lines"]))
         self.assertTrue(any(ln.startswith("Threshold passed: 100,000") for ln in got["an:i-1"]["lines"]))
-        self.assertIn("new this week", got["an:i-4"]["takeaway"])
+        self.assertIn("new in this edition", got["an:i-4"]["takeaway"])
+        self.assertEqual(got["an:i-4"]["date"], "2026-10-09")
         notes = [ln for ln in got["an:i-5"]["lines"] if ln.startswith("For campaigns")]
         self.assertEqual(len(notes), 1)
         self.assertIn("60% of the way to 100,000", notes[0])
@@ -258,6 +259,20 @@ class EditionItems(unittest.TestCase):
         lines = P.coverage_lines(conn, "fr", "2026-10-04", "2026-10-11")
         self.assertEqual(len(lines), 1)
         self.assertIn("Assemblée nationale e-petitions: read 11 October 2026, 5 listed", lines[0])
+
+    def test_no_crossing_without_an_earlier_count(self):
+        conn = store_db()
+        # First run: a petition already past 100,000 is baseline, not a crossing.
+        seeded(conn, "2026-10-11", [e("i-1", 150000, opened="2026-01-01")])
+        self.assertEqual(P.edition_items(conn, "fr", "2026-09-11", "2026-10-11", {}), [])
+
+    def test_surge_without_threshold(self):
+        conn = store_db()
+        seeded(conn, "2026-10-04", [e("i-7", 20000, kind="public_vote")])
+        seeded(conn, "2026-10-11", [e("i-7", 35000, kind="public_vote")])
+        got = P.edition_items(conn, "fr", "2026-10-04", "2026-10-11", {})
+        self.assertEqual(len(got), 1)
+        self.assertIn("+15,000 votes in the window", got[0]["takeaway"])
 
     def test_prev_signatures_and_snapshots(self):
         conn = store_db()

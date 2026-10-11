@@ -508,3 +508,11 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/fr.json` (`src/country_vote_brief.py`, step in `jobs/fr-weekly.sh`). Briefed after each weekly collection. Not daily: the Assemblée publishes its scrutins only as one 27 MB nightly zip, and reading only its newest members by HTTP range is unsafe (on 10 October its CDN served two builds of the file, 26,987,736 and 26,960,828 bytes, to successive range requests). See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Assemblée nationale and Sénat e-petitions: built.** Both are Decidim sites whose GraphQL API answers 500, so the open listing is read (AN about 1,930 open, 20 pages of 100; Sénat 89). Item pages give the closing date and full text: every new Sénat petition, AN petitions only when their listed words match (60 a run). Thresholds: AN 100,000 (Conférence des présidents) and 500,000 from 30 departments; Sénat 100,000 in six months.
+- First read: 68 AN and 2 Sénat petitions on our ground (aide à mourir, a fœtus as a person, gender on identity cards, social media for minors). One AN petition on police tactics has passed 100,000 (not on our ground).
+- Not covered: the government's consultations (no central list probed).
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/fr.py`, `tools/country_petitions.py fr` as a step of `jobs/fr-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

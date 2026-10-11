@@ -502,3 +502,11 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/nl.json` (`src/country_vote_brief.py`, step in `jobs/nl-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Tweede Kamer's OData, one request; a show of hands waits up to two days for its positions. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Petitions handed to the Tweede Kamer: built**, the OData Activiteit of kind 'Petitie' (the hand-over appointment; no counts). The edition's `kinds` now includes "petition"; its DM stays votes only (NL3).
+- First read: 3 on our ground (home education, two on surrogacy).
+- **Not covered: internetconsultatie.nl** disallows every crawler but named search engines (`User-agent: * Disallow: /`) and publishes no dataset; one homepage request was made on 11 October before robots.txt was read, and nothing is built on it.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/nl.py`, `tools/country_petitions.py nl` as a step of `jobs/nl-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

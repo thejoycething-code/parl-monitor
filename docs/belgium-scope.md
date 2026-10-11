@@ -448,3 +448,10 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/be.json` (`src/country_vote_brief.py`, step in `jobs/be-weekly.sh`). Briefed after each weekly collection. Groups are as the member list stood when stored, not at the vote, and the brief says so. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Chamber petitions: built**, the Decidim platform's GraphQL API (dekamer.mijnopinie.belgium.be/api): 122 open, titles in French and Dutch, signature dates read in aliased batches. Threshold 25,000 (with the regional minimums) for a hearing.
+- First read: 6 on our ground (coercive control, co-parenting, digital identity, minors on social media).
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/be.py`, `tools/country_petitions.py be` as a step of `jobs/be-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

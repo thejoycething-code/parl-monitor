@@ -514,3 +514,11 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/pt.json` (`src/country_vote_brief.py`, step in `jobs/pt-weekly.sh`). Briefed after each weekly collection. Group votes, positions derived (X5); only the deputies the record names as voting apart are named. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Petitions to the Assembleia: built**, the open-data Peticoes<leg>_json.txt (found through the DAPeticoes page and folder each run): number, subject, signatures, status, committee. Thresholds 1,000 (hearing, Diário) and 7,500 (plenary debate).
+- First read: 3 on our ground (gender ideology in institutions, conversion therapy, palliative care).
+- Not covered: ConsultaLEX (postbacks, no item addresses, none open); citizens' initiatives arrive as bills in the store.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/pt.py`, `tools/country_petitions.py pt` as a step of `jobs/pt-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

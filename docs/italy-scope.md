@@ -559,3 +559,12 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/it.json` (`src/country_vote_brief.py`, step in `jobs/it-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Senate's SPARQL endpoint and Openpolis for the Camera (positions held while Openpolis shows 'SEC'); dati.senato.it answered 403 to the laptop on 10 October, to be checked from the Mini. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Popular initiatives and referendums: built**, firmereferendum.giustizia.it's public JSON (87 initiatives, collection dates, signature counts, quorum 50,000 or 500,000).
+- **Government consultations: built**, ParteciPa (partecipa.gov.it, Decidim GraphQL).
+- First read: 12 initiatives on our ground, among them "PMA per tutte" at 88% of its 50,000 (closes 8 December 2026) and a referendum on sex education in schools.
+- Not covered: the Camera's and the Senato's petitions (503 and 403 from here).
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/it.py`, `tools/country_petitions.py it` as a step of `jobs/it-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.
