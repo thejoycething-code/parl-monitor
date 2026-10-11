@@ -35,6 +35,13 @@ Markdown conventions parsed here:
     areas and exclusions with the addendum's terms appended, so France,
     Belgium and Switzerland get Quebec's French plus their own words without
     one character of taxonomy-qc.yaml changing.
+  * an addendum area may replace base terms:  - **Replaces:** IVG
+    (11 October 2026). Every base term of that area whose bare form is
+    listed is dropped, in both tiers, so the addendum's own copies of it
+    (tagged or guarded) stand instead. The base master is untouched; a
+    replaced term the base does not carry is a master error. Switzerland's
+    guard on Quebec's "IVG" (the German abbreviation of the Invalidity
+    Insurance Act) is the first.
   * - **Notes:** lines become YAML comments (the loader ignores prose)
   * global exclusions:                   - **Terms:** termination; conversion
   * version from the header line:        **Version 0.2 | ...**
@@ -62,6 +69,7 @@ NAME = re.compile(r"^- \*\*Name:\*\* (?P<name>.+)$")
 EXCLUSIONS = re.compile(r"^- \*\*Terms:\*\* (?P<terms>.+)$")
 VERSION = re.compile(r"\*\*Version (?P<version>[0-9.]+)")
 EXTENDS = re.compile(r"^\*\*Extends:\*\* (?P<base>[a-z]+)\s*$")
+REPLACES = re.compile(r"^- \*\*Replaces:\*\* (?P<terms>.+)$")
 
 
 def split_terms(line):
@@ -90,7 +98,7 @@ def parse_master(text):
         if m:
             current = m.group("key")
             areas[current] = {"name": None, "tier1": [], "tier2": [],
-                              "note": None}
+                              "note": None, "replaces": []}
             in_exclusions = False
             continue
         if in_exclusions:
@@ -106,6 +114,10 @@ def parse_master(text):
             m = NAME.match(line)
             if m:
                 areas[current]["name"] = m.group("name").strip()
+                continue
+            m = REPLACES.match(line)
+            if m:
+                areas[current]["replaces"] = split_terms(m.group("terms"))
                 continue
             m = NOTES.match(line)
             if m:
@@ -263,6 +275,13 @@ def _merge_addendum(base, addendum):
         merged = {"name": spec.get("name"), "note": spec.get("note"),
                   "tier1": list(spec["tier1"]), "tier2": list(spec["tier2"])}
         extra = add_areas.get(key)
+        for gone in (extra or {}).get("replaces") or []:
+            kept = {tier: [t for t in merged[tier] if _split_tagged(t)[0] != gone]
+                    for tier in ("tier1", "tier2")}
+            if kept == {tier: merged[tier] for tier in ("tier1", "tier2")}:
+                raise SystemExit("addendum area %r replaces %r, which its base "
+                                 "master does not carry" % (key, gone))
+            merged.update(kept)
         if extra:
             for tier in ("tier1", "tier2"):
                 for t in extra[tier]:
@@ -290,6 +309,8 @@ def generate(master=None, lang="en"):
             raise SystemExit("unknown base master %r" % base)
         with open(MASTERS[base][0], "r", encoding="utf-8") as handle:
             parsed = _merge_addendum(parse_master(handle.read()), parsed)
+    elif any(spec.get("replaces") for spec in parsed[1].values()):
+        raise SystemExit("**Replaces:** belongs in an addendum (**Extends:**) only")
     return emit_yaml(*parsed, master=master or MASTER, lang=lang)
 
 

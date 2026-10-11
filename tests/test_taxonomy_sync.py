@@ -770,3 +770,30 @@ class CountryTagAndAddendumTests(unittest.TestCase):
         self.assertEqual(areas["2_assisted_dying"]["tier1"], ["euthanasie"])
         self.assertEqual(excl, ["genre", "sexe"])
         self.assertEqual(base[1]["1_abortion"]["tier1"], ["avortement*"])
+
+    def test_an_addendum_area_may_replace_a_base_term(self):
+        # 11 October 2026: Switzerland's guard on Quebec's bare "IVG".
+        base = ("0.3", {"1_abortion": {"name": None, "note": None, "tier1": ["avortement*", "IVG"],
+                                       "tier2": ["IVG [with: x]"]}}, ["genre"])
+        add = ("0.1", {"1_abortion": {"name": None, "note": None, "replaces": ["IVG"],
+                                      "tier1": ["IVG [only: fr, be]", "IVG [with: grossesse*] [only: ch]"],
+                                      "tier2": []}}, ["sexe"])
+        _v, areas, _e = generate_taxonomy._merge_addendum(base, add)
+        self.assertEqual(areas["1_abortion"]["tier1"],
+                         ["avortement*", "IVG [only: fr, be]", "IVG [with: grossesse*] [only: ch]"])
+        self.assertEqual(areas["1_abortion"]["tier2"], [])
+        self.assertEqual(base[1]["1_abortion"]["tier1"], ["avortement*", "IVG"])
+
+    def test_replacing_a_term_the_base_lacks_is_refused(self):
+        base = ("0.3", {"1_abortion": {"name": None, "note": None, "tier1": ["avortement*"],
+                                       "tier2": []}}, ["genre"])
+        add = ("0.1", {"1_abortion": {"name": None, "note": None, "replaces": ["IVG"],
+                                      "tier1": [], "tier2": []}}, [])
+        with self.assertRaises(SystemExit):
+            generate_taxonomy._merge_addendum(base, add)
+
+    def test_replaces_is_parsed_from_the_master(self):
+        text = ("**Version 0.1 | x**\n\n### 1. Abortion {#1_abortion}\n\n- **Replaces:** IVG; FIV\n"
+                "- **Tier 1:** IVG [only: fr]\n\n## Global exclusions\n\n- **Terms:** vida\n")
+        _v, areas, _e = generate_taxonomy.parse_master(text)
+        self.assertEqual(areas["1_abortion"]["replaces"], ["IVG", "FIV"])
