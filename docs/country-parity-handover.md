@@ -25,7 +25,14 @@ petitions and consultations (#84), collector time budgets and the El Salvador
 fallback (#85), member intelligence: committees, groups, declared interests,
 Brazil's party line (#86), the review window, built but OFF (#88), store
 compression (#89), plain-English vote meanings (#90), daily sweep of new
-items (#91), speech clips (#92).
+items (#91), speech clips (#92). UK-parity round 2, 11 October: a
+'sign these first' 5CA shortlist per country, leading the weekly digest
+(#102); words since the last vote for NL, CH, AT, FR, BE (#103); the Swiss
+"IVG" false friend fixed and Switzerland reclassified on the Mini (#104,
+14 votes lost a wrong abortion tag); the debate report with approval and a
+canvas for Chris alone (#105); attendance: BR and FR committees, CL plenary
+roll, NL committee debates, CO, and vote participation where absences are
+recorded (#106); members' length of service, with derived positions now only for days a member sat (#107).
 
 **Nothing is published from a 5CA yet.** Every stance is a draft: 975
 readings await sign-off across the countries (France limited to final votes
@@ -71,6 +78,12 @@ live read all render "awaiting sign-off" until a named person confirms.
 13. DONE (11 October 2026, #95): the Mini's run slot is first in, first out
     (a ticket queue in `tools/mini_run.sh`). Keep hand backfills out of the
     overnight weekly window.
+15. Start signing off from the shortlists (`docs/5ca-<cc>-shortlist.md`):
+    each lists the votes worth confirming first and the exact command. Until
+    a signer is named, the printed commands sign as "Christopher".
+16. Debate reports need English translations before they publish (a person in
+    `translations.yaml`, or the free judge run by hand on the Mini; command in
+    `docs/mac-mini.md`); "publish" means a canvas for Chris alone.
 14. Whether to raise the weekly free-judge cap (`SESSION_JUDGE_MAX`, about
     100 items): 295 vote meanings wait for it.
 
@@ -94,6 +107,14 @@ live read all render "awaiting sign-off" until a named person confirms.
   then deleted on both the Mini and the laptop. Clip
   footage under `data/clips/*/windows/` and `final/` is git-ignored (#99);
   a person picks who goes in (the pick ranks by topic, not by side).
+- First runs still to come: the Netherlands, Chile and Colombia weeklies
+  have not run on the Mini yet (their slot is Thursday; first run 15 October
+  2026), and Mexico and Guatemala (GitHub, fortnightly) have not had a
+  collection yet, so their tables in the published store are empty until
+  then. El Salvador's first run failed on 11 October (fixed in #85; next run
+  Sunday 18 October). To fill them sooner, kickstart the installed job on the
+  Mini (`launchctl kickstart gui/$(id -u)/net.citizengo.parlmonitor.<cc>-weekly`),
+  outside the overnight window.
 - Compressed publish: VERIFIED 11 October 2026. The store (1.77 GB) uploads
   as `parl-monitor.db.gz`, 431 MB, compressed in 16 s; the raw asset is gone
   from the release. The size warning fires because the uncompressed store is
