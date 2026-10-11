@@ -48,7 +48,8 @@ BP = "https://brasilparticipativo.presidencia.gov.br/api"
 BP_ITEM = "https://brasilparticipativo.presidencia.gov.br/processes/{0}"
 IDEA_PAGES = 5
 CONSULTA_PAGES = 3
-TIMEOUT = 120
+TIMEOUT = 90
+PAGE_SECONDS = 600       # stop paging a listing after this long; the top pages matter most
 MAX_SPAN_DAYS = 730      # a process running longer than two years is a standing container
 IDEA_THRESHOLDS = ((20000, "becomes a Sugestão Legislativa, debated by the CDH"),)
 
@@ -134,10 +135,13 @@ def parse_processes(reply, today):
     return out
 
 
-def _pages(client, url, parse, pages, slug):
+def _pages(client, url, parse, pages, slug, clock=None):
+    import time
+    clock = clock or time.monotonic
+    started = clock()
     entries, gaps, last = [], [], pages
     for p in range(1, pages + 1):
-        if p > last:
+        if p > last or (p > 1 and clock() - started > PAGE_SECONDS):
             break
         try:
             raw = client.get_text(url.format(p), "br-petitions", "{0}-{1}".format(slug, p),

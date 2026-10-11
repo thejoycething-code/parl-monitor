@@ -83,6 +83,7 @@ CLOSING_DAYS = 14         # "closes soon": in the window or this many days after
 NEAR_SHARE = 0.5          # "near a threshold": at least half way to the next one
 SURGE = 10000             # signatures or votes gained in the window that make news alone
 DETAIL_LIMIT = 60         # item pages read per source per run
+DETAIL_SECONDS = 600      # and no new item page once a country's run is this old
 
 KINDS = {
     "petition": "Petition", "initiative": "Citizens' initiative",
@@ -370,9 +371,13 @@ def needs_detail(conn, cc, e, src):
 
 
 def collect(conn, cc, client, today, config_dir=None, log=print, mod=None, detail=True,
-            detail_limit=DETAIL_LIMIT):
+            detail_limit=DETAIL_LIMIT, detail_seconds=DETAIL_SECONDS):
     """One country's petitions and consultations: fetch, classify, read the
-    pages that need it, store. Returns (listed, on ground, gaps)."""
+    pages that need it, store. Returns (listed, on ground, gaps). Item pages
+    stop at detail_limit per source or once the run is detail_seconds old
+    (Brazil's pages take up to a minute each); the rest are read next run."""
+    import time
+    started = time.monotonic()
     from src import db
     mod = mod or module(cc)
     ensure_schema(conn)
@@ -397,7 +402,8 @@ def collect(conn, cc, client, today, config_dir=None, log=print, mod=None, detai
         for e in result.entries:
             e = dict(e, kind=e.get("kind") or src.kind)
             e = classify(e, taxes, wl)
-            if detail and details < detail_limit and needs_detail(conn, cc, e, src):
+            if detail and details < detail_limit and \
+                    time.monotonic() - started < detail_seconds and needs_detail(conn, cc, e, src):
                 try:
                     upd = src.detail(client, e, log) or {}
                     details += 1
