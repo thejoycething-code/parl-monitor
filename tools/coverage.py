@@ -941,6 +941,9 @@ EXEMPT = {
 # new countries' speech clips (tools/country_clips.py, 11 October 2026: CH, AT
 # open; NL manual; FR, BE awaiting the parliaments' agreement) read the store
 # read-only and write files into a pack folder for a person; nothing to miss.
+# The new countries' debate report (tools/country_debate_report.py, 11 October
+# 2026: NL, CH, AT, FR, BE) is the same: manual, the store read-only, files in
+# data/debate-reports/ and a DM and canvas for Chris alone; no table, no clock.
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they

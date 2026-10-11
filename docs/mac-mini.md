@@ -747,3 +747,20 @@ clips, new countries"). It reads the store read-only and writes only into
   hand so the download is seen.
 - Fetched source footage is deleted after 30 days (`purge`, also run at the start of each
   cut); finished clips stay in the pack.
+
+## Debate report for the new countries (11 October 2026, branch `ukp2-debate-report`)
+
+No job: `tools/country_debate_report.py` is a hand command (docs/debate-pack-social.md,
+"Debate report, new countries"). It reads the store read-only and writes only into
+`data/debate-reports/<folder>/`. The Mini's part is the TRANSLATIONS, by the free session
+judge on the work account's plan (no API key), run by hand in a session on the Mini (not
+over SSH: the keychain), when a report is wanted:
+
+    cd ~/runner/parl-monitor
+    SESSION_JUDGE_PROMPT="$(python3 tools/country_debate_report.py --prompt)" \
+      bash tools/session_judge.sh tools/country_debate_report.py 40 20 --report data/debate-reports/<folder>
+    python3 tools/country_debate_report.py --report data/debate-reports/<folder> --render --dm
+
+A report has a few dozen items at most (title, one passage per speaker, each vote's
+question): they come out of the week's ~100 session items only when someone runs this.
+Without the judge a person writes the translations into `translations.yaml` on any machine.
