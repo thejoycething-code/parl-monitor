@@ -1,24 +1,26 @@
 {
  "pa-que-adiciona-disposiciones-al-codigo-de-la-famil-ficha-8037": {
   "changelog": [
-   "2026-10-10 tools/country_briefs.py drafted every cell"
+   "2026-10-10 tools/country_briefs.py drafted every cell",
+   "2026-10-11 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "2fd38916b8f055ec83559a084d240c0d034cdaefb121cdc84986df28700138f4",
+  "content": "09a9fb269585b7ddb8d259f835f825a9edcc3ba72c7946a8e48ca1776ed23fd6",
   "generated": "2026-10-10",
   "key": "Ficha 8037",
   "ready": false,
-  "sha": "9075f124a7aa5ddb06c92487e8472e59cdbe5eb2d62d60b41996fe5f431c98b3",
+  "sha": "dc0278802c7de8ca60e687ee4afa282d69b0b2095992f5703a4e9c7c3a2c90f6",
   "title": "QUE ADICIONA DISPOSICIONES AL CODIGO DE LA FAMILIA, RELATIVAS AL PROCEDIMIENTO SUMARIO DE LA TUTELA"
  },
  "pa-que-establece-el-marco-regulatorio-de-las-activi-ficha-7936": {
   "changelog": [
-   "2026-10-10 tools/country_briefs.py drafted every cell"
+   "2026-10-10 tools/country_briefs.py drafted every cell",
+   "2026-10-11 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "fa7fb947f855724b7a38ed55fd31f4b30a21e9e497dbf14022a9560eae2b3b0e",
+  "content": "8add5eb506027c68ed3e1293c511b0ba7df0ce3906d777ffc2fc6231d4a7c414",
   "generated": "2026-10-10",
   "key": "Ficha 7936",
   "ready": false,
-  "sha": "65853106ef29341a04d796c1e1bd37d43a5aa5025d59db5f9c27084cd4b70cc3",
+  "sha": "10539a84112b5fb93d748a572f9228d672073ab19be97803a31a9bfaebf064e4",
   "title": "QUE ESTABLECE EL MARCO REGULATORIO DE LAS ACTIVIDADES RELACIONADAS CON LA OBTENCION Y UTILIZACION CLINICA CON FINES TERAPEUTICOS DE COMPONENTES ANATOMICOS"
  },
  "pa-que-modifica-el-articulo-211-del-codigo-penal-y-ficha-8466": {
@@ -34,13 +36,14 @@
  },
  "pa-que-modifica-y-adiciona-articulos-al-codigo-de-l-ficha-8434": {
   "changelog": [
-   "2026-10-10 tools/country_briefs.py drafted every cell"
+   "2026-10-10 tools/country_briefs.py drafted every cell",
+   "2026-10-11 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "fb6205981bd9a5622589f8d0f7db373e2505a32ac2700e996d5cab85d7f54e56",
+  "content": "1a45acde08e74c0fa70d44dcbabce3e9431959d5d1bf1c91cafa361b2604f04d",
   "generated": "2026-10-10",
   "key": "Ficha 8434",
   "ready": false,
-  "sha": "383e695f211a95a326db00cbf6e8637bf38d975f8b5d6253412533f58ff41124",
+  "sha": "7f4e1225a679eb12fb2e4aea1aa36ec9a4d691edf395cd277af3d7df95377151",
   "title": "QUE MODIFICA Y ADICIONA ARTICULOS AL CODIGO DE LA FAMILIA Y CREA LA PENSION COMPENSATORIA MATRIMONIAL"
  }
 }

@@ -160,6 +160,7 @@ Left blank at build time (rulebook cell 35).
 
 - Tier: B (open parliamentary data, the PA store). Drafted by tools/country_briefs.py (rules and the record; no AI model).
 - Subject: tier 1 `Ficha 7936`, https://sistemas.asamblea.gob.pa/segLegis/Documents/7936.pdf, areas 13 (organ donation).
+- Session judge: Panama's framework for the clinical use of human anatomical components passed first debate and returned after subcommittee review. Check consent rules and trafficking safeguards before the next debate.
 - Key dates: introduced 2026-10-07; last recorded event 2026-10-07; next none in the store (no Urgent proposed: news-only dates never trigger it).
 - Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days skip weekends only; the country's public holidays are not checked.
 - SIGN-OFF: no bill direction on file for `Ficha 7936` (no stance file yet). Add a `bill_directions` line (direction with/against, why) to config/pa_stance.yaml, then confirm it: `python3 tools/country_5ca.py --cc pa --confirm-direction Ficha 7936 --by NAME`.
@@ -171,3 +172,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-10 tools/country_briefs.py drafted every cell
+- 2026-10-11 tools/country_briefs.py refreshed by the builder

@@ -98,6 +98,7 @@ Moving forward,
 BUILDER TAB
 "Tier: B (open parliamentary data, the PA store). Drafted by tools/country_briefs.py (rules and the record; no AI model)."
 "Subject: tier 1 `Ficha 7936`, https://sistemas.asamblea.gob.pa/segLegis/Documents/7936.pdf, areas 13 (organ donation)."
+Session judge: Panama's framework for the clinical use of human anatomical components passed first debate and returned after subcommittee review. Check consent rules and trafficking safeguards before the next debate.
 Key dates: introduced 2026-10-07; last recorded event 2026-10-07; next none in the store (no Urgent proposed: news-only dates never trigger it).
 Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days skip weekends only; the country's public holidays are not checked.
 "SIGN-OFF: no bill direction on file for `Ficha 7936` (no stance file yet). Add a `bill_directions` line (direction with/against, why) to config/pa_stance.yaml, then confirm it: `python3 tools/country_5ca.py --cc pa --confirm-direction Ficha 7936 --by NAME`."
@@ -106,3 +107,4 @@ Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days
 "Not available to the builder: Bluebook (comparables, TIM, RF#1), the Asana campaigns calendar (launch clash check), postcode member counts, the framing glossary (0 entries), the allies and opponents registers (0 / 0), the hostile-outlet deny-list."
 Campaigner checklist (cells holding [CAMPAIGNER: ...]): Background / Context; Campaign Name; Main Purposes; Petitions related TIM project; Who is the petition addressed to?; What are we asking for in the petition?; What is happening that we are responding to?; Why would they listen to us?; What is the key point of injustice; Why is it urgent that we take action now?; Which sources do you want to include?; What should the image look like?; What are some arguments; Describe a bad outcome; Describe a good outcome; RF#1 comment; RF#2 comment; RF#3 comment; RF#4/1 comment.
 Changelog: 2026-10-10 tools/country_briefs.py drafted every cell
+Changelog: 2026-10-11 tools/country_briefs.py refreshed by the builder
