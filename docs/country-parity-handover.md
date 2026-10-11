@@ -316,7 +316,7 @@ days.
 
 `src/member_service.py` and `tools/member_service.py <cc>` (a step of each
 weekly before the profiles; the tool skips a source read within its cadence,
-`STALE_DAYS`: a week for one-request sources, four weeks for the rest) store
+`STALE_DAYS`: a week for one-request sources, four weeks for the rest; AT and BR, a request a member, read the longest-unread first within a time budget and are due again the next week when cut short) store
 every period each member sat in `ms_periods` (chamber, term, start, end,
 precision `day` or `term`, the party or list and the group for the period,
 the seat), every dated party or group spell in `ms_party`, and what each
