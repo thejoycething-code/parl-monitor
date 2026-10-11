@@ -642,6 +642,15 @@ from src import chamber_store as _chamber  # noqa: E402
 FEEDS += [("mi_runs", "last_seen", 7, 4,
            "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT weeklies)")]
 
+# France's HATVP declarations of interests (11 October 2026, tools/fr_hatvp.py,
+# src/fr_hatvp.py), a step of the France weekly: at most every four weeks it
+# asks whether declarations.xml changed (a conditional request) and stamps
+# mi_downloads.last_seen whether it changed or not, so the stamp moves every
+# four weeks; a month plus a fortnight's grace. Its rows are mi_interests
+# (source 'fr-hatvp'), whose mi_runs stamp moves only when the file changed.
+FEEDS += [("mi_downloads", "last_seen", 31, 14,
+           "France: HATVP declarations of interests checked (FR weekly, monthly step)")]
+
 # Length of service (11 October 2026, tools/member_service.py): every period
 # each member has sat, for 18 countries, a step of each weekly before the
 # profiles. Sources read weekly (CH, NL and the six store-only countries)

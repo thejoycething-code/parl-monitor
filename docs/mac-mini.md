@@ -810,3 +810,12 @@ over SSH: the keychain), when a report is wanted:
 A report has a few dozen items at most (title, one passage per speaker, each vote's
 question): they come out of the week's ~100 session items only when someone runs this.
 Without the judge a person writes the translations into `translations.yaml` on any machine.
+
+## France's HATVP declared interests, a monthly step of the France weekly (11 October 2026, branch `fr-hatvp`)
+
+`tools/fr_hatvp.py` (`src/fr_hatvp.py`): the HATVP's declarations of interests and activities of sitting députés and sénateurs, the declarant's own items only, into `mi_interests` (source `fr-hatvp`) before the profiles read them.
+
+- **No new plists, workflows or cron slots.** A step of `jobs/fr-weekly.sh` after member intelligence, only when the collector stored something (exit 0 or 3). A failure is a `[gap] fr-hatvp` line; last month's rows stand and the store is still published.
+- **Monthly, and only when changed:** the tool does nothing until four weeks after its last check (`mi_downloads.last_seen`); then one conditional request (If-Modified-Since) on `declarations.xml`. A 304 costs nothing more; a change downloads the 79.5 MB XML and the 3.2 MB CSV and parses them in about two seconds. `--force` checks now.
+- **Privacy:** the XML is never written to `data/raw` (it holds spouses' data and the archive is published); only the CSV's parliamentary rows are archived. Spouses', collaborators', free-text and asset sections are skipped at parse time and never logged.
+- **Coverage:** `mi_downloads.last_seen` is watched (`tools/coverage.py`, cadence 31, grace 14); the log line `fr-hatvp:` says what was read, or "unchanged" / "not due".

@@ -38,7 +38,10 @@ recorded (#106); members' length of service, with derived positions now only for
 readings only, to Chris alone (a canvas shared with his ID, never a channel);
 reruns rewrite the same canvas, and a Sunday step refreshes canvases whose
 confirmed readings changed. Silent until the first reading is confirmed.
-Also the publish-collision fix (#109).
+Also the publish-collision fix (#109). Portugal's plenary attendance (#113:
+every XVII sitting's roll, absence reasons verbatim) and France's HATVP
+declared interests (#114: members' own items only; spouses' and other
+third parties' sections are dropped at parse time and never stored).
 
 **Nothing is published from a 5CA yet.** Every stance is a draft: 975
 readings await sign-off across the countries (France limited to final votes
@@ -167,10 +170,9 @@ publish seen".
 Spain's autonomous communities, Mexico's states); Croatia and Slovakia
 debates; Polish transcripts when the Sejm endpoint answers; Brazilian
 speeches (cost); Belgian, Portuguese, Slovak, Hungarian and Mexican agendas;
-committee agendas; Croatian and Slovak speeches; France's HATVP interest
-declarations (members' own items only); daily sweep for HU (BE, PT, HR, SK,
-AR and eight Latam countries added by gaps-day-sweep; MX, CO, SV measured
-and left out); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1 2027); a
+committee agendas; Croatian and Slovak speeches; daily sweep for HU (BE,
+PT, HR, SK, AR and eight Latam countries added by gaps-day-sweep; MX, CO,
+SV measured and left out); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1 2027); a
 native read of each language's term list.
 
 ## What exists now
@@ -190,7 +192,7 @@ native read of each language's term list.
 | Campaign targets and outcomes (`ca_campaign.py`, the 5CA Evaluate) | yes | no | no | no | **built** 10 Oct (`tools/country_campaign.py`, branch `camp-targets`): open, targets, add, find, outcome, score; targets from confirmed readings only, candidates by vote record until then; petition numbers none yet (UK only) |
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
 | Public vote pages, vote tracker, bill timelines | yes (`mp-votes.html`, devolved, timelines) | yes (`de-votes.html`) | yes (`us-`, `ie-`, `au-votes.html`) | no | **built** 11 Oct (`tools/make_country_votes.py`, src/country_votes.py, branch `ukp-vote-pages`): `partner_site/<cc>-votes.html` for the 22 countries with member or party-group votes, `votes-countries.html` (tracker) and `bill-timelines.html` (watched bills: stages, agenda slots, votes), behind the partner passphrase, weekly in `editions-session-judge`; records only, no for/against before a reading is CONFIRMED; X5 derived and X6 as-listed labelled, non-attached never counted (#80) |
-| Member intelligence (interests, cross-party groups, committees, whip lines) | yes (`pull_interests.py`, `load_appgs.py`, `pull_pbc_attendance.py`, `annotate_whips.py`) | part | no | no | **built** 11 Oct (`tools/member_intel.py`, `src/member_intel.py`, branch `ukp-member-intel`), a step of 7 weeklies before the profiles: BR fronts (frentes parlamentares) and organs, NL committee seats and nevenfuncties, CH committees and Interessenbindungen, PL committees, FR committees, délégations and groupes d'études, IT Camera organs, AT committee functions. Groups on our ground flagged by name (`config/member-intel-groups.yaml`) in each profile and a "Groups on our ground" list in each index. Whip: Brazil's orientação de bancada beside each Câmara position (the only published whip). Not built: FR HATVP (open, heavy, later), AT interests, ES (dissolved), AR, CL (stale service), IT Senate (403) |
+| Member intelligence (interests, cross-party groups, committees, whip lines) | yes (`pull_interests.py`, `load_appgs.py`, `pull_pbc_attendance.py`, `annotate_whips.py`) | part | no | no | **built** 11 Oct (`tools/member_intel.py`, `src/member_intel.py`, branch `ukp-member-intel`), a step of 7 weeklies before the profiles: BR fronts (frentes parlamentares) and organs, NL committee seats and nevenfuncties, CH committees and Interessenbindungen, PL committees, FR committees, délégations and groupes d'études, IT Camera organs, AT committee functions. Groups on our ground flagged by name (`config/member-intel-groups.yaml`) in each profile and a "Groups on our ground" list in each index. Whip: Brazil's orientação de bancada beside each Câmara position (the only published whip). FR HATVP declared interests **built** 11 Oct (branch `fr-hatvp`, `tools/fr_hatvp.py`, monthly, members' own items only). Not built: AT interests, ES (dissolved), AR, CL (stale service), IT Senate (403) |
 | Committee and plenary attendance | yes (`pull_pbc_attendance.py`, bill committees) | no | no | no | **built** 11 Oct (`src/attendance.py`, `tools/country_attendance.py`, branch `ukp2-attendance`), a step of 5 weeklies before the profiles: BR committee and plenary presence register, FR commission présences, CL plenary and committee rolls, NL committee-debate participants ("took part", not a roll), CO plenary (co_attendance), PT plenary roll (added 11 Oct, branch `pt-attendance`: an HTML roll per sitting, not a PDF; 119 XVII sittings, 27,370 marks, every deputy matched to `pt_members` and the member service; motive of each justified absence verbatim; also beside speakers in PT packs); committee-to-bill referrals for BR, FR, NL; plenary vote participation DERIVED from the votes for IT, CH, PL, ES, AR, PE, DO, HU. Shown in profiles and debate packs. Not built: PL, CH, AT, IT committees (none published), PT committees, ES, PE, PA (PDFs) |
 
 | Length of service (every period each member sat; `tools/pull_service.py`) | yes | no | no | no | **built** 11 Oct (`src/member_service.py`, `tools/member_service.py`, branch `ukp2-service`), a step of 18 weeklies before the profiles (weekly or every four weeks by source): shared tables `ms_periods`, `ms_party`, `ms_runs`. Seat dates for CH (since 1848), NL, FR (from 2002), AT, PT (since 1976), IT Camera (since 1948), ES (since 1977), PL (from 1997), BR (sitting members), CL (militancias), HU (current term); terms only for SK, HR, BE, AR, PE, DO, MX; nothing for EC, SV, GT, CO, UY. Profiles and vote pages say "serving since" and earlier periods with what the source covers, never more; DERIVED positions (AT, PT, NL) only for days the member sat, by their group on the day (also in the 5CA and campaign positions) |
@@ -358,9 +360,31 @@ profiles show the Câmara's orientação de bancada beside each position and
 count followed, differed and free votes: the only whip line any of these
 parliaments publishes. Samples: `docs/samples/member-intel/`.
 
-Not built, and why: France's HATVP déclarations d'intérêts (open, Licence
-Ouverte, but an 80 MB XML with spouses' activities in it: a later round that
-keeps the member's own items only); Austria's interests (HTML per member;
+France's HATVP declarations of interests and activities: **built** 11
+October 2026 (branch `fr-hatvp`; `tools/fr_hatvp.py`, `src/fr_hatvp.py`, a
+monthly step of `jobs/fr-weekly.sh` before the profiles). The HATVP's open
+data (Licence Ouverte; robots.txt allows it): `declarations.xml` (79.5 MB)
+downloaded only when it changed (If-Modified-Since, at most every four
+weeks; validators in `mi_downloads`) and stream-parsed with the stdlib;
+`liste.csv` supplies the parliament ids. Kept: each sitting député's and
+sénateur's latest declaration, their OWN items in six sections (activities
+of the last five years, consultancy, management roles, shareholdings,
+voluntary roles, mandates), into `mi_interests` (source `fr-hatvp`) with the
+deposit date and the HATVP page (two new columns, `declared` and `url`).
+Spouses', collaborators', free-text and asset sections are cleared at parse
+time and never stored, logged or archived; the XML itself is never archived
+(a test proves the spouse data never reaches the store or the log). 699
+sitting members matched (532 AN, 167 Sénat; 694 by the HATVP's id, 5 by name
+and mandate, all hand-checked), 7,337 items; the other 223 sitting members
+have no declaration in the open data yet (the HATVP lists 179 senators'
+as "En cours" and 38 as lodged, publication to come; 6 with no row): they
+fill in as the HATVP publishes. 36 organisations flagged on our ground by
+name (OGEC Catholic school bodies, dioceses and parishes, secularist
+bodies, women's rights associations, private schools). Profiles show
+"From the declaration lodged with the HATVP on <date>" and the HATVP page.
+Sample: `docs/samples/member-intel/fr-hatvp.md`.
+
+Not built, and why: Austria's interests (HTML per member;
 meineabgeordneten.at needs a licence, AT5); Spain (Cortes dissolved,
 declarations are scanned PDFs); Argentina (Senate open data lists
 committees without members, Diputados unreachable); Chile (the Cámara's

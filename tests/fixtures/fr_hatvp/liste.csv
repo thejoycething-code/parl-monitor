@@ -1,0 +1,7 @@
+civilite;prenom;nom;classement;type_mandat;qualite;type_document;departement;date_publication;date_depot;nom_fichier;url_dossier;open_data;statut_publication;id_origine;url_photo
+Mme;Anne;EXEMPLE;EXEMPLE Anne1;depute;Députée du Rhône;dia;69;2024-09-01;2024-08-04;exemple-anne-dia1-depute-69.pdf;/pages_nominatives/exemple-anne-1;exemple-anne-dia1-depute-69.xml;Livrée;900001;
+Mme;Anne;EXEMPLE;EXEMPLE Anne1;depute;Députée du Rhône;diam;69;2025-03-01;2025-02-10;exemple-anne-diam2-depute-69.pdf;/pages_nominatives/exemple-anne-1;exemple-anne-diam2-depute-69.xml;Livrée;900001;
+M.;Jimmy;MODELE;MODELE Jimmy2;depute;Député du Var;dia;83;2024-09-01;2024-08-05;modele-jimmy-dia3-depute-83.pdf;/pages_nominatives/modele-jimmy-2;modele-jimmy-dia3-depute-83.xml;Livrée;900002;
+M.;Paul;SANSID;SANSID Paul3;senateur;Sénateur du Nord;dia;59;2024-01-01;2023-12-01;sansid-paul-dia4-senateur-59.pdf;/pages_nominatives/sansid-paul-3;sansid-paul-dia4-senateur-59.xml;Livrée;;
+M.;Jean;ANCIEN;ANCIEN Jean4;depute;Député de l'Ain;dia;01;2024-09-01;2024-08-06;ancien-jean-dia5-depute-01.pdf;/pages_nominatives/ancien-jean-4;ancien-jean-dia5-depute-01.xml;Livrée;900004;
+M.;Luc;LOCAL;LOCAL Luc5;commune;Maire de Lyon;di;69;2024-09-01;2024-08-07;local-luc-di6-commune-69.pdf;/pages_nominatives/local-luc-5;local-luc-di6-commune-69.xml;Livrée;;
