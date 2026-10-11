@@ -474,3 +474,7 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - **Not built.** No listable source found (the CONAMER consultation host did not resolve).
 
 Length of service: **built, legislatures only** 11 October 2026 (`tools/member_service.py mx`, a step of `jobs/mx-collect.sh`, branch `ukp2-service`): the SITL legislatures already in the store, matched by name; no fetch, no seat dates. See docs/country-parity-handover.md, section 3c.
+
+## Daily sweep of new items (measured 11 October 2026, branch `gaps-day-sweep`)
+
+Phase list: **not built**. Measured and left out: the Cámara's hosts refuse UK connections (the Mini's too), and the Gaceta lists iniciativas only per period, with no date filter. The Senate stays out (MX4). See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

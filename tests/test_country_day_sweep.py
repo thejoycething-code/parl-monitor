@@ -232,6 +232,150 @@ class RunTests(Base):
         self.assertIsNone(text)
 
 
+class LatamTests(Base):
+    """Latam countries go through the Latam alerts' reader, rule and ledger,
+    both ways (gaps-day-sweep, 11 October 2026)."""
+
+    def latam_item(self, key, kind="new", tier=1, watched=False, title=None):
+        from src import latam
+        return latam.item("pe", kind, key, "2026-10-08",
+                          title or "Proyecto de ley sobre aborto " + key, [1], tier, watched,
+                          status="Radicado", url="https://example.org/" + key)
+
+    def run_latam(self, items, record=True):
+        self.latam_dir = os.path.join(self.tmp, "latam-alerts")
+        with mock.patch("src.latam.country_items", lambda *a, **k: list(items)):
+            return sweep.run(sqlite3.connect(":memory:"), ["pe"], SINCE, TODAY, today=TODAY,
+                             out_dir=self.out, record=record, directory=self.ledgers,
+                             config_dir=self.cfg, generated="2026-10-09T22:00",
+                             log=lambda *a: None, editions_dir=self.editions,
+                             latam_dir=self.latam_dir)
+
+    def test_latam_rule_and_both_ledgers(self):
+        import latam_alerts
+        a, b = self.latam_item("100/26C"), self.latam_item("101/26C")
+        moved = self.latam_item("102/26C", kind="moved", watched=True)
+        self.assertIsNone(self.run_latam([a])[0])                 # first pass seeds silently
+        self.assertEqual(latam_alerts.load("pe", self.latam_dir)["sent"], {})
+        led = latam_alerts.load("pe", self.latam_dir)
+        led["sent"]["pe|new|101/26C"] = "2026-10-08"               # the weekly sent it
+        latam_alerts.save(led, TODAY, self.latam_dir)
+        c = self.latam_item("103/26C", tier=2)                    # tier 2, not watched
+        d = self.latam_item("104/26C", tier=2, watched=True)
+        text, blocks, _p = self.run_latam([a, b, moved, c, d])
+        self.assertEqual([it["key"] for it, _r in blocks[0][1]], ["104/26C"])
+        self.assertIn("Peru", text)
+        self.assertIn("New bill", text)
+        sent = latam_alerts.load("pe", self.latam_dir)["sent"]
+        self.assertIn("pe|new|104/26C", sent)                     # the weekly step skips it
+        self.assertIsNone(self.run_latam([a, b, d])[0])           # never twice
+
+    def test_latam_ledger_untouched_without_record(self):
+        import latam_alerts
+        sweep.save(dict(sweep.load("pe", self.ledgers), seeded="x"), TODAY, self.ledgers)
+        text, _b, _p = self.run_latam([self.latam_item("9/26C", watched=True)], record=False)
+        self.assertIn("9/26C", text)
+        self.assertFalse(os.path.exists(latam_alerts.ledger_path("pe", self.latam_dir)))
+
+
+class NewReaderTests(unittest.TestCase):
+    """The readers added on branch gaps-day-sweep (11 October 2026), over
+    payloads the live sources returned that day (tests/fixtures/day-sweep/)."""
+
+    def setUp(self):
+        noise.load_yaml.__globals__["_FILES"].clear()
+
+    def fx(self, name):
+        return json.loads(_fix("day-sweep", name))
+
+    def test_ar_register_one_request_published_in_the_window(self):
+        client = FakeClient([("datos.hcdn.gob.ar", self.fx("ar-proyectos.json.gz"))])
+        conn = scratch()
+        n = sources.AR.collect(conn, client, "2026-10-05", "2026-10-11", log=lambda *a: None)
+        self.assertEqual(len(client.calls), 1)
+        self.assertTrue(sources.AR.ONCE_A_DAY)
+        self.assertNotIn("www.hcdn.gob.ar", client.calls[0][0])           # AR4
+        dates = {r[0] for r in conn.execute("SELECT published FROM ar_bills")}
+        self.assertEqual(n, conn.execute("SELECT COUNT(*) FROM ar_bills").fetchone()[0])
+        self.assertTrue(n and all(d > "2026-10-05" for d in dates))
+
+    def test_pe_bills_by_presentation_date_per_chamber(self):
+        client = FakeClient([('"codTipoParl": "S"', self.fx("pe-spley-s.json.gz")),
+                             ('"codTipoParl": "D"', self.fx("pe-spley-d.json.gz")),
+                             ('"codTipoParl": "C"', self.fx("pe-spley-c.json.gz"))])
+        conn = scratch()
+        n = sources.PE.collect(conn, client, "2026-10-04", "2026-10-11", log=lambda *a: None)
+        self.assertEqual(len(client.calls), 3)
+        self.assertTrue(all('"fecPresentacionDesde": "2026-10-05"' in c[1] for c in client.calls))
+        self.assertGreater(n, 0)
+        from src import latam
+        got = latam.country_items(conn, "pe", "2026-10-04", "2026-10-11")
+        self.assertTrue(all(it["kind"] == "new" for it in got))
+
+    def test_do_newest_pages_until_one_is_all_older(self):
+        p1, p7 = self.fx("do-bills-p1.json.gz"), self.fx("do-bills-p7.json.gz")
+        client = FakeClient([("page=1&", p1), ("page=2&", p7)])
+        conn = scratch()
+        n = sources.DO.collect(conn, client, "2026-10-07", "2026-10-11", log=lambda *a: None)
+        self.assertEqual(len(client.calls), 2)              # page 2 had nothing new: stop
+        self.assertEqual(n, 10)
+
+    def test_ec_votes_in_the_window_without_positions(self):
+        client = FakeClient([("reports/period", self.fx("ec-periods.json.gz")),
+                             ("votingList", self.fx("ec-votes.json.gz"))])
+        conn = scratch()
+        n = sources.EC.collect(conn, client, "2026-10-04", "2026-10-11", log=lambda *a: None)
+        self.assertGreater(n, 0)
+        self.assertFalse(any("votingDetail" in c[0] for c in client.calls))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM ec_votes").fetchone()[0], 0)
+
+    def test_hr_new_acts_are_the_sweeps_own_items(self):
+        client = FakeClient([("novi-akti", _fix("day-sweep", "hr-novi-akti.html.gz"))])
+        conn = scratch()
+        n = sources.HR.collect(conn, client, "2026-10-04", "2026-10-11", log=lambda *a: None)
+        self.assertGreater(n, 0)
+        conn.execute("UPDATE hr_sweep_acts SET areas='[1]', tier=1")
+        got = sources.HR.extra_items(conn, "2026-10-04", "2026-10-11", {})
+        self.assertEqual(len(got), n)
+        self.assertTrue(all(i["kind"] == "new" for i in got))
+        self.assertTrue(any("/" in i["key"] for i in got))     # keyed on the bill, as the edition
+
+    def test_be_dossiers_opened_in_the_window(self):
+        client = FakeClient([("language=nl", _fix("day-sweep", "be-recent-nl.html.gz")),
+                             ("LastDocument", _fix("day-sweep", "be-recent-fr.html.gz"))])
+        conn = scratch()
+        n = sources.BE.collect(conn, client, "2026-10-04", "2026-10-11", log=lambda *a: None)
+        self.assertEqual(len(client.calls), 2)
+        self.assertGreater(n, 0)
+        both = conn.execute("SELECT COUNT(*) FROM be_dossiers WHERE title_nl IS NOT NULL "
+                            "AND title_fr IS NOT NULL").fetchone()[0]
+        self.assertEqual(both, n)
+
+    def test_pt_initiatives_entered_in_the_window(self):
+        client = FakeClient([("UltimasIniciativas", _fix("day-sweep", "pt-latest.html.gz"))])
+        conn = scratch()
+        n = sources.PT.collect(conn, client, "2026-10-04", "2026-10-11", log=lambda *a: None)
+        self.assertGreater(n, 0)
+        self.assertLess(n, 60)                                  # the page is four weeks deep
+
+    def test_retries_capped_while_a_reader_runs(self):
+        class C:
+            max_retries = 3
+        c = C()
+        with sources.retries(sources.NoArchive(c), 0):
+            self.assertEqual(c.max_retries, 0)
+        self.assertEqual(c.max_retries, 3)
+        with sources.retries(FakeClient([]), 1):               # a client without the knob
+            pass
+
+    def test_latam_countries_go_through_the_latam_path(self):
+        self.assertEqual(set(sweep.LATAM), {"cl", "pe", "ec", "bo", "do", "pa", "hn", "uy"})
+        self.assertTrue(set(sweep.LATAM) <= set(sources.SWEEP))
+        for cc in ("mx", "co", "sv", "be", "pt", "hr", "sk"):
+            if cc not in sources.READERS:
+                self.assertNotIn(cc, sources.SWEEP)
+
+
 class CollectTests(Base):
     def test_gated_once_a_day_and_failing_readers(self):
         class Bad(sources.Reader):
@@ -364,7 +508,17 @@ class ReaderTests(unittest.TestCase):
     def test_spain_waits_for_the_new_legislature_and_france_reads_its_agenda_only(self):
         self.assertEqual(sources.ES.ACTIVE_FROM, "2026-12-23")
         self.assertTrue(sources.FR.ONCE_A_DAY and sources.FR.ARCHIVE_ON_HIT)
-        self.assertEqual(sources.FR.collect(None, None, SINCE, TODAY), 0)
+        page = _fix("day-sweep", "fr-dossiers-p1.html.gz")
+        client = sources.NoArchive(FakeClient([("dossiers?page=1&", page)]))
+        conn = scratch()
+        n = sources.FR.collect(conn, client, "2026-10-06", "2026-10-11", log=lambda *a: None)
+        self.assertEqual(len(client.client.calls), 1)          # one page covers the window
+        self.assertTrue(client.client.calls[0][1])             # the list is archived as usual
+        self.assertEqual(client.fetched, [])                   # only the agenda zip waits
+        self.assertGreater(n, 0)
+        _c, wide = sweep.sweep_country("fr", type("R", (sources.FR,), {"AGENDA": False}))
+        got = wide.items(conn, "2026-10-06", "2026-10-11", ce.watchlist_of(_c))
+        self.assertIn(("new", "DLR5L17N55023"), [(i["kind"], i["key"]) for i in got])
         self.assertEqual(set(sources.SWEEP), set(sources.READERS))
 
 

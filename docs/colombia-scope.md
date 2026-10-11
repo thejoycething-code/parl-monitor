@@ -516,3 +516,7 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 Attendance: **shown** (11 October 2026, branch `ukp2-attendance`): the Cámara's plenary attendance already collected (`co_attendance`, datos.gov.co 48i3-vuny) is copied into the shared attendance tables by `tools/country_attendance.py co` (a step of `jobs/co-weekly.sh`, no fetch) and shown in the profiles. Note: the published store of 11 October held no `co_*` rows.
 
 Length of service: **not built** (11 October 2026, branch `ukp2-service`): no source we reach gives a member's service; the profiles say nothing about it. See docs/country-parity-handover.md, section 3c.
+
+## Daily sweep of new items (measured 11 October 2026, branch `gaps-day-sweep`)
+
+Phase list: **not built**. Measured and left out: no cheap list carries a filing date (each bill's page is 750 KB), and CO3 rules out votes. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

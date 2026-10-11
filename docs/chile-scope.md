@@ -449,3 +449,7 @@ Attendance: **built** (11 October 2026, branch `ukp2-attendance`) (`tools/countr
 - **Not built.** congresovirtual.cl (the chambers' consultations) answers 403 to robots.txt and its home page; government consultations are spread over ministry sites with no central list.
 
 Length of service: **built** 11 October 2026 (`tools/member_service.py cl`, branch `ukp2-service`): deputies' periods from the Cámara's militancias already in the store (dated party spells for each deputy's time in the chamber), joined end to end; no fetch. Senators: not read (the BCN's spells are party history, not seats). See docs/country-parity-handover.md, section 3c.
+
+## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
+
+Phase list: **done**. A same-day alert for new items on our ground, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`, one DM to Chris), read through the Latam alerts' own reader and rule (`src/latam.py`, `tools/latam_alerts.py`: watched, or tier 1 with the minimum evidence) and de-duplicated against `data/latam-alerts/cl.json` both ways, so nothing is sent twice with the alert step after the weekly collection (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the Senate's tramitación since the window (both chambers' new bills, the Senate's votes). Cámara votes stay weekly. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

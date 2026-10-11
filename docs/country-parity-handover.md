@@ -172,8 +172,9 @@ debates; Polish transcripts when the Sejm endpoint answers; Brazilian
 speeches (cost); Hungarian and Mexican agendas (Belgian, Portuguese and
 Slovak agendas, Polish committees and the Spanish plenary PDF were built
 on 11 October, branch `gaps-week-ahead`); Swiss committee agendas
-(confidential); Croatian and Slovak speeches; daily sweep for BE, PT, HR, SK, HU,
-AR, MX and Latam; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1 2027); a
+(confidential); Croatian and Slovak speeches; daily sweep for HU (BE, PT,
+HR, SK, AR and eight Latam countries added by gaps-day-sweep; MX, CO, SV
+measured and left out); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1 2027); a
 native read of each language's term list.
 
 ## What exists now
@@ -186,7 +187,7 @@ native read of each language's term list.
 | Triage | API judge | API judge | API or session judge | session judge (provinces) | free session judge, Sundays 16:45 (`tools/edition_judge.py`) |
 | Noise filters, mute lists | yes | partly | yes | yes | yes (`src/noise.py`, `config/edition-noise-<cc>.yaml`) |
 | Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | yes, 20 countries (`src/country_vote_brief.py`): daily for NL, PL, CH, BR, IT; after the weekly for the rest |
-| Daily sweep of new items (bills, motions, questions, agenda) | yes (`tools/day_sweep.py`) | no | EU (`tools/eu_day_sweep.py`) | no | **built** 11 Oct (`src/country_day_sweep.py`, readers `src/day_sweep_sources.py`, branch `ukp-day-sweep`): a step of the one daily job (`jobs/vote-briefs-daily.sh`) for NL, PL, CH, BR, IT, AT, FR (agenda only, once a day) and ES (from 23 Dec); tier 1 and watched, the vote briefs' gate; one combined DM with the vote briefs; de-duplicated against the editions, the vote briefs and `data/day-sweep/<cc>.json`; samples `docs/day-sweep-samples/` |
+| Daily sweep of new items (bills, motions, questions, agenda) | yes (`tools/day_sweep.py`) | no | EU (`tools/eu_day_sweep.py`) | no | **built** 11 Oct (`src/country_day_sweep.py`, readers `src/day_sweep_sources.py`, branch `ukp-day-sweep`): a step of the one daily job (`jobs/vote-briefs-daily.sh`) for NL, PL, CH, BR, IT, AT, FR (agenda only, once a day) and ES (from 23 Dec); tier 1 and watched, the vote briefs' gate; one combined DM with the vote briefs; de-duplicated against the editions, the vote briefs and `data/day-sweep/<cc>.json`; samples `docs/day-sweep-samples/`. **Extended** 11 Oct (branch `gaps-day-sweep`): BE, PT, HR, SK, AR, France's new dossiers, and CL, PE, EC, BO, DO, PA, HN, UY through the Latam alerts' rule and ledger (no double send); MX, CO, SV measured and left out; the daily run about 2 min (55 s before) |
 | 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5). Tracker and partner sheet built 10 Oct (`tools/make_country_5ca_web.py`, branch `camp-5ca-sheets`): `docs/5ca-countries.html` weekly, "awaiting sign-off: N readings" per country; partner page gated until a country has a confirmed placement. Posting to Chris built 11 Oct (`tools/country_5ca_post.py`, src/country5ca_post.py, branch `ukp3-5ca-post`; the UK `post_5ca.py` and `republish_canvas.py`): per country and area, from confirmed readings only, a canvas shared with Chris alone and/or a DM, never a channel; rewritten in place on a rerun; refreshed in the Sunday judge job only when confirmed readings change; X5 rows labelled DERIVED, non-attached never placed from a group vote (#80); nothing sent while none is confirmed |
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct (#65): 975 readings awaiting sign-off after France was limited to final votes and watched amendments (#77), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
 | Picking past votes for 5CA (which to sign first) | yes (`find_division_candidates.py`, `review_divisions.py`, `research_shortlist.py`: a review queue, a person adds each vote by hand) | no | no | no | **built** 11 Oct (`src/shortlist5ca.py`, `tools/country_5ca.py --shortlist`, branch `ukp2-5ca-candidates`): every waiting reading ranked by rules (decisive votes on watched bills, close margins, split groups, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink; collated-only areas last); `docs/5ca-<cc>-shortlist.md` per country (top 20 with why, meaning line, proposed values and the exact `--confirm` command, then the best per area), rewritten in the Sunday judge job; the stance digest DM now leads with each country's top 5. Confirms nothing |
@@ -267,6 +268,25 @@ only); ES 3 from 23 December. Not swept: BE, PT, HR, SK, HU, AR, MX and the
 Latam countries (not measured for a daily read in this pass; Argentina's
 Senate agenda is the likeliest next one; the Latam instant alerts cover
 the Latam countries after each collection).
+
+**Extended 11 October 2026 (branch `gaps-day-sweep`).** Measured and added
+to the same daily run: Belgium (the Chamber's recent-documents listing),
+Portugal (the latest-initiatives page), Croatia ("Novi akti", the sweep's
+own items), Slovakia (the term's prints and interpellations), Argentina
+(the Diputados register on datos.hcdn.gob.ar once a day with no retry,
+never www.hcdn.gob.ar per AR4, and the Senate's agenda), France's new
+dossiers (the AN's own list, one page, once a day with the agenda; its
+written questions stay weekly: the Journal officiel prints them on
+Tuesdays), and, through the Latam alerts' reader, rule and ledger
+(`data/latam-alerts/<cc>.json`, both ways, so nothing is sent twice with
+`tools/latam_alerts.py`), Chile, Peru, Ecuador (votes, tallies only),
+Bolivia, the Dominican Republic, Panama, Honduras and Uruguay (pedidos, once
+a day, only when the file changed). Left out: Mexico (refuses UK
+connections, and no dated list), Colombia (no cheap dated list; CO3 rules
+out votes), El Salvador (a vote's subject is filed days late, 40 s a day).
+Each sweep request is retried at most once. The whole daily run took 55 s
+before and about 2 minutes after (laptop). Sample:
+`docs/day-sweep-samples/day-sweep-2026-10-11-more-countries.md`.
 
 ### 2. 5CA and stance sign-off (needs people)
 5CA (`docs/5ca-notes.md`) needs CitizenGO's position on each vote that counts

@@ -28,8 +28,10 @@ runs it on the Mac Mini, and publishes the raw payloads it archived.
 THE DAILY SWEEP (11 October 2026; src/country_day_sweep.py, readers in
 src/day_sweep_sources.py): the same --daily run then reads what is NEW on
 our ground (bills, motions, questions, agenda points) for the Netherlands,
-Poland, Switzerland, Brazil, Italy, Austria, France (its agenda, once a day)
-and Spain (from 23 December 2026) into the same scratch store, and the run
+Poland, Switzerland, Brazil, Italy, Austria, France (its agenda and new
+dossiers, once a day), Spain (from 23 December 2026), Belgium, Portugal,
+Croatia, Slovakia, Argentina and eight Latam countries (through the Latam
+alerts' path and ledger) into the same scratch store, and the run
 sends ONE DM: the vote briefs, then the new items; nothing when nothing.
 --no-sweep leaves it out; --sweep-only skips the votes.
 
