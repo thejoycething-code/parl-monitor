@@ -60,6 +60,7 @@ live read all render "awaiting sign-off" until a named person confirms.
   the OCR steps.
 - Check the first `vote-briefs-daily` log: can the Mini reach `dati.senato.it`
   (it refuses the laptop)?
+- The store is now published gzipped (`parl-monitor.db.gz`, 11 October 2026; docs/mac-mini.md, "The store is published compressed"): nothing to do on the Mini, but a branch without that change cannot pull once the raw asset is retired, so merge main into any branch before testing it there.
 - The first Sunday 16:45 run of `editions-session-judge` (Claude Code on the
   Mini is signed in to the work account; over SSH it reports "Not logged in"
   because the keychain is locked for SSH, which is expected).
