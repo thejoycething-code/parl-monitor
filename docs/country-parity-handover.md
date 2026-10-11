@@ -19,7 +19,13 @@ and partner sheet (#68), campaign targets (#69), constitutional courts, UY5,
 BO4, OCR stub (#70), debate packs (#71), later phases set A (#72), debates and
 questions (#73), campaign briefs (#74, English per rule 6 #75), same-day vote
 briefs (#76), debate today and live read (#78), taxonomy noise round (#79),
-small fixes (#80).
+small fixes (#80). UK-parity round, 11 October: health summary and Drive
+publishing (#82), partner vote pages, vote tracker and bill timelines (#83),
+petitions and consultations (#84), collector time budgets and the El Salvador
+fallback (#85), member intelligence: committees, groups, declared interests,
+Brazil's party line (#86), the review window, built but OFF (#88), store
+compression (#89), plain-English vote meanings (#90), daily sweep of new
+items (#91), speech clips (#92).
 
 **Nothing is published from a 5CA yet.** Every stance is a draft: 975
 readings await sign-off across the countries (France limited to final votes
@@ -46,16 +52,40 @@ live read all render "awaiting sign-off" until a named person confirms.
    NL, CH, FR, BE). It lives on the work account, not the personal one.
 7. Whether the Dutch edition (votes only, NL3) should show the week ahead.
 8. Whether the one watched Dutch motion in dossier 21501-02 (the rainbow-flag
-   motion, zaak 2026Z21728) should stay watched.
+   motion, zaak 2026Z21728) should stay watched (it now alerts in the daily
+   sweep).
+9. Review the flagged groups in `config/member-intel-groups.yaml` (which
+   cross-party groups count as "on our ground").
+10. Confirm four petition thresholds read from the law, not the sites: Austria
+    500 signatures (Bürgerinitiative), Portugal 1,000 and 7,500, Switzerland's
+    18-month collection deadline, Belgium's regional split of 25,000.
+11. Campaign openings found on 11 October: an Assemblée nationale petition
+    against the aide a mourir law (48% of 100,000); Italy's "PMA per tutte"
+    initiative (88% of 50,000, closes 8 December); Austrian Volksbegehren on
+    the abortion paragraphs and the abortion pill.
+12. Speech clips: France and Belgium need prior agreement for video
+    (communication@assemblee-nationale.fr; the Chamber), then set
+    `fr.agreement` / `be.agreement` in `config/clip-sources.yaml`.
+13. Whether to make the Mini's run slot first in, first out (a ticket queue
+    in `tools/mini_run.sh`): on 10 October the Austria weekly waited two hours
+    and lost every round to newer arrivals. Proposed, not built. Keep hand
+    backfills out of the overnight weekly window either way.
+14. Whether to raise the weekly free-judge cap (`SESSION_JUDGE_MAX`, about
+    100 items): 295 vote meanings wait for it.
 
 **Still to run on the Mini (store writers, one at a time):**
 
-- `latam-courts-backfill` (about 25 minutes; queued on 10 October behind the
-  weeklies as the one-shot launchd job `net.citizengo.parlmonitor.oneshot-courts`;
-  check `~/runner/logs/latam-courts-backfill.log`, then
-  `launchctl bootout gui/$(id -u)/net.citizengo.parlmonitor.oneshot-courts`).
-- `sk-docs-backfill`, three runs of about 55 minutes, never on a Tuesday
-  morning (docs/mac-mini.md).
+- `latam-courts-backfill`: DONE (10 October, 03:22Z).
+- `sk-docs-backfill`: run 1 started 11 October 12:47Z as the one-shot launchd
+  job `net.citizengo.parlmonitor.oneshot-skdocs`; runs 2 and 3 are chained by
+  a watcher on the laptop. Check `~/runner/logs/sk-docs-backfill.log`; after
+  run 3, `launchctl bootout gui/$(id -u)/net.citizengo.parlmonitor.oneshot-skdocs`.
+- Rerun the Austria and Portugal weeklies once (10 October: Austria lost the
+  lock queue, Portugal lost a publish race), as one-shot launchd jobs.
+- Speech clips need ffmpeg and faster-whisper on the Mini (step 3 of
+  `tools/macmini_setup.sh`); the first cut downloads Whisper's ~480 MB model.
+- Check the first compressed publish: `parl-monitor.db.gz` on the release,
+  the raw asset gone, and the Store line in the health DM.
 - Install Tesseract when wanted (X7; steps in docs/mac-mini.md) to switch on
   the OCR steps.
 - Check the first `vote-briefs-daily` log: can the Mini reach `dati.senato.it`
@@ -65,22 +95,31 @@ live read all render "awaiting sign-off" until a named person confirms.
   Mini is signed in to the work account; over SSH it reports "Not logged in"
   because the keychain is locked for SSH, which is expected).
 
-**The review window (11 October 2026, branch `ukp-review-window`):** the
-new country editions are no longer DMed straight after each weekly. Each
-weekly writes a draft and `reviews/<cc>-review-<date>.md`; Chris may cut or
-edit items, add a note, hold or send now until 06:30 London the next morning
-(per country in `config/edition-review.yaml`), when the Mini's
-`edition-publish` job DMs the edition, honouring the review, and keeps one
-combined Asana reading task for the week. Unedited, it goes out unchanged.
-Install `edition-publish` on the Mini (`ops/install_country_jobs.sh`) and
-check `asana_pat` is in the Mini's `config/secrets.yaml`.
+**The review window (#88) is built but OFF** (Chris, 11 October 2026: the UK
+retired its own review loop on 21 August). Editions are DMed straight after
+each weekly as before. To switch a country on, set `review: true` on its line
+in `config/edition-review.yaml`: the weekly then writes a draft and
+`reviews/<cc>-review-<date>.md` (keep / cut / edit, note, hold or now), and
+the Mini's `edition-publish` job (installed; 06:31 and 21:10 London, exits at
+once when nothing is due) sends it at 06:30 the next morning and keeps one
+combined weekly Asana reading task (needs `asana_pat` in the Mini's
+`config/secrets.yaml`).
+
+**The store is published compressed (#89).** It had reached 1.76 GB against
+GitHub's 2 GiB per-asset limit; gzip cuts it about 4x and the upload from
+about 15 minutes to 4 or 5. Pushes warn above 1.6 GB uncompressed and refuse
+above 2 GiB. If it keeps growing, the next step is splitting the new
+countries into their own store file (Chris: "further changes in the future
+if necessary").
 
 **What could come next (not started):** regions and Länder (IT3, AT6, PE4,
 Spain's autonomous communities, Mexico's states); Croatia and Slovakia
 debates; Polish transcripts when the Sejm endpoint answers; Brazilian
 speeches (cost); Belgian, Portuguese, Slovak, Hungarian and Mexican agendas;
-committees and petitions; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
-2027); a native read of each language's term list.
+committee agendas; Croatian and Slovak speeches; France's HATVP interest
+declarations (members' own items only); daily sweep for BE, PT, HR, SK, HU,
+AR, MX and Latam; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1 2027); a
+native read of each language's term list.
 
 ## What exists now
 
