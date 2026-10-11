@@ -190,7 +190,7 @@ native read of each language's term list.
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
 | Public vote pages, vote tracker, bill timelines | yes (`mp-votes.html`, devolved, timelines) | yes (`de-votes.html`) | yes (`us-`, `ie-`, `au-votes.html`) | no | **built** 11 Oct (`tools/make_country_votes.py`, src/country_votes.py, branch `ukp-vote-pages`): `partner_site/<cc>-votes.html` for the 22 countries with member or party-group votes, `votes-countries.html` (tracker) and `bill-timelines.html` (watched bills: stages, agenda slots, votes), behind the partner passphrase, weekly in `editions-session-judge`; records only, no for/against before a reading is CONFIRMED; X5 derived and X6 as-listed labelled, non-attached never counted (#80) |
 | Member intelligence (interests, cross-party groups, committees, whip lines) | yes (`pull_interests.py`, `load_appgs.py`, `pull_pbc_attendance.py`, `annotate_whips.py`) | part | no | no | **built** 11 Oct (`tools/member_intel.py`, `src/member_intel.py`, branch `ukp-member-intel`), a step of 7 weeklies before the profiles: BR fronts (frentes parlamentares) and organs, NL committee seats and nevenfuncties, CH committees and Interessenbindungen, PL committees, FR committees, délégations and groupes d'études, IT Camera organs, AT committee functions. Groups on our ground flagged by name (`config/member-intel-groups.yaml`) in each profile and a "Groups on our ground" list in each index. Whip: Brazil's orientação de bancada beside each Câmara position (the only published whip). Not built: FR HATVP (open, heavy, later), AT interests, ES (dissolved), AR, CL (stale service), IT Senate (403) |
-| Committee and plenary attendance | yes (`pull_pbc_attendance.py`, bill committees) | no | no | no | **built** 11 Oct (`src/attendance.py`, `tools/country_attendance.py`, branch `ukp2-attendance`), a step of 5 weeklies before the profiles: BR committee and plenary presence register, FR commission présences, CL plenary and committee rolls, NL committee-debate participants ("took part", not a roll), CO plenary (co_attendance); committee-to-bill referrals for BR, FR, NL; plenary vote participation DERIVED from the votes for IT, CH, PL, ES, AR, PE, DO, HU. Shown in profiles and debate packs. Not built: PL, CH, AT, IT committees (none published), PT (PDF per sitting, later), ES, PE, PA (PDFs) |
+| Committee and plenary attendance | yes (`pull_pbc_attendance.py`, bill committees) | no | no | no | **built** 11 Oct (`src/attendance.py`, `tools/country_attendance.py`, branch `ukp2-attendance`), a step of 5 weeklies before the profiles: BR committee and plenary presence register, FR commission présences, CL plenary and committee rolls, NL committee-debate participants ("took part", not a roll), CO plenary (co_attendance), PT plenary roll (added 11 Oct, branch `pt-attendance`: an HTML roll per sitting, not a PDF; 119 XVII sittings, 27,370 marks, every deputy matched to `pt_members` and the member service; motive of each justified absence verbatim; also beside speakers in PT packs); committee-to-bill referrals for BR, FR, NL; plenary vote participation DERIVED from the votes for IT, CH, PL, ES, AR, PE, DO, HU. Shown in profiles and debate packs. Not built: PL, CH, AT, IT committees (none published), PT committees, ES, PE, PA (PDFs) |
 
 | Length of service (every period each member sat; `tools/pull_service.py`) | yes | no | no | no | **built** 11 Oct (`src/member_service.py`, `tools/member_service.py`, branch `ukp2-service`), a step of 18 weeklies before the profiles (weekly or every four weeks by source): shared tables `ms_periods`, `ms_party`, `ms_runs`. Seat dates for CH (since 1848), NL, FR (from 2002), AT, PT (since 1976), IT Camera (since 1948), ES (since 1977), PL (from 1997), BR (sitting members), CL (militancias), HU (current term); terms only for SK, HR, BE, AR, PE, DO, MX; nothing for EC, SV, GT, CO, UY. Profiles and vote pages say "serving since" and earlier periods with what the source covers, never more; DERIVED positions (AT, PT, NL) only for days the member sat, by their group on the day (also in the 5CA and campaign positions) |
 | Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (questions only), HR, SK |
@@ -406,11 +406,36 @@ watch). Samples: `docs/samples/attendance/`.
 Not built, and why: Poland (committee sittings carry no attendance, scanned
 lists); Switzerland and Austria (committee meetings closed; AT votes by
 group); Italy (the Camera publishes no committee presence; participation
-from votes); Portugal (plenary presence is a PDF per sitting on
-parlamento.pt, open but needs a PDF reader: a later round); Spain (dissolved,
+from votes); Spain (dissolved,
 no attendance file); Peru, Panama and the Dominican Senate (PDFs only);
 Argentina, Ecuador, Mexico, Belgium, Croatia, Slovakia (no attendance file
 found).
+
+### 3c (Portugal). Plenary attendance -- BUILT 11 October 2026 (branch `pt-attendance`)
+
+The attendance round left Portugal out believing the presence was a PDF per
+sitting. It is not: the PDF beside each sitting on "Presenças às Reuniões
+Plenárias" is the agenda; the roll is an HTML page per sitting
+(`DetalheReuniaoPlenaria.aspx?BID=...`), every seated deputy with group and
+status, and the motive of a justified absence ("Falta Justificada (FJ):
+Doença", "Trabalho Político", "Casamento", ...), stored verbatim. Statuses
+seen over the XVII's 119 sittings: Presença (P) 25,049; FJ 1,341; AMP
+(missão parlamentar) 759; PNO (presença noutro órgão) 172; Falta 17; Falta
+ao Quórum de Votação 19; Falta Injustificada (FI) 9. P counts as present;
+FJ, AMP and PNO as excused; the rest as absent. Each deputy links by
+DepCadId, so all 27,370 marks matched `pt_members`, and an Efetivo period
+and the printed group in the member service on the day (`pt_verify`, logged
+each run). Hand-check: 10 random sittings re-read from the raw pages by an
+independent text parse agreed on 2,300 of 2,300 rows.
+
+`fetch_pt` in `src/attendance.py`, a step of `jobs/pt-weekly.sh` before the
+profiles: at most 40 rolls a run (the first three runs backfill the XVII),
+then the new sittings and the last three weeks again. Profiles: "Plenary:
+present at N of M sitting(s)". PT debate packs: the plenary roll beside each
+named speaker and member to watch (`PLENARY_ROLL_PACKS`, Portugal only; CL
+and CO packs unchanged). Sample: `docs/samples/attendance/pt-plenary.md`.
+Not built: committee attendance (not published); earlier legislatures (the
+index filters by legislature by postback; a later backfill if wanted).
 
 ### 3c. Length of service -- BUILT 11 October 2026 (branch `ukp2-service`)
 
