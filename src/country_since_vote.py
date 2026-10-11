@@ -10,6 +10,10 @@ store holds both speeches (src/chamber_store.py, <cc>_speeches) and votes:
     at  Nationalrat and Bundesrat: protocol speeches; only the Klub's vote (X5)
     fr  Assemblée nationale: compte rendu; every deputy's vote (scrutins)
     be  Kamer: Integraal Verslag; every member's vote (naamstemmingen)
+    hr  Sabor: e-Doc transcripts; every member's vote          (11 October 2026,
+    sk  NR SR: the debate record; every member's vote           branch gaps-speeches;
+    pl  Sejm: per-statement transcripts; every deputy's vote    additive, the five
+    br  Câmara: plenary speeches; every deputy's vote           above unchanged)
 
     python3 tools/country_since_vote.py --cc be [--area 2] [--write]
 
@@ -67,7 +71,7 @@ STORE = os.path.join(ROOT, "data", "parl-monitor.db")
 BRIEFS = os.path.join(ROOT, "data", "briefs")
 
 # The countries with a speech collector AND votes in their store.
-COUNTRIES = tuple(cc for cc in ("nl", "ch", "at", "fr", "be")
+COUNTRIES = tuple(cc for cc in ("nl", "ch", "at", "fr", "be", "hr", "sk", "pl", "br")
                   if "speeches" in cs.COUNTRIES.get(cc, ()) and cc in c5.SPECS)
 
 AWAITING = cl.AWAITING
@@ -85,10 +89,11 @@ TOP = 40                # members shown per area
 
 # A government speaker is not a member voting in the chamber (a minister in
 # France and Belgium, the Federal Council in Switzerland, a Bundesminister
-# in Austria, a Dutch minister or state secretary).
+# in Austria, a Dutch minister or state secretary; from 11 October 2026 the
+# Slovak "predseda vlády" and the roles the HR, PL and BR collectors set).
 GOVERNMENT = re.compile(r"minist|federal councillor|bundesrät|government|regering|gouvernement"
                         r"|staatssecretaris|secr[ée]taire d|staatssekret|bundeskanzler|"
-                        r"vizekanzler|kanzler", re.I)
+                        r"vizekanzler|kanzler|vlád", re.I)
 
 
 def area_label(area):

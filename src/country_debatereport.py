@@ -2,7 +2,8 @@
 
 The UK's tools/debate_report.py (src/debatereport.py) generalised to the new
 countries whose speeches we store (src/chamber_store.py): the Netherlands,
-Switzerland, Austria, France and Belgium. One manual command,
+Switzerland, Austria, France and Belgium, and from 11 October 2026 Croatia,
+Slovakia, Poland and Brazil (branch gaps-speeches). One manual command,
 tools/country_debate_report.py; no job.
 
 WHAT IS DIFFERENT FROM THE UK, AND WHY
@@ -88,11 +89,19 @@ SOURCES = {
     "at": "Stenographisches Protokoll (parlament.gv.at)",
     "fr": "compte rendu (Assemblée nationale open data)",
     "be": "Integraal Verslag / Compte rendu intégral (lachambre.be)",
+    # Remaining speech coverage (11 October 2026, branch gaps-speeches).
+    "hr": "Sabor transcripts (edoc.sabor.hr)",
+    "sk": "Textový prepis rozpravy (nrsr.sk)",
+    "pl": "Sejm transcripts (api.sejm.gov.pl)",
+    "br": "Câmara plenary speeches (camara.leg.br)",
 }
 LANGUAGES = {"nl": "Dutch", "ch": "German, French or Italian", "at": "German", "fr": "French",
-             "be": "Dutch or French"}
+             "be": "Dutch or French", "hr": "Croatian", "sk": "Slovak", "pl": "Polish",
+             "br": "Portuguese"}
 CHAMBERS = {"nl": "Tweede Kamer", "ch": "Federal Assembly", "at": "Nationalrat",
-            "fr": "Assemblée nationale", "be": "Chamber of Representatives"}
+            "fr": "Assemblée nationale", "be": "Chamber of Representatives",
+            "hr": "Hrvatski sabor", "sk": "Národná rada", "pl": "Sejm",
+            "br": "Câmara dos Deputados"}
 
 QUEUE_MARKER = "<!-- country-debate-report-translations v1 -->"
 PENDING = "[translation pending]"

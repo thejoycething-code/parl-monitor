@@ -92,13 +92,20 @@ NOT_QUALIFYING = {
     "at": "provisional protocol speech files appear the next day or later (Nationalrat "
           "28 September: every sampled speech stamped 29 September; Bundesrat 8 October: "
           "two of six sampled speeches still unpublished on 10 October)",
-    "pl": "no speech source: the Sejm's transcripts never answered; questions only",
-    "br": "no speech source: speeches cost one request per deputy; questions only",
+    # Speeches collected since 11 October 2026 (branch gaps-speeches), but
+    # not measured as same-day sources, so no live read:
+    "pl": "speeches collected (tools/pl_chamber.py) but not measured as same-day: Thursday 8 "
+          "October's statements were published by Sunday 11 October, the delay unmeasured; "
+          "to confirm at the 20 October sitting",
+    "br": "speeches collected (tools/br_chamber.py) from the Câmara's summaries, which follow "
+          "the sitting by days",
     "pt": "no speech source: no open transcript source; questions only",
     "it": "no speech source: the Senate refuses us (403); no Camera speech collector",
     "es": "no speech source: the Cortes are dissolved until 23 December",
-    "hr": "no speech collector (debates not built)",
-    "sk": "no speech collector (debates not built)",
+    "hr": "speeches collected (tools/hr_chamber.py) but the transcripts follow the sitting "
+          "by days (the newest on 11 October 2026 was of 29 September)",
+    "sk": "speeches collected (tools/sk_chamber.py) but the text lags the sitting: on 11 "
+          "October 2026 Friday 9 October's morning speeches had text, its afternoon's not yet",
     "hu": "no speech source (parlament.hu CAPTCHA)",
 }
 COUNTRIES = tuple(QUALIFYING)

@@ -1863,16 +1863,23 @@ TABLES = (
     "at_speeches",
     "at_record_reads",
     "pl_questions",
+    "pl_speeches",
     "pl_record_reads",
     "fr_speeches",
     "fr_questions",
     "fr_record_reads",
     "br_questions",
+    "br_speeches",
     "br_record_reads",
     "pt_questions",
     "pt_record_reads",
     "be_speeches",
     "be_record_reads",
+    # Remaining speech coverage (11 October 2026, branch gaps-speeches).
+    "hr_speeches",
+    "hr_record_reads",
+    "sk_speeches",
+    "sk_record_reads",
     # The new countries' week ahead (tools/country_agenda.py), one table for
     # every country keyed (cc, item_id), created by src/agenda.ensure_schema
     # -- declared from day one.

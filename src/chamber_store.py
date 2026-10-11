@@ -65,11 +65,18 @@ COUNTRIES = {
     "nl": ("speeches", "questions"),
     "ch": ("speeches",),
     "at": ("speeches",),
-    "pl": ("questions",),
+    "pl": ("questions", "speeches"),
     "fr": ("speeches", "questions"),
-    "br": ("questions",),
+    "br": ("questions", "speeches"),
     "pt": ("questions",),
     "be": ("speeches",),
+    # Remaining speech coverage (11 October 2026, branch gaps-speeches):
+    # Croatia (the Sabor's transcripts), Slovakia (the NR SR's debate
+    # record), and speeches added to Poland (the Sejm's per-statement
+    # transcripts) and Brazil (the Câmara's plenary speeches). Additive:
+    # each country's existing feed keeps its tables and its step order.
+    "hr": ("speeches",),
+    "sk": ("speeches",),
 }
 
 

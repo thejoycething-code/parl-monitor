@@ -92,7 +92,8 @@ exactly as before.
 
 WORDS SINCE THE LAST VOTE (optional, additive, 11 October 2026,
 src/country_since_vote.py): `build(..., since_vote=True)` (tools/member_profiles.py
---since-vote) gives each profile of NL, CH, AT, FR and BE a "Words since the
+--since-vote) gives each profile of NL, CH, AT, FR and BE (and, from 11 October
+2026, HR, SK, PL and BR, whose speeches are now collected) a "Words since the
 last vote" section: per area, the member's last recorded vote on it and what
 they have said on it since, with excerpts. Drift is never named here (no
 reads file is passed): every row reads "awaiting sign-off", "words not read"
