@@ -86,8 +86,11 @@ live read all render "awaiting sign-off" until a named person confirms.
   /usr/bin/python3 3.9: imageio-ffmpeg with ffmpeg 7.1, yt-dlp 2025.10.14,
   faster-whisper 1.2.1; Whisper "small" pre-fetched, 464 MB in
   ~/.cache/huggingface). Clips can be cut for CH and AT, and NL from a
-  hand-downloaded video; FR and BE refuse until agreement is recorded. No test
-  clip cut yet.
+  hand-downloaded video; FR and BE refuse until agreement is recorded. Test
+  clip cut 11 October 2026 (CH 25.455, Jessica Jaccoud, 44.7 s, match 0.86):
+  captions and the ParlCH credit checked, test footage then deleted. Clip
+  footage under `data/clips/*/windows/` and `final/` is git-ignored (#99);
+  a person picks who goes in (the pick ranks by topic, not by side).
 - Compressed publish: VERIFIED 11 October 2026. The store (1.77 GB) uploads
   as `parl-monitor.db.gz`, 431 MB, compressed in 16 s; the raw asset is gone
   from the release. The size warning fires because the uncompressed store is
