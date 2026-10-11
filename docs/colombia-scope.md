@@ -500,6 +500,12 @@ readings confirmed in `config/co_stance.yaml`; none is confirmed yet, so every p
 "pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
 
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/co-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: no party in the record: the member list's latest, as listed (X6); never counted against a group.
+- Records only: no vote is labelled for or against our side until its reading in `config/co_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **SUCOP draft regulations: built**, the SharePoint REST list (newest 600 rows), drafts whose comment window is open or closed under a month; shown in the monthly Latam edition (src/latam.py PETITIONS).

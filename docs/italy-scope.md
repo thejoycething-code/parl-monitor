@@ -560,6 +560,12 @@ countries".
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/it.json` (`src/country_vote_brief.py`, step in `jobs/it-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Senate's SPARQL endpoint and Openpolis for the Camera (positions held while Openpolis shows 'SEC'); dati.senato.it answered 403 to the laptop on 10 October, to be checked from the Mini. See docs/mac-mini.md, "Vote briefs for the new countries".
 
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/it-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: the party or group the vote record names at each vote.
+- Records only: no vote is labelled for or against our side until its reading in `config/it_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Popular initiatives and referendums: built**, firmereferendum.giustizia.it's public JSON (87 initiatives, collection dates, signature counts, quorum 50,000 or 500,000).
