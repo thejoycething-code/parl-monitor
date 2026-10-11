@@ -26,14 +26,21 @@ def tokens(text):
     return _TOKEN.findall(CHROME.sub(" ", text or "").lower().replace("’", "'"))
 
 
-def transcribe(media_path, wav_path, ffmpeg, model_size="small.en", words_json=None, log=print):
-    """-> [(word, start_s, end_s)] for the whole recording; cached as JSON."""
+def transcribe(media_path, wav_path, ffmpeg, model_size="small.en", words_json=None, log=print,
+               language="en"):
+    """-> [(word, start_s, end_s)] for the whole recording; cached as JSON.
+
+    `language` (additive, 11 October 2026, for the new countries' speech clips,
+    src/country_clips.py): a Whisper language code, or None to let the model
+    detect it (Swiss and Belgian speeches come in more than one language). The
+    UK callers keep "en" with the English-only small.en model; any other
+    language needs a multilingual model ("small")."""
     if words_json and os.path.exists(words_json):
         return [tuple(w) for w in json.load(open(words_json))]
     subprocess.run([ffmpeg, "-y", "-loglevel", "error", "-i", media_path, "-vn", "-ac", "1", "-ar", "16000", wav_path], check=True)
     from faster_whisper import WhisperModel
     model = WhisperModel(model_size, device="cpu", compute_type="int8")
-    segments, _info = model.transcribe(wav_path, word_timestamps=True, language="en", beam_size=3)
+    segments, _info = model.transcribe(wav_path, word_timestamps=True, language=language, beam_size=3)
     words = []
     for s in segments:
         for w in s.words or []:

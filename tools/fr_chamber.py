@@ -126,6 +126,20 @@ def parse_sitting(xml_bytes):
     gouvernement", a bill's title) and the level-2 points after it are its
     parts ("Discussion générale", "Article 3"), or, under questions, each
     question ("Mobilisation lycéenne"), which is then the debate's own title."""
+    date, speeches = parse_sitting_timed(xml_bytes)
+    return date, [sp[:5] for sp in speeches]
+
+
+def parse_sitting_timed(xml_bytes):
+    """parse_sitting's speeches, in the same order (so the same '<doc>#<i>'
+    speech ids), each with two more fields: the `stime` of its first and of its
+    last paragraph, in seconds into the sitting's video on
+    videos.assemblee-nationale.fr (None where the paragraph carries none).
+
+    Additive, 11 October 2026, for the speech clips (src/country_clips.py):
+    measured on sitting N016 (9 October 2026), the video file
+    hemi_20261009084518 began recording at 08:45:18 and "La seance est
+    ouverte" carries stime 895.39, i.e. 09:00:13, the opening the record gives."""
     root = ET.fromstring(xml_bytes)
     date = sitting_date(root)
     contenu = _first(root, "contenu")
@@ -158,14 +172,32 @@ def parse_sitting(xml_bytes):
             words = _text(texte)
             if not words:
                 continue
+            try:
+                stime = float(texte.get("stime")) if texte is not None and texte.get("stime") else None
+            except ValueError:
+                stime = None
             if current and current[1] == actor and current[0] == debate and actor:
                 current[4].append(words)
+                if stime is not None:
+                    current[6] = stime
+                    if current[5] is None:
+                        current[5] = stime
                 continue
-            current = [debate, actor, name, quality, [words]]
+            current = [debate, actor, name, quality, [words], stime, stime]
             out.append(current)
-    speeches = [(d, a, n, q, "\n".join(ws)) for d, a, n, q, ws in out
+    speeches = [(d, a, n, q, "\n".join(ws), t0, t1) for d, a, n, q, ws, t0, t1 in out
                 if n and not CHAIR.match(n)]
     return date, speeches
+
+
+def sitting_number_of_day(xml_bytes):
+    """numSeanceJour: 1 for the day's first sitting (the video portal's
+    "1ere seance"), 2, 3 ..., or None."""
+    el = _first(ET.fromstring(xml_bytes), "numSeanceJour")
+    try:
+        return int((el.text or "").strip()) if el is not None else None
+    except ValueError:
+        return None
 
 
 SUFFIX = re.compile(r"\s*\(([^)]{1,20})\)$")
