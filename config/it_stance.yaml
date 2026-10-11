@@ -74,10 +74,12 @@ bill_directions:
     drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
   - key: "19/C.2575"
     direction: with
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-11"
     areas: [3]
     why: "Appropriatezza prescrittiva dei farmaci per la disforia di genere: the government bill (Schillaci, Roccella) on puberty-blocking drugs for minors, presented 11 August 2025, in committee."
-    flag: "Read as restricting puberty-blocking drugs for minors; check the final text."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): the puberty blockers bill is with us."
     drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
   - key: "19/C.401"
     direction: against
@@ -87,10 +89,12 @@ bill_directions:
     drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
   - key: "19/C.402"
     direction: against
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-11"
     areas: [4]
     why: "Ban on conversion therapy for minors (Zan): terapie volte alla conversione dell'orientamento sessuale."
-    flag: "A conversion-therapy ban: CitizenGO has opposed these as reaching counselling and speech; confirm."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): the conversion-practices ban is against us."
     drafted: "Claude, 10 October 2026, from config/watchlist-it.yaml"
   - key: "19/C.2423"
     direction: with

@@ -36,7 +36,14 @@
 # ground (11 October 2026, --prune-off-ground: Switzerland's IVG guard; a
 # confirmed or hand-edited entry is kept and reported), draft
 # config/<cc>_stance.yaml entries for the week's new watched and tier-1 votes
-# in every new country (by rules, no AI; nothing is ever confirmed here),
+# in every new country (by rules, no AI), bring untouched drafts into line
+# with any bill direction a person changed (--resync-directions), confirm on
+# Chris's delegation every draft that passes every automatic check
+# (11 October 2026, --auto-confirm: "Automate the checks and we'll make it so
+# teams can amend as and when errors come up. Like we're doing with Canada.";
+# the rest stay drafts with the check they failed; amended, confirmed and
+# hand-edited entries are never touched; docs/5ca-notes.md "Automatic
+# sign-off and amendments"), so the sheets below reflect it,
 # rewrite each docs/5ca-<cc>-readings.md keeping any ticks not yet applied,
 # write the 5CA sheets from CONFIRMED readings only (data/5ca/<cc>-5ca-*.csv),
 # rewrite each docs/5ca-<cc>-shortlist.md (11 October 2026, src/shortlist5ca.py:
@@ -82,7 +89,8 @@ export PYTHONUNBUFFERED=1
 # The DMs go to Chris alone (the tools also force his id).
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 
-python3 tools/country_5ca.py --all-countries --prune-off-ground --draft --signoff-doc --sheets --shortlist \
+python3 tools/country_5ca.py --all-countries --prune-off-ground --draft --resync-directions --auto-confirm \
+  --signoff-doc --sheets --shortlist \
   || echo "  [gap] the 5CA stance step failed for a country; the others stand"
 python3 tools/make_country_5ca_web.py || echo "  [gap] the new-country 5CA pages failed; last week's stand"
 python3 tools/country_5ca_post.py --all-countries --refresh \

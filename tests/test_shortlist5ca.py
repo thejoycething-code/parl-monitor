@@ -220,9 +220,10 @@ class DocumentTests(Base):
             doc = h.read()
         self.assertIn("**This list confirms nothing.**", doc)
         self.assertIn("### 1. `pl-final-close`", doc)
-        self.assertIn("`python3 tools/country_5ca.py --cc pl --confirm pl-final-close --by Christopher`",
-                      doc)
-        self.assertIn("--confirm 'XX/A/1@NR/87#106' --by Christopher", doc)   # quoted for the shell
+        # The country's one named signer (config/stance_signers.yaml: Chris, 11 October 2026).
+        self.assertIn("`python3 tools/country_5ca.py --cc pl --confirm pl-final-close "
+                      "--by 'Christopher Joyce'`", doc)
+        self.assertIn("--confirm 'XX/A/1@NR/87#106' --by 'Christopher Joyce'", doc)   # quoted for the shell
         self.assertIn("first write `yea:`/`nay:`", doc)                         # needs reading
         self.assertIn("## By area", doc)
         self.assertIn("**Proposed:** Za -2, Przeciw +2", doc)

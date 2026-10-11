@@ -7,7 +7,8 @@ ground: motions, amendments and bills, each with the Kamer's own words for
 the result, the seats for and against and the fracties on each side. Since
 parity layer 5 (10 October 2026) the edition also carries what was said in
 the plenary and the Kamervragen on our ground (tools/nl_chamber.py,
-src/chamber_store.py); the DM stays votes only.
+src/chamber_store.py); the DM stays votes only, plus the week ahead since
+11 October 2026 (Chris: the Dutch edition shows the week ahead; `dm_ahead`).
 
 A show of hands records one position per fractie; per X5 each member is
 given their fractie's position and the edition says so, DERIVED, with the
@@ -201,12 +202,14 @@ COUNTRY = ce.Country(
     cc="nl", name="Netherlands", chamber="Tweede Kamer and Eerste Kamer", language="Dutch",
     taxonomies=(("taxonomy-nl.yaml", "nl"),),
     items=items, kinds=("vote", "speech", "question", "petition"), dm_kinds=("vote",), flag=":flag-nl:",
+    dm_ahead=True,     # Chris, 11 October 2026: the votes-only DM (NL3) shows the week ahead
     week_ahead=agenda.week_ahead_fn("nl"), ahead_note=agenda.ahead_note_fn("nl"),
     members_note=("Most votes are by show of hands, one position per fractie; member "
                   "positions shown for them are DERIVED from the fractie vote (X5), given to "
                   "every member the store lists under that fractie by their latest fractie. "
                   "Roll calls record every member"),
-    coverage=("Votes, plenary speeches and Kamervragen; the DM carries votes only (NL3). New "
+    coverage=("Votes, plenary speeches and Kamervragen; the DM carries votes only (NL3) and the "
+              "week ahead. New "
               "bills and stage moves are not collected; committee debates are not read.",
               "The Eerste Kamer (NL4) is read from eerstekamer.nl's vote pages, the only source "
               "of its votes: fracties for and against on a show of hands, every senator on a "

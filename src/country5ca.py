@@ -42,9 +42,12 @@ placement, the sheet and the checkbox format. Four parts:
    first, then confirms), an entry with no values and no `placeable: false`,
    and a call with no name. Confirming from the checkbox guide
    (docs/5ca-<cc>-readings.md) works as in Ireland: tick, then
-   `--sign-from-doc --by NAME`. Nothing here ever confirms on its own; the
-   weekly job drafts, rewrites the guides (keeping any ticks not yet
-   applied) and reports.
+   `--sign-from-doc --by NAME`. Until 11 October 2026 nothing here
+   confirmed on its own; since then the weekly job confirms, on Chris's
+   delegation, every draft that passes every deterministic check
+   (`auto_confirm`, below), stamped as such, and a country signer amends
+   any reading (`amend`). It also drafts, rewrites the guides (keeping any
+   ticks not yet applied) and reports.
 
 3. THE 5CA (`build_rows`, `run_sheets`): src/readings5ca.py's placement over
    the CONFIRMED readings only. `readings5ca.status` reads this file's
@@ -700,7 +703,9 @@ def header(cc):
 # Written by tools/country_5ca.py (src/country5ca.py), the 5CA-with-sign-off
 # layer of docs/country-parity-handover.md (item 2), 10 October 2026. The
 # rule is Canada's: which lobby is CitizenGO's is a HUMAN judgement, and
-# nothing places anyone until a named person has confirmed it.
+# nothing places anyone until it is confirmed: by a named person, or (since
+# 11 October 2026, on Chris's delegation) by the automatic checks, after
+# which a signer amends with --amend KEY --yea N --nay N --by NAME --why.
 #
 # status:
 #   draft          proposed by the drafter's rules (or by Claude): unsigned,
@@ -889,6 +894,32 @@ def _direction_for(r, bills, spec):
     return None, None
 
 
+def rule_values(spec, kind, bkey, bill, area_line, direction=None):
+    """The values the rules give a final, reject or inverted vote on a bill
+    with a direction: yea, nay, why_yea, why_nay and reasoning. Shared by the
+    drafter, the automatic sign-off's recomputation and the resync (11
+    October 2026); `direction` overrides the bill's own (the resync tries
+    both to recognise a draft made before a direction changed)."""
+    s = 1 if (direction or bill["direction"]) == "with" else -1
+    swap = kind in ("reject", "inverted")
+    yea = -2 * s if swap else 2 * s
+    what = r5.clip(bill.get("why") or bill.get("title") or bkey, 200).rstrip(".")
+    short = r5.clip(re.split(r"(?<=[a-z\)])[.;] ", what)[0], 90)
+    passing = "rejecting" if swap else "passing"
+    return {
+        "yea": yea, "nay": -yea,
+        "why_yea": "Voted {0} on {1} ({2}): {3} it, {4} CitizenGO's position.".format(
+            spec.labels[0], bkey, short, "for rejecting" if swap else "for passing",
+            "with" if yea > 0 else "against"),
+        "why_nay": "Voted {0} on {1} ({2}): against {3} it, {4} CitizenGO's position.".format(
+            spec.labels[1], bkey, short, passing, "with" if -yea > 0 else "against"),
+        "reasoning": "{0} Bill direction on file for {1} ({2}): passing it is {3} us -- {4}. "
+                     "This vote is {5}, so {6} is {7} us.".format(
+                         area_line, bkey, "CONFIRMED" if bill.get("status") == "confirmed"
+                         else "a draft", "WITH" if s > 0 else "AGAINST", what, KIND_WORDS[kind],
+                         spec.labels[0], "with" if yea > 0 else "against")}
+
+
 def draft_entry(cc, r, bills, pos=None, today=None):
     """The drafted entry for one qualifying division (a dict, not yet YAML)."""
     spec = SPECS[cc]
@@ -929,23 +960,7 @@ def draft_entry(cc, r, bills, pos=None, today=None):
                  reasoning="{0} The bill's direction does not carry to a motion.".format(area_line))
         return e
     if kind in ("final", "reject", "inverted") and bill:
-        s = 1 if bill["direction"] == "with" else -1
-        swap = kind in ("reject", "inverted")
-        yea = -2 * s if swap else 2 * s
-        what = r5.clip(bill.get("why") or bill.get("title") or bkey, 200).rstrip(".")
-        short = r5.clip(re.split(r"(?<=[a-z\)])[.;] ", what)[0], 90)
-        passing = "rejecting" if swap else "passing"
-        e.update(status="draft", yea=yea, nay=-yea,
-                 why_yea="Voted {0} on {1} ({2}): {3} it, {4} CitizenGO's position.".format(
-                     spec.labels[0], bkey, short, "for rejecting" if swap else "for passing",
-                     "with" if yea > 0 else "against"),
-                 why_nay="Voted {0} on {1} ({2}): against {3} it, {4} CitizenGO's position.".format(
-                     spec.labels[1], bkey, short, passing, "with" if -yea > 0 else "against"),
-                 reasoning="{0} Bill direction on file for {1} ({2}): passing it is {3} us -- {4}. "
-                           "This vote is {5}, so {6} is {7} us.".format(
-                               area_line, bkey, "CONFIRMED" if bill.get("status") == "confirmed"
-                               else "a draft", "WITH" if s > 0 else "AGAINST", what, KIND_WORDS[kind],
-                               spec.labels[0], "with" if yea > 0 else "against"))
+        e.update(status="draft", **rule_values(spec, kind, bkey, bill, area_line))
         flags = []
         if kind == "inverted":
             flags.append("The record says a Yes here REJECTS the text; check the question put.")
@@ -1370,10 +1385,20 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
     def meaning(k, e):
         m = (meanings or {}).get(k) or vm.entry_meaning(cc, e, config_dir, people, wl, bills)
         return vm.line(m, cc) if m else None
-    groups = {"proposed": [], "procedural": [], "needs_reading": [], "confirmed": []}
+    try:                                  # what stops each from confirming on its own
+        checks = auto_report(cc, config_dir)
+    except Exception:                     # never cost the guide
+        checks = {}
+
+    def check_line(k):
+        got = failing_text(checks.get(k))
+        return "- **Auto-check:** left for a person: " + got if got else None
+    groups = {"proposed": [], "procedural": [], "needs_reading": [], "confirmed": [], "out": []}
     for k, e in divs.items():
         st = e.get("status")
-        if st == "confirmed" and confirmable(dict(e, status="draft")) is None \
+        if e.get("draft"):
+            groups["out"].append((k, e))
+        elif st == "confirmed" and confirmable(dict(e, status="draft")) is None \
                 and e.get("confirmed_by") and e.get("confirmed_on"):
             groups["confirmed"].append((k, e))
         elif st == "needs_reading" or st not in ("draft", "confirmed"):
@@ -1386,15 +1411,23 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
         g.sort(key=lambda kv: (str(kv[1].get("dated") or ""), kv[0]), reverse=True)
     out = ["# {0} 5CA: readings to sign".format(spec.name), "",
            "Drafted by `tools/country_5ca.py` (src/country5ca.py) from the store's watched and "
-           "tier-1 votes, by rules, never by a model. **Nothing here places anyone until a named "
-           "person confirms it.** {0}".format(spec.note).strip(), "",
+           "tier-1 votes, by rules, never by a model. **Nothing here places anyone until it is "
+           "confirmed**: automatically on Chris's delegation when every check passes (11 October "
+           "2026, `--auto-confirm`), otherwise by a named person. {0}".format(spec.note).strip(), "",
+           "**To amend any reading** (a signer for {0} in `config/stance_signers.yaml`): "
+           "`python3 tools/country_5ca.py --cc {0} --amend KEY --yea N --nay N --by NAME --why \"...\"`, "
+           "or `--take-out` instead of the values to put it out of play. An amended reading is "
+           "never touched by the automation again.".format(cc), "",
            "**How to sign.** Tick `[x]` on each reading you accept as drafted, then run "
            "`python3 tools/country_5ca.py --cc {0} --sign-from-doc --by NAME` (it sets "
            "`status: confirmed` with `confirmed_by` and `confirmed_on` in `config/{0}_stance.yaml`). "
            "To change a value, edit the stance file first. A reading that needs reading has no "
            "box: write `yea:`/`nay:` in the stance file, set `status: draft`, then confirm it.".format(cc),
-           "", "Counts: {0} proposed, {1} procedural (evidence only), {2} need reading, {3} confirmed."
-           .format(*(len(groups[g]) for g in ("proposed", "procedural", "needs_reading", "confirmed"))),
+           "", "Counts: {0} proposed, {1} procedural (evidence only), {2} need reading, {3} confirmed "
+           "({4} automatically){5}.".format(
+               *(len(groups[g]) for g in ("proposed", "procedural", "needs_reading", "confirmed")),
+               sum(1 for _, e in groups["confirmed"] if e.get("confirmed_by") == AUTO_BY),
+               ", {0} taken out of play".format(len(groups["out"])) if groups["out"] else ""),
            ""]
     labels = {"yea": spec.labels[0], "nay": spec.labels[1]}
     if groups["proposed"]:
@@ -1420,6 +1453,8 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
                 out.append("- **Reasoning:** " + r5.clip(e["reasoning"], 500))
             if e.get("flag"):
                 out.append("- **Flag for you:** " + r5.clip(e["flag"], 300))
+            if check_line(k):
+                out.append(check_line(k))
             out.append("")
     if groups["procedural"]:
         out += ["## Procedural (evidence only once confirmed)", ""]
@@ -1430,6 +1465,8 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
             out.append("- {0}; {1}".format(e.get("dated") or "?", r5.clip(e.get("reason"), 300)))
             if meaning(k, e):
                 out.append("- " + meaning(k, e))
+            if check_line(k):
+                out.append(check_line(k))
             out.append("")
     if groups["needs_reading"]:
         out += ["## Needs reading (no box: write the values first)", ""]
@@ -1445,12 +1482,25 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
         for k, e in groups["confirmed"]:
             out.append("### [x] `{0}` {1}".format(k, r5.clip(e.get("title"), 160)))
             out.append("")
-            out.append("- {0} {1} / {2} {3}; confirmed by {4} on {5}".format(
+            out.append("- {0} {1} / {2} {3}; confirmed by {4} on {5}{6}".format(
                 labels["yea"], _fmt(e.get("yea")), labels["nay"], _fmt(e.get("nay")),
-                e.get("confirmed_by"), e.get("confirmed_on")))
+                e.get("confirmed_by"), e.get("confirmed_on"),
+                " ({0})".format(e["auto_checks"]) if e.get("auto_checks") else ""))
+            if e.get("amended_by"):
+                out.append("- Amended by {0} on {1}: {2}".format(
+                    e["amended_by"], e.get("amended_on"), r5.clip(e.get("amended_why"), 200)))
             if meaning(k, e):
                 out.append("- " + meaning(k, e))
             out.append("")
+    if groups["out"]:
+        out += ["## Taken out of play (`draft: true`; places nobody)", ""]
+        for k, e in groups["out"]:
+            out.append("- `{0}` {1} {2}{3}".format(
+                k, e.get("dated") or "?", r5.clip(e.get("title"), 110),
+                ": amended by {0} on {1}: {2}".format(e["amended_by"], e.get("amended_on"),
+                                                     r5.clip(e.get("amended_why"), 160))
+                if e.get("amended_by") else ""))
+        out.append("")
     if bills:
         out += ["## Bill directions on file (inputs to the drafts; they place nobody)", ""]
         for k, b in bills.items():
@@ -1645,12 +1695,415 @@ def run_sheets(conn, cc, config_dir=None, out_dir=None, today=None, log=print):
     return written
 
 
+# --- automatic sign-off on delegation, and amendments (11 October 2026) ----------------
+#
+# Chris, 11 October 2026: "Automate the checks and we'll make it so teams can
+# amend as and when errors come up. Like we're doing with Canada." In Canada
+# he delegated ("Score for me and Greg can amend if necessary"); here the
+# delegation is to deterministic checks. `auto_confirm` confirms a DRAFT entry
+# only when every check below passes, and stamps how. Anything failing stays
+# a draft, listed with the check it failed in docs/5ca-<cc>-readings.md, the
+# shortlist and the digest, for a person to sign by hand. A signer for the
+# country amends any reading (`amend`); an amended entry is never touched by
+# the automation again.
+#
+# The checks, in order (each failure is (check, detail)):
+#   reading    the entry has values to confirm (`needs_reading` has none:
+#              a person writes them, or amends);
+#   drafted    the entry is as the drafter left it: `status: draft`, stamped
+#              `drafted:` by the drafter, no `confirmed_by`, no `amended_*`,
+#              no `draft: true`, no comment inside the entry;
+#   direction  a bill direction applies (the one its why lines name, else
+#              the watched key), says `with` or `against`, is not on hold
+#              or needs reading, and carries no flag; the entry carries no
+#              flag of its own but a copy of a bill flag since cleared;
+#   kind       a vote on the whole text or a motion to reject it (not an
+#              inverted vote, which asks a person to check the question),
+#              or an amendment or article watched for sign-off with a
+#              direction of its own (keyed by the division);
+#   values     yea, nay and both why lines equal what the rules give that
+#              direction and kind (`rule_values`, recomputed);
+#   placeable  not struck (`placeable: false`), and a recorded tally (the
+#              result line, else the lobbies, else the store's positions)
+#              with members on both sides: a unanimous vote tells nobody
+#              apart;
+#   scope      inside the country's sign-off scope (France: final votes,
+#              motions to reject and watched amendments).
+
+AUTO_CHECKS_VERSION = "auto-checks v1 (2026-10-11)"
+AUTO_BY = "auto-check on delegation (Chris Joyce, 11 Oct 2026)"
+AMEND_KEYS = ("amended_by", "amended_on", "amended_why")
+CHECK_WORDS = {"reading": "needs reading", "drafted": "not as drafted", "direction": "direction not settled",
+               "kind": "kind of vote", "values": "values differ from the rules",
+               "placeable": "not placeable", "scope": "outside the sign-off scope"}
+_BILL_FLAG = "On the bill's direction: "
+
+
+def bill_key_of(spec, e, bills):
+    """The bill direction an entry's values were drafted from: the key its
+    why line names ("Voted Za on 10/31 (..."), else its watched key."""
+    why = str(e.get("why_yea") or "")
+    for k in bills:
+        if why.startswith("Voted {0} on {1} (".format(spec.labels[0], k)):
+            return k
+    w = e.get("watched")
+    return str(w) if w is not None and str(w) in bills else None
+
+
+def _area_line(e):
+    return "Area {0}.".format(_area_text(areas_of(e.get("areas"))))
+
+
+def _tally_of(cc, e, conn=None):
+    """(yes, no) recorded for the vote: from the result line, else the
+    lobbies, else (with `conn`) the store's positions; None if none."""
+    from src import shortlist5ca as sl
+    spec = SPECS[cc]
+    got = sl.tally(e, spec.labels)
+    if got is not None:
+        return got
+    gs = sl.groups(e.get("lobbies"), spec.labels)
+    if gs:
+        return sum(g["yea"] for g in gs.values()), sum(g["nay"] for g in gs.values())
+    if conn is not None:
+        sides = [spec.side(p["position"]) for p in positions(conn, cc, str(e["key"]))]
+        if sides:
+            return sides.count("yea"), sides.count("nay")
+    return None
+
+
+def auto_check(cc, key, e, bills, wl=None, block=None, conn=None):
+    """[(check, detail)]: every check this entry fails; [] means it may be
+    confirmed on the delegation. `block` is the entry's text in the file
+    (for the comment check); `conn` a store for a tally the file lacks."""
+    spec = SPECS[cc]
+    fails = []
+    st = e.get("status")
+    if st == "needs_reading":
+        return [("reading", "no values proposed ({0})".format(
+            r5.clip(e.get("read_first") or "read the text first", 140)))]
+    if st != "draft":
+        fails.append(("drafted", "status {0}".format(st)))
+    if not str(e.get("drafted") or "").startswith(DRAFTED_BY):
+        fails.append(("drafted", "not stamped by the drafter"))
+    if e.get("confirmed_by") or e.get("confirmed_on"):
+        fails.append(("drafted", "carries a confirmation"))
+    if any(e.get(k) for k in AMEND_KEYS):
+        fails.append(("drafted", "amended by {0} on {1}".format(e.get("amended_by"), e.get("amended_on"))))
+    if e.get("draft"):
+        fails.append(("drafted", "taken out of play (draft: true)"))
+    if block and any(ln.lstrip().startswith("#") for ln in block):
+        fails.append(("drafted", "a comment inside the entry"))
+    if e.get("placeable") is False:
+        return fails + [("placeable", "struck or procedural: evidence only, signed by a person")]
+    kind = e.get("vote_kind") or vote_kind(e.get("title"))[0]
+    own = None
+    if kind == "amendment" and key in bills and is_watched_item(key, e.get("title"), e.get("watched"), wl):
+        own = key                    # an amendment watched with a direction of its own
+    bkey = own or bill_key_of(spec, e, bills)
+    bill = bills.get(bkey) if bkey else None
+    if bill is None:
+        fails.append(("direction", "no bill direction applies"))
+    elif bill.get("direction") not in ("with", "against"):
+        fails.append(("direction", "{0} is {1}{2}".format(
+            bkey, bill.get("direction") or "without a direction",
+            ": " + r5.clip(bill.get("read_first"), 120) if bill.get("read_first") else "")))
+    elif bill.get("status") in ("needs_reading", "hold"):
+        fails.append(("direction", "{0} is {1}".format(bkey, bill.get("status"))))
+    elif bill.get("flag"):
+        fails.append(("direction", "{0} is flagged: {1}".format(bkey, r5.clip(bill["flag"], 120))))
+    flag = str(e.get("flag") or "")
+    if flag and not flag.startswith(_BILL_FLAG):
+        fails.append(("direction", "flagged for a person: " + r5.clip(flag, 120)))
+    if kind not in ("final", "reject") and not own:
+        fails.append(("kind", "{0}: {1}".format(kind, KIND_WORDS.get(kind, "unknown"))))
+    if bill is not None and bill.get("direction") in ("with", "against") \
+            and (kind in ("final", "reject") or own):
+        want = rule_values(spec, "final" if own else kind, bkey, bill, _area_line(e))
+        diff = [k for k in ("yea", "nay", "why_yea", "why_nay") if e.get(k) != want[k]]
+        if diff:
+            fails.append(("values", "{0} differ{1} from the rules (Yes {2}, No {3} for {4})".format(
+                ", ".join(diff), "s" if len(diff) == 1 else "", _fmt(want["yea"]), _fmt(want["nay"]),
+                bill["direction"])))
+    t = _tally_of(cc, e, conn)
+    if t is None:
+        fails.append(("placeable", "no recorded tally"))
+    elif min(t) <= 0:
+        fails.append(("placeable", "unanimous ({0} {1}, {2} {3}): it tells nobody apart".format(
+            spec.labels[0], t[0], spec.labels[1], t[1])))
+    if spec.scope is not None and not entry_in_scope(cc, e, wl):
+        fails.append(("scope", "outside {0}'s sign-off scope".format(spec.name)))
+    return fails
+
+
+def _blocks_by_key(cc, config_dir=None):
+    path = stance_path(cc, config_dir)
+    if not os.path.exists(path):
+        return [], {}
+    with open(path, encoding="utf-8") as h:
+        lines = h.read().splitlines(keepends=True)
+    return lines, {k: (s, t) for k, s, t in _entry_blocks(lines)}
+
+
+def _wl_for(cc, wl):
+    if wl is not None or SPECS[cc].scope is None:
+        return wl
+    try:
+        return SPECS[cc].watchlist_fn()
+    except Exception:            # no watchlist: watched amendments simply do not opt in
+        return {}
+
+
+def auto_report(cc, config_dir=None, wl=None, conn=None):
+    """{key: [(check, detail)]} for every unconfirmed entry of a country:
+    what stops each from being confirmed automatically ([] = nothing)."""
+    divs, bills, _ = load(cc, config_dir)
+    lines, where = _blocks_by_key(cc, config_dir)
+    wl = _wl_for(cc, wl)
+    out = {}
+    for k, e in divs.items():
+        if e.get("status") == "confirmed":
+            continue
+        s, t = where.get(k, (0, 0))
+        out[k] = auto_check(cc, k, e, bills, wl, lines[s + 1:t], conn)
+    return out
+
+
+def failing_text(fails):
+    """One line for a person: the first failing check and its detail."""
+    if not fails:
+        return None
+    check, detail = fails[0]
+    more = len(fails) - 1
+    return "{0} ({1}){2}".format(CHECK_WORDS.get(check, check), detail,
+                                 "; {0} more".format(more) if more else "")
+
+
+def _render_value(k, v):
+    if isinstance(v, bool):
+        return "true" if v else "false"
+    if isinstance(v, int):
+        return str(v)
+    if isinstance(v, list):
+        return "[" + ", ".join(str(x) for x in v) + "]"
+    if k == "status":
+        return v
+    return _q(v)
+
+
+def _edit_block(lines, start, end, values, drop=()):
+    """The lines of one `divisions` entry with fields set (`values`, in
+    order) and removed (`drop`): an existing field is replaced where it
+    stands (its continuation lines with it), a new one goes after the first
+    replaced field, else at the end of the entry. Comments survive."""
+    lead = len(lines[start]) - len(lines[start].lstrip(" "))
+    ind = " " * (lead + 2)
+    field = re.compile(r"^{0}(\"?[A-Za-z_]+\"?):".format(ind))
+    body, i, placed, anchor = [], start + 1, set(), None
+    while i < end:
+        m = field.match(lines[i])
+        name = m.group(1).strip('"') if m else None
+        j = i + 1
+        if m:
+            while j < end and lines[j].strip() and not field.match(lines[j]) and \
+                    len(lines[j]) - len(lines[j].lstrip(" ")) > len(ind) and \
+                    not lines[j].lstrip().startswith("#"):
+                j += 1
+        if name in values:
+            body.append("{0}{1}: {2}\n".format(ind, name, _render_value(name, values[name])))
+            placed.add(name)
+            anchor = len(body) if anchor is None else anchor
+        elif name in drop:
+            pass
+        else:
+            body.extend(lines[i:j])
+        i = j
+    new = ["{0}{1}: {2}\n".format(ind, k, _render_value(k, v)) for k, v in values.items()
+           if k not in placed]
+    if anchor is None:
+        if body and not body[-1].endswith("\n"):
+            body[-1] += "\n"
+        body.extend(new)
+    else:
+        body[anchor:anchor] = new
+    return [lines[start]] + body
+
+
+def _rewrite(cc, edits, config_dir=None):
+    """Apply {key: (values, drop)} to config/<cc>_stance.yaml as text edits,
+    check that only those entries changed and as intended, then write."""
+    import yaml
+    path = stance_path(cc, config_dir)
+    lines, where = _blocks_by_key(cc, config_dir)
+    before = load(cc, config_dir)[0]
+    out, i = [], 0
+    for k, (s, t) in sorted(where.items(), key=lambda kv: kv[1][0]):
+        if k not in edits:
+            continue
+        out.extend(lines[i:s])
+        out.extend(_edit_block(lines, s, t, *edits[k]))
+        i = t
+    out.extend(lines[i:])
+    text = "".join(out)
+    after = {str(e["key"]): norm_entry(e) for e in (yaml.safe_load(text).get("divisions") or [])}
+    for k, e in before.items():
+        if k in edits:
+            values, drop = edits[k]
+            want = {kk: vv for kk, vv in e.items() if kk not in drop and kk not in values}
+            want.update(values)
+            ok = after.get(k) == want
+        else:
+            ok = after.get(k) == e
+        if not ok:
+            raise SystemExit("{0}: the edit of {1} would not come out as intended; nothing "
+                             "written".format(path, k))
+    with open(path, "w", encoding="utf-8") as h:
+        h.write(text)
+
+
+def auto_confirm(cc, config_dir=None, today=None, dry_run=False, wl=None, conn=None, log=print):
+    """Confirm, on Chris's delegation, every DRAFT entry that passes every
+    check (`auto_check`), stamping `confirmed_by` (AUTO_BY), `confirmed_on`
+    and `auto_checks` (the checks' version). Confirmed, amended and
+    hand-edited entries are never touched. Returns {'confirmed': [keys],
+    'left': {key: [(check, detail)]}}; with `dry_run` nothing is written."""
+    today = today or datetime.date.today().isoformat()
+    report = auto_report(cc, config_dir, wl, conn)
+    ok = [k for k, fails in report.items() if not fails]
+    left = {k: f for k, f in report.items() if f}
+    if ok and not dry_run:
+        _rewrite(cc, {k: ({"status": "confirmed", "confirmed_by": AUTO_BY, "confirmed_on": today,
+                           "auto_checks": AUTO_CHECKS_VERSION}, ()) for k in ok}, config_dir)
+    by_check = {}
+    for fails in left.values():
+        by_check[fails[0][0]] = by_check.get(fails[0][0], 0) + 1
+    log("{0}: {1} {2} reading(s) on the delegation; {3} left for a person{4}".format(
+        SPECS[cc].name, "would confirm" if dry_run else "confirmed", len(ok), len(left),
+        " ({0})".format(", ".join("{0} {1}".format(CHECK_WORDS[c], n) for c, n in
+                                  sorted(by_check.items(), key=lambda kv: -kv[1])))
+        if by_check else ""))
+    return {"confirmed": ok, "left": left}
+
+
+def _lower_first(text):
+    return text[:1].lower() + text[1:] if text else text
+
+
+def resync_directions(cc, config_dir=None, dry_run=False, log=print):
+    """Bring untouched drafts into line with a CHANGED bill direction (11
+    October 2026: Chris's decisions turned some directions round and put one
+    on hold). An entry is resynced only when it is exactly the rules' output
+    for one direction (values and both why lines) and the bill's direction
+    is now the other, or on hold: then it gets the rules' values for the new
+    direction, or becomes `needs_reading` with the bill's `read_first`.
+    Anything a person touched fails the match and is left alone. Returns
+    the keys changed."""
+    spec = SPECS[cc]
+    divs, bills, _ = load(cc, config_dir)
+    lines, where = _blocks_by_key(cc, config_dir)
+    edits = {}
+    for k, e in divs.items():
+        kind = e.get("vote_kind")
+        if e.get("status") != "draft" or kind not in ("final", "reject", "inverted"):
+            continue
+        s, t = where.get(k, (0, 0))
+        untouched = [f for f in auto_check(cc, k, e, bills, {}, lines[s + 1:t]) if f[0] == "drafted"]
+        if untouched:
+            continue
+        bkey = bill_key_of(spec, e, bills)
+        bill = bills.get(bkey) if bkey else None
+        if bill is None:
+            continue
+        made = None
+        for d in ("with", "against"):
+            got = rule_values(spec, kind, bkey, bill, _area_line(e), direction=d)
+            if all(e.get(x) == got[x] for x in ("yea", "nay", "why_yea", "why_nay")):
+                made = d
+        if made is None or made == bill.get("direction"):
+            continue
+        drop = ("flag",) if str(e.get("flag") or "").startswith(_BILL_FLAG) else ()
+        if bill.get("direction") in ("with", "against"):
+            vals = rule_values(spec, kind, bkey, bill, _area_line(e))
+            if bill.get("flag"):
+                vals["flag"] = _BILL_FLAG + bill["flag"]
+            edits[k] = (vals, drop)
+        else:
+            edits[k] = ({"status": "needs_reading",
+                         "read_first": "The direction of {0} is {1}: {2}".format(
+                             bkey, "on hold" if bill.get("direction") == "hold"
+                             else bill.get("direction") or "unset",
+                             _lower_first(bill.get("read_first") or "Read the text, then write yea/nay.")),
+                         "reasoning": "{0} Drafted from {1} as {2}; that direction is no longer on "
+                                      "file, so nothing is proposed.".format(_area_line(e), bkey, made)},
+                        ("yea", "nay", "why_yea", "why_nay") + drop)
+    if edits and not dry_run:
+        _rewrite(cc, edits, config_dir)
+    if edits:
+        log("{0}: {1} {2} draft(s) to a changed bill direction: {3}".format(
+            spec.name, "would resync" if dry_run else "resynced", len(edits), ", ".join(sorted(edits))))
+    return sorted(edits)
+
+
+def amend(cc, key, by, yea=None, nay=None, why=None, take_out=False, on=None, config_dir=None,
+          log=print):
+    """A country signer's amendment of any reading, confirmed or not
+    (Canada's "Greg can amend if necessary"). With `yea`/`nay` the values
+    are set, the why lines say who amended and why, and the entry is
+    confirmed in the signer's name; with `take_out` it gets `draft: true`
+    (out of play, places nobody). Either way `amended_by`, `amended_on` and
+    `amended_why` are stamped, and the automation never touches it again."""
+    by = (by or "").strip()
+    if not by:
+        raise SystemExit("--by NAME is required: an amendment names the person")
+    allowed = signers(cc)
+    if by not in allowed:
+        raise SystemExit("{0} is not a named signer for {1} ({2}); add them to "
+                         "config/stance_signers.yaml first".format(by, cc, ", ".join(allowed)))
+    why = " ".join(str(why or "").split())
+    if not why:
+        raise SystemExit("--why is required: say what was wrong")
+    on = on or datetime.date.today().isoformat()
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", on):
+        raise SystemExit("--on must be an ISO date")
+    divs, _, _ = load(cc, config_dir)
+    if key not in divs:
+        raise SystemExit("{0}: no reading {1} in config/{0}_stance.yaml".format(cc, key))
+    stamp = {"amended_by": by, "amended_on": on, "amended_why": why}
+    if take_out:
+        edits = {key: (dict(stamp, draft=True), ())}
+    else:
+        for name, v in (("--yea", yea), ("--nay", nay)):
+            if v is None or not -2 <= int(v) <= 2:
+                raise SystemExit("{0} must be a stance from -2 to 2".format(name))
+        line = "Amended by {0} on {1}: {2}".format(by, on, why)
+        edits = {key: ({"status": "confirmed", "yea": int(yea), "why_yea": line, "nay": int(nay),
+                        "why_nay": line, "confirmed_by": by, "confirmed_on": on, **stamp},
+                       ("placeable", "reason", "read_first", "auto_checks", "draft"))}
+    _rewrite(cc, edits, config_dir)
+    log("{0}: {1} {2} by {3} on {4} ({5})".format(
+        cc, key, "taken out of play" if take_out else "amended to {0} {1}, {2} {3}".format(
+            SPECS[cc].labels[0], _fmt(int(yea)), SPECS[cc].labels[1], _fmt(int(nay))),
+        by, on, why))
+    return key
+
+
+def auto_confirmed_since(cc, since, config_dir=None):
+    """Keys confirmed by the automation on or after `since` (ISO)."""
+    divs, _, _ = load(cc, config_dir)
+    return sorted(k for k, e in divs.items() if e.get("status") == "confirmed"
+                  and e.get("confirmed_by") == AUTO_BY and str(e.get("confirmed_on") or "") >= since)
+
+
 # --- counts and the digest ------------------------------------------------------------
 
 def counts(cc, config_dir=None):
     divs, bills, _ = load(cc, config_dir)
-    c = {"proposed": 0, "procedural": 0, "needs_reading": 0, "confirmed": 0, "bills": len(bills)}
+    c = {"proposed": 0, "procedural": 0, "needs_reading": 0, "confirmed": 0, "bills": len(bills),
+         "out": 0}
     for e in divs.values():
+        if e.get("draft"):              # taken out of play by an amendment (11 October 2026)
+            c["out"] += 1
+            continue
         st = r5.status(e)
         if st in ("confirmed", "unplaceable") and e.get("status") == "confirmed":
             c["confirmed"] += 1
@@ -1669,17 +2122,25 @@ def digest_text(today=None, config_dir=None, docs_dir=None, per_country=5, count
     Changed 11 October 2026 (src/shortlist5ca.py): each country now LEADS
     with its top `per_country` readings to sign first (the ranked shortlist,
     docs/5ca-<cc>-shortlist.md), then one line of counts, instead of the
-    counts and the newest proposed keys. It still confirms nothing."""
+    counts and the newest proposed keys. It still confirms nothing.
+
+    Changed 11 October 2026 (the automatic sign-off): each country also says
+    how many readings were confirmed automatically this ISO week and what
+    still needs a person, counted by the check each first failed."""
     from src import shortlist5ca as sl
     today = today or datetime.date.today().isoformat()
-    y, w, _ = datetime.date.fromisoformat(today).isocalendar()
-    parts, waiting = [], 0
+    d = datetime.date.fromisoformat(today)
+    y, w, _ = d.isocalendar()
+    monday = (d - datetime.timedelta(days=d.weekday())).isoformat()
+    parts, waiting, auto_total = [], 0, 0
     for cc in countries:
         if not os.path.exists(stance_path(cc, config_dir)):
             continue
         spec = SPECS[cc]
         c = counts(cc, config_dir)
         pending = c["proposed"] + c["procedural"] + c["needs_reading"]
+        auto = auto_confirmed_since(cc, monday, config_dir)
+        auto_total += len(auto)
         if not pending:
             continue
         waiting += pending
@@ -1702,16 +2163,28 @@ def digest_text(today=None, config_dir=None, docs_dir=None, per_country=5, count
         if ticked:
             tail += "; *{0} ticked in the guide, not yet applied*".format(len(ticked))
         lines.append(tail)
+        try:
+            left = [f for f in auto_report(cc, config_dir).values() if f]
+        except Exception as exc:          # the checks must never cost the digest
+            left = []
+            lines.append("  (auto-checks unavailable: {0})".format(type(exc).__name__))
+        by = {}
+        for f in left:
+            by[f[0][0]] = by.get(f[0][0], 0) + 1
+        lines.append("  Auto-confirmed this week: {0}. Still needs a person: {1}".format(
+            len(auto), ", ".join("{0} {1}".format(n, CHECK_WORDS.get(ch, ch)) for ch, n in
+                                 sorted(by.items(), key=lambda kv: -kv[1])) or "nothing"))
         lines.append("  Shortlist: docs/5ca-{0}-shortlist.md (guide: docs/5ca-{0}-readings.md)".format(cc))
         parts.append("\n".join(lines))
     if not waiting:
         return None
-    return ("*Stances awaiting sign-off*, week {0} of {1}: {2} readings across {3} countries. "
+    return ("*Stances awaiting sign-off*, week {0} of {1}: {2} readings across {3} countries; "
+            "{6} confirmed automatically this week on your delegation (every check passed). "
             "Each country's top {4} to sign first, ranked by tools/country_5ca.py --shortlist "
             "(decisive votes on watched bills, close or split votes, meaning lines, campaigns "
-            "and briefs, recent first). Nothing places anyone in a 5CA until a named person "
-            "confirms it.\n\n{5}\n\n"
+            "and briefs, recent first). The rest of these failed a check and need a person.\n\n{5}\n\n"
             "To confirm: `python3 tools/country_5ca.py --cc CC --confirm KEY --by NAME`, or tick "
-            "in the country's guide and `--sign-from-doc --by NAME`. Who signs for each country is "
-            "config/stance_signers.yaml (country teams are the natural owners)."
-            .format(w, y, waiting, len(parts), per_country, "\n\n".join(parts)))
+            "in the country's guide and `--sign-from-doc --by NAME`. To amend any reading, "
+            "automatic or not: `--cc CC --amend KEY --yea N --nay N --by NAME --why \"...\"`. "
+            "Who signs for each country is config/stance_signers.yaml."
+            .format(w, y, waiting, len(parts), per_country, "\n\n".join(parts), auto_total))

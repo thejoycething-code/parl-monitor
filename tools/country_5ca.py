@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """5CA with stance sign-off for the new country editions (src/country5ca.py).
 
-    python3 tools/country_5ca.py --all-countries --prune-off-ground --draft --signoff-doc --sheets --shortlist   # the weekly step
+    python3 tools/country_5ca.py --all-countries --prune-off-ground --draft --resync-directions \
+        --auto-confirm --signoff-doc --sheets --shortlist                                # the weekly step
+    python3 tools/country_5ca.py --all-countries --auto-confirm --dry-run   # what would be confirmed
+    python3 tools/country_5ca.py --cc pl --amend pl-10-1-31 --yea 1 --nay -1 --by "Christopher Joyce" --why "..."
+    python3 tools/country_5ca.py --cc pl --amend pl-10-1-31 --take-out --by "Christopher Joyce" --why "..."
     python3 tools/country_5ca.py --cc pl --shortlist [--top 20]   # docs/5ca-pl-shortlist.md
     python3 tools/country_5ca.py --cc pl --draft             # append drafts for new votes
     python3 tools/country_5ca.py --cc pl --signoff-doc       # rewrite docs/5ca-pl-readings.md
@@ -40,6 +44,20 @@ whose vote the store no longer holds on our ground (neither watched nor tier
 guard did. It reads the store; a vote the store lacks is never pruned, and a
 confirmed or hand-edited entry is always kept and reported.
 
+--auto-confirm (11 October 2026, Chris: "Automate the checks and we'll make
+it so teams can amend as and when errors come up. Like we're doing with
+Canada.") confirms each DRAFT reading that passes every deterministic check
+(src/country5ca.py, auto_check: drafted and untouched, a settled bill
+direction, a final vote or motion to reject, values equal to the rules', a
+recorded tally that splits members, inside the sign-off scope), stamped
+`confirmed_by: "{auto_by}"`, the date and the checks' version. The rest stay
+drafts, listed with the check they failed in the guide and the shortlist.
+With --dry-run it writes nothing and reports the counts. --resync-directions
+first brings untouched drafts into line with a bill direction a person has
+changed (or put on hold). --amend lets a country signer change any reading
+(values, or --take-out for `draft: true`), stamped amended_by / amended_on /
+amended_why; an amended reading is never touched by the automation again.
+
 Countries: {countries}.
 """
 
@@ -55,7 +73,7 @@ sys.path.insert(0, ROOT)
 from src import country5ca as c5  # noqa: E402
 from src import shortlist5ca as sl  # noqa: E402
 
-__doc__ = __doc__.format(countries=", ".join(c5.COUNTRIES))
+__doc__ = __doc__.format(countries=", ".join(c5.COUNTRIES), auto_by=c5.AUTO_BY)
 
 
 def main(argv=None):
@@ -77,7 +95,18 @@ def main(argv=None):
     ap.add_argument("--prune-off-ground", action="store_true",
                     help="remove unsigned, untouched entries whose vote is no longer on our ground")
     ap.add_argument("--dry-run", action="store_true",
-                    help="with --prune-out-of-scope or --prune-off-ground: write nothing")
+                    help="with --prune-out-of-scope, --prune-off-ground, --resync-directions or "
+                         "--auto-confirm: write nothing")
+    ap.add_argument("--resync-directions", action="store_true",
+                    help="bring untouched drafts into line with a changed bill direction")
+    ap.add_argument("--auto-confirm", action="store_true",
+                    help="confirm drafts that pass every check, on Chris's delegation")
+    ap.add_argument("--amend", metavar="KEY", help="a signer's amendment of one reading")
+    ap.add_argument("--yea", type=int, help="with --amend: the stance of a Yes (-2..2)")
+    ap.add_argument("--nay", type=int, help="with --amend: the stance of a No (-2..2)")
+    ap.add_argument("--why", help="with --amend: what was wrong")
+    ap.add_argument("--take-out", action="store_true",
+                    help="with --amend: put `draft: true` (out of play) instead of values")
     ap.add_argument("--confirm", nargs="+", metavar="KEY")
     ap.add_argument("--confirm-direction", nargs="+", metavar="BILL",
                     help="confirm bill_directions entries (the campaign briefs' ask follows them)")
@@ -105,8 +134,11 @@ def main(argv=None):
         ap.error("unknown country: {0} (have {1})".format(", ".join(bad), ", ".join(c5.COUNTRIES)))
     if not ccs:
         ap.error("--cc CC, --all-countries or --db-map")
-    if (args.confirm or args.sign_from_doc or args.confirm_direction) and len(ccs) != 1:
+    if (args.confirm or args.sign_from_doc or args.confirm_direction or args.amend) and len(ccs) != 1:
         ap.error("confirm one country at a time")
+    if args.amend:
+        c5.amend(ccs[0], args.amend, args.by, args.yea, args.nay, args.why, args.take_out, args.on)
+        return 0
     if args.confirm_direction:
         c5.confirm_direction(ccs[0], args.confirm_direction, args.by, args.on)
         return 0
@@ -117,19 +149,23 @@ def main(argv=None):
         c5.sign_from_doc(ccs[0], args.by, args.on)
         return 0
     if not (args.draft or args.signoff_doc or args.sheets or args.counts
-            or args.prune_out_of_scope or args.prune_off_ground or args.shortlist):
-        ap.error("say what to do: --draft, --signoff-doc, --sheets, --shortlist, --counts, "
-                 "--confirm, --sign-from-doc, --prune-out-of-scope or --prune-off-ground")
+            or args.prune_out_of_scope or args.prune_off_ground or args.shortlist
+            or args.auto_confirm or args.resync_directions):
+        ap.error("say what to do: --draft, --resync-directions, --auto-confirm, --signoff-doc, "
+                 "--sheets, --shortlist, --counts, --confirm, --amend, --sign-from-doc, "
+                 "--prune-out-of-scope or --prune-off-ground")
     if args.prune_out_of_scope:
         for cc in ccs:
             if os.path.exists(c5.stance_path(cc)):
                 c5.prune_out_of_scope(cc, dry_run=args.dry_run)
 
     rc = 0
+    totals = {}
     for cc in ccs:
         path = stores.get(cc, args.db)
         need_store = args.draft or args.sheets or args.prune_off_ground
-        if not (need_store or args.signoff_doc or args.shortlist):
+        if not (need_store or args.signoff_doc or args.shortlist or args.auto_confirm
+                or args.resync_directions):
             continue
         conn = None
         if need_store:
@@ -144,6 +180,11 @@ def main(argv=None):
                 c5.prune_off_ground(conn, cc, dry_run=args.dry_run)
             if args.draft:
                 c5.draft(conn, cc, today=args.today)
+            if args.resync_directions and os.path.exists(c5.stance_path(cc)):
+                c5.resync_directions(cc, dry_run=args.dry_run)
+            if args.auto_confirm and os.path.exists(c5.stance_path(cc)):
+                got = c5.auto_confirm(cc, today=args.today, dry_run=args.dry_run, conn=conn)
+                totals[cc] = (len(got["confirmed"]), len(got["left"]))
             if args.signoff_doc:
                 c5.write_signoff_doc(cc, conn=conn)
             if args.sheets:
@@ -156,6 +197,13 @@ def main(argv=None):
         finally:
             if conn is not None:
                 conn.close()
+    if totals:
+        print("\nAutomatic sign-off{0} ({1}): confirmed / left for a person".format(
+            ", DRY RUN (nothing written)" if args.dry_run else "", c5.AUTO_CHECKS_VERSION))
+        for cc, (ok, left) in totals.items():
+            print("  {0}  {1:>5} {2:>5}   {3}".format(cc, ok, left, c5.SPECS[cc].name))
+        print("  all {0:>5} {1:>5}".format(sum(v[0] for v in totals.values()),
+                                           sum(v[1] for v in totals.values())))
     if args.counts or args.draft or args.prune_out_of_scope or args.prune_off_ground:
         print("\nconfig/<cc>_stance.yaml, by country (proposed / procedural / need reading / "
               "confirmed):")

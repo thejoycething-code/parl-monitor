@@ -158,10 +158,12 @@ bill_directions:
     drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
   - key: "10/31"
     direction: against
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-11"
     areas: [10]
     why: "Citizens' bill (passed, Dz.U. 2023 poz. 2730): state-funded IVF programme."
-    flag: "State-funded IVF: CitizenGO's objection is to embryo loss; confirm."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): state-funded IVF is against us."
     drafted: "Claude, 10 October 2026, from config/watchlist-pl.yaml"
 
 divisions:

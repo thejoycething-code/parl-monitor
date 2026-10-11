@@ -43,11 +43,12 @@ bill_directions:
     why: "Droit a l'aide a mourir (dossier 'Fin de vie'). Adopted in lecture definitive 15 July 2026, Conseil constitutionnel conforme 14 August, promulgated 18 August 2026. 380 scrutins name the dossier; 931 scrutin titles say 'a"
     drafted: "Claude, 10 October 2026, from config/watchlist-fr.yaml"
   - key: "DLR5L17N51672"
-    direction: with
-    status: draft
+    direction: hold
+    status: needs_reading
     areas: [2]
     why: "Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026. Quebec has 'soins palliatifs' at tier 2 only."
-    flag: "Palliative care is CitizenGO's alternative to assisted dying; the bill was the companion of the aide a mourir law: confirm."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): HOLD until the text is read; if it legitimises assisted dying it is against us."
+    read_first: "Read the promulgated text first: if it legitimises assisted dying, passing it is against us. Nothing is drafted or confirmed from this bill until then."
     drafted: "Claude, 10 October 2026, from config/watchlist-fr.yaml"
   - key: "DLR5L16N49654"
     direction: with
@@ -74,11 +75,13 @@ bill_directions:
     why: "Droits des personnes LGBTQIA+, intersex children and 'reconnaissance du genre a l'etat civil'. Matched nothing."
     drafted: "Claude, 10 October 2026, from config/watchlist-fr.yaml"
   - key: "DLR5L17N53187"
-    direction: with
-    status: draft
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-11"
     areas: [7]
     why: "Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing."
-    flag: "Protecting minors online (under-15 rule, age checks); confirm the age-check design raises no speech concern."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): the minors online bill is against us."
     drafted: "Claude, 10 October 2026, from config/watchlist-fr.yaml"
 
 divisions:
@@ -431,7 +434,8 @@ divisions:
 
 
   - key: "an-17-2106"
-    status: draft
+    status: needs_reading
+    read_first: "The direction of DLR5L17N51672 is on hold: read the promulgated text first: if it legitimises assisted dying, passing it is against us. Nothing is drafted or confirmed from this bill until then."
     title: "l’ensemble de la proposition de loi visant à garantir l'égal accès de tous à l’accompagnement et aux soins palliatifs (première lecture)."
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2025-05-27"
@@ -442,12 +446,7 @@ divisions:
     result: "adopté; Pour 560, Contre 0, Abstain 3"
     lobbies: "Pour: RN 121, EPR 90, LFI-NFP 67, SOC 65, DR 49, ECOS 36, DEM 35, HOR 33, LIOT 23, PO847173 16, GDR 15, NI 10. Abstain: RN 2, DEM 1"
     vote_kind: "final"
-    yea: 2
-    why_yea: "Voted Pour on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): for passing it, with CitizenGO's position."
-    nay: -2
-    why_nay: "Voted Contre on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): against passing it, against CitizenGO's position."
-    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (a draft): passing it is WITH us -- Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026. Quebec has 'soins palliatifs' at tier 2 only. This vote is a vote on the whole text or the motion itself, so Pour is with us."
-    flag: "On the bill's direction: Palliative care is CitizenGO's alternative to assisted dying; the bill was the companion of the aide a mourir law: confirm."
+    reasoning: "Area 2 (assisted dying). Drafted from DLR5L17N51672 as with; that direction is no longer on file, so nothing is proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "an-17-2107"
@@ -497,12 +496,11 @@ divisions:
     result: "rejeté; Pour 25, Contre 109, Abstain 2"
     lobbies: "Pour: LFI-NFP 25. Contre: EPR 55, RN 14, SOC 11, ECOS 8, HOR 7, DR 6, DEM 5, NI 2, LIOT 1. Abstain: GDR 2"
     vote_kind: "reject"
-    yea: -2
-    why_yea: "Voted Pour on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): for rejecting it, against CitizenGO's position."
-    nay: 2
-    why_nay: "Voted Contre on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): against rejecting it, with CitizenGO's position."
-    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for DLR5L17N53187 (a draft): passing it is WITH us -- Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing. This vote is a motion to reject the text (the sides are swapped), so Pour is against us."
-    flag: "On the bill's direction: Protecting minors online (under-15 rule, age checks); confirm the age-check design raises no speech concern."
+    yea: 2
+    why_yea: "Voted Pour on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): for rejecting it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Contre on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): against rejecting it, against CitizenGO's position."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for DLR5L17N53187 (CONFIRMED): passing it is AGAINST us -- Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing. This vote is a motion to reject the text (the sides are swapped), so Pour is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
 
@@ -552,12 +550,11 @@ divisions:
     result: "adopté; Pour 130, Contre 21, Abstain 6"
     lobbies: "Pour: EPR 61, RN 22, HOR 11, SOC 10, DR 9, DEM 8, ECOS 3, NI 2, LIOT 2, UDDPLR 2. Contre: LFI-NFP 19, ECOS 2. Abstain: SOC 2, GDR 2, ECOS 2"
     vote_kind: "final"
-    yea: 2
-    why_yea: "Voted Pour on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): for passing it, with CitizenGO's position."
-    nay: -2
-    why_nay: "Voted Contre on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): against passing it, against CitizenGO's position."
-    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for DLR5L17N53187 (a draft): passing it is WITH us -- Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing. This vote is a vote on the whole text or the motion itself, so Pour is with us."
-    flag: "On the bill's direction: Protecting minors online (under-15 rule, age checks); confirm the age-check design raises no speech concern."
+    yea: -2
+    why_yea: "Voted Pour on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Contre on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): against passing it, with CitizenGO's position."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for DLR5L17N53187 (CONFIRMED): passing it is AGAINST us -- Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing. This vote is a vote on the whole text or the motion itself, so Pour is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "an-17-5244"
@@ -868,7 +865,8 @@ divisions:
 
 
   - key: "an-17-5728"
-    status: draft
+    status: needs_reading
+    read_first: "The direction of DLR5L17N51672 is on hold: read the promulgated text first: if it legitimises assisted dying, passing it is against us. Nothing is drafted or confirmed from this bill until then."
     title: "l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture)."
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2026-02-25"
@@ -879,12 +877,7 @@ divisions:
     result: "adopté; Pour 491, Contre 0, Abstain 69"
     lobbies: "Pour: RN 122, EPR 88, SOC 69, DR 47, DEM 36, HOR 34, ECOS 34, LIOT 22, UDDPLR 17, GDR 11, NI 9, LFI-NFP 2. Abstain: LFI-NFP 67, ECOS 2"
     vote_kind: "final"
-    yea: 2
-    why_yea: "Voted Pour on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): for passing it, with CitizenGO's position."
-    nay: -2
-    why_nay: "Voted Contre on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): against passing it, against CitizenGO's position."
-    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (a draft): passing it is WITH us -- Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026. Quebec has 'soins palliatifs' at tier 2 only. This vote is a vote on the whole text or the motion itself, so Pour is with us."
-    flag: "On the bill's direction: Palliative care is CitizenGO's alternative to assisted dying; the bill was the companion of the aide a mourir law: confirm."
+    reasoning: "Area 2 (assisted dying). Drafted from DLR5L17N51672 as with; that direction is no longer on file, so nothing is proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "an-17-5729"
@@ -1352,12 +1345,11 @@ divisions:
     result: "adopté; Pour 279, Contre 81, Abstain 66"
     lobbies: "Pour: EPR 83, DR 40, HOR 33, DEM 32, SOC 30, LIOT 22, ECOS 19, UDDPLR 8, NI 6, GDR 6. Contre: LFI-NFP 63, ECOS 7, UDDPLR 5, GDR 3, RN 2, DEM 1. Abstain: SOC 28, RN 14, ECOS 7, GDR 5, UDDPLR 4, DR 3, NI 2, DEM 2, LIOT 1"
     vote_kind: "final"
-    yea: 2
-    why_yea: "Voted Pour on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): for passing it, with CitizenGO's position."
-    nay: -2
-    why_nay: "Voted Contre on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): against passing it, against CitizenGO's position."
-    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for DLR5L17N53187 (a draft): passing it is WITH us -- Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing. This vote is a vote on the whole text or the motion itself, so Pour is with us."
-    flag: "On the bill's direction: Protecting minors online (under-15 rule, age checks); confirm the age-check design raises no speech concern."
+    yea: -2
+    why_yea: "Voted Pour on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Contre on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): against passing it, with CitizenGO's position."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for DLR5L17N53187 (CONFIRMED): passing it is AGAINST us -- Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing. This vote is a vote on the whole text or the motion itself, so Pour is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   # --- drafted 2026-10-11 by tools/country_5ca.py (rules, no AI) ---
@@ -1411,7 +1403,8 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "senat-2025-170"
-    status: draft
+    status: needs_reading
+    read_first: "The direction of DLR5L17N51672 is on hold: read the promulgated text first: if it legitimises assisted dying, passing it is against us. Nothing is drafted or confirmed from this bill until then."
     title: "sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs"
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2026-01-28"
@@ -1422,12 +1415,7 @@ divisions:
     result: "Pour 307, Contre 17, Abstain 17"
     lobbies: "Pour: Les Républicains 126, SER 63, UCI 59, Les Indépendants 20, RDPI 17, RDSE 16, NI 4, CRCE-K 2. Contre: CRCE-K 16, Les Républicains 1. Abstain: GEST 16, SER 1"
     vote_kind: "final"
-    yea: 2
-    why_yea: "Voted Pour on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): for passing it, with CitizenGO's position."
-    nay: -2
-    why_nay: "Voted Contre on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): against passing it, against CitizenGO's position."
-    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (a draft): passing it is WITH us -- Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026. Quebec has 'soins palliatifs' at tier 2 only. This vote is a vote on the whole text or the motion itself, so Pour is with us."
-    flag: "On the bill's direction: Palliative care is CitizenGO's alternative to assisted dying; the bill was the companion of the aide a mourir law: confirm."
+    reasoning: "Area 2 (assisted dying). Drafted from DLR5L17N51672 as with; that direction is no longer on file, so nothing is proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "senat-2025-185"
@@ -1460,7 +1448,8 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "senat-2025-251"
-    status: draft
+    status: needs_reading
+    read_first: "The direction of DLR5L17N51672 is on hold: read the promulgated text first: if it legitimises assisted dying, passing it is against us. Nothing is drafted or confirmed from this bill until then."
     title: "sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture)"
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2026-05-11"
@@ -1471,12 +1460,7 @@ divisions:
     result: "Pour 325, Contre 18"
     lobbies: "Pour: Les Républicains 130, SER 65, UCI 59, RDPI 19, Les Indépendants 19, GEST 16, RDSE 16, NI 1. Contre: CRCE-K 18"
     vote_kind: "final"
-    yea: 2
-    why_yea: "Voted Pour on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): for passing it, with CitizenGO's position."
-    nay: -2
-    why_nay: "Voted Contre on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): against passing it, against CitizenGO's position."
-    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (a draft): passing it is WITH us -- Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026. Quebec has 'soins palliatifs' at tier 2 only. This vote is a vote on the whole text or the motion itself, so Pour is with us."
-    flag: "On the bill's direction: Palliative care is CitizenGO's alternative to assisted dying; the bill was the companion of the aide a mourir law: confirm."
+    reasoning: "Area 2 (assisted dying). Drafted from DLR5L17N51672 as with; that direction is no longer on file, so nothing is proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "senat-2025-294"
@@ -1521,10 +1505,9 @@ divisions:
     result: "Pour 243, Contre 2, Abstain 100"
     lobbies: "Pour: Les Républicains 129, UCI 58, Les Indépendants 20, RDPI 19, RDSE 17. Contre: NI 1, GEST 1. Abstain: SER 64, CRCE-K 18, GEST 15, NI 3"
     vote_kind: "final"
-    yea: 2
-    why_yea: "Voted Pour on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): for passing it, with CitizenGO's position."
-    nay: -2
-    why_nay: "Voted Contre on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): against passing it, against CitizenGO's position."
-    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for DLR5L17N53187 (a draft): passing it is WITH us -- Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing. This vote is a vote on the whole text or the motion itself, so Pour is with us."
-    flag: "On the bill's direction: Protecting minors online (under-15 rule, age checks); confirm the age-check design raises no speech concern."
+    yea: -2
+    why_yea: "Voted Pour on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Contre on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): against passing it, with CitizenGO's position."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for DLR5L17N53187 (CONFIRMED): passing it is AGAINST us -- Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing. This vote is a vote on the whole text or the motion itself, so Pour is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"

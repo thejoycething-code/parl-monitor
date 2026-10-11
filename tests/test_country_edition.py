@@ -153,6 +153,22 @@ class FrameworkTests(Base):
         self.assertIn("2 recorded votes", text)
         self.assertEqual(text.count("Abortion bill"), 1)      # one line per vote group
 
+    def test_dm_week_ahead_only_when_the_country_asks(self):
+        # Chris, 11 October 2026: the votes-only Dutch DM (NL3) shows the week ahead.
+        ahead = [ce.item("xx", "agenda", "ag1", "2026-10-13", "Stemmingen over de Embryowet", [10], 1)]
+        hook = lambda conn, today, wl: list(ahead)  # noqa: E731
+        on = ce.dm_summary(sqlite3.connect(":memory:"),
+                           fake(self.items(), dm_kinds=("vote",), week_ahead=hook, dm_ahead=True),
+                           TODAY, SINCE, config_dir=self.cfg, directory=self.eds)
+        self.assertIn("*Week ahead*: 1 agenda point(s)", on)
+        self.assertIn("Stemmingen over de Embryowet", on)
+        off = ce.dm_summary(sqlite3.connect(":memory:"),
+                            fake(self.items(), dm_kinds=("vote",), week_ahead=hook),
+                            TODAY, SINCE, config_dir=self.cfg, directory=self.eds)
+        self.assertNotIn("Week ahead", off)
+        from src.editions import nl
+        self.assertTrue(nl.COUNTRY.dm_ahead)
+
     def test_rebels_and_splits(self):
         rows = [("A", "P", "yes"), ("B", "P", "yes"), ("C", "P", "no"), ("D", "Q", "no"),
                 ("E", "niez.", "yes")]

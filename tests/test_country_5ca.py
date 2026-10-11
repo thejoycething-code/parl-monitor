@@ -377,7 +377,11 @@ class SpecTests(unittest.TestCase):
                 if e.get("status") == "confirmed":
                     self.assertTrue(e.get("confirmed_by") and e.get("confirmed_on"), (cc, k))
             for k, b in bills.items():
-                self.assertIn(b.get("direction"), ("with", "against"), (cc, k))
+                # `hold` (Chris, 11 October 2026: France's palliative care bill) only
+                # with `needs_reading`, so nothing is drafted or confirmed from it.
+                self.assertIn(b.get("direction"), ("with", "against", "hold"), (cc, k))
+                if b.get("direction") == "hold":
+                    self.assertEqual(b.get("status"), "needs_reading", (cc, k))
 
 
 class DigestTests(Base):
