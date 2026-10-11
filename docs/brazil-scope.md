@@ -555,3 +555,19 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
 
 What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-br.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-br-readings.md. On the store of 11 October 2026: 13 watched or tier-1 votes, 10 with an English rule line, 1 whose rule line quotes the source (offered to the session judge), 2 the rules cannot read. Sample: [docs/vote-meaning-samples/br.md](vote-meaning-samples/br.md).
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/br-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: the party or group the vote record names at each vote.
+- Records only: no vote is labelled for or against our side until its reading in `config/br_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **e-Cidadania ideas: built**, the 500 best-supported open ideas (5 pages; 20,000 supports in four months make a Sugestão Legislativa), with each matching idea's page for its deadline.
+- **e-Cidadania public vote on bills: built**, the 300 most-voted bills with SIM and NÃO; shown when a bill on our ground gains 10,000 votes in a week.
+- **Brasil Participativo consultations: built** (Decidim GraphQL), standing agency containers left out.
+- Pages take 20 to 60 seconds: the step reads at most 15 idea pages a run (`--detail-limit 15`).
+- Not covered: the Câmara's enquetes (no listing), Participa+Brasil (closed).
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/br.py`, `tools/country_petitions.py br` as a step of `jobs/br-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

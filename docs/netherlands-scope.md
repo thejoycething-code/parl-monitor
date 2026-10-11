@@ -506,3 +506,17 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
 
 What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-nl.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-nl-readings.md. On the store of 11 October 2026 there is no watched or tier-1 vote to attach a line to (the local copy of the store holds none for this country yet); lines appear with the first one.
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/nl-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: show-of-hands positions DERIVED from the fractie's vote (X5), roll calls as recorded.
+- Records only: no vote is labelled for or against our side until its reading in `config/nl_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Petitions handed to the Tweede Kamer: built**, the OData Activiteit of kind 'Petitie' (the hand-over appointment; no counts). The edition's `kinds` now includes "petition"; its DM stays votes only (NL3).
+- First read: 3 on our ground (home education, two on surrogacy).
+- **Not covered: internetconsultatie.nl** disallows every crawler but named search engines (`User-agent: * Disallow: /`) and publishes no dataset; one homepage request was made on 11 October before robots.txt was read, and nothing is built on it.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/nl.py`, `tools/country_petitions.py nl` as a step of `jobs/nl-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

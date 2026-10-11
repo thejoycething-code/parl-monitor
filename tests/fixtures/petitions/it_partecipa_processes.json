@@ -1,0 +1,123 @@
+{
+ "data": {
+  "participatoryProcesses": [
+   {
+    "id": "2",
+    "slug": "costruirepartecipa",
+    "title": {
+     "translation": "Aiutaci a costruire ParteciPa"
+    },
+    "subtitle": {
+     "translation": "Idee e proposte per migliorare la piattaforma di partecipazione e consultazione del Governo"
+    },
+    "startDate": "2019-12-03",
+    "endDate": "2020-04-30",
+    "publishedAt": "2019-11-21T09:03:54+01:00"
+   },
+   {
+    "id": "3",
+    "slug": "linee-guida-consultazione",
+    "title": {
+     "translation": "Commenta le Linee guida sulla Consultazione "
+    },
+    "subtitle": {
+     "translation": "Aiutaci a migliorare le Linee guida"
+    },
+    "startDate": "2019-12-03",
+    "endDate": "2020-04-30",
+    "publishedAt": "2019-12-03T15:52:34+01:00"
+   },
+   {
+    "id": "4",
+    "slug": "semplificazione",
+    "title": {
+     "translation": "Semplifichiamo!"
+    },
+    "subtitle": {
+     "translation": "Idee e proposte di cittadini e imprese per costruire insieme la nuova Agenda per la semplificazione"
+    },
+    "startDate": "2019-12-03",
+    "endDate": "2020-04-15",
+    "publishedAt": "2019-12-03T17:17:38+01:00"
+   },
+   {
+    "id": "76",
+    "slug": "atto-indirizzo-strategico-2026-2028",
+    "title": {
+     "translation": "Atto di indirizzo strategico 2026-2028 in materia di valorizzazione delle conoscenze e di trasferimento tecnologico"
+    },
+    "subtitle": {
+     "translation": "."
+    },
+    "startDate": "2026-04-08",
+    "endDate": "2026-05-07",
+    "publishedAt": "2026-04-20T15:32:22+02:00"
+   },
+   {
+    "id": "77",
+    "slug": "ConsultazionePianoRipristino",
+    "title": {
+     "translation": "Consultazione per la definizione del Piano Nazionale di Ripristino (PNR)"
+    },
+    "subtitle": {
+     "translation": "Partecipa alla redazione del Piano Nazionale, per ripristinare gli ecosistemi, gli habitat e le specie degradate del territorio italiano"
+    },
+    "startDate": "2026-04-23",
+    "endDate": "2026-09-01",
+    "publishedAt": "2026-04-23T10:04:05+02:00"
+   },
+   {
+    "id": "78",
+    "slug": "CodiceAmministrazioneDigitale",
+    "title": {
+     "translation": "Codice dell’Amministrazione Digitale"
+    },
+    "subtitle": {
+     "translation": "Al via la consultazione pubblica"
+    },
+    "startDate": "2026-05-14",
+    "endDate": "2026-05-29",
+    "publishedAt": "2026-05-14T15:16:52+02:00"
+   },
+   {
+    "id": "79",
+    "slug": "valutazione-valore-pubblico-istat",
+    "title": {
+     "translation": "Valutazione partecipativa sul valore pubblico generato dall'Istat"
+    },
+    "subtitle": {
+     "translation": "La consultazione vuole misurare il grado di condivisione degli obiettivi di Valore Pubblico dell’Istat da parte degli stakeholder, e utilizzare il feedback rilevato come input per il prossimo ciclo di programmazione in un’ottica di miglioramento continuo e di maggiore aderenza alle esigenze espresse dagli utenti e dai portatori di interesse."
+    },
+    "startDate": "2026-09-14",
+    "endDate": "2026-11-30",
+    "publishedAt": "2026-09-14T16:27:49+02:00"
+   },
+   {
+    "id": "80",
+    "slug": "aggiornam-classi-generatori-calore-biomasse",
+    "title": {
+     "translation": "Aggiornamento dei criteri di certificazione dei generatori di calore a biomassa legnosa per il riscaldamento domestico"
+    },
+    "subtitle": {
+     "translation": "La consultazione consente di partecipare all’aggiornamento del DM n. 186/2017, che disciplina le caratteristiche tecniche e ambientali dei generatori di calore a biomassa legnosa destinati al riscaldamento domestico – stufe, caminetti, inserti, cucine e caldaie - anche ai fini dell’accesso agli incentivi pubblici"
+    },
+    "startDate": "2026-10-01",
+    "endDate": "2026-10-26",
+    "publishedAt": "2026-10-02T10:11:52+02:00"
+   },
+   {
+    "id": "81",
+    "slug": "recepimento-direttiva-qualita-aria",
+    "title": {
+     "translation": "Decreto di recepimento della nuova direttiva sulla qualità dell’aria (UE) 2024/2881"
+    },
+    "subtitle": {
+     "translation": "Aggiornamento degli standard e delle procedure di valutazione e gestione della qualità dell’aria"
+    },
+    "startDate": "2026-10-02",
+    "endDate": "2026-10-20",
+    "publishedAt": "2026-10-02T10:27:11+02:00"
+   }
+  ]
+ }
+}

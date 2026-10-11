@@ -201,7 +201,7 @@ def counts(items):
 def count_text(items):
     c = counts(items)
     order = ("new", "moved", "updated", "vote", "report", "agenda", "pedido", "question", "law",
-             "ruling", "press", "gazette", "news")
+             "ruling", "petition", "press", "gazette", "news")
     names = {"new": ("new bill", "new bills"), "moved": ("stage move", "stage moves"),
              "updated": ("register update", "register updates"),
              "vote": ("recorded vote", "recorded votes"),
@@ -210,7 +210,8 @@ def count_text(items):
              "law": ("law", "laws"), "press": ("press item", "press items"),
              "gazette": ("gazette notice", "gazette notices"), "news": ("news item", "news items"),
              "question": ("written question", "written questions"),
-             "ruling": ("court ruling", "court rulings")}
+             "ruling": ("court ruling", "court rulings"),
+             "petition": ("petition or consultation", "petitions and consultations")}
     return ", ".join("{0} {1}".format(c[k], names[k][c[k] != 1]) for k in order if c.get(k))
 
 

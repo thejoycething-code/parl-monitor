@@ -487,3 +487,17 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
 
 What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-ch.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-ch-readings.md. On the store of 11 October 2026: 82 watched or tier-1 votes, 32 with an English rule line, 50 whose rule line quotes the source (offered to the session judge), 0 the rules cannot read. Sample: [docs/vote-meaning-samples/ch.md](vote-meaning-samples/ch.md).
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/ch-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: the party or group the vote record names at each vote.
+- Records only: no vote is labelled for or against our side until its reading in `config/ch_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Vernehmlassungen: built**, from the fedlex SPARQL endpoint (status 2, running; the ConsultationPhase end date is the deadline). 28 running on 11 October.
+- **Petitionen: built**, Curia Vista OData, BusinessType 10, the last year's submissions. No counts.
+- **Volksinitiativen in collection: built** from the Federal Gazette notices (Vorprüfung without a Zustandekommen, Rückzug or Fristablauf notice); the deadline is computed as 18 months after the Vorprüfung (Art. 71 BPR), and labelled so. The Bundeskanzlei's own list is a chart whose data API robots.txt disallows.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/ch.py`, `tools/country_petitions.py ch` as a step of `jobs/ch-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

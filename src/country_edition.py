@@ -91,7 +91,7 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
                   (member profiles read positions by it; not rendered)
 
    KINDS (section): new, moved, vote, question, answer, speech, report,
-   agenda, law, ruling, updated, press, gazette, news, pedido. A vote's `lines` carry the
+   agenda, law, ruling, petition, updated, press, gazette, news, pedido. A vote's `lines` carry the
    tally, the party split and the member-position line: build them with
    tally_line(), split_line(), members_line(), derived_line().
 
@@ -179,6 +179,15 @@ Change log of the interface (additive only):
                    edition shows it under the vote. Nothing for adapters
                    to do.
 
+  11 October 2026  petitions and consultations (src/petitions.py): a new
+                   kind "petition" ("Petitions and consultations", after the
+                   constitutional court), and gather() adds the country's
+                   country_petitions items (new on our ground, a signature
+                   threshold crossed, or closing) to the adapter's own, with
+                   a Coverage line per source read. Nothing for adapters to
+                   do; a country whose `kinds` names its kinds must add
+                   "petition" to show them (the Netherlands does).
+
 Read-only on the store.
 """
 
@@ -202,6 +211,7 @@ from src import chamber_store
 from src import edition_judge
 from src import latam
 from src import noise as noise_mod
+from src import petitions
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG = os.path.join(ROOT, "config")
@@ -228,6 +238,10 @@ SECTIONS = (
     # 10 October 2026 (X8): a constitutional court's rulings on our ground
     # (src/courts.py); Portugal's adapter adds them.
     ("ruling", "Constitutional court", "court ruling", "court rulings"),
+    # 11 October 2026: petitions and consultations (src/petitions.py), new on
+    # our ground, crossing a signature threshold, or closing.
+    ("petition", "Petitions and consultations", "petition or consultation",
+     "petitions and consultations"),
     ("question", "Questions", "question", "questions"),
     ("answer", "Answers", "answer", "answers"),
     ("speech", "Said in the chamber", "debate", "debates"),
@@ -556,6 +570,7 @@ def gather(conn, country, since, until, config_dir=None, dropped=None):
     wl = watchlist_of(country, config_dir)
     got = list(country.items(conn, since, until, wl) or [])
     got += chamber_store.edition_items(conn, country.cc, since, until, wl)
+    got += petitions.edition_items(conn, country.cc, since, until, wl)
     if country.kinds:
         got = [it for it in got if it["kind"] in country.kinds]
     kept, out = noise_for(country).split(got, config_dir)
@@ -955,6 +970,7 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
             "- Store last read {0}.".format(long_date(seen) if seen else "never")]
     out += ["- " + clean(c) for c in country.coverage]
     out += ["- " + clean(c) for c in chamber_store.coverage_lines(conn, country.cc, since, until)]
+    out += ["- " + clean(c) for c in petitions.coverage_lines(conn, country.cc, since, until)]
     if country.ahead_note:
         note = country.ahead_note(conn, today)
         if note:

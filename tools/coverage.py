@@ -340,6 +340,13 @@ FEEDS = [
     # the table moves every week whatever the councils do.
     ("country_agenda", "last_seen", 7, 4, "Week-ahead agendas of the country editions "
      "(a step of each country's weekly)"),
+    # The new countries' petitions and consultations (11 October 2026,
+    # src/petitions.py): one table, written by a step of eleven weeklies (FR,
+    # AT, CH, IT, PT, PL, BE, NL, BR, AR, CO). Every item a run lists is
+    # re-stamped, and the French, Belgian, Brazilian and Austrian lists are
+    # never empty (petitions stay open for years), so it moves every week.
+    ("country_petitions", "last_seen", 7, 4, "Petitions and consultations of the country "
+     "editions (a step of each country's weekly)"),
     ("nl_members", "last_seen", 7, 4, "Tweede Kamer members (Netherlands weekly)"),
     ("nl_fracties", "last_seen", 7, 4, "Tweede Kamer fracties (Netherlands weekly)"),
     ("nl_divisions", "last_seen", 31, 31, "Tweede Kamer votes (Netherlands weekly)"),
@@ -910,7 +917,14 @@ AWAITING_FIRST_RUN.update({
 # here, so a new source cannot arrive unwatched AND unexplained -- which
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
-EXEMPT = {}
+EXEMPT = {
+    # 11 October 2026: one row per petition per run (src/petitions.py), the
+    # history behind "passed a threshold this week". Its parent,
+    # country_petitions, is watched; a snapshot table that stopped moving
+    # would mean the parent stopped too.
+    "country_petition_snapshots": "per-run signature snapshots of country_petitions, "
+                                  "which is watched (FEEDS)",
+}
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they
@@ -962,7 +976,18 @@ ON_DEMAND = {
                               "tools/stance_digest.py), and writes the 5CA "
                               "tracker and gated partner sheet "
                               "(tools/make_country_5ca_web.py): offline, no "
-                              "table written.",
+                              "table written. Then it puts the new countries' "
+                              "briefs and real debate packs on Drive "
+                              "(tools/country_drive.py; its record is the file "
+                              "data/country-drive.json, not a table). The daily "
+                              "health summary watches this and every other "
+                              "new-country job by its Mini log "
+                              "(src/country_health.py), cadence from its plist. "
+                              "After the judge it rebuilds the new countries' "
+                              "vote pages, vote tracker and bill timelines in "
+                              "partner_site/ (tools/make_country_votes.py, "
+                              "records only, no verdict before sign-off), "
+                              "which Monday's deploy ships.",
     "Daily vote briefs": "Mac Mini only (jobs/vote-briefs-daily.sh, 21:40 "
                          "Mon-Fri and 06:40 Tue-Sat London): the Netherlands, "
                          "Poland, Switzerland, Brazil and Italy read directly "
@@ -1160,6 +1185,8 @@ def table_exists(conn, table):
 AWAITING_STEP_UNTIL = {
     "country_agenda": ("2026-10-24", "the week-ahead step (tools/country_agenda.py) joins "
                        "nine country weeklies on merge; it fills on the first of them"),
+    "country_petitions": ("2026-10-25", "the petitions step (tools/country_petitions.py) joins "
+                          "eleven country weeklies on merge; it fills on the first of them"),
 }
 
 

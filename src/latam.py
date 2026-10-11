@@ -101,6 +101,9 @@ KINDS = {
     # (src/courts.py) and Bolivia's written questions (BO4).
     "ruling": "Constitutional court",
     "question": "Written question",
+    # Added 11 October 2026: petitions and consultations (src/petitions.py),
+    # for a Latam country with a source module in src/petition_sources/.
+    "petition": "Petition or consultation",
 }
 
 
@@ -573,6 +576,9 @@ def items_rulings(conn, cc, since, until):
 
 
 COURTS = ("co", "ec", "pe")
+# Countries with petitions or consultations collected (src/petitions.py,
+# tools/country_petitions.py), 11 October 2026: Colombia's SUCOP.
+PETITIONS = ("co",)
 
 
 def items_bo_questions(conn, since, until, wl):
@@ -725,6 +731,9 @@ def country_items(conn, cc, since, until, ledger=None, config_dir=None, dropped=
             got += items_bo_questions(conn, since, until, watchlist(cc, config_dir))
         if cc == "uy":
             got += items_uy_diario(conn, since, until, watchlist(cc, config_dir))
+        if cc in PETITIONS:
+            from src import petitions
+            got += petitions.edition_items(conn, cc, since, until, watchlist(cc, config_dir))
         if cc not in SOURCE_MOVES:
             got += ledger_moves(ledger, cc, since, until)
         got = collapse(got)
