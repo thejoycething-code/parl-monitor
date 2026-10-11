@@ -44,6 +44,24 @@
 # judge still runs. They read the store and write no table, so they need no
 # publish of their own.
 #
+# DRIVE (11 October 2026; tools/country_drive.py, src/country_drive.py): the
+# new countries' campaign briefs (briefs/<cc>-*.csv, from each weekly) become
+# Sheets from the UK brief template, and their real (non-sample) debate packs
+# are uploaded, under "Country editions/<Country>/" in the Automated Briefs
+# shared drive, as the UK's are. Only what is new or changed:
+# data/country-drive.json (committed with data/) and each sheet's slug tag
+# keep a rerun from making a second copy. At most 30 new sheets a run. Before
+# the judge, so a judge gap never skips it; its failure is a [gap] line.
+#
+# THE VOTE PAGES (11 October 2026; src/country_votes.py), after the judge so
+# its scores decide what is on our ground, offline, a minute at most: the new
+# countries' vote pages (partner_site/<cc>-votes.html), the vote tracker
+# (partner_site/votes-countries.html) and the watched bills' timelines
+# (partner_site/bill-timelines.html), all behind the partner passphrase;
+# Monday's deploy ships them. Records only: no for/against judgement on any
+# vote until its reading is CONFIRMED. Run on a judge gap too (exit 3), since
+# the pages need no judge. A failure is a [gap] line; last week's pages stand.
+#
 # mini_run: commit editions config docs partner_site
 set -o pipefail
 cd "$(dirname "$0")/.."
@@ -56,17 +74,27 @@ python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets \
   || echo "  [gap] the 5CA stance step failed for a country; the others stand"
 python3 tools/make_country_5ca_web.py || echo "  [gap] the new-country 5CA pages failed; last week's stand"
 python3 tools/stance_digest.py --dm || echo "  [gap] the stance digest DM failed; next week's covers it"
+# --ready-only: briefs reach the campaigners' shared drive only once signed off
+# (no NOT READY drafts there); debate packs are unaffected.
+python3 tools/country_drive.py --ready-only || echo "  [gap] country-drive: some briefs or packs did not reach Drive; the next run retries"
 
 rc=0
 bash tools/session_judge.sh tools/edition_judge.py "${SESSION_JUDGE_MAX:-100}" 25
 jrc=$?
+vote_pages() {
+  python3 tools/make_country_votes.py || echo "  [gap] the new-country vote pages failed; last week's stand"
+}
 if [ "$jrc" -eq 3 ]; then
+  vote_pages                  # offline, no judge needed; committed by mini_run.sh
   exit 0                      # a gap, already logged; nothing to publish
 fi
 [ "$jrc" -eq 0 ] || rc=1
 
 # The week's editions, rewritten with the scores; one DM only if a lead changed.
 python3 tools/edition_judge.py --rerender --dm || { echo "  [gap] the rewrite failed"; rc=1; }
+
+# The vote pages, tracker and bill timelines, with this week's scores.
+vote_pages
 
 # The Latam alerts, every country: releases what was held for the judge.
 python3 tools/latam_alerts.py --send || echo "  [gap] latam-alerts failed; the next country run retries"

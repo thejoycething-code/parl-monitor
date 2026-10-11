@@ -1,0 +1,30 @@
+*parl-monitor health, Sun 13:46 London*
+
+*Mac Mini, last 24h*
+• 14 run(s): 10 ok, 4 failed
+• :x: coverage at Sun 05:30: jobs/coverage.sh: exit 1
+• 3 more on the new countries' jobs: see Country editions
+
+*GitHub, last 24h*
+• could not read GitHub's runs
+
+*Country editions (new countries)*
+• *Europe*: 12 jobs: 2 failed, 3 not run on the Mini yet, 1 with step gaps; editions 11/12 current
+   ◦ :x: at-weekly at Sat 03:00: lock: lock held by us-division-watch for 7200s (last ok never)
+   ◦ :x: pt-weekly at Sat 15:00: commit state: the job changed the store but did not publish it (db_state.py --push); the job itself: exit 1 (last ok never)
+   ◦ step gaps in the last run: be chamber 2
+   ◦ editions behind: sk 22 days
+   ◦ no Mini run yet: hu-weekly, nl-weekly, sk-weekly
+   ◦ source gaps recorded (gaps table): be 3, it 242
+• *Latam*: 15 jobs: 2 failed, 4 not run on the Mini yet; editions 4/4 current
+   ◦ :x: do-weekly at Sun 09:00: jobs/do-weekly.sh: timed out after 3600s (last ok never)
+   ◦ :x: sv-weekly at Sun 10:00: jobs/sv-weekly.sh: exit 1 (last ok never)
+   ◦ no Mini run yet: cl-weekly, co-weekly, hn-weekly, latam-monthly
+   ◦ source gaps recorded (gaps table): ar 1, do 1, pa 2, pe 2
+• *Shared*: vote-briefs-daily ok Sat 06:40; editions-session-judge not run on the Mini yet
+
+*GitHub minutes*
+• could not count GitHub's minutes
+
+*Overdue sources*
+• none: every pipeline and feed is within its cadence

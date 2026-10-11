@@ -84,6 +84,7 @@ committees and petitions; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct (#65): 975 readings awaiting sign-off after France was limited to final votes and watched amendments (#77), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
 | Campaign targets and outcomes (`ca_campaign.py`, the 5CA Evaluate) | yes | no | no | no | **built** 10 Oct (`tools/country_campaign.py`, branch `camp-targets`): open, targets, add, find, outcome, score; targets from confirmed readings only, candidates by vote record until then; petition numbers none yet (UK only) |
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
+| Public vote pages, vote tracker, bill timelines | yes (`mp-votes.html`, devolved, timelines) | yes (`de-votes.html`) | yes (`us-`, `ie-`, `au-votes.html`) | no | **built** 11 Oct (`tools/make_country_votes.py`, src/country_votes.py, branch `ukp-vote-pages`): `partner_site/<cc>-votes.html` for the 22 countries with member or party-group votes, `votes-countries.html` (tracker) and `bill-timelines.html` (watched bills: stages, agenda slots, votes), behind the partner passphrase, weekly in `editions-session-judge`; records only, no for/against before a reading is CONFIRMED; X5 derived and X6 as-listed labelled, non-attached never counted (#80) |
 | Member intelligence (interests, cross-party groups, committees, whip lines) | yes (`pull_interests.py`, `load_appgs.py`, `pull_pbc_attendance.py`, `annotate_whips.py`) | part | no | no | **built** 11 Oct (`tools/member_intel.py`, `src/member_intel.py`, branch `ukp-member-intel`), a step of 7 weeklies before the profiles: BR fronts (frentes parlamentares) and organs, NL committee seats and nevenfuncties, CH committees and Interessenbindungen, PL committees, FR committees, délégations and groupes d'études, IT Camera organs, AT committee functions. Groups on our ground flagged by name (`config/member-intel-groups.yaml`) in each profile and a "Groups on our ground" list in each index. Whip: Brazil's orientação de bancada beside each Câmara position (the only published whip). Not built: FR HATVP (open, heavy, later), AT interests, ES (dissolved), AR, CL (stale service), IT Senate (403) |
 | Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (questions only), HR, SK |
 | Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
@@ -91,6 +92,7 @@ committees and petitions; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
 | Week ahead / agenda | yes | yes | yes | no | yes for NL, PL, CH, BR, IT (Camera), FR, AT, ES (fills from 23 Dec), AR (Senate), HR; not BE, PT, SK, HU, MX or Latam (item 4) |
 | Debate packs, campaign briefs, campaign targets | yes | yes | no | yes | debate packs **built** 10 Oct (`tools/country_debate_pack.py`, manual, 26 countries; placements from confirmed readings only, none yet); campaign briefs **built** 10 Oct (`tools/country_briefs.py`, a weekly step): drafts in English per rulebook rule 6 (#75), NOT READY until stances are confirmed; targets **built** (#69) |
 | Debate today, live read | yes | no | no | no | **built** 10 Oct (`tools/country_debate_today.py`, `tools/country_live_debate.py`, branch `camp-live-debate`) for the four countries whose chamber publishes the same day: NL, CH, FR, BE; not AT (next day or later) or the question-only countries. Before sign-off the live read names no contradiction ("awaiting sign-off"); debate today is a step of the 16:45 net task |
+| Health summary, Drive | health DM; briefs and debate footage on Drive | health DM | health DM | health DM | **built** 11 Oct (branch `ukp-health-drive`): the 07:30 health DM has one compact section per region (Europe, Latam) plus shared jobs, failed and stale jobs first, step gaps by step, editions behind, the countries' overdue sources (`src/country_health.py`); briefs as Sheets from the UK template and real debate packs on Drive under `Country editions/<Country>/` in the Automated Briefs shared drive, a step of the Sunday `editions-session-judge` (`tools/country_drive.py`, ledger `data/country-drive.json`, at most 30 new sheets a run) |
 | Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
@@ -346,6 +348,34 @@ its votes are confirmed. Unedited briefs refresh weekly; edited ones are left
 alone. Language: English, per rulebook rule 6 (Chris, 10 October 2026; #75).
 Open: the framing glossary, the allies and opponents registers and Bluebook
 access.
+
+### 8. Public vote pages, vote tracker and bill timelines (UK feature parity)
+
+**Built 11 October 2026 (branch `ukp-vote-pages`).** `src/country_votes.py` and
+`tools/make_country_votes.py`, one generator for every new country with
+member-level or party-group votes (IT, CH, FR, NL, BE, AT, PT, PL, SK, HR,
+ES, HU, BR, AR, MX, CL, PE, EC, DO, SV, GT, CO), generalising
+`make_au_votes.py`, `make_us_votes.py`, `make_ie_votes.py` and the UK
+tracker. Three outputs in `partner_site/`, behind the partner passphrase like
+every UK vote page: `<cc>-votes.html` (the votes on our ground as the edition
+classifies them, latest 300, with the store's tally and result, the split by
+party or group, who voted against their group's majority and every member's
+position verbatim, plus a member search; template
+`templates/country-votes.html`), `votes-countries.html` (one row per country
+and the latest votes across all of them) and `bill-timelines.html` (each
+watched bill the store holds: introduced, the stages the store keeps, Spain's
+whole procedural history, every `country_agenda` slot, every recorded vote,
+its end). Members, parties and party bases come from
+`src/member_profiles.py` (X5 DERIVED and X6 as-listed labelled on every
+line); tallies and readings from `src/country5ca.py`. "Against their group"
+counts recorded positions whose party is the party at the vote only: never
+the non-attached (#80), never derived or as-listed parties. A division whose
+reading is not CONFIRMED ships with no direction at all ("awaiting
+sign-off"); no page places anyone in a 5CA column. The partner nav links the
+tracker and the timelines (src/partner.py `VOTE_PAGES`) once they exist.
+Weekly: a step of `jobs/editions-session-judge.sh` after the judge (and on a
+judge gap), committed with `partner_site`, shipped by Monday's deploy.
+Watchlist `why:` lines are never shown (they hold internal reasoning).
 
 ## Blocked, waiting on replies (letters drafted in Chris's Gmail)
 
