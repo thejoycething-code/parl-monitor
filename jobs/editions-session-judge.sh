@@ -45,6 +45,12 @@
 # (tools/make_country_5ca_web.py: docs/5ca-countries.html always;
 # partner_site/5ca-countries.html only for countries with a confirmed reading
 # that places someone, removed when none has; Monday's deploy ships it),
+# then the 5CA canvases for Chris alone (tools/country_5ca_post.py --refresh,
+# 11 October 2026: only the canvases whose CONFIRMED readings changed are
+# rewritten in place, a newly publishable area gets a canvas shared with his
+# user id, never a channel; one DM lists them; nothing confirmed or nothing
+# changed, no Slack call and no message; ids in
+# data/5ca/country-post-state.json),
 # then the weekly "stances awaiting sign-off" digest, one DM to Chris, once
 # per ISO week, led by each country's top 5 to sign (tools/stance_digest.py).
 # A failure is a [gap] line; the judge still runs. They read the store and write no table, so they need no
@@ -79,6 +85,8 @@ export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 python3 tools/country_5ca.py --all-countries --prune-off-ground --draft --signoff-doc --sheets --shortlist \
   || echo "  [gap] the 5CA stance step failed for a country; the others stand"
 python3 tools/make_country_5ca_web.py || echo "  [gap] the new-country 5CA pages failed; last week's stand"
+python3 tools/country_5ca_post.py --all-countries --refresh \
+  || echo "  [gap] the new-country 5CA canvases were not all refreshed; next week's run retries"
 python3 tools/stance_digest.py --dm || echo "  [gap] the stance digest DM failed; next week's covers it"
 # --ready-only: briefs reach the campaigners' shared drive only once signed off
 # (no NOT READY drafts there); debate packs are unaffected.

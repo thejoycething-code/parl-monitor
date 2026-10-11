@@ -493,6 +493,8 @@ Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/ec
 
 Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-ec-shortlist.md` ranks the 7 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `ec-1004205` (2025-12-09, tier 1; near-unanimous (0-67, lower); this year). It confirms nothing.
 
+Posting to Chris (11 October 2026, src/country5ca_post.py, branch `ukp3-5ca-post`): `python3 tools/country_5ca_post.py --cc ec [--area N] [--to canvas|dm|both] [--dry-run]` renders each chamber and area's 5CA from CONFIRMED readings only and sends it to Chris alone, as a canvas shared with his user id (never a channel) and/or a DM; a rerun rewrites the same canvas in place (`data/5ca/country-post-state.json`). The Sunday judge job refreshes the canvases whose confirmed readings changed (`--refresh`); with none confirmed it sends nothing.
+
 
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
