@@ -80,8 +80,8 @@ KIND_LABEL = {"new": "New", "question": "Question", "agenda": "On the agenda"}
 # its ledger (data/latam-alerts/<cc>.json) both ways: what tools/latam_alerts.py
 # sent is not alerted here, and what this run alerts is recorded there, so
 # the alert step after the weekly collection does not send it again.
-LATAM = ("co", "cl", "pe", "ec", "bo", "do", "sv", "pa", "hn", "uy")
-LATAM_NOT_SWEPT = ("moved", "updated")
+LATAM = sources.LATAM
+LATAM_NOT_SWEPT = ("moved",)
 LATAM_LEDGER_DIR = None     # data/latam-alerts (src/latam.LEDGER_DIR) when None
 HEAD = re.compile(r"^\s*- \*\*[^*]+\*\* · (.+?) · ", re.M)
 
@@ -133,13 +133,16 @@ def latam_candidates(conn, cc, since, until, config_dir=None):
     (src/latam.country_items, tools/latam_alerts.qualifies: watched, or tier 1
     with config/latam-noise.yaml's minimum evidence, or judged 2 or 3), so the
     daily pass alerts exactly what the alert step after the weekly collection
-    would. Stage moves and register re-stamps stay with that step: the
-    scratch store holds no earlier status to move from."""
+    would (a register re-stamp, Bolivia's "updated", only when watched).
+    Stage moves stay with that step: the scratch store holds no earlier
+    status to move from."""
     from src import latam, latam_noise
     import latam_alerts
-    out = []
+    out, briefs = [], {}
     for it in latam.country_items(conn, cc, since, until, None, config_dir):
         if it["kind"] in LATAM_NOT_SWEPT or not latam_alerts.qualifies(it, config_dir):
+            continue
+        if latam_alerts.briefed(it, briefs):      # a vote its brief has spoken for
             continue
         reason = "watched" if it.get("watched") else (
             "tier 1, judge {0}/3".format(it["judge"]) if it.get("judge") is not None
