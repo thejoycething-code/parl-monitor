@@ -39,6 +39,14 @@ shown, and an unwatched item it scored 0 is left out (counted). Nothing
 here is an [ACT] item, and the render refuses one without an owner
 (CLAUDE.md hard rule) should a later change ever add one.
 
+THE REVIEW WINDOW (11 October 2026; src/edition_review.py,
+config/edition-review.yaml, on by default). With it on, --dm writes
+reviews/latam-review-<date>.md (a section per country) and holds the DM;
+tools/edition_review.py --publish renders the edition honouring Chris's cuts,
+edits and note at the window's end (06:30 London the next morning) and sends
+it. --no-review sends at once. The instant alerts (tools/latam_alerts.py) are
+never reviewed.
+
 Read-only on the store.
 """
 
@@ -55,7 +63,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, edition_judge, latam  # noqa: E402
+from src import db, edition_judge, edition_review, latam  # noqa: E402
 
 REPO = "https://github.com/thejoycething-code/parl-monitor/blob/main/"
 CHRIS = "U05LJP0BT61"          # the DM goes to Chris alone
@@ -175,7 +183,8 @@ def item_lines(it, config_dir=None):
         latam.area_text(it["areas"]) or "watched", " · tier {0}".format(it["tier"])
         if it["tier"] else "", " · **watched**" if it["watched"] else "")
     out = [head, "  *{0}*".format(latam.clip(it["title"], 400) or "(no title published)")]
-    t = takeaway(it, config_dir)
+    # An item edited in review (src/edition_review.py) shows the reviewer's line.
+    t = it.get("takeaway") if it.get("reviewed") else takeaway(it, config_dir)
     if t:
         out.append("  " + t)
     judge = edition_judge.why_line(it)
@@ -230,14 +239,18 @@ def last_seen(conn, cc):
 
 # --- the edition ------------------------------------------------------------------
 
-def gather(conn, since, until, ledger=None, config_dir=None, dropped=None):
+def gather(conn, since, until, ledger=None, config_dir=None, dropped=None, review=None):
     """{cc: [scored items]} for every country, quiet ones included as [].
-    `dropped`, when a dict, gets {cc: [items the noise filters left out]}."""
+    `dropped`, when a dict, gets {cc: [items the noise filters left out]}.
+    With `review` (src/edition_review.Review), items cut in review leave too
+    (reason "cut in review") and edited items carry the reviewer's line."""
     out = {}
     for cc, _, _ in latam.COUNTRIES:
         gone = []
-        out[cc] = latam.score(latam.country_items(conn, cc, since, until, ledger, config_dir,
-                                                  gone))
+        kept, cut = edition_review.apply(
+            latam.country_items(conn, cc, since, until, ledger, config_dir, gone), review)
+        gone += cut
+        out[cc] = latam.score(kept)
         if dropped is not None and gone:
             dropped[cc] = gone
     return out
@@ -250,7 +263,8 @@ DROPPED = {"procedural vote": ("procedural vote", "procedural votes"),
            "missing required context": ("item without the required context",
                                         "items without the required context"),
            "muted": ("muted item", "muted items"),
-           edition_judge.DROP_REASON: ("item the judge scored 0", "items the judge scored 0")}
+           edition_judge.DROP_REASON: ("item the judge scored 0", "items the judge scored 0"),
+           edition_review.CUT_REASON: ("item cut in review", "items cut in review")}
 
 
 def dropped_line(dropped):
@@ -330,13 +344,16 @@ def nicaragua_section(conn, since, until, items):
     return out + [""]
 
 
-def render_edition(conn, today, since=None, sample=False, ledger=None, config_dir=None):
+def render_edition(conn, today, since=None, sample=False, ledger=None, config_dir=None,
+                   review=None, draft_until=None):
+    """The edition's Markdown. `review` honours a review file
+    (src/edition_review.py); `draft_until` (ISO) adds the draft line."""
     conn.row_factory = sqlite3.Row
     since, until = window(today, since)
     if ledger is None:
         ledger = latam.load_ledger()
     dropped = {}
-    got = gather(conn, since, until, ledger, config_dir, dropped)
+    got = gather(conn, since, until, ledger, config_dir, dropped, review)
     d = datetime.date.fromisoformat(today)
     title = "# Latam Monitor - {0} {1}".format(MONTHS[d.month - 1], d.year)
     out = [title, ""]
@@ -354,8 +371,12 @@ def render_edition(conn, today, since=None, sample=False, ledger=None, config_di
             "also arrive as instant alerts between editions._".format(
                 edition_number(today) if not sample else "sample",
                 long_date((datetime.date.fromisoformat(since) + datetime.timedelta(days=1)).isoformat()),
-                long_date(until)), "",
-            HONESTY.format(taxonomy_version())]
+                long_date(until)), ""]
+    if draft_until and not sample:
+        out += [edition_review.draft_line(draft_until), ""]
+    if edition_review.note_line(review):
+        out += [edition_review.note_line(review), ""]
+    out += [HONESTY.format(taxonomy_version())]
     n_judged = sum(edition_judge.judged(got[cc]) for cc in got)
     if n_judged:
         out += [">", "> " + JUDGED.format(n_judged)]
@@ -432,13 +453,14 @@ def refuse_ownerless_act(text):
             raise ValueError("refusing to render an [ACT] item without an owner: " + line[:120])
 
 
-def dm_summary(conn, today, since=None, path=None, ledger=None, config_dir=None):
-    """The month in one Slack message, to Chris alone."""
+def dm_summary(conn, today, since=None, path=None, ledger=None, config_dir=None, review=None):
+    """The month in one Slack message, to Chris alone. With `review`, the
+    review honoured and a line saying what it changed."""
     conn.row_factory = sqlite3.Row
     since, until = window(today, since)
     if ledger is None:
         ledger = latam.load_ledger()
-    got = gather(conn, since, until, ledger, config_dir)
+    got = gather(conn, since, until, ledger, config_dir, review=review)
     d = datetime.date.fromisoformat(today)
     active = [cc for cc in latam.COLLECTED if got[cc]]
     quiet = [cc for cc in latam.COLLECTED if not got[cc]]
@@ -469,6 +491,9 @@ def dm_summary(conn, today, since=None, path=None, ledger=None, config_dir=None)
                  "elsewhere; the paid judge stays off (X16)._"
                  if any(edition_judge.judged(got[c]) for c in got) else
                  "_Ordered by tier; the AI judge is off (X16)._")
+    said = edition_review.dm_review_line(review)
+    if said:
+        lines.append(said)
     if path:
         lines.append("Full edition: {0}{1}".format(REPO, os.path.relpath(path, ROOT)))
     return "\n".join(lines)
@@ -481,20 +506,54 @@ def send_dm(text):
     return publish.slack_dm(secrets, text)
 
 
-def main():
+def review_entry(it):
+    """An item as the review file lists it (src/edition_review.units)."""
+    flags = [f for f in ("watched" if it["watched"] else "",
+                         "tier {0}".format(it["tier"]) if it["tier"] else "",
+                         "score {0}".format(it["score"]) if it.get("judge") is not None else "")
+             if f]
+    return (latam.KINDS.get(it["kind"], it["kind"]), short_date(it["date"]),
+            latam.clip(it["title"] or "", 300), latam.area_text(it["areas"]), ", ".join(flags),
+            latam.clip(takeaway(it) or "", 300))
+
+
+def write_review(conn, today, deadline_iso, ledger=None, config_dir=None, reviews_dir=None):
+    """reviews/latam-review-<today>.md, a section per country, every item the
+    edition would show before the review, merge-preserving decisions made."""
+    since, until = window(today)
+    got = gather(conn, since, until, latam.load_ledger() if ledger is None else ledger,
+                 config_dir)
+    sections = [(latam.NAMES[cc], got[cc]) for cc, _, _ in latam.COUNTRIES if got.get(cc)]
+    return edition_review.write(edition_review.LATAM, today, "Latam", [], review_entry,
+                                deadline_iso, reviews_dir, sections=sections or None)
+
+
+def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--date", default=datetime.date.today().isoformat())
     ap.add_argument("--since", help="ISO date, exclusive; default: the last edition, or a month")
     ap.add_argument("--edition", action="store_true", help="write editions/latam-monitor-<date>.md")
-    ap.add_argument("--dm", action="store_true", help="DM the summary to Chris")
+    ap.add_argument("--dm", action="store_true",
+                    help="DM the summary to Chris; with the review on (config/edition-review.yaml), "
+                         "open the review window instead (tools/edition_review.py --publish sends it)")
+    ap.add_argument("--no-review", action="store_true",
+                    help="with --dm: send at once, whatever config/edition-review.yaml says")
     ap.add_argument("--print", action="store_true", help="render to stdout, write nothing")
     ap.add_argument("--sample", action="store_true", help="mark the edition as a sample")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     conn = db.connect(args.db)
     conn.row_factory = sqlite3.Row
-    text = render_edition(conn, args.date, args.since, args.sample)
+    cc = edition_review.LATAM
+    st = None if args.sample else edition_review.state(cc, args.date)
+    if (st is None and args.dm and not args.sample and not args.print and not args.no_review
+            and edition_review.enabled(cc)):
+        st = edition_review.open_window(cc, args.date)
+    review = edition_review.load(cc, args.date) if st else None
+    draft = st["deadline"] if st and not st.get("published_at") else None
+    text = render_edition(conn, args.date, args.since, args.sample, review=review,
+                          draft_until=draft)
     path = os.path.join(ROOT, "editions", "latam-monitor-{0}.md".format(args.date))
     if args.print:
         print(text)
@@ -504,9 +563,18 @@ def main():
             fh.write(text + "\n")
         print("edition: wrote {0} ({1} lines)".format(os.path.relpath(path, ROOT),
                                                      text.count("\n") + 1))
+    if draft:
+        rpath, n = write_review(conn, args.date, draft)
+        print("review: wrote {0} ({1} entries); sent at {2} unless held".format(
+            os.path.relpath(rpath, ROOT), n, edition_review.when_text(draft)))
     if args.dm:
         if args.sample:
             print("dm: not sent (a sample edition is never sent)")
+        elif draft:
+            print("dm: held for review until {0} (tools/edition_review.py --publish sends it)"
+                  .format(edition_review.when_text(draft)))
+        elif st:
+            print("dm: not sent again (sent {0} after its review)".format(st.get("published_at")))
         else:
             print("dm: {0}".format(send_dm(dm_summary(conn, args.date, args.since,
                                                       path if args.edition else None))))

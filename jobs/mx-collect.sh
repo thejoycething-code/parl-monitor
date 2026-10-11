@@ -53,6 +53,9 @@ fi
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   TODAY=$(date +%Y-%m-%d)
+  # THE REVIEW WINDOW (src/edition_review.py, config/edition-review.yaml): with the
+  # review on, --dm writes reviews/mx-review-<date>.md instead of sending (committed
+  # by the workflow), and the Mini's jobs/edition-publish.sh sends it at the window's end.
   if git ls-files --error-unmatch "editions/mx-monitor-$TODAY.md" >/dev/null 2>&1; then
     echo "edition for $TODAY already committed: rewriting it, not resending the DM"
     python3 tools/mx_monitor.py --edition || echo "  [gap] the edition failed to render"

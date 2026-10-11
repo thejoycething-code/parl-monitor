@@ -44,7 +44,7 @@
 # judge still runs. They read the store and write no table, so they need no
 # publish of their own.
 #
-# mini_run: commit editions config docs partner_site
+# mini_run: commit editions config docs partner_site reviews
 set -o pipefail
 cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Editions session judge}"

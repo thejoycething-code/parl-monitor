@@ -26,7 +26,7 @@
 # is rewritten, not resent. Its failure is a [gap] line and never costs the
 # store.
 #
-# mini_run: commit editions profiles briefs
+# mini_run: commit editions profiles briefs reviews
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -53,6 +53,9 @@ fi
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   TODAY=$(date +%Y-%m-%d)
+  # THE REVIEW WINDOW (src/edition_review.py, config/edition-review.yaml): with the
+  # review on, --dm writes reviews/br-review-<date>.md instead of sending, and
+  # jobs/edition-publish.sh sends the edition, honouring the review, at the window's end.
   if git ls-files --error-unmatch "editions/br-monitor-$TODAY.md" >/dev/null 2>&1; then
     echo "edition for $TODAY already committed: rewriting it, not resending the DM"
     python3 tools/br_monitor.py --edition || echo "  [gap] the edition failed to render"
