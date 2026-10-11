@@ -44,6 +44,15 @@
 # judge still runs. They read the store and write no table, so they need no
 # publish of their own.
 #
+# THE VOTE PAGES (11 October 2026; src/country_votes.py), after the judge so
+# its scores decide what is on our ground, offline, a minute at most: the new
+# countries' vote pages (partner_site/<cc>-votes.html), the vote tracker
+# (partner_site/votes-countries.html) and the watched bills' timelines
+# (partner_site/bill-timelines.html), all behind the partner passphrase;
+# Monday's deploy ships them. Records only: no for/against judgement on any
+# vote until its reading is CONFIRMED. Run on a judge gap too (exit 3), since
+# the pages need no judge. A failure is a [gap] line; last week's pages stand.
+#
 # mini_run: commit editions config docs partner_site
 set -o pipefail
 cd "$(dirname "$0")/.."
@@ -60,13 +69,20 @@ python3 tools/stance_digest.py --dm || echo "  [gap] the stance digest DM failed
 rc=0
 bash tools/session_judge.sh tools/edition_judge.py "${SESSION_JUDGE_MAX:-100}" 25
 jrc=$?
+vote_pages() {
+  python3 tools/make_country_votes.py || echo "  [gap] the new-country vote pages failed; last week's stand"
+}
 if [ "$jrc" -eq 3 ]; then
+  vote_pages                  # offline, no judge needed; committed by mini_run.sh
   exit 0                      # a gap, already logged; nothing to publish
 fi
 [ "$jrc" -eq 0 ] || rc=1
 
 # The week's editions, rewritten with the scores; one DM only if a lead changed.
 python3 tools/edition_judge.py --rerender --dm || { echo "  [gap] the rewrite failed"; rc=1; }
+
+# The vote pages, tracker and bill timelines, with this week's scores.
+vote_pages
 
 # The Latam alerts, every country: releases what was held for the judge.
 python3 tools/latam_alerts.py --send || echo "  [gap] latam-alerts failed; the next country run retries"

@@ -958,7 +958,12 @@ ON_DEMAND = {
                               "tools/stance_digest.py), and writes the 5CA "
                               "tracker and gated partner sheet "
                               "(tools/make_country_5ca_web.py): offline, no "
-                              "table written.",
+                              "table written. After the judge it rebuilds the "
+                              "new countries' vote pages, vote tracker and "
+                              "bill timelines in partner_site/ "
+                              "(tools/make_country_votes.py, records only, no "
+                              "verdict before sign-off), which Monday's deploy "
+                              "ships.",
     "Daily vote briefs": "Mac Mini only (jobs/vote-briefs-daily.sh, 21:40 "
                          "Mon-Fri and 06:40 Tue-Sat London): the Netherlands, "
                          "Poland, Switzerland, Brazil and Italy read directly "
