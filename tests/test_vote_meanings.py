@@ -198,6 +198,7 @@ class StoreTests(StoreBase):
         good, problems = vm.overrides("pl", self.cfg)
         self.assertEqual(good, {})
         self.assertIn("stance file", problems[0])
+        self.assertIn("verdict word", vm.refusal("To defeat the bill."))
 
     def test_annotate_puts_meaning_on_watched_and_tier1_votes_only(self):
         items = [{"cc": "pl", "kind": "vote", "key": "pl-10-1-1", "watched": True, "tier": 1},

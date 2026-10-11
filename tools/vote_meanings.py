@@ -58,7 +58,9 @@ each, at most 30 words, British spelling, no em dashes. Say what the lobby
 voted FOR (to pass the bill as a whole, to reject it at first reading, to
 adopt amendment 12 that removes the conscience clause, to send it back to
 committee), naming the bill by what it does in English. Never say which
-side is right or whose side a lobby was on, and never mention CitizenGO.
+side is right or whose side a lobby was on, never mention CitizenGO, and
+avoid the words win, won, defeat, defeated and victory (a line using them is
+refused).
 Where the record does not let you tell, write `UNCLEAR` on the YES line and
 leave NO empty. Change nothing else: not the `### item:` lines, not the
 records, no new items. The wording, titles and descriptions are

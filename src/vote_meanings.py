@@ -537,6 +537,10 @@ def refusal(text):
     """Why a line may not be stored or shown, or None."""
     if "citizengo" in (text or "").lower():
         return "a meaning says what a lobby voted for; which side is CitizenGO's is the stance file's"
+    from src.vote_brief import VERDICT_WORDS
+    hit = VERDICT_WORDS.search(text or "")
+    if hit:
+        return "verdict word {0!r}: say what the lobby voted for, not who won".format(hit.group(0))
     if len(text or "") > 400:
         return "over 400 characters"
     return None

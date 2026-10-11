@@ -433,7 +433,7 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
     out.append("")
     out.append("No verdict is attached here. Positions are the record's own words; the meaning "
                "lines say what a Yes and a No did (by rule, the free session judge, or a person "
-               "in config/vote-meanings-{0}.yaml, which wins); a reading of "
+               "in config/vote-meanings-{0}.yaml, which takes precedence); a reading of "
                "config/{0}_stance.yaml is signed through its guide, docs/5ca-{0}-readings.md "
                "(tools/country_5ca.py).".format(cc))
     return vote_brief.house_style("\n".join(out) + "\n")
