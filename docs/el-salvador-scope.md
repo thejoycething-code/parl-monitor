@@ -509,3 +509,7 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with no stage in the piezas: agenda slots and votes only, agenda slots (`country_agenda`) and recorded votes.
 
 Length of service: **not built** (11 October 2026, branch `ukp2-service`): no source we reach gives a member's service; the profiles say nothing about it. See docs/country-parity-handover.md, section 3c.
+
+## Daily sweep of new items (measured 11 October 2026, branch `gaps-day-sweep`)
+
+Phase list: **not built**. Measured and left out: a vote's subject comes only from the session archive, filed days late at about 40 s a sitting day. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

@@ -507,3 +507,7 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 Attendance (11 October 2026, branch `ukp2-attendance`): the Senate's attendance is PDF only. The Chamber's plenary vote participation is DERIVED from the stored votes (AU, SV) with its basis.
 
 Length of service: **built, current period only** 11 October 2026 (`tools/member_service.py do`, branch `ukp2-service`): the SIL's period already in the store (2024-2028); no fetch. See docs/country-parity-handover.md, section 3c.
+
+## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
+
+Phase list: **done**. A same-day alert for new items on our ground, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`, one DM to Chris), read through the Latam alerts' own reader and rule (`src/latam.py`, `tools/latam_alerts.py`: watched, or tier 1 with the minimum evidence) and de-duplicated against `data/latam-alerts/do.json` both ways, so nothing is sent twice with the alert step after the weekly collection (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the SIL's iniciativas, newest first, until a page has nothing deposited in the window. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

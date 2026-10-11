@@ -530,3 +530,7 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with no bill table: agenda slots and votes only, agenda slots (`country_agenda`) and recorded votes.
 
 Length of service: **not built** (11 October 2026, branch `ukp2-service`): no source we reach gives a member's service; the profiles say nothing about it. See docs/country-parity-handover.md, section 3c.
+
+## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
+
+Phase list: **done**. A same-day alert for new items on our ground, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`, one DM to Chris), read through the Latam alerts' own reader and rule (`src/latam.py`, `tools/latam_alerts.py`: watched, or tier 1 with the minimum evidence) and de-duplicated against `data/latam-alerts/ec.json` both ways, so nothing is sent twice with the alert step after the weekly collection (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the plenary's vote list for the window, with tallies (positions stay weekly). No bills (EC4). See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
