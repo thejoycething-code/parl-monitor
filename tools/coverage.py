@@ -642,6 +642,15 @@ from src import chamber_store as _chamber  # noqa: E402
 FEEDS += [("mi_runs", "last_seen", 7, 4,
            "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT weeklies)")]
 
+# Length of service (11 October 2026, tools/member_service.py): every period
+# each member has sat, for 18 countries, a step of each weekly before the
+# profiles. Sources read weekly (CH, NL and the six store-only countries)
+# stamp ms_runs every week; the rest are re-read every four weeks
+# (src/member_service.STALE_DAYS), each with its own stamp in ms_runs (cc,
+# source, last_seen). The newest stamp over all of them is what this watches.
+FEEDS += [("ms_runs", "last_seen", 7, 4,
+           "length of service: members' periods and dated groups (18 country weeklies)")]
+
 FEEDS += [("{0}_record_reads".format(cc), "last_seen", 31, 31,
            "{0} chamber reports and question batches read ({0} weekly)".format(cc.upper()))
           for cc in _chamber.COUNTRIES]

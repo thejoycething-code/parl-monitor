@@ -71,6 +71,14 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
     python3 tools/be_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
   fi
 fi
+# Length of service (tools/member_service.py, src/member_service.py): every period each
+# member has sat, from the Chamber's member list of each legislature (crawl-delay 5), every four weeks;
+# (the tool skips a read that is not due), before the profiles and vote pages read it.
+# A failure is a [gap] line; last run's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_service.py be \
+    || echo "  [gap] member-service: be not fully read; last run's rows kept"
+fi
 # Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/be/
 # rewritten from the store just collected and committed with it; never posted
 # or DMed. A failure is a [gap] line and never costs the store.
