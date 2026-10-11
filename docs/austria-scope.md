@@ -453,3 +453,5 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/at.json` (`src/country_vote_brief.py`, step in `jobs/at-weekly.sh`). Briefed after each weekly collection. Klub votes: member positions are derived (X5), so no member is named. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py at`, a step of `jobs/at-weekly.sh`, branch `ukp-member-intel`): every committee function of the Nationalrat's XXVIII period and the Bundesrat's current ones (list 250 of the parlament.gv.at Filter API, two requests), with role and start date. Committee votes now have a membership list to read against. Interests: the Unvereinbarkeits declarations are HTML per member and meineabgeordneten.at needs a licence (AT5); not built.

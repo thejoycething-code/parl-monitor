@@ -84,6 +84,7 @@ committees and petitions; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct (#65): 975 readings awaiting sign-off after France was limited to final votes and watched amendments (#77), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
 | Campaign targets and outcomes (`ca_campaign.py`, the 5CA Evaluate) | yes | no | no | no | **built** 10 Oct (`tools/country_campaign.py`, branch `camp-targets`): open, targets, add, find, outcome, score; targets from confirmed readings only, candidates by vote record until then; petition numbers none yet (UK only) |
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
+| Member intelligence (interests, cross-party groups, committees, whip lines) | yes (`pull_interests.py`, `load_appgs.py`, `pull_pbc_attendance.py`, `annotate_whips.py`) | part | no | no | **built** 11 Oct (`tools/member_intel.py`, `src/member_intel.py`, branch `ukp-member-intel`), a step of 7 weeklies before the profiles: BR fronts (frentes parlamentares) and organs, NL committee seats and nevenfuncties, CH committees and Interessenbindungen, PL committees, FR committees, délégations and groupes d'études, IT Camera organs, AT committee functions. Groups on our ground flagged by name (`config/member-intel-groups.yaml`) in each profile and a "Groups on our ground" list in each index. Whip: Brazil's orientação de bancada beside each Câmara position (the only published whip). Not built: FR HATVP (open, heavy, later), AT interests, ES (dissolved), AR, CL (stale service), IT Senate (403) |
 | Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (questions only), HR, SK |
 | Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees or petitions |
@@ -164,6 +165,50 @@ labelled "not party at the vote". X5: AT, PT, NL positions DERIVED, labelled.
 Authorship where the store links it (PT, AT, FR, BE, CH, AR, PE, CL, CO);
 questions for SK, UY, AT. Not built: Bolivia, Panama, Honduras (no member
 records on our ground), Mexico authorship (presenter is prose).
+
+### 3b. Member intelligence -- BUILT 11 October 2026 (branch `ukp-member-intel`)
+
+Registers of interests, cross-party groups, committee membership and whip
+lines for the new countries, generalising the UK's `tools/pull_interests.py`,
+`tools/load_appgs.py` and committee rosters. `src/member_intel.py` (parsers,
+fetchers, three shared tables `mi_groups`, `mi_interests`, `mi_runs`) and
+`tools/member_intel.py <cc>`, a step of each weekly before
+`tools/member_profiles.py`. Probed 11 October; every source is the
+parliament's own open data:
+
+| Country | Built | Source and size | Rows (11 Oct) |
+|---|---|---|---|
+| BR | frentes parlamentares and members; every deputy's open organs (committees, CPIs); whip line | Câmara dadosabertos API and bulk `orgaosDeputados-L57` (one 7.7 MB file); the 8 fronts on our ground every week, the other 312 an eighth a week (3 s each) | 3,147 organ seats; 9,640 front memberships from 47 of 320 fronts (the rest fill over 8 weeks; `--full` reads all, about 15 minutes) |
+| NL | committee seats (vast and plv.), nevenfuncties | Tweede Kamer OData v4 (CC0), sitting members | 1,465 seats, 1,213 nevenfuncties |
+| CH | committee memberships, Interessenbindungen | ws.parlament.ch OData (MemberCommittee, PersonInterest) | 932 memberships, 1,971 interests |
+| PL | every committee and its members | Sejm API, one request | 1,050 memberships |
+| FR | committees, délégations, commissions d'enquête, missions, groupes d'études | AN open data AMO10 (Licence Ouverte); friendship groups left out | 6,607 memberships |
+| IT | Camera organ memberships (committees, giunte, inquiries) | dati.camera.it SPARQL (CC BY), matched by name | 1,162 (29 not matched) |
+| AT | committee functions, Nationalrat XXVIII and current Bundesrat | parlament.gv.at Filter API list 250, two requests | 2,838 functions |
+
+In the profiles (`src/member_profiles.py`, additive): a "Committees and
+groups" section and a "Declared interests" table per member; a group or
+interest whose NAME matches `config/member-intel-groups.yaml` is flagged
+"on our ground" (Brazil's Frente Parlamentar Evangélica, em Defesa da Vida e
+da Família, contra o Aborto, Católica, Cristã, the LGBTI+ front; France's
+Chrétiens d'Orient, Saint-Siège and LGBTQI study groups; the health, family
+and justice committees elsewhere; Swiss pro-life and church interests), a
+flagged membership earns a profile, and each index lists "Groups on our
+ground" with their members. Membership is never read as a stance. Brazil's
+profiles show the Câmara's orientação de bancada beside each position and
+count followed, differed and free votes: the only whip line any of these
+parliaments publishes. Samples: `docs/samples/member-intel/`.
+
+Not built, and why: France's HATVP déclarations d'intérêts (open, Licence
+Ouverte, but an 80 MB XML with spouses' activities in it: a later round that
+keeps the member's own items only); Austria's interests (HTML per member;
+meineabgeordneten.at needs a licence, AT5); Spain (Cortes dissolved,
+declarations are scanned PDFs); Argentina (Senate open data lists
+committees without members, Diputados unreachable); Chile (the Cámara's
+committee service still lists 2022-26 members); Italy's Senate (SPARQL 403
+from the laptop); Poland's parliamentary teams (zespoły, not in the API);
+attendance (no source publishes it per member beyond the vote records
+already held). Not probed: BE, PT, HR, SK, HU and the rest of Latin America.
 
 ### 4. Week ahead
 The framework already renders a week-ahead section when a store holds

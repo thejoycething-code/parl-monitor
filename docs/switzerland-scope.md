@@ -483,3 +483,5 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/ch.json` (`src/country_vote_brief.py`, step in `jobs/ch-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Nationalrat's votes during a session (OData); the Ständerat's come with the weekly, as its spreadsheets do. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py ch`, a step of `jobs/ch-weekly.sh`, branch `ukp-member-intel`): committee memberships (`MemberCommittee`) and the register of interests (`PersonInterest`, the Interessenbindungen: organisation, type, function, paid or honorary) from ws.parlament.ch, sitting members only. SGK, WBK and RK, and pro-life, church, assisted-dying and LGBT organisations among the interests, are flagged on our ground (by name). The parliamentary groups (parlamentarische Gruppen) are not in the OData.

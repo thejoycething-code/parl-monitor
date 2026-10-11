@@ -76,6 +76,13 @@ if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; }; then
     python3 tools/fr_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
   fi
 fi
+# Member intelligence (tools/member_intel.py, src/member_intel.py): committees, délégations and groupes d'études from AMO10,
+# into mi_groups / mi_interests before the profiles read them. A failure is a
+# [gap] line; last week's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_intel.py fr \
+    || echo "  [gap] member-intel: fr not fully read; last week's rows kept"
+fi
 # Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/fr/
 # rewritten from the store just collected and committed with it; never posted
 # or DMed. A failure is a [gap] line and never costs the store.

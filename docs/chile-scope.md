@@ -425,3 +425,5 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/cl.json` (`src/country_vote_brief.py`, step in `jobs/cl-weekly.sh`). Briefed after each weekly collection. Nobody is named against their party until party history is sourced (X6). See docs/mac-mini.md, "Vote briefs for the new countries".
+
+Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`). The Cámara's committee service (`WSComision.asmx/retornarComisionesVigentes`) lists two committees with their 2022-26 members, stale since the legislature that began in March 2026; worth a recheck. The Senate's committees were not probed.

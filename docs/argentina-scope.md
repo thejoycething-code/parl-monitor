@@ -549,3 +549,5 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/ar.json` (`src/country_vote_brief.py`, step in `jobs/ar-weekly.sh`). Briefed after each weekly collection. The Senate only (Diputados votes are blocked, AR2). See docs/mac-mini.md, "Vote briefs for the new countries".
+
+Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`). The Senate's open data lists its committees (`ExportarListadoComisiones/json/todas`) without members; members are only on each committee's HTML page. Diputados is unreachable from everywhere we run.
