@@ -551,6 +551,10 @@ countries".
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/br.json` (`src/country_vote_brief.py`, step in `jobs/br-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Câmara's API v2 (nominal votes told by the count in their description) and the Senado's vote API. See docs/mac-mini.md, "Vote briefs for the new countries".
 
+## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
+
+What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-br.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-br-readings.md. On the store of 11 October 2026: 13 watched or tier-1 votes, 10 with an English rule line, 1 whose rule line quotes the source (offered to the session judge), 2 the rules cannot read. Sample: [docs/vote-meaning-samples/br.md](vote-meaning-samples/br.md).
+
 ## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
 
 Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/br.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the Câmara's PL, PLP, PEC and PDL presented in the window (API v2, classified on the ementa as the weekly does before a bill's record is read), requests for information, and both houses' pauta. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

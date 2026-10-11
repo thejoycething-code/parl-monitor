@@ -555,6 +555,10 @@ countries".
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/es.json` (`src/country_vote_brief.py`, step in `jobs/es-weekly.sh`). Briefed after each weekly collection. The Congreso is dissolved until 23 December 2026; the step costs nothing meanwhile. See docs/mac-mini.md, "Vote briefs for the new countries".
 
+## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
+
+What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-es.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-es-readings.md. On the store of 11 October 2026: 86 watched or tier-1 votes, 1 with an English rule line, 83 whose rule line quotes the source (offered to the session judge), 2 the rules cannot read. Sample: [docs/vote-meaning-samples/es.md](vote-meaning-samples/es.md).
+
 ## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
 
 Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/es.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Skipped until the XVI legislature sits on 23 December 2026; from then every daily run reads the Congreso's two initiative files (three requests, about 1.1 MB) and its weekly agenda page. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

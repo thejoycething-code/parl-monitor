@@ -115,11 +115,13 @@ def main(argv=None):
                 print("{0}: no store at {1}; skipped".format(cc, path))
                 continue
             conn = c5.connect_ro(path)
+        elif os.path.exists(path):
+            conn = c5.connect_ro(path)       # the guide's meaning lines (src/vote_meanings.py)
         try:
             if args.draft:
                 c5.draft(conn, cc, today=args.today)
             if args.signoff_doc:
-                c5.write_signoff_doc(cc)
+                c5.write_signoff_doc(cc, conn=conn)
             if args.sheets:
                 c5.run_sheets(conn, cc, out_dir=args.out_dir, today=args.today)
         except Exception as exc:          # one country's failure is a gap, not a lost run
