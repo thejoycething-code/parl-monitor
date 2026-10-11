@@ -75,16 +75,19 @@ live read all render "awaiting sign-off" until a named person confirms.
 **Still to run on the Mini (store writers, one at a time):**
 
 - `latam-courts-backfill`: DONE (10 October, 03:22Z).
-- `sk-docs-backfill`: run 1 started 11 October 12:47Z as the one-shot launchd
-  job `net.citizengo.parlmonitor.oneshot-skdocs`; runs 2 and 3 are chained by
-  a watcher on the laptop. Check `~/runner/logs/sk-docs-backfill.log`; after
-  run 3, `launchctl bootout gui/$(id -u)/net.citizengo.parlmonitor.oneshot-skdocs`.
-- Rerun the Austria and Portugal weeklies once (10 October: Austria lost the
-  lock queue, Portugal lost a publish race), as one-shot launchd jobs.
+- `sk-docs-backfill`: DONE (11 October 2026). Run 1 read the whole document
+  backlog (then timed out after publishing; the budget now comes from
+  `tools/collector_budget.sh`, #94); runs 2 and 3 found nothing left.
+  The one-shot launchd job is removed.
+- Austria and Portugal weeklies: rerun 11 October 2026 (kickstarted after the
+  Slovak runs, queued in order by the FIFO run slot, #95); both published and
+  sent their editions.
 - Speech clips need ffmpeg and faster-whisper on the Mini (step 3 of
   `tools/macmini_setup.sh`); the first cut downloads Whisper's ~480 MB model.
-- Check the first compressed publish: `parl-monitor.db.gz` on the release,
-  the raw asset gone, and the Store line in the health DM.
+- Compressed publish: VERIFIED 11 October 2026. The store (1.77 GB) uploads
+  as `parl-monitor.db.gz`, 431 MB, compressed in 16 s; the raw asset is gone
+  from the release. The size warning fires because the uncompressed store is
+  above 1.6 GB: plan a split before the compressed asset nears 2 GiB.
 - Install Tesseract when wanted (X7; steps in docs/mac-mini.md) to switch on
   the OCR steps.
 - Check the first `vote-briefs-daily` log: can the Mini reach `dati.senato.it`
