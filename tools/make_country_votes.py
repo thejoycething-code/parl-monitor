@@ -101,8 +101,8 @@ def main(argv=None):
         tls.append((cc, cv.mp.country_name(cc), tl))
     tracker = os.path.join(args.out, "votes-countries.html")
     size = _write(tracker, cv.render_tracker(datas, args.date, sample=args.sample))
-    print("country-votes: tracker, {0} countries -> {1} ({2:,} bytes)".format(
-        len(datas), tracker, size))
+    print("country-votes: tracker, {0} -> {1} ({2:,} bytes)".format(
+        cv.plural(len(datas), "country", "countries"), tracker, size))
     timeline = os.path.join(args.out, "bill-timelines.html")
     tls.sort(key=lambda t: t[1])
     size = _write(timeline, cv.render_timelines(tls, args.date, sample=args.sample))
