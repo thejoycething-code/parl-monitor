@@ -28,7 +28,10 @@ if [ "${CL_RECLASSIFY:-}" = "true" ]; then
   python3 tools/cl_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/cl_rollcalls.py --budget-seconds 2700 || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/cl_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" || rc=$?
 # Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
 # this country's watched and tier-1 votes not briefed yet, written to
 # data/briefs/ and sent in one DM to Chris alone, de-duplicated in

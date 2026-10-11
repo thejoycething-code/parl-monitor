@@ -464,6 +464,8 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Records only: no vote is labelled for or against our side until its reading in `config/at_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with the item's last activity date (the stage text is not kept), agenda slots (`country_agenda`) and recorded votes.
 
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py at`, a step of `jobs/at-weekly.sh`, branch `ukp-member-intel`): every committee function of the Nationalrat's XXVIII period and the Bundesrat's current ones (list 250 of the parlament.gv.at Filter API, two requests), with role and start date. Committee votes now have a membership list to read against. Interests: the Unvereinbarkeits declarations are HTML per member and meineabgeordneten.at needs a licence (AT5); not built.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Ministerialentwürfe: built.** The list ID was found: Filter list 81 (POST `{"GP_CODE":["XXVIII"]}`), with the Begutachtungsfrist and the count of Stellungnahmen; drafts in Begutachtung (10 on 11 October) are stored as consultations with their deadline.

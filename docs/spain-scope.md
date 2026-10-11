@@ -566,6 +566,8 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Records only: no vote is labelled for or against our side until its reading in `config/es_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with the Congreso's whole procedural history (es_initiatives.tramitacion), each step dated, agenda slots (`country_agenda`) and recorded votes.
 
+Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`). The Cortes were dissolved on 5 October; the Congreso's committee compositions return with the XVI legislature, and the declarations of activities and assets are scanned PDFs. Revisit after 23 December.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Not built.** The Congreso has no e-petitions and the government's "participación pública" is about 22 separate ministry pages, each in its own format (transparencia.gob.es/participacionciudadana/participacionproyectosnormativos).

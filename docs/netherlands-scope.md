@@ -513,6 +513,8 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Records only: no vote is labelled for or against our side until its reading in `config/nl_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py nl`, a step of `jobs/nl-weekly.sh`, branch `ukp-member-intel`): current committee seats (vast and plaatsvervangend, `CommissieZetelVastPersoon`, `CommissieZetelVervangerPersoon`) and current nevenfuncties (`PersoonNevenfunctie`, with the register's word on payment) from the gegevensmagazijn OData (CC0), sitting members only. The VWS and Justitie en Veiligheid committees are flagged on our ground in the profiles. No whip is published.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Petitions handed to the Tweede Kamer: built**, the OData Activiteit of kind 'Petitie' (the hand-over appointment; no counts). The edition's `kinds` now includes "petition"; its DM stays votes only (NL3).

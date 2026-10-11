@@ -533,6 +533,8 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Records only: no vote is labelled for or against our side until its reading in `config/pl_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py pl`, a step of `jobs/pl-weekly.sh`, branch `ukp-member-intel`): every committee of the 10th term with its members, functions and join dates, one Sejm API request. The family, health, justice and education committees are flagged on our ground. Parliamentary teams (zespoły parlamentarne) and the asset declarations are not in the API; not built.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Sejm public consultations on bills: built**, from the Sejm API's bills list (publicConsultationStartDate/EndDate); **citizens' bills** (applicantType CITIZENS) from the same list.

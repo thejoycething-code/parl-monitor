@@ -37,6 +37,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REPO = "thejoycething-code/parl-monitor"
 TAG = "db-state"
 ASSET = "parl-monitor.db"
+GZ_ASSET = ASSET + ".gz"     # published since 11 October 2026 (tools/db_state.py)
 
 
 def load(path):
@@ -58,25 +59,45 @@ def published_digest():
         return forced.replace("sha256:", "").strip() or None
     try:
         out = subprocess.run(
-            ["gh", "api", "repos/{0}/releases/tags/{1}".format(REPO, TAG),
-             "--jq", '.assets[] | select(.name=="{0}") | .digest'.format(ASSET)],
+            ["gh", "api", "repos/{0}/releases/tags/{1}".format(REPO, TAG)],
             capture_output=True, text=True, timeout=60)
         if out.returncode == 0 and out.stdout.strip():
-            return out.stdout.strip().replace("sha256:", "")
+            return live_digest(json.loads(out.stdout).get("assets") or [])
     except Exception:
         pass
     return None
+
+
+def live_digest(assets):
+    """The current store asset's digest: the newer of the compressed and the
+    raw asset while both exist (the switch), else whichever is there. The
+    same rule as db_state.live_store."""
+    found = [a for a in assets if a.get("name") in (GZ_ASSET, ASSET)]
+    if not found:
+        return None
+    if len(found) > 1 and all(a.get("created_at") for a in found):
+        best = max(found, key=lambda a: a["created_at"])
+    else:
+        best = sorted(found, key=lambda a: a["name"] != GZ_ASSET)[0]
+    return (best.get("digest") or "").replace("sha256:", "") or None
+
+
+def names(side, digest):
+    """Does this sidecar name the published asset? A compressed publish's
+    asset digest is its gz_sha256; a raw one's is its sha256."""
+    return bool(digest) and digest in (side.get("sha256"), side.get("gz_sha256"))
 
 
 def choose(ours, theirs, digest):
     """-> ('ours'|'theirs'|None, reason)."""
     o, t = ours.get("sha256"), theirs.get("sha256")
     if digest:
-        if o == digest and t != digest:
+        on, tn = names(ours, digest), names(theirs, digest)
+        if on and not tn:
             return "ours", "ours names the published asset {0}".format(digest[:12])
-        if t == digest and o != digest:
+        if tn and not on:
             return "theirs", "theirs names the published asset {0}".format(digest[:12])
-        if o == digest and t == digest:
+        if on and tn:
             return "ours", "both sides name the published asset"
         return None, ("NEITHER side names the published asset {0} (ours {1}, "
                       "theirs {2}); the release and the repo have diverged -- "

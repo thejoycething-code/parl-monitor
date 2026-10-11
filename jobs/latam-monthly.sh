@@ -24,7 +24,7 @@
 # A refused source is a [gap] line and never stops the edition: the edition
 # says the feed or the gazette was not read.
 #
-# mini_run: commit editions
+# mini_run: commit editions reviews
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -47,6 +47,10 @@ python3 tools/nic_gaceta.py | tee "$LOG/nic-gaceta.log" \
 python3 tools/latam_alerts.py --country ve --country nic --send | tee "$LOG/latam-alerts.log" \
   || echo "  [gap] latam-alerts failed for ve/nic; the next run retries"
 
+# THE REVIEW WINDOW (src/edition_review.py, config/edition-review.yaml): with the
+# review on, --dm writes reviews/latam-review-<date>.md instead of sending, and
+# jobs/edition-publish.sh sends the edition, honouring the review, at the window's end.
+# The ve/nic alerts above stay instant.
 TODAY=$(date +%Y-%m-%d)
 if git ls-files --error-unmatch "editions/latam-monitor-$TODAY.md" >/dev/null 2>&1; then
   echo "edition for $TODAY already committed: rewriting it, not resending the DM"

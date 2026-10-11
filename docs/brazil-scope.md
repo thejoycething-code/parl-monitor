@@ -562,6 +562,8 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Records only: no vote is labelled for or against our side until its reading in `config/br_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py br`, a step of `jobs/br-weekly.sh`, branch `ukp-member-intel`). The 57th legislature's 320 frentes parlamentares and their members (the 8 on our ground every week, including the Frente Parlamentar Evangélica, em Defesa da Vida e da Família, contra o Aborto e em Defesa da Vida, Católica, Cristã and the LGBTI+ front; the rest an eighth a week), and every deputy's open organ seats from the bulk file `orgaosDeputados-L57` (committees, CPIs, the Mesa). Profiles flag the fronts and committees on our ground (`config/member-intel-groups.yaml`) and show, beside each Câmara position, the orientação de bancada the Câmara published for the deputy's party or federation (`br_orientations`), with followed, differed and free-vote counts. Senators' committees and fronts are not read (the fronts' member lists are the Câmara's).
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **e-Cidadania ideas: built**, the 500 best-supported open ideas (5 pages; 20,000 supports in four months make a Sugestão Legislativa), with each matching idea's page for its deadline.

@@ -27,7 +27,7 @@
 # edition already committed for today is rewritten, not resent. Its failure
 # is a [gap] line and never costs the store.
 #
-# mini_run: commit editions profiles briefs
+# mini_run: commit editions profiles briefs reviews
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when db_state.py publishes) is keyed on the
@@ -78,12 +78,22 @@ fi
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; }; then
   TODAY=$(date +%Y-%m-%d)
+  # THE REVIEW WINDOW (src/edition_review.py, config/edition-review.yaml): with the
+  # review on, --dm writes reviews/fr-review-<date>.md instead of sending, and
+  # jobs/edition-publish.sh sends the edition, honouring the review, at the window's end.
   if git ls-files --error-unmatch "editions/fr-monitor-$TODAY.md" >/dev/null 2>&1; then
     echo "edition for $TODAY already committed: rewriting it, not resending the DM"
     python3 tools/fr_monitor.py --edition || echo "  [gap] the edition failed to render"
   else
     python3 tools/fr_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
   fi
+fi
+# Member intelligence (tools/member_intel.py, src/member_intel.py): committees, délégations and groupes d'études from AMO10,
+# into mi_groups / mi_interests before the profiles read them. A failure is a
+# [gap] line; last week's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_intel.py fr \
+    || echo "  [gap] member-intel: fr not fully read; last week's rows kept"
 fi
 # Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/fr/
 # rewritten from the store just collected and committed with it; never posted

@@ -43,6 +43,26 @@ class ChooseTests(unittest.TestCase):
         self.assertIsNone(side); self.assertIn("refusing", reason)
 
 
+class CompressedAssetTests(unittest.TestCase):
+    """Since 11 October 2026 the release holds parl-monitor.db.gz, whose digest
+    is the sidecar's gz_sha256, not its sha256 (the uncompressed store)."""
+
+    def test_a_compressed_sidecar_is_matched_on_its_gz_sha(self):
+        ours = dict(A, gz_sha256="c" * 64)
+        self.assertEqual(ms.choose(ours, B, "c" * 64)[0], "ours")
+        self.assertEqual(ms.choose(B, ours, "c" * 64)[0], "theirs")
+
+    def test_the_live_digest_is_the_newer_store_asset(self):
+        assets = [{"name": ms.ASSET, "digest": "sha256:" + "r" * 64, "created_at": "2026-10-10T00:00:00Z"},
+                  {"name": ms.GZ_ASSET, "digest": "sha256:" + "g" * 64, "created_at": "2026-10-11T00:00:00Z"},
+                  {"name": "raw-2026-10-11.tar", "digest": "sha256:" + "x" * 64, "created_at": "2026-10-12T00:00:00Z"}]
+        self.assertEqual(ms.live_digest(assets), "g" * 64)
+        assets[0]["created_at"] = "2026-10-12T00:00:00Z"
+        self.assertEqual(ms.live_digest(assets), "r" * 64)
+        self.assertEqual(ms.live_digest([{"name": ms.GZ_ASSET, "digest": "sha256:" + "g" * 64}]), "g" * 64)
+        self.assertIsNone(ms.live_digest([]))
+
+
 class GitIntegrationTests(unittest.TestCase):
     """A real repo, a real conflicting merge, the real driver."""
 

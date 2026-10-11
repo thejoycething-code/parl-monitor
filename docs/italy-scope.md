@@ -570,6 +570,8 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Records only: no vote is labelled for or against our side until its reading in `config/it_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py it`, a step of `jobs/it-weekly.sh`, branch `ukp-member-intel`): the Camera's current organ memberships (committees, giunte, inquiries) from dati.camera.it SPARQL, matched to the store's members by name (29 of 1,162 rows matched no one and are not shown). The Affari sociali and Giustizia committees, the children's committee and the femicide inquiry are flagged on our ground. The Senate's SPARQL answered 403 to the laptop; not read. Intergruppi are not published as data.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Popular initiatives and referendums: built**, firmereferendum.giustizia.it's public JSON (87 initiatives, collection dates, signature counts, quorum 50,000 or 500,000).

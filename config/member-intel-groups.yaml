@@ -1,0 +1,160 @@
+# Committees and cross-party groups on our ground, per country
+# (src/member_intel.py, src/member_profiles.py).
+#
+# A membership of a group matching one of these is flagged in the member's
+# profile ("on our ground") and listed in the country index; a member with
+# such a membership gets a profile even without a vote on our ground. The
+# reading is of the group's NAME only, never of how its members vote.
+#
+# `match` is a regular expression over the group's name folded to plain
+# lower-case ASCII (src/noise.fold: accents dropped, so "Evangélica" is
+# "evangelica"). `areas` are the taxonomy areas (1 abortion, 2 assisted
+# dying, 3 gender medicine and children, 4 conversion practices, 5 sex-based
+# rights, 6 parental rights and education, 7 free speech, 8 religious
+# freedom, 9 marriage and family, 10 surrogacy and embryology, 12
+# prostitution and trafficking). Brazil's fronts on our ground are also the
+# ones read every week (the rest once every four weeks).
+#
+# Groups on BOTH sides are listed on purpose (Brazil's LGBTI+ front beside
+# the evangelical front): the flag says the group works on our ground, not
+# which side it is on.
+
+br:
+  - match: "evangelica"
+    areas: [1, 8, 9]
+    why: Frente Parlamentar Evangélica, the evangelical caucus
+  - match: "defesa da vida|contra o aborto|nascituro"
+    areas: [1]
+    why: a pro-life front
+  - match: "vida e da familia|defesa da familia"
+    areas: [1, 9]
+    why: a life-and-family front
+  - match: "catolica|crista|defesa da religiao"
+    areas: [8, 9]
+    why: a Catholic or Christian front
+  - match: "estado laico|liberdade religiosa"
+    areas: [8]
+    why: religious freedom or state secularism
+  - match: "lgbt"
+    areas: [3, 4, 9]
+    why: an LGBTI+ rights front
+  - match: "liberdade de expressao"
+    areas: [7]
+    why: free speech
+  - match: "previdencia, assistencia social, infancia, adolescencia e familia"
+    areas: [6, 9]
+    why: the Câmara's family committee (CPASF)
+  - match: "defesa dos direitos da mulher"
+    areas: [1, 5]
+    why: the women's rights committee, where abortion bills are read
+  - match: "direitos humanos"
+    areas: [4, 7, 8]
+    why: the human rights committee
+
+fr:
+  - match: "commission des affaires sociales"
+    areas: [1, 2, 3, 10]
+    why: the social affairs committee (end of life, bioethics, abortion)
+  - match: "commission des lois"
+    areas: [7, 8, 9]
+    why: the law committee (constitution, civil law, freedoms)
+  - match: "droits des femmes"
+    areas: [1, 5, 12]
+    why: the women's rights delegation
+  - match: "droits des enfants"
+    areas: [3, 6]
+    why: the children's rights delegation
+  - match: "chretiens d.orient|saint.siege"
+    areas: [8]
+    why: a study group on Christians in the East or the Holy See
+  - match: "lgbtqi"
+    areas: [3, 4]
+    why: the study group on LGBTQI discrimination
+  - match: "violences sexuelles et sexistes|protection des enfants"
+    areas: [3, 5, 6]
+    why: a special committee on sexual violence or child protection
+  - match: "^prostitution$"
+    areas: [12]
+    why: the study group on prostitution
+  - match: "enseignement prive"
+    areas: [6]
+    why: the study group on independent schools
+  - match: "discriminations raciales ou religieuses"
+    areas: [8]
+    why: the study group on racial and religious discrimination
+
+nl:
+  - match: "volksgezondheid, welzijn en sport"
+    areas: [1, 2, 3, 10]
+    why: the health committee (euthanasia, abortion, embryo law)
+  - match: "justitie en veiligheid"
+    areas: [7, 12]
+    why: the justice committee
+
+ch:
+  - match: "soziale sicherheit und gesundheit"
+    areas: [1, 2, 3, 10]
+    why: the social security and health committee (SGK)
+  - match: "wissenschaft, bildung und kultur"
+    areas: [6, 10]
+    why: the science, education and culture committee (WBK)
+  - match: "^rechtskommission"
+    areas: [7, 9]
+    why: the legal affairs committee (RK)
+  - match: "lebensschutz|pro life|hilfe fur mutter und kind|marsch fur(s)? (das )?(leben|laebe)"
+    areas: [1]
+    why: a pro-life organisation
+  - match: "\\bexit\\b|dignitas|lifecircle|pallia ?care"
+    areas: [2]
+    why: an assisted-dying or end-of-life organisation
+  - match: "evangelische allianz|zukunft ch|\\bedu\\b|katholisch|reformiert|evangelisch"
+    areas: [8, 9]
+    why: a church or Christian organisation
+  - match: "pink cross|lgbt|transgender|sexuelle gesundheit"
+    areas: [3, 4]
+    why: an LGBT or sexual-health organisation
+
+pl:
+  - match: "polityki spolecznej i rodziny"
+    areas: [6, 9]
+    why: the social policy and family committee
+  - match: "komisja zdrowia"
+    areas: [1, 2, 10]
+    why: the health committee
+  - match: "sprawiedliwosci i praw czlowieka"
+    areas: [7, 8]
+    why: the justice and human rights committee
+  - match: "komisja edukacji"
+    areas: [6]
+    why: the education committee
+
+it:
+  - match: "affari sociali"
+    areas: [1, 2, 10]
+    why: the social affairs committee (XII)
+  - match: "\\(giustizia\\)"
+    areas: [7, 9, 10]
+    why: the justice committee (II)
+  - match: "infanzia e l.adolescenza"
+    areas: [3, 6]
+    why: the children and adolescence committee
+  - match: "femminicidio"
+    areas: [5]
+    why: the inquiry on femicide and gender violence
+
+at:
+  - match: "gleichbehandlung"
+    areas: [3, 5]
+    why: the equal treatment committee
+  - match: "familie"
+    areas: [6, 9]
+    why: the family committee
+  - match: "^gesundheitsausschuss"
+    areas: [1, 2]
+    why: the health committee
+  - match: "^justizausschuss"
+    areas: [7, 9]
+    why: the justice committee
+  - match: "menschenrecht"
+    areas: [7, 8]
+    why: the human rights committee

@@ -172,6 +172,16 @@ Change log of the interface (additive only):
                    by default (INDEPENDENT: no club, non-attached,
                    independents, mixed groups), as the vote brief did; an
                    adapter's skip= still adds its own short codes.
+  11 October 2026  the review window (src/edition_review.py,
+                   config/edition-review.yaml): gather(), render() and
+                   dm_summary() take `review=` (a parsed review: cut items
+                   leave, counted under Coverage as "cut in review"; edited
+                   items get the reviewer's takeaway; a NOTE line under the
+                   subtitle), render() takes `draft_until=` (the draft line),
+                   and main()'s --dm opens the window instead of sending when
+                   the review is on for the country (--no-review sends at
+                   once, as before). Default None everywhere: callers that pass
+                   neither get exactly the old output. Nothing for adapters to do.
   11 October 2026  vote meanings (src/vote_meanings.py): gather() puts
                    `meaning` (what a Yes and a No meant, and where the line
                    came from) on each watched or tier-1 vote of a country
@@ -209,6 +219,7 @@ import yaml
 
 from src import chamber_store
 from src import edition_judge
+from src import edition_review
 from src import latam
 from src import noise as noise_mod
 from src import petitions
@@ -264,7 +275,8 @@ DROPPED = {"procedural vote": ("procedural vote", "procedural votes"),
            "too little evidence": ("item with too little evidence",
                                    "items with too little evidence"),
            "muted": ("muted item", "muted items"),
-           edition_judge.DROP_REASON: ("item the judge scored 0", "items the judge scored 0")}
+           edition_judge.DROP_REASON: ("item the judge scored 0", "items the judge scored 0"),
+           edition_review.CUT_REASON: ("item cut in review", "items cut in review")}
 
 
 # --- the adapter ------------------------------------------------------------------
@@ -563,9 +575,11 @@ def watchlist_of(country, config_dir=None):
     return watchlist_file(country.cc, config_dir)
 
 
-def gather(conn, country, since, until, config_dir=None, dropped=None):
+def gather(conn, country, since, until, config_dir=None, dropped=None, review=None):
     """The country's items in the window after the noise filters, scored.
-    Items the filters leave out go to `dropped` (a list), with their reason."""
+    Items the filters leave out go to `dropped` (a list), with their reason.
+    With `review` (src/edition_review.Review), the items cut in review leave
+    too (reason "cut in review") and edited items carry the new takeaway."""
     conn.row_factory = sqlite3.Row
     wl = watchlist_of(country, config_dir)
     got = list(country.items(conn, since, until, wl) or [])
@@ -575,8 +589,9 @@ def gather(conn, country, since, until, config_dir=None, dropped=None):
         got = [it for it in got if it["kind"] in country.kinds]
     kept, out = noise_for(country).split(got, config_dir)
     kept, judged_out = edition_judge.split(edition_judge.annotate(conn, collapse_titles(kept)))
+    kept, cut = edition_review.apply(kept, review)
     if dropped is not None:
-        dropped.extend(out + judged_out)
+        dropped.extend(out + judged_out + cut)
     from src import vote_meanings
     return score(vote_meanings.annotate(conn, kept, config_dir))
 
@@ -874,12 +889,13 @@ def title_line(country, today, since=None):
 
 
 def render(conn, country, today, since=None, sample=False, config_dir=None,
-           directory=None):
-    """The edition's Markdown."""
+           directory=None, review=None, draft_until=None):
+    """The edition's Markdown. `review` honours a review file
+    (src/edition_review.py); `draft_until` (ISO) adds the draft line."""
     conn.row_factory = sqlite3.Row
     since, until = window(country.cc, today, since, directory, country.cadence_days)
     dropped = []
-    got = gather(conn, country, since, until, config_dir, dropped)
+    got = gather(conn, country, since, until, config_dir, dropped, review)
     ahead = []
     if country.week_ahead:
         ahead, _ = noise_for(country).split(
@@ -897,9 +913,14 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
     out += ["_{0}. Edition {1}, covering {2} to {3}. {4}, to Chris by DM._".format(
         country.chamber, "sample" if sample else edition_number(country.cc, today, directory),
         long_date(first), long_date(until), country.frequency), ""]
+    if draft_until and not sample:
+        out += [edition_review.draft_line(draft_until), ""]
     notice = notice_text(country, conn, today)
     if notice:
         out += [notice, ""]
+    reviewed = edition_review.note_line(review)
+    if reviewed:
+        out += [reviewed, ""]
 
     if not got and not ahead:
         out += ["**A quiet {0}.** Nothing on our ground in the {1} between {2} and {3}.".format(
@@ -1000,10 +1021,12 @@ def refuse_ownerless_act(text):
             raise ValueError("refusing to render an [ACT] item without an owner: " + line[:120])
 
 
-def dm_summary(conn, country, today, since=None, path=None, config_dir=None, directory=None):
-    """The week in one Slack message, to Chris alone."""
+def dm_summary(conn, country, today, since=None, path=None, config_dir=None, directory=None,
+               review=None):
+    """The week in one Slack message, to Chris alone. With `review`, the
+    review honoured and a line saying what it changed."""
     since, until = window(country.cc, today, since, directory, country.cadence_days)
-    got = gather(conn, country, since, until, config_dir)
+    got = gather(conn, country, since, until, config_dir, review=review)
     if country.dm_kinds:
         got = [it for it in got if it["kind"] in country.dm_kinds]
     d = datetime.date.fromisoformat(today)
@@ -1024,6 +1047,9 @@ def dm_summary(conn, country, today, since=None, path=None, config_dir=None, dir
     lines.append("_Ordered by the session judge's scores where it has read an item, by tier "
                  "elsewhere; the paid judge stays off (X16)._" if edition_judge.judged(got) else
                  "_Ordered by tier; the AI judge is off (X16)._")
+    said = edition_review.dm_review_line(review)
+    if said:
+        lines.append(said)
     if path:
         lines.append("Full edition: {0}{1}".format(REPO, os.path.relpath(path, ROOT)))
     return "\n".join(lines)
@@ -1036,6 +1062,28 @@ def send_dm(text):
     return publish.slack_dm(secrets, text)
 
 
+def review_entry(it):
+    """An item as the review file lists it (src/edition_review.units)."""
+    flags = [f for f in ("watched" if it["watched"] else "",
+                         "tier {0}".format(it["tier"]) if it["tier"] else "",
+                         "score {0}".format(it["score"]) if it.get("judge") is not None else "")
+             if f]
+    return (KIND_NAMES.get(it["kind"], (it["kind"],))[0].capitalize(), short_date(it["date"]),
+            clip(it.get("title") or "", 300), area_text(it["areas"]), ", ".join(flags),
+            clip(it.get("takeaway") or "", 300))
+
+
+def write_review(conn, country, today, deadline_iso, config_dir=None, directory=None,
+                 reviews_dir=None):
+    """reviews/<cc>-review-<today>.md for the edition of `today`: every entry
+    the edition would show before the review (so a cut item stays listed and
+    can be restored), merge-preserving any decisions already made."""
+    since, until = window(country.cc, today, None, directory, country.cadence_days)
+    got = gather(conn, country, since, until, config_dir)
+    return edition_review.write(country.cc, today, country.name, got, review_entry,
+                                deadline_iso, reviews_dir)
+
+
 def main(cc, argv=None):
     """The entry point every tools/<cc>_monitor.py calls."""
     country = adapter(cc)
@@ -1046,14 +1094,28 @@ def main(cc, argv=None):
     ap.add_argument("--since", help="ISO date, exclusive; default: the last edition, or a week")
     ap.add_argument("--edition", action="store_true",
                     help="write editions/{0}-monitor-<date>.md".format(cc))
-    ap.add_argument("--dm", action="store_true", help="DM the summary to Chris")
+    ap.add_argument("--dm", action="store_true",
+                    help="DM the summary to Chris; with the review on for the country "
+                         "(config/edition-review.yaml), open the review window instead and "
+                         "let tools/edition_review.py --publish send it at the window's end")
+    ap.add_argument("--no-review", action="store_true",
+                    help="with --dm: send at once, whatever config/edition-review.yaml says")
     ap.add_argument("--print", action="store_true", help="render to stdout, write nothing")
     ap.add_argument("--sample", action="store_true", help="mark the edition as a sample")
     args = ap.parse_args(argv)
     from src import db
     conn = db.connect(args.db)
     conn.row_factory = sqlite3.Row
-    text = render(conn, country, args.date, args.since, args.sample)
+    # The review window (src/edition_review.py): opened by --dm when the
+    # review is on, honoured by every later render of the same edition.
+    st = None if args.sample else edition_review.state(cc, args.date)
+    if (st is None and args.dm and not args.sample and not args.print and not args.no_review
+            and edition_review.enabled(cc)):
+        st = edition_review.open_window(cc, args.date)
+    review = edition_review.load(cc, args.date) if st else None
+    draft = st["deadline"] if st and not st.get("published_at") else None
+    text = render(conn, country, args.date, args.since, args.sample, review=review,
+                  draft_until=draft)
     path = edition_path(cc, args.date)
     if args.print:
         print(text)
@@ -1063,9 +1125,18 @@ def main(cc, argv=None):
             fh.write(text + "\n")
         print("edition: wrote {0} ({1} lines)".format(os.path.relpath(path, ROOT),
                                                      text.count("\n") + 1))
+    if draft:
+        rpath, n = write_review(conn, country, args.date, draft)
+        print("review: wrote {0} ({1} entries); sent at {2} unless held".format(
+            os.path.relpath(rpath, ROOT), n, edition_review.when_text(draft)))
     if args.dm:
         if args.sample:
             print("dm: not sent (a sample edition is never sent)")
+        elif draft:
+            print("dm: held for review until {0} (tools/edition_review.py --publish sends it)"
+                  .format(edition_review.when_text(draft)))
+        elif st:
+            print("dm: not sent again (sent {0} after its review)".format(st.get("published_at")))
         else:
             print("dm: {0}".format(send_dm(dm_summary(conn, country, args.date, args.since,
                                                       path if args.edition else None))))

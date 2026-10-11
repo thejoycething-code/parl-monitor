@@ -632,6 +632,16 @@ FEEDS = [
 # questions themselves are rows on our ground only (ONCE_EVER below).
 from src import chamber_store as _chamber  # noqa: E402
 
+# Member intelligence (11 October 2026, tools/member_intel.py): committees,
+# cross-party groups and registers of interests for BR, NL, CH, PL, FR, IT and
+# AT, a step of each of those weeklies before the profiles. mi_runs is
+# stamped by every source read in full, whatever the parliament did, so it
+# moves every week; the newest stamp over all seven is what this watches. Each
+# source's own stamp is in mi_runs (cc, source, last_seen) and the weekly log's
+# "member-intel <cc>:" line says what it read.
+FEEDS += [("mi_runs", "last_seen", 7, 4,
+           "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT weeklies)")]
+
 FEEDS += [("{0}_record_reads".format(cc), "last_seen", 31, 31,
            "{0} chamber reports and question batches read ({0} weekly)".format(cc.upper()))
           for cc in _chamber.COUNTRIES]
@@ -995,6 +1005,15 @@ ON_DEMAND = {
                          "store, so it stamps no heartbeat, and each "
                          "country's weekly step is its backstop; mini_run.sh "
                          "DMs its failures.",
+    "Edition publish": "Mac Mini only (jobs/edition-publish.sh, 06:31 and "
+                       "21:10 London daily): sends the new country editions "
+                       "and the Latam monthly whose review window has ended "
+                       "(src/edition_review.py, config/edition-review.yaml), "
+                       "then the week's one combined Asana reading task. It "
+                       "reads the store and never publishes it, so it stamps "
+                       "no heartbeat; an edition left unsent waits in "
+                       "data/edition-reviews/ for the next run; mini_run.sh "
+                       "DMs its failures.",
     "Provinces backfill": "run by hand on the Mac Mini (jobs/prov-backfill.sh): "
                           "a province's earlier sessions or Hansard days, read "
                           "until nothing is owed; never the weekly's heartbeat.",

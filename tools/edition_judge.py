@@ -37,6 +37,9 @@ each country with an item scored (or a vote meaning written) today, and the
 Latam edition when it is under a week old. With --dm, ONE short DM to Chris alone, and only when the
 scores changed what leads an edition already sent ("Leading:"); otherwise
 nothing is sent. jobs/editions-session-judge.sh runs the three steps weekly.
+An edition still in its review window (src/edition_review.py) is rewritten
+with Chris's decisions honoured and its review file refreshed (decisions
+kept), and never counts as a changed lead: it has not been sent yet.
 """
 
 from __future__ import annotations
@@ -52,7 +55,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from src import country_edition as ce  # noqa: E402
-from src import db, edition_judge as ej, latam, session_queue, triage  # noqa: E402
+from src import db, edition_judge as ej, edition_review as er, latam, session_queue, triage  # noqa: E402
 
 QUEUE_MARKER = "<!-- edition-session-queue v1 -->"
 SESSION_MODEL = ej.SESSION_MODEL
@@ -295,11 +298,23 @@ def rerender(conn, today, ccs=None, directory=None, config_dir=None, log=print):
         with open(path, encoding="utf-8") as fh:
             old = fh.read()
         conn.row_factory = sqlite3.Row
-        new = ce.render(conn, country, eds[-1], config_dir=config_dir, directory=directory)
+        # The review window (src/edition_review.py; real editions only, not a
+        # test's directory): honour Chris's decisions, keep the draft line
+        # and refresh the review file while the edition is unsent, and say
+        # nothing about a lead that changed before it was ever sent.
+        st = er.state(cc, eds[-1]) if directory is None else None
+        review = er.load(cc, eds[-1]) if st else None
+        draft = st["deadline"] if st and not st.get("published_at") else None
+        new = ce.render(conn, country, eds[-1], config_dir=config_dir, directory=directory,
+                        review=review, draft_until=draft)
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(new + "\n")
         log("edition-judge: rewrote {0}".format(os.path.relpath(path, ROOT)))
-        if leading(old) != leading(new):
+        if draft:
+            ce.write_review(conn, country, eds[-1], draft, config_dir=config_dir)
+            log("edition-judge: {0} is still under review (sent {1}); review file refreshed"
+                .format(cc, er.when_text(draft)))
+        elif leading(old) != leading(new):
             changed.append((country.name, path, leading(new)))
     if directory is None and ccs & set(ej.LATAM_CCS):
         rerender_latam(conn, today, log)
@@ -319,7 +334,12 @@ def rerender_latam(conn, today, log=print):
         return
     path = os.path.join(ROOT, "editions", "latam-monitor-{0}.md".format(eds[-1]))
     conn.row_factory = sqlite3.Row
-    text = latam_monitor.render_edition(conn, eds[-1])
+    st = er.state(er.LATAM, eds[-1])
+    review = er.load(er.LATAM, eds[-1]) if st else None
+    draft = st["deadline"] if st and not st.get("published_at") else None
+    text = latam_monitor.render_edition(conn, eds[-1], review=review, draft_until=draft)
+    if draft:
+        latam_monitor.write_review(conn, eds[-1], draft)
     with open(path, "w", encoding="utf-8") as fh:
         fh.write(text + "\n")
     log("edition-judge: rewrote {0}".format(os.path.relpath(path, ROOT)))
