@@ -11,6 +11,7 @@
     python3 tools/country_5ca.py --cc pl --confirm-direction 10/2110 --by Christopher
     python3 tools/country_5ca.py --all-countries --counts
     python3 tools/country_5ca.py --cc fr --prune-out-of-scope [--dry-run]
+    python3 tools/country_5ca.py --cc ch --prune-off-ground [--dry-run] --signoff-doc --shortlist
     python3 tools/country_5ca.py --cc pl --draft --db /path/to/store.db
     python3 tools/country_5ca.py --draft --db-map stores.txt # "cc path" per line (initial drafts)
 
@@ -32,6 +33,12 @@ line, proposed values and the exact command to sign it. It confirms nothing.
 (France: final votes, motions to reject and watched amendments only) that
 are unsigned and untouched; a confirmed or hand-edited entry is always kept
 and reported. It reads the stance file and the watchlist, not the store.
+
+--prune-off-ground (11 October 2026) removes the unsigned, untouched entries
+whose vote the store no longer holds on our ground (neither watched nor tier
+1 with an area): what a reclassification leaves behind, as Switzerland's IVG
+guard did. It reads the store; a vote the store lacks is never pruned, and a
+confirmed or hand-edited entry is always kept and reported.
 
 Countries: {countries}.
 """
@@ -67,7 +74,10 @@ def main(argv=None):
     ap.add_argument("--top", type=int, default=sl.TOP, help="items in the shortlist (default %(default)s)")
     ap.add_argument("--prune-out-of-scope", action="store_true",
                     help="remove unsigned, untouched entries outside the sign-off scope")
-    ap.add_argument("--dry-run", action="store_true", help="with --prune-out-of-scope: write nothing")
+    ap.add_argument("--prune-off-ground", action="store_true",
+                    help="remove unsigned, untouched entries whose vote is no longer on our ground")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="with --prune-out-of-scope or --prune-off-ground: write nothing")
     ap.add_argument("--confirm", nargs="+", metavar="KEY")
     ap.add_argument("--confirm-direction", nargs="+", metavar="BILL",
                     help="confirm bill_directions entries (the campaign briefs' ask follows them)")
@@ -107,9 +117,9 @@ def main(argv=None):
         c5.sign_from_doc(ccs[0], args.by, args.on)
         return 0
     if not (args.draft or args.signoff_doc or args.sheets or args.counts
-            or args.prune_out_of_scope or args.shortlist):
+            or args.prune_out_of_scope or args.prune_off_ground or args.shortlist):
         ap.error("say what to do: --draft, --signoff-doc, --sheets, --shortlist, --counts, "
-                 "--confirm, --sign-from-doc or --prune-out-of-scope")
+                 "--confirm, --sign-from-doc, --prune-out-of-scope or --prune-off-ground")
     if args.prune_out_of_scope:
         for cc in ccs:
             if os.path.exists(c5.stance_path(cc)):
@@ -118,7 +128,7 @@ def main(argv=None):
     rc = 0
     for cc in ccs:
         path = stores.get(cc, args.db)
-        need_store = args.draft or args.sheets
+        need_store = args.draft or args.sheets or args.prune_off_ground
         if not (need_store or args.signoff_doc or args.shortlist):
             continue
         conn = None
@@ -130,6 +140,8 @@ def main(argv=None):
         elif os.path.exists(path):
             conn = c5.connect_ro(path)       # the meaning lines (src/vote_meanings.py)
         try:
+            if args.prune_off_ground and os.path.exists(c5.stance_path(cc)):
+                c5.prune_off_ground(conn, cc, dry_run=args.dry_run)
             if args.draft:
                 c5.draft(conn, cc, today=args.today)
             if args.signoff_doc:
@@ -144,7 +156,7 @@ def main(argv=None):
         finally:
             if conn is not None:
                 conn.close()
-    if args.counts or args.draft or args.prune_out_of_scope:
+    if args.counts or args.draft or args.prune_out_of_scope or args.prune_off_ground:
         print("\nconfig/<cc>_stance.yaml, by country (proposed / procedural / need reading / "
               "confirmed):")
         for cc in ccs:

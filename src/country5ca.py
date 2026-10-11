@@ -1085,11 +1085,38 @@ def prune_out_of_scope(cc, config_dir=None, wl=None, dry_run=False, log=print):
     comments, bill directions and every other entry are left as they are.
     Returns {'removed': [keys], 'kept': [(key, why)]}."""
     spec = SPECS[cc]
-    got = {"removed": [], "kept": []}
     if spec.scope is None:
         log("{0}: no sign-off scope; nothing to prune".format(spec.name))
-        return got
+        return {"removed": [], "kept": []}
     wl = spec.watchlist_fn() if wl is None else wl
+    return _prune(cc, lambda k, e: not entry_in_scope(cc, e, wl), "outside the sign-off scope",
+                  config_dir, dry_run, log)
+
+
+def off_ground(conn, cc, wl=None):
+    """The division keys of a store that the drafter would no longer draft:
+    in the store, but neither watched nor tier 1 on our ground (a
+    reclassification took their areas away, as Switzerland's IVG guard did
+    on 11 October 2026). A key the store does not hold is never in it."""
+    present = {r["key"] for r in divisions(conn, cc)}
+    return present - {r["key"] for r in qualifying(conn, cc, wl)}
+
+
+def prune_off_ground(conn, cc, config_dir=None, wl=None, dry_run=False, log=print):
+    """Remove from config/<cc>_stance.yaml every unsigned, untouched entry
+    whose division is no longer on our ground in the store (`off_ground`).
+    Confirmed and hand-edited entries are kept and reported, as by
+    `prune_out_of_scope`. Returns {'removed': [keys], 'kept': [(key, why)]}."""
+    gone = off_ground(conn, cc, wl)
+    return _prune(cc, lambda k, e: k in gone, "no longer on our ground",
+                  config_dir, dry_run, log)
+
+
+def _prune(cc, outside, label, config_dir=None, dry_run=False, log=print):
+    """The text edit behind both prunes: drop each entry `outside(key, entry)`
+    says goes, unless it is signed or hand-edited."""
+    spec = SPECS[cc]
+    got = {"removed": [], "kept": []}
     divs, _, _ = load(cc, config_dir)
     path = stance_path(cc, config_dir)
     if not divs:
@@ -1099,7 +1126,7 @@ def prune_out_of_scope(cc, config_dir=None, wl=None, dry_run=False, log=print):
     drop = set()
     for k, start, end in _entry_blocks(lines):
         e = divs.get(k)
-        if e is None or entry_in_scope(cc, e, wl):
+        if e is None or not outside(k, e):
             continue
         why = hand_edited(e)
         if why is None and any(ln.lstrip().startswith("#") for ln in lines[start:end]):
@@ -1134,11 +1161,11 @@ def prune_out_of_scope(cc, config_dir=None, wl=None, dry_run=False, log=print):
         with open(path, "w", encoding="utf-8") as h:
             h.write(text)
     for k, why in got["kept"]:
-        log("  kept {0} (outside the scope, but {1})".format(k, why))
-    log("{0}: {1} {2} unsigned, untouched entr{3} outside the sign-off scope; {4} kept "
-        "(hand-edited or signed); {5} left in scope".format(
+        log("  kept {0} ({1}, but {2})".format(k, label, why))
+    log("{0}: {1} {2} unsigned, untouched entr{3} {4}; {5} kept "
+        "(hand-edited or signed); {6} left".format(
             spec.name, "would remove" if dry_run else "removed", len(got["removed"]),
-            "y" if len(got["removed"]) == 1 else "ies", len(got["kept"]),
+            "y" if len(got["removed"]) == 1 else "ies", label, len(got["kept"]),
             len(divs) - len(got["removed"]) - len(got["kept"])))
     return got
 
