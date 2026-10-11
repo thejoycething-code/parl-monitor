@@ -453,3 +453,7 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/at.json` (`src/country_vote_brief.py`, step in `jobs/at-weekly.sh`). Briefed after each weekly collection. Klub votes: member positions are derived (X5), so no member is named. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
+
+Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/at.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the item list for each chamber restricted to items received in the window (filter 101 with a `DATUM_VON` range, found 11 October 2026: 204 rows for the Nationalrat's week in under a second, against 17 MB and a minute for the weekly's whole-period list), and the Termine with their Tagesordnungen. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

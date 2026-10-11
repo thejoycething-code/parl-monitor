@@ -502,3 +502,7 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/nl.json` (`src/country_vote_brief.py`, step in `jobs/nl-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Tweede Kamer's OData, one request; a show of hands waits up to two days for its positions. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
+
+Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/nl.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: new Moties, Amendementen and bills (Zaak by GestartOp, one request) and Kamervragen, and the Tweede Kamer's agenda for the next two weeks. The motions are the sweep's own items: the Dutch edition stays votes, speeches and questions (NL3), so a watched or tier-1 motion is alerted the day it is tabled and its vote is then the vote brief's. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

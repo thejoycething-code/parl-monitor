@@ -965,7 +965,12 @@ ON_DEMAND = {
                          "into a throwaway store; it never publishes the "
                          "store, so it stamps no heartbeat, and each "
                          "country's weekly step is its backstop; mini_run.sh "
-                         "DMs its failures.",
+                         "DMs its failures. Since 11 October 2026 the same "
+                         "run sweeps new bills, motions, questions and agenda "
+                         "points for those five, Austria, France (agenda, "
+                         "once a day) and Spain (from 23 December) "
+                         "(src/country_day_sweep.py), one DM for both; the "
+                         "weekly collections remain its backstop.",
     "Provinces backfill": "run by hand on the Mac Mini (jobs/prov-backfill.sh): "
                           "a province's earlier sessions or Hansard days, read "
                           "until nothing is owed; never the weekly's heartbeat.",

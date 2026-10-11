@@ -522,3 +522,7 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/pl.json` (`src/country_vote_brief.py`, step in `jobs/pl-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Sejm API, with the bills' areas from data/vote-briefs/pl-parents.json, which the weekly writes from the store (the print endpoints timed out on 10 October). See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
+
+Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/pl.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the term's newest 150 processes (sorted by number; every process started since June in one page), interpellations and written questions received in the window, and the Sejm's proceedings for the agenda. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

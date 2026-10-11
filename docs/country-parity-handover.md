@@ -80,6 +80,7 @@ committees and petitions; Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
 | Triage | API judge | API judge | API or session judge | session judge (provinces) | free session judge, Sundays 16:45 (`tools/edition_judge.py`) |
 | Noise filters, mute lists | yes | partly | yes | yes | yes (`src/noise.py`, `config/edition-noise-<cc>.yaml`) |
 | Same-day vote briefs (division watch) | yes | no | yes (`*_division_brief.py`, `src/vote_brief.py`) | no | yes, 20 countries (`src/country_vote_brief.py`): daily for NL, PL, CH, BR, IT; after the weekly for the rest |
+| Daily sweep of new items (bills, motions, questions, agenda) | yes (`tools/day_sweep.py`) | no | EU (`tools/eu_day_sweep.py`) | no | **built** 11 Oct (`src/country_day_sweep.py`, readers `src/day_sweep_sources.py`, branch `ukp-day-sweep`): a step of the one daily job (`jobs/vote-briefs-daily.sh`) for NL, PL, CH, BR, IT, AT, FR (agenda only, once a day) and ES (from 23 Dec); tier 1 and watched, the vote briefs' gate; one combined DM with the vote briefs; de-duplicated against the editions, the vote briefs and `data/day-sweep/<cc>.json`; samples `docs/day-sweep-samples/` |
 | 5CA (member stance, five columns) | yes | yes | yes | yes | **built** 10 Oct (`tools/country_5ca.py`, branch `parity-5ca`): sheets from confirmed readings only, none confirmed yet; AT/PT/NL rows derived (X5). Tracker and partner sheet built 10 Oct (`tools/make_country_5ca_web.py`, branch `camp-5ca-sheets`): `docs/5ca-countries.html` weekly, "awaiting sign-off: N readings" per country; partner page gated until a country has a confirmed placement |
 | Stance sign-off per vote (`config/*_stance.yaml`) | yes | yes | yes | yes | **built** 10 Oct (#65): 975 readings awaiting sign-off after France was limited to final votes and watched amendments (#77), weekly digest DM; signers per country to name (`config/stance_signers.yaml`) |
 | Campaign targets and outcomes (`ca_campaign.py`, the 5CA Evaluate) | yes | no | no | no | **built** 10 Oct (`tools/country_campaign.py`, branch `camp-targets`): open, targets, add, find, outcome, score; targets from confirmed readings only, candidates by vote record until then; petition numbers none yet (UK only) |
@@ -123,6 +124,32 @@ weekly collection, or from the source directly where it is cheap (NL OData,
 PL Sejm API, CH OData, BR Câmara API publish same-day). Watched and tier-1
 votes only, DM to Chris, de-duplicated like `tools/latam_alerts.py`.
 No new decisions needed.
+
+### 1b. Daily sweep of new items -- BUILT 11 October 2026
+
+Branch `ukp-day-sweep`: the UK day sweep's same-day alert, for what is NEW on
+our ground and not only votes. `src/country_day_sweep.py` (the rules, the
+ledger, the rendering), `src/day_sweep_sources.py` (one reader per country
+over its own collector's parsers and classifiers, each through the cheapest
+query its source answers), a step of the existing daily job: no second daily
+job. `tools/country_vote_briefs.py --daily` reads the votes, then the new
+items, into the same throwaway store and sends ONE DM to Chris (vote briefs
+first, then new items; nothing when nothing). Tier 1 with the noise rules'
+minimum evidence, or watched; a judged item only at 2 or 3. Never what Chris
+has seen: `data/day-sweep/<cc>.json` (the first pass seeds silently), the
+country's editions of the last three weeks, and the run's vote briefs.
+
+Measured 11 October 2026 (about 45 s for the whole daily run, votes and
+sweep): NL 2 requests + agenda 1 (its motions are the sweep's own items:
+the Dutch edition stays votes, speeches and questions, NL3); PL 3 + 1; CH 2
++ 1-2; BR 1-2 + a pauta per deliberative event; IT 2 SPARQL + 2; AT 2
+(the item list restricted by `DATUM_VON`, found that day) + the
+Tagesordnungen; FR the agenda zip only, once a day, archived only on a day
+it alerts (bills and questions are 10.7 and 55 MB nightly dumps: weekly
+only); ES 3 from 23 December. Not swept: BE, PT, HR, SK, HU, AR, MX and the
+Latam countries (not measured for a daily read in this pass; Argentina's
+Senate agenda is the likeliest next one; the Latam instant alerts cover
+the Latam countries after each collection).
 
 ### 2. 5CA and stance sign-off (needs people)
 5CA (`docs/5ca-notes.md`) needs CitizenGO's position on each vote that counts
