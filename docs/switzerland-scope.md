@@ -484,6 +484,22 @@ countries".
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/ch.json` (`src/country_vote_brief.py`, step in `jobs/ch-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Nationalrat's votes during a session (OData); the Ständerat's come with the weekly, as its spreadsheets do. See docs/mac-mini.md, "Vote briefs for the new countries".
 
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/ch-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: the party or group the vote record names at each vote.
+- Records only: no vote is labelled for or against our side until its reading in `config/ch_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py ch`, a step of `jobs/ch-weekly.sh`, branch `ukp-member-intel`): committee memberships (`MemberCommittee`) and the register of interests (`PersonInterest`, the Interessenbindungen: organisation, type, function, paid or honorary) from ws.parlament.ch, sitting members only. SGK, WBK and RK, and pro-life, church, assisted-dying and LGBT organisations among the interests, are flagged on our ground (by name). The parliamentary groups (parlamentarische Gruppen) are not in the OData.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Vernehmlassungen: built**, from the fedlex SPARQL endpoint (status 2, running; the ConsultationPhase end date is the deadline). 28 running on 11 October.
+- **Petitionen: built**, Curia Vista OData, BusinessType 10, the last year's submissions. No counts.
+- **Volksinitiativen in collection: built** from the Federal Gazette notices (Vorprüfung without a Zustandekommen, Rückzug or Fristablauf notice); the deadline is computed as 18 months after the Vorprüfung (Art. 71 BPR), and labelled so. The Bundeskanzlei's own list is a chart whose data API robots.txt disallows.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/ch.py`, `tools/country_petitions.py ch` as a step of `jobs/ch-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.
+
 ## Speech clips (built 11 October 2026, branch `ukp-speech-clips`)
 
 `tools/country_clips.py` (src/country_clips.py; docs/debate-pack-social.md, "Speech clips, new countries"): `pick ch` ranks the speeches on our ground in `ch_speeches` (or the day read live with `--live`) and writes a pack with a passage per speaker; `cut` fetches only each speech's span of official video, aligns the passage with Whisper and renders captioned 9:16 and 16:9 clips with the source credit. Manual, no job, nothing posted. Source, terms and status in `config/clip-sources.yaml`.

@@ -1,0 +1,207 @@
+{
+ "pages": 1,
+ "lastSync": "2026-10-10 23:30:21.0",
+ "count": 18935,
+ "header": [
+  {
+   "css_class": "datum-col",
+   "feldId": 92,
+   "hidden": false,
+   "rnr": 1,
+   "listeId": 250,
+   "label": "GP",
+   "sortable": "1",
+   "feld_name": "GP",
+   "class": "datum-col"
+  },
+  {
+   "feldId": 93,
+   "hidden": true,
+   "rnr": 2,
+   "listeId": 250,
+   "label": "Sort"
+  },
+  {
+   "css_class": "col-20",
+   "feldId": 94,
+   "hidden": false,
+   "rnr": 3,
+   "listeId": 250,
+   "label": "Funktion",
+   "feld_name": "FUNKTION",
+   "class": "col-20"
+  },
+  {
+   "css_class": "fraction-col",
+   "feldId": 95,
+   "link_rnr": "6",
+   "hidden": false,
+   "rnr": 4,
+   "listeId": 250,
+   "label": "Ausschuss",
+   "class": "fraction-col"
+  },
+  {
+   "feldId": 96,
+   "hidden": true,
+   "rnr": 5,
+   "listeId": 250,
+   "label": "nrbr"
+  },
+  {
+   "feldId": 97,
+   "hidden": true,
+   "rnr": 6,
+   "listeId": 250,
+   "label": "URL"
+  },
+  {
+   "feldId": 98,
+   "hidden": true,
+   "rnr": 7,
+   "listeId": 250,
+   "label": "PAD_INTERN",
+   "feld_name": "PAD_INTERN"
+  },
+  {
+   "feldId": 969,
+   "hidden": true,
+   "rnr": 8,
+   "listeId": 250,
+   "mediaType": "fromDate",
+   "label": "fromDate"
+  },
+  {
+   "feldId": 564,
+   "hidden": true,
+   "rnr": 9,
+   "listeId": 250,
+   "label": "Ausschuss",
+   "feld_name": "AUSSCHUSS"
+  },
+  {
+   "feldId": 565,
+   "hidden": true,
+   "rnr": 10,
+   "listeId": 250,
+   "label": "Gremium",
+   "feld_name": "GREMIUM"
+  },
+  {
+   "feldId": 584,
+   "hidden": true,
+   "rnr": 11,
+   "listeId": 250,
+   "label": "gp_text_full",
+   "feld_name": "GP_TEXT_FULL"
+  },
+  {
+   "feldId": 1645,
+   "hidden": true,
+   "ist_range": "1",
+   "rnr": 12,
+   "listeId": 250,
+   "mediaType": "datetime",
+   "label": "Beginn",
+   "feld_name": "BEGINNDATUM_ISO"
+  },
+  {
+   "feldId": 1665,
+   "hidden": false,
+   "sort_rnr": 14,
+   "label": "Funktionsbeginn",
+   "sortable": "1",
+   "css_class": "datum-col",
+   "rnr": 13,
+   "listeId": 250,
+   "feld_name": "FUNKTIONSBEGINN",
+   "class": "datum-col"
+  },
+  {
+   "feldId": 1666,
+   "hidden": true,
+   "rnr": 14,
+   "listeId": 250,
+   "label": "Beginn4Sort",
+   "feld_name": "BEGINN4SORT"
+  },
+  {
+   "feldId": 1685,
+   "hidden": true,
+   "rnr": 15,
+   "listeId": 250,
+   "label": "Personenregister",
+   "feld_name": "PERSONENREGISTER"
+  }
+ ],
+ "rows": [
+  [
+   "BR",
+   "2A0010019980428AUSSCHUSS FÜR INNERE ANGELEGENHEITEN DES BUNDESRATES80019571",
+   "Vorsitzender",
+   "Ausschuss für innere Angelegenheiten des Bundesrates (28.04.1998 - 08.04.1999)",
+   "BR",
+   "/PAKT/VHG/BR/A-IN-BR/A-IN-BR_00001_00108/index.shtml",
+   "3431",
+   "Tue Apr 28 02:00:00 CEST 1998",
+   "Ausschuss für innere Angelegenheiten des Bundesrates",
+   "Bundesrat",
+   "seit 19.12.1945: Bundesrat",
+   "1998-04-28T00:00:00",
+   "28.04.1998",
+   "19980428",
+   null
+  ],
+  [
+   "BR",
+   "2A0010019991220JUSTIZAUSSCHUSS DES BUNDESRATES80008779",
+   "Vorsitzender",
+   "Justizausschuss des Bundesrates (20.12.1999 - 10.12.2002)",
+   "BR",
+   "/PAKT/VHG/BR/A-JU-BR/A-JU-BR_00001_00114/index.shtml",
+   "559",
+   "Mon Dec 20 01:00:00 CET 1999",
+   "Justizausschuss des Bundesrates",
+   "Bundesrat",
+   "seit 19.12.1945: Bundesrat",
+   "1999-12-20T00:00:00",
+   "20.12.1999",
+   "19991220",
+   null
+  ],
+  [
+   "BR",
+   "1A0010020250626AUSSCHUSS FÜR VERKEHR DES BUNDESRATES79749373",
+   "Vorsitzender",
+   "Ausschuss für Verkehr des Bundesrates (26.06.2025)",
+   "BR-aktuell",
+   "/PAKT/VHG/BR/A-VE-BR/A-VE-BR_00001_00386/index.shtml",
+   "3460",
+   "Thu Jun 26 02:00:00 CEST 2025",
+   "Ausschuss für Verkehr des Bundesrates",
+   "Bundesrat",
+   "seit 19.12.1945: Bundesrat",
+   "2025-06-26T00:00:00",
+   "26.06.2025",
+   "20250626",
+   null
+  ],
+  [
+   "BR",
+   "1A0010020250626GESCHÄFTSORDNUNGSAUSSCHUSS DES BUNDESRATES79749373",
+   "Vorsitzende",
+   "Geschäftsordnungsausschuss des Bundesrates (26.06.2025)",
+   "BR-aktuell",
+   "/PAKT/VHG/BR/A-GO-BR/A-GO-BR_00001_00075/index.shtml",
+   "31956",
+   "Thu Jun 26 02:00:00 CEST 2025",
+   "Geschäftsordnungsausschuss des Bundesrates",
+   "Bundesrat",
+   "seit 19.12.1945: Bundesrat",
+   "2025-06-26T00:00:00",
+   "26.06.2025",
+   "20250626",
+   null
+  ]
+ ]
+}

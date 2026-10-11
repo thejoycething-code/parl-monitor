@@ -396,6 +396,28 @@ judge stays off (X16).** The local-model idea above stays unbuilt.
   demande de suspension de seance; Portugal, requests to waive the final
   drafting.
 
+## The weekly review window (branch `ukp-review-window`, 11 October 2026)
+
+- UK parity, as asked for the parity layers: every own edition and the
+  Latam monthly gets a review window before it is sent. The weekly job
+  writes the edition as a draft and `reviews/<cc>-review-<date>.md`
+  (`<date>` is the edition's own date, as in its file name) instead of
+  DMing; Chris may mark each item keep, cut or edit (a new English
+  takeaway; titles stay verbatim), add a note, hold the edition or send it
+  now. Reruns and the session judge keep his decisions.
+- The window ends at 06:30 London the morning after the edition's date by
+  default; `config/edition-review.yaml` sets the time, the day offset and
+  on/off per country (on for all sixteen). Unedited, the edition goes out
+  unchanged. The publish is a new Mini job, `edition-publish` (06:31 and 21:10 London daily), since the editions fall on five different days.
+- ONE combined Asana reading task a week for all the new-country
+  editions ("Read the country editions - w/c <Monday>", Saturday to Friday
+  editions; assignee "me" in the workspace, as the UK reading task was;
+  due the Friday), created by the first edition sent and rewritten as
+  later ones go out.
+- Not reviewed, still immediate: the same-day vote briefs, the Latam
+  instant alerts, the stance digest. The judge's "lead changed" DM now
+  covers only editions already sent.
+
 ## Not acted on
 
 - U1 (Uruguay Ley 20.431 referendum): ignore.

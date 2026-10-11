@@ -1,0 +1,46 @@
+{
+ "value": [
+  {
+   "Id": "dfda3879-09d3-41f6-a0c8-009ee783a60e",
+   "PersoonId": "3c429d84-fe37-4f2a-8d25-8bc2f764b870",
+   "Omschrijving": "Bestuurslid Stichting Low Food",
+   "PeriodeVan": "2019",
+   "PeriodeTotEnMet": null,
+   "IsActief": true,
+   "VergoedingSoort": null,
+   "VergoedingToelichting": null,
+   "GewijzigdOp": "2026-02-25T13:44:09.7457313+01:00",
+   "ApiGewijzigdOp": "2026-02-25T12:45:10.5373203Z",
+   "Verwijderd": false,
+   "Gewicht": null
+  },
+  {
+   "Id": "20414485-eca5-4e18-bc3b-00a8790974da",
+   "PersoonId": "64f39510-b420-4b01-8b5e-2b2f2b0aad91",
+   "Omschrijving": "Lid Commissie van Beroep Forum voor Democratie",
+   "PeriodeVan": "2021-01-09",
+   "PeriodeTotEnMet": null,
+   "IsActief": true,
+   "VergoedingSoort": null,
+   "VergoedingToelichting": null,
+   "GewijzigdOp": "2024-01-17T16:17:01+01:00",
+   "ApiGewijzigdOp": "2025-11-12T13:12:51.9021855Z",
+   "Verwijderd": false,
+   "Gewicht": null
+  },
+  {
+   "Id": "4fe3ac97-986f-4664-996e-00bd1a9feaba",
+   "PersoonId": "7cbb2d95-46b2-4fcb-b129-9505f56e7f07",
+   "Omschrijving": "Lid Comité van aanbeveling Mercy Ships Holland",
+   "PeriodeVan": "2019-03",
+   "PeriodeTotEnMet": null,
+   "IsActief": true,
+   "VergoedingSoort": null,
+   "VergoedingToelichting": null,
+   "GewijzigdOp": "2025-09-29T10:02:07.9300606+02:00",
+   "ApiGewijzigdOp": "2025-09-29T08:03:18.7074825Z",
+   "Verwijderd": false,
+   "Gewicht": null
+  }
+ ]
+}

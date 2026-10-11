@@ -250,7 +250,7 @@ def polish_5ca(token, file_id, tab_title, sheet_id, last_row):
                .format(file_id), {"requests": requests})
 
 
-def publish_one(token, slug, subject, dry_run=False, into=None):
+def publish_one(token, slug, subject, dry_run=False, into=None, parent=None, title=None):
     """Copy the template, fill its tabs, share it back. Returns (id, detail).
 
     `into` rewrites an EXISTING sheet from the local files instead of copying
@@ -260,8 +260,12 @@ def publish_one(token, slug, subject, dry_run=False, into=None):
     already looking at a published sheet and an Asana task that points to it.
     A second sheet with the same name would be worse than a stale one. The
     tabs are the template's, so only the fill is repeated.
+
+    `parent` and `title` (11 October 2026, tools/country_drive.py): the new
+    countries' briefs go to a folder of their own country inside the same
+    shared drive, under their own title. Left out, nothing changes for the UK.
     """
-    title = "{0} EN GB Brief DRAFT: {1}".format(
+    title = title or "{0} EN GB Brief DRAFT: {1}".format(
         __import__("datetime").date.today().strftime("%Y-%m"), subject)[:180]
     sources = {}
     for keys, pattern in TAB_SOURCES:
@@ -281,7 +285,7 @@ def publish_one(token, slug, subject, dry_run=False, into=None):
     else:
         copied = api(token, "https://www.googleapis.com/drive/v3/files/{0}/copy"
                             "?supportsAllDrives=true".format(TEMPLATE_ID),
-                     {"name": title, "parents": [FOLDER_ID]})
+                     {"name": title, "parents": [parent or FOLDER_ID]})
         file_id = copied["id"]
 
     meta = api(token, "https://sheets.googleapis.com/v4/spreadsheets/{0}"

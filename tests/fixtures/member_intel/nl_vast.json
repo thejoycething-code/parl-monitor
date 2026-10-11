@@ -1,0 +1,109 @@
+{
+ "value": [
+  {
+   "Id": "150e8371-5ea3-42cc-b306-000edda026f1",
+   "Functie": "OnderVz",
+   "Van": "2026-03-19T00:00:00+01:00",
+   "TotEnMet": null,
+   "GewijzigdOp": "2026-03-19T14:26:47.5410547+01:00",
+   "ApiGewijzigdOp": "2026-03-19T13:27:13.4310287Z",
+   "Verwijderd": false,
+   "CommissieZetel_Id": "e57a152b-c20e-4f23-ae23-7d60d00aec8c",
+   "Persoon_Id": "59f4fe08-4b7e-42a0-9551-082b07c5945a",
+   "CommissieZetel": {
+    "Id": "e57a152b-c20e-4f23-ae23-7d60d00aec8c",
+    "Gewicht": 31,
+    "GewijzigdOp": "2026-09-09T13:30:25.1325952+02:00",
+    "ApiGewijzigdOp": "2026-09-09T11:31:25.2591885Z",
+    "Verwijderd": false,
+    "Commissie_Id": "c58607ca-914d-4c14-b911-76ee39ca3dda",
+    "Commissie": {
+     "Id": "c58607ca-914d-4c14-b911-76ee39ca3dda",
+     "Nummer": 4766,
+     "Soort": "Dienst Commissieondersteuning Internationaal en Ruimtelijk",
+     "Afkorting": "EU",
+     "NaamNL": "Vaste commissie voor Europese Zaken",
+     "NaamEN": "European Affairs",
+     "NaamWebNL": "Europese Zaken",
+     "NaamWebEN": "European Affairs",
+     "Inhoudsopgave": "Vaste commissies",
+     "DatumActief": null,
+     "DatumInactief": null,
+     "GewijzigdOp": "2025-02-20T15:39:50+01:00",
+     "ApiGewijzigdOp": "2025-02-20T14:40:12.0410207Z",
+     "Verwijderd": false
+    }
+   }
+  },
+  {
+   "Id": "b7e02433-368a-4032-914b-00656077bb3f",
+   "Functie": "Voorzitter",
+   "Van": "2026-02-10T00:00:00+01:00",
+   "TotEnMet": null,
+   "GewijzigdOp": "2026-02-11T10:59:32.9233526+01:00",
+   "ApiGewijzigdOp": "2026-02-11T10:00:11.1416572Z",
+   "Verwijderd": false,
+   "CommissieZetel_Id": "dc3c61c1-ebf8-48fa-bfce-3c4ea1b32287",
+   "Persoon_Id": "2690bccc-5463-459a-b1df-cb93e222b348",
+   "CommissieZetel": {
+    "Id": "dc3c61c1-ebf8-48fa-bfce-3c4ea1b32287",
+    "Gewicht": 1,
+    "GewijzigdOp": "2026-02-11T10:57:58.2605855+01:00",
+    "ApiGewijzigdOp": "2026-02-11T10:00:14.3291518Z",
+    "Verwijderd": false,
+    "Commissie_Id": "0680fd41-3621-4c1e-b813-fecf63b88ac7",
+    "Commissie": {
+     "Id": "0680fd41-3621-4c1e-b813-fecf63b88ac7",
+     "Nummer": 4776,
+     "Soort": "Algemeen",
+     "Afkorting": "IV",
+     "NaamNL": "Commissie voor de Inlichtingen- en Veiligheidsdiensten",
+     "NaamEN": "Intelligence and Security Services",
+     "NaamWebNL": "Commissie voor de Inlichtingen- en Veiligheidsdiensten",
+     "NaamWebEN": "Intelligence and Security Services",
+     "Inhoudsopgave": "Overige commissies",
+     "DatumActief": null,
+     "DatumInactief": null,
+     "GewijzigdOp": "2024-10-23T16:06:29+02:00",
+     "ApiGewijzigdOp": "2024-10-23T14:07:24.3910903Z",
+     "Verwijderd": false
+    }
+   }
+  },
+  {
+   "Id": "7682cb2e-cc60-4b70-8485-00a06585d4d4",
+   "Functie": "Lid",
+   "Van": "2025-11-18T00:00:00+01:00",
+   "TotEnMet": null,
+   "GewijzigdOp": "2025-11-18T15:09:04.7408823+01:00",
+   "ApiGewijzigdOp": "2025-11-18T14:09:12.6989637Z",
+   "Verwijderd": false,
+   "CommissieZetel_Id": "090e34ec-6b13-483d-bd67-e29a44470f1b",
+   "Persoon_Id": "75a44c3a-5914-4c8e-9ca4-d987853f5844",
+   "CommissieZetel": {
+    "Id": "090e34ec-6b13-483d-bd67-e29a44470f1b",
+    "Gewicht": 1,
+    "GewijzigdOp": "2026-03-31T10:17:07.6170888+02:00",
+    "ApiGewijzigdOp": "2026-03-31T08:18:12.8562838Z",
+    "Verwijderd": false,
+    "Commissie_Id": "524d5de6-83dd-4754-9e1e-c10fc49ad9be",
+    "Commissie": {
+     "Id": "524d5de6-83dd-4754-9e1e-c10fc49ad9be",
+     "Nummer": 4763,
+     "Soort": "Dienst Commissieondersteuning Internationaal en Ruimtelijk",
+     "Afkorting": "DEF",
+     "NaamNL": "Vaste commissie voor Defensie",
+     "NaamEN": "Defence",
+     "NaamWebNL": "Defensie",
+     "NaamWebEN": "Defence",
+     "Inhoudsopgave": "Vaste commissies",
+     "DatumActief": null,
+     "DatumInactief": null,
+     "GewijzigdOp": "2025-02-13T11:29:15+01:00",
+     "ApiGewijzigdOp": "2025-02-13T10:30:13.2411737Z",
+     "Verwijderd": false
+    }
+   }
+  }
+ ]
+}
