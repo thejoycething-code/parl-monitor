@@ -4,5 +4,16 @@
  "moves": [],
  "seeded": "2026-10-11",
  "sent": {},
- "status": {}
+ "status": {
+  "camara/2026/114": "Trámite en Comisión",
+  "camara/2026/215": "Trámite en Comisión",
+  "camara/2026/273": "Trámite en Comisión",
+  "camara/2026/361": "Trámite en Comisión",
+  "camara/2026/367": "Trámite en Comisión",
+  "camara/2026/52": "Retirado",
+  "camara/2026/53": "Trámite en Comisión",
+  "senado/2026/156": "ARCHIVADO POR RETIRO DEL AUTOR",
+  "senado/2026/158": "PENDIENTE RENDIR PONENCIA PARA PRIMER DEBATE EN SENADO",
+  "senado/2026/211": "PENDIENTE DISCUTIR PONENCIA PARA PRIMER DEBATE EN SENADO"
+ }
 }

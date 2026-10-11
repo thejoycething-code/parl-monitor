@@ -1,0 +1,90 @@
+{
+ "co-comision-nacional-de-verdad-y-reparacion-clerica-camara-2026-331": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "5679537742631b1173f2d91dbddf08bdddc7cc1d6a39319c6ef7857c2cdbcc2c",
+  "generated": "2026-10-11",
+  "key": "camara/2026/331",
+  "ready": false,
+  "sha": "3773d7a82a0becfc35d813f86553edf1c760a00048970b219ecac965687b6272",
+  "title": "COMISIÓN NACIONAL DE VERDAD Y REPARACIÓN CLERICAL"
+ },
+ "co-ley-los-padres-educan-camara-2026-273": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "a432f107c4ecb1a03c5a4ae5ebc74ac2b5e015e9f6b0d067e27c620b6795c00d",
+  "generated": "2026-10-11",
+  "key": "camara/2026/273",
+  "ready": false,
+  "sha": "b59f201add5aa53ea2e6e75f0a8f733ba2e49235c7313efed2abbabd50982aee",
+  "title": "LEY LOS PADRES EDUCAN"
+ },
+ "co-ley-no-me-difames-camara-2026-127": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "fb4476ae4db9e42309668707b46c761361ae68d413aa0c702e9f32ebbdd28f70",
+  "generated": "2026-10-11",
+  "key": "camara/2026/127",
+  "ready": false,
+  "sha": "dd56f5d6474c66fd4c34e1bdfb16ba85390983712a75576597d2ed077fb25c0e",
+  "title": "LEY NO ME DIFAMES"
+ },
+ "co-ninos-sin-redes-camara-2026-208": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "1032510b1d7c258b61b6d20d9ec8ca07365fa4af525d83dc8e3f43ce30585d73",
+  "generated": "2026-10-11",
+  "key": "camara/2026/208",
+  "ready": false,
+  "sha": "0d738aa81099ae25ae115c51a655d45e2a7b8279f547261da105c2aefe8d704f",
+  "title": "NIÑOS SIN REDES"
+ },
+ "co-prohibicion-de-la-maternidad-subrogada-camara-2026-215": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "441b3f874423b46d7890b4834bb9261d38bbd9b5fef39711769470124593e00a",
+  "generated": "2026-10-11",
+  "key": "camara/2026/215",
+  "ready": false,
+  "sha": "778c5fb1ae56c33916a64d0e2812fe9bd54d23af1a5c9e2f00a4aaccd706851e",
+  "title": "PROHIBICIÓN DE LA MATERNIDAD SUBROGADA"
+ },
+ "co-proteccion-constitucional-de-la-vida-en-gestacio-camara-2026-114": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "8f9c7e16bc917d405362161b27ef0b66d429843135ff128edc2902b51c07ecdf",
+  "generated": "2026-10-11",
+  "key": "camara/2026/114",
+  "ready": false,
+  "sha": "a0540c0cfbaba0e3ee2dc13068fd75f5823918ed92064e2a72e8cd076e421a1e",
+  "title": "PROTECCIÓN CONSTITUCIONAL DE LA VIDA EN GESTACIÓN"
+ },
+ "co-proteccion-de-la-vida-desde-la-fecundacion-camara-2026-53": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "afdc1c0dab46d9f80343f734e989ca55110b8be1e8d49ffdac934b5e36deb879",
+  "generated": "2026-10-11",
+  "key": "camara/2026/53",
+  "ready": false,
+  "sha": "17b906292a3cb9265c900e51db2c940b29ee7b396d8d07a810021c10e55962ae",
+  "title": "PROTECCIÓN DE LA VIDA DESDE LA FECUNDACIÓN"
+ },
+ "co-tarifa-especial-para-entidades-religiosas-camara-2026-361": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "9053155e2ae1b72611d28b79e5d2f3a9ad1cbfa5ac4a9d7d1f6221434b5ccb55",
+  "generated": "2026-10-11",
+  "key": "camara/2026/361",
+  "ready": false,
+  "sha": "8e469c8b20383fd9c8822e7de2b69e88a1827b0f2937fa7ae8382234a1cd88e0",
+  "title": "TARIFA ESPECIAL PARA ENTIDADES RELIGIOSAS"
+ }
+}
