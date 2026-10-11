@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: G (first 2 June 2025, last 2 October 2026).
 
-## Votes on our ground (71)
+## Votes on our ground (67)
 
-Recorded positions (71): “Ja” 42, “Nein” 25, “Enthaltung” 3, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Nein” 5, “Ja” 3; assisted dying: “Nein” 3, “Ja” 1; sex-based rights: “Ja” 7, “Nein” 2; parental rights and education: “Ja” 9, “Nein” 1; free speech and civil liberties: “Ja” 8, “Enthaltung” 1, “Nein” 1; religious freedom: “Ja” 3, “Nein” 1; marriage and family: “Ja” 14, “Nein” 12, “Enthaltung” 2, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 2.
+Recorded positions (67): “Ja” 42, “Nein” 21, “Enthaltung” 3, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Ja” 3, “Nein” 1; assisted dying: “Nein” 3, “Ja” 1; sex-based rights: “Ja” 7, “Nein” 2; parental rights and education: “Ja” 9, “Nein” 1; free speech and civil liberties: “Ja” 8, “Enthaltung” 1, “Nein” 1; religious freedom: “Ja” 3, “Nein” 1; marriage and family: “Ja” 14, “Nein” 12, “Enthaltung” 2, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 2.
 
 The latest 20:
 
@@ -42,13 +42,29 @@ The latest 20:
 | 30 Apr 2026 | Ja | G (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | G (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-51 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+47 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 10 Jun 2026 | [150 Neonazis in Graubünden - welche Massnahmen können solche Versammlungen, die zu Hass und rassistischer Diskriminierung aufrufen, verhind…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20267541) | 26.7541 | submitted by | religious freedom |
+
+## Committees and groups (2)
+
+- **Committees:** Immunitätskommission Nationalrat (Mitglied); Sicherheitspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (3)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Genossenschaft | Coopérative de L’éolienne des enfants | Mitglied | ehrenamtlich |  |
+| Verein | Pro Junior - Val-de-Ruz | Präsident(in) | ehrenamtlich |  |
+| Verein | ProEole Neuchâtel | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

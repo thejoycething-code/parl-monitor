@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 115, “Nein” 53, “Entschuldigt” 31, “Nicht teilgenommen” 6, “Enthaltung” 4.
-By area (every vote): abortion: “Ja” 13, “Nein” 8, “Entschuldigt” 1; assisted dying: “Nein” 4, “Ja” 2, “Entschuldigt” 1; gender medicine and children: “Entschuldigt” 1, “Ja” 1; conversion practices: “Entschuldigt” 1; sex-based rights: “Ja” 18, “Entschuldigt” 11, “Nein” 4; parental rights and education: “Ja” 8, “Nein” 6, “Entschuldigt” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 9, “Nein” 6, “Entschuldigt” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 6, “Entschuldigt” 4, “Nein” 2, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 71, “Nein” 25, “Entschuldigt” 13, “Nicht teilgenommen” 3, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 7, “Nein” 3, “Entschuldigt” 2, “Enthaltung” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 107, “Nein” 49, “Entschuldigt” 31, “Nicht teilgenommen” 6, “Enthaltung” 4.
+By area (every vote): abortion: “Ja” 5, “Nein” 4, “Entschuldigt” 1; assisted dying: “Nein” 4, “Ja” 2, “Entschuldigt” 1; gender medicine and children: “Entschuldigt” 1, “Ja” 1; conversion practices: “Entschuldigt” 1; sex-based rights: “Ja” 18, “Entschuldigt” 11, “Nein” 4; parental rights and education: “Ja” 8, “Nein” 6, “Entschuldigt” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 9, “Nein” 6, “Entschuldigt” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 6, “Entschuldigt” 4, “Nein” 2, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 71, “Nein” 25, “Entschuldigt” 13, “Nicht teilgenommen” 3, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 7, “Nein” 3, “Entschuldigt” 2, “Enthaltung” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,9 +42,9 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
-## Bills and items on our ground they authored or introduced (14)
+## Bills and items on our ground they authored or introduced (15)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
@@ -62,6 +62,25 @@ The latest 20:
 | 9 Sep 2024 | [Junge Menschen vor Fake News schützen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243833) | 24.3833 | submitted by | parental rights and education, free speech and civil liberties, prostitution and trafficking |
 | 12 Jun 2024 | [Die Opfer häuslicher Gewalt, insbesondere die Kinder, besser schützen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243595) | 24.3595 | submitted by | sex-based rights |
 | 16 Jun 2023 | [Studie über die Gewalt von Kindern gegenüber ihren Eltern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20233887) | 23.3887 | submitted by | sex-based rights |
+| 15 Dec 2021 | [Aufrufe zu Hass und Gewalt aufgrund des Geschlechts müssen strafbar werden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210515) | 21.515 | submitted by | sex-based rights, free speech and civil liberties |
+
+## Committees and groups (3)
+
+- **Committees:** Immunitätskommission Nationalrat (Vizepräsident/in); Sicherheitspolitische Kommission Nationalrat (Präsident/in).
+- **Delegations:** Delegation bei der parlamentarischen Versammlung der NATO (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (4)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Securitas SA | Mitglied | bezahlt |  |
+| Verein | AEE Dachverband der Wirtschaft für erneuerbare Energien und Energieeffizienz | Vizepräsident(in) | bezahlt |  |
+| Verein | Allianz Sicherheit Schweiz | Mitglied | ehrenamtlich |  |
+| Verein | Fédération suisse du tourisme FST | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

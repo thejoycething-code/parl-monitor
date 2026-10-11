@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 151, “Nein” 54, “Entschuldigt” 2, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 5, “Nein” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 30, “Nein” 3; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 16, “Nein” 3; religious freedom: “Ja” 9, “Nein” 4, “Nicht teilgenommen” 1; marriage and family: “Ja” 78, “Nein” 34, “Entschuldigt” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 143, “Nein” 50, “Entschuldigt” 2, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 5, “Nein” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 30, “Nein” 3; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 16, “Nein” 3; religious freedom: “Ja” 9, “Nein” 4, “Nicht teilgenommen” 1; marriage and family: “Ja” 78, “Nein” 34, “Entschuldigt” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (13)
 
@@ -61,6 +61,22 @@ The latest 20:
 | 17 Apr 2024 | [Straflosigkeit bei Missbrauch in der römisch-katholischen Kirche und anderen Religionsgemeinschaften verhindern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243461) | 24.3461 | submitted by | religious freedom |
 | 13 Mar 2024 | [Was tut die Schweiz, damit die Schuldenkrise im globalen Süden den weltweiten Klimaschutz nicht torpediert?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243162) | 24.3162 | submitted by | religious freedom |
 | 14 Mar 2023 | [Gewalttätiger Extremismus in der Schweiz](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20233136) | 23.3136 | submitted by | religious freedom |
+
+## Committees and groups (5)
+
+- **Committees:** APK-N Subkommission Mitwirkungsrechte des Parlamentes in der Aussenpolitik (Präsident/in); Aussenpolitische Kommission Nationalrat (Mitglied); Sicherheitspolitische Kommission Nationalrat (Mitglied); SiK-N Subkommission Revision des Kriegsmaterialgesetzes (Mitglied).
+- **Delegations:** Delegation bei der Parlamentarischen Versammlung des Europarates (Stellvertreter/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (2)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | SWISSAID - Stiftung für Entwicklungszusammenarbeit, Bern | Präsident(in) | bezahlt |  |
+| Verein | Komitee ZQ 27 (ZIRKUSQUARTIER, Zürich) | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

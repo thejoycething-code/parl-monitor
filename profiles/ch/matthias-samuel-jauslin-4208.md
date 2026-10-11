@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 20 December 2024); GL (first 3 March 2025, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 141, “Nein” 68.
-By area (every vote): abortion: “Ja” 15, “Nein” 7; assisted dying: “Nein” 6, “Ja” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 23, “Nein” 10; parental rights and education: “Ja” 9, “Nein” 7; free speech and civil liberties: “Ja” 14, “Nein” 5; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 82, “Nein” 32; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 135, “Nein” 62.
+By area (every vote): abortion: “Ja” 9, “Nein” 1; assisted dying: “Nein” 6, “Ja” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 23, “Nein” 10; parental rights and education: “Ja” 9, “Nein” 7; free speech and civil liberties: “Ja” 14, “Nein” 5; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 82, “Nein” 32; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,34 @@ The latest 20:
 | 30 Apr 2026 | Nein | GL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | GL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (3)
+
+- **Committees:** Kommission für Verkehr und Fernmeldewesen Nationalrat (Mitglied); Sicherheitspolitische Kommission Nationalrat (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Österreichischen Parlament (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (13)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Jost Wohlen AG, Wohlen (Inhaber) | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Jost Wohlen AG, Wohlen (Inhaber) | Geschäftsführer(in) | bezahlt |  |
+| Genossenschaft | WOHNEN SCHWEIZ | Beirat | ehrenamtlich |  |
+| Stiftung | Förderstiftung Technopark Aargau, Brugg | Vizepräsident(in) | ehrenamtlich |  |
+| Stiftung | Schweizer Stiftung Pro Aero, Zürich | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung Landschaftsschutz Schweiz (SL-FP) | Mitglied | ehrenamtlich |  |
+| Verein | AeCS Aeroclub Schweiz | Präsident(in) | bezahlt |  |
+| Verein | Fachvereinigung Wärmepumpen Schweiz | Präsident(in) | bezahlt |  |
+| Verein | GEOTHERMIE SCHWEIZ, Bern | Mitglied | ehrenamtlich |  |
+| Verein | Rotary Club Freiamt | Mitglied | ehrenamtlich |  |
+| Verein | Schweizerischer Gewerbeverband sgv (Mitglied Gewerbekammer) | Mitglied | bezahlt |  |
+| Verein | Swiss eMobility, Bern | Mitglied | ehrenamtlich |  |
+| Verein | Verein Geothermische Kraftwerke Aargau (VGKA), Aarau | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

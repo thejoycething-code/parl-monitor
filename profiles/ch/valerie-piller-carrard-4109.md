@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 148, “Nein” 57, “Nicht teilgenommen” 3, “Enthaltung” 1.
-By area (every vote): abortion: “Ja” 13, “Nein” 8, “Nicht teilgenommen” 1; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 28, “Nein” 3, “Nicht teilgenommen” 2; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 16, “Nein” 3; religious freedom: “Ja” 9, “Nein” 4, “Nicht teilgenommen” 1; marriage and family: “Ja” 78, “Nein” 35, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nicht teilgenommen” 2, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 140, “Nein” 53, “Nicht teilgenommen” 3, “Enthaltung” 1.
+By area (every vote): abortion: “Ja” 5, “Nein” 4, “Nicht teilgenommen” 1; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 28, “Nein” 3, “Nicht teilgenommen” 2; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 16, “Nein” 3; religious freedom: “Ja” 9, “Nein” 4, “Nicht teilgenommen” 1; marriage and family: “Ja” 78, “Nein” 35, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nicht teilgenommen” 2, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (3)
 
@@ -51,6 +51,26 @@ The latest 20:
 | 22 Dec 2023 | [Anspruch auf Familienzulagen bei Krankheit](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20234526) | 23.4526 | submitted by | marriage and family |
 | 16 Jun 2023 | [Familienzulagen. Unregelmässig Beschäftigten das Leben vereinfachen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20233927) | 23.3927 | submitted by | marriage and family |
 | 16 Dec 2022 | [Die Kaufkraft der Familien stärken](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220499) | 22.499 | submitted by | marriage and family |
+
+## Committees and groups (2)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)).
+- **Delegations:** Delegation bei der Parlamentarischen Versammlung des Europarates (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (6)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | TPF SA, Givisiez | Mitglied | bezahlt |  |
+| Stiftung | Fondation suisse du scoutisme | Mitglied | ehrenamtlich |  |
+| Stiftung | Fondation village lacustre de Gletterens, Gletterens | Mitglied | ehrenamtlich |  |
+| Verein | Association Suisse pour Systèmes de Qualité et de Management SQS | Mitglied | bezahlt |  |
+| Verein | Pro Familia Fribourg | Präsident(in) | ehrenamtlich |  |
+| Verein | Pro Familia Suisse, Berne | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 114, “Nein” 78, “Nicht teilgenommen” 12, “Enthaltung” 5.
-By area (every vote): abortion: “Ja” 14, “Nein” 6, “Nicht teilgenommen” 2; assisted dying: “Ja” 3, “Nein” 2, “Nicht teilgenommen” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 15, “Ja” 14, “Enthaltung” 2, “Nicht teilgenommen” 2; parental rights and education: “Ja” 7, “Nein” 6, “Nicht teilgenommen” 3; free speech and civil liberties: “Ja” 13, “Nein” 4, “Enthaltung” 1, “Nicht teilgenommen” 1; religious freedom: “Ja” 9, “Nein” 5; marriage and family: “Ja” 65, “Nein” 42, “Nicht teilgenommen” 5, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 7, “Nein” 4, “Nicht teilgenommen” 2; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 106, “Nein” 74, “Nicht teilgenommen” 12, “Enthaltung” 5.
+By area (every vote): abortion: “Ja” 6, “Nein” 2, “Nicht teilgenommen” 2; assisted dying: “Ja” 3, “Nein” 2, “Nicht teilgenommen” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 15, “Ja” 14, “Enthaltung” 2, “Nicht teilgenommen” 2; parental rights and education: “Ja” 7, “Nein” 6, “Nicht teilgenommen” 3; free speech and civil liberties: “Ja” 13, “Nein” 4, “Enthaltung” 1, “Nicht teilgenommen” 1; religious freedom: “Ja” 9, “Nein” 5; marriage and family: “Ja” 65, “Nein” 42, “Nicht teilgenommen” 5, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 7, “Nein” 4, “Nicht teilgenommen” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,28 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nicht teilgenommen | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (2)
+
+- **Committees:** Kommission für Umwelt, Raumplanung und Energie Nationalrat (Mitglied); Staatspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (8)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Tschudin AG, Grenchen | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Walo Bertschinger AG Bern, Bern | Präsident(in) | bezahlt |  |
+| Öffentlich-rechtliche Anstalt | Fachhochschulrat Berner Fachhochschule (BFH) | Mitglied | bezahlt |  |
+| Verein | bauenschweiz, Zürich | Mitglied | ehrenamtlich |  |
+| Verein | Informationsdienst für den öffentlichen Verkehr (LITRA), Bern | Mitglied | ehrenamtlich |  |
+| Verein | Infra Suisse, Zürich | Präsident(in) | bezahlt |  |
+| Verein | Schweizerischer Baumeisterverband (SBV) | Mitglied | bezahlt |  |
+| Verein | strasseschweiz, Bern | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

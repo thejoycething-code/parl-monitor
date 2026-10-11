@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 101, “Nein” 81, “Nicht teilgenommen” 12, “Entschuldigt” 10, “Enthaltung” 5.
-By area (every vote): abortion: “Ja” 14, “Nein” 7, “Nicht teilgenommen” 1; assisted dying: “Nein” 4, “Enthaltung” 1, “Ja” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 13, “Nein” 11, “Entschuldigt” 6, “Enthaltung” 2, “Nicht teilgenommen” 1; parental rights and education: “Nein” 9, “Ja” 6, “Entschuldigt” 1; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Nein” 7, “Ja” 5, “Enthaltung” 1, “Entschuldigt” 1; marriage and family: “Ja” 57, “Nein” 40, “Nicht teilgenommen” 9, “Entschuldigt” 8; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Entschuldigt” 6, “Ja” 4, “Nein” 2, “Enthaltung” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 93, “Nein” 77, “Nicht teilgenommen” 12, “Entschuldigt” 10, “Enthaltung” 5.
+By area (every vote): abortion: “Ja” 6, “Nein” 3, “Nicht teilgenommen” 1; assisted dying: “Nein” 4, “Enthaltung” 1, “Ja” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 13, “Nein” 11, “Entschuldigt” 6, “Enthaltung” 2, “Nicht teilgenommen” 1; parental rights and education: “Nein” 9, “Ja” 6, “Entschuldigt” 1; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Nein” 7, “Ja” 5, “Enthaltung” 1, “Entschuldigt” 1; marriage and family: “Ja” 57, “Nein” 40, “Nicht teilgenommen” 9, “Entschuldigt” 8; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Entschuldigt” 6, “Ja” 4, “Nein” 2, “Enthaltung” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,13 +42,35 @@ The latest 20:
 | 30 Apr 2026 | Nicht teilgenommen | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 2 Oct 2026 | [Sicherstellung der Versorgung mit menschlichen Geweben für Transplantationen: Welche nationale Strategie für die Schweiz?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264576) | 26.4576 | submitted by | organ donation |
+
+## Committees and groups (4)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Präsident/in)** (on our ground: the social security and health committee (SGK)); **Kommission für Wissenschaft, Bildung und Kultur Nationalrat (Mitglied)** (on our ground: the science, education and culture committee (WBK)); SGK-N Subkommission Cannabisregulierung (Mitglied); SGK-N Subkommission Finanzierung Palliative Pflege (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (9)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Federas Beratung AG, Zürich | Mitglied | bezahlt |  |
+| Aktiengesellschaft | PwC Switzerland | Mitglied | bezahlt |  |
+| Keine Angaben | Seniorenuniversität Schaffhausen | Mitglied | ehrenamtlich |  |
+| Stiftung | Schweizerischer Institut für Kunstwissenschaften (SIK-ISEA), Zürich | Mitglied | ehrenamtlich |  |
+| Verein | Aviationsuisse | Präsident(in) | ehrenamtlich |  |
+| Verein | compasso, Zürich | Mitglied | ehrenamtlich |  |
+| Verein | H+ Die Spitäler der Schweiz | Präsident(in) | bezahlt |  |
+| Verein | Schweizerischer Verein Balgrist, Zürich | Mitglied | ehrenamtlich |  |
+| Verein | Zürcher Handelskammer | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

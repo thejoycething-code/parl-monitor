@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 149, “Nein” 55, “Enthaltung” 3, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 5, “Nein” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 3, “Enthaltung” 1; parental rights and education: “Ja” 13, “Nein” 2, “Enthaltung” 1; free speech and civil liberties: “Ja” 15, “Nein” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 78, “Nein” 35, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 141, “Nein” 51, “Enthaltung” 3, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 5, “Nein” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 3, “Enthaltung” 1; parental rights and education: “Ja” 13, “Nein” 2, “Enthaltung” 1; free speech and civil liberties: “Ja” 15, “Nein” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 78, “Nein” 35, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (6)
 
@@ -54,6 +54,27 @@ The latest 20:
 | 5 Mar 2024 | [Mehrfahrtkarten im öffentlichen Verkehr](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20247164) | 24.7164 | submitted by | parental rights and education |
 | 29 Sep 2022 | [Transparenz bei Verstössen gegen die Lohngleichheit schaffen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20224152) | 22.4152 | submitted by | sex-based rights |
 | 13 Dec 2021 | [Aufrufe zu Hass und Gewalt aufgrund des Geschlechts müssen strafbar werden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210513) | 21.513 | submitted by | sex-based rights, free speech and civil liberties |
+
+## Committees and groups (6)
+
+- **Committees:** **Kommission für Wissenschaft, Bildung und Kultur Nationalrat (Vizepräsident/in)** (on our ground: the science, education and culture committee (WBK)); Begnadigungskommission (Mitglied); Gerichtskommission (Mitglied); Gerichtskommission Subkommission Vereinigte Bundesversammlung (Mitglied); Kommission für Verkehr und Fernmeldewesen Nationalrat (Mitglied); SiK-N Subkommission Totalrevision des Zollgesetzes (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (8)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Energie 360 Grad, Zürich | Mitglied | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | P.S. Verlag, Zürich | Gesellschafter(in) | bezahlt |  |
+| Stiftung | Schweizerische Informatik Stiftung | Mitglied | bezahlt |  |
+| Stiftung | Technorama | Mitglied | ehrenamtlich |  |
+| Verein | Algorithm Watch | Beirat | ehrenamtlich |  |
+| Verein | Alliance F | Mitglied | ehrenamtlich |  |
+| Verein | ch-intercultur | Mitglied | ehrenamtlich |  |
+| Verein | Verband Medien mit Zukunft | Vizepräsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

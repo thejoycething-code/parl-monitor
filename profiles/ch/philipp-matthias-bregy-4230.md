@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 131, “Nein” 63, “Enthaltung” 12, “Nicht teilgenommen” 3.
-By area (every vote): abortion: “Ja” 11, “Nein” 8, “Enthaltung” 3; assisted dying: “Nein” 6, “Ja” 1; gender medicine and children: “Enthaltung” 1, “Ja” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 12, “Enthaltung” 1; parental rights and education: “Ja” 10, “Nein” 5, “Enthaltung” 1; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 82, “Nein” 23, “Enthaltung” 6, “Nicht teilgenommen” 3; surrogacy and embryology: “Enthaltung” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 125, “Nein” 60, “Enthaltung” 9, “Nicht teilgenommen” 3.
+By area (every vote): abortion: “Ja” 5, “Nein” 5; assisted dying: “Nein” 6, “Ja” 1; gender medicine and children: “Enthaltung” 1, “Ja” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 12, “Enthaltung” 1; parental rights and education: “Ja” 10, “Nein” 5, “Enthaltung” 1; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 82, “Nein” 23, “Enthaltung” 6, “Nicht teilgenommen” 3; surrogacy and embryology: “Enthaltung” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,13 +42,39 @@ The latest 20:
 | 30 Apr 2026 | Ja | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 11 Jun 2025 | [Individualbesteuerung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257510) | 25.7510 | submitted by | marriage and family |
+
+## Committees and groups (3)
+
+- **Committees:** Kommission für Rechtsfragen Nationalrat (Mitglied); Kommission für Wirtschaft und Abgaben Nationalrat (Mitglied); WAK-N Subkommission Für einen fairen Wettbewerb zwischen öffentlichen und Privaten Unternehmen (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (13)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Belalp Bahnen AG | Mitglied | bezahlt |  |
+| Aktiengesellschaft | EnAlpin AG, Visp | Mitglied | bezahlt |  |
+| Aktiengesellschaft | naturenergie hochrhein AG, Rheinfelden (Baden) | Mitglied | bezahlt |  |
+| Aktiengesellschaft | naturenergie holding AG, Laufenburg | Mitglied | bezahlt |  |
+| Verein | Branchenverband Schweizer Reben und Weine | Präsident(in) | bezahlt |  |
+| Verein | Gastro Suisse, Zürich | Beirat | bezahlt |  |
+| Verein | HEV Hauseigentümerverband Schweiz, Zürich | Mitglied | bezahlt |  |
+| Verein | Lötschberg-Komitee | Mitglied | ehrenamtlich |  |
+| Verein | Mach Müsig, Naters | Präsident(in) | ehrenamtlich |  |
+| Verein | OK Eidgenössisches Tambouren- und Pfeiferfest 2027, Visp | Co-Präsident(in) | ehrenamtlich |  |
+| Verein | Schweizerischer Gewerbeverband, Gewerbekammer, Bern | Mitglied | ehrenamtlich |  |
+| Verein | Sektion Wallis des TCS | Vizepräsident(in) | bezahlt |  |
+| Verein | Walliser Gewerbeverband, Sitten | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

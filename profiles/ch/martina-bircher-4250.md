@@ -12,23 +12,16 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 12 December 2024).
 
-## Votes on our ground (94)
+## Votes on our ground (87)
 
-Recorded positions (94): “Nein” 51, “Ja” 36, “Nicht teilgenommen” 7.
-By area (every vote): abortion: “Ja” 8, “Nein” 4; assisted dying: “Ja” 2; gender medicine and children: “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 20, “Ja” 1; parental rights and education: “Nein” 5, “Ja” 1; free speech and civil liberties: “Ja” 3, “Nein” 2; religious freedom: “Nein” 6, “Ja” 3; marriage and family: “Nein” 26, “Ja” 19, “Nicht teilgenommen” 7; prostitution and trafficking: “Nein” 10, “Ja” 1.
+Recorded positions (87): “Nein” 49, “Ja” 31, “Nicht teilgenommen” 7.
+By area (every vote): abortion: “Ja” 3, “Nein” 2; assisted dying: “Ja” 2; gender medicine and children: “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 20, “Ja” 1; parental rights and education: “Nein” 5, “Ja” 1; free speech and civil liberties: “Ja” 3, “Nein” 2; religious freedom: “Nein” 6, “Ja” 3; marriage and family: “Nein” 26, “Ja” 19, “Nicht teilgenommen” 7; prostitution and trafficking: “Nein” 10, “Ja” 1.
 
 The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
 | 11 Dec 2024 | Nein | V (at the vote) | [318 Bundesamt für Sozislversicherung A231.0244 Familienergänzende Kinderbetreuung (gilt auch für den B undesbeschluss II Art. 2); on: Voran…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240041) | marriage and family, tier 2 |
-| 9 Dec 2024 | Nein | V (at the vote) | [Gesamtabstimmung; on: Bundesgesetz über die Invalidenversicherung IVG (Intensive Frühintervention bei Autismus-Spektrum-Störungen, IFI). Än…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240066) | abortion, tier 1 |
-| 9 Dec 2024 | Nein | V (at the vote) | [Art. 13a Abs. 3; on: Bundesgesetz über die Invalidenversicherung IVG (Intensive Frühintervention bei Autismus-Spektrum-Störungen, IFI). Änd…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240066) | abortion, tier 1 |
-| 9 Dec 2024 | Ja | V (at the vote) | [Art. 52e (gilt auch für Ziff. II 1. IVG Art. 14septies, Art. 4octies, Übergangsbestimmung Abs. 2-3 Ziff. III Abs. 5bis und 5ter und Entwurf…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220062) | abortion, tier 1 |
-| 9 Dec 2024 | Ja | V (at the vote) | [Art. 52d Abs. 2bis (gilt auch für Ziff. II 1. IVG Art. 14ter Abs. 3 Bst. bbis, Art. 14sexies Abs. 2bis ); on: KVG. Änderung (Massnahmen zur…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220062) | abortion, tier 1 |
-| 9 Dec 2024 | Ja | V (at the vote) | [Art. 52d Abs. 1 (gilt auch für Ziffer II 1. IVG Art. 14sexies Abs. 1); on: KVG. Änderung (Massnahmen zur Kostendämpfung - Paket 2)](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220062) | abortion, tier 1 |
-| 9 Dec 2024 | Ja | V (at the vote) | [Art. 52d Abs. 1 (gilt auch für Ziffer II 1. IVG Art. 14sexies Abs. 1); on: KVG. Änderung (Massnahmen zur Kostendämpfung - Paket 2)](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220062) | abortion, tier 1 |
-| 9 Dec 2024 | Ja | V (at the vote) | [Art. 52c (gilt auch für Ziff. II 1. IVG Art. 14quinquies Abs. 2-4, Übergangsbestimmung Abs. 1; Ziff. III Abs. 5); on: KVG. Änderung (Massna…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220062) | abortion, tier 1 |
 | 5 Dec 2024 | Nein | V (at the vote) | [318 Bundesamt für Sozialversicherung A231.0244 Familienergänzende Kinderbetreuung (gilt auch für den Bundesbeschluss Ia Verplichtungskredit…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240041) | marriage and family, tier 2 |
 | 27 Sep 2024 | Nein | V (at the vote) | [Schlussabstimmung; on: Verlängerung der Bundesbeiträge an die familienergänzende Kinderbetreuung bis Ende des Jahres 2026](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20230478) | marriage and family, tier 2 |
 | 27 Sep 2024 | Nein | V (at the vote) | [(gilt auch für die Petition 24.2012 Petition Pro Schweiz. WHO-Pandemieabkommen - Nein danke!); on: Änderungen der internationalen Gesundhei…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20242006) · bill's areas | free speech and civil liberties |
@@ -39,10 +32,17 @@ The latest 20:
 | 25 Sep 2024 | Nicht teilgenommen | V (at the vote) | [Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel); on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeit…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
 | 25 Sep 2024 | Nicht teilgenommen | V (at the vote) | [Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel); on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeit…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
 | 25 Sep 2024 | Nicht teilgenommen | V (at the vote) | [Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel); on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeit…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
-| 25 Sep 2024 | Ja | V (at the vote) | [Eintreten; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Ge…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
+| 25 Sep 2024 | Ja | V (at the vote) | [Eintreten; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Ge…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for the committee majority's proposal (Eintreten) on 24.026 (BRG 24.026, the federal message on the popular initiative for marital-status-independent individual taxation…) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
 | 25 Sep 2024 | Nein | V (at the vote) | [Annahme der Motion; on: Übermässige Exponierung von Kindern im Internet (Sharenting und kommerzielle Nutzung von Bildern). Für eine garanti…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20233693) · bill's areas | parental rights and education |
+| 24 Sep 2024 | Ja | V (at the vote) | [Antrag der Mehrheit (keine Folge geben); on: Für einen verstärkten Schutz unbegleiteter minderjähriger Flüchtlinge bis zum Alter von 25 Jah…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20230301) · bill's areas | parental rights and education |
+| 24 Sep 2024 | Ja | V (at the vote) | [Antrag der Mehrheit (keine Folge geben); on: Unterstützung für Frauen nach einer Fehl- oder Totgeburt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220308) · bill's areas | abortion |
+| 24 Sep 2024 | Ja | V (at the vote) | [Antrag der Mehrheit (Abschreibung); on: Für eine Übernahme der Arztkosten bei Schwangerschaftsabbrüchen vor der dreizehnten Woche](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20190308) · bill's areas | abortion |
+| 19 Sep 2024 | Nein | V (at the vote) | [Annahme des Postulates; on: Kennzeichnungspflicht für retuschierte Personenbilder](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20233620) · bill's areas | parental rights and education |
+| 12 Sep 2024 | Ja | V (at the vote) | [Antrag der Kommission (Annahme des Postulates); on: Einführung von Bedingungen für die ausländische Finanzierung von Gebetshäusern und Bild…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243473) · bill's areas | religious freedom |
+| 11 Sep 2024 | Nein | V (at the vote) | [Annahme des Postulates; on: Sexueller Missbrauch in Organisationen mit einem Auftrag in der Betreuung von vulnerablen Personen in der Schwe…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243472) · bill's areas | religious freedom |
+| 11 Sep 2024 | Nein | V (at the vote) | [Gesamtabstimmung; on: Verlängerung der Bundesbeiträge an die familienergänzende Kinderbetreuung bis Ende des Jahres 2026](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20230478) | marriage and family, tier 2 |
 
-74 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+67 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (2)
 

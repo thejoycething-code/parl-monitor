@@ -61,7 +61,9 @@ placement, the sheet and the checkbox format. Four parts:
    confidence says so.
 
 4. THE DIGEST (`digest_text`, tools/stance_digest.py): one weekly DM to
-   Chris listing what awaits sign-off, by country.
+   Chris listing what awaits sign-off, by country. Since 11 October 2026 it
+   leads with each country's top 5 to sign first, ranked by
+   src/shortlist5ca.py (which also writes docs/5ca-<cc>-shortlist.md).
 
 Read-only on the store. Writes config/<cc>_stance.yaml (append only, or the
 confirm edit), docs/5ca-<cc>-readings.md and data/5ca/<cc>-5ca-*.csv.
@@ -1092,11 +1094,38 @@ def prune_out_of_scope(cc, config_dir=None, wl=None, dry_run=False, log=print):
     comments, bill directions and every other entry are left as they are.
     Returns {'removed': [keys], 'kept': [(key, why)]}."""
     spec = SPECS[cc]
-    got = {"removed": [], "kept": []}
     if spec.scope is None:
         log("{0}: no sign-off scope; nothing to prune".format(spec.name))
-        return got
+        return {"removed": [], "kept": []}
     wl = spec.watchlist_fn() if wl is None else wl
+    return _prune(cc, lambda k, e: not entry_in_scope(cc, e, wl), "outside the sign-off scope",
+                  config_dir, dry_run, log)
+
+
+def off_ground(conn, cc, wl=None):
+    """The division keys of a store that the drafter would no longer draft:
+    in the store, but neither watched nor tier 1 on our ground (a
+    reclassification took their areas away, as Switzerland's IVG guard did
+    on 11 October 2026). A key the store does not hold is never in it."""
+    present = {r["key"] for r in divisions(conn, cc)}
+    return present - {r["key"] for r in qualifying(conn, cc, wl)}
+
+
+def prune_off_ground(conn, cc, config_dir=None, wl=None, dry_run=False, log=print):
+    """Remove from config/<cc>_stance.yaml every unsigned, untouched entry
+    whose division is no longer on our ground in the store (`off_ground`).
+    Confirmed and hand-edited entries are kept and reported, as by
+    `prune_out_of_scope`. Returns {'removed': [keys], 'kept': [(key, why)]}."""
+    gone = off_ground(conn, cc, wl)
+    return _prune(cc, lambda k, e: k in gone, "no longer on our ground",
+                  config_dir, dry_run, log)
+
+
+def _prune(cc, outside, label, config_dir=None, dry_run=False, log=print):
+    """The text edit behind both prunes: drop each entry `outside(key, entry)`
+    says goes, unless it is signed or hand-edited."""
+    spec = SPECS[cc]
+    got = {"removed": [], "kept": []}
     divs, _, _ = load(cc, config_dir)
     path = stance_path(cc, config_dir)
     if not divs:
@@ -1106,7 +1135,7 @@ def prune_out_of_scope(cc, config_dir=None, wl=None, dry_run=False, log=print):
     drop = set()
     for k, start, end in _entry_blocks(lines):
         e = divs.get(k)
-        if e is None or entry_in_scope(cc, e, wl):
+        if e is None or not outside(k, e):
             continue
         why = hand_edited(e)
         if why is None and any(ln.lstrip().startswith("#") for ln in lines[start:end]):
@@ -1141,11 +1170,11 @@ def prune_out_of_scope(cc, config_dir=None, wl=None, dry_run=False, log=print):
         with open(path, "w", encoding="utf-8") as h:
             h.write(text)
     for k, why in got["kept"]:
-        log("  kept {0} (outside the scope, but {1})".format(k, why))
-    log("{0}: {1} {2} unsigned, untouched entr{3} outside the sign-off scope; {4} kept "
-        "(hand-edited or signed); {5} left in scope".format(
+        log("  kept {0} ({1}, but {2})".format(k, label, why))
+    log("{0}: {1} {2} unsigned, untouched entr{3} {4}; {5} kept "
+        "(hand-edited or signed); {6} left".format(
             spec.name, "would remove" if dry_run else "removed", len(got["removed"]),
-            "y" if len(got["removed"]) == 1 else "ies", len(got["kept"]),
+            "y" if len(got["removed"]) == 1 else "ies", label, len(got["kept"]),
             len(divs) - len(got["removed"]) - len(got["kept"])))
     return got
 
@@ -1634,8 +1663,14 @@ def counts(cc, config_dir=None):
     return c
 
 
-def digest_text(today=None, config_dir=None, docs_dir=None, per_country=4, countries=COUNTRIES):
-    """The weekly 'stances awaiting sign-off' DM, or None when nothing waits."""
+def digest_text(today=None, config_dir=None, docs_dir=None, per_country=5, countries=COUNTRIES):
+    """The weekly 'stances awaiting sign-off' DM, or None when nothing waits.
+
+    Changed 11 October 2026 (src/shortlist5ca.py): each country now LEADS
+    with its top `per_country` readings to sign first (the ranked shortlist,
+    docs/5ca-<cc>-shortlist.md), then one line of counts, instead of the
+    counts and the newest proposed keys. It still confirms nothing."""
+    from src import shortlist5ca as sl
     today = today or datetime.date.today().isoformat()
     y, w, _ = datetime.date.fromisoformat(today).isocalendar()
     parts, waiting = [], 0
@@ -1656,30 +1691,27 @@ def digest_text(today=None, config_dir=None, docs_dir=None, per_country=4, count
             with open(dp, encoding="utf-8") as h:
                 ticked = [k for k in r5.ticked_keys(h.read())
                           if (divs.get(k) or {}).get("status") != "confirmed"]
-        head = "*{0}* ({1}): {2} proposed, {3} procedural, {4} need reading, {5} confirmed".format(
-            spec.name, "signer: " + ", ".join(names) if names else "country signer not named yet",
+        lines = ["*{0}* ({1}): sign these first".format(
+            spec.name, "signer: " + ", ".join(names) if names else "country signer not named yet")]
+        try:
+            lines += sl.digest_lines(cc, config_dir, today, per_country)
+        except Exception as exc:          # the ranking must never cost the digest
+            lines.append("  (shortlist unavailable: {0})".format(type(exc).__name__))
+        tail = "  Waiting: {0} proposed, {1} procedural, {2} need reading, {3} confirmed".format(
             c["proposed"], c["procedural"], c["needs_reading"], c["confirmed"])
         if ticked:
-            head += "; *{0} ticked in the guide, not yet applied*".format(len(ticked))
-        lines = [head]
-        divs, _, _ = load(cc, config_dir)
-        props = sorted(((k, e) for k, e in divs.items() if e.get("status") == "draft"
-                        and e.get("placeable") is not False),
-                       key=lambda kv: (str(kv[1].get("dated") or ""), kv[0]), reverse=True)
-        for k, e in props[:per_country]:
-            lines.append("  - `{0}` {1} {2}: {3} {4} / {5} {6}".format(
-                k, e.get("dated") or "?", r5.clip(e.get("title"), 70), spec.labels[0],
-                _fmt(e.get("yea")), spec.labels[1], _fmt(e.get("nay"))))
-        if len(props) > per_country:
-            lines.append("  - and {0} more proposed".format(len(props) - per_country))
-        lines.append("  Guide: docs/5ca-{0}-readings.md".format(cc))
+            tail += "; *{0} ticked in the guide, not yet applied*".format(len(ticked))
+        lines.append(tail)
+        lines.append("  Shortlist: docs/5ca-{0}-shortlist.md (guide: docs/5ca-{0}-readings.md)".format(cc))
         parts.append("\n".join(lines))
     if not waiting:
         return None
     return ("*Stances awaiting sign-off*, week {0} of {1}: {2} readings across {3} countries. "
-            "Nothing places anyone in a 5CA until a named person confirms it.\n\n{4}\n\n"
-            "To confirm: tick in the country's guide, then "
-            "`python3 tools/country_5ca.py --cc CC --sign-from-doc --by NAME`, or "
-            "`--confirm KEY --by NAME`. Who signs for each country is "
+            "Each country's top {4} to sign first, ranked by tools/country_5ca.py --shortlist "
+            "(decisive votes on watched bills, close or split votes, meaning lines, campaigns "
+            "and briefs, recent first). Nothing places anyone in a 5CA until a named person "
+            "confirms it.\n\n{5}\n\n"
+            "To confirm: `python3 tools/country_5ca.py --cc CC --confirm KEY --by NAME`, or tick "
+            "in the country's guide and `--sign-from-doc --by NAME`. Who signs for each country is "
             "config/stance_signers.yaml (country teams are the natural owners)."
-            .format(w, y, waiting, len(parts), "\n\n".join(parts)))
+            .format(w, y, waiting, len(parts), per_country, "\n\n".join(parts)))

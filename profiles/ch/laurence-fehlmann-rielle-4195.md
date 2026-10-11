@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 147, “Nein” 60, “Enthaltung” 1, “Entschuldigt” 1.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 4; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 76, “Nein” 36, “Enthaltung” 1, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 139, “Nein” 56, “Enthaltung” 1, “Entschuldigt” 1.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 4; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 76, “Nein” 36, “Enthaltung” 1, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (5)
 
@@ -53,6 +53,29 @@ The latest 20:
 | 11 Sep 2024 | [Zugang zu öffentlichen Verkehrsmitteln nur digital über Smartphone: Ist das rechtlich vertretbar?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20247583) | 24.7583 | submitted by | parental rights and education |
 | 22 Dec 2023 | [Notwendigkeit einer Beobachtungsstelle für häusliche und geschlechtsspezifische Gewalt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20234524) | 23.4524 | submitted by | sex-based rights |
 | 6 Dec 2023 | [Organspende: Eine rasche Inkraftsetzung gewährleisten!](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20237840) | 23.7840 | submitted by | free speech and civil liberties, organ donation |
+
+## Committees and groups (4)
+
+- **Committees:** Aussenpolitische Kommission Nationalrat (Mitglied); Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 2 (EDA/WBF) (Mitglied).
+- **Delegations:** Delegation bei der Interparlamentarischen Union (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (9)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | FAAG - Fondation pour la Formation des Aînées et des Aînés de Genève | Mitglied | ehrenamtlich |  |
+| Stiftung | Fondation SGIPA (intégration de personnes avec déficiences intellectuelles), Chêne-Bougeries | Mitglied | bezahlt |  |
+| Verein | Association Helvetia Latina | Vizepräsident(in) | ehrenamtlich |  |
+| Verein | Association Suisse-Birmanie | Präsident(in) | ehrenamtlich |  |
+| Verein | AT Suisse - Association pour la prévention du tabagisme (Berne) | Präsident(in) | bezahlt |  |
+| Verein | Comité de l'Association d'Aide et de Soins à domicile Suisse | Mitglied | ehrenamtlich |  |
+| Verein | Licra-Genève | Mitglied | ehrenamtlich |  |
+| Verein | Réseau romand Handicap Mental (RRASA) | Präsident(in) | ehrenamtlich |  |
+| Verein | UPA-Université genevoise des cultures (anc. Université populaire albanaise) | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

@@ -532,6 +532,8 @@ Later phases and items for Chris (not built at the merge):
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/es_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 86 vote reading(s): 1 with proposed values, 4 procedural, 81 need reading, 0 confirmed. Guide: `docs/5ca-es-readings.md`; confirm with `python3 tools/country_5ca.py --cc es --sign-from-doc --by NAME`. Sheets (`data/5ca/es-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Spain (`config/stance_signers.yaml`). Spain's own edition resumes after 23 December; the drafts stand meanwhile.
 
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-es-shortlist.md` ranks the 86 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `congreso-15-177-12` (2026-04-30, a motion to reject the text; the decisive one; close: 171-177). It confirms nothing.
+
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:

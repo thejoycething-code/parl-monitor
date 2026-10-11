@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 111, “Ja” 83, “Nicht teilgenommen” 11, “Enthaltung” 4.
-By area (every vote): abortion: “Ja” 11, “Nein” 9, “Enthaltung” 2; assisted dying: “Ja” 5, “Nein” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 23, “Nicht teilgenommen” 6, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 12, “Ja” 6, “Nicht teilgenommen” 1; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 52, “Ja” 50, “Nicht teilgenommen” 10, “Enthaltung” 2; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 6, “Nicht teilgenommen” 6, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 106, “Ja” 77, “Nicht teilgenommen” 11, “Enthaltung” 3.
+By area (every vote): abortion: “Ja” 5, “Nein” 4, “Enthaltung” 1; assisted dying: “Ja” 5, “Nein” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 23, “Nicht teilgenommen” 6, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 12, “Ja” 6, “Nicht teilgenommen” 1; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 52, “Ja” 50, “Nicht teilgenommen” 10, “Enthaltung” 2; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 6, “Nicht teilgenommen” 6, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Enthaltung | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (23)
 
@@ -70,6 +70,23 @@ The latest 20:
 | 14 Mar 2024 | [Importierter Antisemitismus und islamischer Terrorismus. Ist die Situation in der Schweiz aus dem Ruder gelaufen?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243255) | 24.3255 | submitted by | free speech and civil liberties, religious freedom |
 
 3 earlier item(s) are in the store.
+
+## Committees and groups (4)
+
+- **Committees:** Kommission für Verkehr und Fernmeldewesen Nationalrat (Mitglied); Redaktionskommission (Mitglied); Redaktionskommission Subkommission der italienischen Sprache (Präsident/in).
+- **Delegations:** Delegation für die Beziehungen zum Italienischen Parlament (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (3)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Öffentlich-rechtliche Anstalt | Ente autonomo LIS (Lugano Istituti Sociali) | Präsident(in) | bezahlt |  |
+| Verein | ACAS (Associazione comuni in ambito sociosanitario) | Präsident(in) | bezahlt |  |
+| Verein | Servizio cure a domicilio del Luganese (SCuDo) | Vizepräsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

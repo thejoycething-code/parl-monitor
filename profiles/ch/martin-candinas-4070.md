@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 133, “Nein” 63, “Enthaltung” 10, “Nicht teilgenommen” 3.
-By area (every vote): abortion: “Ja” 11, “Nein” 8, “Enthaltung” 3; assisted dying: “Nein” 6, “Ja” 1; gender medicine and children: “Ja” 2; conversion practices: “Nein” 1; sex-based rights: “Ja” 21, “Nein” 11, “Enthaltung” 1; parental rights and education: “Ja” 11, “Nein” 4, “Enthaltung” 1; free speech and civil liberties: “Ja” 13, “Nein” 5, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 82, “Nein” 25, “Enthaltung” 4, “Nicht teilgenommen” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 126, “Nein” 61, “Enthaltung” 7, “Nicht teilgenommen” 3.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Nein” 6, “Ja” 1; gender medicine and children: “Ja” 2; conversion practices: “Nein” 1; sex-based rights: “Ja” 21, “Nein” 11, “Enthaltung” 1; parental rights and education: “Ja” 11, “Nein” 4, “Enthaltung” 1; free speech and civil liberties: “Ja” 13, “Nein” 5, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 82, “Nein” 25, “Enthaltung” 4, “Nicht teilgenommen” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,13 +42,46 @@ The latest 20:
 | 30 Apr 2026 | Ja | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 14 Jun 2024 | [Fehlerhafter Ecoplan-Bericht "Stand und Umsetzung von Palliative Care in den Kantonen - Ergebnisse der Befragung der Kantone und regionalen…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243791) | 24.3791 | submitted by | assisted dying |
+
+## Committees and groups (3)
+
+- **Committees:** Kommission für Verkehr und Fernmeldewesen Nationalrat (Mitglied); Sicherheitspolitische Kommission Nationalrat (Mitglied).
+- **Delegations:** Delegation bei der Parlamentarischen Versammlung der OSZE (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (19)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Inno Digital Services AG | Mitglied | bezahlt |  |
+| Aktiengesellschaft | v.FISCHER INVESTAS Vermögensverwaltung AG | Mitglied | bezahlt |  |
+| Genossenschaft | SwissDrink | Präsident(in) | bezahlt |  |
+| Genossenschaft | WOHNEN SCHWEIZ - Verband der Baugenossenschaften, Luzern | Mitglied | ehrenamtlich |  |
+| Gesellschaft mit beschränkter Haftung | B13 Management GmbH | Gesellschafter(in) | bezahlt |  |
+| Keine Angaben | Interessengemeinschaft Mineralwasser | Präsident(in) | bezahlt |  |
+| Kommission | Kommission Nationale Wörterbücher (NWS)/Schweiz. Akademie der Geistes- und Sozialwissensch. | Mitglied | ehrenamtlich |  |
+| Stiftung | ARGO (Stiftung für Integration von Menschen mit Behinderungen in Graubünden) | Mitglied | ehrenamtlich |  |
+| Stiftung | Casa sogn Giusep Cumpadials | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung der Päpstlichen Schweizergarde im Vatikan | Präsident(in) | ehrenamtlich |  |
+| Verein | Chocosuisse/Biscosuisse | Präsident(in) | bezahlt |  |
+| Verein | Förderverein ibW Höhere Fachschule Südostschweiz | Präsident(in) | ehrenamtlich |  |
+| Verein | Forum Helveticum | Mitglied | ehrenamtlich |  |
+| Verein | Informationsdienst für den öffentlichen Verkehr (LITRA), Bern | Präsident(in) | bezahlt |  |
+| Verein | Organisationskomitee Eidgenössisches Schützenfest Chur I Graubünden 2026 (ESF2026) | Präsident(in) | ehrenamtlich |  |
+| Verein | Pro Lucmagn | Präsident(in) | bezahlt |  |
+| Verein | Schweizerische Arbeitsgemeinschaft für die Berggebiete (SAB), Bern | Vizepräsident(in) | bezahlt |  |
+| Verein | Schweizerischer Gewerbeverband sgv (Schweizerische Gewerbekammer) | Mitglied | ehrenamtlich |  |
+| Verein | Swiss Helicopter Association | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

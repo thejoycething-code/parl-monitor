@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: GL (first 4 March 2025, last 2 October 2026).
 
-## Votes on our ground (112)
+## Votes on our ground (107)
 
-Recorded positions (112): “Ja” 78, “Nein” 30, “Entschuldigt” 2, “Enthaltung” 1, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 6, “Nein” 2, “Entschuldigt” 1, “Nicht teilgenommen” 1; assisted dying: “Nein” 4, “Enthaltung” 1; gender medicine and children: “Ja” 1; sex-based rights: “Ja” 11, “Entschuldigt” 1; parental rights and education: “Ja” 6, “Nein” 4; free speech and civil liberties: “Ja” 9, “Nein” 4; religious freedom: “Ja” 3, “Nein” 2; marriage and family: “Ja” 47, “Nein” 13; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 2; organ donation: “Nein” 1.
+Recorded positions (107): “Ja” 75, “Nein” 28, “Entschuldigt” 2, “Enthaltung” 1, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Ja” 3, “Entschuldigt” 1, “Nicht teilgenommen” 1; assisted dying: “Nein” 4, “Enthaltung” 1; gender medicine and children: “Ja” 1; sex-based rights: “Ja” 11, “Entschuldigt” 1; parental rights and education: “Ja” 6, “Nein” 4; free speech and civil liberties: “Ja” 9, “Nein” 4; religious freedom: “Ja” 3, “Nein” 2; marriage and family: “Ja” 47, “Nein” 13; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,13 +42,27 @@ The latest 20:
 | 30 Apr 2026 | Nein | GL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nicht teilgenommen | GL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-92 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+87 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 18 Jun 2026 | [TFA im Trinkwasser. Welche Konsequenzen zieht der Bundesrat aus der Echa-Einstufung?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263862) | 26.3862 | submitted by | abortion |
+
+## Committees and groups (4)
+
+- **Committees:** **Kommission für Wissenschaft, Bildung und Kultur Nationalrat (Mitglied)** (on our ground: the science, education and culture committee (WBK)); Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EJPD/BK (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission Gerichte/BA (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (1)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Verein | Verein Barell-Gut, Oberhofen am Thunersee | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

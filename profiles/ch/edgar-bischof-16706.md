@@ -44,6 +44,24 @@ The latest 20:
 
 8 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
+## Committees and groups (1)
+
+- **Committees:** Sicherheitspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (5)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Bischof AG | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Bischof Edgar Liegenschaften AG | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | REJ Holding AG | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Xerxes AG | Präsident(in) | bezahlt |  |
+| Keine Angaben | Kath. Kirchgemeinde Rotbachtal | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
 ## Notes
 
 - Party: Party is the member's party; the vote record names the parliamentary group (Fraktion) at each vote, which is what each vote line shows.

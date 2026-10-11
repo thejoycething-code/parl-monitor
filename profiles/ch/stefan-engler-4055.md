@@ -3,7 +3,7 @@
 Switzerland, Ständerat. From the parliamentary monitor's store; positions are as the record gives them, never a verdict. Index: [Switzerland members](index.md).
 
 - **Party:** M-E; latest seen in the member list
-- **Constituency or region:** GR
+- **Constituency or region:** Graubünden
 - **Parliamentary group (latest):** M-E
 - **Status:** sitting, on the source's current list
 - **Source id:** `4055`
@@ -12,10 +12,10 @@ Switzerland, Ständerat. From the parliamentary monitor's store; positions are a
 
 - Recorded at votes in the store: M-E (first 5 December 2023, last 2 October 2026).
 
-## Votes on our ground (103)
+## Votes on our ground (101)
 
-Recorded positions (103): “Ja” 62, “Nein” 21, “Präsident” 14, “Nicht teilgenommen” 5, “Enthaltung” 1.
-By area (every vote): abortion: “Ja” 2; assisted dying: “Ja” 3; gender medicine and children: “Präsident” 1; sex-based rights: “Ja” 4, “Präsident” 4, “Nein” 3, “Nicht teilgenommen” 3; parental rights and education: “Nein” 1, “Präsident” 1; free speech and civil liberties: “Ja” 10, “Nicht teilgenommen” 1, “Präsident” 1; religious freedom: “Ja” 1; marriage and family: “Ja” 45, “Nein” 18, “Präsident” 8, “Nicht teilgenommen” 4, “Enthaltung” 1; prostitution and trafficking: “Ja” 4, “Nicht teilgenommen” 3, “Nein” 1.
+Recorded positions (101): “Ja” 60, “Nein” 21, “Präsident” 14, “Nicht teilgenommen” 5, “Enthaltung” 1.
+By area (every vote): assisted dying: “Ja” 3; gender medicine and children: “Präsident” 1; sex-based rights: “Ja” 4, “Präsident” 4, “Nein” 3, “Nicht teilgenommen” 3; parental rights and education: “Nein” 1, “Präsident” 1; free speech and civil liberties: “Ja” 10, “Nicht teilgenommen” 1, “Präsident” 1; religious freedom: “Ja” 1; marriage and family: “Ja” 45, “Nein” 18, “Präsident” 8, “Nicht teilgenommen” 4, “Enthaltung” 1; prostitution and trafficking: “Ja” 4, “Nicht teilgenommen” 3, “Nein” 1.
 
 The latest 20:
 
@@ -37,12 +37,28 @@ The latest 20:
 | 9 Dec 2025 | Präsident | M-E (at the vote) | [Abstimmung über die Motion; on: Bekämpfung von Hassreden im Internet. Öffentliche Gelder sollten nicht zur Unterstützung anonymer Kommentar…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20234530) | free speech and civil liberties, tier 2 |
 | 26 Sep 2025 | Ja | M-E (at the vote) | [Schlussabstimmung; on: Landwirtschaftsgesetz (Entschädigung im Scheidungsfall). Änderung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240094) · bill's areas | marriage and family |
 | 24 Sep 2025 | Ja | M-E (at the vote) | [Gesamtabstimmung; on: Landwirtschaftsgesetz (Entschädigung im Scheidungsfall). Änderung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240094) · bill's areas | marriage and family |
-| 23 Sep 2025 | Ja | M-E (at the vote) | [Gesamtabstimmung; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
-| 23 Sep 2025 | Ja | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
-| 23 Sep 2025 | Ja | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
-| 23 Sep 2025 | Nein | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
+| 23 Sep 2025 | Ja | M-E (at the vote) | [Gesamtabstimmung; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for adopting the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 23 Sep 2025 | Ja | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee minority's proposal (Rieder) on the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 23 Sep 2025 | Ja | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for “Antrag der Minderheit I (Rieder)” on the text “Ermöglichung von Doppelnamen bei der Heirat” (the Council's own words) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 23 Sep 2025 | Nein | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee minority's proposal (Rieder) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
 
-83 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+81 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (8)
+
+- **Committees:** Büro Ständerat (Präsident/in); Büro Vereinigte Bundesversammlung (Mitglied); Kommission für Umwelt, Raumplanung und Energie Ständerat (Mitglied); Kommission für Verkehr und Fernmeldewesen Ständerat (Mitglied); Koordinationskonferenz (Mitglied); Präsidium des Ständerates (Mitglied); Staatspolitische Kommission Ständerat (Mitglied).
+- **Delegations:** Verwaltungsdelegation (Vizepräsident/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (2)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | Schweizer Berghilfe, Adliswil (Berghilferat) | Beirat | ehrenamtlich |  |
+| Verein | Caritas Graubünden | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

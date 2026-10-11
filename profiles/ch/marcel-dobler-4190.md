@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 116, “Nein” 86, “Nicht teilgenommen” 4, “Enthaltung” 3.
-By area (every vote): abortion: “Ja” 15, “Nein” 7; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 17, “Nein” 15, “Enthaltung” 1; parental rights and education: “Nein” 8, “Ja” 7, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 7, “Nein” 6, “Enthaltung” 1; marriage and family: “Ja” 67, “Nein” 43, “Nicht teilgenommen” 4; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Enthaltung” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 108, “Nein” 82, “Nicht teilgenommen” 4, “Enthaltung” 3.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 17, “Nein” 15, “Enthaltung” 1; parental rights and education: “Nein” 8, “Ja” 7, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 7, “Nein” 6, “Enthaltung” 1; marriage and family: “Ja” 67, “Nein” 43, “Nicht teilgenommen” 4; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Enthaltung” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (6)
 
@@ -54,6 +54,28 @@ The latest 20:
 | 18 Dec 2024 | [Einsatz Quantum Safe/quantensichere Kryptografie beim Bund](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244398) | 24.4398 | submitted by | free speech and civil liberties |
 | 18 Sep 2024 | [Pilotbetrieb für E-Collecting mit der E-ID-Vertrauensinfrastruktur](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243909) | 24.3909 | submitted by | free speech and civil liberties |
 | 18 Mar 2022 | [Die Kosten der ärztlichen Beratungen im Zusammenhang mit einer Patientenverfügung sollen von der Krankenversicherung übernommen werden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220420) | 22.420 | submitted by | assisted dying |
+
+## Committees and groups (4)
+
+- **Committees:** Gruppe Parlaments-IT (Mitglied); Kommission für Wirtschaft und Abgaben Nationalrat (Mitglied); Legislaturplanungskommission Nationalrat (Mitglied); WAK-N Subkommission Für einen fairen Wettbewerb zwischen öffentlichen und Privaten Unternehmen (Präsident/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (9)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Keine Angaben | IG ZUR DURCHSETZUNG VON PATIENTENVERFÜGUNGEN | Keine Angaben | ehrenamtlich |  |
+| Stiftung | Swiss Entrepreneurs Foundation, Bern | Beirat | ehrenamtlich |  |
+| Verein | DigitalSwitzerland, Zürich | Vizepräsident(in) | ehrenamtlich |  |
+| Verein | economiesuisse | Mitglied | ehrenamtlich |  |
+| Verein | Gewerbeverband St. Gallen | Mitglied | ehrenamtlich |  |
+| Verein | HEV Kanton St. Gallen, St. Gallen | Mitglied | ehrenamtlich |  |
+| Verein | HEV Linth - 2022 CHF 750.- Sitzungsgeld | Mitglied | bezahlt |  |
+| Verein | Infrastrukturkommission von economiesuisse | Präsident(in) | ehrenamtlich |  |
+| Verein | Swiss Venture Club, Belp | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

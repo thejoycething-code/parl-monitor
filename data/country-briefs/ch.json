@@ -1,13 +1,80 @@
 {
+ "ch-ausgeburgert-durch-heirat-aufarbeitung-und-wiede-26-433": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "4c0011cb4c462dd1cda830012c0c500f73f21f91565696ad37c2b655a9f51328",
+  "generated": "2026-10-11",
+  "key": "26.433",
+  "ready": false,
+  "sha": "fa68d7c84e7b359f57cb9e62f1f3671108b310dc647c89719d38e917c5b6f50d",
+  "title": "Ausgebürgert durch Heirat. Aufarbeitung und Wiedergutmachung für betroffene Schweizerinnen"
+ },
+ "ch-gesetzliche-regelung-zur-verbindlichen-altersver-25-2046": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "b2b84310b79bf34ff79f2a464d20f7ee2dc6dac6ec54aa59fb6552233632a467",
+  "generated": "2026-10-11",
+  "key": "25.2046",
+  "ready": false,
+  "sha": "da842609bcd268382345517728866cf8cd1961fab92d4e7346d696f91f732ca5",
+  "title": "Gesetzliche Regelung zur verbindlichen Altersverifikation im Internet"
+ },
+ "ch-klare-integrationspflichten-gegen-hausliche-gewa-25-4557": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "91d80a3bfb7b51a6db46dc6734e5683bd2e971e0d612e6f4f864512eecb769da",
+  "generated": "2026-10-11",
+  "key": "25.4557",
+  "ready": false,
+  "sha": "1952ba8b165f52118e33603e9d996d12b8c57d310e6179a877be6ad0b5cd1bde",
+  "title": "Klare Integrationspflichten gegen häusliche Gewalt im Asyl-, Ausländer- und Bürgerrecht"
+ },
+ "ch-menschenhandel-effektiv-bekampfen-schweizer-mode-26-4624": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "00c9093326450b9379af1400775c5c3584f44d8b39b8e417d8b54ffa356473f6",
+  "generated": "2026-10-11",
+  "key": "26.4624",
+  "ready": false,
+  "sha": "a1c1a9cf632d69be55d1f9fa32fd63b951619011eef30fe8c46f7cc0067ed6aa",
+  "title": "Menschenhandel effektiv bekämpfen - Schweizer Modell zum Schutz vor sexueller Ausbeutung"
+ },
+ "ch-moderne-strafverfolgung-ermoglichen-klare-rechts-26-4288": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "babe51889e4bc373507b3de1a031660c07243c88169a1e65e7511393925086cb",
+  "generated": "2026-10-11",
+  "key": "26.4288",
+  "ready": false,
+  "sha": "bc456aa76e4d099bc81664e90c6654730d19c92aff77051ca9f584e3a70f1890",
+  "title": "Moderne Strafverfolgung ermöglichen. Klare Rechtsgrundlagen für KI und automatisierte Datenanalysen schaffen"
+ },
+ "ch-ne-pas-tolerer-les-systemes-d-ia-destines-a-la-c-26-4507": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "69351604b2bd2c157eea75f2bf1ba2cf03e50e954a904a9c38833760e51385b7",
+  "generated": "2026-10-11",
+  "key": "26.4507",
+  "ready": false,
+  "sha": "d5f47e88b8b23fd998078265f595c228bcbf9149dcff0de8ced984c19ee38775",
+  "title": "Ne pas tolérer les systèmes d'IA destinés à la création de matériel pédopornographique"
+ },
  "ch-strafbestimmung-gegen-menschenhandel-praxistaugl-24-4432": {
   "changelog": [
-   "2026-10-10 tools/country_briefs.py drafted every cell"
+   "2026-10-10 tools/country_briefs.py drafted every cell",
+   "2026-10-11 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "bd8dca55fba08bb294e22cfbb27ab9bb3cadcc2e37f56459956933e69f24ba30",
+  "content": "803c9753eee5b23f09f445567fb9f227638457be8a0b48487b11b02908925a5d",
   "generated": "2026-10-10",
   "key": "24.4432",
   "ready": false,
-  "sha": "ebd55fdd9e6c6b20fdcf1e99192ce93b8d47c43076d461853337dadc2e8dec8a",
+  "sha": "54113d779395ff54722e67a7f8423141870766fe109689b8bb18119d471f6ef3",
   "title": "Strafbestimmung gegen Menschenhandel praxistauglicher definieren"
  },
  "ch-strafbestimmung-gegen-menschenhandel-praxistaugl-24-4433": {
@@ -76,15 +143,38 @@
   "sha": "6778a4f4f051b50de83d9a5c2a4176177385d414645509acf4b3f230bfb80876",
   "title": "Strafbestimmung gegen Menschenhandel praxistauglicher definieren"
  },
+ "ch-titre-suit-26-4115": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "ae2c18dee3e8a207ccf70814ec2cf78cf2b83bf0d441bec76f0238a7984f8c85",
+  "generated": "2026-10-11",
+  "key": "26.4115",
+  "ready": false,
+  "sha": "f25dc12557026c802113b4fd8cb4452324c61e5e0e8674f78591bc56837994df",
+  "title": "Titre suit"
+ },
  "ch-verfahren-betreffend-kinder-unverheirateter-elte-26-4058": {
   "changelog": [
-   "2026-10-10 tools/country_briefs.py drafted every cell"
+   "2026-10-10 tools/country_briefs.py drafted every cell",
+   "2026-10-11 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "7bf398879f1661a050e2be86b061ee61963b5b37f2a7983224c37ff7e4c4b37f",
+  "content": "da7335895137608921a814cb2d2b917eea1eb98b3307675ab3d557ca01d942d6",
   "generated": "2026-10-10",
   "key": "26.4058",
   "ready": false,
-  "sha": "ff9b84dc2ac2cf8b8560340ffebeb807466f3ab63dc29219adf34c19adba57c9",
+  "sha": "c9e296a6d184947e18e09a48e1c1874ebd208642c6a0815db29695f7a8cce734",
   "title": "Verfahren betreffend Kinder unverheirateter Eltern. Zugang für zivile Justizbehörden zu Steuerdaten"
+ },
+ "ch-von-danemark-und-schweden-lernen-familiennachzug-26-3811": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "f60b8d4a2b70c345da3cdf49d34df5052a4e17b80ce93d91122542c0e6e1c5c1",
+  "generated": "2026-10-11",
+  "key": "26.3811",
+  "ready": false,
+  "sha": "050b57082e1b07f3dde29d0af18cb965196d4223b3eaeeea64e6ca4af84dcab9",
+  "title": "Von Dänemark und Schweden lernen. Familiennachzug auf die Interessen der Schweiz ausrichten"
  }
 }

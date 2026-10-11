@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 142, “Nein” 56, “Nicht teilgenommen” 6, “Enthaltung” 5.
-By area (every vote): abortion: “Ja” 14, “Nein” 4, “Enthaltung” 3, “Nicht teilgenommen” 1; assisted dying: “Nein” 6, “Ja” 1; gender medicine and children: “Ja” 2; conversion practices: “Nein” 1; sex-based rights: “Ja” 22, “Nein” 7, “Nicht teilgenommen” 4; parental rights and education: “Ja” 11, “Nein” 4, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 13, “Nein” 5, “Nicht teilgenommen” 1; religious freedom: “Ja” 8, “Nein” 4, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 89, “Nein” 25; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nicht teilgenommen” 2, “Enthaltung” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 135, “Nein” 54, “Nicht teilgenommen” 6, “Enthaltung” 2.
+By area (every vote): abortion: “Ja” 7, “Nein” 2, “Nicht teilgenommen” 1; assisted dying: “Nein” 6, “Ja” 1; gender medicine and children: “Ja” 2; conversion practices: “Nein” 1; sex-based rights: “Ja” 22, “Nein” 7, “Nicht teilgenommen” 4; parental rights and education: “Ja” 11, “Nein” 4, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 13, “Nein” 5, “Nicht teilgenommen” 1; religious freedom: “Ja” 8, “Nein” 4, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 89, “Nein” 25; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nicht teilgenommen” 2, “Enthaltung” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (6)
 
@@ -54,6 +54,27 @@ The latest 20:
 | 19 Dec 2025 | [Frühe interdisziplinäre Intervention bei drohender Eltern‑Kind‑Entfremdung nach Trennung oder Scheidung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254800) | 25.4800 | submitted by | marriage and family |
 | 11 Jun 2025 | [Besteuerung von Einzelunternehmen bei Individualbesteuerung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257526) | 25.7526 | submitted by | marriage and family |
 | 21 Mar 2025 | [Medizinisch unterstützte Fortpflanzung für alleinstehende Frauen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20250420) | 25.420 | submitted by | surrogacy and embryology |
+
+## Committees and groups (5)
+
+- **Committees:** Begnadigungskommission (Mitglied); Gerichtskommission (Mitglied); Gerichtskommission Subkommission Vereinigte Bundesversammlung (Mitglied); Sicherheitspolitische Kommission Nationalrat (Mitglied); SiK-N Subkommission Revision des Kriegsmaterialgesetzes (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (8)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Bank Sparhafen | Mitglied | bezahlt |  |
+| Genossenschaft | Genossenschaft Sparhafen | Mitglied | bezahlt |  |
+| Genossenschaft | WOHNEN SCHWEIZ | Beirat | ehrenamtlich |  |
+| Kommission | Berufsbildungskommission des Kantons Zürich | Mitglied | ehrenamtlich |  |
+| Öffentlich-rechtliche Anstalt | SVA Zürich | Mitglied | bezahlt |  |
+| Stiftung | Stiftung Bauen und Wohnen | Mitglied | bezahlt |  |
+| Stiftung | Stiftung Swiss GAAP FER | Mitglied | ehrenamtlich |  |
+| Stiftung | Volkshochschule des Kantons Zürich | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

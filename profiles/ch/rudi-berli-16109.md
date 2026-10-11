@@ -51,6 +51,22 @@ The latest 20:
 | 21 Sep 2026 | [Glaubensfreiheit im Iran: Was unternimmt der Bundesrat?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20267867) | 26.7867 | submitted by | religious freedom |
 | 18 Mar 2026 | [Wie kontrolliert die Finma kritische Investitionen von Schweizer Banken in den Vereinigten Staaten?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263157) | 26.3157 | submitted by | parental rights and education |
 
+## Committees and groups (1)
+
+- **Committees:** Aussenpolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (3)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Verein | BioGenève | Delegierte(r) | ehrenamtlich |  |
+| Verein | Commission Internationale Uniterre | Präsident(in) | ehrenamtlich |  |
+| Verein | Uniterre | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
 ## Notes
 
 - Party: Party is the member's party; the vote record names the parliamentary group (Fraktion) at each vote, which is what each vote line shows.

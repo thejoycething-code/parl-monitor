@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 133, “Nein” 67, “Enthaltung” 7, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 15, “Nein” 7; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 21, “Nein” 10, “Enthaltung” 2; parental rights and education: “Ja” 8, “Nein” 7, “Enthaltung” 1; free speech and civil liberties: “Ja” 12, “Nein” 6, “Nicht teilgenommen” 1; religious freedom: “Ja” 7, “Nein” 7; marriage and family: “Ja” 82, “Nein” 29, “Enthaltung” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Nicht teilgenommen” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 125, “Nein” 63, “Enthaltung” 7, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 21, “Nein” 10, “Enthaltung” 2; parental rights and education: “Ja” 8, “Nein” 7, “Enthaltung” 1; free speech and civil liberties: “Ja” 12, “Nein” 6, “Nicht teilgenommen” 1; religious freedom: “Ja” 7, “Nein” 7; marriage and family: “Ja” 82, “Nein” 29, “Enthaltung” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Nicht teilgenommen” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (3)
 
@@ -51,6 +51,29 @@ The latest 20:
 | 20 Mar 2025 | [Für Bürokratieabbau, Gleichbehandlung und zur Entlastung des Bundeshaushaltes: Familienzulagensystem harmonisieren](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253196) | 25.3196 | submitted by | marriage and family |
 | 17 Dec 2024 | [Für Bürokratieabbau und die Entlastung des Bundeshaushalts. Familienzulagen harmonisieren?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244385) | 24.4385 | submitted by | marriage and family |
 | 25 Sep 2024 | [Ist das Bundesgesetz über die Familienzulagen in der Landwirtschaft noch zeitgemäss?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243996) | 24.3996 | submitted by | marriage and family |
+
+## Committees and groups (4)
+
+- **Committees:** Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 3 (EDI/UVEK) (Mitglied); Legislaturplanungskommission Nationalrat (Präsident/in).
+- **Delegations:** Delegation für die Beziehungen zum Italienischen Parlament (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (9)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Kommission | Commissione per le donazioni "Frana Brienz/Brinzauls" | Präsident(in) | bezahlt |  |
+| Kommission | Commissione per le donazioni "Maltempo in Mesolcina" | Präsident(in) | bezahlt |  |
+| Kommission | Kommission für Bildung und Beratung des Plantahofs | Mitglied | bezahlt |  |
+| Öffentlich-rechtliche Anstalt | Gebäudeversicherung Graubünden | Vizepräsident(in) | bezahlt |  |
+| Stiftung | Stiftung ÖKK | Mitglied | bezahlt |  |
+| Verein | Pro Grigioni Italiano | Mitglied | bezahlt |  |
+| Verein | Selva, 7302 Landquart | Präsident(in) | bezahlt |  |
+| Verein | Verein Bündner Pärke | Präsident(in) | bezahlt |  |
+| Verein | Wald Schweiz | Vizepräsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

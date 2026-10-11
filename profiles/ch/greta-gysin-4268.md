@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: G (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 148, “Nein” 53, “Enthaltung” 4, “Entschuldigt” 3, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 3, “Nein” 3, “Entschuldigt” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 4; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 78, “Nein” 31, “Enthaltung” 3, “Entschuldigt” 1, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Entschuldigt” 1.
+Recorded positions (197): “Ja” 140, “Nein” 49, “Enthaltung” 4, “Entschuldigt” 3, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 3, “Nein” 3, “Entschuldigt” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 4; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 78, “Nein” 31, “Enthaltung” 3, “Entschuldigt” 1, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Entschuldigt” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | G (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | G (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (7)
 
@@ -55,6 +55,27 @@ The latest 20:
 | 29 Sep 2022 | [Gleicher Lohn für gleiche Arbeit soll endlich Realität werden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20224157) | 22.4157 | submitted by | sex-based rights |
 | 29 Sep 2022 | [Studie über die Kosten von geschlechtsspezifischer Gewalt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20224086) | 22.4086 | submitted by | sex-based rights, prostitution and trafficking |
 | 16 Jun 2021 | [Vaterschaftsurlaub auch beim Tod des ungeborenen Kindes](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20213734) | 21.3734 | submitted by | abortion |
+
+## Committees and groups (9)
+
+- **Committees:** Begnadigungskommission (Präsident/in); Büro Nationalrat (Fraktionspräsident/in); Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 3 (EDI/UVEK) (Mitglied); Koordinationskonferenz (Mitglied); Legislaturplanungskommission Nationalrat (Mitglied); Redaktionskommission (Stellvertreter/in); Redaktionskommission Subkommission der italienischen Sprache (Stellvertreter/in).
+- **Delegations:** Delegation für die Beziehungen zum Italienischen Parlament (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (7)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Gesellschaft mit beschränkter Haftung | faire SAGL | Direktor(in) | ehrenamtlich |  |
+| Keine Angaben | Locarno Film Festival | Mitglied | ehrenamtlich |  |
+| Keine Angaben | Prix Watt d'Or | Mitglied | ehrenamtlich |  |
+| Öffentlich-rechtliche Stiftung | Fondazione Carnegie | Präsident(in) | ehrenamtlich |  |
+| Verein | Comitato Soccorso operario svizzero | Mitglied | ehrenamtlich |  |
+| Verein | Iniziativa delle Alpi | Mitglied | ehrenamtlich |  |
+| Verein | transfair | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

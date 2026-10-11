@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 122, “Ja” 83, “Entschuldigt” 2, “Enthaltung” 1, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 13, “Nein” 9; assisted dying: “Ja” 5, “Enthaltung” 1, “Nein” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 3, “Entschuldigt” 2; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 16, “Ja” 3; religious freedom: “Nein” 7, “Ja” 6, “Nicht teilgenommen” 1; marriage and family: “Nein” 63, “Ja” 51; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 119, “Ja” 74, “Entschuldigt” 2, “Enthaltung” 1, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Ja” 5, “Enthaltung” 1, “Nein” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 3, “Entschuldigt” 2; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 16, “Ja” 3; religious freedom: “Nein” 7, “Ja” 6, “Nicht teilgenommen” 1; marriage and family: “Nein” 63, “Ja” 51; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (7)
 
@@ -55,6 +55,26 @@ The latest 20:
 | 4 Jun 2025 | [WHO: IGV verpflichten Vertragsstaaten zur Schaffung einer zusätzlichen Nationalen IGV-Behörde zur Koordination der Umsetzung der IGV (Art.…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257391) | 25.7391 | submitted by | free speech and civil liberties |
 | 5 Mar 2024 | [E-ID. Wieso dürfen sich Volk, Journalisten und Parlamentarier nicht ausreichend informieren?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20241001) | 24.1001 | submitted by | free speech and civil liberties |
 | 16 Jun 2023 | [WHO. Demokratische Kontrolle durch Volk und Parlament sicherstellen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20233910) | 23.3910 | submitted by | free speech and civil liberties |
+
+## Committees and groups (4)
+
+- **Committees:** APK-N Subkommission Mitwirkungsrechte des Parlamentes in der Aussenpolitik (Mitglied); Aussenpolitische Kommission Nationalrat (Mitglied); Legislaturplanungskommission Nationalrat (Mitglied).
+- **Delegations:** Delegation bei der Parlamentarischen Versammlung der OSZE (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (6)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | Stiftung Dialog - Campus für Demokratie | Mitglied | ehrenamtlich |  |
+| Verein | ACNS - Allianz für eine CO2-Neutrale Schweiz | Mitglied | ehrenamtlich |  |
+| Verein | Délégation de Taiwan (Förderung freundschaftlicher, wirtschaftlicher, kultureller oder touristischer Beziehungen zwischen der Schweiz und Taiwan sowie Öffnung neuer Absatzmärkte für die schweizerische und die taiwanesische Industrie und Handel) | Präsident(in) | ehrenamtlich |  |
+| Verein | IG Öffentlicher Verkehr, Wil (SG) | Mitglied | ehrenamtlich |  |
+| Verein | The european alliance of eu-critical movements (team), Brüssel | Mitglied | ehrenamtlich |  |
+| Verein | Young4FUN.ch, Wil (SG) | Co-Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

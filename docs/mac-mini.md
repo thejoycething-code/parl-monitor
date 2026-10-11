@@ -549,9 +549,9 @@ built. GitHub's runners have no Tesseract, so the backup skips the step.
 
 Three offline steps at the head of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only), after the week's country weeklies and before the judge; no new job, no new slot, no GitHub workflow:
 
-- `python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets`: for each new country with member-level or party-group votes (IT, CH, FR, NL, BE, PL, HR, SK, ES, BR, AR, MX, HU, AT, PT, CL, PE, EC, DO, SV, GT), appends drafts for the week's new watched and tier-1 votes to `config/<cc>_stance.yaml` (rules, no AI; an existing entry is never touched), rewrites `docs/5ca-<cc>-readings.md` (a box ticked but not yet applied stays ticked), and writes `data/5ca/<cc>-5ca-*.csv` from CONFIRMED readings only. Seconds; reads the store, writes no table.
+- `python3 tools/country_5ca.py --all-countries --prune-off-ground --draft --signoff-doc --sheets --shortlist`: first (`--prune-off-ground`, 11 October 2026) removes the unsigned, untouched entries whose vote a reclassification took off our ground (a confirmed or hand-edited one is kept and reported; the shortlist sinks it with the command); then, for each new country with member-level or party-group votes (IT, CH, FR, NL, BE, PL, HR, SK, ES, BR, AR, MX, HU, AT, PT, CL, PE, EC, DO, SV, GT), appends drafts for the week's new watched and tier-1 votes to `config/<cc>_stance.yaml` (rules, no AI; an existing entry is never touched), rewrites `docs/5ca-<cc>-readings.md` (a box ticked but not yet applied stays ticked), writes `data/5ca/<cc>-5ca-*.csv` from CONFIRMED readings only, and (`--shortlist`, 11 October 2026, src/shortlist5ca.py) rewrites `docs/5ca-<cc>-shortlist.md`, the waiting readings ranked by what to sign first, with each one's exact command (it confirms nothing). Seconds; reads the store, writes no table.
 - `python3 tools/make_country_5ca_web.py` (camp-5ca-sheets, 10 October 2026): the new countries' 5CA tracker and partner sheet, one page with a country switcher. `docs/5ca-countries.html` (internal) every week, every country: area sheets from confirmed readings, or "Awaiting sign-off: N readings" and no placement. `partner_site/5ca-countries.html` only for the countries with a confirmed reading that places someone; with none it is not written (and a stale one is removed), and the partner nav links it only while it exists. Monday's deploy ships it. Change since last week: `data/5ca/country-web-state.json`. Seconds; reads the store only for a country with a confirmed reading.
-- `python3 tools/stance_digest.py --dm`: one DM to Chris, at most once per ISO week (`data/stance-digest/<year>-W<week>.md` records the send), listing what awaits sign-off by country. Nothing waiting, nothing sent.
+- `python3 tools/stance_digest.py --dm`: one DM to Chris, at most once per ISO week (`data/stance-digest/<year>-W<week>.md` records the send), leading with each country's top 5 readings to sign first (the shortlist's ranking), then one line of counts. Nothing waiting, nothing sent.
 - Commit: `# mini_run: commit editions config docs partner_site` (the job writes `config/*_stance.yaml`, `docs/5ca-*-readings.md`, `docs/5ca-countries.html` and, once a reading is confirmed, `partner_site/5ca-countries.html`). A failure in either step is a `[gap]` line; the judge still runs.
 - **Nothing on the Mini confirms a reading.** Confirming is `python3 tools/country_5ca.py --cc CC --sign-from-doc --by NAME` (or `--confirm KEY --by NAME`), run by a person on a laptop, then pushed. `--by` must be Chris or a name in `config/stance_signers.yaml`.
 - Install: nothing new; the next `git pull` on the runner picks the steps up.
@@ -719,6 +719,7 @@ merge the runner picks them up on its next `git pull` (mini_run.sh does it).
 | NL4, the Eerste Kamer | `jobs/nl-weekly.sh`, after `nl_rollcalls.py` (Thursdays) | `tools/nl_eerstekamer.py`: eerstekamer.nl's vote pages, one a second, back to two weeks before the newest stored vote. The first run reads back to June 2023: 46 pages, about 3 minutes. Heartbeat "NL Eerste Kamer". |
 | IT2, the Camera's SPARQL | `jobs/it-weekly.sh`, inside `it_rollcalls.py` | Nothing new to install. `IT_CAMERA_SOURCE=openpolis` or `camera` in `~/runner/env` overrides the default `auto`. |
 | CH6, Swiss Italian texts | `jobs/ch-weekly.sh`, inside `ch_rollcalls.py` | A third language pass (22 more pages on a full read, a few on a weekly one). The first weekly after the merge reads every business's Italian record once (about 6,700 have one; Fragestunde questions mostly do not and are marked so). |
+| Swiss IVG guard (11 October 2026, branch `ch-ivg-guard`) | `jobs/ch-weekly.sh` once with `CH_RECLASSIFY=true`, then `jobs/editions-session-judge.sh` | taxonomy-fr and taxonomy-it no longer read the Invalidity Insurance Act's "IVG" as abortion for `ch`. After the merge, once on the Mini (never while another job writes the store): `cd ~ && CH_RECLASSIFY=true JOB_TIMEOUT=5400 nohup ~/runner/parl-monitor/tools/mini_run.sh ch-weekly > ~/ch-reclassify.log 2>&1 &` (it re-reads the businesses, about two minutes, re-derives every division, and is otherwise the normal weekly, edition DM included). 14 divisions leave area 1 (22.062, 24.066, 24.078). The next editions-session-judge (Sunday 16:45 London) then prunes their 14 unsigned stance drafts (`--prune-off-ground`); to see it first: `python3 tools/country_5ca.py --cc ch --prune-off-ground --dry-run`. |
 | SK6, Slovak bill documents | `jobs/sk-weekly.sh` (Tuesdays): documents get the first 10 minutes of the old 45-minute positions budget | The backlog by hand: `sk-docs-backfill` above, three runs. |
 
 
@@ -740,6 +741,14 @@ UK parity for the new country editions: Chris may cut or edit before an edition 
 - **The fix:** every country weekly's collector budget is `tools/collector_budget.sh <cap> "$SECONDS" [later]`: the smaller of the old cap and `JOB_TIMEOUT` less what the job has spent, less its own later budgeted steps, less 20 minutes for the publish and 5 for the unbudgeted steps. Under the hour that is about 35 minutes; a longer plist `JOB_TIMEOUT` gives back up to the cap. On GitHub the cap is unchanged. `tools/mini_run.sh` now exports `JOB_TIMEOUT`, so jobs see the real limit (Ireland's weekly had assumed three hours). The chamber step, Ireland's questions and debates and the US Congressional Record keep the same 20 minutes for the transfers on the Mini.
 - **If the store keeps growing** and the upload passes 20 minutes, raise `PUBLISH_S` in `tools/collector_budget.sh` (and the `TRANSFERS` of `jobs/ie-weekly.sh` and `jobs/us-weekly.sh`).
 
+## Words since the last vote for the new countries (11 October 2026, branch `ukp2-since-last-vote`)
+
+No job and no Mini step: `tools/country_since_vote.py --cc nl|ch|at|fr|be` is a hand
+command (docs/debate-pack-social.md, "Between votes, new countries"). It opens the store
+read-only, so it runs while a weekly holds it, and writes only `data/briefs/<cc>-since-vote*.md`
+(with `--write`) and a reads template (`--queue-out`). The optional profile section
+(`tools/member_profiles.py <cc> --since-vote`) is not switched on in any weekly.
+
 ## Speech clips for the new countries (11 October 2026, branch `ukp-speech-clips`)
 
 No job: `tools/country_clips.py` is a hand command (docs/debate-pack-social.md, "Speech
@@ -756,3 +765,20 @@ clips, new countries"). It reads the store read-only and writes only into
   hand so the download is seen.
 - Fetched source footage is deleted after 30 days (`purge`, also run at the start of each
   cut); finished clips stay in the pack.
+
+## Debate report for the new countries (11 October 2026, branch `ukp2-debate-report`)
+
+No job: `tools/country_debate_report.py` is a hand command (docs/debate-pack-social.md,
+"Debate report, new countries"). It reads the store read-only and writes only into
+`data/debate-reports/<folder>/`. The Mini's part is the TRANSLATIONS, by the free session
+judge on the work account's plan (no API key), run by hand in a session on the Mini (not
+over SSH: the keychain), when a report is wanted:
+
+    cd ~/runner/parl-monitor
+    SESSION_JUDGE_PROMPT="$(python3 tools/country_debate_report.py --prompt)" \
+      bash tools/session_judge.sh tools/country_debate_report.py 40 20 --report data/debate-reports/<folder>
+    python3 tools/country_debate_report.py --report data/debate-reports/<folder> --render --dm
+
+A report has a few dozen items at most (title, one passage per speaker, each vote's
+question): they come out of the week's ~100 session items only when someone runs this.
+Without the judge a person writes the translations into `translations.yaml` on any machine.

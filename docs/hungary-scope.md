@@ -605,6 +605,8 @@ parlament.hu. When phase 1 is built:
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/hu_stance.yaml` holds 2 bill direction(s) (Claude's drafts from the watchlist) and 24 vote reading(s): 2 with proposed values, 1 procedural, 21 need reading, 0 confirmed. Guide: `docs/5ca-hu-readings.md`; confirm with `python3 tools/country_5ca.py --cc hu --sign-from-doc --by NAME`. Sheets (`data/5ca/hu-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Hungary (`config/stance_signers.yaml`). karzat records only (9 May to 28 August 2026) until the W-API token arrives; members are matched by name.
 
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-hu-shortlist.md` ranks the 24 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `2026.06.23.10:44:38` (2026-06-23, a vote on the whole text; the decisive one; this year). It confirms nothing.
+
 
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 

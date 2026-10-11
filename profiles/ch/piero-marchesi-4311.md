@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 24 September 2026).
 
-## Votes on our ground (207)
+## Votes on our ground (195)
 
-Recorded positions (207): “Nein” 122, “Ja” 75, “Nicht teilgenommen” 8, “Enthaltung” 1, “Entschuldigt” 1.
-By area (every vote): abortion: “Nein” 13, “Ja” 8; assisted dying: “Nein” 4, “Ja” 2, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 2, “Nicht teilgenommen” 2; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 12, “Ja” 7; religious freedom: “Ja” 6, “Nein” 6, “Nicht teilgenommen” 2; marriage and family: “Nein” 60, “Ja” 47, “Nicht teilgenommen” 5, “Enthaltung” 1, “Entschuldigt” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 11, “Nicht teilgenommen” 2; organ donation: “Ja” 1.
+Recorded positions (195): “Nein” 114, “Ja” 71, “Nicht teilgenommen” 8, “Enthaltung” 1, “Entschuldigt” 1.
+By area (every vote): abortion: “Nein” 5, “Ja” 4; assisted dying: “Nein” 4, “Ja” 2, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 2, “Nicht teilgenommen” 2; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 12, “Ja” 7; religious freedom: “Ja” 6, “Nein” 6, “Nicht teilgenommen” 2; marriage and family: “Nein” 60, “Ja” 47, “Nicht teilgenommen” 5, “Enthaltung” 1, “Entschuldigt” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 11, “Nicht teilgenommen” 2; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Zugang zu Notfallverhütungsmitteln vereinfachen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244238) · bill's areas | abortion |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Sarco-Sterbekapsel. Die rechtlichen Voraussetzungen sind zu klären](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244093) · bill's areas | assisted dying |
 
-187 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+175 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 

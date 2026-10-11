@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 95, “Nein” 49, “Nicht teilgenommen” 33, “Entschuldigt” 23, “Enthaltung” 9.
-By area (every vote): abortion: “Nicht teilgenommen” 7, “Nein” 5, “Enthaltung” 4, “Ja” 4, “Entschuldigt” 2; assisted dying: “Nein” 4, “Entschuldigt” 2, “Ja” 1; gender medicine and children: “Entschuldigt” 1, “Ja” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 19, “Nein” 7, “Enthaltung” 3, “Entschuldigt” 3, “Nicht teilgenommen” 1; parental rights and education: “Ja” 11, “Nicht teilgenommen” 3, “Nein” 2; free speech and civil liberties: “Ja” 12, “Entschuldigt” 4, “Nein” 3; religious freedom: “Ja” 8, “Nein” 4, “Enthaltung” 1, “Entschuldigt” 1; marriage and family: “Ja” 54, “Nicht teilgenommen” 25, “Nein” 23, “Entschuldigt” 11, “Enthaltung” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Entschuldigt” 1.
+Recorded positions (197): “Ja” 94, “Nein” 49, “Nicht teilgenommen” 26, “Entschuldigt” 22, “Enthaltung” 6.
+By area (every vote): abortion: “Nein” 5, “Ja” 3, “Enthaltung” 1, “Entschuldigt” 1; assisted dying: “Nein” 4, “Entschuldigt” 2, “Ja” 1; gender medicine and children: “Entschuldigt” 1, “Ja” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 19, “Nein” 7, “Enthaltung” 3, “Entschuldigt” 3, “Nicht teilgenommen” 1; parental rights and education: “Ja” 11, “Nicht teilgenommen” 3, “Nein” 2; free speech and civil liberties: “Ja” 12, “Entschuldigt” 4, “Nein” 3; religious freedom: “Ja” 8, “Nein” 4, “Enthaltung” 1, “Entschuldigt” 1; marriage and family: “Ja” 54, “Nicht teilgenommen” 25, “Nein” 23, “Entschuldigt” 11, “Enthaltung” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Entschuldigt” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (8)
 
@@ -56,6 +56,26 @@ The latest 20:
 | 26 Sep 2024 | [Internationale Adoptionen wieder stärken](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244156) | 24.4156 | submitted by | marriage and family |
 | 26 Sep 2024 | [Eine klare Haltung und eine Strategie der Schweiz für Frieden im Südkaukasus und den Schutz Armeniens](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244130) | 24.4130 | submitted by | free speech and civil liberties |
 | 16 Dec 2022 | [Datenlage zur Umsetzung der Kinderrechte verbessern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20224505) | 22.4505 | submitted by | parental rights and education |
+
+## Committees and groups (5)
+
+- **Committees:** Begnadigungskommission (Mitglied); Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EFD/WBF (Mitglied); Kommission für Umwelt, Raumplanung und Energie Nationalrat (Mitglied).
+- **Delegations:** Geschäftsprüfungsdelegation (Präsident/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (6)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Genossenschaft | Suisa | Mitglied | bezahlt |  |
+| Verein | Angestellte Schweiz | Mitglied | bezahlt |  |
+| Verein | Gesellschaft Schweiz-Armenien | Co-Präsident(in) | ehrenamtlich |  |
+| Verein | InfraWatt | Präsident(in) | bezahlt |  |
+| Verein | Netzwerk Schweizer Pärke, Bern | Präsident(in) | bezahlt |  |
+| Verein | Schweizer Musikrat | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

@@ -950,6 +950,12 @@ EXEMPT = {
 # new countries' speech clips (tools/country_clips.py, 11 October 2026: CH, AT
 # open; NL manual; FR, BE awaiting the parliaments' agreement) read the store
 # read-only and write files into a pack folder for a person; nothing to miss.
+# The new countries' debate report (tools/country_debate_report.py, 11 October
+# 2026: NL, CH, AT, FR, BE) is the same: manual, the store read-only, files in
+# data/debate-reports/ and a DM and canvas for Chris alone; no table, no clock.
+# Likewise the words since the last vote (tools/country_since_vote.py, 11
+# October 2026: NL, CH, AT, FR, BE) and its optional profile section
+# (tools/member_profiles.py --since-vote): read-only, by hand, no table.
 
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they
@@ -995,9 +1001,11 @@ ON_DEMAND = {
                               "left of the 100 items to the vote-meaning queue "
                               "(src/vote_meanings.py). "
                               "It first drafts the new countries' 5CA stance "
-                              "readings, rewrites their sign-off guides and "
-                              "sheets, and sends the weekly stances-awaiting-"
-                              "sign-off digest (tools/country_5ca.py, "
+                              "readings, rewrites their sign-off guides, "
+                              "sheets and what-to-sign-first shortlists, and "
+                              "sends the weekly stances-awaiting-"
+                              "sign-off digest, led by each country's top 5 "
+                              "(tools/country_5ca.py, src/shortlist5ca.py, "
                               "tools/stance_digest.py), and writes the 5CA "
                               "tracker and gated partner sheet "
                               "(tools/make_country_5ca_web.py): offline, no "

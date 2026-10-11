@@ -1,0 +1,53 @@
+# Words since the last vote: Switzerland (ch)
+# For each key write with, against or unclear: what the member's OWN WORDS below say
+# about CitizenGO's position on the area. Leave blank when unsure. Judge the words
+# only, never the party, the person or the vote. Name yourself in read_by.
+read_by: ""
+reads:
+  # Tamara Funiciello (S), area 1 (abortion); 2 speech(es) since 2025-09-24
+  #   2026-09-29: Wenn die Schweiz Frauen nicht länger als Kriminelle, das Recht auf Abtreibung nicht länger als tolerierte Straftat behandeln, sondern als Menschenrecht in ihre Verfassung schreiben würde, wie das zum Beispiel Frankreich tut, dann wäre das ein Signal...
+  #   2026-09-29: ...eben verändern können; das ist das eine. Das andere ist, Sie sagen es richtig, die Fristenregelung ist im Strafgesetzbuch geregelt: Frauen dürfen unter bestimmten Umständen straffrei über ihren Körper entscheiden. Das ist nicht, wie man ein Recht...
+  "a1|4262|2026-09-29": ""
+  # Jessica Jaccoud (S), area 1 (abortion); 1 speech(es) since 2025-09-24
+  #   2026-09-29: ...pays du monde à inscrire dans sa Constitution la liberté garantie de recourir à l'IVG. Cette décision n'a pas été celle d'une majorité de gauche : elle a été portée sous la présidence d'Emmanuel Macron et adoptée à une majorité écrasante du...
+  "a1|10820|2026-09-29": ""
+  # Léonore Porchet (G), area 1 (abortion); 1 speech(es) since 2025-09-24
+  #   2026-09-29: Cher collègue Roger Golay, le droit à l'avortement, qui n'est pas garanti en Suisse, est présent dans deux lois : la LAMal, où la gratuité de l'avortement est garantie, et dans le code pénal, où il se trouve parmi les homicides et où il est a priori...
+  "a1|4280|2026-09-29": ""
+  # Manfred Bühler (V), area 1 (abortion); 1 speech(es) since 2025-09-24
+  #   2026-09-29: Frau Kollegin, Sie argumentieren hier, als ob das Recht auf Abtreibung in unserem Land infrage gestellt wäre. 2002 wurde die Fristenlösung mit über 72 Prozent vom Volk angenommen. Warum haben Sie denn Angst?
+  "a1|4157|2026-09-29": ""
+  # Maya Bally (M-E), area 1 (abortion); 1 speech(es) since 2025-09-24
+  #   2026-09-29: ...auf internationale Entwicklungen und die aus ihrer Sicht bestehende Gefahr, dass Rechte in diesem Bereich wieder eingeschränkt werden könnten. Als Beispiele wurde unter anderem der Zugang zu Verhütung und Schwangerschaftsabbrüchen genannt.
+  "a1|11508|2026-09-29": ""
+  # Roger Golay (V), area 6 (parental rights and education); 1 speech(es) since 2026-04-29
+  #   2026-09-29: ...notamment l'organisation des soins, la prévention et certains aspects de l'éducation sexuelle, relèvent aujourd'hui des cantons. Une disposition constitutionnelle aussi générale ne doit pas devenir, par son interprétation, un moyen de...
+  "a6|4137|2026-09-29": ""
+  # Jean Tschopp (S), area 7 (free speech and civil liberties); 1 speech(es) since 2026-04-29
+  #   2026-09-24: ...avec de telles entraves peut nous mener à une situation extrêmement compliquée. La liberté d'expression dans le domaine politique doit rester étendue. La Cour européenne des droits de l'homme nous le rappelle également dans plusieurs arrêts.
+  "a7|10827|2026-09-24": ""
+  # Maya Bally (M-E), area 7 (free speech and civil liberties); 1 speech(es) since 2026-04-29
+  #   2026-09-22: Für diesen Beschluss stützte sich die Mehrheit der Kommissionsmitglieder auf die Istanbul-Konvention und den Grevio-Bericht 2021. Diese machen deutlich, dass sich die Schweiz zu stark auf die häusliche Komponente konzentriert und andere Formen...
+  "a7|11508|2026-09-22": ""
+  # Hasan Candan (S), area 9 (marriage and family); 1 speech(es) since 2026-03-20
+  #   2026-10-01: In der Schweiz ist die Heiratsstrafe gemeinhin bekannt. Über Jahrzehnte stritt das Parlament darüber, wie gemeinsam in einem Haushalt lebende Paare zu besteuern sind. Nach dieser Odyssee hat sich nun endlich etwas getan. Im März dieses Jahres haben...
+  "a9|10828|2026-10-01": ""
+  # Pascal Broulis (RL), area 9 (marriage and family); 1 speech(es) since 2026-03-20
+  #   2026-09-30: ...aussi gagné ; je n'étais pas parmi ceux qui ont lancé le référendum par la voix des cantons. C'était à propos de l'imposition individuelle. Là, le peuple a donné tort aux cantons, un à un. Il n'y a que deux fois où les cantons en ont appelé au peuple.
+  "a9|10805|2026-09-30": ""
+  # Roger Golay (V), area 9 (marriage and family); 2 speech(es) since 2026-03-20
+  #   2026-09-22: ...de méthodes de procréation qui ne sont pas autorisées en Suisse, y compris la gestation pour autrui. Nous devons donc nous poser une question fondamentale: voulons-nous modifier aujourd'hui une partie du code civil, alors qu'une révision...
+  #   2026-09-22: Ma réponse est simple: aujourd'hui, la révision du droit de la filiation est en cours. C'est une question de quelques mois, voire d'une année au plus, à moins que la consultation n'ait pas encore été faite - je ne sais pas où cela en est, mais je ne...
+  "a9|4137|2026-09-22": ""
+  # Jessica Jaccoud (S), area 9 (marriage and family); 1 speech(es) since 2026-03-20
+  #   2026-09-22: ...de traiter cette question dans le cadre de la réforme globale du droit de la filiation et de la procréation médicalement assistée et soutient pour cette raison la décision du Conseil des États. La majorité considère toutefois qu'il n'y a pas...
+  "a9|10820|2026-09-22": ""
+  # Tamara Funiciello (S), area 9 (marriage and family); 1 speech(es) since 2026-03-20
+  #   2026-09-22: In der Debatte im Ständerat wurde nämlich viel über Leihmutterschaften und Kliniken im Ausland gesprochen. Als Direktbetroffene kann ich Ihnen sagen, dass die Realität in der Schweiz anders aussieht. Der Fall, um den es hier überwiegend geht, ist die...
+  "a9|4262|2026-09-22": ""
+  # Vincent Maitre (M-E), area 9 (marriage and family); 1 speech(es) since 2026-03-20
+  #   2026-09-22: Vous le savez, les enfants issus d'un don de sperme ou d'une procédure de procréation médicalement assistée (PMA) légale, effectués à l'étranger, en cas de décès de leurs parents biologiques, se retrouvent sans aucun parent légal et se voient donc...
+  "a9|4275|2026-09-22": ""
+  # Patrick Hässig (GL), area 12 (prostitution and trafficking); 1 speech(es) since 2026-04-29
+  #   2026-09-17: Menschenhandel, Ausbeutung, Geldwäscherei, Cyberkriminalität, Drogenhandel, illegales Glücksspiel usw. - es sind sehr viele Themen. Die Schweiz ist attraktiv für organisierte Kriminalität, und zwar als Transitland, als Umschlagplatz und als Zielmarkt....
+  "a12|11507|2026-09-17": ""

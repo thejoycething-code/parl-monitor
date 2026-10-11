@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 130, “Nein” 48, “Entschuldigt” 23, “Nicht teilgenommen” 8.
-By area (every vote): abortion: “Ja” 12, “Nein” 7, “Entschuldigt” 2, “Nicht teilgenommen” 1; assisted dying: “Ja” 4, “Nein” 2, “Entschuldigt” 1; gender medicine and children: “Entschuldigt” 1, “Ja” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Entschuldigt” 3, “Nicht teilgenommen” 3, “Nein” 2; parental rights and education: “Ja” 12, “Nein” 2, “Entschuldigt” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 12, “Entschuldigt” 4, “Nein” 2, “Nicht teilgenommen” 1; religious freedom: “Ja” 7, “Entschuldigt” 4, “Nicht teilgenommen” 2, “Nein” 1; marriage and family: “Ja” 72, “Nein” 33, “Entschuldigt” 8, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Entschuldigt” 1.
+Recorded positions (197): “Ja” 123, “Nein” 44, “Entschuldigt” 22, “Nicht teilgenommen” 8.
+By area (every vote): abortion: “Ja” 5, “Nein” 3, “Entschuldigt” 1, “Nicht teilgenommen” 1; assisted dying: “Ja” 4, “Nein” 2, “Entschuldigt” 1; gender medicine and children: “Entschuldigt” 1, “Ja” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Entschuldigt” 3, “Nicht teilgenommen” 3, “Nein” 2; parental rights and education: “Ja” 12, “Nein” 2, “Entschuldigt” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 12, “Entschuldigt” 4, “Nein” 2, “Nicht teilgenommen” 1; religious freedom: “Ja” 7, “Entschuldigt” 4, “Nicht teilgenommen” 2, “Nein” 1; marriage and family: “Ja” 72, “Nein” 33, “Entschuldigt” 8, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Entschuldigt” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (2)
 
@@ -50,6 +50,12 @@ The latest 20:
 |---|---|---|---|---|
 | 14 Sep 2026 | [Aufenthaltsrechtlicher Schutz für Opfer von Gewalt - Lehren aus dem Fall Frei](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264083) | 26.4083 | submitted by | sex-based rights, prostitution and trafficking |
 | 14 Sep 2026 | [Anstieg von Schwarzarbeit in Privathaushalten: Was unternimmt der Bundesrat?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264082) | 26.4082 | submitted by | marriage and family |
+
+## Committees and groups (4)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)); Büro Nationalrat (Fraktionspräsident/in); Koordinationskonferenz (Mitglied); Staatspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
 
 ## Notes
 

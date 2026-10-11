@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 136, “Nein” 63, “Enthaltung” 6, “Nicht teilgenommen” 4.
-By area (every vote): abortion: “Ja” 10, “Nein” 8, “Enthaltung” 3, “Nicht teilgenommen” 1; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 2; conversion practices: “Nein” 1; sex-based rights: “Ja” 27, “Nein” 5, “Enthaltung” 1; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 14, “Nein” 4, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 3, “Nicht teilgenommen” 1; marriage and family: “Ja” 77, “Nein” 36, “Nicht teilgenommen” 1; surrogacy and embryology: “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 130, “Nein” 60, “Nicht teilgenommen” 4, “Enthaltung” 3.
+By area (every vote): abortion: “Nein” 5, “Ja” 4, “Nicht teilgenommen” 1; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 2; conversion practices: “Nein” 1; sex-based rights: “Ja” 27, “Nein” 5, “Enthaltung” 1; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 14, “Nein” 4, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 3, “Nicht teilgenommen” 1; marriage and family: “Ja” 77, “Nein” 36, “Nicht teilgenommen” 1; surrogacy and embryology: “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (3)
 
@@ -51,6 +51,38 @@ The latest 20:
 | 3 Jun 2026 | [Schutz von Minderjährigen vor den Gefahren, die mit den sozialen Medien verbunden sind. Welche Strategie will der Bundesrat verfolgen?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263554) | 26.3554 | submitted by | parental rights and education, free speech and civil liberties |
 | 10 Mar 2026 | [Die psychophysische Entwicklung von Kindern ins Zentrum stellen. Die Nutzung von Smartphones unter 12 Jahren begrenzen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263074) | 26.3074 | submitted by | parental rights and education |
 | 5 Mar 2025 | [Auftrag des Bundesrates an das EJPD, bis Ende 2026 eine Gesetzesvorlage auszuarbeiten, die internationale Adoptionen künftig verbietet](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257098) | 25.7098 | submitted by | marriage and family |
+
+## Committees and groups (4)
+
+- **Committees:** Redaktionskommission (Stellvertreter/in); Redaktionskommission Subkommission der italienischen Sprache (Stellvertreter/in); Staatspolitische Kommission Nationalrat (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Italienischen Parlament (Vizepräsident/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (18)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Genossenschaft | Vivere Lambertenghi | Gesellschafter(in) | ehrenamtlich |  |
+| Keine Angaben | Commissione amministratrice della Cassa pensioni Comune di Chiasso | Mitglied | bezahlt |  |
+| Kommission | Commissione paritetica degli Istituti Ospedalieri dell'EOC | Sekretär(in) | bezahlt |  |
+| Kommission | Commissione paritetica degli Istituti Ospedalieri Privati del Canton Ticino | Sekretär(in) | bezahlt |  |
+| Kommission | Commissione paritetica delle Istituzioni Sociali | Sekretär(in) | bezahlt |  |
+| Kommission | Commissione paritetica Fox Town | Mitglied | bezahlt |  |
+| Stiftung | Fondazione Gabbiano | Mitglied | ehrenamtlich |  |
+| Verein | AGNA | Mitglied | ehrenamtlich |  |
+| Verein | Associazione L'Orto | Mitglied | ehrenamtlich |  |
+| Verein | Commissione Paritetica assistenti di farmacia | Sekretär(in) | bezahlt |  |
+| Verein | Commissione paritetica cantonale dell'edilizia e del genio civile del Cantone Ticino | Mitglied | bezahlt |  |
+| Verein | Commissione paritetica strutture d'accoglienza per l'infanzia | Sekretär(in) | bezahlt |  |
+| Verein | Commissione professionale paritetica cantonale per gli ingegneri, gli architetti e professioni affini | Mitglied | bezahlt |  |
+| Verein | HELVETAS Swiss Intercooperation, Zürich | Mitglied | ehrenamtlich |  |
+| Verein | Insertion Suisse | Präsident(in) | bezahlt |  |
+| Verein | Insuperabili | Mitglied | ehrenamtlich |  |
+| Verein | Swiss Football League - Referee Representatives (SFL - RR) | Sekretär(in) | bezahlt |  |
+| Verein | Travail Suisse | Vizepräsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

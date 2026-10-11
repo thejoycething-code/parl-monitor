@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 121, “Ja” 67, “Nicht teilgenommen” 21.
-By area (every vote): abortion: “Nein” 13, “Ja” 7, “Nicht teilgenommen” 2; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 25, “Nicht teilgenommen” 6, “Ja” 2; parental rights and education: “Nein” 11, “Ja” 3, “Nicht teilgenommen” 2; free speech and civil liberties: “Nein” 11, “Nicht teilgenommen” 6, “Ja” 2; religious freedom: “Nein” 6, “Ja” 4, “Nicht teilgenommen” 4; marriage and family: “Nein” 66, “Ja” 47, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 113, “Ja” 63, “Nicht teilgenommen” 21.
+By area (every vote): abortion: “Nein” 5, “Ja” 3, “Nicht teilgenommen” 2; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 25, “Nicht teilgenommen” 6, “Ja” 2; parental rights and education: “Nein” 11, “Ja” 3, “Nicht teilgenommen” 2; free speech and civil liberties: “Nein” 11, “Nicht teilgenommen” 6, “Ja” 2; religious freedom: “Nein” 6, “Ja” 4, “Nicht teilgenommen” 4; marriage and family: “Nein” 66, “Ja” 47, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,32 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (1)
+
+- **Committees:** Kommission für Wirtschaft und Abgaben Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (12)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | EFTEC AG, Romanshorn | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | EFTEC Europe Holding AG, Zug | Vizepräsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | EMESTA Holding AG, Wilen b. Wollerau | Mitglied | ehrenamtlich |  |
+| Aktiengesellschaft | EMS-CHEMIE (Produktion) AG, Domat/Ems | Vizepräsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | EMS-CHEMIE (Switzerland) AG, Domat/Ems | Vizepräsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | EMS-CHEMIE AG, Domat/Ems | Vizepräsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | EMS-CHEMIE HOLDING AG, Domat/Ems | Delegierte(r) | bezahlt |  |
+| Aktiengesellschaft | EMS-INVENTA AG, Männedorf | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | EMS-PATENT AG, Domat/Ems | Präsident(in) | ehrenamtlich |  |
+| Verein | economiesuisse | Mitglied | ehrenamtlich |  |
+| Verein | scienceindustries | Mitglied | ehrenamtlich |  |
+| Verein | Swiss Family Business | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

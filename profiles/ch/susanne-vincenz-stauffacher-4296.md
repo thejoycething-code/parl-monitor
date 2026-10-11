@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 133, “Nein” 73, “Enthaltung” 2, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 14, “Nein” 7, “Enthaltung” 1; assisted dying: “Ja” 3, “Nein” 3, “Nicht teilgenommen” 1; gender medicine and children: “Enthaltung” 1, “Ja” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 21, “Nein” 11, “Enthaltung” 1; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 7, “Nein” 7; marriage and family: “Ja” 79, “Nein” 34, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 125, “Nein” 69, “Enthaltung” 2, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Ja” 6, “Nein” 3, “Enthaltung” 1; assisted dying: “Ja” 3, “Nein” 3, “Nicht teilgenommen” 1; gender medicine and children: “Enthaltung” 1, “Ja” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 21, “Nein” 11, “Enthaltung” 1; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 7, “Nein” 7; marriage and family: “Ja” 79, “Nein” 34, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (2)
 
@@ -50,6 +50,30 @@ The latest 20:
 |---|---|---|---|---|
 | 18 Dec 2024 | [Strafbestimmung gegen Menschenhandel praxistauglicher definieren](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244434) | 24.4434 | submitted by | prostitution and trafficking |
 | 15 Jun 2023 | [Evaluation der Fristenregelung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20233762) | 23.3762 | submitted by | abortion |
+
+## Committees and groups (4)
+
+- **Committees:** Gerichtskommission (Mitglied); Immunitätskommission Nationalrat (Stellvertreter/in); Kommission für Umwelt, Raumplanung und Energie Nationalrat (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Landtag des Fürstentums Liechtenstein (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (10)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Genossenschaft | Konzert und Theater St. Gallen | Präsident(in) | bezahlt |  |
+| Stiftung | SENS eRecycling | Präsident(in) | bezahlt |  |
+| Verein | FDP.Die Liberalen Schweiz | Co-Präsident(in) | bezahlt |  |
+| Verein | FDP.Die Liberalen St. Gallen | Mitglied | ehrenamtlich |  |
+| Verein | Gönnerverein O. ch | Mitglied | ehrenamtlich |  |
+| Verein | hydrosuisse (Schweizerischer Wasserwirtschaftsverband) | Präsident(in) | bezahlt |  |
+| Verein | Ombudsstelle Alter und Behinderung SG-AR-AI | Ombudsperson | bezahlt |  |
+| Verein | Spitex Schweiz, Bern | Mitglied | ehrenamtlich |  |
+| Verein | swisscleantech, Zürich | Mitglied | ehrenamtlich |  |
+| Verein | Verein Watt d'Or | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

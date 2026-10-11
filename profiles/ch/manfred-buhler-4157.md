@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 125, “Ja” 78, “Nicht teilgenommen” 5, “Enthaltung” 1.
-By area (every vote): abortion: “Nein” 12, “Ja” 8, “Nicht teilgenommen” 2; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 27, “Ja” 4, “Nicht teilgenommen” 2; parental rights and education: “Nein” 13, “Ja” 2, “Nicht teilgenommen” 1; free speech and civil liberties: “Nein” 11, “Ja” 8; religious freedom: “Nein” 7, “Ja” 5, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Nein” 66, “Ja” 48; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 10, “Nicht teilgenommen” 2, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 117, “Ja” 74, “Nicht teilgenommen” 5, “Enthaltung” 1.
+By area (every vote): abortion: “Ja” 4, “Nein” 4, “Nicht teilgenommen” 2; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 27, “Ja” 4, “Nicht teilgenommen” 2; parental rights and education: “Nein” 13, “Ja” 2, “Nicht teilgenommen” 1; free speech and civil liberties: “Nein” 11, “Ja” 8; religious freedom: “Nein” 7, “Ja” 5, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Nein” 66, “Ja” 48; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 10, “Nicht teilgenommen” 2, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,13 +42,38 @@ The latest 20:
 | 30 Apr 2026 | Ja | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 20 Dec 2024 | [Woke Sprache bei der SRG](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20241061) | 24.1061 | submitted by | sex-based rights |
+
+## Committees and groups (2)
+
+- **Committees:** Gerichtskommission (Mitglied); Kommission für Rechtsfragen Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (12)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Clientis Caisse d'Epargne Courtelary | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Erguel Sports SA | Mitglied | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | Le Passage Sàrl | Mitglied | bezahlt |  |
+| Öffentlich-rechtliche Anstalt | Conseil de surveillance de la Caisse de compensation du canton de Berne | Mitglied | bezahlt |  |
+| Verein | Aktion Medienfreiheit | Präsident(in) | ehrenamtlich |  |
+| Verein | Association des propriétaires fonciers (APF) Bienne-Seeland | Mitglied | bezahlt |  |
+| Verein | Association des propriétaires fonciers (APF) Canton de Berne | Mitglied | bezahlt |  |
+| Verein | BernBilingue | Mitglied | ehrenamtlich |  |
+| Verein | Commission Motocross FMS | Mitglied | ehrenamtlich |  |
+| Verein | Moto-Club Corgémont | Mitglied | ehrenamtlich |  |
+| Verein | Nuklearforum | Mitglied | ehrenamtlich |  |
+| Verein | Ouestrail | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

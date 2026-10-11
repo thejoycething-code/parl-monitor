@@ -51,6 +51,27 @@ The latest 20:
 | 15 Sep 2026 | [Menschenrechte und LGBTIQ-Rechte in der Türkei](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20267704) | 26.7704 | submitted by | sex-based rights |
 | 14 Sep 2026 | [Beteiligung am Europol Projekt «MEDUSA» zur Bekämpfung sexualisierter Gewalt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264076) | 26.4076 | submitted by | prostitution and trafficking |
 
+## Committees and groups (1)
+
+- **Committees:** Sicherheitspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (8)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Verein | Avenir Social Zürich und Schaffhausen | Mitglied | ehrenamtlich |  |
+| Verein | Frauenberatung sexuelle Gewalt | Mitglied | ehrenamtlich |  |
+| Verein | Grüne Kanton Zürich | Mitglied | ehrenamtlich |  |
+| Verein | Grüne Schweiz | Mitglied | ehrenamtlich |  |
+| Verein | Grüne Stadt Zürich | Co-Präsident(in) | bezahlt |  |
+| Verein | HAZ Queer Zürich | Mitglied | ehrenamtlich |  |
+| Verein | Lebensorganisation Schweiz (LOS) | Mitglied | ehrenamtlich |  |
+| Verein | Verein Züri City Card | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
 ## Notes
 
 - Party: Party is the member's party; the vote record names the parliamentary group (Fraktion) at each vote, which is what each vote line shows.

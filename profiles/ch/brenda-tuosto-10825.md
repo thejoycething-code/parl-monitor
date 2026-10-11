@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 138, “Nein” 46, “Entschuldigt” 17, “Nicht teilgenommen” 7, “Enthaltung” 1.
-By area (every vote): abortion: “Ja” 12, “Nein” 8, “Nicht teilgenommen” 2; assisted dying: “Ja” 4, “Entschuldigt” 1, “Nein” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Entschuldigt” 3, “Nein” 3, “Enthaltung” 1, “Nicht teilgenommen” 1; parental rights and education: “Ja” 11, “Nicht teilgenommen” 3, “Entschuldigt” 1, “Nein” 1; free speech and civil liberties: “Ja” 13, “Entschuldigt” 2, “Nein” 2, “Nicht teilgenommen” 2; religious freedom: “Ja” 9, “Nein” 4, “Entschuldigt” 1; marriage and family: “Ja” 76, “Nein” 28, “Entschuldigt” 9, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 1, “Nicht teilgenommen” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 130, “Nein” 42, “Entschuldigt” 17, “Nicht teilgenommen” 7, “Enthaltung” 1.
+By area (every vote): abortion: “Ja” 4, “Nein” 4, “Nicht teilgenommen” 2; assisted dying: “Ja” 4, “Entschuldigt” 1, “Nein” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Entschuldigt” 3, “Nein” 3, “Enthaltung” 1, “Nicht teilgenommen” 1; parental rights and education: “Ja” 11, “Nicht teilgenommen” 3, “Entschuldigt” 1, “Nein” 1; free speech and civil liberties: “Ja” 13, “Entschuldigt” 2, “Nein” 2, “Nicht teilgenommen” 2; religious freedom: “Ja” 9, “Nein” 4, “Entschuldigt” 1; marriage and family: “Ja” 76, “Nein” 28, “Entschuldigt” 9, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 1, “Nicht teilgenommen” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nicht teilgenommen | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (5)
 
@@ -53,6 +53,12 @@ The latest 20:
 | 19 Jun 2025 | [Einstellung der Printausgabe von "20 Minuten". Eine abrupte Wende auf Kosten von Arbeitsplätzen und Medienvielfalt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253769) | 25.3769 | submitted by | free speech and civil liberties |
 | 16 Dec 2024 | [Eisenbahninfrastrukturfonds. Wo stehen wir?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244370) | 24.4370 | submitted by | religious freedom |
 | 27 May 2024 | [Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) | 24.3483 | submitted by | assisted dying |
+
+## Committees and groups (1)
+
+- **Committees:** Kommission für Verkehr und Fernmeldewesen Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
 
 ## Notes
 

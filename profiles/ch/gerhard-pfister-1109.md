@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 123, “Nein” 53, “Nicht teilgenommen” 26, “Enthaltung” 6, “Entschuldigt” 1.
-By area (every vote): abortion: “Nicht teilgenommen” 8, “Ja” 7, “Nein” 4, “Enthaltung” 3; assisted dying: “Nein” 6, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nicht teilgenommen” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 11, “Nicht teilgenommen” 2; parental rights and education: “Ja” 10, “Nein” 4, “Nicht teilgenommen” 2; free speech and civil liberties: “Ja” 9, “Nicht teilgenommen” 6, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 8, “Nicht teilgenommen” 3, “Enthaltung” 1, “Entschuldigt” 1, “Nein” 1; marriage and family: “Ja” 83, “Nein” 24, “Nicht teilgenommen” 6, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 121, “Nein” 53, “Nicht teilgenommen” 19, “Enthaltung” 3, “Entschuldigt” 1.
+By area (every vote): abortion: “Ja” 5, “Nein” 4, “Nicht teilgenommen” 1; assisted dying: “Nein” 6, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nicht teilgenommen” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 11, “Nicht teilgenommen” 2; parental rights and education: “Ja” 10, “Nein” 4, “Nicht teilgenommen” 2; free speech and civil liberties: “Ja” 9, “Nicht teilgenommen” 6, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 8, “Nicht teilgenommen” 3, “Enthaltung” 1, “Entschuldigt” 1, “Nein” 1; marriage and family: “Ja” 83, “Nein” 24, “Nicht teilgenommen” 6, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,38 @@ The latest 20:
 | 30 Apr 2026 | Nein | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (5)
+
+- **Committees:** Aussenpolitische Kommission Nationalrat (Vizepräsident/in); Immunitätskommission Nationalrat (Mitglied); Legislaturplanungskommission Nationalrat (Mitglied); Staatspolitische Kommission Nationalrat (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Deutschen Bundestag (Vizepräsident/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (17)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Ägerisee Schifffahrt AG, Oberägeri | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Klett und Balmer, Baar ZG | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Klinik Adelheid AG, Unterägeri | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Pfister Schnieper Consulting Zug | Präsident(in) | bezahlt |  |
+| Einfache Gesellschaft | Pfister & Netzwerk, Zug | Geschäftsführer(in) | bezahlt |  |
+| Stiftung | Alfred Müller Stiftung, Baar | Mitglied | bezahlt |  |
+| Stiftung | Fondation 1792, Appenzell | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung für hochbegabte Kinder, Zürich | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung Pädagogische Hochschule Schwyz | Präsident(in) | bezahlt |  |
+| Stiftung | Winterhilfe Zug | Präsident(in) | ehrenamtlich |  |
+| Stiftung | Zürcher Sprachheilschule, Unterägeri | Mitglied | ehrenamtlich |  |
+| Verein | Cemsuisse Verband der Schweizerischen Cementindustrie, Bern | Präsident(in) | bezahlt |  |
+| Verein | ProCinema | Präsident(in) | bezahlt |  |
+| Verein | Schweizer Casino Verband | Präsident(in) | bezahlt |  |
+| Verein | Schweizerische Vereinigung der Verbandsausgleichskassen VVAK | Mitglied | bezahlt |  |
+| Verein | Verband der Schweizerischen Privatschulen (VSP), Bern | Präsident(in) | bezahlt |  |
+| Verein | Vereinigung der Privaten Aktiengesellschaften VPAG | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

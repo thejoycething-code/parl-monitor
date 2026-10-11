@@ -162,6 +162,7 @@ Left blank at build time (rulebook cell 35).
 - Tier: B (open parliamentary data, the CH store). Drafted by tools/country_briefs.py (rules and the record; no AI model).
 - Subject: tier 1 `24.4432`, https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244432, areas 12 (prostitution and trafficking).
 - Store takeaway: Motion 24.4432, submitted by Bally Maya in the Nationalrat; status changed on 6 October 2026
+- Session judge: Seven identical motions ask for a more workable criminal definition of human trafficking and sit in a Council of States committee. Relevant to trafficking background, not a direct campaign trigger.
 - Key dates: introduced 2024-12-18; last recorded event 2026-10-06; next none in the store (no Urgent proposed: news-only dates never trigger it).
 - Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days skip weekends only; the country's public holidays are not checked.
 - SIGN-OFF: no bill direction on file for `24.4432`. Add a `bill_directions` line (direction with/against, why) to config/ch_stance.yaml, then confirm it: `python3 tools/country_5ca.py --cc ch --confirm-direction 24.4432 --by NAME`.
@@ -173,3 +174,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-10 tools/country_briefs.py drafted every cell
+- 2026-10-11 tools/country_briefs.py refreshed by the builder

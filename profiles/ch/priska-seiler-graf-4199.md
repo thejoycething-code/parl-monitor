@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 148, “Nein” 56, “Entschuldigt” 5.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 4, “Nein” 2, “Entschuldigt” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Entschuldigt” 2, “Nein” 2; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 16, “Nein” 3; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 75, “Nein” 35, “Entschuldigt” 4; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Entschuldigt” 2; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 140, “Nein” 52, “Entschuldigt” 5.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 4, “Nein” 2, “Entschuldigt” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Entschuldigt” 2, “Nein” 2; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 16, “Nein” 3; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 75, “Nein” 35, “Entschuldigt” 4; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Entschuldigt” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 
@@ -52,6 +52,24 @@ The latest 20:
 | 25 Sep 2025 | [Genugtuung für Opfer von Menschenhandel](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254204) | 25.4204 | submitted by | prostitution and trafficking |
 | 10 Mar 2025 | [Schutzprogramme für Opfer von Menschenhandel](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257190) | 25.7190 | submitted by | prostitution and trafficking |
 | 19 Sep 2024 | [Wer übernimmt zusätzlich anfallende Betreuungskosten bei Zivildienst-, Armee- und Zivilschutzeinsätzen?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243932) | 24.3932 | submitted by | marriage and family |
+
+## Committees and groups (8)
+
+- **Committees:** Geschäftsprüfungskommission Arbeitsgruppe Risikomanagement Bund (Mitglied); Geschäftsprüfungskommission Nationalrat (Vizepräsident/in); Geschäftsprüfungskommission Nationalrat Subkommission EDA/VBS (Mitglied); GPK-NS Koordinationsgruppe (Mitglied); Sicherheitspolitische Kommission Nationalrat (Mitglied); SiK-N Subkommission Revision des Kriegsmaterialgesetzes (Präsident/in).
+- **Delegations:** Delegation bei der parlamentarischen Versammlung der NATO (Vizepräsident/in); Geschäftsprüfungsdelegation (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (4)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | Stiftung Märtplatz, Rorbas | Mitglied | ehrenamtlich |  |
+| Verein | Koalition Flugverkehr, Umwelt und Gesundheit (KLUG), Bern | Co-Präsident(in) | ehrenamtlich |  |
+| Verein | Schweizerischer Gemeideverband (SGV), Bern | Mitglied | bezahlt |  |
+| Verein | Zivildienstverband CIVIVA | Co-Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

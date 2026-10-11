@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: G (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 142, “Nein” 55, “Enthaltung” 7, “Entschuldigt” 5.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 4, “Nein” 2, “Enthaltung” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Entschuldigt” 1; sex-based rights: “Ja” 27, “Nein” 4, “Entschuldigt” 2; parental rights and education: “Ja” 12, “Nein” 2, “Enthaltung” 1, “Entschuldigt” 1; free speech and civil liberties: “Ja” 15, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 8, “Nein” 4, “Entschuldigt” 2; marriage and family: “Ja” 76, “Nein” 33, “Enthaltung” 4, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 134, “Nein” 51, “Enthaltung” 7, “Entschuldigt” 5.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 4, “Nein” 2, “Enthaltung” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Entschuldigt” 1; sex-based rights: “Ja” 27, “Nein” 4, “Entschuldigt” 2; parental rights and education: “Ja” 12, “Nein” 2, “Enthaltung” 1, “Entschuldigt” 1; free speech and civil liberties: “Ja” 15, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 8, “Nein” 4, “Entschuldigt” 2; marriage and family: “Ja” 76, “Nein” 33, “Enthaltung” 4, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | G (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | G (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (6)
 
@@ -54,6 +54,25 @@ The latest 20:
 | 18 Dec 2024 | [Genügt die Nothilfe den Verpflichtungen gemäss UNO-Kinderrechtskonvention?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244446) | 24.4446 | submitted by | parental rights and education |
 | 4 Jun 2024 | [Gleichbehandlung in den 3 Säulen der Kinder- und Jugendpolitik](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20247399) | 24.7399 | submitted by | parental rights and education |
 | 7 Mar 2023 | [Informationskampagne gegen Armut aufgrund von unbezahlter Familienarbeit](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20233062) | 23.3062 | submitted by | marriage and family |
+
+## Committees and groups (4)
+
+- **Committees:** **Kommission für Wissenschaft, Bildung und Kultur Nationalrat (Mitglied)** (on our ground: the science, education and culture committee (WBK)); Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EFD/WBF (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EJPD/BK (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (6)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Körperschaft des öffentlichen Rechts | Paritätische Schlichtungsbehördedes Kantons Zürich für Streitigkeiten nach dem Gleichstellungsgesetz | Mandat als Vertreter(in) einer Behörde | bezahlt |  |
+| Stiftung | Rahn-Stiftung | Mitglied | ehrenamtlich |  |
+| Verein | AVIVO Zürich | Präsident(in) | ehrenamtlich |  |
+| Verein | Grüne Zürich 3/9 | Mitglied | ehrenamtlich |  |
+| Verein | Offene Jugendarbeit Zürich OJA | Präsident(in) | ehrenamtlich |  |
+| Verein | Verein Zigeunerkulturtage Zürich | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

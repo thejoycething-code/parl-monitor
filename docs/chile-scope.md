@@ -402,6 +402,8 @@ Later phases and items for Chris (not built at the merge):
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/cl_stance.yaml` holds 13 bill direction(s) (Claude's drafts from the watchlist) and 5 vote reading(s): 0 with proposed values, 0 procedural, 5 need reading, 0 confirmed. Guide: `docs/5ca-cl-readings.md`; confirm with `python3 tools/country_5ca.py --cc cl --sign-from-doc --by NAME`. Sheets (`data/5ca/cl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Chile (`config/stance_signers.yaml`).
 
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-cl-shortlist.md` ranks the 5 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `camara-88946` (2026-05-20, amendment-level (lower); tier 1; close-ish: 80-69). It confirms nothing.
+
 
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 

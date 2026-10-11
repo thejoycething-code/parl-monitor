@@ -499,6 +499,8 @@ Applied on the `countries` branch:
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/pl_stance.yaml` holds 21 bill direction(s) (Claude's drafts from the watchlist) and 185 vote reading(s): 24 with proposed values, 4 procedural, 157 need reading, 0 confirmed. Guide: `docs/5ca-pl-readings.md`; confirm with `python3 tools/country_5ca.py --cc pl --sign-from-doc --by NAME`. Sheets (`data/5ca/pl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Poland (`config/stance_signers.yaml`).
 
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-pl-shortlist.md` ranks the 185 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `pl-10-65-10` (2026-09-17, a vote on the whole text; the decisive one; close-ish: 232-199). It confirms nothing.
+
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:

@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 116, “Ja” 79, “Enthaltung” 9, “Nicht teilgenommen” 5.
-By area (every vote): abortion: “Ja” 12, “Nein” 6, “Enthaltung” 3, “Nicht teilgenommen” 1; assisted dying: “Ja” 5, “Nein” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 27, “Ja” 4, “Nicht teilgenommen” 2; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 16, “Ja” 3; religious freedom: “Nein” 7, “Ja” 5, “Nicht teilgenommen” 2; marriage and family: “Nein” 59, “Ja” 48, “Enthaltung” 6, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 10, “Nicht teilgenommen” 2, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 115, “Ja” 70, “Enthaltung” 7, “Nicht teilgenommen” 5.
+By area (every vote): abortion: “Nein” 5, “Ja” 3, “Enthaltung” 1, “Nicht teilgenommen” 1; assisted dying: “Ja” 5, “Nein” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 27, “Ja” 4, “Nicht teilgenommen” 2; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 16, “Ja” 3; religious freedom: “Nein” 7, “Ja” 5, “Nicht teilgenommen” 2; marriage and family: “Nein” 59, “Ja” 48, “Enthaltung” 6, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 10, “Nicht teilgenommen” 2, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (8)
 
@@ -56,6 +56,25 @@ The latest 20:
 | 5 Mar 2025 | [Welche Politik verfolgt die Schweiz hinsichtlich Algerien?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257081) | 25.7081 | submitted by | religious freedom |
 | 9 Sep 2024 | [Fragen zur Fachstelle Frauen in der Armee und Diversity](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243826) | 24.3826 | submitted by | sex-based rights |
 | 6 Dec 2023 | [Die Eidgenössische Kommission gegen Rassismus: eine Kommission zur Zensur politischer Kampagnen?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20237853) | 23.7853 | submitted by | free speech and civil liberties |
+
+## Committees and groups (4)
+
+- **Committees:** Sicherheitspolitische Kommission Nationalrat (Mitglied); SiK-N Subkommission Revision des Kriegsmaterialgesetzes (Mitglied); Staatspolitische Kommission Nationalrat (Mitglied).
+- **Delegations:** Delegation bei der Parlamentarischen Versammlung der OSZE (Stellvertreter/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (5)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Addor Künzi Fournier avocats SA, Sion | Präsident(in) | bezahlt |  |
+| Stiftung | Stiftung COURAGE, Bern | Präsident(in) | ehrenamtlich |  |
+| Verein | Délégation de Taïwan, République de Chine | Mitglied | ehrenamtlich |  |
+| Verein | GaraNto | Präsident(in) | bezahlt |  |
+| Verein | Pro Suisse Valais | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

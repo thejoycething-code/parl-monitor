@@ -610,5 +610,64 @@ class OnKeyTests(Base):
                 self.assertNotRegex(h.read(), r"(?m)^    on: ", cc)
 
 
+class OffGroundPruneTests(Base):
+    """A reclassification that takes a drafted vote off our ground (the Swiss
+    IVG guard, 11 October 2026): the unsigned, untouched draft goes; a signed
+    or hand-edited one stays; a vote the store lacks is never touched."""
+
+    def _reclassify(self, *keys):
+        rw = sqlite3.connect(os.path.join(self.tmp.name, "store.db"))
+        for k in keys:
+            rw.execute("UPDATE pl_divisions SET areas='[]', tier=NULL WHERE division_key=?", (k,))
+        rw.commit()
+        rw.close()
+
+    def test_off_ground_drafts_go_and_the_rest_stay(self):
+        self.draft()
+        self.assertIn("pl-10-1-6", self.entries())
+        self._reclassify("pl-10-1-6")
+        PL_WL_NOW = dict(PL_WL)
+        self.assertEqual(c5.off_ground(self.conn, "pl", PL_WL_NOW), {"pl-10-1-5", "pl-10-1-6"})
+        got = c5.prune_off_ground(self.conn, "pl", self.cfg, wl=PL_WL_NOW, log=QUIET)
+        self.assertEqual(got, {"removed": ["pl-10-1-6"], "kept": []})
+        self.assertEqual(sorted(self.entries()), ["pl-10-1-1", "pl-10-1-2", "pl-10-1-3", "pl-10-1-4"])
+        again = c5.prune_off_ground(self.conn, "pl", self.cfg, wl=PL_WL_NOW, log=QUIET)
+        self.assertEqual(again["removed"], [])
+
+    def test_watched_votes_stay_on_ground_and_signed_ones_are_kept(self):
+        self.draft()
+        c5.confirm("pl", ["pl-10-1-1"], "Christopher", "2026-10-11", self.cfg, log=QUIET)
+        # 10/2110 is watched, so its votes stay even with no area of their own.
+        self._reclassify("pl-10-1-1", "pl-10-1-2")
+        got = c5.prune_off_ground(self.conn, "pl", self.cfg, wl=PL_WL, log=QUIET)
+        self.assertEqual(got["removed"], [])
+        # Unwatched, the signed one is kept and the untouched one goes.
+        got = c5.prune_off_ground(self.conn, "pl", self.cfg, wl={}, dry_run=True, log=QUIET)
+        self.assertNotIn("pl-10-1-1", got["removed"])
+        self.assertIn(("pl-10-1-1", "status confirmed"), got["kept"])
+        self.assertIn("pl-10-1-2", got["removed"])
+        self.assertIn("pl-10-1-2", self.entries())          # dry run: nothing written
+
+    def test_a_vote_missing_from_the_store_is_never_pruned(self):
+        self.draft()
+        rw = sqlite3.connect(os.path.join(self.tmp.name, "store.db"))
+        rw.execute("DELETE FROM pl_divisions WHERE division_key='pl-10-1-6'")
+        rw.commit()
+        rw.close()
+        got = c5.prune_off_ground(self.conn, "pl", self.cfg, wl=PL_WL, log=QUIET)
+        self.assertEqual(got["removed"], [])
+        self.assertIn("pl-10-1-6", self.entries())
+
+    def test_the_shortlist_marks_an_off_ground_reading_last(self):
+        from src import shortlist5ca as sl
+        self.draft()
+        self._reclassify("pl-10-1-6")
+        ranked = sl.rank("pl", self.cfg, self.conn, today="2026-10-11",
+                         campaigns_dir=self.tmp.name, briefs_dir=self.tmp.name)
+        self.assertEqual(ranked[-1]["key"], "pl-10-1-6")
+        self.assertTrue(any("--prune-off-ground" in w for w in ranked[-1]["why"]))
+        self.assertFalse(any("--prune-off-ground" in w for it in ranked[:-1] for w in it["why"]))
+
+
 if __name__ == "__main__":
     unittest.main()

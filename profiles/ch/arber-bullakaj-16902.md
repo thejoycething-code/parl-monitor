@@ -44,6 +44,23 @@ The latest 20:
 
 6 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
+## Committees and groups (1)
+
+- **Committees:** Aussenpolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (4)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | CEO Zytrack AG | Geschäftsführer(in) | bezahlt |  |
+| Aktiengesellschaft | Präsident des Verwaltungsrates Dinnova AG | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Präsident des Verwaltungsrates Kysana AG | Präsident(in) | ehrenamtlich |  |
+| Gesellschaft mit beschränkter Haftung | Prokura A&O GmbH | Keine Angaben | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
 ## Notes
 
 - Party: Party is the member's party; the vote record names the parliamentary group (Fraktion) at each vote, which is what each vote line shows.

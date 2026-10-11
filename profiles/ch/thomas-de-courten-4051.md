@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 132, “Ja” 74, “Nicht teilgenommen” 3.
-By area (every vote): abortion: “Nein” 14, “Ja” 8; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 12, “Ja” 7; religious freedom: “Nein” 8, “Ja” 5, “Nicht teilgenommen” 1; marriage and family: “Nein” 67, “Ja” 45, “Nicht teilgenommen” 2; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 124, “Ja” 70, “Nicht teilgenommen” 3.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 12, “Ja” 7; religious freedom: “Nein” 8, “Ja” 5, “Nicht teilgenommen” 1; marriage and family: “Nein” 67, “Ja” 45, “Nicht teilgenommen” 2; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,36 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (8)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)); Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EDI/UVEK (Präsident/in); GPK-NS Koordinationsgruppe (Mitglied); Immunitätskommission Nationalrat (Mitglied); SGK-N Subkommission Cannabisregulierung (Mitglied); SGK-N Subkommission Finanzierung Palliative Pflege (Mitglied).
+- **Delegations:** Geschäftsprüfungsdelegation (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (15)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Autobus AG Liestal (AAGL), Liestal | Vizepräsident(in) | bezahlt |  |
+| Einfache Gesellschaft | IG biomedizinische Forschung und Innovation | Mitglied | bezahlt |  |
+| Einfache Gesellschaft | politcom, Agentur für politische Kommunikation und Public Affairs, Rünenberg | Geschäftsführer(in) | bezahlt |  |
+| Genossenschaft | ASGA Pensionskasse | Mitglied | bezahlt |  |
+| Genossenschaft | Elektra Baselland (EBL), Liestal | Vizepräsident(in) | bezahlt |  |
+| Genossenschaft | Raiffeisenbank Liestal-Oberbaselbiet, Liestal-Sissach-Gelterkinden | Vizepräsident(in) | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | Salex GmbH, Rünenberg | Gesellschafter(in) | bezahlt |  |
+| Stiftung | Schweizer Paraplegiker-Stiftung, Nottwil | Mitglied | bezahlt |  |
+| Stiftung | Stiftung Schweizerische Wildtierwarte, Niedergösgen | Mitglied | ehrenamtlich |  |
+| Verein | Intergenerika, Liestal | Präsident(in) | bezahlt |  |
+| Verein | Komitee für ein selbständiges Baselbiet | Co-Präsident(in) | ehrenamtlich |  |
+| Verein | SPEDLOGSWISS, Basel | Präsident(in) | bezahlt |  |
+| Verein | Suissedigital, Verband für Kommunikationsnetze, Bern (Parlamentarischer Beirat) | Mitglied | ehrenamtlich |  |
+| Verein | Verband Schweiz. Bürgergemeinden und Korporationen | Mitglied | ehrenamtlich |  |
+| Verein | Vorsorgeforum | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: G (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 147, “Nein” 57, “Nicht teilgenommen” 3, “Enthaltung” 2.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 3, “Nein” 3, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 4; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 14, “Nein” 3, “Nicht teilgenommen” 2; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 78, “Nein” 34, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 139, “Nein” 53, “Nicht teilgenommen” 3, “Enthaltung” 2.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 3, “Nein” 3, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 4; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 14, “Nein” 3, “Nicht teilgenommen” 2; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 78, “Nein” 34, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nicht teilgenommen | G (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | G (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (6)
 
@@ -54,6 +54,30 @@ The latest 20:
 | 19 Dec 2025 | [Register zu Femiziden und häuslicher Gewalt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254848) | 25.4848 | submitted by | sex-based rights |
 | 19 Dec 2025 | [PFAS im Gesundheitsbereich](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254752) | 25.4752 | submitted by | abortion |
 | 22 Dec 2023 | [Register Palliative Care](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20234506) | 23.4506 | submitted by | assisted dying |
+
+## Committees and groups (8)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)); Gerichtskommission (Mitglied); Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EDA/VBS (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission Gerichte/BA (Präsident/in); GPK-NS Koordinationsgruppe (Mitglied); Immunitätskommission Nationalrat (Stellvertreter/in); SGK-N Subkommission Finanzierung Palliative Pflege (Vizepräsident/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (11)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | Schweizer Paraplegiker-Stiftung, Nottwil | Mitglied | bezahlt |  |
+| Stiftung | Stiftung Phönix Zug für Menschen mit psychischer Beeinträchtigung | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung Winterhilfe Zug | Mitglied | ehrenamtlich |  |
+| Stiftung | stillförderung.ch | Präsident(in) | bezahlt |  |
+| Verein | Allianz Ernährung und Gesundheit | Präsident(in) | ehrenamtlich |  |
+| Verein | insieme Schweiz / Suisse / Svizzera, Bern | Mitglied | ehrenamtlich |  |
+| Verein | Kinderkrebs Schweiz | Mitglied | bezahlt |  |
+| Verein | palliative.ch | Präsident(in) | bezahlt |  |
+| Verein | Spitex Schweiz, Politischer Beirat | Mitglied | ehrenamtlich |  |
+| Verein | Wohnbaugenossenschaften Schweiz | Mitglied | bezahlt |  |
+| Verein | Young Dance Festival Zug | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

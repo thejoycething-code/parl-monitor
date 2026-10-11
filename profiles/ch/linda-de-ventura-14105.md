@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 2 December 2024, last 2 October 2026).
 
-## Votes on our ground (124)
+## Votes on our ground (112)
 
-Recorded positions (124): “Ja” 84, “Nein” 40.
-By area (every vote): abortion: “Ja” 11, “Nein” 6; assisted dying: “Ja” 3, “Nein” 2; gender medicine and children: “Nein” 1; sex-based rights: “Ja” 10, “Nein” 2; parental rights and education: “Ja” 9, “Nein” 1; free speech and civil liberties: “Ja” 11, “Nein” 3; religious freedom: “Ja” 3, “Nein” 2; marriage and family: “Ja” 40, “Nein” 24; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 2; organ donation: “Nein” 1.
+Recorded positions (112): “Ja” 76, “Nein” 36.
+By area (every vote): abortion: “Ja” 3, “Nein” 2; assisted dying: “Ja” 3, “Nein” 2; gender medicine and children: “Nein” 1; sex-based rights: “Ja” 10, “Nein” 2; parental rights and education: “Ja” 9, “Nein” 1; free speech and civil liberties: “Ja” 11, “Nein” 3; religious freedom: “Ja” 3, “Nein” 2; marriage and family: “Ja” 40, “Nein” 24; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-104 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+92 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 
@@ -52,6 +52,25 @@ The latest 20:
 | 20 Dec 2024 | [Der Massnahmenplan basierend auf der Studie zu Diskriminierung und sexualisierter Gewalt in der Armee soll konkretisiert werden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244615) | 24.4615 | submitted by | sex-based rights, prostitution and trafficking |
 | 4 Dec 2024 | [Bericht zu Diskriminierung und sexualisierter Gewalt in der Armee - historische Aufarbeitung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20247877) | 24.7877 | submitted by | prostitution and trafficking |
 | 4 Dec 2024 | [Bericht der Armee zu sexualisierter Gewalt und Diskriminierung: Schritte zur Wiedergutmachung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20247849) | 24.7849 | submitted by | prostitution and trafficking |
+
+## Committees and groups (3)
+
+- **Committees:** Büro Nationalrat (Ersatzstimmenzähler/in); Immunitätskommission Nationalrat (Stellvertreter/in); Sicherheitspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (6)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | Schweizerische Pfadistiftung | Mitglied | ehrenamtlich |  |
+| Verein | FRAUmachtPOLITIK | Mitglied | ehrenamtlich |  |
+| Verein | Kollektiv Gaswerkareal | Mitglied | ehrenamtlich |  |
+| Verein | Mieterinnen- und Mieterverband Schaffhausen | Präsident(in) | ehrenamtlich |  |
+| Verein | Verein Fachstelle für Gewaltbetroffene Schaffhausen | Mitglied | bezahlt |  |
+| Verein | Vorstand Mieterverband Schweiz | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

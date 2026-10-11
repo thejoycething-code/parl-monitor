@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 147, “Nein” 56, “Nicht teilgenommen” 4, “Enthaltung” 2.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 4, “Nein” 2, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 30, “Nein” 3; parental rights and education: “Ja” 13, “Nein” 2, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 15, “Nein” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 76, “Nein” 35, “Enthaltung” 2, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 139, “Nein” 52, “Nicht teilgenommen” 4, “Enthaltung” 2.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 4, “Nein” 2, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 30, “Nein” 3; parental rights and education: “Ja” 13, “Nein” 2, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 15, “Nein” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 76, “Nein” 35, “Enthaltung” 2, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (6)
 
@@ -54,6 +54,22 @@ The latest 20:
 | 19 Mar 2025 | [Einsatz von künstlicher Intelligenz im Journalismus](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253180) | 25.3180 | submitted by | free speech and civil liberties |
 | 24 Sep 2024 | [Förderung der Gender-Medizin](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243978) | 24.3978 | submitted by | gender medicine and children |
 | 15 Mar 2024 | [Kündigung der Absichtserklärung über die militärische Zusammenarbeit zwischen dem VBS und dem israelischen Verteidigungsministerium](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243336) | 24.3336 | submitted by | religious freedom |
+
+## Committees and groups (8)
+
+- **Committees:** Aussenpolitische Kommission Nationalrat (Mitglied); Büro Nationalrat (2. Vizepräsident/in); Büro Vereinigte Bundesversammlung (Mitglied); Immunitätskommission Nationalrat (Stellvertreter/in); Koordinationskonferenz (Mitglied); Präsidium des Nationalrates (Mitglied).
+- **Delegations:** Delegation bei der Parlamentarischen Versammlung der OSZE (Vizepräsident/in); Verwaltungsdelegation (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (2)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | Stiftung Rodania | Mitglied | bezahlt |  |
+| Verein | Vorstand Lungenliga Solothurn | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 140, “Nein” 45, “Nicht teilgenommen” 11, “Enthaltung” 8, “Entschuldigt” 5.
-By area (every vote): abortion: “Ja” 12, “Nein” 5, “Enthaltung” 3, “Entschuldigt” 2; assisted dying: “Nein” 4, “Enthaltung” 1, “Ja” 1, “Nicht teilgenommen” 1; gender medicine and children: “Entschuldigt” 1, “Nicht teilgenommen” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 23, “Nicht teilgenommen” 5, “Entschuldigt” 2, “Nein” 2, “Enthaltung” 1; parental rights and education: “Ja” 11, “Nein” 4, “Enthaltung” 1; free speech and civil liberties: “Ja” 12, “Nein” 5, “Enthaltung” 1, “Entschuldigt” 1; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 85, “Nein” 21, “Nicht teilgenommen” 5, “Enthaltung” 2, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 134, “Nein” 43, “Nicht teilgenommen” 11, “Enthaltung” 5, “Entschuldigt” 4.
+By area (every vote): abortion: “Ja” 6, “Nein” 3, “Entschuldigt” 1; assisted dying: “Nein” 4, “Enthaltung” 1, “Ja” 1, “Nicht teilgenommen” 1; gender medicine and children: “Entschuldigt” 1, “Nicht teilgenommen” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 23, “Nicht teilgenommen” 5, “Entschuldigt” 2, “Nein” 2, “Enthaltung” 1; parental rights and education: “Ja” 11, “Nein” 4, “Enthaltung” 1; free speech and civil liberties: “Ja” 12, “Nein” 5, “Enthaltung” 1, “Entschuldigt” 1; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 85, “Nein” 21, “Nicht teilgenommen” 5, “Enthaltung” 2, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 
@@ -52,6 +52,28 @@ The latest 20:
 | 10 Sep 2025 | [Finanzierung zur Sicherheit und Bekämpfung geschlechtsspezifischer Gewalt: Budgethöhe](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257666) | 25.7666 | submitted by | sex-based rights |
 | 6 May 2025 | [Budgetkürzungen haben dramatische Auswirkungen auf die weltweite Müttersterblichkeit](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253451) | 25.3451 | submitted by | abortion |
 | 18 Dec 2024 | [Strafbestimmung gegen Menschenhandel praxistauglicher definieren](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244432) | 24.4432 | submitted by | prostitution and trafficking |
+
+## Committees and groups (2)
+
+- **Committees:** Kommission für Rechtsfragen Nationalrat (Mitglied); Legislaturplanungskommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (9)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Alterszentrum und Wohnungen Obere Mühle Lenzburg | Mitglied | bezahlt |  |
+| Aktiengesellschaft | OdA Gesundheit Aargau AG | Vizepräsident(in) | bezahlt |  |
+| Aktiengesellschaft | Weiterbildung Zofingen | Mitglied | bezahlt |  |
+| Körperschaft des öffentlichen Rechts | Schulkommission Höhere Fachschule Gesundheit und Soziales Aarau HFGS | Präsident(in) | bezahlt |  |
+| Verein | AIA Anlaufstelle Integration Aargau, Aarau | Mitglied | ehrenamtlich |  |
+| Verein | Ask Beratungsdienste für Ausbildung und Beruf Kanton Aargau | Mitglied | bezahlt |  |
+| Verein | AVUSA Aargauischer Verband Unternehmen mit sozialem Auftrag | Präsident(in) | bezahlt |  |
+| Verein | LLS Lebensraum Lenzburg Seetal | Beirat | bezahlt |  |
+| Verein | SVAMV Schweiz. Verband Alleinerziehender Mütter und Väter | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

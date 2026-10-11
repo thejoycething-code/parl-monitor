@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 114, “Ja” 79, “Enthaltung” 9, “Nicht teilgenommen” 7.
-By area (every vote): abortion: “Ja” 8, “Nein” 7, “Nicht teilgenommen” 7; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 11, “Ja” 7, “Enthaltung” 1; religious freedom: “Nein” 7, “Ja” 5, “Enthaltung” 2; marriage and family: “Nein” 59, “Ja” 49, “Enthaltung” 6; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 113, “Ja” 75, “Enthaltung” 9.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 11, “Ja” 7, “Enthaltung” 1; religious freedom: “Nein” 7, “Ja” 5, “Enthaltung” 2; marriage and family: “Nein” 59, “Ja” 49, “Enthaltung” 6; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (8)
 
@@ -56,6 +56,12 @@ The latest 20:
 | 4 Mar 2025 | [Organtransplantationen für georgische Flüchtlinge auf Kosten der Schweizerinnen und Schweizer?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253043) | 25.3043 | submitted by | organ donation |
 | 13 Mar 2024 | [Internationale Organisationen und NGO, die von Bund und Kantonen finanziert werden. Missstände und Aufsicht](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243197) | 24.3197 | submitted by | prostitution and trafficking |
 | 13 Mar 2024 | [Markiert die Konfiszierung russischer Vermögenswerte das Ende der Schweizer Diplomatie und Neutralität?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243196) | 24.3196 | submitted by | religious freedom |
+
+## Committees and groups (2)
+
+- **Committees:** Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 3 (EDI/UVEK) (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
 
 ## Notes
 

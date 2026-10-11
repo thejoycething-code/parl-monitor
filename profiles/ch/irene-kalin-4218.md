@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: G (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 134, “Nein” 51, “Nicht teilgenommen” 18, “Enthaltung” 5, “Entschuldigt” 1.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Nein” 1, “Nicht teilgenommen” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Nein” 4, “Nicht teilgenommen” 4; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 12, “Nein” 3, “Nicht teilgenommen” 3, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 70, “Nein” 28, “Nicht teilgenommen” 11, “Enthaltung” 4, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 126, “Nein” 47, “Nicht teilgenommen” 18, “Enthaltung” 5, “Entschuldigt” 1.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Nein” 1, “Nicht teilgenommen” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Nein” 4, “Nicht teilgenommen” 4; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 12, “Nein” 3, “Nicht teilgenommen” 3, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 70, “Nein” 28, “Nicht teilgenommen” 11, “Enthaltung” 4, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,25 @@ The latest 20:
 | 30 Apr 2026 | Ja | G (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | G (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (4)
+
+- **Committees:** Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 4 (EJPD/VBS) (Mitglied); Staatspolitische Kommission Nationalrat (Mitglied).
+- **Delegations:** Finanzdelegation (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (4)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Verein | ArbeitAargau, Aarau | Präsident(in) | bezahlt |  |
+| Verein | Grüne Aargau | Präsident(in) | ehrenamtlich |  |
+| Verein | Kindsverlust.ch | Mitglied | ehrenamtlich |  |
+| Verein | Svizzera27 | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 
