@@ -8,7 +8,7 @@ member cast a vote in the recorded plenary votes.
     att.summaries(conn, "fr")                         # what the profiles read
     att.participation(conn, "pl", today)              # derived from stored votes
 
-    python3 tools/country_attendance.py br fr cl nl co   # the weekly step
+    python3 tools/country_attendance.py br fr cl nl co pt   # the weekly step
 
 The parity layer "attendance" (docs/country-parity-handover.md), generalising
 the UK's tools/pull_pbc_attendance.py (who attended each Public Bill
@@ -55,6 +55,21 @@ parliament's own open data, no key, no login, nothing behind a bot check):
       referral). NOT A ROLL CALL: the Kamer lists who took part, and usually
       one spokesperson per party takes part, so the count is "took part in",
       never "attended", and is labelled so.
+  pt  Assembleia da República, parlamento.pt "Presenças às Reuniões
+      Plenárias" (added 11 October 2026): the XVII legislature's index of
+      plenary sittings (reunioesplenarias.aspx, twenty a page, further pages
+      by the page's own ASP.NET postback) and each sitting's roll
+      (DetalheReuniaoPlenaria.aspx?BID=..., HTML, not the PDF the first
+      round expected: the PDF beside each sitting is its agenda). Every
+      seated deputy, with their group and "Presença (P)", "Falta", "Falta
+      Justificada (FJ)" with its motive verbatim, "Ausência em Missão
+      Parlamentar (AMP)", "Presença Noutro Órgão (PNO)", "Falta Injustificada
+      (FI)" or "Falta ao Quórum de Votação". Deputies by their Biografia id,
+      which is pt_members.cad_id (27,370 marks of 119 sittings, every one
+      matched to pt_members and to an Efetivo period and group in the member
+      service on the day). At most PT_MAX_SITTINGS rolls a run: the first
+      runs backfill the legislature, then the new sittings and those of the
+      last three weeks (re-read: a Falta is justified later).
   co  Colombia: nothing fetched here; the Cámara's plenary attendance is
       already in the store (co_attendance, tools/co_rollcalls.py, datos.gov.co
       48i3-vuny) and is copied across so that every country renders alike.
@@ -76,9 +91,8 @@ NOT BUILT, and why (docs/country-parity-handover.md has the table):
   * Switzerland, Austria, Italy: committee meetings are closed (CH, AT) or
     publish no presence (the Camera); plenary participation from the votes
     for CH and IT; Austria votes by group only.
-  * Portugal: plenary presence is published as one PDF per sitting
-    (parlamento.pt "Presenças às Reuniões Plenárias"): open, but a PDF
-    reader per sitting; left for a later round. Its votes are by group.
+  * Portugal: committees publish no attendance; the plenary roll is read
+    (above, from 11 October 2026). Its votes are by group.
   * Spain: Cortes dissolved; the Congreso publishes no attendance file.
     Participation from the stored votes ("No vota").
   * Peru, Panama, the Dominican Senate: attendance as PDFs only.
@@ -565,6 +579,183 @@ def co_rows(conn):
     return sittings, marks
 
 
+# Portugal -----------------------------------------------------------------------------------
+#
+# The Assembleia's "Presenças às Reuniões Plenárias" (parlamento.pt, probed 11
+# October 2026; no robots.txt on www.parlamento.pt, a 404). The handover said
+# a PDF per sitting: the PDF beside each sitting is its AGENDA; the roll itself
+# is an HTML page per sitting (DetalheReuniaoPlenaria.aspx?BID=<id>), every
+# seated deputy with their group and one of "Presença (P)", "Falta",
+# "Falta Justificada (FJ)" (with its "Motivo": "Casamento", "Trabalho
+# Político", "Trabalho Parlamentar", "Dificuldades de transportes", ...) or
+# "Ausência em Missão Parlamentar (AMP)". Each deputy links to their
+# Biografia.aspx?BID=<DepCadId>, the same person id as pt_members.cad_id.
+# The index (reunioesplenarias.aspx) lists the XVII legislature's sittings,
+# newest first, twenty a page; further pages only by the page's own ASP.NET
+# postback (client.post_form, as the Québec sittings index).
+
+def _pt_attrs(tag):
+    import html as _html
+    return {k.lower(): _html.unescape(v) for k, v in re.findall(r'([\w:$.-]+)="([^"]*)"', tag)}
+
+
+def _pt_text(fragment):
+    import html as _html
+    return clean(_html.unescape(re.sub(r"<[^>]+>", " ", fragment or "")))
+
+
+_PT_ROW = re.compile(r'lvResults_ctrl(\d+)_hplData"[^>]*?href="[^"]*?DetalheReuniaoPlenaria\.aspx\?BID=(\d+)"'
+                     r'[^>]*>([^<]*)</a>', re.S)
+_PT_PAGER = re.compile(r"__doPostBack\(&#39;([^&]*dpgResults[^&]*)&#39;,&#39;&#39;\)\">(\d+)</a>")
+_PT_CELL = re.compile(r'rptDetalhe_(ctl\d+)_(hplDeputado|lblGP|lblPresenca|lblMotivo)"([^>]*)>([^<]*)<')
+
+
+def parse_pt_index(page):
+    """([{bid, date, number, kind, session}], {page number: postback target},
+    the listed total) from one page of reunioesplenarias.aspx."""
+    rows = []
+    marks_ = list(_PT_ROW.finditer(page or ""))
+    for i, m in enumerate(marks_):
+        block = page[m.end():marks_[i + 1].start() if i + 1 < len(marks_) else len(page)]
+        block = block.split('class="pager"')[0]
+        num = re.search(r'_hplNumero"[^>]*>([^<]*)</a>', block)
+        fich = re.search(r"Fich=([A-Z]+)_(\d+)_(\d+)_", block)
+        kind = re.search(r'Tipo</div>\s*<div class="TextoRegular">([^<]*)<', block)
+        rows.append({"bid": m.group(2), "date": clean(m.group(3))[:10],
+                     "number": clean(num.group(1)) if num else None,
+                     "kind": clean(kind.group(1)) if kind else None,
+                     "legislature": fich.group(1) if fich else None,
+                     "session": fich.group(2) if fich else None})
+    pages = {int(n): t for t, n in _PT_PAGER.findall(page or "")}
+    total = re.search(r"(\d+)\s+registos", page or "")
+    return rows, pages, int(total.group(1)) if total else None
+
+
+def pt_form(page, target):
+    """The index page's own form, as the browser posts it to change page."""
+    fields = [("__EVENTTARGET", target), ("__EVENTARGUMENT", "")]
+    for tag in re.findall(r"<input\b[^>]*>", page or "", re.I):
+        a = _pt_attrs(tag)
+        if a.get("name") and a.get("type", "text").lower() == "hidden" and \
+                a["name"] not in ("__EVENTTARGET", "__EVENTARGUMENT"):
+            fields.append((a["name"], a.get("value", "")))
+    return fields
+
+
+def pt_status(word):
+    """(present, excused) for the roll's word: "Presença (P)" present; a
+    justified absence (FJ), an absence on parliamentary mission (AMP) and a
+    presence at another organ of the Assembleia (PNO, not in the plenary)
+    excused; "Falta", "Falta Injustificada (FI)" and "Falta ao Quórum de
+    Votação" absent; anything else (None, 0), kept verbatim and never counted
+    as present. Measured over the 119 sittings of the XVII to 7 October 2026."""
+    f = fold_status(word)
+    if f.startswith("presenca noutro orgao"):
+        return 0, 1                       # PNO: present at another organ, not the plenary
+    if f.startswith("presenc"):
+        return 1, 0
+    if f.startswith("falta justificada") or f.startswith("ausencia"):
+        return 0, 1
+    if f.startswith("falta"):
+        return 0, 0
+    return None, 0
+
+
+def parse_pt_sitting(text, bid, row=None):
+    """(sitting, marks) from one DetalheReuniaoPlenaria page. The status is
+    verbatim; a justified absence carries its motive after a colon
+    ("Falta Justificada (FJ): Casamento"). `row` is the index's line for the
+    sitting (number, kind, session), when read from it."""
+    row = row or {}
+    head = re.search(r'_lblHeader"[^>]*>([^<]*)<', text or "")
+    header = _pt_text(head.group(1)) if head else ""
+    d = re.search(r"(\d{4}-\d{2}-\d{2})", header)
+    date = row.get("date") or (d.group(1) if d else None)
+    k = re.search(r"Plenária (\S+) de", header)
+    kind = row.get("kind") or (k.group(1) if k else None)
+    bits = ["Reunião Plenária"]
+    if row.get("number"):
+        bits[0] += " n.º {0}".format(row["number"])
+    if kind:
+        bits.append(kind)
+    if row.get("session"):
+        bits.append("{0}.ª sessão legislativa".format(row["session"]))
+    key = "pt-rp-{0}".format(bid)
+    s = sitting(key, "plenary", "plenario", "Plenário da Assembleia da República", date,
+                ", ".join(bits), "roll")
+    cells = {}
+    for ctl, what, attrs, val in _PT_CELL.findall(text or ""):
+        c = cells.setdefault(ctl, {})
+        c[what] = _pt_text(val)
+        if what == "hplDeputado":
+            ref = re.search(r"Biografia\.aspx\?BID=(\d+)", attrs)
+            c["ref"] = ref.group(1) if ref else None
+    marks = []
+    for ctl in sorted(cells, key=lambda k: int(k[3:])):
+        c = cells[ctl]
+        name, word = c.get("hplDeputado"), c.get("lblPresenca")
+        if not name or not word:
+            continue
+        present, excused = pt_status(word)
+        why = c.get("lblMotivo")
+        status = word + (": " + why if why else "")
+        ref = c.get("ref")
+        m = mark(key, ref or "name:" + name, member_key=ref, name=name, status=status,
+                 present=present, excused=excused or bool(why))
+        m["group"] = c.get("lblGP") or None
+        marks.append(m)
+    return s, marks
+
+
+def pt_verify(conn, sittings, marks):
+    """How the roll's deputies match the store: {marks, in_roster (the id is a
+    pt_members cad_id), name_match (and the printed name is that member's),
+    seated (member service: an Efetivo period covers the day), not_seated,
+    group_match (member service: the group on the day is the one printed),
+    group_differs, no_service}. Read only."""
+    out = dict.fromkeys(("marks", "in_roster", "name_match", "seated", "not_seated",
+                         "group_match", "group_differs", "no_service"), 0)
+    out["examples"] = []
+    roster = {}
+    if _has(conn, "pt_members"):
+        roster = {str(k): n for k, n in conn.execute("SELECT cad_id, name FROM pt_members")}
+    periods, groups = {}, {}
+    if _has(conn, "ms_periods"):
+        for k, start, end in conn.execute("SELECT member_key, start, end FROM ms_periods WHERE "
+                                          "cc='pt' AND precision='day'"):
+            periods.setdefault(str(k), []).append((start or "", end))
+        for k, party, start, end in conn.execute("SELECT member_key, party, start, end FROM "
+                                                 "ms_party WHERE cc='pt' AND kind='group'"):
+            groups.setdefault(str(k), []).append((start or "", end, party))
+    dates = {s["sitting_key"]: s["date"] for s in sittings}
+    for m in marks:
+        out["marks"] += 1
+        k, d = m["member_key"], dates.get(m["sitting_key"]) or ""
+        if k and k in roster:
+            out["in_roster"] += 1
+            if fold_status(roster[k]) == fold_status(m["name"]):
+                out["name_match"] += 1
+        if not k or k not in periods:
+            out["no_service"] += 1
+            continue
+        if any(a <= d and (not b or d <= b) for a, b in periods[k]):
+            out["seated"] += 1
+        else:
+            out["not_seated"] += 1
+            if len(out["examples"]) < 5:
+                out["examples"].append("{0} not seated on {1}".format(m["name"], d))
+        on = sorted((a, p) for a, b, p in groups.get(k, []) if a <= d and (not b or d <= b))
+        if on and m.get("group"):
+            if fold_status(on[-1][1]) == fold_status(m["group"]):
+                out["group_match"] += 1
+            else:
+                out["group_differs"] += 1
+                if len(out["examples"]) < 5:
+                    out["examples"].append("{0} printed {1}, member service {2} on {3}".format(
+                        m["name"], m["group"], on[-1][1], d))
+    return out
+
+
 def fold_status(text):
     import unicodedata
     t = unicodedata.normalize("NFD", text or "")
@@ -750,15 +941,94 @@ def fetch_co(conn, client, today, log=print, **_):
     return {"co-asistencia": (sittings, marks, None, "from co_attendance (datos.gov.co 48i3-vuny)")}
 
 
-FETCHERS = {"br": fetch_br, "fr": fetch_fr, "cl": fetch_cl, "nl": fetch_nl, "co": fetch_co}
+PT_SITE = "https://www.parlamento.pt"
+PT_INDEX = PT_SITE + "/DeputadoGP/Paginas/reunioesplenarias.aspx"
+PT_DETAIL = PT_SITE + "/DeputadoGP/Paginas/DetalheReuniaoPlenaria.aspx?BID={0}"
+PT_MAX_SITTINGS = 40      # roll pages read per run (about 800 KB of HTML each, 1-3 s)
+PT_REREAD_DAYS = 21       # a sitting this recent is read again: a Falta is justified later
+PT_MAX_PAGES = 12         # index pages walked (20 sittings each; the XVII had 6 on 11 October)
+
+
+def fetch_pt(conn, client, today, log=print, budget=None, max_sittings=None, **_):
+    """The XVII legislature's plenary rolls: the index's newest page every run,
+    further pages (by postback) while sittings listed there are not stored,
+    then each unstored sitting's roll, newest first, and the sittings of the
+    last three weeks again; at most `max_sittings` rolls (PT_MAX_SITTINGS) and
+    `budget` seconds. The first run backfills part of the legislature; each
+    run after takes the next block until every listed sitting is stored."""
+    import time
+    deadline = time.monotonic() + budget if budget else None
+    cap = PT_MAX_SITTINGS if max_sittings is None else int(max_sittings)
+    have = dict(conn.execute("SELECT sitting_key, date FROM att_sittings WHERE cc='pt' AND "
+                             "source='pt-plenario'").fetchall())
+    recent = (datetime.date.fromisoformat(today) -
+              datetime.timedelta(days=PT_REREAD_DAYS)).isoformat()
+    page = client.get_text(PT_INDEX, FEED, "pt-reunioes-1", archive=False)
+    rows, pages, total = parse_pt_index(page)
+    if not rows:
+        raise ValueError("the plenary sittings index lists no sitting")
+    n = 1
+    while n < PT_MAX_PAGES and (n + 1) in pages:
+        new = [r for r in rows if "pt-rp-" + r["bid"] not in have]
+        if len(new) >= cap or (deadline and time.monotonic() > deadline):
+            break                         # enough for this run
+        if total is not None and len(have) + len(new) >= total:
+            break                         # every listed sitting is stored or in hand
+        page = client.post_form(PT_INDEX, pt_form(page, pages[n + 1]), FEED,
+                                "pt-reunioes-{0}".format(n + 1))
+        got, pages, _t = parse_pt_index(page)
+        if not got:
+            break
+        rows += [r for r in got if r["bid"] not in {x["bid"] for x in rows}]
+        n += 1
+    listed = [r for r in rows if r["date"] and r["date"] <= today]
+    todo = [r for r in listed if "pt-rp-" + r["bid"] not in have]
+    todo += [r for r in listed if "pt-rp-" + r["bid"] in have and r["date"] >= recent]
+    sittings, marks, empty, read = [], [], [], 0
+    for r in todo:
+        if read >= cap or (deadline and time.monotonic() > deadline):
+            break
+        text = client.get_text(PT_DETAIL.format(r["bid"]), FEED, "pt-reuniao-" + r["bid"])
+        read += 1
+        s, m = parse_pt_sitting(text, r["bid"], r)
+        if not m:
+            empty.append(r["bid"])        # no roll published yet: read again next run
+            continue
+        sittings.append(s)
+        marks += m
+    stored = len(set(have) | {s["sitting_key"] for s in sittings})
+    left = max(0, (total or len(listed)) - stored)
+    check = pt_verify(conn, sittings, marks)
+    log("  pt: {0} index page(s), {1} sitting(s) listed; {2} roll(s) read, {3} mark(s); "
+        "{4} of the legislature's sittings stored, {5} left for later runs{6}".format(
+            n, total if total is not None else len(listed), len(sittings), len(marks), stored,
+            left, "; no roll yet: " + ", ".join(empty) if empty else ""))
+    if check["marks"]:
+        log("  pt: deputies matched to pt_members {in_roster}/{marks} (names {name_match}); "
+            "member service: seated on the day {seated}, not seated {not_seated}, "
+            "group as printed {group_match}, differs {group_differs}, no service rows "
+            "{no_service}".format(**check))
+        for e in check["examples"]:
+            log("    " + e)
+    note = "XVII legislature, {0} of {1} listed sittings stored{2}".format(
+        stored, total if total is not None else len(listed),
+        "; {0} left for later runs".format(left) if left else "")
+    return {"pt-plenario": (sittings, marks, None, note)}
+
+
+FETCHERS = {"br": fetch_br, "fr": fetch_fr, "cl": fetch_cl, "nl": fetch_nl, "co": fetch_co,
+            "pt": fetch_pt}
 COUNTRIES = tuple(FETCHERS)
 
 
-def collect(conn, client, cc, today, log=print, years=None):
+def collect(conn, client, cc, today, log=print, years=None, budget=None, max_sittings=None):
     """Fetch one country's sources and store them. Returns {source: (sittings,
-    marks)}. A fetch error propagates: nothing of this country is written."""
+    marks)}. A fetch error propagates: nothing of this country is written.
+    `budget` (seconds) and `max_sittings` (additive, 11 October 2026) bound a
+    source read a page per sitting (PT); the others ignore them."""
     ensure(conn)
-    got = FETCHERS[cc](conn, client, today, log=log, years=years)
+    got = FETCHERS[cc](conn, client, today, log=log, years=years, budget=budget,
+                       max_sittings=max_sittings)
     done = {}
     for source, (sittings, marks, refs, note) in got.items():
         done[source] = store(conn, cc, source, today, sittings, marks, refs, note)

@@ -348,6 +348,15 @@ Who attended the committee and plenary sittings (`tools/country_attendance.py <c
 - **Backfill (optional, by hand on the Mini, outside the overnight window):** `python3 tools/country_attendance.py br cl --years 2025 2026` reads the previous year as well. Not needed for the profiles; it lengthens the period the counts cover.
 - **Coverage:** `att_runs.last_seen` is watched (`tools/coverage.py`, cadence 7, grace 4); the log line `attendance <cc>:` says what each source gave.
 
+## Portugal's plenary attendance in the Portugal weekly (11 October 2026, branch `pt-attendance`)
+
+The Assembleia's roll for every plenary sitting of the XVII legislature (`tools/country_attendance.py pt`, `src/attendance.py` `fetch_pt`), into the same `att_sittings` / `att_marks` / `att_runs`, so the PT profiles show "Plenary: present at N of M sitting(s)" and the PT debate packs show each named speaker's and member to watch's plenary presence.
+
+- **No new plist, workflow or cron slot.** A step of `jobs/pt-weekly.sh` after the length of service and before the member profiles, when the collector stored something, not on a backfill run (`PT_LEGISLATURE` set). A failure is a `[gap] attendance: pt` line; last week's rows stand.
+- **Cost per run (measured 11 October 2026 from the laptop):** the index page (400 KB, about 2 s), a postback per further index page only while sittings are missing, then one roll page per sitting (about 800 KB of HTML, about 66 KB gzipped in the raw archive, under 2 s each): 40 rolls took 69 s. Capped at 40 rolls a run (`PT_MAX_SITTINGS`) and `--budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")"`.
+- **Backfill:** automatic. The first three weekly runs read the XVII's 119 sittings 40 at a time (newest first); after that, the week's new sittings and the last three weeks again (a Falta is often justified after the sitting). By hand, outside the overnight window, all at once: `python3 tools/country_attendance.py pt --max-sittings 200`.
+- **Coverage:** the shared `att_runs.last_seen` watch; the run's note reads "XVII legislature, N of M listed sittings stored", and the log prints how many deputies matched `pt_members` and the member service.
+
 ## Length of service in eighteen country weeklies (11 October 2026, branch `ukp2-service`)
 
 Every period each member has sat and their dated groups (`tools/member_service.py <cc>`, `src/member_service.py`), into the store's `ms_periods`, `ms_party` and `ms_runs`; the profiles and the vote pages read them (handover section 3c).

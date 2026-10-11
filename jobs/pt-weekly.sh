@@ -103,6 +103,20 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/member_service.py pt \
     || echo "  [gap] member-service: pt not fully read; last run's rows kept"
 fi
+# Plenary attendance (tools/country_attendance.py, src/attendance.py; 11 October
+# 2026): the Assembleia's roll for each plenary sitting of the XVII legislature
+# (parlamento.pt "Presenças às Reuniões Plenárias", an HTML page per sitting,
+# about 2 s each), into att_sittings / att_marks before the profiles read them.
+# Each run reads the new sittings and those of the last three weeks again (a
+# Falta is justified later), at most 40 rolls and 5 minutes of what the hour
+# leaves (tools/collector_budget.sh): the first runs backfill the legislature's
+# 119 sittings 40 at a time, three weeks. Not on a backfill run (PT_LEGISLATURE
+# set). A failure is a [gap] line; last week's rows stand and the store is
+# still published.
+if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; } && [ -z "${PT_LEGISLATURE:-}" ]; then
+  python3 tools/country_attendance.py pt --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \
+    || echo "  [gap] attendance: pt not fully read; last week's rows kept"
+fi
 # Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/pt/
 # rewritten from the store just collected and committed with it; never posted
 # or DMed. A failure is a [gap] line and never costs the store.
