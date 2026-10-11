@@ -556,6 +556,8 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 - Records only: no vote is labelled for or against our side until its reading in `config/ar_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
+Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`). The Senate's open data lists its committees (`ExportarListadoComisiones/json/todas`) without members; members are only on each committee's HTML page. Diputados is unreachable from everywhere we run.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **National public consultations: built**, consultapublica.argentina.gob.ar (/api/forum/all): few a year, none open on 11 October.

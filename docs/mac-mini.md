@@ -330,6 +330,15 @@ Handover item 3: one Markdown profile per member with a record on our ground, fo
 - **Chile** first asks the BCN for senators' party history (`tools/cl_senate_parties.py`, one SPARQL request to datos.bcn.cl, which asks for a 10-second crawl delay).
 - Nothing to install on the Mini beyond the usual `git pull` of the runner clone.
 
+## Member intelligence in seven country weeklies (11 October 2026, branch `ukp-member-intel`)
+
+Committees, cross-party groups and registers of interests (`tools/member_intel.py <cc>`, `src/member_intel.py`) for BR, NL, CH, PL, FR, IT and AT, into the store's `mi_groups`, `mi_interests` and `mi_runs`; the profiles step that follows shows them (handover section 3b).
+
+- **No new plists, workflows or cron slots.** A step of `jobs/<cc>-weekly.sh` for those seven, just before the member profiles, only when the collector stored something (exit 0 or 3). A failure is a `[gap] member-intel` line; last week's rows stand and the store is still published.
+- **Cost per run:** PL one request; AT two; IT one SPARQL query; FR the 5 MB AMO10 zip; CH about four OData pages; NL about a dozen OData pages; BR one 7.7 MB bulk file, four pages of fronts, then the members of the 8 fronts on our ground and an eighth of the other 312 (about 50 requests at 3 s, under three minutes). `python3 tools/member_intel.py br --full` reads every front at once (about 15 minutes) and is never needed in the weekly.
+- **Coverage:** `mi_runs.last_seen` is watched (`tools/coverage.py`, cadence 7, grace 4); the log line `member-intel <cc>:` says what each source gave.
+- Nothing to install beyond the usual `git pull` of the runner clone.
+
 ## Installing the country jobs (10 October 2026)
 
 One command installs every country-edition job and the Latam monthly, after the runner clone has pulled main:

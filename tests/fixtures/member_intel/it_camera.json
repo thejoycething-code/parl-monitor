@@ -1,0 +1,201 @@
+{
+ "head": {
+  "link": [],
+  "vars": [
+   "d",
+   "first",
+   "surname",
+   "org",
+   "title",
+   "label",
+   "type",
+   "start",
+   "end"
+  ]
+ },
+ "results": {
+  "distinct": false,
+  "ordered": true,
+  "bindings": [
+   {
+    "d": {
+     "type": "uri",
+     "value": "http://dati.camera.it/ocd/deputato.rdf/d301457_19"
+    },
+    "first": {
+     "type": "literal",
+     "value": "PAOLA"
+    },
+    "surname": {
+     "type": "literal",
+     "value": "FRASSINETTI"
+    },
+    "org": {
+     "type": "uri",
+     "value": "http://dati.camera.it/ocd/organo.rdf/o19_3507"
+    },
+    "title": {
+     "type": "literal",
+     "value": "VII COMMISSIONE (CULTURA, SCIENZA E ISTRUZIONE)"
+    },
+    "label": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "VII COMMISSIONE (CULTURA, SCIENZA E ISTRUZIONE) (09.11.2022-10.06.2025)"
+    },
+    "type": {
+     "type": "literal",
+     "value": "Titolare"
+    },
+    "start": {
+     "type": "literal",
+     "value": "20221109"
+    },
+    "end": {
+     "type": "literal",
+     "value": "20250610"
+    }
+   },
+   {
+    "d": {
+     "type": "uri",
+     "value": "http://dati.camera.it/ocd/deputato.rdf/d309220_19"
+    },
+    "first": {
+     "type": "literal",
+     "value": "ALBERTO"
+    },
+    "surname": {
+     "type": "literal",
+     "value": "PANDOLFO"
+    },
+    "org": {
+     "type": "uri",
+     "value": "http://dati.camera.it/ocd/organo.rdf/o19_4182"
+    },
+    "title": {
+     "type": "literal",
+     "value": "COMMISSIONE PARLAMENTARE DI INCHIESTA SULLE CAUSE DEL DISASTRO DELLA NAVE \"MOBY PRINCE\""
+    },
+    "label": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "COMMISSIONE PARLAMENTARE DI INCHIESTA SULLE CAUSE DEL DISASTRO DELLA NAVE \"MOBY PRINCE\" (14.07.2026"
+    },
+    "type": {
+     "type": "literal",
+     "value": "Titolare"
+    },
+    "start": {
+     "type": "literal",
+     "value": "20260714"
+    }
+   },
+   {
+    "d": {
+     "type": "uri",
+     "value": "http://dati.camera.it/ocd/deputato.rdf/d309220_19"
+    },
+    "first": {
+     "type": "literal",
+     "value": "ALBERTO"
+    },
+    "surname": {
+     "type": "literal",
+     "value": "PANDOLFO"
+    },
+    "org": {
+     "type": "uri",
+     "value": "http://dati.camera.it/ocd/organo.rdf/o19_4182"
+    },
+    "title": {
+     "type": "literal",
+     "value": "COMMISSIONE PARLAMENTARE DI INCHIESTA SULLE CAUSE DEL DISASTRO DELLA NAVE \"MOBY PRINCE\""
+    },
+    "label": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "COMMISSIONE PARLAMENTARE DI INCHIESTA SULLE CAUSE DEL DISASTRO DELLA NAVE \"MOBY PRINCE\" (14.07.2026"
+    },
+    "type": {
+     "type": "literal",
+     "value": "Titolare"
+    },
+    "start": {
+     "type": "literal",
+     "value": "20260714"
+    }
+   },
+   {
+    "d": {
+     "type": "uri",
+     "value": "http://dati.camera.it/ocd/deputato.rdf/d309220_19"
+    },
+    "first": {
+     "type": "literal",
+     "value": "ALBERTO"
+    },
+    "surname": {
+     "type": "literal",
+     "value": "PANDOLFO"
+    },
+    "org": {
+     "type": "uri",
+     "value": "http://dati.camera.it/ocd/organo.rdf/o19_3510"
+    },
+    "title": {
+     "type": "literal",
+     "value": "X COMMISSIONE (ATTIVITA'  PRODUTTIVE, COMMERCIO E TURISMO)"
+    },
+    "label": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "X COMMISSIONE (ATTIVITA'  PRODUTTIVE, COMMERCIO E TURISMO) (07.01.2025"
+    },
+    "type": {
+     "type": "literal",
+     "value": "Titolare"
+    },
+    "start": {
+     "type": "literal",
+     "value": "20250107"
+    }
+   },
+   {
+    "d": {
+     "type": "uri",
+     "value": "http://dati.camera.it/ocd/deputato.rdf/d309220_19"
+    },
+    "first": {
+     "type": "literal",
+     "value": "ALBERTO"
+    },
+    "surname": {
+     "type": "literal",
+     "value": "PANDOLFO"
+    },
+    "org": {
+     "type": "uri",
+     "value": "http://dati.camera.it/ocd/organo.rdf/o19_4182"
+    },
+    "title": {
+     "type": "literal",
+     "value": "COMMISSIONE PARLAMENTARE DI INCHIESTA SULLE CAUSE DEL DISASTRO DELLA NAVE \"MOBY PRINCE\""
+    },
+    "label": {
+     "type": "typed-literal",
+     "datatype": "http://www.w3.org/2001/XMLSchema#string",
+     "value": "COMMISSIONE PARLAMENTARE DI INCHIESTA SULLE CAUSE DEL DISASTRO DELLA NAVE \"MOBY PRINCE\" (14.07.2026"
+    },
+    "type": {
+     "type": "literal",
+     "value": "Titolare"
+    },
+    "start": {
+     "type": "literal",
+     "value": "20260714"
+    }
+   }
+  ]
+ }
+}

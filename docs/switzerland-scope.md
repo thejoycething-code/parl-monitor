@@ -490,6 +490,8 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 - Records only: no vote is labelled for or against our side until its reading in `config/ch_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py ch`, a step of `jobs/ch-weekly.sh`, branch `ukp-member-intel`): committee memberships (`MemberCommittee`) and the register of interests (`PersonInterest`, the Interessenbindungen: organisation, type, function, paid or honorary) from ws.parlament.ch, sitting members only. SGK, WBK and RK, and pro-life, church, assisted-dying and LGBT organisations among the interests, are flagged on our ground (by name). The parliamentary groups (parlamentarische Gruppen) are not in the OData.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Vernehmlassungen: built**, from the fedlex SPARQL endpoint (status 2, running; the ConsultationPhase end date is the deadline). 28 running on 11 October.

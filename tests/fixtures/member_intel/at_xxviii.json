@@ -1,0 +1,190 @@
+{
+ "pages": 1,
+ "lastSync": "2026-10-10 23:30:21.0",
+ "count": 2196,
+ "header": [
+  {
+   "css_class": "datum-col",
+   "feldId": 92,
+   "hidden": false,
+   "rnr": 1,
+   "listeId": 250,
+   "label": "GP",
+   "sortable": "1",
+   "feld_name": "GP",
+   "class": "datum-col"
+  },
+  {
+   "feldId": 93,
+   "hidden": true,
+   "rnr": 2,
+   "listeId": 250,
+   "label": "Sort"
+  },
+  {
+   "css_class": "col-20",
+   "feldId": 94,
+   "hidden": false,
+   "rnr": 3,
+   "listeId": 250,
+   "label": "Funktion",
+   "feld_name": "FUNKTION",
+   "class": "col-20"
+  },
+  {
+   "css_class": "fraction-col",
+   "feldId": 95,
+   "link_rnr": "6",
+   "hidden": false,
+   "rnr": 4,
+   "listeId": 250,
+   "label": "Ausschuss",
+   "class": "fraction-col"
+  },
+  {
+   "feldId": 96,
+   "hidden": true,
+   "rnr": 5,
+   "listeId": 250,
+   "label": "nrbr"
+  },
+  {
+   "feldId": 97,
+   "hidden": true,
+   "rnr": 6,
+   "listeId": 250,
+   "label": "URL"
+  },
+  {
+   "feldId": 98,
+   "hidden": true,
+   "rnr": 7,
+   "listeId": 250,
+   "label": "PAD_INTERN",
+   "feld_name": "PAD_INTERN"
+  },
+  {
+   "feldId": 969,
+   "hidden": true,
+   "rnr": 8,
+   "mediaType": "fromDate",
+   "listeId": 250,
+   "label": "fromDate"
+  },
+  {
+   "feldId": 564,
+   "hidden": true,
+   "rnr": 9,
+   "listeId": 250,
+   "label": "Ausschuss",
+   "feld_name": "AUSSCHUSS"
+  },
+  {
+   "feldId": 565,
+   "hidden": true,
+   "rnr": 10,
+   "listeId": 250,
+   "label": "Gremium",
+   "feld_name": "GREMIUM"
+  },
+  {
+   "feldId": 584,
+   "hidden": true,
+   "rnr": 11,
+   "listeId": 250,
+   "label": "gp_text_full",
+   "feld_name": "GP_TEXT_FULL"
+  },
+  {
+   "feldId": 1645,
+   "ist_range": "1",
+   "hidden": true,
+   "rnr": 12,
+   "mediaType": "datetime",
+   "listeId": 250,
+   "label": "Beginn",
+   "feld_name": "BEGINNDATUM_ISO"
+  },
+  {
+   "feldId": 1665,
+   "hidden": false,
+   "sort_rnr": 14,
+   "label": "Funktionsbeginn",
+   "sortable": "1",
+   "css_class": "datum-col",
+   "rnr": 13,
+   "listeId": 250,
+   "feld_name": "FUNKTIONSBEGINN",
+   "class": "datum-col"
+  },
+  {
+   "feldId": 1666,
+   "hidden": true,
+   "rnr": 14,
+   "listeId": 250,
+   "label": "Beginn4Sort",
+   "feld_name": "BEGINN4SORT"
+  },
+  {
+   "feldId": 1685,
+   "hidden": true,
+   "rnr": 15,
+   "listeId": 250,
+   "label": "Personenregister",
+   "feld_name": "PERSONENREGISTER"
+  }
+ ],
+ "rows": [
+  [
+   "XXVIII",
+   "1Z797589750010020251022Untersuchungsausschuss: PILNACEK-UNTERSUCHUNGSAUSSCHUSS79748977",
+   "Vorsitzender",
+   "Untersuchungsausschuss: Pilnacek-Untersuchungsausschuss (22.10.2025)",
+   "NR",
+   "/PAKT/VHG/XXVIII/A-USA/A-USA_00002_00944/index.shtml",
+   "51570",
+   "Wed Oct 22 02:00:00 CEST 2025",
+   "Untersuchungsausschuss: Pilnacek-Untersuchungsausschuss",
+   "Nationalrat",
+   "ab 24.10.2024: XXVIII. Gesetzgebungsperiode des NR",
+   "2025-10-22T00:00:00",
+   "22.10.2025",
+   "20251022",
+   null
+  ],
+  [
+   "XXVIII",
+   "1Z797589750010220260324AUSSCHUSS FÜR WIRTSCHAFT, INDUSTRIE UND ENERGIE79739675",
+   "Obfrau",
+   "Ausschuss für Wirtschaft, Industrie und Energie (24.03.2026)",
+   "NR",
+   "/PAKT/VHG/XXVIII/A-WH/A-WH_00001_00940/index.shtml",
+   "1977",
+   "Tue Mar 24 01:00:00 CET 2026",
+   "Ausschuss für Wirtschaft, Industrie und Energie",
+   "Nationalrat",
+   "ab 24.10.2024: XXVIII. Gesetzgebungsperiode des NR",
+   "2026-03-24T00:00:00",
+   "24.03.2026",
+   "20260324",
+   null
+  ],
+  [
+   "XXVIII",
+   "1Z797589750010320241024HAUPTAUSSCHUSS79758975",
+   "Obmann",
+   "Hauptausschuss (24.10.2024)",
+   "NR",
+   "/PAKT/VHG/XXVIII/A-HA/A-HA_00001_00911/index.shtml",
+   "51570",
+   "Thu Oct 24 02:00:00 CEST 2024",
+   "Hauptausschuss",
+   "Nationalrat",
+   "ab 24.10.2024: XXVIII. Gesetzgebungsperiode des NR",
+   "2024-10-24T00:00:00",
+   "24.10.2024",
+   "20241024",
+   null
+  ]
+ ]
+}
