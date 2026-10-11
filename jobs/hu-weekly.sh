@@ -43,7 +43,10 @@ if [ "${HU_RECLASSIFY:-}" = "true" ]; then
   python3 tools/hu_karzat_backfill.py --reclassify
 fi
 rc=0
-python3 tools/hu_gazette.py --budget-seconds 1800 || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 30 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/hu_gazette.py --budget-seconds "$(bash tools/collector_budget.sh 1800 "$SECONDS")" || rc=$?
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM).
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"

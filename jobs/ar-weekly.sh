@@ -51,7 +51,10 @@ years=()
 if [ "${AR_SENATE_BACKFILL:-}" = "true" ]; then
   years=(--years 2024 2025 "$(date -u +%Y)")
 fi
-python3 tools/ar_rollcalls.py --budget-seconds 2700 "${years[@]}" || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/ar_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" "${years[@]}" || rc=$?
 # The week ahead (src/agenda.py, tools/country_agenda.py): the Senate's agenda
 # read into the store after the collector, so its expedientes match this week's
 # store and the edition below shows it. Its failure is a [gap] line, never the run's.

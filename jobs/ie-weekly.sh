@@ -53,7 +53,9 @@ if [ "${IE_RECLASSIFY:-}" = "true" ]; then
   python3 tools/ie_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/ie_rollcalls.py --budget-seconds 1500 2>&1 | tee "$LOG" || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 25 minutes (tools/collector_budget.sh).
+python3 tools/ie_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 1500 "$SECONDS")" 2>&1 | tee "$LOG" || rc=$?
 if ! grep -q "  store: " "$LOG"; then
   echo "ie-weekly: the collector did not finish (exit $rc); no edition, nothing published"
   [ "$rc" -eq 0 ] && rc=1
@@ -72,14 +74,17 @@ fi
 # sitting (about 95 weeks: 30 s a week of questions, 25 s a week of debates,
 # measured) DRAINS OVER RUNS. Each gets WHAT THE JOB HAS LEFT, capped: at most
 # 5 minutes each on GitHub (the backup; keep it inside the workflow's 45) and
-# 15 and 20 on the Mini, always keeping 20 minutes for the judge and 5 for
-# the edition and the store transfers.
+# 15 and 20 on the Mini, always keeping 20 minutes for the judge and, for
+# the edition and the store transfers, 5 on GitHub and 20 on the Mini (its
+# store upload took 13 to 16 minutes on 10 and 11 October 2026;
+# tools/collector_budget.sh). The Mini's limit is the JOB_TIMEOUT that
+# tools/mini_run.sh exports (an hour: the plist sets none).
 python3 tools/ie_schedule.py | tee "$LOG_DIR/ie-schedule.log" \
   || echo "  [gap] the week-ahead step ended with gaps; the edition says what it has"
-if [ -n "${GITHUB_ACTIONS:-}" ]; then JOB_LIMIT=2700; Q_MAX=300; D_MAX=300
-else JOB_LIMIT="${JOB_TIMEOUT:-10800}"; Q_MAX=900; D_MAX=1200; fi
+if [ -n "${GITHUB_ACTIONS:-}" ]; then JOB_LIMIT=2700; Q_MAX=300; D_MAX=300; TRANSFERS=300
+else JOB_LIMIT="${JOB_TIMEOUT:-3600}"; Q_MAX=900; D_MAX=1200; TRANSFERS=1200; fi
 budget_left() {  # $1: the step's cap
-  local left=$(( JOB_LIMIT - SECONDS - 1200 - 300 ))
+  local left=$(( JOB_LIMIT - SECONDS - 1200 - TRANSFERS ))
   echo $(( left < $1 ? left : $1 ))
 }
 Q_BUDGET="${IE_QUESTIONS_BUDGET:-$(budget_left "$Q_MAX")}"

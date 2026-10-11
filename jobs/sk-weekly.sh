@@ -45,7 +45,10 @@ rc=0
 # SK6 (10 October 2026): the bill documents take the first 10 minutes of the
 # old 45-minute positions budget, so the job's length is unchanged (the
 # Mini's JOB_TIMEOUT and the workflow's are both an hour).
-python3 tools/sk_rollcalls.py --doc-budget-seconds 600 --budget-seconds 2100 || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 35 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/sk_rollcalls.py --doc-budget-seconds 600 --budget-seconds "$(bash tools/collector_budget.sh 2100 "$SECONDS" 600)" || rc=$?
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   # The weekly edition (src/country_edition.py, tools/sk_monitor.py), to Chris
   # alone by DM, archived to editions/. Once a day: an edition already
