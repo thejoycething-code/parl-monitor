@@ -33,8 +33,8 @@ model 'claude-code-session' (src/edition_judge.py). Neither flag needs
 ANTHROPIC_API_KEY or spends anything.
 
 --rerender rewrites, in place, the latest edition (of the last cadence) of
-each country with an item scored today, and the Latam edition when it is
-under a week old. With --dm, ONE short DM to Chris alone, and only when the
+each country with an item scored (or a vote meaning written) today, and the
+Latam edition when it is under a week old. With --dm, ONE short DM to Chris alone, and only when the
 scores changed what leads an edition already sent ("Leading:"); otherwise
 nothing is sent. jobs/editions-session-judge.sh runs the three steps weekly.
 """
@@ -273,7 +273,13 @@ def rerender(conn, today, ccs=None, directory=None, config_dir=None, log=print):
     """Rewrite the latest edition of each country in `ccs` (default: those
     scored today) in place. Returns [(name, path, new leading lines)] for the
     editions whose lead changed."""
-    ccs = scored_on(conn, today) if ccs is None else set(ccs)
+    if ccs is None:
+        # Additive, 11 October 2026: a country whose vote meanings the session
+        # judge wrote today is rewritten too (src/vote_meanings.py).
+        from src import vote_meanings
+        ccs = scored_on(conn, today) | vote_meanings.judged_on(conn, today)
+    else:
+        ccs = set(ccs)
     changed = []
     t = datetime.date.fromisoformat(today)
     for cc in ej.EDITION_CCS:
