@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """5CA with stance sign-off for the new country editions (src/country5ca.py).
 
-    python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets --shortlist   # the weekly step
+    python3 tools/country_5ca.py --all-countries --prune-off-ground --draft --signoff-doc --sheets --shortlist   # the weekly step
     python3 tools/country_5ca.py --cc pl --shortlist [--top 20]   # docs/5ca-pl-shortlist.md
     python3 tools/country_5ca.py --cc pl --draft             # append drafts for new votes
     python3 tools/country_5ca.py --cc pl --signoff-doc       # rewrite docs/5ca-pl-readings.md
