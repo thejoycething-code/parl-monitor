@@ -177,8 +177,13 @@ def slack_update_canvas(secrets, canvas_id, canvas_markdown, transport=None):
                 team, canvas_id), "updated": True}
 
 
-def slack_preview_canvas(secrets, title, canvas_markdown, summary_mrkdwn, transport=None):
+def slack_preview_canvas(secrets, title, canvas_markdown, summary_mrkdwn, transport=None,
+                         announce=True):
     """The same canvas, shared with the DM recipient ALONE, linked from the DM.
+
+    announce=False (11 October 2026, additive; the new countries' 5CA canvases,
+    src/country5ca_post.py) creates and shares the canvas but sends no linking
+    message, so a run that makes several sends ONE DM listing them all.
 
     The rehearsal before slack_publish_canvas: the campaigner sees exactly how the
     report renders as a canvas before anything reaches the channel (Christopher,
@@ -209,6 +214,8 @@ def slack_preview_canvas(secrets, title, canvas_markdown, summary_mrkdwn, transp
 
     team = secrets.get("slack_team_id", "T066M0LAJ")
     canvas_url = "https://citizengo.slack.com/docs/{0}/{1}".format(team, canvas_id)
+    if not announce:
+        return {"canvas_id": canvas_id, "canvas_url": canvas_url}
     message = transport("https://slack.com/api/chat.postMessage", {
         "channel": user, "text": summary_mrkdwn + "\n\n" + canvas_url, "unfurl_links": False,
     }, auth)
