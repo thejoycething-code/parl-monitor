@@ -86,10 +86,12 @@ bill_directions:
     drafted: "Claude, 10 October 2026, from config/watchlist-nl.yaml"
   - key: "35715"
     direction: against
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-11"
     areas: [12]
     why: "Wet regulering sekswerk: licensing of sex work. Pending since 2021."
-    flag: "Licensing sex work: read as against the abolitionist position; confirm."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): sex-work licensing is against us."
     drafted: "Claude, 10 October 2026, from config/watchlist-nl.yaml"
   - key: "2026Z21728"
     direction: against

@@ -50,10 +50,12 @@ bill_directions:
     drafted: "Claude, 10 October 2026, from config/watchlist-gt.yaml"
   - key: "5376"
     direction: against
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-11"
     areas: [1]
     why: "Protección integral, acceso a la justicia y reparación para niñas y adolescentes víctimas de violencia sexual; contested as opening abortion access for minors. Reported number; confirm against the Congreso's record."
-    flag: "Contested as opening abortion access for minors; confirm against the text."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): against us."
     drafted: "Claude, 10 October 2026, from config/watchlist-gt.yaml"
   - key: "6607"
     direction: with

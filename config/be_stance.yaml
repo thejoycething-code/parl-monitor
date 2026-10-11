@@ -159,24 +159,30 @@ bill_directions:
     drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
   - key: "56/149"
     direction: against
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-11"
     areas: [8]
     why: "Ban on visible religious or philosophical symbols (signes convictionnels) for federal civil servants. The plenary adopted the committee's proposal to reject it on 26 February 2026 (division 56/95/21, 92-37-3)."
-    flag: "Read as against: a ban on religious symbols reaches Christians too (area 8, religious freedom). CitizenGO supports Portugal's face-covering law (PT4), a different question: confirm."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): against us, the religious-symbol bans."
     drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
   - key: "56/428"
     direction: against
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-11"
     areas: [8]
     why: "'LIGNE' bill: state neutrality and a ban on visible religious symbols for federal public servants."
-    flag: "Read as against: a ban on religious symbols reaches Christians too (area 8, religious freedom). CitizenGO supports Portugal's face-covering law (PT4), a different question: confirm."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): against us, the religious-symbol bans."
     drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
   - key: "56/429"
     direction: against
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-11"
     areas: [8]
     why: "Electoral Code: ban on visible religious symbols for polling station staff."
-    flag: "Read as against: a ban on religious symbols reaches Christians too (area 8, religious freedom). CitizenGO supports Portugal's face-covering law (PT4), a different question: confirm."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): against us, the religious-symbol bans."
     drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
   - key: "56/594"
     direction: against

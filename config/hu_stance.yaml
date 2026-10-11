@@ -38,10 +38,12 @@
 bill_directions:
   - key: "T/122"
     direction: against
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-11"
     areas: [7]
     why: "Hate-inciting political advertising; enacted as Act XX of 2026."
-    flag: "A speech law: who decides what incites hatred; confirm."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): against us."
     drafted: "Claude, 10 October 2026, from config/watchlist-hu.yaml"
   - key: "T/294"
     direction: with

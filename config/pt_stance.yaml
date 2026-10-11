@@ -236,11 +236,13 @@ bill_directions:
     why: "IL euthanasia bill merged into Lei 22/2023."
     drafted: "Claude, 10 October 2026, from config/watchlist-pt.yaml"
   - key: "XV/R/62"
-    direction: with
-    status: draft
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-11"
     areas: [2]
     why: "Proposal for a referendum on euthanasia; rejected 9 June 2022, PSD split by name."
-    flag: "A referendum on euthanasia: read as with us (put the law to the people); confirm."
+    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): against us. CitizenGO likes grassroots decisions over an authoritarian state, but is against euthanasia."
     drafted: "Claude, 10 October 2026, from config/watchlist-pt.yaml"
   - key: "XV/J/209"
     direction: against

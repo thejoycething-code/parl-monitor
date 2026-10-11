@@ -50,6 +50,7 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
                                      # week ahead's Coverage line
            kinds=None,               # None = every kind; ("vote",) = votes only
            dm_kinds=None,            # kinds the DM counts and leads with
+           dm_ahead=False,           # True: the DM adds the week ahead (see 11 Oct)
            watchlist=None,           # optional: fn(config_dir) -> {key: entry};
                                      # default: every mapping section of
                                      # config/watchlist-<cc>.yaml merged
@@ -197,6 +198,12 @@ Change log of the interface (additive only):
                    a Coverage line per source read. Nothing for adapters to
                    do; a country whose `kinds` names its kinds must add
                    "petition" to show them (the Netherlands does).
+  11 October 2026  Country.dm_ahead (default False, so every other DM is
+                   unchanged): the DM adds a "Week ahead" line, the number
+                   of agenda points on our ground or watched and the first
+                   three, from the same `week_ahead` hook the edition uses.
+                   The Netherlands sets it (Chris, 11 October 2026: the
+                   votes-only Dutch edition, NL3, shows the week ahead).
 
 Read-only on the store.
 """
@@ -293,6 +300,7 @@ class Country:
     ahead_note: Optional[Callable] = None
     kinds: Optional[tuple] = None
     dm_kinds: Optional[tuple] = None
+    dm_ahead: bool = False
     watchlist: Optional[Callable] = None
     members_note: str = ""
     coverage: tuple = ()
@@ -1044,6 +1052,16 @@ def dm_summary(conn, country, today, since=None, path=None, config_dir=None, dir
     else:
         lines.append("*A quiet {0}*: nothing on our ground{1}.".format(
             country.period, " in recorded votes" if country.dm_kinds == ("vote",) else ""))
+    if country.dm_ahead and country.week_ahead:
+        ahead, _ = noise_for(country).split(
+            country.week_ahead(conn, today, watchlist_of(country, config_dir)) or [], config_dir)
+        if ahead:
+            lines.append("*Week ahead*: {0} agenda point(s) on our ground or watched.".format(len(ahead)))
+            for it in score(ahead)[:3]:
+                lines.append("• {0}: _{1}_ ({2}{3})".format(
+                    short_date(it["date"]) if it.get("date") else "date to come",
+                    clip(it.get("title") or "", 90), area_text(it["areas"]) or "watched",
+                    ", watched" if it["watched"] else ""))
     lines.append("_Ordered by the session judge's scores where it has read an item, by tier "
                  "elsewhere; the paid judge stays off (X16)._" if edition_judge.judged(got) else
                  "_Ordered by tier; the AI judge is off (X16)._")

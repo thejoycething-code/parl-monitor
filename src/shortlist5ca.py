@@ -54,6 +54,11 @@ brief ledgers and (optionally, read-only) the store; it writes only the
 shortlist document. The commands it prints are for a named person to run
 after reading the item: tools/country_5ca.py --confirm still refuses a
 `needs_reading` entry and anyone not listed in config/stance_signers.yaml.
+
+Since 11 October 2026 the weekly job first confirms, on Chris's delegation,
+every draft that passes the automatic checks (src/country5ca.auto_confirm),
+so what is left here failed at least one: each item says which, on an
+"Auto-check" line, so a person knows what to look at.
 """
 
 from __future__ import annotations
@@ -418,7 +423,7 @@ def _values(cc, e):
 
 # --- the document -----------------------------------------------------------------------
 
-def shortlist_markdown(cc, ranked, today=None, top=TOP, per_area=PER_AREA):
+def shortlist_markdown(cc, ranked, today=None, top=TOP, per_area=PER_AREA, checks=None):
     from src import vote_meanings as vm
     from src.latam import AREA_LABELS
     spec = c5.SPECS[cc]
@@ -478,6 +483,9 @@ def shortlist_markdown(cc, ranked, today=None, top=TOP, per_area=PER_AREA):
                 e.get("read_first") or "needs a person's reading", 260))
         if e.get("flag"):
             out.append("- **Flag:** " + r5.clip(e["flag"], 240))
+        failed = c5.failing_text((checks or {}).get(it["key"]))
+        if failed:
+            out.append("- **Auto-check:** left for a person: " + failed)
         out.append("- **Sign:** " + command(cc, it, by))
         out.append("")
     areas = {}
@@ -515,8 +523,12 @@ def write_shortlist(cc, config_dir=None, docs_dir=None, conn=None, today=None, t
         if os.path.exists(path):
             os.remove(path)
         return ranked
+    try:                              # why each item did not confirm on its own (11 October 2026)
+        checks = c5.auto_report(cc, config_dir, conn=conn)
+    except Exception:
+        checks = None
     with open(path, "w", encoding="utf-8") as h:
-        h.write(shortlist_markdown(cc, ranked, today, top))
+        h.write(shortlist_markdown(cc, ranked, today, top, checks=checks))
     log("  {0}: shortlist of {1} waiting -> {2} (top: {3})".format(
         cc, len(ranked), os.path.relpath(path, ROOT) if path.startswith(ROOT) else path,
         ", ".join(it["key"] for it in ranked[:3])))

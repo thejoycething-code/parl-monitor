@@ -51,34 +51,39 @@ small budget (#118).
 **Nothing is published from a 5CA yet.** Every stance is a draft: 975
 readings await sign-off across the countries (France limited to final votes
 and watched amendments). Briefs, packs, targets, the partner sheet and the
-live read all render "awaiting sign-off" until a named person confirms.
+live read all render "awaiting sign-off" until a reading is confirmed. From
+the Sunday run after 11 October 2026 the drafts that pass every automatic
+check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
+1,001), the rest wait for a person, and country signers amend
+(docs/country-decisions-2026-10-11.md, docs/5ca-notes.md).
 
 **Waiting on Chris (decisions and actions):**
 
-1. Name a signer per country in `config/stance_signers.yaml` (country teams
-   are the natural owners), then start confirming readings
-   (`docs/5ca-<cc>-readings.md`, `tools/country_5ca.py --cc CC --sign-from-doc --by NAME`).
-   Start with each country's shortlist, `docs/5ca-<cc>-shortlist.md` (11 October
-   2026): the readings worth signing first, each with its exact command.
-2. Review the flagged bill directions in the stance files (Belgium's
-   religious-symbol bans read as against us while CitizenGO supports
-   Portugal's face-covering law; IVF; the euthanasia referendum).
+1. DONE (11 October 2026): Chris signs for every country, "for now"
+   (`config/stance_signers.yaml`); team members are added as they take over.
+2. DONE (11 October 2026): the flagged bill directions are decided and
+   confirmed (religious-symbol bans, IVF, the euthanasia referendum, minors
+   online, puberty blockers, conversion-practices ban, sex-work licensing,
+   GT and HU against us; France's palliative care bill on hold until read).
 3. Check France's five aide a mourir decrees in `config/watchlist-fr.yaml`
    against the promulgated law (drafted from the first-reading text).
-4. Check the Looker list prefix per country before the first petition export
-   (`docs/campaign-benchmarks.md`; the prefixes are guesses).
-5. Send the parliament emails drafted in his Gmail (three still lack an
-   address): Hungary W-API token, Spain Senado, Costa Rica, Paraguay, El
-   Salvador missing votes, Guatemala court, meineabgeordneten.at.
+4. HANDED OVER (11 October 2026): the Looker list prefixes per country
+   (`docs/campaign-benchmarks.md`) go to the work-account Claude, which has
+   Looker access.
+5. MOSTLY DONE: sent on 9 October from cjoyce@citizengo.net (Hungary W-API,
+   Spain Senado, meineabgeordneten.at, Paraguay, Open States, Australia
+   aph.gov.au). Costa Rica bounced (participacion-consultas accepts internal
+   senders only). Guatemala's court, El Salvador and the France and Belgium
+   video-agreement requests are being handled separately.
 6. Update the work account's **debate-day-net** scheduled task from
    `ops/scheduled-tasks/debate-day-net.md` (adds STEP 1B, debate today for
    NL, CH, FR, BE). It lives on the work account, not the personal one.
-7. Whether the Dutch edition (votes only, NL3) should show the week ahead.
-8. Whether the one watched Dutch motion in dossier 21501-02 (the rainbow-flag
-   motion, zaak 2026Z21728) should stay watched (it now alerts in the daily
-   sweep).
-9. Review the flagged groups in `config/member-intel-groups.yaml` (which
-   cross-party groups count as "on our ground").
+7. DONE (11 October 2026): the Dutch edition shows the week ahead, now in
+   its votes-only DM too (`dm_ahead` in `src/editions/nl.py`).
+8. DONE (11 October 2026): the rainbow-flag motion (dossier 21501-02, zaak
+   2026Z21728) stays watched.
+9. DONE (11 October 2026): `config/member-intel-groups.yaml` approved as
+   drafted.
 10. Confirm four petition thresholds read from the law, not the sites: Austria
     500 signatures (Bürgerinitiative), Portugal 1,000 and 7,500, Switzerland's
     18-month collection deadline, Belgium's regional split of 25,000.
@@ -92,12 +97,14 @@ live read all render "awaiting sign-off" until a named person confirms.
 13. DONE (11 October 2026, #95): the Mini's run slot is first in, first out
     (a ticket queue in `tools/mini_run.sh`). Keep hand backfills out of the
     overnight weekly window.
-15. Start signing off from the shortlists (`docs/5ca-<cc>-shortlist.md`):
-    each lists the votes worth confirming first and the exact command. Until
-    a signer is named, the printed commands sign as "Christopher".
-16. Debate reports need English translations before they publish (a person in
-    `translations.yaml`, or the free judge run by hand on the Mini; command in
-    `docs/mac-mini.md`); "publish" means a canvas for Chris alone.
+15. DONE (11 October 2026): sign-off is now automatic with team amendments
+    (`--auto-confirm` weekly; a signer amends with `--amend`). What fails a
+    check is listed, with the check, in each shortlist and guide for a
+    person to sign.
+16. DECIDED (11 October 2026): debate reports keep English summaries with
+    verbatim source-language quotes. Translations still come from a person
+    in `translations.yaml` or the free judge run by hand on the Mini
+    (command in `docs/mac-mini.md`); "publish" means a canvas for Chris alone.
 14. Whether to raise the weekly free-judge cap (`SESSION_JUDGE_MAX`, about
     100 items): 295 vote meanings wait for it.
 

@@ -237,8 +237,9 @@ sheet and the checkbox format are `src/readings5ca.py`'s, unchanged.
   `--sign-from-doc --by NAME`. A `needs_reading` entry cannot be confirmed
   until a person writes its values; a confirmation without a name is
   refused; the name must be Chris or listed for the country in
-  `config/stance_signers.yaml` (all lists empty: Chris to name the country
-  owners). `readings5ca.status` now reads this `status:` field (additive:
+  `config/stance_signers.yaml` (Chris for every country since 11 October
+  2026; since the same day drafts that pass every check are confirmed
+  automatically, below). `readings5ca.status` now reads this `status:` field (additive:
   files without it read as before), so a `confirmed` entry with no name or
   date is still a draft everywhere, the vote briefs included.
 * **The sign-off scope** (Chris, 10 October 2026). A spec may limit what is
@@ -320,6 +321,87 @@ contracts law over the veto (232 to 199), Italy's questione sospensiva on
 assisted dying in the Senato, France's final vote on the aide a mourir law,
 the Dutch Embryowet initiative bill (CDA and JA21 split), Belgium's final
 vote on palliative leave flagged near-unanimous.
+
+### Automatic sign-off and amendments (11 October 2026, branch `stance-decisions-1011`)
+
+Chris, 11 October 2026: "Automate the checks and we'll make it so teams can
+amend as and when errors come up. Like we're doing with Canada." In Canada
+he delegated ("Score for me and Greg can amend if necessary"); for the new
+countries the delegation is to deterministic checks, and any country signer
+amends afterwards. Chris is the signer for every country for now ("Me for
+all, for now", `config/stance_signers.yaml`).
+
+**What is confirmed automatically.** `tools/country_5ca.py --auto-confirm`
+(src/country5ca.py, `auto_check` and `auto_confirm`) runs every Sunday in
+`jobs/editions-session-judge.sh`, after `--draft` and before
+`--signoff-doc`, `--sheets` and `--shortlist`, so the guides, sheets, pages
+and canvases reflect it. It confirms a DRAFT entry only when every check
+passes:
+
+* `reading`: the entry has values (`needs_reading` has none);
+* `drafted`: it is as the drafter left it: `status: draft`, stamped
+  `drafted:` by the drafter, no `confirmed_by`, no `amended_*`, no
+  `draft: true`, no comment inside the entry;
+* `direction`: a bill direction applies (the one its why lines name, else
+  the watched key), says `with` or `against`, is not on hold or
+  `needs_reading`, and carries no flag; the entry has no flag of its own
+  except a copy of a bill flag since cleared;
+* `kind`: a vote on the whole text or a motion to reject it (an inverted
+  vote asks a person to check the question), or an amendment or article
+  watched for sign-off with a direction of its own, keyed by its division;
+* `values`: yea, nay and both why lines are exactly what the rules give that
+  direction and kind (`rule_values`, recomputed), so a hand edit fails;
+* `placeable`: not struck (`placeable: false`: procedural calls stay for a
+  person), with a recorded tally (the result line, else the lobbies, else
+  the store's positions) that has members on both sides;
+* `scope`: inside the country's sign-off scope (France: final votes,
+  motions to reject and watched amendments).
+
+Each confirmed entry gets `status: confirmed`,
+`confirmed_by: "auto-check on delegation (Chris Joyce, 11 Oct 2026)"`,
+`confirmed_on:` (the run's date) and `auto_checks:` (the checks' version,
+`auto-checks v1 (2026-10-11)`). Confirmed, amended and hand-edited entries
+are never touched. Everything that fails stays a draft and is listed with
+the check it failed on an "Auto-check" line in `docs/5ca-<cc>-readings.md`
+and `docs/5ca-<cc>-shortlist.md`; the stance digest says how many were
+confirmed automatically that week and counts what still needs a person by
+check. `--auto-confirm --dry-run` reports without writing.
+
+**Directions that change.** `--resync-directions` (also weekly, just before)
+brings an untouched draft into line when a person changes its bill's
+direction: an entry that is exactly the rules' output for one direction gets
+the rules' values for the new one, or becomes `needs_reading` (with the
+bill's `read_first:`) when the direction is put on hold. Applied on 11
+October to France's eight drafts on the palliative care bill (now on hold)
+and the minors online bill (now against).
+
+**Amending (any signer for the country).** Edit the reading in
+`config/<cc>_stance.yaml` by hand with `amended_by:`, `amended_on:` and
+`amended_why:`, or use the command, which stamps them, writes the values and
+confirms the reading in the signer's name:
+
+    python3 tools/country_5ca.py --cc CC --amend KEY --yea N --nay N --by NAME --why "..."
+
+To take a reading out of play instead (it places nobody, confirmed or not),
+`draft: true`, or the same command with `--take-out` in place of the values.
+`--by` must be Chris or a name in `config/stance_signers.yaml` for that
+country, and `--why` is required. An amended entry is never touched by the
+automation again (the `drafted` check fails on `amended_*` and on
+`draft: true`).
+
+**First count** (dry run, 11 October 2026, against the laptop store of 9
+October, read-only; the store held no new qualifying votes, so these are the
+stance files' own drafts): 71 would be confirmed, 930 left for a person.
+Italy 7 / 130, Switzerland 1 / 81, France 10 / 13, the Netherlands 2 / 210,
+Belgium 2 / 2, Poland 29 / 163, Croatia 0 / 12, Slovakia 3 / 40, Spain
+1 / 85, Brazil 2 / 11, Argentina 0 / 2, Mexico 0 / 3, Hungary 2 / 22,
+Austria 3 / 19, Portugal 9 / 31, Chile 0 / 5, Ecuador 0 / 7, the Dominican
+Republic 0 / 94; Peru, El Salvador and Guatemala have none. Of the 930, 879
+need reading (amendments, articles, bills with no direction), 46 are
+procedural, 2 have no tally in the file, 1 is Belgium's near-unanimous
+palliative leave vote (its bill still flagged) and 2 sit on Portugal's
+face-covering law, whose PT4 note is still written as a flag. Nothing was
+confirmed by that run; the Sunday job applies it to the live store.
 
 ## The new countries' tracker and partner sheet (10 October 2026, branch `camp-5ca-sheets`)
 
