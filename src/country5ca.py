@@ -220,10 +220,19 @@ def _hu_watched(r, wl):
 
 
 def _derive(module, cc):
+    """The store's derivation (X5), corrected by the dated service rows where
+    the store has them (src/member_service.adjust_derived, 11 October 2026):
+    a member is given a group's vote only for a day they sat, by the group
+    they were in that day. Without service rows it is the store's, unchanged."""
+    from src import member_service as ms
+    cache = ms.Cache()
+
     def derive(conn, key):
         import importlib
         store = importlib.import_module("src.{0}_store".format(module))
-        return store.derived_member_positions(conn, key)
+        rows = store.derived_member_positions(conn, key)
+        services = cache.get(conn, cc) if ms.has_tables(conn) else {}
+        return ms.adjust_derived(conn, cc, key, rows, services)[0] if services else rows
     return derive
 
 
