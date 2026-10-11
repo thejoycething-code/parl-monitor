@@ -62,7 +62,7 @@
 # vote until its reading is CONFIRMED. Run on a judge gap too (exit 3), since
 # the pages need no judge. A failure is a [gap] line; last week's pages stand.
 #
-# mini_run: commit editions config docs partner_site
+# mini_run: commit editions config docs partner_site reviews
 set -o pipefail
 cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Editions session judge}"
