@@ -408,8 +408,7 @@ judge stays off (X16).** The local-model idea above stays unbuilt.
 - The window ends at 06:30 London the morning after the edition's date by
   default; `config/edition-review.yaml` sets the time, the day offset and
   on/off per country (on for all sixteen). Unedited, the edition goes out
-  unchanged. The publish is a new Mini job, `edition-publish` (06:31 and
-  18:31 London daily), since the editions fall on five different days.
+  unchanged. The publish is a new Mini job, `edition-publish` (06:31 and 21:10 London daily), since the editions fall on five different days.
 - ONE combined Asana reading task a week for all the new-country
   editions ("Read the country editions - w/c <Monday>", Saturday to Friday
   editions; assignee "me" in the workspace, as the UK reading task was;

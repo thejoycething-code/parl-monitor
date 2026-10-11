@@ -1,6 +1,6 @@
 #!/bin/bash
 # Edition publish on the Mac Mini (tools/mini_run.sh edition-publish, 06:31
-# and 18:31 London every day): send the new country editions whose review
+# and 21:10 London every day): send the new country editions whose review
 # window has ended (src/edition_review.py, tools/edition_review.py,
 # config/edition-review.yaml; 11 October 2026, UK parity).
 #

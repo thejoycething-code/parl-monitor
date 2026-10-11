@@ -4,11 +4,11 @@
 # With `review: true` the weekly job does not DM the edition: it writes the
 # edition as a draft and reviews/<cc>-review-<date>.md, which Chris may edit
 # (keep / cut / edit per item, a note, hold or now) until the window ends.
-# jobs/edition-publish.sh (Mac Mini, 06:31 and 18:31 London) then sends it,
+# jobs/edition-publish.sh (Mac Mini, 06:31 and 21:10 London) then sends it,
 # honouring the review; unedited, it goes out unchanged.
 #
 #   publish_at   London time the window ends (HH:MM). The publish job runs at
-#                06:31 and 18:31, so a time between those goes out at the
+#                06:31 and 21:10, so a time between those goes out at the
 #                next run after it.
 #   after_days   days after the edition's date: 1 = the next morning, 0 = the
 #                same day (a publish_at already past sends at the next run).

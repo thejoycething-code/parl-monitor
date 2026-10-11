@@ -978,7 +978,7 @@ ON_DEMAND = {
                          "country's weekly step is its backstop; mini_run.sh "
                          "DMs its failures.",
     "Edition publish": "Mac Mini only (jobs/edition-publish.sh, 06:31 and "
-                       "18:31 London daily): sends the new country editions "
+                       "21:10 London daily): sends the new country editions "
                        "and the Latam monthly whose review window has ended "
                        "(src/edition_review.py, config/edition-review.yaml), "
                        "then the week's one combined Asana reading task. It "

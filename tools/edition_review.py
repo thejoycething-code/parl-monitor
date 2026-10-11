@@ -7,7 +7,7 @@
     python3 tools/edition_review.py --publish --dry-run   # render and say, send nothing
 
 jobs/edition-publish.sh runs --due then --publish on the Mac Mini at 06:31
-and 18:31 London. For each edition due (its window ended, or PUBLISH: now;
+and 21:10 London. For each edition due (its window ended, or PUBLISH: now;
 never PUBLISH: hold): the edition is rendered again from the store with the
 review honoured (cuts, edits, the note) and editions/<cc>-monitor-<date>.md
 is rewritten without the draft line; the DM goes to Chris alone, as the

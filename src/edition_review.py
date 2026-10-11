@@ -27,7 +27,7 @@ the review on (the default for all sixteen):
    decision and the header are carried over; a decision for an item no
    longer listed is kept at the foot, and applies again if the item returns.
 4. tools/edition_review.py --publish (jobs/edition-publish.sh, Mac Mini,
-   06:31 and 18:31 London) renders each edition whose window has ended,
+   06:31 and 21:10 London) renders each edition whose window has ended,
    honouring the review, rewrites editions/<cc>-monitor-<date>.md, DMs Chris
    alone as before, and keeps ONE combined Asana reading task per reading
    week for all of them (created by the first edition of the week, its notes
@@ -72,7 +72,7 @@ DEFAULTS = {"review": True, "publish_at": "06:30", "after_days": 1}
 DECISIONS = ("keep", "cut", "edit")
 PUBLISH = ("go", "hold", "now")
 CUT_REASON = "cut in review"
-RUN_TIMES = "06:31 and 18:31 London"      # jobs/edition-publish.sh's slots
+RUN_TIMES = "06:31 and 21:10 London"      # jobs/edition-publish.sh's slots
 
 MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August",
           "September", "October", "November", "December")

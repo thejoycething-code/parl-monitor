@@ -5,7 +5,7 @@
 Edition of 9 October 2026 (`editions/at-monitor-2026-10-09.md`). **Sent to Chris by DM at 06:30 London on Saturday 10 October 2026**, as it stands then.
 Change nothing and it goes out unchanged.
 
-How to review (edit this file on main before then; the publish step, 06:31 and 18:31 London, reads it):
+How to review (edit this file on main before then; the publish step, 06:31 and 21:10 London, reads it):
 - `DECISION: keep` leaves an item as drafted (the default).
 - `DECISION: cut` leaves it out of the edition and the DM; Coverage counts it as cut in review.
 - `DECISION: edit` replaces the English line under the title with your `TAKEAWAY:` text

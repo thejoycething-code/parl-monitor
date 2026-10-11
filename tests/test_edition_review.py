@@ -308,7 +308,7 @@ class WiringTests(unittest.TestCase):
                                "net.citizengo.parlmonitor.edition-publish.plist"), "rb") as fh:
             plist = plistlib.load(fh)
         self.assertEqual(sorted((s["Hour"], s["Minute"]) for s in plist["StartCalendarInterval"]),
-                         [(6, 31), (18, 31)])
+                         [(6, 31), (21, 10)])
         self.assertTrue(all("Weekday" not in s for s in plist["StartCalendarInterval"]))
         self.assertIn("edition-publish", slurp(os.path.join(ROOT, "ops",
                                                             "install_country_jobs.sh")))
