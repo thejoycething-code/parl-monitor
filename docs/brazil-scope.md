@@ -559,3 +559,13 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
 Member intelligence: **built** 11 October 2026 (`tools/member_intel.py br`, a step of `jobs/br-weekly.sh`, branch `ukp-member-intel`). The 57th legislature's 320 frentes parlamentares and their members (the 8 on our ground every week, including the Frente Parlamentar Evangélica, em Defesa da Vida e da Família, contra o Aborto e em Defesa da Vida, Católica, Cristã and the LGBTI+ front; the rest an eighth a week), and every deputy's open organ seats from the bulk file `orgaosDeputados-L57` (committees, CPIs, the Mesa). Profiles flag the fronts and committees on our ground (`config/member-intel-groups.yaml`) and show, beside each Câmara position, the orientação de bancada the Câmara published for the deputy's party or federation (`br_orientations`), with followed, differed and free-vote counts. Senators' committees and fronts are not read (the fronts' member lists are the Câmara's).
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **e-Cidadania ideas: built**, the 500 best-supported open ideas (5 pages; 20,000 supports in four months make a Sugestão Legislativa), with each matching idea's page for its deadline.
+- **e-Cidadania public vote on bills: built**, the 300 most-voted bills with SIM and NÃO; shown when a bill on our ground gains 10,000 votes in a week.
+- **Brasil Participativo consultations: built** (Decidim GraphQL), standing agency containers left out.
+- Pages take 20 to 60 seconds: the step reads at most 15 idea pages a run (`--detail-limit 15`).
+- Not covered: the Câmara's enquetes (no listing), Participa+Brasil (closed).
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/br.py`, `tools/country_petitions.py br` as a step of `jobs/br-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

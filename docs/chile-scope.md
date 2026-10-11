@@ -433,3 +433,7 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
 Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`). The Cámara's committee service (`WSComision.asmx/retornarComisionesVigentes`) lists two committees with their 2022-26 members, stale since the legislature that began in March 2026; worth a recheck. The Senate's committees were not probed.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Not built.** congresovirtual.cl (the chambers' consultations) answers 403 to robots.txt and its home page; government consultations are spread over ministry sites with no central list.

@@ -557,3 +557,10 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
 Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`). The Senate's open data lists its committees (`ExportarListadoComisiones/json/todas`) without members; members are only on each committee's HTML page. Diputados is unreachable from everywhere we run.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **National public consultations: built**, consultapublica.argentina.gob.ar (/api/forum/all): few a year, none open on 11 October.
+- Not covered: neither chamber publishes petitions.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/ar.py`, `tools/country_petitions.py ar` as a step of `jobs/ar-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

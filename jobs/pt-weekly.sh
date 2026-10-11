@@ -40,6 +40,7 @@ cd "$(dirname "$0")/.."
 # the coverage watch would never see the Mini's runs.
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Portugal weekly}"
 if [ "${PT_RECLASSIFY:-}" = "true" ]; then
+  python3 tools/country_petitions.py pt --reclassify
   python3 tools/pt_rollcalls.py --reclassify
   python3 tools/pt_chamber.py --reclassify
 fi
@@ -52,7 +53,10 @@ case "${PT_LEGISLATURE:-}" in
   XV|XVI|XVII) leg=(--legislature "$PT_LEGISLATURE") ;;
   *) echo "pt-weekly: unknown legislature '${PT_LEGISLATURE}'"; exit 2 ;;
 esac
-python3 tools/pt_rollcalls.py --budget-seconds 2700 "${leg[@]}" || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/pt_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" "${leg[@]}" || rc=$?
 # X8 (10 October 2026): the Tribunal Constitucional's acórdãos
 # (tools/pt_courts.py): 30 s between requests, at most ten rulings read, so
 # about six minutes; a 429 ends it with one gap. Not on a backfill run.
@@ -66,6 +70,14 @@ fi
 # on a backfill run (PT_LEGISLATURE set).
 if [ -z "${PT_LEGISLATURE:-}" ]; then
   bash tools/chamber_step.sh pt "$SECONDS"
+fi
+# Petitions and consultations (tools/country_petitions.py, src/petitions.py):
+# this country's open petitions, initiatives and consultations read into the
+# store before the edition, which shows the new ones on our ground, the
+# thresholds crossed and the deadlines. Its failure is a [gap] line, never
+# the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_petitions.py pt || echo "  [gap] the petitions step failed"
 fi
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM; nor on a backfill run,

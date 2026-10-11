@@ -200,7 +200,7 @@ def tweede_kamer(conn, since, until, wl):
 COUNTRY = ce.Country(
     cc="nl", name="Netherlands", chamber="Tweede Kamer and Eerste Kamer", language="Dutch",
     taxonomies=(("taxonomy-nl.yaml", "nl"),),
-    items=items, kinds=("vote", "speech", "question"), dm_kinds=("vote",), flag=":flag-nl:",
+    items=items, kinds=("vote", "speech", "question", "petition"), dm_kinds=("vote",), flag=":flag-nl:",
     week_ahead=agenda.week_ahead_fn("nl"), ahead_note=agenda.ahead_note_fn("nl"),
     members_note=("Most votes are by show of hands, one position per fractie; member "
                   "positions shown for them are DERIVED from the fractie vote (X5), given to "

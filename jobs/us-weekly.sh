@@ -179,13 +179,15 @@ python3 tools/us_states.py --budget-seconds "$STATES_BUDGET" "${STATES_ARGS[@]}"
 # other collector, so the clock ($SECONDS) knows what they really took; it
 # gets at most 10 minutes on GitHub and 15 on the Mini, and never more than
 # the job's limit (GitHub 120 minutes, the Mini three hours) less 30 minutes
-# for the judge and 10 for the edition and the store transfers.
+# for the judge and, for the edition and the store transfers, 10 on GitHub
+# and 20 on the Mini (its store upload took 13 to 16 minutes on 10 and 11
+# October 2026; tools/collector_budget.sh).
 # Short of a minute, it skips this week and says so.
-if [ -n "${GITHUB_ACTIONS:-}" ]; then JOB_LIMIT=7200; RECORD_MAX=600
-else JOB_LIMIT="${JOB_TIMEOUT:-10800}"; RECORD_MAX=900; fi
+if [ -n "${GITHUB_ACTIONS:-}" ]; then JOB_LIMIT=7200; RECORD_MAX=600; TRANSFERS=600
+else JOB_LIMIT="${JOB_TIMEOUT:-10800}"; RECORD_MAX=900; TRANSFERS=1200; fi
 # The judge's half hour is always kept: on the Mini whether it runs is only
 # known below, from the repo variable.
-LEFT=$(( JOB_LIMIT - SECONDS - 1800 - 600 ))
+LEFT=$(( JOB_LIMIT - SECONDS - 1800 - TRANSFERS ))
 RECORD_BUDGET="${US_RECORD_BUDGET:-$(( LEFT < RECORD_MAX ? LEFT : RECORD_MAX ))}"
 if [ "$RECORD_BUDGET" -ge 60 ]; then
   python3 tools/us_record.py --budget-seconds "$RECORD_BUDGET" | tee "$LOG/us-record.log" \

@@ -38,7 +38,10 @@ if [ "${HN_RECLASSIFY:-}" = "true" ]; then
   python3 tools/hn_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/hn_rollcalls.py --budget-seconds 2400 || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 40 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/hn_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2400 "$SECONDS")" || rc=$?
 # Instant Latam alerts (tools/latam_alerts.py): this country's watched and
 # tier-1 items, a short DM each to Chris alone, de-duplicated in
 # data/latam-alerts/hn.json (committed with data/). Never stops the run.
