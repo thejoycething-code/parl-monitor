@@ -1,13 +1,13 @@
 {
   "asset": "thejoycething-code/parl-monitor release db-state",
   "asset_name": "parl-monitor.db.gz",
-  "bytes": 1825128448,
-  "gz_bytes": 447031549,
-  "gz_sha256": "5b1a562179da82d13fc6b5ccef3c4088a3e35c0b0b7a92b9c320278c16ab7c0e",
+  "bytes": 1825136640,
+  "gz_bytes": 447035260,
+  "gz_sha256": "68269ed663b2fdf4dc17770b342ff45e62c7b5ea8ec347c4ad3ab9a3c63d399d",
   "note": "Derived state; the bytes live as a gzipped release asset. See tools/db_state.py.",
   "published_at": "local",
-  "published_utc": "2026-10-11T23:11:26Z",
-  "sha256": "f38c8981706bd0464a17082d044289dadc297e2b300eba2da9a46e1fc1d002cc",
+  "published_utc": "2026-10-11T23:21:55Z",
+  "sha256": "07d9d0e8939215787f2ee63650ec350c1fdf2b8bfa10ffc68e3c5aa3d68461a3",
   "tables": {
     "api_spend": 5397,
     "appg_officers": 24,
@@ -377,6 +377,6 @@
     "uy_questions": 2532,
     "uy_sittings": 668,
     "ve_news": 0,
-    "vote_meanings": 1956
+    "vote_meanings": 1957
   }
 }
