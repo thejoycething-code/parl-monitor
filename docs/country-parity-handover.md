@@ -41,7 +41,12 @@ confirmed readings changed. Silent until the first reading is confirmed.
 Also the publish-collision fix (#109). Portugal's plenary attendance (#113:
 every XVII sitting's roll, absence reasons verbatim) and France's HATVP
 declared interests (#114: members' own items only; spouses' and other
-third parties' sections are dropped at parse time and never stored).
+third parties' sections are dropped at parse time and never stored). Coverage-gap round, 11
+October: week ahead for Belgium, Portugal, Slovakia, Polish committees and
+the Spanish plenary PDF (#116); daily sweep for 13 more countries and
+France's new dossiers, about 2 minutes a day in all (#117); speeches for
+Croatia, Slovakia, Poland (transcripts now answer) and Brazil within a
+small budget (#118).
 
 **Nothing is published from a 5CA yet.** Every stance is a draft: 975
 readings await sign-off across the countries (France limited to final votes
@@ -166,16 +171,20 @@ from GitHub's `updated_at` on the asset; if a rename does not update it, the
 guard can miss an old keep-aside. Watch the logs for "upload failed, no other
 publish seen".
 
-**What could come next (not started):** regions and Länder (IT3, AT6, PE4,
-Spain's autonomous communities, Mexico's states); Croatia and Slovakia
-debates; Polish transcripts when the Sejm endpoint answers; Brazilian
-speeches (cost); Hungarian and Mexican agendas (Belgian, Portuguese and
-Slovak agendas, Polish committees and the Spanish plenary PDF were built
-on 11 October, branch `gaps-week-ahead`); Swiss committee agendas
-(confidential); Croatian and Slovak speeches; daily sweep for HU (BE, PT,
-HR, SK, AR and eight Latam countries added by gaps-day-sweep; MX, CO, SV
-measured and left out); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1 2027); a
-native read of each language's term list.
+**What could come next (not started):**
+- Still blocked by the source: Hungary's bills and votes (CAPTCHA; API token
+  requested), Italy's Senate (refuses us), Mexico's Senate (robots.txt) and
+  its same-day agendas (UK connections refused), Swiss committees
+  (confidential), the Dutch and Polish consultation portals (robots.txt),
+  committee attendance in PL, CH, AT and IT (not published), Austrian
+  interests (licence), Colombia's and El Salvador's daily sweep (no cheap
+  dated source), clips for France and Belgium (agreement needed).
+- Waiting for time: Spain's agendas, speeches and sweep fill from 23
+  December when the XVI sits.
+- Not yet built: regions and Länder (IT3, AT6, PE4, Spain's autonomous
+  communities, Mexico's states); member portraits and party logos (check
+  photo licences first); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
+  2027); a native read of each language's term list.
 
 ## What exists now
 
