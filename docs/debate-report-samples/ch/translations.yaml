@@ -1,0 +1,110 @@
+# Translations for report.md and social.md (tools/country_debate_report.py).
+# Write each `english:` as a faithful translation of `original` (British
+# spelling, no em dashes) and put your name in `by:`; or let the free session
+# judge fill them on the Mini (--queue-out / --queue-in). Then re-run with
+# --render. Never change `original`: it is the record's own words.
+items:
+  t-97adcc098d:
+    kind: title
+    who: ''
+    original: '25.455: Feministische Verfassungsrevision. Recht auf körperliche und sexuelle Selbstbestimmung'
+    english: ''
+    by: ''
+  p-1fc49711f8:
+    kind: passage
+    who: Bühler Manfred (V/BE)
+    original: Frau Kollegin, Sie argumentieren hier, als ob das Recht auf Abtreibung in unserem Land infrage
+      gestellt wäre. 2002 wurde die Fristenlösung mit über 72 Prozent vom Volk angenommen.
+    english: ''
+    by: ''
+  p-dbcd69777f:
+    kind: passage
+    who: Porchet Léonore (G/VD)
+    original: 'Cher collègue Roger Golay, le droit à l''avortement, qui n''est pas garanti en Suisse,
+      est présent dans deux lois : la LAMal, où la gratuité de l''avortement est garantie, et dans le
+      code pénal, où il se trouve parmi les homicides et où il est a priori interdit.'
+    english: ''
+    by: ''
+  p-cec9e34eb3:
+    kind: passage
+    who: Golay Roger (V/GE)
+    original: Une partie importante des domaines concernés, notamment l'organisation des soins, la prévention
+      et certains aspects de l'éducation sexuelle, relèvent aujourd'hui des cantons. Une disposition constitutionnelle
+      aussi générale ne doit pas devenir, par son interprétation, un moyen de transférer progressivement
+      des compétences cantonales vers la Confédération ou d'imposer indirectement aux cantons de nouvelles
+      obligations. La Constitution doit fixer des principes fondamentaux, clairs et durables. Elle ne
+      doit pas devenir un catalogue de revendications politiques, dans lequel les conséquences juridiques,
+      financières et institutionnelles ne sont pas suffisamment déterminées. Enfin, la majorité considère
+      que les améliorations qui pourraient encore être nécessaires dans le domaine de la santé sexuelle
+      et reproductive peuvent être réalisées sur le plan législatif de manière ciblée et démocratiquement
+      contrôlable sans modifier la Constitution fédérale.
+    english: ''
+    by: ''
+  p-e10fdef550:
+    kind: passage
+    who: Jaccoud Jessica (S/VD)
+    original: 'En 2024, la France est devenue le premier pays du monde à inscrire dans sa Constitution
+      la liberté garantie de recourir à l''IVG. Cette décision n''a pas été celle d''une majorité de gauche
+      : elle a été portée sous la présidence d''Emmanuel Macron et adoptée à une majorité écrasante du
+      Parlement, bien au-delà des clivages politiques traditionnels. En décembre dernier, le Parlement
+      européen a lui aussi envoyé un signal fort en soutenant l''initiative "My Voice, My Choice" pour
+      améliorer l''accès à un avortement sûr et accessible en Europe.'
+    english: ''
+    by: ''
+  p-20113b02ba:
+    kind: passage
+    who: Funiciello Tamara (S/BE)
+    original: Wie kann es sein, dass es in unserer Verfassung einen Artikel gibt, der ein Kleidungsstück
+      verbietet, das praktisch nur Frauen tragen; einen Artikel, der den Körper von Frauen kontrolliert,
+      aber keinen Artikel, der ihre körperliche und sexuelle Selbstbestimmung garantiert? Wir haben heute
+      in diesem Land kein Recht auf Abtreibung, wir haben lediglich die Möglichkeit einer straffreien
+      Abtreibung. Das ist im Strafgesetzbuch geregelt, im Teil "Strafbare Handlungen gegen Leib und Leben",
+      direkt nach Mord, Kindestötung und fahrlässiger Tötung. Als wären Frauen, die sich für eine Abtreibung
+      entscheiden, Kriminelle; weil wir selbst über unser Körper, unser Leben und unsere Zukunft entscheiden
+      wollen.
+    english: ''
+    by: ''
+  p-52569efd86:
+    kind: passage
+    who: Bally Maya (M-E/AG)
+    original: An der Mai-Sitzung wurde die parlamentarische Initiative 25.455 ebenfalls beraten. Sie verlangt
+      eine Ergänzung der Bundesverfassung, und zwar soll darin festgehalten werden, dass jeder Mensch
+      das Recht auf körperliche und sexuelle Selbstbestimmung hat. Zudem soll der Staat insbesondere den
+      Zugang zur medizinischen Versorgung im Bereich der sexuellen und reproduktiven Gesundheit gewährleisten.
+      Die Befürworterinnen und Befürworter betonten die Bedeutung der körperlichen und sexuellen Selbstbestimmung.
+      Sie verwiesen insbesondere auf internationale Entwicklungen und die aus ihrer Sicht bestehende Gefahr,
+      dass Rechte in diesem Bereich wieder eingeschränkt werden könnten. Als Beispiele wurde unter anderem
+      der Zugang zu Verhütung und Schwangerschaftsabbrüchen genannt.
+    english: ''
+    by: ''
+  v-dbf146b2b5:
+    kind: vote
+    who: '2026-09-29'
+    original: Proposition de la majorité (ne pas donner suite)
+    english: ''
+    by: ''
+  v-03264d87c7:
+    kind: vote
+    who: '2026-04-29'
+    original: Adopter le postulat
+    english: ''
+    by: ''
+  v-f2e01e9c04:
+    kind: vote
+    who: '2025-09-24'
+    original: "Art. 35 (gilt auch für Ziff. II 1. IVG Art. 37 Abs. 1bis und Übergangsbestimmung, Ziff.\
+      \ III Abs. 5)\r\n"
+    english: ''
+    by: ''
+  v-6e1b66f8ba:
+    kind: vote
+    who: '2025-03-21'
+    original: Schlussabstimmung
+    english: ''
+    by: ''
+  v-420fc22926:
+    kind: vote
+    who: '2024-12-09'
+    original: Gesamtabstimmung
+    english: ''
+    by: ''
