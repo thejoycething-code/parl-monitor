@@ -48,6 +48,12 @@ python3 tools/be_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh
 # What was said and asked in the chamber (tools/be_chamber.py, parity layer 5):
 # time-boxed to what is left of the hour, never fatal, skipped on GitHub.
 bash tools/chamber_step.sh be "$SECONDS"
+# The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
+# into the store after the collector, so its bills match this week's store
+# and the edition below shows it. Its failure is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_agenda.py be || echo "  [gap] the week-ahead agenda step failed"
+fi
 # Petitions and consultations (tools/country_petitions.py, src/petitions.py):
 # this country's open petitions, initiatives and consultations read into the
 # store before the edition, which shows the new ones on our ground, the

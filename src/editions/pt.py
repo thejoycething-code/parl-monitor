@@ -18,7 +18,8 @@ unnamed deputies). Derived positions are labelled as derived. An
 initiative's votes (generality, specialty, final global) are one group, the
 final global vote decisive.
 
-No agenda is collected, so there is no week ahead.
+The week ahead (11 October 2026): the Agenda Parlamentar's plenary and
+committee agendas (src/agendas/pt.py), matched to initiatives by number.
 
 Rulings (X8, 10 October 2026): the Tribunal Constitucional's acórdãos on our
 ground (pt_rulings, tools/pt_courts.py), classified on each ruling's opening
@@ -29,6 +30,7 @@ from __future__ import annotations
 
 import json
 
+from src import agenda
 from src import country_edition as ce
 from src import pt_store
 
@@ -181,6 +183,7 @@ COUNTRY = ce.Country(
     cc="pt", name="Portugal", chamber="Assembleia da República", language="Portuguese",
     taxonomies=(("taxonomy-pt.yaml", "pt"),),
     items=items, flag=":flag-pt:",
+    week_ahead=agenda.week_ahead_fn("pt"), ahead_note=agenda.ahead_note_fn("pt"),
     members_note=("Portugal votes by group: the record names a deputy only when they broke "
                   "from their group, so member positions shown are DERIVED from the group "
                   "vote (X5), with the deputy's latest group, and labelled as derived"),
