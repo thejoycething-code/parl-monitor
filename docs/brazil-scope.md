@@ -580,3 +580,5 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 ## Speech clips (not built, 11 October 2026, branch `ukp-speech-clips`)
 
 The Câmara's videos of legislative activity are CC BY 4.0 (its watermark must stay), so reuse is open, but no Brazilian speeches are stored (speeches not collected: per-deputy cost), so there is nothing to align a clip to. Build when speeches are collected. Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.
+
+Length of service: **built** 11 October 2026 (`tools/member_service.py br`, branch `ukp2-service`): each sitting deputy's entries and exits from the Câmara's `historico`, and each sitting senator's exercises and dated party filiations from the Senado's `mandatos`; each chamber is read separately (a deputy's Senate years are not linked). One request a member, every four weeks, a 25-minute budget (members not reached keep last month's rows). See docs/country-parity-handover.md, section 3c.

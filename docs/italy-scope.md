@@ -587,3 +587,5 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 ## Speech clips (not built, 11 October 2026, branch `ukp-speech-clips`)
 
 The Camera's legal notice reserves its multimedia under Law 633/1941 (original content reproducible with the source, video not clearly covered), and no Italian speeches are stored (the Senate refuses us; the Camera's debates are not collected). Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.
+
+Length of service: **built** 11 October 2026 (`tools/member_service.py it`, branch `ukp2-service`): every Camera mandate of the Republic (legislatures 1 to 19) of each sitting deputy and the dated group adhesions, from dati.camera.it SPARQL (752 periods, 900 group spells), matched to the store's members by name (a longer printed name matches only one listed member). The Senate's SPARQL refuses us: senators' profiles say the source does not cover them. Every four weeks. See docs/country-parity-handover.md, section 3c.

@@ -441,3 +441,5 @@ Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`).
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Not built.** congresovirtual.cl (the chambers' consultations) answers 403 to robots.txt and its home page; government consultations are spread over ministry sites with no central list.
+
+Length of service: **built** 11 October 2026 (`tools/member_service.py cl`, branch `ukp2-service`): deputies' periods from the Cámara's militancias already in the store (dated party spells for each deputy's time in the chamber), joined end to end; no fetch. Senators: not read (the BCN's spells are party history, not seats). See docs/country-parity-handover.md, section 3c.

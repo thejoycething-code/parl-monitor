@@ -512,3 +512,5 @@ countries".
 - First read: 46 drafts, 4 on our ground (protocols on press freedom and on women and LGBTIQ+ people, a regulation of Ley 2137 de 2021).
 
 Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/co.py`, `tools/country_petitions.py co` as a step of `jobs/co-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.
+
+Length of service: **not built** (11 October 2026, branch `ukp2-service`): no source we reach gives a member's service; the profiles say nothing about it. See docs/country-parity-handover.md, section 3c.
