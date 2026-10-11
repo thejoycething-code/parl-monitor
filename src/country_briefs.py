@@ -45,10 +45,12 @@ confirmation in the stance file reaches the brief the next week. A file a
 person has edited is never touched; --force rewrites it on request. A slug
 brief_log marks `rejected` is never written again.
 
-Nothing is sent: no DM, no Asana task, no Drive upload (brief_log's
-`not-ready` and `draft` are not statuses the Drive publisher picks up). The
-UK and German editions carry no brief line, so neither do the country
-editions.
+Nothing is sent: no DM, no Asana task (brief_log's `not-ready` and `draft`
+are not statuses the UK Drive publisher picks up). The UK and German
+editions carry no brief line, so neither do the country editions. Since 11
+October 2026 the Sunday editions-session-judge job puts these briefs on Drive
+as Sheets, NOT READY in the title until they are READY (tools/country_drive.py,
+src/country_drive.py); nothing here changed for it.
 """
 
 from __future__ import annotations

@@ -384,6 +384,11 @@ German packs; no scheduled job, no network, no AI call.
     python3 tools/country_debate_pack.py --country pl --date 2026-10-15 --item 10/2110 --speakers "Name; Name"
     python3 tools/country_debate_pack.py --pack data/packs/pl-2026-10-15-<slug> --onside
 
+On Drive (11 October 2026): a pack committed to the repo and not built with
+`--sample` is uploaded by the Sunday editions-session-judge job to
+`Country editions/<Country>/Debate packs/<date> <title>/` in the Automated
+Briefs shared drive (`tools/country_drive.py`; unchanged files are skipped).
+
 The pack (`data/packs/<cc>-<date>-<slug>/`) is written for campaigners in the
 country's language (`src/debatepack_i18n.py`: Spanish, Italian, French, German,
 Dutch, Polish, Portuguese, Croatian, Slovak, Hungarian; the frame only, titles and

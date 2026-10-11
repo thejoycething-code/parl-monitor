@@ -508,3 +508,9 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/fr.json` (`src/country_vote_brief.py`, step in `jobs/fr-weekly.sh`). Briefed after each weekly collection. Not daily: the Assemblée publishes its scrutins only as one 27 MB nightly zip, and reading only its newest members by HTTP range is unsafe (on 10 October its CDN served two builds of the file, 26,987,736 and 26,960,828 bytes, to successive range requests). See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/fr-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: the party or group the vote record names at each vote.
+- Records only: no vote is labelled for or against our side until its reading in `config/fr_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
