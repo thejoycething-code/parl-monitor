@@ -48,6 +48,9 @@ WHERE EACH PART COMES FROM, all from the store, read-only:
   * Members, positions and groups: src/country5ca.py's Specs (the same SQL
     the 5CA reads), positions verbatim, party-group countries' DERIVED rows
     (X5) marked with * and never counted as a member's own record.
+  * What a Yes and a No meant on each vote shown: src/vote_meanings.py, in
+    English (rule, free session judge, or a person's line in
+    config/vote-meanings-<cc>.yaml), labelled with where it came from.
   * Placement: src/country5ca.build_rows over the readings in
     config/<cc>_stance.yaml that a named person has CONFIRMED. Today none
     is, so every pack renders the "awaiting sign-off" state: no column, no
@@ -71,6 +74,7 @@ import sqlite3
 from src import country5ca as c5
 from src import debatepack_i18n as i18n
 from src import readings5ca as r5
+from src import vote_meanings
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PACKS = os.path.join(ROOT, "data", "packs")
@@ -625,6 +629,10 @@ def assemble(conn, cc, date, subject, chamber=None, speakers=(), config_dir=None
             "ids": sorted(ids), "bill_votes": bill, "decisive": decisive, "topic_votes": topic,
             "chamber": chamber, "member_votes": cc in c5.SPECS,
             "derived": cc in c5.PARTY_GROUP}
+    # What a Yes and a No meant on each vote shown (src/vote_meanings.py), in English.
+    pack["meanings"] = vote_meanings.lookup_many(
+        conn, cc, [d["key"] for d in decisive] + [d["key"] for d in topic], config_dir) \
+        if cc in c5.SPECS else {}
     # The agenda slot: the agenda table by ID, then the adapter's own week ahead.
     points = agenda_points(conn, cc, _plus(date, -7), _plus(date, AHEAD_DAYS))
     slot = []
@@ -759,6 +767,9 @@ def render_pack(pack, sample=False, folder=None):
         g = group_split(spec, lang, pos)
         if g:
             out.append("- {0}: {1}".format(T("by_group"), g))
+        m = (pack.get("meanings") or {}).get(d["key"])
+        if m:
+            out.append("- " + vote_meanings.line(m, cc, prefix=T("meaning")))
         out.append("")
     others = len(pack["bill_votes"]) - len(pack["decisive"])
     if others > 0:
@@ -778,6 +789,9 @@ def render_pack(pack, sample=False, folder=None):
         if t:
             line += ": {0}".format(t)
         out.append(line)
+        m = (pack.get("meanings") or {}).get(d["key"])
+        if m:
+            out.append("  - " + vote_meanings.line(m, cc, prefix=T("meaning")))
     out.append("")
 
     # Placement: confirmed readings only.

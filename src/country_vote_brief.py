@@ -62,6 +62,11 @@ is a signed human reading in config/<cc>_stance.yaml, and the brief gives
 only that reading's STATUS; one DM per run, to Chris alone, whatever the
 environment says; British spelling, no em dashes.
 
+VOTE MEANINGS (additive, 11 October 2026; src/vote_meanings.py): each
+watched or tier-1 vote shows what a Yes and a No meant, and whether the line
+is a rule's, the free session judge's or a person's
+(config/vote-meanings-<cc>.yaml). A meaning is not a verdict.
+
 Briefs are written to data/briefs/<cc>-votes-<date>-<key>.md: one per bill
 (or vote group) per day, its decisive vote first.
 """
@@ -75,7 +80,7 @@ import os
 import re
 
 from src import country_edition as ce
-from src import latam, vote_brief
+from src import latam, vote_brief, vote_meanings
 from src import readings5ca as r5
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -381,8 +386,9 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
     out = ["# {0}{1} vote brief: {2}".format("SAMPLE (never sent). " if sample else "",
                                              country_name(cc), ce.clip(topic, 160)), ""]
     out.append("*{0}, {1}. {2} recorded vote{3} on our ground. Generated {4}. Facts of the "
-               "record only: what a vote meant is a signed human reading "
-               "(config/{5}_stance.yaml), never this brief's.*".format(
+               "record only: which side is CitizenGO's is a signed human reading "
+               "(config/{5}_stance.yaml), never this brief's; the meaning lines say only what "
+               "each lobby voted for.*".format(
                    chamber(cc), ce.long_date(head["date"]), len(votes),
                    "" if len(votes) == 1 else "s",
                    generated or datetime.datetime.now().isoformat(timespec="minutes"), cc))
@@ -409,6 +415,9 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
         if it is not head:
             out.append("5CA: {0}".format(stance_status(cc, stance_key(it))))
             out.append("")
+        if it.get("meaning"):          # src/vote_meanings.py
+            out.append(vote_meanings.line(it))
+            out.append("")
         for line in it["lines"]:
             out.append("- " + line)
         out.append("")
@@ -422,8 +431,10 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
             out.append("")
     out.append("---")
     out.append("")
-    out.append("No meaning is attached here. Positions are the record's own words; a reading "
-               "of config/{0}_stance.yaml is signed through its guide, docs/5ca-{0}-readings.md "
+    out.append("No verdict is attached here. Positions are the record's own words; the meaning "
+               "lines say what a Yes and a No did (by rule, the free session judge, or a person "
+               "in config/vote-meanings-{0}.yaml, which wins); a reading of "
+               "config/{0}_stance.yaml is signed through its guide, docs/5ca-{0}-readings.md "
                "(tools/country_5ca.py).".format(cc))
     return vote_brief.house_style("\n".join(out) + "\n")
 
@@ -443,6 +454,8 @@ def dm_entry(cc, votes, reasons, brief_url):
         else:
             lines.append("• _{0}_{1}".format(ce.clip(it["title"], 160) or "(no title)",
                                              ": " + tally if tally else ""))
+        if it.get("meaning"):
+            lines.append("  " + vote_meanings.line(it).replace("**", "*"))
         if it.get("rebels") or not it.get("rebels_note"):
             lines.append("  " + rebels_text(dict(it, rebels_note=None), MAX_DM_REBELS))
     if len(votes) > MAX_DM_VOTES:

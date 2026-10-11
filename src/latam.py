@@ -733,7 +733,9 @@ def country_items(conn, cc, since, until, ledger=None, config_dir=None, dropped=
     kept, judged_out = edition_judge.split(edition_judge.annotate(conn, kept))
     if dropped is not None:
         dropped.extend(out + judged_out)
-    return kept
+    # What a Yes and a No meant, on watched and tier-1 votes (src/vote_meanings.py).
+    from src import vote_meanings
+    return vote_meanings.annotate(conn, kept, config_dir)
 
 
 # --- watched items' current status (for moves) --------------------------------

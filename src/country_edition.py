@@ -172,6 +172,12 @@ Change log of the interface (additive only):
                    by default (INDEPENDENT: no club, non-attached,
                    independents, mixed groups), as the vote brief did; an
                    adapter's skip= still adds its own short codes.
+  11 October 2026  vote meanings (src/vote_meanings.py): gather() puts
+                   `meaning` (what a Yes and a No meant, and where the line
+                   came from) on each watched or tier-1 vote of a country
+                   with recorded votes, by `division` (or `key`); the
+                   edition shows it under the vote. Nothing for adapters
+                   to do.
 
 Read-only on the store.
 """
@@ -556,7 +562,8 @@ def gather(conn, country, since, until, config_dir=None, dropped=None):
     kept, judged_out = edition_judge.split(edition_judge.annotate(conn, collapse_titles(kept)))
     if dropped is not None:
         dropped.extend(out + judged_out)
-    return score(kept)
+    from src import vote_meanings
+    return score(vote_meanings.annotate(conn, kept, config_dir))
 
 
 def collapse_titles(items):
@@ -687,11 +694,22 @@ def item_lines(it, wl, indent=""):
     judge = edition_judge.why_line(it)
     if judge:
         out.append(indent + "  " + judge)
+    meaning = meaning_line(it)
+    if meaning:
+        out.append(indent + "  " + meaning)
     for line in it["lines"]:
         out.append(indent + "  " + clean(line))
     if it["url"]:
         out.append(indent + "  [Source]({0})".format(it["url"]))
     return out
+
+
+def meaning_line(it):
+    """What a Yes and a No meant (src/vote_meanings.py), for a vote that has one."""
+    if not it.get("meaning"):
+        return None
+    from src import vote_meanings
+    return vote_meanings.line(it)
 
 
 ENDS = (".", "…", "?", "!")
@@ -741,6 +759,8 @@ def vote_lines(group, wl):
         short_date(headline["date"]), clip(headline["title"], 300)))
     if headline.get("takeaway"):
         out.append("    " + headline["takeaway"])
+    if meaning_line(headline):
+        out.append("    " + meaning_line(headline))
     for line in headline["lines"]:
         out.append("    " + clean(line))
     if headline["url"]:
@@ -754,6 +774,8 @@ def vote_lines(group, wl):
                                                  tally).rstrip())
         if v.get("takeaway") and v["takeaway"] != headline.get("takeaway"):
             out.append("    " + sentence(v["takeaway"]))
+        if meaning_line(v):
+            out.append("    " + meaning_line(v))
     if len(others) > MAX_GROUP_VOTES:
         out.append("  - _And {0} more votes on the same item, in the store._".format(
             len(others) - MAX_GROUP_VOTES))

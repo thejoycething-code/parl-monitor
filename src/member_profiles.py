@@ -803,7 +803,7 @@ def build(conn, cc, today, config_dir=None):
                 "areas": it["areas"], "tier": it["tier"], "watched": it["watched"],
                 "url": it["url"], "takeaway": it.get("takeaway"), "own": it.get("own"),
                 "group_title": it.get("group_title"), "judge": it.get("judge"),
-                "judge_why": it.get("judge_why")})
+                "judge_why": it.get("judge_why"), "meaning": it.get("meaning")})
     if spec.vote_parties:
         for mid, name, party, first, last in _rows(conn, spec.vote_parties):
             m = ros.resolve(mid, name, make_stub=False)
@@ -912,6 +912,9 @@ def vote_row(spec, v):
     note = spec.vote_note(v) if spec.vote_note else None
     if note:
         marks.append(note)
+    meant = meaning_of(spec, v)
+    if meant:
+        marks.append(meant)
     position = md(spelt(spec, v["position"])) + (" (DERIVED)" if v["derived"] else "")
     party = "{0} ({1})".format(md(v["party"]), short_basis(v["basis"])) if v["party"] else \
         "not known ({0})".format(short_basis(v["basis"]))
@@ -921,6 +924,20 @@ def vote_row(spec, v):
     return "| {0} | {1} | {2} | {3}{4} | {5} |".format(
         ce.short_date(v["date"]) + " " + (v["date"] or "")[:4], position, party, title,
         " · " + " · ".join(marks) if marks else "", areas)
+
+
+def meaning_of(spec, v):
+    """'their vote meant: to pass ... (by rule)' from src/vote_meanings.py, for
+    a recorded or derived Yes or No on a watched or tier-1 vote; else None."""
+    m = v.get("meaning")
+    if not m:
+        return None
+    from src import vote_meanings
+    said = vote_meanings.for_position(m, spec.cc, v["position"])
+    if not said:
+        return None
+    return "their vote meant: {0} ({1})".format(
+        md(vote_meanings.lower_first(said).rstrip(".")), vote_meanings.source_text(m))
 
 
 def linked_row(r):
@@ -1045,7 +1062,11 @@ def notes(data):
            "position is DERIVED from the group's vote, never recorded per member), or the "
            "party-history source that covers the day.",
            "No verdicts: which way a vote cut for our side is a signed judgement (5CA) that "
-           "this country does not have yet."]
+           "this country does not have yet.",
+           "'Their vote meant' (watched and tier-1 votes) says what the member's Yes or No did, "
+           "in English, by rule from the vote's wording and the bill, by the free session judge, "
+           "or as a person wrote it in config/vote-meanings-{0}.yaml (which wins); it is what "
+           "the vote did, never whose side it was on.".format(data["cc"])]
     out += list(spec.notes)
     if data.get("attribution"):
         out.append("Source attribution: {0}.".format(data["attribution"].rstrip(".")))
