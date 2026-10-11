@@ -65,7 +65,9 @@ python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets \
   || echo "  [gap] the 5CA stance step failed for a country; the others stand"
 python3 tools/make_country_5ca_web.py || echo "  [gap] the new-country 5CA pages failed; last week's stand"
 python3 tools/stance_digest.py --dm || echo "  [gap] the stance digest DM failed; next week's covers it"
-python3 tools/country_drive.py || echo "  [gap] country-drive: some briefs or packs did not reach Drive; the next run retries"
+# --ready-only: briefs reach the campaigners' shared drive only once signed off
+# (no NOT READY drafts there); debate packs are unaffected.
+python3 tools/country_drive.py --ready-only || echo "  [gap] country-drive: some briefs or packs did not reach Drive; the next run retries"
 
 rc=0
 bash tools/session_judge.sh tools/edition_judge.py "${SESSION_JUDGE_MAX:-100}" 25
