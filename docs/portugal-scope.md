@@ -493,6 +493,8 @@ Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/pt
 
 Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-pt-shortlist.md` ranks the 40 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `XVII/182933` (2026-09-25, a vote on the whole text; the decisive one; feeds brief pt-recomenda-ao-governo-que-se-oponha-resolutamente-xvii-r-1144 (NOT READY until signed)). It confirms nothing.
 
+Posting to Chris (11 October 2026, src/country5ca_post.py, branch `ukp3-5ca-post`): `python3 tools/country_5ca_post.py --cc pt [--area N] [--to canvas|dm|both] [--dry-run]` renders each chamber and area's 5CA from CONFIRMED readings only and sends it to Chris alone, as a canvas shared with his user id (never a channel) and/or a DM; a rerun rewrites the same canvas in place (`data/5ca/country-post-state.json`). The Sunday judge job refreshes the canvases whose confirmed readings changed (`--refresh`); with none confirmed it sends nothing.
+
 
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 

@@ -472,6 +472,8 @@ Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/sv
 
 Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-sv-shortlist.md` appears once a reading waits (none on 11 October); the weekly stance digest then leads with its top 5.
 
+Posting to Chris (11 October 2026, src/country5ca_post.py, branch `ukp3-5ca-post`): `python3 tools/country_5ca_post.py --cc sv [--area N] [--to canvas|dm|both] [--dry-run]` renders each chamber and area's 5CA from CONFIRMED readings only and sends it to Chris alone, as a canvas shared with his user id (never a channel) and/or a DM; a rerun rewrites the same canvas in place (`data/5ca/country-post-state.json`). The Sunday judge job refreshes the canvases whose confirmed readings changed (`--refresh`); with none confirmed it sends nothing.
+
 
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
