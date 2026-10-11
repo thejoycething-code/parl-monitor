@@ -18,6 +18,8 @@ neither one's failure alerts say what the other did. This says it all at once:
     first, then step gaps in each job's last run (edition, vote briefs, judge,
     agenda, chamber, courts, backfill, ...), editions behind their cadence and
     these countries' overdue sources. A clean region is one line;
+  * the published store's size (11 October 2026), with a warning once it
+    nears GitHub's 2 GiB per-asset limit (tools/db_state.py size_warnings);
   * every overdue source from tools/coverage.py, EVERY day, with the ones
     first seen in the last day marked NEW (the new countries' under their
     region instead). The coverage watch itself now
@@ -264,6 +266,26 @@ def overdue_sources(db_path, state_path, today):
     return None if found is None else [(t, n) for _k, _a, t, n in found]
 
 
+def store_size(sidecar_path):
+    """Lines on the published store's size, from the committed sidecar, with
+    db_state's size warnings (the split is the next step past 2 GiB per
+    release asset). None when the sidecar cannot be read."""
+    import db_state
+    try:
+        with open(sidecar_path, encoding="utf-8") as handle:
+            side = json.load(handle) or {}
+    except (OSError, ValueError):
+        return None
+    size, gz = side.get("bytes"), side.get("gz_bytes")
+    if not size:
+        return None
+    out = ["• {0:.2f} GB{1}; GitHub's limit is {2:.2f} GB per asset".format(
+        size / 1e9, ", {0:.2f} GB compressed".format(gz / 1e9) if gz else " (published uncompressed)",
+        db_state.ASSET_LIMIT / 1e9)]
+    out.extend("• :warning: " + line for line in db_state.size_warnings(size, gz))
+    return out
+
+
 def london(when):
     try:
         from zoneinfo import ZoneInfo
@@ -273,7 +295,7 @@ def london(when):
 
 
 def render(now, mini, github, overdue, running_job, minutes=None, countries=None,
-           moved=0, country_jobs=()):
+           moved=0, country_jobs=(), store=None):
     """The summary text. `countries`: the lines of src/country_health.section,
     placed after the Mini and GitHub runs; `moved`: how many overdue sources
     that section took out of the general list (said in its heading);
@@ -350,6 +372,10 @@ def render(now, mini, github, overdue, running_job, minutes=None, countries=None
             out.append("• {0} day(s) in a row under {1} ({2} needed before going private)".format(
                 minutes["streak"], PRIVATE_BAR, PRIVATE_DAYS))
 
+    if store:
+        out.append("\n*Store*")
+        out.extend(store)
+
     out.append("\n*Overdue sources*{0}".format(
         " (the new countries' {0} are under Country editions)".format(moved) if moved else ""))
     if overdue is None:
@@ -404,7 +430,8 @@ def main(argv=None):
     text = render(now, read_mini(logs, since, full), None if offline else read_github(since),
                   rest, running, None if offline else minutes_or_none(now),
                   countries=countries, moved=moved,
-                  country_jobs=country_health.all_jobs() if countries else ())
+                  country_jobs=country_health.all_jobs() if countries else (),
+                  store=store_size(os.path.join(ROOT, "data", "parl-monitor.db.json")))
     print(text)
     if "--dm" in argv:
         from src import publish
