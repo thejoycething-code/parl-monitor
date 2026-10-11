@@ -468,3 +468,5 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Not built.** No listable source found (the CONAMER consultation host did not resolve).
+
+Length of service: **built, legislatures only** 11 October 2026 (`tools/member_service.py mx`, a step of `jobs/mx-collect.sh`, branch `ukp2-service`): the SITL legislatures already in the store, matched by name; no fetch, no seat dates. See docs/country-parity-handover.md, section 3c.

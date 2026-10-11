@@ -1,0 +1,65 @@
+{
+ "meta": {
+  "description": "Kickl Herbert"
+ },
+ "content": {
+  "biografie": {
+   "mandatefunktionen": {
+    "bez": "Politische Mandate/Funktionen",
+    "mandate": [
+     {
+      "funktion_text": "Abgeordneter zum Nationalrat",
+      "mandat": "Abgeordneter zum Nationalrat",
+      "klub": "Freiheitlicher Parlamentsklub",
+      "wahlkreis": "3 - Niederösterreich",
+      "wahlpartei": "FPÖ",
+      "wahlpartei_text": "Freiheitliche Partei Österreichs",
+      "gremium": "NR",
+      "funktion": "NR",
+      "bez": "Abgeordneter zum Nationalrat (XXVI.-XXVIII. GP), FPÖ",
+      "mandatVon": "24.05.2019",
+      "mandatBis": "",
+      "funktion_von": "24.05.2019",
+      "funktion_bis": "",
+      "zeitraum": "24.05.2019-",
+      "aktiv": true
+     },
+     {
+      "funktion_text": "Abgeordneter zum Nationalrat",
+      "mandat": "Abgeordneter zum Nationalrat",
+      "klub": "Freiheitlicher Parlamentsklub",
+      "wahlkreis": "3 - Niederösterreich",
+      "wahlpartei": "FPÖ",
+      "wahlpartei_text": "Freiheitliche Partei Österreichs",
+      "gremium": "NR",
+      "funktion": "NR",
+      "bez": "Abgeordneter zum Nationalrat (XXIII.-XXVI. GP), FPÖ",
+      "mandatVon": "30.10.2006",
+      "mandatBis": "18.12.2017",
+      "funktion_von": "30.10.2006",
+      "funktion_bis": "18.12.2017",
+      "aktiv": false,
+      "zeitraum": "30.10.2006-18.12.2017"
+     },
+     {
+      "funktion_text": "Bundesminister für Inneres",
+      "mandat": "Bundesminister für Inneres",
+      "klub": null,
+      "wahlkreis": null,
+      "wahlpartei": null,
+      "wahlpartei_text": null,
+      "gremium": "BM",
+      "funktion": "BM",
+      "bez": "Bundesminister für Inneres",
+      "mandatVon": "18.12.2017",
+      "mandatBis": "22.05.2019",
+      "funktion_von": "18.12.2017",
+      "funktion_bis": "22.05.2019",
+      "aktiv": false,
+      "zeitraum": "18.12.2017-22.05.2019"
+     }
+    ]
+   }
+  }
+ }
+}

@@ -526,3 +526,5 @@ hand with `--speakers` (matched to the member list) once known. Placements come 
 readings confirmed in `config/uy_stance.yaml`; none is confirmed yet, so every pack shows
 "pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
+
+Length of service: **not built** (11 October 2026, branch `ukp2-service`): the Parliament's main site refuses us; the profiles say nothing about service. See docs/country-parity-handover.md, section 3c.

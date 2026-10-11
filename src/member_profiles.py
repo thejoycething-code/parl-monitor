@@ -76,6 +76,16 @@ the Roster (one listed member or none). Brazil's Spec has `party_line`: the
 Câmara's orientação de bancada beside each position, the only published whip
 line. Countries without those rows render exactly as before.
 
+LENGTH OF SERVICE (additive, 11 October 2026, src/member_service.py): where
+the store holds ms_periods / ms_party rows for the country, each profile
+gains "Length of service" (serving since, earlier periods, terms, and what
+the source covers; never more), the index a "Serving since" column, and
+two corrections: a DERIVED position (X5: AT, PT, NL) is given only for a day
+the member sat, by the group they were in on that day where the source dates
+it (basis DERIVED_DAY), and an as-listed party (X6) becomes the party on the
+day where a dated group spell covers it. Countries without those rows render
+exactly as before.
+
 WORDS SINCE THE LAST VOTE (optional, additive, 11 October 2026,
 src/country_since_vote.py): `build(..., since_vote=True)` (tools/member_profiles.py
 --since-vote) gives each profile of NL, CH, AT, FR and BE a "Words since the
@@ -120,6 +130,8 @@ GENERATOR = "tools/member_profiles.py"
 AT_VOTE = "at the vote, as the record names it"
 DERIVED = "the group's vote, X5"
 AS_LISTED = "as listed, not party at the vote, X6"
+DERIVED_DAY = "the group's vote, X5, by the member's group on the day"
+SPELL_ON_DAY = "on the day, from the source's dated group spells, X6"
 
 
 # --- small helpers ------------------------------------------------------------------
@@ -185,6 +197,7 @@ class Member:
     interests: list = dataclasses.field(default_factory=list)
     history: list = dataclasses.field(default_factory=list)      # (party, start, end, source)
     at_votes: list = dataclasses.field(default_factory=list)     # (party, first, last)
+    service: object = None              # src/member_service.Service, where the store has one
     attendance: list = dataclasses.field(default_factory=list)   # src/attendance.py summary rows
     participation: Optional[dict] = None                         # derived plenary vote participation
     since_vote: list = dataclasses.field(default_factory=list)   # src/country_since_vote.py rows
@@ -871,9 +884,11 @@ def build(conn, cc, today, config_dir=None, since_vote=False):
     ros = roster(conn, spec)
     labels = {str(a): b for a, b in _rows(conn, spec.group_labels)} if spec.group_labels else {}
     history = spec.history(conn) if spec.history else {}
-    ctx = {"history": history, "labels": labels}
+    service = service_context(conn, cc, ros)
+    ctx = {"history": history, "labels": labels, "service": service["by_member"]}
     for m in ros.by_key.values():
         m.party = labels.get(str(m.party), m.party) if m.party else m.party
+        m.service = service["by_member"].get(m.key)
     for key, spells in history.items():
         m = ros.by_key.get(key)
         if m:
@@ -883,7 +898,7 @@ def build(conn, cc, today, config_dir=None, since_vote=False):
     items = vote_items(conn, cc, today, config_dir) if spec.positions else []
     for it in items:
         div = it.get("division") or it["key"]
-        for p in spec.positions(conn, div):
+        for p in positions_of(conn, spec, div, service):
             m = ros.resolve(p.get("member_id"), p.get("name"))
             if m is None:
                 continue
@@ -891,7 +906,7 @@ def build(conn, cc, today, config_dir=None, since_vote=False):
                 unresolved += 1
             recorded = labels.get(str(p.get("party")), p.get("party"))
             party, basis = party_of(spec, ctx, m, it["date"], ce.clean(recorded) or None,
-                                    p.get("derived"))
+                                    p.get("derived"), p.get("basis"))
             m.votes.append({
                 "date": it["date"], "title": it["title"], "key": it["key"], "division": div,
                 "position": ce.clean(p.get("position")) or "(no position recorded)",
@@ -926,24 +941,54 @@ def build(conn, cc, today, config_dir=None, since_vote=False):
     attendance = attach_attendance(conn, cc, ros, today)
     since = attach_since_vote(conn, cc, ros, config_dir) if since_vote else None
     return {"cc": cc, "since_vote": since, "name": country_name(cc), "today": today, "spec": spec,
-            "intel": intel, "attendance": attendance,
+            "intel": intel, "service": service, "attendance": attendance,
             "members": ros.by_key, "votes": len(items), "unresolved": unresolved,
             "unmatched": unmatched,
             "attribution": attribution(conn, cc)}
 
 
-def party_of(spec, ctx, m, date, recorded, derived):
+def party_of(spec, ctx, m, date, recorded, derived, row_basis=None):
     if derived:
-        return recorded, DERIVED
+        from src import member_service as ms
+        return recorded, (DERIVED_DAY if row_basis == ms.DERIVED_ON_DAY else DERIVED)
     if spec.party_at:
         got = spec.party_at(ctx, m, date, recorded)
         if got:
             return got
     if spec.basis == "at_vote" and recorded:
         return recorded, AT_VOTE
+    if spec.basis == "derived" and recorded:
+        return recorded, AT_VOTE
+    # X6: a dated group spell covering the day beats the listed party.
+    s = (ctx.get("service") or {}).get(m.key)
+    g = s.group_on(date) if s is not None else None
+    if g is not None:
+        return g["party"], SPELL_ON_DAY
     if spec.basis == "derived":
-        return (recorded, AT_VOTE) if recorded else (m.party, spec.listed_label)
+        return m.party, spec.listed_label
     return recorded or m.party, spec.listed_label
+
+
+def service_context(conn, cc, ros):
+    """{'by_member': {roster key: Service}, 'covers': {source: run}, 'runs':
+    [...], 'dropped': 0} from src/member_service.py, empty when the store
+    holds no service rows for the country."""
+    from src import member_service as ms
+    svc = ms.load(conn, cc)
+    return {"by_member": ms.attach(svc, ros), "covers": (svc or {}).get("covers") or {},
+            "runs": (svc or {}).get("runs") or [], "dropped": 0}
+
+
+def positions_of(conn, spec, div, service):
+    """The spec's positions for one division; for a party-group country with
+    dated service rows, corrected by src/member_service.adjust_derived (a
+    member who did not sit that day is left out; the group on the day)."""
+    rows = spec.positions(conn, div)
+    if spec.basis == "derived" and service and service["by_member"]:
+        from src import member_service as ms
+        rows, dropped = ms.adjust_derived(conn, spec.cc, div, rows, service["by_member"])
+        service["dropped"] += dropped
+    return rows
 
 
 def attach_intel(conn, cc, ros, config_dir=None):
@@ -1072,6 +1117,10 @@ def short_basis(basis):
     b = basis or ""
     if b == DERIVED:
         return "group's vote, X5"
+    if b == DERIVED_DAY:
+        return "group's vote on the day, X5"
+    if b == SPELL_ON_DAY:
+        return "on the day, dated spells"
     if b == AT_VOTE:
         return "at the vote"
     if "transcripts" in b:
@@ -1180,7 +1229,10 @@ def render_member(data, m, sample=False):
     out.append("")
     listed = spec.listed_label if spec.basis == "as_listed" else "latest seen in the member list"
     if spec.basis == "derived":
-        listed = "latest seen in the member list (the group used for derived positions)"
+        listed = ("latest seen in the member list (derived positions use the group on the "
+                  "vote's day, from the parliament's dated record)" if m.service is not None
+                  and m.service.spells else
+                  "latest seen in the member list (the group used for derived positions)")
     ident = [("Party", "{0}; {1}".format(md(m.party), listed) if m.party else
               "not given by the source")]
     if m.region:
@@ -1197,6 +1249,7 @@ def render_member(data, m, sample=False):
         ident.append(("Source id", "`{0}`".format(m.key)))
     out += ["- **{0}:** {1}".format(k, v) for k, v in ident]
     out.append("")
+    out += render_service(data, m)
     if m.history or m.at_votes:
         out += ["## Party history", ""]
         for party, start, end, source in m.history:
@@ -1251,12 +1304,42 @@ def render_member(data, m, sample=False):
     if m.since_vote:
         from src import country_since_vote as sv
         out += sv.profile_section(m.since_vote)
-    out += ["## Notes", "", "- Party: " + spec.party_note,
+    out += ["## Notes", "", "- Party: " + party_note(data),
             "- How these profiles are built, and what they never say: [the index's notes]"
             "(index.md#notes)."]
     if data.get("attribution"):
         out.append("- Source attribution: {0}.".format(data["attribution"].rstrip(".")))
     return "\n".join(out).rstrip() + "\n"
+
+
+def render_service(data, m):
+    """'## Length of service' from src/member_service.py: only what the
+    source dates, with what it covers; nothing when the country has none."""
+    from src import member_service as ms
+    service = data.get("service") or {}
+    if not service.get("runs"):
+        return []
+    out = ["## Length of service", ""]
+    got = ms.lines(data["cc"], m.service, service["covers"], data["today"], m.current) \
+        if m.service is not None else []
+    if got:
+        out += ["- " + line for line in got]
+    else:
+        out.append("- Not in the service source read ({0}): nothing is said about this "
+                   "member's service.".format("; ".join(
+                       "{0}, {1}: {2}".format(r["source"], date_long(r["last_seen"]),
+                                              r["covers"] or "coverage not recorded")
+                       for r in service["runs"])))
+    out += [""]
+    for kind, words in (("group", "Group"), ("party", "Party")):
+        spells = ms.merged_spells(m.service.spells, kind) if m.service is not None else []
+        if spells:
+            out.append("{0} spells, as the source dates them: ".format(words) + "; ".join(
+                "{0} ({1} to {2})".format(md(p), date_long(a), date_long(b) if b else "now")
+                for p, a, b in spells[-12:]) + ("; {0} earlier".format(len(spells) - 12)
+                                               if len(spells) > 12 else "") + ".")
+            out.append("")
+    return out
 
 
 def _group_text(g):
@@ -1355,13 +1438,26 @@ def render_flagged(data, written):
     return out + [""]
 
 
+def party_note(data):
+    """The spec's line on what party means, and, for a party-group country
+    with dated service rows, that derived positions follow the day's group."""
+    spec = data["spec"]
+    note = spec.party_note
+    if spec.basis == "derived" and (data.get("service") or {}).get("by_member"):
+        note += (" Since 11 October 2026, where the parliament dates a member's seats and "
+                 "group (src/member_service.py), a DERIVED position is given only for a day the "
+                 "member sat, by the group they were in that day; otherwise by the latest group, "
+                 "as labelled.")
+    return note
+
+
 def notes(data):
     spec = data["spec"]
     out = ["On our ground means what the {0} edition shows: the collector's classification "
            "(taxonomy and watchlist), the edition's noise rules and mutes, and the session "
            "judge's score where it has read the vote. Titles are the source's own, "
            "verbatim.".format(data["name"]),
-           "Party: " + spec.party_note,
+           "Party: " + party_note(data),
            "In the vote table, the party's basis: 'at the vote' (the record names it), "
            "'as listed, not at the vote' (X6: the record names none), 'group's vote, X5' (the "
            "position is DERIVED from the group's vote, never recorded per member), or the "
@@ -1373,6 +1469,26 @@ def notes(data):
            "or as a person wrote it in config/vote-meanings-{0}.yaml (which wins); it is what "
            "the vote did, never whose side it was on.".format(data["cc"])]
     out += list(spec.notes)
+    service = data.get("service") or {}
+    if service.get("runs"):
+        out.append("Length of service: the parliament's own record of each member's periods "
+                   "(src/member_service.py; {0}). 'Serving since' is the start of the "
+                   "current unbroken run of periods in the chamber, as the source dates them "
+                   "(a dissolution, a ministerial post or a resignation breaks it); 'at least' "
+                   "where it starts on the first day the source covers. A source that names "
+                   "terms only gives no 'since'. Nothing here says whether a term is a "
+                   "member's first.".format("; ".join(
+                       "{0} read {1}: {2}".format(r["source"], date_long(r["last_seen"]),
+                                                  r["covers"] or "coverage not recorded")
+                       for r in service["runs"])))
+        if spec.basis == "derived":
+            out.append("DERIVED positions follow the record of who sat: where the parliament "
+                       "dates a member's seats and group, a member is given a group's vote "
+                       "only for a day they sat, and by the group they were in that day "
+                       "('group's vote on the day'); {0} position(s) the store's derivation "
+                       "by today's group would have given were left out on that ground. A "
+                       "member without dated rows is derived by their latest group, as "
+                       "labelled.".format(service.get("dropped", 0)))
     intel = data.get("intel")
     if intel:
         out.append("Committees, groups and declared interests: the parliament's own open data "
@@ -1423,13 +1539,21 @@ def render_index(data, written, sample=False):
         out.append("{0} author or questioner line(s) on our ground name no listed member (the "
                    "government, a committee, the other chamber, or a name not matched to "
                    "exactly one member); they are not attributed.".format(data["unmatched"]))
-    out += ["", "| Member | Party | Chamber | Constituency or region | Votes | Authored | "
-                "Questions |", "|---|---|---|---|---|---|---|"]
+    service = data.get("service") or {}
+    since = bool(service.get("runs"))
+    out += ["", "| Member | Party | Chamber | Constituency or region | {0}Votes | Authored | "
+                "Questions |".format("Service | " if since else ""),
+            "|---|---|---|---|---|---|---|" + ("---|" if since else "")]
     for m in members:
         name = "[{0}]({1})".format(md(m.name), written[m.key]) if m.key in written else md(m.name)
-        out.append("| {0} | {1} | {2} | {3} | {4} | {5} | {6} |".format(
+        cell = ""
+        if since:
+            from src import member_service as ms
+            cell = (md(ms.short(data["cc"], m.service, service["covers"], data["today"],
+                                m.current) or "") if m.service is not None else "") + " | "
+        out.append("| {0} | {1} | {2} | {3} | {7}{4} | {5} | {6} |".format(
             name, md(m.party) or "", md(m.chamber) or "", md(m.region) or "",
-            len(m.votes) or "", len(m.authored) or "", len(m.questions) or ""))
+            len(m.votes) or "", len(m.authored) or "", len(m.questions) or "", cell))
     out += [""] + render_flagged(data, written)
     out += ["## Notes", ""] + ["- " + n for n in notes(data)]
     return "\n".join(out).rstrip() + "\n"

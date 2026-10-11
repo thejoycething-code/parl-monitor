@@ -1,0 +1,56 @@
+{
+ "Deputados": [
+  {
+   "DepCadId": 2071.0,
+   "DepCPDes": "Aveiro",
+   "DepGP": [
+    {
+     "gpDtFim": "2025-06-02",
+     "gpDtInicio": "2024-03-26",
+     "gpId": 7251.0,
+     "gpSigla": "PSD"
+    }
+   ],
+   "DepNomeParlamentar": "Miguel Santos",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo Temporário",
+     "sioDtFim": "2025-06-02",
+     "sioDtInicio": "2024-04-05"
+    },
+    {
+     "sioDes": "Suplente",
+     "sioDtFim": "2024-04-04",
+     "sioDtInicio": "2024-03-26"
+    }
+   ],
+   "LegDes": "XVI"
+  },
+  {
+   "DepCadId": 8788.0,
+   "DepCPDes": "Aveiro",
+   "DepGP": [
+    {
+     "gpDtFim": "2025-06-02",
+     "gpDtInicio": "2024-03-26",
+     "gpId": 7251.0,
+     "gpSigla": "PSD"
+    }
+   ],
+   "DepNomeParlamentar": "Carolina Marques",
+   "DepSituacao": [
+    {
+     "sioDes": "Efetivo Temporário",
+     "sioDtFim": "2025-06-02",
+     "sioDtInicio": "2025-02-13"
+    },
+    {
+     "sioDes": "Suplente",
+     "sioDtFim": "2025-02-12",
+     "sioDtInicio": "2024-03-26"
+    }
+   ],
+   "LegDes": "XVI"
+  }
+ ]
+}

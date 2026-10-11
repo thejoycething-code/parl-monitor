@@ -553,3 +553,5 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 ## Speech clips (not built, 11 October 2026, branch `ukp-speech-clips`)
 
 No reuse terms for the Sejm's transmissions were found on 11 October 2026, and no Polish speeches are stored (the transcript endpoint never answered). Nothing to align to. Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.
+
+Length of service: **built** 11 October 2026 (`tools/member_service.py pl`, branch `ukp2-service`): each sitting MP's mandates in every term the Sejm API lists (terms 3 to 10, from 1997), oath date to mandate expiry, with the club at the end of each term; terms are linked by name and date of birth, which is used as a link key and never stored (1,337 periods). Every four weeks. See docs/country-parity-handover.md, section 3c.

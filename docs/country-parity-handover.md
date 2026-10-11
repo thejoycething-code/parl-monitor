@@ -152,6 +152,8 @@ native read of each language's term list.
 | Public vote pages, vote tracker, bill timelines | yes (`mp-votes.html`, devolved, timelines) | yes (`de-votes.html`) | yes (`us-`, `ie-`, `au-votes.html`) | no | **built** 11 Oct (`tools/make_country_votes.py`, src/country_votes.py, branch `ukp-vote-pages`): `partner_site/<cc>-votes.html` for the 22 countries with member or party-group votes, `votes-countries.html` (tracker) and `bill-timelines.html` (watched bills: stages, agenda slots, votes), behind the partner passphrase, weekly in `editions-session-judge`; records only, no for/against before a reading is CONFIRMED; X5 derived and X6 as-listed labelled, non-attached never counted (#80) |
 | Member intelligence (interests, cross-party groups, committees, whip lines) | yes (`pull_interests.py`, `load_appgs.py`, `pull_pbc_attendance.py`, `annotate_whips.py`) | part | no | no | **built** 11 Oct (`tools/member_intel.py`, `src/member_intel.py`, branch `ukp-member-intel`), a step of 7 weeklies before the profiles: BR fronts (frentes parlamentares) and organs, NL committee seats and nevenfuncties, CH committees and Interessenbindungen, PL committees, FR committees, délégations and groupes d'études, IT Camera organs, AT committee functions. Groups on our ground flagged by name (`config/member-intel-groups.yaml`) in each profile and a "Groups on our ground" list in each index. Whip: Brazil's orientação de bancada beside each Câmara position (the only published whip). Not built: FR HATVP (open, heavy, later), AT interests, ES (dissolved), AR, CL (stale service), IT Senate (403) |
 | Committee and plenary attendance | yes (`pull_pbc_attendance.py`, bill committees) | no | no | no | **built** 11 Oct (`src/attendance.py`, `tools/country_attendance.py`, branch `ukp2-attendance`), a step of 5 weeklies before the profiles: BR committee and plenary presence register, FR commission présences, CL plenary and committee rolls, NL committee-debate participants ("took part", not a roll), CO plenary (co_attendance); committee-to-bill referrals for BR, FR, NL; plenary vote participation DERIVED from the votes for IT, CH, PL, ES, AR, PE, DO, HU. Shown in profiles and debate packs. Not built: PL, CH, AT, IT committees (none published), PT (PDF per sitting, later), ES, PE, PA (PDFs) |
+
+| Length of service (every period each member sat; `tools/pull_service.py`) | yes | no | no | no | **built** 11 Oct (`src/member_service.py`, `tools/member_service.py`, branch `ukp2-service`), a step of 18 weeklies before the profiles (weekly or every four weeks by source): shared tables `ms_periods`, `ms_party`, `ms_runs`. Seat dates for CH (since 1848), NL, FR (from 2002), AT, PT (since 1976), IT Camera (since 1948), ES (since 1977), PL (from 1997), BR (sitting members), CL (militancias), HU (current term); terms only for SK, HR, BE, AR, PE, DO, MX; nothing for EC, SV, GT, CO, UY. Profiles and vote pages say "serving since" and earlier periods with what the source covers, never more; DERIVED positions (AT, PT, NL) only for days the member sat, by their group on the day (also in the 5CA and campaign positions) |
 | Debates / speeches | yes | yes | IE, AU | yes | NL, CH, AT, FR, BE (10 Oct, `tools/<cc>_chamber.py`); not PL (transcripts never answered), BR (per-deputy cost), IT (Senate 403), ES (dissolved), PT (questions only), HR, SK |
 | Parliamentary questions | yes | no | IE | no | NL, PL, FR, PT, BR requests (10 Oct, `tools/<cc>_chamber.py`); already in the editions: SK interpellations, AT J/AB, CH Vorstösse, HU, UY pedidos, HN press, BO written questions: BO4, built 10 Oct, `parity-phases-b` |
 | Committees, courts, petitions, consultations | yes | yes | US courts | yes | constitutional courts (X8) built for CO, EC, PE, PT (10 Oct, `parity-phases-b`); GT gap; no committees. **Petitions and consultations built** 11 Oct (`src/petitions.py`, `tools/country_petitions.py`, branch `ukp-petitions-consult`), a step of 11 weeklies and an edition section: FR (AN and Sénat e-petitions), AT (Ministerialentwürfe in Begutachtung, Petitionen, Bürgerinitiativen, Volksbegehren), CH (Vernehmlassungen, Petitionen, Volksinitiativen in collection), IT (firmereferendum initiatives and referendums, ParteciPa), PT (petições), PL (Sejm consultations, citizens' bills), BE (Chamber petitions), NL (petitions handed to the Kamer), BR (e-Cidadania ideas and public vote, Brasil Participativo), AR (consultapublica), CO (SUCOP, in the Latam edition); not NL internetconsultatie or PL legislacja (robots.txt), ES (no central list), CL (403), MX |
@@ -370,6 +372,59 @@ parlamento.pt, open but needs a PDF reader: a later round); Spain (dissolved,
 no attendance file); Peru, Panama and the Dominican Senate (PDFs only);
 Argentina, Ecuador, Mexico, Belgium, Croatia, Slovakia (no attendance file
 found).
+
+### 3c. Length of service -- BUILT 11 October 2026 (branch `ukp2-service`)
+
+The UK's `tools/pull_service.py` was built after a member's page said "MP
+since 13 Aug 2026" beside votes from years before: a roster's start date is
+the start of the current period, not of a member's service. The new
+countries had the same trap and a worse one: AT, PT and NL member positions
+were DERIVED from the group by the group a member sits in today, so a member
+who took their seat last month was given positions on votes taken before it,
+and a member who changed group was given the new group's votes for the old
+days.
+
+`src/member_service.py` and `tools/member_service.py <cc>` (a step of each
+weekly before the profiles; the tool skips a source read within its cadence,
+`STALE_DAYS`: a week for one-request sources, four weeks for the rest; AT and BR, a request a member, read the longest-unread first within a time budget and are due again the next week when cut short) store
+every period each member sat in `ms_periods` (chamber, term, start, end,
+precision `day` or `term`, the party or list and the group for the period,
+the seat), every dated party or group spell in `ms_party`, and what each
+source covers in `ms_runs`. Sources, all the parliament's own open data:
+
+| Country | Source | Precision | Covers |
+|---|---|---|---|
+| CH | ws.parlament.ch MemberCouncilHistory | day | every NR and SR period since 1848, party and group |
+| NL | gegevensmagazijn FractieZetelPersoon | day | every fractie seat recorded; fractie spells matched by Fractie_Id |
+| FR | AMO30 (all acteurs, all mandates) | day (prise de fonction) | ASSEMBLEE mandates from the 12th legislature (2002); GP spells |
+| AT | parlament.gv.at biographies (`/person/<PAD>?json=TRUE`) | day | every NR and BR mandate, Klub and Wahlpartei |
+| PT | InformacaoBase I to XVII | day | each deputy's Efetivo situations and DepGP spells since 1976 |
+| IT | dati.camera.it SPARQL | day | every Camera mandate of the Republic, dated group adhesions; Senate not read (403) |
+| ES | Congreso odsDiputados00-14, DiputadosActivos/DeBaja | day | every seat since 1977, dated group |
+| PL | Sejm API `/term<N>/MP` | day (oath to expiry) | terms 3 to 10 (from 1997), linked by name and date of birth (never stored) |
+| BR | Câmara `historico`, Senado `mandatos` | day | each sitting member's entries and exits (each chamber separately), Senate party filiations |
+| CL | the Cámara's militancias in the store | day | deputies only; senators not read |
+| HU | karzat (in the store) | day | the current term only; Wikidata's SPARQL is disallowed by robots.txt |
+| SK | NRSR MP lists per term | term | terms 1 to 9 |
+| HR | sabor.hr member lists | term | the 10th and 11th sazivi |
+| BE | lachambre.be member list per legislature | term | from the 48th legislature |
+| AR, PE, DO, MX | the store's current term | term | the current term only |
+| EC, SV, GT, CO, UY | none | | nothing is said |
+
+What a profile or page says: "Serving since" (the start of the current
+unbroken run of day-precision periods in the member's chamber; "at least"
+when it starts on the source's first day), the earlier periods with their
+dates, or the terms where the source names terms only, and always what the
+source covers ("nothing here says whether this is a first term"). The index
+gains a Service column; the vote pages a service line on each member card
+and a note. DERIVED positions are corrected in the profiles, the vote pages
+and `src/country5ca.positions` (so the 5CA candidates and campaign targets
+too): a member who did not sit on the vote's day is left out, and a member is
+given the vote of the group they belonged to that day ("group's vote on the
+day, X5"); a member without dated rows keeps the latest-group derivation and
+its label. X6: an as-listed party yields to a dated group spell covering the
+day (none of BE, HR, EC, GT, CO has dated spells yet). Samples:
+`docs/service-samples/`.
 
 ### 4. Week ahead
 The framework already renders a week-ahead section when a store holds

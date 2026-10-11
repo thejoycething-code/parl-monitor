@@ -243,7 +243,8 @@ function memberView(i) {
   const meta = [m[1] ? `<b>${esc(m[1])}</b> (latest in the member list)` : "party not given by the source",
     m[2] ? esc(m[2]) : "", m[3] ? esc(m[3]) : "",
     m[4] === true ? "sitting" : m[4] === false ? "not on the current list" : "",
-    m[5] ? "named in a record, not matched to one listed member" : ""].filter(Boolean).join(" · ");
+    m[5] ? "named in a record, not matched to one listed member" : "",
+    m[6] ? esc(m[6]) : ""].filter(Boolean).join(" · ");
   return `<div class="mepcard"><h2>${esc(m[0])}</h2><div class="mep-meta">${meta}</div>
     <div class="mep-meta">${rows.length} position(s) on the votes listed here${against ? `; against their group's majority ${against} time(s)` : ""}.
     <a href="#">Back to every vote</a></div></div>
@@ -296,6 +297,7 @@ document.getElementById("notes").innerHTML = [
   `<p><b>On our ground</b> means what the ${esc(DATA.name)} edition shows: the collector's classification (taxonomy and watchlist), the edition's noise rules and mutes, and the session judge's score where it has read the vote.</p>`,
   `<p><b>Party:</b> ${esc(DATA.party_note)}</p>`,
   DATA.store_note ? `<p><b>The record:</b> ${esc(DATA.store_note)}</p>` : "",
+  DATA.service_note ? `<p><b>Service:</b> ${esc(DATA.service_note.replace(/^Service: /, ""))}</p>` : "",
   `<p><b>Against their group's majority</b> counts recorded Yes and No votes only, where the party is the party at the vote, in groups of three or more. Members with no group line to break (no group, non-attached, independents, mixed groups) are never counted; nor are positions DERIVED from a group's vote (X5) or parties shown as listed (X6).</p>`,
   `<p><b>No verdicts.</b> Which way a vote cut for CitizenGO is a judgement a named person signs (the 5CA stance file). Until then a vote shows its reading as awaiting sign-off, and no page places anyone.</p>`,
   DATA.attribution ? `<p><b>Source attribution:</b> ${esc(DATA.attribution)}.</p>` : "",

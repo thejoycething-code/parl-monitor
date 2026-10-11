@@ -347,6 +347,14 @@ Who attended the committee and plenary sittings (`tools/country_attendance.py <c
 - **Cost per run (measured 11 October 2026 from the laptop):** BR about 75 s (the 9 MB presence CSV, not archived because the year's file is republished whole each night; the event and organ files; one tramitações request for each of the 38 bills on our ground); FR the 8.4 MB Agenda zip, a few seconds; NL two OData pages; CO nothing fetched (copied from `co_attendance`); CL about 5 minutes on the first run (98 plenary sessions of 2026 at one request each), then only the week's new sessions plus the committee list and one request per committee.
 - **Backfill (optional, by hand on the Mini, outside the overnight window):** `python3 tools/country_attendance.py br cl --years 2025 2026` reads the previous year as well. Not needed for the profiles; it lengthens the period the counts cover.
 - **Coverage:** `att_runs.last_seen` is watched (`tools/coverage.py`, cadence 7, grace 4); the log line `attendance <cc>:` says what each source gave.
+
+## Length of service in eighteen country weeklies (11 October 2026, branch `ukp2-service`)
+
+Every period each member has sat and their dated groups (`tools/member_service.py <cc>`, `src/member_service.py`), into the store's `ms_periods`, `ms_party` and `ms_runs`; the profiles and the vote pages read them (handover section 3c).
+
+- **No new plists, workflows or cron slots.** A step of `jobs/<cc>-weekly.sh` (Mexico's `jobs/mx-collect.sh`) for CH, NL, FR, AT, PT, IT, ES, PL, BR, SK, HR, BE, CL, HU, AR, PE, DO and MX, just before the member profiles, only when the collector stored something (exit 0 or 3). A failure is a `[gap] member-service` line; last run's rows stand and the store is still published.
+- **Cadence:** the tool reads a source only when it is due (`STALE_DAYS`): weekly for CH and NL (a few requests) and the six store-only countries (CL, HU, AR, PE, DO, MX: no fetch); every four weeks for FR (AMO30, 13 MB), PT (17 files), IT (19 SPARQL queries), ES (17 files), PL (8 terms), SK (9 terms), HR (about 20 pages), BE (9 pages at the Chamber's 5-second crawl delay), AT (one biography a member, about 243 at a second each) and BR (one request a member, about 600; a 25-minute budget). AT and BR read the longest-unread members first; members not reached keep their last rows, and a run cut short is due again the next week. `--force` reads now.
+- **Coverage:** `ms_runs.last_seen` is watched (`tools/coverage.py`, cadence 7, grace 4); the log line `member-service <cc>:` says what each source gave, or that it was not due.
 - Nothing to install beyond the usual `git pull` of the runner clone.
 
 ## Installing the country jobs (10 October 2026)

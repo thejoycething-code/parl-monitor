@@ -467,3 +467,5 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
 Attendance (11 October 2026, branch `ukp2-attendance`): attendance is published only inside the vote and attendance PDFs; the attendance records are not parsed. Plenary vote participation is DERIVED from the stored votes (AUS, the licences LE/LO/LP/LV, SR) with its basis.
+
+Length of service: **built, current period only** 11 October 2026 (`tools/member_service.py pe`, branch `ukp2-service`): the period on the store's roster (2026-2031); no fetch. See docs/country-parity-handover.md, section 3c.

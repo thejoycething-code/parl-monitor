@@ -68,6 +68,14 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
       || echo "  [gap] sk-monitor: the edition or its DM failed; the store is still published"
   fi
 fi
+# Length of service (tools/member_service.py, src/member_service.py): every period each
+# member has sat, from the NRSR MP list of every term, every four weeks;
+# (the tool skips a read that is not due), before the profiles and vote pages read it.
+# A failure is a [gap] line; last run's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_service.py sk \
+    || echo "  [gap] member-service: sk not fully read; last run's rows kept"
+fi
 # Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/sk/
 # rewritten from the store just collected and committed with it; never posted
 # or DMed. A failure is a [gap] line and never costs the store.

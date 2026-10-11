@@ -54,6 +54,13 @@ day). Members with no group line to break (no group, non-attached,
 independents, mixed groups: country_edition.no_group_line, #80) are never
 counted, nor is anyone whose party is as listed (X6) or derived (X5).
 
+LENGTH OF SERVICE (additive, 11 October 2026, src/member_service.py): where
+the store holds service rows, each member card says "serving since" (or the
+terms the source names) and nothing more, and the party-group countries'
+DERIVED positions are given only for a day the member sat, by their group on
+that day (src/member_profiles.positions_of, the same correction the profiles
+make).
+
 TALLIES AND RESULTS are the store's (src/country5ca.py's division SQL), in
 the chamber's own words; where the store has no tally the page counts the
 stored positions and says so.
@@ -193,10 +200,13 @@ def build(conn, cc, today, config_dir=None, max_divisions=MAX_DIVISIONS):
     ros = mp.roster(conn, spec)
     labels = ({str(a): b for a, b in mp._rows(conn, spec.group_labels)}
               if spec.group_labels else {})
-    ctx = {"history": spec.history(conn) if spec.history else {}, "labels": labels}
+    service = mp.service_context(conn, cc, ros)
+    ctx = {"history": spec.history(conn) if spec.history else {}, "labels": labels,
+           "service": service["by_member"]}
     for m in ros.by_key.values():
         if m.party:
             m.party = labels.get(str(m.party), m.party)
+        m.service = service["by_member"].get(m.key)
     items = mp.vote_items(conn, cc, today, config_dir)
     conn.row_factory = sqlite3.Row
     store_divs = {r["key"]: r for r in c5.divisions(conn, cc)} if cc in c5.SPECS else {}
@@ -214,18 +224,18 @@ def build(conn, cc, today, config_dir=None, max_divisions=MAX_DIVISIONS):
     counts = {"recorded": 0, "derived": 0, "as_listed": 0, "awaiting": 0, "confirmed": 0}
     for div, it in ordered[:max_divisions]:
         pos, rows = [], []
-        for p in spec.positions(conn, div):
+        for p in mp.positions_of(conn, spec, div, service):
             m = ros.resolve(p.get("member_id"), p.get("name"))
             if m is None:
                 continue
             recorded = labels.get(str(p.get("party")), p.get("party"))
             party, basis = mp.party_of(spec, ctx, m, it["date"], ce.clean(recorded) or None,
-                                       p.get("derived"))
+                                       p.get("derived"), p.get("basis"))
             word = mp.spelt(spec, ce.clean(p.get("position")) or "(no position recorded)")
             if m.key not in member_rows:
                 member_rows[m.key] = members(m.key)
             mi = member_rows[m.key]
-            derived = bool(p.get("derived")) or basis == mp.DERIVED
+            derived = bool(p.get("derived")) or basis in (mp.DERIVED, mp.DERIVED_DAY)
             counts["derived" if derived else ("recorded" if at_vote_basis(basis)
                                               else "as_listed")] += 1
             pos.append([mi, words(word), groups(ce.clean(party) or ""), bases(basis or "")])
@@ -253,17 +263,20 @@ def build(conn, cc, today, config_dir=None, max_divisions=MAX_DIVISIONS):
     for i in range(len(members.items)):
         m = ros.by_key[by_key[i]]
         member_list.append([m.name, m.party or "", m.chamber or "", m.region or "",
-                            None if m.current is None else bool(m.current), bool(m.stub)])
+                            None if m.current is None else bool(m.current), bool(m.stub),
+                            _service_text(cc, m, service, today)])
     yes_label, no_label = (c5.SPECS[cc].labels if cc in c5.SPECS else ("Yes", "No"))
     wl = mp.watchlist(cc, config_dir)
     return {
         "cc": cc, "name": mp.country_name(cc), "today": today,
-        "basis": spec.basis, "party_note": spec.party_note,
+        "basis": spec.basis, "party_note": mp.party_note({"spec": spec, "service": service}),
         "store_note": c5.SPECS[cc].note if cc in c5.SPECS else "",
         "labels": [yes_label, no_label],
         "members": member_list, "words": words.items, "groups": groups.items,
         "bases": bases.items, "bases_short": [mp.short_basis(b) for b in bases.items],
-        "derived_bases": [i for i, b in enumerate(bases.items) if b == mp.DERIVED],
+        "derived_bases": [i for i, b in enumerate(bases.items)
+                          if b in (mp.DERIVED, mp.DERIVED_DAY)],
+        "service_note": _service_note(service, spec),
         "divisions": divisions,
         "total": total, "shown": len(divisions), "counts": counts,
         "watched_total": sum(1 for _d, it in ordered if it.get("watched")),
@@ -275,6 +288,29 @@ def build(conn, cc, today, config_dir=None, max_divisions=MAX_DIVISIONS):
                                                    ce.AREA_LABELS.items()},
         "attribution": mp.attribution(conn, cc),
     }
+
+
+def _service_text(cc, m, service, today):
+    """The member card's service line (src/member_service.short), or None."""
+    if m.service is None:
+        return None
+    from src import member_service as ms
+    return ms.short(cc, m.service, service["covers"], today, m.current)
+
+
+def _service_note(service, spec):
+    """The page's line on where the service lines come from, or None."""
+    if not service.get("runs"):
+        return None
+    text = ("Service: the parliament's own record of each member's periods ({0}); 'serving "
+            "since' is the start of the current unbroken run, and a source that names terms "
+            "only gives no date.".format("; ".join(r["covers"] or r["source"]
+                                                   for r in service["runs"])))
+    if spec.basis == "derived":
+        text += (" DERIVED positions are given only for a day the member sat, by their group "
+                 "that day where the parliament dates it ({0} left out).".format(
+                     service.get("dropped", 0)))
+    return text
 
 
 # --- the page -----------------------------------------------------------------------
