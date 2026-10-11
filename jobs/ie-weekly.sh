@@ -78,13 +78,21 @@ fi
 # the edition and the store transfers, 5 on GitHub and 20 on the Mini (its
 # store upload took 13 to 16 minutes on 10 and 11 October 2026;
 # tools/collector_budget.sh). The Mini's limit is the JOB_TIMEOUT that
-# tools/mini_run.sh exports (an hour: the plist sets none).
+# tools/mini_run.sh exports (90 minutes, set in the plist on 11 October 2026: the store upload alone takes 13 to 16).
 python3 tools/ie_schedule.py | tee "$LOG_DIR/ie-schedule.log" \
   || echo "  [gap] the week-ahead step ended with gaps; the edition says what it has"
 if [ -n "${GITHUB_ACTIONS:-}" ]; then JOB_LIMIT=2700; Q_MAX=300; D_MAX=300; TRANSFERS=300
 else JOB_LIMIT="${JOB_TIMEOUT:-3600}"; Q_MAX=900; D_MAX=1200; TRANSFERS=1200; fi
+JUDGE="${IE_JUDGE:-}"
+if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then
+  JUDGE=$(gh variable get IE_JUDGE -R thejoycething-code/parl-monitor 2>/dev/null || true)
+fi
+# The 20 minutes kept for the judge are kept only when the paid judge is on
+# (IE_JUDGE has been off since 10 October 2026: the free session judge scores
+# on the Mini afterwards, in its own job), so questions and debates get them.
+if [ "$JUDGE" = "on" ]; then JUDGE_S=1200; else JUDGE_S=0; fi
 budget_left() {  # $1: the step's cap
-  local left=$(( JOB_LIMIT - SECONDS - 1200 - TRANSFERS ))
+  local left=$(( JOB_LIMIT - SECONDS - JUDGE_S - TRANSFERS ))
   echo $(( left < $1 ? left : $1 ))
 }
 Q_BUDGET="${IE_QUESTIONS_BUDGET:-$(budget_left "$Q_MAX")}"
@@ -102,10 +110,6 @@ else
   echo "  [gap] debates skipped: ${D_BUDGET}s left in the job's budget" | tee "$LOG_DIR/ie-debates.log"
 fi
 
-JUDGE="${IE_JUDGE:-}"
-if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then
-  JUDGE=$(gh variable get IE_JUDGE -R thejoycething-code/parl-monitor 2>/dev/null || true)
-fi
 if [ "$JUDGE" = "on" ]; then
   python3 tools/ie_triage.py --budget-seconds 1200 | tee "$LOG_DIR/ie-triage.log" || rc=$?
 fi
