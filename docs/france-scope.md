@@ -485,7 +485,6 @@ Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/fr
 
 **Sign-off scope (Chris, 10 October 2026): final votes and watched amendments only.** France's sign-off covers votes on the whole text and motions to reject it (and procedure about the whole text); an amendment or article vote is drafted only when listed under its dossier's `amendments:` in `config/watchlist-fr.yaml`, by division key (`an-17-1773`) or amendment number (`"n° 3"`, any vote in that dossier on that number). The first drafts had held 1,050 readings, 1,037 of them amendments and articles of the aide a mourir law; `tools/country_5ca.py --cc fr --prune-out-of-scope` removed those 1,037 (all unsigned and untouched; a confirmed or hand-edited entry is never removed). No amendment is watched yet. Branch `fr-signoff-scope`.
 
-
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:
@@ -512,6 +511,10 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
 
 What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-fr.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-fr-readings.md. On the store of 11 October 2026: 1106 watched or tier-1 votes, 1080 with an English rule line, 26 whose rule line quotes the source (offered to the session judge), 0 the rules cannot read. Sample: [docs/vote-meaning-samples/fr.md](vote-meaning-samples/fr.md).
+
+## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
+
+Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/fr.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). France is swept for its agenda only: the Assemblée's Agenda.json.zip (8.4 MB), at most once a day, fetched unarchived and archived on a day it yields an alert (the Saturday collection archives it every week, FR3). New dossiers and questions stay weekly: Dossiers_Legislatifs.json.zip is 10.7 MB and the question dumps 55 MB, rebuilt nightly. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
 
 ## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
 

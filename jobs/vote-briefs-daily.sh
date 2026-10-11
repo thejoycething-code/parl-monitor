@@ -15,6 +15,17 @@
 # Every other country with member votes is briefed after its weekly (or
 # fortnightly) collection instead; France too (one 27 MB nightly zip).
 #
+# THE DAILY SWEEP (11 October 2026; src/country_day_sweep.py, readers in
+# src/day_sweep_sources.py): the same run then reads what is NEW on our
+# ground, not only votes (bills, motions, questions, agenda points) for the
+# Netherlands, Poland, Switzerland, Brazil, Italy, Austria, France (its
+# agenda, once a day) and Spain (from 23 December 2026) into the same
+# throwaway store; tier 1 and watched only, judged by the noise rules'
+# minimum evidence like the briefs, de-duplicated against the weekly
+# editions, the vote briefs and data/day-sweep/<cc>.json, and the run sends
+# ONE DM for the briefs and the new items together (nothing when nothing).
+# Measured 11 October 2026: about 45 s for the whole run, votes and sweep.
+#
 # Lean: a quiet day costs a handful of requests per country; a reader that
 # fails is a [gap] line and costs the others nothing. No store is read or
 # written; the raw payloads it archived are published at the end.
@@ -22,6 +33,7 @@
 # MINI ONLY, NO GITHUB WORKFLOW (the backstop is each country's weekly step).
 #
 #     VOTE_BRIEFS_DAYS=N   look back N days (default 3)
+#     DAY_SWEEP=off        brief the votes only, no sweep of new items
 #
 # mini_run: no-store   (reads and writes no store, so the Mini skips the pull)
 set -eo pipefail
@@ -31,6 +43,7 @@ export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 export PYTHONUNBUFFERED=1
 ARGS=(--daily --send)
 [ -n "${VOTE_BRIEFS_DAYS:-}" ] && ARGS+=(--days "$VOTE_BRIEFS_DAYS")
+[ "${DAY_SWEEP:-}" = "off" ] && ARGS+=(--no-sweep)
 python3 tools/country_vote_briefs.py "${ARGS[@]}"
 # No pull first: a push merges the published folder beneath the local
 # files, so a folder two runs archive into on the same day ends as the union.

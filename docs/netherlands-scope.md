@@ -479,7 +479,6 @@ The SRU Handelingen route was not needed: the vote pages carry every vote.
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/nl_stance.yaml` holds 10 bill direction(s) (Claude's drafts from the watchlist) and 212 vote reading(s): 2 with proposed values, 0 procedural, 210 need reading, 0 confirmed. Guide: `docs/5ca-nl-readings.md`; confirm with `python3 tools/country_5ca.py --cc nl --sign-from-doc --by NAME`. Sheets (`data/5ca/nl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Netherlands (`config/stance_signers.yaml`). Most votes are by show of hands: members are DERIVED from their fractie's vote (X5) and labelled; a roll call is the member's own. A motion tabled in a bill's dossier never takes the bill's direction: its own text decides.
 
-
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:
@@ -506,6 +505,10 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
 
 What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-nl.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-nl-readings.md. On the store of 11 October 2026 there is no watched or tier-1 vote to attach a line to (the local copy of the store holds none for this country yet); lines appear with the first one.
+
+## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
+
+Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/nl.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: new Moties, Amendementen and bills (Zaak by GestartOp, one request) and Kamervragen, and the Tweede Kamer's agenda for the next two weeks. The motions are the sweep's own items: the Dutch edition stays votes, speeches and questions (NL3), so a watched or tier-1 motion is alerted the day it is tabled and its vote is then the vote brief's. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
 
 ## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
 

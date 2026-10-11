@@ -1004,7 +1004,12 @@ ON_DEMAND = {
                          "into a throwaway store; it never publishes the "
                          "store, so it stamps no heartbeat, and each "
                          "country's weekly step is its backstop; mini_run.sh "
-                         "DMs its failures.",
+                         "DMs its failures. Since 11 October 2026 the same "
+                         "run sweeps new bills, motions, questions and agenda "
+                         "points for those five, Austria, France (agenda, "
+                         "once a day) and Spain (from 23 December) "
+                         "(src/country_day_sweep.py), one DM for both; the "
+                         "weekly collections remain its backstop.",
     "Edition publish": "Mac Mini only (jobs/edition-publish.sh, 06:31 and "
                        "21:10 London daily): sends the new country editions "
                        "and the Latam monthly whose review window has ended "

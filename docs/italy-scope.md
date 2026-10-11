@@ -536,7 +536,6 @@ Inside `tools/it_rollcalls.py`; `IT_CAMERA_SOURCE` chooses `auto` (default),
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/it_stance.yaml` holds 15 bill direction(s) (Claude's drafts from the watchlist) and 137 vote reading(s): 9 with proposed values, 1 procedural, 127 need reading, 0 confirmed. Guide: `docs/5ca-it-readings.md`; confirm with `python3 tools/country_5ca.py --cc it --sign-from-doc --by NAME`. Sheets (`data/5ca/it-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Italy (`config/stance_signers.yaml`).
 
-
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:
@@ -563,6 +562,10 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
 
 What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-it.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-it-readings.md. On the store of 11 October 2026: 137 watched or tier-1 votes, 87 with an English rule line, 48 whose rule line quotes the source (offered to the session judge), 2 the rules cannot read. Sample: [docs/vote-meaning-samples/it.md](vote-meaning-samples/it.md).
+
+## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
+
+Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/it.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: every bill reading presented in the window, both chambers, from the Senate's SPARQL endpoint with its TESEO subjects (two queries), and the Camera's calendar. If the Mini, like the laptop on 10 October, is refused by dati.senato.it, the bills step is a [gap] line and the agenda still runs. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
 
 ## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
 
