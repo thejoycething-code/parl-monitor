@@ -260,3 +260,98 @@ class PolandTests(unittest.TestCase):
         client.fetched.clear()
         self.pl.speeches(run_for("pl", conn, client, "2026-10-01"))
         self.assertFalse([f for f in client.fetched if "/transcripts/" in f])
+
+
+class SlovakiaTests(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        import sk_chamber
+        cls.sk = sk_chamber
+        cls.page = fixture("sk", "rozprava-p1.html.gz")
+
+    def test_rows_and_the_chair(self):
+        rows = self.sk.parse_page(self.page)
+        self.assertEqual(len(rows), 6)
+        first = rows[0]
+        self.assertEqual((first["speaker"], first["date"], first["meeting"], first["vid"]),
+                         ("Matejičková, Zuzana", "2026-10-01", "61", "376258"))
+        self.assertEqual(first["office"], "poslankyňa NR SR")
+        self.assertTrue(first["print"])
+        chairs = [r["speaker"] for r in rows if self.sk.is_chair(r)]
+        self.assertEqual(chairs, ["Raši, Richard", "Žiga, Peter"])
+        fields = self.sk.postback_fields(self.page, "Page$2")
+        self.assertEqual((fields["__VIEWSTATE"], fields["__EVENTARGUMENT"]), ("abc&1", "Page$2"))
+
+    def test_collect_once_per_speech_with_the_club(self):
+        older = self.page.replace("1. 10. 2026", "1. 9. 2026")
+        client = FakeClient({"schodze/rozprava/vyhladavanie": self.page}, {"Page$2": older})
+        conn = store()
+        conn.execute("INSERT INTO sk_members (mp_id, name, club, term) VALUES "
+                     "(1159, 'Matejičková, Zuzana', 'SMER - SD', 9)")
+        self.sk.speeches(run_for("sk", conn, client, "2026-09-20"))
+        rows = conn.execute("SELECT speech_id, speaker, party, person_id, areas, url FROM "
+                            "sk_speeches").fetchall()
+        self.assertEqual(len(rows), 1)                     # the duplicate row stored once
+        sid, who, club, pid, areas, url = rows[0]
+        self.assertEqual((sid, who, club, pid), ("61/376258", "Matejičková, Zuzana", "SMER - SD",
+                                                 "1159"))
+        self.assertIn(5, json.loads(areas))
+        self.assertTrue(url.startswith("https://tv.nrsr.sk/archiv/schodza/9/61?id=376258"))
+        self.assertIn("POST Page$2", client.fetched)       # walked until past --since
+        read = conn.execute("SELECT doc_id, segments, matched, status FROM sk_record_reads"
+                            ).fetchall()
+        self.assertEqual([tuple(r) for r in read], [("9/2026-10-01", 2, 1, "read")])
+
+    def test_a_week_old_day_read_whole_stops_the_walk(self):
+        state = {"2026-10-01": "read", "2026-10-08": "read"}
+        self.assertTrue(self.sk.settled(state, "2026-10-01", "2026-10-07"))
+        self.assertFalse(self.sk.settled(state, "2026-10-08", "2026-10-07"))   # text may lag
+        state["2026-09-24"] = "partial"                    # an older day cut short
+        self.assertFalse(self.sk.settled(state, "2026-10-01", "2026-10-07"))
+
+
+class BrazilTests(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        import br_chamber
+        cls.br = br_chamber
+        cls.xml = fixture("br", "discursos-2026-08.xml.gz")
+        cls.page = fixture("br", "texto-sample.html.gz")
+
+    def test_list_and_bill(self):
+        got = self.br.listed_speeches(self.xml)
+        self.assertEqual(len(got), 3)
+        self.assertEqual((got[0]["nome"], got[0]["partido"], got[0]["data"], got[0]["fase"]),
+                         ("Cabo Gilberto Silva", "PL", "2026-08-12", "BC"))
+        self.assertEqual(self.br.bill_of("O Deputado discutiu o Projeto de Lei nº 956, de 2015, "
+                                         "que dispõe"), "PL 956/2015")
+        self.assertEqual(self.br.bill_of("a Proposta de Emenda à Constituição nº 3, de 2021"),
+                         "PEC 3/2021")
+
+    def test_words_are_the_speakers_own(self):
+        words = self.br.speech_words(self.page)
+        self.assertTrue(words.startswith("Sr. Presidente"))
+        self.assertNotIn("O SR. CABO GILBERTO SILVA", words)
+        mixed = ("<p>O SR. FULANO (PL - SP. Sem revisão do orador.) - Falo do aborto. (Palmas.)</p>"
+                 "<p>O SR. PRESIDENTE (Hugo Motta. Bloco/REPUBLICANOS - PB) - Censura não!</p>"
+                 "<p>O SR. FULANO (PL - SP) - E concluo.</p>")
+        self.assertEqual(self.br.speech_words(mixed).split(), "Falo do aborto. E concluo.".split())
+
+    def test_only_summaries_on_our_ground_are_read_whole(self):
+        client = FakeClient({"ListarDiscursosPlenario": self.xml, "TextoHTML.asp": self.page})
+        conn = store()
+        conn.execute("INSERT INTO br_members (member_key, chamber, source_id, name, uf) VALUES "
+                     "('camara-220574', 'camara', '220574', 'Cabo Gilberto Silva', 'PB')")
+        self.br.speeches(run_for("br", conn, client, "2026-08-01"))
+        self.assertEqual(client.fetched.count("TextoHTML.asp"), 1)
+        row = conn.execute("SELECT speaker, party, person_id, role, areas, chamber FROM "
+                           "br_speeches").fetchone()
+        self.assertEqual(row[:4], ("Cabo Gilberto Silva", "PL", "camara-220574", "member"))
+        self.assertIn(7, json.loads(row[4]))
+        self.assertEqual(tuple(conn.execute("SELECT segments, matched, status FROM br_record_reads "
+                                            "WHERE feed = 'speeches'").fetchone()), (3, 1, "read"))
+        client.fetched.clear()
+        self.br.speeches(run_for("br", conn, client, "2026-08-01"))
+        self.assertNotIn("TextoHTML.asp", client.fetched)   # remembered, not fetched again

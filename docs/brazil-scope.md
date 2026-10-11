@@ -487,6 +487,8 @@ here, as Germany's Länder carry part of its ground.
 
 Built: the Câmara's requerimentos de informação (siglaTipo RIC), classified on the ementa, author and party asked for only when on our ground, `tools/br_chamber.py`, a step of the Brazilian weekly. 449 since 1 August 2026, 15 on our ground. NOT built: speeches. The API gives discursos only per deputy (513 requests a week at about five seconds each, measured 10 October 2026): a Mini-only job of its own if wanted.
 
+**Speeches BUILT 11 October 2026 (branch `gaps-speeches`), within a small budget.** Instead of 513 per-deputy requests: the Câmara's own speech search by date, SitCamaraWS `ListarDiscursosPlenario` (one request for the window: session, phase, speaker with party and UF, the Câmara's index terms and summary), used as a PRE-FILTER; a speech whose summary or index is on our ground is read whole from its page (`internet/sitaqweb/TextoHTML.asp`, one request) and stored only if its own words match (other speakers' interventions and stage notes cut). robots.txt disallows neither path. Measured, 1 August to 11 October 2026: 517 speeches in 10 sessions, 43 pre-filtered, 13 on our ground in their own words (misogyny criminalisation PL 896/2023, the fake-news bill PL 2630/2020, press freedom). 1 to 9 October listed nothing (election). The summaries follow the sitting by days: no live read. Speeches are a second feed of `tools/br_chamber.py`. Sample: `docs/speech-samples/br.md`. A speech whose summary misses our ground is missed.
+
 ## Waiting on Chris
 
 1. **Approve, cut or correct the Portuguese terms above**, ideally with a

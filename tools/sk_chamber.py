@@ -42,9 +42,14 @@ PARTY. The record prints no party; the speaker's club comes from sk_members
 (the Slovak weekly's roster, its latest club) where the name matches one
 member, and person_id is the PoslanecID.
 
-BUDGET. Pages are read newest first until a page reaches back past --since
-or the time budget ends (each run starts again at the newest page; with
-three weeks of sittings that is 40 to 80 pages).
+BUDGET. Pages are read newest first, about ten pages a sitting day at 5
+seconds each (measured 11 October 2026: 88 pages for nine sitting days).
+Each run starts again at the newest page (the postback cannot be resumed)
+and stops at --since, at the time budget, or at the first day older than
+SETTLE_DAYS that was read whole when no older day in the window is
+part-read: so a normal week walks its own days and the days whose text was
+still to come. A run stopped by the clock marks its oldest day 'partial',
+and the next walks back past it.
 """
 
 from __future__ import annotations
@@ -70,6 +75,7 @@ SEARCH = ("https://www.nrsr.sk/web/Default.aspx?sid=schodze/rozprava/vyhladavani
 PRINT = "https://www.nrsr.sk/web/Default.aspx?sid=zakony/cpt&ZakZborID=13&CisObdobia={0}&ID={1}"
 GRID = "_sectionLayoutContainer$ctl01$_resultGrid"
 MAX_PAGES = 200
+SETTLE_DAYS = 4             # a day older than this, read whole, is not walked again
 
 CHAIR_KINDS = ("", "-", "vstup predsedajúceho")
 _ITEM = re.compile(r'<div class="daily_info_item">(.*?)(?=<div class="daily_info_item">|'
@@ -174,6 +180,20 @@ def debate_of(row, prints):
     return (cs.short_id(row["meeting"], row["date"], label), label)
 
 
+def done_days(run):
+    """{date: status} of the days already read in the window."""
+    return {r[0]: r[1] for r in run.conn.execute(
+        "SELECT date, status FROM sk_record_reads WHERE feed = 'speeches' AND date >= ?",
+        (run.since,)).fetchall()}
+
+
+def settled(state, date, cut):
+    """True when the walk can stop at this day: it is older than the text lag,
+    it was read whole, and no older day in the window is part-read."""
+    return (date < cut and state.get(date) == "read"
+            and not any(st != "read" and d < date for d, st in state.items()))
+
+
 def speeches(run):
     run.client.enable_gzip(HOST)
     members, prints = roster(run.conn), titles(run.conn)
@@ -183,8 +203,11 @@ def speeches(run):
     except FetchError as exc:
         run.gap("debate record unreadable: {0}".format(str(exc)[:100]))
         return
-    seen, days, n, reached = set(), {}, 1, False
+    seen, days, n, reached, settled_stop = set(), {}, 1, False, False
     debate_titles = {}
+    state = done_days(run)
+    cut = (datetime.date.fromisoformat(run.today)
+           - datetime.timedelta(days=SETTLE_DAYS)).isoformat()
     while True:
         rows = parse_page(page)
         if not rows:
@@ -193,6 +216,9 @@ def speeches(run):
             if row["date"] < run.since:
                 reached = True
                 continue
+            if settled(state, row["date"], cut):
+                settled_stop = True
+                break
             if row["vid"] in seen:
                 continue
             seen.add(row["vid"])
@@ -224,7 +250,7 @@ def speeches(run):
                         "url": "https://tv.nrsr.sk/archiv/schodza/{0}/{1}?id={2}".format(
                             TERM, row["meeting"], row["vid"]),
                         "title_areas": debate_titles[debate].areas}, m)
-        if reached or n >= MAX_PAGES or "Page${0}".format(n + 1) not in page:
+        if reached or settled_stop or n >= MAX_PAGES or "Page${0}".format(n + 1) not in page:
             break
         if run.out_of_time("debate pages", n):
             break
@@ -236,16 +262,20 @@ def speeches(run):
         except FetchError as exc:
             run.gap("debate record page {0} unreadable: {1}".format(n, str(exc)[:100]))
             break
-    complete = reached or not run.stopped
+    # Stopped by the clock: the oldest day reached may be cut short, so it is
+    # 'partial' and the next run walks back to it (and past it).
+    cut_short = run.stopped and not reached and not settled_stop
+    oldest = min(days) if days else None
     for date, d in sorted(days.items()):
-        status = "read" if complete and not d["pending"] else "partial"
+        status = "partial" if d["pending"] or (cut_short and date == oldest) else "read"
         run.read("{0}/{1}".format(TERM, date), "speeches", date,
                  "{0} read, {1} awaiting text".format(d["read"], d["pending"]),
                  d["read"], d["matched"], d["chars"], status)
         run.log("  [rozprava] {0}: {1} speech(es) listed, {2} with text, {3} on our ground{4}"
                 .format(date, d["listed"], d["read"], d["matched"],
                         "; {0} awaiting their text".format(d["pending"]) if d["pending"] else ""))
-    run.log("  [rozprava] {0} page(s) read since {1}".format(n, run.since))
+    run.log("  [rozprava] {0} page(s) read since {1}{2}".format(
+        n, run.since, "; stopped at days already read" if settled_stop else ""))
 
 
 if __name__ == "__main__":

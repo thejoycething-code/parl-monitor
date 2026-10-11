@@ -360,6 +360,8 @@ as for German) once approved.
 
 NOT built in this pass. The edition already carries the interpellations (sk_interpellations). The debates (rozprava, stenographic records) were not probed; a `tools/sk_chamber.py` on `src/chamber_store.py` is the route once they are.
 
+**BUILT 11 October 2026 (branch `gaps-speeches`): speeches, `tools/sk_chamber.py`.** The debate record ("Textový prepis rozpravy") answers a plain GET, `www.nrsr.sk/web/Default.aspx?sid=schodze/rozprava/vyhladavanie&CisObdobia=9` (no robots.txt), newest first, twenty rows a page; later pages are the form's own ASP.NET postback (Page$2, ...). Each row: time, meeting and day, the print debated (Tlač), speaker, office, kind of contribution, the text and the speech's own video (tv.nrsr.sk, whose id is the key; a speech under several prints is one row per print, stored once). The chair ("Vstup predsedajúceho" or no kind) is never stored; the club comes from sk_members. The text lags: on 11 October Friday 9 October's afternoon speeches had none yet, so a row without text waits for the next run and Slovakia gets no live read. About ten pages a sitting day at 5 s each; each run walks from the newest page back to --since, the time budget, or the first day read whole that is over four days old. Measured run, 20 September to 9 October 2026: 88 pages, 510 speeches with text, 9 on our ground (the radicalisation bill, Tlač 1448, and the medicines bill, Tlač 1335). A step of the Slovak weekly (`bash tools/chamber_step.sh sk`), before the edition. Sample: `docs/speech-samples/sk.md`. Words since the last vote (profiles) and the debate report now include Slovakia; clips not built.
+
 ## Waiting on Chris
 
 1. **Approve, cut or extend the proposed term list** above, so

@@ -462,6 +462,8 @@ variable `MINI_LAST_PL_WEEKLY` is written by the Mini's first clean run.
 
 Built: interpellations and written questions (`/interpellations`, `/writtenQuestions`, newest first), `tools/pl_chamber.py`, a step of the Polish weekly; the asker's club from pl_members. 212 interpellations and 38 written questions from 26 September to 9 October 2026, 7 on our ground. NOT built: debate transcripts. `/proceedings/66/2026-10-08/transcripts` gave no reply in 30 seconds twice on 9 October and in 45 seconds twice on 10 October (the proceedings list answered 502 that day); given up cleanly, to retry by hand.
 
+**Speeches BUILT 11 October 2026 (branch `gaps-speeches`).** Retried politely on 11 October, the endpoint answered at once: a day's statement list (`/proceedings/66/2026-10-08/transcripts`, 282 statements) and each statement as HTML (`.../transcripts/<num>`, under a second), with the agenda point, the speaker and the House's interjections in brackets (cut before matching). The chair's day record (statement 0) and the secretaries are never fetched; an undelivered statement is marked in the role. Speeches are a second feed of `tools/pl_chamber.py`, after the questions, draining newest day first and remembering each statement read. Measured: 7 and 8 October, 639 statements, 22 on our ground (the DSA implementation bill, the 2027 budget's IVF line, an abortion-pill statement); 9 October's list was still empty on 11 October (not marked read). Not measured as same-day: no live read. Sample: `docs/speech-samples/pl.md`. Since-vote and the debate report include Poland; clips wait for video reuse terms.
+
 ## Waiting on Chris
 
 1. **Approve, cut or extend the Polish terms above.** Nothing is classified

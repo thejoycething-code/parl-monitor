@@ -476,6 +476,8 @@ New files: `src/hr_store.py`, `tools/hr_rollcalls.py`,
 
 NOT built in this pass (time, not access). The sources are open and measured in this doc: the transcripts (`FonogramView.aspx?tdrid=<id>&type=HTML`, speaker and party on every contribution, linked from each item page) and the questions (`ZastupnickaPitanja.aspx`, detail pages by sequential id). Both fit `src/chamber_store.py` as a `tools/hr_chamber.py` the way Belgium's record does.
 
+**Speeches BUILT 11 October 2026 (branch `gaps-speeches`), `tools/hr_chamber.py`**, on the transcripts the party history reads (`tools/hr_party_history.py`, whose parse it reuses and whose tables it fills for every page it reads, so nothing is fetched twice). One transcript per agenda item (a joint debate is printed whole under each item's id, so speeches are keyed on their words and stored once); "…/Upadica …/…" interruptions are cut; the presiding officer, whom the record does not label, is told by the record's shape (turns alternating around several other speakers; on the September transcripts: Jandroković, Reiner, Penava, Jakšić, Glasovac). Members' slugs from hr_members; a mandate on hold is "Government". Measured run from 1 September 2026: 45 transcripts, 2,469 speeches, 54 on our ground. Not same-day (the newest transcript on 11 October was of 29 September): no live read. A step of the Croatian weekly before the edition and the party history. Sample: `docs/speech-samples/hr.md`. Questions (`ZastupnickaPitanja.aspx`) still not built.
+
 ## Waiting on Chris
 
 1. **Approve or amend the Croatian terms above**, ideally with a native
