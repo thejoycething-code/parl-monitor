@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Comision xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://opendata.camara.cl/camaradiputados/v1">
+  <Id>411</Id>
+  <Nombre>Salud</Nombre>
+  <NombreWeb>Salud</NombreWeb>
+  <Alias>Salud</Alias>
+  <Tipo Valor="1">Permanente</Tipo>
+  <FechaInicio>2006-03-15T00:00:00</FechaInicio>
+  <FechaConstitucion>2006-03-15T00:00:00</FechaConstitucion>
+  <FechaTermino xsi:nil="true" />
+  <Correo>saludcam@congreso.cl</Correo>
+  <Telefono>+56-32-505520</Telefono>
+  <Fax>+56-32-50</Fax>
+  <Numero>10</Numero>
+  <Sesiones>
+    <SesionComision>
+      <Id>81113</Id>
+      <Numero>176</Numero>
+      <Tipo Valor="1">Ordinaria</Tipo>
+      <FechaInicio>2026-01-06T17:33:00</FechaInicio>
+      <FechaTermino>2026-01-06T19:11:00</FechaTermino>
+      <Estado Valor="3">Celebrada</Estado>
+      <PeriodoLegislativo>
+        <Id>11</Id>
+        <Nombre>2026-2030</Nombre>
+      </PeriodoLegislativo>
+      <Asistencia>
+        <Asistencia>
+          <TipoAsistencia Valor="1">Asiste</TipoAsistencia>
+          <Diputado>
+            <Id>1103</Id>
+            <Nombre>Danisa</Nombre>
+            <ApellidoPaterno>Astudillo</ApellidoPaterno>
+            <ApellidoMaterno>Peiretti</ApellidoMaterno>
+          </Diputado>
+          <TipoTitularAsistencia Valor="1">Titular</TipoTitularAsistencia>
+        </Asistencia>
+        <Asistencia>
+          <TipoAsistencia Valor="1">Asiste</TipoAsistencia>
+          <Diputado>
+            <Id>1105</Id>
+            <Nombre>Héctor</Nombre>
+            <ApellidoPaterno>Barría</ApellidoPaterno>
+            <ApellidoMaterno>Angulo</ApellidoMaterno>
+          </Diputado>
+          <TipoTitularAsistencia Valor="1">Titular</TipoTitularAsistencia>
+        </Asistencia>
+        <Asistencia>
+          <TipoAsistencia Valor="0">No Asiste</TipoAsistencia>
+          <Justificacion Valor="18">
+            <Nombre>Impedimento grave (Art. 42)</Nombre>
+            <RebajaAsistencia>true</RebajaAsistencia>
+            <RebajaQuorum>false</RebajaQuorum>
+          </Justificacion>
+          <Diputado>
+            <Id>973</Id>
+            <Nombre>Karol</Nombre>
+            <ApellidoPaterno>Cariola</ApellidoPaterno>
+            <ApellidoMaterno>Oliva</ApellidoMaterno>
+          </Diputado>
+          <TipoTitularAsistencia Valor="1">Titular</TipoTitularAsistencia>
+        </Asistencia>
+      </Asistencia>
+    </SesionComision>
+    <SesionComision>
+      <Id>81181</Id>
+      <Numero>178</Numero>
+      <Tipo Valor="1">Ordinaria</Tipo>
+      <FechaInicio>2026-01-20T17:39:00</FechaInicio>
+      <FechaTermino>2026-01-20T19:05:00</FechaTermino>
+      <Estado Valor="3">Celebrada</Estado>
+      <PeriodoLegislativo>
+        <Id>11</Id>
+        <Nombre>2026-2030</Nombre>
+      </PeriodoLegislativo>
+      <Asistencia>
+        <Asistencia>
+          <TipoAsistencia Valor="1">Asiste</TipoAsistencia>
+          <Diputado>
+            <Id>1103</Id>
+            <Nombre>Danisa</Nombre>
+            <ApellidoPaterno>Astudillo</ApellidoPaterno>
+            <ApellidoMaterno>Peiretti</ApellidoMaterno>
+          </Diputado>
+          <TipoTitularAsistencia Valor="1">Titular</TipoTitularAsistencia>
+        </Asistencia>
+        <Asistencia>
+          <TipoAsistencia Valor="0">No Asiste</TipoAsistencia>
+          <Justificacion Valor="19">
+            <Nombre>Licencia médica (Art. 42)</Nombre>
+            <RebajaAsistencia>true</RebajaAsistencia>
+            <RebajaQuorum>false</RebajaQuorum>
+          </Justificacion>
+          <Diputado>
+            <Id>1105</Id>
+            <Nombre>Héctor</Nombre>
+            <ApellidoPaterno>Barría</ApellidoPaterno>
+            <ApellidoMaterno>Angulo</ApellidoMaterno>
+          </Diputado>
+          <TipoTitularAsistencia Valor="1">Titular</TipoTitularAsistencia>
+        </Asistencia>
+        <Asistencia>
+          <TipoAsistencia Valor="0">No Asiste</TipoAsistencia>
+          <Justificacion Valor="19">
+            <Nombre>Licencia médica (Art. 42)</Nombre>
+            <RebajaAsistencia>true</RebajaAsistencia>
+            <RebajaQuorum>false</RebajaQuorum>
+          </Justificacion>
+          <Diputado>
+            <Id>1105</Id>
+            <Nombre>Héctor</Nombre>
+            <ApellidoPaterno>Barría</ApellidoPaterno>
+            <ApellidoMaterno>Angulo</ApellidoMaterno>
+          </Diputado>
+          <TipoTitularAsistencia Valor="1">Titular</TipoTitularAsistencia>
+        </Asistencia>
+      </Asistencia>
+    </SesionComision>
+    <SesionComision>
+      <Id>81254</Id>
+      <Numero>180</Numero>
+      <Tipo Valor="2">Especial</Tipo>
+      <FechaInicio>2026-01-28T17:30:00</FechaInicio>
+      <FechaTermino>2026-01-28T19:30:00</FechaTermino>
+      <Estado Valor="4">Suspendida</Estado>
+      <PeriodoLegislativo>
+        <Id>11</Id>
+        <Nombre>2026-2030</Nombre>
+      </PeriodoLegislativo>
+      <Asistencia />
+    </SesionComision>
+  </Sesiones>
+</Comision>
