@@ -1053,6 +1053,24 @@ CREATE TABLE IF NOT EXISTS edition_scores (
   model TEXT,
   scored_at TEXT
 );
+CREATE TABLE IF NOT EXISTS vote_meanings (
+  -- Plain-English vote meanings for the new countries' watched and tier-1
+  -- votes (src/vote_meanings.py, tools/vote_meanings.py; 11 October 2026):
+  -- what a Yes and a No meant, one row per division, with where the line
+  -- came from: 'rule' (the vote's wording and the bill), 'judge' (the free
+  -- session judge, Claude Code on the Mac Mini, no API spend) or
+  -- 'judge-unclear' (read, nothing to say; not offered again). A person's
+  -- line lives in config/vote-meanings-<cc>.yaml and wins at render time.
+  cc TEXT NOT NULL,
+  division_key TEXT NOT NULL,
+  meaning_yes TEXT,
+  meaning_no TEXT,
+  source TEXT NOT NULL,
+  basis TEXT,
+  quality TEXT,
+  made_on TEXT,
+  PRIMARY KEY (cc, division_key)
+);
 CREATE TABLE IF NOT EXISTS pull_log (
   -- Which long backfills have been completed, so a one-off deep pull is not
   -- silently redone. tools/pull_interests.py writes it under the marker
@@ -1873,6 +1891,7 @@ TABLES = (
     "prov_speech_sittings",
     "prov_scores",
     "edition_scores",
+    "vote_meanings",
     "ca_judgments",
     "ca_leave",
     "de_members",
