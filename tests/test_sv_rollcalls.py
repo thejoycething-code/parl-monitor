@@ -138,6 +138,88 @@ class VoteListTests(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM sv_divisions").fetchone()[0], 3)
 
 
+class VoteListFallbackTests(unittest.TestCase):
+    """11 October 2026: the Mini's 500-row request failed four times while the
+    site root answered. The endpoint and the page's own script were unchanged
+    (probed from the laptop that afternoon), so a failed 500-row page is asked
+    again at 100 rows, the page's own largest size; a list that answers
+    neither is a gap and the run stops cleanly. The 100-row fixture is the
+    live response of 11 October 2026."""
+
+    NEW = "votelist-2026-10-11-start0-len100.json"
+
+    @staticmethod
+    def _refusal(code):
+        import urllib.error
+        return FetchError("u", "sv", "x", 1, urllib.error.HTTPError("u", code, "x", {}, None))
+
+    def test_the_new_response_has_the_old_shape(self):
+        payload = json.loads(fixture(self.NEW))
+        rows = sv.parse_vote_list(payload)
+        self.assertEqual(len(rows), 100)
+        self.assertEqual(sv.total_of(payload), 6710)
+        self.assertEqual(rows[0]["date"], "2026-10-07")
+        self.assertEqual({r["legislature"] for r in rows}, {"2024-2027"})
+        self.assertTrue(all(r["doc"] and r["pdf_url"] for r in rows))
+
+    def test_a_failed_500_row_page_is_asked_again_at_100(self):
+        conn = store()
+        last = json.loads(fixture(self.NEW))["data"][-1]["documentofk"]
+        conn.execute("INSERT INTO sv_divisions (division_key, legislature, date, kind) "
+                     "VALUES (?, '2024-2027', '2026-06-24', 'other')", ("sv-" + last,))
+        client = FakeClient(gets={"length=500": FetchError("u", "sv", "x", 4, "HTTP Error 504"),
+                                  "start=0&length=100": fixture(self.NEW)})
+        leg = sv.pull_vote_list(conn, client, "2026-10-11", log=lambda *a: None)
+        self.assertEqual(leg, "2024-2027")
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM sv_divisions").fetchone()[0], 100)
+        self.assertEqual([("length=500" in u, "length=100" in u) for u in client.asked],
+                         [(True, False), (False, True)])
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM gaps").fetchone()[0], 0)
+
+    def test_a_later_page_that_fails_is_a_gap_not_the_end(self):
+        conn = store()
+        client = FakeClient(gets={"length=500": self._refusal(504),
+                                  "start=0&length=100": fixture(self.NEW)})
+        leg = sv.pull_vote_list(conn, client, "2026-10-11", log=lambda *a: None, full=True)
+        self.assertEqual(leg, "2024-2027")
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM sv_divisions").fetchone()[0], 100)
+        detail = conn.execute("SELECT detail FROM gaps").fetchone()[0]
+        self.assertIn("vote list from row 100", detail)
+
+    def test_a_refusal_is_told_apart_from_silence(self):
+        for answer, refused in ((self._refusal(403), True), (self._refusal(429), True),
+                                (b"<html>Just a moment...</html>", True),
+                                (FetchError("u", "sv", "x", 4, TimeoutError("timed out")), False)):
+            client = FakeClient(gets={"votaciones-ajax": answer})
+            with self.assertRaises(sv.VoteListUnavailable) as caught:
+                sv.pull_vote_list(store(), client, "2026-10-11", log=lambda *a: None)
+            self.assertEqual(caught.exception.refused, refused, answer)
+            self.assertEqual(len(client.asked), 2, "500 rows, then 100, then no more")
+
+    def test_main_records_the_gap_and_stops_cleanly(self):
+        import io
+        import tempfile
+        from contextlib import redirect_stdout
+        client = FakeClient(gets={"votaciones-ajax": self._refusal(403)})
+        real = sv.HttpClient
+        sv.HttpClient = lambda **kw: client
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                path = os.path.join(tmp, "s.db")
+                with redirect_stdout(io.StringIO()) as out:
+                    rc = sv.main(["--db", path, "--raw-dir", tmp])
+                conn = sqlite3.connect(path)
+                gaps = [r[0] for r in conn.execute("SELECT detail FROM gaps WHERE feed='sv-rollcalls'")]
+                conn.close()
+        finally:
+            sv.HttpClient = real
+        self.assertEqual(rc, 3)
+        self.assertEqual(len(gaps), 1)
+        self.assertIn("refused (a block or a challenge)", gaps[0])
+        self.assertIn("[gap]", out.getvalue())
+        self.assertFalse(any("diputados" in str(u) for u in client.asked), "nothing else is asked")
+
+
 class VotePdfTests(unittest.TestCase):
     def test_dictamen_vote(self):
         v = sv.parse_vote_pdf(fixture("vote-dictamen-39.pdf"))
