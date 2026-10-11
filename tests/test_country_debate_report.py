@@ -357,7 +357,9 @@ class CheckTests(unittest.TestCase):
         self.assertFalse(cdr.verbatim("Nous devons protéger tout le monde.", "Nous devons protéger."))
 
     def test_countries_are_the_speech_collectors(self):
-        self.assertEqual(set(cdr.COUNTRIES), {"nl", "ch", "at", "fr", "be"})
+        # HR, SK, PL and BR since their speeches (11 October 2026, gaps-speeches).
+        self.assertEqual(set(cdr.COUNTRIES), {"nl", "ch", "at", "fr", "be", "hr", "sk", "pl",
+                                              "br"})
 
 
 if __name__ == "__main__":

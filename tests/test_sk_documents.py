@@ -196,9 +196,11 @@ class SchemaTests(unittest.TestCase):
         with open(os.path.join(ROOT, "jobs", "sk-weekly.sh"), encoding="utf-8") as fh:
             job = fh.read()
         # Positions at most 35 minutes, less on the Mini when the hour cannot
-        # also hold the documents and the publish (tools/collector_budget.sh).
+        # also hold the documents, the chamber step (11 October 2026) and the
+        # publish (tools/collector_budget.sh).
         self.assertIn('--doc-budget-seconds 600 --budget-seconds '
-                      '"$(bash tools/collector_budget.sh 2100 "$SECONDS" 600)"', job)
+                      '"$(bash tools/collector_budget.sh 2100 "$SECONDS" '
+                      '"$(( 600 + ${SK_CHAMBER_SECONDS:-300} ))")"', job)
 
 
 if __name__ == "__main__":
