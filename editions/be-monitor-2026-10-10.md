@@ -63,9 +63,10 @@ Leading:
 
 - Store last read 10 October 2026.
 - Dossier pages carry no history, so there are no stage moves; new dossiers are those deposited in the week.
-- The Senate, committee agendas and written questions are not collected yet.
+- The week ahead is the Chamber's plenary and committee agendas (eMeeting), published about a week ahead.
+- The Senate and written questions are not collected yet.
 - Said in the chamber: 1 report(s) read in the window, 96 speeches in them, 11 on our ground (each speech matched in its own words, never the whole sitting).
-- No agenda is collected yet, so there is no week-ahead section.
+- Week ahead (the Chamber's eMeeting agenda service): the agenda has not been read yet.
 - **Left out by the noise filters** (config/edition-noise-be.yaml, config/edition-mute-be.yaml; never a watched item): nothing.
 - Decisions: [docs/country-decisions-2026-10-10.md](https://github.com/thejoycething-code/parl-monitor/blob/main/docs/country-decisions-2026-10-10.md).
 

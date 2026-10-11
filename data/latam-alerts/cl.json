@@ -1,11 +1,11 @@
 {
  "cc": "cl",
- "held": {
-  "cl|new|18698-07": "2026-10-11"
- },
+ "held": {},
  "moves": [],
  "seeded": "2026-10-11",
- "sent": {},
+ "sent": {
+  "cl|new|18698-07": "2026-10-12"
+ },
  "status": {
   "11577-11": "En tramitación / Segundo trámite constitucional (Senado)",
   "11745-11": "En tramitación / Segundo trámite constitucional (Senado)",
