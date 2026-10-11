@@ -933,6 +933,120 @@ TEXT = {
 }
 
 
+# Attendance (src/attendance.py, 11 October 2026, additive): the section on
+# the committee handling the bill, and the derived plenary vote participation
+# beside the speakers and the members to watch. Merged into TEXT below; a
+# language without a line falls back to English as everywhere else.
+ATTENDANCE_TEXT = {
+    "en": {
+        "att_period": "Committee sittings counted: {a} to {b}, the record held.",
+        "section_attendance": "Attendance at the committee handling this bill",
+        "att_none": ("No committee with an attendance record in the store is linked to this bill."),
+        "att_uncollected": ("This country's committee attendance is not collected (no open "
+                            "source), so it is not shown."),
+        "att_body": "{body}: handled the bill from {a} to {b}; {n} sitting(s) on the bill in the record.",
+        "att_body_nodates": "{body}: linked to the bill by the parliament's record.",
+        "att_col_sittings": "Sittings of the committee", "att_col_bill": "Sittings on this bill",
+        "att_attended": "{a} of {n}", "att_took_part": "took part in {a} of {n}",
+        "att_more": "and {n} more member(s); every member is in pack.json.",
+        "att_basis_roll": "Basis: the parliament's roll for each sitting (present, absent, excused).",
+        "att_basis_present": ("Basis: the parliament's register of who was present; a member's "
+                              "sittings count from the day they joined the committee."),
+        "att_basis_participants": ("Basis: the parliament's list of who took part. Not a roll "
+                                   "call: usually one member per party takes part."),
+        "att_note": "A count of the record, never a judgement: an absence may be leave or a mission.",
+        "part_line": "voted in {cast} of {of} recorded votes in the year to {last} (derived from the vote records)",
+    },
+    "es": {
+        "att_period": "Sesiones de la comisión contadas: del {a} al {b}, el registro disponible.",
+        "section_attendance": "Asistencia a la comisión que tramita el proyecto",
+        "att_none": "Ninguna comisión con registro de asistencia en la base está vinculada a este proyecto.",
+        "att_uncollected": "La asistencia en comisión de este país no se recoge (no hay fuente abierta).",
+        "att_body": "{body}: tramitó el proyecto del {a} al {b}; {n} sesión(es) sobre el proyecto en el registro.",
+        "att_body_nodates": "{body}: vinculada al proyecto por el registro del parlamento.",
+        "att_col_sittings": "Sesiones de la comisión", "att_col_bill": "Sesiones sobre el proyecto",
+        "att_attended": "{a} de {n}", "att_took_part": "participó en {a} de {n}",
+        "att_more": "y {n} miembro(s) más; todos están en pack.json.",
+        "att_basis_roll": "Base: la lista de asistencia del parlamento en cada sesión (asiste, no asiste, justificado).",
+        "att_basis_present": "Base: el registro de presencia del parlamento; las sesiones cuentan desde que el miembro se incorporó a la comisión.",
+        "att_basis_participants": "Base: la lista de participantes del parlamento; no es una lista de asistencia.",
+        "att_note": "Un recuento del registro, nunca un juicio: una ausencia puede ser licencia o misión.",
+        "part_line": "votó en {cast} de {of} votaciones registradas en el año hasta el {last} (derivado de los registros de votación)",
+    },
+    "pt": {
+        "att_period": "Reuniões da comissão contadas: de {a} a {b}, o registo disponível.",
+        "section_attendance": "Presença na comissão que analisa o projeto",
+        "att_none": "Nenhuma comissão com registo de presença na base está ligada a este projeto.",
+        "att_uncollected": "A presença em comissão deste país não é recolhida (sem fonte aberta).",
+        "att_body": "{body}: analisou o projeto de {a} a {b}; {n} reunião(ões) sobre o projeto no registo.",
+        "att_body_nodates": "{body}: ligada ao projeto pela tramitação.",
+        "att_col_sittings": "Reuniões da comissão", "att_col_bill": "Reuniões sobre o projeto",
+        "att_attended": "{a} de {n}", "att_took_part": "participou em {a} de {n}",
+        "att_more": "e mais {n} membro(s); todos estão em pack.json.",
+        "att_basis_roll": "Base: a lista de presença do parlamento em cada reunião.",
+        "att_basis_present": "Base: o registo de presença da Câmara; as reuniões contam desde a entrada do deputado na comissão.",
+        "att_basis_participants": "Base: a lista de participantes; não é uma lista de presença.",
+        "att_note": "Uma contagem do registo, nunca um juízo: uma ausência pode ser licença ou missão.",
+        "part_line": "votou em {cast} de {of} votações registadas no ano até {last} (derivado dos registos de votação)",
+    },
+    "fr": {
+        "att_period": "Réunions de la commission comptées : du {a} au {b}, le relevé disponible.",
+        "section_attendance": "Présence à la commission saisie du texte",
+        "att_none": "Aucune commission avec un relevé de présence dans la base n'est liée à ce texte.",
+        "att_uncollected": "Les présences en commission de ce pays ne sont pas collectées (pas de source ouverte).",
+        "att_body": "{body} : a examiné le texte du {a} au {b} ; {n} réunion(s) sur le texte au relevé.",
+        "att_body_nodates": "{body} : liée au texte par le relevé de l'Assemblée.",
+        "att_col_sittings": "Réunions de la commission", "att_col_bill": "Réunions sur le texte",
+        "att_attended": "{a} sur {n}", "att_took_part": "a participé à {a} sur {n}",
+        "att_more": "et {n} autre(s) membre(s) ; tous figurent dans pack.json.",
+        "att_basis_roll": "Base : les présences publiées pour chaque réunion (présent, absent, excusé).",
+        "att_basis_present": "Base : le registre des présents ; les réunions comptent depuis l'entrée du député dans la commission.",
+        "att_basis_participants": "Base : la liste des participants ; ce n'est pas un relevé de présence.",
+        "att_note": "Un décompte du relevé, jamais un jugement : une absence peut être un congé ou une mission.",
+        "part_line": "a voté dans {cast} des {of} scrutins enregistrés sur l'année jusqu'au {last} (déduit des relevés de vote)",
+    },
+    "nl": {
+        "att_period": "Getelde commissiedebatten: van {a} tot {b}, de beschikbare registratie.",
+        "section_attendance": "Deelname aan de commissie die het voorstel behandelt",
+        "att_none": "Geen commissie met een deelnameregistratie in de database is aan dit voorstel gekoppeld.",
+        "att_uncollected": "Commissieaanwezigheid wordt voor dit land niet verzameld (geen open bron).",
+        "att_body": "{body}: behandelde het voorstel van {a} tot {b}; {n} overleg(gen) over het voorstel in de registratie.",
+        "att_body_nodates": "{body}: aan het voorstel gekoppeld door de Kamer.",
+        "att_col_sittings": "Debatten van de commissie", "att_col_bill": "Debatten over het voorstel",
+        "att_attended": "{a} van {n}", "att_took_part": "nam deel aan {a} van {n}",
+        "att_more": "en nog {n} lid/leden; allen staan in pack.json.",
+        "att_basis_roll": "Basis: de presentielijst van elke vergadering.",
+        "att_basis_present": "Basis: het register van aanwezigen.",
+        "att_basis_participants": ("Basis: de lijst van deelnemers die de Kamer publiceert. Geen "
+                                   "presentielijst: meestal neemt één woordvoerder per fractie deel."),
+        "att_note": "Een telling van de registratie, nooit een oordeel.",
+        "part_line": "stemde in {cast} van {of} geregistreerde stemmingen in het jaar tot {last} (afgeleid uit de stemregistraties)",
+    },
+    "it": {
+        "part_line": "ha votato in {cast} di {of} votazioni registrate nell'anno fino al {last} (derivato dai tabulati)",
+        "section_attendance": "Presenze nella commissione che esamina il testo",
+        "att_uncollected": "Le presenze in commissione non sono raccolte per questo paese (nessuna fonte aperta).",
+    },
+    "de": {
+        "part_line": "stimmte in {cast} von {of} erfassten Abstimmungen im Jahr bis {last} ab (abgeleitet aus den Abstimmungsprotokollen)",
+        "section_attendance": "Anwesenheit in der zuständigen Kommission",
+        "att_uncollected": "Die Anwesenheit in Kommissionen wird für dieses Land nicht erhoben (keine offene Quelle).",
+    },
+    "pl": {
+        "part_line": "głosował(a) w {cast} z {of} zarejestrowanych głosowań w roku do {last} (wyliczone z wyników głosowań)",
+        "section_attendance": "Obecność w komisji rozpatrującej projekt",
+        "att_uncollected": "Obecność w komisjach nie jest zbierana dla tego kraju (brak otwartego źródła).",
+    },
+    "hu": {
+        "part_line": "{of} rögzített szavazásból {cast} alkalommal szavazott a(z) {last} napjáig tartó évben (a szavazási adatokból számítva)",
+        "section_attendance": "Jelenlét a javaslatot tárgyaló bizottságban",
+        "att_uncollected": "A bizottsági jelenlétet ebben az országban nem gyűjtjük (nincs nyílt forrás).",
+    },
+}
+for _lang, _rows in ATTENDANCE_TEXT.items():
+    TEXT.setdefault(_lang, {}).update({k: v for k, v in _rows.items() if k not in TEXT[_lang]})
+
+
 def lang_of(cc):
     return LANG.get(cc, "en")
 
