@@ -19,6 +19,11 @@
 # from the release (tools/db_state.py --pull), which fails LOUDLY rather
 # than building an empty store if the asset is ever missing.
 data/parl-monitor.db
+# Working files beside it: the .gz a push compresses before uploading, and a
+# pull's download (a refused one is left for inspection). Never committed.
+data/parl-monitor.db.gz
+data/parl-monitor.db.download
+data/parl-monitor.db.download.gz
 config/secrets.yaml
 data/pull-logs/
 __pycache__/

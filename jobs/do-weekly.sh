@@ -15,9 +15,10 @@
 #
 # The first run backfills the 2024-2028 period: about 650 iniciativa pages,
 # 203 sessions and 2,600 votes (each with one request for its iniciativas),
-# at one request a second to the SIL. The budget (45 minutes) stops it
+# at one request a second to the SIL. The budget (at most 45 minutes; about
+# 35 on the Mini, whose publish takes a quarter of the hour) stops it
 # cleanly and the next run resumes from the store, so the backfill is spread
-# over two or three weeks rather than hammering the SIL in one. Later weeks
+# over a few weeks rather than hammering the SIL in one. Later weeks
 # re-read the iniciativa list (about 11 minutes) and only the new sessions.
 #
 # Exit codes. The collector exits 3 when it stored what it could and recorded
@@ -43,7 +44,10 @@ periods=()
 if [ "${DO_BACKFILL:-true}" = "true" ]; then
   periods=(--period 2020-2024)
 fi
-python3 tools/do_rollcalls.py --budget-seconds 2700 "${periods[@]}" || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/do_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" "${periods[@]}" || rc=$?
 # Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
 # this country's watched and tier-1 votes not briefed yet, written to
 # data/briefs/ and sent in one DM to Chris alone, de-duplicated in

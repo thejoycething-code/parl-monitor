@@ -485,7 +485,6 @@ Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/fr
 
 **Sign-off scope (Chris, 10 October 2026): final votes and watched amendments only.** France's sign-off covers votes on the whole text and motions to reject it (and procedure about the whole text); an amendment or article vote is drafted only when listed under its dossier's `amendments:` in `config/watchlist-fr.yaml`, by division key (`an-17-1773`) or amendment number (`"n° 3"`, any vote in that dossier on that number). The first drafts had held 1,050 readings, 1,037 of them amendments and articles of the aide a mourir law; `tools/country_5ca.py --cc fr --prune-out-of-scope` removed those 1,037 (all unsigned and untouched; a confirmed or hand-edited entry is never removed). No amendment is watched yet. Branch `fr-signoff-scope`.
 
-
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:
@@ -512,3 +511,19 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
 
 Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/fr.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). France is swept for its agenda only: the Assemblée's Agenda.json.zip (8.4 MB), at most once a day, fetched unarchived and archived on a day it yields an alert (the Saturday collection archives it every week, FR3). New dossiers and questions stay weekly: Dossiers_Legislatifs.json.zip is 10.7 MB and the question dumps 55 MB, rebuilt nightly. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/fr-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: the party or group the vote record names at each vote.
+- Records only: no vote is labelled for or against our side until its reading in `config/fr_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py fr`, a step of `jobs/fr-weekly.sh`, branch `ukp-member-intel`): from AMO10, every sitting deputy's committees, délégations, commissions d'enquête, missions, external bodies and groupes d'études (the cross-party study groups); friendship groups (GA, 4,900 memberships) left out. Flagged on our ground: the social affairs and law committees, the women's and children's rights délégations, the special committees on sexual violence and child protection, and the study groups on Christians in the East, the Holy See, LGBTQI discrimination, prostitution, independent schools and religious discrimination. HATVP déclarations d'intérêts: open (Licence Ouverte, freely reusable under the 2013 laws) but an 80 MB XML that includes spouses' activities; not built, a later round keeping the deputy's own items only.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Assemblée nationale and Sénat e-petitions: built.** Both are Decidim sites whose GraphQL API answers 500, so the open listing is read (AN about 1,930 open, 20 pages of 100; Sénat 89). Item pages give the closing date and full text: every new Sénat petition, AN petitions only when their listed words match (60 a run). Thresholds: AN 100,000 (Conférence des présidents) and 500,000 from 30 departments; Sénat 100,000 in six months.
+- First read: 68 AN and 2 Sénat petitions on our ground (aide à mourir, a fœtus as a person, gender on identity cards, social media for minors). One AN petition on police tactics has passed 100,000 (not on our ground).
+- Not covered: the government's consultations (no central list probed).
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/fr.py`, `tools/country_petitions.py fr` as a step of `jobs/fr-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

@@ -1,0 +1,321 @@
+{
+ "odata.metadata": "https://www.sucop.gov.co/formulacion_/_api/$metadata#SP.ListData.ProcesosItems&$select=Id,Title,nombreProyecto,FechaInicioComentarios,FechaFinComentarios,Mensajes,estadoView,Created,Modified,Entidad,Sector,TipoNormativa,EstadoNormativa,MostrarLink,Objeto",
+ "odata.nextLink": "https://www.sucop.gov.co/formulacion_/_api/web/lists/getbytitle('Procesos%20SUCOP')/items?%24skiptoken=Paged%3dTRUE%26p_ID%3d33566&%24top=200&%24orderby=Id+desc&%24select=Id%2cTitle%2cnombreProyecto%2cFechaInicioComentarios%2cFechaFinComentarios%2cMensajes%2cestadoView%2cCreated%2cModified%2cEntidad%2cSector%2cTipoNormativa%2cEstadoNormativa%2cMostrarLink%2cObjeto",
+ "value": [
+  {
+   "odata.type": "SP.Data.ProcesosItem",
+   "odata.id": "4b436e09-c927-4a8e-b44a-0796a2beeb89",
+   "odata.etag": "\"32\"",
+   "odata.editLink": "Web/Lists(guid'11181687-7b6f-4652-81b2-18dd145b4555')/Items(33768)",
+   "Id": 33768,
+   "Title": "Memoria justificativa del proyecto PN-2026-33765.pdf",
+   "Entidad": {
+    "Label": "156",
+    "TermGuid": "81675904-5137-44f6-a8d3-84d589697e0e",
+    "WssId": 156
+   },
+   "Sector": {
+    "Label": "24",
+    "TermGuid": "8e1798ab-6490-42a7-9c77-bdeadd99b1f1",
+    "WssId": 24
+   },
+   "MostrarLink": null,
+   "Mensajes": null,
+   "Objeto": "La resolución tiene por objeto establecer, con carácter temporal, las condiciones de ingreso y circulación vehicular en los tramos del corredor vial Murillo–Manizales, mediante un esquema de pico y placa ambiental y otras restricciones aplicables independientemente de dicho esquema, con el fin de contribuir a la protección del Parque Nacional Natural Los Nevados y su zona de influencia, y dar cumplimiento de las decisiones judiciales.",
+   "TipoNormativa": {
+    "Label": "60",
+    "TermGuid": "18d88423-96ea-4794-a378-5146cb3108d3",
+    "WssId": 60
+   },
+   "EstadoNormativa": {
+    "Label": "119",
+    "TermGuid": "4b77e85c-5c7f-487d-a6b3-eb63b575c791",
+    "WssId": 119
+   },
+   "FechaFinComentarios": null,
+   "nombreProyecto": null,
+   "FechaInicioComentarios": null,
+   "estadoView": null,
+   "Created": "2026-10-09T23:49:30Z",
+   "Modified": "2026-10-09T23:55:08Z",
+   "ID": 33768
+  },
+  {
+   "odata.type": "SP.Data.ProcesosItem",
+   "odata.id": "23959da0-ce1d-4e19-bed1-2e24d767590e",
+   "odata.etag": "\"11\"",
+   "odata.editLink": "Web/Lists(guid'11181687-7b6f-4652-81b2-18dd145b4555')/Items(33765)",
+   "Id": 33765,
+   "Title": "PN-2026-33765",
+   "Entidad": {
+    "Label": "156",
+    "TermGuid": "81675904-5137-44f6-a8d3-84d589697e0e",
+    "WssId": 156
+   },
+   "Sector": {
+    "Label": "24",
+    "TermGuid": "8e1798ab-6490-42a7-9c77-bdeadd99b1f1",
+    "WssId": 24
+   },
+   "MostrarLink": {
+    "Description": "https://www.sucop.gov.co/entidades/mintransporte/Normativa?IDNorma=33765",
+    "Url": "https://www.sucop.gov.co/entidades/mintransporte/Normativa?IDNorma=33765"
+   },
+   "Mensajes": null,
+   "Objeto": "La resolución tiene por objeto establecer, con carácter temporal, las condiciones de ingreso y circulación vehicular en los tramos del corredor vial Murillo–Manizales, mediante un esquema de pico y placa ambiental y otras restricciones aplicables independientemente de dicho esquema, con el fin de contribuir a la protección del Parque Nacional Natural Los Nevados y su zona de influencia, y dar cumplimiento de las decisiones judiciales.",
+   "TipoNormativa": {
+    "Label": "60",
+    "TermGuid": "18d88423-96ea-4794-a378-5146cb3108d3",
+    "WssId": 60
+   },
+   "EstadoNormativa": {
+    "Label": "119",
+    "TermGuid": "4b77e85c-5c7f-487d-a6b3-eb63b575c791",
+    "WssId": 119
+   },
+   "FechaFinComentarios": "2026-10-15T04:59:59Z",
+   "nombreProyecto": "\"Por la cual se establecen condiciones temporales de circulación y medidas de regulación del tránsito en el corredor vial Murillo-Manizales para la protección del Parque Nacional Natural Los Nevados y el cumplimiento de las decisiones judiciales de seguimiento de la Sentencia STL10716-2020\"",
+   "FechaInicioComentarios": "2026-10-10T00:04:24Z",
+   "estadoView": "En consulta pública",
+   "Created": "2026-10-09T23:46:29Z",
+   "Modified": "2026-10-10T00:05:05Z",
+   "ID": 33765
+  },
+  {
+   "odata.type": "SP.Data.ProcesosItem",
+   "odata.id": "08539eb2-59c2-43f8-885f-addcbdbc2793",
+   "odata.etag": "\"6\"",
+   "odata.editLink": "Web/Lists(guid'11181687-7b6f-4652-81b2-18dd145b4555')/Items(33761)",
+   "Id": 33761,
+   "Title": "PN-2026-33761",
+   "Entidad": {
+    "Label": "71",
+    "TermGuid": "95d33e7a-cbfe-4ecc-ac9c-d60a16fd3ec1",
+    "WssId": 71
+   },
+   "Sector": {
+    "Label": "25",
+    "TermGuid": "115d5a2d-5996-4ac8-962e-6e4eeb3efd4c",
+    "WssId": 25
+   },
+   "MostrarLink": null,
+   "Mensajes": null,
+   "Objeto": null,
+   "TipoNormativa": null,
+   "EstadoNormativa": {
+    "Label": "136",
+    "TermGuid": "edd620c9-5423-47d2-a8d9-802e73dcf6a6",
+    "WssId": 136
+   },
+   "FechaFinComentarios": null,
+   "nombreProyecto": "“Por la cual se fija la tarifa de la Contribución Especial de que trata el artículo 85 de la Ley 142 de 1994 para la vigencia 2026 y se dictan otras disposiciones”",
+   "FechaInicioComentarios": null,
+   "estadoView": "Aprobación de la consulta pública",
+   "Created": "2026-10-09T23:15:05Z",
+   "Modified": "2026-10-09T23:35:19Z",
+   "ID": 33761
+  },
+  {
+   "odata.type": "SP.Data.ProcesosItem",
+   "odata.id": "d3bfd856-0fa6-465e-b78a-eee71b251073",
+   "odata.etag": "\"13\"",
+   "odata.editLink": "Web/Lists(guid'11181687-7b6f-4652-81b2-18dd145b4555')/Items(33754)",
+   "Id": 33754,
+   "Title": "PN-2026-33754",
+   "Entidad": {
+    "Label": "157",
+    "TermGuid": "46eebcb4-20d7-42f1-8583-f5da192c2092",
+    "WssId": 157
+   },
+   "Sector": {
+    "Label": "18",
+    "TermGuid": "75e6168e-98c2-48da-8665-237efbe5a62b",
+    "WssId": 18
+   },
+   "MostrarLink": {
+    "Description": "https://www.sucop.gov.co/entidades/DNP/Normativa?IDNorma=33754",
+    "Url": "https://www.sucop.gov.co/entidades/DNP/Normativa?IDNorma=33754"
+   },
+   "Mensajes": null,
+   "Objeto": "Adóptar el Manual Operativo de Obras por Impuestos para la Reconstrucción y sus anexos, el cual será de obligatorio cumplimiento para todos los actores involucrados en la operación y desarrollo de las diferentes etapas de la modalidad especial de Obras por Impuestos para la Reconstrucción creada por el Decreto Legislativo 1389 de 2026, y cuyo texto y anexos forman parte integral de la presente Resolución.",
+   "TipoNormativa": {
+    "Label": "60",
+    "TermGuid": "18d88423-96ea-4794-a378-5146cb3108d3",
+    "WssId": 60
+   },
+   "EstadoNormativa": {
+    "Label": "119",
+    "TermGuid": "4b77e85c-5c7f-487d-a6b3-eb63b575c791",
+    "WssId": 119
+   },
+   "FechaFinComentarios": "2026-10-14T04:59:59Z",
+   "nombreProyecto": "“Por la cual se adopta el Manual Operativo de Obras por Impuestos para la Reconstrucción de que trata el Decreto Legislativo 1389 de 2026”",
+   "FechaInicioComentarios": "2026-10-09T21:43:31Z",
+   "estadoView": "En consulta pública",
+   "Created": "2026-10-09T21:36:07Z",
+   "Modified": "2026-10-09T21:44:11Z",
+   "ID": 33754
+  },
+  {
+   "odata.type": "SP.Data.ProcesosItem",
+   "odata.id": "ca714db7-61b1-49d4-ab60-f0daf67a0b76",
+   "odata.etag": "\"21\"",
+   "odata.editLink": "Web/Lists(guid'11181687-7b6f-4652-81b2-18dd145b4555')/Items(33709)",
+   "Id": 33709,
+   "Title": "PN-2026-33709",
+   "Entidad": {
+    "Label": "194",
+    "TermGuid": "aea5e902-016d-4a47-9fc0-18fee40cb835",
+    "WssId": 194
+   },
+   "Sector": {
+    "Label": "7",
+    "TermGuid": "cf7c90e0-eafe-4c50-abed-45977bfd09f0",
+    "WssId": 7
+   },
+   "MostrarLink": {
+    "Description": "https://www.sucop.gov.co/entidades/coldeportes/Normativa?IDNorma=33709",
+    "Url": "https://www.sucop.gov.co/entidades/coldeportes/Normativa?IDNorma=33709"
+   },
+   "Mensajes": 6.0,
+   "Objeto": "Vestibulum vulputate pharetra fringilla. Quisque pretium pretium augue a aliquet. Nullam fermentum eros ac dapibus porttitor. Mauris efficitur rhoncus tempus. Pellentesque elementum fermentum dolor, non finibus tortor semper et. Sed imperdiet mattis pretium. Etiam eleifend faucibus diam, nec ullamcorper ex tristique a. Mauris condimentum congue urna. Suspendisse ultrices ipsum et velit finibus congue. Vivamus eget scelerisque nisl, in eleifend justo.",
+   "TipoNormativa": {
+    "Label": "36",
+    "TermGuid": "0f00d0ed-88e9-4916-b831-6017d11b0b39",
+    "WssId": 36
+   },
+   "EstadoNormativa": {
+    "Label": "90",
+    "TermGuid": "91078651-cb9d-4eb6-a100-db75cdd6da39",
+    "WssId": 90
+   },
+   "FechaFinComentarios": "2026-10-02T04:59:59Z",
+   "nombreProyecto": "JG - Prueba proyecto 8 de octubre 7-09pm",
+   "FechaInicioComentarios": "2026-10-09T00:14:19Z",
+   "estadoView": "Proceso finalizado",
+   "Created": "2026-10-09T00:10:00Z",
+   "Modified": "2026-10-09T00:33:24Z",
+   "ID": 33709
+  },
+  {
+   "odata.type": "SP.Data.ProcesosItem",
+   "odata.id": "87d0a68d-c592-4cb4-8d1c-74a46428b0ea",
+   "odata.etag": "\"3\"",
+   "odata.editLink": "Web/Lists(guid'11181687-7b6f-4652-81b2-18dd145b4555')/Items(33707)",
+   "Id": 33707,
+   "Title": "PN-2026-33707",
+   "Entidad": {
+    "Label": "51",
+    "TermGuid": "dc9e7712-964e-473b-9fe2-9077ae7abe54",
+    "WssId": 51
+   },
+   "Sector": {
+    "Label": "20",
+    "TermGuid": "b0cc53c6-5769-40ce-9ef0-0453b6b8dfe4",
+    "WssId": 20
+   },
+   "MostrarLink": null,
+   "Mensajes": null,
+   "Objeto": "INCENTIVO DE BICICLETA",
+   "TipoNormativa": {
+    "Label": "60",
+    "TermGuid": "18d88423-96ea-4794-a378-5146cb3108d3",
+    "WssId": 60
+   },
+   "EstadoNormativa": {
+    "Label": "48",
+    "TermGuid": "8da1ac56-b5e0-4c46-8133-ed6bbc58dce9",
+    "WssId": 48
+   },
+   "FechaFinComentarios": null,
+   "nombreProyecto": "Por la cual se actualizan los beneficiarios y lineamientos definidos sobre el incentivo por el uso de la bicicleta y bicicleta de pedaleo asistido para los funcionarios del Ministerio de Relaciones Exteriores, y se deroga la Resolución N° 7260 del 8 de septiembre de 2023.",
+   "FechaInicioComentarios": null,
+   "estadoView": "Planeación de la consulta",
+   "Created": "2026-10-08T14:17:10Z",
+   "Modified": "2026-10-08T14:17:31Z",
+   "ID": 33707
+  },
+  {
+   "odata.type": "SP.Data.ProcesosItem",
+   "odata.id": "96e5cbfa-b8a7-416b-982e-67209cc79224",
+   "odata.etag": "\"11\"",
+   "odata.editLink": "Web/Lists(guid'11181687-7b6f-4652-81b2-18dd145b4555')/Items(33669)",
+   "Id": 33669,
+   "Title": "PN-2026-33669",
+   "Entidad": {
+    "Label": "402",
+    "TermGuid": "acd4271a-c34e-4f6a-a9d3-4116343bc0e1",
+    "WssId": 402
+   },
+   "Sector": {
+    "Label": "17",
+    "TermGuid": "1cc90363-de2f-49e7-9295-68024041ee31",
+    "WssId": 17
+   },
+   "MostrarLink": {
+    "Description": "https://www.sucop.gov.co/entidades/alcaldiaduitama/Normativa?IDNorma=33669",
+    "Url": "https://www.sucop.gov.co/entidades/alcaldiaduitama/Normativa?IDNorma=33669"
+   },
+   "Mensajes": null,
+   "Objeto": "Que, en cumplimiento de los lineamientos del Plan Nacional de Seguridad Vial y en concordancia con las obligaciones asumidas por el municipio en el marco de la asistencia técnica prestada por la Agencia Nacional de Seguridad Vial, se hace necesario adoptar formalmente el Plan Local de Seguridad Vial como instrumento estratégico de política pública, planeación y gestión territorial orientado a la protección de la vida y a la reducción de las muertes y lesiones derivadas de los siniestros viales.",
+   "TipoNormativa": {
+    "Label": "36",
+    "TermGuid": "0f00d0ed-88e9-4916-b831-6017d11b0b39",
+    "WssId": 36
+   },
+   "EstadoNormativa": {
+    "Label": "148",
+    "TermGuid": "186d8e4c-5d8c-402f-9843-5d457ce90a83",
+    "WssId": 148
+   },
+   "FechaFinComentarios": "2026-10-10T04:59:59Z",
+   "nombreProyecto": "POR MEDIO DEL CUAL SE ADOPTA EL PLAN LOCAL DE SEGURIDAD VIAL DEL MUNICIPIO DE DUITAMA – BOYACÁ 2026-2031 Y SE DICTAN OTRAS DISPOSICIONES",
+   "FechaInicioComentarios": "2026-10-06T22:41:13Z",
+   "estadoView": "En análisis de los comentarios",
+   "Created": "2026-10-06T22:36:51Z",
+   "Modified": "2026-10-10T07:21:14Z",
+   "ID": 33669
+  },
+  {
+   "odata.type": "SP.Data.ProcesosItem",
+   "odata.id": "02fc3d0b-ca9a-47a4-ae6c-2c2e7d90da7a",
+   "odata.etag": "\"10\"",
+   "odata.editLink": "Web/Lists(guid'11181687-7b6f-4652-81b2-18dd145b4555')/Items(33626)",
+   "Id": 33626,
+   "Title": "PN-2026-33626",
+   "Entidad": {
+    "Label": "396",
+    "TermGuid": "a3606cd8-8561-473d-8cea-7f82de5e2b17",
+    "WssId": 396
+   },
+   "Sector": {
+    "Label": "17",
+    "TermGuid": "1cc90363-de2f-49e7-9295-68024041ee31",
+    "WssId": 17
+   },
+   "MostrarLink": {
+    "Description": "https://www.sucop.gov.co/entidades/alcaldiapitalito/Normativa?IDNorma=33626",
+    "Url": "https://www.sucop.gov.co/entidades/alcaldiapitalito/Normativa?IDNorma=33626"
+   },
+   "Mensajes": null,
+   "Objeto": "PROCESO DE REASENTAMIENTO DEL CASERÍO ALTO DE LA CRUZ, EN CUMPLIMIENTO DEL PLAN DE ACCIÓN ESPECÍFICO –PAE–",
+   "TipoNormativa": {
+    "Label": "36",
+    "TermGuid": "0f00d0ed-88e9-4916-b831-6017d11b0b39",
+    "WssId": 36
+   },
+   "EstadoNormativa": {
+    "Label": "119",
+    "TermGuid": "4b77e85c-5c7f-487d-a6b3-eb63b575c791",
+    "WssId": 119
+   },
+   "FechaFinComentarios": "2026-11-06T04:59:59Z",
+   "nombreProyecto": "POR MEDIO DEL CUAL SE ADOPTA EL REGLAMENTO PARA LA IMPLEMENTACIÓN DEL PROCESO DE REASENTAMIENTO DEL CASERÍO ALTO DE LA CRUZ, EN CUMPLIMIENTO DEL PLAN DE ACCIÓN ESPECÍFICO –PAE–”",
+   "FechaInicioComentarios": "2026-10-05T17:28:20Z",
+   "estadoView": "En consulta pública",
+   "Created": "2026-10-05T16:08:31Z",
+   "Modified": "2026-10-05T17:26:57Z",
+   "ID": 33626
+  }
+ ]
+}

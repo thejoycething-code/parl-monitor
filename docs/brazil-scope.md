@@ -528,7 +528,6 @@ Later phases and items for Chris (not built at the merge):
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/br_stance.yaml` holds 11 bill direction(s) (Claude's drafts from the watchlist) and 7 vote reading(s): 2 with proposed values, 2 procedural, 3 need reading, 0 confirmed. Guide: `docs/5ca-br-readings.md`; confirm with `python3 tools/country_5ca.py --cc br --sign-from-doc --by NAME`. Sheets (`data/5ca/br-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Brazil (`config/stance_signers.yaml`).
 
-
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:
@@ -555,3 +554,21 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
 
 Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/br.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the Câmara's PL, PLP, PEC and PDL presented in the window (API v2, classified on the ementa as the weekly does before a bill's record is read), requests for information, and both houses' pauta. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/br-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: the party or group the vote record names at each vote.
+- Records only: no vote is labelled for or against our side until its reading in `config/br_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py br`, a step of `jobs/br-weekly.sh`, branch `ukp-member-intel`). The 57th legislature's 320 frentes parlamentares and their members (the 8 on our ground every week, including the Frente Parlamentar Evangélica, em Defesa da Vida e da Família, contra o Aborto e em Defesa da Vida, Católica, Cristã and the LGBTI+ front; the rest an eighth a week), and every deputy's open organ seats from the bulk file `orgaosDeputados-L57` (committees, CPIs, the Mesa). Profiles flag the fronts and committees on our ground (`config/member-intel-groups.yaml`) and show, beside each Câmara position, the orientação de bancada the Câmara published for the deputy's party or federation (`br_orientations`), with followed, differed and free-vote counts. Senators' committees and fronts are not read (the fronts' member lists are the Câmara's).
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **e-Cidadania ideas: built**, the 500 best-supported open ideas (5 pages; 20,000 supports in four months make a Sugestão Legislativa), with each matching idea's page for its deadline.
+- **e-Cidadania public vote on bills: built**, the 300 most-voted bills with SIM and NÃO; shown when a bill on our ground gains 10,000 votes in a week.
+- **Brasil Participativo consultations: built** (Decidim GraphQL), standing agency containers left out.
+- Pages take 20 to 60 seconds: the step reads at most 15 idea pages a run (`--detail-limit 15`).
+- Not covered: the Câmara's enquetes (no listing), Participa+Brasil (closed).
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/br.py`, `tools/country_petitions.py br` as a step of `jobs/br-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

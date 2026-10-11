@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Edition publish on the Mac Mini (jobs/edition-publish.sh): sends the new country editions
+     whose review window has ended (src/edition_review.py, config/edition-review.yaml). 06:31
+     London every day, one minute after the default window end (06:30), and 21:10 for a country
+     given a later publish_at. Clear of every other slot: the 06:20 Australia division watch
+     (Tue-Fri) is done by then or holds the runner lock for a minute or two, the 06:40 vote briefs
+     (Tue-Sat) queue behind this for the seconds it takes when nothing is due; 21:10 sits before
+     the 21:40 vote briefs and the 22:00 day sweep and division watch, and more than half an hour
+     from every session judge. Mac Mini only: no GitHub
+     workflow and no mini-check gate. Time limit 30 minutes.
+     Install: bash ops/install_country_jobs.sh, or cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.edition-publish.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.edition-publish</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>edition-publish</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>JOB_TIMEOUT</key>
+    <string>1800</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>31</integer></dict>
+    <dict><key>Hour</key><integer>21</integer><key>Minute</key><integer>10</integer></dict>
+  </array>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/edition-publish.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/edition-publish.log</string>
+</dict>
+</plist>

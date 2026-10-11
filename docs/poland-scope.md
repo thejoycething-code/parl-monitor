@@ -499,7 +499,6 @@ Applied on the `countries` branch:
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/pl_stance.yaml` holds 21 bill direction(s) (Claude's drafts from the watchlist) and 185 vote reading(s): 24 with proposed values, 4 procedural, 157 need reading, 0 confirmed. Guide: `docs/5ca-pl-readings.md`; confirm with `python3 tools/country_5ca.py --cc pl --sign-from-doc --by NAME`. Sheets (`data/5ca/pl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Poland (`config/stance_signers.yaml`).
 
-
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:
@@ -526,3 +525,19 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
 
 Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/pl.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the term's newest 150 processes (sorted by number; every process started since June in one page), interpellations and written questions received in the window, and the Sejm's proceedings for the agenda. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/pl-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: the party or group the vote record names at each vote.
+- Records only: no vote is labelled for or against our side until its reading in `config/pl_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py pl`, a step of `jobs/pl-weekly.sh`, branch `ukp-member-intel`): every committee of the 10th term with its members, functions and join dates, one Sejm API request. The family, health, justice and education committees are flagged on our ground. Parliamentary teams (zespoły parlamentarne) and the asset declarations are not in the API; not built.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Sejm public consultations on bills: built**, from the Sejm API's bills list (publicConsultationStartDate/EndDate); **citizens' bills** (applicantType CITIZENS) from the same list.
+- First read: 4 consultations on our ground (education law, the Penal Code among them).
+- Not covered: www.sejm.gov.pl's petitions, legislacja.gov.pl and legislacja.rcl.gov.pl disallow every crawler in robots.txt; senat.gov.pl answers 403.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/pl.py`, `tools/country_petitions.py pl` as a step of `jobs/pl-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

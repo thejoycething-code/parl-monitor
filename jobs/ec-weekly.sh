@@ -33,7 +33,10 @@ if [ "${EC_RECLASSIFY:-}" = "true" ]; then
   python3 tools/ec_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/ec_rollcalls.py --budget-seconds 2700 || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/ec_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" || rc=$?
 # X8 (10 October 2026): the Corte Constitucional's judgments and bulletins
 # (tools/ec_courts.py, its WordPress API, one or two requests).
 # Gaps go to the store; a failure never stops the run.

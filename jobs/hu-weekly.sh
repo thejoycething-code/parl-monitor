@@ -30,7 +30,7 @@
 # edition already committed for today is rewritten, not resent. Its failure
 # is a [gap] line and never costs the store.
 #
-# mini_run: commit editions profiles briefs
+# mini_run: commit editions profiles briefs reviews
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -43,12 +43,18 @@ if [ "${HU_RECLASSIFY:-}" = "true" ]; then
   python3 tools/hu_karzat_backfill.py --reclassify
 fi
 rc=0
-python3 tools/hu_gazette.py --budget-seconds 1800 || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 30 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/hu_gazette.py --budget-seconds "$(bash tools/collector_budget.sh 1800 "$SECONDS")" || rc=$?
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM).
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   TODAY=$(date +%Y-%m-%d)
+  # THE REVIEW WINDOW (src/edition_review.py, config/edition-review.yaml): with the
+  # review on, --dm writes reviews/hu-review-<date>.md instead of sending, and
+  # jobs/edition-publish.sh sends the edition, honouring the review, at the window's end.
   if git ls-files --error-unmatch "editions/hu-monitor-$TODAY.md" >/dev/null 2>&1; then
     echo "edition for $TODAY already committed: rewriting it, not resending the DM"
     python3 tools/hu_monitor.py --edition || echo "  [gap] the edition failed to render"

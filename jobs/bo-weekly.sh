@@ -41,7 +41,10 @@ export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Bolivia weekly}"
 if [ "${BO_RECLASSIFY:-}" = "true" ]; then
   python3 tools/bo_rollcalls.py --reclassify
 fi
-args=(--budget-seconds 1800)
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 30 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+args=(--budget-seconds "$(bash tools/collector_budget.sh 1800 "$SECONDS")")
 [ "${BO_BACKFILL:-}" = "true" ] && args+=(--backfill)
 qargs=()
 [ "${BO_BACKFILL:-}" = "true" ] && qargs+=(--backfill)

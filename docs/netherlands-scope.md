@@ -479,7 +479,6 @@ The SRU Handelingen route was not needed: the vote pages carry every vote.
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/nl_stance.yaml` holds 10 bill direction(s) (Claude's drafts from the watchlist) and 212 vote reading(s): 2 with proposed values, 0 procedural, 210 need reading, 0 confirmed. Guide: `docs/5ca-nl-readings.md`; confirm with `python3 tools/country_5ca.py --cc nl --sign-from-doc --by NAME`. Sheets (`data/5ca/nl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Netherlands (`config/stance_signers.yaml`). Most votes are by show of hands: members are DERIVED from their fractie's vote (X5) and labelled; a roll call is the member's own. A motion tabled in a bill's dossier never takes the bill's direction: its own text decides.
 
-
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:
@@ -506,3 +505,19 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
 
 Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/nl.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: new Moties, Amendementen and bills (Zaak by GestartOp, one request) and Kamervragen, and the Tweede Kamer's agenda for the next two weeks. The motions are the sweep's own items: the Dutch edition stays votes, speeches and questions (NL3), so a watched or tier-1 motion is alerted the day it is tabled and its vote is then the vote brief's. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/nl-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: show-of-hands positions DERIVED from the fractie's vote (X5), roll calls as recorded.
+- Records only: no vote is labelled for or against our side until its reading in `config/nl_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py nl`, a step of `jobs/nl-weekly.sh`, branch `ukp-member-intel`): current committee seats (vast and plaatsvervangend, `CommissieZetelVastPersoon`, `CommissieZetelVervangerPersoon`) and current nevenfuncties (`PersoonNevenfunctie`, with the register's word on payment) from the gegevensmagazijn OData (CC0), sitting members only. The VWS and Justitie en Veiligheid committees are flagged on our ground in the profiles. No whip is published.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Petitions handed to the Tweede Kamer: built**, the OData Activiteit of kind 'Petitie' (the hand-over appointment; no counts). The edition's `kinds` now includes "petition"; its DM stays votes only (NL3).
+- First read: 3 on our ground (home education, two on surrogacy).
+- **Not covered: internetconsultatie.nl** disallows every crawler but named search engines (`User-agent: * Disallow: /`) and publishes no dataset; one homepage request was made on 11 October before robots.txt was read, and nothing is built on it.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/nl.py`, `tools/country_petitions.py nl` as a step of `jobs/nl-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

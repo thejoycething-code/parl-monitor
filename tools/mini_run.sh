@@ -28,6 +28,8 @@ RUNNER="${RUNNER_HOME:-$HOME/runner}"
 CLONE="$RUNNER/parl-monitor"
 LOCK="$RUNNER/locks/state"
 JOB_TIMEOUT="${JOB_TIMEOUT:-3600}"   # seconds
+# Exported: a job sizes its collectors' budgets from it (tools/collector_budget.sh).
+export JOB_TIMEOUT
 # Seconds to queue behind another job. TWO HOURS (9 Oct 2026, 44 jobs on the
 # Mini): Day sweep and Division watch both start at 22:00 Mon-Thu, and four
 # country weeklies fall within an hour on Saturday afternoons. A Mini run that

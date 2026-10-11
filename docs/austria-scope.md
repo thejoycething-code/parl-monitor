@@ -344,7 +344,7 @@ Hass im Netz).
    on items on our ground, weekly on the Mini with a GitHub backup.
 2. **1b:** namentliche Abstimmungen, member by member, from the protocol;
    Ministerialentwürfe (find the list ID) so drafts in Begutachtung are seen
-   before they reach the Nationalrat; the week ahead from Termine. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/at.py`, a step of the weekly job): Termine and each Tagesordnung, d.B. and A(E) numbers as item keys, robots.txt checked per document.
+   before they reach the Nationalrat (**built 11 October 2026**, Filter list 81; see the end of this file); the week ahead from Termine. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/at.py`, a step of the weekly job): Termine and each Tagesordnung, d.B. and A(E) numbers as item keys, robots.txt checked per document.
 3. **2:** an edition (Slack DM to Christopher, as the US), the triage judge
    on Austrian items (German prompt, as Germany's), Klub-level 5CA, speeches
    from the protocols (the debate entries on each history page already name
@@ -430,7 +430,6 @@ Later phases and items for Chris (not built at the merge):
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/at_stance.yaml` holds 9 bill direction(s) (Claude's drafts from the watchlist) and 19 vote reading(s): 3 with proposed values, 1 procedural, 15 need reading, 0 confirmed. Guide: `docs/5ca-at-readings.md`; confirm with `python3 tools/country_5ca.py --cc at --sign-from-doc --by NAME`. Sheets (`data/5ca/at-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Austria (`config/stance_signers.yaml`). Only the Klub's vote is recorded, so every member row is DERIVED from it (X5) and labelled; committee votes are not sheeted (no membership list).
 
-
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:
@@ -457,3 +456,20 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
 
 Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/at.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the item list for each chamber restricted to items received in the window (filter 101 with a `DATUM_VON` range, found 11 October 2026: 204 rows for the Nationalrat's week in under a second, against 17 MB and a minute for the weekly's whole-period list), and the Termine with their Tagesordnungen. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/at-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: every member position is DERIVED from the Klub's vote (X5) and labelled so; nobody is ever counted against their group.
+- Records only: no vote is labelled for or against our side until its reading in `config/at_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with the item's last activity date (the stage text is not kept), agenda slots (`country_agenda`) and recorded votes.
+
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py at`, a step of `jobs/at-weekly.sh`, branch `ukp-member-intel`): every committee function of the Nationalrat's XXVIII period and the Bundesrat's current ones (list 250 of the parlament.gv.at Filter API, two requests), with role and start date. Committee votes now have a membership list to read against. Interests: the Unvereinbarkeits declarations are HTML per member and meineabgeordneten.at needs a licence (AT5); not built.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Ministerialentwürfe: built.** The list ID was found: Filter list 81 (POST `{"GP_CODE":["XXVIII"]}`), with the Begutachtungsfrist and the count of Stellungnahmen; drafts in Begutachtung (10 on 11 October) are stored as consultations with their deadline.
+- **Petitionen and Bürgerinitiativen: built**, from Filter list 143 (the /beteiligen page; `{"AKTIV":["J"],"ITYP":["BI","PET"]}`), with the online support count. No closing date.
+- **Volksbegehren: built**, the BMI's registered list (www.bmi.gv.at/411/): title and registration date only; 8,969 declarations ask for a signing week, no counts published.
+- First read: two Bürgerinitiativen and three Volksbegehren on our ground ("Mut zeigen!" on pregnancy loss, "Abtreibungs-Strafgesetz-Paragraphen streichen", "Abtreibungspille rezeptfrei").
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/at.py`, `tools/country_petitions.py at` as a step of `jobs/at-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

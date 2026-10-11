@@ -486,6 +486,11 @@ VOTE_PAGES = (
     ("ie-votes.html", "Ireland"),
     ("us-votes.html", "United States"),
     ("au-votes.html", "Australia"),
+    # The new countries (tools/make_country_votes.py, 11 October 2026): one
+    # tracker page linking each country's page, and the watched bills'
+    # timelines, rather than twenty-two links here.
+    ("votes-countries.html", "Other countries (tracker)"),
+    ("bill-timelines.html", "Bill timelines, other countries"),
 )
 
 

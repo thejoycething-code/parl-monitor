@@ -24,7 +24,7 @@
 # budget stores the newest votes and discloses the rest, which drain on the
 # following runs. A normal week is the two latest sessions' agendas and the
 # handful of votes held since.
-# mini_run: commit editions profiles briefs
+# mini_run: commit editions profiles briefs reviews
 set -eo pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped by db_state.py --push) is keyed on the
@@ -35,7 +35,10 @@ if [ "${HR_RECLASSIFY:-}" = "true" ]; then
   python3 tools/hr_rollcalls.py --reclassify
 fi
 rc=0
-python3 tools/hr_rollcalls.py --budget-seconds 2700 || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/hr_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" "${HR_TRANSCRIPT_SECONDS:-600}")" || rc=$?
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   # The weekly edition (src/country_edition.py, tools/hr_monitor.py), to Chris
   # alone by DM, archived to editions/. Once a day: an edition already
@@ -43,6 +46,9 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   # the publish below.
   export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
   TODAY=$(date +%Y-%m-%d)
+  # THE REVIEW WINDOW (src/edition_review.py, config/edition-review.yaml): with the
+  # review on, --dm writes reviews/hr-review-<date>.md instead of sending, and
+  # jobs/edition-publish.sh sends the edition, honouring the review, at the window's end.
   if git ls-files --error-unmatch "editions/hr-monitor-$TODAY.md" >/dev/null 2>&1; then
     echo "edition for $TODAY already committed: rewriting it, not resending the DM"
     python3 tools/hr_monitor.py --edition \

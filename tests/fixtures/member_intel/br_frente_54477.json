@@ -1,0 +1,49 @@
+{
+ "dados": [
+  {
+   "id": 74270,
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/74270",
+   "nome": "Gilberto Nascimento",
+   "siglaPartido": "PODE",
+   "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36896",
+   "siglaUf": "SP",
+   "idLegislatura": 57,
+   "titulo": "Coordenador",
+   "codTitulo": 14,
+   "dataInicio": null,
+   "dataFim": null
+  },
+  {
+   "id": 66828,
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/66828",
+   "nome": "Fausto Pinato",
+   "siglaPartido": "UNIÃO",
+   "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/38009",
+   "siglaUf": "SP",
+   "idLegislatura": 57,
+   "titulo": "Membro",
+   "codTitulo": 1004,
+   "dataInicio": null,
+   "dataFim": null
+  },
+  {
+   "id": 73441,
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/73441",
+   "nome": "Celso Russomanno",
+   "siglaPartido": "REPUBLICANOS",
+   "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37908",
+   "siglaUf": "SP",
+   "idLegislatura": 57,
+   "titulo": "Membro",
+   "codTitulo": 1004,
+   "dataInicio": null,
+   "dataFim": null
+  }
+ ],
+ "links": [
+  {
+   "rel": "self",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/frentes/54477/membros"
+  }
+ ]
+}

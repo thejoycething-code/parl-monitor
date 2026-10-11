@@ -536,7 +536,6 @@ Inside `tools/it_rollcalls.py`; `IT_CAMERA_SOURCE` chooses `auto` (default),
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/it_stance.yaml` holds 15 bill direction(s) (Claude's drafts from the watchlist) and 137 vote reading(s): 9 with proposed values, 1 procedural, 127 need reading, 0 confirmed. Guide: `docs/5ca-it-readings.md`; confirm with `python3 tools/country_5ca.py --cc it --sign-from-doc --by NAME`. Sheets (`data/5ca/it-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Italy (`config/stance_signers.yaml`).
 
-
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:
@@ -563,3 +562,20 @@ Handover item 1: a brief for each watched or tier-1 vote, naming the members who
 ## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
 
 Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/it.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: every bill reading presented in the window, both chambers, from the Senate's SPARQL endpoint with its TESEO subjects (two queries), and the Camera's calendar. If the Mini, like the laptop on 10 October, is refused by dati.senato.it, the bills step is a [gap] line and the agenda still runs. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/it-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: the party or group the vote record names at each vote.
+- Records only: no vote is labelled for or against our side until its reading in `config/it_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py it`, a step of `jobs/it-weekly.sh`, branch `ukp-member-intel`): the Camera's current organ memberships (committees, giunte, inquiries) from dati.camera.it SPARQL, matched to the store's members by name (29 of 1,162 rows matched no one and are not shown). The Affari sociali and Giustizia committees, the children's committee and the femicide inquiry are flagged on our ground. The Senate's SPARQL answered 403 to the laptop; not read. Intergruppi are not published as data.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Popular initiatives and referendums: built**, firmereferendum.giustizia.it's public JSON (87 initiatives, collection dates, signature counts, quorum 50,000 or 500,000).
+- **Government consultations: built**, ParteciPa (partecipa.gov.it, Decidim GraphQL).
+- First read: 12 initiatives on our ground, among them "PMA per tutte" at 88% of its 50,000 (closes 8 December 2026) and a referendum on sex education in schools.
+- Not covered: the Camera's and the Senato's petitions (503 and 403 from here).
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/it.py`, `tools/country_petitions.py it` as a step of `jobs/it-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.

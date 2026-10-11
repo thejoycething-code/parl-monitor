@@ -1860,6 +1860,12 @@ TABLES = (
     # -- declared from day one.
     "country_agenda",
     "country_agenda_runs",
+    # The new countries' petitions and consultations (tools/country_petitions.py,
+    # 11 October 2026), one table for every country keyed (cc, item_id), created
+    # by src/petitions.ensure_schema -- declared from day one.
+    "country_petitions",
+    "country_petition_snapshots",
+    "country_petition_runs",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -2200,4 +2206,6 @@ def init_db(conn):
     chamber_store.ensure_schema(conn)
     from src import agenda
     agenda.ensure_schema(conn)
+    from src import petitions
+    petitions.ensure_schema(conn)
     return conn
