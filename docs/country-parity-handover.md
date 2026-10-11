@@ -88,7 +88,8 @@ live read all render "awaiting sign-off" until a named person confirms.
   ~/.cache/huggingface). Clips can be cut for CH and AT, and NL from a
   hand-downloaded video; FR and BE refuse until agreement is recorded. Test
   clip cut 11 October 2026 (CH 25.455, Jessica Jaccoud, 44.7 s, match 0.86):
-  captions and the ParlCH credit checked, test footage then deleted. Clip
+  captions and the ParlCH credit checked; the test clips and footage were
+  then deleted on both the Mini and the laptop. Clip
   footage under `data/clips/*/windows/` and `final/` is git-ignored (#99);
   a person picks who goes in (the pick ranks by topic, not by side).
 - Compressed publish: VERIFIED 11 October 2026. The store (1.77 GB) uploads
