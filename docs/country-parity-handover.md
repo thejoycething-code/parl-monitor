@@ -65,16 +65,20 @@ check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
    confirmed (religious-symbol bans, IVF, the euthanasia referendum, minors
    online, puberty blockers, conversion-practices ban, sex-work licensing,
    GT and HU against us; France's palliative care bill on hold until read).
-3. Check France's five aide a mourir decrees in `config/watchlist-fr.yaml`
-   against the promulgated law (drafted from the first-reading text).
+3. DONE (11 October 2026, #121): checked against Loi n° 2026-794 du 18 août 2026
+   (JORF 19 August). None of its implementing texts is published yet; the
+   watchlist now lists nine (the HAS list and pharmacy rules are not decrees;
+   conscience register, prices arrêté due about 18 November, register-check
+   start and overseas ordonnance added).
 4. HANDED OVER (11 October 2026): the Looker list prefixes per country
    (`docs/campaign-benchmarks.md`) go to the work-account Claude, which has
    Looker access.
-5. MOSTLY DONE: sent on 9 October from cjoyce@citizengo.net (Hungary W-API,
-   Spain Senado, meineabgeordneten.at, Paraguay, Open States, Australia
-   aph.gov.au). Costa Rica bounced (participacion-consultas accepts internal
-   senders only). Guatemala's court, El Salvador and the France and Belgium
-   video-agreement requests are being handled separately.
+5. DONE: sent on 9 October from cjoyce@citizengo.net (Hungary W-API, Spain
+   Senado, meineabgeordneten.at, Paraguay, Open States, Australia aph.gov.au)
+   and on 12 October (Guatemala's court via comunicacion@cc.gob.gt, asking it
+   to forward to the information unit; El Salvador's missing votes, a LAIP
+   request to transparencia@asamblea.gob.sv). Costa Rica PARKED: the address
+   bounced and no external one is published. Watch for replies.
 6. Update the work account's **debate-day-net** scheduled task from
    `ops/scheduled-tasks/debate-day-net.md` (adds STEP 1B, debate today for
    NL, CH, FR, BE). It lives on the work account, not the personal one.
@@ -84,16 +88,15 @@ check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
    2026Z21728) stays watched.
 9. DONE (11 October 2026): `config/member-intel-groups.yaml` approved as
    drafted.
-10. Confirm four petition thresholds read from the law, not the sites: Austria
-    500 signatures (Bürgerinitiative), Portugal 1,000 and 7,500, Switzerland's
-    18-month collection deadline, Belgium's regional split of 25,000.
-11. Campaign openings found on 11 October: an Assemblée nationale petition
-    against the aide a mourir law (48% of 100,000); Italy's "PMA per tutte"
-    initiative (88% of 50,000, closes 8 December); Austrian Volksbegehren on
-    the abortion paragraphs and the abortion pill.
-12. Speech clips: France and Belgium need prior agreement for video
-    (communication@assemblee-nationale.fr; the Chamber), then set
-    `fr.agreement` / `be.agreement` in `config/clip-sources.yaml`.
+10. DONE (11 October 2026, #121): all four checked against the law. Portugal
+    gained the >2,500 committee-debate tier (art. 24-A); Belgium's 25,000 and
+    regional split cite the Law of 2 May 2019 art. 4.
+11. DECIDED (12 October 2026): no outreach to the country teams; the
+    openings stay in the editions' Petitions section.
+12. ASKED (12 October 2026): prior-agreement requests sent to
+    communication@assemblee-nationale.fr and pri@dekamer.be (short credited
+    clips on CitizenGO's channels). When either agrees, set `fr.agreement` /
+    `be.agreement` in `config/clip-sources.yaml`.
 13. DONE (11 October 2026, #95): the Mini's run slot is first in, first out
     (a ticket queue in `tools/mini_run.sh`). Keep hand backfills out of the
     overnight weekly window.
@@ -105,8 +108,10 @@ check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
     verbatim source-language quotes. Translations still come from a person
     in `translations.yaml` or the free judge run by hand on the Mini
     (command in `docs/mac-mini.md`); "publish" means a canvas for Chris alone.
-14. Whether to raise the weekly free-judge cap (`SESSION_JUDGE_MAX`, about
-    100 items): 295 vote meanings wait for it.
+14. DONE (12 October 2026): 400 items scored once on Chris's personal Claude
+    account (jobs/judge-queue-out.sh / judge-queue-in.sh, #120): 27 edition
+    scores and 373 vote meanings, none refused; 13 editions rewritten. About
+    111 meanings remain for the Sunday judge (cap unchanged at 100).
 
 **Still to run on the Mini (store writers, one at a time):**
 
