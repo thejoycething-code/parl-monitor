@@ -536,6 +536,8 @@ Inside `tools/it_rollcalls.py`; `IT_CAMERA_SOURCE` chooses `auto` (default),
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/it_stance.yaml` holds 15 bill direction(s) (Claude's drafts from the watchlist) and 137 vote reading(s): 9 with proposed values, 1 procedural, 127 need reading, 0 confirmed. Guide: `docs/5ca-it-readings.md`; confirm with `python3 tools/country_5ca.py --cc it --sign-from-doc --by NAME`. Sheets (`data/5ca/it-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Italy (`config/stance_signers.yaml`).
 
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-it-shortlist.md` ranks the 137 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `senato-19-423-1` (2026-06-03, a motion to reject the text; the decisive one; contested: 88-59). It confirms nothing.
+
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:

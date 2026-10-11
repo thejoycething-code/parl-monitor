@@ -281,6 +281,46 @@ the sign-off scope above: 975 entries in all.) Peru, El Salvador and Guatemala
 have bill directions but no qualifying votes in any store yet.
 
 
+### Which readings to sign first (11 October 2026, branch `ukp2-5ca-candidates`)
+
+The UK picks its past votes by hand from a review queue
+(`tools/find_division_candidates.py`, `tools/review_divisions.py`,
+`docs/division-candidates*.md`). The new countries start from the other end:
+every watched and tier-1 vote already has a drafted reading, 975 of them,
+and none places anyone until a named person confirms it. In date order that
+is not a job anyone finishes. `src/shortlist5ca.py` ranks it, by rules (no
+AI call), from the stance file itself (kind, tally, lobbies), the vote
+meanings (`src/vote_meanings.py`), the campaign files and the brief ledger:
+
+* up: the whole text (+30) or a motion to reject it (+25), the last such
+  vote on its bill (+10), a watched bill (+15), values already proposed
+  (+15), a close margin (+8 to +20), split groups and members against their
+  group (up to +25), a meaning line ready (+10), a campaign outcome (+25),
+  a campaign's ground or a brief's bill (+10), recent (+5 to +15);
+* down: amendments (-10), procedure (-30), near-unanimous votes (-15), and
+  collated-only areas such as migration last (-100: they place nobody).
+
+`python3 tools/country_5ca.py --cc CC --shortlist [--top 20]` writes
+`docs/5ca-<cc>-shortlist.md`: the top N, each with its reasons and points,
+the result and lobbies, the meaning line, the proposed values (or what a
+person must read first) and the exact `--confirm KEY --by NAME` command
+(the country's one named signer, else Christopher), a one-line command for
+all the proposed ones in the list, and the best three per area. The Sunday
+`editions-session-judge` job rewrites them (`--shortlist` on the 5CA step),
+and the stance digest DM now leads with each country's top 5 and keeps the
+counts as one line under them. **It confirms nothing**: the commands are
+for a person to run after reading each item, and `--confirm` still refuses
+a `needs_reading` entry and anyone not named in
+`config/stance_signers.yaml`.
+
+On the stance files of 11 October 2026 (laptop, no store tables for these
+countries, so lobbies come from the files and meanings from the rules), the
+tops are what a signer would pick: Poland's re-passage of the cohabitation
+contracts law over the veto (232 to 199), Italy's questione sospensiva on
+assisted dying in the Senato, France's final vote on the aide a mourir law,
+the Dutch Embryowet initiative bill (CDA and JA21 split), Belgium's final
+vote on palliative leave flagged near-unanimous.
+
 ## The new countries' tracker and partner sheet (10 October 2026, branch `camp-5ca-sheets`)
 
 `tools/make_country_5ca_web.py`, the new-country counterpart of
