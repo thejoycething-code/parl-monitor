@@ -44,6 +44,15 @@
 # judge still runs. They read the store and write no table, so they need no
 # publish of their own.
 #
+# DRIVE (11 October 2026; tools/country_drive.py, src/country_drive.py): the
+# new countries' campaign briefs (briefs/<cc>-*.csv, from each weekly) become
+# Sheets from the UK brief template, and their real (non-sample) debate packs
+# are uploaded, under "Country editions/<Country>/" in the Automated Briefs
+# shared drive, as the UK's are. Only what is new or changed:
+# data/country-drive.json (committed with data/) and each sheet's slug tag
+# keep a rerun from making a second copy. At most 30 new sheets a run. Before
+# the judge, so a judge gap never skips it; its failure is a [gap] line.
+#
 # mini_run: commit editions config docs partner_site
 set -o pipefail
 cd "$(dirname "$0")/.."
@@ -56,6 +65,9 @@ python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets \
   || echo "  [gap] the 5CA stance step failed for a country; the others stand"
 python3 tools/make_country_5ca_web.py || echo "  [gap] the new-country 5CA pages failed; last week's stand"
 python3 tools/stance_digest.py --dm || echo "  [gap] the stance digest DM failed; next week's covers it"
+# --ready-only: briefs reach the campaigners' shared drive only once signed off
+# (no NOT READY drafts there); debate packs are unaffected.
+python3 tools/country_drive.py --ready-only || echo "  [gap] country-drive: some briefs or packs did not reach Drive; the next run retries"
 
 rc=0
 bash tools/session_judge.sh tools/edition_judge.py "${SESSION_JUDGE_MAX:-100}" 25
