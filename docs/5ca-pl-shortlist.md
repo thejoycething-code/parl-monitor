@@ -1,12 +1,12 @@
 # Poland 5CA: sign these first
 
-Written by `tools/country_5ca.py --shortlist` (src/shortlist5ca.py) on 2026-10-11, by rules, no AI call. **This list confirms nothing.** It ranks the 185 readings waiting in `config/pl_stance.yaml` (24 proposed, 4 procedural, 157 need reading) so a signer starts with the votes that matter most: the decisive votes on watched bills, close margins, split groups, votes with a meaning line, votes feeding a campaign or a brief, recent first; procedural, near-unanimous and amendment-level votes sink. Read each item (the full reading is in `docs/5ca-pl-readings.md`), then run its command. The full rules are at the end.
+Written by `tools/country_5ca.py --shortlist` (src/shortlist5ca.py) on 2026-10-11, by rules, no AI call. **This list confirms nothing.** It ranks the 192 readings waiting in `config/pl_stance.yaml` (29 proposed, 4 procedural, 159 need reading) so a signer starts with the votes that matter most: the decisive votes on watched bills, close margins, split groups, votes with a meaning line, votes feeding a campaign or a brief, recent first; procedural, near-unanimous and amendment-level votes sink. Read each item (the full reading is in `docs/5ca-pl-readings.md`), then run its command. The full rules are at the end.
 
 The commands sign as **Christopher** (no country signer is named yet; replace the name with whoever signs). `--confirm` refuses anyone not named in `config/stance_signers.yaml` (Chris signs for every country) and any reading that still needs reading.
 
 **All the proposed ones below in one go**, once each is read and agreed (leave out any you do not accept):
 
-    python3 tools/country_5ca.py --cc pl --confirm pl-10-65-10 pl-10-65-11 pl-10-21-38 pl-10-58-103 pl-10-58-62 pl-10-45-80 pl-10-15-9 pl-10-61-40 pl-10-58-54 pl-10-58-63 pl-10-51-72 pl-10-51-73 pl-10-30-16 pl-10-41-30 pl-10-45-47 pl-10-43-70 pl-10-15-8 pl-10-30-12 pl-10-6-15 pl-10-6-16 --by Christopher
+    python3 tools/country_5ca.py --cc pl --confirm pl-10-65-10 pl-10-65-11 pl-10-21-38 pl-10-58-103 pl-10-58-62 pl-10-45-80 pl-10-15-9 pl-10-61-40 pl-10-58-54 pl-10-58-63 pl-10-51-72 pl-10-51-73 pl-10-30-16 pl-10-41-30 pl-10-45-47 pl-10-43-70 pl-10-15-8 pl-10-9-28 pl-10-9-29 pl-10-9-31 --by Christopher
 
 ## Top 20
 
@@ -197,50 +197,50 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
   - Voted Za on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): for rejecting it, with CitizenGO's position.
 - **Sign:** `python3 tools/country_5ca.py --cc pl --confirm pl-10-15-8 --by Christopher`
 
-### 18. `pl-10-30-12` wniosek o odrzucenie w całości projektu.
+### 18. `pl-10-9-28` wniosek o odrzucenie projektu z druku nr 176 w pierwszym czytaniu.
 
-- **Why first (84 points):** a motion to reject the text; watched bill 10/876; values proposed: one tick to sign; close-ish: 199-240; meaning line ready.
-- **When / result:** 2025-03-06; Sejm; Za 199, Przeciw 240, Abstain 1
-- **On:** Pkt. 2 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Kodeks karny (druki nr 876, 984 i 984-A)
-- **Area:** conversion practices, sex-based rights, free speech and civil liberties
-- Meaning: **Za** = to reject 10/876 (extends hate-speech and hate-crime protection to disability, age, sex and sexual orientation) outright at this stage (a motion to reject); **Przeciw** = against rejecting it, so it goes on. _(by rule, from the vote's wording and the bill)_
+- **Why first (85 points):** a motion to reject the text; watched bill 10/176; values proposed: one tick to sign; close: 204-223; meaning line ready.
+- **When / result:** 2024-04-12; Sejm; Za 204, Przeciw 223, Abstain 15
+- **On:** Pkt. 10., 11., 12. i 13 Pierwsze czytanie poselskiego projektu ustawy o zmianie ustawy - Kodeks karny (druk nr 176)Pierwsze czytanie poselskiego projektu ustawy o bezpiecznym przerywaniu ciąży (druk n
+- **Area:** abortion, religious freedom, marriage and family
+- Meaning: **Za** = to reject 10/176 (decriminalises abortion up to 12 weeks with the woman's consent) outright at this stage (a motion to reject); **Przeciw** = against rejecting it, so it goes on. _(by rule, from the vote's wording and the bill)_
 - **Proposed:** Za +2, Przeciw -2
-  - Voted Za on 10/876 (Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disabi): for rejecting it, with CitizenGO's position.
-- **Sign:** `python3 tools/country_5ca.py --cc pl --confirm pl-10-30-12 --by Christopher`
+  - Voted Za on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): for rejecting it, with CitizenGO's position.
+- **Sign:** `python3 tools/country_5ca.py --cc pl --confirm pl-10-9-28 --by Christopher`
 
-### 19. `pl-10-6-15` wniosek o odrzucenie projektu w pierwszym czytaniu.
+### 19. `pl-10-9-29` wniosek o odrzucenie projektu z druku nr 177 w pierwszym czytaniu.
 
-- **Why first (83 points):** a motion to reject the text; the last such vote on its bill; watched bill 10/25; values proposed: one tick to sign; contested: 234-189; meaning line ready.
-- **When / result:** 2024-02-22; Sejm; Za 234, Przeciw 189
-- **On:** Pkt. 7 Pierwsze czytanie obywatelskiego projektu ustawy Tak dla rodziny, nie dla gender (druk nr 25) - kontynuacja
-- **Area:** sex-based rights, marriage and family
-- Meaning: **Za** = to reject 10/25 (withdraw from the Istanbul Convention and draft a family-rights convention) outright at this stage (a motion to reject); **Przeciw** = against rejecting it, so it goes on. _(by rule, from the vote's wording and the bill)_
-- **Proposed:** Za -2, Przeciw +2
-  - Voted Za on 10/25 (Citizens' bill 'Tak dla rodziny, nie dla gender': withdraw from the Istanbul Convention an): for rejecting it, against CitizenGO's position.
-- **Sign:** `python3 tools/country_5ca.py --cc pl --confirm pl-10-6-15 --by Christopher`
+- **Why first (85 points):** a motion to reject the text; watched bill 10/176; values proposed: one tick to sign; close: 206-222; meaning line ready.
+- **When / result:** 2024-04-12; Sejm; Za 206, Przeciw 222, Abstain 16
+- **On:** Pkt. 10., 11., 12. i 13 Pierwsze czytanie poselskiego projektu ustawy o zmianie ustawy - Kodeks karny (druk nr 176)Pierwsze czytanie poselskiego projektu ustawy o bezpiecznym przerywaniu ciąży (druk n
+- **Area:** abortion, religious freedom, marriage and family
+- Meaning: **Za** = to reject 10/176 (decriminalises abortion up to 12 weeks with the woman's consent) outright at this stage (a motion to reject); **Przeciw** = against rejecting it, so it goes on. _(by rule, from the vote's wording and the bill)_
+- **Proposed:** Za +2, Przeciw -2
+  - Voted Za on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): for rejecting it, with CitizenGO's position.
+- **Sign:** `python3 tools/country_5ca.py --cc pl --confirm pl-10-9-29 --by Christopher`
 
-### 20. `pl-10-6-16` wniosek o odrzucenie projektu w pierwszym czytaniu.
+### 20. `pl-10-9-31` wniosek o odrzucenie projektu z druku nr 224 w pierwszym czytaniu.
 
-- **Why first (83 points):** a motion to reject the text; the last such vote on its bill; watched bill 10/26; values proposed: one tick to sign; contested: 233-189; meaning line ready.
-- **When / result:** 2024-02-22; Sejm; Za 233, Przeciw 189
-- **On:** Pkt. 8 Pierwsze czytanie obywatelskiego projektu ustawy o zmianie ustawy z dnia 24 lipca 2015 r. - Prawo o zgromadzeniach oraz niektórych innych ustaw (druk nr 26) - kontynuacja
-- **Area:** sex-based rights
-- Meaning: **Za** = to reject 10/26 (bans assemblies promoting same-sex relations or gender change) outright at this stage (a motion to reject); **Przeciw** = against rejecting it, so it goes on. _(by rule, from the vote's wording and the bill)_
-- **Proposed:** Za -2, Przeciw +2
-  - Voted Za on 10/26 (Citizens' bill 'Stop LGBT': bans assemblies promoting same-sex relations or gender change): for rejecting it, against CitizenGO's position.
-- **Sign:** `python3 tools/country_5ca.py --cc pl --confirm pl-10-6-16 --by Christopher`
+- **Why first (85 points):** a motion to reject the text; watched bill 10/176; values proposed: one tick to sign; close: 206-222; meaning line ready.
+- **When / result:** 2024-04-12; Sejm; Za 206, Przeciw 222, Abstain 16
+- **On:** Pkt. 10., 11., 12. i 13 Pierwsze czytanie poselskiego projektu ustawy o zmianie ustawy - Kodeks karny (druk nr 176)Pierwsze czytanie poselskiego projektu ustawy o bezpiecznym przerywaniu ciąży (druk n
+- **Area:** abortion, religious freedom, marriage and family
+- Meaning: **Za** = to reject 10/176 (decriminalises abortion up to 12 weeks with the woman's consent) outright at this stage (a motion to reject); **Przeciw** = against rejecting it, so it goes on. _(by rule, from the vote's wording and the bill)_
+- **Proposed:** Za +2, Przeciw -2
+  - Voted Za on 10/176 (Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent): for rejecting it, with CitizenGO's position.
+- **Sign:** `python3 tools/country_5ca.py --cc pl --confirm pl-10-9-31 --by Christopher`
 
 ## By area (rank in the whole list)
 
-- **abortion** (12 waiting): #3 `pl-10-21-38` 2024-11-08, 110 pts; #7 `pl-10-15-9` 2024-07-12, 100 pts; #17 `pl-10-15-8` 2024-07-12, 85 pts
-- **conversion practices** (6 waiting): #13 `pl-10-30-16` 2025-03-06, 99 pts; #18 `pl-10-30-12` 2025-03-06, 84 pts; #23 `pl-10-25-12` 2024-12-20, 78 pts
-- **sex-based rights** (9 waiting): #8 `pl-10-61-40` 2026-07-03, 99 pts; #13 `pl-10-30-16` 2025-03-06, 99 pts; #18 `pl-10-30-12` 2025-03-06, 84 pts
+- **abortion** (18 waiting): #3 `pl-10-21-38` 2024-11-08, 110 pts; #7 `pl-10-15-9` 2024-07-12, 100 pts; #17 `pl-10-15-8` 2024-07-12, 85 pts
+- **conversion practices** (6 waiting): #13 `pl-10-30-16` 2025-03-06, 99 pts; #21 `pl-10-30-12` 2025-03-06, 84 pts; #27 `pl-10-25-12` 2024-12-20, 78 pts
+- **sex-based rights** (9 waiting): #8 `pl-10-61-40` 2026-07-03, 99 pts; #13 `pl-10-30-16` 2025-03-06, 99 pts; #21 `pl-10-30-12` 2025-03-06, 84 pts
 - **parental rights and education** (1 waiting): #14 `pl-10-41-30` 2025-09-26, 94 pts
-- **free speech and civil liberties** (95 waiting): #6 `pl-10-45-80` 2025-11-21, 104 pts; #13 `pl-10-30-16` 2025-03-06, 99 pts; #15 `pl-10-45-47` 2025-11-21, 89 pts
-- **religious freedom** (1 waiting): #14 `pl-10-41-30` 2025-09-26, 94 pts
-- **marriage and family** (67 waiting): #1 `pl-10-65-10` 2026-09-17, 119 pts; #2 `pl-10-65-11` 2026-09-17, 119 pts; #4 `pl-10-58-103` 2026-05-29, 104 pts
-- **surrogacy and embryology** (6 waiting): #22 `pl-10-1-40` 2023-11-29, 80 pts; #28 `pl-10-1-31` 2023-11-28, 65 pts; #119 `pl-10-1-36` 2023-11-29, 23 pts
-- **migration** (8 waiting): #178 `pl-10-63-44` 2026-07-31, -17 pts; #179 `pl-10-38-40` 2025-07-09, -30 pts; #180 `pl-10-38-37` 2025-07-09, -66 pts
+- **free speech and civil liberties** (96 waiting): #6 `pl-10-45-80` 2025-11-21, 104 pts; #13 `pl-10-30-16` 2025-03-06, 99 pts; #15 `pl-10-45-47` 2025-11-21, 89 pts
+- **religious freedom** (6 waiting): #14 `pl-10-41-30` 2025-09-26, 94 pts; #18 `pl-10-9-28` 2024-04-12, 85 pts; #19 `pl-10-9-29` 2024-04-12, 85 pts
+- **marriage and family** (71 waiting): #1 `pl-10-65-10` 2026-09-17, 119 pts; #2 `pl-10-65-11` 2026-09-17, 119 pts; #4 `pl-10-58-103` 2026-05-29, 104 pts
+- **surrogacy and embryology** (6 waiting): #26 `pl-10-1-40` 2023-11-29, 80 pts; #33 `pl-10-1-31` 2023-11-28, 65 pts; #125 `pl-10-1-36` 2023-11-29, 23 pts
+- **migration** (8 waiting): #185 `pl-10-63-44` 2026-07-31, -17 pts; #186 `pl-10-38-40` 2025-07-09, -30 pts; #187 `pl-10-38-37` 2025-07-09, -66 pts
 
 ## How the points work
 

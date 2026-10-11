@@ -1,14 +1,14 @@
 # Brazil 5CA: sign these first
 
-Written by `tools/country_5ca.py --shortlist` (src/shortlist5ca.py) on 2026-10-11, by rules, no AI call. **This list confirms nothing.** It ranks the 7 readings waiting in `config/br_stance.yaml` (2 proposed, 2 procedural, 3 need reading) so a signer starts with the votes that matter most: the decisive votes on watched bills, close margins, split groups, votes with a meaning line, votes feeding a campaign or a brief, recent first; procedural, near-unanimous and amendment-level votes sink. Read each item (the full reading is in `docs/5ca-br-readings.md`), then run its command. The full rules are at the end.
+Written by `tools/country_5ca.py --shortlist` (src/shortlist5ca.py) on 2026-10-11, by rules, no AI call. **This list confirms nothing.** It ranks the 13 readings waiting in `config/br_stance.yaml` (2 proposed, 5 procedural, 6 need reading) so a signer starts with the votes that matter most: the decisive votes on watched bills, close margins, split groups, votes with a meaning line, votes feeding a campaign or a brief, recent first; procedural, near-unanimous and amendment-level votes sink. Read each item (the full reading is in `docs/5ca-br-readings.md`), then run its command. The full rules are at the end.
 
 The commands sign as **Christopher** (no country signer is named yet; replace the name with whoever signs). `--confirm` refuses anyone not named in `config/stance_signers.yaml` (Chris signs for every country) and any reading that still needs reading.
 
 **All the proposed ones below in one go**, once each is read and agreed (leave out any you do not accept):
 
-    python3 tools/country_5ca.py --cc br --confirm camara-2351506-122 camara-2351506-104 camara-2351506-95 camara-2351506-102 --by Christopher
+    python3 tools/country_5ca.py --cc br --confirm camara-2351506-122 camara-2351506-104 camara-2351506-95 camara-543252-45 camara-2351506-102 camara-346155-136 camara-2351506-34 --by Christopher
 
-## Top 7
+## Top 13
 
 ### 1. `camara-2351506-122` Aprovada, em segundo turno, a Proposta de Emenda à Constituição n° 5, de 2023. Sim: 368; Não: 96; Abstenção: 7; Total: 471.
 
@@ -67,7 +67,18 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** nothing: An amendment, an article or one point ('Mantido o texto. Sim: 335; Não: 117; Abstenção: 5; Total: 457.'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay.
 - **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `camara-2351506-115` in config/br_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc br --confirm camara-2351506-115 --by Christopher`
 
-### 6. `camara-2351506-95` Rejeitado o Requerimento. Sim: 102; Não: 322; Abstenção: 1; Total: 425.
+### 6. `camara-543252-60` Aprovado o Parecer com o seguinte resultado: 35 votos "Sim", 15 votos "Não". Quórum de votação: 50 votos, apresentou voto em separado o Depu
+
+- **Why first (34 points):** watched bill PEC 164/2012; split MDB, PSD, PT, UNIÃO (4 against their group).
+- **When / result:** 2024-11-27; Câmara; approved; Sim 35, Não 15
+- **On:** Dá nova redação ao caput do art. 5º da Constituição Federal.
+- **Area:** abortion
+- **Lobbies:** Sim: PL 12, UNIÃO 8, REPUBLICANOS 4, PSD 4, MDB 3, PODE 2, NOVO 1, PT 1. Não: PT 6, PCdoB 2, PSOL 2, UNIÃO 1, PV 1, MDB 1, PSD 1, AVANTE 1
+- Meaning: none yet (no line from a person, the judge or the rules).
+- **Proposed:** nothing: The kind of vote could not be read from its wording ('Aprovado o Parecer com o seguinte resultado: 35 votos "Sim", 15 votos "Não". Quórum de votação: 50 votos, apresentou vot'): read the question put, then write yea/nay.
+- **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `camara-543252-60` in config/br_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc br --confirm camara-543252-60 --by Christopher`
+
+### 7. `camara-2351506-95` Rejeitado o Requerimento. Sim: 102; Não: 322; Abstenção: 1; Total: 425.
 
 - **Why first (27 points):** procedural (lower); watched bill PEC 5/2023; split MDB, PDT, PL, PP and 3 more (15 against their group); meaning line ready; this year.
 - **When / result:** 2026-05-28; Câmara; rejected; Sim 102, Não 322, Abstain 2
@@ -78,7 +89,39 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** procedural: evidence only, places nobody (Procedural (Rejeitado o Requerimento. Sim: 102; Não: 322; Abstenção: 1; Total: 425.): it decides the timetable or the handling, not the substance, so neither lo)
 - **Sign:** `python3 tools/country_5ca.py --cc br --confirm camara-2351506-95 --by Christopher`
 
-### 7. `camara-2351506-102` Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1; Total: 472.
+### 8. `camara-2310837-8` Aprovado o Requerimento de Urgência (Art. 154 do RICD). Sim: 238; não: 192; total: 430.
+
+- **Why first (16 points):** amendment-level (lower); watched bill PL 2630/2020; contested: 238-192; meaning line quotes the source.
+- **When / result:** 2023-04-25; Câmara; approved; Sim 238, Não 192, Abstain 1
+- **On:** Institui a Lei Brasileira de Liberdade, Responsabilidade e Transparência na Internet.
+- **Area:** free speech and civil liberties
+- Meaning: **Sim** = to adopt the amendment or part put to the vote (“Aprovado o Requerimento de Urgência (Art. 154 do RICD). Sim: 238…”) on PL 2630/2020 (platform regulation); **Não** = against adopting it, leaving the text as it stood. _(by rule, from the vote's wording and the bill)_
+- **Proposed:** nothing: An amendment, an article or one point ('Aprovado o Requerimento de Urgência (Art. 154 do RICD). Sim: 238; não: 192; total: 430.'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay.
+- **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `camara-2310837-8` in config/br_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc br --confirm camara-2310837-8 --by Christopher`
+
+### 9. `camara-346155-112` Aprovado o Parecer com Complementação de Voto, com Substitutivo, com o seguinte resultado: 12 votos "Sim", 5 votos "Não". Quórum de votação:
+
+- **Why first (15 points):** watched bill PL 580/2007.
+- **When / result:** 2023-10-10; Câmara; approved; Sim 12, Não 5
+- **On:** Altera a Lei nº 10.406, de 10 de janeiro de 2002 - Código Civil, para dispor sobre o contrato civil de união homoafetiva.
+- **Area:** marriage and family
+- **Lobbies:** Sim: PL 7, REPUBLICANOS 2, AVANTE 1, UNIÃO 1, PP 1. Não: PT 2, PSOL 2, PSD 1
+- Meaning: none yet (no line from a person, the judge or the rules).
+- **Proposed:** nothing: The kind of vote could not be read from its wording ('Aprovado o Parecer com Complementação de Voto, com Substitutivo, com o seguinte resultado: 12 votos "Sim", 5 votos "Não"'): read the question put, then write yea/nay.
+- **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `camara-346155-112` in config/br_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc br --confirm camara-346155-112 --by Christopher`
+
+### 10. `camara-543252-45` Rejeitado o Requerimento de Retirada de Pauta. Resultado: 13 votos "Sim", 34 votos "Não". Quórum de votação: 47 votos e 1 obstrução.
+
+- **Why first (7 points):** procedural (lower); watched bill PEC 164/2012; split MDB, UNIÃO (2 against their group); meaning line ready.
+- **When / result:** 2024-11-13; Câmara; rejected; Sim 13, Não 34
+- **On:** Dá nova redação ao caput do art. 5º da Constituição Federal.
+- **Area:** abortion
+- **Lobbies:** Sim: PT 5, PCdoB 2, PSOL 2, UNIÃO 1, PV 1, MDB 1, AVANTE 1. Não: PL 13, UNIÃO 7, REPUBLICANOS 4, PP 4, MDB 2, PODE 2, PSD 2
+- Meaning: **Sim** = to approve a procedural request (requerimento) on PEC 164/2012 (inviolability of the right to life from conception, in the head of art. 5); **Não** = against the request. _(by rule, from the vote's wording and the bill)_
+- **Proposed:** procedural: evidence only, places nobody (Procedural (Rejeitado o Requerimento de Retirada de Pauta. Resultado: 13 votos "Sim", 34 votos "Não". Quórum de votação: 47 votos e ): it decides the timetable )
+- **Sign:** `python3 tools/country_5ca.py --cc br --confirm camara-543252-45 --by Christopher`
+
+### 11. `camara-2351506-102` Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1; Total: 472.
 
 - **Why first (0 points):** procedural (lower); watched bill PEC 5/2023; near-unanimous (467-4, lower); split PCdoB, PDT, PSB (3 against their group); meaning line ready; this year.
 - **When / result:** 2026-05-28; Câmara; approved; Sim 467, Não 4, Abstain 2
@@ -89,9 +132,34 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** procedural: evidence only, places nobody (Procedural (Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1; Total: 472.): it decides the timetable or the handling, not the substance, so neither lobby )
 - **Sign:** `python3 tools/country_5ca.py --cc br --confirm camara-2351506-102 --by Christopher`
 
+### 12. `camara-346155-136` Rejeitado o Requerimento de Retirada de Pauta. Resultado: 2 votos "Sim", 9 votos "Não". Quórum de votação: 11 votos.
+
+- **Why first (-5 points):** procedural (lower); watched bill PL 580/2007; meaning line ready.
+- **When / result:** 2024-08-13; Câmara; rejected; Sim 2, Não 9
+- **On:** Altera a Lei nº 10.406, de 10 de janeiro de 2002 - Código Civil, para dispor sobre o contrato civil de união homoafetiva.
+- **Area:** marriage and family
+- **Lobbies:** Sim: PL 2. Não: PT 4, PSOL 4, PCdoB 1
+- Meaning: **Sim** = to approve a procedural request (requerimento) on PL 580/2007 (Civil contract of 'união homoafetiva'; PL 5167/2009 was attached to it); **Não** = against the request. _(by rule, from the vote's wording and the bill)_
+- **Proposed:** procedural: evidence only, places nobody (Procedural (Rejeitado o Requerimento de Retirada de Pauta. Resultado: 2 votos "Sim", 9 votos "Não". Quórum de votação: 11 votos.): it decides the timetable or t)
+- **Sign:** `python3 tools/country_5ca.py --cc br --confirm camara-346155-136 --by Christopher`
+
+### 13. `camara-2351506-34` Rejeitado o Requerimento de Retirada de Pauta. Resultado: 1 voto "Sim", 39 votos "Não". Quórum de votação: 40 votos.
+
+- **Why first (-17 points):** procedural (lower); watched bill PEC 5/2023; near-unanimous (1-39, lower); split PSOL (1 against their group); meaning line ready.
+- **When / result:** 2023-09-19; Câmara; rejected; Sim 1, Não 39
+- **On:** Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI.
+- **Area:** religious freedom
+- **Lobbies:** Sim: PSOL 1. Não: PL 12, PT 6, UNIÃO 4, REPUBLICANOS 4, MDB 3, PSD 3, NOVO 2, PP 1, PSB 1, PODE 1, PSOL 1, AVANTE 1
+- Meaning: **Sim** = to approve a procedural request (requerimento) on PEC 5/2023 (Extends tax immunity for religious organisations (art. 150 of the Constitution)); **Não** = against the request. _(by rule, from the vote's wording and the bill)_
+- **Proposed:** procedural: evidence only, places nobody (Procedural (Rejeitado o Requerimento de Retirada de Pauta. Resultado: 1 voto "Sim", 39 votos "Não". Quórum de votação: 40 votos.): it decides the timetable or t)
+- **Sign:** `python3 tools/country_5ca.py --cc br --confirm camara-2351506-34 --by Christopher`
+
 ## By area (rank in the whole list)
 
-- **religious freedom** (7 waiting): #1 `camara-2351506-122` 2026-05-28, 113 pts; #2 `camara-2351506-104` 2026-05-28, 103 pts; #3 `camara-2351506-108` 2026-05-28, 50 pts
+- **abortion** (2 waiting): #6 `camara-543252-60` 2024-11-27, 34 pts; #10 `camara-543252-45` 2024-11-13, 7 pts
+- **free speech and civil liberties** (1 waiting): #8 `camara-2310837-8` 2023-04-25, 16 pts
+- **religious freedom** (8 waiting): #1 `camara-2351506-122` 2026-05-28, 113 pts; #2 `camara-2351506-104` 2026-05-28, 103 pts; #3 `camara-2351506-108` 2026-05-28, 50 pts
+- **marriage and family** (2 waiting): #9 `camara-346155-112` 2023-10-10, 15 pts; #12 `camara-346155-136` 2024-08-13, -5 pts
 
 ## How the points work
 

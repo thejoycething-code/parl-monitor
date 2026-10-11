@@ -1,6 +1,6 @@
 # Austria 5CA: sign these first
 
-Written by `tools/country_5ca.py --shortlist` (src/shortlist5ca.py) on 2026-10-11, by rules, no AI call. **This list confirms nothing.** It ranks the 19 readings waiting in `config/at_stance.yaml` (3 proposed, 1 procedural, 15 need reading) so a signer starts with the votes that matter most: the decisive votes on watched bills, close margins, split groups, votes with a meaning line, votes feeding a campaign or a brief, recent first; procedural, near-unanimous and amendment-level votes sink. Read each item (the full reading is in `docs/5ca-at-readings.md`), then run its command. The full rules are at the end.
+Written by `tools/country_5ca.py --shortlist` (src/shortlist5ca.py) on 2026-10-11, by rules, no AI call. **This list confirms nothing.** It ranks the 22 readings waiting in `config/at_stance.yaml` (3 proposed, 1 procedural, 18 need reading) so a signer starts with the votes that matter most: the decisive votes on watched bills, close margins, split groups, votes with a meaning line, votes feeding a campaign or a brief, recent first; procedural, near-unanimous and amendment-level votes sink. Read each item (the full reading is in `docs/5ca-at-readings.md`), then run its command. The full rules are at the end.
 
 The commands sign as **Christopher** (no country signer is named yet; replace the name with whoever signs). `--confirm` refuses anyone not named in `config/stance_signers.yaml` (Chris signs for every country) and any reading that still needs reading.
 
@@ -8,7 +8,7 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 
     python3 tools/country_5ca.py --cc at --confirm 'XXVIII/A/504@XXVIII/NRSITZ/87#106' 'XXVIII/UEA/106@XXVIII/NRSITZ/37#175' 'XXVIII/UEA/26@XXVIII/NRSITZ/15#73' 'XXVIII/A/295@XXVIII/NRSITZ/83#2.7' --by Christopher
 
-## Top 19
+## Top 20
 
 ### 1. `XXVIII/A/504@XXVIII/NRSITZ/87#106` Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen
 
@@ -101,7 +101,29 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** nothing: A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/UEA/158: CitizenGO's position on 'Kopftuchverbot für Lehrerinnen und Schulpersonal' needs a human reading. Add a `bill_directions` line or write yea/nay here.
 - **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `XXVIII/UEA/158@XXVIII/NRSITZ/57#37.2` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/UEA/158@XXVIII/NRSITZ/57#37.2' --by Christopher`
 
-### 9. `XXVIII/UEA/121@XXVIII/NRSITZ/41#121.7` Unselbständiger Entschließungsantrag
+### 9. `XXVIII/UEA/139@XXVIII/NRSITZ/44#214.2` Unselbständiger Entschließungsantrag
+
+- **Why first (58 points):** a vote on the whole text; the last such vote on its bill; tier 1; meaning line quotes the source; this year.
+- **When / result:** 2025-10-15; Nationalrat; abgelehnt
+- **On:** Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht
+- **Area:** sex-based rights
+- **Lobbies:** Dafür: FPÖ 57. Dagegen: ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **Dafür** = to adopt the resolution motion on the text “Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht”; **Dagegen** = against adopting the resolution. _(by rule, from the vote's wording and the bill)_
+- **Proposed:** nothing: A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/UEA/139: CitizenGO's position on 'Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht' needs a human reading. Add a `bill_directions` line or wri
+- **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `XXVIII/UEA/139@XXVIII/NRSITZ/44#214.2` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/UEA/139@XXVIII/NRSITZ/44#214.2' --by Christopher`
+
+### 10. `XXVIII/A/507@XXVIII/NRSITZ/81#112.1` Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen
+
+- **Why first (53 points):** a motion to reject the text; the last such vote on its bill; tier 1; meaning line quotes the source; this year.
+- **When / result:** 2026-06-10; Nationalrat; angenommen
+- **On:** Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht
+- **Area:** sex-based rights
+- **Lobbies:** Dafür: ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16. Dagegen: FPÖ 57 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **Dafür** = to reject the text “Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht” outright at this stage (a motion to reject); **Dagegen** = against rejecting it, so it goes on. _(by rule, from the vote's wording and the bill)_
+- **Proposed:** nothing: A motion to reject the text (the sides are swapped), but no bill direction is on file for XXVIII/A/507: CitizenGO's position on 'Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht' needs a human reading. Add a `bill_directions` line or
+- **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `XXVIII/A/507@XXVIII/NRSITZ/81#112.1` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/A/507@XXVIII/NRSITZ/81#112.1' --by Christopher`
+
+### 11. `XXVIII/UEA/121@XXVIII/NRSITZ/41#121.7` Unselbständiger Entschließungsantrag
 
 - **Why first (53 points):** a vote on the whole text; the last such vote on its bill; tier 1; meaning line quotes the source.
 - **When / result:** 2025-09-24; Nationalrat; abgelehnt
@@ -112,7 +134,7 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** nothing: A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/UEA/121: CitizenGO's position on 'Waffen sichern – Leben schützen. Klare Gesetze für Waffenverwahrung zum Schutz vor Suiziden und Femiziden' needs a human reading. Add a
 - **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `XXVIII/UEA/121@XXVIII/NRSITZ/41#121.7` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/UEA/121@XXVIII/NRSITZ/41#121.7' --by Christopher`
 
-### 10. `XXVIII/UEA/117@XXVIII/NRSITZ/39#85` Unselbständiger Entschließungsantrag
+### 12. `XXVIII/UEA/117@XXVIII/NRSITZ/39#85` Unselbständiger Entschließungsantrag
 
 - **Why first (53 points):** a vote on the whole text; the last such vote on its bill; tier 1; meaning line quotes the source.
 - **When / result:** 2025-07-11; Nationalrat; abgelehnt
@@ -123,7 +145,18 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** nothing: A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/UEA/117: CitizenGO's position on 'Kopftuchverbot an Österreichs Schulen' needs a human reading. Add a `bill_directions` line or write yea/nay here.
 - **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `XXVIII/UEA/117@XXVIII/NRSITZ/39#85` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/UEA/117@XXVIII/NRSITZ/39#85' --by Christopher`
 
-### 11. `XXVIII/I/525@XXVIII/NRSITZ/87#205.1` Abänderungsantrag der Abgeordneten Mag. Johanna Jachs, Mag. Selma Yildirim, Mag. Sophie Marie Wotschke, Kolleginnen und Kollegen (AA-78)
+### 13. `XXVIII/A/506@XXVIII/NRSITZ/81#112.2` Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen
+
+- **Why first (43 points):** a motion to reject the text; tier 1; meaning line quotes the source; this year.
+- **When / result:** 2026-06-10; Nationalrat; angenommen
+- **On:** Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht
+- **Area:** sex-based rights
+- **Lobbies:** Dafür: ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16. Dagegen: FPÖ 57 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **Dafür** = to reject the text “Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht” outright at this stage (a motion to reject); **Dagegen** = against rejecting it, so it goes on. _(by rule, from the vote's wording and the bill)_
+- **Proposed:** nothing: A motion to reject the text (the sides are swapped), but no bill direction is on file for XXVIII/A/506: CitizenGO's position on 'Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht' needs a human reading. Add a `bill_directions` line or
+- **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `XXVIII/A/506@XXVIII/NRSITZ/81#112.2` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/A/506@XXVIII/NRSITZ/81#112.2' --by Christopher`
+
+### 14. `XXVIII/I/525@XXVIII/NRSITZ/87#205.1` Abänderungsantrag der Abgeordneten Mag. Johanna Jachs, Mag. Selma Yildirim, Mag. Sophie Marie Wotschke, Kolleginnen und Kollegen (AA-78)
 
 - **Why first (35 points):** amendment-level (lower); watched bill XXVIII/I/525; meaning line ready; feeds brief at-sterbeverfugungsgesetz-novelle-2026-stvfg-nov-20-xxviii-i-525 (NOT READY until signed); this year.
 - **When / result:** 2026-07-07; Nationalrat; angenommen
@@ -134,7 +167,7 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** nothing: An amendment, an article or one point ('Abänderungsantrag der Abgeordneten Mag. Johanna Jachs, Mag. Selma Yildirim, Mag. Sophie Marie Wotschke, Kolleginnen und '): which side is ours depends on its text, which the store does not hold. Read it, then write yea/n
 - **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `XXVIII/I/525@XXVIII/NRSITZ/87#205.1` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/I/525@XXVIII/NRSITZ/87#205.1' --by Christopher`
 
-### 12. `XXVIII/AA/78@XXVIII/NRSITZ/87#210` Antrag
+### 15. `XXVIII/AA/78@XXVIII/NRSITZ/87#210` Antrag
 
 - **Why first (25 points):** watched bill XXVIII/AA/78; this year.
 - **When / result:** 2026-07-07; Nationalrat; angenommen
@@ -145,7 +178,7 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** nothing: The kind of vote could not be read from its wording ('Antrag'): read the question put, then write yea/nay.
 - **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `XXVIII/AA/78@XXVIII/NRSITZ/87#210` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/AA/78@XXVIII/NRSITZ/87#210' --by Christopher`
 
-### 13. `BR/UEA-BR/792@BR/BRSITZ/985#142.2` Antrag
+### 16. `BR/UEA-BR/792@BR/BRSITZ/985#142.2` Antrag
 
 - **Why first (15 points):** tier 1; this year.
 - **When / result:** 2025-12-18; Bundesrat; abgelehnt
@@ -156,7 +189,7 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** nothing: The kind of vote could not be read from its wording ('Antrag'): read the question put, then write yea/nay.
 - **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `BR/UEA-BR/792@BR/BRSITZ/985#142.2` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'BR/UEA-BR/792@BR/BRSITZ/985#142.2' --by Christopher`
 
-### 14. `BR/UEA-BR/761@BR/BRSITZ/980#28` Antrag
+### 17. `BR/UEA-BR/761@BR/BRSITZ/980#28` Antrag
 
 - **Why first (10 points):** tier 1.
 - **When / result:** 2025-07-17; Bundesrat; abgelehnt
@@ -167,7 +200,7 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** nothing: The kind of vote could not be read from its wording ('Antrag'): read the question put, then write yea/nay.
 - **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `BR/UEA-BR/761@BR/BRSITZ/980#28` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'BR/UEA-BR/761@BR/BRSITZ/980#28' --by Christopher`
 
-### 15. `BR/UEA-BR/771@BR/BRSITZ/981#45.5` Antrag
+### 18. `BR/UEA-BR/771@BR/BRSITZ/981#45.5` Antrag
 
 - **Why first (-5 points):** tier 1; near-unanimous (0-56, lower).
 - **When / result:** 2025-10-09; Bundesrat; abgelehnt
@@ -178,7 +211,7 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** nothing: The kind of vote could not be read from its wording ('Antrag'): read the question put, then write yea/nay.
 - **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `BR/UEA-BR/771@BR/BRSITZ/981#45.5` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'BR/UEA-BR/771@BR/BRSITZ/981#45.5' --by Christopher`
 
-### 16. `XXVIII/A/295@XXVIII/NRSITZ/83#2.7` Antrag des Abgeordneten David Stögmüller auf Fristsetzung zur Berichterstattung durch den Gleichbehandlungsausschuss (855/GO)
+### 19. `XXVIII/A/295@XXVIII/NRSITZ/83#2.7` Antrag des Abgeordneten David Stögmüller auf Fristsetzung zur Berichterstattung durch den Gleichbehandlungsausschuss (855/GO)
 
 - **Why first (-12 points):** procedural (lower); tier 1; meaning line quotes the source; this year.
 - **When / result:** 2026-06-11; Nationalrat; abgelehnt
@@ -189,7 +222,7 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** procedural: evidence only, places nobody (Procedural (Antrag des Abgeordneten David Stögmüller auf Fristsetzung zur Berichterstattung durch den Gleichbehandlungsausschuss (85): it decides the timetable )
 - **Sign:** `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/A/295@XXVIII/NRSITZ/83#2.7' --by Christopher`
 
-### 17. `XXVIII/I/475@BR/BRSITZ/991#80` Antrag, keinen Einspruch zu erheben,
+### 20. `XXVIII/I/475@BR/BRSITZ/991#80` Antrag, keinen Einspruch zu erheben,
 
 - **Why first (-42 points):** a vote on the whole text; the last such vote on its bill; tier 1; meaning line quotes the source; this year; collated-only area: places nobody (lowest).
 - **When / result:** 2026-06-03; Bundesrat; angenommen
@@ -199,39 +232,17 @@ The commands sign as **Christopher** (no country signer is named yet; replace th
 - **Proposed:** nothing: A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/I/475: CitizenGO's position on 'Organtransplantationsgesetz, Änderung' needs a human reading. Add a `bill_directions` line or write yea/nay here.
 - **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `XXVIII/I/475@BR/BRSITZ/991#80` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/I/475@BR/BRSITZ/991#80' --by Christopher`
 
-### 18. `XXVIII/I/475@XXVIII/NRSITZ/77#70` Gesetzesvorschlag in zweiter Lesung
-
-- **Why first (-67 points):** a vote on the whole text; tier 1; near-unanimous (182-0, lower); meaning line quotes the source; this year; collated-only area: places nobody (lowest).
-- **When / result:** 2026-05-20; Nationalrat; angenommen
-- **On:** Organtransplantationsgesetz, Änderung
-- **Area:** organ donation
-- **Lobbies:** Dafür: FPÖ 57, ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16 (counts include members DERIVED from their group's vote, X5)
-- Meaning: **Dafür** = to pass the text “Gesetzesvorschlag in zweiter Lesung” at second reading; **Dagegen** = against passing it. _(by rule, from the vote's wording and the bill)_
-- **Proposed:** nothing: A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/I/475: CitizenGO's position on 'Organtransplantationsgesetz, Änderung' needs a human reading. Add a `bill_directions` line or write yea/nay here.
-- **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `XXVIII/I/475@XXVIII/NRSITZ/77#70` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/I/475@XXVIII/NRSITZ/77#70' --by Christopher`
-
-### 19. `XXVIII/I/475@XXVIII/NRSITZ/77#70+2` Gesetzesvorschlag in dritter Lesung
-
-- **Why first (-67 points):** a vote on the whole text; tier 1; near-unanimous (182-0, lower); meaning line quotes the source; this year; collated-only area: places nobody (lowest).
-- **When / result:** 2026-05-20; Nationalrat; angenommen
-- **On:** Organtransplantationsgesetz, Änderung
-- **Area:** organ donation
-- **Lobbies:** Dafür: FPÖ 57, ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16 (counts include members DERIVED from their group's vote, X5)
-- Meaning: **Dafür** = to pass the text “Gesetzesvorschlag in dritter Lesung” at third reading; **Dagegen** = against passing it. _(by rule, from the vote's wording and the bill)_
-- **Proposed:** nothing: A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/I/475: CitizenGO's position on 'Organtransplantationsgesetz, Änderung' needs a human reading. Add a `bill_directions` line or write yea/nay here.
-- **Sign:** first write `yea:`/`nay:` and the why lines (or `placeable: false` and a `reason:`) under `XXVIII/I/475@XXVIII/NRSITZ/77#70+2` in config/at_stance.yaml and set `status: draft`, then `python3 tools/country_5ca.py --cc at --confirm 'XXVIII/I/475@XXVIII/NRSITZ/77#70+2' --by Christopher`
-
 ## By area (rank in the whole list)
 
 - **abortion** (1 waiting): #7 `XXVIII/UEA/177@XXVIII/NRSITZ/73#76.2` 2026-03-26, 58 pts
 - **assisted dying** (5 waiting): #4 `XXVIII/I/525@BR/BRSITZ/993#22` 2026-07-15, 75 pts; #5 `XXVIII/I/525@XXVIII/NRSITZ/87#210` 2026-07-07, 75 pts; #6 `XXVIII/I/525@XXVIII/NRSITZ/87#210+2` 2026-07-07, 75 pts
 - **gender medicine and children** (1 waiting): #1 `XXVIII/A/504@XXVIII/NRSITZ/87#106` 2026-07-07, 85 pts
-- **conversion practices** (1 waiting): #16 `XXVIII/A/295@XXVIII/NRSITZ/83#2.7` 2026-06-11, -12 pts
-- **sex-based rights** (4 waiting): #1 `XXVIII/A/504@XXVIII/NRSITZ/87#106` 2026-07-07, 85 pts; #3 `XXVIII/UEA/26@XXVIII/NRSITZ/15#73` 2025-03-27, 85 pts; #9 `XXVIII/UEA/121@XXVIII/NRSITZ/41#121.7` 2025-09-24, 53 pts
+- **conversion practices** (1 waiting): #19 `XXVIII/A/295@XXVIII/NRSITZ/83#2.7` 2026-06-11, -12 pts
+- **sex-based rights** (7 waiting): #1 `XXVIII/A/504@XXVIII/NRSITZ/87#106` 2026-07-07, 85 pts; #3 `XXVIII/UEA/26@XXVIII/NRSITZ/15#73` 2025-03-27, 85 pts; #9 `XXVIII/UEA/139@XXVIII/NRSITZ/44#214.2` 2025-10-15, 58 pts
 - **parental rights and education** (1 waiting): #1 `XXVIII/A/504@XXVIII/NRSITZ/87#106` 2026-07-07, 85 pts
-- **religious freedom** (4 waiting): #8 `XXVIII/UEA/158@XXVIII/NRSITZ/57#37.2` 2025-12-11, 58 pts; #10 `XXVIII/UEA/117@XXVIII/NRSITZ/39#85` 2025-07-11, 53 pts; #13 `BR/UEA-BR/792@BR/BRSITZ/985#142.2` 2025-12-18, 15 pts
+- **religious freedom** (4 waiting): #8 `XXVIII/UEA/158@XXVIII/NRSITZ/57#37.2` 2025-12-11, 58 pts; #12 `XXVIII/UEA/117@XXVIII/NRSITZ/39#85` 2025-07-11, 53 pts; #16 `BR/UEA-BR/792@BR/BRSITZ/985#142.2` 2025-12-18, 15 pts
 - **marriage and family** (1 waiting): #2 `XXVIII/UEA/106@XXVIII/NRSITZ/37#175` 2025-07-10, 85 pts
-- **organ donation** (3 waiting): #17 `XXVIII/I/475@BR/BRSITZ/991#80` 2026-06-03, -42 pts; #18 `XXVIII/I/475@XXVIII/NRSITZ/77#70` 2026-05-20, -67 pts; #19 `XXVIII/I/475@XXVIII/NRSITZ/77#70+2` 2026-05-20, -67 pts
+- **organ donation** (3 waiting): #20 `XXVIII/I/475@BR/BRSITZ/991#80` 2026-06-03, -42 pts; #21 `XXVIII/I/475@XXVIII/NRSITZ/77#70` 2026-05-20, -67 pts; #22 `XXVIII/I/475@XXVIII/NRSITZ/77#70+2` 2026-05-20, -67 pts
 
 ## How the points work
 
