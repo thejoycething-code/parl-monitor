@@ -22,8 +22,10 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Slovakia documents backfill}"
 export PYTHONUNBUFFERED=1
 rc=0
+# The reading budget leaves room for the publish (tools/collector_budget.sh):
+# run 1 on 11 October read for 55 minutes, published, then hit the hour.
 python3 tools/sk_rollcalls.py --positions none --no-interpellations \
-  --doc-budget-seconds 3300 || rc=$?
+  --doc-budget-seconds "$(bash tools/collector_budget.sh 3300 "$SECONDS")" || rc=$?
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "sk-rollcalls failed (exit $rc); nothing published"
   exit "$rc"
