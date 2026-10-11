@@ -112,6 +112,19 @@ check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
     account (jobs/judge-queue-out.sh / judge-queue-in.sh, #120): 27 edition
     scores and 373 vote meanings, none refused; 13 editions rewritten. About
     111 meanings remain for the Sunday judge (cap unchanged at 100).
+17. DONE (12 October 2026, `docs/country-decisions-2026-10-12.md`): the 126
+    bills with no direction are decided (91 directions, 29 with no CitizenGO
+    stake taken out of play, 6 left for a person); religious-symbol bans are
+    all with us, veils included (Belgium reversed, Quebec's laicity readings
+    flipped); `--fill-directions` drafts the votes that waited on them, and
+    migration-only readings no longer count as needing a person.
+18. OPEN: HazteOir to confirm Spain's SUMAR free-expression reform
+    (15/122/000006). Drafted `with`, flagged, so nothing confirms on it
+    until the flag is cleared.
+19. OPEN: six mixed bills left for a person (listed in the shortlists, each
+    with a "Left for a person" flag): NL 2026Z08649, 2025Z00250, 2026Z12645;
+    FR DLR5L17N53936; PL 10/529; HR 11/228. Also Quebec's Bill 9 (43-2),
+    which adds a ban on prayer on public premises to the symbol ban.
 
 **Still to run on the Mini (store writers, one at a time):**
 

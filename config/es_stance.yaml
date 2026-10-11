@@ -42,12 +42,125 @@ bill_directions:
     areas: [1]
     why: "Proyecto de reforma del artículo 43 de la Constitución: the Government's bill to write abortion into the Constitution. Its title names only the article, so no abortion term can see it. The PP and VOX totality amendments"
     drafted: "Claude, 10 October 2026, from config/watchlist-es.yaml"
+  # --- 12 October 2026: Chris's bill positions (docs/country-decisions-2026-10-12.md) ---
+  - key: "15/122/000006"
+    direction: with
+    status: draft
+    areas: [7]
+    why: "SUMAR bill reforming the Penal Code for free expression, expected to repeal offences such as offending religious sentiments; it widens speech but strips a protection Spanish Christian groups use."
+    decided: "Chris, 12 Oct 2026: with us, but for the HazteOir team to confirm."
+    flag: "HazteOir team to confirm: it repeals the offence of offending religious sentiments."
+    drafted: "Claude, 12 October 2026"
+  - key: "15/122/000077"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "PSOE bill amending the Penal Code to criminalise pimping in all its forms, an abolitionist measure against the prostitution trade that CitizenGO supports."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "15/162/000252"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [7]
+    why: "Non-binding PSOE motion for a national pact against hate speech, a framework likely to justify restricting lawful speech, including Christian views on sexuality and family."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Non-binding motion; text not read)"
+    drafted: "Claude, 12 October 2026"
+  - key: "15/122/000164"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [9, 12]
+    why: "VOX bill toughening Penal Code penalties for forced marriage, protecting free consent to marriage and fighting a form of trafficking."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Marriage and trafficking link is protective but not core; confirm)"
+    drafted: "Claude, 12 October 2026"
+  - key: "15/162/000311"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [7]
+    why: "Non-binding VOX motion in defence of freedom of expression, which supports CitizenGO's position against restrictions on lawful speech."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Non-binding motion; text not read)"
+    drafted: "Claude, 12 October 2026"
+  - key: "15/162/000496"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [5]
+    why: "Non-binding PSOE motion condemning Hungary's ban on the Pride march, which Hungary grounds in its child protection law that CitizenGO supports."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Non-binding foreign-affairs motion; tagged sex-based rights but really LGBT and child protection)"
+    drafted: "Claude, 12 October 2026"
+  - key: "15/122/000201"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [4, 5]
+    why: "PSOE bill amending the Penal Code to criminalise conversion therapies on sexual orientation and gender identity, risking criminal liability for prayer, pastoral care and parental guidance."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "15/121/000052"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [6, 7]
+    why: "Government bill protecting minors in digital environments; VOX moved its return (enmienda de totalidad de devolución). Like France's minors-online bill it reads as censorship and digital-ID risk, so passing it is against CitizenGO and the return is with us."
+    decided: "Chris, 12 Oct 2026: consistent with France's minors-online call. Recorded as the bill against us (the decision sheet put `with` on the VOX return motion, keyed by the bill), so a vote for the return is with us."
+    drafted: "Claude, 12 October 2026"
+  - key: "15/162/000717"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "PP motion defending persecuted Christians worldwide and calling for international action against religiously motivated massacres, squarely supporting religious freedom."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "15/162/000753"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [9, 12]
+    why: "Non-binding PSOE motion to push global eradication of forced marriage, which protects free consent to marriage and fights a trafficking-linked abuse."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Non-binding; check text for gender-ideology language)"
+    drafted: "Claude, 12 October 2026"
+  - key: "15/125/000014"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [2]
+    why: "Catalan Parliament bill changing procedural law on the 'right to die with dignity', apparently to stop relatives' court challenges suspending euthanasia, making assisted dying harder to halt."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Procedural detail inferred from title and context; confirm text)"
+    drafted: "Claude, 12 October 2026"
+  - key: "15/173/000181"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [5]
+    why: "Motion backing victims of conversion 'pseudotherapies' against LGBTIQ+ people, reinforcing the push to criminalise pastoral care and parental guidance on sexuality."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Non-binding motion; tagged area 5 but is conversion practices (4))"
+    drafted: "Claude, 12 October 2026"
 
 divisions:
 
   # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
   - key: "congreso-15-13-1"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on 15/122/000006 (SUMAR bill reforming the Penal Code for free expression, expected to repeal offences such ): for passing it, with CitizenGO's position."
+    why_nay: "Voted No on 15/122/000006 (SUMAR bill reforming the Penal Code for free expression, expected to repeal offences such ): against passing it, against CitizenGO's position."
+    flag: "On the bill's direction: HazteOir team to confirm: it repeals the offence of offending religious sentiments."
     title: "Proposición de Ley del Grupo Parlamentario Plurinacional SUMAR, Orgánica de reforma de la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal para la protección de la libertad de expresión."
     "on": "Toma en consideración de Proposiciones de Ley."
     dated: "2023-12-19"
@@ -56,8 +169,7 @@ divisions:
     tier: 1
     result: "Sí 177, No 169"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/122/000006: CitizenGO's position on 'Toma en consideración de Proposiciones de Ley.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for 15/122/000006 (a draft): passing it is WITH us -- SUMAR bill reforming the Penal Code for free expression, expected to repeal offences such as offending religious sentiments; it widens speech but strips a protection Spanish Christian groups use. This vote is a vote on the whole text or the motion itself, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-34-1"
@@ -75,7 +187,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-38-2"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on 15/122/000077 (PSOE bill amending the Penal Code to criminalise pimping in all its forms, an abolitionist): for passing it, with CitizenGO's position."
+    why_nay: "Voted No on 15/122/000077 (PSOE bill amending the Penal Code to criminalise pimping in all its forms, an abolitionist): against passing it, against CitizenGO's position."
     title: "Proposición de Ley del Grupo Parlamentario Socialista, Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para prohibir el proxenetismo en todas sus formas."
     "on": "Toma en consideración de Proposiciones de Ley."
     dated: "2024-05-21"
@@ -84,8 +200,7 @@ divisions:
     tier: 1
     result: "Sí 122, No 184, Abstain 36"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/122/000077: CitizenGO's position on 'Toma en consideración de Proposiciones de Ley.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 15/122/000077 (CONFIRMED): passing it is WITH us -- PSOE bill amending the Penal Code to criminalise pimping in all its forms, an abolitionist measure against the prostitution trade that CitizenGO supports. This vote is a vote on the whole text or the motion itself, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-40-56"
@@ -327,7 +442,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-49-8"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on 15/162/000252 (Non-binding PSOE motion for a national pact against hate speech, a framework likely to jus): for passing it, against CitizenGO's position."
+    why_nay: "Voted No on 15/162/000252 (Non-binding PSOE motion for a national pact against hate speech, a framework likely to jus): against passing it, with CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Socialista, sobre un Acuerdo de País contra los Discursos de Odio."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-20"
@@ -336,8 +455,7 @@ divisions:
     tier: 1
     result: "Sí 177, No 33, Abstain 138"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/162/000252: CitizenGO's position on 'Proposiciones no de Ley.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for 15/162/000252 (CONFIRMED): passing it is AGAINST us -- Non-binding PSOE motion for a national pact against hate speech, a framework likely to justify restricting lawful speech, including Christian views on sexuality and family. This vote is a vote on the whole text or the motion itself, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-57-2"
@@ -384,7 +502,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-71-1"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Public-order reform, link to CitizenGO areas incidental"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Proposición de Ley de los Grupos Parlamentarios Socialista, Plurinacional SUMAR, Euskal Herria Bildu y Vasco (EAJ-PNV), Orgánica de protección de las libertades y seguridad ciudadana."
     "on": "Toma en consideración de Proposiciones de Ley."
     dated: "2024-10-29"
@@ -393,7 +515,6 @@ divisions:
     tier: 1
     result: "Sí 176, No 170"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/122/000131: CitizenGO's position on 'Toma en consideración de Proposiciones de Ley.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -650,7 +771,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-107-2"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on 15/122/000164 (VOX bill toughening Penal Code penalties for forced marriage, protecting free consent to m): for passing it, with CitizenGO's position."
+    why_nay: "Voted No on 15/122/000164 (VOX bill toughening Penal Code penalties for forced marriage, protecting free consent to m): against passing it, against CitizenGO's position."
     title: "Proposición de Ley del Grupo Parlamentario VOX, Orgánica de modificación de la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para el endurecimiento de las penas del delito de matrimonio forzado."
     "on": "Toma en consideración de Proposiciones de Ley."
     dated: "2025-05-06"
@@ -659,8 +784,7 @@ divisions:
     tier: 1
     result: "Sí 169, No 175"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/122/000164: CitizenGO's position on 'Toma en consideración de Proposiciones de Ley.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 9 (marriage and family), 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 9 (marriage and family), 12 (prostitution and trafficking). Bill direction on file for 15/122/000164 (CONFIRMED): passing it is WITH us -- VOX bill toughening Penal Code penalties for forced marriage, protecting free consent to marriage and fighting a form of trafficking. This vote is a vote on the whole text or the motion itself, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-109-18"
@@ -679,7 +803,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-109-7"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on 15/162/000311 (Non-binding VOX motion in defence of freedom of expression, which supports CitizenGO's pos): for passing it, with CitizenGO's position."
+    why_nay: "Voted No on 15/162/000311 (Non-binding VOX motion in defence of freedom of expression, which supports CitizenGO's pos): against passing it, against CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario VOX, en defensa de la libertad de expresión."
     "on": "Proposiciones no de Ley."
     dated: "2025-05-08"
@@ -688,12 +816,15 @@ divisions:
     tier: 1
     result: "Sí 32, No 180, Abstain 137"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/162/000311: CitizenGO's position on 'Proposiciones no de Ley.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for 15/162/000311 (CONFIRMED): passing it is WITH us -- Non-binding VOX motion in defence of freedom of expression, which supports CitizenGO's position against restrictions on lawful speech. This vote is a vote on the whole text or the motion itself, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-121-3"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on 15/162/000496 (Non-binding PSOE motion condemning Hungary's ban on the Pride march, which Hungary grounds): for passing it, against CitizenGO's position."
+    why_nay: "Voted No on 15/162/000496 (Non-binding PSOE motion condemning Hungary's ban on the Pride march, which Hungary grounds): against passing it, with CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Socialista, relativa a la condena de la prohibición de la marcha del orgullo LGTBI en Hungría y en defensa de los derechos humanos."
     "on": "Proposiciones no de Ley."
     dated: "2025-06-19"
@@ -702,12 +833,15 @@ divisions:
     tier: 1
     result: "Sí 176, No 33, Abstain 136"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/162/000496: CitizenGO's position on 'Proposiciones no de Ley.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 5 (sex-based rights). Bill direction on file for 15/162/000496 (CONFIRMED): passing it is AGAINST us -- Non-binding PSOE motion condemning Hungary's ban on the Pride march, which Hungary grounds in its child protection law that CitizenGO supports. This vote is a vote on the whole text or the motion itself, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-122-2"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on 15/122/000201 (PSOE bill amending the Penal Code to criminalise conversion therapies on sexual orientatio): for passing it, against CitizenGO's position."
+    why_nay: "Voted No on 15/122/000201 (PSOE bill amending the Penal Code to criminalise conversion therapies on sexual orientatio): against passing it, with CitizenGO's position."
     title: "Proposición de Ley del Grupo Parlamentario Socialista, Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para penalizar las terapias de conversión dirigidas a eliminar o negar la orientación sexu"
     "on": "Toma en consideración de Proposiciones de Ley."
     dated: "2025-06-24"
@@ -716,12 +850,15 @@ divisions:
     tier: 1
     result: "Sí 311, No 33, Abstain 1"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/122/000201: CitizenGO's position on 'Toma en consideración de Proposiciones de Ley.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Bill direction on file for 15/122/000201 (CONFIRMED): passing it is AGAINST us -- PSOE bill amending the Penal Code to criminalise conversion therapies on sexual orientation and gender identity, risking criminal liability for prayer, pastoral care and parental guidance. This vote is a vote on the whole text or the motion itself, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-130-9"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on 15/121/000052 (Government bill protecting minors in digital environments): for rejecting it, with CitizenGO's position."
+    why_nay: "Voted No on 15/121/000052 (Government bill protecting minors in digital environments): against rejecting it, against CitizenGO's position."
     title: "Votación de la enmienda a la totalidad de devolución al Proyecto de Ley Orgánica para la protección de las personas menores de edad en los entornos digitales, presentada por el Grupo Parlamentario VOX."
     "on": "Debates de totalidad de iniciativas legislativas."
     dated: "2025-09-10"
@@ -730,8 +867,7 @@ divisions:
     tier: 1
     result: "Sí 33, No 178, Abstain 137"
     vote_kind: "reject"
-    read_first: "A motion to reject the text (the sides are swapped), but no bill direction is on file for 15/121/000052: CitizenGO's position on 'Debates de totalidad de iniciativas legislativas.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 6 (parental rights and education), 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 6 (parental rights and education), 7 (free speech and civil liberties). Bill direction on file for 15/121/000052 (CONFIRMED): passing it is AGAINST us -- Government bill protecting minors in digital environments; VOX moved its return (enmienda de totalidad de devolución). Like France's minors-online bill it reads as censorship and digital-ID risk, so p. This vote is a motion to reject the text (the sides are swapped), so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-131-1"
@@ -820,7 +956,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-166-2"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on 15/162/000717 (PP motion defending persecuted Christians worldwide and calling for international action a): for passing it, with CitizenGO's position."
+    why_nay: "Voted No on 15/162/000717 (PP motion defending persecuted Christians worldwide and calling for international action a): against passing it, against CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, relativa a la defensa de los cristianos perseguidos en el mundo y la acción internacional para frenar las masacres por motivos religiosos."
     "on": "Proposiciones no de Ley."
     dated: "2026-03-18"
@@ -829,12 +969,15 @@ divisions:
     tier: 1
     result: "Sí 169, No 3, Abstain 176"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/162/000717: CitizenGO's position on 'Proposiciones no de Ley.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 15/162/000717 (CONFIRMED): passing it is WITH us -- PP motion defending persecuted Christians worldwide and calling for international action against religiously motivated massacres, squarely supporting religious freedom. This vote is a vote on the whole text or the motion itself, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-174-8"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on 15/162/000753 (Non-binding PSOE motion to push global eradication of forced marriage, which protects free): for passing it, with CitizenGO's position."
+    why_nay: "Voted No on 15/162/000753 (Non-binding PSOE motion to push global eradication of forced marriage, which protects free): against passing it, against CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Socialista, para impulsar la erradicación del matrimonio forzado a nivel global."
     "on": "Proposiciones no de Ley."
     dated: "2026-04-22"
@@ -843,8 +986,7 @@ divisions:
     tier: 1
     result: "Sí 176, No 33, Abstain 136"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/162/000753: CitizenGO's position on 'Proposiciones no de Ley.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 9 (marriage and family), 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 9 (marriage and family), 12 (prostitution and trafficking). Bill direction on file for 15/162/000753 (CONFIRMED): passing it is WITH us -- Non-binding PSOE motion to push global eradication of forced marriage, which protects free consent to marriage and fights a trafficking-linked abuse. This vote is a vote on the whole text or the motion itself, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-177-12"
@@ -950,7 +1092,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-185-42"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on 15/125/000014 (Catalan Parliament bill changing procedural law on the 'right to die with dignity', appare): for passing it, against CitizenGO's position."
+    why_nay: "Voted No on 15/125/000014 (Catalan Parliament bill changing procedural law on the 'right to die with dignity', appare): against passing it, with CitizenGO's position."
     title: "Proposición de Ley del Parlamento de Cataluña, de modificación de algunas disposiciones normativas procesales con relación al derecho de morir dignamente."
     "on": "Toma en consideración de Proposiciones de Ley de Comunidades y Ciudades Autónomas."
     dated: "2026-06-11"
@@ -959,8 +1105,7 @@ divisions:
     tier: 1
     result: "Sí 178, No 169"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/125/000014: CitizenGO's position on 'Toma en consideración de Proposiciones de Ley de Comunidades y Ciudades Autónomas.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 2 (assisted dying). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for 15/125/000014 (CONFIRMED): passing it is AGAINST us -- Catalan Parliament bill changing procedural law on the 'right to die with dignity', apparently to stop relatives' court challenges suspending euthanasia, making assisted dying harder to halt. This vote is a vote on the whole text or the motion itself, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-188-1"
@@ -1006,7 +1151,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-15"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on 15/173/000181 (Motion backing victims of conversion 'pseudotherapies' against LGBTIQ+ people, reinforcing): for passing it, against CitizenGO's position."
+    why_nay: "Voted No on 15/173/000181 (Motion backing victims of conversion 'pseudotherapies' against LGBTIQ+ people, reinforcing): against passing it, with CitizenGO's position."
     title: "Moción consecuencia de interpelación urgente del Grupo Parlamentario Mixto (Sra. Micó Micó), sobre el apoyo a las víctimas de las pseudoterapias de conversión contra las personas LGTBIQ+."
     "on": "Mociones consecuencia de interpelaciones urgentes."
     dated: "2026-06-25"
@@ -1015,8 +1164,7 @@ divisions:
     tier: 1
     result: "Sí 174, No 169, Abstain 5"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/173/000181: CitizenGO's position on 'Mociones consecuencia de interpelaciones urgentes.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 5 (sex-based rights). Bill direction on file for 15/173/000181 (CONFIRMED): passing it is AGAINST us -- Motion backing victims of conversion 'pseudotherapies' against LGBTIQ+ people, reinforcing the push to criminalise pastoral care and parental guidance on sexuality. This vote is a vote on the whole text or the motion itself, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-2"
@@ -1034,7 +1182,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-21"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on 15/122/000201 (PSOE bill amending the Penal Code to criminalise conversion therapies on sexual orientatio): for passing it, against CitizenGO's position."
+    why_nay: "Voted No on 15/122/000201 (PSOE bill amending the Penal Code to criminalise conversion therapies on sexual orientatio): against passing it, with CitizenGO's position."
     title: "Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para penalizar las terapias de conversión dirigidas a eliminar o negar la orientación sexual, identidad sexual o expresión de"
     "on": "Dictámenes de Comisiones sobre iniciativas legislativas."
     dated: "2026-06-25"
@@ -1043,12 +1195,15 @@ divisions:
     tier: 1
     result: "Sí 179, No 32, Abstain 137"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/122/000201: CitizenGO's position on 'Dictámenes de Comisiones sobre iniciativas legislativas.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Bill direction on file for 15/122/000201 (CONFIRMED): passing it is AGAINST us -- PSOE bill amending the Penal Code to criminalise conversion therapies on sexual orientation and gender identity, risking criminal liability for prayer, pastoral care and parental guidance. This vote is a vote on the whole text or the motion itself, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-22"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on 15/122/000201 (PSOE bill amending the Penal Code to criminalise conversion therapies on sexual orientatio): for passing it, against CitizenGO's position."
+    why_nay: "Voted No on 15/122/000201 (PSOE bill amending the Penal Code to criminalise conversion therapies on sexual orientatio): against passing it, with CitizenGO's position."
     title: "Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para penalizar las terapias de conversión dirigidas a eliminar o negar la orientación sexual, identidad sexual o expresión de"
     "on": "Dictámenes de Comisiones sobre iniciativas legislativas."
     dated: "2026-06-25"
@@ -1057,8 +1212,7 @@ divisions:
     tier: 1
     result: "Sí 178, No 32, Abstain 138"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 15/122/000201: CitizenGO's position on 'Dictámenes de Comisiones sobre iniciativas legislativas.' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Bill direction on file for 15/122/000201 (CONFIRMED): passing it is AGAINST us -- PSOE bill amending the Penal Code to criminalise conversion therapies on sexual orientation and gender identity, risking criminal liability for prayer, pastoral care and parental guidance. This vote is a vote on the whole text or the motion itself, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-3"

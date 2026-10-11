@@ -99,6 +99,394 @@ bill_directions:
     areas: [5]
     why: "Motion (Piri c.s.) to fly the rainbow flag over the Kamer building; roll-call vote of 8 October 2026, adopted 90-36."
     drafted: "Claude, 10 October 2026, from config/watchlist-nl.yaml"
+  # --- 12 October 2026: Chris's bill positions (docs/country-decisions-2026-10-12.md) ---
+  - key: "2026Z02265"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [10, 12]
+    why: "Asks that the surrogacy bill be paused until the national coordinators on violence against women and on trafficking assess its risks; delaying a surrogacy regime is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z01723"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Secures structural funding for the special envoy for freedom of religion and belief; strengthening religious freedom work is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z01751"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Asks the government to keep prioritising freedom of religion and countering violence against Christians in foreign policy, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z01849"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks that policy on sexual violence explicitly address violence against women in prostitution, recognising prostitution's harms in line with CitizenGO's anti-prostitution stance."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z01848"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks that DUUP funds go exclusively to people who want to leave prostitution rather than to professionalising it, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z03207"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [7]
+    why: "Asks the government to agree with universities on safeguarding academic freedom, open debate and dissent; protecting lawful speech in academia is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: General academic freedom motion; check the link to dissenting views is substantive)"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z04431"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [3, 5]
+    why: "Asks for solutions to shorten waiting lists for transgender care, expanding access to gender medicine, which is against CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Motion covers transgender care generally, adults and minors alike)"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z06865"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Asks the House to recognise Islam as the main cause of global persecution of Christians; it highlights the persecution of Christians, and Chris ruled it with us on 12 October 2026."
+    decided: "Chris, 12 Oct 2026: with us."
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z07107"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Asks the government to press in the EU for freedom of belief to be anchored in Syria's constitution, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z06856"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [7, 8]
+    why: "Asks the government to map measures against countries imposing the death penalty for blasphemy or apostasy, defending religious freedom and free speech in line with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z06868"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Asks the government to exchange best practice with the United States on tackling global persecution of Christians, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z06863"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Asks the House to recognise Islam as a prominent factor in global persecution of Christians; it highlights the persecution of Christians, and Chris ruled it with us on 12 October 2026."
+    decided: "Chris, 12 Oct 2026: with us."
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z06858"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Asks for an ambitious role for the special envoy for freedom of religion, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z06890"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [3, 5]
+    why: "Asks that transgender women not be placed in women's prisons, protecting single-sex spaces in line with CitizenGO's position on sex-based rights."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z11087"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [9]
+    why: "Asks the government to prepare state systems for children having three or four legal parents ahead of a multi-parenthood law, undermining the two-parent family and against CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z10359"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [10]
+    why: "Asks the government to monitor international developments in embryo research in the EU, a cautionary oversight step in line with CitizenGO's opposition to expanding embryo research."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Monitoring only; low practical impact)"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z10364"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [10]
+    why: "Asks for independent research into abuses in donor conception, supporting children's interests and scrutiny of reproductive practices, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Investigation only; check CitizenGO wants donor-conception abuses as an issue)"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z10356"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [10]
+    why: "Asks the Health Council for an ethical reflection on new techniques for creating embryos, a cautionary step in line with CitizenGO's opposition to expanding embryo research."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Advisory step only)"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z10358"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [10]
+    why: "Asks the CCMO to report the number and nature of studies using intact embryo-like structures, adding oversight of embryo research in line with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Reporting step only)"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z10363"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [10]
+    why: "D66 motion asking for the Embryo Act to be evaluated within two years with explicit attention to future-proofing, likely a step towards further liberalising embryo research."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Intent inferred from mover; read text)"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z11094"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [1]
+    why: "Asks for a review of where law must better weigh the fundamental rights of mothers and their unborn children, giving legal recognition to the unborn in line with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z12889"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Asks the government to work actively to improve the position of religious minorities in Egypt, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z12643"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [9]
+    why: "Asks the government not to back binding EU obligations on education, family policy and family law beyond the treaties, protecting national family law and parental rights in line with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z18341"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks that fines and confiscated earnings from traffickers be paid to the victims concerned, strengthening anti-trafficking measures in line with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z18344"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks for a legal minimum age of at least 18 for clients of prostitution, restricting demand in line with CitizenGO's stance against prostitution."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z18349"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks for the minimum age for sex work to be raised to 21, restricting prostitution and protecting young women, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z19472"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks the government to do everything possible to give minor trafficking victims adequate help and shelter, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z18351"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks for the opting-in tax scheme for sex workers to be revised with the sex-work sector to secure labour protection, treating prostitution as regular work and against CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Also targets exploitation by operators; normalisation framing decides it)"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z18345"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks for a new action day this year using decoy profiles on online platforms to detect trafficking, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z18340"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks that sex workers be required to work as employees or self-employed, formalising prostitution as regular employment, which is against CitizenGO despite its anti-coercion aim."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Aimed at curbing forced prostitution; formalisation framing decides it)"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z19475"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks for an inventory of measures to strengthen detection, victim protection and prosecution of human trafficking on the Caribbean islands, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z18342"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks for a separate route for minor victims in the national referral mechanism for trafficking, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z18347"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks the national coordinator on trafficking to back up the role with figures, strengthening anti-trafficking work in line with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z18348"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks for independent research into the effects of raising the sex-work minimum age to 21, likely delaying the higher age that CitizenGO supports."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Could be read as neutral evidence-gathering; intent inferred)"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z18350"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks what further effort is needed against illegality and exploitation within sex work, an anti-exploitation step in line with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Framed within regulated 'sex work'; check it does not normalise)"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z20240"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks for a pilot with Belgium and Germany on joint detection and referral of young trafficking victims, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2025Z18907"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Implements EU Directive 2024/1712 strengthening prevention of trafficking and protection of victims, including demand reduction, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z20395"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks for the national referral mechanism for trafficking victims to be anchored in law, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z20238"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks that reducing demand for services of trafficking victims be a theme in the Together against Trafficking programme, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z20242"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [10, 12]
+    why: "Asks for guarantees that surrogacy contracts a surrogate withdraws from never lead to coercion or separation of mother and child, protecting mothers against surrogacy in line with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z20841"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [1]
+    why: "Asks the government to guarantee availability of abortion and emergency contraception in conflict zones through foreign policy, which is against CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z20638"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [6]
+    why: "Asks the House to state that home education is sometimes the most suitable form of education for children, supporting parents' rights in education in line with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z20241"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [12]
+    why: "Asks for an integral action plan against sexualisation in society, including measures against the normalisation of pornography, which is with CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
 
 divisions:
 
@@ -508,7 +896,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "0a233239-c68b-4f50-a94f-440ffc86a67e"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z02265 (Asks that the surrogacy bill be paused until the national coordinators on violence against): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z02265 (Asks that the surrogacy bill be paused until the national coordinators on violence against): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Stoffer over uitspreken dat de behandeling van het wetsvoorstel inzake draagmoederschap pas voortgezet dient te worden nadat de Nationaal coördinator bestrijding van geweld tegen vrouwen en de Nationaal rapporteur m"
     "on": "[\"Kabinetsformatie 2025\"]"
     dated: "2026-02-03"
@@ -518,12 +910,15 @@ divisions:
     result: "Verworpen.; Voor 39, Tegen 111"
     lobbies: "Voor: PVV 19, FVD 10, BBB 3, ChristenUnie 3, DENK 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, JA21 9, Groep Markuszower 7, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z02265, 36848: CitizenGO's position on '[\"Kabinetsformatie 2025\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 10 (surrogacy and embryology), 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 10 (surrogacy and embryology), 12 (prostitution and trafficking). Bill direction on file for 2026Z02265 (CONFIRMED): passing it is WITH us -- Asks that the surrogacy bill be paused until the national coordinators on violence against women and on trafficking assess its risks; delaying a surrogacy regime is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "554deeee-73fc-4ade-8444-bc1f8e94d870"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z01723 (Secures structural funding for the special envoy for freedom of religion and belief): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z01723 (Secures structural funding for the special envoy for freedom of religion and belief): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Ceder c.s. over voldoende structurele middelen voor de functie van speciaal gezant voor vrijheid van religie en levensovertuiging"
     "on": "[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]"
     dated: "2026-02-04"
@@ -533,12 +928,15 @@ divisions:
     result: "Aangenomen.; Voor 90, Tegen 60"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, JA21 9, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, 50PLUS 2, Volt 1. Tegen: PVV 19, FVD 10, Groep Markuszower 7, BBB 3, SP 3, GroenLinks-PvdA 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z01723, 36800-V: CitizenGO's position on '[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 2026Z01723 (CONFIRMED): passing it is WITH us -- Secures structural funding for the special envoy for freedom of religion and belief; strengthening religious freedom work is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "636f9946-cd09-483f-a216-ccf02e9fca94"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z01751 (Asks the government to keep prioritising freedom of religion and countering violence again): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z01751 (Asks the government to keep prioritising freedom of religion and countering violence again): against passing it, against CitizenGO's position."
     title: "Motie: Gewijzigde motie van het lid Stoffer c.s. over onverminderd prioriteit geven aan godsdienstvrijheid en het tegengaan van geweld tegen christenen (t.v.v. 36800-V-71)"
     "on": "[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]"
     dated: "2026-02-04"
@@ -548,12 +946,15 @@ divisions:
     result: "Aangenomen.; Voor 126, Tegen 24"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, SGP 3, SP 3, 50PLUS 2. Tegen: PvdD 3, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z01751, 36800-V: CitizenGO's position on '[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 2026Z01751 (CONFIRMED): passing it is WITH us -- Asks the government to keep prioritising freedom of religion and countering violence against Christians in foreign policy, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "7897707c-7445-48fa-9fbc-8ff013295af4"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z01849 (Asks that policy on sexual violence explicitly address violence against women in prostitut): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z01849 (Asks that policy on sexual violence explicitly address violence against women in prostitut): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Diederik van Dijk en Coenradie over in de aanpak van seksueel grensoverschrijdend gedrag en seksueel geweld expliciet aandacht besteden aan geweld tegen vrouwen in de prostitutie"
     "on": "[\"Vaststelling van de begrotingsstaten van het Ministerie van Justitie en Veiligheid (VI) voor het jaar 2026\"]"
     dated: "2026-02-04"
@@ -563,12 +964,15 @@ divisions:
     result: "Aangenomen.; Voor 102, Tegen 48"
     lobbies: "Voor: CDA 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: VVD 31, D66 29 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z01849, 36800-VI: CitizenGO's position on '[\"Vaststelling van de begrotingsstaten van het Ministerie van Justitie en Veiligheid (VI) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z01849 (CONFIRMED): passing it is WITH us -- Asks that policy on sexual violence explicitly address violence against women in prostitution, recognising prostitution's harms in line with CitizenGO's anti-prostitution stance. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "a8ecc608-dc13-4114-8baf-aeb048d794b2"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z01848 (Asks that DUUP funds go exclusively to people who want to leave prostitution rather than t): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z01848 (Asks that DUUP funds go exclusively to people who want to leave prostitution rather than t): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Diederik van Dijk c.s. over de DUUP-middelen exclusief inzetten voor mensen die de prostitutie willen verlaten"
     "on": "[\"Vaststelling van de begrotingsstaten van het Ministerie van Justitie en Veiligheid (VI) voor het jaar 2026\"]"
     dated: "2026-02-04"
@@ -578,8 +982,7 @@ divisions:
     result: "Verworpen.; Voor 55, Tegen 95"
     lobbies: "Voor: PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z01848, 36800-VI: CitizenGO's position on '[\"Vaststelling van de begrotingsstaten van het Ministerie van Justitie en Veiligheid (VI) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z01848 (CONFIRMED): passing it is WITH us -- Asks that DUUP funds go exclusively to people who want to leave prostitution rather than to professionalising it, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2e14550f-fa45-4902-868f-de5041d620e7"
@@ -763,7 +1166,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "69c4c53b-5a7b-4857-9427-391d419a81c9"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z03207 (Asks the government to agree with universities on safeguarding academic freedom, open deba): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z03207 (Asks the government to agree with universities on safeguarding academic freedom, open deba): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Claassen over de academische vrijheid versterken"
     "on": "[\"Vaststelling van de begrotingsstaten van het Ministerie van Onderwijs, Cultuur en Wetenschap (VIII) voor het jaar 2026\"]"
     dated: "2026-03-03"
@@ -773,12 +1180,15 @@ divisions:
     result: "Aangenomen.; Voor 95, Tegen 55"
     lobbies: "Voor: VVD 31, CDA 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, SGP 3, SP 3. Tegen: D66 29, DENK 3, PvdD 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z03207, 36800-VIII: CitizenGO's position on '[\"Vaststelling van de begrotingsstaten van het Ministerie van Onderwijs, Cultuur en Wetenschap (VIII) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for 2026Z03207 (CONFIRMED): passing it is WITH us -- Asks the government to agree with universities on safeguarding academic freedom, open debate and dissent; protecting lawful speech in academia is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "95432988-c1b4-4bca-b10c-394a05c78b5a"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Voor on 2026Z04431 (Asks for solutions to shorten waiting lists for transgender care, expanding access to gend): for passing it, against CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z04431 (Asks for solutions to shorten waiting lists for transgender care, expanding access to gend): against passing it, with CitizenGO's position."
     title: "Motie: Motie van het lid Kostić c.s. over oplossingen voor het op korte termijn verkorten van de wachtlijsten in de transgenderzorg"
     "on": "[\"Vaststelling van de begrotingsstaten van het Ministerie van Volksgezondheid, Welzijn en Sport (XVI) voor het jaar 2026\"]"
     dated: "2026-03-10"
@@ -788,8 +1198,7 @@ divisions:
     result: "Aangenomen.; Voor 95, Tegen 55"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z04431, 36800-XVI: CitizenGO's position on '[\"Vaststelling van de begrotingsstaten van het Ministerie van Volksgezondheid, Welzijn en Sport (XVI) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 3 (gender medicine and children), 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 3 (gender medicine and children), 5 (sex-based rights). Bill direction on file for 2026Z04431 (CONFIRMED): passing it is AGAINST us -- Asks for solutions to shorten waiting lists for transgender care, expanding access to gender medicine, which is against CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "a1f607f0-dff5-4c9e-8450-aa2850f49cfd"
@@ -1618,7 +2027,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "13c68a78-c990-482c-b375-f2aa815520b3"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z06865 (Asks the House to recognise Islam as the main cause of global persecution of Christians): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z06865 (Asks the House to recognise Islam as the main cause of global persecution of Christians): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Stöteler en Wilders over erkennen dat de islam de voornaamste oorzaak is achter de wereldwijde christenvervolging"
     "on": "[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]"
     dated: "2026-04-07"
@@ -1628,8 +2041,7 @@ divisions:
     result: "Verworpen.; Voor 49, Tegen 101"
     lobbies: "Voor: PVV 19, FVD 10, JA21 9, Groep Markuszower 7, ChristenUnie 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, BBB 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06865, 36800-V: CitizenGO's position on '[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 2026Z06865 (CONFIRMED): passing it is WITH us -- Asks the House to recognise Islam as the main cause of global persecution of Christians; it highlights the persecution of Christians, and Chris ruled it with us on 12 October 2026. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "1431ea25-d907-49fe-896a-03ec8f065291"
@@ -1665,7 +2077,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "1741f199-43c8-4e70-bae1-ebe4d80d6231"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z07107 (Asks the government to press in the EU for freedom of belief to be anchored in Syria's con): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z07107 (Asks the government to press in the EU for freedom of belief to be anchored in Syria's con): against passing it, against CitizenGO's position."
     title: "Motie: Gewijzigde motie van de leden Stoffer en Ceder over inzet in EU-verband voor verankering van het recht op geloofsvrijheid in de Syrische grondwet (t.v.v. 36800-V-100)"
     "on": "[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]"
     dated: "2026-04-07"
@@ -1675,8 +2091,7 @@ divisions:
     result: "Aangenomen.; Voor 131, Tegen 19"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: PVV 19 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z07107, 36800-V: CitizenGO's position on '[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 2026Z07107 (CONFIRMED): passing it is WITH us -- Asks the government to press in the EU for freedom of belief to be anchored in Syria's constitution, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "3787e385-452e-4d24-b632-6549362616c7"
@@ -1696,7 +2111,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "38a608e0-64b5-4ee4-b8b7-4a7e788917e6"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z06856 (Asks the government to map measures against countries imposing the death penalty for blasp): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z06856 (Asks the government to map measures against countries imposing the death penalty for blasp): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Ceder en Ceulemans over maatregelen tegen landen waar de doodstraf op godslastering of afvalligheid staat in kaart brengen"
     "on": "[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]"
     dated: "2026-04-07"
@@ -1706,8 +2125,7 @@ divisions:
     result: "Aangenomen.; Voor 143, Tegen 7"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: FVD 10 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06856, 36800-V: CitizenGO's position on '[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 7 (free speech and civil liberties), 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 7 (free speech and civil liberties), 8 (religious freedom). Bill direction on file for 2026Z06856 (CONFIRMED): passing it is WITH us -- Asks the government to map measures against countries imposing the death penalty for blasphemy or apostasy, defending religious freedom and free speech in line with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "4032c64f-eb75-4d40-bc86-987bedb807e7"
@@ -1727,7 +2145,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "46085a3e-ec40-488f-8dec-a2c33ee7180a"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): incidental to the area"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Motie: Motie van de leden Westerveld en Ceder over in de route naar inclusief onderwijs specifiek de rol en functie van samenwerkingsverbanden tegen het licht houden"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -1738,12 +2160,15 @@ divisions:
     result: "Aangenomen.; Voor 132, Tegen 18"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, JA21 9, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: FVD 10, Groep Markuszower 7, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06358, 36663: CitizenGO's position on '[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het fu' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 6 (parental rights and education). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "6ba4be32-fa6c-4267-a9d1-6e6542740001"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z06868 (Asks the government to exchange best practice with the United States on tackling global pe): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z06868 (Asks the government to exchange best practice with the United States on tackling global pe): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Stoffer en Ceulemans over best practices in de aanpak van wereldwijde christenvervolging actief uitwisselen met de VS"
     "on": "[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]"
     dated: "2026-04-07"
@@ -1753,12 +2178,15 @@ divisions:
     result: "Aangenomen.; Voor 120, Tegen 30"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, SGP 3, 50PLUS 2. Tegen: DENK 3, PvdD 3, SP 3, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06868, 36800-V: CitizenGO's position on '[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 2026Z06868 (CONFIRMED): passing it is WITH us -- Asks the government to exchange best practice with the United States on tackling global persecution of Christians, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "7e84b94a-c15f-429f-b1d6-429c5e21655e"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z06863 (Asks the House to recognise Islam as a prominent factor in global persecution of Christian): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z06863 (Asks the House to recognise Islam as a prominent factor in global persecution of Christian): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Ceulemans over erkennen van de islam als prominente factor bij de wereldwijde christenvervolging"
     "on": "[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]"
     dated: "2026-04-07"
@@ -1768,12 +2196,15 @@ divisions:
     result: "Verworpen.; Voor 52, Tegen 98"
     lobbies: "Voor: PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, DENK 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06863, 36800-V: CitizenGO's position on '[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 2026Z06863 (CONFIRMED): passing it is WITH us -- Asks the House to recognise Islam as a prominent factor in global persecution of Christians; it highlights the persecution of Christians, and Chris ruled it with us on 12 October 2026. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "7fda9159-0202-48b9-959e-b1a256dfce72"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): incidental to the area"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Motie: Motie van het lid Beckerman over borgen dat het geld voor leerlingen die aan het begin van het schooljaar veel afwezig zijn ook aan die groep wordt besteed"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -1784,12 +2215,15 @@ divisions:
     result: "Verworpen.; Voor 58, Tegen 92"
     lobbies: "Voor: PVV 19, FVD 10, DENK 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: VVD 31, D66 29, CDA 20, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06360, 36663: CitizenGO's position on '[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het fu' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 6 (parental rights and education). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "85b66610-96c3-4a17-861b-5496a98a6799"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): incidental to the area"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Motie: Motie van het lid Ceder over beter borgen dat er effectief actie wordt ondernomen bij geoorloofd verzuim door ziekte"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -1800,12 +2234,15 @@ divisions:
     result: "Verworpen.; Voor 40, Tegen 110"
     lobbies: "Voor: Groep Markuszower 7, ChristenUnie 3, DENK 3, PvdD 3, SP 3, GroenLinks-PvdA 1, Volt 1. Tegen: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, BBB 3, SGP 3, 50PLUS 2 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06355, 36663: CitizenGO's position on '[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het fu' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 6 (parental rights and education). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "9a875c28-9d55-43ea-b17c-e8f8a4aa4967"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z06858 (Asks for an ambitious role for the special envoy for freedom of religion, which is with Ci): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z06858 (Asks for an ambitious role for the special envoy for freedom of religion, which is with Ci): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Ceder en Stoffer over een ambitieuze invulling van de rol van de speciaal gezant voor godsdienstvrijheid"
     "on": "[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]"
     dated: "2026-04-07"
@@ -1815,12 +2252,15 @@ divisions:
     result: "Aangenomen.; Voor 79, Tegen 71"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, BBB 3, ChristenUnie 3, SGP 3, 50PLUS 2, Volt 1. Tegen: PVV 19, FVD 10, JA21 9, Groep Markuszower 7, DENK 3, PvdD 3, SP 3, GroenLinks-PvdA 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06858, 36800-V: CitizenGO's position on '[\"Vaststelling van de begrotingsstaat van het Ministerie van Buitenlandse Zaken (V) voor het jaar 2026\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 2026Z06858 (CONFIRMED): passing it is WITH us -- Asks for an ambitious role for the special envoy for freedom of religion, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "9f1782a6-f2bc-4bc6-939b-475a402d16e0"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): incidental to the area"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Motie: Motie van het lid Rooderkerk c.s. over leerplichtambtenaren actief ondersteunen bij hun preventieve taak"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -1831,12 +2271,15 @@ divisions:
     result: "Aangenomen.; Voor 131, Tegen 19"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: PVV 19 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06359, 36663: CitizenGO's position on '[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het fu' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 6 (parental rights and education). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "a3d50515-5f11-4a42-8a34-7a5c8c7b3e25"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): incidental to the area"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Motie: Motie van de leden Westerveld en Ceder over wetgeving en een uitvoeringsagenda om passend onderwijs te garanderen voor alle thuiszitters"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -1847,12 +2290,15 @@ divisions:
     result: "Aangenomen.; Voor 111, Tegen 39"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, FVD 10, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: PVV 19, JA21 9, Groep Markuszower 7, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06357, 36663: CitizenGO's position on '[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het fu' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 6 (parental rights and education). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "ac610554-dfd6-498c-aaf9-709b1b693300"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): incidental to the area; check whether it narrows leerplicht exemptions (e.g. art. 5b religious objection) used by parents"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Wetgeving: Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen schoolverzuim)"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -1863,12 +2309,15 @@ divisions:
     result: "Aangenomen.; Voor 137, Tegen 13"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: FVD 10, SGP 3, SP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2024Z19631, 36663: CitizenGO's position on '[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het fu' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 6 (parental rights and education). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "af4418a8-5524-4f69-ae39-296c81e4ab36"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): May narrow exemptions some families rely on; incidental unless it affects home education"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Motie: Gewijzigde motie van het lid Claassen over in wet- en regelgeving verduidelijken dat vrijstellingen op lichamelijke of psychische gronden steeds tijdelijk van aard zijn (t.v.v. 36663-28)"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -1879,7 +2328,6 @@ divisions:
     result: "Aangenomen.; Voor 103, Tegen 47"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, 50PLUS 2. Tegen: FVD 10, JA21 9, PvdD 3, SGP 3, SP 3, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06410, 36663: CitizenGO's position on '[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het fu' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 6 (parental rights and education). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -1916,7 +2364,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "c0087829-a008-41cf-91b0-8c4dfc3e12e5"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): incidental to the area"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Motie: Motie van het lid Ceder over jaarlijks in beeld brengen hoeveel kinderen en jongeren geen of geen volwaardig onderwijs krijgen"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -1927,7 +2379,6 @@ divisions:
     result: "Verworpen.; Voor 59, Tegen 91"
     lobbies: "Voor: PVV 19, Groep Markuszower 7, ChristenUnie 3, DENK 3, PvdD 3, SP 3, GroenLinks-PvdA 1, Volt 1. Tegen: VVD 31, D66 29, CDA 20, FVD 10, JA21 9, BBB 3, SGP 3, 50PLUS 2 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06356, 36663: CitizenGO's position on '[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het fu' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 6 (parental rights and education). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -1948,7 +2399,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "f7f12681-e8da-47a9-80a4-dd96ee6bb78b"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z06890 (Asks that transgender women not be placed in women's prisons, protecting single-sex spaces): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z06890 (Asks that transgender women not be placed in women's prisons, protecting single-sex spaces): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Faber over geen transgender vrouwen plaatsen in de vrouwengevangenis"
     "on": "[\"Justitiële Inrichtingen\"]"
     dated: "2026-04-07"
@@ -1958,8 +2413,7 @@ divisions:
     result: "Verworpen.; Voor 40, Tegen 110"
     lobbies: "Voor: PVV 19, FVD 10, Groep Markuszower 7, BBB 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, JA21 9, ChristenUnie 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z06890, 24587: CitizenGO's position on '[\"Justitiële Inrichtingen\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 3 (gender medicine and children), 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 3 (gender medicine and children), 5 (sex-based rights). Bill direction on file for 2026Z06890 (CONFIRMED): passing it is WITH us -- Asks that transgender women not be placed in women's prisons, protecting single-sex spaces in line with CitizenGO's position on sex-based rights. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "fd965227-bad2-405a-ac36-8a92568c2006"
@@ -2009,7 +2463,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "1e80a454-c86b-47a3-ba42-b3011cbf3462"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): incidental to the area"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Motie: Motie van de leden Abdi en Rooderkerk over in het brede onderzoek naar academische vrijheid institutionele autonomie meenemen als factor van belang"
     "on": "[\"Hoger Onderwijs-, Onderzoek- en Wetenschapsbeleid\"]"
     dated: "2026-04-21"
@@ -2019,7 +2477,6 @@ divisions:
     result: "Aangenomen.; Voor 136, Tegen 14"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: Groep Markuszower 7, BBB 3, SP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z08042, 31288: CitizenGO's position on '[\"Hoger Onderwijs-, Onderzoek- en Wetenschapsbeleid\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -2172,6 +2629,7 @@ divisions:
     read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z08649, 30950: CitizenGO's position on '[\"Racisme en Discriminatie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    flag: "Left for a person (Chris, 12 Oct 2026): Israel-Gaza context; free-speech link uncertain"
 
   - key: "2390d8e1-7dc3-43a7-aca0-5a1317c16941"
     status: needs_reading
@@ -2220,7 +2678,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "3d482c1d-5a9c-4b42-9bab-09988f57997d"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Voor on 2026Z11087 (Asks the government to prepare state systems for children having three or four legal paren): for passing it, against CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z11087 (Asks the government to prepare state systems for children having three or four legal paren): against passing it, with CitizenGO's position."
     title: "Motie: Motie van de leden Kostić en Mutluer over no-regretstappen verkennen voor praktische implementatie van meerouderschap"
     "on": "[\"Personen- en familierecht\"]"
     dated: "2026-06-02"
@@ -2230,8 +2692,7 @@ divisions:
     result: "Aangenomen.; Voor 89, Tegen 61"
     lobbies: "Voor: VVD 31, D66 29, JA21 9, BBB 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: CDA 20, PVV 19, FVD 10, Groep Markuszower 7, ChristenUnie 3, DENK 3, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z11087, 33836: CitizenGO's position on '[\"Personen- en familierecht\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 2026Z11087 (CONFIRMED): passing it is AGAINST us -- Asks the government to prepare state systems for children having three or four legal parents ahead of a multi-parenthood law, undermining the two-parent family and against CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "3f87fb58-82b4-4689-8655-6632a815989f"
@@ -2266,7 +2727,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "6635723a-e3cc-4550-a6b8-6b46bff4d84d"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z10359 (Asks the government to monitor international developments in embryo research in the EU, a ): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z10359 (Asks the government to monitor international developments in embryo research in the EU, a ): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Bikker over in Europees verband zicht houden op internationale ontwikkelingen op het terrein van embryo-onderzoek"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2277,12 +2742,15 @@ divisions:
     result: "Aangenomen.; Voor 150, Tegen 0"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z10359, 36677: CitizenGO's position on '[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 10 (surrogacy and embryology). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 2026Z10359 (CONFIRMED): passing it is WITH us -- Asks the government to monitor international developments in embryo research in the EU, a cautionary oversight step in line with CitizenGO's opposition to expanding embryo research. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "7fb67251-bbe4-44d7-a44f-60fae6849e10"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z10364 (Asks for independent research into abuses in donor conception, supporting children's inter): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z10364 (Asks for independent research into abuses in donor conception, supporting children's inter): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Vliegenthart over onafhankelijk onderzoek naar misstanden bij donorconceptie"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2293,8 +2761,7 @@ divisions:
     result: "Aangenomen.; Voor 143, Tegen 7"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: Groep Markuszower 7 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z10364, 36677: CitizenGO's position on '[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 10 (surrogacy and embryology). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 2026Z10364 (CONFIRMED): passing it is WITH us -- Asks for independent research into abuses in donor conception, supporting children's interests and scrutiny of reproductive practices, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "8da3cb4b-a267-496a-a815-0269bd896dfc"
@@ -2343,9 +2810,14 @@ divisions:
     read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2025Z00250, 36677: CitizenGO's position on '[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 10 (surrogacy and embryology). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    flag: "Left for a person (Chris, 12 Oct 2026): Mixed bill; read text and party split before setting a direction"
 
   - key: "ba6e2dfc-ab90-47d3-b071-a2238a16ea94"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z10356 (Asks the Health Council for an ethical reflection on new techniques for creating embryos, ): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z10356 (Asks the Health Council for an ethical reflection on new techniques for creating embryos, ): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Bikker over een ethische reflectie door de Gezondheidsraad op nieuwe technieken om een embryo tot stand te brengen"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2356,8 +2828,7 @@ divisions:
     result: "Aangenomen.; Voor 150, Tegen 0"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z10356, 36677: CitizenGO's position on '[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 10 (surrogacy and embryology). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 2026Z10356 (CONFIRMED): passing it is WITH us -- Asks the Health Council for an ethical reflection on new techniques for creating embryos, a cautionary step in line with CitizenGO's opposition to expanding embryo research. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "bc4292cf-fbc0-4999-8bff-f273fa9894f1"
@@ -2377,7 +2848,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "c0f3ac8d-d325-4023-aee6-bdefdc7d1089"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z10358 (Asks the CCMO to report the number and nature of studies using intact embryo-like structur): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z10358 (Asks the CCMO to report the number and nature of studies using intact embryo-like structur): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Bikker over de CCMO laten rapporteren over het aantal en de aard van de onderzoeken met intacte ELS"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2388,8 +2863,7 @@ divisions:
     result: "Aangenomen.; Voor 127, Tegen 23"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: PvdD 3, GroenLinks-PvdA 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z10358, 36677: CitizenGO's position on '[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 10 (surrogacy and embryology). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 2026Z10358 (CONFIRMED): passing it is WITH us -- Asks the CCMO to report the number and nature of studies using intact embryo-like structures, adding oversight of embryo research in line with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "d135d95f-6c23-4d14-af05-f06b3bfce9ec"
@@ -2471,7 +2945,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "f7a92313-659d-4066-9fdf-86c2a9862fb4"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Voor on 2026Z10363 (D66 motion asking for the Embryo Act to be evaluated within two years with explicit attent): for passing it, against CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z10363 (D66 motion asking for the Embryo Act to be evaluated within two years with explicit attent): against passing it, with CitizenGO's position."
     title: "Motie: Motie van het lid Vliegenthart over de Embryowet binnen twee jaar evalueren en daarbij expliciet de toekomstbestendigheid meenemen"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2482,12 +2960,15 @@ divisions:
     result: "Aangenomen.; Voor 117, Tegen 33"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, FVD 10, JA21 9, BBB 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: PVV 19, Groep Markuszower 7, ChristenUnie 3, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z10363, 36677: CitizenGO's position on '[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 10 (surrogacy and embryology). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 2026Z10363 (CONFIRMED): passing it is AGAINST us -- D66 motion asking for the Embryo Act to be evaluated within two years with explicit attention to future-proofing, likely a step towards further liberalising embryo research. This vote is a vote on the whole text or the motion itself, so Voor is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "fd44bdac-3416-4671-b83e-5c7e3cf10451"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z11094 (Asks for a review of where law must better weigh the fundamental rights of mothers and the): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z11094 (Asks for a review of where law must better weigh the fundamental rights of mothers and the): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Diederik van Dijk over verkennen bij welke wetgeving er een nadere weging noodzakelijk is om de fundamentele rechten van moeders en hun ongeboren kinderen te waarborgen"
     "on": "[\"Personen- en familierecht\"]"
     dated: "2026-06-02"
@@ -2497,8 +2978,7 @@ divisions:
     result: "Verworpen.; Voor 46, Tegen 104"
     lobbies: "Voor: PVV 19, FVD 10, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, JA21 9, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z11094, 33836: CitizenGO's position on '[\"Personen- en familierecht\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 1 (abortion). Bill direction on file for 2026Z11094 (CONFIRMED): passing it is WITH us -- Asks for a review of where law must better weigh the fundamental rights of mothers and their unborn children, giving legal recognition to the unborn in line with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "751ec737-2944-4e05-b3d4-633497367bf1"
@@ -2547,7 +3027,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "0d48a664-8d9d-49ff-b7cd-7509faf14ef1"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z12889 (Asks the government to work actively to improve the position of religious minorities in Eg): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z12889 (Asks the government to work actively to improve the position of religious minorities in Eg): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Ceder en Stoffer over zich actief inzetten voor verbetering van de positie van religieuze minderheden in Egypte"
     "on": "[\"Raad Algemene Zaken en Raad Buitenlandse Zaken\"]"
     dated: "2026-06-11"
@@ -2557,8 +3041,7 @@ divisions:
     result: "Aangenomen.; Voor 140, Tegen 10"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, PVV 19, FVD 10, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: JA21 9 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z12889, 21501-02: CitizenGO's position on '[\"Raad Algemene Zaken en Raad Buitenlandse Zaken\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 2026Z12889 (CONFIRMED): passing it is WITH us -- Asks the government to work actively to improve the position of religious minorities in Egypt, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "506b27d1-a7de-4ecd-b615-5802d9b3ae37"
@@ -2575,9 +3058,14 @@ divisions:
     read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z12645, 22112: CitizenGO's position on '[\"Nieuwe Commissievoorstellen en initiatieven van de lidstaten van de Europese Unie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 5 (sex-based rights), 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    flag: "Left for a person (Chris, 12 Oct 2026): Mixed: DSA enforcement and LGBTIQ promotion vs anti-censorship framing"
 
   - key: "98b7ea91-7600-4791-a8d2-7b1544cccd03"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z12643 (Asks the government not to back binding EU obligations on education, family policy and fam): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z12643 (Asks the government not to back binding EU obligations on education, family policy and fam): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Clemminck over geen steun geven aan bindende EU-verplichtingen op het terrein van onderwijs, gezinsbeleid en familierecht die verder gaan dan Europese verdragen toestaan"
     "on": "[\"Nieuwe Commissievoorstellen en initiatieven van de lidstaten van de Europese Unie\"]"
     dated: "2026-06-16"
@@ -2587,8 +3075,7 @@ divisions:
     result: "Verworpen.; Voor 54, Tegen 96"
     lobbies: "Voor: PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, SGP 3, 50PLUS 2. Tegen: VVD 31, D66 29, CDA 20, PRO 20, DENK 3, PvdD 3, SP 3, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z12643, 22112: CitizenGO's position on '[\"Nieuwe Commissievoorstellen en initiatieven van de lidstaten van de Europese Unie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 2026Z12643 (CONFIRMED): passing it is WITH us -- Asks the government not to back binding EU obligations on education, family policy and family law beyond the treaties, protecting national family law and parental rights in line with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "0607db6e-2f25-4dd8-bc02-79f4e7a75d7e"
@@ -2817,7 +3304,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "0aeafe65-0b06-42e6-a6ff-d87d09b3c91e"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z18341 (Asks that fines and confiscated earnings from traffickers be paid to the victims concerned): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z18341 (Asks that fines and confiscated earnings from traffickers be paid to the victims concerned): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Faber over opbrengsten van opgelegde boetes en afgenomen verdiensten uitkeren aan het betreffende slachtoffer"
     "on": "[\"Mensenhandel\"]"
     dated: "2026-09-22"
@@ -2827,12 +3318,15 @@ divisions:
     result: "Aangenomen.; Voor 127, Tegen 23"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: PRO 20, DENK 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z18341, 28638: CitizenGO's position on '[\"Mensenhandel\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z18341 (CONFIRMED): passing it is WITH us -- Asks that fines and confiscated earnings from traffickers be paid to the victims concerned, strengthening anti-trafficking measures in line with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2f39fc12-c53b-42f8-bc88-a8a4ca292781"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z18344 (Asks for a legal minimum age of at least 18 for clients of prostitution, restricting deman): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z18344 (Asks for a legal minimum age of at least 18 for clients of prostitution, restricting deman): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Boomsma en Bikker over ook voor klanten van prostitutie een wettelijke minimumleeftijd van in ieder geval 18 jaar vaststellen"
     "on": "[\"Mensenhandel\"]"
     dated: "2026-09-22"
@@ -2842,12 +3336,15 @@ divisions:
     result: "Verworpen.; Voor 71, Tegen 79"
     lobbies: "Voor: VVD 31, CDA 20, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, SGP 3, 50PLUS 2. Tegen: D66 29, PRO 20, PVV 19, FVD 10, PvdD 3, SP 3, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z18344, 28638: CitizenGO's position on '[\"Mensenhandel\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z18344 (CONFIRMED): passing it is WITH us -- Asks for a legal minimum age of at least 18 for clients of prostitution, restricting demand in line with CitizenGO's stance against prostitution. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "54eb8375-3cf8-4da8-b6df-67a3ea0aa3e8"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z18349 (Asks for the minimum age for sex work to be raised to 21, restricting prostitution and pro): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z18349 (Asks for the minimum age for sex work to be raised to 21, restricting prostitution and pro): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Tijs van den Brink over de minimumleeftijd ook voor sekswerk verhogen naar 21 jaar"
     "on": "[\"Mensenhandel\"]"
     dated: "2026-09-22"
@@ -2857,12 +3354,15 @@ divisions:
     result: "Aangenomen.; Voor 89, Tegen 61"
     lobbies: "Voor: VVD 31, CDA 20, PVV 19, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, SGP 3, 50PLUS 2. Tegen: D66 29, PRO 20, FVD 10, PvdD 3, SP 3, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z18349, 28638: CitizenGO's position on '[\"Mensenhandel\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z18349 (CONFIRMED): passing it is WITH us -- Asks for the minimum age for sex work to be raised to 21, restricting prostitution and protecting young women, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "5da71df8-46a3-4fe6-9a1a-9a21a6f3f239"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z19472 (Asks the government to do everything possible to give minor trafficking victims adequate h): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z19472 (Asks the government to do everything possible to give minor trafficking victims adequate h): against passing it, against CitizenGO's position."
     title: "Motie: Gewijzigde motie van het lid Bikker c.s. over alles op alles zetten om minderjarige slachtoffers van mensenhandel voldoende passende hulp en opvang te geven (t.v.v. 28638-271)"
     "on": "[\"Mensenhandel\"]"
     dated: "2026-09-22"
@@ -2872,12 +3372,15 @@ divisions:
     result: "Aangenomen.; Voor 131, Tegen 19"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: PVV 19 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z19472, 28638: CitizenGO's position on '[\"Mensenhandel\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z19472 (CONFIRMED): passing it is WITH us -- Asks the government to do everything possible to give minor trafficking victims adequate help and shelter, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "6f7d5d9e-e487-4785-99cc-da14a0905280"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Voor on 2026Z18351 (Asks for the opting-in tax scheme for sex workers to be revised with the sex-work sector t): for passing it, against CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z18351 (Asks for the opting-in tax scheme for sex workers to be revised with the sex-work sector t): against passing it, with CitizenGO's position."
     title: "Motie: Motie van het lid Belhirch over de opting-inregeling voor sekswerkers herzien"
     "on": "[\"Mensenhandel\"]"
     dated: "2026-09-22"
@@ -2887,12 +3390,15 @@ divisions:
     result: "Aangenomen.; Voor 117, Tegen 33"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, JA21 9, Groep Markuszower 7, BBB 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, Volt 1. Tegen: PVV 19, FVD 10, ChristenUnie 3, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z18351, 28638: CitizenGO's position on '[\"Mensenhandel\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z18351 (CONFIRMED): passing it is AGAINST us -- Asks for the opting-in tax scheme for sex workers to be revised with the sex-work sector to secure labour protection, treating prostitution as regular work and against CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "714640ac-f7b8-4297-8f79-6d1c16cf5b93"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z18345 (Asks for a new action day this year using decoy profiles on online platforms to detect tra): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z18345 (Asks for a new action day this year using decoy profiles on online platforms to detect tra): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Boomsma en Bikker over in ieder geval dit jaar nog een nieuwe actiedag met lokprofielen op onlineplatforms organiseren"
     "on": "[\"Mensenhandel\"]"
     dated: "2026-09-22"
@@ -2902,12 +3408,15 @@ divisions:
     result: "Aangenomen.; Voor 150, Tegen 0"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z18345, 28638: CitizenGO's position on '[\"Mensenhandel\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z18345 (CONFIRMED): passing it is WITH us -- Asks for a new action day this year using decoy profiles on online platforms to detect trafficking, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "724c7991-2907-4dab-a2eb-0f7e761a1965"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Voor on 2026Z18340 (Asks that sex workers be required to work as employees or self-employed, formalising prost): for passing it, against CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z18340 (Asks that sex workers be required to work as employees or self-employed, formalising prost): against passing it, with CitizenGO's position."
     title: "Motie: Motie van het lid Faber over verplichten dat een sekswerker in loondienst is of werkt als zzp'er"
     "on": "[\"Mensenhandel\"]"
     dated: "2026-09-22"
@@ -2917,12 +3426,15 @@ divisions:
     result: "Verworpen.; Voor 42, Tegen 108"
     lobbies: "Voor: PVV 19, JA21 9, Groep Markuszower 7, DENK 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, PRO 20, FVD 10, BBB 3, ChristenUnie 3, PvdD 3, SP 3, 50PLUS 2, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z18340, 28638: CitizenGO's position on '[\"Mensenhandel\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z18340 (CONFIRMED): passing it is AGAINST us -- Asks that sex workers be required to work as employees or self-employed, formalising prostitution as regular employment, which is against CitizenGO despite its anti-coercion aim. This vote is a vote on the whole text or the motion itself, so Voor is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "80790582-ded3-450a-ba38-5c2db40d7382"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z19475 (Asks for an inventory of measures to strengthen detection, victim protection and prosecuti): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z19475 (Asks for an inventory of measures to strengthen detection, victim protection and prosecuti): against passing it, against CitizenGO's position."
     title: "Motie: Gewijzigde motie van het lid Ceder over inventariseren welke aanvullende maatregelen nodig zijn om de signalering, registratie, bescherming van slachtoffers en strafrechtelijke aanpak van mensenhandel op de BES-eilanden te versterken"
     "on": "[\"Rechtsstaat en Rechtsorde\"]"
     dated: "2026-09-22"
@@ -2932,12 +3444,15 @@ divisions:
     result: "Aangenomen.; Voor 87, Tegen 63"
     lobbies: "Voor: VVD 31, PRO 20, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: D66 29, CDA 20, PVV 19 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z19475, 29279: CitizenGO's position on '[\"Rechtsstaat en Rechtsorde\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z19475 (CONFIRMED): passing it is WITH us -- Asks for an inventory of measures to strengthen detection, victim protection and prosecution of human trafficking on the Caribbean islands, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "8e51a39c-31f9-41e7-a8df-0cf8131dad7c"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z18342 (Asks for a separate route for minor victims in the national referral mechanism for traffic): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z18342 (Asks for a separate route for minor victims in the national referral mechanism for traffic): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Boomsma c.s. over een afzonderlijke route voor minderjarige slachtoffers in het nationaal verwijzingsmechanisme"
     "on": "[\"Mensenhandel\"]"
     dated: "2026-09-22"
@@ -2947,12 +3462,15 @@ divisions:
     result: "Aangenomen.; Voor 131, Tegen 19"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: PVV 19 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z18342, 28638: CitizenGO's position on '[\"Mensenhandel\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z18342 (CONFIRMED): passing it is WITH us -- Asks for a separate route for minor victims in the national referral mechanism for trafficking, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "945c669f-c08d-4467-83a9-b643f4a3ea77"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z18347 (Asks the national coordinator on trafficking to back up the role with figures, strengtheni): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z18347 (Asks the national coordinator on trafficking to back up the role with figures, strengtheni): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Bikker en Boomsma over de invulling van de taak als nationaal coördinator mensenhandel ook cijfermatig onderbouwen"
     "on": "[\"Mensenhandel\"]"
     dated: "2026-09-22"
@@ -2962,12 +3480,15 @@ divisions:
     result: "Aangenomen.; Voor 131, Tegen 19"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: PVV 19 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z18347, 28638: CitizenGO's position on '[\"Mensenhandel\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z18347 (CONFIRMED): passing it is WITH us -- Asks the national coordinator on trafficking to back up the role with figures, strengthening anti-trafficking work in line with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "ac4cd044-c6dc-457d-aeda-d8c7938a60c1"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Voor on 2026Z18348 (Asks for independent research into the effects of raising the sex-work minimum age to 21, ): for passing it, against CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z18348 (Asks for independent research into the effects of raising the sex-work minimum age to 21, ): against passing it, with CitizenGO's position."
     title: "Motie: Motie van het lid Mohandis over onafhankelijk onderzoek naar de effecten van een verhoging van de minimumleeftijd voor sekswerk naar 21 jaar"
     "on": "[\"Mensenhandel\"]"
     dated: "2026-09-22"
@@ -2977,12 +3498,15 @@ divisions:
     result: "Aangenomen.; Voor 90, Tegen 60"
     lobbies: "Voor: VVD 31, D66 29, PRO 20, FVD 10, BBB 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, Volt 1. Tegen: CDA 20, PVV 19, JA21 9, Groep Markuszower 7, ChristenUnie 3, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z18348, 28638: CitizenGO's position on '[\"Mensenhandel\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z18348 (CONFIRMED): passing it is AGAINST us -- Asks for independent research into the effects of raising the sex-work minimum age to 21, likely delaying the higher age that CitizenGO supports. This vote is a vote on the whole text or the motion itself, so Voor is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "c9eb8823-d284-4a23-9765-d6563c37d4f7"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z18350 (Asks what further effort is needed against illegality and exploitation within sex work, an): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z18350 (Asks what further effort is needed against illegality and exploitation within sex work, an): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Belhirch en Bikkers over bezien welke aanvullende inzet nodig is tegen illegaliteit en uitbuiting binnen sekswerk"
     "on": "[\"Mensenhandel\"]"
     dated: "2026-09-22"
@@ -2992,8 +3516,7 @@ divisions:
     result: "Aangenomen.; Voor 124, Tegen 26"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: PVV 19, FVD 10 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z18350, 28638: CitizenGO's position on '[\"Mensenhandel\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z18350 (CONFIRMED): passing it is WITH us -- Asks what further effort is needed against illegality and exploitation within sex work, an anti-exploitation step in line with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "6aaa5f05-9bde-409e-9b58-e219e9d5b144"
@@ -3057,7 +3580,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "0a84bedd-8776-456c-84cc-d416ef56b401"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z20240 (Asks for a pilot with Belgium and Germany on joint detection and referral of young traffic): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z20240 (Asks for a pilot with Belgium and Germany on joint detection and referral of young traffic): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Boomsma c.s. over een pilot met België en Duitsland gericht op gezamenlijke signalering en doorverwijzing van jonge slachtoffers van mensenhandel"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3067,8 +3594,7 @@ divisions:
     result: "Aangenomen.; Voor 131, Tegen 19"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: PVV 19 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z20240, 36835: CitizenGO's position on '[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU i' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z20240 (CONFIRMED): passing it is WITH us -- Asks for a pilot with Belgium and Germany on joint detection and referral of young trafficking victims, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "1c22e792-8fdf-4a33-ad1c-d6c4f30be509"
@@ -3102,7 +3628,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2d5c9c42-272a-4de5-b34d-81ca4306fd86"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2025Z18907 (Implements EU Directive 2024/1712 strengthening prevention of trafficking and protection o): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2025Z18907 (Implements EU Directive 2024/1712 strengthening prevention of trafficking and protection o): against passing it, against CitizenGO's position."
     title: "Wetgeving: Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming en bestrijding van mensenhandel en de bescherming van slachtoffers daar"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3112,8 +3642,7 @@ divisions:
     result: "Aangenomen.; Voor 150, Tegen 0"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2025Z18907, 36835: CitizenGO's position on '[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU i' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2025Z18907 (CONFIRMED): passing it is WITH us -- Implements EU Directive 2024/1712 strengthening prevention of trafficking and protection of victims, including demand reduction, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "3d25b030-97a4-470f-b995-995a515f73a4"
@@ -3132,7 +3661,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "5154f09b-7e72-40c1-843c-4df884e51752"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z20395 (Asks for the national referral mechanism for trafficking victims to be anchored in law, wh): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z20395 (Asks for the national referral mechanism for trafficking victims to be anchored in law, wh): against passing it, against CitizenGO's position."
     title: "Motie: Gewijzigde motie van het lid Bikker c.s. over wettelijke verankering van het Nationaal Verwijsmechanisme (t.v.v. 36835-19)"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3142,12 +3675,15 @@ divisions:
     result: "Aangenomen.; Voor 124, Tegen 26"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: PVV 19, FVD 10 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z20395, 36835: CitizenGO's position on '[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU i' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z20395 (CONFIRMED): passing it is WITH us -- Asks for the national referral mechanism for trafficking victims to be anchored in law, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "5416a403-cc30-48f3-a092-b9781ce6b303"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z20238 (Asks that reducing demand for services of trafficking victims be a theme in the Together a): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z20238 (Asks that reducing demand for services of trafficking victims be a theme in the Together a): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Bikker c.s. over terugdringing van de vraag naar diensten van slachtoffers van mensenhandel als thema opnemen in de voortzetting van het programma Samen tegen mensenhandel"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3157,8 +3693,7 @@ divisions:
     result: "Aangenomen.; Voor 150, Tegen 0"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z20238, 36835: CitizenGO's position on '[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU i' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z20238 (CONFIRMED): passing it is WITH us -- Asks that reducing demand for services of trafficking victims be a theme in the Together against Trafficking programme, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "667ca506-d259-4884-9956-b220432f4262"
@@ -3192,7 +3727,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "82c2a55c-f5d1-4db3-abf6-13d4a4340b62"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z20242 (Asks for guarantees that surrogacy contracts a surrogate withdraws from never lead to coer): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z20242 (Asks for guarantees that surrogacy contracts a surrogate withdraws from never lead to coer): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Diederik van Dijk en Bikker over waarborgen dat contractuele afspraken waar draagmoeders op terugkomen nooit mogen leiden tot feitelijke dwang of scheiding van moeder en kind"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3202,8 +3741,7 @@ divisions:
     result: "Verworpen.; Voor 46, Tegen 104"
     lobbies: "Voor: PVV 19, FVD 10, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, PRO 20, JA21 9, PvdD 3, SP 3, 50PLUS 2, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z20242, 36835: CitizenGO's position on '[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU i' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 10 (surrogacy and embryology), 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 10 (surrogacy and embryology), 12 (prostitution and trafficking). Bill direction on file for 2026Z20242 (CONFIRMED): passing it is WITH us -- Asks for guarantees that surrogacy contracts a surrogate withdraws from never lead to coercion or separation of mother and child, protecting mothers against surrogacy in line with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "98cbb7b7-3433-484d-95b7-21f4684d83c4"
@@ -3222,7 +3760,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "9e23d9da-8587-4356-9717-452bd456a227"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Voor on 2026Z20841 (Asks the government to guarantee availability of abortion and emergency contraception in c): for passing it, against CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z20841 (Asks the government to guarantee availability of abortion and emergency contraception in c): against passing it, with CitizenGO's position."
     title: "Motie: Motie van de leden Kröger en Vliegenthart over de beschikbaarheid van abortuszorg en noodanticonceptie waarborgen in conflictgebieden"
     "on": "[\"Doen waar Nederland goed in is - Strategie voor Buitenlandse Handel en Ontwikkelingssamenwerking\"]"
     dated: "2026-10-06"
@@ -3232,8 +3774,7 @@ divisions:
     result: "Aangenomen.; Voor 101, Tegen 49"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, BBB 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, Volt 1. Tegen: PVV 19, FVD 10, JA21 9, Groep Markuszower 7, ChristenUnie 3, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z20841, 36180: CitizenGO's position on '[\"Doen waar Nederland goed in is - Strategie voor Buitenlandse Handel en Ontwikkelingssamenwerking\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 1 (abortion). Bill direction on file for 2026Z20841 (CONFIRMED): passing it is AGAINST us -- Asks the government to guarantee availability of abortion and emergency contraception in conflict zones through foreign policy, which is against CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "a77a8f88-5161-436c-b882-108589699648"
@@ -3282,7 +3823,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "cd0dd87e-561e-4898-9209-88c3bb946a6d"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z20638 (Asks the House to state that home education is sometimes the most suitable form of educati): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z20638 (Asks the House to state that home education is sometimes the most suitable form of educati): against passing it, against CitizenGO's position."
     title: "Motie: Motie van het lid Van Houwelingen over uitspreken dat in sommige gevallen voor kinderen thuisonderwijs de meest passende vorm van onderwijs is"
     "on": "[\"Passend onderwijs\"]"
     dated: "2026-10-06"
@@ -3292,12 +3837,15 @@ divisions:
     result: "Verworpen.; Voor 43, Tegen 107"
     lobbies: "Voor: PVV 19, FVD 10, Groep Markuszower 7, BBB 3, DENK 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, PRO 20, JA21 9, ChristenUnie 3, PvdD 3, SP 3, 50PLUS 2, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z20638, 31497: CitizenGO's position on '[\"Passend onderwijs\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 6 (parental rights and education). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 6 (parental rights and education). Bill direction on file for 2026Z20638 (CONFIRMED): passing it is WITH us -- Asks the House to state that home education is sometimes the most suitable form of education for children, supporting parents' rights in education in line with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "dea0c3a9-7670-4310-92d3-2ce955370f5a"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on 2026Z20241 (Asks for an integral action plan against sexualisation in society, including measures agai): for passing it, with CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z20241 (Asks for an integral action plan against sexualisation in society, including measures agai): against passing it, against CitizenGO's position."
     title: "Motie: Motie van de leden Diederik van Dijk en Bikker over een integraal actieplan tegen seksualisering in de samenleving"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3307,8 +3855,7 @@ divisions:
     result: "Verworpen.; Voor 37, Tegen 113"
     lobbies: "Voor: CDA 20, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, SGP 3. Tegen: VVD 31, D66 29, PRO 20, PVV 19, FVD 10, JA21 9, PvdD 3, SP 3, 50PLUS 2, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z20241, 36835: CitizenGO's position on '[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU i' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 12 (prostitution and trafficking). Bill direction on file for 2026Z20241 (CONFIRMED): passing it is WITH us -- Asks for an integral action plan against sexualisation in society, including measures against the normalisation of pornography, which is with CitizenGO. This vote is a vote on the whole text or the motion itself, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "65d66131-e28d-4817-bdc7-5c651e761f98"

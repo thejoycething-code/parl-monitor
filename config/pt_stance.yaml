@@ -44,10 +44,12 @@ bill_directions:
     drafted: "Claude, 10 October 2026, from config/watchlist-pt.yaml"
   - key: "XVII/J/47"
     direction: with
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     areas: [8]
     why: "Chega bill banning face coverings in public places (the burqa ban); approved and published as law, final vote 17 July 2026."
-    flag: "PT4: CitizenGO supports the face-covering law (decisions page)."
+    decided: "Chris, 12 October 2026 (docs/country-decisions-2026-10-12.md): religious-symbol bans are all with us, veils included. PT4: CitizenGO supports the face-covering law (decisions page)."
     drafted: "Claude, 10 October 2026, from config/watchlist-pt.yaml"
   - key: "XVII/J/493"
     direction: against
@@ -274,6 +276,25 @@ bill_directions:
     areas: [5]
     why: "Strengthens the right to self-determination of gender identity; passed 15 December 2023, then vetoed."
     drafted: "Claude, 10 October 2026, from config/watchlist-pt.yaml"
+  # --- 12 October 2026: Chris's bill positions (docs/country-decisions-2026-10-12.md) ---
+  - key: "XVII/J/391"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [5]
+    why: "Chega bill revising legal sex and name change in the civil registry to protect children and young people in line with recent scientific evidence, curbing self-ID for minors."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Text not read; title signals restriction for minors)"
+    drafted: "Claude, 12 October 2026"
+  - key: "XVII/J/486"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [5]
+    why: "PSD bill amending the legal sex and name change regime, passed alongside Chega's bill, apparently to tighten the 2018 self-ID law, especially for minors."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Content inferred, text not read; confirm it restricts rather than extends self-ID)"
+    drafted: "Claude, 12 October 2026"
 
 divisions:
 
@@ -600,7 +621,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XVII/171122"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted A favor on XVII/J/391 (Chega bill revising legal sex and name change in the civil registry to protect children an): for passing it, with CitizenGO's position."
+    why_nay: "Voted Contra on XVII/J/391 (Chega bill revising legal sex and name change in the civil registry to protect children an): against passing it, against CitizenGO's position."
     title: "Votação na generalidade:"
     "on": "Actualiza a regulação do procedimento de mudança de sexo e de nome próprio no registo civil, em particular no que diz respeito à protecção das crianças e jovens, à luz da evidência científica mais rec"
     dated: "2026-03-20"
@@ -610,8 +635,7 @@ divisions:
     result: "Aprovado"
     lobbies: "A favor: PSD 90, CH 60, CDS-PP 3. Contra: PS 58, IL 9, L 6, PCP 3, BE 1, JPP 1, PAN 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XVII/J/391: CitizenGO's position on 'Actualiza a regulação do procedimento de mudança de sexo e de nome próprio no registo civil, em particular no que diz respeito à protecção d' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 5 (sex-based rights). Bill direction on file for XVII/J/391 (CONFIRMED): passing it is WITH us -- Chega bill revising legal sex and name change in the civil registry to protect children and young people in line with recent scientific evidence, curbing self-ID for minors. This vote is a vote on the whole text or the motion itself, so A favor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XVII/171123"
@@ -633,7 +657,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XVII/171124"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted A favor on XVII/J/486 (PSD bill amending the legal sex and name change regime, passed alongside Chega's bill, app): for passing it, with CitizenGO's position."
+    why_nay: "Voted Contra on XVII/J/486 (PSD bill amending the legal sex and name change regime, passed alongside Chega's bill, app): against passing it, against CitizenGO's position."
     title: "Votação na generalidade:"
     "on": "Altera o regime jurídico de mudança de sexo e de nome próprio no registo civil"
     dated: "2026-03-20"
@@ -643,8 +671,7 @@ divisions:
     result: "Aprovado"
     lobbies: "A favor: PSD 90, CH 60, CDS-PP 3. Contra: PS 58, IL 9, L 6, PCP 3, BE 1, JPP 1, PAN 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XVII/J/486: CitizenGO's position on 'Altera o regime jurídico de mudança de sexo e de nome próprio no registo civil' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 5 (sex-based rights). Bill direction on file for XVII/J/486 (CONFIRMED): passing it is WITH us -- PSD bill amending the legal sex and name change regime, passed alongside Chega's bill, apparently to tighten the 2018 self-ID law, especially for minors. This vote is a vote on the whole text or the motion itself, so A favor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XVII/171125"
@@ -682,7 +709,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XVII/172085"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Area link incidental"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Votação na generalidade:"
     "on": "Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares das compensações financeiras às vítimas de abusos sexuais ocorridos no contexto da Igreja Católica em"
     dated: "2026-06-12"
@@ -691,12 +722,15 @@ divisions:
     watched: "XVII/P/74"
     result: "Aprovado"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XVII/P/74: CitizenGO's position on 'Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares das compensações financeiras às vítimas d' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XVII/172086"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Area link incidental"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Votação na generalidade:"
     "on": "Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a indemnizações fixadas por decisão judicial ou arbitral ou resultantes de acordo homologado judicialmente"
     dated: "2026-06-12"
@@ -706,7 +740,6 @@ divisions:
     result: "Aprovado"
     lobbies: "A favor: CH 60, PS 58, L 6, PCP 3, BE 1, JPP 1, PAN 1. Abstain: PSD 90, IL 9, CDS-PP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XVII/J/566: CitizenGO's position on 'Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a indemnizações fixadas por decisão judicial ou' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -820,7 +853,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XVII/172452"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Area link incidental"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Votação final global: Texto final, apresentado pela Comissão de Orçamento, Finanças e Administração Pública, relativo à Proposta de Lei n.º 74/XVII/1.ª (GOV) e aos Projetos de Lei n.ºs 566/XVII/1.ª (BE) , 645/XVII/1.ª (CH) e 652/XVII/1.ª (L"
     "on": "Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares das compensações financeiras às vítimas de abusos sexuais ocorridos no contexto da Igreja Católica em"
     dated: "2026-07-03"
@@ -829,12 +866,13 @@ divisions:
     watched: "XVII/P/74"
     result: "Aprovado"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XVII/P/74: CitizenGO's position on 'Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares das compensações financeiras às vítimas d' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XVII/172453"
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Requerimento dispensa redação final: Requerimento oral, apresentado pelo PSD, a solicitar a dispensa de redação final e do prazo para apresentação de reclamações contra inexatidões relativamente ao Texto final, apresentado pela Comissão de"
     "on": "Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares das compensações financeiras às vítimas de abusos sexuais ocorridos no contexto da Igreja Católica em"
     dated: "2026-07-03"
@@ -844,12 +882,16 @@ divisions:
     result: "Aprovado"
     vote_kind: "procedural"
     placeable: false
-    reason: "Procedural (Requerimento dispensa redação final: Requerimento oral, apresentado pelo PSD, a solicitar a dispensa de redação final e ): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Area link incidental"
     reasoning: "Area 8 (religious freedom). The wording reads as procedure (the timetable or the handling)."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XVII/172454"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Area link incidental"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Votação final global: Texto final, apresentado pela Comissão de Orçamento, Finanças e Administração Pública, relativo à Proposta de Lei n.º 74/XVII/1.ª (GOV) e aos Projetos de Lei n.ºs 566/XVII/1.ª (BE) , 645/XVII/1.ª (CH) e 652/XVII/1.ª (L"
     "on": "Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a indemnizações fixadas por decisão judicial ou arbitral ou resultantes de acordo homologado judicialmente"
     dated: "2026-07-03"
@@ -858,12 +900,13 @@ divisions:
     watched: "XVII/J/566"
     result: "Aprovado"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XVII/J/566: CitizenGO's position on 'Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a indemnizações fixadas por decisão judicial ou' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XVII/172455"
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Requerimento dispensa redação final: Texto final, apresentado pela Comissão de Orçamento, Finanças e Administração Pública, relativo à Proposta de Lei n.º 74/XVII/1.ª (GOV) e aos Projetos de Lei n.ºs 566/XVII/1.ª (BE) , 645/XVII/1.ª (CH) e"
     "on": "Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a indemnizações fixadas por decisão judicial ou arbitral ou resultantes de acordo homologado judicialmente"
     dated: "2026-07-03"
@@ -873,7 +916,7 @@ divisions:
     result: "Aprovado"
     vote_kind: "procedural"
     placeable: false
-    reason: "Procedural (Requerimento dispensa redação final: Texto final, apresentado pela Comissão de Orçamento, Finanças e Administração Públi): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Area link incidental"
     reasoning: "Area 8 (religious freedom). The wording reads as procedure (the timetable or the handling)."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 

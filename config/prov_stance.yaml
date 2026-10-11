@@ -3384,7 +3384,11 @@ divisions:
   # freedom: a ban on religious symbols for public employees, a face rule for
   # public services, a bar on prayer on public premises and cutting faith
   # schools' subsidies restrict it, so a Yea is against our side. That is a
-  # JUDGEMENT CALL FOR CHRISTOPHER, flagged on each entry. Where the stored
+  # JUDGEMENT CALL FOR CHRISTOPHER, flagged on each entry.
+  # RULED 12 October 2026 (docs/country-decisions-2026-10-12.md): "religious-symbol bans
+  # are all with us, veils included". The symbol and face-covering readings
+  # (Bills 21, 52, 62, 94 of 2011 and 2025, the 2017 and 2019 motions) are flipped;
+  # Bill 9 (43-2), which adds a ban on prayer on public premises, is left for him. Where the stored
   # areas came from stray words (Bill 9's 'expression de genre', Bill 94's
   # home-schooling face rule, Bill 59's marriage clauses, Bill 70's
   # 'identité de genre'), the reading states its own `areas:`.
@@ -3717,9 +3721,11 @@ divisions:
     # pupils. LAICITY JUDGEMENT FOR CHRISTOPHER: read as a restriction of religious freedom.
     # Stored areas [6, 8]; the reading states [8] (the home-schooling clause is the face rule,
     # not parental rights).
-    yea: -2
+    # RULED, Chris, 12 October 2026: religious-symbol bans are all with us, veils included
+    # (docs/country-decisions-2026-10-12.md), so the signs of yea/nay are flipped.
+    yea: 2
     why_yea: "Voted to pass Bill 94, extending the religious-symbols ban to all school service centre staff and imposing uncovered faces in schools."
-    nay: 2
+    nay: -2
     why_nay: "Voted against extending the religious-symbols ban to school staff and the face-covering rules of Bill 94."
   - key: qc-43-2-2025-10-24-49
     placeable: false
@@ -3898,9 +3904,11 @@ divisions:
     # pupils. LAICITY JUDGEMENT FOR CHRISTOPHER: read as a restriction of religious freedom.
     # Stored areas [6, 8]; the reading states [8] (the home-schooling clause is the face rule,
     # not parental rights).
-    yea: -1
+    # RULED, Chris, 12 October 2026: religious-symbol bans are all with us, veils included
+    # (docs/country-decisions-2026-10-12.md), so the signs of yea/nay are flipped.
+    yea: 1
     why_yea: "Voted for the principle of Bill 94, extending the religious-symbols ban to school staff and imposing uncovered faces in schools."
-    nay: 1
+    nay: -1
     why_nay: "Voted against the principle of Bill 94's religious-symbols and face-covering rules (QS alone; the PLQ voted Yea here and Nay at adoption)."
   - key: qc-43-1-2025-05-22-476
     placeable: false
@@ -4268,9 +4276,11 @@ divisions:
     # TEXT READ: one section, « L'article 34 de la Loi sur la laïcité de l'État ... est édicté
     # de nouveau ». The only Bill 21 vote of the 43rd Legislature, so it is +/-2 like a passage.
     # LAICITY JUDGEMENT FOR CHRISTOPHER.
-    yea: -2
+    # RULED, Chris, 12 October 2026: religious-symbol bans are all with us, veils included
+    # (docs/country-decisions-2026-10-12.md), so the signs of yea/nay are flipped.
+    yea: 2
     why_yea: "Voted to renew for five years the notwithstanding clause that shields Bill 21's religious-symbols ban from the Charters' freedom of religion."
-    nay: 2
+    nay: -2
     why_nay: "Voted against renewing the notwithstanding clause that shields Bill 21's religious-symbols ban from the Charters."
   - key: qc-43-1-2024-05-02-271
     placeable: false
@@ -5965,9 +5975,11 @@ divisions:
       M. Jolin-Barrette, ministre de l’Immigration, de la Diversité et de l’Inclusion, propose
       que le projet de loi n° 21, Loi sur la laïcité de l’État, soit adopté.
     # LAICITY JUDGEMENT FOR CHRISTOPHER. Passed under closure (bâillon) on a Sunday sitting.
-    yea: -2
+    # RULED, Chris, 12 October 2026: religious-symbol bans are all with us, veils included
+    # (docs/country-decisions-2026-10-12.md), so the signs of yea/nay are flipped.
+    yea: 2
     why_yea: "Voted to pass the Laicity Act, banning religious symbols for teachers, police, judges and other public employees in authority, under the notwithstanding clause."
-    nay: 2
+    nay: -2
     why_nay: "Voted against the Laicity Act's ban on religious symbols for teachers and other public employees."
   - key: qc-42-1-2019-06-16-164
     placeable: false
@@ -6051,9 +6063,11 @@ divisions:
       ministre de l’Immigration, de la Diversité et de l’Inclusion, proposant l’adoption du
       principe du projet de loi n° 21, Loi sur la laïcité de l’État.
     # LAICITY JUDGEMENT FOR CHRISTOPHER.
-    yea: -1
+    # RULED, Chris, 12 October 2026: religious-symbol bans are all with us, veils included
+    # (docs/country-decisions-2026-10-12.md), so the signs of yea/nay are flipped.
+    yea: 1
     why_yea: "Voted for the principle of the Laicity Act's religious-symbols ban for public employees in authority."
-    nay: 1
+    nay: -1
     why_nay: "Voted against the principle of the Laicity Act's religious-symbols ban."
   - key: qc-42-1-2019-04-11-80
     areas: [8]          # stored: [8]
@@ -6079,9 +6093,11 @@ divisions:
       puissent entendre [...]
     # Opposition-day motion, +/-1. The PQ (8) abstained. Partly procedural (no bâillon), but its
     # words are on our ground.
-    yea: 1
+    # RULED, Chris, 12 October 2026: religious-symbol bans are all with us, veils included
+    # (docs/country-decisions-2026-10-12.md), so the signs of yea/nay are flipped.
+    yea: -1
     why_yea: "Voted that the Assembly recognise Bill 21 'restreint la liberté de religion de certaines personnes' and be allowed to study it without closure."
-    nay: -1
+    nay: 1
     why_nay: "Voted against recognising that Bill 21 restricts freedom of religion and against studying it without closure."
   - key: qc-42-1-2019-03-28-47
     placeable: false
@@ -6249,7 +6265,9 @@ divisions:
     # religious accommodation. Only the Yea places: the PQ and CAQ voted Nay because it did not
     # go far enough (they wanted the Bouchard-Taylor symbols ban: see 285). LAICITY JUDGEMENT
     # FOR CHRISTOPHER.
-    yea: -1
+    # RULED, Chris, 12 October 2026: religious-symbol bans are all with us, veils included
+    # (docs/country-decisions-2026-10-12.md), so the signs of yea/nay are flipped.
+    yea: 1
     why_yea: "Voted to pass Bill 62, requiring faces uncovered to give or receive public services and barring religious instruction in subsidised daycares."
   - key: qc-41-1-2017-10-05-374
     placeable: false
@@ -6359,9 +6377,11 @@ divisions:
       l'Assemblée nationale; QU'elle demande au gouvernement d'inclure cette recommandation dans
       le projet de loi n° 62.
     # Opposition-day motion, +/-1. LAICITY JUDGEMENT FOR CHRISTOPHER.
-    yea: -1
+    # RULED, Chris, 12 October 2026: religious-symbol bans are all with us, veils included
+    # (docs/country-decisions-2026-10-12.md), so the signs of yea/nay are flipped.
+    yea: 1
     why_yea: "Voted to ask that Bill 62 ban religious symbols for judges, prosecutors, police officers and prison guards."
-    nay: 1
+    nay: -1
     why_nay: "Voted against adding a religious-symbols ban for judges, prosecutors, police and prison guards to Bill 62."
   - key: qc-41-1-2016-12-02-269
     placeable: false
@@ -6433,7 +6453,9 @@ divisions:
       le respect de la neutralité religieuse de l’État et visant notamment à encadrer les
       demandes d’accommodements religieux dans certains organismes, soit adopté.
     # Only the Yea places: the CAQ's 16 Nay votes were for a stronger ban.
-    yea: -1
+    # RULED, Chris, 12 October 2026: religious-symbol bans are all with us, veils included
+    # (docs/country-decisions-2026-10-12.md), so the signs of yea/nay are flipped.
+    yea: 1
     why_yea: "Voted for the principle of Bill 62's uncovered-face rule for public services."
   - key: qc-41-1-2016-05-25-215
     placeable: false
@@ -6764,7 +6786,9 @@ divisions:
     # TEXT READ (excerpt): « Tout accommodement doit respecter ... le principe de la neutralité
     # religieuse de l'État ». Only the Yea places (the PQ and ADQ wanted more). CAVEAT: the 2011
     # annex prints no parties (party '?'). LAICITY JUDGEMENT FOR CHRISTOPHER.
-    yea: -1
+    # RULED, Chris, 12 October 2026: religious-symbol bans are all with us, veils included
+    # (docs/country-decisions-2026-10-12.md), so the signs of yea/nay are flipped.
+    yea: 1
     why_yea: "Voted for the principle of Bill 94 (2010), requiring faces uncovered to give or receive public services."
   - key: qc-39-1-2011-02-09-136
     placeable: false

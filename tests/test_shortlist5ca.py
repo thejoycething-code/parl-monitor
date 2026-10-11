@@ -168,7 +168,9 @@ class RankTests(Base):
         keys = self.keys()
         self.assertEqual(keys[0], "pl-final-close")
         self.assertNotIn("pl-done", keys)                       # confirmed: not waiting
-        self.assertEqual(keys[-1], "pl-migration")              # collated-only area
+        # Collated-only area (migration): since 12 October 2026 not waiting at all.
+        self.assertNotIn("pl-migration", keys)
+        self.assertEqual(keys[-1], "pl-proc")
         self.assertLess(keys.index("pl-final-close"), keys.index("pl-unanimous"))
         self.assertLess(keys.index("pl-final-old"), keys.index("pl-amend"))
         self.assertLess(keys.index("pl-amend"), keys.index("pl-proc"))
@@ -213,7 +215,7 @@ class DocumentTests(Base):
             before = h.read()
         ranked = sl.write_shortlist("pl", self.cfg, self.docs, today="2026-10-11", log=lambda *a: None,
                                     campaigns_dir=self.camps, briefs_dir=self.briefs)
-        self.assertEqual(len(ranked), 7)
+        self.assertEqual(len(ranked), 6)                        # pl-migration is collated only
         with open(self.stance, encoding="utf-8") as h:
             self.assertEqual(h.read(), before)                  # nothing confirmed
         with open(sl.shortlist_path("pl", self.docs), encoding="utf-8") as h:
@@ -247,7 +249,8 @@ class DigestTests(Base):
         self.assertIn("sign these first", lines[head])
         self.assertTrue(lines[head + 1].startswith("  1. `pl-final-close`"))
         self.assertTrue(lines[head + 5].startswith("  5. "))
-        self.assertIn("Waiting: 5 proposed, 1 procedural, 1 need reading, 1 confirmed", lines[head + 6])
+        # pl-migration (collated only) no longer counts as waiting (12 October 2026).
+        self.assertIn("Waiting: 4 proposed, 1 procedural, 1 need reading, 1 confirmed", lines[head + 6])
         self.assertIn("docs/5ca-pl-shortlist.md", text)
         self.assertNotIn("watched bill", lines[head + 1])       # the quiet reasons stay out
 
