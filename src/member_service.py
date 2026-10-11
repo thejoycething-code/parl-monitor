@@ -413,9 +413,17 @@ def _merge(out, key, s):
     t.sources = t.sources | s.sources
 
 
+# The service sources' own chamber codes, in words, beside the profiles'
+# (src/member_profiles.CHAMBERS).
+CHAMBER_WORDS = {"nl": {"TK": "Tweede Kamer"}, "pt": {"AR": "Assembleia da República"},
+                 "es": {"congreso": "Congreso de los Diputados"}}
+
+
 def chamber_words(cc, code):
     from src import member_profiles as mp
-    return mp.CHAMBERS.get(cc, {}).get(code, code) if code else None
+    if not code:
+        return None
+    return CHAMBER_WORDS.get(cc, {}).get(code) or mp.CHAMBERS.get(cc, {}).get(code, code)
 
 
 def summary(cc, s, covers, today, current=None):
@@ -1098,9 +1106,13 @@ def fetch_at(conn, client, today, log=print, budget=None, **_):
     kept = carry_over(conn, "at", "at-biografien", read)
     periods += kept[0]
     spells += kept[1]
-    mapping = at_klub_map(spells, members)
-    for s in spells:
-        s["party_ref"] = mapping.get(s["party"])
+    mapping = at_klub_map([x for x in spells if x.get("party_ref") is None], members)
+    for x in spells:
+        if x.get("party_ref") is None and mapping.get(x["party"]):
+            # Shown and matched as the vote record names the Klub ('SPÖ').
+            x["party_ref"] = x["party"] = mapping[x["party"]]
+    for x in periods:
+        x["grp"] = mapping.get(x["grp"], x["grp"])
     log("  at: {0} of {1} biography(ies) read ({2} disallowed by robots.txt); {3} period(s)"
         .format(len(read), len(members), skipped, len(periods)))
     return {"at-biografien": (periods, spells, {
@@ -1562,6 +1574,9 @@ def merged_spells(spells, kind="group"):
     return [tuple(x) for x in out]
 
 
+MAX_EARLIER = 6     # Brazil's history lists every leave of absence as a period
+
+
 def lines(cc, s, covers, today, current=None):
     """The profile's 'Length of service' lines (Markdown bullets, no colour)."""
     got = summary(cc, s, covers, today, current)
@@ -1580,7 +1595,8 @@ def lines(cc, s, covers, today, current=None):
         out.append("**Last period ended:** {0}".format(long_date(got["ended"])))
     if got["earlier"]:
         items = []
-        for e in got["earlier"]:
+        shown = got["earlier"][:MAX_EARLIER]
+        for e in shown:
             bits = ["{0}{1} to {2}".format("at least from " if e["at_least"] else "",
                                            long_date(e["start"]),
                                            long_date(e["end"]) if e["end"] else "?")]
@@ -1593,6 +1609,10 @@ def lines(cc, s, covers, today, current=None):
                 bits.append(" / ".join(e["grp"]))
             items.append(" (".join([bits[0], "; ".join(bits[1:]) + ")"]) if len(bits) > 1
                          else bits[0])
+        more = got["earlier"][MAX_EARLIER:]
+        if more:
+            items.append("and {0} earlier period(s), the first from {1}".format(
+                len(more), long_date(more[-1]["start"])))
         out.append("**{0}:** {1}".format("Earlier periods" if got["since"] else "Periods",
                                          "; ".join(items)))
     if got["terms"]:
