@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 4 March 2025, last 2 October 2026).
 
-## Votes on our ground (112)
+## Votes on our ground (107)
 
-Recorded positions (112): “Ja” 70, “Nein” 41, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Ja” 2, “Nein” 2, “Nicht teilgenommen” 1; gender medicine and children: “Nein” 1; sex-based rights: “Ja” 10, “Nein” 2; parental rights and education: “Ja” 9, “Nein” 1; free speech and civil liberties: “Ja” 9, “Nein” 4; religious freedom: “Ja” 3, “Nein” 2; marriage and family: “Ja” 36, “Nein” 24; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 2; organ donation: “Nein” 1.
+Recorded positions (107): “Ja” 69, “Nein” 37, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Ja” 3, “Nein” 2; assisted dying: “Ja” 2, “Nein” 2, “Nicht teilgenommen” 1; gender medicine and children: “Nein” 1; sex-based rights: “Ja” 10, “Nein” 2; parental rights and education: “Ja” 9, “Nein” 1; free speech and civil liberties: “Ja” 9, “Nein” 4; religious freedom: “Ja” 3, “Nein” 2; marriage and family: “Ja” 36, “Nein” 24; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-92 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+87 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (3)
 
@@ -51,6 +51,20 @@ The latest 20:
 | 19 Jun 2026 | [Wo bleibt die Botschaft zur Plattformregulierung?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264005) | 26.4005 | submitted by | free speech and civil liberties |
 | 18 Jun 2026 | [Illegale Werbung für Glücksspiele. Jugendliche vor massiver Exposition schützen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263728) | 26.3728 | submitted by | parental rights and education, free speech and civil liberties |
 | 21 Mar 2025 | [Werbung der Schweizerischen Post für Online-Glücksspiele und deren Auswirkungen auf die Spielsuchtprävention](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253390) | 25.3390 | submitted by | parental rights and education |
+
+## Committees and groups (1)
+
+- **Committees:** Kommission für Rechtsfragen Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (1)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Verein | Verein gentechfreie Lebensmittel | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

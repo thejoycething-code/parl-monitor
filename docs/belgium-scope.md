@@ -425,6 +425,8 @@ Later phases and items for Chris (not built at the merge):
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/be_stance.yaml` holds 27 bill direction(s) (Claude's drafts from the watchlist) and 4 vote reading(s): 3 with proposed values, 0 procedural, 1 need reading, 0 confirmed. Guide: `docs/5ca-be-readings.md`; confirm with `python3 tools/country_5ca.py --cc be --sign-from-doc --by NAME`. Sheets (`data/5ca/be-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Belgium (`config/stance_signers.yaml`).
 
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-be-shortlist.md` ranks the 4 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `56/143/5` (2026-10-08, a vote on the whole text; the decisive one; near-unanimous (134-0, lower)). It confirms nothing.
+
 
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
@@ -471,3 +473,11 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 `tools/country_clips.py` (src/country_clips.py; docs/debate-pack-social.md, "Speech clips, new countries"): `pick be` ranks the speeches on our ground in `be_speeches` (or the day read live with `--live`) and writes a pack with a passage per speaker; `cut` fetches only each speech's span of official video, aligns the passage with Whisper and renders captioned 9:16 and 16:9 clips with the source credit. Manual, no job, nothing posted. Source, terms and status in `config/clip-sources.yaml`.
 
 **Status: needs agreement.** media.lachambre.be's archive gives each plenary's MP4 (the site's own download) and an event table of speaker turns with offsets; a speaker's turns are tried longest first. The Chamber's FAQ: speeches may be reproduced freely, but works it commissions (the recordings are a contractor's) need its authorisation, and no video licence is published, so the cut step refuses until `be.agreement` is filled in. Sample pack (locate only): plenary 143, 8 October 2026, four speakers located.
+
+## Debate report (built 11 October 2026, branch `ukp2-debate-report`)
+
+`tools/country_debate_report.py` (src/country_debatereport.py; docs/debate-pack-social.md, "Debate report, new countries"): after a debate, an English report from templates over the record (each speaker on our ground with a verbatim passage in the language spoken and its translation, by a person or the free session judge on the Mini; the bill's votes and the latest on the same ground, with tallies, group splits and vote meanings) and draft social copy; a DM to Chris alone for approval; after `--approve --by NAME`, `--publish` makes the Slack canvas shared with Chris alone. Manual, no job, no paid AI, nothing posted to a channel or a social network. AWAITING SIGN-OFF, with no verdicts, until the readings of the votes shown are confirmed.
+
+## Words since the last vote (built 11 October 2026, branch `ukp2-since-last-vote`)
+
+`tools/country_since_vote.py --cc be` (src/country_since_vote.py; docs/debate-pack-social.md, "Between votes, new countries"): per area, each member's last recorded vote on it and their speeches since, with excerpts. Drift is named only once the vote's reading is confirmed and a person or the free session judge has read the words (`--queue-out` / `--reads`); until then "awaiting sign-off", ranked by recency and volume. Manual, no job; `tools/member_profiles.py be --since-vote` adds it to the profiles. Every member's vote is recorded, but the store gives Belgian votes no tier, so only watched votes count (as in the 5CA and the live read): most speeches on our ground have no vote to set them against yet. Sample: `docs/since-vote-samples/be-2026-10-11.md`.

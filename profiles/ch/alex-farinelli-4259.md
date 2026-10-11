@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 128, “Nein” 77, “Enthaltung” 3, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 15, “Nein” 7; assisted dying: “Ja” 3, “Nein” 3, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 22, “Nein” 11; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 12, “Nein” 6, “Enthaltung” 1; religious freedom: “Ja” 8, “Nein” 6; marriage and family: “Ja” 73, “Nein” 39, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 120, “Nein” 73, “Enthaltung” 3, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Ja” 3, “Nein” 3, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 22, “Nein” 11; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 12, “Nein” 6, “Enthaltung” 1; religious freedom: “Ja” 8, “Nein” 6; marriage and family: “Ja” 73, “Nein” 39, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (2)
 
@@ -50,6 +50,35 @@ The latest 20:
 |---|---|---|---|---|
 | 18 Jun 2026 | [Negativanreize für die Erwerbstätigkeit und Lücken in der Altersvorsorge, die sich aus dem Sozialsystem ergeben, vermeiden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263785) | 26.3785 | submitted by | marriage and family |
 | 19 Dec 2024 | [Schutz von ethnischen und religiösen Minderheiten in Syrien](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244499) | 24.4499 | submitted by | religious freedom |
+
+## Committees and groups (3)
+
+- **Committees:** Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 1 (B+G/EFD) (Mitglied); Kommission für Verkehr und Fernmeldewesen Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (16)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | RTTL SA (Rete Tram Treno del Luganese SA) | Vizepräsident(in) | bezahlt |  |
+| Genossenschaft | Banca Raiffeisen Vedeggio Cassarate | Vizepräsident(in) | bezahlt |  |
+| Keine Angaben | SVIT Politischer Beirat | Berater(in) | bezahlt |  |
+| Stiftung | Fondazione Bibliomedia Svizzera | Berater(in) | ehrenamtlich |  |
+| Stiftung | Fondazione Ingrado servizi per le dipendenze | Vizepräsident(in) | ehrenamtlich |  |
+| Stiftung | Schweizerische Pfadistiftung | Mitglied | ehrenamtlich |  |
+| Verein | ACS sede centrale | Mitglied | ehrenamtlich |  |
+| Verein | ACS Sezione Ticino, Locarno | Präsident(in) | bezahlt |  |
+| Verein | Camera di commercio, dell'industria, dell'artigianato e dei servizi del Cantone Ticino | Mitglied | ehrenamtlich |  |
+| Verein | CCAT Centro di competenze agroalimentari Ticino | Mitglied | bezahlt |  |
+| Verein | Conferenza svizzera delle Scuole specializzate superiori | Berater(in) | bezahlt |  |
+| Verein | Radix Svizzera italiana - Associazione per la prevenzione delle dipendenze | Präsident(in) | ehrenamtlich |  |
+| Verein | Rotary Club Lugano | Mitglied | ehrenamtlich |  |
+| Verein | STEA Società Ticinese per l'Economia Alpestre | Präsident(in) | ehrenamtlich |  |
+| Verein | Swissrailvolution | Präsident(in) | ehrenamtlich |  |
+| Verein | Swissstaffing | Berater(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

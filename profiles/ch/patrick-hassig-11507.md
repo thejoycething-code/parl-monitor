@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: GL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 146, “Nein” 50, “Nicht teilgenommen” 8, “Enthaltung” 5.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 30, “Nein” 2, “Enthaltung” 1; parental rights and education: “Ja” 9, “Nein” 6, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 9, “Nicht teilgenommen” 3, “Nein” 2; marriage and family: “Ja” 83, “Nein” 24, “Nicht teilgenommen” 4, “Enthaltung” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 139, “Nein” 45, “Nicht teilgenommen” 8, “Enthaltung” 5.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 30, “Nein” 2, “Enthaltung” 1; parental rights and education: “Ja” 9, “Nein” 6, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 9, “Nicht teilgenommen” 3, “Nein” 2; marriage and family: “Ja” 83, “Nein” 24, “Nicht teilgenommen” 4, “Enthaltung” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | GL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | GL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 
@@ -52,6 +52,22 @@ The latest 20:
 | 19 Dec 2025 | [Verminderung von Gewalt an Frauen durch ganzheitliche Lösungsansätze](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254842) | 25.4842 | submitted by | sex-based rights, parental rights and education |
 | 26 Sep 2025 | [Jugendschutz bei Snus und Nikotin-Pouches stärken. Normalsteuersatz für Boom-Produkte](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254295) | 25.4295 | submitted by | parental rights and education |
 | 27 Sep 2024 | [Sterbehilfe. Wie gehen wir in einer liberalen Gesellschaft damit um?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244217) | 24.4217 | submitted by | assisted dying |
+
+## Committees and groups (4)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)); Gerichtskommission (Mitglied); Gerichtskommission Subkommission Vereinigte Bundesversammlung (Mitglied); SGK-N Subkommission Finanzierung Palliative Pflege (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (3)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | Schweizer Paraplegiker-Stiftung | Mitglied | ehrenamtlich |  |
+| Stiftung | Zürcher Lighthouse | Mitglied | ehrenamtlich |  |
+| Verein | Spitex Kanton Zürich | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

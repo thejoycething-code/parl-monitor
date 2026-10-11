@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 5 May 2025, last 2 October 2026).
 
-## Votes on our ground (107)
+## Votes on our ground (103)
 
-Recorded positions (107): “Ja” 70, “Nein” 35, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Nein” 5, “Ja” 3; assisted dying: “Ja” 3, “Nein” 2; sex-based rights: “Ja” 9, “Nein” 1; parental rights and education: “Ja” 9, “Nein” 1; free speech and civil liberties: “Ja” 10, “Nein” 2; religious freedom: “Ja” 3, “Nein” 2; marriage and family: “Ja” 36, “Nein” 21, “Nicht teilgenommen” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 2; organ donation: “Nein” 1.
+Recorded positions (103): “Ja” 70, “Nein” 31, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Ja” 3, “Nein” 1; assisted dying: “Ja” 3, “Nein” 2; sex-based rights: “Ja” 9, “Nein” 1; parental rights and education: “Ja” 9, “Nein” 1; free speech and civil liberties: “Ja” 10, “Nein” 2; religious freedom: “Ja” 3, “Nein” 2; marriage and family: “Ja” 36, “Nein” 21, “Nicht teilgenommen” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-87 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+83 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (8)
 
@@ -56,6 +56,22 @@ The latest 20:
 | 19 Mar 2026 | [Allfällige Umsetzung der Nachhaltigkeits-Initiative](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263263) | 26.3263 | submitted by | marriage and family |
 | 4 Mar 2026 | [Pädokriminalität und Zuhälterei auf höchster Ebene. Verbindungen in die Schweiz im Epstein-Fall aufdecken](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263055) | 26.3055 | submitted by | prostitution and trafficking |
 | 18 Jun 2025 | [Bekämpfung von Geldwäscherei und Kinderpornografie. Die Mittel der Bekämpfung anpassen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253673) | 25.3673 | submitted by | prostitution and trafficking |
+
+## Committees and groups (2)
+
+- **Committees:** Kommission für Verkehr und Fernmeldewesen Nationalrat (Mitglied); Sicherheitspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (3)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Groupe CGN SA | Präsident(in) | bezahlt |  |
+| Verein | ASLOCA Régions | Mitglied | ehrenamtlich |  |
+| Verein | Association de soutien au lait équitable (ASLE) | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

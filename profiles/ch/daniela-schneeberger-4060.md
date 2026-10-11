@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 117, “Nein” 82, “Enthaltung” 7, “Nicht teilgenommen” 2, “Entschuldigt” 1.
-By area (every vote): abortion: “Ja” 14, “Nein” 7, “Nicht teilgenommen” 1; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 17, “Nein” 12, “Enthaltung” 4; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 13, “Nein” 5, “Enthaltung” 1; religious freedom: “Nein” 7, “Ja” 5, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 71, “Nein” 42, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Enthaltung” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 110, “Nein” 78, “Enthaltung” 7, “Entschuldigt” 1, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 17, “Nein” 12, “Enthaltung” 4; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 13, “Nein” 5, “Enthaltung” 1; religious freedom: “Nein” 7, “Ja” 5, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 71, “Nein” 42, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Enthaltung” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,33 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (1)
+
+- **Committees:** Kommission für Wirtschaft und Abgaben Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (13)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Duttweiler Holding AG | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Duttweiler Treuhand AG | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Kistenfabrik + Holzhandels AG, Thürnen | Mitglied | bezahlt |  |
+| Eidgenössische Kommission | KMU Forum | Co-Präsident(in) | bezahlt |  |
+| Stiftung | Freizügigkeitsstiftung der WIR Bank, Basel | Mitglied | bezahlt |  |
+| Stiftung | Terzo Vorsorgestiftung der WIR Bank, Basel | Mitglied | ehrenamtlich |  |
+| Verein | Hauseigentümerverband (HEV) Sissach/Läufelfingen | Mitglied | ehrenamtlich |  |
+| Verein | Liga Baselbieter Steuerzahler, Liestal | Mitglied | ehrenamtlich |  |
+| Verein | PatronFonds | Präsident(in) | bezahlt |  |
+| Verein | Schweizerischer Gewerbeverband (sgv), Bern | Vizepräsident(in) | bezahlt |  |
+| Verein | Swiss Retail Federation | Präsident(in) | bezahlt |  |
+| Verein | Swiss Shippers' Council | Präsident(in) | bezahlt |  |
+| Verein | swissstaffing, Dübendorf | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

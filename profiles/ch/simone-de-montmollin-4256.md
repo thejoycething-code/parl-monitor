@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 135, “Nein” 62, “Enthaltung” 7, “Nicht teilgenommen” 5.
-By area (every vote): abortion: “Ja” 14, “Nein” 7, “Enthaltung” 1; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Enthaltung” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 21, “Nein” 11, “Enthaltung” 1; parental rights and education: “Nein” 9, “Ja” 6, “Enthaltung” 1; free speech and civil liberties: “Ja” 12, “Nein” 6, “Enthaltung” 1; religious freedom: “Nein” 7, “Ja” 5, “Nicht teilgenommen” 2; marriage and family: “Ja” 85, “Nein” 22, “Enthaltung” 4, “Nicht teilgenommen” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 127, “Nein” 58, “Enthaltung” 7, “Nicht teilgenommen” 5.
+By area (every vote): abortion: “Ja” 6, “Nein” 3, “Enthaltung” 1; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Enthaltung” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 21, “Nein” 11, “Enthaltung” 1; parental rights and education: “Nein” 9, “Ja” 6, “Enthaltung” 1; free speech and civil liberties: “Ja” 12, “Nein” 6, “Enthaltung” 1; religious freedom: “Nein” 7, “Ja” 5, “Nicht teilgenommen” 2; marriage and family: “Ja” 85, “Nein” 22, “Enthaltung” 4, “Nicht teilgenommen” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,13 +42,38 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 19 Dec 2025 | [Zu viele Falschinformationen über die Windenergie. Wird der Bundesrat handeln?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254733) | 25.4733 | submitted by | free speech and civil liberties |
+
+## Committees and groups (3)
+
+- **Committees:** **Kommission für Wissenschaft, Bildung und Kultur Nationalrat (Mitglied)** (on our ground: the science, education and culture committee (WBK)); Kommission für Umwelt, Raumplanung und Energie Nationalrat (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Französischen Parlament (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (11)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Grande Dixence S.A. | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Sucre Suisse SA, Aarberg | Mitglied | bezahlt |  |
+| Keine Angaben | Conseil d'orientation stratégique, Université de Genève | Mitglied | bezahlt |  |
+| Stiftung | éducation21, Berne | Beirat | ehrenamtlich |  |
+| Stiftung | Fondation CHANGINS | Präsident(in) | bezahlt |  |
+| Stiftung | Gen Suisse | Mitglied | ehrenamtlich |  |
+| Stiftung | Swiss Institute of Bioinformatics - SIB, Lausanne (VD) | Präsident(in) | ehrenamtlich |  |
+| Verein | Agrovina, salon professionnel viti-oeno-arbo, Martigny (VS) | Mitglied | ehrenamtlich |  |
+| Verein | Ligue internationale contre le racisme et l'antisémitisme (LICRA), Genève (GE) | Mitglied | ehrenamtlich |  |
+| Verein | Schweizer Obstverband/Fruit Union Suisse (SOV/FUS), Zug | Mitglied | bezahlt |  |
+| Verein | Swiss 3R Competence Center (3RCC) | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

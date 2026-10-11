@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: G (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 148, “Nein” 55, “Enthaltung” 4, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 4; parental rights and education: “Ja” 13, “Nein” 2, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 15, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 78, “Nein” 32, “Enthaltung” 3, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 140, “Nein” 51, “Enthaltung” 4, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 4; parental rights and education: “Ja” 13, “Nein” 2, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 15, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 78, “Nein” 32, “Enthaltung” 3, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | G (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | G (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (8)
 
@@ -56,6 +56,30 @@ The latest 20:
 | 11 Dec 2024 | [Anfallende Daten bei der Prüfung einer E-ID](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20248037) | 24.8037 | submitted by | free speech and civil liberties |
 | 11 Dec 2024 | [E-ID Vertrauensinfrastruktur: Revokation einer Identität](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20248036) | 24.8036 | submitted by | free speech and civil liberties |
 | 18 Sep 2024 | [Pilotbetrieb für E-Collecting mit der E-ID-Vertrauensinfrastruktur](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243907) | 24.3907 | submitted by | free speech and civil liberties |
+
+## Committees and groups (4)
+
+- **Committees:** Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 1 (B+G/EFD) (Mitglied); Gruppe Parlaments-IT (Vizepräsident/in); Sicherheitspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (11)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | LerNetz | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Liip | Präsident(in) | bezahlt |  |
+| Keine Angaben | Hochschule für Technik und Architektur Freiburg | Beirat | ehrenamtlich |  |
+| Stiftung | Fondation Seed Capital Fribourg | Mitglied | bezahlt |  |
+| Stiftung | Stiftung applico | Mitglied | ehrenamtlich |  |
+| Verein | Allianz Pro e-ID (Abstimmungskampagne) | Co-Präsident(in) | ehrenamtlich |  |
+| Verein | BeLearn | Beirat | ehrenamtlich |  |
+| Verein | Festival International du Film de Fribourg FIFF | Präsident(in) | ehrenamtlich |  |
+| Verein | In Situ | Präsident(in) | ehrenamtlich |  |
+| Verein | La Gustav - Akademie für aktuelle Musik, Freiburg | Präsident(in) | ehrenamtlich |  |
+| Verein | Staatslabor | Beirat | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

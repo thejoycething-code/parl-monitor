@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 117, “Nein” 57, “Entschuldigt” 29, “Enthaltung” 6.
-By area (every vote): abortion: “Ja” 14, “Nein” 7, “Enthaltung” 1; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 12, “Entschuldigt” 1; parental rights and education: “Nein” 8, “Ja” 6, “Enthaltung” 1, “Entschuldigt” 1; free speech and civil liberties: “Ja” 13, “Nein” 5, “Entschuldigt” 1; religious freedom: “Ja” 7, “Nein” 5, “Enthaltung” 1, “Entschuldigt” 1; marriage and family: “Ja” 67, “Entschuldigt” 26, “Nein” 19, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 109, “Nein” 53, “Entschuldigt” 29, “Enthaltung” 6.
+By area (every vote): abortion: “Ja” 6, “Nein” 3, “Enthaltung” 1; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 12, “Entschuldigt” 1; parental rights and education: “Nein” 8, “Ja” 6, “Enthaltung” 1, “Entschuldigt” 1; free speech and civil liberties: “Ja” 13, “Nein” 5, “Entschuldigt” 1; religious freedom: “Ja” 7, “Nein” 5, “Enthaltung” 1, “Entschuldigt” 1; marriage and family: “Ja” 67, “Entschuldigt” 26, “Nein” 19, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,49 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (6)
+
+- **Committees:** Aussenpolitische Kommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EDA/VBS (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission Gerichte/BA (Mitglied).
+- **Delegations:** Delegation bei der Interparlamentarischen Union (Mitglied); Delegation bei der parlamentarischen Versammlung der Frankophonie (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (28)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Abilis SA, Köniz | Mitglied | bezahlt |  |
+| Aktiengesellschaft | CGN Belle Epoque SA, Lausanne | Mitglied | bezahlt |  |
+| Aktiengesellschaft | CIMR Invest Immo | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Institut de traumatologie et d'orthopédie du Léman - ITOLS SA | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Montreux Oberland Bernois (MOB), 1820 Montreux | Präsident(in) | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | Glion Institute of Higher Education - GIHE | Mitglied | bezahlt |  |
+| Keine Angaben | Conseil de politique sociale du Canton de Vaud, Lausanne | Präsident(in) | bezahlt |  |
+| Kommission | Commission consultative cantonale de défense incendie - Vaud | Mitglied | ehrenamtlich |  |
+| Kommission | Commission suisse pour l'UNESCO | Mitglied | ehrenamtlich |  |
+| Öffentlich-rechtliche Anstalt | Ecole professionnelle des métiers de bouche de Montreux | Mitglied | ehrenamtlich |  |
+| Öffentlich-rechtliche Anstalt | Haute Ecole de Santé Vaud, Lausanne | Mitglied | ehrenamtlich |  |
+| Öffentlich-rechtliche Stiftung | Fondation Solidarité avec le Monde | Mitglied | ehrenamtlich |  |
+| Stiftung | Campus pour la démocratie - Fondation Dialogue, Berne | Mitglied | ehrenamtlich |  |
+| Stiftung | Fondation Caux Initiative et Changement | Mitglied | ehrenamtlich |  |
+| Stiftung | Fondation du Château de Chillon, Veytaux | Mitglied | bezahlt |  |
+| Stiftung | Fondation MOB GoldenPass Historique, Montreux | Präsident(in) | ehrenamtlich |  |
+| Stiftung | Montreux Jazz Festival | Mitglied | ehrenamtlich |  |
+| Stiftung | Organisation des Suisses de l'Etranger, Berne | Vizepräsident(in) | ehrenamtlich |  |
+| Stiftung | Pro Senectute Vaud, Lausanne | Präsident(in) | ehrenamtlich |  |
+| Verein | ARTISET Suisse Berne | Co-Präsident(in) | bezahlt |  |
+| Verein | Association des Amis Musées Morges | Mitglied | ehrenamtlich |  |
+| Verein | Chemin de fer-musée Blonay-Chamby | Mitglied | ehrenamtlich |  |
+| Verein | Conseil de la Confrérie des Vignerons | Mitglied | ehrenamtlich |  |
+| Verein | Fédération suisse des casinos | Vizepräsident(in) | bezahlt |  |
+| Verein | Fête cantonale des chanteurs vaudois | Präsident(in) | ehrenamtlich |  |
+| Verein | Fête fédérale des jeunes tireurs 2025 - Chablais valaisan et vaudois | Präsident(in) | ehrenamtlich |  |
+| Verein | Helvetas, Swiss Intercooperation, Zürich | Mitglied | ehrenamtlich |  |
+| Verein | Helvetia Latina, Berne | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: GL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 152, “Nein” 52, “Enthaltung” 3, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Nein” 5, “Ja” 2; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 30, “Nein” 2, “Enthaltung” 1; parental rights and education: “Ja” 11, “Nein” 5; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 85, “Nein” 25, “Enthaltung” 2, “Nicht teilgenommen” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 145, “Nein” 47, “Enthaltung” 3, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 5, “Ja” 2; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 30, “Nein” 2, “Enthaltung” 1; parental rights and education: “Ja” 11, “Nein” 5; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 85, “Nein” 25, “Enthaltung” 2, “Nicht teilgenommen” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | GL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | GL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (2)
 
@@ -50,6 +50,35 @@ The latest 20:
 |---|---|---|---|---|
 | 19 Jun 2026 | [Mehrheitsbeteiligung an der Swisscom. Sicherheitspolitik oder Wettbewerbsverzerrung?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263911) | 26.3911 | submitted by | religious freedom |
 | 20 Mar 2026 | [Stärkung der faktenbasierten Information im Energiebereich. Prüfung einer Fact-Checking-Plattform des Bundes](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263437) | 26.3437 | submitted by | free speech and civil liberties |
+
+## Committees and groups (3)
+
+- **Committees:** Gruppe Parlaments-IT (Stellvertreter/in); Kommission für Verkehr und Fernmeldewesen Nationalrat (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Landtag des Fürstentums Liechtenstein (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (15)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | ADEV Solarstrom AG, Liestal | Präsident(in) | bezahlt |  |
+| Genossenschaft | ADEV Energiegenossenschaft, Liestal | Mitglied | bezahlt |  |
+| Körperschaft des öffentlichen Rechts | Gemeinde Otelfingen | Präsident(in) | bezahlt |  |
+| Körperschaft des öffentlichen Rechts | Sicherheitszweckverband Unteres Furttal SIUF | Vizepräsident(in) | bezahlt |  |
+| Körperschaft des öffentlichen Rechts | Zürcher Planungsgruppe Furttal | Mitglied | bezahlt |  |
+| Stiftung | Mühle Otelfingen | Mitglied | ehrenamtlich |  |
+| Verein | aeesuisse | Vizepräsident(in) | bezahlt |  |
+| Verein | asut | Mitglied | bezahlt |  |
+| Verein | Biomasse Suisse, Brugg | Präsident(in) | bezahlt |  |
+| Verein | Cycla Velo-Allianz | Mitglied | ehrenamtlich |  |
+| Verein | Gemeindepräsidentenverband Bezirk Dielsdorf | Mitglied | ehrenamtlich |  |
+| Verein | IGöV Zürich | Mitglied | ehrenamtlich |  |
+| Verein | Informationsdienst für den öffentlichen Verkehr (LITRA), Bern | Mitglied | ehrenamtlich |  |
+| Verein | Planungsdachverband Region Zürich und Umgebung | Mitglied | bezahlt |  |
+| Verein | Schutzverband der Bevölkerung um den Flughafen Zürich (sbfz), Niederhasli | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

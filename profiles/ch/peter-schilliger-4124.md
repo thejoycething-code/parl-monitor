@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 119, “Nein” 83, “Nicht teilgenommen” 7.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 17, “Nein” 14, “Nicht teilgenommen” 2; parental rights and education: “Ja” 7, “Nein” 7, “Nicht teilgenommen” 2; free speech and civil liberties: “Ja” 13, “Nein” 5, “Nicht teilgenommen” 1; religious freedom: “Ja” 6, “Nein” 6, “Nicht teilgenommen” 2; marriage and family: “Ja” 70, “Nein” 41, “Nicht teilgenommen” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 7, “Nein” 4, “Nicht teilgenommen” 2; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 112, “Nein” 78, “Nicht teilgenommen” 7.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 17, “Nein” 14, “Nicht teilgenommen” 2; parental rights and education: “Ja” 7, “Nein” 7, “Nicht teilgenommen” 2; free speech and civil liberties: “Ja” 13, “Nein” 5, “Nicht teilgenommen” 1; religious freedom: “Ja” 6, “Nein” 6, “Nicht teilgenommen” 2; marriage and family: “Ja” 70, “Nein” 41, “Nicht teilgenommen” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 7, “Nein” 4, “Nicht teilgenommen” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,13 +42,52 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 21 Mar 2025 | [Schweizer Asylsystem modernisieren](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253341) | 25.3341 | submitted by | religious freedom |
+
+## Committees and groups (4)
+
+- **Committees:** Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 4 (EJPD/VBS) (Mitglied); Staatspolitische Kommission Nationalrat (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Deutschen Bundestag (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (25)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | GHNet Luzern AG | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Herzog Bauspenglerei AG, Luzern | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Herzog Haustechnik AG, Luzern | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | IC AG Beratung, Udligenswil | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Kaiser AG, Udligenswil | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Kaufmann Gotthard AG, Sursee | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Kursaal Casino AG, Luzern | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Panorama Chälenmattli AG, Stans | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Partner Immobilien AG, Udligenswil | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Schilliger Immobilien AG, Udligenswil | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Solar Energie Effizienz AG, Luzern | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Spenglerei Pilatus AG, Kriens | Mitglied | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | Gisler Spenglerei-Bedachungen GmbH, Udligenswil | Präsident(in) | bezahlt |  |
+| Körperschaft des öffentlichen Rechts | Hochschule Luzern - Technik + Architektur | Mitglied | bezahlt |  |
+| Stiftung | Herzog Haustechnik: Patronale Stiftung, Luzern | Präsident(in) | ehrenamtlich |  |
+| Stiftung | Hochschule Luzern: Förderung Technik/Architektur | Präsident(in) | ehrenamtlich |  |
+| Verein | FDP Donatoren-Vereinigung Kanton Luzern, Luzern | Präsident(in) | ehrenamtlich |  |
+| Verein | Luzerner Mobilitäts-Konferenz, Luzern | Präsident(in) | bezahlt |  |
+| Verein | Nuklearforum Schweiz, Olten | Mitglied | ehrenamtlich |  |
+| Verein | Schweizerischer Arbeitgeberverband, Zürich (Grosser Vorstand) | Mitglied | ehrenamtlich |  |
+| Verein | Schweizerischer Gewerbeverband (sgv), Bern (Gewerbekammer) | Mitglied | bezahlt |  |
+| Verein | suissetec Gebäudetechnik-Verband, Zürich | Beirat | ehrenamtlich |  |
+| Verein | SVIT Schweiz, Zürich | Mitglied | bezahlt |  |
+| Verein | Touring Club Schweiz (TCS) | Mitglied | bezahlt |  |
+| Verein | Touring Club Schweiz (TCS) Sektion Waldstätte | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

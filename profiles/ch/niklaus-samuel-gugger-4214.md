@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 102, “Entschuldigt” 60, “Nein” 37, “Nicht teilgenommen” 7, “Enthaltung” 3.
-By area (every vote): abortion: “Ja” 13, “Nein” 5, “Enthaltung” 2, “Entschuldigt” 2; assisted dying: “Ja” 3, “Entschuldigt” 2, “Nein” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 25, “Entschuldigt” 4, “Nein” 3, “Nicht teilgenommen” 1; parental rights and education: “Ja” 11, “Entschuldigt” 4, “Nein” 1; free speech and civil liberties: “Ja” 10, “Entschuldigt” 5, “Nein” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 7, “Entschuldigt” 4, “Nicht teilgenommen” 2, “Nein” 1; marriage and family: “Ja” 51, “Entschuldigt” 38, “Nein” 22, “Nicht teilgenommen” 2, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 1, “Nicht teilgenommen” 1; organ donation: “Entschuldigt” 1.
+Recorded positions (197): “Ja” 93, “Entschuldigt” 60, “Nein” 36, “Nicht teilgenommen” 7, “Enthaltung” 1.
+By area (every vote): abortion: “Ja” 4, “Nein” 4, “Entschuldigt” 2; assisted dying: “Ja” 3, “Entschuldigt” 2, “Nein” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 25, “Entschuldigt” 4, “Nein” 3, “Nicht teilgenommen” 1; parental rights and education: “Ja” 11, “Entschuldigt” 4, “Nein” 1; free speech and civil liberties: “Ja” 10, “Entschuldigt” 5, “Nein” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 7, “Entschuldigt” 4, “Nicht teilgenommen” 2, “Nein” 1; marriage and family: “Ja” 51, “Entschuldigt” 38, “Nein” 22, “Nicht teilgenommen” 2, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 1, “Nicht teilgenommen” 1; organ donation: “Entschuldigt” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (6)
 
@@ -54,6 +54,30 @@ The latest 20:
 | 26 Sep 2025 | [Gibt die Schweiz ihre digitale Souveränität auf?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254348) | 25.4348 | submitted by | free speech and civil liberties |
 | 18 Sep 2024 | [Pilotbetrieb für E-Collecting mit der E-ID-Vertrauensinfrastruktur](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243911) | 24.3911 | submitted by | free speech and civil liberties |
 | 14 Jun 2024 | [Sternenkinder. Bezahlter Urlaub für jeden Elternteil](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243787) | 24.3787 | submitted by | abortion |
+
+## Committees and groups (2)
+
+- **Committees:** Aussenpolitische Kommission Nationalrat (Mitglied).
+- **Delegations:** Delegation bei der Parlamentarischen Versammlung des Europarates (Stellvertreter/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (10)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | H. Bühlmann AG | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Herzkraftwerk AG, Winterthur | Vizepräsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Mietauto AG, Winterthur | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Prefero AG | Vizepräsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Swiss Cyber Security Days | Präsident(in) | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | ConCordis GmbH, Winterthur | Präsident(in) | ehrenamtlich |  |
+| Öffentlich-rechtliche Anstalt | Kalinga Institut of Social Sience (KISS) India | Berater(in) | ehrenamtlich |  |
+| Stiftung | Swiss Aid | Mitglied | ehrenamtlich |  |
+| Verein | BirdLife Schweiz | Vizepräsident(in) | ehrenamtlich |  |
+| Verein | Ena | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

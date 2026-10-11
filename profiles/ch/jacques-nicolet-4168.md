@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 119, “Ja” 83, “Enthaltung” 6, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 10, “Nein” 10, “Enthaltung” 2; assisted dying: “Ja” 5, “Enthaltung” 1, “Nein” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 12, “Ja” 3, “Enthaltung” 1; free speech and civil liberties: “Nein” 11, “Ja” 7, “Enthaltung” 1; religious freedom: “Nein” 7, “Ja” 5, “Enthaltung” 2; marriage and family: “Nein” 63, “Ja” 50, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 11, “Enthaltung” 1, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 113, “Ja” 78, “Enthaltung” 5, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Ja” 5, “Nein” 4, “Enthaltung” 1; assisted dying: “Ja” 5, “Enthaltung” 1, “Nein” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 12, “Ja” 3, “Enthaltung” 1; free speech and civil liberties: “Nein” 11, “Ja” 7, “Enthaltung” 1; religious freedom: “Nein” 7, “Ja” 5, “Enthaltung” 2; marriage and family: “Nein” 63, “Ja” 50, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 11, “Enthaltung” 1, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (3)
 
@@ -51,6 +51,24 @@ The latest 20:
 | 2 Mar 2026 | [Moratorium für Fotovoltaikanlagen auf Stallbauten aufgrund der Risiken durch Streustrom](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263026) | 26.3026 | submitted by | assisted dying |
 | 20 Jun 2025 | [Wie honoriert der Bund als Bauherr das Engagement von Lehrbetrieben?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253822) | 25.3822 | submitted by | parental rights and education |
 | 14 Jun 2024 | [Illegale Besetzung mehrerer schweizerischer Universitäten. Welche Massnahmen könnte der Bundesrat ergreifen, um die Freiheit der Lehre zu g…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243775) | 24.3775 | submitted by | religious freedom |
+
+## Committees and groups (4)
+
+- **Committees:** Finanzkommission Nationalrat (Präsident/in); Finanzkommission Nationalrat Subkommission 3 (EDI/UVEK) (Mitglied); Kommission für Rechtsfragen Nationalrat (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Französischen Parlament (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (4)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Genossenschaft | Société coopérative de l'abattoir régional d'Orbe, Orbe | Präsident(in) | bezahlt |  |
+| Verein | ADNV Association pour le Développement du Nord Vaudois | Mitglied | bezahlt |  |
+| Verein | ASSAF (Association suisse pour un secteur agroalimentaire fort) | Präsident(in) | bezahlt |  |
+| Verein | regio.garantie Romandie | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

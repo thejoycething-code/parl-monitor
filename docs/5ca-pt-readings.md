@@ -11,14 +11,18 @@ Counts: 11 proposed, 8 procedural (evidence only), 21 need reading, 0 confirmed.
 ### [ ] `XVII/182933` Votação final:
 
 - **When / result:** 2026-09-25; Assembleia da República; Rejeitado
+- **On:** Recomenda ao Governo que se oponha resolutamente à adopção do European Democracy Shield
 - **Lobbies:** A favor: CH 60. Contra: PSD 90, PS 58, L 6, PAN 1. Abstain: IL 9, CDS-PP 3, PCP 3, BE 1, JPP 1 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **A favor** = to pass XVII/R/1144 (Opposition to the European Democracy Shield; rejected 25 September 2026) as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** A favor +2 (Voted A favor on XVII/R/1144 (Opposition to the European Democracy Shield): for passing it, with CitizenGO's position.); Contra -2 (Voted Contra on XVII/R/1144 (Opposition to the European Democracy Shield): against passing it, against CitizenGO's position.)
 - **Reasoning:** Area 7 (free speech and civil liberties). Bill direction on file for XVII/R/1144 (a draft): passing it is WITH us -- Opposition to the European Democracy Shield; rejected 25 September 2026. This vote is a vote on the whole text or the motion itself, so A favor is with us.
 
 ### [ ] `XVII/172580` Votação final global: Texto Final, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo ao Projeto de Lei n.º 47/XV
 
 - **When / result:** 2026-07-17; Assembleia da República; Aprovado
+- **On:** Proíbe a ocultação do rosto em espaços públicos salvo determinadas exceções
 - **Lobbies:** A favor: PSD 90, CH 60, IL 9, CDS-PP 3. Contra: PS 58, L 6, PCP 3, BE 1, JPP 1. Abstain: PAN 1 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **A favor** = to pass XVII/J/47 (Chega bill banning face coverings in public places (the burqa ban); approved and published as law, final vote…) as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** A favor +2 (Voted A favor on XVII/J/47 (Chega bill banning face coverings in public places (the burqa ban)): for passing it, with CitizenGO's position.); Contra -2 (Voted Contra on XVII/J/47 (Chega bill banning face coverings in public places (the burqa ban)): against passing it, against CitizenGO's position.)
 - **Reasoning:** Area 8 (religious freedom). Bill direction on file for XVII/J/47 (a draft): passing it is WITH us -- Chega bill banning face coverings in public places (the burqa ban); approved and published as law, final vote 17 July 2026. This vote is a vote on the whole text or the motion itself, so A favor is with us.
 - **Flag for you:** On the bill's direction: PT4: CitizenGO supports the face-covering law (decisions page).
@@ -26,28 +30,36 @@ Counts: 11 proposed, 8 procedural (evidence only), 21 need reading, 0 confirmed.
 ### [ ] `XVII/172141` Votação na generalidade:
 
 - **When / result:** 2026-06-12; Assembleia da República; Rejeitado
+- **On:** Reforça o enquadramento penal dos crimes de ódio em Portugal
 - **Lobbies:** A favor: PS 58, L 6, PCP 3, BE 1, JPP 1, PAN 1. Contra: PSD 90, CH 60, IL 9, CDS-PP 3 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **A favor** = to approve XVII/J/628 (Strengthens the criminal framework for hate crimes) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** A favor -2 (Voted A favor on XVII/J/628 (Strengthens the criminal framework for hate crimes): for passing it, against CitizenGO's position.); Contra +2 (Voted Contra on XVII/J/628 (Strengthens the criminal framework for hate crimes): against passing it, with CitizenGO's position.)
 - **Reasoning:** Area 7 (free speech and civil liberties). Bill direction on file for XVII/J/628 (a draft): passing it is AGAINST us -- Strengthens the criminal framework for hate crimes. This vote is a vote on the whole text or the motion itself, so A favor is against us.
 
 ### [ ] `XVII/171125` Votação na generalidade:
 
 - **When / result:** 2026-03-20; Assembleia da República; Rejeitado
+- **On:** Altera a Lei n.º 38/2018, de 7 de agosto e estabelece o quadro jurídico da sua implementação
 - **Lobbies:** A favor: PS 58, L 6, BE 1, JPP 1, PAN 1. Contra: PSD 90, CH 60, IL 9, CDS-PP 3. Abstain: PCP 3 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **A favor** = to approve XVII/J/493 (BE bill amending Lei 38/2018 (self-determination of gender identity) and its implementation; rejected on…) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** A favor -2 (Voted A favor on XVII/J/493 (BE bill amending Lei 38/2018 (self-determination of gender identity) and its implementatio): for passing it, against CitizenGO's position.); Contra +2 (Voted Contra on XVII/J/493 (BE bill amending Lei 38/2018 (self-determination of gender identity) and its implementatio): against passing it, with CitizenGO's position.)
 - **Reasoning:** Area 5 (sex-based rights). Bill direction on file for XVII/J/493 (a draft): passing it is AGAINST us -- BE bill amending Lei 38/2018 (self-determination of gender identity) and its implementation; rejected on generality 20 March 2026. This vote is a vote on the whole text or the motion itself, so A favor is against us.
 
 ### [ ] `XVII/171123` Votação na generalidade:
 
 - **When / result:** 2026-03-20; Assembleia da República; Aprovado
+- **On:** Protege a integridade das crianças e proíbe a utilização de bloqueadores da puberdade e/ou terapia hormonal no tratamento da incongruência ou disforia de género em menores de 18 anos
 - **Lobbies:** A favor: PSD 90, CH 60, CDS-PP 3. Contra: PS 58, IL 9, L 6, PCP 3, BE 1, JPP 1, PAN 1 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **A favor** = to approve XVII/J/479 (CDS-PP bill banning puberty blockers and cross-sex hormones for minors; approved on generality 20 March 2026…) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** A favor +2 (Voted A favor on XVII/J/479 (CDS-PP bill banning puberty blockers and cross-sex hormones for minors): for passing it, with CitizenGO's position.); Contra -2 (Voted Contra on XVII/J/479 (CDS-PP bill banning puberty blockers and cross-sex hormones for minors): against passing it, against CitizenGO's position.)
 - **Reasoning:** Area 3 (gender medicine and children). Bill direction on file for XVII/J/479 (a draft): passing it is WITH us -- CDS-PP bill banning puberty blockers and cross-sex hormones for minors; approved on generality 20 March 2026 (PSD, CH, CDS-PP for), now in committee. This vote is a vote on the whole text or the motion itself, so A favor is with us.
 
 ### [ ] `XVII/139930` Votação na generalidade:
 
 - **When / result:** 2025-10-17; Assembleia da República; Aprovado
+- **On:** Proíbe a ocultação do rosto em espaços públicos salvo determinadas exceções
 - **Lobbies:** A favor: PSD 90, CH 60, IL 9, CDS-PP 3. Contra: PS 58, L 6, PCP 3, BE 1. Abstain: JPP 1, PAN 1 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **A favor** = to approve XVII/J/47 (Chega bill banning face coverings in public places (the burqa ban); approved and published as law, final vote…) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** A favor +2 (Voted A favor on XVII/J/47 (Chega bill banning face coverings in public places (the burqa ban)): for passing it, with CitizenGO's position.); Contra -2 (Voted Contra on XVII/J/47 (Chega bill banning face coverings in public places (the burqa ban)): against passing it, against CitizenGO's position.)
 - **Reasoning:** Area 8 (religious freedom). Bill direction on file for XVII/J/47 (a draft): passing it is WITH us -- Chega bill banning face coverings in public places (the burqa ban); approved and published as law, final vote 17 July 2026. This vote is a vote on the whole text or the motion itself, so A favor is with us.
 - **Flag for you:** On the bill's direction: PT4: CitizenGO supports the face-covering law (decisions page).
@@ -55,35 +67,45 @@ Counts: 11 proposed, 8 procedural (evidence only), 21 need reading, 0 confirmed.
 ### [ ] `XVII/139652` Votação na generalidade:
 
 - **When / result:** 2025-09-19; Assembleia da República; Rejeitado
+- **On:** Recomenda ao Governo que rejeite a proposta de Regulamento da Comissão Europeia (COM/2022/209), conhecido por “Chat Control”
 - **Lobbies:** A favor: CH 60, IL 9, L 6, PCP 3, JPP 1, PAN 1. Contra: PSD 90, PS 58. Abstain: CDS-PP 3 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **A favor** = to approve XVII/R/287 (Rejection of COM/2022/209 (Chat Control); rejected 19 September 2025) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** A favor +2 (Voted A favor on XVII/R/287 (Rejection of COM/2022/209 (Chat Control)): for passing it, with CitizenGO's position.); Contra -2 (Voted Contra on XVII/R/287 (Rejection of COM/2022/209 (Chat Control)): against passing it, against CitizenGO's position.)
 - **Reasoning:** Area 7 (free speech and civil liberties). Bill direction on file for XVII/R/287 (a draft): passing it is WITH us -- Rejection of COM/2022/209 (Chat Control); rejected 19 September 2025. This vote is a vote on the whole text or the motion itself, so A favor is with us.
 
 ### [ ] `XVII/139650` Votação na generalidade:
 
 - **When / result:** 2025-09-19; Assembleia da República; Rejeitado
+- **On:** Recomenda a rejeição da Proposta de Regulamento Chat Control
 - **Lobbies:** A favor: CH 60, IL 9, L 6, PCP 3, JPP 1, PAN 1. Contra: PSD 90, PS 58. Abstain: CDS-PP 3 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **A favor** = to approve XVII/R/282 (Rejection of the Chat Control regulation; rejected 19 September 2025) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** A favor +2 (Voted A favor on XVII/R/282 (Rejection of the Chat Control regulation): for passing it, with CitizenGO's position.); Contra -2 (Voted Contra on XVII/R/282 (Rejection of the Chat Control regulation): against passing it, against CitizenGO's position.)
 - **Reasoning:** Area 7 (free speech and civil liberties). Bill direction on file for XVII/R/282 (a draft): passing it is WITH us -- Rejection of the Chat Control regulation; rejected 19 September 2025. This vote is a vote on the whole text or the motion itself, so A favor is with us.
 
 ### [ ] `XVII/139649` Votação na generalidade:
 
 - **When / result:** 2025-09-19; Assembleia da República; Rejeitado
+- **On:** Recomenda ao Governo que se oponha, no seio da União Europeia, à aprovação da “Chat Control Law”
 - **Lobbies:** A favor: CH 60, IL 9, JPP 1, PAN 1. Contra: PSD 90, PS 58. Abstain: L 6, CDS-PP 3, PCP 3 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **A favor** = to approve XVII/R/260 (Opposition to Chat Control in the EU; rejected 19 September 2025) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** A favor +2 (Voted A favor on XVII/R/260 (Opposition to Chat Control in the EU; rejected 19 September 2025): for passing it, with CitizenGO's position.); Contra -2 (Voted Contra on XVII/R/260 (Opposition to Chat Control in the EU; rejected 19 September 2025): against passing it, against CitizenGO's position.)
 - **Reasoning:** Area 7 (free speech and civil liberties). Bill direction on file for XVII/R/260 (a draft): passing it is WITH us -- Opposition to Chat Control in the EU; rejected 19 September 2025. This vote is a vote on the whole text or the motion itself, so A favor is with us.
 
 ### [ ] `XVII/139648` Votação na generalidade:
 
 - **When / result:** 2025-09-19; Assembleia da República; Rejeitado
+- **On:** Recomenda ao Governo que rejeite o Regulamento COM/2022/209, conhecido como ‘‘Chat Control’’
 - **Lobbies:** A favor: CH 60, IL 9, L 6, PCP 3, JPP 1, PAN 1. Contra: PSD 90, PS 58. Abstain: CDS-PP 3 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **A favor** = to approve XVII/R/255 (Rejection of the EU Chat Control regulation (COM/2022/209); rejected 19 September 2025) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** A favor +2 (Voted A favor on XVII/R/255 (Rejection of the EU Chat Control regulation (COM/2022/209)): for passing it, with CitizenGO's position.); Contra -2 (Voted Contra on XVII/R/255 (Rejection of the EU Chat Control regulation (COM/2022/209)): against passing it, against CitizenGO's position.)
 - **Reasoning:** Area 7 (free speech and civil liberties). Bill direction on file for XVII/R/255 (a draft): passing it is WITH us -- Rejection of the EU Chat Control regulation (COM/2022/209); rejected 19 September 2025. This vote is a vote on the whole text or the motion itself, so A favor is with us.
 
 ### [ ] `XVII/139198` Votação na generalidade:
 
 - **When / result:** 2025-07-11; Assembleia da República; Rejeitado
+- **On:** Pela garantia de proteção à mulher grávida e ao nascituro em todas as fases e circunstâncias e o reforço de redes de apoio e cuidados
 - **Lobbies:** A favor: CH 60. Contra: PSD 90, PS 58, IL 9, L 6, PCP 3, BE 1, PAN 1. Abstain: CDS-PP 3, JPP 1 (counts include members DERIVED from their group's vote, X5)
+- Meaning: **A favor** = to approve XVII/J/88 (Chega bill protecting the pregnant woman and the unborn child (nascituro); rejected on generality 11 July 2025) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - **Proposed direction:** A favor +2 (Voted A favor on XVII/J/88 (Chega bill protecting the pregnant woman and the unborn child (nascituro)): for passing it, with CitizenGO's position.); Contra -2 (Voted Contra on XVII/J/88 (Chega bill protecting the pregnant woman and the unborn child (nascituro)): against passing it, against CitizenGO's position.)
 - **Reasoning:** Area 1 (abortion). Bill direction on file for XVII/J/88 (a draft): passing it is WITH us -- Chega bill protecting the pregnant woman and the unborn child (nascituro); rejected on generality 11 July 2025. This vote is a vote on the whole text or the motion itself, so A favor is with us.
 
@@ -92,58 +114,86 @@ Counts: 11 proposed, 8 procedural (evidence only), 21 need reading, 0 confirmed.
 ### [ ] `XVII/172455` Requerimento dispensa redação final: Texto final, apresentado pela Comissão de Orçamento, Finanças e Administração Pública, relativo à Proposta de Lei n.º 74/XV
 
 - 2026-07-03; Procedural (Requerimento dispensa redação final: Texto final, apresentado pela Comissão de Orçamento, Finanças e Administração Públi): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground.
+- Meaning: **A favor** = to skip the final drafting stage of XVII/J/566 (Compensation for victims of sexual abuse in the Catholic Church equated with court awards), so the final vote can follow at once; **Contra** = against skipping it. _(by rule, from the vote's wording and the bill)_
 
 ### [ ] `XVII/172453` Requerimento dispensa redação final: Requerimento oral, apresentado pelo PSD, a solicitar a dispensa de redação final e do prazo para apresentação de reclamaçõe
 
 - 2026-07-03; Procedural (Requerimento dispensa redação final: Requerimento oral, apresentado pelo PSD, a solicitar a dispensa de redação final e ): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground.
+- Meaning: **A favor** = to skip the final drafting stage of XVII/P/74 (Government bill exempting Church abuse compensation from income tax), so the final vote can follow at once; **Contra** = against skipping it. _(by rule, from the vote's wording and the bill)_
 
 ### [ ] `XVII/172100` Requerimento Baixa Comissão sem Votação (Generalidade): Requerimento, apresentado pelo CH, solicitando a baixa à Comissão de Assuntos Constitucionais, Direitos,
 
 - 2026-06-12; Procedural (Requerimento Baixa Comissão sem Votação (Generalidade): Requerimento, apresentado pelo CH, solicitando a baixa à Comissã): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground.
+- Meaning: **A favor** = to send XVII/J/630 (Amends the Penal Code to bound prosecution by freedom of expression) back to committee; **Contra** = against sending it back. _(by rule, from the vote's wording and the bill)_
 
 ### [ ] `XVII/171782` Votação do recurso da decisão do PAR:
 
 - 2026-03-20; Procedural (Votação do recurso da decisão do PAR:): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground.
+- Meaning: **A favor** = to agree the procedural motion (“Votação do recurso da decisão do PAR:”) on XVII/J/493 (BE bill amending Lei 38/2018 (self-determination of gender identity) and its implementation; rejected on…): the handling, not the substance; **Contra** = against that procedural motion. _(by rule, from the vote's wording and the bill)_
 
 ### [ ] `XVII/139253` Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresentação de reclamações contra inexatidões re
 
 - 2025-07-16; Procedural (Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresenta): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground.
+- Meaning: **A favor** = to skip the final drafting stage of the text “Cria a Unidade Nacional de Polícia de Estrangeiros e Fronteiras da Polícia de Segurança…”, so the final vote can follow at once; **Contra** = against skipping it. _(by rule, from the vote's wording and the bill)_
 
 ### [ ] `XVII/139251` Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresentação de reclamações contra inexatidões re
 
 - 2025-07-16; Procedural (Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresenta): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground.
+- Meaning: **A favor** = to skip the final drafting stage of the text “Cria a Unidade Nacional de Estrangeiros e Fronteiras, na Polícia de Segurança Pública”, so the final vote can follow at once; **Contra** = against skipping it. _(by rule, from the vote's wording and the bill)_
 
 ### [ ] `XVII/139249` Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresentação de reclamações contra inexatidões re
 
 - 2025-07-16; Procedural (Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresenta): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground.
+- Meaning: **A favor** = to skip the final drafting stage of the text “Restringe as normas em matéria de entrada e permanência em território nacional, alterando…”, so the final vote can follow at once; **Contra** = against skipping it. _(by rule, from the vote's wording and the bill)_
 
 ### [ ] `XVII/139246` Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresentação de reclamações contra inexatidões re
 
 - 2025-07-16; Procedural (Requerimento: Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresenta): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground.
+- Meaning: **A favor** = to skip the final drafting stage of the text “Altera a Lei n.º 23/2007, de 4 de julho, que aprova o regime jurídico de entrada…”, so the final vote can follow at once; **Contra** = against skipping it. _(by rule, from the vote's wording and the bill)_
 
 ## Needs reading (no box: write the values first)
 
 - `XVII/172454` 2026-07-03 Votação final global: Texto final, apresentado pela Comissão de Orçamento, Finanças e Administração Pública, r [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/J/566: CitizenGO's position on 'Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a inde
+  - Meaning: **A favor** = to pass XVII/J/566 (Compensation for victims of sexual abuse in the Catholic Church equated with court awards) as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/172452` 2026-07-03 Votação final global: Texto final, apresentado pela Comissão de Orçamento, Finanças e Administração Pública, r [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/P/74: CitizenGO's position on 'Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares d
+  - Meaning: **A favor** = to pass XVII/P/74 (Government bill exempting Church abuse compensation from income tax) as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/172161` 2026-06-12 Votação final global: Texto final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesa [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/R/864: CitizenGO's position on 'Em defesa do povo cubano contra a tirania do regime comunista' needs a human reading. Add a `bill_d
+  - Meaning: **A favor** = to pass the text “Em defesa do povo cubano contra a tirania do regime comunista” as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/172160` 2026-06-12 Votação final global: Texto final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesa [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/R/856: CitizenGO's position on 'Pela defesa de uma solução diplomática para o confronto entre os Estados Unidos da América e a Repú
+  - Meaning: **A favor** = to pass the text “Pela defesa de uma solução diplomática para o confronto entre os Estados Unidos da…” as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/172159` 2026-06-12 Votação final global: Texto final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesa [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/R/844: CitizenGO's position on 'Recomenda ao Governo que realize todos os esforços políticos e diplomáticos no sentido de pressiona
+  - Meaning: **A favor** = to pass the text “Recomenda ao Governo que realize todos os esforços políticos e diplomáticos no sentido de…” as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/172158` 2026-06-12 Votação final global: Texto final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesa [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/R/841: CitizenGO's position on 'Recomenda ao Governo que defenda o povo cubano e promova o respeito pelos direitos, liberdades e ga
+  - Meaning: **A favor** = to pass the text “Recomenda ao Governo que defenda o povo cubano e promova o respeito pelos direitos…” as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/172157` 2026-06-12 Votação final global: Texto final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesa [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/R/721: CitizenGO's position on 'Recomenda ao Governo que condene o bloqueio imposto a Cuba e denuncie o recrudescimento da instabil
+  - Meaning: **A favor** = to pass the text “Recomenda ao Governo que condene o bloqueio imposto a Cuba e denuncie o recrudescimento…” as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/172086` 2026-06-12 Votação na generalidade: [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/J/566: CitizenGO's position on 'Equipara as compensações devidas às vítimas de abusos sexuais no contexto da Igreja Católica a inde
+  - Meaning: **A favor** = to approve XVII/J/566 (Compensation for victims of sexual abuse in the Catholic Church equated with court awards) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - `XVII/172085` 2026-06-12 Votação na generalidade: [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/P/74: CitizenGO's position on 'Estabelece uma exclusão de tributação em sede do Imposto sobre o Rendimento das Pessoas Singulares d
+  - Meaning: **A favor** = to approve XVII/P/74 (Government bill exempting Church abuse compensation from income tax) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - `XVII/171124` 2026-03-20 Votação na generalidade: [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/J/486: CitizenGO's position on 'Altera o regime jurídico de mudança de sexo e de nome próprio no registo civil' needs a human readi
+  - Meaning: **A favor** = to approve XVII/J/486 (Amends the legal regime for change of sex and first name in the civil register) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - `XVII/171122` 2026-03-20 Votação na generalidade: [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/J/391: CitizenGO's position on 'Actualiza a regulação do procedimento de mudança de sexo e de nome próprio no registo civil, em par
+  - Meaning: **A favor** = to approve XVII/J/391 (Updates the procedure for change of sex and first name in the civil register, with protections cited for…) on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - `XVII/170721` 2026-02-13 Votação Deliberação: Texto Final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesas [other]: The kind of vote could not be read from its wording ('Votação Deliberação: Texto Final, apresentado pela Comissão de Negócios Estrangeiros e Comunidades Portuguesas, relativo'): read the question put, then write yea/nay.
 - `XVII/140052` 2025-10-28 Votação final global: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos,  [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/P/1: CitizenGO's position on 'Altera a Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade' needs a human reading. Ad
+  - Meaning: **A favor** = to pass the text “Altera a Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade” as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/140043` 2025-10-28 Votação na generalidade: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direito [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/P/1: CitizenGO's position on 'Altera a Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade' needs a human reading. Ad
+  - Meaning: **A favor** = to approve the text “Altera a Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade” on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - `XVII/139792` 2025-09-26 Votação final global: Texto Final, apresentado Comissão de Negócios Estrangeiros e Comunidades Portuguesas, re [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/R/149: CitizenGO's position on 'Recomenda ao Governo que ative mecanismos urgentes para o acolhimento de crianças provenientes da F
+  - Meaning: **A favor** = to pass the text “Recomenda ao Governo que ative mecanismos urgentes para o acolhimento de crianças…” as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/139252` 2025-07-16 Votação final global: Texto Final, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/J/60: CitizenGO's position on 'Cria a Unidade Nacional de Polícia de Estrangeiros e Fronteiras da Polícia de Segurança Pública' nee
+  - Meaning: **A favor** = to pass the text “Cria a Unidade Nacional de Polícia de Estrangeiros e Fronteiras da Polícia de Segurança…” as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/139250` 2025-07-16 Votação final global: Texto Final, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/P/2: CitizenGO's position on 'Cria a Unidade Nacional de Estrangeiros e Fronteiras, na Polícia de Segurança Pública' needs a human 
+  - Meaning: **A favor** = to pass the text “Cria a Unidade Nacional de Estrangeiros e Fronteiras, na Polícia de Segurança Pública” as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/139248` 2025-07-16 Votação final global: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos,  [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/J/61: CitizenGO's position on 'Restringe as normas em matéria de entrada e permanência em território nacional, alterando a Lei n.º 
+  - Meaning: **A favor** = to pass the text “Restringe as normas em matéria de entrada e permanência em território nacional, alterando…” as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/139247` 2025-07-16 Votação na generalidade: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direito [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/J/61: CitizenGO's position on 'Restringe as normas em matéria de entrada e permanência em território nacional, alterando a Lei n.º 
+  - Meaning: **A favor** = to approve the text “Restringe as normas em matéria de entrada e permanência em território nacional, alterando…” on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 - `XVII/139245` 2025-07-16 Votação final global: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos,  [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/P/3: CitizenGO's position on 'Altera a Lei n.º 23/2007, de 4 de julho, que aprova o regime jurídico de entrada, permanência, saída 
+  - Meaning: **A favor** = to pass the text “Altera a Lei n.º 23/2007, de 4 de julho, que aprova o regime jurídico de entrada…” as a whole; **Contra** = against passing it. _(by rule, from the vote's wording and the bill)_
 - `XVII/139244` 2025-07-16 Votação na generalidade: Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direito [final]: A vote on the whole text or the motion itself, but no bill direction is on file for XVII/P/3: CitizenGO's position on 'Altera a Lei n.º 23/2007, de 4 de julho, que aprova o regime jurídico de entrada, permanência, saída 
+  - Meaning: **A favor** = to approve the text “Altera a Lei n.º 23/2007, de 4 de julho, que aprova o regime jurídico de entrada…” on the general principle (first stage); **Contra** = against approving it in principle. _(by rule, from the vote's wording and the bill)_
 
 ## Bill directions on file (inputs to the drafts; they place nobody)
 

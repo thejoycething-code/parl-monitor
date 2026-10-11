@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """5CA with stance sign-off for the new country editions (src/country5ca.py).
 
-    python3 tools/country_5ca.py --all-countries --draft --signoff-doc --sheets   # the weekly step
+    python3 tools/country_5ca.py --all-countries --prune-off-ground --draft --signoff-doc --sheets --shortlist   # the weekly step
+    python3 tools/country_5ca.py --cc pl --shortlist [--top 20]   # docs/5ca-pl-shortlist.md
     python3 tools/country_5ca.py --cc pl --draft             # append drafts for new votes
     python3 tools/country_5ca.py --cc pl --signoff-doc       # rewrite docs/5ca-pl-readings.md
     python3 tools/country_5ca.py --cc pl --sign-from-doc --by Christopher
@@ -10,6 +11,7 @@
     python3 tools/country_5ca.py --cc pl --confirm-direction 10/2110 --by Christopher
     python3 tools/country_5ca.py --all-countries --counts
     python3 tools/country_5ca.py --cc fr --prune-out-of-scope [--dry-run]
+    python3 tools/country_5ca.py --cc ch --prune-off-ground [--dry-run] --signoff-doc --shortlist
     python3 tools/country_5ca.py --cc pl --draft --db /path/to/store.db
     python3 tools/country_5ca.py --draft --db-map stores.txt # "cc path" per line (initial drafts)
 
@@ -20,10 +22,23 @@ listed for that country in config/stance_signers.yaml. --confirm-direction
 signs a bill's direction (`bill_directions`) the same way; the campaign briefs
 (tools/country_briefs.py) take their ask from it only once it is confirmed.
 
+--shortlist (11 October 2026, src/shortlist5ca.py) ranks the readings still
+waiting so a signer starts with the ones that matter most (decisive votes on
+watched bills, close margins, split groups, a meaning line ready, campaigns
+and briefs, recent first; procedural, near-unanimous and amendment votes
+sink) and writes docs/5ca-<cc>-shortlist.md with each item's reasons, meaning
+line, proposed values and the exact command to sign it. It confirms nothing.
+
 --prune-out-of-scope removes the entries outside a country's sign-off scope
 (France: final votes, motions to reject and watched amendments only) that
 are unsigned and untouched; a confirmed or hand-edited entry is always kept
 and reported. It reads the stance file and the watchlist, not the store.
+
+--prune-off-ground (11 October 2026) removes the unsigned, untouched entries
+whose vote the store no longer holds on our ground (neither watched nor tier
+1 with an area): what a reclassification leaves behind, as Switzerland's IVG
+guard did. It reads the store; a vote the store lacks is never pruned, and a
+confirmed or hand-edited entry is always kept and reported.
 
 Countries: {countries}.
 """
@@ -38,6 +53,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from src import country5ca as c5  # noqa: E402
+from src import shortlist5ca as sl  # noqa: E402
 
 __doc__ = __doc__.format(countries=", ".join(c5.COUNTRIES))
 
@@ -53,9 +69,15 @@ def main(argv=None):
     ap.add_argument("--signoff-doc", action="store_true", help="rewrite docs/5ca-<cc>-readings.md")
     ap.add_argument("--sheets", action="store_true", help="write the 5CA sheets (confirmed only)")
     ap.add_argument("--counts", action="store_true")
+    ap.add_argument("--shortlist", action="store_true",
+                    help="write docs/5ca-<cc>-shortlist.md: what to sign first (confirms nothing)")
+    ap.add_argument("--top", type=int, default=sl.TOP, help="items in the shortlist (default %(default)s)")
     ap.add_argument("--prune-out-of-scope", action="store_true",
                     help="remove unsigned, untouched entries outside the sign-off scope")
-    ap.add_argument("--dry-run", action="store_true", help="with --prune-out-of-scope: write nothing")
+    ap.add_argument("--prune-off-ground", action="store_true",
+                    help="remove unsigned, untouched entries whose vote is no longer on our ground")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="with --prune-out-of-scope or --prune-off-ground: write nothing")
     ap.add_argument("--confirm", nargs="+", metavar="KEY")
     ap.add_argument("--confirm-direction", nargs="+", metavar="BILL",
                     help="confirm bill_directions entries (the campaign briefs' ask follows them)")
@@ -95,9 +117,9 @@ def main(argv=None):
         c5.sign_from_doc(ccs[0], args.by, args.on)
         return 0
     if not (args.draft or args.signoff_doc or args.sheets or args.counts
-            or args.prune_out_of_scope):
-        ap.error("say what to do: --draft, --signoff-doc, --sheets, --counts, --confirm, "
-                 "--sign-from-doc or --prune-out-of-scope")
+            or args.prune_out_of_scope or args.prune_off_ground or args.shortlist):
+        ap.error("say what to do: --draft, --signoff-doc, --sheets, --shortlist, --counts, "
+                 "--confirm, --sign-from-doc, --prune-out-of-scope or --prune-off-ground")
     if args.prune_out_of_scope:
         for cc in ccs:
             if os.path.exists(c5.stance_path(cc)):
@@ -106,8 +128,8 @@ def main(argv=None):
     rc = 0
     for cc in ccs:
         path = stores.get(cc, args.db)
-        need_store = args.draft or args.sheets
-        if not (need_store or args.signoff_doc):
+        need_store = args.draft or args.sheets or args.prune_off_ground
+        if not (need_store or args.signoff_doc or args.shortlist):
             continue
         conn = None
         if need_store:
@@ -116,21 +138,25 @@ def main(argv=None):
                 continue
             conn = c5.connect_ro(path)
         elif os.path.exists(path):
-            conn = c5.connect_ro(path)       # the guide's meaning lines (src/vote_meanings.py)
+            conn = c5.connect_ro(path)       # the meaning lines (src/vote_meanings.py)
         try:
+            if args.prune_off_ground and os.path.exists(c5.stance_path(cc)):
+                c5.prune_off_ground(conn, cc, dry_run=args.dry_run)
             if args.draft:
                 c5.draft(conn, cc, today=args.today)
             if args.signoff_doc:
                 c5.write_signoff_doc(cc, conn=conn)
             if args.sheets:
                 c5.run_sheets(conn, cc, out_dir=args.out_dir, today=args.today)
+            if args.shortlist:
+                sl.write_shortlist(cc, conn=conn, today=args.today, top=args.top)
         except Exception as exc:          # one country's failure is a gap, not a lost run
             print("  [gap] {0}: {1}: {2}".format(cc, type(exc).__name__, exc))
             rc = 1
         finally:
             if conn is not None:
                 conn.close()
-    if args.counts or args.draft or args.prune_out_of_scope:
+    if args.counts or args.draft or args.prune_out_of_scope or args.prune_off_ground:
         print("\nconfig/<cc>_stance.yaml, by country (proposed / procedural / need reading / "
               "confirmed):")
         for cc in ccs:

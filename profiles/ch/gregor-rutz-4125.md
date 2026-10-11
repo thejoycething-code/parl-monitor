@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 130, “Ja” 70, “Enthaltung” 5, “Nicht teilgenommen” 4.
-By area (every vote): abortion: “Nein” 14, “Ja” 8; assisted dying: “Nein” 4, “Ja” 2, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nicht teilgenommen” 1; sex-based rights: “Nein” 28, “Ja” 4, “Nicht teilgenommen” 1; parental rights and education: “Nein” 11, “Ja” 3, “Enthaltung” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Nein” 12, “Enthaltung” 4, “Ja” 3; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 66, “Ja” 46, “Enthaltung” 1, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 122, “Ja” 66, “Enthaltung” 5, “Nicht teilgenommen” 4.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Nein” 4, “Ja” 2, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nicht teilgenommen” 1; sex-based rights: “Nein” 28, “Ja” 4, “Nicht teilgenommen” 1; parental rights and education: “Nein” 11, “Ja” 3, “Enthaltung” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Nein” 12, “Enthaltung” 4, “Ja” 3; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 66, “Ja” 46, “Enthaltung” 1, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,34 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (2)
+
+- **Committees:** Kommission für Verkehr und Fernmeldewesen Nationalrat (Mitglied); Staatspolitische Kommission Nationalrat (Vizepräsident/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (14)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Dudler & Partner, Zürich | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | SIU - Schweizerisches Institut für Unternehmerschulung AG | Mitglied | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | Le Chardon Bleu SARL, Zollikon | Vizepräsident(in) | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | Rutz & Partner, Zollikon | Geschäftsführer(in) | bezahlt |  |
+| Stiftung | Stiftung Davos Festival, Davos | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung KMU Clima, Winterthur | Mitglied | ehrenamtlich |  |
+| Verein | Aktion Medienfreiheit, Bern | Mitglied | ehrenamtlich |  |
+| Verein | Hauseigentümerverband (HEV) Kanton Zürich, Zürich | Vizepräsident(in) | bezahlt |  |
+| Verein | Hauseigentümerverband (HEV) Schweiz | Präsident(in) | bezahlt |  |
+| Verein | Hauseigentümerverband (HEV) Stadt Zürich, Zürich | Präsident(in) | bezahlt |  |
+| Verein | IG Freiheit, Zürich | Präsident(in) | ehrenamtlich |  |
+| Verein | Verein Zusammenschluss Oberlandstrasse, Bäretswil | Mitglied | ehrenamtlich |  |
+| Verein | Vereinigung des schweizerischen Tabakwarenhandels, Bern | Präsident(in) | bezahlt |  |
+| Verein | Vereinigung Schweizer Automobil-Importeure (auto-schweiz), Bern | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

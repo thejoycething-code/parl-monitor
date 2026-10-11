@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: GL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 146, “Nein” 44, “Nicht teilgenommen” 14, “Enthaltung” 5.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Nein” 5, “Ja” 2; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 28, “Enthaltung” 2, “Nein” 2, “Nicht teilgenommen” 1; parental rights and education: “Ja” 8, “Nein” 5, “Nicht teilgenommen” 3; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 11, “Nein” 2, “Nicht teilgenommen” 1; marriage and family: “Ja” 83, “Nein” 18, “Nicht teilgenommen” 10, “Enthaltung” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 139, “Nein” 39, “Nicht teilgenommen” 14, “Enthaltung” 5.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 5, “Ja” 2; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 28, “Enthaltung” 2, “Nein” 2, “Nicht teilgenommen” 1; parental rights and education: “Ja” 8, “Nein” 5, “Nicht teilgenommen” 3; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 11, “Nein” 2, “Nicht teilgenommen” 1; marriage and family: “Ja” 83, “Nein” 18, “Nicht teilgenommen” 10, “Enthaltung” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,13 +42,38 @@ The latest 20:
 | 30 Apr 2026 | Nein | GL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | GL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 11 Sep 2025 | [Ineffiziente Bürokratie rasch reduzieren. Austausch mit Behörden für Unternehmen vereinfachen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254000) | 25.4000 | submitted by | free speech and civil liberties |
+
+## Committees and groups (2)
+
+- **Committees:** Kommission für Wirtschaft und Abgaben Nationalrat (Mitglied); WAK-N Subkommission Für einen fairen Wettbewerb zwischen öffentlichen und Privaten Unternehmen (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (12)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | ElektroLink AG, Frutigen | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Elektroplan Buchs & Grossen AG, Frutigen | Vizepräsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Licht- und Wasserwerk Adelboden AG, Adelboden | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Netto-Null.swiss AG | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Smart EnergyLink AG, Frutigen | Präsident(in) | ehrenamtlich |  |
+| Verein | Bauen digital Schweiz | Mitglied | ehrenamtlich |  |
+| Verein | Informationsdienst für den öffentlichen Verkehr (LITRA), Bern | Mitglied | ehrenamtlich |  |
+| Verein | Politischer Beirat der SQS, Zollikofen | Beirat | bezahlt |  |
+| Verein | SmartGridready | Präsident(in) | ehrenamtlich |  |
+| Verein | Swiss e-Mobility | Präsident(in) | bezahlt |  |
+| Verein | Swissolar - Schweizerischer Fachverband für Sonnenenergie, Zürich | Präsident(in) | bezahlt |  |
+| Verein | VFSB, Frutigen | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 123, “Nein” 50, “Nicht teilgenommen” 31, “Enthaltung” 5.
-By area (every vote): abortion: “Ja” 11, “Nein” 5, “Enthaltung” 4, “Nicht teilgenommen” 2; assisted dying: “Nicht teilgenommen” 4, “Nein” 3; gender medicine and children: “Ja” 2; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 10, “Nicht teilgenommen” 2, “Enthaltung” 1; parental rights and education: “Ja” 9, “Nein” 4, “Nicht teilgenommen” 3; free speech and civil liberties: “Ja” 12, “Nein” 4, “Nicht teilgenommen” 3; religious freedom: “Ja” 8, “Nicht teilgenommen” 4, “Nein” 2; marriage and family: “Ja” 79, “Nein” 22, “Nicht teilgenommen” 13; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 2, “Nicht teilgenommen” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 116, “Nein” 48, “Nicht teilgenommen” 31, “Enthaltung” 2.
+By area (every vote): abortion: “Ja” 4, “Nein” 3, “Nicht teilgenommen” 2, “Enthaltung” 1; assisted dying: “Nicht teilgenommen” 4, “Nein” 3; gender medicine and children: “Ja” 2; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 10, “Nicht teilgenommen” 2, “Enthaltung” 1; parental rights and education: “Ja” 9, “Nein” 4, “Nicht teilgenommen” 3; free speech and civil liberties: “Ja” 12, “Nein” 4, “Nicht teilgenommen” 3; religious freedom: “Ja” 8, “Nicht teilgenommen” 4, “Nein” 2; marriage and family: “Ja” 79, “Nein” 22, “Nicht teilgenommen” 13; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 2, “Nicht teilgenommen” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,33 @@ The latest 20:
 | 30 Apr 2026 | Nein | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nicht teilgenommen | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (2)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)); SGK-N Subkommission Cannabisregulierung (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (13)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Brauerei Egger AG, Worb | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Les Tailleurs Communication SA | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Swiss Medical Network SA | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Visana Gruppe, Bern | Präsident(in) | bezahlt |  |
+| Einfache Gesellschaft | IG biomedizinische Forschung und Innovation | Mitglied | bezahlt |  |
+| Einfache Gesellschaft | Informationsgruppe Erfrischungsgetränke | Präsident(in) | bezahlt |  |
+| Keine Angaben | Parlamentarische Gruppe «Brot und Confiserie» | Präsident(in) | ehrenamtlich |  |
+| Stiftung | Gewa, Stiftung für berufliche Integration, Zollikofen | Mitglied | ehrenamtlich |  |
+| Stiftung | Schweizer Paraplegiker-Stiftung, Nottwil | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung Wildstation Landshut. Mandat beendet | Mitglied | ehrenamtlich |  |
+| Verein | Berner Jägerverband (BEJV) | Präsident(in) | ehrenamtlich |  |
+| Verein | GastroSuisse, Zürich | Mitglied | bezahlt |  |
+| Verein | Wohnen Schweiz - Verband. Mandat beendet | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

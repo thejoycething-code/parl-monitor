@@ -430,6 +430,8 @@ Later phases and items for Chris (not built at the merge):
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/at_stance.yaml` holds 9 bill direction(s) (Claude's drafts from the watchlist) and 19 vote reading(s): 3 with proposed values, 1 procedural, 15 need reading, 0 confirmed. Guide: `docs/5ca-at-readings.md`; confirm with `python3 tools/country_5ca.py --cc at --sign-from-doc --by NAME`. Sheets (`data/5ca/at-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Austria (`config/stance_signers.yaml`). Only the Klub's vote is recorded, so every member row is DERIVED from it (X5) and labelled; committee votes are not sheeted (no membership list).
 
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-at-shortlist.md` ranks the 19 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `XXVIII/A/504@XXVIII/NRSITZ/87#106` (2026-07-07, a motion to reject the text; the decisive one; this year). It confirms nothing.
+
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:
@@ -485,3 +487,11 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 `tools/country_clips.py` (src/country_clips.py; docs/debate-pack-social.md, "Speech clips, new countries"): `pick at` ranks the speeches on our ground in `at_speeches` (or the day read live with `--live`) and writes a pack with a passage per speaker; `cut` fetches only each speech's span of official video, aligns the passage with Whisper and renders captioned 9:16 and 16:9 clips with the source credit. Manual, no job, nothing posted. Source, terms and status in `config/clip-sources.yaml`.
 
 **Status: open.** The sitting's Mediathek page lists each speech with its protocol number (the end of our speech_id) and a uuid; the Mediathek's own 'Rede herunterladen' returns that speech's 1080p MP4. robots.txt's /aktuelles/mediathek/XXVIII/NRSITZ/19 rule is honoured. Terms: political reporting, political education, private non-commercial use only, credit '(c) Parlamentsdirektion', no advertising. Sample pack (locate only): NR sitting 96, 23 September 2026, Dringlicher Antrag zum Kinderschutz, four speeches located.
+
+## Debate report (built 11 October 2026, branch `ukp2-debate-report`)
+
+`tools/country_debate_report.py` (src/country_debatereport.py; docs/debate-pack-social.md, "Debate report, new countries"): after a debate, an English report from templates over the record (each speaker on our ground with a verbatim passage in the language spoken and its translation, by a person or the free session judge on the Mini; the bill's votes and the latest on the same ground, with tallies, group splits and vote meanings) and draft social copy; a DM to Chris alone for approval; after `--approve --by NAME`, `--publish` makes the Slack canvas shared with Chris alone. Manual, no job, no paid AI, nothing posted to a channel or a social network. AWAITING SIGN-OFF, with no verdicts, until the readings of the votes shown are confirmed.
+
+## Words since the last vote (built 11 October 2026, branch `ukp2-since-last-vote`)
+
+`tools/country_since_vote.py --cc at` (src/country_since_vote.py; docs/debate-pack-social.md, "Between votes, new countries"): per area, each member's last recorded vote on it and their speeches since, with excerpts. Drift is named only once the vote's reading is confirmed and a person or the free session judge has read the words (`--queue-out` / `--reads`); until then "awaiting sign-off", ranked by recency and volume. Manual, no job; `tools/member_profiles.py at --since-vote` adds it to the profiles. Only the Klub's vote is recorded: every row is the group's vote (X5), listed and never named as drift. The published store of 11 October held no Austrian speeches yet, so no sample.

@@ -40,6 +40,25 @@ Every vote:
 | 4 Jun 2026 | Ja | G (at the vote) | [Adopter la motion; on: Eine Strategie zur Bekämpfung von Desinformation](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244519) · bill's areas | free speech and civil liberties |
 | 4 Jun 2026 | Ja | G (at the vote) | [Adopter le postulat; on: Reform der Militärjustiz im Bereich sexueller Gewalt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244119) · bill's areas | prostitution and trafficking |
 
+## Committees and groups (1)
+
+- **Committees:** Staatspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (6)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Energie Thun AG | Mandat als Vertreter(in) einer Behörde | bezahlt |  |
+| Stiftung | Stiftung Berner Gesundheit, Bern | Beirat | bezahlt |  |
+| Verein | Charta der Lohngleichheit im öffentlichen Sektor, Bern | Beirat | ehrenamtlich |  |
+| Verein | Entwicklungsraum Thun | Mandat als Vertreter(in) einer Behörde | bezahlt |  |
+| Verein | Hauptstadtregion | Mandat als Vertreter(in) einer Behörde | ehrenamtlich |  |
+| Verein | Regionale Verkehrskonferenz Oberland-West RVK | Delegierte(r) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
 ## Notes
 
 - Party: Party is the member's party; the vote record names the parliamentary group (Fraktion) at each vote, which is what each vote line shows.

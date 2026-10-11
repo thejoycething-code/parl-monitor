@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: G (first 4 December 2023, last 26 September 2025).
 
-## Votes on our ground (162)
+## Votes on our ground (150)
 
-Recorded positions (162): “Ja” 124, “Nein” 38.
-By area (every vote): abortion: “Ja” 11, “Nein” 7; assisted dying: “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 22, “Nein” 2; parental rights and education: “Ja” 7, “Nein” 1; free speech and civil liberties: “Ja” 10, “Nein” 2; religious freedom: “Ja” 9, “Nein” 4; marriage and family: “Ja” 74, “Nein” 23; prostitution and trafficking: “Ja” 10, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (150): “Ja” 116, “Nein” 34.
+By area (every vote): abortion: “Ja” 3, “Nein” 3; assisted dying: “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 22, “Nein” 2; parental rights and education: “Ja” 7, “Nein” 1; free speech and civil liberties: “Ja” 10, “Nein” 2; religious freedom: “Ja” 9, “Nein” 4; marriage and family: “Ja” 74, “Nein” 23; prostitution and trafficking: “Ja” 10, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -24,16 +24,12 @@ The latest 20:
 | 26 Sep 2025 | Ja | G (at the vote) | [Schlussabstimmung; on: Landwirtschaftsgesetz (Entschädigung im Scheidungsfall). Änderung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240094) · bill's areas | marriage and family |
 | 26 Sep 2025 | Ja | G (at the vote) | [Antrag der Mehrheit (keine Folge geben); on: Keine Änderung der Internationalen Gesundheitsvorschriften](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20242024) · bill's areas | free speech and civil liberties |
 | 24 Sep 2025 | Ja | G (at the vote) | [Antrag der Mehrheit (Annahme der Motion in der ursprünglichen Fassung); on: Datenlage zur Umsetzung der Kinderrechte verbessern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20224505) · bill's areas | parental rights and education |
-| 24 Sep 2025 | Nein | G (at the vote) | [Art. 35 (gilt auch für Ziff. II 1. IVG Art. 37 Abs. 1bis und Übergangsbestimmung, Ziff. III Abs. 5); on: Änderung des Bundesgesetzes über d…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240078) | abortion, tier 1 |
-| 24 Sep 2025 | Nein | G (at the vote) | [Art. 35 (gilt auch für Ziff. II 1. IVG Art. 37 Abs. 1bis und Übergangsbestimmung, Ziff. III Abs. 5); on: Änderung des Bundesgesetzes über d…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240078) | abortion, tier 1 |
-| 24 Sep 2025 | Nein | G (at the vote) | [Art. 35 (gilt auch für Ziff. II 1. IVG Art. 37 Abs. 1bis und Übergangsbestimmung, Ziff. III Abs. 5); on: Änderung des Bundesgesetzes über d…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240078) | abortion, tier 1 |
-| 24 Sep 2025 | Nein | G (at the vote) | [Art. 22ter (gilt auch für Art. 33bis Abs. 5, Art. 35ter, Art. 37bis, Art. 40 Abs. 3, Art. 41 Abs. 1, Art. 43 Abs. 3, Ziff. II 1. IVG Art. 4…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240078) | abortion, tier 1 |
 | 17 Sep 2025 | Ja | G (at the vote) | [Antrag der Mehrheit (keine Folge geben); on: Keine Diskriminierung unter Selbstständigerwerbenden beim Alterskapital](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240428) · bill's areas | marriage and family |
 | 17 Sep 2025 | Nein | G (at the vote) | [Annahme der Motion; on: Gleiche Steuerabzüge für alle Familien](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244152) · bill's areas | marriage and family |
 | 17 Sep 2025 | Ja | G (at the vote) | [Art. 2; on: «Ja zu fairen Bundessteuern auch für Ehepaare - Diskriminierung der Ehe endlich abschaffen!». Volksinitiative](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20250018) · bill's areas | marriage and family |
 | 10 Sep 2025 | Ja | G (at the vote) | [25.3430; on: Kein Verbot von internationalen Adoptionen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253430) · bill's areas | marriage and family |
-| 20 Jun 2025 | Ja | G (at the vote) | [Schlussabstimmung; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indir…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
-| 20 Jun 2025 | Ja | G (at the vote) | [Schlussabstimmung; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indir…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
+| 20 Jun 2025 | Ja | G (at the vote) | [Schlussabstimmung; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indir…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for adopting 24.026 (BRG 24.026, the federal message on the popular initiative for marital-status-independent individual taxation…) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 20 Jun 2025 | Ja | G (at the vote) | [Schlussabstimmung; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indir…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for adopting it (to accept) on 24.026 (BRG 24.026, the federal message on the popular initiative for marital-status-independent individual taxation…) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
 | 20 Jun 2025 | Nein | G (at the vote) | [Antrag der Mehrheit (keine Folge geben); on: Einführung einer Elternzeit](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20242041) · bill's areas | marriage and family |
 | 16 Jun 2025 | Nein | G (at the vote) | [Antrag der Mehrheit (keine Folge geben); on: Einführung eines schweizweiten Elternurlaubs](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240311) · bill's areas | marriage and family |
 | 16 Jun 2025 | Nein | G (at the vote) | [Antrag der Mehrheit (keine Folge geben); on: Einführung einer nationalen Elternzeit](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240305) · bill's areas | marriage and family |
@@ -41,8 +37,12 @@ The latest 20:
 | 16 Jun 2025 | Ja | G (at the vote) | [Antrag der Mehrheit und des Bundesrates (Annahme der Motion); on: Pilotbetrieb für E-Collecting mit der E-ID-Vertrauensinfrastruktur](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243905) · bill's areas | free speech and civil liberties |
 | 13 Jun 2025 | Ja | G (at the vote) | [24.4498, 24.4499, 24.4500, 24.4501, 24.4502; on: Schutz von ethnischen und religiösen Minderheiten in Syrien](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244498) · bill's areas | religious freedom |
 | 10 Jun 2025 | Nein | G (at the vote) | [Annahme der Motion; on: Islamistische Terroristinnen und Terroristen konsequent ausweisen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243625) · bill's areas | religious freedom |
+| 10 Jun 2025 | Ja | G (at the vote) | [Annahme des Postulates; on: Straflosigkeit bei Missbrauch in der römisch-katholischen Kirche und anderen Religionsgemeinschaften verhindern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243461) · bill's areas | religious freedom |
+| 4 Jun 2025 | Ja | G (at the vote) | [Gesamtabstimmung; on: Landwirtschaftsgesetz (Entschädigung im Scheidungsfall). Änderung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240094) · bill's areas | marriage and family |
+| 4 Jun 2025 | Ja | G (at the vote) | [Rückweisungsantrag; on: Landwirtschaftsgesetz (Entschädigung im Scheidungsfall). Änderung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240094) · bill's areas | marriage and family |
+| 3 Jun 2025 | Ja | G (at the vote) | [Antrag der Kommission (keine Folge geben); on: Alterskontrollen ohne Identifikationspflicht](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20230463) · bill's areas | parental rights and education |
 
-142 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+130 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (5)
 

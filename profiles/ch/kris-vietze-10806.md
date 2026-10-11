@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 125, “Nein” 81, “Nicht teilgenommen” 2, “Enthaltung” 1.
-By area (every vote): abortion: “Ja” 15, “Nein” 7; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 19, “Nein” 13, “Enthaltung” 1; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 8, “Nein” 5, “Nicht teilgenommen” 1; marriage and family: “Ja” 72, “Nein” 41, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 117, “Nein” 77, “Nicht teilgenommen” 2, “Enthaltung” 1.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 19, “Nein” 13, “Enthaltung” 1; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 8, “Nein” 5, “Nicht teilgenommen” 1; marriage and family: “Ja” 72, “Nein” 41, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,26 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (1)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (6)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Körperschaft des öffentlichen Rechts | Kantonsschule Frauenfeld | Beirat | ehrenamtlich |  |
+| Körperschaft des öffentlichen Rechts | TWI Thurgauer Wirtschaftsinstitut | Mitglied | ehrenamtlich |  |
+| Stiftung | Kartause Ittingen | Mitglied | ehrenamtlich |  |
+| Stiftung | TTT Think Tank Thurgau | Mitglied | ehrenamtlich |  |
+| Verein | Donatoren des FC Frauenfeld | Mitglied | ehrenamtlich |  |
+| Verein | IHK Industrie- und Handelskammer Thurgau | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 120, “Ja” 80, “Nicht teilgenommen” 8, “Enthaltung” 1.
-By area (every vote): abortion: “Ja” 8, “Nicht teilgenommen” 8, “Nein” 6; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 5; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 11, “Ja” 8; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 64, “Ja” 49, “Enthaltung” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 119, “Ja” 76, “Enthaltung” 1, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Nein” 5, “Ja” 4, “Nicht teilgenommen” 1; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 5; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 11, “Ja” 8; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 64, “Ja” 49, “Enthaltung” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (10)
 
@@ -58,6 +58,20 @@ The latest 20:
 | 10 Sep 2025 | [Verurteilungen im Rahmen Häuslicher Gewalt und Härtefall-Klausel](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257752) | 25.7752 | submitted by | sex-based rights |
 | 18 Dec 2024 | [Strafbestimmung gegen Menschenhandel praxistauglicher definieren](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244436) | 24.4436 | submitted by | prostitution and trafficking |
 | 10 Sep 2024 | [Deutschland ordnet per sofort Grenzkontrollen an](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20247533) | 24.7533 | submitted by | religious freedom |
+
+## Committees and groups (2)
+
+- **Committees:** Kommission für Rechtsfragen Nationalrat (Präsident/in); Staatspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (1)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Körperschaft des öffentlichen Rechts | Sozialbehörde Regensdorf | Vizepräsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

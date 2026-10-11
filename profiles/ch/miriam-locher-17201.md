@@ -55,6 +55,22 @@ The latest 20:
 | 18 Jun 2026 | [Soziale Herkunft und Chancengerechtigkeit. Handlungsbedarf zur Verringerung von Bildungsungleichheiten](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263786) | 26.3786 | submitted by | marriage and family |
 | 2 Jun 2026 | [Regulierung von Medfluencern und Medfluencerinnen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263549) | 26.3549 | submitted by | parental rights and education, free speech and civil liberties |
 
+## Committees and groups (1)
+
+- **Committees:** Kommission für Rechtsfragen Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (3)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | Stiftung Adulta | Mitglied | ehrenamtlich |  |
+| Verein | Freundeverein Zoo Basel | Präsident(in) | ehrenamtlich |  |
+| Verein | LCH Dachverband Lehrerinnen und Lehrer Schweiz, LVB Lehrerverband Baselland, Stufenkommission Zyklus 1 | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
 ## Notes
 
 - Party: Party is the member's party; the vote record names the parliamentary group (Fraktion) at each vote, which is what each vote line shows.

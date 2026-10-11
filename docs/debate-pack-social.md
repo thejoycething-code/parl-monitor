@@ -156,6 +156,18 @@ sign-off is the one hand step that unlocks the rest.
   lists the other side's members whose words since their last vote lean our way,
   and ours who have drifted. Areas are matched as a JSON list, never as a
   substring (area 2 is not area 12).
+* **Between votes, new countries** (11 October 2026). `tools/country_since_vote.py
+  --cc nl|ch|at|fr|be [--area N] [--since D] [--write]`: per area, each member's last
+  recorded vote on it and what they have said on it since, with excerpts. Unlike the
+  UK command it never infers drift from scores: drift is NAMED only where the vote's
+  reading is CONFIRMED (`config/<cc>_stance.yaml`) and a person or the free session
+  judge has read the words since (`--queue-out` writes the template, keyed by area,
+  member and the latest speech's date, so a new speech makes a read stale; `--reads`
+  loads it; `read_by` must name the reader). Voted against us and read "with" or
+  "unclear": DRIFTING OUR WAY; voted with us and read "against": DRIFTING AWAY. Until
+  then every row is "awaiting sign-off", ranked by recency and volume. A group's vote
+  (X5: NL shows of hands, every Austrian vote) never names drift and is never queued.
+  `tools/member_profiles.py <cc> --since-vote` adds the same rows to each profile.
 
 ## sequence.md
 
@@ -520,3 +532,80 @@ rule, applied everywhere).
 (faster-whisper, imageio-ffmpeg) is not installed (11 October 2026); the samples were made
 with `--locate-only`: CH 25.455 (Ständerat, 29 September), AT NR sitting 96 (23 September),
 FR 9 October, BE plenary 143 (8 October), all speakers located.
+
+## Debate report, new countries (11 October 2026)
+
+`tools/country_debate_report.py` (src/country_debatereport.py) is `debate_report.py` for
+the countries whose speeches we store: NL, CH, AT, FR and BE. After a debate it writes the
+report (English) and draft social copy, DMs Chris alone for approval, and only after an
+explicit approval makes the Slack canvas, shared with Chris alone. Manual; no job.
+
+    python3 tools/country_debate_report.py --country be --date 2026-10-08 --list
+    python3 tools/country_debate_report.py --country be --date 2026-10-08 --debate 56/143-13
+        [--item KEY | --pack data/packs/<folder>] [--clips data/clips/<folder>] [--live] [--reads FILE]
+    python3 tools/country_debate_report.py --report data/debate-reports/<folder> --render [--dm]
+    python3 tools/country_debate_report.py --report data/debate-reports/<folder> --approve --by "Chris"
+    python3 tools/country_debate_report.py --report data/debate-reports/<folder> --publish
+
+**Inputs.** Speeches from the store (`<cc>_speeches`, the weekly's chamber step), or the
+day read from the source into memory (`--live`, the country's own collector, as the live
+read does; nothing stored), or a clip pack's recorded passages (`--from-clips`). One
+passage per speaker, whole sentences of their own words (src/country_clips.choose_passage),
+checked verbatim against the stored speech. Speakers matched to members by the source's
+id, else by name (src/country_live.match_member). The debate's own bill is found by a
+reference printed in its title (BE 1338, CH 25.455), by `--item`, or from a debate pack;
+then every vote on it (decisive first, at most eight) and the latest decisive votes on
+the same areas, each with its tally, group split, vote meaning (src/vote_meanings.py) and
+each speaker's position. A clip pack for the same debate (`data/clips/`) is linked, with
+the credit the post text needs, or the note that FR and BE need the parliament's agreement.
+
+**Text.** No paid AI. Our sentences are fixed templates over the record. The only other
+text is the English translation of each quotation, the debate's title and each vote's
+question: a person writes it into the report's `translations.yaml` (`english:`, `by:`),
+or the free session judge on the Mini fills it (below). Until then each reads
+"[translation pending]" and publishing refuses. Social copy is a draft for a person:
+lead posts (X, Facebook, Instagram), one post per member with the original beside the
+translation, a thread; `[ACTION LINK]` where our page goes; nothing is posted.
+
+**No verdicts before sign-off.** Until every reading in the sign-off scope of the votes
+shown is CONFIRMED (and at least one), the report, the social copy and the canvas say
+AWAITING SIGN-OFF, describe what was said and how members voted, and place nobody; a check
+refuses verdict words in our own text. Once confirmed, each speaker's vote reads "with us"
+or "against us" with the signer's name, and a "where the speakers stand" list appears;
+a speaker who sounded unlike their confirmed vote is named only with a read of their
+words (`--reads`, the live read's file). Votes derived from a group's show of hands (X5)
+never place a member.
+
+**Approval and the canvas.** `--approve --by NAME` records the approval against a sha256
+of report.md and social.md: change either afterwards and it lapses. `--publish` refuses
+without it (and on failed checks unless `--force`; a SAMPLE never), then creates the
+canvas with the UK's code (src/publish.slack_preview_canvas): access for Chris's user id
+alone, the link DMed to him, never a channel or a social network. A second `--publish`
+rewrites the same canvas in place (src/publish.slack_update_canvas, as
+tools/republish_canvas.py does). Chris shares it onward himself.
+
+**Translations by the session judge** (on the Mini, the work account's plan, no API key):
+
+    cd ~/runner/parl-monitor   # or the dev clone; the report folder must be there
+    SESSION_JUDGE_PROMPT="$(python3 tools/country_debate_report.py --prompt)" \
+      bash tools/session_judge.sh tools/country_debate_report.py 40 20 --report data/debate-reports/<folder>
+    python3 tools/country_debate_report.py --report data/debate-reports/<folder> --render --dm
+
+Each round writes the pending items to a queue in a fresh folder, `claude -p` fills the
+TRANSLATION lines, and `--queue-in` reads them back strictly (a known pending id, once, one
+line, not longer than the original allows; em dashes turned into commas). Translations are
+kept by the words they translate, so a regenerated report keeps them.
+
+**Folder** `data/debate-reports/<cc>-<date>-<slug>/` (never inside a debate pack, so the
+Sunday Drive step never uploads an unapproved report): `inputs.json` (what was gathered:
+rendering needs no store), `translations.yaml`, `report.md`, `social.md`, `report.json`
+(checks, approval, DMs, canvas).
+
+Samples (SAMPLE, translations pending, nothing confirmed), hand-checked:
+`docs/debate-report-samples/` BE 8 October (the bereavement-leave-around-euthanasia bill,
+1338: seven speakers, both votes found by the number in the title), CH 29 September
+(25.455, the constitutional amendment on bodily self-determination: the Nationalrat's vote
+not to proceed, 127 to 66, found by its Geschäftsnummer), AT 23 September (the urgent
+motion on child protection: party-group votes, derived and labelled), FR 6 October
+(violence against women and children: twelve of nineteen speakers), NL 7 October
+(Demonstratierecht, read live: words only, the store held no Dutch votes).

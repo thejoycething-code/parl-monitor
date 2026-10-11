@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 114, “Ja” 73, “Entschuldigt” 21, “Enthaltung” 1.
-By area (every vote): abortion: “Nein” 13, “Ja” 7, “Entschuldigt” 2; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 11, “Entschuldigt” 3, “Ja” 2; free speech and civil liberties: “Nein” 10, “Ja” 8, “Entschuldigt” 1; religious freedom: “Nein” 8, “Ja” 4, “Entschuldigt” 2; marriage and family: “Nein” 55, “Ja” 46, “Entschuldigt” 13; surrogacy and embryology: “Enthaltung” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 106, “Ja” 69, “Entschuldigt” 21, “Enthaltung” 1.
+By area (every vote): abortion: “Nein” 5, “Ja” 3, “Entschuldigt” 2; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 11, “Entschuldigt” 3, “Ja” 2; free speech and civil liberties: “Nein” 10, “Ja” 8, “Entschuldigt” 1; religious freedom: “Nein” 8, “Ja” 4, “Entschuldigt” 2; marriage and family: “Nein” 55, “Ja” 46, “Entschuldigt” 13; surrogacy and embryology: “Enthaltung” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,25 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (1)
+
+- **Committees:** Kommission für Verkehr und Fernmeldewesen Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (5)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Grimselbahn AG, Innertkirchen | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Radio Emme AG, Langnau im Emmental | Mitglied | bezahlt |  |
+| Verein | Auto-Strassenhilfen Schweiz ASS | Präsident(in) | bezahlt |  |
+| Verein | Fleischfachverband Kanton Bern | Präsident(in) | bezahlt |  |
+| Verein | Verkehrssicherheit Rat VSR | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

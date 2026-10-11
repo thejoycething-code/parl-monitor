@@ -1,0 +1,60 @@
+# Translations for report.md and social.md (tools/country_debate_report.py).
+# Write each `english:` as a faithful translation of `original` (British
+# spelling, no em dashes) and put your name in `by:`; or let the free session
+# judge fill them on the Mini (--queue-out / --queue-in). Then re-run with
+# --render. Never change `original`: it is the record's own words.
+items:
+  t-7a34b930e7:
+    kind: title
+    who: ''
+    original: Demonstratierecht (CD d.d. 10/09)
+    english: ''
+    by: ''
+  p-05d2997129:
+    kind: passage
+    who: Flach (SGP)
+    original: 'Voorzitter, dank u wel. Weinig debatten raken zo direct aan wat we op straat meemaken als
+      dit onderwerp: het demonstratierecht. Het is dus belangrijk dat we het hier ook regelmatig over
+      hebben. In het commissiedebat heb ik aangegeven dat veel van wat we "demonstratierecht" noemen de
+      naam eigenlijk niet waard is. Het is hard nodig dat we wetteloosheid straffen en gaan aanpakken.
+      Die ruimte is er juridisch ook. De SGP hoopt dat de regering nog iets verder wil gaan dan goede
+      afspraken maken tussen organisaties. De SGP heeft ook grote zorgen uitgesproken over de staat van
+      de rechtsstaat rond abortusklinieken.'
+    english: ''
+    by: ''
+  p-2f22a0980f:
+    kind: passage
+    who: Martens-America (VVD)
+    original: Ik snap de vragen van de heer Van den Brink; laat ik dat even vooropstellen.
+    english: ''
+    by: ''
+  p-a6460b8ba3:
+    kind: passage
+    who: Van der Plas (BBB)
+    original: 'Nog even aanvullend. Wat u zegt over plekken die gevoelig zijn, bijvoorbeeld een Holocaustherdenking,
+      snap ik. Maar kan in dat gesprek dan ook worden meegenomen wat er allemaal geuit wordt bij een demonstratie
+      die op gehoor- en zichtafstand is van een andere demonstratie? Ik zal het even heel kort vertellen:
+      ik was zaterdag in de binnenstad van Deventer, waar een demonstratie was van een organisatie die
+      zich inzet tegen abortussen en een stuk verderop stonden Dolle Mina''s. De hele straat was beklad
+      met woorden als "Satan", "666", "go to hell".'
+    english: ''
+    by: ''
+  p-d5bc1e4aff:
+    kind: passage
+    who: Heerma (?)
+    original: 'Ja. Eigenlijk vroeg de heer Flach: wil de minister zich blijven verdiepen in eenmensprotesten
+      bij abortusklinieken? Dat wil ik toezeggen aan de heer Flach.'
+    english: ''
+    by: ''
+  p-03361796f1:
+    kind: passage
+    who: Van Weel (?)
+    original: Maar natuurlijk, naast die nieuwe bevoegdheid blijft het wel mogelijk om diegenen die verdacht
+      worden van strafbare feiten, ook daadwerkelijk te vervolgen. Daar doet de bestuurlijke verplaatsing
+      verder niks aan af. Maar het zou oneigenlijk zijn om het heel direct te koppelen aan het middel.
+      Daarom ontraad ik de motie. Ten slotte. De motie op stuk nr. 53, van de heer Van Baarle, ontraad
+      ik. We hebben de vrijheid van meningsuiting. Hoe verwerpelijk ook, het verbranden van de koran an
+      sich is niet strafbaar. Als dat vergezeld gaat van discriminerende of opruiende opmerkingen, kan
+      dat natuurlijk wel het geval zijn.
+    english: ''
+    by: ''

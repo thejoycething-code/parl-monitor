@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 120, “Nein” 86, “Enthaltung” 2, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 18, “Nein” 15; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 12, “Nein” 5, “Enthaltung” 1, “Nicht teilgenommen” 1; religious freedom: “Nein” 7, “Ja” 6, “Enthaltung” 1; marriage and family: “Ja” 73, “Nein” 41; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 4; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 112, “Nein” 82, “Enthaltung” 2, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 18, “Nein” 15; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 12, “Nein” 5, “Enthaltung” 1, “Nicht teilgenommen” 1; religious freedom: “Nein” 7, “Ja” 6, “Enthaltung” 1; marriage and family: “Ja” 73, “Nein” 41; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 4; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (5)
 
@@ -53,6 +53,29 @@ The latest 20:
 | 20 Dec 2024 | [Bekämpfung von Desinformation und Beeinflussungstätigkeiten. Der Bundesrat soll einen Antrag der Schweiz auf Beobachterstatus im G7 Rapid R…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244626) | 24.4626 | submitted by | free speech and civil liberties |
 | 18 Dec 2024 | [Kampf gegen Desinformation und Beeinflussungsaktivitäten. Schaffung einer interdisziplinären Koordinationsstelle für Lagebild und Gegenmass…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244450) | 24.4450 | submitted by | free speech and civil liberties |
 | 18 Dec 2024 | [Bekämpfung von Desinformation und Beeinflussungstätigkeiten. Der Bundesrat soll einen Antrag der Schweiz auf Beobachterstatus im G7 Rapid R…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244449) | 24.4449 | submitted by | free speech and civil liberties |
+
+## Committees and groups (1)
+
+- **Committees:** Sicherheitspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (10)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Car Wash Oberarth AG | Geschäftsführer(in) | bezahlt |  |
+| Aktiengesellschaft | Heinz Theiler Carosserie AG | Geschäftsführer(in) | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | H. Theiler GmbH | Geschäftsführer(in) | bezahlt |  |
+| Keine Angaben | FDP.Die Liberalen Kanton Schwyz | Vizepräsident(in) | ehrenamtlich |  |
+| Keine Angaben | Kantonal-Schwyzerischer Gewerbeverband | Präsident(in) | bezahlt |  |
+| Keine Angaben | Schweizerischer Gewerbeverband Gewerbekammer | Mitglied | ehrenamtlich |  |
+| Verein | Gewerbeverein Arth-Oberarth-Goldau | Mitglied | ehrenamtlich |  |
+| Verein | Musikverein Goldau | Mitglied | ehrenamtlich |  |
+| Verein | Verein Berufsbildung Zentralschweiz | Mitglied | ehrenamtlich |  |
+| Verein | Verein Netzwerk Arbeit | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

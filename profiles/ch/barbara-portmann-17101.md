@@ -46,6 +46,23 @@ Every vote:
 |---|---|---|---|---|
 | 2 Oct 2026 | [ZEFIX-Personensuche und Transparenzregister (TJPG) - Stand der Umsetzung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264588) | 26.4588 | submitted by | free speech and civil liberties |
 
+## Committees and groups (1)
+
+- **Committees:** Kommission für Rechtsfragen Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (4)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Keine Angaben | Vorstand Berufschule BSL Lenzburg | Vizepräsident(in) | bezahlt |  |
+| Stiftung | Stiftung Reusstal | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung Schürmatt | Mitglied | bezahlt |  |
+| Verein | Mütter- und Väterberatung Region Aarau Plus | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
 ## Notes
 
 - Party: Party is the member's party; the vote record names the parliamentary group (Fraktion) at each vote, which is what each vote line shows.

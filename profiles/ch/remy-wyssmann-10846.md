@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 126, “Ja” 81, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 13, “Nein” 9; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 12, “Ja” 7; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 65, “Ja” 47, “Nicht teilgenommen” 2; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 123, “Ja” 72, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 12, “Ja” 7; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 65, “Ja” 47, “Nicht teilgenommen” 2; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (11)
 
@@ -59,6 +59,21 @@ The latest 20:
 | 6 Jun 2024 | [IGV-Schlussabstimmung der 77. Weltgesundheitsversammlung vom 1. Juni 2024. Zustandekommen und Auswirkungen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243544) | 24.3544 | submitted by | free speech and civil liberties |
 | 13 Mar 2024 | [Zurückweisung von Fristverletzungen durch die WHO im Zusammenhang mit der Änderung der internationalen Gesundheitsvorschriften](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243175) | 24.3175 | submitted by | free speech and civil liberties |
 | 13 Mar 2024 | [Einbezug des Parlamentes bei der Revision des IGV/IHR-Vertragswerks](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243173) | 24.3173 | submitted by | free speech and civil liberties |
+
+## Committees and groups (5)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)); Immunitätskommission Nationalrat (Stellvertreter/in); Legislaturplanungskommission Nationalrat (Mitglied); Redaktionskommission (Stellvertreter/in); Redaktionskommission Subkommission der deutschen Sprache (Stellvertreter/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (2)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Verein | Pro Schweiz | Mitglied | ehrenamtlich |  |
+| Verein | Versicherte Schweiz | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

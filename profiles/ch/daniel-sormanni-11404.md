@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 65, “Nein” 65, “Entschuldigt” 39, “Enthaltung” 29, “Nicht teilgenommen” 11.
-By area (every vote): abortion: “Ja” 10, “Nein” 6, “Enthaltung” 2, “Entschuldigt” 2, “Nicht teilgenommen” 2; assisted dying: “Ja” 4, “Entschuldigt” 2, “Nein” 1; gender medicine and children: “Entschuldigt” 1, “Ja” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Nein” 11, “Entschuldigt” 10, “Enthaltung” 5, “Ja” 5, “Nicht teilgenommen” 2; parental rights and education: “Nein” 9, “Ja” 3, “Enthaltung” 2, “Entschuldigt” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Nein” 9, “Enthaltung” 3, “Entschuldigt” 3, “Ja” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 4, “Nein” 4, “Nicht teilgenommen” 4, “Entschuldigt” 2; marriage and family: “Ja” 36, “Nein” 33, “Entschuldigt” 23, “Enthaltung” 20, “Nicht teilgenommen” 2; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Entschuldigt” 5, “Nein” 4, “Enthaltung” 3, “Nicht teilgenommen” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 62, “Ja” 58, “Entschuldigt” 39, “Enthaltung” 28, “Nicht teilgenommen” 10.
+By area (every vote): abortion: “Ja” 3, “Nein” 3, “Entschuldigt” 2, “Enthaltung” 1, “Nicht teilgenommen” 1; assisted dying: “Ja” 4, “Entschuldigt” 2, “Nein” 1; gender medicine and children: “Entschuldigt” 1, “Ja” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Nein” 11, “Entschuldigt” 10, “Enthaltung” 5, “Ja” 5, “Nicht teilgenommen” 2; parental rights and education: “Nein” 9, “Ja” 3, “Enthaltung” 2, “Entschuldigt” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Nein” 9, “Enthaltung” 3, “Entschuldigt” 3, “Ja” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 4, “Nein” 4, “Nicht teilgenommen” 4, “Entschuldigt” 2; marriage and family: “Ja” 36, “Nein” 33, “Entschuldigt” 23, “Enthaltung” 20, “Nicht teilgenommen” 2; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Entschuldigt” 5, “Nein” 4, “Enthaltung” 3, “Nicht teilgenommen” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 
@@ -52,6 +52,21 @@ The latest 20:
 | 4 Dec 2025 | [Amtliche Ausweise müssen die Neutralität des Staats widerspiegeln](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254469) | 25.4469 | submitted by | religious freedom |
 | 3 Dec 2025 | [Strenge Reglementierung der Telefonwerbung von Krankenversicherern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254453) | 25.4453 | submitted by | free speech and civil liberties |
 | 12 Jun 2025 | [Familienzulagen nur für in der Schweiz lebende Kinder ausrichten](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253592) | 25.3592 | submitted by | marriage and family |
+
+## Committees and groups (3)
+
+- **Committees:** Büro Nationalrat (Ersatzstimmenzähler/in); Kommission für Rechtsfragen Nationalrat (Mitglied); Koordinationskonferenz (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (2)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Genossenschaft | Coopérative Résilience Services | Vizepräsident(in) | ehrenamtlich |  |
+| Öffentlich-rechtliche Stiftung | Fondation "Secteur Nations" - Gestion de 3 crèches | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

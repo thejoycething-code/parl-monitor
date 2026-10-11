@@ -225,3 +225,102 @@ divisions:
     reason: "Procedural (Rejeitado o Requerimento. Sim: 102; Não: 322; Abstenção: 1; Total: 425.): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
     reasoning: "Area 8 (religious freedom). The wording reads as procedure (the timetable or the handling)."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  # --- drafted 2026-10-11 by tools/country_5ca.py (rules, no AI) ---
+  - key: "camara-2310837-8"
+    status: needs_reading
+    title: "Aprovado o Requerimento de Urgência (Art. 154 do RICD). Sim: 238; não: 192; total: 430."
+    "on": "Institui a Lei Brasileira de Liberdade, Responsabilidade e Transparência na Internet."
+    dated: "2023-04-25"
+    chamber: "camara"
+    areas: [7]
+    tier: 2
+    watched: "PL 2630/2020"
+    result: "approved; Sim 238, Não 192, Abstain 1"
+    vote_kind: "amendment"
+    read_first: "An amendment, an article or one point ('Aprovado o Requerimento de Urgência (Art. 154 do RICD). Sim: 238; não: 192; total: 430.'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
+    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (PL 2630/2020: against) does not settle an amendment's."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "camara-2351506-34"
+    status: draft
+    title: "Rejeitado o Requerimento de Retirada de Pauta. Resultado: 1 voto \"Sim\", 39 votos \"Não\". Quórum de votação: 40 votos."
+    "on": "Acrescenta § 4º-A ao art. 150 da Constituição Federal, para dispor sobre a imunidade tributária de que tratam as suas alíneas “b” e “c” do inciso VI."
+    dated: "2023-09-19"
+    chamber: "camara"
+    areas: [8]
+    tier: 2
+    watched: "PEC 5/2023"
+    result: "rejected; Sim 1, Não 39"
+    lobbies: "Sim: PSOL 1. Não: PL 12, PT 6, UNIÃO 4, REPUBLICANOS 4, MDB 3, PSD 3, NOVO 2, PP 1, PSB 1, PODE 1, PSOL 1, AVANTE 1"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Rejeitado o Requerimento de Retirada de Pauta. Resultado: 1 voto \"Sim\", 39 votos \"Não\". Quórum de votação: 40 votos.): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 8 (religious freedom). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "camara-346155-112"
+    status: needs_reading
+    title: "Aprovado o Parecer com Complementação de Voto, com Substitutivo, com o seguinte resultado: 12 votos \"Sim\", 5 votos \"Não\". Quórum de votação: 17 votos, apresentaram votos em separado os Deputados Laura Carneiro; Erika Hilton e Pastor Henriqu"
+    "on": "Altera a Lei nº 10.406, de 10 de janeiro de 2002 - Código Civil, para dispor sobre o contrato civil de união homoafetiva."
+    dated: "2023-10-10"
+    chamber: "camara"
+    areas: [9]
+    tier: 2
+    watched: "PL 580/2007"
+    result: "approved; Sim 12, Não 5"
+    lobbies: "Sim: PL 7, REPUBLICANOS 2, AVANTE 1, UNIÃO 1, PP 1. Não: PT 2, PSOL 2, PSD 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Aprovado o Parecer com Complementação de Voto, com Substitutivo, com o seguinte resultado: 12 votos \"Sim\", 5 votos \"Não\"'): read the question put, then write yea/nay."
+    reasoning: "Area 9 (marriage and family). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "camara-346155-136"
+    status: draft
+    title: "Rejeitado o Requerimento de Retirada de Pauta. Resultado: 2 votos \"Sim\", 9 votos \"Não\". Quórum de votação: 11 votos."
+    "on": "Altera a Lei nº 10.406, de 10 de janeiro de 2002 - Código Civil, para dispor sobre o contrato civil de união homoafetiva."
+    dated: "2024-08-13"
+    chamber: "camara"
+    areas: [9]
+    tier: 2
+    watched: "PL 580/2007"
+    result: "rejected; Sim 2, Não 9"
+    lobbies: "Sim: PL 2. Não: PT 4, PSOL 4, PCdoB 1"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Rejeitado o Requerimento de Retirada de Pauta. Resultado: 2 votos \"Sim\", 9 votos \"Não\". Quórum de votação: 11 votos.): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 9 (marriage and family). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "camara-543252-45"
+    status: draft
+    title: "Rejeitado o Requerimento de Retirada de Pauta. Resultado: 13 votos \"Sim\", 34 votos \"Não\". Quórum de votação: 47 votos e 1 obstrução."
+    "on": "Dá nova redação ao caput do art. 5º da Constituição Federal."
+    dated: "2024-11-13"
+    chamber: "camara"
+    areas: [1]
+    tier: 2
+    watched: "PEC 164/2012"
+    result: "rejected; Sim 13, Não 34"
+    lobbies: "Sim: PT 5, PCdoB 2, PSOL 2, UNIÃO 1, PV 1, MDB 1, AVANTE 1. Não: PL 13, UNIÃO 7, REPUBLICANOS 4, PP 4, MDB 2, PODE 2, PSD 2"
+    vote_kind: "procedural"
+    placeable: false
+    reason: "Procedural (Rejeitado o Requerimento de Retirada de Pauta. Resultado: 13 votos \"Sim\", 34 votos \"Não\". Quórum de votação: 47 votos e ): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reasoning: "Area 1 (abortion). The wording reads as procedure (the timetable or the handling)."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "camara-543252-60"
+    status: needs_reading
+    title: "Aprovado o Parecer com o seguinte resultado: 35 votos \"Sim\", 15 votos \"Não\". Quórum de votação: 50 votos, apresentou voto em separado o Deputado Bacelar."
+    "on": "Dá nova redação ao caput do art. 5º da Constituição Federal."
+    dated: "2024-11-27"
+    chamber: "camara"
+    areas: [1]
+    tier: 2
+    watched: "PEC 164/2012"
+    result: "approved; Sim 35, Não 15"
+    lobbies: "Sim: PL 12, UNIÃO 8, REPUBLICANOS 4, PSD 4, MDB 3, PODE 2, NOVO 1, PT 1. Não: PT 6, PCdoB 2, PSOL 2, UNIÃO 1, PV 1, MDB 1, PSD 1, AVANTE 1"
+    vote_kind: "other"
+    read_first: "The kind of vote could not be read from its wording ('Aprovado o Parecer com o seguinte resultado: 35 votos \"Sim\", 15 votos \"Não\". Quórum de votação: 50 votos, apresentou vot'): read the question put, then write yea/nay."
+    reasoning: "Area 1 (abortion). Nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"

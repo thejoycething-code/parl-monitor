@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 124, “Ja” 82, “Nicht teilgenommen” 3.
-By area (every vote): abortion: “Nein” 12, “Ja” 9, “Nicht teilgenommen” 1; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 4, “Nicht teilgenommen” 1; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 11, “Ja” 8; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 63, “Ja” 50, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 118, “Ja” 77, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 4, “Nicht teilgenommen” 1; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 11, “Ja” 8; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 63, “Ja” 50, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 
@@ -52,6 +52,23 @@ The latest 20:
 | 3 Dec 2025 | [Schweizer Bürger sind entsetzt - wegen neuer ID-Karte](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20258102) | 25.8102 | submitted by | free speech and civil liberties |
 | 5 Mar 2025 | [Einschränkung der Meinungsfreiheit durch die WHO](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257060) | 25.7060 | submitted by | free speech and civil liberties |
 | 5 Mar 2025 | [Umfassende Aufklärung der Organspende bei allen über 16-jährigen Personen der Schweiz sicherstellen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257059) | 25.7059 | submitted by | organ donation |
+
+## Committees and groups (5)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)); Büro Nationalrat (Stimmenzähler/in); Koordinationskonferenz (Mitglied); SGK-N Subkommission Cannabisregulierung (Mitglied); SGK-N Subkommission Finanzierung Palliative Pflege (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (4)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Entlebucher Spezialitäten Käserei AG, Schüpfheim | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Wohn- und Pflegezentrum Schüpfheim AG | Mandat als Vertreter(in) einer Behörde | bezahlt |  |
+| Verein | Groupe Mutuel, Groupe de réflexion santé | Mitglied | bezahlt |  |
+| Verein | Luzerner Bäuerinnen- und Bauernverband, Oberkirch | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 128, “Ja” 78, “Enthaltung” 3.
-By area (every vote): abortion: “Nein” 13, “Ja” 8, “Enthaltung” 1; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 5; parental rights and education: “Nein” 12, “Ja” 4; free speech and civil liberties: “Nein” 13, “Ja” 6; religious freedom: “Nein” 8, “Ja” 5, “Enthaltung” 1; marriage and family: “Nein” 64, “Ja” 49, “Enthaltung” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 121, “Ja” 74, “Enthaltung” 2.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 5; parental rights and education: “Nein” 12, “Ja” 4; free speech and civil liberties: “Nein” 13, “Ja” 6; religious freedom: “Nein” 8, “Ja” 5, “Enthaltung” 1; marriage and family: “Nein” 64, “Ja” 49, “Enthaltung” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,40 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (1)
+
+- **Committees:** **Kommission für Wissenschaft, Bildung und Kultur Nationalrat (Mitglied)** (on our ground: the science, education and culture committee (WBK)).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (20)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Genossenschaft | CH-Schlachtviehversicherung | Mitglied | bezahlt |  |
+| Genossenschaft | NNSK Nordic Arena Kandersteg | Vizepräsident(in) | ehrenamtlich |  |
+| Keine Angaben | Landwirtschaftskammer SBV | Delegierte(r) | bezahlt |  |
+| Keine Angaben | Schweizerischen Alpwirtschaftlichen Verband (SAV) | Präsident(in) | bezahlt |  |
+| Kommission | Begleitgruppe Räumung ehem. Munitionslager Mitholz | Mitglied | ehrenamtlich |  |
+| Kommission | Fachkommission Viehwirtschaft des Schweizer Bauernverbandes (SBV) | Mitglied | ehrenamtlich |  |
+| Kommission | Kommission Märkte und Handelsusanzen (KMH) Proviande | Mitglied | bezahlt |  |
+| Kommission | Präsident Fachkommission Tierproduktion Berner Bauernverband | Präsident(in) | bezahlt |  |
+| Kommission | Tierschutzkommission Kt. Bern | Präsident(in) | bezahlt |  |
+| Verein | Alpschaft Ueschinen | Mitglied | bezahlt |  |
+| Verein | Berner Bauernverband | Mitglied | bezahlt |  |
+| Verein | Holzenergie Kanton Bern | Präsident(in) | ehrenamtlich |  |
+| Verein | Holzenergie Schweiz | Vizepräsident(in) | bezahlt |  |
+| Verein | IGöM | Präsident(in) | bezahlt |  |
+| Verein | Lignum Holzwirtschaft Bern | Vizepräsident(in) | bezahlt |  |
+| Verein | Planungsregion Kandertal | Präsident(in) | bezahlt |  |
+| Verein | Schweizer Rindviehproduzenten SRP | Mitglied | ehrenamtlich |  |
+| Verein | Verband Berner Waldbesitzer | Mitglied | bezahlt |  |
+| Verein | Verein ehemaliger Alpwirtschaftsschüler Hondrich | Präsident(in) | ehrenamtlich |  |
+| Verein | Volkswirtschaft Berner Oberland | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

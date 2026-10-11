@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 125, “Ja” 79, “Enthaltung” 5.
-By area (every vote): abortion: “Nein” 12, “Ja” 9, “Enthaltung” 1; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 11, “Ja” 7, “Enthaltung” 1; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 62, “Ja” 49, “Enthaltung” 3; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 117, “Ja” 75, “Enthaltung” 5.
+By area (every vote): abortion: “Ja” 5, “Nein” 4, “Enthaltung” 1; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 11, “Ja” 7, “Enthaltung” 1; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 62, “Ja” 49, “Enthaltung” 3; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,13 +42,50 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 21 Mar 2025 | [Kosten und Nutzen der Anpassung der Armeereglemente an geschlechtergerechte Sprache](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253406) | 25.3406 | submitted by | sex-based rights |
+
+## Committees and groups (6)
+
+- **Committees:** Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 1 (B+G/EFD) (Präsident/in); Geschäftsprüfungskommission Arbeitsgruppe Risikomanagement Bund (Mitglied); Sicherheitspolitische Kommission Nationalrat (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Österreichischen Parlament (Mitglied); Finanzdelegation (Vizepräsident/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (23)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Armit AG & Pollux AG, Rorschacherberg | Mitglied | bezahlt |  |
+| Aktiengesellschaft | KMU Performer AG, Schwerzenbach | Mitglied | ehrenamtlich |  |
+| Aktiengesellschaft | Petrus Real Estate AG, Goldach | Beirat | ehrenamtlich |  |
+| Genossenschaft | Genossenschaft Wohnen im Alter, Tübach | Präsident(in) | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | Energieagentur St.Gallen, St.Gallen | Präsident(in) | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | KAM Service GmbH, Tübach | Gesellschafter(in) | ehrenamtlich |  |
+| Keine Angaben | Arbeitskreis Sicherheit und Wirtschaft | Co-Präsident(in) | ehrenamtlich |  |
+| Keine Angaben | Kantonaler Steuerungsausschuss Zivilschutz, St.Gallen | Mitglied | ehrenamtlich |  |
+| Öffentlich-rechtliche Anstalt | Abwasserverband Morgental, Steinach | Mitglied | bezahlt |  |
+| Öffentlich-rechtliche Anstalt | Universität St.Gallen | Mitglied | bezahlt |  |
+| Stiftung | Stiftung Mühlhof, Tübach | Präsident(in) | bezahlt |  |
+| Stiftung | Stiftung pro Stadion SG, St.Gallen | Präsident(in) | ehrenamtlich |  |
+| Stiftung | Stiftung tunSchweiz, Basel | Mitglied | ehrenamtlich |  |
+| Verein | Churfirsten-Club, Neu St. Johann SG | Mitglied | ehrenamtlich |  |
+| Verein | Elektrizitätswerke-Verband St.Gallen-Appenzell (ESA), St.Gallen | Präsident(in) | bezahlt |  |
+| Verein | POWERLOOP Schweizerischer Fachverband, Zürich | Co-Präsident(in) | ehrenamtlich |  |
+| Verein | Regio Appenzell AR-St.Gallen-Bodensee, St.Gallen | Präsident(in) | bezahlt |  |
+| Verein | Schweizerischer Gemeindeverband, Bern | Mitglied | ehrenamtlich |  |
+| Verein | Trägerverein Integrationsprojekte St.Gallen (TISG), St.Gallen | Mitglied | bezahlt |  |
+| Verein | Verband Ostschweizerischer Sicherheits-Unternehmen (VOSU), St.Gallen | Präsident(in) | ehrenamtlich |  |
+| Verein | Verein Nordostschweizer Schwingfest 2025, St.Gallen | Präsident(in) | ehrenamtlich |  |
+| Verein | Verein tunOstschweiz, St.Gallen | Präsident(in) | ehrenamtlich |  |
+| Verein | Viva Inclusion Switzerland, Tübach | Vizepräsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

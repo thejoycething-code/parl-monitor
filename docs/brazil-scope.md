@@ -528,6 +528,8 @@ Later phases and items for Chris (not built at the merge):
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/br_stance.yaml` holds 11 bill direction(s) (Claude's drafts from the watchlist) and 7 vote reading(s): 2 with proposed values, 2 procedural, 3 need reading, 0 confirmed. Guide: `docs/5ca-br-readings.md`; confirm with `python3 tools/country_5ca.py --cc br --sign-from-doc --by NAME`. Sheets (`data/5ca/br-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Brazil (`config/stance_signers.yaml`).
 
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-br-shortlist.md` ranks the 7 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `camara-2351506-122` (2026-05-28, a vote on the whole text; the decisive one; split MDB, PCdoB, PDT, PP and 5 more (17 against their group)). It confirms nothing.
+
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 
 A manual command, like the UK and German packs; no scheduled job:

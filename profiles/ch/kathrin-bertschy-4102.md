@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: GL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 137, “Nein” 45, “Nicht teilgenommen” 14, “Entschuldigt” 9, “Enthaltung” 4.
-By area (every vote): abortion: “Ja” 11, “Nein” 8, “Nicht teilgenommen” 3; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 26, “Nicht teilgenommen” 5, “Entschuldigt” 1, “Nein” 1; parental rights and education: “Ja” 10, “Entschuldigt” 3, “Nein” 3; free speech and civil liberties: “Ja” 13, “Nicht teilgenommen” 3, “Nein” 2, “Entschuldigt” 1; religious freedom: “Ja” 9, “Nicht teilgenommen” 3, “Nein” 2; marriage and family: “Ja” 82, “Nein” 25, “Entschuldigt” 4, “Enthaltung” 3; surrogacy and embryology: “Entschuldigt” 1; prostitution and trafficking: “Ja” 11, “Entschuldigt” 1, “Nicht teilgenommen” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 132, “Nein” 40, “Nicht teilgenommen” 12, “Entschuldigt” 9, “Enthaltung” 4.
+By area (every vote): abortion: “Ja” 6, “Nein” 3, “Nicht teilgenommen” 1; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 26, “Nicht teilgenommen” 5, “Entschuldigt” 1, “Nein” 1; parental rights and education: “Ja” 10, “Entschuldigt” 3, “Nein” 3; free speech and civil liberties: “Ja” 13, “Nicht teilgenommen” 3, “Nein” 2, “Entschuldigt” 1; religious freedom: “Ja” 9, “Nicht teilgenommen” 3, “Nein” 2; marriage and family: “Ja” 82, “Nein” 25, “Entschuldigt” 4, “Enthaltung” 3; surrogacy and embryology: “Entschuldigt” 1; prostitution and trafficking: “Ja” 11, “Entschuldigt” 1, “Nicht teilgenommen” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | GL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | GL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (5)
 
@@ -53,6 +53,22 @@ The latest 20:
 | 20 Mar 2025 | [Gleicher Lohn für gleiche Arbeit. Analysepflicht nachbessern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253239) | 25.3239 | submitted by | sex-based rights |
 | 6 Dec 2023 | [Platzierung im Gefängnis als Kindesschutzmassnahme? 2/3](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20237850) | 23.7850 | submitted by | parental rights and education |
 | 17 Dec 2021 | [Aufrufe zu Hass und Gewalt aufgrund des Geschlechts müssen strafbar werden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210527) | 21.527 | submitted by | sex-based rights, free speech and civil liberties |
+
+## Committees and groups (1)
+
+- **Committees:** Kommission für Wirtschaft und Abgaben Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (3)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Einfache Gesellschaft | Cinéconomie Allianz | Mitglied | bezahlt |  |
+| Stiftung | GOSTELI-STIFTUNG. Archiv zur Geschichte der schweizerischen Frauenbewegung, Ittigen | Präsident(in) | bezahlt |  |
+| Verein | alliance F, Bund Schweizerischer Frauenorganisationen | Co-Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

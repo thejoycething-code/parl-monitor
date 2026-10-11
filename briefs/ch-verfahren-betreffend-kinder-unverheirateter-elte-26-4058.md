@@ -162,6 +162,7 @@ Left blank at build time (rulebook cell 35).
 - Tier: B (open parliamentary data, the CH store). Drafted by tools/country_briefs.py (rules and the record; no AI model).
 - Subject: tier 1 `26.4058`, https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264058, areas 9 (marriage and family).
 - Store takeaway: Motion 26.4058 in the Nationalrat; status changed on 8 October 2026
+- Session judge: A technical motion on court access to tax data in maintenance cases for children of unmarried parents. Administrative, not a marriage or family policy shift, so background only.
 - Key dates: introduced 2026-07-02; last recorded event 2026-10-08; next none in the store (no Urgent proposed: news-only dates never trigger it).
 - Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days skip weekends only; the country's public holidays are not checked.
 - SIGN-OFF: no bill direction on file for `26.4058`. Add a `bill_directions` line (direction with/against, why) to config/ch_stance.yaml, then confirm it: `python3 tools/country_5ca.py --cc ch --confirm-direction 26.4058 --by NAME`.
@@ -173,3 +174,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-10 tools/country_briefs.py drafted every cell
+- 2026-10-11 tools/country_briefs.py refreshed by the builder

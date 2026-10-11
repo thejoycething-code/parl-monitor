@@ -76,6 +76,15 @@ the Roster (one listed member or none). Brazil's Spec has `party_line`: the
 Câmara's orientação de bancada beside each position, the only published whip
 line. Countries without those rows render exactly as before.
 
+WORDS SINCE THE LAST VOTE (optional, additive, 11 October 2026,
+src/country_since_vote.py): `build(..., since_vote=True)` (tools/member_profiles.py
+--since-vote) gives each profile of NL, CH, AT, FR and BE a "Words since the
+last vote" section: per area, the member's last recorded vote on it and what
+they have said on it since, with excerpts. Drift is never named here (no
+reads file is passed): every row reads "awaiting sign-off", "words not read"
+or, for a group's vote (X5), "no drift named". Off by default; a country
+without speeches, or a call without the flag, renders exactly as before.
+
 SPECS. One `Spec` per country below, each a few SQL statements over that
 country's own tables; adding a country is adding a Spec. Read-only on the
 store.
@@ -178,6 +187,7 @@ class Member:
     at_votes: list = dataclasses.field(default_factory=list)     # (party, first, last)
     attendance: list = dataclasses.field(default_factory=list)   # src/attendance.py summary rows
     participation: Optional[dict] = None                         # derived plenary vote participation
+    since_vote: list = dataclasses.field(default_factory=list)   # src/country_since_vote.py rows
 
 
 class Roster:
@@ -853,8 +863,9 @@ def roster(conn, spec):
     return ros
 
 
-def build(conn, cc, today, config_dir=None):
-    """Every member's profile data for one country. Read-only."""
+def build(conn, cc, today, config_dir=None, since_vote=False):
+    """Every member's profile data for one country. Read-only. `since_vote`
+    adds the optional "Words since the last vote" rows (src/country_since_vote.py)."""
     spec = SPECS[cc]
     conn.row_factory = sqlite3.Row
     ros = roster(conn, spec)
@@ -913,7 +924,8 @@ def build(conn, cc, today, config_dir=None):
         m.at_votes.sort(key=lambda p: (p[1] or "", p[0]))
     intel = attach_intel(conn, cc, ros, config_dir)
     attendance = attach_attendance(conn, cc, ros, today)
-    return {"cc": cc, "name": country_name(cc), "today": today, "spec": spec,
+    since = attach_since_vote(conn, cc, ros, config_dir) if since_vote else None
+    return {"cc": cc, "since_vote": since, "name": country_name(cc), "today": today, "spec": spec,
             "intel": intel, "attendance": attendance,
             "members": ros.by_key, "votes": len(items), "unresolved": unresolved,
             "unmatched": unmatched,
@@ -1001,6 +1013,23 @@ def attach_attendance(conn, cc, ros, today=None):
     return {"members": len(rows), "unmatched": unmatched, "sources": att.sources_line(conn, cc),
             "participation_basis": part_basis, "rolls": sorted({x["roll"] for lst in rows.values()
                                                                  for x in lst})}
+
+
+def attach_since_vote(conn, cc, ros, config_dir=None):
+    """The words-since-the-last-vote rows onto the roster's members, by the
+    store key (the same member ids as the 5CA roster), else by the printed
+    name. None for a country without speeches and member votes."""
+    from src import country_since_vote as sv
+    if cc not in sv.COUNTRIES:
+        return None
+    got = sv.gather(conn, cc, config_dir=config_dir)
+    n = 0
+    for mid, rows in sv.by_member(got).items():
+        m = ros.resolve(mid, rows[0]["name"], make_stub=False)
+        if m is not None:
+            m.since_vote = rows
+            n += len(rows)
+    return {"rows": n}
 
 
 def attribution(conn, cc):
@@ -1219,6 +1248,9 @@ def render_member(data, m, sample=False):
         out.append("")
     out += render_intel(m)
     out += render_attendance(m, data.get("attendance"))
+    if m.since_vote:
+        from src import country_since_vote as sv
+        out += sv.profile_section(m.since_vote)
     out += ["## Notes", "", "- Party: " + spec.party_note,
             "- How these profiles are built, and what they never say: [the index's notes]"
             "(index.md#notes)."]

@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 121, “Nein” 78, “Enthaltung” 8, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 15, “Nein” 7; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 19, “Nein” 12, “Enthaltung” 2; parental rights and education: “Nein” 8, “Ja” 7, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 12, “Nein” 6, “Enthaltung” 1; religious freedom: “Ja” 7, “Nein” 7; marriage and family: “Ja” 71, “Nein” 38, “Enthaltung” 4, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Enthaltung” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 113, “Nein” 74, “Enthaltung” 8, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 19, “Nein” 12, “Enthaltung” 2; parental rights and education: “Nein” 8, “Ja” 7, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 12, “Nein” 6, “Enthaltung” 1; religious freedom: “Ja” 7, “Nein” 7; marriage and family: “Ja” 71, “Nein” 38, “Enthaltung” 4, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Enthaltung” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 
@@ -52,6 +52,31 @@ The latest 20:
 | 15 Sep 2025 | [Privatunternehmen und E-ID: Werden selbst intime Daten wie beispielsweise die Grösse der Unterwäsche auf der E-ID vermerkt?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257793) | 25.7793 | submitted by | free speech and civil liberties |
 | 5 May 2025 | [Steht das Glück der grossen Kommunikationsplattformen Gafa über unseren Werten?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253432) | 25.3432 | submitted by | free speech and civil liberties |
 | 13 Jun 2024 | [Wie geht das Bundesamt für Cybersicherheit mit Vorfällen um, die durch die Fehlfunktion von KI-Systemen verursacht werden?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243626) | 24.3626 | submitted by | prostitution and trafficking |
+
+## Committees and groups (1)
+
+- **Committees:** Kommission für Wirtschaft und Abgaben Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (12)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Propriétaires Services SA, Lausanne | Direktor(in) | bezahlt |  |
+| Keine Angaben | Plateforme vaudoise du bois, Nyon | Mitglied | ehrenamtlich |  |
+| Keine Angaben | Priorité Liberté | Mitglied | ehrenamtlich |  |
+| Stiftung | Nexus | Mitglied | ehrenamtlich |  |
+| Verein | Chambre suisse des arts et métiers | Mitglied | ehrenamtlich |  |
+| Verein | Chambre vaudoise immobilière | Direktor(in) | bezahlt |  |
+| Verein | EXPERTsuisse | Mitglied | ehrenamtlich |  |
+| Verein | Fédération romande immobilière, Lausanne | Sekretär(in) | bezahlt |  |
+| Verein | GastroSuisse, Zürich | Mitglied | ehrenamtlich |  |
+| Verein | OuestRail, Monthey | Mitglied | ehrenamtlich |  |
+| Verein | Service d'information pour les transports publics (LITRA), Berne | Mitglied | ehrenamtlich |  |
+| Verein | Swissstaffing | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

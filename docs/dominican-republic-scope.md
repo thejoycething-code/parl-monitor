@@ -466,6 +466,8 @@ Later phases and items for Chris (not built at the merge):
 
 Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/do_stance.yaml` holds 1 bill direction(s) (Claude's drafts from the watchlist) and 94 vote reading(s): 0 with proposed values, 12 procedural, 82 need reading, 0 confirmed. Guide: `docs/5ca-do-readings.md`; confirm with `python3 tools/country_5ca.py --cc do --sign-from-doc --by NAME`. Sheets (`data/5ca/do-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Dominican Republic (`config/stance_signers.yaml`).
 
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-do-shortlist.md` ranks the 94 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `cd/22547` (2026-07-20, a vote on the whole text; the decisive one; split PLD (2 against their group)). It confirms nothing.
+
 
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 

@@ -1,0 +1,14 @@
+{
+ "generated": "2026-10-11T17:08:45",
+ "sample": true,
+ "signed": false,
+ "readings_confirmed": 0,
+ "readings_in_scope": 0,
+ "speakers": 5,
+ "votes": 0,
+ "rendered": "2026-10-11T17:08:45",
+ "problems": [
+  "6 translation(s) pending (translations.yaml, or the session judge)"
+ ],
+ "reads": null
+}

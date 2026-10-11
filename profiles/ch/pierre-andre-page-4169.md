@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 98, “Ja” 59, “Präsident” 46, “Entschuldigt” 6.
-By area (every vote): abortion: “Nein” 10, “Ja” 6, “Präsident” 4, “Entschuldigt” 2; assisted dying: “Präsident” 3, “Nein” 2, “Entschuldigt” 1, “Ja” 1; gender medicine and children: “Entschuldigt” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 21, “Präsident” 9, “Entschuldigt” 2, “Ja” 1; parental rights and education: “Präsident” 7, “Nein” 6, “Ja” 2, “Entschuldigt” 1; free speech and civil liberties: “Präsident” 7, “Ja” 6, “Nein” 6; religious freedom: “Nein” 7, “Ja” 5, “Entschuldigt” 1, “Präsident” 1; marriage and family: “Nein” 58, “Ja” 38, “Präsident” 18; surrogacy and embryology: “Präsident” 1; prostitution and trafficking: “Nein” 10, “Präsident” 2, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 91, “Ja” 55, “Präsident” 46, “Entschuldigt” 5.
+By area (every vote): abortion: “Präsident” 4, “Nein” 3, “Ja” 2, “Entschuldigt” 1; assisted dying: “Präsident” 3, “Nein” 2, “Entschuldigt” 1, “Ja” 1; gender medicine and children: “Entschuldigt” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 21, “Präsident” 9, “Entschuldigt” 2, “Ja” 1; parental rights and education: “Präsident” 7, “Nein” 6, “Ja” 2, “Entschuldigt” 1; free speech and civil liberties: “Präsident” 7, “Ja” 6, “Nein” 6; religious freedom: “Nein” 7, “Ja” 5, “Entschuldigt” 1, “Präsident” 1; marriage and family: “Nein” 58, “Ja” 38, “Präsident” 18; surrogacy and embryology: “Präsident” 1; prostitution and trafficking: “Nein” 10, “Präsident” 2, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,26 @@ The latest 20:
 | 30 Apr 2026 | Präsident | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Präsident | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (9)
+
+- **Committees:** Aussenpolitische Kommission Nationalrat (Mitglied); Büro Nationalrat (Präsident/in); Büro Vereinigte Bundesversammlung (Mitglied); Immunitätskommission Nationalrat (Mitglied); Koordinationskonferenz (Mitglied); Legislaturplanungskommission Nationalrat (Mitglied); Präsidium des Nationalrates (Mitglied).
+- **Delegations:** Delegation bei der parlamentarischen Versammlung der Frankophonie (Vizepräsident/in); Verwaltungsdelegation (Präsident/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (5)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Einfache Gesellschaft | Musique Landwehr Fribourg | Präsident(in) | ehrenamtlich |  |
+| Keine Angaben | Groupe Suisse-Afrique | Präsident(in) | ehrenamtlich |  |
+| Öffentlich-rechtliche Anstalt | Association des établissements cantonaux d'assurance AECA, Berne | Mitglied | bezahlt |  |
+| Öffentlich-rechtliche Anstalt | Biofuels | Mitglied | bezahlt |  |
+| Stiftung | swissaid | Keine Angaben | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

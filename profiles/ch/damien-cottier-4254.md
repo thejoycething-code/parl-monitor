@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 123, “Nein” 77, “Entschuldigt” 5, “Nicht teilgenommen” 3, “Enthaltung” 1.
-By area (every vote): abortion: “Ja” 15, “Nein” 6, “Entschuldigt” 1; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 20, “Nein” 10, “Entschuldigt” 2, “Enthaltung” 1; parental rights and education: “Nein” 8, “Ja” 7, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 7, “Nein” 6, “Entschuldigt” 1; marriage and family: “Ja” 70, “Nein” 40, “Entschuldigt” 2, “Nicht teilgenommen” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Entschuldigt” 2, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 115, “Nein” 73, “Entschuldigt” 5, “Nicht teilgenommen” 3, “Enthaltung” 1.
+By area (every vote): abortion: “Ja” 7, “Nein” 2, “Entschuldigt” 1; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 20, “Nein” 10, “Entschuldigt” 2, “Enthaltung” 1; parental rights and education: “Nein” 8, “Ja” 7, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 7, “Nein” 6, “Entschuldigt” 1; marriage and family: “Ja” 70, “Nein” 40, “Entschuldigt” 2, “Nicht teilgenommen” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Entschuldigt” 2, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (2)
 
@@ -50,6 +50,33 @@ The latest 20:
 |---|---|---|---|---|
 | 18 Dec 2025 | [Aktive Beteiligung der Schweiz an den Arbeiten des Europarates für ein besseres Gleichgewicht zwischen Menschenrechten und Migrationspolitik](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254714) | 25.4714 | submitted by | prostitution and trafficking |
 | 21 Mar 2025 | [Schwindende LGBT-Rechte. Ist der Bundesrat bereit, sie zu einer Priorität seiner Aussenpolitik im Bereich der Menschenrechte zu machen?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253389) | 25.3389 | submitted by | sex-based rights, free speech and civil liberties |
+
+## Committees and groups (6)
+
+- **Committees:** Büro Nationalrat (Fraktionspräsident/in); Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 2 (EDA/WBF) (Mitglied); Kommission für Verkehr und Fernmeldewesen Nationalrat (Vizepräsident/in); Koordinationskonferenz (Mitglied).
+- **Delegations:** Delegation bei der Parlamentarischen Versammlung des Europarates (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (13)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | TransN (transports publics neuchâtelois) | Vizepräsident(in) | bezahlt |  |
+| Verein | Assoc. parlementaire Suisse-USA | Präsident(in) | ehrenamtlich |  |
+| Verein | Association Neuchâtel-Berlin | Präsident(in) | ehrenamtlich |  |
+| Verein | Association parlementaire Suisse - Royaume-Uni ("Swiss-UK Ski Weeks") | Mitglied | ehrenamtlich |  |
+| Verein | Chambre neuchâteloise du Commerce et de l'Industrie (CNCI), Neuchâtel | Mitglied | ehrenamtlich |  |
+| Verein | Groupe parlementaire hôtellerie et restauration / Gastrosuisse, Zurich | Beirat | bezahlt |  |
+| Verein | Interprofession de la vigne et du vin (IVVS) | Mitglied | ehrenamtlich |  |
+| Verein | LITRA - Association suisse en faveur des transports publics | Mitglied | ehrenamtlich |  |
+| Verein | OuestRail | Präsident(in) | ehrenamtlich |  |
+| Verein | Parti libéral-radical neuchâtelois, Neuchâtel | Mitglied | ehrenamtlich |  |
+| Verein | Union neuchâteloise des arts et métiers (UNAM) | Präsident(in) | bezahlt |  |
+| Verein | Union suisse des arts et métiers (USAM) | Mitglied | ehrenamtlich |  |
+| Verein | VignobleSuisse (Fédération suisse des vignerons) | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

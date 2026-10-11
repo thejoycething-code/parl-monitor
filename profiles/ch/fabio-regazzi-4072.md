@@ -3,7 +3,7 @@
 Switzerland, Ständerat. From the parliamentary monitor's store; positions are as the record gives them, never a verdict. Index: [Switzerland members](index.md).
 
 - **Party:** M-E; latest seen in the member list
-- **Constituency or region:** TI
+- **Constituency or region:** Tessin
 - **Parliamentary group (latest):** M-E
 - **Status:** sitting, on the source's current list
 - **Source id:** `4072`
@@ -12,10 +12,10 @@ Switzerland, Ständerat. From the parliamentary monitor's store; positions are a
 
 - Recorded at votes in the store: M-E (first 5 December 2023, last 2 October 2026).
 
-## Votes on our ground (103)
+## Votes on our ground (101)
 
-Recorded positions (103): “Ja” 53, “Nein” 40, “Nicht teilgenommen” 6, “Enthaltung” 4.
-By area (every vote): abortion: “Ja” 2; assisted dying: “Enthaltung” 2, “Ja” 1; gender medicine and children: “Nein” 1; sex-based rights: “Ja” 7, “Nein” 5, “Enthaltung” 2; parental rights and education: “Ja” 1, “Nein” 1; free speech and civil liberties: “Ja” 9, “Nein” 2, “Enthaltung” 1; religious freedom: “Ja” 1; marriage and family: “Ja” 36, “Nein” 33, “Nicht teilgenommen” 6, “Enthaltung” 1; prostitution and trafficking: “Ja” 4, “Nein” 3, “Enthaltung” 1.
+Recorded positions (101): “Ja” 51, “Nein” 40, “Nicht teilgenommen” 6, “Enthaltung” 4.
+By area (every vote): assisted dying: “Enthaltung” 2, “Ja” 1; gender medicine and children: “Nein” 1; sex-based rights: “Ja” 7, “Nein” 5, “Enthaltung” 2; parental rights and education: “Ja” 1, “Nein” 1; free speech and civil liberties: “Ja” 9, “Nein” 2, “Enthaltung” 1; religious freedom: “Ja” 1; marriage and family: “Ja” 36, “Nein” 33, “Nicht teilgenommen” 6, “Enthaltung” 1; prostitution and trafficking: “Ja” 4, “Nein” 3, “Enthaltung” 1.
 
 The latest 20:
 
@@ -25,30 +25,73 @@ The latest 20:
 | 24 Sep 2026 | Nein | M-E (at the vote) | [Abstimmung über die Motion; on: Gleichstellungsgesetz präzisieren](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20233238) | gender medicine and children, sex-based rights, tier 2 |
 | 19 Jun 2026 | Nein | M-E (at the vote) | [Schlussabstimmung; on: «Ja zu fairen Bundessteuern auch für Ehepaare - Diskriminierung der Ehe endlich abschaffen!». Volksinitiative](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20250018) · bill's areas | marriage and family |
 | 4 Jun 2026 | Nein | M-E (at the vote) | [Art. 2; on: «Ja zu fairen Bundessteuern auch für Ehepaare - Diskriminierung der Ehe endlich abschaffen!». Volksinitiative](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20250018) · bill's areas | marriage and family |
-| 20 Mar 2026 | Ja | M-E (at the vote) | [Schlussabstimmung; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
-| 16 Mar 2026 | Nein | M-E (at the vote) | [Abstimmung über alle noch offenen Bestimmungen; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
+| 20 Mar 2026 | Ja | M-E (at the vote) | [Schlussabstimmung; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for adopting the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 16 Mar 2026 | Nein | M-E (at the vote) | [Abstimmung über alle noch offenen Bestimmungen; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee minority's proposal (Sommaruga) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
 | 10 Mar 2026 | Ja | M-E (at the vote) | [Abstimmung über die Motion; on: Häusliche Gewalt. Täterprävention und -monitoring verbessern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254558) | sex-based rights, tier 2 |
 | 10 Mar 2026 | Ja | M-E (at the vote) | [Abstimmung über die Motion; on: Rahmengesetz für den Schutz vor häuslicher Gewalt. Schutz, Prävention und Ahndung verbindlich regeln](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254556) · bill's areas | sex-based rights |
 | 5 Mar 2026 | Nein | M-E (at the vote) | [Abstimmung über die Motion; on: Datenlage zur Umsetzung der Kinderrechte verbessern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20224505) · bill's areas | parental rights and education |
-| 4 Mar 2026 | Ja | M-E (at the vote) | [Art. 30a; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
-| 4 Mar 2026 | Ja | M-E (at the vote) | [Art. 30a; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
+| 4 Mar 2026 | Ja | M-E (at the vote) | [Art. 30a; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee majority's proposal on the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 4 Mar 2026 | Ja | M-E (at the vote) | [Art. 30a; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee majority's proposal on the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
 | 19 Dec 2025 | Nein | M-E (at the vote) | [Schlussabstimmung; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) | marriage and family, tier 2 |
-| 10 Dec 2025 | Ja | M-E (at the vote) | [Abstimmung über die Motion; on: Kein Familiennachzug bei Stellvertreterehen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254039) · bill's areas | marriage and family, tier 1 |
+| 10 Dec 2025 | Ja | M-E (at the vote) | [Abstimmung über die Motion; on: Kein Familiennachzug bei Stellvertreterehen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254039) · bill's areas · their vote meant: for the motion's author's proposal (to accept) on the text “Kein Familiennachzug bei Stellvertreterehen” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
 | 9 Dec 2025 | Nein | M-E (at the vote) | [Abstimmung über die Motion; on: Bekämpfung von Hassreden im Internet. Öffentliche Gelder sollten nicht zur Unterstützung anonymer Kommentar…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20234530) | free speech and civil liberties, tier 2 |
 | 26 Sep 2025 | Ja | M-E (at the vote) | [Schlussabstimmung; on: Landwirtschaftsgesetz (Entschädigung im Scheidungsfall). Änderung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240094) · bill's areas | marriage and family |
 | 24 Sep 2025 | Ja | M-E (at the vote) | [Gesamtabstimmung; on: Landwirtschaftsgesetz (Entschädigung im Scheidungsfall). Änderung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240094) · bill's areas | marriage and family |
-| 23 Sep 2025 | Ja | M-E (at the vote) | [Gesamtabstimmung; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
-| 23 Sep 2025 | Ja | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
-| 23 Sep 2025 | Ja | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
-| 23 Sep 2025 | Nein | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
+| 23 Sep 2025 | Ja | M-E (at the vote) | [Gesamtabstimmung; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for adopting the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 23 Sep 2025 | Ja | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee minority's proposal (Rieder) on the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 23 Sep 2025 | Ja | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for “Antrag der Minderheit I (Rieder)” on the text “Ermöglichung von Doppelnamen bei der Heirat” (the Council's own words) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 23 Sep 2025 | Nein | M-E (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee minority's proposal (Rieder) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
 
-83 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+81 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 10 Jun 2021 | [Schluss mit der aktiven Sterbehilfe für Hausbrennereien und für die damit verbundene ländliche Tradition](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20213680) | 21.3680 | submitted by | assisted dying |
+
+## Committees and groups (5)
+
+- **Committees:** Kommission für Wirtschaft und Abgaben Ständerat (Mitglied); Redaktionskommission (Mitglied); Redaktionskommission Subkommission der italienischen Sprache (Mitglied); Sicherheitspolitische Kommission Ständerat (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Italienischen Parlament (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (29)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Crossinvest SA | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Hockey Club Lugano SA, Lugano | Mitglied | ehrenamtlich |  |
+| Aktiengesellschaft | Lido F&B SA, Locarno | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Marcmetal SA, Bioggio | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Regazzi Holding SA, Gordola | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Regazzi SA, Gordola | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Regazzi Schermature Solari SA, Gordola | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Regazzi Serramenti e Facciate SA, Gordola | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Repi SA, Gordola | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Riviera Airport SA, Osogna | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Sabesa SA, Riazzino | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Sarefi Immobiliare SA, Gordola | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Stilcolor SA, Gordola | Präsident(in) | ehrenamtlich |  |
+| Einfache Gesellschaft | Glasfasernetz Schweiz, Berna | Mitglied | bezahlt |  |
+| Keine Angaben | ASTAG, Associazione svizzera dei trasportatori stradali, Berna (comitato politico) | Mitglied | bezahlt |  |
+| Keine Angaben | Auto-Schweiz | Mitglied | bezahlt |  |
+| Keine Angaben | Gruppo di riflessione Groupe Mutuel | Mitglied | bezahlt |  |
+| Kommission | AM Suisse Ticino (commissione paritetica) | Mitglied | bezahlt |  |
+| Öffentlich-rechtliche Stiftung | Fondazione Corippo | Mitglied | ehrenamtlich |  |
+| Stiftung | Fondazione "Pro Casa di riposo Solarium" | Mitglied | ehrenamtlich |  |
+| Stiftung | Kinderschutz Schweiz | Mitglied | ehrenamtlich |  |
+| Stiftung | Ombudsman dell'assicurazione privata e della Suva | Mitglied | bezahlt |  |
+| Verein | AIF Ticino | Vizepräsident(in) | ehrenamtlich |  |
+| Verein | Caccia Svizzera | Vizepräsident(in) | bezahlt |  |
+| Verein | SAM Massagno Basket | Präsident(in) | ehrenamtlich |  |
+| Verein | Swiss Family Business | Mitglied | ehrenamtlich |  |
+| Verein | Swiss Venture Club | Mitglied | ehrenamtlich |  |
+| Verein | Touring Club der Schweiz (TCS), (comitato politico) | Mitglied | bezahlt |  |
+| Verein | Unione Svizzera Arti e Mestieri (Usam), Berna | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 
