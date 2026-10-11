@@ -32,7 +32,13 @@ items (#91), speech clips (#92). UK-parity round 2, 11 October: a
 14 votes lost a wrong abortion tag); the debate report with approval and a
 canvas for Chris alone (#105); attendance: BR and FR committees, CL plenary
 roll, NL committee debates, CO, and vote participation where absences are
-recorded (#106); members' length of service, with derived positions now only for days a member sat (#107).
+recorded (#106); members' length of service, with derived positions now only for days a member sat (#107). Round 3: 5CA posting and Slack canvases
+(#111): `tools/country_5ca_post.py --cc CC --area N --to canvas|dm|both`
+(or `--all-countries`; `--dry-run` shows what would go), from confirmed
+readings only, to Chris alone (a canvas shared with his ID, never a channel);
+reruns rewrite the same canvas, and a Sunday step refreshes canvases whose
+confirmed readings changed. Silent until the first reading is confirmed.
+Also the publish-collision fix (#109).
 
 **Nothing is published from a 5CA yet.** Every stance is a draft: 975
 readings await sign-off across the countries (France limited to final votes
