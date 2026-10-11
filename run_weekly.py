@@ -1501,6 +1501,20 @@ def _has_col(conn, table, col):
         "PRAGMA table_info({0})".format(table))]
 
 
+def announced_row(e):
+    """An announced What's On event as the dict digest.render_announced reads."""
+    where = whatson._text(e.house)
+    venue = whatson._text(e.type)
+    if venue == "Westminster Hall":
+        where = "Westminster Hall"
+    elif venue == "Grand Committee":
+        where = "Lords Grand Committee"
+    return {"date": e.start_date.isoformat() if e.start_date else None,
+            "start_time": e.start_time or None, "where": where,
+            "what": whatson._collapse(whatson._text(e.description) or whatson._text(e.bill_name)),
+            "members": e.members or [], "url": whatson.event_url(e)}
+
+
 def render_edition(week_commencing, db_name, draft=False):
     """Phase 2: render from the store, score-driven (editorial loop retired)."""
     week_start = datetime.date.fromisoformat(week_commencing)
@@ -1580,6 +1594,25 @@ def render_edition(week_commencing, db_name, draft=False):
         # renders last and outside the cap, so an actionable deadline always
         # leads (Christopher, 2026-09-24).
         edition.recess_note = digest.recess_line(edition.return_dates)
+
+    # Everything else announced, whatever its title says (2026-10-12): the
+    # sitting week's headline business, or in recess the return week's, less
+    # the events already in the What's on tables.
+    shown = set()
+    for line in list(edition.week_ahead) + list(edition.further_ahead):
+        ev = getattr(line, "event", None) or {}
+        if ev.get("event_id"):
+            shown.add(ev["event_id"])
+    if mode == "recess":
+        ret = whatson.first_sitting_week(lookahead)
+        pool = [e for e in lookahead if ret and e.start_date
+                and ret <= e.start_date <= ret + datetime.timedelta(days=6)]
+        edition.announced_week = ret.isoformat() if ret else None
+    else:
+        pool = week_events
+        edition.announced_week = week_commencing
+    rows, edition.announced_held = whatson.announced(pool, exclude_ids=shown)
+    edition.announced = [announced_row(e) for e in rows]
 
     path = digest.write_edition(conn, edition, os.path.join(ROOT, "editions"),
                                 generated_at=datetime.datetime.now().isoformat(timespec="seconds"))
