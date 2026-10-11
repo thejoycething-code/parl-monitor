@@ -545,3 +545,7 @@ Member intelligence: **built** 11 October 2026 (`tools/member_intel.py pl`, a st
 - Not covered: www.sejm.gov.pl's petitions, legislacja.gov.pl and legislacja.rcl.gov.pl disallow every crawler in robots.txt; senat.gov.pl answers 403.
 
 Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/pl.py`, `tools/country_petitions.py pl` as a step of `jobs/pl-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.
+
+## Speech clips (not built, 11 October 2026, branch `ukp-speech-clips`)
+
+No reuse terms for the Sejm's transmissions were found on 11 October 2026, and no Polish speeches are stored (the transcript endpoint never answered). Nothing to align to. Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.

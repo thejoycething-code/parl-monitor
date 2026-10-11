@@ -465,3 +465,9 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - First read: 6 on our ground (coercive control, co-parenting, digital identity, minors on social media).
 
 Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/be.py`, `tools/country_petitions.py be` as a step of `jobs/be-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.
+
+## Speech clips (built 11 October 2026, branch `ukp-speech-clips`)
+
+`tools/country_clips.py` (src/country_clips.py; docs/debate-pack-social.md, "Speech clips, new countries"): `pick be` ranks the speeches on our ground in `be_speeches` (or the day read live with `--live`) and writes a pack with a passage per speaker; `cut` fetches only each speech's span of official video, aligns the passage with Whisper and renders captioned 9:16 and 16:9 clips with the source credit. Manual, no job, nothing posted. Source, terms and status in `config/clip-sources.yaml`.
+
+**Status: needs agreement.** media.lachambre.be's archive gives each plenary's MP4 (the site's own download) and an event table of speaker turns with offsets; a speaker's turns are tried longest first. The Chamber's FAQ: speeches may be reproduced freely, but works it commissions (the recordings are a contractor's) need its authorisation, and no video licence is published, so the cut step refuses until `be.agreement` is filled in. Sample pack (locate only): plenary 143, 8 October 2026, four speakers located.

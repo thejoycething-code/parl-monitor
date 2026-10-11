@@ -477,3 +477,9 @@ Member intelligence: **built** 11 October 2026 (`tools/member_intel.py at`, a st
 - First read: two Bürgerinitiativen and three Volksbegehren on our ground ("Mut zeigen!" on pregnancy loss, "Abtreibungs-Strafgesetz-Paragraphen streichen", "Abtreibungspille rezeptfrei").
 
 Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/at.py`, `tools/country_petitions.py at` as a step of `jobs/at-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.
+
+## Speech clips (built 11 October 2026, branch `ukp-speech-clips`)
+
+`tools/country_clips.py` (src/country_clips.py; docs/debate-pack-social.md, "Speech clips, new countries"): `pick at` ranks the speeches on our ground in `at_speeches` (or the day read live with `--live`) and writes a pack with a passage per speaker; `cut` fetches only each speech's span of official video, aligns the passage with Whisper and renders captioned 9:16 and 16:9 clips with the source credit. Manual, no job, nothing posted. Source, terms and status in `config/clip-sources.yaml`.
+
+**Status: open.** The sitting's Mediathek page lists each speech with its protocol number (the end of our speech_id) and a uuid; the Mediathek's own 'Rede herunterladen' returns that speech's 1080p MP4. robots.txt's /aktuelles/mediathek/XXVIII/NRSITZ/19 rule is honoured. Terms: political reporting, political education, private non-commercial use only, credit '(c) Parlamentsdirektion', no advertising. Sample pack (locate only): NR sitting 96, 23 September 2026, Dringlicher Antrag zum Kinderschutz, four speeches located.

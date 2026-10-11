@@ -672,3 +672,20 @@ UK parity for the new country editions: Chris may cut or edit before an edition 
 - **What broke:** the Dominican Republic's first backfill on the Mini (10 October) spent its fixed 45-minute collector budget, then the vote briefs, alerts, profiles, briefs and the publish ran past `JOB_TIMEOUT` (3600 s) and it was killed before it published. On the Mini the store upload alone takes 13 to 16 minutes (raw archive to store `published_utc` in the sidecars of the Mini's runs on 10 and 11 October: a 1.64 to 1.76 GB store), against about 40 seconds on GitHub.
 - **The fix:** every country weekly's collector budget is `tools/collector_budget.sh <cap> "$SECONDS" [later]`: the smaller of the old cap and `JOB_TIMEOUT` less what the job has spent, less its own later budgeted steps, less 20 minutes for the publish and 5 for the unbudgeted steps. Under the hour that is about 35 minutes; a longer plist `JOB_TIMEOUT` gives back up to the cap. On GitHub the cap is unchanged. `tools/mini_run.sh` now exports `JOB_TIMEOUT`, so jobs see the real limit (Ireland's weekly had assumed three hours). The chamber step, Ireland's questions and debates and the US Congressional Record keep the same 20 minutes for the transfers on the Mini.
 - **If the store keeps growing** and the upload passes 20 minutes, raise `PUBLISH_S` in `tools/collector_budget.sh` (and the `TRANSFERS` of `jobs/ie-weekly.sh` and `jobs/us-weekly.sh`).
+
+## Speech clips for the new countries (11 October 2026, branch `ukp-speech-clips`)
+
+No job: `tools/country_clips.py` is a hand command (docs/debate-pack-social.md, "Speech
+clips, new countries"). It reads the store read-only and writes only into
+`data/clips/<pack>/`, so it is safe while a weekly holds the store, and it never posts.
+
+- **The footage bundle is not installed** (checked over SSH, 11 October 2026: neither
+  `/usr/bin/python3` nor `~/runner/venv` imports `faster_whisper`, and there is no
+  `ffmpeg`). Step 3 of `tools/macmini_setup.sh` installs it (`pip install --user
+  imageio-ffmpeg yt-dlp faster-whisper`); the UK's `social_cut.py` and `speech_cut.py`
+  need the same. Run it from a session on the Mini, not over SSH by an agent.
+- **The multilingual Whisper model** (`small`, about 480 MB) is fetched by faster-whisper
+  the first time a cut runs (the UK uses the English-only `small.en`). Run the first cut by
+  hand so the download is seen.
+- Fetched source footage is deleted after 30 days (`purge`, also run at the start of each
+  cut); finished clips stay in the pack.

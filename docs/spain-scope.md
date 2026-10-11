@@ -574,3 +574,7 @@ Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`).
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Not built.** The Congreso has no e-petitions and the government's "participación pública" is about 22 separate ministry pages, each in its own format (transparencia.gob.es/participacionciudadana/participacionproyectosnormativos).
+
+## Speech clips (not built, 11 October 2026, branch `ukp-speech-clips`)
+
+No video reuse terms found on 11 October 2026; the Cortes are dissolved until 23 December and there is no Spanish speech collector. Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.

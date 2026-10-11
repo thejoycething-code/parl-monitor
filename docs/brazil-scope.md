@@ -576,3 +576,7 @@ Member intelligence: **built** 11 October 2026 (`tools/member_intel.py br`, a st
 - Not covered: the Câmara's enquetes (no listing), Participa+Brasil (closed).
 
 Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/br.py`, `tools/country_petitions.py br` as a step of `jobs/br-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.
+
+## Speech clips (not built, 11 October 2026, branch `ukp-speech-clips`)
+
+The Câmara's videos of legislative activity are CC BY 4.0 (its watermark must stay), so reuse is open, but no Brazilian speeches are stored (speeches not collected: per-deputy cost), so there is nothing to align a clip to. Build when speeches are collected. Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.

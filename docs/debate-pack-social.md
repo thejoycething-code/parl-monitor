@@ -470,3 +470,53 @@ words. A vote derived from a group's show of hands (X5, the Netherlands) is
 shown with `*` and never names a contradiction. Members are matched by the
 source's member id (CH, FR), else by name (a surname alone only when unique,
 or unique in the printed party).
+
+## Speech clips, new countries (11 October 2026)
+
+`tools/country_clips.py` (src/country_clips.py) is `pick_speeches.py`, `social_cut.py`
+and `speech_cut.py` for the countries whose speeches we store (`<cc>_speeches`, from
+src/chamber_store.py) and whose parliament's video can be fetched and lined up with
+them. Manual, like the UK's; no job; it never posts, uploads or sends anything.
+
+    python3 tools/country_clips.py sources
+    python3 tools/country_clips.py pick ch --since 2026-09-08 --until 2026-09-26 --find "Selbstbestimmung" --top 6
+    python3 tools/country_clips.py pick at --date 2026-09-23 --live          # the day read from the source
+    python3 tools/country_clips.py cut --pack data/clips/<folder> --locate-only
+    python3 tools/country_clips.py cut --pack data/clips/<folder>
+    python3 tools/country_clips.py moments nl --pack data/clips/<folder>     # where on Debat Direct
+    python3 tools/country_clips.py cut --pack data/clips/<folder> --only "Name" --video speech.mp4
+    python3 tools/country_clips.py purge
+
+**Per country** (config/clip-sources.yaml holds the source, the terms, the credit and the status):
+
+| Country | Status | Video and how its times are found | Terms in one line |
+|---|---|---|---|
+| CH | open | each Bulletin speech's own MP4 (`simvid_1.mp4?externalid=<ID>`) | non-commercial, credit (c) ParlCH, no added graphics that change the meaning: no logo |
+| AT | open | the Mediathek's own per-speech download, found by the protocol number in our speech_id | political reporting and education only, credit (c) Parlamentsdirektion, no advertising |
+| NL | manual | Debat Direct's speaker events give the second; the archive answers us with a placeholder, so a person downloads the speech and passes `--video` | freedom of expression allowed; visible credit, copyright line, link to terms, edit noted; no member recruitment; source destroyed within a month |
+| FR | needs agreement | the compte rendu's `stime` per paragraph into the sitting's MP4 (byte ranges) | debates free, but multimedia only with prior agreement: the cut refuses until `fr.agreement` is set |
+| BE | needs agreement | the Chamber's event table of speaker turns into the plenary MP4 | speeches free, the commissioned recordings need authorisation: refuses until `be.agreement` is set |
+| BR, PL, IT, ES | not built | no speeches stored (and PL, IT, ES terms unclear) | see each scope doc |
+
+**Pick** ranks by rule, with no AI call (the UK's `pick_speeches.py` asks a model): tier 1
+before tier 2, more taxonomy terms matched, a member before a minister, enough words; each
+speech gets a passage of whole sentences grown to about 45 seconds around the sentence with
+the most matched terms, never ending on a question. On our ground is not a stance: nothing
+is confirmed for the new countries, so `sequence.md` is PROVISIONAL and the person keeps
+only the speakers the campaign may show. `sequence.md` is the UK shape plus a `speech:`
+line (the stored speech id), which the cut needs.
+
+**Cut** fetches only the speech's span (ffmpeg byte ranges or the speech's own file),
+transcribes it with Whisper in the country's language (`small`, multilingual; Swiss and
+Belgian speeches are detected), finds the passage on accent-folded words, cuts word-exact,
+and renders `final/<cc>-NN-<name>-vertical.mp4` and `-landscape.mp4` with `.srt`, the UK's
+captions and name plate, the CitizenGO logo where the terms allow it, and the source credit
+small in the top right of every frame; a vertical reel when there is more than one clip.
+`clips.md` says what was heard and how well it matched; `README.md` carries the credit for
+the post text. Fetched footage in `windows/` is deleted after 30 days (the Dutch licence's
+rule, applied everywhere).
+
+**Not yet run end to end**: the laptop has no ffmpeg and the Mini's footage bundle
+(faster-whisper, imageio-ffmpeg) is not installed (11 October 2026); the samples were made
+with `--locate-only`: CH 25.455 (Ständerat, 29 September), AT NR sitting 96 (23 September),
+FR 9 October, BE plenary 143 (8 October), all speakers located.
