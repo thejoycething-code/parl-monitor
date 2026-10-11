@@ -329,6 +329,8 @@ about eighteen weekly runs at 100 pages.
 
 ## Phase plan
 
+**Week ahead (11 October 2026, branch `gaps-week-ahead`): built.** The plenary and committee agendas from the Chamber's eMeeting XML service (`src/agendas/be.py`, a step of `jobs/be-weekly.sh`), not the convocation PDF; matched to `be_dossiers` by dossier key. Phase 3's agenda half is done; the questions remain.
+
 1. **Phase 1 (built):** members, dossier index, dossier pages (drained),
    every plenary vote with every position. Watchlist areas only.
 2. **Phase 2: the Belgian term list** (above) once approved, as
@@ -443,7 +445,7 @@ It writes `data/packs/be-<date>-<slug>/`: `pack.md` and `checklist.md` in Dutch 
 translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
 `members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
 this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
-Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+Agenda slot: from the week ahead (`country_agenda`, built 11 October 2026); the pack says when the agenda names no slot. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
 hand with `--speakers` (matched to the member list) once known. Placements come only from
 readings confirmed in `config/be_stance.yaml`; none is confirmed yet, so every pack shows
 "wacht op goedkeuring" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New

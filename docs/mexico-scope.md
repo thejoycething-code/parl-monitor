@@ -350,6 +350,8 @@ runner, as the US Senate probe was.
 
 ## Phase plan
 
+**Week ahead (11 October 2026): not built.** The Chamber's hosts refuse UK addresses (X9), so the Gaceta's orden del día could not be probed from the laptop, and it is printed on the morning of the sitting, never a week ahead. A GitHub-side reader of the day's orden del día is left to a later decision.
+
 1. **Phase 1 (built):** deputies, iniciativas with progress, every vote
    with every position, linked to iniciativas through the Gaceta.
 2. **Phase 1b (needs Christopher):** `taxonomy-es` from the table above;

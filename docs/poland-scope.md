@@ -418,6 +418,8 @@ after the 2027 election.
 
 ## Phase plan
 
+**Committee agendas (11 October 2026, branch `gaps-week-ahead`): built.** `/committees/sittings/<date>` for each day of the window (planned sittings included), with the committee names from `/committees`; prints as refs, so a committee's reading of a watched bill (druk 223 on 8 October) is found by number.
+
 1. **Phase 1, built:** Sejm deputies, prints, processes, recorded votes with
    every position; watchlist classification; weekly on the Mini.
 2. **Phase 1b, on approval:** generate `docs/keyword-taxonomy-pl.md` and

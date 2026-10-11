@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import json
 
+from src import agenda
 from src import country_edition as ce
 
 HOST = "https://www.lachambre.be"
@@ -112,9 +113,12 @@ COUNTRY = ce.Country(
     cc="be", name="Belgium", chamber="Chamber of Representatives", language="Dutch (with the French)",
     taxonomies=(("taxonomy-nl.yaml", "be"), ("taxonomy-fr.yaml", "be")),
     items=items, flag=":flag-be:",
+    week_ahead=agenda.week_ahead_fn("be"), ahead_note=agenda.ahead_note_fn("be"),
     members_note=("Every plenary vote records every member by name; the group shown is the "
                   "member's group when the vote was stored, since the record prints none"),
     coverage=("Dossier pages carry no history, so there are no stage moves; new dossiers are "
               "those deposited in the week.",
-              "The Senate, committee agendas and written questions are not collected yet."),
+              "The week ahead is the Chamber's plenary and committee agendas (eMeeting), "
+              "published about a week ahead.",
+              "The Senate and written questions are not collected yet."),
 )
