@@ -207,8 +207,15 @@ def iso(text):
     return None
 
 
+def _value(text):
+    """A source's text, None for empty or a bare dash ('-', the NRSR's 'no club')."""
+    t = clean(text)
+    return None if t in ("", "-", "\u2013") else t
+
+
 def period(member_key=None, member_ref=None, name=None, chamber=None, term=None, start=None,
            end=None, precision="day", party=None, grp=None, seat=None):
+    party, grp = _value(party), _value(grp)
     return {"member_key": None if member_key is None else str(member_key),
             "member_ref": None if member_ref is None else str(member_ref),
             "name": clean(name) or None, "chamber": clean(chamber) or None,
