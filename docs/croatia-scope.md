@@ -563,3 +563,7 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with the vote state of the agenda item; no dated stage, agenda slots (`country_agenda`) and recorded votes.
 
 Length of service: **built, terms only** 11 October 2026 (`tools/member_service.py hr`, branch `ukp2-service`): the 10th and 11th sazivi from sabor.hr's member lists (matched by name to the 11th's members), with the party listed per saziv; no seat dates. Earlier sazivi: the site's filter ids are not known yet. Every four weeks. See docs/country-parity-handover.md, section 3c.
+
+## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
+
+Phase list: **done**. A same-day alert for new items on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/hr.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the Sabor's "Novi akti" (acts received, not yet on an agenda), keyed on the bill as the edition keys it; the agenda index (1.3 MB, 30 s) stays weekly. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

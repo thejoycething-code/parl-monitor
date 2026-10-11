@@ -5,8 +5,20 @@ Parity with the UK day sweep (tools/day_sweep.py, src/daysweep.py) and the
 EU's (tools/eu_day_sweep.py), and with the Latam instant alerts
 (tools/latam_alerts.py), for the countries whose sources publish new items
 the same day cheaply and openly: the Netherlands, Poland, Switzerland,
-Brazil, Italy, Austria, France (its agenda) and Spain (from 23 December
-2026). See src/day_sweep_sources.py for what each reads and what it costs.
+Brazil, Italy, Austria, France (its agenda and new dossiers) and Spain
+(from 23 December 2026); since branch gaps-day-sweep (11 October 2026) also
+Belgium, Portugal, Croatia, Slovakia and Argentina, and through the Latam
+path below Chile, Peru, Ecuador, Bolivia, the Dominican Republic, Panama,
+Honduras and Uruguay. See src/day_sweep_sources.py for what each reads and
+what it costs.
+
+LATAM COUNTRIES (LATAM) are read by the Latam alerts' own reader and rule
+(src/latam.country_items, tools/latam_alerts.qualifies), not an edition
+adapter, and de-duplicated against data/latam-alerts/<cc>.json both ways:
+an item tools/latam_alerts.py has sent is not alerted here, and an item this
+run alerts is recorded there (with --send), so the alert step after the
+country's weekly collection does not send it again. The sweep's own ledger
+still seeds the first pass silently. Stage moves stay with that step.
 
 ONE DAILY JOB, NOT TWO. The sweep is a step of the daily vote-briefs job
 (jobs/vote-briefs-daily.sh, tools/country_vote_briefs.py --daily): its

@@ -528,3 +528,7 @@ readings confirmed in `config/uy_stance.yaml`; none is confirmed yet, so every p
 countries".
 
 Length of service: **not built** (11 October 2026, branch `ukp2-service`): the Parliament's main site refuses us; the profiles say nothing about service. See docs/country-parity-handover.md, section 3c.
+
+## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
+
+Phase list: **done**. A same-day alert for new items on our ground, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`, one DM to Chris), read through the Latam alerts' own reader and rule (`src/latam.py`, `tools/latam_alerts.py`: watched, or tier 1 with the minimum evidence) and de-duplicated against `data/latam-alerts/uy.json` both ways, so nothing is sent twice with the alert step after the weekly collection (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read once a day: the Cámara's pedidos de informes file, only when its Last-Modified moved (1.09 MB). Laws and the Diario stay weekly. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

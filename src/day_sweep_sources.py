@@ -66,6 +66,58 @@ MEASURED COSTS (11 October 2026, from the laptop; a quiet weekend):
       weekly archives it every Saturday, FR3).
   es  3 requests from 23 December 2026: the Congreso's open-data page and
       its two initiative files (0.4 and 0.7 MB). Agenda: 1 page.
+
+ADDED ON BRANCH gaps-day-sweep (11 October 2026, measured from the laptop;
+the whole daily run, votes and sweep, went from 55 s to about 2 minutes):
+
+  fr  + the dossiers deposited in the window: the AN's own dossier list,
+      newest deposit first, 50 a page (363 KB, 1 s; one page covers five
+      or six days), classified on the short title; robots.txt asks 30 s
+      between pages, so a busy window's second page waits. Once a day with
+      the agenda. Written questions stay weekly: the Journal officiel
+      publishes them on Tuesdays and the dumps are 49-55 MB.
+  be  1-2 requests: the Chamber's recent-documents listing (the week's
+      documents by dossier, 61 KB), French, then Dutch on a day with a new
+      dossier (Crawl-delay 5 s). A dossier whose document 001 is dated in
+      the window is new; its page (type, authors) is the weekly's.
+  pt  1 request: the Assembleia's latest-initiatives page (four weeks deep,
+      569 KB served gzipped, 1.3-2.7 s). Questions stay weekly (a 7.8 MB
+      dump; the website pages them ten at a time behind postbacks).
+  hr  1 request: the Sabor's "Novi akti" (acts received, not yet on an
+      agenda, dated; 48 KB, 0.5 s), the sweep's own items (extra_items):
+      the Croatian edition's new items are agenda appearances, which a
+      throwaway store cannot tell. The agenda index is 1.3 MB and 30 s.
+  sk  2 requests: the term's prints and interpellations (NR SR open data,
+      637 and 425 KB, 1-5 s; no date filter, no compression).
+  ar  1 request, once a day: the Diputados register (datos.hcdn.gob.ar,
+      not www.hcdn.gob.ar, AR4) restricted to the window, no retry (the host
+      rations requests). Agenda: the Senate's weeks (3 pages, 14 s).
+  Latin America, read through the Latam alerts' path (LATAM below;
+  src/country_day_sweep.latam_candidates):
+  cl  1 request: the Senate's tramitación since the window (both chambers'
+      new bills and the Senate's votes; 0.2-0.8 MB, 3-9 s) + the senators'
+      list on a day with a Senate vote. Cámara votes stay weekly.
+  pe  3 requests: the SPLEY list per chamber code with its presentation-date
+      filter (under 20 KB, 3 s). Never the expediente endpoint (PE2).
+  ec  2 requests: the periods and the plenary's vote list for the window
+      (5 KB, 2-3 s), tallies only (EC_POSITIONS off). No bills (EC4).
+  bo  1 request: the Diputados' bill posts modified in the window (4 KB);
+      register re-stamps alert only when watched. Bills only (BO2).
+  do  1-5 requests: the SIL's iniciativas, newest first, ten a page, until a
+      page has nothing deposited in the window (0.7 s and 11 KB a page).
+  pa  2 requests: segLegis's newest 20 items (93 KB, 5 s).
+  hn  about 8 requests, 8 s on a quiet day: press releases, the four stages'
+      newest files, the newest sessions (agendas of at most 4), La Gaceta.
+  uy  once a day: a one-byte request for the pedidos file's Last-Modified,
+      then the file itself only when it moved (1.09 MB, 17-34 s, no gzip;
+      the only source of pedidos de informes, UY3).
+
+NOT SWEPT: Mexico (its hosts refuse UK connections, the Mini's too; and the
+Gaceta lists iniciativas only per period, no date filter); Colombia (no
+cheap list carries a filing date; each bill's page is 750 KB, and CO3 rules
+out its votes); El Salvador (a vote's subject comes only from the session
+archive, filed days late and 40 s a sitting day); Hungary (not measured in
+this pass).
 """
 
 from __future__ import annotations

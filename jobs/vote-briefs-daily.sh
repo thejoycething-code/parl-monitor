@@ -25,6 +25,12 @@
 # editions, the vote briefs and data/day-sweep/<cc>.json, and the run sends
 # ONE DM for the briefs and the new items together (nothing when nothing).
 # Measured 11 October 2026: about 45 s for the whole run, votes and sweep.
+# The same evening (branch gaps-day-sweep) the sweep added Belgium,
+# Portugal, Croatia, Slovakia, Argentina, France's new dossiers, and Chile,
+# Peru, Ecuador, Bolivia, the Dominican Republic, Panama, Honduras and
+# Uruguay through the Latam alerts' path and ledger (no double send with
+# tools/latam_alerts.py): about 2 minutes for the whole run from the laptop
+# (55 s before), each request retried at most once.
 #
 # Lean: a quiet day costs a handful of requests per country; a reader that
 # fails is a [gap] line and costs the others nothing. No store is read or

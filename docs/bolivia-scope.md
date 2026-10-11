@@ -417,3 +417,7 @@ hand with `--speakers` (matched to the member list) once known. Placements come 
 readings confirmed in `config/bo_stance.yaml`; none is confirmed yet, so every pack shows
 "pendiente de firma" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
 countries".
+
+## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
+
+Phase list: **done**. A same-day alert for new items on our ground, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`, one DM to Chris), read through the Latam alerts' own reader and rule (`src/latam.py`, `tools/latam_alerts.py`: watched, or tier 1 with the minimum evidence) and de-duplicated against `data/latam-alerts/bo.json` both ways, so nothing is sent twice with the alert step after the weekly collection (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the Diputados' bill posts modified in the window; a register re-stamp alerts only when watched. Bills only (BO2). See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

@@ -471,3 +471,7 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 Attendance (11 October 2026, branch `ukp2-attendance`): attendance is published only inside the vote and attendance PDFs; the attendance records are not parsed. Plenary vote participation is DERIVED from the stored votes (AUS, the licences LE/LO/LP/LV, SR) with its basis.
 
 Length of service: **built, current period only** 11 October 2026 (`tools/member_service.py pe`, branch `ukp2-service`): the period on the store's roster (2026-2031); no fetch. See docs/country-parity-handover.md, section 3c.
+
+## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
+
+Phase list: **done**. A same-day alert for new items on our ground, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`, one DM to Chris), read through the Latam alerts' own reader and rule (`src/latam.py`, `tools/latam_alerts.py`: watched, or tier 1 with the minimum evidence) and de-duplicated against `data/latam-alerts/pe.json` both ways, so nothing is sent twice with the alert step after the weekly collection (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the SPLEY list per chamber code with its presentation-date filter (never the expediente endpoint, PE2). Votes stay weekly (PDF records). See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.

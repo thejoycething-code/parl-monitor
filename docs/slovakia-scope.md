@@ -498,3 +498,7 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
 Length of service: **built, terms only** 11 October 2026 (`tools/member_service.py sk`, branch `ukp2-service`): which electoral terms each member sat in (NRSR open data `MP/MembersOfParliament?termNr=N`, terms 1 to 9) with the club at the end of each; the source gives no seat dates, so profiles name the terms and never say "since". Every four weeks. See docs/country-parity-handover.md, section 3c.
+
+## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
+
+Phase list: **done**. A same-day alert for new items on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/sk.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the term's prints and interpellations from the NR SR open data (two requests, filtered to the window). See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
