@@ -1359,3 +1359,172 @@ divisions:
     reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for DLR5L17N53187 (a draft): passing it is WITH us -- Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing. This vote is a vote on the whole text or the motion itself, so Pour is with us."
     flag: "On the bill's direction: Protecting minors online (under-15 rule, age checks); confirm the age-check design raises no speech concern."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+
+  # --- drafted 2026-10-11 by tools/country_5ca.py (rules, no AI) ---
+  - key: "senat-2024-199"
+    status: needs_reading
+    title: "sur l'ensemble de la proposition de loi visant à assurer le respect du principe de laïcité dans le sport"
+    "on": "Proposition de loi visant à assurer le respect du principe de laïcité dans le sport"
+    dated: "2025-02-18"
+    chamber: "senat"
+    areas: [8]
+    tier: 1
+    result: "Pour 210, Contre 81, Abstain 38"
+    lobbies: "Pour: Les Républicains 129, UCI 59, Les Indépendants 18, RDSE 3, RDPI 1. Contre: SER 54, GEST 16, CRCE-K 6, RDSE 3, RDPI 2. Abstain: RDPI 15, CRCE-K 12, RDSE 11"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for DLR5L16N49619: CitizenGO's position on 'Proposition de loi visant à assurer le respect du principe de laïcité dans le sport' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "senat-2024-237"
+    status: needs_reading
+    title: "sur l'ensemble de la proposition de loi visant à reconnaître le préjudice subi par les personnes condamnées sur le fondement de la législation pénalisant l'avortement, et par toutes les femmes, avant la loi n° 75-17 du 17 janvier 1975 relat"
+    "on": "Proposition de loi visant à reconnaître le préjudice subi par les personnes condamnées sur le fondement de la législation pénalisant l’avortement, et par toutes les femmes, avant la loi n° 75-17 du 17"
+    dated: "2025-03-20"
+    chamber: "senat"
+    areas: [1]
+    tier: 1
+    result: "Pour 340, Contre 0, Abstain 1"
+    lobbies: "Pour: Les Républicains 130, SER 65, UCI 58, RDPI 19, Les Indépendants 18, CRCE-K 17, RDSE 17, GEST 16. Abstain: UCI 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for DLR5L17N51351: CitizenGO's position on 'Proposition de loi visant à reconnaître le préjudice subi par les personnes condamnées sur le fondement de la législation pénalisant l’avort' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "senat-2025-169"
+    status: draft
+    title: "sur l'ensemble de la proposition de loi relative au droit à l'aide à mourir"
+    "on": "Fin de vie"
+    dated: "2026-01-28"
+    chamber: "senat"
+    areas: [2]
+    tier: 1
+    watched: "DLR5L17N51670"
+    result: "Pour 122, Contre 181, Abstain 38"
+    lobbies: "Pour: Les Républicains 82, UCI 24, Les Indépendants 8, NI 4, CRCE-K 2, RDPI 2. Contre: SER 60, Les Républicains 36, UCI 24, GEST 16, RDSE 16, CRCE-K 15, RDPI 12, Les Indépendants 2. Abstain: Les Républicains 11, UCI 11, Les Indépendants 10, RDPI 5, CRCE-K 1"
+    vote_kind: "final"
+    yea: -2
+    why_yea: "Voted Pour on DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')): for passing it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Contre on DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')): against passing it, with CitizenGO's position."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51670 (a draft): passing it is AGAINST us -- Droit a l'aide a mourir (dossier 'Fin de vie'). Adopted in lecture definitive 15 July 2026, Conseil constitutionnel conforme 14 August, promulgated 18 August 2026. 380 scrutins name the dossier; 931 s. This vote is a vote on the whole text or the motion itself, so Pour is against us."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "senat-2025-170"
+    status: draft
+    title: "sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs"
+    "on": "Soins palliatifs et d’accompagnement"
+    dated: "2026-01-28"
+    chamber: "senat"
+    areas: [2]
+    tier: 2
+    watched: "DLR5L17N51672"
+    result: "Pour 307, Contre 17, Abstain 17"
+    lobbies: "Pour: Les Républicains 126, SER 63, UCI 59, Les Indépendants 20, RDPI 17, RDSE 16, NI 4, CRCE-K 2. Contre: CRCE-K 16, Les Républicains 1. Abstain: GEST 16, SER 1"
+    vote_kind: "final"
+    yea: 2
+    why_yea: "Voted Pour on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): for passing it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Contre on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): against passing it, against CitizenGO's position."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (a draft): passing it is WITH us -- Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026. Quebec has 'soins palliatifs' at tier 2 only. This vote is a vote on the whole text or the motion itself, so Pour is with us."
+    flag: "On the bill's direction: Palliative care is CitizenGO's alternative to assisted dying; the bill was the companion of the aide a mourir law: confirm."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "senat-2025-185"
+    status: needs_reading
+    title: "sur l'ensemble de la proposition de loi visant à prohiber l'achat de services sexuels virtuels personnalisés et à lutter contre le proxénétisme en ligne"
+    dated: "2026-02-10"
+    chamber: "senat"
+    areas: [12]
+    tier: 1
+    result: "Pour 258, Contre 65, Abstain 19"
+    lobbies: "Pour: Les Républicains 129, UCI 57, Les Indépendants 20, RDPI 19, RDSE 17, GEST 16. Contre: SER 65. Abstain: CRCE-K 18, UCI 1"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for this item: CitizenGO's position on 'sur l'ensemble de la proposition de loi visant à prohiber l'achat de services sexuels virtuels personnalisés et à lutter contre le proxénéti' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 12 (prostitution and trafficking). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "senat-2025-238"
+    status: needs_reading
+    title: "sur l'ensemble de la proposition de loi visant à lutter contre l'entrisme islamiste en France"
+    "on": "Proposition de loi visant à lutter contre l’entrisme islamiste en France"
+    dated: "2026-05-05"
+    chamber: "senat"
+    areas: [8]
+    tier: 1
+    result: "Pour 208, Contre 124, Abstain 13"
+    lobbies: "Pour: Les Républicains 130, UCI 59, Les Indépendants 14, NI 4, RDSE 1. Contre: SER 65, CRCE-K 18, GEST 16, RDSE 14, RDPI 11. Abstain: RDPI 7, Les Indépendants 6"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for DLR5L17N53936: CitizenGO's position on 'Proposition de loi visant à lutter contre l’entrisme islamiste en France' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "senat-2025-251"
+    status: draft
+    title: "sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture)"
+    "on": "Soins palliatifs et d’accompagnement"
+    dated: "2026-05-11"
+    chamber: "senat"
+    areas: [2]
+    tier: 2
+    watched: "DLR5L17N51672"
+    result: "Pour 325, Contre 18"
+    lobbies: "Pour: Les Républicains 130, SER 65, UCI 59, RDPI 19, Les Indépendants 19, GEST 16, RDSE 16, NI 1. Contre: CRCE-K 18"
+    vote_kind: "final"
+    yea: 2
+    why_yea: "Voted Pour on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): for passing it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Contre on DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law): against passing it, against CitizenGO's position."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (a draft): passing it is WITH us -- Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026. Quebec has 'soins palliatifs' at tier 2 only. This vote is a vote on the whole text or the motion itself, so Pour is with us."
+    flag: "On the bill's direction: Palliative care is CitizenGO's alternative to assisted dying; the bill was the companion of the aide a mourir law: confirm."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "senat-2025-294"
+    status: needs_reading
+    title: "sur l'ensemble de la proposition de loi visant à garantir la neutralité financière du don d'organes et d'autres éléments et produits du corps humain par les vivants"
+    "on": "Proposition de loi visant à garantir la neutralité financière du don d'organes par les vivants"
+    dated: "2026-06-09"
+    chamber: "senat"
+    areas: [13]
+    tier: 1
+    result: "Pour 342, Contre 0"
+    lobbies: "Pour: Les Républicains 130, SER 65, UCI 59, RDPI 19, Les Indépendants 19, CRCE-K 18, GEST 16, RDSE 16"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for DLR5L17N53976: CitizenGO's position on 'Proposition de loi visant à garantir la neutralité financière du don d'organes par les vivants' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 13 (organ donation). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "senat-2025-313"
+    status: needs_reading
+    title: "sur l'ensemble de la proposition de loi visant à réparer les préjudices causés par la transplantation de mineurs de La Réunion en France hexagonale de 1962 à 1984"
+    "on": "Réparer les préjudices causés par la transplantation de mineurs de La Réunion en France hexagonale de 1962 à 1984"
+    dated: "2026-06-16"
+    chamber: "senat"
+    areas: [13]
+    tier: 1
+    result: "Pour 342, Contre 0"
+    lobbies: "Pour: Les Républicains 130, SER 65, UCI 59, Les Indépendants 20, RDPI 18, CRCE-K 18, GEST 16, RDSE 16"
+    vote_kind: "final"
+    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for DLR5L17N51845: CitizenGO's position on 'Réparer les préjudices causés par la transplantation de mineurs de La Réunion en France hexagonale de 1962 à 1984' needs a human reading. Add a `bill_directions` line or write yea/nay here."
+    reasoning: "Area 13 (organ donation). Direction unclear from the store: nothing proposed."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
+
+  - key: "senat-2025-337"
+    status: draft
+    title: "sur l'ensemble de la proposition de loi visant à protéger les mineurs des risques auxquels les expose l'utilisation des réseaux sociaux"
+    "on": "Protéger les mineurs des risques auxquels les expose l’utilisation des réseaux sociaux"
+    dated: "2026-07-21"
+    chamber: "senat"
+    areas: [7]
+    tier: 1
+    watched: "DLR5L17N53187"
+    result: "Pour 243, Contre 2, Abstain 100"
+    lobbies: "Pour: Les Républicains 129, UCI 58, Les Indépendants 20, RDPI 19, RDSE 17. Contre: NI 1, GEST 1. Abstain: SER 64, CRCE-K 18, GEST 15, NI 3"
+    vote_kind: "final"
+    yea: 2
+    why_yea: "Voted Pour on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): for passing it, with CitizenGO's position."
+    nay: -2
+    why_nay: "Voted Contre on DLR5L17N53187 (Protect minors from the risks of social networks (ppl25-304): the under-15 social media ru): against passing it, against CitizenGO's position."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for DLR5L17N53187 (a draft): passing it is WITH us -- Protect minors from the risks of social networks (ppl25-304): the under-15 social media rule and age checks. Passed the Senat on 21 July 2026. Matched nothing. This vote is a vote on the whole text or the motion itself, so Pour is with us."
+    flag: "On the bill's direction: Protecting minors online (under-15 rule, age checks); confirm the age-check design raises no speech concern."
+    drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
