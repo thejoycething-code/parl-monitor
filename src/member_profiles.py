@@ -74,7 +74,11 @@ profile is written for it); the index gains "Groups on our ground". Rows are
 matched by the store key the source gave, else by the printed name through
 the Roster (one listed member or none). Brazil's Spec has `party_line`: the
 Câmara's orientação de bancada beside each position, the only published whip
-line. Countries without those rows render exactly as before.
+line. Countries without those rows render exactly as before. France's
+HATVP declarations (src/fr_hatvp.py, additive 11 October 2026) are interest
+rows with a declaration date and a link: a profile shows "From the
+declaration lodged with the HATVP on <date>; [the HATVP's page ...]" under
+the table.
 
 LENGTH OF SERVICE (additive, 11 October 2026, src/member_service.py): where
 the store holds ms_periods / ms_party rows for the country, each profile
@@ -1412,6 +1416,18 @@ def render_intel(m):
                 md(i.get("paid")) or "", period))
         if len(m.interests) > MAX_INTERESTS_SHOWN:
             out += ["", "{0} more in the register.".format(len(m.interests) - MAX_INTERESTS_SHOWN)]
+        # A dated declaration with its register page (France's HATVP, additive
+        # 11 October 2026): the date it was lodged and the link, once each.
+        for source, declared, url in sorted({(i.get("source") or "", i.get("declared") or "",
+                                              i.get("url") or "") for i in m.interests
+                                             if i.get("declared") or i.get("url")}):
+            who = mi.SOURCE_NAMES.get(source, "the register")
+            line = "From the declaration lodged with the {0}".format(who)
+            if declared:
+                line += " on {0}".format(date_long(declared))
+            if url:
+                line += "; [the {0}'s page for this member]({1})".format(who, url)
+            out += ["", line + "."]
         out += ["", "The register's own words; nothing here is a judgement of the interest.", ""]
     return out
 
@@ -1494,9 +1510,14 @@ def notes(data):
         out.append("Committees, groups and declared interests: the parliament's own open data "
                    "(src/member_intel.py; {0}). A membership is shown as recorded; a group is "
                    "flagged on our ground by its name only (config/member-intel-groups.yaml)."
-                   "{1}".format(intel.get("sources") or "sources not recorded",
-                                " {0} row(s) named no listed member and are not shown.".format(
-                                    intel["unmatched"]) if intel.get("unmatched") else ""))
+                   "{1}{2}".format(intel.get("sources") or "sources not recorded",
+                                   " {0} row(s) named no listed member and are not shown.".format(
+                                       intel["unmatched"]) if intel.get("unmatched") else "",
+                                   " Declared interests in France: the HATVP's declarations of "
+                                   "interests and activities (open data, Licence Ouverte), the "
+                                   "member's own items only; spouses' and collaborators' "
+                                   "activities are never read."
+                                   if "fr-hatvp" in (intel.get("sources") or "") else ""))
     att_info = data.get("attendance")
     if att_info:
         bits = []
