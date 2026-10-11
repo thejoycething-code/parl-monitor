@@ -160,6 +160,7 @@ Left blank at build time (rulebook cell 35).
 
 - Tier: B (open parliamentary data, the DO store). Drafted by tools/country_briefs.py (rules and the record; no AI model).
 - Subject: tier 1 `06336-2024-2028-CD`, no link, areas 13 (organ donation).
+- Session judge: A new bill to amend the Dominican organ donation and transplant law, filed alongside another on the same statute. Two rival rewrites make consent and trafficking safeguards a live fight, so monitor both closely.
 - Key dates: introduced 2026-09-15; last recorded event 2026-09-15; next none in the store (no Urgent proposed: news-only dates never trigger it).
 - Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days skip weekends only; the country's public holidays are not checked.
 - SIGN-OFF: no bill direction on file for `06336-2024-2028-CD`. Add a `bill_directions` line (direction with/against, why) to config/do_stance.yaml, then confirm it: `python3 tools/country_5ca.py --cc do --confirm-direction 06336-2024-2028-CD --by NAME`.
@@ -171,3 +172,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-11 tools/country_briefs.py drafted every cell
+- 2026-10-11 tools/country_briefs.py refreshed by the builder
