@@ -1,0 +1,84 @@
+# Translations for report.md and social.md (tools/country_debate_report.py).
+# Write each `english:` as a faithful translation of `original` (British
+# spelling, no em dashes) and put your name in `by:`; or let the free session
+# judge fill them on the Mini (--queue-out / --queue-in). Then re-run with
+# --render. Never change `original`: it is the record's own words.
+items:
+  t-5815e57676:
+    kind: title
+    who: ''
+    original: Dringlicher Antrag zum Kinderschutz
+    english: ''
+    by: ''
+  p-6201c8e3d1:
+    kind: passage
+    who: Ricarda Berger (FPÖ)
+    original: 'Wer solch Material konsumiert, hält einen Markt am Leben, dessen Grundlage die sexuelle
+      Ausbeutung von Kindern ist. Ich frage mich: Was tut dieser Staat konkret? Was tun Sie, Frau Justizministerin,
+      und was tut diese Bundesregierung dagegen? Damit bin ich auch bei der unerträglichen Kapitulation
+      unseres Rechtsstaates. Florian Teichtmeister hortet und bearbeitet dieses Material. Er wird überführt
+      und er bekommt zwei Jahre bedingte Bewährungsstrafe. Dieser Mensch ist keinen einzigen Tag im Gefängnis
+      gesessen, keinen einzigen Tag in Haft gewesen.'
+    english: ''
+    by: ''
+  p-8381f7e0a9:
+    kind: passage
+    who: Lisa Schuch-Gubik (FPÖ)
+    original: 'Herzlichen Dank, sehr geehrter Herr Präsident! Hohes Haus! Liebe Österreicher! Es hängt
+      mir dermaßen beim Hals heraus: Es ist immer das gleiche Schauspiel, immer dieselbe Leier. Es ist
+      wieder einmal was Schreckliches passiert. Dann kommen die großen Reden hier herinnen, die betroffenen
+      Facebook-Postings und die großen Ankündigungen: Jetzt wird wirklich etwas passieren. Aber was passiert
+      dann? – Es vergehen Tage, es vergehen Wochen, es vergehen Monate, und es passiert mal wieder gar
+      nichts! Und ich habe das wirklich so satt! Durch diese leeren Floskeln wird nämlich kein einziger
+      sexueller Missbrauch von Kindern verhindert.'
+    english: ''
+    by: ''
+  p-16d2a96682:
+    kind: passage
+    who: Juliane Bogner-Strauß (ÖVP)
+    original: 'Kinder unterscheiden nicht zwischen einer Gefahr, die ihnen auf der Straße oder im eigenen
+      Kinderzimmer begegnet, und einer Gefahr, die über das Smartphone kommt – die kann nämlich überall
+      über das Smartphone kommen, nicht nur in den eigenen vier Wänden. Cybergrooming, sexuelle Ausbeutung
+      und Missbrauchsdarstellung im Internet müssen deshalb genauso ernst genommen werden wie Gewalt in
+      der analogen Welt. Jedes von sexueller Gewalt betroffene Kind gibt uns dafür einen ganz klaren Auftrag.
+      Kinderschutz darf nicht davon abhängen, ob gerade ein Fall in der Öffentlichkeit diskutiert wird.
+      18 Millionen Kinder, 18 Millionen unter 18-Jährige leben derzeit in Europa, die von sexueller Gewalt
+      betroffen sind oder waren, deshalb: Kinderschutz muss jeden Tag funktionieren – bevor etwas passiert,
+      wenn etwas passiert und danach. – Danke schön.'
+    english: ''
+    by: ''
+  p-864663643a:
+    kind: passage
+    who: Silvia Kumpan-Takacs (SPÖ)
+    original: Danke, Herr Präsident! Geschätzte Frau Ministerin! Geschätzter Herr Minister! Geschätztes
+      Hohes Haus! Ja, wenn wir über den aktuellen Fall, über Missbrauchsfälle im Allgemeinen sprechen,
+      dann sprechen wir immer über unfassbares Grauen. Es bricht einem das Herz – wir haben es heute schon
+      oft gehört –, wenn man sieht, dass so etwas noch dazu im engsten Umfeld passiert, dort, wo Kinder
+      eigentlich vertrauen sollten, bei den engsten Bezugspersonen, im vermeintlich sicheren Kreis. Kein
+      Kind darf in so einer Situation alleingelassen werden, und vor allem auch jene Kinder nicht, deren
+      Schicksal vielleicht noch gar nicht ans Tageslicht gekommen ist.
+    english: ''
+    by: ''
+  p-4b006a8662:
+    kind: passage
+    who: Ralph Schallmeiner (Grüne)
+    original: Danke, Herr Präsident! Sehr geehrte Frau Ministerin! Sehr geehrter Herr Minister! Sehr geehrte
+      Kolleginnen und Kollegen! Sehr geehrte Damen und Herren zu Hause vor den Bildschirmen und hier im
+      Haus auf der Galerie! Vorneweg, bevor ich mit meiner eigentlichen Rede beginne, möchte ich meinen
+      Dank und meinen Respekt gegenüber Kollegin Eisenhut für die von ihr geleistete Arbeit ausdrücken.
+      Das muss man auch alles erst einmal aushalten, sie hat es eben beschrieben – und dafür gebührt Respekt
+      auch über Parteigrenzen hinweg, auch wenn wir politisch sicherlich nicht einer Meinung sind.
+    english: ''
+    by: ''
+  v-fb45541ea1:
+    kind: vote
+    who: '2026-07-07'
+    original: Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen
+    english: ''
+    by: ''
+  v-61554df07c:
+    kind: vote
+    who: '2026-03-26'
+    original: Unselbständiger Entschließungsantrag
+    english: ''
+    by: ''
