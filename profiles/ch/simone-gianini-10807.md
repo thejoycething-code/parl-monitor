@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 132, “Nein” 69, “Enthaltung” 7, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 14, “Nein” 7, “Enthaltung” 1; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 12, “Enthaltung” 1; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 12, “Nein” 6, “Enthaltung” 1; religious freedom: “Ja” 8, “Nein” 5, “Nicht teilgenommen” 1; marriage and family: “Ja” 79, “Nein” 30, “Enthaltung” 5; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Enthaltung” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 124, “Nein” 65, “Enthaltung” 7, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Ja” 6, “Nein” 3, “Enthaltung” 1; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 12, “Enthaltung” 1; parental rights and education: “Nein” 9, “Ja” 7; free speech and civil liberties: “Ja” 12, “Nein” 6, “Enthaltung” 1; religious freedom: “Ja” 8, “Nein” 5, “Nicht teilgenommen” 1; marriage and family: “Ja” 79, “Nein” 30, “Enthaltung” 5; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Enthaltung” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (3)
 
@@ -51,6 +51,33 @@ The latest 20:
 | 18 Jun 2026 | [Stimmklonierung mittels künstlicher Intelligenz. Erfordert die zunehmende Verbreitung von Stimmfälschung eine eingehendere Untersuchung die…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263730) | 26.3730 | submitted by | free speech and civil liberties, surrogacy and embryology |
 | 18 Dec 2025 | [Erweiterte Kontrolle personenbezogener Daten und sozialer Medien im Esta-Verfahren. Praktische und rechtliche Konsequenzen für Schweizer St…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254654) | 25.4654 | submitted by | parental rights and education |
 | 5 Mar 2025 | [Auftrag des Bundesrates an das EJPD, bis Ende 2026 eine Gesetzesvorlage auszuarbeiten, die internationale Adoptionen künftig verbietet](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257091) | 25.7091 | submitted by | marriage and family |
+
+## Committees and groups (4)
+
+- **Committees:** Kommission für Rechtsfragen Nationalrat (Mitglied); Redaktionskommission (Stellvertreter/in); Redaktionskommission Subkommission der italienischen Sprache (Stellvertreter/in); Staatspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (14)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Keine Angaben | Comitato d'azione Casinò Locarno | Mitglied | ehrenamtlich |  |
+| Keine Angaben | Sounding Board Verkehr '45 | Mitglied | ehrenamtlich |  |
+| Öffentlich-rechtliche Stiftung | Fondazione di previdenza risparmio 3 della Banca dello Stato del Cantone Ticino | Mitglied | ehrenamtlich |  |
+| Stiftung | Fondazione AGIRE | Mitglied | ehrenamtlich |  |
+| Stiftung | Fondazione Centro di competenza mobilità sostenibile e ferroviaria | Präsident(in) | ehrenamtlich |  |
+| Stiftung | Fondazione per il calcio giovanile bellinzonese | Präsident(in) | ehrenamtlich |  |
+| Stiftung | Fondazione Prada (per il recupero dell'antico villaggio medievale) | Mitglied | ehrenamtlich |  |
+| Stiftung | Fondazione Sasso Corbaro | Mitglied | ehrenamtlich |  |
+| Stiftung | Switzerland Innovation | Mitglied | ehrenamtlich |  |
+| Verein | Associazione Locarnese e Bellinzonese per l’Aeroporto cantonale | Mitglied | ehrenamtlich |  |
+| Verein | Associazione svizzera dei professionisti della strada e dei trasporti (VSS) | Mitglied | ehrenamtlich |  |
+| Verein | Automobile Club Svizzero | Präsident(in) | bezahlt |  |
+| Verein | ProGottardo - Ferrovia d’Europa | Co-Präsident(in) | ehrenamtlich |  |
+| Verein | Strasseschweiz | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

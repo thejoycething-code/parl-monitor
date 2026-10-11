@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 128, “Nein” 56, “Entschuldigt” 14, “Enthaltung” 11.
-By area (every vote): abortion: “Entschuldigt” 7, “Ja” 7, “Enthaltung” 5, “Nein” 3; assisted dying: “Nein” 7; gender medicine and children: “Ja” 2; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 16, “Nein” 8, “Entschuldigt” 6, “Enthaltung” 3; parental rights and education: “Ja” 11, “Nein” 4, “Enthaltung” 1; free speech and civil liberties: “Ja” 12, “Nein” 6, “Enthaltung” 1; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 81, “Nein” 25, “Entschuldigt” 7, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Entschuldigt” 6, “Ja” 5, “Nein” 2; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 126, “Nein” 56, “Enthaltung” 8, “Entschuldigt” 7.
+By area (every vote): abortion: “Ja” 5, “Nein” 3, “Enthaltung” 2; assisted dying: “Nein” 7; gender medicine and children: “Ja” 2; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 16, “Nein” 8, “Entschuldigt” 6, “Enthaltung” 3; parental rights and education: “Ja” 11, “Nein” 4, “Enthaltung” 1; free speech and civil liberties: “Ja” 12, “Nein” 6, “Enthaltung” 1; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 81, “Nein” 25, “Entschuldigt” 7, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Entschuldigt” 6, “Ja” 5, “Nein” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 
@@ -52,6 +52,29 @@ The latest 20:
 | 3 Dec 2025 | [Transparente Information und zeitgemässe Nutzung von digitalen Passfotos](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254439) | 25.4439 | submitted by | free speech and civil liberties |
 | 18 Sep 2024 | [Pilotbetrieb für E-Collecting mit der E-ID-Vertrauensinfrastruktur](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243908) | 24.3908 | submitted by | free speech and civil liberties |
 | 21 Dec 2023 | [Open Source bei der E-ID](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20231067) | 23.1067 | submitted by | free speech and civil liberties |
+
+## Committees and groups (2)
+
+- **Committees:** **Kommission für Wissenschaft, Bildung und Kultur Nationalrat (Mitglied)** (on our ground: the science, education and culture committee (WBK)); Gruppe Parlaments-IT (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (10)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Einfache Gesellschaft | IG Kantonsschule Kollegium Schwyz | Präsident(in) | ehrenamtlich |  |
+| Keine Angaben | Cycla | Mitglied | ehrenamtlich |  |
+| Keine Angaben | SDCA (Swiss Data Center Association) | Beirat | bezahlt |  |
+| Keine Angaben | Swiss Cyber Experts | Beirat | ehrenamtlich |  |
+| Stiftung | Stiftungsratspräsident SchweizMobil | Präsident(in) | bezahlt |  |
+| Verein | Fasnachtsrott Ibach | Vizepräsident(in) | ehrenamtlich |  |
+| Verein | Revisor Schwyzer hälfid Schwyzern | Keine Angaben | ehrenamtlich |  |
+| Verein | Verein Schwyzer Alumni | Präsident(in) | ehrenamtlich |  |
+| Verein | Verein Schwyzer Gmeindsfäscht | Präsident(in) | ehrenamtlich |  |
+| Verein | Vorstandsmitglied IAESTE Switzerland | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 130, “Ja” 79.
-By area (every vote): abortion: “Nein” 14, “Ja” 8; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Ja” 10, “Nein” 9; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 67, “Ja” 47; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 122, “Ja” 75.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Ja” 10, “Nein” 9; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 67, “Ja” 47; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (5)
 
@@ -53,6 +53,31 @@ The latest 20:
 | 17 Mar 2025 | [Kosten im sozialen Bereich aufgrund des Personenfreizügigkeitsabkommens beziffern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253122) | 25.3122 | submitted by | marriage and family |
 | 16 Apr 2024 | [Menschenrechtsverletzungen und religiöse Verfolgung der ukrainisch-orthodoxen Kirche in der Ukraine. Haltung und Massnahmen des Bundesrates](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243408) | 24.3408 | submitted by | religious freedom |
 | 19 Dec 2023 | [Die Schweiz entscheidet bei Pandemien und Epidemien souverän und ohne ausländischen Zwang](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20234396) | 23.4396 | submitted by | free speech and civil liberties |
+
+## Committees and groups (4)
+
+- **Committees:** APK-N Subkommission Europafragen (Mitglied); Aussenpolitische Kommission Nationalrat (Mitglied); Immunitätskommission Nationalrat (Mitglied).
+- **Delegations:** Delegation bei der Interparlamentarischen Union (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (11)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | comparis.ch AG, Zürich | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Framatik AG | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | iSolutions AG, Bern | Mitglied | bezahlt |  |
+| Öffentlich-rechtliche Anstalt | Hochschule Luzern HSLU Informatikdepartement | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung für Freiheit und Verantwortung, Lachen | Präsident(in) | ehrenamtlich |  |
+| Verein | Aktion Medienfreiheit | Mitglied | ehrenamtlich |  |
+| Verein | Allianz Digitale Sicherheit Schweiz | Präsident(in) | bezahlt |  |
+| Verein | NTC Nationales Testinstitut für Cybersicherheit | Vizepräsident(in) | bezahlt |  |
+| Verein | Parl Digi | Co-Präsident(in) | bezahlt |  |
+| Verein | SDCA Swiss Datacenter Association | Beirat | bezahlt |  |
+| Verein | TCS Touring Club Schweiz, Sektion Waldstätte | Delegierte(r) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

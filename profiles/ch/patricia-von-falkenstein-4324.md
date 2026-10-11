@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 134, “Nein” 71, “Nicht teilgenommen” 4.
-By area (every vote): abortion: “Ja” 15, “Nein” 7; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 21, “Nein” 12; parental rights and education: “Ja” 8, “Nein” 8; free speech and civil liberties: “Ja” 11, “Nein” 6, “Nicht teilgenommen” 2; religious freedom: “Ja” 8, “Nein” 6; marriage and family: “Ja” 81, “Nein” 31, “Nicht teilgenommen” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 126, “Nein” 67, “Nicht teilgenommen” 4.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 21, “Nein” 12; parental rights and education: “Ja” 8, “Nein” 8; free speech and civil liberties: “Ja” 11, “Nein” 6, “Nicht teilgenommen” 2; religious freedom: “Ja” 8, “Nein” 6; marriage and family: “Ja” 81, “Nein” 31, “Nicht teilgenommen” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (7)
 
@@ -55,6 +55,35 @@ The latest 20:
 | 13 Jun 2024 | [Sexualisierte Gewalt unter Minderjährigen nicht länger hinnehmen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243683) | 24.3683 | submitted by | prostitution and trafficking |
 | 13 Jun 2024 | [Betroffene schützen. Strafverfolgungsbehörden aus- und weiterbilden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243668) | 24.3668 | submitted by | sex-based rights |
 | 20 Dec 2023 | [Steht die Schweiz zum Schutz des geistigen Eigentums?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20231062) | 23.1062 | submitted by | free speech and civil liberties |
+
+## Committees and groups (7)
+
+- **Committees:** Begnadigungskommission (Mitglied); Gerichtskommission (Mitglied); Gerichtskommission Subkommission Vereinigte Bundesversammlung (Mitglied); Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EJPD/BK (Mitglied); Kommission für Rechtsfragen Nationalrat (Mitglied); Legislaturplanungskommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (16)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Kommission | Kommission des Historischen Museums Basel, Basel | Präsident(in) | ehrenamtlich |  |
+| Stiftung | Alterssiedlung Rankhof | Präsident(in) | ehrenamtlich |  |
+| Stiftung | Kinderschutz Schweiz | Mitglied | bezahlt |  |
+| Stiftung | Kultur-Stiftung Basel H. Geiger, Basel | Mitglied | bezahlt |  |
+| Stiftung | Pro Senectute beider Basel | Präsident(in) | bezahlt |  |
+| Stiftung | Stiftung Emma Schaub, Basel | Präsident(in) | bezahlt |  |
+| Stiftung | Stiftung Gérard und Dori Bernus-Lorétan | Präsident(in) | ehrenamtlich |  |
+| Stiftung | Stiftung Martinskirche, Basel | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung Ombudsman der Privatversicherung und der SUVA, Zürich | Mitglied | bezahlt |  |
+| Stiftung | Stiftung Sedlmayer-Lips | Präsident(in) | ehrenamtlich |  |
+| Verein | Basler Madrigalisten | Mitglied | ehrenamtlich |  |
+| Verein | EXPERTsuisse | Mitglied | bezahlt |  |
+| Verein | Förderverein der Musik Akademie Basel, Basel | Präsident(in) | ehrenamtlich |  |
+| Verein | Hauseigentümerverband Basel, Basel | Präsident(in) | bezahlt |  |
+| Verein | metrobasel | Präsident(in) | ehrenamtlich |  |
+| Verein | profonds | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

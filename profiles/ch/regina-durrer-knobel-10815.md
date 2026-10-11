@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 140, “Nein” 58, “Enthaltung” 9, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 11, “Nein” 7, “Enthaltung” 4; assisted dying: “Nein” 7; gender medicine and children: “Ja” 1, “Nicht teilgenommen” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 23, “Nein” 7, “Enthaltung” 2, “Nicht teilgenommen” 1; parental rights and education: “Ja” 12, “Nein” 4; free speech and civil liberties: “Ja” 13, “Nein” 5, “Enthaltung” 1; religious freedom: “Ja” 9, “Nein” 4, “Nicht teilgenommen” 1; marriage and family: “Ja” 88, “Nein” 24, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Ja” 1.
+Recorded positions (197): “Ja” 133, “Nein” 56, “Enthaltung” 6, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Nein” 5, “Ja” 4, “Enthaltung” 1; assisted dying: “Nein” 7; gender medicine and children: “Ja” 1, “Nicht teilgenommen” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 23, “Nein” 7, “Enthaltung” 2, “Nicht teilgenommen” 1; parental rights and education: “Ja” 12, “Nein” 4; free speech and civil liberties: “Ja” 13, “Nein” 5, “Enthaltung” 1; religious freedom: “Ja” 9, “Nein” 4, “Nicht teilgenommen” 1; marriage and family: “Ja” 88, “Nein” 24, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (3)
 
@@ -51,6 +51,24 @@ The latest 20:
 | 11 Dec 2024 | [Social Media. Wie schützt und befähigt der Bund Kinder und Jugendliche in der Schweiz?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244335) | 24.4335 | submitted by | parental rights and education, free speech and civil liberties |
 | 13 Mar 2024 | [Stipendien für Erwachsene](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243188) | 24.3188 | submitted by | marriage and family |
 | 11 Mar 2024 | [Stipendien für (ältere) Erwachsene](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243118) | 24.3118 | submitted by | marriage and family |
+
+## Committees and groups (3)
+
+- **Committees:** **Kommission für Wissenschaft, Bildung und Kultur Nationalrat (Mitglied)** (on our ground: the science, education and culture committee (WBK)); Büro Nationalrat (Ersatzstimmenzähler/in); Koordinationskonferenz (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (5)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Keine Angaben | FH Schweiz | Präsident(in) | ehrenamtlich |  |
+| Keine Angaben | Schweizerische Gesellschaft für Berufsbildungsforschung SGAB | Mitglied | ehrenamtlich |  |
+| Keine Angaben | Sportmittelschule Engelberg | Beirat | ehrenamtlich |  |
+| Keine Angaben | Universitätsrat Uni Luzern | Mitglied | bezahlt |  |
+| Keine Angaben | Verband der Schweizerischen Studierendenschaften VSS | Beirat | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

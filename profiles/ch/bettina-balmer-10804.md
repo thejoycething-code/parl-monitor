@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 128, “Nein” 72, “Nicht teilgenommen” 5, “Enthaltung” 4.
-By area (every vote): abortion: “Ja” 15, “Nein” 7; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 17, “Nein” 12, “Nicht teilgenommen” 4; parental rights and education: “Nein” 8, “Ja” 6, “Enthaltung” 2; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 8, “Nein” 6; marriage and family: “Ja” 75, “Nein” 33, “Nicht teilgenommen” 4, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 7, “Nein” 3, “Nicht teilgenommen” 3; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 120, “Nein” 68, “Nicht teilgenommen” 5, “Enthaltung” 4.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 17, “Nein” 12, “Nicht teilgenommen” 4; parental rights and education: “Nein” 8, “Ja” 6, “Enthaltung” 2; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 8, “Nein” 6; marriage and family: “Ja” 75, “Nein” 33, “Nicht teilgenommen” 4, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 7, “Nein” 3, “Nicht teilgenommen” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,13 +42,36 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 17 Jun 2026 | [Impact-Linked Finance als IZA-Instrument in den Bereichen Frauenförderung und sexuelle und reproduktive Gesundheit](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263674) | 26.3674 | submitted by | abortion |
+
+## Committees and groups (2)
+
+- **Committees:** **Kommission für Wissenschaft, Bildung und Kultur Nationalrat (Mitglied)** (on our ground: the science, education and culture committee (WBK)).
+- **Delegations:** Delegation für die Beziehungen zum Österreichischen Parlament (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (9)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Medical Advisory Board Saipient | Beirat | ehrenamtlich |  |
+| Stiftung | Wissenschaftlicher Beirat Universitätsklinik Balgrist | Experte/Expertin | ehrenamtlich |  |
+| Verein | All Can | Beirat | ehrenamtlich |  |
+| Verein | FMH | Mitglied | ehrenamtlich |  |
+| Verein | IG Biomedizin | Mitglied | bezahlt |  |
+| Verein | Schweizerische Gesellschaft für Kinderchirurgie | Mitglied | ehrenamtlich |  |
+| Verein | Verein Forschung für Leben | Mitglied | ehrenamtlich |  |
+| Verein | Vereinigung Zürcher Kinder- und Jugendärzte | Mitglied | ehrenamtlich |  |
+| Verein | Vorstand Ärztegesellschaft Zürich | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

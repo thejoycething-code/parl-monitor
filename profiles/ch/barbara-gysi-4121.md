@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 150, “Nein” 57, “Enthaltung” 1, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 5, “Nein” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 3, “Enthaltung” 1; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 16, “Nein” 3; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 77, “Nein” 36, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 142, “Nein” 53, “Enthaltung” 1, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 5, “Nein” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 3, “Enthaltung” 1; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 16, “Nein” 3; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 77, “Nein” 36, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 
@@ -52,6 +52,28 @@ The latest 20:
 | 11 Mar 2026 | [Samenspende. Problematik der Herkunftssuche bei Samenspenden vor 2001. Aufarbeitung nötig](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263095) | 26.3095 | submitted by | surrogacy and embryology |
 | 18 Jun 2025 | [Shared Decision Making als Mittel zur Stärkung der Interprofessionalität, einer höheren Versorgungsqualität und einer bedarfsgerechten Beha…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253667) | 25.3667 | submitted by | assisted dying |
 | 25 Sep 2024 | [Revision Witwen- und Witwerrente. Schliessen von Lücken für Hinterbliebene mit Kindern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244021) | 24.4021 | submitted by | marriage and family |
+
+## Committees and groups (5)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)); Redaktionskommission (Mitglied); Redaktionskommission Subkommission der deutschen Sprache (Mitglied); SGK-N Subkommission Cannabisregulierung (Präsident/in); SGK-N Subkommission Finanzierung Palliative Pflege (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (9)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Öffentlich-rechtliche Anstalt | Sozialversicherungsanstalt Kanton St. Gallen | Mitglied | bezahlt |  |
+| Stiftung | Schweizer Paraplegiker-Stiftung, Nottwil | Beirat | bezahlt |  |
+| Verein | fmc Schweizer Forum für intergrierte Versorgung, Unterägeri | Mitglied | bezahlt |  |
+| Verein | Nationale Arbeitsgemeinschaft Suchtpolitik | Präsident(in) | bezahlt |  |
+| Verein | Personalverband des Bundes | Präsident(in) | bezahlt |  |
+| Verein | Pflege- und Adoptivkinder Schweiz, Zürich | Präsident(in) | ehrenamtlich |  |
+| Verein | Spitex Schweiz | Beirat | ehrenamtlich |  |
+| Verein | Spitexverband St. Gallen, Appenzell Ausserrhoden, Appenzell | Mitglied | bezahlt |  |
+| Verein | Städte-Allianz öffentlicher Verkehr Ost- und Zentralschweiz | Co-Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

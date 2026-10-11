@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 125, “Ja” 82, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 13, “Nein” 9; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 4, “Nicht teilgenommen” 1; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 12, “Ja” 6, “Nicht teilgenommen” 1; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 64, “Ja” 49, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 11, “Ja” 1, “Nicht teilgenommen” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 122, “Ja” 73, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 28, “Ja” 4, “Nicht teilgenommen” 1; parental rights and education: “Nein” 13, “Ja” 3; free speech and civil liberties: “Nein” 12, “Ja” 6, “Nicht teilgenommen” 1; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 64, “Ja” 49, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 11, “Ja” 1, “Nicht teilgenommen” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (11)
 
@@ -59,6 +59,12 @@ The latest 20:
 | 2 Dec 2025 | [Wie viele Mädchen und Lehrerinnen wären von einem Kopftuchverbot betroffen?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254433) | 25.4433 | submitted by | religious freedom |
 | 10 Sep 2025 | [Kein WHO-Abkommen ohne parlamentarische Genehmigung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253980) | 25.3980 | submitted by | free speech and civil liberties |
 | 4 Jun 2025 | [Wird die Umsetzung des Verhüllungsverbots ernst genommen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257437) | 25.7437 | submitted by | religious freedom |
+
+## Committees and groups (1)
+
+- **Committees:** Staatspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
 
 ## Notes
 

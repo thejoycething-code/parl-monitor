@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 75, “Entschuldigt” 61, “Nein” 58, “Nicht teilgenommen” 8, “Enthaltung” 7.
-By area (every vote): abortion: “Entschuldigt” 11, “Ja” 7, “Nein” 3, “Enthaltung” 1; assisted dying: “Ja” 5, “Entschuldigt” 1, “Nein” 1; gender medicine and children: “Entschuldigt” 1, “Nein” 1; conversion practices: “Nicht teilgenommen” 1; sex-based rights: “Nein” 22, “Entschuldigt” 4, “Ja” 4, “Nicht teilgenommen” 3; parental rights and education: “Nein” 10, “Entschuldigt” 4, “Ja” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Nein” 10, “Ja” 5, “Entschuldigt” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 6, “Entschuldigt” 5, “Nein” 3; marriage and family: “Ja” 47, “Entschuldigt” 34, “Nein” 23, “Enthaltung” 6, “Nicht teilgenommen” 4; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Nein” 10, “Entschuldigt” 2, “Ja” 1; organ donation: “Entschuldigt” 1.
+Recorded positions (197): “Ja” 71, “Nein” 58, “Entschuldigt” 54, “Nicht teilgenommen” 8, “Enthaltung” 6.
+By area (every vote): abortion: “Entschuldigt” 4, “Ja” 3, “Nein” 3; assisted dying: “Ja” 5, “Entschuldigt” 1, “Nein” 1; gender medicine and children: “Entschuldigt” 1, “Nein” 1; conversion practices: “Nicht teilgenommen” 1; sex-based rights: “Nein” 22, “Entschuldigt” 4, “Ja” 4, “Nicht teilgenommen” 3; parental rights and education: “Nein” 10, “Entschuldigt” 4, “Ja” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Nein” 10, “Ja” 5, “Entschuldigt” 3, “Nicht teilgenommen” 1; religious freedom: “Ja” 6, “Entschuldigt” 5, “Nein” 3; marriage and family: “Ja” 47, “Entschuldigt” 34, “Nein” 23, “Enthaltung” 6, “Nicht teilgenommen” 4; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Nein” 10, “Entschuldigt” 2, “Ja” 1; organ donation: “Entschuldigt” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (7)
 
@@ -55,6 +55,24 @@ The latest 20:
 | 10 Sep 2025 | [Elektronische Fussfesseln (aktive Überwachung)](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257687) | 25.7687 | submitted by | sex-based rights |
 | 10 Sep 2025 | [Wie lange noch?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257645) | 25.7645 | submitted by | sex-based rights |
 | 21 Mar 2025 | [Medizinisch unterstützte Fortpflanzung für alleinstehende Frauen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20250419) | 25.419 | submitted by | surrogacy and embryology |
+
+## Committees and groups (4)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)); Kommission für Wirtschaft und Abgaben Nationalrat (Mitglied); SGK-N Subkommission Cannabisregulierung (Mitglied).
+- **Delegations:** Delegation bei der Parlamentarischen Versammlung des Europarates (Stellvertreter/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (4)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Fical SA | Geschäftsführer(in) | bezahlt |  |
+| Aktiengesellschaft | Groupe Minoteries SA | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Infracore SA | Mitglied | bezahlt |  |
+| Öffentlich-rechtliche Anstalt | Aéroport international de Genève | Geschäftsführer(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

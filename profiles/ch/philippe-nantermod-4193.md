@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 117, “Nein” 83, “Enthaltung” 6, “Nicht teilgenommen” 3.
-By area (every vote): abortion: “Ja” 12, “Nein” 9, “Nicht teilgenommen” 1; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 13; parental rights and education: “Nein” 8, “Ja” 7, “Enthaltung” 1; free speech and civil liberties: “Ja” 11, “Nein” 6, “Enthaltung” 2; religious freedom: “Ja” 6, “Nein” 5, “Enthaltung” 2, “Nicht teilgenommen” 1; marriage and family: “Ja” 71, “Nein” 41, “Enthaltung” 1, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Enthaltung” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 109, “Nein” 79, “Enthaltung” 6, “Nicht teilgenommen” 3.
+By area (every vote): abortion: “Nein” 5, “Ja” 4, “Nicht teilgenommen” 1; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 20, “Nein” 13; parental rights and education: “Nein” 8, “Ja” 7, “Enthaltung” 1; free speech and civil liberties: “Ja” 11, “Nein” 6, “Enthaltung” 2; religious freedom: “Ja” 6, “Nein” 5, “Enthaltung” 2, “Nicht teilgenommen” 1; marriage and family: “Ja” 71, “Nein” 41, “Enthaltung” 1, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 9, “Nein” 3, “Enthaltung” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | RL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | RL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (10)
 
@@ -58,6 +58,32 @@ The latest 20:
 | 10 Jun 2024 | [Häusliche Gewalt. Auf dem Weg zur Gleichberechtigung?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243550) | 24.3550 | submitted by | sex-based rights |
 | 17 Apr 2024 | [Kinder unverheirateter Eltern. Für eine gemeinsame elterliche Sorge ab der Geburt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240419) | 24.419 | submitted by | parental rights and education |
 | 15 Jun 2023 | [StHG und DBG. Unterhaltsbeiträge an volljährige Kinder in Ausbildung vom Einkommen abziehen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20233743) | 23.3743 | submitted by | marriage and family |
+
+## Committees and groups (1)
+
+- **Committees:** Kommission für Rechtsfragen Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (13)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | comparis.ch SA, Zurich (Comité de consultation) | Mitglied | ehrenamtlich |  |
+| Aktiengesellschaft | Legtech Holding SA | Mitglied | ehrenamtlich |  |
+| Aktiengesellschaft | Les Fils Maye SA, Riddes | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Sinergy Infrastructure SA, Martigny | Geschäftsführer(in) | bezahlt |  |
+| Aktiengesellschaft | Tunnel du Grand-Saint-Bernard SA | Vizepräsident(in) | bezahlt |  |
+| Genossenschaft | Patria Société coopérative | Mitglied | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | Cave des Murgères Sàrl, Riddes | Präsident(in) | ehrenamtlich |  |
+| Gesellschaft mit beschränkter Haftung | Caves des Muverans Sàrl, Riddes | Präsident(in) | ehrenamtlich |  |
+| Gesellschaft mit beschränkter Haftung | Concorda Sàrl | Präsident(in) | ehrenamtlich |  |
+| Stiftung | FONDATION ARDÉVAZ | Mitglied | ehrenamtlich |  |
+| Stiftung | Point de Vue Stiftung | Mitglied | bezahlt |  |
+| Verein | LICRA Valais, Genève | Präsident(in) | ehrenamtlich |  |
+| Verein | Union suisse des professionnels de l'immobilier (USPI Suisse) | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

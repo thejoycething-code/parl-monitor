@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 149, “Nein” 58, “Enthaltung” 2.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 5, “Nein” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 3, “Enthaltung” 1; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 77, “Nein” 36, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 141, “Nein” 54, “Enthaltung” 2.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 5, “Nein” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 3, “Enthaltung” 1; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 77, “Nein” 36, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | S (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | S (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (7)
 
@@ -55,6 +55,27 @@ The latest 20:
 | 21 Mar 2025 | [Transparente Anwendung des Gleichstellungsgesetzes](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253300) | 25.3300 | submitted by | sex-based rights |
 | 11 Mar 2025 | [Wie werden die Auswirkungen des Gleichstellungsgesetzes evaluiert?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257268) | 25.7268 | submitted by | sex-based rights |
 | 20 Dec 2024 | [Menschenhandel. Gewährleistung einer effektiven Wiedergutmachung des Schadens, den die Opfer erlitten haben](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244638) | 24.4638 | submitted by | prostitution and trafficking |
+
+## Committees and groups (6)
+
+- **Committees:** Begnadigungskommission (Mitglied); Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EDI/UVEK (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EFD/WBF (Mitglied); Kommission für Umwelt, Raumplanung und Energie Nationalrat (Vizepräsident/in).
+- **Delegations:** Delegation bei der parlamentarischen Versammlung der Frankophonie (Stellvertreter/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (7)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | Fondation neuchâteloise pour la coordination de l’action sociale | Präsident(in) | ehrenamtlich |  |
+| Verein | Après-BEJUNE | Mitglied | ehrenamtlich |  |
+| Verein | Association des Ami·e·s de La Plage (des Six Pompes) | Präsident(in) | ehrenamtlich |  |
+| Verein | Comité SSR Neuchâtel | Mitglied | ehrenamtlich |  |
+| Verein | Mobilité piétonne suisse | Mitglied | ehrenamtlich |  |
+| Verein | OSEO Neuchâtel | Mitglied | ehrenamtlich |  |
+| Verein | Solidar Suisse | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

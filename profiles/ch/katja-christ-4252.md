@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: GL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 153, “Nein” 49, “Enthaltung” 6, “Präsident” 1.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Enthaltung” 2, “Nein” 2; parental rights and education: “Ja” 10, “Nein” 5, “Präsident” 1; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 11, “Nein” 2, “Enthaltung” 1; marriage and family: “Ja” 88, “Nein” 24, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 146, “Nein” 44, “Enthaltung” 6, “Präsident” 1.
+By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 4, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Enthaltung” 2, “Nein” 2; parental rights and education: “Ja” 10, “Nein” 5, “Präsident” 1; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 11, “Nein” 2, “Enthaltung” 1; marriage and family: “Ja” 88, “Nein” 24, “Enthaltung” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Enthaltung | GL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | GL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (2)
 
@@ -50,6 +50,30 @@ The latest 20:
 |---|---|---|---|---|
 | 17 Apr 2024 | [Überprüfung der Frist von zehn Jahren für die Lagerung von Eizellen gemäss Fortpflanzungsmedizingesetz](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243421) | 24.3421 | submitted by | surrogacy and embryology |
 | 22 Dec 2023 | [Berücksichtigung des Kinder- und Jugendschutzes bei der bevorstehenden Plattformregulierung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20234502) | 23.4502 | submitted by | free speech and civil liberties |
+
+## Committees and groups (6)
+
+- **Committees:** **Kommission für Wissenschaft, Bildung und Kultur Nationalrat (Mitglied)** (on our ground: the science, education and culture committee (WBK)); Büro Nationalrat (1. Vizepräsident/in); Büro Vereinigte Bundesversammlung (Mitglied); Koordinationskonferenz (Mitglied); Präsidium des Nationalrates (Mitglied).
+- **Delegations:** Verwaltungsdelegation (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (10)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Keine Angaben | Politikteam Netzwerk Future | Mitglied | ehrenamtlich |  |
+| Keine Angaben | Smart City Alliance | Beirat | ehrenamtlich |  |
+| Keine Angaben | Suissedigital | Beirat | ehrenamtlich |  |
+| Stiftung | Gen Suisse, Schweizerische Stiftung für Gentechnik, Bern | Mitglied | ehrenamtlich |  |
+| Stiftung | Schweizerische Pfadistiftung | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung Kunst für den Tropenwald | Mitglied | ehrenamtlich |  |
+| Verein | +Cultura | Präsident(in) | bezahlt |  |
+| Verein | Discuss it Ambassador | Beirat | ehrenamtlich |  |
+| Verein | SVIZRA27 | Vizepräsident(in) | ehrenamtlich |  |
+| Verein | Swiss eMobility | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

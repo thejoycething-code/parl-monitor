@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 140, “Nein” 60, “Enthaltung” 7, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 15, “Nein” 5, “Enthaltung” 2; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 28, “Nein” 3, “Enthaltung” 1, “Nicht teilgenommen” 1; parental rights and education: “Ja” 14, “Enthaltung” 1, “Nein” 1; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 7, “Nein” 5, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 76, “Nein” 37, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Enthaltung” 1.
+Recorded positions (197): “Ja” 131, “Nein” 59, “Enthaltung” 5, “Nicht teilgenommen” 2.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 28, “Nein” 3, “Enthaltung” 1, “Nicht teilgenommen” 1; parental rights and education: “Ja” 14, “Enthaltung” 1, “Nein” 1; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 7, “Nein” 5, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 76, “Nein” 37, “Enthaltung” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Enthaltung” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (25)
 
@@ -70,6 +70,31 @@ The latest 20:
 | 28 Feb 2024 | [Palliative Care in der Langzeitpflege](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20247101) | 24.7101 | submitted by | assisted dying |
 
 5 earlier item(s) are in the store.
+
+## Committees and groups (5)
+
+- **Committees:** Geschäftsprüfungskommission Arbeitsgruppe Risikomanagement Bund (Mitglied); Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EFD/WBF (Präsident/in); GPK-NS Koordinationsgruppe (Mitglied); Staatspolitische Kommission Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (12)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Verein | **Pro Life, Bern** (on our ground: a pro-life organisation) | Mitglied | ehrenamtlich |  |
+| Verein | **Schweizerische Evangelische Allianz** (on our ground: a church or Christian organisation) | Mitglied | ehrenamtlich |  |
+| Aktiengesellschaft | Idea Information AG, Liestal | Mitglied | ehrenamtlich |  |
+| Stiftung | Ehrenkodex, Zürich | Mitglied | ehrenamtlich |  |
+| Stiftung | Fondation Générosité, Bern | Mitglied | ehrenamtlich |  |
+| Stiftung | Fondation Gobat pour la paix | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung Dialog/ Campus Demokratie | Mitglied | ehrenamtlich |  |
+| Verein | Christian Public Affairs, Bern | Mitglied | ehrenamtlich |  |
+| Verein | First Step Forum | Direktor(in) | bezahlt |  |
+| Verein | Global Impact | Präsident(in) | ehrenamtlich |  |
+| Verein | Interaction/StopArmut, Genf | Präsident(in) | ehrenamtlich |  |
+| Verein | Swiss eMobility | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

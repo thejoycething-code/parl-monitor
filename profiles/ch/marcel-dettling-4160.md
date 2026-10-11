@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 133, “Ja” 73, “Nicht teilgenommen” 2, “Enthaltung” 1.
-By area (every vote): abortion: “Nein” 14, “Ja” 8; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 2, “Nicht teilgenommen” 1; free speech and civil liberties: “Nein” 15, “Ja” 3, “Enthaltung” 1; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 65, “Ja” 48, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 125, “Ja” 69, “Nicht teilgenommen” 2, “Enthaltung” 1.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 13, “Ja” 2, “Nicht teilgenommen” 1; free speech and civil liberties: “Nein” 15, “Ja” 3, “Enthaltung” 1; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 65, “Ja” 48, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (2)
 
@@ -50,6 +50,26 @@ The latest 20:
 |---|---|---|---|---|
 | 27 May 2024 | [Stopp der Untergrabung der Schweizer Souveränität durch den Europäischen Gerichtshof für Menschenrechte](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243506) | 24.3506 | submitted by | free speech and civil liberties |
 | 27 May 2024 | [Stopp der Untergrabung der Schweizer Souveränität durch den Europäischen Gerichtshof für Menschenrechte](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243488) | 24.3488 | submitted by | free speech and civil liberties |
+
+## Committees and groups (1)
+
+- **Committees:** Kommission für Umwelt, Raumplanung und Energie Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (7)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Genossenschaft | Vereinigte Milchbauern Mitte-Ost | Mitglied | bezahlt |  |
+| Keine Angaben | Zentralschweizer Bauern Bund (ZBB) | Mitglied | bezahlt |  |
+| Verein | Bauernvereinigung Kanton Schwyz | Mitglied | bezahlt |  |
+| Verein | Schweizer Kälbermästerverband | Präsident(in) | bezahlt |  |
+| Verein | Schweizer Rinderproduzenten | Mitglied | ehrenamtlich |  |
+| Verein | Schweizerische Volkspartei | Präsident(in) | bezahlt |  |
+| Verein | Vereinigung Schweizer Automobil-Importeure (Auto-Schweiz) | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

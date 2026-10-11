@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 132, “Nein” 59, “Nicht teilgenommen” 13, “Enthaltung” 4, “Entschuldigt” 1.
-By area (every vote): abortion: “Ja” 12, “Nein” 5, “Enthaltung” 3, “Nicht teilgenommen” 2; assisted dying: “Nein” 5, “Entschuldigt” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 21, “Nein” 11, “Enthaltung” 1; parental rights and education: “Ja” 9, “Nein” 5, “Nicht teilgenommen” 2; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 82, “Nein” 24, “Nicht teilgenommen” 8; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 125, “Nein” 57, “Nicht teilgenommen” 13, “Enthaltung” 1, “Entschuldigt” 1.
+By area (every vote): abortion: “Ja” 5, “Nein” 3, “Nicht teilgenommen” 2; assisted dying: “Nein” 5, “Entschuldigt” 1, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Enthaltung” 1; sex-based rights: “Ja” 21, “Nein” 11, “Enthaltung” 1; parental rights and education: “Ja” 9, “Nein” 5, “Nicht teilgenommen” 2; free speech and civil liberties: “Ja” 13, “Nein” 6; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 82, “Nein” 24, “Nicht teilgenommen” 8; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (3)
 
@@ -51,6 +51,29 @@ The latest 20:
 | 26 Feb 2024 | [Weiterentwicklung der Gesundheitsaussenpolitik](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243025) | 24.3025 | submitted by | free speech and civil liberties |
 | 21 Dec 2023 | [Lohngleichheitsanalyse. Unternehmen vor Falschanschuldigungen schützen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20234437) | 23.4437 | submitted by | sex-based rights |
 | 21 Dec 2023 | [Lohngleichheitsanalyse. Keine politisch motivierten Scheinlösungen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20234434) | 23.4434 | submitted by | sex-based rights |
+
+## Committees and groups (4)
+
+- **Committees:** APK-N Subkommission Europafragen (Präsident/in); APK-N Subkommission Mitwirkungsrechte des Parlamentes in der Aussenpolitik (Mitglied); Aussenpolitische Kommission Nationalrat (Mitglied).
+- **Delegations:** Delegation EFTA / Europäisches Parlament (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (9)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Einfache Gesellschaft | IG biomedizinische Forschung und Innovation | Mitglied | bezahlt |  |
+| Genossenschaft | Genossenschaft Elektra Birseck (EBM), Münchenstein | Mitglied | bezahlt |  |
+| Genossenschaft | Raiffeisenbank Basel Genossenschaft | Präsident(in) | bezahlt |  |
+| Stiftung | Auslandschweizer-Organisation, Bern (Auslandschweizerrat) | Mitglied | ehrenamtlich |  |
+| Verein | economiesuisse | Mitglied | ehrenamtlich |  |
+| Verein | Handelskammer beider Basel | Präsident(in) | bezahlt |  |
+| Verein | Statistisch-Volkswirtschaftliche Gesellschaft Basel | Mitglied | ehrenamtlich |  |
+| Verein | Svizra27 | Vizepräsident(in) | ehrenamtlich |  |
+| Verein | Verein für lösungsorientierte Politik | Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

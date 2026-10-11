@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 126, “Nein” 65, “Enthaltung” 12, “Entschuldigt” 6.
-By area (every vote): abortion: “Ja” 12, “Nein” 6, “Enthaltung” 3, “Entschuldigt” 1; assisted dying: “Nein” 7; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 18, “Nein” 14, “Entschuldigt” 1; parental rights and education: “Ja” 10, “Entschuldigt” 3, “Nein” 3; free speech and civil liberties: “Ja” 13, “Nein” 5, “Entschuldigt” 1; religious freedom: “Ja” 11, “Enthaltung” 2, “Nein” 1; marriage and family: “Ja” 77, “Nein” 30, “Enthaltung” 7; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 119, “Nein” 63, “Enthaltung” 9, “Entschuldigt” 6.
+By area (every vote): abortion: “Ja” 5, “Nein” 4, “Entschuldigt” 1; assisted dying: “Nein” 7; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 18, “Nein” 14, “Entschuldigt” 1; parental rights and education: “Ja” 10, “Entschuldigt” 3, “Nein” 3; free speech and civil liberties: “Ja” 13, “Nein” 5, “Entschuldigt” 1; religious freedom: “Ja” 11, “Enthaltung” 2, “Nein” 1; marriage and family: “Ja” 77, “Nein” 30, “Enthaltung” 7; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nein | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 
@@ -52,6 +52,29 @@ The latest 20:
 | 12 Mar 2026 | [Erweiterung der Leistungen in der spezialisierten Palliative Care ausserhalb des üblichen parlamentarischen Prozesses?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263103) | 26.3103 | submitted by | assisted dying |
 | 11 Sep 2024 | [Islamistischer Terror: Ist die Schweiz vorbereitet?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20247635) | 24.7635 | submitted by | free speech and civil liberties, religious freedom |
 | 5 Dec 2023 | [Sex auf Kosten der Krankenkasse, wie weit treiben wir es noch?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20237799) | 23.7799 | submitted by | prostitution and trafficking |
+
+## Committees and groups (2)
+
+- **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)).
+- **Delegations:** Delegation für die Beziehungen zum Landtag des Fürstentums Liechtenstein (Präsident/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (9)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Anifit AG | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Chech AG, Appenzell | Präsident(in) | ehrenamtlich |  |
+| Aktiengesellschaft | Hof Weissbad AG | Präsident(in) | bezahlt |  |
+| Keine Angaben | IG Mineralwasser | Mitglied | ehrenamtlich |  |
+| Körperschaft des öffentlichen Rechts | Flurgenossenschaft Tanne Rüti, Haslen | Präsident(in) | bezahlt |  |
+| Stiftung | Schweizer Stiftung Farbe | Mitglied | bezahlt |  |
+| Verein | IG Freiheit | Vizepräsident(in) | ehrenamtlich |  |
+| Verein | Lions Club Appenzell | Mitglied | ehrenamtlich |  |
+| Verein | TV Appenzell | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

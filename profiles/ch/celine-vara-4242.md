@@ -3,7 +3,7 @@
 Switzerland, Ständerat. From the parliamentary monitor's store; positions are as the record gives them, never a verdict. Index: [Switzerland members](index.md).
 
 - **Party:** GRÜNE; latest seen in the member list
-- **Constituency or region:** NE
+- **Constituency or region:** Neuenburg
 - **Parliamentary group (latest):** G
 - **Status:** not on the source's current list
 - **Source id:** `4242`
@@ -12,27 +12,25 @@ Switzerland, Ständerat. From the parliamentary monitor's store; positions are a
 
 - Recorded at votes in the store: G (first 5 December 2023, last 21 March 2025).
 
-## Votes on our ground (63)
+## Votes on our ground (61)
 
-Recorded positions (63): “Ja” 46, “Nein” 14, “Enthaltung” 1, “Entschuldigt” 1, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 2; assisted dying: “Ja” 1; sex-based rights: “Ja” 8, “Nein” 2; free speech and civil liberties: “Ja” 8, “Nein” 3; religious freedom: “Ja” 1; marriage and family: “Ja” 31, “Nein” 11, “Enthaltung” 1, “Entschuldigt” 1, “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 7, “Nein” 1.
+Recorded positions (61): “Ja” 44, “Nein” 14, “Enthaltung” 1, “Entschuldigt” 1, “Nicht teilgenommen” 1.
+By area (every vote): assisted dying: “Ja” 1; sex-based rights: “Ja” 8, “Nein” 2; free speech and civil liberties: “Ja” 8, “Nein” 3; religious freedom: “Ja” 1; marriage and family: “Ja” 31, “Nein” 11, “Enthaltung” 1, “Entschuldigt” 1, “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 7, “Nein” 1.
 
 The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 21 Mar 2025 | Ja | G (at the vote) | [Schlussabstimmung; on: Bundesgesetz über die Invalidenversicherung IVG (Intensive Frühintervention bei Autismus-Spektrum-Störungen, IFI). Ä…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240066) | abortion, tier 1 |
 | 19 Mar 2025 | Nein | G (at the vote) | [Abstimmung über die Motion; on: Änderungen der Internationalen Gesundheitsvorschriften. Den demokratischen Prozess gewährleisten](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244362) · bill's areas | free speech and civil liberties |
 | 13 Mar 2025 | Entschuldigt | G (at the vote) | [Abstimmung über die Motion; on: Von Dänemark und Schweden lernen. Familiennachzug auf die Interessen der Schweiz ausrichten](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244444) · bill's areas | marriage and family, tier 1 |
-| 10 Mar 2025 | Ja | G (at the vote) | [Gesamtabstimmung; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indire…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
-| 10 Mar 2025 | Nein | G (at the vote) | [Art. 124 Abs. 1bis DBG; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
-| 10 Mar 2025 | Nein | G (at the vote) | [Konzeptantrag Würth. DBG: Art. 110 Abs. 2, Art. 114 Abs. 1, Art. 132a (neu), Art. 140a (neu), Art. 147 Abs. 1 Bst. d (neu), Art. 151 Abs. 3…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
-| 10 Mar 2025 | Nein | G (at the vote) | [Art. 36 Abs. 1 DBG; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indi…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
-| 10 Mar 2025 | Nein | G (at the vote) | [Art. 36 Abs. 1 DBG; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indi…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
-| 4 Mar 2025 | Nein | G (at the vote) | [Art. 33b Abs. 1 + 2 DBG; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
-| 4 Mar 2025 | Ja | G (at the vote) | [Art. 33 Abs. 3bis DBG; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und i…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
-| 4 Mar 2025 | Ja | G (at the vote) | [Abstimmung über das Eintreten; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiati…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** | marriage and family, tier 1 |
-| 4 Mar 2025 | Ja | G (at the vote) | [Gesamtabstimmung; on: Bundesgesetz über die Invalidenversicherung IVG (Intensive Frühintervention bei Autismus-Spektrum-Störungen, IFI). Än…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240066) | abortion, tier 1 |
+| 10 Mar 2025 | Ja | G (at the vote) | [Gesamtabstimmung; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indire…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for adopting 24.026 (BRG 24.026, the federal message on the popular initiative for marital-status-independent individual taxation…) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 10 Mar 2025 | Nein | G (at the vote) | [Art. 124 Abs. 1bis DBG; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for the committee minority's proposal (Herzog III) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 10 Mar 2025 | Nein | G (at the vote) | [Konzeptantrag Würth. DBG: Art. 110 Abs. 2, Art. 114 Abs. 1, Art. 132a (neu), Art. 140a (neu), Art. 147 Abs. 1 Bst. d (neu), Art. 151 Abs. 3…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for rejecting it (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 10 Mar 2025 | Nein | G (at the vote) | [Art. 36 Abs. 1 DBG; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indi…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for the committee minority's proposal (Herzog II) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 10 Mar 2025 | Nein | G (at the vote) | [Art. 36 Abs. 1 DBG; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indi…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for a member's proposal (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 4 Mar 2025 | Nein | G (at the vote) | [Art. 33b Abs. 1 + 2 DBG; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for the committee minority's proposal (Herzog I) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 4 Mar 2025 | Ja | G (at the vote) | [Art. 33 Abs. 3bis DBG; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und i…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for the committee majority's proposal on 24.026 (BRG 24.026, the federal message on the popular initiative for marital-status-independent individual taxation…) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 4 Mar 2025 | Ja | G (at the vote) | [Abstimmung über das Eintreten; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiati…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for the committee majority's proposal (Eintreten) on 24.026 (BRG 24.026, the federal message on the popular initiative for marital-status-independent individual taxation…) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
 | 20 Dec 2024 | Ja | G (at the vote) | [Schlussabstimmung; on: Bundesgesetz über den elektronischen Identitätsnachweis und andere elektronische Nachweise](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20230073) | free speech and civil liberties, tier 2 |
 | 18 Dec 2024 | Nein | G (at the vote) | [Abstimmung über die pa. Iv. 21.513, 21.514, 21.515, 21.516, 21.522 und 21.527; on: Aufrufe zu Hass und Gewalt aufgrund des Geschlechts müss…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210527) · bill's areas | sex-based rights, free speech and civil liberties |
 | 11 Dec 2024 | Ja | G (at the vote) | [Abstimmung über das Eintreten; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) | marriage and family, tier 2 |
@@ -41,8 +39,10 @@ The latest 20:
 | 11 Dec 2024 | Ja | G (at the vote) | [Art. 18 Abs. 1 FLG; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) | marriage and family, tier 2 |
 | 11 Dec 2024 | Ja | G (at the vote) | [Art. 7 FLG Abstimmung nach der Regel über die Ausgabenbremse; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) | marriage and family, tier 2 |
 | 11 Dec 2024 | Ja | G (at the vote) | [Art. 2 Abs. 1 FLG Abstimmung nach der Regel über die Ausgabenbremse; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) | marriage and family, tier 2 |
+| 11 Dec 2024 | Enthaltung | G (at the vote) | [Art. 24 Abs. 5 FamZG; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) | marriage and family, tier 2 |
+| 11 Dec 2024 | Nein | G (at the vote) | [Art. 16a, 16b, 16c, 16d und 16e FamZG; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) | marriage and family, tier 2 |
 
-43 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+41 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 

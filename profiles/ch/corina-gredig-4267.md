@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: GL (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 144, “Nein” 43, “Entschuldigt” 13, “Enthaltung” 6, “Nicht teilgenommen” 3.
-By area (every vote): abortion: “Ja” 13, “Nein” 5, “Entschuldigt” 4; assisted dying: “Nein” 4, “Ja” 2, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Enthaltung” 2, “Nein” 2; parental rights and education: “Ja” 9, “Nein” 5, “Enthaltung” 1, “Entschuldigt” 1; free speech and civil liberties: “Ja” 14, “Nein” 3, “Entschuldigt” 2; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 82, “Nein” 20, “Entschuldigt” 6, “Enthaltung” 4, “Nicht teilgenommen” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 139, “Nein” 40, “Entschuldigt” 9, “Enthaltung” 6, “Nicht teilgenommen” 3.
+By area (every vote): abortion: “Ja” 8, “Nein” 2; assisted dying: “Nein” 4, “Ja” 2, “Nicht teilgenommen” 1; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Enthaltung” 2, “Nein” 2; parental rights and education: “Ja” 9, “Nein” 5, “Enthaltung” 1, “Entschuldigt” 1; free speech and civil liberties: “Ja” 14, “Nein” 3, “Entschuldigt” 2; religious freedom: “Ja” 11, “Nein” 3; marriage and family: “Ja” 82, “Nein” 20, “Entschuldigt” 6, “Enthaltung” 4, “Nicht teilgenommen” 2; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 13; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Nicht teilgenommen | GL (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | GL (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (2)
 
@@ -50,6 +50,25 @@ The latest 20:
 |---|---|---|---|---|
 | 19 Dec 2025 | [Bilaterale III. Befürchtungen zu administrativem Aufwand unbegründet?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254749) | 25.4749 | submitted by | free speech and civil liberties |
 | 27 Sep 2024 | [Zugang zu Notfallverhütungsmitteln vereinfachen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244238) | 24.4238 | submitted by | abortion |
+
+## Committees and groups (7)
+
+- **Committees:** APK-N Subkommission Europafragen (Mitglied); APK-N Subkommission Mitwirkungsrechte des Parlamentes in der Aussenpolitik (Mitglied); Aussenpolitische Kommission Nationalrat (Mitglied); Büro Nationalrat (Fraktionspräsident/in); Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 2 (EDA/WBF) (Mitglied); Koordinationskonferenz (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (6)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | Swissaid, Schweizerische Stiftung für Entwicklungszusammenarbeit, Bern | Mitglied | ehrenamtlich |  |
+| Verein | FC Helvetia | Co-Präsident(in) | ehrenamtlich |  |
+| Verein | Interessengemeinschaft für die Berufsausbildung von Fachleuten in Sportanlagen (Mitglied im Rahmen beruflicher Tätigkeit) | Mitglied | ehrenamtlich |  |
+| Verein | StandUp4Democracy | Mitglied | ehrenamtlich |  |
+| Verein | Verein Cannabis Research | Beirat | ehrenamtlich |  |
+| Verein | Verein Courage Civil | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

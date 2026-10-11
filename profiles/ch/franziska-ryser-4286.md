@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: G (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 128, “Nein” 47, “Entschuldigt” 26, “Nicht teilgenommen” 6, “Enthaltung” 2.
-By area (every vote): abortion: “Ja” 13, “Nein” 8, “Entschuldigt” 1; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Entschuldigt” 1, “Nein” 1; conversion practices: “Entschuldigt” 1; sex-based rights: “Ja” 17, “Entschuldigt” 9, “Nicht teilgenommen” 4, “Nein” 3; parental rights and education: “Ja” 13, “Entschuldigt” 1, “Nein” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 13, “Entschuldigt” 3, “Nein” 3; religious freedom: “Ja” 7, “Entschuldigt” 4, “Nein” 3; marriage and family: “Ja” 75, “Nein” 27, “Entschuldigt” 9, “Enthaltung” 2, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 120, “Nein” 43, “Entschuldigt” 26, “Nicht teilgenommen” 6, “Enthaltung” 2.
+By area (every vote): abortion: “Ja” 5, “Nein” 4, “Entschuldigt” 1; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Entschuldigt” 1, “Nein” 1; conversion practices: “Entschuldigt” 1; sex-based rights: “Ja” 17, “Entschuldigt” 9, “Nicht teilgenommen” 4, “Nein” 3; parental rights and education: “Ja” 13, “Entschuldigt” 1, “Nein” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 13, “Entschuldigt” 3, “Nein” 3; religious freedom: “Ja” 7, “Entschuldigt” 4, “Nein” 3; marriage and family: “Ja” 75, “Nein” 27, “Entschuldigt” 9, “Enthaltung” 2, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,13 +42,37 @@ The latest 20:
 | 30 Apr 2026 | Ja | G (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | G (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (1)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 2 Oct 2026 | [Bund goes mobile: KMUs dank einer Bundes-App sicher und nutzer:innenfreundlich entlasten](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264614) | 26.4614 | submitted by | free speech and civil liberties |
+
+## Committees and groups (2)
+
+- **Committees:** Kommission für Umwelt, Raumplanung und Energie Nationalrat (Mitglied); WAK-N Subkommission Für einen fairen Wettbewerb zwischen öffentlichen und Privaten Unternehmen (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (11)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Kunstgiesserei St. Gallen AG | Mitglied | bezahlt |  |
+| Aktiengesellschaft | Ryser Optik AG, St.Gallen | Präsident(in) | bezahlt |  |
+| Stiftung | Schweizerische Pfadistiftung | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung «Zugang für alle» | Mitglied | ehrenamtlich |  |
+| Verein | AIDA - Schule für fremdsprachige Frauen, St.Gallen | Präsident(in) | bezahlt |  |
+| Verein | Denknetz | Mitglied | ehrenamtlich |  |
+| Verein | Der Gewerbeverein | Mitglied | ehrenamtlich |  |
+| Verein | ecobau | Präsident(in) | bezahlt |  |
+| Verein | Kollektiv E0B0FF, St.Gallen | Präsident(in) | ehrenamtlich |  |
+| Verein | Konferenz der Gebäudetechnik-Verbände (KGTV) | Präsident(in) | ehrenamtlich |  |
+| Verein | umverkehR | Co-Präsident(in) | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

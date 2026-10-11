@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 16 December 2024, last 2 October 2026).
 
-## Votes on our ground (115)
+## Votes on our ground (110)
 
-Recorded positions (115): “Nein” 68, “Ja” 47.
-By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Nein” 3, “Ja” 2; gender medicine and children: “Ja” 1; sex-based rights: “Nein” 9, “Ja” 3; parental rights and education: “Nein” 8, “Ja” 2; free speech and civil liberties: “Nein” 10, “Ja” 4; religious freedom: “Nein” 3, “Ja” 2; marriage and family: “Nein” 34, “Ja” 28; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 2; organ donation: “Ja” 1.
+Recorded positions (110): “Nein” 67, “Ja” 43.
+By area (every vote): abortion: “Nein” 3, “Ja” 2; assisted dying: “Nein” 3, “Ja” 2; gender medicine and children: “Ja” 1; sex-based rights: “Nein” 9, “Ja” 3; parental rights and education: “Nein” 8, “Ja” 2; free speech and civil liberties: “Nein” 10, “Ja” 4; religious freedom: “Nein” 3, “Ja” 2; marriage and family: “Nein” 34, “Ja” 28; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 2; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,27 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-95 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+90 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (1)
+
+- **Committees:** Kommission für Rechtsfragen Nationalrat (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (7)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Keine Angaben | Landwirtschaftskammer Schweizer Bauernverband | Mitglied | bezahlt |  |
+| Kommission | Kommission Märkte und Handelsusanzen, Proviande, Bern | Mitglied | bezahlt |  |
+| Kommission | Schulkommission für das Landwirtschaftliche Zentrum Liebegg | Präsident(in) | bezahlt |  |
+| Stiftung | Sennhof-Stiftung Friedrich Däster, Pflegeheim Sennhof | Präsident(in) | bezahlt |  |
+| Verein | Aargauischer Verband für Landtechnik (AVLT), Wildegg | Mitglied | bezahlt |  |
+| Verein | Swiss Beef CH | Mitglied | bezahlt |  |
+| Verein | Swiss Beef Mittelland | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

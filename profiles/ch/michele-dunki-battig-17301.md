@@ -55,6 +55,25 @@ The latest 20:
 | 17 Jun 2026 | [Berufsbildung als Ort der Gewaltprävention. Wie stärkt der Bund Beziehungskompetenz und Gleichstellung bei jungen Männern?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263695) | 26.3695 | submitted by | sex-based rights |
 | 16 Jun 2026 | [Ausländische Beeinflussung von Abstimmungskämpfen. Welche Lehren zieht der Bund aus der 10-Millionen-Initiative?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263662) | 26.3662 | submitted by | free speech and civil liberties |
 
+## Committees and groups (2)
+
+- **Committees:** Staatspolitische Kommission Nationalrat (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Landtag des Fürstentums Liechtenstein (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (5)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Stiftung | Stiftung Frauenhaus Zürich (SFZ) | Mitglied | ehrenamtlich |  |
+| Stiftung | Stiftung Gottfried-Keller-Zentrum | Mitglied | ehrenamtlich |  |
+| Verein | SP Bezirk Bülach | Mitglied | ehrenamtlich |  |
+| Verein | SP Glattfelden | Mitglied | ehrenamtlich |  |
+| Verein | SP Kanton Zürich | Co-Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
 ## Notes
 
 - Party: Party is the member's party; the vote record names the parliamentary group (Fraktion) at each vote, which is what each vote line shows.

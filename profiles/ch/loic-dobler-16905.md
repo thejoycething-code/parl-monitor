@@ -44,6 +44,22 @@ The latest 20:
 
 6 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
+## Committees and groups (2)
+
+- **Committees:** Finanzkommission Nationalrat (Mitglied); Finanzkommission Nationalrat Subkommission 2 (EDA/WBF) (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (3)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Öffentlich-rechtliche Anstalt | Caisse de pensions de la République et Canton du Jura | Mitglied | bezahlt |  |
+| Verein | Association jurassienne des employés en assurances sociales (AJEAS) | Vizepräsident(in) | bezahlt |  |
+| Verein | Crèches à domicile des districts de Delémont, des Franches-Montagnes et de Moutier | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
 ## Notes
 
 - Party: Party is the member's party; the vote record names the parliamentary group (Fraktion) at each vote, which is what each vote line shows.

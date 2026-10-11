@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: G (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 149, “Nein” 48, “Nicht teilgenommen” 6, “Enthaltung” 5, “Entschuldigt” 1.
-By area (every vote): abortion: “Ja” 14, “Nein” 8; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 3, “Entschuldigt” 1; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 3, “Nicht teilgenommen” 1; marriage and family: “Ja” 78, “Nein” 27, “Nicht teilgenommen” 5, “Enthaltung” 4; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 141, “Nein” 44, “Nicht teilgenommen” 6, “Enthaltung” 5, “Entschuldigt” 1.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 3, “Entschuldigt” 1; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 3, “Nicht teilgenommen” 1; marriage and family: “Ja” 78, “Nein” 27, “Nicht teilgenommen” 5, “Enthaltung” 4; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,9 +42,9 @@ The latest 20:
 | 30 Apr 2026 | Ja | G (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Ja | G (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
-## Bills and items on our ground they authored or introduced (10)
+## Bills and items on our ground they authored or introduced (11)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
@@ -58,6 +58,33 @@ The latest 20:
 | 20 Dec 2024 | [Statistische Erfassung von Aleviten in der Schweiz](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244694) | 24.4694 | submitted by | religious freedom |
 | 14 Jun 2024 | [Machbarkeitsstudie bezüglich statistischer Erfassung von Femiziden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243782) | 24.3782 | submitted by | sex-based rights |
 | 8 Mar 2023 | [Die Schweiz fördert die Sicherheit und die Gleichberechtigung von Frauen in Krisengebieten](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20233092) | 23.3092 | submitted by | sex-based rights |
+| 15 Dec 2021 | [Aufrufe zu Hass und Gewalt aufgrund des Geschlechts müssen strafbar werden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210516) | 21.516 | submitted by | sex-based rights, free speech and civil liberties |
+
+## Committees and groups (4)
+
+- **Committees:** APK-N Subkommission Mitwirkungsrechte des Parlamentes in der Aussenpolitik (Mitglied); Aussenpolitische Kommission Nationalrat (Präsident/in); Kommission für Rechtsfragen Nationalrat (Mitglied).
+- **Delegations:** Delegation bei der Parlamentarischen Versammlung des Europarates (Vizepräsident/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (12)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Gesellschaft mit beschränkter Haftung | Sidus Consulting | Gesellschafter(in) | bezahlt |  |
+| Keine Angaben | Schweizerische Vereinigung für Qualitäts- und Management Systeme (SQS), | Beirat | bezahlt |  |
+| Stiftung | Schweizer Paraplegiker-Stiftung, Nottwil | Beirat | bezahlt |  |
+| Stiftung | Stiftung KMU für Rechtsdurchsetzung | Mitglied | ehrenamtlich |  |
+| Stiftung | Swissaid, Bern | Mitglied | ehrenamtlich |  |
+| Verein | HELVETAS Swiss Intercooperation, Zürich | Mitglied | ehrenamtlich |  |
+| Verein | Neue Europäische Bewegung Schweiz (Nebs), Bern | Vizepräsident(in) | ehrenamtlich |  |
+| Verein | Pro Familia Basel Regio | Präsident(in) | ehrenamtlich |  |
+| Verein | Schweizerische Gesellschaft für Aussenpolitik | Mitglied | ehrenamtlich |  |
+| Verein | Verein Solidaritätsinitiative mit Erdbebenopfer Türkei/Syrien | Keine Angaben | ehrenamtlich |  |
+| Verein | Verein Städtepartnerschaft Basel-Van, Basel | Co-Präsident(in) | ehrenamtlich |  |
+| Verein | Zentrum für Sozialpädagogik und Psychotherapie - ZSP | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 99, “Ja” 84, “Entschuldigt” 9, “Nicht teilgenommen” 9, “Enthaltung” 8.
-By area (every vote): abortion: “Ja” 12, “Nein” 5, “Entschuldigt” 3, “Enthaltung” 2; assisted dying: “Ja” 3, “Entschuldigt” 2, “Nein” 2; gender medicine and children: “Entschuldigt” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 27, “Ja” 4, “Entschuldigt” 2; parental rights and education: “Nein” 9, “Entschuldigt” 3, “Ja” 3, “Enthaltung” 1; free speech and civil liberties: “Nein” 9, “Ja” 7, “Entschuldigt” 2, “Enthaltung” 1; religious freedom: “Ja” 8, “Nein” 6; marriage and family: “Nein” 53, “Ja” 47, “Nicht teilgenommen” 9, “Enthaltung” 4, “Entschuldigt” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 11, “Entschuldigt” 1, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 98, “Ja” 75, “Entschuldigt” 9, “Nicht teilgenommen” 9, “Enthaltung” 6.
+By area (every vote): abortion: “Nein” 4, “Entschuldigt” 3, “Ja” 3; assisted dying: “Ja” 3, “Entschuldigt” 2, “Nein” 2; gender medicine and children: “Entschuldigt” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 27, “Ja” 4, “Entschuldigt” 2; parental rights and education: “Nein” 9, “Entschuldigt” 3, “Ja” 3, “Enthaltung” 1; free speech and civil liberties: “Nein” 9, “Ja” 7, “Entschuldigt” 2, “Enthaltung” 1; religious freedom: “Ja” 8, “Nein” 6; marriage and family: “Nein” 53, “Ja” 47, “Nicht teilgenommen” 9, “Enthaltung” 4, “Entschuldigt” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Nein” 11, “Entschuldigt” 1, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Entschuldigt | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Entschuldigt | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (3)
 
@@ -51,6 +51,22 @@ The latest 20:
 | 13 Mar 2025 | [Wie steht es um die Nachverfolgung der Dosen von Produkten, die von Suizidhilfeorganisationen eingesetzt werden, und wo landen sie?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253094) | 25.3094 | submitted by | assisted dying |
 | 3 Mar 2025 | [Wo sind die Dosen von Pentothal gelandet? Sterbehilfe und Sicherheit der Bevölkerung?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257009) | 25.7009 | submitted by | assisted dying |
 | 27 Feb 2024 | [Ablehnung des Entwurfes des CA+ der WHO und der Änderung der IGV 2005, welche die Souveränität der Schweiz verletzen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243038) | 24.3038 | submitted by | free speech and civil liberties |
+
+## Committees and groups (4)
+
+- **Committees:** Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EJPD/BK (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission Gerichte/BA (Mitglied).
+- **Delegations:** Delegation für die Beziehungen zum Französischen Parlament (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (2)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Pharmacie du Museum SA | Geschäftsführer(in) | ehrenamtlich |  |
+| Verein | Association des pharmaciens indépendants (API) | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

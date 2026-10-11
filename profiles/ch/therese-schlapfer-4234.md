@@ -55,6 +55,26 @@ The latest 20:
 | 1 Jun 2026 | [Islamistisch-terroristische Risikopersonen wie der Fall in Winterthur](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20267325) | 26.7325 | submitted by | religious freedom |
 | 17 Dec 2025 | [Kopftuchverbot an Schulen für Schulpflichtige unter 16 Jahren](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254591) | 25.4591 | submitted by | parental rights and education, religious freedom |
 
+## Committees and groups (3)
+
+- **Committees:** Begnadigungskommission (Mitglied); Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EJPD/BK (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (7)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Immo Kappeler AG, Matzingen | Mitglied | ehrenamtlich |  |
+| Gesellschaft mit beschränkter Haftung | Conmetec GmbH, Hagenbuch | Gesellschafter(in) | ehrenamtlich |  |
+| Verein | Egerkinger Komitee | Mitglied | ehrenamtlich |  |
+| Verein | HEV Region Winterthur | Beirat | bezahlt |  |
+| Verein | Jugend ohne Drogen | Mitglied | ehrenamtlich |  |
+| Verein | Pro Flughafen Zürich | Mitglied | ehrenamtlich |  |
+| Verein | Pro Schweiz | Mitglied | ehrenamtlich |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
 ## Notes
 
 - Party: Party is the member's party; the vote record names the parliamentary group (Fraktion) at each vote, which is what each vote line shows.

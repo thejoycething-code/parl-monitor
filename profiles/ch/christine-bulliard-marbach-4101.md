@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Ja” 140, “Nein” 60, “Enthaltung” 4, “Nicht teilgenommen” 4, “Entschuldigt” 1.
-By area (every vote): abortion: “Ja” 13, “Nein” 6, “Enthaltung” 3; assisted dying: “Nein” 6, “Ja” 1; gender medicine and children: “Ja” 2; conversion practices: “Nein” 1; sex-based rights: “Ja” 22, “Nein” 10, “Nicht teilgenommen” 1; parental rights and education: “Ja” 12, “Nein” 2, “Entschuldigt” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 13, “Nein” 4, “Enthaltung” 1, “Nicht teilgenommen” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 84, “Nein” 27, “Nicht teilgenommen” 2, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Nein” 1.
+Recorded positions (197): “Ja” 133, “Nein” 58, “Nicht teilgenommen” 4, “Enthaltung” 1, “Entschuldigt” 1.
+By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Nein” 6, “Ja” 1; gender medicine and children: “Ja” 2; conversion practices: “Nein” 1; sex-based rights: “Ja” 22, “Nein” 10, “Nicht teilgenommen” 1; parental rights and education: “Ja” 12, “Nein” 2, “Entschuldigt” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 13, “Nein” 4, “Enthaltung” 1, “Nicht teilgenommen” 1; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 84, “Nein” 27, “Nicht teilgenommen” 2, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 11, “Nein” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -42,7 +42,7 @@ The latest 20:
 | 30 Apr 2026 | Ja | M-E (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | M-E (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Bills and items on our ground they authored or introduced (4)
 
@@ -52,6 +52,27 @@ The latest 20:
 | 16 Mar 2026 | [Wo steht die Schaffung der Ombudsstelle für Kinderrechte?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20261012) | 26.1012 | submitted by | parental rights and education |
 | 18 Mar 2025 | [Statistik über Kinder, die häusliche Gewalt erleben. Wann kommt sie?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20251005) | 25.1005 | submitted by | sex-based rights |
 | 25 Sep 2024 | [Das Hosting von Kinderpornografie in der Schweiz nicht hinnehmen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244020) | 24.4020 | submitted by | prostitution and trafficking |
+
+## Committees and groups (3)
+
+- **Committees:** Aussenpolitische Kommission Nationalrat (Mitglied); Kommission für Umwelt, Raumplanung und Energie Nationalrat (Mitglied).
+- **Delegations:** Delegation bei der parlamentarischen Versammlung der Frankophonie (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (7)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Bulliard Holding SA | Vizepräsident(in) | bezahlt |  |
+| Genossenschaft | Schweizerische Hagel-Versicherungs-Gesellschaft, Genossenschaft | Mitglied | bezahlt |  |
+| Kommission | Conseil de l'Université, Université de Fribourg | Mitglied | ehrenamtlich |  |
+| Stiftung | Forschungsfonds der Universität Freiburg | Mitglied | ehrenamtlich |  |
+| Verein | Arbeitsgemeinschaft für Wirtschaft und Gewerbe AWG | Mitglied | ehrenamtlich |  |
+| Verein | Freiburger Tourismusverband (FTV), Freiburg | Mitglied | bezahlt |  |
+| Verein | Loterie romande | Mitglied | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

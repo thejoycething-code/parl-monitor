@@ -44,6 +44,20 @@ The latest 20:
 
 6 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
+## Committees and groups (3)
+
+- **Committees:** **Kommission für Wissenschaft, Bildung und Kultur Nationalrat (Mitglied)** (on our ground: the science, education and culture committee (WBK)); Redaktionskommission (Mitglied); Redaktionskommission Subkommission der deutschen Sprache (Mitglied).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (1)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Verein | Präsidium GRÜNE Kanton Solothurn | Präsident(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
 ## Notes
 
 - Party: Party is the member's party; the vote record names the parliamentary group (Fraktion) at each vote, which is what each vote line shows.

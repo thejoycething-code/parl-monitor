@@ -12,10 +12,10 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 
 - Recorded at votes in the store: V (first 4 December 2023, last 2 October 2026).
 
-## Votes on our ground (209)
+## Votes on our ground (197)
 
-Recorded positions (209): “Nein” 136, “Ja” 71, “Enthaltung” 1, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Nein” 14, “Ja” 8; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 14, “Ja” 2; free speech and civil liberties: “Nein” 15, “Ja” 4; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 67, “Ja” 46, “Nicht teilgenommen” 1; surrogacy and embryology: “Enthaltung” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
+Recorded positions (197): “Nein” 128, “Ja” 67, “Enthaltung” 1, “Nicht teilgenommen” 1.
+By area (every vote): abortion: “Nein” 6, “Ja” 4; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 29, “Ja” 4; parental rights and education: “Nein” 14, “Ja” 2; free speech and civil liberties: “Nein” 15, “Ja” 4; religious freedom: “Nein” 9, “Ja” 5; marriage and family: “Nein” 67, “Ja” 46, “Nicht teilgenommen” 1; surrogacy and embryology: “Enthaltung” 1; prostitution and trafficking: “Nein” 12, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -42,7 +42,30 @@ The latest 20:
 | 30 Apr 2026 | Nein | V (at the vote) | [Adopter le postulat; on: Die Ost-West-Bahnverbindung über den Jurasüdfuss stärken, ohne andere Verbindungen zu verschlechtern](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243483) · bill's areas | assisted dying |
 | 29 Apr 2026 | Nein | V (at the vote) | [Adopter la motion; on: Für den Schutz werdender Mütter und ihrer ungeborenen Kinder gegen Ende der Schwangerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244492) · bill's areas | abortion |
 
-189 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (6)
+
+- **Committees:** Geschäftsprüfungskommission Nationalrat (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission EFD/WBF (Mitglied); Geschäftsprüfungskommission Nationalrat Subkommission Gerichte/BA (Mitglied); SiK-N Subkommission Revision des Kriegsmaterialgesetzes (Mitglied); SiK-N Subkommission Totalrevision des Zollgesetzes (Mitglied).
+- **Delegations:** Delegation bei der Parlamentarischen Versammlung des Europarates (Stellvertreter/in).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (9)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Aktiengesellschaft | Autosilo Dorfplatz | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Erich Hess Immobilien AG, Bern | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Futo Trading SA, Bern | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Futo Traiding SA, Bern | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Moserstrasse 24 AG, Bern | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Optinovum Immobilien AG, Bern | Präsident(in) | bezahlt |  |
+| Aktiengesellschaft | Optiviva Immobilien AG, Bern | Präsident(in) | bezahlt |  |
+| Gesellschaft mit beschränkter Haftung | Optinovum GmbH, Bern | Präsident(in) | bezahlt |  |
+| Kommanditgesellschaft | Bern West Immobilien KMG | Gesellschafter(in) | bezahlt |  |
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 
