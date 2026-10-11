@@ -6,6 +6,7 @@
     python3 tools/vote_meanings.py --rules --cc pl
     python3 tools/vote_meanings.py --show pl             # every watched/tier-1 vote's lines
     python3 tools/vote_meanings.py --check               # problems in config/vote-meanings-*.yaml
+    python3 tools/vote_meanings.py --samples docs/vote-meaning-samples   # SAMPLE files
     python3 tools/vote_meanings.py --queue-out /tmp/q.md --limit 25   # for a session
     python3 tools/vote_meanings.py --queue-in /tmp/q.md               # apply its lines
 
@@ -219,6 +220,39 @@ def show(conn, cc, limit=40):
         print("   " + (vm.line(m, cc) or "(no meaning: the rules cannot read it)"))
 
 
+def samples(conn, out_dir, ccs, today):
+    """docs/vote-meaning-samples/<cc>.md: the newest twelve votes' lines per
+    country, and a README with the counts. Never sent anywhere."""
+    os.makedirs(out_dir, exist_ok=True)
+    idx = ["# Vote meanings: samples ({0})".format(today), "",
+           "SAMPLE, from the store of {0}. The newest twelve watched or tier-1 votes per "
+           "country with the line the editions, vote briefs, profiles, debate packs and 5CA "
+           "guides show. Regenerate with `python3 tools/vote_meanings.py --samples "
+           "docs/vote-meaning-samples`.".format(today), ""]
+    for cc in ccs:
+        rows = vm.qualifying(conn, cc)
+        if not rows:
+            continue
+        c = vm.counts(conn, cc)
+        got = vm.lookup_many(conn, cc, [r["key"] for r in rows[:12]])
+        out = ["# {0}: vote meanings, SAMPLE".format(c5.SPECS[cc].name), "",
+               "{0} watched or tier-1 votes: {1} person, {2} judge, {3} rule lines in English, {4} "
+               "quoting the source (offered to the session judge), {5} the rules cannot read "
+               "(offered first).".format(c["votes"], c["person"], c["judge"], c["rule_full"],
+                                         c["rule_title"], c["none"]), ""]
+        for r in rows[:12]:
+            out.append("- {0} `{1}` *{2}*".format(r.get("date"), r["key"], vm.clip(r.get("question"), 140)))
+            out.append("  - " + (vm.line(got.get(r["key"]), cc) or
+                                 "(no rule line: waits for the session judge)"))
+        with open(os.path.join(out_dir, "{0}.md".format(cc)), "w", encoding="utf-8") as fh:
+            fh.write("\n".join(out) + "\n")
+        idx.append("- [{0}]({1}.md): {2} votes; {3} English rule lines, {4} quoting the source, "
+                   "{5} unread".format(c5.SPECS[cc].name, cc, c["votes"], c["rule_full"],
+                                       c["rule_title"], c["none"]))
+    with open(os.path.join(out_dir, "README.md"), "w", encoding="utf-8") as fh:
+        fh.write("\n".join(idx) + "\n")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -232,6 +266,7 @@ def main(argv=None):
     g.add_argument("--queue-in", metavar="PATH")
     g.add_argument("--show", metavar="CC")
     g.add_argument("--check", action="store_true")
+    g.add_argument("--samples", metavar="DIR")
     args = ap.parse_args(argv)
     ccs = args.cc or list(c5.COUNTRIES)
     bad = [c for c in ccs if c not in c5.SPECS]
@@ -266,6 +301,9 @@ def main(argv=None):
         return 1 if got is None else 0
     if args.show:
         show(conn, args.show)
+        return 0
+    if args.samples:
+        samples(conn, args.samples, ccs, args.date)
         return 0
     print("Vote meanings, watched and tier-1 votes (person / judge / rule in English / rule "
           "quoting the source / none):")

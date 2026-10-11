@@ -140,78 +140,131 @@ def _watch_entry(wl, key):
     return e if isinstance(e, dict) else None
 
 
+# Stores whose "subject" is the order paper's section heading, not the text's
+# title (Spain: "Dictámenes de Comisiones sobre iniciativas legislativas."):
+# the vote's own wording names the text better.
+HEADING_SUBJECTS = ("es",)
+WEAK_GLOSS = re.compile(r"^(the )?same (bill|text)\b|^merged into\b", re.I)
+
+
 def describe(cc, r, wl, bills):
     """(what, english): how the lines name the text voted on. `what` is
     '10/2110 (registered cohabitation contracts)' from the watchlist or the
-    stance file's bill_directions, else the vote's subject quoted verbatim."""
+    stance file's bill_directions (a gloss that only says 'the same bill at
+    the Senate' gives way to another key's), else the vote's subject quoted
+    verbatim; a short section heading for a subject ('Proposiciones no de
+    Ley.') gives way to the vote's own wording."""
     spec = c5.SPECS[cc]
-    keys = [r.get("watch_key")] + [k for k in spec.refs(r) if k]
+    keys = []
+    for k in [r.get("watch_key")] + [k for k in spec.refs(r) if k]:
+        if k and k not in keys:
+            keys.append(k)
+    weak = None
     for k in keys:
         e = _watch_entry(wl, k)
         text = e and (e.get("why") or e.get("title") or e.get("note"))
         if not text and k in (bills or {}):
             text = bills[k].get("why") or bills[k].get("title")
-        if text:
-            return "{0} ({1})".format(k, gloss(text)), True
-    subject = clean(r.get("subject"))
-    if subject and subject != clean(r.get("question")):
-        return "the text “{0}”".format(clip(subject, QUOTE_CHARS)), False
+        if not text:
+            continue
+        g = gloss(text)
+        if WEAK_GLOSS.search(g):
+            weak = weak or "{0} ({1})".format(k.replace("item:", "item "), g)
+            continue
+        return "{0} ({1})".format(k.replace("item:", "item "), g), True
+    subject, question = clean(r.get("subject")), clean(r.get("question"))
+    if subject and subject != question and len(subject) >= 45 and cc not in HEADING_SUBJECTS:
+        return "the text \u201c{0}\u201d".format(clip(subject, QUOTE_CHARS)), False
+    if weak:
+        return weak, True
+    if question:
+        return "the text \u201c{0}\u201d".format(clip(question, QUOTE_CHARS)), False
+    if subject:
+        return "the text \u201c{0}\u201d".format(clip(subject, QUOTE_CHARS)), False
     return None, False
 
 
 # --- Switzerland's own Bedeutung lines ------------------------------------------------
 
 CH_PHRASES = (
-    (r"^antrag der mehrheit\b", "the committee majority's proposal"),
-    (r"^antrag der minderheit\s*\(?([^)]*)\)?", "the committee minority's proposal{0}"),
-    (r"^antrag der minderheit\b", "the committee minority's proposal"),
-    (r"^antrag des bundesrates\b", "the Federal Council's proposal"),
-    (r"^antrag der kommission\b", "the committee's proposal"),
-    (r"^antrag der einigungskonferenz\b", "the conciliation conference's proposal"),
-    (r"^beschluss des nationalrates\b", "the National Council's decision"),
-    (r"^beschluss des standerates\b", "the Council of States' decision"),
-    (r"^geltendes recht\b", "current law (no change)"),
-    (r"^nichteintreten\b", "not entering into the matter (rejecting it at this stage)"),
-    (r"^eintreten\b", "entering into the matter"),
-    (r"^ruckweisung\b", "sending it back"),
-    (r"^ablehnung\b", "rejecting it"),
-    (r"^annahme\b", "adopting it"),
-    (r"^zustimmung\b", "agreeing to it"),
-    (r"^proposition de la majorite\b", "the committee majority's proposal"),
-    (r"^proposition de la minorite\s*\(?([^)]*)\)?", "the committee minority's proposal{0}"),
-    (r"^proposition du conseil federal\b", "the Federal Council's proposal"),
-    (r"^antrag ([a-z][\w\-]+)$", "{0}'s proposal"),
+    (r"^antrag der mehrheit und des bundesrates", "the committee majority's and the Federal Council's proposal"),
+    (r"^antrag der mehrheit", "the committee majority's proposal"),
+    (r"^antrag der minderheit", "the committee minority's proposal"),
+    (r"^antrag des bundesrates", "the Federal Council's proposal"),
+    (r"^antrag der kommission", "the committee's proposal"),
+    (r"^antrag der einigungskonferenz", "the conciliation conference's proposal"),
+    (r"^antrag der motionar\w*|^antrag des motionars", "the motion's author's proposal"),
+    (r"^antrag der postulant\w*|^antrag des postulanten", "the postulate's author's proposal"),
+    (r"^beschluss des nationalrates", "the National Council's decision"),
+    (r"^beschluss des standerates", "the Council of States' decision"),
+    (r"^geltendes recht", "current law (no change)"),
+    (r"^nichteintreten", "not entering into the matter (rejecting it at this stage)"),
+    (r"^eintreten", "entering into the matter"),
+    (r"^ruckweisung", "sending it back"),
+    (r"^ablehnung", "rejecting it"),
+    (r"^annahme", "adopting it"),
+    (r"^zustimmung", "agreeing to it"),
+    (r"^proposition de la majorite et du conseil federal", "the committee majority's and the Federal Council's proposal"),
+    (r"^proposition de la majorite", "the committee majority's proposal"),
+    (r"^proposition de la minorite", "the committee minority's proposal"),
+    (r"^proposition du conseil federal", "the Federal Council's proposal"),
+    (r"^proposition de la commission", "the committee's proposal"),
+    (r"^adopter (le projet|la loi)", "adopting the bill"),
+    (r"^rejeter (le projet|la loi)", "rejecting the bill"),
+    (r"^adopter (la motion|le postulat)", "adopting it"),
+    (r"^rejeter (la motion|le postulat)", "rejecting it"),
+    (r"^entrer en matiere", "entering into the matter"),
+    (r"^ne pas entrer en matiere", "not entering into the matter (rejecting it at this stage)"),
+    (r"^antrag [a-z]", "a member's proposal"),
 )
+CH_INNER = ((r"annahme", "to accept"), (r"ablehnung", "to reject"), (r"maintenir|festhalten", "to hold to it"),
+            (r"selon ce|gem\w*\.? ?sr\b|gemass standerat", "as the Council of States decided"),
+            (r"selon cn|gem\w*\.? ?nr\b|gemass nationalrat", "as the National Council decided"),
+            (r"adhesion|zustimmung", "to agree"), (r"rejet", "to reject"), (r"adoption", "to adopt"))
 
 
 def ch_phrase(text):
-    """A Swiss Bedeutung line in English, or None when the table has no entry."""
-    t = c5.fold(text).strip(" *.")
+    """A Swiss Bedeutung line in English, or None when the table has no entry.
+    The bracket after it is a name ('Minderheit (Glarner)') or a gloss
+    ('(Annahme der Motion)'), kept as the source spells it or translated."""
+    original = clean(text).strip(" *.")
+    t = c5.fold(original)
     if not t:
         return None
-    for pat, words in CH_PHRASES:
-        m = re.match(pat, t)
-        if not m:
+    named = re.match(r"(?i)^(?:proposition (?:du groupe |de l'|de la |du |des )|antrag der fraktion )"
+                     r"([^(]+?)\s*(\(([^()]*)\)?)?$", original)
+    rows = CH_PHRASES
+    if named and not re.match(r"(majorit|minorit|commission|conseil)", c5.fold(named.group(1))):
+        rows = ((r".", "the {0} proposal".format(named.group(1).strip() + "'s")),)
+    for pat, words in rows:
+        if not re.match(pat, t):
             continue
-        if "{0}" in words:
-            raw = m.group(1).strip() if m.groups() else ""
-            # The member's name as the source wrote it (the folded copy lost its case).
-            orig = re.search(re.escape(raw), clean(text), re.I) if raw else None
-            name = orig.group(0) if orig else raw
-            if words.startswith("{0}"):
-                return words.format(name.title() if name.islower() else name)
-            return words.format(" ({0})".format(name) if name else "")
-        return words
+        inner = re.search(r"\(([^()]*)", original)
+        if not inner:
+            tail = re.match(r"(?i)^(?:antrag der minderheit|proposition de la minorit\S*)\s+(.+)$", original)
+            if tail:
+                return "{0} ({1})".format(words, tail.group(1).strip())
+            return words
+        bit = inner.group(1).strip().rstrip(")")
+        fb = c5.fold(bit)
+        for ipat, iwords in CH_INNER:
+            if re.search(ipat, fb):
+                return "{0} ({1})".format(words, iwords)
+        if words.startswith(("a group's", "a member's")):
+            return words
+        if re.fullmatch(r"[ivx]+", fb):
+            return "{0} {1}".format(words, bit.upper())
+        return "{0} ({1})".format(words, bit)
     return None
 
 
 # --- the rules ------------------------------------------------------------------------
 
-AMEND_NUMBER = (r"amendements?\s+n\s*[°ºo]?\.?\s*(\d+)", r"poprawk\w*\s+(?:nr\s*)?(\d+)",
+AMEND_NUMBER = (r"amendements?(?:\s+(?:identiques|de suppression|de reecriture))?\s+n\s*[°ºo]?\.?\s*(\d+)", r"poprawk\w*\s+(?:nr\s*)?(\d+(?:\s*(?:i|,)\s*\d+)*)",
                 r"\bemm?\.\s*(\d[\d.]*)", r"emendamento\s+(?:n\.\s*)?(\d[\d.]*)",
                 r"enmienda\s+(?:num\.?|n\s*[°ºo]\.?)?\s*(\d+)", r"emenda\s+(?:n\s*[°ºo]\.?)?\s*(\d+)",
                 r"\bem\s+(\d+)", r"amendement\s+(?:nr\.?\s*)?(?:van [^,]+?\s+)?(?:\(?(\d+)\)?)")
-ARTICLE = r"^(?:l')?(?:art\.?|articolo|articulo|article)\s*(\d+[\w-]*)"
+ARTICLE = r"^(?:sur )?(?:l')?(?:art\.?|articolo|articulo|article)\s*(\d+[\w-]*)"
 
 # (pattern over the folded wording, yes line, no line). {what} is the text.
 NAMED_FINAL = (
@@ -237,6 +290,7 @@ NAMED_FINAL = (
     (r"aprovad\w*,? em segundo turno", "To approve {what} in the second and final round.",
      "Against approving it."),
     (r"prvo citanje", "To accept {what} at first reading.", "Against accepting it at first reading."),
+    (r"drugo citanje", "To pass {what} at second (final) reading.", "Against passing it."),
     (r"dritter lesung", "To pass {what} at third reading.", "Against passing it."),
     (r"zweiter lesung", "To pass {what} at second reading.", "Against passing it."),
     (r"^(gewijzigde |nader gewijzigde )?motie|^motie:|adopter (le postulat|la motion)|"
@@ -253,14 +307,25 @@ NAMED_PROCEDURE = (
      "To send {what} back to committee.", "Against sending it back."),
     (r"pristupeni k tretiemu citaniu ihned", "To move {what} straight to third reading.",
      "Against moving straight to third reading."),
+    (r"niezwloczne przystapienie do drugiego czytania", "To move {what} straight to second reading.",
+     "Against moving straight to second reading."),
+    (r"avocacion por el pleno", "To have the full chamber, not the committee, take the final vote on "
+     "{what}.", "Against bringing it to the full chamber."),
     (r"orden del dia|porzadk\w* dzienn|napirend", "To change the order of business to take {what}.",
      "Against that change to the order of business."),
+    (r"dispensa\w* (de |da )?reda", "To skip the final drafting stage of {what}, so the final vote "
+     "can follow at once.", "Against skipping it."),
+    (r"requerimento", "To approve a procedural request (requerimento) on {what}.",
+     "Against the request."),
+    (r"prorroga", "To extend a deadline (on {what}).", "Against the extension."),
     (r"\bodroczeni|przerw\w* w posiedzeniu|suspension de seance",
      "To adjourn or pause the sitting (on {what}).", "Against adjourning or pausing."),
 )
 
 
 def _subst(text, what):
+    if what.startswith("the text ") and re.search(r"(resolution or decision|motion) \{what\}", text):
+        what = what[len("the text "):]
     return clean(text.replace("{what}", what))
 
 
@@ -269,13 +334,53 @@ def _amendment_label(question):
     for pat in AMEND_NUMBER:
         m = re.search(pat, q)
         if m and m.group(1):
-            return "amendment {0}".format(m.group(1).rstrip("."))
+            nums = [x for x in re.split(r"\s*(?:,|\bi\b|\be\b|\band\b)\s*", m.group(1).rstrip(".")) if x]
+            if len(nums) > 1:
+                return "amendments {0} and {1}".format(", ".join(nums[:-1]), nums[-1])
+            if re.search(r"de suppression", q):
+                return "amendment {0} (to delete the provision)".format(nums[0])
+            return "amendment {0}".format(nums[0])
     m = re.search(ARTICLE, q)
     if m:
         return "article {0}".format(m.group(1))
     if re.search(r"wniosek mniejszosci", q):
         return "the committee minority's motion"
     return None
+
+
+# Wordings the kind rules leave as 'other' that still say what was decided.
+NAMED_OTHER = (
+    (r"opposer la question prealable|exception d'irrecevabilite",
+     "To reject {what} without further debate (a motion opposing the question préalable or "
+     "the exception).", "Against the motion, so the debate goes on."),
+    (r"renvoi en commission|renvoyer en commission", "To send {what} back to committee.",
+     "Against sending it back."),
+    (r"segundo debate", "To approve {what} at its second debate (the Assembly's final vote).",
+     "Against approving it."),
+    (r"proyecto de resolucion|^prijedlog (odluke|rezolucije|deklaracije)|^resolucao|^resolution",
+     "To adopt the resolution or decision {what}.", "Against adopting it."),
+)
+
+MOTION_FIRST = (r"^proposicion no de ley|^mocion consecuencia|^(gewijzigde |nader gewijzigde )?motie\b|"
+                r"^motie:|^(motie|amendement)?:? ?(gewijzigde )?motie")
+# (pattern, label) for an amendment or part whose wording names what it is.
+NAMED_PART = (
+    (r"osszegzo modosito javaslat", "the Legislative Committee's consolidated amendments"),
+    (r"modosito javaslat fenntartasa|fenntartott modosito", "a minority amendment (rejected in "
+                                                             "committee, kept to a vote by its author)"),
+    (r"\bodg\b|ordine del giorno", "the order of the day {n} (a non-binding motion)"),
+    (r"mantido o texto", None),
+    (r"abanderungsantrag der abgeordneten|zusatzantrag der abgeordneten", "the amendment moved by {mover}"),
+    (r"entschliessungsantrag der abgeordneten", "the resolution moved by {mover}"),
+    (r"aangehouden amendement", "the amendment and article held over from the earlier vote"),
+    (r"pozmenujuc\w* navrh", "an amendment"),
+)
+TWO_THIRDS = r"minositett tobbseget igenylo"
+
+
+def _mover(question):
+    m = re.search(r"(?i)der Abgeordneten\s+(.+?)(?:,| und | Kolleginnen|$)", clean(question))
+    return "{0} and others".format(m.group(1).strip()) if m else "members"
 
 
 def rule_meaning(cc, r, wl=None, bills=None):
@@ -286,16 +391,26 @@ def rule_meaning(cc, r, wl=None, bills=None):
     what, english = describe(cc, r, wl, bills)
     quality = "full" if english else "title"
     if cc == "ch" and (r.get("meaning_yes") or r.get("meaning_no")):
-        got = _ch_rule(r, what, english)
+        subject = clean(r.get("subject"))
+        on = what if english else ("the text \u201c{0}\u201d".format(clip(subject, QUOTE_CHARS))
+                                   if subject and subject != question else None)
+        got = _ch_rule(r, on, english)
         if got:
             return got
     kind, _ = c5.vote_kind(question, spec.hint(r))
     q = c5.fold(question)[:c5.QUESTION_CHARS]
     if what is None:
-        if not question:
-            return None
-        what = "the text"
-        quality = "title"
+        return None
+    if re.search(MOTION_FIRST, q):
+        motion = what if english else "\u201c{0}\u201d".format(clip(question, QUOTE_CHARS))
+        return _out("To adopt the motion {0}{1}.".format(
+            motion, ", in the terms put to the vote" if re.search(r"enmienda", q) else ""),
+            "Against adopting the motion.", "motion", quality)
+    if kind == "other" and (re.search(ARTICLE, q) or re.search(AMEND_NUMBER[0], q)):
+        kind = "amendment"
+    if re.search(r"totalidad de texto alternativo", q):
+        return _out("To replace {0} with an alternative text (an amendment to the whole).".format(what),
+                    "Against the alternative text.", "texto alternativo", quality)
     if kind == "final":
         for pat, yes, no in NAMED_FINAL:
             if re.search(pat, q):
@@ -317,21 +432,41 @@ def rule_meaning(cc, r, wl=None, bills=None):
         if re.search(r"en lo particular|en particular", q):
             return _out("To approve {0} in its articles (after its approval in general).".format(what),
                         "Against approving those articles.", "amendment: en lo particular", quality)
+        part = " (the part needing a two-thirds majority)" if re.search(TWO_THIRDS, q) else ""
+        for pat, label in NAMED_PART:
+            if not re.search(pat, q):
+                continue
+            if label is None:          # Brazil's destaque: "Mantido o texto"
+                return _out("To keep the challenged part of {0} as drafted.".format(what),
+                            "To strike the challenged part out.", "amendment: destaque", quality)
+            n = re.search(r"\bodg\s+([\w.]+)|ordine del giorno\s+(?:n\.\s*)?([\w.]+)", q)
+            label = label.format(n=(n.group(1) or n.group(2)).upper() if n else "",
+                                 mover=_mover(question)).replace("  ", " ").replace(" (", " (", 1)
+            label = re.sub(r"order of the day \(", "order of the day (", label)
+            joiner = " on " if re.search(r"order of the day|resolution", label) else " to "
+            return _out("To adopt {0}{1}{2}{3}.".format(label, part, joiner, what),
+                        "Against adopting it.", "amendment: " + pat.split("|")[0], quality)
         label = _amendment_label(question)
         if label:
-            return _out("To adopt {0} to {1}.".format(label, what),
+            joiner = " of " if label.startswith("article") else " to "
+            return _out("To adopt {0}{1}{2}{3}.".format(label, part, joiner, what),
                         "Against adopting it, leaving the text as it stood.", "amendment", quality)
         quote = clip(question, 70)
-        return _out("To adopt the amendment or part put to the vote (“{0}”) on {1}.".format(
+        return _out("To adopt the amendment or part put to the vote (\u201c{0}\u201d) on {1}.".format(
             quote, what), "Against adopting it, leaving the text as it stood.", "amendment",
             "title")
+    if kind == "other":
+        for pat, yes, no in NAMED_OTHER:
+            if re.search(pat, q):
+                return _out(_subst(yes, what), no, "named: " + pat.split("|")[0], quality)
+        return None
     if kind == "procedural":
         for pat, yes, no in NAMED_PROCEDURE:
             if re.search(pat, q):
                 return _out(_subst(yes, what), no, "procedural: " + pat.split("|")[0], quality)
-        return _out("To agree the procedural motion (“{0}”) on {1}: the handling, not the "
+        return _out("To agree the procedural motion (\u201c{0}\u201d) on {1}: the handling, not the "
                     "substance.".format(clip(question, 60), what),
-                    "Against that procedural motion.", "procedural", "title")
+                    "Against that procedural motion.", "procedural", quality)
     return None
 
 
@@ -345,6 +480,10 @@ def _ch_rule(r, what, english):
     ye, ne = ch_phrase(ys), ch_phrase(ns)
     on = " on {0}".format(what) if what else ""
     if ye and ne:
+        if what and ye.endswith((" it", " the bill")):
+            return _out("For {0} {1}.".format(ye.rsplit(" ", 2 if ye.endswith(" the bill") else 1)[0],
+                                               what), "For {0}.".format(ne),
+                        "the Council's own meaning lines", "full" if english else "title")
         return _out("For {0}{1}.".format(ye, on), "For {0}.".format(ne),
                     "the Council's own meaning lines", "full" if english or not what else "title")
     if ys and ns:
@@ -570,6 +709,8 @@ def source_text(m):
 def line(it_or_meaning, cc=None, prefix="Meaning"):
     """'Meaning: Za = to pass ...; Przeciw = against passing it (by rule, ...).'
     for an item with `meaning` (or a meaning dict and its country), else None."""
+    if not it_or_meaning:
+        return None
     m = it_or_meaning.get("meaning") if "meaning" in it_or_meaning else it_or_meaning
     cc = cc or it_or_meaning.get("cc")
     if not m or not m.get("yes"):

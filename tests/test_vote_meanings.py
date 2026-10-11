@@ -78,10 +78,33 @@ class RuleTests(unittest.TestCase):
         self.assertIn("order of business", p["yes"])
 
     def test_no_english_description_quotes_the_source(self):
-        m = self.rule("głosowanie nad całością projektu.", "Pkt. 5 Sprawozdanie Komisji",
-                      procs=("10/999",))
+        m = self.rule("głosowanie nad całością projektu.",
+                      "Pkt. 5 Sprawozdanie Komisji o projekcie ustawy", procs=("10/999",))
         self.assertEqual(m["quality"], "title")
-        self.assertIn("“Pkt. 5 Sprawozdanie Komisji”", m["yes"])
+        self.assertIn("“Pkt. 5 Sprawozdanie Komisji o projekcie ustawy”", m["yes"])
+        # A short section heading gives way to the vote's own wording.
+        h = self.rule("Proposición de Ley sobre X", "Dictámenes.", procs=(), cc="es",
+                      initiative_key=None)
+        self.assertIn("“Proposición de Ley sobre X”", h["yes"])
+
+    def test_named_parts(self):
+        m = self.rule("poprawki nr 3 i 5")
+        self.assertTrue(m["yes"].startswith("To adopt amendments 3 and 5 to 10/2110"))
+        hu = vm.rule_meaning("hu", row("módosító javaslat fenntartása elutasítva", paper_key=None,
+                                       rule=None), {}, {})
+        self.assertIn("a minority amendment (rejected in committee, kept to a vote by its author)", hu["yes"])
+        br = vm.rule_meaning("br", row("Mantido o texto. Sim: 335; Não: 117.", bill_key=None,
+                                       linked_bills=None, former_keys=None), {}, {})
+        self.assertIn("keep the challenged part", br["yes"])
+        es = vm.rule_meaning("es", row("Proposición no de Ley del Grupo VOX, relativa a X",
+                                       "Proposiciones no de Ley.", initiative_key=None), {}, {})
+        self.assertTrue(es["yes"].startswith("To adopt the motion \u201cProposición no de Ley"))
+        self.assertEqual(vm.ch_phrase("Antrag der Minderheit II Michel"),
+                         "the committee minority's proposal (II Michel)")
+        ch = vm.ch_phrase("Proposition du groupe UDC")
+        self.assertEqual(ch, "the UDC's proposal")
+        self.assertEqual(vm.ch_phrase("Antrag der Mehrheit und des Bundesrates (Ablehnung der Motion)"),
+                         "the committee majority's and the Federal Council's proposal (to reject)")
 
     def test_unreadable_kind_has_no_rule(self):
         self.assertIsNone(self.rule("coś zupełnie innego"))
