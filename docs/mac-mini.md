@@ -339,6 +339,15 @@ Committees, cross-party groups and registers of interests (`tools/member_intel.p
 - **Coverage:** `mi_runs.last_seen` is watched (`tools/coverage.py`, cadence 7, grace 4); the log line `member-intel <cc>:` says what each source gave.
 - Nothing to install beyond the usual `git pull` of the runner clone.
 
+## Attendance in five country weeklies (11 October 2026, branch `ukp2-attendance`)
+
+Who attended the committee and plenary sittings (`tools/country_attendance.py <cc>`, `src/attendance.py`) for BR, FR, CL, NL and CO, into the store's `att_sittings`, `att_marks`, `att_referrals` and `att_runs`; the profiles step that follows shows it, and the debate packs show who attended the committee handling the bill (handover section 3c). Plenary vote participation for IT, CH, PL, ES, AR, PE, DO and HU is derived from the stored votes at render time: no step, no fetch.
+
+- **No new plists, workflows or cron slots.** A step of `jobs/<cc>-weekly.sh` for those five, after member intelligence and just before the member profiles, only when the collector stored something (exit 0 or 3). A failure is a `[gap] attendance` line; last week's rows stand and the store is still published.
+- **Cost per run (measured 11 October 2026 from the laptop):** BR about 75 s (the 9 MB presence CSV, not archived because the year's file is republished whole each night; the event and organ files; one tramitações request for each of the 38 bills on our ground); FR the 8.4 MB Agenda zip, a few seconds; NL two OData pages; CO nothing fetched (copied from `co_attendance`); CL about 5 minutes on the first run (98 plenary sessions of 2026 at one request each), then only the week's new sessions plus the committee list and one request per committee.
+- **Backfill (optional, by hand on the Mini, outside the overnight window):** `python3 tools/country_attendance.py br cl --years 2025 2026` reads the previous year as well. Not needed for the profiles; it lengthens the period the counts cover.
+- **Coverage:** `att_runs.last_seen` is watched (`tools/coverage.py`, cadence 7, grace 4); the log line `attendance <cc>:` says what each source gave.
+
 ## Length of service in eighteen country weeklies (11 October 2026, branch `ukp2-service`)
 
 Every period each member has sat and their dated groups (`tools/member_service.py <cc>`, `src/member_service.py`), into the store's `ms_periods`, `ms_party` and `ms_runs`; the profiles and the vote pages read them (handover section 3c).

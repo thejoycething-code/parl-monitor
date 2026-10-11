@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ComisionesColeccion xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://opendata.camara.cl/camaradiputados/v1">
+  <Comision>
+    <Id>544</Id>
+    <Nombre>Ética y Transparencia</Nombre>
+    <NombreWeb>Ética y Transparencia</NombreWeb>
+    <Alias>Ética y Transparencia</Alias>
+    <Tipo Valor="1">Permanente</Tipo>
+    <FechaInicio>2022-03-14T10:15:01</FechaInicio>
+    <FechaConstitucion>2022-03-14T10:15:01</FechaConstitucion>
+    <FechaTermino xsi:nil="true" />
+    <Correo>tgarrido@congreso.cl</Correo>
+    <Telefono>+56-32-50</Telefono>
+    <Fax>+56-32-50</Fax>
+    <Numero>25</Numero>
+    <Presidente>
+      <Id>1112</Id>
+      <Nombre>Ana María</Nombre>
+      <ApellidoPaterno>Bravo</ApellidoPaterno>
+      <ApellidoMaterno>Castro</ApellidoMaterno>
+    </Presidente>
+  </Comision>
+  <Comision>
+    <Id>411</Id>
+    <Nombre>Salud</Nombre>
+    <NombreWeb>Salud</NombreWeb>
+    <Alias>Salud</Alias>
+    <Tipo Valor="1">Permanente</Tipo>
+    <FechaInicio>2022-03-25T10:15:01</FechaInicio>
+    <FechaConstitucion>2022-03-14T10:15:01</FechaConstitucion>
+    <FechaTermino xsi:nil="true" />
+    <Correo>saludcam@congreso.cl</Correo>
+    <Telefono>+56-32-505520</Telefono>
+    <Fax>+56-32-50</Fax>
+    <Numero>10</Numero>
+    <Presidente>
+      <Id>1070</Id>
+      <Nombre>Patricio</Nombre>
+      <ApellidoPaterno>Rosas</ApellidoPaterno>
+      <ApellidoMaterno>Barrientos</ApellidoMaterno>
+    </Presidente>
+  </Comision>
+</ComisionesColeccion>

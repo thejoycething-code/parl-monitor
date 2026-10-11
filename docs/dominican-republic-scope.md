@@ -502,4 +502,6 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 - Records only: no vote is labelled for or against our side until its reading in `config/do_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
 - Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
 
+Attendance (11 October 2026, branch `ukp2-attendance`): the Senate's attendance is PDF only. The Chamber's plenary vote participation is DERIVED from the stored votes (AU, SV) with its basis.
+
 Length of service: **built, current period only** 11 October 2026 (`tools/member_service.py do`, branch `ukp2-service`): the SIL's period already in the store (2024-2028); no fetch. See docs/country-parity-handover.md, section 3c.

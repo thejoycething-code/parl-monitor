@@ -82,6 +82,13 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/member_intel.py br \
     || echo "  [gap] member-intel: br not fully read; last week's rows kept"
 fi
+# Attendance (tools/country_attendance.py, src/attendance.py): the Câmara's presence register (eventosPresencaDeputados, committees and the plenary's deliberative sessions) and the tramitações of the bills on our ground,
+# into att_sittings / att_marks / att_referrals before the profiles read them. A failure is a
+# [gap] line; last week's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_attendance.py br \
+    || echo "  [gap] attendance: br not fully read; last week's rows kept"
+fi
 # Length of service (tools/member_service.py, src/member_service.py): every period each
 # member has sat, from the Câmara's historico and the Senado's mandatos, a request a member, every four weeks, 25-minute budget;
 # (the tool skips a read that is not due), before the profiles and vote pages read it.

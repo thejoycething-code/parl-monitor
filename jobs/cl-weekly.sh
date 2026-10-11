@@ -48,6 +48,13 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/latam_alerts.py --country cl --send \
     || echo "  [gap] latam-alerts failed for cl; the next run retries"
 fi
+# Attendance (tools/country_attendance.py, src/attendance.py): the Cámara's plenary attendance (one request per new session) and committee attendance (opendata.camara.cl),
+# into att_sittings / att_marks / att_referrals before the profiles read them. A failure is a
+# [gap] line; last week's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_attendance.py cl \
+    || echo "  [gap] attendance: cl not fully read; last week's rows kept"
+fi
 # Length of service (tools/member_service.py, src/member_service.py): every period each
 # member has sat, from the Cámara's militancias already in the store, no fetch;
 # (the tool skips a read that is not due), before the profiles and vote pages read it.

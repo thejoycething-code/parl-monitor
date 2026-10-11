@@ -577,6 +577,8 @@ Phase list: **done**. A same-day alert for new bills, motions, questions and age
 
 Member intelligence: **built** 11 October 2026 (`tools/member_intel.py it`, a step of `jobs/it-weekly.sh`, branch `ukp-member-intel`): the Camera's current organ memberships (committees, giunte, inquiries) from dati.camera.it SPARQL, matched to the store's members by name (29 of 1,162 rows matched no one and are not shown). The Affari sociali and Giustizia committees, the children's committee and the femicide inquiry are flagged on our ground. The Senate's SPARQL answered 403 to the laptop; not read. Intergruppi are not published as data.
 
+Attendance (11 October 2026, branch `ukp2-attendance`): no committee presence is published (the Camera's open data has none; the Senate's SPARQL refuses us). Plenary vote participation is DERIVED from the stored votes, which list 'assente', 'in missione' and 'presente non votante', and shown in each profile and beside the speakers and members to watch in a debate pack, with its basis.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **Popular initiatives and referendums: built**, firmereferendum.giustizia.it's public JSON (87 initiatives, collection dates, signature counts, quorum 50,000 or 500,000).

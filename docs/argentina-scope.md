@@ -564,6 +564,8 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 
 Member intelligence: **not built** (11 October 2026, branch `ukp-member-intel`). The Senate's open data lists its committees (`ExportarListadoComisiones/json/todas`) without members; members are only on each committee's HTML page. Diputados is unreachable from everywhere we run.
 
+Attendance (11 October 2026, branch `ukp2-attendance`): no attendance file found. The Senate's plenary vote participation is DERIVED from the stored votes (AUSENTE) and shown with its basis.
+
 ## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
 
 - **National public consultations: built**, consultapublica.argentina.gob.ar (/api/forum/all): few a year, none open on 11 October.

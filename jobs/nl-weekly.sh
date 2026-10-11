@@ -101,6 +101,13 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/member_intel.py nl \
     || echo "  [gap] member-intel: nl not fully read; last week's rows kept"
 fi
+# Attendance (tools/country_attendance.py, src/attendance.py): the Tweede Kamer's committee-debate participants and zaken (Activiteit OData, two requests),
+# into att_sittings / att_marks / att_referrals before the profiles read them. A failure is a
+# [gap] line; last week's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_attendance.py nl \
+    || echo "  [gap] attendance: nl not fully read; last week's rows kept"
+fi
 # Length of service (tools/member_service.py, src/member_service.py): every period each
 # member has sat, from the gegevensmagazijn's FractieZetelPersoon, a few pages a week;
 # (the tool skips a read that is not due), before the profiles and vote pages read it.
