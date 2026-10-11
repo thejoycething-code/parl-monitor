@@ -40,6 +40,7 @@ cd "$(dirname "$0")/.."
 # the coverage watch would never see the Mini's runs.
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Austria weekly}"
 if [ "${AT_RECLASSIFY:-}" = "true" ]; then
+  python3 tools/country_petitions.py at --reclassify
   python3 tools/at_rollcalls.py --reclassify
   python3 tools/at_chamber.py --reclassify
 fi
@@ -53,6 +54,14 @@ bash tools/chamber_step.sh at "$SECONDS"
 # and the edition below shows it. Its failure is a [gap] line, never the run's.
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/country_agenda.py at || echo "  [gap] the week-ahead agenda step failed"
+fi
+# Petitions and consultations (tools/country_petitions.py, src/petitions.py):
+# this country's open petitions, initiatives and consultations read into the
+# store before the edition, which shows the new ones on our ground, the
+# thresholds crossed and the deadlines. Its failure is a [gap] line, never
+# the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_petitions.py at || echo "  [gap] the petitions step failed"
 fi
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM).

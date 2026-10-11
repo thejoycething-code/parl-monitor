@@ -1,0 +1,498 @@
+{
+ "data": {
+  "participatoryProcesses": [
+   {
+    "id": "3",
+    "slug": "brasilparticipativo",
+    "title": {
+     "translation": "Brasil Participativo"
+    },
+    "startDate": null,
+    "endDate": null,
+    "publishedAt": "2023-09-06T14:19:06-03:00",
+    "steps": [
+     {
+      "title": {
+       "translation": "Introdução"
+      },
+      "startDate": null,
+      "endDate": null,
+      "active": true
+     }
+    ],
+    "components": [
+     {
+      "id": "33",
+      "__typename": "Pages",
+      "name": {
+       "translation": "Sobre"
+      }
+     },
+     {
+      "id": "78",
+      "__typename": "Pages",
+      "name": {
+       "translation": "Termos e Condições de Uso"
+      }
+     },
+     {
+      "id": "211",
+      "__typename": "Pages",
+      "name": {
+       "translation": "Termos e Condições de Uso - Inglês"
+      }
+     },
+     {
+      "id": "212",
+      "__typename": "Pages",
+      "name": {
+       "translation": "Termos e Condições de Uso - Espanhol"
+      }
+     },
+     {
+      "id": "1400",
+      "__typename": "Homes",
+      "name": {
+       "translation": "Sobre o Brasil Participativo"
+      }
+     },
+     {
+      "id": "1401",
+      "__typename": "Homes",
+      "name": {
+       "translation": "Sobre os Processos Participativos"
+      }
+     },
+     {
+      "id": "1406",
+      "__typename": "Homes",
+      "name": {
+       "translation": "Fale Conosco"
+      }
+     }
+    ]
+   },
+   {
+    "id": "45",
+    "slug": "politicadedados",
+    "title": {
+     "translation": "Consulta Pública - Política de Governança de Dados, Interoperabilidade, Registro de Referência e Compartilhamento de Dados da Administração Pública Federal"
+    },
+    "startDate": "2025-07-23",
+    "endDate": "2026-11-30",
+    "publishedAt": "2025-07-23T07:00:28-03:00",
+    "steps": [
+     {
+      "title": {
+       "translation": "Consulta Publica"
+      },
+      "startDate": "2025-07-23",
+      "endDate": "2025-08-22",
+      "active": false
+     },
+     {
+      "title": {
+       "translation": "Apuração das contribuições "
+      },
+      "startDate": "2025-08-23",
+      "endDate": "2025-09-22",
+      "active": false
+     },
+     {
+      "title": {
+       "translation": "Devolutiva das contribuições"
+      },
+      "startDate": "2025-09-23",
+      "endDate": "2026-11-30",
+      "active": true
+     }
+    ],
+    "components": [
+     {
+      "id": "766",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Consulta ao Decreto"
+      }
+     },
+     {
+      "id": "1254",
+      "__typename": "Homes",
+      "name": {
+       "translation": "Página Inicial"
+      }
+     }
+    ]
+   },
+   {
+    "id": "171",
+    "slug": "consolidacaodenormasprotocolodemontreal",
+    "title": {
+     "translation": "Proposta de Instrução Normativa que disciplina a gestão de substâncias controladas pelo Protocolo de Montreal"
+    },
+    "startDate": "2025-12-09",
+    "endDate": "2026-02-28",
+    "publishedAt": "2026-08-18T00:00:53-03:00",
+    "steps": [
+     {
+      "title": {
+       "translation": "ABERTA"
+      },
+      "startDate": "2025-12-09",
+      "endDate": "2026-02-28",
+      "active": false
+     },
+     {
+      "title": {
+       "translation": "Sistematização dos resultados"
+      },
+      "startDate": "2026-03-01",
+      "endDate": "2026-05-28",
+      "active": false
+     },
+     {
+      "title": {
+       "translation": "Devolutiva "
+      },
+      "startDate": "2026-05-29",
+      "endDate": "2026-06-08",
+      "active": true
+     }
+    ],
+    "components": [
+     {
+      "id": "2149",
+      "__typename": "Homes",
+      "name": {
+       "translation": "Página Inicial"
+      }
+     },
+     {
+      "id": "2150",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Consulta Pública"
+      }
+     },
+     {
+      "id": "2169",
+      "__typename": "Pages",
+      "name": {
+       "translation": "Sobre"
+      }
+     },
+     {
+      "id": "4705",
+      "__typename": "Pages",
+      "name": {
+       "translation": "Devolutiva"
+      }
+     }
+    ]
+   },
+   {
+    "id": "245",
+    "slug": "pnlr",
+    "title": {
+     "translation": "Programa Nacional de Logística Reversa - PNLR"
+    },
+    "startDate": "2026-09-29",
+    "endDate": "2026-10-28",
+    "publishedAt": "2026-09-29T07:54:35-03:00",
+    "steps": [
+     {
+      "title": {
+       "translation": "1 - Consulta pública"
+      },
+      "startDate": "2026-09-29",
+      "endDate": "2026-10-28",
+      "active": true
+     }
+    ],
+    "components": [
+     {
+      "id": "2996",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Portaria"
+      }
+     },
+     {
+      "id": "5680",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Programa Nacional de Logística Reversa"
+      }
+     }
+    ]
+   },
+   {
+    "id": "503",
+    "slug": "segundoplanapir",
+    "title": {
+     "translation": "Consulta Pública para Contribuições ao 2º Plano Nacional de Promoção da Igualdade Racial – 2º PLANAPIR"
+    },
+    "startDate": "2026-09-14",
+    "endDate": "2026-10-16",
+    "publishedAt": "2026-09-14T17:56:23-03:00",
+    "steps": [
+     {
+      "title": {
+       "translation": "Aberta"
+      },
+      "startDate": "2026-09-11",
+      "endDate": "2026-10-16",
+      "active": true
+     },
+     {
+      "title": {
+       "translation": "Encerrada"
+      },
+      "startDate": "2026-10-17",
+      "endDate": "2026-12-31",
+      "active": false
+     }
+    ],
+    "components": [
+     {
+      "id": "4578",
+      "__typename": "Homes",
+      "name": {
+       "translation": "Página Inicial"
+      }
+     },
+     {
+      "id": "5550",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Eixo 1: Trabalho e Inclusão Produtiva"
+      }
+     },
+     {
+      "id": "5557",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Eixo 2: Educação"
+      }
+     },
+     {
+      "id": "5558",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Eixo 16: Fortalecimento do Sistema Nacional de Promoção da Igualdade Racial – SINAPIR e Conselhos de Promoção da Igualdade Racial "
+      }
+     },
+     {
+      "id": "5560",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Eixo 15: Política Internacional"
+      }
+     },
+     {
+      "id": "5561",
+      "__typename": "Proposals",
+      "name": {
+       "translation": " Eixo 5: Cultura, Memória e Reparação Simbólica "
+      }
+     },
+     {
+      "id": "5562",
+      "__typename": "Proposals",
+      "name": {
+       "translation": " Eixo 14: Comunicação Antirracista, Justiça Digital "
+      }
+     },
+     {
+      "id": "5563",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Eixo 3: Saúde Integral e Enfrentamento ao Racismo no SUS"
+      }
+     },
+     {
+      "id": "5564",
+      "__typename": "Proposals",
+      "name": {
+       "translation": " Eixo 6: Justiça, Segurança Pública e Defesa de Direitos "
+      }
+     },
+     {
+      "id": "5565",
+      "__typename": "Proposals",
+      "name": {
+       "translation": " Eixo 7: Comunidades Quilombolas "
+      }
+     },
+     {
+      "id": "5566",
+      "__typename": "Proposals",
+      "name": {
+       "translation": " Eixo 13: Justiça Climática e Enfrentamento ao Racismo Ambiental "
+      }
+     },
+     {
+      "id": "5567",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Eixo 4: Desenvolvimento Social, Assistência Social e Segurança Alimentar"
+      }
+     },
+     {
+      "id": "5568",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Eixo 8: Povos de Terreiro e de Matriz Africana"
+      }
+     },
+     {
+      "id": "5569",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Eixo 10: Mulheres Negras"
+      }
+     },
+     {
+      "id": "5570",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Eixo 9: Povos Ciganos"
+      }
+     },
+     {
+      "id": "5571",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Eixo 11: Crianças, Adolescentes e Juventude Negra"
+      }
+     },
+     {
+      "id": "5572",
+      "__typename": "Proposals",
+      "name": {
+       "translation": "Eixo 12: População LGBTQIAPN+ negra"
+      }
+     },
+     {
+      "id": "5573",
+      "__typename": "Homes",
+      "name": {
+       "translation": "Consulta Pública"
+      }
+     },
+     {
+      "id": "5597",
+      "__typename": "Pages",
+      "name": {
+       "translation": "Notícias"
+      }
+     }
+    ]
+   },
+   {
+    "id": "656",
+    "slug": "consultas-publicas-decis",
+    "title": {
+     "translation": "CONSULTA PÚBLICA - CLASSIFICAÇÃO DE RISCO DOS AGENTES BIOLÓGICOS E LISTA DOS AGENTES BIOLÓGICOS PRIORITÁRIOS À SAÚDE PÚBLICA"
+    },
+    "startDate": "2026-10-07",
+    "endDate": "2026-11-20",
+    "publishedAt": "2026-10-02T14:55:28-03:00",
+    "steps": [
+     {
+      "title": {
+       "translation": "Consulta Pública"
+      },
+      "startDate": "2026-10-07",
+      "endDate": "2026-11-20",
+      "active": true
+     },
+     {
+      "title": {
+       "translation": "Sistematização"
+      },
+      "startDate": "2026-11-21",
+      "endDate": "2026-12-18",
+      "active": false
+     },
+     {
+      "title": {
+       "translation": "Devolutiva"
+      },
+      "startDate": "2026-12-19",
+      "endDate": "2027-01-31",
+      "active": false
+     }
+    ],
+    "components": [
+     {
+      "id": "5373",
+      "__typename": "Homes",
+      "name": {
+       "translation": "Página Inicial"
+      }
+     },
+     {
+      "id": "5376",
+      "__typename": "Surveys",
+      "name": {
+       "translation": "CONSULTA PÚBLICA 01-2026"
+      }
+     }
+    ]
+   },
+   {
+    "id": "734",
+    "slug": "consultapublicaraioxportatil",
+    "title": {
+     "translation": "Consulta pública - Raios-x portátil"
+    },
+    "startDate": "2026-10-02",
+    "endDate": "2026-10-12",
+    "publishedAt": "2026-10-02T15:20:12-03:00",
+    "steps": [
+     {
+      "title": {
+       "translation": "Consulta pública"
+      },
+      "startDate": "2026-10-02",
+      "endDate": "2026-10-12",
+      "active": true
+     },
+     {
+      "title": {
+       "translation": "Análise técnica"
+      },
+      "startDate": "2026-10-13",
+      "endDate": "2026-10-19",
+      "active": false
+     },
+     {
+      "title": {
+       "translation": "Devolutiva"
+      },
+      "startDate": "2026-10-20",
+      "endDate": "2026-10-21",
+      "active": false
+     }
+    ],
+    "components": [
+     {
+      "id": "5733",
+      "__typename": "Homes",
+      "name": {
+       "translation": "Página Inicial"
+      }
+     },
+     {
+      "id": "5735",
+      "__typename": "Surveys",
+      "name": {
+       "translation": "Formulário"
+      }
+     }
+    ]
+   }
+  ]
+ }
+}
