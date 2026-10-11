@@ -37,6 +37,25 @@ import urllib.error
 import urllib.request
 from urllib.parse import urlsplit
 
+# Intermediate certificates that some servers leave out of their chain
+# (browsers fetch them from the CA; Python does not). Each one is the CA's
+# own published file and verifies against a root already trusted, so a
+# chain still has to reach a root: nothing here is a trust anchor of its
+# own. El Salvador's Asamblea serves its leaf alone (11 October 2026), so
+# every request failed CERTIFICATE_VERIFY_FAILED.
+TLS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "config", "tls")
+
+
+def tls_context():
+    """The default verifying context plus the intermediates in config/tls."""
+    ctx = ssl.create_default_context()
+    if os.path.isdir(TLS_DIR):
+        for name in sorted(os.listdir(TLS_DIR)):
+            if name.endswith(".pem"):
+                ctx.load_verify_locations(cafile=os.path.join(TLS_DIR, name))
+    return ctx
+
+
 DEFAULT_CONTACT = "cjoyce@citizengo.net"
 USER_AGENT_TEMPLATE = "CitizenGO-ParlMonitor/1.0 (contact: {contact})"
 
@@ -201,7 +220,8 @@ class HttpClient:
             self._rng = random.random
         else:
             self._rng = rng
-        self._opener = opener or urllib.request.build_opener()
+        self._opener = opener or urllib.request.build_opener(
+            urllib.request.HTTPSHandler(context=tls_context()))
 
         self._hosts = {}
         self._hosts_guard = threading.Lock()

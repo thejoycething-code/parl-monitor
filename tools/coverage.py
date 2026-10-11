@@ -909,9 +909,11 @@ AWAITING_FIRST_RUN = {
     "IE schedule": (("ie_schedule", "ie_schedule_days"),
                     "week-ahead step added to Ireland weekly 9 October 2026; its tables "
                     "fill on the step's first run"),
-    "IE questions": (("ie_questions",),
-                     "questions step added to Ireland weekly 9 October 2026; the table "
-                     "fills on the step's first run"),
+    # ie_windows too: the question and debate weeks are written only by
+    # these steps, which first ran after the 9 October weekly (11 October).
+    "IE questions": (("ie_questions", "ie_windows"),
+                     "questions step added to Ireland weekly 9 October 2026; its tables "
+                     "fill on the step's first run"),
     "IE debates": (("ie_speeches",),
                    "debates step added to Ireland weekly 9 October 2026; the table "
                    "fills on the step's first run"),
