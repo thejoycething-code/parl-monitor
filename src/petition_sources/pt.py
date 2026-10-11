@@ -10,9 +10,12 @@ the committee handling it. No closing date: a petition is open until the
 committee concludes it. Petitions already 'Concluída' or 'Retirada' are not
 stored. No robots.txt on either host.
 
-THRESHOLDS (Lei 43/90 as amended by Lei 63/2020): over 1,000 signatures,
-the petitioners must be heard by the committee and the petition is
-published in the Diário; over 7,500, it is debated in plenary.
+THRESHOLDS (Lei 43/90 as amended by Lei 63/2020; checked against the
+Assembleia's consolidated text on 11 October 2026): over 1,000 signatures,
+the petitioners must be heard by the committee (art. 21(1)) and the petition
+is published in the Diário (art. 26(1)(a)); over 2,500, it is debated in the
+committee (art. 24-A); over 7,500, in plenary (art. 24(1)(a)). The petition
+itself is never voted on.
 
 Not covered: ConsultaLEX (the government's consultations) is driven by
 postbacks with no item addresses and listed none open on 11 October;
@@ -36,6 +39,7 @@ ITEM = SITE + "/ActividadeParlamentar/Paginas/DetalhePeticao.aspx?BID={0}"
 CLOSED = ("Concluída", "Concluida", "Retirada", "Arquivada")
 THRESHOLDS = (
     (1000, "petitioners heard by the committee, published in the Diário"),
+    (2500, "debated in the committee"),
     (7500, "debated in plenary"),
 )
 

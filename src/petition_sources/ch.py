@@ -22,9 +22,9 @@ Gazette notices are read instead, through the same SPARQL endpoint: an
 initiative's collection starts with its "Vorprüfung" notice and ends with
 "Zustandekommen", "Nichtzustandekommen", "Rückzug" or "Fristablauf". An
 initiative with a Vorprüfung and no ending notice is collecting; its
-deadline is 18 months after the Vorprüfung's publication (Art. 71 BPR,
-our reading of the law, not a published date). 100,000 valid signatures
-bring a popular vote. No counts are published while signatures are
+deadline is 18 months after the Vorprüfung's publication (Art. 71 BPR and
+Federal Constitution Art. 139(1), checked 11 October 2026; the date is
+worked out, not published). 100,000 valid signatures bring a popular vote. No counts are published while signatures are
 collected.
 """
 
