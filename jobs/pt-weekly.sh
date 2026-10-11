@@ -53,7 +53,10 @@ case "${PT_LEGISLATURE:-}" in
   XV|XVI|XVII) leg=(--legislature "$PT_LEGISLATURE") ;;
   *) echo "pt-weekly: unknown legislature '${PT_LEGISLATURE}'"; exit 2 ;;
 esac
-python3 tools/pt_rollcalls.py --budget-seconds 2700 "${leg[@]}" || rc=$?
+# The collector's budget is what the job's limit leaves after the publish and
+# the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
+# budget plus the Mini's 15-minute store upload overran the hour (10 October).
+python3 tools/pt_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" "${leg[@]}" || rc=$?
 # X8 (10 October 2026): the Tribunal Constitucional's acórdãos
 # (tools/pt_courts.py): 30 s between requests, at most ten rulings read, so
 # about six minutes; a 429 ends it with one gap. Not on a backfill run.

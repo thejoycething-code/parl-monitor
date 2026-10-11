@@ -195,7 +195,10 @@ class SchemaTests(unittest.TestCase):
     def test_the_weekly_keeps_its_hour(self):
         with open(os.path.join(ROOT, "jobs", "sk-weekly.sh"), encoding="utf-8") as fh:
             job = fh.read()
-        self.assertIn("--doc-budget-seconds 600 --budget-seconds 2100", job)
+        # Positions at most 35 minutes, less on the Mini when the hour cannot
+        # also hold the documents and the publish (tools/collector_budget.sh).
+        self.assertIn('--doc-budget-seconds 600 --budget-seconds '
+                      '"$(bash tools/collector_budget.sh 2100 "$SECONDS" 600)"', job)
 
 
 if __name__ == "__main__":
