@@ -1,8 +1,24 @@
 {
  "cc": "cl",
- "held": {},
+ "held": {
+  "cl|new|18698-07": "2026-10-11"
+ },
  "moves": [],
  "seeded": "2026-10-11",
  "sent": {},
- "status": {}
+ "status": {
+  "11577-11": "En tramitación / Segundo trámite constitucional (Senado)",
+  "11745-11": "En tramitación / Segundo trámite constitucional (Senado)",
+  "17494-07": "En tramitación / Primer trámite constitucional (C.Diputados)",
+  "17564-11": "En tramitación / Primer trámite constitucional (C.Diputados)",
+  "17571-18": "En tramitación / Primer trámite constitucional (C.Diputados)",
+  "17586-18": "En tramitación / Primer trámite constitucional (C.Diputados)",
+  "17636-18": "En tramitación / Primer trámite constitucional (C.Diputados)",
+  "17728-11": "Retirado / Tramitación terminada",
+  "17798-11": "En tramitación / Primer trámite constitucional (C.Diputados)",
+  "17930-04": "En tramitación / Primer trámite constitucional (C.Diputados)",
+  "17967-07": "En tramitación / Primer trámite constitucional (C.Diputados)",
+  "7736-11": "En tramitación / Segundo trámite constitucional (Senado)",
+  "9644-11": "En tramitación / Segundo trámite constitucional (Senado)"
+ }
 }
