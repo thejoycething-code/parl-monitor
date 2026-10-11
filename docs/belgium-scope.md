@@ -448,3 +448,9 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/be.json` (`src/country_vote_brief.py`, step in `jobs/be-weekly.sh`). Briefed after each weekly collection. Groups are as the member list stood when stored, not at the vote, and the brief says so. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Speech clips (built 11 October 2026, branch `ukp-speech-clips`)
+
+`tools/country_clips.py` (src/country_clips.py; docs/debate-pack-social.md, "Speech clips, new countries"): `pick be` ranks the speeches on our ground in `be_speeches` (or the day read live with `--live`) and writes a pack with a passage per speaker; `cut` fetches only each speech's span of official video, aligns the passage with Whisper and renders captioned 9:16 and 16:9 clips with the source credit. Manual, no job, nothing posted. Source, terms and status in `config/clip-sources.yaml`.
+
+**Status: needs agreement.** media.lachambre.be's archive gives each plenary's MP4 (the site's own download) and an event table of speaker turns with offsets; a speaker's turns are tried longest first. The Chamber's FAQ: speeches may be reproduced freely, but works it commissions (the recordings are a contractor's) need its authorisation, and no video licence is published, so the cut step refuses until `be.agreement` is filled in. Sample pack (locate only): plenary 143, 8 October 2026, four speakers located.

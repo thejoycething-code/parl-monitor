@@ -502,3 +502,9 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/nl.json` (`src/country_vote_brief.py`, step in `jobs/nl-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Tweede Kamer's OData, one request; a show of hands waits up to two days for its positions. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Speech clips (built 11 October 2026, branch `ukp-speech-clips`)
+
+`tools/country_clips.py` (src/country_clips.py; docs/debate-pack-social.md, "Speech clips, new countries"): `pick nl` ranks the speeches on our ground in `nl_speeches` (or the day read live with `--live`) and writes a pack with a passage per speaker; `cut` fetches only each speech's span of official video, aligns the passage with Whisper and renders captioned 9:16 and 16:9 clips with the source credit. Manual, no job, nothing posted. Source, terms and status in `config/clip-sources.yaml`.
+
+**Status: manual.** Debat Direct gives every speaker's start second per debate (`api/debates/<id>` events), but its day archive answers our client with a 'nomeeting' placeholder playlist (24 Sep and 8 Oct, measured 11 October 2026) and its download is a socket.io fragment service, so a person downloads the speech on Debat Direct and runs `cut --pack F --only NAME --video FILE`; `moments nl --pack F` lists where each speaker spoke. The Tweede Kamer's licence (1 May 2019) allows extracts for freedom of expression with a visible credit, a copyright line, a link to the terms and a note of the edit; no member recruitment or fundraising in the clip; source footage destroyed within a month (the tool purges `windows/` after 30 days).

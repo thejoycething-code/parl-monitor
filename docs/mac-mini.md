@@ -589,3 +589,20 @@ merge the runner picks them up on its next `git pull` (mini_run.sh does it).
 | CH6, Swiss Italian texts | `jobs/ch-weekly.sh`, inside `ch_rollcalls.py` | A third language pass (22 more pages on a full read, a few on a weekly one). The first weekly after the merge reads every business's Italian record once (about 6,700 have one; Fragestunde questions mostly do not and are marked so). |
 | SK6, Slovak bill documents | `jobs/sk-weekly.sh` (Tuesdays): documents get the first 10 minutes of the old 45-minute positions budget | The backlog by hand: `sk-docs-backfill` above, three runs. |
 
+
+## Speech clips for the new countries (11 October 2026, branch `ukp-speech-clips`)
+
+No job: `tools/country_clips.py` is a hand command (docs/debate-pack-social.md, "Speech
+clips, new countries"). It reads the store read-only and writes only into
+`data/clips/<pack>/`, so it is safe while a weekly holds the store, and it never posts.
+
+- **The footage bundle is not installed** (checked over SSH, 11 October 2026: neither
+  `/usr/bin/python3` nor `~/runner/venv` imports `faster_whisper`, and there is no
+  `ffmpeg`). Step 3 of `tools/macmini_setup.sh` installs it (`pip install --user
+  imageio-ffmpeg yt-dlp faster-whisper`); the UK's `social_cut.py` and `speech_cut.py`
+  need the same. Run it from a session on the Mini, not over SSH by an agent.
+- **The multilingual Whisper model** (`small`, about 480 MB) is fetched by faster-whisper
+  the first time a cut runs (the UK uses the English-only `small.en`). Run the first cut by
+  hand so the download is seen.
+- Fetched source footage is deleted after 30 days (`purge`, also run at the start of each
+  cut); finished clips stay in the pack.

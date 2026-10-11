@@ -483,3 +483,9 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/ch.json` (`src/country_vote_brief.py`, step in `jobs/ch-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Nationalrat's votes during a session (OData); the Ständerat's come with the weekly, as its spreadsheets do. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Speech clips (built 11 October 2026, branch `ukp-speech-clips`)
+
+`tools/country_clips.py` (src/country_clips.py; docs/debate-pack-social.md, "Speech clips, new countries"): `pick ch` ranks the speeches on our ground in `ch_speeches` (or the day read live with `--live`) and writes a pack with a passage per speaker; `cut` fetches only each speech's span of official video, aligns the passage with Whisper and renders captioned 9:16 and 16:9 clips with the source credit. Manual, no job, nothing posted. Source, terms and status in `config/clip-sources.yaml`.
+
+**Status: open.** Each Bulletin speech (`transcript:<ID>`) has its own MP4, the Bulletin's own download (`par-pcache.simplex.tv/content/simvid_1.mp4?externalid=<ID>`). The terms allow non-commercial use with '(c) ParlCH' and no added graphic elements that change the meaning, so the clips carry captions, name plate and credit but no CitizenGO logo. Sample pack (locate only; no ffmpeg on the laptop): 25.455 Feministische Verfassungsrevision, Ständerat 29 September 2026, four speakers located.

@@ -508,3 +508,9 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/fr.json` (`src/country_vote_brief.py`, step in `jobs/fr-weekly.sh`). Briefed after each weekly collection. Not daily: the Assemblée publishes its scrutins only as one 27 MB nightly zip, and reading only its newest members by HTTP range is unsafe (on 10 October its CDN served two builds of the file, 26,987,736 and 26,960,828 bytes, to successive range requests). See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Speech clips (built 11 October 2026, branch `ukp-speech-clips`)
+
+`tools/country_clips.py` (src/country_clips.py; docs/debate-pack-social.md, "Speech clips, new countries"): `pick fr` ranks the speeches on our ground in `fr_speeches` (or the day read live with `--live`) and writes a pack with a passage per speaker; `cut` fetches only each speech's span of official video, aligns the passage with Whisper and renders captioned 9:16 and 16:9 clips with the source credit. Manual, no job, nothing posted. Source, terms and status in `config/clip-sources.yaml`.
+
+**Status: needs agreement.** Each paragraph of the compte rendu carries `stime`, seconds into the sitting's video (`tools/fr_chamber.parse_sitting_timed`, additive), and the sitting's MP4 on anorigin.vodalys.com answers byte ranges, so only the speech is fetched. But the Assemblée's information page says 'les ressources multimédias ne peuvent être reproduits sans accord préalable': the cut step refuses until `fr.agreement` is filled in (ask communication@assemblee-nationale.fr). Sample pack (locate only): 9 October 2026, violences sexuelles, four speeches located to the second.

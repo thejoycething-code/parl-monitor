@@ -551,3 +551,7 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/br.json` (`src/country_vote_brief.py`, step in `jobs/br-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Câmara's API v2 (nominal votes told by the count in their description) and the Senado's vote API. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Speech clips (not built, 11 October 2026, branch `ukp-speech-clips`)
+
+The Câmara's videos of legislative activity are CC BY 4.0 (its watermark must stay), so reuse is open, but no Brazilian speeches are stored (speeches not collected: per-deputy cost), so there is nothing to align a clip to. Build when speeches are collected. Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.

@@ -522,3 +522,7 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/pl.json` (`src/country_vote_brief.py`, step in `jobs/pl-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Sejm API, with the bills' areas from data/vote-briefs/pl-parents.json, which the weekly writes from the store (the print endpoints timed out on 10 October). See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Speech clips (not built, 11 October 2026, branch `ukp-speech-clips`)
+
+No reuse terms for the Sejm's transmissions were found on 11 October 2026, and no Polish speeches are stored (the transcript endpoint never answered). Nothing to align to. Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.

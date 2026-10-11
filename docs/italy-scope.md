@@ -559,3 +559,7 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/it.json` (`src/country_vote_brief.py`, step in `jobs/it-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Senate's SPARQL endpoint and Openpolis for the Camera (positions held while Openpolis shows 'SEC'); dati.senato.it answered 403 to the laptop on 10 October, to be checked from the Mini. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Speech clips (not built, 11 October 2026, branch `ukp-speech-clips`)
+
+The Camera's legal notice reserves its multimedia under Law 633/1941 (original content reproducible with the source, video not clearly covered), and no Italian speeches are stored (the Senate refuses us; the Camera's debates are not collected). Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.

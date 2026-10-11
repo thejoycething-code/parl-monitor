@@ -912,6 +912,12 @@ AWAITING_FIRST_RUN.update({
 # was written, and how Member profiles was missing from this file.
 EXEMPT = {}
 
+# Not watched, because they write no table and run on no clock: the manual
+# footage tools. The UK's (tools/social_cut.py, tools/speech_cut.py) and the
+# new countries' speech clips (tools/country_clips.py, 11 October 2026: CH, AT
+# open; NL manual; FR, BE awaiting the parliaments' agreement) read the store
+# read-only and write files into a pack folder for a person; nothing to miss.
+
 # Workflows that write the store but run ONLY when a human dispatches
 # them. They cannot "stop dead" -- there is no cadence to miss -- so they
 # get no heartbeat expectation. They still stamp one when they run, which

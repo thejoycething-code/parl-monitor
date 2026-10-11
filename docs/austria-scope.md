@@ -453,3 +453,9 @@ countries".
 ## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
 
 Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/at.json` (`src/country_vote_brief.py`, step in `jobs/at-weekly.sh`). Briefed after each weekly collection. Klub votes: member positions are derived (X5), so no member is named. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Speech clips (built 11 October 2026, branch `ukp-speech-clips`)
+
+`tools/country_clips.py` (src/country_clips.py; docs/debate-pack-social.md, "Speech clips, new countries"): `pick at` ranks the speeches on our ground in `at_speeches` (or the day read live with `--live`) and writes a pack with a passage per speaker; `cut` fetches only each speech's span of official video, aligns the passage with Whisper and renders captioned 9:16 and 16:9 clips with the source credit. Manual, no job, nothing posted. Source, terms and status in `config/clip-sources.yaml`.
+
+**Status: open.** The sitting's Mediathek page lists each speech with its protocol number (the end of our speech_id) and a uuid; the Mediathek's own 'Rede herunterladen' returns that speech's 1080p MP4. robots.txt's /aktuelles/mediathek/XXVIII/NRSITZ/19 rule is honoured. Terms: political reporting, political education, private non-commercial use only, credit '(c) Parlamentsdirektion', no advertising. Sample pack (locate only): NR sitting 96, 23 September 2026, Dringlicher Antrag zum Kinderschutz, four speeches located.
