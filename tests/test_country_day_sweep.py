@@ -358,6 +358,16 @@ class NewReaderTests(unittest.TestCase):
         self.assertGreater(n, 0)
         self.assertLess(n, 60)                                  # the page is four weeks deep
 
+    def test_retries_capped_while_a_reader_runs(self):
+        class C:
+            max_retries = 3
+        c = C()
+        with sources.retries(sources.NoArchive(c), 0):
+            self.assertEqual(c.max_retries, 0)
+        self.assertEqual(c.max_retries, 3)
+        with sources.retries(FakeClient([]), 1):               # a client without the knob
+            pass
+
     def test_latam_countries_go_through_the_latam_path(self):
         self.assertEqual(set(sweep.LATAM), {"cl", "pe", "ec", "bo", "do", "pa", "hn", "uy"})
         self.assertTrue(set(sweep.LATAM) <= set(sources.SWEEP))

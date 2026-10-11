@@ -112,6 +112,27 @@ def _throttle(client, host, seconds):
         setter(host, seconds)
 
 
+class retries:
+    """Cap the client's retries while a block runs: `with retries(client, 0):`.
+    The daily sweep has the weekly as its backstop, so a host that refuses is
+    a [gap] line for the day, not minutes of backoff (Argentina's register,
+    refused, cost 282 s with the default retries on 11 October 2026)."""
+
+    def __init__(self, client, most):
+        self.client, self.most, self.old = getattr(client, "client", client), most, None
+
+    def __enter__(self):
+        self.old = getattr(self.client, "max_retries", None)
+        if self.old is not None:
+            self.client.max_retries = min(self.old, self.most)
+        return self
+
+    def __exit__(self, *exc):
+        if self.old is not None:
+            self.client.max_retries = self.old
+        return False
+
+
 def chamber_run(cc, conn, client, since, today, log=print, budget=QUESTION_BUDGET_S):
     """A src/chamber_store.Run over the scratch store, for a country's own
     question fetcher (tools/<cc>_chamber.py)."""
@@ -521,8 +542,9 @@ class AR(Reader):
         end = (datetime.date.fromisoformat(today) + datetime.timedelta(days=1)).isoformat()
         _throttle(client, "datos.hcdn.gob.ar", arr.DATOS_THROTTLE_S)
         try:
-            payload = client.get_json(arr._sql_url(arr.proyectos_sql(start, end)), arr.FEED,
-                                      "sweep-proyectos-{0}".format(start), timeout=60)
+            with retries(client, 0):     # one try: a refusal is the day's [gap], nothing more
+                payload = client.get_json(arr._sql_url(arr.proyectos_sql(start, end)), arr.FEED,
+                                          "sweep-proyectos-{0}".format(start), timeout=30)
             recs = payload["result"]["records"]
         except (FetchError, KeyError, TypeError) as exc:
             raise ValueError("the Diputados register was not read: {0}".format(

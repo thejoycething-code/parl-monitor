@@ -75,6 +75,7 @@ SWEEP_KINDS = ("new", "question", "agenda")
 EDITION_DAYS = 21
 KEEP_DAYS = 400
 MAX_DM_ITEMS = 20
+SWEEP_RETRIES = 1     # at most one retry a request: the weekly is the backstop
 KIND_LABEL = {"new": "New", "question": "Question", "agenda": "On the agenda"}
 # Latam countries read through the Latam alerts' path, de-duplicated against
 # its ledger (data/latam-alerts/<cc>.json) both ways: what tools/latam_alerts.py
@@ -345,7 +346,8 @@ def collect(conn, client, since, today, countries=sources.SWEEP, log=print, dire
         c = sources.NoArchive(client) if reader.ARCHIVE_ON_HIT else client
         ok, started = False, time.monotonic()
         try:
-            reader.collect(conn, c, since, today, log=log)
+            with sources.retries(c, SWEEP_RETRIES):
+                reader.collect(conn, c, since, today, log=log)
             ok = True
         except Exception as exc:          # noqa: BLE001 - one reader must not cost the others
             conn.rollback()
