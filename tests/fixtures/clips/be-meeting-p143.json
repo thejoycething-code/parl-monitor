@@ -1,0 +1,418 @@
+{
+ "key": "56-020330-P143",
+ "meetingId": 20330,
+ "meetingType": "P",
+ "meetingNr": "143",
+ "room": "Plénière - Plenaire",
+ "title": [
+  {
+   "language": "nl",
+   "value": "Plenum - Vragen, wetsontwerpen en wetsvoorstel, stemmingen"
+  },
+  {
+   "language": "fr",
+   "value": "Plénière - Questions, projets et proposition de loi, votes"
+  }
+ ],
+ "startTime": "2026-10-08T14:14:54Z",
+ "organ": {
+  "gaabCode": "plen",
+  "drsCode": "PLN",
+  "drsDescription": "Plénière - Plenum"
+ },
+ "annotation": "020330-P143.xml",
+ "stream": "56/020330-P143.mp4",
+ "status": "ARCHIVED",
+ "legislature": 56,
+ "institution": 1,
+ "endTime": "2026-10-08T18:09:24Z",
+ "manifestUrls": {
+  "hls": "https://5f43d883c9907.streamlock.net/vod/_definst_/amlst:vod/56/020330-P143.mp4/playlist.m3u8"
+ },
+ "eventTable": {
+  "startTime": "00:00:00",
+  "topics": [
+   {
+    "title": [
+     {
+      "language": "nl"
+     },
+     {
+      "language": "fr"
+     }
+    ],
+    "events": [
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:03:49"
+     }
+    ]
+   },
+   {
+    "title": [
+     {
+      "language": "nl",
+      "main": "Agenda"
+     },
+     {
+      "language": "fr",
+      "main": "Ordre du jour"
+     }
+    ],
+    "events": [
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:04:10"
+     }
+    ]
+   },
+   {
+    "title": [
+     {
+      "language": "nl",
+      "main": "Mededelingen"
+     },
+     {
+      "language": "fr",
+      "main": "Communications"
+     }
+    ],
+    "events": [
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:04:30"
+     }
+    ]
+   },
+   {
+    "title": [
+     {
+      "language": "nl",
+      "main": "vraag"
+     },
+     {
+      "language": "fr",
+      "main": "question"
+     }
+    ],
+    "events": [
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:04:50"
+     }
+    ]
+   },
+   {
+    "title": [
+     {
+      "language": "nl",
+      "main": "vraag",
+      "item": "Begrotingsconclaaf"
+     },
+     {
+      "language": "fr",
+      "main": "question",
+      "item": "Conclave budgétaire"
+     }
+    ],
+    "events": [
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:05:16"
+     },
+     {
+      "speaker": "François DE SMET",
+      "party": "DéFI",
+      "time": "00:05:25"
+     },
+     {
+      "speaker": "Arthur ORLIANS",
+      "party": "Anders.",
+      "time": "00:07:40"
+     },
+     {
+      "speaker": "Axel RONSE",
+      "party": "N-VA",
+      "time": "00:09:46"
+     },
+     {
+      "speaker": "Wouter VERMEERSCH",
+      "party": "VB",
+      "time": "00:12:01"
+     },
+     {
+      "speaker": "Kjell VANDER ELST",
+      "party": "Anders.",
+      "time": "00:14:09"
+     },
+     {
+      "speaker": "Sofie MERCKX",
+      "party": "PVDA-PTB",
+      "time": "00:16:00"
+     },
+     {
+      "speaker": "Dieter VANBESIEN",
+      "party": "Ecolo-Groen",
+      "time": "00:18:11"
+     },
+     {
+      "speaker": "1M Bart DE WEVER",
+      "time": "00:20:15"
+     },
+     {
+      "speaker": "François DE SMET",
+      "party": "DéFI",
+      "time": "00:24:01"
+     },
+     {
+      "speaker": "Arthur ORLIANS",
+      "party": "Anders.",
+      "time": "00:25:04"
+     },
+     {
+      "speaker": "Axel RONSE",
+      "party": "N-VA",
+      "time": "00:26:10"
+     },
+     {
+      "speaker": "Wouter VERMEERSCH",
+      "party": "VB",
+      "time": "00:27:19"
+     },
+     {
+      "speaker": "Kjell VANDER ELST",
+      "party": "Anders.",
+      "time": "00:28:20"
+     },
+     {
+      "speaker": "Sofie MERCKX",
+      "party": "PVDA-PTB",
+      "time": "00:29:25"
+     },
+     {
+      "speaker": "Dieter VANBESIEN",
+      "party": "Ecolo-Groen",
+      "time": "00:30:15"
+     },
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:31:21"
+     }
+    ]
+   },
+   {
+    "title": [
+     {
+      "language": "nl",
+      "main": "vraag",
+      "item": "Klimaatmars"
+     },
+     {
+      "language": "fr",
+      "main": "question",
+      "item": "Marche pour le climat"
+     }
+    ],
+    "events": [
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:31:36"
+     },
+     {
+      "speaker": "Jeroen VAN LYSEBETTENS",
+      "party": "Ecolo-Groen",
+      "time": "00:31:40"
+     },
+     {
+      "speaker": "Marc LEJEUNE",
+      "party": "Les Engagés",
+      "time": "00:33:55"
+     },
+     {
+      "speaker": "Natalie EGGERMONT",
+      "party": "PVDA-PTB",
+      "time": "00:36:06"
+     },
+     {
+      "speaker": "1M Bart DE WEVER",
+      "time": "00:38:15"
+     },
+     {
+      "speaker": "Jeroen VAN LYSEBETTENS",
+      "party": "Ecolo-Groen",
+      "time": "00:41:15"
+     },
+     {
+      "speaker": "Marc LEJEUNE",
+      "party": "Les Engagés",
+      "time": "00:42:25"
+     },
+     {
+      "speaker": "Natalie EGGERMONT",
+      "party": "PVDA-PTB",
+      "time": "00:43:35"
+     },
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:44:46"
+     }
+    ]
+   },
+   {
+    "title": [
+     {
+      "language": "nl",
+      "main": "vraag",
+      "item": "Prijs van de winkelkar"
+     },
+     {
+      "language": "fr",
+      "main": "question",
+      "item": "Prix du caddie"
+     }
+    ],
+    "events": [
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:44:55"
+     },
+     {
+      "speaker": "Patrick PRÉVOT",
+      "party": "PS",
+      "time": "00:45:06"
+     },
+     {
+      "speaker": "min. David CLARINVAL",
+      "time": "00:47:10"
+     },
+     {
+      "speaker": "Patrick PRÉVOT",
+      "party": "PS",
+      "time": "00:49:16"
+     },
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:50:35"
+     }
+    ]
+   },
+   {
+    "title": [
+     {
+      "language": "nl",
+      "main": "vraag",
+      "item": "Studenten uit Gaza"
+     },
+     {
+      "language": "fr",
+      "main": "question",
+      "item": "Étudiants de Gaza"
+     }
+    ],
+    "events": [
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:50:50"
+     },
+     {
+      "speaker": "Francesca VAN BELLEGHEM",
+      "party": "VB",
+      "time": "00:51:00"
+     },
+     {
+      "speaker": "min. Maxime PRÉVOT",
+      "time": "00:52:45"
+     },
+     {
+      "speaker": "Francesca VAN BELLEGHEM",
+      "party": "VB",
+      "time": "00:54:55"
+     },
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:55:50"
+     }
+    ]
+   },
+   {
+    "title": [
+     {
+      "language": "nl",
+      "main": "vraag",
+      "item": "Managementvennootschappen"
+     },
+     {
+      "language": "fr",
+      "main": "question",
+      "item": "Sociétés de management"
+     }
+    ],
+    "events": [
+     {
+      "speaker": "Voorzitter - Président",
+      "time": "00:56:05"
+     },
+     {
+      "speaker": "Steven COENEGRACHTS",
+      "party": "Anders.",
+      "time": "00:56:11"
+     },
+     {
+      "speaker": "min. Frank VANDENBROUCKE",
+      "time": "00:58:26"
+     },
+     {
+      "speaker": "Steven COENEGRACHTS",
+      "party": "Anders.",
+      "time": "01:00:30"
+     }
+    ]
+   },
+   {
+    "title": [
+     {
+      "language": "nl",
+      "main": "vraag",
+      "item": "Palliatieve zorg"
+     },
+     {
+      "language": "fr",
+      "main": "question",
+      "item": "Soins palliatifs"
+     }
+    ],
+    "events": [
+     {
+      "speaker": "Steven COENEGRACHTS",
+      "party": "Anders.",
+      "time": "01:01:45"
+     },
+     {
+      "speaker": "Els VAN HOOF",
+      "party": "cd&v",
+      "time": "01:01:51"
+     },
+     {
+      "speaker": "Carmen RAMLOT",
+      "party": "Les Engagés",
+      "time": "01:04:06"
+     },
+     {
+      "speaker": "min. Frank VANDENBROUCKE",
+      "time": "01:05:35"
+     },
+     {
+      "speaker": "Els VAN HOOF",
+      "party": "cd&v",
+      "time": "01:09:11"
+     },
+     {
+      "speaker": "Carmen RAMLOT",
+      "party": "Les Engagés",
+      "time": "01:10:25"
+     }
+    ]
+   }
+  ]
+ }
+}
