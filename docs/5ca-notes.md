@@ -403,6 +403,35 @@ palliative leave vote (its bill still flagged) and 2 sit on Portugal's
 face-covering law, whose PT4 note is still written as a flag. Nothing was
 confirmed by that run; the Sunday job applies it to the live store.
 
+### Filling directions, and readings that never need a person (12 October 2026, branch `bill-positions-1012`)
+
+**`--fill-directions`** (src/country5ca.py, `fill_directions`; weekly,
+after `--resync-directions`, before `--auto-confirm`). A final, reject or
+inverted vote drafted while its bill had no direction is `needs_reading`
+("no bill direction is on file"), and nothing revisited it once a direction
+was added. The step turns it into the rules' draft (values, why lines,
+reasoning, the bill's flag copied) when the bill is `with` or `against` and
+the entry is untouched: its `read_first` and `reasoning` exactly the
+drafter's, stamped by the drafter, no values, flag, strike, amendment or
+comment a person added. The direction is looked up from the stance file
+alone: the watched key, the refs the `read_first` line names, then the
+division's own key, so a vote whose store row names no bill ("this item")
+takes a direction keyed by its division. A Dutch motion still takes only
+its own zaak's direction, as in the drafter.
+
+**Collated only.** A reading whose areas are all in
+`config/stance_overrides.yaml` `excluded_from_5ca` (migration) can place
+nobody (`sheet_pairs` writes no sheet for it), so `collated_only` keeps it
+out of `counts` (a `collated` count instead), `auto_report` and so
+`--auto-confirm`, the guide's lists (one "Collated only" list, no box), the
+shortlist and the digest. The entries stay in the file.
+
+**Out of play.** A bill Chris found no CitizenGO stake in has every vote
+naming it `placeable: false` with a `reason:` and confirmed in his name: it
+places nobody and is listed under Confirmed as "out of play". A reading
+with `draft: true` is no longer shortlisted. A `flag:` starting "Left for a
+person" lifts a reading in the shortlist (+40), the flag saying why.
+
 ## The new countries' tracker and partner sheet (10 October 2026, branch `camp-5ca-sheets`)
 
 `tools/make_country_5ca_web.py`, the new-country counterpart of

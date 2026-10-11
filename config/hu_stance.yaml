@@ -51,6 +51,16 @@ bill_directions:
     areas: [5, 7]
     why: "Bans symbols 'referring to sexual and gender orientations' (the rainbow-flag ban). Not in the gazette by 9 October 2026."
     drafted: "Claude, 10 October 2026, from config/watchlist-hu.yaml"
+  # --- 12 October 2026: Chris's bill positions (docs/country-decisions-2026-10-12.md) ---
+  - key: "T/123"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [7]
+    why: "Abolishes the Sovereignty Protection Office set up in 2023 to investigate foreign-funded NGOs and media; passing it removes a tool for surveilling civil society and campaigners."
+    decided: "Chris, 12 Oct 2026: with us."
+    drafted: "Claude, 12 October 2026"
 
 divisions:
 
@@ -101,7 +111,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.06.15.17:19:04"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Institutional omnibus; no direct 5CA change reported"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "összegző módosító javaslat minősített többséget igénylő része elfogadva"
     "on": "Magyarország Alaptörvényének tizenhatodik módosítása"
     dated: "2026-06-15"
@@ -112,12 +126,15 @@ divisions:
     result: "Elfogadva; Igen 134, Nem 50, Abstain 6"
     lobbies: "Igen: TISZA 134. Nem: Fidesz 42, KDNP 8. Abstain: Mi Hazánk 6"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('összegző módosító javaslat minősített többséget igénylő része elfogadva'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
     reasoning: "Area no area stamped."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.06.15.17:20:04"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Institutional omnibus; no direct 5CA change reported"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "önálló indítvány minősített többséget igénylő része elfogadva"
     "on": "Magyarország Alaptörvényének tizenhatodik módosítása"
     dated: "2026-06-15"
@@ -128,7 +145,6 @@ divisions:
     result: "Elfogadva; Igen 135, Nem 50, Abstain 6"
     lobbies: "Igen: TISZA 135. Nem: Fidesz 42, KDNP 8. Abstain: Mi Hazánk 6"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for T/51: CitizenGO's position on 'Magyarország Alaptörvényének tizenhatodik módosítása' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area no area stamped. Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -315,7 +331,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.06.30.10:44:57"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Igen on T/123 (Abolishes the Sovereignty Protection Office set up in 2023 to investigate foreign-funded N): for passing it, with CitizenGO's position."
+    why_nay: "Voted Nem on T/123 (Abolishes the Sovereignty Protection Office set up in 2023 to investigate foreign-funded N): against passing it, against CitizenGO's position."
     title: "önálló indítvány minősített többséget igénylő része elfogadva"
     "on": "A Szuverenitásvédelmi Hivatal megszüntetéséről"
     dated: "2026-06-30"
@@ -326,12 +346,15 @@ divisions:
     result: "Elfogadva; Igen 135, Nem 44, Abstain 6"
     lobbies: "Igen: TISZA 135. Nem: Fidesz 37, KDNP 7. Abstain: Mi Hazánk 6"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for T/123: CitizenGO's position on 'A Szuverenitásvédelmi Hivatal megszüntetéséről' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for T/123 (CONFIRMED): passing it is WITH us -- Abolishes the Sovereignty Protection Office set up in 2023 to investigate foreign-funded NGOs and media; passing it removes a tool for surveilling civil society and campaigners. This vote is a vote on the whole text or the motion itself, so Igen is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.06.30.10:45:32"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Igen on T/123 (Abolishes the Sovereignty Protection Office set up in 2023 to investigate foreign-funded N): for passing it, with CitizenGO's position."
+    why_nay: "Voted Nem on T/123 (Abolishes the Sovereignty Protection Office set up in 2023 to investigate foreign-funded N): against passing it, against CitizenGO's position."
     title: "önálló indítvány egyszerű többséget igénylő része elfogadva"
     "on": "A Szuverenitásvédelmi Hivatal megszüntetéséről"
     dated: "2026-06-30"
@@ -342,12 +365,13 @@ divisions:
     result: "Elfogadva; Igen 135, Nem 44, Abstain 6"
     lobbies: "Igen: TISZA 135. Nem: Fidesz 37, KDNP 7. Abstain: Mi Hazánk 6"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for T/123: CitizenGO's position on 'A Szuverenitásvédelmi Hivatal megszüntetéséről' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for T/123 (CONFIRMED): passing it is WITH us -- Abolishes the Sovereignty Protection Office set up in 2023 to investigate foreign-funded NGOs and media; passing it removes a tool for surveilling civil society and campaigners. This vote is a vote on the whole text or the motion itself, so Igen is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.07.06.14:22:31"
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "sürgősségi javaslat elfogadva"
     "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-06"
@@ -359,12 +383,16 @@ divisions:
     lobbies: "Igen: TISZA 137. Nem: Fidesz 40, KDNP 7, Mi Hazánk 5"
     vote_kind: "procedural"
     placeable: false
-    reason: "Procedural (sürgősségi javaslat elfogadva): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Institutional omnibus; no direct 5CA change reported"
     reasoning: "Area no area stamped. The wording reads as procedure (the timetable or the handling)."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.07.13.18:16:02"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Institutional omnibus; no direct 5CA change reported"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "módosító javaslat fenntartása elutasítva"
     "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-13"
@@ -375,12 +403,15 @@ divisions:
     result: "Elutasítva; Igen 6, Nem 139"
     lobbies: "Igen: Mi Hazánk 6. Nem: TISZA 139"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('módosító javaslat fenntartása elutasítva'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
     reasoning: "Area no area stamped."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.07.13.18:16:48"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Institutional omnibus; no direct 5CA change reported"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "módosító javaslat fenntartása elutasítva"
     "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-13"
@@ -391,12 +422,15 @@ divisions:
     result: "Elutasítva; Igen 6, Nem 139"
     lobbies: "Igen: Mi Hazánk 6. Nem: TISZA 139"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('módosító javaslat fenntartása elutasítva'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
     reasoning: "Area no area stamped."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.07.13.18:17:32"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Institutional omnibus; no direct 5CA change reported"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "módosító javaslat fenntartása elutasítva"
     "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-13"
@@ -407,12 +441,15 @@ divisions:
     result: "Elutasítva; Igen 6, Nem 139"
     lobbies: "Igen: Mi Hazánk 6. Nem: TISZA 139"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('módosító javaslat fenntartása elutasítva'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
     reasoning: "Area no area stamped."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.07.13.18:18:22"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Institutional omnibus; no direct 5CA change reported"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "összegző módosító javaslat minősített többséget igénylő része elfogadva"
     "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-13"
@@ -423,12 +460,15 @@ divisions:
     result: "Elfogadva; Igen 145, Nem 0"
     lobbies: "Igen: TISZA 139, Mi Hazánk 6"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('összegző módosító javaslat minősített többséget igénylő része elfogadva'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
     reasoning: "Area no area stamped."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.07.13.18:19:08"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Institutional omnibus; no direct 5CA change reported"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "önálló indítvány minősített többséget igénylő része elfogadva"
     "on": "Magyarország Alaptörvényének tizenhetedik módosítása"
     dated: "2026-07-13"
@@ -439,6 +479,5 @@ divisions:
     result: "Elfogadva; Igen 139, Nem 6"
     lobbies: "Igen: TISZA 139. Nem: Mi Hazánk 6"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for T/324: CitizenGO's position on 'Magyarország Alaptörvényének tizenhetedik módosítása' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area no area stamped. Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"

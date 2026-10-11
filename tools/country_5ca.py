@@ -2,7 +2,7 @@
 """5CA with stance sign-off for the new country editions (src/country5ca.py).
 
     python3 tools/country_5ca.py --all-countries --prune-off-ground --draft --resync-directions \
-        --auto-confirm --signoff-doc --sheets --shortlist                                # the weekly step
+        --fill-directions --auto-confirm --signoff-doc --sheets --shortlist              # the weekly step
     python3 tools/country_5ca.py --all-countries --auto-confirm --dry-run   # what would be confirmed
     python3 tools/country_5ca.py --cc pl --amend pl-10-1-31 --yea 1 --nay -1 --by "Christopher Joyce" --why "..."
     python3 tools/country_5ca.py --cc pl --amend pl-10-1-31 --take-out --by "Christopher Joyce" --why "..."
@@ -58,6 +58,17 @@ changed (or put on hold). --amend lets a country signer change any reading
 (values, or --take-out for `draft: true`), stamped amended_by / amended_on /
 amended_why; an amended reading is never touched by the automation again.
 
+--fill-directions (12 October 2026) drafts the untouched final, reject and
+inverted votes left `needs_reading` because "no bill direction is on file"
+once their bill has a with/against direction (src/country5ca.py,
+fill_directions): the drafter never rewrites an entry and the resync only
+touches drafts, so without it they waited for a person forever. Anything a
+person touched is left alone. It runs before --auto-confirm.
+
+Readings whose areas are all excluded from the 5CA (config/stance_overrides.yaml
+`excluded_from_5ca`, migration) place nobody, so they are never counted as
+waiting, checked, shortlisted or put in the digest (12 October 2026).
+
 Countries: {countries}.
 """
 
@@ -95,10 +106,12 @@ def main(argv=None):
     ap.add_argument("--prune-off-ground", action="store_true",
                     help="remove unsigned, untouched entries whose vote is no longer on our ground")
     ap.add_argument("--dry-run", action="store_true",
-                    help="with --prune-out-of-scope, --prune-off-ground, --resync-directions or "
-                         "--auto-confirm: write nothing")
+                    help="with --prune-out-of-scope, --prune-off-ground, --resync-directions, "
+                         "--fill-directions or --auto-confirm: write nothing")
     ap.add_argument("--resync-directions", action="store_true",
                     help="bring untouched drafts into line with a changed bill direction")
+    ap.add_argument("--fill-directions", action="store_true",
+                    help="draft untouched needs_reading votes whose bill now has a direction")
     ap.add_argument("--auto-confirm", action="store_true",
                     help="confirm drafts that pass every check, on Chris's delegation")
     ap.add_argument("--amend", metavar="KEY", help="a signer's amendment of one reading")
@@ -150,9 +163,9 @@ def main(argv=None):
         return 0
     if not (args.draft or args.signoff_doc or args.sheets or args.counts
             or args.prune_out_of_scope or args.prune_off_ground or args.shortlist
-            or args.auto_confirm or args.resync_directions):
-        ap.error("say what to do: --draft, --resync-directions, --auto-confirm, --signoff-doc, "
-                 "--sheets, --shortlist, --counts, --confirm, --amend, --sign-from-doc, "
+            or args.auto_confirm or args.resync_directions or args.fill_directions):
+        ap.error("say what to do: --draft, --resync-directions, --fill-directions, --auto-confirm, "
+                 "--signoff-doc, --sheets, --shortlist, --counts, --confirm, --amend, --sign-from-doc, "
                  "--prune-out-of-scope or --prune-off-ground")
     if args.prune_out_of_scope:
         for cc in ccs:
@@ -165,7 +178,7 @@ def main(argv=None):
         path = stores.get(cc, args.db)
         need_store = args.draft or args.sheets or args.prune_off_ground
         if not (need_store or args.signoff_doc or args.shortlist or args.auto_confirm
-                or args.resync_directions):
+                or args.resync_directions or args.fill_directions):
             continue
         conn = None
         if need_store:
@@ -182,6 +195,8 @@ def main(argv=None):
                 c5.draft(conn, cc, today=args.today)
             if args.resync_directions and os.path.exists(c5.stance_path(cc)):
                 c5.resync_directions(cc, dry_run=args.dry_run)
+            if args.fill_directions and os.path.exists(c5.stance_path(cc)):
+                c5.fill_directions(cc, dry_run=args.dry_run)
             if args.auto_confirm and os.path.exists(c5.stance_path(cc)):
                 got = c5.auto_confirm(cc, today=args.today, dry_run=args.dry_run, conn=conn)
                 totals[cc] = (len(got["confirmed"]), len(got["left"]))

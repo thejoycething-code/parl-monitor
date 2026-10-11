@@ -36,8 +36,14 @@ HOW (points, by rules, no AI call; each reason is printed with the item):
     outcome +25, on the campaign's area and chamber +10; or a campaign brief
     (data/country-briefs/<cc>.json, the brief's bill) +10;
   * recent: within 90 days +15, a year +10, two years +5;
+  * left for a person by Chris (a `flag:` starting "Left for a person", 12
+    October 2026: a bill he read and could not call either way): +40, so
+    it is near the top with the flag saying why;
   * only collated-only areas (config/stance_overrides.yaml
-    `excluded_from_5ca`, e.g. migration): -100, last, it can never place anyone;
+    `excluded_from_5ca`, e.g. migration): since 12 October 2026 not ranked
+    at all (src/country5ca.collated_only: it can never place anyone, so it
+    never waits for a person); the -100 below stays for any caller that
+    scores one directly;
   * no longer on our ground in the store (a reclassification took its areas,
     src/country5ca.off_ground; needs the store): -100, last, marked with the
     command that prunes it.
@@ -265,6 +271,9 @@ def score(cc, k, e, ctx, today):
     if k in ctx["decisive"]:
         pts += 10
         why.append("the last such vote on its bill")
+    if str(e.get("flag") or "").startswith(c5.LEFT_FOR_PERSON):
+        pts += 40
+        why.append("left for a person by Chris")
     if e.get("watched"):
         pts += 15
         why.append("watched bill {0}".format(e["watched"]))
@@ -351,7 +360,9 @@ def rank(cc, config_dir=None, conn=None, today=None, campaigns_dir=None, briefs_
     {key, entry, points, why, bucket, meaning}."""
     today = today or datetime.date.today().isoformat()
     divs, _, _ = c5.load(cc, config_dir)
-    pending = {k: e for k, e in divs.items() if bucket(e) != "confirmed"}
+    excl = c5.excluded()
+    pending = {k: e for k, e in divs.items() if bucket(e) != "confirmed" and not e.get("draft")
+               and not c5.collated_only(e, excl)}
     if not pending:
         return []
     spec = c5.SPECS[cc]
@@ -508,8 +519,9 @@ def shortlist_markdown(cc, ranked, today=None, top=TOP, per_area=PER_AREA, check
             "near-unanimous (smaller side under 5%) -15. Split groups +3 each (at most +15) and +1 "
             "per two members against their group (at most +10). Meaning line ready +10 (quoting "
             "the source +3). A campaign outcome +25, on a campaign's ground +10, feeding a brief "
-            "+10. Within 90 days +15, a year +10, two years +5. Collated-only areas -100 (last: "
-            "they place nobody); no longer on our ground in the store -100. Ties: newer first.", ""]
+            "+10. Within 90 days +15, a year +10, two years +5. Left for a person by Chris +40. "
+            "No longer on our ground in the store -100. Collated-only readings (an area excluded "
+            "from the 5CA) are not listed: they place nobody. Ties: newer first.", ""]
     return "\n".join(out) + "\n"
 
 

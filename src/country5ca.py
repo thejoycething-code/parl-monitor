@@ -887,8 +887,11 @@ def _area_text(areas):
 
 
 def _direction_for(r, bills, spec):
-    """(key, entry) of the bill direction that applies to this vote, or (None, None)."""
-    for k in [r.get("watch_key")] + list(spec.refs(r)):
+    """(key, entry) of the bill direction that applies to this vote, or (None, None).
+    Last of all the division's own key (12 October 2026): a vote whose store
+    row names no bill ("this item" in a needs_reading line) takes a direction
+    keyed by its division key."""
+    for k in [r.get("watch_key")] + list(spec.refs(r)) + [r.get("key")]:
         if k and k in bills and bills[k].get("direction") in ("with", "against"):
             return k, bills[k]
     return None, None
@@ -1393,7 +1396,9 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
     def check_line(k):
         got = failing_text(checks.get(k))
         return "- **Auto-check:** left for a person: " + got if got else None
-    groups = {"proposed": [], "procedural": [], "needs_reading": [], "confirmed": [], "out": []}
+    groups = {"proposed": [], "procedural": [], "needs_reading": [], "confirmed": [], "out": [],
+              "collated": []}
+    excl = excluded()
     for k, e in divs.items():
         st = e.get("status")
         if e.get("draft"):
@@ -1401,6 +1406,8 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
         elif st == "confirmed" and confirmable(dict(e, status="draft")) is None \
                 and e.get("confirmed_by") and e.get("confirmed_on"):
             groups["confirmed"].append((k, e))
+        elif collated_only(e, excl):
+            groups["collated"].append((k, e))
         elif st == "needs_reading" or st not in ("draft", "confirmed"):
             groups["needs_reading"].append((k, e))
         elif e.get("placeable") is False:
@@ -1427,7 +1434,10 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
            "({4} automatically){5}.".format(
                *(len(groups[g]) for g in ("proposed", "procedural", "needs_reading", "confirmed")),
                sum(1 for _, e in groups["confirmed"] if e.get("confirmed_by") == AUTO_BY),
-               ", {0} taken out of play".format(len(groups["out"])) if groups["out"] else ""),
+               ", {0} taken out of play".format(len(groups["out"])) if groups["out"] else "")
+           + (" {0} more are collated only (an area excluded from the 5CA, e.g. migration): "
+              "they place nobody and need no one.".format(len(groups["collated"]))
+              if groups["collated"] else ""),
            ""]
     labels = {"yea": spec.labels[0], "nay": spec.labels[1]}
     if groups["proposed"]:
@@ -1482,8 +1492,10 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
         for k, e in groups["confirmed"]:
             out.append("### [x] `{0}` {1}".format(k, r5.clip(e.get("title"), 160)))
             out.append("")
-            out.append("- {0} {1} / {2} {3}; confirmed by {4} on {5}{6}".format(
-                labels["yea"], _fmt(e.get("yea")), labels["nay"], _fmt(e.get("nay")),
+            out.append("- {0}; confirmed by {1} on {2}{3}".format(
+                "out of play: " + r5.clip(e.get("reason"), 200) if e.get("placeable") is False
+                else "{0} {1} / {2} {3}".format(labels["yea"], _fmt(e.get("yea")), labels["nay"],
+                                                _fmt(e.get("nay"))),
                 e.get("confirmed_by"), e.get("confirmed_on"),
                 " ({0})".format(e["auto_checks"]) if e.get("auto_checks") else ""))
             if e.get("amended_by"):
@@ -1500,6 +1512,11 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
                 ": amended by {0} on {1}: {2}".format(e["amended_by"], e.get("amended_on"),
                                                      r5.clip(e.get("amended_why"), 160))
                 if e.get("amended_by") else ""))
+        out.append("")
+    if groups["collated"]:
+        out += ["## Collated only (an area excluded from the 5CA; places nobody, needs no one)", ""]
+        for k, e in groups["collated"]:
+            out.append("- `{0}` {1} {2}".format(k, e.get("dated") or "?", r5.clip(e.get("title"), 110)))
         out.append("")
     if bills:
         out += ["## Bill directions on file (inputs to the drafts; they place nobody)", ""]
@@ -1535,6 +1552,29 @@ def write_signoff_doc(cc, config_dir=None, docs_dir=None, log=print, conn=None):
         log("  {0}: {1} ticked in the guide but not yet confirmed (run --sign-from-doc --by NAME)"
             .format(cc, len(keep)))
     return keep
+
+
+# --- collated-only areas (12 October 2026) ------------------------------------------
+#
+# An area in config/stance_overrides.yaml `excluded_from_5ca` (migration, 11)
+# is collated but never placed: no sheet is written for it (`sheet_pairs`).
+# A reading whose areas are ALL excluded can therefore place nobody, so it
+# never needs a person either: it is left out of the waiting counts, the
+# automatic checks, the guide's lists, the shortlist and the digest, and is
+# shown once in the guide as collated only. The entry stays in the file.
+
+def excluded():
+    try:
+        return r5.excluded_areas(ROOT)
+    except (OSError, ValueError):
+        return set()
+
+
+def collated_only(e, excl=None):
+    """True when every area of the entry is excluded from the 5CA."""
+    excl = excluded() if excl is None else excl
+    areas = areas_of(e.get("areas"))
+    return bool(areas) and all(a in excl for a in areas)
 
 
 # --- the 5CA sheet -------------------------------------------------------------------
@@ -1856,14 +1896,16 @@ def _wl_for(cc, wl):
 
 def auto_report(cc, config_dir=None, wl=None, conn=None):
     """{key: [(check, detail)]} for every unconfirmed entry of a country:
-    what stops each from being confirmed automatically ([] = nothing)."""
+    what stops each from being confirmed automatically ([] = nothing).
+    Collated-only entries (`collated_only`) are left out: they place nobody."""
     divs, bills, _ = load(cc, config_dir)
     lines, where = _blocks_by_key(cc, config_dir)
     wl = _wl_for(cc, wl)
+    excl = excluded()
     out = {}
     for k, e in divs.items():
-        if e.get("status") == "confirmed":
-            continue
+        if e.get("status") == "confirmed" or collated_only(e, excl):
+            continue                 # signed, or collated only: nothing for a person
         s, t = where.get(k, (0, 0))
         out[k] = auto_check(cc, k, e, bills, wl, lines[s + 1:t], conn)
     return out
@@ -2044,6 +2086,79 @@ def resync_directions(cc, config_dir=None, dry_run=False, log=print):
     return sorted(edits)
 
 
+# The drafter's line for a final, reject or inverted vote on a bill with no
+# direction (draft_entry), read back by `fill_directions`.
+_NO_DIRECTION = re.compile(
+    r"^(?P<kind>.+), but no bill direction is on file for (?P<refs>.+?): CitizenGO's position on "
+    r"'(?P<subject>.*)' needs a human reading\. Add a `bill_directions` line or write yea/nay here\.$")
+LEFT_FOR_PERSON = "Left for a person"
+
+
+def fill_directions(cc, config_dir=None, dry_run=False, log=print):
+    """Draft the readings that waited only for a bill direction (12 October
+    2026). The drafter never rewrites an entry, and `resync_directions` only
+    touches drafts, so a final, reject or inverted vote drafted as
+    `needs_reading` because "no bill direction is on file" stayed so after a
+    direction was added. This turns such an entry into the draft the drafter
+    would now write (`rule_values`, the bill's flag copied as draft_entry
+    does), so the next --auto-confirm can check it.
+
+    Only an UNTOUCHED entry: `read_first` and `reasoning` exactly the rules'
+    text, stamped by the drafter, no values, strike, flag, amendment or
+    comment a person added (`hand_edited`). The direction is looked up as
+    the drafter does, from the stance file alone: the watched key, the refs
+    the read_first line names, then the division's own key ("this item").
+    As in draft_entry, a motion takes no direction but its own: where a
+    country keys the item voted on itself (`Spec.own_key`, the Netherlands'
+    zaak, first among its refs), a motion's direction must be keyed by it.
+    Returns the keys changed."""
+    spec = SPECS[cc]
+    divs, bills, _ = load(cc, config_dir)
+    lines, where = _blocks_by_key(cc, config_dir)
+    edits = {}
+    for k, e in divs.items():
+        kind = e.get("vote_kind")
+        if e.get("status") != "needs_reading" or kind not in FINAL_KINDS:
+            continue
+        m = _NO_DIRECTION.match(str(e.get("read_first") or ""))
+        if not m or m.group("kind") != KIND_WORDS[kind][0].upper() + KIND_WORDS[kind][1:]:
+            continue
+        if e.get("reasoning") != "{0} Direction unclear from the store: nothing proposed.".format(
+                _area_line(e)):
+            continue
+        if hand_edited(e) or e.get("flag") or e.get("draft") or any(e.get(x) for x in AMEND_KEYS):
+            continue
+        s, t = where.get(k, (0, 0))
+        if any(ln.lstrip().startswith("#") for ln in lines[s + 1:t]):
+            continue
+        refs = [] if m.group("refs") == "this item" else m.group("refs").split(", ")
+        bkey = next((str(c) for c in [e.get("watched")] + refs + [k]
+                     if c and str(c) in bills and bills[str(c)].get("direction") in ("with", "against")),
+                    None)
+        if bkey is None:
+            continue
+        if spec.own_key is not None and re.search(MOTION, fold(e.get("title"))) \
+                and (not refs or bkey != refs[0]):
+            continue
+        bill = bills[bkey]
+        vals = dict(status="draft", **rule_values(spec, kind, bkey, bill, _area_line(e)))
+        flags = []
+        if kind == "inverted":
+            flags.append("The record says a Yes here REJECTS the text; check the question put.")
+        if bill.get("flag"):
+            flags.append(_BILL_FLAG + bill["flag"])
+        if flags:
+            vals["flag"] = " ".join(flags)
+        edits[k] = (vals, ("read_first",))
+    if edits and not dry_run:
+        _rewrite(cc, edits, config_dir)
+    if edits:
+        log("{0}: {1} {2} needs_reading entr{3} with a bill direction now on file: {4}".format(
+            spec.name, "would draft" if dry_run else "drafted", len(edits),
+            "y" if len(edits) == 1 else "ies", ", ".join(sorted(edits))))
+    return sorted(edits)
+
+
 def amend(cc, key, by, yea=None, nay=None, why=None, take_out=False, on=None, config_dir=None,
           log=print):
     """A country signer's amendment of any reading, confirmed or not
@@ -2099,7 +2214,8 @@ def auto_confirmed_since(cc, since, config_dir=None):
 def counts(cc, config_dir=None):
     divs, bills, _ = load(cc, config_dir)
     c = {"proposed": 0, "procedural": 0, "needs_reading": 0, "confirmed": 0, "bills": len(bills),
-         "out": 0}
+         "out": 0, "collated": 0}
+    excl = excluded()
     for e in divs.values():
         if e.get("draft"):              # taken out of play by an amendment (11 October 2026)
             c["out"] += 1
@@ -2107,6 +2223,8 @@ def counts(cc, config_dir=None):
         st = r5.status(e)
         if st in ("confirmed", "unplaceable") and e.get("status") == "confirmed":
             c["confirmed"] += 1
+        elif collated_only(e, excl):    # an excluded area only: never waits for a person
+            c["collated"] += 1
         elif e.get("status") == "needs_reading" or st == "unread":
             c["needs_reading"] += 1
         elif e.get("placeable") is False:

@@ -158,31 +158,31 @@ bill_directions:
     why: "Resolution rejecting the EU 'Chat Control' (CSAM) regulation."
     drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
   - key: "56/149"
-    direction: against
+    direction: with
     status: confirmed
     confirmed_by: "Christopher Joyce"
-    confirmed_on: "2026-10-11"
+    confirmed_on: "2026-10-12"
     areas: [8]
     why: "Ban on visible religious or philosophical symbols (signes convictionnels) for federal civil servants. The plenary adopted the committee's proposal to reject it on 26 February 2026 (division 56/95/21, 92-37-3)."
-    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): against us, the religious-symbol bans."
+    decided: "Chris, 12 October 2026 (docs/country-decisions-2026-10-12.md): religious-symbol bans are all with us, veils included; this reverses his 11 October call on Belgium."
     drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
   - key: "56/428"
-    direction: against
+    direction: with
     status: confirmed
     confirmed_by: "Christopher Joyce"
-    confirmed_on: "2026-10-11"
+    confirmed_on: "2026-10-12"
     areas: [8]
     why: "'LIGNE' bill: state neutrality and a ban on visible religious symbols for federal public servants."
-    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): against us, the religious-symbol bans."
+    decided: "Chris, 12 October 2026 (docs/country-decisions-2026-10-12.md): religious-symbol bans are all with us, veils included; this reverses his 11 October call on Belgium."
     drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
   - key: "56/429"
-    direction: against
+    direction: with
     status: confirmed
     confirmed_by: "Christopher Joyce"
-    confirmed_on: "2026-10-11"
+    confirmed_on: "2026-10-12"
     areas: [8]
     why: "Electoral Code: ban on visible religious symbols for polling station staff."
-    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): against us, the religious-symbol bans."
+    decided: "Chris, 12 October 2026 (docs/country-decisions-2026-10-12.md): religious-symbol bans are all with us, veils included; this reverses his 11 October call on Belgium."
     drafted: "Claude, 10 October 2026, from config/watchlist-be.yaml"
   - key: "56/594"
     direction: against
@@ -223,12 +223,11 @@ divisions:
     result: "adopted; Ja / Oui 92, Nee / Non 37, Abstain 3"
     lobbies: "Ja / Oui: N-VA 23, Les Engagés 14, MR 13, Vooruit 11, PVDA-PTB 11, cd&v 10, Ecolo-Groen 9, ? 1. Nee / Non: VB 18, PS 13, Anders. 5, DéFI 1. Abstain: MR 1, Anders. 1, ? 1"
     vote_kind: "reject"
-    yea: 2
-    why_yea: "Voted Ja / Oui on 56/149 (Ban on visible religious or philosophical symbols (signes convictionnels) for federal civi): for rejecting it, with CitizenGO's position."
-    nay: -2
-    why_nay: "Voted Nee / Non on 56/149 (Ban on visible religious or philosophical symbols (signes convictionnels) for federal civi): against rejecting it, against CitizenGO's position."
-    reasoning: "Area 8 (religious freedom), 11 (migration). Bill direction on file for 56/149 (a draft): passing it is AGAINST us -- Ban on visible religious or philosophical symbols (signes convictionnels) for federal civil servants. The plenary adopted the committee's proposal to reject it on 26 February 2026 (division 56/95/21, . This vote is a motion to reject the text (the sides are swapped), so Ja / Oui is with us."
-    flag: "On the bill's direction: Read as against: a ban on religious symbols reaches Christians too (area 8, religious freedom). CitizenGO supports Portugal's face-covering law (PT4), a different question: confirm."
+    yea: -2
+    why_yea: "Voted Ja / Oui on 56/149 (Ban on visible religious or philosophical symbols (signes convictionnels) for federal civi): for rejecting it, against CitizenGO's position."
+    nay: 2
+    why_nay: "Voted Nee / Non on 56/149 (Ban on visible religious or philosophical symbols (signes convictionnels) for federal civi): against rejecting it, with CitizenGO's position."
+    reasoning: "Area 8 (religious freedom), 11 (migration). Bill direction on file for 56/149 (CONFIRMED): passing it is WITH us -- Ban on visible religious or philosophical symbols (signes convictionnels) for federal civil servants. The plenary adopted the committee's proposal to reject it on 26 February 2026 (division 56/95/21, . This vote is a motion to reject the text (the sides are swapped), so Ja / Oui is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56/131/27"

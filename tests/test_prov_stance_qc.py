@@ -47,8 +47,12 @@ class QuebecReadingsTests(unittest.TestCase):
         self.assertEqual([k for k, e in self.qc.items() if p5.status(e) == "draft"], [])
 
     def test_laicity_and_assisted_dying_directions(self):
+        # Chris, 12 October 2026: religious-symbol bans are all with us, veils
+        # included (docs/country-decisions-2026-10-12.md): Bill 21 flipped.
         bill21 = self.qc["qc-42-1-2019-06-16-165"]          # Bill 21, adoption
-        self.assertEqual((bill21["yea"], bill21["nay"], bill21["areas"]), (-2, 2, [8]))
+        self.assertEqual((bill21["yea"], bill21["nay"], bill21["areas"]), (2, -2, [8]))
+        bill62 = self.qc["qc-41-1-2017-10-18-376"]          # Bill 62 (face uncovered), adoption
+        self.assertEqual((bill62["yea"], bill62.get("nay")), (1, None))
         bill9 = self.qc["qc-43-2-2026-04-02-140"]           # Bill 9, adoption
         self.assertEqual((bill9["yea"], bill9["nay"]), (-2, 2))
         bill11 = self.qc["qc-43-1-2023-06-07-113"]          # Bill 11 (MAID), adoption

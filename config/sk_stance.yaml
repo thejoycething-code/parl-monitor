@@ -42,12 +42,89 @@ bill_directions:
     areas: [5, 6, 9, 10]
     why: "Government constitutional amendment, adopted 26 September 2025 (vote 56965: 90 for, 7 against). Recognises two sexes only, gives Slovakia sovereignty on cultural and ethical questions, makes sex education subject to pare"
     drafted: "Claude, 10 October 2026, from config/watchlist-sk.yaml"
+  # --- 12 October 2026: Chris's bill positions (docs/country-decisions-2026-10-12.md) ---
+  - key: "9/393"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "PS bill easing church registration (first tier at 150 members instead of 50,000) and adding annual reports for churches; widens religious freedom for small faiths but adds state reporting duties."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Mixed: eases registration (including for non-Christian groups) but imposes annual reporting on churches; confirm the religious-freedom reading)"
+    drafted: "Claude, 12 October 2026"
+  - key: "9/266"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [1]
+    why: "Krátky's draft resolution rejecting the European Parliament's April 2024 call to put a right to abortion in the EU Charter, citing subsidiarity; passing it defends protection of life."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "9/511"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Government amendment raising and indexing state funding of churches and religious societies to minimum-wage growth (Act 344/2024); passing it strengthens churches' capacity to operate."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Church funding formula, a supportive but indirect religious-freedom link; confirm it should score)"
+    drafted: "Claude, 12 October 2026"
+  - key: "9/593"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [1]
+    why: "Záborská and Vašečka bill cutting the abortion-on-request limit from 12 to 8 weeks, to the point a heartbeat can be detected; passing it protects unborn children."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "9/673"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [9]
+    why: "PS bill replacing parents' right to use reasonable means of upbringing with a duty to raise children without corporal punishment; read as state intrusion on parental discipline."
+    decided: "Chris, 12 Oct 2026: smacking bans are against us (parental rights)."
+    drafted: "Claude, 12 October 2026"
+  - key: "9/843"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [1]
+    why: "Záborská and Vašečka resolution rejecting EU funding of 'abortion tourism' and defending member states' sovereignty on abortion; passing it is pro-life."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "9/1254"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [9]
+    why: "Puškárová's amendment raising minimum child maintenance from 30% to 100% of the child's subsistence minimum, signed 29 September 2026; passing it strengthens financial support for children of separated parents."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Child-support level: family-support reading is indirect; confirm it should score)"
+    drafted: "Claude, 12 October 2026"
+  - key: "9/1218"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [9]
+    why: "PS bill guaranteeing children a 'childhood without violence', banning corporal punishment by parents and weighing partner violence in custody cases; read as state intrusion on parental discipline."
+    decided: "Chris, 12 Oct 2026: smacking bans are against us (parental rights)."
+    drafted: "Claude, 12 October 2026"
 
 divisions:
 
   # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
   - key: "55270"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Child-welfare technicality (foster care survives carers' divorce, per SITA 2 Sept 2024); no 5CA stake, consider not scoring"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Návrh poslancov Národnej rady Slovenskej republiky Vladimíry MARCINKOVEJ, Vladimíra LEDECKÉHO a Ondreja DOSTÁLA na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších pre"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Vladimíry MARCINKOVEJ, Vladimíra LEDECKÉHO a Ondreja DOSTÁLA na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení n"
     dated: "2024-09-24"
@@ -56,12 +133,15 @@ divisions:
     tier: 1
     result: "Návrh neprešiel; Za 44, Proti 44, Abstain 45"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/418: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Vladimíry MARCINKOVEJ, Vladimíra LEDECKÉHO a Ondreja DOSTÁLA na vydanie zákona, ktorým sa' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "55317"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on 9/393 (PS bill easing church registration (first tier at 150 members instead of 50,000) and addin): for passing it, with CitizenGO's position."
+    why_nay: "Voted Proti on 9/393 (PS bill easing church registration (first tier at 150 members instead of 50,000) and addin): against passing it, against CitizenGO's position."
     title: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA, Lucie PLAVÁKOVEJ a Zory JAUROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 308/1991 Zb. o slobode náboženskej viery a postavení cirkví a náboženských spoločn"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA, Lucie PLAVÁKOVEJ a Zory JAUROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 308/1991 Zb. o slobode náboženskej viery a"
     dated: "2024-10-01"
@@ -70,12 +150,15 @@ divisions:
     tier: 1
     result: "Návrh neprešiel; Za 36, Proti 52, Abstain 49"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/393: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA, Lucie PLAVÁKOVEJ a Zory JAUROVEJ na vydanie zákona, ktorým sa mení ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 9/393 (CONFIRMED): passing it is WITH us -- PS bill easing church registration (first tier at 150 members instead of 50,000) and adding annual reports for churches; widens religious freedom for small faiths but adds state reporting duties. This vote is a vote on the whole text or the motion itself, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "55364"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on 9/266 (Krátky's draft resolution rejecting the European Parliament's April 2024 call to put a rig): for passing it, with CitizenGO's position."
+    why_nay: "Voted Proti on 9/266 (Krátky's draft resolution rejecting the European Parliament's April 2024 call to put a rig): against passing it, against CitizenGO's position."
     title: "Návrh poslanca Narodnej rady Slovenskej republiky Rastislava KRÁTKEHO na prijatie uznesenia Národnej rady Slovenskej republiky k uzneseniu Európskeho parlamentu z 11. aprila 2024 o začlenení práva na umelé prerušenie tehotenstva do Charty z"
     "on": "Návrh poslanca Národnej rady Slovenskej republiky Rastislava KRÁTKEHO na prijatie uznesenia Národnej rady Slovenskej republiky k uzneseniu Európskeho parlamentu z 11. aprila 2024 o začlenení práva na"
     dated: "2024-10-03"
@@ -84,12 +167,15 @@ divisions:
     tier: 1
     result: "Návrh neprešiel; Za 17, Proti 31, Abstain 73"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/266: CitizenGO's position on 'Návrh poslanca Národnej rady Slovenskej republiky Rastislava KRÁTKEHO na prijatie uznesenia Národnej rady Slovenskej republiky k uzneseniu E' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 1 (abortion). Bill direction on file for 9/266 (CONFIRMED): passing it is WITH us -- Krátky's draft resolution rejecting the European Parliament's April 2024 call to put a right to abortion in the EU Charter, citing subsidiarity; passing it defends protection of life. This vote is a vote on the whole text or the motion itself, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "55399"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on 9/511 (Government amendment raising and indexing state funding of churches and religious societie): for passing it, with CitizenGO's position."
+    why_nay: "Voted Proti on 9/511 (Government amendment raising and indexing state funding of churches and religious societie): against passing it, against CitizenGO's position."
     title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - prvé čítanie. Hlasovanie o tom, aby bol návrh zákona prerokovaný v druhom čítaní."
     "on": "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
     dated: "2024-10-23"
@@ -98,8 +184,7 @@ divisions:
     tier: 1
     result: "Návrh prešiel; Za 99, Proti 1, Abstain 36"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/511: CitizenGO's position on 'Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 9/511 (CONFIRMED): passing it is WITH us -- Government amendment raising and indexing state funding of churches and religious societies to minimum-wage growth (Act 344/2024); passing it strengthens churches' capacity to operate. This vote is a vote on the whole text or the motion itself, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "55400"
@@ -164,7 +249,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "55671"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on 9/511 (Government amendment raising and indexing state funding of churches and religious societie): for passing it, with CitizenGO's position."
+    why_nay: "Voted Proti on 9/511 (Government amendment raising and indexing state funding of churches and religious societie): against passing it, against CitizenGO's position."
     title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - tretie čítanie. Hlasovanie o návrhu zákona ako o celku."
     "on": "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
     dated: "2024-11-27"
@@ -174,8 +263,7 @@ divisions:
     result: "Návrh prešiel; Za 96, Proti 3, Abstain 35"
     lobbies: "Za: SMER - SD 41, HLAS - SD 27, SLOVENSKO 11, KDH 9, SNS 8. Proti: SaS 3. Abstain: PS 30, SaS 3, ? 1, SLOVENSKO 1"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/511: CitizenGO's position on 'Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for 9/511 (CONFIRMED): passing it is WITH us -- Government amendment raising and indexing state funding of churches and religious societies to minimum-wage growth (Act 344/2024); passing it strengthens churches' capacity to operate. This vote is a vote on the whole text or the motion itself, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56254"
@@ -213,7 +301,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56356"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on 9/593 (Záborská and Vašečka bill cutting the abortion-on-request limit from 12 to 8 weeks, to the): for passing it, with CitizenGO's position."
+    why_nay: "Voted Proti on 9/593 (Záborská and Vašečka bill cutting the abortion-on-request limit from 12 to 8 weeks, to the): against passing it, against CitizenGO's position."
     title: "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na vydanie zákona, ktorým sa mení zákon č. 73/1986 Zb. o umelom prerušení tehotenstva v znení neskorších predpisov (tlač 593) - prvé čítanie. Hlasovanie o"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na vydanie zákona, ktorým sa mení zákon č. 73/1986 Zb. o umelom prerušení tehotenstva v znení neskorších predpisov"
     dated: "2025-04-15"
@@ -223,12 +315,15 @@ divisions:
     result: "Návrh neprešiel; Za 25, Proti 41, Abstain 74"
     lobbies: "Za: SLOVENSKO 13, KDH 11, SMER - SD 1. Proti: PS 31, SaS 9, SMER - SD 1. Abstain: SMER - SD 38, HLAS - SD 24, SNS 8, ? 4"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/593: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na vydanie zákona, ktorým sa mení zákon č. 73/1986 Zb. ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 1 (abortion). Bill direction on file for 9/593 (CONFIRMED): passing it is WITH us -- Záborská and Vašečka bill cutting the abortion-on-request limit from 12 to 8 weeks, to the point a heartbeat can be detected; passing it protects unborn children. This vote is a vote on the whole text or the motion itself, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56534"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Za on 9/673 (PS bill replacing parents' right to use reasonable means of upbringing with a duty to rais): for passing it, against CitizenGO's position."
+    why_nay: "Voted Proti on 9/673 (PS bill replacing parents' right to use reasonable means of upbringing with a duty to rais): against passing it, with CitizenGO's position."
     title: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 673) - p"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v z"
     dated: "2025-06-03"
@@ -238,8 +333,7 @@ divisions:
     result: "Návrh neprešiel; Za 42, Proti 0, Abstain 97"
     lobbies: "Za: PS 29, SaS 11, ? 1, SLOVENSKO 1. Abstain: SMER - SD 39, HLAS - SD 26, KDH 11, SLOVENSKO 9, SNS 8, ? 4"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/673: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/200' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 9/673 (CONFIRMED): passing it is AGAINST us -- PS bill replacing parents' right to use reasonable means of upbringing with a duty to raise children without corporal punishment; read as state intrusion on parental discipline. This vote is a vote on the whole text or the motion itself, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56671"
@@ -258,7 +352,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56672"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on 9/843 (Záborská and Vašečka resolution rejecting EU funding of 'abortion tourism' and defending m): for passing it, with CitizenGO's position."
+    why_nay: "Voted Proti on 9/843 (Záborská and Vašečka resolution rejecting EU funding of 'abortion tourism' and defending m): against passing it, against CitizenGO's position."
     title: "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na prijatie uznesenia Národnej rady Slovenskej republiky k odmietnutiu financovania tzv. \"potratove] turistiky\" a k podpore suverenity členských štátov v o"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na prijatie uznesenia Národnej rady Slovenskej republiky k odmietnutiu financovania tzv. \"potratove] turistiky\" a k"
     dated: "2025-06-17"
@@ -268,8 +366,7 @@ divisions:
     result: "Návrh neprešiel; Za 27, Proti 41, Abstain 74"
     lobbies: "Za: SLOVENSKO 13, KDH 8, SMER - SD 4, PS 1, ? 1. Proti: PS 31, SaS 9, ? 1. Abstain: SMER - SD 37, HLAS - SD 26, SNS 8, ? 3"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/843: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na prijatie uznesenia Národnej rady Slovenskej republik' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 1 (abortion). Bill direction on file for 9/843 (CONFIRMED): passing it is WITH us -- Záborská and Vašečka resolution rejecting EU funding of 'abortion tourism' and defending member states' sovereignty on abortion; passing it is pro-life. This vote is a vote on the whole text or the motion itself, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56684"
@@ -430,7 +527,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "57870"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Match of print 1252 to the paternity bill inferred from dates (TASR 6 May 2026); technical family law, no clear 5CA stake"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
     dated: "2026-05-05"
@@ -440,7 +541,6 @@ divisions:
     result: "Návrh prešiel; Za 144, Proti 0"
     lobbies: "Za: SMER - SD 41, PS 31, HLAS - SD 24, SaS 11, SLOVENSKO 11, KDH 10, SNS 8, ? 8"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1252: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -461,7 +561,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "57917"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Ceremonial change to who may officiate weddings; no 5CA stake, consider not scoring"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
     dated: "2026-05-05"
@@ -471,7 +575,6 @@ divisions:
     result: "Návrh prešiel; Za 77, Proti 39, Abstain 19"
     lobbies: "Za: SMER - SD 41, HLAS - SD 24, SNS 8, ? 4. Proti: PS 29, KDH 9, ? 1. Abstain: SaS 9, SLOVENSKO 7, ? 2, KDH 1"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1272: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, kto' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -492,7 +595,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "57919"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on 9/1254 (Puškárová's amendment raising minimum child maintenance from 30% to 100% of the child's su): for passing it, with CitizenGO's position."
+    why_nay: "Voted Proti on 9/1254 (Puškárová's amendment raising minimum child maintenance from 30% to 100% of the child's su): against passing it, against CitizenGO's position."
     title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - prvé čítanie."
     "on": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
     dated: "2026-05-06"
@@ -502,8 +609,7 @@ divisions:
     result: "Návrh prešiel; Za 76, Proti 38, Abstain 20"
     lobbies: "Za: SMER - SD 39, HLAS - SD 24, SNS 8, ? 4, PS 1. Proti: PS 27, SaS 9, SMER - SD 1, ? 1. Abstain: SLOVENSKO 10, KDH 8, ? 2"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1254: CitizenGO's position on 'Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rod' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 9/1254 (CONFIRMED): passing it is WITH us -- Puškárová's amendment raising minimum child maintenance from 30% to 100% of the child's subsistence minimum, signed 29 September 2026; passing it strengthens financial support for children of separate. This vote is a vote on the whole text or the motion itself, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "57920"
@@ -523,7 +629,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "57935"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Za on 9/1218 (PS bill guaranteeing children a 'childhood without violence', banning corporal punishment ): for passing it, against CitizenGO's position."
+    why_nay: "Voted Proti on 9/1218 (PS bill guaranteeing children a 'childhood without violence', banning corporal punishment ): against passing it, with CitizenGO's position."
     title: "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1218) -"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v z"
     dated: "2026-05-07"
@@ -533,8 +643,7 @@ divisions:
     result: "Návrh neprešiel; Za 49, Proti 41, Abstain 35"
     lobbies: "Za: PS 26, SLOVENSKO 9, KDH 6, SaS 6, ? 2. Proti: SMER - SD 38, SNS 2, ? 1. Abstain: HLAS - SD 25, SNS 5, ? 3, SMER - SD 2"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1218: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Ondreja PROSTREDNÍKA a Lucie PLAVÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 36/200' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 9/1218 (CONFIRMED): passing it is AGAINST us -- PS bill guaranteeing children a 'childhood without violence', banning corporal punishment by parents and weighing partner violence in custody cases; read as state intrusion on parental discipline. This vote is a vote on the whole text or the motion itself, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58023"
@@ -584,7 +693,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58027"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Ceremonial change to who may officiate weddings; no 5CA stake, consider not scoring"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
     dated: "2026-06-02"
@@ -594,7 +707,6 @@ divisions:
     result: "Návrh prešiel; Za 79, Proti 42, Abstain 8"
     lobbies: "Za: SMER - SD 41, HLAS - SD 25, SNS 8, ? 5. Proti: PS 24, KDH 12, SLOVENSKO 5, ? 1. Abstain: SaS 7, ? 1"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1272: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, kto' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -629,7 +741,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58252"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Match of print 1252 to the paternity bill inferred from dates (TASR 6 May 2026); technical family law, no clear 5CA stake"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
     dated: "2026-09-15"
@@ -639,7 +755,6 @@ divisions:
     result: "Návrh prešiel; Za 78, Proti 0, Abstain 59"
     lobbies: "Za: SMER - SD 40, HLAS - SD 25, SNS 9, ? 4. Abstain: PS 29, SaS 11, KDH 9, SLOVENSKO 8, ? 2"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1252: CitizenGO's position on 'Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -691,7 +806,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58272"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on 9/1254 (Puškárová's amendment raising minimum child maintenance from 30% to 100% of the child's su): for passing it, with CitizenGO's position."
+    why_nay: "Voted Proti on 9/1254 (Puškárová's amendment raising minimum child maintenance from 30% to 100% of the child's su): against passing it, against CitizenGO's position."
     title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - tretie čítani"
     "on": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
     dated: "2026-09-16"
@@ -701,6 +820,5 @@ divisions:
     result: "Návrh prešiel; Za 106, Proti 1, Abstain 34"
     lobbies: "Za: SMER - SD 41, PS 27, HLAS - SD 25, SNS 9, ? 4. Proti: SLOVENSKO 1. Abstain: KDH 12, SaS 11, SLOVENSKO 8, ? 3"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 9/1254: CitizenGO's position on 'Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rod' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 9/1254 (CONFIRMED): passing it is WITH us -- Puškárová's amendment raising minimum child maintenance from 30% to 100% of the child's subsistence minimum, signed 29 September 2026; passing it strengthens financial support for children of separate. This vote is a vote on the whole text or the motion itself, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"

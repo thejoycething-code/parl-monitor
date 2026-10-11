@@ -42,12 +42,44 @@ bill_directions:
     areas: [5]
     why: "Withdrawal from the Istanbul Convention (repeal of the ratification act). Private member's bill, Marijan Pavlicek; on the agenda of every session since the 2nd, never debated."
     drafted: "Claude, 10 October 2026, from config/watchlist-hr.yaml"
+  # --- 12 October 2026: Chris's bill positions (docs/country-decisions-2026-10-12.md) ---
+  - key: "11/53"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [7]
+    why: "Implements the EU Digital Services Act in Croatia, naming the coordinator and powers over illegal-content takedowns; consistent with Poland's DSA bills, it extends state-backed content moderation."
+    decided: "Chris, 12 Oct 2026: same call as France's minors-online bill (DSA implementation)."
+    drafted: "Claude, 12 October 2026"
+  - key: "11/213"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [6, 7]
+    why: "Možemo! bill banning social media accounts under 15 without parental consent with mandatory age verification, and phones in classes; follows the French minors-online decision as against us."
+    decided: "Chris, 12 Oct 2026: same call as France's minors-online bill, parental consent or not."
+    drafted: "Claude, 12 October 2026"
+  - key: "11/244"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [9]
+    why: "SDP amendment letting social services order parents of violent under-14s into parenting programmes, with fines up to 2,000 euros or partial limits on parental care for refusal; expands state power over parents."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: Child-violence response framed as parental duty; confirm parental-rights reading)"
+    drafted: "Claude, 12 October 2026"
 
 divisions:
 
   # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
   - key: "hr-11-212876"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Za on 11/53 (Implements the EU Digital Services Act in Croatia, naming the coordinator and powers over ): for passing it, against CitizenGO's position."
+    why_nay: "Voted Protiv on 11/53 (Implements the EU Digital Services Act in Croatia, naming the coordinator and powers over ): against passing it, with CitizenGO's position."
     title: "PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH USLUGA I IZMJENI DIREKTIVE 2000/31/EZ (AKT O DIGITALNIM USLUGAMA), prvo čitanje, P.Z.E. br. 53 - predla"
     dated: "2024-10-11"
     chamber: "sabor"
@@ -56,8 +88,7 @@ divisions:
     result: "Na 3. sjednici, 11. listopada 2024. donesen je zaključak da se prihvaća Prijedlog zakona. Sve primjedbe, prijedlozi i mi; Za 116, Protiv 0, Abstain 14"
     lobbies: "Za: HDZ 56, SDP 27, NZ 8, DP 8, NPS 2, DOMINO 2, HSLS 2, Centar 2, Drito 2, HSU 1, stranka Nezavisni 1, GLAS 1, DO i SIP 1, IDS 1, HNS 1, HDS 1. Abstain: Možemo! 10, Most 3, NZ 1"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/53, item:212876: CitizenGO's position on 'PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH USL' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for 11/53 (CONFIRMED): passing it is AGAINST us -- Implements the EU Digital Services Act in Croatia, naming the coordinator and powers over illegal-content takedowns; consistent with Poland's DSA bills, it extends state-backed content moderation. This vote is a vote on the whole text or the motion itself, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "hr-11-213008"
@@ -89,7 +120,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "hr-11-213442"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Za on 11/53 (Implements the EU Digital Services Act in Croatia, naming the coordinator and powers over ): for passing it, against CitizenGO's position."
+    why_nay: "Voted Protiv on 11/53 (Implements the EU Digital Services Act in Croatia, naming the coordinator and powers over ): against passing it, with CitizenGO's position."
     title: "KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH USLUGA I IZMJENI DIREKTIVE 2000/31/EZ (AKT O DIGITALNIM USLUGAMA), drugo čitanje, P.Z.E br. 53"
     dated: "2025-03-28"
     chamber: "sabor"
@@ -98,12 +133,15 @@ divisions:
     result: "Zakon je donesen na 5. sjednici, 28. ožujka 2025. (107 glasova \"za\", 9 \"suzdržanih\").; Za 107, Protiv 0, Abstain 9"
     lobbies: "Za: HDZ 56, SDP 22, NZ 9, DP 7, Možemo! 2, HSLS 2, NPS 1, HSU 1, stranka Nezavisni 1, GLAS 1, DO i SIP 1, Centar 1, SDSS 1, HNS 1, HDS 1. Abstain: Možemo! 7, NZ 1, Most 1"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/53, item:213442: CitizenGO's position on 'KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITA' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 7 (free speech and civil liberties). Bill direction on file for 11/53 (CONFIRMED): passing it is AGAINST us -- Implements the EU Digital Services Act in Croatia, naming the coordinator and powers over illegal-content takedowns; consistent with Poland's DSA bills, it extends state-backed content moderation. This vote is a vote on the whole text or the motion itself, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "hr-11-213747"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): Electoral list quotas; not a sex-based-rights issue in CitizenGO's sense"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "PRIJEDLOG ZAKONA O IZMJENI I DOPUNI ZAKONA O RAVNOPRAVNOSTI SPOLOVA, prvo čitanje, P.Z. br. 169 - predlagateljice: zastupnice Anka Mrak-Taritaš i Dalija Orešković"
     dated: "2025-10-24"
     chamber: "sabor"
@@ -113,7 +151,6 @@ divisions:
     result: "Na 7. sjednici, 24. listopada 2025. donesen je zaključak da se ne prihvaća Prijedlog zakona (77 glasova \"za\", 43 \"protiv; Za 77, Protiv 43"
     lobbies: "Za: HDZ 54, NZ 9, DP 7, HSLS 2, HSU 1, SDP 1, stranka Nezavisni 1, HNS 1, HDS 1. Protiv: SDP 29, Možemo! 9, NPS 1, HDZ 1, GLAS 1, DO i SIP 1, IDS 1"
     vote_kind: "inverted"
-    read_first: "A vote whose Yes rejects the text (the record says so), but no bill direction is on file for 11/169, item:213747: CitizenGO's position on 'PRIJEDLOG ZAKONA O IZMJENI I DOPUNI ZAKONA O RAVNOPRAVNOSTI SPOLOVA, prvo čitanje, P.Z. br. 169 - predlagateljice: zastupnice Anka Mrak-Tari' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -130,6 +167,7 @@ divisions:
     read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/228, item:214089: CitizenGO's position on 'PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI DIREKTIV' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    flag: "Left for a person (Chris, 12 Oct 2026): EU media regulation; free-speech direction needs the text read"
 
   - key: "hr-11-214280"
     status: needs_reading
@@ -146,7 +184,12 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "hr-11-214147"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on 11/213 (Možemo! bill banning social media accounts under 15 without parental consent with mandator): for rejecting it, with CitizenGO's position."
+    why_nay: "Voted Protiv on 11/213 (Možemo! bill banning social media accounts under 15 without parental consent with mandator): against rejecting it, against CitizenGO's position."
+    flag: "The record says a Yes here REJECTS the text; check the question put."
     title: "PRIJEDLOG ZAKONA O DIGITALNOJ ZAŠTITI DJECE, prvo čitanje, P.Z. br. 213 - predlagatelj: Klub zastupnika Možemo!"
     dated: "2026-03-06"
     chamber: "sabor"
@@ -156,8 +199,7 @@ divisions:
     result: "Na 9. sjednici, 6. ožujka 2026. donesen je zaključak da se ne prihvaća Prijedlog zakona (76 glasova \"za\", 44 \"protiv\", 4; Za 76, Protiv 44, Abstain 4"
     lobbies: "Za: HDZ 55, NZ 8, DP 7, HSLS 2, HSU 1, stranka Nezavisni 1, HNS 1, HDS 1. Protiv: SDP 28, Možemo! 10, Centar 2, NPS 1, GLAS 1, DO i SIP 1, Drito 1. Abstain: DOMINO 3, Hrvatski suverenisti 1"
     vote_kind: "inverted"
-    read_first: "A vote whose Yes rejects the text (the record says so), but no bill direction is on file for 11/213, item:214147: CitizenGO's position on 'PRIJEDLOG ZAKONA O DIGITALNOJ ZAŠTITI DJECE, prvo čitanje, P.Z. br. 213 - predlagatelj: Klub zastupnika Možemo!' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 6 (parental rights and education), 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 6 (parental rights and education), 7 (free speech and civil liberties). Bill direction on file for 11/213 (CONFIRMED): passing it is AGAINST us -- Možemo! bill banning social media accounts under 15 without parental consent with mandatory age verification, and phones in classes; follows the French minors-online decision as against us. This vote is a vote whose Yes rejects the text (the record says so), so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "hr-11-214304"
@@ -173,6 +215,7 @@ divisions:
     read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/228, item:214304: CitizenGO's position on 'KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    flag: "Left for a person (Chris, 12 Oct 2026): EU media regulation; free-speech direction needs the text read"
 
   - key: "hr-11-214240"
     status: needs_reading
@@ -190,7 +233,12 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "hr-11-214348"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on 11/244 (SDP amendment letting social services order parents of violent under-14s into parenting pr): for rejecting it, with CitizenGO's position."
+    why_nay: "Voted Protiv on 11/244 (SDP amendment letting social services order parents of violent under-14s into parenting pr): against rejecting it, against CitizenGO's position."
+    flag: "The record says a Yes here REJECTS the text; check the question put."
     title: "PRIJEDLOG ZAKONA O DOPUNI OBITELJSKOG ZAKONA, prvo čitanje, P.Z. br. 244 - predlagatelj: Klub zastupnika SDP-a"
     dated: "2026-04-30"
     chamber: "sabor"
@@ -200,8 +248,7 @@ divisions:
     result: "Na 10. sjednici, 30. travnja 2026. donesen je zaključak da se ne prihvaća Prijedlog zakona (78 glasova \"za\", 42 \"protiv\"; Za 78, Protiv 42, Abstain 2"
     lobbies: "Za: HDZ 55, NZ 8, DP 7, HSLS 2, HSU 1, stranka Nezavisni 1, HNS 1, HSS 1, HDS 1, Dario Zurovec - NL 1. Protiv: SDP 26, Možemo! 10, Centar 2, IDS 2, GLAS 1, DO i SIP 1. Abstain: Most 2"
     vote_kind: "inverted"
-    read_first: "A vote whose Yes rejects the text (the record says so), but no bill direction is on file for 11/244, item:214348: CitizenGO's position on 'PRIJEDLOG ZAKONA O DOPUNI OBITELJSKOG ZAKONA, prvo čitanje, P.Z. br. 244 - predlagatelj: Klub zastupnika SDP-a' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 9 (marriage and family). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 9 (marriage and family). Bill direction on file for 11/244 (CONFIRMED): passing it is AGAINST us -- SDP amendment letting social services order parents of violent under-14s into parenting programmes, with fines up to 2,000 euros or partial limits on parental care for refusal; expands state power ove. This vote is a vote whose Yes rejects the text (the record says so), so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "hr-11-214487"

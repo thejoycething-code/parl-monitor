@@ -74,15 +74,21 @@ bill_directions:
     drafted: "Claude, 10 October 2026, from config/watchlist-at.yaml"
   - key: "XXVIII/A/1054"
     direction: with
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     areas: [8]
     why: "Anti-Gesichtsverhüllungsgesetz- und Strafgesetzbuch-Novelle 2026 (Gesetzesantrag)."
+    decided: "Chris, 12 October 2026 (docs/country-decisions-2026-10-12.md): religious-symbol bans are all with us, veils included."
     drafted: "Claude, 10 October 2026, from config/watchlist-at.yaml"
   - key: "XXVIII/A/1059"
     direction: with
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     areas: [8]
     why: "Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes (motion)."
+    decided: "Chris, 12 October 2026 (docs/country-decisions-2026-10-12.md): religious-symbol bans are all with us, veils included."
     drafted: "Claude, 10 October 2026, from config/watchlist-at.yaml"
   - key: "XXVIII/A/959"
     direction: against
@@ -90,6 +96,79 @@ bill_directions:
     areas: [7]
     why: "Lückenschluss im Medienrecht: Hass im Netz bekämpfen (motion)."
     drafted: "Claude, 10 October 2026, from config/watchlist-at.yaml"
+  # --- 12 October 2026: Chris's bill positions (docs/country-decisions-2026-10-12.md) ---
+  - key: "XXVIII/UEA/117"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Motion for a headscarf ban for pupils in Austrian schools; Chris ruled on 12 October 2026 that religious-symbol bans are all with us, veils included (reversing his 11 October call on Belgium)."
+    decided: "Chris, 12 Oct 2026: religious-symbol bans are with us."
+    drafted: "Claude, 12 October 2026"
+  - key: "XXVIII/UEA/158"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Motion for a headscarf ban for female teachers and school staff; Chris ruled on 12 October 2026 that religious-symbol bans are all with us, veils included (reversing his 11 October call on Belgium)."
+    decided: "Chris, 12 Oct 2026: religious-symbol bans are with us."
+    drafted: "Claude, 12 October 2026"
+  - key: "XXVIII/UEA/177"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [1]
+    why: "Motion demanding buffer zones against pro-life activists near abortion facilities; passing it would restrict pro-life speech and prayer, against CitizenGO."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "XXVIII/I/475"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [13]
+    why: "Tightens bans on advertising organs for profit and brokering organs, targeting organ-tourism firms, and clarifies research on retrieved organs; passing it curbs organ trafficking."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: check the ex situ perfusion research clause raises no concern)"
+    drafted: "Claude, 12 October 2026"
+  - key: "XXVIII/I/525"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [2]
+    why: "Lets assisted-suicide declarations be renewed for five years by a simplified doctor's confirmation, after a court ruling; passing it makes assisted suicide easier to access."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation (was flagged: court-mandated and passed unanimously; confirm against reading)"
+    drafted: "Claude, 12 October 2026"
+  - key: "XXVIII/UEA/139"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [5]
+    why: "Motion requiring participation in women's sport by biological sex; passing it protects sex-based rights in sport."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "XXVIII/A/506"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [5]
+    why: "Motion requiring participation in women's sport by biological sex; passing it protects sex-based rights, so taking note of the negative report rejects a measure CitizenGO backs."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  - key: "XXVIII/A/507"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [5]
+    why: "Motion requiring participation in women's sport by biological sex; passing it protects sex-based rights, so taking note of the negative report rejects a measure CitizenGO backs."
+    decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
 
 divisions:
 
@@ -133,7 +212,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/UEA/117@XXVIII/NRSITZ/39#85"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Dafür on XXVIII/UEA/117 (Motion for a headscarf ban for pupils in Austrian schools): for passing it, with CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/UEA/117 (Motion for a headscarf ban for pupils in Austrian schools): against passing it, against CitizenGO's position."
     title: "Unselbständiger Entschließungsantrag"
     "on": "Kopftuchverbot an Österreichs Schulen"
     dated: "2025-07-11"
@@ -143,8 +226,7 @@ divisions:
     result: "abgelehnt"
     lobbies: "Dafür: FPÖ 57. Dagegen: ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/UEA/117: CitizenGO's position on 'Kopftuchverbot an Österreichs Schulen' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for XXVIII/UEA/117 (CONFIRMED): passing it is WITH us -- Motion for a headscarf ban for pupils in Austrian schools; Chris ruled on 12 October 2026 that religious-symbol bans are all with us, veils included (reversing his 11 October call on Belgium). This vote is a vote on the whole text or the motion itself, so Dafür is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "BR/UEA-BR/761@BR/BRSITZ/980#28"
@@ -163,7 +245,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/UEA/121@XXVIII/NRSITZ/41#121.7"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): taxonomy misfile: area 5 tagged on a weapons motion"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Unselbständiger Entschließungsantrag"
     "on": "Waffen sichern – Leben schützen. Klare Gesetze für Waffenverwahrung zum Schutz vor Suiziden und Femiziden"
     dated: "2025-09-24"
@@ -173,7 +259,6 @@ divisions:
     result: "abgelehnt"
     lobbies: "Dafür: GRÜNE 16. Dagegen: FPÖ 57, ÖVP 51, SPÖ 41, NEOS 17 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/UEA/121: CitizenGO's position on 'Waffen sichern – Leben schützen. Klare Gesetze für Waffenverwahrung zum Schutz vor Suiziden und Femiziden' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
@@ -193,7 +278,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/UEA/158@XXVIII/NRSITZ/57#37.2"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Dafür on XXVIII/UEA/158 (Motion for a headscarf ban for female teachers and school staff): for passing it, with CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/UEA/158 (Motion for a headscarf ban for female teachers and school staff): against passing it, against CitizenGO's position."
     title: "Unselbständiger Entschließungsantrag"
     "on": "Kopftuchverbot für Lehrerinnen und Schulpersonal"
     dated: "2025-12-11"
@@ -203,8 +292,7 @@ divisions:
     result: "abgelehnt"
     lobbies: "Dafür: FPÖ 57. Dagegen: ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/UEA/158: CitizenGO's position on 'Kopftuchverbot für Lehrerinnen und Schulpersonal' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for XXVIII/UEA/158 (CONFIRMED): passing it is WITH us -- Motion for a headscarf ban for female teachers and school staff; Chris ruled on 12 October 2026 that religious-symbol bans are all with us, veils included (reversing his 11 October call on Belgium). This vote is a vote on the whole text or the motion itself, so Dafür is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "BR/UEA-BR/792@BR/BRSITZ/985#142.2"
@@ -223,7 +311,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/UEA/177@XXVIII/NRSITZ/73#76.2"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Dafür on XXVIII/UEA/177 (Motion demanding buffer zones against pro-life activists near abortion facilities): for passing it, against CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/UEA/177 (Motion demanding buffer zones against pro-life activists near abortion facilities): against passing it, with CitizenGO's position."
     title: "Unselbständiger Entschließungsantrag"
     "on": "Wirksame Schutzzonen vor Abtreibungsgegner:innen jetzt!"
     dated: "2026-03-26"
@@ -233,12 +325,15 @@ divisions:
     result: "abgelehnt"
     lobbies: "Dafür: GRÜNE 16. Dagegen: FPÖ 57, ÖVP 51, SPÖ 41, NEOS 17 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/UEA/177: CitizenGO's position on 'Wirksame Schutzzonen vor Abtreibungsgegner:innen jetzt!' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 1 (abortion). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 1 (abortion). Bill direction on file for XXVIII/UEA/177 (CONFIRMED): passing it is AGAINST us -- Motion demanding buffer zones against pro-life activists near abortion facilities; passing it would restrict pro-life speech and prayer, against CitizenGO. This vote is a vote on the whole text or the motion itself, so Dafür is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/I/475@XXVIII/NRSITZ/77#70"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Dafür on XXVIII/I/475 (Tightens bans on advertising organs for profit and brokering organs, targeting organ-touri): for passing it, with CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/I/475 (Tightens bans on advertising organs for profit and brokering organs, targeting organ-touri): against passing it, against CitizenGO's position."
     title: "Gesetzesvorschlag in zweiter Lesung"
     "on": "Organtransplantationsgesetz, Änderung"
     dated: "2026-05-20"
@@ -248,12 +343,15 @@ divisions:
     result: "angenommen"
     lobbies: "Dafür: FPÖ 57, ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/I/475: CitizenGO's position on 'Organtransplantationsgesetz, Änderung' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 13 (organ donation). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 13 (organ donation). Bill direction on file for XXVIII/I/475 (CONFIRMED): passing it is WITH us -- Tightens bans on advertising organs for profit and brokering organs, targeting organ-tourism firms, and clarifies research on retrieved organs; passing it curbs organ trafficking. This vote is a vote on the whole text or the motion itself, so Dafür is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/I/475@XXVIII/NRSITZ/77#70+2"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Dafür on XXVIII/I/475 (Tightens bans on advertising organs for profit and brokering organs, targeting organ-touri): for passing it, with CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/I/475 (Tightens bans on advertising organs for profit and brokering organs, targeting organ-touri): against passing it, against CitizenGO's position."
     title: "Gesetzesvorschlag in dritter Lesung"
     "on": "Organtransplantationsgesetz, Änderung"
     dated: "2026-05-20"
@@ -263,12 +361,15 @@ divisions:
     result: "angenommen"
     lobbies: "Dafür: FPÖ 57, ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/I/475: CitizenGO's position on 'Organtransplantationsgesetz, Änderung' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 13 (organ donation). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 13 (organ donation). Bill direction on file for XXVIII/I/475 (CONFIRMED): passing it is WITH us -- Tightens bans on advertising organs for profit and brokering organs, targeting organ-tourism firms, and clarifies research on retrieved organs; passing it curbs organ trafficking. This vote is a vote on the whole text or the motion itself, so Dafür is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/I/475@BR/BRSITZ/991#80"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Dafür on XXVIII/I/475 (Tightens bans on advertising organs for profit and brokering organs, targeting organ-touri): for passing it, with CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/I/475 (Tightens bans on advertising organs for profit and brokering organs, targeting organ-touri): against passing it, against CitizenGO's position."
     title: "Antrag, keinen Einspruch zu erheben,"
     "on": "Organtransplantationsgesetz, Änderung"
     dated: "2026-06-03"
@@ -277,8 +378,7 @@ divisions:
     tier: 1
     result: "angenommen"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/I/475: CitizenGO's position on 'Organtransplantationsgesetz, Änderung' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 13 (organ donation). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 13 (organ donation). Bill direction on file for XXVIII/I/475 (CONFIRMED): passing it is WITH us -- Tightens bans on advertising organs for profit and brokering organs, targeting organ-tourism firms, and clarifies research on retrieved organs; passing it curbs organ trafficking. This vote is a vote on the whole text or the motion itself, so Dafür is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/A/295@XXVIII/NRSITZ/83#2.7"
@@ -349,7 +449,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/I/525@XXVIII/NRSITZ/87#210"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Dafür on XXVIII/I/525 (Lets assisted-suicide declarations be renewed for five years by a simplified doctor's conf): for passing it, against CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/I/525 (Lets assisted-suicide declarations be renewed for five years by a simplified doctor's conf): against passing it, with CitizenGO's position."
     title: "Gesetzesvorschlag in zweiter Lesung"
     "on": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
     dated: "2026-07-07"
@@ -360,12 +464,15 @@ divisions:
     result: "angenommen"
     lobbies: "Dafür: FPÖ 57, ÖVP 51, SPÖ 41, NEOS 17. Dagegen: GRÜNE 16 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/I/525: CitizenGO's position on 'Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 2 (assisted dying). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for XXVIII/I/525 (CONFIRMED): passing it is AGAINST us -- Lets assisted-suicide declarations be renewed for five years by a simplified doctor's confirmation, after a court ruling; passing it makes assisted suicide easier to access. This vote is a vote on the whole text or the motion itself, so Dafür is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/I/525@XXVIII/NRSITZ/87#210+2"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Dafür on XXVIII/I/525 (Lets assisted-suicide declarations be renewed for five years by a simplified doctor's conf): for passing it, against CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/I/525 (Lets assisted-suicide declarations be renewed for five years by a simplified doctor's conf): against passing it, with CitizenGO's position."
     title: "Gesetzesvorschlag in dritter Lesung"
     "on": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
     dated: "2026-07-07"
@@ -376,12 +483,15 @@ divisions:
     result: "angenommen"
     lobbies: "Dafür: FPÖ 57, ÖVP 51, SPÖ 41, NEOS 17. Dagegen: GRÜNE 16 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/I/525: CitizenGO's position on 'Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 2 (assisted dying). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for XXVIII/I/525 (CONFIRMED): passing it is AGAINST us -- Lets assisted-suicide declarations be renewed for five years by a simplified doctor's confirmation, after a court ruling; passing it makes assisted suicide easier to access. This vote is a vote on the whole text or the motion itself, so Dafür is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/I/525@BR/BRSITZ/993#22"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Dafür on XXVIII/I/525 (Lets assisted-suicide declarations be renewed for five years by a simplified doctor's conf): for passing it, against CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/I/525 (Lets assisted-suicide declarations be renewed for five years by a simplified doctor's conf): against passing it, with CitizenGO's position."
     title: "Antrag, keinen Einspruch zu erheben,"
     "on": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
     dated: "2026-07-15"
@@ -392,13 +502,16 @@ divisions:
     result: "angenommen"
     lobbies: "Dafür: ÖVP 22, SPÖ 18, FPÖ 16 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/I/525: CitizenGO's position on 'Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 2 (assisted dying). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for XXVIII/I/525 (CONFIRMED): passing it is AGAINST us -- Lets assisted-suicide declarations be renewed for five years by a simplified doctor's confirmation, after a court ruling; passing it makes assisted suicide easier to access. This vote is a vote on the whole text or the motion itself, so Dafür is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   # --- drafted 2026-10-11 by tools/country_5ca.py (rules, no AI) ---
   - key: "XXVIII/UEA/139@XXVIII/NRSITZ/44#214.2"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Dafür on XXVIII/UEA/139 (Motion requiring participation in women's sport by biological sex): for passing it, with CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/UEA/139 (Motion requiring participation in women's sport by biological sex): against passing it, against CitizenGO's position."
     title: "Unselbständiger Entschließungsantrag"
     "on": "Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht"
     dated: "2025-10-15"
@@ -408,12 +521,15 @@ divisions:
     result: "abgelehnt"
     lobbies: "Dafür: FPÖ 57. Dagegen: ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for XXVIII/UEA/139: CitizenGO's position on 'Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Geschlecht' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 5 (sex-based rights). Bill direction on file for XXVIII/UEA/139 (CONFIRMED): passing it is WITH us -- Motion requiring participation in women's sport by biological sex; passing it protects sex-based rights in sport. This vote is a vote on the whole text or the motion itself, so Dafür is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "XXVIII/A/506@XXVIII/NRSITZ/81#112.2"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Dafür on XXVIII/A/506 (Motion requiring participation in women's sport by biological sex): for rejecting it, against CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/A/506 (Motion requiring participation in women's sport by biological sex): against rejecting it, with CitizenGO's position."
     title: "Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen"
     "on": "Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht"
     dated: "2026-06-10"
@@ -423,12 +539,15 @@ divisions:
     result: "angenommen"
     lobbies: "Dafür: ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16. Dagegen: FPÖ 57 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "reject"
-    read_first: "A motion to reject the text (the sides are swapped), but no bill direction is on file for XXVIII/A/506: CitizenGO's position on 'Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 5 (sex-based rights). Bill direction on file for XXVIII/A/506 (CONFIRMED): passing it is WITH us -- Motion requiring participation in women's sport by biological sex; passing it protects sex-based rights, so taking note of the negative report rejects a measure CitizenGO backs. This vote is a motion to reject the text (the sides are swapped), so Dafür is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "XXVIII/A/507@XXVIII/NRSITZ/81#112.1"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Dafür on XXVIII/A/507 (Motion requiring participation in women's sport by biological sex): for rejecting it, against CitizenGO's position."
+    why_nay: "Voted Dagegen on XXVIII/A/507 (Motion requiring participation in women's sport by biological sex): against rejecting it, with CitizenGO's position."
     title: "Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen"
     "on": "Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht"
     dated: "2026-06-10"
@@ -438,6 +557,5 @@ divisions:
     result: "angenommen"
     lobbies: "Dafür: ÖVP 51, SPÖ 41, NEOS 17, GRÜNE 16. Dagegen: FPÖ 57 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "reject"
-    read_first: "A motion to reject the text (the sides are swapped), but no bill direction is on file for XXVIII/A/507: CitizenGO's position on 'Schutz des Frauensports – Teilnahmepflicht nach dem biologischen Geschlecht' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 5 (sex-based rights). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 5 (sex-based rights). Bill direction on file for XXVIII/A/507 (CONFIRMED): passing it is WITH us -- Motion requiring participation in women's sport by biological sex; passing it protects sex-based rights, so taking note of the negative report rejects a measure CitizenGO backs. This vote is a motion to reject the text (the sides are swapped), so Dafür is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
