@@ -679,7 +679,7 @@ class DO(Reader):
     def collect(conn, client, since, today, log=print):
         import do_rollcalls as dor
         from src import do_store
-        client.set_host_throttle(dor.HOST, dor.HOST_THROTTLE_S)
+        _throttle(client, dor.HOST, dor.HOST_THROTTLE_S)
         tax, wl, watch = dor.load_taxonomy(), dor.empty_watchlist(), do_store.watchlist()
         pid = dor.PERIODS[dor.CURRENT_PERIOD]
         n = ours = 0

@@ -278,6 +278,65 @@ class LatamTests(Base):
         self.assertFalse(os.path.exists(latam_alerts.ledger_path("pe", self.latam_dir)))
 
 
+class NewReaderTests(unittest.TestCase):
+    """The readers added on branch gaps-day-sweep (11 October 2026), over
+    payloads the live sources returned that day (tests/fixtures/day-sweep/)."""
+
+    def setUp(self):
+        noise.load_yaml.__globals__["_FILES"].clear()
+
+    def fx(self, name):
+        return json.loads(_fix("day-sweep", name))
+
+    def test_ar_register_one_request_published_in_the_window(self):
+        client = FakeClient([("datos.hcdn.gob.ar", self.fx("ar-proyectos.json.gz"))])
+        conn = scratch()
+        n = sources.AR.collect(conn, client, "2026-10-05", "2026-10-11", log=lambda *a: None)
+        self.assertEqual(len(client.calls), 1)
+        self.assertTrue(sources.AR.ONCE_A_DAY)
+        self.assertNotIn("www.hcdn.gob.ar", client.calls[0][0])           # AR4
+        dates = {r[0] for r in conn.execute("SELECT published FROM ar_bills")}
+        self.assertEqual(n, conn.execute("SELECT COUNT(*) FROM ar_bills").fetchone()[0])
+        self.assertTrue(n and all(d > "2026-10-05" for d in dates))
+
+    def test_pe_bills_by_presentation_date_per_chamber(self):
+        client = FakeClient([('"codTipoParl": "S"', self.fx("pe-spley-s.json.gz")),
+                             ('"codTipoParl": "D"', self.fx("pe-spley-d.json.gz")),
+                             ('"codTipoParl": "C"', self.fx("pe-spley-c.json.gz"))])
+        conn = scratch()
+        n = sources.PE.collect(conn, client, "2026-10-04", "2026-10-11", log=lambda *a: None)
+        self.assertEqual(len(client.calls), 3)
+        self.assertTrue(all('"fecPresentacionDesde": "2026-10-05"' in c[1] for c in client.calls))
+        self.assertGreater(n, 0)
+        from src import latam
+        got = latam.country_items(conn, "pe", "2026-10-04", "2026-10-11")
+        self.assertTrue(all(it["kind"] == "new" for it in got))
+
+    def test_do_newest_pages_until_one_is_all_older(self):
+        p1, p7 = self.fx("do-bills-p1.json.gz"), self.fx("do-bills-p7.json.gz")
+        client = FakeClient([("page=1&", p1), ("page=2&", p7)])
+        conn = scratch()
+        n = sources.DO.collect(conn, client, "2026-10-07", "2026-10-11", log=lambda *a: None)
+        self.assertEqual(len(client.calls), 2)              # page 2 had nothing new: stop
+        self.assertEqual(n, 10)
+
+    def test_ec_votes_in_the_window_without_positions(self):
+        client = FakeClient([("reports/period", self.fx("ec-periods.json.gz")),
+                             ("votingList", self.fx("ec-votes.json.gz"))])
+        conn = scratch()
+        n = sources.EC.collect(conn, client, "2026-10-04", "2026-10-11", log=lambda *a: None)
+        self.assertGreater(n, 0)
+        self.assertFalse(any("votingDetail" in c[0] for c in client.calls))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM ec_votes").fetchone()[0], 0)
+
+    def test_latam_countries_go_through_the_latam_path(self):
+        self.assertEqual(set(sweep.LATAM), {"cl", "pe", "ec", "bo", "do", "pa", "hn", "uy"})
+        self.assertTrue(set(sweep.LATAM) <= set(sources.SWEEP))
+        for cc in ("mx", "co", "sv", "be", "pt", "hr", "sk"):
+            if cc not in sources.READERS:
+                self.assertNotIn(cc, sources.SWEEP)
+
+
 class CollectTests(Base):
     def test_gated_once_a_day_and_failing_readers(self):
         class Bad(sources.Reader):
