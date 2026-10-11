@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import re
 
+from src import agenda
 from src import country_edition as ce
 
 CC = "sk"
@@ -264,6 +265,7 @@ COUNTRY = ce.Country(
     cc=CC, name="Slovakia", chamber="Národná rada Slovenskej republiky", language="Slovak",
     taxonomies=(("taxonomy-sk.yaml", "sk"),),
     items=items,
+    week_ahead=agenda.week_ahead_fn(CC), ahead_note=agenda.ahead_note_fn(CC),
     members_note=("Tallies are counted from the member positions where they have been read "
                   "(the open data's absent count is wrong on about 12% of votes and is never "
                   "used); clubs are as the vote page grouped members on the day, so a member "
@@ -279,5 +281,8 @@ COUNTRY = ce.Country(
         "watched by key.",
         "The legislative stage of each print is not collected yet (phase 2), so there is "
         "no stage-moves section.",
+        "The week ahead is the programme of a convened sitting (program schôdze); a "
+        "sitting is convened about a week before it opens, and a point is dated to its "
+        "sitting's first day.",
     ),
 )

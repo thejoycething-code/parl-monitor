@@ -71,6 +71,12 @@ fi
 if [ -z "${PT_LEGISLATURE:-}" ]; then
   bash tools/chamber_step.sh pt "$SECONDS"
 fi
+# The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
+# into the store after the collector, so its bills match this week's store
+# and the edition below shows it. Its failure is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_agenda.py pt || echo "  [gap] the week-ahead agenda step failed"
+fi
 # Petitions and consultations (tools/country_petitions.py, src/petitions.py):
 # this country's open petitions, initiatives and consultations read into the
 # store before the edition, which shows the new ones on our ground, the

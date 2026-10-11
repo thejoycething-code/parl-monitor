@@ -221,7 +221,8 @@ class Pipeline(unittest.TestCase):
 
     def collect_pl(self, conn, today="2026-10-10", reply=None):
         client = FakeClient({"proceedings": reply if reply is not None
-                             else js("pl-proceedings.json.gz")})
+                             else js("pl-proceedings.json.gz"),
+                             "committees": []})
         return agenda.collect(conn, "pl", client, today, log=lambda *a: None)
 
     def test_bills_by_key_watched_and_tier(self):

@@ -15,6 +15,15 @@ config/watchlist-pl.yaml use.
 
 The API did not answer the laptop on 10 October 2026 (40 s timeouts); the
 weekly job runs on the Mini, which reads it for the vote collector.
+
+COMMITTEES (11 October 2026, additive). `/committees/sittings/<date>` lists
+each day's committee and subcommittee sittings, planned ones included
+(status PLANNED), with the agenda as HTML; `/committees` names them. One
+request a day of the window plus one for the names. Measured 11 October
+2026: one sitting on 15 October (a recess week), 35 on 8 October. One
+point per sitting, titled by the agenda's first line; its prints ('druk nr
+3150') are refs as for the plenary, so a committee's reading of a watched
+bill is found by number.
 """
 
 from __future__ import annotations
@@ -33,6 +42,11 @@ FEED = "pl-agenda"
 TERM = 10
 PROCEEDINGS = "https://api.sejm.gov.pl/sejm/term{0}/proceedings".format(TERM)
 WEB = "https://www.sejm.gov.pl/sejm{0}.nsf/porzadek.xsp?posiedzenie={1}"
+COMMITTEES = "https://api.sejm.gov.pl/sejm/term{0}/committees".format(TERM)
+COMMITTEE_DAY = "https://api.sejm.gov.pl/sejm/term{0}/committees/sittings/{{0}}".format(TERM)
+COMMITTEE_WEB = ("https://www.sejm.gov.pl/Sejm{0}.nsf/agent.xsp?symbol=KOMISJAST&NrKadencji={0}"
+                 "&KodKom={{0}}".format(TERM))
+DIV = re.compile(r"(?s)<div[^>]*>(.*?)</div>")
 
 LI = re.compile(r"(?s)<li[^>]*>(.*?)</li>")
 # Each <ol> with the text before it: the first is the agenda as set; one
@@ -118,6 +132,67 @@ def resolve(conn, refs):
     return out
 
 
+def committee_names(reply):
+    """{code: name} for committees and their subcommittees."""
+    out = {}
+    for c in reply or []:
+        out[c.get("code")] = c.get("name")
+        for sub in c.get("subCommittees") or []:
+            if isinstance(sub, dict) and sub.get("code"):
+                out[sub["code"]] = sub.get("name") or "{0}, subcommittee".format(c.get("name"))
+            elif isinstance(sub, str):
+                out.setdefault(sub, "{0}, subcommittee".format(c.get("name")))
+    return out
+
+
+def parse_committee_day(reply, names=None):
+    """Points from one day's committee sittings."""
+    out = []
+    for s in reply or []:
+        if (s.get("status") or "").upper() in ("CANCELLED", "CANCELED"):
+            continue
+        lines = [text_of(d) for d in DIV.findall(s.get("agenda") or "")]
+        lines = [x for x in lines if x] or [text_of(s.get("agenda"))]
+        if not lines or not lines[0]:
+            continue
+        code = s.get("code") or ""
+        body = (names or {}).get(code) or (names or {}).get(code[:3]) or "Committee {0}".format(code)
+        start = s.get("startDateTime") or ""
+        title = REPORTER.sub("", lines[0]).strip() or lines[0]
+        rest = lines[1:]
+        if len(title) < 25 and rest:                 # 'Sprawy bieżące.': the business follows
+            title, rest = rest[0], [lines[0]] + rest[1:]
+        detail = " ".join(rest)[:1500] or None
+        out.append(agenda.point("kom-{0}-{1}".format(code, s.get("num")), s.get("date"), title,
+                                body, "committee", start[11:16] or None, detail,
+                                refs=refs_of(s.get("agenda")),
+                                url=COMMITTEE_WEB.format(code[:3]),
+                                status="closed sitting" if s.get("closed") else None))
+    return out
+
+
+def fetch_committees(client, today, days):
+    """(points, gaps) for the committee sittings of each day of the window."""
+    points, gaps = [], []
+    try:
+        names = committee_names(client.get_json(COMMITTEES, FEED, "committees-term{0}".format(
+            TERM), timeout=120))
+    except (FetchError, ValueError) as exc:
+        names = {}
+        gaps.append("committee names unreadable: {0}".format(str(exc)[:80]))
+    d = datetime.date.fromisoformat(today)
+    for i in range(days + 1):
+        day = (d + datetime.timedelta(days=i)).isoformat()
+        try:
+            reply = client.get_json(COMMITTEE_DAY.format(day), FEED, "committees-" + day,
+                                    timeout=120)
+        except (FetchError, ValueError) as exc:
+            gaps.append("committee sittings of {0} unreadable: {1}".format(day, str(exc)[:60]))
+            continue
+        points += parse_committee_day(reply, names)
+    return points, gaps
+
+
 def fetch(client, today, days, log=print):
     try:
         reply = client.get_json(PROCEEDINGS, FEED, "proceedings-term{0}".format(TERM),
@@ -126,8 +201,10 @@ def fetch(client, today, days, log=print):
         return agenda.fetched([], gaps=["proceedings unreadable: {0}".format(str(exc)[:120])])
     points, nxt = parse(reply, today)
     note = None if points else "No agenda is published yet for the next sitting"
+    committee, gaps = fetch_committees(client, today, days)
     # A point is dated to its sitting's first day; the agenda reaches the last.
     ends = [max(s.get("dates")) for s in reply or []
             if s.get("agenda") and s.get("dates") and max(s["dates"]) >= today]
-    return agenda.fetched(points, horizon=max(ends) if ends else None, next_sitting=nxt,
-                          note=note)
+    ends += [p["date"] for p in committee if p["date"]]
+    return agenda.fetched(points + committee, horizon=max(ends) if ends else None,
+                          next_sitting=nxt, note=note, gaps=gaps)

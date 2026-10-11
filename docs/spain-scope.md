@@ -586,3 +586,5 @@ Attendance (11 October 2026, branch `ukp2-attendance`): the Congreso publishes n
 No video reuse terms found on 11 October 2026; the Cortes are dissolved until 23 December and there is no Spanish speech collector. Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.
 
 Length of service: **built** 11 October 2026 (`tools/member_service.py es`, branch `ukp2-service`): every seat in the Congreso since 1977 with its alta and baja and the dated parliamentary group (odsDiputados00 to 14, DiputadosActivos and DiputadosDeBaja; 937 seats for the store's deputies). The biography field is never read. Every four weeks. See docs/country-parity-handover.md, section 3c.
+
+**The plenary's order of the day (11 October 2026, branch `gaps-week-ahead`): built.** The PDF linked from the weekly page has a text layer; `src/agendas/es.py` splits it into its numbered items, each with its expediente, dated by its day heading. It fills when the XVI sits (23 December).

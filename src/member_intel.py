@@ -54,10 +54,6 @@ parliament's own open data, no key, no login, nothing behind a bot check):
       the current Nationalrat period and of the Bundesrat, two requests.
 
 NOT BUILT, and why (docs/country-parity-handover.md has the table):
-  * France's HATVP déclarations d'intérêts: open (Licence Ouverte, "librement
-    réutilisables" under the 2013 transparency laws) but an 80 MB XML of
-    every declaration, with spouses' activities in it; left for a later
-    round that keeps the member's own items only.
   * Austria's interests: the Unvereinbarkeits register is HTML per member;
     meineabgeordneten.at needs a licence (AT5).
   * Spain: the Cortes were dissolved on 5 October (RD 806/2026); declarations
@@ -68,6 +64,15 @@ NOT BUILT, and why (docs/country-parity-handover.md has the table):
   * Whip lines: only Brazil publishes one (the Câmara's orientação de
     bancada per vote, already in br_orientations); the profiles show it
     beside each Brazilian position. No other country publishes a whip.
+
+FRANCE'S HATVP DECLARATIONS (additive, 11 October 2026, src/fr_hatvp.py,
+tools/fr_hatvp.py): the declarations of interests and activities of sitting
+députés and sénateurs, the declarant's OWN items only, into mi_interests
+(source 'fr-hatvp') with the declaration's date (`declared`) and the HATVP's
+page for the member (`url`), two columns ensure() adds to an older store.
+mi_downloads keeps the file's validators so the 80 MB XML is downloaded only
+when it changed. Spouses' and collaborators' sections never reach this
+module (src/fr_hatvp.py skips them at parse time).
 
 WHAT A ROW SAYS. Names and titles verbatim; the member's store key where the
 source gives the store's own id (member_key), otherwise only the printed name
@@ -132,7 +137,9 @@ SCHEMA = (
         paid        TEXT,               -- the register's own word on payment
         start       TEXT,
         end         TEXT,
-        last_seen   TEXT NOT NULL
+        last_seen   TEXT NOT NULL,
+        declared    TEXT,               -- the declaration's own date, where the register dates it
+        url         TEXT                -- the register's page for the member, where it has one
     )""",
     "CREATE INDEX IF NOT EXISTS mi_interests_cc ON mi_interests (cc, member_key)",
     """CREATE TABLE IF NOT EXISTS mi_runs (
@@ -145,14 +152,36 @@ SCHEMA = (
         note        TEXT,
         PRIMARY KEY (cc, source)
     )""",
+    # A big file read only when it changed (France's HATVP declarations,
+    # src/fr_hatvp.py): its validators and when it was last checked and read.
+    """CREATE TABLE IF NOT EXISTS mi_downloads (
+        url           TEXT PRIMARY KEY,
+        last_modified TEXT,
+        etag          TEXT,
+        size          INTEGER,
+        last_seen     TEXT,             -- last conditional request (checked), answered or 304
+        fetched       TEXT              -- last full download and parse
+    )""",
 )
 
-TABLES = ("mi_groups", "mi_interests", "mi_runs")
+# Columns added after the first release of mi_interests (additive, 11 October
+# 2026, France's HATVP round): ensure() adds them to an older store.
+ADDED_COLUMNS = (("mi_interests", "declared", "TEXT"), ("mi_interests", "url", "TEXT"))
+
+# The register's name for a source, where a profile names it beside the
+# declaration date and link.
+SOURCE_NAMES = {"fr-hatvp": "HATVP"}
+
+TABLES = ("mi_groups", "mi_interests", "mi_runs", "mi_downloads")
 
 
 def ensure(conn):
     for stmt in SCHEMA:
         conn.execute(stmt)
+    for table, col, typ in ADDED_COLUMNS:
+        have = {r[1] for r in conn.execute("PRAGMA table_info({0})".format(table))}
+        if col not in have:
+            conn.execute("ALTER TABLE {0} ADD COLUMN {1} {2}".format(table, col, typ))
     conn.commit()
     return conn
 
@@ -173,7 +202,8 @@ def clean(text):
 
 
 def iso(text):
-    """'2025-02-26T00:00:00', '20250226', '/Date(1791555761747)/' -> '2025-02-26'."""
+    """'2025-02-26T00:00:00', '20250226', '/Date(1791555761747)/', '26/02/2025' ->
+    '2025-02-26'; a month alone, '02/2025' or '2025-02', -> '2025-02'."""
     s = clean(text)
     if not s:
         return None
@@ -183,9 +213,16 @@ def iso(text):
     m = re.match(r"(\d{4})-?(\d{2})-?(\d{2})", s)
     if m:
         return "{0}-{1}-{2}".format(*m.groups())
-    m = re.match(r"(\d{2})\.(\d{2})\.(\d{4})", s)
+    m = re.match(r"(\d{2})[./](\d{2})[./](\d{4})", s)
     if m:
         return "{2}-{1}-{0}".format(*m.groups())
+    # A month alone (HATVP: '05/2022'), additive 11 October 2026.
+    m = re.match(r"(\d{2})/(\d{4})$", s)
+    if m:
+        return "{1}-{0}".format(*m.groups())
+    m = re.match(r"(\d{4})-(\d{2})$", s)
+    if m:
+        return s
     m = re.match(r"(\d{4})$", s)
     return m.group(1) if m else None
 
@@ -200,11 +237,12 @@ def group(member_key=None, member_ref=None, name=None, kind="committee", group_t
 
 
 def interest(member_key=None, member_ref=None, name=None, category=None, text=None,
-             role=None, paid=None, start=None, end=None):
+             role=None, paid=None, start=None, end=None, declared=None, url=None):
     return {"member_key": member_key, "member_ref": None if member_ref is None else
             str(member_ref), "name": clean(name) or None, "category": clean(category) or None,
             "text": clean(text), "role": clean(role) or None, "paid": clean(paid) or None,
-            "start": iso(start), "end": iso(end)}
+            "start": iso(start), "end": iso(end), "declared": iso(declared),
+            "url": clean(url) or None}
 
 
 # --- the store -------------------------------------------------------------------------
@@ -224,9 +262,10 @@ def replace(conn, cc, source, today, groups=(), interests=(), full=None, note=No
               today) for g in groups])
         conn.executemany(
             "INSERT INTO mi_interests (cc, source, member_key, member_ref, name, category, text, "
-            "role, paid, start, end, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+            "role, paid, start, end, last_seen, declared, url) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             [(cc, source, i["member_key"], i["member_ref"], i["name"], i["category"], i["text"],
-              i["role"], i["paid"], i["start"], i["end"], today) for i in interests])
+              i["role"], i["paid"], i["start"], i["end"], today, i.get("declared"), i.get("url"))
+             for i in interests])
         old = conn.execute("SELECT full_ran FROM mi_runs WHERE cc=? AND source=?",
                            (cc, source)).fetchone()
         conn.execute(
@@ -235,6 +274,31 @@ def replace(conn, cc, source, today, groups=(), interests=(), full=None, note=No
             (cc, source, today, today if full else (old[0] if old else None), len(groups),
              len(interests), note))
     return len(groups), len(interests)
+
+
+def download_row(conn, url):
+    """(last_modified, etag, size, last_seen, fetched) for a big file, or None."""
+    return conn.execute("SELECT last_modified, etag, size, last_seen, fetched FROM mi_downloads "
+                        "WHERE url=?", (url,)).fetchone()
+
+
+def record_download(conn, url, today, headers=None, fetched=False):
+    """Stamp a conditional check (last_seen) and, when the file was read, its new
+    validators and `fetched` (France's HATVP declarations, src/fr_hatvp.py)."""
+    h = {k.lower(): v for k, v in (headers or {}).items()}
+    old = download_row(conn, url)
+    size = h.get("content-length")
+    with conn:
+        conn.execute(
+            "INSERT INTO mi_downloads (url, last_modified, etag, size, last_seen, fetched) "
+            "VALUES (?,?,?,?,?,?) ON CONFLICT(url) DO UPDATE SET "
+            "last_modified=excluded.last_modified, etag=excluded.etag, size=excluded.size, "
+            "last_seen=excluded.last_seen, fetched=excluded.fetched",
+            (url,
+             h.get("last-modified") or (old[0] if old else None),
+             h.get("etag") or (old[1] if old else None),
+             int(size) if size and str(size).isdigit() else (old[2] if old else None),
+             today, today if fetched else (old[4] if old else None)))
 
 
 def member_keys(conn, sql):

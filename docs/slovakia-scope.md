@@ -341,6 +341,8 @@ as for German) once approved.
 
 ## Phase plan
 
+**Week ahead (11 October 2026, branch `gaps-week-ahead`): built.** The programme of each convened sitting from `General/Meetings` and `General/MeetingProgram` (`src/agendas/sk.py`, a step of `jobs/sk-weekly.sh`), print keys ('9/1324'); empty between sittings, as a sitting is convened about a week ahead.
+
 1. **Phase 1 (built):** members, prints, votes, positions on our ground,
    interpellations; weekly on the Mini. Waits only on the term list.
 2. **Phase 1b:** generate `taxonomy-sk` after approval, reclassify, read the
@@ -479,7 +481,7 @@ It writes `data/packs/sk-<date>-<slug>/`: `pack.md` and `checklist.md` in Slovak
 translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
 `members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
 this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: every member's recorded position on the bill's decisive votes (final, rejection) and on the latest watched or tier-1 votes on the same areas, the split by group, and the members who broke with their group's majority (arithmetic on the record, never a stance).
-Agenda slot: not collected for this country yet; the pack says so. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+Agenda slot: from the week ahead (`country_agenda`, built 11 October 2026); the pack says when the agenda names no slot. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
 hand with `--speakers` (matched to the member list) once known. Placements come only from
 readings confirmed in `config/sk_stance.yaml`; none is confirmed yet, so every pack shows
 "čaká na schválenie" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New

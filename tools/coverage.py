@@ -335,7 +335,7 @@ FEEDS = [
     # is re-stamped with its vote, so it gets the same.
     # The new countries' week ahead (10 October 2026, src/agenda.py): one
     # table, written by a step of each country's weekly (NL, PL, CH, BR, IT,
-    # FR, AT, ES, AR). Every point a run reads is re-stamped, and the Dutch and
+    # FR, AT, ES, AR; BE, PT, SK from 11 October 2026). Every point a run reads is re-stamped, and the Dutch and
     # French agendas are never empty (procedure meetings, study groups), so
     # the table moves every week whatever the councils do.
     ("country_agenda", "last_seen", 7, 4, "Week-ahead agendas of the country editions "
@@ -641,6 +641,15 @@ from src import chamber_store as _chamber  # noqa: E402
 # "member-intel <cc>:" line says what it read.
 FEEDS += [("mi_runs", "last_seen", 7, 4,
            "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT weeklies)")]
+
+# France's HATVP declarations of interests (11 October 2026, tools/fr_hatvp.py,
+# src/fr_hatvp.py), a step of the France weekly: at most every four weeks it
+# asks whether declarations.xml changed (a conditional request) and stamps
+# mi_downloads.last_seen whether it changed or not, so the stamp moves every
+# four weeks; a month plus a fortnight's grace. Its rows are mi_interests
+# (source 'fr-hatvp'), whose mi_runs stamp moves only when the file changed.
+FEEDS += [("mi_downloads", "last_seen", 31, 14,
+           "France: HATVP declarations of interests checked (FR weekly, monthly step)")]
 
 # Length of service (11 October 2026, tools/member_service.py): every period
 # each member has sat, for 18 countries, a step of each weekly before the
@@ -1246,7 +1255,7 @@ def table_exists(conn, table):
 # OVERDUE like any other. table -> (until, why). Additive, 10 October 2026.
 AWAITING_STEP_UNTIL = {
     "country_agenda": ("2026-10-24", "the week-ahead step (tools/country_agenda.py) joins "
-                       "nine country weeklies on merge; it fills on the first of them"),
+                       "twelve country weeklies on merge; it fills on the first of them"),
     "country_petitions": ("2026-10-25", "the petitions step (tools/country_petitions.py) joins "
                           "eleven country weeklies on merge; it fills on the first of them"),
     # Speeches added to two chamber steps that already stamp their heartbeat
