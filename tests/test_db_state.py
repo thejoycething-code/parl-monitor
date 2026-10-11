@@ -674,7 +674,11 @@ class AssetSwapTests(unittest.TestCase):
         self.ds = db_state
         self.calls = []
         self.assets = {db_state.ASSET: 1}
-        self._real = (db_state._rename_asset, db_state._delete_asset)
+        self._real = (db_state._rename_asset, db_state._delete_asset, db_state._asset_records,
+                      db_state._sleep)
+        db_state._sleep = lambda _s: None
+        db_state._asset_records = lambda tok=None: [
+            {"name": n, "id": i, "state": "uploaded", "digest": ""} for n, i in self.assets.items()]
 
         def rename(a, b, tok=None):
             self.calls.append(("rename", a, b))
@@ -689,7 +693,8 @@ class AssetSwapTests(unittest.TestCase):
         db_state._rename_asset, db_state._delete_asset = rename, delete
 
     def tearDown(self):
-        self.ds._rename_asset, self.ds._delete_asset = self._real
+        (self.ds._rename_asset, self.ds._delete_asset, self.ds._asset_records,
+         self.ds._sleep) = self._real
 
     def test_a_good_upload_leaves_exactly_the_new_store(self):
         def upload():
@@ -714,7 +719,7 @@ class AssetSwapTests(unittest.TestCase):
             seen.append(sorted(self.assets))          # what exists mid-upload
             raise RuntimeError("boom")
         self.ds.swap_in_asset(upload, log=lambda *_a: None)
-        self.assertEqual(seen, [[self.ds.PREV]], "a copy must exist while uploading")
+        self.assertEqual(seen, [[self.ds.PREV]] * 3, "a copy must exist during every attempt")
         self.assertEqual(list(self.assets), [self.ds.ASSET])
 
     def test_a_first_ever_publish_has_nothing_to_keep_aside(self):
@@ -734,6 +739,7 @@ class PublishRaceTests(unittest.TestCase):
     def _run(self, holder_state):
         calls, assets = [], {db_state.ASSET: 1}
         orig = (db_state._rename_asset, db_state._delete_asset, db_state._asset_records)
+        sleep, db_state._sleep = db_state._sleep, (lambda _s: None)
 
         def rename(a, b, tok=None):
             calls.append(("rename", a, b))
@@ -753,6 +759,7 @@ class PublishRaceTests(unittest.TestCase):
             ok = db_state.swap_in_asset(upload, log=lambda *_a: None)
         finally:
             db_state._rename_asset, db_state._delete_asset, db_state._asset_records = orig
+            db_state._sleep = sleep
         return ok, calls, assets
 
     def test_a_rivals_finished_publish_is_left_standing(self):
@@ -768,6 +775,166 @@ class PublishRaceTests(unittest.TestCase):
         self.assertIn(("delete", db_state.ASSET), calls)
         self.assertEqual(list(assets), [db_state.ASSET])
         self.assertEqual(assets[db_state.ASSET], 1, "the previous copy is back under its name")
+
+
+class TransientUploadFailureTests(unittest.TestCase):
+    """10 and 11 October 2026: an upload 404 on the Mini read as "ANOTHER PUBLISH
+    LANDED" although nobody else had published. A failed upload is now retried
+    while the release and origin/main show nothing unseen; a store we never
+    held under the name is still a race and still refuses at once."""
+
+    OLD, NEW, RIVAL = "old-gz-sha", "new-gz-sha", "rival-gz-sha"
+
+    def _swap(self, uploads, origin="store-sha", before_upload=None, verify=None):
+        """uploads: one entry per attempt, "ok" or "404". before_upload(assets,
+        attempt) may change the release first (a rival, a lagging listing)."""
+        A, P = db_state.GZ_ASSET, db_state.GZ_PREV
+        assets = {A: {"digest": self.OLD, "state": "uploaded"}}
+        calls, logs, slept, attempt = [], [], [], [0]
+        listing = {"stale": None}
+
+        def rename(a, b, tok=None):
+            calls.append(("rename", a, b))
+            view = listing["stale"] or assets
+            if a not in view or b in assets:
+                return False
+            assets[b] = assets.pop(a); return True
+
+        def delete(n, tok=None):
+            calls.append(("delete", n)); assets.pop(n, None)
+
+        def records(tok=None):
+            view = listing["stale"] or assets
+            return [dict(v, name=n, id=1) for n, v in view.items()]
+
+        def upload():
+            attempt[0] += 1
+            calls.append(("upload",))
+            if before_upload:
+                before_upload(assets, attempt[0], listing)
+            if uploads[attempt[0] - 1] == "ok":
+                assets[A] = {"digest": self.NEW, "state": "uploaded"}
+                return
+            raise RuntimeError("gh upload failed: HTTP 404: Not Found (https://uploads.github.com/...)")
+        with mock.patch.multiple(db_state, _rename_asset=rename, _delete_asset=delete,
+                                 _asset_records=records, _sleep=slept.append,
+                                 published_sha=lambda: origin):
+            ok = db_state.swap_in_asset(upload, log=logs.append, asset=A, prev=P, verify=verify,
+                                        held=["store-sha", self.OLD], ours=self.NEW)
+        return ok, assets, calls, "\n".join(logs), slept
+
+    def test_a_transient_404_then_success_publishes(self):
+        ok, assets, calls, log, slept = self._swap(["404", "ok"])
+        self.assertTrue(ok)
+        self.assertEqual(assets, {db_state.GZ_ASSET: {"digest": self.NEW, "state": "uploaded"}})
+        self.assertEqual(slept, [db_state.UPLOAD_RETRY_DELAYS[0]])
+        self.assertIn("upload failed, no other publish seen", log)
+        self.assertNotIn("ANOTHER PUBLISH LANDED", log)
+
+    def test_a_persistent_404_fails_cleanly_and_restores_the_keep_aside(self):
+        ok, assets, calls, log, slept = self._swap(["404", "404", "404"])
+        self.assertFalse(ok)
+        self.assertEqual(assets, {db_state.GZ_ASSET: {"digest": self.OLD, "state": "uploaded"}},
+                         "the previous store is back under its name, nothing aside")
+        self.assertEqual(calls.count(("upload",)), 3)
+        self.assertEqual(slept, list(db_state.UPLOAD_RETRY_DELAYS))
+        self.assertIn("UPLOAD FAILED, no other publish seen", log)
+        self.assertIn("RESTORED", log)
+        self.assertNotIn("ANOTHER PUBLISH LANDED", log)
+
+    def test_a_real_race_still_refuses_at_once(self):
+        def rival(assets, attempt, _listing):
+            assets[db_state.GZ_ASSET] = {"digest": self.RIVAL, "state": "uploaded"}
+        ok, assets, calls, log, slept = self._swap(["404"], before_upload=rival)
+        self.assertFalse(ok)
+        self.assertEqual(calls.count(("upload",)), 1, "no retry over a rival")
+        self.assertEqual(slept, [])
+        self.assertEqual(assets[db_state.GZ_ASSET]["digest"], self.RIVAL, "the rival's store stands")
+        self.assertIn(db_state.GZ_PREV, assets, "ours stays aside for a person")
+        self.assertNotIn(("delete", db_state.GZ_ASSET), calls)
+        self.assertIn("ANOTHER PUBLISH LANDED", log)
+        self.assertIn("never seen here", log)
+
+    def test_an_unseen_sidecar_on_origin_is_a_race(self):
+        ok, assets, calls, log, slept = self._swap(["404", "ok"], origin="someone-elses-store")
+        self.assertFalse(ok)
+        self.assertEqual(calls.count(("upload",)), 1)
+        self.assertIn("ANOTHER PUBLISH LANDED", log)
+        self.assertIn("origin/main's sidecar", log)
+
+    def test_our_own_old_store_back_under_the_name_is_not_a_rival(self):
+        """What happened on the Mini: a GitHub run's pull renamed our .prev back
+        (or the listing lagged the rename), so the name held OUR old store."""
+        def put_back(assets, attempt, _listing):
+            if attempt == 1:
+                assets[db_state.GZ_ASSET] = assets.pop(db_state.GZ_PREV)
+        ok, assets, calls, log, slept = self._swap(["404", "ok"], before_upload=put_back)
+        self.assertTrue(ok)
+        self.assertNotIn("ANOTHER PUBLISH LANDED", log)
+        self.assertEqual(assets, {db_state.GZ_ASSET: {"digest": self.NEW, "state": "uploaded"}})
+
+    def test_an_upload_that_landed_despite_the_error_is_verified_not_retried(self):
+        def lands(assets, attempt, _listing):
+            assets[db_state.GZ_ASSET] = {"digest": self.NEW, "state": "uploaded"}
+        verified = []
+        ok, assets, calls, log, slept = self._swap(["404"], before_upload=lands,
+                                                   verify=lambda: verified.append(1) or True)
+        self.assertTrue(ok)
+        self.assertEqual(verified, [1])
+        self.assertEqual(calls.count(("upload",)), 1)
+        self.assertNotIn(db_state.GZ_PREV, assets)
+
+    def test_push_passes_the_lineage_to_the_swap(self):
+        body = open(os.path.join(ROOT, "tools", "db_state.py"), encoding="utf-8").read()
+        self.assertIn("held=held_shas(), ours=gz_digest", body)
+
+
+class FreshPrevPullTests(unittest.TestCase):
+    """9-11 October 2026: a GitHub run's pull renamed .prev back while the Mini
+    was uploading. A .prev set aside under 30 minutes ago is read, never renamed."""
+
+    def _pull(self, updated_at):
+        assets = {db_state.GZ_PREV: {"name": db_state.GZ_PREV, "updated_at": updated_at,
+                                     "url": "u"}}
+        renamed, logs = [], []
+        def run(cmd, **_kw):             # gh: the release listing, then the download
+            out = json.dumps({"assets": list(assets.values())}) if cmd[1] == "api" else ""
+            return mock.Mock(returncode=0, stdout=out, stderr="")
+        with mock.patch.multiple(db_state, install_merge_driver=lambda: None, have_gh=lambda: True,
+                                 token=lambda: None, prefers_gz=lambda: True,
+                                 _rename_asset=lambda a, b, tok=None: renamed.append((a, b)) or True,
+                                 install_compressed=lambda *a, **k: 0), \
+             mock.patch.object(db_state.subprocess, "run", run), \
+             mock.patch("builtins.print", logs.append):
+            rc = db_state.pull()
+        return rc, renamed, "\n".join(map(str, logs))
+
+    def stamp(self, minutes_ago):
+        import datetime
+        when = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(minutes=minutes_ago)
+        return when.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    def test_a_fresh_prev_is_taken_read_only(self):
+        rc, renamed, log = self._pull(self.stamp(5))
+        self.assertEqual(rc, 0)
+        self.assertEqual(renamed, [])
+        self.assertIn("read-only", log)
+
+    def test_an_old_prev_is_still_recovered(self):
+        rc, renamed, log = self._pull(self.stamp(45))
+        self.assertEqual(rc, 0)
+        self.assertEqual(renamed, [(db_state.GZ_PREV, db_state.GZ_ASSET)])
+        self.assertIn("failed part-way", log)
+
+    def test_a_prev_with_no_time_is_taken_read_only(self):
+        rc, renamed, _log = self._pull(None)
+        self.assertEqual(renamed, [])
+
+    def test_asset_age_reads_updated_at(self):
+        import datetime
+        now = datetime.datetime(2026, 10, 11, 18, 0, tzinfo=datetime.timezone.utc)
+        self.assertEqual(db_state.asset_age({"updated_at": "2026-10-11T17:30:00Z"}, now), 1800)
+        self.assertIsNone(db_state.asset_age({}, now))
 
 
 class RefusedDownloadTests(unittest.TestCase):
@@ -1117,6 +1284,7 @@ class CompressedRaceTests(unittest.TestCase):
     def _swap(self, holder_state=None, verify=None):
         calls, assets = [], {db_state.GZ_ASSET: 1, db_state.ASSET: 0}
         orig = (db_state._rename_asset, db_state._delete_asset, db_state._asset_records)
+        sleep, db_state._sleep = db_state._sleep, (lambda _s: None)
 
         def rename(a, b, tok=None):
             calls.append(("rename", a, b))
@@ -1139,6 +1307,7 @@ class CompressedRaceTests(unittest.TestCase):
                                         prev=db_state.GZ_PREV, verify=verify)
         finally:
             db_state._rename_asset, db_state._delete_asset, db_state._asset_records = orig
+            db_state._sleep = sleep
         return ok, calls, assets
 
     def test_another_publish_landing_on_the_gz_name_stands(self):
@@ -1186,13 +1355,15 @@ class CompressedPushTests(unittest.TestCase):
             sent.append((url, data.read() if hasattr(data, "read") else data, headers))
             return b"{}"
 
-        def swap(upload, api_tok=None, log=print, asset=None, prev=None, verify=None):
+        def swap(upload, api_tok=None, log=print, asset=None, prev=None, verify=None,
+                 held=None, ours=None):
             upload()
             self.assertEqual((asset, prev), (db_state.GZ_ASSET, db_state.GZ_PREV))
             verify()
             return True
         with mock.patch.multiple(db_state, have_gh=lambda: False, token=lambda: "t",
                                  check_lineage=lambda: True, stamp_heartbeat=lambda: None,
+                                 held_shas=lambda: [],
                                  release=lambda tok: {"upload_url": "https://up/x{?name}"},
                                  _api=api, swap_in_asset=swap,
                                  check_upload=lambda *a, **k: verified,

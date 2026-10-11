@@ -47,6 +47,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 
@@ -316,6 +317,26 @@ def plan_pull(names, prefer_gz=True):
     return None, None
 
 
+# A .prev younger than this may belong to a push still uploading (the 1.8 GB
+# raw store took up to 15 minutes from the Mini), so a pull leaves it alone.
+PREV_FRESH_SECONDS = 30 * 60
+
+
+def asset_age(asset, now=None):
+    """Seconds since the asset was last changed (GitHub's updated_at, which a
+    rename moves on), or None if it says nothing."""
+    stamp = asset.get("updated_at") or asset.get("created_at")
+    if not stamp:
+        return None
+    try:
+        when = datetime.datetime.strptime(stamp, "%Y-%m-%dT%H:%M:%SZ").replace(
+            tzinfo=datetime.timezone.utc)
+    except ValueError:
+        return None
+    now = now or datetime.datetime.now(datetime.timezone.utc)
+    return (now - when).total_seconds()
+
+
 def pull():
     install_merge_driver()
     tok = token()
@@ -363,8 +384,24 @@ def pull():
         # uploading the new one leaves only PREV. Recover from it rather
         # than failing every workflow: this is exactly the state that
         # broke the day-sweep run on 2026-09-09.
-        print("  [warn] no {0} on the release, but {1} is there: a push failed "
-              "part-way. Recovering from it.".format(restore, name))
+        #
+        # But a push IN PROGRESS looks the same. On 9, 10 and 11 October 2026
+        # a GitHub run's pull renamed .prev back while the Mini was uploading
+        # (Member profiles 14:21Z on 10 Oct, Dominican Republic weekly 17:33Z
+        # on 11 Oct): the Mini's upload failed with a 404 and read the store
+        # the pull had put back as "ANOTHER PUBLISH LANDED". So a fresh .prev
+        # is downloaded READ-ONLY and left where it is; only an old one is
+        # taken for a failed push and renamed back.
+        age = asset_age(assets.get(name) or {})
+        if age is None or age < PREV_FRESH_SECONDS:
+            print("  [warn] no {0} on the release, but {1} is there and was set aside {2}: "
+                  "a push may be uploading now. Taking it read-only, NOT renaming it back."
+                  .format(restore, name, "{0:.0f} min ago".format(age / 60) if age is not None
+                          else "at an unknown time"))
+            restore = None
+        else:
+            print("  [warn] no {0} on the release, but {1} is there ({2:.0f} min old): a push "
+                  "failed part-way. Recovering from it.".format(restore, name, age / 60))
     elif name == ASSET and GZ_ASSET not in assets:
         print("  no {0} on the release yet: taking the uncompressed {1}".format(GZ_ASSET, ASSET))
 
@@ -753,7 +790,84 @@ def _delete_asset(name, tok=None):
 
 
 
-def swap_in_asset(upload, api_tok=None, log=print, asset=ASSET, prev=PREV, verify=None):
+# A failed upload is retried while nothing says another publish landed:
+# three attempts over about two minutes (11 October 2026). Twice on the Mini
+# (pt-weekly 10 Oct, nl-weekly 11 Oct) a transient 404 from uploads.github.com
+# was followed by "ANOTHER PUBLISH LANDED" with no other writer anywhere: the
+# release listing read just after the keep-aside rename still showed our own
+# old store under the published name, so the rename back found no .prev and
+# the name's "holder" was taken for a rival. A rerun a minute later published.
+UPLOAD_RETRY_DELAYS = (30, 90)       # seconds slept before attempts 2 and 3
+RESTORE_RETRY_DELAYS = (10, 30)      # the rename back, if the listing lags
+_sleep = time.sleep                  # tests replace it
+
+
+def _failed_upload_state(asset, prev, kept, held, ours, api_tok=None):
+    """After a failed upload, what does the release say? -> (state, detail).
+
+    landed  the asset under our name has OUR digest: the upload finished
+            although the call reported an error.
+    rival   another publish landed: the name holds a finished asset whose
+            digest this copy has never seen (or no digest at all), or
+            origin/main's sidecar now names a store never seen here.
+    debris  the name holds an unfinished asset: our own partial upload.
+    ours    the name holds a store this copy has seen: our own kept-aside
+            copy, listed under its old name because the listing lags the
+            rename (or the rename never took).
+    unclear the release could not be read, or shows neither name.
+    clear   the name is free and our copy is aside as `prev`.
+
+    `held` None (a caller without lineage) keeps the old rule: any
+    finished asset under the name is a rival.
+    """
+    seen = set(held or ())
+    if held is not None:
+        theirs = published_sha()
+        if theirs and theirs not in seen:
+            return "rival", ("origin/main's sidecar now names {0}, never seen here"
+                             .format(theirs[:12]))
+    try:
+        recs = _asset_records(api_tok)
+    except Exception as exc:                                # noqa: BLE001
+        return "unclear", "could not read the release ({0})".format(exc)
+    by = {r.get("name"): r for r in recs}
+    holder = by.get(asset)
+    if holder is not None:
+        digest = holder.get("digest") or ""
+        if holder.get("state") != "uploaded":
+            return "debris", "{0} is an unfinished upload".format(asset)
+        if ours and digest == ours:
+            return "landed", "{0} holds our upload ({1})".format(asset, digest[:12])
+        if digest and digest in seen:
+            return "ours", "{0} still lists our own previous store ({1})".format(asset, digest[:12])
+        return "rival", "{0} now holds {1}, never seen here".format(
+            asset, digest[:12] or "an asset with no digest")
+    if kept and prev not in by:
+        return "unclear", "the release shows neither {0} nor {1}".format(asset, prev)
+    return "clear", "{0} is free and the previous store is aside as {1}".format(asset, prev) \
+        if kept else "{0} is free".format(asset)
+
+
+def _refuse_rival(detail, kept, prev, log):
+    log("  ANOTHER PUBLISH LANDED while this one was uploading ({0}): its store stands. "
+        "Ours is not published{1}. Pull, redo this run's work, push again.".format(
+            detail, "; the previous copy stays aside as {0}".format(prev) if kept else ""))
+    return False
+
+
+def _restore(asset, prev, api_tok, log):
+    """Put the kept-aside copy back under its name, waiting out a lagging listing."""
+    for delay in (0,) + tuple(RESTORE_RETRY_DELAYS):
+        if delay:
+            _sleep(delay)
+        if _rename_asset(prev, asset, api_tok):
+            log("  RESTORED the previously published store; the release is intact.")
+            return True
+    return False
+
+
+def swap_in_asset(upload, api_tok=None, log=print, asset=ASSET, prev=PREV, verify=None,
+                  held=None, ours=None):
     """Publish a new store without ever leaving the release without one.
 
     `gh release upload --clobber` DELETES the published asset and then uploads.
@@ -771,38 +885,70 @@ def swap_in_asset(upload, api_tok=None, log=print, asset=ASSET, prev=PREV, verif
     with what we sent) takes the upload down and restores the old copy, as a
     failed upload does. Nobody else can hold the name between our upload and
     this check: GitHub refuses a second asset of the same name.
+
+    `held`: every sha this copy has held (held_shas()); `ours`: the digest of
+    what we upload. With them a failed upload is retried (UPLOAD_RETRY_DELAYS)
+    unless the release or origin/main shows a store never seen here, which is
+    a genuine race and refuses at once (_failed_upload_state).
     """
     kept = _rename_asset(asset, prev, api_tok)
     if kept:
         log("  kept the published store aside as {0} while this one uploads".format(prev))
-    try:
-        upload()
-    except Exception as exc:                                # noqa: BLE001
-        log(str(exc))
-        if kept:
+    attempts = 1 + len(UPLOAD_RETRY_DELAYS)
+    landed = False
+    for attempt in range(1, attempts + 1):
+        if attempt > 1:
+            delay = UPLOAD_RETRY_DELAYS[attempt - 2]
+            log("  upload failed, no other publish seen; retrying in {0}s (attempt {1} of {2})"
+                .format(delay, attempt, attempts))
+            _sleep(delay)
+            # The race check again, just before the retry.
+            state, detail = _failed_upload_state(asset, prev, kept, held, ours, api_tok)
+            if state == "rival":
+                return _refuse_rival(detail, kept, prev, log)
+            if state == "landed":
+                log("  {0}: the earlier upload finished after all".format(detail))
+                landed = True
+                break
+            if state == "debris":
+                _delete_asset(asset, api_tok)
+            elif state == "ours" and not _rename_asset(asset, prev, api_tok):
+                log("  [warn] {0}, and it could not be put aside again".format(detail))
+            kept = kept or state == "ours"
+        try:
+            upload()
+            landed = True
+            break
+        except Exception as exc:                            # noqa: BLE001
+            log(str(exc))
             # 14 Sept 2026: a laptop push raced the Monday publish. The publish
             # uploaded its store while ours was in flight, ours got a 404, and
-            # this path then DELETED the publish's fresh asset as "a partial
-            # upload" and put the old copy back -- forty minutes of CI work
-            # gone and the sidecar pointing at bytes that no longer existed.
-            # A failed upload leaves no asset behind (GitHub creates it on
-            # completion), so an ASSET that exists now is somebody else's
-            # finished publish: leave it, and leave ours aside for a person.
-            # So: try the restore FIRST (it fails on a name clash), and only
-            # then look at what holds the name. A finished upload is a rival;
-            # anything else is our own debris and can go.
-            if _rename_asset(prev, asset, api_tok):
-                log("  RESTORED the previously published store; the release is intact.")
-                return False
-            holder = [r for r in _asset_records(api_tok) if r["name"] == asset]
-            if holder and holder[0].get("state") == "uploaded":
-                log("  ANOTHER PUBLISH LANDED while this one was uploading: its store stands. "
-                    "Ours is not published; the previous copy stays aside as {0}. "
-                    "Pull, redo this run's work, push again.".format(prev))
-                return False
-            _delete_asset(asset, api_tok)                   # our partial upload
-            if _rename_asset(prev, asset, api_tok):
-                log("  RESTORED the previously published store; the release is intact.")
+            # the failure path then DELETED the publish's fresh asset as "a
+            # partial upload" and put the old copy back -- forty minutes of CI
+            # work gone and the sidecar pointing at bytes that no longer
+            # existed. A failed upload leaves no finished asset behind (GitHub
+            # creates it on completion), so a finished asset under the name is
+            # somebody else's publish UNLESS its digest is one we know: our
+            # own upload (it landed) or our own kept-aside store (the listing
+            # lags the rename: the false alarms of 10 and 11 October 2026).
+            state, detail = _failed_upload_state(asset, prev, kept, held, ours, api_tok)
+            if state == "rival":
+                return _refuse_rival(detail, kept, prev, log)
+            if state == "landed":
+                log("  {0} although the upload reported an error; verifying it".format(detail))
+                landed = True
+                break
+            if state == "debris":
+                _delete_asset(asset, api_tok)               # our partial upload
+    if not landed:
+        log("  UPLOAD FAILED, no other publish seen: {0} attempts did not publish this store."
+            .format(attempts))
+        if kept and not _restore(asset, prev, api_tok, log):
+            state, detail = _failed_upload_state(asset, prev, kept, held, ours, api_tok)
+            if state == "rival":
+                return _refuse_rival(detail, kept, prev, log)
+            if state == "ours":
+                log("  {0}: the release is intact.".format(detail))
             else:
                 log("  COULD NOT RESTORE: the store is present as {0}. Rename it back to "
                     "{1} in the release before any workflow runs.".format(prev, asset))
@@ -846,7 +992,6 @@ def push():
 
 def _publish(tok, counts, digest, size, gz_path):
     """Compress, check, upload, verify, retire the raw asset, write the sidecar."""
-    import time
     started = time.time()
     raw_sha, raw_size, gz_digest, gz_size = compress(DB, gz_path)
     if (raw_sha, raw_size) != (digest, size):
@@ -900,7 +1045,8 @@ def _publish(tok, counts, digest, size, gz_path):
         verified.append(check_upload(GZ_ASSET, gz_digest, gz_size, api_tok))
         return verified[-1]
 
-    if not swap_in_asset(_upload, api_tok, asset=GZ_ASSET, prev=GZ_PREV, verify=_verify):
+    if not swap_in_asset(_upload, api_tok, asset=GZ_ASSET, prev=GZ_PREV, verify=_verify,
+                         held=held_shas(), ours=gz_digest):
         return 1
 
     # The switch: the raw asset now holds an older store. Delete it only once
