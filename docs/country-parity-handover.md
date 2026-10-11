@@ -107,13 +107,14 @@ live read all render "awaiting sign-off" until a named person confirms.
   then deleted on both the Mini and the laptop. Clip
   footage under `data/clips/*/windows/` and `final/` is git-ignored (#99);
   a person picks who goes in (the pick ranks by topic, not by side).
-- First runs still to come: the Netherlands, Chile and Colombia weeklies
-  have not run on the Mini yet (their slot is Thursday; first run 15 October
-  2026), and Mexico and Guatemala (GitHub, fortnightly) have not had a
-  collection yet, so their tables in the published store are empty until
-  then. El Salvador's first run failed on 11 October (fixed in #85; next run
-  Sunday 18 October). To fill them sooner, kickstart the installed job on the
-  Mini (`launchctl kickstart gui/$(id -u)/net.citizengo.parlmonitor.<cc>-weekly`),
+- First runs: the Netherlands, Chile and Colombia ran on the Mini on 11
+  October 2026 (kickstarted; all published, editions sent; the Dutch run
+  needed a rerun, see below). Still to come: Mexico and Guatemala (GitHub,
+  fortnightly) and El Salvador (failed 11 October, fixed in #85; next run
+  Sunday 18 October). The Dominican Republic's 11 October Mini run timed out
+  before the #85 budget fix; check its next run. To run a weekly sooner,
+  kickstart its installed job on the Mini
+  (`launchctl kickstart gui/$(id -u)/net.citizengo.parlmonitor.<cc>-weekly`),
   outside the overnight window.
 - Compressed publish: VERIFIED 11 October 2026. The store (1.77 GB) uploads
   as `parl-monitor.db.gz`, 431 MB, compressed in 16 s; the raw asset is gone
@@ -143,7 +144,18 @@ GitHub's 2 GiB per-asset limit; gzip cuts it about 4x and the upload from
 about 15 minutes to 4 or 5. Pushes warn above 1.6 GB uncompressed and refuse
 above 2 GiB. If it keeps growing, the next step is splitting the new
 countries into their own store file (Chris: "further changes in the future
-if necessary").
+if necessary"). On 11 October it was 1.82 GB uncompressed, 446 MB compressed.
+
+**Publish collisions fixed (#109).** Three runs lost their store with "gh
+upload failed: HTTP 404 ... ANOTHER PUBLISH LANDED" (prov-backfill 9 October,
+Portugal 10 October, the Netherlands 11 October). The cause: a GitHub run's
+`db_state --pull` found only the keep-aside `.prev` / `.gz.prev` mid-upload and
+renamed it back. Pull now leaves a keep-aside younger than 30 minutes
+read-only; push retries a failed upload three times when no other publish is
+seen, and still refuses a genuine race. Unverified: the 30-minute age comes
+from GitHub's `updated_at` on the asset; if a rename does not update it, the
+guard can miss an old keep-aside. Watch the logs for "upload failed, no other
+publish seen".
 
 **What could come next (not started):** regions and Länder (IT3, AT6, PE4,
 Spain's autonomous communities, Mexico's states); Croatia and Slovakia
