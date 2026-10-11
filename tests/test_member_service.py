@@ -230,6 +230,23 @@ class Links(unittest.TestCase):
         self.assertEqual(ms.term_label("at", ["XXVI.-XXVIII. GP"]), "XXVI.-XXVIII. GP")
 
 
+class Rotation(unittest.TestCase):
+    def test_a_budgeted_source_reads_the_longest_unread_first_and_keeps_the_rest(self):
+        conn = ms.ensure(sqlite3.connect(":memory:"))
+        ms.replace(conn, "br", "br-historico", "2026-09-01",
+                   [ms.period("a", None, None, "camara", None, "2019-02-01", None)])
+        ms.replace(conn, "br", "br-historico", "2026-10-01",
+                   [ms.period("b", None, None, "camara", None, "2023-02-01", None)] +
+                   ms.carry_over(conn, "br", "br-historico", {"b"})[0])
+        self.assertEqual(ms.read_order(conn, "br", "br-historico", ["a", "b", "c"]),
+                         ["c", "a", "b"])
+        self.assertFalse(ms.due(conn, "br", "2026-10-09"))
+        conn.execute("UPDATE ms_runs SET note='1 of 3 read this run'")
+        self.assertTrue(ms.due(conn, "br", "2026-10-09"))      # a short run: again next week
+        kept = ms.carry_over(conn, "br", "br-historico", {"b"})[0]
+        self.assertEqual([(p["member_key"], p["last_seen"]) for p in kept], [("a", "2026-09-01")])
+
+
 class WhatMayBeSaid(unittest.TestCase):
     def test_at_least_only_when_the_run_starts_on_the_sources_first_day(self):
         p = ms.period("1", "1", None, "TK", None, "2008-01-01", None)

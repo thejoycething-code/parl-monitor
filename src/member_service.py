@@ -291,13 +291,13 @@ def replace(conn, cc, source, today, periods=(), spells=(), covers=None, covers_
             "start, end, precision, party, grp, seat, last_seen) "
             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             [(cc, source, p["member_key"], p["member_ref"], p["name"], p["chamber"], p["term"],
-              p["start"], p["end"], p["precision"], p["party"], p["grp"], p["seat"], today)
-             for p in periods])
+              p["start"], p["end"], p["precision"], p["party"], p["grp"], p["seat"],
+              p.get("last_seen") or today) for p in periods])
         conn.executemany(
             "INSERT INTO ms_party (cc, source, member_key, member_ref, name, kind, party, "
             "party_ref, start, end, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
             [(cc, source, s["member_key"], s["member_ref"], s["name"], s["kind"], s["party"],
-              s["party_ref"], s["start"], s["end"], today) for s in spells])
+              s["party_ref"], s["start"], s["end"], s.get("last_seen") or today) for s in spells])
         conn.execute(
             "INSERT OR REPLACE INTO ms_runs (cc, source, last_seen, periods, spells, covers, "
             "covers_from, note) VALUES (?,?,?,?,?,?,?,?)",
@@ -1084,7 +1084,7 @@ def fetch_at(conn, client, today, log=print, budget=None, **_):
     client.set_host_throttle("www.parlament.gv.at", 1.0)
     periods, spells, read, skipped = [], [], set(), 0
     started = time.monotonic()
-    for pad in sorted(members):
+    for pad in read_order(conn, "at", "at-biografien", members):
         url = AT_PERSON.format(pad)
         if robots is not None and not robots.can_fetch(client.user_agent, url):
             skipped += 1
@@ -1115,8 +1115,9 @@ def carry_over(conn, cc, source, read):
     if not has_tables(conn):
         return [], []
     pcols = ("member_key", "member_ref", "name", "chamber", "term", "start", "end",
-             "precision", "party", "grp", "seat")
-    scols = ("member_key", "member_ref", "name", "kind", "party", "party_ref", "start", "end")
+             "precision", "party", "grp", "seat", "last_seen")
+    scols = ("member_key", "member_ref", "name", "kind", "party", "party_ref", "start", "end",
+             "last_seen")
     ps = [dict(zip(pcols, r)) for r in conn.execute(
         "SELECT {0} FROM ms_periods WHERE cc=? AND source=?".format(", ".join(pcols)),
         (cc, source)) if r[0] not in read]
@@ -1124,6 +1125,18 @@ def carry_over(conn, cc, source, read):
         "SELECT {0} FROM ms_party WHERE cc=? AND source=?".format(", ".join(scols)),
         (cc, source)) if r[0] not in read]
     return ps, ss
+
+
+def read_order(conn, cc, source, member_keys):
+    """Members for a per-member source, longest unread first: never read,
+    then by the date their rows were last read (carried rows keep theirs),
+    so a run cut short by its budget is finished by the next ones."""
+    last = {}
+    if has_tables(conn):
+        for k, seen in conn.execute("SELECT member_key, MIN(last_seen) FROM ms_periods WHERE "
+                                    "cc=? AND source=? GROUP BY member_key", (cc, source)):
+            last[k] = seen
+    return sorted(member_keys, key=lambda k: (last.get(k) or "", k))
 
 
 def fetch_pt(conn, client, today, log=print, **_):
@@ -1247,11 +1260,12 @@ def fetch_pl(conn, client, today, log=print, **_):
 
 
 def fetch_br(conn, client, today, log=print, budget=None, **_):
-    members = [(k, c, sid) for k, c, sid in conn.execute(
-        "SELECT member_key, chamber, source_id FROM br_members WHERE in_office=1")]
+    members = {k: (c, sid) for k, c, sid in conn.execute(
+        "SELECT member_key, chamber, source_id FROM br_members WHERE in_office=1")}
     periods, spells, read = [], [], set()
     started = time.monotonic()
-    for key, chamber, sid in sorted(members):
+    for key in read_order(conn, "br", "br-historico", members):
+        chamber, sid = members[key]
         if budget and time.monotonic() - started > budget:
             break
         if chamber == "camara":
@@ -1461,11 +1475,23 @@ BUDGET = {"at": 900, "br": 1500}
 NO_SOURCE = ("ec", "sv", "gt", "co", "uy")
 
 
+def partial(conn, cc):
+    """True when a per-member source's last run stopped short ('240 of 594
+    read this run'): it is then due again a week later, not a month."""
+    for (note,) in conn.execute("SELECT note FROM ms_runs WHERE cc=?", (cc,)):
+        m = re.match(r"(\d+) of (\d+) read", note or "")
+        if m and int(m.group(1)) < int(m.group(2)):
+            return True
+    return False
+
+
 def due(conn, cc, today, stale_days=None):
     last = last_read(conn, cc)
     if not last:
         return True
     days = STALE_DAYS.get(cc, 7) if stale_days is None else stale_days
+    if stale_days is None and partial(conn, cc):
+        days = 7
     return (datetime.date.fromisoformat(today) - datetime.date.fromisoformat(last[:10])).days \
         >= days
 
