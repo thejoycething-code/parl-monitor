@@ -40,6 +40,10 @@ data/raw/
 data/.raw-pulled
 # Debate pack footage: large, licensed, local
 data/packs/*/clips/
+# Speech clips, new countries (tools/country_clips.py): source windows and
+# rendered clips are licensed footage, local only; the pack's .md/.json stay tracked.
+data/clips/*/windows/
+data/clips/*/final/
 .claude/worktrees/
 
 # The blind agreement-test sample (tools/review_sample.py): our columns live only in the review page's store
