@@ -76,7 +76,18 @@ READERS = {
     "qroo": "mxs_qroo",      # Quintana Roo: list pages, newest first
     "ags": "mxs_ags",        # Aguascalientes: the agenda's JSON back end
     "nay": "mxs_nay",        # Nayarit: the Proceso Legislativo JSON
+    # Alternative routes (12 October 2026, Chris: "prepare alternative methods
+    # too"): where the congress's own site is blocked to us, the decrees it
+    # ADOPTS, read from the state's official gazette (Periódico Oficial) on
+    # a different, government-run host. Never the congress's site, never a
+    # bot check. The edition marks these "(from the official gazette)".
+    "slp": "mxs_slp_gazette",   # San Luis Potosí: the gazette's own search JSON
+    "dgo": "mxs_dgo_gazette",   # Durango: each edition's HTML contents
+    "qro": "mxs_qro_gazette",   # Querétaro: La Sombra de Arteaga's annual index PDF
+    "cam": "mxs_cam_gazette",   # Campeche: SECCIÓN LEGISLATIVA edition PDFs
 }
+# Readers that read an official gazette rather than the congress itself.
+GAZETTE = {s for s, m in READERS.items() if m.endswith("_gazette")}
 
 # Why a state has no reader (docs/mexico-regions-scope.md has the detail):
 # state -> (status, one line). 'unreachable' states are asked once a run
@@ -86,11 +97,9 @@ NOT_READ = {
     "nl": ("unreachable", "www.hcnl.gob.mx does not answer UK addresses; no reader yet"),
     "gto": ("unreachable", "www.congresogto.gob.mx does not answer UK addresses; no reader yet"),
     "zac": ("unreachable", "www.congresozac.gob.mx does not answer UK addresses; no reader yet"),
-    "dgo": ("blocked", "Wordfence answers 503 'access from your area has been limited' to UK "
-                       "addresses; the listings are PDFs only"),
-    "slp": ("blocked", "a Sucuri JavaScript challenge (a bot check, never bypassed)"),
-    "cam": ("blocked", "robots.txt disallows every path to every crawler but Googlebot"),
-    "pue": ("blocked", "the host answers 403 to our User-Agent"),
+    "pue": ("blocked", "the Congress's site answers a Cloudflare challenge (a bot check, never "
+                       "bypassed); the Periódico Oficial and the Orden Jurídico Poblano refuse "
+                       "UK connections (asked from the runner each run)"),
     "coah": ("not built", "a JSF table paged by stateful postbacks; vote PDFs by date"),
     "son": ("not built", "a JSON API of only 413 items with no committee or status"),
     "hgo": ("not built", "per-sitting pages without author or committee (PDFs)"),
@@ -104,8 +113,6 @@ NOT_READ = {
     "tlax": ("not built", "all LXV work is one 1.5 MB WordPress page of tabbed tables"),
     "col": ("not built", "an undated HTML fragment by POST; no presentation dates"),
     "bcs": ("not built", "no listing of iniciativas; only orden del día RSS"),
-    "qro": ("not built", "plain HTTP only (the https port refuses connections), and the "
-                         "pipeline reads nothing in the clear; the list is also undated"),
 }
 # The home page asked once a run for an unreachable state (robots.txt
 # honoured), so the coverage line says whether this runner reaches it.
@@ -114,9 +121,14 @@ PROBE = {
     "nl": "https://www.hcnl.gob.mx/",
     "gto": "https://www.congresogto.gob.mx/",
     "zac": "https://www.congresozac.gob.mx/",
-    "dgo": "https://congresodurango.gob.mx/",
+    # Puebla and Jalisco: the official GAZETTE's home page, not the congress
+    # (Puebla's congress answers a bot check and is never asked).
+    "pue": "https://periodicooficial.puebla.gob.mx/",
+    "jal": "https://periodicooficial.jalisco.gob.mx/",
     "mich": "https://congresomich.gob.mx/",
 }
+PROBE_WHAT = {"pue": "the Periódico Oficial's home page",
+              "jal": "the Periódico Oficial's home page"}
 
 
 def classify(tax, text, key, watch_path=None):
@@ -169,11 +181,12 @@ def run_state(conn, client, state, tax, since, budget, today, now, dry_run=False
             ctx = Context(conn, probe_client(), state, feed=FEED, budget=budget,
                           log=lambda *a: None)
             page = ctx.text(PROBE[state], "probe-" + state)
+            what = PROBE_WHAT.get(state, "the home page")
             if page is not None and len(page) > 2000:
-                status, detail = "not built", "the home page ANSWERS this runner ({0} bytes); " \
-                    "a reader can be written".format(len(page))
+                status, detail = "not built", "{0} ANSWERS this runner ({1} bytes); " \
+                    "a reader can be written".format(what, len(page))
             elif page is not None:
-                detail += "; the home page answered with only {0} bytes".format(len(page))
+                detail += "; {0} answered with only {1} bytes".format(what, len(page))
         if not dry_run:
             mxs_store.record_read(conn, state, None, status, detail, None, None, None, now)
         log("mxs: {0}: not read ({1}: {2})".format(state, status, detail))

@@ -79,7 +79,11 @@ store and edition section, as for the Canadian provinces.
   state reforms published in the periódicos oficiales, current to 8-9
   October 2026, with decree numbers and extracts; ten to a page, more only
   by ASP.NET postback. **The best cross-state source for ENACTED reforms**;
-  not built (phase 2 below). bj.scjn.gob.mx (the Buscador Jurídico) loops
+  not built (phase 2 below). **Re-measured 12 October 2026, evening:** the
+  page renders its search form but no results grid, and a search postback
+  (Entidad = Puebla, 50 a page) answers "Object reference not set to an
+  instance of an object" from `ReformasRecientes.ActualizarGrid`: a fault
+  on the Court's side, not a block. Asked again when phase 2 starts. bj.scjn.gob.mx (the Buscador Jurídico) loops
   through an Imperva JavaScript check: blocked, not bypassed, and no
   documented public API was found.
 - **State periódicos oficiales**: 32 separate gazettes; reached through the
@@ -114,7 +118,7 @@ asked from the runner each run), **blocked** (robots.txt or a bot check).
 | 2 | Ciudad de México | 9.2 | ciudadana.congresocdmx.gob.mx/Iniciativa/iniciativas?page=N (the official list stopped 7 Nov 2025) | paged cards, 20 a page; JSON to our Accept header | id, date, title, author, group, committee | none current (one XLSX for 2018-20) | portal: none (404) | **read** |
 | 3 | Jalisco | 8.3 | infolej.congresojal.gob.mx: a two-step session search (result_busqueda.php, paginados.php) | HTML fragments | INFOLEJ number, title, date; detail with every step | "Cédula de votación" PDFs (reported) | www: Crawl-delay 10; infolej: none | not built: about 77 s a results page, 17 pages a fortnight |
 | 4 | Veracruz | 8.1 | www.legisver.gob.mx | unknown | | | could not be read | unreachable |
-| 5 | Puebla | 6.6 | congresopuebla.gob.mx | Cloudflare managed challenge on every HTML page | | | none | blocked |
+| 5 | Puebla | 6.6 | congresopuebla.gob.mx | Cloudflare managed challenge on every HTML page | | | none | blocked; no alternative route yet (the gazette refuses UK connections; asked from the runner each run) |
 | 6 | Guanajuato | 6.2 | www.congresogto.gob.mx | unknown | | | could not be read | unreachable |
 | 7 | Nuevo León | 5.8 | www.hcnl.gob.mx (lists per filer, from search) | HTML lists, gaceta PDFs (reported) | Exp., subject, committee, date, status (reported) | totals in actas (reported) | could not be read | unreachable |
 | 8 | Chiapas | 5.5 | web.congresochiapas.gob.mx/trabajo-legislativo/trabajo-legislativo | one HTML page, 1.8 MB, a table per legislature | file number, title (author inside), date, stage documents, "Aprobado" | per-sitting PDFs, not read | Joomla system paths only | **read** |
@@ -127,21 +131,27 @@ asked from the runner each run), **blocked** (robots.txt or a bot check).
 | 15 | Coahuila | 3.1 | /estadistica/iniciativa (PrimeFaces JSF) | 5 rows a page, stateful postbacks | date, origin, ponente (party), subject | per-member PDFs by date (votaciones/dd_mm_yyyy.pdf) | none (404) | not built |
 | 16 | Sonora | 2.9 | votacion-electronica.api.congresoson.gob.mx/publico/iniciativa | JSON | folio inside the text; no committee or status; only 413 items | no public endpoint | APIs allow all | not built: thin, nothing on our ground found |
 | 17 | Hidalgo | 3.1 | congresohidalgo.gob.mx/acervo/public/gaceta/<n> | HTML per sitting | label, date, title; author and committee only in PDFs | attendance only | Yoast defaults | not built |
-| 18 | San Luis Potosí | 2.8 | congresosanluis.gob.mx | Sucuri JavaScript challenge | | | Drupal, Crawl-delay 10 | blocked |
+| 18 | San Luis Potosí | 2.8 | congresosanluis.gob.mx | Sucuri JavaScript challenge | | | Drupal, Crawl-delay 10 | blocked; **decrees read from the gazette** |
 | 19 | Sinaloa | 3.0 | gaceta.congresosinaloa.gob.mx/api/obtenerIniciativas (POST, the page's own JSON) | JSON, one reply, 3.2 MB | id, date, author, committee, both resolutions, approval and publication dates, totals | totals only | gaceta host: none | **read** |
-| 20 | Querétaro | 2.4 | legislaturaqueretaro.gob.mx/iniciativas/ over plain HTTP only (the https port refuses connections) | one HTML table | No., title, presenter, PDF; **no date, committee or status** | none found | /wp/wp-admin/ only | not built: the pipeline reads nothing in the clear (tests/test_db_state.py) |
+| 20 | Querétaro | 2.4 | legislaturaqueretaro.gob.mx/iniciativas/ over plain HTTP only (the https port refuses connections) | one HTML table | No., title, presenter, PDF; **no date, committee or status** | none found | /wp/wp-admin/ only | congress list not built (plain HTTP); **laws, decrees, acuerdos read from the gazette's index** |
 | 21 | Yucatán | 2.3 | congresoyucatan.gob.mx/gaceta/iniciativas | one HTML table since 2015, 1.5 MB | date, presenter (group), turn date, committee; no number | none (acta PDFs) | allows all | **read** |
 | 22 | Morelos | 2.0 | congresomorelos.gob.mx documentos-legislativos | Gaceta DOCX/PDF, about four months late | | | /wp-admin/ only | not built |
 | 23 | Quintana Roo | 1.9 | congresoqroo.gob.mx/iniciativas/?legislatura=XVIII&page=N | paged HTML, newest first | sitting date, status, title, committee, promoters | per-item PDFs, not read | none (404) | **read** |
-| 24 | Durango | 1.8 | congresodurango.gob.mx | Wordfence geo block (503); PDFs only (reported) | | | CONTRALORIA paths only | blocked (from the UK) |
+| 24 | Durango | 1.8 | congresodurango.gob.mx | Wordfence geo block (503); PDFs only (reported) | | | CONTRALORIA paths only | blocked (from the UK); **decrees read from the gazette** |
 | 25 | Tabasco | 2.4 | congresotabasco.gob.mx/iniciativas/ | one WordPress table | number, title, committee, presenter, date | per-member PDFs (monthly VOTACIONES files), not read | /wp-admin/ and a cache path | **read** |
 | 26 | Aguascalientes | 1.4 | congresoags.gob.mx/LegislativeAgenda/GetPagedData | JSON, paged | agenda number, text, date, committees, resolution | none found | none (404) | **read** |
 | 27 | Zacatecas | 1.6 | www.congresozac.gob.mx | unknown | | | could not be read | unreachable |
 | 28 | Tlaxcala | 1.3 | wp-json/wp/v2/pages?slug=trabajo-legislativo65 | one 1.5 MB WordPress page of tabbed tables | Núm., date, asunto, proponente, expediente | session PDFs | REST allowed | not built |
 | 29 | Nayarit | 1.2 | utics.congresonayarit.gob.mx/iniciativas/tabla/XXXIV (the app's own JSON) | JSON, one reply | number, text, date, author, committee, status, updated | per-decree PDFs | none (404) | **read** |
-| 30 | Campeche | 0.9 | www.congresocam.gob.mx | robots.txt: `User-agent: *` `Disallow: /` | | | everything disallowed | blocked |
+| 30 | Campeche | 0.9 | www.congresocam.gob.mx | robots.txt: `User-agent: *` `Disallow: /` | | | everything disallowed | blocked; **decrees and acuerdos read from the gazette** |
 | 31 | Colima | 0.7 | /web/www/gaceta/plantilla_datos.php?v=tiniciativas (POST) | HTML fragment | number, text, author (party), committee, status; no date | none found | none (404) | not built |
 | 32 | Baja California Sur | 0.8 | orden del día RSS only | RSS | | none found | none (404) | not built |
+
+**Read from the official gazette instead (adopted acts only): 4 states**
+(San Luis Potosí, Campeche, Durango, Querétaro), 12 October 2026, see
+"Alternative routes" below; with them the layer covers about 53% of
+Mexico's population (67 of 126 million), bills for 47% and adopted
+decrees for another 6%.
 
 **Read: 13 states** (Estado de México, Ciudad de México, Chiapas, Oaxaca,
 Chihuahua, Tamaulipas, Baja California, Sinaloa, Yucatán, Quintana Roo,
@@ -248,9 +258,18 @@ gains one line when there are state items. A watched item is keyed in
 ## Waiting on Chris
 
 1. **Blocked states.** Puebla (Cloudflare) and San Luis Potosí (Sucuri)
-   answer bot checks; Campeche's robots.txt forbids every crawler. The only
-   honest routes are to ask each congress to allow our User-Agent, or leave
-   them. Durango's block is by region and may lift from a runner.
+   answer bot checks; Campeche's robots.txt forbids every crawler. Chris
+   asked (12 October) to email all three, handled separately, and to
+   prepare alternative routes: San Luis Potosí and Campeche now come from
+   their gazettes (adopted decrees), Puebla has none yet (below).
+   Durango's block is by region; its gazette is read meanwhile.
+5. **Campeche's legislation portal.** legislacion.congresocam.gob.mx is a
+   separate Joomla host of the Congress whose robots.txt allows everything
+   but /administrator/, /bin/, /cache/ ... (read once, 12 October). It was
+   NOT read: it belongs to the Congress whose main site disallows all
+   crawlers, and the access request should ask whether the Disallow is
+   meant to cover it. If the Congress says it may be read, it is a likely
+   source of the laws and their reform history.
 2. **Whether to run from a Mexican address** (a VPN exit on the Mini) for
    the five unreachable states, if GitHub's runners cannot reach them
    either. Not done: a decision for Christopher.
@@ -260,3 +279,91 @@ gains one line when there are state items. A watched item is keyed in
    reserving "ai-input" where a signal says no; no signal is set today.
    Our use is a keyword filter, with the free session judge reading titles
    later; flagging it in case a signal is ever set.
+
+## Alternative routes for the closed congresses (12 October 2026)
+
+Chris, 12 October 2026, on Puebla, San Luis Potosí and Campeche: "Email all
+three and prepare alternative methods too". The emails are handled
+separately. This section is the alternative routes: official sources on
+**other hosts** that carry the congresses' output, probed from the laptop
+with the honest User-Agent, robots.txt read first, at least 1.5 s between
+requests, at low volume. **No request went to a blocked congress site**
+(the one exception, below, is a single robots.txt read of a separate
+Campeche host, which was then left alone), and no bot check was solved or
+bypassed. A gazette carries what a congress **adopted** (decrees, laws,
+acuerdos), not bills in passage: the edition's State congresses section
+shows these items with "(from the official gazette)" in their line, and the
+coverage line names the state the same way.
+
+### Built: four gazette readers (same step, store, taxonomy and clock)
+
+| State | Source (official gazette) | robots.txt | Method | Measured 12 October 2026 |
+|---|---|---|---|---|
+| San Luis Potosí | periodicooficial.slp.gob.mx (Dirección del Periódico Oficial, Secretaría General de Gobierno) | `User-agent: *` / `Disallow:` (all allowed) | the consulta page's own JSON: `/api/publicacion/busqueda/filtro/gt` with the date window and `autoridadId=287` ("Congreso del Estado"); one request a run; no key or token (the page loads reCAPTCHA's script, the API asks for no token) | 34 decrees 10 Aug to 9 Oct 2026; 381 since Sep 2025, among them Decreto 0548 "Día de la Libertad Religiosa" (4 Jun 2026) and Código Familiar reforms. Live run: 26 decrees from 7 Sep |
+| Campeche | periodicooficial.campeche.gob.mx/sipoec/public (SIPOEC, Secretaría de Gobierno) | none (404) | the site's own full-text search (`documentos_avanzada?inicio&fin&contenido`) for "Palacio Legislativo" and "SECCIÓN LEGISLATIVA" (about 30 s each), then each edition's PDF (`getDocumento/<id>` gives the path), kept only when its masthead says SECCIÓN LEGISLATIVA, split into DECRETO / ACUERDO blocks with their number and first operative words; at most 35 days and 12 PDFs a run (300 KB to 2 MB each) | 11 legislative editions 1 Aug to 12 Oct, e.g. Decreto 285 (constitutional reform of arts. 30, 32, 102, 104, 121, 4 Sep 2026). Live run: 4 acuerdos from 7 Sep, about 90 s |
+| Durango | periodicooficial.durango.gob.mx (Secretaría General de Gobierno) | none (404) | the home page lists the 12 newest editions; each edition page prints its contents as an HTML table (Asunto, Número, Contiene, page); the DECRETO rows are kept | Decretos 442 to 446, 17 Sep to 8 Oct 2026 (session opening and closing, municipal revenue laws). Reachable from the UK, unlike the Congress |
+| Querétaro | lasombradearteaga.segobqueretaro.gob.mx ("La Sombra de Arteaga", Secretaría de Gobierno), **over HTTPS** | none (404) | the annual index PDF (`getfile.php?p1=indice-2026.pdf`, 1.4 MB, one request a run) lists every edition's acts by issuing authority; the acts under PODER LEGISLATIVO are kept (laws, decrees, acuerdos and exhortos) | 84 legislative acts in 2026 to P. O. No. 80 (2 Oct), e.g. "Ley que reforma el artículo 43 de la Ley de los Derechos de Niñas, Niños y Adolescentes" (28 Aug) |
+
+Keys sit under `po/` (`slp/po/20020`, `cam/po/LXV/decreto/285`,
+`dgo/po/decreto/445`, `qro/po/2026/66/4`), so gazette items never collide
+with congress items if a congress later lets us in, and the edition knows
+them by `mxs_store.GAZETTE_PREFIX`. Classification is taxonomy-es (mx) on
+the title, as for every state; status is "Publicado en el Periódico
+Oficial", dated by the edition. Tests: `tests/test_mxs.py` GazetteTests,
+on trimmed real replies (`tests/fixtures/mxs/slp_gazette.json`,
+`cam_search.html`, `cam_po2731ss.txt`, `cam_po2748ss.txt`, `dgo_home.html`,
+`dgo_periodico.html`, `qro_indice.txt`).
+
+### Puebla: no route yet
+
+- **Periódico Oficial** (periodicooficial.puebla.gob.mx) and the **Orden
+  Jurídico Poblano** (ojp.puebla.gob.mx), both 52.185.229.130: the TCP
+  connection is refused from the UK on ports 443 and 80. Same for
+  puebla.gob.mx and datos.puebla.gob.mx. Likely a geo filter. The step asks
+  the gazette's home page from the runner each run (one try, 20 s); the day
+  it answers, the coverage line says "a reader can be written". Never the
+  congress's site.
+- **PNT / SIPOT** (consultapublicamx.plataformadetransparencia.org.mx,
+  www.plataformadetransparencia.org.mx): a Cloudflare "Attention Required"
+  block on everything, robots.txt included. Not bypassed. This rules out
+  the transparency-obligation route (art. 72 legislative fractions) for
+  all three states.
+- **SCJN recent reforms** (legislacion.scjn.gob.mx): server fault on 12
+  October (above). It would carry Puebla's published reforms; re-asked in
+  phase 2.
+- **Orden Jurídico Nacional** (ordenjuridico.gob.mx, robots.txt 404):
+  per-state lists, but stale (newest last-reform dates in late 2024 and
+  January 2025 when measured). Not useful weekly for any state.
+
+### Other probes
+
+- **datos.slp.gob.mx**: a CKAN portal; robots.txt disallows /api/ (and
+  asks Crawl-delay 10). The gazette's JSON is better and allowed; the
+  portal was not searched further.
+- **datos.campeche.gob.mx**: a Tomcat error page; no portal.
+- **datos.gob.mx**: Akamai refuses our User-Agent (as measured earlier).
+- **Jalisco** (slow INFOLEJ, not built): its gazette
+  (periodicooficial.jalisco.gob.mx) does not answer UK connections; the
+  step now asks its home page from the runner each run.
+- **Durango**: the Congress's geo block is unchanged; the old probe of the
+  Congress's home page is replaced by the gazette reader.
+- **Querétaro**: the Legislature's own list is still plain HTTP only; the
+  gazette index covers adopted acts over HTTPS.
+
+### Contacts for the access requests (found by web search, 12 October 2026;
+the congress sites themselves were not opened, so these are as reported)
+
+- **San Luis Potosí**: the Congress's "Solicitud de Información" page
+  (congresosanluis.gob.mx/contacto/solicitud-de-informacion) gives the
+  Unidad de Información Pública at Vallejo 200, Edificio Juárez, tel. (444)
+  144-1500 ext. 1534, and the address unidadtransparenciaslp@gmail.com.
+- **Campeche**: no transparency address found; the legislation portal
+  names procesoslegislativos@congresocam.gob.mx (Dirección de Control de
+  Procesos Legislativos), and archivo@congresocam.gob.mx (historical
+  archive) also appears.
+- **Puebla**: no verified address; an old transparency directory
+  (micrositios.congresopuebla.gob.mx/old_site/Transparencia/
+  directorio_transparencia.php) gives a "transparencia@" address whose
+  domain was cut off in the search snippet; staff addresses use
+  @congresodepuebla.mx. Switchboard (222) 372-1100; the PNT is the formal
+  route.

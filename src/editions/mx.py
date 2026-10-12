@@ -30,7 +30,9 @@ real number appears.
 
 THE STATE CONGRESSES (12 October 2026): a "State congresses" section before
 the Watchlist (Country.post_render, src/mxs_edition.py), from the readable
-states' listings (tools/mxs_collect.py, docs/mexico-regions-scope.md).
+states' listings (tools/mxs_collect.py, docs/mexico-regions-scope.md), and,
+where a congress's site is closed to us, the decrees it adopted as printed in
+the state's official gazette (San Luis Potosí, Campeche, Durango, Querétaro).
 """
 
 from __future__ import annotations
@@ -234,6 +236,9 @@ COUNTRY = ce.Country(
         "stage moves.",
         "Not collected: the Senate (MX4), the Diario de los Debates, committee dictámenes' "
         "texts and the Supreme Court. The state congresses have their own section above "
-        "(src/mxs_edition.py; which states are read is said there).",
+        "(src/mxs_edition.py; which states are read is said there). For San Luis Potosí, "
+        "Campeche, Durango and Querétaro, whose congress sites are closed to us (a bot check, "
+        "robots.txt, a geo block, plain HTTP), the section shows the decrees each congress "
+        "adopted, read from the state's official gazette and marked so.",
     ),
 )
