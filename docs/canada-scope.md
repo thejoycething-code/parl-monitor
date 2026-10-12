@@ -497,7 +497,37 @@ The weekly load is about:
 
 ### Committee evidence (House and joint), built 2 October 2026
 
-`tools/ca_committees.py`. Nothing schedules it yet.
+`tools/ca_committees.py`. A step of the Canada weekly since 3 October 2026
+(`jobs/ca-weekly.sh` on the Mini, Tuesdays 11:00 London; `ca-weekly.yml` as
+the backup), after Senate debates and before the courts, petitions, Gazette
+and the judge. The key nine were backfilled to 40-3 by the workflow's
+`federal_backfill: committees` dispatch.
+
+**Production state (12 October 2026).**
+
+- **robots.txt at run time:** the client is wrapped with
+  `src/robots_guard.guard()` (feed `ca-committees`), so every page on
+  ourcommons.ca and parl.ca asks robots.txt first, read once per host per
+  run (`docs/robots-runtime.md`). A refused URL is a gap, never fatal.
+- **Identified and polite:** `src/http.HttpClient`'s
+  `CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)`, one request
+  a second, and a host's Crawl-delay raises that.
+- **Budget-aware:** on the Mini its budget is
+  `tools/collector_budget.sh 1200 "$SECONDS" 1200`: at most 20 minutes,
+  less if the steps before it overran, keeping the judge's 20 minutes and
+  the publish. What is left unread is read next week.
+- **Schema:** `ca_committee_meetings` and `ca_testimony` are in
+  `src/ca_store.SCHEMA` and `db.TABLES`; `tools/coverage.py` lists both as
+  write-once tables (quiet in recess), not heartbeats.
+- **Taxonomy:** per passage with the existing English and French lists
+  (`ca_hansard`'s), the study titles as title passage; `tools/ca_retag.py`
+  re-derives committee speeches and testimony under its trust check.
+- **The edition** (`tools/ca_monitor.py`) has a "Committees: witnesses on
+  our ground" section: who testified, for whom, with a link to the
+  Evidence, never the text; the last 30 days when the week was quiet.
+- **Store, 12 October 2026:** 3,887 meetings read (40-3 to 45-1), 849 in
+  camera, 12 awaiting evidence; 10,092 committee speeches; 6,799
+  testimony rows.
 
 **The source.** Three hops per committee and session, and no search
 (robots.txt disallows `/Search/` on ourcommons.ca):
@@ -551,15 +581,17 @@ Hansard):
 
   A meeting that is `read` or `in_camera` is never fetched again.
 
-**Committees.** By default it reads every public meeting of the key eight:
-JUST, HESA, FEWO, ETHI, AMAD, SECU, HUMA and CHPC. `--all-committees` adds
-every other committee on the House's committee page, plus SDIR. For those,
-it fetches a meeting only if its study title matches the taxonomy.
+**Committees.** By default it reads every public meeting of the key nine:
+JUST, HESA, FEWO, ETHI, AMAD, SECU, HUMA, CHPC and, since 2 October 2026
+(Christopher: "add SDIR"), the international human rights subcommittee
+SDIR. `--all-committees` adds every other committee on the House's
+committee page. For those, it fetches a meeting only if its study title
+matches the taxonomy.
 
 **Gaps.** These are recorded with `db.record_gaps` and the meeting gets no
 row, so it is retried:
 
-- a meeting list that won't load;
+- a meeting list that won't load, or that robots.txt refuses;
 - an Evidence page with no XML link;
 - an XML that won't parse, or that belongs to another meeting.
 
@@ -584,9 +616,8 @@ store):**
 
 - **The title gate is strict.** SDIR's 44-1 study titles ("Current Human
   Rights Situation in Nigeria", "Situation of the Hazaras in Afghanistan")
-  match no taxonomy term, so none of its 63 meetings passed. Make SDIR a
-  key committee, or widen the taxonomy, if religious persecution hearings
-  should come in.
+  match no taxonomy term, so none of its 63 meetings passed. Resolved
+  2 October 2026: SDIR is a key committee, read in full.
 - **The committee page lists only the current committees.** A special
   committee from an older Parliament has to be named with `--committee`.
 
