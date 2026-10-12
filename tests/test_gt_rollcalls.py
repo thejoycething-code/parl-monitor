@@ -336,6 +336,14 @@ class FortnightlyTests(unittest.TestCase):
         with open(fake, "w") as fh:
             fh.write("#!/bin/sh\necho CALLED \"$@\"\nexit 1\n")
         os.chmod(fake, 0o755)
+        # Never the network: the site "answers" (so the collector path runs),
+        # and gh refuses, so a test can never dispatch a real GitHub run.
+        for name, body in (("curl", "#!/bin/sh\nprintf 200\n"),
+                           ("gh", "#!/bin/sh\necho GH-CALLED \"$@\" >&2\nexit 9\n")):
+            path = os.path.join(tmp, name)
+            with open(path, "w") as fh:
+                fh.write(body)
+            os.chmod(path, 0o755)
         env["PATH"] = tmp + os.pathsep + env.get("PATH", "")
         return subprocess.run(["bash", os.path.join(ROOT, "jobs", "gt-weekly.sh")],
                               env=env, capture_output=True, text=True)
@@ -358,6 +366,28 @@ class FortnightlyTests(unittest.TestCase):
             self.assertIn("CALLED", res.stdout)
         forced = self._run_sh({"GT_FORCE": "true"})
         self.assertIn("CALLED", forced.stdout)
+
+
+    def test_a_challenged_mini_hands_the_work_to_github(self):
+        """12 October 2026: congreso.gob.gt challenged the Mini. The job
+        dispatches gt-weekly.yml (from_mini) instead of collecting."""
+        import subprocess
+        tmp = tempfile.mkdtemp()
+        for name, body in (("curl", "#!/bin/sh\nprintf 403\n"),
+                           ("python3", "#!/bin/sh\necho CALLED\nexit 1\n"),
+                           ("gh", "#!/bin/sh\necho GH-CALLED \"$@\"\nexit 9\n")):
+            path = os.path.join(tmp, name)
+            with open(path, "w") as fh:
+                fh.write(body)
+            os.chmod(path, 0o755)
+        env = {k: v for k, v in os.environ.items() if k != "GITHUB_ACTIONS"}
+        env.update({"GT_FORCE": "true", "PATH": tmp + os.pathsep + os.environ.get("PATH", "")})
+        res = subprocess.run(["bash", os.path.join(ROOT, "jobs", "gt-weekly.sh")],
+                             env=env, capture_output=True, text=True)
+        self.assertIn("GH-CALLED workflow run gt-weekly.yml", res.stdout)
+        self.assertIn("from_mini=true", res.stdout)
+        self.assertNotIn("CALLED\n", res.stdout.replace("GH-CALLED", ""))
+        self.assertNotEqual(res.returncode, 0)   # gh refused: the job fails loudly
 
 
 if __name__ == "__main__":

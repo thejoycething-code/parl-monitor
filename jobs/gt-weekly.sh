@@ -40,6 +40,50 @@ if [ -z "${GITHUB_ACTIONS:-}" ] && [ "${GT_FORCE:-}" != "true" ]; then
     exit 0
   fi
 fi
+# THE MINI IS REFUSED (12 October 2026, the first Mini run): congreso.gob.gt
+# answered the Mini with the same bot challenge as the scoping laptop, while
+# GitHub's runners read every page (docs/guatemala-scope.md). The challenge is
+# never worked around. So on the Mini, when the site challenges it, this asks
+# GitHub to do the work (gt-weekly.yml, from_mini) and waits HOLDING THE
+# MINI'S LOCK, so no Mini job publishes the store under it, as Mexico does.
+# It passes only if GitHub's pull job itself ran and passed. If the site ever
+# answers the Mini, the collector below runs here instead, unchanged.
+if [ -z "${GITHUB_ACTIONS:-}" ]; then
+  UA="CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
+  code=$(curl -sS -m 30 -o /dev/null -w "%{http_code}" -A "$UA" https://www.congreso.gob.gt/ 2>/dev/null || echo 000)
+  if [ "$code" != "200" ]; then
+    REPO="thejoycething-code/parl-monitor"
+    REF="${RUNNER_REF:-main}"
+    echo "gt-weekly: congreso.gob.gt answers this host $code (a challenge, never worked around); dispatching to GitHub"
+    since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+    gh workflow run gt-weekly.yml -R "$REPO" --ref "$REF" -f from_mini=true \
+      -f reclassify="${GT_RECLASSIFY:-false}"
+    run_id=
+    for _ in $(seq 1 20); do
+      sleep 6
+      run_id=$(gh run list -R "$REPO" --workflow gt-weekly.yml --event workflow_dispatch \
+               --branch "$REF" -L 5 --json databaseId,createdAt \
+               --jq "[.[] | select(.createdAt >= \"$since\")][0].databaseId // empty")
+      [ -n "$run_id" ] && break
+    done
+    if [ -z "$run_id" ]; then
+      echo "gt-weekly: the dispatched run never appeared; nothing was collected" >&2
+      exit 1
+    fi
+    echo "gt-weekly: waiting for GitHub run $run_id, holding the Mini's lock"
+    if ! gh run watch "$run_id" -R "$REPO" --exit-status >/dev/null; then
+      echo "gt-weekly: GitHub run $run_id failed: https://github.com/$REPO/actions/runs/$run_id" >&2
+      exit 1
+    fi
+    PULL=$(gh run view "$run_id" -R "$REPO" --json jobs --jq '[.jobs[] | select(.name == "pull")][0].conclusion // "missing"')
+    if [ "$PULL" != "success" ]; then
+      echo "gt-weekly: GitHub run $run_id did not collect (its pull job: $PULL)" >&2
+      exit 1
+    fi
+    echo "gt-weekly: GitHub run $run_id collected and published"
+    exit 0
+  fi
+fi
 if [ "${GT_RECLASSIFY:-}" = "true" ]; then
   python3 tools/gt_rollcalls.py --reclassify
 fi
