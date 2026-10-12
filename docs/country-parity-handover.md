@@ -126,6 +126,13 @@ check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
     FR DLR5L17N53936; PL 10/529; HR 11/228. (Quebec's Bill 9 decided 12
     October 2026: against us; the other Quebec laicity flips kept.)
 
+20. DONE (12 October 2026): every amendment read (Chris: "Score every
+    amendment"; France's limit lifted, #127). 1,555 applied: 818 with, 272
+    against, 256 not scored, 209 unclear; 313 flagged for a person. About
+    936 readings confirm on Sunday's automatic sign-off. Unclear ones are
+    mostly the Italian Senate and Hungary (bot checks), the Dominican
+    Chamber (no readable text) and some French Sénat votes.
+
 **Still to run on the Mini (store writers, one at a time):**
 
 - `latam-courts-backfill`: DONE (10 October, 03:22Z).

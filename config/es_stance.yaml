@@ -218,7 +218,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-1"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): PP motion on minors in the digital environment, point 1: Review of existing law on minors online; institutional or technical, no clear CitizenGO stake."
+    amendment_why: "PP motion on minors in the digital environment, point 1: Review of existing law on minors online; institutional or technical, no clear CitizenGO stake."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 1."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -227,12 +231,15 @@ divisions:
     tier: 1
     result: "Sí 177, No 0, Abstain 168"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-10"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): PP motion on minors in the digital environment, point 10: International cooperation; institutional or technical, no clear CitizenGO stake."
+    amendment_why: "PP motion on minors in the digital environment, point 10: International cooperation; institutional or technical, no clear CitizenGO stake."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 10."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -241,12 +248,19 @@ divisions:
     tier: 1
     result: "Sí 158, No 32, Abstain 157"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-11"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "PP motion on minors in the digital environment, point 11: A new audiovisual code of conduct covering online platforms; protects children and supports parents, so adopting it is with us."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
+    amendment_flag: "Medium confidence: general child-protection measure."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on amendment congreso-15-46-11 (PP motion on minors in the digital environment, point 11: A new audiovisual code of conduc): for adopting it, with CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-46-11 (PP motion on minors in the digital environment, point 11: A new audiovisual code of conduc): for rejecting it, against CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 11."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -255,12 +269,18 @@ divisions:
     tier: 1
     result: "Sí 183, No 0, Abstain 164"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- PP motion on minors in the digital environment, point 11: A new audiovisual code of conduct covering online platforms; protects children and supports parents, so adopting it is with us. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-12"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "PP motion on minors in the digital environment, point 12: More resources against crimes against minors online; protects children and supports parents, so adopting it is with us."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on amendment congreso-15-46-12 (PP motion on minors in the digital environment, point 12: More resources against crimes ag): for adopting it, with CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-46-12 (PP motion on minors in the digital environment, point 12: More resources against crimes ag): for rejecting it, against CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 12."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -269,12 +289,15 @@ divisions:
     tier: 1
     result: "Sí 172, No 20, Abstain 150"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- PP motion on minors in the digital environment, point 12: More resources against crimes against minors online; protects children and supports parents, so adopting it is with us. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-13"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): PP motion on minors in the digital environment, point 13: Self-regulation bodies and out-of-court dispute resolution; institutional or technical, no clear CitizenGO stake."
+    amendment_why: "PP motion on minors in the digital environment, point 13: Self-regulation bodies and out-of-court dispute resolution; institutional or technical, no clear CitizenGO stake."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 13."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -283,12 +306,15 @@ divisions:
     tier: 1
     result: "Sí 176, No 13, Abstain 157"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-14"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): PP motion on minors in the digital environment, point 14: R&D into child-protection technology; institutional or technical, no clear CitizenGO stake."
+    amendment_why: "PP motion on minors in the digital environment, point 14: R&D into child-protection technology; institutional or technical, no clear CitizenGO stake."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 14."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -297,12 +323,15 @@ divisions:
     tier: 1
     result: "Sí 189, No 0, Abstain 158"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-15"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): PP motion on minors in the digital environment, point 15: Periodic transparency reports; institutional or technical, no clear CitizenGO stake."
+    amendment_why: "PP motion on minors in the digital environment, point 15: Periodic transparency reports; institutional or technical, no clear CitizenGO stake."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 15."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -311,12 +340,15 @@ divisions:
     tier: 1
     result: "Sí 190, No 0, Abstain 157"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-2"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): PP motion on minors in the digital environment, point 2: Reform of the competition authority statute; institutional or technical, no clear CitizenGO stake."
+    amendment_why: "PP motion on minors in the digital environment, point 2: Reform of the competition authority statute; institutional or technical, no clear CitizenGO stake."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 2."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -325,8 +357,7 @@ divisions:
     tier: 1
     result: "Sí 174, No 20, Abstain 151"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-21"
@@ -344,7 +375,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-3"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): PP motion on minors in the digital environment, point 3: More resources for the regulator; institutional or technical, no clear CitizenGO stake."
+    amendment_why: "PP motion on minors in the digital environment, point 3: More resources for the regulator; institutional or technical, no clear CitizenGO stake."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 3."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -353,12 +388,18 @@ divisions:
     tier: 1
     result: "Sí 175, No 13, Abstain 159"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-4"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "PP motion on minors in the digital environment, point 4: Effective age-verification procedures; protects children and supports parents, so adopting it is with us."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on amendment congreso-15-46-4 (PP motion on minors in the digital environment, point 4: Effective age-verification proced): for adopting it, with CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-46-4 (PP motion on minors in the digital environment, point 4: Effective age-verification proced): for rejecting it, against CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 4."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -367,12 +408,19 @@ divisions:
     tier: 1
     result: "Sí 183, No 0, Abstain 164"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- PP motion on minors in the digital environment, point 4: Effective age-verification procedures; protects children and supports parents, so adopting it is with us. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-5"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "PP motion on minors in the digital environment, point 5: Accessible user reporting and moderation of inappropriate content; protects children and supports parents, so adopting it is with us."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
+    amendment_flag: "Medium confidence: general child-protection measure."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on amendment congreso-15-46-5 (PP motion on minors in the digital environment, point 5: Accessible user reporting and mod): for adopting it, with CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-46-5 (PP motion on minors in the digital environment, point 5: Accessible user reporting and mod): for rejecting it, against CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 5."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -381,12 +429,19 @@ divisions:
     tier: 1
     result: "Sí 187, No 0, Abstain 157"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- PP motion on minors in the digital environment, point 5: Accessible user reporting and moderation of inappropriate content; protects children and supports parents, so adopting it is with us. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-6"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "PP motion on minors in the digital environment, point 6: Regulatory frameworks protecting minors' rights, privacy and data online; protects children and supports parents, so adopting it is with us."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
+    amendment_flag: "Medium confidence: general child-protection measure."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on amendment congreso-15-46-6 (PP motion on minors in the digital environment, point 6: Regulatory frameworks protecting ): for adopting it, with CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-46-6 (PP motion on minors in the digital environment, point 6: Regulatory frameworks protecting ): for rejecting it, against CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 6."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -395,12 +450,18 @@ divisions:
     tier: 1
     result: "Sí 188, No 0, Abstain 159"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- PP motion on minors in the digital environment, point 6: Regulatory frameworks protecting minors' rights, privacy and data online; protects children and supports parents, so adopting it is with us. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-7"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "PP motion on minors in the digital environment, point 7: Cooperation with platforms to control minors' access; protects children and supports parents, so adopting it is with us."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on amendment congreso-15-46-7 (PP motion on minors in the digital environment, point 7: Cooperation with platforms to con): for adopting it, with CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-46-7 (PP motion on minors in the digital environment, point 7: Cooperation with platforms to con): for rejecting it, against CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 7."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -409,12 +470,15 @@ divisions:
     tier: 1
     result: "Sí 175, No 20, Abstain 152"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- PP motion on minors in the digital environment, point 7: Cooperation with platforms to control minors' access; protects children and supports parents, so adopting it is with us. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-8"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): PP motion on minors in the digital environment, point 8: Evaluating minors' digital context and its effect on development; institutional or technical, no clear CitizenGO stake."
+    amendment_why: "PP motion on minors in the digital environment, point 8: Evaluating minors' digital context and its effect on development; institutional or technical, no clear CitizenGO stake."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 8."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -423,12 +487,18 @@ divisions:
     tier: 1
     result: "Sí 187, No 3, Abstain 157"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-46-9"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "PP motion on minors in the digital environment, point 9: Education and awareness programmes for parents, guardians and minors; protects children and supports parents, so adopting it is with us."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on amendment congreso-15-46-9 (PP motion on minors in the digital environment, point 9: Education and awareness programme): for adopting it, with CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-46-9 (PP motion on minors in the digital environment, point 9: Education and awareness programme): for rejecting it, against CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno digital. Votación separada por puntos. Punto 9."
     "on": "Proposiciones no de Ley."
     dated: "2024-06-13"
@@ -437,8 +507,7 @@ divisions:
     tier: 1
     result: "Sí 182, No 0, Abstain 165"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los menores en el entorno di'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- PP motion on minors in the digital environment, point 9: Education and awareness programmes for parents, guardians and minors; protects children and supports parents, so adopting it is with us. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-49-8"
@@ -534,6 +603,8 @@ divisions:
 
   - key: "congreso-15-85-8"
     status: needs_reading
+    amendment_flag: "PP alternative text keeps the 2015 citizen-security law instead of the reform; effect on assembly and protest freedoms pulls both ways and I could not read the text."
+    amendment_why: "PP alternative text keeps the 2015 citizen-security law instead of the reform; effect on assembly and protest freedoms pulls both ways and I could not read the text."
     title: "Proposición de Ley Orgánica de protección de las libertades y seguridad ciudadana. Enmiendas a la totalidad de texto alternativo. Enmienda a la totalidad de texto alternativo presentada por el Grupo Parlamentario Popular en el Congreso."
     "on": "Debates de totalidad de iniciativas legislativas."
     dated: "2024-12-12"
@@ -543,11 +614,13 @@ divisions:
     result: "Sí 169, No 176"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Proposición de Ley Orgánica de protección de las libertades y seguridad ciudadana. Enmiendas a la totalidad de texto alt'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties)."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-85-9"
     status: needs_reading
+    amendment_flag: "Vox alternative text keeps the 2015 citizen-security law instead of the reform; effect on assembly and protest freedoms pulls both ways and I could not read the text."
+    amendment_why: "Vox alternative text keeps the 2015 citizen-security law instead of the reform; effect on assembly and protest freedoms pulls both ways and I could not read the text."
     title: "Proposición de Ley Orgánica de protección de las libertades y seguridad ciudadana. Enmiendas a la totalidad de texto alternativo. Enmienda a la totalidad de texto alternativo presentada por el Grupo Parlamentario VOX."
     "on": "Debates de totalidad de iniciativas legislativas."
     dated: "2024-12-12"
@@ -557,7 +630,7 @@ divisions:
     result: "Sí 33, No 176, Abstain 137"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Proposición de Ley Orgánica de protección de las libertades y seguridad ciudadana. Enmiendas a la totalidad de texto alt'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties)."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-91-3"
@@ -942,7 +1015,15 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-164-1"
-    status: needs_reading
+    status: draft
+    amendment_direction: "against"
+    amendment_why: "Transactional text urges mandatory, gender- and diversity-focused comprehensive sex education under the abortion law, and combats critics as reactionary, overriding parents' role; adopting is against us."
+    amendment_source: "https://www.congreso.es/enmiendas/atp/15_400_162_000597/e_0102639_n_000.pdf"
+    amendment_flag: "Read from scanned image; the original motion also read."
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on amendment congreso-15-164-1 (Transactional text urges mandatory, gender- and diversity-focused comprehensive sex educat): for adopting it, against CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-164-1 (Transactional text urges mandatory, gender- and diversity-focused comprehensive sex educat): for rejecting it, with CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Mixto (Sra. Belarra Urteaga), para la garantía efectiva del derecho a la educación sexual integral en cumplimiento con la Ley Orgánica 1/2023, de 28 de febrero, por la que se modifica la Ley Org"
     "on": "Proposiciones no de Ley."
     dated: "2026-02-26"
@@ -951,8 +1032,7 @@ divisions:
     tier: 1
     result: "Sí 167, No 183"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Mixto (Sra. Belarra Urteaga), para la garantía efectiva del derecho a la e'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion), 6 (parental rights and education)."
+    reasoning: "Area 1 (abortion), 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Transactional text urges mandatory, gender- and diversity-focused comprehensive sex education under the abortion law, and combats critics as reactionary, overriding parents' role; adopting is against . A Sí here adopts it, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-166-2"
@@ -1109,7 +1189,15 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-188-1"
-    status: needs_reading
+    status: draft
+    amendment_direction: "against"
+    amendment_why: "Transactional text urges stricter obligations on social networks and AI detection against hate content in sport, which risks curbing lawful speech; adopting is against free speech."
+    amendment_source: "https://www.congreso.es/enmiendas/atp/15_400_162_000783/e_0119123_n_000.pdf"
+    amendment_flag: "Medium confidence: aims at racism and misogyny but is broad on speech regulation."
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on amendment congreso-15-188-1 (Transactional text urges stricter obligations on social networks and AI detection against ): for adopting it, against CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-188-1 (Transactional text urges stricter obligations on social networks and AI detection against ): for rejecting it, with CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Socialista, sobre medidas para combatir los discursos de odio en el deporte español. Se vota en los términos de la enmienda transaccional presentada por el Grupo Parlamentario Socialista y el Gr"
     "on": "Proposiciones no de Ley."
     dated: "2026-06-18"
@@ -1118,12 +1206,19 @@ divisions:
     tier: 1
     result: "Sí 176, No 33, Abstain 138"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Socialista, sobre medidas para combatir los discursos de odio en el deport'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties)."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is AGAINST us -- Transactional text urges stricter obligations on social networks and AI detection against hate content in sport, which risks curbing lawful speech; adopting is against free speech. A Sí here adopts it, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-1"
-    status: needs_reading
+    status: draft
+    amendment_direction: "against"
+    amendment_why: "Amendments from left groups to strengthen the conversion-practices criminal law (aid and housing for victims); they widen a bill that CitizenGO opposes, so adopting is against."
+    amendment_source: "https://www.religiondigital.org/espana/sumar-compromis-erc-terapias-conversion_1_1458984.html"
+    amendment_flag: "Medium confidence: exact text of transactional amendment 2 not read; based on press reports of what the group amendments contained."
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on amendment congreso-15-191-1 (Amendments from left groups to strengthen the conversion-practices criminal law (aid and h): for adopting it, against CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-191-1 (Amendments from left groups to strengthen the conversion-practices criminal law (aid and h): for rejecting it, with CitizenGO's position."
     title: "Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para penalizar las terapias de conversión dirigidas a eliminar o negar la orientación sexual, identidad sexual o expresión de"
     "on": "Dictámenes de Comisiones sobre iniciativas legislativas."
     dated: "2026-06-25"
@@ -1132,12 +1227,19 @@ divisions:
     tier: 1
     result: "Sí 51, No 298"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para p'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 4 (conversion practices), 5 (sex-based rights)."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Amendment reading on file: adopting it is AGAINST us -- Amendments from left groups to strengthen the conversion-practices criminal law (aid and housing for victims); they widen a bill that CitizenGO opposes, so adopting is against. A Sí here adopts it, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-14"
-    status: needs_reading
+    status: draft
+    amendment_direction: "against"
+    amendment_why: "Transactional text promotes comprehensive affective-sexual education covering gender equality and sexual and gender diversity in schools, with only family information, not parental control."
+    amendment_source: "https://www.congreso.es/enmiendas/atp/15_400_162_000796/e_0120771_n_000.pdf"
+    amendment_flag: "Medium confidence: partly teacher training and abuse prevention."
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on amendment congreso-15-191-14 (Transactional text promotes comprehensive affective-sexual education covering gender equal): for adopting it, against CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-191-14 (Transactional text promotes comprehensive affective-sexual education covering gender equal): for rejecting it, with CitizenGO's position."
     title: "Proposición no de Ley del Grupo Parlamentario Socialista, para impulsar la educación afectivo-sexual y emocional en el ámbito educativo. Se vota en los términos de la enmienda transaccional presentada por el Grupo Parlamentario Socialista,"
     "on": "Proposiciones no de Ley."
     dated: "2026-06-25"
@@ -1146,8 +1248,7 @@ divisions:
     tier: 1
     result: "Sí 172, No 170, Abstain 7"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Socialista, para impulsar la educación afectivo-sexual y emocional en el á'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Transactional text promotes comprehensive affective-sexual education covering gender equality and sexual and gender diversity in schools, with only family information, not parental control. A Sí here adopts it, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-15"
@@ -1168,7 +1269,15 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-2"
-    status: needs_reading
+    status: draft
+    amendment_direction: "against"
+    amendment_why: "Transactional amendment 3 adds state financial aid for victims of the new conversion-therapy offence; it strengthens a bill that criminalises conversion practices, so adoption is against us."
+    amendment_source: "https://www.congreso.es/enmiendas/comisiones/15_320_122_000201/122-201_Enmiendas_transaccionales_rechazadas_en_Comision.pdf"
+    amendment_flag: "Medium confidence: victim-aid provision, direction inferred from the bill."
+    yea: -2
+    nay: 2
+    why_yea: "Voted Sí on amendment congreso-15-191-2 (Transactional amendment 3 adds state financial aid for victims of the new conversion-thera): for adopting it, against CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-191-2 (Transactional amendment 3 adds state financial aid for victims of the new conversion-thera): for rejecting it, with CitizenGO's position."
     title: "Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para penalizar las terapias de conversión dirigidas a eliminar o negar la orientación sexual, identidad sexual o expresión de"
     "on": "Dictámenes de Comisiones sobre iniciativas legislativas."
     dated: "2026-06-25"
@@ -1177,8 +1286,7 @@ divisions:
     tier: 1
     result: "Sí 50, No 298"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para p'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 4 (conversion practices), 5 (sex-based rights)."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Amendment reading on file: adopting it is AGAINST us -- Transactional amendment 3 adds state financial aid for victims of the new conversion-therapy offence; it strengthens a bill that criminalises conversion practices, so adoption is against us. A Sí here adopts it, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-21"
@@ -1216,7 +1324,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-3"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): PP amendment 26 only rewords a paragraph of the preamble, which the PP itself calls a technical improvement; no clear CitizenGO stake."
+    amendment_why: "PP amendment 26 only rewords a paragraph of the preamble, which the PP itself calls a technical improvement; no clear CitizenGO stake."
+    amendment_source: "https://www.congreso.es/enmiendas/comisiones/15_320_122_000201/122-201_Enmiendas_al_articulado.pdf"
     title: "Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para penalizar las terapias de conversión dirigidas a eliminar o negar la orientación sexual, identidad sexual o expresión de"
     "on": "Dictámenes de Comisiones sobre iniciativas legislativas."
     dated: "2026-06-25"
@@ -1225,12 +1337,18 @@ divisions:
     tier: 1
     result: "Sí 138, No 204, Abstain 7"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para p'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 4 (conversion practices), 5 (sex-based rights)."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-4"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "PP amendment 28 limits the ban to coercive practices and expressly exempts voluntary spiritual or psychological accompaniment and consented counselling, protecting prayer and pastoral help."
+    amendment_source: "https://www.congreso.es/enmiendas/comisiones/15_320_122_000201/122-201_Enmiendas_al_articulado.pdf"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on amendment congreso-15-191-4 (PP amendment 28 limits the ban to coercive practices and expressly exempts voluntary spiri): for adopting it, with CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-191-4 (PP amendment 28 limits the ban to coercive practices and expressly exempts voluntary spiri): for rejecting it, against CitizenGO's position."
     title: "Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para penalizar las terapias de conversión dirigidas a eliminar o negar la orientación sexual, identidad sexual o expresión de"
     "on": "Dictámenes de Comisiones sobre iniciativas legislativas."
     dated: "2026-06-25"
@@ -1239,12 +1357,19 @@ divisions:
     tier: 1
     result: "Sí 170, No 179"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para p'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 4 (conversion practices), 5 (sex-based rights)."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Amendment reading on file: adopting it is WITH us -- PP amendment 28 limits the ban to coercive practices and expressly exempts voluntary spiritual or psychological accompaniment and consented counselling, protecting prayer and pastoral help. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-5"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "PP amendment 29 deletes the very broad administrative offence of promoting or practising conversion therapies irrespective of consent, to avoid overlap with a narrower criminal offence."
+    amendment_source: "https://www.congreso.es/enmiendas/comisiones/15_320_122_000201/122-201_Enmiendas_al_articulado.pdf"
+    amendment_flag: "Medium confidence: removes a sanction but is framed as a coherence fix."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on amendment congreso-15-191-5 (PP amendment 29 deletes the very broad administrative offence of promoting or practising c): for adopting it, with CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-191-5 (PP amendment 29 deletes the very broad administrative offence of promoting or practising c): for rejecting it, against CitizenGO's position."
     title: "Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para penalizar las terapias de conversión dirigidas a eliminar o negar la orientación sexual, identidad sexual o expresión de"
     "on": "Dictámenes de Comisiones sobre iniciativas legislativas."
     dated: "2026-06-25"
@@ -1253,12 +1378,18 @@ divisions:
     tier: 1
     result: "Sí 169, No 172, Abstain 7"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para p'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 4 (conversion practices), 5 (sex-based rights)."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Amendment reading on file: adopting it is WITH us -- PP amendment 29 deletes the very broad administrative offence of promoting or practising conversion therapies irrespective of consent, to avoid overlap with a narrower criminal offence. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-6"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "PP amendment 31 requires the Government to bring a replacement for the Trans/LGTBI Act balancing it with child protection and women's rights and curbing abuse of the law."
+    amendment_source: "https://www.congreso.es/enmiendas/comisiones/15_320_122_000201/122-201_Enmiendas_al_articulado.pdf"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on amendment congreso-15-191-6 (PP amendment 31 requires the Government to bring a replacement for the Trans/LGTBI Act bal): for adopting it, with CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-191-6 (PP amendment 31 requires the Government to bring a replacement for the Trans/LGTBI Act bal): for rejecting it, against CitizenGO's position."
     title: "Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para penalizar las terapias de conversión dirigidas a eliminar o negar la orientación sexual, identidad sexual o expresión de"
     "on": "Dictámenes de Comisiones sobre iniciativas legislativas."
     dated: "2026-06-25"
@@ -1267,12 +1398,19 @@ divisions:
     tier: 1
     result: "Sí 138, No 211"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para p'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 4 (conversion practices), 5 (sex-based rights)."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Amendment reading on file: adopting it is WITH us -- PP amendment 31 requires the Government to bring a replacement for the Trans/LGTBI Act balancing it with child protection and women's rights and curbing abuse of the law. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-191-7"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Remaining PP amendments: replace gender identity terms, narrow the offence to coercive harmful practices and bar public funds to those convicted; mostly limiting, but one funding clause pulls the other way."
+    amendment_source: "https://www.congreso.es/enmiendas/comisiones/15_320_122_000201/122-201_Enmiendas_al_articulado.pdf"
+    amendment_flag: "Bundled amendments (25, 27, 30); mostly with, check the funding-ban clause."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Sí on amendment congreso-15-191-7 (Remaining PP amendments: replace gender identity terms, narrow the offence to coercive har): for adopting it, with CitizenGO's position."
+    why_nay: "Voted No on amendment congreso-15-191-7 (Remaining PP amendments: replace gender identity terms, narrow the offence to coercive har): for rejecting it, against CitizenGO's position."
     title: "Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para penalizar las terapias de conversión dirigidas a eliminar o negar la orientación sexual, identidad sexual o expresión de"
     "on": "Dictámenes de Comisiones sobre iniciativas legislativas."
     dated: "2026-06-25"
@@ -1281,12 +1419,14 @@ divisions:
     tier: 1
     result: "Sí 170, No 179"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposición de Ley Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal, para p'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 4 (conversion practices), 5 (sex-based rights)."
+    reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Amendment reading on file: adopting it is WITH us -- Remaining PP amendments: replace gender identity terms, narrow the offence to coercive harmful practices and bar public funds to those convicted; mostly limiting, but one funding clause pulls the othe. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-192-55"
     status: needs_reading
+    amendment_flag: "Vox alternative text adds an anti-Christian aggravation to religious offences but also adds nationality loss and offences on insulting Spain; it pulls both ways on free speech and religion."
+    amendment_why: "Vox alternative text adds an anti-Christian aggravation to religious offences but also adds nationality loss and offences on insulting Spain; it pulls both ways on free speech and religion."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/B/BOCG-15-B-19-4.PDF"
     title: "Proposición de Ley Orgánica de reforma de la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal para la protección de la libertad de expresión. Enmiendas a la totalidad de texto alternativo. Enmienda a la totalidad de texto alternat"
     "on": "Debates de totalidad de iniciativas legislativas."
     dated: "2026-07-14"
@@ -1296,11 +1436,14 @@ divisions:
     result: "Sí 33, No 179, Abstain 138"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Proposición de Ley Orgánica de reforma de la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal para la protecci'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties)."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-192-56"
     status: needs_reading
+    amendment_flag: "PP alternative text keeps existing offences such as religious-feelings protection and only tightens glorification of terrorism; pulls both ways against a bill that would reform them."
+    amendment_why: "PP alternative text keeps existing offences such as religious-feelings protection and only tightens glorification of terrorism; pulls both ways against a bill that would reform them."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/B/BOCG-15-B-19-4.PDF"
     title: "Proposición de Ley Orgánica de reforma de la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal para la protección de la libertad de expresión. Enmiendas a la totalidad de texto alternativo. Enmienda a la totalidad de texto alternat"
     "on": "Debates de totalidad de iniciativas legislativas."
     dated: "2026-07-14"
@@ -1310,7 +1453,7 @@ divisions:
     result: "Sí 171, No 178"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Proposición de Ley Orgánica de reforma de la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal para la protecci'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties)."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-196-1"
@@ -1374,6 +1517,9 @@ divisions:
 
   - key: "congreso-15-200-2"
     status: needs_reading
+    amendment_flag: "Vote on the Ley de Familias motion as amended: backs recognising family diversity (against us) but adds carer payments (arguably pro-family); pulls both ways."
+    amendment_why: "Vote on the Ley de Familias motion as amended: backs recognising family diversity (against us) but adds carer payments (arguably pro-family); pulls both ways."
+    amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-594.PDF"
     title: "Proposición no de Ley del Grupo Parlamentario Mixto (Sra. Belarra Urteaga y Sra. Santana Perera), relativa a la aprobación de la Ley de Familias. Se vota en los términos resultantes de la incorporación de la enmienda presentada por el Grupo"
     "on": "Proposiciones no de Ley."
     dated: "2026-09-23"
@@ -1383,7 +1529,7 @@ divisions:
     result: "Sí 19, No 177, Abstain 147"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Proposición no de Ley del Grupo Parlamentario Mixto (Sra. Belarra Urteaga y Sra. Santana Perera), relativa a la aprobaci'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "congreso-15-202-1"

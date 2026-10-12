@@ -108,8 +108,29 @@ class SourcesTests(unittest.TestCase):
 
     def test_without_source_material_the_subject_url_is_titled(self):
         got = mb.build_sources(NI_SUBJECT)
-        self.assertEqual(got, "- Consultation on the RE Core Syllabus: "
+        self.assertEqual(got, "- Consultation on the RE Core Syllabus [x]: "
                               "https://x/re")
+
+    def test_outlets_own_url_only_and_at_most_three(self):
+        # Christopher, 12 October 2026: the outlet's own article, never a
+        # syndicated copy or an archive link, and only the few he wants.
+        source = ("**Sources**\n"
+                  "- Teacher sacked [The Telegraph]: https://www.telegraph.co.uk/a\n"
+                  "- Teacher sacked [Yahoo]: https://uk.news.yahoo.com/a\n"
+                  "- Snapshot [archive]: https://archive.today/abc\n"
+                  "- Fourth [GB News]: https://www.gbnews.com/d\n")
+        got = mb.build_sources(NI_SUBJECT, source).splitlines()
+        self.assertEqual(len(got), 3)
+        self.assertEqual(got[0], "- Teacher sacked [The Telegraph]: "
+                                 "https://www.telegraph.co.uk/a")
+        self.assertTrue(got[1].startswith("- [CAMPAIGNER: the outlet's own"))
+        self.assertNotIn("https://x/re", "\n".join(got))
+
+    def test_outlet_label_from_the_host(self):
+        self.assertEqual(mb.outlet_of("https://www.telegraph.co.uk/x"),
+                         "telegraph.co.uk")
+        self.assertEqual(mb.outlet_of("https://bills.parliament.uk/b/1"),
+                         "UK Parliament")
 
     def test_the_internal_monitor_link_is_never_a_source(self):
         src = open(os.path.join(ROOT, "tools", "make_briefs.py"),
@@ -360,3 +381,85 @@ class ForceSlugResolutionTests(unittest.TestCase):
         src = open(os.path.join(ROOT, "tools", "make_briefs.py"), encoding="utf-8").read()
         self.assertIn("force, why_not = resolve_slug(force, subs, done)", src)
         self.assertIn("is not a current brief subject", src)
+
+
+class BackgroundFormatTests(unittest.TestCase):
+    """Christopher, 12 October 2026 (the Anita Meston brief): Background
+    opens BBC-News-style with a CitizenGO slant, then bold labelled lines;
+    no NARRATIVE heading, fact sheet or sources inside it."""
+
+    def test_the_system_prompt_carries_the_format(self):
+        for anchor in ("BBC News story written by", "never impartial",
+                       "ONE sentence of hard news", "**Where it stands:**",
+                       "**What's next:**", "**Why it matters:**",
+                       "**Path to victory:**", 'No "NARRATIVE" heading'):
+            self.assertIn(anchor, mb.DRAFT_SYSTEM)
+        self.assertIn("background", dict(mb.NARRATIVE_FIELDS))
+
+    def test_the_fallback_has_a_lead_and_labelled_lines_only(self):
+        got = mb.background(dict(NI_SUBJECT, deadline="2026-09-30", why=None,
+                                 next_key_date=None), {})
+        lead, _, rest = got.partition("\n\n")
+        self.assertEqual(lead, "Consultation on the RE Core Syllabus.")
+        labels = [ln.split(":**")[0] + ":**" for ln in rest.splitlines()]
+        self.assertEqual(labels, ["**What:**", "**Who:**",
+                                  "**Where it stands:**", "**What's next:**",
+                                  "**Why it matters:**"])
+        for banned in ("NARRATIVE", "Sources", "http"):
+            self.assertNotIn(banned, got)
+
+
+class IndividualCaseAndRF4CommentTests(unittest.TestCase):
+    """Christopher, 12 October 2026: individual cases run two tracks with
+    one demand; court cases get court-only offline actions; RF#4/1 and
+    RF#4/2 carry substance, never a bare pointer."""
+
+    def test_two_tracks_one_demand_court_only_offline(self):
+        for anchor in ("TWO tracks", "messages of support to the person",
+                       "open letter to the named head", "ONE demand",
+                       "No fallbacks", "support outside court",
+                       "Never card-signing"):
+            self.assertIn(anchor, mb.DRAFT_SYSTEM)
+        self.assertIn("ONLY support outside court",
+                      dict(mb.NARRATIVE_FIELDS)["offline"])
+
+    def test_rf4_gain_and_cost_are_drafted_with_substance(self):
+        ids = dict(mb.NARRATIVE_FIELDS)
+        self.assertIn("rf4_gain", ids)
+        self.assertIn("rf4_cost", ids)
+        self.assertIn("never a bare pointer", mb.DRAFT_SYSTEM)
+        self.assertIn("Backlash check", mb.DRAFT_SYSTEM)
+        src = open(os.path.join(ROOT, "tools", "make_briefs.py"),
+                   encoding="utf-8").read()
+        self.assertNotIn("see 'good outcome' above", src)
+        self.assertNotIn("see 'bad outcome' above", src)
+        self.assertIn("backlash check", mb.RF4_COST_NEEDED)
+
+
+class MarkdownReflectsTheOctoberRulesTests(unittest.TestCase):
+    """The rendered markdown carries the 12 October 2026 layout: Background
+    as its own section with bold labelled lines, and each RF4 question as
+    its own block so RF#1's lines and the RF#4 comments are not flattened."""
+
+    def test_background_section_and_rf4_blocks(self):
+        bg = mb.background(dict(NI_SUBJECT, deadline="2026-09-30", why=None,
+                                next_key_date=None), {})
+        fields = {"general": [("Topic", "Life"),
+                              ("Background / Context", bg)],
+                  "plan": [], "prepare": [],
+                  "urgency": "Non-Urgent Campaign (by default)"}
+        hints = ["Expected by the end of the classical series: 1 signatures"
+                 "\nScore: audience x", "b", "c", "The gain\nScore: 3",
+                 "The cost\nBacklash check: none\nScore: 0"]
+        md = mb.render_markdown(NI_SUBJECT, fields, hints, [], "", [],
+                                "2026-10-12", rf4_scores={"RF#1": 2})
+        self.assertIn("## Background / Context", md)
+        self.assertIn("**Where it stands:**", md)
+        self.assertNotIn("| Background / Context |", md)
+        self.assertIn("### RF#1 ", md)
+        self.assertIn("Plan score (-10..+10): 2", md)
+        self.assertIn("Plan score (-10..+10): [CAMPAIGNER]", md)
+        self.assertIn("Backlash check: none", md)
+        self.assertIn("Expected by the end of the classical series: 1 "
+                      "signatures  \nScore:", md)
+        self.assertNotIn("See Good outcome", md)

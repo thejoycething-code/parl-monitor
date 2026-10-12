@@ -28,6 +28,12 @@ on:
         description: "Reclassify stored GT initiatives and divisions under the current taxonomy"
         type: boolean
         default: false
+      from_mini:
+        # Set by jobs/gt-weekly.sh: congreso.gob.gt challenges the Mini, so it
+        # dispatches this and waits holding its lock (12 October 2026).
+        description: "Dispatched by the Mac Mini (jobs/gt-weekly.sh)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -53,6 +59,7 @@ jobs:
     with:
       job: GT_WEEKLY
       grace-minutes: 260
+      from-mini: ${{ inputs.from_mini == true && 'true' || 'false' }}
 
   # The second slot is a retry, not a second pass (copied from us-weekly.yml):
   # when the 07:30 backup already ran today, 10:30 has nothing to do.
