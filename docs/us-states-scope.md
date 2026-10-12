@@ -6,6 +6,10 @@ built the same day, from the laptop, with the team's Open States key. Every
 number below was measured, not estimated. Live runs went into a scratch
 database (`/tmp`), never the store, with the raw archive under `/tmp` too.
 
+Since 13 October 2026, free alternatives beside the free tier (LegiScan,
+and the Kansas, California and Texas feeds): see "Free alternatives beside
+the free tier" below.
+
 Built: `src/us_states_store.py` (tables `uss_*`, declared in `db.TABLES`),
 `tools/us_states.py` (the collector), `config/watchlist-us-states.yaml`
 (named misses, by key), a **States** section in `tools/us_monitor.py`, state
@@ -258,6 +262,117 @@ enough to be same-day, New Jersey's bulk zips or New York's API
 
 New York, New Jersey and Massachusetts look closed to non-US addresses, so
 any direct collector for them would run on GitHub's runners, not the Mini.
+
+## Free alternatives beside the free tier (built 13 October 2026)
+
+Christopher, 13 October 2026: "We can't pay for Open States access so may
+need to explore alternatives whilst keeping the current tier we have." The
+Open States route above is unchanged (bulk files for the week, the free key
+for the last day, 250 a day). Added beside it, all free, all through
+`src/http.py` with the CitizenGO UA and the run-time robots guard:
+
+| Source | Module | Key | States | What it adds | Cost a week |
+|---|---|---|---|---|---|
+| Open States bulk files | `tools/us_states.py` (unchanged) | 2 keyed requests for the file list | 50 | the week, a day behind | 2 keyed + the changed files |
+| **LegiScan** public API | `tools/us_states_legiscan.py` | free, `LEGISCAN_API_KEY` (Christopher gets it) | 50 | the last day for every state; roll calls with names for the six states Open States has no votes or positions for | about 1 + 65 master lists + one query per changed bill on our ground: some 25 to 100 in recess, 300 to 500 in a sitting week |
+| **Kansas** KLISS API | `tools/us_states_direct.py` | none | KS | same day; vote tallies (Open States has no Kansas votes); vetoes overridden marked as law | 1 request (about 8 MB) |
+| **California** leginfo daily files | `tools/us_states_direct.py` | none | CA | same day; floor votes with every member's vote | the week's changed daily zips (300 bytes to 1.2 MB each) |
+| **Texas** Legislative Council FTP | `tools/us_states_direct.py` | none | TX | same day in session (the 90th from January 2027, pre-filing from November 2026) | about 130 directory listings (4 minutes) + changed files, at most 600 a run |
+
+### How they fit with Open States (no duplicates)
+
+- Every bill goes through `tools/us_states.merge_foreign`. A bill Open States
+  already holds is matched on state, session and the normalised identifier
+  (`us_states_store.norm_key`: spaces and leading zeros dropped, so LegiScan's
+  `A01234` is Open States' `A 1234`); its row keeps its ID, title and areas,
+  gains the actions it lacks (same day and same words are not repeated) and
+  the votes it lacks, and its stages are re-derived.
+- A bill Open States does not hold yet is stored only if it is on our
+  ground, as `legiscan:<id>`, `ks-kliss:<session>/<bill>`, `ca-leginfo:<id>`
+  or `tx-ftp:<session>/<bill>`. When Open States' own file catches up,
+  `store_bill` supersedes it: the source's row goes, and its votes go too
+  unless the state is one where Open States has none or no positions
+  (AL, AR, KS, NJ, AK, MO: `us_states_store.OPENSTATES_VOTE_GAPS`).
+- `uss_bill_sources` holds every bill a source gave (provenance, its own
+  URL, change detection: an unchanged LegiScan `change_hash`, Kansas
+  revision, California file stamp or Texas file time is never read again).
+  `uss_source_ledger` counts LegiScan's queries by calendar month.
+- The jobs run the readers AFTER the Open States step (`jobs/us-weekly.sh`),
+  so a same-day row is laid on top of Open States' and not wiped by it.
+- The edition names the sources in the States section's note and marks a
+  bill stored by another source "(via LegiScan (CC BY 4.0))", "(via the Kansas
+  Legislature's KLISS API)" and so on.
+
+### A smarter use of the 250 a day
+
+- Discovery is the bulk files and the other sources; the key only fills
+  details, as before.
+- The top-up now asks for watched bills first, then tier 1, then the rest,
+  most recent first (`live_bills`), so a run cut short spends the day on
+  what matters.
+- A state one of the direct readers covered in the last eight days is left
+  out of the top-up, and while LegiScan is active (rows fetched in the last
+  eight days) only watched and tier-1 bills are topped up: LegiScan
+  refreshes the rest the same day on its own allowance. `--topup-all`
+  restores the old behaviour.
+
+### LegiScan: terms, allowance and what Christopher must do
+
+- **Terms.** legiscan.com answers our client with a Cloudflare challenge
+  (403; recorded, never bypassed), so its pages were read through a search
+  engine on 13 October 2026: the API and dataset data are **CC BY 4.0**
+  (attribution required, which the edition gives); a paid white-label
+  licence removes attribution. The API manual (api.legiscan.com, not behind
+  the challenge, revision 20250317) says: "Public service keys have a
+  monthly limit of 30,000 queries". LegiScan's features page, as indexed,
+  says 10,000. **The reader plans for the lower**: at most 9,000 a calendar
+  month across all runs (`--monthly-cap`, or `LEGISCAN_MONTHLY_CAP`) and
+  1,500 a run.
+- **The key travels in the URL** (LegiScan accepts no header), so the
+  reader sends it through HttpClient's keyed path (never archived), cuts it
+  out of any error before it reaches a log or a gap row, and archives only
+  the JSON bodies (which never carry it).
+- **What Christopher does (we never sign up for anything):**
+  1. In a normal browser, open https://legiscan.com/ and register a free
+     OneVote account (Log In, then Register), and confirm the email.
+  2. Logged in, open https://legiscan.com/legiscan, fill in the API
+     registration form (name, organisation CitizenGO, intended use:
+     "weekly monitoring of state bills for a non-profit; attribution
+     given"), accept the terms after reading them, and copy the key shown.
+     While there, read the terms of service and note the monthly limit the
+     key page shows; if it is not 10,000 or 30,000, tell us and the cap is
+     one setting.
+  3. Add the key as the repository secret `LEGISCAN_API_KEY` (GitHub,
+     Settings, Secrets and variables, Actions) and as a line
+     `LEGISCAN_API_KEY=...` in `~/runner/env` on the Mini. Never in the
+     repository.
+  4. Nothing else: the next US weekly reads it. Without it the step prints
+     one line and skips.
+
+### Live smoke read (13 October 2026, laptop, scratch database in /private/tmp)
+
+- **Kansas:** one request, revision 877182, 1,522 bills of 2025-2026 read,
+  **68 on our ground stored** (Open States counted 43 on its titles alone;
+  KLISS gives the long title too), **92 vote tallies**. A second run with
+  the same revision reads nothing. Kansas adjourned in May, so no bill
+  moved this week; in session (January to May) the full-time weekly read
+  costs the same single request.
+- **California:** 5 of the 6 daily files read (one was unchanged), 35 bills
+  changed, none new to an empty store: the recess files carry history and
+  analyses but no versions, so there was no title to classify on. Against
+  the real store those bills merge into Open States' rows; in session each
+  new or amended bill brings its version (title) and floor votes.
+- **Texas:** session 89R, 1,056 files written since 20 June 2025 (the
+  post-session tidy), the first 25 read: 1 on our ground stored (HB 1106,
+  child abuse definitions, effective). Listing took 4 minutes at one
+  request a second.
+- **LegiScan:** not run (no key). Tested on replies built from the manual.
+- New Jersey, New York and Massachusetts direct feeds were not built: they
+  time out or refuse from the UK (above), and LegiScan covers them.
+  Ohio's, Florida's and Tennessee's sites did not answer from the UK, Georgia's and Michigan's sit
+  behind a web front end (Michigan's robots.txt answers 403), Missouri
+  publishes no machine feed found; Pennsylvania's robots.txt disallows
+  `/legislation/bills/*` to everything but one scanner. Not built.
 
 ## What Open States gives, per state
 
@@ -534,6 +649,9 @@ empty tables until the first run.
 2. **The tier.** No paid tier (no budget). The free key's 250 a day carries
    the "No paid tier" route with room to spare; the options that need
    Christopher are listed there (keys to request, nothing to buy).
+   **13 October 2026:** the free alternatives are built; the one thing left
+   for Christopher is a free LegiScan key (steps in "LegiScan: terms,
+   allowance and what Christopher must do").
 3. ~~Taxonomy terms~~ for the state names above: adopted at v1.20
    (9 October 2026), above. The 46 watchlist entries stay.
 4. **Noise in area 6 and 12** from "foster care", "child protection" and
