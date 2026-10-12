@@ -1695,6 +1695,8 @@ TABLES = (
     "it_bills",
     "it_divisions",
     "it_votes",
+    # IT3 (12 October 2026): the regional councils (tools/it_regions.py).
+    "it_reg_acts",
     # Swiss Federal Assembly (tools/ch_rollcalls.py), created by
     # src/ch_store.ensure_schema -- declared from day one.
     "ch_members",

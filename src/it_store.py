@@ -50,6 +50,16 @@ guessed. `it_divisions.positions_source` says where a division's positions
 came from ('openpolis' / 'camera'). Added 10 October 2026, additively
 (ADDED_COLUMNS).
 
+THE REGIONAL COUNCILS (IT3, 12 October 2026). `it_reg_acts` holds the bills
+and motions of the councils with a usable source (tools/it_regions.py,
+docs/italy-regions-scope.md): Lombardia, Campania, Marche and the Provincia
+autonoma di Trento. A council's own numbering is kept in the key, so a
+regional act never collides with a national reading. Where the source dates a
+status (Lombardia's committee and Aula votes) `status_date` is that date;
+where it prints only the current status, a run that sees it change stamps the
+day it saw it and sets `status_seen`, and the first sighting is never a
+change.
+
 A BILL LAPSES WITH ITS LEGISLATURE. The 19th ends by October 2027 at the
 latest; every pending bill dies and comes back, if at all, under a new
 number. `it_bills.legislature` is what a board reads, never `status`.
@@ -122,11 +132,39 @@ SCHEMA = (
         grp          TEXT,               -- AT THE VOTE
         PRIMARY KEY (division_key, member_key)
     ) WITHOUT ROWID""",
+    # IT3 (12 October 2026): acts of the regional councils (tools/it_regions.py,
+    # docs/italy-regions-scope.md). One table for every council, keyed
+    # '<region>/<legislature>/<the council's own id>': 'lom/XII/pdl-212',
+    # 'tn/XVII/at3009929', 'cam/XII/36089', 'mar/XII/pdl-72'.
+    """CREATE TABLE IF NOT EXISTS it_reg_acts (
+        act_key      TEXT PRIMARY KEY,
+        region       TEXT NOT NULL,      -- 'lom' / 'cam' / 'mar' / 'tn'
+        kind         TEXT NOT NULL,      -- the council's own type: 'Pdl', 'DDL', 'MOZ', ...
+        legislature  TEXT,               -- the council's numbering: 'XII', 'XVII'
+        number       TEXT,               -- '212', or NULL (a Trento motion before it is numbered)
+        label        TEXT,               -- 'Disegno di legge n. 94/XVII', as the council prints it
+        title        TEXT,
+        presented    TEXT,
+        status       TEXT,               -- the council's own words, never derived
+        status_date  TEXT,               -- the source's date of the status; else the run that saw it change
+        status_seen  INTEGER DEFAULT 0,  -- 1: status_date is when a run SAW the change, not the source's date
+        initiative   TEXT,               -- first signatory, signatories or initiative, as printed
+        committee    TEXT,
+        law          TEXT,               -- 'l.r. 23/2026' once enacted, where the source says
+        subject      TEXT,               -- the council's own subject heading (Trento's materia)
+        url          TEXT,
+        areas        TEXT,               -- JSON list; taxonomy-it + watchlist-it 'regional' by key
+        matched_terms TEXT,
+        tier         INTEGER,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    "CREATE INDEX IF NOT EXISTS it_reg_acts_region ON it_reg_acts (region, presented)",
     "CREATE INDEX IF NOT EXISTS it_divisions_bill ON it_divisions (bill_key)",
     "CREATE INDEX IF NOT EXISTS it_votes_member ON it_votes (member_key)",
 )
 
-TABLES = ("it_members", "it_bills", "it_divisions", "it_votes")
+TABLES = ("it_members", "it_bills", "it_divisions", "it_votes", "it_reg_acts")
 
 # Columns added after a table was first shipped: (table, column, type).
 # IT2 (10 October 2026): the dati.camera.it backup for the Camera.
@@ -157,7 +195,9 @@ _WATCH = {}
 
 
 def watchlist(path=None):
-    """{bill_key: (areas, why)} from config/watchlist-it.yaml."""
+    """{bill_key: (areas, why)} from config/watchlist-it.yaml: its `bills`
+    and, since IT3 (12 October 2026), its `regional` section, keyed by
+    it_reg_acts.act_key ('lom/XII/pdl-212')."""
     import yaml
     path = path or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                                 "config", "watchlist-it.yaml")
@@ -165,7 +205,8 @@ def watchlist(path=None):
         with open(path, encoding="utf-8") as fh:
             raw = yaml.safe_load(fh) or {}
         _WATCH[path] = {k: (list(v.get("areas") or []), v.get("why"))
-                        for k, v in (raw.get("bills") or {}).items()}
+                        for section in ("bills", "regional")
+                        for k, v in (raw.get(section) or {}).items()}
     return _WATCH[path]
 
 

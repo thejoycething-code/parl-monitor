@@ -392,6 +392,11 @@ FEEDS = [
     ("it_bills", "last_seen", 7, 4, "Bill readings of both chambers, from dati.senato.it (Italy weekly)"),
     ("it_members", "last_seen", 7, 4, "Senators and Camera deputies (Italy weekly)"),
     ("it_divisions", "last_seen", 31, 31, "Senate and Camera votes (Italy weekly)"),
+    # IT3 regional councils (12 October 2026). MEASURED which re-stamp: Lombardia's
+    # legislature and Trento's four open-data files are re-read whole every
+    # run, and Campania's and Marche's lists to the legislature's first act,
+    # so the table moves every week, recess included.
+    ("it_reg_acts", "last_seen", 7, 4, "Regional councils' bills and motions: Lombardia, Campania, Marche, Trento (Italy weekly)"),
     # Switzerland (9 October 2026). MEASURED which re-stamp: members and the
     # legislature's sessions are re-read whole every run; businesses only when
     # the service has modified them, which it did to 4,018 between 1 September

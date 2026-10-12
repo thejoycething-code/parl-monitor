@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<atti creazione="2026-10-10">
+<atto>
+   <tipo_atto>DDL</tipo_atto>
+   <rappresentazione>Disegno di legge n. 94/XVII di iniziativa consiliare</rappresentazione>
+   <legislatura>XVII</legislatura>
+   <numero_atto>94</numero_atto>
+   <data_presentazione>2026-10-01</data_presentazione>
+   <oggetto>Interventi per la tutela e la valorizzazione delle attività commerciali al dettaglio, artigianali e di pubblico esercizio presenti sul territorio provinciale</oggetto>
+   <url>https://www.consiglio.provincia.tn.it/_layouts/15/dispatcher/doc_dispatcher.aspx?app=idap&amp;at_id=3009929</url>
+   <primo_firmatario>Biada Daniele</primo_firmatario>
+   <materia_principale>
+      <sigla>2.6.</sigla>
+      <voce>Commercio</voce>
+   </materia_principale>
+   <commissione_competente>Seconda Commissione permanente</commissione_competente>
+   <stato_corrente>(stato) Presso la commissione competente</stato_corrente>
+   <testo_corrente>
+      <titolo>testo ddl distribuito</titolo>
+      <url>https://www.consiglio.provincia.tn.it/doc/IDAP_2005352.pdf</url>
+   </testo_corrente>
+   <esito></esito>
+</atto>
+<atto>
+   <tipo_atto>DDL</tipo_atto>
+   <rappresentazione>Disegno di legge n. 93/XVII di iniziativa consiliare</rappresentazione>
+   <legislatura>XVII</legislatura>
+   <numero_atto>93</numero_atto>
+   <data_presentazione>2026-09-29</data_presentazione>
+   <oggetto>Prevenzione sociale, economica e culturale delle organizzazioni criminali, anche di tipo mafioso</oggetto>
+   <url>https://www.consiglio.provincia.tn.it/_layouts/15/dispatcher/doc_dispatcher.aspx?app=idap&amp;at_id=3009903</url>
+   <primo_firmatario>Manica Alessio</primo_firmatario>
+   <altro_firmatario>Zanella Paolo</altro_firmatario>
+   <altro_firmatario>de Bertolini Andrea</altro_firmatario>
+   <altro_firmatario>Parolari Francesca</altro_firmatario>
+   <altro_firmatario>Calzà Michela</altro_firmatario>
+   <altro_firmatario>Franzoia Mariachiara</altro_firmatario>
+   <altro_firmatario>Maestri Lucia</altro_firmatario>
+   <altro_firmatario>Maule Chiara</altro_firmatario>
+   <altro_firmatario>Demagri Paola</altro_firmatario>
+   <altro_firmatario>Valduga Francesco</altro_firmatario>
+   <altro_firmatario>Malfer Michele</altro_firmatario>
+   <altro_firmatario>Coppola Lucia</altro_firmatario>
+   <altro_firmatario>Stanchina Roberto</altro_firmatario>
+   <materia_principale>
+      <sigla>1.6.3.</sigla>
+      <voce>Attività amministrativa</voce>
+   </materia_principale>
+   <commissione_competente>Prima Commissione permanente</commissione_competente>
+   <stato_corrente>(stato) Presso la commissione competente</stato_corrente>
+   <testo_corrente>
+      <titolo>testo ddl distribuito</titolo>
+      <url>https://www.consiglio.provincia.tn.it/doc/IDAP_2005335.pdf</url>
+   </testo_corrente>
+   <esito></esito>
+</atto>
+<atto>
+   <tipo_atto>DDL</tipo_atto>
+   <rappresentazione>Disegno di legge n. 67/XVII di iniziativa popolare</rappresentazione>
+   <legislatura>XVII</legislatura>
+   <numero_atto>67</numero_atto>
+   <data_presentazione>2025-10-03</data_presentazione>
+   <oggetto>Procedure e tempi per l'assistenza sanitaria provinciale al suicidio medicalmente assistito ai sensi e per effetto delle sentenze della Corte costituzionale n. 242 del 2019 e n. 135 del 2024</oggetto>
+   <url>https://www.consiglio.provincia.tn.it/_layouts/15/dispatcher/doc_dispatcher.aspx?app=idap&amp;at_id=3007878</url>
+   <primo_firmatario>Valcanover Fabio</primo_firmatario>
+   <materia_principale>
+      <sigla>3.2.4.</sigla>
+      <voce>Assistenza sanitaria</voce>
+   </materia_principale>
+   <commissione_competente>Quarta Commissione permanente</commissione_competente>
+   <stato_corrente>(stato) Presso la commissione competente</stato_corrente>
+   <testo_corrente>
+      <titolo>testo ddl distribuito</titolo>
+      <url>https://www.consiglio.provincia.tn.it/doc/IDAP_1965006.pdf</url>
+   </testo_corrente>
+   <esito></esito>
+</atto>
+</atti>
