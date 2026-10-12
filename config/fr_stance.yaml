@@ -48,7 +48,7 @@ bill_directions:
     confirmed_by: "Christopher Joyce"
     confirmed_on: "2026-10-12"
     areas: [2]
-    why: "Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et de soins palliatifs and a palliative-medicine specialism; never mentions assisted dying, euthanasia or lethal substances; deep-sedation rules unchanged."
+    why: "Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagnement and a palliative specialism; read in full, it never mentions assisted dying or lethal substances."
     decided: "Chris, 12 Oct 2026: with us (it does not legitimise assisted dying)."
     source: "https://www.sfap.org/app/uploads/2026/07/Loi-Soins-palliatifs_n-2026_404_26052026.pdf"
     drafted: "Claude, 10 October 2026, from config/watchlist-fr.yaml"
@@ -499,8 +499,8 @@ divisions:
     status: draft
     yea: 2
     nay: -2
-    why_yea: "Voted Pour on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): for passing it, with CitizenGO's position."
-    why_nay: "Voted Contre on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): against passing it, against CitizenGO's position."
+    why_yea: "Voted Pour on DLR5L17N51672 (Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagn): for passing it, with CitizenGO's position."
+    why_nay: "Voted Contre on DLR5L17N51672 (Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagn): against passing it, against CitizenGO's position."
     title: "l’ensemble de la proposition de loi visant à garantir l'égal accès de tous à l’accompagnement et aux soins palliatifs (première lecture)."
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2025-05-27"
@@ -511,7 +511,7 @@ divisions:
     result: "adopté; Pour 560, Contre 0, Abstain 3"
     lobbies: "Pour: RN 121, EPR 90, LFI-NFP 67, SOC 65, DR 49, ECOS 36, DEM 35, HOR 33, LIOT 23, PO847173 16, GDR 15, NI 10. Abstain: RN 2, DEM 1"
     vote_kind: "final"
-    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et de soins palliatifs and a palliative-medicine specialism; never mentions assisted dying, euthanasia or lethal . This vote is a vote on the whole text or the motion itself, so Pour is with us."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagnement and a palliative specialism; read in full, it never mentions assisted dying or lethal substances. This vote is a vote on the whole text or the motion itself, so Pour is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "an-17-2107"
@@ -939,8 +939,8 @@ divisions:
     status: draft
     yea: 2
     nay: -2
-    why_yea: "Voted Pour on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): for passing it, with CitizenGO's position."
-    why_nay: "Voted Contre on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): against passing it, against CitizenGO's position."
+    why_yea: "Voted Pour on DLR5L17N51672 (Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagn): for passing it, with CitizenGO's position."
+    why_nay: "Voted Contre on DLR5L17N51672 (Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagn): against passing it, against CitizenGO's position."
     title: "l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture)."
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2026-02-25"
@@ -951,7 +951,7 @@ divisions:
     result: "adopté; Pour 491, Contre 0, Abstain 69"
     lobbies: "Pour: RN 122, EPR 88, SOC 69, DR 47, DEM 36, HOR 34, ECOS 34, LIOT 22, UDDPLR 17, GDR 11, NI 9, LFI-NFP 2. Abstain: LFI-NFP 67, ECOS 2"
     vote_kind: "final"
-    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et de soins palliatifs and a palliative-medicine specialism; never mentions assisted dying, euthanasia or lethal . This vote is a vote on the whole text or the motion itself, so Pour is with us."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagnement and a palliative specialism; read in full, it never mentions assisted dying or lethal substances. This vote is a vote on the whole text or the motion itself, so Pour is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "an-17-5729"
@@ -1486,8 +1486,8 @@ divisions:
     status: draft
     yea: 2
     nay: -2
-    why_yea: "Voted Pour on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): for passing it, with CitizenGO's position."
-    why_nay: "Voted Contre on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): against passing it, against CitizenGO's position."
+    why_yea: "Voted Pour on DLR5L17N51672 (Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagn): for passing it, with CitizenGO's position."
+    why_nay: "Voted Contre on DLR5L17N51672 (Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagn): against passing it, against CitizenGO's position."
     title: "sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs"
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2026-01-28"
@@ -1498,7 +1498,7 @@ divisions:
     result: "Pour 307, Contre 17, Abstain 17"
     lobbies: "Pour: Les Républicains 126, SER 63, UCI 59, Les Indépendants 20, RDPI 17, RDSE 16, NI 4, CRCE-K 2. Contre: CRCE-K 16, Les Républicains 1. Abstain: GEST 16, SER 1"
     vote_kind: "final"
-    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et de soins palliatifs and a palliative-medicine specialism; never mentions assisted dying, euthanasia or lethal . This vote is a vote on the whole text or the motion itself, so Pour is with us."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagnement and a palliative specialism; read in full, it never mentions assisted dying or lethal substances. This vote is a vote on the whole text or the motion itself, so Pour is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "senat-2025-185"
@@ -1540,8 +1540,8 @@ divisions:
     status: draft
     yea: 2
     nay: -2
-    why_yea: "Voted Pour on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): for passing it, with CitizenGO's position."
-    why_nay: "Voted Contre on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): against passing it, against CitizenGO's position."
+    why_yea: "Voted Pour on DLR5L17N51672 (Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagn): for passing it, with CitizenGO's position."
+    why_nay: "Voted Contre on DLR5L17N51672 (Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagn): against passing it, against CitizenGO's position."
     title: "sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture)"
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2026-05-11"
@@ -1552,7 +1552,7 @@ divisions:
     result: "Pour 325, Contre 18"
     lobbies: "Pour: Les Républicains 130, SER 65, UCI 59, RDPI 19, Les Indépendants 19, GEST 16, RDSE 16, NI 1. Contre: CRCE-K 18"
     vote_kind: "final"
-    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et de soins palliatifs and a palliative-medicine specialism; never mentions assisted dying, euthanasia or lethal . This vote is a vote on the whole text or the motion itself, so Pour is with us."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Palliative care law (Loi 2026-404): funds palliative units, non-profit maisons d'accompagnement and a palliative specialism; read in full, it never mentions assisted dying or lethal substances. This vote is a vote on the whole text or the motion itself, so Pour is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "senat-2025-294"
