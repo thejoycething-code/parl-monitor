@@ -14,7 +14,8 @@
     python3 tools/country_5ca.py --cc pl --sheets            # data/5ca/pl-5ca-*.csv (confirmed only)
     python3 tools/country_5ca.py --cc pl --confirm-direction 10/2110 --by Christopher
     python3 tools/country_5ca.py --all-countries --counts
-    python3 tools/country_5ca.py --cc fr --prune-out-of-scope [--dry-run]
+    python3 tools/country_5ca.py --cc fr --prune-out-of-scope [--dry-run]   # no country has a scope now
+    python3 tools/country_5ca.py --apply-amendments decisions.json [--dry-run]
     python3 tools/country_5ca.py --cc ch --prune-off-ground [--dry-run] --signoff-doc --shortlist
     python3 tools/country_5ca.py --cc pl --draft --db /path/to/store.db
     python3 tools/country_5ca.py --draft --db-map stores.txt # "cc path" per line (initial drafts)
@@ -34,9 +35,27 @@ sink) and writes docs/5ca-<cc>-shortlist.md with each item's reasons, meaning
 line, proposed values and the exact command to sign it. It confirms nothing.
 
 --prune-out-of-scope removes the entries outside a country's sign-off scope
-(France: final votes, motions to reject and watched amendments only) that
-are unsigned and untouched; a confirmed or hand-edited entry is always kept
-and reported. It reads the stance file and the watchlist, not the store.
+that are unsigned and untouched; a confirmed or hand-edited entry is always
+kept and reported. No country has a scope since 12 October 2026 (France's
+limit to final votes, motions to reject and watched amendments was lifted:
+Chris, "score all amendments and reverse France's decision"), and no prune
+ever removes an amendment or article entry.
+
+--apply-amendments FILE (12 October 2026) applies readers' amendment
+decisions: a JSON list (or {{"decisions": [...]}}) of objects
+    {{"cc": "fr", "key": "an-17-1234", "direction": "with|against|unclear|not_scored",
+     "why": "...", "source": "https://... the text read", "flag": "",
+     "yes_adopts": true}}
+`direction` says whether ADOPTING the amendment (or article) is with or
+against CitizenGO; `yes_adopts` (optional, default true) is false only where
+a Yes does not adopt it. with/against (why and source required) records
+`amendment_direction` etc. and drafts the values by the rules; a `flag`
+blocks the automatic sign-off. unclear leaves the entry needs_reading with
+the flag shown in the guide. not_scored makes it `placeable: false` with the
+reason. Confirmed, amended and hand-valued entries, and entries that are not
+amendment votes, are refused with the reason. --fill-directions also drafts
+any untouched needs_reading amendment entry given an `amendment_direction`
+by hand.
 
 --prune-off-ground (11 October 2026) removes the unsigned, untouched entries
 whose vote the store no longer holds on our ground (neither watched nor tier
@@ -48,7 +67,8 @@ confirmed or hand-edited entry is always kept and reported.
 it so teams can amend as and when errors come up. Like we're doing with
 Canada.") confirms each DRAFT reading that passes every deterministic check
 (src/country5ca.py, auto_check: drafted and untouched, a settled bill
-direction, a final vote or motion to reject, values equal to the rules', a
+direction, a final vote or motion to reject (or an amendment with a reader's
+unflagged reading, its why and source recorded), values equal to the rules', a
 recorded tally that splits members, inside the sign-off scope), stamped
 `confirmed_by: "{auto_by}"`, the date and the checks' version. The rest stay
 drafts, listed with the check they failed in the guide and the shortlist.
@@ -112,6 +132,8 @@ def main(argv=None):
                     help="bring untouched drafts into line with a changed bill direction")
     ap.add_argument("--fill-directions", action="store_true",
                     help="draft untouched needs_reading votes whose bill now has a direction")
+    ap.add_argument("--apply-amendments", metavar="FILE",
+                    help="apply a JSON file of amendment decisions (with/against/unclear/not_scored)")
     ap.add_argument("--auto-confirm", action="store_true",
                     help="confirm drafts that pass every check, on Chris's delegation")
     ap.add_argument("--amend", metavar="KEY", help="a signer's amendment of one reading")
@@ -129,6 +151,11 @@ def main(argv=None):
     ap.add_argument("--today", help="ISO date stamped on drafts (default today)")
     ap.add_argument("--out-dir", default=c5.OUT_DIR)
     args = ap.parse_args(argv)
+
+    if args.apply_amendments:
+        got = c5.apply_amendments(c5.read_decisions(args.apply_amendments), today=args.today,
+                                  dry_run=args.dry_run)
+        return 1 if got["refused"] else 0
 
     ccs = list(c5.COUNTRIES) if args.all_countries else []
     for c in args.cc:
@@ -197,6 +224,7 @@ def main(argv=None):
                 c5.resync_directions(cc, dry_run=args.dry_run)
             if args.fill_directions and os.path.exists(c5.stance_path(cc)):
                 c5.fill_directions(cc, dry_run=args.dry_run)
+                c5.fill_amendments(cc, dry_run=args.dry_run)
             if args.auto_confirm and os.path.exists(c5.stance_path(cc)):
                 got = c5.auto_confirm(cc, today=args.today, dry_run=args.dry_run, conn=conn)
                 totals[cc] = (len(got["confirmed"]), len(got["left"]))

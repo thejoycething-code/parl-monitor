@@ -33,7 +33,9 @@ placement, the sheet and the checkbox format. Four parts:
    false` (evidence only, once confirmed). Everything else is
    `status: needs_reading` with a `read_first:` line saying what a person
    must read: CitizenGO's side is never invented where the direction is
-   unclear.
+   unclear. An amendment or article vote becomes a draft once a reader
+   records whether adopting it is with or against CitizenGO
+   (`amendment_direction`, 12 October 2026; `apply_amendments`).
 
 2. THE SIGN-OFF, as Canada's C-218 (drafted, then confirmed by a named
    person on a date). `confirm` turns `status: draft` into
@@ -152,7 +154,8 @@ class Spec:
         self.own_key = own_key            # fn(row) -> the key of the item voted on itself
         # The sign-off scope: fn(kind, key, question, watch_key, wl) -> bool,
         # whether a vote is drafted for sign-off at all. None: every
-        # qualifying vote (every country but France).
+        # qualifying vote (every country, France included since 12 October
+        # 2026; France had final_or_watched from 10 to 12 October).
         self.scope = scope
 
     def side(self, position):
@@ -242,6 +245,12 @@ def _derive(module, cc):
 
 
 # --- the sign-off scope ----------------------------------------------------------------
+#
+# LIFTED 12 October 2026 (Chris: "score all amendments and reverse France's
+# decision"; docs/country-decisions-2026-10-12.md): no country has a scope
+# now, so every amendment and article vote on our ground is drafted and read.
+# The machinery below is kept, unused, and the prunes never remove an
+# amendment entry (`_prune`). What it did:
 #
 # Chris, 10 October 2026: France's 5CA sign-off is limited to the votes that
 # decide a text (on the whole text, a motion to reject it, or a Yes recorded
@@ -347,9 +356,13 @@ SPECS = {
         "LEFT JOIN fr_groups g ON g.organe_ref = m.group_ref",
         ("pour",), ("contre",), ("abstention",), refs=lambda r: [r["dossier_ref"]] if r["dossier_ref"] else [],
         labels=("Pour", "Contre"), watchlist=_edition_watchlist("fr"),
-        chambers={"an": "Assemblée nationale"}, scope=final_or_watched(),
-        note="Sign-off is limited to final votes, motions to reject and the amendment or "
-             "article votes watched in config/watchlist-fr.yaml (Chris, 10 October 2026)."),
+        chambers={"an": "Assemblée nationale", "senat": "Sénat"},
+        # No sign-off scope since 12 October 2026 (Chris: "score all
+        # amendments and reverse France's decision"): every watched or
+        # tier-1 vote is drafted, amendments and articles included, as in
+        # every other country. final_or_watched() stays for any future use.
+        note="Every amendment and article vote on our ground is read and scored, as in every "
+             "other country (Chris, 12 October 2026, lifting the limit of 10 October)."),
     "nl": Spec(
         "nl", "Netherlands",
         "SELECT d.besluit_id AS key, 'tk' AS chamber, d.date, "
@@ -624,7 +637,10 @@ AMENDMENT = (r"poprawk", r"wniosek mniejszosci", r"amendement", r"emendament", r
              r"mantido o texto", r"\bemenda", r"^l'article", r"votacion separada por puntos",
              r"en particular", r"en lo particular", r"konzeptantrag", r"^ziffer", r"ruckweisung",
              r"^articulo", r"\bpunto \d", r"^em \d", r"\bem \d", r"proposition de la commission",
-             r"noch offenen bestimmungen")
+             r"noch offenen bestimmungen",
+             # 12 October 2026: the Senat's article votes ("sur l'article 4 de la
+             # proposition de loi ...") and the Dominican plural.
+             r"^sur l'article", r"modificaciones propuestas")
 FINAL = (r"nad caloscia", r"ponownym uchwaleni", r"votazione finale", r"voto finale",
          r"gesamtabstimmung", r"schlussabstimmung", r"vote sur l'ensemble", r"vote final",
          r"abstimmung uber die motion", r"\beintreten\b", r"l'ensemble d", r"votacao na generalidade",
@@ -723,6 +739,17 @@ def header(cc):
 #   python3 tools/country_5ca.py --cc {cc} --confirm KEY [KEY ...] --by NAME
 # To strike a reading for good, write `placeable: false` and a `reason:`.
 #
+# Amendment and article votes (12 October 2026): a reader records whether
+# ADOPTING the amendment is with or against CitizenGO, on the entry, as
+#   amendment_direction: with | against
+#   amendment_why: "what the amendment does, and why that side is ours"
+#   amendment_source: "URL of the text read"
+#   amendment_yes_adopts: false   # only when a Yes here does NOT adopt it
+#   amendment_flag: "..."         # anything a person must look at
+# (or with tools/country_5ca.py --apply-amendments FILE); the rules then
+# derive yea/nay as for a bill direction. A flag blocks the automatic
+# sign-off.
+#
 # bill_directions: whether PASSING a bill or motion is with CitizenGO
 # (`with`) or against it (`against`). Drafted by Claude on 10 October 2026
 # from each watchlist entry's own description, never from a model call; a
@@ -747,7 +774,8 @@ def entry_yaml(e):
     """One `divisions` entry as YAML text, in a fixed order."""
     order = ("key", "status", "title", "on", "dated", "chamber", "areas", "tier", "watched",
              "result", "lobbies", "vote_kind", "placeable", "reason", "yea", "why_yea", "nay",
-             "why_nay", "read_first", "reasoning", "flag", "drafted")
+             "why_nay", "read_first", "reasoning", "flag", "amendment_direction",
+             "amendment_yes_adopts", "amendment_why", "amendment_source", "amendment_flag", "drafted")
     lines = []
     for k in order:
         if k not in e or e[k] is None or e[k] == "":
@@ -1062,7 +1090,11 @@ def draft(conn, cc, config_dir=None, today=None, log=print, wl=None):
 # confirmed_by/confirmed_on) and no comment inside the entry. Anything else
 # outside the scope is kept and reported.
 
-HUMAN_KEYS = ("yea", "nay", "why_yea", "why_nay", "confirmed_by", "confirmed_on")
+HUMAN_KEYS = ("yea", "nay", "why_yea", "why_nay", "confirmed_by", "confirmed_on",
+              # a reader's amendment reading (12 October 2026, apply_amendments)
+              "amendment_direction", "amendment_why", "amendment_source", "amendment_flag",
+              "amendment_yes_adopts")
+AMENDMENT_KEPT = "an amendment or article vote: every one is read (Chris, 12 October 2026)"
 
 
 def hand_edited(e):
@@ -1155,6 +1187,11 @@ def _prune(cc, outside, label, config_dir=None, dry_run=False, log=print):
         e = divs.get(k)
         if e is None or not outside(k, e):
             continue
+        if e.get("vote_kind") == "amendment":
+            # Never pruned, whatever the reason (Chris, 12 October 2026: "score
+            # all amendments"): a reader marks one not_scored instead.
+            got["kept"].append((k, AMENDMENT_KEPT))
+            continue
         why = hand_edited(e)
         if why is None and any(ln.lstrip().startswith("#") for ln in lines[start:end]):
             why = "a comment inside the entry"
@@ -1188,7 +1225,12 @@ def _prune(cc, outside, label, config_dir=None, dry_run=False, log=print):
         with open(path, "w", encoding="utf-8") as h:
             h.write(text)
     for k, why in got["kept"]:
-        log("  kept {0} ({1}, but {2})".format(k, label, why))
+        if why != AMENDMENT_KEPT:
+            log("  kept {0} ({1}, but {2})".format(k, label, why))
+    n_amend = sum(1 for _, why in got["kept"] if why == AMENDMENT_KEPT)
+    if n_amend:
+        log("  kept {0} amendment or article entr{1} {2}: every one is read (12 October "
+            "2026)".format(n_amend, "y" if n_amend == 1 else "ies", label))
     log("{0}: {1} {2} unsigned, untouched entr{3} {4}; {5} kept "
         "(hand-edited or signed); {6} left".format(
             spec.name, "would remove" if dry_run else "removed", len(got["removed"]),
@@ -1463,6 +1505,14 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
                 out.append("- **Reasoning:** " + r5.clip(e["reasoning"], 500))
             if e.get("flag"):
                 out.append("- **Flag for you:** " + r5.clip(e["flag"], 300))
+            if e.get("amendment_direction"):
+                out.append("- **Amendment reading:** adopting it is {0} CitizenGO{1} ({2}); text read: "
+                           "{3}".format(e["amendment_direction"],
+                                        "; a Yes here REJECTS it" if e.get("amendment_yes_adopts") is False
+                                        else "", r5.clip(e.get("amendment_why"), 220),
+                                        e.get("amendment_source") or "none given"))
+            if e.get("amendment_flag"):
+                out.append("- **Amendment flag:** " + r5.clip(e["amendment_flag"], 300))
             if check_line(k):
                 out.append(check_line(k))
             out.append("")
@@ -1484,6 +1534,10 @@ def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
             out.append("- `{0}` {1} {2} [{3}]: {4}".format(
                 k, e.get("dated") or "?", r5.clip(e.get("title"), 110), e.get("vote_kind") or "?",
                 r5.clip(e.get("read_first"), 220)))
+            if e.get("amendment_flag"):
+                out.append("  - **Read, side unclear:** {0}{1}".format(
+                    r5.clip(e["amendment_flag"], 220),
+                    " (text: {0})".format(e["amendment_source"]) if e.get("amendment_source") else ""))
             if meaning(k, e):
                 out.append("  - " + meaning(k, e))
         out.append("")
@@ -1759,16 +1813,18 @@ def run_sheets(conn, cc, config_dir=None, out_dir=None, today=None, log=print):
 #              flag of its own but a copy of a bill flag since cleared;
 #   kind       a vote on the whole text or a motion to reject it (not an
 #              inverted vote, which asks a person to check the question),
-#              or an amendment or article watched for sign-off with a
-#              direction of its own (keyed by the division);
+#              or an amendment or article with a reader's reading
+#              (`amendment_direction`, 12 October 2026: its why and source
+#              recorded, no `amendment_flag`) or a direction of its own
+#              keyed by the division;
 #   values     yea, nay and both why lines equal what the rules give that
 #              direction and kind (`rule_values`, recomputed);
 #   placeable  not struck (`placeable: false`), and a recorded tally (the
 #              result line, else the lobbies, else the store's positions)
 #              with members on both sides: a unanimous vote tells nobody
 #              apart;
-#   scope      inside the country's sign-off scope (France: final votes,
-#              motions to reject and watched amendments).
+#   scope      inside the country's sign-off scope, where a spec has one
+#              (none since 12 October 2026; France's was lifted).
 
 AUTO_CHECKS_VERSION = "auto-checks v1 (2026-10-11)"
 AUTO_BY = "auto-check on delegation (Chris Joyce, 11 Oct 2026)"
@@ -1820,6 +1876,9 @@ def auto_check(cc, key, e, bills, wl=None, block=None, conn=None):
     fails = []
     st = e.get("status")
     if st == "needs_reading":
+        if e.get("amendment_flag"):
+            return [("reading", "amendment read, side unclear: {0}".format(
+                r5.clip(e["amendment_flag"], 140)))]
         return [("reading", "no values proposed ({0})".format(
             r5.clip(e.get("read_first") or "read the text first", 140)))]
     if st != "draft":
@@ -1837,9 +1896,14 @@ def auto_check(cc, key, e, bills, wl=None, block=None, conn=None):
     if e.get("placeable") is False:
         return fails + [("placeable", "struck or procedural: evidence only, signed by a person")]
     kind = e.get("vote_kind") or vote_kind(e.get("title"))[0]
+    if e.get("amendment_direction") not in (None, ""):
+        # A reader's amendment reading (12 October 2026): checked like a
+        # final vote, against the values the rules give its own direction.
+        return fails + amendment_checks(cc, key, e, kind) + _tally_scope_checks(cc, e, wl, conn)
     own = None
-    if kind == "amendment" and key in bills and is_watched_item(key, e.get("title"), e.get("watched"), wl):
-        own = key                    # an amendment watched with a direction of its own
+    if kind == "amendment" and key in bills and (
+            spec.scope is None or is_watched_item(key, e.get("title"), e.get("watched"), wl)):
+        own = key                    # an amendment with a direction of its own, keyed by division
     bkey = own or bill_key_of(spec, e, bills)
     bill = bills.get(bkey) if bkey else None
     if bill is None:
@@ -1865,6 +1929,13 @@ def auto_check(cc, key, e, bills, wl=None, block=None, conn=None):
             fails.append(("values", "{0} differ{1} from the rules (Yes {2}, No {3} for {4})".format(
                 ", ".join(diff), "s" if len(diff) == 1 else "", _fmt(want["yea"]), _fmt(want["nay"]),
                 bill["direction"])))
+    return fails + _tally_scope_checks(cc, e, wl, conn)
+
+
+def _tally_scope_checks(cc, e, wl=None, conn=None):
+    """The `placeable` (a tally that splits members) and `scope` checks."""
+    spec = SPECS[cc]
+    fails = []
     t = _tally_of(cc, e, conn)
     if t is None:
         fails.append(("placeable", "no recorded tally"))
@@ -2157,6 +2228,281 @@ def fill_directions(cc, config_dir=None, dry_run=False, log=print):
             spec.name, "would draft" if dry_run else "drafted", len(edits),
             "y" if len(edits) == 1 else "ies", ", ".join(sorted(edits))))
     return sorted(edits)
+
+
+# --- amendment readings (12 October 2026) --------------------------------------------
+#
+# Chris, 12 October 2026: "score all amendments and reverse France's
+# decision". Every amendment and article vote on our ground is read by a
+# person, who records on the entry whether ADOPTING the amendment (or the
+# article) is with CitizenGO or against it:
+#
+#     amendment_direction: with | against
+#     amendment_why: "what it does, and why that side is ours"
+#     amendment_source: "https://... the text read"
+#     amendment_yes_adopts: false     # only where a Yes does NOT adopt it
+#     amendment_flag: "..."           # a person must look; blocks auto-confirm
+#
+# A Yes adopts the amendment unless `amendment_yes_adopts: false` says the
+# question was put the other way (Brazil's "mantido o texto", a vote to keep
+# the text against a destaque). A motion to delete an article is read as
+# itself: adopting the deletion is with or against us. The rules then give
+# the vote's values exactly as for a bill direction (+2 / -2, the sides
+# swapped where a Yes rejects): `amendment_values`. `fill_amendments` turns
+# an untouched needs_reading entry carrying a direction into that draft,
+# `auto_check` checks it like a final vote (`amendment_checks`), and
+# `apply_amendments` applies a reader's JSON file of decisions.
+
+AMENDMENT_KEYS = ("amendment_direction", "amendment_why", "amendment_source", "amendment_flag",
+                  "amendment_yes_adopts")
+VALUE_LINES = ("yea", "nay", "why_yea", "why_nay")
+AMENDMENT_DECISIONS = ("with", "against", "unclear", "not_scored")
+NOT_SCORED = "Not scored (amendment reading"
+
+
+def amendment_values(spec, key, direction, why, area_line, yes_adopts=True):
+    """yea, nay, why_yea, why_nay and reasoning for an amendment or article
+    vote whose adoption is `direction` ('with' or 'against') CitizenGO."""
+    s = 1 if direction == "with" else -1
+    yea = 2 * s if yes_adopts else -2 * s
+    what = r5.clip(why or key, 200).rstrip(".")
+    short = r5.clip(re.split(r"(?<=[a-z\)])[.;] ", what)[0], 90)
+    yes_does = "adopting" if yes_adopts else "rejecting"
+    no_does = "rejecting" if yes_adopts else "adopting"
+    return {
+        "yea": yea, "nay": -yea,
+        "why_yea": "Voted {0} on amendment {1} ({2}): for {3} it, {4} CitizenGO's position.".format(
+            spec.labels[0], key, short, yes_does, "with" if yea > 0 else "against"),
+        "why_nay": "Voted {0} on amendment {1} ({2}): for {3} it, {4} CitizenGO's position.".format(
+            spec.labels[1], key, short, no_does, "with" if -yea > 0 else "against"),
+        "reasoning": "{0} Amendment reading on file: adopting it is {1} us -- {2}. A {3} here {4} "
+                     "it, so {3} is {5} us.".format(
+                         area_line, "WITH" if s > 0 else "AGAINST", what, spec.labels[0],
+                         "adopts" if yes_adopts else "rejects", "with" if yea > 0 else "against")}
+
+
+def is_amendment_entry(e):
+    """An amendment or article vote: drafted as such, or drafted as `other`
+    before the rules knew its wording (the Senat's "sur l'article ...")."""
+    kind = e.get("vote_kind")
+    return kind == "amendment" or (kind == "other" and vote_kind(e.get("title"))[0] == "amendment")
+
+
+def _yes_adopts(e):
+    return e.get("amendment_yes_adopts") is not False
+
+
+def amendment_checks(cc, key, e, kind):
+    """The `kind`, `direction` and `values` checks for an entry carrying an
+    amendment reading (`amendment_direction`)."""
+    spec = SPECS[cc]
+    fails = []
+    d = e.get("amendment_direction")
+    if kind != "amendment":
+        fails.append(("kind", "an amendment reading on {0}".format(KIND_WORDS.get(kind, kind))))
+    if d not in ("with", "against"):
+        fails.append(("direction", "amendment_direction is {0}".format(d)))
+    if not str(e.get("amendment_why") or "").strip() or not str(e.get("amendment_source") or "").strip():
+        fails.append(("direction", "the amendment reading names no why or no source"))
+    if e.get("amendment_flag"):
+        fails.append(("direction", "amendment flagged for a person: " + r5.clip(e["amendment_flag"], 120)))
+    if e.get("flag"):
+        fails.append(("direction", "flagged for a person: " + r5.clip(e["flag"], 120)))
+    if d in ("with", "against"):
+        want = amendment_values(spec, key, d, e.get("amendment_why"), _area_line(e), _yes_adopts(e))
+        diff = [k for k in VALUE_LINES if e.get(k) != want[k]]
+        if diff:
+            fails.append(("values", "{0} differ{1} from the rules (Yes {2}, No {3}: adopting is {4})".format(
+                ", ".join(diff), "s" if len(diff) == 1 else "", _fmt(want["yea"]), _fmt(want["nay"]), d)))
+    return fails
+
+
+def _rules_made_amendment_values(spec, key, e):
+    """True when the entry's yea/nay/why lines are absent, or exactly what
+    `amendment_values` gives its own reading (so a re-application may
+    replace them); False when a person wrote them."""
+    if all(e.get(k) in (None, "") for k in VALUE_LINES):
+        return True
+    d = e.get("amendment_direction")
+    if d not in ("with", "against"):
+        return False
+    want = amendment_values(spec, key, d, e.get("amendment_why"), _area_line(e), _yes_adopts(e))
+    return all(e.get(k) == want[k] for k in VALUE_LINES)
+
+
+def _amendment_read_first(e):
+    return ("An amendment, an article or one point ('{0}'): which side is ours depends on its "
+            "text, which the store does not hold. Read it, then write yea/nay.".format(
+                r5.clip(e.get("title"), 120)))
+
+
+def fill_amendments(cc, config_dir=None, dry_run=False, log=print):
+    """Draft every untouched `needs_reading` amendment entry that carries an
+    amendment reading (`amendment_direction: with|against`), as the rules
+    give it (`amendment_values`), so the next --auto-confirm can check it.
+    Untouched: stamped by the drafter, no values, signature, amendment
+    (`amended_*`), strike or `draft: true`. Returns the keys changed."""
+    spec = SPECS[cc]
+    divs, _, _ = load(cc, config_dir)
+    edits = {}
+    for k, e in divs.items():
+        if e.get("status") != "needs_reading" or e.get("vote_kind") != "amendment":
+            continue
+        d = e.get("amendment_direction")
+        if d not in ("with", "against"):
+            continue
+        if not str(e.get("drafted") or "").startswith(DRAFTED_BY):
+            continue
+        if any(e.get(x) not in (None, "") for x in VALUE_LINES + ("confirmed_by", "confirmed_on")) \
+                or any(e.get(x) for x in AMEND_KEYS) or e.get("draft") or e.get("placeable") is False:
+            continue
+        vals = dict(status="draft", **amendment_values(spec, k, d, e.get("amendment_why"), _area_line(e),
+                                                      _yes_adopts(e)))
+        edits[k] = (vals, ("read_first",))
+    if edits and not dry_run:
+        _rewrite(cc, edits, config_dir)
+    if edits:
+        log("{0}: {1} {2} amendment entr{3} from their reading: {4}".format(
+            spec.name, "would draft" if dry_run else "drafted", len(edits),
+            "y" if len(edits) == 1 else "ies", ", ".join(sorted(edits))))
+    return sorted(edits)
+
+
+def read_decisions(path):
+    """The decisions in an --apply-amendments file: a JSON list of objects,
+    or an object whose `decisions` is that list."""
+    with open(path, encoding="utf-8") as h:
+        got = json.load(h)
+    if isinstance(got, dict):
+        got = got.get("decisions")
+    if not isinstance(got, list) or not all(isinstance(x, dict) for x in got):
+        raise SystemExit("{0}: expected a JSON list of decision objects (or {{\"decisions\": "
+                         "[...]}})".format(path))
+    return got
+
+
+def _decision_edit(spec, key, e, d, today):
+    """(values, drop) for one decision on one entry, or a str: why refused."""
+    decision = str(d.get("direction") or "").strip().lower().replace("-", "_").replace(" ", "_")
+    why = " ".join(str(d.get("why") or "").split())
+    source = " ".join(str(d.get("source") or "").split())
+    flag = " ".join(str(d.get("flag") or "").split())
+    yes_adopts = d.get("yes_adopts", True)
+    if decision not in AMENDMENT_DECISIONS:
+        return "direction must be one of {0}, not {1!r}".format(", ".join(AMENDMENT_DECISIONS),
+                                                                d.get("direction"))
+    if not isinstance(yes_adopts, bool):
+        return "yes_adopts must be true or false"
+    if not is_amendment_entry(e):
+        return "vote_kind is {0}, not amendment".format(e.get("vote_kind"))
+    if e.get("status") == "confirmed":
+        return "already confirmed (amend it with --amend instead)"
+    if any(e.get(x) for x in AMEND_KEYS) or e.get("draft"):
+        return "amended or taken out of play by a signer"
+    if not _rules_made_amendment_values(spec, key, e):
+        return "carries values a person wrote"
+    if e.get("placeable") is False and not str(e.get("reason") or "").startswith(NOT_SCORED):
+        return "struck by a person (placeable: false)"
+    if decision in ("with", "against") and not (why and source):
+        return "with/against needs both `why` and `source`"
+    if decision == "not_scored" and not why:
+        return "not_scored needs a `why`"
+    reading = {}
+    if e.get("vote_kind") != "amendment":
+        reading["vote_kind"] = "amendment"     # drafted as `other` before the pattern knew it
+    if why:
+        reading["amendment_why"] = why
+    if source:
+        reading["amendment_source"] = source
+    if decision in ("with", "against"):
+        vals = {"status": "draft", "amendment_direction": decision}
+        vals.update(reading)
+        drop = ["read_first", "placeable", "reason"]
+        if flag:
+            vals["amendment_flag"] = flag
+        else:
+            drop.append("amendment_flag")
+        if yes_adopts:
+            drop.append("amendment_yes_adopts")
+        else:
+            vals["amendment_yes_adopts"] = False
+        area = _area_line(e)
+        vals.update(amendment_values(spec, key, decision, why, area, yes_adopts))
+        return vals, tuple(x for x in drop if x not in vals)
+    if decision == "unclear":
+        vals = {"status": "needs_reading", "amendment_flag": flag or why or "Read; the side is unclear.",
+                "reasoning": "{0} Amendment read; which side is ours is unclear: nothing "
+                             "proposed.".format(_area_line(e))}
+        vals.update(reading)
+        if not e.get("read_first"):
+            vals["read_first"] = _amendment_read_first(e)
+        return vals, ("amendment_direction", "amendment_yes_adopts", "placeable", "reason") + VALUE_LINES
+    vals = {"status": "draft", "placeable": False,
+            "reason": "{0}, {1}): {2}".format(NOT_SCORED, today, why),
+            "reasoning": "{0} Amendment read and not scored: it places nobody.".format(_area_line(e))}
+    vals.update(reading)
+    if flag:
+        vals["amendment_flag"] = flag
+    return vals, ("amendment_direction", "amendment_yes_adopts", "read_first") + VALUE_LINES + (
+        () if flag else ("amendment_flag",))
+
+
+def apply_amendments(decisions, config_dir=None, today=None, dry_run=False, log=print):
+    """Apply readers' amendment decisions, each {cc, key, direction
+    (with | against | unclear | not_scored), why, source, flag, and
+    optionally yes_adopts (default true)}:
+
+    * with / against: `amendment_direction` and the reading are recorded and
+      the rules draft the values (`status: draft`); a `flag` is kept as
+      `amendment_flag` and blocks the automatic sign-off;
+    * unclear: the entry stays `needs_reading`, with `amendment_flag` (the
+      flag, else the why) shown in the guide;
+    * not_scored: `placeable: false` with the reason (a draft a person signs).
+
+    Only entries of vote_kind amendment, unconfirmed and not amended, whose
+    values (if any) are the rules' own; anything else is refused with the
+    reason. A text edit per country, checked as every rewrite is. Returns
+    {'applied': [(cc, key, direction)], 'refused': [(cc, key, why)]}."""
+    today = today or datetime.date.today().isoformat()
+    got = {"applied": [], "refused": []}
+    per = {}
+    for d in decisions:
+        cc = str(d.get("cc") or "").strip().lower()
+        key = str(d.get("key") or "").strip()
+        if cc not in SPECS:
+            got["refused"].append((cc, key, "unknown country"))
+            continue
+        per.setdefault(cc, []).append((key, d))
+    for cc, items in per.items():
+        spec = SPECS[cc]
+        divs, _, _ = load(cc, config_dir)
+        edits, done = {}, {}
+        for key, d in items:
+            e = divs.get(key)
+            if e is None:
+                got["refused"].append((cc, key, "no such entry in config/{0}_stance.yaml".format(cc)))
+                continue
+            edit = _decision_edit(spec, key, e, d, today)
+            if isinstance(edit, str):
+                got["refused"].append((cc, key, edit))
+                continue
+            if key in edits:
+                log("  {0} {1}: decided twice; the later decision stands".format(cc, key))
+            edits[key] = edit
+            done[key] = str(d.get("direction")).strip().lower()
+        if edits and not dry_run:
+            _rewrite(cc, edits, config_dir)
+        got["applied"] += [(cc, k, v) for k, v in done.items()]
+    for cc, key, why in got["refused"]:
+        log("  refused {0} {1}: {2}".format(cc, key, why))
+    by = {}
+    for _, _, v in got["applied"]:
+        by[v] = by.get(v, 0) + 1
+    log("Amendment decisions: {0} {1} ({2}); {3} refused".format(
+        "would apply" if dry_run else "applied", len(got["applied"]),
+        ", ".join("{0} {1}".format(n, v) for v, n in sorted(by.items())) or "none",
+        len(got["refused"])))
+    return got
 
 
 def amend(cc, key, by, yea=None, nay=None, why=None, take_out=False, on=None, config_dir=None,
