@@ -442,11 +442,11 @@
       "sha256": "1c5ce226bbeca5c486d8c15d74b061c5dac0768113a3a81b4851738e0f87cc6d"
     },
     "2026-10-12": {
-      "bytes": 125042819,
-      "files": 4577,
-      "published_by": "run 38223799948",
-      "published_utc": "2026-10-12T09:16:43Z",
-      "sha256": "4bd83102ec924a3b90e9cef939cfc33c998de0215013dc263e6e24a76c105e56"
+      "bytes": 148951343,
+      "files": 8242,
+      "published_by": "local",
+      "published_utc": "2026-10-12T13:55:11Z",
+      "sha256": "c3def95eaa77e82db4e14c80f01d4dcbbd50c9f9ad4d0dd69b25fda4460da37d"
     },
     "eu-probe-2026-09-01": {
       "bytes": 15724967,
