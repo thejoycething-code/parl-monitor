@@ -5,6 +5,20 @@ Works in every country: Tier A (full parliament monitor, e.g. UK), Tier B (open 
 
 Owner tags: 🔒 Fact (machine, sourced) · ✏️ Draft (machine suggests, campaigner owns) · 👤 Campaigner only · ⛔ Leave blank
 
+## Superseded by Chris's 12 October 2026 rules
+
+Set while filling a live brief on 12 October 2026 and encoded in `tools/make_briefs.py` and `tools/publish_briefs_to_drive.py`. Where this older test rulebook disagrees (notably Cell 30 "RF4 scores always blank" and Cell 31's RF#1 layout), these win.
+
+1. **Background / Context:** BBC-News-style with a CitizenGO slant, never impartial: a one-sentence hard-news lead (who, what, where), one or two short paragraphs with a quote, then bold labelled lines: What / Who / Where it stands / What's next / Why it matters (optionally Path to victory). No NARRATIVE heading, fact sheet or sources inside it.
+2. **Bold:** `**...**` in any cell is published as real Sheets bold (textFormatRuns), asterisks stripped.
+3. **RF4 block:** wrap strategy Overflow on the Red Fox Four block, A:G, header through the TOTAL rows.
+4. **RF#1 comment:** labelled lines in order: expected figures by the end of the classical series (signatures, new, reactivated, unsubscribes, net audience, € raised); definitions; 3-5 nearest comparables, one per line; the EN GB benchmark; the score arithmetic (85/15 for Acquisition, 30/70 Fundraising, 50/50 other); channels; an asterisk note for a new ask type. RF#1 **is scored at Plan** (all RF4 are scored at Plan; TOTAL rows are formulas). The cell names its basis: lifetime petition totals (the store) or email series (Bluebook, EN GB sends from February 2026). The two are never mixed.
+5. **Sources:** `- Headline [Outlet]: URL`, the outlet's own article (never Yahoo or MSN copies or archive links), only the campaigner's choices (three).
+6. **Individual cases** (a named person punished): two tracks in one petition, messages of support to the person via their legal supporters and an open letter to the named head of the employer or deciding body; one demand, no fallbacks.
+7. **Court or tribunal offline actions:** only support outside court on the hearing day and/or online delivery via the legal supporters.
+8. **Bluebook:** comparables and TIM come from the store (Bluebook/Looker exports). Live figures the store lacks (unsubscribes, email-series measures) come from the Looker connector on the Mac Mini, run as a one-off launchd job with `claude -p ... --allowedTools "mcp__claude_ai_CitizenGO_Looker__*"` (over plain SSH, claude reports "Not logged in").
+9. **RF#4/1 and RF#4/2 comments:** the substance, never "See Good outcome.": RF#4/1 the concrete gain (ask met, who benefits, durability, precedent, position) then the score line; RF#4/2 the concrete cost (who is harmed, what precedent), the backlash check, then the score line.
+
 ## Global rules
 
 0. **House format for list cells** (from test run AS): numbered items, each `**Title.** text`. Applies to Injustice, Arguments, Why urgent, Why would they listen (pressure points).
