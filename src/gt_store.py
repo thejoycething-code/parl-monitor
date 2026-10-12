@@ -102,7 +102,7 @@ SCHEMA = (
         estado       TEXT,                -- 'PRESENTE' / 'AUSENTE' / 'LICENCIA / EXCUSA'
         position     TEXT,                -- 'A FAVOR' / 'CONTRA' / 'AUSENTE' / 'LICENCIA'
         PRIMARY KEY (division_key, name)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS gt_divisions_iniciativa ON gt_divisions (iniciativa)",
     "CREATE INDEX IF NOT EXISTS gt_votes_member ON gt_votes (name_key)",
 )

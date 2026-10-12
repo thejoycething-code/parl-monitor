@@ -1,0 +1,277 @@
+# Party colour chips for the country vote pages (src/portraits.py, 12 October 2026).
+#
+# Party LOGOS are trademarks with no open licence from any official source
+# (docs/portraits-logos-licences.md, "Party logos"), so the pages show a
+# colour chip beside the party or group name instead. A colour is not a mark.
+#
+# Source: Wikidata's "sRGB colour hex triplet" (P465) on the party or
+# parliamentary group item (CC0), matched to the label the store uses by
+# tools/party_colours.py on 12 October 2026 (the item is in each comment).
+# A label with no unambiguous colour gets no chip, never a guess; the
+# unmatched labels are listed so a person can add one with its source.
+# Keys are the labels exactly as the vote page shows them.
+countries:
+  pl:
+    "Konfederacja": "#091F92"   # wikidata Q61568052
+    "PiS": "#073A76"   # wikidata Q156874
+    "Polska2050": "#FAC300"   # wikidata Q100979832
+    "Razem": "#870F57"   # wikidata Q21006495
+    # unmatched: "Centrum"
+    # unmatched: "Demokracja"
+    # unmatched: "KO"
+    # unmatched: "Konfederacja_KP"
+    # unmatched: "Lewica"
+    # unmatched: "PSL-TD"
+    # unmatched: "Republikanie"
+    # unmatched: "RozwojPlus"
+    # unmatched: "niez."
+  it:
+    "FDI": "#003366"   # wikidata Q1757843
+    "FdI": "#003366"   # wikidata Q1757843
+    "M5S": "#FFEB3B"   # wikidata Q47817
+    # unmatched: "AVS"
+    # unmatched: "AZ-PER-RE"
+    # unmatched: "Aut (SVP-PATT, Cb)"
+    # unmatched: "Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP"
+    # unmatched: "FI-BP-PPE"
+    # unmatched: "FI-PPE"
+    # unmatched: "IV-C-RE"
+    # unmatched: "IV-CR"
+    # unmatched: "LEGA"
+    # unmatched: "LSP-PSd'Az"
+    # unmatched: "MISTO"
+    # unmatched: "Misto"
+    # unmatched: "NM(N-C-U-I)-M"
+    # unmatched: "Nessun gruppo"
+    # unmatched: "PD-IDP"
+  ch:
+    "EDU": "#C71585"   # wikidata Q667836
+    "EVP": "#EFDA18"   # wikidata Q667718
+    "Lega": "#6495ED"   # wikidata Q668101
+    "MCG": "#FEE801"   # wikidata Q663580
+    "SP": "#E53136"   # wikidata Q303745
+    "SVP": "#009F4F"   # wikidata Q385258
+    # unmatched: "-"
+    # unmatched: "Al"
+    # unmatched: "FDP-Liberale"
+    # unmatched: "Fraktionslos"
+    # unmatched: "G"
+    # unmatched: "GL"
+    # unmatched: "GRÜNE"
+    # unmatched: "LDP"
+    # unmatched: "M-E"
+    # unmatched: "RL"
+    # unmatched: "S"
+    # unmatched: "V"
+    # unmatched: "glp"
+  fr:
+    "Les Républicains": "#034EA2"   # wikidata Q20012759
+    "RN": "#104E8B"   # wikidata Q205150
+    # unmatched: "CRCE-K"
+    # unmatched: "DEM"
+    # unmatched: "DR"
+    # unmatched: "ECOS"
+    # unmatched: "EPR"
+    # unmatched: "GDR"
+    # unmatched: "GEST"
+    # unmatched: "HOR"
+    # unmatched: "LFI-NFP"
+    # unmatched: "LIOT"
+    # unmatched: "Les Indépendants"
+    # unmatched: "NI"
+    # unmatched: "RDPI"
+    # unmatched: "RDSE"
+    # unmatched: "SER"
+    # unmatched: "SOC"
+    # unmatched: "UCI"
+    # unmatched: "UDDPLR"
+    # unmatched: "UNT"
+  es:
+    "Grupo Parlamentario Republicano": "#FFB232"   # wikidata Q56704569
+    "Grupo Parlamentario Socialista": "#E73B39"   # wikidata Q57899102
+    # unmatched: "GEH Bildu"
+    # unmatched: "GJxCAT"
+    # unmatched: "GMx"
+    # unmatched: "GP"
+    # unmatched: "GR"
+    # unmatched: "GS"
+    # unmatched: "GSUMAR"
+    # unmatched: "GV (EAJ-PNV)"
+    # unmatched: "GVOX"
+    # unmatched: "Grupo Parlamentario Euskal Herria Bildu"
+    # unmatched: "Grupo Parlamentario Junts per Catalunya"
+    # unmatched: "Grupo Parlamentario Mixto"
+    # unmatched: "Grupo Parlamentario Plurinacional SUMAR"
+    # unmatched: "Grupo Parlamentario Popular en el Congreso"
+    # unmatched: "Grupo Parlamentario VOX"
+    # unmatched: "Grupo Parlamentario Vasco (EAJ-PNV)"
+  nl:
+    "50PLUS": "#92107D"   # wikidata Q59574
+    "BBB": "#95C11F"   # wikidata Q101083924
+    "CDA": "#1F9359"   # wikidata Q273749
+    "ChristenUnie": "#00A7EB"   # wikidata Q239539
+    "D66": "#00AE41"   # wikidata Q747910
+    "DENK": "#00B7B2"   # wikidata Q28147283
+    "FVD": "#A71C20"   # wikidata Q28163962
+    "Groep Markuszower": "#2F3C73"   # wikidata Q137827474
+    "JA21": "#1F2756"   # wikidata Q104244010
+    "PRO": "#00AD00"   # wikidata Q138795640
+    "PVV": "#234672"   # wikidata Q332739
+    "PvdD": "#00743C"   # wikidata Q663535
+    "SGP": "#EA5D06"   # wikidata Q60172
+    "SP": "#FF0000"   # wikidata Q849580
+    "Volt": "#582C83"   # wikidata Q105412880
+    # unmatched: "GroenLinks-PvdA"
+    # unmatched: "Keijzer"
+    # unmatched: "Lid Keijzer"
+    # unmatched: "VVD"
+  be:
+    "Anders.": "#3D35FF"   # wikidata Q1160192
+    "DéFI": "#DE007B"   # wikidata Q1470087
+    "Les Engagés": "#02E5D2"   # wikidata Q840814
+    "MR": "#002EFF"   # wikidata Q533384
+    "N-VA": "#F9CE19"   # wikidata Q28982
+    "PVDA-PTB": "#8B0000"   # wikidata Q925616
+    "VB": "#FFE500"   # wikidata Q682990
+    "Vooruit": "#FF2900"   # wikidata Q939354
+    "cd&v": "#FF6200"   # wikidata Q750673
+    # unmatched: "Ecolo-Groen"
+    # unmatched: "INDEP"
+    # unmatched: "PS"
+  at:
+    "FPÖ": "#0056A2"   # wikidata Q131692
+    "NEOS": "#CB1667"   # wikidata Q13564543
+    "SPÖ": "#CE000C"   # wikidata Q179111
+    "ÖVP": "#63C3D0"   # wikidata Q186867
+    # unmatched: "GRÜNE"
+    # unmatched: "OF"
+  pt:
+    "BE": "#8B0000"   # wikidata Q884840
+    "CDS-PP": "#0093DD"   # wikidata Q1054298
+    "IL": "#00ADEF"   # wikidata Q46122950
+    "JPP": "#00A28B"   # wikidata Q19694667
+    "L": "#C2D216"   # wikidata Q16947563
+    "PAN": "#036A84"   # wikidata Q2054840
+    "PCP": "#FF0000"   # wikidata Q769829
+    "PS": "#FF66FF"   # wikidata Q847263
+    "PSD": "#FF9900"   # wikidata Q595575
+    # unmatched: "CH"
+  hr:
+    "Centar": "#2D7AB0"   # wikidata Q30324660
+    "DOMINO": "#000000"   # wikidata Q130378788
+    "DP": "#A5A5A5"   # wikidata Q86756923
+    "GLAS": "#067CBF"   # wikidata Q39046276
+    "HDS": "#1974D2"   # wikidata Q1055317
+    "HDZ": "#025EB1"   # wikidata Q738439
+    "HNS": "#FF931E"   # wikidata Q1255803
+    "HSLS": "#FEDE00"   # wikidata Q1249448
+    "HSS": "#04B431"   # wikidata Q638194
+    "HSU": "#004B88"   # wikidata Q1244748
+    "Hrvatski suverenisti": "#033E7C"   # wikidata Q97289787
+    "IDS": "#0CB14B"   # wikidata Q1261390
+    "MOST": "#E85726"   # wikidata Q16116415
+    "Most": "#E85726"   # wikidata Q16116415
+    "Možemo!": "#C3D746"   # wikidata Q96099072
+    "NPS": "#2C9180"   # wikidata Q125584906
+    "Pravo i pravda": "#203D71"   # wikidata Q125379204
+    "SDP": "#ED1C24"   # wikidata Q830323
+    "SDSS": "#0B2161"   # wikidata Q1261401
+    # unmatched: "DO i SIP"
+    # unmatched: "Dario Zurovec - NL"
+    # unmatched: "Drito"
+    # unmatched: "NZ"
+    # unmatched: "Nezavisni"
+    # unmatched: "stranka Nezavisni"
+  hu:
+    "Fidesz": "#FF6A00"   # wikidata Q387006
+    "KDNP": "#938862"   # wikidata Q277879
+    "Mi Hazánk": "#688D1B"   # wikidata Q55443054
+    "TISZA": "#88E8FF"   # wikidata Q125418097
+  br:
+    "AVANTE": "#ED5F36"   # wikidata Q3366792
+    "CIDADANIA": "#B43104"   # wikidata Q2598527
+    "DC": "#293490"   # wikidata Q2653287
+    "MDB": "#2E8B57"   # wikidata Q1322751
+    "NOVO": "#FF8511"   # wikidata Q18552710
+    "PATRIOTA": "#00A859"   # wikidata Q10345629
+    "PCdoB": "#DA251C"   # wikidata Q504000
+    "PDT": "#ED1C24"   # wikidata Q1414708
+    "PODE": "#2E9AFE"   # wikidata Q3181274
+    "PP": "#3A5AA7"   # wikidata Q732852
+    "PSB": "#FFBF00"   # wikidata Q2054789
+    "PSC": "#009038"   # wikidata Q2626213
+    "PSD": "#70C846"   # wikidata Q2054750
+    "PSDB": "#084B8A"   # wikidata Q1322897
+    "PSOL": "#FFEE57"   # wikidata Q1754827
+    "PT": "#DA1208"   # wikidata Q657089
+    "PV": "#006600"   # wikidata Q1234489
+    "REDE": "#088A68"   # wikidata Q10358279
+    "REPUBLICANOS": "#4DBCE7"   # wikidata Q926973
+    "SOLIDARIEDADE": "#D86425"   # wikidata Q20061311
+    "UNIÃO": "#40CCFF"   # wikidata Q108837483
+    # unmatched: "MISSÃO"
+    # unmatched: "PL"
+    # unmatched: "PRD"
+    # unmatched: "S/Partido"
+  cl:
+    "Demócratas": "#0F144C"   # wikidata Q115065800
+    "P.D.C.": "#0261A5"   # wikidata Q1395049
+    "P.S.": "#FF0000"   # wikidata Q823648
+    "PDG": "#00285E"   # wikidata Q107012458
+    "PNL": "#F28500"   # wikidata Q126425000
+    "PPD": "#FFFF00"   # wikidata Q1759292
+    "PREP": "#31446C"   # wikidata Q64539214
+    "PS": "#FF0000"   # wikidata Q823648
+    "Partido Demócrata Cristiano": "#0261A5"   # wikidata Q1395049
+    "Partido Por la Democracia": "#FFFF00"   # wikidata Q1759292
+    "Partido Socialista de Chile": "#FF0000"   # wikidata Q823648
+    "Partido democratas chile": "#0F144C"   # wikidata Q115065800
+    "R.N.": "#135BB8"   # wikidata Q1422826
+    "RN": "#135BB8"   # wikidata Q1422826
+    "U.D.I.": "#00008B"   # wikidata Q602131
+    "UDI": "#00008B"   # wikidata Q602131
+    # unmatched: "DC"
+    # unmatched: "DEM"
+    # unmatched: "EVOP"
+    # unmatched: "F.R.E.V.S."
+    # unmatched: "FA"
+    # unmatched: "FRVS"
+    # unmatched: "Federación Regionalista Verde Social"
+    # unmatched: "IND"
+    # unmatched: "Independiente"
+    # unmatched: "P.C"
+    # unmatched: "PAH"
+    # unmatched: "PC"
+    # unmatched: "PCCH"
+    # unmatched: "PL"
+    # unmatched: "PR"
+    # unmatched: "PSC"
+    # unmatched: "Partido Comunista de Chile"
+    # unmatched: "Partido Renovación Nacional"
+    # unmatched: "Partido Unión Demócrata Independiente"
+  ec:
+    "Pachakutik": "#FE2EC8"   # wikidata Q1972741
+    # unmatched: "Acción Democrática Nacional (ADN)"
+    # unmatched: "Partido Social Cristiano"
+    # unmatched: "Revolución Ciudadana"
+  do:
+    "DXC": "#00AEEA"   # wikidata Q6064038
+    "PLD": "#800080"   # wikidata Q2511535
+    "PRD": "#ADD8E6"   # wikidata Q31284
+    "PRSC": "#DC143C"   # wikidata Q2153476
+    # unmatched: "ALPAIS"
+    # unmatched: "DXC-ALPAÍS"
+    # unmatched: "FP"
+    # unmatched: "PCR"
+    # unmatched: "PLR"
+    # unmatched: "PLR-PCR"
+    # unmatched: "PQDC"
+    # unmatched: "PRD-PQDC"
+    # unmatched: "PRM"
+  sv:
+    "ARENA": "#00529F"   # wikidata Q1146480
+    "NI": "#00ADEF"   # wikidata Q57986086
+    "NUEVAS IDEAS": "#00ADEF"   # wikidata Q57986086
+    "PDC": "#00A550"   # wikidata Q1953774
+    # unmatched: "PCN"
+    # unmatched: "VAMOS"

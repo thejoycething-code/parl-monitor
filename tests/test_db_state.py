@@ -8,6 +8,7 @@ release asset. These tests pin the properties that make that safe.
 import json
 import os
 import sys
+import tempfile
 import unittest
 from unittest import mock
 
@@ -1411,17 +1412,108 @@ class CompressedPushTests(unittest.TestCase):
         self.assertEqual(deleted, [])
 
 
+class VacuumTests(unittest.TestCase):
+    """A push vacuums the store before the sha (12 October 2026), bounded and never fatal."""
+
+    def setUp(self):
+        import sqlite3
+        self.tmp = tempfile.TemporaryDirectory()
+        self.path = os.path.join(self.tmp.name, "parl-monitor.db")
+        conn = sqlite3.connect(self.path)
+        conn.execute("CREATE TABLE t (k INTEGER PRIMARY KEY, v TEXT)")
+        conn.execute("CREATE INDEX t_v ON t (v)")
+        conn.executemany("INSERT INTO t (v) VALUES (?)", [("x" * 200,)] * 3000)
+        conn.commit()
+        conn.execute("DELETE FROM t WHERE k % 2 = 0")       # leaves empty space
+        conn.commit()
+        conn.close()
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def _count(self):
+        import sqlite3
+        conn = sqlite3.connect(self.path)
+        try:
+            return conn.execute("SELECT count(*) FROM t").fetchone()[0]
+        finally:
+            conn.close()
+
+    def test_vacuums_in_place_and_keeps_the_rows(self):
+        size = os.path.getsize(self.path)
+        lines = []
+        self.assertTrue(db_state.vacuum_store(self.path, log=lines.append))
+        self.assertLess(os.path.getsize(self.path), size)
+        self.assertEqual(self._count(), 1500)
+        self.assertFalse(os.path.exists(self.path + ".vacuum"))
+        self.assertTrue(any("vacuumed" in ln for ln in lines))
+
+    def test_skipped_when_the_disk_is_short(self):
+        with open(self.path, "rb") as handle:
+            raw = handle.read()
+        lines = []
+        self.assertFalse(db_state.vacuum_store(self.path, log=lines.append, free_bytes=1000))
+        self.assertTrue(any("VACUUM skipped" in ln for ln in lines))
+        with open(self.path, "rb") as handle:
+            self.assertEqual(handle.read(), raw)
+
+    def test_stops_at_its_bound_and_leaves_the_store(self):
+        with open(self.path, "rb") as handle:
+            raw = handle.read()
+        lines = []
+        with mock.patch.object(db_state, "VACUUM_CHECK_EVERY", 1):
+            self.assertFalse(db_state.vacuum_store(self.path, log=lines.append, max_s=-1))
+        self.assertTrue(any("bound" in ln for ln in lines), lines)
+        self.assertFalse(os.path.exists(self.path + ".vacuum"))
+        with open(self.path, "rb") as handle:
+            self.assertEqual(handle.read(), raw)
+
+    def test_not_a_database_is_not_fatal(self):
+        with open(self.path, "wb") as handle:
+            handle.write(b"not sqlite" * 100)
+        lines = []
+        self.assertFalse(db_state.vacuum_store(self.path, log=lines.append))
+        self.assertTrue(any("unvacuumed" in ln for ln in lines))
+
+    def test_env_switch(self):
+        with mock.patch.dict(os.environ, {"DB_STATE_NO_VACUUM": "1"}):
+            self.assertFalse(db_state.vacuum_store(self.path, log=lambda _l: None))
+
+    def test_push_vacuums_after_the_heartbeat_and_before_the_sha(self):
+        src = open(os.path.join(ROOT, "tools", "db_state.py"), encoding="utf-8").read()
+        body = src[src.index("def push():"):src.index("def _publish(")]
+        self.assertLess(body.index("stamp_heartbeat()"), body.index("vacuum_store()"))
+        self.assertLess(body.index("vacuum_store()"), body.index("sha256(DB)"))
+
+
 class SizeGuardTests(unittest.TestCase):
     """The next step after compression is splitting the store; these raise it early."""
 
     def test_thresholds(self):
-        self.assertEqual(db_state.size_warnings(1_500_000_000, 400_000_000), [])
-        w = db_state.size_warnings(1_760_000_000, 410_000_000)
+        # On the COMPRESSED asset only (12 October 2026): the raw size of
+        # today's store (1.85 GB, 454 MB compressed) warns about nothing.
+        self.assertEqual(db_state.size_warnings(1_850_000_000, 454_000_000), [])
+        self.assertEqual(db_state.size_warnings(5_000_000_000, None), [])
+        self.assertEqual(db_state.size_warnings(3_000_000_000, 749_999_999), [])
+        w = db_state.size_warnings(3_100_000_000, 750_000_000)
         self.assertEqual(len(w), 1)
-        self.assertIn("1.76 GB uncompressed", w[0])
+        self.assertIn("Plan the split", w[0])
+        self.assertIn("0.75 GB", w[0])
+        w = db_state.size_warnings(4_300_000_000, 1024 ** 3 - 1)
+        self.assertEqual(len(w), 1)
+        self.assertIn("Plan the split", w[0])
+        w = db_state.size_warnings(4_300_000_000, 1024 ** 3)
+        self.assertEqual(len(w), 1)
+        self.assertIn("Split the store now", w[0])
+        self.assertIn("1.07 GB", w[0])
         w = db_state.size_warnings(5_000_000_000, 1_600_000_000)
-        self.assertEqual(len(w), 2)
-        self.assertIn("Split the store now", w[1])
+        self.assertEqual(len(w), 1)
+        self.assertIn("Split the store now", w[0])
+
+    def test_the_raw_warning_is_gone(self):
+        self.assertFalse(hasattr(db_state, "STORE_WARN_BYTES"))
+        self.assertEqual(db_state.GZ_PLAN_BYTES, 750_000_000)
+        self.assertEqual(db_state.GZ_WARN_BYTES, 1024 ** 3)
 
     def test_a_push_warns_and_refuses_over_the_asset_limit(self):
         src = open(os.path.join(ROOT, "tools", "db_state.py"), encoding="utf-8").read()
@@ -1442,7 +1534,10 @@ class SizeGuardTests(unittest.TestCase):
         json.dump({"bytes": 1_760_000_000, "gz_bytes": 410_000_000}, open(path, "w"))
         lines = hs.store_size(path)
         self.assertIn("1.76 GB", lines[0])
-        self.assertTrue(any(":warning:" in l and "split" in l.lower() for l in lines))
+        self.assertEqual(len(lines), 1, "410 MB compressed warns about nothing")
+        json.dump({"bytes": 3_300_000_000, "gz_bytes": 800_000_000}, open(path, "w"))
+        lines = hs.store_size(path)
+        self.assertTrue(any(":warning:" in l and "plan the split" in l.lower() for l in lines))
         json.dump({"bytes": 900_000_000}, open(path, "w"))
         self.assertEqual(len(hs.store_size(path)), 1)
         self.assertIsNone(hs.store_size(path + ".missing"))

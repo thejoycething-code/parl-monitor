@@ -121,7 +121,7 @@ SCHEMA = (
         position     TEXT,               -- aye / no / abstain / present / mission / absent / secret
         grp          TEXT,               -- AT THE VOTE
         PRIMARY KEY (division_key, member_key)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS it_divisions_bill ON it_divisions (bill_key)",
     "CREATE INDEX IF NOT EXISTS it_votes_member ON it_votes (member_key)",
 )

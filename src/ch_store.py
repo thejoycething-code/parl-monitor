@@ -124,7 +124,7 @@ SCHEMA = (
         parl_group   TEXT,               -- AT THE VOTE
         canton       TEXT,
         PRIMARY KEY (division_key, person_number)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS ch_divisions_business ON ch_divisions (business_id)",
     "CREATE INDEX IF NOT EXISTS ch_votes_member ON ch_votes (person_number)",
 )

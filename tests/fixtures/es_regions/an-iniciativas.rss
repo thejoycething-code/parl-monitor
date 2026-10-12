@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+
+
+
+
+
+      
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <atom:link href="https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/utilidades/sindicacionrss.do?contenido=Iniciativas" rel="self" type="application/rss+xml" />
+    <title><![CDATA[Suscripción a iniciativas en tramitación del Parlamento de Andalucía ]]></title>
+    <description><![CDATA[Suscripción a iniciativas en tramitación del Parlamento de Andalucía en base al estándar RSS 2.0]]></description>
+	<link><![CDATA[https://www.parlamentodeandalucia.es/web/guest/sindicacion-rss]]></link>
+	<docs><![CDATA[https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/utilidades/sindicacionrss/sindicacionrssiniciativas]]></docs>	
+	<language>es-es</language>
+	<image>
+	    <url><![CDATA[https://www.parlamentodeandalucia.es/documents/d/guest/img_logo_trans]]></url>
+  		<title>Suscripción a iniciativas en tramitación del Parlamento de Andalucía</title>
+        <link><![CDATA[https://www.parlamentodeandalucia.es/web/guest/sindicacion-rss]]></link>
+    </image>	
+	<ttl>15</ttl>
+	<managingEditor>webmaster@parlamentodeandalucia.es (webmaster Parlamento de Andalucía)</managingEditor>
+	<webMaster>webmaster@parlamentodeandalucia.es (webmaster Parlamento de Andalucía)</webMaster>     
+  	
+			<item>
+				<title><![CDATA[13-26/PPL-000002. Proposición de Ley relativa a acoso y ciberacoso escolar en los centros educativos de Andalucía ]]></title>
+				<link><![CDATA[https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/actividadparlamentaria/todaslasiniciativas/portipo.do?numexp=13-26/PPL-000002&desc=iniciativas&utm_campaign=iniciativas&utm_medium=rss&utm_source=sindicacion&utm_content=exp_13-26/PPL-000002 ]]></link>
+				
+				<pubDate>Tue, 8 Sep 2026 09:00:00 +0200</pubDate>
+				<guid isPermaLink="true"><![CDATA[https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/actividadparlamentaria/todaslasiniciativas/portipo.do?numexp=13-26/PPL-000002&desc=iniciativas&utm_campaign=iniciativas&utm_medium=rss&utm_source=sindicacion&utm_content=exp_13-26/PPL-000002 ]]></guid>
+			</item>
+   	
+			<item>
+				<title><![CDATA[13-26/PPL-000001. Proposición de Ley de modificación de la Ley 3/2005, de 8 de abril, de incompatibilidades y retribuciones del personal Alto Cargo de la Administración de la Junta de Andalucía, para suprimir la indemnización por vivienda y alojamiento ]]></title>
+				<link><![CDATA[https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/actividadparlamentaria/todaslasiniciativas/portipo.do?numexp=13-26/PPL-000001&desc=iniciativas&utm_campaign=iniciativas&utm_medium=rss&utm_source=sindicacion&utm_content=exp_13-26/PPL-000001 ]]></link>
+				
+				<pubDate>Tue, 8 Sep 2026 09:00:00 +0200</pubDate>
+				<guid isPermaLink="true"><![CDATA[https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/actividadparlamentaria/todaslasiniciativas/portipo.do?numexp=13-26/PPL-000001&desc=iniciativas&utm_campaign=iniciativas&utm_medium=rss&utm_source=sindicacion&utm_content=exp_13-26/PPL-000001 ]]></guid>
+			</item>
+   	
+			<item>
+				<title><![CDATA[13-26/ILPA-000001. Iniciativa Legislativa Popular para la recuperación de las cantidades detraídas al personal del sector público andaluz en los ejercicios 2013 y 2014 ]]></title>
+				<link><![CDATA[https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/actividadparlamentaria/todaslasiniciativas/portipo.do?numexp=13-26/ILPA-000001&desc=iniciativas&utm_campaign=iniciativas&utm_medium=rss&utm_source=sindicacion&utm_content=exp_13-26/ILPA-000001 ]]></link>
+				
+				<pubDate>Tue, 7 Jul 2026 09:00:00 +0200</pubDate>
+				<guid isPermaLink="true"><![CDATA[https://www.parlamentodeandalucia.es/webdinamica/portal-web-parlamento/actividadparlamentaria/todaslasiniciativas/portipo.do?numexp=13-26/ILPA-000001&desc=iniciativas&utm_campaign=iniciativas&utm_medium=rss&utm_source=sindicacion&utm_content=exp_13-26/ILPA-000001 ]]></guid>
+			</item>
+ 
+</channel>
+</rss>

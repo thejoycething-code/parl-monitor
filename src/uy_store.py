@@ -136,7 +136,7 @@ SCHEMA = (
         tier          INTEGER,
         first_seen    TEXT,
         PRIMARY KEY (chamber, diario, seq)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS uy_diario_votes_date ON uy_diario_votes (date)",
 )
 

@@ -165,8 +165,9 @@ check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
   outside the overnight window.
 - Compressed publish: VERIFIED 11 October 2026. The store (1.77 GB) uploads
   as `parl-monitor.db.gz`, 431 MB, compressed in 16 s; the raw asset is gone
-  from the release. The size warning fires because the uncompressed store is
-  above 1.6 GB: plan a split before the compressed asset nears 2 GiB.
+  from the release. Since 12 October 2026 the size warnings are on the
+  compressed asset (0.75 GB: plan the split; 1.0 GiB: split now), so they no
+  longer fire; docs/store-split-plan.md.
 - Install Tesseract when wanted (X7; steps in docs/mac-mini.md) to switch on
   the OCR steps.
 - Check the first `vote-briefs-daily` log: can the Mini reach `dati.senato.it`
@@ -188,8 +189,9 @@ combined weekly Asana reading task (needs `asana_pat` in the Mini's
 
 **The store is published compressed (#89).** It had reached 1.76 GB against
 GitHub's 2 GiB per-asset limit; gzip cuts it about 4x and the upload from
-about 15 minutes to 4 or 5. Pushes warn above 1.6 GB uncompressed and refuse
-above 2 GiB. If it keeps growing, the next step is splitting the new
+about 15 minutes to 4 or 5. Pushes warn when the compressed asset passes
+0.75 GB ("plan the split") and 1.0 GiB ("split now"), and refuse above 2 GiB
+(12 October 2026, docs/store-split-plan.md). If it keeps growing, the next step is splitting the new
 countries into their own store file (Chris: "further changes in the future
 if necessary"). On 11 October it was 1.82 GB uncompressed, 446 MB compressed.
 
@@ -215,8 +217,7 @@ publish seen".
 - Waiting for time: Spain's agendas, speeches and sweep fill from 23
   December when the XVI sits.
 - Not yet built: regions and Länder (IT3, AT6, Spain's autonomous
-  communities, Mexico's states); member portraits and party logos (check
-  photo licences first); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
+  communities, Mexico's states); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
   2027); a native read of each language's term list.
 
 ## What exists now
@@ -236,6 +237,7 @@ publish seen".
 | Campaign targets and outcomes (`ca_campaign.py`, the 5CA Evaluate) | yes | no | no | no | **built** 10 Oct (`tools/country_campaign.py`, branch `camp-targets`): open, targets, add, find, outcome, score; targets from confirmed readings only, candidates by vote record until then; petition numbers none yet (UK only) |
 | Member profiles | yes | yes | US yes | no | yes, 23 countries (`profiles/<cc>/`, weekly step; X5 derived and X6 as-listed labelled; HR and CL party history sourced), branch `parity-profiles` |
 | Public vote pages, vote tracker, bill timelines | yes (`mp-votes.html`, devolved, timelines) | yes (`de-votes.html`) | yes (`us-`, `ie-`, `au-votes.html`) | no | **built** 11 Oct (`tools/make_country_votes.py`, src/country_votes.py, branch `ukp-vote-pages`): `partner_site/<cc>-votes.html` for the 22 countries with member or party-group votes, `votes-countries.html` (tracker) and `bill-timelines.html` (watched bills: stages, agenda slots, votes), behind the partner passphrase, weekly in `editions-session-judge`; records only, no for/against before a reading is CONFIRMED; X5 derived and X6 as-listed labelled, non-attached never counted (#80) |
+| Member portraits and party logos | yes (Members API thumbnail on `mp-votes.html`, CC BY 3.0, credit line still to add); logo slot empty by choice | no | no | review cards only | **built** 12 Oct (`src/portraits.py`, `tools/fetch_portraits.py`, `docs/portraits-logos-licences.md`, branch `portraits-logos`): licences checked for every monitored legislature (9 OK with attribution, 12 internal-only, 8 not allowed, 21 unclear); portraits on the vote pages' member cards for **BR and HR** only (cached 96 px thumbnails under `partner_site/portraits/<cc>/`, credit line, never hotlinked), a step in `editions-session-judge`; **no party logos** (trademarks): Wikidata colour chips (`config/party-colours.yaml`) |
 | Member intelligence (interests, cross-party groups, committees, whip lines) | yes (`pull_interests.py`, `load_appgs.py`, `pull_pbc_attendance.py`, `annotate_whips.py`) | part | no | no | **built** 11 Oct (`tools/member_intel.py`, `src/member_intel.py`, branch `ukp-member-intel`), a step of 7 weeklies before the profiles: BR fronts (frentes parlamentares) and organs, NL committee seats and nevenfuncties, CH committees and Interessenbindungen, PL committees, FR committees, délégations and groupes d'études, IT Camera organs, AT committee functions. Groups on our ground flagged by name (`config/member-intel-groups.yaml`) in each profile and a "Groups on our ground" list in each index. Whip: Brazil's orientação de bancada beside each Câmara position (the only published whip). FR HATVP declared interests **built** 11 Oct (branch `fr-hatvp`, `tools/fr_hatvp.py`, monthly, members' own items only). Not built: AT interests, ES (dissolved), AR, CL (stale service), IT Senate (403) |
 | Committee and plenary attendance | yes (`pull_pbc_attendance.py`, bill committees) | no | no | no | **built** 11 Oct (`src/attendance.py`, `tools/country_attendance.py`, branch `ukp2-attendance`), a step of 5 weeklies before the profiles: BR committee and plenary presence register, FR commission présences, CL plenary and committee rolls, NL committee-debate participants ("took part", not a roll), CO plenary (co_attendance), PT plenary roll (added 11 Oct, branch `pt-attendance`: an HTML roll per sitting, not a PDF; 119 XVII sittings, 27,370 marks, every deputy matched to `pt_members` and the member service; motive of each justified absence verbatim; also beside speakers in PT packs); committee-to-bill referrals for BR, FR, NL; plenary vote participation DERIVED from the votes for IT, CH, PL, ES, AR, PE, DO, HU. Shown in profiles and debate packs. Not built: PL, CH, AT, IT committees (none published), PT committees, ES, PE, PA (PDFs) |
 
@@ -666,7 +668,8 @@ Set A BUILT 10 October 2026 (branch `parity-phases-a`; each scope doc's
 "as built" section): French Senate (FR5), Eerste Kamer via web pages (NL4),
 Slovak bill documents (SK6), Swiss Italian texts (CH6), Italy's official
 Camera service (IT2). Set B below covers UY5, BO4, X8 and X7. Still to
-build: regions and Landtage after national (IT3, AT6, PE4).
+build: regions and Landtage after national (IT3, AT6, PE4); Spain's
+regions built 12 October (below).
 
 **Set B, built 10 October 2026 (branch `parity-phases-b`):** X8
 constitutional courts for Colombia (the exhortations file; the Court's
@@ -699,6 +702,24 @@ agendas (26 different sites, PDF or video), consejeros, El Peruano's full-text
 search (client-side behind a bot-manager script; the Filtro form serves the
 same listing in HTML). Cajamarca, Puno, San Martín, Huánuco and Lima
 Metropolitana keep stale gob.pe pages and are covered by the gazette alone.
+
+**Spain's regional parliaments, built 12 October 2026 (branch `regions-es`,
+`docs/spain-regions-scope.md`):** all seventeen communities' laws and
+decree-laws from the BOE's open-data summaries (Spanish for every community;
+153 acts from January to 9 October 2026), plus bills in passage from the
+lists of Andalucía (RSS), Canarias, La Rioja (government bills) and
+Cantabria, classified with `taxonomy-es`; the Corts Valencianes' bills are
+stored but unclassified (Valencian only) and counted as a gap. A "Regional
+parliaments" section in the Spanish edition and one DM line; a step in
+`jobs/es-weekly.sh` (no new job, nothing to install). Blocked: Madrid,
+Navarra and Galicia (Sucuri, Cloudflare and Akamai bot checks, never
+bypassed), Murcia and Extremadura (robots.txt disallows all), País Vasco,
+Illes Balears and Aragón's tramitación base (no answer from the laptop),
+Cataluña (Catalan only, open-data page 500), Castilla y León, Castilla-La
+Mancha and Asturias (no machine-readable bill list). Canarias' open-data API
+sits under a robots-disallowed `/api/`. Waiting on Chris: the proposed terms
+(`concebido`, `apoyo a la familia`: Madrid's Ley 5/2026 on the conceived child
+is missed today) and a Catalan/Valencian list.
 
 ### 7. Campaign tools
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only

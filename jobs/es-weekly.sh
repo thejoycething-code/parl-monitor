@@ -1,7 +1,8 @@
 #!/bin/bash
 # Spain weekly: legislative initiatives, plenary votes with every deputy's
 # position, and deputies of the Congreso de los Diputados
-# (tools/es_rollcalls.py), then publish the raw archive and the store.
+# (tools/es_rollcalls.py), the seventeen regional parliaments' layer
+# (tools/es_regions.py), then publish the raw archive and the store.
 #
 # Called by .github/workflows/es-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh es-weekly. One script, two callers. Both callers fetch
@@ -9,8 +10,9 @@
 # own last step, as mini_run.sh requires.
 #
 #     ES_RECLASSIFY=true    re-derive every stored ES initiative's and
-#                           division's areas, offline, before the pull (after
-#                           config/taxonomy-es.yaml or watchlist-es changes)
+#                           division's areas, and the regional layer's, offline,
+#                           before the pull (after config/taxonomy-es.yaml or
+#                           watchlist-es changes)
 #
 # The first run backfills the XV legislature: 146 voting days and about
 # 3,000 vote files at one request a second. The budget (45 minutes) stops it
@@ -30,12 +32,25 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Spain weekly}"
 if [ "${ES_RECLASSIFY:-}" = "true" ]; then
   python3 tools/es_rollcalls.py --reclassify
+  python3 tools/es_regions.py --reclassify
 fi
 rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/es_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" || rc=$?
+# The third argument keeps 300 s for the regional step below.
+python3 tools/es_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" || rc=$?
+# The regional layer (tools/es_regions.py, docs/spain-regions-scope.md): the
+# seventeen communities' laws from the BOE's open-data summaries and the bills
+# in passage that Andalucía, Canarias, La Rioja, Cantabria and the Corts
+# Valencianes list, into the esr_* tables, for the edition's "Regional
+# parliaments" section. About a minute (one BOE request per issue since the
+# last read, five list pages). Its failure or gaps are [gap] lines, never the
+# run's: the Congreso's store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/es_regions.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \
+    || echo "  [gap] es-regions: the regional layer recorded gaps or failed; last run's rows stand"
+fi
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.
