@@ -145,6 +145,63 @@ class FillTests(FillBase):
         self.assertIn("--fill-directions", tool.__doc__)
 
 
+class LiftedHoldTests(FillBase):
+    """A draft the resync turned into needs_reading when its bill went on
+    hold is redrafted by the rules once the bill is with/against again (12
+    October 2026: four French palliative law votes needed a one-off script)."""
+
+    HOLD = '    direction: hold\n    read_first: "Read it first."\n'
+
+    def setUp(self):
+        super().setUp()
+        self.draft()
+        self.write(self.text().replace("    direction: against\n", self.HOLD, 1))
+        self.assertEqual(c5.resync_directions("pl", self.cfg, log=QUIET), ["pl-10-1-1", "pl-10-1-4"])
+        self.assertEqual(self.entries()["pl-10-1-1"]["status"], "needs_reading")
+
+    def lift(self, direction="with"):
+        self.write(self.text().replace(self.HOLD, "    direction: {0}\n".format(direction), 1))
+
+    def test_a_lifted_hold_redrafts_from_the_rules(self):
+        self.lift("with")
+        self.assertEqual(self.fill(dry_run=True), ["pl-10-1-1", "pl-10-1-4"])
+        self.assertEqual(self.entries()["pl-10-1-1"]["status"], "needs_reading")
+        self.assertEqual(self.fill(), ["pl-10-1-1", "pl-10-1-4"])
+        e = self.entries()
+        self.assertEqual((e["pl-10-1-1"]["status"], e["pl-10-1-1"]["yea"], e["pl-10-1-1"]["nay"]),
+                         ("draft", 2, -2))
+        self.assertEqual((e["pl-10-1-4"]["yea"], e["pl-10-1-4"]["nay"]), (-2, 2))   # a reject vote
+        self.assertNotIn("read_first", e["pl-10-1-1"])
+        self.assertIn("Bill direction on file for 10/2110", e["pl-10-1-1"]["reasoning"])
+        self.assertEqual(c5.auto_report("pl", self.cfg)["pl-10-1-1"], [])
+        self.assertEqual(self.fill(), [])                                  # a second run: nothing
+
+    def test_an_entry_a_person_touched_stays(self):
+        self.lift("against")
+        text = self.text()
+        start = text.index('- key: "pl-10-1-1"')
+        cases = {
+            "read_first edited": ("The direction of 10/2110 is on hold: ",
+                                  "Ana: the direction of 10/2110 is on hold: "),
+            "reasoning edited": ("so nothing is proposed.", "so nothing is proposed. Ana: wait."),
+            "a comment inside": ('    vote_kind: "final"\n', '    vote_kind: "final"\n    # Ana: wait\n'),
+            "a flag": ('    vote_kind: "final"\n', '    vote_kind: "final"\n    flag: "Left for a person"\n'),
+        }
+        for label, (old, new) in cases.items():
+            with self.subTest(label):
+                self.assertIn(old, text[start:])
+                self.write(text[:start] + text[start:].replace(old, new, 1))
+                self.assertNotIn("pl-10-1-1", self.fill())
+                self.assertEqual(self.entries()["pl-10-1-1"]["status"], "needs_reading")
+        self.write(text)
+
+    def test_a_bill_still_on_hold_stays_needs_reading(self):
+        self.assertEqual(self.fill(), [])
+        e = self.entries()["pl-10-1-1"]
+        self.assertEqual((e["status"], e.get("yea")), ("needs_reading", None))
+        self.assertIn("on hold: read it first", e["read_first"])
+
+
 class NeverWaitsTests(FillBase):
     """Collated-only readings (migration) and readings Chris took out of play
     never appear as needing a person."""
