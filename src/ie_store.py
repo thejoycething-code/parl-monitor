@@ -140,7 +140,7 @@ SCHEMA = (
         position     TEXT,               -- 'Yes' (Tá) / 'No' (Níl) / 'Abstain' (Staon)
         party        TEXT,               -- AT THE VOTE, from ie_member_parties; NULL if none covers it
         PRIMARY KEY (division_key, member_code)
-    )""",
+    ) WITHOUT ROWID""",
     # --- phase 2 (9 October 2026): questions, debates, the week ahead -------
     #
     # STORED ON OUR GROUND ONLY. About 8,000 questions and 15,000 utterances

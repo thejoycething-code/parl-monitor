@@ -124,7 +124,7 @@ SCHEMA = (
         party        TEXT,               -- AT THE VOTE: 'R', 'D', 'I'
         state        TEXT,
         PRIMARY KEY (division_key, bioguide)
-    )""",
+    ) WITHOUT ROWID""",
     # THE WEEK AHEAD (tools/us_schedule.py, 9 October 2026). What is
     # scheduled, never what happened: the House floor list, committee
     # hearings and markups in both chambers, and the Senate's next sitting.

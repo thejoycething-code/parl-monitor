@@ -110,7 +110,7 @@ SCHEMA = (
         party        TEXT,               -- AT THE VOTE: the office spell's party
         electorate   TEXT,
         PRIMARY KEY (division_key, person_id)
-    )""",
+    ) WITHOUT ROWID""",
     # One row per Hansard day file read, with the listing's own modified stamp:
     # OpenAustralia re-parses old days (all of June 2026 was rewritten on 25
     # August), so a file is re-read only when its stamp moves.

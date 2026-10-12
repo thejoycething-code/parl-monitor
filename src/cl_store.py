@@ -109,7 +109,7 @@ SCHEMA = (
         position     TEXT,               -- the source's word: 'Afirmativo', 'En Contra', 'Si', 'Pareo'
         party        TEXT,               -- AT THE VOTE (Cámara); at collection (Senado)
         PRIMARY KEY (division_key, member_key)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS cl_divisions_bill ON cl_divisions (boletin)",
     "CREATE INDEX IF NOT EXISTS cl_votes_member ON cl_votes (member_key)",
 )

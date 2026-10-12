@@ -136,7 +136,7 @@ SCHEMA = (
         how          TEXT,               -- 'surname', 'surname+riding', 'initial', 'full-name', or why not
         party_at_vote TEXT,              -- from a term that DATES the party, else NULL
         PRIMARY KEY (division_key, position, ordinal)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS prov_votes_member ON prov_votes (member_key)",
     """CREATE TABLE IF NOT EXISTS prov_bills (
         bill_key     TEXT PRIMARY KEY,   -- '<prov>-<leg>-<sess>/<number>' or '/x-<slug>' if unnumbered
@@ -580,7 +580,11 @@ def refresh_party(conn, prov, resolver, legislature=None, session=None):
     election results) reaches the votes already stored. A vote no dated term
     covers is set back to NULL: never today's party. Returns (resolved votes,
     votes with a party)."""
-    sql = ("SELECT v.rowid, v.member_key, v.party_at_vote, d.date, d.legislature FROM prov_votes v "
+    # Rows are addressed by the primary key (division_key, position, ordinal),
+    # not rowid: prov_votes is WITHOUT ROWID since 12 October 2026
+    # (tools/store_compact.py, docs/store-split-plan.md).
+    sql = ("SELECT v.division_key, v.position, v.ordinal, v.member_key, v.party_at_vote, d.date, "
+           "d.legislature FROM prov_votes v "
            "JOIN prov_divisions d USING (division_key) WHERE d.prov=? AND v.member_key IS NOT NULL")
     args = [prov]
     if legislature is not None:
@@ -590,12 +594,14 @@ def refresh_party(conn, prov, resolver, legislature=None, session=None):
         sql += " AND d.session=?"
         args.append(session)
     n = with_party = 0
-    for rowid, key, have, date, leg in conn.execute(sql, args).fetchall():
+    for dkey, pos, ordinal, key, have, date, leg in conn.execute(sql, args).fetchall():
         party = resolver.party_at(key, date, leg)
         n += 1
         with_party += 1 if party else 0
         if party != have:
-            conn.execute("UPDATE prov_votes SET party_at_vote=? WHERE rowid=?", (party, rowid))
+            conn.execute("UPDATE prov_votes SET party_at_vote=? "
+                         "WHERE division_key=? AND position=? AND ordinal=?",
+                         (party, dkey, pos, ordinal))
     return n, with_party
 
 

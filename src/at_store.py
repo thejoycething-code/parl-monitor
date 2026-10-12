@@ -92,7 +92,7 @@ SCHEMA = (
         klub         TEXT NOT NULL,      -- 'ÖVP', 'SPÖ', 'FPÖ', 'NEOS', 'GRÜNE'
         position     TEXT NOT NULL,      -- 'Dafür' / 'Dagegen'
         PRIMARY KEY (division_key, klub)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS at_divisions_item ON at_divisions (item_key)",
 )
 
