@@ -433,7 +433,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/I/525@XXVIII/NRSITZ/87#205.1"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Amendment only moves a date in the assisted-dying register provision from 1 January to 1 February 2027 for technical reasons."
+    amendment_why: "Amendment only moves a date in the assisted-dying register provision from 1 January to 1 February 2027 for technical reasons."
+    amendment_source: "https://www.parlament.gv.at/dokument/XXVIII/AA/78/imfname_1770498.pdf"
     title: "Abänderungsantrag der Abgeordneten Mag. Johanna Jachs, Mag. Selma Yildirim, Mag. Sophie Marie Wotschke, Kolleginnen und Kollegen (AA-78)"
     "on": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026"
     dated: "2026-07-07"
@@ -444,8 +448,7 @@ divisions:
     result: "angenommen"
     lobbies: "Dafür: FPÖ 57, ÖVP 51, SPÖ 41, NEOS 17. Dagegen: GRÜNE 16 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Abänderungsantrag der Abgeordneten Mag. Johanna Jachs, Mag. Selma Yildirim, Mag. Sophie Marie Wotschke, Kolleginnen und '): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 2 (assisted dying)."
+    reasoning: "Area 2 (assisted dying). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "XXVIII/I/525@XXVIII/NRSITZ/87#210"

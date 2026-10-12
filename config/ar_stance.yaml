@@ -93,7 +93,15 @@ divisions:
 
   # --- drafted 2026-10-10 by tools/country_5ca.py (rules, no AI) ---
   - key: "sen-acta-2480"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Bill raises penalties for receiving, handing over, facilitating or brokering the sale or trafficking of minors, with aggravation for officials; anti-trafficking and child protection."
+    amendment_source: "https://aldiaargentina.microjuris.com/wp-content/uploads/2024/07/proyecto-sustraccion-comercializacion-menores.pdf"
+    amendment_flag: "Read the original bill S-0284/2024; the voted committee text differed in details."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Afirmativo on amendment sen-acta-2480 (Bill raises penalties for receiving, handing over, facilitating or brokering the sale or t): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Negativo on amendment sen-acta-2480 (Bill raises penalties for receiving, handing over, facilitating or brokering the sale or t): for rejecting it, against CitizenGO's position."
     title: "EN GENERAL: Modificación del art. 139 del Código Penal tipificando la sustracción y/o comercialización de menores de edad."
     "on": "Modificación del art. 139 del Código Penal tipificando la sustracción y/o comercialización de menores de edad."
     dated: "2024-07-04"
@@ -103,8 +111,7 @@ divisions:
     result: "AFIRMATIVO; Afirmativo 63, Negativo 0"
     lobbies: "Afirmativo: UCR - UNIÓN CÍVICA RADICAL 13, JUSTICIALISTA 10, LA LIBERTAD AVANZA 9, UNIDAD CIUDADANA 5, FRENTE PRO 5, FRENTE NACIONAL Y POPULAR 3, CONVICCIÓN FEDERAL 3, PROVINCIAS UNIDAS 2, JUSTICIA SOCIAL FEDERAL 2, MOVIMIENTO POR MISIONES 2, MOVERE SANTA CRUZ 2, CAMBIO FEDERAL 1, MOVIMIENTO NEUQUINO 1, ? 1, DESPIERTA CHUBUT 1, INDEPENDENCIA 1, JUNTOS SOMOS RÍO NEGRO 1, SIN ESPECIFICAR 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('EN GENERAL: Modificación del art. 139 del Código Penal tipificando la sustracción y/o comercialización de menores de eda'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 12 (prostitution and trafficking)."
+    reasoning: "Area 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Bill raises penalties for receiving, handing over, facilitating or brokering the sale or trafficking of minors, with aggravation for officials; anti-trafficking and child protection. A Afirmativo here adopts it, so Afirmativo is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sen-acta-2486"

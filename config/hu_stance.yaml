@@ -180,6 +180,8 @@ divisions:
 
   - key: "2026.06.23.10:39:06"
     status: needs_reading
+    amendment_flag: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
+    amendment_why: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
     title: "túlterjeszkedő módosító javaslat szabályszerű"
     "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
@@ -191,11 +193,13 @@ divisions:
     lobbies: "Igen: TISZA 139. Nem: Fidesz 35, Mi Hazánk 6, KDNP 4"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('túlterjeszkedő módosító javaslat szabályszerű'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (T/122: against) does not settle an amendment's."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.06.23.10:40:01"
     status: needs_reading
+    amendment_flag: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
+    amendment_why: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
     title: "bizottsági javaslat túlterjeszkedő módosító javaslat tárgyalására elfogadva"
     "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
@@ -207,11 +211,13 @@ divisions:
     lobbies: "Igen: TISZA 139. Nem: Fidesz 35, Mi Hazánk 6, KDNP 4"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('bizottsági javaslat túlterjeszkedő módosító javaslat tárgyalására elfogadva'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (T/122: against) does not settle an amendment's."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.06.23.10:40:39"
     status: needs_reading
+    amendment_flag: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
+    amendment_why: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
     title: "túlterjeszkedő módosító javaslat elfogadva"
     "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
@@ -223,11 +229,13 @@ divisions:
     lobbies: "Igen: TISZA 139. Nem: Fidesz 35, KDNP 4. Abstain: Mi Hazánk 6"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('túlterjeszkedő módosító javaslat elfogadva'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (T/122: against) does not settle an amendment's."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.06.23.10:41:26"
     status: needs_reading
+    amendment_flag: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
+    amendment_why: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
     title: "módosító javaslat fenntartása elutasítva"
     "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
@@ -239,11 +247,13 @@ divisions:
     lobbies: "Igen: Fidesz 35, Mi Hazánk 6, KDNP 4, TISZA 1. Nem: TISZA 138"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('módosító javaslat fenntartása elutasítva'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (T/122: against) does not settle an amendment's."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.06.23.10:42:16"
     status: needs_reading
+    amendment_flag: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
+    amendment_why: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
     title: "összegző módosító javaslat minősített többséget igénylő része elfogadva"
     "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
@@ -255,11 +265,13 @@ divisions:
     lobbies: "Igen: TISZA 139. Nem: Fidesz 35, KDNP 4. Abstain: Mi Hazánk 6"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('összegző módosító javaslat minősített többséget igénylő része elfogadva'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (T/122: against) does not settle an amendment's."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.06.23.10:42:51"
     status: needs_reading
+    amendment_flag: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
+    amendment_why: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
     title: "összegző módosító javaslat egyszerű többséget igénylő része elfogadva"
     "on": "A gyűlöletkeltésre alkalmas politikai reklámok visszaszorításáról, a gazdasági reklámok településképi illeszkedésének biztosításáról, valamint egyes beruházási szabályok módosításáról"
     dated: "2026-06-23"
@@ -271,7 +283,7 @@ divisions:
     lobbies: "Igen: TISZA 139. Nem: Fidesz 35, KDNP 4. Abstain: Mi Hazánk 6"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('összegző módosító javaslat egyszerű többséget igénylő része elfogadva'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties). The bill's direction (T/122: against) does not settle an amendment's."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.06.23.10:44:01"
@@ -316,6 +328,8 @@ divisions:
 
   - key: "2026.06.30.10:43:59"
     status: needs_reading
+    amendment_flag: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
+    amendment_why: "Official motion text on parlament.hu could not be read because the site showed a bot check, so the amendment content is unknown."
     title: "összegző módosító javaslat elfogadva"
     "on": "A Szuverenitásvédelmi Hivatal megszüntetéséről"
     dated: "2026-06-30"
@@ -327,7 +341,7 @@ divisions:
     lobbies: "Igen: TISZA 135. Nem: Fidesz 38, KDNP 7. Abstain: Mi Hazánk 6"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('összegző módosító javaslat elfogadva'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties)."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2026.06.30.10:44:57"

@@ -250,6 +250,8 @@ divisions:
 
   - key: "56/143/4"
     status: needs_reading
+    amendment_flag: "Amendment text on the Belgian Chamber site was blocked, so it could not be read; it concerns a bill on mourning leave after euthanasia."
+    amendment_why: "Amendment text on the Belgian Chamber site was blocked, so it could not be read; it concerns a bill on mourning leave after euthanasia."
     title: "Aangehouden amendement en artikel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof (nieuw opschrift) (1338/1-9)"
     "on": "Wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof."
     dated: "2026-10-08"
@@ -260,7 +262,7 @@ divisions:
     lobbies: "Ja / Oui: VB 18, PVDA-PTB 14, PS 11, Ecolo-Groen 8, MR 3, DéFI 1. Nee / Non: N-VA 22, Les Engagés 13, Vooruit 12, MR 11, cd&v 9, Anders. 7, INDEP 1. Abstain: PS 4, Ecolo-Groen 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Aangehouden amendement en artikel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van ge'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 2 (assisted dying). The bill's direction (56/1338: against) does not settle an amendment's."
+    reasoning: "Area 2 (assisted dying). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56/143/5"

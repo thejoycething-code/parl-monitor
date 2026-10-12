@@ -105,7 +105,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32239"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Motion to send the double-surname bill back to committee; naming rules for spouses have no CitizenGO stake."
+    amendment_why: "Motion to send the double-surname bill back to committee; naming rules for spouses have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Rückweisungsantrag"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2024-03-14"
@@ -115,12 +119,15 @@ divisions:
     result: "Ja 124, Nein 30, Abstain 33"
     lobbies: "Ja: V 60, S 33, M-E 28, G 2, RL 1. Nein: RL 24, V 5, M-E 1. Abstain: G 20, GL 7, S 6"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Rückweisungsantrag'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32240"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Motion to send the double-surname bill back to committee; naming rules for spouses have no CitizenGO stake."
+    amendment_why: "Motion to send the double-surname bill back to committee; naming rules for spouses have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Rückweisungsantrag"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2024-03-14"
@@ -130,12 +137,15 @@ divisions:
     result: "Ja 154, Nein 2, Abstain 31"
     lobbies: "Ja: V 62, S 39, M-E 29, RL 22, G 2. Nein: V 2. Abstain: G 20, GL 7, RL 3, V 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Rückweisungsantrag'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32241"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Motion to send the double-surname bill back to committee; naming rules for spouses have no CitizenGO stake."
+    amendment_why: "Motion to send the double-surname bill back to committee; naming rules for spouses have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Rückweisungsantrag"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2024-03-14"
@@ -145,12 +155,15 @@ divisions:
     result: "Ja 87, Nein 98, Abstain 2"
     lobbies: "Ja: V 59, M-E 28. Nein: S 39, RL 25, G 22, GL 7, V 5. Abstain: V 1, M-E 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Rückweisungsantrag'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32242"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Motion to send the double-surname bill back to committee; naming rules for spouses have no CitizenGO stake."
+    amendment_why: "Motion to send the double-surname bill back to committee; naming rules for spouses have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Rückweisungsantrag"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2024-03-14"
@@ -160,12 +173,15 @@ divisions:
     result: "Ja 82, Nein 103, Abstain 2"
     lobbies: "Ja: V 54, M-E 28. Nein: S 39, RL 25, G 22, V 9, GL 7, M-E 1. Abstain: V 2"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Rückweisungsantrag'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32243"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Motion to send the double-surname bill back to committee; naming rules for spouses have no CitizenGO stake."
+    amendment_why: "Motion to send the double-surname bill back to committee; naming rules for spouses have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Rückweisungsantrag"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2024-03-14"
@@ -175,12 +191,15 @@ divisions:
     result: "Ja 116, Nein 70"
     lobbies: "Ja: V 63, M-E 29, RL 24. Nein: S 39, G 21, GL 7, V 2, RL 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Rückweisungsantrag'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32783"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Vote on whether to send the double-surname bill back to committee; naming rules have no CitizenGO stake."
+    amendment_why: "Vote on whether to send the double-surname bill back to committee; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Rückweisungsantrag"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2024-06-06"
@@ -190,12 +209,15 @@ divisions:
     result: "Ja 130, Nein 56, Abstain 3"
     lobbies: "Ja: S 37, M-E 28, RL 26, G 22, GL 9, V 8. Nein: V 54, M-E 2. Abstain: V 3"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Rückweisungsantrag'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32784"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Vote on whether to send the double-surname bill back to committee; naming rules have no CitizenGO stake."
+    amendment_why: "Vote on whether to send the double-surname bill back to committee; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Rückweisungsantrag"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2024-06-06"
@@ -205,12 +227,15 @@ divisions:
     result: "Ja 130, Nein 57, Abstain 4"
     lobbies: "Ja: S 40, M-E 26, RL 26, G 22, GL 9, V 7. Nein: V 55, M-E 2. Abstain: M-E 2, V 2"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Rückweisungsantrag'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32785"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Keeps the committee text rather than deleting a double-surname provision in art. 160; marriage naming rules, no CitizenGO stake."
+    amendment_why: "Keeps the committee text rather than deleting a double-surname provision in art. 160; marriage naming rules, no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Art. 160 Abs. 4 (gilt auch für Art. 8abis Abs. 1 SchlT ZGB, Art. 37b Abs. 3 PartG und Art. 2 Abs. 4 AwG)"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2024-06-06"
@@ -220,12 +245,15 @@ divisions:
     result: "Ja 140, Nein 51, Abstain 1"
     lobbies: "Ja: S 39, M-E 30, RL 26, G 22, V 14, GL 9. Nein: V 51. Abstain: S 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 160 Abs. 4 (gilt auch für Art. 8abis Abs. 1 SchlT ZGB, Art. 37b Abs. 3 PartG und Art. 2 Abs. 4 AwG)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32786"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_why: "Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Art. 160a (gilt auch für Art. 270, 270a, 271 Abs. 1 und 2 SchlT Art. 13d sowie Art. 13e und n37c PartG)"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2024-06-06"
@@ -235,12 +263,15 @@ divisions:
     result: "Ja 110, Nein 81, Abstain 1"
     lobbies: "Ja: V 64, M-E 27, RL 19. Nein: S 40, G 22, GL 9, RL 6, M-E 3, V 1. Abstain: RL 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 160a (gilt auch für Art. 270, 270a, 271 Abs. 1 und 2 SchlT Art. 13d sowie Art. 13e und n37c PartG)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32787"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_why: "Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Art. 270 Abs. 2 (gilt auch für Art. 270a Abs. 2)"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2024-06-06"
@@ -250,12 +281,15 @@ divisions:
     result: "Ja 128, Nein 59, Abstain 5"
     lobbies: "Ja: S 40, M-E 26, RL 26, G 22, GL 9, V 5. Nein: V 57, M-E 2. Abstain: V 3, M-E 2"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 270 Abs. 2 (gilt auch für Art. 270a Abs. 2)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32788"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_why: "Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Art. 270a Abs. 5"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2024-06-06"
@@ -265,8 +299,7 @@ divisions:
     result: "Ja 132, Nein 52, Abstain 8"
     lobbies: "Ja: S 40, M-E 26, RL 26, G 22, GL 9, V 9. Nein: V 51, M-E 1. Abstain: V 5, M-E 3"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 270a Abs. 5'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-32789"
@@ -387,7 +420,12 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33377"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Competing minority proposals on the federal income-tax tariff table in article 36 of the individual taxation law; rate detail with no direct CitizenGO stake."
+    amendment_why: "Competing minority proposals on the federal income-tax tariff table in article 36 of the individual taxation law; rate detail with no direct CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/centers/eparl/curia/2024/20240026/N2-33%20D.pdf"
+    amendment_flag: "bill itself is against; tariff detail only"
     title: "Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel)"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2024-09-25"
@@ -398,12 +436,13 @@ divisions:
     result: "Ja 52, Nein 140"
     lobbies: "Ja: S 30, G 22. Nein: V 63, M-E 31, RL 28, GL 9, S 9"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33378"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel)"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2024-09-25"
@@ -415,11 +454,13 @@ divisions:
     lobbies: "Ja: V 64, M-E 31, RL 28, G 22, GL 9. Nein: S 39"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33379"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel)"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2024-09-25"
@@ -431,11 +472,13 @@ divisions:
     lobbies: "Ja: V 64, M-E 30, RL 28. Nein: S 39, G 22, GL 9"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33380"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel)"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2024-09-25"
@@ -447,11 +490,13 @@ divisions:
     lobbies: "Ja: V 64, S 39, G 22, M-E 19, GL 9. Nein: RL 28, M-E 12"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33381"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel)"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2024-09-25"
@@ -463,11 +508,14 @@ divisions:
     lobbies: "Ja: S 39, RL 28, G 22, GL 9. Nein: V 64, M-E 31"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 36 (gilt für alle auf der Fahne aufgeführten Artikel)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33382"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Concerns the entry-into-force and transitional paragraphs of the individual taxation bill; a drafting and timing matter with no direct CitizenGO stake."
+    amendment_why: "Concerns the entry-into-force and transitional paragraphs of the individual taxation bill; a drafting and timing matter with no direct CitizenGO stake."
     title: "Ziffer römisch II Abs. 1 bis 3"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2024-09-25"
@@ -478,8 +526,7 @@ divisions:
     result: "Ja 99, Nein 94"
     lobbies: "Ja: S 39, RL 28, G 22, GL 9, V 1. Nein: V 63, M-E 31"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Ziffer römisch II Abs. 1 bis 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33383"
@@ -502,7 +549,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33649"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Pharmaceutical price-model provisions in the health-insurance cost-containment package; the abortion tag looks spurious and there is no CitizenGO stake."
+    amendment_why: "Pharmaceutical price-model provisions in the health-insurance cost-containment package; the abortion tag looks spurious and there is no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220062"
     title: "Art. 52c (gilt auch für Ziff. II 1. IVG Art. 14quinquies Abs. 2-4, Übergangsbestimmung Abs. 1; Ziff. III Abs. 5)"
     "on": "Bundesgesetz über die Krankenversicherung (KVG) (Massnahmen zur Kostendämpfung – Paket 2)"
     dated: "2024-12-09"
@@ -512,12 +563,15 @@ divisions:
     result: "Ja 82, Nein 105, Abstain 2"
     lobbies: "Ja: S 38, G 23, V 19, M-E 2. Nein: V 44, RL 27, M-E 25, GL 9. Abstain: S 1, V 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 52c (gilt auch für Ziff. II 1. IVG Art. 14quinquies Abs. 2-4, Übergangsbestimmung Abs. 1; Ziff. III Abs. 5)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion)."
+    reasoning: "Area 1 (abortion). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33650"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Pharmaceutical price-model provisions in the health-insurance cost-containment package; the abortion tag looks spurious and there is no CitizenGO stake."
+    amendment_why: "Pharmaceutical price-model provisions in the health-insurance cost-containment package; the abortion tag looks spurious and there is no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220062"
     title: "Art. 52d Abs. 1 (gilt auch für Ziffer II 1. IVG Art. 14sexies Abs. 1)"
     "on": "Bundesgesetz über die Krankenversicherung (KVG) (Massnahmen zur Kostendämpfung – Paket 2)"
     dated: "2024-12-09"
@@ -527,12 +581,15 @@ divisions:
     result: "Ja 82, Nein 105, Abstain 2"
     lobbies: "Ja: S 38, G 23, V 19, M-E 2. Nein: V 44, RL 27, M-E 25, GL 9. Abstain: S 1, V 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 52d Abs. 1 (gilt auch für Ziffer II 1. IVG Art. 14sexies Abs. 1)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion)."
+    reasoning: "Area 1 (abortion). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33651"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Pharmaceutical price-model provisions in the health-insurance cost-containment package; the abortion tag looks spurious and there is no CitizenGO stake."
+    amendment_why: "Pharmaceutical price-model provisions in the health-insurance cost-containment package; the abortion tag looks spurious and there is no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220062"
     title: "Art. 52d Abs. 1 (gilt auch für Ziffer II 1. IVG Art. 14sexies Abs. 1)"
     "on": "Bundesgesetz über die Krankenversicherung (KVG) (Massnahmen zur Kostendämpfung – Paket 2)"
     dated: "2024-12-09"
@@ -542,12 +599,15 @@ divisions:
     result: "Ja 117, Nein 71, Abstain 1"
     lobbies: "Ja: S 39, M-E 27, G 23, V 19, GL 9. Nein: V 44, RL 27. Abstain: V 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 52d Abs. 1 (gilt auch für Ziffer II 1. IVG Art. 14sexies Abs. 1)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion)."
+    reasoning: "Area 1 (abortion). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33652"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Pharmaceutical price-model provisions in the health-insurance cost-containment package; the abortion tag looks spurious and there is no CitizenGO stake."
+    amendment_why: "Pharmaceutical price-model provisions in the health-insurance cost-containment package; the abortion tag looks spurious and there is no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220062"
     title: "Art. 52d Abs. 2bis (gilt auch für Ziff. II 1. IVG Art. 14ter Abs. 3 Bst. bbis, Art. 14sexies Abs. 2bis )"
     "on": "Bundesgesetz über die Krankenversicherung (KVG) (Massnahmen zur Kostendämpfung – Paket 2)"
     dated: "2024-12-09"
@@ -557,12 +617,15 @@ divisions:
     result: "Ja 109, Nein 79, Abstain 1"
     lobbies: "Ja: S 39, M-E 27, G 23, V 20. Nein: V 43, RL 27, GL 9. Abstain: V 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 52d Abs. 2bis (gilt auch für Ziff. II 1. IVG Art. 14ter Abs. 3 Bst. bbis, Art. 14sexies Abs. 2bis )'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion)."
+    reasoning: "Area 1 (abortion). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33653"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Pharmaceutical price-model provisions in the health-insurance cost-containment package; the abortion tag looks spurious and there is no CitizenGO stake."
+    amendment_why: "Pharmaceutical price-model provisions in the health-insurance cost-containment package; the abortion tag looks spurious and there is no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20220062"
     title: "Art. 52e (gilt auch für Ziff. II 1. IVG Art. 14septies, Art. 4octies, Übergangsbestimmung Abs. 2-3 Ziff. III Abs. 5bis und 5ter und Entwurf 2)"
     "on": "Bundesgesetz über die Krankenversicherung (KVG) (Massnahmen zur Kostendämpfung – Paket 2)"
     dated: "2024-12-09"
@@ -572,12 +635,14 @@ divisions:
     result: "Ja 148, Nein 40, Abstain 1"
     lobbies: "Ja: S 39, RL 27, M-E 27, V 23, G 23, GL 9. Nein: V 40. Abstain: V 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 52e (gilt auch für Ziff. II 1. IVG Art. 14septies, Art. 4octies, Übergangsbestimmung Abs. 2-3 Ziff. III Abs. 5bis u'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion)."
+    reasoning: "Area 1 (abortion). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33654"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Early intervention for autism under the disability insurance law; unrelated to CitizenGO's areas (the abortion label looks mistaken)."
+    amendment_why: "Early intervention for autism under the disability insurance law; unrelated to CitizenGO's areas (the abortion label looks mistaken)."
     title: "Art. 13a Abs. 3"
     "on": "Bundesgesetz über die Invalidenversicherung IVG (Intensive Frühintervention bei Autismus-Spektrum-Störungen, IFI). Änderung"
     dated: "2024-12-09"
@@ -587,8 +652,7 @@ divisions:
     result: "Ja 122, Nein 63"
     lobbies: "Ja: S 39, RL 26, M-E 25, G 23, GL 9. Nein: V 60, M-E 2, RL 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 13a Abs. 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion)."
+    reasoning: "Area 1 (abortion). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-33655"
@@ -678,6 +742,8 @@ divisions:
 
   - key: "sr-7254"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 33 Abs. 3bis DBG"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-03-04"
@@ -689,11 +755,13 @@ divisions:
     lobbies: "Ja: RL 10, S 9, G 3, GL 1. Nein: M-E 14, V 7. Abstain: M-E 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 33 Abs. 3bis DBG'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7255"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 33b Abs. 1 + 2 DBG"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-03-04"
@@ -705,11 +773,13 @@ divisions:
     lobbies: "Ja: M-E 15, RL 10, V 7. Nein: S 9, G 3, GL 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 33b Abs. 1 + 2 DBG'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7279"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 36 Abs. 1 DBG"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-03-10"
@@ -721,11 +791,13 @@ divisions:
     lobbies: "Ja: M-E 15, V 7. Nein: RL 11, S 8, G 3, GL 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 36 Abs. 1 DBG'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7280"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 36 Abs. 1 DBG"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-03-10"
@@ -737,11 +809,13 @@ divisions:
     lobbies: "Ja: RL 10, M-E 4, V 1. Nein: M-E 11, S 8, V 6, G 3, GL 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 36 Abs. 1 DBG'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7281"
     status: needs_reading
+    amendment_flag: "Concept motion on tax procedure (joint filing and assessment) under the individual taxation bill; effect on married couples unclear and full text not read."
+    amendment_why: "Concept motion on tax procedure (joint filing and assessment) under the individual taxation bill; effect on married couples unclear and full text not read."
     title: "Konzeptantrag Würth. DBG: Art. 110 Abs. 2, Art. 114 Abs. 1, Art. 132a (neu), Art. 140a (neu), Art. 147 Abs. 1 Bst. d (neu), Art. 151 Abs. 3 (neu). StHG: Art. 39 Abs. 1, Art. 48 Abs. 1, Art. 50 Abs. 1, Art. 51 Abs. 1 Bst. d (neu), Art. 53 Ab"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-03-10"
@@ -753,11 +827,13 @@ divisions:
     lobbies: "Ja: M-E 14, RL 10, V 7, G 1. Nein: S 9, G 2, GL 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Konzeptantrag Würth. DBG: Art. 110 Abs. 2, Art. 114 Abs. 1, Art. 132a (neu), Art. 140a (neu), Art. 147 Abs. 1 Bst. d (ne'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7282"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 124 Abs. 1bis DBG"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-03-10"
@@ -769,7 +845,7 @@ divisions:
     lobbies: "Ja: RL 9, M-E 3. Nein: M-E 11, S 9, V 7, G 3, GL 1, RL 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 124 Abs. 1bis DBG'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7283"
@@ -860,6 +936,8 @@ divisions:
 
   - key: "nr-34359"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 33b (gilt auch für 35 Abs. 1 Bst. a und b, Art. 36 Abs. 2bis DBG sowie Art. 9a StHG"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-05-07"
@@ -871,11 +949,13 @@ divisions:
     lobbies: "Ja: S 41, M-E 29, RL 26, G 23, GL 11. Nein: V 66"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 33b (gilt auch für 35 Abs. 1 Bst. a und b, Art. 36 Abs. 2bis DBG sowie Art. 9a StHG'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-34360"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 110 Abs. 2 und 3 (gilt auch für Art. 114 Abs. 1, Art. 132a, Art. 140a, Art. 147 Abs 1 Einleitungssatz, Bst. d, Abs. 2 und Art. 151 Abs. 3 DBG sowie Art. 39 Abs. 1 und 1bis, Art. 48 Abs. 1, Art. 50 Abs. 1, Art. 51 Abs. 1 Bst. d und Abs."
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-05-07"
@@ -887,11 +967,13 @@ divisions:
     lobbies: "Ja: S 41, M-E 29, RL 26, G 23, GL 11. Nein: V 66"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 110 Abs. 2 und 3 (gilt auch für Art. 114 Abs. 1, Art. 132a, Art. 140a, Art. 147 Abs 1 Einleitungssatz, Bst. d, Abs.'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-34361"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 36 Abs. 1 (gilt auch für Art. 205g Abs. 3)"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-05-07"
@@ -903,11 +985,19 @@ divisions:
     lobbies: "Ja: S 41, RL 26, G 23, GL 11. Nein: V 66, M-E 29"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 36 Abs. 1 (gilt auch für Art. 205g Abs. 3)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-34363"
-    status: needs_reading
+    status: draft
+    amendment_direction: "against"
+    amendment_why: "Majority recommends that voters accept the individual taxation initiative, which the bill_direction marks as against CitizenGO's pro-marriage stance; a Yes adopts that recommendation."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026"
+    amendment_flag: "Recommendation vote; direction inferred from the bill-level call and the Curia Vista summary, text of the decree not read in full."
+    yea: -2
+    nay: 2
+    why_yea: "Voted Ja on amendment nr-34363 (Majority recommends that voters accept the individual taxation initiative, which the bill_): for adopting it, against CitizenGO's position."
+    why_nay: "Voted Nein on amendment nr-34363 (Majority recommends that voters accept the individual taxation initiative, which the bill_): for rejecting it, with CitizenGO's position."
     title: "Art. 2"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-05-07"
@@ -918,12 +1008,13 @@ divisions:
     result: "Ja 98, Nein 96"
     lobbies: "Ja: S 39, RL 26, G 22, GL 11. Nein: V 66, M-E 30"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment reading on file: adopting it is AGAINST us -- Majority recommends that voters accept the individual taxation initiative, which the bill_direction marks as against CitizenGO's pro-marriage stance; a Yes adopts that recommendation. A Ja here adopts it, so Ja is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7403"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 33b DBG (ebenso Art. 35 Abs. 1 Bst. a und b, Abs. 4, Art. 36 Abs. 2bis DBG sowie Art. 9a StHG)"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-06-03"
@@ -935,11 +1026,13 @@ divisions:
     lobbies: "Ja: M-E 15, V 7. Nein: RL 11, S 8, G 3, GL 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 33b DBG (ebenso Art. 35 Abs. 1 Bst. a und b, Abs. 4, Art. 36 Abs. 2bis DBG sowie Art. 9a StHG)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7404"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 36 Abs. 1 DBG (ebenso Art. 205g Abs. 3)"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-06-03"
@@ -951,11 +1044,13 @@ divisions:
     lobbies: "Ja: RL 11, S 8, G 3, GL 1. Nein: M-E 15, V 7"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 36 Abs. 1 DBG (ebenso Art. 205g Abs. 3)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7405"
     status: needs_reading
+    amendment_flag: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
+    amendment_why: "Competing options on the tax tariff or deduction detail of individual taxation; the family-policy effect pulls both ways and I did not read the full Fahne text, so no safe call."
     title: "Art. 110 Abs. 2 und 3 DGB (gilt auch für Art. 114 Abs. 1, 132a, 140a, 147 Abs. 1 Einleitungssatz, Bst. d, Abs. 2 zweiter Satz, 151 Abs. 3 DBG sowie Art. 39 Abs. 1 und 1bis, 48 Abs. 1, 50 Abs. 1, 51 Abs. 1 Bst. d und Abs. 2, 53 Abs. 1 und 1b"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-06-03"
@@ -967,11 +1062,19 @@ divisions:
     lobbies: "Ja: M-E 15, V 7. Nein: RL 11, S 8, G 3, GL 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 110 Abs. 2 und 3 DGB (gilt auch für Art. 114 Abs. 1, 132a, 140a, 147 Abs. 1 Einleitungssatz, Bst. d, Abs. 2 zweiter'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7406"
-    status: needs_reading
+    status: draft
+    amendment_direction: "against"
+    amendment_why: "Council of States majority, following the National Council, recommends accepting the individual taxation initiative, which is against CitizenGO's pro-marriage stance; a Yes adopts that recommendation."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026"
+    amendment_flag: "Recommendation vote; direction inferred from the bill-level call, decree text not read in full."
+    yea: -2
+    nay: 2
+    why_yea: "Voted Ja on amendment sr-7406 (Council of States majority, following the National Council, recommends accepting the indiv): for adopting it, against CitizenGO's position."
+    why_nay: "Voted Nein on amendment sr-7406 (Council of States majority, following the National Council, recommends accepting the indiv): for rejecting it, with CitizenGO's position."
     title: "Art. 2"
     "on": "«Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indirekter Gegenvorschlag (Bundesgesetz über die Individualbesteuerung)"
     dated: "2025-06-03"
@@ -982,8 +1085,7 @@ divisions:
     result: "Ja; Ja 23, Nein 22"
     lobbies: "Ja: RL 11, S 8, G 3, GL 1. Nein: M-E 15, V 7"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment reading on file: adopting it is AGAINST us -- Council of States majority, following the National Council, recommends accepting the individual taxation initiative, which is against CitizenGO's pro-marriage stance; a Yes adopts that recommendation. A Ja here adopts it, so Ja is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-34676"
@@ -1119,7 +1221,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7706"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_why: "Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Art. 160 (gilt auch für die Bestimmungen in der Klammer)"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2025-09-23"
@@ -1129,12 +1235,15 @@ divisions:
     result: "nein; Ja 17, Nein 27"
     lobbies: "Ja: S 7, RL 4, G 3, GL 1, M-E 1, V 1. Nein: M-E 14, V 6, RL 6, S 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 160 (gilt auch für die Bestimmungen in der Klammer)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7707"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_why: "Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Art. 160 (gilt auch für die Bestimmungen in der Klammer)"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2025-09-23"
@@ -1144,12 +1253,15 @@ divisions:
     result: "ja; Ja 30, Nein 14"
     lobbies: "Ja: M-E 15, V 6, RL 6, S 3. Nein: S 5, RL 4, G 3, GL 1, V 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 160 (gilt auch für die Bestimmungen in der Klammer)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7708"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_why: "Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Art. 160 (gilt auch für die Bestimmungen in der Klammer)"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2025-09-23"
@@ -1159,8 +1271,7 @@ divisions:
     result: "ja; Ja 36, Nein 7, Abstain 1"
     lobbies: "Ja: M-E 14, RL 10, S 8, G 3, GL 1. Nein: V 6, M-E 1. Abstain: V 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 160 (gilt auch für die Bestimmungen in der Klammer)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-7709"
@@ -1183,6 +1294,8 @@ divisions:
 
   - key: "nr-34993"
     status: needs_reading
+    amendment_flag: "Detail of survivors' pension reform under the AHV (widows and widowers, benefits for children); a family-policy question, but direction pulls both ways and text not read, so no safe call."
+    amendment_why: "Detail of survivors' pension reform under the AHV (widows and widowers, benefits for children); a family-policy question, but direction pulls both ways and text not read, so no safe call."
     title: "Art. 22ter (gilt auch für Art. 33bis Abs. 5, Art. 35ter, Art. 37bis, Art. 40 Abs. 3, Art. 41 Abs. 1, Art. 43 Abs. 3, Ziff. II 1. IVG Art. 40 Abs. 2, 2a. BVG Art. 17 und Übergangsbestimmung, Ziff. III Abs. 4)"
     "on": "Änderung des Bundesgesetzes über die Alters- und Hinterlassenenversicherung (Anpassung der Hinterlassenenrenten)"
     dated: "2025-09-24"
@@ -1193,11 +1306,13 @@ divisions:
     lobbies: "Ja: V 61, M-E 30, RL 26, GL 9. Nein: S 41, G 23, V 1, M-E 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 22ter (gilt auch für Art. 33bis Abs. 5, Art. 35ter, Art. 37bis, Art. 40 Abs. 3, Art. 41 Abs. 1, Art. 43 Abs. 3, Zif'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion)."
+    reasoning: "Area 1 (abortion). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-34995"
     status: needs_reading
+    amendment_flag: "Detail of survivors' pension reform under the AHV (widows and widowers, benefits for children); a family-policy question, but direction pulls both ways and text not read, so no safe call."
+    amendment_why: "Detail of survivors' pension reform under the AHV (widows and widowers, benefits for children); a family-policy question, but direction pulls both ways and text not read, so no safe call."
     title: "Art. 35 (gilt auch für Ziff. II 1. IVG Art. 37 Abs. 1bis und Übergangsbestimmung, Ziff. III Abs. 5)"
     "on": "Änderung des Bundesgesetzes über die Alters- und Hinterlassenenversicherung (Anpassung der Hinterlassenenrenten)"
     dated: "2025-09-24"
@@ -1208,11 +1323,13 @@ divisions:
     lobbies: "Ja: V 58, RL 26, GL 9. Nein: S 41, G 23, V 7. Abstain: M-E 31, V 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 35 (gilt auch für Ziff. II 1. IVG Art. 37 Abs. 1bis und Übergangsbestimmung, Ziff. III Abs. 5)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion)."
+    reasoning: "Area 1 (abortion). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-34996"
     status: needs_reading
+    amendment_flag: "Detail of survivors' pension reform under the AHV (widows and widowers, benefits for children); a family-policy question, but direction pulls both ways and text not read, so no safe call."
+    amendment_why: "Detail of survivors' pension reform under the AHV (widows and widowers, benefits for children); a family-policy question, but direction pulls both ways and text not read, so no safe call."
     title: "Art. 35 (gilt auch für Ziff. II 1. IVG Art. 37 Abs. 1bis und Übergangsbestimmung, Ziff. III Abs. 5)"
     "on": "Änderung des Bundesgesetzes über die Alters- und Hinterlassenenversicherung (Anpassung der Hinterlassenenrenten)"
     dated: "2025-09-24"
@@ -1223,11 +1340,13 @@ divisions:
     lobbies: "Ja: V 64, RL 26. Nein: S 41, G 23, GL 10, V 2, M-E 2. Abstain: M-E 29"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 35 (gilt auch für Ziff. II 1. IVG Art. 37 Abs. 1bis und Übergangsbestimmung, Ziff. III Abs. 5)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion)."
+    reasoning: "Area 1 (abortion). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-34997"
     status: needs_reading
+    amendment_flag: "Detail of survivors' pension reform under the AHV (widows and widowers, benefits for children); a family-policy question, but direction pulls both ways and text not read, so no safe call."
+    amendment_why: "Detail of survivors' pension reform under the AHV (widows and widowers, benefits for children); a family-policy question, but direction pulls both ways and text not read, so no safe call."
     title: "Art. 35 (gilt auch für Ziff. II 1. IVG Art. 37 Abs. 1bis und Übergangsbestimmung, Ziff. III Abs. 5)"
     "on": "Änderung des Bundesgesetzes über die Alters- und Hinterlassenenversicherung (Anpassung der Hinterlassenenrenten)"
     dated: "2025-09-24"
@@ -1238,7 +1357,7 @@ divisions:
     lobbies: "Ja: V 64, RL 26. Nein: S 41, G 22, GL 10. Abstain: M-E 31, V 2"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Art. 35 (gilt auch für Ziff. II 1. IVG Art. 37 Abs. 1bis und Übergangsbestimmung, Ziff. III Abs. 5)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion)."
+    reasoning: "Area 1 (abortion). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-35087"
@@ -1278,7 +1397,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-35377"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_why: "Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Proposition de la commission (maintenir)"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2025-12-16"
@@ -1288,12 +1411,15 @@ divisions:
     result: "Ja 115, Nein 71, Abstain 2"
     lobbies: "Ja: S 38, RL 25, G 23, M-E 17, GL 11, V 1. Nein: V 60, M-E 11. Abstain: M-E 1, V 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Proposition de la commission (maintenir)'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-8081"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_why: "Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Art. 30a"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2026-03-04"
@@ -1303,12 +1429,15 @@ divisions:
     result: "ja; Ja 25, Nein 19"
     lobbies: "Ja: M-E 14, V 7, S 2, RL 2. Nein: RL 10, S 5, G 3, GL 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 30a'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-8082"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_why: "Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Art. 30a"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2026-03-04"
@@ -1318,12 +1447,15 @@ divisions:
     result: "ja; Ja 24, Nein 19, Abstain 1"
     lobbies: "Ja: M-E 14, V 7, S 3. Nein: RL 12, G 3, S 3, GL 1. Abstain: S 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 30a'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-35734"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_why: "Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Art. 30a, Art. 119, Art. 160 Titre, al. 2, 2bis et 3, Art. 160 Titre, al. 2, 2bis et 3, Art. 160b, Art. 270, al. 1-3, Art. 270a, al. 1 à 5, Tit. fin. art. 8a, Tit. fin. art. 8abis, al. 1 et 1bis, Loi sur les documents d’identité, Loi sur le"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2026-03-11"
@@ -1333,12 +1465,15 @@ divisions:
     result: "Ja 111, Nein 76, Abstain 1"
     lobbies: "Ja: S 36, RL 26, G 22, M-E 16, GL 11. Nein: V 63, M-E 13. Abstain: M-E 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Art. 30a, Art. 119, Art. 160 Titre, al. 2, 2bis et 3, Art. 160 Titre, al. 2, 2bis et 3, Art. 160b, Art. 270, al. 1-3, Ar'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "sr-8156"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_why: "Procedural or detail vote on the double-surname law for spouses and children; naming rules have no CitizenGO stake."
+    amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523"
     title: "Abstimmung über alle noch offenen Bestimmungen"
     "on": "Schweizerisches Zivilgesetzbuch (Doppelnamen bei der Eheschliessung)"
     dated: "2026-03-16"
@@ -1348,8 +1483,7 @@ divisions:
     result: "ja; Ja 25, Nein 17"
     lobbies: "Ja: RL 11, M-E 7, G 3, S 2, GL 1, V 1. Nein: V 6, M-E 6, S 5"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Abstimmung über alle noch offenen Bestimmungen'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "nr-35942"
