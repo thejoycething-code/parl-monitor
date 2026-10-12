@@ -25,5 +25,21 @@ bills:
 # norms, keyed by pe_regional_norms.norm_key ('<region>/<kind>/<n>-<year>',
 # e.g. 'arequipa/ordenanza/561-2026'; docs/peru-regions-scope.md), never the
 # title. Read by tools/pe_regions.py (a watched norm is tier 1 with these
-# areas) and by the Latam monitor (always shown). Empty until Chris names one.
-regional: {}
+# areas) and by the Latam monitor (always shown).
+# Seeded 12 October 2026 (Chris: "Seed from what's on our ground"), keys
+# from a run of tools/pe_regions.py that day; docs/country-decisions-2026-10-12.md.
+regional:
+  "arequipa/ordenanza/538-2025": {areas: [6],
+                                  why: "Arequipa: implementing educación sexual integral (ESI) in education, health and community spaces."}
+  "arequipa/ordenanza/561-2026": {areas: [9],
+                                  why: "Arequipa: a regional board on child and early forced marriages and unions (MUITF)."}
+  "ayacucho/ordenanza/19-2025": {areas: [9],
+                                 why: "Ayacucho: implementing Ley 31945, which bans the marriage of minors."}
+  "ayacucho/ordenanza/21-2025": {areas: [9],
+                                 why: "Ayacucho: the second ordinance on implementing Ley 31945 (no marriage under 18)."}
+  "cusco/ordenanza/281-2026": {areas: [1, 5],
+                               why: "Cusco: makes sexual and reproductive rights, with a gender approach, a regional priority."}
+  "huancavelica/ordenanza/551-2025": {areas: [1],
+                                      why: "Huancavelica: regional policy to prevent adolescent pregnancy (the usual route for ESI and contraception)."}
+  "moquegua/ordenanza/1-2018": {areas: [5],
+                                why: "Moquegua: gender mainstreaming (enfoque de género) across the regional government."}

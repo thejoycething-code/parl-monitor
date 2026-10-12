@@ -59,6 +59,34 @@ bills:
 # --- regional councils (IT3, 12 October 2026) ------------------------------
 # Acts of the regional councils read by tools/it_regions.py, by it_reg_acts
 # key: '<region>/<legislature>/<council id>' ('lom/XII/pdl-212',
-# 'mar/XII/pdl-8', 'cam/XII/35320', 'tn/XVII/at3007878'). Empty until Chris
-# names some (docs/italy-regions-scope.md, "Waiting on Chris").
-regional: {}
+# 'mar/XII/pdl-8', 'cam/XII/35320', 'tn/XVII/at3007878').
+# Seeded 12 October 2026 (Chris: "Seed from what's on our ground"), keys
+# from a run of tools/it_regions.py that day; docs/country-decisions-2026-10-12.md.
+regional:
+  # Assisted dying: the "Liberi Subito" text (Associazione Luca Coscioni), tabled council by council.
+  "lom/XII/pdl-56": {areas: [2],
+                     why: "Liberi Subito in Lombardia: procedures and deadlines for regional assisted suicide. Rejected in committee (closed); kept so a revival shows."}
+  "cam/XII/35320": {areas: [2],
+                    why: "Campania: regional organisation of medically assisted suicide under Constitutional Court rulings 242/2019, 135/2024 and 204/2025."}
+  "cam/XII/35375": {areas: [2],
+                    why: "Campania's second assisted-suicide bill: the regional health service's arrangements under the Court's rulings."}
+  "mar/XII/pdl-8": {areas: [2],
+                    why: "Liberi Subito in Marche: procedures and deadlines for regional assisted suicide."}
+  "tn/XVII/at3007878": {areas: [2],
+                        why: "Liberi Subito in Trento: provincial assisted-suicide procedures; before the competent committee."}
+  # Bioethics.
+  "lom/XII/pdl-212": {areas: [10],
+                      why: "Lombardia: fertility preservation and access to freezing reproductive cells (gamete freezing); tabled 2 October 2026."}
+  # Abortion and the consultori.
+  "mar/XII/pdl-25": {areas: [1],
+                     why: "Marche: rules on the consultori familiari, where abortion certificates are issued and pro-life volunteers work."}
+  "mar/XII/pdl-42": {areas: [1],
+                     why: "Marche: reform of the consultori familiari (the second bill)."}
+  # Gender and sexuality education.
+  "lom/XII/pdl-179": {areas: [5, 6],
+                      why: "Lombardia: regional programmes of education in gender equality, affectivity and sexuality in schools."}
+  "mar/XII/pdl-11": {areas: [5, 6],
+                     why: "Marche: the same gender, affectivity and sexuality education bill."}
+  # Pro-life support.
+  "tn/XVII/at1818269": {areas: [1],
+                        why: "Trento motion: one or more 'culle per la vita' (safe baby boxes) in the province; with us."}

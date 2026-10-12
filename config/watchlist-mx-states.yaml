@@ -9,4 +9,32 @@
 #     chih/LXVIII/774:
 #       areas: [1]
 #       why: "PAN reform of the Código Penal on abortion."
-items: {}
+#
+# Seeded 12 October 2026 (Chris: "Seed from what's on our ground"), keys
+# from a run of tools/mxs_collect.py that day; docs/country-decisions-2026-10-12.md.
+# To add when first collected (older than the readers' window that day):
+# Chihuahua's ECOSIG penal chapter (Nov 2024) and the PAN "Ley para Prevenir
+# el Aborto" (Apr 2025); Oaxaca's ILE punto de acuerdo (Oct 2025).
+items:
+  chis/LXIX/1067: {areas: [1],
+                   why: "Chiapas: Ley de Interrupción Legal del Embarazo de Niñas y Adolescentes (abortion for minors); approved."}
+  chis/LXIX/1014: {areas: [4],
+                   why: "Chiapas: Código Penal offence banning conversion therapies (ECOSIG); approved."}
+  chis/LXIX/1141: {areas: [5],
+                   why: "Chiapas: Código Civil recognition of self-perceived gender identity; approved (1142 is a twin bill)."}
+  chis/LXIX/1047: {areas: [2],
+                   why: "Chiapas: Ley de Voluntad Anticipada (advance directives, end of life); approved."}
+  yuc/be6ae5: {areas: [1],
+               why: "Yucatán: decriminalising abortion in the Código Penal and the Ley de Salud; in committee."}
+  yuc/7ee1d2: {areas: [1],
+               why: "Yucatán: the second abortion decriminalisation and reproductive-health bill; in committee."}
+  yuc/d59e1d: {areas: [5, 9],
+               why: "Yucatán: gender identity in the state Constitution and the Código de Familia; in committee."}
+  sin/1685: {areas: [5],
+             why: "Sinaloa: Ley Estatal de Acceso Integral a los Derechos de las Personas Trans."}
+  sin/1247: {areas: [2],
+             why: "Sinaloa: Ley de Voluntad Anticipada."}
+  chih/LXVIII/1094: {areas: [2],
+                     why: "Chihuahua: Ley de Voluntad Anticipada and Ley Estatal de Salud changes; pending."}
+  oax/LXVI/1731: {areas: [5, 7],
+                  why: "Oaxaca: Código Penal chapter on hate crimes for sexual orientation and gender identity (speech risk); in study."}
