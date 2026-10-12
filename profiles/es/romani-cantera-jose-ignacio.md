@@ -8,6 +8,14 @@ Spain, Congreso de los Diputados. From the parliamentary monitor's store; positi
 - **Status:** not on the source's current list
 - **Source id:** `Romaní Cantera, José Ignacio`
 
+## Length of service
+
+- **Last period ended:** 8 June 2026
+- **Periods:** 16 August 2023 to 8 June 2026 (Congreso de los Diputados; legislature 15; Grupo Parlamentario Popular en el Congreso); 24 August 2022 to 30 May 2023 (Congreso de los Diputados; legislature 14; Grupo Parlamentario Popular en el Congreso); 26 February 2019 to 5 March 2019 (Congreso de los Diputados; legislature 12; Grupo Parlamentario Popular en el Congreso)
+- **What the source covers:** every seat in the Congreso since the Constituent legislature (1977). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: Grupo Parlamentario Popular en el Congreso (26 February 2019 to 5 March 2019); Grupo Parlamentario Popular en el Congreso (25 August 2022 to 30 May 2023); Grupo Parlamentario Popular en el Congreso (18 August 2023 to 8 June 2026).
+
 ## Party history
 
 - Recorded at votes in the store: GP (first 19 September 2023, last 28 May 2026).
@@ -21,11 +29,11 @@ The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 30 Apr 2026 | Sí | GP (at the vote) | [Votación conjunta de las enmiendas a la totalidad de devolución al Proyecto de reforma del artículo 43 de la Constitución Española, present…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=30/04/2026) · **watched** | abortion, tier 1 |
+| 30 Apr 2026 | Sí | GP (at the vote) | [Votación conjunta de las enmiendas a la totalidad de devolución al Proyecto de reforma del artículo 43 de la Constitución Española, present…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=30/04/2026) · **watched** · their vote meant: to send 15/102/000001 (the Government's bill to write abortion into the Constitution) back to the government (an amendment to the whole) (by rule, from the vote's wording and the bill) | abortion, tier 1 |
 | 22 Apr 2026 | Abstención | GP (at the vote) | [Proposición no de Ley del Grupo Parlamentario Socialista, para impulsar la erradicación del matrimonio forzado a nivel global.](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=22/04/2026) | marriage and family, prostitution and trafficking, tier 1 |
-| 18 Mar 2026 | Sí | GP (at the vote) | [Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, relativa a la defensa de los cristianos perseguidos en el mundo y la…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=18/03/2026) | religious freedom, tier 1 |
+| 18 Mar 2026 | Sí | GP (at the vote) | [Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, relativa a la defensa de los cristianos perseguidos en el mundo y la…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=18/03/2026) · their vote meant: adopting the People's Party motion calling for the defence of persecuted Christians worldwide and international action to stop massacres carried out for religious reasons (read by the free session judge) | religious freedom, tier 1 |
 | 18 Mar 2026 | No | GP (at the vote) | [Proposición no de Ley del Grupo Parlamentario Socialista, para la defensa de la libertad de información y expresión. Se vota en los término…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=18/03/2026) | free speech and civil liberties, tier 2 |
-| 26 Feb 2026 | No | GP (at the vote) | [Proposición no de Ley del Grupo Parlamentario Mixto (Sra. Belarra Urteaga), para la garantía efectiva del derecho a la educación sexual int…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=26/02/2026) | abortion, parental rights and education, tier 1 |
+| 26 Feb 2026 | No | GP (at the vote) | [Proposición no de Ley del Grupo Parlamentario Mixto (Sra. Belarra Urteaga), para la garantía efectiva del derecho a la educación sexual int…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=26/02/2026) · their vote meant: rejecting the motion, in its compromise wording, to guarantee comprehensive sex education under the 2023 sexual and reproductive health law (read by the free session judge) | abortion, parental rights and education, tier 1 |
 | 17 Feb 2026 | Sí | GP (at the vote) | [Proposición de Ley del Grupo Parlamentario VOX, Orgánica para la protección de la dignidad de las mujeres y la seguridad ciudadana en el es…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=17/02/2026) | religious freedom, tier 2 |
 | 27 Nov 2025 | Abstención | GP (at the vote) | [Proposición no de Ley del Grupo Parlamentario Socialista, para proteger a las víctimas contra los efectos del negacionismo de la violencia…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=27/11/2025) | sex-based rights, free speech and civil liberties, tier 2 |
 | 28 Oct 2025 | Sí | GP (at the vote) | [Votación separada por puntos. Punto 1. Moción consecuencia de interpelación urgente del Grupo Parlamentario VOX, sobre qué medidas está pon…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=28/10/2025) | sex-based rights, tier 2 |
@@ -43,6 +51,12 @@ The latest 20:
 | 9 Sep 2025 | Sí | GP (at the vote) | [Real Decreto-ley 9/2025, de 29 de julio, por el que se amplía el permiso de nacimiento y cuidado, mediante la modificación del texto refund…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=09/09/2025) | marriage and family, tier 2 |
 
 49 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 601 of 602 recorded vote(s) (1 absent), 2025-10-07 to 2026-05-28.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Congreso's records list 'No vota' (did not vote, present or not)); the 365 days to 2026-09-30. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

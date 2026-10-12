@@ -8,6 +8,14 @@ Spain, Congreso de los Diputados. From the parliamentary monitor's store; positi
 - **Status:** not on the source's current list
 - **Source id:** `García Bernal, Begoña`
 
+## Length of service
+
+- **Last period ended:** 13 December 2023
+- **Periods:** 10 August 2023 to 13 December 2023 (Congreso de los Diputados; legislature 15; Grupo Parlamentario Socialista)
+- **What the source covers:** every seat in the Congreso since the Constituent legislature (1977). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: Grupo Parlamentario Socialista (28 August 2023 to 13 December 2023).
+
 ## Party history
 
 - Recorded at votes in the store: GS (first 19 September 2023, last 12 December 2023).
