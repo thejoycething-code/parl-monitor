@@ -1655,6 +1655,10 @@ TABLES = (
     "at_items",
     "at_divisions",
     "at_votes",
+    # Austria's nine Landtage (tools/at_landtage.py, AT6), created by
+    # src/atl_store.ensure_schema -- declared from day one.
+    "atl_items",
+    "atl_reads",
     # The Netherlands' Tweede Kamer (tools/nl_rollcalls.py), created by
     # src/nl_store.ensure_schema -- declared from day one.
     "nl_fracties",
@@ -2191,6 +2195,8 @@ def init_db(conn):
     ie_store.ensure_schema(conn)
     from src import at_store
     at_store.ensure_schema(conn)
+    from src import atl_store
+    atl_store.ensure_schema(conn)
     from src import nl_store
     nl_store.ensure_schema(conn)
     from src import pl_store

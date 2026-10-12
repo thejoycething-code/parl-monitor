@@ -326,6 +326,12 @@ FEEDS = [
     ("at_items", "last_seen", 7, 4, "Nationalrat and Bundesrat items (Austria weekly)"),
     ("at_members", "last_seen", 7, 4, "Nationalrat and Bundesrat members (Austria weekly)"),
     ("at_divisions", "last_seen", 31, 31, "Klub votes on our ground (Austria weekly)"),
+    # Austria's Landtage (AT6, 12 October 2026; tools/at_landtage.py, a step
+    # of the Austria weekly). Every run re-stamps the rows its lists return,
+    # and Vorarlberg's list is the whole Landtagsperiode, so atl_items moves
+    # every week, recess included; atl_reads is stamped for all nine Länder
+    # every run (Kärnten and Tirol with the reason they are not read).
+    ("atl_items", "last_seen", 7, 4, "Landtag documents of seven Länder (Austria weekly)"),
     # Netherlands (9 October 2026). MEASURED which re-stamp: the fracties and
     # the 150 current seats are re-read whole every run, so they move every
     # week, recess included. Votes are re-stamped whenever they fall in the
@@ -764,7 +770,7 @@ PIPELINE_FEEDS = {
     # questions, speeches and schedule lines do not in a recess.
     "Ireland weekly": ["ie_members", "ie_bills", "ie_divisions", "ie_windows", "ie_schedule_days"],
     # Divisions left out for the same reason: a recess week cannot move them.
-    "Austria weekly": ["at_items", "at_members"],
+    "Austria weekly": ["at_items", "at_members", "atl_items"],
     # Re-read whole every run; votes are left out for the US's reason.
     "Netherlands weekly": ["nl_members", "nl_fracties"],
     "Poland weekly": ["pl_processes", "pl_members"],
@@ -1290,6 +1296,8 @@ def table_exists(conn, table):
 # first heartbeat can excuse it: excused while empty until a date, then
 # OVERDUE like any other. table -> (until, why). Additive, 10 October 2026.
 AWAITING_STEP_UNTIL = {
+    "atl_items": ("2026-10-24", "the Landtage step (tools/at_landtage.py) joins the Austria "
+                  "weekly on merge; it fills on its next run"),
     "country_agenda": ("2026-10-24", "the week-ahead step (tools/country_agenda.py) joins "
                        "twelve country weeklies on merge; it fills on the first of them"),
     "country_petitions": ("2026-10-25", "the petitions step (tools/country_petitions.py) joins "

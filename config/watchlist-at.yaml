@@ -56,3 +56,11 @@ items:
   # Free speech online: Austria's 'Hass im Netz' package, not the German NetzDG.
   "XXVIII/A/959": {areas: [7],
                    why: "Lückenschluss im Medienrecht: Hass im Netz bekämpfen (motion)."}
+
+# THE LANDTAGE (AT6, 12 October 2026; tools/at_landtage.py,
+# src/atl_store.add_watch_areas). Documents of the nine Land parliaments,
+# by the collector's key, never by title: 'noe/XX/1095', 'stmk/XIX/1713/1',
+# 'ooe/XXIX/1469/2026', 'wien/201607', 'sbg/17/4/362-BEA', 'vbg/<unid>',
+# 'bgld/XXIII/2100-0603'. Empty until someone who campaigns in a Land names
+# a document the titles miss.
+landtage: {}

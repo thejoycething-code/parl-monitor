@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<viewentries timestamp="20261012T085751,54Z" toplevelentries="37">
+<viewentry position="1" noteid="80012D90" children="1" descendants="1" siblings="37">
+<entrydata columnnumber="0" name="fd_PeriodeOfParliamentTX" category="true">
+<text>Provisorische Landesversammlung (3.11.1918 – 24.4.1919)</text></entrydata>
+<entrydata columnnumber="4" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="5" name="$10">
+<number>1</number></entrydata>
+</viewentry>
+<viewentry position="2" noteid="80011BE0" children="7" descendants="767" siblings="37">
+<entrydata columnnumber="0" name="fd_PeriodeOfParliamentTX" category="true">
+<text>32. Landtagsperiode (6. November 2024 - 5. November 2029)</text></entrydata>
+<entrydata columnnumber="4" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="5" name="$10">
+<number>767</number></entrydata>
+</viewentry>
+<viewentry position="3" noteid="80011C74" children="6" descendants="1811" siblings="37">
+<entrydata columnnumber="0" name="fd_PeriodeOfParliamentTX" category="true">
+<text>31. Landtagsperiode (6. November 2019 - 5. November 2024)</text></entrydata>
+<entrydata columnnumber="4" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="5" name="$10">
+<number>1811</number></entrydata>
+</viewentry>
+<viewentry position="4" noteid="80011D74" children="7" descendants="1360" siblings="37">
+<entrydata columnnumber="0" name="fd_PeriodeOfParliamentTX" category="true">
+<text>30. Landtagsperiode (15. Oktober 2014 - 5. November 2019)</text></entrydata>
+<entrydata columnnumber="4" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="5" name="$10">
+<number>1360</number></entrydata>
+</viewentry>
+<viewentry position="5" noteid="80011E7C" children="6" descendants="1530" siblings="37">
+<entrydata columnnumber="0" name="fd_PeriodeOfParliamentTX" category="true">
+<text>29. Landtagsperiode (Oktober 2009 - September 2014)</text></entrydata>
+<entrydata columnnumber="4" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="5" name="$10">
+<number>1530</number></entrydata>
+</viewentry>
+<viewentry position="6" noteid="80011F80" children="6" descendants="1122" siblings="37">
+<entrydata columnnumber="0" name="fd_PeriodeOfParliamentTX" category="true">
+<text>28. Landtag (Oktober 2004 - September 2009)</text></entrydata>
+<entrydata columnnumber="4" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="5" name="$10">
+<number>1122</number></entrydata>
+</viewentry>
+<viewentry position="7" noteid="80012064" children="7" descendants="984" siblings="37">
+<entrydata columnnumber="0" name="fd_PeriodeOfParliamentTX" category="true">
+<text>27. Landtag (September 1999 - September 2004)</text></entrydata>
+<entrydata columnnumber="4" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="5" name="$10">
+<number>984</number></entrydata>
+</viewentry>
+<viewentry position="8" noteid="8001213C" children="8" descendants="912" siblings="37">
+<entrydata columnnumber="0" name="fd_PeriodeOfParliamentTX" category="true">
+<text>26. Landtag (September 1994 - September 1999)</text></entrydata>
+<entrydata columnnumber="4" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="5" name="$10">
+<number>912</number></entrydata>
+</viewentry>
+<viewentry position="9" noteid="80012204" children="6" descendants="869" siblings="37">
+<entrydata columnnumber="0" name="fd_PeriodeOfParliamentTX" category="true">
+<text>25. Landtag (Oktober 1989 - September 1994)</text></entrydata>
+<entrydata columnnumber="4" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="5" name="$10">
+<number>869</number></entrydata>
+</viewentry>
+<viewentry position="10" noteid="800122A0" children="7" descendants="563" siblings="37">
+<entrydata columnnumber="0" name="fd_PeriodeOfParliamentTX" category="true">
+<text>24. Landtag (Oktober 1984 - September 1989)</text></entrydata>
+<entrydata columnnumber="4" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="5" name="$10">
+<number>563</number></entrydata>
+</viewentry>
+</viewentries>

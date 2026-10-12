@@ -216,8 +216,8 @@ publish seen".
   dated source), clips for France and Belgium (agreement needed).
 - Waiting for time: Spain's agendas, speeches and sweep fill from 23
   December when the XVI sits.
-- Not yet built: regions and Länder (IT3, AT6, Spain's autonomous
-  communities, Mexico's states); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
+- Regions built 12 October 2026 (Spain, Peru, Mexico, Austria, Italy; sections
+  below). Not yet built: Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
   2027); a native read of each language's term list.
 
 ## What exists now
@@ -252,7 +252,7 @@ publish seen".
 | Debate report (report and social copy after a debate, DM for approval, canvas) | yes (`tools/debate_report.py`, one paid call) | no | no | no | **built** 11 Oct (`tools/country_debate_report.py`, `src/country_debatereport.py`, branch `ukp2-debate-report`, manual) for the five countries whose speeches we store: NL, CH, AT, FR, BE. English report from templates over the record (no paid AI): speakers on our ground with a verbatim source-language passage each, translations by a person or the free session judge (`--queue-out`/`--queue-in` via `tools/session_judge.sh`), the debated bill's votes (found by the reference in the title, `--item` or a debate pack) and the latest on the same ground with tallies, group splits and vote meanings; clip pack linked. AWAITING SIGN-OFF, no verdicts, until the readings shown are confirmed. DM to Chris alone; `--approve --by NAME` records approval against the files; `--publish` makes the canvas with the UK's code, shared with Chris alone (never a channel), rewritten in place on a re-run. Samples `docs/debate-report-samples/` |
 | Words since the last vote (`since_last_vote.py`) | yes | no | no | no | **built** 11 Oct (`tools/country_since_vote.py`, `src/country_since_vote.py`, branch `ukp2-since-last-vote`, manual) for the countries with speeches and votes: NL, CH, AT, FR, BE. Per area, each member's last recorded vote on it (watched or tier 1, procedure never) and their speeches since, with excerpts. Drift is named only once the vote's reading is CONFIRMED and a person or the free session judge has read the words (`--queue-out` / `--reads`, `read_by` required, a read goes stale when new words arrive); before that "awaiting sign-off", ranked by recency and volume. Group votes (NL shows of hands, AT) never name drift. Optional profile section: `tools/member_profiles.py <cc> --since-vote` (off in the weeklies). Samples `docs/since-vote-samples/` (CH, FR, BE; the published store holds no NL votes or speeches and no AT speeches yet) |
 | Health summary, Drive | health DM; briefs and debate footage on Drive | health DM | health DM | health DM | **built** 11 Oct (branch `ukp-health-drive`): the 07:30 health DM has one compact section per region (Europe, Latam) plus shared jobs, failed and stale jobs first, step gaps by step, editions behind, the countries' overdue sources (`src/country_health.py`); briefs as Sheets from the UK template and real debate packs on Drive under `Country editions/<Country>/` in the Automated Briefs shared drive, a step of the Sunday `editions-session-judge` (`tools/country_drive.py`, ledger `data/country-drive.json`, at most 30 new sheets a run) |
-| Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
+| Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | Austria's Landtage **built** 12 Oct (AT6, branch `regions-at`: seven of nine, `docs/austria-regions-scope.md`); others later, per decisions |
 | Vote meanings (what a Yes and a No meant) | yes (`meaning_aye`/`meaning_no`, written by hand) | no | no | no | **built** 11 Oct (`src/vote_meanings.py`, `tools/vote_meanings.py`, branch `ukp-meanings`): every watched and tier-1 vote in the 21 countries with recorded votes, rules first, then the free session judge after the editions' scores within the same ~100 items a week; stored per division (`vote_meanings`); a person overrides in `config/vote-meanings-<cc>.yaml`; shown in editions, the Latam monitor, vote briefs, profiles, debate packs and the 5CA readings guides |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
@@ -668,8 +668,8 @@ Set A BUILT 10 October 2026 (branch `parity-phases-a`; each scope doc's
 "as built" section): French Senate (FR5), Eerste Kamer via web pages (NL4),
 Slovak bill documents (SK6), Swiss Italian texts (CH6), Italy's official
 Camera service (IT2). Set B below covers UY5, BO4, X8 and X7. Still to
-build: regions and Landtage after national (IT3, AT6, PE4); Spain's
-regions built 12 October (below).
+build: regions and Landtage after national: built 12 October 2026 (Spain,
+Peru, Mexico, Austria, Italy; below).
 
 **Set B, built 10 October 2026 (branch `parity-phases-b`):** X8
 constitutional courts for Colombia (the exhortations file; the Court's
@@ -683,6 +683,24 @@ X7 OCR designed and guarded (`src/ocr.py`, `tools/pe_ocr.py`; install steps in
 `docs/mac-mini.md`, nothing installed). One hand-run backfill after merge:
 `jobs/latam-courts-backfill.sh`. Samples: `editions/latam-monitor-2026-06-30.md`,
 `editions/latam-monitor-2025-08-31.md`, `editions/pt-monitor-2023-02-05.md`.
+
+**AT6, Austria's Landtage, built 12 October 2026 (branch `regions-at`;
+`docs/austria-regions-scope.md`).** Seven of nine Landtage (Wien,
+Niederösterreich, Oberösterreich, Steiermark, Salzburg, Vorarlberg,
+Burgenland; about 85 per cent of the population), each from its own system
+(no two share a platform): `tools/at_landtage.py` into `atl_items` /
+`atl_reads` (`src/atl_store.py`), titles classified with taxonomy-atch, a
+`landtage` watchlist section by key, and a **Landtage** section in the
+Austrian edition after the Watchlist (new additive hook
+`Country.extra_sections`; other editions unchanged), with Steiermark's and
+Oberösterreich's recorded decisions and their Klubs verbatim. A step of
+`jobs/at-weekly.sh` (five minutes at most; a week's read is under one); no
+new Mini job. Blocked: **Kärnten** (www.ktn.gv.at disallows every robot but
+Google and Bing) and **Tirol** (lte.tirol.gv.at disallows every robot);
+**RIS Landesrecht**, the only common source for adopted Land laws, is barred
+by data.bka.gv.at's robots.txt and www.ris.bka.gv.at's bot check (parser
+ready and tested, not read). Waiting on Chris: RIS permission, Wien's
+Gemeinderat, Salzburg's unreadable robots.txt (treated as no rules).
 
 ### 6b. Regions -- Peru BUILT 12 October 2026 (branch `regions-pe`, PE4)
 

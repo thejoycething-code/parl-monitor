@@ -14,12 +14,22 @@ sighting (at_store.derived_member_positions). One floor vote is recorded on
 every item it touched (a Regierungsvorlage, its committee report and the
 Abänderungsantrag share an anchor in the protocol), so votes are folded by
 (sitting, anchor) and shown once, on the watched or government item.
+
+THE LANDTAGE (AT6, 12 October 2026): the documents of seven of the nine
+Land parliaments (src/atl_store.py, tools/at_landtage.py) on our ground or
+watched (config/watchlist-at.yaml, `landtage`), in their own section after
+the Watchlist (Country.extra_sections), never mixed into the Nationalrat's.
+A row is in the window by the Landtag's own date (date_basis says which);
+an undated row by the day we first saw it, unless it was a baseline row of
+the Land's first read. Kärnten and Tirol are closed to robots and RIS
+Landesrecht too; the Coverage section says so every week.
 """
 
 from __future__ import annotations
 
 from src import agenda
 from src import at_store
+from src import atl_store
 from src import country_edition as ce
 
 SITE = "https://www.parlament.gv.at"
@@ -172,6 +182,79 @@ def items(conn, since, until, wl):
     return _items(conn, since, until, wl) + _votes(conn, since, until, wl)
 
 
+# Our kinds (tools/at_landtage.kind_of) -> the framework's; 'other'
+# (an Aktuelle Stunde, a Zusatzfrage, a chairing note) is stored, not shown.
+LANDTAG_KIND = {"bill": "new", "motion": "new", "question": "question", "answer": "answer",
+                "report": "report", "decision": "moved", "law": "law",
+                "consultation": "petition"}
+KIND_WORDS = {"bill": "bill", "motion": "motion", "question": "question", "answer": "answer",
+              "report": "report", "decision": "decision of the Landtag", "law": "Land law",
+              "consultation": "draft law in consultation (Begutachtung)", "other": "document"}
+BASIS_WORDS = {"introduced": "introduced", "sitting": "dealt with at the sitting of",
+               "reported": "reported", "decided": "decided at the sitting of",
+               "published": "published in the Landesgesetzblatt", "first_seen": "first seen by us"}
+
+
+def landtag_items(conn, since, until, wl):
+    out = []
+    got = ce.rows(conn, "SELECT * FROM atl_items WHERE ({0}) OR (date IS NULL AND "
+                        "COALESCE(baseline, 0)=0 AND {1})".format(
+                            ce.window_sql("date"), ce.window_sql("first_seen")),
+                  (since, until, since, until))
+    for r in got:
+        w = r["item_key"] in wl
+        if not ce.on_ground(r["areas"], w):
+            continue
+        kind = LANDTAG_KIND.get(r["kind"]) or ("new" if w else None)
+        if not kind:
+            continue
+        date = r["date"] or r["first_seen"]
+        basis = r["date_basis"] if r["date"] else "first_seen"
+        house = ("RIS Landesrecht, " + atl_store.NAMES.get(r["land"], r["land"])
+                 if r["source"] == "ris" else atl_store.LANDTAG.get(r["land"], r["land"]))
+        take = "{0}: {1}".format(house, KIND_WORDS.get(r["kind"], "document"))
+        if r["doc_type"] and r["doc_type"].lower() not in KIND_WORDS.get(r["kind"], ""):
+            take += " ({0})".format(r["doc_type"])
+        if r["number"]:
+            take += ", {0}".format(r["number"])
+        take += "; {0} {1}".format(BASIS_WORDS.get(basis, basis), ce.long_date(ce.day(date)))
+        if r["by_whom"]:
+            take += "; by {0}".format(ce.clip(r["by_whom"], 160))
+        lines = ["Recorded decision: “{0}”.".format(r["outcome"].rstrip("."))] if r["outcome"] else []
+        out.append(ce.item("at", kind, r["item_key"], date, r["title"], ce.areas_of(r["areas"]),
+                           r["tier"], w, status=r["status"], url=r["url"], lines=lines,
+                           terms=r["matched_terms"], takeaway=take))
+    return out
+
+
+def landtag_coverage(conn):
+    seen = atl_store.reads(conn)
+    read, never = [], []
+    for code in atl_store.READ:
+        r = seen.get(code)
+        if r and r[1]:
+            read.append("{0} {1}{2}".format(atl_store.NAMES[code], ce.short_date(r[1]),
+                                            "" if r[2] == r[1] else " (with a gap)"))
+        else:
+            never.append(atl_store.NAMES[code])
+    lines = ["Landtage read (last read): {0}.".format(", ".join(read) or "none yet")]
+    if never:
+        lines.append("Landtage not read yet: {0}.".format(", ".join(never)))
+    lines += ["{0} not read: {1}.".format(atl_store.NAMES[c], why)
+              for c, why in sorted(atl_store.BLOCKED.items())]
+    lines.append(atl_store.RIS_BLOCKED + ".")
+    lines.append("Landtag documents are classified on their titles only (taxonomy-atch); "
+                 "dates are each Landtag's own, or the day we first saw an undated document.")
+    return lines
+
+
+def landtage(conn, since, until, wl):
+    intro = ["The Land parliaments' own documents on our ground: seven of the nine Landtage, "
+             "each from its own system; titles verbatim in German. Decisions are shown in the "
+             "Landtag's words, with the Klubs where it names them (Oberösterreich, Steiermark)."]
+    return [("Landtage", intro, landtag_items(conn, since, until, wl), landtag_coverage(conn))]
+
+
 COUNTRY = ce.Country(
     cc="at", name="Austria", chamber="Nationalrat and Bundesrat", language="German",
     taxonomies=(("taxonomy-atch.yaml", "at"),),
@@ -183,4 +266,5 @@ COUNTRY = ce.Country(
               "Abstimmung's member names (phase 1b) are not read yet.",
               "Classification is on titles only (taxonomy-atch); the Parliament's Schlagworte "
               "are stored, not matched."),
+    extra_sections=landtage,
 )
