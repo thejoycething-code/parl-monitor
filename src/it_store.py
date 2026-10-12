@@ -192,7 +192,7 @@ SCHEMA = (
         proposers    TEXT,               -- JSON list of docProponent names, as printed
         text         TEXT,               -- amendmentBody, paragraphs joined by newlines
         presented    TEXT,               -- FRBRdate 'presentazione'
-        frbr_uri     TEXT,               -- 'http://dati.senato.it/19/Emend/S/1735/A/1.23'
+        frbr_uri     TEXT,               -- <http://dati.senato.it/19/Emend/S/1735/A/1.23>, an identifier
         file_sha     TEXT,               -- the git blob sha (checked on download)
         url          TEXT,               -- the file on github.com
         first_seen   TEXT,

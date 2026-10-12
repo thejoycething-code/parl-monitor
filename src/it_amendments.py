@@ -15,7 +15,7 @@ SenatoDellaRepubblica/AkomaNtosoBulkData, under Leg<n>/Atto<idFase>/emend
     "2.0.2", "G1.104", "QP1");
   * FRBRWork/FRBRname is the type ("Emendamento", "Ordine del giorno");
   * FRBRWork/FRBRthis carries the act and the sede:
-    http://dati.senato.it/19/Emend/S/1735/A/1.23/main ('A' Assembly,
+    <http://dati.senato.it/19/Emend/S/1735/A/1.23/main> ('A' Assembly,
     'C' committee);
   * preface/docProponent are the proposers, as printed;
   * amendmentBody is the operative text.
@@ -50,7 +50,6 @@ TREE_URL = "https://api.github.com/repos/{0}/git/trees/{1}:{{folder}}?recursive=
 FOLDERS = {"emend": "A", "emendc": "C"}
 TEXT_CHARS = 20000          # one amendment's stored text, at most
 
-_AKN = "{http://docs.oasis-open.org/legaldocml/ns/akn/3.0/CSD03}"
 
 
 def act_folder(leg, id_fase):
