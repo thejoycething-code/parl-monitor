@@ -407,3 +407,30 @@ class BackgroundFormatTests(unittest.TestCase):
                                   "**Why it matters:**"])
         for banned in ("NARRATIVE", "Sources", "http"):
             self.assertNotIn(banned, got)
+
+
+class IndividualCaseAndRF4CommentTests(unittest.TestCase):
+    """Christopher, 12 October 2026: individual cases run two tracks with
+    one demand; court cases get court-only offline actions; RF#4/1 and
+    RF#4/2 carry substance, never a bare pointer."""
+
+    def test_two_tracks_one_demand_court_only_offline(self):
+        for anchor in ("TWO tracks", "messages of support to the person",
+                       "open letter to the named head", "ONE demand",
+                       "No fallbacks", "support outside court",
+                       "Never card-signing"):
+            self.assertIn(anchor, mb.DRAFT_SYSTEM)
+        self.assertIn("ONLY support outside court",
+                      dict(mb.NARRATIVE_FIELDS)["offline"])
+
+    def test_rf4_gain_and_cost_are_drafted_with_substance(self):
+        ids = dict(mb.NARRATIVE_FIELDS)
+        self.assertIn("rf4_gain", ids)
+        self.assertIn("rf4_cost", ids)
+        self.assertIn("never a bare pointer", mb.DRAFT_SYSTEM)
+        self.assertIn("Backlash check", mb.DRAFT_SYSTEM)
+        src = open(os.path.join(ROOT, "tools", "make_briefs.py"),
+                   encoding="utf-8").read()
+        self.assertNotIn("see 'good outcome' above", src)
+        self.assertNotIn("see 'bad outcome' above", src)
+        self.assertIn("backlash check", mb.RF4_COST_NEEDED)

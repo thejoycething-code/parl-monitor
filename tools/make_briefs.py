@@ -89,15 +89,25 @@ RF4_RULES = {
              "counts only where the campaign was part of the documented "
              "pressure; an attack on CitizenGO scores only if it cost the "
              "attacker."),
-    "RF#4/1": ("Scoring rule: score the outcome, not our contribution: the "
+    "RF#4/1": ("Comment: the concrete gain, never a pointer to Good "
+               "outcome. Scoring rule: score the outcome, not our contribution: the "
                "gain if won (partial wins get partial credit); 0 if lost or "
                "not yet decided. About 3 for a single decision on one case, "
                "4 for a narrow new law, 5-6 for a broad law or precedent."),
-    "RF#4/2": ("Scoring rule: +10 to -10. A loss that would have happened "
+    "RF#4/2": ("Comment: the concrete cost and a backlash check, never a "
+               "pointer to Bad outcome. Scoring rule: +10 to -10. A loss that would have happened "
                "regardless of our input is the status quo (0); negative only "
                "if our campaign made things worse; positive if something was "
                "still gained."),
 }
+
+
+RF4_GAIN_NEEDED = ("[CAMPAIGNER: the concrete gain if we win: the ask met, "
+                   "who benefits, and what it is worth beyond this campaign "
+                   "(durability, precedent, position). Then the score line.]")
+RF4_COST_NEEDED = ("[CAMPAIGNER: the concrete cost if we lose: who is harmed "
+                   "and what precedent is set. Then the backlash check: could "
+                   "our campaign make things worse? Then the score line.]")
 
 
 def with_rules(hints):
@@ -129,13 +139,20 @@ NARRATIVE_FIELDS = [
     ("listen", "Why would they listen to us?"),
     ("bad_outcome", "Describe a bad outcome if we do not win this campaign:"),
     ("good_outcome", "Describe a good outcome if we do win this campaign:"),
-    ("offline", "Ideas for eventual Offline Actions"),
+    ("offline", "Ideas for eventual Offline Actions (for a court or "
+     "tribunal case, ONLY support outside court on the hearing day and/or "
+     "online delivery to the person via their legal supporters)"),
     ("tim", "From facts.tim_candidates ONLY: the three most issue-relevant "
      "past petitions for Targeting Inactive Members, each as 'id - title - "
      "one-line reason it matches (issue, geography, audience)'. Copy ids "
      "verbatim from the candidate list; if the list is empty or nothing "
      "fits, omit this field."),
     ("image", "What should the image for this campaign look like?"),
+    ("rf4_gain", "RF#4/1 comment, in the RF4 COMMENTS format of the system "
+     "prompt: the concrete gain if we win, then the score line."),
+    ("rf4_cost", "RF#4/2 comment, in the RF4 COMMENTS format of the system "
+     "prompt: the concrete cost if we lose, the backlash check, then the "
+     "score line."),
 ]
 
 # The Evaluate dashboard rows, verbatim from the template. Always empty at
@@ -244,6 +261,30 @@ CitizenGO: never impartial, always from our side.
   their own field and the fuller story has its own tab. The double
   asterisks are the one markdown allowed; the publisher turns them into
   real bold.
+
+INDIVIDUAL CASES (Christopher, 12 October 2026). When the subject is a named
+person being punished (a teacher sacked, someone facing a tribunal or a
+court), the petition runs TWO tracks at once:
+- messages of support to the person, delivered online through their legal
+  supporters; and
+- an open letter to the named head of the employer or deciding body (an
+  academy trust's chief executive, say), who is the addressee.
+The ask is ONE demand of that body (for example: reinstate them and confirm
+no one else will be dismissed for the same thing). No fallbacks, no "or at
+least" second asks.
+Offline actions for a court or tribunal case are ONLY support outside court
+on the hearing day and/or online delivery of the messages to the person
+through their legal supporters. Never card-signing, adverts, media
+statements or lobbying letters.
+
+RF4 COMMENTS (Christopher, 12 October 2026). rf4_gain and rf4_cost carry
+the substance, never a bare pointer like "See Good outcome.":
+- rf4_gain: the concrete gain if we win: the ask met, who benefits, and
+  what it is worth beyond this campaign (durability, precedent, position).
+  Then a last line "Score: N - <one-line reason against the scoring rule>".
+- rf4_cost: the concrete cost if we lose: who is harmed and what precedent
+  is set. Then "Backlash check: <could our campaign make things worse, and
+  how we avoid it>". Then "Score: N - <one-line reason>".
 
 OUTPUT FORMAT. Do NOT use JSON. Return each requested field as a marker line
 on its own, then the field's prose on the lines beneath it:
@@ -1388,12 +1429,15 @@ def main():
                                      tally["-"] + tally["--"]))
 
         expectation = rf1_expectation(conn, s["areas"])
+        # RF#4/1 and RF#4/2 carry the substance, never "See Good outcome."
+        # (Christopher, 12 October 2026): drafted, or a marker saying what
+        # the cell needs.
         rf4_hints = [
             rf1_hint(conn, s["areas"]),
             rf4_ally_hint,
             "Opponent organisations are not tracked by the monitor; campaigner's knowledge.",
-            "If we win: see 'good outcome' above. Score the value, not the odds.",
-            "If we lose: see 'bad outcome' above.",
+            drafted.get("rf4_gain") or RF4_GAIN_NEEDED,
+            drafted.get("rf4_cost") or RF4_COST_NEEDED,
         ]
         rf4_hints = with_rules(rf4_hints)
         timeline = []
