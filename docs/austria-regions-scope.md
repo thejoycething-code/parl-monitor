@@ -56,7 +56,7 @@ Ranked by population, then by what the week's read found on our ground.
 | Steiermark (1.3 m) | PALLAST, `pallast2.stmk.gv.at/pallast-p/pub/documents` | JSF/PrimeFaces, ViewState + cookie, paging call with rows=100 | none (the path returns the login page) | **yes** |
 | Tirol (0.8 m) | `lte.tirol.gv.at` (parliamentary materials) | JSF | **`Disallow: /`** | **no** |
 | Kärnten (0.6 m) | `www.ktn.gv.at/Politik/Landtag` | CMS pages | **`User-agent: * / Disallow: /`** (Google and Bing allowed) | **no** |
-| Salzburg (0.6 m) | LPI, `service.salzburg.gv.at/lpi/searchExtern` | Spring MVC, search by date, every hit on one page | robots.txt answers 503 (treated as no rules, as `src/prov_fetch.py` does) | **yes** |
+| Salzburg (0.6 m) | LPI, `service.salzburg.gv.at/lpi/searchExtern` | Spring MVC, search by date, every hit on one page | robots.txt answered 503 on 12 Oct 2026: read as Disallow: / (RFC 9309), skipped until it answers | **when robots.txt answers** |
 | Vorarlberg (0.4 m) | LIS, `suche.vorarlberg.at/VLR/vlr_gov.nsf` | Lotus Domino view as XML (`?ReadViewEntries`) | none (redirects to an HTML page); `vorarlberg.at` bars `/documents/`, `/o/`, `/suche/`, not used | **yes** |
 | Burgenland (0.3 m) | Vorlagen, `ltmobil.bgld-landtag.at/vorlagen.nsf/VorlZahl_GPXXIII.xsp` | Domino XPages, 30 a page by Zahl | none (404) | **yes** |
 
@@ -168,9 +168,10 @@ data beyond the introducers' names the Landtage print on each document.
    ready.
 2. **Kärnten and Tirol** stay out unless their Landtage open their
    robots.txt. Tirol's consultation-drafts page is open: worth a reader?
-3. **Salzburg's robots.txt answers 503.** Treated as no rules, as the
-   provinces' collector does; say if you would rather skip Salzburg until it
-   answers.
+3. **Salzburg's robots.txt answered 503** (12 October 2026). Changed the
+   same day: `src/prov_fetch.py` now reads a 5xx or unreachable robots.txt
+   as Disallow: / (RFC 9309 2.3.1), so Salzburg is skipped, with a gap line,
+   until its robots.txt answers; a 4xx still means no rules.
 4. **Wien's Gemeinderat**: read it too (`committees=G`)? Much of Vienna's
    policy (funding, schools as owner) is decided there, not in the Landtag.
 5. **Watchlist**: the `landtage` section is empty; keys are listed in

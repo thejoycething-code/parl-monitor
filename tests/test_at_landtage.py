@@ -429,3 +429,42 @@ class Edition(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RobotsUnreachableTests(unittest.TestCase):
+    """RFC 9309 2.3.1 (12 October 2026): a 5xx or no answer for robots.txt
+    is read as Disallow: /; a 4xx means no rules."""
+
+    def _ctx(self, cause):
+        import urllib.error
+        from src import prov_fetch
+        from src.http import FetchError
+
+        class Client:
+            user_agent = "CitizenGO-ParlMonitor/1.0"
+            throttle = 0
+
+            def get_text(self, url, *a, **k):
+                raise FetchError(url, "f", "s", 1, cause)
+
+        ctx = prov_fetch.Context.__new__(prov_fetch.Context)
+        ctx.client, ctx.feed, ctx.robots, ctx._robots = Client(), "f", True, {}
+        ctx.gaps = []
+        ctx.gap = ctx.gaps.append
+        ctx.log = lambda *a, **k: None
+        return ctx, urllib.error
+
+    def test_503_disallows(self):
+        import urllib.error
+        ctx, _ = self._ctx(urllib.error.HTTPError("u", 503, "x", {}, None))
+        self.assertFalse(ctx.allowed("https://example.at/lpi/searchExtern"))
+        self.assertTrue(ctx.gaps)
+
+    def test_no_answer_disallows(self):
+        ctx, _ = self._ctx(OSError("timed out"))
+        self.assertFalse(ctx.allowed("https://example.at/x"))
+
+    def test_404_means_no_rules(self):
+        import urllib.error
+        ctx, _ = self._ctx(urllib.error.HTTPError("u", 404, "x", {}, None))
+        self.assertTrue(ctx.allowed("https://example.at/x"))
