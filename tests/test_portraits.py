@@ -139,6 +139,37 @@ class PortraitTest(unittest.TestCase):
         got = self.fetch(client, [("1", member("A"))])
         self.assertEqual(got["refused"], 1)
 
+    def test_unreachable_robots_means_no_fetch(self):
+        # The per-run guard (src/prov_fetch.read_robots): a 5xx is Disallow: /.
+        client = FakeClient({"https://img.example.test/1.jpg": JPEG},
+                            robots={"https://img.example.test": 500})
+        robots = pt.Robots(client, robots_sleep=lambda s: None, robots_cache_dir=None)
+        got = self.fetch(client, [("1", member("A"))], robots=robots)
+        self.assertEqual(got["refused"], 1)
+        self.assertNotIn("https://img.example.test/1.jpg", client.calls)
+
+    def test_documented_api_is_fetched_as_the_collectors_fetch_it(self):
+        url = "https://api.sejm.gov.pl/sejm/term10/MP/1/photo"
+        pt.SOURCES["zz"].photo = lambda key, m: (url, None)
+        client = FakeClient({url: JPEG}, robots={"https://api.sejm.gov.pl": 500})
+        got = self.fetch(client, [("1", member("A"))])
+        self.assertEqual(got["fetched"], 1)
+        self.assertNotIn("https://api.sejm.gov.pl/robots.txt", client.calls)
+        man = pt.load_manifest("zz", self.cache)
+        self.assertEqual(man["members"]["1"]["page_url"], url)   # no page: the image is the source
+
+    def test_member_page_is_checked_against_robots(self):
+        pt.SOURCES["zz"].photo = None
+        pt.SOURCES["zz"].photo_from_page = lambda c, key, m: (
+            c.get_text("https://pages.example.test/m/" + key, "portraits", "p"), None)
+        client = FakeClient({}, robots={"https://pages.example.test":
+                                        "User-agent: *\nDisallow: /m/\n"})
+        got = self.fetch(client, [("1", member("A"))])
+        self.assertEqual(got["refused"], 1)
+        self.assertNotIn("https://pages.example.test/m/1", client.calls)
+        man = pt.load_manifest("zz", self.cache)
+        self.assertEqual(man["missing"]["1"]["why"], "robots.txt disallows")
+
     def test_missing_robots_allows(self):
         client = FakeClient({"https://img.example.test/1.jpg": JPEG})
         self.assertEqual(self.fetch(client, [("1", member("A"))])["fetched"], 1)
@@ -254,10 +285,86 @@ class SourceUrlTest(unittest.TestCase):
         self.assertIsNone(pt.hr_photo_in("<html>no photo</html>"))
         self.assertEqual(pt.SOURCES["hr"].photo_from_page(c, "name:x y", member("X")), (None, None))
 
-    def test_not_allowed_and_unclear_never_fetch(self):
-        for cc in ("fr", "sk", "do", "pl", "hu", "mx"):
+    def test_not_allowed_never_fetch(self):
+        for cc in ("fr", "sk", "do"):
+            self.assertEqual(pt.SOURCES[cc].licence_class, "not_allowed", cc)
             self.assertFalse(pt.SOURCES[cc].usable, cc)
-        self.assertEqual(pt.usable_countries(), ["br", "hr"])
+        self.assertNotIn("not_allowed", pt.USABLE)
+        self.assertNotIn("unclear", pt.USABLE)
+
+    def test_enabled_on_chris_instruction_12_october(self):
+        # "Yes for all four" (internal) and "use the photos anyway where possible".
+        for cc in ("it", "nl", "at", "ch"):
+            self.assertEqual(pt.SOURCES[cc].licence_class, "internal", cc)
+        for cc in ("pl", "pt", "be", "hu", "mx", "cl", "pe", "ec", "sv", "gt", "co", "uy"):
+            self.assertEqual(pt.SOURCES[cc].licence_class, "unclear_used", cc)
+        self.assertFalse([cc for cc, s in pt.SOURCES.items() if s.licence_class == "unclear"])
+        self.assertEqual(pt.usable_countries(), ["at", "br", "ch", "hr", "nl", "pl", "pt"])
+
+    def test_enabled_but_not_mappable_yet_fetch_nothing(self):
+        for cc in ("it", "es", "be", "hu", "cl", "ec", "sv", "ar"):
+            s = pt.SOURCES[cc]
+            self.assertIn(s.licence_class, pt.USABLE, cc)
+            self.assertFalse(s.usable, cc)
+
+    def test_unclear_used_credit_names_the_institution(self):
+        for cc, s in pt.SOURCES.items():
+            if s.licence_class == "unclear_used":
+                self.assertTrue(s.credit.endswith(" (official portrait)"), cc)
+                self.assertGreater(len(s.credit), len(" (official portrait)"), cc)
+
+    def test_poland(self):
+        img, page = pt.SOURCES["pl"].photo("10/1", member("X"))
+        self.assertEqual(img, "https://api.sejm.gov.pl/sejm/term10/MP/1/photo")
+        self.assertEqual(page, "https://www.sejm.gov.pl/Sejm10.nsf/posel.xsp?id=001&type=A")
+        self.assertEqual(pt.SOURCES["pl"].photo("10/460", member("X"))[0],
+                         "https://api.sejm.gov.pl/sejm/term10/MP/460/photo")
+        for bad in ("name:anna-nowak", "460", "10/x", "10/1/2"):
+            self.assertEqual(pt.SOURCES["pl"].photo(bad, member("X")), (None, None), bad)
+
+    def test_portugal(self):
+        img, page = pt.SOURCES["pt"].photo("7040", member("X"))
+        self.assertEqual(img, "https://app.parlamento.pt/webutils/getimage.aspx?id=7040&type=deputado")
+        self.assertEqual(page, "https://www.parlamento.pt/DeputadoGP/Paginas/Biografia.aspx?BID=7040")
+        self.assertEqual(pt.SOURCES["pt"].photo("name:x", member("X")), (None, None))
+
+    def test_switzerland(self):
+        img, page = pt.SOURCES["ch"].photo("1109", member("X"))
+        self.assertEqual(img, "https://www.parlament.ch/SiteCollectionImages/profil/portrait-260/1109.jpg")
+        self.assertEqual(pt.SOURCES["ch"].photo("../1109", member("X")), (None, None))
+
+    def test_netherlands(self):
+        key = "b29c0e00-7ac2-4c28-ab4f-8fceb156337b"
+        img, page = pt.SOURCES["nl"].photo(key, member("X"))
+        self.assertEqual(img, "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Persoon({0})"
+                              "/resource".format(key))
+        self.assertTrue(img.startswith(page))
+        self.assertEqual(pt.SOURCES["nl"].photo("name:corrie", member("X")), (None, None))
+
+    def test_austria_reads_the_member_page(self):
+        with open(os.path.join(ROOT, "tests", "fixtures", "portraits", "at-person.html"),
+                  encoding="utf-8") as fh:
+            page = fh.read()
+
+        class Pages:
+            def get_text(self, url, feed, slug, archive=True, **kw):
+                self.url = url
+                return page
+        c = Pages()
+        img, src = pt.SOURCES["at"].photo_from_page(c, "33457", member("X"))
+        self.assertEqual(c.url, "https://www.parlament.gv.at/person/33457")
+        self.assertEqual(src, "https://www.parlament.gv.at/person/33457")
+        self.assertEqual(img, "https://www.parlament.gv.at/dokument/bild/201646/20164630_384.jpg")
+        self.assertIsNone(pt.at_photo_in("<html>no photo</html>"))
+        self.assertEqual(pt.SOURCES["at"].photo_from_page(c, "name:x", member("X")), (None, None))
+
+    def test_licence_doc_records_the_decisions(self):
+        with open(os.path.join(ROOT, "docs", "portraits-logos-licences.md"), encoding="utf-8") as fh:
+            doc = fh.read()
+        self.assertIn("Used on Chris's instruction, licence unclear (12 Oct 2026)", doc)
+        self.assertIn("Yes for all four", doc)
+        self.assertIn("Not mappable yet", doc)
+        self.assertIn("Expected complete", doc)
 
 
 if __name__ == "__main__":

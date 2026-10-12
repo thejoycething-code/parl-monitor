@@ -122,7 +122,8 @@ offered=$(sed -n 's/.*; \([0-9][0-9]*\) offered, cap.*/\1/p' "$JLOG" | tail -1)
 rm -f "$JLOG"
 vote_pages() {
   # Portraits first (12 October 2026, src/portraits.py): only countries whose
-  # photo licence is OK (docs/portraits-logos-licences.md), at most 150 new
+  # photo licence is usable (docs/portraits-logos-licences.md: OK, internal,
+  # or used on Chris's instruction; never "not allowed"), at most 150 new
   # photos each a run, robots.txt obeyed; the manifests go out with data/.
   python3 tools/fetch_portraits.py || echo "  [gap] portraits: some were not fetched; the cached ones stand"
   python3 tools/make_country_votes.py || echo "  [gap] the new-country vote pages failed; last week's stand"
