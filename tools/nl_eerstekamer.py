@@ -66,6 +66,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt, nl_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "nl-eerstekamer"
 HOST = "https://www.eerstekamer.nl"
@@ -429,7 +430,7 @@ def main():
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
     ap.add_argument("--dry-run", action="store_true", help="read one page, store nothing")
     args = ap.parse_args()
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
     client.set_host_throttle("www.eerstekamer.nl", 1.0)
     today = datetime.date.today().isoformat()
     tax = load_taxonomy(args.taxonomy)

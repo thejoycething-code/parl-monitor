@@ -10,6 +10,8 @@ re-runs read the archive instead of the network.
     python3 tools/nic_probe.py 2026 2025      # -> data/raw/nic/votes_2026_2025.json
 """
 import gzip, json, os, re, sys, time, html, urllib.request
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.robots_guard import probe_refusal  # noqa: E402  robots.txt asked at run time
 UA = "CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
 BASE = "https://verifica.asamblea.gob.ni/vtn/Votaciones_/"
 OUT = "data/raw/nic/lists"; os.makedirs(OUT, exist_ok=True)
@@ -17,6 +19,9 @@ def get(q):
     p = os.path.join(OUT, re.sub(r"[^\w-]", "_", q) + ".html.gz")
     if os.path.exists(p):
         return gzip.open(p, "rt", encoding="utf-8").read()
+    why = probe_refusal(BASE + "Votaciones.aspx?" + q, "nic-probe")
+    if why:
+        print("[gap]", why, flush=True); return ""
     req = urllib.request.Request(BASE + "Votaciones.aspx?" + q, headers={"User-Agent": UA})
     for wait in (2, 8, 20, None):
         try:

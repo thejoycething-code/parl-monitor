@@ -57,6 +57,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt, mx_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "mx-rollcalls"
 LEGISLATURE = 66
@@ -150,7 +151,7 @@ def make_client(raw_dir=None, extra_ca=EXTRA_CA):
     if extra_ca and os.path.exists(extra_ca):
         ctx.load_verify_locations(cafile=extra_ca)
     opener = urllib.request.build_opener(urllib.request.HTTPSHandler(context=ctx))
-    client = HttpClient(raw_dir or os.path.join(ROOT, "data", "raw"), opener=opener)
+    client = guard(HttpClient(raw_dir or os.path.join(ROOT, "data", "raw"), opener=opener), FEED)
     for host in ("sitl.diputados.gob.mx", "gaceta.diputados.gob.mx"):
         client.set_host_throttle(host, HOST_DELAY)
     return client

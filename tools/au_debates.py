@@ -91,6 +91,7 @@ sys.path.insert(0, ROOT)
 
 from src import au_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 
 def _rollcalls():
@@ -407,7 +408,7 @@ def stamp_heartbeat(conn, today, note):
 
 
 def make_client(raw_dir=None):
-    client = HttpClient(raw_dir=raw_dir or os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=raw_dir or os.path.join(ROOT, "data", "raw")), FEED)
     client.set_host_throttle("data.openaustralia.org.au", aur.OA_THROTTLE_S)
     return client
 

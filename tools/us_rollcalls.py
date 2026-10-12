@@ -102,6 +102,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt, us_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "us-rollcalls"
 # Derived from the date (us_store.congress_on), never hard-coded: the 119th
@@ -1097,7 +1098,7 @@ def main():
         return 0
     if args.congress is None:
         args.congress = us_store.congress_on(today)
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
     if args.dry_run:
         year = congress_years(args.congress)[0]
         d = parse_roll(client.get_bytes(ROLL.format(year, 1), FEED, "dry", archive=False))

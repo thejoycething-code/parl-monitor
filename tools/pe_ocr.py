@@ -38,6 +38,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, ocr  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "pe-ocr"
 LANG = "spa"
@@ -100,7 +101,7 @@ def main(argv=None):
         return 0
     today = datetime.date.today().isoformat()
     conn = db.init_db(db.connect(args.db))
-    got = run(conn, HttpClient(raw_dir=args.raw_dir, throttle=1.0), today, args.max)
+    got = run(conn, guard(HttpClient(raw_dir=args.raw_dir, throttle=1.0), FEED), today, args.max)
     conn.close()
     if got is None:
         return 0

@@ -3,6 +3,8 @@ Usage: python3 tools/ve_news_crawl.py 2026-04-09  (2s throttle, raw pages archiv
 import sys, re, time, json, gzip, html, urllib.request
 from pathlib import Path
 sys.path.insert(0, 'tools')
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from src.robots_guard import probe_refusal  # noqa: E402  robots.txt asked at run time
 UA = "CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
 OUT = Path('data/raw/ve-probe/news'); OUT.mkdir(parents=True, exist_ok=True)
 B = "https://www.asambleanacional.gob.ve"
@@ -10,6 +12,9 @@ def get(url):
     slug = re.sub(r'[^A-Za-z0-9]+', '_', url)[-150:]
     p = OUT / (slug + '.gz')
     if p.exists(): return gzip.decompress(p.read_bytes()).decode('utf-8', 'replace')
+    why = probe_refusal(url, "ve-probe")
+    if why:
+        ERR.append((url, why)); return ""
     time.sleep(2)
     try:
         with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=30) as r:

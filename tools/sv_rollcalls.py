@@ -76,6 +76,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt, sv_pdf, sv_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "sv-rollcalls"
 BASE = "https://www.asamblea.gob.sv"
@@ -834,7 +835,7 @@ def main(argv=None):
         summary(conn)
         return 0
 
-    client = HttpClient(raw_dir=args.raw_dir, throttle=THROTTLE_S, default_timeout=120)
+    client = guard(HttpClient(raw_dir=args.raw_dir, throttle=THROTTLE_S, default_timeout=120), FEED)
     budget = drain.Budget(args.budget_seconds)
     gaps = 0
     try:

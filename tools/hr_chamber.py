@@ -221,6 +221,10 @@ def speeches(run):
     try:
         newest = hph.frontier(run.client.get_text(hph.LIST, FEED, "fonogrami"))
     except FetchError as exc:
+        if getattr(exc, "host_skipped", False):
+            # robots.txt unreachable (src/robots_guard): one gap, no walk.
+            run.gap("edoc.sabor.hr not read: {0}".format(exc))
+            return
         run.log("  [hr-chamber] transcript list unreadable ({0}); walking from the newest id "
                 "read".format(str(exc)[:80]))
         newest = None
@@ -236,6 +240,8 @@ def speeches(run):
             if cs.not_found(exc):
                 continue
             run.gap("transcript {0} unreadable: {1}".format(tdrid, str(exc)[:100]))
+            if getattr(exc, "host_skipped", False):
+                return
             continue
         fetched += 1
         if not run.dry_run and party_roster:

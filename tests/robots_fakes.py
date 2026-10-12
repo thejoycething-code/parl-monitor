@@ -6,7 +6,7 @@ import urllib.error
 from urllib.parse import urlsplit
 
 from src.http import FetchError
-from src.robots_guard import GuardedClient
+from src.robots_guard import GuardedClient, guard
 
 UA = "citizengo-parlmonitor/1.0 (+test)"
 
@@ -46,3 +46,10 @@ def guarded(inner, robots, feed):
     """A GuardedClient over `inner`, with robots.txt served from `robots`."""
     serving = RobotsServing(inner, robots)
     return GuardedClient(serving, feed, log=lambda *a, **k: None), serving
+
+
+def guarded_api(inner, robots, feed):
+    """src/robots_guard.guard() over `inner` (documented APIs exempt), with
+    robots.txt served from `robots`: how the #144 collectors are wrapped."""
+    serving = RobotsServing(inner, robots)
+    return guard(serving, feed, log=lambda *a, **k: None), serving

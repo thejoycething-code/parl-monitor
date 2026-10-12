@@ -57,6 +57,7 @@ sys.path.insert(0, ROOT)
 
 from src import courts, db  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 CC = "pt"
 FEED = "pt-courts"
@@ -260,7 +261,7 @@ def main(argv=None):
         print("pt-courts: {0} ruling(s) reclassified".format(courts.reclassify(conn, CC, tax)))
         return 0
     # No retries against a rate limiter: one refusal ends the run.
-    client = HttpClient(raw_dir=args.raw_dir, throttle=1.0, max_retries=0)
+    client = guard(HttpClient(raw_dir=args.raw_dir, throttle=1.0, max_retries=0), FEED)
     listed, new, read, ours, gaps = pull(conn, client, today, tax, args.max_read)
     pending = conn.execute(
         "SELECT COUNT(*) FROM pt_rulings WHERE summary IS NULL AND (lower(formation) LIKE "

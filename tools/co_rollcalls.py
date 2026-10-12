@@ -67,6 +67,7 @@ sys.path.insert(0, ROOT)
 
 from src import co_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "co-rollcalls"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
@@ -561,7 +562,7 @@ def summary(conn, log=print):
 
 
 def make_client(raw_dir=None):
-    client = HttpClient(raw_dir=raw_dir or os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=raw_dir or os.path.join(ROOT, "data", "raw")), FEED)
     # Small government servers: a second between requests to each.
     for host in ("www.camara.gov.co", "leyes.senado.gov.co", "www.datos.gov.co"):
         client.set_host_throttle(host, 1.0)

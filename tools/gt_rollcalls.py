@@ -70,6 +70,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, gt_store, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "gt-rollcalls"
 BASE = "https://www.congreso.gob.gt"
@@ -655,7 +656,7 @@ def main(argv=None):
     if tax is None:
         print("gt-rollcalls: no Spanish taxonomy yet (config/taxonomy-es.yaml); "
               "areas stay NULL, only watchlist-gt lends areas")
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S)
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S), FEED)
     today = datetime.date.today().isoformat()
     budget = drain.Budget(args.budget_seconds)
     gaps = 0

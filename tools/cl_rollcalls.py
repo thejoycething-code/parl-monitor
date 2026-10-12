@@ -80,6 +80,7 @@ sys.path.insert(0, ROOT)
 
 from src import cl_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "cl-rollcalls"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
@@ -917,7 +918,7 @@ def main(argv=None):
     ap.add_argument("--dry-run", action="store_true",
                     help="parse the newest Cámara vote of this year, store nothing")
     args = ap.parse_args(argv)
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
     today = datetime.date.today().isoformat()
     tax_path = args.taxonomy or taxonomy_path()
     if tax_path == TAXONOMY_EN:

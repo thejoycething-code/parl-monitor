@@ -98,6 +98,7 @@ sys.path.insert(0, ROOT)
 
 from src import ca_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 
 def _load_hansard():
@@ -611,7 +612,7 @@ def main():
     args = ap.parse_args()
     parl, _ = han.parse_session(args.session)
     # One request a second: two of the three hops are heavy pages.
-    client = HttpClient(raw_dir=args.raw_dir, throttle=1.0)
+    client = guard(HttpClient(raw_dir=args.raw_dir, throttle=1.0), FEED)
     today = datetime.date.today().isoformat()
     conn = ca_store.ensure_schema(db.init_db(db.connect(":memory:" if args.dry_run else args.db)))
     committees = tuple(c.strip().upper() for c in args.committee.split(",")) \

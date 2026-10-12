@@ -58,6 +58,7 @@ sys.path.insert(0, ROOT)
 
 from src import courts, db  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 CC = "pe"
 FEED = "pe-courts"
@@ -281,7 +282,7 @@ def main(argv=None):
     if args.reclassify:
         print("pe-courts: {0} note(s) reclassified".format(courts.reclassify(conn, CC, tax)))
         return 0
-    client = HttpClient(raw_dir=args.raw_dir, throttle=1.0)
+    client = guard(HttpClient(raw_dir=args.raw_dir, throttle=1.0), FEED)
     if args.backfill_feed:
         read, new, ours, gaps = backfill_feed(conn, client, today, tax)
     else:

@@ -67,6 +67,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt, us_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "us-schedule"
 # Derived from the date, as in us_rollcalls: the 120th from 3 January 2027.
@@ -687,7 +688,7 @@ def main():
     last = (first + datetime.timedelta(days=args.days - 1)) if args.days else window(first)[1]
     days = [first + datetime.timedelta(days=i) for i in range((last - first).days + 1)]
     weeks = sorted({monday(d).isoformat() for d in days})
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
     conn = db.init_db(db.connect(":memory:" if args.dry_run else args.db))
     tax = filt.load_taxonomy(TAXONOMY)
     wl = filt.Watchlist(entities=[], bill_titles=[], act_shorts=[])

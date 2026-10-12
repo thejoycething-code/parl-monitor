@@ -98,6 +98,7 @@ sys.path.insert(0, ROOT)
 
 from src import ca_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "ca-courts"
 BASE = "https://decisions.scc-csc.ca"
@@ -777,7 +778,7 @@ def main():
     ap.add_argument("--budget-seconds", type=float, default=drain.DEFAULT_S)
     ap.add_argument("--dry-run", action="store_true", help="read the feeds/indexes, store nothing")
     args = ap.parse_args()
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S)
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S), FEED)
     today = datetime.date.today().isoformat()
     conn = ca_store.ensure_schema(db.init_db(db.connect(args.db)))
     r = run(conn, client, today, backfill=args.backfill, since=args.since, until=args.until,

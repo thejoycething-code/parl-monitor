@@ -68,6 +68,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, pa_store, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "pa-rollcalls"
 SITE = "https://www.asamblea.gob.pa"
@@ -667,7 +668,7 @@ def main():
     if tax is None:
         print("pa-rollcalls: no Spanish taxonomy yet (config/taxonomy-es.yaml); "
               "areas stay NULL, only watchlist-pa lends areas")
-    client = HttpClient(raw_dir=args.raw_dir, throttle=THROTTLE_S)
+    client = guard(HttpClient(raw_dir=args.raw_dir, throttle=THROTTLE_S), FEED)
     today = datetime.date.today().isoformat()
     budget = drain.Budget(args.budget_seconds)
     gaps = 0
