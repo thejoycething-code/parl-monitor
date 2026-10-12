@@ -40,7 +40,9 @@
 # with any bill direction a person changed (--resync-directions), draft the
 # untouched needs_reading votes whose bill has since been given a direction
 # (12 October 2026, --fill-directions: they were drafted before it existed and
-# nothing else revisits them), confirm on
+# nothing else revisits them; it also drafts the amendment entries a reader
+# gave an amendment_direction, as every amendment is now read and scored),
+# confirm on
 # Chris's delegation every draft that passes every automatic check
 # (11 October 2026, --auto-confirm: "Automate the checks and we'll make it so
 # teams can amend as and when errors come up. Like we're doing with Canada.";

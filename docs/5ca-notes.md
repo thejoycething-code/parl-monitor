@@ -242,9 +242,11 @@ sheet and the checkbox format are `src/readings5ca.py`'s, unchanged.
   automatically, below). `readings5ca.status` now reads this `status:` field (additive:
   files without it read as before), so a `confirmed` entry with no name or
   date is still a draft everywhere, the vote briefs included.
-* **The sign-off scope** (Chris, 10 October 2026). A spec may limit what is
+* **The sign-off scope** (Chris, 10 October 2026; **lifted 12 October 2026**,
+  below: no country has a scope now, and no prune removes an amendment
+  entry). A spec may limit what is
   drafted for sign-off (`Spec.scope`; none means every qualifying vote, as
-  for every country but France). France's is `final_or_watched`: votes on
+  for every country but France until 12 October). France's is `final_or_watched`: votes on
   the whole text, motions to reject it and inverted votes; procedure only
   when its wording is about the whole text; and amendment or article votes
   only when listed under their dossier's `amendments:` in
@@ -431,6 +433,67 @@ naming it `placeable: false` with a `reason:` and confirmed in his name: it
 places nobody and is listed under Confirmed as "out of play". A reading
 with `draft: true` is no longer shortlisted. A `flag:` starting "Left for a
 person" lifts a reading in the shortlist (+40), the flag saying why.
+
+### Every amendment read and scored (12 October 2026, branch `amendments-all`)
+
+Chris, 12 October 2026: "score all amendments and reverse France's
+decision". Every amendment and article vote on our ground is read and
+scored in every country (docs/country-decisions-2026-10-12.md).
+
+* **France's limit is lifted.** `SPECS["fr"]` has no `scope` (it was
+  `final_or_watched()`, 10 October), so the drafter drafts every watched
+  and tier-1 French vote, as for every other country. The scope machinery
+  stays in the module, unused. **No prune removes an amendment entry**:
+  `_prune` (behind `--prune-out-of-scope` and `--prune-off-ground`) keeps
+  every `vote_kind: amendment` entry and reports it; a reader marks one
+  `not_scored` instead. A read entry (any `amendment_*` field) also counts
+  as hand-edited.
+* **France drafted** against the store of 12 October 2026 (sha256
+  07d9d0e89392, read-only): 1,083 new entries, 1,078 amendment and article
+  votes (959 on the aide a mourir law DLR5L17N51670, 86 on the palliative
+  care law, 40 on the minors online law) and 5 Senat motions the rules do
+  not recognise; all `needs_reading`. The rules now read the Senat's
+  "sur l'article N ..." and the Dominican "modificaciones propuestas" as
+  article and amendment votes.
+* **An amendment's own direction.** A reader records on the entry whether
+  ADOPTING the amendment (or article) is with CitizenGO or against it:
+  `amendment_direction: with|against`, `amendment_why:`,
+  `amendment_source:` (the URL of the text read), and, only where a Yes
+  does not adopt it (Brazil's "mantido o texto"), `amendment_yes_adopts:
+  false`. A motion to delete an article is read as itself: adopting the
+  deletion is with or against us. The rules give the values as for a bill
+  direction (`amendment_values`: Yes +2 / No -2 when adopting is with us,
+  swapped when against or when a Yes rejects). `amendment_flag:` holds
+  anything a person must look at.
+* **The checks.** `auto_check` treats an entry with an
+  `amendment_direction` like a final vote: it must be untouched as the rules
+  wrote it, carry a why and a source, have no `amendment_flag` (or `flag`),
+  values exactly `amendment_values`, and a tally that splits members; then
+  `--auto-confirm` confirms it on the delegation. `--fill-directions` also
+  drafts an untouched `needs_reading` amendment entry given an
+  `amendment_direction` by hand (`fill_amendments`).
+* **Applying readers' decisions.** `python3 tools/country_5ca.py
+  --apply-amendments FILE [--dry-run]` reads a JSON list (or
+  `{"decisions": [...]}`) of `{cc, key, direction, why, source, flag,
+  yes_adopts}`: `with`/`against` (why and source required) record the
+  reading and draft the values; `unclear` leaves the entry `needs_reading`
+  with `amendment_flag` shown in the guide ("Read, side unclear");
+  `not_scored` makes it `placeable: false` with `reason: "Not scored
+  (amendment reading, DATE): why"`. Confirmed, amended, hand-valued and
+  non-amendment entries are refused with the reason (an entry drafted as
+  `other` whose wording the rules now read as an article vote is accepted
+  and becomes `amendment`). The tool exits 1 when anything was refused.
+* **The reading worklist.** `python3 tools/amendment_worklist.py --db STORE
+  --out FILE --summary FILE` lists every unread amendment entry (not
+  collated only) with the vote's full wording from the store, the bill and
+  its direction, result, tally, areas, identifiers from the store row and
+  the wording (number, author, article, reading, prints, dossier) and the
+  parliament's URLs (`sure: false` where a part must be filled in). First
+  run, 12 October 2026: 1,555 items (FR 1,079, PL 141, IT 119, DO 76, CH 49,
+  NL 31, ES 30, SK 13, HU 7, BR 4, CL 3, AR 1, AT 1, BE 1), written to
+  `/Users/chrisjoyce/parl-judge/amendments/worklist.json` (outside the
+  repo). No for/against judgement is made by the tools: that is the
+  readers'.
 
 ## The new countries' tracker and partner sheet (10 October 2026, branch `camp-5ca-sheets`)
 

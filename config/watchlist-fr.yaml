@@ -14,6 +14,11 @@
 # keeps its key across readings and across the navette with the Senat; it
 # does not survive a dissolution unless the Senat has adopted it.
 #
+# LIFTED 12 October 2026 (Chris: "score all amendments and reverse France's
+# decision"): France has no sign-off scope now; every watched or tier-1 vote,
+# amendments and articles included, is drafted and read. An `amendments:`
+# list below no longer changes what is drafted. What the scope was:
+#
 # 5CA SIGN-OFF SCOPE (Chris, 10 October 2026): France's stance sign-off
 # (config/fr_stance.yaml, src/country5ca.py) covers only votes on the whole
 # text and motions to reject it, plus the amendment and article votes listed

@@ -124,3 +124,29 @@ Croatia 0 / 7, Slovakia 12 / 26, Spain 14 / 35, Brazil 2 / 11, Argentina
 Guatemala none. Several filled votes stay for a person because they were
 unanimous (they tell nobody apart) or inverted (Croatia). Nothing from the
 dry run was committed; the Sunday job applies it to the live store.
+
+## Every amendment read and scored; France's limit lifted
+
+Chris, 12 October 2026: **"score all amendments and reverse France's
+decision"**.
+
+- **Every amendment and article vote on our ground is read and scored, in
+  every country.** A reader records whether ADOPTING it is with or against
+  CitizenGO (`amendment_direction`, with `amendment_why` and the URL of the
+  text read in `amendment_source`), and the rules derive the vote's values
+  as for a bill direction; a reading with no flag confirms on the
+  automatic checks like a final vote. Readers' decisions are applied with
+  `tools/country_5ca.py --apply-amendments FILE` (docs/5ca-notes.md, "Every
+  amendment read and scored").
+- **France's 10 October limit is reversed.** Sign-off is no longer limited
+  to final votes, motions to reject and watched amendments: France has no
+  sign-off scope, the drafter drafts every watched and tier-1 vote, and no
+  prune ever removes an amendment entry. Drafted the same day from the
+  store of 12 October: 1,083 new French entries (1,078 amendment and
+  article votes), all needing a reading.
+- **The worklist.** 1,555 amendment and article votes across 14 countries
+  wait for a reading (France 1,079, Poland 141, Italy 119, the Dominican
+  Republic 76, Switzerland 49, the Netherlands 31, Spain 30, Slovakia 13,
+  Hungary 7, Brazil 4, Chile 3, Argentina, Austria and Belgium 1 each):
+  `/Users/chrisjoyce/parl-judge/amendments/worklist.json` (outside the
+  repo), made by `tools/amendment_worklist.py`.

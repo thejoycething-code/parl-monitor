@@ -159,13 +159,19 @@ class CheckTests(AutoBase):
         # Watched, but without a direction of its own: still a person's call.
         got = [c for c, _ in c5.auto_check("fr", "an-17-3", amend, {"DLR5L17N51670": bill}, wl)]
         self.assertIn("kind", got)
-        # Watched with its own direction, values as the rules give them: passes.
+        # With its own direction, values as the rules give them: passes.
         own = {"direction": "with", "why": "Strikes article 1 (the right to assisted dying)."}
         bills = {"DLR5L17N51670": bill, "an-17-3": own}
         amend.update(c5.rule_values(spec, "final", "an-17-3", own, c5._area_line(amend)))
         self.assertEqual(c5.auto_check("fr", "an-17-3", amend, bills, wl), [])
-        # Not watched: outside France's sign-off scope.
-        got = [c for c, _ in c5.auto_check("fr", "an-17-3", amend, bills, {"DLR5L17N51670": {}})]
+        # Not watched: since 12 October 2026 France has no scope, so it passes too.
+        self.assertEqual(c5.auto_check("fr", "an-17-3", amend, bills, {"DLR5L17N51670": {}}), [])
+        # The scope machinery, put back for this check only, still fails it.
+        orig, spec.scope = spec.scope, c5.final_or_watched()
+        try:
+            got = [c for c, _ in c5.auto_check("fr", "an-17-3", amend, bills, {"DLR5L17N51670": {}})]
+        finally:
+            spec.scope = orig
         self.assertIn("scope", got)
 
 
