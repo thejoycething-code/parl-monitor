@@ -194,7 +194,10 @@ def parse_brief_csv(rows):
             section = None
             continue
         if key.startswith("RF#"):
-            rf4[key] = row[3] if len(row) > 3 else ""
+            # (comment, Plan score): RF#1 may carry a computed Plan score
+            # (12 October 2026); the others are blank.
+            rf4[key] = (row[3] if len(row) > 3 else "",
+                        row[2] if len(row) > 2 else "")
             continue
         if key in ("TIMELINE OF MAJOR ACTIONS", "Date"):
             section = "timeline" if key == "Date" else section
@@ -426,11 +429,18 @@ def publish_one(token, slug, subject, dry_run=False, into=None, parent=None, tit
                                     "values": [[value]]})
                 else:
                     unmatched.append("field: " + label[:38])
-            for code, hint in rf4.items():          # hint belongs in Comments
+            for code, (hint, score) in rf4.items():  # hint belongs in Comments
                 row_no = labels.get(norm_label(code))
                 if row_no:
                     updates.append({"range": a1(match, "D{0}".format(row_no)),
                                     "values": [[hint]]})
+                    if score.lstrip("-").isdigit():
+                        # The Plan score cell only, as a NUMBER (a RAW
+                        # string would be text the TOTAL formulas skip);
+                        # the TOTAL rows are the template's formulas and
+                        # are never written.
+                        updates.append({"range": a1(match, "C{0}".format(row_no)),
+                                        "values": [[int(score)]]})
             rf4_top = labels.get(norm_label("RED FOX FOUR"))
             rf4_end = labels.get(norm_label("TOTAL IF WE LOSE"))
             if rf4_top and rf4_end and rf4_end >= rf4_top:

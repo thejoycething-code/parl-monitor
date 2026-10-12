@@ -17,9 +17,12 @@ pointer at the full sheets. What the store knows is filled deterministically.
 Narrative fields (key injustice, arguments, outcomes) are drafted by the
 model in CitizenGO voice when an API key is present, and left as marked
 [CAMPAIGNER] placeholders otherwise -- the same stub-not-silence pattern as
-triage. RF4 SCORES are never auto-filled: the Cheat Sheet is explicit that
-scoring is the campaigner's judgement, so each question gets an evidence
-hint and an empty score.
+triage. RF4 scores are the campaigner's judgement, so each question gets
+an evidence hint and an empty score, with one exception since 12 October
+2026: Christopher scores every RF4 question at Plan, and RF#1's score is
+arithmetic (expected figures against the EN GB benchmark), so it is filled
+when the comparables give a clear median. The TOTAL rows stay the
+template's formulas.
 
 Written to briefs/<slug>.md (readable) and briefs/<slug>.csv (paste-in,
 matching the Brief spreadsheet's row layout). Internal only: never copied
@@ -118,7 +121,10 @@ def with_rules(hints):
     out = list(hints)
     for i, (code, _) in enumerate(RF4):
         if i < len(out):
-            out[i] = (out[i] + " " + RF4_RULES[code]).strip()
+            # A comment laid out in lines (RF#1, 12 October 2026) keeps the
+            # rule on a line of its own.
+            sep = "\n" if "\n" in out[i] else " "
+            out[i] = (out[i] + sep + RF4_RULES[code]).strip()
     return out
 
 NARRATIVE_FIELDS = [
@@ -634,74 +640,309 @@ def rf1_expectation(conn, areas):
     return [("Expected signatures", better("signatures", "signatures")),
             ("Expected new members", better("new_members", "new_members")),
             ("Expected reactivated members", band("reactivated")),
+            # Unsubscribes are not in the store. The live Bluebook figure
+            # (bluebook_emails_3_0's `unsubscribed` measure, email-series
+            # basis, EN_GB sends from February 2026 only) comes from the
+            # Looker connector on the Mac Mini: a one-off launchd job runs
+            # claude -p with --allowedTools "mcp__claude_ai_CitizenGO_Looker__*",
+            # since over plain SSH claude reports "Not logged in". That basis
+            # is not this block's lifetime basis; never mix the two.
             ("Expected unsubscribes",
-             "NOT HELD: unsubscribes are not in the store. Estimate them "
-             "from the planned email sends."),
+             "NOT HELD: unsubscribes are not in the store. The live figure "
+             "is in Bluebook (email-series basis, via the Looker connector "
+             "on the Mac Mini); otherwise estimate them from the planned "
+             "email sends."),
             ("Expected net audience",
              "new + reactivated - unsubscribes, from the three rows above. "
              "This is the audience figure RF#1 is scored on."),
             ("Expected EUR raised", money_basis)]
 
 
-def rf1_hint(conn, areas):
-    """What comparable campaigns on this topic actually did (RF#1 evidence).
+# RF#1's comment and Plan score (Christopher, 12 October 2026, the Anita
+# Meston brief). He scores every RF4 question at Plan (the TOTAL rows are the
+# template's formulas), so RF#1 is no longer left blank when the numbers
+# allow a score: the comment lays out, as labelled lines, what is expected,
+# why (the nearest comparables), the EN GB benchmark and the arithmetic.
+# The expected figures remain the campaigner's call unless the comparables
+# give a clear median (three or more).
+BENCHMARK_MONTHS = 24
+MIN_COMPARABLES = 3
+MAX_COMPARABLES = 5
+# Audience and money weights per Main Purpose, as RF4_RULES states them.
+RF1_WEIGHTS = {"Acquisition": (85, 15), "Fundraising": (30, 70)}
+RF1_WEIGHTS_OTHER = (50, 50)
 
-    PENDING (Antonio, #campaigns 2026-08-19): RF#1 should also carry a
-    NUMERICAL EXPECTATION recorded at Planning -- expected signatures, new
-    members and euros -- so Evaluate compares a number with a number rather
-    than with narrative. Two things are needed and neither is built:
-    blank expectation cells in the RF4 block (needs no data source), and a
-    category BASELINE to write them against. See docs/campaign-benchmarks.md
-    for the Looker survey, the field names, and the verified data-quality trap
-    that makes every topic-level SUM in aa_downstream_report wrong.
 
-    Christopher (2026-08-13): individual campaign performance and acquisition
-    rates predict a new campaign far better than lifetime topic totals, so
-    the top comparables lead, each with its acquisition rate (new members as
-    a share of signatures); the topic rollup closes the line. Money comes
-    from fundraising_series ONLY via an explicit petition join - the source
-    is series-grain, starts 2025-01-23, and absence means not-available,
-    never zero (Max's own caveat).
+def _months_back(iso_date, months):
+    d = datetime.date.fromisoformat(str(iso_date)[:10])
+    y, m = divmod(d.year * 12 + d.month - 1 - months, 12)
+    return datetime.date(y, m + 1, min(d.day, 28)).isoformat()
+
+
+def rf1_benchmark(conn, today=None):
+    """The rolling EN GB benchmark RF#1 is scored against.
+
+    Net audience: campaign_performance, signatures >= 3,000, launched in
+    the last 24 months; new + reactivated (unsubscribes are not held).
+    Money: looker_campaigns EN_GB, signatures >= 3,000, one-time + first
+    monthly (otd_eur + md_eur), started in the 24 months BEFORE
+    MONEY_COMPLETE_BEFORE: donation attribution stops there, so the window
+    is anchored on the last complete month, not on today (n=89 on 12
+    October 2026, against 62 for a window ending today).
     """
+    today = today or datetime.date.today()
+    out = {"net": {}, "money": {}}
     try:
-        rows = conn.execute("SELECT petition_id, name, new_members, reactivated, "
-                            "signatures, areas, logged_at FROM campaign_performance").fetchall()
-        series = conn.execute("SELECT related_petition_id, value_eur "
-                              "FROM fundraising_series WHERE related_petition_id "
-                              "IS NOT NULL").fetchall()
+        net = [(r[0] or 0) + (r[1] or 0) for r in conn.execute(
+            "SELECT new_members, reactivated FROM campaign_performance "
+            "WHERE signatures >= ? AND launch_date >= ?",
+            (MIN_LOOKER_SIGNATURES, _months_back(today, BENCHMARK_MONTHS)))]
     except Exception:
-        rows, series = [], []
-    money_by_pid = {r["related_petition_id"]: r["value_eur"] for r in series}
-    hits = [r for r in rows
-            if any(a in areas for a in json.loads(r["areas"] or "[]"))]
-    if not hits:
-        return ("No lifetime record logged for this topic yet - run "
-                "tools/log_campaign_performance.py; interim: EOS dashboard.")
+        net = []
+    try:
+        money = [r[0] for r in conn.execute(
+            "SELECT otd_eur + md_eur FROM looker_campaigns "
+            "WHERE list_name = 'EN_GB' AND signatures >= ? "
+            "AND start_date < ? AND start_date >= ?",
+            (MIN_LOOKER_SIGNATURES, MONEY_COMPLETE_BEFORE,
+             _months_back(MONEY_COMPLETE_BEFORE, BENCHMARK_MONTHS)))
+            if r[0] is not None]
+    except Exception:
+        money = []
+    if net:
+        out["net"] = {p: _quartile(net, p) for p in (50, 75, 90)}
+        out["net"]["n"] = len(net)
+    if money:
+        out["money"] = {p: _quartile(money, p) for p in (25, 50, 75, 90)}
+        out["money"]["n"] = len(money)
+    return out
 
-    def acq(r):
-        if r["signatures"] and r["new_members"] is not None:
-            return 100.0 * r["new_members"] / r["signatures"]
-        return None
 
-    top = sorted(hits, key=lambda r: -(r["new_members"] or 0))[:3]
-    parts = []
-    for r in top:
-        a = acq(r)
-        m = money_by_pid.get(r["petition_id"])
-        parts.append("{0}: {1:,} new / {2:,} sigs{3}{4}".format(
-            r["name"][:60], r["new_members"] or 0, r["signatures"] or 0,
-            " ({0:.1f}% acquired)".format(a) if a is not None else "",
-            ", \u20ac{0:,.0f} attributed".format(m) if m else ""))
-    rates = [acq(r) for r in hits if acq(r) is not None]
-    rates.sort()
-    median = rates[len(rates) // 2] if rates else None
-    logged = max((r["logged_at"] or "")[:10] for r in hits)
-    return ("Comparable campaigns on this topic - {0}. Topic lifetime: {1} "
-            "campaigns, {2:,} new members{3}. Baseline logged {4}.".format(
-                " | ".join(parts), len(hits),
-                sum(r["new_members"] or 0 for r in hits),
-                ", median acquisition {0:.1f}%".format(median) if median else "",
-                logged))
+# THE EMAIL-SERIES BASIS (live Looker pull, 12 October 2026). RF4_RULES
+# scores net audience on the email series, and the Bluebook explore
+# (bluebook_emails_3_0) holds new, reactivated and unsubscribed on that
+# basis, but only for EN_GB sends from February 2026, and it is not in the
+# store. Benchmark from that pull: EN GB campaigns with 100+ new members,
+# February to October 2026. Far lower than the lifetime figures above (net
+# median 578 against 1,692) because it is a different basis: the two are
+# NEVER mixed, and the RF#1 cell names the basis it uses.
+#
+# The pull runs on the Mac Mini as a one-off launchd job with
+#   claude -p ... --allowedTools "mcp__claude_ai_CitizenGO_Looker__*"
+# because the Looker connector lives in the Mini's logged-in Claude session:
+# over plain SSH, claude reports "Not logged in". Refresh this block from
+# such a pull, never from the store.
+SERIES_BENCHMARK = {
+    "pulled": "2026-10-12", "window": "February to October 2026",
+    "net": {50: 578, 75: 1534, 90: 3304, "n": 36},
+    "money": {25: 522, 50: 948, 75: 1701, 90: 2319, "n": 36},
+}
+
+PCT_NAME = {25: "p25", 50: "the median", 75: "p75", 90: "p90"}
+
+
+def rf1_band(value, bench, steps):
+    """(score, reason) for one RF#1 input against the benchmark.
+
+    steps: [(percentile, score)] ascending. Below the first step scores 1
+    (0 for nothing at all); above the last, each doubling of the top
+    percentile adds one, to 10. Never negative.
+    """
+    if value is None or not bench:
+        return None, ""
+    fmt = "{:,}".format
+    if value <= 0:
+        return 0, "{0} is nothing = 0".format(fmt(int(value)))
+    first_p, _ = steps[0]
+    if value < bench[first_p]:
+        return 1, "{0} is below {1} ({2}) = 1".format(
+            fmt(int(value)), PCT_NAME[first_p], fmt(int(bench[first_p])))
+    for (p, score), (p_next, _) in zip(steps, steps[1:]):
+        if value < bench[p_next]:
+            return score, "{0} is between {1} ({2}) and {3} ({4}) = {5}".format(
+                fmt(int(value)), PCT_NAME[p], fmt(int(bench[p])),
+                PCT_NAME[p_next], fmt(int(bench[p_next])), score)
+    top_p, score = steps[-1]
+    top, mult = bench[top_p], 1
+    while score < 10 and value >= top * mult * 2:
+        mult, score = mult * 2, score + 1
+    where = ("at or above {0} ({1})".format(PCT_NAME[top_p], fmt(int(top)))
+             if mult == 1 else "at or above {0} x {1} ({2})".format(
+                 mult, PCT_NAME[top_p], fmt(int(top * mult))))
+    return score, "{0} is {1} = {2}".format(fmt(int(value)), where, score)
+
+
+AUDIENCE_STEPS = [(50, 2), (75, 3), (90, 4)]
+MONEY_STEPS = [(25, 2), (50, 3), (75, 4), (90, 5)]
+
+
+def rf1_comparables(conn, areas, today=None):
+    """The nearest comparables: same area, >= 3,000 signatures, launched in
+    the last 24 months, newest first. Money is the Looker row joined on the
+    petition id (one-time + first monthly), and only where it started
+    before MONEY_COMPLETE_BEFORE; otherwise None, never zero.
+    """
+    today = today or datetime.date.today()
+    try:
+        rows = conn.execute(
+            "SELECT petition_id, name, launch_date, signatures, new_members, "
+            "reactivated, areas FROM campaign_performance WHERE signatures "
+            ">= ? AND launch_date >= ? ORDER BY launch_date DESC",
+            (MIN_LOOKER_SIGNATURES,
+             _months_back(today, BENCHMARK_MONTHS))).fetchall()
+    except Exception:
+        return []
+    money = {}
+    try:
+        for r in conn.execute(
+                "SELECT area_source, otd_eur, md_eur, start_date FROM "
+                "looker_campaigns WHERE list_name = 'EN_GB' AND signatures "
+                ">= ?", (MIN_LOOKER_SIGNATURES,)):
+            m = re.search(r"petition-id join \((\d+)\)", r[0] or "")
+            if m and (r[3] or "") < MONEY_COMPLETE_BEFORE:
+                money[int(m.group(1))] = (money.get(int(m.group(1)), 0)
+                                          + (r[1] or 0) + (r[2] or 0))
+    except Exception:
+        pass
+    out = []
+    for r in rows:
+        if not any(a in areas for a in json.loads(r["areas"] or "[]")):
+            continue
+        out.append({"id": r["petition_id"], "name": r["name"],
+                    "launch": r["launch_date"],
+                    "signatures": r["signatures"] or 0,
+                    "new": r["new_members"] or 0,
+                    "reactivated": r["reactivated"] or 0,
+                    "money": money.get(r["petition_id"])})
+        if len(out) == MAX_COMPARABLES:
+            break
+    return out
+
+
+def rf1_comment(conn, areas, purpose="Acquisition", today=None,
+                series=None):
+    """(comment, Plan score or None) for RF#1, as Christopher lays it out.
+
+    Lines, in order: expected figures; definitions; why these numbers (the
+    comparables); the EN GB benchmark; the score arithmetic; channels; and
+    an asterisk note when the ask type is new to the list (fewer than three
+    comparables).
+
+    Two bases, never mixed. Without `series` the cell is on the LIFETIME
+    basis: the store's comparables (campaign_performance petition totals)
+    against the store's lifetime benchmark. With `series` -- expected
+    email-series figures {new, reactivated, unsubscribes, eur} from a
+    Bluebook pull on the Mini -- audience and money are scored against
+    SERIES_BENCHMARK, and signatures stay labelled as lifetime petition
+    totals.
+    """
+    fmt = "{:,}".format
+    comps = rf1_comparables(conn, areas, today)
+    bench = rf1_benchmark(conn, today)
+    clear = len(comps) >= MIN_COMPARABLES
+
+    def med(key):
+        vals = [c[key] for c in comps if c[key] is not None]
+        return _quartile(vals, 50) if clear and len(vals) >= MIN_COMPARABLES \
+            else None
+
+    sig, new, rea, eur = (med("signatures"), med("new"), med("reactivated"),
+                          med("money"))
+    unsub = None
+    if series:
+        new, rea = series.get("new"), series.get("reactivated")
+        unsub, eur = series.get("unsubscribes"), series.get("eur")
+    net = (new + rea - (unsub or 0)
+           if new is not None and rea is not None else None)
+    ask = "[CAMPAIGNER]"
+    lines = [
+        "Expected by the end of the classical series{0}: {1} signatures | "
+        "{2} new members | {3} reactivated | {4} | "
+        "{5} | {6} raised".format(
+            "" if clear else "*",
+            fmt(sig) if sig is not None else ask,
+            fmt(new) if new is not None else ask,
+            fmt(rea) if rea is not None else ask,
+            "{0} unsubscribes".format(fmt(unsub)) if unsub is not None
+            else "unsubscribes NOT HELD",
+            fmt(net) + " net audience" + (
+                "" if unsub is not None else " (before unsubscribes)")
+            if net is not None else ask + " net audience",
+            "\u20ac" + fmt(int(eur)) if eur is not None else ask + " \u20ac"),
+        "Net audience = new members + reactivated - unsubscribes. \u20ac "
+        "raised = one-time + first monthly donations.",
+        ("Basis: email series (Bluebook, EN GB sends from February 2026) for "
+         "audience and \u20ac; signatures are lifetime petition totals."
+         if series else
+         "Basis: lifetime petition totals (the store), not the email-series "
+         "basis RF#1 is defined on; the two are never mixed. Unsubscribes "
+         "and series figures come from Bluebook via the Looker connector "
+         "on the Mac Mini."),
+    ]
+    # Unsubscribes are NOT HELD in the store. The live Bluebook figure (the
+    # bluebook_emails_3_0 `unsubscribed` measure) comes from the Looker
+    # connector on the Mac Mini, which this public, keyless generator cannot
+    # call: the campaigner (or a Mini session) fills it in.
+    if comps:
+        lines.append("Why these numbers (nearest comparables, same topic, "
+                     "last {0} months, median of {1}):".format(
+                         BENCHMARK_MONTHS, len(comps)))
+        for c in comps:
+            when = (datetime.date.fromisoformat(c["launch"][:10])
+                    .strftime("%B %Y") if c["launch"] else "date unknown")
+            lines.append("{0} ({1}, {2}): {3} signatures | {4} new | {5} "
+                         "reactivated | net {6} | {7}".format(
+                             c["name"], c["id"], when, fmt(c["signatures"]),
+                             fmt(c["new"]), fmt(c["reactivated"]),
+                             fmt(c["new"] + c["reactivated"]),
+                             "\u20ac" + fmt(int(c["money"]))
+                             if c["money"] is not None else "\u20ac n/a"))
+    else:
+        lines.append("Why these numbers: no comparable EN GB campaign on this "
+                     "topic in the last {0} months.".format(BENCHMARK_MONTHS))
+    if series:
+        nb, mb_ = SERIES_BENCHMARK["net"], SERIES_BENCHMARK["money"]
+        label = ("EN GB benchmark (email series, 100+ new members, {0}, "
+                 "pulled {1})".format(SERIES_BENCHMARK["window"],
+                                      SERIES_BENCHMARK["pulled"]))
+    else:
+        nb, mb_ = bench["net"], bench["money"]
+        label = ("EN GB benchmark (lifetime, signatures >= {0}, last {1} "
+                 "months)".format(fmt(MIN_LOOKER_SIGNATURES),
+                                  BENCHMARK_MONTHS))
+    lines.append(
+        "{0}: net audience {1}; \u20ac raised {2}".format(
+            label,
+            "median {0} | p75 {1} | p90 {2} (n={3})".format(
+                fmt(nb[50]), fmt(nb[75]), fmt(nb[90]), nb["n"])
+            if nb else "NOT HELD",
+            "p25 {0} | median {1} | p75 {2} | p90 {3} (n={4})".format(
+                *[fmt(int(mb_[p])) for p in (25, 50, 75, 90)], mb_["n"])
+            if mb_ else "NOT HELD"))
+    a, a_why = rf1_band(net, nb, AUDIENCE_STEPS)
+    b, b_why = rf1_band(eur, mb_, MONEY_STEPS)
+    wa, wb = RF1_WEIGHTS.get(purpose, RF1_WEIGHTS_OTHER)
+    score = None
+    if a is not None and b is not None:
+        raw = (wa * a + wb * b) / 100.0
+        score = int(raw + 0.5)
+        lines.append("Score: audience {0} | money {1} | RF#1 = {2}% x {3} + "
+                     "{4}% x {5} = {6:g}, rounded to {7}".format(
+                         a_why, b_why, wa, a, wb, b, raw, score))
+    else:
+        lines.append("Score: audience {0} | money {1} | RF#1 = {2}% x "
+                     "audience + {3}% x money, rounded ({4})".format(
+                         a_why or "[CAMPAIGNER: expected net audience]",
+                         b_why or "[CAMPAIGNER: expected \u20ac]", wa, wb,
+                         purpose or "Main Purpose"))
+    lines.append("Channels: the EN GB classical email series; TIM sends to "
+                 "the related petitions' inactive signers; organic social. "
+                 "[CAMPAIGNER: add paid or partner channels]")
+    if not clear:
+        lines.append("* New ask type for EN GB: fewer than {0} comparable "
+                     "campaigns, so the expected figures are the campaigner's "
+                     "call against the benchmark.".format(MIN_COMPARABLES))
+    return "\n".join(lines), score
 
 
 NATION_TOKENS = {"European Union": (" eu ", "european union", "brussels",
@@ -1069,7 +1310,7 @@ def render_markdown(subject, fields, rf4_hints, expectation, fca,
 
 
 def write_csv(path, subject, fields, rf4_hints, expectation, timeline,
-              today):
+              today, rf4_scores=None):
     """The Default Brief tab, row for row as the template lays it out."""
     with open(path, "w", encoding="utf-8", newline="") as handle:
         w = csv.writer(handle)
@@ -1100,8 +1341,14 @@ def write_csv(path, subject, fields, rf4_hints, expectation, timeline,
         w.writerow(["PLAN STAGE", "", "", "", "EVALUATE STAGE", "", ""])
         w.writerow(["#", "Question", "Scoring \n(-10 to +10)", "Comments",
                     "Scoring\n(-10 to +10)", "Delta", "Comments"])
+        # Plan scores the tool can compute (RF#1, from the expected figures
+        # and the benchmark: Christopher scores every RF4 question at Plan,
+        # 12 October 2026). The rest stay the campaigner's.
+        scores = rf4_scores or {}
         for (code, q), hint in zip(RF4, rf4_hints):
-            w.writerow([code, q, "", hint, "", "", ""])
+            plan = scores.get(code)
+            w.writerow([code, q, "" if plan is None else str(plan), hint,
+                        "", "", ""])
         w.writerow(["TOTAL IF WE WIN", "", "0", "", "0", "0", ""])
         w.writerow(["TOTAL IF WE LOSE", "", "0", "", "0", "0", ""])
         # RF#1's numerical expectation, in the SAME seven columns as RF4 above
@@ -1429,11 +1676,13 @@ def main():
                                      tally["-"] + tally["--"]))
 
         expectation = rf1_expectation(conn, s["areas"])
+        rf1_text, rf1_score = rf1_comment(conn, s["areas"], "Acquisition",
+                                          today)
         # RF#4/1 and RF#4/2 carry the substance, never "See Good outcome."
         # (Christopher, 12 October 2026): drafted, or a marker saying what
         # the cell needs.
         rf4_hints = [
-            rf1_hint(conn, s["areas"]),
+            rf1_text,
             rf4_ally_hint,
             "Opponent organisations are not tracked by the monitor; campaigner's knowledge.",
             drafted.get("rf4_gain") or RF4_GAIN_NEEDED,
@@ -1471,7 +1720,8 @@ def main():
             handle.write(render_markdown(s, fields, rf4_hints, expectation,
                                          fca_block, timeline,
                                          today.isoformat()))
-        write_csv(csv_path, s, fields, rf4_hints, expectation, timeline, today)
+        write_csv(csv_path, s, fields, rf4_hints, expectation, timeline, today,
+                  rf4_scores={"RF#1": rf1_score})
         has_5ca = (write_eu_5ca_csv(fca_path, eu_rows)
                    if s.get("nation") == "European Union"
                    else False if s.get("nation")
