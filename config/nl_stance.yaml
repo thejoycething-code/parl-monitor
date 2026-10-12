@@ -487,6 +487,27 @@ bill_directions:
     why: "Asks for an integral action plan against sexualisation in society, including measures against the normalisation of pornography, which is with CitizenGO."
     decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
     drafted: "Claude, 12 October 2026"
+  # --- 12 October 2026: the seven read for a person (docs/country-decisions-2026-10-12.md) ---
+  - key: "2025Z00250"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [10]
+    why: "First exception to the ban on creating embryos for research (stem-cell-based embryos, Art. 24(2)) and looser foetal research (Art. 20); the chimera closure (Art. 25) does not outweigh it."
+    decided: "Chris, 12 Oct 2026: against us."
+    source: "https://zoek.officielebekendmakingen.nl/kst-36677-2.html"
+    drafted: "Claude, 12 October 2026"
+  - key: "2026Z12645"
+    direction: against
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [5, 7]
+    why: "Asks the government to press the European Commission to enforce the Digital Services Act against platforms restricting LGBTIQ content: more Brussels platform enforcement for one viewpoint."
+    decided: "Chris, 12 Oct 2026: against us (DSA enforcement against platforms)."
+    source: "https://zoek.officielebekendmakingen.nl/kst-22112-4370.html"
+    drafted: "Claude, 12 October 2026"
 
 divisions:
 
@@ -2682,7 +2703,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "42e7902b-cea5-4fca-abb4-efce6b2c36ae"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): a declaration in the Israel-Gaza campus-antisemitism debate, no measure"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "Motie: Motie van het lid El Abassi over uitspreken dat ongefundeerde beschuldigingen van antisemitisme leiden tot zelfcensuur, polarisatie en aantasting van de academische vrijheid"
     "on": "[\"Racisme en Discriminatie\"]"
     dated: "2026-05-12"
@@ -2692,10 +2717,8 @@ divisions:
     result: "Verworpen.; Voor 37, Tegen 113"
     lobbies: "Voor: FVD 10, DENK 3, PvdD 3, SP 3, GroenLinks-PvdA 1, Volt 1. Tegen: VVD 31, D66 29, CDA 20, PVV 19, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, SGP 3, 50PLUS 2 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z08649, 30950: CitizenGO's position on '[\"Racisme en Discriminatie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
-    flag: "Left for a person (Chris, 12 Oct 2026): Israel-Gaza context; free-speech link uncertain"
 
   - key: "2390d8e1-7dc3-43a7-aca0-5a1317c16941"
     status: needs_reading
@@ -2878,7 +2901,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "99306983-cd0d-4e47-83e6-99699d4cf2be"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Voor on 2025Z00250 (First exception to the ban on creating embryos for research (stem-cell-based embryos, Art): for passing it, against CitizenGO's position."
+    why_nay: "Voted Tegen on 2025Z00250 (First exception to the ban on creating embryos for research (stem-cell-based embryos, Art): against passing it, with CitizenGO's position."
     title: "Wetgeving: Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2889,10 +2916,8 @@ divisions:
     result: "Aangenomen. (95-48); Voor 95, Tegen 48"
     lobbies: "Voor: D66 25, VVD 21, GroenLinks-PvdA 20, CDA 18, JA21 5, SP 3, PvdD 2, Volt 1. Tegen: PVV 19, Groep Markuszower 7, FVD 5, JA21 4, ChristenUnie 3, DENK 3, 50PLUS 2, BBB 2, SGP 2, Keijzer 1"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2025Z00250, 36677: CitizenGO's position on '[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 10 (surrogacy and embryology). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 10 (surrogacy and embryology). Bill direction on file for 2025Z00250 (CONFIRMED): passing it is AGAINST us -- First exception to the ban on creating embryos for research (stem-cell-based embryos, Art. 24(2)) and looser foetal research (Art. 20); the chimera closure (Art. 25) does not outweigh it. This vote is a vote on the whole text or the motion itself, so Voor is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
-    flag: "Left for a person (Chris, 12 Oct 2026): Mixed bill; read text and party split before setting a direction"
 
   - key: "ba6e2dfc-ab90-47d3-b071-a2238a16ea94"
     status: draft
@@ -3148,7 +3173,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "506b27d1-a7de-4ecd-b615-5802d9b3ae37"
-    status: needs_reading
+    status: draft
+    yea: -2
+    nay: 2
+    why_yea: "Voted Voor on 2026Z12645 (Asks the government to press the European Commission to enforce the Digital Services Act a): for passing it, against CitizenGO's position."
+    why_nay: "Voted Tegen on 2026Z12645 (Asks the government to press the European Commission to enforce the Digital Services Act a): against passing it, with CitizenGO's position."
     title: "Motie: Motie van het lid Podt c.s. over signalen van discriminerende lhbtiq+-content door grote onlineplatforms betrekken bij het toezicht op de naleving van de Digital Services Act"
     "on": "[\"Nieuwe Commissievoorstellen en initiatieven van de lidstaten van de Europese Unie\"]"
     dated: "2026-06-16"
@@ -3158,10 +3187,8 @@ divisions:
     result: "Aangenomen.; Voor 114, Tegen 36"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, JA21 9, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, Volt 1. Tegen: PVV 19, FVD 10, Groep Markuszower 7, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 2026Z12645, 22112: CitizenGO's position on '[\"Nieuwe Commissievoorstellen en initiatieven van de lidstaten van de Europese Unie\"]' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 5 (sex-based rights), 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 5 (sex-based rights), 7 (free speech and civil liberties). Bill direction on file for 2026Z12645 (CONFIRMED): passing it is AGAINST us -- Asks the government to press the European Commission to enforce the Digital Services Act against platforms restricting LGBTIQ content: more Brussels platform enforcement for one viewpoint. This vote is a vote on the whole text or the motion itself, so Voor is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
-    flag: "Left for a person (Chris, 12 Oct 2026): Mixed: DSA enforcement and LGBTIQ promotion vs anti-censorship framing"
 
   - key: "98b7ea91-7600-4791-a8d2-7b1544cccd03"
     status: draft

@@ -168,3 +168,42 @@ checks, not bypassed), the Dominican Chamber (JavaScript only, wording cut
 at 240 characters), lachambre.be, and some French Sénat texts.
 Dry run on the 12 October store: about 936 readings would confirm on
 Sunday across all countries.
+
+## The seven read for a person
+
+The six mixed bills left for a person above, plus France's palliative-care
+law (on hold since 11 October until its text was read), were each read in
+full and settled by Chris on 12 October 2026.
+
+- **FR DLR5L17N51672, Loi n° 2026-404 du 26 mai 2026 (soins palliatifs et
+  d'accompagnement): with us, confirmed.** It funds palliative care units,
+  creates non-profit maisons d'accompagnement et de soins palliatifs and a
+  palliative-medicine specialism, and never mentions assisted dying,
+  euthanasia or lethal substances. Chris: "with us (it does not legitimise
+  assisted dying)." The hold and its `read_first` are gone; the four whole-
+  text votes held by it are drafted again (with us). The ~82 amendment
+  readings on the bill are their own (`amendment_direction`), unchanged.
+- **FR DLR5L17N53936, proposition de loi contre l'entrisme islamiste (Sénat
+  TA 101): with us, confirmed.** Chris: "with us." He backs it as a measure
+  against Islamist extremism.
+- **NL 2025Z00250, Embryowet amendment (Kamerstuk 36677): against us,
+  confirmed.** The first exception to the ban on creating embryos for
+  research, and looser foetal research; the chimera closure does not
+  outweigh it. Chris: "against us."
+- **NL 2026Z12645, motie Podt (22112 nr. 4370): against us, confirmed.**
+  More Brussels platform enforcement for one viewpoint. Chris: "against us
+  (DSA enforcement against platforms)."
+- **Not scored (no CitizenGO stake)**, every entry naming them `placeable:
+  false`, confirmed in Chris's name: NL 2026Z08649 (motie El Abassi, a
+  declaration in the Israel-Gaza campus-antisemitism debate, no measure; 1
+  entry); PL 10/529 (NIK audit of KRRiT 2016-2024, a coalition-versus-PiS
+  fight over regulators; 6 entries, the final vote, a procedural motion and
+  four amendments); HR 11/228 (EU Media Freedom Act implementation, no
+  content powers; 2 entries, each with `note: "watch: wider Media Agency
+  ownership powers"`).
+
+No "Left for a person" flag is left. `--resync-directions` and
+`--fill-directions` on FR, NL, PL and HR drafted 3 votes (FR senat-2025-238;
+NL the Embryowet final vote and the Podt motion); the four palliative votes
+on hold were restored to the rules' draft by hand with the same rules
+(`rule_values`), since neither step reads a released hold.

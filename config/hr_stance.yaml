@@ -155,7 +155,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "hr-11-214089"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): EU Media Freedom Act implementation; no content powers"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI DIREKTIVE 2010/13/EU (EUROPSKI AKT O SLOBODI MEDIJA), prvo čitanje, P.Z.E. br. 228 - predlagateljica: Vlada"
     dated: "2025-12-05"
     chamber: "sabor"
@@ -164,10 +168,9 @@ divisions:
     result: "Na 8. sjednici, 5. prosinca 2025. donesen je zaključak da se prihvaća Prijedlog zakona. Sve primjedbe, prijedlozi i mišl; Za 76, Protiv 31, Abstain 8"
     lobbies: "Za: HDZ 54, NZ 9, DP 7, HSLS 2, HSU 1, stranka Nezavisni 1, HNS 1, HDS 1. Protiv: SDP 26, Most 3, NZ 1, GLAS 1. Abstain: Možemo! 6, Centar 2"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/228, item:214089: CitizenGO's position on 'PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI DIREKTIV' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
-    flag: "Left for a person (Chris, 12 Oct 2026): EU media regulation; free-speech direction needs the text read"
+    note: "watch: wider Media Agency ownership powers"
 
   - key: "hr-11-214280"
     status: needs_reading
@@ -203,7 +206,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "hr-11-214304"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): EU Media Freedom Act implementation; no content powers"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI DIREKTIVE 2010/13/EU (EUROPSKI AKT O SLOBODI MEDIJA), drugo čitanje, P.Z.E. br. 228 - predlagateljic"
     dated: "2026-03-06"
     chamber: "sabor"
@@ -212,10 +219,9 @@ divisions:
     result: "Zakon je donesen na 9. sjednici, 6. ožujka 2026. (78 glasova \"za\", 57 \"protiv\").; Za 78, Protiv 57"
     lobbies: "Za: HDZ 55, NZ 9, DP 7, HSLS 2, HSU 1, stranka Nezavisni 1, HNS 1, HDS 1, Dario Zurovec - NL 1. Protiv: SDP 31, Možemo! 10, DOMINO 3, Most 3, Centar 2, Drito 2, NZ 1, Hrvatski suverenisti 1, IDS 1, GLAS 1, DO i SIP 1, SDSS 1"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 11/228, item:214304: CitizenGO's position on 'KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI ' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
-    flag: "Left for a person (Chris, 12 Oct 2026): EU media regulation; free-speech direction needs the text read"
+    note: "watch: wider Media Agency ownership powers"
 
   - key: "hr-11-214240"
     status: needs_reading
