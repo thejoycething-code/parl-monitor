@@ -91,6 +91,13 @@ class Edition:
     report_rows: list = field(default_factory=list)      # committee reports and Government responses
     judgment_rows: list = field(default_factory=list)    # UK court judgments on our ground
     return_dates: dict = field(default_factory=dict)   # {house: ISO date}
+    # Headline business announced for the edition week (in recess, for the
+    # return week) that the keyword filter did not match: dicts with
+    # date/start_time/house/where/what/members/url. announced_held counts the
+    # Private Members' Bills past the cap per ISO date (2026-10-12).
+    announced: list = field(default_factory=list)
+    announced_week: str = None
+    announced_held: dict = field(default_factory=dict)
     gaps: list = field(default_factory=list)            # [(feed, detail)]
     late_detections: int = 0   # actionable devolved items first seen <21 days from deadline
 
@@ -267,7 +274,8 @@ def render_whats_on(edition, bill_ids=None, recess=False):
     week_ahead = render_week_ahead(edition.week_ahead, edition.week_commencing,
                                    bill_ids, heading=WHATS_ON)
     further = render_further_ahead(edition.further_ahead, bill_ids=bill_ids)
-    if not week_ahead and not further:
+    announced = render_announced(edition)
+    if not week_ahead and not further and not announced:
         return None
     if not week_ahead:
         empty = ("*Neither House sits this week, so nothing is scheduled in "
@@ -275,7 +283,59 @@ def render_whats_on(edition, bill_ids=None, recess=False):
                  if recess else
                  "*Nothing on our ground in the chamber this week.*")
         week_ahead = "{0}\n\n{1}".format(WHATS_ON, empty)
-    return "\n\n".join(p for p in (week_ahead, further) if p)
+    return "\n\n".join(p for p in (week_ahead, announced, further) if p)
+
+
+def render_announced(edition):
+    """Everything else announced, whatever its title says (2026-10-12).
+
+    The table above holds only what the keyword filter matched. Business on
+    our ground can carry a title with nothing for the filter to catch: the
+    5 Oct edition missed the Commons general debate on Baby Loss Awareness
+    Week and the petition debate on rejoining the EU, both announced a month
+    earlier. One paragraph per day, every item linked, no why-lines: these
+    rows were never scored, and saying why they matter would be invented.
+    """
+    rows = edition.announced or []
+    held = edition.announced_held or {}
+    if not rows and not held:
+        return None
+    days = {}
+    for r in rows:
+        days.setdefault(r.get("date") or "", []).append(r)
+    for day in held:
+        days.setdefault(day, [])
+    try:
+        wk = datetime.date.fromisoformat(edition.announced_week or edition.week_commencing)
+        week_label = "{0} {1}".format(wk.day, _MONTHS[wk.month])
+    except (ValueError, TypeError):
+        week_label = None
+    if edition.mode == "recess" and week_label:
+        head = "**Announced for the return** (week of {0}), not matched by our keywords".format(week_label)
+    else:
+        head = "**Also announced this week**, not matched by our keywords"
+    out = [head, ""]
+    venue_order = {"Commons": 0, "Westminster Hall": 1, "Lords": 2, "Lords Grand Committee": 3}
+    for day in sorted(days):
+        items = []
+        # Chamber first, then Westminster Hall, then the Lords; the sort is
+        # stable, so Order Paper order holds within each venue.
+        for r in sorted(days[day], key=lambda r: venue_order.get(r.get("where"), 4)):
+            what = (r.get("what") or "").replace("|", "/")
+            if r.get("url"):
+                what = "[{0}]({1})".format(what, r["url"])
+            where = r.get("where") or ""
+            clock = _clock(r.get("start_time"))
+            if clock:
+                where = "{0} {1}".format(where, clock).strip()
+            lead = r.get("members") or []
+            who = " ({0})".format(", ".join(lead)) if lead else ""
+            items.append("{0}: {1}{2}".format(where, what, who) if where else what + who)
+        if held.get(day):
+            items.append("and {0} more Private Members' Bills, unlikely to be reached".format(held[day]))
+        when = _when(day, None, None).split(" \u00b7 ")[0] if day else "Date to be announced"
+        out.append("- **{0}**: {1}".format(when, "; ".join(items)))
+    return "\n".join(out) + "\n"
 
 
 _MONTHS = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]

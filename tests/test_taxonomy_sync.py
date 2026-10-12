@@ -89,7 +89,9 @@ class TaxonomySyncTests(unittest.TestCase):
         # matched nothing (home educators, the federal tax-credit scholarships,
         # overseas family planning), with home school, school choice and
         # reproductive health services.
-        self.assertEqual(version, "1.21")
+        # v1.22 (12 October 2026): baby loss, pregnancy loss and miscarriage
+        # in area 1, miscarriage vetoed by "miscarriage(s) of justice".
+        self.assertEqual(version, "1.22")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on

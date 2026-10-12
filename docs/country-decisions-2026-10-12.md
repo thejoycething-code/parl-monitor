@@ -85,8 +85,9 @@ media regulator); HR 11/228 (EU Media Freedom Act).
   flipped (Bill 21 principle and adoption, Bill 52, Bill 62 principle and
   adoption, Bill 94 of 2011, Bill 94 of 2025 principle and adoption, the
   2017 Roy motion and the 2019 David motion), each with a comment citing
-  this file. Bill 9 (43-2) also bans prayer on public premises, so it is
-  left as it was, for Chris.
+  this file. Chris confirmed the Quebec flips the same day ("Keep the flips,
+  Bill 9 against"): Bill 9 (43-2) goes beyond dress to ban religious
+  practice on public premises, so its Yea stays against us.
 - No other stance file has a symbol, headscarf, face-veil or burqa ban.
 
 ## The fill step and the migration filter
