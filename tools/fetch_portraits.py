@@ -6,16 +6,21 @@
     python3 tools/fetch_portraits.py --list             # the sources and their licence class
 
 Only countries whose photo licence docs/portraits-logos-licences.md classes as
-OK (with attribution, or internal non-commercial use with the source cited)
-are fetched; every other country is skipped by name. Only the members on the
+usable are fetched: OK with attribution, internal non-commercial use (the
+partner pages count, Chris, 12 October 2026), or used on Chris's instruction
+with the licence unclear (12 October 2026, credited "<institution> (official
+portrait)"); "not allowed" is never fetched, and every other country is
+skipped by name. Only the members on the
 country's vote page are fetched (src/country_votes.build), at most --max new
 or due photos per country per run (default 150), so the first weeks fill the
 cache gradually and later runs fetch only new members, refreshes (180 days)
 and rechecks of members with no photo (30 days).
 
 Politeness: src/http.py (the honest CitizenGO UA, the per-host throttle,
-retries with backoff), robots.txt read per host and obeyed (an unreadable
-robots.txt means no fetch), no bot check ever bypassed. The photos are not
+retries with backoff), robots.txt read per host per run through the guard
+(src/robots_guard, src/prov_fetch.read_robots) and obeyed for the photos and
+for any member page read to find one (an unreadable robots.txt means no
+fetch), no bot check ever bypassed. The photos are not
 archived to data/raw (the image URL in the manifest is the provenance).
 
 Writes data/portraits/<cc>/<file>.jpg (gitignored) and data/portraits/<cc>.json
@@ -77,7 +82,7 @@ def main(argv=None, client=None):
     if client is None:
         from src.http import HttpClient
         client = HttpClient(os.path.join(ROOT, "data", "raw"))
-    robots = pt.Robots(client)
+    robots = pt.Robots(client, log=print)
     rc = 0
     for cc in countries:
         if cc not in usable:

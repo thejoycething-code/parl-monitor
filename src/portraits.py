@@ -14,11 +14,30 @@ monitor is classed there from its own terms:
   internal      reuse allowed for non-commercial or informational purposes
                 with the source cited (the partner pages are passphrase-gated
                 and non-commercial, so they qualify);
-  not_allowed   all rights reserved or an explicit prohibition;
-  unclear       no terms found.
+  not_allowed   all rights reserved or an explicit prohibition (or the
+                site's robots.txt bars us): NEVER fetched;
+  unclear       no terms found;
+  unclear_used  used on Chris's instruction, licence unclear (12 October
+                2026: "use the photos anyway where possible"); the page
+                credits "Photo: <institution> (official portrait)".
 Only a country in SOURCES whose class is in USABLE gets portraits; every
 other country's page renders exactly as before. Adding a country means a
 licence row in the doc first, then a Source here.
+
+CHRIS, 12 OCTOBER 2026 (additive): the partner pages (passphrase-gated,
+shared with partners) count as allowed non-commercial/internal use, so the
+internal-only Italy, Netherlands, Austria and Switzerland are enabled ("Yes
+for all four"); and the 21 "unclear" legislatures moved to unclear_used.
+Each is fetched only where the store's member key leads to the official
+photo; the doc says which are not mappable yet and why.
+
+ROBOTS (12 October 2026): Robots now reads robots.txt through the per-run
+guard (src/robots_guard.RobotsGuard, src/prov_fetch.read_robots: patient
+reads, a 24-hour copy, a 5xx or no answer = Disallow: / for the host,
+Crawl-delay honoured), with DOCUMENTED_APIS fetched as the collectors fetch
+them (the Sejm API, Tweede Kamer OData; docs/robots-runtime.md). Stricter
+than the guard for photos: a robots.txt answering 401/403 still means no
+fetch from that host.
 
 WHAT IS STORED. tools/fetch_portraits.py downloads each member's official
 photo from the parliament's own site (src/http.py: honest UA, per-host
@@ -58,7 +77,6 @@ import re
 import shutil
 import subprocess
 import tempfile
-import urllib.robotparser
 from typing import Callable, Optional
 from urllib.parse import urlsplit
 
@@ -73,8 +91,8 @@ RECHECK_MISSING_DAYS = 30  # a member with no photo is looked for again after th
 REFRESH_DAYS = 180         # a fetched photo is refreshed after this
 FEED = "portraits"
 
-CLASSES = ("attribution", "internal", "not_allowed", "unclear")
-USABLE = ("attribution", "internal")
+CLASSES = ("attribution", "internal", "not_allowed", "unclear", "unclear_used")
+USABLE = ("attribution", "internal", "unclear_used")
 
 
 @dataclasses.dataclass
@@ -135,6 +153,73 @@ def _hr_from_page(client, key, m):
     return (HR_SITE + path if path else None), page
 
 
+def _pl(key, m):
+    """Sejm: the store keys a deputy '<term>/<id>' (api.sejm.gov.pl MP id);
+    the documented API serves the official photo at /MP/{id}/photo."""
+    hit = re.fullmatch(r"(\d{1,2})/(\d{1,4})", str(key))
+    if not hit:
+        return None, None
+    term, n = hit.group(1), hit.group(2)
+    return ("https://api.sejm.gov.pl/sejm/term{0}/MP/{1}/photo".format(term, n),
+            "https://www.sejm.gov.pl/Sejm{0}.nsf/posel.xsp?id={1:03d}&type=A".format(
+                term, int(n)))
+
+
+def _pt(key, m):
+    """Assembleia da Republica: the store keys a deputy by BID, the id the
+    Parliament's own image service and biography page use."""
+    k = str(key)
+    if not k.isdigit():
+        return None, None
+    return ("https://app.parlamento.pt/webutils/getimage.aspx?id={0}&type=deputado".format(k),
+            "https://www.parlamento.pt/DeputadoGP/Paginas/Biografia.aspx?BID={0}".format(k))
+
+
+def _ch(key, m):
+    """Swiss Parliament: the store keys a member by PersonNumber
+    (src/ch_store.py); parlament.ch files the portrait under it."""
+    k = str(key)
+    if not k.isdigit():
+        return None, None
+    img = "https://www.parlament.ch/SiteCollectionImages/profil/portrait-260/{0}.jpg".format(k)
+    return img, img
+
+
+NL_UUID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+
+
+def _nl(key, m):
+    """Tweede Kamer: the store keys a member by the gegevensmagazijn Persoon
+    Id; the OData Persoon resource is the official photo (some persons have
+    none: a 404 is recorded as missing and rechecked after a month)."""
+    k = str(key).lower()
+    if not NL_UUID.fullmatch(k):
+        return None, None
+    base = "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Persoon({0})".format(k)
+    return base + "/resource", base
+
+
+AT_SITE = "https://www.parlament.gv.at"
+AT_PHOTO = re.compile(r"(/dokument/bild/\d+/\d+_384\.jpg)")
+
+
+def at_photo_in(page_html):
+    """The 384 px portrait path on a parlament.gv.at person page, or None."""
+    m = AT_PHOTO.search(page_html or "")
+    return m.group(1) if m else None
+
+
+def _at_from_page(client, key, m):
+    """Parlament Oesterreich: the store keys a member by PAD ('/person/88386');
+    the person page names the portrait file (no id-based photo URL)."""
+    k = str(key)
+    if not k.isdigit():
+        return None, None
+    page = "{0}/person/{1}".format(AT_SITE, k)
+    path = at_photo_in(client.get_text(page, FEED, "at-page-" + k, archive=False))
+    return (AT_SITE + path if path else None), page
+
+
 def _none(key, m):
     return None, None
 
@@ -144,7 +229,9 @@ def _src(cc, legislature, cls, licence, terms, credit="", photo=None, photo_from
 
 
 # Every country with a vote page (src/country_votes.COUNTRIES), classed from
-# docs/portraits-logos-licences.md. Only the first block fetches anything.
+# docs/portraits-logos-licences.md. Only a usable class WITH a photo route
+# fetches anything.
+UNCLEAR_CREDIT = "{0} (official portrait)"
 SOURCES = {
     # OK with attribution, and a photo URL we can build from the store's key.
     "br": _src("br", "Camara dos Deputados and Senado Federal", "attribution",
@@ -159,25 +246,35 @@ SOURCES = {
     # OK, but no photo URL from what the store keeps (no id): not fetched yet.
     "es": _src("es", "Congreso de los Diputados", "attribution",
                "reuse allowed citing the source, unaltered (aviso legal)",
-               "https://www.congreso.es/es/cem/aviso-legal"),
+               "https://www.congreso.es/es/cem/aviso-legal",
+               "Fuente: Congreso de los Diputados"),
     "ar": _src("ar", "Camara de Diputados de la Nacion", "attribution",
                "public domain, source to be cited (HCDN site notice)",
-               "https://www.hcdn.gob.ar/diputados/"),
-    # OK internal-only (non-commercial / informational, source cited).
+               "https://www.hcdn.gob.ar/diputados/",
+               "Fuente: Honorable Camara de Diputados de la Nacion"),
+    # OK internal-only; Chris, 12 October 2026: the passphrase-gated partner
+    # pages count as allowed non-commercial/internal use ("Yes for all four").
     "nl": _src("nl", "Tweede Kamer", "internal", "CC BY-NC 4.0 (disclaimer)",
-               "https://www.tweedekamer.nl/applicaties/disclaimer"),
-    "it": _src("it", "Camera dei deputati and Senato", "internal",
-               "non-commercial reuse, integrity kept, source cited",
-               "https://comunicazione.camera.it/policy/avvisolegale"),
+               "https://www.tweedekamer.nl/applicaties/disclaimer",
+               "Tweede Kamer (CC BY-NC 4.0; non-commercial use)", photo=_nl),
     "at": _src("at", "Parlament Oesterreich", "internal",
                "reporting, political education, private non-commercial use only",
-               "https://www.parlament.gv.at/services/hilfe/nutzungsbedingungen/"),
+               "https://www.parlament.gv.at/services/hilfe/nutzungsbedingungen/",
+               "Parlamentsdirektion (official portrait; non-commercial informational use)",
+               photo_from_page=_at_from_page),
     "ch": _src("ch", "Bundesversammlung", "internal",
                "media and informational use; commercial use needs written consent",
-               "https://www.parlament.ch/de/services/mediathek/fotos-nutzungsbedingungen"),
-    "be": _src("be", "Chamber and Senate of Belgium", "unclear", "no portrait terms found",
-               "https://www.dekamer.be/"),
-    # Not allowed.
+               "https://www.parlament.ch/de/services/mediathek/fotos-nutzungsbedingungen",
+               "Parlamentsdienste / ParlCH (official portrait; non-commercial use)", photo=_ch),
+    # Italy: enabled, but not mappable yet. The Camera's photo is filed by
+    # Camera ID and the store keys deputies by Openpolis membership id with
+    # no Camera ID (it_members.camera_id empty); senato.it serves us empty
+    # pages (no photo path readable, nothing bypassed).
+    "it": _src("it", "Camera dei deputati and Senato", "internal",
+               "non-commercial reuse, integrity kept, source cited",
+               "https://comunicazione.camera.it/policy/avvisolegale",
+               "Fonte: Camera dei deputati; Senato della Repubblica"),
+    # Not allowed: never fetched.
     "fr": _src("fr", "Assemblee nationale and Senat", "not_allowed",
                "photographs need prior agreement; all rights reserved",
                "https://www.assemblee-nationale.fr/dyn/info-site"),
@@ -186,32 +283,43 @@ SOURCES = {
     "do": _src("do", "Camara de Diputados and Senado", "not_allowed",
                "all rights reserved; the Senado's robots.txt bars us",
                "https://camaradediputados.gob.do/"),
-    # Unclear: no terms found, or the site could not be read.
-    "pl": _src("pl", "Sejm", "unclear", "no terms found for the API photos",
-               "https://api.sejm.gov.pl/"),
-    "pt": _src("pt", "Assembleia da Republica", "unclear",
+    # Used on Chris's instruction, licence unclear (12 October 2026, "use the
+    # photos anyway where possible"). Mapped where the key leads to the photo.
+    "pl": _src("pl", "Sejm", "unclear_used", "no terms found for the API photos",
+               "https://api.sejm.gov.pl/", UNCLEAR_CREDIT.format("Sejm RP"), photo=_pl),
+    "pt": _src("pt", "Assembleia da Republica", "unclear_used",
                "open data terms do not mention photos",
-               "https://www.parlamento.pt/Cidadania/Paginas/DadosAbertos.aspx"),
-    "hu": _src("hu", "Orszaggyules", "unclear", "terms behind a CAPTCHA",
-               "https://parlament.hu/documents/d/guest/jogi-nyilatkozat"),
-    "mx": _src("mx", "Camara de Diputados and Senado", "unclear", "no terms found",
-               "https://www.diputados.gob.mx/"),
-    "cl": _src("cl", "Camara, Senado and BCN", "unclear",
+               "https://www.parlamento.pt/Cidadania/Paginas/DadosAbertos.aspx",
+               UNCLEAR_CREDIT.format("Assembleia da Republica"), photo=_pt),
+    # ... and not mappable yet (the reason is the doc's "Not mappable yet").
+    "be": _src("be", "Chambre des representants / Kamer", "unclear_used",
+               "no portrait terms found (the Chamber's firewall refuses us)",
+               "https://www.dekamer.be/", UNCLEAR_CREDIT.format("Chambre / Kamer")),
+    "hu": _src("hu", "Orszaggyules", "unclear_used", "terms behind a CAPTCHA",
+               "https://parlament.hu/documents/d/guest/jogi-nyilatkozat",
+               UNCLEAR_CREDIT.format("Orszaggyules")),
+    "mx": _src("mx", "Camara de Diputados and Senado", "unclear_used", "no terms found",
+               "https://www.diputados.gob.mx/", UNCLEAR_CREDIT.format("Congreso de la Union")),
+    "cl": _src("cl", "Camara, Senado and BCN", "unclear_used",
                "no terms on the sites; BCN's CC BY-SA 3.0 CL is second-hand",
-               "https://www.bcn.cl/historiapolitica/resenas_parlamentarias/"),
-    "pe": _src("pe", "Congreso de la Republica", "unclear", "no terms found",
-               "https://diputados.congreso.gob.pe/politica-de-privacidad/"),
-    "ec": _src("ec", "Asamblea Nacional", "unclear",
+               "https://www.bcn.cl/historiapolitica/resenas_parlamentarias/",
+               UNCLEAR_CREDIT.format("Camara de Diputadas y Diputados; Senado de Chile")),
+    "pe": _src("pe", "Congreso de la Republica", "unclear_used", "no terms found",
+               "https://diputados.congreso.gob.pe/politica-de-privacidad/",
+               UNCLEAR_CREDIT.format("Congreso de la Republica")),
+    "ec": _src("ec", "Asamblea Nacional", "unclear_used",
                "no terms on the site (its Flickr is CC BY-SA 2.0, per photo)",
-               "https://www.flickr.com/photos/asambleanacional"),
-    "sv": _src("sv", "Asamblea Legislativa", "unclear", "site unreachable (certificate error)",
-               "https://www.asamblea.gob.sv/"),
-    "gt": _src("gt", "Congreso de la Republica", "unclear", "site refuses us (403)",
-               "https://www.congreso.gob.gt/"),
-    "co": _src("co", "Camara and Senado", "unclear", "terms PDF unreadable; Senado none",
-               "https://www.camara.gov.co/"),
-    "uy": _src("uy", "Parlamento", "unclear", "site refuses us (403)",
-               "https://parlamento.gub.uy/"),
+               "https://www.flickr.com/photos/asambleanacional",
+               UNCLEAR_CREDIT.format("Asamblea Nacional")),
+    "sv": _src("sv", "Asamblea Legislativa", "unclear_used",
+               "site unreachable (certificate error)", "https://www.asamblea.gob.sv/",
+               UNCLEAR_CREDIT.format("Asamblea Legislativa")),
+    "gt": _src("gt", "Congreso de la Republica", "unclear_used", "site refuses us (403)",
+               "https://www.congreso.gob.gt/", UNCLEAR_CREDIT.format("Congreso de la Republica")),
+    "co": _src("co", "Camara and Senado", "unclear_used", "terms PDF unreadable; Senado none",
+               "https://www.camara.gov.co/", UNCLEAR_CREDIT.format("Congreso de Colombia")),
+    "uy": _src("uy", "Parlamento", "unclear_used", "site refuses us (403)",
+               "https://parlamento.gub.uy/", UNCLEAR_CREDIT.format("Parlamento del Uruguay")),
 }
 
 
@@ -300,38 +408,84 @@ def shrink(raw, size=THUMB):
 
 # --- robots.txt -----------------------------------------------------------------------
 
-class Robots:
-    """robots.txt per host, read once through the client. A missing file (404)
-    allows; a refusal to serve it (401/403) or a network failure disallows,
-    so an unreadable robots.txt never becomes a licence to fetch."""
+class _WatchRobots:
+    """Passes everything to the client; notes the hosts whose robots.txt
+    answered 401/403 (the guard reads any 4xx as "no rules")."""
 
-    def __init__(self, client):
+    def __init__(self, client, refused):
+        object.__setattr__(self, "_client", client)
+        object.__setattr__(self, "_refused", refused)
+
+    def __getattr__(self, name):
+        return getattr(self._client, name)
+
+    def __setattr__(self, name, value):
+        setattr(self._client, name, value)
+
+    def get_text(self, url, feed, slug, *args, **kwargs):
+        try:
+            return self._client.get_text(url, feed, slug, *args, **kwargs)
+        except Exception as exc:
+            status = getattr(getattr(exc, "cause", None), "code", None)
+            if url.endswith("/robots.txt") and status in (401, 403):
+                self._refused.add(urlsplit(url).netloc)
+            raise
+
+
+class Robots:
+    """robots.txt per host, read once per run through the per-run guard
+    (src/robots_guard.RobotsGuard over src/prov_fetch.read_robots): a missing
+    file (404) allows; a 5xx or no answer means Disallow: / for the host (a
+    copy read in the last 24 hours stands in); Crawl-delay raises that host's
+    throttle. Documented machine APIs (robots_guard.DOCUMENTED_APIS: the Sejm
+    API, Tweede Kamer OData) are fetched as every collector fetches them.
+    Stricter than the guard for photos: a robots.txt that answers 401/403
+    means no fetch from that host. An unreadable robots.txt never becomes a
+    licence to fetch."""
+
+    def __init__(self, client, log=None, exempt=None, **robots_kwargs):
+        from src import robots_guard as rg
         self.client = client
-        self.parsers = {}
+        self.refused_hosts = set()
+        self.exempt = rg.DOCUMENTED_APIS if exempt is None else tuple(exempt)
+        self._is_api = rg.is_documented_api
+        self.guard = rg.RobotsGuard(_WatchRobots(client, self.refused_hosts), FEED,
+                                    log=log or (lambda *a, **k: None), **robots_kwargs)
 
     def allowed(self, url):
-        parts = urlsplit(url)
-        host = parts.scheme + "://" + parts.netloc
-        if host not in self.parsers:
-            rp = urllib.robotparser.RobotFileParser()
-            try:
-                text = self.client.get_text(host + "/robots.txt", FEED,
-                                            "robots-" + parts.netloc, archive=False)
-                rp.parse(text.splitlines())
-            except Exception as exc:   # FetchError carries the status in its cause
-                status = getattr(getattr(exc, "cause", None), "code", None)
-                if status in (404, 410):
-                    rp.parse([])
-                else:
-                    rp = None
-            self.parsers[host] = rp
-        rp = self.parsers[host]
-        if rp is None:
+        if self.exempt and self._is_api(url, self.exempt):
+            return True
+        refused = self.guard.refusal(url)
+        if urlsplit(url).netloc in self.refused_hosts:
             return False
-        return rp.can_fetch(getattr(self.client, "user_agent", "*"), url)
+        return refused is None
 
 
 # --- fetching -------------------------------------------------------------------------
+
+class PageRefused(Exception):
+    """A member page robots.txt does not allow; it was never requested."""
+
+    def __init__(self, url):
+        super().__init__("robots.txt disallows " + url)
+        self.url = url
+
+
+class _Checked:
+    """The client as photo_from_page sees it: a member page is requested only
+    when robots.txt allows it (12 October 2026; the image was always checked)."""
+
+    def __init__(self, client, robots):
+        self._client, self._robots = client, robots
+
+    def __getattr__(self, name):
+        return getattr(self._client, name)
+
+    def get_text(self, url, *args, **kwargs):
+        if not self._robots.allowed(url):
+            raise PageRefused(url)
+        return self._client.get_text(url, *args, **kwargs)
+
 
 def _days_since(iso, today):
     try:
@@ -379,9 +533,14 @@ def fetch_country(client, cc, members, today, max_fetch=200, cache_dir=CACHE_DIR
         budget -= 1
         try:
             if src.photo_from_page:
-                image_url, page_url = src.photo_from_page(client, key, m)
+                image_url, page_url = src.photo_from_page(_Checked(client, robots), key, m)
             else:
                 image_url, page_url = src.photo(key, m)
+        except PageRefused as exc:
+            manifest["missing"][key] = {"checked": today, "why": "robots.txt disallows",
+                                        "page_url": exc.url}
+            out["refused"] += 1
+            continue
         except Exception as exc:
             image_url, page_url = None, None
             log("  portraits {0}: {1}: no photo URL ({2})".format(cc, key, exc))
@@ -414,7 +573,7 @@ def fetch_country(client, cc, members, today, max_fetch=200, cache_dir=CACHE_DIR
             fh.write(thumb)
         manifest["missing"].pop(key, None)
         manifest["members"][key] = {
-            "file": name, "image_url": image_url, "page_url": page_url,
+            "file": name, "image_url": image_url, "page_url": page_url or image_url,
             "fetched": today, "sha256": hashlib.sha256(thumb).hexdigest(), "bytes": len(thumb)}
         out["fetched"] += 1
     save_manifest(cc, manifest, cache_dir)
