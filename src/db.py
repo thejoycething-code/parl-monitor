@@ -1588,6 +1588,7 @@ TABLES = (
     "ca_committee_meetings",
     "ca_testimony",
     "ca_senate_sittings",
+    "ca_committee_reports",
     # United States Congress (tools/us_rollcalls.py), created by
     # src/us_store.ensure_schema -- declared from day one.
     "us_members",

@@ -1,0 +1,622 @@
+
+<ul>
+    <li>Most Senate committees require an <strong>order of reference</strong> before they can undertake such work.</li>
+    <li>An <strong>order of reference</strong> is a decision of the Senate, authorizing a committee to study a proposed law, government spending or a specific subject related to the mandate of the committee. An order of reference might specify what subjects a study should cover, how long it should take to complete, and other important details. It establishes the scope of the study and may give other powers the committee needs to conduct the study.</li>
+    <li>Certain Senate committees have permanent orders of reference and are empowered by the <em>Rules of the Senate</em> to act on their own initiative without additional authority from the Senate.</li>
+    <li>Below is a list of orders of reference that this committee has been authorized to undertake by the Senate or is empowered to act on their own initiative.</li>
+    <li>
+        You will also find for each order of reference:
+        <ul>
+            <li>meeting dates and witness details,</li>
+            <li>publicly available briefs and documents,</li>
+            <li>minutes of proceedings, transcripts and video or audio recordings of public meetings (when applicable).</li>
+            <li>Once the committee has completed its study, a link to its report to the Senate will also be posted here.</li>
+        </ul>
+    </li>
+</ul>
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5>
+                <button class="btn collapsed"
+                        data-bs-toggle="collapse" data-bs-target="#searchPanel" aria-expanded="true"
+                        aria-controls="collapseOne">
+                    Search Options
+                    <i class="fa-solid fa-caret-down" aria-hidden="true"></i>
+                </button>
+            </h5>
+        </div>
+        <div id="searchPanel" class="collapse "
+             aria-labelledby="headingOne" data-bs-parent="#accordion">
+            <div class="card-body">
+<form data-ajax-hash-form>
+    <div class="row mb-3">
+        <div class="col-sm-10 col-12 offset-sm-2">
+            <div class="dropdown">
+                <a class="btn btn-primary dropdown-toggle" role="button" id="ddOptions" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Date Filters
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu dd-options-list" aria-labelledby="ddOptions">
+        <li>
+            <a class="dropdown-item" href="#" data-date-from="2025-05-26" data-date-to=""
+            onclick="$('#ToDate').val($(this).data('date-to')); $('#FromDate').val($(this).data('date-from')); return false;">
+                This Session
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="#" data-date-from="2026-10-12" data-date-to="2026-10-12"
+            onclick="$('#ToDate').val($(this).data('date-to')); $('#FromDate').val($(this).data('date-from')); return false;">
+                Today
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="#" data-date-from="2026-10-11" data-date-to="2026-10-11"
+            onclick="$('#ToDate').val($(this).data('date-to')); $('#FromDate').val($(this).data('date-from')); return false;">
+                Yesterday
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="#" data-date-from="2026-10-11" data-date-to="2026-10-17"
+            onclick="$('#ToDate').val($(this).data('date-to')); $('#FromDate').val($(this).data('date-from')); return false;">
+                This Week
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="#" data-date-from="2026-10-04" data-date-to="2026-10-10"
+            onclick="$('#ToDate').val($(this).data('date-to')); $('#FromDate').val($(this).data('date-from')); return false;">
+                Last Week
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="#" data-date-from="2026-09-12" data-date-to="2026-10-12"
+            onclick="$('#ToDate').val($(this).data('date-to')); $('#FromDate').val($(this).data('date-from')); return false;">
+                Last Month
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="#" data-date-from="2026-07-12" data-date-to="2026-10-12"
+            onclick="$('#ToDate').val($(this).data('date-to')); $('#FromDate').val($(this).data('date-from')); return false;">
+                Last 3 Months
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="#" data-date-from="2026-04-12" data-date-to="2026-10-12"
+            onclick="$('#ToDate').val($(this).data('date-to')); $('#FromDate').val($(this).data('date-from')); return false;">
+                Last 6 Months
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="#" data-date-from="2025-10-12" data-date-to="2026-10-12"
+            onclick="$('#ToDate').val($(this).data('date-to')); $('#FromDate').val($(this).data('date-from')); return false;">
+                Last Year
+            </a>
+        </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="FromDate" class="col-sm-2 col-12 col-form-label">From:</label>
+        <div class="col-sm-10 col-12">
+            <input type="date" name="FromDate" id="FromDate" class="form-control"
+            data-default="2025-05-26"
+            value="2025-05-26"
+            pattern="\d{4}-\d{2}-\d{2}" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="ToDate" class="col-sm-2 col-12 col-form-label">To:</label>
+        <div class="col-sm-10 col-12">
+            <input type="date" name="ToDate" id="ToDate" class="form-control"
+            data-default=""
+            value=""
+            pattern="\d{4}-\d{2}-\d{2}" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="SearchStudy" class="col-sm-2 col-12 col-form-label">Studies:</label>
+        <div class="col-sm-10 col-12">
+            <input type="text" name="SearchStudy" id="SearchStudy" class="form-control" data-default="" value="" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="SearchWitness" class="col-sm-2 col-12 col-form-label">Witnesses:</label>
+        <div class="col-sm-10 col-12">
+            <input type="text" name="SearchWitness" id="SearchWitness" class="form-control" data-default="" value="" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <label for="SearchOrganization" class="col-sm-2 col-12 col-form-label">Organization:</label>
+        <div class="col-sm-10 col-12">
+            <input type="text" name="SearchOrganization" id="SearchOrganization" class="form-control" data-default=""
+                   value="" />
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-10 col-12 offset-sm-2">
+            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="reset" data-reset class="btn btn-secondary">Reset</button>
+        </div>
+    </div>
+    <input type="hidden" name="isSearching" value="true" />
+</form>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-2">
+<div class="d-inline-block dropdown sc-dropdown dropdown-selected">
+    <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="presentation" aria-labelledby="ff0083">
+            <span class="sc-dropdown-prelabel">Results per page:</span>
+            <span>250</span>
+    </div>
+    <div class="dropdown-menu" role="listbox" aria-labelledby="ff0083">
+            <a class="dropdown-item " href="#?TabSelected=UPCOMING&session=45-1&CommitteeID=1011&PageSize=10&SortOrder=DATEDESC" role="option">10</a>
+            <a class="dropdown-item " href="#?TabSelected=UPCOMING&session=45-1&CommitteeID=1011&PageSize=25&SortOrder=DATEDESC" role="option">25</a>
+            <a class="dropdown-item " href="#?TabSelected=UPCOMING&session=45-1&CommitteeID=1011&PageSize=50&SortOrder=DATEDESC" role="option">50</a>
+            <a class="dropdown-item " href="#?TabSelected=UPCOMING&session=45-1&CommitteeID=1011&PageSize=100&SortOrder=DATEDESC" role="option">100</a>
+            <a class="dropdown-item selected" href="#?TabSelected=UPCOMING&session=45-1&CommitteeID=1011&PageSize=250&SortOrder=DATEDESC" role="option">250</a>
+    </div>
+</div>
+    </div>
+    <div class="col-md-10">
+        <div class="d-flex justify-content-end mb-2">
+            <a class="btn btn-secondary me-2" href="/en/committees/alerts/login/">
+                <i class="fa-solid fa-bullhorn" aria-hidden="true"></i>
+                Committee Alerts
+            </a>
+                <button class="btn btn-primary me-2" id="data-sc-cmt-studies-btn" data-value="1" onclick="ExpandAllStudies()" onkeypress="ExpandAllStudies()">
+                    <i class="fa-solid fa-plus-square" aria-hidden="true"></i>
+                    Expand all
+                </button>
+            <button class="btn btn-primary" onclick="printById('table-print', { title: 'Witnesses' })">
+                <i class="fa-solid fa-print" aria-hidden="true"></i>
+                Print PDF
+            </button>
+        </div>
+    </div>
+</div>
+<div id="table-print" class="cmt-site_v2-studybills-table">
+            <div class="cmt-site_v2-studybills-table-study-item ">
+                <h3 class="h6 mb-0 cmt-site_v2-studybills-table-study-item-name text-secondary">
+            <div>The subject matter of those elements contained in Division 5 of Part 4 of Bill C-31, A second Act to implement certain provisions of the budget tabled in Parliament on November 4, 2025</div>
+                </h3>
+                    <div class="cmt-site_v2-studybills-table-study-item-oof">
+        <span class="cmt-site_v2-studybills-table-study-item-oof-label">Order of Reference: </span>
+        <a href="/en/Content/SEN/Committee/451/LCJC/LCJC-SM-C-31-e"> 2026-06-10</a>
+                    </div>
+            <div class="cmt-site_v2-studybills-table-study-item-reports">
+                <span class="cmt-site_v2-studybills-table-study-item-reports-label">Report(s): </span>
+                <ul class="unstyled">
+                        <li>
+                            <a href="/en/committees/LCJC/Report/159821/45-1"><strong>Thirteenth Report</strong></a>:
+                            The subject matter of those elements contained in Division 5 of Part 4 of Bill C-31, A second Act to implement certain provisions of the budget tabled in Parliament on November 4, 2025
+                        </li>
+                </ul>
+            </div>
+                    <div class="cmt-site_v2-studybills-table-study-item-briefs">
+<ul class="list-unstyled">
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/committees/lcjc/briefs/45-1#?sessionFilter=45-1&amp;OrderOfReferenceID=700911"  role="button" title="Briefs and Other Documents">
+        <img class="meeting-icon-briefs" src="/Assets/Images/meeting-table-icons/briefs.svg" width="13" alt="Briefs and Other Documents" loading="lazy">
+        <span>Briefs and Other Documents</span>
+                    </a>
+            </li>
+            <div class="links-notes-icons-spacer"></div>
+</ul>
+<link type="text/css" rel="stylesheet" href="/css/modules/committees_v2.css?v=g-MAX1Y4ltVvexXifw9qLW8iG0Y" />
+                    </div>
+                    <p class="mt-2">
+                        <button class="btn btn-sm btn-primary" onclick="SingleMeetingsAction(this);" id="data-sc-cmt-studies-meetings-btn-id-study-700911" type="button" data-value="0" data-sc-cmt-studies-pnl="btn" data-bs-toggle="collapse" data-bs-target="#id-study-700911" aria-expanded="false" aria-controls="id-study-700911">
+                            Meetings
+                            <i id="data-sc-cmt-studies-meetings-id-study-700911" class="fa fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </p>
+                    <div class="collapse" data-sc-cmt-studies-pnl="pnl" id="id-study-700911">
+                        <div class="table-responsive">
+                            <table class="sc-table">
+                                <thead>
+                                    <tr>
+        <th aria-sort="none" class="sc-cmt-meetingtable-th-date">
+            <span class="sc-table-heading-label">Date/Time </span>
+        </th>
+                                        <th class="">Witnesses  (6)</th>
+                                        <th class="">Location</th>
+                                        <th class="">Links/Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>
+            <a href="/en/committees/LCJC/noticeofmeeting/703120/45-1">
+                Oct 01, 2026
+                <br />
+                10:32 a.m.
+                    <span class="local-time-label">
+                        <abbr title="Eastern Time">
+                            ET
+                        </abbr>
+                    </span>
+            </a>
+                                            </td>
+                                            <td class="studies-render-witness">
+            <ul class="">
+        <li>
+            Marie-France Dompierre, Chair, Tax Court of Canada Bench and Bar Committee
+                <em class="meeting-table-witness-representing parenthesis">Canadian Bar Association</em>
+        </li>
+        <li>
+            Nicolas Le Grand Alary, Lawyer, Secretariat of the Order and Legal Affairs
+                <em class="meeting-table-witness-representing parenthesis">Barreau du Qu&#xE9;bec</em>
+        </li>
+        <li>
+            Justine Malone, Senior General Counsel, Assistant Deputy Minister&#x2019;s Office, Tax Law Services Portfolio
+                <em class="meeting-table-witness-representing parenthesis">Department of Justice Canada</em>
+        </li>
+        <li>
+            Pooja Mihailovich, Member, Tax Court of Canada Bench and Bar Committee
+                <em class="meeting-table-witness-representing parenthesis">Canadian Bar Association</em>
+        </li>
+        <li>
+            Paul Ryan, Member, Taxation Experts Committee
+                <em class="meeting-table-witness-representing parenthesis">Barreau du Qu&#xE9;bec</em>
+        </li>
+        <li>
+            William Wong, Director General, Program Management Directorate, Appeals Branch
+                <em class="meeting-table-witness-representing parenthesis">Canada Revenue Agency</em>
+        </li>
+            </ul>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td class="sc-cmt-meetingtable-th-linksnotes">
+<ul class="list-unstyled">
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/content/sen/committee/451/lcjc/53mn-57840-e"  role="button" title="Minutes">
+        <img class="meeting-icon-minutes" src="/Assets/Images/meeting-table-icons/minutes.svg" width="13" alt="Minutes" loading="lazy">
+        <span>Minutes</span>
+                    </a>
+            </li>
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/committees/lcjc/noticeofmeeting/703120/45-1"  role="button" title="Meeting notice">
+        <img class="meeting-icon-meetingnotice" src="/Assets/Images/meeting-table-icons/meetingnotice.svg" width="13" alt="Meeting notice" loading="lazy">
+        <span>Meeting notice</span>
+                    </a>
+            </li>
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="https://senparlvu.parl.gc.ca/harmony/en/powerbrowser/powerbrowserv2?fk=703120&amp;globalstreamid=3" target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; role="button" title="Video">
+        <img class="meeting-icon-video" src="/Assets/Images/meeting-table-icons/video.svg" width="13" alt="Video" loading="lazy">
+        <span>Video</span>
+                    </a>
+            </li>
+            <div class="links-notes-icons-spacer"></div>
+</ul>
+<link type="text/css" rel="stylesheet" href="/css/modules/committees_v2.css?v=g-MAX1Y4ltVvexXifw9qLW8iG0Y" />
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+            <hr />
+            <div class="cmt-site_v2-studybills-table-study-item ">
+                <h3 class="h6 mb-0 cmt-site_v2-studybills-table-study-item-name text-secondary">
+            <div><a href="http://www.parl.ca/LEGISInfo/BillDetails.aspx?Language=e&Mode=1&billId=13541884" >Bill S-205</a>, An Act to amend the Corrections and Conditional Release Act</div>
+                </h3>
+                    <div class="cmt-site_v2-studybills-table-study-item-oof">
+        <span class="cmt-site_v2-studybills-table-study-item-oof-label">Order of Reference: </span>
+        <a href="/en/Content/SEN/Committee/451/LCJC/LCJC-S-205-e"> 2025-10-21</a>
+                    </div>
+            <div class="cmt-site_v2-studybills-table-study-item-reports">
+                <span class="cmt-site_v2-studybills-table-study-item-reports-label">Report(s): </span>
+                <ul class="unstyled">
+                        <li>
+                            <a href="/en/committees/LCJC/Report/152423/45-1"><strong>Sixth Report</strong></a>:
+                            Bill S-205, An Act to amend the Corrections and Conditional Release Act, with amendment
+                        </li>
+                </ul>
+            </div>
+                    <div class="cmt-site_v2-studybills-table-study-item-briefs">
+<ul class="list-unstyled">
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/committees/lcjc/briefs/45-1#?sessionFilter=45-1&amp;OrderOfReferenceID=665860"  role="button" title="Briefs and Other Documents">
+        <img class="meeting-icon-briefs" src="/Assets/Images/meeting-table-icons/briefs.svg" width="13" alt="Briefs and Other Documents" loading="lazy">
+        <span>Briefs and Other Documents</span>
+                    </a>
+            </li>
+            <div class="links-notes-icons-spacer"></div>
+</ul>
+<link type="text/css" rel="stylesheet" href="/css/modules/committees_v2.css?v=g-MAX1Y4ltVvexXifw9qLW8iG0Y" />
+                    </div>
+                    <p class="mt-2">
+                        <button class="btn btn-sm btn-primary" onclick="SingleMeetingsAction(this);" id="data-sc-cmt-studies-meetings-btn-id-study-665860" type="button" data-value="0" data-sc-cmt-studies-pnl="btn" data-bs-toggle="collapse" data-bs-target="#id-study-665860" aria-expanded="false" aria-controls="id-study-665860">
+                            Meetings
+                            <i id="data-sc-cmt-studies-meetings-id-study-665860" class="fa fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </p>
+                    <div class="collapse" data-sc-cmt-studies-pnl="pnl" id="id-study-665860">
+                        <div class="table-responsive">
+                            <table class="sc-table">
+                                <thead>
+                                    <tr>
+        <th aria-sort="none" class="sc-cmt-meetingtable-th-date">
+            <span class="sc-table-heading-label">Date/Time </span>
+        </th>
+                                        <th class="">Witnesses  (34)</th>
+                                        <th class="">Location</th>
+                                        <th class="">Links/Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>
+            <a href="/en/committees/LCJC/noticeofmeeting/687280/45-1">
+                Mar 12, 2026
+                <br />
+                10:31 a.m.
+                    <span class="local-time-label">
+                        <abbr title="Eastern Time">
+                            ET
+                        </abbr>
+                    </span>
+            </a>
+                                            </td>
+                                            <td class="studies-render-witness">
+            <p>There are no witnesses on this study/bill for this meeting.</p>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td class="sc-cmt-meetingtable-th-linksnotes">
+<ul class="list-unstyled">
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/content/sen/committee/451/lcjc/29mn-57566-e"  role="button" title="Minutes">
+        <img class="meeting-icon-minutes" src="/Assets/Images/meeting-table-icons/minutes.svg" width="13" alt="Minutes" loading="lazy">
+        <span>Minutes</span>
+                    </a>
+            </li>
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/content/sen/committee/451/lcjc/29ev-57566-e"  role="button" title="Transcripts">
+        <img class="meeting-icon-evidence" src="/Assets/Images/meeting-table-icons/evidence.svg" width="13" alt="Transcripts" loading="lazy">
+        <span>Transcripts</span>
+                    </a>
+            </li>
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/committees/lcjc/noticeofmeeting/687280/45-1"  role="button" title="Meeting notice">
+        <img class="meeting-icon-meetingnotice" src="/Assets/Images/meeting-table-icons/meetingnotice.svg" width="13" alt="Meeting notice" loading="lazy">
+        <span>Meeting notice</span>
+                    </a>
+            </li>
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="https://senparlvu.parl.gc.ca/harmony/en/powerbrowser/powerbrowserv2?fk=687280&amp;globalstreamid=3" target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; role="button" title="Video">
+        <img class="meeting-icon-video" src="/Assets/Images/meeting-table-icons/video.svg" width="13" alt="Video" loading="lazy">
+        <span>Video</span>
+                    </a>
+            </li>
+            <div class="links-notes-icons-spacer"></div>
+</ul>
+<link type="text/css" rel="stylesheet" href="/css/modules/committees_v2.css?v=g-MAX1Y4ltVvexXifw9qLW8iG0Y" />
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+            <hr />
+            <div class="cmt-site_v2-studybills-table-study-item ">
+                <h3 class="h6 mb-0 cmt-site_v2-studybills-table-study-item-name text-secondary">
+            <div><a href="http://www.parl.ca/LEGISInfo/BillDetails.aspx?Language=e&Mode=1&billId=13541954" >Bill S-209</a>, An Act to restrict young persons’ online access to pornographic material</div>
+                </h3>
+                    <div class="cmt-site_v2-studybills-table-study-item-oof">
+        <span class="cmt-site_v2-studybills-table-study-item-oof-label">Order of Reference: </span>
+        <a href="/en/Content/SEN/Committee/451/LCJC/LCJC-S-209-e"> 2025-06-12</a>
+                    </div>
+            <div class="cmt-site_v2-studybills-table-study-item-reports">
+                <span class="cmt-site_v2-studybills-table-study-item-reports-label">Report(s): </span>
+                <ul class="unstyled">
+                        <li>
+                            <a href="/en/committees/LCJC/Report/149858/45-1"><strong>Fifth Report</strong></a>:
+                            Bill S-209, An Act to restrict young persons&#x2019; online access to pornographic material, with amendment and observations
+                        </li>
+                </ul>
+            </div>
+                    <div class="cmt-site_v2-studybills-table-study-item-briefs">
+<ul class="list-unstyled">
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/committees/lcjc/briefs/45-1#?sessionFilter=45-1&amp;OrderOfReferenceID=665882"  role="button" title="Briefs and Other Documents">
+        <img class="meeting-icon-briefs" src="/Assets/Images/meeting-table-icons/briefs.svg" width="13" alt="Briefs and Other Documents" loading="lazy">
+        <span>Briefs and Other Documents</span>
+                    </a>
+            </li>
+            <div class="links-notes-icons-spacer"></div>
+</ul>
+<link type="text/css" rel="stylesheet" href="/css/modules/committees_v2.css?v=g-MAX1Y4ltVvexXifw9qLW8iG0Y" />
+                    </div>
+                    <p class="mt-2">
+                        <button class="btn btn-sm btn-primary" onclick="SingleMeetingsAction(this);" id="data-sc-cmt-studies-meetings-btn-id-study-665882" type="button" data-value="0" data-sc-cmt-studies-pnl="btn" data-bs-toggle="collapse" data-bs-target="#id-study-665882" aria-expanded="false" aria-controls="id-study-665882">
+                            Meetings
+                            <i id="data-sc-cmt-studies-meetings-id-study-665882" class="fa fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </p>
+                    <div class="collapse" data-sc-cmt-studies-pnl="pnl" id="id-study-665882">
+                        <div class="table-responsive">
+                            <table class="sc-table">
+                                <thead>
+                                    <tr>
+        <th aria-sort="none" class="sc-cmt-meetingtable-th-date">
+            <span class="sc-table-heading-label">Date/Time </span>
+        </th>
+                                        <th class="">Witnesses  (31)</th>
+                                        <th class="">Location</th>
+                                        <th class="">Links/Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>
+            <a href="/en/committees/LCJC/noticeofmeeting/687280/45-1">
+                Mar 12, 2026
+                <br />
+                10:31 a.m.
+                    <span class="local-time-label">
+                        <abbr title="Eastern Time">
+                            ET
+                        </abbr>
+                    </span>
+            </a>
+                                            </td>
+                                            <td class="studies-render-witness">
+            <p>There are no witnesses on this study/bill for this meeting.</p>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td class="sc-cmt-meetingtable-th-linksnotes">
+<ul class="list-unstyled">
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/content/sen/committee/451/lcjc/29mn-57566-e"  role="button" title="Minutes">
+        <img class="meeting-icon-minutes" src="/Assets/Images/meeting-table-icons/minutes.svg" width="13" alt="Minutes" loading="lazy">
+        <span>Minutes</span>
+                    </a>
+            </li>
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/content/sen/committee/451/lcjc/29ev-57566-e"  role="button" title="Transcripts">
+        <img class="meeting-icon-evidence" src="/Assets/Images/meeting-table-icons/evidence.svg" width="13" alt="Transcripts" loading="lazy">
+        <span>Transcripts</span>
+                    </a>
+            </li>
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/committees/lcjc/noticeofmeeting/687280/45-1"  role="button" title="Meeting notice">
+        <img class="meeting-icon-meetingnotice" src="/Assets/Images/meeting-table-icons/meetingnotice.svg" width="13" alt="Meeting notice" loading="lazy">
+        <span>Meeting notice</span>
+                    </a>
+            </li>
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="https://senparlvu.parl.gc.ca/harmony/en/powerbrowser/powerbrowserv2?fk=687280&amp;globalstreamid=3" target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; role="button" title="Video">
+        <img class="meeting-icon-video" src="/Assets/Images/meeting-table-icons/video.svg" width="13" alt="Video" loading="lazy">
+        <span>Video</span>
+                    </a>
+            </li>
+            <div class="links-notes-icons-spacer"></div>
+</ul>
+<link type="text/css" rel="stylesheet" href="/css/modules/committees_v2.css?v=g-MAX1Y4ltVvexXifw9qLW8iG0Y" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+            <a href="/en/committees/LCJC/noticeofmeeting/670855/45-1">
+                Oct 01, 2025
+                <br />
+                04:16 p.m.
+                    <span class="local-time-label">
+                        <abbr title="Eastern Time">
+                            ET
+                        </abbr>
+                    </span>
+            </a>
+                                            </td>
+                                            <td class="studies-render-witness">
+            <ul class="">
+        <li>
+            Amy Awad, Director General, Digital and Creative Marketplace Frameworks Branch, Cultural Affairs Sector
+                <em class="meeting-table-witness-representing parenthesis">Canadian Heritage</em>
+        </li>
+        <li>
+            Charlene Budnisky, Senior Director, Communication, Legislative and Regulatory Policy
+                <em class="meeting-table-witness-representing parenthesis">Canadian Heritage</em>
+        </li>
+        <li>
+            The Honourable Senator Julie Miville-Dech&#xEA;ne, sponsor of the bill
+        </li>
+            </ul>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td class="sc-cmt-meetingtable-th-linksnotes">
+<ul class="list-unstyled">
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/content/sen/committee/451/lcjc/04mn-57219-e"  role="button" title="Minutes">
+        <img class="meeting-icon-minutes" src="/Assets/Images/meeting-table-icons/minutes.svg" width="13" alt="Minutes" loading="lazy">
+        <span>Minutes</span>
+                    </a>
+            </li>
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/content/sen/committee/451/lcjc/04ev-57219-e"  role="button" title="Transcripts">
+        <img class="meeting-icon-evidence" src="/Assets/Images/meeting-table-icons/evidence.svg" width="13" alt="Transcripts" loading="lazy">
+        <span>Transcripts</span>
+                    </a>
+            </li>
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="/en/committees/lcjc/noticeofmeeting/670855/45-1"  role="button" title="Meeting notice">
+        <img class="meeting-icon-meetingnotice" src="/Assets/Images/meeting-table-icons/meetingnotice.svg" width="13" alt="Meeting notice" loading="lazy">
+        <span>Meeting notice</span>
+                    </a>
+            </li>
+            <li class="links-notes-icons">
+                    <a class="notice-of-meeting-icon d-flex align-items-start" href="https://senparlvu.parl.gc.ca/harmony/en/powerbrowser/powerbrowserv2?fk=670855&amp;globalstreamid=3" target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; role="button" title="Video">
+        <img class="meeting-icon-video" src="/Assets/Images/meeting-table-icons/video.svg" width="13" alt="Video" loading="lazy">
+        <span>Video</span>
+                    </a>
+            </li>
+            <div class="links-notes-icons-spacer"></div>
+</ul>
+<link type="text/css" rel="stylesheet" href="/css/modules/committees_v2.css?v=g-MAX1Y4ltVvexXifw9qLW8iG0Y" />
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+            <hr />
+</div>
+<script>
+    var pnlStudiesList = document.querySelectorAll('[data-sc-cmt-studies-pnl="pnl"]');
+    var btnStudiesList = document.querySelectorAll('[data-sc-cmt-studies-pnl="btn"]');
+    var btnExpandAll = document.getElementById('data-sc-cmt-studies-btn');
+    function ExpandAllStudies() {
+        if (btnExpandAll.getAttribute('data-value') === "1") {
+            btnExpandAll.innerHTML = '<i class="fa-solid fa-minus-square" aria-hidden="true"></i> Collapse all';
+            btnExpandAll.setAttribute('data-value', '0');
+            pnlStudiesList.forEach(ExpandMeetingsStudyItem);
+        }
+        else {
+            btnExpandAll.innerHTML = '<i class="fa-solid fa-plus-square" aria-hidden="true"></i> Expand all';
+            btnExpandAll.setAttribute('data-value', '1');
+            pnlStudiesList.forEach(HideMeetingsStudyItem);
+        }
+    }
+    function SingleMeetingsAction(item) {
+        var dElement ="data-sc-cmt-studies-meetings-"+ item.id.replace('data-sc-cmt-studies-meetings-btn-', '');
+        console.log(dElement);
+        console.log(item.getAttribute('data-value'));
+        if (item.getAttribute('data-value') === "0")
+        {
+            document.getElementById(dElement).classList.remove("fa-chevron-down");
+            document.getElementById(dElement).classList.add("fa-chevron-up");
+            item.setAttribute('data-value', '1');
+        }
+        else
+        {
+            document.getElementById(dElement).classList.remove("fa-chevron-up");
+            document.getElementById(dElement).classList.add("fa-chevron-down");
+            item.setAttribute('data-value', '0');
+        }
+    }
+    function ExpandMeetingsStudyItem(item) {
+        item.classList.add("show");
+        document.getElementById("data-sc-cmt-studies-meetings-" + item.id).classList.remove("fa-chevron-down");
+        document.getElementById("data-sc-cmt-studies-meetings-" + item.id).classList.add("fa-chevron-up");
+        document.getElementById("data-sc-cmt-studies-meetings-btn-" + item.id).setAttribute('data-value', '1');
+    }
+    function HideMeetingsStudyItem(item) {
+        //console.log(item);
+        item.classList.remove("show");
+        document.getElementById("data-sc-cmt-studies-meetings-" + item.id).classList.remove("fa-chevron-up");
+        document.getElementById("data-sc-cmt-studies-meetings-" + item.id).classList.add("fa-chevron-down");
+        document.getElementById("data-sc-cmt-studies-meetings-btn-" + item.id).setAttribute('data-value', '0');
+    }
+</script>
