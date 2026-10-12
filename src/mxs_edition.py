@@ -64,10 +64,23 @@ def watchlist(path=None):
     return mxs_store.watchlist(path)
 
 
+def from_gazette(source_id):
+    """True for an item read from the state's official gazette rather than
+    the congress itself (tools/mxs_collect.py GAZETTE readers key them 'po/')."""
+    return str(source_id or "").startswith(mxs_store.GAZETTE_PREFIX)
+
+
 def takeaway(r):
     state = mxs_store.STATES.get(r["state"], r["state"])
-    bits = ["{0} state congress{1}".format(
-        state, " ({0} Legislature)".format(r["legislature"]) if r["legislature"] else "")]
+    bits = ["{0} state congress{1}{2}".format(
+        state, " ({0} Legislature)".format(r["legislature"]) if r["legislature"] else "",
+        " (from the official gazette)" if from_gazette(r["source_id"]) else "")]
+    if from_gazette(r["source_id"]):
+        bits.append("Adopted and published in the state's Periódico Oficial; the congress's own "
+                    "site is not read (docs/mexico-regions-scope.md)")
+        if r["turno"]:
+            bits.append("Committee: {0}".format(ce.clip(r["turno"], 160)))
+        return ". ".join(bits)
     kind = mxs_store.KINDS.get(r["kind"] or "", None)
     who = r["presenter"]
     if kind:
@@ -115,7 +128,11 @@ def reads_line(conn):
     ok = [r for r in got if r["status"] == "ok"]
     gap = [r for r in got if r["status"] == "gap"]
     off = [r for r in got if r["status"] not in ("ok", "gap")]
-    name = lambda r: mxs_store.STATES.get(r["state"], r["state"])  # noqa: E731
+    def name(r):
+        label = mxs_store.STATES.get(r["state"], r["state"])
+        if (r["reader"] or "").endswith("_gazette"):
+            label += " (from the official gazette)"
+        return label
     bits = []
     if ok:
         when = max((r["read_at"] or "")[:10] for r in ok)

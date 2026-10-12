@@ -102,6 +102,12 @@ SCHEMA = (
 
 TABLES = ("mxs_items", "mxs_reads")
 
+# Source ids of items read from a state's official gazette (Periódico
+# Oficial) rather than the congress's own site start with this (12 October
+# 2026: Puebla, San Luis Potosí, Campeche, Durango, Querétaro alternative
+# routes, docs/mexico-regions-scope.md). The edition marks them.
+GAZETTE_PREFIX = "po/"
+
 
 def ensure_schema(conn):
     for stmt in SCHEMA:

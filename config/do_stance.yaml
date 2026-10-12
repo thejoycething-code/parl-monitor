@@ -635,7 +635,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Adds a paragraph to article 184 stating its provisions apply without prejudice to freedom (apparently of religion or expression), a protective clause; text truncated."
     amendment_source: "https://www.diputadosrd.gob.do/sil/"
-    amendment_flag: "Question text truncated at 'libe...'; full text not read, check."
     yea: 2
     nay: -2
     why_yea: "Voted Sí on amendment cd/21509 (Adds a paragraph to article 184 stating its provisions apply without prejudice to freedom ): for adopting it, with CitizenGO's position."
@@ -652,13 +651,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 1 (abortion), 8 (religious freedom). Amendment reading on file: adopting it is WITH us -- Adds a paragraph to article 184 stating its provisions apply without prejudice to freedom (apparently of religion or expression), a protective clause; text truncated. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Question text truncated at 'libe...'; full text not read, check.)"
 
   - key: "cd/21510"
     status: draft
     amendment_direction: "with"
     amendment_why: "Second vote on the same article 184 paragraph protecting freedom (apparently religious) alongside the discrimination offence; text truncated."
     amendment_source: "https://www.diputadosrd.gob.do/sil/"
-    amendment_flag: "Question text truncated at 'libe...'; full text not read, check."
     yea: 2
     nay: -2
     why_yea: "Voted Sí on amendment cd/21510 (Second vote on the same article 184 paragraph protecting freedom (apparently religious) al): for adopting it, with CitizenGO's position."
@@ -675,6 +674,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 1 (abortion), 8 (religious freedom). Amendment reading on file: adopting it is WITH us -- Second vote on the same article 184 paragraph protecting freedom (apparently religious) alongside the discrimination offence; text truncated. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Question text truncated at 'libe...'; full text not read, check.)"
 
   - key: "cd/21511"
     status: draft
@@ -799,7 +799,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Deletes article 189 on prostitution, removing the offence; this weakens anti-trafficking and anti-prostitution provisions, so adopting it is against CitizenGO."
     amendment_source: "https://www.diputadosrd.gob.do/sil/"
-    amendment_flag: "Content of article 189 inferred from its title only, check."
     yea: -2
     nay: 2
     why_yea: "Voted Sí on amendment cd/21556 (Deletes article 189 on prostitution, removing the offence): for adopting it, against CitizenGO's position."
@@ -816,6 +815,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 1 (abortion), 12 (prostitution and trafficking). Amendment reading on file: adopting it is AGAINST us -- Deletes article 189 on prostitution, removing the offence; this weakens anti-trafficking and anti-prostitution provisions, so adopting it is against CitizenGO. A Sí here adopts it, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Content of article 189 inferred from its title only, check.)"
 
   - key: "cd/21557"
     status: draft
@@ -1404,7 +1404,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Widens the circumstances making procuring (proxenetismo) aggravated, including recruiting victims abroad, use of communication networks, several offenders and premises for sexual exploitation; tougher anti-trafficking measures are with CitizenGO."
     amendment_source: "https://www.diariolibre.com/politica/congreso-nacional/2026/07/20/proyecto-codigo-penal-y-modificacion-ley-74-25/3605438"
-    amendment_flag: "based on press summary of article 177, not the amendment text"
     yea: 2
     nay: -2
     why_yea: "Voted Sí on amendment cd/22531 (Widens the circumstances making procuring (proxenetismo) aggravated, including recruiting ): for adopting it, with CitizenGO's position."
@@ -1421,6 +1420,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 1 (abortion), 9 (marriage and family), 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Widens the circumstances making procuring (proxenetismo) aggravated, including recruiting victims abroad, use of communication networks, several offenders and premises for sexual exploitation; tougher. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: based on press summary of article 177, not the amendment text)"
 
   - key: "cd/22532"
     status: needs_reading

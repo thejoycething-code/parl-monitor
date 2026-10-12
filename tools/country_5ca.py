@@ -16,6 +16,7 @@
     python3 tools/country_5ca.py --all-countries --counts
     python3 tools/country_5ca.py --cc fr --prune-out-of-scope [--dry-run]   # no country has a scope now
     python3 tools/country_5ca.py --apply-amendments decisions.json [--dry-run]
+    python3 tools/country_5ca.py --all-countries --accept-flagged-amendments --by "Christopher Joyce" [--dry-run]
     python3 tools/country_5ca.py --cc ch --prune-off-ground [--dry-run] --signoff-doc --shortlist
     python3 tools/country_5ca.py --cc pl --draft --db /path/to/store.db
     python3 tools/country_5ca.py --draft --db-map stores.txt # "cc path" per line (initial drafts)
@@ -56,6 +57,14 @@ reason. Confirmed, amended and hand-valued entries, and entries that are not
 amendment votes, are refused with the reason. --fill-directions also drafts
 any untouched needs_reading amendment entry given an `amendment_direction`
 by hand.
+
+--accept-flagged-amendments (12 October 2026, Chris: "Accept all as
+drafted") accepts every with/against amendment reading that carries an
+`amendment_flag` and the rules' own values, unconfirmed and not amended: the
+flag is removed so --auto-confirm can confirm it, and kept on the entry as
+`amendment_accepted: "<by>, <date>: accepted as drafted (was flagged: ...)"`.
+Unclear and not-scored readings, bill flags and anything a person confirmed
+or amended are left alone. --by must be a signer for the country.
 
 --prune-off-ground (11 October 2026) removes the unsigned, untouched entries
 whose vote the store no longer holds on our ground (neither watched nor tier
@@ -130,13 +139,15 @@ def main(argv=None):
                     help="remove unsigned, untouched entries whose vote is no longer on our ground")
     ap.add_argument("--dry-run", action="store_true",
                     help="with --prune-out-of-scope, --prune-off-ground, --resync-directions, "
-                         "--fill-directions or --auto-confirm: write nothing")
+                         "--fill-directions, --accept-flagged-amendments or --auto-confirm: write nothing")
     ap.add_argument("--resync-directions", action="store_true",
                     help="bring untouched drafts into line with a changed bill direction")
     ap.add_argument("--fill-directions", action="store_true",
                     help="draft untouched needs_reading votes whose bill now has a direction")
     ap.add_argument("--apply-amendments", metavar="FILE",
                     help="apply a JSON file of amendment decisions (with/against/unclear/not_scored)")
+    ap.add_argument("--accept-flagged-amendments", action="store_true",
+                    help="accept flagged with/against amendment readings as drafted (needs --by)")
     ap.add_argument("--auto-confirm", action="store_true",
                     help="confirm drafts that pass every check, on Chris's delegation")
     ap.add_argument("--amend", metavar="KEY", help="a signer's amendment of one reading")
@@ -179,6 +190,14 @@ def main(argv=None):
         ap.error("--cc CC, --all-countries or --db-map")
     if (args.confirm or args.sign_from_doc or args.confirm_direction or args.amend) and len(ccs) != 1:
         ap.error("confirm one country at a time")
+    if args.accept_flagged_amendments:
+        total = 0
+        for cc in ccs:
+            if os.path.exists(c5.stance_path(cc)):
+                total += len(c5.accept_flagged_amendments(cc, args.by, args.on, dry_run=args.dry_run))
+        print("Flagged amendment readings {0} as drafted: {1}".format(
+            "that would be accepted" if args.dry_run else "accepted", total))
+        return 0
     if args.amend:
         c5.amend(ccs[0], args.amend, args.by, args.yea, args.nay, args.why, args.take_out, args.on)
         return 0

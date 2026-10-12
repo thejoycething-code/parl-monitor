@@ -993,7 +993,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Majority recommends that voters accept the individual taxation initiative, which the bill_direction marks as against CitizenGO's pro-marriage stance; a Yes adopts that recommendation."
     amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026"
-    amendment_flag: "Recommendation vote; direction inferred from the bill-level call and the Curia Vista summary, text of the decree not read in full."
     yea: -2
     nay: 2
     why_yea: "Voted Ja on amendment nr-34363 (Majority recommends that voters accept the individual taxation initiative, which the bill_): for adopting it, against CitizenGO's position."
@@ -1010,6 +1009,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 9 (marriage and family). Amendment reading on file: adopting it is AGAINST us -- Majority recommends that voters accept the individual taxation initiative, which the bill_direction marks as against CitizenGO's pro-marriage stance; a Yes adopts that recommendation. A Ja here adopts it, so Ja is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Recommendation vote; direction inferred from the bill-level call and the Curia Vista summary, text of the decree not read in full.)"
 
   - key: "sr-7403"
     status: needs_reading
@@ -1070,7 +1070,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Council of States majority, following the National Council, recommends accepting the individual taxation initiative, which is against CitizenGO's pro-marriage stance; a Yes adopts that recommendation."
     amendment_source: "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026"
-    amendment_flag: "Recommendation vote; direction inferred from the bill-level call, decree text not read in full."
     yea: -2
     nay: 2
     why_yea: "Voted Ja on amendment sr-7406 (Council of States majority, following the National Council, recommends accepting the indiv): for adopting it, against CitizenGO's position."
@@ -1087,6 +1086,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 9 (marriage and family). Amendment reading on file: adopting it is AGAINST us -- Council of States majority, following the National Council, recommends accepting the individual taxation initiative, which is against CitizenGO's pro-marriage stance; a Yes adopts that recommendation. A Ja here adopts it, so Ja is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Recommendation vote; direction inferred from the bill-level call, decree text not read in full.)"
 
   - key: "nr-34676"
     status: draft

@@ -55,7 +55,9 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
 fi
 # The 32 state congresses (tools/mxs_collect.py, src/ingest/mxs_*.py,
 # docs/mexico-regions-scope.md, 12 October 2026): what each readable state
-# lists, stored in mxs_items for the edition's "State congresses" section.
+# lists, stored in mxs_items for the edition's "State congresses" section,
+# plus the decrees four closed congresses adopted, read from their states'
+# official gazettes (SLP, Campeche, Durango, Querétaro; same step and clock).
 # Here, on GitHub, because several state hosts refuse UK addresses as the
 # Chamber's do. Its own clock (15 minutes); exit 3 means it stored what it
 # could and recorded gaps. Any failure is a [gap] line and never costs the

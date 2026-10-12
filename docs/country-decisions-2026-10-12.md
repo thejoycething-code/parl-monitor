@@ -207,3 +207,65 @@ No "Left for a person" flag is left. `--resync-directions` and
 NL the Embryowet final vote and the Podt motion); the four palliative votes
 on hold were restored to the rules' draft by hand with the same rules
 (`rule_values`), since neither step reads a released hold.
+
+## Decision backlog, 12 October
+
+**Flagged amendment readings.** Chris: **"Accept all as drafted."** The 313
+with/against amendment readings applied with an `amendment_flag` (medium
+confidence, whole-article votes judged from the bill, text inferred) are
+accepted. `tools/country_5ca.py --all-countries --accept-flagged-amendments
+--by "Christopher Joyce" --on 2026-10-12` (src/country5ca.py,
+`accept_flagged_amendments`) removed each flag and kept it on the entry as
+`amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted
+(was flagged: ...)"`. Accepted: France 253, Poland 22, Italy 10, Spain 10,
+the Netherlands 7, the Dominican Republic 4, Brazil 3, Switzerland 2,
+Slovakia 1, Argentina 1. Left alone: unclear and not-scored readings, bill
+flags (Spain's SUMAR bill 15/122/000006 still waits on HazteOir) and
+anything a person confirmed or amended. The automatic checks do not count
+`amendment_accepted` as a hand edit.
+
+`--auto-confirm --dry-run` on the laptop store (read-only): 1,243 would
+confirm, 563 left for a person (941 and 865 before the acceptance). Would
+confirm / left: France 910 / 193, Poland 101 / 73, Italy 77 / 51, the
+Netherlands 61 / 21, Spain 25 / 24, Switzerland 14 / 47, Slovakia 14 / 24,
+Portugal 13 / 2, Austria 11 / 7, the Dominican Republic 6 / 86, Brazil 5 /
+8, Hungary 4 / 10, Belgium 2 / 2, Croatia 0 / 5, Mexico 0 / 3, Chile 0 /
+4, Argentina 0 / 2, Ecuador 0 / 1. Eleven accepted readings still wait:
+their votes were unanimous (they tell nobody apart): France 6, Spain 3,
+Poland 1, Argentina 1. Sunday's job applies it to the live store.
+
+**Regional watchlists.** Chris: **"Seed from what's on our ground."** Keys
+from same-day runs of each collector into scratch stores (not the store):
+
+- Italy (`config/watchlist-it.yaml` `regional:`, 11): the five Liberi
+  Subito assisted-dying bills (lom/XII/pdl-56, cam/XII/35320,
+  cam/XII/35375, mar/XII/pdl-8, tn/XVII/at3007878), Lombardia's
+  fertility-preservation and gamete-freezing bill (lom/XII/pdl-212), the
+  two Marche consultori reforms (mar/XII/pdl-25, pdl-42), the gender and
+  sexuality education bills (lom/XII/pdl-179, mar/XII/pdl-11) and Trento's
+  "culle per la vita" motion (tn/XVII/at1818269).
+- Austria (`config/watchlist-at.yaml` `landtage:`, 8): Steiermark's
+  Verbotsgesetz gegen den politischen Islam (stmk/XIX/1644/8), the two Wien
+  Kopftuchverbot items (wien/201628, wien/201766), Wien's motion to keep
+  the Sterbeverfügung without a time limit (wien/201346), Vorarlberg's
+  LGBTIQ action plan and palliative-care questions, and Oberösterreich's
+  abortion buffer-zone and homeschooling items. Salzburg's "Safe Space für
+  queere Menschen": to add when first collected (the host answered 503).
+- Peru (`config/watchlist-pe.yaml` `regional:`, 7): Arequipa's ESI
+  ordinance (538-2025) and child-marriage board (561-2026), Ayacucho's two
+  child-marriage ordinances, Cusco's sexual and reproductive rights
+  ordinance, Huancavelica's adolescent-pregnancy policy and Moquegua's
+  gender mainstreaming.
+- Mexico (`config/watchlist-mx-states.yaml`, 11): Chiapas (ILE for girls
+  and adolescents, the ECOSIG offence, self-perceived gender identity,
+  voluntad anticipada), Yucatán (two abortion decriminalisation bills,
+  gender identity), Sinaloa (trans rights law, voluntad anticipada),
+  Chihuahua (voluntad anticipada) and Oaxaca (hate crimes on orientation
+  and gender identity). To add when first collected: Chihuahua's ECOSIG
+  chapter (Nov 2024) and the PAN abortion bill (Apr 2025), and Oaxaca's
+  ILE punto de acuerdo (Oct 2025), older than the readers' window.
+
+The rest of the regional backlog: Vienna's Gemeinderat (read since #152),
+emails to the Mexican states that block us and alternative routes are built
+separately; Peru's regional tier-1 norms keep alerting instantly; the RIS
+API is not requested; a Mexican exit for the Mini waits for GitHub's run.

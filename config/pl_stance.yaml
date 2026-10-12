@@ -251,7 +251,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Bans freezing of embryos except in force majeure and requires transfer or embryo adoption by a married couple, protecting embryos and limiting IVF practice."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/69/69.pdf"
-    amendment_flag: "Amendment 3 text not seen separately; judged from minority motion 3"
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-1-38 (Bans freezing of embryos except in force majeure and requires transfer or embryo adoption ): for adopting it, with CitizenGO's position."
@@ -267,6 +266,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Bans freezing of embryos except in force majeure and requires transfer or embryo adoption by a married couple, protecting embryos and limiting IVF practice. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Amendment 3 text not seen separately; judged from minority motion 3)"
 
   - key: "pl-10-1-39"
     status: draft
@@ -591,7 +591,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Amendments 1, 4 and 10 add gender identity to hate crime sentencing, violence and public insult offences, expanding speech-restricting and self-ID-based categories."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/984-A/984-A.pdf"
-    amendment_flag: "Combined vote of three amendments"
     yea: -2
     nay: 2
     why_yea: "Voted Za on amendment pl-10-30-13 (Amendments 1, 4 and 10 add gender identity to hate crime sentencing, violence and public i): for adopting it, against CitizenGO's position."
@@ -607,13 +606,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 4 (conversion practices), 5 (sex-based rights), 7 (free speech and civil liberties). Amendment reading on file: adopting it is AGAINST us -- Amendments 1, 4 and 10 add gender identity to hate crime sentencing, violence and public insult offences, expanding speech-restricting and self-ID-based categories. A Za here adopts it, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Combined vote of three amendments)"
 
   - key: "pl-10-30-14"
     status: draft
     amendment_direction: "against"
     amendment_why: "Amendments 2, 5 and 11 keep sex and sexual orientation, without gender identity, in the hate crime and insult offences; narrower than 1/4/10 but still extends speech-restricting provisions."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/984-A/984-A.pdf"
-    amendment_flag: "Medium confidence; same as bill text on orientation"
     yea: -2
     nay: 2
     why_yea: "Voted Za on amendment pl-10-30-14 (Amendments 2, 5 and 11 keep sex and sexual orientation, without gender identity, in the ha): for adopting it, against CitizenGO's position."
@@ -629,6 +628,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 4 (conversion practices), 5 (sex-based rights), 7 (free speech and civil liberties). Amendment reading on file: adopting it is AGAINST us -- Amendments 2, 5 and 11 keep sex and sexual orientation, without gender identity, in the hate crime and insult offences; narrower than 1/4/10 but still extends speech-restricting provisions. A Za here adopts it, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence; same as bill text on orientation)"
 
   - key: "pl-10-30-15"
     status: draft
@@ -886,7 +886,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Limits blocking orders on incitement and praise to public incitement offences under art. 255 of the criminal code, narrowing the censorship power in a bill CitizenGO opposes."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/1922-A/1922-A.pdf"
-    amendment_flag: "Medium confidence: narrows scope, but amendment 4 alone only re-words one head of blocking power."
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-45-51 (Limits blocking orders on incitement and praise to public incitement offences under art): for adopting it, with CitizenGO's position."
@@ -902,6 +901,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is WITH us -- Limits blocking orders on incitement and praise to public incitement offences under art. 255 of the criminal code, narrowing the censorship power in a bill CitizenGO opposes. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: narrows scope, but amendment 4 alone only re-words one head of blocking power.)"
 
   - key: "pl-10-45-52"
     status: draft
@@ -929,7 +929,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "KO version adds an express freedom-of-expression ground for users to have platform restrictions reversed by the authority, giving some speech protection in a bill CitizenGO opposes."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/1922-A/1922-A.pdf"
-    amendment_flag: "Medium confidence: narrower than the Konfederacja version and mostly procedural."
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-45-53 (KO version adds an express freedom-of-expression ground for users to have platform restric): for adopting it, with CitizenGO's position."
@@ -945,6 +944,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is WITH us -- KO version adds an express freedom-of-expression ground for users to have platform restrictions reversed by the authority, giving some speech protection in a bill CitizenGO opposes. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: narrower than the Konfederacja version and mostly procedural.)"
 
   - key: "pl-10-45-54"
     status: draft
@@ -990,7 +990,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Replaces the existing warning list with a register of domains that internet providers must block within 48 hours, creating a stronger domain-blocking censorship mechanism."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/1922-A/1922-A.pdf"
-    amendment_flag: "Medium confidence: the bundle also deletes articles 8 and 10 and sets the commencement date."
     yea: -2
     nay: 2
     why_yea: "Voted Za on amendment pl-10-45-56 (Replaces the existing warning list with a register of domains that internet providers must): for adopting it, against CitizenGO's position."
@@ -1006,6 +1005,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is AGAINST us -- Replaces the existing warning list with a register of domains that internet providers must block within 48 hours, creating a stronger domain-blocking censorship mechanism. A Za here adopts it, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: the bundle also deletes articles 8 and 10 and sets the commencement date.)"
 
   - key: "pl-10-45-57"
     status: draft
@@ -1123,7 +1123,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Deletes state subsidies for trusted flaggers (and the paired cross-references), reducing public funding of reporting of content for removal."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/1922-A/1922-A.pdf"
-    amendment_flag: "Medium confidence: funding only, and also deletes a paired technical reference."
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-45-63 (Deletes state subsidies for trusted flaggers (and the paired cross-references), reducing p): for adopting it, with CitizenGO's position."
@@ -1139,6 +1138,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is WITH us -- Deletes state subsidies for trusted flaggers (and the paired cross-references), reducing public funding of reporting of content for removal. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: funding only, and also deletes a paired technical reference.)"
 
   - key: "pl-10-45-64"
     status: draft
@@ -1307,7 +1307,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Removes immediate enforceability of decisions finding a platform in breach, including orders to block content, softening the enforcement machinery of a bill CitizenGO opposes."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/1922-A/1922-A.pdf"
-    amendment_flag: "Medium confidence: concerns platform regulation more than individual speech."
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-45-73 (Removes immediate enforceability of decisions finding a platform in breach, including orde): for adopting it, with CitizenGO's position."
@@ -1323,6 +1322,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is WITH us -- Removes immediate enforceability of decisions finding a platform in breach, including orders to block content, softening the enforcement machinery of a bill CitizenGO opposes. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: concerns platform regulation more than individual speech.)"
 
   - key: "pl-10-45-74"
     status: draft
@@ -1365,7 +1365,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Deletes fines on third parties and employees who fail to supply information to the regulator, removing a coercive power of the DSA enforcement regime."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/1922-A/1922-A.pdf"
-    amendment_flag: "Medium confidence: peripheral to speech."
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-45-76 (Deletes fines on third parties and employees who fail to supply information to the regulat): for adopting it, with CitizenGO's position."
@@ -1381,6 +1380,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is WITH us -- Deletes fines on third parties and employees who fail to supply information to the regulator, removing a coercive power of the DSA enforcement regime. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: peripheral to speech.)"
 
   - key: "pl-10-45-77"
     status: draft
@@ -1459,7 +1459,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Adds copyright holders to those who may apply for blocking orders against online content, widening the censorship mechanism."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2069/2069.pdf"
-    amendment_flag: "Medium confidence: copyright rather than speech or morals."
     yea: -2
     nay: 2
     why_yea: "Voted Za on amendment pl-10-48-41 (Adds copyright holders to those who may apply for blocking orders against online content, ): for adopting it, against CitizenGO's position."
@@ -1475,6 +1474,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is AGAINST us -- Adds copyright holders to those who may apply for blocking orders against online content, widening the censorship mechanism. A Za here adopts it, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: copyright rather than speech or morals.)"
 
   - key: "pl-10-48-42"
     status: draft
@@ -1538,7 +1538,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Removes trusted flaggers from those who can apply for blocking orders, narrowing who can seek content removal."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2069/2069.pdf"
-    amendment_flag: "Medium confidence."
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-48-45 (Removes trusted flaggers from those who can apply for blocking orders, narrowing who can s): for adopting it, with CitizenGO's position."
@@ -1554,6 +1553,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is WITH us -- Removes trusted flaggers from those who can apply for blocking orders, narrowing who can seek content removal. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence.)"
 
   - key: "pl-10-48-46"
     status: draft
@@ -1932,7 +1932,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "KO amendment postpones entry into force of the non-court divorce law to 1 January 2027, delaying a bill that eases divorce, which CitizenGO opposes."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2233-A/2233-A.pdf"
-    amendment_flag: "Delay only; check weight before sign-off."
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-53-65 (KO amendment postpones entry into force of the non-court divorce law to 1 January 2027, de): for adopting it, with CitizenGO's position."
@@ -1947,6 +1946,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 1 (abortion), 9 (marriage and family). Amendment reading on file: adopting it is WITH us -- KO amendment postpones entry into force of the non-court divorce law to 1 January 2027, delaying a bill that eases divorce, which CitizenGO opposes. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Delay only; check weight before sign-off.)"
 
   - key: "pl-10-53-66"
     status: draft
@@ -2106,7 +2106,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "KO amendment rewriting article 5 with factors for courts to identify suits aimed at suppressing public debate, strengthening protection for speakers, which CitizenGO supports."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2542-A/2542-A.pdf"
-    amendment_flag: "Redraft of an existing article; original text not compared."
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-57-80 (KO amendment rewriting article 5 with factors for courts to identify suits aimed at suppre): for adopting it, with CitizenGO's position."
@@ -2122,6 +2121,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is WITH us -- KO amendment rewriting article 5 with factors for courts to identify suits aimed at suppressing public debate, strengthening protection for speakers, which CitizenGO supports. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Redraft of an existing article; original text not compared.)"
 
   - key: "pl-10-57-81"
     status: draft
@@ -2246,7 +2246,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "KO amendment lets participating non-governmental organisations as well as the defendant apply under article 13, widening protection for speakers, which CitizenGO supports."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2542-A/2542-A.pdf"
-    amendment_flag: "Mild effect."
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-57-87 (KO amendment lets participating non-governmental organisations as well as the defendant ap): for adopting it, with CitizenGO's position."
@@ -2262,6 +2261,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is WITH us -- KO amendment lets participating non-governmental organisations as well as the defendant apply under article 13, widening protection for speakers, which CitizenGO supports. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Mild effect.)"
 
   - key: "pl-10-57-88"
     status: draft
@@ -2374,7 +2374,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Lewica amendment extends the cohabitation-agreement party to soldiers' study-abroad cost reimbursements, widening the benefits of the new status."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2594-A/2594-A.pdf"
-    amendment_flag: "Medium confidence."
     yea: -2
     nay: 2
     why_yea: "Voted Za on amendment pl-10-58-100 (Lewica amendment extends the cohabitation-agreement party to soldiers' study-abroad cost r): for adopting it, against CitizenGO's position."
@@ -2390,13 +2389,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 9 (marriage and family). Amendment reading on file: adopting it is AGAINST us -- Lewica amendment extends the cohabitation-agreement party to soldiers' study-abroad cost reimbursements, widening the benefits of the new status. A Za here adopts it, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence.)"
 
   - key: "pl-10-58-101"
     status: draft
     amendment_direction: "against"
     amendment_why: "Lewica amendment gives parties to a cohabitation agreement the same work-permit exemption as spouses of Poles, widening recognition of the new status."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2594-A/2594-A.pdf"
-    amendment_flag: "Medium confidence."
     yea: -2
     nay: 2
     why_yea: "Voted Za on amendment pl-10-58-101 (Lewica amendment gives parties to a cohabitation agreement the same work-permit exemption ): for adopting it, against CitizenGO's position."
@@ -2412,13 +2411,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 9 (marriage and family). Amendment reading on file: adopting it is AGAINST us -- Lewica amendment gives parties to a cohabitation agreement the same work-permit exemption as spouses of Poles, widening recognition of the new status. A Za here adopts it, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence.)"
 
   - key: "pl-10-58-102"
     status: draft
     amendment_direction: "against"
     amendment_why: "Lewica amendment extends the status to the psychologists law, treating cohabitation-agreement parties like spouses."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2594-A/2594-A.pdf"
-    amendment_flag: "Medium confidence."
     yea: -2
     nay: 2
     why_yea: "Voted Za on amendment pl-10-58-102 (Lewica amendment extends the status to the psychologists law, treating cohabitation-agreem): for adopting it, against CitizenGO's position."
@@ -2434,6 +2433,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 9 (marriage and family). Amendment reading on file: adopting it is AGAINST us -- Lewica amendment extends the status to the psychologists law, treating cohabitation-agreement parties like spouses. A Za here adopts it, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence.)"
 
   - key: "pl-10-58-103"
     status: draft
@@ -2593,7 +2593,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Minority motion limiting the agreement to an adult man and a woman, preserving the conjugal-pair basis and excluding same-sex couples."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2593/2593.pdf"
-    amendment_flag: "Check that the bill text has no other opening."
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-58-57 (Minority motion limiting the agreement to an adult man and a woman, preserving the conjuga): for adopting it, with CitizenGO's position."
@@ -2609,13 +2608,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 9 (marriage and family). Amendment reading on file: adopting it is WITH us -- Minority motion limiting the agreement to an adult man and a woman, preserving the conjugal-pair basis and excluding same-sex couples. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Check that the bill text has no other opening.)"
 
   - key: "pl-10-58-58"
     status: draft
     amendment_direction: "against"
     amendment_why: "Minority motion lets partners take a shared or combined surname and register it, giving the union marriage-like effects."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2593/2593.pdf"
-    amendment_flag: "Medium confidence: low-stakes naming provision."
     yea: -2
     nay: 2
     why_yea: "Voted Za on amendment pl-10-58-58 (Minority motion lets partners take a shared or combined surname and register it, giving th): for adopting it, against CitizenGO's position."
@@ -2631,6 +2630,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 9 (marriage and family). Amendment reading on file: adopting it is AGAINST us -- Minority motion lets partners take a shared or combined surname and register it, giving the union marriage-like effects. A Za here adopts it, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: low-stakes naming provision.)"
 
   - key: "pl-10-58-59"
     status: needs_reading
@@ -3122,7 +3122,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Razem package creating a civil-status register of partners and partner certificates, administratively embedding the partnership alongside marriage, which CitizenGO opposes."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2594-A/2594-A.pdf"
-    amendment_flag: "Part of a Razem package renaming the status as registered partnership."
     yea: -2
     nay: 2
     why_yea: "Voted Za on amendment pl-10-58-83 (Razem package creating a civil-status register of partners and partner certificates, admin): for adopting it, against CitizenGO's position."
@@ -3138,13 +3137,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 9 (marriage and family). Amendment reading on file: adopting it is AGAINST us -- Razem package creating a civil-status register of partners and partner certificates, administratively embedding the partnership alongside marriage, which CitizenGO opposes. A Za here adopts it, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Part of a Razem package renaming the status as registered partnership.)"
 
   - key: "pl-10-58-84"
     status: draft
     amendment_direction: "against"
     amendment_why: "Razem amendment adds partnership data and registration to the population register, institutionalising the partnership like marriage, which CitizenGO opposes."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2594-A/2594-A.pdf"
-    amendment_flag: "Part of a Razem package renaming the status as registered partnership."
     yea: -2
     nay: 2
     why_yea: "Voted Za on amendment pl-10-58-84 (Razem amendment adds partnership data and registration to the population register, institu): for adopting it, against CitizenGO's position."
@@ -3160,6 +3159,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 9 (marriage and family). Amendment reading on file: adopting it is AGAINST us -- Razem amendment adds partnership data and registration to the population register, institutionalising the partnership like marriage, which CitizenGO opposes. A Za here adopts it, so Za is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Part of a Razem package renaming the status as registered partnership.)"
 
   - key: "pl-10-58-85"
     status: draft
@@ -3589,7 +3589,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Gives Polish users an explicit right to sue platforms in Polish courts and bars terms that block claims, helping people challenge unfair content removal, so it softens the censorship-leaning bill."
     amendment_source: "https://api.sejm.gov.pl/sejm/term10/prints/2815-A/2815-A.pdf"
-    amendment_flag: "Medium confidence; effect on moderation redress is indirect"
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment pl-10-63-34 (Gives Polish users an explicit right to sue platforms in Polish courts and bars terms that): for adopting it, with CitizenGO's position."
@@ -3605,6 +3604,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is WITH us -- Gives Polish users an explicit right to sue platforms in Polish courts and bars terms that block claims, helping people challenge unfair content removal, so it softens the censorship-leaning bill. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence; effect on moderation redress is indirect)"
 
   - key: "pl-10-63-35"
     status: draft

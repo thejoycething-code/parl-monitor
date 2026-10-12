@@ -97,7 +97,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Bill raises penalties for receiving, handing over, facilitating or brokering the sale or trafficking of minors, with aggravation for officials; anti-trafficking and child protection."
     amendment_source: "https://aldiaargentina.microjuris.com/wp-content/uploads/2024/07/proyecto-sustraccion-comercializacion-menores.pdf"
-    amendment_flag: "Read the original bill S-0284/2024; the voted committee text differed in details."
     yea: 2
     nay: -2
     why_yea: "Voted Afirmativo on amendment sen-acta-2480 (Bill raises penalties for receiving, handing over, facilitating or brokering the sale or t): for adopting it, with CitizenGO's position."
@@ -113,6 +112,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Bill raises penalties for receiving, handing over, facilitating or brokering the sale or trafficking of minors, with aggravation for officials; anti-trafficking and child protection. A Afirmativo here adopts it, so Afirmativo is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Read the original bill S-0284/2024; the voted committee text differed in details.)"
 
   - key: "sen-acta-2486"
     status: draft

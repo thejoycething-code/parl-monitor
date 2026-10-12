@@ -533,7 +533,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Requires government rules on annual reporting by the research ethics committee, including whether specially created embryos are still needed; adds scrutiny to a bill allowing embryo creation for research."
     amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2025Z21108"
-    amendment_flag: "Medium confidence: transparency measure that tightens oversight but does not restrict the research itself."
     yea: 2
     nay: -2
     why_yea: "Voted Voor on amendment 20eb0979-56ef-4e39-a448-fa60a64939b8 (Requires government rules on annual reporting by the research ethics committee, including ): for adopting it, with CitizenGO's position."
@@ -550,6 +549,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Requires government rules on annual reporting by the research ethics committee, including whether specially created embryos are still needed; adds scrutiny to a bill allowing embryo creation for resea. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: transparency measure that tightens oversight but does not restrict the research itself.)"
 
   - key: "308c6fcb-4a64-424f-9e9f-eb6f13eae1d5"
     status: needs_reading
@@ -711,7 +711,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Stops the exception for embryos created as raw material for stem cells from applying, limiting commodification of early human life."
     amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2025Z15555"
-    amendment_flag: "Medium confidence: legislative cross-reference reading of the amendment."
     yea: 2
     nay: -2
     why_yea: "Voted Voor on amendment f021ab1c-04f9-4756-857a-81dea3193cdb (Stops the exception for embryos created as raw material for stem cells from applying, limi): for adopting it, with CitizenGO's position."
@@ -728,6 +727,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Stops the exception for embryos created as raw material for stem cells from applying, limiting commodification of early human life. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: legislative cross-reference reading of the amendment.)"
 
   - key: "f70977fb-c443-42b0-9383-dcced90a2586"
     status: needs_reading
@@ -2807,7 +2807,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Bans deliberately creating embryo-like structures from stem cells, restricting embryo-model research, which is with CitizenGO."
     amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z07564"
-    amendment_flag: "Medium confidence: the amendment deletes parts of the bill and the effect is read from its explanation."
     yea: 2
     nay: -2
     why_yea: "Voted Voor on amendment 4df30700-56ad-45bb-a916-167b6541228a (Bans deliberately creating embryo-like structures from stem cells, restricting embryo-mode): for adopting it, with CitizenGO's position."
@@ -2824,6 +2823,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Bans deliberately creating embryo-like structures from stem cells, restricting embryo-model research, which is with CitizenGO. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: the amendment deletes parts of the bill and the effect is read from its explanation.)"
 
   - key: "6635723a-e3cc-4550-a6b8-6b46bff4d84d"
     status: draft
@@ -3753,7 +3753,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Criminalises assisting trafficking whatever the motive and extends liability to organisations, strengthening anti-trafficking law; the reach over charities is a possible side effect."
     amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z20581"
-    amendment_flag: "Medium confidence: broad facilitation offence could catch humanitarian actors."
     yea: 2
     nay: -2
     why_yea: "Voted Voor on amendment 1dde8cc9-9219-4968-907e-7b8cec1e3f1a (Criminalises assisting trafficking whatever the motive and extends liability to organisati): for adopting it, with CitizenGO's position."
@@ -3769,6 +3768,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Criminalises assisting trafficking whatever the motive and extends liability to organisations, strengthening anti-trafficking law; the reach over charities is a possible side effect. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: broad facilitation offence could catch humanitarian actors.)"
 
   - key: "2d5c9c42-272a-4de5-b34d-81ca4306fd86"
     status: draft
@@ -3847,7 +3847,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Replaces 'oogmerk' (purpose) with 'opzet' (intent) in the trafficking offence, widening what counts as trafficking and easing prosecution."
     amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z21007"
-    amendment_flag: "Medium confidence: technical criminal-law change, anti-trafficking in effect."
     yea: 2
     nay: -2
     why_yea: "Voted Voor on amendment 667ca506-d259-4884-9956-b220432f4262 (Replaces 'oogmerk' (purpose) with 'opzet' (intent) in the trafficking offence, widening wh): for adopting it, with CitizenGO's position."
@@ -3863,6 +3862,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Replaces 'oogmerk' (purpose) with 'opzet' (intent) in the trafficking offence, widening what counts as trafficking and easing prosecution. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: technical criminal-law change, anti-trafficking in effect.)"
 
   - key: "69dedf01-f60c-4e9e-b609-e22cb9e57f18"
     status: draft
@@ -3908,7 +3908,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Names exploitation within marriage or registered partnership (relational exploitation) as a form of trafficking, strengthening anti-trafficking protection."
     amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z21153"
-    amendment_flag: "Medium confidence: anti-trafficking aim, touches marriage definitions only as a setting for abuse."
     yea: 2
     nay: -2
     why_yea: "Voted Voor on amendment 98cbb7b7-3433-484d-95b7-21f4684d83c4 (Names exploitation within marriage or registered partnership (relational exploitation) as ): for adopting it, with CitizenGO's position."
@@ -3924,6 +3923,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Names exploitation within marriage or registered partnership (relational exploitation) as a form of trafficking, strengthening anti-trafficking protection. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: anti-trafficking aim, touches marriage definitions only as a setting for abuse.)"
 
   - key: "9e23d9da-8587-4356-9717-452bd456a227"
     status: draft
@@ -3948,7 +3948,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Treats a parent sending a lone minor ahead to gain residence as exploitation under the trafficking offence; protects children but is asylum-linked."
     amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z20487"
-    amendment_flag: "Medium confidence: child-protection aim mixed with a migration-policy angle."
     yea: 2
     nay: -2
     why_yea: "Voted Voor on amendment a77a8f88-5161-436c-b882-108589699648 (Treats a parent sending a lone minor ahead to gain residence as exploitation under the tra): for adopting it, with CitizenGO's position."
@@ -3964,6 +3963,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 11 (migration), 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Treats a parent sending a lone minor ahead to gain residence as exploitation under the trafficking offence; protects children but is asylum-linked. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: child-protection aim mixed with a migration-policy angle.)"
 
   - key: "a889171b-546c-4176-82ce-b537c9881ff4"
     status: draft

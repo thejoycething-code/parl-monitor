@@ -56,7 +56,8 @@ python3 tools/at_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh
 bash tools/chamber_step.sh at "$SECONDS"
 # The Landtage (tools/at_landtage.py, AT6, 12 October 2026): seven of the nine
 # Land parliaments' documents into atl_*, before the edition that shows them
-# in its own section. At most five minutes (a week's read is under a minute);
+# in its own section, and Vienna's Gemeinderat (12 October 2026: 23 INFODAT
+# pages, 28 s). At most five minutes (a week's read is under two minutes);
 # exit 3 (gaps) or any failure is a [gap] line, never the run's.
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/at_landtage.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \

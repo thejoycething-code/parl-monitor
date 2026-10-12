@@ -1,6 +1,6 @@
 # Parliamentary Monitor: German additions (Austria and Switzerland) keyword taxonomy
 
-**Version 0.1 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.2 | 12 October 2026 (v0.2: Imam* vetoed beside İmamoğlu, the jailed mayor of Istanbul, a false hit in Vienna's Gemeinderat, PR #152) | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 **Extends:** de
 
@@ -77,7 +77,7 @@ Scope calls applied while merging:
 ### 8. Freedom of religion or belief {#8_freedom_of_religion}
 
 - **Tier 1:** Gesichtsverhüllung*; Islamgesetz* [only: at]; "verfolgte* Christen"; "Christen in Nigeria"; Verhüllungsverbot
-- **Tier 2:** "politische* Islam*"; "Dokumentationsstelle Politischer Islam" [only: at]; Zwangsverschleierung*; Kopftuchtrend*; Moschee*; Imam*; Landeskirche* [only: ch]
+- **Tier 2:** "politische* Islam*"; "Dokumentationsstelle Politischer Islam" [only: at]; Zwangsverschleierung*; Kopftuchtrend*; Moschee*; Imam* [without: İmamoğlu*, Imamoğlu*, Imamoglu*]; Landeskirche* [only: ch]
 - **Notes:** Switzerland: Verhüllungsverbot (3 titles) in by CH4; Moschee (8 titles, 8 missed).
 
 ### 9. Marriage and family {#9_marriage_family}
