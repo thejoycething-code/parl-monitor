@@ -16,6 +16,7 @@ import sqlite3
 import sys
 import tempfile
 import unittest
+import urllib.error
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -24,6 +25,7 @@ from src import country_edition as ce  # noqa: E402
 from src import db, filter as filt, it_store  # noqa: E402
 from src.editions import it as it_ed  # noqa: E402
 from tools import it_regions as R  # noqa: E402
+from tests.robots_fakes import RobotsServing  # noqa: E402
 
 FIX = os.path.join(ROOT, "tests", "fixtures", "it_regions")
 TAX = os.path.join(ROOT, "config", "taxonomy-it.yaml")
@@ -37,11 +39,18 @@ def fixture(name, mode="r"):
 class FakeClient:
     """get_json / get_bytes / get_text from fixtures, by URL."""
 
+    user_agent = "citizengo-parlmonitor/1.0 (+test)"
+    throttle = 1.0
+
     def __init__(self, pages):
         self.pages = pages
         self.urls = []
 
     def _get(self, url):
+        if url.endswith("/robots.txt"):
+            # main() asks robots.txt first (src/robots_guard): none here.
+            raise R.FetchError(url, "it-regions", "robots", 1,
+                               urllib.error.HTTPError(url, 404, "Not Found", {}, None))
         self.urls.append(url)
         for prefix, body in self.pages:
             if url == prefix:
@@ -291,6 +300,61 @@ class MainTests(unittest.TestCase):
             self.assertEqual(len(gaps), 1)
             self.assertIn("Marche: not read", gaps[0])
             conn.close()
+
+
+@unittest.skipUnless(os.path.exists(TAX), "config/taxonomy-it.yaml is missing")
+class RobotsAtRunTime(unittest.TestCase):
+    """robots.txt is asked on every run, before any request (src/robots_guard)."""
+
+    def run_main(self, robots, regions=("lom", "cam")):
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "s.db")
+            inner = FakeClient([(R.lom_url(), fixture("lombardia.json")),
+                                (R.CAM_LIST, fixture("campania_p0.html")),
+                                (R.CAM_LIST + "?page=1", fixture("campania_p1.html"))])
+            serving = RobotsServing(inner, robots)
+            orig = R.HttpClient
+            R.HttpClient = lambda **kw: serving
+            try:
+                rc = R.main(["--db", path, "--region"] + list(regions))
+            finally:
+                R.HttpClient = orig
+            conn = sqlite3.connect(path)
+            gaps = [r[0] for r in conn.execute("SELECT detail FROM gaps WHERE feed='it-regions'")]
+            regions_stored = {r[0] for r in conn.execute("SELECT DISTINCT region FROM it_reg_acts")}
+            conn.close()
+            return rc, gaps, regions_stored, inner, serving
+
+    def test_a_disallowed_path_is_skipped_with_a_gap(self):
+        rc, gaps, stored, inner, _ = self.run_main(
+            {"www.cr.campania.it": fixture("../robots/campania-disallow-leggi.txt")})
+        self.assertEqual(rc, 3)
+        self.assertEqual(stored, {"lom"})
+        self.assertFalse(any("campania" in u for u in inner.urls))
+        self.assertEqual(len(gaps), 1)
+        self.assertIn("Campania: not read", gaps[0])
+        self.assertIn("robots.txt disallows", gaps[0])
+
+    def test_a_503_robots_txt_skips_the_host(self):
+        rc, gaps, stored, inner, _ = self.run_main({"www.dati.lombardia.it": 503})
+        self.assertEqual(rc, 3)
+        self.assertEqual(stored, {"cam"})
+        self.assertFalse(any("lombardia" in u for u in inner.urls))
+        self.assertEqual(len(gaps), 1)
+        self.assertIn("Lombardia: not read", gaps[0])
+        self.assertIn("unreachable", gaps[0])
+
+    def test_a_404_robots_txt_allows(self):
+        rc, gaps, stored, inner, serving = self.run_main({})
+        self.assertEqual((rc, gaps), (0, []))
+        self.assertEqual(stored, {"lom", "cam"})
+        self.assertEqual(sorted(set(serving.robots_asked)),
+                         ["www.cr.campania.it", "www.dati.lombardia.it"])
+
+    def test_robots_is_read_once_per_host_per_run(self):
+        _, _, _, _, serving = self.run_main({"www.cr.campania.it": fixture("../robots/allow-us.txt")},
+                                            regions=("cam",))
+        self.assertEqual(serving.robots_asked, ["www.cr.campania.it"])
 
 
 class SchemaTests(unittest.TestCase):
