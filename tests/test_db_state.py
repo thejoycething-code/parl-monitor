@@ -67,9 +67,22 @@ class WorkflowWiringTests(unittest.TestCase):
 
 class BootstrapGuardTests(unittest.TestCase):
     def test_no_asset_with_a_working_copy_is_a_bootstrap(self):
-        self.assertEqual(db_state._no_asset_yet(), 0,
-                         "the working copy exists, so the first run should "
-                         "proceed and publish it")
+        # Its own working copy, not the real store: data/parl-monitor.db is
+        # gitignored and lives only on machines that have pulled it, so in
+        # a fresh clone the test failed for want of a file it never meant
+        # to test (found 2026-10-12).
+        import tempfile
+        real = db_state.DB
+        with tempfile.TemporaryDirectory() as tmp:
+            try:
+                db_state.DB = os.path.join(tmp, "parl-monitor.db")
+                with open(db_state.DB, "wb") as fh:
+                    fh.write(b"SQLite format 3\x00")
+                self.assertEqual(db_state._no_asset_yet(), 0,
+                                 "the working copy exists, so the first run "
+                                 "should proceed and publish it")
+            finally:
+                db_state.DB = real
 
     def test_no_asset_and_no_working_copy_is_fatal(self):
         real = db_state.DB

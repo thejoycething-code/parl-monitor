@@ -166,7 +166,9 @@ class LockQueueTests(unittest.TestCase):
         self.assertEqual(rc, 1, out)
         self.assertIn("queued for the lock; ahead of us: latam-courts-backfill, be-weekly; "
                       "holder: hr-weekly", out)
-        self.assertRegex(out, r"FAILED at lock: waited [12]s; ahead of us when we gave up: "
+        # The wait is whole seconds and a loaded machine (the full suite)
+        # can take longer than LOCK_WAIT to look once: any count will do.
+        self.assertRegex(out, r"FAILED at lock: waited \d+s; ahead of us when we gave up: "
                               r"latam-courts-backfill, be-weekly; holder: hr-weekly\n")
         self.assertEqual(len(self.tickets()), 2)  # its own ticket went with it
         for p in [holder] + ahead:
