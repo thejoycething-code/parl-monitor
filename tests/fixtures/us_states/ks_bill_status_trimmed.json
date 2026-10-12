@@ -1,0 +1,1115 @@
+{
+ "api_version": 13,
+ "revno": 877182,
+ "content": [
+  {
+   "BILLNO": "HB2010",
+   "EFFECTIVEDATE": "This act shall take effect and be in force from and after its publication in the statute book.",
+   "HISTORY": [
+    {
+     "action_code": "dead_com_301",
+     "chamber": "House",
+     "journal_page_number": "",
+     "occurred_datetime": "2026-05-05T10:03:05",
+     "session_date": "2026-04-10",
+     "status": "Died in Committee"
+    },
+    {
+     "action_code": "cref_cref_500",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Health and Human Services"
+     ],
+     "journal_page_number": "2141",
+     "occurred_datetime": "2026-03-17T11:16:32",
+     "session_date": "2026-03-17",
+     "status": "Withdrawn from  Committee on Interstate Cooperation; Rereferred to"
+    },
+    {
+     "action_code": "cref_cref_290",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Interstate Cooperation"
+     ],
+     "journal_page_number": "2130",
+     "occurred_datetime": "2026-03-13T11:30:17",
+     "session_date": "2026-03-13",
+     "status": "Withdrawn from  Committee on Health and Human Services; Referred to"
+    },
+    {
+     "action_code": "cref_cref_500",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Health and Human Services"
+     ],
+     "journal_page_number": "2073",
+     "occurred_datetime": "2026-03-05T12:12:16",
+     "session_date": "2026-03-05",
+     "status": "Withdrawn from  Committee on Interstate Cooperation; Rereferred to"
+    },
+    {
+     "action_code": "cref_cref_290",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Interstate Cooperation"
+     ],
+     "journal_page_number": "2062",
+     "occurred_datetime": "2026-03-04T11:55:16",
+     "session_date": "2026-03-04",
+     "status": "Withdrawn from  Committee on Health and Human Services; Referred to"
+    },
+    {
+     "action_code": "cref_cref_500",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Health and Human Services"
+     ],
+     "journal_page_number": "1973",
+     "occurred_datetime": "2026-02-19T08:05:42",
+     "session_date": "2026-02-19",
+     "status": "Withdrawn from  Committee on Interstate Cooperation; Rereferred to"
+    },
+    {
+     "action_code": "cref_cref_500",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Interstate Cooperation"
+     ],
+     "journal_page_number": "1752",
+     "occurred_datetime": "2026-02-06T11:32:45",
+     "session_date": "2026-02-06",
+     "status": "Withdrawn from  Committee on Health and Human Services; Rereferred to"
+    },
+    {
+     "action_code": "cref_cref_290",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Health and Human Services"
+     ],
+     "journal_page_number": "1655",
+     "occurred_datetime": "2026-01-28T11:15:34",
+     "session_date": "2026-01-28",
+     "status": "Withdrawn from  Committee on Interstate Cooperation; Referred to"
+    },
+    {
+     "action_code": "cref_cref_500",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Interstate Cooperation"
+     ],
+     "journal_page_number": "415",
+     "occurred_datetime": "2025-03-10T12:43:17",
+     "session_date": "2025-03-10",
+     "status": "Withdrawn from  Committee on Health and Human Services; Rereferred to"
+    },
+    {
+     "action_code": "cref_cref_500",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Health and Human Services"
+     ],
+     "journal_page_number": "356",
+     "occurred_datetime": "2025-02-27T13:00:48",
+     "session_date": "2025-02-27",
+     "status": "Withdrawn from  Committee on Interstate Cooperation; Rereferred to"
+    },
+    {
+     "action_code": "cref_cref_290",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Interstate Cooperation"
+     ],
+     "journal_page_number": "275",
+     "occurred_datetime": "2025-02-18T12:15:26",
+     "session_date": "2025-02-18",
+     "status": "Withdrawn from  Committee on Health and Human Services; Referred to"
+    },
+    {
+     "action_code": "ref_rbc_310",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Health and Human Services"
+     ],
+     "journal_page_number": "61",
+     "occurred_datetime": "2025-01-16T10:00:28",
+     "session_date": "2025-01-16",
+     "status": "Referred to"
+    },
+    {
+     "action_code": "intro_ibc_157",
+     "chamber": "House",
+     "journal_page_number": "24",
+     "occurred_datetime": "2025-01-15T09:01:59",
+     "session_date": "2025-01-15",
+     "status": "Introduced"
+    }
+   ],
+   "LONGTITLE": "AN ACT concerning abortion; prohibiting abortion; creating the crimes of unlawful performance of an abortion and unlawful destruction of a fertilized embryo and establishing penalties therefor; restricting the use of fetal tissue; relating to exclusions from sales and use tax exemptions for certain abortion providers; amending K.S.A. 21-5301, 21-5302, 21-5303, 65-2837, 65-6731, 65-6732, 65-67a01, 65-67a02, 65-67a04, 65-67a07, 76-3308 and 79-32,195 and K.S.A. 2024 Supp. 60-1901, 60-1906, 65-2401, 79-32,182b, 79-32,261 and 79-3606 and repealing the existing sections; also repealing K.S.A. 38-2003, 65-4a02, 65-4a03, 65-4a04, 65-4a05, 65-4a06, 65-4a07, 65-4a08, 65-4a09, 65-4a10, 65-4a11, 65-4a12, 65-6702, 65-6703, 65-6704, 65-6705, 65-6707, 65-6709, 65-6710, 65-6711, 65-6712, 65-6714, 65-6715, 65-6721, 65-6722, 65-6724, 65-6725, 65-6726, 65-6741, 65-6743, 65-6744, 65-6745, 65-6746, 65-6747, 65-6748, 65-6749 and 65-67a09 and K.S.A. 2024 Supp. 65-445, 65-4a01, 65-6701, 65-6708, 65-6723 and 65-6742.",
+   "NAME": "HB2010",
+   "ORIGINAL_SPONSOR": [
+    "Representative Fairchild",
+    "Representative Poetter Parshall",
+    "Representative Rhiley",
+    "Representative Schwertfeger",
+    "Representative Seiwert"
+   ],
+   "RELATEDRS": "25rs0017",
+   "SHORTTITLE": "Prohibiting abortion procedures and creating the crimes of unlawful performance of an abortion and unlawful destruction of a fertilized embryo.",
+   "SPONSOR_NAMES": [
+    "Representative Fairchild",
+    "Representative Poetter Parshall",
+    "Representative Rhiley",
+    "Representative Schwertfeger",
+    "Representative Seiwert"
+   ],
+   "STATUS": "dead",
+   "details": "https://www.kslegislature.gov/li/api/v13/rev-1/bill_status/HB2010"
+  },
+  {
+   "BILLNO": "SB244",
+   "EFFECTIVEDATE": "This act shall take effect and be in force from and after its publication in the Kansas register.",
+   "HISTORY": [
+    {
+     "action_code": "gov_avm_885",
+     "chamber": "House",
+     "journal_page_number": "1959",
+     "occurred_datetime": "2026-02-18T12:01:24",
+     "session_date": "2026-02-18",
+     "status": "Motion to override veto prevailed;  Yea: 87 Nay: 37"
+    },
+    {
+     "action_code": "gov_avm_885",
+     "chamber": "Senate",
+     "journal_page_number": "1486",
+     "occurred_datetime": "2026-02-17T13:27:54",
+     "session_date": "2026-02-17",
+     "status": "Motion to override veto prevailed;  Yea: 31 Nay: 9"
+    },
+    {
+     "action_code": "gov_mg_154",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2026-02-13T16:00:01",
+     "session_date": "2026-02-16",
+     "status": "Vetoed by Governor; Returned to Senate on Friday, February 13, 2026"
+    },
+    {
+     "action_code": "ee_enrb_149",
+     "chamber": "Senate",
+     "journal_page_number": "1397",
+     "occurred_datetime": "2026-02-03T13:47:38",
+     "session_date": "2026-02-03",
+     "status": "Enrolled and presented to Governor on Tuesday, February 3, 2026"
+    },
+    {
+     "action_code": "cur_con_336",
+     "chamber": "Senate",
+     "journal_page_number": "1374",
+     "occurred_datetime": "2026-01-28T17:59:59",
+     "session_date": "2026-01-28",
+     "status": "Concurred with amendments;  Yea: 30 Nay: 9"
+    },
+    {
+     "action_code": "efa_fabc_926",
+     "chamber": "House",
+     "journal_page_number": "1676",
+     "occurred_datetime": "2026-01-28T17:24:36",
+     "session_date": "2026-01-28",
+     "status": "Emergency Final Action - Substitute passed as amended;   Yea: 87 Nay: 36"
+    },
+    {
+     "action_code": "fa_om_912",
+     "chamber": "House",
+     "journal_page_number": "1676",
+     "occurred_datetime": "2026-01-28T17:11:31",
+     "session_date": "2026-01-28",
+     "status": "Motion to advance to Emergency Final Action adopted;"
+    },
+    {
+     "action_code": "cow_jcow_197",
+     "chamber": "House",
+     "journal_page_number": "1675",
+     "occurred_datetime": "2026-01-28T17:08:03",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Substitute bill be passed as amended"
+    },
+    {
+     "action_code": "cow_jcow_690",
+     "chamber": "House",
+     "journal_page_number": "1675",
+     "occurred_datetime": "2026-01-28T16:48:20",
+     "session_date": "2026-01-28",
+     "status": "Representative Humphries raised a question of germaneness. The amendment was ruled not germane."
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1675",
+     "occurred_datetime": "2026-01-28T16:38:01",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Woodard"
+    },
+    {
+     "action_code": "cow_jcow_727",
+     "chamber": "House",
+     "journal_page_number": "1675",
+     "occurred_datetime": "2026-01-28T16:20:18",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative McDonald was rejected"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1675",
+     "occurred_datetime": "2026-01-28T16:17:42",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative McDonald"
+    },
+    {
+     "action_code": "cow_jcow_690",
+     "chamber": "House",
+     "journal_page_number": "1675",
+     "occurred_datetime": "2026-01-28T16:15:37",
+     "session_date": "2026-01-28",
+     "status": "Representative Humphries raised a question of germaneness. The amendment was ruled not germane."
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1675",
+     "occurred_datetime": "2026-01-28T16:12:00",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Simmons"
+    },
+    {
+     "action_code": "cow_jcow_727",
+     "chamber": "House",
+     "journal_page_number": "1674",
+     "occurred_datetime": "2026-01-28T15:55:57",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative Sawyer Clayton was rejected  Yea: 34 Nay: 82"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1674",
+     "occurred_datetime": "2026-01-28T15:49:45",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Sawyer Clayton"
+    },
+    {
+     "action_code": "cow_jcow_727",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T15:34:08",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative Mosley was rejected  Yea: 38 Nay: 77"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T15:27:34",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Mosley"
+    },
+    {
+     "action_code": "cow_jcow_728",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T15:25:56",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative Wikle was withdrawn"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T15:15:29",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Wikle"
+    },
+    {
+     "action_code": "cow_jcow_727",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T14:48:46",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative Ruiz, S. was rejected"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T14:43:51",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Ruiz, S."
+    },
+    {
+     "action_code": "cow_jcow_727",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T14:39:02",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative Ruiz, S. was rejected"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T14:35:34",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Ruiz, S."
+    },
+    {
+     "action_code": "cow_jcow_727",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T14:30:50",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative Ruiz, S. was rejected  Yea: 42 Nay: 76"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T14:24:37",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Ruiz, S."
+    },
+    {
+     "action_code": "cow_jcow_726",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T14:10:08",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative Lewis was adopted"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1673",
+     "occurred_datetime": "2026-01-28T14:00:06",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Lewis"
+    },
+    {
+     "action_code": "cow_jcow_727",
+     "chamber": "House",
+     "journal_page_number": "1672",
+     "occurred_datetime": "2026-01-28T13:54:43",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative Schlingensiepen was rejected  Yea: 36 Nay: 81"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1672",
+     "occurred_datetime": "2026-01-28T13:51:11",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Schlingensiepen"
+    },
+    {
+     "action_code": "cow_jcow_727",
+     "chamber": "House",
+     "journal_page_number": "1671",
+     "occurred_datetime": "2026-01-28T13:35:57",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative McDonald was rejected  Yea: 36 Nay: 86"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1671",
+     "occurred_datetime": "2026-01-28T13:31:08",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative McDonald"
+    },
+    {
+     "action_code": "cow_jcow_727",
+     "chamber": "House",
+     "journal_page_number": "1671",
+     "occurred_datetime": "2026-01-28T13:15:45",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative Vaughn was rejected  Yea: 36 Nay: 85"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1671",
+     "occurred_datetime": "2026-01-28T13:05:53",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Vaughn"
+    },
+    {
+     "action_code": "cow_jcow_727",
+     "chamber": "House",
+     "journal_page_number": "1670",
+     "occurred_datetime": "2026-01-28T12:54:51",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative Martinez was rejected  Yea: 34 Nay: 83"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1670",
+     "occurred_datetime": "2026-01-28T12:47:21",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Martinez"
+    },
+    {
+     "action_code": "cow_jcow_726",
+     "chamber": "House",
+     "journal_page_number": "1670",
+     "occurred_datetime": "2026-01-28T12:45:35",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Amendment by  Representative Lewis was adopted"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "House",
+     "journal_page_number": "1670",
+     "occurred_datetime": "2026-01-28T12:34:52",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Representative Lewis"
+    },
+    {
+     "action_code": "cow_jcow_684",
+     "chamber": "House",
+     "journal_page_number": "1670",
+     "occurred_datetime": "2026-01-28T12:03:49",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Motion to rerefer to committee failed"
+    },
+    {
+     "action_code": "cow_jcow_704",
+     "chamber": "House",
+     "journal_page_number": "1670",
+     "occurred_datetime": "2026-01-28T11:28:18",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Committee Report be adopted recommending substitute bill be passed"
+    },
+    {
+     "action_code": "cow_jcow_695",
+     "chamber": "House",
+     "journal_page_number": "",
+     "occurred_datetime": "2026-01-28T11:27:56",
+     "session_date": "2026-01-28",
+     "status": "Committee of the Whole - Now working on"
+    },
+    {
+     "action_code": "cr_rsc_292",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Judiciary"
+     ],
+     "journal_page_number": "1649",
+     "occurred_datetime": "2026-01-27T11:16:31",
+     "session_date": "2026-01-27",
+     "status": "Committee Report recommending substitute bill be passed by"
+    },
+    {
+     "action_code": "misc_he_200",
+     "chamber": "House",
+     "journal_page_number": "",
+     "occurred_datetime": "2025-02-28T12:28:59",
+     "session_date": "2025-02-28",
+     "status": "Hearing: Wednesday, March 5, 2025, 3:30 PM Room 582-N"
+    },
+    {
+     "action_code": "ref_rbc_310",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Judiciary"
+     ],
+     "journal_page_number": "350",
+     "occurred_datetime": "2025-02-26T09:53:35",
+     "session_date": "2025-02-26",
+     "status": "Referred to"
+    },
+    {
+     "action_code": "intro_iopbc_158",
+     "chamber": "House",
+     "journal_page_number": "343",
+     "occurred_datetime": "2025-02-25T11:38:03",
+     "session_date": "2025-02-25",
+     "status": "Received and Introduced"
+    },
+    {
+     "action_code": "efa_fabc_343",
+     "chamber": "Senate",
+     "journal_page_number": "207",
+     "occurred_datetime": "2025-02-19T18:12:21",
+     "session_date": "2025-02-19",
+     "status": "Emergency Final Action - Passed as amended;  Yea: 37 Nay: 3"
+    },
+    {
+     "action_code": "cow_jcow_191",
+     "chamber": "Senate",
+     "journal_page_number": "183",
+     "occurred_datetime": "2025-02-19T14:31:19",
+     "session_date": "2025-02-19",
+     "status": "Committee of the Whole - Be passed as amended"
+    },
+    {
+     "action_code": "cow_jcow_726",
+     "chamber": "Senate",
+     "journal_page_number": "185",
+     "occurred_datetime": "2025-02-19T14:30:11",
+     "session_date": "2025-02-19",
+     "status": "Committee of the Whole - Amendment by  Senator Warren was adopted"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2025-02-19T14:26:55",
+     "session_date": "2025-02-19",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Senator Warren"
+    },
+    {
+     "action_code": "cow_jcow_695",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2025-02-19T14:24:19",
+     "session_date": "2025-02-19",
+     "status": "Committee of the Whole - Now working on"
+    },
+    {
+     "action_code": "cr_rsc_281",
+     "chamber": "Senate",
+     "committee_names": [
+      "Committee on Judiciary"
+     ],
+     "journal_page_number": "154",
+     "occurred_datetime": "2025-02-17T17:02:55",
+     "session_date": "2025-02-17",
+     "status": "Committee Report recommending bill be passed by"
+    },
+    {
+     "action_code": "misc_he_200",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2025-02-10T15:45:37",
+     "session_date": "2025-02-10",
+     "status": "Hearing: Thursday, February 13, 2025, 10:30 AM Room 346-S"
+    },
+    {
+     "action_code": "ref_rbc_310",
+     "chamber": "Senate",
+     "committee_names": [
+      "Committee on Judiciary"
+     ],
+     "journal_page_number": "127",
+     "occurred_datetime": "2025-02-07T07:48:10",
+     "session_date": "2025-02-07",
+     "status": "Referred to"
+    },
+    {
+     "action_code": "intro_ibc_157",
+     "chamber": "Senate",
+     "journal_page_number": "117",
+     "occurred_datetime": "2025-02-06T15:07:41",
+     "session_date": "2025-02-06",
+     "status": "Introduced"
+    }
+   ],
+   "LONGTITLE": "AN ACT concerning identification of biological sex; requiring the designation of multiple-occupancy private spaces in public buildings for use by only one sex; imposing criminal and civil penalties for violations; providing a cause of action for individuals aggrieved by an invasion of privacy or other harm when accessing a multiple-occupancy private space; amending the women's bill of rights; defining the term \"gender\" to mean biological sex at birth for purposes of statutory construction; directing the director of the division of vehicles to invalidate and reissue driver's licenses when necessary to correct the gender identification on such licenses; directing the office of vital statistics to invalidate and reissue birth certificates when necessary to correct the sex identification on such certificates; removing the definition of \"gender\" from the help not harm act; amending K.S.A. 8-234a and K.S.A. 2025 Supp. 8-243, 65-28,137 and 77-207 and repealing the existing sections.",
+   "NAME": "SB244",
+   "ORIGINAL_SPONSOR": [
+    "Committee on Judiciary"
+   ],
+   "RELATEDRS": "26rs3147",
+   "SHORTTITLE": "House Substitute for SB 244 by Committee on Judiciary - Requiring the designation of multiple-occupancy private spaces in public buildings for use by only one sex and imposing criminal and civil penalties for violations, defining the term \"gender\" to mean biological sex at birth for purposes of statutory construction, directing the division of vehicles to invalidate and reissue driver's licenses when necessary to correct the gender identification on such licenses and directing the office of vital statistics to invalidate and reissue birth certificates when necessary to correct the sex identification on such certificates.",
+   "SPONSOR_NAMES": [
+    "Committee on Judiciary"
+   ],
+   "STATUS": "introduced",
+   "details": "https://www.kslegislature.gov/li/api/v13/rev-1/bill_status/SB244"
+  },
+  {
+   "BILLNO": "HB2635",
+   "EFFECTIVEDATE": "This act shall take effect and be in force from and after its publication in the statute book.",
+   "HISTORY": [
+    {
+     "action_code": "gov_avm_885",
+     "chamber": "Senate",
+     "journal_page_number": "2363",
+     "occurred_datetime": "2026-03-27T21:21:42",
+     "session_date": "2026-03-27",
+     "status": "Motion to override veto prevailed;  Yea: 30 Nay: 9"
+    },
+    {
+     "action_code": "gov_avm_885",
+     "chamber": "House",
+     "journal_page_number": "3013",
+     "occurred_datetime": "2026-03-27T19:41:22",
+     "session_date": "2026-03-27",
+     "status": "Motion to override veto prevailed;  Yea: 87 Nay: 35"
+    },
+    {
+     "action_code": "gov_mg_154",
+     "chamber": "House",
+     "journal_page_number": "2954",
+     "occurred_datetime": "2026-03-27T17:02:06",
+     "session_date": "2026-03-27",
+     "status": "Vetoed by Governor; Returned to House on Friday, March 27, 2026"
+    },
+    {
+     "action_code": "ee_enrb_149",
+     "chamber": "House",
+     "journal_page_number": "2175",
+     "occurred_datetime": "2026-03-17T16:19:14",
+     "session_date": "2026-03-17",
+     "status": "Enrolled and presented to Governor on Tuesday, March 17, 2026"
+    },
+    {
+     "action_code": "fa_fabc_340",
+     "chamber": "Senate",
+     "journal_page_number": "1650",
+     "occurred_datetime": "2026-03-12T15:07:05",
+     "session_date": "2026-03-12",
+     "status": "Final Action - Passed;   Yea: 31 Nay: 9"
+    },
+    {
+     "action_code": "cow_jcow_180",
+     "chamber": "Senate",
+     "journal_page_number": "1638",
+     "occurred_datetime": "2026-03-11T17:12:29",
+     "session_date": "2026-03-11",
+     "status": "Committee of the Whole - Be passed"
+    },
+    {
+     "action_code": "cow_jcow_728",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2026-03-11T17:09:44",
+     "session_date": "2026-03-11",
+     "status": "Committee of the Whole - Amendment by  Senator Francisco was withdrawn"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "Senate",
+     "journal_page_number": "1638",
+     "occurred_datetime": "2026-03-11T16:52:46",
+     "session_date": "2026-03-11",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Senator Francisco"
+    },
+    {
+     "action_code": "cow_jcow_727",
+     "chamber": "Senate",
+     "journal_page_number": "1638",
+     "occurred_datetime": "2026-03-11T16:50:19",
+     "session_date": "2026-03-11",
+     "status": "Committee of the Whole - Amendment by  Senator Francisco was rejected"
+    },
+    {
+     "action_code": "cow_jcow_707",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2026-03-11T16:38:03",
+     "session_date": "2026-03-11",
+     "status": "Committee of the Whole - Motion to Amend - Offered by  Senator Francisco"
+    },
+    {
+     "action_code": "cow_jcow_695",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2026-03-11T16:25:32",
+     "session_date": "2026-03-11",
+     "status": "Committee of the Whole - Now working on"
+    },
+    {
+     "action_code": "cr_rsc_281",
+     "chamber": "Senate",
+     "committee_names": [
+      "Committee on Federal and State Affairs"
+     ],
+     "journal_page_number": "1593",
+     "occurred_datetime": "2026-03-04T16:01:00",
+     "session_date": "2026-03-04",
+     "status": "Committee Report recommending bill be passed by"
+    },
+    {
+     "action_code": "misc_he_200",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2026-02-25T11:40:27",
+     "session_date": "2026-02-25",
+     "status": "Hearing: Tuesday, March 3, 2026, 10:30 AM Room 144-S"
+    },
+    {
+     "action_code": "ref_rbc_310",
+     "chamber": "Senate",
+     "committee_names": [
+      "Committee on Federal and State Affairs"
+     ],
+     "journal_page_number": "1528",
+     "occurred_datetime": "2026-02-19T08:30:12",
+     "session_date": "2026-02-19",
+     "status": "Referred to"
+    },
+    {
+     "action_code": "intro_iopbc_158",
+     "chamber": "Senate",
+     "journal_page_number": "1504",
+     "occurred_datetime": "2026-02-18T14:21:18",
+     "session_date": "2026-02-18",
+     "status": "Received and Introduced"
+    },
+    {
+     "action_code": "fa_fabc_340",
+     "chamber": "House",
+     "journal_page_number": "1955",
+     "occurred_datetime": "2026-02-18T11:07:17",
+     "session_date": "2026-02-18",
+     "status": "Final Action - Passed;   Yea: 87 Nay: 37"
+    },
+    {
+     "action_code": "cow_jcow_180",
+     "chamber": "House",
+     "journal_page_number": "1920",
+     "occurred_datetime": "2026-02-17T20:16:23",
+     "session_date": "2026-02-17",
+     "status": "Committee of the Whole - Be passed"
+    },
+    {
+     "action_code": "cow_jcow_695",
+     "chamber": "House",
+     "journal_page_number": "",
+     "occurred_datetime": "2026-02-17T20:11:50",
+     "session_date": "2026-02-17",
+     "status": "Committee of the Whole - Now working on"
+    },
+    {
+     "action_code": "cr_rsc_281",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Federal and State Affairs"
+     ],
+     "journal_page_number": "1824",
+     "occurred_datetime": "2026-02-16T13:01:07",
+     "session_date": "2026-02-16",
+     "status": "Committee Report recommending bill be passed by"
+    },
+    {
+     "action_code": "misc_he_200",
+     "chamber": "House",
+     "journal_page_number": "",
+     "occurred_datetime": "2026-02-04T15:49:48",
+     "session_date": "2026-02-04",
+     "status": "Hearing: Tuesday, February 10, 2026, 9:00 AM Room 346-S"
+    },
+    {
+     "action_code": "ref_rbc_310",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Federal and State Affairs"
+     ],
+     "journal_page_number": "1710",
+     "occurred_datetime": "2026-02-03T09:58:38",
+     "session_date": "2026-02-03",
+     "status": "Referred to"
+    },
+    {
+     "action_code": "intro_ibc_158",
+     "chamber": "House",
+     "journal_page_number": "1697",
+     "occurred_datetime": "2026-02-02T11:29:18",
+     "session_date": "2026-02-02",
+     "status": "Introduced"
+    }
+   ],
+   "LONGTITLE": "AN ACT concerning healthcare; enacting the pregnancy center autonomy and rights of expression act; providing statutory protection for private, nonprofit pregnancy centers and medical pregnancy centers to provide life-affirming care, support and material resources; creating a private cause of action for violations of the act; creating a right of intervention in legal proceedings challenging the act.",
+   "NAME": "HB2635",
+   "ORIGINAL_SPONSOR": [
+    "Committee on Federal and State Affairs"
+   ],
+   "RELATEDRS": "26rs2770",
+   "SHORTTITLE": "Enacting the pregnancy center autonomy and rights of expression act to protect the ability of private pregnancy centers to provide life-affirming care.",
+   "SPONSOR_NAMES": [
+    "Committee on Federal and State Affairs"
+   ],
+   "STATUS": "introduced",
+   "details": "https://www.kslegislature.gov/li/api/v13/rev-1/bill_status/HB2635"
+  },
+  {
+   "BILLNO": "HB2347",
+   "EFFECTIVEDATE": "This act shall take effect and be in force from and after its publication in the statute book.",
+   "GOVERNOR_EFFECTIVEDATE": [
+    "07-01-2026"
+   ],
+   "HISTORY": [
+    {
+     "action_code": "gov_mg_150",
+     "chamber": "House",
+     "journal_page_number": "1758",
+     "occurred_datetime": "2026-02-06T13:04:03",
+     "session_date": "2026-02-06",
+     "status": "Approved by Governor on Thursday, February 5, 2026"
+    },
+    {
+     "action_code": "ee_enrb_149",
+     "chamber": "House",
+     "journal_page_number": "1716",
+     "occurred_datetime": "2026-02-02T13:59:13",
+     "session_date": "2026-02-02",
+     "status": "Enrolled and presented to Governor on Monday, February 2, 2026"
+    },
+    {
+     "action_code": "ee_eng_227",
+     "chamber": "House",
+     "journal_page_number": "1689",
+     "occurred_datetime": "2026-01-29T12:31:58",
+     "session_date": "2026-01-29",
+     "status": "Reengrossed on Thursday, January 29, 2026"
+    },
+    {
+     "action_code": "ccac_om_832",
+     "chamber": "House",
+     "journal_page_number": "1657",
+     "occurred_datetime": "2026-01-28T11:26:22",
+     "session_date": "2026-01-28",
+     "status": "Conference Committee Report was adopted;  Yea: 119 Nay: 4"
+    },
+    {
+     "action_code": "ccac_om_832",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2026-01-27T15:05:05",
+     "session_date": "2026-01-27",
+     "status": "Conference Committee Report was adopted;  Yea: 39 Nay: 0"
+    },
+    {
+     "action_code": "ccr_rel_100",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2026-01-26T12:25:41",
+     "session_date": "2026-01-26",
+     "status": "Conference committee report now available"
+    },
+    {
+     "action_code": "ccac_om_370",
+     "chamber": "Senate",
+     "journal_page_number": "1312",
+     "occurred_datetime": "2026-01-12T14:53:27",
+     "session_date": "2026-01-12",
+     "status": "Motion to accede adopted;  Senator Warren,  Senator Titus and  Senator Corson appointed as second conferees"
+    },
+    {
+     "action_code": "ccac_ccr_860",
+     "chamber": "House",
+     "journal_page_number": "1583",
+     "occurred_datetime": "2026-01-12T14:16:16",
+     "session_date": "2026-01-12",
+     "status": "Conference Committee Report not adopted;  Representative Humphries,  Representative Williams, L. and  Representative Osman appointed as second conferees"
+    },
+    {
+     "action_code": "ccr_rel_100",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2025-03-27T16:09:43",
+     "session_date": "2025-03-27",
+     "status": "Conference committee report now available"
+    },
+    {
+     "action_code": "ccac_om_832",
+     "chamber": "Senate",
+     "journal_page_number": "1069",
+     "occurred_datetime": "2025-03-27T16:09:32",
+     "session_date": "2025-03-27",
+     "status": "Conference Committee Report was adopted;  Yea: 40 Nay: 0"
+    },
+    {
+     "action_code": "ccac_om_370",
+     "chamber": "Senate",
+     "journal_page_number": "311",
+     "occurred_datetime": "2025-03-17T15:05:33",
+     "session_date": "2025-03-17",
+     "status": "Motion to accede adopted;  Senator Warren,  Senator Titus and  Senator Corson appointed as  conferees"
+    },
+    {
+     "action_code": "cur_con_374",
+     "chamber": "House",
+     "conferee_names": [
+      "Representative Humphries",
+      "Representative Williams, L.",
+      "Representative Osman"
+     ],
+     "journal_page_number": "511",
+     "occurred_datetime": "2025-03-17T12:13:41",
+     "session_date": "2025-03-17",
+     "status": "Nonconcurred with amendments; Conference Committee requested; appointed"
+    },
+    {
+     "action_code": "fa_fabc_341",
+     "chamber": "Senate",
+     "journal_page_number": "292",
+     "occurred_datetime": "2025-03-12T15:34:03",
+     "session_date": "2025-03-12",
+     "status": "Final Action - Passed as amended;  Yea: 39 Nay: 0"
+    },
+    {
+     "action_code": "cow_jcow_191",
+     "chamber": "Senate",
+     "journal_page_number": "283",
+     "occurred_datetime": "2025-03-11T15:41:04",
+     "session_date": "2025-03-11",
+     "status": "Committee of the Whole - Be passed as amended"
+    },
+    {
+     "action_code": "cow_jcow_195",
+     "chamber": "Senate",
+     "journal_page_number": "283",
+     "occurred_datetime": "2025-03-11T15:37:27",
+     "session_date": "2025-03-11",
+     "status": "Committee of the Whole - Committee Report be adopted"
+    },
+    {
+     "action_code": "cow_jcow_695",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2025-03-11T15:37:03",
+     "session_date": "2025-03-11",
+     "status": "Committee of the Whole - Now working on"
+    },
+    {
+     "action_code": "cr_rsc_282",
+     "chamber": "Senate",
+     "committee_names": [
+      "Committee on Judiciary"
+     ],
+     "journal_page_number": "231",
+     "occurred_datetime": "2025-03-05T15:22:35",
+     "session_date": "2025-03-05",
+     "status": "Committee Report recommending bill be passed as amended by"
+    },
+    {
+     "action_code": "misc_he_200",
+     "chamber": "Senate",
+     "journal_page_number": "",
+     "occurred_datetime": "2025-02-26T16:08:15",
+     "session_date": "2025-02-26",
+     "status": "Hearing: Tuesday, March 4, 2025, 10:30 AM Room 346-S"
+    },
+    {
+     "action_code": "ee_eng_225",
+     "chamber": "House",
+     "journal_page_number": "354",
+     "occurred_datetime": "2025-02-26T09:46:53",
+     "session_date": "2025-02-26",
+     "status": "Engrossed on Monday, February 24, 2025"
+    },
+    {
+     "action_code": "ref_rbc_310",
+     "chamber": "Senate",
+     "committee_names": [
+      "Committee on Judiciary"
+     ],
+     "journal_page_number": "215",
+     "occurred_datetime": "2025-02-26T08:16:11",
+     "session_date": "2025-02-26",
+     "status": "Referred to"
+    },
+    {
+     "action_code": "intro_iopbc_158",
+     "chamber": "Senate",
+     "journal_page_number": "212",
+     "occurred_datetime": "2025-02-25T14:01:17",
+     "session_date": "2025-02-25",
+     "status": "Received and Introduced"
+    },
+    {
+     "action_code": "efa_fabc_343",
+     "chamber": "House",
+     "journal_page_number": "332",
+     "occurred_datetime": "2025-02-20T17:11:58",
+     "session_date": "2025-02-20",
+     "status": "Emergency Final Action - Passed as amended;  Yea: 122 Nay: 1"
+    },
+    {
+     "action_code": "fa_om_912",
+     "chamber": "House",
+     "journal_page_number": "327",
+     "occurred_datetime": "2025-02-20T16:54:30",
+     "session_date": "2025-02-20",
+     "status": "Motion to advance to Emergency Final Action adopted;"
+    },
+    {
+     "action_code": "cow_jcow_191",
+     "chamber": "House",
+     "journal_page_number": "326",
+     "occurred_datetime": "2025-02-20T14:50:42",
+     "session_date": "2025-02-20",
+     "status": "Committee of the Whole - Be passed as amended"
+    },
+    {
+     "action_code": "cow_jcow_195",
+     "chamber": "House",
+     "journal_page_number": "326",
+     "occurred_datetime": "2025-02-20T14:47:03",
+     "session_date": "2025-02-20",
+     "status": "Committee of the Whole - Committee Report be adopted"
+    },
+    {
+     "action_code": "cow_jcow_695",
+     "chamber": "House",
+     "journal_page_number": "",
+     "occurred_datetime": "2025-02-20T14:46:52",
+     "session_date": "2025-02-20",
+     "status": "Committee of the Whole - Now working on"
+    },
+    {
+     "action_code": "cr_rsc_282",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Judiciary"
+     ],
+     "journal_page_number": "271",
+     "occurred_datetime": "2025-02-18T12:10:08",
+     "session_date": "2025-02-18",
+     "status": "Committee Report recommending bill be passed as amended by"
+    },
+    {
+     "action_code": "misc_he_200",
+     "chamber": "House",
+     "journal_page_number": "",
+     "occurred_datetime": "2025-02-13T13:16:17",
+     "session_date": "2025-02-13",
+     "status": "Hearing: Friday, February 14, 2025, 3:30 PM Room 582-N"
+    },
+    {
+     "action_code": "ref_rbc_310",
+     "chamber": "House",
+     "committee_names": [
+      "Committee on Judiciary"
+     ],
+     "journal_page_number": "220",
+     "occurred_datetime": "2025-02-10T09:54:10",
+     "session_date": "2025-02-10",
+     "status": "Referred to"
+    },
+    {
+     "action_code": "intro_ibc_158",
+     "chamber": "House",
+     "journal_page_number": "213",
+     "occurred_datetime": "2025-02-07T12:34:37",
+     "session_date": "2025-02-07",
+     "status": "Introduced"
+    }
+   ],
+   "LONGTITLE": "AN ACT concerning crimes, punishment and criminal procedure; relating to crimes against public morals; requiring certain offenders to complete an educational or treatment program regarding commercial sexual exploitation and requiring the attorney general to approve such programs in consultation with the office of judicial administration; creating the crime of unlawful use of a laser pointer and providing criminal penalties therefor; removing provisions regarding city ordinances prohibiting buying sexual relations and increasing the criminal penalties therefor; relating to theft; changing the culpability required for certain types of theft; increasing the criminal penalty when the property is a motor vehicle of the value of at least $500 but less than $1,500; modifying criminal use of a financial card to include certain conduct involving gift cards; amending K.S.A. 12-4106, 12-4120, 12-4416, 21-5426, 21-5801, 21-5828, 21-6421, 21-6422 and 22-2909 and repealing the existing sections.",
+   "NAME": "HB2347",
+   "ORIGINAL_SPONSOR": [
+    "Committee on Judiciary"
+   ],
+   "RELATEDRS": "25rs0981",
+   "SHORTTITLE": "Changing the culpability required for certain types of theft and increasing the criminal penalty for theft to a felony when the property is a motor vehicle of the value of at least $500, creating the crime of unlawful use of a laser pointer and providing criminal penalties therefor, modifying criminal use of a financial card to include certain conduct involving gift cards, increasing the criminal penalties for buying sexual relations, removing provisions regarding city ordinances prohibiting buying sexual relations, requiring certain offenders to complete an educational or treatment program regarding commercial sexual exploitation and requiring the attorney general to approve such programs in consultation with the office of judicial administration.",
+   "SPONSOR_NAMES": [
+    "Committee on Judiciary"
+   ],
+   "STATUS": "enacted",
+   "details": "https://www.kslegislature.gov/li/api/v13/rev-1/bill_status/HB2347"
+  }
+ ]
+}

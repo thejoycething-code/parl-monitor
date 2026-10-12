@@ -67,7 +67,7 @@ A first test by hand: `RUNNER_REF=main bash ~/runner/parl-monitor/tools/mini_run
 
 Everything below is merged to main. In order, after `cd ~/runner/parl-monitor && git pull`:
 
-1. **Keys in `~/runner/env`** (no backticks around the values): `CONGRESS_API_KEY`, `OPENSTATES_API_KEY`; `SLACK_BOT_TOKEN` is already there. The US, Irish and Australian judges no longer need `ANTHROPIC_API_KEY`: since 9 October 2026 the free session judges score them (below, "Session judges"), and `US_JUDGE`, `IE_JUDGE` and `AU_JUDGE` go off after the merge (the key stays for the UK passes, and for a paid judge switched back on).
+1. **Keys in `~/runner/env`** (no backticks around the values): `CONGRESS_API_KEY`, `OPENSTATES_API_KEY`, and (optional, from 13 October 2026) `LEGISCAN_API_KEY` once Christopher has a free LegiScan key (without it the US weekly's LegiScan step prints one line and skips; the Kansas, California and Texas feeds need no key); `SLACK_BOT_TOKEN` is already there. The US, Irish and Australian judges no longer need `ANTHROPIC_API_KEY`: since 9 October 2026 the free session judges score them (below, "Session judges"), and `US_JUDGE`, `IE_JUDGE` and `AU_JUDGE` go off after the merge (the key stays for the UK passes, and for a paid judge switched back on).
 2. **Install the new plists** (skip any `launchctl list | grep parlmonitor` already shows):
    ```
    for j in us-weekly ie-weekly au-weekly us-division-watch ie-division-watch au-division-watch devolved-watch \

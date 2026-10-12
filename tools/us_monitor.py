@@ -868,6 +868,8 @@ STATE_LINES = 8                 # per state, per week; the rest are counted
 STATE_EVENTS = (("law_at", "signed into law"), ("vetoed_at", "vetoed"),
                 ("passed_upper_at", "passed"), ("passed_lower_at", "passed"),
                 ("introduced_at", "introduced"))
+# What counts as a law in the top line, the tops and the DM.
+LAW_LABELS = ("signed into law", "enacted over the governor's veto")
 
 
 def chamber_name(state, chamber):
@@ -892,6 +894,10 @@ def state_event(r, since, today):
                 # California files resolutions with the Secretary of State
                 # ("chaptered"), which Open States marks as becoming law.
                 label = "adopted"
+            elif label == "signed into law" and r["vetoed_at"] and r["vetoed_at"] <= d:
+                # Kansas, 2026: vetoed, then the veto overridden in both
+                # chambers (tools/us_states_direct.py marks that as law).
+                label = "enacted over the governor's veto"
             return rank, label, d
     return None
 
@@ -908,21 +914,49 @@ def states_week(conn, since, today):
     return out
 
 
+def other_sources(conn, since, today):
+    """{source: bills} for rows other sources (LegiScan, the states' own
+    feeds; 13 October 2026) wrote or added to in the window."""
+    try:
+        rows = conn.execute("SELECT source, COUNT(*) FROM uss_bill_sources WHERE bill_id IS NOT "
+                            "NULL AND fetched_at > ? AND fetched_at <= ? GROUP BY source",
+                            (since, today)).fetchall()
+    except Exception:                                   # noqa: BLE001 (an old store)
+        return {}
+    return {r[0]: r[1] for r in rows}
+
+
+def source_mark(r):
+    """' *(via LegiScan)*' for a row another source stored; '' for Open States'."""
+    bid = _col(r, "bill_id") or ""
+    if not bid or bid.startswith("ocd-bill/"):
+        return ""
+    src = bid.split(":", 1)[0]
+    return " *(via {0})*".format(us_states_store.SOURCE_NAMES.get(src, src))
+
+
 def states_section(conn, since, today, names):
     week = states_week(conn, since, today)
     read = safe_count(conn, "SELECT COUNT(DISTINCT state) FROM uss_sessions WHERE read_at IS NOT NULL")
+    others = other_sources(conn, since, today)
+    via = ""
+    if others:
+        via = (" Same-day additions this week from {0}, merged with Open States' rows and "
+               "replaced by them once its files catch up.".format(", ".join(
+                   "{0} ({1} bill(s))".format(us_states_store.SOURCE_NAMES.get(s, s), n)
+                   for s, n in sorted(others.items()))))
     out = ["## The states", "",
            "*The fifty state legislatures, through Open States: bills on our ground that were "
            "signed, vetoed, passed a chamber or were introduced this week, by state. Matched on "
            "the title, the state's subject terms and its abstract, where the state gives them "
-           "(many give neither).*", ""]
-    if not read:
+           "(many give neither).{0}*".format(via), ""]
+    if not read and not others:
         out += ["*Not read yet: no state legislature has been collected.*", ""]
         return out
     by_state = {}
     for r, ev in week:
         by_state.setdefault(r["state"], []).append((r, ev))
-    signed = sum(ev[1] == "signed into law" for _, ev in week)
+    signed = sum(ev[1] in LAW_LABELS for _, ev in week)
     passed = sum(ev[1].startswith(("passed", "adopted")) for _, ev in week)
     new = sum(ev[1] == "introduced" for _, ev in week)
     out.append("**{0} signed into law, {1} passed a chamber, {2} introduced**, in {3} "
@@ -939,10 +973,10 @@ def states_section(conn, since, today, names):
             ident = "{0} {1}".format(st.upper(), r["identifier"])
             link = "[{0}]({1})".format(ident, r["url"]) if r["url"] else ident
             title = clip(r["title"], 110).rstrip(".")
-            out.append("- {0} {1}: {2}{6} *{3} {4}; areas: {5}.*".format(
+            out.append("- {0} {1}: {2}{6} *{3} {4}; areas: {5}.*{7}".format(
                 score_mark(r["triage_score"]), link, title,
                 label[:1].upper() + label[1:], d, names_of(visible(r["areas"]), names),
-                "" if title.endswith("…") else "."))
+                "" if title.endswith("…") else ".", source_mark(r)))
             if r["why_it_matters"]:
                 out.append("  - *{0}*".format(oneline(r["why_it_matters"])))
         if len(ranked) > STATE_LINES:
@@ -962,7 +996,7 @@ def states_section(conn, since, today, names):
 
 def states_tops(conn, since, today):
     week = states_week(conn, since, today)
-    laws = [(r, ev) for r, ev in week if ev[1] == "signed into law"]  # resolutions say "adopted"
+    laws = [(r, ev) for r, ev in week if ev[1] in LAW_LABELS]  # resolutions say "adopted"
     if not laws:
         return []
     return ["- **{0} state bill(s) on our ground signed into law this week** ({1}).".format(
@@ -1151,7 +1185,9 @@ def render_edition(conn, today):
                 safe_count(conn, "SELECT MAX(date) FROM us_record_days") or "?",
                 safe_count(conn, "SELECT COALESCE(SUM(speeches), 0) FROM us_record_days"),
                 len(_rows(conn, "SELECT areas FROM us_record_speeches"))),
-            "- **State legislatures** (Open States): {0} bills on our ground kept from {1} "
+            "- **State legislatures** (Open States; since 13 October 2026 also LegiScan's free "
+            "API where a key is set, and the Kansas, California and Texas legislatures' own "
+            "feeds, for the last day Open States' files lag): {0} bills on our ground kept from {1} "
             "state(s), {2} recorded votes with every legislator's position; {3} of 50 "
             "legislatures read, the last on {4}.".format(
                 len(_rows(conn, "SELECT areas FROM uss_bills")),
@@ -1199,7 +1235,7 @@ def dm_summary(conn, today, path=None):
     sweek = states_week(conn, since, today)
     if sweek:
         lines.append("States: {0} signed into law, {1} passed a chamber, {2} introduced on our "
-                     "ground.".format(sum(ev[1] == "signed into law" for _, ev in sweek),
+                     "ground.".format(sum(ev[1] in LAW_LABELS for _, ev in sweek),
                                       sum(ev[1].startswith(("passed", "adopted"))
                                           for _, ev in sweek),
                                       sum(ev[1] == "introduced" for _, ev in sweek)))
