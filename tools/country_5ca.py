@@ -83,7 +83,10 @@ inverted votes left `needs_reading` because "no bill direction is on file"
 once their bill has a with/against direction (src/country5ca.py,
 fill_directions): the drafter never rewrites an entry and the resync only
 touches drafts, so without it they waited for a person forever. Anything a
-person touched is left alone. It runs before --auto-confirm.
+person touched is left alone. It runs before --auto-confirm. It also redrafts
+the drafts the resync turned into `needs_reading` when their bill went on hold
+("The direction of <bill> is on hold: ...") once that bill is with/against
+again; a bill still held stays needs_reading.
 
 Readings whose areas are all excluded from the 5CA (config/stance_overrides.yaml
 `excluded_from_5ca`, migration) place nobody, so they are never counted as

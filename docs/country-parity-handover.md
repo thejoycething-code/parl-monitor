@@ -792,19 +792,25 @@ Weekly: a step of `jobs/editions-session-judge.sh` after the judge (and on a
 judge gap), committed with `partner_site`, shipped by Monday's deploy.
 Watchlist `why:` lines are never shown (they hold internal reasoning).
 
-## Blocked, waiting on replies (letters drafted in Chris's Gmail)
+## Blocked, waiting on replies
 
-| Country | Blocker | Route |
+All from cjoyce@citizengo.net.
+
+| Item | Asked of | Status |
 |---|---|---|
-| Hungary bills and votes | parlament.hu CAPTCHA | W-API token (email drafted to api-reg2@parlament.hu); karzat covers 9 May to 28 Aug |
-| Spain Senate | 403 everywhere | email to Senado open data (address to find) |
-| Costa Rica | refuses all foreign connections | email to the Asamblea |
-| Paraguay | SILpy robots.txt disallows | email to the Senate (addresses from 2016) |
-| El Salvador missing votes | unpublished sessions 41-64, 98 | information request (address to find) |
-| Guatemala court | bot challenge | email (address to find) |
-| Uruguay main site | 403 from laptop, GitHub and the Mini (10 Oct) | write to the open-data team |
-| Argentina Diputados votes | no connection from anywhere (Mini 10 Oct) | write to HCDN or ask an Argentine contact |
-| meineabgeordneten.at | licence | email drafted |
+| Hungary bills and votes (CAPTCHA): W-API token | api-reg2@parlament.hu | sent 9 Oct; karzat covers 9 May to 28 Aug meanwhile |
+| Spain Senate (403 everywhere): open data | informacion@senado.es | sent 9 Oct |
+| Paraguay (SILpy robots.txt disallows) | parlamentoabierto@senado.gov.py, cc silpy@diputados.gov.py | sent 9 Oct |
+| meineabgeordneten.at licence | office@meineabgeordneten.at | sent 9 Oct |
+| Open States (US) | contact@openstates.org | sent 9 Oct; replied with paid tier pricing |
+| Australia | webmanager@aph.gov.au | sent 9 Oct |
+| Guatemala court (bot challenge) | comunicacion@cc.gob.gt, asked to forward to the Unidad de Información Pública | sent 12 Oct |
+| El Salvador missing votes (sessions 41-64, 98): LAIP request | transparencia@asamblea.gob.sv | sent 12 Oct |
+| France clip agreement | communication@assemblee-nationale.fr | sent 12 Oct |
+| Belgium clip agreement | pri@dekamer.be | sent 12 Oct |
+| Uruguay main site (403 everywhere): open-data team | address being found | being sent 12 October |
+| Argentina Diputados votes (no connection from anywhere) | address being found | being sent 12 October |
+| Costa Rica (refuses foreign connections) | participacion-consultas@asamblea.go.cr takes internal senders only; no external address published | bounced, parked |
 
 ## Rules to keep (learned the hard way)
 
