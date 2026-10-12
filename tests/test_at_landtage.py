@@ -65,6 +65,7 @@ class FakeClient:
         ("internetltgbeilagen/Start.jsp", "@ooe-start"),
         ("InternetLtgBeilagenSuche.jsp", "ooe-search.html"),
         ("InternetLtgBeilagenAnzeige", "ooe-detail-motion.html"),
+        ("committees=G", "@wien-gr"),                                 # the Gemeinderat
         ("infodat/suchergebnisse", "wien-list.html"),
         ("lpi/searchExtern", "sbg-search.html"),
         ("ReadViewEntries&CollapseView", "vbg-top.xml"),
@@ -93,6 +94,8 @@ class FakeClient:
             if needle in url:
                 if name is None:
                     return "<html></html>"
+                if name == "@wien-gr":                       # page 1 only; later pages empty
+                    return fx("wien-gr-list.html") if url.endswith("page=1") else "<html></html>"
                 if name == "@ooe-start":
                     return '<a href="Start.jsp?SessionID=SID-ABC123-DEF456">x</a>'
                 return fx(name)
@@ -182,6 +185,28 @@ class Parsers(unittest.TestCase):
         self.assertEqual(kt[0]["date"], "2026-09-22")
         self.assertEqual(kt[0]["date_basis"], "sitting")
         self.assertTrue(kt[0]["item_key"].startswith("wien/"))
+
+    def test_wien_gemeinderat(self):
+        rows, last = atl.parse_wien_list(fx("wien-gr-list.html"), "wien-gr")
+        self.assertEqual(len(rows), 8)
+        self.assertEqual(last, 23)
+        self.assertTrue(all(r["item_key"].startswith("wien-gr/") and r["land"] == "wien-gr"
+                            for r in rows))
+        kt = next(r for r in rows if "Kopftuchverbot" in r["title"])
+        self.assertEqual((kt["item_key"], kt["doc_type"], kt["kind"], kt["number"]),
+                         ("wien-gr/201873", "Beschlussantrag", "motion",
+                          "PGL-1310313-2026-KFP/GAT"))
+        self.assertEqual((kt["date"], kt["date_basis"]), ("2026-09-21", "sitting"))
+        q = next(r for r in rows if "Transgender" in r["title"])
+        self.assertEqual(q["kind"], "question")
+        st = next(r for r in rows if r["doc_type"] == "Antrag Stadtsenat")
+        self.assertIn("QWIEN", st["title"])
+        self.assertEqual(st["number"], "1132623-2026-GKU")
+        others = {r["doc_type"] for r in rows if r["kind"] == "other"}
+        self.assertEqual(others, {"Vorsitzführung", "Zusatzfrage"})
+        # An Aktenzahl-less link keeps the Id.
+        self.assertEqual(next(r for r in rows if r["item_key"] == "wien-gr/201458")["number"],
+                         "Id(201458)")
 
     def test_sbg(self):
         rows = atl.parse_sbg_list(fx("sbg-search.html"))
@@ -277,6 +302,53 @@ class Pull(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT COUNT(*) FROM atl_items WHERE baseline=1"
                                       ).fetchone()[0], 0)
 
+    def test_gemeinderat_first_read_is_a_baseline_in_full(self):
+        conn = fresh_db()
+        (seen, ours, gaps), client = self.run_land(conn, "wien-gr")
+        self.assertEqual((seen, gaps), (8, []))
+        self.assertGreaterEqual(ours, 4)
+        self.assertTrue(all("committees=G" in u for u in client.fetched))
+        self.assertEqual(len(client.fetched), 2)             # page 1, then an empty page 2
+        # Dated rows too: the Gemeinderat's old business never floods.
+        self.assertEqual(tuple(conn.execute("SELECT COUNT(*), SUM(baseline) FROM atl_items "
+                                            "WHERE land='wien-gr'").fetchone()), (8, 8))
+        # A later read: a row first seen then is not baseline; upserts keep the rest.
+        conn.execute("DELETE FROM atl_items WHERE item_key='wien-gr/201873'")
+        self.run_land(conn, "wien-gr", today="2026-10-19")
+        self.assertEqual(tuple(conn.execute("SELECT baseline, first_seen FROM atl_items WHERE "
+                                            "item_key='wien-gr/201873'").fetchone()),
+                         (0, "2026-10-19"))
+        self.assertEqual(conn.execute("SELECT SUM(baseline) FROM atl_items WHERE "
+                                      "land='wien-gr'").fetchone()[0], 7)
+
+    def test_gemeinderat_and_landtag_stay_apart(self):
+        conn = fresh_db()
+        self.run_land(conn, "wien")
+        n_wien = conn.execute("SELECT COUNT(*) FROM atl_items WHERE land='wien'").fetchone()[0]
+        self.run_land(conn, "wien-gr")
+        self.assertEqual(atl.known_keys(conn, "wien"),
+                         {k for (k,) in conn.execute("SELECT item_key FROM atl_items "
+                                                     "WHERE land='wien'")})
+        self.assertEqual(len(atl.known_keys(conn, "wien")), n_wien)
+        self.assertEqual(len(atl.known_keys(conn, "wien-gr")), 8)
+        # The Landtag's first read was not a full baseline (its rows are dated).
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM atl_items WHERE land='wien' "
+                                      "AND baseline=1").fetchone()[0], 0)
+
+    def test_gemeinderat_page_cap_is_a_gap(self):
+        conn = fresh_db()
+        page = fx("wien-gr-list.html").replace("page=23", "page=55")
+
+        class Big(FakeClient):
+            def _serve(self, url):
+                if "committees=G" in url:
+                    self.fetched.append(url)
+                    return page
+                return FakeClient._serve(self, url)
+        (seen, _, gaps), client = self.run_land(conn, "wien-gr", Big())
+        self.assertEqual(len(client.fetched), atl.WIEN_MAX_PAGES["wien-gr"])
+        self.assertIn("55 pages in the window; the first 40 were read", gaps[0])
+
     def test_robots_disallow_is_honoured_and_is_a_gap(self):
         conn = fresh_db()
         client = FakeClient(robots={"data.bka.gv.at": "User-agent: *\nDisallow: /\n"})
@@ -330,7 +402,7 @@ class Pull(unittest.TestCase):
     def test_watchlist_file_section_is_well_formed(self):
         wl = atl_store.watchlist()
         for key, (areas, why) in wl.items():
-            self.assertRegex(key, r"^(wien|noe|ooe|stmk|sbg|vbg|bgld|ris)/")
+            self.assertRegex(key, r"^(wien|wien-gr|noe|ooe|stmk|sbg|vbg|bgld|ris)/")
             self.assertTrue(areas and why)
 
 
@@ -350,7 +422,10 @@ class Schema(unittest.TestCase):
     def test_nine_landtage_seven_read_two_blocked(self):
         self.assertEqual(len(atl_store.LANDTAGE), 9)
         self.assertEqual(set(atl_store.READ) | set(atl_store.BLOCKED),
-                         {c for c, _, _ in atl_store.LANDTAGE})
+                         {c for c, _, _ in atl_store.LANDTAGE + atl_store.OTHER_BODIES})
+        self.assertEqual(set(atl_store.READ) - {c for c, _, _ in atl_store.LANDTAGE},
+                         {"wien-gr"})
+        self.assertEqual(atl_store.LANDTAG["wien-gr"], "Wien, Gemeinderat")
         self.assertEqual(set(atl_store.READ), set(atl.READERS) - {"ris"})
 
 
@@ -391,6 +466,17 @@ class Edition(unittest.TestCase):
         self.assertIn("Recorded decision: “Der Beschluss wurde einstimmig", text)
         # Not a quiet week: the Landtage had items though the Nationalrat had none.
         self.assertNotIn("A quiet week", text)
+
+    def test_gemeinderat_shown_under_wien_after_its_baseline(self):
+        text = self.render()
+        self.assertNotIn("wien-gr/", text)               # the first read is a baseline
+        self.conn.execute("UPDATE atl_items SET baseline=0 WHERE item_key='wien-gr/201873'")
+        text = self.render()
+        self.assertIn("wien-gr/201873", text)
+        self.assertIn("Wien, Gemeinderat: motion (Beschlussantrag), PGL-1310313-2026-KFP/GAT", text)
+        self.assertIn("Kopftuchverbot für öffentlich Bedienstete", text)
+        self.assertIn("Wiener Landtag: question", text)    # the Landtag's own label is unchanged
+        self.assertIn("Wien Gemeinderat 12 Oct", text)     # coverage
 
     def test_coverage_names_what_is_not_read(self):
         text = self.render()
