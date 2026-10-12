@@ -122,6 +122,40 @@ from src import courts as _courts  # noqa: E402
 
 SCHEMA = SCHEMA + _courts.schema("pe")
 
+# PE4 (12 October 2026): the regional governments' and Lima Metropolitana's
+# council acts (ordenanzas, acuerdos) and the regional executive's decretos,
+# from El Peruano's Normas Legales and the institutions' gob.pe pages;
+# written only by tools/pe_regions.py (docs/peru-regions-scope.md).
+#
+# KEY: '<region>/<kind>/<n>-<year>', the norm's own number reduced to its
+# first integer and its year ('arequipa/ordenanza/561-2026'), never the
+# title. The two sources print one norm's number differently ('000013-2026-
+# GR.LAMB/CR' in the gazette, '0013-2026-GR.LAMB/CR' on gob.pe); the
+# reduced key is what lets them meet on one row. `number` keeps the printed
+# form.
+SCHEMA = SCHEMA + (
+    """CREATE TABLE IF NOT EXISTS pe_regional_norms (
+        norm_key     TEXT PRIMARY KEY,   -- 'arequipa/ordenanza/561-2026'
+        region       TEXT NOT NULL,      -- config/pe-regions.yaml key: 'arequipa', 'lima-metropolitana'
+        body         TEXT,               -- the issuer as printed: 'GOBIERNO REGIONAL DE AREQUIPA'
+        kind         TEXT NOT NULL,      -- 'ordenanza' / 'acuerdo' / 'decreto' / 'resolucion' / 'otro'
+        number       TEXT,               -- as printed: '561-AREQUIPA'
+        date         TEXT,               -- ISO: El Peruano's publication date, else gob.pe's
+        title        TEXT,               -- the heading as printed: 'ORDENANZA N° 561-AREQUIPA'
+        summary      TEXT,               -- the sumilla, verbatim (what is classified)
+        url          TEXT,               -- the gazette's dispositivo page, else gob.pe's
+        pdf_url      TEXT,
+        source       TEXT,               -- 'elperuano', 'gob.pe' or 'elperuano+gob.pe'
+        areas        TEXT,               -- JSON list; taxonomy-es (pe) + watchlist-pe by key
+        matched_terms TEXT,              -- JSON list
+        tier         INTEGER,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    "CREATE INDEX IF NOT EXISTS pe_regional_norms_date ON pe_regional_norms (date)",
+    "CREATE INDEX IF NOT EXISTS pe_regional_norms_region ON pe_regional_norms (region, kind)",
+)
+
 # X7 (10 October 2026; tools/pe_ocr.py, src/ocr.py): Tesseract's reading of
 # the scan-only vote records (pe_vote_files.text_layer = 0). Stored as
 # evidence beside the scan, never parsed into positions (src/ocr.py).

@@ -216,7 +216,7 @@ publish seen".
   dated source), clips for France and Belgium (agreement needed).
 - Waiting for time: Spain's agendas, speeches and sweep fill from 23
   December when the XVI sits.
-- Not yet built: regions and Länder (IT3, AT6, PE4, Spain's autonomous
+- Not yet built: regions and Länder (IT3, AT6, Spain's autonomous
   communities, Mexico's states); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
   2027); a native read of each language's term list.
 
@@ -683,6 +683,25 @@ X7 OCR designed and guarded (`src/ocr.py`, `tools/pe_ocr.py`; install steps in
 `docs/mac-mini.md`, nothing installed). One hand-run backfill after merge:
 `jobs/latam-courts-backfill.sh`. Samples: `editions/latam-monitor-2026-06-30.md`,
 `editions/latam-monitor-2025-08-31.md`, `editions/pt-monitor-2023-02-05.md`.
+
+### 6b. Regions -- Peru BUILT 12 October 2026 (branch `regions-pe`, PE4)
+
+Peru's 25 regional governments and Lima Metropolitana, all at once
+(`docs/peru-regions-scope.md`): `tools/pe_regions.py` reads El Peruano's
+Normas Legales (one form POST a week; the gazette where every ordenanza
+regional must be published) and each institution's council-act pages on
+gob.pe (61 pages, 3 s apart), into `pe_regional_norms` (keyed
+`<region>/<kind>/<n>-<year>`, the two sources merged on one row). Taxonomy-es
+over heading and sumilla; 19 of 1,352 norms on our ground in the first read
+(child marriage, the Arequipa ESI ordinance, gender-equality plans, violence
+against women). Shown in the monthly Latam monitor as a "Regional governments
+and Lima Metropolitana" sub-heading under Peru; tier-1 and watched norms also
+alert. A step in `jobs/pe-weekly.sh` (budget 300 s); no new Mini job. Blocked
+or not built: votes (regional councils publish no roll calls), sittings and
+agendas (26 different sites, PDF or video), consejeros, El Peruano's full-text
+search (client-side behind a bot-manager script; the Filtro form serves the
+same listing in HTML). Cajamarca, Puno, San Martín, Huánuco and Lima
+Metropolitana keep stale gob.pe pages and are covered by the gazette alone.
 
 **Spain's regional parliaments, built 12 October 2026 (branch `regions-es`,
 `docs/spain-regions-scope.md`):** all seventeen communities' laws and

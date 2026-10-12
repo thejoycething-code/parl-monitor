@@ -362,7 +362,9 @@ edited; its job table needs a row for `pe-weekly` (Saturdays 16:00, backup
    sessions only if Chris wants them (it would need a new dependency).
 4. **Phase 3:** the Diario de los Debates (debate packs) and the Peru 5CA
    (votes plus authorship: `autores` names every co-signatory).
-5. **Later:** the 25 regional councils, by block.
+5. **Later:** the 25 regional councils, by block. BUILT 12 October 2026 as PE4
+   (all 25 and Lima Metropolitana at once, through the gazette): see
+   `docs/peru-regions-scope.md`.
 
 ## Dates that matter
 
@@ -386,7 +388,8 @@ edited; its job table needs a row for `pe-weekly` (Saturdays 16:00, backup
 5. **Merge to main** when ready: the weekly workflow is inert until then.
 6. **Scan-only sessions**: accept the loss (installation week, Diputados
    13 August), or approve an OCR step later?
-7. **Regional councils**: which first, and when.
+7. **Regional councils**: answered by building all 26 at once from El Peruano
+   and gob.pe (PE4, 12 October 2026, `docs/peru-regions-scope.md`).
 
 ## Decisions of 10 October 2026 (applied at the countries merge)
 
@@ -399,7 +402,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - Not built: the expediente endpoint (PE2, reversed on 10 October 2026). Its identifiers are AES-encrypted with a key in the public front end; Chris decided to leave it out, so bill detail stays at what the list endpoint gives.
-- Phase: regional councils (PE4).
+- Phase: regional councils (PE4). BUILT 12 October 2026 (branch `regions-pe`): the 25 regional governments' and Lima Metropolitana's ordenanzas, acuerdos and decretos from El Peruano's Normas Legales and gob.pe (`tools/pe_regions.py`, `pe_regional_norms`), a step in the Peru weekly, a sub-heading in Peru's section of the Latam monitor. No votes (none published). `docs/peru-regions-scope.md`.
 - Phase (X7): OCR for scan-only sessions. Designed and wired 10 October 2026 (`tools/pe_ocr.py`, see below); waits for Tesseract on the Mini.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/pe/` from the store each weekly run (`tools/member_profiles.py pe`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 

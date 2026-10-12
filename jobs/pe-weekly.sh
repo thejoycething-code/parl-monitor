@@ -1,15 +1,16 @@
 #!/bin/bash
 # Peru weekly: members of both chambers, proyectos de ley and plenary votes
-# of the Congress (tools/pe_rollcalls.py), then publish the raw archive and
-# the store.
+# of the Congress (tools/pe_rollcalls.py), the Tribunal Constitucional's
+# press notes, the regional governments' council acts (PE4,
+# tools/pe_regions.py), then publish the raw archive and the store.
 #
 # Called by .github/workflows/pe-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh pe-weekly. One script, two callers. Both callers fetch
 # the store first and commit data/ afterwards. (The pattern of
 # jobs/au-weekly.sh, 9 October 2026.)
 #
-#     PE_RECLASSIFY=true    re-derive every stored PE proyecto's and vote's
-#                           areas, offline, before the pull (after a taxonomy
+#     PE_RECLASSIFY=true    re-derive every stored PE proyecto's, vote's and
+#                           regional norm's areas, offline, before the pull (after a taxonomy
 #                           or watchlist-pe change, or the day taxonomy-es lands)
 #     PE_PUBLISH=false      collect only. The GitHub workflow sets it and
 #                           publishes in its own steps, under the same
@@ -35,18 +36,32 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Peru weekly}"
 if [ "${PE_RECLASSIFY:-}" = "true" ]; then
   python3 tools/pe_rollcalls.py --reclassify
+  python3 tools/pe_regions.py --reclassify
 fi
 rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/pe_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" || rc=$?
+# The third argument keeps the regional step's 300 s (PE4, below) out of it.
+python3 tools/pe_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" || rc=$?
 # X8 (10 October 2026): the Tribunal Constitucional's press notes on rulings
 # and hearings (tools/pe_courts.py; Crawl-delay 30 s, about four minutes).
 # Gaps go to the store; a failure never stops the run.
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/pe_courts.py \
     || echo "  [gap] pe-courts recorded gaps or failed; the next run retries"
+fi
+# PE4 (12 October 2026): the 25 regional governments' and Lima
+# Metropolitana's ordenanzas, acuerdos and decretos (tools/pe_regions.py):
+# one El Peruano Normas Legales request for the last fortnight, then the
+# council-act pages of each institution on gob.pe, 3 s apart (about 65
+# requests, four to five minutes; the budget cuts the gob.pe pass short and
+# records the gap). Before the vote briefs and alerts, so a tier-1 regional
+# ordinance alerts this run. Gaps go to the store; a failure never stops
+# the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/pe_regions.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \
+    || echo "  [gap] pe-regions recorded gaps or failed; the next run retries"
 fi
 # X7 (10 October 2026): Tesseract over the scan-only vote records
 # (tools/pe_ocr.py). Without tesseract it prints one [skip] line and exits 0.
