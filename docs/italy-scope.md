@@ -430,6 +430,10 @@ callers:
   and members weekly (both are re-read whole), divisions a month plus a
   month's grace (recesses).
 
+Since 12 October 2026 the job also reads the Senate's amendment texts
+(`tools/it_senato_amendments.py`, its own 5-minute budget, after the
+regional councils): see "Senate amendment texts" below.
+
 ## Shared files touched (for the merge of the 13 country branches)
 
 - `src/db.py`: four names added to `TABLES` (`it_members`, `it_bills`,
@@ -546,6 +550,76 @@ Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/it
 Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-it-shortlist.md` ranks the 137 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `senato-19-423-1` (2026-06-03, a motion to reject the text; the decisive one; contested: 88-59). It confirms nothing.
 
 Posting to Chris (11 October 2026, src/country5ca_post.py, branch `ukp3-5ca-post`): `python3 tools/country_5ca_post.py --cc it [--area N] [--to canvas|dm|both] [--dry-run]` renders each chamber and area's 5CA from CONFIRMED readings only and sends it to Chris alone, as a canvas shared with his user id (never a channel) and/or a DM; a rerun rewrites the same canvas in place (`data/5ca/country-post-state.json`). The Sunday judge job refreshes the canvases whose confirmed readings changed (`--refresh`); with none confirmed it sends nothing.
+
+## Senate amendment texts (built 12 October 2026, branch `senato-amendments`)
+
+Chris, 12 October 2026: "Yes, build it". senato.it refuses us with a bot
+check, so the 34 Senate amendment votes on our ground were read 'unclear'
+on 12 October. The Senate publishes the same texts, updated daily and with
+no bot check, in its own GitHub repository
+`SenatoDellaRepubblica/AkomaNtosoBulkData`: one Akoma Ntoso XML file per
+amendment or order of the day, under `Leg19/Atto<idFase, 8 digits>/emend`
+(Assembly) and `emendc` (committee). In each file FRBRWork/FRBRnumber is
+the number the vote wording uses ("1.23", "2.0.2", "G1.104",
+"7.0.100/151"), FRBRname the type (Emendamento, Ordine del giorno),
+FRBRthis the act and the sede (`.../19/Emend/S/1735/A/1.23`), docProponent
+the proposers and amendmentBody the operative text. The act's idFase comes
+from dati.senato.it SPARQL (`osr:fase "S.1735"` -> `osr:idFase 59761`;
+S.824 -> 57364).
+
+- **Readings applied (12 October 2026):** the 34 were re-read from these
+  files (`/Users/chrisjoyce/parl-judge/amendments/senato-rereads.json`) and
+  applied with `tools/country_5ca.py --apply-amendments`: 29 against, 3 not
+  scored, 2 unclear; then `--accept-flagged-amendments` accepted the 8
+  flagged ones as drafted. They replaced untouched 'unclear' readings, which
+  `--apply-amendments` already allows, so no new option was needed.
+- **The collector:** `tools/it_senato_amendments.py` (pure parts in
+  `src/it_amendments.py`), a step of `jobs/it-weekly.sh` after the regional
+  councils, 5-minute budget (`tools/collector_budget.sh`). For every Senate
+  act named by a Senate vote on our ground (watched, or tier 1 with an
+  area) whose wording names an amendment: the idFase (one SPARQL query for
+  the unmapped acts), ONE git trees API request per act due, and each new
+  or changed file from raw.githubusercontent.com, its git blob sha checked.
+  An unchanged tree is done; a stored sha is never fetched again. An act is
+  read when new, when it has a vote on our ground in the last 90 days, or
+  every 28 days. Caps: 30 API requests a run, never below 5 left on
+  GitHub's counter (anonymous limit 60 an hour), 2,500 raw files; what is
+  left is a [gap] line and read next run. A `GITHUB_TOKEN` already in the
+  runner's environment is used for the API only, in a header; nothing is
+  committed. The odd empty file the Senate publishes is kept as a row with
+  no number so it is not fetched again.
+- **Tables (`src/it_store.py`):** `it_senate_amendments` (one row per file:
+  act, sede, number, kind, proposers, text, file sha, GitHub URL),
+  `it_senate_amendment_votes` (each vote's numbers: linked / split /
+  not_found / ambiguous / not_read) and `it_senate_amend_acts` (per act:
+  idFase, tree sha, last read). Coverage: `tools/coverage.py`, a month plus
+  a fortnight's grace.
+- **The link:** the numbers are read from the vote wording ("Em. 1.23 (1a
+  parte) , D'Elia e altri", "Emm. 3.1 e 3.2", "ODG G1.1", "Em. 1.5 (testo
+  2)"), matched to an ASSEMBLY text of any act the vote names
+  (`bill_key` and `bill_keys`: a joint examination files its amendments
+  under the base text, so the surrogacy votes recorded as S.163 match
+  S.824's folder). A committee 1.13 is never taken for the Assembly's. A
+  split vote ("1a parte") links the whole text and is FLAGGED: which words
+  the part was is never guessed.
+- **Who uses the text:** the 5CA drafter (`src/country5ca.py`,
+  `amendment_text`: a new Senate amendment entry's `read_first` quotes the
+  text and its URL instead of "the store does not hold"), the amendment
+  worklist (`tools/amendment_worklist.py`: `amendment_texts`, `split_vote`
+  and the file URL, `sure: true`) and the session judge's vote-meaning queue
+  (`src/vote_meanings.py` `pending`, `tools/vote_meanings.py`).
+- **Robots:** dati.senato.it/sparql, api.github.com and
+  raw.githubusercontent.com are documented machine endpoints
+  (`src/robots_guard.DOCUMENTED_APIS`); github.com's robots.txt points
+  programs to its API and both GitHub hosts answer 404 for robots.txt
+  (checked 12 October 2026). Identified UA; downloaded content is parsed as
+  data only.
+- **Smoke read (12 October 2026, a scratch copy of the store's Senate
+  votes, never the real store):** S.1735 153 Assembly texts (147
+  amendments, 6 orders of the day) and 126 committee texts, plus one empty
+  file; S.824 29 Assembly (19 amendments, 10 orders of the day) and 25
+  committee. Two API requests. All 38 numbers voted on our ground on the
+  two bills linked: 36 linked, 2 split (Em. 1.23 and 2.0.2, "1a parte").
 
 ## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
 

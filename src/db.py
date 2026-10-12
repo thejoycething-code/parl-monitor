@@ -1698,6 +1698,10 @@ TABLES = (
     "it_votes",
     # IT3 (12 October 2026): the regional councils (tools/it_regions.py).
     "it_reg_acts",
+    # The Senate's amendment texts (12 October 2026, tools/it_senato_amendments.py).
+    "it_senate_amendments",
+    "it_senate_amendment_votes",
+    "it_senate_amend_acts",
     # Swiss Federal Assembly (tools/ch_rollcalls.py), created by
     # src/ch_store.ensure_schema -- declared from day one.
     "ch_members",

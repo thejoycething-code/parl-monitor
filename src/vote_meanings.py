@@ -50,6 +50,14 @@ WHERE A LINE COMES FROM, in this order (the first that has one wins):
    first. Rules are deterministic, so a vote newer than the last Sunday run
    still gets its rule line at render time (`lookup` computes it live).
 
+AMENDMENT TEXTS (12 October 2026). Where the store holds the text of the
+amendment a vote put (Italy's Senate: it_senate_amendments,
+src/it_amendments.py), `pending` attaches it to the item
+(`amendment_text`) and the session judge's queue shows it, so the judge
+words the line from the text and not from the number alone. The rules'
+line is unchanged: a meaning says what a Yes adopted, which the number
+already says.
+
 WHERE IT IS SHOWN: the weekly editions and the Latam monitor
 (src/country_edition.py, tools/latam_monitor.py: `annotate` puts
 `meaning` on each watched or tier-1 vote item, `line` renders it), the
@@ -816,7 +824,11 @@ def pending(conn, ccs=None, config_dir=None, wls=None):
             got = rule_meaning(cc, r, wl, bills)
             if got and got["quality"] == "full":
                 continue
-            out.append({"cc": cc, "row": r, "rule": got, "wl": wl})
+            item = {"cc": cc, "row": r, "rule": got, "wl": wl}
+            text = c5.amendment_text(conn, cc, r["key"], chars=600)
+            if text:          # the stored amendment text (Italy's Senate, 12 October 2026)
+                item["amendment_text"] = text
+            out.append(item)
     out.sort(key=lambda p: (p["rule"] is not None, p["row"].get("watch_key") is None,
                             _neg(p["row"].get("date")), p["cc"], p["row"]["key"]))
     return out

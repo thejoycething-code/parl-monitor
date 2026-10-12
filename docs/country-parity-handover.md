@@ -178,7 +178,9 @@ docs/5ca-notes.md). The first real run is Sunday's editions-session-judge.
     (1,243 in all on the dry run). `docs/country-decisions-2026-10-12.md`,
     "Decision backlog, 12 October".
 22. OPEN: the 209 unclear amendments: leave, or ask the Italian Senate and
-    parlament.hu for access.
+    parlament.hu for access. Italy's 34 Senate ones are SETTLED (item 27):
+    re-read from the Senate's own GitHub repository, so no access request
+    to the Senate is needed.
 23. OPEN (portraits, #139): do the partner pages count as internal or
     non-commercial use for Italy, the Netherlands, Austria and Switzerland?
     For the 21 unclear countries, ask press offices or allow Wikimedia
@@ -200,6 +202,24 @@ docs/5ca-notes.md). The first real run is Sunday's editions-session-judge.
     (`tools/ca_committee_reports.py`, new table `ca_committee_reports`). Both
     are steps of `jobs/ca-weekly.sh` and `ca-weekly.yml`; no new Mini job.
     See `docs/canada-scope.md`.
+27. DONE (Italy, 12 October 2026, branch `senato-amendments`): the 34
+    Italian Senate amendment readings left unclear (senato.it's bot check)
+    re-read from the Senate's official repository
+    (github.com/SenatoDellaRepubblica/AkomaNtosoBulkData) and applied with
+    `--apply-amendments`: 29 against, 3 not scored, 2 unclear (they
+    replaced untouched 'unclear' readings, which the tool already allows, so
+    no new option); 8 flagged ones accepted as drafted (Chris: "accept all
+    as drafted"). And, Chris: "Yes, build it": a permanent collector,
+    `tools/it_senato_amendments.py` (step of `jobs/it-weekly.sh`, no new
+    Mini job), reads the amendment and order-of-the-day texts of every
+    Senate act with votes on our ground into `it_senate_amendments` and links
+    each vote to its text (`it_senate_amendment_votes`; a split "1a parte"
+    vote is flagged, never guessed). The 5CA drafts, the amendment worklist
+    and the session judge's queue now carry the text, so a new Senate
+    amendment vote is no longer unclear for lack of it. Smoke read (scratch
+    store): S.1735 153 Assembly texts and 126 committee, S.824 29 and 25;
+    all 38 numbers voted on our ground linked (2 split). See
+    `docs/italy-scope.md`, "Senate amendment texts".
 26. WATCH: Panama's bills feed is dark while sistemas.asamblea.gob.pa's
     robots.txt answers HTTP 500 (asked 12 October, see below). Mexico's SITL
     and Gaceta time out from the UK; check the next GitHub run.
@@ -1045,7 +1065,7 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
 - **Unreachable from the UK (5):** Veracruz, Guanajuato, Nuevo León,
   Michoacán (https), Zacatecas; the step asks each from the runner every
   run and the edition says if one answers.
-- **Blocked (4):** Puebla (Cloudflare challenge), San Luis Potosí (Sucuri
+- **Blocked (4):** Puebla (Cloudflare challenge; decrees via the SCJN), San Luis Potosí (Sucuri
   challenge), Campeche (robots.txt disallows all), Durango (Wordfence geo
   block). Never bypassed.
 - **Not built (10):** Jalisco (77 s a page), Querétaro (plain HTTP only),
@@ -1064,12 +1084,12 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
   **Durango** (each edition's HTML contents) and **Querétaro** (La Sombra
   de Arteaga's annual index PDF, over HTTPS). Adopted acts only, no bills
   in passage; the edition marks them "(from the official gazette)".
-  `src/ingest/mxs_{slp,cam,dgo,qro}_gazette.py`, same step and clock.
-  **Puebla**: no route yet (the gazette, the Orden Jurídico Poblano and the
-  state's open-data portal refuse UK connections; the step asks the
-  gazette's home page from the runner each run). The PNT/SIPOT sits behind
-  a Cloudflare challenge; the SCJN recent-reforms page answered a server
-  error on 12 October. Details in `docs/mexico-regions-scope.md`.
+  `src/ingest/mxs_{slp,cam,dgo,qro,pue}_gazette.py`, same step and clock.
+  **Puebla** (13 October): its gazette refuses UK connections, so its
+  decrees are read from the Supreme Court's compilation of the gazette
+  (legislacion.scjn.gob.mx, the 50 most recent Puebla reforms, one
+  postback of the page's own form; `src/ingest/mxs_pue_gazette.py`).
+Details in `docs/mexico-regions-scope.md`.
 
 ## Regional layer: Poland's 16 voivodeship assemblies (13 October 2026)
 

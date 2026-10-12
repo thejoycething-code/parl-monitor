@@ -405,6 +405,14 @@ FEEDS = [
     # run, and Campania's and Marche's lists to the legislature's first act,
     # so the table moves every week, recess included.
     ("it_reg_acts", "last_seen", 7, 4, "Regional councils' bills and motions: Lombardia, Campania, Marche, Trento (Italy weekly)"),
+    # The Senate's amendment texts (12 October 2026, tools/it_senato_amendments.py).
+    # MEASURED which re-stamp: an act's folder is read when it has a vote on our
+    # ground in the last 90 days or its last read is 28 days old, and every read
+    # (changed or not) re-stamps the act and its files. So the newest last_seen
+    # moves at least every 28 days, and weekly while the Senate votes on our
+    # ground: a month plus a fortnight's grace.
+    ("it_senate_amendments", "last_seen", 31, 14, "Senate amendment and order-of-the-day texts, from the Senate's AkomaNtosoBulkData repository (Italy weekly)"),
+    ("it_senate_amend_acts", "last_seen", 31, 14, "Senate acts whose amendment folders are read (Italy weekly)"),
     # Switzerland (9 October 2026). MEASURED which re-stamp: members and the
     # legislature's sessions are re-read whole every run; businesses only when
     # the service has modified them, which it did to 4,018 between 1 September
