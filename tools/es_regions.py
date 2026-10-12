@@ -37,8 +37,19 @@ THE SOURCES, all keyless, all probed live and robots.txt read first:
        numbered dossier per bill ('180/XI Legislatura') with its date.
   vc   Corts Valencianes, /ca-va/activitat/iniciative (first page, newest
        first): titles in VALENCIAN only (the /es/ path is 404), so they are
-       stored with lang 'ca' and areas NULL, counted as a gap, never shown as
-       on our ground. The Spanish taxonomy is blind to Valencian.
+       stored with lang 'ca' and classified with the Catalan/Valencian list
+       (config/taxonomy-ca.yaml, an unmeasured draft Chris approved on 12
+       October 2026). Before that list they were stored unclassified and
+       counted as a gap: the Spanish taxonomy is blind to Valencian.
+
+CLASSIFICATION BY LANGUAGE (12 October 2026). A row is classified with the
+list of the language its title is published in: 'es' (every BOE item, and
+the Andalucía, Canarias, La Rioja and Cantabria lists) with taxonomy-es,
+'ca' (Catalan or Valencian, whichever parliament) with taxonomy-ca. Any
+other language ('eu', 'gl') has no list and is stored with areas NULL,
+unclassified rather than "nothing found". `--reclassify` re-derives every
+stored row the same way, so the Valencian rows stored before the Catalan
+list existed are classified by one offline run.
 
 Not read, and why (the scope doc has the detail): Madrid (Sucuri JavaScript
 challenge), Navarra (Cloudflare challenge), Galicia (Akamai 403), Murcia
@@ -76,7 +87,10 @@ from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "es-regions"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
+TAXONOMY_CA = os.path.join(ROOT, "config", "taxonomy-ca.yaml")
 TAXONOMY_COUNTRY = "es"
+# The languages a title can be classified in; see the docstring.
+CLASSIFIED_LANGS = ("es", "ca")
 HIDDEN_AREAS = (11,)   # migration: collated, never campaigned (repo-wide rule)
 BUDGET_S = drain.DEFAULT_S
 
@@ -221,6 +235,33 @@ def load_taxonomy(path=None):
     return filt.load_taxonomy(path, country=TAXONOMY_COUNTRY) if os.path.exists(path) else None
 
 
+_CATALAN = {}
+
+
+def load_catalan(path=None):
+    """The Catalan/Valencian list, loaded once per path (None if absent)."""
+    path = path or TAXONOMY_CA
+    if path not in _CATALAN:
+        _CATALAN[path] = (filt.load_taxonomy(path, country=TAXONOMY_COUNTRY)
+                          if os.path.exists(path) else None)
+    return _CATALAN[path]
+
+
+def taxonomy_for(tax, lang):
+    """The taxonomy for a title in `lang`. `tax` is the Spanish taxonomy (as
+    every caller has always passed it) or a {lang: taxonomy} mapping; a
+    Catalan title gets taxonomy-ca unless the mapping names another."""
+    if isinstance(tax, dict):
+        if lang in tax:
+            return tax[lang]
+        return load_catalan() if lang == "ca" else None
+    if lang == "es":
+        return tax
+    if lang == "ca":
+        return load_catalan()
+    return None
+
+
 def classify(tax, *texts):
     """(areas or None, terms, tier). None when there is no taxonomy."""
     if tax is None:
@@ -269,7 +310,7 @@ def parse_boe(data, day):
 
 
 def store_law(conn, tax, law, today):
-    areas, terms, tier = classify(tax, law["title"], law["heading"])
+    areas, terms, tier = classify(taxonomy_for(tax, "es"), law["title"], law["heading"])
     conn.execute(
         "INSERT INTO esr_laws (boe_id, region, department, published, rank, title, heading, "
         "url_html, url_pdf, areas, matched_terms, tier, first_seen, last_seen) "
@@ -452,10 +493,7 @@ PARSERS = {"an": parse_an, "cn": parse_cn, "ri": parse_ri, "cb": parse_cb, "vc":
 
 def store_bill(conn, tax, region, b, today, seed):
     key = "{0}:{1}".format(region, b["expediente"])
-    if b["lang"] == "es":
-        areas, terms, tier = classify(tax, b["title"])
-    else:
-        areas, terms, tier = None, [], None
+    areas, terms, tier = classify(taxonomy_for(tax, b["lang"]), b["title"])
     conn.execute(
         "INSERT INTO esr_bills (bill_key, region, expediente, kind, title, status, presented, "
         "proponent, url, lang, areas, matched_terms, tier, first_seen, last_seen, seed) "
@@ -501,21 +539,27 @@ def pull_list(conn, client, today, tax, region):
 # --- reclassify -------------------------------------------------------------------
 
 def reclassify(conn, tax):
-    n = 0
+    """(rows, Catalan/Valencian bills classified, of which on our ground)."""
+    n = catalan = catalan_ours = 0
     for boe_id, title, heading in conn.execute(
             "SELECT boe_id, title, heading FROM esr_laws").fetchall():
-        areas, terms, tier = classify(tax, title, heading)
+        areas, terms, tier = classify(taxonomy_for(tax, "es"), title, heading)
         conn.execute("UPDATE esr_laws SET areas=?, matched_terms=?, tier=? WHERE boe_id=?",
                      (None if areas is None else esr.dumps(areas), esr.dumps(terms), tier, boe_id))
         n += 1
     for key, title, lang in conn.execute(
             "SELECT bill_key, title, lang FROM esr_bills").fetchall():
-        areas, terms, tier = classify(tax, title) if lang == "es" else (None, [], None)
+        areas, terms, tier = classify(taxonomy_for(tax, lang), title)
         conn.execute("UPDATE esr_bills SET areas=?, matched_terms=?, tier=? WHERE bill_key=?",
                      (None if areas is None else esr.dumps(areas), esr.dumps(terms), tier, key))
         n += 1
+        if lang == "ca" and areas is not None:
+            catalan += 1
+            catalan_ours += on_our_ground(areas)
     conn.commit()
-    print("es-regions: {0} row(s) reclassified".format(n))
+    print("es-regions: {0} row(s) reclassified; {1} Catalan/Valencian bill(s) classified, {2} on "
+          "our ground".format(n, catalan, catalan_ours))
+    return n, catalan, catalan_ours
 
 
 def summary(conn):
@@ -531,12 +575,14 @@ def main(argv=None):
     ap.add_argument("--sources", help="comma-separated: " + ",".join(SOURCE_ORDER))
     ap.add_argument("--boe-days", type=int, help="read this many days back from today")
     ap.add_argument("--taxonomy", help="a taxonomy file (default config/taxonomy-es.yaml)")
+    ap.add_argument("--taxonomy-ca", help="the Catalan/Valencian list "
+                                          "(default config/taxonomy-ca.yaml)")
     ap.add_argument("--reclassify", action="store_true",
                     help="re-derive every stored row's areas, offline")
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
     ap.add_argument("--date", help="ISO date to stamp the run with (tests)")
     args = ap.parse_args(argv)
-    tax = load_taxonomy(args.taxonomy)
+    tax = {"es": load_taxonomy(args.taxonomy), "ca": load_catalan(args.taxonomy_ca)}
     conn = db.init_db(db.connect(args.db))
     if args.reclassify:
         reclassify(conn, tax)

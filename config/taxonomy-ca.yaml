@@ -1,0 +1,61 @@
+# GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
+# Source of truth: docs/keyword-taxonomy-ca.md
+# Regenerate: python3 tools/generate_taxonomy.py --lang ca
+version: 0.1
+areas:
+  1_abortion:
+    tier1: ["avortament*", "interrupció voluntària de l'embaràs", "interrupció de l'embaràs", "píndola abortiva", "no nascut*", nasciturus, "del concebut", {term: "dret a la vida", with: [concebut, néixer, embaràs, avortament, gestació, concepció]}, {term: "objecció de consciència", with: ["avortament*", embaràs, "sanitari*"]}]
+    tier2: ["salut sexual i reproductiva", "drets sexuals i reproductius", "anticoncepci*", "anticonceptiu*", "píndola de l'endemà", "anticoncepció d'emergència", {term: "dones embarassades", with: [suport, ajuda, "vulnerab*"]}, "diagnòstic prenatal", "dol gestacional", "dol perinatal", "mort perinatal"]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): avortament and interrupció voluntària de l'embaràs from the scope proposal; "del concebut" is the Catalan form of the Spanish "del concebido" added the same day for Madrid's Ley 5/2026 (BOE 29 August 2026). Bare "concebut" is not a term: like the Spanish "concebido", it also means "designed" ("concebut per a").
+  2_assisted_dying:
+    tier1: ["eutanàsi*", "mort digna", "suïcidi assistit", "ajuda per morir", "ajuda per a morir", "prestació d'ajuda per morir", "prestació d'ajuda per a morir"]
+    tier2: ["cures pal·liatives", "sedació pal·liativa", "voluntats anticipades", "document de voluntats anticipades", "testament vital"]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): eutanàsia and mort digna from the scope proposal (the Catalan right-to-die campaign's own phrase); "prestació d'ajuda per (a) morir" is the Catalan name of the LORE's act in both standards.
+  3_gender_medicine_children:
+    tier1: ["bloquejador* de la pubertat", "bloquejador* puberal*", "disfòria de gènere", "reassignació de sexe", "menors trans", "infància trans", "detransici*"]
+    tier2: [{term: "identitat de gènere", with: ["menor*", "infant*", infància, "adolescent*", "escola*", "xiquet*"]}, {term: "tractament* hormonal*", with: ["menor*", "infant*", infància, "adolescent*"]}]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): the Spanish list's area 3 core in Catalan; "xiquet*" is the Valencian word for children, "infant*" the Catalan.
+  4_conversion_practices:
+    tier1: ["teràpi* de conversió", "teràpi* d'aversió"]
+    tier2: [{term: "acompanyament espiritual", with: [conversió, orientació, identitat]}]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): the Catalan forms of the Spanish "terapias de conversión" and "de aversión".
+  5_sex_based_rights:
+    tier1: ["LGTBI*", "LGBTI*", "identitat de gènere", "autodeterminació de gènere", "ideologia de gènere", "llei trans", "persones trans", "transsexual*", "no binàri*"]
+    tier2: ["expressió de gènere", "orientació sexual", {term: "perspectiva de gènere", with: [educació, "escola*", menors, currículum, infància]}, "violència de gènere", "violència masclista", "llenguatge inclusiu"]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): LGTBI* (shared with the Spanish list) and identitat de gènere from the scope proposal. Gender-violence terms at tier 2, as in the Spanish list (X11).
+  6_parental_rights_education:
+    tier1: ["escola concertada", "escoles concertades", "educació concertada", "pin parental", "dret dels pares", "drets dels pares", "llibertat d'ensenyament", "educació diferenciada"]
+    tier2: ["educació sexual", "educació afectivosexual", "consentiment parental", "pàtria potestat", {term: "xarxes socials", with: [menors, infants, xiquets, adolescents]}]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): escola concertada from the scope proposal (state-funded independent schools, the live Valencian and Catalan fight over admissions and funding).
+  7_free_speech_online_safety:
+    name: "Free speech, privacy and civil liberties"
+    tier1: ["llibertat d'expressió", "discurs d'odi", "discursos d'odi", "delicte* d'odi", "incitació a l'odi"]
+    tier2: ["desinformaci*", "llibertat de premsa", "llibertat d'informació", "verificació d'edat", "pornografi*"]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): discurs d'odi from the scope proposal; bare "odi" is never a term.
+  8_freedom_of_religion:
+    tier1: ["llibertat religiosa", "llibertat de consciència", "persecució dels cristians", "persecució religiosa", "Santa Seu"]
+    tier2: ["Església catòlica", "confessions religioses", "llocs de culte", "ensenyament de la religió", "objecció de consciència"]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): llibertat religiosa from the scope proposal. Bare església is never a term.
+  9_marriage_family:
+    tier1: ["matrimoni entre persones del mateix sexe", "matrimoni homosexual", "protecció de la família", "política familiar", "família nombrosa", "famílies nombroses"]
+    tier2: ["suport a la família", "suport a les famílies", "mesures de suport a la família", {term: família, with: [natalitat, "nombros*", "monoparental*", conciliació]}, natalitat, "famílies monoparentals", "custòdia compartida", "permís de maternitat", "permís de paternitat", "permís per naixement", "conciliació de la vida familiar", {term: adopció, with: [menors, infants, xiquets, "famíli*"]}]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): família from the scope proposal, as phrases and once guarded (bare família is in every social-services and housing title); "suport a la família" and "mesures de suport a la família" are the Catalan forms of the Spanish "apoyo a la familia" terms added the same day for Madrid's Ley 5/2026 (BOE 29 August 2026).
+  10_surrogacy_embryology:
+    tier1: ["gestació subrogada", "gestació per substitució", "maternitat subrogada", "ventre* de lloguer"]
+    tier2: ["reproducció assistida", "reproducció humana assistida", "embrió*", "fecundació in vitro"]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): gestació subrogada from the scope proposal.
+  11_migration:
+    tier1: [immigració, "immigrant*"]
+    tier2: ["migrant*", "migratori*", "persones migrades"]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): collated, never campaigned, hidden on every surface, as in the Spanish list for Spain.
+  12_prostitution:
+    name: "Prostitution, trafficking and sexual exploitation"
+    tier1: [prostitució, proxenetisme, "proxeneta*", "tracta d'éssers humans"]
+    tier2: ["tracta de persones", "explotació sexual", "treball sexual", "treballadores sexuals"]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): prostitució from the scope proposal; bare "tracta" is never a term.
+  13_organ_donation:
+    name: Organ donation and transplant ethics
+    tier1: ["donació d'òrgans", "trasplantament* d'òrgans", "tràfic d'òrgans"]
+    tier2: ["donant* d'òrgans", "mort encefàlica"]
+    # note: Catalan/Valencian v0.1 (Chris, 12 October 2026, unmeasured draft): the Catalan forms of the Spanish list's core.
+exclusions_global: [família, vida, gènere, sexe, menors, matrimoni, llibertat, religió, educació, odi, dona, igualtat, trans, tracta, església, concebut]

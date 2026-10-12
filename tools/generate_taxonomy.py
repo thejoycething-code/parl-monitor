@@ -255,6 +255,15 @@ for _lang in ("es", "pt", "it", "nl", "pl", "hr", "sk", "hu", "fr", "atch"):
     MASTERS[_lang] = (os.path.join(ROOT, "docs", "keyword-taxonomy-%s.md" % _lang),
                       os.path.join(ROOT, "config", "taxonomy-%s.yaml" % _lang))
 
+# Catalan/Valencian (12 October 2026, Chris: "Add the Spain keyword terms").
+# For the Spanish regional parliaments that publish bill titles in Catalan or
+# Valencian only (the Corts Valencianes now, tools/es_regions.py source `vc`).
+# A standalone list, not an addendum to "es": the Spanish file serves eighteen
+# national parliaments that must not change for a regional one, and a Spanish
+# term in a Catalan title is not the evidence it is in a Spanish one.
+MASTERS["ca"] = (os.path.join(ROOT, "docs", "keyword-taxonomy-ca.md"),
+                 os.path.join(ROOT, "config", "taxonomy-ca.yaml"))
+
 
 def _base_of(text):
     for line in text.splitlines()[:40]:

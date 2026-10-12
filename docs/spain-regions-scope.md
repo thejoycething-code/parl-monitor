@@ -56,9 +56,9 @@ what we can read. "Bills" means a machine-readable list of bills in passage.
 | # | Community and parliament | Pop. (m) | Bills source | Format | robots.txt | From the laptop | Built |
 |---|---|---|---|---|---|---|---|
 | 1 | Andalucía, Parlamento de Andalucía | 8.6 | "Iniciativas en tramitación" RSS (`/webdinamica/portal-web-parlamento/utilidades/sindicacionrss.do?contenido=Iniciativas`) | RSS 2.0, ISO-8859-1 | allows all | 200; 3 items (the XIII legislature began in 2026) | **yes** (`an`) |
-| 2 | Cataluña, Parlament de Catalunya | 8.1 | home page lists the latest bills; open-data page `/web/actualitat/dades-obertes/` | HTML, Catalan only | allows `/web` | home 200, open-data page **500** | no: Catalan only, open data down |
+| 2 | Cataluña, Parlament de Catalunya | 8.1 | home page lists the latest bills; open-data page `/web/actualitat/dades-obertes/` | HTML, Catalan only | allows `/web` | home 200, open-data page **500** | no: open data down (the Catalan list exists since 12 October 2026) |
 | 3 | Madrid, Asamblea de Madrid | 7.1 | none reachable | | 403 | **Sucuri JavaScript challenge** (307 "Javascript is required") on every path, robots.txt included | no: bot check, never bypassed |
-| 4 | Comunitat Valenciana, Corts Valencianes | 5.3 | `/ca-va/activitat/iniciative` (newest first, BOC number and date) | HTML (Drupal), titles in **Valencian** only; `/es/` paths 404 | allows | 200; 10 bills on page 1 | **yes, unclassified** (`vc`, lang `ca`) |
+| 4 | Comunitat Valenciana, Corts Valencianes | 5.3 | `/ca-va/activitat/iniciative` (newest first, BOC number and date) | HTML (Drupal), titles in **Valencian** only; `/es/` paths 404 | allows | 200; 10 bills on page 1 | **yes** (`vc`, lang `ca`, classified with taxonomy-ca since 12 October 2026) |
 | 5 | Galicia, Parlamento de Galicia | 2.7 | none reachable | | 403 | **Akamai 403** on every path | no |
 | 6 | Castilla y León, Cortes de Castilla y León | 2.4 | `/Participa/ParticipaIniciativasLegislativas` (bills open to comment) | HTML; entries are HTML comments while none are open | allows (except agendas, RSS) | 200; "no hay ningún Proyecto de Ley en tramitación" | no: no list while none are open (XII legislature new) |
 | 7 | País Vasco, Parlamento Vasco (legebiltzarra.eus) | 2.2 | | bilingual site | unknown | **no answer** (connect timeout, both hosts) | no |
@@ -74,8 +74,8 @@ what we can read. "Bills" means a machine-readable list of bills in passage.
 | 17 | La Rioja, Parlamento de La Rioja | 0.32 | `/actividad-parlamentaria/proyectos-de-ley` (government bills, status and entry date) | HTML (Plone) | allows | 200; 20 bills (2 in passage); the proposiciones page is empty and `/iniciativas/ppl` is 404 | **yes** (`ri`), government bills only |
 
 **All seventeen** get their laws and decree-laws from the BOE layer.
-**Five** add bills in passage (four classified in Spanish, one stored
-unclassified). Votes: Andalucía offers a "Sentido del voto" RSS, which
+**Five** add bills in passage (four classified in Spanish, the Corts
+Valencianes in Catalan/Valencian with `config/taxonomy-ca.yaml`). Votes: Andalucía offers a "Sentido del voto" RSS, which
 answered with an HTML page, not a feed; no regional parliament reached gives
 per-member roll calls in a machine-readable form. Members: Asturias'
 `WSAgora.xml` and Canarias' open-data portal list deputies (not collected:
@@ -94,18 +94,26 @@ opendata@parcan.es (Waiting on Chris).
 
 - **Classified with the Spanish list:** every BOE item (Spanish for all
   seventeen) and the Andalucía, Canarias, La Rioja and Cantabria lists.
-- **Stored, never classified:** the Corts Valencianes' titles are in
-  Valencian only on its site (`lang = 'ca'`, `areas` NULL); the edition counts
-  them under the section's coverage ("Not classified, published in a
-  co-official language only") and never shows them as on our ground. The
-  Spanish list is blind to Valencian: "Proposició de llei", "avortament",
-  "família".
+- **Classified with the Catalan/Valencian list (12 October 2026):** the
+  Corts Valencianes' titles are in Valencian only on its site (`lang = 'ca'`).
+  Until 12 October they were stored with `areas` NULL and counted as a gap,
+  because the Spanish list is blind to Valencian ("Proposició de llei",
+  "avortament", "família"). Since then `tools/es_regions.py` classifies every
+  `ca` title with `config/taxonomy-ca.yaml` (master
+  `docs/keyword-taxonomy-ca.md`, an unmeasured draft Chris approved), and
+  Spanish titles keep `taxonomy-es`; a title in a language with no list
+  (Basque, Galician) is still stored unclassified and counted. The edition
+  shows a Valencian bill on our ground like any other, and its coverage says
+  how many Valencian bills were classified with the draft list. Measured on
+  the 10 Valencian bills stored by the build (land, forests, civil protection
+  twice, budgets, fiscal measures, tourism taxes twice, a Down syndrome care
+  unit, cultural heritage): all 10 classified, 0 on our ground.
 - **Not reached at all:** Cataluña (Catalan; site reachable, list in Catalan
   and the open-data page failing), the País Vasco and the Illes Balears (no
   answer), Galicia (Akamai). Their laws arrive in Spanish through the BOE.
-- A Catalan/Valencian term list (proposal below) would let the Valencian
-  bills and, later, Cataluña's be classified; Chris approves before any
-  `taxonomy-ca` file is generated.
+- The Catalan/Valencian term list (proposal below, applied 12 October 2026)
+  will serve Cataluña's and the Illes Balears' lists too once they can be
+  read.
 
 ## Relevance to CitizenGO
 
@@ -116,8 +124,9 @@ What the measured data already shows on our ground or close to it:
   Spanish list puts on our ground (sex-based rights, tier 1).
 - **Madrid, Ley 5/2026** "de reconocimiento del concebido en la aplicación de
   las medidas de apoyo a la familia" (BOE 29 August 2026): plainly life and
-  family, and **the Spanish list misses it** (no term matches). See the
-  proposed terms.
+  family, and the Spanish list missed it (no term matched). Since taxonomy-es
+  v0.3 (12 October 2026) it matches "del concebido", "apoyo a la familia" and
+  "medidas de apoyo a la familia": areas 1 and 9, tier 1.
 - **Cantabria**: a government bill creating a Consejo LGTBI (dossier 176/XI,
   11 June 2026, on our ground) and one on teachers' authority and school
   life (175/XI, education).
@@ -137,11 +146,20 @@ Comunitat Valenciana (built, needs a Valencian list), Castilla y León
 
 ## The Spanish taxonomy on the 153 acts
 
-The current `config/taxonomy-es.yaml` (never edited here) puts **1 of the 153
+When the layer was built, `config/taxonomy-es.yaml` put **1 of the 153
 acts** on our ground. Reading all 128 laws and decree-laws by hand, one more
-clearly belongs (Madrid's Ley 5/2026, above). **Proposed additions for
-Chris's approval** (Spain-specific unless marked shared), to be generated
-into the taxonomy from `docs/keyword-taxonomy-es.md`, not hand-edited:
+clearly belongs (Madrid's Ley 5/2026, above). The additions below were
+proposed for Chris's approval and **APPLIED on 12 October 2026** (Chris: "Add
+the Spain keyword terms"), in `docs/keyword-taxonomy-es.md` v0.3, generated,
+not hand-edited. As applied: `"del concebido"` (area 1, tier 1, shared; bare
+`concebido` left out because it also means "designed", and `"concebido* no
+nacido*"` and `nasciturus` were already there), `"apoyo a la familia"` and
+`"medidas de apoyo a la familia"` (area 9, tier 2, shared). Measured: on the
+local store's 54,529 national rows of the Spanish-language countries they add
+no area to any row (2 Peruvian court items match "del concebido", both
+already area 1); of the layer's 209 rows only Madrid's Ley 5/2026 changes, now
+2 of the 153 acts on our ground. "autoridad del profesorado" was NOT added.
+The proposal as it stood:
 
 | Term | Area | Why |
 |---|---|---|
@@ -151,7 +169,10 @@ into the taxonomy from `docs/keyword-taxonomy-es.md`, not hand-edited:
 | `autoridad del profesorado` | education | Cantabria 175/XI, Canarias 11L/PPL-0007 (if Chris wants teachers' authority laws) |
 
 A Catalan/Valencian list (for the Corts Valencianes now and Cataluña later),
-proposed only: `avortament`, `interrupció voluntària de l'embaràs`,
+**applied on 12 October 2026** as `docs/keyword-taxonomy-ca.md` (v0.1,
+unmeasured draft, Chris approved; generated to `config/taxonomy-ca.yaml`),
+the proposal below plus the natural Catalan forms of the Spanish list's core
+terms per area. The proposal: `avortament`, `interrupció voluntària de l'embaràs`,
 `eutanàsia`, `mort digna`, `gestació subrogada`, `LGTBI*` (shared),
 `identitat de gènere`, `família`, `escola concertada`, `llibertat religiosa`,
 `prostitució`, `discurs d'odi`.
@@ -166,12 +187,15 @@ proposed only: `avortament`, `interrupció voluntària de l'embaràs`,
   newest issue read (less two days, for late corrections; a first run reads
   two weeks, at most 62 days), and the five lists (`an`, `cn`, `ri`, `cb`,
   `vc`). Classification with `config/taxonomy-es.yaml` (country `es`) on the
-  title plus the BOE's subject heading. A list's **first read is a seed**:
+  title plus the BOE's subject heading, and (since 12 October 2026) with
+  `config/taxonomy-ca.yaml` for Catalan/Valencian titles. A list's **first read is a seed**:
   bills already in passage count as new only by their own presentation date,
   so the first edition is not a flood. A refused page, a list that parses to
   nothing (a dissolution, or the page changing shape) or a failed BOE day is
   a gaps row and a `[gap]` line; exit 3 then, and the weekly carries on.
-  `--reclassify` re-derives every row offline. Measured: a first run (14 days
+  `--reclassify` re-derives every row offline (and so classifies the
+  Valencian rows stored before taxonomy-ca; it prints how many, and how many
+  are on our ground). Measured: a first run (14 days
   of BOE, five lists) in under a minute; a weekly run about 4 seconds plus
   the BOE days since the last read.
 - **The Spanish edition's "Regional parliaments" section**
@@ -207,13 +231,15 @@ Shared files touched: `src/db.py` (three table names and one
 ## Phase list
 
 1. **Built**: BOE laws for all seventeen; bills in passage for Andalucía,
-   Canarias, La Rioja (government bills), Cantabria; Valencian bills stored
-   unclassified.
+   Canarias, La Rioja (government bills), Cantabria; Valencian bills
+   (classified with taxonomy-ca since 12 October 2026).
 2. Constitutional Court items in BOE section I that name a regional law
    (recursos and cuestiones de inconstitucionalidad): same API, a filter on
    the TRIBUNAL CONSTITUCIONAL department.
-3. A Catalan/Valencian term list (on approval), then reclassify `vc`; then
-   Cataluña's list once its open-data page answers.
+3. **Done 12 October 2026**: the Catalan/Valencian term list, and `vc`
+   classified with it (the stored rows by one `--reclassify` run, which
+   `ES_RECLASSIFY=true` on the weekly does). Next: Cataluña's list once its
+   open-data page answers, and a native reader's pass over taxonomy-ca.
 4. Castilla y León's open-comment list when bills open; Asturias' bulletins
    (PDF) if a list never appears.
 5. Re-probe from GitHub's runners the hosts that did not answer the laptop
@@ -222,10 +248,9 @@ Shared files touched: `src/db.py` (three table names and one
 
 ## Waiting on Chris
 
-- **Approve the proposed Spanish terms** (`concebido`, `apoyo a la familia`,
-  optionally `autoridad del profesorado`): the Madrid law shows the gap.
-- **Approve (or not) a Catalan/Valencian term list**, so the Corts
-  Valencianes' bills can be classified.
+- Approved and applied on 12 October 2026: the Spanish terms (without
+  `autoridad del profesorado`) and the Catalan/Valencian list. Open: a native
+  Catalan/Valencian reader for `docs/keyword-taxonomy-ca.md`.
 - **Canarias' open data:** its catalogue links files under `/api/`, which
   robots.txt disallows. Ask opendata@parcan.es whether the API may be read;
   until then the `/leyes/` list is enough.
