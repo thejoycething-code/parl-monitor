@@ -9,8 +9,9 @@
 # own last step, as mini_run.sh requires.
 #
 #     PL_RECLASSIFY=true    re-derive every stored PL process's and vote's
-#                           areas, offline, before the pull (after
-#                           config/taxonomy-pl.yaml or watchlist-pl changes)
+#                           areas (and the sejmiki's acts), offline, before
+#                           the pull (after config/taxonomy-pl.yaml or
+#                           watchlist-pl changes)
 #
 # The first run backfills the 10th term: 66 sittings and 4,941 votes, one
 # vote detail (every deputy's position) per request at one a second. The
@@ -40,15 +41,28 @@ if [ "${PL_RECLASSIFY:-}" = "true" ]; then
   python3 tools/country_petitions.py pl --reclassify
   python3 tools/pl_rollcalls.py --reclassify
   python3 tools/pl_chamber.py --reclassify
+  python3 tools/pl_regions.py --reclassify || echo "  [gap] the regional reclassify failed"
 fi
 rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/pl_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" || rc=$?
+# The third argument keeps the sejmiki's 5 minutes (below) out of it.
+python3 tools/pl_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" || rc=$?
 # What was said and asked in the chamber (tools/pl_chamber.py, parity layer 5):
 # time-boxed to what is left of the hour, never fatal, skipped on GitHub.
 bash tools/chamber_step.sh pl "$SECONDS"
+# The voivodeship assemblies (tools/pl_regions.py, docs/poland-regions-scope.md,
+# 13 October 2026): the sixteen sejmiki's acts from fifteen voivodeship
+# journals (two JSON requests each) and four sejmiki's own registers of
+# resolutions, into plr_acts before the edition, which shows them in a
+# "Regional assemblies" section. Time-boxed to five minutes of what is left
+# of the hour (tools/collector_budget.sh), robots.txt asked at run time;
+# its failure or gaps are a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/pl_regions.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \
+    || echo "  [gap] pl-regions: the regional layer recorded gaps or failed; last run's rows stand"
+fi
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.

@@ -1070,3 +1070,34 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
   gazette's home page from the runner each run). The PNT/SIPOT sits behind
   a Cloudflare challenge; the SCJN recent-reforms page answered a server
   error on 12 October. Details in `docs/mexico-regions-scope.md`.
+
+## Regional layer: Poland's 16 voivodeship assemblies (13 October 2026)
+
+`tools/pl_regions.py` into `plr_acts` / `plr_reads`
+(`src/pl_regions_store.py`), a step of `jobs/pl-weekly.sh` (no new Mini
+job), robots.txt asked at run time (`src/robots_guard.py`), classified with
+taxonomy-pl plus watchlist-pl's new `regional` section by key. The Polish
+edition has a "Regional assemblies" section. Scope:
+`docs/poland-regions-scope.md`.
+
+- **Journals, 15 of 16:** fifteen voivodes' official journals run the same
+  e-Dziennik platform with a JSON month list: every sejmik's published acts
+  (local law, budgets, statutes, programmes) and the voivode's rulings on
+  them, two requests a journal a run. Kujawsko-Pomorskie's journal does not
+  answer from the UK (listed, `--region kp` tries it).
+- **Registers of resolutions, 4 of 16:** Mazowieckie and Śląskie (the same
+  BIP CMS), Łódzkie (one table of the term), Podkarpackie (sittings with
+  their resolutions as attachments): every resolution, binding or not, so
+  stanowiska and declarations such as the Family Charter, which the
+  journals never carry.
+- **Not read:** twelve registers (Opolskie times out, Podlaskie's BIP
+  domain no longer resolves, Małopolskie, Pomorskie and Dolnośląskie are
+  JavaScript applications, seven plain-HTML layouts not parsed yet);
+  councillors' recorded votes and members (PDFs per sitting, phase 2);
+  eSesja (`*.esesja.pl`) answers with a Cloudflare challenge: blocked,
+  never bypassed.
+- **First run (scratch store):** 892 acts, 3 on our ground at tier 2, two of
+  them yearly boilerplate now in `config/edition-noise-pl.yaml`.
+- **Waiting on Chris:** the Family Charter term ("Kart* Praw Rodzin*") for
+  the Polish taxonomy, seeding the regional watchlist, and which registers
+  come next (Małopolskie, Lubelskie, Świętokrzyskie suggested).
