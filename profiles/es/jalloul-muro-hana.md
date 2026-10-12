@@ -8,6 +8,14 @@ Spain, Congreso de los Diputados. From the parliamentary monitor's store; positi
 - **Status:** not on the source's current list
 - **Source id:** `Jalloul Muro, Hana`
 
+## Length of service
+
+- **Last period ended:** 21 June 2024
+- **Periods:** 5 December 2023 to 21 June 2024 (Congreso de los Diputados; legislature 15; Grupo Parlamentario Socialista)
+- **What the source covers:** every seat in the Congreso since the Constituent legislature (1977). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: Grupo Parlamentario Socialista (5 December 2023 to 21 June 2024).
+
 ## Party history
 
 - Recorded at votes in the store: GS (first 12 December 2023, last 20 June 2024).
@@ -21,7 +29,7 @@ The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 20 Jun 2024 | Sí | GS (at the vote) | [Proposición no de Ley del Grupo Parlamentario Socialista, sobre un Acuerdo de País contra los Discursos de Odio.](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=20/06/2024) | free speech and civil liberties, tier 1 |
+| 20 Jun 2024 | Sí | GS (at the vote) | [Proposición no de Ley del Grupo Parlamentario Socialista, sobre un Acuerdo de País contra los Discursos de Odio.](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=20/06/2024) · their vote meant: to adopt the Socialist group's non-binding motion calling for a national agreement against hate speech (read by the free session judge) | free speech and civil liberties, tier 1 |
 | 20 Jun 2024 | Sí | GS (at the vote) | [Real Decreto-ley 2/2024, de 21 de mayo, por el que se adoptan medidas urgentes para la simplificación y mejora del nivel asistencial de la…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=20/06/2024) | marriage and family, tier 2 |
 | 20 Jun 2024 | Sí | GS (at the vote) | [Tramitación como Proyecto de Ley por el procedimiento de urgencia del Real Decreto-ley 2/2024, de 21 de mayo, por el que se adoptan medidas…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=20/06/2024) | marriage and family, tier 2 |
 | 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 1. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los meno…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
@@ -40,7 +48,7 @@ The latest 20:
 | 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 14. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los men…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
 | 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 15. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los men…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
 | 28 May 2024 | Sí | GS (at the vote) | [Proposición de Ley del Grupo Parlamentario Socialista, para la mejora de la protección de las personas donantes en vivo de órganos para su…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=28/05/2024) | organ donation, tier 2 |
-| 21 May 2024 | Sí | GS (at the vote) | [Proposición de Ley del Grupo Parlamentario Socialista, Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Cód…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=21/05/2024) | prostitution and trafficking, tier 1 |
+| 21 May 2024 | Sí | GS (at the vote) | [Proposición de Ley del Grupo Parlamentario Socialista, Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Cód…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=21/05/2024) · their vote meant: to take into consideration the Socialist bill changing the Criminal Code to ban pimping in all its forms, so that it proceeds to detailed examination (read by the free session judge) | prostitution and trafficking, tier 1 |
 
 4 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 

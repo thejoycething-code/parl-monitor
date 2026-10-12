@@ -5,6 +5,10 @@ Spain. From the parliamentary monitor's store; positions are as the record gives
 - **Party:** not given by the source
 - **Note:** named in a record but not matched to one member of the list; shown as the record prints the name
 
+## Length of service
+
+- Not in the service source read (es-diputados, 12 October 2026: every seat in the Congreso since the Constituent legislature (1977)): nothing is said about this member's service.
+
 ## Votes on our ground (63)
 
 Recorded positions (63): “Sí” 35, “No” 16, “Abstención” 12.
@@ -30,10 +34,10 @@ The latest 20:
 | 9 Sep 2025 | Sí | GP (at the vote) | [Real Decreto-ley 9/2025, de 29 de julio, por el que se amplía el permiso de nacimiento y cuidado, mediante la modificación del texto refund…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=09/09/2025) | marriage and family, tier 2 |
 | 9 Sep 2025 | Sí | GP (at the vote) | [Tramitación como Proyecto de Ley por el procedimiento de urgencia del Real Decreto-ley 9/2025, de 29 de julio, por el que se amplía el perm…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=09/09/2025) | marriage and family, tier 2 |
 | 26 Jun 2025 | Sí | GP (at the vote) | [Convenio relativo a la revisión del Convenio sobre la protección de la maternidad (revisado), 1952, hecho en Ginebra el 15 de junio de 2000.](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=26/06/2025) | abortion, tier 2 |
-| 24 Jun 2025 | Sí | GP (at the vote) | [Proposición de Ley del Grupo Parlamentario Socialista, Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Cód…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=24/06/2025) | conversion practices, sex-based rights, tier 1 |
+| 24 Jun 2025 | Sí | GP (at the vote) | [Proposición de Ley del Grupo Parlamentario Socialista, Orgánica por la que se modifica la Ley Orgánica 10/1995, de 23 de noviembre, del Cód…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=24/06/2025) · their vote meant: voted to take up for debate the Socialist bill making conversion therapies, aimed at removing or denying sexual orientation, identity or gender expression, a criminal offence (read by the free session judge) | conversion practices, sex-based rights, tier 1 |
 | 19 Jun 2025 | Abstención | GP (at the vote) | [Proposición no de Ley del Grupo Parlamentario Socialista, relativa a la condena de la prohibición de la marcha del orgullo LGTBI en Hungría…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=19/06/2025) | sex-based rights, tier 1 |
 | 8 May 2025 | Abstención | GP (at the vote) | [Proposición no de Ley del Grupo Parlamentario VOX, en defensa de la libertad de expresión.](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=08/05/2025) | free speech and civil liberties, tier 1 |
-| 6 May 2025 | Sí | GP (at the vote) | [Proposición de Ley del Grupo Parlamentario VOX, Orgánica de modificación de la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal,…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=06/05/2025) | marriage and family, prostitution and trafficking, tier 1 |
+| 6 May 2025 | Sí | GP (at the vote) | [Proposición de Ley del Grupo Parlamentario VOX, Orgánica de modificación de la Ley Orgánica 10/1995, de 23 de noviembre, del Código Penal,…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=06/05/2025) · their vote meant: voted to take up for debate the VOX bill increasing the criminal penalties for forced marriage (read by the free session judge) | marriage and family, prostitution and trafficking, tier 1 |
 
 43 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 

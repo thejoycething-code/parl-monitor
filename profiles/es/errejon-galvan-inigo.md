@@ -8,6 +8,14 @@ Spain, Congreso de los Diputados. From the parliamentary monitor's store; positi
 - **Status:** not on the source's current list
 - **Source id:** `Errejón Galván, Íñigo`
 
+## Length of service
+
+- **Last period ended:** 24 October 2024
+- **Periods:** 26 November 2019 to 24 October 2024 (Congreso de los Diputados; legislature 14, 15; Grupo Parlamentario Plural / Grupo Parlamentario Plurinacional SUMAR); 7 January 2016 to 21 January 2019 (Congreso de los Diputados; legislature 11, 12; Grupo Parlamentario Podemos-En Comú Podem-En Marea / Grupo Parlamentario Confederal de Unidos Podemos-En Comú Podem-En Marea)
+- **What the source covers:** every seat in the Congreso since the Constituent legislature (1977). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: Grupo Parlamentario Podemos-En Comú Podem-En Marea (20 January 2016 to 19 July 2016); Grupo Parlamentario Confederal de Unidos Podemos-En Comú Podem-En Marea (27 July 2016 to 21 January 2019); Grupo Parlamentario Plural (23 December 2019 to 17 August 2023); Grupo Parlamentario Plurinacional SUMAR (28 August 2023 to 24 October 2024).
+
 ## Party history
 
 - Recorded at votes in the store: GSUMAR (first 19 September 2023, last 23 October 2024).
@@ -23,9 +31,9 @@ The latest 20:
 |---|---|---|---|---|
 | 16 Oct 2024 | Sí | GSUMAR (at the vote) | [Proposición no de Ley del Grupo Parlamentario Socialista, sobre lucha contra la violencia de género en el ámbito digital. Se vota en los té…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=16/10/2024) | sex-based rights, tier 2 |
 | 24 Sep 2024 | Sí | GSUMAR (at the vote) | [Proposición de Ley del Grupo Parlamentario Mixto, Orgánica para el impulso de la aplicación de la Ley Orgánica 10/2022, de 6 de septiembre,…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=24/09/2024) | sex-based rights, tier 2 |
-| 11 Sep 2024 | Sí | GSUMAR (at the vote) | [Propuesta de la Comisión de Igualdad, de creación de una Subcomisión relativa a la lucha contra los discursos de odio.](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=11/09/2024) | free speech and civil liberties, tier 1 |
+| 11 Sep 2024 | Sí | GSUMAR (at the vote) | [Propuesta de la Comisión de Igualdad, de creación de una Subcomisión relativa a la lucha contra los discursos de odio.](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=11/09/2024) · their vote meant: to set up a subcommittee, proposed by the Equality Committee, to work on combating hate speech (read by the free session judge) | free speech and civil liberties, tier 1 |
 | 25 Jun 2024 | No | GSUMAR (at the vote) | [Proposición de Ley del Grupo Parlamentario Popular en el Congreso, Orgánica de modificación de la Ley Orgánica 6/1985, de 1 de julio, del P…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=25/06/2024) | prostitution and trafficking, tier 2 |
-| 20 Jun 2024 | Sí | GSUMAR (at the vote) | [Proposición no de Ley del Grupo Parlamentario Socialista, sobre un Acuerdo de País contra los Discursos de Odio.](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=20/06/2024) | free speech and civil liberties, tier 1 |
+| 20 Jun 2024 | Sí | GSUMAR (at the vote) | [Proposición no de Ley del Grupo Parlamentario Socialista, sobre un Acuerdo de País contra los Discursos de Odio.](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=20/06/2024) · their vote meant: to adopt the Socialist group's non-binding motion calling for a national agreement against hate speech (read by the free session judge) | free speech and civil liberties, tier 1 |
 | 20 Jun 2024 | Sí | GSUMAR (at the vote) | [Real Decreto-ley 2/2024, de 21 de mayo, por el que se adoptan medidas urgentes para la simplificación y mejora del nivel asistencial de la…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=20/06/2024) | marriage and family, tier 2 |
 | 20 Jun 2024 | Sí | GSUMAR (at the vote) | [Tramitación como Proyecto de Ley por el procedimiento de urgencia del Real Decreto-ley 2/2024, de 21 de mayo, por el que se adoptan medidas…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=20/06/2024) | marriage and family, tier 2 |
 | 13 Jun 2024 | Abstención | GSUMAR (at the vote) | [Votación separada por puntos. Punto 1. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los meno…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
