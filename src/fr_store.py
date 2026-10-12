@@ -125,7 +125,7 @@ SCHEMA = (
         cause        TEXT,               -- why a non-vote: 'PAN', 'PSE', 'MG'
         intended     TEXT,               -- mise au point: what the deputy said they meant
         PRIMARY KEY (division_key, acteur_ref)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS fr_divisions_dossier ON fr_divisions (dossier_ref)",
     # --- the Senat (FR5, 10 October 2026; tools/fr_senat.py) --------------------
     """CREATE TABLE IF NOT EXISTS fr_senat_dossiers (

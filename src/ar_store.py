@@ -116,7 +116,7 @@ SCHEMA = (
         bloc         TEXT,               -- AT THE VOTE
         province     TEXT,
         PRIMARY KEY (division_key, member_key)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS ar_votes_member ON ar_votes (member_key)",
 )
 

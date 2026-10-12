@@ -111,7 +111,7 @@ SCHEMA = (
         position     TEXT,                -- 'Sí' / 'No' / 'Abstención' / 'No vota'
         seat         TEXT,                -- '-1' for a remote (telematic) vote
         PRIMARY KEY (division_key, name)
-    )""",
+    ) WITHOUT ROWID""",
     """CREATE TABLE IF NOT EXISTS es_vote_days (
         legislature  INTEGER NOT NULL,
         day          TEXT NOT NULL,       -- ISO date of a day with votes

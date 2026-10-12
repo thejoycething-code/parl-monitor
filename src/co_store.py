@@ -91,7 +91,7 @@ SCHEMA = (
         member_key   TEXT NOT NULL,
         position     TEXT NOT NULL,       -- 'yes' / 'no' (the Senate file carries no other value)
         PRIMARY KEY (division_key, member_key)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS co_divisions_bill ON co_divisions(bill_key)",
     "CREATE INDEX IF NOT EXISTS co_votes_member ON co_votes(member_key)",
 )

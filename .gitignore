@@ -24,6 +24,8 @@ data/parl-monitor.db
 data/parl-monitor.db.gz
 data/parl-monitor.db.download
 data/parl-monitor.db.download.gz
+# A push's VACUUM INTO copy, swapped in before the sha (tools/db_state.py).
+data/parl-monitor.db.vacuum
 config/secrets.yaml
 data/pull-logs/
 __pycache__/
