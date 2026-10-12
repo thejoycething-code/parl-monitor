@@ -99,7 +99,11 @@ DOCUMENTED_APIS = (
     "https://api.prod.legislation.gov.au/",
     "https://handbookapi.aph.gov.au/api/",
     "https://data.openaustralia.org.au/",
-    # Wikidata, GitHub (our own repository), our own partner site
+    # Wikidata, GitHub (our own repository, and since 12 October 2026 the
+    # Italian Senate's AkomaNtosoBulkData repository read by
+    # tools/it_senato_amendments.py: the git trees API and raw files;
+    # github.com's robots.txt sends programs to the API, and both hosts
+    # answer 404 for robots.txt), our own partner site
     "https://query.wikidata.org/sparql",
     "https://api.github.com/",
     "https://raw.githubusercontent.com/",

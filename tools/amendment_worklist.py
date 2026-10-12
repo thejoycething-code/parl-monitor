@@ -18,6 +18,13 @@ wording (amendment number, author, article, reading or stage, dossier or
 print numbers), and the parliament's URLs (`urls`: each {kind, url, sure}:
 `sure: false` marks a pattern with a part to fill or not checked).
 
+THE TEXT ITSELF where the store holds it (12 October 2026): an Italian
+Senate vote carries `amendment_texts` (number, kind, proposers, the
+operative text, the Senate's own file on GitHub, link status) from
+it_senate_amendments (tools/it_senato_amendments.py, src/it_amendments.py),
+and `split_vote` when only a part ("1a parte") was put: the whole text is
+given and the part is never guessed.
+
 The readers answer in the file tools/country_5ca.py --apply-amendments reads:
 [{cc, key, direction: with|against|unclear|not_scored, why, source, flag,
 yes_adopts}]. This tool reads the store read-only and the stance files; it
@@ -212,9 +219,16 @@ def urls_for(cc, key, row, raw, ids, extra):
         if m:
             leg, sitting, no = m.groups()
             out.append(U("vote record (open data)", "https://dati.senato.it/votazione/{0}".format(key), False))
-            out.append(U("emendamenti (fascicolo of the sitting)",
-                         "https://www.senato.it/leg/{0}/BGT/Testi/Emend/...".format(leg), False,
-                         "search the bill's 'Emendamenti' tab on senato.it for Em. {0}".format(n0 or "?")))
+            texts = extra.get("amendment_texts") or []
+            for t in texts:
+                if t.get("url"):
+                    out.append(U("amendment text (the Senate's Akoma Ntoso file, {0} {1})".format(
+                        t.get("kind") or "amendment", t["number"]), t["url"], True,
+                        "split vote: only the {0} was put".format(t["part"]) if t.get("part") else None))
+            if not any(t.get("url") for t in texts):
+                out.append(U("emendamenti (fascicolo of the sitting)",
+                             "https://www.senato.it/leg/{0}/BGT/Testi/Emend/...".format(leg), False,
+                             "search the bill's 'Emendamenti' tab on senato.it for Em. {0}".format(n0 or "?")))
         bk = row.get("bill_key") or ""
         m = re.match(r"^(\d+)/C\.(\d+)", bk)
         if m:
@@ -358,6 +372,13 @@ def item(conn, cc, key, e, bills):
     row, raw = store_rows(conn, cc, key)
     question = row.get("question") or e.get("title")
     extra = {"watched": e.get("watched")}
+    texts = []
+    if cc == "it" and conn is not None:
+        # The Senate's amendment texts (it_senate_amendments, 12 October 2026,
+        # src/it_amendments.py): the stored text, so the reader need not find it.
+        from src import it_amendments as ia
+        texts = ia.texts_for(conn, key)
+        extra["amendment_texts"] = texts
     if cc == "fr":
         extra.update(fr_dossier(conn, row.get("dossier_ref")))
     bkey, btitle, bdir, bstatus = bill_of(cc, e, row, bills)
@@ -394,6 +415,12 @@ def item(conn, cc, key, e, bills):
         "areas": areas, "area_labels": [AREA_LABELS.get(a, str(a)) for a in areas],
         "identifiers": ids,
         "urls": urls_for(cc, key, row, raw, ids, extra),
+        "amendment_texts": [{"number": t["number"], "kind": t.get("kind"), "proposers": t.get("proposers"),
+                             "text": t.get("text"), "url": t.get("url"), "status": t["status"],
+                             "split_part": t.get("part")} for t in texts],
+        "split_vote": next(("only the {0} was put; the record does not say which words that part was: "
+                            "read the whole text and say so in the flag".format(t["part"])
+                            for t in texts if t["status"] == "split"), None),
         "read_first": e.get("read_first"),
         "amendment_flag": e.get("amendment_flag"),
         "answer_with": {"cc": cc, "key": key, "direction": "with|against|unclear|not_scored",
@@ -439,8 +466,11 @@ def summary(items, db_note=""):
     for cc in sorted(by, key=lambda c: -by[c]):
         lines.append("{0:<4} {1:<20} {2:>6} {3:>10} {4:>14}".format(
             cc, c5.SPECS[cc].name, by[cc], in_store[cc], with_dir[cc]))
+    with_text = sum(1 for i in items if i.get("amendment_texts") and all(
+        t.get("text") for t in i["amendment_texts"]))
     lines += ["", "all  {0:<20} {1:>6} {2:>10} {3:>14}".format("", len(items), sum(in_store.values()),
                                                             sum(with_dir.values())),
+              "", "with the amendment's text stored (Italy's Senate): {0}".format(with_text),
               "", "Answer with a JSON list of {cc, key, direction: with|against|unclear|not_scored, why, "
               "source, flag, yes_adopts}", "and apply it with: python3 tools/country_5ca.py --apply-amendments "
               "FILE [--dry-run]"]
