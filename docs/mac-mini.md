@@ -829,3 +829,15 @@ Without the judge a person writes the translations into `translations.yaml` on a
 - **Monthly, and only when changed:** the tool does nothing until four weeks after its last check (`mi_downloads.last_seen`); then one conditional request (If-Modified-Since) on `declarations.xml`. A 304 costs nothing more; a change downloads the 79.5 MB XML and the 3.2 MB CSV and parses them in about two seconds. `--force` checks now.
 - **Privacy:** the XML is never written to `data/raw` (it holds spouses' data and the archive is published); only the CSV's parliamentary rows are archived. Spouses', collaborators', free-text and asset sections are skipped at parse time and never logged.
 - **Coverage:** `mi_downloads.last_seen` is watched (`tools/coverage.py`, cadence 31, grace 14); the log line `fr-hatvp:` says what was read, or "unchanged" / "not due".
+
+## Spain's regional parliaments (12 October 2026, branch `regions-es`)
+
+A step of the Spain weekly, **not a new job** (`jobs/es-weekly.sh`, Saturdays
+08:30): `python3 tools/es_regions.py` after the Congreso collector, budget
+300 s from `tools/collector_budget.sh` (the Congreso collector keeps it back).
+It reads the BOE's open-data summaries since the last issue read and five
+regional parliaments' bill lists (Andalucía, Canarias at its 3 s Crawl-delay,
+La Rioja, Cantabria, the Corts Valencianes) into `esr_*`; measured from the
+laptop, under a minute for a first run and about 4 s plus the BOE days for a
+weekly one. Its gaps are `[gap]` lines; the store is still published. Nothing
+to install. Details: `docs/spain-regions-scope.md`.

@@ -466,6 +466,17 @@ FEEDS = [
     ("es_members", "last_seen", 7, 4, "Congreso deputies (Spain weekly)"),
     ("es_initiatives", "last_seen", 7, 4, "Congreso legislative initiatives (Spain weekly)"),
     ("es_divisions", "last_seen", 31, 92, "Congreso plenary votes (Spain weekly)"),
+    # Spain's regional layer (tools/es_regions.py, 12 October 2026), a step
+    # of the Spain weekly. MEASURED which re-stamp: esr_reads is stamped for
+    # every source on every run (failures included, with their status), and
+    # esr_bills.last_seen for every bill the four Spanish lists and the Corts
+    # Valencianes' page still show, so both move weekly. esr_laws moves only
+    # when a community's act reaches the BOE (5 in September 2026, 9 in
+    # August, never under 5 a month in 2026), so it gets a month plus a
+    # month's grace, as the US's votes do.
+    ("esr_laws", "last_seen", 31, 31, "Spanish regional laws in the BOE (Spain weekly)"),
+    ("esr_reads", "last_seen", 7, 4, "Spanish regional layer, sources read (Spain weekly)"),
+    ("esr_bills", "last_seen", 7, 4, "Spanish regional parliaments' bills in passage (Spain weekly)"),
     # Brazil (9 October 2026). MEASURED which re-stamp: the member lists of
     # both houses are re-read whole every run, and every nominal vote of the
     # current year (and every bill it links) is re-upserted from the
@@ -763,7 +774,7 @@ PIPELINE_FEEDS = {
     # Votes left out: new rows only, so a recess week cannot move them.
     "Croatia weekly": ["hr_items", "hr_members"],
     # Divisions left out as for the US: a recess (or a dissolution) cannot move them.
-    "Spain weekly": ["es_initiatives", "es_members"],
+    "Spain weekly": ["es_initiatives", "es_members", "esr_reads", "esr_bills"],
     # Members only: bills and divisions are re-stamped from the current
     # year's votes, and in January the new year holds none, so a clean run
     # cannot move them until Congress returns in February.
@@ -1273,6 +1284,14 @@ AWAITING_STEP_UNTIL = {
     "br_speeches": ("2026-11-30", "speeches added to the Brazilian chamber step (tools/"
                     "br_chamber.py) 11 October 2026; they fill as the Câmara sits after the "
                     "election"),
+    # Spain's regional layer joins the Spain weekly (Saturdays 08:30) on
+    # merge, 12 October 2026: empty until its first Saturday run.
+    "esr_reads": ("2026-10-18", "the Spanish regional step (tools/es_regions.py) joins the Spain "
+                  "weekly on merge; it fills on its first Saturday run"),
+    "esr_bills": ("2026-10-18", "the Spanish regional step (tools/es_regions.py) joins the Spain "
+                  "weekly on merge; it fills on its first Saturday run"),
+    "esr_laws": ("2026-10-18", "the Spanish regional step (tools/es_regions.py) joins the Spain "
+                 "weekly on merge; it fills on its first Saturday run"),
 }
 
 

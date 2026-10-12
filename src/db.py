@@ -1744,6 +1744,12 @@ TABLES = (
     "es_divisions",
     "es_votes",
     "es_vote_days",
+    # Spain's regional layer (tools/es_regions.py, 12 October 2026): the
+    # communities' laws from the BOE and the regional parliaments' bills in
+    # passage, created by src/es_regions_store.ensure_schema.
+    "esr_laws",
+    "esr_bills",
+    "esr_reads",
     # Brazil's National Congress (tools/br_rollcalls.py), created by
     # src/br_store.ensure_schema -- declared from day one.
     "br_members",
@@ -2198,6 +2204,8 @@ def init_db(conn):
     hr_store.ensure_schema(conn)
     from src import es_store
     es_store.ensure_schema(conn)
+    from src import es_regions_store
+    es_regions_store.ensure_schema(conn)
     from src import br_store
     br_store.ensure_schema(conn)
     from src import cl_store
