@@ -43,12 +43,14 @@ bill_directions:
     why: "Droit a l'aide a mourir (dossier 'Fin de vie'). Adopted in lecture definitive 15 July 2026, Conseil constitutionnel conforme 14 August, promulgated 18 August 2026. 380 scrutins name the dossier; 931 scrutin titles say 'a"
     drafted: "Claude, 10 October 2026, from config/watchlist-fr.yaml"
   - key: "DLR5L17N51672"
-    direction: hold
-    status: needs_reading
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     areas: [2]
-    why: "Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026. Quebec has 'soins palliatifs' at tier 2 only."
-    decided: "Chris, 11 October 2026 (docs/country-decisions-2026-10-11.md): HOLD until the text is read; if it legitimises assisted dying it is against us."
-    read_first: "Read the promulgated text first: if it legitimises assisted dying, passing it is against us. Nothing is drafted or confirmed from this bill until then."
+    why: "Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et de soins palliatifs and a palliative-medicine specialism; never mentions assisted dying, euthanasia or lethal substances; deep-sedation rules unchanged."
+    decided: "Chris, 12 Oct 2026: with us (it does not legitimise assisted dying)."
+    source: "https://www.sfap.org/app/uploads/2026/07/Loi-Soins-palliatifs_n-2026_404_26052026.pdf"
     drafted: "Claude, 10 October 2026, from config/watchlist-fr.yaml"
   - key: "DLR5L16N49654"
     direction: with
@@ -128,6 +130,17 @@ bill_directions:
     areas: [12]
     why: "Bans buying personalised virtual sexual services and tackles online pimping; passing it fights the commercial sexual exploitation CitizenGO opposes."
     decided: "Drafted by Claude 12 Oct 2026; accepted by Chris on delegation"
+    drafted: "Claude, 12 October 2026"
+  # --- 12 October 2026: the seven read for a person (docs/country-decisions-2026-10-12.md) ---
+  - key: "DLR5L17N53936"
+    direction: with
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
+    areas: [8]
+    why: "Offence of Islamist entryism, dissolution grounds, prefect's binding opinion on new places of worship and oversight of out-of-home activities for minors; Chris backs it as a measure against Islamist extremism."
+    decided: "Chris, 12 Oct 2026: with us."
+    source: "https://www.senat.fr/leg/tas25-101.pdf"
     drafted: "Claude, 12 October 2026"
 
 divisions:
@@ -483,8 +496,11 @@ divisions:
 
 
   - key: "an-17-2106"
-    status: needs_reading
-    read_first: "The direction of DLR5L17N51672 is on hold: read the promulgated text first: if it legitimises assisted dying, passing it is against us. Nothing is drafted or confirmed from this bill until then."
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Pour on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): for passing it, with CitizenGO's position."
+    why_nay: "Voted Contre on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): against passing it, against CitizenGO's position."
     title: "l’ensemble de la proposition de loi visant à garantir l'égal accès de tous à l’accompagnement et aux soins palliatifs (première lecture)."
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2025-05-27"
@@ -495,7 +511,7 @@ divisions:
     result: "adopté; Pour 560, Contre 0, Abstain 3"
     lobbies: "Pour: RN 121, EPR 90, LFI-NFP 67, SOC 65, DR 49, ECOS 36, DEM 35, HOR 33, LIOT 23, PO847173 16, GDR 15, NI 10. Abstain: RN 2, DEM 1"
     vote_kind: "final"
-    reasoning: "Area 2 (assisted dying). Drafted from DLR5L17N51672 as with; that direction is no longer on file, so nothing is proposed."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et de soins palliatifs and a palliative-medicine specialism; never mentions assisted dying, euthanasia or lethal . This vote is a vote on the whole text or the motion itself, so Pour is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "an-17-2107"
@@ -920,8 +936,11 @@ divisions:
 
 
   - key: "an-17-5728"
-    status: needs_reading
-    read_first: "The direction of DLR5L17N51672 is on hold: read the promulgated text first: if it legitimises assisted dying, passing it is against us. Nothing is drafted or confirmed from this bill until then."
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Pour on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): for passing it, with CitizenGO's position."
+    why_nay: "Voted Contre on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): against passing it, against CitizenGO's position."
     title: "l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture)."
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2026-02-25"
@@ -932,7 +951,7 @@ divisions:
     result: "adopté; Pour 491, Contre 0, Abstain 69"
     lobbies: "Pour: RN 122, EPR 88, SOC 69, DR 47, DEM 36, HOR 34, ECOS 34, LIOT 22, UDDPLR 17, GDR 11, NI 9, LFI-NFP 2. Abstain: LFI-NFP 67, ECOS 2"
     vote_kind: "final"
-    reasoning: "Area 2 (assisted dying). Drafted from DLR5L17N51672 as with; that direction is no longer on file, so nothing is proposed."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et de soins palliatifs and a palliative-medicine specialism; never mentions assisted dying, euthanasia or lethal . This vote is a vote on the whole text or the motion itself, so Pour is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "an-17-5729"
@@ -1464,8 +1483,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "senat-2025-170"
-    status: needs_reading
-    read_first: "The direction of DLR5L17N51672 is on hold: read the promulgated text first: if it legitimises assisted dying, passing it is against us. Nothing is drafted or confirmed from this bill until then."
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Pour on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): for passing it, with CitizenGO's position."
+    why_nay: "Voted Contre on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): against passing it, against CitizenGO's position."
     title: "sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs"
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2026-01-28"
@@ -1476,7 +1498,7 @@ divisions:
     result: "Pour 307, Contre 17, Abstain 17"
     lobbies: "Pour: Les Républicains 126, SER 63, UCI 59, Les Indépendants 20, RDPI 17, RDSE 16, NI 4, CRCE-K 2. Contre: CRCE-K 16, Les Républicains 1. Abstain: GEST 16, SER 1"
     vote_kind: "final"
-    reasoning: "Area 2 (assisted dying). Drafted from DLR5L17N51672 as with; that direction is no longer on file, so nothing is proposed."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et de soins palliatifs and a palliative-medicine specialism; never mentions assisted dying, euthanasia or lethal . This vote is a vote on the whole text or the motion itself, so Pour is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "senat-2025-185"
@@ -1497,7 +1519,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "senat-2025-238"
-    status: needs_reading
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Pour on DLR5L17N53936 (Offence of Islamist entryism, dissolution grounds, prefect's binding opinion on new places): for passing it, with CitizenGO's position."
+    why_nay: "Voted Contre on DLR5L17N53936 (Offence of Islamist entryism, dissolution grounds, prefect's binding opinion on new places): against passing it, against CitizenGO's position."
     title: "sur l'ensemble de la proposition de loi visant à lutter contre l'entrisme islamiste en France"
     "on": "Proposition de loi visant à lutter contre l’entrisme islamiste en France"
     dated: "2026-05-05"
@@ -1507,14 +1533,15 @@ divisions:
     result: "Pour 208, Contre 124, Abstain 13"
     lobbies: "Pour: Les Républicains 130, UCI 59, Les Indépendants 14, NI 4, RDSE 1. Contre: SER 65, CRCE-K 18, GEST 16, RDSE 14, RDPI 11. Abstain: RDPI 7, Les Indépendants 6"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for DLR5L17N53936: CitizenGO's position on 'Proposition de loi visant à lutter contre l’entrisme islamiste en France' needs a human reading. Add a `bill_directions` line or write yea/nay here."
-    reasoning: "Area 8 (religious freedom). Direction unclear from the store: nothing proposed."
+    reasoning: "Area 8 (religious freedom). Bill direction on file for DLR5L17N53936 (CONFIRMED): passing it is WITH us -- Offence of Islamist entryism, dissolution grounds, prefect's binding opinion on new places of worship and oversight of out-of-home activities for minors; Chris backs it as a measure against Islamist e. This vote is a vote on the whole text or the motion itself, so Pour is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
-    flag: "Left for a person (Chris, 12 Oct 2026): mixed religious-freedom effects; read the adopted text (senat.fr tas25-101)"
 
   - key: "senat-2025-251"
-    status: needs_reading
-    read_first: "The direction of DLR5L17N51672 is on hold: read the promulgated text first: if it legitimises assisted dying, passing it is against us. Nothing is drafted or confirmed from this bill until then."
+    status: draft
+    yea: 2
+    nay: -2
+    why_yea: "Voted Pour on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): for passing it, with CitizenGO's position."
+    why_nay: "Voted Contre on DLR5L17N51672 (Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et ): against passing it, against CitizenGO's position."
     title: "sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture)"
     "on": "Soins palliatifs et d’accompagnement"
     dated: "2026-05-11"
@@ -1525,7 +1552,7 @@ divisions:
     result: "Pour 325, Contre 18"
     lobbies: "Pour: Les Républicains 130, SER 65, UCI 59, RDPI 19, Les Indépendants 19, GEST 16, RDSE 16, NI 1. Contre: CRCE-K 18"
     vote_kind: "final"
-    reasoning: "Area 2 (assisted dying). Drafted from DLR5L17N51672 as with; that direction is no longer on file, so nothing is proposed."
+    reasoning: "Area 2 (assisted dying). Bill direction on file for DLR5L17N51672 (CONFIRMED): passing it is WITH us -- Read in full: funds palliative care units, creates non-profit maisons d'accompagnement et de soins palliatifs and a palliative-medicine specialism; never mentions assisted dying, euthanasia or lethal . This vote is a vote on the whole text or the motion itself, so Pour is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-11"
 
   - key: "senat-2025-294"

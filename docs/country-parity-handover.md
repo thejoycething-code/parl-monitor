@@ -121,10 +121,11 @@ check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
 18. OPEN: HazteOir to confirm Spain's SUMAR free-expression reform
     (15/122/000006). Drafted `with`, flagged, so nothing confirms on it
     until the flag is cleared.
-19. OPEN: six mixed bills left for a person (listed in the shortlists, each
-    with a "Left for a person" flag): NL 2026Z08649, 2025Z00250, 2026Z12645;
-    FR DLR5L17N53936; PL 10/529; HR 11/228. (Quebec's Bill 9 decided 12
-    October 2026: against us; the other Quebec laicity flips kept.)
+19. DONE (12 October 2026, `docs/country-decisions-2026-10-12.md`, "The seven
+    read for a person"): FR palliative law and entryism bill with us, NL
+    Embryowet and motie Podt against, NL 2026Z08649, PL 10/529 and HR 11/228
+    not scored. (Quebec's Bill 9 decided 12 October 2026: against us; the
+    other Quebec laicity flips kept.)
 
 20. DONE (12 October 2026): every amendment read (Chris: "Score every
     amendment"; France's limit lifted, #127). 1,555 applied: 818 with, 272

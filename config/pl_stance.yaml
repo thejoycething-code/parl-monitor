@@ -378,7 +378,9 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "pl-10-16-76"
-    status: draft
+    status: confirmed
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "wniosek o przystąpienie do głosowania nad projektem bez odsyłania go do komisji"
     "on": "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
     dated: "2024-07-26"
@@ -388,13 +390,16 @@ divisions:
     result: "Za 240, Przeciw 197"
     vote_kind: "procedural"
     placeable: false
-    reason: "Procedural (wniosek o przystąpienie do głosowania nad projektem bez odsyłania go do komisji): it decides the timetable or the handling, not the substance, so neither lobby tells members apart on our ground."
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): NIK audit of KRRiT 2016-2024, a coalition-versus-PiS fight over regulators"
     reasoning: "Area 7 (free speech and civil liberties). The wording reads as procedure (the timetable or the handling)."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "pl-10-16-77"
-    status: needs_reading
-    amendment_flag: "Text not found"
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): NIK audit of KRRiT 2016-2024, a coalition-versus-PiS fight over regulators"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     amendment_why: "Amendment to a Sejm resolution ordering an NIK audit of KRRiT; the amendment text was not found in the sources reached, so direction cannot be judged."
     title: "poprawka 1"
     "on": "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
@@ -404,13 +409,15 @@ divisions:
     tier: 1
     result: "Za 194, Przeciw 240"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('poprawka 1'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
     reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "pl-10-16-78"
-    status: needs_reading
-    amendment_flag: "Text not found"
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): NIK audit of KRRiT 2016-2024, a coalition-versus-PiS fight over regulators"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     amendment_why: "Amendment to a Sejm resolution ordering an NIK audit of KRRiT; the amendment text was not found in the sources reached, so direction cannot be judged."
     title: "poprawka 2"
     "on": "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
@@ -420,13 +427,15 @@ divisions:
     tier: 1
     result: "Za 181, Przeciw 254"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('poprawka 2'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
     reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "pl-10-16-79"
-    status: needs_reading
-    amendment_flag: "Text not found"
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): NIK audit of KRRiT 2016-2024, a coalition-versus-PiS fight over regulators"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     amendment_why: "Amendment to a Sejm resolution ordering an NIK audit of KRRiT; the amendment text was not found in the sources reached, so direction cannot be judged."
     title: "poprawka 3"
     "on": "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
@@ -436,13 +445,15 @@ divisions:
     tier: 1
     result: "Za 180, Przeciw 251, Abstain 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('poprawka 3'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
     reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "pl-10-16-80"
-    status: needs_reading
-    amendment_flag: "Text not found"
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): NIK audit of KRRiT 2016-2024, a coalition-versus-PiS fight over regulators"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     amendment_why: "Amendment to a Sejm resolution ordering an NIK audit of KRRiT; the amendment text was not found in the sources reached, so direction cannot be judged."
     title: "poprawka 4"
     "on": "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
@@ -452,12 +463,15 @@ divisions:
     tier: 1
     result: "Za 193, Przeciw 240"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('poprawka 4'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
     reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "pl-10-16-81"
-    status: needs_reading
+    status: confirmed
+    placeable: false
+    reason: "No CitizenGO stake (Chris, 12 Oct 2026): NIK audit of KRRiT 2016-2024, a coalition-versus-PiS fight over regulators"
+    confirmed_by: "Christopher Joyce"
+    confirmed_on: "2026-10-12"
     title: "głosowanie nad całością projektu."
     "on": "Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalności Krajowej Rady Radiofonii i Telewizji oraz innych odpowiedn"
     dated: "2024-07-26"
@@ -466,10 +480,8 @@ divisions:
     tier: 1
     result: "Za 255, Przeciw 178"
     vote_kind: "final"
-    read_first: "A vote on the whole text or the motion itself, but no bill direction is on file for 10/529: CitizenGO's position on 'Pkt. 31 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie zlecenia Najwyższej Izbie Kontroli przeprowadzenia kontroli działalnośc' needs a human reading. Add a `bill_directions` line or write yea/nay here."
     reasoning: "Area 7 (free speech and civil liberties). Direction unclear from the store: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
-    flag: "Left for a person (Chris, 12 Oct 2026): Political audit of the media regulator; free-speech direction depends on reading of the media dispute"
 
   - key: "pl-10-21-38"
     status: draft
