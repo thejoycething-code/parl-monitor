@@ -18,11 +18,22 @@ number, never a title:
     noe/XX/1095            Niederösterreich, Ltg.-1095/XX-2026
     stmk/XIX/1713/1        Steiermark, EZ/OZ 1713/1 of the XIX. GP
     ooe/XXIX/1469/2026     Oberösterreich, Beilage 1469/2026
-    wien/201607            Wien, INFODAT Id(201607)
+    wien/201607            Wien, INFODAT Id(201607), the Landtag
+    wien-gr/201723         Wien, INFODAT Id(201723), the Gemeinderat
     sbg/17/362-BEA         Salzburg, Nr. 362-BEA der Beilagen, 17. GP
     vbg/<unid>             Vorarlberg, the Landtag's Domino document ID
     bgld/XXIII/2100-0603   Burgenland, Zahl 2100-0603
     ris/<RIS ID>           an adopted Land law in RIS Landesrecht
+
+WIEN IS A LAND AND A CITY (12 October 2026): the same people sit as the
+Landtag and as the Gemeinderat, the city council, and much of Vienna's
+policy (funding, schools as their owner, the city's own ordinances) is
+decided in the Gemeinderat. Both are read from INFODAT; the Gemeinderat's
+rows are the pseudo-Land 'wien-gr' (land column and key prefix), so no
+column was added and a Landtag query on land='wien' never sees them. The
+Gemeinderat's first read is a baseline in full, dated or not (its sitting-
+day window carries hundreds of routine items), so it never floods the
+edition.
 
 Kärnten and Tirol have no rows: their Landtag systems are closed to robots
 (docs/austria-regions-scope.md). RIS rows carry the law's own Land.
@@ -52,7 +63,7 @@ import os
 SCHEMA = (
     """CREATE TABLE IF NOT EXISTS atl_items (
         item_key     TEXT PRIMARY KEY,   -- 'noe/XX/1095' (see the docstring)
-        land         TEXT NOT NULL,      -- 'noe','stmk','ooe','wien','sbg','vbg','bgld', or a RIS law's Land
+        land         TEXT NOT NULL,      -- 'noe','stmk','ooe','wien','wien-gr','sbg','vbg','bgld', or a RIS law's Land
         source       TEXT NOT NULL,      -- 'landtag' / 'ris'
         period       TEXT,               -- the Gesetzgebungsperiode as the Land writes it: 'XX', '17', '32'
         number       TEXT,               -- as printed: 'Ltg.-1095/XX-2026', '1713/1', 'LGBl. Nr. 37/2026'
@@ -66,7 +77,7 @@ SCHEMA = (
         outcome      TEXT,               -- the recorded decision, verbatim (Oberösterreich's Klub line)
         url          TEXT,
         detail_read  TEXT,               -- ISO date the document's own page was last read
-        baseline     INTEGER,            -- 1: first seen on the Land's first read, date unknown
+        baseline     INTEGER,            -- 1: first seen on the Land's first read, date unknown (wien-gr: any date)
         areas        TEXT,               -- JSON list; taxonomy-atch + watchlist-at 'landtage' by key
         matched_terms TEXT,              -- JSON list
         tier         INTEGER,
@@ -99,10 +110,17 @@ LANDTAGE = (
     ("vbg", "Vorarlberg", "Vorarlberger Landtag"),
     ("bgld", "Burgenland", "Burgenländischer Landtag"),
 )
-NAMES = {code: name for code, name, _ in LANDTAGE}
-LANDTAG = {code: house for code, _, house in LANDTAGE}
-# Read by tools/at_landtage.py; the other two are closed to robots.
-READ = ("wien", "noe", "ooe", "stmk", "sbg", "vbg", "bgld")
+# Bodies read beside the Landtage, as pseudo-Länder: Vienna's Gemeinderat
+# (the city council, same INFODAT platform), shown under Wien.
+OTHER_BODIES = (
+    ("wien-gr", "Wien Gemeinderat", "Wien, Gemeinderat"),
+)
+NAMES = {code: name for code, name, _ in LANDTAGE + OTHER_BODIES}
+LANDTAG = {code: house for code, _, house in LANDTAGE + OTHER_BODIES}
+# Read by tools/at_landtage.py; Kärnten and Tirol are closed to robots.
+READ = ("wien", "wien-gr", "noe", "ooe", "stmk", "sbg", "vbg", "bgld")
+# A first read stores every row as baseline, dated or not.
+BASELINE_ALL = ("wien-gr",)
 BLOCKED = {
     "ktn": "www.ktn.gv.at, the Kärntner Landtag's only site, disallows every robot "
            "but Google's and Bing's in robots.txt",
