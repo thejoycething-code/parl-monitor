@@ -390,8 +390,9 @@ class Span(dict):
 
 def _client(cc):
     from src.http import HttpClient
+    from src.robots_guard import guard
     # Belgium's robots.txt asks for a 5 s crawl delay; the rest get a polite 1 s.
-    return HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=5.0 if cc == "be" else 1.0)
+    return guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=5.0 if cc == "be" else 1.0), FEED)
 
 
 def locate_ch(row, client):

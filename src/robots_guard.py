@@ -22,6 +22,17 @@ existing `except FetchError` paths turn it into a [gap] line and a gaps row
 and move on: never fatal, never a silent skip. `host_skipped` is True when
 the whole host is refused (robots.txt unreachable), so a collector looping
 over one host's pages can stop asking it.
+
+12 October 2026 (additive, "only the scrapers"): the other collectors
+listed in #144 wrap their client with `guard()`, which is GuardedClient with
+`exempt=DOCUMENTED_APIS`. A URL under one of those prefixes is an official,
+documented machine API or open-data endpoint meant for programs (the Sejm
+API, Tweede Kamer OData, congress.gov ...): it is fetched exactly as before,
+with no robots.txt read. Every other URL (parliament web pages, PDF
+listings, search pages, a website's RSS, an undocumented JSON backend behind
+a website) asks robots.txt first. The classification, collector by collector,
+is docs/robots-runtime.md. GuardedClient's default (exempt nothing) is what
+the regional collectors of #144 use, unchanged.
 """
 
 from __future__ import annotations
@@ -30,6 +41,70 @@ from urllib.parse import urlsplit
 
 from src.http import FetchError
 from src.prov_fetch import Context
+
+
+# URL prefixes of documented machine APIs and open-data endpoints, exempt
+# from the run-time robots.txt check under guard(). A prefix names a host and
+# a path, so a website host that also serves an API (www.nrsr.sk/opendata/)
+# exempts only the API paths. docs/robots-runtime.md says why each is here.
+DOCUMENTED_APIS = (
+    # Poland, Netherlands, Switzerland, EU
+    "https://api.sejm.gov.pl/",
+    "https://gegevensmagazijn.tweedekamer.nl/OData/",
+    "https://ws.parlament.ch/odata.svc/",
+    # Austria: the Parliament's documented Open Data filter API (the
+    # gegenstand/person pages on the same host are web pages: checked)
+    "https://www.parlament.gv.at/Filter/api/",
+    "https://fedlex.data.admin.ch/sparqlendpoint",
+    "https://data.europarl.europa.eu/api/",
+    # France: the Assemblee's open-data repository (bulk zips) and the
+    # Senat's open-data files
+    "https://data.assemblee-nationale.fr/static/openData/",
+    "https://data.senat.fr/data/",
+    "https://www.hatvp.fr/livraison/",
+    # Italy: the two chambers' SPARQL endpoints and the Openpolis API
+    "https://dati.camera.it/sparql",
+    "https://dati.senato.it/sparql",
+    "https://service.opdm.openpolis.io/api-openparlamento/",
+    # Slovakia: the National Council's open-data files
+    "https://www.nrsr.sk/opendata/",
+    # Brazil: Camara Dados Abertos (API and bulk files), Senado Dados Abertos
+    "https://dadosabertos.camara.leg.br/",
+    "https://legis.senado.leg.br/dadosabertos/",
+    # Argentina HCDN CKAN, Colombia Socrata (datos.gov.co), Chile
+    "https://datos.hcdn.gob.ar/api/",
+    "https://www.datos.gov.co/resource/",
+    "https://opendata.camara.cl/camaradiputados/WServices/",
+    "https://tramitacion.senado.cl/wspublico/",
+    # Uruguay: the Camara's datos abiertos JSON files (DA*.json); the PDFs
+    # beside them are documents: checked
+    "https://documentos.diputados.gub.uy/docs/DA",
+    "https://datos.bcn.cl/sparql",
+    # Ireland
+    "https://api.oireachtas.ie/",
+    "https://data.oireachtas.ie/",
+    # United States
+    "https://api.congress.gov/",
+    "https://api.govinfo.gov/",
+    "https://www.govinfo.gov/bulkdata/",
+    "https://www.federalregister.gov/api/",
+    "https://v3.openstates.org/",
+    "https://data.openstates.org/",
+    "https://unitedstates.github.io/congress-legislators/",
+    # Australia
+    "https://api.prod.legislation.gov.au/",
+    "https://handbookapi.aph.gov.au/api/",
+    "https://data.openaustralia.org.au/",
+    # Wikidata, GitHub (our own repository), our own partner site
+    "https://query.wikidata.org/sparql",
+    "https://api.github.com/",
+    "https://raw.githubusercontent.com/",
+    "https://parl-monitor-partner.vercel.app/",
+)
+
+
+def is_documented_api(url, exempt=DOCUMENTED_APIS):
+    return any(url.startswith(p) for p in exempt)
 
 
 class RobotsRefused(FetchError):
@@ -81,20 +156,26 @@ class GuardedClient:
     """An HttpClient whose every request asks robots.txt first. Everything
     else (throttles, user_agent, raw_dir) passes through to the client."""
 
-    def __init__(self, client, feed, log=print):
+    def __init__(self, client, feed, log=print, exempt=()):
         self._client = client
         self.robots = RobotsGuard(client, feed, log=log)
+        # URL prefixes fetched with no robots.txt read (documented APIs).
+        self.exempt = tuple(exempt or ())
 
     def __getattr__(self, name):
         return getattr(self._client, name)
 
     def check(self, url, feed=None, slug=""):
+        if self.exempt and is_documented_api(url, self.exempt):
+            return
         refused = self.robots.refusal(url)
         if refused:
             reason, host_skipped = refused
             raise RobotsRefused(url, feed or self.robots.feed, slug, reason, host_skipped)
 
     def allowed(self, url):
+        if self.exempt and is_documented_api(url, self.exempt):
+            return True
         return self.robots.refusal(url) is None
 
     def crawl_delay(self, host):
@@ -121,3 +202,32 @@ class GuardedClient:
         return self._client.post_json(url, body, feed, slug, *args, **kwargs)
 
 
+
+
+def guard(client, feed, log=print):
+    """The one-line wrap for the #144 collectors: every scraper request asks
+    robots.txt, documented APIs (DOCUMENTED_APIS) pass straight through. A
+    client that is already guarded is returned as it is."""
+    if isinstance(client, GuardedClient):
+        return client
+    return GuardedClient(client, feed, log=log, exempt=DOCUMENTED_APIS)
+
+
+_PROBE_GUARDS = {}
+
+
+def probe_refusal(url, feed="robots-probe"):
+    """For the urllib one-off scope probes (tools/nic_probe.py, ve_probe.py,
+    ve_news_crawl.py), which have no HttpClient to wrap: None when robots.txt
+    allows `url`, else the reason. robots.txt is read once per host per run,
+    through an HttpClient (same UA), with the same rules as guard()."""
+    if is_documented_api(url):
+        return None
+    if feed not in _PROBE_GUARDS:
+        import os
+        from src.http import HttpClient
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        _PROBE_GUARDS[feed] = RobotsGuard(HttpClient(raw_dir=os.path.join(root, "data", "raw")),
+                                          feed, log=lambda *a, **k: None)
+    refused = _PROBE_GUARDS[feed].refusal(url)
+    return refused[0] if refused else None

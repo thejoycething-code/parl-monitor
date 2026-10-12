@@ -425,7 +425,11 @@ def gap(conn, feed, detail, log=print):
 
 def not_found(exc):
     """True when a fetch failed on a 404 (a document listed before it is
-    published), which is not a gap: it is read when it appears."""
+    published), which is not a gap: it is read when it appears. A robots.txt
+    refusal (src/robots_guard.RobotsRefused) is never "not found", whatever
+    digits its URL holds: it is a gap."""
+    if getattr(exc, "host_skipped", None) is not None:
+        return False
     return "HTTP Error 404" in str(exc) or "404" in str(getattr(exc, "cause", "") or "")
 
 
@@ -630,6 +634,7 @@ def main(cc, steps, argv=None, lookback_days=21, budget_seconds=900.0, doc=None,
     import datetime
     from src import db, drain
     from src.http import HttpClient
+    from src.robots_guard import guard
     ap = argparse.ArgumentParser(description=doc, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--raw-dir", default=os.path.join(ROOT, "data", "raw"))
@@ -652,7 +657,7 @@ def main(cc, steps, argv=None, lookback_days=21, budget_seconds=900.0, doc=None,
             "SELECT 1 FROM {0}_record_reads LIMIT 1".format(cc)).fetchone():
         since = min(since, FIRST_RUN_FROM)
         print("{0}-chamber: first run, reading from {1}".format(cc, since))
-    client = HttpClient(raw_dir=args.raw_dir)
+    client = guard(HttpClient(raw_dir=args.raw_dir), 'chamber-store')
     if configure:
         configure(client)
     run = Run(cc, conn, client, today, since, drain.Budget(args.budget_seconds), taxes,
