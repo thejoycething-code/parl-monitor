@@ -349,14 +349,17 @@ Hass im Netz).
    on Austrian items (German prompt, as Germany's), Klub-level 5CA, speeches
    from the protocols (the debate entries on each history page already name
    speaker and Klub, with protocol anchors), the Parlamentskorrespondenz.
-4. **Later:** the nine Landtage (below), meineabgeordneten.at only with a
-   licence.
+4. **Later:** the nine Landtage (below; built 12 October 2026 as AT6, seven
+   of nine, see `docs/austria-regions-scope.md`), meineabgeordneten.at only
+   with a licence.
 
 ### The Landtage (listed, not probed)
 
 Burgenland, Kärnten, Niederösterreich, Oberösterreich, Salzburg, Steiermark,
 Tirol, Vorarlberg, Wien (the Wiener Landtag is also the Gemeinderat). Each
-publishes on its own site; none was checked for open data.
+publishes on its own site; none was checked for open data. (12 October 2026:
+probed and built for seven, Kärnten and Tirol closed to robots, RIS
+Landesrecht too: `docs/austria-regions-scope.md`.)
 
 ## Shared files touched (13 branches will merge)
 
@@ -423,7 +426,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - meineabgeordneten.at licence (AT5): a request in Chris's name.
-- Phase: the Landtage after national (AT6).
+- Phase: the Landtage after national (AT6). Built 12 October 2026 (branch `regions-at`): seven of nine Landtage into `atl_*`, a Landtage section in the edition; `docs/austria-regions-scope.md`.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/at/` from the store each weekly run (`tools/member_profiles.py at`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Member positions are DERIVED from the Klub votes (X5) and labelled on every line; Anträge and Anfragen naming the member (`at_items.persons`) are listed.
 
 ## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)

@@ -55,7 +55,8 @@ echo "mx-weekly: dispatched mx-weekly.yml on $REF"
 # iniciativas and 285 votes, then refused to publish ("THE STORE MOVED UNDER
 # YOU") and the fortnight's Mexico was lost. Waiting here keeps every Mini
 # job queued behind it, as the US weekly's Senate half does. The plist gives
-# the job two hours (the run takes about 45 minutes, its timeout is 75).
+# the job two hours (the run takes about 45 minutes plus up to 15 for the
+# state congresses; its timeout is 95).
 run_id=
 for _ in $(seq 1 20); do
   sleep 6

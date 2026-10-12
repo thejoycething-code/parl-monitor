@@ -94,8 +94,22 @@ class Context:
             try:
                 text = self.client.get_text("{0}://{1}/robots.txt".format(parts.scheme, host),
                                             self.feed, "robots-" + host, archive=False)
-            except FetchError:
-                text = ""             # no robots.txt: no rules
+            except FetchError as exc:
+                # RFC 9309 2.3.1: a 4xx robots.txt means no rules; a 5xx or no
+                # answer at all means "unreachable", read as Disallow: /
+                # (12 October 2026: Salzburg's landtag.salzburg.gv.at answered
+                # 503 and was being crawled as if it had no rules).
+                cause = getattr(exc, "cause", None)
+                code = getattr(cause, "code", None)
+                if not isinstance(code, int):
+                    m = re.search(r"\b([1-5]\d\d)\b", str(cause or ""))
+                    code = int(m.group(1)) if m else None
+                if isinstance(code, int) and 400 <= code < 500:
+                    text = ""         # no robots.txt: no rules
+                else:
+                    text = "User-agent: *\nDisallow: /\n"
+                    self.gap("robots.txt for {0} unreachable ({1}); host skipped until it "
+                             "answers".format(host, code or getattr(exc, "cause", exc)))
             rp = Robots(text)
             # Two independent readers, and a URL is fetched only if BOTH allow
             # it: the Robots class (built for Ontario's '/*?' wildcard) and

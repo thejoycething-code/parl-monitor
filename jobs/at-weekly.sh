@@ -8,8 +8,8 @@
 # the store first and commit data/ afterwards.
 #
 #     AT_RECLASSIFY=true    re-derive every stored AT item's and division's
-#                           areas, offline, before the pull (after a taxonomy-de
-#                           or watchlist-at change)
+#                           areas (and the Landtage's), offline, before the pull
+#                           (after a taxonomy-de or watchlist-at change)
 #     AT_PUBLISH=false      collect only. The GitHub workflow sets it and
 #                           publishes in its own steps, under the same
 #                           condition as its commit step, as every store
@@ -43,15 +43,25 @@ if [ "${AT_RECLASSIFY:-}" = "true" ]; then
   python3 tools/country_petitions.py at --reclassify
   python3 tools/at_rollcalls.py --reclassify
   python3 tools/at_chamber.py --reclassify
+  python3 tools/at_landtage.py --reclassify
 fi
 rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/at_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" || rc=$?
+# The 300 s kept back is the Landtage step's below.
+python3 tools/at_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" || rc=$?
 # What was said and asked in the chamber (tools/at_chamber.py, parity layer 5):
 # time-boxed to what is left of the hour, never fatal, skipped on GitHub.
 bash tools/chamber_step.sh at "$SECONDS"
+# The Landtage (tools/at_landtage.py, AT6, 12 October 2026): seven of the nine
+# Land parliaments' documents into atl_*, before the edition that shows them
+# in its own section. At most five minutes (a week's read is under a minute);
+# exit 3 (gaps) or any failure is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/at_landtage.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \
+    || echo "  [gap] the Landtage step recorded gaps or failed; the edition shows what was read"
+fi
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.

@@ -216,9 +216,8 @@ publish seen".
   dated source), clips for France and Belgium (agreement needed).
 - Waiting for time: Spain's agendas, speeches and sweep fill from 23
   December when the XVI sits.
-- Not yet built: regions and Länder (AT6, PE4, Spain's autonomous
-  communities, Mexico's states; Italy's IT3 is built for four councils, see
-  section 6); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
+- Regions built 12 October 2026 (Spain, Peru, Mexico, Austria, Italy; sections
+  below). Not yet built: Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
   2027); a native read of each language's term list.
 
 ## What exists now
@@ -253,7 +252,7 @@ publish seen".
 | Debate report (report and social copy after a debate, DM for approval, canvas) | yes (`tools/debate_report.py`, one paid call) | no | no | no | **built** 11 Oct (`tools/country_debate_report.py`, `src/country_debatereport.py`, branch `ukp2-debate-report`, manual) for the five countries whose speeches we store: NL, CH, AT, FR, BE. English report from templates over the record (no paid AI): speakers on our ground with a verbatim source-language passage each, translations by a person or the free session judge (`--queue-out`/`--queue-in` via `tools/session_judge.sh`), the debated bill's votes (found by the reference in the title, `--item` or a debate pack) and the latest on the same ground with tallies, group splits and vote meanings; clip pack linked. AWAITING SIGN-OFF, no verdicts, until the readings shown are confirmed. DM to Chris alone; `--approve --by NAME` records approval against the files; `--publish` makes the canvas with the UK's code, shared with Chris alone (never a channel), rewritten in place on a re-run. Samples `docs/debate-report-samples/` |
 | Words since the last vote (`since_last_vote.py`) | yes | no | no | no | **built** 11 Oct (`tools/country_since_vote.py`, `src/country_since_vote.py`, branch `ukp2-since-last-vote`, manual) for the countries with speeches and votes: NL, CH, AT, FR, BE. Per area, each member's last recorded vote on it (watched or tier 1, procedure never) and their speeches since, with excerpts. Drift is named only once the vote's reading is CONFIRMED and a person or the free session judge has read the words (`--queue-out` / `--reads`, `read_by` required, a read goes stale when new words arrive); before that "awaiting sign-off", ranked by recency and volume. Group votes (NL shows of hands, AT) never name drift. Optional profile section: `tools/member_profiles.py <cc> --since-vote` (off in the weeklies). Samples `docs/since-vote-samples/` (CH, FR, BE; the published store holds no NL votes or speeches and no AT speeches yet) |
 | Health summary, Drive | health DM; briefs and debate footage on Drive | health DM | health DM | health DM | **built** 11 Oct (branch `ukp-health-drive`): the 07:30 health DM has one compact section per region (Europe, Latam) plus shared jobs, failed and stale jobs first, step gaps by step, editions behind, the countries' overdue sources (`src/country_health.py`); briefs as Sheets from the UK template and real debate packs on Drive under `Country editions/<Country>/` in the Automated Briefs shared drive, a step of the Sunday `editions-session-judge` (`tools/country_drive.py`, ledger `data/country-drive.json`, at most 30 new sheets a run) |
-| Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | Italy: four regional councils (IT3, 12 October 2026); others later, per decisions |
+| Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | Built 12 Oct 2026: Italy four councils (IT3), Austria seven Landtage (AT6), Spain all 17 via the BOE plus four bill lists, Peru 25 regions + Lima (PE4), Mexico 13 state congresses; others later, per decisions |
 | Vote meanings (what a Yes and a No meant) | yes (`meaning_aye`/`meaning_no`, written by hand) | no | no | no | **built** 11 Oct (`src/vote_meanings.py`, `tools/vote_meanings.py`, branch `ukp-meanings`): every watched and tier-1 vote in the 21 countries with recorded votes, rules first, then the free session judge after the editions' scores within the same ~100 items a week; stored per division (`vote_meanings`); a person overrides in `config/vote-meanings-<cc>.yaml`; shown in editions, the Latam monitor, vote briefs, profiles, debate packs and the 5CA readings guides |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
@@ -669,7 +668,8 @@ Set A BUILT 10 October 2026 (branch `parity-phases-a`; each scope doc's
 "as built" section): French Senate (FR5), Eerste Kamer via web pages (NL4),
 Slovak bill documents (SK6), Swiss Italian texts (CH6), Italy's official
 Camera service (IT2). Set B below covers UY5, BO4, X8 and X7. Still to
-build: regions and Landtage after national (AT6, PE4).
+build: regions and Landtage after national: built 12 October 2026 (Spain,
+Peru, Mexico, Austria, Italy; below).
 
 **IT3, Italy's regional councils, BUILT 12 October 2026 (branch
 `regions-it`, docs/italy-regions-scope.md).** Covered: Lombardia (the
@@ -698,6 +698,61 @@ X7 OCR designed and guarded (`src/ocr.py`, `tools/pe_ocr.py`; install steps in
 `docs/mac-mini.md`, nothing installed). One hand-run backfill after merge:
 `jobs/latam-courts-backfill.sh`. Samples: `editions/latam-monitor-2026-06-30.md`,
 `editions/latam-monitor-2025-08-31.md`, `editions/pt-monitor-2023-02-05.md`.
+
+**AT6, Austria's Landtage, built 12 October 2026 (branch `regions-at`;
+`docs/austria-regions-scope.md`).** Seven of nine Landtage (Wien,
+Niederösterreich, Oberösterreich, Steiermark, Salzburg, Vorarlberg,
+Burgenland; about 85 per cent of the population), each from its own system
+(no two share a platform): `tools/at_landtage.py` into `atl_items` /
+`atl_reads` (`src/atl_store.py`), titles classified with taxonomy-atch, a
+`landtage` watchlist section by key, and a **Landtage** section in the
+Austrian edition after the Watchlist (new additive hook
+`Country.extra_sections`; other editions unchanged), with Steiermark's and
+Oberösterreich's recorded decisions and their Klubs verbatim. A step of
+`jobs/at-weekly.sh` (five minutes at most; a week's read is under one); no
+new Mini job. Blocked: **Kärnten** (www.ktn.gv.at disallows every robot but
+Google and Bing) and **Tirol** (lte.tirol.gv.at disallows every robot);
+**RIS Landesrecht**, the only common source for adopted Land laws, is barred
+by data.bka.gv.at's robots.txt and www.ris.bka.gv.at's bot check (parser
+ready and tested, not read). Waiting on Chris: RIS permission, Wien's
+Gemeinderat, Salzburg's unreadable robots.txt (treated as no rules).
+
+### 6b. Regions -- Peru BUILT 12 October 2026 (branch `regions-pe`, PE4)
+
+Peru's 25 regional governments and Lima Metropolitana, all at once
+(`docs/peru-regions-scope.md`): `tools/pe_regions.py` reads El Peruano's
+Normas Legales (one form POST a week; the gazette where every ordenanza
+regional must be published) and each institution's council-act pages on
+gob.pe (61 pages, 3 s apart), into `pe_regional_norms` (keyed
+`<region>/<kind>/<n>-<year>`, the two sources merged on one row). Taxonomy-es
+over heading and sumilla; 19 of 1,352 norms on our ground in the first read
+(child marriage, the Arequipa ESI ordinance, gender-equality plans, violence
+against women). Shown in the monthly Latam monitor as a "Regional governments
+and Lima Metropolitana" sub-heading under Peru; tier-1 and watched norms also
+alert. A step in `jobs/pe-weekly.sh` (budget 300 s); no new Mini job. Blocked
+or not built: votes (regional councils publish no roll calls), sittings and
+agendas (26 different sites, PDF or video), consejeros, El Peruano's full-text
+search (client-side behind a bot-manager script; the Filtro form serves the
+same listing in HTML). Cajamarca, Puno, San Martín, Huánuco and Lima
+Metropolitana keep stale gob.pe pages and are covered by the gazette alone.
+
+**Spain's regional parliaments, built 12 October 2026 (branch `regions-es`,
+`docs/spain-regions-scope.md`):** all seventeen communities' laws and
+decree-laws from the BOE's open-data summaries (Spanish for every community;
+153 acts from January to 9 October 2026), plus bills in passage from the
+lists of Andalucía (RSS), Canarias, La Rioja (government bills) and
+Cantabria, classified with `taxonomy-es`; the Corts Valencianes' bills are
+stored but unclassified (Valencian only) and counted as a gap. A "Regional
+parliaments" section in the Spanish edition and one DM line; a step in
+`jobs/es-weekly.sh` (no new job, nothing to install). Blocked: Madrid,
+Navarra and Galicia (Sucuri, Cloudflare and Akamai bot checks, never
+bypassed), Murcia and Extremadura (robots.txt disallows all), País Vasco,
+Illes Balears and Aragón's tramitación base (no answer from the laptop),
+Cataluña (Catalan only, open-data page 500), Castilla y León, Castilla-La
+Mancha and Asturias (no machine-readable bill list). Canarias' open-data API
+sits under a robots-disallowed `/api/`. Waiting on Chris: the proposed terms
+(`concebido`, `apoyo a la familia`: Madrid's Ley 5/2026 on the conceived child
+is missed today) and a Catalan/Valencian list.
 
 ### 7. Campaign tools
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only
@@ -867,3 +922,31 @@ with the `parl_mini` key (Chris approved, 10 October):
   one plist from `git show origin/main:ops/launchd/<label>.plist` and
   bootstrap it, without pulling the runner clone while jobs are running.
 - A work-account session on the Mini can run Mini steps directly.
+
+## Regional layer: Mexico's 32 state congresses (12 October 2026)
+
+Scope and build: `docs/mexico-regions-scope.md`. Code: `tools/mxs_collect.py`,
+`src/ingest/mxs_<state>.py` (13 readers), `src/mxs_store.py` (`mxs_items`,
+`mxs_reads`), `src/mxs_edition.py`, `config/watchlist-mx-states.yaml`,
+`tests/test_mxs.py`. A step of `jobs/mx-collect.sh` (the Mexican edition's
+fortnightly GitHub job; no new Mini job), on a 15-minute clock.
+
+- **Covered (13):** Estado de México, Ciudad de México, Chiapas, Oaxaca,
+  Chihuahua, Tamaulipas, Baja California, Sinaloa, Yucatán,
+  Quintana Roo, Tabasco, Aguascalientes, Nayarit: every iniciativa (and
+  punto de acuerdo where listed) with date, author, committee and status
+  where the source gives them, classified with taxonomy-es (mx). The
+  edition has a "State congresses" section and the DM a line.
+- **Unreachable from the UK (5):** Veracruz, Guanajuato, Nuevo León,
+  Michoacán (https), Zacatecas; the step asks each from the runner every
+  run and the edition says if one answers.
+- **Blocked (4):** Puebla (Cloudflare challenge), San Luis Potosí (Sucuri
+  challenge), Campeche (robots.txt disallows all), Durango (Wordfence geo
+  block). Never bypassed.
+- **Not built (10):** Jalisco (77 s a page), Querétaro (plain HTTP only),
+  Guerrero, Coahuila (JSF),
+  Sonora (thin), Hidalgo, Morelos (late PDFs), Tlaxcala, Colima (undated),
+  Baja California Sur.
+- **No member votes yet:** Baja California and Estado de México publish
+  them in HTML, Tamaulipas, Coahuila and Tabasco in PDFs (phase 2), with
+  the SCJN list of recent state reforms for enacted laws across all 32.

@@ -283,7 +283,7 @@ A first test by hand: `RUNNER_REF=main bash ~/runner/parl-monitor/tools/mini_run
 
 ## Weekly country editions (10 October 2026, branch `editions-core`)
 
-The own-edition countries (docs/country-decisions-2026-10-10.md, "Edition structure") each get a weekly edition, to Chris alone by DM, archived to `editions/<cc>-monitor-<date>.md`. One framework renders them all (`src/country_edition.py`; adapters in `src/editions/<cc>.py`; entry points `tools/<cc>_monitor.py`). First batch: Austria, the Netherlands (votes only, NL3), Belgium and Poland. Second batch (branch `editions-it-ch-fr-pt`): Italy, Switzerland, France and Portugal, in `jobs/{it,ch,fr,pt}-weekly.sh` the same way.
+The own-edition countries (docs/country-decisions-2026-10-10.md, "Edition structure") each get a weekly edition, to Chris alone by DM, archived to `editions/<cc>-monitor-<date>.md`. One framework renders them all (`src/country_edition.py`; adapters in `src/editions/<cc>.py`; entry points `tools/<cc>_monitor.py`). First batch: Austria, the Netherlands (votes only, NL3), Belgium and Poland. Second batch (branch `editions-it-ch-fr-pt`): Italy, Switzerland, France and Portugal, in `jobs/{it,ch,fr,pt}-weekly.sh` the same way. Austria's weekly also reads seven of the nine Landtage before its edition (`tools/at_landtage.py`, AT6, 12 October 2026: a step of `jobs/at-weekly.sh`, at most five minutes, never fatal; nothing to install; `docs/austria-regions-scope.md`).
 
 - **No new plists or workflows.** The edition is the last step of each country's existing weekly (`jobs/{at,nl,be,pl}-weekly.sh`), after the collector and before the publish, so it runs wherever the weekly runs: the Mini first, GitHub as the backup. A collector that failed outright (not exit 3, gaps) skips the edition.
 - **Committed and spoken once a day**, as the US weekly: each script carries `# mini_run: commit editions`, each workflow commits `data/ editions/`, and an edition already committed for today is rewritten without resending the DM.
@@ -521,6 +521,7 @@ the store and never stops its weekly.
 | `co-weekly` (Thu 09:30) | `tools/co_courts.py` (X8, CO4) | the Corte Constitucional's exhortations file, datos.gov.co `fbtr-7k2r`, whole | one request |
 | `ec-weekly` (Sat 15:30) | `tools/ec_courts.py` (X8) | the Corte Constitucional's WordPress API: judgment summaries, bulletins, statements since 30 days before the newest held | 1-2 requests |
 | `pe-weekly` (Sat 16:00) | `tools/pe_courts.py` (X8) | the Tribunal Constitucional's press notes, at its robots.txt Crawl-delay of 30 s | about 4 minutes |
+| `pe-weekly` | `tools/pe_regions.py` (PE4, 12 October 2026) | the 25 regional governments' and Lima Metropolitana's council acts: one El Peruano Normas Legales POST, then 61 gob.pe pages 3 s apart; budget 300 s | about 4.5 minutes |
 | `pe-weekly` | `tools/pe_ocr.py` (X7) | Tesseract over the scan-only vote records; skips without Tesseract | 0 until installed |
 | `pt-weekly` (Sat 15:00) | `tools/pt_courts.py` (X8) | the Tribunal Constitucional's acórdãos: 30 s apart, at most ten read, no retries; a 429 ends it with one gap | about 6 minutes |
 | `bo-weekly` (Sun 11:00) | `tools/bo_questions.py` (BO4) | written questions, Senado API and Diputados WordPress, newest three pages each | about 10 s |
@@ -849,6 +850,18 @@ Without the judge a person writes the translations into `translations.yaml` on a
 - **Monthly, and only when changed:** the tool does nothing until four weeks after its last check (`mi_downloads.last_seen`); then one conditional request (If-Modified-Since) on `declarations.xml`. A 304 costs nothing more; a change downloads the 79.5 MB XML and the 3.2 MB CSV and parses them in about two seconds. `--force` checks now.
 - **Privacy:** the XML is never written to `data/raw` (it holds spouses' data and the archive is published); only the CSV's parliamentary rows are archived. Spouses', collaborators', free-text and asset sections are skipped at parse time and never logged.
 - **Coverage:** `mi_downloads.last_seen` is watched (`tools/coverage.py`, cadence 31, grace 14); the log line `fr-hatvp:` says what was read, or "unchanged" / "not due".
+
+## Spain's regional parliaments (12 October 2026, branch `regions-es`)
+
+A step of the Spain weekly, **not a new job** (`jobs/es-weekly.sh`, Saturdays
+08:30): `python3 tools/es_regions.py` after the Congreso collector, budget
+300 s from `tools/collector_budget.sh` (the Congreso collector keeps it back).
+It reads the BOE's open-data summaries since the last issue read and five
+regional parliaments' bill lists (Andalucía, Canarias at its 3 s Crawl-delay,
+La Rioja, Cantabria, the Corts Valencianes) into `esr_*`; measured from the
+laptop, under a minute for a first run and about 4 s plus the BOE days for a
+weekly one. Its gaps are `[gap]` lines; the store is still published. Nothing
+to install. Details: `docs/spain-regions-scope.md`.
 
 ### Member portraits (12 October 2026)
 

@@ -1655,6 +1655,10 @@ TABLES = (
     "at_items",
     "at_divisions",
     "at_votes",
+    # Austria's nine Landtage (tools/at_landtage.py, AT6), created by
+    # src/atl_store.ensure_schema -- declared from day one.
+    "atl_items",
+    "atl_reads",
     # The Netherlands' Tweede Kamer (tools/nl_rollcalls.py), created by
     # src/nl_store.ensure_schema -- declared from day one.
     "nl_fracties",
@@ -1750,6 +1754,12 @@ TABLES = (
     "es_divisions",
     "es_votes",
     "es_vote_days",
+    # Spain's regional layer (tools/es_regions.py, 12 October 2026): the
+    # communities' laws from the BOE and the regional parliaments' bills in
+    # passage, created by src/es_regions_store.ensure_schema.
+    "esr_laws",
+    "esr_bills",
+    "esr_reads",
     # Brazil's National Congress (tools/br_rollcalls.py), created by
     # src/br_store.ensure_schema -- declared from day one.
     "br_members",
@@ -1789,6 +1799,7 @@ TABLES = (
     "pe_vote_files",
     "pe_rulings",
     "pe_vote_ocr",
+    "pe_regional_norms",
     # Ecuador's Asamblea Nacional (tools/ec_rollcalls.py), created by
     # src/ec_store.ensure_schema -- declared from day one.
     "ec_members",
@@ -1809,6 +1820,10 @@ TABLES = (
     "mx_iniciativas",
     "mx_divisions",
     "mx_votes",
+    # Mexico's 32 state congresses (tools/mxs_collect.py, 12 October 2026),
+    # created by src/mxs_store.ensure_schema -- declared from day one.
+    "mxs_items",
+    "mxs_reads",
     # Argentina's National Congress (tools/ar_rollcalls.py), created by
     # src/ar_store.ensure_schema -- declared from day one.
     "ar_members",
@@ -2182,6 +2197,8 @@ def init_db(conn):
     ie_store.ensure_schema(conn)
     from src import at_store
     at_store.ensure_schema(conn)
+    from src import atl_store
+    atl_store.ensure_schema(conn)
     from src import nl_store
     nl_store.ensure_schema(conn)
     from src import pl_store
@@ -2204,6 +2221,8 @@ def init_db(conn):
     hr_store.ensure_schema(conn)
     from src import es_store
     es_store.ensure_schema(conn)
+    from src import es_regions_store
+    es_regions_store.ensure_schema(conn)
     from src import br_store
     br_store.ensure_schema(conn)
     from src import cl_store
@@ -2220,6 +2239,8 @@ def init_db(conn):
     gt_store.ensure_schema(conn)
     from src import mx_store
     mx_store.ensure_schema(conn)
+    from src import mxs_store
+    mxs_store.ensure_schema(conn)
     from src import ar_store
     ar_store.ensure_schema(conn)
     from src import co_store

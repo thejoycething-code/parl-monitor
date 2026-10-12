@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<viewentries timestamp="20261012T085752,70Z" toplevelentries="7">
+<viewentry position="1" noteid="80011BE4" children="8" descendants="334" siblings="7">
+<entrydata columnnumber="0" name="fd_YearNU" category="true">
+<number>2026</number></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>334</number></entrydata>
+</viewentry>
+<viewentry position="1.1" noteid="80011BE8" children="7" descendants="7" siblings="8">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Aktuelle Stunde</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>7</number></entrydata>
+</viewentry>
+<viewentry position="1.1.1" unid="80A9B481507EF619C1258E8700274FCC" noteid="743F6" siblings="7">
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text>Vorarlberg sicher halten - Jugendkriminalität konsequent begegnen, Polizei und Justiz stärken!</text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<text></text></entrydata>
+</viewentry>
+<viewentry position="1.1.2" unid="B336D6421A946A3FC1258E2C0026491C" noteid="72E46" siblings="7">
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text>Von der Teuerung belastete Menschen entlasten statt zusätzlich belasten: Kostensteigerungen im öffentlichen Verkehr zurücknehmen!</text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<text></text></entrydata>
+</viewentry>
+<viewentry position="1.1.3" unid="CBE9638DC9A9A8B3C1258E100026CF0B" noteid="72D82" siblings="7">
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text>Wer kann es sich noch leisten, in Vorarlberg zu wohnen?</text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<textlist><text>01 Landtag\Sitzung\Aktuelle Stunde</text><text>70 Bauen und Wohnen\Wohnen</text></textlist></entrydata>
+<entrydata columnnumber="4" name="$10">
+<text></text></entrydata>
+</viewentry>
+<viewentry position="1.1.4" unid="3EE362C17C8CEB93C1258DF40026D347" noteid="72CBA" siblings="7">
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text>Mut zur REFORM: Mit zwei starken Spitalsstandorten Vorarlbergs Gesundheitsversorgung für 2040 sichern!</text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text>40 Gesundheit\Krankenhaus</text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<text></text></entrydata>
+</viewentry>
+<viewentry position="1.1.5" unid="83111F7325B241D8C1258DD800259F96" noteid="70902" siblings="7">
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text>Team Vorarlberg: 96 Gemeinden und das Land ziehen an einem Strang!</text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text>10 Verwaltung\Gemeindeverwaltung, Gemeindeaufsicht</text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<text></text></entrydata>
+</viewentry>
+<viewentry position="1.1.6" unid="7B8321289A70753AC1258DB5002A1A52" noteid="7081E" siblings="7">
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text>Der Vorarlberger Energieweg - Krisenresilienz durch Energieautonomie</text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<text></text></entrydata>
+</viewentry>
+<viewentry position="1.2" noteid="80011BEC" children="145" descendants="145" siblings="8">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Anfrage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>145</number></entrydata>
+</viewentry>
+<viewentry position="1.2.19" unid="1CFCBEE27D31FB44C1258E640042CBBB" noteid="7313A" siblings="145">
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text>Vor welchen Herausforderungen steht die Palliativversorgung in Vorarlberg?</text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<text></text></entrydata>
+</viewentry>
+<viewentry position="1.2.35" unid="A8E418E5E0054372C1258E2600404A40" noteid="72E0E" siblings="145">
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text>Nach der Pride Parade: Wo bleibt die Umsetzung des LGBTIQ-Aktionsplans?</text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text>30 Gesellschaft und Soziales\Diskriminierung</text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<text></text></entrydata>
+</viewentry>
+<viewentry position="1.3" noteid="80011BF0" children="16" descendants="16" siblings="8">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Ausschussvorlage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>16</number></entrydata>
+</viewentry>
+<viewentry position="1.4" noteid="80011BF4" children="14" descendants="14" siblings="8">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Bericht</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>14</number></entrydata>
+</viewentry>
+<viewentry position="1.5" noteid="80011BF8" children="35" descendants="35" siblings="8">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Entschließung</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>35</number></entrydata>
+</viewentry>
+<viewentry position="1.6" noteid="80011BFC" children="2" descendants="2" siblings="8">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Petition</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>2</number></entrydata>
+</viewentry>
+<viewentry position="1.7" noteid="80011C00" children="18" descendants="18" siblings="8">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Regierungsvorlage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>18</number></entrydata>
+</viewentry>
+<viewentry position="1.8" noteid="80011C04" children="97" descendants="97" siblings="8">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Selbstständiger Antrag</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>97</number></entrydata>
+</viewentry>
+<viewentry position="2" noteid="80011C08" children="9" descendants="380" siblings="7">
+<entrydata columnnumber="0" name="fd_YearNU" category="true">
+<number>2025</number></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>380</number></entrydata>
+</viewentry>
+<viewentry position="2.1" noteid="80011C0C" children="9" descendants="9" siblings="9">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Aktuelle Stunde</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>9</number></entrydata>
+</viewentry>
+<viewentry position="2.2" noteid="80011C10" children="135" descendants="135" siblings="9">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Anfrage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>135</number></entrydata>
+</viewentry>
+<viewentry position="2.3" noteid="80011C14" children="25" descendants="25" siblings="9">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Ausschussvorlage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>25</number></entrydata>
+</viewentry>
+<viewentry position="2.4" noteid="80011C18" children="25" descendants="25" siblings="9">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Bericht</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>25</number></entrydata>
+</viewentry>
+<viewentry position="2.5" noteid="80011C1C" children="43" descendants="43" siblings="9">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Entschließung</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>43</number></entrydata>
+</viewentry>
+<viewentry position="2.6" noteid="80011C20" children="4" descendants="4" siblings="9">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Petition</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>4</number></entrydata>
+</viewentry>
+<viewentry position="2.7" noteid="80011C24" children="29" descendants="29" siblings="9">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Regierungsvorlage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>29</number></entrydata>
+</viewentry>
+<viewentry position="2.8" noteid="80011C28" children="106" descendants="106" siblings="9">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Selbstständiger Antrag</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>106</number></entrydata>
+</viewentry>
+<viewentry position="2.9" noteid="80011C2C" children="4" descendants="4" siblings="9">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Sonstiges</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>4</number></entrydata>
+</viewentry>
+<viewentry position="3" noteid="80011C30" children="7" descendants="48" siblings="7">
+<entrydata columnnumber="0" name="fd_YearNU" category="true">
+<number>2024</number></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>48</number></entrydata>
+</viewentry>
+<viewentry position="3.1" noteid="80011C34" children="1" descendants="1" siblings="7">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Aktuelle Stunde</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>1</number></entrydata>
+</viewentry>
+<viewentry position="3.2" noteid="80011C38" children="14" descendants="14" siblings="7">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Anfrage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>14</number></entrydata>
+</viewentry>
+<viewentry position="3.3" noteid="80011C3C" children="2" descendants="2" siblings="7">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Ausschussvorlage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>2</number></entrydata>
+</viewentry>
+<viewentry position="3.4" noteid="80011C40" children="5" descendants="5" siblings="7">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Bericht</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>5</number></entrydata>
+</viewentry>
+<viewentry position="3.5" noteid="80011C44" children="2" descendants="2" siblings="7">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Entschließung</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>2</number></entrydata>
+</viewentry>
+<viewentry position="3.6" noteid="80011C48" children="8" descendants="8" siblings="7">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Regierungsvorlage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>8</number></entrydata>
+</viewentry>
+<viewentry position="3.7" noteid="80011C4C" children="16" descendants="16" siblings="7">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Selbstständiger Antrag</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>16</number></entrydata>
+</viewentry>
+<viewentry position="4" noteid="80011C50" children="2" descendants="2" siblings="7">
+<entrydata columnnumber="0" name="fd_YearNU" category="true">
+<number>1997</number></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>2</number></entrydata>
+</viewentry>
+<viewentry position="4.1" noteid="80012D70" children="1" descendants="1" siblings="2">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Regierungsvorlage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>1</number></entrydata>
+</viewentry>
+<viewentry position="4.2" noteid="80012D74" children="1" descendants="1" siblings="2">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Selbstständiger Antrag</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>1</number></entrydata>
+</viewentry>
+<viewentry position="5" noteid="80011C5C" children="1" descendants="1" siblings="7">
+<entrydata columnnumber="0" name="fd_YearNU" category="true">
+<number>1923</number></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>1</number></entrydata>
+</viewentry>
+<viewentry position="5.1" noteid="80011C60" children="1" descendants="1" siblings="1">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Regierungsvorlage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>1</number></entrydata>
+</viewentry>
+<viewentry position="6" noteid="80012DDC" children="1" descendants="1" siblings="7">
+<entrydata columnnumber="0" name="fd_YearNU" category="true">
+<number>1918</number></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>1</number></entrydata>
+</viewentry>
+<viewentry position="6.1" noteid="80012DE0" children="1" descendants="1" siblings="1">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text>Regierungsvorlage</text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>1</number></entrydata>
+</viewentry>
+<viewentry position="7" noteid="80012DB8" children="1" descendants="1" siblings="7">
+<entrydata columnnumber="0" name="fd_YearNU" category="true">
+<number>1863</number></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>1</number></entrydata>
+</viewentry>
+<viewentry position="7.1" noteid="80012DBC" children="1" descendants="1" siblings="1">
+<entrydata columnnumber="1" name="fd_TypeOfDocumentTX" category="true">
+<text></text></entrydata>
+<entrydata columnnumber="2" name="fd_TitleTX">
+<text></text></entrydata>
+<entrydata columnnumber="3" name="fdClassificationHumanTX">
+<text></text></entrydata>
+<entrydata columnnumber="4" name="$10">
+<number>1</number></entrydata>
+</viewentry>
+</viewentries>

@@ -78,6 +78,15 @@ countries:
         distinct_terms: 0
         numbers: '\b(decreto|expediente)\s+(no\.?\s*|numero\s+|n.\s*)?\d{1,4}-\d{4}\b|\bexp-\d{4}-\d{3,4}\b'
 
+  pe:
+    # PE4 (12 October 2026): regional councils declare churches, chapels
+    # and processions "de interés turístico", and "iglesia" alone puts them
+    # in area 8. They are heritage and tourism, not religious freedom
+    # (pasco/acuerdo/91-2026 on the first read). A watched item is never
+    # filtered.
+    exclude_titles:
+      - '\binteres turistico\b'
+
   nic:
     # La Gaceta is read for cancellations of churches', religious bodies'
     # and NGOs' legal status (NI2). Approvals of sports and civic
