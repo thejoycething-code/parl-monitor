@@ -15,6 +15,7 @@ lists the feeds whose robots.txt, read live from the laptop on 12 October
   both allow the URL; a 4xx robots.txt means no rules; a 5xx or no answer at all
   means Disallow: / for the whole host (RFC 9309 2.3.1); a Crawl-delay larger
   than the client's throttle raises that host's interval and never lowers one.
+  The read itself is patient and bounded: see "Patient robots.txt reads" below.
 - A URL under one of `robots_guard.DOCUMENTED_APIS` (a URL prefix: host and
   path) is a documented machine API or open-data endpoint. It is fetched exactly
   as before, with no robots.txt read. A website host that also serves an API
@@ -64,7 +65,7 @@ At risk (intermittent):
 
 | Collector | Host | Note |
 |---|---|---|
-| src/agendas/es.py, tools/es_rollcalls.py, src/member_service.py (es), the ES day sweep | www.congreso.es | robots.txt answered in 13 s once, allowed everything we fetch, and timed out (over 30 s) twice. A run whose robots.txt read fails after the client's retries skips the host for that run, with one gap per request |
+| src/agendas/es.py, tools/es_rollcalls.py, src/member_service.py (es), the ES day sweep | www.congreso.es | robots.txt answered in 13 s once, allowed everything we fetch, and timed out (over 30 s) twice. Since the patient reads (below) a run waits up to 45 s per attempt, three attempts, and falls back to a copy read in the last 24 hours; only a host dead for all of that is skipped for the run |
 
 Partly refused (a few items only):
 
@@ -84,6 +85,40 @@ Slower (Crawl-delay now honoured):
 | www.lachambre.be | 5 s | src/agendas/be.py, tools/be_rollcalls.py, tools/be_chamber.py (src/country_clips.py already used 5 s) |
 
 Every other scraper host answered and allows every sample URL.
+
+## Patient robots.txt reads
+
+12 October 2026, Chris: "Patient robots.txt reads". One slow robots.txt
+(www.congreso.es; sitl/gaceta.diputados.gob.mx) made the guard read the host
+as Disallow: / for the whole run, which cost Spain a week of agenda, roll
+calls, member service and day sweep. robots.txt is now read in ONE place,
+`src/prov_fetch.read_robots()`, which both `prov_fetch.Context` and
+`src/robots_guard` (a Context) use:
+
+| Answer | What happens |
+|---|---|
+| 2xx | rules read; the text is saved to `data/robots-cache/` with its fetch time |
+| 4xx | no rules (RFC 9309 2.3.1.2), at once, no retry; saved as "no rules" |
+| timeout or connection error | retried: 3 attempts in all, 45 s each, 5 s then 15 s between them |
+| 5xx answered promptly | retried ONCE after 5 s (RFC 9309 lets us treat it as temporary), then unreachable |
+| still unreachable | a saved copy under 24 hours old stands in (logged); otherwise Disallow: / for the host, one gap, "host skipped" |
+
+- Bounded: at most 150 s (2.5 minutes) per host for all attempts and waits;
+  a later attempt's timeout shrinks to the time left, and no attempt starts
+  with under 5 s left. When the collector passes its budget (`Context(budget=)`,
+  `guard(client, feed, budget=)`, a `src/drain.Budget`) the read never runs
+  past it either.
+- The client's own retries are switched off for the read (and restored), so
+  every attempt is ours and logged: `www.congreso.es: robots.txt attempt 1
+  failed (timed out); retrying in 5s`, then `read on attempt 2`, or the
+  cached-copy line, or the gap.
+- The result is cached per host for the run, as before: one read per host.
+- The on-disk copy: `data/robots-cache/<scheme>_<host>.json` (gitignored,
+  per machine), holding the host, status, fetch time and text, beside the
+  client's `data/raw`. RFC 9309 2.4: a cached robots.txt is not used beyond
+  24 hours, so an older copy is ignored and the host is skipped as before.
+  A client whose raw directory is not called `raw` (a test double) keeps no
+  disk copy.
 
 ## Counts
 
@@ -276,5 +311,9 @@ asked about robots.txt, the website beside it is), Crawl-delay, and one
 collector per family (`src/agendas/it.py`, `src/petition_sources/fr.py`,
 `tools/gt_rollcalls.py`, `tools/hr_chamber.py`) for a disallowed path, a 503
 robots.txt and a 404 one. `tests/robots_fakes.guarded_api()` builds a
-`guard()`-wrapped fake. `tests/test_sv_rollcalls.py`'s main() test now serves
+`guard()`-wrapped fake. `PatientReadTests` (fake client and clocks): a
+timeout then success is allowed, three timeouts are Disallow: / with one gap
+inside 150 s, the collector's budget caps the retries, a prompt 503 gets one
+retry then Disallow: /, a 404 is no rules at once, a saved copy under 24 h is
+used when the host is unreachable and one over 24 h is ignored. `tests/test_sv_rollcalls.py`'s main() test now serves
 robots.txt as 404.

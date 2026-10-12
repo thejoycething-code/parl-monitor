@@ -26,18 +26,216 @@ from __future__ import annotations
 
 import html as _html
 import io
+import json
+import os
 import re
+import socket
+import time
+import urllib.error
 from urllib.parse import urlsplit
 
-from src.http import FetchError
+from src.http import FetchError, slugify
 
 MIN_THROTTLE = 1.1
+
+
+# -- reading robots.txt: patient, bounded, cached ------------------------------
+#
+# 12 October 2026 (Chris, "patient robots.txt reads"): www.congreso.es answered
+# its robots.txt once after 13 s and timed out twice; sitl/gaceta.diputados.
+# gob.mx time out. One slow read made the whole host Disallow: / for the run,
+# a week of Spain's agenda, roll calls, member service and day sweep. So:
+ROBOTS_TIMEOUT = 45.0          # per attempt
+ROBOTS_ATTEMPTS = 3            # timeouts and connection errors: 1 + 2 retries
+ROBOTS_BACKOFF = (5.0, 15.0)   # wait before retry 1, retry 2
+ROBOTS_5XX_ATTEMPTS = 2        # a prompt 5xx: one retry, after a short wait
+ROBOTS_5XX_WAIT = 5.0
+ROBOTS_HOST_BUDGET = 150.0     # at most 2.5 minutes per host, all attempts
+ROBOTS_MIN_ATTEMPT = 5.0       # no attempt with less time left than this
+ROBOTS_CACHE_MAX_AGE = 24 * 3600.0   # RFC 9309 2.4: never older than 24 h
+AUTO = object()                # cache_dir: data/robots-cache beside data/raw
+
+DISALLOW_ALL = "User-agent: *\nDisallow: /\n"
+
+
+def _status(exc):
+    """The HTTP status a FetchError carries, or None (timeout, no answer)."""
+    cause = getattr(exc, "cause", None)
+    code = getattr(cause, "code", None)
+    if isinstance(code, int):
+        return code
+    if isinstance(cause, (socket.timeout, TimeoutError, OSError)) and not isinstance(
+            cause, urllib.error.HTTPError):
+        return None
+    m = re.search(r"\bHTTP Error ([1-5]\d\d)\b|\b([45]\d\d)\b", str(cause or ""))
+    if m:
+        return int(m.group(1) or m.group(2))
+    return None
+
+
+def _takes_timeout(fn):
+    """True when get_text accepts timeout= (HttpClient does; some test
+    doubles take only archive=)."""
+    import inspect
+    try:
+        params = inspect.signature(fn).parameters.values()
+    except (TypeError, ValueError):
+        return False
+    return any(p.name == "timeout" or p.kind is p.VAR_KEYWORD for p in params)
+
+
+def robots_cache_path(cache_dir, scheme, host):
+    return os.path.join(cache_dir, slugify("{0}_{1}".format(scheme, host)) + ".json")
+
+
+def _cache_dir_for(client, cache_dir):
+    if cache_dir is not AUTO:
+        return cache_dir
+    raw = getattr(client, "raw_dir", None)
+    if isinstance(raw, str) and os.path.basename(os.path.normpath(raw)) == "raw":
+        return os.path.join(os.path.dirname(os.path.normpath(raw)), "robots-cache")
+    return None     # a test double, or a raw dir not called raw: no disk copy
+
+
+def _save_cache(cache_dir, scheme, host, text, status, now):
+    try:
+        os.makedirs(cache_dir, exist_ok=True)
+        path = robots_cache_path(cache_dir, scheme, host)
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump({"host": host, "scheme": scheme, "status": status,
+                       "fetched_at": now, "text": text}, fh)
+        os.replace(tmp, path)
+    except OSError:
+        pass        # the cache is a convenience; never fail a run on it
+
+
+def _load_cache(cache_dir, scheme, host, now):
+    """(text, age_seconds) of the last good read if under 24 h old, else None."""
+    try:
+        with open(robots_cache_path(cache_dir, scheme, host), encoding="utf-8") as fh:
+            got = json.load(fh)
+        age = now - float(got["fetched_at"])
+        text = got["text"]
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    if not isinstance(text, str) or age < 0 or age > ROBOTS_CACHE_MAX_AGE:
+        return None
+    return text, age
+
+
+def read_robots(client, scheme, host, feed, log=print, budget=None, cache_dir=AUTO,
+                sleep=None, clock=None, now=None):
+    """Read {scheme}://{host}/robots.txt for one run: (text, unreachable).
+
+    The one place robots.txt is fetched, for src/prov_fetch.Context and
+    src/robots_guard (which is a Context). `unreachable` is None when the
+    host answered (or a recent copy stood in), else the reason the host is
+    read as Disallow: / for this run.
+
+      * each attempt waits up to ROBOTS_TIMEOUT (45 s), with the client's own
+        retries off (we retry here, so the attempts are counted and logged);
+      * a timeout or connection error is retried: ROBOTS_ATTEMPTS (3) in all,
+        ROBOTS_BACKOFF (5 s, 15 s) between them;
+      * a 4xx means no rules (RFC 9309 2.3.1.2), at once;
+      * a 5xx answered promptly is retried ONCE after ROBOTS_5XX_WAIT (RFC
+        9309 allows treating it as temporary) and is then Disallow: /;
+      * the whole read is bounded: ROBOTS_HOST_BUDGET (150 s) per host, and
+        never past the collector's budget (src/drain.Budget) when one is
+        passed; a later attempt's timeout shrinks to the time left;
+      * a good read (2xx, or a 4xx: no rules) is saved under data/robots-cache/
+        (gitignored) with its fetch time. When the host is unreachable now
+        and the saved copy is under 24 hours old (RFC 9309 2.4), that copy is
+        used and logged; an older copy is ignored (Disallow: / as before).
+    The caller caches the result per host for the run.
+    """
+    url = "{0}://{1}/robots.txt".format(scheme, host)
+    slug = "robots-" + host
+    sleep = sleep or getattr(client, "_sleep", None) or time.sleep
+    clock = clock or getattr(client, "_clock", None) or time.monotonic
+    wall = now or time.time
+    cache_dir = _cache_dir_for(client, cache_dir)
+
+    takes_timeout = _takes_timeout(client.get_text)
+    start = clock()
+
+    def left():
+        rest = ROBOTS_HOST_BUDGET - (clock() - start)
+        if budget is not None and getattr(budget, "seconds", None) is not None:
+            rest = min(rest, budget.seconds - budget.spent())
+        return rest
+
+    attempts = 0
+    fivexx = 0
+    last = None
+    while True:
+        remaining = left()
+        if attempts and remaining < ROBOTS_MIN_ATTEMPT:
+            log("  {0}: robots.txt read out of time after {1} attempt(s)".format(host, attempts))
+            break
+        timeout = max(1.0, min(ROBOTS_TIMEOUT, remaining))
+        attempts += 1
+        saved = getattr(client, "max_retries", None) if hasattr(client, "max_retries") else None
+        try:
+            if saved is not None:
+                client.max_retries = 0
+            if takes_timeout:
+                text = client.get_text(url, feed, slug, timeout=timeout, archive=False)
+            else:
+                text = client.get_text(url, feed, slug, archive=False)
+        except FetchError as exc:
+            code = _status(exc)
+            if isinstance(code, int) and 400 <= code < 500:
+                if cache_dir:
+                    _save_cache(cache_dir, scheme, host, "", code, wall())
+                return "", None          # RFC 9309 2.3.1.2: no rules
+            last = code or getattr(exc, "cause", exc)
+            if isinstance(code, int):
+                fivexx += 1
+                if fivexx >= ROBOTS_5XX_ATTEMPTS:
+                    log("  {0}: robots.txt attempt {1} answered {2}; no more "
+                        "retries".format(host, attempts, code))
+                    break
+                wait = ROBOTS_5XX_WAIT
+            else:
+                if attempts - fivexx >= ROBOTS_ATTEMPTS:
+                    log("  {0}: robots.txt attempt {1} failed ({2}); no more "
+                        "retries".format(host, attempts, last))
+                    break
+                wait = ROBOTS_BACKOFF[min(attempts - fivexx - 1, len(ROBOTS_BACKOFF) - 1)]
+            if left() - wait < ROBOTS_MIN_ATTEMPT:
+                log("  {0}: robots.txt attempt {1} failed ({2}); no time left to "
+                    "retry".format(host, attempts, last))
+                break
+            log("  {0}: robots.txt attempt {1} failed ({2}); retrying in {3:.0f}s".format(
+                host, attempts, last, wait))
+            sleep(wait)
+            continue
+        finally:
+            if saved is not None:
+                client.max_retries = saved
+        if attempts > 1:
+            log("  {0}: robots.txt read on attempt {1}".format(host, attempts))
+        if cache_dir:
+            _save_cache(cache_dir, scheme, host, text, 200, wall())
+        return text, None
+
+    if cache_dir:
+        cached = _load_cache(cache_dir, scheme, host, wall())
+        if cached is not None:
+            text, age = cached
+            log("  {0}: robots.txt unreachable ({1}); using the copy read {2:.1f} h ago "
+                "(RFC 9309 2.4: under 24 h)".format(host, last, age / 3600.0))
+            return text, None
+    return DISALLOW_ALL, ("robots.txt for {0} unreachable ({1}); host skipped until "
+                          "it answers".format(host, last))
 
 
 class Context:
     def __init__(self, conn, client, prov, feed=None, since=None, until=None,
                  limit=None, budget=None, dry_run=False, refresh=False, log=print,
-                 robots=True):
+                 robots=True, robots_cache_dir=AUTO, robots_sleep=None, robots_clock=None,
+                 robots_now=None):
         self.conn = conn
         self.client = client
         self.prov = prov
@@ -53,6 +251,13 @@ class Context:
         self.gaps = []
         self.records_read = 0
         self._robots = {}
+        # read_robots() knobs (additive, 12 October 2026): the on-disk copy's
+        # directory (AUTO: data/robots-cache beside the client's data/raw;
+        # None: no disk copy) and the clocks, injectable for tests.
+        self.robots_cache_dir = robots_cache_dir
+        self.robots_sleep = robots_sleep
+        self.robots_clock = robots_clock
+        self.robots_now = robots_now
         self._stopped = False
         if getattr(client, "throttle", None) is not None and client.throttle < MIN_THROTTLE:
             client.throttle = MIN_THROTTLE
@@ -91,27 +296,19 @@ class Context:
         parts = urlsplit(url)
         host = parts.netloc
         if host not in self._robots:
-            unreachable = None
-            try:
-                text = self.client.get_text("{0}://{1}/robots.txt".format(parts.scheme, host),
-                                            self.feed, "robots-" + host, archive=False)
-            except FetchError as exc:
-                # RFC 9309 2.3.1: a 4xx robots.txt means no rules; a 5xx or no
-                # answer at all means "unreachable", read as Disallow: /
-                # (12 October 2026: Salzburg's landtag.salzburg.gv.at answered
-                # 503 and was being crawled as if it had no rules).
-                cause = getattr(exc, "cause", None)
-                code = getattr(cause, "code", None)
-                if not isinstance(code, int):
-                    m = re.search(r"\b([1-5]\d\d)\b", str(cause or ""))
-                    code = int(m.group(1)) if m else None
-                if isinstance(code, int) and 400 <= code < 500:
-                    text = ""         # no robots.txt: no rules
-                else:
-                    text = "User-agent: *\nDisallow: /\n"
-                    unreachable = ("robots.txt for {0} unreachable ({1}); host skipped until "
-                                   "it answers".format(host, code or getattr(exc, "cause", exc)))
-                    self.gap(unreachable)
+            # One reader for Context and src/robots_guard (12 October 2026,
+            # "patient robots.txt reads"): read_robots() waits longer, retries
+            # timeouts and dropped connections, and falls back to a copy read
+            # in the last 24 hours. See its docstring and docs/robots-runtime.md.
+            text, unreachable = read_robots(
+                self.client, parts.scheme, host, self.feed, log=self.log,
+                budget=getattr(self, "budget", None),
+                cache_dir=getattr(self, "robots_cache_dir", AUTO),
+                sleep=getattr(self, "robots_sleep", None),
+                clock=getattr(self, "robots_clock", None),
+                now=getattr(self, "robots_now", None))
+            if unreachable:
+                self.gap(unreachable)
             rp = Robots(text)
             # 12 October 2026 (additive): the reason a host is refused as a
             # whole, so src/robots_guard can say "host skipped" once rather
