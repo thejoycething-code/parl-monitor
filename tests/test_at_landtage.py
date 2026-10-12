@@ -452,6 +452,7 @@ class RobotsUnreachableTests(unittest.TestCase):
         ctx.gaps = []
         ctx.gap = ctx.gaps.append
         ctx.log = lambda *a, **k: None
+        ctx.robots_sleep = lambda s: None   # read_robots retries: no real waits
         return ctx, urllib.error
 
     def test_503_disallows(self):

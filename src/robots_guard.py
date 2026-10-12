@@ -12,7 +12,11 @@ run, with the provinces' reader and rules (src/prov_fetch.Context):
     star_rules (every '*' group, literal paths);
   * a robots.txt answering 4xx means no rules; a 5xx or no answer at all
     means "unreachable", read as Disallow: / for the whole host (RFC 9309
-    2.3.1; #142);
+    2.3.1; #142). The read is patient (src/prov_fetch.read_robots, 12
+    October 2026): 45 s per attempt, timeouts and dropped connections
+    retried (3 attempts), a 5xx retried once, at most 150 s per host and
+    never past a budget passed in, and a copy read in the last 24 hours
+    (data/robots-cache/) stands in for an unreachable host;
   * a Crawl-delay larger than the client's throttle raises THAT host's
     interval (HttpClient.set_host_throttle never lowers one already set, so a
     collector's own per-host delay stands).
@@ -123,9 +127,13 @@ class RobotsGuard(Context):
     """Context's robots.txt reader without the rest of Context: no store, no
     budget. Gaps are the caller's to record (refusal() returns the reason)."""
 
-    def __init__(self, client, feed, log=print):
+    def __init__(self, client, feed, log=print, budget=None, **robots_kwargs):
         keep = getattr(client, "throttle", None)
-        super().__init__(None, client, feed, feed=feed, log=log)
+        # budget (optional, src/drain.Budget): a robots.txt read never runs
+        # past it. robots_kwargs: Context's read_robots knobs (cache dir,
+        # clocks), for tests.
+        super().__init__(None, client, feed, feed=feed, log=log, budget=budget,
+                         **robots_kwargs)
         if keep is not None:
             # Context raises a client's throttle to 1.1 s for the provinces;
             # here the collector's own throttle stands.
@@ -156,9 +164,9 @@ class GuardedClient:
     """An HttpClient whose every request asks robots.txt first. Everything
     else (throttles, user_agent, raw_dir) passes through to the client."""
 
-    def __init__(self, client, feed, log=print, exempt=()):
+    def __init__(self, client, feed, log=print, exempt=(), budget=None, **robots_kwargs):
         self._client = client
-        self.robots = RobotsGuard(client, feed, log=log)
+        self.robots = RobotsGuard(client, feed, log=log, budget=budget, **robots_kwargs)
         # URL prefixes fetched with no robots.txt read (documented APIs).
         self.exempt = tuple(exempt or ())
 
@@ -204,13 +212,13 @@ class GuardedClient:
 
 
 
-def guard(client, feed, log=print):
+def guard(client, feed, log=print, budget=None):
     """The one-line wrap for the #144 collectors: every scraper request asks
     robots.txt, documented APIs (DOCUMENTED_APIS) pass straight through. A
     client that is already guarded is returned as it is."""
     if isinstance(client, GuardedClient):
         return client
-    return GuardedClient(client, feed, log=log, exempt=DOCUMENTED_APIS)
+    return GuardedClient(client, feed, log=log, exempt=DOCUMENTED_APIS, budget=budget)
 
 
 _PROBE_GUARDS = {}

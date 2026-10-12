@@ -21,6 +21,11 @@ class RobotsServing:
         self.throttle = 1.0
         self.host_throttles = {}
         self.robots_asked = []
+        self.sleeps = []
+
+    def _sleep(self, seconds):
+        # read_robots waits between retries with the client's sleep: none here.
+        self.sleeps.append(seconds)
 
     def set_host_throttle(self, host, seconds):
         self.host_throttles[host] = max(seconds, self.host_throttles.get(host, 0))

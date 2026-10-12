@@ -84,7 +84,8 @@ class GuardTests(unittest.TestCase):
         with self.assertRaises(rg.RobotsRefused) as caught:
             client.get_text("https://www.sejm.gov.pl/sejm10.nsf/porzadek.xsp", "pl-agenda", "w")
         self.assertTrue(caught.exception.host_skipped)
-        self.assertEqual(serving.robots_asked, ["www.sejm.gov.pl"])
+        # A prompt 503 is asked twice (one retry, read_robots), then refused.
+        self.assertEqual(serving.robots_asked, ["www.sejm.gov.pl", "www.sejm.gov.pl"])
 
     def test_an_api_prefix_exempts_only_its_paths(self):
         inner = Routes({"nrsr.sk": "{}"})
@@ -252,6 +253,169 @@ class ChamberTests(unittest.TestCase):
         run, gaps, inner = self.run_with(404)
         self.assertEqual(run.gaps, 0)
         self.assertTrue(any("FonogramView" in u for u in inner.asked))
+
+
+class PatientReadTests(unittest.TestCase):
+    """src/prov_fetch.read_robots ("patient robots.txt reads", 12 October
+    2026): a slow robots.txt is waited for and retried, bounded per host,
+    and a copy read in the last 24 hours stands in for an unreachable one.
+    Fake client, fake clocks: no network, no real waits."""
+
+    HOST = "www.congreso.es"
+    PAGE = "https://www.congreso.es/es/agenda"
+
+    class Clock:
+        def __init__(self):
+            self.t = 1000.0
+            self.wall = 1_800_000_000.0
+
+        def mono(self):
+            return self.t
+
+        def now(self):
+            return self.wall
+
+        def sleep(self, s):
+            self.t += s
+
+    class Script:
+        """robots.txt answers from a script: text, an int status, or
+        'timeout' (the fake clock moves on by the timeout asked)."""
+
+        user_agent = "CitizenGO-ParlMonitor/1.0 (contact: test)"
+        throttle = 1.0
+
+        def __init__(self, clock, answers):
+            self.clock = clock
+            self.answers = list(answers)
+            self.asked = []
+            self.max_retries = 3
+            self.retries_seen = []
+
+        def get_text(self, url, feed, slug, timeout=None, **kw):
+            import socket
+            import urllib.error
+            self.asked.append((url, timeout))
+            self.retries_seen.append(self.max_retries)
+            got = self.answers.pop(0) if self.answers else "timeout"
+            if got == "timeout":
+                self.clock.t += timeout
+                raise FetchError(url, feed, slug, 1, socket.timeout("timed out"))
+            self.clock.t += 0.5
+            if isinstance(got, int):
+                raise FetchError(url, feed, slug, 1,
+                                 urllib.error.HTTPError(url, got, "status", {}, None))
+            return got
+
+    def setUp(self):
+        import tempfile
+        self.tmp = tempfile.TemporaryDirectory()
+        self.cache = os.path.join(self.tmp.name, "robots-cache")
+        self.clock = self.Clock()
+        self.logs = []
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def guard(self, answers, budget=None):
+        client = self.Script(self.clock, answers)
+        g = rg.RobotsGuard(client, "es-agenda", log=self.logs.append, budget=budget,
+                           robots_cache_dir=self.cache, robots_sleep=self.clock.sleep,
+                           robots_clock=self.clock.mono, robots_now=self.clock.now)
+        return g, client
+
+    def test_timeout_then_success_on_retry_is_allowed(self):
+        g, client = self.guard(["timeout", "User-agent: *\nDisallow: /private/\n"])
+        self.assertIsNone(g.refusal(self.PAGE))
+        self.assertEqual(len(client.asked), 2)
+        self.assertEqual(client.asked[0][1], 45.0)
+        self.assertEqual(client.retries_seen, [0, 0], "the client's own retries are off")
+        self.assertEqual(client.max_retries, 3, "and restored after")
+        self.assertEqual(g.gaps, [])
+        self.assertTrue(any("retrying in 5s" in l for l in self.logs))
+        self.assertTrue(any("read on attempt 2" in l for l in self.logs))
+        # cached for the run: a second URL on the host asks nothing more
+        self.assertIsNotNone(g.refusal("https://www.congreso.es/private/x"))
+        self.assertEqual(len(client.asked), 2)
+
+    def test_three_timeouts_disallow_with_a_gap_bounded(self):
+        start = self.clock.t
+        g, client = self.guard(["timeout"] * 5)
+        reason, skipped = g.refusal(self.PAGE)
+        self.assertTrue(skipped)
+        self.assertIn("unreachable", reason)
+        self.assertEqual(len(client.asked), 3)
+        self.assertEqual(len(g.gaps), 1)
+        self.assertLessEqual(self.clock.t - start, 150.0 + 1e-6)
+        # third attempt's timeout shrank to the time left in the host budget
+        self.assertLess(client.asked[2][1], 45.0)
+
+    def test_collector_budget_is_respected(self):
+        from src import drain
+        budget = drain.Budget(50, clock=self.clock.mono)
+        g, client = self.guard(["timeout"] * 5, budget=budget)
+        self.assertTrue(g.refusal(self.PAGE)[1])
+        self.assertLessEqual(budget.spent(), 50.0 + 1e-6)
+        self.assertEqual(len(client.asked), 1, "no room for a retry inside 50 s")
+
+    def test_prompt_503_disallows_after_one_retry(self):
+        g, client = self.guard([503, 503, "User-agent: *\nAllow: /\n"])
+        reason, skipped = g.refusal(self.PAGE)
+        self.assertTrue(skipped)
+        self.assertIn("503", reason)
+        self.assertEqual(len(client.asked), 2, "a 5xx gets one retry, no more")
+
+    def test_503_then_answer_is_allowed(self):
+        g, client = self.guard([503, ""])
+        self.assertIsNone(g.refusal(self.PAGE))
+
+    def test_404_means_no_rules_at_once(self):
+        g, client = self.guard([404])
+        self.assertIsNone(g.refusal(self.PAGE))
+        self.assertEqual(len(client.asked), 1)
+        self.assertEqual(g.gaps, [])
+
+    def _seed_cache(self, text, age_hours):
+        from src import prov_fetch
+        prov_fetch._save_cache(self.cache, "https", self.HOST, text, 200,
+                               self.clock.wall - age_hours * 3600)
+
+    def test_cached_copy_under_24h_used_when_unreachable(self):
+        self._seed_cache("User-agent: *\nDisallow: /secret/\n", 23)
+        g, client = self.guard(["timeout"] * 3)
+        self.assertIsNone(g.refusal(self.PAGE))
+        self.assertIsNotNone(g.refusal("https://www.congreso.es/secret/a"))
+        self.assertEqual(g.gaps, [])
+        self.assertTrue(any("using the copy read 23.0 h ago" in l for l in self.logs))
+
+    def test_cached_copy_used_for_a_5xx_too(self):
+        self._seed_cache("", 2)
+        g, client = self.guard([503, 503])
+        self.assertIsNone(g.refusal(self.PAGE))
+
+    def test_cached_copy_over_24h_ignored(self):
+        self._seed_cache("", 25)
+        g, client = self.guard(["timeout"] * 3)
+        self.assertTrue(g.refusal(self.PAGE)[1])
+        self.assertEqual(len(g.gaps), 1)
+
+    def test_a_good_read_is_saved_with_its_time(self):
+        from src import prov_fetch
+        g, client = self.guard(["User-agent: *\nDisallow: /x/\n"])
+        g.refusal(self.PAGE)
+        with open(prov_fetch.robots_cache_path(self.cache, "https", self.HOST)) as fh:
+            saved = json.load(fh)
+        self.assertEqual(saved["fetched_at"], self.clock.wall)
+        self.assertIn("Disallow: /x/", saved["text"])
+
+    def test_cache_dir_sits_beside_data_raw_only(self):
+        from src import prov_fetch
+
+        class C:
+            raw_dir = "/srv/pm/data/raw"
+        self.assertEqual(prov_fetch._cache_dir_for(C(), prov_fetch.AUTO),
+                         "/srv/pm/data/robots-cache")
+        self.assertIsNone(prov_fetch._cache_dir_for(object(), prov_fetch.AUTO))
 
 
 if __name__ == "__main__":
