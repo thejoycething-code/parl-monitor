@@ -35,7 +35,10 @@ placement, the sheet and the checkbox format. Four parts:
    must read: CitizenGO's side is never invented where the direction is
    unclear. An amendment or article vote becomes a draft once a reader
    records whether adopting it is with or against CitizenGO
-   (`amendment_direction`, 12 October 2026; `apply_amendments`).
+   (`amendment_direction`, 12 October 2026; `apply_amendments`). Where the
+   store holds the amendment's text (Italy's Senate, it_senate_amendments,
+   12 October 2026: `amendment_text`), the drafted `read_first` quotes it
+   with its source, so the reader need not find it.
 
 2. THE SIGN-OFF, as Canada's C-218 (drafted, then confirmed by a named
    person on a date). `confirm` turns `status: draft` into
@@ -1010,6 +1013,17 @@ def draft_entry(cc, r, bills, pos=None, today=None):
                                                    refs, r5.clip(r.get("subject") or q, 140)),
                  reasoning="{0} Direction unclear from the store: nothing proposed.".format(area_line))
         return e
+    if kind == "amendment" and r.get("amendment_text"):
+        # The store holds the text (Italy's Senate, it_senate_amendments,
+        # 12 October 2026: src/it_amendments.py): the reader is given it.
+        e.update(status="needs_reading",
+                 read_first="An amendment ('{0}'): its text is in the store (the parliament's own "
+                            "file): {1} Read it, then record whether adopting it is with or against "
+                            "CitizenGO (tools/country_5ca.py --apply-amendments).".format(
+                                r5.clip(q, 120), r["amendment_text"]),
+                 reasoning="{0}{1}".format(area_line, " The bill's direction ({0}: {1}) does not settle an "
+                                           "amendment's.".format(bkey, bill["direction"]) if bill else ""))
+        return e
     if kind == "amendment":
         e.update(status="needs_reading",
                  read_first="An amendment, an article or one point ('{0}'): which side is ours depends "
@@ -1023,6 +1037,19 @@ def draft_entry(cc, r, bills, pos=None, today=None):
                         "question put, then write yea/nay.".format(r5.clip(q, 120)),
              reasoning="{0} Nothing proposed.".format(area_line))
     return e
+
+
+def amendment_text(conn, cc, key, chars=300):
+    """The stored text of the amendment(s) a vote put, as one line for a
+    reader, or None. Italy's Senate only (it_senate_amendments, 12 October
+    2026, src/it_amendments.py); a split vote ("1a parte") says so and the
+    part is never guessed. Any other country, or a store without the
+    tables, gives None."""
+    if cc != "it" or conn is None or not str(key).startswith("senato-"):
+        return None
+    from src import it_amendments as ia
+    texts = ia.texts_for(conn, key)
+    return (ia.summary_line(texts, chars) or None) if ia.has_text(texts) else None
 
 
 def draft(conn, cc, config_dir=None, today=None, log=print, wl=None):
@@ -1042,6 +1069,9 @@ def draft(conn, cc, config_dir=None, today=None, log=print, wl=None):
         if not row_in_scope(cc, r, wl):
             counts["out_of_scope"] += 1
             continue
+        text = amendment_text(conn, cc, r["key"])
+        if text:
+            r["amendment_text"] = text
         e = draft_entry(cc, r, bills, positions(conn, cc, r["key"]), today)
         divs[r["key"]] = e
         blocks.append(entry_yaml(e))
