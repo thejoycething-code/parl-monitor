@@ -5,6 +5,11 @@ Mexico, Cámara de Diputados. From the parliamentary monitor's store; positions 
 - **Party:** not given by the source
 - **Source id:** `66/187`
 
+## Length of service
+
+- **Terms in the source:** legislature 66 (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the legislatures the store has read from SITL only; no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Party history
 
 - Recorded at votes in the store: PAN (first 3 September 2024, last 24 March 2026).
@@ -18,7 +23,7 @@ Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 3 Mar 2026 | A favor | PAN (at the vote) | [DECRETO POR EL QUE SE ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE TURISMO, EN MATERIA DE TRATA DE PERSONAS (EN LO GENERAL Y EN LO…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=234) | prostitution and trafficking, tier 1 |
+| 3 Mar 2026 | A favor | PAN (at the vote) | [DECRETO POR EL QUE SE ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE TURISMO, EN MATERIA DE TRATA DE PERSONAS (EN LO GENERAL Y EN LO…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=234) · their vote meant: to approve 66/1952 (Adds provisions to the General Tourism Law on human trafficking, strengthening anti-trafficking measures in…) in general and in its articles, in one vote (by rule, from the vote's wording and the bill) | prostitution and trafficking, tier 1 |
 | 17 Feb 2026 | A favor | PAN (at the vote) | [DECRETO POR EL QUE SE ADICIONAN LOS ARTÍCULOS 64 QUÁTER Y 64 QUINTUS DE LA LEY GENERAL DE RESPONSABILIDADES ADMINISTRATIVAS, EN MATERIA DE…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=225) | prostitution and trafficking, tier 2 |
 | 17 Feb 2026 | A favor | PAN (at the vote) | [DECRETO POR EL QUE SE REFORMAN Y ADICIONAN DIVERSAS DISPOSICIONES DEL CÓDIGO PENAL FEDERAL, EN MATERIA DE DELITO DE ACOSO SEXUAL Y DE ACECH…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=221) | prostitution and trafficking, tier 2 |
 | 2 Dec 2025 | En contra | PAN (at the vote) | [DECRETO POR EL QUE SE REFORMAN, ADICIONAN Y DEROGAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL PARA LA IGUALDAD ENTRE MUJERES Y HOMBRES; DE L…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=200) | sex-based rights, tier 1 |

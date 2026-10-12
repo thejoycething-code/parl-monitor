@@ -6,6 +6,11 @@ Mexico, Cámara de Diputados. From the parliamentary monitor's store; positions 
 - **Constituency or region:** Sonora, Dtto. 5
 - **Source id:** `66/252`
 
+## Length of service
+
+- **Terms in the source:** legislature 66, MORENA (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the legislatures the store has read from SITL only; no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Party history
 
 - Recorded at votes in the store: MORENA (first 3 September 2024, last 6 October 2026).
@@ -20,10 +25,10 @@ Every vote:
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
 | 29 Apr 2026 | A favor | MORENA (at the vote) | [DECRETO POR EL QUE SE REFORMA LA FRACCIÓN VII DEL ARTÍCULO 50 DE LA LEY GENERAL DE LOS DERECHOS DE NIÑAS, NIÑOS ADOLESCENTES, EN MATERIA DE…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=286) | marriage and family, tier 2 |
-| 29 Apr 2026 | A favor | MORENA (at the vote) | [DECRETO POR EL QUE SE REFORMAN Y ADICIONAN LOS ARTÍCULOS 199 OCTIES Y 199 NONIES DEL CÓDIGO PENAL FEDERAL Y 16 LA LEY GENERAL PARA PREVENIR…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=283) | prostitution and trafficking, tier 1 |
-| 29 Apr 2026 | A favor | MORENA (at the vote) | [DECRETO POR EL QUE SE REFORMAN Y ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE LOS DERECHOS DE NIÑAS, NIÑOS Y ADOLESCENTES, EN MATE…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=280) | sex-based rights, parental rights and education, free speech and civil liberties, marriage and family, tier 1 |
+| 29 Apr 2026 | A favor | MORENA (at the vote) | [DECRETO POR EL QUE SE REFORMAN Y ADICIONAN LOS ARTÍCULOS 199 OCTIES Y 199 NONIES DEL CÓDIGO PENAL FEDERAL Y 16 LA LEY GENERAL PARA PREVENIR…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=283) · their vote meant: to approve the text “DECRETO POR EL QUE SE REFORMAN Y ADICIONAN LOS ARTÍCULOS 199 OCTIES Y 199 NONIES DEL…” in general (its broad terms, before the articles) (by rule, from the vote's wording and the bill) | prostitution and trafficking, tier 1 |
+| 29 Apr 2026 | A favor | MORENA (at the vote) | [DECRETO POR EL QUE SE REFORMAN Y ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE LOS DERECHOS DE NIÑAS, NIÑOS Y ADOLESCENTES, EN MATE…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=280) · their vote meant: to approve the text “DECRETO POR EL QUE SE REFORMAN Y ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE…” in general and in its articles, in one vote (by rule, from the vote's wording and the bill) | sex-based rights, parental rights and education, free speech and civil liberties, marriage and family, tier 1 |
 | 21 Apr 2026 | A favor | MORENA (at the vote) | [DECRETO POR EL QUE SE REFORMA EL ARTÍCULO 73, FRACCIÓN XXI, INCISO A) DE LA CONSTITUCIÓN POLÍTICA DE LOS ESTADOS UNIDOS MEXICANOS, EN MATER…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=272) | sex-based rights, tier 2 |
-| 3 Mar 2026 | A favor | MORENA (at the vote) | [DECRETO POR EL QUE SE ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE TURISMO, EN MATERIA DE TRATA DE PERSONAS (EN LO GENERAL Y EN LO…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=234) | prostitution and trafficking, tier 1 |
+| 3 Mar 2026 | A favor | MORENA (at the vote) | [DECRETO POR EL QUE SE ADICIONAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL DE TURISMO, EN MATERIA DE TRATA DE PERSONAS (EN LO GENERAL Y EN LO…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=234) · their vote meant: to approve 66/1952 (Adds provisions to the General Tourism Law on human trafficking, strengthening anti-trafficking measures in…) in general and in its articles, in one vote (by rule, from the vote's wording and the bill) | prostitution and trafficking, tier 1 |
 | 17 Feb 2026 | A favor | MORENA (at the vote) | [DECRETO POR EL QUE SE ADICIONAN LOS ARTÍCULOS 64 QUÁTER Y 64 QUINTUS DE LA LEY GENERAL DE RESPONSABILIDADES ADMINISTRATIVAS, EN MATERIA DE…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=225) | prostitution and trafficking, tier 2 |
 | 17 Feb 2026 | A favor | MORENA (at the vote) | [DECRETO POR EL QUE SE REFORMAN Y ADICIONAN DIVERSAS DISPOSICIONES DEL CÓDIGO PENAL FEDERAL, EN MATERIA DE DELITO DE ACOSO SEXUAL Y DE ACECH…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=221) | prostitution and trafficking, tier 2 |
 | 2 Dec 2025 | A favor | MORENA (at the vote) | [DECRETO POR EL QUE SE REFORMAN, ADICIONAN Y DEROGAN DIVERSAS DISPOSICIONES DE LA LEY GENERAL PARA LA IGUALDAD ENTRE MUJERES Y HOMBRES; DE L…](https://sitl.diputados.gob.mx/LXVI_leg/estadistico_votacionnplxvi.php?votaciont=200) | sex-based rights, tier 1 |

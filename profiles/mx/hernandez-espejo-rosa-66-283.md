@@ -5,6 +5,11 @@ Mexico, Cámara de Diputados. From the parliamentary monitor's store; positions 
 - **Party:** not given by the source
 - **Source id:** `66/283`
 
+## Length of service
+
+- **Terms in the source:** legislature 66 (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the legislatures the store has read from SITL only; no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Party history
 
 - Recorded at votes in the store: MORENA (first 3 September 2024, last 25 March 2025).

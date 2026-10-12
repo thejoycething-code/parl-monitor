@@ -6,6 +6,11 @@ Mexico, Cámara de Diputados. From the parliamentary monitor's store; positions 
 - **Constituency or region:** Coahuila, Circ. 2
 - **Source id:** `66/367`
 
+## Length of service
+
+- **Terms in the source:** legislature 66, PRI (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the legislatures the store has read from SITL only; no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Party history
 
 - Recorded at votes in the store: PRI (first 3 September 2024, last 6 October 2026).
