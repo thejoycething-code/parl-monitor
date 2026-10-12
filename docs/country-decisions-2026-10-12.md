@@ -150,3 +150,21 @@ decision"**.
   Hungary 7, Brazil 4, Chile 3, Argentina, Austria and Belgium 1 each):
   `/Users/chrisjoyce/parl-judge/amendments/worklist.json` (outside the
   repo), made by `tools/amendment_worklist.py`.
+
+## Every amendment read (12 October 2026)
+
+Chris: "Score every amendment". All 1,555 amendment and article votes on
+the reading worklist (France 1,079, Poland 141, Italy 119, Dominican
+Republic 76, Switzerland 49, Netherlands 31, Spain 30, others 30) were read
+from each parliament's own text and applied with
+`tools/country_5ca.py --apply-amendments`: 818 with us, 272 against us,
+256 not scored (technical, procedural or no CitizenGO stake) and 209
+unclear (no text found, a bot check on the site, or the amendment pulls
+both ways). 313 of the with/against calls carry an `amendment_flag`
+(medium confidence, whole-article votes judged from the bill, text
+inferred) and wait for a person; the other 777 pass to Sunday's automatic
+sign-off. Unreadable sources: the Italian Senate and parlament.hu (bot
+checks, not bypassed), the Dominican Chamber (JavaScript only, wording cut
+at 240 characters), lachambre.be, and some French Sénat texts.
+Dry run on the 12 October store: about 936 readings would confirm on
+Sunday across all countries.

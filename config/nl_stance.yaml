@@ -508,7 +508,15 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "20eb0979-56ef-4e39-a448-fa60a64939b8"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Requires government rules on annual reporting by the research ethics committee, including whether specially created embryos are still needed; adds scrutiny to a bill allowing embryo creation for research."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2025Z21108"
+    amendment_flag: "Medium confidence: transparency measure that tightens oversight but does not restrict the research itself."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment 20eb0979-56ef-4e39-a448-fa60a64939b8 (Requires government rules on annual reporting by the research ethics committee, including ): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment 20eb0979-56ef-4e39-a448-fa60a64939b8 (Requires government rules on annual reporting by the research ethics committee, including ): for rejecting it, against CitizenGO's position."
     title: "Amendement: Amendement van het lid Krul over een grondslag om bij algemene maatregel van bestuur regels te stellen over de CCMO-rapportages"
     "on": "[\"Voorstel van wet van de leden Paternotte en Bevers tot wijziging van de Embryowet in verband met de afschaffing van het tijdelijk verbod op het doen ontstaan van embryo’s voor wetenschappelijk onder"
     dated: "2025-12-09"
@@ -519,8 +527,7 @@ divisions:
     result: "Aangenomen.; Voor 147, Tegen 3"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, BBB 3, ChristenUnie 3, DENK 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: PvdD 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "A motion tabled in the dossier of 36416 (against): its own text decides which side is ours, not the bill's direction. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology). The bill's direction does not carry to a motion."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Requires government rules on annual reporting by the research ethics committee, including whether specially created embryos are still needed; adds scrutiny to a bill allowing embryo creation for resea. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "308c6fcb-4a64-424f-9e9f-eb6f13eae1d5"
@@ -540,7 +547,14 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "396dc9cd-a32a-4910-b636-71ce268ada79"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Bans implanting embryos made from in vitro gametes, limiting the reproductive use of new embryo technology."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2025Z15554"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment 396dc9cd-a32a-4910-b636-71ce268ada79 (Bans implanting embryos made from in vitro gametes, limiting the reproductive use of new e): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment 396dc9cd-a32a-4910-b636-71ce268ada79 (Bans implanting embryos made from in vitro gametes, limiting the reproductive use of new e): for rejecting it, against CitizenGO's position."
     title: "Amendement: Amendement van het lid Hertzberger over een verbod op met IVG tot stand gebracht embryo's voor zwangerschap"
     "on": "[\"Voorstel van wet van de leden Paternotte en Bevers tot wijziging van de Embryowet in verband met de afschaffing van het tijdelijk verbod op het doen ontstaan van embryo’s voor wetenschappelijk onder"
     dated: "2025-12-09"
@@ -551,12 +565,18 @@ divisions:
     result: "Verworpen.; Voor 57, Tegen 93"
     lobbies: "Voor: PVV 19, FVD 10, JA21 9, BBB 3, ChristenUnie 3, DENK 3, SGP 3, 50PLUS 2. Tegen: VVD 31, D66 29, CDA 20, PvdD 3, SP 3, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "A motion tabled in the dossier of 36416 (against): its own text decides which side is ours, not the bill's direction. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology). The bill's direction does not carry to a motion."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Bans implanting embryos made from in vitro gametes, limiting the reproductive use of new embryo technology. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "3bb6432b-6612-45b2-9958-8b967faa1e59"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Adds Article 23 of the Constitution (freedom of education) as a binding frame when core objectives are worked out, protecting schools' religious and pedagogical identity, which is with CitizenGO."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2025Z20407"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment 3bb6432b-6612-45b2-9958-8b967faa1e59 (Adds Article 23 of the Constitution (freedom of education) as a binding frame when core ob): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment 3bb6432b-6612-45b2-9958-8b967faa1e59 (Adds Article 23 of the Constitution (freedom of education) as a binding frame when core ob): for rejecting it, against CitizenGO's position."
     title: "Amendement: Gewijzigd amendement van het lid Ergin ter vervanging van nr. 19 over expliciteren dat de kerndoelen in overeenstemming met artikel 23 Grondwet worden uitgewerkt"
     "on": "[\"Wijziging van de Wet op het primair onderwijs, de Wet op het primair onderwijs BES, de Wet op de expertisecentra, de Wet voortgezet onderwijs 2020 en de Wet op het hoger onderwijs en wetenschappelij"
     dated: "2025-12-09"
@@ -566,8 +586,7 @@ divisions:
     result: "Verworpen.; Voor 10, Tegen 140"
     lobbies: "Voor: FVD 10, DENK 3. Tegen: VVD 31, D66 29, CDA 20, PVV 19, JA21 9, BBB 3, ChristenUnie 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Gewijzigd amendement van het lid Ergin ter vervanging van nr. 19 over expliciteren dat de kerndoelen in over'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- Adds Article 23 of the Constitution (freedom of education) as a binding frame when core objectives are worked out, protecting schools' religious and pedagogical identity, which is with CitizenGO. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "450c9b10-7f4f-45a0-80b2-23889bdffe3a"
@@ -587,7 +606,12 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "51531803-37ed-4021-90e1-929e8a2a752b"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Ties entry into force to the separate Embryowet evaluation bill so the embryo definition is clear; a timing and coordination amendment."
+    amendment_why: "Ties entry into force to the separate Embryowet evaluation bill so the embryo definition is clear; a timing and coordination amendment."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2025Z21451"
+    amendment_flag: "Timing change could delay the research-embryo bill; check if relevant."
     title: "Amendement: Amendement van de leden Bikker en Diederik van Dijk ter vervanging van nr. 15 over inwerkingtreding gelijktijdig met de Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie"
     "on": "[\"Voorstel van wet van de leden Paternotte en Bevers tot wijziging van de Embryowet in verband met de afschaffing van het tijdelijk verbod op het doen ontstaan van embryo’s voor wetenschappelijk onder"
     dated: "2025-12-09"
@@ -598,12 +622,18 @@ divisions:
     result: "Verworpen.; Voor 22, Tegen 128"
     lobbies: "Voor: FVD 10, BBB 3, ChristenUnie 3, DENK 3, SGP 3, 50PLUS 2. Tegen: VVD 31, D66 29, CDA 20, PVV 19, JA21 9, PvdD 3, SP 3, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "A motion tabled in the dossier of 36416 (against): its own text decides which side is ours, not the bill's direction. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology). The bill's direction does not carry to a motion."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "79f4c326-8088-4dac-a309-8da7704c2b75"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Raises the maximum penalty for breaching the Embryowet bans on article 24, 25 and 26 practices, strengthening embryo protection."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2025Z21100"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment 79f4c326-8088-4dac-a309-8da7704c2b75 (Raises the maximum penalty for breaching the Embryowet bans on article 24, 25 and 26 pract): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment 79f4c326-8088-4dac-a309-8da7704c2b75 (Raises the maximum penalty for breaching the Embryowet bans on article 24, 25 and 26 pract): for rejecting it, against CitizenGO's position."
     title: "Amendement: Amendement van het lid Krul over het verhogen van de maximumstraf voor overtreding van de artikelen 24, 25 en 26 van de Embryowet"
     "on": "[\"Voorstel van wet van de leden Paternotte en Bevers tot wijziging van de Embryowet in verband met de afschaffing van het tijdelijk verbod op het doen ontstaan van embryo’s voor wetenschappelijk onder"
     dated: "2025-12-09"
@@ -614,12 +644,18 @@ divisions:
     result: "Aangenomen.; Voor 123, Tegen 27"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, BBB 3, ChristenUnie 3, DENK 3, SGP 3, 50PLUS 2. Tegen: PvdD 3, SP 3, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "A motion tabled in the dossier of 36416 (against): its own text decides which side is ours, not the bill's direction. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology). The bill's direction does not carry to a motion."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Raises the maximum penalty for breaching the Embryowet bans on article 24, 25 and 26 practices, strengthening embryo protection. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "da0e0fbd-9963-4501-ba2b-4ad52c4afe76"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Adds stricter review criteria for research on embryos, including weighing the research's importance against using human embryos, a restriction on embryo research."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2025Z15960"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment da0e0fbd-9963-4501-ba2b-4ad52c4afe76 (Adds stricter review criteria for research on embryos, including weighing the research's i): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment da0e0fbd-9963-4501-ba2b-4ad52c4afe76 (Adds stricter review criteria for research on embryos, including weighing the research's i): for rejecting it, against CitizenGO's position."
     title: "Amendement: Gewijzigd amendement van het lid Hertzberger ter vervanging van nr. 11 over aanvullende CCMO toetsingscriteria"
     "on": "[\"Voorstel van wet van de leden Paternotte en Bevers tot wijziging van de Embryowet in verband met de afschaffing van het tijdelijk verbod op het doen ontstaan van embryo’s voor wetenschappelijk onder"
     dated: "2025-12-09"
@@ -630,8 +666,7 @@ divisions:
     result: "Aangenomen.; Voor 78, Tegen 72"
     lobbies: "Voor: CDA 20, PVV 19, FVD 10, JA21 9, BBB 3, ChristenUnie 3, DENK 3, SGP 3, SP 3, 50PLUS 2. Tegen: VVD 31, D66 29, PvdD 3, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "A motion tabled in the dossier of 36416 (against): its own text decides which side is ours, not the bill's direction. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology). The bill's direction does not carry to a motion."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Adds stricter review criteria for research on embryos, including weighing the research's importance against using human embryos, a restriction on embryo research. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "ee2bfbb5-52f5-4f28-96f6-955d65c0edbe"
@@ -651,7 +686,15 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "f021ab1c-04f9-4756-857a-81dea3193cdb"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Stops the exception for embryos created as raw material for stem cells from applying, limiting commodification of early human life."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2025Z15555"
+    amendment_flag: "Medium confidence: legislative cross-reference reading of the amendment."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment f021ab1c-04f9-4756-857a-81dea3193cdb (Stops the exception for embryos created as raw material for stem cells from applying, limi): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment f021ab1c-04f9-4756-857a-81dea3193cdb (Stops the exception for embryos created as raw material for stem cells from applying, limi): for rejecting it, against CitizenGO's position."
     title: "Amendement: Amendement van het lid Hertzberger over geslachtsceldonatie ten behoeve van het in kweek brengen van embryonale cellen niet invoeren"
     "on": "[\"Voorstel van wet van de leden Paternotte en Bevers tot wijziging van de Embryowet in verband met de afschaffing van het tijdelijk verbod op het doen ontstaan van embryo’s voor wetenschappelijk onder"
     dated: "2025-12-09"
@@ -662,8 +705,7 @@ divisions:
     result: "Verworpen.; Voor 57, Tegen 93"
     lobbies: "Voor: PVV 19, FVD 10, JA21 9, BBB 3, ChristenUnie 3, DENK 3, SGP 3, 50PLUS 2. Tegen: VVD 31, D66 29, CDA 20, PvdD 3, SP 3, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "A motion tabled in the dossier of 36416 (against): its own text decides which side is ours, not the bill's direction. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology). The bill's direction does not carry to a motion."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Stops the exception for embryos created as raw material for stem cells from applying, limiting commodification of early human life. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "f70977fb-c443-42b0-9383-dcced90a2586"
@@ -2045,7 +2087,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "1431ea25-d907-49fe-896a-03ec8f065291"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Parliamentary pre-approval (voorhang) before the truancy law enters into force; procedural, no direct CitizenGO stake."
+    amendment_why: "Parliamentary pre-approval (voorhang) before the truancy law enters into force; procedural, no direct CitizenGO stake."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z06270"
     title: "Amendement: Amendement van de leden Ceder en Westerveld over een voorhang bij de inwerkingtredingsbepaling"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -2056,12 +2102,15 @@ divisions:
     result: "Verworpen.; Voor 71, Tegen 79"
     lobbies: "Voor: PVV 19, FVD 10, Groep Markuszower 7, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: VVD 31, D66 29, CDA 20, JA21 9, BBB 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Amendement van de leden Ceder en Westerveld over een voorhang bij de inwerkingtredingsbepaling'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "16305e24-21be-4d20-b687-6b27a9f17cb4"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Limits the pupil registration duty to schools with at least 150 pupils; an administrative burden question with no clear CitizenGO stake."
+    amendment_why: "Limits the pupil registration duty to schools with at least 150 pupils; an administrative burden question with no clear CitizenGO stake."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z06337"
     title: "Amendement: Amendement van het lid Stoffer over het beperken van de registratieplicht tot grotere scholen"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -2072,8 +2121,7 @@ divisions:
     result: "Verworpen.; Voor 14, Tegen 136"
     lobbies: "Voor: FVD 10, DENK 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, PVV 19, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Amendement van het lid Stoffer over het beperken van de registratieplicht tot grotere scholen'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "1741f199-43c8-4e70-bae1-ebe4d80d6231"
@@ -2095,7 +2143,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "3787e385-452e-4d24-b632-6549362616c7"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Requires the pupil data held by the ministry to be destroyed after three years; a data-retention detail with no clear CitizenGO stake."
+    amendment_why: "Requires the pupil data held by the ministry to be destroyed after three years; a data-retention detail with no clear CitizenGO stake."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z06386"
     title: "Amendement: Gewijzigd amendement van het lid Ceder ter vervanging van nr. 13 over het uiterlijk na drie jaar vernietigen van de persoonsgegevens"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -2106,8 +2158,7 @@ divisions:
     result: "Aangenomen.; Voor 115, Tegen 35"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, FVD 10, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: PVV 19, JA21 9, Groep Markuszower 7 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Gewijzigd amendement van het lid Ceder ter vervanging van nr. 13 over het uiterlijk na drie jaar vernietigen'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "38a608e0-64b5-4ee4-b8b7-4a7e788917e6"
@@ -2129,7 +2180,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "4032c64f-eb75-4d40-bc86-987bedb807e7"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Requires absence policy to state how long-term absence is tackled; administrative, no CitizenGO stake."
+    amendment_why: "Requires absence policy to state how long-term absence is tackled; administrative, no CitizenGO stake."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z05147"
     title: "Amendement: Amendement van het lid Ceder over een verplichting om in het verzuimbeleid ook duidelijk te maken hoe langdurig verzuim wordt tegengegaan"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -2140,8 +2195,7 @@ divisions:
     result: "Aangenomen.; Voor 118, Tegen 32"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, FVD 10, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: PVV 19, JA21 9, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Amendement van het lid Ceder over een verplichting om in het verzuimbeleid ook duidelijk te maken hoe langdu'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "46085a3e-ec40-488f-8dec-a2c33ee7180a"
@@ -2332,7 +2386,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "b0673bed-112a-4e70-8634-64ec39340ab6"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Creates a register of qualified doctors, educators and psychologists for assessing school-attendance exemptions; technical, no clear CitizenGO stake."
+    amendment_why: "Creates a register of qualified doctors, educators and psychologists for assessing school-attendance exemptions; technical, no clear CitizenGO stake."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z06271"
     title: "Amendement: Amendement van het lid Stoffer over een register van artsen, pedagogen en psychologen met specifieke bekwaamheid op het terrein van kinderen en onderwijs"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -2343,12 +2401,15 @@ divisions:
     result: "Verworpen.; Voor 27, Tegen 123"
     lobbies: "Voor: PVV 19, ChristenUnie 3, SGP 3, Volt 1. Tegen: VVD 31, D66 29, CDA 20, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Amendement van het lid Stoffer over een register van artsen, pedagogen en psychologen met specifieke bekwaam'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "b9de8bb2-282f-4460-953d-99f557287f93"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Adds an interim evaluation of the truancy law after three years; procedural, no CitizenGO stake."
+    amendment_why: "Adds an interim evaluation of the truancy law after three years; procedural, no CitizenGO stake."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z05900"
     title: "Amendement: Amendement van het lid Ceder over een beperkte tussentijdse evaluatie drie jaar na inwerkingtreding"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -2359,8 +2420,7 @@ divisions:
     result: "Aangenomen.; Voor 150, Tegen 0"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Amendement van het lid Ceder over een beperkte tussentijdse evaluatie drie jaar na inwerkingtreding'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "c0087829-a008-41cf-91b0-8c4dfc3e12e5"
@@ -2383,7 +2443,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "d18f4e65-0df2-43e8-9b99-9a0feb36c483"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Keeps the option of equivalent non-university educators issuing exemption statements; administrative, no clear CitizenGO stake."
+    amendment_why: "Keeps the option of equivalent non-university educators issuing exemption statements; administrative, no clear CitizenGO stake."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z06217"
     title: "Amendement: Amendement van het lid Ceder over het behouden van de mogelijkheid van een bij ministeriële regeling gelijkgestelde pedagogen en psychologen met een hbo-opleiding"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -2394,8 +2458,7 @@ divisions:
     result: "Verworpen.; Voor 39, Tegen 111"
     lobbies: "Voor: FVD 10, ChristenUnie 3, DENK 3, PvdD 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: VVD 31, D66 29, CDA 20, PVV 19, JA21 9, Groep Markuszower 7, BBB 3, SGP 3, SP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Amendement van het lid Ceder over het behouden van de mogelijkheid van een bij ministeriële regeling gelijkg'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "f7f12681-e8da-47a9-80a4-dd96ee6bb78b"
@@ -2417,7 +2480,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "fd965227-bad2-405a-ac36-8a92568c2006"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Sets out the preventive role of truancy officers; administrative, no CitizenGO stake."
+    amendment_why: "Sets out the preventive role of truancy officers; administrative, no CitizenGO stake."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z06340"
     title: "Amendement: Amendement van de leden Westerveld en Rooderkerk ter vervanging van nr. 15 over het vastleggen van de preventieve taak van leerplichtambtenaren"
     "on": "[\"Wijziging van de Leerplichtwet 1969 en enige andere onderwijswetten in verband met het voorkomen en het terugdringen van verzuim in het funderend onderwijs en het beroepsonderwijs (Wet terugdringen"
     dated: "2026-04-07"
@@ -2428,8 +2495,7 @@ divisions:
     result: "Aangenomen.; Voor 108, Tegen 42"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, Groep Markuszower 7, ChristenUnie 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1, Volt 1. Tegen: PVV 19, FVD 10, JA21 9, BBB 3, SGP 3 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Amendement van de leden Westerveld en Rooderkerk ter vervanging van nr. 15 over het vastleggen van de preven'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 6 (parental rights and education)."
+    reasoning: "Area 6 (parental rights and education). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "4d595847-cf25-42d4-b402-6b88341214a8"
@@ -2648,6 +2714,9 @@ divisions:
 
   - key: "0002070a-63dc-4e8e-a8c0-e81eacad230a"
     status: needs_reading
+    amendment_flag: "Narrows the embryo definition to naturally formed gametes and moves embryo models to the body-material law while keeping core bans; protective intent but removes models from the Embryowet, so it pulls both ways."
+    amendment_why: "Narrows the embryo definition to naturally formed gametes and moves embryo models to the body-material law while keeping core bans; protective intent but removes models from the Embryowet, so it pulls both ways."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z10184"
     title: "Amendement: Gewijzigd amendement van het lid Claassen ter vervanging van nr. 17 over modelembryo's onderbrengen onder de Wlz met behoud van kernverboden"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2659,7 +2728,7 @@ divisions:
     lobbies: "Voor: Groep Markuszower 7, BBB 3, 50PLUS 2. Tegen: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, GroenLinks-PvdA 1, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Amendement: Gewijzigd amendement van het lid Claassen ter vervanging van nr. 17 over modelembryo's onderbrengen onder de'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology)."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "0dd6f6c6-4dde-456b-a11f-3d63ec10b6c4"
@@ -2711,7 +2780,15 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "4df30700-56ad-45bb-a916-167b6541228a"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Bans deliberately creating embryo-like structures from stem cells, restricting embryo-model research, which is with CitizenGO."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z07564"
+    amendment_flag: "Medium confidence: the amendment deletes parts of the bill and the effect is read from its explanation."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment 4df30700-56ad-45bb-a916-167b6541228a (Bans deliberately creating embryo-like structures from stem cells, restricting embryo-mode): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment 4df30700-56ad-45bb-a916-167b6541228a (Bans deliberately creating embryo-like structures from stem cells, restricting embryo-mode): for rejecting it, against CitizenGO's position."
     title: "Amendement: Amendement van de leden Bikker en Diederik van Dijk over een verbod op het speciaal tot stand brengen van ELS"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2722,8 +2799,7 @@ divisions:
     result: "Verworpen. (46-97); Voor 46, Tegen 97"
     lobbies: "Voor: PVV 19, Groep Markuszower 7, FVD 5, JA21 4, ChristenUnie 3, DENK 3, BBB 2, SGP 2, Keijzer 1. Tegen: D66 25, VVD 21, GroenLinks-PvdA 20, CDA 18, JA21 5, SP 3, 50PLUS 2, PvdD 2, Volt 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Amendement van de leden Bikker en Diederik van Dijk over een verbod op het speciaal tot stand brengen van EL'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology)."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Bans deliberately creating embryo-like structures from stem cells, restricting embryo-model research, which is with CitizenGO. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "6635723a-e3cc-4550-a6b8-6b46bff4d84d"
@@ -2765,7 +2841,14 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "8da3cb4b-a267-496a-a815-0269bd896dfc"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Bans creating embryo-like structures using cells obtained from abortions, closing a loophole linked to abortion tissue."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z08881"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment 8da3cb4b-a267-496a-a815-0269bd896dfc (Bans creating embryo-like structures using cells obtained from abortions, closing a loopho): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment 8da3cb4b-a267-496a-a815-0269bd896dfc (Bans creating embryo-like structures using cells obtained from abortions, closing a loopho): for rejecting it, against CitizenGO's position."
     title: "Amendement: Gewijzigd amendement van de leden Diederik van Dijk en Bikker ter vervanging van nr. 10 over een verbod op het gebruiken van bij zwangerschapsafbreking verkregen materiaal"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2776,8 +2859,7 @@ divisions:
     result: "Verworpen. (48-95); Voor 48, Tegen 95"
     lobbies: "Voor: PVV 19, Groep Markuszower 7, FVD 5, JA21 4, ChristenUnie 3, DENK 3, 50PLUS 2, BBB 2, SGP 2, Keijzer 1. Tegen: D66 25, VVD 21, GroenLinks-PvdA 20, CDA 18, JA21 5, SP 3, PvdD 2, Volt 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Gewijzigd amendement van de leden Diederik van Dijk en Bikker ter vervanging van nr. 10 over een verbod op h'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion), 10 (surrogacy and embryology)."
+    reasoning: "Area 1 (abortion), 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Bans creating embryo-like structures using cells obtained from abortions, closing a loophole linked to abortion tissue. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "9509fdce-2d75-4b97-b0f3-450f9ad52125"
@@ -2832,7 +2914,14 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "bc4292cf-fbc0-4999-8bff-f273fa9894f1"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Criminalises promoting or brokering prohibited acts such as sex selection, germline modification and IVG embryos abroad, tightening the Embryowet."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z07566"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment bc4292cf-fbc0-4999-8bff-f273fa9894f1 (Criminalises promoting or brokering prohibited acts such as sex selection, germline modifi): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment bc4292cf-fbc0-4999-8bff-f273fa9894f1 (Criminalises promoting or brokering prohibited acts such as sex selection, germline modifi): for rejecting it, against CitizenGO's position."
     title: "Amendement: Amendement van de leden Bikker en Diederik van Dijk over een verbod of het bevorderen van verboden handelingen"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2843,8 +2932,7 @@ divisions:
     result: "Aangenomen.; Voor 149, Tegen 1"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, GroenLinks-PvdA 1. Tegen: Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Amendement van de leden Bikker en Diederik van Dijk over een verbod of het bevorderen van verboden handeling'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology)."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Criminalises promoting or brokering prohibited acts such as sex selection, germline modification and IVG embryos abroad, tightening the Embryowet. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "c0f3ac8d-d325-4023-aee6-bdefdc7d1089"
@@ -2882,7 +2970,14 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "d86f4cb2-1ff8-4cd3-9df8-39edf0b88177"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Bans establishing a pregnancy with embryos made from in vitro gametes, limiting reproductive use of new technology."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z08882"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment d86f4cb2-1ff8-4cd3-9df8-39edf0b88177 (Bans establishing a pregnancy with embryos made from in vitro gametes, limiting reproducti): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment d86f4cb2-1ff8-4cd3-9df8-39edf0b88177 (Bans establishing a pregnancy with embryos made from in vitro gametes, limiting reproducti): for rejecting it, against CitizenGO's position."
     title: "Amendement: Gewijzigd amendement van de leden Diederik van Dijk en Bikker ter vervanging van nr. 11 over een verbod op het tot stand brengen van een embryo met IVG-geslachtscellen voor reproductieve doeleinden"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2893,12 +2988,14 @@ divisions:
     result: "Verworpen. (48-95); Voor 48, Tegen 95"
     lobbies: "Voor: PVV 19, Groep Markuszower 7, FVD 5, JA21 4, ChristenUnie 3, DENK 3, 50PLUS 2, BBB 2, SGP 2, Keijzer 1. Tegen: D66 25, VVD 21, GroenLinks-PvdA 20, CDA 18, JA21 5, SP 3, PvdD 2, Volt 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Gewijzigd amendement van de leden Diederik van Dijk en Bikker ter vervanging van nr. 11 over een verbod op h'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology)."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Bans establishing a pregnancy with embryos made from in vitro gametes, limiting reproductive use of new technology. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "ee12c14f-66c0-40ef-a616-c27095202707"
     status: needs_reading
+    amendment_flag: "Creates a separate category of embryo-like entities treated like embryos unless stated otherwise; protective in application but removes them from the embryo definition, so it pulls both ways."
+    amendment_why: "Creates a separate category of embryo-like entities treated like embryos unless stated otherwise; protective in application but removes them from the embryo definition, so it pulls both ways."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z07871"
     title: "Amendement: Amendement van het lid Diederik van Dijk over een onderscheid tussen embryo's en embryoachtige entiteiten"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2910,11 +3007,18 @@ divisions:
     lobbies: "Voor: PVV 19, Groep Markuszower 7, FVD 5, JA21 4, ChristenUnie 3, DENK 3, 50PLUS 2, BBB 2, SGP 2, Keijzer 1. Tegen: D66 25, VVD 21, GroenLinks-PvdA 20, CDA 18, JA21 5, SP 3, PvdD 2, Volt 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Amendement: Amendement van het lid Diederik van Dijk over een onderscheid tussen embryo's en embryoachtige entiteiten'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology)."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "ee37aad2-1dbc-42a9-8e6f-ee320bd67efa"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Deletes the open-ended 'other ways of creating' embryos and bans any other method of creating an embryo, tightening embryo protection."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z08884"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment ee37aad2-1dbc-42a9-8e6f-ee320bd67efa (Deletes the open-ended 'other ways of creating' embryos and bans any other method of creat): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment ee37aad2-1dbc-42a9-8e6f-ee320bd67efa (Deletes the open-ended 'other ways of creating' embryos and bans any other method of creat): for rejecting it, against CitizenGO's position."
     title: "Amendement: Gewijzigd amendement van de leden Diederik van Dijk en Bikker ter vervanging van nr. 12 over een verbod op andere manieren van totstandbrengen voor ELS"
     "on": "[\"Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie\"]"
     dated: "2026-06-02"
@@ -2925,8 +3029,7 @@ divisions:
     result: "Verworpen. (48-95); Voor 48, Tegen 95"
     lobbies: "Voor: PVV 19, Groep Markuszower 7, FVD 5, JA21 4, ChristenUnie 3, DENK 3, 50PLUS 2, BBB 2, SGP 2, Keijzer 1. Tegen: D66 25, VVD 21, GroenLinks-PvdA 20, CDA 18, JA21 5, SP 3, PvdD 2, Volt 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Gewijzigd amendement van de leden Diederik van Dijk en Bikker ter vervanging van nr. 12 over een verbod op a'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology)."
+    reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Deletes the open-ended 'other ways of creating' embryos and bans any other method of creating an embryo, tightening embryo protection. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "f27740dd-9556-4342-82ec-35986d45a938"
@@ -3598,7 +3701,14 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "1c22e792-8fdf-4a33-ad1c-d6c4f30be509"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Makes exploitation by a public official an aggravating circumstance in trafficking offences, strengthening anti-trafficking penalties."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z20490"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment 1c22e792-8fdf-4a33-ad1c-d6c4f30be509 (Makes exploitation by a public official an aggravating circumstance in trafficking offence): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment 1c22e792-8fdf-4a33-ad1c-d6c4f30be509 (Makes exploitation by a public official an aggravating circumstance in trafficking offence): for rejecting it, against CitizenGO's position."
     title: "Amendement: Gewijzigd amendement van het lid Faber ter vervanging van nr. 11 over uitbuiting begaan door een ambtenaar als specifieke strafverzwarende omstandigheid aanmerken"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3608,12 +3718,19 @@ divisions:
     result: "Verworpen.; Voor 49, Tegen 101"
     lobbies: "Voor: PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, PRO 20, ChristenUnie 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Gewijzigd amendement van het lid Faber ter vervanging van nr. 11 over uitbuiting begaan door een ambtenaar a'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 12 (prostitution and trafficking)."
+    reasoning: "Area 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Makes exploitation by a public official an aggravating circumstance in trafficking offences, strengthening anti-trafficking penalties. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "1dde8cc9-9219-4968-907e-7b8cec1e3f1a"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Criminalises assisting trafficking whatever the motive and extends liability to organisations, strengthening anti-trafficking law; the reach over charities is a possible side effect."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z20581"
+    amendment_flag: "Medium confidence: broad facilitation offence could catch humanitarian actors."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment 1dde8cc9-9219-4968-907e-7b8cec1e3f1a (Criminalises assisting trafficking whatever the motive and extends liability to organisati): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment 1dde8cc9-9219-4968-907e-7b8cec1e3f1a (Criminalises assisting trafficking whatever the motive and extends liability to organisati): for rejecting it, against CitizenGO's position."
     title: "Amendement: Gewijzigd amendement van het lid Faber ter vervanging van nr. 13 over het behulpzaam zijn bij mensenhandel ongeacht het motief strafbaar stellen"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3623,8 +3740,7 @@ divisions:
     result: "Verworpen.; Voor 46, Tegen 104"
     lobbies: "Voor: PVV 19, FVD 10, JA21 9, Groep Markuszower 7, SGP 3. Tegen: VVD 31, D66 29, CDA 20, PRO 20, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SP 3, 50PLUS 2, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Gewijzigd amendement van het lid Faber ter vervanging van nr. 13 over het behulpzaam zijn bij mensenhandel o'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 12 (prostitution and trafficking)."
+    reasoning: "Area 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Criminalises assisting trafficking whatever the motive and extends liability to organisations, strengthening anti-trafficking law; the reach over charities is a possible side effect. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "2d5c9c42-272a-4de5-b34d-81ca4306fd86"
@@ -3647,6 +3763,9 @@ divisions:
 
   - key: "3d25b030-97a4-470f-b995-995a515f73a4"
     status: needs_reading
+    amendment_flag: "Criminalises people smuggling regardless of humanitarian or ideal motive; this is a migration measure that pulls both ways on charity and church help versus anti-trafficking."
+    amendment_why: "Criminalises people smuggling regardless of humanitarian or ideal motive; this is a migration measure that pulls both ways on charity and church help versus anti-trafficking."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z19550"
     title: "Amendement: Amendement van het lid Faber over mensensmokkel ongeacht het motief strafbaar stellen"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3657,7 +3776,7 @@ divisions:
     lobbies: "Voor: PVV 19, FVD 10, Groep Markuszower 7, BBB 3, 50PLUS 2. Tegen: VVD 31, D66 29, CDA 20, PRO 20, JA21 9, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Amendement: Amendement van het lid Faber over mensensmokkel ongeacht het motief strafbaar stellen'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 11 (migration), 12 (prostitution and trafficking)."
+    reasoning: "Area 11 (migration), 12 (prostitution and trafficking). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "5154f09b-7e72-40c1-843c-4df884e51752"
@@ -3697,7 +3816,15 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "667ca506-d259-4884-9956-b220432f4262"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Replaces 'oogmerk' (purpose) with 'opzet' (intent) in the trafficking offence, widening what counts as trafficking and easing prosecution."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z21007"
+    amendment_flag: "Medium confidence: technical criminal-law change, anti-trafficking in effect."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment 667ca506-d259-4884-9956-b220432f4262 (Replaces 'oogmerk' (purpose) with 'opzet' (intent) in the trafficking offence, widening wh): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment 667ca506-d259-4884-9956-b220432f4262 (Replaces 'oogmerk' (purpose) with 'opzet' (intent) in the trafficking offence, widening wh): for rejecting it, against CitizenGO's position."
     title: "Amendement: Nader gewijzigd amendement van de leden Faber en Diederik van Dijk ter vervanging van nr. 27 over het schrappen van 'oogmerk' als bestanddeel van de delictsomschrijving van mensenhandel"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3707,12 +3834,18 @@ divisions:
     result: "Aangenomen.; Voor 119, Tegen 31"
     lobbies: "Voor: VVD 31, CDA 20, PRO 20, PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, Volt 1. Tegen: D66 29, SP 3, 50PLUS 2 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Nader gewijzigd amendement van de leden Faber en Diederik van Dijk ter vervanging van nr. 27 over het schrap'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 12 (prostitution and trafficking)."
+    reasoning: "Area 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Replaces 'oogmerk' (purpose) with 'opzet' (intent) in the trafficking offence, widening what counts as trafficking and easing prosecution. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "69dedf01-f60c-4e9e-b609-e22cb9e57f18"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Obliges online platforms hosting sex adverts to verify age and identity and offer a report function, a clear anti-trafficking and anti-prostitution-exploitation measure."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z20189"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment 69dedf01-f60c-4e9e-b609-e22cb9e57f18 (Obliges online platforms hosting sex adverts to verify age and identity and offer a report): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment 69dedf01-f60c-4e9e-b609-e22cb9e57f18 (Obliges online platforms hosting sex adverts to verify age and identity and offer a report): for rejecting it, against CitizenGO's position."
     title: "Amendement: Amendement van de leden Boomsma en Bikker over het introduceren van een meld- en informatieplicht voor online platforms met seksadvertenties"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3722,8 +3855,7 @@ divisions:
     result: "Aangenomen.; Voor 131, Tegen 19"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: PVV 19 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Amendement van de leden Boomsma en Bikker over het introduceren van een meld- en informatieplicht voor onlin'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 12 (prostitution and trafficking)."
+    reasoning: "Area 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Obliges online platforms hosting sex adverts to verify age and identity and offer a report function, a clear anti-trafficking and anti-prostitution-exploitation measure. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "82c2a55c-f5d1-4db3-abf6-13d4a4340b62"
@@ -3745,7 +3877,15 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "98cbb7b7-3433-484d-95b7-21f4684d83c4"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Names exploitation within marriage or registered partnership (relational exploitation) as a form of trafficking, strengthening anti-trafficking protection."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z21153"
+    amendment_flag: "Medium confidence: anti-trafficking aim, touches marriage definitions only as a setting for abuse."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment 98cbb7b7-3433-484d-95b7-21f4684d83c4 (Names exploitation within marriage or registered partnership (relational exploitation) as ): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment 98cbb7b7-3433-484d-95b7-21f4684d83c4 (Names exploitation within marriage or registered partnership (relational exploitation) as ): for rejecting it, against CitizenGO's position."
     title: "Amendement: Nader gewijzigd amendement van het lid Boomsma c.s. ter vervanging van nr. 23 over het expliciteren van relationele uitbuiting als vorm van mensenhandel"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3755,8 +3895,7 @@ divisions:
     result: "Aangenomen.; Voor 124, Tegen 26"
     lobbies: "Voor: VVD 31, D66 29, CDA 20, PRO 20, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1. Tegen: PVV 19, FVD 10 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Nader gewijzigd amendement van het lid Boomsma c.s. ter vervanging van nr. 23 over het expliciteren van rela'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 12 (prostitution and trafficking)."
+    reasoning: "Area 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Names exploitation within marriage or registered partnership (relational exploitation) as a form of trafficking, strengthening anti-trafficking protection. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "9e23d9da-8587-4356-9717-452bd456a227"
@@ -3778,7 +3917,15 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "a77a8f88-5161-436c-b882-108589699648"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Treats a parent sending a lone minor ahead to gain residence as exploitation under the trafficking offence; protects children but is asylum-linked."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z20487"
+    amendment_flag: "Medium confidence: child-protection aim mixed with a migration-policy angle."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment a77a8f88-5161-436c-b882-108589699648 (Treats a parent sending a lone minor ahead to gain residence as exploitation under the tra): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment a77a8f88-5161-436c-b882-108589699648 (Treats a parent sending a lone minor ahead to gain residence as exploitation under the tra): for rejecting it, against CitizenGO's position."
     title: "Amendement: Gewijzigd amendement van het lid Faber ter vervanging van nr. 8 over het met het oog op verkrijgen van asiel vooruitsturen van minderjarige kinderen door ouders kwalificeren als uitbuiting"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3788,12 +3935,18 @@ divisions:
     result: "Verworpen.; Voor 37, Tegen 113"
     lobbies: "Voor: PVV 19, FVD 10, Groep Markuszower 7, BBB 3. Tegen: VVD 31, D66 29, CDA 20, PRO 20, JA21 9, ChristenUnie 3, DENK 3, PvdD 3, SGP 3, SP 3, 50PLUS 2, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Gewijzigd amendement van het lid Faber ter vervanging van nr. 8 over het met het oog op verkrijgen van asiel'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 11 (migration), 12 (prostitution and trafficking)."
+    reasoning: "Area 11 (migration), 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Treats a parent sending a lone minor ahead to gain residence as exploitation under the trafficking offence; protects children but is asylum-linked. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "a889171b-546c-4176-82ce-b537c9881ff4"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Extends the ban so commercial surrogacy between private individuals is also criminal, which is with CitizenGO's opposition to surrogacy."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z19546"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment a889171b-546c-4176-82ce-b537c9881ff4 (Extends the ban so commercial surrogacy between private individuals is also criminal, whic): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment a889171b-546c-4176-82ce-b537c9881ff4 (Extends the ban so commercial surrogacy between private individuals is also criminal, whic): for rejecting it, against CitizenGO's position."
     title: "Amendement: Amendement van de leden Faber en Diederik van Dijk over expliciteren dat ook commercieel draagmoederschap tussen particulieren verboden is"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3803,12 +3956,18 @@ divisions:
     result: "Verworpen.; Voor 52, Tegen 98"
     lobbies: "Voor: PVV 19, FVD 10, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, SGP 3. Tegen: VVD 31, D66 29, CDA 20, PRO 20, DENK 3, PvdD 3, SP 3, 50PLUS 2, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Amendement van de leden Faber en Diederik van Dijk over expliciteren dat ook commercieel draagmoederschap tu'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 10 (surrogacy and embryology), 12 (prostitution and trafficking)."
+    reasoning: "Area 10 (surrogacy and embryology), 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Extends the ban so commercial surrogacy between private individuals is also criminal, which is with CitizenGO's opposition to surrogacy. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "be0c784e-4eff-4589-b988-12d5f62574ae"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Phases the age limit for prostitution up from 18 to 21 in the trafficking offence, protecting young people from sexual exploitation."
+    amendment_source: "https://www.tweedekamer.nl/kamerstukken/amendementen/detail?id=2026Z21006"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Voor on amendment be0c784e-4eff-4589-b988-12d5f62574ae (Phases the age limit for prostitution up from 18 to 21 in the trafficking offence, protect): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Tegen on amendment be0c784e-4eff-4589-b988-12d5f62574ae (Phases the age limit for prostitution up from 18 to 21 in the trafficking offence, protect): for rejecting it, against CitizenGO's position."
     title: "Amendement: Nader gewijzigd amendement van de leden Faber en Diederik van Dijk ter vervanging van nr. 24 over het trapsgewijs verhogen van de leeftijd voor prostitutie van 18 naar 21 jaar"
     "on": "[\"Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de bes"
     dated: "2026-10-06"
@@ -3818,8 +3977,7 @@ divisions:
     result: "Verworpen.; Voor 50, Tegen 100"
     lobbies: "Voor: PVV 19, JA21 9, Groep Markuszower 7, BBB 3, ChristenUnie 3, DENK 3, SGP 3, 50PLUS 2. Tegen: VVD 31, D66 29, CDA 20, PRO 20, FVD 10, PvdD 3, SP 3, Volt 1 (counts include members DERIVED from their group's vote, X5)"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Amendement: Nader gewijzigd amendement van de leden Faber en Diederik van Dijk ter vervanging van nr. 24 over het trapsg'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 12 (prostitution and trafficking)."
+    reasoning: "Area 12 (prostitution and trafficking). Amendment reading on file: adopting it is WITH us -- Phases the age limit for prostitution up from 18 to 21 in the trafficking offence, protecting young people from sexual exploitation. A Voor here adopts it, so Voor is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "cd0dd87e-561e-4898-9209-88c3bb946a6d"
