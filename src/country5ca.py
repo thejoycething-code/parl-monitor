@@ -2162,6 +2162,14 @@ def resync_directions(cc, config_dir=None, dry_run=False, log=print):
 _NO_DIRECTION = re.compile(
     r"^(?P<kind>.+), but no bill direction is on file for (?P<refs>.+?): CitizenGO's position on "
     r"'(?P<subject>.*)' needs a human reading\. Add a `bill_directions` line or write yea/nay here\.$")
+# The resync's lines for a draft whose bill direction went on hold, to
+# needs_reading or away (resync_directions), read back by `fill_directions`
+# once the direction is with/against again (12 October 2026).
+_HELD = re.compile(r"^The direction of (?P<bkey>.+?) is (?P<state>[^:]+): ")
+_NO_LONGER = re.compile(
+    r"^(?P<area>.*) Drafted from (?P<bkey>.+) as (?:with|against); that direction is no longer on "
+    r"file, so nothing is proposed\.$")
+_INVERTED_FLAG = "The record says a Yes here REJECTS the text; check the question put."
 LEFT_FOR_PERSON = "Left for a person"
 
 
@@ -2173,6 +2181,14 @@ def fill_directions(cc, config_dir=None, dry_run=False, log=print):
     direction was added. This turns such an entry into the draft the drafter
     would now write (`rule_values`, the bill's flag copied as draft_entry
     does), so the next --auto-confirm can check it.
+
+    It also redrafts a draft the resync turned into `needs_reading` when its
+    bill went on hold (or to needs_reading, or lost its direction): its
+    read_first "The direction of <bill> is on hold: ..." and its reasoning
+    "Drafted from <bill> as ...; that direction is no longer on file" exactly
+    as the resync wrote them. Once that bill is with/against again the entry
+    gets the rules' values for it (12 October 2026: four French palliative
+    law votes needed a one-off script). A bill still held stays as it is.
 
     Only an UNTOUCHED entry: `read_first` and `reasoning` exactly the rules'
     text, stamped by the drafter, no values, strike, flag, amendment or
@@ -2191,31 +2207,41 @@ def fill_directions(cc, config_dir=None, dry_run=False, log=print):
         kind = e.get("vote_kind")
         if e.get("status") != "needs_reading" or kind not in FINAL_KINDS:
             continue
-        m = _NO_DIRECTION.match(str(e.get("read_first") or ""))
-        if not m or m.group("kind") != KIND_WORDS[kind][0].upper() + KIND_WORDS[kind][1:]:
-            continue
-        if e.get("reasoning") != "{0} Direction unclear from the store: nothing proposed.".format(
-                _area_line(e)):
-            continue
-        if hand_edited(e) or e.get("flag") or e.get("draft") or any(e.get(x) for x in AMEND_KEYS):
+        bkey = _held_bill(e, bills)
+        held = bkey is not None
+        if not held:
+            m = _NO_DIRECTION.match(str(e.get("read_first") or ""))
+            if not m or m.group("kind") != KIND_WORDS[kind][0].upper() + KIND_WORDS[kind][1:]:
+                continue
+            if e.get("reasoning") != "{0} Direction unclear from the store: nothing proposed.".format(
+                    _area_line(e)):
+                continue
+        flag = e.get("flag")
+        if held and kind == "inverted" and flag == _INVERTED_FLAG:
+            flag = None                  # the drafter's own flag, kept by the resync
+        if hand_edited(e) or flag or e.get("draft") or any(e.get(x) for x in AMEND_KEYS):
             continue
         s, t = where.get(k, (0, 0))
         if any(ln.lstrip().startswith("#") for ln in lines[s + 1:t]):
             continue
-        refs = [] if m.group("refs") == "this item" else m.group("refs").split(", ")
-        bkey = next((str(c) for c in [e.get("watched")] + refs + [k]
-                     if c and str(c) in bills and bills[str(c)].get("direction") in ("with", "against")),
-                    None)
-        if bkey is None:
-            continue
-        if spec.own_key is not None and re.search(MOTION, fold(e.get("title"))) \
-                and (not refs or bkey != refs[0]):
-            continue
+        if held:
+            if bills[bkey].get("direction") not in ("with", "against"):
+                continue                 # still on hold: it stays needs_reading
+        else:
+            refs = [] if m.group("refs") == "this item" else m.group("refs").split(", ")
+            bkey = next((str(c) for c in [e.get("watched")] + refs + [k]
+                         if c and str(c) in bills and bills[str(c)].get("direction") in ("with", "against")),
+                        None)
+            if bkey is None:
+                continue
+            if spec.own_key is not None and re.search(MOTION, fold(e.get("title"))) \
+                    and (not refs or bkey != refs[0]):
+                continue
         bill = bills[bkey]
         vals = dict(status="draft", **rule_values(spec, kind, bkey, bill, _area_line(e)))
         flags = []
         if kind == "inverted":
-            flags.append("The record says a Yes here REJECTS the text; check the question put.")
+            flags.append(_INVERTED_FLAG)
         if bill.get("flag"):
             flags.append(_BILL_FLAG + bill["flag"])
         if flags:
@@ -2228,6 +2254,18 @@ def fill_directions(cc, config_dir=None, dry_run=False, log=print):
             spec.name, "would draft" if dry_run else "drafted", len(edits),
             "y" if len(edits) == 1 else "ies", ", ".join(sorted(edits))))
     return sorted(edits)
+
+
+def _held_bill(e, bills):
+    """The bill a resync-made needs_reading entry names (its read_first "The
+    direction of <bill> is ...: " and its reasoning "Drafted from <bill> as
+    ...; that direction is no longer on file", both as the resync wrote
+    them), when that bill is in the stance file; else None."""
+    m = _HELD.match(str(e.get("read_first") or ""))
+    n = _NO_LONGER.match(str(e.get("reasoning") or ""))
+    if not m or not n or m.group("bkey") != n.group("bkey") or n.group("area") != _area_line(e):
+        return None
+    return m.group("bkey") if m.group("bkey") in bills else None
 
 
 # --- amendment readings (12 October 2026) --------------------------------------------
