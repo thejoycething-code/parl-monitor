@@ -74,6 +74,14 @@ is: who confirmed it, when, and the -2..2 values of a Yes and a No. No page
 places a member in a 5CA column; that stays with the 5CA pages
 (tools/make_country_5ca_web.py), gated on confirmed placements.
 
+PORTRAITS AND PARTY COLOURS (additive, 12 October 2026, src/portraits.py):
+build() also returns "_keys" (the member keys, aligned with "members"; never
+rendered). tools/make_country_votes.py passes the data to portraits.attach,
+which adds "colours" (party label -> chip colour, config/party-colours.yaml)
+and, only for a country whose photo licence is OK
+(docs/portraits-logos-licences.md), "portraits" and "portrait_credit": the
+member card shows the thumbnail with the licence line. No party logo is used.
+
 Read-only on the store and the config; fetches nothing; no AI call.
 """
 
@@ -287,6 +295,9 @@ def build(conn, cc, today, config_dir=None, max_divisions=MAX_DIVISIONS):
         "watchlist_size": len(wl), "area_labels": {str(k): v for k, v in
                                                    ce.AREA_LABELS.items()},
         "attribution": mp.attribution(conn, cc),
+        # The member keys, aligned with "members", for src/portraits.attach;
+        # never rendered (render_page drops every "_" key).
+        "_keys": [by_key[i] for i in range(len(members.items))],
     }
 
 
@@ -321,7 +332,8 @@ TEMPLATE = os.path.join(ROOT, "templates", "country-votes.html")
 def render_page(data, sample=False, template=TEMPLATE):
     with open(template, encoding="utf-8") as fh:
         page = fh.read()
-    data = dict(data, sample=SAMPLE_MARK if sample else None)
+    data = {k: v for k, v in data.items() if not k.startswith("_")}
+    data["sample"] = SAMPLE_MARK if sample else None
     # </script> inside a string would close the page's script early.
     blob = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     title = "{0}: votes on our ground".format(data["name"])
