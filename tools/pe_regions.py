@@ -50,6 +50,13 @@ shown.
 
 ONE WRITER AT A TIME on data/parl-monitor.db. Exit 3: stored what it could
 and recorded gaps. --budget-seconds stops the gob.pe pass early (a gap).
+
+ROBOTS.TXT AT RUN TIME (12 October 2026): every request goes through
+src/robots_guard.GuardedClient, which reads each host's robots.txt once per
+run, before the first request, with src/prov_fetch's reader. A disallowed
+URL, or a host whose robots.txt answers 5xx or not at all, is a [gap] line
+and a gaps row, never fetched and never fatal; a 4xx robots.txt means no
+rules; a Crawl-delay raises that host's interval.
 """
 
 from __future__ import annotations
@@ -71,6 +78,7 @@ import yaml  # noqa: E402
 
 from src import db  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import GuardedClient, RobotsRefused  # noqa: E402
 
 FEED = "pe-regions"
 GAZETTE_HOST = "diariooficial.elperuano.pe"
@@ -384,6 +392,7 @@ def pull_gazette(conn, client, today, since, tax, watch, index, log=print):
                                 "gazette-{0}-{1}".format(since.isoformat(), today.isoformat()),
                                 timeout=120, archive=True)
     except FetchError as exc:
+        # A RobotsRefused (src/robots_guard) lands here too, with its reason.
         db.record_gap(conn, FEED, "El Peruano Normas Legales unreadable for {0} to {1}: {2}".format(
             since, today, str(exc)[:120]), today.isoformat())
         conn.commit()
@@ -422,6 +431,14 @@ def pull_gobpe(conn, client, today, tax, watch, regions, deadline=None, log=prin
             url = GOBPE.format(r["gobpe"], t)
             try:
                 page = client.get_text(url, FEED, "gobpe-{0}-{1}".format(r["gobpe"], t))
+            except RobotsRefused as exc:
+                gaps += 1
+                db.record_gap(conn, FEED, "gob.pe {0} {1}: {2}".format(r["gobpe"], t, exc.reason),
+                              today.isoformat())
+                if exc.host_skipped:
+                    conn.commit()
+                    return read, new, ours, gaps
+                continue
             except FetchError as exc:
                 gaps += 1
                 db.record_gap(conn, FEED, "gob.pe {0} {1} unreadable: {2}".format(
@@ -461,7 +478,9 @@ def main(argv=None):
     regions = load_regions()
     since = (datetime.date.fromisoformat(args.since) if args.since
              else today - datetime.timedelta(days=LOOKBACK_DAYS))
-    client = HttpClient(raw_dir=args.raw_dir, throttle=1.0)
+    # robots.txt asked on THIS run, per host, before any request
+    # (src/robots_guard); a refusal is a gap, never fatal.
+    client = GuardedClient(HttpClient(raw_dir=args.raw_dir, throttle=1.0), FEED)
     read, new, ours, gaps = pull_gazette(conn, client, today, since, tax, watch,
                                          gazette_index(regions))
     print("pe-regions: El Peruano {0} to {1}: {2} regional norm(s), {3} new, {4} shown on our "

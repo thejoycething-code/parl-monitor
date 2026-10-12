@@ -91,6 +91,7 @@ class Context:
         parts = urlsplit(url)
         host = parts.netloc
         if host not in self._robots:
+            unreachable = None
             try:
                 text = self.client.get_text("{0}://{1}/robots.txt".format(parts.scheme, host),
                                             self.feed, "robots-" + host, archive=False)
@@ -108,9 +109,15 @@ class Context:
                     text = ""         # no robots.txt: no rules
                 else:
                     text = "User-agent: *\nDisallow: /\n"
-                    self.gap("robots.txt for {0} unreachable ({1}); host skipped until it "
-                             "answers".format(host, code or getattr(exc, "cause", exc)))
+                    unreachable = ("robots.txt for {0} unreachable ({1}); host skipped until "
+                                   "it answers".format(host, code or getattr(exc, "cause", exc)))
+                    self.gap(unreachable)
             rp = Robots(text)
+            # 12 October 2026 (additive): the reason a host is refused as a
+            # whole, so src/robots_guard can say "host skipped" once rather
+            # than "path disallowed" for every URL on it. None when the host
+            # answered.
+            rp.unreachable = unreachable
             # Two independent readers, and a URL is fetched only if BOTH allow
             # it: the Robots class (built for Ontario's '/*?' wildcard) and
             # star_rules (built for Quebec's rules split across many '*'

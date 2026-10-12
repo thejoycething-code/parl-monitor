@@ -46,6 +46,13 @@ stage move.
 Exit 0, or 3 when it stored what it could and recorded gaps (the gaps table
 and [gap] lines): jobs/it-weekly.sh treats its failure as a [gap] line and
 never as the run's.
+
+ROBOTS.TXT AT RUN TIME (12 October 2026): every request goes through
+src/robots_guard.GuardedClient, which reads each host's robots.txt once per
+run, before the first request, with src/prov_fetch's reader. A disallowed
+URL, or a host whose robots.txt answers 5xx or not at all, is a [gap] line
+and a gaps row, never fetched and never fatal; a 4xx robots.txt means no
+rules; a Crawl-delay raises that host's interval.
 """
 
 from __future__ import annotations
@@ -65,6 +72,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt, it_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import GuardedClient  # noqa: E402
 
 FEED = "it-regions"
 TAXONOMY_IT = os.path.join(ROOT, "config", "taxonomy-it.yaml")
@@ -442,7 +450,10 @@ def main(argv=None):
     ap.add_argument("--dry-run", action="store_true",
                     help="read each council once, print what was parsed, store nothing")
     args = ap.parse_args(argv)
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    # robots.txt asked on THIS run, per host, before any request
+    # (src/robots_guard). A refusal raises RobotsRefused, a FetchError, so
+    # the council becomes a "not read" gap below and the run goes on.
+    client = GuardedClient(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
     today = datetime.date.today().isoformat()
     regions = args.region or list(ORDER)
     if args.dry_run:
