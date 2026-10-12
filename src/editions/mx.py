@@ -27,6 +27,10 @@ Titles are the Gaceta's and SITL's own Spanish, verbatim (a page number the
 Gaceta's PDF index glues to a title, "81Que reforma...", is dropped). A
 provisional entry ('66/p/<gaceta anchor>') is re-keyed in place when its
 real number appears.
+
+THE STATE CONGRESSES (12 October 2026): a "State congresses" section before
+the Watchlist (Country.post_render, src/mxs_edition.py), from the readable
+states' listings (tools/mxs_collect.py, docs/mexico-regions-scope.md).
 """
 
 from __future__ import annotations
@@ -36,6 +40,7 @@ import json
 import re
 
 from src import country_edition as ce
+from src import mxs_edition
 from src.filter import _fold
 
 CC = "mx"
@@ -215,6 +220,9 @@ COUNTRY = ce.Country(
     cc=CC, name="Mexico", chamber="Cámara de Diputados", language="Spanish",
     taxonomies=(("taxonomy-es.yaml", "mx"),), items=items, flag=":flag-mx:",
     cadence_days=CADENCE_DAYS, frequency="Fortnightly (X9)",
+    # The 32 state congresses (12 October 2026, src/mxs_edition.py): their own
+    # section before the Watchlist, from tools/mxs_collect.py's mxs_items.
+    post_render=mxs_edition.post_render, notice=mxs_edition.notice,
     members_note=("Every recorded vote carries each deputy's position and group at the vote. "
                   "The Senate is not read (MX4, its robots.txt) and appears only where its "
                   "minutas reach the Chamber. This edition is fortnightly (X9)"),
@@ -225,6 +233,7 @@ COUNTRY = ce.Country(
         "Committee deadline extensions ('Prórroga hasta ...') are stored but not shown as "
         "stage moves.",
         "Not collected: the Senate (MX4), the Diario de los Debates, committee dictámenes' "
-        "texts, the Supreme Court and the 32 state congresses.",
+        "texts and the Supreme Court. The state congresses have their own section above "
+        "(src/mxs_edition.py; which states are read is said there).",
     ),
 )

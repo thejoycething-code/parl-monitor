@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>H. Congreso del Estado de Chihuahua</title>
+	<meta name="description" content="" />
+	<link rel="shortcut icon" href="../favicon.ico" />	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="../css/style2015.css" type="text/css" media="all">
+	<!-- bootstrap css -->
+	<link rel="stylesheet" href="../css/bootstrap2015.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<!--[if lt IE 7]>
+		<script type="text/javascript" src="js/ie6_script_other.js"></script>
+	<![endif]-->
+	<!--[if lt IE 9]>
+		<script type="text/javascript" src="js/html5.js"></script>
+		<link rel="stylesheet" href="css/ie_lt9.css">
+	<![endif]-->
+		<!--<script type="text/javascript" src="jquery-1.8.2.min.js"></script>-->
+
+		<script src="../js/jquery-1.9.1.min.js"></script>
+		<script src="../js/modernizr.custom.17475.js"></script>
+		<script type="text/javascript" src="../js/focus.js"></script><!-- clear input -->
+		<script type="text/javascript" src="../js/bootstrap.js"></script><!-- bootstrap -->
+		<script type="text/javascript" src="scripts.js"></script> 
+
+		<!-- GOOGLE ANALYTICS -->
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-40766807-1', 'congresochihuahua.gob.mx');
+			ga('send', 'pageview');
+
+		</script>
+		<!-- /GOOGLE ANALYTICS -->
+		<script type="text/javascript" language="JavaScript">
+			function imprimir() {
+				if (window.print)
+					window.print()
+				else
+					alert("Para imprimir presione Crtl+P.");
+			}
+			function cargarPagina(){
+				document.form1.buscar.value=1;
+				document.form1.submit();	
+			}
+			function justNumbers(e){
+				var keynum = window.event ? window.event.keyCode : e.which;
+		//if ((keynum == 8) || (keynum == 46))
+			//return true; 
+				return /\d/.test(String.fromCharCode(keynum));
+			}
+			function limpiar(campo){
+				if(campo=='palabra'){
+					document.form1.palabra.value="";
+				}
+				if(campo=='iniciativa'){		
+					document.form1.iniciativa.value="";
+				}
+				if(campo=='decreto'){
+					document.form1.decreto.value="";
+				}
+				if(campo=='acuerdo'){
+					document.form1.acuerdo.value="";
+				}
+				if(campo=='iniciativaCU'){
+					document.form1.iniciativaCU.value="";
+				}
+			}
+			function detalleComision(idc){	
+				document.form3.idcomision.value=idc;
+				document.form3.tipo.value="conformacion";
+				document.form3.submit();
+			}
+			function actualizarLink(){
+				if(document.form1.idlegislatura.value>0){
+					var idlegislatura = document.form1.idlegislatura.value;
+					var selectLegislatura = document.getElementById("idlegislatura");
+					var textoSelect = selectLegislatura.options[selectLegislatura.selectedIndex].text;
+					var arreglo = textoSelect.split(" ", 1);
+					var nombrelegislatura = arreglo[0];
+				}else{
+					var idlegislatura = document.form1.idlegislaturaActual.value;			
+					var nombrelegislatura = document.form1.legislaturaActual.value;
+				}
+				document.getElementById("linkDescarga").innerHTML = '<a href="seguimientoAsuntosXLS.php?idlegislatura=' + idlegislatura + '" class="cat-btn2 bg-cat-1"><i class="fa fa-download"></i> Descargar listado de seguimiento de asuntos de la ' + nombrelegislatura  + ' legislatura</a>';
+			}	
+		</script>
+	</head>
+	<body>
+		<div class="wrapper inner_page">
+			<section class="banner-bg2015 home">  
+				<!-- HEADER --><script type="text/javascript">
+  (function() {
+    var i7e_e = document.createElement("script"),
+    i7e_t = window.location.host,
+    i7e_n = "es-US";
+
+    i7e_e.type = "text/javascript", 
+    i7e_t = "congresochihuahua.inklusion.incluirt.com",
+    i7e_n = "es-US",
+    i7e_e.src = ("https:" == document.location.protocol ? "https://" : "http://") + i7e_t + "/inklusion/js/frameworks_initializer.js?lng=" + i7e_n, 
+    document.getElementsByTagName("head")[0].appendChild(i7e_e), 
+    i7e_e.src;
+    i7e_tab = true;
+      i7e_border = "#000000"; //color de borde
+      i7e_bg = "#5C5C5C"; //color de fondo del texto de Inklusion
+    })()
+  </script>
+
+  <header id="header">
+
+
+    <section class="nav-holder2">
+
+      <section class="container container-fluid">
+        <div id="buscadorHeader">
+          <form id="cse-search-box" method="get" action="https://www.google.com/search" target="_blank">
+            <div class="rounded-search">
+              <input style="visibility:hidden; height:0;" type="radio" name="sitesearch" value="">
+              <input style="visibility:hidden; height:0;" type="radio" name="sitesearch" value="congresochihuahua.gob.mx" checked="">
+              <input class="error-field text" id="input_search" type="text" size="40" name="q" value="Buscar ..." onblur="if(this.value=='') this.value='Buscar ...';" onfocus="if(this.value=='Buscar ...') this.value='';">
+              <input type="submit" class="send-btn search_ico">
+              <input type="hidden" name="task" value="search">
+              <input type="hidden" name="option" value="com_search">    
+            </div>
+            <div id="searchText"></div>
+          </form>	
+        </div>	
+      </section>
+
+    </section>	      	                  
+    <section class="nav-holder">
+      <section class="container container-fluid">
+        <nav id="nav">
+          <div class="navbar navbar-inverse">
+            <div class="navbar-inner">
+              <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+              <div class="nav-collapse collapse">
+
+                <ul class="nav">           
+                  <li class="dropdown"> <a class="dropdown-toggle" href="/"><i class="fa fa-home fa-lg"></i></a></li>
+                  <li class="dropdown"> <a class="dropdown-toggle" href="https://www.congresochihuahua.gob.mx/sesiones.php" >Sesiones</a></li>
+                  <li class="fullwidth"> <a class="dropdown-toggle" href="https://www.congresochihuahua.gob.mx/diputados/index.php" >Diputadas y <br> Diputados</a></li>
+                  <li class="fullwidth"> <a class="dropdown-toggle" href="https://www.congresochihuahua.gob.mx/sesiones.php?pagina=gacetas" >Gaceta <br> Parlamentaria</a></li>
+                  <li class="fullwidth"> <a class="dropdown-toggle" href="https://www.congresochihuahua.gob.mx/mesaDirectiva.php" >Mesa Directiva y Diputación Permanente</a></li>
+                  <li class="fullwidth"> <a class="dropdown-toggle" href="https://www.congresochihuahua.gob.mx/juntaCoordinacion.php" >Junta de Coordinación Política</a></li>
+                  <li class="fullwidth"> <a class="dropdown-toggle" href="https://www.congresochihuahua.gob.mx/comisiones.php" >Comisiones</a></li>
+                  <li class="fullwidth"> <a class="dropdown-toggle" href="https://www.congresochihuahua.gob.mx/biblioteca" >Biblioteca</a></li>
+                  <li class="fullwidth"> <a class="dropdown-toggle" href="https://www.congresochihuahua.gob.mx/secretarias.php" >Secretarías</a></li>
+                  <li class="fullwidth"> <a class="dropdown-toggle" href="https://www.congresochihuahua.gob.mx/transparencia" >Transparencia</a></li>
+                  <!--<li class="fullwidth"> <a class="dropdown-toggle" href="https://www.congresochihuahua.gob.mx/transparencia" ><i class="fa fa-youtube-play"></i> Tutorial web</a></li>-->
+                </ul>
+
+                <!--<ul class="menu menu_blue" id="mega_menu">
+                  <li class="fullwidth"><a href="/" >Inicio</a></li>
+                  <li class="fullwidth"><a href="/diputados/sesiones.php" target="_blank" >Sesiones</a></li>
+                  <li class="fullwidth"><a href="/diputados" target="_blank" >Diputados</a></li>
+                  <li class="fullwidth"><a href="/comisiones" target="_blank" >Comisiones</a></li>
+                  <li class="fullwidth"><a href="/biblioteca" target="_blank" >Biblioteca</a></li>
+                  <li class="fullwidth"><a href="/secretarias" target="_blank" >Secretarías</a></li> 
+                  <li class="fullwidth"><a href="/transparencia" target="_blank" >Transparencia</a></li> 
+                  <li class="fullwidth"><a href="/historia" target="_blank" >Historia</a></li> 
+                  <li class="fullwidth"><img src="images/plecaMenu.png" width="181" height="54" /></li> 
+                </ul>-->
+
+              </div>
+            </div>
+          </div>
+        </nav>
+      </section>
+    </section>
+    <!-- <section class="nav-holder3">
+  		<section class="container container-fluid">
+      	<div id="redes">
+            <a href="http://www.congresochihuahua.gob.mx/videoTutorial.php"><img src="http://www.congresochihuahua.gob.mx/images/videoTutorial.png" /></a>
+        </div> 
+			</section>   
+    </section> -->
+  </header><!-- /HEADER -->
+			</section>
+
+			<section class="content-holder b-none inner_content">  
+				<section class="container container-fluid">
+					<section class="row-fluid">		
+						<!--<span class="border-line m-bottom"></span>-->
+						<article class="page_content">
+							<figure class="span3 left-menu">      
+  <ul class="left-col-list">   
+  	<li><h2>Biblioteca</h2></li>    
+  	<li><a href="https://www.congresochihuahua.gob.mx/biblioteca" >Inicio</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/noticias/index.php" target="_blank">Noticias</a></li>
+    <li><a href="http://www.diputados.gob.mx/LeyesBiblio/index.htm" target="_blank">Legislaci&oacute;n Federal</a></li>
+    <li><a href="http://www.diputados.gob.mx/LeyesBiblio/ref/cnpp.htm" target="_blank">Código Nacional de Procedimientos Penales</a></li>
+    <li><a href="http://www.diputados.gob.mx/LeyesBiblio/ref/lgra.htm" target="_blank">Ley General de Responsabilidades Administrativas</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/constitucion/" >Constituci&oacute;n Local</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/leyes/" >Leyes</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/codigos/" >C&oacute;digos</a></li>  
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/legislacionAbrogada/" >Legislación Estatal Abrogada</a></li>  
+
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/archivoHistorico/" >Libros y Periódico Oficial</a></li>
+    
+    <li><a href="https://acervo.congresochihuahua.gob.mx/CatalogoBasico/">Libros: Catálogo en Línea</a></li>
+
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/reglamentos/" >Reglamentos</a></li>    
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/leyesIngresos/" >Leyes de Ingresos</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/presupuestoegresos/" >Presupuesto de Egresos</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/procesoLegislativo.php" class='active'>Proceso Legislativo</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/iniciativas/" >Asuntos (Iniciativas)</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/dictamenes/" >Dictámenes </a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/decretos/" >Decretos</a></li>
+    
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/acuerdos/" >Acuerdos</a></li>         
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/acuerdos/index.php?presidencia=1" >Acuerdos de Presidencia</a></li>         
+
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/iniciativasCongresoUnion/" >Iniciativas Congreso de la Unión</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/informes/" >Informes</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/cuentasPublicas/" >Cuentas Públicas</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/licencias/" >Licencias</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/debates/" >Diario Debates, Actas y Versiones Estenográficas</a></li>
+    <!--<li><a href="http://www.congresochihuahua.gob.mx/biblioteca/debates/">Versión Estenográfica</a></li>-->
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/comparecencias/" >Comparecencias ante el Pleno</a></li>
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/documentosEstadisticas/" >Estadísticas Parlamentarias</a></li>
+    <!--<li><a href="http://www.chihuahua.gob.mx/principal/canal.asp?cve_canal=48" target="_blank">Periódico Oficial</a></li>
+    <li><a href="http://201.131.19.21/principal/Canal.asp?cve_canal=14360" target="_blank">Periódico Oficial</a></li>-->
+    <!--<li><a href="http://www.congresochihuahua.gob.mx/biblioteca/procedimientos/" >Juicios Políticos, Declaraciones de Procedencia y Procedimientos de Responsabilidad Administrativa</a></li>-->
+    <li><a href="https://www.congresochihuahua.gob.mx/biblioteca/procedimientos/" >Juicios Políticos y Declaraciones de Procedencia</a></li>
+    <!--<li><a href="http://www.congresochihuahua.gob.mx/biblioteca/resoluciones/" >Procedimientos Jurisdiccionales y Administrativos</a></li>-->
+      <li><a href="https://chihuahua.gob.mx/index.php/peri%C3%B3dico-oficial" target="_blank">Periódico Oficial</a></li>                      
+  </ul>                                                         
+</figure>                                                    			     
+
+							<figure class="span9">    
+								<h1>Proceso Legislativo</h1>
+								<a href="procesoLegislativoDesc.php" class="cat-btn2 bg-cat-1">¿Qué es el Proceso Legislativo?</a><br>
+								<hr>
+
+								<form name="form3" method="post" action="../detalleComision.php">
+									<input type="hidden" name="idcomision">
+									<input type="hidden" name="tipo">
+								</form>
+
+								<h2> Buscador Avanzado</h2>
+								<div class="alert alert-search">
+									<form id="form1" name="form1" method="post" action="procesoLegislativo.php">
+
+										<input type="hidden" name="buscar">
+										<input type="hidden" name="idlegislaturaActual" id="idlegislaturaActual" value="68">
+										<input type="hidden" name="legislaturaActual" id="legislaturaActual" value="LXVIII">
+
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+											<tr>
+												<td>
+													<article class="span2 first">
+														<p>Legislatura</p>
+														<select name="idlegislatura" id="idlegislatura" class="input_select" onchange="actualizarLink()">
+															<option value="0">Todas</option>
+																																														<option value="68" selected>
+																	LXVIII (01-sep-2024 / 31-ago-2027)																</option>
+																															<option value="67" >
+																	LXVII (01-sep-2021 / 31-ago-2024)																</option>
+																															<option value="66" >
+																	LXVI (01-sep-2018 / 31-ago-2021)																</option>
+																															<option value="65" >
+																	LXV (01-oct-2016 / 31-ago-2018)																</option>
+																															<option value="64" >
+																	LXIV (01-oct-2013 / 30-sep-2016)																</option>
+																															<option value="63" >
+																	LXIII (01-oct-2010 / 30-sep-2013)																</option>
+																															<option value="62" >
+																	LXII (01-oct-2007 / 30-sep-2010)																</option>
+																															<option value="61" >
+																	LXI (01-oct-2004 / 30-sep-2007)																</option>
+																													</select>
+													</article>
+													<article class="span2">
+														<p>Año</p>
+														<select name="idanio" onchange="cargarPagina()" class="input_select">
+															<option value="0">Todos</option>
+																																														<option value="1" >
+																	I																</option>
+																															<option value="2" >
+																	II																</option>
+																															<option value="3" >
+																	III																</option>
+																													</select>
+													</article>
+													<article class="span2">
+														<p>Periodo</p>
+														<select name="idperiodo" onchange="cargarPagina()" class="input_select">
+															<option value="0">Todos</option>
+																																														<option value="2" >
+																	I D.P.																
+																</option>
+																															<option value="37" >
+																	I J.P.																
+																</option>
+																															<option value="7" >
+																	I P.E.																
+																</option>
+																															<option value="1" >
+																	I P.O.																
+																</option>
+																															<option value="4" >
+																	II D.P.																
+																</option>
+																															<option value="38" >
+																	II J.P.																
+																</option>
+																															<option value="8" >
+																	II P.E.																
+																</option>
+																															<option value="3" >
+																	II P.O.																
+																</option>
+																															<option value="39" >
+																	III J.P.																
+																</option>
+																															<option value="9" >
+																	III P.E.																
+																</option>
+																															<option value="40" >
+																	IV J.P.																
+																</option>
+																															<option value="10" >
+																	IV P.E.																
+																</option>
+																															<option value="15" >
+																	IX P.E.																
+																</option>
+																															<option value="41" >
+																	J.P.																
+																</option>
+																															<option value="11" >
+																	V P.E.																
+																</option>
+																															<option value="12" >
+																	VI P.E.																
+																</option>
+																															<option value="13" >
+																	VII P.E.																
+																</option>
+																															<option value="14" >
+																	VIII P.E.																
+																</option>
+																															<option value="16" >
+																	X P.E.																
+																</option>
+																															<option value="17" >
+																	XI P.E.																
+																</option>
+																															<option value="18" >
+																	XII P.E.																
+																</option>
+																															<option value="19" >
+																	XIII P.E.																
+																</option>
+																															<option value="20" >
+																	XIV P.E.																
+																</option>
+																															<option value="25" >
+																	XIX P.E.																
+																</option>
+																															<option value="21" >
+																	XV P.E.																
+																</option>
+																															<option value="22" >
+																	XVI P.E.																
+																</option>
+																															<option value="23" >
+																	XVII P.E.																
+																</option>
+																															<option value="24" >
+																	XVIII P.E.																
+																</option>
+																															<option value="26" >
+																	XX P.E.																
+																</option>
+																															<option value="27" >
+																	XXI P.E.																
+																</option>
+																															<option value="28" >
+																	XXII P.E.																
+																</option>
+																															<option value="29" >
+																	XXIII P.E.																
+																</option>
+																															<option value="30" >
+																	XXIV P.E.																
+																</option>
+																															<option value="35" >
+																	XXIX P.E.																
+																</option>
+																															<option value="31" >
+																	XXV P.E.																
+																</option>
+																															<option value="32" >
+																	XXVI P.E.																
+																</option>
+																															<option value="33" >
+																	XXVII P.E.																
+																</option>
+																															<option value="34" >
+																	XXVIII P.E.																
+																</option>
+																															<option value="36" >
+																	XXX P.E.																
+																</option>
+																													</select>
+													</article>
+													<article class="span4">
+														<p>Estatus</p>
+														<select name="idestatusiniciativa" class="input_select">
+															<option value="0">Todos</option>
+																																														<option value="1" >
+																	Pendiente																
+																</option>
+																															<option value="2" >
+																	Incorporada al proceso legislativo																
+																</option>
+																															<option value="3" >
+																	En Análisis de Mesa Técnica																
+																</option>
+																															<option value="4" >
+																	Dictaminada																
+																</option>
+																															<option value="5" >
+																	Archivada																
+																</option>
+																															<option value="6" >
+																	Turnado a la Auditoría Superior del Estado																
+																</option>
+																													</select>
+													</article>
+													<article class="span2">
+														<p>Palabra</p>
+														<input class="input-full" name="palabra" type="text" value="" />                   
+														<span class="label label-clear"><a href="javascript: limpiar('palabra')">Borrar</a></span>
+													</article>
+												</td>
+											</tr>
+											<tr>
+												<td>              
+													<article class="span6 first">
+														<p>Diputado</p>
+														<select name="idhistorialdiputado" id="idhistorialdiputado" class="input_select">
+															<option value="">Todos</option>
+																																														<option value="1355" >
+																	Alma Yesenia Portillo Lerma																	
+																</option>
+																															<option value="1363" >
+																	América Victoria Aguilar Gil																	
+																</option>
+																															<option value="1349" >
+																	Arturo Zubía Fernández																	
+																</option>
+																															<option value="1352" >
+																	Brenda Francisca Ríos Prieto																	
+																</option>
+																															<option value="1345" >
+																	Carla Yamileth Rivas Martínez																	
+																</option>
+																															<option value="1346" >
+																	Carlos Alfredo Olson San Vicente																	
+																</option>
+																															<option value="1337" >
+																	Edin Cuauhtémoc Estrada Sotelo																	
+																</option>
+																															<option value="1361" >
+																	Edith Palma Ontiveros																	
+																</option>
+																															<option value="1334" >
+																	Edna Xóchitl Contreras Herrera																	
+																</option>
+																															<option value="1336" >
+																	Elizabeth Guzmán Argueta																	
+																</option>
+																															<option value="1359" >
+																	Francisco Adrián Sánchez Villegas																	
+																</option>
+																															<option value="1350" >
+																	Guillermo Patricio Ramírez Gutiérrez																	
+																</option>
+																															<option value="1360" >
+																	Herminia Gómez Carrasco																	
+																</option>
+																															<option value="1335" >
+																	Irlanda Dominique Márquez Nolasco																	
+																</option>
+																															<option value="1340" >
+																	Ismael Pérez Pavía																	
+																</option>
+																															<option value="1362" >
+																	Jael Argüelles Díaz																	
+																</option>
+																															<option value="1365" >
+																	Jaime Torres Amaya																	
+																</option>
+																															<option value="1344" >
+																	Joceline Vega Vargas																	
+																</option>
+																															<option value="1353" >
+																	Jorge Carlos Soto Prieto																	
+																</option>
+																															<option value="1347" >
+																	José Alfredo Chávez Madrid																	
+																</option>
+																															<option value="1354" >
+																	José Luis Villalobos García																	
+																</option>
+																															<option value="1369" >
+																	Leticia Ortega Máynez																	
+																</option>
+																															<option value="1368" >
+																	Liliana Medina Mota																	
+																</option>
+																															<option value="1364" >
+																	Luis Fernando Chacón Erives																	
+																</option>
+																															<option value="1338" >
+																	Magdalena Rentería Pérez																	
+																</option>
+																															<option value="1339" >
+																	María Antonieta Pérez Reyes																	
+																</option>
+																															<option value="1341" >
+																	Nancy Janeth Frías Frías																	
+																</option>
+																															<option value="1356" >
+																	Octavio Javier Borunda Quevedo																	
+																</option>
+																															<option value="1332" >
+																	Óscar Daniel Avitia Arellanes																	
+																</option>
+																															<option value="1358" >
+																	Pedro Torres Estrada																	
+																</option>
+																															<option value="1351" >
+																	Roberto Arturo Medina Aguirre																	
+																</option>
+																															<option value="1348" >
+																	Roberto Marcelino Carreón Huitrón																	
+																</option>
+																															<option value="1370" >
+																	Rosana Díaz Reyes																	
+																</option>
+																															<option value="1343" >
+																	Saúl Mireles Corral																	
+																</option>
+																															<option value="1330" >
+																	Yesenia Guadalupe Reyes Calzadías																	
+																</option>
+																													</select>
+													</article>
+													<article class="span4">
+														<p>Turnados a</p>
+														<select name="turno" class="input_select">
+															<option value="">Todos</option>
+															<option value="Comision" >Comisión</option>
+															<option value="Junta de Coordinacion" >Junta de Coordinación Política</option>
+															<option value="Presidencia" >Presidencia</option>
+														</select>
+													</article>
+												</td>
+											</tr>
+											<tr>
+												<td>    
+													<article class="span12 first">
+														<p>Comisión</p>
+														<select name="idcomision" id="idcomision" class="input_select">
+															<option value="">Todas</option>
+																																														<option value="313" >
+																	Agua																	
+																</option>
+																															<option value="312" >
+																	Anticorrupción																	
+																</option>
+																															<option value="301" >
+																	Asuntos Fronterizos y Atención a Migrantes																	
+																</option>
+																															<option value="292" >
+																	Ciencia, Tecnología e Innovación																	
+																</option>
+																															<option value="320" >
+																	Comité de Administración																	
+																</option>
+																															<option value="321" >
+																	Comité Editorial y de Biblioteca																	
+																</option>
+																															<option value="317" >
+																	Cultura																	
+																</option>
+																															<option value="294" >
+																	Derechos Humanos y Atención a Grupos Vulnerables																	
+																</option>
+																															<option value="300" >
+																	Desarrollo Municipal y Fortalecimiento del Federalismo																	
+																</option>
+																															<option value="303" >
+																	Desarrollo Rural y Ganadería																	
+																</option>
+																															<option value="298" >
+																	Desarrollo Social																	
+																</option>
+																															<option value="307" >
+																	Economía, Industria y Comercio																	
+																</option>
+																															<option value="291" >
+																	Educación, Cultura Física y Deporte																	
+																</option>
+																															<option value="310" >
+																	Energía																	
+																</option>
+																															<option value="322" >
+																	Especial de Análisis de los Informes del Poder Ejecutivo del Estado																	
+																</option>
+																															<option value="324" >
+																	Especial de Vinculación con Organizaciones de la Sociedad Civil en el Estado de Chihuahua																	
+																</option>
+																															<option value="323" >
+																	Especial para la Atención Inmediata de la Problemática en Pensiones Civiles del Estado de Chihuahua																	
+																</option>
+																															<option value="311" >
+																	Familia, Asuntos Religiosos y Valores																	
+																</option>
+																															<option value="315" >
+																	Feminicidios																	
+																</option>
+																															<option value="318" >
+																	Fiscalización																	
+																</option>
+																															<option value="287" >
+																	Gobernación y Puntos Constitucionales																	
+																</option>
+																															<option value="309" >
+																	Igualdad Sustantiva																	
+																</option>
+																															<option value="319" >
+																	Jurisdiccional																	
+																</option>
+																															<option value="293" >
+																	Justicia																	
+																</option>
+																															<option value="308" >
+																	Juventud y Niñez																	
+																</option>
+																															<option value="296" >
+																	Medio Ambiente, Ecología y Desarrollo Sustentable																	
+																</option>
+																															<option value="295" >
+																	Obras, Servicios Públicos, y Desarrollo y Movilidad Urbana																	
+																</option>
+																															<option value="302" >
+																	Participación Ciudadana y Asuntos Electorales																	
+																</option>
+																															<option value="288" >
+																	Programación, Presupuesto y Hacienda Pública																	
+																</option>
+																															<option value="299" >
+																	Pueblos y Comunidades Indígenas																	
+																</option>
+																															<option value="314" >
+																	Recursos Forestales																	
+																</option>
+																															<option value="304" >
+																	Salud																	
+																</option>
+																															<option value="289" >
+																	Seguridad Pública y Protección Civil																	
+																</option>
+																															<option value="297" >
+																	Trabajo y Previsión Social																	
+																</option>
+																															<option value="290" >
+																	Transparencia, Acceso a la Información Publica y Parlamento Abierto																	
+																</option>
+																															<option value="316" >
+																	Turismo																	
+																</option>
+																													</select>
+													</article>                  
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<article class="span2 first">
+														<p>No. Asunto</p>
+														<input class="input-full" name="iniciativa" type="text" value="" onkeypress="return justNumbers(event);"/>
+														<span class="label label-clear"><a href="javascript: limpiar('iniciativa')">Borrar</a></span>
+													</article>
+													<article class="span2">
+														<p>No. Decreto</p>
+														<input class="input-full" name="decreto" type="text" value="" onkeypress="return justNumbers(event);"/>
+														<span class="label label-clear"><a href="javascript: limpiar('decreto')">Borrar</a></span>
+													</article>
+													<article class="span2">
+														<p>No. Acuerdo</p>
+														<input class="input-full" name="acuerdo" type="text" value="" onkeypress="return justNumbers(event);"/>
+														<span class="label label-clear"><a href="javascript: limpiar('acuerdo')">Borrar</a></span>
+													</article>    
+													<article class="span4">
+														<p>No. Iniciativa Congreso Unión</p>
+														<input class="input-full" name="iniciativaCU" type="text" value="" onkeypress="return justNumbers(event);"/>
+														<span class="label label-clear"><a href="javascript: limpiar('iniciativaCU')">Borrar</a></span>
+													</article>    
+												</td>
+											</tr>
+											<tr>
+												<td align="center">
+													<article class="span12 first">                  	
+														<a href="javascript: cargarPagina()" class="btn btn-success btn-large"><i class="fa fa-search"></i> Buscar</a>
+													</article>
+												</td>
+											</tr>
+										</table>
+									</form>
+								</div>
+								<!--<div id="linkDescarga"><a href="seguimientoAsuntosXLS.php" class="cat-btn2 bg-cat-1"><i class="fa fa-download"></i> Descargar listado de seguimiento de asuntos de la  legislatura</a></div>-->
+								<!--<p align="right"><strong><img src="../../images/pdf2 16x16.jpg" class="icono"/> PDF &nbsp;<img src="../../images/word2 16x16.jpg" class="icono"/> Word</strong></p>-->
+
+								<div id="linkDescarga"><a href="seguimientoAsuntosXLS.php?idlegislatura=68" class="cat-btn2 bg-cat-1"><i class="fa fa-download"></i> Descargar listado de seguimiento de asuntos de la LXVIII legislatura</a></div>
+								<h4 class='text-right'><span>(1196) Resultado(s)</span></h4>																	<br>
+																			<article>
+											<figure class="foro_post_content_wrapper">
+												<div class="title5">Asunto 1763</div><p align="justify">Oficio mediante el cual solicita al H. Congreso del Estado, considere la posibilidad de llevar a cabo una sesión solemne, con el propósito de conmemorar el “LX Aniversario de la aplicación del Plan DN-III-E”.
+</p><p><strong>Archivos Asunto: </strong> <a href="https://www.congresochihuahua2.gob.mx/biblioteca/iniciativas/archivosIniciativas/25686.pdf" target="_blank" class="btn btn-default"><i class="fa fa-file-pdf-o text-danger"></i> Asunto</a> </p><p align="justify"><strong>Iniciador o Promovente: </strong>Gral. Bgda. E.M. Felipe González Moreno, Comandante de la 5/a. Zona Militar.</p><p><strong>Fecha de presentación:</strong> 06  octubre  2026</p><p><strong>Se Turnó a: </strong></p><p><strong>Estatus: </strong>Pendiente</p>											</figure>
+										</article>
+										<br>
+																			<article>
+											<figure class="foro_post_content_wrapper">
+												<div class="title5">Asunto 1760</div><p align="justify">Iniciativa con carácter de decreto, a fin de reformar diversas disposiciones de la Ley de Transporte del Estado de Chihuahua, en materia de prevención de violencia en el transporte público.</p><p><strong>Archivos Asunto: </strong> <a href="https://www.congresochihuahua2.gob.mx/biblioteca/iniciativas/archivosIniciativas/25678.pdf" target="_blank" class="btn btn-default"><i class="fa fa-file-pdf-o text-danger"></i> Asunto</a> <a href="https://www.congresochihuahua2.gob.mx/biblioteca/iniciativas/archivosIniciativas/25679.docx" target="_blank" class="btn btn-default"><i class="fa fa-file-word-o text-primary"></i> Asunto</a> </p><p align="justify"><strong>Iniciador o Promovente: </strong>Dip. Brenda Francisca Ríos Prieto (MORENA), Dip. Edin Cuauhtémoc Estrada Sotelo (MORENA), Dip. Edith Palma Ontiveros (MORENA), Dip. Elizabeth Guzmán Argueta (MORENA), Dip. Herminia Gómez Carrasco (MORENA), Dip. Jael Argüelles Díaz (MORENA), Dip. Leticia Ortega Máynez (MORENA), Dip. Magdalena Rentería Pérez (MORENA), Dip. María Antonieta Pérez Reyes (MORENA), Dip. Óscar Daniel Avitia Arellanes (MORENA), Dip. Pedro Torres Estrada (MORENA)</p><p><b>Se Adhiere: </b>Dip. Rosana Díaz Reyes ()</p><p><strong>Fecha de presentación:</strong> 06  octubre  2026</p><p><strong>Se Turnó a: </strong></p><p><strong>Estatus: </strong>Pendiente</p>											</figure>
+										</article>
+										<br>
+																			<article>
+											<figure class="foro_post_content_wrapper">
+												<div class="title5">Asunto 1759</div><p align="justify">Iniciativa con carácter de decreto ante el H. Congreso de la Unión, a efecto de reformar el artículo 65 de la Ley de Instituciones de Crédito, en materia de acceso al crédito para las personas integrantes de las instituciones policiales.</p><p><strong>Archivos Asunto: </strong> <a href="https://www.congresochihuahua2.gob.mx/biblioteca/iniciativas/archivosIniciativas/25676.pdf" target="_blank" class="btn btn-default"><i class="fa fa-file-pdf-o text-danger"></i> Asunto</a> <a href="https://www.congresochihuahua2.gob.mx/biblioteca/iniciativas/archivosIniciativas/25677.docx" target="_blank" class="btn btn-default"><i class="fa fa-file-word-o text-primary"></i> Asunto</a> </p><p align="justify"><strong>Iniciador o Promovente: </strong>Dip. Arturo Zubía Fernández (PAN), Dip. Carla Yamileth Rivas Martínez (PAN), Dip. Carlos Alfredo Olson San Vicente (PAN), Dip. Edna Xóchitl Contreras Herrera (PAN), Dip. Ismael Pérez Pavía (PAN), Dip. Jaime Torres Amaya (PAN), Dip. Joceline Vega Vargas (PAN), Dip. Jorge Carlos Soto Prieto (PAN), Dip. José Alfredo Chávez Madrid (PAN), Dip. Nancy Janeth Frías Frías (PAN), Dip. Roberto Marcelino Carreón Huitrón (PAN), Dip. Saúl Mireles Corral (PAN), Dip. Yesenia Guadalupe Reyes Calzadías (PAN)</p><p><strong>Fecha de presentación:</strong> 06  octubre  2026</p><p><strong>Se Turnó a: </strong></p><p><strong>Estatus: </strong>Pendiente</p>											</figure>
+										</article>
+										<br>
+																			<article>
+											<figure class="foro_post_content_wrapper">
+												<div class="title5">Asunto 1757</div><p align="justify">Iniciativa con carácter de decreto, a efecto de reformar diversas disposiciones de la Ley Estatal de Salud, con el fin de fortalecer la prevención y atención de los trastornos de la conducta alimentaria en niñas, niños y adolescentes.</p><p><strong>Archivos Asunto: </strong> <a href="https://www.congresochihuahua2.gob.mx/biblioteca/iniciativas/archivosIniciativas/25672.pdf" target="_blank" class="btn btn-default"><i class="fa fa-file-pdf-o text-danger"></i> Asunto</a> <a href="https://www.congresochihuahua2.gob.mx/biblioteca/iniciativas/archivosIniciativas/25673.docx" target="_blank" class="btn btn-default"><i class="fa fa-file-word-o text-primary"></i> Asunto</a> </p><p align="justify"><strong>Iniciador o Promovente: </strong>Dip. Irlanda Dominique Márquez Nolasco (PT)</p><p><strong>Fecha de presentación:</strong> 05  octubre  2026</p><p><strong>Tipo de turno: </strong>Ordinario</p><p><strong>Fecha de turno: </strong>06  octubre  2026</p><p><b>Comisión: </b><a href="javascript: detalleComision(304)">Salud</a></p><p><strong>Estatus: </strong>Pendiente</p>											</figure>
+										</article>
+										<br>
+																			<article>
+											<figure class="foro_post_content_wrapper">
+												<div class="title5">Asunto 1755</div><p align="justify">Iniciativa con carácter de decreto, a fin de adicionar un artículo 12-c Bis a la Ley Estatal del Derecho de las Mujeres a una Vida Libre de Violencia, en materia de órdenes de protección.
+</p><p><strong>Archivos Asunto: </strong> <a href="https://www.congresochihuahua2.gob.mx/biblioteca/iniciativas/archivosIniciativas/25674.pdf" target="_blank" class="btn btn-default"><i class="fa fa-file-pdf-o text-danger"></i> Asunto</a> <a href="https://www.congresochihuahua2.gob.mx/biblioteca/iniciativas/archivosIniciativas/25675.docx" target="_blank" class="btn btn-default"><i class="fa fa-file-word-o text-primary"></i> Asunto</a> </p><p align="justify"><strong>Iniciador o Promovente: </strong>Dip. Arturo Zubía Fernández (PAN), Dip. Carla Yamileth Rivas Martínez (PAN), Dip. Carlos Alfredo Olson San Vicente (PAN), Dip. Edna Xóchitl Contreras Herrera (PAN), Dip. Ismael Pérez Pavía (PAN), Dip. Jaime Torres Amaya (PAN), Dip. Joceline Vega Vargas (PAN), Dip. Jorge Carlos Soto Prieto (PAN), Dip. José Alfredo Chávez Madrid (PAN), Dip. Nancy Janeth Frías Frías (PAN), Dip. Roberto Marcelino Carreón Huitrón (PAN), Dip. Saúl Mireles Corral (PAN), Dip. Yesenia Guadalupe Reyes Calzadías (PAN)</p><p><strong>Fecha de presentación:</strong> 02  octubre  2026</p><p><strong>Tipo de turno: </strong>Ordinario</p><p><strong>Fecha de turno: </strong>06  octubre  2026</p><p><b>Comisión: </b><a href="javascript: detalleComision(315)">Feminicidios</a></p><p><strong>Estatus: </strong>Pendiente</p>											</figure>
+										</article>
+										<br>
+									
+									<section class='pagination' align='center'><ul><li><span class='current'>1</span></li><li><a href='procesoLegislativo.php?pag=2&idlegislatura=68&idanio=&idperiodo=&palabra=&idestatusiniciativa=&idhistorialdiputado=&iniciativa=&idcomision=&decreto=&acuerdo=&iniciativaCU=&buscar=&turno='>2</a></li><li><a href='procesoLegislativo.php?pag=3&idlegislatura=68&idanio=&idperiodo=&palabra=&idestatusiniciativa=&idhistorialdiputado=&iniciativa=&idcomision=&decreto=&acuerdo=&iniciativaCU=&buscar=&turno='>3</a></li><li><a href='procesoLegislativo.php?pag=4&idlegislatura=68&idanio=&idperiodo=&palabra=&idestatusiniciativa=&idhistorialdiputado=&iniciativa=&idcomision=&decreto=&acuerdo=&iniciativaCU=&buscar=&turno='>4</a></li><li><a href='procesoLegislativo.php?pag=5&idlegislatura=68&idanio=&idperiodo=&palabra=&idestatusiniciativa=&idhistorialdiputado=&iniciativa=&idcomision=&decreto=&acuerdo=&iniciativaCU=&buscar=&turno='>5</a></li><li><a href='procesoLegislativo.php?pag=6&idlegislatura=68&idanio=&idperiodo=&palabra=&idestatusiniciativa=&idhistorialdiputado=&iniciativa=&idcomision=&decreto=&acuerdo=&iniciativaCU=&buscar=&turno='>6</a></li><li><a href='procesoLegislativo.php?pag=7&idlegislatura=68&idanio=&idperiodo=&palabra=&idestatusiniciativa=&idhistorialdiputado=&iniciativa=&idcomision=&decreto=&acuerdo=&iniciativaCU=&buscar=&turno='>7</a></li><li><a href='procesoLegislativo.php?pag=8&idlegislatura=68&idanio=&idperiodo=&palabra=&idestatusiniciativa=&idhistorialdiputado=&iniciativa=&idcomision=&decreto=&acuerdo=&iniciativaCU=&buscar=&turno='>8</a></li><li><a href='procesoLegislativo.php?pag=9&idlegislatura=68&idanio=&idperiodo=&palabra=&idestatusiniciativa=&idhistorialdiputado=&iniciativa=&idcomision=&decreto=&acuerdo=&iniciativaCU=&buscar=&turno='>9</a></li><li><a href='procesoLegislativo.php?pag=10&idlegislatura=68&idanio=&idperiodo=&palabra=&idestatusiniciativa=&idhistorialdiputado=&iniciativa=&idcomision=&decreto=&acuerdo=&iniciativaCU=&buscar=&turno='>10</a></li><li><a href='procesoLegislativo.php?pag=2&idlegislatura=68&idanio=&idperiodo=&palabra=&idestatusiniciativa=&idhistorialdiputado=&iniciativa=&idcomision=&decreto=&acuerdo=&iniciativaCU=&buscar=&turno='>Siguiente </a></li><li><a href='procesoLegislativo.php?pag=240&idlegislatura=68&idanio=&idperiodo=&palabra=&idestatusiniciativa=&idhistorialdiputado=&iniciativa=&idcomision=&decreto=&acuerdo=&iniciativaCU=&buscar=&turno='>Último</a></li></ul></section>   	  
+
+															</figure> 
+							<!-- banners -->
+							<!--<div>
+  <a href="http://www.congresochihuahua.gob.mx/agendaLegislativa.php"><img src="https://www.congresochihuahua.gob.mx/imagenesBanners/77.jpg"></a>
+</div>-->							<!-- /banners -->         
+						</article>
+					</section>   
+				</section> 
+			</section>
+			<!-- FOOTER -->
+			  <section class="footer-top">
+  	<section class="container container-fluid">
+    <figure class="span5"> 
+        <ul class="a-list">
+            <li><span class="dorado">Buzón electrónico de quejas y sugerencias</span></li>
+        </ul>
+
+        <div id="contact_us">
+						<form action="https://www.congresochihuahua.gob.mx/contacto.php" method="post" id="contact_form">
+                <div class="row2">
+                  <p>
+                    <label>Nombre completo:</label>
+                    <input type="text" name="nombre" class="text_field" />
+                  </p>
+                  <p>
+                    <label>Email:</label>
+                    <input type="text" name="email" class="text_field" />
+                  </p>
+                  <p>
+                    <label>Asunto:</label>
+                    <input type="text" name="asunto" class="text_field" />
+                  </p>            
+                
+                <p>
+                  <label>Comentarios:</label>
+                  <textarea class="text_field" rows="3" cols="56" name="mensaje"></textarea>
+                </p> </div>
+    					<input type="submit" class="btn" value="Continuar" />    
+              </form>
+      	</div>
+      </figure>
+
+        <figure class="span3 columna">
+            <ul class="a-list">
+            		<li><span class="dorado">Teléfonos</span></li>
+                <li>Lada Sin Costo</li>
+                <li>800 220 6848</li>
+                <li>Desde Chihuahua</li>
+                <li>614 412 3200</li>
+                <li><span class="dorado">Dirección</span></li>
+                <li>C. Libertad No. 9, Col. Centro, <br> C.P. 31000, Chihuahua, Chih.</li>
+                <li><span class="dorado">Horario de atención</span></li>
+                <li>Lunes a Viernes 9:00 a 15:00 Hrs</li>
+            </ul>
+        </figure>
+        
+        <figure class="span3 columna">
+            <ul class="a-list">
+                <li><span><a href="https://www.congresochihuahua.gob.mx/procedimientos.php">¿Quiénes Somos?</a></span></li>
+                <li><span><a href="https://www.congresochihuahua.gob.mx/directorio.php">Directorio Telefónico</a></span></li>
+                <li><span><a href="https://www.congresochihuahua.gob.mx/historia.php">Historia</a></span></li>
+                <li><span><a href="https://www.congresochihuahua.gob.mx/mapaSitio.php">Mapa del Sitio</a></span></li>
+                <li><span><a href="https://www.congresochihuahua.gob.mx/logo.php">Logotipo Oficial</a></span></li>
+                <li><span><a href="https://www.congresochihuahua.gob.mx/mapaUbicacion.php">Mapa de Ubicación</a></span></li>
+                <li><span><a href="https://www.congresochihuahua.gob.mx/avisoPrivacidad.php">Avisos de Privacidad</a></span></li>
+                
+            </ul>
+        </figure>        
+        
+    </section>
+  </section>
+  
+  <footer id="footer">
+    <div class="firma">H. Congreso del Estado de Chihuahua</div>
+    <div class="navegadores">
+    Este sitio está diseñado para una resolución de 1130 px o superior <br />
+			y navegadores como: <a href="https://www.google.com/chrome/browser/desktop/index.html" target="_blank">Google Chrome</a> y <a href="https://www.mozilla.org/es-MX/firefox/new/" target="_blank">Mozilla Firefox</a>
+    </div>	
+    
+  </footer>
+  
+  
+  
+
+			<!-- /FOOTER -->
+		</div>
+	</body>
+	</html
