@@ -1325,6 +1325,25 @@ def build(conn, cfg, payloads):
     return dataset, missing
 
 
+def render_page(template, dataset):
+    """The page as written to OUTPUTS: the template with the dataset and the
+    sign-off line filled in. The template's footer carries the CC BY 3.0
+    credit for the Members API portraits (12 October 2026; tests check the
+    built page keeps it)."""
+    # The sign-off line is derived, never hardcoded: a fixed "pending sign-off"
+    # sentence stayed on the page after every division had been signed off,
+    # telling readers the summaries were unchecked when they had been.
+    pending = [d["id"] for d in dataset["divisions"] if not d["signed_off"]]
+    if pending:
+        signoff = ("{0} of {1} summaries are still pending editorial sign-off."
+                   .format(len(pending), len(dataset["divisions"])))
+    else:
+        signoff = ("Every summary on this page has been checked against Hansard "
+                   "and the official division record, and signed off editorially.")
+    return (template.replace("__DATASET__", json.dumps(dataset, separators=(",", ":")))
+                    .replace("__SIGNOFF__", signoff))
+
+
 def main():
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     if "--candidates" in sys.argv:
@@ -1347,16 +1366,6 @@ def main():
 
     with open(TEMPLATE, encoding="utf-8") as handle:
         template = handle.read()
-    # The sign-off line is derived, never hardcoded: a fixed "pending sign-off"
-    # sentence stayed on the page after every division had been signed off,
-    # telling readers the summaries were unchecked when they had been.
-    pending = [d["id"] for d in dataset["divisions"] if not d["signed_off"]]
-    if pending:
-        signoff = ("{0} of {1} summaries are still pending editorial sign-off."
-                   .format(len(pending), len(dataset["divisions"])))
-    else:
-        signoff = ("Every summary on this page has been checked against Hansard "
-                   "and the official division record, and signed off editorially.")
     # Verdicts are PUBLIC (Christopher, 2026-08-24, reversing his 2026-08-12
     # decision to keep them internal while the site was passwordless). Both
     # builds now carry `good`, so the public page names a vote good or bad
@@ -1368,8 +1377,7 @@ def main():
     # no verdict, so the honest gap stays visible rather than defaulting to
     # a judgement nobody made.
     for path, ds in ((OUTPUTS[0], dataset), (OUTPUTS[1], dataset)):
-        page = (template.replace("__DATASET__", json.dumps(ds, separators=(",", ":")))
-                        .replace("__SIGNOFF__", signoff))
+        page = render_page(template, ds)
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w", encoding="utf-8") as handle:
             handle.write(page)

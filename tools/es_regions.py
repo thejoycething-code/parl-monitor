@@ -62,6 +62,13 @@ arrive through the BOE.
 A dissolution, a new legislature or a list that changes shape shows as a
 source with zero rows: that is a [gap] line and a gaps row, never silence.
 
+ROBOTS.TXT AT RUN TIME (12 October 2026): every request goes through
+src/robots_guard.GuardedClient, which reads each host's robots.txt once per
+run, before the first request, with src/prov_fetch's reader. A disallowed
+URL, or a host whose robots.txt answers 5xx or not at all, is a [gap] line
+and a gaps row, never fetched and never fatal; a 4xx robots.txt means no
+rules; a Crawl-delay raises that host's interval.
+
 Separation guarantee: writes esr_* tables and the shared gaps table only.
 ONE WRITER AT A TIME on the store.
 
@@ -84,6 +91,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, es_regions_store as esr, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import GuardedClient, RobotsRefused  # noqa: E402
 
 FEED = "es-regions"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
@@ -357,6 +365,12 @@ def pull_boe(conn, client, today, tax, budget, days=None):
         try:
             text = client.get_text(BOE_SUMARIO.format(day=ymd), FEED, "boe-sumario-" + ymd,
                                    headers={"Accept": "application/json"})
+        except RobotsRefused as e:
+            # robots.txt asked at run time (src/robots_guard): one gap, and
+            # the BOE is not asked again this run.
+            _gap(conn, today, "BOE: {0}".format(e.reason))
+            gaps += 1
+            break
         except FetchError as e:
             if "404" in str(e.cause):
                 continue   # no issue that day (a holiday): not a gap
@@ -592,6 +606,9 @@ def main(argv=None):
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=1.0)
     for host, s in HOST_THROTTLE.items():
         client.set_host_throttle(host, s)
+    # robots.txt is asked on THIS run, per host, before any request; a
+    # Crawl-delay above HOST_THROTTLE raises that host's interval.
+    client = GuardedClient(client, FEED)
     today = args.date or datetime.date.today().isoformat()
     budget = drain.Budget(args.budget_seconds)
     wanted = [s.strip() for s in args.sources.split(",")] if args.sources else list(SOURCE_ORDER)
