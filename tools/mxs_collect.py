@@ -85,6 +85,10 @@ READERS = {
     "dgo": "mxs_dgo_gazette",   # Durango: each edition's HTML contents
     "qro": "mxs_qro_gazette",   # Querétaro: La Sombra de Arteaga's annual index PDF
     "cam": "mxs_cam_gazette",   # Campeche: SECCIÓN LEGISLATIVA edition PDFs
+    # Puebla (13 October 2026, Chris: "Find an alternate method"): its gazette
+    # refuses UK connections, so the gazette's decrees are read from the
+    # Supreme Court's compilation of state legislation (legislacion.scjn.gob.mx).
+    "pue": "mxs_pue_gazette",   # Puebla: the SCJN's 50 most recent Puebla reforms
 }
 # Readers that read an official gazette rather than the congress itself.
 GAZETTE = {s for s, m in READERS.items() if m.endswith("_gazette")}
@@ -97,9 +101,6 @@ NOT_READ = {
     "nl": ("unreachable", "www.hcnl.gob.mx does not answer UK addresses; no reader yet"),
     "gto": ("unreachable", "www.congresogto.gob.mx does not answer UK addresses; no reader yet"),
     "zac": ("unreachable", "www.congresozac.gob.mx does not answer UK addresses; no reader yet"),
-    "pue": ("blocked", "the Congress's site answers a Cloudflare challenge (a bot check, never "
-                       "bypassed); the Periódico Oficial and the Orden Jurídico Poblano refuse "
-                       "UK connections (asked from the runner each run)"),
     "coah": ("not built", "a JSF table paged by stateful postbacks; vote PDFs by date"),
     "son": ("not built", "a JSON API of only 413 items with no committee or status"),
     "hgo": ("not built", "per-sitting pages without author or committee (PDFs)"),
@@ -121,14 +122,12 @@ PROBE = {
     "nl": "https://www.hcnl.gob.mx/",
     "gto": "https://www.congresogto.gob.mx/",
     "zac": "https://www.congresozac.gob.mx/",
-    # Puebla and Jalisco: the official GAZETTE's home page, not the congress
-    # (Puebla's congress answers a bot check and is never asked).
-    "pue": "https://periodicooficial.puebla.gob.mx/",
+    # Jalisco: the official GAZETTE's home page, not the congress. (Puebla's
+    # gazette was probed here until 13 October 2026; Puebla now has a reader.)
     "jal": "https://periodicooficial.jalisco.gob.mx/",
     "mich": "https://congresomich.gob.mx/",
 }
-PROBE_WHAT = {"pue": "the Periódico Oficial's home page",
-              "jal": "the Periódico Oficial's home page"}
+PROBE_WHAT = {"jal": "the Periódico Oficial's home page"}
 
 
 def classify(tax, text, key, watch_path=None):

@@ -83,7 +83,10 @@ store and edition section, as for the Canadian provinces.
   page renders its search form but no results grid, and a search postback
   (Entidad = Puebla, 50 a page) answers "Object reference not set to an
   instance of an object" from `ReformasRecientes.ActualizarGrid`: a fault
-  on the Court's side, not a block. Asked again when phase 2 starts. bj.scjn.gob.mx (the Buscador Jurídico) loops
+  on the Court's side, not a block. **13 October 2026:** the fault came
+  from posting without the `q` token the Court's home page puts on the
+  link (`wfReformasResultados.aspx?q=78tXSP4D9DqLbEkEfwPY3A==`); with it,
+  the Entidad search answers 50 rows. Puebla is read this way (below). bj.scjn.gob.mx (the Buscador Jurídico) loops
   through an Imperva JavaScript check: blocked, not bypassed, and no
   documented public API was found.
 - **State periódicos oficiales**: 32 separate gazettes; reached through the
@@ -118,7 +121,7 @@ asked from the runner each run), **blocked** (robots.txt or a bot check).
 | 2 | Ciudad de México | 9.2 | ciudadana.congresocdmx.gob.mx/Iniciativa/iniciativas?page=N (the official list stopped 7 Nov 2025) | paged cards, 20 a page; JSON to our Accept header | id, date, title, author, group, committee | none current (one XLSX for 2018-20) | portal: none (404) | **read** |
 | 3 | Jalisco | 8.3 | infolej.congresojal.gob.mx: a two-step session search (result_busqueda.php, paginados.php) | HTML fragments | INFOLEJ number, title, date; detail with every step | "Cédula de votación" PDFs (reported) | www: Crawl-delay 10; infolej: none | not built: about 77 s a results page, 17 pages a fortnight |
 | 4 | Veracruz | 8.1 | www.legisver.gob.mx | unknown | | | could not be read | unreachable |
-| 5 | Puebla | 6.6 | congresopuebla.gob.mx | Cloudflare managed challenge on every HTML page | | | none | blocked; no alternative route yet (the gazette refuses UK connections; asked from the runner each run) |
+| 5 | Puebla | 6.6 | congresopuebla.gob.mx | Cloudflare managed challenge on every HTML page | | | none | blocked; **decrees read from the gazette, as compiled by the SCJN** (the gazette itself refuses UK connections) |
 | 6 | Guanajuato | 6.2 | www.congresogto.gob.mx | unknown | | | could not be read | unreachable |
 | 7 | Nuevo León | 5.8 | www.hcnl.gob.mx (lists per filer, from search) | HTML lists, gaceta PDFs (reported) | Exp., subject, committee, date, status (reported) | totals in actas (reported) | could not be read | unreachable |
 | 8 | Chiapas | 5.5 | web.congresochiapas.gob.mx/trabajo-legislativo/trabajo-legislativo | one HTML page, 1.8 MB, a table per legislature | file number, title (author inside), date, stage documents, "Aprobado" | per-sitting PDFs, not read | Joomla system paths only | **read** |
@@ -147,11 +150,12 @@ asked from the runner each run), **blocked** (robots.txt or a bot check).
 | 31 | Colima | 0.7 | /web/www/gaceta/plantilla_datos.php?v=tiniciativas (POST) | HTML fragment | number, text, author (party), committee, status; no date | none found | none (404) | not built |
 | 32 | Baja California Sur | 0.8 | orden del día RSS only | RSS | | none found | none (404) | not built |
 
-**Read from the official gazette instead (adopted acts only): 4 states**
-(San Luis Potosí, Campeche, Durango, Querétaro), 12 October 2026, see
-"Alternative routes" below; with them the layer covers about 53% of
-Mexico's population (67 of 126 million), bills for 47% and adopted
-decrees for another 6%.
+**Read from the official gazette instead (adopted acts only): 5 states**
+(San Luis Potosí, Campeche, Durango, Querétaro, 12 October 2026; Puebla,
+through the Supreme Court's compilation of the gazette, 13 October), see
+"Alternative routes" below; with them the layer covers about 58% of
+Mexico's population (73 of 126 million), bills for 47% and adopted
+decrees for another 11%.
 
 **Read: 13 states** (Estado de México, Ciudad de México, Chiapas, Oaxaca,
 Chihuahua, Tamaulipas, Baja California, Sinaloa, Yucatán, Quintana Roo,
@@ -261,7 +265,8 @@ gains one line when there are state items. A watched item is keyed in
    answer bot checks; Campeche's robots.txt forbids every crawler. Chris
    asked (12 October) to email all three, handled separately, and to
    prepare alternative routes: San Luis Potosí and Campeche now come from
-   their gazettes (adopted decrees), Puebla has none yet (below).
+   their gazettes (adopted decrees), and Puebla (13 October) from the
+   SCJN's compilation of its gazette (below).
    Durango's block is by region; its gazette is read meanwhile.
 5. **Campeche's legislation portal.** legislacion.congresocam.gob.mx is a
    separate Joomla host of the Congress whose robots.txt allows everything
@@ -295,45 +300,53 @@ acuerdos), not bills in passage: the edition's State congresses section
 shows these items with "(from the official gazette)" in their line, and the
 coverage line names the state the same way.
 
-### Built: four gazette readers (same step, store, taxonomy and clock)
+### Built: five gazette readers (same step, store, taxonomy and clock)
 
 | State | Source (official gazette) | robots.txt | Method | Measured 12 October 2026 |
 |---|---|---|---|---|
 | San Luis Potosí | periodicooficial.slp.gob.mx (Dirección del Periódico Oficial, Secretaría General de Gobierno) | `User-agent: *` / `Disallow:` (all allowed) | the consulta page's own JSON: `/api/publicacion/busqueda/filtro/gt` with the date window and `autoridadId=287` ("Congreso del Estado"); one request a run; no key or token (the page loads reCAPTCHA's script, the API asks for no token) | 34 decrees 10 Aug to 9 Oct 2026; 381 since Sep 2025, among them Decreto 0548 "Día de la Libertad Religiosa" (4 Jun 2026) and Código Familiar reforms. Live run: 26 decrees from 7 Sep |
 | Campeche | periodicooficial.campeche.gob.mx/sipoec/public (SIPOEC, Secretaría de Gobierno) | none (404) | the site's own full-text search (`documentos_avanzada?inicio&fin&contenido`) for "Palacio Legislativo" and "SECCIÓN LEGISLATIVA" (about 30 s each), then each edition's PDF (`getDocumento/<id>` gives the path), kept only when its masthead says SECCIÓN LEGISLATIVA, split into DECRETO / ACUERDO blocks with their number and first operative words; at most 35 days and 12 PDFs a run (300 KB to 2 MB each) | 11 legislative editions 1 Aug to 12 Oct, e.g. Decreto 285 (constitutional reform of arts. 30, 32, 102, 104, 121, 4 Sep 2026). Live run: 4 acuerdos from 7 Sep, about 90 s |
 | Durango | periodicooficial.durango.gob.mx (Secretaría General de Gobierno) | none (404) | the home page lists the 12 newest editions; each edition page prints its contents as an HTML table (Asunto, Número, Contiene, page); the DECRETO rows are kept | Decretos 442 to 446, 17 Sep to 8 Oct 2026 (session opening and closing, municipal revenue laws). Reachable from the UK, unlike the Congress |
+| Puebla (13 October) | legislacion.scjn.gob.mx, the Supreme Court's "Sistema de Consulta de Ordenamientos" (Centro de Documentación y Análisis, Archivos y Compilación de Leyes), which compiles the Periódico Oficial del Estado de Puebla | none (an IIS 404); the honest UA is answered, no challenge | "Búsqueda de las 50 reformas más recientes" (`wfReformasResultados.aspx?q=78tXSP4D9DqLbEkEfwPY3A==`, the token its home page links), then one postback of the page's own form with Ámbito ESTATAL, Entidad PUEBLA, 50 a page; no cookie needed. DECRETO and DECLARATORIA rows are kept, less reglamento decrees (save the Congress's own Reglamento Interior), municipal acts and the Executive's own decrees | 50 rows 2 Jul to 2 Oct 2026; 38 kept as the Congress's, 3 on our ground (Ley para el Acceso de las Mujeres a una Vida Libre de Violencia, 10 Aug); also the constitutional declaratoria of 15 Jul. Runs a few weeks behind the gazette. Live run 13 Oct: 38 listed, 0 gaps |
 | Querétaro | lasombradearteaga.segobqueretaro.gob.mx ("La Sombra de Arteaga", Secretaría de Gobierno), **over HTTPS** | none (404) | the annual index PDF (`getfile.php?p1=indice-2026.pdf`, 1.4 MB, one request a run) lists every edition's acts by issuing authority; the acts under PODER LEGISLATIVO are kept (laws, decrees, acuerdos and exhortos) | 84 legislative acts in 2026 to P. O. No. 80 (2 Oct), e.g. "Ley que reforma el artículo 43 de la Ley de los Derechos de Niñas, Niños y Adolescentes" (28 Aug) |
 
 Keys sit under `po/` (`slp/po/20020`, `cam/po/LXV/decreto/285`,
-`dgo/po/decreto/445`, `qro/po/2026/66/4`), so gazette items never collide
+`dgo/po/decreto/445`, `qro/po/2026/66/4`, `pue/po/scjn/<12 hex>`, a hash of
+ordinance, date and operative words since the Court numbers no reform), so gazette items never collide
 with congress items if a congress later lets us in, and the edition knows
 them by `mxs_store.GAZETTE_PREFIX`. Classification is taxonomy-es (mx) on
 the title, as for every state; status is "Publicado en el Periódico
 Oficial", dated by the edition. Tests: `tests/test_mxs.py` GazetteTests,
 on trimmed real replies (`tests/fixtures/mxs/slp_gazette.json`,
 `cam_search.html`, `cam_po2731ss.txt`, `cam_po2748ss.txt`, `dgo_home.html`,
-`dgo_periodico.html`, `qro_indice.txt`).
+`dgo_periodico.html`, `qro_indice.txt`, `pue_scjn_form.html`,
+`pue_scjn_reformas.html`).
 
-### Puebla: no route yet
+### Puebla: read through the Supreme Court (13 October 2026)
 
-- **Periódico Oficial** (periodicooficial.puebla.gob.mx) and the **Orden
-  Jurídico Poblano** (ojp.puebla.gob.mx), both 52.185.229.130: the TCP
-  connection is refused from the UK on ports 443 and 80. Same for
-  puebla.gob.mx and datos.puebla.gob.mx. Likely a geo filter. The step asks
-  the gazette's home page from the runner each run (one try, 20 s); the day
-  it answers, the coverage line says "a reader can be written". Never the
-  congress's site.
-- **PNT / SIPOT** (consultapublicamx.plataformadetransparencia.org.mx,
-  www.plataformadetransparencia.org.mx): a Cloudflare "Attention Required"
-  block on everything, robots.txt included. Not bypassed. This rules out
-  the transparency-obligation route (art. 72 legislative fractions) for
-  all three states.
-- **SCJN recent reforms** (legislacion.scjn.gob.mx): server fault on 12
-  October (above). It would carry Puebla's published reforms; re-asked in
-  phase 2.
-- **Orden Jurídico Nacional** (ordenjuridico.gob.mx, robots.txt 404):
-  per-state lists, but stale (newest last-reform dates in late 2024 and
-  January 2025 when measured). Not useful weekly for any state.
+Chris, 12 October 2026: "Find an alternate method" for Puebla. Probed
+politely from the laptop (honest UA, robots.txt first, 1.6 s between
+requests); no request to congresopuebla.gob.mx's pages, no bot check
+touched:
+
+| Rank | Candidate | Gives | Fresh | robots / terms | UK | Runner (likely) | Result |
+|---|---|---|---|---|---|---|---|
+| 1 | **SCJN, 50 most recent reforms, Entidad PUEBLA** (legislacion.scjn.gob.mx) | adopted decrees and declaratorias: ordinance, gazette date, category, edition, operative words | to 2 Oct 2026 (acuerdos), 10 Aug (decrees): weeks behind | no robots.txt (404); public, no login | yes | yes, if Imperva in front does not challenge datacentre addresses; a refusal is a recorded gap | **BUILT** (`src/ingest/mxs_pue_gazette.py`). The 12 October server fault came from posting the form without the page's `q` token; with it the Puebla search answers |
+| 2 | Congress's own gacetas (www.congresopuebla.gob.mx/docs/LXII/GACETAS/...) | the order of business, i.e. bills | monthly | same host as the Cloudflare challenge | not tried | not tried | **not used**: the host the Congress chose to put behind a bot check; whether its PDFs may be fetched is a question for the access request, not for us to test |
+| 3 | micrositios.congresopuebla.gob.mx | answers (an 11-byte page, robots 404), no challenge | | the Congress's own host | yes | ? | **not used**: no listing of legislative work found on it (one committee PDF by web search); also the Congress's host |
+| 4 | Periódico Oficial, Orden Jurídico Poblano, puebla.gob.mx, datos.puebla.gob.mx (52.185.229.130) | the gazette itself | | | refused | unknown | the step no longer probes the gazette (Puebla has a reader); re-measure by hand if the SCJN route fails |
+| 5 | Wayback Machine (archive.org availability API) | delayed copies of the gazette | | allowed for low volume | yes | yes | **empty**: no capture of periodicooficial.puebla.gob.mx at all |
+| 6 | plataformadigital.congresopuebla.gob.mx | | | | Cloudflare 522 (origin down) | | dead |
+| 7 | ITAIPUE (itaipue.org.mx) | transparency obligations | | | refused | unknown | dead from the UK |
+| 8 | PNT / SIPOT; datos.gob.mx | | | Cloudflare / Akamai refuse | | | as on 12 October |
+| 9 | Orden Jurídico Nacional | per-state lists | stale (2024-25) | | | | not weekly |
+
+Official X / Facebook / YouTube / Telegram accounts were not used (no API
+we hold; a YouTube feed gives session videos, not decrees).
+
+The SCJN route also answers for every other state (Entidad 1 to 32): a
+cross-state source of enacted reforms for phase 2, and a cross-check for
+the four direct gazette readers.
 
 ### Other probes
 

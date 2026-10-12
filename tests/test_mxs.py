@@ -20,7 +20,7 @@ from src.http import FetchError  # noqa: E402
 from src.ingest import (mxs_ags, mxs_bc, mxs_cdmx, mxs_chih, mxs_chis, mxs_common,  # noqa: E402
                         mxs_mex, mxs_nay, mxs_oax, mxs_qroo, mxs_sin, mxs_tab,
                         mxs_tamps, mxs_yuc, mxs_slp_gazette, mxs_cam_gazette,
-                        mxs_dgo_gazette, mxs_qro_gazette)
+                        mxs_dgo_gazette, mxs_qro_gazette, mxs_pue_gazette)
 from src.prov_fetch import Context  # noqa: E402
 import mxs_collect  # noqa: E402
 
@@ -46,9 +46,10 @@ def store():
 class FakeClient:
     user_agent = "CitizenGO-ParlMonitor/1.0 (contact: test)"
 
-    def __init__(self, pages=None, json_pages=None, posts=None, blobs=None):
+    def __init__(self, pages=None, json_pages=None, posts=None, blobs=None, forms=None):
         self.pages, self.json_pages, self.posts = pages or {}, json_pages or {}, posts or {}
         self.blobs = blobs or {}
+        self.forms = forms or {}
         self.throttle = 1.5
         self.asked = []
 
@@ -73,6 +74,12 @@ class FakeClient:
         if url not in self.blobs:
             raise FetchError(url, feed, slug, 1, "HTTP Error 404: Not Found")
         return self.blobs[url]
+
+    def post_form(self, url, fields, feed, slug, timeout=None, archive=False):
+        self.asked.append((url, fields))
+        if url not in self.forms:
+            raise FetchError(url, feed, slug, 1, "HTTP Error 404: Not Found")
+        return self.forms[url]
 
     def post_json(self, url, body, feed, slug, headers=None, timeout=None):
         self.asked.append((url, body))
@@ -256,26 +263,22 @@ class CollectorTests(unittest.TestCase):
 
     def test_unbuilt_and_blocked_states_are_recorded_with_their_reason(self):
         conn = store()
-        mxs_collect.run_state(conn, FakeClient(), "pue", None, None, None, "2026-10-12",
-                              "2026-10-12T10:00:00Z", dry_run=True, log=lambda *a: None)
         mxs_collect.run_state(conn, FakeClient(), "coah", None, None, None, "2026-10-12",
                               "2026-10-12T10:00:00Z", log=lambda *a: None)
         row = conn.execute("SELECT status, detail FROM mxs_reads WHERE state='coah'").fetchone()
         self.assertEqual(row[0], "not built")
-        self.assertIn("Cloudflare", mxs_collect.NOT_READ["pue"][1])
-        self.assertEqual(mxs_collect.NOT_READ["pue"][0], "blocked")
+        self.assertEqual(mxs_collect.NOT_READ["mich"][0], "unreachable")
 
-    def test_the_puebla_probe_asks_the_gazette_never_the_congress(self):
+    def test_jalisco_probe_asks_the_gazette_never_the_congress(self):
         conn = store()
-        client = FakeClient({"https://periodicooficial.puebla.gob.mx/": "x" * 5000})
+        client = FakeClient({"https://periodicooficial.jalisco.gob.mx/": "x" * 5000})
         mxs_collect._PROBE_CLIENT[:] = [client]
         self.addCleanup(mxs_collect._PROBE_CLIENT.clear)
-        mxs_collect.run_state(conn, client, "pue", None, None, None, "2026-10-12",
+        mxs_collect.run_state(conn, client, "jal", None, None, None, "2026-10-12",
                               "2026-10-12T10:00:00Z", log=lambda *a: None)
-        row = conn.execute("SELECT status, detail FROM mxs_reads WHERE state='pue'").fetchone()
+        row = conn.execute("SELECT status, detail FROM mxs_reads WHERE state='jal'").fetchone()
         self.assertEqual(row[0], "not built")
         self.assertIn("Periódico Oficial's home page ANSWERS", row[1])
-        self.assertFalse([u for u, _h in client.asked if "congresopuebla" in u])
 
     def test_a_reader_that_raises_costs_only_its_state(self):
         conn = store()
@@ -408,10 +411,61 @@ class GazetteTests(unittest.TestCase):
         self.assertNotEqual(row[0], "[]")                  # religious freedom is our ground
 
     def test_gazette_readers_are_wired(self):
-        for st in ("slp", "cam", "dgo", "qro"):
+        for st in ("slp", "cam", "dgo", "qro", "pue"):
             self.assertIn(st, mxs_collect.GAZETTE)
             self.assertNotIn(st, mxs_collect.NOT_READ)
-        self.assertNotIn("pue", mxs_collect.READERS)
+        self.assertNotIn("pue", mxs_collect.PROBE)
+
+    def test_pue_scjn_rows_keep_the_congress_decrees_only(self):
+        items = mxs_pue_gazette.parse(fixture("pue_scjn_reformas.html"))
+        # 14 rows: 11 decrees and the constitutional declaratoria are kept; the
+        # executive's reglamento decree and a municipal acuerdo are not.
+        titles = [it["title"] for it in items]
+        self.assertEqual(len(items), 12)
+        self.assertTrue(all(it["source_id"].startswith("po/scjn/") for it in items))
+        self.assertEqual(len({it["source_id"] for it in items}), len(items))
+        first = items[0]
+        self.assertEqual(first["presented"], "2026-08-10")
+        self.assertEqual(first["status"], "Publicado en el Periódico Oficial")
+        self.assertTrue(first["title"].startswith("DECRETO. UNICO. SE REFORMA"))
+        self.assertIn("wfOrdenamientoDetalle.aspx?q=", first["url"])
+        self.assertTrue(any("VIDA LIBRE DE VIOLENCIA" in t for t in titles))
+        self.assertTrue(any(it["kind"] == "declaratoria" and "CONSTITUCION" in it["title"]
+                            for it in items))
+        self.assertFalse([t for t in titles if "AYUNTAMIENTO" in t or "SECRETARIA DE MEDIO" in t])
+        # a decree whose operative words run long still names its law
+        self.assertTrue(any(t.startswith("DECRETO (LEY DE ECONOMIA CIRCULAR") for t in titles))
+        self.assertTrue(any("REGLAMENTO INTERIOR DEL HONORABLE CONGRESO" in t for t in titles))
+
+    def test_pue_scjn_form_posts_the_puebla_search(self):
+        fields = mxs_pue_gazette.form_fields(fixture("pue_scjn_form.html"))
+        self.assertIn("__VIEWSTATE", fields)
+        self.assertIn("__EVENTVALIDATION", fields)
+        self.assertEqual(fields[mxs_pue_gazette.FORM + "ddlEntidad"], "20")    # PUEBLA
+        self.assertEqual(fields[mxs_pue_gazette.FORM + "ddlAmbito"], "1")      # ESTATAL
+        self.assertIsNone(mxs_pue_gazette.form_fields("<html>no form</html>"))
+
+    def test_pue_collect_asks_the_court_never_puebla(self):
+        conn = store()
+        page = mxs_pue_gazette.PAGE
+        client = FakeClient({page: fixture("pue_scjn_form.html")},
+                            forms={page: fixture("pue_scjn_reformas.html")})
+        items = mxs_pue_gazette.collect(ctx_for(conn, client, "pue"), "2026-07-28")
+        self.assertTrue(items)
+        self.assertTrue(all(it["presented"] >= "2026-07-28" for it in items))
+        asked = [u for u, _ in client.asked if not u.endswith("/robots.txt")]
+        self.assertEqual(asked, [page, page])                # the page, then its postback
+        self.assertFalse([u for u, _ in client.asked if "puebla.gob.mx" in u
+                          or "congresopuebla" in u])
+
+    def test_pue_collect_records_the_courts_fault_as_a_gap(self):
+        conn = store()
+        page = mxs_pue_gazette.PAGE
+        client = FakeClient({page: fixture("pue_scjn_form.html")},
+                            forms={page: "<html>Object reference not set to an instance</html>"})
+        ctx = ctx_for(conn, client, "pue")
+        self.assertEqual(mxs_pue_gazette.collect(ctx, "2026-07-01"), [])
+        self.assertIn("fault on the Court's side", ctx.gaps[0])
 
 
 class EditionTests(unittest.TestCase):

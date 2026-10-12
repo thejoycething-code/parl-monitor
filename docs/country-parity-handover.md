@@ -1045,7 +1045,7 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
 - **Unreachable from the UK (5):** Veracruz, Guanajuato, Nuevo León,
   Michoacán (https), Zacatecas; the step asks each from the runner every
   run and the edition says if one answers.
-- **Blocked (4):** Puebla (Cloudflare challenge), San Luis Potosí (Sucuri
+- **Blocked (4):** Puebla (Cloudflare challenge; decrees via the SCJN), San Luis Potosí (Sucuri
   challenge), Campeche (robots.txt disallows all), Durango (Wordfence geo
   block). Never bypassed.
 - **Not built (10):** Jalisco (77 s a page), Querétaro (plain HTTP only),
@@ -1064,9 +1064,9 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
   **Durango** (each edition's HTML contents) and **Querétaro** (La Sombra
   de Arteaga's annual index PDF, over HTTPS). Adopted acts only, no bills
   in passage; the edition marks them "(from the official gazette)".
-  `src/ingest/mxs_{slp,cam,dgo,qro}_gazette.py`, same step and clock.
-  **Puebla**: no route yet (the gazette, the Orden Jurídico Poblano and the
-  state's open-data portal refuse UK connections; the step asks the
-  gazette's home page from the runner each run). The PNT/SIPOT sits behind
-  a Cloudflare challenge; the SCJN recent-reforms page answered a server
-  error on 12 October. Details in `docs/mexico-regions-scope.md`.
+  `src/ingest/mxs_{slp,cam,dgo,qro,pue}_gazette.py`, same step and clock.
+  **Puebla** (13 October): its gazette refuses UK connections, so its
+  decrees are read from the Supreme Court's compilation of the gazette
+  (legislacion.scjn.gob.mx, the 50 most recent Puebla reforms, one
+  postback of the page's own form; `src/ingest/mxs_pue_gazette.py`).
+Details in `docs/mexico-regions-scope.md`.
