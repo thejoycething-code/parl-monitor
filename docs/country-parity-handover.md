@@ -791,6 +791,11 @@ Google and Bing) and **Tirol** (lte.tirol.gv.at disallows every robot);
 by data.bka.gv.at's robots.txt and www.ris.bka.gv.at's bot check (parser
 ready and tested, not read). Waiting on Chris: RIS permission, Wien's
 Gemeinderat, Salzburg's unreadable robots.txt (treated as no rules).
+**Vienna's Gemeinderat added 12 October 2026 (branch `vienna-gemeinderat`).**
+The Wien reader also reads INFODAT with `committees=G` into `atl_items` as
+the pseudo-Land `wien-gr` (key `wien-gr/<Id>`; no schema change), first read
+a baseline in full, shown in the Landtage section as "Wien, Gemeinderat".
+Live smoke read: 455 rows (23 pages, 28 s), 12 on our ground.
 
 ### 6b. Regions -- Peru BUILT 12 October 2026 (branch `regions-pe`, PE4)
 

@@ -23,6 +23,11 @@ A row is in the window by the Landtag's own date (date_basis says which);
 an undated row by the day we first saw it, unless it was a baseline row of
 the Land's first read. Kärnten and Tirol are closed to robots and RIS
 Landesrecht too; the Coverage section says so every week.
+
+VIENNA'S GEMEINDERAT (12 October 2026): the city council's INFODAT
+documents (land 'wien-gr') sit in the same section, labelled "Wien,
+Gemeinderat", beside the Wiener Landtag's; its first read is a baseline in
+full, so only business first seen afterwards is shown.
 """
 
 from __future__ import annotations
@@ -197,9 +202,14 @@ BASIS_WORDS = {"introduced": "introduced", "sitting": "dealt with at the sitting
 
 def landtag_items(conn, since, until, wl):
     out = []
-    got = ce.rows(conn, "SELECT * FROM atl_items WHERE ({0}) OR (date IS NULL AND "
-                        "COALESCE(baseline, 0)=0 AND {1})".format(
-                            ce.window_sql("date"), ce.window_sql("first_seen")),
+    # A baseline row (seen on a body's first read) is not shown while it is
+    # undated (a Landtag row dated later from its own page is); for Vienna's
+    # Gemeinderat (atl_store.BASELINE_ALL) no row of its first read is.
+    full = ",".join("'{0}'".format(c) for c in atl_store.BASELINE_ALL)
+    got = ce.rows(conn, "SELECT * FROM atl_items WHERE (({0}) OR (date IS NULL AND "
+                        "COALESCE(baseline, 0)=0 AND {1})) AND NOT (COALESCE(baseline, 0)=1 "
+                        "AND land IN ({2}))".format(
+                            ce.window_sql("date"), ce.window_sql("first_seen"), full),
                   (since, until, since, until))
     for r in got:
         w = r["item_key"] in wl
@@ -250,8 +260,9 @@ def landtag_coverage(conn):
 
 def landtage(conn, since, until, wl):
     intro = ["The Land parliaments' own documents on our ground: seven of the nine Landtage, "
-             "each from its own system; titles verbatim in German. Decisions are shown in the "
-             "Landtag's words, with the Klubs where it names them (Oberösterreich, Steiermark)."]
+             "each from its own system, and Vienna's Gemeinderat (the city council); titles "
+             "verbatim in German. Decisions are shown in the Landtag's words, with the Klubs "
+             "where it names them (Oberösterreich, Steiermark)."]
     return [("Landtage", intro, landtag_items(conn, since, until, wl), landtag_coverage(conn))]
 
 

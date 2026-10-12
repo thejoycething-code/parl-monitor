@@ -17,7 +17,8 @@ step in `jobs/at-weekly.sh`, entries in `tools/coverage.py`, and
 
 **Covered: seven of nine** (Wien, Niederösterreich, Oberösterreich,
 Steiermark, Salzburg, Vorarlberg, Burgenland), about 85 per cent of Austria's
-population. **Blocked: Kärnten and Tirol** (robots.txt), and **RIS
+population, **plus Vienna's Gemeinderat** (added the same day; see
+"Vienna's Gemeinderat" below). **Blocked: Kärnten and Tirol** (robots.txt), and **RIS
 Landesrecht** (robots.txt and a bot check). Details below.
 
 ## The finding that shapes everything: no common platform
@@ -70,9 +71,9 @@ Tirol source worth a later look. For Kärnten, `landtag.ktn.gv.at` and
 ### What each system gives
 
 - **Wien**: type (Antrag, Anfrage, Antwort, Gesetzesentwurf, Bericht,
-  Aktuelle Stunde...), the sitting's date, INFODAT Id, title. The Landtag
-  only (`committees=L`): the Gemeinderat (`G`), the same people sitting as
-  the city council, is not read. A document is dated by the sitting it
+  Aktuelle Stunde...), the sitting's date, INFODAT Id and Aktenzahl, title.
+  The Landtag (`committees=L`) and, since 12 October 2026, the Gemeinderat
+  (`committees=G`, below). A document is dated by the sitting it
   belongs to, so a new motion assigned to the next sitting shows the week
   of that sitting.
 - **Niederösterreich**: Geschäftszahl (`Ltg.-1095/XX-2026`), type and
@@ -125,6 +126,52 @@ is the right kind of thing: Land-level policy on religious dress, gender
 and sexuality funding, palliative care and family support, the areas
 where the Länder legislate.
 
+## Vienna's Gemeinderat (added 12 October 2026, branch `vienna-gemeinderat`)
+
+Vienna is both a Land and a city: the same 100 members sit as the Landtag
+and as the Gemeinderat, the city council, and much of Vienna's policy
+(funding decisions, the schools it owns, the city's ordinances) is decided
+in the Gemeinderat, not the Landtag. Both are on INFODAT; the Gemeinderat is
+the same search with `committees=G`, so the Wien reader reads it too.
+
+- **Stored** in `atl_items` as the pseudo-Land `wien-gr` (land column and
+  key prefix `wien-gr/<INFODAT Id>`), so no column was added and nothing
+  reading `land='wien'` sees it. `atl_store.OTHER_BODIES` names it,
+  `atl_store.READ` includes it (`--land wien-gr`), `atl_reads` has its row.
+- **Baseline:** the Gemeinderat's first read is a baseline in full, dated
+  rows included (`atl_store.BASELINE_ALL`): its window holds hundreds of
+  routine items, so only business first seen afterwards reaches the edition.
+  (The Landtage's baseline remains undated rows only.)
+- **Shown** in the Landtage section beside the Wiener Landtag's documents,
+  labelled "Wien, Gemeinderat", with the Aktenzahl as printed
+  (`PGL-1310313-2026-KFP/GAT`); Coverage lists "Wien Gemeinderat" with its
+  last read.
+- **Politeness and budget:** the same robots.txt (it allows
+  `/infodat/suchergebnisse`; the page carries a `noindex, nofollow` meta,
+  which is about indexing, not reading), read per run through
+  `prov_fetch.Context`, 1.1 s between requests; up to 40 pages a run (a gap
+  beyond), inside the step's existing five minutes in `jobs/at-weekly.sh`.
+  INFODAT ignores a page-size parameter (`perPage=100` still returns 20).
+
+**Live smoke read, 12 October 2026** (laptop, scratch database, never the
+store): sitting days 21 September to 11 December 2026, **455 rows on 23
+pages in 28 seconds**, sittings of 21 and 23 September (448) and 21 October
+(7 answers already filed). By type: 197 Antworten, 117 schriftliche
+Anfragen, 60 Beschlussanträge, 39 Anträge des Stadtsenats (funding and
+zoning), 17 Zusatzfragen, 8 mündliche Anfragen, 8 Vorsitzführungen, and a
+handful of reports, Dringliche Anfragen and one Aktuelle Stunde.
+
+**On our ground: 12** (2.6 per cent, about the Landtage's rate):
+answers on the WIGEV's budget for medical abortion (three) and on prenatal
+harm from alcohol and drugs; a written question on hormone treatment and
+gender reassignment surgery; one on "Transgenderpropaganda im
+Kindergarten"; Beschlussanträge for a headscarf ban for public servants and
+a package against Islamist "Sittenwächter"; Stadtsenat funding for QWIEN
+(a queer culture association) and two support schemes for children with
+disabilities before and during compulsory schooling. One is a false
+positive: a motion condemning the jailing of Istanbul's mayor Ekrem
+İmamoğlu matched the term `Imam*` (a taxonomy matter, not changed here).
+
 ## What the edition now shows
 
 A **Landtage** section after the Watchlist: each document on our ground or
@@ -172,8 +219,9 @@ data beyond the introducers' names the Landtage print on each document.
    same day: `src/prov_fetch.py` now reads a 5xx or unreachable robots.txt
    as Disallow: / (RFC 9309 2.3.1), so Salzburg is skipped, with a gap line,
    until its robots.txt answers; a 4xx still means no rules.
-4. **Wien's Gemeinderat**: read it too (`committees=G`)? Much of Vienna's
-   policy (funding, schools as owner) is decided there, not in the Landtag.
+4. **Wien's Gemeinderat**: done, 12 October 2026 (above). `Imam*` in
+   taxonomy-atch also matches "İmamoğlu"; worth an exclusion in the
+   taxonomy source.
 5. **Watchlist**: the `landtage` section is empty; keys are listed in
    `config/watchlist-at.yaml`.
 6. **Votes**: Oberösterreich's search can list every decision with its
