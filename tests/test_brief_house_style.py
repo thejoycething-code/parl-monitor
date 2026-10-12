@@ -434,3 +434,32 @@ class IndividualCaseAndRF4CommentTests(unittest.TestCase):
         self.assertNotIn("see 'good outcome' above", src)
         self.assertNotIn("see 'bad outcome' above", src)
         self.assertIn("backlash check", mb.RF4_COST_NEEDED)
+
+
+class MarkdownReflectsTheOctoberRulesTests(unittest.TestCase):
+    """The rendered markdown carries the 12 October 2026 layout: Background
+    as its own section with bold labelled lines, and each RF4 question as
+    its own block so RF#1's lines and the RF#4 comments are not flattened."""
+
+    def test_background_section_and_rf4_blocks(self):
+        bg = mb.background(dict(NI_SUBJECT, deadline="2026-09-30", why=None,
+                                next_key_date=None), {})
+        fields = {"general": [("Topic", "Life"),
+                              ("Background / Context", bg)],
+                  "plan": [], "prepare": [],
+                  "urgency": "Non-Urgent Campaign (by default)"}
+        hints = ["Expected by the end of the classical series: 1 signatures"
+                 "\nScore: audience x", "b", "c", "The gain\nScore: 3",
+                 "The cost\nBacklash check: none\nScore: 0"]
+        md = mb.render_markdown(NI_SUBJECT, fields, hints, [], "", [],
+                                "2026-10-12", rf4_scores={"RF#1": 2})
+        self.assertIn("## Background / Context", md)
+        self.assertIn("**Where it stands:**", md)
+        self.assertNotIn("| Background / Context |", md)
+        self.assertIn("### RF#1 ", md)
+        self.assertIn("Plan score (-10..+10): 2", md)
+        self.assertIn("Plan score (-10..+10): [CAMPAIGNER]", md)
+        self.assertIn("Backlash check: none", md)
+        self.assertIn("Expected by the end of the classical series: 1 "
+                      "signatures  \nScore:", md)
+        self.assertNotIn("See Good outcome", md)
