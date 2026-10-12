@@ -90,9 +90,15 @@ SEQUENCED = "after other business"
 
 
 def _text(value):
-    """Some fields arrive as dicts ({'Name': ...}) rather than strings."""
+    """Some fields arrive as dicts ({'Name': ...}) rather than strings.
+
+    Committee arrives as {'Id': 851, 'Description': 'Draft Conversion
+    Practices Bill (Joint Committee)', ...}, with no Name: reading only Name
+    left every committee event without its committee, so the filter never
+    saw it (found 2026-10-12: the joint committee met on 12 and 15 Oct and
+    neither meeting reached the edition)."""
     if isinstance(value, dict):
-        return value.get("Name") or value.get("name") or ""
+        return value.get("Name") or value.get("name") or value.get("Description") or ""
     return value if isinstance(value, str) else ""
 
 
