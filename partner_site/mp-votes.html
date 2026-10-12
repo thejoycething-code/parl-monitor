@@ -646,6 +646,7 @@ details.journey > .passage{border-bottom:none;border-radius:0}
 <footer>
   Sources: House of Commons Votes API &middot; UK Parliament Members API &middot; postcodes.io (ONS / OS open data).<br>
   Contains Parliamentary information licensed under the Open Parliament Licence v3.0.<br>
+  <span class="photo-credit">Photos: UK Parliament (<a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>; <a href="https://www.parliament.uk/site-information/copyright-parliament/use-of-parliamentary-photographic-images/official-portraits-copyright-information/">terms</a>), the official portraits from the UK Parliament Members API.</span><br>
   Data generated <span id="stamp"></span>. Postcode lookups run in your browser and are not stored.
 </footer>
 
@@ -1832,7 +1833,7 @@ function renderMP(id){
   <div class="card">
     <div class="card-head">
       <div class="avatar"><span>${initials(m.name)}</span>
-        <img src="https://members-api.parliament.uk/api/Members/${m.id}/Thumbnail" alt="" onerror="this.remove()"></div>
+        <img src="https://members-api.parliament.uk/api/Members/${m.id}/Thumbnail" alt="" title="Photo: UK Parliament (CC BY 3.0)" onerror="this.remove()"></div>
       <div class="idcol">
         <h2>${esc(m.name)}</h2>
         <div class="mp-meta">

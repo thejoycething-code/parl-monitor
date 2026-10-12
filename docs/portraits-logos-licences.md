@@ -57,9 +57,12 @@ The pages show a party colour chip instead (below).
 | European Parliament | `europarl.europa.eu/mepphoto/{mepId}.jpg` | https://www.europarl.europa.eu/legal-notice/en/ | "the entire item is reproduced and the source is acknowledged" | allowed | OK with attribution | "© European Union, [year], Source: European Parliament" |
 | Germany Bundestag | `bilddatenbank.bundestag.de` (per image) | https://www.bundestag.de/bildnutz | "für private und kommerzielle nicht-werbliche Zwecke genutzt werden" (per image) | allowed | OK with attribution, per image; election-campaign use banned | "Deutscher Bundestag/[photographer]" |
 
-Note for the UK: `templates/vote-tracker.html` already shows the Members API
-thumbnail on `mp-votes.html`, loaded from Parliament's server, with no credit
-line. CC BY 3.0 wants the credit; a follow-up should add it (not changed here).
+Note for the UK: `templates/vote-tracker.html` shows the Members API
+thumbnail on `mp-votes.html` (partner and public builds), loaded from
+Parliament's server. Since 12 October 2026 the page footer carries the
+CC BY 3.0 credit, "Photos: UK Parliament (CC BY 3.0; terms)", linking the
+licence and Parliament's portrait terms, and each photo has the same credit
+as its title (tests/test_vote_tracker.py, PortraitCreditTests).
 
 ### Canada (federal and provinces; not on the new-country pages)
 
@@ -191,5 +194,6 @@ as Spain's GP or France's EPR). A person can add one with its source.
    Chile, Mexico, Colombia) or allow Wikimedia Commons as a per-file fallback.
 3. **Party logos**: confirm colour chips only; logos would mean asking each
    party for its brand assets.
-4. **UK tracker**: add the CC BY 3.0 credit line beside the Members API
-   thumbnail, and consider caching it instead of loading it from Parliament.
+4. **UK tracker**: the CC BY 3.0 credit line is on the page (done 12 October
+   2026); still to consider: caching the thumbnail instead of loading it
+   from Parliament.
