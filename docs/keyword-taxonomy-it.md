@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Italian keyword taxonomy
 
-**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.3 | 12 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 ## Purpose
 
@@ -30,13 +30,20 @@ Noise round (v0.2, 10 October 2026, approved by Chris).
 
 - `"vita umana"` (area 1, tier 1) needs life-issue company: conception, the unborn, embryos, the foetus, pregnancy, abortion, end of life, euthanasia or assisted suicide. Measured on the Italian records of the Swiss 52nd legislature (10,178 businesses, raw archive of 10 October 2026): on our ground 431 to 428, the three lost all noise (23.4425 and 23.4426, the biodiversity crisis and "gravi conseguenze per la vita umana"; 25.4455, health insurers' investments that "mettono a rischio la salute o la vita umana"). Italy's own store: the five bills that carry "vita umana" (the capacità giuridica del concepito bill and the four Giornata della vita nascente bills) keep area 1.
 
+Additions round (v0.3, 12 October 2026, asked for by Chris: "Add the Mexico and Italy keyword terms too"; gambling "gioco d'azzardo, tier 2 under marriage and family").
+
+- Area 1, tier 2: consultorio (singular), vetoed for legal, tax, veterinary and labour advice offices.
+- Area 6, tier 1: "educazione relazionale" (Trento's missed bill; "educazione all'affettività" and "educazione affettiva" were already terms).
+- Area 9, tier 2: "gioco d'azzardo", "giochi d'azzardo", "giochi d' azzardo", ludopatia, ludopatie, azzardopatia.
+- Measured in each area's Notes: 13 new Italian matches (9 national bills, 4 regional acts) and 2 Swiss Italian titles, no false positives.
+
 ## Issue areas
 
 ### 1. Abortion {#1_abortion}
 
 - **Tier 1:** aborto; aborti; abortiv*; "interruzione volontaria di gravidanza"; "interruzione volontaria della gravidanza"; "interruzioni volontarie di gravidanza"; IVG [only: it]; IVG [with: aborto, aborti, gravidanza, avortement*, grossesse*, Abtreibung*, Schwangerschaft*] [only: ch]; "legge 194" [only: it]; "legge n. 194" [only: it]; "legge 22 maggio 1978, n. 194" [only: it]; "194 del 1978" [only: it]; 194/1978 [only: it]; RU486; "RU 486"; mifepristone; "tutela della vita nascente"; "vita nascente"; "diritti del concepito"; "capacità giuridica del concepito"; "riconoscimento del concepito"; nascituro; nascituri; "Movimento per la vita" [only: it]; "centri di aiuto alla vita" [only: it]; "battito cardiaco fetale"; "vita umana" [with: concepimento, concepit*, nascitur*, embrion*, feto, feti, fetal*, gravidanz*, abort*, "fine vita", "fine della vita", eutanasi*, "suicidio assistito"]; "sepoltura dei feti"
-- **Tier 2:** "obiezione di coscienza" [with: gravidanza, aborto, 194, ginecolog*, interruzione]; "consultori familiari"; "consultorio familiare"; "salute riproduttiva"; "diritti riproduttivi"; "salute sessuale e riproduttiva"; sepoltura [with: feti, "prodotti abortivi", "prodotti del concepimento"]; "diagnosi prenatale"; "aborto spontaneo"; "parto in anonimato"; "culle per la vita"
-- **Notes:** Italy: Measured on the Senate and Camera records; Law 194/1978 variants are Italy-only. Switzerland (11 October 2026): IVG is bare for Italy and guarded by abortion or pregnancy words for Switzerland, where it is mostly the German abbreviation of the Invalidity Insurance Act (the same guard as taxonomy-fr).
+- **Tier 2:** "obiezione di coscienza" [with: gravidanza, aborto, 194, ginecolog*, interruzione]; "consultori familiari"; "consultorio familiare"; consultorio [without: "consultorio legale", "consultorio giuridico", "consultorio tributario", "consultorio veterinario", "consultorio del lavoro"]; "salute riproduttiva"; "diritti riproduttivi"; "salute sessuale e riproduttiva"; sepoltura [with: feti, "prodotti abortivi", "prodotti del concepimento"]; "diagnosi prenatale"; "aborto spontaneo"; "parto in anonimato"; "culle per la vita"
+- **Notes:** Italy: Measured on the Senate and Camera records; Law 194/1978 variants are Italy-only. Switzerland (11 October 2026): IVG is bare for Italy and guarded by abortion or pregnancy words for Switzerland, where it is mostly the German abbreviation of the Invalidity Insurance Act (the same guard as taxonomy-fr). v0.3 (12 October 2026, Chris: "Add the Mexico and Italy keyword terms too"): consultorio (singular) at tier 2 beside "consultori familiari", vetoed where it is a legal, tax, veterinary or labour advice office. Measured on the local store (5,251 bills, 28,150 divisions) and the 958 regional acts of the 12 October regional archive: 1 new match, Trento tn/XVII/at1942291 (more consultorio services in Trentino), on our ground; no false positives, no national bill or division moves (the national titles say "consultori familiari", already a term).
 
 ### 2. Assisted dying and end of life {#2_assisted_dying}
 
@@ -64,9 +71,9 @@ Noise round (v0.2, 10 October 2026, approved by Chris).
 
 ### 6. Parental rights and education {#6_parental_rights_education}
 
-- **Tier 1:** "educazione sessuale"; "educazione sessuo-affettiva"; "educazione all'affettività"; "educazione affettiva"; "educazione sentimentale"; "educazione alle relazioni"; "ideologia gender"; "ideologia di genere"; "teorie del gender"; "teoria del gender"; "teorie gender"; "gender nelle scuole"; "istruzione parentale"; "scuola parentale"; "scuole parentali"; homeschooling; "libertà di scelta educativa"; "libertà educativa"; "consenso informato preventivo"; "primato educativo"
+- **Tier 1:** "educazione sessuale"; "educazione sessuo-affettiva"; "educazione all'affettività"; "educazione affettiva"; "educazione sentimentale"; "educazione alle relazioni"; "educazione relazionale"; "ideologia gender"; "ideologia di genere"; "teorie del gender"; "teoria del gender"; "teorie gender"; "gender nelle scuole"; "istruzione parentale"; "scuola parentale"; "scuole parentali"; homeschooling; "libertà di scelta educativa"; "libertà educativa"; "consenso informato preventivo"; "primato educativo"
 - **Tier 2:** "consenso informato" [with: scuola, scuole, studenti, alunni, genitori, famiglie]; "scuole paritarie" [only: it]; "parità scolastica" [only: it]; "buono scuola"; "patto educativo di corresponsabilità" [only: it]; smartphone [with: scuola, scuole, minori, alunni, divieto]; cellulari [with: scuola, scuole, classe, studenti, alunni] [without: colture]; "social network" [with: minori, minorenni, anni, età, scuola]; "verifica dell'età" [with: minori, pornografi*, online, piattaform*]; "age verification"; "parental control"; "potestà genitoriale"; "responsabilità genitoriale"; "diritto dei genitori"; "scuole private"
-- **Notes:** Italy: Consenso informato is area 6 tier 2 only with school or family company; elsewhere it belongs to area 2.
+- **Notes:** Italy: Consenso informato is area 6 tier 2 only with school or family company; elsewhere it belongs to area 2. v0.3 (12 October 2026, Chris: "Add the Mexico and Italy keyword terms too"): "educazione relazionale" at tier 1 with the other sex-education terms ("educazione all'affettività" and "educazione affettiva" were already tier 1). Measured as for area 1: 1 new match, the measured miss, Trento tn/XVII/at3008268 ("educazione relazionale alla parità e al rispetto delle differenze di genere"), which had no area before; no false positives.
 
 ### 7. Free speech, privacy and civil liberties {#7_free_speech_online_safety}
 
@@ -84,8 +91,8 @@ Noise round (v0.2, 10 October 2026, approved by Chris).
 ### 9. Marriage and family {#9_marriage_family}
 
 - **Tier 1:** "unioni civili"; "unione civile"; "legge Cirinnà" [only: it]; "matrimonio egualitario"; "matrimonio tra persone dello stesso sesso"; "matrimonio omosessuale"; "stepchild adoption"; "adozione del figlio del partner"; "famiglia naturale"; "famiglia fondata sul matrimonio"; natalità; denatalità; "inverno demografico"; "quoziente familiare"; "assegno unico universale" [only: it]; "matrimonio forzato"; "matrimoni forzati"; "matrimoni precoci"; poligamia
-- **Tier 2:** "adozioni internazionali"; "adozione di minori"; "adozione dei minori"; affido [with: minori, familiare, figli, minorenni]; "affidamento di minori"; "affidamento condiviso"; "alienazione parentale"; "congedo parentale"; "congedi parentali"; "bonus bebè" [only: it]; genitorialità; "potestà dei genitori"; "diritto di famiglia"; "cessazione del matrimonio"; "matrimonio religioso"; "politiche familiari"; "politiche per la famiglia"; "genitore 1"; divorzio; "separazione personale dei coniugi"; "famiglie numerose"; "conciliazione vita-lavoro"
-- **Notes:** Italy: Draft list; natalità and family-policy terms are tier 1/2 as drafted.
+- **Tier 2:** "adozioni internazionali"; "adozione di minori"; "adozione dei minori"; affido [with: minori, familiare, figli, minorenni]; "affidamento di minori"; "affidamento condiviso"; "alienazione parentale"; "congedo parentale"; "congedi parentali"; "bonus bebè" [only: it]; genitorialità; "potestà dei genitori"; "diritto di famiglia"; "cessazione del matrimonio"; "matrimonio religioso"; "politiche familiari"; "politiche per la famiglia"; "genitore 1"; divorzio; "separazione personale dei coniugi"; "famiglie numerose"; "conciliazione vita-lavoro"; "gioco d'azzardo"; "giochi d'azzardo"; "giochi d' azzardo"; ludopatia; ludopatie; azzardopatia
+- **Notes:** Italy: Draft list; natalità and family-policy terms are tier 1/2 as drafted. v0.3 (12 October 2026, Chris: "gioco d'azzardo, tier 2 under marriage and family"; tier 2, triage decides): "gioco d'azzardo", "giochi d'azzardo", "giochi d' azzardo" (the TESEO subject descriptor, spaced as TESEO writes it), ludopatia, ludopatie, azzardopatia. Measured as for area 1: 11 new Italian matches, all gambling items: 9 Camera and Senate bills (S.41, C.189, C.348, C.383, S.266, C.534, S.401, S.921, C.2986; 4 caught only by the TESEO descriptor) and 2 regional acts (Trento at1942284, Marche pdl-68), plus 2 Swiss Italian business titles (20253390, 20263728, online gambling advertising); no division moves (no recorded vote on those bills); no off-subject matches. azzardopatia and ludopatie matched nothing yet.
 
 ### 10. Surrogacy and embryology {#10_surrogacy_embryology}
 

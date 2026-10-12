@@ -685,6 +685,13 @@ Abruzzo, Piemonte, Sardegna, Umbria, Valle d'Aosta. Not built yet (forms or
 no list found): Lazio, Emilia-Romagna, Toscana, Calabria, Liguria, FVG,
 Bolzano, the Trentino-Alto Adige regional council. No council publishes
 member votes we can read (Lombardia's vote PDFs are a possible later phase).
+Taxonomy-it v0.3 (12 October 2026, Chris: "Add the Mexico and Italy keyword
+terms too"; gambling "tier 2 under marriage and family"): the proposed
+regional terms are applied (`educazione relazionale`, `consultorio`,
+`gioco d'azzardo` and its variants); 13 new Italian matches (9 bills, 4
+regional acts) and 2 Swiss Italian, no false positives; regional rows
+reclassify on the next weekly, the national bills on one Italy weekly run
+with `IT_RECLASSIFY=true`.
 
 **Set B, built 10 October 2026 (branch `parity-phases-b`):** X8
 constitutional courts for Colombia (the exhortations file; the Court's
