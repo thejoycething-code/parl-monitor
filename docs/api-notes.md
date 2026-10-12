@@ -1632,7 +1632,8 @@ now publishes `parl-monitor.db.gz` instead of the raw `parl-monitor.db`.
   read it.
 * **Both assets exist only during the switch.** Where they do, the newer by
   `created_at` is the live one (a rename keeps `created_at`).
-* **Still to come:** past 1.6 GB uncompressed or 1.5 GB compressed every push
-  warns. Gzip buys roughly 4x on today's data, but the store doubled in
+* **Still to come:** past 0.75 GB compressed every push warns "plan the
+  split", past 1.0 GiB "split now" (12 October 2026; until then 1.6 GB
+  uncompressed and 1.5 GB compressed). Gzip buys roughly 4x on today's data, but the store doubled in
   three days of backfills; the lasting fix is splitting it into several
   assets (one per region, say), each under the limit.

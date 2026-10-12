@@ -131,7 +131,7 @@ SCHEMA = (
         position     TEXT,               -- aye / no / abstain / present / mission / absent / secret
         grp          TEXT,               -- AT THE VOTE
         PRIMARY KEY (division_key, member_key)
-    )""",
+    ) WITHOUT ROWID""",
     # IT3 (12 October 2026): acts of the regional councils (tools/it_regions.py,
     # docs/italy-regions-scope.md). One table for every council, keyed
     # '<region>/<legislature>/<the council's own id>': 'lom/XII/pdl-212',

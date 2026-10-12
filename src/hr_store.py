@@ -98,7 +98,7 @@ SCHEMA = (
         position     TEXT,               -- 'for' / 'against' / 'abstained'
         party_seen   TEXT,               -- see the module docstring
         PRIMARY KEY (division_key, slug)
-    )""",
+    ) WITHOUT ROWID""",
     # PARTY HISTORY FROM THE TRANSCRIPTS (X6, 10 October 2026;
     # tools/hr_party_history.py). Every contribution in a plenary transcript
     # (edoc.sabor.hr FonogramView) is headed "Surname, Name (PARTY)" under

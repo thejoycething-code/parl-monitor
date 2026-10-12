@@ -619,7 +619,21 @@ The store reached 1.76 GB on 11 October (1.0 GB on 9 October) against GitHub's 2
 - **Sidecar:** `sha256` and `bytes` are still the UNCOMPRESSED store (what a pull verifies and what the lineage guard compares); `gz_sha256`, `gz_bytes` and `asset_name` describe the asset. `.store-pulled` records both shas, so the live-asset check knows the published .gz as ours.
 - **Pull:** takes the form the committed sidecar names (`gz_sha256` present: the .gz; absent: the raw asset), falls back to the other, then to a `.prev`; decompresses beside the working store and installs it only once the uncompressed sha matches. A corrupt or truncated download leaves the working store untouched.
 - **The switch:** the Mini runs main's `db_state.py` on every job (the wrapper updates the runner clone before it pulls) and every workflow checks out main, so once this is merged every reader and writer is on the new code. The first compressed push deletes the raw asset; until then pulls take the raw one. A run that started before the merge pulls the raw asset as before; if it then pushes after a compressed publish, the lineage guard refuses it, because the sidecar on main names a store it never held. A branch test (`RUNNER_REF`) or a laptop on a branch without this change cannot pull once the raw asset is gone: merge main first.
-- **Size guard:** every push warns (a `::warning::` annotation on GitHub) once the store passes 1.6 GB uncompressed or the .gz passes 1.5 GB, and refuses outright above 2 GiB compressed rather than fail mid-upload. The 07:30 health DM has a "Store" line with both sizes and the same warnings. At 1.76 GB the first warning is already on: the next step is splitting the store into several assets.
+- **Size guard:** every push warns (a `::warning::` annotation on GitHub) once the COMPRESSED asset passes 0.75 GB ("plan the split": build Stage 2 of `docs/store-split-plan.md`) or 1.0 GiB ("split now": Stage 3), and refuses outright above 2 GiB compressed rather than fail mid-upload. The 07:30 health DM has a "Store" line with both sizes and the same warnings. (Until 12 October 2026 it warned past 1.6 GB uncompressed, which fired on every push; see the next section.)
+
+## The store is compacted: WITHOUT ROWID vote tables, VACUUM on every push (12 October 2026, branch `store-compact`)
+
+Stage 1 of `docs/store-split-plan.md`. Chris, 12 October 2026: "Yes, build and merge it".
+
+- **Vote tables WITHOUT ROWID.** Every `<cc>_votes` table's `CREATE TABLE` (`src/db.py`, `src/<cc>_store.py`) now ends `WITHOUT ROWID`, as `pl_votes` always did: the row lives inside its primary key, so the duplicate primary-key index goes. `un_votes` keeps its rowid (its `draft` key column may be NULL; tiny, paused). The one piece of code that addressed a vote row by rowid, `src/prov_store.py refresh_party`, now uses `prov_votes`' key (division_key, position, ordinal). A store built from scratch has the new form; the published store is converted ONCE by the job below.
+- **`jobs/store-compact.sh`, run once by hand, not scheduled:** `tools/store_compact.py --dry-run`, then `tools/store_compact.py` on `data/parl-monitor.db` (each rowid `_votes` table rebuilt in its own transaction: copy, row counts and a sha256 of every row in key order checked, drop, rename, indexes recreated; then VACUUM), then `db_state.py --push`. Heartbeat "Store compact" (`tools/coverage.py` ON_DEMAND). A store writer under the FIFO lock like any other. Idempotent: a second run rebuilds nothing.
+
+      cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh store-compact \
+        >> ~/runner/logs/store-compact.log 2>&1 &
+
+  Measured on a laptop copy of the 12 October store: 36 tables, 8.66 million rows, rebuilt in 34 s, VACUUM 17 s; 1,825 MB to 1,480 MB raw, 447 MB to 308 MB compressed; every table's row count unchanged.
+- **VACUUM before every publish** (`tools/db_state.py vacuum_store`, called by `--push` after the heartbeat stamp and before the sha): `VACUUM INTO data/parl-monitor.db.vacuum` (gitignored), the copy's schema checked against the store's, then swapped in with `os.replace`, so the store is never half-written and nothing on the release (the `.prev` keep-aside, the collision checks) is involved. It logs its time ("vacuumed X MB to Y MB in Ns", about 10 to 17 s on the laptop), stops at `VACUUM_MAX_S` (240 s) and publishes the store as it was, and is skipped with a warning when the disk has less than 1.2 times the store plus 500 MB free. Never fatal. `DB_STATE_NO_VACUUM=1` turns it off.
+- **Size warnings on the compressed asset** (see the size guard above): 0.75 GB "plan the split", 1.0 GiB "split now", 2 GiB refused.
 
 ## A failed upload is retried; a fresh .prev is left alone (11 October 2026)
 
@@ -719,6 +733,11 @@ with the end of its output. Nothing caps the clock here, but give
     # three times, never on a Tuesday morning (the Slovak weekly).
     cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh sk-docs-backfill \
       >> ~/runner/logs/sk-docs-backfill.log 2>&1 &
+
+    # The store, once (12 October 2026): vote tables WITHOUT ROWID, VACUUM,
+    # publish (see "The store is compacted" above). About a minute plus the push.
+    cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh store-compact \
+      >> ~/runner/logs/store-compact.log 2>&1 &
 
 They record their own heartbeats ("Provinces backfill", "Canada backfill"),
 never the weekly's. They hold the lock while they run, so the scheduled jobs
@@ -830,3 +849,7 @@ Without the judge a person writes the translations into `translations.yaml` on a
 - **Monthly, and only when changed:** the tool does nothing until four weeks after its last check (`mi_downloads.last_seen`); then one conditional request (If-Modified-Since) on `declarations.xml`. A 304 costs nothing more; a change downloads the 79.5 MB XML and the 3.2 MB CSV and parses them in about two seconds. `--force` checks now.
 - **Privacy:** the XML is never written to `data/raw` (it holds spouses' data and the archive is published); only the CSV's parliamentary rows are archived. Spouses', collaborators', free-text and asset sections are skipped at parse time and never logged.
 - **Coverage:** `mi_downloads.last_seen` is watched (`tools/coverage.py`, cadence 31, grace 14); the log line `fr-hatvp:` says what was read, or "unchanged" / "not due".
+
+### Member portraits (12 October 2026)
+
+One step in `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only), just before the vote pages: `tools/fetch_portraits.py` fetches the official photos of the members on each vote page, **only for countries whose photo licence is OK** (`docs/portraits-logos-licences.md`; now Brazil and Croatia), robots.txt obeyed, at most 150 a country a run, shrunk to 96 px with `sips` (macOS, so Mini only; GitHub's backup keeps the thumbnails already published). Cache `data/portraits/<cc>/` (gitignored, stays on the Mini runner clone), manifest `data/portraits/<cc>.json` (committed with data/). `tools/make_country_votes.py` then copies the on-page thumbnails to `partner_site/portraits/<cc>/`. No new job, no new slot, nothing to install beyond the usual `git pull`. First runs: Brazil's 690 members fill in about five Sundays, Croatia's 174 in two.

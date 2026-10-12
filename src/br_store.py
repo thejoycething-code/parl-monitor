@@ -104,7 +104,7 @@ SCHEMA = (
         party        TEXT,               -- AT THE VOTE
         uf           TEXT,
         PRIMARY KEY (division_key, member_key)
-    )""",
+    ) WITHOUT ROWID""",
     """CREATE TABLE IF NOT EXISTS br_orientations (
         division_key TEXT NOT NULL,
         bloc         TEXT NOT NULL,      -- party, bloc, 'Governo', 'Oposição', 'Maioria' ...

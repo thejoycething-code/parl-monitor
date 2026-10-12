@@ -123,7 +123,7 @@ SCHEMA = (
         party        TEXT,                -- AT THE VOTE
         position     TEXT,                -- 'SI' / 'NO' / 'ABST' / 'No Votado'
         PRIMARY KEY (division_key, name)
-    )""",
+    ) WITHOUT ROWID""",
     """CREATE TABLE IF NOT EXISTS sv_vote_days (
         day          TEXT PRIMARY KEY,    -- ISO date asked of the session archive
         legislature  TEXT,
