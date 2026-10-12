@@ -172,20 +172,24 @@ docs/5ca-notes.md). The first real run is Sunday's editions-session-judge.
     936 readings confirm on Sunday's automatic sign-off. Unclear ones are
     mostly the Italian Senate and Hungary (bot checks), the Dominican
     Chamber (no readable text) and some French Sénat votes.
-21. OPEN: the 313 flagged amendment readings (in each shortlist after
-    Sunday's run): review, leave to country teams, or accept as drafted.
+21. DONE (12 October 2026, Chris: "Accept all as drafted"): the 313
+    flagged amendment readings accepted with `--accept-flagged-amendments`
+    (flag kept as `amendment_accepted`); 302 more would confirm on Sunday
+    (1,243 in all on the dry run). `docs/country-decisions-2026-10-12.md`,
+    "Decision backlog, 12 October".
 22. OPEN: the 209 unclear amendments: leave, or ask the Italian Senate and
     parlament.hu for access.
 23. OPEN (portraits, #139): do the partner pages count as internal or
     non-commercial use for Italy, the Netherlands, Austria and Switzerland?
     For the 21 unclear countries, ask press offices or allow Wikimedia
     Commons per file? Confirm colour chips only, no logos.
-24. OPEN (regions): ask Puebla, San Luis Potosí and Campeche to allow our
-    crawler; a Mexican exit from the Mini if GitHub cannot reach Veracruz,
-    Guanajuato, Nuevo León, Michoacán and Zacatecas; ask the
-    Bundeskanzleramt for the RIS API; read Vienna's Gemeinderat too?;
-    Peru's regional tier-1 norms alert instantly today (keep?); entries for
-    the empty regional watchlists (it, at, pe, mx states).
+24. DECIDED (regions, 12 October 2026): the regional watchlists are seeded
+    (Chris: "Seed from what's on our ground": IT 11, AT 8, PE 7, MX states
+    11); Vienna's Gemeinderat, the emails to Puebla, San Luis Potosí and
+    Campeche and alternative routes are being built separately; Peru's
+    instant alerts for regional tier-1 norms are kept; the RIS API is not
+    requested; a Mexican VPN exit for the Mini waits for GitHub's run
+    (Veracruz, Guanajuato, Nuevo León, Michoacán, Zacatecas).
 25. OPEN (Canada): Senate committee transcripts and committee reports are
     not built (`docs/canada-federal-sources-scope.md`).
 26. WATCH: Panama's bills feed is dark while sistemas.asamblea.gob.pa's
