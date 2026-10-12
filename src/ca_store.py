@@ -1,8 +1,9 @@
 """Tables for the Canadian monitor: House divisions and bills (phase 1),
 Hansard, petitions, Senate votes and the Canada Gazette (phase 2), Senate
 Debates and House and joint committee evidence (ca_senate_sittings,
-ca_committee_meetings, ca_testimony; 2 October 2026), and the Supreme Court
-of Canada (ca_judgments, ca_leave).
+ca_committee_meetings, ca_testimony; 2 October 2026; Senate committees and
+ca_committee_reports joined 12 October 2026), and the Supreme Court of
+Canada (ca_judgments, ca_leave).
 
 WHY A MODULE OF ITS OWN. Every other jurisdiction's schema lives in
 `src/db.py`. These tables were kept here while the Canadian monitor was
@@ -274,6 +275,36 @@ SCHEMA = (
         first_seen   TEXT
     )""",
     "CREATE INDEX IF NOT EXISTS ca_testimony_meeting ON ca_testimony (meeting_key)",
+    # Committee reports, House and Senate (tools/ca_committee_reports.py,
+    # 12 October 2026). Every report READ gets a row, ours or not, so it is
+    # never fetched twice; the list page is re-read every run, which is how a
+    # government response published months later reaches the row
+    # (response_url, response_date: NULL until one is published).
+    """CREATE TABLE IF NOT EXISTS ca_committee_reports (
+        report_key   TEXT PRIMARY KEY,   -- 'commons-44-1-JUST-4' / 'senate-45-1-SOCI-158141' (the Senate's report id)
+        chamber      TEXT NOT NULL,      -- 'commons' (House and joint) or 'senate'
+        committee    TEXT NOT NULL,      -- the acronym: JUST, SOCI, ...
+        parliament   INTEGER NOT NULL,
+        session      INTEGER NOT NULL,
+        number       INTEGER,            -- 'Report 4'; the Senate's 'Twelfth Report' is 12
+        title        TEXT,               -- the report's title, or the Senate list's description
+        study        TEXT,               -- the study or bill it reports on, as listed
+        date         TEXT,               -- presented (House: or concurred in) / the Senate report's date
+        url          TEXT,               -- the report itself (DocumentViewer / sencanada report page)
+        pdf_url      TEXT,
+        recommendations_url TEXT,        -- the House report's LIST OF RECOMMENDATIONS page
+        recommendations INTEGER,         -- how many it lists; NULL = no list (a bill report)
+        text         TEXT,               -- what was matched: the recommendations, or the Senate report's body (clipped)
+        excerpt      TEXT,
+        areas        TEXT,
+        matched_terms TEXT,
+        tier         INTEGER,
+        response_url TEXT,               -- the government response, once published
+        response_date TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT                -- the list page last showed it
+    )""",
+    "CREATE INDEX IF NOT EXISTS ca_committee_reports_date ON ca_committee_reports (date)",
     # Supreme Court of Canada (tools/ca_courts.py, 2 October 2026). CONTEXT
     # ONLY: a judgment never places a parliamentarian and never enters a 5CA
     # sheet; a stance file may cite one in a reading's `why`.
@@ -348,6 +379,12 @@ ADDED_COLUMNS = (
     ("ca_speeches", "chamber", "TEXT"),
     ("ca_speeches", "forum", "TEXT"),
     ("ca_speeches", "committee", "TEXT"),
+    # 12 October 2026: Senate committee transcripts (tools/ca_senate_
+    # committees.py) share the House's meeting and testimony tables. chamber
+    # 'senate' marks theirs; NULL on older rows means the House (or a joint
+    # committee, which the House collector reads).
+    ("ca_committee_meetings", "chamber", "TEXT"),
+    ("ca_testimony", "chamber", "TEXT"),
     # A speaker who does not resolve to a person_id but must stay one person
     # across sittings: a senator who left before 42-1 (ca_senators is built
     # from recorded votes, published from December 2015). The folded full

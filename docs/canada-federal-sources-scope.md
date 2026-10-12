@@ -10,7 +10,7 @@ in `scratchpad/probe/`.
 |---|---|---|---|---|---|
 | 3 | Senate Debates | HTML per sitting | 40-3 (March 2010) | 1,173 sittings, ~350 MB | 1 session |
 | 4 | House committee Evidence | **XML, the same schema as House Hansard** | 40-3 (April 2010) | ~11,000 meetings (all committees); ~3,400 (key 8) | 1.5 sessions |
-| 4 | Senate committee transcripts | HTML | 41-2 (2013); 40-3 has none linked | ~40-80 meetings a session per committee | +0.5 session |
+| 4 | Senate committee transcripts (built 12 Oct 2026) | HTML | 41-2 (2013); 40-3 has none linked | ~40-80 meetings a session per committee | +0.5 session |
 | 5 | Supreme Court judgments | JSON feed + HTML per judgment | 1970 onward in the year index | ~1,000 judgments, ~300 MB | 1 session |
 
 ## robots.txt, read first
@@ -221,6 +221,16 @@ is a rough figure.
     169 KB.
   - The EV id is not the meeting id, so a meeting costs **two fetches**, and
     the heavy one is the HTML.
+- **Reports (built 12 October 2026, `tools/ca_committee_reports.py`, not
+  from the PDF):** the Work page also gives each report's title, date and
+  government response (with its date), so the list costs one fetch; a new
+  report's recommendations come from its `page-ToC` and the LIST OF
+  RECOMMENDATIONS page it links (`Rhead`/`R1` paragraphs, headings with
+  `&nbsp;`), and a one-page report is served whole at `page-ToC`. The
+  Senate's reports partial
+  (`CommitteesAjax/GetCommitteeReports?committeeId=&selectedSession=`) lists
+  substantive reports with PDF and government response links; the report
+  page gives the date and the text. As scoped on 2 October:
 - **Reports:** the committee's `Work?parl=&session=` page lists
   `DocumentViewer/en/<P-S>/<ACR>/report-<N>/` and government responses
   (`report-1/response-8512-441-56`). JUST 44-1 has 36 such links.
@@ -312,6 +322,19 @@ The rule:
 
 ### Senate committees: LCJC (id 1011), RIDR and others
 
+**Built 12 October 2026** as `tools/ca_senate_committees.py` (SOCI 1047,
+LCJC 1011, RIDR 1077 in full; SECD by study title; ids of others read off
+the committee's page, `CommitteeId` in its ajax data). Re-probed that day:
+the Studies partial lists every LCJC 45-1 study on page 1 with
+`PageSize=250` (page 2 is empty), each meeting row carries the witness list
+(name, role, organisation in `<em>`) and the transcript link; a meeting held
+for two studies is listed under both. Committee labels are surname-only
+("Senator Batters:"); the chair is named in full in the opening line; a
+senator on her own bill is "Hon. Julie Miville-Dechêne, sponsor of the
+bill:"; the clerk and Library of Parliament analysts print full labels
+first, then "Mr. Labrosse:". See `docs/canada-scope.md` for the rules and
+the smoke numbers.
+
 **Endpoints:**
 
 - **Meetings and studies, per committee and session:**
@@ -359,8 +382,10 @@ The rule:
 - **Meetings:** `ca_committee_meetings` (one row per meeting read, with its
   totals and an in-camera flag) gives the same "never read" vs "quiet"
   distinction as `ca_sittings`.
-- **Reports:** go into `ca_committee_reports`, matched on the PDF body per
-  passage, as Gazette regulations are.
+- **Reports:** go into `ca_committee_reports`, matched per passage on the
+  recommendations (House) or the report page's text (Senate), with the study
+  and title as the title passage (built 12 October 2026; the PDF is linked,
+  not read).
 - **Pattern:** the UK and devolved collectors count witnesses and skip them
   (`tools/sp_committees.py`: "Witnesses and officials … are counted and
   skipped"). Canada can do better, because Type 28 is explicit.
@@ -509,7 +534,8 @@ so that a failure is a gap and not a lost week. The order is
    Hansard parser.
 2. **(3) Senate Debates.**
 3. **(5) SCC.**
-4. Then Senate committees.
+4. Then Senate committees. **Done 12 October 2026**, with committee
+   reports, House and Senate.
 
 **Questions for Christopher:**
 

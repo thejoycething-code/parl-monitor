@@ -67,6 +67,7 @@ REPO = "https://github.com/thejoycething-code/parl-monitor/blob/main/"
 HIDDEN_AREAS = (11,)
 WEEK_DAYS = 7
 MONTH_DAYS = 30
+REPORT_LINES = 8           # committee reports listed under the committees section
 RECENT_DAYS = 21              # a past date stays on the list this long
 FALLEN_SECTION_DAYS = 60      # a new session lists the last one's falls this long
 LATEST_GROUPS = 6             # a quiet month still shows the latest divisions
@@ -592,13 +593,55 @@ def committee_section(conn, since, today, names):
             if w not in witnesses:
                 witnesses.append(w)
         areas = sorted({a for t in g for a in visible(t["areas"])})
+        # Senate committees share the table since 12 October 2026
+        # (tools/ca_senate_committees.py): their acronyms are named as such.
+        cmte = ("Senate " if g[0]["chamber"] == "senate" else "") + (g[0]["committee"] or "?")
         out.append("- **{0}** [meeting {1}]({2}), {3}: {4}. Witnesses: {5}. *Areas: {6}.*".format(
-            g[0]["committee"], key.split("-")[-1], url, g[0]["date"],
+            cmte, key.split("-")[-1], url, g[0]["date"],
             clip(g[0]["subject"], 90), "; ".join(clip(w, 70) for w in witnesses[:6]),
             names_of(areas, names)))
     if not order:
         out.append("*No witness testimony on our ground in the last 30 days.*")
+    out += report_lines(conn, since, today, month, names)
     return out + [""], window
+
+
+def report_lines(conn, since, today, month, names):
+    """Committee reports on our ground (tools/ca_committee_reports.py, 12
+    October 2026): presented in the window, or whose government response was
+    (the House prints the response's date; the Senate's does not, so a Senate
+    response shows only beside its report). This week's, else the last 30
+    days', as the testimony above; a link and the count of recommendations,
+    never the text."""
+    found = [r for r in rows(conn, "SELECT * FROM ca_committee_reports WHERE (date > ? AND date <= ?) "
+                                   "OR (response_date > ? AND response_date <= ?) "
+                                   "ORDER BY COALESCE(response_date, date) DESC",
+                             (since, today, since, today)) if visible(r["areas"])]
+    label = "this week"
+    if not found:
+        found = [r for r in rows(conn, "SELECT * FROM ca_committee_reports WHERE (date > ? AND date <= ?) "
+                                       "OR (response_date > ? AND response_date <= ?) "
+                                       "ORDER BY COALESCE(response_date, date) DESC",
+                                 (month, today, month, today)) if visible(r["areas"])]
+        label = "none this week; last 30 days"
+    if not found:
+        return []
+    out = ["", "*Committee reports on our ground ({0}: {1}):*".format(label, len(found))]
+    for r in found[:REPORT_LINES]:
+        who = "{0}{1} report {2}".format("Senate " if r["chamber"] == "senate" else "",
+                                         r["committee"], r["number"] if r["number"] else "")
+        resp = ""
+        if r["response_url"]:
+            resp = "; [government response]({0}){1}".format(
+                r["response_url"], " of {0}".format(r["response_date"]) if r["response_date"] else "")
+        out.append("- **{0}** [{1}]({2}), {3}{4}{5}. *Areas: {6}.*".format(
+            who.strip(), clip(r["title"] or r["study"], 90) or "report", r["url"],
+            r["date"] or "date not printed",
+            ", {0} recommendation(s)".format(r["recommendations"]) if r["recommendations"] else "",
+            resp, names_of(sorted(visible(r["areas"])), names)))
+    if len(found) > REPORT_LINES:
+        out.append("- and {0} more report(s).".format(len(found) - REPORT_LINES))
+    return out
 
 
 def _prayer_key(p):
@@ -915,8 +958,8 @@ def render_edition(conn, today):
     out += ["## Coverage", "",
             "- **Collected:** {0} House and {1} Senate divisions ({2} on our ground, members' "
             "votes with their caucus at the vote), {3} bills ({4} this session), {5} House and "
-            "{6} Senate sittings read, {7} committee meetings read ({8} witness testimonies on "
-            "our ground), {9} petitions ({10} judged), {11} Gazette issues, {12} Supreme Court "
+            "{6} Senate sittings read, {7} committee meetings read, House and Senate ({8} witness "
+            "testimonies on our ground; {15} committee reports), {9} petitions ({10} judged), {11} Gazette issues, {12} Supreme Court "
             "judgments and {13} leave decisions. Last pull: {14}.".format(
                 count(conn, "SELECT COUNT(*) FROM ca_divisions WHERE chamber='commons'"),
                 count(conn, "SELECT COUNT(*) FROM ca_divisions WHERE chamber='senate'"),
@@ -932,13 +975,13 @@ def render_edition(conn, today):
                 count(conn, "SELECT COUNT(*) FROM ca_petitions WHERE triage_score IS NOT NULL"),
                 count(conn, "SELECT COUNT(*) FROM ca_gazette_issues"),
                 count(conn, "SELECT COUNT(*) FROM ca_judgments WHERE court='SCC'"),
-                count(conn, "SELECT COUNT(*) FROM ca_leave"), last_pull(conn) or "unknown"),
+                count(conn, "SELECT COUNT(*) FROM ca_leave"), last_pull(conn) or "unknown",
+                count(conn, "SELECT COUNT(*) FROM ca_committee_reports")),
             "- **Read with a lag:** Hansard is read when the House publishes it, so the last "
             "sitting or two of a week can arrive next week; the Supreme Court's pages stop at "
             "Lexum's bot check and resume next run.",
             "- **Not collected:** the sitting calendar, the Order Paper and written questions, "
-            "committee reports, Senate committees, bill texts (PDF), provincial legislatures and "
-            "courts (CanLII needs a key).",
+            "bill texts (PDF), provincial legislatures and courts (CanLII needs a key).",
             "- **Unscored:** divisions, bills, speeches, testimony and the Gazette; the judge "
             "scores petitions and Supreme Court judgments only.",
             "- **Migration** is matched and stored but not shown, as in every edition here.",
