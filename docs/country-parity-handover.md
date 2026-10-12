@@ -185,8 +185,9 @@ docs/5ca-notes.md). The first real run is Sunday's editions-session-judge.
     Commons per file? Confirm colour chips only, no logos.
 24. DECIDED (regions, 12 October 2026): the regional watchlists are seeded
     (Chris: "Seed from what's on our ground": IT 11, AT 8, PE 7, MX states
-    11); Vienna's Gemeinderat, the emails to Puebla, San Luis Potosí and
-    Campeche and alternative routes are being built separately; Peru's
+    11); Vienna's Gemeinderat is read since #152; the emails to Puebla, San
+    Luis Potosí and Campeche and alternative routes are being built
+    separately; Peru's
     instant alerts for regional tier-1 norms are kept; the RIS API is not
     requested; a Mexican VPN exit for the Mini waits for GitHub's run
     (Veracruz, Guanajuato, Nuevo León, Michoacán, Zacatecas).

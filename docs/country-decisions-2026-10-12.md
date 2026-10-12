@@ -265,7 +265,7 @@ from same-day runs of each collector into scratch stores (not the store):
   chapter (Nov 2024) and the PAN abortion bill (Apr 2025), and Oaxaca's
   ILE punto de acuerdo (Oct 2025), older than the readers' window.
 
-The rest of the regional backlog: Vienna's Gemeinderat, emails to the
-Mexican states that block us and alternative routes are being built
+The rest of the regional backlog: Vienna's Gemeinderat (read since #152),
+emails to the Mexican states that block us and alternative routes are built
 separately; Peru's regional tier-1 norms keep alerting instantly; the RIS
 API is not requested; a Mexican exit for the Mini waits for GitHub's run.
