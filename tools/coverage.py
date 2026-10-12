@@ -578,7 +578,7 @@ FEEDS = [
     # again (each reader re-lists from 30 days back), so both move each
     # fortnight while any state congress sits.
     ("mxs_reads", "last_seen", 14, 4, "state congress reads, one row per state (Mexico weekly)"),
-    ("mxs_items", "last_seen", 14, 31, "state congress items, from each readable state's listing (Mexico weekly)"),
+    ("mxs_items", "last_seen", 14, 31, "state congress items, from each readable state's listing or its official gazette (Mexico weekly)"),
     # Argentina (9 October 2026). Both rosters are re-read whole every run,
     # and the Diputados register is re-read from 45 days back, so members and
     # expedientes move every week, recess included (HCDN publishes a Tramite

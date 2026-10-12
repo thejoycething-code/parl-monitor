@@ -19,7 +19,8 @@ from src.editions import mx  # noqa: E402
 from src.http import FetchError  # noqa: E402
 from src.ingest import (mxs_ags, mxs_bc, mxs_cdmx, mxs_chih, mxs_chis, mxs_common,  # noqa: E402
                         mxs_mex, mxs_nay, mxs_oax, mxs_qroo, mxs_sin, mxs_tab,
-                        mxs_tamps, mxs_yuc)
+                        mxs_tamps, mxs_yuc, mxs_slp_gazette, mxs_cam_gazette,
+                        mxs_dgo_gazette, mxs_qro_gazette)
 from src.prov_fetch import Context  # noqa: E402
 import mxs_collect  # noqa: E402
 
@@ -45,8 +46,9 @@ def store():
 class FakeClient:
     user_agent = "CitizenGO-ParlMonitor/1.0 (contact: test)"
 
-    def __init__(self, pages=None, json_pages=None, posts=None):
+    def __init__(self, pages=None, json_pages=None, posts=None, blobs=None):
         self.pages, self.json_pages, self.posts = pages or {}, json_pages or {}, posts or {}
+        self.blobs = blobs or {}
         self.throttle = 1.5
         self.asked = []
 
@@ -64,6 +66,13 @@ class FakeClient:
         if url not in self.json_pages:
             raise FetchError(url, feed, slug, 1, "HTTP Error 404: Not Found")
         return self.json_pages[url]
+
+    def get_bytes(self, url, feed, slug, timeout=None, first_bytes=None, archive=True,
+                  headers=None):
+        self.asked.append((url, None))
+        if url not in self.blobs:
+            raise FetchError(url, feed, slug, 1, "HTTP Error 404: Not Found")
+        return self.blobs[url]
 
     def post_json(self, url, body, feed, slug, headers=None, timeout=None):
         self.asked.append((url, body))
@@ -247,11 +256,26 @@ class CollectorTests(unittest.TestCase):
 
     def test_unbuilt_and_blocked_states_are_recorded_with_their_reason(self):
         conn = store()
-        mxs_collect.run_state(conn, FakeClient(), "slp", None, None, None, "2026-10-12",
+        mxs_collect.run_state(conn, FakeClient(), "pue", None, None, None, "2026-10-12",
+                              "2026-10-12T10:00:00Z", dry_run=True, log=lambda *a: None)
+        mxs_collect.run_state(conn, FakeClient(), "coah", None, None, None, "2026-10-12",
                               "2026-10-12T10:00:00Z", log=lambda *a: None)
-        row = conn.execute("SELECT status, detail FROM mxs_reads WHERE state='slp'").fetchone()
-        self.assertEqual(row[0], "blocked")
-        self.assertIn("Sucuri", row[1])
+        row = conn.execute("SELECT status, detail FROM mxs_reads WHERE state='coah'").fetchone()
+        self.assertEqual(row[0], "not built")
+        self.assertIn("Cloudflare", mxs_collect.NOT_READ["pue"][1])
+        self.assertEqual(mxs_collect.NOT_READ["pue"][0], "blocked")
+
+    def test_the_puebla_probe_asks_the_gazette_never_the_congress(self):
+        conn = store()
+        client = FakeClient({"https://periodicooficial.puebla.gob.mx/": "x" * 5000})
+        mxs_collect._PROBE_CLIENT[:] = [client]
+        self.addCleanup(mxs_collect._PROBE_CLIENT.clear)
+        mxs_collect.run_state(conn, client, "pue", None, None, None, "2026-10-12",
+                              "2026-10-12T10:00:00Z", log=lambda *a: None)
+        row = conn.execute("SELECT status, detail FROM mxs_reads WHERE state='pue'").fetchone()
+        self.assertEqual(row[0], "not built")
+        self.assertIn("Periódico Oficial's home page ANSWERS", row[1])
+        self.assertFalse([u for u, _h in client.asked if "congresopuebla" in u])
 
     def test_a_reader_that_raises_costs_only_its_state(self):
         conn = store()
@@ -266,6 +290,128 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(set(mxs_collect.READERS) | set(mxs_collect.NOT_READ),
                          set(mxs_store.STATES))
         self.assertFalse(set(mxs_collect.READERS) & set(mxs_collect.NOT_READ))
+
+
+class GazetteTests(unittest.TestCase):
+    """The alternative routes of 12 October 2026: decrees from the official
+    gazettes of San Luis Potosí, Campeche, Durango and Querétaro, where the
+    congress's own site is blocked to us."""
+
+    def test_slp_gazette_search_json(self):
+        items = mxs_slp_gazette.parse(json.loads(fixture("slp_gazette.json")))
+        self.assertEqual(len(items), 7)
+        first = items[0]
+        self.assertEqual(first["source_id"], "po/20020")
+        self.assertEqual(first["presented"], "2026-10-09")
+        self.assertEqual(first["kind"], "decreto")
+        self.assertTrue(first["title"].startswith("DECRETO 0611.- Que reforma"))
+        self.assertTrue(any("Libertad Religiosa" in it["title"] for it in items))
+        url = mxs_slp_gazette.search_url("2026-09-01", "2026-10-12")
+        self.assertIn("autoridadId=287", url)
+        self.assertIn("fechaInicio=2026-09-01", url)
+
+    def test_slp_gazette_collect_asks_once_and_keeps_the_window(self):
+        conn = store()
+        url = mxs_slp_gazette.search_url("2026-10-01", "2026-10-12")
+        client = FakeClient(json_pages={url: json.loads(fixture("slp_gazette.json"))})
+        items = mxs_slp_gazette.collect(ctx_for(conn, client, "slp"), "2026-10-01",
+                                        today="2026-10-12")
+        self.assertEqual(len(items), 5)                    # the June items fall outside
+        self.assertFalse([u for u, _h in client.asked if "congresosanluis" in u])
+
+    def test_cam_gazette_search_page_and_edition_text(self):
+        eds = mxs_cam_gazette.editions(fixture("cam_search.html"))
+        self.assertEqual(len(eds), 12)
+        self.assertEqual(eds[0], ("5858", "PO2748SS30092026", "2748", "SS", "2026-09-30"))
+        items = mxs_cam_gazette.parse_edition(fixture("cam_po2731ss.txt"), "PO2731SS04092026",
+                                              "2026-09-04")
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0]["source_id"], "po/LXV/decreto/285")
+        self.assertTrue(items[0]["title"].startswith("Decreto número 285: Se reforman"))
+        self.assertNotIn("para quedar como sigue", items[0]["title"])
+        acuerdos = mxs_cam_gazette.parse_edition(fixture("cam_po2748ss.txt"),
+                                                 "PO2748SS30092026", "2026-09-30")
+        self.assertEqual([a["source_id"] for a in acuerdos],
+                         ["po/2748SS/acuerdo/38", "po/2748SS/acuerdo/39"])
+        # an administrative or judicial edition holds nothing of the Congress's
+        self.assertEqual(mxs_cam_gazette.parse_edition(
+            "PERIÓDICO OFICIAL DEL ESTADO\nSECCIÓN JUDICIAL\nDECRETO\nNúmero 1\nPRIMERO.- x",
+            "PO1SS01012026", None), [])
+
+    def test_cam_gazette_collect_reads_the_legislative_pdfs(self):
+        conn = store()
+        base = mxs_cam_gazette.BASE
+        pages = {mxs_cam_gazette.search_url(q, "2026-09-01", "2026-10-05"): fixture("cam_search.html")
+                 for q in mxs_cam_gazette.QUERIES}
+        pages[base + "getDocumento/5858"] = '"202609\\/PO2748SS30092026.pdf"'
+        blobs = {base + "periodicos/202609/PO2748SS30092026.pdf": b"%PDF-fake"}
+        client = FakeClient(pages, blobs=blobs)
+        texts = {b"%PDF-fake": fixture("cam_po2748ss.txt")}
+        orig = mxs_cam_gazette.pdf_text
+        mxs_cam_gazette.pdf_text = lambda raw, pages=None: texts[raw]
+        self.addCleanup(setattr, mxs_cam_gazette, "pdf_text", orig)
+        items = mxs_cam_gazette.collect(ctx_for(conn, client, "cam"), "2026-09-01",
+                                        today="2026-10-05")
+        self.assertEqual(len(items), 2)
+        self.assertTrue(items[0]["url"].endswith("PO2748SS30092026.pdf"))
+        self.assertFalse([u for u, _h in client.asked if "congresocam" in u])
+
+    def test_dgo_gazette_home_and_edition(self):
+        eds = mxs_dgo_gazette.editions(fixture("dgo_home.html"))
+        self.assertEqual(eds[0][1:], ("2026-10-11", "No. 82"))
+        items = mxs_dgo_gazette.parse_edition(fixture("dgo_periodico.html"),
+                                              "/periodicos/4cae90a7-173d-4f8e-8652-720c874819ce")
+        self.assertEqual([it["source_id"] for it in items], ["po/decreto/445", "po/decreto/446"])
+        self.assertEqual(items[0]["presented"], "2026-10-08")
+        self.assertIn("LEY DE INGRESOS DEL MUNICIPIO DE POANAS", items[0]["title"])
+        # the live page repeats its data in <script> tags before the HTML
+        noisy = ('<script>self.__next_f.push([1,"Lugar y Fecha: 1 de enero de 2020 ...'
+                 '</p>"])</script>') + fixture("dgo_periodico.html")
+        again = mxs_dgo_gazette.parse_edition(noisy, "/periodicos/x")
+        self.assertEqual(again[0]["presented"], "2026-10-08")
+
+    def test_dgo_gazette_collect_skips_editions_before_the_window(self):
+        conn = store()
+        base = mxs_dgo_gazette.BASE
+        client = FakeClient({
+            mxs_dgo_gazette.HOME: fixture("dgo_home.html"),
+            base + "/periodicos/4cae90a7-173d-4f8e-8652-720c874819ce": fixture("dgo_periodico.html"),
+            base + "/periodicos/88a22e57-3dcf-43d6-b7f8-089326fe38a7": "<html></html>",
+        })
+        items = mxs_dgo_gazette.collect(ctx_for(conn, client, "dgo"), "2026-10-07")
+        self.assertEqual(len(items), 2)
+        self.assertFalse([u for u, _h in client.asked if "89c70b7c" in u])   # 6 October
+
+    def test_qro_gazette_index(self):
+        items = mxs_qro_gazette.parse_index(fixture("qro_indice.txt"), 2026)
+        self.assertEqual(len(items), 15)
+        self.assertEqual(items[3]["source_id"], "po/2026/66/4")
+        self.assertEqual(items[3]["title"],
+                         "Ley que reforma el artículo 80 de la Ley de Salud del Estado de Querétaro.")
+        self.assertEqual(items[3]["kind"], "decreto")
+        self.assertEqual(items[6]["kind"], "punto")
+        self.assertTrue(all(it["presented"] for it in items))
+        # nothing from PODER EJECUTIVO or the municipalities
+        self.assertFalse([it for it in items if "Los Alcanfores" in it["title"]])
+
+    def test_qro_gazette_is_https(self):
+        self.assertTrue(mxs_qro_gazette.INDEX.startswith("https://"))
+
+    def test_gazette_items_store_and_classify(self):
+        conn = store()
+        tax = mxs_collect.load_taxonomy()
+        items = mxs_slp_gazette.parse(json.loads(fixture("slp_gazette.json")))
+        new, ours = mxs_collect.store_items(conn, tax, items, "2026-10-12")
+        self.assertEqual(new, 7)
+        row = conn.execute("SELECT areas FROM mxs_items WHERE title LIKE '%Libertad Religiosa%'"
+                           ).fetchone()
+        self.assertNotEqual(row[0], "[]")                  # religious freedom is our ground
+
+    def test_gazette_readers_are_wired(self):
+        for st in ("slp", "cam", "dgo", "qro"):
+            self.assertIn(st, mxs_collect.GAZETTE)
+            self.assertNotIn(st, mxs_collect.NOT_READ)
+        self.assertNotIn("pue", mxs_collect.READERS)
 
 
 class EditionTests(unittest.TestCase):
@@ -305,7 +451,24 @@ class EditionTests(unittest.TestCase):
                               "2026-10-12T10:00:00Z")
         mxs_store.record_read(c, "slp", None, "blocked", "Sucuri", None, None, None,
                               "2026-10-12T10:00:00Z")
+        c.execute("INSERT INTO mxs_items (item_key, state, source_id, legislature, kind, title, "
+                  "presented, status, status_date, areas, matched_terms, tier) VALUES "
+                  "('qro/po/2026/80/9','qro','po/2026/80/9','LXI','decreto',"
+                  "'Ley que reforma el Código Penal en materia de aborto.','2026-10-02',"
+                  "'Publicado en La Sombra de Arteaga (P. O. No. 80)','2026-10-02','[1]',"
+                  "'[\"aborto\"]',1)")
+        mxs_store.record_read(c, "qro", "mxs_qro_gazette", "ok", "fine", 84, 1, "2026-10-02",
+                              "2026-10-12T10:00:00Z")
         return c
+
+    def test_gazette_items_say_so(self):
+        text = ce.render(self.conn(), mx.COUNTRY, "2026-10-10", "2026-09-26",
+                         config_dir=self.cfg, directory=self.eds)
+        section = text.split("## State congresses", 1)[1]
+        self.assertIn("qro/po/2026/80/9", section)
+        self.assertIn("Querétaro state congress (LXI Legislature) (from the official gazette)",
+                      section)
+        self.assertIn("Querétaro (from the official gazette)", section)   # coverage line
 
     def test_state_section_in_the_mexican_edition(self):
         text = ce.render(self.conn(), mx.COUNTRY, "2026-10-10", "2026-09-26",
@@ -319,7 +482,7 @@ class EditionTests(unittest.TestCase):
         self.assertIn("Dictaminada", section)
         self.assertNotIn("yuc/abc123", section)            # a turn to committee is no stage
         self.assertNotIn("tab/LXV/1", section)             # off our ground
-        self.assertIn("Read cleanly (1 of 32", section)
+        self.assertIn("Read cleanly (2 of 32", section)
         self.assertIn("Not read (San Luis Potosí)", section)
         self.assertNotIn("—", text)
 
@@ -332,7 +495,7 @@ class EditionTests(unittest.TestCase):
 
     def test_dm_notice_counts_state_items(self):
         line = mxs_edition.notice(self.conn(), "2026-10-10", dm=True)
-        self.assertIn("State congresses: 2 item(s)", line)
+        self.assertIn("State congresses: 3 item(s)", line)
         self.assertIsNone(mxs_edition.notice(self.conn(), "2026-10-10", dm=False))
 
     def test_no_store_tables_reads_as_not_read_yet(self):

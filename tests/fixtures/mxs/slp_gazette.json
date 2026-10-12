@@ -1,0 +1,102 @@
+{
+ "agrupadas": {
+  "nivel_gob_1_ordinaria_1": [],
+  "nivel_gob_2_ordinaria_1": [
+   {
+    "id": 20020,
+    "fecha_publicacion": "2026-10-09 00:00:00",
+    "titulo": "DECRETO 0611.- Que reforma los artículos 5, 8, 9, 11, 14, 19, 25, 26, 29 y 31; y realiza adición al artículo 5, de la Ley para la Igualdad entre Mujeres y Hombres del Estado de San Luis Potosí.",
+    "ordinaria": 1,
+    "nivel_gobierno": "Estatal",
+    "segundo": "Poder Legislativo del Estado de SLP",
+    "autoridad_emisora": "Congreso del Estado",
+    "id_emisor": 287,
+    "pdf": "DECRETO 0611 REFORMA DIVERSOS ARTICULOS DE LA DE LEY IGUALDAD MUJERES Y HOMBRES DEL ESTADO (09-OCT-2026)_sa5zr.pdf",
+    "nivel_gob_id": 2,
+    "fel": "null"
+   },
+   {
+    "id": 20021,
+    "fecha_publicacion": "2026-10-09 00:00:00",
+    "titulo": "DECRETO 0612.- Que reforma los artículos 7º, 30, 31 y 62; y se realiza adición a los artículos 2º, 7º y 58, de la Ley de Salud del Estado de San Luis Potosí.",
+    "ordinaria": 1,
+    "nivel_gobierno": "Estatal",
+    "segundo": "Poder Legislativo del Estado de SLP",
+    "autoridad_emisora": "Congreso del Estado",
+    "id_emisor": 287,
+    "pdf": "DECRETO 0612 REFORMA ARTICULOS 7, 30, 31, 62  ADICION A LOS ARTICULOS 2, 7, 58 LEY SALUD DEL ESTADO (09-OCT-2026)_3ISzX.pdf",
+    "nivel_gob_id": 2,
+    "fel": "null"
+   },
+   {
+    "id": 20022,
+    "fecha_publicacion": "2026-10-09 00:00:00",
+    "titulo": "DECRETO 0613.- Que reforma los artículos 3 y 5°; y realiza adición al artículo 3°, de la Ley de Fomento para la Lectura y El Libro, del Estado y Municipios de San Luis Potosí.",
+    "ordinaria": 1,
+    "nivel_gobierno": "Estatal",
+    "segundo": "Poder Legislativo del Estado de SLP",
+    "autoridad_emisora": "Congreso del Estado",
+    "id_emisor": 287,
+    "pdf": "DECRETO 0613 REFORMA ARTICULOS 3, 5; ADICION AL ARTICULO 3, LEY FOMENTO LECTURA Y EL LIBRO DEL ESTADO Y MPIOS (09-OCT-2026)_s2jpb.pdf",
+    "nivel_gob_id": 2,
+    "fel": "null"
+   },
+   {
+    "id": 20023,
+    "fecha_publicacion": "2026-10-09 00:00:00",
+    "titulo": "DECRETO 0614.- Que reforma la denominación del Capítulo II, del TITULO DECIMO, y los artículos 142, 143, 144 y 145; y adiciona el artículo 145 BIS, de la Ley de Salud del Estado de San Luis Potosí.",
+    "ordinaria": 1,
+    "nivel_gobierno": "Estatal",
+    "segundo": "Poder Legislativo del Estado de SLP",
+    "autoridad_emisora": "Congreso del Estado",
+    "id_emisor": 287,
+    "pdf": "DECRETO 0614 REFORMA DENOMINACION CAPITULO II Y ARTICULOS 142 AL 145 Y ADICIONA ARTICULO 145 BIS LEY SALUD DEL ESTADO (09-OCT-2026)_JM4Ww.pdf",
+    "nivel_gob_id": 2,
+    "fel": "null"
+   },
+   {
+    "id": 20024,
+    "fecha_publicacion": "2026-10-09 00:00:00",
+    "titulo": "DECRETO 0615.- Que reforma el artículo 5, de la Ley para la Igualdad entre Mujeres y Hombres del Estado de San Luis Potosí.",
+    "ordinaria": 1,
+    "nivel_gobierno": "Estatal",
+    "segundo": "Poder Legislativo del Estado de SLP",
+    "autoridad_emisora": "Congreso del Estado",
+    "id_emisor": 287,
+    "pdf": "DECRETO 0615 REFORMA ARTICULO 5 LEY IGUALDAD MUJERES Y HOMBRES DEL ESTADO (09-OCT-2026)_zFtQM.pdf",
+    "nivel_gob_id": 2,
+    "fel": "null"
+   },
+   {
+    "id": 19557,
+    "fecha_publicacion": "2026-06-04 00:00:00",
+    "titulo": "DECRETO 0548.- La Sexagésima Cuarta Legislatura del Estado de San Luis Potosí declara el día 4 de diciembre de cada año como “Día de la Libertad Religiosa”.",
+    "ordinaria": 1,
+    "nivel_gobierno": "Estatal",
+    "segundo": "Poder Legislativo del Estado de SLP",
+    "autoridad_emisora": "Congreso del Estado",
+    "id_emisor": 287,
+    "pdf": "DECRETO 0548 DIA DE LA LIBERTAD RELIGIOSA (04-JUN-2026)_QFHAX.pdf",
+    "nivel_gob_id": 2,
+    "fel": "null"
+   },
+   {
+    "id": 19499,
+    "fecha_publicacion": "2026-05-20 00:00:00",
+    "titulo": "DECRETO 0533.- Que reforma el artículo 164, del Código Familiar para el Estado de San Luis Potosí. ",
+    "ordinaria": 1,
+    "nivel_gobierno": "Estatal",
+    "segundo": "Poder Legislativo del Estado de SLP",
+    "autoridad_emisora": "Congreso del Estado",
+    "id_emisor": 287,
+    "pdf": "DECRETO 0533 REFORMA ARTICULO 164 CODIGO FAMILIAR PARA EL ESTADO (20-MAY-2026)_rCSC4.pdf",
+    "nivel_gob_id": 2,
+    "fel": "null"
+   }
+  ],
+  "nivel_gob_3_ordinaria_1": [],
+  "ordinaria_2": []
+ },
+ "order": "recent",
+ "success": true
+}
