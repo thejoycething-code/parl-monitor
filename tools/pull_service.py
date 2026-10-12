@@ -127,7 +127,11 @@ def main():
         "UNION "
         "SELECT DISTINCT e.member_id FROM mp_events e "
         "WHERE e.kind = 'vote' AND (e.ref LIKE 'div:c%' OR e.ref LIKE 'div:h%') "
-        "ORDER BY 1")]
+        "ORDER BY 1")
+        # Real ids only: -1 marks a voter the record could not name, and one
+        # bad id makes the API refuse the whole batch of 20 (HTTP 400 on
+        # 11 October 2026, so 19 former MPs went without a record).
+        if r[0] is not None and r[0] > 0]
     sitting = conn.execute(
         "SELECT COUNT(*) FROM members WHERE current_mp = 1").fetchone()[0]
     print("members to fetch: {0} ({1} sitting, {2} former with a tracked "

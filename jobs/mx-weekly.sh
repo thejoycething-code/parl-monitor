@@ -44,5 +44,31 @@ if [ "${BUSY:-0}" -gt 0 ]; then
   echo "mx-weekly: $BUSY run(s) already succeeded or are running today; nothing to dispatch"
   exit 0
 fi
+since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 gh workflow run mx-weekly.yml -R "$REPO" --ref "$REF"
 echo "mx-weekly: dispatched mx-weekly.yml on $REF"
+# HOLD THE LOCK UNTIL GITHUB HAS PUBLISHED (12 October 2026). On 10 October
+# this script returned at once, mini_run released the lock, and a Mini job
+# published the store while GitHub collected: the run read 8,388
+# iniciativas and 285 votes, then refused to publish ("THE STORE MOVED UNDER
+# YOU") and the fortnight's Mexico was lost. Waiting here keeps every Mini
+# job queued behind it, as the US weekly's Senate half does. The plist gives
+# the job two hours (the run takes about 45 minutes, its timeout is 75).
+run_id=
+for _ in $(seq 1 20); do
+  sleep 6
+  run_id=$(gh run list -R "$REPO" --workflow mx-weekly.yml --event workflow_dispatch \
+           --branch "$REF" -L 5 --json databaseId,createdAt \
+           --jq "[.[] | select(.createdAt >= \"$since\")][0].databaseId // empty")
+  [ -n "$run_id" ] && break
+done
+if [ -z "$run_id" ]; then
+  echo "mx-weekly: the dispatched run never appeared; nothing was collected" >&2
+  exit 1
+fi
+echo "mx-weekly: waiting for GitHub run $run_id, holding the Mini's lock"
+if ! gh run watch "$run_id" -R "$REPO" --exit-status >/dev/null; then
+  echo "mx-weekly: GitHub run $run_id failed: https://github.com/$REPO/actions/runs/$run_id" >&2
+  exit 1
+fi
+echo "mx-weekly: GitHub run $run_id published"

@@ -18,6 +18,12 @@
     <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
     <string>mx-weekly</string>
   </array>
+  <!-- Two hours: the job waits, holding the lock, for GitHub's run to publish. -->
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>JOB_TIMEOUT</key>
+    <string>7200</string>
+  </dict>
   <key>StartCalendarInterval</key>
   <array>
     <dict><key>Weekday</key><integer>6</integer><key>Hour</key><integer>15</integer><key>Minute</key><integer>30</integer></dict>
