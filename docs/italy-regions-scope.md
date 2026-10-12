@@ -124,17 +124,30 @@ Measured on 12 October 2026, first full run into a scratch store: 958 acts,
 22 on our ground (Lombardia 4 of 254, Campania 2 of 69, Marche 4 of 72,
 Trento 12 of 563), about 40 seconds.
 
-## Terms the regional titles suggest (proposed, not applied)
+## Terms the regional titles suggest (APPLIED 12 October 2026, taxonomy-it v0.3)
 
-Never edited by hand: for Chris's next taxonomy-it round.
+Chris, 12 October 2026: "Add the Mexico and Italy keyword terms too", and
+for gambling "gioco d'azzardo, tier 2 under marriage and family". Applied in
+`docs/keyword-taxonomy-it.md` (v0.3) and regenerated; measured on the local
+store and on the 958 acts of the 12 October regional archive:
 
-- `educazione relazionale` and `educazione all'affettività`: Trento's
-  "educazione relazionale alla parità e al rispetto" bill (tn/XVII/at3008268)
-  is missed; the Lombardia and Marche sexuality-education bills are caught
-  only through "parità di genere".
-- `consultorio` (singular) beside "consultori familiari".
-- `gioco d'azzardo` stays off our ground unless Chris wants gambling
-  (Marche pdl-68, Trento at1942284 seen).
+- `educazione relazionale` added at area 6 tier 1 (`educazione
+  all'affettività` and `educazione affettiva` were already terms). Trento's
+  tn/XVII/at3008268 now matches (it had no area before); nothing else moved.
+- `consultorio` (singular) added at area 1 tier 2, vetoed for legal, tax,
+  veterinary and labour advice offices: Trento tn/XVII/at1942291 (more
+  consultorio services) now matches.
+- `gioco d'azzardo` (with `giochi d'azzardo`, TESEO's `giochi d' azzardo`,
+  `ludopatia`, `ludopatie`, `azzardopatia`) added at area 9 tier 2, triage
+  decides: Marche pdl-68 and Trento at1942284 now match, with 9 national
+  bills and 2 Swiss Italian titles.
+- No false positives in any of the 15 new matches. The stored `it_reg_acts`
+  rows pick the new terms up on the next weekly (every council's list is
+  re-read and classified as it is stored), or at once with
+  `python3 tools/it_regions.py --reclassify` on the store that holds them;
+  the laptop store has no regional rows yet. The 9 national bills need one
+  weekly run with `IT_RECLASSIFY=true` (it reclassifies bills, divisions and
+  regional acts together).
 
 ## Shared files touched
 
