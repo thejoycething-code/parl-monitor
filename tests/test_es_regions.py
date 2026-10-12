@@ -421,3 +421,22 @@ class RobotsAtRunTime(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DefaultStoreTests(unittest.TestCase):
+    """12 October 2026: the weekly calls es_regions without --db; main() must
+    default to the shared store, not pass None to db.connect."""
+
+    def test_db_defaults_to_the_shared_store(self):
+        import argparse
+        from unittest import mock
+        seen = {}
+
+        def fake_connect(path):
+            seen["path"] = path
+            raise SystemExit(0)
+
+        with mock.patch.object(R.db, "connect", fake_connect):
+            with self.assertRaises(SystemExit):
+                R.main(["--reclassify"])
+        self.assertTrue(seen["path"].endswith(os.path.join("data", "parl-monitor.db")))

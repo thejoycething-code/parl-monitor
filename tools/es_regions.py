@@ -585,7 +585,8 @@ def summary(conn):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--db", help="store path (default: the shared store)")
+    ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"),
+                    help="store path (default: the shared store)")
     ap.add_argument("--sources", help="comma-separated: " + ",".join(SOURCE_ORDER))
     ap.add_argument("--boe-days", type=int, help="read this many days back from today")
     ap.add_argument("--taxonomy", help="a taxonomy file (default config/taxonomy-es.yaml)")
