@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import urllib.error
 import urllib.parse
@@ -193,7 +194,10 @@ def parse_brief_csv(rows):
             section = None
             continue
         if key.startswith("RF#"):
-            rf4[key] = row[3] if len(row) > 3 else ""
+            # (comment, Plan score): RF#1 may carry a computed Plan score
+            # (12 October 2026); the others are blank.
+            rf4[key] = (row[3] if len(row) > 3 else "",
+                        row[2] if len(row) > 2 else "")
             continue
         if key in ("TIMELINE OF MAJOR ACTIONS", "Date"):
             section = "timeline" if key == "Date" else section
@@ -250,6 +254,99 @@ def polish_5ca(token, file_id, tab_title, sheet_id, last_row):
                .format(file_id), {"requests": requests})
 
 
+# Markdown bold in a cell. Sheets shows "**What:**" literally (Christopher,
+# 12 October 2026, filling the Anita Meston brief), so the publisher strips
+# the asterisks and sets real bold through textFormatRuns instead.
+BOLD = re.compile(r"\*\*(.+?)\*\*", re.S)
+
+
+def utf16_len(text):
+    """Length in UTF-16 code units: what textFormatRuns.startIndex counts."""
+    return len(text.encode("utf-16-le")) // 2
+
+
+def bold_runs(text):
+    """(plain text, textFormatRuns or None) for one cell value.
+
+    "**What:** a bill" becomes "What: a bill" with a bold run over "What:".
+    Indexes are UTF-16 code units, not Python characters: they agree for the
+    euro sign but not for anything outside the Basic Multilingual Plane, and
+    a run off by one bolds the wrong letter.
+    """
+    if not isinstance(text, str) or "**" not in text:
+        return text, None
+    out, runs, last = "", [], 0
+    for m in BOLD.finditer(text):
+        out += text[last:m.start()]
+        start = utf16_len(out)
+        if runs and runs[-1]["startIndex"] == start:
+            runs.pop()          # two bold spans touching: one run, no gap
+        else:
+            runs.append({"startIndex": start, "format": {"bold": True}})
+        out += m.group(1)
+        runs.append({"startIndex": utf16_len(out), "format": {"bold": False}})
+        last = m.end()
+    out += text[last:]
+    if not runs:
+        return text, None
+    total = utf16_len(out)
+    # A run may not start at or past the end of the text.
+    return out, [r for r in runs if r["startIndex"] < total]
+
+
+A1_CELL = re.compile(r"^'((?:[^']|'')*)'!([A-Z]+)(\d+)")
+
+
+def rich_text_requests(updates, sheet_ids):
+    """Strip markdown bold from value updates; updateCells requests for it.
+
+    Mutates `updates` in place so the values write carries clean text, and
+    returns the requests that then set the same text with its bold runs.
+    """
+    requests = []
+    for update in updates:
+        m = A1_CELL.match(update["range"])
+        if not m:
+            continue
+        sid = sheet_ids.get(m.group(1).replace("''", "'"))
+        col0 = 0
+        for ch in m.group(2):
+            col0 = col0 * 26 + ord(ch) - 64
+        row0 = int(m.group(3)) - 1
+        for i, row in enumerate(update["values"]):
+            for j, value in enumerate(row):
+                plain, runs = bold_runs(value)
+                if runs is None:
+                    continue
+                row[j] = plain
+                if sid is None:
+                    continue
+                requests.append({"updateCells": {
+                    "rows": [{"values": [{
+                        "userEnteredValue": {"stringValue": plain},
+                        "textFormatRuns": runs}]}],
+                    "fields": "userEnteredValue,textFormatRuns",
+                    "start": {"sheetId": sid, "rowIndex": row0 + i,
+                              "columnIndex": col0 - 1 + j}}})
+    return requests
+
+
+def rf4_overflow_request(sheet_id, header_row, last_row):
+    """Overflow, not wrap, across the Red Fox Four block (A:G).
+
+    Christopher, 12 October 2026: the RF#1 comment is several labelled lines
+    and wrapped it turns the block into towering rows. Rows are 1-based as
+    read from column A: the "RED FOX FOUR" header through the TOTAL IF WE
+    LOSE row.
+    """
+    return {"repeatCell": {
+        "range": {"sheetId": sheet_id, "startRowIndex": header_row - 1,
+                  "endRowIndex": last_row, "startColumnIndex": 0,
+                  "endColumnIndex": 7},
+        "cell": {"userEnteredFormat": {"wrapStrategy": "OVERFLOW_CELL"}},
+        "fields": "userEnteredFormat.wrapStrategy"}}
+
+
 def publish_one(token, slug, subject, dry_run=False, into=None, parent=None, title=None):
     """Copy the template, fill its tabs, share it back. Returns (id, detail).
 
@@ -304,7 +401,7 @@ def publish_one(token, slug, subject, dry_run=False, into=None, parent=None, tit
             {"requests": [{"deleteSheet": {"sheetId": sid}} for sid in doomed]})
         tabs = [t for t in tabs if props[t] not in doomed]
 
-    updates, filled, unmatched = [], [], []
+    updates, filled, unmatched, format_requests = [], [], [], []
     for keys, rows in sources.items():
         match = next((t for t in tabs
                       if any(k in t.lower() for k in keys)), None)
@@ -332,11 +429,23 @@ def publish_one(token, slug, subject, dry_run=False, into=None, parent=None, tit
                                     "values": [[value]]})
                 else:
                     unmatched.append("field: " + label[:38])
-            for code, hint in rf4.items():          # hint belongs in Comments
+            for code, (hint, score) in rf4.items():  # hint belongs in Comments
                 row_no = labels.get(norm_label(code))
                 if row_no:
                     updates.append({"range": a1(match, "D{0}".format(row_no)),
                                     "values": [[hint]]})
+                    if score.lstrip("-").isdigit():
+                        # The Plan score cell only, as a NUMBER (a RAW
+                        # string would be text the TOTAL formulas skip);
+                        # the TOTAL rows are the template's formulas and
+                        # are never written.
+                        updates.append({"range": a1(match, "C{0}".format(row_no)),
+                                        "values": [[int(score)]]})
+            rf4_top = labels.get(norm_label("RED FOX FOUR"))
+            rf4_end = labels.get(norm_label("TOTAL IF WE LOSE"))
+            if rf4_top and rf4_end and rf4_end >= rf4_top:
+                format_requests.append(rf4_overflow_request(
+                    props[match], rf4_top, rf4_end))
             start = labels.get("date")
             if start and timeline:
                 updates.append({"range": a1(match, "A{0}".format(start + 1)),
@@ -356,10 +465,16 @@ def publish_one(token, slug, subject, dry_run=False, into=None, parent=None, tit
         updates.append({"range": a1(match, "A{0}".format(anchor)),
                         "values": [r + [""] * (width - len(r)) for r in body]})
         filled.append(match)
+    # Bold runs go after the values write: updateCells sets the same text
+    # again, this time with its formatting.
+    format_requests = rich_text_requests(updates, props) + format_requests
     if updates:
         api(token, "https://sheets.googleapis.com/v4/spreadsheets/{0}/values"
                    ":batchUpdate".format(file_id),
             {"valueInputOption": "RAW", "data": updates})
+    if format_requests:
+        api(token, "https://sheets.googleapis.com/v4/spreadsheets/{0}"
+                   ":batchUpdate".format(file_id), {"requests": format_requests})
 
     fca_tab = next((t for t in tabs if "five column" in t.lower()), None)
     if fca_tab:
