@@ -1831,6 +1831,12 @@ TABLES = (
     "ar_bills",
     "ar_divisions",
     "ar_votes",
+    # Argentina's provincial layer (tools/ar_regions.py, 13 October 2026):
+    # the 24 jurisdictions' laws (SAIJ) and four legislatures' bills,
+    # created by src/ar_regions_store.ensure_schema.
+    "arp_laws",
+    "arp_bills",
+    "arp_reads",
     # Colombia's Congress (tools/co_rollcalls.py), created by
     # src/co_store.ensure_schema -- declared from day one.
     "co_bills",
@@ -2244,6 +2250,8 @@ def init_db(conn):
     mxs_store.ensure_schema(conn)
     from src import ar_store
     ar_store.ensure_schema(conn)
+    from src import ar_regions_store
+    ar_regions_store.ensure_schema(conn)
     from src import co_store
     co_store.ensure_schema(conn)
     from src import bo_store
