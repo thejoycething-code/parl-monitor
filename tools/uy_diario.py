@@ -64,6 +64,7 @@ sys.path.insert(0, ROOT)
 
 from src import courts, db  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "uy-diario"
 CC = "uy"
@@ -365,7 +366,7 @@ def main(argv=None):
         print("uy-diario: Diario {0}: {1} vote(s), {2} section(s) on our ground".format(
             args.diario, len(got), n))
         return 0
-    client = HttpClient(raw_dir=args.raw_dir, throttle=2.0)
+    client = guard(HttpClient(raw_dir=args.raw_dir, throttle=2.0), FEED)
     read, votes, ours, gaps = pull(conn, client, today, tax, args.max, args.all)
     left = len(pending(conn, 100000, args.all))
     print("uy-diario: {0} Diario(s) read, {1} vote total(s), {2} section(s) on our ground; "

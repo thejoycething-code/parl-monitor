@@ -37,6 +37,7 @@ sys.path.insert(0, ROOT)
 
 from src import member_service as ms  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 
 def main(argv=None):
@@ -54,7 +55,7 @@ def main(argv=None):
     if bad:
         ap.error("no service source for: " + ", ".join(bad))
     conn = ms.ensure(sqlite3.connect(args.db))
-    client = HttpClient(raw_dir=args.raw)
+    client = guard(HttpClient(raw_dir=args.raw), 'member-service')
     rc = 0
     for cc in args.countries:
         if not args.force and not ms.due(conn, cc, args.date):

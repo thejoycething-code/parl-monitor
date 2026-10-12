@@ -58,6 +58,7 @@ from src import country_vote_brief as cvb  # noqa: E402
 from src import db  # noqa: E402
 from src import vote_brief_sources as sources  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 STORE_DAYS = 14
 DAILY_DAYS = 3
@@ -183,7 +184,7 @@ def main(argv=None):
             sweep.save(dict(sweep.load(cc, ledger_dir), seeded="sample"), today, ledger_dir)
     scratch = None
     if args.daily:
-        client = HttpClient(raw_dir=args.raw_dir)
+        client = guard(HttpClient(raw_dir=args.raw_dir), 'country-vote-briefs')
         conn, scratch, countries = daily(client, since, today,
                                          countries=() if args.sweep_only else sources.DAILY)
         label = "Same-day vote briefs"

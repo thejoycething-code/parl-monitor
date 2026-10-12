@@ -45,6 +45,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, intel  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 OUT_DIR = os.path.join(ROOT, "data", "review")
 SIZE = 160
@@ -162,7 +163,7 @@ def main(argv=None):
     pid_of = {(c["jurisdiction"], c["member"]): pid for v in pop.values() for pid, cs in v.items() for c in cs}
     with open(os.path.join(OUT_DIR, args.round, "items.json"), encoding="utf-8") as h:
         items = json.load(h)
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), 'review-photos')
     client.set_host_throttle("www.legnb.ca", 10)
     finder = Finder(client, conn)
     out, missing = {}, []

@@ -295,7 +295,8 @@ def main():
     since = args.since or newest or (
         datetime.date.today() - datetime.timedelta(days=FIRST_RUN_DAYS)).isoformat()
     from src.http import FetchError, HttpClient
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S)
+    from src.robots_guard import guard
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S), 'nic-gaceta')
     try:
         n_read, kept, blind = collect(conn, client, since, today, tax, args.max_pages)
     except FetchError as exc:

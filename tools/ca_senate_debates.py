@@ -104,6 +104,7 @@ sys.path.insert(0, ROOT)
 
 from src import ca_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 
 def _load_hansard():
@@ -633,7 +634,7 @@ def main():
                          "(announced, from CI)")
     args = ap.parse_args()
     han.parse_session(args.session)
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
     today = datetime.date.today().isoformat()
     conn = (dry_run_store(args.db) if args.dry_run
             else ca_store.ensure_schema(db.init_db(db.connect(args.db))))

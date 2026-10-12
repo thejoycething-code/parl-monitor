@@ -416,7 +416,8 @@ def main(argv=None):
                           ).fetchone()[0]
     since = args.since or min([d for d in (newest, failed) if d] or [TERM_START])
     from src.http import FetchError, HttpClient
-    client = HttpClient(raw_dir=args.raw_dir, throttle=THROTTLE_S)
+    from src.robots_guard import guard
+    client = guard(HttpClient(raw_dir=args.raw_dir, throttle=THROTTLE_S), FEED)
     try:
         s = collect(conn, client, since, today, tax, wl, args.budget_seconds or None)
     except FetchError as exc:

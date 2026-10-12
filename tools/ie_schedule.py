@@ -57,6 +57,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 from src import db, filter as filt, ie_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 import ie_rollcalls as roll  # noqa: E402
 
 FEED = "ie-schedule"
@@ -221,7 +222,7 @@ def main():
             with open(args.file, encoding="utf-8") as fh:
                 markup = fh.read()
         else:
-            markup = HttpClient(raw_dir=args.raw_dir).get_text(PAGE_URL, FEED, "detailed-schedule",
+            markup = guard(HttpClient(raw_dir=args.raw_dir), FEED).get_text(PAGE_URL, FEED, "detailed-schedule",
                                                                archive=not args.dry_run)
     except (FetchError, OSError) as exc:
         print("  [gap] the Oireachtas schedule: {0}".format(str(exc)[:90]))

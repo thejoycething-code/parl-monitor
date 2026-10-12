@@ -46,6 +46,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 from src import filter as filt, us_store, vote_brief  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 import us_rollcalls as usr  # noqa: E402  (read-only: its parsers and classifier)
 
 FEED = "us-division-brief"
@@ -286,7 +287,7 @@ def main():
     args = ap.parse_args()
     today = args.today or datetime.datetime.now(datetime.timezone.utc).date().isoformat()
     since = args.since or vote_brief.window_start(today, WINDOW_DAYS)
-    client = HttpClient(raw_dir=args.raw_dir)
+    client = guard(HttpClient(raw_dir=args.raw_dir), FEED)
     try:
         votes = collect(client, args.chamber, since, today)
     except FetchError:

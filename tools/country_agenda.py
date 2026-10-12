@@ -29,6 +29,7 @@ sys.path.insert(0, ROOT)
 
 from src import agenda, db  # noqa: E402
 from src.http import HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 COUNTRIES = ("nl", "pl", "ch", "br", "it", "fr", "at", "es", "ar", "be", "pt", "sk")
 
@@ -45,7 +46,7 @@ def main(argv=None):
     args = ap.parse_args(argv)
 
     today = args.date or datetime.date.today().isoformat()
-    client = HttpClient(raw_dir=args.raw_dir, throttle=1.0)
+    client = guard(HttpClient(raw_dir=args.raw_dir, throttle=1.0), 'country-agenda')
     conn = db.init_db(db.connect(args.db))
     rc = 0
     for cc in args.cc:

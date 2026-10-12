@@ -16,10 +16,16 @@ import urllib.request
 from pathlib import Path
 
 UA = "CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from src.robots_guard import probe_refusal  # noqa: E402  robots.txt asked at run time
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "ve-probe"
 
 
 def probe(url: str, verify: bool = True) -> None:
+    why = probe_refusal(url, "ve-probe")
+    if why:
+        print(f"SKIP {url} {why}")
+        return
     ctx = ssl.create_default_context()
     if not verify:
         ctx.check_hostname = False

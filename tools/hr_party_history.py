@@ -51,6 +51,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "hr-transcripts"
 HOST = "edoc.sabor.hr"
@@ -211,7 +212,7 @@ def main():
     ap.add_argument("--budget-seconds", type=float, default=DEFAULT_BUDGET_S)
     ap.add_argument("--limit", type=int, help="stop after this many transcript fetches")
     args = ap.parse_args()
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S)
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S), FEED)
     client.enable_gzip(HOST)
     conn = db.init_db(db.connect(args.db))
     today = datetime.date.today().isoformat()

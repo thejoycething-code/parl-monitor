@@ -107,6 +107,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt, us_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "us-record"
 HEARTBEAT = "US record"
@@ -799,7 +800,7 @@ def main():
                                   "skipped (GovInfo's listing is keyed)", today)
         conn.close()
         return 1
-    client = HttpClient(raw_dir=args.raw_dir or os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=args.raw_dir or os.path.join(ROOT, "data", "raw")), FEED)
     _days, _ours, gaps = pull(conn, client, today, key, since=args.since, until=args.until,
                               budget=drain.Budget(args.budget_seconds), limit=args.limit,
                               dry_run=args.dry_run)

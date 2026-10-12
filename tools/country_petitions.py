@@ -31,6 +31,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, petitions  # noqa: E402
 from src.http import HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 
 def main(argv=None):
@@ -59,7 +60,7 @@ def main(argv=None):
             petitions.reclassify(conn, cc)
         conn.close()
         return 0
-    client = HttpClient(raw_dir=args.raw_dir, throttle=1.0)
+    client = guard(HttpClient(raw_dir=args.raw_dir, throttle=1.0), 'country-petitions')
     rc = 0
     for cc in args.cc:
         try:

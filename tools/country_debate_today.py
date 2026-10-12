@@ -34,6 +34,7 @@ sys.path.insert(0, ROOT)
 
 from src import country_live as cl  # noqa: E402
 from src.http import HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 
 def listing():
@@ -67,7 +68,7 @@ def main(argv=None):
     for cc in codes:
         if cc not in cl.QUALIFYING:
             ap.error("{0} does not qualify: {1}".format(cc, cl.NOT_QUALIFYING.get(cc, "no chamber collector")))
-    client = HttpClient(raw_dir=args.raw_dir, throttle=1.0)
+    client = guard(HttpClient(raw_dir=args.raw_dir, throttle=1.0), 'country-debate-today')
     log = (lambda *a, **k: None) if args.quiet else print
     rc = 0
     for cc in codes:
