@@ -1,0 +1,35 @@
+{
+ "sk-navrh-poslancov-narodnej-rady-slovenskej-republi-9-1252": {
+  "changelog": [
+   "2026-10-12 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "f2187aa065897e299562ae891a2e9b4568dac29943d173df4c2e9ceb2bb65f73",
+  "generated": "2026-10-12",
+  "key": "9/1252",
+  "ready": false,
+  "sha": "7742d9b328886da41d517de8d4fb225afa910d20f73d43c204f3dc1487fb1a22",
+  "title": "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov"
+ },
+ "sk-navrh-poslancov-narodnej-rady-slovenskej-republi-9-1528": {
+  "changelog": [
+   "2026-10-12 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "5aa57cc44c8ced9c76c7b3fdce0271f020ff8038f7a1f589eb3b2adfa36de387",
+  "generated": "2026-10-12",
+  "key": "9/1528",
+  "ready": false,
+  "sha": "8ccbaf7e82f594244fbcefdaa6691a90385ab5fcc192a1e31f95b0780485b7a5",
+  "title": "Návrh poslancov Národnej rady Slovenskej republiky Beáty JURÍK, Zuzany ŠTEVULOVEJ, Lucie PLAVÁKOVEJ a Ondreja PROSTREDNÍKA na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine v znení neskorších predpisov a ktorým sa mení a dopĺňa zákon č. 461/2003 Z. z. o sociálnom poistení v znení neskorších predpisov"
+ },
+ "sk-navrh-poslankyne-narodnej-rady-slovenskej-republ-9-1254": {
+  "changelog": [
+   "2026-10-12 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "c8bb38c8c33443922bee89b618d4654c71b427bee13aad21c3de33b9cf464e3f",
+  "generated": "2026-10-12",
+  "key": "9/1254",
+  "ready": false,
+  "sha": "2b717f4d3c5e65785ce7bbe0ad80d4778eb59655f3e7e8c087ab721048e73eb7",
+  "title": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov"
+ }
+}
