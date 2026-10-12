@@ -84,9 +84,17 @@ def slot_for(cron, now):
 
 
 def decide(event, cron, last_text, now, grace_minutes=75, window_hours=20,
-           cover_hours=0, running_text="", running_max_minutes=180):
+           cover_hours=0, running_text="", running_max_minutes=180, from_mini=False):
     """(run, why): run is False only when the Mini already covered this slot,
-    or is running the job right now."""
+    or is running the job right now.
+
+    from_mini: the Mini itself dispatched this run for the half of a job a
+    site refuses it (Mexico's Chamber, the US Senate), and waits for it
+    holding its lock. Its MINI_RUN marker is set BECAUSE of that wait, so it
+    must not stop the run (12 October 2026: both hand-offs were skipped by
+    their own Mini's marker, and Mexico and the Senate collected nothing)."""
+    if from_mini and event == "workflow_dispatch":
+        return True, "dispatched by the Mini, which holds its lock and waits for this run"
     running = parse_stamp(running_text) if running_text else None
     if running is not None and dt.timedelta(0) <= now - running < dt.timedelta(minutes=running_max_minutes):
         return False, "the Mini is running this job now (started {0}, {1} min ago): skipping".format(
@@ -131,10 +139,13 @@ def main(argv=None):
     ap.add_argument("--cover-hours", type=int, default=0)
     ap.add_argument("--running", default="")
     ap.add_argument("--running-max-minutes", type=int, default=180)
+    ap.add_argument("--from-mini", default="false",
+                    help="'true' when the Mini dispatched this run itself")
     args = ap.parse_args(argv)
     run, why = decide(args.event, args.schedule, args.last, dt.datetime.now(UTC),
                       args.grace_minutes, args.window_hours, args.cover_hours,
-                      args.running, args.running_max_minutes)
+                      args.running, args.running_max_minutes,
+                      from_mini=args.from_mini.lower() == "true")
     print(why)
     if os.environ.get("GITHUB_OUTPUT"):
         with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:

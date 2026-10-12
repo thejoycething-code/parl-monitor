@@ -40,12 +40,14 @@ BUSY=$(gh api "repos/$REPO/actions/workflows/mx-weekly.yml/runs?per_page=20" \
               | select(.created_at >= \"$TODAY\")
               | select(.conclusion == \"success\" or .status == \"in_progress\" or .status == \"queued\")]
              | length" 2>/dev/null || echo 0)
-if [ "${BUSY:-0}" -gt 0 ]; then
+# A run the gate skipped also concludes "success", so MX_FORCE (a recovery by
+# hand) looks past this check.
+if [ "${BUSY:-0}" -gt 0 ] && [ "${MX_FORCE:-}" != "true" ]; then
   echo "mx-weekly: $BUSY run(s) already succeeded or are running today; nothing to dispatch"
   exit 0
 fi
 since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-gh workflow run mx-weekly.yml -R "$REPO" --ref "$REF"
+gh workflow run mx-weekly.yml -R "$REPO" --ref "$REF" -f from_mini=true
 echo "mx-weekly: dispatched mx-weekly.yml on $REF"
 # HOLD THE LOCK UNTIL GITHUB HAS PUBLISHED (12 October 2026). On 10 October
 # this script returned at once, mini_run released the lock, and a Mini job
@@ -71,4 +73,11 @@ if ! gh run watch "$run_id" -R "$REPO" --exit-status >/dev/null; then
   echo "mx-weekly: GitHub run $run_id failed: https://github.com/$REPO/actions/runs/$run_id" >&2
   exit 1
 fi
-echo "mx-weekly: GitHub run $run_id published"
+# "Success" is not enough: a run whose gate skipped the work also succeeds
+# (12 October 2026). The collecting job itself must have run and passed.
+PULL=$(gh run view "$run_id" -R "$REPO" --json jobs --jq '[.jobs[] | select(.name == "pull")][0].conclusion // "missing"')
+if [ "$PULL" != "success" ]; then
+  echo "mx-weekly: GitHub run $run_id did not collect (its pull job: $PULL)" >&2
+  exit 1
+fi
+echo "mx-weekly: GitHub run $run_id collected and published"

@@ -23,6 +23,12 @@ on:
         description: "Reclassify stored Mexican iniciativas and votes"
         type: boolean
         default: false
+      from_mini:
+        # Set by jobs/mx-weekly.sh: the Mini dispatched this and holds its
+        # lock while it waits, so its running marker must not skip the run.
+        description: "Dispatched by the Mac Mini (jobs/mx-weekly.sh)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -49,6 +55,7 @@ jobs:
     with:
       job: MX_WEEKLY
       grace-minutes: 150
+      from-mini: ${{ inputs.from_mini == true && 'true' || 'false' }}
 
   # The second slot is a retry, not a second pass (copied from us-weekly.yml):
   # when the 14:30 backup (or the run the Mini dispatched) already ran

@@ -100,7 +100,12 @@ if ! curl -fsS -o /dev/null -m 30 -A "$UA" "$SENATE_MENU" 2>/dev/null; then
                  --jq "[.[] | select(.createdAt >= \"$since\")][0].databaseId // empty")
         [ -n "$run_id" ] && break
       done
-      if [ -n "$run_id" ] && gh run watch "$run_id" -R "$REPO" --exit-status >/dev/null; then
+      # "Success" is not enough: a run whose gate skipped the work also
+      # succeeds, as the Senate half did on 10 October 2026. Its pull job
+      # must have run and passed.
+      if [ -n "$run_id" ] && gh run watch "$run_id" -R "$REPO" --exit-status >/dev/null \
+         && [ "$(gh run view "$run_id" -R "$REPO" --json jobs \
+                 --jq '[.jobs[] | select(.name == "pull")][0].conclusion // "missing"')" = "success" ]; then
         echo "GitHub run $run_id published the Senate votes; fetching the store again"
         git pull -q --rebase --autostash origin "$BRANCH"
         python3 tools/db_state.py --pull

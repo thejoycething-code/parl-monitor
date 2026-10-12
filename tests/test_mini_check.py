@@ -114,3 +114,28 @@ class RunningAndCoverTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FromMiniTests(unittest.TestCase):
+    """12 October 2026: the Mini dispatches the halves a site refuses it
+    (Mexico's Chamber, the US Senate) and waits holding its lock, so its
+    running marker is set; that marker skipped both runs."""
+
+    def test_the_minis_own_dispatch_runs_while_its_marker_is_set(self):
+        run, why = mc.decide("workflow_dispatch", "", "", at("2026-10-12 06:09"),
+                             running_text="2026-10-12T06:08:50Z", from_mini=True)
+        self.assertTrue(run, why)
+
+    def test_any_other_dispatch_still_skips_while_the_mini_runs(self):
+        run, _ = mc.decide("workflow_dispatch", "", "", at("2026-10-12 06:09"),
+                           running_text="2026-10-12T06:08:50Z")
+        self.assertFalse(run)
+
+    def test_a_cron_cannot_claim_to_be_the_mini(self):
+        run, _ = mc.decide("schedule", "30 14 * * 6", "", at("2026-10-10 14:40"),
+                           running_text="2026-10-10T14:30:04Z", from_mini=True)
+        self.assertFalse(run)
+
+    def test_the_flag_parses_from_the_workflow(self):
+        self.assertEqual(mc.main(["--job", "MX_WEEKLY", "--event", "workflow_dispatch",
+                                  "--running", "2026-10-12T06:08:50Z", "--from-mini", "true"]) or 0, 0)

@@ -32,6 +32,10 @@ on:
         description: "Only for a cron with no fixed hours: how recent counts as this slot"
         type: number
         default: 20
+      from-mini:
+        description: "'true' when the Mini dispatched this run itself and holds its lock (tools/mini_check.py)"
+        type: string
+        default: "false"
       cover-hours:
         description: "For workflows with retry slots: a Mini run this recent covers every slot (0 = off)"
         type: number
@@ -67,3 +71,4 @@ jobs:
           --grace-minutes ${{ inputs.grace-minutes }}
           --window-hours ${{ inputs.window-hours }}
           --cover-hours ${{ inputs.cover-hours }} --running "$RUNNING"
+          --from-mini "${{ inputs.from-mini }}"

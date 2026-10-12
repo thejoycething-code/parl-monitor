@@ -58,6 +58,8 @@ jobs:
     uses: ./.github/workflows/mini-check.yml
     with:
       job: US_WEEKLY
+      # senate_only is only ever the Mini asking, holding its lock (jobs/us-weekly.sh).
+      from-mini: ${{ inputs.senate_only == true && 'true' || 'false' }}
 
   # The second slot is a retry, not a second pass (copied from ca-weekly.yml).
   gate:
