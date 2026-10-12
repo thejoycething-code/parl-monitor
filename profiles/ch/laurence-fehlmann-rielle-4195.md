@@ -8,6 +8,15 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** sitting, on the source's current list
 - **Source id:** `4195`
 
+## Length of service
+
+- **Serving since:** 30 November 2015 (Nationalrat; S; the current unbroken run of periods, as the source dates them)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: S (30 November 2015 to now).
+
+Party spells, as the source dates them: SP (30 November 2015 to now).
+
 ## Party history
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
@@ -15,7 +24,7 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (197)
 
 Recorded positions (197): “Ja” 139, “Nein” 56, “Enthaltung” 1, “Entschuldigt” 1.
-By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 4; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 76, “Nein” 36, “Enthaltung” 1, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+By area (every vote): abortion: “Ja” 14, “Nein” 5; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 4; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 4; religious freedom: “Ja” 10, “Nein” 4; marriage and family: “Ja” 76, “Nein” 36, “Enthaltung” 1, “Entschuldigt” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -48,7 +57,7 @@ The latest 20:
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
-| 18 Jun 2026 | [Verfolgung der Bahá'í in mehreren Ländern. Wie kann die Schweiz diese Gemeinschaft unterstützen?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263853) | 26.3853 | submitted by | religious freedom, marriage and family |
+| 18 Jun 2026 | [Verfolgung der Bahai in mehreren Ländern. Wie kann die Schweiz diese Gemeinschaft unterstützen?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263853) | 26.3853 | submitted by | religious freedom, marriage and family |
 | 20 Dec 2024 | [Bevor Adipositas zur Epidemie wird. Die Schweiz muss wirksamer handeln](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244604) | 24.4604 | submitted by | free speech and civil liberties |
 | 11 Sep 2024 | [Zugang zu öffentlichen Verkehrsmitteln nur digital über Smartphone: Ist das rechtlich vertretbar?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20247583) | 24.7583 | submitted by | parental rights and education |
 | 22 Dec 2023 | [Notwendigkeit einer Beobachtungsstelle für häusliche und geschlechtsspezifische Gewalt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20234524) | 23.4524 | submitted by | sex-based rights |
@@ -76,6 +85,12 @@ As the parliament records them; a group is flagged on our ground by its name onl
 | Verein | UPA-Université genevoise des cultures (anc. Université populaire albanaise) | Präsident(in) | ehrenamtlich |  |
 
 The register's own words; nothing here is a judgement of the interest.
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 1423 of 1439 recorded vote(s) (16 absent), 2025-12-01 to 2026-10-02.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

@@ -8,6 +8,15 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** sitting, on the source's current list
 - **Source id:** `4184`
 
+## Length of service
+
+- **Serving since:** 30 November 2015 (Nationalrat; G; the current unbroken run of periods, as the source dates them)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: G (30 November 2015 to now).
+
+Party spells, as the source dates them: BastA (30 November 2015 to now).
+
 ## Party history
 
 - Recorded at votes in the store: G (first 4 December 2023, last 2 October 2026).
@@ -15,7 +24,7 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (197)
 
 Recorded positions (197): “Ja” 141, “Nein” 44, “Nicht teilgenommen” 6, “Enthaltung” 5, “Entschuldigt” 1.
-By area (every vote): abortion: “Ja” 6, “Nein” 4; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 3, “Entschuldigt” 1; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 3, “Nicht teilgenommen” 1; marriage and family: “Ja” 78, “Nein” 27, “Nicht teilgenommen” 5, “Enthaltung” 4; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
+By area (every vote): abortion: “Ja” 14, “Nein” 5; assisted dying: “Ja” 4, “Nein” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 29, “Nein” 3, “Entschuldigt” 1; parental rights and education: “Ja” 14, “Nein” 2; free speech and civil liberties: “Ja” 15, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 10, “Nein” 3, “Nicht teilgenommen” 1; marriage and family: “Ja” 78, “Nein” 27, “Nicht teilgenommen” 5, “Enthaltung” 4; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -48,7 +57,7 @@ The latest 20:
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
-| 18 Jun 2026 | [Was ist der aktuelle Stand des fünften Schweizer NAPs zur Implementierung der Frauen, Frieden, Sicherheit Agenda des UNO-Sicherheitsrats in…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263827) | 26.3827 | submitted by | sex-based rights |
+| 18 Jun 2026 | [Was ist der aktuelle Stand des 5. Schweizer NAP zur Implementierung der Frauen-, Friedens- und Sicherheitsagenda des Uno-Sicherheitsrates i…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263827) | 26.3827 | submitted by | sex-based rights |
 | 19 Dec 2025 | [Rassismus und Hass gegen Politiker und Politikerinnen im Netz. Was unternimmt der Bundesrat?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254894) | 25.4894 | submitted by | free speech and civil liberties |
 | 19 Dec 2025 | [Hass im Netz beeinflusst die Demokratie. Was unternimmt der Bundesrat?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254815) | 25.4815 | submitted by | parental rights and education, free speech and civil liberties, prostitution and trafficking |
 | 18 Dec 2025 | [Koordinierte Umsetzung der Istanbul-Konvention sicherstellen und strukturelle Lücken beheben](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254705) | 25.4705 | submitted by | sex-based rights |
@@ -85,6 +94,12 @@ As the parliament records them; a group is flagged on our ground by its name onl
 | Verein | Zentrum für Sozialpädagogik und Psychotherapie - ZSP | Mitglied | bezahlt |  |
 
 The register's own words; nothing here is a judgement of the interest.
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 1361 of 1439 recorded vote(s) (6 absent, 72 excused or on leave), 2025-12-01 to 2026-10-02.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

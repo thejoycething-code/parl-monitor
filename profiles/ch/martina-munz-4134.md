@@ -8,6 +8,16 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** not on the source's current list
 - **Source id:** `4134`
 
+## Length of service
+
+- **Last period ended:** 1 December 2024
+- **Periods:** 9 September 2013 to 1 December 2024 (Nationalrat; S)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: S (9 September 2013 to 1 December 2024).
+
+Party spells, as the source dates them: SP (9 September 2013 to 1 December 2024).
+
 ## Party history
 
 - Recorded at votes in the store: S (first 4 December 2023, last 27 September 2024).
@@ -15,7 +25,7 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (85)
 
 Recorded positions (85): “Ja” 66, “Nein” 17, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 3, “Nein” 2; assisted dying: “Ja” 2; gender medicine and children: “Ja” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 20, “Nein” 1; parental rights and education: “Ja” 5, “Nein” 1; free speech and civil liberties: “Ja” 5; religious freedom: “Ja” 6, “Nein” 2, “Nicht teilgenommen” 1; marriage and family: “Ja” 37, “Nein” 12, “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 10, “Nein” 1.
+By area (every vote): abortion: “Ja” 11, “Nein” 3; assisted dying: “Ja” 2; gender medicine and children: “Ja” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 20, “Nein” 1; parental rights and education: “Ja” 5, “Nein” 1; free speech and civil liberties: “Ja” 5; religious freedom: “Ja” 6, “Nein” 2, “Nicht teilgenommen” 1; marriage and family: “Ja” 37, “Nein” 12, “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 10, “Nein” 1.
 
 The latest 20:
 

@@ -8,6 +8,16 @@ Switzerland, Ständerat. From the parliamentary monitor's store; positions are a
 - **Status:** not on the source's current list
 - **Source id:** `4242`
 
+## Length of service
+
+- **Last period ended:** 1 June 2025
+- **Periods:** 2 December 2019 to 1 June 2025 (Ständerat; G)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: G (2 December 2019 to 1 June 2025).
+
+Party spells, as the source dates them: GPS (2 December 2019 to 3 December 2023); GRÜNE (4 December 2023 to 1 June 2025).
+
 ## Party history
 
 - Recorded at votes in the store: G (first 5 December 2023, last 21 March 2025).
@@ -15,7 +25,7 @@ Switzerland, Ständerat. From the parliamentary monitor's store; positions are a
 ## Votes on our ground (61)
 
 Recorded positions (61): “Ja” 44, “Nein” 14, “Enthaltung” 1, “Entschuldigt” 1, “Nicht teilgenommen” 1.
-By area (every vote): assisted dying: “Ja” 1; sex-based rights: “Ja” 8, “Nein” 2; free speech and civil liberties: “Ja” 8, “Nein” 3; religious freedom: “Ja” 1; marriage and family: “Ja” 31, “Nein” 11, “Enthaltung” 1, “Entschuldigt” 1, “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 7, “Nein” 1.
+By area (every vote): abortion: “Ja” 6, “Nein” 1; assisted dying: “Ja” 1; sex-based rights: “Ja” 8, “Nein” 2; free speech and civil liberties: “Ja” 8, “Nein” 3; religious freedom: “Ja” 1; marriage and family: “Ja” 31, “Nein” 11, “Enthaltung” 1, “Entschuldigt” 1, “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 7, “Nein” 1.
 
 The latest 20:
 

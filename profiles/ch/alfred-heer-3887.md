@@ -8,6 +8,16 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** not on the source's current list
 - **Source id:** `3887`
 
+## Length of service
+
+- **Last period ended:** 19 September 2025
+- **Periods:** 3 December 2007 to 19 September 2025 (Nationalrat; V)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: V (3 December 2007 to 19 September 2025).
+
+Party spells, as the source dates them: SVP (3 December 2007 to 19 September 2025).
+
 ## Party history
 
 - Recorded at votes in the store: V (first 4 December 2023, last 18 September 2025).
@@ -15,7 +25,7 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (147)
 
 Recorded positions (147): “Nein” 79, “Ja” 46, “Nicht teilgenommen” 12, “Entschuldigt” 6, “Enthaltung” 4.
-By area (every vote): abortion: “Ja” 3, “Entschuldigt” 1, “Nein” 1, “Nicht teilgenommen” 1; assisted dying: “Enthaltung” 1, “Ja” 1, “Nein” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 17, “Nicht teilgenommen” 3, “Entschuldigt” 2, “Ja” 2; parental rights and education: “Nein” 4, “Ja” 2, “Entschuldigt” 1; free speech and civil liberties: “Ja” 6, “Nein” 5; religious freedom: “Nein” 6, “Ja” 4, “Nicht teilgenommen” 2, “Entschuldigt” 1; marriage and family: “Nein” 55, “Ja” 29, “Nicht teilgenommen” 6, “Enthaltung” 3, “Entschuldigt” 3; prostitution and trafficking: “Nein” 8, “Entschuldigt” 2, “Ja” 1; organ donation: “Ja” 1.
+By area (every vote): abortion: “Nein” 9, “Ja” 4, “Entschuldigt” 1, “Nicht teilgenommen” 1; assisted dying: “Enthaltung” 1, “Ja” 1, “Nein” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 17, “Nicht teilgenommen” 3, “Entschuldigt” 2, “Ja” 2; parental rights and education: “Nein” 4, “Ja” 2, “Entschuldigt” 1; free speech and civil liberties: “Ja” 6, “Nein” 5; religious freedom: “Nein” 6, “Ja” 4, “Nicht teilgenommen” 2, “Entschuldigt” 1; marriage and family: “Nein” 55, “Ja” 29, “Nicht teilgenommen” 6, “Enthaltung” 3, “Entschuldigt” 3; prostitution and trafficking: “Nein” 8, “Entschuldigt” 2, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 

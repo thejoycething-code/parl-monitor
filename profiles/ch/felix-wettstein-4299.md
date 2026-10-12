@@ -8,6 +8,16 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** not on the source's current list
 - **Source id:** `4299`
 
+## Length of service
+
+- **Last period ended:** 25 April 2026
+- **Periods:** 2 December 2019 to 25 April 2026 (Nationalrat; G)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: G (2 December 2019 to 25 April 2026).
+
+Party spells, as the source dates them: GPS (2 December 2019 to 3 December 2023); GRÜNE (4 December 2023 to 25 April 2026).
+
 ## Party history
 
 - Recorded at votes in the store: G (first 4 December 2023, last 20 March 2026).
@@ -15,13 +25,13 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (171)
 
 Recorded positions (171): “Ja” 122, “Nein” 43, “Enthaltung” 5, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 3, “Nein” 3; assisted dying: “Ja” 2, “Enthaltung” 1, “Nein” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Nein” 2; parental rights and education: “Ja” 7, “Nein” 2; free speech and civil liberties: “Ja” 11, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 9, “Nein” 5; marriage and family: “Ja” 77, “Nein” 28, “Enthaltung” 3, “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 10, “Nein” 1; organ donation: “Nein” 1.
+By area (every vote): abortion: “Ja” 11, “Nein” 4; assisted dying: “Ja” 2, “Enthaltung” 1, “Nein” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Nein” 2; parental rights and education: “Ja” 7, “Nein” 2; free speech and civil liberties: “Ja” 11, “Nein” 3, “Enthaltung” 1; religious freedom: “Ja” 9, “Nein” 5; marriage and family: “Ja” 77, “Nein” 28, “Enthaltung” 3, “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 10, “Nein” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 20 Mar 2026 | Ja | G (at the vote) | [Vote final; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for adopting the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 20 Mar 2026 | Ja | G (at the vote) | [Vote final; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: passes the bill allowing couples to use double-barrelled surnames when they marry, in the final vote (read by the free session judge) | marriage and family, tier 1 |
 | 20 Mar 2026 | Enthaltung | G (at the vote) | [Proposition de la commission (ne pas donner suite); on: Annexion von Bergkarabach. Freilassung der politischen Gefangenen in Aserbaidschan](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240321) · bill's areas | free speech and civil liberties |
 | 18 Mar 2026 | Nein | G (at the vote) | [Adopter la motion; on: Ablehnung des Entwurfes des CA+ der WHO und der Änderung der IGV 2005, welche die Souveränität der Schweiz verletzen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243038) · bill's areas | free speech and civil liberties |
 | 17 Mar 2026 | Ja | G (at the vote) | [Proposition de la majorité et du Conseil fédéral (adopter la motion); on: Dem Antisemitismusbericht Rechnung tragen und Massnahmen gegen Ra…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253807) · bill's areas | religious freedom |
@@ -29,12 +39,12 @@ The latest 20:
 | 11 Mar 2026 | Ja | G (at the vote) | [Adopter la motion; on: Geschlechtsspezifische Gewalt. Kein Opfer ohne Gerechtigkeit, kein Täter ohne Verurteilung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254224) · bill's areas | sex-based rights |
 | 11 Mar 2026 | Ja | G (at the vote) | [Adopter la motion; on: Register zu Femiziden und häuslicher Gewalt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254848) · bill's areas | sex-based rights |
 | 11 Mar 2026 | Ja | G (at the vote) | [Adopter la motion; on: Betroffene schützen. Strafverfolgungsbehörden aus- und weiterbilden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243676) · bill's areas | sex-based rights |
-| 11 Mar 2026 | Ja | G (at the vote) | [Art. 30a, Art. 119, Art. 160 Titre, al. 2, 2bis et 3, Art. 160 Titre, al. 2, 2bis et 3, Art. 160b, Art. 270, al. 1-3, Art. 270a, al. 1 à 5,…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee's proposal on the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 11 Mar 2026 | Ja | G (at the vote) | [Art. 30a, Art. 119, Art. 160 Titre, al. 2, 2bis et 3, Art. 160 Titre, al. 2, 2bis et 3, Art. 160b, Art. 270, al. 1-3, Art. 270a, al. 1 à 5,…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: backing the committee's proposed wording for the articles of the law allowing double surnames at marriage (read by the free session judge) | marriage and family, tier 1 |
 | 2 Mar 2026 | Ja | G (at the vote) | [Deuxième vote; on: Kein Verbot von internationalen Adoptionen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253430) · bill's areas | marriage and family |
 | 2 Mar 2026 | Enthaltung | G (at the vote) | [Premier vote; on: Kein Verbot von internationalen Adoptionen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253430) · bill's areas | marriage and family |
 | 19 Dec 2025 | Ja | G (at the vote) | [Vote final; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) · bill's areas | marriage and family |
 | 19 Dec 2025 | Ja | G (at the vote) | [Proposition de la majorité (prolonger le délai); on: «Ja zu fairen AHV-Renten auch für Ehepaare - Diskriminierung der Ehe endlich abschaffe…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20250035) · bill's areas | marriage and family |
-| 16 Dec 2025 | Ja | G (at the vote) | [Proposition de la commission (maintenir); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee's proposal (to hold to it) on the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 16 Dec 2025 | Ja | G (at the vote) | [Proposition de la commission (maintenir); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: to keep the committee's version of the bill allowing double surnames at marriage, as the National Council had decided earlier (read by the free session judge) | marriage and family, tier 1 |
 | 9 Dec 2025 | Nein | G (at the vote) | [Art. 1, al. 1; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) | marriage and family, tier 2 |
 | 9 Dec 2025 | Nein | G (at the vote) | [Chiffre 1, art. 5, al. 2ter; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) · bill's areas | marriage and family |
 | 9 Dec 2025 | Nein | G (at the vote) | [Art. 13, al. 2; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) · bill's areas | marriage and family |
@@ -43,6 +53,18 @@ The latest 20:
 | 8 Dec 2025 | Nein | G (at the vote) | [A231.0247 Protection et droits de l’enfant; on: Voranschlag 2026 mit integriertem Aufgaben- und Finanzplan 2027-2029](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20250041) | parental rights and education, tier 2 |
 
 151 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Bills and items on our ground they authored or introduced (1)
+
+| Date | Title | Key | Role | Areas |
+|---|---|---|---|---|
+| 3 Dec 2025 | [Verantwortungsvolle Kapitalanlagen der Krankenkassen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254455) | 25.4455 | submitted by | marriage and family |
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 663 of 664 recorded vote(s) (1 absent), 2025-12-01 to 2026-03-20.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

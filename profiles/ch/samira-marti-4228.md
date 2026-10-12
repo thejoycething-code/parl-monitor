@@ -8,6 +8,15 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** sitting, on the source's current list
 - **Source id:** `4228`
 
+## Length of service
+
+- **Serving since:** 10 December 2018 (Nationalrat; S; the current unbroken run of periods, as the source dates them)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: S (10 December 2018 to now).
+
+Party spells, as the source dates them: SP (10 December 2018 to now).
+
 ## Party history
 
 - Recorded at votes in the store: S (first 4 December 2023, last 2 October 2026).
@@ -15,7 +24,7 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (197)
 
 Recorded positions (197): “Ja” 123, “Nein” 44, “Entschuldigt” 22, “Nicht teilgenommen” 8.
-By area (every vote): abortion: “Ja” 5, “Nein” 3, “Entschuldigt” 1, “Nicht teilgenommen” 1; assisted dying: “Ja” 4, “Nein” 2, “Entschuldigt” 1; gender medicine and children: “Entschuldigt” 1, “Ja” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Entschuldigt” 3, “Nicht teilgenommen” 3, “Nein” 2; parental rights and education: “Ja” 12, “Nein” 2, “Entschuldigt” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 12, “Entschuldigt” 4, “Nein” 2, “Nicht teilgenommen” 1; religious freedom: “Ja” 7, “Entschuldigt” 4, “Nicht teilgenommen” 2, “Nein” 1; marriage and family: “Ja” 72, “Nein” 33, “Entschuldigt” 8, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Entschuldigt” 1.
+By area (every vote): abortion: “Ja” 13, “Nein” 4, “Entschuldigt” 1, “Nicht teilgenommen” 1; assisted dying: “Ja” 4, “Nein” 2, “Entschuldigt” 1; gender medicine and children: “Entschuldigt” 1, “Ja” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Entschuldigt” 3, “Nicht teilgenommen” 3, “Nein” 2; parental rights and education: “Ja” 12, “Nein” 2, “Entschuldigt” 1, “Nicht teilgenommen” 1; free speech and civil liberties: “Ja” 12, “Entschuldigt” 4, “Nein” 2, “Nicht teilgenommen” 1; religious freedom: “Ja” 7, “Entschuldigt” 4, “Nicht teilgenommen” 2, “Nein” 1; marriage and family: “Ja” 72, “Nein” 33, “Entschuldigt” 8, “Nicht teilgenommen” 1; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 12, “Nein” 1; organ donation: “Entschuldigt” 1.
 
 The latest 20:
 
@@ -48,7 +57,7 @@ The latest 20:
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
-| 14 Sep 2026 | [Aufenthaltsrechtlicher Schutz für Opfer von Gewalt - Lehren aus dem Fall Frei](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264083) | 26.4083 | submitted by | sex-based rights, prostitution and trafficking |
+| 14 Sep 2026 | [Aufenthaltsrechtlicher Schutz für Opfer von Gewalt - Lehren aus dem Fall Frei](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264083) | 26.4083 | submitted by | abortion, sex-based rights, prostitution and trafficking |
 | 14 Sep 2026 | [Anstieg von Schwarzarbeit in Privathaushalten: Was unternimmt der Bundesrat?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264082) | 26.4082 | submitted by | marriage and family |
 
 ## Committees and groups (4)
@@ -56,6 +65,12 @@ The latest 20:
 - **Committees:** **Kommission für soziale Sicherheit und Gesundheit Nationalrat (Mitglied)** (on our ground: the social security and health committee (SGK)); Büro Nationalrat (Fraktionspräsident/in); Koordinationskonferenz (Mitglied); Staatspolitische Kommission Nationalrat (Mitglied).
 
 As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 1376 of 1439 recorded vote(s) (40 absent, 23 excused or on leave), 2025-12-01 to 2026-10-02.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

@@ -10,6 +10,17 @@
   "sha": "fa68d7c84e7b359f57cb9e62f1f3671108b310dc647c89719d38e917c5b6f50d",
   "title": "Ausgebürgert durch Heirat. Aufarbeitung und Wiedergutmachung für betroffene Schweizerinnen"
  },
+ "ch-familiennachzug-verlasslicher-nachweis-von-ident-26-3599": {
+  "changelog": [
+   "2026-10-12 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "619a0e7993e410b4fcd42071b191980b04a5d29a98391dbda631ef8bdecac840",
+  "generated": "2026-10-12",
+  "key": "26.3599",
+  "ready": false,
+  "sha": "5cdb8029d488baa0c8d21de3bffd628545ca11523aa77c865e77093b025d13c6",
+  "title": "Familiennachzug. Verlässlicher Nachweis von Identität und Abstammung zur Verhinderung von Missbrauch"
+ },
  "ch-gesetzliche-regelung-zur-verbindlichen-altersver-25-2046": {
   "changelog": [
    "2026-10-11 tools/country_briefs.py drafted every cell"
@@ -21,6 +32,17 @@
   "sha": "da842609bcd268382345517728866cf8cd1961fab92d4e7346d696f91f732ca5",
   "title": "Gesetzliche Regelung zur verbindlichen Altersverifikation im Internet"
  },
+ "ch-hassreden-und-demokratische-teilhabe-26-3935": {
+  "changelog": [
+   "2026-10-12 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "d18f2f1a3824ad2d7a47ccd26f0f123ff5ed829c29b7779b05c30abe52e84bfc",
+  "generated": "2026-10-12",
+  "key": "26.3935",
+  "ready": false,
+  "sha": "c3b560302a2b4a9e0b156dc94a464afb8ceb2720a538d6976aa1775ecd2cebdc",
+  "title": "Hassreden und demokratische Teilhabe"
+ },
  "ch-klare-integrationspflichten-gegen-hausliche-gewa-25-4557": {
   "changelog": [
    "2026-10-11 tools/country_briefs.py drafted every cell"
@@ -31,6 +53,28 @@
   "ready": false,
   "sha": "1952ba8b165f52118e33603e9d996d12b8c57d310e6179a877be6ad0b5cd1bde",
   "title": "Klare Integrationspflichten gegen häusliche Gewalt im Asyl-, Ausländer- und Bürgerrecht"
+ },
+ "ch-lebensende-geltendes-recht-und-mogliche-entwickl-26-3652": {
+  "changelog": [
+   "2026-10-12 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "83b0eccead682a491a1ac499c888b24ec53095df5c1614057d4be691d10de346",
+  "generated": "2026-10-12",
+  "key": "26.3652",
+  "ready": false,
+  "sha": "4bea6f33b02af10716cb22418f617a72d52ca8cfd6c8a1e96472eb48b8417fcc",
+  "title": "Lebensende. Geltendes Recht und mögliche Entwicklungen"
+ },
+ "ch-lebensende-geltendes-recht-und-mogliche-entwickl-26-3653": {
+  "changelog": [
+   "2026-10-12 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "8285122d5f9c2953e462e84a2b95530f1dbe57c2f545ea0934b2ef64f02c2c4e",
+  "generated": "2026-10-12",
+  "key": "26.3653",
+  "ready": false,
+  "sha": "bd4c1cede0f4ecdd6cc3b7ec1dc0c50209052308776a3944c026c9ecdbb280f4",
+  "title": "Lebensende. Geltendes Recht und mögliche Entwicklungen"
  },
  "ch-menschenhandel-effektiv-bekampfen-schweizer-mode-26-4624": {
   "changelog": [

@@ -8,6 +8,15 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** sitting, on the source's current list
 - **Source id:** `16804`
 
+## Length of service
+
+- **Serving since:** 27 April 2026 (Nationalrat; G; the current unbroken run of periods, as the source dates them)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: G (27 April 2026 to now).
+
+Party spells, as the source dates them: GRÜNE (27 April 2026 to now).
+
 ## Party history
 
 - Recorded at votes in the store: G (first 27 April 2026, last 2 October 2026).
@@ -57,6 +66,12 @@ As the parliament records them; a group is flagged on our ground by its name onl
 | Verein | Präsidium GRÜNE Kanton Solothurn | Präsident(in) | bezahlt |  |
 
 The register's own words; nothing here is a judgement of the interest.
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 775 of 775 recorded vote(s), 2026-04-27 to 2026-10-02.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

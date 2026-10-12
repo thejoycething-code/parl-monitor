@@ -8,6 +8,16 @@ Switzerland, Ständerat. From the parliamentary monitor's store; positions are a
 - **Status:** not on the source's current list
 - **Source id:** `11504`
 
+## Length of service
+
+- **Last period ended:** 24 March 2025
+- **Periods:** 4 December 2023 to 24 March 2025 (Ständerat; S)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: S (4 December 2023 to 24 March 2025).
+
+Party spells, as the source dates them: SP (4 December 2023 to 24 March 2025).
+
 ## Party history
 
 - Recorded at votes in the store: S (first 5 December 2023, last 21 March 2025).
@@ -15,14 +25,14 @@ Switzerland, Ständerat. From the parliamentary monitor's store; positions are a
 ## Votes on our ground (61)
 
 Recorded positions (61): “Ja” 42, “Nein” 17, “Enthaltung” 2.
-By area (every vote): assisted dying: “Ja” 1; sex-based rights: “Ja” 8, “Nein” 2; free speech and civil liberties: “Ja” 8, “Nein” 3; religious freedom: “Ja” 1; marriage and family: “Ja” 29, “Nein” 14, “Enthaltung” 2; prostitution and trafficking: “Ja” 7, “Nein” 1.
+By area (every vote): abortion: “Ja” 6, “Nein” 1; assisted dying: “Ja” 1; sex-based rights: “Ja” 8, “Nein” 2; free speech and civil liberties: “Ja” 8, “Nein” 3; religious freedom: “Ja” 1; marriage and family: “Ja” 29, “Nein” 14, “Enthaltung” 2; prostitution and trafficking: “Ja” 7, “Nein” 1.
 
 The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
 | 19 Mar 2025 | Nein | S (at the vote) | [Abstimmung über die Motion; on: Änderungen der Internationalen Gesundheitsvorschriften. Den demokratischen Prozess gewährleisten](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244362) · bill's areas | free speech and civil liberties |
-| 13 Mar 2025 | Nein | S (at the vote) | [Abstimmung über die Motion; on: Von Dänemark und Schweden lernen. Familiennachzug auf die Interessen der Schweiz ausrichten](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244444) · bill's areas · their vote meant: for the Federal Council's proposal (to reject) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 13 Mar 2025 | Nein | S (at the vote) | [Abstimmung über die Motion; on: Von Dänemark und Schweden lernen. Familiennachzug auf die Interessen der Schweiz ausrichten](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244444) · bill's areas · their vote meant: voted with the Federal Council to reject the motion on aligning family reunification rules with Swiss interests (read by the free session judge) | marriage and family, tier 1 |
 | 10 Mar 2025 | Ja | S (at the vote) | [Gesamtabstimmung; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und indire…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for adopting 24.026 (BRG 24.026, the federal message on the popular initiative for marital-status-independent individual taxation…) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
 | 10 Mar 2025 | Nein | S (at the vote) | [Art. 124 Abs. 1bis DBG; on: «Für eine zivilstandsunabhängige Individualbesteuerung (Steuergerechtigkeits-Initiative)». Volksinitiative und…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for the committee minority's proposal (Herzog III) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
 | 10 Mar 2025 | Nein | S (at the vote) | [Konzeptantrag Würth. DBG: Art. 110 Abs. 2, Art. 114 Abs. 1, Art. 132a (neu), Art. 140a (neu), Art. 147 Abs. 1 Bst. d (neu), Art. 151 Abs. 3…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240026) · **watched** · their vote meant: for rejecting it (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |

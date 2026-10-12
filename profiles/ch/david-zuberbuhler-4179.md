@@ -8,6 +8,16 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** not on the source's current list
 - **Source id:** `4179`
 
+## Length of service
+
+- **Last period ended:** 19 December 2025
+- **Periods:** 30 November 2015 to 19 December 2025 (Nationalrat; V)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: V (30 November 2015 to 19 December 2025).
+
+Party spells, as the source dates them: SVP (30 November 2015 to 19 December 2025).
+
 ## Party history
 
 - Recorded at votes in the store: V (first 4 December 2023, last 19 December 2025).
@@ -15,7 +25,7 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (160)
 
 Recorded positions (160): “Nein” 98, “Ja” 60, “Enthaltung” 1, “Nicht teilgenommen” 1.
-By area (every vote): abortion: “Ja” 3, “Nein” 2, “Enthaltung” 1; assisted dying: “Ja” 2, “Nein” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 22, “Ja” 2; parental rights and education: “Nein” 6, “Ja” 3; free speech and civil liberties: “Nein” 10, “Ja” 2; religious freedom: “Nein” 7, “Ja” 5, “Nicht teilgenommen” 1; marriage and family: “Nein” 61, “Ja” 44; prostitution and trafficking: “Nein” 10, “Ja” 1; organ donation: “Ja” 1.
+By area (every vote): abortion: “Nein” 10, “Ja” 4, “Enthaltung” 1; assisted dying: “Ja” 2, “Nein” 2; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Nein” 22, “Ja” 2; parental rights and education: “Nein” 6, “Ja” 3; free speech and civil liberties: “Nein” 10, “Ja” 2; religious freedom: “Nein” 7, “Ja” 5, “Nicht teilgenommen” 1; marriage and family: “Nein” 61, “Ja” 44; prostitution and trafficking: “Nein” 10, “Ja” 1; organ donation: “Ja” 1.
 
 The latest 20:
 
@@ -23,7 +33,7 @@ The latest 20:
 |---|---|---|---|---|
 | 19 Dec 2025 | Nein | V (at the vote) | [Vote final; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) · bill's areas | marriage and family |
 | 19 Dec 2025 | Nein | V (at the vote) | [Proposition de la majorité (prolonger le délai); on: «Ja zu fairen AHV-Renten auch für Ehepaare - Diskriminierung der Ehe endlich abschaffe…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20250035) · bill's areas | marriage and family |
-| 16 Dec 2025 | Nein | V (at the vote) | [Proposition de la commission (maintenir); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the UDC's proposal (as the Council of States decided) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 16 Dec 2025 | Nein | V (at the vote) | [Proposition de la commission (maintenir); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: to take the SVP/UDC proposal instead, which matches the Council of States' version of the double-surnames bill (read by the free session judge) | marriage and family, tier 1 |
 | 9 Dec 2025 | Ja | V (at the vote) | [Art. 1, al. 1; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) | marriage and family, tier 2 |
 | 9 Dec 2025 | Ja | V (at the vote) | [Chiffre 1, art. 5, al. 2ter; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) · bill's areas | marriage and family |
 | 9 Dec 2025 | Ja | V (at the vote) | [Art. 13, al. 2; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) · bill's areas | marriage and family |
@@ -49,6 +59,12 @@ The latest 20:
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 5 Jun 2024 | [Massnahmen gegen den politischen Islam und Schutz der Meinungsfreiheit in der Schweiz](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20247421) | 24.7421 | submitted by | free speech and civil liberties, religious freedom |
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 313 of 313 recorded vote(s), 2025-12-01 to 2025-12-19.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

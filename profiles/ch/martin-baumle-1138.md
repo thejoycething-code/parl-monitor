@@ -8,6 +8,15 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** sitting, on the source's current list
 - **Source id:** `1138`
 
+## Length of service
+
+- **Serving since:** 1 December 2003 (Nationalrat; FRAKTIONSLOS / G / M-E / GL; the current unbroken run of periods, as the source dates them)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: FRAKTIONSLOS (1 December 2003 to 2 December 2007); G (1 December 2003 to 2 December 2007); M-E (3 December 2007 to 4 December 2011); GL (5 December 2011 to now).
+
+Party spells, as the source dates them: GPS (1 December 2003 to 2 December 2007); glp (3 December 2007 to now).
+
 ## Party history
 
 - Recorded at votes in the store: GL (first 4 December 2023, last 2 October 2026).
@@ -15,7 +24,7 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (197)
 
 Recorded positions (197): “Ja” 128, “Nein” 32, “Nicht teilgenommen” 31, “Enthaltung” 6.
-By area (every vote): abortion: “Ja” 6, “Nein” 3, “Nicht teilgenommen” 1; assisted dying: “Nein” 3, “Ja” 2, “Nicht teilgenommen” 2; gender medicine and children: “Ja” 1, “Nicht teilgenommen” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 27, “Enthaltung” 3, “Nicht teilgenommen” 2, “Nein” 1; parental rights and education: “Ja” 7, “Nein” 4, “Nicht teilgenommen” 4, “Enthaltung” 1; free speech and civil liberties: “Ja” 10, “Nicht teilgenommen” 5, “Nein” 4; religious freedom: “Ja” 10, “Nein” 2, “Nicht teilgenommen” 2; marriage and family: “Ja” 81, “Nein” 15, “Nicht teilgenommen” 15, “Enthaltung” 3; surrogacy and embryology: “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 11, “Enthaltung” 1, “Nicht teilgenommen” 1; organ donation: “Nein” 1.
+By area (every vote): abortion: “Ja” 14, “Nein” 3, “Enthaltung” 1, “Nicht teilgenommen” 1; assisted dying: “Nein” 3, “Ja” 2, “Nicht teilgenommen” 2; gender medicine and children: “Ja” 1, “Nicht teilgenommen” 1; conversion practices: “Ja” 1; sex-based rights: “Ja” 27, “Enthaltung” 3, “Nicht teilgenommen” 2, “Nein” 1; parental rights and education: “Ja” 7, “Nein” 4, “Nicht teilgenommen” 4, “Enthaltung” 1; free speech and civil liberties: “Ja” 10, “Nicht teilgenommen” 5, “Nein” 4; religious freedom: “Ja” 10, “Nein” 2, “Nicht teilgenommen” 2; marriage and family: “Ja” 81, “Nein” 15, “Nicht teilgenommen” 15, “Enthaltung” 3; surrogacy and embryology: “Nicht teilgenommen” 1; prostitution and trafficking: “Ja” 11, “Enthaltung” 1, “Nicht teilgenommen” 1; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -72,6 +81,12 @@ As the parliament records them; a group is flagged on our ground by its name onl
 | Verein | Wirtschaftsverband swisscleantech (Politischer Beirat) | Mitglied | ehrenamtlich |  |
 
 The register's own words; nothing here is a judgement of the interest.
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 1199 of 1439 recorded vote(s) (240 absent), 2025-12-01 to 2026-10-02.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

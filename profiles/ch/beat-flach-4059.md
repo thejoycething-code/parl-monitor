@@ -8,6 +8,16 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** not on the source's current list
 - **Source id:** `4059`
 
+## Length of service
+
+- **Last period ended:** 31 May 2026
+- **Periods:** 5 December 2011 to 31 May 2026 (Nationalrat; GL)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: GL (5 December 2011 to 31 May 2026).
+
+Party spells, as the source dates them: glp (5 December 2011 to 31 May 2026).
+
 ## Party history
 
 - Recorded at votes in the store: GL (first 4 December 2023, last 30 April 2026).
@@ -15,7 +25,7 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (179)
 
 Recorded positions (179): “Ja” 131, “Nein” 38, “Enthaltung” 5, “Nicht teilgenommen” 3, “Entschuldigt” 2.
-By area (every vote): abortion: “Ja” 5, “Nein” 3; assisted dying: “Nein” 3, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Nein” 2, “Enthaltung” 1; parental rights and education: “Ja” 8, “Nein” 4; free speech and civil liberties: “Ja” 14, “Nein” 3; religious freedom: “Ja” 10, “Nein” 2, “Entschuldigt” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 83, “Nein” 21, “Enthaltung” 3, “Nicht teilgenommen” 2, “Entschuldigt” 1; prostitution and trafficking: “Ja” 12; organ donation: “Nein” 1.
+By area (every vote): abortion: “Ja” 14, “Nein” 3; assisted dying: “Nein” 3, “Ja” 2, “Enthaltung” 1; gender medicine and children: “Ja” 2; conversion practices: “Ja” 1; sex-based rights: “Ja” 25, “Nein” 2, “Enthaltung” 1; parental rights and education: “Ja” 8, “Nein” 4; free speech and civil liberties: “Ja” 14, “Nein” 3; religious freedom: “Ja” 10, “Nein” 2, “Entschuldigt” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 83, “Nein” 21, “Enthaltung” 3, “Nicht teilgenommen” 2, “Entschuldigt” 1; prostitution and trafficking: “Ja” 12; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -29,7 +39,7 @@ The latest 20:
 | 29 Apr 2026 | Nein | GL (at the vote) | [Adopter la motion; on: Familienzulagen für Grenzgängerinnen und Grenzgänger. Anpassung an die italienischen und nicht an die schweizerische…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243650) · bill's areas | marriage and family |
 | 29 Apr 2026 | Ja | GL (at the vote) | [Adopter le postulat; on: Besserer Schutz Minderjähriger vor Online-Pornografie mittels verbindlicher Altersverifikation (z. B. durch E-ID)](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254892) · **watched** · bill's areas · their vote meant: for adopting 25.4892 (Po. 25.4892 binding age verification against online pornography for minors) (by rule, from the vote's wording and the bill) | parental rights and education, free speech and civil liberties, prostitution and trafficking |
 | 29 Apr 2026 | Ja | GL (at the vote) | [Adopter le postulat; on: Verminderung von Gewalt an Frauen durch ganzheitliche Lösungsansätze](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254842) · bill's areas | sex-based rights, parental rights and education |
-| 20 Mar 2026 | Ja | GL (at the vote) | [Vote final; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for adopting the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 20 Mar 2026 | Ja | GL (at the vote) | [Vote final; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: passes the bill allowing couples to use double-barrelled surnames when they marry, in the final vote (read by the free session judge) | marriage and family, tier 1 |
 | 20 Mar 2026 | Ja | GL (at the vote) | [Proposition de la commission (ne pas donner suite); on: Annexion von Bergkarabach. Freilassung der politischen Gefangenen in Aserbaidschan](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240321) · bill's areas | free speech and civil liberties |
 | 18 Mar 2026 | Nein | GL (at the vote) | [Adopter la motion; on: Ablehnung des Entwurfes des CA+ der WHO und der Änderung der IGV 2005, welche die Souveränität der Schweiz verletzen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243038) · bill's areas | free speech and civil liberties |
 | 17 Mar 2026 | Ja | GL (at the vote) | [Proposition de la majorité et du Conseil fédéral (adopter la motion); on: Dem Antisemitismusbericht Rechnung tragen und Massnahmen gegen Ra…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253807) · bill's areas | religious freedom |
@@ -37,7 +47,7 @@ The latest 20:
 | 11 Mar 2026 | Ja | GL (at the vote) | [Adopter la motion; on: Geschlechtsspezifische Gewalt. Kein Opfer ohne Gerechtigkeit, kein Täter ohne Verurteilung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254224) · bill's areas | sex-based rights |
 | 11 Mar 2026 | Ja | GL (at the vote) | [Adopter la motion; on: Register zu Femiziden und häuslicher Gewalt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254848) · bill's areas | sex-based rights |
 | 11 Mar 2026 | Ja | GL (at the vote) | [Adopter la motion; on: Betroffene schützen. Strafverfolgungsbehörden aus- und weiterbilden](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243676) · bill's areas | sex-based rights |
-| 11 Mar 2026 | Ja | GL (at the vote) | [Art. 30a, Art. 119, Art. 160 Titre, al. 2, 2bis et 3, Art. 160 Titre, al. 2, 2bis et 3, Art. 160b, Art. 270, al. 1-3, Art. 270a, al. 1 à 5,…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee's proposal on the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 11 Mar 2026 | Ja | GL (at the vote) | [Art. 30a, Art. 119, Art. 160 Titre, al. 2, 2bis et 3, Art. 160 Titre, al. 2, 2bis et 3, Art. 160b, Art. 270, al. 1-3, Art. 270a, al. 1 à 5,…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: backing the committee's proposed wording for the articles of the law allowing double surnames at marriage (read by the free session judge) | marriage and family, tier 1 |
 | 2 Mar 2026 | Ja | GL (at the vote) | [Deuxième vote; on: Kein Verbot von internationalen Adoptionen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253430) · bill's areas | marriage and family |
 | 2 Mar 2026 | Nein | GL (at the vote) | [Premier vote; on: Kein Verbot von internationalen Adoptionen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253430) · bill's areas | marriage and family |
 | 19 Dec 2025 | Ja | GL (at the vote) | [Vote final; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) · bill's areas | marriage and family |
@@ -53,6 +63,12 @@ The latest 20:
 | 24 Sep 2025 | [Cyberlegion für die Demokratie](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254133) | 25.4133 | submitted by | free speech and civil liberties |
 | 18 Dec 2024 | [Strafbestimmung gegen Menschenhandel praxistauglicher definieren](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20244435) | 24.4435 | submitted by | prostitution and trafficking |
 | 18 Sep 2024 | [Pilotbetrieb für E-Collecting mit der E-ID-Vertrauensinfrastruktur](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20243910) | 24.3910 | submitted by | free speech and civil liberties |
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 803 of 808 recorded vote(s) (5 absent), 2025-12-01 to 2026-04-30.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

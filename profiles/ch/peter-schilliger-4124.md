@@ -8,6 +8,16 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** sitting, on the source's current list
 - **Source id:** `4124`
 
+## Length of service
+
+- **Serving since:** 7 September 2020 (Nationalrat; RL; the current unbroken run of periods, as the source dates them)
+- **Earlier periods:** 10 September 2012 to 1 December 2019 (RL)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: RL (10 September 2012 to 1 December 2019); RL (7 September 2020 to now).
+
+Party spells, as the source dates them: FDP-Liberale (10 September 2012 to 1 December 2019); FDP-Liberale (7 September 2020 to now).
+
 ## Party history
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
@@ -15,7 +25,7 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (197)
 
 Recorded positions (197): “Ja” 112, “Nein” 78, “Nicht teilgenommen” 7.
-By area (every vote): abortion: “Ja” 7, “Nein” 3; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 17, “Nein” 14, “Nicht teilgenommen” 2; parental rights and education: “Ja” 7, “Nein” 7, “Nicht teilgenommen” 2; free speech and civil liberties: “Ja” 13, “Nein” 5, “Nicht teilgenommen” 1; religious freedom: “Ja” 6, “Nein” 6, “Nicht teilgenommen” 2; marriage and family: “Ja” 70, “Nein” 41, “Nicht teilgenommen” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 7, “Nein” 4, “Nicht teilgenommen” 2; organ donation: “Nein” 1.
+By area (every vote): abortion: “Ja” 13, “Nein” 4, “Nicht teilgenommen” 2; assisted dying: “Nein” 4, “Ja” 3; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 17, “Nein” 14, “Nicht teilgenommen” 2; parental rights and education: “Ja” 7, “Nein” 7, “Nicht teilgenommen” 2; free speech and civil liberties: “Ja” 13, “Nein” 5, “Nicht teilgenommen” 1; religious freedom: “Ja” 6, “Nein” 6, “Nicht teilgenommen” 2; marriage and family: “Ja” 70, “Nein” 41, “Nicht teilgenommen” 3; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 7, “Nein” 4, “Nicht teilgenommen” 2; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -88,6 +98,12 @@ As the parliament records them; a group is flagged on our ground by its name onl
 | Verein | Touring Club Schweiz (TCS) Sektion Waldstätte | Präsident(in) | bezahlt |  |
 
 The register's own words; nothing here is a judgement of the interest.
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 1378 of 1439 recorded vote(s) (61 absent), 2025-12-01 to 2026-10-02.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

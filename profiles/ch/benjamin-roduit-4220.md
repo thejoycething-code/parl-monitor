@@ -8,6 +8,15 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** sitting, on the source's current list
 - **Source id:** `4220`
 
+## Length of service
+
+- **Serving since:** 26 February 2018 (Nationalrat; M-E; the current unbroken run of periods, as the source dates them)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: M-E (26 February 2018 to now).
+
+Party spells, as the source dates them: CVP (26 February 2018 to 3 December 2023); M-E (4 December 2023 to now).
+
 ## Party history
 
 - Recorded at votes in the store: M-E (first 4 December 2023, last 2 October 2026).
@@ -15,7 +24,7 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (197)
 
 Recorded positions (197): “Ja” 124, “Nein” 64, “Enthaltung” 7, “Nicht teilgenommen” 2.
-By area (every vote): abortion: “Ja” 5, “Nein” 5; assisted dying: “Nein” 5, “Enthaltung” 1, “Ja” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 19, “Nein” 14; parental rights and education: “Ja” 11, “Nein” 5; free speech and civil liberties: “Ja” 14, “Nein” 3, “Enthaltung” 2; religious freedom: “Ja” 8, “Nein” 4, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 82, “Nein” 28, “Enthaltung” 3, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
+By area (every vote): abortion: “Ja” 14, “Nein” 5; assisted dying: “Nein” 5, “Enthaltung” 1, “Ja” 1; gender medicine and children: “Ja” 1, “Nein” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 19, “Nein” 14; parental rights and education: “Ja” 11, “Nein” 5; free speech and civil liberties: “Ja” 14, “Nein” 3, “Enthaltung” 2; religious freedom: “Ja” 8, “Nein” 4, “Enthaltung” 1, “Nicht teilgenommen” 1; marriage and family: “Ja” 82, “Nein” 28, “Enthaltung” 3, “Nicht teilgenommen” 1; surrogacy and embryology: “Nein” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Nein” 1.
 
 The latest 20:
 
@@ -78,6 +87,12 @@ As the parliament records them; a group is flagged on our ground by its name onl
 | Verein | Swiss Small Hydro, St. Gallen | Präsident(in) | bezahlt |  |
 
 The register's own words; nothing here is a judgement of the interest.
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 1374 of 1439 recorded vote(s) (42 absent, 23 excused or on leave), 2025-12-01 to 2026-10-02.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

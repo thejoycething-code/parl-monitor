@@ -8,6 +8,15 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** sitting, on the source's current list
 - **Source id:** `4313`
 
+## Length of service
+
+- **Serving since:** 2 December 2019 (Nationalrat; RL; the current unbroken run of periods, as the source dates them)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: RL (2 December 2019 to now).
+
+Party spells, as the source dates them: FDP-Liberale (2 December 2019 to now).
+
 ## Party history
 
 - Recorded at votes in the store: RL (first 4 December 2023, last 2 October 2026).
@@ -15,7 +24,7 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 ## Votes on our ground (197)
 
 Recorded positions (197): “Ja” 86, “Präsident” 63, “Nein” 42, “Entschuldigt” 6.
-By area (every vote): abortion: “Ja” 6, “Nein” 3, “Präsident” 1; assisted dying: “Nein” 3, “Ja” 2, “Präsident” 2; gender medicine and children: “Nein” 1, “Präsident” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 18, “Nein” 12, “Präsident” 3; parental rights and education: “Ja” 7, “Nein” 7, “Präsident” 2; free speech and civil liberties: “Ja” 9, “Präsident” 7, “Nein” 3; religious freedom: “Ja” 6, “Präsident” 4, “Nein” 3, “Entschuldigt” 1; marriage and family: “Ja” 50, “Präsident” 44, “Nein” 15, “Entschuldigt” 5; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Präsident” 1.
+By area (every vote): abortion: “Ja” 14, “Nein” 4, “Präsident” 1; assisted dying: “Nein” 3, “Ja” 2, “Präsident” 2; gender medicine and children: “Nein” 1, “Präsident” 1; conversion practices: “Nein” 1; sex-based rights: “Ja” 18, “Nein” 12, “Präsident” 3; parental rights and education: “Ja” 7, “Nein” 7, “Präsident” 2; free speech and civil liberties: “Ja” 9, “Präsident” 7, “Nein” 3; religious freedom: “Ja” 6, “Präsident” 4, “Nein” 3, “Entschuldigt” 1; marriage and family: “Ja” 50, “Präsident” 44, “Nein” 15, “Entschuldigt” 5; surrogacy and embryology: “Ja” 1; prostitution and trafficking: “Ja” 10, “Nein” 3; organ donation: “Präsident” 1.
 
 The latest 20:
 
@@ -65,6 +74,12 @@ As the parliament records them; a group is flagged on our ground by its name onl
 | Verein | Verein Sicherheitswochen | Mitglied | ehrenamtlich |  |
 
 The register's own words; nothing here is a judgement of the interest.
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 1371 of 1430 recorded vote(s) (59 absent), 2025-12-02 to 2026-10-02.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

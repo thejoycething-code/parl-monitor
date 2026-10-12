@@ -8,6 +8,15 @@ Switzerland, Nationalrat. From the parliamentary monitor's store; positions are 
 - **Status:** sitting, on the source's current list
 - **Source id:** `14809`
 
+## Length of service
+
+- **Serving since:** 4 March 2025 (Nationalrat; S; the current unbroken run of periods, as the source dates them)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: S (4 March 2025 to now).
+
+Party spells, as the source dates them: SP (4 March 2025 to now).
+
 ## Party history
 
 - Recorded at votes in the store: S (first 4 March 2025, last 2 October 2026).
@@ -49,8 +58,8 @@ The latest 20:
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 19 Jun 2026 | [Wo bleibt die Botschaft zur Plattformregulierung?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264005) | 26.4005 | submitted by | free speech and civil liberties |
-| 18 Jun 2026 | [Illegale Werbung für Glücksspiele. Jugendliche vor massiver Exposition schützen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263728) | 26.3728 | submitted by | parental rights and education, free speech and civil liberties |
-| 21 Mar 2025 | [Werbung der Schweizerischen Post für Online-Glücksspiele und deren Auswirkungen auf die Spielsuchtprävention](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253390) | 25.3390 | submitted by | parental rights and education |
+| 18 Jun 2026 | [Illegale Werbung für Glücksspiele. Jugendliche vor massiver Exposition schützen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263728) | 26.3728 | submitted by | parental rights and education, free speech and civil liberties, marriage and family |
+| 21 Mar 2025 | [Werbung der Schweizerischen Post für Online-Glücksspiele und deren Auswirkungen auf die Spielsuchtprävention](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20253390) | 25.3390 | submitted by | parental rights and education, marriage and family |
 
 ## Committees and groups (1)
 
@@ -65,6 +74,12 @@ As the parliament records them; a group is flagged on our ground by its name onl
 | Verein | Verein gentechfreie Lebensmittel | Mitglied | ehrenamtlich |  |
 
 The register's own words; nothing here is a judgement of the interest.
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 1393 of 1439 recorded vote(s) (46 absent), 2025-12-01 to 2026-10-02.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

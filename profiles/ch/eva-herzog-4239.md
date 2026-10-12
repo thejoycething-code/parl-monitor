@@ -8,6 +8,15 @@ Switzerland, Ständerat. From the parliamentary monitor's store; positions are a
 - **Status:** sitting, on the source's current list
 - **Source id:** `4239`
 
+## Length of service
+
+- **Serving since:** 2 December 2019 (Ständerat; S; the current unbroken run of periods, as the source dates them)
+- **What the source covers:** every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: S (2 December 2019 to now).
+
+Party spells, as the source dates them: SP (2 December 2019 to now).
+
 ## Party history
 
 - Recorded at votes in the store: S (first 5 December 2023, last 2 October 2026).
@@ -15,7 +24,7 @@ Switzerland, Ständerat. From the parliamentary monitor's store; positions are a
 ## Votes on our ground (101)
 
 Recorded positions (101): “Ja” 40, “Nein” 26, “Präsident” 26, “Nicht teilgenommen” 5, “Entschuldigt” 4.
-By area (every vote): assisted dying: “Nicht teilgenommen” 2, “Präsident” 1; gender medicine and children: “Ja” 1; sex-based rights: “Präsident” 9, “Entschuldigt” 2, “Nein” 2, “Ja” 1; parental rights and education: “Nein” 2; free speech and civil liberties: “Präsident” 6, “Nein” 3, “Ja” 2, “Nicht teilgenommen” 1; religious freedom: “Präsident” 1; marriage and family: “Ja” 37, “Nein” 20, “Präsident” 15, “Entschuldigt” 2, “Nicht teilgenommen” 2; prostitution and trafficking: “Präsident” 8.
+By area (every vote): abortion: “Präsident” 7; assisted dying: “Nicht teilgenommen” 2, “Präsident” 1; gender medicine and children: “Ja” 1; sex-based rights: “Präsident” 9, “Entschuldigt” 2, “Nein” 2, “Ja” 1; parental rights and education: “Nein” 2; free speech and civil liberties: “Präsident” 6, “Nein” 3, “Ja” 2, “Nicht teilgenommen” 1; religious freedom: “Präsident” 1; marriage and family: “Ja” 37, “Nein” 20, “Präsident” 15, “Entschuldigt” 2, “Nicht teilgenommen” 2; prostitution and trafficking: “Präsident” 8.
 
 The latest 20:
 
@@ -33,14 +42,14 @@ The latest 20:
 | 4 Mar 2026 | Nicht teilgenommen | S (at the vote) | [Art. 30a; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
 | 4 Mar 2026 | Nicht teilgenommen | S (at the vote) | [Art. 30a; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) | marriage and family, tier 1 |
 | 19 Dec 2025 | Ja | S (at the vote) | [Schlussabstimmung; on: Überführung der Anstossfinanzierung in eine zeitgemässe Lösung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20210403) | marriage and family, tier 2 |
-| 10 Dec 2025 | Nein | S (at the vote) | [Abstimmung über die Motion; on: Kein Familiennachzug bei Stellvertreterehen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254039) · bill's areas · their vote meant: for the Federal Council's proposal (to reject) (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 10 Dec 2025 | Nein | S (at the vote) | [Abstimmung über die Motion; on: Kein Familiennachzug bei Stellvertreterehen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254039) · bill's areas · their vote meant: to reject that motion, as the Federal Council recommended (read by the free session judge) | marriage and family, tier 1 |
 | 9 Dec 2025 | Nein | S (at the vote) | [Abstimmung über die Motion; on: Bekämpfung von Hassreden im Internet. Öffentliche Gelder sollten nicht zur Unterstützung anonymer Kommentar…](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20234530) | free speech and civil liberties, tier 2 |
 | 26 Sep 2025 | Ja | S (at the vote) | [Schlussabstimmung; on: Landwirtschaftsgesetz (Entschädigung im Scheidungsfall). Änderung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240094) · bill's areas | marriage and family |
 | 24 Sep 2025 | Ja | S (at the vote) | [Gesamtabstimmung; on: Landwirtschaftsgesetz (Entschädigung im Scheidungsfall). Änderung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240094) · bill's areas | marriage and family |
-| 23 Sep 2025 | Ja | S (at the vote) | [Gesamtabstimmung; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for adopting the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
-| 23 Sep 2025 | Ja | S (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee minority's proposal (Rieder) on the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
-| 23 Sep 2025 | Nein | S (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for “Einzelantrag Michel” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
-| 23 Sep 2025 | Ja | S (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee majority's proposal on the text “Ermöglichung von Doppelnamen bei der Heirat” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 23 Sep 2025 | Ja | S (at the vote) | [Gesamtabstimmung; on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: to adopt, in the overall vote, the federal law allowing double surnames at marriage (read by the free session judge) | marriage and family, tier 1 |
+| 23 Sep 2025 | Ja | S (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the wording of article 160 proposed by committee minority I (Rieder) in the double-surnames marriage bill (read by the free session judge) | marriage and family, tier 1 |
+| 23 Sep 2025 | Nein | S (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the alternative wording of article 160 put forward by Michel as an individual proposal (read by the free session judge) | marriage and family, tier 1 |
+| 23 Sep 2025 | Ja | S (at the vote) | [Art. 160 (gilt auch für die Bestimmungen in der Klammer); on: Ermöglichung von Doppelnamen bei der Heirat](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20170523) · their vote meant: for the committee majority's wording of article 160 in the double-surnames marriage bill (read by the free session judge) | marriage and family, tier 1 |
 
 81 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
@@ -66,6 +75,12 @@ As the parliament records them; a group is flagged on our ground by its name onl
 | Verein | Wohnbaugenossenschaften Schweiz | Präsident(in) | bezahlt |  |
 
 The register's own words; nothing here is a judgement of the interest.
+
+## Attendance
+
+- **Plenary votes** (derived): cast a vote in 565 of 729 recorded vote(s) (59 absent, 105 excused or on leave), 2025-12-01 to 2026-10-02.
+
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 
