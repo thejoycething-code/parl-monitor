@@ -69,6 +69,12 @@ watches:
   source: bill
   bill: 4254
   min_speakers: 8
+- date: '2026-10-22'
+  house: Lords
+  term: 'Age it would be considered appropriate for an individual to '
+  area: 3
+  note: 'auto: Short debate; puberty blocker*; cross-sex hormones'
+  source: auto
 - date: '2026-10-27'
   house: Commons
   term: Immigration and Asylum Bill
