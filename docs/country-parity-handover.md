@@ -889,3 +889,31 @@ with the `parl_mini` key (Chris approved, 10 October):
   one plist from `git show origin/main:ops/launchd/<label>.plist` and
   bootstrap it, without pulling the runner clone while jobs are running.
 - A work-account session on the Mini can run Mini steps directly.
+
+## Regional layer: Mexico's 32 state congresses (12 October 2026)
+
+Scope and build: `docs/mexico-regions-scope.md`. Code: `tools/mxs_collect.py`,
+`src/ingest/mxs_<state>.py` (13 readers), `src/mxs_store.py` (`mxs_items`,
+`mxs_reads`), `src/mxs_edition.py`, `config/watchlist-mx-states.yaml`,
+`tests/test_mxs.py`. A step of `jobs/mx-collect.sh` (the Mexican edition's
+fortnightly GitHub job; no new Mini job), on a 15-minute clock.
+
+- **Covered (13):** Estado de México, Ciudad de México, Chiapas, Oaxaca,
+  Chihuahua, Tamaulipas, Baja California, Sinaloa, Yucatán,
+  Quintana Roo, Tabasco, Aguascalientes, Nayarit: every iniciativa (and
+  punto de acuerdo where listed) with date, author, committee and status
+  where the source gives them, classified with taxonomy-es (mx). The
+  edition has a "State congresses" section and the DM a line.
+- **Unreachable from the UK (5):** Veracruz, Guanajuato, Nuevo León,
+  Michoacán (https), Zacatecas; the step asks each from the runner every
+  run and the edition says if one answers.
+- **Blocked (4):** Puebla (Cloudflare challenge), San Luis Potosí (Sucuri
+  challenge), Campeche (robots.txt disallows all), Durango (Wordfence geo
+  block). Never bypassed.
+- **Not built (10):** Jalisco (77 s a page), Querétaro (plain HTTP only),
+  Guerrero, Coahuila (JSF),
+  Sonora (thin), Hidalgo, Morelos (late PDFs), Tlaxcala, Colima (undated),
+  Baja California Sur.
+- **No member votes yet:** Baja California and Estado de México publish
+  them in HTML, Tamaulipas, Coahuila and Tabasco in PDFs (phase 2), with
+  the SCJN list of recent state reforms for enacted laws across all 32.

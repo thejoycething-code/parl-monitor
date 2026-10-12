@@ -1,6 +1,7 @@
 #!/bin/bash
 # Mexico weekly, the work: deputies, iniciativas, votes and positions of the
-# Chamber of Deputies (tools/mx_rollcalls.py).
+# Chamber of Deputies (tools/mx_rollcalls.py), then the state congresses
+# (tools/mxs_collect.py).
 #
 # Called by .github/workflows/mx-weekly.yml only. Unlike the other country
 # jobs it has no Mac Mini caller: diputados.gob.mx refuses UK addresses, so
@@ -51,6 +52,23 @@ fi
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/member_profiles.py mx \
     || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
+fi
+# The 32 state congresses (tools/mxs_collect.py, src/ingest/mxs_*.py,
+# docs/mexico-regions-scope.md, 12 October 2026): what each readable state
+# lists, stored in mxs_items for the edition's "State congresses" section.
+# Here, on GitHub, because several state hosts refuse UK addresses as the
+# Chamber's do. Its own clock (15 minutes); exit 3 means it stored what it
+# could and recorded gaps. Any failure is a [gap] line and never costs the
+# federal store. MX_RECLASSIFY re-derives the stored state items too.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  if [ "${MX_RECLASSIFY:-}" = "true" ]; then
+    python3 tools/mxs_collect.py --reclassify || echo "  [gap] mx-states: reclassify failed"
+  fi
+  src=0
+  python3 tools/mxs_collect.py --budget-seconds "$(bash tools/collector_budget.sh 900 "$SECONDS")" || src=$?
+  if [ "$src" -ne 0 ] && [ "$src" -ne 3 ]; then
+    echo "  [gap] mx-states: the state congresses step failed (exit $src); last run's rows stand"
+  fi
 fi
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "mx-rollcalls failed (exit $rc)"

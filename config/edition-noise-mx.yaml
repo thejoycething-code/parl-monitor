@@ -24,6 +24,10 @@ exclude_titles:
   # the euthanasia debate. A title naming euthanasia or a dignified death
   # stays in (as in config/edition-noise-ar.yaml).
   - '^(?!.*(eutanasi|muerte (digna|asistida|voluntaria)|ayuda para morir)).*(prevencion del suicidio|conductas suicidas)'
+  # Animal welfare: 'eutanasia' of animals (state congresses, 12 October
+  # 2026: Chihuahua's Ley de Bienestar Animal). A title that also names
+  # persons, patients or a dignified death stays in.
+  - '^(?!.*(personas|pacientes|muerte digna|voluntad anticipada)).*(bienestar animal|animales|mascotas|fauna).*eutanasi|^(?!.*(personas|pacientes|muerte digna|voluntad anticipada)).*eutanasi.*(bienestar animal|animales|mascotas|fauna)'
 
 # A recorded vote stays in the edition only when its OWN title matched (or
 # it is watched). SITL vote titles name the law they amend, and a vote

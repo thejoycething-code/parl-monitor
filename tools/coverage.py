@@ -561,6 +561,13 @@ FEEDS = [
     ("mx_members", "last_seen", 14, 4, "Chamber of Deputies members (Mexico weekly)"),
     ("mx_iniciativas", "last_seen", 14, 4, "Gaceta iniciativas lists (Mexico weekly)"),
     ("mx_divisions", "last_seen", 14, 4, "SITL recorded votes (Mexico weekly)"),
+    # Mexico's state congresses (12 October 2026, tools/mxs_collect.py, a
+    # step of the Mexico weekly). mxs_reads is re-stamped for every state
+    # each run, read or not; mxs_items only when a listing names an item
+    # again (each reader re-lists from 30 days back), so both move each
+    # fortnight while any state congress sits.
+    ("mxs_reads", "last_seen", 14, 4, "state congress reads, one row per state (Mexico weekly)"),
+    ("mxs_items", "last_seen", 14, 31, "state congress items, from each readable state's listing (Mexico weekly)"),
     # Argentina (9 October 2026). Both rosters are re-read whole every run,
     # and the Diputados register is re-read from 45 days back, so members and
     # expedientes move every week, recess included (HCDN publishes a Tramite
@@ -916,6 +923,11 @@ AWAITING_FIRST_RUN = {
     # tools/us_states.py stamps "US states" at the end of every stored run.
     "US states": (("uss_sessions", "uss_people", "uss_bills", "uss_votes"),
                   "state legislatures added to US weekly 9 October 2026; "
+                  "their tables fill on the step's first run"),
+    # STEP heartbeat: tools/mxs_collect.py stamps "MX states" after every
+    # stored run, so the state tables are excused only until then.
+    "MX states": (("mxs_items", "mxs_reads"),
+                  "state congresses added to Mexico weekly 12 October 2026; "
                   "their tables fill on the step's first run"),
     "US Supreme Court": (("us_court_cases", "us_court_orders"),
                          "Supreme Court added to US weekly 9 October 2026; "

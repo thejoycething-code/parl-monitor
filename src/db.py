@@ -1814,6 +1814,10 @@ TABLES = (
     "mx_iniciativas",
     "mx_divisions",
     "mx_votes",
+    # Mexico's 32 state congresses (tools/mxs_collect.py, 12 October 2026),
+    # created by src/mxs_store.ensure_schema -- declared from day one.
+    "mxs_items",
+    "mxs_reads",
     # Argentina's National Congress (tools/ar_rollcalls.py), created by
     # src/ar_store.ensure_schema -- declared from day one.
     "ar_members",
@@ -2227,6 +2231,8 @@ def init_db(conn):
     gt_store.ensure_schema(conn)
     from src import mx_store
     mx_store.ensure_schema(conn)
+    from src import mxs_store
+    mxs_store.ensure_schema(conn)
     from src import ar_store
     ar_store.ensure_schema(conn)
     from src import co_store
