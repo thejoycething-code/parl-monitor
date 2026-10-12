@@ -114,11 +114,14 @@ while :; do
   fi
   ahead=$(echo "$live" | sed "/^${TICKET##*/}\$/,\$d" | queue_jobs)
   holder=$(cat "$LOCK/job" 2>/dev/null); holder=${holder:-none}
+  # Say we queued BEFORE deciding to give up: the clock is whole seconds,
+  # so a first look that crosses a second boundary could reach LOCK_WAIT
+  # and fail with the log never showing the job had queued at all.
+  [ -z "$said" ] && echo "  queued for the lock; ahead of us: $ahead; holder: $holder"
+  said=1
   waited=$(( $(date +%s) - arrived ))
   [ "$waited" -ge "$LOCK_WAIT" ] &&
     fail "waited ${waited}s; ahead of us when we gave up: $ahead; holder: $holder"
-  [ -z "$said" ] && echo "  queued for the lock; ahead of us: $ahead; holder: $holder"
-  said=1
   sleep "$LOCK_POLL"
 done
 echo $$ > "$LOCK/pid"; echo "$JOB" > "$LOCK/job"
