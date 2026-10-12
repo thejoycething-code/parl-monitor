@@ -703,11 +703,35 @@ def tim_candidates(conn, subject):
     return out[:15]
 
 
+# Sources (Christopher, 12 October 2026, the Anita Meston brief): the
+# outlet's OWN article, never a syndicated copy or an archive snapshot -- a
+# Yahoo or MSN reprint and an archive.today link are not what a supporter
+# should be sent to -- and only the few the campaigner wants (he chose 3).
+MAX_SOURCES = 3
+NOT_A_SOURCE = ("yahoo.", "msn.", "archive.today", "archive.ph", "archive.is",
+                "archive.li", "archive.md", "web.archive.org")
+OUTLET_NAMES = {"parliament.uk": "UK Parliament", "gov.uk": "GOV.UK",
+                "legislation.gov.uk": "legislation.gov.uk"}
+
+
+def outlet_of(url):
+    """A short outlet label from a URL's host: 'telegraph.co.uk'."""
+    host = re.sub(r"^www\.", "", (re.match(r"https?://([^/]+)", url or "")
+                                   or [None, ""])[1].lower())
+    for suffix, name in OUTLET_NAMES.items():
+        if host == suffix or host.endswith("." + suffix):
+            return name
+    return host
+
+
 def build_sources(subject, source_text=None):
-    """The sources field: '- Title: URL' lines. URLs are NEVER authored -
-    only the subject's own record and lines copied verbatim from the source
-    material's **Sources** section. The internal monitor link is gone
-    (Christopher's refinement, 2026-08-31: internal tooling is not a
+    """The sources field: '- Headline [Outlet]: URL' lines, at most three.
+
+    URLs are NEVER authored - only the subject's own record and lines copied
+    verbatim from the source material's **Sources** section, which are the
+    campaigner's choice and lead. A syndicated or archived copy is replaced
+    by a marker asking for the outlet's own URL. The internal monitor link is
+    gone (Christopher's refinement, 2026-08-31: internal tooling is not a
     campaign source)."""
     lines = []
     if source_text:
@@ -716,9 +740,15 @@ def build_sources(subject, source_text=None):
         if m:
             lines = [ln.strip() for ln in m.group(1).strip().splitlines()
                      if ln.strip().startswith("-")]
-    if subject.get("url") and not any(subject["url"] in ln for ln in lines):
-        lines.insert(0, "- {0}: {1}".format(subject["title"], subject["url"]))
-    return "\n".join(lines) if lines else "[CAMPAIGNER: sources]"
+    lines = [("- [CAMPAIGNER: the outlet's own URL, not a syndicated or "
+              "archived copy] " + ln[2:].strip())
+             if any(bad in ln.lower() for bad in NOT_A_SOURCE) else ln
+             for ln in lines]
+    if (subject.get("url") and len(lines) < MAX_SOURCES
+            and not any(subject["url"] in ln for ln in lines)):
+        lines.insert(0, "- {0} [{1}]: {2}".format(
+            subject["title"], outlet_of(subject["url"]), subject["url"]))
+    return "\n".join(lines[:MAX_SOURCES]) if lines else "[CAMPAIGNER: sources]"
 
 
 def delivery_date(deadline):

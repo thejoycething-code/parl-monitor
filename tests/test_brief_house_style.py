@@ -108,8 +108,29 @@ class SourcesTests(unittest.TestCase):
 
     def test_without_source_material_the_subject_url_is_titled(self):
         got = mb.build_sources(NI_SUBJECT)
-        self.assertEqual(got, "- Consultation on the RE Core Syllabus: "
+        self.assertEqual(got, "- Consultation on the RE Core Syllabus [x]: "
                               "https://x/re")
+
+    def test_outlets_own_url_only_and_at_most_three(self):
+        # Christopher, 12 October 2026: the outlet's own article, never a
+        # syndicated copy or an archive link, and only the few he wants.
+        source = ("**Sources**\n"
+                  "- Teacher sacked [The Telegraph]: https://www.telegraph.co.uk/a\n"
+                  "- Teacher sacked [Yahoo]: https://uk.news.yahoo.com/a\n"
+                  "- Snapshot [archive]: https://archive.today/abc\n"
+                  "- Fourth [GB News]: https://www.gbnews.com/d\n")
+        got = mb.build_sources(NI_SUBJECT, source).splitlines()
+        self.assertEqual(len(got), 3)
+        self.assertEqual(got[0], "- Teacher sacked [The Telegraph]: "
+                                 "https://www.telegraph.co.uk/a")
+        self.assertTrue(got[1].startswith("- [CAMPAIGNER: the outlet's own"))
+        self.assertNotIn("https://x/re", "\n".join(got))
+
+    def test_outlet_label_from_the_host(self):
+        self.assertEqual(mb.outlet_of("https://www.telegraph.co.uk/x"),
+                         "telegraph.co.uk")
+        self.assertEqual(mb.outlet_of("https://bills.parliament.uk/b/1"),
+                         "UK Parliament")
 
     def test_the_internal_monitor_link_is_never_a_source(self):
         src = open(os.path.join(ROOT, "tools", "make_briefs.py"),
