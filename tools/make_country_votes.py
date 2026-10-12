@@ -16,6 +16,12 @@ so the partner index never links an empty page. With --country, only those
 countries are rebuilt and the tracker and timelines cover only them, so the
 weekly step runs without it.
 
+Portraits (12 October 2026, src/portraits.py): for a country whose photo
+licence is OK, the thumbnails tools/fetch_portraits.py cached under
+data/portraits/<cc>/ are copied into partner_site/portraits/<cc>/ for the
+members on the page (others pruned), with the licence line; party colour
+chips everywhere a colour is listed. No party logos.
+
 Read-only on the store and the config: no fetch, no post, no DM, no AI call.
 Run by jobs/editions-session-judge.sh (Sundays 16:45 London, after the last
 country weekly). Exit 0 when every country rendered, 1 when one failed (its
@@ -35,6 +41,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from src import country_votes as cv  # noqa: E402
+from src import portraits as pt  # noqa: E402
 
 
 def _write(path, text):
@@ -55,6 +62,8 @@ def main(argv=None):
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--out", default=os.path.join(ROOT, "partner_site"))
     ap.add_argument("--date", default=datetime.date.today().isoformat())
+    ap.add_argument("--portraits", default=pt.CACHE_DIR,
+                    help="the portrait cache and manifests (tools/fetch_portraits.py)")
     ap.add_argument("--sample", action="store_true",
                     help="mark every page SAMPLE (a scoping store, never published)")
     args = ap.parse_args(argv)
@@ -82,6 +91,11 @@ def main(argv=None):
                 os.remove(path)
             print("country-votes {0}: no vote on our ground; no page".format(cc))
         else:
+            try:   # portraits (OK licences only) and party colour chips; additive
+                pt.attach(data, args.out, cache_dir=args.portraits)
+            except Exception:
+                traceback.print_exc()
+                print("  [gap] portraits {0}: not attached; the page renders without".format(cc))
             size = _write(path, cv.render_page(data, sample=args.sample))
             datas.append(data)
             c = data["counts"]
@@ -90,7 +104,9 @@ def main(argv=None):
                   "readings {7} confirmed, {8} awaiting -> {9} ({10:,} bytes)".format(
                       cc, data["total"], data["shown"], len(data["members"]), c["recorded"],
                       c["as_listed"], c["derived"], c["confirmed"], c["awaiting"],
-                      os.path.relpath(path, ROOT) if path.startswith(ROOT) else path, size))
+                      os.path.relpath(path, ROOT) if path.startswith(ROOT) else path, size)
+                  + ("; {0} portrait(s)".format(len(data["portraits"])) if data.get("portraits")
+                     else ""))
         try:
             tl = cv.timelines(conn, cc, args.date)
         except Exception:

@@ -48,3 +48,9 @@ data/clips/*/final/
 
 # The blind agreement-test sample (tools/review_sample.py): our columns live only in the review page's store
 data/review/
+
+# Member portrait thumbnail cache (tools/fetch_portraits.py): the images stay
+# local; the manifests data/portraits/<cc>.json (URL, licence, credit) are
+# committed, and the page build copies only on-page thumbnails into
+# partner_site/portraits/<cc>/ (small, committed with the partner site).
+data/portraits/*/
