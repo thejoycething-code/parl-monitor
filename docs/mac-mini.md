@@ -521,6 +521,7 @@ the store and never stops its weekly.
 | `co-weekly` (Thu 09:30) | `tools/co_courts.py` (X8, CO4) | the Corte Constitucional's exhortations file, datos.gov.co `fbtr-7k2r`, whole | one request |
 | `ec-weekly` (Sat 15:30) | `tools/ec_courts.py` (X8) | the Corte Constitucional's WordPress API: judgment summaries, bulletins, statements since 30 days before the newest held | 1-2 requests |
 | `pe-weekly` (Sat 16:00) | `tools/pe_courts.py` (X8) | the Tribunal Constitucional's press notes, at its robots.txt Crawl-delay of 30 s | about 4 minutes |
+| `pe-weekly` | `tools/pe_regions.py` (PE4, 12 October 2026) | the 25 regional governments' and Lima Metropolitana's council acts: one El Peruano Normas Legales POST, then 61 gob.pe pages 3 s apart; budget 300 s | about 4.5 minutes |
 | `pe-weekly` | `tools/pe_ocr.py` (X7) | Tesseract over the scan-only vote records; skips without Tesseract | 0 until installed |
 | `pt-weekly` (Sat 15:00) | `tools/pt_courts.py` (X8) | the Tribunal Constitucional's acórdãos: 30 s apart, at most ten read, no retries; a 429 ends it with one gap | about 6 minutes |
 | `bo-weekly` (Sun 11:00) | `tools/bo_questions.py` (BO4) | written questions, Senado API and Diputados WordPress, newest three pages each | about 10 s |

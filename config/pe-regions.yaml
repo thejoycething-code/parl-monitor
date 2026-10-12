@@ -1,0 +1,45 @@
+# Peru's regional governments and Lima Metropolitana (PE4, 12 October 2026).
+# Read by tools/pe_regions.py. See docs/peru-regions-scope.md for how each
+# line was measured.
+#
+#   key         the store's region slug (pe_regional_norms.region)
+#   name        English name for the edition
+#   gazette     the issuing body's heading in El Peruano's Normas Legales, as
+#               printed (accents and "DE"/"DEL" folded when matched)
+#   gobpe       the institution's slug on www.gob.pe (normas-legales pages)
+#   types       gob.pe norm-type pages read weekly: the council's own acts
+#               only (ordenanzas and council acuerdos), measured on each
+#               institution's /normas-legales/tipos page, 12 October 2026
+#   population  rounded INEI estimate, millions, for the ranking only
+#
+# Lima Metropolitana is not one of the 25 regional governments: the
+# Municipalidad Metropolitana de Lima holds the regional functions for the
+# province of Lima (Ley Orgánica de Municipalidades, art. 151 onwards), so
+# its Concejo Metropolitano's ordenanzas are read here too.
+regions:
+  - {key: lima-metropolitana, name: "Lima Metropolitana", gazette: ["MUNICIPALIDAD METROPOLITANA DE LIMA"], gobpe: munilima, types: ["13-ordenanza", "108-acuerdo-de-concejo"], population: 10.1}
+  - {key: piura, name: "Piura", gazette: ["GOBIERNO REGIONAL DE PIURA"], gobpe: regionpiura, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 2.1}
+  - {key: la-libertad, name: "La Libertad", gazette: ["GOBIERNO REGIONAL DE LA LIBERTAD"], gobpe: regionlalibertad, types: ["40-ordenanza-regional", "79-acuerdo-regional"], population: 2.0}
+  - {key: arequipa, name: "Arequipa", gazette: ["GOBIERNO REGIONAL DE AREQUIPA"], gobpe: regionarequipa, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 1.5}
+  - {key: cajamarca, name: "Cajamarca", gazette: ["GOBIERNO REGIONAL DE CAJAMARCA"], gobpe: regioncajamarca, types: ["40-ordenanza-regional", "79-acuerdo-regional"], population: 1.5}
+  - {key: junin, name: "Junín", gazette: ["GOBIERNO REGIONAL DE JUNIN"], gobpe: regionjunin, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 1.4}
+  - {key: cusco, name: "Cusco", gazette: ["GOBIERNO REGIONAL DEL CUSCO", "GOBIERNO REGIONAL DE CUSCO"], gobpe: regioncusco, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 1.4}
+  - {key: lambayeque, name: "Lambayeque", gazette: ["GOBIERNO REGIONAL DE LAMBAYEQUE"], gobpe: regionlambayeque, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 1.3}
+  - {key: puno, name: "Puno", gazette: ["GOBIERNO REGIONAL DE PUNO"], gobpe: regionpuno, types: ["40-ordenanza-regional", "79-acuerdo-regional"], population: 1.2}
+  - {key: callao, name: "Callao", gazette: ["GOBIERNO REGIONAL DEL CALLAO", "GOBIERNO REGIONAL DE CALLAO"], gobpe: regioncallao, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 1.2}
+  - {key: ancash, name: "Áncash", gazette: ["GOBIERNO REGIONAL DE ANCASH"], gobpe: regionancash, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional"], population: 1.2}
+  - {key: loreto, name: "Loreto", gazette: ["GOBIERNO REGIONAL DE LORETO"], gobpe: regionloreto, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 1.1}
+  - {key: ica, name: "Ica", gazette: ["GOBIERNO REGIONAL DE ICA"], gobpe: regionica, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional"], population: 1.0}
+  - {key: lima, name: "Lima (region)", gazette: ["GOBIERNO REGIONAL DE LIMA", "GOBIERNO REGIONAL DE LIMA PROVINCIAS"], gobpe: regionlima, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional"], population: 1.0}
+  - {key: san-martin, name: "San Martín", gazette: ["GOBIERNO REGIONAL DE SAN MARTIN"], gobpe: regionsanmartin, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 0.9}
+  - {key: huanuco, name: "Huánuco", gazette: ["GOBIERNO REGIONAL DE HUANUCO"], gobpe: regionhuanuco, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional"], population: 0.8}
+  - {key: ayacucho, name: "Ayacucho", gazette: ["GOBIERNO REGIONAL DE AYACUCHO"], gobpe: regionayacucho, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 0.7}
+  - {key: ucayali, name: "Ucayali", gazette: ["GOBIERNO REGIONAL DE UCAYALI"], gobpe: regionucayali, types: ["40-ordenanza-regional", "79-acuerdo-regional"], population: 0.6}
+  - {key: apurimac, name: "Apurímac", gazette: ["GOBIERNO REGIONAL DE APURIMAC"], gobpe: regionapurimac, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional"], population: 0.4}
+  - {key: amazonas, name: "Amazonas", gazette: ["GOBIERNO REGIONAL DE AMAZONAS"], gobpe: regionamazonas, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional"], population: 0.4}
+  - {key: huancavelica, name: "Huancavelica", gazette: ["GOBIERNO REGIONAL DE HUANCAVELICA"], gobpe: regionhuancavelica, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 0.4}
+  - {key: tacna, name: "Tacna", gazette: ["GOBIERNO REGIONAL DE TACNA"], gobpe: regiontacna, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 0.4}
+  - {key: pasco, name: "Pasco", gazette: ["GOBIERNO REGIONAL DE PASCO"], gobpe: regionpasco, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 0.3}
+  - {key: tumbes, name: "Tumbes", gazette: ["GOBIERNO REGIONAL DE TUMBES"], gobpe: regiontumbes, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional"], population: 0.3}
+  - {key: moquegua, name: "Moquegua", gazette: ["GOBIERNO REGIONAL DE MOQUEGUA"], gobpe: regionmoquegua, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional"], population: 0.2}
+  - {key: madre-de-dios, name: "Madre de Dios", gazette: ["GOBIERNO REGIONAL DE MADRE DE DIOS"], gobpe: regionmadrededios, types: ["40-ordenanza-regional", "246-acuerdo-de-consejo-regional", "79-acuerdo-regional"], population: 0.2}

@@ -518,6 +518,10 @@ FEEDS = [
     # X8 (10 October 2026): the press-note listing's first page is re-stamped
     # every run (tools/pe_courts.py), new notes or not.
     ("pe_rulings", "last_seen", 7, 4, "Tribunal Constitucional press notes (Peru weekly)"),
+    # PE4 (12 October 2026): the fortnight's gazette norms and each
+    # institution's first gob.pe page are re-read and re-stamped every run
+    # (tools/pe_regions.py), new norms or not.
+    ("pe_regional_norms", "last_seen", 7, 4, "Regional governments' and Lima Metropolitana's council acts, El Peruano and gob.pe (Peru weekly)"),
     # Ecuador (9 October 2026). MEASURED which re-stamp: the register and the
     # roster are re-read whole every run, and the vote list is re-read from
     # the last stored vote's date less a fortnight, so the latest votes are
@@ -842,7 +846,7 @@ AWAITING_FIRST_RUN = {
                                   "scheduled 9 October 2026; its tables fill on its first run"),
     "El Salvador weekly": (("sv_members", "sv_divisions", "sv_dictamenes", "sv_sessions", "sv_piezas"),
                            "scheduled 9 October 2026; its tables fill on its first run"),
-    "Peru weekly": (("pe_members", "pe_bills", "pe_divisions", "pe_rulings"),
+    "Peru weekly": (("pe_members", "pe_bills", "pe_divisions", "pe_rulings", "pe_regional_norms"),
                     "scheduled 9 October 2026; its tables fill on its first run"),
     "Ecuador weekly": (("ec_members", "ec_roster", "ec_divisions", "ec_rulings"),
                        "scheduled 9 October 2026; its tables fill on its first run"),

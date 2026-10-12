@@ -1783,6 +1783,7 @@ TABLES = (
     "pe_vote_files",
     "pe_rulings",
     "pe_vote_ocr",
+    "pe_regional_norms",
     # Ecuador's Asamblea Nacional (tools/ec_rollcalls.py), created by
     # src/ec_store.ensure_schema -- declared from day one.
     "ec_members",
