@@ -1,8 +1,10 @@
-# Country editions: parity plan and handover (updated 10 October 2026)
+# Country editions: parity plan and handover (updated 12 October 2026)
 
 Written by the personal-account Claude session that built the 30 new
-countries and their parity layers (9-10 October 2026), for Chris's
-work-account Claude to take over. Everything it built is merged to main.
+countries and their parity layers (9-12 October 2026), for Chris's
+work-account Claude to take over. Everything it built is merged to main
+(through #150, 12 October 2026). Read also
+`docs/country-decisions-2026-10-11.md` and `docs/country-decisions-2026-10-12.md`.
 Read this with `docs/country-decisions-2026-10-10.md` (Chris's signed-off
 decisions, the spec) and each `docs/<country>-scope.md` (sources, quirks,
 phase lists, "Waiting on Chris"). The Mini runbook is `docs/mac-mini.md`.
@@ -48,14 +50,50 @@ France's new dossiers, about 2 minutes a day in all (#117); speeches for
 Croatia, Slovakia, Poland (transcripts now answer) and Brazil within a
 small budget (#118).
 
-**Nothing is published from a 5CA yet.** Every stance is a draft: 975
-readings await sign-off across the countries (France limited to final votes
-and watched amendments). Briefs, packs, targets, the partner sheet and the
+**12 October 2026 round (#120-#150):**
+- Judging and readings: the free judge's backlog cleared on Chris's own
+  account (#120, jobs `judge-queue-out` / `judge-queue-in`: 400 then 111
+  items, none refused); Chris's 11 October decisions and automatic 5CA
+  sign-off with team amendments (#122); 126 bill directions decided, the
+  `--fill-directions` step, migration readings collated only (#125); every
+  amendment read, France's limit lifted (#127, #128: 1,555 readings); the
+  seven bills read for a person (#133, #134); lifted holds redraft
+  automatically (#135); Quebec laicity flips kept, Bill 9 against (#126).
+- Checks against the law: petition thresholds and France's aide a mourir
+  implementing texts (#121).
+- Regional parliaments: Spain (all 17 via the BOE plus four bill lists,
+  #137), Peru (25 regions and Lima, #138), Mexico (13 state congresses, on
+  GitHub, #141), Austria (7 Landtage, #142), Italy (4 councils, #143). All
+  run as steps in existing weeklies; no new Mini job.
+- Keyword terms: Spain and Mexico in the shared Spanish list, plus a new
+  Catalan/Valencian list (#145); Italy (#146). Stored rows re-tagged by
+  reclassify runs of the ES, IT and CH weeklies on 12 October.
+- Store: split plan (#136, `docs/store-split-plan.md`, `tools/store_sizes.py`);
+  compaction (#140): vote tables WITHOUT ROWID, VACUUM before every publish,
+  size warnings on the compressed asset (0.75 GB plan, 1.0 GiB split). Run
+  once on the Mini on 12 October: 1,887 MB to 1,532 MB raw, 315 MB
+  compressed.
+- robots.txt: a 5xx or unreachable robots.txt is Disallow: / (#142); every
+  regional collector (#144) and 76 scrapers (#147) check it on each run
+  (`src/robots_guard.py`, `docs/robots-runtime.md`); patient reads with
+  retries and a 24-hour cache (#149).
+- Portraits and logos: licence table for every legislature
+  (`docs/portraits-logos-licences.md`); portraits for Brazil and Croatia
+  only, party colour chips, no logos (#139); the UK tracker's photo credit
+  line (#144).
+- Fixes: es_regions default store path (#148). Canada committee evidence:
+  already on main; a time budget and tests added (#150).
+
+**Nothing is published from a 5CA yet.** Every reading is still a draft or
+awaiting the first automatic sign-off (France's limit to final votes and
+watched amendments was lifted on 12 October, #127). Briefs, packs, targets, the partner sheet and the
 live read all render "awaiting sign-off" until a reading is confirmed. From
 the Sunday run after 11 October 2026 the drafts that pass every automatic
-check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
-1,001), the rest wait for a person, and country signers amend
-(docs/country-decisions-2026-10-11.md, docs/5ca-notes.md).
+check are confirmed on Chris's delegation (dry runs: 71 of 1,001 on 11
+October; about 940 after the 12 October bill directions and amendment
+readings), the rest wait for a person, and country signers amend
+(docs/country-decisions-2026-10-11.md, docs/country-decisions-2026-10-12.md,
+docs/5ca-notes.md). The first real run is Sunday's editions-session-judge.
 
 **Waiting on Chris (decisions and actions):**
 
@@ -110,8 +148,9 @@ check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
     (command in `docs/mac-mini.md`); "publish" means a canvas for Chris alone.
 14. DONE (12 October 2026): 400 items scored once on Chris's personal Claude
     account (jobs/judge-queue-out.sh / judge-queue-in.sh, #120): 27 edition
-    scores and 373 vote meanings, none refused; 13 editions rewritten. About
-    111 meanings remain for the Sunday judge (cap unchanged at 100).
+    scores and 373 vote meanings, none refused; 13 editions rewritten. The
+    last 111 meanings were scored the same way later that day: no vote
+    meaning is waiting (cap unchanged at 100).
 17. DONE (12 October 2026, `docs/country-decisions-2026-10-12.md`): the 126
     bills with no direction are decided (91 directions, 29 with no CitizenGO
     stake taken out of play, 6 left for a person); religious-symbol bans are
@@ -133,10 +172,39 @@ check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
     936 readings confirm on Sunday's automatic sign-off. Unclear ones are
     mostly the Italian Senate and Hungary (bot checks), the Dominican
     Chamber (no readable text) and some French Sénat votes.
+21. OPEN: the 313 flagged amendment readings (in each shortlist after
+    Sunday's run): review, leave to country teams, or accept as drafted.
+22. OPEN: the 209 unclear amendments: leave, or ask the Italian Senate and
+    parlament.hu for access.
+23. OPEN (portraits, #139): do the partner pages count as internal or
+    non-commercial use for Italy, the Netherlands, Austria and Switzerland?
+    For the 21 unclear countries, ask press offices or allow Wikimedia
+    Commons per file? Confirm colour chips only, no logos.
+24. OPEN (regions): ask Puebla, San Luis Potosí and Campeche to allow our
+    crawler; a Mexican exit from the Mini if GitHub cannot reach Veracruz,
+    Guanajuato, Nuevo León, Michoacán and Zacatecas; ask the
+    Bundeskanzleramt for the RIS API; read Vienna's Gemeinderat too?;
+    Peru's regional tier-1 norms alert instantly today (keep?); entries for
+    the empty regional watchlists (it, at, pe, mx states).
+25. OPEN (Canada): Senate committee transcripts and committee reports are
+    not built (`docs/canada-federal-sources-scope.md`).
+26. WATCH: Panama's bills feed is dark while sistemas.asamblea.gob.pa's
+    robots.txt answers HTTP 500 (asked 12 October, see below). Mexico's SITL
+    and Gaceta time out from the UK; check the next GitHub run.
 
 **Still to run on the Mini (store writers, one at a time):**
 
 - `latam-courts-backfill`: DONE (10 October, 03:22Z).
+- One-off runs on 12 October 2026, all DONE and their launchd jobs removed:
+  `judge-queue-in` twice (the 400 and the 111 judged items), `store-compact`
+  (the compaction above), and the ES, IT and CH weeklies with
+  `*_RECLASSIFY=true` for the new keyword terms (Spain's first try crashed on
+  the missing store path, fixed in #148, then ran clean). On-demand jobs kept:
+  `jobs/judge-queue-out.sh` / `jobs/judge-queue-in.sh` (score a batch of the
+  free judge's queue off the Mini) and `jobs/store-compact.sh`.
+- First scheduled regional runs: Saturday's ES, IT, AT and PE weeklies; MX on
+  its next fortnightly GitHub run. France's Assemblée is now read at its
+  30 s Crawl-delay, so `fr_chamber` carries more over between runs.
 - `sk-docs-backfill`: DONE (11 October 2026). Run 1 read the whole document
   backlog (then timed out after publishing; the budget now comes from
   `tools/collector_budget.sh`, #94); runs 2 and 3 found nothing left.
@@ -900,8 +968,9 @@ All from cjoyce@citizengo.net.
 | El Salvador missing votes (sessions 41-64, 98): LAIP request | transparencia@asamblea.gob.sv | sent 12 Oct |
 | France clip agreement | communication@assemblee-nationale.fr | sent 12 Oct |
 | Belgium clip agreement | pri@dekamer.be | sent 12 Oct |
-| Uruguay main site (403 everywhere): open-data team | address being found | being sent 12 October |
-| Argentina Diputados votes (no connection from anywhere) | address being found | being sent 12 October |
+| Uruguay main site (403 everywhere): open-data team | datosabiertos@diputados.gub.uy, cc ctip@parlamento.gub.uy | sent 12 Oct |
+| Argentina Diputados roll-call votes (open-data set stops Feb 2020) | dtl.dgis@hcdn.gob.ar, cc dip@hcdn.gob.ar | sent 12 Oct (the sites answered the laptop that day) |
+| Panama segLegis (robots.txt answers HTTP 500, so not read) | bhislop@asamblea.gob.pa (open-data maintainer), cc wmaster@asamblea.gob.pa | sent 12 Oct |
 | Costa Rica (refuses foreign connections) | participacion-consultas@asamblea.go.cr takes internal senders only; no external address published | bounced, parked |
 
 ## Rules to keep (learned the hard way)
