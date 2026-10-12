@@ -214,8 +214,9 @@ publish seen".
   dated source), clips for France and Belgium (agreement needed).
 - Waiting for time: Spain's agendas, speeches and sweep fill from 23
   December when the XVI sits.
-- Not yet built: regions and Länder (IT3, AT6, PE4, Spain's autonomous
-  communities, Mexico's states); member portraits and party logos (check
+- Not yet built: regions and Länder (AT6, PE4, Spain's autonomous
+  communities, Mexico's states; Italy's IT3 is built for four councils, see
+  section 6); member portraits and party logos (check
   photo licences first); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
   2027); a native read of each language's term list.
 
@@ -250,7 +251,7 @@ publish seen".
 | Debate report (report and social copy after a debate, DM for approval, canvas) | yes (`tools/debate_report.py`, one paid call) | no | no | no | **built** 11 Oct (`tools/country_debate_report.py`, `src/country_debatereport.py`, branch `ukp2-debate-report`, manual) for the five countries whose speeches we store: NL, CH, AT, FR, BE. English report from templates over the record (no paid AI): speakers on our ground with a verbatim source-language passage each, translations by a person or the free session judge (`--queue-out`/`--queue-in` via `tools/session_judge.sh`), the debated bill's votes (found by the reference in the title, `--item` or a debate pack) and the latest on the same ground with tallies, group splits and vote meanings; clip pack linked. AWAITING SIGN-OFF, no verdicts, until the readings shown are confirmed. DM to Chris alone; `--approve --by NAME` records approval against the files; `--publish` makes the canvas with the UK's code, shared with Chris alone (never a channel), rewritten in place on a re-run. Samples `docs/debate-report-samples/` |
 | Words since the last vote (`since_last_vote.py`) | yes | no | no | no | **built** 11 Oct (`tools/country_since_vote.py`, `src/country_since_vote.py`, branch `ukp2-since-last-vote`, manual) for the countries with speeches and votes: NL, CH, AT, FR, BE. Per area, each member's last recorded vote on it (watched or tier 1, procedure never) and their speeches since, with excerpts. Drift is named only once the vote's reading is CONFIRMED and a person or the free session judge has read the words (`--queue-out` / `--reads`, `read_by` required, a read goes stale when new words arrive); before that "awaiting sign-off", ranked by recency and volume. Group votes (NL shows of hands, AT) never name drift. Optional profile section: `tools/member_profiles.py <cc> --since-vote` (off in the weeklies). Samples `docs/since-vote-samples/` (CH, FR, BE; the published store holds no NL votes or speeches and no AT speeches yet) |
 | Health summary, Drive | health DM; briefs and debate footage on Drive | health DM | health DM | health DM | **built** 11 Oct (branch `ukp-health-drive`): the 07:30 health DM has one compact section per region (Europe, Latam) plus shared jobs, failed and stale jobs first, step gaps by step, editions behind, the countries' overdue sources (`src/country_health.py`); briefs as Sheets from the UK template and real debate packs on Drive under `Country editions/<Country>/` in the Automated Briefs shared drive, a step of the Sunday `editions-session-judge` (`tools/country_drive.py`, ledger `data/country-drive.json`, at most 30 new sheets a run) |
-| Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | **no** (later, per decisions) |
+| Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | Italy: four regional councils (IT3, 12 October 2026); others later, per decisions |
 | Vote meanings (what a Yes and a No meant) | yes (`meaning_aye`/`meaning_no`, written by hand) | no | no | no | **built** 11 Oct (`src/vote_meanings.py`, `tools/vote_meanings.py`, branch `ukp-meanings`): every watched and tier-1 vote in the 21 countries with recorded votes, rules first, then the free session judge after the editions' scores within the same ~100 items a week; stored per division (`vote_meanings`); a person overrides in `config/vote-meanings-<cc>.yaml`; shown in editions, the Latam monitor, vote briefs, profiles, debate packs and the 5CA readings guides |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
@@ -666,7 +667,22 @@ Set A BUILT 10 October 2026 (branch `parity-phases-a`; each scope doc's
 "as built" section): French Senate (FR5), Eerste Kamer via web pages (NL4),
 Slovak bill documents (SK6), Swiss Italian texts (CH6), Italy's official
 Camera service (IT2). Set B below covers UY5, BO4, X8 and X7. Still to
-build: regions and Landtage after national (IT3, AT6, PE4).
+build: regions and Landtage after national (AT6, PE4).
+
+**IT3, Italy's regional councils, BUILT 12 October 2026 (branch
+`regions-it`, docs/italy-regions-scope.md).** Covered: Lombardia (the
+council's open data on dati.lombardia.it, with stage dates), Campania and
+Marche (HTML bill lists) and the Provincia autonoma di Trento (open-data XML
+of bills, motions, orders of the day, petitions): 958 acts, 22 on our ground
+on the first run, five of them regional assisted-dying bills.
+`tools/it_regions.py` into `it_reg_acts`; a "Regional councils" section in
+the Italian edition; a step in `jobs/it-weekly.sh` (nothing to install).
+Blocked: Veneto (Akamai 403), Puglia, Basilicata and Sicilia's ARS
+(robots.txt), Molise (self-signed certificate); unreachable from the UK:
+Abruzzo, Piemonte, Sardegna, Umbria, Valle d'Aosta. Not built yet (forms or
+no list found): Lazio, Emilia-Romagna, Toscana, Calabria, Liguria, FVG,
+Bolzano, the Trentino-Alto Adige regional council. No council publishes
+member votes we can read (Lombardia's vote PDFs are a possible later phase).
 
 **Set B, built 10 October 2026 (branch `parity-phases-b`):** X8
 constitutional courts for Colombia (the exhortations file; the Court's

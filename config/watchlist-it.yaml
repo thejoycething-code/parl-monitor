@@ -55,3 +55,10 @@ bills:
                why: "The same bill at the Senate; became law ('appr. definit. Legge')."}
   "19/S.130": {areas: [9, 10],
                why: "Marriage and civil union for all, with parentage for same-sex couples (Maiorino and others)."}
+
+# --- regional councils (IT3, 12 October 2026) ------------------------------
+# Acts of the regional councils read by tools/it_regions.py, by it_reg_acts
+# key: '<region>/<legislature>/<council id>' ('lom/XII/pdl-212',
+# 'mar/XII/pdl-8', 'cam/XII/35320', 'tn/XVII/at3007878'). Empty until Chris
+# names some (docs/italy-regions-scope.md, "Waiting on Chris").
+regional: {}

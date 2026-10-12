@@ -464,6 +464,12 @@ dying (Toscana's 2025 regional law), the consultori and the pro-life
 associations admitted to them, school and family policy. Each council publishes its
 own way; no aggregator was probed.
 
+**IT3 BUILT 12 October 2026 (branch `regions-it`)**: see
+[italy-regions-scope.md](italy-regions-scope.md). Lombardia, Campania, Marche
+and the Provincia autonoma di Trento are read weekly (`tools/it_regions.py`,
+`it_reg_acts`) into a "Regional councils" section of the Italian edition;
+the other sixteen councils are listed there with the reason each is not.
+
 ### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
 
 NOT built. The Senate's SPARQL endpoint (questions as osr:SindacatoIspettivo, speeches as osr:Intervento) answered 403 to every query from the laptop and from the Mac Mini on 10 October 2026, simple ones included; the Italy weekly's own Senate position queries were refused the same way in its last run (gaps in its log). Adding queries to a host that is refusing us would make it worse: ask the Senate's open-data office, or wait for the 403s to clear, before building questions or speeches.
@@ -488,7 +494,8 @@ NOT built. The Senate's SPARQL endpoint (questions as osr:SindacatoIspettivo, sp
    install the plist on the Mini.
 5. **The edition and the judge** (phase 1b): the judge spends money, so it
    needs your yes as the US one did.
-6. **Regions**: when, and in what order.
+6. **Regions**: when, and in what order. Four built 12 October 2026 (IT3);
+   the order for the rest is in docs/italy-regions-scope.md.
 
 ## Decisions of 10 October 2026 (applied at the countries merge)
 
@@ -502,7 +509,7 @@ Applied on the `countries` branch:
 Later phases and items for Chris (not built at the merge):
 
 - Phase: dati.camera.it SPARQL as the Camera's backup source, or main when quicker (IT2). BUILT 10 October 2026 (branch `parity-phases-a`): see "IT2, as built" below.
-- Phase: regional councils after national (IT3).
+- Phase: regional councils after national (IT3). BUILT 12 October 2026 (branch `regions-it`) for four councils: see docs/italy-regions-scope.md.
 - Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/it/` from the store each weekly run (`tools/member_profiles.py it`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM.
 
 ## IT2, as built (10 October 2026, branch `parity-phases-a`)

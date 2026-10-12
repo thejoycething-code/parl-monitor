@@ -11,7 +11,8 @@
 #
 #     IT_RECLASSIFY=true    re-derive every stored IT bill's and division's
 #                           areas, offline, before the pull (after the Italian
-#                           taxonomy lands or watchlist-it changes)
+#                           taxonomy lands or watchlist-it changes); the
+#                           regional councils' acts too (IT3)
 #
 # Exit codes. The collector exits 3 when it stored what it could and recorded
 # gaps (in the gaps table and as [gap] lines in the log): that run is still
@@ -36,12 +37,26 @@ export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Italy weekly}"
 if [ "${IT_RECLASSIFY:-}" = "true" ]; then
   python3 tools/country_petitions.py it --reclassify
   python3 tools/it_rollcalls.py --reclassify
+  python3 tools/it_regions.py --reclassify || echo "  [gap] the regional reclassify failed"
 fi
 rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/it_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" || rc=$?
+# The third argument keeps the regional councils' 5 minutes (below) out of it.
+python3 tools/it_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" || rc=$?
+# The regional councils (IT3, tools/it_regions.py, docs/italy-regions-scope.md):
+# Lombardia, Campania, Marche and the Provincia autonoma di Trento into
+# it_reg_acts, before the edition, which shows them in a section of their own.
+# About twenty requests. Its failure (exit other than 0 or 3) is a [gap] line,
+# never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  r=0
+  python3 tools/it_regions.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" || r=$?
+  if [ "$r" -ne 0 ] && [ "$r" -ne 3 ]; then
+    echo "  [gap] the regional councils step failed (exit $r); last week's acts stand"
+  fi
+fi
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.
