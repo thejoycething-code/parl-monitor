@@ -258,9 +258,195 @@ def items(conn, since, until, wl):
     return out
 
 
+# --- provincial legislatures (tools/ar_regions.py, src/ar_regions_store.py) ---------
+#
+# 13 October 2026 (docs/argentina-regions-scope.md): the 24 jurisdictions'
+# laws as SAIJ indexes them (and Buenos Aires province's own normative
+# system), the bills new in the four legislatures whose lists are read, and
+# the stage moves of the bills on our ground there. A section of its own,
+# "Provincial legislatures", added by post_render() after the national
+# sections, so the Congress's counts, lead and quiet-week test stay the
+# Congress's alone. The items go through the same noise filters
+# (config/edition-noise-ar.yaml, the Latam mute list) and stub ordering.
+
+LAW_RECENT_DAYS = 45
+MAX_PROVINCIAL = 12
+BILL_KINDS = {"ley": "Bill", "resolucion": "Draft resolution", "declaracion": "Draft declaration",
+              "comunicacion": "Draft communication", "solicitud de informes": "Request for information",
+              "decreto": "Draft decree", "nota": "Note", "pliego": "Nomination"}
+ADHESION = re.compile(r"\badhi[eé]r\w*|\badhesi[oó]n\b", re.I)
+
+
+def _arp():
+    from src import ar_regions_store
+    return ar_regions_store
+
+
+def provincial_laws(conn, since, until, wl):
+    """Laws new to the store in the window and published in the last
+    LAW_RECENT_DAYS days (SAIJ lists a law one to three weeks after its
+    Boletín Oficial, so the store's own first sight is the window's test)."""
+    arp = _arp()
+    recent = (datetime.date.fromisoformat(until) - datetime.timedelta(days=LAW_RECENT_DAYS)).isoformat()
+    out = []
+    for r in ce.rows(conn, "SELECT * FROM arp_laws WHERE " + ce.window_sql("first_seen")
+                     + " AND COALESCE(published, sanctioned, first_seen) >= ? ORDER BY province, number",
+                     (since, until, recent)):
+        watched = r["law_key"] in wl
+        if not ce.on_ground(r["areas"], watched):
+            continue
+        prov = arp.PROVINCES.get(r["province"], r["province"])
+        bits = ["Law {0} of {1}".format(r["number"], prov)]
+        if r["published"]:
+            bits.append("published in the Boletín Oficial on {0}".format(ce.long_date(r["published"])))
+        if ADHESION.search(r["title"] or "") or ADHESION.search(r["summary"] or ""):
+            bits.append("an adherence to a national law")
+        out.append(ce.item(CC, "law", r["law_key"], r["published"] or r["sanctioned"] or r["first_seen"],
+                           r["title"], ce.areas_of(r["areas"]), r["tier"], watched,
+                           url=r["url"], terms=r["matched_terms"],
+                           body=r["summary"] if r["summary"] != r["title"] else "",
+                           takeaway=", ".join(bits)))
+    return out
+
+
+def _bill_date(r):
+    if r["presented"]:
+        return r["presented"]
+    return None if r["seed"] else r["first_seen"]
+
+
+def _bill_takeaway(r):
+    arp = _arp()
+    bits = ["{0} in the {1}".format(BILL_KINDS.get(r["kind"] or "", "Expediente"),
+                                    arp.LEGISLATURES.get(r["legislature"], r["legislature"]))]
+    if r["author"]:
+        bits.append("from {0}".format(ce.clean(r["author"]).title() if r["author"].isupper()
+                                      else ce.clean(r["author"])))
+    if r["committee"] and r["legislature"] != "caba":
+        bits.append("sent to {0}".format(ce.clean(r["committee"])))
+    return " ".join(bits)
+
+
+def provincial_bills(conn, since, until, wl):
+    out = []
+    for r in ce.rows(conn, "SELECT * FROM arp_bills WHERE (" + ce.window_sql("presented")
+                     + " OR (presented IS NULL AND COALESCE(seed, 0) = 0 AND "
+                     + ce.window_sql("first_seen") + ")) ORDER BY legislature, bill_key",
+                     (since, until, since, until)):
+        watched = r["bill_key"] in wl
+        if not ce.on_ground(r["areas"], watched):
+            continue
+        out.append(ce.item(CC, "new", r["bill_key"], _bill_date(r), r["title"],
+                           ce.areas_of(r["areas"]), r["tier"], watched, status=r["status"],
+                           url=r["url"], terms=r["matched_terms"], takeaway=_bill_takeaway(r)))
+    return out
+
+
+def provincial_moves(conn, since, until, wl):
+    """Bills on our ground whose stage words changed in the window (not new ones)."""
+    out = []
+    for r in ce.rows(conn, "SELECT * FROM arp_bills WHERE moved IS NOT NULL AND "
+                     + ce.window_sql("moved") + " ORDER BY legislature, bill_key", (since, until)):
+        watched = r["bill_key"] in wl
+        if not ce.on_ground(r["areas"], watched):
+            continue
+        if r["presented"] and since < r["presented"][:10] <= until:
+            continue        # already listed as new
+        take = _bill_takeaway(r) + "; was: {0}".format(ce.clean(r["prev_status"] or "not stated"))
+        out.append(ce.item(CC, "moved", r["bill_key"], r["moved"], r["title"],
+                           ce.areas_of(r["areas"]), r["tier"], watched, status=r["status"],
+                           url=r["url"], terms=r["matched_terms"], takeaway=take))
+    return out
+
+
+def provincial_items(conn, since, until, wl, config_dir=None):
+    """(kept, dropped): the provincial items in the window after the noise filters."""
+    got = (provincial_laws(conn, since, until, wl) + provincial_bills(conn, since, until, wl)
+           + provincial_moves(conn, since, until, wl))
+    kept, dropped = ce.noise_for(COUNTRY).split(got, config_dir)
+    return ce.score(kept), dropped
+
+
+def provincial_coverage(conn, since, until):
+    arp = _arp()
+    reads = {r["source"]: r for r in ce.rows(conn, "SELECT * FROM arp_reads")}
+    if not reads:
+        return ["The provincial layer has not run yet (tools/ar_regions.py, Argentina weekly)."]
+
+    def state(src):
+        r = reads.get(src)
+        if not r:
+            return "not read yet"
+        if (r["status"] or "") == "ok":
+            return "read {0}".format(ce.short_date(r["last_seen"]))
+        return "failed: " + ce.clean(r["status"] or "unknown")
+
+    n_laws = ce.rows(conn, "SELECT COUNT(*), COUNT(DISTINCT province) FROM arp_laws WHERE "
+                     + ce.window_sql("first_seen"), (since, until))
+    lines = ["Laws of all 24 jurisdictions through SAIJ ({0}) and Buenos Aires province's normative "
+             "system ({1}): {2} law(s) from {3} province(s) new to the store in this period. SAIJ "
+             "lists a law one to three weeks after its Boletín Oficial.".format(
+                 state("saij"), state("normas-gba"), n_laws[0][0] if n_laws else 0,
+                 n_laws[0][1] if n_laws else 0)]
+    lines.append("Bills, from the legislatures' own lists: {0}.".format("; ".join(
+        "{0} ({1})".format(arp.LEGISLATURES[k], state(k)) for k in ("ba-dip", "caba", "cba", "er-sen"))))
+    lines.append("No bills are read from the other 20 jurisdictions or the second chambers of Buenos "
+                 "Aires, Santa Fe, Mendoza, Salta and Entre Ríos (a reCAPTCHA, TLS failures, refusals, "
+                 "no list to read, or not yet built): their laws arrive through SAIJ "
+                 "([scope]({0}docs/argentina-regions-scope.md)). No provincial legislature publishes "
+                 "roll calls in a form we read.".format(ce.REPO))
+    return lines
+
+
+def provincial_section(conn, since, until, wl, config_dir=None):
+    kept, dropped = provincial_items(conn, since, until, wl, config_dir)
+    out = ["## Provincial legislatures", ""]
+    groups = (("law", "Provincial laws"), ("new", "New provincial bills"),
+              ("moved", "Provincial stage moves"))
+    if not kept:
+        out += ["Nothing on our ground from the provinces in this period.", ""]
+    for kind, heading in groups:
+        got = [it for it in kept if it["kind"] == kind]
+        if not got:
+            continue
+        out += ["### " + heading, ""]
+        for it in got[:MAX_PROVINCIAL]:
+            out += ce.item_lines(it, wl)
+        if len(got) > MAX_PROVINCIAL:
+            out.append("- _And {0} more, lower in the order; in the store._".format(len(got) - MAX_PROVINCIAL))
+        out.append("")
+    out += ["Provincial coverage:", ""]
+    out += ["- " + ce.clean(c) for c in provincial_coverage(conn, since, until)]
+    if dropped:
+        out.append("- Left out by the noise filters: {0}.".format(ce.dropped_text(dropped)))
+    out.append("")
+    return out
+
+
+def _window(today, text=None, directory=None):
+    """The edition's window, read back off its subtitle ('covering 3 October
+    2026 to 9 October 2026') so the section matches the national sections;
+    the framework's own default when the subtitle is not there."""
+    m = re.search(r"covering (\d{1,2} \w+ \d{4}) to (\d{1,2} \w+ \d{4})", text or "")
+    if m:
+        try:
+            first = datetime.datetime.strptime(m.group(1), "%d %B %Y").date()
+            last = datetime.datetime.strptime(m.group(2), "%d %B %Y").date()
+            return (first - datetime.timedelta(days=1)).isoformat(), last.isoformat()
+        except ValueError:
+            pass
+    return ce.window(CC, today, None, directory, COUNTRY.cadence_days)
+
+
 def post_render(conn, country, today, text, wl):
-    """The Ley 13.640 section, before the Watchlist (or at the end of a quiet week)."""
-    section = "\n".join(lapse_section(conn, today, wl))
+    """The Ley 13.640 section, then the provincial legislatures (13 October
+    2026), before the Watchlist (or at the end of a quiet week). The
+    provincial section is left out while the store has no provincial table."""
+    parts = ["\n".join(lapse_section(conn, today, wl))]
+    if ce.rows(conn, "SELECT 1 FROM sqlite_master WHERE name='arp_reads'"):
+        since, until = _window(today, text)
+        parts.append("\n".join(provincial_section(conn, since, until, wl)))
+    section = "\n".join(parts)
     marker = "\n## Watchlist\n"
     if marker in text:
         return text.replace(marker, "\n" + section + marker, 1)
@@ -280,8 +466,10 @@ COUNTRY = ce.Country(
         "and the Diputados register of expedientes, read gently (one month a request, a few "
         "requests a run) because datos.hcdn.gob.ar turns clients away.",
         "Blocked: Diputados roll calls (AR2: to be tried from the Mini).",
-        "Not yet collected: the full Senate register, the Chamber of Deputies' agenda, "
-        "committee dictámenes, and the provincial legislatures.",
+        "Not yet collected: the full Senate register, the Chamber of Deputies' agenda and "
+        "committee dictámenes.",
+        "The provincial legislatures have their own section above, with its own coverage "
+        "lines (docs/argentina-regions-scope.md).",
         "The week ahead is the Senate's agenda of activities (committee meetings and their "
         "Temario, sessions), classified on its own words.",
         "Lapse dates follow Ley 13.640 (AR7) and are computed, not printed by either chamber.",
