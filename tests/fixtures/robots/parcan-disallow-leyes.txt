@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /leyes/
+Crawl-delay: 3

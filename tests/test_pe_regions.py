@@ -15,6 +15,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, latam  # noqa: E402
 from src.http import FetchError  # noqa: E402
+from tests.robots_fakes import guarded  # noqa: E402
 
 FIX = os.path.join(ROOT, "tests", "fixtures", "pe_regions")
 TODAY = datetime.date(2026, 10, 12)
@@ -272,6 +273,57 @@ class LatamTests(unittest.TestCase):
         self.assertIn("1 regional norm", text)
         self.assertIn("**Peru's regions** (PE4)", text)
         self.assertNotIn("—", text)
+
+
+class RobotsAtRunTime(unittest.TestCase):
+    """robots.txt is asked on every run, per host, before any request
+    (src/robots_guard), not only when the collector was built."""
+
+    def client(self, robots):
+        inner = FakeClient([("Normas/Filtro", read("gazette.html")),
+                            ("regionarequipa/normas-legales/tipos/40",
+                             read("gobpe_arequipa_ordenanzas.html"))])
+        client, serving = guarded(inner, robots, P.FEED)
+        return client, inner, serving
+
+    def gaps(self, conn):
+        return [r[0] for r in conn.execute("SELECT detail FROM gaps WHERE feed='pe-regions'")]
+
+    def test_a_disallowed_path_is_skipped_with_a_gap(self):
+        conn = store()
+        client, inner, serving = self.client(
+            {P.GOBPE_HOST: read("../robots/gobpe-disallow-arequipa.txt")})
+        got = P.pull_gobpe(conn, client, TODAY, P.load_taxonomy(), {}, AREQUIPA, log=quiet)
+        self.assertEqual(got, (0, 0, 0, 1))
+        self.assertEqual(inner.asked, [])
+        self.assertIn("robots.txt disallows", self.gaps(conn)[0])
+        self.assertEqual(serving.host_throttles[P.GOBPE_HOST], 4.0)   # Crawl-delay above ours
+
+    def test_a_503_robots_txt_skips_the_host(self):
+        conn = store()
+        client, inner, _ = self.client({P.GAZETTE_HOST: 503, P.GOBPE_HOST: 503})
+        got = P.pull_gazette(conn, client, TODAY, TODAY, None, {}, {}, log=quiet)
+        self.assertEqual(got, (0, 0, 0, 1))
+        two = AREQUIPA + [dict(AREQUIPA[0], key="cusco", gobpe="regioncusco")]
+        got = P.pull_gobpe(conn, client, TODAY, None, {}, two, log=quiet)
+        self.assertEqual(got[3], 1)          # one gap for the host, not one per region
+        self.assertEqual(inner.asked, [])
+        self.assertEqual(inner.forms, [])
+        gaps = self.gaps(conn)
+        self.assertEqual(len(gaps), 2)
+        self.assertTrue(all("unreachable (503)" in g for g in gaps))
+
+    def test_a_404_robots_txt_allows(self):
+        conn = store()
+        client, inner, serving = self.client({})
+        regions = P.load_regions()
+        got = P.pull_gazette(conn, client, TODAY, TODAY - datetime.timedelta(days=14),
+                             P.load_taxonomy(), {}, P.gazette_index(regions), log=quiet)
+        self.assertGreater(got[0], 0)
+        self.assertEqual(got[3], 0)
+        P.pull_gobpe(conn, client, TODAY, P.load_taxonomy(), {}, AREQUIPA, log=quiet)
+        self.assertEqual(sorted(serving.robots_asked), sorted([P.GAZETTE_HOST, P.GOBPE_HOST]))
+        self.assertEqual(self.gaps(conn), [])
 
 
 if __name__ == "__main__":

@@ -18,6 +18,7 @@ import es_regions as R  # noqa: E402
 from src import country_edition as ce, db, drain, es_regions_store as esr  # noqa: E402
 from src.editions import es  # noqa: E402
 from src.http import FetchError  # noqa: E402
+from tests.robots_fakes import guarded  # noqa: E402
 
 FIX = os.path.join(ROOT, "tests", "fixtures", "es_regions")
 TODAY = "2026-10-12"
@@ -293,6 +294,49 @@ class Edition(unittest.TestCase):
         text = ce.render(conn, es.COUNTRY, TODAY, since="2026-10-05", directory=self.dir)
         self.assertIn("The regional layer has not run yet", text)
         self.assertIsNone(es.regional_dm_line(conn, TODAY, directory=self.dir))
+
+
+class RobotsAtRunTime(unittest.TestCase):
+    """robots.txt is asked on every run, per host, before any request
+    (src/robots_guard), not only when the collector was built."""
+
+    def setUp(self):
+        self.conn = store()
+        self.tax = R.load_taxonomy()
+
+    def gaps(self):
+        return [r[0] for r in self.conn.execute("SELECT detail FROM gaps WHERE feed='es-regions'")]
+
+    def test_a_disallowed_path_is_skipped_with_a_gap(self):
+        inner = FakeClient(lists={"cn": b"never read", "cb": fixture("cb-dossieres.html", "rb")})
+        client, serving = guarded(inner, {"www.parcan.es": fixture("../robots/parcan-disallow-leyes.txt")},
+                                  R.FEED)
+        n, _, g = R.pull_list(self.conn, client, TODAY, self.tax, "cn")
+        self.assertEqual((n, g), (0, 1))
+        self.assertNotIn(R.SOURCES["cn"], inner.asked)
+        self.assertIn("robots.txt disallows " + R.SOURCES["cn"], self.gaps()[0])
+        self.assertEqual(serving.host_throttles["www.parcan.es"], 3.0)   # Crawl-delay honoured
+        # another host on the same run is unaffected
+        n, _, g = R.pull_list(self.conn, client, TODAY, self.tax, "cb")
+        self.assertGreater(n, 0)
+        self.assertEqual(g, 0)
+
+    def test_a_503_robots_txt_skips_the_host(self):
+        inner = FakeClient(days={"20261006": fixture("boe-sumario-20261006.json")})
+        client, _ = guarded(inner, {"www.boe.es": 503}, R.FEED)
+        read, stored, _, gaps = R.pull_boe(self.conn, client, TODAY, self.tax, drain.Budget(60), days=7)
+        self.assertEqual((read, stored, gaps), (0, 0, 1))
+        self.assertEqual(inner.asked, [])
+        self.assertEqual(len(self.gaps()), 1)
+        self.assertIn("unreachable (503)", self.gaps()[0])
+
+    def test_a_404_robots_txt_allows(self):
+        inner = FakeClient(days={"20261006": fixture("boe-sumario-20261006.json")})
+        client, serving = guarded(inner, {}, R.FEED)
+        read, stored, _, gaps = R.pull_boe(self.conn, client, TODAY, self.tax, drain.Budget(60), days=7)
+        self.assertEqual((read, stored, gaps), (1, 2, 0))
+        self.assertEqual(serving.robots_asked, ["www.boe.es"])   # once per host per run
+        self.assertEqual(self.gaps(), [])
 
 
 if __name__ == "__main__":
