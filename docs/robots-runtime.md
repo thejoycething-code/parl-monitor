@@ -270,7 +270,9 @@ names the client that is wrapped when it is not the collector's own.
 | au_division_brief | data.openaustralia.org.au | API | no | API only (au_rollcalls.make_client) |
 | au_schedule | handbookapi.aph.gov.au, api.prod.legislation.gov.au | API | no | |
 | bo_questions | apisi.senado.gob.bo, diputados.gob.bo/wp-json | scraper | yes | allowed |
+| ca_committee_reports | www.ourcommons.ca, www.parl.ca, sencanada.ca | scraper | yes | allowed (12 October 2026) |
 | ca_committees | www.ourcommons.ca, www.parl.ca | scraper | yes | allowed |
+| ca_senate_committees | sencanada.ca | scraper | yes | allowed (12 October 2026) |
 | ca_senate_debates | sencanada.ca | scraper | yes | allowed |
 | cl_senate_parties | datos.bcn.cl/sparql | API | no | |
 | country_agenda, country_petitions, country_attendance, country_vote_briefs, country_debate_today, country_live_debate | (drivers) | | yes | wrapped once, see above |

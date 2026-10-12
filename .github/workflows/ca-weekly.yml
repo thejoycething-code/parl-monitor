@@ -164,7 +164,10 @@ jobs:
     # 60 for the weekly since the judge step (27 September 2026): collection
     # takes ~5 minutes and the judge's clock is 20 by default, 45 at most, and
     # a job killed by its timeout never reaches "Publish the store".
-    timeout-minutes: ${{ (inputs.older_sessions != '' || inputs.gazette_since != '') && 240 || ((inputs.backfill || inputs.retag || inputs.rollcall_sessions != '' || inputs.federal_backfill != '') && 120 || 90) }}
+    # 120 for the weekly since the Senate committee and committee report
+    # steps (12 October 2026): their budgets add up to 25 minutes on top of
+    # the House committees' 20 and the judge's 20.
+    timeout-minutes: ${{ (inputs.older_sessions != '' || inputs.gazette_since != '') && 240 || 120 }}
     env:
       # Unbuffered, or a step killed mid-run leaves an empty log (the EU
       # weekly's 30-minute kill read as an empty log, not a timeout).
@@ -224,6 +227,18 @@ jobs:
         # ca_speeches (forum='committee'); witnesses only to ca_testimony.
         if: always() && steps.fetch.outcome == 'success'
         run: python3 tools/ca_committees.py --session 45-1 --budget-seconds 1200 | tee /tmp/ca-committees.log
+      - name: Senate committee transcripts (SOCI, LCJC, RIDR; SECD by study title)
+        # 12 October 2026 (tools/ca_senate_committees.py). Senators to
+        # ca_speeches (chamber='senate', forum='committee'); witnesses only to
+        # ca_testimony. After ca_senate, which stores the senators they
+        # resolve against.
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/ca_senate_committees.py --session 45-1 --budget-seconds 900 | tee /tmp/ca-senate-committees.log
+      - name: Committee reports, House and Senate, with government responses
+        # 12 October 2026 (tools/ca_committee_reports.py): one row per report
+        # read; responses linked in place when they appear.
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/ca_committee_reports.py --session 45-1 --budget-seconds 600 | tee /tmp/ca-committee-reports.log
       - name: Supreme Court judgments and leave to appeal (feeds)
         # 3 October 2026 (tools/ca_courts.py). Context only: never places
         # anyone. Lexum's bot check (Norma) blocked the laptop's VPN after
@@ -394,7 +409,7 @@ jobs:
           {
             echo "## Canada weekly"
             echo '```'
-            grep -hE "edition:|dm:|ca-rollcalls:|ca-senate:|ca-senate-debates:|ca-committees:|ca-courts:|ca-hansard:|ca-petitions:|ca-gazette:|ca-triage:|ca-retag:|backfill|\[gap\]" \
+            grep -hE "edition:|dm:|ca-rollcalls:|ca-senate:|ca-senate-debates:|ca-committees:|ca-senate-committees:|ca-committee-reports:|ca-courts:|ca-hansard:|ca-petitions:|ca-gazette:|ca-triage:|ca-retag:|backfill|\[gap\]" \
               /tmp/ca-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/ca-*.log 2>/dev/null \

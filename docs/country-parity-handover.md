@@ -186,8 +186,15 @@ docs/5ca-notes.md). The first real run is Sunday's editions-session-judge.
     Bundeskanzleramt for the RIS API; read Vienna's Gemeinderat too?;
     Peru's regional tier-1 norms alert instantly today (keep?); entries for
     the empty regional watchlists (it, at, pe, mx states).
-25. OPEN (Canada): Senate committee transcripts and committee reports are
-    not built (`docs/canada-federal-sources-scope.md`).
+25. DONE (Canada, 12 October 2026, branch `ca-senate-committees`): Senate
+    committee transcripts (`tools/ca_senate_committees.py`: SOCI, LCJC, RIDR
+    in full, SECD by study title; senators to `ca_speeches` with
+    chamber='senate', forum='committee', witnesses only to `ca_testimony`)
+    and committee reports, House key nine and Senate three, with
+    recommendations and government responses
+    (`tools/ca_committee_reports.py`, new table `ca_committee_reports`). Both
+    are steps of `jobs/ca-weekly.sh` and `ca-weekly.yml`; no new Mini job.
+    See `docs/canada-scope.md`.
 26. WATCH: Panama's bills feed is dark while sistemas.asamblea.gob.pa's
     robots.txt answers HTTP 500 (asked 12 October, see below). Mexico's SITL
     and Gaceta time out from the UK; check the next GitHub run.

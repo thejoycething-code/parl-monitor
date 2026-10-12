@@ -32,7 +32,18 @@ python3 tools/ca_senate_debates.py --session 45-1 --budget-seconds 900 || rc=1
 # the publish (tools/collector_budget.sh; GitHub gets the cap unchanged). A
 # meeting left unread is read next week; gaps are recorded, never fatal to
 # the steps after it.
-python3 tools/ca_committees.py --session 45-1 --budget-seconds "$(bash tools/collector_budget.sh 1200 "$SECONDS" 1200)" || rc=1
+python3 tools/ca_committees.py --session 45-1 --budget-seconds "$(bash tools/collector_budget.sh 1200 "$SECONDS" 2700)" || rc=1
+# Senate committee transcripts (tools/ca_senate_committees.py, 12 October
+# 2026): SOCI, LCJC and RIDR in full, SECD by study title. Senators'
+# interventions to ca_speeches (chamber='senate', forum='committee'),
+# witnesses only to ca_testimony. At most 15 minutes, less if the steps
+# before it overran; the first runs are the 45-1 baseline, drained 40
+# transcripts a week. Gaps recorded, never fatal to the steps after it.
+python3 tools/ca_senate_committees.py --session 45-1 --budget-seconds "$(bash tools/collector_budget.sh 900 "$SECONDS" 1800)" || rc=1
+# Committee reports, House (the key nine) and Senate (SOCI, LCJC, RIDR), with
+# their recommendations and any government response
+# (tools/ca_committee_reports.py, 12 October 2026). At most 10 minutes.
+python3 tools/ca_committee_reports.py --session 45-1 --budget-seconds "$(bash tools/collector_budget.sh 600 "$SECONDS" 1200)" || rc=1
 python3 tools/ca_courts.py || rc=1
 python3 tools/ca_petitions.py --limit 300 || rc=1
 python3 tools/ca_gazette.py || rc=1

@@ -25,7 +25,10 @@ holds them:
     bill's long title, joined on its sitting's session (ca_senate_debates,
     ca_store.speech_title); a committee speech's subject is its meeting's
     study titles (ca_committees);
-  * committee testimony the same way (ca_committees);
+  * committee testimony the same way (ca_committees, and the Senate's,
+    ca_senate_committees, 12 October 2026: the same study-title passage);
+  * a committee report from its stored recommendations or body, with its
+    study and title as the title passage (ca_committee_reports);
   * a Gazette item from its stored text per passage (a notice, a PDF item);
     a notice matched on its title alone, from its title and department; a
     regulation whose body lives at its URL, from its excerpt -- part of the
@@ -135,6 +138,17 @@ def _rows(conn, tax, wl):
                           "FROM ca_testimony"):
         yield ("ca_testimony", "testimony_id", r[0], r[3], r[4], None,
                _passages(tax, wl, r[1], r[2]), set())
+    # Committee reports, House and Senate (tools/ca_committee_reports.py, 12
+    # October 2026): the stored text (the recommendations, or the Senate
+    # report's body) per passage, with the study and the report's title as
+    # the title passage, exactly as ca_committee_reports.classify reads them.
+    # A body longer than the stored clip (60,000 characters) can carry a tag
+    # the clip cannot reproduce; the trust check would say so.
+    for r in conn.execute("SELECT report_key, text, study, title, areas, matched_terms, tier "
+                          "FROM ca_committee_reports"):
+        title = " — ".join(x for x in (r[2], r[3]) if x) or None
+        yield ("ca_committee_reports", "report_key", r[0], r[4], r[5], r[6],
+               _passages(tax, wl, r[1], title), set())
     for r in conn.execute("SELECT item_key, text, excerpt, title, areas, matched_terms, "
                           "tier, matched_on, department FROM ca_gazette_items"):
         # A notice whose anchor was missing was matched on its title and
@@ -167,7 +181,7 @@ def _rows(conn, tax, wl):
 # gated.
 TRUST_FLOOR = 0.99
 GATED = ("ca_divisions", "ca_bills", "ca_petitions", "ca_speeches", "ca_testimony",
-         "ca_judgments", "ca_leave")
+         "ca_judgments", "ca_leave", "ca_committee_reports")
 UNTIERED = ("ca_speeches", "ca_testimony")    # no tier column
 
 

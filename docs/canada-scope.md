@@ -513,9 +513,10 @@ and the judge. The key nine were backfilled to 40-3 by the workflow's
   `CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)`, one request
   a second, and a host's Crawl-delay raises that.
 - **Budget-aware:** on the Mini its budget is
-  `tools/collector_budget.sh 1200 "$SECONDS" 1200`: at most 20 minutes,
-  less if the steps before it overran, keeping the judge's 20 minutes and
-  the publish. What is left unread is read next week.
+  `tools/collector_budget.sh 1200 "$SECONDS" 2700` (1200 until the Senate
+  committee and report steps joined after it on 12 October 2026): at most
+  20 minutes, less if the steps before it overran, keeping the later steps'
+  45 minutes and the publish. What is left unread is read next week.
 - **Schema:** `ca_committee_meetings` and `ca_testimony` are in
   `src/ca_store.SCHEMA` and `db.TABLES`; `tools/coverage.py` lists both as
   write-once tables (quiet in recess), not heartbeats.
@@ -621,8 +622,93 @@ store):**
 - **The committee page lists only the current committees.** A special
   committee from an older Parliament has to be named with `--committee`.
 
-**Not built:** committee reports (`ca_committee_reports`, matched on the
-PDF body) and Senate committees.
+### Senate committee transcripts, built 12 October 2026
+
+`tools/ca_senate_committees.py` (Christopher, 12 October 2026: "Build
+both"). A step of the Canada weekly after the House committees, writing the
+SAME tables with `chamber='senate'`: `ca_committee_meetings` (one row per
+meeting read, `status` 'read' or 'no_evidence'), `ca_speeches`
+(`forum='committee'`, `chamber='senate'`, ids `scmte-<PS>-<ACR>-<NN>-<seq>`)
+and `ca_testimony`.
+
+- **Committees:** Social Affairs (SOCI), Legal and Constitutional Affairs
+  (LCJC) and Human Rights (RIDR), every meeting with a transcript; National
+  Security, Defence and Veterans Affairs (SECD, the match for the House's
+  SECU) by study title; `--all-committees` adds every other Senate committee
+  by title. Joint committees (AMAD, BCAN, BILI, REGS) are left to
+  `tools/ca_committees.py`, so no senator is stored twice.
+- **Source:** the committee's Studies table (an ajax HTML partial: studies,
+  meetings, witness lists with organisation, transcript links), then one
+  transcript page per meeting, archived. robots.txt at run time, the
+  identified UA, one request a second.
+- **Who is who:** "Senator Batters" resolves by a unique surname (and
+  printed initial) in `ca_senators`, or the chair's full name in the opening
+  line; two candidates resolve nothing. "Hon. X, sponsor of the bill" is a
+  senator; an "Hon. X, M.P., Minister ..." is a witness. Chair, deputy chair,
+  collective labels, the clerk and Library of Parliament analysts are
+  counted, not stored. Everyone else is a witness: `ca_testimony` only, with
+  name, role and organisation as printed (the organisation from the Studies
+  table's witness list where the names match), never a person_id.
+- **Matching:** the English taxonomy plus `config/watchlist-ca.yaml`, per
+  passage, the meeting's study titles as the title passage (a bill study
+  carries the long title), as for the House. `tools/ca_retag.py` re-reads
+  them the same way.
+- **Budget:** `collector_budget.sh 900 "$SECONDS" 1800` on the Mini (900 s on
+  GitHub), 40 transcripts a run. The first runs are the 45-1 baseline.
+
+**Smoke read (12 October 2026, laptop, scratch store with `ca_senators`
+copied read-only from the store):** LCJC 45-1 meetings 2-7 (Bill S-228,
+sterilization; Bill S-209, young persons' online access to pornography) and
+RIDR meetings 3-6. 10 transcripts read, 1,378 interventions: 678 by
+senators, 517 by witnesses, 183 by the chair and officers. On our ground:
+56 senators' interventions, all 56 attributed, and 89 witness interventions
+by 31 witnesses (Amy Awad of Canadian Heritage, the Privacy Commissioner,
+Lord Bethell, Arcom, Aylo). One meeting (LCJC 53, 1 October 2026) is listed
+with no transcript yet. No gaps; the retag reproduced every row.
+
+**Limits:**
+
+- The Senate's table prints no in-camera lock, so a meeting with no
+  transcript is 'no_evidence' and re-checked every week, at no cost.
+- A senator appointed since the last Senate vote read is not in
+  `ca_senators` and stays NULL until they vote.
+- Transcripts before 41-2 are not linked from the Studies table.
+
+### Committee reports, House and Senate, built 12 October 2026
+
+`tools/ca_committee_reports.py`, a step of the Canada weekly after the Senate
+committees. One row per report read, ours or not, in `ca_committee_reports`
+(`src/ca_store.SCHEMA`, `db.TABLES`, `tools/coverage.py` ONCE_EVER).
+
+- **House (key nine, joint committees on parl.ca):** the committee's Work
+  page gives each report's number, title, study, date (presented, or
+  concurred in) and link, and its government response with the date
+  presented. A new report costs two more fetches: its table of contents and
+  its LIST OF RECOMMENDATIONS, parsed into numbered recommendations (count
+  and text kept). A one-page report (a bill reported back) is matched on its
+  own text.
+- **Senate (SOCI, LCJC, RIDR):** the reports partial gives substantive
+  reports with their PDF and government response links (administrative
+  reports are left out); the report page gives the date and the text.
+- **Government responses** are linked in place on a later run, when the list
+  shows one. The House prints the response's date; the Senate does not.
+- **Matching:** the recommendations (House) or the report text (Senate), per
+  passage, with the study and the report's title as the title passage.
+
+**Smoke read (12 October 2026):** JUST, HESA, SOCI and RIDR, 45-1. 30
+reports listed and read, no gaps: HESA's Women's Health report with 16
+recommendations, 4 with a government response. On our ground: JUST report 3
+and Senate RIDR's third report, both on Bill C-9 (hate propaganda and
+access to places of worship). JUST's first report (mandatory minimums for
+child sexual exploitation) matched no area: the taxonomy decides.
+
+### In the edition
+
+The "Committees: witnesses on our ground" section names Senate committees
+("Senate LCJC") beside the House's, and ends with "Committee reports on our
+ground": reports presented, or with a government response presented, this
+week (else the last 30 days), with a link, the count of recommendations and
+the response link. Never the text.
 
 ## Phase 3: the Canadian 5CA, built 26 September 2026
 
@@ -983,6 +1069,9 @@ texts and e-7005); 2 Gazette items; one leave granted (Alberta v. Wirring).
 3. **Phase 3 (built, awaiting sign-off): the Canadian 5CA.** See below.
    Every reading is a draft, so every sheet is an evidence list until
    Christopher confirms readings in `config/ca_stance.yaml`.
+3a. **Committees (done, scheduled):** House and joint committee evidence
+   (2 October 2026), Senate committee transcripts and committee reports,
+   House and Senate, with government responses (12 October 2026).
 4. **Phase 4, if wanted: provinces.** Alberta, Saskatchewan and Ontario come
    first on our ground. Quebec comes only with a French term layer.
 

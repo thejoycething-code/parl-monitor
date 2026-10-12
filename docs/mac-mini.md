@@ -379,9 +379,17 @@ Every period each member has sat and their dated groups (`tools/member_service.p
 ## Canada committee evidence in the Canada weekly (12 October 2026, branch `ca-committee-evidence`)
 
 - `tools/ca_committees.py --session 45-1` is a step of `jobs/ca-weekly.sh` (Tuesdays 11:00 London, `JOB_TIMEOUT` 7200), after Senate debates and before the courts. No new job and nothing to install: the plist is unchanged.
-- Its budget on the Mini is `tools/collector_budget.sh 1200 "$SECONDS" 1200`: at most 20 minutes, less if the steps before it overran, keeping the judge's 20 and the publish. GitHub's backup keeps the fixed 1,200 s.
+- Its budget on the Mini is `tools/collector_budget.sh 1200 "$SECONDS" 2700` (the third argument was 1200 until the Senate committee and report steps joined after it, 12 October 2026): at most 20 minutes, less if the steps before it overran, keeping the later steps' 45 minutes and the publish. GitHub's backup keeps the fixed 1,200 s.
 - robots.txt is asked at run time (`src/robots_guard.guard`, feed `ca-committees`); a refusal or an unloadable list is a `[gap]` and a gaps row, and the steps after it still run.
 - The edition's "Committees: witnesses on our ground" section reads `ca_testimony` and `ca_committee_meetings`; the DM goes to Chris alone, as before.
+
+## Canada Senate committees and committee reports in the Canada weekly (12 October 2026, branch `ca-senate-committees`)
+
+- Two steps of `jobs/ca-weekly.sh` after the House committees and before the courts: `tools/ca_senate_committees.py --session 45-1` (Senate committee transcripts: SOCI, LCJC, RIDR in full, SECD by study title) and `tools/ca_committee_reports.py --session 45-1` (House key nine and Senate three, recommendations and government responses). No new job and nothing to install: the plist is unchanged; `git pull` of the runner clone is enough.
+- Budgets on the Mini: `collector_budget.sh 900 "$SECONDS" 1800` (Senate committees, at most 15 minutes) and `collector_budget.sh 600 "$SECONDS" 1200` (reports, at most 10); the House committees' later-steps allowance went from 1200 to 2700 so the three share the hour before the judge and the publish. GitHub's backup keeps fixed caps (900 and 600) and its job timeout rose from 90 to 120 minutes.
+- The first runs are the 45-1 baseline: 40 transcripts and 60 reports a week at most, so about three weeks to catch up (LCJC 51 transcripts, SOCI 41, RIDR 21; about 100 reports across the twelve committees).
+- robots.txt asked at run time (`src/robots_guard.guard`, feeds `ca-senate-committees` and `ca-committee-reports`); refusals and unloadable pages are `[gap]` lines and gaps rows, never fatal.
+- The edition's "Committees: witnesses on our ground" section now names Senate committees ("Senate LCJC") and ends with "Committee reports on our ground"; the DM goes to Chris alone, as before.
 
 ## Installing the country jobs (10 October 2026)
 

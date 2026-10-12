@@ -1185,6 +1185,13 @@ ONCE_EVER = {
     "ca_senate_sittings": "one row per Senate sitting read, stored once",
     "ca_committee_meetings": "one row per committee meeting read, stored once",
     "ca_testimony": "one row per witness intervention on our ground, stored once",
+    # 12 October 2026: Senate committee transcripts share the two tables
+    # above (chamber='senate'). Committee reports are one row per report
+    # read, House and Senate; last_seen is re-stamped only while the
+    # session's report lists are read, so a new Parliament with no report
+    # yet goes quiet through no fault of the collector: reported, not failed.
+    "ca_committee_reports": "one row per committee report read; quiet until a session's "
+                            "first report",
     "ca_leave": "one row per leave-to-appeal decision, written once",
     # One row per Supreme Court order PDF read; an order list is final, so
     # it is read once and never re-stamped.
