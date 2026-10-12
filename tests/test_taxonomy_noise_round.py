@@ -204,5 +204,42 @@ class SpanishTests(unittest.TestCase):
         self.assertIn("causales", terms)
 
 
+class SpainAndMexicoTermsTests(unittest.TestCase):
+    """Taxonomy-es v0.3 (12 October 2026, Chris: "Add the Spain keyword
+    terms", "Add the Mexico and Italy keyword terms too"). The titles are the
+    measured ones (docs/keyword-taxonomy-es.md, "How it was made")."""
+
+    MADRID = ("Ley 5/2026, de 7 de julio, de reconocimiento del concebido en la aplicación "
+              "de las medidas de apoyo a la familia en la Comunidad de Madrid.")
+
+    def test_madrid_conceived_child_law(self):
+        got = areas(tax("es", "es"), self.MADRID)
+        self.assertIn(1, got)
+        self.assertIn(9, got)
+
+    def test_designed_is_not_conceived(self):
+        for country in ("es", "mx", "ar"):
+            self.assertNotIn(1, areas(tax("es", country),
+                                      "Programa concebido para el apoyo a la pequeña empresa"))
+
+    def test_teachers_authority_is_not_added(self):
+        res = filt.filter_item(tax("es", "es"), WL, "Proyecto de Ley de autoridad del profesorado")
+        self.assertEqual(res.issue_areas or [], [])
+
+    def test_hate_crimes_reach_free_speech(self):
+        t = tax("es", "mx")
+        self.assertIn(7, areas(t, "Iniciativa para tipificar como delito el crimen de odio, motivado "
+                                  "por orientación sexual o identidad de género"))
+        self.assertIn(7, areas(t, "Capítulo denominado CRÍMENES DE ODIO MOTIVADO POR ORIENTACIÓN SEXUAL"))
+
+    def test_vicarious_violence_is_family_everywhere(self):
+        for country, title in (("es", "Proyecto de Ley Orgánica de medidas en materia de violencia vicaria."),
+                               ("mx", "Iniciativa que adiciona diversas disposiciones del Código Penal, "
+                                      "en materia del delito de violencia vicaria"),
+                               ("pa", "QUE ESTABLECE MEDIDAS PARA PREVENIR, ATENDER Y ERRADICAR LA VIOLENCIA "
+                                      "VICARIA EN LA REPUBLICA DE PANAMA")):
+            self.assertIn(9, areas(tax("es", country), title), country)
+
+
 if __name__ == "__main__":
     unittest.main()

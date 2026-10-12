@@ -356,7 +356,10 @@ def _bill_date(r):
 def regional_bills(conn, since, until, wl):
     esr = _esr()
     out = []
-    for r in ce.rows(conn, "SELECT * FROM esr_bills WHERE lang = 'es' AND ("
+    # Every classified title, Spanish or Catalan/Valencian (12 October 2026:
+    # the Corts Valencianes' bills are classified with taxonomy-ca); a title
+    # in a language with no list has areas NULL and is counted, never shown.
+    for r in ce.rows(conn, "SELECT * FROM esr_bills WHERE areas IS NOT NULL AND ("
                      + ce.window_sql("presented") + " OR (presented IS NULL AND COALESCE(seed, 0) = 0 AND "
                      + ce.window_sql("first_seen") + ")) ORDER BY region, bill_key",
                      (since, until, since, until)):
@@ -402,18 +405,33 @@ def regional_coverage(conn, since, until):
                                if (reads[k]["status"] or "") == "ok" else "failed: "
                                + ce.clean(reads[k]["status"] or "unknown"))
             for k in listed)))
-    other = ce.rows(conn, "SELECT region, COUNT(*) FROM esr_bills WHERE lang != 'es' AND ("
-                    + ce.window_sql("presented") + " OR (presented IS NULL AND COALESCE(seed, 0) = 0 AND "
-                    + ce.window_sql("first_seen") + ")) GROUP BY region", (since, until, since, until))
-    if "vc" in reads or other:
-        n = sum(r[1] for r in other)
-        lines.append("Not classified, published in a co-official language only: {0} new bill(s) in "
-                     "this period ({1}); the Spanish term list is blind to them.".format(
-                         n, ", ".join("{0} {1}".format(r[1], esr.PARLIAMENTS.get(r[0], r[0]))
-                                      for r in other) or "Corts Valencianes, in Valencian"))
+    new_sql = (" AND (" + ce.window_sql("presented") + " OR (presented IS NULL AND COALESCE(seed, 0) = 0 "
+               "AND " + ce.window_sql("first_seen") + "))")
+    window = (since, until, since, until)
+    # Catalan/Valencian titles (12 October 2026): classified with the
+    # Catalan/Valencian list, an unmeasured draft, so the line says so.
+    catalan = {}
+    for r in ce.rows(conn, "SELECT region, areas FROM esr_bills WHERE lang = 'ca' AND areas IS NOT NULL"
+                     + new_sql + " ORDER BY region", window):
+        n, ours = catalan.get(r["region"], (0, 0))
+        catalan[r["region"]] = (n + 1, ours + bool(ce.on_ground(r["areas"], False)))
+    if "vc" in reads or catalan:
+        lines.append("Classified with the Catalan/Valencian term list (an unmeasured draft): {0} new "
+                     "bill(s) in this period ({1}).".format(
+                         sum(n for n, _ in catalan.values()),
+                         ", ".join("{0} {1}, {2} on our ground".format(n, esr.PARLIAMENTS.get(k, k), ours)
+                                   for k, (n, ours) in catalan.items())
+                         or "Corts Valencianes, in Valencian"))
+    other = ce.rows(conn, "SELECT region, COUNT(*) FROM esr_bills WHERE areas IS NULL" + new_sql
+                    + " GROUP BY region", window)
+    if other:
+        lines.append("Not classified, published in a language with no term list: {0} new bill(s) in "
+                     "this period ({1}).".format(
+                         sum(r[1] for r in other),
+                         ", ".join("{0} {1}".format(r[1], esr.PARLIAMENTS.get(r[0], r[0])) for r in other)))
     lines.append("No list of bills is read for Madrid, Navarra and Galicia (bot checks), Murcia and "
                  "Extremadura (robots.txt), País Vasco, Illes Balears and Aragón (no answer), "
-                 "Cataluña (Catalan only) or Castilla y León, Castilla-La Mancha and Asturias (no "
+                 "Cataluña (its open-data page fails) or Castilla y León, Castilla-La Mancha and Asturias (no "
                  "list to read): their laws arrive through the BOE "
                  "([scope]({0}docs/spain-regions-scope.md)).".format(ce.REPO))
     return lines

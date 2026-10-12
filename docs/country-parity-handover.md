@@ -741,8 +741,8 @@ Metropolitana keep stale gob.pe pages and are covered by the gazette alone.
 decree-laws from the BOE's open-data summaries (Spanish for every community;
 153 acts from January to 9 October 2026), plus bills in passage from the
 lists of Andalucía (RSS), Canarias, La Rioja (government bills) and
-Cantabria, classified with `taxonomy-es`; the Corts Valencianes' bills are
-stored but unclassified (Valencian only) and counted as a gap. A "Regional
+Cantabria, classified with `taxonomy-es`; the Corts Valencianes' bills
+(Valencian only) are classified with `taxonomy-ca` since 12 October 2026. A "Regional
 parliaments" section in the Spanish edition and one DM line; a step in
 `jobs/es-weekly.sh` (no new job, nothing to install). Blocked: Madrid,
 Navarra and Galicia (Sucuri, Cloudflare and Akamai bot checks, never
@@ -750,9 +750,21 @@ bypassed), Murcia and Extremadura (robots.txt disallows all), País Vasco,
 Illes Balears and Aragón's tramitación base (no answer from the laptop),
 Cataluña (Catalan only, open-data page 500), Castilla y León, Castilla-La
 Mancha and Asturias (no machine-readable bill list). Canarias' open-data API
-sits under a robots-disallowed `/api/`. Waiting on Chris: the proposed terms
-(`concebido`, `apoyo a la familia`: Madrid's Ley 5/2026 on the conceived child
-is missed today) and a Catalan/Valencian list.
+sits under a robots-disallowed `/api/`.
+
+**Spain and Mexico terms, 12 October 2026 (branch `spain-terms`):**
+taxonomy-es v0.3 adds "del concebido" (area 1, tier 1) and "apoyo a la
+familia" / "medidas de apoyo a la familia" (area 9, tier 2), shared, so
+Madrid's Ley 5/2026 on the conceived child now matches (areas 1 and 9); for
+the Mexican state congresses, "crímenes de odio" / "crimen de odio" (area 7,
+tier 2) and "violencia vicaria" (area 9, tier 2), shared on measurement; the
+other proposed Mexican terms were already in the list. New
+`docs/keyword-taxonomy-ca.md` (Catalan/Valencian, unmeasured draft, Chris
+approved) generates `config/taxonomy-ca.yaml`; `tools/es_regions.py`
+classifies the Corts Valencianes' bills with it, so they are no longer an
+unclassified gap (the 10 stored: all classified, none on our ground); run
+`ES_RECLASSIFY=true` once on the Spain weekly to classify rows already
+stored. Counts in the masters' notes.
 
 ### 7. Campaign tools
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only

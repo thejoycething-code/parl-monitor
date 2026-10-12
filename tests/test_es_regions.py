@@ -200,11 +200,69 @@ class Collect(unittest.TestCase):
                                 "WHERE bill_key='cb:180/XI'").fetchone()
         self.assertEqual(tuple(old), ("2026-10-05", "2026-10-12"))
 
-    def test_valencian_titles_stay_unclassified(self):
+    def test_valencian_titles_are_classified_in_catalan(self):
+        # 12 October 2026: taxonomy-ca. Before it the two were stored with
+        # areas NULL; now both are classified, on nobody's ground (land and
+        # forests), so '[]' rather than NULL.
         R.pull_list(self.conn, FakeClient(lists={"vc": fixture("vc-iniciatives.html", "rb")}),
                     TODAY, self.tax, "vc")
         self.assertEqual(self.conn.execute(
-            "SELECT COUNT(*) FROM esr_bills WHERE region='vc' AND areas IS NULL").fetchone()[0], 2)
+            "SELECT COUNT(*) FROM esr_bills WHERE region='vc' AND areas IS NULL").fetchone()[0], 0)
+        self.assertEqual([r[0] for r in self.conn.execute(
+            "SELECT areas FROM esr_bills WHERE region='vc'")], ["[]", "[]"])
+
+    def test_catalan_titles_on_our_ground(self):
+        for n, (title, area) in enumerate((
+                ("Proposició de llei de regulació de l’eutanàsia i la mort digna", 2),
+                ("Proposició de llei de suport a la família i a la natalitat", 9),
+                ("Proposició de llei de la interrupció voluntària de l'embaràs", 1),
+                ("Projecte de llei de l'escola concertada valenciana", 6),
+                ("Proposició de llei de drets de les persones LGTBI", 5))):
+            areas = R.store_bill(self.conn, self.tax, "vc", {
+                "expediente": str(n), "title": title, "kind": None, "status": None,
+                "presented": TODAY, "proponent": None, "url": None, "lang": "ca"}, TODAY, False)
+            self.assertIn(area, areas, title)
+
+    def test_bare_familia_is_not_our_ground_in_catalan(self):
+        for n, title in enumerate(("Llei de serveis socials per a famílies vulnerables",
+                                   "Projecte de llei d'habitatge per a la família jove")):
+            areas = R.store_bill(self.conn, self.tax, "vc", {
+                "expediente": str(n), "title": title, "kind": None, "status": None,
+                "presented": TODAY, "proponent": None, "url": None, "lang": "ca"}, TODAY, False)
+            self.assertEqual(areas, [], title)
+
+    def test_spanish_list_does_not_read_catalan_titles(self):
+        # The Spanish list on a Catalan title would be guessing; a language
+        # with no list (Basque, Galician) stays unclassified.
+        self.assertIs(R.taxonomy_for(self.tax, "es"), self.tax)
+        self.assertIsNot(R.taxonomy_for(self.tax, "ca"), self.tax)
+        self.assertIsNone(R.taxonomy_for(self.tax, "gl"))
+        areas = R.store_bill(self.conn, self.tax, "ga", {
+            "expediente": "1", "title": "Proposición de lei de apoio á familia galega", "kind": None,
+            "status": None, "presented": TODAY, "proponent": None, "url": None, "lang": "gl"},
+            TODAY, False)
+        self.assertIsNone(areas)
+
+    def test_reclassify_classifies_stored_valencian_rows(self):
+        R.pull_list(self.conn, FakeClient(lists={"vc": fixture("vc-iniciatives.html", "rb")}),
+                    TODAY, self.tax, "vc")
+        # As stored before taxonomy-ca existed.
+        self.conn.execute("UPDATE esr_bills SET areas=NULL, matched_terms='[]', tier=NULL")
+        _n, catalan, ours = R.reclassify(self.conn, self.tax)
+        self.assertEqual((catalan, ours), (2, 0))
+        self.assertEqual(self.conn.execute(
+            "SELECT COUNT(*) FROM esr_bills WHERE areas IS NULL").fetchone()[0], 0)
+
+    def test_madrid_law_on_the_conceived_child_is_on_our_ground(self):
+        # Taxonomy-es v0.3 (12 October 2026): "del concebido" and "apoyo a la
+        # familia" for Madrid's Ley 5/2026 (BOE 29 August 2026), which the
+        # Spanish list missed.
+        for law in R.parse_boe(json.loads(fixture("boe-sumario-20260829.json")), "2026-08-29"):
+            if "concebido" in law["title"]:
+                areas = R.store_law(self.conn, self.tax, law, TODAY)
+                self.assertEqual(areas, [1, 9])
+                return
+        self.fail("Ley 5/2026 not in the fixture")
 
     def test_empty_list_is_a_gap(self):
         n, _, g = R.pull_list(self.conn, FakeClient(lists={"an": b"<rss></rss>"}), TODAY,
@@ -262,10 +320,32 @@ class Edition(unittest.TestCase):
         self.assertIn("Members' bill in the Parlamento de Andalucía", text)
         # Cantabria's dossiers dated before the window stay out, seed or not.
         self.assertNotIn("cb:175/XI", text)
-        # The two Valencian bills are counted, never shown.
-        self.assertIn("Not classified, published in a co-official language only: 2 new bill(s)", text)
+        # The two Valencian bills are classified with the Catalan/Valencian
+        # list (12 October 2026), counted, and not shown: neither is ours.
+        self.assertIn("Classified with the Catalan/Valencian term list (an unmeasured draft): 2 new "
+                      "bill(s) in this period (2 Corts Valencianes, 0 on our ground).", text)
+        self.assertNotIn("Not classified", text)
         self.assertNotIn("Pojecte de llei", text)
         self.assertNotIn("—", text)
+
+    def test_a_valencian_bill_on_our_ground_is_shown(self):
+        R.store_bill(self.conn, R.load_taxonomy(), "vc", {
+            "expediente": "999", "title": "Proposició de llei de regulació de l'eutanàsia",
+            "kind": "proposición de ley", "status": "BOC 1", "presented": "2026-10-09",
+            "proponent": None, "url": "https://x", "lang": "ca"}, TODAY, False)
+        self.conn.commit()
+        text = self.render("2026-10-05")
+        self.assertIn("vc:999", text)
+        self.assertIn("in the Corts Valencianes", text)
+        self.assertIn("(1 Corts Valencianes, 1 on our ground)", text)
+
+    def test_a_language_with_no_list_is_counted_not_classified(self):
+        self.conn.execute(
+            "INSERT INTO esr_bills (bill_key, region, expediente, title, presented, lang, areas, seed) "
+            "VALUES ('ga:1', 'ga', '1', 'Proposición de lei', '2026-10-09', 'gl', NULL, 0)")
+        text = self.render("2026-10-05")
+        self.assertIn("Not classified, published in a language with no term list: 1 new bill(s) in "
+                      "this period (1 Parlamento de Galicia).", text)
 
     def test_window_is_the_editions(self):
         text = self.render("2026-10-08")

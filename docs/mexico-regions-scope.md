@@ -190,16 +190,27 @@ content was not checked. That is phase 2.
 
 The readers classify with the existing `config/taxonomy-es.yaml` for
 country `mx` (the federal collector's accent fold, `tools/mx_rollcalls.
-classify`), on the title plus the committee. No new terms were added and no
-taxonomy file was touched. State titles are mostly descriptive Spanish
+classify`), on the title plus the committee. The build itself added no
+terms (the terms of 12 October 2026 are below). State titles are mostly descriptive Spanish
 ("en materia de interrupción legal del embarazo", "identidad de género
 autopercibida", "Ley de Voluntad Anticipada"), so the federal list catches
 them; **voluntad anticipada** is already there (area 2) and catches the
-advance-directive bills. Terms worth proposing for state work (for Chris,
-not applied): **ECOSIG** and **esfuerzos para corregir la orientación sexual**, **personas
-trans**, **infancias trans**, **diversidad sexual y de género**, **Ley
-Agnes**, **crímenes de odio** (scope question: ours?), **violencia
-vicaria** (likely not ours).
+advance-directive bills. Terms worth proposing for state work: **ECOSIG**
+and **esfuerzos para corregir la orientación sexual**, **personas trans**,
+**infancias trans**, **diversidad sexual y de género**, **Ley Agnes**,
+**crímenes de odio**, **violencia vicaria**. **Applied 12 October 2026**
+(Chris: "Add the Mexico and Italy keyword terms too", then "violencia
+vicaria" after all) in `docs/keyword-taxonomy-es.md` v0.3: ECOSIG, the
+"esfuerzos para corregir" forms, "personas trans", "infancias trans" and
+"Ley Agnes" were already in the list (tagged mx or shared), so nothing was
+duplicated; "diversidad sexual y de género" is already filed at tier 2 by the
+shared "diversidad sexual" (all 9 state items carrying it) and was not
+promoted; "crímenes de odio" and "crimen de odio" joined area 7 at tier 2
+(2 state items gain area 7) and "violencia vicaria" area 9 at tier 2 (11
+state items gain area 9, 0 false positives), both shared on measurement.
+`tools/mxs_collect.py` reads `config/taxonomy-es.yaml` through
+`tools/mx_rollcalls.classify` (the accent fold), so it picks the terms up
+with no code change; `--reclassify` re-derives stored rows offline.
 
 ## Edition
 
