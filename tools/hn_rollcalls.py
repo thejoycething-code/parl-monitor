@@ -60,6 +60,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, hn_store, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "hn-rollcalls"
 SITE = "https://congresonacional.hn"
@@ -669,7 +670,7 @@ def main():
     if tax is None:
         print("hn-rollcalls: no Spanish taxonomy yet (config/taxonomy-es.yaml); "
               "areas stay NULL, only watchlist-hn lends areas")
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S)
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S), FEED)
     today = datetime.date.today().isoformat()
     budget = drain.Budget(args.budget_seconds)
     gaps = 0

@@ -57,6 +57,7 @@ sys.path.insert(0, ROOT)
 
 from src import bo_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "bo-rollcalls"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
@@ -492,7 +493,7 @@ def main():
                     help="re-derive areas for stored bills, offline")
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
     args = ap.parse_args()
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
     # Both hosts are small Bolivian government servers (one ~4s per page of
     # 100 at our pace): one request a second, never the default 0.2s.
     client.set_host_throttle("diputados.gob.bo", 1.0)

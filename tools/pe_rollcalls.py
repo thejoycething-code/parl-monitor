@@ -53,6 +53,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt, pe_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "pe-rollcalls"
 CURRENT_PERIOD = 2026
@@ -694,7 +695,7 @@ def main():
                     help="re-derive areas for stored proyectos and votes, offline")
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
     args = ap.parse_args()
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
     today = datetime.date.today().isoformat()
     conn = db.init_db(db.connect(args.db))
     if args.reclassify:

@@ -55,6 +55,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt, us_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "us-courts"
 HEARTBEAT = "US Supreme Court"
@@ -490,8 +491,8 @@ def main():
     start = int(FIRST_TERM) if first else int(now) - 1
     terms = ([t.strip() for t in args.terms.split(",") if t.strip()] if args.terms else
              ["{0:02d}".format(t) for t in range(start, int(now) + 1)])
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S,
-                        host_concurrency=1)
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S,
+                        host_concurrency=1), FEED)
     tax = filt.load_taxonomy(TAXONOMY)
     wl = empty_watchlist()
     _r, _o, gaps = pull_opinions(conn, client, today, terms, tax, wl)

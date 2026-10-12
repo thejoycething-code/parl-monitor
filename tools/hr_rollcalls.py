@@ -64,6 +64,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt, hr_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "hr-rollcalls"
 SITE = "https://www.sabor.hr"
@@ -512,7 +513,7 @@ def main():
     ap.add_argument("--dry-run", action="store_true",
                     help="read the agenda index and the newest session, store nothing")
     args = ap.parse_args()
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S)
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S), FEED)
     today = datetime.date.today().isoformat()
     if args.dry_run:
         node = SAZIV_NODE[args.saziv]

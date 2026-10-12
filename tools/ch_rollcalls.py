@@ -89,6 +89,7 @@ sys.path.insert(0, ROOT)
 
 from src import ch_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "ch-rollcalls"
 CURRENT_PERIOD = 52
@@ -1192,7 +1193,7 @@ def main():
     ap.add_argument("--dry-run", action="store_true",
                     help="read the latest session's votes and the SR sheet, store nothing")
     args = ap.parse_args()
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
     today = datetime.date.today().isoformat()
     if args.dry_run:
         recs = rows(client.get_json(odata_url("Session", "Language eq 'DE' and "

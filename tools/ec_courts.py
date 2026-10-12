@@ -56,6 +56,7 @@ sys.path.insert(0, ROOT)
 
 from src import courts, db  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 CC = "ec"
 FEED = "ec-courts"
@@ -181,7 +182,7 @@ def main(argv=None):
     if args.reclassify:
         print("ec-courts: {0} ruling(s) reclassified".format(courts.reclassify(conn, CC, tax)))
         return 0
-    client = HttpClient(raw_dir=args.raw_dir, throttle=THROTTLE_S)
+    client = guard(HttpClient(raw_dir=args.raw_dir, throttle=THROTTLE_S), FEED)
     since = since_date(conn, args.since)
     read, new, ours, gaps = pull(conn, client, today, tax, since)
     print("ec-courts: {0} post(s) since {1}, {2} new, {3} on our ground{4}.".format(

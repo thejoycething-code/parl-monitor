@@ -60,6 +60,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, filter as filt, pt_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "pt-rollcalls"
 CURRENT_LEGISLATURE = "XVII"
@@ -462,7 +463,7 @@ def main():
         summary(conn)
         conn.close()
         return 0
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
     leg = args.legislature.upper()
     gaps = 0
     if not args.no_members:

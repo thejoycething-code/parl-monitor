@@ -66,6 +66,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt, uy_store  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "uy-rollcalls"
 DIP = "https://documentos.diputados.gub.uy/docs/"
@@ -520,7 +521,7 @@ def main():
     if tax is None:
         print("uy-rollcalls: no Spanish taxonomy yet (config/taxonomy-es.yaml); "
               "areas stay NULL, only watchlist-uy lends areas")
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S)
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"), throttle=THROTTLE_S), FEED)
     today = datetime.date.today().isoformat()
     budget = drain.Budget(args.budget_seconds)
     gaps = 0

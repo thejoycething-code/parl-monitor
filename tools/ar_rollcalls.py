@@ -76,6 +76,7 @@ sys.path.insert(0, ROOT)
 
 from src import ar_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "ar-rollcalls"
 TAXONOMY_ES = os.path.join(ROOT, "config", "taxonomy-es.yaml")
@@ -699,6 +700,11 @@ def pull_diputados(conn, client, today):
 
 def knock_votaciones(client, log=print):
     """One short request to the Diputados roll-call site. Never a gap."""
+    if hasattr(client, "allowed") and not client.allowed(VOTACIONES_HCDN):
+        # robots.txt asked first (src/robots_guard); its reason is the log.
+        log("ar-rollcalls: votaciones.hcdn.gob.ar not knocked: robots.txt refuses or is "
+            "unreachable; Diputados roll calls not collected (known, see docs/argentina-scope.md)")
+        return False
     try:
         client._opener.open(  # noqa: SLF001 -- a probe, deliberately outside the retry ladder
             __import__("urllib.request").request.Request(
@@ -759,7 +765,7 @@ def summary(conn, log=print):
 
 
 def make_client(raw_dir=None):
-    client = HttpClient(raw_dir=raw_dir or os.path.join(ROOT, "data", "raw"), max_retries=1)
+    client = guard(HttpClient(raw_dir=raw_dir or os.path.join(ROOT, "data", "raw"), max_retries=1), FEED)
     client.set_host_throttle("datos.hcdn.gob.ar", DATOS_THROTTLE_S)
     client.set_host_throttle("www.senado.gob.ar", SENADO_THROTTLE_S)
     return client

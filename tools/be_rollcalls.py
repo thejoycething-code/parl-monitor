@@ -64,6 +64,7 @@ sys.path.insert(0, ROOT)
 from src import be_store, db, drain  # noqa: E402
 from src import filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "be-rollcalls"
 TAXONOMY_NL = os.path.join(ROOT, "config", "taxonomy-nl.yaml")
@@ -825,7 +826,7 @@ def summary(conn, log=print):
 
 
 def make_client(raw_dir=None):
-    client = HttpClient(raw_dir=raw_dir or os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=raw_dir or os.path.join(ROOT, "data", "raw")), FEED)
     client.set_host_throttle("www.lachambre.be", CRAWL_DELAY_S)
     return client
 

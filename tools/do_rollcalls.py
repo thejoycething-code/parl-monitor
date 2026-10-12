@@ -57,6 +57,7 @@ sys.path.insert(0, ROOT)
 
 from src import db, do_store, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 FEED = "do-rollcalls"
 HOST = "www.diputadosrd.gob.do"
@@ -140,7 +141,7 @@ def _gap(conn, today, detail):
 
 
 def make_client():
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client = guard(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
     client.set_host_throttle(HOST, HOST_THROTTLE_S)
     return client
 
