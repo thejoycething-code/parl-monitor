@@ -1,0 +1,24 @@
+{
+ "be-voorstel-van-resolutie-betreffende-de-bestrijdin-56-1713": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "3039fe23d88021df11806600cbd3072248f8c4c15dd62684340ba5b96db33ea9",
+  "generated": "2026-10-10",
+  "key": "56/1713",
+  "ready": false,
+  "sha": "5b41bb750f92885c2cec6bb9c8ac501072f3c091ba7ba604ce1a048990bd37ef",
+  "title": "Voorstel van resolutie betreffende de bestrijding van de wereldwijde christenvervolging en christenhaat."
+ },
+ "be-wetsontwerp-tot-flexibilisering-van-de-periode-v-56-1338": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "320761640547664a1fa74dec574bd3dbaa2d41f62d88add35ccc1e40372e0955",
+  "generated": "2026-10-10",
+  "key": "56/1338",
+  "ready": false,
+  "sha": "d73ae895a74a51323c671d0001f0c4f4731d0148775974ca1520a712198f58cc",
+  "title": "Wetsontwerp tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van palliatief verlof."
+ }
+}

@@ -1,0 +1,7 @@
+# Chris's mutes for the Slovakia edition (src/noise.py documents the format).
+# Keys: "sk|<kind>|<key>" or "sk|<key>" (a print '9/733', 'vote:<id>' or
+# 'int:<id>'); patterns: {title: <regex>, kind: ...}. A pattern never mutes a
+# watched item.
+mute_in_edition: true
+items: []
+patterns: []

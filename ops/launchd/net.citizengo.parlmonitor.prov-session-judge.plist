@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Provinces session judge on the Mac Mini (jobs/prov-session-judge.sh): Wednesdays 16:15 London,
+     after the Provinces weekly (11:00, up to 290 minutes; if it is still running this queues behind
+     it on the runner lock) and clear of the 19:00 Division watch. Claude Code scores at most 100
+     pending items, 25 to a session, on the work subscription's plan allowance, not the API. Mac Mini
+     only: no GitHub workflow and no mini-check gate. Time limit 90 minutes.
+     Needs Claude Code installed and signed in to the work account (claude auth login).
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.prov-session-judge.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.prov-session-judge</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>prov-session-judge</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>JOB_TIMEOUT</key>
+    <string>5400</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict><key>Weekday</key><integer>3</integer><key>Hour</key><integer>16</integer><key>Minute</key><integer>15</integer></dict>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/prov-session-judge.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/prov-session-judge.log</string>
+</dict>
+</plist>

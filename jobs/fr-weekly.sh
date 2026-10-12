@@ -1,0 +1,153 @@
+#!/bin/bash
+# France weekly: deputies, dossiers legislatifs and scrutins of the
+# Assemblee nationale (tools/fr_rollcalls.py), then publish the raw archive
+# and the store.
+#
+# Called by .github/workflows/fr-weekly.yml and, on the Mac Mini, by
+# tools/mini_run.sh fr-weekly. One script, two callers. Both callers fetch
+# the store first and commit data/ afterwards; publishing is this script's
+# own last step, as mini_run.sh requires.
+#
+#     FR_RECLASSIFY=true    re-derive every stored FR dossier's and division's
+#                           areas, offline, before the pull (after a taxonomy
+#                           or watchlist-fr change), the Senat's included (FR5)
+#
+# THE SENAT (FR5, 10 October 2026): tools/fr_senat.py runs after the
+# Assemblee's collector; it downloads data.senat.fr's Dosleg dump at most
+# weekly and only when it changed, and otherwise does nothing.
+#
+# Exit codes. The collector exits 3 when it stored what it could and recorded
+# gaps (in the gaps table and as [gap] lines in the log): that run is still
+# published, and this script exits 0 so the caller commits the sidecars with
+# it. Any other failure publishes NOTHING and exits non-zero.
+#
+# THE EDITION (10 October 2026): after the collector, the French weekly
+# edition (tools/fr_monitor.py, src/country_edition.py) is rendered to
+# editions/fr-monitor-<date>.md and DMed to Chris alone. Once a day: an
+# edition already committed for today is rewritten, not resent. Its failure
+# is a [gap] line and never costs the store.
+#
+# mini_run: commit editions profiles briefs reviews
+set -eo pipefail
+cd "$(dirname "$0")/.."
+# The heartbeat (source_runs, stamped when db_state.py publishes) is keyed on the
+# workflow's name; on the Mini there is no GITHUB_WORKFLOW, so name it here or
+# the coverage watch would never see the Mini's runs.
+export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-France weekly}"
+if [ "${FR_RECLASSIFY:-}" = "true" ]; then
+  python3 tools/country_petitions.py fr --reclassify
+  python3 tools/fr_rollcalls.py --reclassify
+  python3 tools/fr_chamber.py --reclassify
+  python3 tools/fr_senat.py --reclassify
+fi
+rc=0
+python3 tools/fr_rollcalls.py || rc=$?
+# The Senat (FR5, 10 October 2026): data.senat.fr's Dosleg dump, downloaded
+# at most weekly and only when it changed (a one-byte request reads its
+# headers first), after the Assemblee so a Senate dossier can be joined to
+# the Assemblee's. A gap (exit 3) is reported like the Assemblee's; a failure
+# is logged and never stops the Assemblee's publish below.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  sr=0
+  python3 tools/fr_senat.py || sr=$?
+  if [ "$sr" -eq 3 ]; then
+    rc=3
+  elif [ "$sr" -ne 0 ]; then
+    echo "  [gap] fr-senat failed (exit $sr); the Assemblee is still published"
+  fi
+fi
+# What was said and asked in the chamber (tools/fr_chamber.py, parity layer 5):
+# time-boxed to what is left of the hour, never fatal, skipped on GitHub.
+bash tools/chamber_step.sh fr "$SECONDS"
+# The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
+# into the store after the collector, so its bills match this week's store
+# and the edition below shows it. Its failure is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_agenda.py fr || echo "  [gap] the week-ahead agenda step failed"
+fi
+# Petitions and consultations (tools/country_petitions.py, src/petitions.py):
+# this country's open petitions, initiatives and consultations read into the
+# store before the edition, which shows the new ones on our ground, the
+# thresholds crossed and the deadlines. Its failure is a [gap] line, never
+# the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_petitions.py fr || echo "  [gap] the petitions step failed"
+fi
+# The edition, from the store just collected (not when the collector failed
+# outright: a half-read week is not worth a DM).
+export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+if { [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; }; then
+  TODAY=$(date +%Y-%m-%d)
+  # THE REVIEW WINDOW (src/edition_review.py, config/edition-review.yaml): with the
+  # review on, --dm writes reviews/fr-review-<date>.md instead of sending, and
+  # jobs/edition-publish.sh sends the edition, honouring the review, at the window's end.
+  if git ls-files --error-unmatch "editions/fr-monitor-$TODAY.md" >/dev/null 2>&1; then
+    echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+    python3 tools/fr_monitor.py --edition || echo "  [gap] the edition failed to render"
+  else
+    python3 tools/fr_monitor.py --edition --dm || echo "  [gap] the edition or its DM failed"
+  fi
+fi
+# Member intelligence (tools/member_intel.py, src/member_intel.py): committees, délégations and groupes d'études from AMO10,
+# into mi_groups / mi_interests before the profiles read them. A failure is a
+# [gap] line; last week's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_intel.py fr \
+    || echo "  [gap] member-intel: fr not fully read; last week's rows kept"
+fi
+# Declared interests (tools/fr_hatvp.py, src/fr_hatvp.py): the HATVP's declarations of
+# interests and activities of sitting députés and sénateurs, the declarant's own items only
+# (spouses' and collaborators' sections are skipped at parse time), into mi_interests
+# before the profiles read them. Monthly: the tool asks at most every four weeks whether
+# the 80 MB declarations.xml changed (If-Modified-Since) and downloads it only when it did;
+# otherwise it does nothing. A failure is a [gap] line; last month's rows stand.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/fr_hatvp.py \
+    || echo "  [gap] fr-hatvp: declarations not read; last month's rows kept"
+fi
+# Attendance (tools/country_attendance.py, src/attendance.py): the Assemblée's commission présences and agenda dossiers (Agenda.json.zip, 8 MB, one request),
+# into att_sittings / att_marks / att_referrals before the profiles read them. A failure is a
+# [gap] line; last week's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_attendance.py fr \
+    || echo "  [gap] attendance: fr not fully read; last week's rows kept"
+fi
+# Length of service (tools/member_service.py, src/member_service.py): every period each
+# member has sat, from AMO30 (13 MB) every four weeks;
+# (the tool skips a read that is not due), before the profiles and vote pages read it.
+# A failure is a [gap] line; last run's rows stand and the store is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_service.py fr \
+    || echo "  [gap] member-service: fr not fully read; last run's rows kept"
+fi
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/fr/
+# rewritten from the store just collected and committed with it; never posted
+# or DMed. A failure is a [gap] line and never costs the store.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/member_profiles.py fr \
+    || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
+fi
+# Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
+# this country's watched and tier-1 votes not briefed yet, written to
+# data/briefs/ and sent in one DM to Chris alone, de-duplicated in
+# data/vote-briefs/fr.json (committed with data/). Never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/country_vote_briefs.py --country fr --send \
+    || echo "  [gap] vote briefs failed for fr; the next run retries"
+fi
+if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
+  echo "fr-rollcalls failed (exit $rc); nothing published"
+  exit "$rc"
+fi
+[ "$rc" -eq 3 ] && echo "fr-rollcalls recorded gaps; publishing what it stored"
+# Campaign brief drafts (tools/country_briefs.py, src/country_briefs.py): a
+# draft RF4 brief in briefs/ for each new watched or tier-1 bill, NOT READY
+# until its stances are confirmed in config/fr_stance.yaml; unedited briefs
+# are refreshed. Offline, from the store as it stands; sends nothing. A
+# failure is a [gap] line and never costs the store.
+python3 tools/country_briefs.py --cc fr \
+  || echo "  [gap] country-briefs failed for fr; last week's briefs stand"
+# The archive before the store: a store that cites payloads the archive
+# lacks is the worse of the two failures. Both merge, never clobber.
+python3 tools/raw_state.py --push
+python3 tools/db_state.py --push

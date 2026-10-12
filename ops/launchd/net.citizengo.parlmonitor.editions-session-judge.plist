@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Country editions and Latam session judge on the Mac Mini (jobs/editions-session-judge.sh):
+     Sundays 16:45 London, after the week's last country weekly (Honduras, Sundays 14:00; if one is
+     still running this queues behind it on the runner lock), well clear of the Provinces session
+     judge (Wednesdays 16:15) and finished before the German weekly (Sundays 20:00). Claude Code
+     scores at most 100 pending items across the fifteen country editions and the Latam monitor,
+     25 to a session, on the plan allowance, not the API. Mac Mini only: no GitHub workflow and no
+     mini-check gate. Time limit 90 minutes.
+     Needs Claude Code installed and signed in to Chris's claude.ai account (claude auth login).
+     Install: bash ops/install_country_jobs.sh, or cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.editions-session-judge.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.editions-session-judge</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>editions-session-judge</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>JOB_TIMEOUT</key>
+    <string>5400</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict><key>Weekday</key><integer>0</integer><key>Hour</key><integer>16</integer><key>Minute</key><integer>45</integer></dict>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/editions-session-judge.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/editions-session-judge.log</string>
+</dict>
+</plist>

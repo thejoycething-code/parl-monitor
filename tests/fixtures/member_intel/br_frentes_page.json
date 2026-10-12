@@ -1,0 +1,46 @@
+{
+ "dados": [
+  {
+   "id": 55703,
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/frentes/55703",
+   "titulo": "Frente Parlamentar Mista do Serviço Exterior Brasileiro",
+   "idLegislatura": 57
+  },
+  {
+   "id": 55685,
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/frentes/55685",
+   "titulo": "Frente Parlamentar Mista em prol da Saúde do Sono - FPMSSono.",
+   "idLegislatura": 57
+  },
+  {
+   "id": 55627,
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/frentes/55627",
+   "titulo": "Frente Parlamentar Mista em Defesa dos Municípios Sedes de Usinas Hidroelétricas e Alagados",
+   "idLegislatura": 57
+  },
+  {
+   "id": 54477,
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/frentes/54477",
+   "titulo": "Frente Parlamentar Evangélica do Congresso Nacional",
+   "idLegislatura": 57
+  }
+ ],
+ "links": [
+  {
+   "rel": "self",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/frentes?idLegislatura=57&itens=100&pagina=1"
+  },
+  {
+   "rel": "next",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/frentes?idLegislatura=57&pagina=2&itens=100"
+  },
+  {
+   "rel": "first",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/frentes?idLegislatura=57&pagina=1&itens=100"
+  },
+  {
+   "rel": "last",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/frentes?idLegislatura=57&pagina=4&itens=100"
+  }
+ ]
+}

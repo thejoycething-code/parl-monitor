@@ -1,0 +1,62 @@
+[
+ {
+  "id": 9924,
+  "termNr": 9,
+  "deliveryDate": "2023-10-25T00:00:00",
+  "assignmentDate": "2023-10-25T00:00:00",
+  "billNr": "11",
+  "description": "Návrh na voľbu predsedov výborov Národnej rady Slovenskej republiky",
+  "typeId": 4,
+  "typeName": "Iný typ"
+ },
+ {
+  "id": 10308,
+  "termNr": 9,
+  "deliveryDate": "2024-08-22T00:00:00",
+  "assignmentDate": "2024-08-22T00:00:00",
+  "billNr": "418",
+  "description": "Návrh poslancov Národnej rady Slovenskej republiky Vladimíry MARCINKOVEJ, Vladimíra LEDECKÉHO a Ondreja DOSTÁLA na vydanie zákona, ktorým sa mení zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov",
+  "typeId": 1,
+  "typeName": "Návrh zákona"
+ },
+ {
+  "id": 10489,
+  "termNr": 9,
+  "deliveryDate": "2024-11-06T00:00:00",
+  "assignmentDate": "2024-11-06T00:00:00",
+  "billNr": "593",
+  "description": "Návrh poslancov Národnej rady Slovenskej republiky Anny ZÁBORSKEJ a Richarda VAŠEČKU na vydanie zákona, ktorým sa mení zákon č. 73/1986 Zb. o umelom prerušení tehotenstva v znení neskorších predpisov",
+  "typeId": 1,
+  "typeName": "Návrh zákona"
+ },
+ {
+  "id": 10659,
+  "termNr": 9,
+  "deliveryDate": "2025-03-07T00:00:00",
+  "assignmentDate": "2025-03-07T00:00:00",
+  "billNr": "733",
+  "description": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov",
+  "typeId": 1,
+  "typeName": "Návrh zákona"
+ },
+ {
+  "id": 11255,
+  "termNr": 9,
+  "deliveryDate": "2026-05-07T00:00:00",
+  "assignmentDate": "2026-05-07T00:00:00",
+  "billNr": "1319",
+  "description": "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 523/2004 Z. z. o rozpočtových pravidlách verejnej správy a o zmene a doplnení niektorých zákonov v znení neskorších predpisov",
+  "typeId": 1,
+  "typeName": "Návrh zákona"
+ },
+ {
+  "id": 11364,
+  "termNr": 9,
+  "deliveryDate": "2026-08-27T00:00:00",
+  "assignmentDate": "2026-08-27T00:00:00",
+  "billNr": "1460",
+  "description": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov",
+  "typeId": 1,
+  "typeName": "Návrh zákona"
+ }
+]

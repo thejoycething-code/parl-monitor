@@ -1,0 +1,6 @@
+# Chris's mutes for the Croatia edition (src/noise.py documents the format).
+# Keys: "hr|<kind>|<key>" or "hr|<key>" (a bill '11/41' or 'item:<tid>');
+# patterns: {title: <regex>, kind: ...}. A pattern never mutes a watched item.
+mute_in_edition: true
+items: []
+patterns: []

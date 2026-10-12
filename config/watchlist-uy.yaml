@@ -1,0 +1,24 @@
+# Uruguay watchlist (9 October 2026), applied by KEY, never by title
+# (src/uy_store.watch_areas).
+#
+# The Uruguayan taxonomy, once Christopher approves the term list proposed in
+# docs/uruguay-scope.md, does most of the work. This file carries what it
+# cannot, and names the bills on our ground by their own numbers so they are
+# never confused by title.
+#
+# Keys:
+#   'ley:<number>'    a law, as IMPO numbers it (one series, never restarts).
+#                     Applied by tools/uy_rollcalls.py to uy_laws.
+#   'asunto:<number>' the Parliament's asunto number (its ficha on
+#                     parlamento.gub.uy). NOT applied yet: that site refuses
+#                     us (403 everywhere). Kept so the bill is known by key
+#                     the day access is granted.
+watch:
+  "ley:20431": {areas: [2],
+                why: "Ley de muerte digna (eutanasia), promulgated 24 October 2025, published 5 November 2025; regulated by Decreto 76/026 of 15 April 2026. Diputados passed it 64-29 on 13 August 2025 (Diario 4578, by electronic register, no names printed); the Senate 20 of 31 on 15 October 2025. The ground of every implementation question from here."}
+  "asunto:165490": {areas: [2],
+                    why: "MUERTE DIGNA - Regulación, the bill that became Ley 20.431 (CRR carpeta 133/2025, CSS carpeta 341/2025). From the national catalogue's snapshot of parlamento.gub.uy, 5 June 2026."}
+  "asunto:171125": {areas: [1, 9],
+                    why: "ADOPCION PRENATAL Y ADOPCION NEONATAL. REGLAMENTACION (CSS carpeta 502/2026, entered 10 March 2026): adoption as an alternative to abortion, re-filed from the previous legislature (asunto 159186). Status unknown: parlamento.gub.uy refuses us."}
+  "asunto:142153": {areas: [9],
+                    why: "INSCRIPCION HIJOS PAREJAS HOMOPARENTALES. APELLIDOS (CSS carpeta 1376/2024, CRR carpeta 2303/2026): filed in the Senate in 2024 and carried in both chambers since, so it has moved between them. Stage unknown: parlamento.gub.uy refuses us."}

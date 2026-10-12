@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS cv_votes (
   side TEXT NOT NULL,             -- A | N | TA | TN | X (no vote recorded)
   party TEXT,                     -- as the division list printed it THAT DAY
   PRIMARY KEY (division_id, member_id)
-);
+) WITHOUT ROWID;
 -- Computed by the same tool after each pull: one row per member, plus one
 -- row per defiance so the events are listable without recomputation.
 -- "Whipped" here is the bloc inference the tracker already uses (two
@@ -365,6 +365,10 @@ CREATE TABLE IF NOT EXISTS un_documents (
 -- Recorded votes from HRC session reports. One row per state per vote, which
 -- is what makes "how did Nigeria vote on every SRHR text" a single query --
 -- the same shape as mp_events for Westminster divisions.
+-- The one vote table NOT made WITHOUT ROWID (12 October 2026,
+-- tools/store_compact.py): `draft` is in the key but may be NULL (a vote with
+-- no draft symbol before it), which a WITHOUT ROWID table refuses. It is
+-- tiny and the UN pipeline is paused, so it keeps its rowid.
 CREATE TABLE IF NOT EXISTS un_votes (
   report TEXT NOT NULL,           -- 'A/HRC/58/2'
   draft TEXT,                     -- 'A/HRC/58/L.30/Rev.1'; joins to un_documents
@@ -564,7 +568,7 @@ CREATE TABLE IF NOT EXISTS ni_votes (
   designation TEXT,               -- Unionist | Nationalist | Other
   captured_at TEXT NOT NULL,
   PRIMARY KEY (doc_id, person_id)
-);
+) WITHOUT ROWID;
 -- ============================= HOLYROOD ====================================
 -- Scottish Parliament watching brief (2026-08-20). Same rules as ni_*: its own
 -- tables, never `items`/`mp_events`, so it structurally cannot reach the Slack
@@ -655,7 +659,7 @@ CREATE TABLE IF NOT EXISTS sp_votes (
   party TEXT,                     -- stamped on the vote row by the API itself
   shares_party TEXT,              -- the API's own whip-agreement flag
   PRIMARY KEY (division_key, person_id)
-);
+) WITHOUT ROWID;
 -- Holyrood speech ledger: Official Report contributions that match the
 -- taxonomy, passage-filtered like the Westminster ledger. Speeches are
 -- ACTIVITY evidence in the SP 5CA -- there is no Claude stance scoring in a
@@ -772,7 +776,7 @@ CREATE TABLE IF NOT EXISTS sd_votes (
   member_name TEXT,
   result TEXT,                    -- For | Against | Abstain
   PRIMARY KEY (division_key, member_id)
-);
+) WITHOUT ROWID;
 -- Senedd speech ledger: attributed plenary contributions matching the
 -- taxonomy, passage-filtered. Activity evidence only -- the watching-brief
 -- rule: no stance scoring, a speech never places, it gives a dated quotable
@@ -1037,6 +1041,39 @@ CREATE TABLE IF NOT EXISTS stance (
   why TEXT,
   model TEXT,
   scored_at TEXT
+);
+CREATE TABLE IF NOT EXISTS edition_scores (
+  -- The free session judge's scores for the weekly country editions and the
+  -- Latam monitor (tools/edition_judge.py, jobs/editions-session-judge.sh:
+  -- Claude Code on the Mac Mini, plan allowance, no API spend; 10 October
+  -- 2026). Kept apart from the rows they score, keyed '<cc>:<kind>:<key>'
+  -- as the editions build their items (src/edition_judge.item_id), written
+  -- once per item, ever. Read by src/country_edition.py, src/latam.py and
+  -- tools/latam_alerts.py; an edition without a row renders as before.
+  item TEXT PRIMARY KEY,
+  cc TEXT NOT NULL,
+  score INTEGER NOT NULL,   -- 0-3, src/triage.py's rubric
+  why TEXT,
+  model TEXT,
+  scored_at TEXT
+);
+CREATE TABLE IF NOT EXISTS vote_meanings (
+  -- Plain-English vote meanings for the new countries' watched and tier-1
+  -- votes (src/vote_meanings.py, tools/vote_meanings.py; 11 October 2026):
+  -- what a Yes and a No meant, one row per division, with where the line
+  -- came from: 'rule' (the vote's wording and the bill), 'judge' (the free
+  -- session judge, Claude Code on the Mac Mini, no API spend) or
+  -- 'judge-unclear' (read, nothing to say; not offered again). A person's
+  -- line lives in config/vote-meanings-<cc>.yaml and wins at render time.
+  cc TEXT NOT NULL,
+  division_key TEXT NOT NULL,
+  meaning_yes TEXT,
+  meaning_no TEXT,
+  source TEXT NOT NULL,
+  basis TEXT,
+  quality TEXT,
+  made_on TEXT,
+  PRIMARY KEY (cc, division_key)
 );
 CREATE TABLE IF NOT EXISTS pull_log (
   -- Which long backfills have been completed, so a one-off deep pull is not
@@ -1320,7 +1357,7 @@ CREATE TABLE IF NOT EXISTS de_votes (
   person_id TEXT NOT NULL,
   position TEXT NOT NULL,         -- 'yes' | 'no' | 'abstain' | 'no_show'
   PRIMARY KEY (vote_id, person_id)
-);
+) WITHOUT ROWID;
 CREATE TABLE IF NOT EXISTS eu_meps (
   person_id TEXT PRIMARY KEY,     -- 'person/197529' -> '197529'
   name TEXT,
@@ -1357,7 +1394,7 @@ CREATE TABLE IF NOT EXISTS eu_votes (
   person_id TEXT NOT NULL,
   position TEXT NOT NULL,         -- 'favor' | 'against' | 'abstention'
   PRIMARY KEY (vote_id, person_id)
-);
+) WITHOUT ROWID;
 CREATE TABLE IF NOT EXISTS eu_texts (
   identifier TEXT PRIMARY KEY,    -- 'TA-10-2026-0006'
   date TEXT, title TEXT,          -- adoption date; EN title
@@ -1550,6 +1587,347 @@ TABLES = (
     "ca_gazette_items",
     "ca_committee_meetings",
     "ca_testimony",
+    "ca_senate_sittings",
+    # United States Congress (tools/us_rollcalls.py), created by
+    # src/us_store.ensure_schema -- declared from day one.
+    "us_members",
+    "us_bills",
+    "us_cosponsors",
+    "us_divisions",
+    "us_votes",
+    # Australia's Federal Parliament (tools/au_rollcalls.py), created by
+    # src/au_store.ensure_schema -- declared from day one.
+    "au_members",
+    "au_offices",
+    "au_bills",
+    "au_divisions",
+    "au_votes",
+    "au_hansard_files",
+    # Australia's week ahead (tools/au_schedule.py, 9 October 2026), same module.
+    "au_instruments",
+    "au_sitting_days",
+    "au_parliaments",
+    # Australian debates (tools/au_debates.py, 9 October 2026), same module.
+    "au_speeches",
+    "au_debate_days",
+    # The week ahead (tools/us_schedule.py, 9 October 2026).
+    "us_schedule",
+    "us_meetings",
+    "us_schedule_weeks",
+    # The US executive and the Supreme Court (9 October 2026):
+    # tools/us_federal_register.py and tools/us_courts.py, same module.
+    "us_fr_documents",
+    "us_court_cases",
+    "us_court_orders",
+    # The Congressional Record (tools/us_record.py, phase 3a, 9 October
+    # 2026), same module.
+    "us_record_days",
+    "us_record_speeches",
+    "us_record_bills",
+    # The fifty state legislatures (tools/us_states.py, 9 October 2026),
+    # created by src/us_states_store.ensure_schema.
+    "uss_sessions",
+    "uss_bills",
+    "uss_actions",
+    "uss_sponsors",
+    "uss_votes",
+    "uss_vote_people",
+    "uss_people",
+    "uss_api_ledger",
+    # Ireland, the Oireachtas (tools/ie_rollcalls.py), created by
+    # src/ie_store.ensure_schema -- declared from day one.
+    "ie_members",
+    "ie_member_parties",
+    "ie_bills",
+    "ie_sponsors",
+    "ie_bill_debates",
+    "ie_divisions",
+    "ie_votes",
+    # Ireland phase 2 (tools/ie_questions.py, ie_debates.py, ie_schedule.py).
+    "ie_questions",
+    "ie_speeches",
+    "ie_windows",
+    "ie_schedule",
+    "ie_schedule_days",
+    # Austria's Parliament (tools/at_rollcalls.py), created by
+    # src/at_store.ensure_schema -- declared from day one.
+    "at_members",
+    "at_items",
+    "at_divisions",
+    "at_votes",
+    # Austria's nine Landtage (tools/at_landtage.py, AT6), created by
+    # src/atl_store.ensure_schema -- declared from day one.
+    "atl_items",
+    "atl_reads",
+    # The Netherlands' Tweede Kamer (tools/nl_rollcalls.py), created by
+    # src/nl_store.ensure_schema -- declared from day one.
+    "nl_fracties",
+    "nl_members",
+    "nl_zaken",
+    "nl_divisions",
+    "nl_votes",
+    # The Eerste Kamer (NL4, 10 October 2026; tools/nl_eerstekamer.py).
+    "nl_ek_bills",
+    "nl_ek_divisions",
+    "nl_ek_votes",
+    # Poland's Sejm (tools/pl_rollcalls.py), created by
+    # src/pl_store.ensure_schema -- declared from day one.
+    "pl_members",
+    "pl_prints",
+    "pl_processes",
+    "pl_divisions",
+    "pl_votes",
+    # Hungary's official gazette, the Magyar Közlöny (tools/hu_gazette.py,
+    # phase 0), created by src/hu_store.ensure_schema -- declared from day one.
+    "hu_gazette_issues",
+    "hu_gazette_entries",
+    # The Országgyűlés's record (HU7, 10 October 2026): members, papers,
+    # recorded votes and positions, loaded once from karzat's open data
+    # (tools/hu_karzat_backfill.py) until the W-API token arrives (HU1).
+    "hu_members",
+    "hu_papers",
+    "hu_divisions",
+    "hu_votes",
+    "hu_sources",
+    # Italy's Parliament (tools/it_rollcalls.py), created by
+    # src/it_store.ensure_schema -- declared from day one.
+    "it_members",
+    "it_bills",
+    "it_divisions",
+    "it_votes",
+    # IT3 (12 October 2026): the regional councils (tools/it_regions.py).
+    "it_reg_acts",
+    # Swiss Federal Assembly (tools/ch_rollcalls.py), created by
+    # src/ch_store.ensure_schema -- declared from day one.
+    "ch_members",
+    "ch_sessions",
+    "ch_businesses",
+    "ch_divisions",
+    "ch_votes",
+    # Belgium's federal Chamber (tools/be_rollcalls.py), created by
+    # src/be_store.ensure_schema -- declared from day one.
+    "be_members",
+    "be_dossiers",
+    "be_sittings",
+    "be_divisions",
+    "be_votes",
+    # France's Assemblee nationale (tools/fr_rollcalls.py), created by
+    # src/fr_store.ensure_schema -- declared from day one.
+    "fr_members",
+    "fr_groups",
+    "fr_dossiers",
+    "fr_divisions",
+    "fr_votes",
+    # The Senat (FR5, 10 October 2026; tools/fr_senat.py).
+    "fr_senat_dossiers",
+    "fr_senat_dump",
+    # Portugal's Assembleia da Republica (tools/pt_rollcalls.py), created by
+    # src/pt_store.ensure_schema -- declared from day one.
+    "pt_members",
+    "pt_initiatives",
+    "pt_authors",
+    "pt_divisions",
+    "pt_group_votes",
+    "pt_votes",
+    # X8 constitutional courts (tools/<cc>_courts.py; src/courts.py), created
+    # by each country's store module -- declared from day one.
+    "pt_rulings",
+    # Slovakia's Národná rada (tools/sk_rollcalls.py), created by
+    # src/sk_store.ensure_schema -- declared from day one.
+    "sk_members",
+    "sk_bills",
+    "sk_divisions",
+    "sk_votes",
+    "sk_interpellations",
+    # Croatia's Sabor (tools/hr_rollcalls.py), created by
+    # src/hr_store.ensure_schema -- declared from day one.
+    "hr_members",
+    "hr_items",
+    "hr_divisions",
+    "hr_votes",
+    "hr_transcripts",      # party history from transcripts (X6, 10 October 2026)
+    "hr_party_seen",
+    # Spain's Congreso de los Diputados (tools/es_rollcalls.py), created by
+    # src/es_store.ensure_schema -- declared from day one.
+    "es_members",
+    "es_initiatives",
+    "es_divisions",
+    "es_votes",
+    "es_vote_days",
+    # Spain's regional layer (tools/es_regions.py, 12 October 2026): the
+    # communities' laws from the BOE and the regional parliaments' bills in
+    # passage, created by src/es_regions_store.ensure_schema.
+    "esr_laws",
+    "esr_bills",
+    "esr_reads",
+    # Brazil's National Congress (tools/br_rollcalls.py), created by
+    # src/br_store.ensure_schema -- declared from day one.
+    "br_members",
+    "br_bills",
+    "br_divisions",
+    "br_votes",
+    "br_orientations",
+    # Chile's National Congress (tools/cl_rollcalls.py), created by
+    # src/cl_store.ensure_schema -- declared from day one.
+    "cl_members",
+    "cl_party_spells",
+    "cl_bills",
+    "cl_divisions",
+    "cl_votes",
+    # Dominican Republic Congress (tools/do_rollcalls.py), created by
+    # src/do_store.ensure_schema -- declared from day one.
+    "do_members",
+    "do_bills",
+    "do_sessions",
+    "do_divisions",
+    "do_votes",
+    # El Salvador's Asamblea Legislativa (tools/sv_rollcalls.py), created by
+    # src/sv_store.ensure_schema -- declared from day one.
+    "sv_members",
+    "sv_sessions",
+    "sv_dictamenes",
+    "sv_piezas",
+    "sv_divisions",
+    "sv_votes",
+    "sv_vote_days",
+    # Peru's Congress (tools/pe_rollcalls.py), created by
+    # src/pe_store.ensure_schema -- declared from day one.
+    "pe_members",
+    "pe_bills",
+    "pe_divisions",
+    "pe_votes",
+    "pe_vote_files",
+    "pe_rulings",
+    "pe_vote_ocr",
+    "pe_regional_norms",
+    # Ecuador's Asamblea Nacional (tools/ec_rollcalls.py), created by
+    # src/ec_store.ensure_schema -- declared from day one.
+    "ec_members",
+    "ec_roster",
+    "ec_divisions",
+    "ec_votes",
+    "ec_rulings",
+    # Guatemala's Congreso de la República (tools/gt_rollcalls.py), created
+    # by src/gt_store.ensure_schema -- declared from day one.
+    "gt_members",
+    "gt_initiatives",
+    "gt_sessions",
+    "gt_divisions",
+    "gt_votes",
+    # Mexico's Chamber of Deputies (tools/mx_rollcalls.py), created by
+    # src/mx_store.ensure_schema -- declared from day one.
+    "mx_members",
+    "mx_iniciativas",
+    "mx_divisions",
+    "mx_votes",
+    # Mexico's 32 state congresses (tools/mxs_collect.py, 12 October 2026),
+    # created by src/mxs_store.ensure_schema -- declared from day one.
+    "mxs_items",
+    "mxs_reads",
+    # Argentina's National Congress (tools/ar_rollcalls.py), created by
+    # src/ar_store.ensure_schema -- declared from day one.
+    "ar_members",
+    "ar_bills",
+    "ar_divisions",
+    "ar_votes",
+    # Colombia's Congress (tools/co_rollcalls.py), created by
+    # src/co_store.ensure_schema -- declared from day one.
+    "co_bills",
+    "co_members",
+    "co_attendance",
+    "co_divisions",
+    "co_votes",
+    "co_rulings",
+    # Bolivia's Asamblea Legislativa Plurinacional (tools/bo_rollcalls.py),
+    # created by src/bo_store.ensure_schema -- declared from day one.
+    "bo_members",
+    "bo_bills",
+    "bo_bill_changes",
+    "bo_questions",
+    # Panama's Asamblea Nacional (tools/pa_rollcalls.py), created by
+    # src/pa_store.ensure_schema -- declared from day one. No votes table:
+    # the Asamblea publishes no per-member votes (docs/panama-scope.md).
+    "pa_members",
+    "pa_bills",
+    "pa_bill_stages",
+    "pa_agenda",
+    "pa_agenda_items",
+    # Honduras's Congreso Nacional (tools/hn_rollcalls.py), created by
+    # src/hn_store.ensure_schema -- declared from day one.
+    "hn_members",
+    "hn_sessions",
+    "hn_agenda_items",
+    "hn_bills",
+    "hn_news",
+    "hn_gazette",
+    # Uruguay (tools/uy_rollcalls.py), created by
+    # src/uy_store.ensure_schema -- declared from day one.
+    "uy_members",
+    "uy_questions",
+    "uy_sittings",
+    "uy_laws",
+    "uy_diario_reads",
+    "uy_diario_votes",
+    # The Latam monitor's light checks (tools/ve_news.py, tools/nic_gaceta.py),
+    # created by src/latam_store.ensure_schema -- declared from day one.
+    "ve_news",
+    "nic_gazette_issues",
+    "nic_gazette_items",
+    # What was said and asked in the chamber in the new country editions
+    # (parity layer 5, 10 October 2026; tools/<cc>_chamber.py), created by src/chamber_store.ensure_schema for
+    # every code in chamber_store.COUNTRIES -- declared from day one.
+    "nl_speeches",
+    "nl_questions",
+    "nl_record_reads",
+    "ch_speeches",
+    "ch_record_reads",
+    "at_speeches",
+    "at_record_reads",
+    "pl_questions",
+    "pl_speeches",
+    "pl_record_reads",
+    "fr_speeches",
+    "fr_questions",
+    "fr_record_reads",
+    "br_questions",
+    "br_speeches",
+    "br_record_reads",
+    "pt_questions",
+    "pt_record_reads",
+    "be_speeches",
+    "be_record_reads",
+    # Remaining speech coverage (11 October 2026, branch gaps-speeches).
+    "hr_speeches",
+    "hr_record_reads",
+    "sk_speeches",
+    "sk_record_reads",
+    # The new countries' week ahead (tools/country_agenda.py), one table for
+    # every country keyed (cc, item_id), created by src/agenda.ensure_schema
+    # -- declared from day one.
+    "country_agenda",
+    "country_agenda_runs",
+    # The new countries' petitions and consultations (tools/country_petitions.py,
+    # 11 October 2026), one table for every country keyed (cc, item_id), created
+    # by src/petitions.ensure_schema -- declared from day one.
+    "country_petitions",
+    "country_petition_snapshots",
+    "country_petition_runs",
+    # Canadian provinces (tools/prov_collect.py), created by
+    # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
+    "prov_members",
+    "prov_member_terms",
+    "prov_divisions",
+    "prov_votes",
+    "prov_division_bills",
+    "prov_bills",
+    "prov_sittings",
+    "prov_speeches",
+    "prov_speech_sittings",
+    "prov_scores",
+    "edition_scores",
+    "vote_meanings",
+    "ca_judgments",
+    "ca_leave",
     "de_members",
     # The Bundestag's own register, a different id space from
     # abgeordnetenwatch's de_members above; the two join by name, never id.
@@ -1807,4 +2185,80 @@ def init_db(conn):
     # carries them and db.TABLES stays true.
     from src import ca_store
     ca_store.ensure_schema(conn)
+    from src import prov_store
+    prov_store.ensure_schema(conn)
+    from src import us_store
+    us_store.ensure_schema(conn)
+    from src import us_states_store
+    us_states_store.ensure_schema(conn)
+    from src import au_store
+    au_store.ensure_schema(conn)
+    from src import ie_store
+    ie_store.ensure_schema(conn)
+    from src import at_store
+    at_store.ensure_schema(conn)
+    from src import atl_store
+    atl_store.ensure_schema(conn)
+    from src import nl_store
+    nl_store.ensure_schema(conn)
+    from src import pl_store
+    pl_store.ensure_schema(conn)
+    from src import hu_store
+    hu_store.ensure_schema(conn)
+    from src import it_store
+    it_store.ensure_schema(conn)
+    from src import ch_store
+    ch_store.ensure_schema(conn)
+    from src import be_store
+    be_store.ensure_schema(conn)
+    from src import fr_store
+    fr_store.ensure_schema(conn)
+    from src import pt_store
+    pt_store.ensure_schema(conn)
+    from src import sk_store
+    sk_store.ensure_schema(conn)
+    from src import hr_store
+    hr_store.ensure_schema(conn)
+    from src import es_store
+    es_store.ensure_schema(conn)
+    from src import es_regions_store
+    es_regions_store.ensure_schema(conn)
+    from src import br_store
+    br_store.ensure_schema(conn)
+    from src import cl_store
+    cl_store.ensure_schema(conn)
+    from src import do_store
+    do_store.ensure_schema(conn)
+    from src import sv_store
+    sv_store.ensure_schema(conn)
+    from src import pe_store
+    pe_store.ensure_schema(conn)
+    from src import ec_store
+    ec_store.ensure_schema(conn)
+    from src import gt_store
+    gt_store.ensure_schema(conn)
+    from src import mx_store
+    mx_store.ensure_schema(conn)
+    from src import mxs_store
+    mxs_store.ensure_schema(conn)
+    from src import ar_store
+    ar_store.ensure_schema(conn)
+    from src import co_store
+    co_store.ensure_schema(conn)
+    from src import bo_store
+    bo_store.ensure_schema(conn)
+    from src import pa_store
+    pa_store.ensure_schema(conn)
+    from src import hn_store
+    hn_store.ensure_schema(conn)
+    from src import uy_store
+    uy_store.ensure_schema(conn)
+    from src import latam_store
+    latam_store.ensure_schema(conn)
+    from src import chamber_store
+    chamber_store.ensure_schema(conn)
+    from src import agenda
+    agenda.ensure_schema(conn)
+    from src import petitions
+    petitions.ensure_schema(conn)
     return conn

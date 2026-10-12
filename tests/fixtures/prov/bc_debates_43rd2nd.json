@@ -1,0 +1,154 @@
+{
+"allHansardFileAttributes": {
+"nodes": [
+{
+"debateAttributes": {
+"nodes": [
+{
+"date": "2026-02-19T10:00:00",
+"bluesModified": "2026-02-25T10:05:00",
+"committeeALink": "",
+"committeeCLink": "",
+"houseLink": "https://videoarchive.leg.bc.ca/Harmony/en/PowerBrowser/PowerBrowserV2/0/0/15766?viewMode=3&mediastarttime=20260219095949&mediaendtime=20260219115605",
+"live": false,
+"issueNumber": 0,
+"pdfLink": "",
+"questionPeriodLink": "https://videoarchive.leg.bc.ca/Harmony/en/PowerBrowser/PowerBrowserV2/0/0/15766?viewMode=3&mediastarttime=20260219105134&mediaendtime=20260219112359",
+"redirectLink": "/Debates/43rd2nd/20260219am-Hansard-n119.html",
+"sortOrder": null,
+"timeOfDay": {
+"name": "Morning"
+},
+"bluesStatus": {
+"name": "Blues Redirect Set"
+},
+"volume": 0,
+"debateType": {
+"name": "House"
+}
+}
+]
+},
+"fileName": "20260219am-House-Blues.htm",
+"publishTime": "2026-02-19T09:30:00",
+"published": true,
+"title": "Hansard — House Blues — Thursday, February 19, 2026, a.m.",
+"notes": "",
+"stringIndex": "",
+"lastModified": "2026-03-11T21:40:08.71",
+"filePath": "/Debates/43rd2nd"
+},
+{
+"debateAttributes": {
+"nodes": [
+{
+"date": "2026-02-19T13:00:00",
+"bluesModified": "2026-02-25T14:25:00",
+"committeeALink": "",
+"committeeCLink": "",
+"houseLink": "https://videoarchive.leg.bc.ca/Harmony/en/PowerBrowser/PowerBrowserV2/0/0/15767?viewMode=3&mediastarttime=20260219125950&mediaendtime=20260219172324",
+"live": false,
+"issueNumber": 0,
+"pdfLink": "",
+"questionPeriodLink": "",
+"redirectLink": "Debates/43rd2nd/20260219pm-Hansard-n120.html",
+"sortOrder": null,
+"timeOfDay": {
+"name": "Afternoon"
+},
+"bluesStatus": {
+"name": "Blues Redirect Set"
+},
+"volume": 0,
+"debateType": {
+"name": "House"
+}
+}
+]
+},
+"fileName": "20260219pm-House-Blues.htm",
+"publishTime": "2026-02-19T12:30:00",
+"published": false,
+"title": "Hansard — House Blues — Thursday, February 19, 2026, p.m.",
+"notes": "",
+"stringIndex": "",
+"lastModified": "2026-03-11T19:46:45.041",
+"filePath": "/Debates/43rd2nd"
+},
+{
+"debateAttributes": {
+"nodes": [
+{
+"date": "2026-02-19T13:00:00",
+"bluesModified": null,
+"committeeALink": "",
+"committeeCLink": "",
+"houseLink": "https://videoarchive.leg.bc.ca/Harmony/en/PowerBrowser/PowerBrowserV2/0/0/15767?viewMode=3&mediastarttime=20260219125950&mediaendtime=20260219172324",
+"live": false,
+"issueNumber": 120,
+"pdfLink": "/Debates/43rd2nd/20260219pm-Hansard-n120.pdf",
+"questionPeriodLink": "",
+"redirectLink": "",
+"sortOrder": null,
+"timeOfDay": {
+"name": "Afternoon"
+},
+"bluesStatus": {
+"name": "Ready"
+},
+"volume": 0,
+"debateType": {
+"name": "House"
+}
+}
+]
+},
+"fileName": "20260219pm-Hansard-n120.html",
+"publishTime": null,
+"published": true,
+"title": "Hansard  — Thursday, February 19, 2026 p.m. — Issue Number 120 (HTML)",
+"notes": "",
+"stringIndex": "/Index/43rd2nd/20260219pm-hansard-index.htm",
+"lastModified": "2026-07-20T23:04:51.655",
+"filePath": "/Debates/43rd2nd"
+},
+{
+"debateAttributes": {
+"nodes": [
+{
+"date": "2026-02-19T10:00:00",
+"bluesModified": null,
+"committeeALink": "",
+"committeeCLink": "",
+"houseLink": "https://videoarchive.leg.bc.ca/Harmony/en/PowerBrowser/PowerBrowserV2/0/0/15766?viewMode=3&mediastarttime=20260219095949&mediaendtime=20260219115605",
+"live": false,
+"issueNumber": 119,
+"pdfLink": "/Debates/43rd2nd/20260219am-Hansard-n119.pdf",
+"questionPeriodLink": "https://videoarchive.leg.bc.ca/Harmony/en/PowerBrowser/PowerBrowserV2/0/0/15766?viewMode=3&mediastarttime=20260219105134&mediaendtime=20260219112359",
+"redirectLink": "",
+"sortOrder": null,
+"timeOfDay": {
+"name": "Morning"
+},
+"bluesStatus": {
+"name": "Ready"
+},
+"volume": 0,
+"debateType": {
+"name": "House"
+}
+}
+]
+},
+"fileName": "20260219am-Hansard-n119.html",
+"publishTime": null,
+"published": true,
+"title": "Hansard —  Thursday, February 19, 2026, a.m.  — Issue Number 119 (HTML)",
+"notes": "",
+"stringIndex": "/Index/43rd2nd/20260219am-hansard-index.htm",
+"lastModified": "2026-03-17T22:03:00.549",
+"filePath": "/Debates/43rd2nd"
+}
+]
+}
+}

@@ -1,0 +1,444 @@
+{
+ "derived_at": "2026-09-03T06:13:09.938447+02:00",
+ "cycle": 43,
+ "count": 13,
+ "current": 198,
+ "with_record": 201,
+ "mps": {
+  "a018": {
+   "p_azon": "a018",
+   "name": "Dr. Apáti István",
+   "faction": "Mi Hazánk",
+   "faction_first": "Mi Hazánk",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "lista",
+   "county": "Országos lista",
+   "constituency_no": null,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "Mi Hazánk",
+     "from": "2026-05-09",
+     "to": "2026-07-05"
+    },
+    {
+     "ciklus": "2022-2026",
+     "faction": "Mi Hazánk",
+     "from": "2022-05-02",
+     "to": "2026-05-08"
+    },
+    {
+     "ciklus": "2018-2022",
+     "faction": "független",
+     "from": "2018-10-08",
+     "to": "2022-05-01"
+    },
+    {
+     "ciklus": "2018-2022",
+     "faction": "Jobbik",
+     "from": "2018-05-08",
+     "to": "2018-10-08"
+    },
+    {
+     "ciklus": "2014-2018",
+     "faction": "Jobbik",
+     "from": "2014-05-06",
+     "to": "2018-05-07"
+    },
+    {
+     "ciklus": "2010-2014",
+     "faction": "Jobbik",
+     "from": "2010-05-14",
+     "to": "2014-05-05"
+    }
+   ]
+  },
+  "0005": {
+   "p_azon": "0005",
+   "name": "Dr. Csibi Krisztina",
+   "faction": "Fidesz",
+   "faction_first": "Fidesz",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "lista",
+   "county": "Országos lista",
+   "constituency_no": null,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "Fidesz",
+     "from": "2026-05-09",
+     "to": null
+    },
+    {
+     "ciklus": "2022-2026",
+     "faction": "Fidesz",
+     "from": "2025-02-24",
+     "to": "2026-05-08"
+    }
+   ]
+  },
+  "000E": {
+   "p_azon": "000E",
+   "name": "Dr. Csuzda Gábor",
+   "faction": "Fidesz",
+   "faction_first": "Fidesz",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "egyeni",
+   "county": "Borsod-Abaúj-Zemplén",
+   "constituency_no": 3,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "Fidesz",
+     "from": "2026-05-09",
+     "to": null
+    },
+    {
+     "ciklus": "2022-2026",
+     "faction": "Fidesz",
+     "from": "2025-06-10",
+     "to": "2026-05-08"
+    }
+   ]
+  },
+  "d040": {
+   "p_azon": "d040",
+   "name": "Dócs Dávid",
+   "faction": "Mi Hazánk",
+   "faction_first": "Mi Hazánk",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "lista",
+   "county": "Országos lista",
+   "constituency_no": null,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "Mi Hazánk",
+     "from": "2026-05-09",
+     "to": null
+    },
+    {
+     "ciklus": "2022-2026",
+     "faction": "Mi Hazánk",
+     "from": "2022-05-02",
+     "to": "2026-05-08"
+    }
+   ]
+  },
+  "d028": {
+   "p_azon": "d028",
+   "name": "Dúró Dóra",
+   "faction": "Mi Hazánk",
+   "faction_first": "Mi Hazánk",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "lista",
+   "county": "Országos lista",
+   "constituency_no": null,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "Mi Hazánk",
+     "from": "2026-05-09",
+     "to": "2026-07-05"
+    },
+    {
+     "ciklus": "2022-2026",
+     "faction": "Mi Hazánk",
+     "from": "2022-05-02",
+     "to": "2026-05-08"
+    },
+    {
+     "ciklus": "2018-2022",
+     "faction": "független",
+     "from": "2018-05-30",
+     "to": "2022-05-01"
+    },
+    {
+     "ciklus": "2018-2022",
+     "faction": "Jobbik",
+     "from": "2018-05-08",
+     "to": "2018-05-29"
+    },
+    {
+     "ciklus": "2014-2018",
+     "faction": "Jobbik",
+     "from": "2014-05-06",
+     "to": "2018-05-07"
+    },
+    {
+     "ciklus": "2010-2014",
+     "faction": "Jobbik",
+     "from": "2010-05-14",
+     "to": "2014-05-05"
+    }
+   ]
+  },
+  "000P": {
+   "p_azon": "000P",
+   "name": "Forsthoffer Ágnes",
+   "faction": "TISZA",
+   "faction_first": "TISZA",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "egyeni",
+   "county": "Veszprém",
+   "constituency_no": 2,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "TISZA",
+     "from": "2026-05-09",
+     "to": null
+    }
+   ]
+  },
+  "000O": {
+   "p_azon": "000O",
+   "name": "Gajdos László",
+   "faction": "TISZA",
+   "faction_first": "TISZA",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "egyeni",
+   "county": "Szabolcs-Szatmár-Bereg",
+   "constituency_no": 1,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "TISZA",
+     "from": "2026-05-09",
+     "to": null
+    }
+   ]
+  },
+  "g053": {
+   "p_azon": "g053",
+   "name": "Gulyás Gergely",
+   "faction": "Fidesz",
+   "faction_first": "Fidesz",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "lista",
+   "county": "Országos lista",
+   "constituency_no": null,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "Fidesz",
+     "from": "2026-05-09",
+     "to": "2026-07-21"
+    },
+    {
+     "ciklus": "2022-2026",
+     "faction": "Fidesz",
+     "from": "2022-05-02",
+     "to": "2026-05-08"
+    },
+    {
+     "ciklus": "2018-2022",
+     "faction": "Fidesz",
+     "from": "2018-05-08",
+     "to": "2022-05-01"
+    },
+    {
+     "ciklus": "2014-2018",
+     "faction": "Fidesz",
+     "from": "2014-05-06",
+     "to": "2018-05-07"
+    },
+    {
+     "ciklus": "2010-2014",
+     "faction": "Fidesz",
+     "from": "2010-05-14",
+     "to": "2014-05-05"
+    }
+   ]
+  },
+  "h006": {
+   "p_azon": "h006",
+   "name": "Dr. Hargitai János",
+   "faction": "KDNP",
+   "faction_first": "KDNP",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "lista",
+   "county": "Országos lista",
+   "constituency_no": null,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "KDNP",
+     "from": "2026-05-09",
+     "to": "2026-08-26"
+    },
+    {
+     "ciklus": "2022-2026",
+     "faction": "KDNP",
+     "from": "2022-05-02",
+     "to": "2026-05-08"
+    },
+    {
+     "ciklus": "2018-2022",
+     "faction": "KDNP",
+     "from": "2018-05-08",
+     "to": "2022-05-01"
+    },
+    {
+     "ciklus": "2014-2018",
+     "faction": "KDNP",
+     "from": "2014-05-06",
+     "to": "2018-05-07"
+    },
+    {
+     "ciklus": "2010-2014",
+     "faction": "KDNP",
+     "from": "2010-05-14",
+     "to": "2014-05-05"
+    },
+    {
+     "ciklus": "2006-2010",
+     "faction": "KDNP",
+     "from": "2006-05-16",
+     "to": "2010-05-13"
+    },
+    {
+     "ciklus": "2002-2006",
+     "faction": "Fidesz",
+     "from": "2002-05-15",
+     "to": "2006-05-15"
+    },
+    {
+     "ciklus": "1998-2002",
+     "faction": "Fidesz",
+     "from": "1998-06-18",
+     "to": "2002-05-14"
+    }
+   ]
+  },
+  "0002": {
+   "p_azon": "0002",
+   "name": "Dr. Hegedűs Barbara",
+   "faction": "Fidesz",
+   "faction_first": "Fidesz",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "lista",
+   "county": "Országos lista",
+   "constituency_no": null,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "Fidesz",
+     "from": "2026-05-09",
+     "to": "2026-07-21"
+    },
+    {
+     "ciklus": "2022-2026",
+     "faction": "Fidesz",
+     "from": "2024-11-04",
+     "to": "2026-05-08"
+    }
+   ]
+  },
+  "k155": {
+   "p_azon": "k155",
+   "name": "Dr. Juhász Hajnalka",
+   "faction": "KDNP",
+   "faction_first": "KDNP",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "lista",
+   "county": "Országos lista",
+   "constituency_no": null,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "KDNP",
+     "from": "2026-05-09",
+     "to": null
+    },
+    {
+     "ciklus": "2022-2026",
+     "faction": "KDNP",
+     "from": "2022-05-02",
+     "to": "2026-05-08"
+    },
+    {
+     "ciklus": "2018-2022",
+     "faction": "KDNP",
+     "from": "2018-05-08",
+     "to": "2022-05-01"
+    }
+   ]
+  },
+  "004Q": {
+   "p_azon": "004Q",
+   "name": "Dr. Máthé Zsuzsa",
+   "faction": "KDNP",
+   "faction_first": "KDNP",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "lista",
+   "county": "Országos lista",
+   "constituency_no": null,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "KDNP",
+     "from": "2026-05-09",
+     "to": null
+    }
+   ]
+  },
+  "000N": {
+   "p_azon": "000N",
+   "name": "Rost Andrea",
+   "faction": "TISZA",
+   "faction_first": "TISZA",
+   "current": true,
+   "cycle": 43,
+   "mandate_kind": "egyeni",
+   "county": "Jász-Nagykun-Szolnok",
+   "constituency_no": 1,
+   "mandate_from": "2026-05-09",
+   "mandate_to": null,
+   "factions": [
+    {
+     "ciklus": "2026-",
+     "faction": "TISZA",
+     "from": "2026-05-09",
+     "to": null
+    }
+   ]
+  }
+ }
+}

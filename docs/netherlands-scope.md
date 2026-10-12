@@ -1,0 +1,549 @@
+# Netherlands: scoping the Tweede Kamer monitor
+
+Probed live on 9 October 2026 from the laptop, through `src/http.py`'s
+client (honest CitizenGO User-Agent, one request a second, retries with
+backoff). Every number below was measured that day, not estimated. The raw
+responses are archived under `data/raw/2026-10-09/` (130 files, 6.3 MB:
+`nl-probe_*` for the scoping probes, `nl-rollcalls_*` for the collector's
+own queries). Like every raw folder they are gitignored; the first scheduled
+run publishes its own folder to the release.
+
+## The finding that shapes everything
+
+**The English taxonomy is blind to Dutch**, exactly as it was to German.
+Run over the titles of all 12,877 zaken of the current Kamer (motions,
+amendments, bills, written and oral questions, government letters and
+treaties since 12 November 2025), `config/taxonomy.yaml` found **21 on our
+ground** outside migration, and most of those because a Dutch title quotes
+an English name: `hospice` (6), `Digital Services Act`, `My Voice, My
+Choice`, `transgender`. Over the 4,860 votes of the same Kamer it found
+**six**.
+
+A first Dutch term list (proposed below, awaiting Chris) found **393 zaken
+and 154 votes** on the same data, with migration excluded. Until that list
+is approved, the collector classifies by `config/watchlist-nl.yaml` alone,
+which already puts 41 votes on our ground by dossier number.
+
+## Decisions already taken (Chris)
+
+- Own edition per country, delivered to Chris alone (Slack DM), as the US.
+- Shared taxonomy concept, but no existing taxonomy file is edited. The
+  Dutch terms are proposed here; `config/taxonomy-nl.yaml` is generated only
+  after Chris approves them. Belgium (Flanders) is being scoped in parallel
+  and also uses Dutch; Netherlands-specific terms are marked (NL) below.
+- National parliament first; provinces later.
+- Mac Mini first, GitHub Actions as the backup. No new paid services. Never
+  post publicly.
+
+## What the Netherlands publishes
+
+### Tweede Kamer Open Data Portaal: WORKS, no key
+
+`https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/`, OData v4, JSON.
+38 entity sets, among them `Zaak`, `Besluit`, `Stemming`, `Agendapunt`,
+`Activiteit`, `Document`, `Kamerstukdossier`, `Persoon`, `Fractie`,
+`FractieZetel`, `FractieZetelPersoon`, `ZaakActor`, `Toezegging`. The schema
+is at `$metadata` (57,755 bytes of XML).
+
+| Property | Measured |
+|---|---|
+| Key needed | No. 200 with no credentials of any kind. |
+| Rate limit | None advertised: no `RateLimit` or `Retry-After` headers on any response. At one request a second nothing was refused. |
+| Page size | 250. `$top=1000` is a 400 ("The limit of '250' for Top query has been exceeded"). |
+| Paging | `@odata.nextLink` with a `$skiptoken`. An explicit `$top` suppresses the nextLink. |
+| Speed | Counts and small queries 0.1 to 4 s. A page of 250 votes with every position, zaak and dossier expanded: about 13 s. The whole current Kamer (4,860 votes): 20 pages, **69 seconds**. |
+| Query features | `$filter` across navigation paths (`Agendapunt/Activiteit/Datum ge ...`), nested `$expand` with its own `$filter` and `$select`, `$count`, `$apply=groupby(...)`, `contains()`. |
+| Deletions | Records are soft-deleted: `Verwijderd: true`. A collector must read them, not filter them out, to drop what the Kamer withdrew. |
+| Documents | `Document(<id>)/resource` returns the file itself (a written answer: a 29,826-byte PDF). |
+| Change feed | `SyncFeed/2.0/Feed?category=<Entity>`: Atom XML with a skiptoken, for full mirrors. Not needed at our volume. |
+| Encoding quirk | A bare `+` in a time offset is read as a space; it must be sent as `%2B`. |
+
+**Volumes, whole history and this Kamer:**
+
+| | All time | Since 12 Nov 2025 |
+|---|---|---|
+| `Stemming` rows (positions) | 1,018,950 (earliest 9 September 2008) | 86,530 |
+| of which one per member (roll calls and split groups) | 79,956 | 6,603 |
+| Votes by show of hands (`Met handopsteken`) | 63,500 | 4,815 |
+| Roll calls (`Hoofdelijk`) | 537 | 45 |
+| Zaken | 343,136 | 12,877 of the kinds below |
+
+Zaken started in this Kamer, by kind: Motie 5,002; Brief regering 4,611;
+Schriftelijke vragen 2,083; Brief commissie 986; Amendement 955; Position
+paper 645; Verzoek bij commissie-regeling van werkzaamheden 637; Brief van
+lid/fractie/commissie 353; Overig 269; Brief Eerste Kamer 200; Begroting
+134; Wetgeving 115; Nota van wijziging 104; Mondelinge vragen 83;
+Initiatiefnota 8; Initiatiefwetgeving 6; Verdrag 14; and smaller kinds.
+
+### How Dutch votes are recorded
+
+**Mostly by party.** A vote by show of hands records one position per
+fractie, with the fractie's seats (`FractieGrootte`). This Kamer averages
+16.7 rows per vote, and the seats sum to 150 on 4,771 of 4,795 such votes
+(to 149 on 23, on days when a seat was changing hands). Positions are
+`Voor` (53,627), `Tegen` (32,398) and `Niet deelgenomen` (505).
+
+**Hoofdelijke stemmingen are rare and are the 5CA layer.** 45 in this Kamer,
+each with all 150 members by name (`Persoon_Id`, surname, fractie). Nine of
+the 45 are on our ground. Eight are on embryo research: on 16 December 2025
+the Paternotte and Bevers initiative bill lifting the ban on creating
+embryos for research (passed 90-59), after a Bikker motion a week earlier
+(adopted 72-70); on 2 June 2026 the government's Embryowet bill (passed
+95-48) and five amendments by Bikker and Diederik van Dijk (all rejected,
+46 or 48 to 95 or 97). The ninth is the rainbow-flag motion of 8 October
+2026 (adopted 90-36). The Dutch roll call is the set-piece, exactly as the German
+namentliche Abstimmung is.
+
+Three quirks, each found in the data and handled:
+
+1. **Positions arrive late.** The 21 votes of Thursday 8 October carried a
+   result (`BesluitTekst: "Aangenomen (90-36)."`) and no positions at
+   05:54 Amsterdam time the next morning, nor at 06:10. The collector re-reads a six-week
+   window every week and stores such a vote with `positions_pending = 1`;
+   still empty after 14 days is a recorded gap.
+2. **A group can split.** On motion 2026Z08607 the Groep Markuszower row
+   says Tegen with all seven seats and three of its members carry rows of
+   their own saying Voor. Counted naively that is 153 of 150; the collector
+   counts each member who votes apart once and takes them off the group's
+   seats. One vote in this Kamer.
+3. **A group can declare a mistake** (`Vergissing`): 143 position rows in
+   this Kamer. The Kamer's result stands; the flag is stored.
+
+The party is stored per vote, as everywhere in this repo: votes from the
+spring carry `GroenLinks-PvdA` with 20 seats, while today's fractie list
+names a 20-seat group `PRO`.
+
+### Members, fracties, agenda, questions
+
+- **Fracties:** 17 sitting, 150 seats: D66 26, VVD 22, PRO 20, PVV 19, CDA
+  18, JA21 9, Groep Markuszower 7, FVD 7, ChristenUnie 3, SP 3, PvdD 3, SGP
+  3, BBB 3, DENK 3, 50PLUS 2, Lid Keijzer 1, Volt 1.
+- **Members:** `FractieZetelPersoon` with `TotEnMet eq null` gives exactly
+  150 current seats; 52 date from the installation of 12 November 2025, the
+  rest from later replacements or earlier seating. The Persoon record also
+  holds date and place of birth, residence and gender; **none of it is
+  requested or stored**.
+- **Agenda:** `Activiteit` with a future date: 592 items from 9 October on
+  (plenary, committee, procedure, working visits). Phase 2.
+- **Kamervragen:** 2,083 written questions this Kamer as zaken, and 2,043
+  answer documents (`Antwoord schriftelijke vragen`), served as PDF. Phase 2.
+
+### Eerste Kamer: no API, two workable routes
+
+- **eerstekamer.nl is HTML only.** `/opendata` and `/open_data` are 404,
+  `data.eerstekamer.nl` does not resolve, `/wetsvoorstellen` is 404 (the
+  list is at `/wetsvoorstellen_2`). `/stemmingen` redirects to
+  `/stemmingen_per_vergaderdag`, which lists each sitting's votes with links
+  to the bill (`/wetsvoorstel/36791_...`) or motion (`/motiedossier/...`)
+  and the method ("Stemming bij zitten en opstaan", or Hamerstuk). The bill
+  page states the result in prose, party by party: "De Eerste Kamer heeft
+  het voorstel op 29 september 2026 na stemming bij zitten en opstaan
+  aangenomen. Voor: PRO, Volt, ... Tegen: FVD en BBB." `robots.txt`
+  disallows only search, print layouts and sort parameters. Parseable,
+  but a scrape.
+- **KOOP's SRU service** (`repository.overheid.nl/sru`, keyless, the
+  government publications repository behind officielebekendmakingen.nl)
+  holds the Eerste Kamer's Handelingen: 11,058 records with creator
+  "Eerste Kamer der Staten-Generaal", and 513 Eerste Kamer publications
+  dated since 1 September 2026, each with a URL to its XML. The proceedings
+  record the vote outcomes. The same service answers a title search
+  (`dt.title any "euthanasie"`: 558 records across both chambers).
+- The Tweede Kamer portal does not carry Eerste Kamer votes: `Besluit` and
+  `Stemming` are Tweede Kamer only. 1,377 zaken are marked "Eerste Kamer en
+  Tweede Kamer" and 200 this Kamer are "Brief Eerste Kamer".
+
+### Provinces (later, listed only)
+
+Twelve Provinciale Staten: Drenthe, Flevoland, Friesland (Fryslân),
+Gelderland, Groningen, Limburg, Noord-Brabant, Noord-Holland, Overijssel,
+Utrecht, Zeeland, Zuid-Holland. Not probed. They also elect the Eerste Kamer,
+which is the main reason they matter to us.
+
+## How much touches CitizenGO ground
+
+Measured on titles only (a zaak's onderwerp, its title and its dossier's
+title), the current Kamer, migration (area 11) excluded because it is
+collated and never campaigned:
+
+| | English taxonomy | Draft Dutch list | watchlist-nl alone |
+|---|---|---|---|
+| Zaken (12,877) | 21 | **393** | n/a |
+| Votes (4,860) | 6 | **154** | 41 |
+| Roll calls (45) | 0 | **9** | 9 |
+
+Draft Dutch list, zaken by area: abortion 41, assisted dying 24, gender
+medicine 5, conversion practices 1, sex-based rights 49, parental rights and
+education 42, free speech 41, religion 61, marriage and family 31,
+surrogacy and embryology 41, prostitution and trafficking 72, organ
+donation 3 (migration 526, hidden). By kind: Motie 140, Brief regering 109,
+Amendement 68, Schriftelijke vragen 67, Wetgeving 4, Mondelinge vragen 2,
+Initiatiefwetgeving 2, Initiatiefnota 1.
+
+The 154 votes: motions adopted 72, motions rejected 40, amendments rejected
+23, amendments adopted 15, government bills passed 3, initiative bill passed 1.
+
+**Precision, read by eye on a sample of each area:** mostly right. The
+abortion, assisted-dying, gender-medicine and surrogacy hits are on point
+(the Gezondheidsraad advice on transgender care for minors, the
+Vliegenthart bill taking abortion out of the Criminal Code, the Embryowet
+amendments). Noise found, and to be tuned before approval:
+
+- `huwelijk*` catches `huwelijksvermogensrecht` (tax on marital property).
+- `leerplicht*` (27) is mostly truancy enforcement; the home-education
+  items are the minority.
+- `Wet openbare manifestaties` (16) is mostly the policing of
+  demonstrations: tier 2 at most, arguably out.
+- `prenatale screening` matched a neonatal heel-prick letter through its
+  dossier title ("Prenatale screening"), the price of dossier-title lending.
+- `hospice*` matches hospice funding as well as end-of-life policy.
+- `mensenhandel*` (50) also cross-tags the surrogacy amendments, correctly.
+
+Many proposed terms found nothing in titles (`vrijheid van meningsuiting`,
+`voltooid leven`, `conversietherapie`, `seksuele voorlichting`,
+`Donorwet`). That is expected on titles: they are the words of debates and
+documents, which phase 2 reads.
+
+## Proposed Dutch taxonomy (awaiting Chris)
+
+Same 13 areas and keys as the English taxonomy; only the terms differ.
+Conventions as in `config/taxonomy-de.yaml`: a trailing `*` is a stem,
+matching is anchored at the start of a word (so a Dutch compound must be
+listed whole: `abortus*` cannot reach `laatabortus`), all-caps terms are
+case-sensitive, `{term, with: [...]}` needs a guard word in the same text.
+**(NL)** marks a term that is Netherlands-specific (a Dutch statute, body
+or institution); unmarked terms are ordinary Dutch and should serve Flanders
+too. The draft used for the measurements is reproduced exactly here.
+
+1. **Abortion.** Tier 1: `abortus*`, `zwangerschapsafbreking*`, `afbreking
+   van de zwangerschap`, `afbreking zwangerschap`, `Wet afbreking
+   zwangerschap` (NL), `Wafz` (NL), `abortuspil*`, `overtijdbehandeling*`
+   (NL), `abortuskliniek*`, `laatabortus*`, `late zwangerschapsafbreking*`
+   (NL), `bedenktijd` (NL), `ongeboren leven`, `ongeboren kind*`,
+   `levensbescherming`, `Schreeuw om Leven` (NL), `bufferzone*` with
+   abortus/kliniek/zwangerschap. Tier 2: `ongeboren*`, `anticonceptie*`,
+   `prenatale screening`, `NIPT` (NL), `20-wekenecho` (NL), `pretecho*`,
+   `levensbeëindiging bij pasgeborenen` (NL), `Groningen-protocol` (NL),
+   `seksuele en reproductieve gezondheid`, `reproductieve rechten`,
+   `onbedoelde zwangerschap*`, `ongewenste zwangerschap*`, `doodgeboorte*`,
+   `miskraam*`, `vondelingenluik*`, `babyluik*`.
+2. **Assisted dying.** Tier 1: `euthanasie*`, `hulp bij zelfdoding`,
+   `levensbeëindiging op verzoek`, `voltooid leven` (NL), `Wet toetsing
+   levensbeëindiging` (NL), `levenseindekliniek*` (NL), `Expertisecentrum
+   Euthanasie` (NL), `Toetsingscommissies Euthanasie` (NL),
+   `laatstewilmiddel*` (NL), `Laatste Wil` (NL), `schriftelijke
+   wilsverklaring*`, `euthanasieverklaring*`. Tier 2: `levensbeëindiging*`,
+   `palliatieve zorg`, `palliatieve sedatie`, `hospice*`,
+   `suïcidepreventie`, `zelfdoding*`, `levenseinde*`; `psychisch lijden`
+   and `dementie`, each with euthanasie/levenseinde.
+3. **Gender medicine and children.** Tier 1: `puberteitsremmer*`,
+   `puberteitsremming*`, `genderdysforie*`, `geslachtsincongruentie*`,
+   `genderzorg`, `transgenderzorg`, `transzorg`, `geslachtsaanpassende
+   behandeling*`, `geslachtsaanpassende operatie*`, `genderbevestigende
+   zorg`, `genderbevestigende behandeling*`, `Dutch protocol` (NL),
+   `Nederlandse protocol` (NL), `detransitie*`, `genderteam*` (NL),
+   `transitie` with kinderen/jongeren/minderjarigen/puberteit. Tier 2:
+   `genderidentiteit` and `hormoonbehandeling*` with child guards,
+   `transgender jongeren`, `transgenderjongeren`, `Kennis- en Zorgcentrum
+   Genderdysforie` (NL).
+4. **Conversion practices.** Tier 1: `conversietherapie*`,
+   `conversiehandeling*` (NL: the statute's word), `conversiepraktijk*`,
+   `homogenezing*`, `Wet verbod op conversiehandelingen`. Tier 2: `pastora*`
+   and `gebedsgenezing`, guarded by conversie/verbod/gerichtheid.
+5. **Sex-based rights.** Tier 1: `genderidentiteit*`,
+   `geslachtsregistratie*`, `Transgenderwet*` (NL), `wijziging
+   geslachtsregistratie`, `geslachtsaanduiding*`, `X in het paspoort`, `X in
+   paspoort`, `non-binair*`, `transgender*`, `transperso*`, `biologisch
+   geslacht`, `Istanbul-verdrag`, `Verdrag van Istanbul`, `femicide*`,
+   `genderexpressie*`, `geslachtskenmerken`. Tier 2: `lhbti*`, `lhbtiq*`,
+   `LHBTI*`, `LHBTIQ*` (the Dutch acronym; Flanders often writes `holebi`
+   or `LGBTQI+`), `regenboogvlag*`, `Regenboogsteden` (NL), `genderneutra*`,
+   `vrouwenopvang` and `kleedkamer*` with gender guards, `vrouwensport`,
+   `genderquota`, `seksuele gerichtheid`, `seksuele oriëntatie`, `Wet
+   gelijke behandeling` (NL).
+6. **Parental rights and education.** Tier 1: `seksuele voorlichting`,
+   `seksuele vorming`, `relationele en seksuele vorming`,
+   `seksualiteitsonderwijs`, `seksuele diversiteit`, `Week van de
+   Lentekriebels` (NL), `Lentekriebels` (NL), `Paarse Vrijdag` (NL),
+   `vrijheid van onderwijs`, `bijzonder onderwijs` (NL), `huisonderwijs`,
+   `thuisonderwijs`, `ouderlijk gezag`, `rechten van ouders`, `ouderrecht*`,
+   `artikel 23` with onderwijs/Grondwet/school (NL: the constitutional
+   freedom of education). Tier 2: `burgerschapsonderwijs` (NL),
+   `burgerschapsopdracht` (NL), `kerndoelen` with seksu/burgerschap/
+   diversiteit, `leerplicht*`, `smartphoneverbod*`, `telefoonverbod*`,
+   `mobieltjesverbod*`, `sociale media` with child guards,
+   `leeftijdsverificatie*`, `leeftijdsgrens voor sociale media`,
+   `schermtijd`.
+7. **Free speech and online safety.** Tier 1: `vrijheid van meningsuiting`,
+   `meningsvrijheid`, `uitingsvrijheid`, `haatzaaien`, `groepsbelediging`,
+   `artikel 137c` (NL), `artikel 137d` (NL), `Digital Services Act`, `DSA`,
+   `chatcontrole`, `trusted flagger*`, `majesteitsschennis`, `censuur` with
+   internet/online/platform/media guards. Tier 2: `desinformatie*`, `online
+   haat`, `haatspraak`, `online intimidatie`, `doxing`, `deepfake*`,
+   `platformregulering`, `Wet op de inlichtingen- en veiligheidsdiensten`
+   (NL), `Wiv` (NL), `gezichtsherkenning*`, `demonstratierecht`, `Wet
+   openbare manifestaties` (NL), `persvrijheid`, `vrijheid van vereniging`.
+8. **Freedom of religion.** Tier 1: `godsdienstvrijheid`, `vrijheid van
+   godsdienst`, `geloofsvrijheid`, `religievrijheid`, `religie- en
+   levensbeschouwingsvrijheid`, `vrijheid van religie`,
+   `christenvervolging`, `vervolging van christenen`, `christelijke
+   minderhe*`, `religieuze minderhe*`, `godslastering`, `kerkasiel`,
+   `enkele-feitconstructie` (NL), `enkele feit` (NL: the rule on
+   confessional schools' staffing), `Speciaal gezant voor religie` (NL).
+   Tier 2: `levensbeschouwing*` with vrijheid/onderwijs/school, `ritueel
+   slachten`, `onverdoofd slachten`, `besnijdenis*`, `gezichtsbedekkende
+   kleding` (NL statute), `boerkaverbod`, `hoofddoek*` with school/children/
+   rechter/politie, `antisemitisme*`, `moslimhaat`, `moslimdiscriminatie`,
+   `Jodenhaat`, `kerkgebouw*`, `religieuze organisatie*`,
+   `geloofsgemeenschap*`, `kerkgenootschap*`.
+9. **Marriage and family.** Tier 1: `kindhuwelijk*`, `huwelijksdwang`,
+   `gedwongen huwelijk*`, `polygamie`, `meerouderschap` (NL),
+   `meeroudergezag` (NL), `deelgezag` (NL), `Staatscommissie Herijking
+   ouderschap` (NL), `gezinsbeleid`, `familiebeleid`,
+   `huwelijksgevangenschap`. Tier 2: `huwelijk*` (to be guarded, see
+   precision), `kinderbijslag`, `kindgebonden budget` (NL),
+   `geboorteverlof`, `ouderschapsverlof`, `adoptie*`, `interlandelijke
+   adoptie`, `eenoudergezin*`, `echtscheiding*`, `geregistreerd
+   partnerschap`, `gezag over kinderen`, `kinderrechten in de Grondwet`.
+10. **Surrogacy and embryology.** Tier 1: `draagmoederschap`,
+    `draagmoeder*`, `draagouderschap`, `eiceldonatie`, `embryodonatie`,
+    `Embryowet` (NL), `embryo-onderzoek`, `embryo's kweken`, `kweekverbod`
+    (NL), `kiembaanmodificatie`, `kiembaan*`, `embryoselectie`,
+    `pre-implantatie genetische test*`, `pre-implantatie genetische
+    diagnostiek`, `PGT`, `kloneren`, `synthetische embryo*`,
+    `embryo-achtige structuren`, `spermadonatie`, `zaaddonor*`,
+    `spermadonor*`, `donorkind*`, `afstammingsrecht`, `Wet donorgegevens`
+    (NL). Tier 2: `IVF`, `ivf-behandeling*`, `vruchtbaarheidsbehandeling*`,
+    `kunstmatige inseminatie`, `eicellen invriezen`, `embryo*`, `stamcel*`,
+    `medisch begeleide voortplanting` (the Belgian statute's phrase).
+11. **Migration** (collated, hidden). Tier 1: `asielzoeker*`,
+    `asielaanvraag*`, `gezinshereniging`, `nareis*` (NL),
+    `Asielnoodmaatregelenwet` (NL), `Spreidingswet` (NL),
+    `Vreemdelingenwet*` (NL), `tweestatusstelsel` (NL), `statushouder*`
+    (NL), `Ter Apel` (NL), `terugkeerbeleid`, `strafbaarstelling van
+    illegaliteit` (NL), `veilig land van herkomst`. Tier 2: `asiel*`,
+    `migratie*`, `vreemdeling*`, `naturalisatie*`, `COA` (NL),
+    `inburgering*`, `verblijfsvergunning*`, `uitzetting*`, `mensensmokkel*`.
+12. **Prostitution and trafficking.** Tier 1: `prostitutie*`, `sekswerk*`,
+    `Wet regulering sekswerk` (NL), `mensenhandel*`, `seksuele uitbuiting`,
+    `pooierboy*`, `loverboy*`, `Noords model`, `Scandinavisch model`,
+    `raamprostitutie` (NL), `gedwongen prostitutie`, `strafbaarstelling van
+    klanten`, `pooier*`. Tier 2: `bordeel*`, `seksinrichting*`, `escort*`,
+    `kinderporno*`, `seksueel kindermisbruik`, `online seksueel misbruik`,
+    `Wet seksuele misdrijven` (NL), `seksuele intimidatie`, `afbeeldingen
+    van seksueel kindermisbruik`.
+13. **Organ donation.** Tier 1: `orgaandonatie*`, `orgaandonor*`, `Donorwet`
+    (NL), `donorregistratie`, `Donorregister` (NL), `Wet op de
+    orgaandonatie` (NL), `hersendood`, `orgaanhandel`,
+    `orgaantransplantatie*`, `orgaanuitname*`, `actief
+    donorregistratiesysteem` (NL). Tier 2: `transplantatie*`,
+    `weefseldonatie`, `donatie na euthanasie` (NL practice).
+
+Never bare: `huwelijk`, `leven`, `recht`, `kind`, `gezin`, `geslacht`,
+`onderwijs`, `vrijheid`, `geweld`, `migratie`, `prostitutie` (the proposed
+`exclusions_global`).
+
+**Open questions for the reader:** where the rainbow flag belongs (filed
+under area 5 here); whether antisemitism and anti-Muslim hatred belong in
+area 8 at tier 2 (39 term hits between them this Kamer); whether `Wet openbare
+manifestaties` stays at all; and whether `huwelijk*` needs a guard.
+
+## What is built (phase 1)
+
+| File | What |
+|---|---|
+| `src/nl_store.py` | `nl_fracties`, `nl_members`, `nl_zaken`, `nl_divisions`, `nl_votes`; the watchlist loader, applied by key. |
+| `tools/nl_rollcalls.py` | The collector. Fracties and the 150 current seats, then every vote in the window with every position, its zaak and its dossier; `--reclassify`, `--since`, `--dry-run`, `--taxonomy`. Exit 3 on gaps. |
+| `config/watchlist-nl.yaml` | Groundwork draft: 11 dossiers (Wet Abortus is zorg 37027, the beraadtermijn bill 35737, draagmoederschap 36390, Embryowet 36677, 36416, 36417, voltooid leven 35534, conversiehandelingen 36178, geslachtsregistratie 35825, Wet regulering sekswerk 35715, schoolverzuim 36663) and one zaak (the rainbow-flag motion 2026Z21728). Keyed by number, never title. |
+| `tests/test_nl_rollcalls.py`, `tests/fixtures/nl/` | 30 tests on real saved responses: roll-call tally against the printed 46-97, the split group, pending positions, the declared mistake, withdrawal, paging, gaps, the window, reclassify, the watchlist, the job wiring. |
+| `jobs/nl-weekly.sh`, `ops/launchd/net.citizengo.parlmonitor.nl-weekly.plist`, `.github/workflows/nl-weekly.yml` | The Mini-first weekly, Thursdays 03:00 London on the Mini; GitHub backup Thursdays 03:00 and 05:00 UTC, gated by `mini-check.yml` on `NL_WEEKLY` with 200 minutes' grace (the Australia pattern). |
+
+**First run, 9 October 2026, into a scratch store:** 17 fracties, 150 sitting
+members (168 with former members named in roll calls), 4,860 votes from
+13 November 2025 to 8 October 2026 on 66 voting days, 86,530 positions, 21
+awaiting positions, no gaps, 69 seconds. Later weeks re-read six weeks: two
+to four pages.
+
+**Classification today** is the watchlist alone, because the taxonomy is
+not approved: 41 votes on our ground. The day `config/taxonomy-nl.yaml`
+lands, dispatch the workflow with `reclassify` ticked (or run
+`tools/nl_rollcalls.py --reclassify`); nothing needs refetching.
+
+**Not yet built, on purpose:** no edition, no DM, no triage judge. Those are
+phase 4, after the terms are approved.
+
+## Phase plan
+
+1. **Votes, positions, members (BUILT).** As above.
+2. **Taxonomy (waiting on Chris).** Approve or correct the list above; then
+   `docs/keyword-taxonomy-nl.md` is written as the master, a `"nl"` entry
+   is added to `MASTERS` in `tools/generate_taxonomy.py`, and
+   `config/taxonomy-nl.yaml` is generated. Then reclassify.
+3. **The zaak layer independent of votes.** Kamervragen (written and oral),
+   government letters, initiative bills and notes, read weekly by
+   `GestartOp` and `ApiGewijzigdOp`, classified on titles: this is where
+   most of the 393 matched zaken live, and most never reach a vote. Then
+   document bodies (the PDFs behind `Document/resource`), matched by
+   passage as `src/eudoc.py` does for the EU. And the agenda
+   (`Activiteit`) for a week-ahead. **Week ahead built 10 October 2026** (branch `parity-week-ahead`, `src/agendas/nl.py`, a step of the weekly job): `Activiteit` with its `Agendapunt`s and zaken, three weeks ahead; 661 points on 10 October, 12 on our ground.
+4. **Eerste Kamer.** Handelingen from the KOOP SRU service, plus the
+   party-by-party results on eerstekamer.nl bill and motion pages. Votes
+   there are by party ("bij zitten en opstaan") with occasional roll calls.
+5. **Edition and DM to Chris**, on the US pattern (`tools/us_monitor.py`),
+   with a Dutch triage judge and the hidden-migration rule.
+6. **Provinces**, last.
+
+## Shared files touched
+
+Kept minimal for the thirteen-branch merge:
+
+- `src/db.py` (+9 lines): the five `nl_*` names in `TABLES`, and
+  `nl_store.ensure_schema(conn)` in `init_db`, both directly after the US
+  entries.
+- `tools/coverage.py` (+17 lines): `"Netherlands weekly"` in `PIPELINES`;
+  `nl_members`, `nl_fracties` (7 days, grace 4), `nl_divisions` and
+  `nl_zaken` (31, grace 31) in `FEEDS`; `PIPELINE_FEEDS` and
+  `AWAITING_FIRST_RUN` entries. All directly after the US entries.
+- `.github/workflows/alert.yml` (+1 line): `"Netherlands weekly"`.
+
+Everything else is new and Netherlands-only.
+
+### Chamber layer: debates, speeches and questions (parity layer 5, 10 October 2026)
+
+Built: plenary Handelingen (the VLOS XML Verslagen from the OData portal, the corrected Eindpublicatie preferred, re-read when a newer version appears) and Kamervragen (Schriftelijke and Mondelinge vragen as zaken, asker, fractie and minister), `tools/nl_chamber.py`, a step of the Netherlands weekly. Speeches are matched passage by passage in the speaker's own words, never the sitting; the chair is never stored. In the edition ("Said in the chamber", "Questions"); the DM stays votes only (NL3). Committee debates are not read (budget). Measured 28 September to 9 October 2026: 6 plenary reports, 6,000 turns, 66 on our ground (most of them migration, which is stored and not shown); 93 questions, 7 on our ground.
+
+## Waiting on Chris
+
+1. **Approve or correct the Dutch term list** above (ideally with a Dutch
+   reader; Belgium's scoping will want the shared terms agreed once). No
+   `taxonomy-nl` file exists until then.
+2. **Review the watchlist seeds** in `config/watchlist-nl.yaml`: 11 dossiers
+   and 1 zaak, all a groundwork draft.
+3. **Merge `netherlands` into main** when ready. The Mini runs main only
+   (`tools/mini_run.sh`), so nothing is scheduled until then.
+4. **Install the plist on the Mini** after the merge
+   (`launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.nl-weekly.plist`);
+   optionally add `HC_NL_WEEKLY` to `~/runner/env` for a heartbeat.
+   `MINI_LAST_NL_WEEKLY` is set by the runner itself after its first clean run.
+5. **Say what the Dutch DM should carry** when phase 5 comes: votes only,
+   or the zaak layer too.
+6. **The Eerste Kamer route:** a scrape of eerstekamer.nl HTML, the SRU
+   Handelingen, or both.
+7. **Someone reads the portal's terms** at
+   `opendata.tweedekamer.nl/disclaimer` before the weekly runs unattended
+   (the feed names it in every response).
+
+## Decisions of 10 October 2026 (applied at the countries merge)
+
+Recorded in `docs/country-decisions-2026-10-10.md`. Shared: accents fold and non-ASCII letters are word characters in the filter (X3); member positions are stored for every vote (X15); the AI judge stays off (X16).
+
+Applied on the `countries` branch:
+
+- Term list approved (NL1); `config/taxonomy-nl.yaml` (shared with Flanders) generated and loaded for `nl`.
+- X5: `nl_store.derived_member_positions()` gives each member their fractie's position on a show of hands, labelled derived.
+
+Later phases and items for Chris (not built at the merge):
+
+- The DM carries votes only (NL3): for the edition phase.
+- Phase: the Eerste Kamer via its web pages (NL4). BUILT 10 October 2026 (branch `parity-phases-a`): see "NL4, as built" below.
+- Chris reads the open-data disclaimer (NL5) before the weekly runs unattended.
+- Member profiles (handover item 3, built 10 October 2026, branch `parity-profiles`): `profiles/nl/` from the store each weekly run (`tools/member_profiles.py nl`, src/member_profiles.py): party, chamber, constituency, every recorded position on a vote on our ground as the edition classifies it, verbatim, with the basis of the party at the vote; no verdicts, no DM. Show-of-hands positions are DERIVED from the fractie vote (X5), labelled; roll calls are recorded per member.
+
+## NL4, as built (10 October 2026, branch `parity-phases-a`)
+
+`tools/nl_eerstekamer.py`, a step of `jobs/nl-weekly.sh` after the Tweede
+Kamer's collector, reading eerstekamer.nl's "Stemmingen per vergaderdag"
+pages (robots.txt respected, one page a second, archived) into
+`nl_ek_bills`, `nl_ek_divisions` and `nl_ek_votes` (`src/nl_store.py`).
+The SRU Handelingen route was not needed: the vote pages carry every vote.
+
+- **What a vote holds**: the title as printed, the Kamerstuk reference
+  (key `ek-<date>-<reference>`, joint motions under every dossier they
+  name), the method (show of hands, roll call, hamerstuk, unanimous, or
+  without a vote), the Kamer's own result word, and the sides: fracties on a
+  show of hands, every senator with their fractie on a roll call, and the
+  fracties asking for their dissent to be recorded on a hamerstuk. Nothing
+  is derived for members on a show of hands.
+- **Classified** with taxonomy-nl for `nl` and watchlist-nl by dossier, the
+  same numbers as the Tweede Kamer's; a motion inherits its bill's areas.
+- **Measured** (scratch store, 10 October 2026, back to June 2023): 1,108
+  votes on 736 bills, 16 roll calls, 13 on our ground (area 11 left out),
+  among them the conversion-practices ban (36178, roll call, adopted 16 June
+  2026, watched), the trafficking law (36547, 29 September 2026), the
+  sexual offences law (36222) and the donor-children bill (35870). 46 pages
+  in about 45 seconds on a first run; one to three pages a week after.
+- **Edition**: the Dutch edition's votes section carries the Eerste Kamer's
+  votes on our ground beside the Tweede Kamer's, each said to be the Eerste
+  Kamer's. Sample: `docs/parity-samples/nl-eerstekamer-2026-06-17.md`.
+
+## 5CA and stance sign-off (built 10 October 2026, branch `parity-5ca`)
+
+Phase list: **done** (docs/5ca-notes.md, "The new country editions"). `config/nl_stance.yaml` holds 10 bill direction(s) (Claude's drafts from the watchlist) and 212 vote reading(s): 2 with proposed values, 0 procedural, 210 need reading, 0 confirmed. Guide: `docs/5ca-nl-readings.md`; confirm with `python3 tools/country_5ca.py --cc nl --sign-from-doc --by NAME`. Sheets (`data/5ca/nl-5ca-*.csv`) appear only once a reading is confirmed. Waiting on Chris: who signs for Netherlands (`config/stance_signers.yaml`). Most votes are by show of hands: members are DERIVED from their fractie's vote (X5) and labelled; a roll call is the member's own. A motion tabled in a bill's dossier never takes the bill's direction: its own text decides.
+
+Which to sign first (11 October 2026, src/shortlist5ca.py): `docs/5ca-nl-shortlist.md` ranks the 212 waiting readings (decisive votes on watched bills, close or split votes, a meaning line ready, campaigns and briefs, recent first; procedural, near-unanimous and amendment votes sink) with each one's exact sign-off command, rewritten every Sunday; the weekly stance digest leads with its top 5. Top on 11 October: `6e41ea31-2a9d-43d6-bf62-95abf4300314` (2025-12-16, a vote on the whole text; the decisive one; split CDA, JA21 (10 against their group)). It confirms nothing.
+
+Posting to Chris (11 October 2026, src/country5ca_post.py, branch `ukp3-5ca-post`): `python3 tools/country_5ca_post.py --cc nl [--area N] [--to canvas|dm|both] [--dry-run]` renders each chamber and area's 5CA from CONFIRMED readings only and sends it to Chris alone, as a canvas shared with his user id (never a channel) and/or a DM; a rerun rewrites the same canvas in place (`data/5ca/country-post-state.json`). The Sunday judge job refreshes the canvases whose confirmed readings changed (`--refresh`); with none confirmed it sends nothing.
+
+## Debate packs (built 10 October 2026, branch `camp-debate-packs`)
+
+A manual command, like the UK and German packs; no scheduled job:
+
+    python3 tools/country_debate_pack.py --country nl --date YYYY-MM-DD --list
+    python3 tools/country_debate_pack.py --country nl --date YYYY-MM-DD --item 37027 [--speakers "Name; Name"]
+    python3 tools/country_debate_pack.py --country nl --date YYYY-MM-DD --find "<words of the title>"
+    python3 tools/country_debate_pack.py --pack data/packs/nl-<date>-<slug> --onside
+
+It writes `data/packs/nl-<date>-<slug>/`: `pack.md` and `checklist.md` in Dutch (the frame is
+translated in `src/debatepack_i18n.py`; titles, names and positions stay the source's own words),
+`members.csv`, `pack.json`, and an English `README.md`. It reads the store only (the item through
+this country's edition classification, votes by ID), fetches nothing and calls no AI. Members: roll calls (hoofdelijke stemmingen) give each member's own position; the show-of-hands votes give the fractie's, so those member rows are DERIVED (X5), marked `*`, and never count as breaking with the group.
+Agenda slot: read by bill key from the `country_agenda` table (the week-ahead layer, src/agenda.py) once the country's weekly step has read the agenda; until then the pack says the agenda is not collected. Likely speakers: no source here publishes a speakers' list ahead, so they are named by
+hand with `--speakers` (matched to the member list) once known. Placements come only from
+readings confirmed in `config/nl_stance.yaml`; none is confirmed yet, so every pack shows
+"wacht op goedkeuring" (awaiting sign-off) and places nobody. See docs/debate-pack-social.md, "New
+countries".
+
+## Same-day vote briefs (built 10 October 2026, branch `parity-vote-briefs`)
+
+Handover item 1: a brief for each watched or tier-1 vote, naming the members who voted against their group's majority, one DM to Chris per run, de-duplicated in `data/vote-briefs/nl.json` (`src/country_vote_brief.py`, step in `jobs/nl-weekly.sh`). Read daily as well (jobs/vote-briefs-daily.sh, 21:40 Mon-Fri and 06:40 Tue-Sat London): the Tweede Kamer's OData, one request; a show of hands waits up to two days for its positions. See docs/mac-mini.md, "Vote briefs for the new countries".
+
+## Vote meanings (built 11 October 2026, branch `ukp-meanings`)
+
+What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vote_meanings.py): rules first, then the free session judge in the Sunday editions-session-judge job after the editions' scores, within the same ~100 items a week; stored per division in `vote_meanings`; a person overrides any line in `config/vote-meanings-nl.yaml`. Shown in the edition, vote briefs, profiles, debate packs and docs/5ca-nl-readings.md. On the store of 11 October 2026 there is no watched or tier-1 vote to attach a line to (the local copy of the store holds none for this country yet); lines appear with the first one.
+
+## Daily sweep of new items (built 11 October 2026, branch `ukp-day-sweep`)
+
+Phase list: **done**. A same-day alert for new bills, motions, questions and agenda points on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/nl.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: new Moties, Amendementen and bills (Zaak by GestartOp, one request) and Kamervragen, and the Tweede Kamer's agenda for the next two weeks. The motions are the sweep's own items: the Dutch edition stays votes, speeches and questions (NL3), so a watched or tier-1 motion is alerted the day it is tabled and its vote is then the vote brief's. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Vote page, vote tracker and bill timelines (11 October 2026, branch `ukp-vote-pages`)
+
+- `partner_site/nl-votes.html` (UK feature parity, `tools/make_country_votes.py`, src/country_votes.py), a step of `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only; Monday's deploy ships it, behind the partner passphrase): the votes on our ground as the edition classifies them, latest 300 listed, each with the store's tally and result in the chamber's words, the split by party or group, who voted against their group's majority (recorded positions with the party at the vote only; the non-attached never counted, #80) and every member's position verbatim, with a member search. Party: show-of-hands positions DERIVED from the fractie's vote (X5), roll calls as recorded.
+- Records only: no vote is labelled for or against our side until its reading in `config/nl_stance.yaml` is CONFIRMED; until then the page says "awaiting sign-off" and carries no direction.
+- Listed in the multi-country tracker (`partner_site/votes-countries.html`); watched bills in `partner_site/bill-timelines.html` with introduction and the latest stage with its date, as the store keeps them, agenda slots (`country_agenda`) and recorded votes.
+
+Member intelligence: **built** 11 October 2026 (`tools/member_intel.py nl`, a step of `jobs/nl-weekly.sh`, branch `ukp-member-intel`): current committee seats (vast and plaatsvervangend, `CommissieZetelVastPersoon`, `CommissieZetelVervangerPersoon`) and current nevenfuncties (`PersoonNevenfunctie`, with the register's word on payment) from the gegevensmagazijn OData (CC0), sitting members only. The VWS and Justitie en Veiligheid committees are flagged on our ground in the profiles. No whip is published.
+
+Attendance: **built** (11 October 2026, branch `ukp2-attendance`) (`tools/country_attendance.py nl`, a step of `jobs/nl-weekly.sh`): every commissiedebat, wetgevingsoverleg and notaoverleg of this term (`Activiteit`, with `ActiviteitActor` and `Zaak`), its lead committee (`Voortouwcommissie_Id`) and its participants ("Deelnemer"; "Afgemeld" not counted): 284 debates, 2,463 participations, 99 zaak links. NOT a roll call: usually one spokesperson per fractie takes part, so every count says "took part in". Votes are mostly by fractie, so there is no plenary figure.
+
+## Petitions and consultations, as built (11 October 2026, branch `ukp-petitions-consult`)
+
+- **Petitions handed to the Tweede Kamer: built**, the OData Activiteit of kind 'Petitie' (the hand-over appointment; no counts). The edition's `kinds` now includes "petition"; its DM stays votes only (NL3).
+- First read: 3 on our ground (home education, two on surrogacy).
+- **Not covered: internetconsultatie.nl** disallows every crawler but named search engines (`User-agent: * Disallow: /`) and publishes no dataset; one homepage request was made on 11 October before robots.txt was read, and nothing is built on it.
+
+Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signature snapshots and a run log), `src/petition_sources/nl.py`, `tools/country_petitions.py nl` as a step of `jobs/nl-weekly.sh` before the edition. The edition's "Petitions and consultations" section shows items on our ground that are new (the first run is the baseline), crossed a threshold, gained 10,000 signatures or votes in the week, or close within a fortnight, with a "For campaigns" line when an open item is near a threshold, closing or taking responses. `--report` lists every open item on our ground.
+
+## Speech clips (built 11 October 2026, branch `ukp-speech-clips`)
+
+`tools/country_clips.py` (src/country_clips.py; docs/debate-pack-social.md, "Speech clips, new countries"): `pick nl` ranks the speeches on our ground in `nl_speeches` (or the day read live with `--live`) and writes a pack with a passage per speaker; `cut` fetches only each speech's span of official video, aligns the passage with Whisper and renders captioned 9:16 and 16:9 clips with the source credit. Manual, no job, nothing posted. Source, terms and status in `config/clip-sources.yaml`.
+
+**Status: manual.** Debat Direct gives every speaker's start second per debate (`api/debates/<id>` events), but its day archive answers our client with a 'nomeeting' placeholder playlist (24 Sep and 8 Oct, measured 11 October 2026) and its download is a socket.io fragment service, so a person downloads the speech on Debat Direct and runs `cut --pack F --only NAME --video FILE`; `moments nl --pack F` lists where each speaker spoke. The Tweede Kamer's licence (1 May 2019) allows extracts for freedom of expression with a visible credit, a copyright line, a link to the terms and a note of the edit; no member recruitment or fundraising in the clip; source footage destroyed within a month (the tool purges `windows/` after 30 days).
+
+## Debate report (built 11 October 2026, branch `ukp2-debate-report`)
+
+`tools/country_debate_report.py` (src/country_debatereport.py; docs/debate-pack-social.md, "Debate report, new countries"): after a debate, an English report from templates over the record (each speaker on our ground with a verbatim passage in the language spoken and its translation, by a person or the free session judge on the Mini; the bill's votes and the latest on the same ground, with tallies, group splits and vote meanings) and draft social copy; a DM to Chris alone for approval; after `--approve --by NAME`, `--publish` makes the Slack canvas shared with Chris alone. Manual, no job, no paid AI, nothing posted to a channel or a social network. AWAITING SIGN-OFF, with no verdicts, until the readings of the votes shown are confirmed.
+
+## Words since the last vote (built 11 October 2026, branch `ukp2-since-last-vote`)
+
+`tools/country_since_vote.py --cc nl` (src/country_since_vote.py; docs/debate-pack-social.md, "Between votes, new countries"): per area, each member's last recorded vote on it and their speeches since, with excerpts. Drift is named only once the vote's reading is confirmed and a person or the free session judge has read the words (`--queue-out` / `--reads`); until then "awaiting sign-off", ranked by recency and volume. Manual, no job; `tools/member_profiles.py nl --since-vote` adds it to the profiles. Most Dutch votes are a fractie's show of hands: those rows are labelled the group's vote (X5) and never name drift; only roll calls (hoofdelijke stemmingen) can. The published store of 11 October held no Dutch votes or speeches, so no sample yet.
+
+Length of service: **built** 11 October 2026 (`tools/member_service.py nl`, branch `ukp2-service`): every Tweede Kamer fractie seat with its dates (FractieZetelPersoon, the gegevensmagazijn), joined end to end into periods; each seat is a dated fractie spell matched to the vote record by Fractie_Id. DERIVED positions (show of hands, X5) are now given only for a day the member sat, by the fractie they sat in that day. Weekly; coverage starts at the earliest seat the source records. See docs/country-parity-handover.md, section 3c.

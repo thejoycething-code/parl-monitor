@@ -1,0 +1,209 @@
+# Speech clips for social, the new countries (src/country_clips.py,
+# tools/country_clips.py). One entry per country probed on 11 October 2026:
+# where its official video lives, whether it can be fetched for a clip, how
+# the clip's times are found against the speeches we store, and what the
+# reuse terms say. Hand-edited; the tool reads it and never writes it.
+#
+# status:
+#   open             the tool fetches and cuts; the terms allow non-commercial
+#                    political use with the credit below. Whether a given post
+#                    is within the terms stays the campaigner's call (as for
+#                    the UK's Parliamentary Recording Unit terms).
+#   manual           the terms allow it, but the tool cannot fetch the footage
+#                    itself: a person downloads the speech with the source's own
+#                    download button and hands the file to `cut --video`.
+#   needs-agreement  the terms ask for prior written agreement for video. The
+#                    tool locates and plans the clip but refuses to fetch or cut
+#                    until `agreement:` below names the written agreement
+#                    (who, when). Nobody has written to ask yet.
+#   not-built        no clip tool: say why.
+#
+# credit: burned into every frame of a clip (small, top right), and written in
+# the pack README for the post text. logo: whether the CitizenGO logo may be
+# overlaid (Switzerland's terms forbid added graphic elements that could change
+# the meaning, so no logo there). retention_days: fetched source footage
+# (windows/) is deleted after this many days; the finished clips are kept (the
+# Dutch licence, art. 4.4, requires source material to be destroyed within a
+# month; the same rule is applied everywhere).
+
+nl:
+  status: manual
+  source: "Debat Direct (debatdirect.tweedekamer.nl)"
+  how: >-
+    Per debate, cdn.debatdirect.tweedekamer.nl/api/debates/<id> lists every
+    'speaker' event with the politician's id and the wall-clock second it
+    started, and a day-long HLS archive per room. Measured 11 October 2026:
+    every archived day's playlist (24 Sep, 8 Oct) answers our client with an
+    11-segment 'nomeeting' placeholder, so the archive cannot be fetched from
+    here; the site's own download ('spreekmoment downloaden') goes through a
+    socket.io fragment service. So a person downloads the speech on Debat
+    Direct (MP4, 1080p offered) and runs `cut --video FILE`; the tool aligns
+    the passage in that file and gives the Debat Direct times in the plan.
+  terms: >-
+    Licentievoorwaarden Audiovisueel Materiaal Tweede Kamer (1 May 2019):
+    free use for journalism, freedom of expression, education and research
+    (3.2); not for commercial use, advertising, sponsor or member recruitment
+    (3.3, 4.7); extracts and integration in other works allowed if not
+    distorted (4.5); must show visibly that the footage is the Tweede Kamer's,
+    give a copyright notice, link the terms and say it was edited (4.2); source
+    footage destroyed within one month (4.4); third parties (platforms) bound
+    too (1.8). A clip that asks people to sign up or give is member recruitment:
+    keep the call to action out of the clip.
+  terms_url: "https://www.tweedekamer.nl/sites/default/files/atoms/files/licentievoorwaarden_audiovisueel_materiaal_tweede_kamer.pdf"
+  credit: "Beeld: Tweede Kamer, bewerkt"
+  post_credit: >-
+    Beeld: Tweede Kamer (c) Staat der Nederlanden, bewerkt (fragment,
+    ondertiteld). Voorwaarden: https://www.tweedekamer.nl/contact-en-bezoek/persinformatie
+  logo: true
+  retention_days: 30
+  language: nl
+
+ch:
+  status: open
+  source: "Parlament video archive (par-pcache.simplex.tv), linked from the Amtliches Bulletin"
+  how: >-
+    Each speech in the Bulletin (OData Transcript, our speech_id
+    'transcript:<ID>') has its own MP4 at
+    par-pcache.simplex.tv/content/simvid_1.mp4?externalid=<ID>, the Bulletin's
+    own 'Video' download (robots.txt allows everything; measured 11 October
+    2026). The file is the speech, so the passage is aligned inside it.
+  terms: >-
+    parlament.ch Nutzungsbedingungen: images and videos free to download and
+    use for non-commercial purposes (information, documentation, education,
+    media); commercial, advertising, promotional or marketing use only with
+    written approval; cropping and resizing allowed, but no montage and no
+    added graphic or text elements that could change the meaning; credit
+    '(c) ParlCH'. Spoken-word captions and a name plate do not change the
+    meaning; the CitizenGO logo is left off.
+  terms_url: "https://www.parlament.ch/de/services/Seiten/Nutzungsbedingungen.aspx"
+  credit: "© ParlCH"
+  post_credit: "Video: (c) ParlCH"
+  logo: false
+  retention_days: 30
+  language: null        # German, French or Italian per speech: detected
+
+at:
+  status: open
+  source: "Parlament Mediathek (parlament.gv.at/aktuelles/mediathek)"
+  how: >-
+    The sitting's Mediathek page lists every speaker turn (redner) with its
+    protocol file (our speech_id ends in that file's name, whose last number is
+    the redner's std_id) and a uuid; api.ausp.cloud.insysgo.com/media/clean/
+    <uuid>.mp4 answers with that one speech's 1080p MP4, the page's own 'Rede
+    herunterladen' (robots.txt allows the Mediathek except
+    /aktuelles/mediathek/XXVIII/NRSITZ/19*, honoured). Measured 11 October 2026.
+  terms: >-
+    parlament.gv.at Nutzungsbedingungen: free use only for political
+    reporting, political education and private non-commercial purposes; no
+    commercial use, which includes any advertising; credit '(c)
+    Parlamentsdirektion'; the Parliament may forbid a use to protect its
+    dignity. Campaign posts must stay political reporting (what a member said).
+  terms_url: "https://www.parlament.gv.at/services/hilfe/nutzungsbedingungen/"
+  credit: "© Parlamentsdirektion"
+  post_credit: "Video: (c) Parlamentsdirektion"
+  logo: true
+  retention_days: 30
+  language: de
+
+fr:
+  status: needs-agreement
+  agreement: null       # e.g. "communication@assemblee-nationale.fr, reply of <date> to <name>"
+  source: "Portail video de l'Assemblee nationale (videos.assemblee-nationale.fr)"
+  how: >-
+    Each paragraph of the compte rendu carries `stime`, seconds into the
+    sitting's video (tools/fr_chamber.parse_sitting_timed; checked on sitting
+    N016 of 9 October 2026: 'La seance est ouverte' at 895.39 s into a file
+    that began recording at 08:45:18, i.e. 09:00:13). The video page for a
+    sitting (found by date and 'Neme seance' on the portal's seance-publique
+    list, confirmed by its reportUrl naming the compte rendu) gives the whole
+    sitting's MP4 on anorigin.vodalys.com, which answers byte ranges. So the
+    speech's own span is known to the second and only that span is fetched.
+  terms: >-
+    assemblee-nationale.fr Informations legales: debates and parliamentary
+    documents are free of copyright and may be reproduced for personal,
+    associative or professional purposes, never commercial or advertising,
+    with integrity, author, source and a link; but 'les graphismes,
+    photographies et ressources multimedias ne peuvent etre reproduits sans
+    accord prealable'. The portal itself offers clip downloads (by e-mail).
+    So: ask communication@assemblee-nationale.fr before the first clip.
+  terms_url: "https://www.assemblee-nationale.fr/dyn/info-site"
+  credit: "© Assemblée nationale"
+  post_credit: "Video: Assemblee nationale (videos.assemblee-nationale.fr)"
+  logo: true
+  retention_days: 30
+  language: fr
+
+be:
+  status: needs-agreement
+  agreement: null
+  source: "La Chambre / De Kamer video (media.lachambre.be)"
+  how: >-
+    media.lachambre.be/api/archive lists each meeting (plenary 'P<n>' is our
+    doc_id '56/<n>') with its MP4 (www1.lachambre.be/broadcast_lq_x/<stream>,
+    the site's own 'Download video') and an eventTable of speaker turns with
+    their offsets into the stream. A speaker's turns are searched longest first
+    until the passage is heard. Measured 11 October 2026 (robots.txt:
+    Crawl-delay 5, honoured).
+  terms: >-
+    lachambre.be FAQ: speeches made in the Chamber may be freely reproduced
+    and communicated to the public (Code de droit economique XI.172 s.1), but
+    the Chamber's own publications and 'oeuvres que la Chambre commande ou
+    obtient aupres de tiers' (the recordings are made by a contractor) may not
+    be reproduced without the Chamber's authorisation. No video licence is
+    published. So: ask the Chamber before the first clip.
+  terms_url: "https://www.lachambre.be/kvvcr/showpage.cfm?section=/searchlist&language=fr&html=/site/wwwroot/searchlist/faqF.html"
+  credit: "© La Chambre / De Kamer"
+  post_credit: "Video: La Chambre / De Kamer (media.lachambre.be)"
+  logo: true
+  retention_days: 30
+  language: null        # Dutch or French per speech: detected
+
+br:
+  status: not-built
+  source: "Camara dos Deputados (WebCamara, YouTube)"
+  terms: >-
+    Videos of legislative activity are CC BY 4.0; the Camara's watermark must
+    not be removed. Open. Plenary speeches are collected from 11 October 2026
+    (tools/br_chamber.py, branch gaps-speeches); the clip step itself is not
+    built yet.
+  terms_url: "https://www2.camara.leg.br/a-camara/documentos-e-pesquisa/arquivo/acervo-por-tipo/videos"
+
+pl:
+  status: not-built
+  source: "Sejm transmissions (sejm.gov.pl, the Sejm's YouTube)"
+  terms: >-
+    No reuse terms for the video found on 11 October 2026. Speeches are
+    collected from 11 October 2026 (tools/pl_chamber.py, branch
+    gaps-speeches: the transcript endpoint answered on the retry); clips wait
+    for reuse terms.
+
+hr:
+  status: not-built
+  source: "Hrvatski sabor (edoc.sabor.hr 'Snimka rasprave', the Sabor's video)"
+  terms: >-
+    Speeches are collected from 11 October 2026 (tools/hr_chamber.py, branch
+    gaps-speeches); the video's reuse terms were not looked for. Not built.
+
+sk:
+  status: not-built
+  source: "NR SR video archive (tv.nrsr.sk, each speech's own video)"
+  terms: >-
+    Speeches are collected from 11 October 2026 (tools/sk_chamber.py, branch
+    gaps-speeches), each with its own video link; the video's reuse terms were
+    not looked for. Not built.
+
+it:
+  status: not-built
+  source: "webtv.camera.it, senato.it"
+  terms: >-
+    The Camera's legal notice reserves its multimedia under Law 633/1941
+    (original content reproducible with the source credited, video not
+    clearly covered); and no Italian speeches in the store (the Senate's
+    SPARQL refuses us, the Camera's debates not collected).
+
+es:
+  status: not-built
+  source: "Congreso de los Diputados, Canal Parlamento"
+  terms: >-
+    No video reuse terms found on 11 October 2026; the Cortes are dissolved
+    until 23 December and there is no Spanish speech collector.

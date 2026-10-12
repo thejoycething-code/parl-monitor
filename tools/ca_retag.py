@@ -10,7 +10,10 @@ area 9). The Canadian store had been tagged across v1.8-v1.10 and two
 watchlist-ca edits, and a term reaches only rows collected after it joined
 unless something goes back over the ones already held.
 
-ADDITIVE ONLY, like tools/de_retag.py and for the same reason. Each row is
+ADDITIVE ONLY, like tools/de_retag.py and for the same reason, with ONE
+reviewed exception: config/ca_area_corrections.yaml takes a wrong area off a
+named bill and its divisions (8 October 2026: Roxanne's Law, 40-3/C-510,
+filed under assisted dying on "coercion"). Each row is
 re-matched from the SAME inputs its collector used, where the store still
 holds them:
   * a Commons division from its subject (ca_rollcalls.classify);
@@ -18,14 +21,20 @@ holds them:
   * a bill from its long and short titles;
   * a petition from its category + keywords and its prayer (ca_petitions);
   * a speech from its full text, per passage, with its subject as a title
-    passage (ca_hansard; a committee speech's subject is its meeting's
-    study titles, ca_committees);
+    passage (ca_hansard) -- for a Senate floor speech the subject plus its
+    bill's long title, joined on its sitting's session (ca_senate_debates,
+    ca_store.speech_title); a committee speech's subject is its meeting's
+    study titles (ca_committees);
   * committee testimony the same way (ca_committees);
   * a Gazette item from its stored text per passage (a notice, a PDF item);
     a notice matched on its title alone, from its title and department; a
     regulation whose body lives at its URL, from its excerpt -- part of the
     body, so a match there is a match on the body, but the excerpt cannot
-    reproduce every tag the body earned (the trust check reports it).
+    reproduce every tag the body earned (the trust check reports it);
+  * a Supreme Court judgment from its subjects and stored headnote, with its
+    case name as a title passage; a leave decision from the Registrar's
+    summary, likewise (ca_courts). Both keep their full inputs, so both are
+    gated.
 A match on those is a match on what the collector read, so adding is safe;
 re-deriving and writing back would drop any tag earned from text the store
 no longer keeps. ca_rollcalls.reclassify is NOT this: it re-derives every
@@ -75,7 +84,7 @@ def _passages(tax, wl, text, title):
 
 def _rows(conn, tax, wl):
     """Yield (table, key column, key, stored areas, stored terms, stored tier,
-    (areas, terms, tier) re-derived)."""
+    (areas, terms, tier) re-derived, areas a reviewed correction removes)."""
     titles = {(r[0], r[1], r[2]): r[3] for r in conn.execute(
         "SELECT parliament, session, number, long_title FROM ca_bills")}
     for r in conn.execute("SELECT division_key, chamber, parliament, session, subject, "
@@ -83,35 +92,69 @@ def _rows(conn, tax, wl):
         fields = [r[4] or ""]
         if r[1] == "senate":
             fields.append(titles.get((r[2], r[3], r[5])) or "")
-        yield ("ca_divisions", "division_key", r[0], r[6], r[7], r[8],
-               _item(filt.filter_item(tax, wl, *fields)))
+        # The collectors also honour a watched bill KEY (3 October 2026:
+        # the 2010-2024 landmarks, C-16 under its generic title), so the
+        # retag must too, or it fails to reproduce exactly those rows.
+        res = ca_store.add_bill_key_areas(filt.filter_item(tax, wl, *fields),
+                                          r[2], r[3], r[5])
+        yield ("ca_divisions", "division_key", r[0], r[6], r[7], r[8], _item(res),
+               ca_store.removed_areas(r[2], r[3], r[5]))
     for r in conn.execute("SELECT bill_key, long_title, short_title, areas, matched_terms, "
-                          "tier FROM ca_bills"):
-        yield ("ca_bills", "bill_key", r[0], r[3], r[4], r[5],
-               _item(filt.filter_item(tax, wl, r[1] or "", r[2] or "")))
+                          "tier, parliament, session, number FROM ca_bills"):
+        res = ca_store.correct_areas(filt.filter_item(tax, wl, r[1] or "", r[2] or ""), r[6], r[7], r[8])
+        yield ("ca_bills", "bill_key", r[0], r[3], r[4], r[5], _item(res),
+               ca_store.removed_areas(r[6], r[7], r[8]))
     for r in conn.execute("SELECT petition_id, category, keywords, prayer, areas, "
                           "matched_terms, tier FROM ca_petitions"):
         head = " ".join([r[1] or ""] + json.loads(r[2] or "[]"))
         yield ("ca_petitions", "petition_id", r[0], r[4], r[5], r[6],
-               _item(filt.filter_item(tax, wl, head, r[3] or "")))
-    for r in conn.execute("SELECT speech_id, text, subject, areas, matched_terms "
-                          "FROM ca_speeches"):
+               _item(filt.filter_item(tax, wl, head, r[3] or "")), set())
+    # A Senate floor speech was matched with its bill's long title in the
+    # title passage (tools/ca_senate_debates.py), joined on the session its
+    # sitting belongs to; re-reading it from the subject alone would fail the
+    # trust check on every speech whose tags came from that title.
+    for r in conn.execute("SELECT s.speech_id, s.text, s.subject, s.areas, s.matched_terms, "
+                          "s.chamber, s.bill_number, ss.parliament, ss.session, s.sitting_key "
+                          "FROM ca_speeches s LEFT JOIN ca_senate_sittings ss "
+                          "ON ss.sitting_key = s.sitting_key"):
+        title = r[2]
+        if r[5] == "senate" and r[7] is not None:
+            title = ca_store.speech_title(r[2], r[6], titles.get((r[7], r[8], r[6])))
+        new, terms, tier = _passages(tax, wl, r[1], title)
+        # A speech of a corrected bill's debate (config/ca_area_corrections.yaml)
+        corrected, _ = ca_store.speech_correction(r[9], r[6], r[2])
+        drop = ca_store.removed_speech_areas(r[9], r[6], r[2])
+        if corrected and drop & set(json.loads(r[3] or "[]")):
+            terms = terms + ["corrected:" + corrected]
         yield ("ca_speeches", "speech_id", r[0], r[3], r[4], None,
-               _passages(tax, wl, r[1], r[2]))
+               (new - drop, terms, tier), drop)
     # Committee testimony is matched exactly as a committee speech: its full
     # text per passage, the meeting's study titles (stored as subject) as the
     # title passage (tools/ca_committees.py).
     for r in conn.execute("SELECT testimony_id, text, subject, areas, matched_terms "
                           "FROM ca_testimony"):
         yield ("ca_testimony", "testimony_id", r[0], r[3], r[4], None,
-               _passages(tax, wl, r[1], r[2]))
+               _passages(tax, wl, r[1], r[2]), set())
     for r in conn.execute("SELECT item_key, text, excerpt, title, areas, matched_terms, "
                           "tier, matched_on, department FROM ca_gazette_items"):
         # A notice whose anchor was missing was matched on its title and
         # department (ca_gazette.read_issue), so it is re-matched the same way.
         again = (_item(filt.filter_item(tax, wl, r[3] or "", r[8] or ""))
                  if r[7] == "title" else _passages(tax, wl, r[1] or r[2], r[3]))
-        yield ("ca_gazette_items", "item_key", r[0], r[4], r[5], r[6], again)
+        yield ("ca_gazette_items", "item_key", r[0], r[4], r[5], r[6], again, set())
+    # Supreme Court judgments from their subjects and headnote, with the case
+    # name as a title passage (ca_courts.classify_judgment); a Federal Court
+    # row was matched on reasons the store does not keep, so it is left out.
+    for r in conn.execute("SELECT judgment_id, title, subjects, headnote, areas, matched_terms, "
+                          "tier FROM ca_judgments WHERE court = 'SCC'"):
+        text = "\n".join(json.loads(r[2] or "[]") + [r[3] or ""])
+        yield ("ca_judgments", "judgment_id", r[0], r[4], r[5], r[6],
+               _passages(tax, wl, text, r[1]), set())
+    # Leave decisions from the Registrar's summary with the case name as a
+    # title passage (ca_courts.classify_leave).
+    for r in conn.execute("SELECT docket, title, summary, areas, matched_terms, tier "
+                          "FROM ca_leave"):
+        yield ("ca_leave", "docket", r[0], r[3], r[4], r[5], _passages(tax, wl, r[2], r[1]), set())
 
 
 # THE TRUST CHECK (29 September 2026). Re-matching a row from its stored
@@ -123,7 +166,8 @@ def _rows(conn, tax, wl):
 # re-read from its excerpt, not its body, so that table is reported, not
 # gated.
 TRUST_FLOOR = 0.99
-GATED = ("ca_divisions", "ca_bills", "ca_petitions", "ca_speeches", "ca_testimony")
+GATED = ("ca_divisions", "ca_bills", "ca_petitions", "ca_speeches", "ca_testimony",
+         "ca_judgments", "ca_leave")
 UNTIERED = ("ca_speeches", "ca_testimony")    # no tier column
 
 
@@ -137,8 +181,9 @@ def retag(conn, tax, wl, dry_run=False, log=print, floor=TRUST_FLOOR):
     reproduced for fewer than TRUST_FLOOR of its tagged rows."""
     rows = list(_rows(conn, tax, wl))
     held, kept = {}, {}
-    for table, _, _, areas, _, _, (new, _, _) in rows:
-        stored = set(json.loads(areas or "[]"))
+    for table, _, _, areas, _, _, (new, _, _), drop in rows:
+        # A reviewed correction's removed areas are not expected back.
+        stored = set(json.loads(areas or "[]")) - drop
         if stored:
             held[table] = held.get(table, 0) + 1
             kept[table] = kept.get(table, 0) + (stored <= new)
@@ -154,17 +199,21 @@ def retag(conn, tax, wl, dry_run=False, log=print, floor=TRUST_FLOOR):
         raise Untrusted("reproduction under {0:.0%} in {1}: not reading what the collector "
                         "read, nothing written".format(floor, ", ".join(low)))
     changes = []
-    for table, keycol, key, areas, terms, tier, (new, new_terms, new_tier) in rows:
+    for table, keycol, key, areas, terms, tier, (new, new_terms, new_tier), drop in rows:
         stored = set(json.loads(areas or "[]"))
         added = new - stored
-        if not added:
+        # ADDITIVE, with one exception: an area a reviewed correction
+        # (config/ca_area_corrections.yaml) takes off that one bill and its
+        # divisions. Nothing else is ever removed.
+        removed = stored & drop
+        if not added and not removed:
             continue
-        changes.append((table, key, sorted(added), new_terms))
+        changes.append((table, key, sorted(added), new_terms) + ((sorted(removed),) if removed else ()))
         if dry_run:
             continue
         merged_terms = sorted(set(json.loads(terms or "[]")) | set(new_terms))
         sets = ["areas = ?", "matched_terms = ?"]
-        args = [json.dumps(sorted(stored | added)), json.dumps(merged_terms, ensure_ascii=False)]
+        args = [json.dumps(sorted((stored | added) - removed)), json.dumps(merged_terms, ensure_ascii=False)]
         if table not in UNTIERED:
             # Tier 1 outranks tier 2; a tier only ever improves here.
             best = min(t for t in (tier, new_tier) if t is not None) if (tier or new_tier) else None
@@ -193,18 +242,24 @@ def main():
         conn.close()
         return 1
     by_table = {}
-    for table, key, added, terms in changes:
+    lost = 0
+    for table, key, added, terms, *removed in changes:
         by_table[table] = by_table.get(table, 0) + 1
-        print("  {0:<17} {1:<32} +area {2}  via {3}".format(
-            table, str(key)[-32:], added, ", ".join(terms[:2])))
+        lost += bool(removed)
+        print("  {0:<17} {1:<32} +area {2}{3}  via {4}".format(
+            table, str(key)[-32:], added,
+            "  -area {0} (reviewed correction)".format(removed[0]) if removed else "",
+            ", ".join(terms[:2])))
     # The YAML's `version: 1.10` loads as the float 1.1; read it as written.
     with open(TAXONOMY) as fh:
         version = next((l.split(":", 1)[1].strip() for l in fh if l.startswith("version:")),
                        tax.version)
-    print("ca-retag: {0} row(s) gain an area under taxonomy v{1}{2}; none lose one{3}".format(
+    print("ca-retag: {0} row(s) change under taxonomy v{1}{2}; {3}{4}".format(
         len(changes), version,
         " ({0})".format(", ".join("{0} {1}".format(n, t) for t, n in sorted(by_table.items())))
-        if by_table else "", " (dry run)" if args.dry_run else ""))
+        if by_table else "",
+        "{0} lose an area by a reviewed correction (config/ca_area_corrections.yaml)".format(lost)
+        if lost else "none lose one", " (dry run)" if args.dry_run else ""))
     conn.close()
     return 0
 

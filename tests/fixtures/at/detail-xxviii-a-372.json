@@ -1,0 +1,2481 @@
+{
+ "pagetype": "geschichtsseite",
+ "meta": {
+  "description": "Waffengesetz, Änderung (372/A)",
+  "generationTime": "Wed Sep 16 22:37:02 GMT 2026",
+  "keywords": "\"Abstimmungen, namentliche\", \"Sicherheitswesen\"",
+  "lang": "de",
+  "title": "Waffengesetz, Änderung (372/A) | Parlament Österreich",
+  "openGraph": {
+   "image": "https://www.parlament.gv.at/static/img/og.png",
+   "title": "Waffengesetz, Änderung | Parlament Österreich",
+   "description": "372/A"
+  },
+  "scripts": [],
+  "styles": []
+ },
+ "content": {
+  "breadcrumbs": [
+   {
+    "title": "Start",
+    "url": "/"
+   },
+   {
+    "title": "Gesetzesinitiativen",
+    "url": "/recherchieren/gegenstaende/gesetzesinitiativen/"
+   },
+   {
+    "title": "Nationalrat - XXVIII. GP",
+    "url": "/recherchieren/gegenstaende/gesetzesinitiativen/?GP=XXVIII"
+   },
+   {
+    "title": "Selbständiger Antrag",
+    "url": "/recherchieren/gegenstaende/gesetzesinitiativen/?GP=XXVIII&RGES=A"
+   },
+   {
+    "title": "372/A"
+   }
+  ],
+  "type": "Selbständiger Antrag",
+  "sntype": "Selbständiger Antrag",
+  "title": "Waffengesetz, Änderung",
+  "zitation": "372/A",
+  "description": "Antrag der Abgeordneten Mag. Ernst Gödl, Maximilian Köllner, MA, Douglas Hoyos-Trauttmansdorff, Kolleginnen und Kollegen betreffend ein Bundesgesetz, mit dem das Waffengesetz 1996 geändert wird",
+  "gp_code": "XXVIII",
+  "ityp": "A",
+  "inr": 372,
+  "doktyp": "A",
+  "update": "2026-09-17T00:36:53",
+  "nr_gp_code": "XXVIII",
+  "intranet": "N",
+  "group": "1",
+  "deleted": false,
+  "einlangen": "2025-07-09T00:00:00",
+  "history_ind": 2,
+  "vhg_fertig": "J",
+  "vhg_fertig_docs": "J",
+  "process": "J",
+  "statementsstate": "0",
+  "approvalstate": "9 Keine Zustimmung bei dem Doktyp \"A\" möglich",
+  "statements": {
+   "new": 0,
+   "documents": [
+    {
+     "title": "Gesetzestext (Arbeitsdokument ParlDion)",
+     "documents": [
+      {
+       "link": "/dokument/XXVIII/A/372/fname_1702313.pdf",
+       "type": "PDF"
+      },
+      {
+       "link": "/dokument/XXVIII/A/372/fnameorig_1702313.html",
+       "type": "HTML"
+      }
+     ]
+    },
+    {
+     "title": "Geändert im Ausschuss",
+     "documents": [
+      {
+       "link": "/dokument/XXVIII/I/204/fname_1711020.pdf",
+       "type": "PDF"
+      },
+      {
+       "link": "/dokument/XXVIII/I/204/fnameorig_1711020.html",
+       "type": "HTML"
+      }
+     ]
+    },
+    {
+     "title": "Geändert im Plenum",
+     "documents": [
+      {
+       "link": "/dokument/XXVIII/BNR/63/fname_1713048.pdf",
+       "type": "PDF"
+      },
+      {
+       "link": "/dokument/XXVIII/BNR/63/fnameorig_1713048.html",
+       "type": "HTML"
+      }
+     ]
+    }
+   ],
+   "filter": {
+    "rendertype": "filter",
+    "data": {
+     "type": "FILTER",
+     "resultLayout": "TABLE",
+     "hasForm": true,
+     "hasList": true,
+     "label": "Stellungnahmen",
+     "pagesize": 20,
+     "definition": {
+      "bez": "FP_142_vhg",
+      "listeId": 142,
+      "params": {
+       "BEZUG_GP_CODE": [
+        "XXVIII"
+       ],
+       "BEZUG_ITYP": [
+        "A"
+       ],
+       "BEZUG_INR": [
+        372
+       ]
+      },
+      "fixedParams": {
+       "BEZUG_GP_CODE": [
+        "XXVIII"
+       ],
+       "BEZUG_ITYP": [
+        "A"
+       ],
+       "BEZUG_INR": [
+        372
+       ]
+      },
+      "hideDimensions": [
+       "BEZUG_GP_CODE",
+       "BEZUG_ITYP",
+       "BEZUG_INR"
+      ],
+      "hideColumns": [
+       "16",
+       "17"
+      ],
+      "sortrnr": 5,
+      "ascDesc": "DESC"
+     }
+    }
+   }
+  },
+  "status": {
+   "number": 5,
+   "description": "Beschlossen im Bundesrat <a href=\"/gegenstand/XXVIII/BNR/63\">63/BNR</a><br>Namentliche Abstimmung (abgegebene Stimmen: 59; 43 Ja-Stimmen, 16 Nein-Stimmen)<br>Beschlossen im Nationalrat <a href=\"/gegenstand/XXVIII/BNR/63\">63/BNR</a>, Namentliche Abstimmung (abgegebene Stimmen: 59; 43 Ja-Stimmen, 16 Nein-Stimmen)",
+   "bgbllinks": [
+    {
+     "title": "Bundesgesetzblatt I Nr. 56/2025",
+     "link": "http://www.ris.bka.gv.at/Dokument.wxe?Abfrage=BgblAuth&Dokumentnummer=BGBLA_2025_I_56",
+     "type": "DEFAULT"
+    },
+    {
+     "title": "Kunsttext",
+     "link": "http://www.ris.bka.gv.at/Ergebnis.wxe?Abfrage=Bundesnormen&Kundmachungsorgan=BGBl.+I+Nr.&Kundmachungsnummer=56%2f2025&Suchworte=&ReturnUrl=%2fSuchen.wxe%3fQueryID%3dBundesnormen",
+     "type": "DEFAULT"
+    }
+   ]
+  },
+  "progress": [
+   {
+    "name": "Einbringung NR",
+    "id": 1,
+    "empty": false
+   },
+   {
+    "name": "Ausschussberatungen NR",
+    "id": 3,
+    "empty": false
+   },
+   {
+    "name": "Plenarberatungen NR",
+    "id": 4,
+    "empty": false
+   },
+   {
+    "name": "Einlangen BR",
+    "id": 5,
+    "empty": false
+   },
+   {
+    "name": "Ausschussberatungen BR",
+    "id": 6,
+    "empty": false
+   },
+   {
+    "name": "Plenarberatungen BR",
+    "id": 7,
+    "empty": false
+   }
+  ],
+  "phase": [
+   {
+    "name": "Einbringung NR",
+    "id": 1,
+    "stages": [
+     {
+      "date": "09.07.2025",
+      "text": "Einbringung im Nationalrat",
+      "priority": 1
+     },
+     {
+      "date": "09.07.2025",
+      "text": "Übermittlung an das Bundesministerium für Inneres"
+     },
+     {
+      "date": "09.07.2025",
+      "text": "Vorgesehen für den <a href=\"/ausschuss/XXVIII/A-IA/1/00924\">Ausschuss für innere Angelegenheiten</a>"
+     },
+     {
+      "date": "09.07.2025",
+      "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/35\">35. Sitzung des Nationalrates</a>: Mitteilung der Einbringung",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 35,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/35/fnameorig_1761395.html#215",
+        "title": "23:57:14 - Präsidium (RN/215)",
+        "text": "RN/215"
+       }
+      ]
+     }
+    ],
+    "documents": []
+   },
+   {
+    "name": "Ausschussberatungen NR",
+    "id": 3,
+    "stages": [
+     {
+      "date": "09.07.2025",
+      "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/36\">36. Sitzung des Nationalrates</a>: Zuweisung an den <a href=\"/ausschuss/XXVIII/A-IA/1/00924\">Ausschuss für innere Angelegenheiten</a>",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 36,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/36/fnameorig_1762422.html#2.3",
+        "title": "23:57:53 - Peter Haubner, Zweiter Präsident des Nationalrates - Präsidium (RN/2.3)",
+        "text": "RN/2.3"
+       }
+      ]
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Ausschuss für innere Angelegenheiten: Beschlussfassung auf Einholung schriftlicher Stellungnahmen im Rahmen eines \"Ausschussbegutachtungsverfahrens\""
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Ausschussbegutachtung der Vorlage (<a href=\"/gegenstand/XXVIII/AUA/33\">33/AUA</a>)"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundeskanzleramt - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für Arbeit, Soziales, Gesundheit, Pflege und Konsumentenschutz - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für Bildung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für europäische und internationale Angelegenheiten - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für Finanzen - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für Frauen, Wissenschaft und Forschung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für Inneres - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für Innovation, Mobilität und Infrastruktur - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für Justiz - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für Land- und Forstwirtschaft, Klima- und Umweltschutz, Regionen und Wasserwirtschaft - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für Landesverteidigung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für Wirtschaft, Energie und Tourismus - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesministerium für Wohnen, Kunst, Kultur, Medien und Sport - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Amt der Burgenländischen Landesregierung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Amt der Kärntner Landesregierung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Amt der Niederösterreichischen Landesregierung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Amt der Oberösterreichischen Landesregierung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Amt der Steiermärkischen Landesregierung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Amt der Tiroler Landesregierung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Amt der Vorarlberger Landesregierung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Amt der Wiener Landesregierung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Autonome Frauenhäuser - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Berufsverband Österreichischer Psychologinnen und Psychologen - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesarbeitskammer - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundeskanzleramt - Verfassungsdienst - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesverband der Gewaltschutzzentren - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Bundesverwaltungsgericht - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Dachverband \"Jagd Österreich\" - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Gemeindebund - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Handelsverband - Verband österreichischer Mittel- und Großbetriebe des Handels - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Hauptverband der allgemein beeideten und gerichtlich zertifizierten Sachverständigen Österreichs - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Institut für angewandte Rechts- und Kriminalsoziologie Universität Innsbruck - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von IWÖ (Interessengemeinschaft Liberales Waffenrecht in Österreich) - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Jägerschaft Vorarlberger - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Kärntner Jägerschaft - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Kinder- und Jugendanwaltschaften Österreichs - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Kuratorium für Verkehrssicherheit - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Landesjagdverband Burgenland - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Landwirtschaftskammer Österreich - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Neustart Zentrale - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Niederösterreichischer Landesjagdverband - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Oberösterreichischer Landesjagdverband - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Österreichischer Schützenbund - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Österreichischer Städtebund - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Rechnungshof - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Salzburger Jägerschaft - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Salzburger Landesregierung - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Sprengverband - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Steirische Landesjägerschaft - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Tiroler Jägerverband - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Tiroler-Schützen - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Verbindungsstelle der Bundesländer - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Verein Kriseninterventionszentrum - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Verfassungsgerichtshof - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Volksanwaltschaft - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Wiener Landesjagdverband - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Wirtschaftskammer Österreich - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Antrag auf Einholung einer Stellungnahme von Zentralstelle Österreichischer Landesjagdverbände - <b>angenommen</b>"
+     },
+     {
+      "date": "04.09.2025",
+      "text": "Ausschuss für innere Angelegenheiten: auf <a href=\"/dokument/XXVIII/A-IA/1/00924/TO_16643645.html\">Tagesordnung</a> in der <a href=\"/ausschuss/XXVIII/A-IA/1/00924?selectedStage=105&selectedSession=7&selectedDate=04092025\">7. Sitzung des Ausschusses</a><br>In der Sitzung vom 4. September 2025 vertagt"
+     },
+     {
+      "date": "18.09.2025",
+      "text": "Ausschuss für innere Angelegenheiten: Abänderungsantrag der Abgeordneten <a href=\"/person/83409\" target=\"_blank\">Mag. Ernst Gödl</a>, <a href=\"/person/5641\" target=\"_blank\">Maximilian Köllner, MA</a>, <a href=\"/person/2343\" target=\"_blank\">Douglas Hoyos-Trauttmansdorff</a>, Kolleginnen und Kollegen (<a href=\"/gegenstand/XXVIII/AAA/3\">3/AAA</a>)<br><b>angenommen</b><br>Dafür: ÖVP, SPÖ, NEOS, dagegen: FPÖ, GRÜNE"
+     },
+     {
+      "date": "18.09.2025",
+      "text": "Ausschuss für innere Angelegenheiten: auf <a href=\"/dokument/XXVIII/A-IA/1/00924/TO_16657558.html\">Tagesordnung</a> in der <a href=\"/ausschuss/XXVIII/A-IA/1/00924?selectedStage=105&selectedSession=8&selectedDate=18092025\">8. Sitzung des Ausschusses</a><br>Wiederaufnahme der am 4. September 2025 vertagten Verhandlungen"
+     },
+     {
+      "date": "18.09.2025",
+      "text": "Ausschuss für innere Angelegenheiten: Bericht <a href=\"/gegenstand/XXVIII/I/204\">204 d.B.</a>",
+      "priority": 1
+     },
+     {
+      "date": "18.09.2025",
+      "text": "Ausschuss für innere Angelegenheiten: Selbständiger Antrag betreffend <a href=\"/gegenstand/XXVIII/I/205\">Pyrotechnikgesetz 2010 und Schusswaffenkennzeichnungsgesetz (205 d.B.)</a>"
+     }
+    ],
+    "documents": [
+     {
+      "title": "gesamtändernder Abänderungsantrag",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/AUA/33/imfname_1707647.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Abänderungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/AAA/3/imfname_1734794.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Abänderungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/AAA/3/imfname_1734794.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Berichterstattung",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/I/204/fname_1711019.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/I/204/fnameorig_1711019.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Gesetzestext",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/I/204/fname_1711020.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/I/204/fnameorig_1711020.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Berichterstattung",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/I/205/fname_1711034.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/I/205/fnameorig_1711034.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Gesetzestext",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/I/205/fname_1711035.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/I/205/fnameorig_1711035.html",
+        "type": "HTML"
+       }
+      ]
+     }
+    ],
+    "correspondence": [
+     {
+      "additional": false,
+      "title": "Waffengesetz: Innenausschuss schickt Verschärfung einstimmig in Begutachtung",
+      "date": "04.09.2025",
+      "url": "/aktuelles/pk/jahr_2025/pk0752#XXVIII_A_00372"
+     },
+     {
+      "additional": false,
+      "title": "Verschärfung des Waffengesetzes passiert nach Begutachtung Innenausschuss",
+      "date": "18.09.2025",
+      "url": "/aktuelles/pk/jahr_2025/pk0773#XXVIII_A_00372"
+     }
+    ]
+   },
+   {
+    "name": "Plenarberatungen NR",
+    "id": 4,
+    "stages": [
+     {
+      "date": "24.09.2025",
+      "text": "Beschluss im Nationalrat <a href=\"/gegenstand/XXVIII/BNR/63\">63/BNR</a>",
+      "priority": 1
+     },
+     {
+      "date": "24.09.2025",
+      "text": "Auf der <a href=\"/dokument/XXVIII/NRSITZ/41/TO_16447532.html\">Tagesordnung</a> der <a href=\"/gegenstand/XXVIII/NRSITZ/41\">41. Sitzung des Nationalrates</a>"
+     },
+     {
+      "date": "24.09.2025",
+      "text": "Wortmeldungen in der Debatte",
+      "reden": {
+       "rendertype": "table",
+       "data": {
+        "header": [
+         {
+          "label": "Name und Klub",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-namefraktion"
+         },
+         {
+          "label": "Wortmeldungsart",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-wortmeldungsart"
+         },
+         {
+          "label": "Protokoll",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-protokoll"
+         },
+         {
+          "label": "Video",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-video"
+         }
+        ],
+        "rows": [
+         [
+          "<a href=\"/person/78586\" target=\"_blank\">Christian Hafenecker, MA (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#77",
+            "title": "13:55:29 - Christian Hafenecker (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/77)",
+            "text": "RN/77"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&TS=1758722137"
+          }
+         ],
+         [
+          "<a href=\"/person/83409\" target=\"_blank\">Mag. Ernst Gödl (V)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#78",
+            "title": "14:05:32 - Ernst Gödl (ÖVP) - TOP 4-6 Verschärfung des Waffengesetzes (RN/78)",
+            "text": "RN/78"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&TS=1758722742"
+          }
+         ],
+         [
+          "<a href=\"/person/1567\" target=\"_blank\">Dr. Susanne Fürst (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#79",
+            "title": "14:14:02 - Susanne Fürst (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/79)",
+            "text": "RN/79"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&TS=1758723251"
+          }
+         ],
+         [
+          "<a href=\"/person/5641\" target=\"_blank\">Maximilian Köllner, MA (S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#80",
+            "title": "14:17:56 - Maximilian Köllner (SPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/80)",
+            "text": "RN/80"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&TS=1758723486"
+          }
+         ],
+         [
+          "<a href=\"/person/51577\" target=\"_blank\">Maximilian Linder (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#81",
+            "title": "14:24:16 - Maximilian Linder (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/81)",
+            "text": "RN/81"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&TS=1758723863"
+          }
+         ],
+         [
+          "<a href=\"/person/2343\" target=\"_blank\">Douglas Hoyos-Trauttmansdorff (N)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#82",
+            "title": "14:27:41 - Douglas Hoyos-Trauttmansdorff (NEOS) - TOP 4-6 Verschärfung des Waffengesetzes (RN/82)",
+            "text": "RN/82"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&TS=1758724069"
+          }
+         ],
+         [
+          "<a href=\"/person/20445\" target=\"_blank\">BM Mag. Gerhard Karner (V)</a>",
+          "Regierungsbank",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#83",
+            "title": "14:33:58 - Gerhard Karner, Bundesminister - TOP 4-6 Verschärfung des Waffengesetzes (RN/83)",
+            "text": "RN/83"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&TS=1758724443"
+          }
+         ],
+         [
+          "<a href=\"/person/35469\" target=\"_blank\">Mag. Gernot Darmann (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#84",
+            "title": "14:42:19 - Gernot Darmann (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/84)",
+            "text": "RN/84"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&TS=1758724948"
+          }
+         ],
+         [
+          "<a href=\"/person/5653\" target=\"_blank\">Leonore Gewessler, BA (G)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#85",
+            "title": "14:50:02 - Leonore Gewessler (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/85)",
+            "text": "RN/85"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&TS=1758725411"
+          }
+         ],
+         [
+          "<a href=\"/person/3717\" target=\"_blank\">Ing. Mag. Volker Reifenberger (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#86",
+            "title": "14:56:11 - Volker Reifenberger (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/86)",
+            "text": "RN/86"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&TS=1758725780"
+          }
+         ],
+         [
+          "<a href=\"/person/30717\" target=\"_blank\">Margreth Falkner (V)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#105",
+            "title": "16:23:45 - Margreth Falkner (ÖVP) - TOP 4-6 Verschärfung des Waffengesetzes (RN/105)",
+            "text": "RN/105"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758731028"
+          }
+         ],
+         [
+          "<a href=\"/person/2337\" target=\"_blank\">Sabine Schatz (S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#106",
+            "title": "16:29:32 - Sabine Schatz (SPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/106)",
+            "text": "RN/106"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758731382"
+          }
+         ],
+         [
+          "<a href=\"/person/5685\" target=\"_blank\">Mag. Martina von Künsberg Sarre (N)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#107",
+            "title": "16:34:26 - Martina von Künsberg Sarre (NEOS) - TOP 4-6 Verschärfung des Waffengesetzes (RN/107)",
+            "text": "RN/107"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758731675"
+          }
+         ],
+         [
+          "<a href=\"/person/2345\" target=\"_blank\">Dr. Alma Zadić, LL.M. (G)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#108",
+            "title": "16:38:41 - Alma Zadić (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/108)",
+            "text": "RN/108"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758731930"
+          }
+         ],
+         [
+          "<a href=\"/person/22694\" target=\"_blank\">StS Mag. Jörg Leichtfried (S)</a>",
+          "Regierungsbank",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#109",
+            "title": "16:43:41 - Jörg Leichtfried, Staatssekretär im Bundesministerium - TOP 4-6 Verschärfung des Waffengesetzes (RN/109)",
+            "text": "RN/109"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758732231"
+          }
+         ],
+         [
+          "<a href=\"/person/5634\" target=\"_blank\">Bettina Zopf (V)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#110",
+            "title": "16:49:53 - Bettina Zopf (ÖVP) - TOP 4-6 Verschärfung des Waffengesetzes (RN/110)",
+            "text": "RN/110"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758732602"
+          }
+         ],
+         [
+          "<a href=\"/person/5639\" target=\"_blank\">Julia Elisabeth Herr (S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#111",
+            "title": "16:53:10 - Julia Elisabeth Herr (SPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/111)",
+            "text": "RN/111"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758732801"
+          }
+         ],
+         [
+          "<a href=\"/person/30685\" target=\"_blank\">Mag. Sophie Marie Wotschke (N)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#112",
+            "title": "16:58:26 - Sophie Marie Wotschke (NEOS) - TOP 4-6 Verschärfung des Waffengesetzes (RN/112)",
+            "text": "RN/112"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758733118"
+          }
+         ],
+         [
+          "<a href=\"/person/5650\" target=\"_blank\">Mag. Meri Disoski (G)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#113",
+            "title": "17:01:55 - Meri Disoski (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/113)",
+            "text": "RN/113"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758733323"
+          }
+         ],
+         [
+          "<a href=\"/person/30653\" target=\"_blank\">Melanie Erasim, MSc (S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#114",
+            "title": "17:07:28 - Melanie Erasim (SPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/114)",
+            "text": "RN/114"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758733647"
+          }
+         ],
+         [
+          "<a href=\"/person/6407\" target=\"_blank\">Markus Leinfellner (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#115",
+            "title": "17:12:45 - Markus Leinfellner (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/115)",
+            "text": "RN/115"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758733974"
+          }
+         ],
+         [
+          "<a href=\"/person/5687\" target=\"_blank\">Mag. Yannick Shetty (N)</a>",
+          "tatsächliche Berichtigung",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#116",
+            "title": "17:18:16 - Yannick Shetty (NEOS) - TOP 4-6 Verschärfung des Waffengesetzes (RN/116)",
+            "text": "RN/116"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758734306"
+          }
+         ],
+         [
+          "<a href=\"/person/6502\" target=\"_blank\">Mag. Agnes Sirkka Prammer (G)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#117",
+            "title": "17:19:04 - Agnes Sirkka Prammer (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/117)",
+            "text": "RN/117"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758734352"
+          }
+         ],
+         [
+          "<a href=\"/person/83113\" target=\"_blank\">Philip Kucher (S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#118",
+            "title": "17:23:54 - Philip Kucher (SPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/118)",
+            "text": "RN/118"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758734645"
+          }
+         ],
+         [
+          "<a href=\"/person/83409\" target=\"_blank\">Mag. Ernst Gödl (V)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#119",
+            "title": "17:29:47 - Ernst Gödl (ÖVP) - TOP 4-6 Verschärfung des Waffengesetzes (RN/119)",
+            "text": "RN/119"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758734996"
+          }
+         ],
+         [
+          "<a href=\"/person/64022\" target=\"_blank\">Michael Schnedlitz (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#120",
+            "title": "17:35:25 - Michael Schnedlitz (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/120)",
+            "text": "RN/120"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=4&DEBATTE_TEIL=3&TS=1758735336"
+          }
+         ]
+        ]
+       }
+      }
+     },
+     {
+      "date": "24.09.2025",
+      "text": "41. Sitzung des Nationalrates: Abänderungsantrag der Abgeordneten <a href=\"/person/83409\" target=\"_blank\">Mag. Ernst Gödl</a>, <a href=\"/person/5641\" target=\"_blank\">Maximilian Köllner, MA</a>, <a href=\"/person/2343\" target=\"_blank\">Douglas Hoyos-Trauttmansdorff</a>, Kolleginnen und Kollegen (<a href=\"/gegenstand/XXVIII/AA/24\">AA-24</a>)<br><b>angenommen</b><br>Dafür: ÖVP, SPÖ, NEOS, GRÜNE, dagegen: FPÖ",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#86.1",
+        "title": "14:56:11 - Volker Reifenberger (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/86.1)",
+        "text": "RN/86.1"
+       },
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#86.2",
+        "title": "14:56:11 - Volker Reifenberger (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/86.2)",
+        "text": "RN/86.2"
+       }
+      ]
+     },
+     {
+      "date": "24.09.2025",
+      "text": "41. Sitzung des Nationalrates: Unselbständiger Entschließungsantrag der Abgeordneten <a href=\"/person/6502\" target=\"_blank\">Mag. Agnes Sirkka Prammer</a>, Kolleginnen und Kollegen betreffend <a href=\"/gegenstand/XXVIII/UEA/121\">Waffen sichern – Leben schützen. Klare Gesetze für Waffenverwahrung zum Schutz vor Suiziden und Femiziden (121/UEA)</a><br><b>abgelehnt</b><br>Dafür: GRÜNE, dagegen: FPÖ, ÖVP, SPÖ, NEOS",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#85.1",
+        "title": "14:50:02 - Leonore Gewessler (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/85.1)",
+        "text": "RN/85.1"
+       },
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#85.2",
+        "title": "14:50:02 - Leonore Gewessler (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/85.2)",
+        "text": "RN/85.2"
+       }
+      ]
+     },
+     {
+      "date": "24.09.2025",
+      "text": "41. Sitzung des Nationalrates: Abänderungsantrag der Abgeordneten <a href=\"/person/3717\" target=\"_blank\">Ing. Mag. Volker Reifenberger</a>, Kolleginnen und Kollegen (<a href=\"/gegenstand/XXVIII/AA/25\">AA-25</a>)<br><b>abgelehnt</b><br>Dafür: FPÖ, dagegen: ÖVP, SPÖ, NEOS, GRÜNE",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#86.1",
+        "title": "14:56:11 - Volker Reifenberger (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/86.1)",
+        "text": "RN/86.1"
+       },
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#86.2",
+        "title": "14:56:11 - Volker Reifenberger (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/86.2)",
+        "text": "RN/86.2"
+       },
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#86.3",
+        "title": "14:56:11 - Volker Reifenberger (FPÖ) - TOP 4-6 Verschärfung des Waffengesetzes (RN/86.3)",
+        "text": "RN/86.3"
+       }
+      ]
+     },
+     {
+      "date": "24.09.2025",
+      "text": "41. Sitzung des Nationalrates: Unselbständiger Entschließungsantrag der Abgeordneten <a href=\"/person/6502\" target=\"_blank\">Mag. Agnes Sirkka Prammer</a>, Kolleginnen und Kollegen betreffend <a href=\"/gegenstand/XXVIII/UEA/122\">gleiche Regeln für alle – keine Waffen ohne psychologisches Gutachten (122/UEA)</a><br><b>abgelehnt</b><br>Dafür: GRÜNE, dagegen: FPÖ, ÖVP, SPÖ, NEOS",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#108.1",
+        "title": "16:38:41 - Alma Zadić (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/108.1)",
+        "text": "RN/108.1"
+       },
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#108.2",
+        "title": "16:38:41 - Alma Zadić (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/108.2)",
+        "text": "RN/108.2"
+       }
+      ]
+     },
+     {
+      "date": "24.09.2025",
+      "text": "41. Sitzung des Nationalrates: Unselbständiger Entschließungsantrag der Abgeordneten <a href=\"/person/5650\" target=\"_blank\">Mag. Meri Disoski</a>, Kolleginnen und Kollegen betreffend <a href=\"/gegenstand/XXVIII/UEA/123\">keine Schusswaffen in Händen von gewaltbereiten Personen (123/UEA)</a><br><b>abgelehnt</b><br>Dafür: GRÜNE, dagegen: FPÖ, ÖVP, SPÖ, NEOS",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#113.1",
+        "title": "17:01:55 - Meri Disoski (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/113.1)",
+        "text": "RN/113.1"
+       },
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#113.2",
+        "title": "17:01:55 - Meri Disoski (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/113.2)",
+        "text": "RN/113.2"
+       }
+      ]
+     },
+     {
+      "date": "24.09.2025",
+      "text": "41. Sitzung des Nationalrates: Unselbständiger Entschließungsantrag der Abgeordneten <a href=\"/person/6502\" target=\"_blank\">Mag. Agnes Sirkka Prammer</a>, Kolleginnen und Kollegen betreffend <a href=\"/gegenstand/XXVIII/UEA/124\">Sicherheit erhöhen – unkomplizierte Rückgabe illegaler Waffen ermöglichen (124/UEA)</a><br><b>abgelehnt</b><br>Dafür: FPÖ, GRÜNE, dagegen: ÖVP, SPÖ, NEOS",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#117.1",
+        "title": "17:19:04 - Agnes Sirkka Prammer (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/117.1)",
+        "text": "RN/117.1"
+       },
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#117.2",
+        "title": "17:19:04 - Agnes Sirkka Prammer (Grüne) - TOP 4-6 Verschärfung des Waffengesetzes (RN/117.2)",
+        "text": "RN/117.2"
+       }
+      ]
+     },
+     {
+      "date": "24.09.2025",
+      "text": "41. Sitzung des Nationalrates: Gesetzesvorschlag in zweiter Lesung <b>angenommen</b><br>Dafür: ÖVP, SPÖ, NEOS, GRÜNE, dagegen: FPÖ",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#121.1",
+        "title": "17:40:32 - Abstimmung - TOP 4-6 Verschärfung des Waffengesetzes (RN/121.1)",
+        "text": "RN/121.1"
+       }
+      ]
+     },
+     {
+      "date": "24.09.2025",
+      "text": "Wortmeldungen in der Debatte",
+      "reden": {
+       "rendertype": "table",
+       "data": {
+        "header": [
+         {
+          "label": "Name und Klub",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-namefraktion"
+         },
+         {
+          "label": "Wortmeldungsart",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-wortmeldungsart"
+         },
+         {
+          "label": "Protokoll",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-protokoll"
+         },
+         {
+          "label": "Video",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-video"
+         }
+        ],
+        "rows": [
+         [
+          "<a href=\"/person/1972\" target=\"_blank\">Dr. Markus Tschank (F)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#44",
+            "title": "12:08:38 - Markus Tschank (FPÖ) - TOP 1 Volksbegehren \"ORF-Haushaltsabgabe NEIN\" (RN/44)",
+            "text": "RN/44"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=1&TS=1758715726"
+          }
+         ],
+         [
+          "<a href=\"/person/2122\" target=\"_blank\">Nico Marchetti (V)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#45",
+            "title": "12:13:37 - Nico Marchetti (ÖVP) - TOP 1 Volksbegehren \"ORF-Haushaltsabgabe NEIN\" (RN/45)",
+            "text": "RN/45"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=1&TS=1758716031"
+          }
+         ],
+         [
+          "<a href=\"/person/30706\" target=\"_blank\">Mag. Manfred Sams (S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#46",
+            "title": "12:17:10 - Manfred Sams (SPÖ) - TOP 1 Volksbegehren \"ORF-Haushaltsabgabe NEIN\" (RN/46)",
+            "text": "RN/46"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=1&TS=1758716240"
+          }
+         ],
+         [
+          "<a href=\"/person/5683\" target=\"_blank\">Henrike Brandstötter (N)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#47",
+            "title": "12:20:43 - Henrike Brandstötter (NEOS) - TOP 1 Volksbegehren \"ORF-Haushaltsabgabe NEIN\" (RN/47)",
+            "text": "RN/47"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=1&TS=1758716451"
+          }
+         ],
+         [
+          "<a href=\"/person/83101\" target=\"_blank\">Sigrid Maurer, BA (G)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#48",
+            "title": "12:24:31 - Sigrid Maurer (Grüne) - TOP 1 Volksbegehren \"ORF-Haushaltsabgabe NEIN\" (RN/48)",
+            "text": "RN/48"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=1&TS=1758716679"
+          }
+         ],
+         [
+          "<a href=\"/person/87039\" target=\"_blank\">Lisa Schuch-Gubik (F)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#49",
+            "title": "12:27:44 - Lisa Schuch-Gubik (FPÖ) - TOP 1 Volksbegehren \"ORF-Haushaltsabgabe NEIN\" (RN/49)",
+            "text": "RN/49"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=1&TS=1758716875"
+          }
+         ],
+         [
+          "<a href=\"/person/2337\" target=\"_blank\">Sabine Schatz (S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#50",
+            "title": "12:30:57 - Sabine Schatz (SPÖ) - TOP 1 Volksbegehren \"ORF-Haushaltsabgabe NEIN\" (RN/50)",
+            "text": "RN/50"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=1&TS=1758717064"
+          }
+         ],
+         [
+          "<a href=\"/person/78586\" target=\"_blank\">Christian Hafenecker, MA (F)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 41,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#51",
+            "title": "12:34:55 - Christian Hafenecker (FPÖ) - TOP 1 Volksbegehren \"ORF-Haushaltsabgabe NEIN\" (RN/51)",
+            "text": "RN/51"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/41?DEBATTE=1&TS=1758717304"
+          }
+         ]
+        ]
+       }
+      }
+     },
+     {
+      "date": "24.09.2025",
+      "text": "41. Sitzung des Nationalrates: Gesetzesvorschlag in dritter Lesung <b>angenommen</b><br>Namentliche Abstimmung (abgegebene Stimmen: 171; davon Ja-Stimmen: 121, Nein-Stimmen: 50 )",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#121.2",
+        "title": "17:40:32 - Abstimmung - TOP 4-6 Verschärfung des Waffengesetzes (RN/121.2)",
+        "text": "RN/121.2"
+       },
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 41,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/41/fnameorig_1763008.html#121.4",
+        "title": "17:40:32 - Abstimmung - TOP 4-6 Verschärfung des Waffengesetzes (RN/121.4)",
+        "text": "RN/121.4"
+       }
+      ]
+     },
+     {
+      "date": "26.09.2025",
+      "text": "Übermittlung des Beschlusses an den Bundesrat"
+     }
+    ],
+    "documents": [
+     {
+      "title": "Gesetzestext",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/63/fname_1713048.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/63/fnameorig_1713048.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Beschlussformel NR",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/63/fname_1713049.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/63/fnameorig_1713049.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Beschlussformel BR",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/63/fname_1715350.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/63/fnameorig_1715350.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Abänderungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/AA/24/imfname_1712586.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Entschließungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/UEA/121/imfname_1712588.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Abänderungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/AA/25/imfname_1712589.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Entschließungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/UEA/122/imfname_1712590.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Entschließungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/UEA/123/imfname_1712593.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Entschließungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/UEA/124/imfname_1712599.pdf",
+        "type": "PDF"
+       }
+      ]
+     }
+    ],
+    "correspondence": [
+     {
+      "additional": false,
+      "title": "Nationalrat beschließt Verschärfung des Waffengesetzes",
+      "date": "24.09.2025",
+      "url": "/aktuelles/pk/jahr_2025/pk0792#XXVIII_A_00372"
+     }
+    ],
+    "vote": {
+     "result": [],
+     "infavor": true,
+     "code": "_namen",
+     "text": "Namentliche Abstimmung",
+     "comment": "abgegebene Stimmen: 171; davon Ja-Stimmen: 121, Nein-Stimmen: 50 "
+    }
+   },
+   {
+    "name": "Einlangen BR",
+    "id": 5,
+    "stages": [
+     {
+      "date": "26.09.2025",
+      "text": "Einlangen im Bundesrat (Frist: 21.11.2025)"
+     },
+     {
+      "date": "26.09.2025",
+      "text": "Mitwirkungsrecht des Bundesrates",
+      "priority": 1
+     },
+     {
+      "date": "26.09.2025",
+      "text": "Änderungen gegenüber dem Gesetzentwurf in der Fassung des Nationalrat-Ausschussberichtes (<a href=\"/gegenstand/BR/I-BR/11682\">11682/BR d.B.</a>)"
+     }
+    ],
+    "documents": [
+     {
+      "title": "Änderungen im Plenum des Nationalrates ge. dem ursprüngl. Entwurf",
+      "documents": [
+       {
+        "link": "/dokument/BR/I-BR/11682/fname_1713058.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/BR/I-BR/11682/fnameorig_1713058.html",
+        "type": "HTML"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": "Ausschussberatungen BR",
+    "id": 6,
+    "stages": [
+     {
+      "date": "26.09.2025",
+      "text": "Zuweisung an den <a href=\"/ausschuss/BR/A-IN-BR/1/00108\">Ausschuss für innere Angelegenheiten des Bundesrates</a>"
+     },
+     {
+      "date": "07.10.2025",
+      "text": "Ausschuss für innere Angelegenheiten des Bundesrates: Bericht <a href=\"/gegenstand/BR/I-BR/11688\">11688/BR d.B.</a>",
+      "priority": 1
+     },
+     {
+      "date": "07.10.2025",
+      "text": "Ausschuss für innere Angelegenheiten des Bundesrates: auf <a href=\"/dokument/BR/A-IN-BR/1/00108/TO_16672613.html\">Tagesordnung</a> in der <a href=\"/ausschuss/BR/A-IN-BR/1/00108?selectedStage=105&selectedSession=3&selectedDate=07102025\">3. Sitzung des Ausschusses</a>"
+     }
+    ],
+    "documents": [
+     {
+      "title": "Berichterstattung",
+      "documents": [
+       {
+        "link": "/dokument/BR/I-BR/11688/fname_1714809.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/BR/I-BR/11688/fnameorig_1714809.html",
+        "type": "HTML"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": "Plenarberatungen BR",
+    "id": 7,
+    "stages": [
+     {
+      "date": "09.10.2025",
+      "text": "Auf der Tagesordnung der <a href=\"/gegenstand/BR/BRSITZ/981\">981. Sitzung</a>"
+     },
+     {
+      "date": "09.10.2025",
+      "text": "Auf der Tagesordnung der <a href=\"/gegenstand/BR/BRSITZ/981\">981. Sitzung</a>"
+     },
+     {
+      "date": "09.10.2025",
+      "text": "981. Sitzung: Berichterstattung durch den Bundesrat <a href=\"/person/22824\" target=\"_blank\">Christoph Stillebacher</a>",
+      "fsth": [
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#28",
+        "title": "12:07:27 - Berichterstatter Christoph Stillebacher - TOP 1-2 Verschärfung des Waffengesetzes (RN/28)",
+        "text": "RN/28"
+       }
+      ]
+     },
+     {
+      "date": "09.10.2025",
+      "text": "981. Sitzung: Debatte",
+      "fsth": [
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#29",
+        "title": "12:08:29 - Sandra Jäckel (FPÖ/Vbg.) - TOP 1-2 Verschärfung des Waffengesetzes (RN/29)",
+        "text": "RN/29"
+       },
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#42",
+        "title": "13:49:54 - Jörg Leichtfried, Staatssekretär im Bundesministerium - TOP 1-2 Verschärfung des Waffengesetzes (RN/42)",
+        "text": "RN/42"
+       }
+      ]
+     },
+     {
+      "date": "09.10.2025",
+      "text": "Wortmeldungen in der Debatte",
+      "reden": {
+       "rendertype": "table",
+       "data": {
+        "header": [
+         {
+          "label": "Name und Fraktion",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-namefraktion"
+         },
+         {
+          "label": "Wortmeldungsart",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-wortmeldungsart"
+         },
+         {
+          "label": "Protokoll",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-protokoll"
+         },
+         {
+          "label": "Video",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-video"
+         }
+        ],
+        "rows": [
+         [
+          "<a href=\"/person/31483\" target=\"_blank\">Sandra Jäckel (F/V)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#29",
+            "title": "12:08:29 - Sandra Jäckel (FPÖ/Vbg.) - TOP 1-2 Verschärfung des Waffengesetzes (RN/29)",
+            "text": "RN/29"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760011715"
+          }
+         ],
+         [
+          "<a href=\"/person/4986\" target=\"_blank\">Ernest Schwindsackl (V/St)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#30",
+            "title": "12:17:55 - Ernest Schwindsackl (ÖVP/Stmk.) - TOP 1-2 Verschärfung des Waffengesetzes (RN/30)",
+            "text": "RN/30"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760012285"
+          }
+         ],
+         [
+          "<a href=\"/person/31964\" target=\"_blank\">Werner Gradwohl (F/St)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#31",
+            "title": "12:25:19 - Werner Gradwohl (FPÖ/Stmk.) - TOP 1-2 Verschärfung des Waffengesetzes (RN/31)",
+            "text": "RN/31"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760012729"
+          }
+         ],
+         [
+          "<a href=\"/person/4483\" target=\"_blank\">Dominik Reisinger (S/O)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#32",
+            "title": "12:35:02 - Dominik Reisinger (SPÖ/OÖ) - TOP 1-2 Verschärfung des Waffengesetzes (RN/32)",
+            "text": "RN/32"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760013311"
+          }
+         ],
+         [
+          "<a href=\"/person/31963\" target=\"_blank\">Herbert Kober (F/St)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#33",
+            "title": "12:41:06 - Herbert Kober (FPÖ/Stmk.) - TOP 1-2 Verschärfung des Waffengesetzes (RN/33)",
+            "text": "RN/33"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760013674"
+          }
+         ],
+         [
+          "<a href=\"/person/17881\" target=\"_blank\">MMag. Elisabeth Kittl, BA (G/W)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#34",
+            "title": "12:45:25 - Elisabeth Kittl (Grüne/W) - TOP 1-2 Verschärfung des Waffengesetzes (RN/34)",
+            "text": "RN/34"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760013935"
+          }
+         ],
+         [
+          "<a href=\"/person/32831\" target=\"_blank\">Mag. Dr. Julia Deutsch (N/W)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#35",
+            "title": "12:54:12 - Julia Deutsch (NEOS/W) - TOP 1-2 Verschärfung des Waffengesetzes (RN/35)",
+            "text": "RN/35"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760014461"
+          }
+         ],
+         [
+          "<a href=\"/person/22694\" target=\"_blank\">StS Mag. Jörg Leichtfried (S)</a>",
+          "Regierungsbank",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#36",
+            "title": "13:00:17 - Jörg Leichtfried, Staatssekretär im Bundesministerium - TOP 1-2 Verschärfung des Waffengesetzes (RN/36)",
+            "text": "RN/36"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760014827"
+          }
+         ],
+         [
+          "<a href=\"/person/6534\" target=\"_blank\">Mag. Christine Schwarz-Fuchs (V/V)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#37",
+            "title": "13:04:42 - Christine Schwarz-Fuchs (ÖVP/Vbg.) - TOP 1-2 Verschärfung des Waffengesetzes (RN/37)",
+            "text": "RN/37"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760015093"
+          }
+         ],
+         [
+          "<a href=\"/person/31957\" target=\"_blank\">Mag. Bernadette Kerschler (S/St)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#38",
+            "title": "13:13:51 - Bernadette Kerschler (SPÖ/Stmk.) - TOP 1-2 Verschärfung des Waffengesetzes (RN/38)",
+            "text": "RN/38"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760015641"
+          }
+         ],
+         [
+          "<a href=\"/person/23967\" target=\"_blank\">Simone Jagl (G/N)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#39",
+            "title": "13:20:05 - Simone Jagl (Grüne/NÖ) - TOP 1-2 Verschärfung des Waffengesetzes (RN/39)",
+            "text": "RN/39"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760016018"
+          }
+         ],
+         [
+          "<a href=\"/person/33455\" target=\"_blank\">Verena Schweiger, BA MA MA (S/W)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#40",
+            "title": "13:30:46 - Verena Schweiger (SPÖ/W) - TOP 1-2 Verschärfung des Waffengesetzes (RN/40)",
+            "text": "RN/40"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760016655"
+          }
+         ],
+         [
+          "<a href=\"/person/3459\" target=\"_blank\">Andreas Arthur Spanring (F/N)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#41",
+            "title": "13:35:28 - Andreas Arthur Spanring (FPÖ/NÖ) - TOP 1-2 Verschärfung des Waffengesetzes (RN/41)",
+            "text": "RN/41"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760016934"
+          }
+         ],
+         [
+          "<a href=\"/person/22694\" target=\"_blank\">StS Mag. Jörg Leichtfried (S)</a>",
+          "Regierungsbank",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 981,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#42",
+            "title": "13:49:54 - Jörg Leichtfried, Staatssekretär im Bundesministerium - TOP 1-2 Verschärfung des Waffengesetzes (RN/42)",
+            "text": "RN/42"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/981?DEBATTE=1&TS=1760017805"
+          }
+         ]
+        ]
+       }
+      }
+     },
+     {
+      "date": "09.10.2025",
+      "text": "981. Sitzung: Antrag, keinen Einspruch zu erheben, <b>angenommen</b><br>Namentliche Abstimmung (abgegebene Stimmen: 59; 43 Ja-Stimmen, 16 Nein-Stimmen)",
+      "fsth": [
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#43",
+        "title": "13:52:44 - Abstimmung - TOP 1-2 Verschärfung des Waffengesetzes (RN/43)",
+        "text": "RN/43"
+       },
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#43.1",
+        "title": "13:52:44 - Abstimmung - TOP 1-2 Verschärfung des Waffengesetzes (RN/43.1)",
+        "text": "RN/43.1"
+       },
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#43.2",
+        "title": "13:52:44 - Abstimmung - TOP 1-2 Verschärfung des Waffengesetzes (RN/43.2)",
+        "text": "RN/43.2"
+       },
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#45.1",
+        "title": "14:00:04 - Fortsetzung der Abstimmung, Ergebnis der namentlichen Abstimmung - TOP 1-2 Verschärfung des Waffengesetzes (RN/45.1)",
+        "text": "RN/45.1"
+       },
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#45.2",
+        "title": "14:00:04 - Fortsetzung der Abstimmung, Ergebnis der namentlichen Abstimmung - TOP 1-2 Verschärfung des Waffengesetzes (RN/45.2)",
+        "text": "RN/45.2"
+       }
+      ]
+     },
+     {
+      "date": "09.10.2025",
+      "text": "981. Sitzung: Unselbständiger Entschließungsantrag der Bundesräte <a href=\"/person/17881\" target=\"_blank\">MMag. Elisabeth Kittl, BA</a>, Kolleginnen und Kollegen betreffend <a href=\"/gegenstand/BR/UEA-BR/769\">Sicherheit erhöhen - unkomplizierte Rückgabe illegaler Waffen ermöglichen (769/UEA-BR/2025)</a><br><b>abgelehnt</b><br>Dafür: FPÖ, GRÜNE, dagegen: ÖVP, SPÖ, NEOS",
+      "fsth": [
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#34.1",
+        "title": "12:45:25 - Elisabeth Kittl (Grüne/W) - TOP 1-2 Verschärfung des Waffengesetzes (RN/34.1)",
+        "text": "RN/34.1"
+       },
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#34.3",
+        "title": "12:45:25 - Elisabeth Kittl (Grüne/W) - TOP 1-2 Verschärfung des Waffengesetzes (RN/34.3)",
+        "text": "RN/34.3"
+       }
+      ]
+     },
+     {
+      "date": "09.10.2025",
+      "text": "981. Sitzung: Unselbständiger Entschließungsantrag der Bundesräte <a href=\"/person/17881\" target=\"_blank\">MMag. Elisabeth Kittl, BA</a>, Kolleginnen und Kollegen betreffend <a href=\"/gegenstand/BR/UEA-BR/770\">gleiche Regeln für alle - keine Waffen ohne psychologisches Gutachten (770/UEA-BR/2025)</a><br><b>abgelehnt</b><br>Dafür: GRÜNE, dagegen: ÖVP, SPÖ, FPÖ, NEOS",
+      "fsth": [
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#34.2",
+        "title": "12:45:25 - Elisabeth Kittl (Grüne/W) - TOP 1-2 Verschärfung des Waffengesetzes (RN/34.2)",
+        "text": "RN/34.2"
+       },
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#34.4",
+        "title": "12:45:25 - Elisabeth Kittl (Grüne/W) - TOP 1-2 Verschärfung des Waffengesetzes (RN/34.4)",
+        "text": "RN/34.4"
+       }
+      ]
+     },
+     {
+      "date": "09.10.2025",
+      "text": "981. Sitzung: Unselbständiger Entschließungsantrag der Bundesräte <a href=\"/person/23967\" target=\"_blank\">Simone Jagl</a>, Kolleginnen und Kollegen betreffend <a href=\"/gegenstand/BR/UEA-BR/771\">Waffen sichern - Leben schützen. Klare Gesetze für Waffenverwahrung zum Schutz vor Suiziden und Femiziden (771/UEA-BR/2025)</a><br><b>abgelehnt</b><br>Dafür: GRÜNE, dagegen: ÖVP, SPÖ, FPÖ, NEOS",
+      "fsth": [
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#39.1",
+        "title": "13:20:05 - Simone Jagl (Grüne/NÖ) - TOP 1-2 Verschärfung des Waffengesetzes (RN/39.1)",
+        "text": "RN/39.1"
+       },
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#39.3",
+        "title": "13:20:05 - Simone Jagl (Grüne/NÖ) - TOP 1-2 Verschärfung des Waffengesetzes (RN/39.3)",
+        "text": "RN/39.3"
+       }
+      ]
+     },
+     {
+      "date": "09.10.2025",
+      "text": "981. Sitzung: Unselbständiger Entschließungsantrag der Bundesräte <a href=\"/person/23967\" target=\"_blank\">Simone Jagl</a>, Kolleginnen und Kollegen betreffend <a href=\"/gegenstand/BR/UEA-BR/772\">keine Schusswaffen in Händen von gewaltbereiten Personen (772/UEA-BR/2025)</a><br><b>abgelehnt</b><br>Dafür: GRÜNE, dagegen: ÖVP, SPÖ, FPÖ, NEOS",
+      "fsth": [
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#39.2",
+        "title": "13:20:05 - Simone Jagl (Grüne/NÖ) - TOP 1-2 Verschärfung des Waffengesetzes (RN/39.2)",
+        "text": "RN/39.2"
+       },
+       {
+        "gp_code": "BR",
+        "sitzung_id": 981,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/981/fnameorig_1756327.html#39.4",
+        "title": "13:20:05 - Simone Jagl (Grüne/NÖ) - TOP 1-2 Verschärfung des Waffengesetzes (RN/39.4)",
+        "text": "RN/39.4"
+       }
+      ]
+     },
+     {
+      "date": "09.10.2025",
+      "text": "Beschluss im Bundesrat <a href=\"/gegenstand/XXVIII/BNR/63\">63/BNR</a>",
+      "priority": 1
+     }
+    ],
+    "documents": [
+     {
+      "title": "Unselbstständiger Entschließungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/BR/UEA-BR/769/imfname_1715229.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Unselbstständiger Entschließungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/BR/UEA-BR/770/imfname_1715230.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Unselbstständiger Entschließungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/BR/UEA-BR/771/imfname_1715231.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Unselbstständiger Entschließungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/BR/UEA-BR/772/imfname_1715233.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Gesetzestext",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/63/fname_1713048.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/63/fnameorig_1713048.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Beschlussformel NR",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/63/fname_1713049.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/63/fnameorig_1713049.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Beschlussformel BR",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/63/fname_1715350.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/63/fnameorig_1715350.html",
+        "type": "HTML"
+       }
+      ]
+     }
+    ],
+    "correspondence": [
+     {
+      "additional": false,
+      "title": "Bundesrat besiegelt Verschärfung des Waffengesetzes",
+      "date": "09.10.2025",
+      "url": "/aktuelles/pk/jahr_2025/pk0874#XXVIII_A_00372"
+     }
+    ]
+   }
+  ],
+  "documents": [
+   {
+    "title": "Selbständiger Antrag (gescanntes Original)",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/A/372/imfname_1700638.pdf",
+      "type": "PDF"
+     }
+    ]
+   },
+   {
+    "title": "Initiativantrag (elektr. übermittelte Version)",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/A/372/fname_1702209.pdf",
+      "type": "PDF"
+     },
+     {
+      "link": "/dokument/XXVIII/A/372/fnameorig_1702209.html",
+      "type": "HTML"
+     }
+    ]
+   },
+   {
+    "title": "Gesetzestext (Arbeitsdokument ParlDion)",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/A/372/fname_1702313.pdf",
+      "type": "PDF"
+     },
+     {
+      "link": "/dokument/XXVIII/A/372/fnameorig_1702313.html",
+      "type": "HTML"
+     }
+    ]
+   },
+   {
+    "title": "Textgegenüberstellung (Arbeitsdokument ParlDion)",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/A/372/fname_1703000.pdf",
+      "type": "PDF"
+     },
+     {
+      "link": "/dokument/XXVIII/A/372/fnameorig_1703000.html",
+      "type": "HTML"
+     }
+    ],
+    "infolink": "/services/hilfe/website-funktionen/textgegenueberstellung#was_sind_textgegenuberstellungen?",
+    "infolinktext": "Was sind Textgegenüberstellungen?"
+   }
+  ],
+  "names": [
+   {
+    "funktext": "Eingebracht von",
+    "name": "Mag. Ernst Gödl",
+    "frak_code": "V",
+    "url": "/person/83409",
+    "portrait": {
+     "rendertype": "image",
+     "data": {
+      "src": "/dokument/bild/201431/20143152_384.jpg",
+      "alt": "Portraitfoto von Mag. Ernst Gödl",
+      "bildId": 20143152,
+      "copyright": "Parlamentsdirektion/Thomas Topf"
+     }
+    }
+   },
+   {
+    "funktext": "Eingebracht von",
+    "name": "Maximilian Köllner, MA",
+    "frak_code": "S",
+    "url": "/person/5641",
+    "portrait": {
+     "rendertype": "image",
+     "data": {
+      "src": "/dokument/bild/201431/20143164_384.jpg",
+      "alt": "Portraitfoto von Maximilian Köllner, MA",
+      "bildId": 20143164,
+      "copyright": "Parlamentsdirektion/Thomas Topf"
+     }
+    }
+   },
+   {
+    "funktext": "Eingebracht von",
+    "name": "Douglas Hoyos-Trauttmansdorff",
+    "frak_code": "N",
+    "url": "/person/2343",
+    "portrait": {
+     "rendertype": "image",
+     "data": {
+      "src": "/dokument/bild/201431/20143160_384.jpg",
+      "alt": "Portraitfoto von Douglas Hoyos-Trauttmansdorff",
+      "bildId": 20143160,
+      "copyright": "Parlamentsdirektion/Thomas Topf"
+     }
+    }
+   }
+  ],
+  "correspondence": [
+   {
+    "additional": false,
+    "title": "Neu im Innenausschuss",
+    "date": "14.07.2025",
+    "url": "/aktuelles/pk/jahr_2025/pk0700#XXVIII_A_00372"
+   },
+   {
+    "additional": false,
+    "title": "Waffengesetz: Innenausschuss schickt Verschärfung einstimmig in Begutachtung",
+    "date": "04.09.2025",
+    "url": "/aktuelles/pk/jahr_2025/pk0752#XXVIII_A_00372"
+   },
+   {
+    "additional": false,
+    "title": "Verschärfung des Waffengesetzes passiert nach Begutachtung Innenausschuss",
+    "date": "18.09.2025",
+    "url": "/aktuelles/pk/jahr_2025/pk0773#XXVIII_A_00372"
+   },
+   {
+    "additional": false,
+    "title": "Nationalrat beschließt Verschärfung des Waffengesetzes",
+    "date": "24.09.2025",
+    "url": "/aktuelles/pk/jahr_2025/pk0792#XXVIII_A_00372"
+   },
+   {
+    "additional": false,
+    "title": "Bundesrat besiegelt Verschärfung des Waffengesetzes",
+    "date": "09.10.2025",
+    "url": "/aktuelles/pk/jahr_2025/pk0874#XXVIII_A_00372"
+   }
+  ],
+  "vote": {
+   "result": [],
+   "infavor": true,
+   "code": "_namen",
+   "text": "Namentliche Abstimmung",
+   "comment": "abgegebene Stimmen: 171; davon Ja-Stimmen: 121, Nein-Stimmen: 50 "
+  },
+  "topics": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Inneres und Recht",
+      "link": "/suche?thema=Inneres und Recht"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  },
+  "headwords": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Abstimmungen, namentliche",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&SW=Abstimmungen, namentliche"
+     },
+     {
+      "label": "Sicherheitswesen",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&SW=Sicherheitswesen"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  },
+  "eurovoc": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "namentliche Abstimmung",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&EUROVOC=namentliche Abstimmung"
+     },
+     {
+      "label": "öffentliche Sicherheit",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&EUROVOC=öffentliche Sicherheit"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  }
+ }
+}

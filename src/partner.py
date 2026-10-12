@@ -243,7 +243,7 @@ nav {{ margin: .8rem 0 1.6rem; font-size: .9em; }}
 ul {{ padding-left: 1.3rem; }}
 li {{ margin: .45rem 0; }}
 </style></head><body>
-<div class="masthead"><svg class="logo" viewBox="0 0 350 120" role="img" aria-label="CitizenGO"><g transform="rotate(-8 175 60)"><text x="6" y="80" font-family="Roboto, sans-serif" font-weight="900" font-size="54" letter-spacing="1.5" fill="#4285f4">CITIZEN</text><circle cx="292" cy="56" r="45" fill="#4285f4"/><text x="292" y="74" text-anchor="middle" font-family="Roboto, sans-serif" font-weight="900" font-size="46" fill="#FFFFFF">GO</text></g></svg><span class="product">Parliamentary Monitor</span></div>
+<div class="masthead"><img class="logo" src="/brand/citizengo-logo.png" width="600" height="198" alt="CitizenGO"><span class="product">Parliamentary Monitor</span></div>
 {body}
 </body></html>
 """
@@ -473,6 +473,47 @@ def build_questions_page(site_dir, week, pq_rows, area_labels=None, background=N
     return path
 
 
+# The other parliaments' vote pages (Christopher, 9 October 2026: "link the
+# new vote pages from the partner index"). Each is built by its weekly and
+# committed under partner_site/, so a page is linked only once it exists:
+# never a link to a page the site does not have yet.
+VOTE_PAGES = (
+    ("msp-votes.html", "Scotland (MSPs)"),
+    ("ms-votes.html", "Wales (MSs)"),
+    ("mla-votes.html", "Northern Ireland (MLAs)"),
+    ("eu-votes.html", "European Parliament"),
+    ("de-votes.html", "Germany"),
+    ("ie-votes.html", "Ireland"),
+    ("us-votes.html", "United States"),
+    ("au-votes.html", "Australia"),
+    # The new countries (tools/make_country_votes.py, 11 October 2026): one
+    # tracker page linking each country's page, and the watched bills'
+    # timelines, rather than twenty-two links here.
+    ("votes-countries.html", "Other countries (tracker)"),
+    ("bill-timelines.html", "Bill timelines, other countries"),
+)
+
+
+def vote_pages_nav(site_dir):
+    """'Other parliaments' votes: ...<br>' for the vote pages present, or ''."""
+    links = ['<a href="/{0}">{1}</a>'.format(f, label) for f, label in VOTE_PAGES
+             if os.path.exists(os.path.join(site_dir, f))]
+    if not links:
+        return ""
+    return "Other parliaments' votes: " + " | ".join(links) + "<br>"
+
+
+def countries_5ca_nav(site_dir):
+    """The link to the new countries' 5CA page, or '' while it is gated off.
+
+    tools/make_country_5ca_web.py writes partner_site/5ca-countries.html only
+    once a country has a confirmed reading that places someone, and removes
+    it otherwise; the nav follows the file."""
+    if not os.path.exists(os.path.join(site_dir, "5ca-countries.html")):
+        return ""
+    return '<a href="/5ca-countries.html">5CA: other countries</a> | '
+
+
 def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None, pq_background=None):
     """Write index.html (latest) + archive/<week>.html + auth middleware."""
     os.makedirs(os.path.join(site_dir, "archive"), exist_ok=True)
@@ -485,11 +526,13 @@ def build_site(site_dir, week, partner_markdown, archive_weeks, pq_rows=None, pq
            '<a href="/5ca-peers.html">5CA peers</a> | '
            '<a href="/5ca-matrix.html">Cross-issue matrix</a> | '
            '<a href="/5ca-peers-matrix.html">Peers matrix</a> | '
-           '<a href="/5ca.html">Five Column Analysis tracker</a> | '
+           '<a href="/5ca.html">Five Column Analysis tracker</a> | ' +
+           countries_5ca_nav(site_dir) +
            '<a href="/questions.html">Questions and answers</a> | '
            '<a href="/petitions.html">E-petitions on our ground</a> | '
            '<a href="/issues.html">Issue pages</a> | '
-           '<a href="/de-issues.html">Germany issue pages</a><br>Archive: ' +
+           '<a href="/de-issues.html">Germany issue pages</a><br>' +
+           vote_pages_nav(site_dir) + 'Archive: ' +
            " | ".join('<a href="/archive/{0}.html">{0}</a>'.format(w)
                       for w in sorted(archive_weeks, reverse=True)) + "</nav>")
     index = page.replace("</h1>", "</h1>\n" + nav, 1)

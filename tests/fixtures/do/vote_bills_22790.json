@@ -1,0 +1,69 @@
+{
+ "page": 1,
+ "pageSize": 10,
+ "total": 2,
+ "results": [
+  {
+   "titulo": null,
+   "mocion": null,
+   "fecha": null,
+   "votos": null,
+   "asistencias": null,
+   "sesionId": 0,
+   "sesion": null,
+   "numeroSesion": null,
+   "tipoConvocatoriaId": 0,
+   "secuenciaAnterior": 0,
+   "tipoId": null,
+   "iniciativaId": 157883,
+   "iniciativaDescripcion": "Proyecto de resolución de la Cámara de Diputados mediante la cual solicita al presidente de la República instruir a las autoridades del Ministerio de Educación (MINERD) y a la Universidad Autónoma de Santo Domingo (UASD), a los fines de realizar los estudios de lugar para poner en funcionamiento un liceo de modalidad experimental UASD en el municipio San Pedro de Macorís, provincia San Pedro de Macorís.",
+   "iniciativaNumero": "05421-2024-2028-CD",
+   "habilitados": null,
+   "subTitulo": null,
+   "estado": null,
+   "tipo": null,
+   "order": 0,
+   "iniciativa": {
+    "id": 157883,
+    "numero": "05421-2024-2028-CD",
+    "tipoConvocatoriaId": 0,
+    "descripcion": "Proyecto de resolución de la Cámara de Diputados mediante la cual solicita al presidente de la República instruir a las autoridades del Ministerio de Educación (MINERD) y a la Universidad Autónoma de Santo Domingo (UASD), a los fines de realizar los estudios de lugar para poner en funcionamiento un liceo de modalidad experimental UASD en el municipio San Pedro de Macorís, provincia San Pedro de Macorís."
+   },
+   "id": 0,
+   "numeroVotacion": null,
+   "votoId": null,
+   "voto": null
+  },
+  {
+   "titulo": null,
+   "mocion": null,
+   "fecha": null,
+   "votos": null,
+   "asistencias": null,
+   "sesionId": 0,
+   "sesion": null,
+   "numeroSesion": null,
+   "tipoConvocatoriaId": 0,
+   "secuenciaAnterior": 0,
+   "tipoId": null,
+   "iniciativaId": 158505,
+   "iniciativaDescripcion": "Proyecto de resolución de la Cámara de Diputados mediante la cual recomienda al presidente de la República instruir a los ministerios de la Vivienda, Hábitat y Edificaciones (Mivhed), de Educación (Minerd), al instituto de Formación Técnico Profesional (INFOTEP) y al Ayuntamiento Santo Domingo Este (ASDE) para el diseño, construcción y equipamiento de un centro de formación técnica juvenil en la circunscripción No.3, Santo Domingo Este, provincia Santo Domingo.",
+   "iniciativaNumero": "06043-2024-2028-CD",
+   "habilitados": null,
+   "subTitulo": null,
+   "estado": null,
+   "tipo": null,
+   "order": 0,
+   "iniciativa": {
+    "id": 158505,
+    "numero": "06043-2024-2028-CD",
+    "tipoConvocatoriaId": 0,
+    "descripcion": "Proyecto de resolución de la Cámara de Diputados mediante la cual recomienda al presidente de la República instruir a los ministerios de la Vivienda, Hábitat y Edificaciones (Mivhed), de Educación (Minerd), al instituto de Formación Técnico Profesional (INFOTEP) y al Ayuntamiento Santo Domingo Este (ASDE) para el diseño, construcción y equipamiento de un centro de formación técnica juvenil en la circunscripción No.3, Santo Domingo Este, provincia Santo Domingo."
+   },
+   "id": 0,
+   "numeroVotacion": null,
+   "votoId": null,
+   "voto": null
+  }
+ ]
+}

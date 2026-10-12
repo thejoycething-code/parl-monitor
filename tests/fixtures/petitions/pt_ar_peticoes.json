@@ -1,0 +1,1259 @@
+[
+ {
+  "DadosComissao": [
+   {
+    "Admissibilidade": null,
+    "Audicoes": null,
+    "Audiencias": null,
+    "AudienciasOutros": null,
+    "Codigo": null,
+    "DadosPedidosInformacao": null,
+    "DadosRelatorioFinal": null,
+    "DataAdmissibilidade": null,
+    "DataArquivo": null,
+    "DataBaixaComissao": "2026-10-08",
+    "DataEnvioPAR": null,
+    "DataReaberta": null,
+    "DocumentosPeticao": {
+     "DocsOutros": null,
+     "DocsPedidoInformacoes": null,
+     "DocsRelatorioFinal": null,
+     "DocsRespostaPedidoInformacoes": null
+    },
+    "IdComissao": "8456",
+    "Legislatura": "XVII",
+    "Nome": "Comissão de Trabalho, Segurança Social e Inclusão ",
+    "NotasAdmissibilidade": null,
+    "Numero": "10",
+    "Publicacao": null,
+    "Relatores": null,
+    "RelatorioFinal": null,
+    "Sessao": null,
+    "Situacao": "Aguarda deliberação sobre a sua admissibilidade",
+    "Transitada": null
+   }
+  ],
+  "DataDebate": null,
+  "Documentos": [
+   {
+    "DataDocumento": "2026-10-09",
+    "Descricao": null,
+    "TipoDocumento": "Texto final",
+    "TituloDocumento": "Texto da Petição",
+    "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c31526c65485276526d6c75595778515a5852705932396c637938334f5455354d444a6a4e6930784e6a51304c5451334e4463744f5755304f4330784e444a694e5745784d444533596a55756347526d&fich=795902c6-1644-4747-9e48-142b5a1017b5.pdf&Inline=true"
+   }
+  ],
+  "IniciativasConjuntas": null,
+  "Iniciativasoriginadas": null,
+  "Intervencoes": null,
+  "Links": null,
+  "PedidosEsclarecimento": null,
+  "PetActividadeId": "54489",
+  "PetAssunto": "Revisão do Artigo 166º-A do Código do Trabalho (Teletrabalho)",
+  "PetAutor": "REDACTED",
+  "PetDataEntrada": "2026-09-22",
+  "PeticoesAssociadas": null,
+  "PetId": "54489",
+  "PetLeg": "XVII",
+  "PetNr": "236",
+  "PetNrAssinaturas": "114",
+  "PetNrAssinaturasInicial": null,
+  "PetObs": null,
+  "PetSel": "2",
+  "PetSituacao": "Aguarda deliberação sobre a sua admissibilidade",
+  "PetUrlTexto": null,
+  "PublicacaoDebate": null,
+  "PublicacaoPeticao": null
+ },
+ {
+  "DadosComissao": [
+   {
+    "Admissibilidade": null,
+    "Audicoes": null,
+    "Audiencias": null,
+    "AudienciasOutros": null,
+    "Codigo": null,
+    "DadosPedidosInformacao": null,
+    "DadosRelatorioFinal": null,
+    "DataAdmissibilidade": null,
+    "DataArquivo": null,
+    "DataBaixaComissao": "2026-10-08",
+    "DataEnvioPAR": null,
+    "DataReaberta": null,
+    "DocumentosPeticao": {
+     "DocsOutros": null,
+     "DocsPedidoInformacoes": null,
+     "DocsRelatorioFinal": null,
+     "DocsRespostaPedidoInformacoes": null
+    },
+    "IdComissao": "8455",
+    "Legislatura": "XVII",
+    "Nome": "Comissão de Saúde ",
+    "NotasAdmissibilidade": null,
+    "Numero": "9",
+    "Publicacao": null,
+    "Relatores": null,
+    "RelatorioFinal": null,
+    "Sessao": null,
+    "Situacao": "Aguarda deliberação sobre a sua admissibilidade",
+    "Transitada": null
+   }
+  ],
+  "DataDebate": null,
+  "Documentos": [
+   {
+    "DataDocumento": "2026-10-09",
+    "Descricao": null,
+    "TipoDocumento": "Texto final",
+    "TituloDocumento": "Texto da Petição",
+    "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c31526c65485276526d6c75595778515a5852705932396c637939695a475a6d597a566d4e53316b5a6a466c4c545178596a6b745957566d4e7930314f475577597a4e694e7a56684d5751756347526d&fich=bdffc5f5-df1e-41b9-aef7-58e0c3b75a1d.pdf&Inline=true"
+   }
+  ],
+  "IniciativasConjuntas": null,
+  "Iniciativasoriginadas": null,
+  "Intervencoes": null,
+  "Links": null,
+  "PedidosEsclarecimento": null,
+  "PetActividadeId": "54490",
+  "PetAssunto": "Pela transparência, equidade e justiça no processo de escolha de vagas da formação especializada do Internato Médico 2026",
+  "PetAutor": "REDACTED",
+  "PetDataEntrada": "2026-09-22",
+  "PeticoesAssociadas": null,
+  "PetId": "54490",
+  "PetLeg": "XVII",
+  "PetNr": "237",
+  "PetNrAssinaturas": "5296",
+  "PetNrAssinaturasInicial": null,
+  "PetObs": null,
+  "PetSel": "2",
+  "PetSituacao": "Aguarda deliberação sobre a sua admissibilidade",
+  "PetUrlTexto": null,
+  "PublicacaoDebate": null,
+  "PublicacaoPeticao": null
+ },
+ {
+  "DadosComissao": [
+   {
+    "Admissibilidade": null,
+    "Audicoes": null,
+    "Audiencias": null,
+    "AudienciasOutros": null,
+    "Codigo": null,
+    "DadosPedidosInformacao": null,
+    "DadosRelatorioFinal": [
+     {
+      "data": null,
+      "publicacao": null,
+      "votacao": {
+       "ausencias": null,
+       "data": null,
+       "descricao": null,
+       "detalhe": null,
+       "id": null,
+       "publicacao": null,
+       "resultado": null,
+       "reuniao": null,
+       "tipoReuniao": null,
+       "unanime": null
+      }
+     }
+    ],
+    "DataAdmissibilidade": "2026-09-30",
+    "DataArquivo": null,
+    "DataBaixaComissao": "2026-09-22",
+    "DataEnvioPAR": null,
+    "DataReaberta": "2026-09-30",
+    "DocumentosPeticao": {
+     "DocsOutros": [
+      {
+       "DataDocumento": "2026-09-30",
+       "Descricao": null,
+       "TipoDocumento": "Notas Admissibilidade",
+       "TituloDocumento": "Nota de admissibilidade",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e505453383551314d765247396a6457316c626e52766331426c64476c6a595738764d44566a4f4467795a6d5574597a45304e6930304e7a4e6b4c5745335a5751744d54637a5a5455344d6d49354e474e6c4c6e426b5a673d3d&fich=05c882fe-c146-473d-a7ed-173e582b94ce.pdf&Inline=true"
+      }
+     ],
+     "DocsPedidoInformacoes": null,
+     "DocsRelatorioFinal": null,
+     "DocsRespostaPedidoInformacoes": null
+    },
+    "IdComissao": "8455",
+    "Legislatura": "XVII",
+    "Nome": "Comissão de Saúde ",
+    "NotasAdmissibilidade": null,
+    "Numero": "9",
+    "Publicacao": null,
+    "Relatores": [
+     {
+      "dataCessacao": null,
+      "dataNomeacao": "2026-09-30",
+      "gp": "CH",
+      "id": "8812",
+      "motivoCessacao": null,
+      "nome": "Cláudia Estêvão"
+     }
+    ],
+    "RelatorioFinal": null,
+    "Sessao": null,
+    "Situacao": "Em apreciação",
+    "Transitada": null
+   }
+  ],
+  "DataDebate": null,
+  "Documentos": [
+   {
+    "DataDocumento": "2026-09-22",
+    "Descricao": null,
+    "TipoDocumento": "Anexos",
+    "TituloDocumento": "Texto Final da Petição",
+    "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c31526c65485276526d6c75595778515a5852705932396c637939684e475a694e6a41785953316d4d4446684c5451354d6a49744f5749784e533031597a67344d7a52684d544e6b4e7a67756347526d&fich=a4fb601a-f01a-4922-9b15-5c8834a13d78.pdf&Inline=true"
+   }
+  ],
+  "IniciativasConjuntas": null,
+  "Iniciativasoriginadas": null,
+  "Intervencoes": null,
+  "Links": null,
+  "PedidosEsclarecimento": null,
+  "PetActividadeId": "54486",
+  "PetAssunto": "Reforçar os Cuidados Paliativos em Portugal é Urgente",
+  "PetAutor": "REDACTED",
+  "PetDataEntrada": "2026-09-19",
+  "PeticoesAssociadas": null,
+  "PetId": "54486",
+  "PetLeg": "XVII",
+  "PetNr": "233",
+  "PetNrAssinaturas": "8582",
+  "PetNrAssinaturasInicial": null,
+  "PetObs": null,
+  "PetSel": "2",
+  "PetSituacao": "Em apreciação",
+  "PetUrlTexto": null,
+  "PublicacaoDebate": null,
+  "PublicacaoPeticao": null
+ },
+ {
+  "DadosComissao": [
+   {
+    "Admissibilidade": null,
+    "Audicoes": null,
+    "Audiencias": null,
+    "AudienciasOutros": null,
+    "Codigo": null,
+    "DadosPedidosInformacao": null,
+    "DadosRelatorioFinal": [
+     {
+      "data": null,
+      "publicacao": null,
+      "votacao": {
+       "ausencias": null,
+       "data": null,
+       "descricao": null,
+       "detalhe": null,
+       "id": null,
+       "publicacao": null,
+       "resultado": null,
+       "reuniao": null,
+       "tipoReuniao": null,
+       "unanime": null
+      }
+     }
+    ],
+    "DataAdmissibilidade": "2026-09-30",
+    "DataArquivo": null,
+    "DataBaixaComissao": "2026-09-22",
+    "DataEnvioPAR": null,
+    "DataReaberta": "2026-09-30",
+    "DocumentosPeticao": {
+     "DocsOutros": [
+      {
+       "DataDocumento": "2026-09-30",
+       "Descricao": null,
+       "TipoDocumento": "Notas Admissibilidade",
+       "TituloDocumento": "Nota de admissibilidade",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e505453383551314d765247396a6457316c626e52766331426c64476c6a595738764d546b314e475178595745744f5755354e5330305a6d49354c546b305a4459744d6a55774e5456684e6a59304f4451324c6e426b5a673d3d&fich=1954d1aa-9e95-4fb9-94d6-25055a664846.pdf&Inline=true"
+      }
+     ],
+     "DocsPedidoInformacoes": null,
+     "DocsRelatorioFinal": null,
+     "DocsRespostaPedidoInformacoes": null
+    },
+    "IdComissao": "8455",
+    "Legislatura": "XVII",
+    "Nome": "Comissão de Saúde ",
+    "NotasAdmissibilidade": null,
+    "Numero": "9",
+    "Publicacao": null,
+    "Relatores": [
+     {
+      "dataCessacao": null,
+      "dataNomeacao": "2026-10-06",
+      "gp": "PSD",
+      "id": "6937",
+      "motivoCessacao": null,
+      "nome": "Alberto Machado"
+     }
+    ],
+    "RelatorioFinal": null,
+    "Sessao": null,
+    "Situacao": "Em apreciação",
+    "Transitada": null
+   }
+  ],
+  "DataDebate": null,
+  "Documentos": [
+   {
+    "DataDocumento": "2026-09-22",
+    "Descricao": null,
+    "TipoDocumento": "Anexos",
+    "TituloDocumento": "Texto Final da Petição",
+    "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c31526c65485276526d6c75595778515a5852705932396c637939694f4451344e7a59785a433034596a5a684c5451784d444d744f474a6a4e4331684d5449355954646d4d54457a4e4459756347526d&fich=b848761d-8b6a-4103-8bc4-a129a7f11346.pdf&Inline=true"
+   }
+  ],
+  "IniciativasConjuntas": null,
+  "Iniciativasoriginadas": null,
+  "Intervencoes": null,
+  "Links": null,
+  "PedidosEsclarecimento": null,
+  "PetActividadeId": "54483",
+  "PetAssunto": "Pela Criação de Cuidados Intensivos Pediátricos no IPO do Porto",
+  "PetAutor": "REDACTED",
+  "PetDataEntrada": "2026-09-18",
+  "PeticoesAssociadas": null,
+  "PetId": "54483",
+  "PetLeg": "XVII",
+  "PetNr": "230",
+  "PetNrAssinaturas": "26915",
+  "PetNrAssinaturasInicial": null,
+  "PetObs": null,
+  "PetSel": "2",
+  "PetSituacao": "Em apreciação",
+  "PetUrlTexto": null,
+  "PublicacaoDebate": null,
+  "PublicacaoPeticao": null
+ },
+ {
+  "DadosComissao": [
+   {
+    "Admissibilidade": null,
+    "Audicoes": null,
+    "Audiencias": null,
+    "AudienciasOutros": null,
+    "Codigo": null,
+    "DadosPedidosInformacao": null,
+    "DadosRelatorioFinal": null,
+    "DataAdmissibilidade": "2026-10-07",
+    "DataArquivo": "2026-10-07",
+    "DataBaixaComissao": "2026-09-22",
+    "DataEnvioPAR": "2026-10-07",
+    "DataReaberta": "2026-10-07",
+    "DocumentosPeticao": {
+     "DocsOutros": [
+      {
+       "DataDocumento": "2026-10-07",
+       "Descricao": null,
+       "TipoDocumento": "Notas Admissibilidade",
+       "TituloDocumento": "Nota de Admissibilidade",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e505453387851304644524578484c305276593356745a57353062334e515a585270593246764c324a6d4d7a417a4d5463324c54526d4e5463744e446c6c595331685a6a6b794c5749335a44526b4d5745335a4745355a5335775a47593d&fich=bf303176-4f57-49ea-af92-b7d4d1a7da9e.pdf&Inline=true"
+      }
+     ],
+     "DocsPedidoInformacoes": null,
+     "DocsRelatorioFinal": null,
+     "DocsRespostaPedidoInformacoes": null
+    },
+    "IdComissao": "8447",
+    "Legislatura": "XVII",
+    "Nome": "Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias ",
+    "NotasAdmissibilidade": null,
+    "Numero": "1",
+    "Publicacao": null,
+    "Relatores": null,
+    "RelatorioFinal": null,
+    "Sessao": null,
+    "Situacao": "Concluída",
+    "Transitada": null
+   }
+  ],
+  "DataDebate": null,
+  "Documentos": [
+   {
+    "DataDocumento": "2026-09-22",
+    "Descricao": null,
+    "TipoDocumento": "Anexos",
+    "TituloDocumento": "Texto Final da Petição",
+    "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c31526c65485276526d6c75595778515a5852705932396c637938304d4755334f4452694f4330334f444e694c5451334d475174595451775979316b597a51324e47497a596d51345a4759756347526d&fich=40e784b8-783b-470d-a40c-dc464b3bd8df.pdf&Inline=true"
+   }
+  ],
+  "IniciativasConjuntas": null,
+  "Iniciativasoriginadas": null,
+  "Intervencoes": null,
+  "Links": null,
+  "PedidosEsclarecimento": null,
+  "PetActividadeId": "54482",
+  "PetAssunto": "Pela criação de um regime legal condicionado de porte, para defesa pessoal, de determinadas armas de ar comprimido de aquisição livre",
+  "PetAutor": "REDACTED",
+  "PetDataEntrada": "2026-09-17",
+  "PeticoesAssociadas": null,
+  "PetId": "54482",
+  "PetLeg": "XVII",
+  "PetNr": "229",
+  "PetNrAssinaturas": "4",
+  "PetNrAssinaturasInicial": null,
+  "PetObs": null,
+  "PetSel": "2",
+  "PetSituacao": "Concluída",
+  "PetUrlTexto": null,
+  "PublicacaoDebate": null,
+  "PublicacaoPeticao": null
+ },
+ {
+  "DadosComissao": [
+   {
+    "Admissibilidade": null,
+    "Audicoes": null,
+    "Audiencias": null,
+    "AudienciasOutros": null,
+    "Codigo": null,
+    "DadosPedidosInformacao": null,
+    "DadosRelatorioFinal": null,
+    "DataAdmissibilidade": "2026-09-23",
+    "DataArquivo": "2026-09-23",
+    "DataBaixaComissao": "2026-09-15",
+    "DataEnvioPAR": "2026-09-23",
+    "DataReaberta": "2026-09-23",
+    "DocumentosPeticao": {
+     "DocsOutros": [
+      {
+       "DataDocumento": "2026-09-23",
+       "Descricao": null,
+       "TipoDocumento": "Notas Admissibilidade",
+       "TituloDocumento": "Nota de Admissibilidade",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e50545338784d554e425257356c4c305276593356745a57353062334e515a585270593246764c7a426a4e7a67774e5445344c5455774d4463744e4467304d5331694e32566b4c54557a4e474e6a59324578593245794d5335775a47593d&fich=0c780518-5007-4841-b7ed-534ccca1ca21.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-09-23",
+       "Descricao": null,
+       "TipoDocumento": "Notas Admissibilidade",
+       "TituloDocumento": "Oficio",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e50545338784d554e425257356c4c305276593356745a57353062334e515a585270593246764c3249794e6a45304d6a4e694c574d7a597a67744e446b344d533035595745334c54426c4f5451314d7a417a4f4745775a6935775a47593d&fich=b261423b-c3c8-4981-9aa7-0e9453038a0f.pdf&Inline=true"
+      }
+     ],
+     "DocsPedidoInformacoes": null,
+     "DocsRelatorioFinal": null,
+     "DocsRespostaPedidoInformacoes": null
+    },
+    "IdComissao": "8457",
+    "Legislatura": "XVII",
+    "Nome": "Comissão de Ambiente e Energia ",
+    "NotasAdmissibilidade": null,
+    "Numero": "11",
+    "Publicacao": null,
+    "Relatores": null,
+    "RelatorioFinal": null,
+    "Sessao": null,
+    "Situacao": "Concluída",
+    "Transitada": null
+   }
+  ],
+  "DataDebate": null,
+  "Documentos": [
+   {
+    "DataDocumento": "2026-09-15",
+    "Descricao": null,
+    "TipoDocumento": "Texto final",
+    "TituloDocumento": "Texto Final da Petição",
+    "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c31526c65485276526d6c75595778515a5852705932396c6379396d4d7a4e6d5954686b5a6930315a5755794c5452684e325974596d4d7a4e5330345a574d355a6d4d30596d55794f446b756347526d&fich=f33fa8df-5ee2-4a7f-bc35-8ec9fc4be289.pdf&Inline=true"
+   }
+  ],
+  "IniciativasConjuntas": null,
+  "Iniciativasoriginadas": null,
+  "Intervencoes": null,
+  "Links": [
+   {
+    "DataDocumento": "2026-09-15",
+    "Descricao": null,
+    "TipoDocumento": "Link",
+    "TituloDocumento": "Video da Petição",
+    "URL": "https://www.cmjornal.pt/sociedade/detalhe/ja-apanhei-ratos-em-casa-cemiterio-de-arvores-revolta-moradores-no-porto"
+   }
+  ],
+  "PedidosEsclarecimento": null,
+  "PetActividadeId": "54480",
+  "PetAssunto": "Fim do estaleiro de resíduos vegetais na Corujeira, Campanhã — Saúde e qualidade de vida dos moradores em risco",
+  "PetAutor": "REDACTED",
+  "PetDataEntrada": "2026-09-13",
+  "PeticoesAssociadas": null,
+  "PetId": "54480",
+  "PetLeg": "XVII",
+  "PetNr": "227",
+  "PetNrAssinaturas": "32",
+  "PetNrAssinaturasInicial": null,
+  "PetObs": null,
+  "PetSel": "1",
+  "PetSituacao": "Concluída",
+  "PetUrlTexto": null,
+  "PublicacaoDebate": null,
+  "PublicacaoPeticao": null
+ },
+ {
+  "DadosComissao": [
+   {
+    "Admissibilidade": null,
+    "Audicoes": [
+     {
+      "data": "2026-09-22",
+      "entidades": null,
+      "id": "190466",
+      "tipo": null,
+      "titulo": "Audição em 2026-09-22 com Peticionários"
+     }
+    ],
+    "Audiencias": null,
+    "AudienciasOutros": null,
+    "Codigo": null,
+    "DadosPedidosInformacao": null,
+    "DadosRelatorioFinal": [
+     {
+      "data": "2026-10-06",
+      "publicacao": null,
+      "votacao": {
+       "ausencias": [
+        "PCP",
+        "CDS-PP"
+       ],
+       "data": "2026-10-06",
+       "descricao": null,
+       "detalhe": "A Favor: <I>PSD</I>, <I> CH</I>, <I> PS</I>, <I> IL</I>, <I> L</I><BR>Ausência: <I>PCP</I>, <I> CDS-PP</I>",
+       "id": "193000",
+       "publicacao": null,
+       "resultado": "Aprovado",
+       "reuniao": "55",
+       "tipoReuniao": "Ordinária",
+       "unanime": "S"
+      }
+     }
+    ],
+    "DataAdmissibilidade": "2026-07-21",
+    "DataArquivo": "2026-10-07",
+    "DataBaixaComissao": "2026-07-15",
+    "DataEnvioPAR": "2026-10-07",
+    "DataReaberta": "2026-07-21",
+    "DocumentosPeticao": {
+     "DocsOutros": [
+      {
+       "DataDocumento": "2026-07-21",
+       "Descricao": null,
+       "TipoDocumento": "Notas Admissibilidade",
+       "TituloDocumento": "Nota de admissibilidade",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c3259774d44686a4e5441304c5755305a6a51744e444a6a4e4331694f4452694c5759335a6d49344d4468685a6a51324d7935775a47593d&fich=f008c504-e4f4-42c4-b84b-f7fb808af463.pdf&Inline=true"
+      }
+     ],
+     "DocsPedidoInformacoes": [
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Ministro da Educação- Ciência e Inovação -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c3255795a575177593259304c5759774e4449744e4749354e693168596a41304c5759324f57466b597a59774d474d785a6935775a47593d&fich=e2ed0cf4-f042-4b96-ab04-f69adc600c1f.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Conselho Nacional de Educação -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c7a597a4d325668596a51304c5451334f4467744e4467314d5330344e6d45784c544d334d6a45794e546b34593255345a5335775a47593d&fich=633eab44-4788-4851-86a1-37212598ce8e.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Instituto de Educação- Qualidade e Avaliação- I.P. (EduQA) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c324d314e6a41324d4445784c5749774e474d744e475a6b4f4330355a4445784c544a6b597a55315a544d304e47597a4d5335775a47593d&fich=c5606011-b04c-4fd8-9d11-2dc55e344f31.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Júri Nacional de Exames (JNE) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c3246684e6d4d794f4745344c544977593251744e474578595330344f54426b4c57466b4e6d4d7a5957526d4e5449354f5335775a47593d&fich=aa6c28a8-20cd-4a1a-890d-ad6c3adf5299.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Associação Nacional de Dirigentes Escolares (ANDE)",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c324d325954566b4d44646d4c57566a4d6a51744e4467354e6931684e3245354c5749324d4445305a575530596a45794d4335775a47593d&fich=c6a5d07f-ec24-4896-a7a9-b6014ee4b120.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Associação Nacional de Diretores de Agrupamentos e Escolas Públicas (ANDAEP) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c7a51794e5445334d4449324c5468695a4751744e4467344d533169597a4d354c5755794e4449324d324e6b4d475a6a4f4335775a47593d&fich=42517026-8bdd-4881-bc39-e24263cd0fc8.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Associação de Estabelecimentos de Ensino Particular e Cooperativo (AEEP) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c7a4a6859324a6a596d49354c54686a5a6d49744e474e684d7931684f444d324c5463324e5759315a4467354f54526a4d4335775a47593d&fich=2acbcbb9-8cfb-4ca3-a836-765f5d8994c0.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Confederação Nacional das Associações de Pais (CONFAP) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c325a6b4d5755324e3251794c5745314e6d51744e4746694f5330344e6d4e694c54526d4f4456684d446c694d7a6377597935775a47593d&fich=fd1e67d2-a56d-4ab9-86cb-4f85a09b370c.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Conselho de Reitores das Universidades Portuguesas (CRUP) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c7a466b4e54466d59545a694c5445774d3245744e44493559793035595455314c544e694e6d59344e5463794e5746684e6935775a47593d&fich=1d51fa6b-103a-429c-9a55-3b6f85725aa6.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Conselho Coordenador dos Institutos Superiores Politécnicos (CCISP) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c32526d59546b304d574a6d4c5463324e5749744e44526a5a4330344f4449314c5459304f575133596a4e6959545a694f5335775a47593d&fich=dfa941bf-765b-44cd-8825-649d7b3ba6b9.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Comissão Nacional de Acesso ao Ensino Superior -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c3249334f4749785a4449794c5755354d7a51744e47557a5a4330344f574d334c5755344e575531597a6334596a686d5a4335775a47593d&fich=b78b1d22-e934-4e3d-89c7-e85e5c78b8fd.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-07-27",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Associação Portuguesa do Ensino Superior Privado (APESP) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c324931596a42694e5441324c5455304f5459744e4755784e4331694d6d5a6c4c546c6d4e324d305a4468684f4467774e5335775a47593d&fich=b5b0b506-5496-4e14-b2fe-9f7c4d8a8805.pdf&Inline=true"
+      }
+     ],
+     "DocsRelatorioFinal": [
+      {
+       "DataDocumento": "2026-10-07",
+       "Descricao": null,
+       "TipoDocumento": "Relatório Final",
+       "TituloDocumento": "Relatório Final",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c3251774d7a526a4d6a426a4c5451794d6a49744e444e6d4d793169597a64684c5441304e7a45334d546c6c5a6d4e69596935775a47593d&fich=d034c20c-4222-43f3-bc7a-0471719efcbb.pdf&Inline=true"
+      }
+     ],
+     "DocsRespostaPedidoInformacoes": [
+      {
+       "DataDocumento": "2026-08-03",
+       "Descricao": null,
+       "TipoDocumento": "Resposta pedido de Informação",
+       "TituloDocumento": "Comissão Nacional de Acesso ao Ensino Superior -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c7a637a4e54426c4e4467304c5459305a6a45744e4459774e4331684e57517a4c544d344e4755774e575579597a51355a6935775a47593d&fich=7350e484-64f1-4604-a5d3-384e05e2c49f.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-08-05",
+       "Descricao": null,
+       "TipoDocumento": "Resposta pedido de Informação",
+       "TituloDocumento": "Conselho de Reitores das Universidades Portuguesas (CRUP) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c3251315a6a59334e4451354c5467795a544d744e4467794d433035596a646c4c5749314e6a4d304e3255314e475578595335775a47593d&fich=d5f67449-82e3-4820-9b7e-b56347e54e1a.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-08-14",
+       "Descricao": null,
+       "TipoDocumento": "Resposta pedido de Informação",
+       "TituloDocumento": "Associação de Estabelecimentos de Ensino Particular e Cooperativo (AEEP) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c7a557a4e6d466b4e5759354c5759324d574d744e444e684d7930345a4441334c5755774e47597a597a526a596a67354f4335775a47593d&fich=536ad5f9-f61c-43a3-8d07-e04f3c4cb898.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-08-07",
+       "Descricao": null,
+       "TipoDocumento": "Resposta pedido de Informação",
+       "TituloDocumento": "Associação Portuguesa do Ensino Superior Privado (APESP) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c324979593255794f4745784c544d334d7a51744e44493059693169595751344c5449324d6d5134593259305a445577596935775a47593d&fich=b2ce28a1-3734-424b-bad8-262d8cf4d50b.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-08-06",
+       "Descricao": null,
+       "TipoDocumento": "Resposta pedido de Informação",
+       "TituloDocumento": "Conselho Coordenador dos Institutos Superiores Politécnicos (CCISP) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c7a4d344d7a45334e544d354c5463354d5449744e4464694d693168596a41784c5746694e4459334d54597a5a5446694e4335775a47593d&fich=38317539-7912-47b2-ab01-ab467163e1b4.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-08-14",
+       "Descricao": null,
+       "TipoDocumento": "Resposta pedido de Informação",
+       "TituloDocumento": "Confederação Nacional das Associações de Pais (CONFAP) -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c32526d5a6d4930596a64694c57557a4f4463744e47557a4e5331684d4759794c5464684f474d7759575a6d4d6a4179596935775a47593d&fich=dffb4b7b-e387-4e35-a0f2-7a8c0aff202b.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-09-07",
+       "Descricao": null,
+       "TipoDocumento": "Resposta pedido de Informação",
+       "TituloDocumento": "Ministro da Educação- Ciência e Inovação -",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c3251774f444d304d5441334c54466c593245744e44426c4d6930355a44426b4c57457a4e474d304e7a41315a444d314f5335775a47593d&fich=d0834107-1eca-40e2-9d0d-a34c4705d359.pdf&Inline=true"
+      }
+     ]
+    },
+    "IdComissao": "8454",
+    "Legislatura": "XVII",
+    "Nome": "Comissão de Educação e Ciência",
+    "NotasAdmissibilidade": null,
+    "Numero": "8",
+    "Publicacao": null,
+    "Relatores": [
+     {
+      "dataCessacao": "2026-10-06",
+      "dataNomeacao": "2026-07-21",
+      "gp": "L",
+      "id": "8491",
+      "motivoCessacao": null,
+      "nome": "Filipa Pinto"
+     }
+    ],
+    "RelatorioFinal": null,
+    "Sessao": null,
+    "Situacao": "Concluída",
+    "Transitada": null
+   }
+  ],
+  "DataDebate": null,
+  "Documentos": [
+   {
+    "DataDocumento": "2026-07-15",
+    "Descricao": null,
+    "TipoDocumento": "Texto final",
+    "TituloDocumento": "Texto da Petição",
+    "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c31526c65485276526d6c75595778515a5852705932396c637938314d54457a4d47526d4d53316d5a546b784c5451334e7a4174596d45304e79316b4e5756684e6a67345a6a63345a4451756347526d&fich=51130df1-fe91-4770-ba47-d5ea688f78d4.pdf&Inline=true"
+   }
+  ],
+  "IniciativasConjuntas": null,
+  "Iniciativasoriginadas": null,
+  "Intervencoes": null,
+  "Links": null,
+  "PedidosEsclarecimento": null,
+  "PetActividadeId": "44432",
+  "PetAssunto": "Anulação dos Exames Nacionais 2026 sem prejuízo dos alunos",
+  "PetAutor": "REDACTED",
+  "PetDataEntrada": "2026-07-09",
+  "PeticoesAssociadas": null,
+  "PetId": "44432",
+  "PetLeg": "XVII",
+  "PetNr": "191",
+  "PetNrAssinaturas": "11057",
+  "PetNrAssinaturasInicial": null,
+  "PetObs": null,
+  "PetSel": "1",
+  "PetSituacao": "Proposta para apreciação em plenário",
+  "PetUrlTexto": null,
+  "PublicacaoDebate": null,
+  "PublicacaoPeticao": null
+ },
+ {
+  "DadosComissao": [
+   {
+    "Admissibilidade": null,
+    "Audicoes": null,
+    "Audiencias": null,
+    "AudienciasOutros": null,
+    "Codigo": null,
+    "DadosPedidosInformacao": null,
+    "DadosRelatorioFinal": [
+     {
+      "data": null,
+      "publicacao": null,
+      "votacao": {
+       "ausencias": null,
+       "data": null,
+       "descricao": null,
+       "detalhe": null,
+       "id": null,
+       "publicacao": null,
+       "resultado": null,
+       "reuniao": null,
+       "tipoReuniao": null,
+       "unanime": null
+      }
+     }
+    ],
+    "DataAdmissibilidade": "2026-06-24",
+    "DataArquivo": "2026-09-23",
+    "DataBaixaComissao": "2026-06-15",
+    "DataEnvioPAR": null,
+    "DataReaberta": "2026-06-24",
+    "DocumentosPeticao": {
+     "DocsOutros": [
+      {
+       "DataDocumento": "2026-06-24",
+       "Descricao": null,
+       "TipoDocumento": "Notas Admissibilidade",
+       "TituloDocumento": "Nota de Admissibilidade",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e50545338784d454e5555314e4a4c305276593356745a57353062334e515a585270593246764c7a5a6c5a6d45774d6a67304c5455304d544d744e474d77597930345954457a4c57466a4d54566a4d7a41304f574535597935775a47593d&fich=6efa0284-5413-4c0c-8a13-ac15c3049a9c.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-09-23",
+       "Descricao": null,
+       "TipoDocumento": "Anexos",
+       "TituloDocumento": "Pedido de desistência da petição",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e50545338784d454e5555314e4a4c305276593356745a57353062334e515a585270593246764c7a526d4d6a49314e3252684c5445794e5745744e474d785a433035595467774c544a6c4d325a684d4467355a6d526b4e7935775a47593d&fich=4f2257da-125a-4c1d-9a80-2e3fa089fdd7.pdf&Inline=true"
+      }
+     ],
+     "DocsPedidoInformacoes": null,
+     "DocsRelatorioFinal": null,
+     "DocsRespostaPedidoInformacoes": null
+    },
+    "IdComissao": "8456",
+    "Legislatura": "XVII",
+    "Nome": "Comissão de Trabalho, Segurança Social e Inclusão ",
+    "NotasAdmissibilidade": null,
+    "Numero": "10",
+    "Publicacao": null,
+    "Relatores": [
+     {
+      "dataCessacao": null,
+      "dataNomeacao": "2026-06-24",
+      "gp": "L",
+      "id": "7356",
+      "motivoCessacao": null,
+      "nome": "Isabel Mendes Lopes"
+     }
+    ],
+    "RelatorioFinal": null,
+    "Sessao": null,
+    "Situacao": "Concluída",
+    "Transitada": null
+   }
+  ],
+  "DataDebate": null,
+  "Documentos": [
+   {
+    "DataDocumento": "2026-06-16",
+    "Descricao": null,
+    "TipoDocumento": "Texto final",
+    "TituloDocumento": "Texto Final da Petição",
+    "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c31526c65485276526d6c75595778515a5852705932396c6379396c4d5463315a446b31596930314e5455784c54517a4f545974595468684e4330354e6a45774f5441324e6d5a6d4f5445756347526d&fich=e175d95b-5551-4396-a8a4-96109066ff91.pdf&Inline=true"
+   }
+  ],
+  "IniciativasConjuntas": null,
+  "Iniciativasoriginadas": null,
+  "Intervencoes": null,
+  "Links": null,
+  "PedidosEsclarecimento": null,
+  "PetActividadeId": "44420",
+  "PetAssunto": "Revisão do regime das entidades contratantes constante do Código dos Regimes Contributivos do Sistema Previdencial de Segurança Social",
+  "PetAutor": "REDACTED",
+  "PetDataEntrada": "2026-06-11",
+  "PeticoesAssociadas": null,
+  "PetId": "44420",
+  "PetLeg": "XVII",
+  "PetNr": "180",
+  "PetNrAssinaturas": "199",
+  "PetNrAssinaturasInicial": null,
+  "PetObs": null,
+  "PetSel": "1",
+  "PetSituacao": "Retirada a pedido do Peticionário",
+  "PetUrlTexto": null,
+  "PublicacaoDebate": null,
+  "PublicacaoPeticao": null
+ },
+ {
+  "DadosComissao": [
+   {
+    "Admissibilidade": null,
+    "Audicoes": null,
+    "Audiencias": null,
+    "AudienciasOutros": null,
+    "Codigo": null,
+    "DadosPedidosInformacao": null,
+    "DadosRelatorioFinal": [
+     {
+      "data": null,
+      "publicacao": null,
+      "votacao": {
+       "ausencias": null,
+       "data": null,
+       "descricao": null,
+       "detalhe": null,
+       "id": null,
+       "publicacao": null,
+       "resultado": null,
+       "reuniao": null,
+       "tipoReuniao": null,
+       "unanime": null
+      }
+     }
+    ],
+    "DataAdmissibilidade": "2026-06-17",
+    "DataArquivo": "2026-09-18",
+    "DataBaixaComissao": "2026-06-02",
+    "DataEnvioPAR": "2026-09-18",
+    "DataReaberta": "2026-06-17",
+    "DocumentosPeticao": {
+     "DocsOutros": [
+      {
+       "DataDocumento": "2026-06-17",
+       "Descricao": null,
+       "TipoDocumento": "Notas Admissibilidade",
+       "TituloDocumento": "Nota de Admissibilidade",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e50545338784d454e5555314e4a4c305276593356745a57353062334e515a585270593246764c3245794d5455325a6a4e6d4c574933597a51744e4445354f4330355a6d4d784c5746694f44466d5a6d517a4d6a6732596935775a47593d&fich=a2156f3f-b7c4-4198-9fc1-ab81ffd3286b.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-09-09",
+       "Descricao": null,
+       "TipoDocumento": "Anexos",
+       "TituloDocumento": "Súmula da audição de peticionários",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e50545338784d454e5555314e4a4c305276593356745a57353062334e515a585270593246764c7a6c68596a6b774d574e684c546c695a5755744e4759344f4331694f54526b4c544a6b59546b344e47557a4f5752684d6935775a47593d&fich=9ab901ca-9bee-4f88-b94d-2da984e39da2.pdf&Inline=true"
+      }
+     ],
+     "DocsPedidoInformacoes": null,
+     "DocsRelatorioFinal": [
+      {
+       "DataDocumento": "2026-09-18",
+       "Descricao": null,
+       "TipoDocumento": "Relatório Final",
+       "TituloDocumento": "Relatório final",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e50545338784d454e5555314e4a4c305276593356745a57353062334e515a585270593246764c7a4a684d32526b4d6a5a6d4c575a6a4e3251744e44466c595330354e6a466a4c5751354e4449794d3249784e6a67345a5335775a47593d&fich=2a3dd26f-fc7d-41ea-961c-d94223b1688e.pdf&Inline=true"
+      }
+     ],
+     "DocsRespostaPedidoInformacoes": null
+    },
+    "IdComissao": "8456",
+    "Legislatura": "XVII",
+    "Nome": "Comissão de Trabalho, Segurança Social e Inclusão ",
+    "NotasAdmissibilidade": null,
+    "Numero": "10",
+    "Publicacao": null,
+    "Relatores": [
+     {
+      "dataCessacao": null,
+      "dataNomeacao": "2026-06-17",
+      "gp": "PS",
+      "id": "6371",
+      "motivoCessacao": null,
+      "nome": "Patrícia Faro"
+     }
+    ],
+    "RelatorioFinal": null,
+    "Sessao": null,
+    "Situacao": "Concluída",
+    "Transitada": null
+   }
+  ],
+  "DataDebate": null,
+  "Documentos": [
+   {
+    "DataDocumento": "2026-06-02",
+    "Descricao": null,
+    "TipoDocumento": "Anexos",
+    "TituloDocumento": "Texto Final da Petição",
+    "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c31526c65485276526d6c75595778515a5852705932396c6379396b5a4445315a445a6c597930334f544d334c5451794f475574595751324d4331694d6a45354d6d49785a44526d596d51756347526d&fich=dd15d6ec-7937-428e-ad60-b2192b1d4fbd.pdf&Inline=true"
+   }
+  ],
+  "IniciativasConjuntas": null,
+  "Iniciativasoriginadas": null,
+  "Intervencoes": null,
+  "Links": null,
+  "PedidosEsclarecimento": null,
+  "PetActividadeId": "44408",
+  "PetAssunto": "Inclusão no trabalho: pessoas com incapacidades, imunodeprimidas ou deficientes",
+  "PetAutor": "REDACTED",
+  "PetDataEntrada": "2026-05-25",
+  "PeticoesAssociadas": null,
+  "PetId": "44408",
+  "PetLeg": "XVII",
+  "PetNr": "168",
+  "PetNrAssinaturas": "7724",
+  "PetNrAssinaturasInicial": null,
+  "PetObs": null,
+  "PetSel": "1",
+  "PetSituacao": "Proposta para apreciação em plenário",
+  "PetUrlTexto": null,
+  "PublicacaoDebate": null,
+  "PublicacaoPeticao": null
+ },
+ {
+  "DadosComissao": [
+   {
+    "Admissibilidade": null,
+    "Audicoes": null,
+    "Audiencias": null,
+    "AudienciasOutros": null,
+    "Codigo": null,
+    "DadosPedidosInformacao": null,
+    "DadosRelatorioFinal": [
+     {
+      "data": "2026-05-12",
+      "publicacao": null,
+      "votacao": {
+       "ausencias": [
+        "IL",
+        "L",
+        "CDS-PP"
+       ],
+       "data": "2026-05-12",
+       "descricao": null,
+       "detalhe": "A Favor: <I>PSD</I>, <I> CH</I>, <I> PS</I>, <I> PCP</I><BR>Ausência: <I>IL</I>, <I> L</I>, <I> CDS-PP</I>",
+       "id": "172078",
+       "publicacao": null,
+       "resultado": "Aprovado",
+       "reuniao": "39",
+       "tipoReuniao": "Ordinária",
+       "unanime": "S"
+      }
+     }
+    ],
+    "DataAdmissibilidade": "2026-02-18",
+    "DataArquivo": "2026-05-12",
+    "DataBaixaComissao": "2026-01-28",
+    "DataEnvioPAR": "2026-06-11",
+    "DataReaberta": "2026-02-18",
+    "DocumentosPeticao": {
+     "DocsOutros": [
+      {
+       "DataDocumento": "2026-02-18",
+       "Descricao": null,
+       "TipoDocumento": "Notas Admissibilidade",
+       "TituloDocumento": "Nota de Admissibilidade",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c32566a593251314e6a45314c574d79596a67744e444e6d595330354e546c6a4c546b784d7a466c4e4449795954457a4e7935775a47593d&fich=eccd5615-c2b8-43fa-959c-9131e422a137.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-02-18",
+       "Descricao": null,
+       "TipoDocumento": "Anexos",
+       "TituloDocumento": "Documentação disponibilizada pelos peticionários",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c7a51794e4467774e4749774c5749785a5745744e446b784e6930344d4459304c54466a4d444132597a637a5a574d324d7935775a47593d&fich=424804b0-b1ea-4916-8064-1c006c73ec63.pdf&Inline=true"
+      }
+     ],
+     "DocsPedidoInformacoes": [
+      {
+       "DataDocumento": "2026-02-20",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Ministro da Educação, Ciência e Inovação |",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c7a6c6a5a475931595745774c5755334d6a41744e446b79597930345a5468684c5451795a5745324d7a6c6c4d6a566a4e4335775a47593d&fich=9cdf5aa0-e720-492c-8e8a-42ea639e25c4.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-02-20",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Câmara Municipal de Aljezur |",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c3245795a5445304d474d774c544269593255744e446b315a4331695a4745314c574d7a5a474e694e6a59784f4463334f4335775a47593d&fich=a2e140c0-0bce-495d-bda5-c3dcb6618778.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-02-20",
+       "Descricao": null,
+       "TipoDocumento": "Pedidos de Informação",
+       "TituloDocumento": "Associação de Estabelecimentos de Ensino Particular e Cooperativo (AEEP) |",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c7a413559544d794e7a63784c57453559324d744e444133595330344e324e694c544d344e5455324f445135597a68684f4335775a47593d&fich=09a32771-a9cc-407a-87cb-38556849c8a8.pdf&Inline=true"
+      }
+     ],
+     "DocsRelatorioFinal": [
+      {
+       "DataDocumento": "2026-06-11",
+       "Descricao": null,
+       "TipoDocumento": "Relatório Final",
+       "TituloDocumento": "Relatório Final",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c324e6b4e6a4e6d5a6a5a6d4c5445314f5445744e474a685a4331685a6a63324c574e6a4e544d77593245354e7a497a4f5335775a47593d&fich=cd63ff6f-1591-4bad-af76-cc530ca97239.pdf&Inline=true"
+      }
+     ],
+     "DocsRespostaPedidoInformacoes": [
+      {
+       "DataDocumento": "2026-03-10",
+       "Descricao": null,
+       "TipoDocumento": "Resposta pedido de Informação",
+       "TituloDocumento": "Associação de Estabelecimentos de Ensino Particular e Cooperativo (AEEP) |",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c32566c4d54686c4d6d55304c5759305a5751744e4445314d4330354e475a6d4c5751784f544d305a446c694e445933597935775a47593d&fich=ee18e2e4-f4ed-4150-94ff-d1934d9b467c.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-03-23",
+       "Descricao": null,
+       "TipoDocumento": "Resposta pedido de Informação",
+       "TituloDocumento": "Ministro da Educação, Ciência e Inovação |",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c3259305954526a4d5468694c546b31596a67744e4441315a5330354e44646d4c5455324f4455324d6a566b5a6a42694d5335775a47593d&fich=f4a4c18b-95b8-405e-947f-5685625df0b1.pdf&Inline=true"
+      },
+      {
+       "DataDocumento": "2026-03-23",
+       "Descricao": null,
+       "TipoDocumento": "Resposta pedido de Informação",
+       "TituloDocumento": "Câmara Municipal de Aljezur |",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e5054533834513056444c305276593356745a57353062334e515a585270593246764c325177595459774d544d784c544e6d5a4745744e475a6b4d4331694e4451314c544e6d5a5459334f5467784e6a49304d7935775a47593d&fich=d0a60131-3fda-4fd0-b445-3fe679816243.pdf&Inline=true"
+      }
+     ]
+    },
+    "IdComissao": "8454",
+    "Legislatura": "XVII",
+    "Nome": "Comissão de Educação e Ciência",
+    "NotasAdmissibilidade": null,
+    "Numero": "8",
+    "Publicacao": null,
+    "Relatores": [
+     {
+      "dataCessacao": "2026-05-12",
+      "dataNomeacao": "2026-02-18",
+      "gp": "PSD",
+      "id": "2297",
+      "motivoCessacao": null,
+      "nome": "Cristóvão Norte"
+     }
+    ],
+    "RelatorioFinal": null,
+    "Sessao": null,
+    "Situacao": "Concluída",
+    "Transitada": null
+   }
+  ],
+  "DataDebate": null,
+  "Documentos": [
+   {
+    "DataDocumento": "2026-01-28",
+    "Descricao": null,
+    "TipoDocumento": "Texto final",
+    "TituloDocumento": "Texto Final da Petição",
+    "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c31526c65485276526d6c75595778515a5852705932396c637938325a5756694d6d55334e4330784e57557a4c5451334e574d744f5759355a5330325a6a4a68597a4d34596a566a5a574d756347526d&fich=6eeb2e74-15e3-475c-9f9e-6f2ac38b5cec.pdf&Inline=true"
+   }
+  ],
+  "IniciativasConjuntas": null,
+  "Iniciativasoriginadas": null,
+  "Intervencoes": null,
+  "Links": null,
+  "PedidosEsclarecimento": null,
+  "PetActividadeId": "34336",
+  "PetAssunto": "Petição contra o encerramento da Escola Internacional de Aljezur",
+  "PetAutor": "REDACTED",
+  "PetDataEntrada": "2026-01-22",
+  "PeticoesAssociadas": null,
+  "PetId": "34336",
+  "PetLeg": "XVII",
+  "PetNr": "98",
+  "PetNrAssinaturas": "366",
+  "PetNrAssinaturasInicial": null,
+  "PetObs": null,
+  "PetSel": "1",
+  "PetSituacao": "Retirada a pedido do Peticionário",
+  "PetUrlTexto": null,
+  "PublicacaoDebate": null,
+  "PublicacaoPeticao": null
+ },
+ {
+  "DadosComissao": [
+   {
+    "Admissibilidade": null,
+    "Audicoes": null,
+    "Audiencias": null,
+    "AudienciasOutros": null,
+    "Codigo": null,
+    "DadosPedidosInformacao": null,
+    "DadosRelatorioFinal": [
+     {
+      "data": "2025-09-10",
+      "publicacao": null,
+      "votacao": {
+       "ausencias": [
+        "JPP",
+        "PAN",
+        "BE",
+        "PCP",
+        "L",
+        "IL"
+       ],
+       "data": "2025-09-10",
+       "descricao": null,
+       "detalhe": "A Favor: <I>PSD</I>, <I> CH</I>, <I> PS</I>, <I> CDS-PP</I><BR>Ausência: <I>IL</I>, <I> L</I>, <I> PCP</I>, <I> BE</I>, <I> PAN</I>, <I> JPP</I>",
+       "id": "139546",
+       "publicacao": null,
+       "resultado": "Aprovado",
+       "reuniao": "7",
+       "tipoReuniao": "Ordinária",
+       "unanime": "S"
+      }
+     }
+    ],
+    "DataAdmissibilidade": "2025-07-09",
+    "DataArquivo": "2025-09-10",
+    "DataBaixaComissao": "2025-07-01",
+    "DataEnvioPAR": "2025-09-10",
+    "DataReaberta": "2025-07-09",
+    "DocumentosPeticao": {
+     "DocsOutros": [
+      {
+       "DataDocumento": "2025-07-09",
+       "Descricao": null,
+       "TipoDocumento": "Notas Admissibilidade",
+       "TituloDocumento": "Nota de Admissibilidade ",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e505453387851304644524578484c305276593356745a57353062334e515a585270593246764c7a67795957566c4f446c6c4c5751344e7a51744e44466b4d5331694f546c694c5749335a446730596a6c6b4f4445344e4335775a47593d&fich=82aee89e-d874-41d1-b99b-b7d84b9d8184.pdf&Inline=true"
+      }
+     ],
+     "DocsPedidoInformacoes": null,
+     "DocsRelatorioFinal": [
+      {
+       "DataDocumento": "2025-09-10",
+       "Descricao": null,
+       "TipoDocumento": "Relatório Final",
+       "TituloDocumento": "Relatório",
+       "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c304e505453387851304644524578484c305276593356745a57353062334e515a585270593246764c32526b5a4463324e444e6c4c5459305a6a63744e4441314d5330344d544a6d4c544a6d4e7a686859324d794e4468684f5335775a47593d&fich=ddd7643e-64f7-4051-812f-2f78acc248a9.pdf&Inline=true"
+      }
+     ],
+     "DocsRespostaPedidoInformacoes": null
+    },
+    "IdComissao": "8447",
+    "Legislatura": "XVII",
+    "Nome": "Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias ",
+    "NotasAdmissibilidade": null,
+    "Numero": "1",
+    "Publicacao": null,
+    "Relatores": [
+     {
+      "dataCessacao": "2025-09-10",
+      "dataNomeacao": "2025-07-09",
+      "gp": "PSD",
+      "id": "7274",
+      "motivoCessacao": "Entrega de relatório ",
+      "nome": "Hugo Carneiro"
+     }
+    ],
+    "RelatorioFinal": null,
+    "Sessao": null,
+    "Situacao": "Concluída",
+    "Transitada": null
+   }
+  ],
+  "DataDebate": null,
+  "Documentos": [
+   {
+    "DataDocumento": "2025-07-03",
+    "Descricao": null,
+    "TipoDocumento": "Texto final",
+    "TituloDocumento": "Texto final da petição",
+    "URL": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c31526c65485276526d6c75595778515a5852705932396c637938775a57466a4f5467775a6930334e574e6c4c54526b4d5751744f4463784f433033596d52684e5459354d545a69597a51756347526d&fich=0eac980f-75ce-4d1d-8718-7bda56916bc4.pdf&Inline=true"
+   }
+  ],
+  "IniciativasConjuntas": null,
+  "Iniciativasoriginadas": null,
+  "Intervencoes": null,
+  "Links": [
+   {
+    "DataDocumento": "2025-07-03",
+    "Descricao": null,
+    "TipoDocumento": "Link",
+    "TituloDocumento": "Video da Petição",
+    "URL": "https://youtu.be/3UAXGGzpHUg"
+   }
+  ],
+  "PedidosEsclarecimento": null,
+  "PetActividadeId": "34220",
+  "PetAssunto": "Revisão Constitucional para melhorar o Sistema Eleitoral para a Assembleia da República",
+  "PetAutor": "REDACTED",
+  "PetDataEntrada": "2025-06-05",
+  "PeticoesAssociadas": null,
+  "PetId": "34220",
+  "PetLeg": "XVII",
+  "PetNr": "1",
+  "PetNrAssinaturas": "169",
+  "PetNrAssinaturasInicial": null,
+  "PetObs": null,
+  "PetSel": "1",
+  "PetSituacao": "Concluída",
+  "PetUrlTexto": null,
+  "PublicacaoDebate": null,
+  "PublicacaoPeticao": null
+ }
+]

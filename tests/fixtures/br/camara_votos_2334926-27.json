@@ -1,0 +1,70 @@
+{
+ "dados": [
+  {
+   "tipoVoto": "Não",
+   "dataRegistroVoto": "2026-02-24T16:21:40",
+   "deputado_": {
+    "id": 66385,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/66385",
+    "nome": "Julio Arcoverde",
+    "siglaPartido": "PP",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37903",
+    "siglaUf": "PI",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/66385.jpg",
+    "email": "dep.julioarcoverde@camara.leg.br"
+   }
+  },
+  {
+   "tipoVoto": "Não",
+   "dataRegistroVoto": "2026-02-24T16:21:40",
+   "deputado_": {
+    "id": 69871,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/69871",
+    "nome": "Bacelar",
+    "siglaPartido": "PV",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36851",
+    "siglaUf": "BA",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/69871.jpg",
+    "email": "dep.bacelar@camara.leg.br"
+   }
+  },
+  {
+   "tipoVoto": "Sim",
+   "dataRegistroVoto": "2026-02-24T16:21:40",
+   "deputado_": {
+    "id": 73768,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/73768",
+    "nome": "Dilceu Sperafico",
+    "siglaPartido": "PP",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37903",
+    "siglaUf": "PR",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/73768.jpg",
+    "email": "dep.dilceusperafico@camara.leg.br"
+   }
+  },
+  {
+   "tipoVoto": "Não",
+   "dataRegistroVoto": "2026-02-24T16:21:40",
+   "deputado_": {
+    "id": 74041,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/74041",
+    "nome": "Luiz Couto",
+    "siglaPartido": "PT",
+    "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36844",
+    "siglaUf": "PB",
+    "idLegislatura": 57,
+    "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/74041.jpg",
+    "email": "dep.luizcouto@camara.leg.br"
+   }
+  }
+ ],
+ "links": [
+  {
+   "rel": "self",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27/votos"
+  }
+ ]
+}

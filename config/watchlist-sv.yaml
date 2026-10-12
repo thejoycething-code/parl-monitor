@@ -1,0 +1,16 @@
+# El Salvador watchlist (9 October 2026), applied by KEY, never by title
+# (src/sv_store.watch_areas).
+#
+# The shared Spanish taxonomy, once Christopher approves it, does most of the
+# work. This file carries only what it cannot: items whose extract names
+# nothing on our ground but whose content is ours.
+#
+#   expedientes: the bill's own ID, '755-9-2026-1', printed on every
+#                dictamen (number-month-year-sequence, assigned on entry).
+#   piezas:      '<legislature>/<session>/<order>A', '2024-2027/128/2A', ONLY
+#                for items approved "con dispensa de trámite", which skip
+#                committee and are never seen with an expediente.
+#
+# Empty on purpose: no current item needs it yet (docs/el-salvador-scope.md).
+expedientes: {}
+piezas: {}

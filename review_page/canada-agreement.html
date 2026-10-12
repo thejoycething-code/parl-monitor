@@ -1,0 +1,504 @@
+<title>Canada Agreement Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Spectral:wght@500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one column of member cards (official portrait left, our column and approve/amend right) under a sticky round bar; the owner's view adds a results band and an amendments table. */
+:root {
+  --bg: #f6f5f1; --surface: #ffffff; --ink: #1f2522; --muted: #5f6964; --line: #dcdfd8;
+  --accent: #2f5d50; --accent-ink: #ffffff; --accent-soft: #e3ece8;
+  --with2: #1e6b5c; --with1: #5b9a8b; --zero: #8a8f8b; --against1: #c27a5b; --against2: #9c3b25;
+  --ok: #2e7d4f; --warn: #a66a00; --bad: #a33a2b;
+  --display: "Spectral", Georgia, "Times New Roman", serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141816; --surface: #1c211f; --ink: #e6ebe8; --muted: #9aa49f; --line: #2e3532;
+  --accent: #7fb8a6; --accent-ink: #0f1513; --accent-soft: #22302b;
+  --with2: #6cc3ad; --with1: #4f9585; --zero: #7c837f; --against1: #d08a6c; --against2: #e06b52;
+  --ok: #6cc38f; --warn: #e0a640; --bad: #ec7a68; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #141816; --surface: #1c211f; --ink: #e6ebe8; --muted: #9aa49f; --line: #2e3532;
+  --accent: #7fb8a6; --accent-ink: #0f1513; --accent-soft: #22302b;
+  --with2: #6cc3ad; --with1: #4f9585; --zero: #7c837f; --against1: #d08a6c; --against2: #e06b52;
+  --ok: #6cc38f; --warn: #e0a640; --bad: #ec7a68; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--body); margin: 0; padding-inline: 16px; padding-block: 0 48px }
+.wrap { max-width: 980px; margin: 0 auto; display: grid; gap: 20px }
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 14px 12px; border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px }
+h1 { font: 600 1.5rem/1.2 var(--display); margin: 0; text-wrap: balance }
+h2 { font: 600 1.15rem/1.3 var(--display); margin: 0 }
+.sub { color: var(--muted); font-size: .88rem }
+.spacer { flex: 1 }
+select, textarea, button, input { font: inherit; color: inherit }
+select { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px }
+.progress { display: flex; align-items: center; gap: 10px; font-size: .88rem; color: var(--muted); font-variant-numeric: tabular-nums }
+.bar { width: 140px; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden }
+.bar > i { display: block; height: 100%; background: var(--accent) }
+.note-box { background: var(--accent-soft); border-radius: 8px; padding: 12px 14px; font-size: .9rem }
+.note-box b { font-weight: 600 }
+.scale-key { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .82rem; color: var(--muted) }
+.scale-key span { display: inline-flex; align-items: center; gap: 6px }
+.chip { display: inline-grid; place-items: center; min-width: 2.3em; height: 1.7em; padding: 0 .4em; border-radius: 5px; font: 600 .85rem var(--mono); color: #fff }
+.c-pp { background: var(--with2) } .c-p { background: var(--with1) } .c-0 { background: var(--zero) }
+.c-m { background: var(--against1) } .c-mm { background: var(--against2) } .c-q { background: transparent; color: var(--muted); border: 1px dashed var(--muted) }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: .88rem }
+.cards { display: grid; gap: 10px }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 10px; min-width: 0 }
+.card.done { border-left: 4px solid var(--accent) }
+.card-head { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline }
+.who { font-weight: 600; font-size: 1.02rem }
+.meta { color: var(--muted); font-size: .85rem }
+.area { font-size: .85rem; background: var(--accent-soft); color: var(--ink); border-radius: 4px; padding: 1px 8px }
+.seq { font: .78rem var(--mono); color: var(--muted) }
+.choices { display: flex; flex-wrap: wrap; gap: 6px }
+.choices button { border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 5px 10px; cursor: pointer; font-size: .85rem; display: inline-flex; align-items: center; gap: 6px }
+.choices button:hover { border-color: var(--accent) }
+.choices button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); font-weight: 600 }
+.choices button:focus-visible, button:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+textarea { width: 100%; min-height: 2.4em; resize: vertical; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; font-size: .88rem }
+.saved { font-size: .78rem; color: var(--muted) }
+.reveal { border-top: 1px dashed var(--line); padding-top: 10px; display: grid; gap: 6px; font-size: .88rem }
+.verdict { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap }
+.pill { font-size: .75rem; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; border-radius: 999px; padding: 2px 9px }
+.pill.ok { background: color-mix(in srgb, var(--ok) 18%, transparent); color: var(--ok) }
+.pill.warn { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn) }
+.pill.bad { background: color-mix(in srgb, var(--bad) 18%, transparent); color: var(--bad) }
+.pill.na { background: var(--line); color: var(--muted) }
+.evidence { margin: 0; padding-left: 18px; color: var(--muted); font-size: .84rem }
+.evidence li { margin: 2px 0; overflow-wrap: anywhere }
+.btn { border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); border-radius: 6px; padding: 5px 12px; cursor: pointer; font-size: .85rem; font-weight: 600 }
+.btn.ghost { background: transparent; color: var(--accent) }
+.decide { display: grid; gap: 8px; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg) }
+.decide .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.decide .why { color: var(--muted); font-size: .82rem }
+.btn:disabled { opacity: .45; cursor: not-allowed }
+.btn.big { padding: 8px 16px; font-size: .92rem }
+.card { grid-template-columns: 84px minmax(0, 1fr); column-gap: 14px }
+.card > .body { display: grid; gap: 10px; min-width: 0 }
+.card.approved { border-left: 4px solid var(--ok) }
+.card.amended { border-left: 4px solid var(--warn) }
+.face { width: 84px; height: 104px; border-radius: 8px; object-fit: cover; background: var(--accent-soft); display: grid; place-items: center;
+        font: 600 1.4rem var(--display); color: var(--accent) }
+.ours { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .9rem }
+.reasons { display: flex; flex-wrap: wrap; gap: 6px }
+.reasons button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 11px; cursor: pointer; font-size: .82rem }
+.reasons button[aria-pressed="true"] { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, transparent); font-weight: 600 }
+.banner { border: 1px solid var(--warn); background: color-mix(in srgb, var(--warn) 12%, var(--surface)); border-radius: 10px; padding: 12px 14px; display: grid; gap: 4px }
+.banner b { font: 600 1.05rem var(--display) }
+.sendbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px }
+.src { font-size: .72rem; color: var(--muted) }
+.stepper { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; justify-content: space-between }
+.stepper .count { font: 600 1rem var(--display); font-variant-numeric: tabular-nums }
+.stepper .nav { display: flex; gap: 8px }
+.one .card { padding: 20px 22px; grid-template-columns: 132px minmax(0, 1fr) }
+.one .face { width: 132px; height: 164px }
+.one .who { font-size: 1.2rem }
+@media (max-width: 520px) { .one .card { grid-template-columns: 1fr } .one .face { width: 96px; height: 120px } }
+.src a { color: inherit }
+@media (max-width: 520px) { .card { grid-template-columns: 1fr } .face { width: 72px; height: 88px } }
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 2px }
+.stat .k { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted) }
+.stat .v { font: 600 1.6rem/1.1 var(--display); font-variant-numeric: tabular-nums }
+.stat .t { font-size: .8rem; color: var(--muted) }
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px }
+table { border-collapse: collapse; width: 100%; font-size: .86rem; font-variant-numeric: tabular-nums }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top }
+th { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600 }
+tr:last-child td { border-bottom: 0 }
+.empty { background: var(--surface); border: 1px dashed var(--line); border-radius: 10px; padding: 28px 20px; color: var(--muted); text-align: center }
+.err { color: var(--bad); font-size: .85rem }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Canada Agreement Review</h1>
+    <span class="sub" id="who-line">Loading…</span>
+    <span class="spacer"></span>
+    <button class="btn ghost" type="button" id="preview-btn" hidden>See Greg's view</button>
+    <label class="sub" for="round-pick">Round</label>
+    <select id="round-pick"><option value="">—</option></select>
+    <div class="progress" id="progress" hidden><div class="bar"><i id="bar-fill" style="width:0%"></i></div><span id="progress-text"></span></div>
+  </header>
+
+  <div class="banner" id="back-banner" hidden></div>
+
+  <div class="note-box" id="intro">
+    <b>How this works.</b> Each round is 50 members. Every card shows the member, the issue, and where we place them on the five 5CA columns, with the votes and statements behind it. <b>Approve</b> our column if it is right. <b>Amend</b> it if it is not: pick the column you think is right and say why, choosing one or more of the quick reasons and adding a note if you can. When all 50 are done, press <b>Send round back</b>, and Christopher is told to review your changes.
+  </div>
+
+  <div class="scale-key" aria-label="Scale">
+    <span><b class="chip c-pp">++</b> champion, will vote with us</span>
+    <span><b class="chip c-p">+</b> leans with us</span>
+    <span><b class="chip c-0">0</b> neutral or mixed</span>
+    <span><b class="chip c-m">−</b> leans against</span>
+    <span><b class="chip c-mm">−−</b> firmly against</span>
+  </div>
+
+  <section id="owner-panel" hidden>
+    <div style="display:grid;gap:12px">
+      <h2>Round results</h2>
+      <div class="summary" id="summary"></div>
+      <div class="tablewrap"><table id="by-jur"><thead><tr><th>Jurisdiction</th><th>Decided</th><th>Approved</th><th>Approved or one step</th><th>Opposite sides</th></tr></thead><tbody></tbody></table></div>
+      <h2>Amendments</h2>
+      <div class="tablewrap"><table id="flag-table"><thead><tr><th>Member</th><th>Ours → proposed</th><th>Reason</th><th>Status</th><th></th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <div class="filters" id="filters" hidden>
+    <label for="jur-pick">Show</label>
+    <select id="jur-pick"><option value="">All jurisdictions</option></select>
+    <button class="btn ghost" type="button" id="view-btn">Show all as a list</button>
+    <select id="state-pick"><option value="">All members</option><option value="todo">Not yet decided</option><option value="approve">Approved</option><option value="amend">Amended</option></select>
+  </div>
+
+  <div class="cards" id="cards"><div class="empty">The 50 members appear here once a round is loaded.</div></div>
+
+  <div class="sendbar" id="sendbar" hidden></div>
+</div>
+
+<script>
+const COLS = ["++", "+", "0", "-", "--"];
+const VAL = { "++": 2, "+": 1, "0": 0, "-": -1, "--": -2 };
+const CHIP = { "++": "c-pp", "+": "c-p", "0": "c-0", "-": "c-m", "--": "c-mm", "?": "c-q" };
+const SHOW = { "++": "++", "+": "+", "0": "0", "-": "−", "--": "−−", "?": "?" };
+// Quick reasons for an amendment (Christopher, 9 October 2026).
+const REASONS = ["Not enough information", "Record is out of date", "Vote read the wrong way", "Voted with the party, not conviction",
+                 "Public statements say otherwise", "Wrong issue for this member", "Changed position since"];
+const S = { db: null, user: null, uid: null, owner: false, rounds: [], round: "", items: [], mine: {}, marker: null,
+            revealed: {}, ours: {}, reviewers: {}, markers: {}, unsubs: [], readOnly: false, draft: {}, preview: false, view: "one", cur: null };
+try { const v = localStorage.getItem("review-view"); if (v === "list" || v === "one") S.view = v; } catch (e) {}
+// The owner can preview the reviewer's card and try the buttons; those
+// decisions are saved under the owner's own id, which the results leave out.
+const asReviewer = () => !S.owner || S.preview;
+const $ = (id) => document.getElementById(id);
+function el(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") n.className = v; else if (k === "text") n.textContent = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v); else if (v != null) n.setAttribute(k, v);
+  }
+  for (const k of kids) if (k != null) n.append(k);
+  return n;
+}
+function chip(c) { return el("b", { class: "chip " + (CHIP[c] || "c-q"), text: SHOW[c] || c }); }
+function dist(a, b) { if (a == null || b == null) return null; const x = VAL[a], y = VAL[b]; return { near: Math.abs(x - y) <= 1, opposite: x * y < 0 }; }
+function initials(name) { return (name || "").replace(/\(.*$/, "").split(/[\s,]+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase(); }
+function unsubAll() { S.unsubs.forEach((u) => { try { u(); } catch (e) {} }); S.unsubs = []; }
+function alertLine(t) { const n = $("who-line"); n.textContent = t; n.classList.add("err"); }
+const pct = (a, b) => (b ? Math.round((100 * a) / b) + "%" : "—");
+const ourFor = (iid) => S.revealed[iid] || S.ours[iid] || null;
+const roundDoc = () => S.rounds.find((x) => x.id === S.round) || {};
+
+async function boot() {
+  S.db = await claude.use("db");
+  S.user = await claude.use("user");
+  if (!S.db) { $("who-line").textContent = "Sign in to claude.ai to take part."; return; }
+  S.uid = S.user ? await S.user.id() : null;
+  S.owner = S.user ? (await S.user.isOwner()) || (await S.user.canEdit()) : false;
+  const me = S.user ? await S.user.me() : null;
+  $("who-line").textContent = S.owner ? "Owner view: every reviewer's decisions, and the amendments to answer."
+    : "Reviewing as " + ((me && me.name) || "you") + ".";
+  S.db.collection("rounds").onSnapshot((snap) => {
+    S.rounds = snap.docs.map((d) => ({ id: d.id, ...d.data() })).sort((a, b) => (a.opens || "").localeCompare(b.opens || ""));
+    const pick = $("round-pick"), keep = S.round;
+    pick.replaceChildren(el("option", { value: "", text: S.rounds.length ? "Choose a round" : "No rounds yet" }),
+      ...S.rounds.map((r) => el("option", { value: r.id, text: r.name || r.id })));
+    const next = keep && S.rounds.some((r) => r.id === keep) ? keep : (S.rounds.length ? S.rounds[S.rounds.length - 1].id : "");
+    pick.value = next;
+    if (next !== S.round) selectRound(next); else render();
+  }, (e) => { $("who-line").textContent = "The review store could not be reached (" + e.code + ")."; });
+  $("round-pick").addEventListener("change", (e) => selectRound(e.target.value));
+  if (S.owner) {
+    const pb = $("preview-btn"); pb.hidden = false;
+    pb.addEventListener("click", () => { S.preview = !S.preview; pb.textContent = S.preview ? "Back to owner view" : "See Greg's view";
+      $("who-line").textContent = S.preview ? "Previewing Greg's view. Your clicks are saved as yours and left out of the results." : "Owner view: every reviewer's decisions, and the amendments to answer."; render(); });
+  }
+  $("jur-pick").addEventListener("change", render);
+  $("state-pick").addEventListener("change", render);
+  $("view-btn").addEventListener("click", () => { S.view = S.view === "one" ? "list" : "one";
+    try { localStorage.setItem("review-view", S.view); } catch (e) {} render(); });
+  document.addEventListener("keydown", (e) => {
+    if (S.view !== "one" || !asReviewer() || /^(TEXTAREA|INPUT|SELECT)$/.test((e.target || {}).tagName || "")) return;
+    if (e.key === "ArrowRight") { step(1); e.preventDefault(); }
+    else if (e.key === "ArrowLeft") { step(-1); e.preventDefault(); }
+  });
+}
+
+function selectRound(id) {
+  unsubAll();
+  S.round = id; S.items = []; S.mine = {}; S.revealed = {}; S.ours = {}; S.reviewers = {}; S.markers = {}; S.marker = null;
+  if (!id) { render(); return; }
+  const db = S.db;
+  S.unsubs.push(db.collection("items").where("round", "==", id).onSnapshot((snap) => {
+    S.items = snap.docs.map((d) => d.data()).sort((a, b) => a.seq - b.seq);
+    const jurs = [...new Set(S.items.map((i) => i.jurisdiction))];
+    $("jur-pick").replaceChildren(el("option", { value: "", text: "All jurisdictions" }), ...jurs.map((j) => el("option", { value: j, text: j })));
+    render();
+  }));
+  S.unsubs.push(db.collection("revealed").where("round", "==", id).onSnapshot((snap) => {
+    S.revealed = Object.fromEntries(snap.docs.map((d) => [d.id, d.data()])); render();
+  }, () => {}));
+  if (S.uid) {
+    S.unsubs.push(db.collection("scores/" + S.uid + "/items").where("round", "==", id).onSnapshot((snap) => {
+      S.mine = Object.fromEntries(snap.docs.map((d) => [d.data().item, d.data()])); render();
+    }, () => {}));
+    S.unsubs.push(db.doc("scores/" + S.uid).onSnapshot((d) => { S.marker = d.exists ? d.data() : null; render(); }, () => {}));
+  }
+  if (S.owner) {
+    S.unsubs.push(db.collection("ours").where("round", "==", id).onSnapshot((snap) => {
+      S.ours = Object.fromEntries(snap.docs.map((d) => [d.id, d.data()])); render();
+    }, () => {}));
+    S.unsubs.push(db.collection("scores").onSnapshot((snap) => {
+      for (const d of snap.docs) {
+        S.markers[d.id] = d.data();
+        if (S.reviewers[d.id] || d.id === S.uid) continue;
+        S.reviewers[d.id] = {};
+        S.unsubs.push(db.collection("scores/" + d.id + "/items").where("round", "==", id).onSnapshot((s2) => {
+          S.reviewers[d.id] = Object.fromEntries(s2.docs.map((x) => [x.data().item, x.data()])); render();
+        }, () => {}));
+      }
+      render();
+    }, () => {}));
+  }
+}
+
+function sent() { return !!(S.marker && S.marker["sent_" + S.round]); }
+
+async function saveDecision(item, decision, amendTo, reasons, note) {
+  if (!S.uid || S.readOnly || sent()) return;
+  if (decision === "amend" && (!amendTo || (!reasons.length && !note.trim()))) return;
+  const body = { item: item.id, round: item.round, decision,
+                 amend_to: decision === "amend" ? amendTo : null,
+                 reasons: decision === "amend" ? reasons : [],
+                 amend_reason: decision === "amend" ? [...reasons, note.trim()].filter(Boolean).join("; ") : "",
+                 note: decision === "amend" ? note.trim() : "",
+                 decided_at: new Date().toISOString(), amend_status: null, amend_response: "" };
+  try {
+    if (!S.marker) await S.db.doc("scores/" + S.uid).set({ reviewer: true, updated: body.decided_at });
+    await S.db.doc("scores/" + S.uid + "/items/" + item.id).set(body);
+    delete S.draft[item.id];
+    if (S.view === "one") nextUndecided(item.id);
+  } catch (e) {
+    if (e && e.code === "invalid_argument") { S.readOnly = true; render(); }
+    else alertLine("Your decision was not saved (" + (e && e.code) + "). Try again in a moment.");
+  }
+}
+async function sendBack() {
+  if (!S.uid || S.readOnly || sent() || S.owner) return;
+  try { await S.db.doc("scores/" + S.uid).set({ ...(S.marker || {}), reviewer: true, ["sent_" + S.round]: new Date().toISOString() }); }
+  catch (e) { alertLine("The round was not sent (" + (e && e.code) + "). Try again in a moment."); }
+}
+async function answerAmendment(rid, itemId, status, note) {
+  try { await S.db.doc("scores/" + rid + "/items/" + itemId).update({ amend_status: status, amend_response: (note || "").trim(),
+          answered_at: new Date().toISOString() }); }
+  catch (e) { alertLine("The answer was not saved (" + (e && e.code) + ")."); }
+}
+
+function decisionsAll() {
+  return Object.keys(S.reviewers).flatMap((r) => Object.values(S.reviewers[r]).map((d) => ({ rid: r, ...d }))).filter((d) => d.decision);
+}
+function stats(list) {
+  const out = { n: 0, ok: 0, near: 0, opp: 0, byJur: {} };
+  const byId = Object.fromEntries(S.items.map((x) => [x.id, x]));
+  for (const d of list) {
+    const it = byId[d.item]; const o = ourFor(d.item); if (!it || !o) continue;
+    const j = (out.byJur[it.jurisdiction] ||= { n: 0, ok: 0, near: 0, opp: 0 });
+    const r = d.decision === "approve" ? { near: true, opposite: false } : dist(d.amend_to, o.column);
+    out.n++; j.n++;
+    if (d.decision === "approve") { out.ok++; j.ok++; }
+    if (r && r.near) { out.near++; j.near++; } if (r && r.opposite) { out.opp++; j.opp++; }
+  }
+  return out;
+}
+
+function renderOwner() {
+  const panel = $("owner-panel");
+  panel.hidden = !S.owner || S.preview || !S.round;
+  const banner = $("back-banner");
+  banner.hidden = true;
+  if (panel.hidden) return;
+  const all = decisionsAll();
+  const st = stats(all);
+  const amended = all.filter((d) => d.decision === "amend");
+  const open = amended.filter((d) => !d.amend_status);
+  const back = Object.entries(S.markers).filter(([id, m]) => id !== S.uid && m && m["sent_" + S.round]);
+  if (back.length) {
+    banner.hidden = false;
+    banner.replaceChildren(el("b", { text: (roundDoc().name || S.round) + " is back. Review the changes." }),
+      el("span", { class: "meta", text: "Sent " + back.map(([, m]) => new Date(m["sent_" + S.round]).toLocaleString()).join(", ") +
+        ". " + amended.length + " amendment(s), " + open.length + " still to answer below." }));
+  }
+  const nearOk = st.n && st.near / st.n >= 0.8, oppOk = st.n && st.opp / st.n <= 0.05;
+  $("summary").replaceChildren(
+    el("div", { class: "stat" }, el("span", { class: "k", text: "Decided" }), el("span", { class: "v", text: st.n + " / " + S.items.length }), el("span", { class: "t", text: back.length ? "sent back" : "not sent back yet" })),
+    el("div", { class: "stat" }, el("span", { class: "k", text: "Approved" }), el("span", { class: "v", text: pct(st.ok, st.n) }), el("span", { class: "t", text: st.ok + " approved, " + amended.length + " amended" })),
+    el("div", { class: "stat" }, el("span", { class: "k", text: "Approved or one step" }), el("span", { class: "v", text: pct(st.near, st.n) }), el("span", { class: "t", text: "pass at 80% or more" }), st.n ? el("span", { class: "pill " + (nearOk ? "ok" : "bad"), text: nearOk ? "passing" : "below" }) : null),
+    el("div", { class: "stat" }, el("span", { class: "k", text: "Opposite sides" }), el("span", { class: "v", text: pct(st.opp, st.n) }), el("span", { class: "t", text: "pass at 5% or less" }), st.n ? el("span", { class: "pill " + (oppOk ? "ok" : "bad"), text: oppOk ? "passing" : "above" }) : null),
+    el("div", { class: "stat" }, el("span", { class: "k", text: "To answer" }), el("span", { class: "v", text: String(open.length) }), el("span", { class: "t", text: "amendments awaiting you" })));
+  $("by-jur").tBodies[0].replaceChildren(...Object.entries(st.byJur).sort().map(([j, s]) =>
+    el("tr", {}, el("td", { text: j }), el("td", { text: String(s.n) }), el("td", { text: pct(s.ok, s.n) }), el("td", { text: pct(s.near, s.n) }), el("td", { text: pct(s.opp, s.n) }))));
+  const byId = Object.fromEntries(S.items.map((x) => [x.id, x]));
+  const rows = amended.sort((a, b) => (a.amend_status ? 1 : 0) - (b.amend_status ? 1 : 0) || (a.item || "").localeCompare(b.item || ""));
+  $("flag-table").tBodies[0].replaceChildren(...(rows.length ? rows.map((d) => {
+    const it = byId[d.item] || {}; const o = ourFor(d.item) || {};
+    const note = el("textarea", { id: "answer-" + d.rid + "-" + d.item, placeholder: "Your note: what changes, or why ours stands", "aria-label": "Answer for " + (it.member || d.item) });
+    return el("tr", {},
+      el("td", {}, el("div", { text: it.member || d.item }), el("div", { class: "meta", text: (it.area_name || "") + " · " + d.item })),
+      el("td", {}, o.column ? chip(o.column) : null, el("span", { class: "meta", text: " → " }), chip(d.amend_to)),
+      el("td", { text: d.amend_reason || "" }),
+      el("td", {}, el("span", { class: "pill " + (d.amend_status === "accepted" ? "ok" : d.amend_status === "declined" ? "na" : "warn"), text: d.amend_status || "to answer" }),
+        d.amend_response ? el("div", { class: "meta", text: d.amend_response }) : null),
+      el("td", {}, d.amend_status ? null : el("div", { style: "display:grid;gap:6px;min-width:200px" }, note,
+        el("div", { style: "display:flex;gap:6px;flex-wrap:wrap" },
+          el("button", { class: "btn", type: "button", text: "Accept", onclick: () => answerAmendment(d.rid, d.item, "accepted", note.value) }),
+          el("button", { class: "btn ghost", type: "button", text: "Decline", onclick: () => { if (note.value.trim()) answerAmendment(d.rid, d.item, "declined", note.value); else note.focus(); } })))));
+  }) : [el("tr", {}, el("td", { colspan: "5", class: "meta", text: "No amendments yet." }))]));
+}
+
+function face(it) {
+  return it.photo ? el("img", { class: "face", src: it.photo, alt: "Official portrait of " + it.member.replace(/\s*\(.*$/, "") })
+                  : el("div", { class: "face", "aria-hidden": "true", text: initials(it.member) });
+}
+
+function decideBox(it, mine, o) {
+  const box = el("div", { class: "decide" });
+  const locked = S.readOnly || sent() || !S.uid;
+  const d = (S.draft[it.id] ||= { col: mine.decision === "amend" ? mine.amend_to : null,
+                                  reasons: new Set(mine.reasons || []), note: mine.note || "", open: mine.decision === "amend" });
+  const status = mine.decision === "approve" ? el("span", { class: "pill ok", text: "Approved" })
+    : mine.decision === "amend" ? el("span", { class: "verdict" }, el("span", { class: "pill warn", text: "Amended to" }), chip(mine.amend_to))
+    : el("span", { class: "meta", text: "Not decided yet" });
+  const approve = el("button", { class: "btn big", type: "button", text: "Approve", onclick: () => { d.open = false; saveDecision(it, "approve", null, [], ""); } });
+  const amendBtn = el("button", { class: "btn ghost big", type: "button", text: "Amend…", onclick: () => { d.open = true; render(); } });
+  approve.disabled = locked; amendBtn.disabled = locked;
+  box.append(el("div", { class: "row" }, approve, amendBtn, status));
+  if (d.open && !locked) {
+    const cols = el("div", { class: "choices", role: "group", "aria-label": "Amend " + it.member + " to" });
+    const reasons = el("div", { class: "reasons", role: "group", "aria-label": "Reasons" });
+    const note = el("textarea", { id: "amend-" + it.id, placeholder: "Add a note: the vote, statement or record behind your call (optional if you chose a reason).", "aria-label": "Note on " + it.member });
+    note.value = d.note;
+    const save = el("button", { class: "btn", type: "button", text: "Save amendment" });
+    const refresh = () => {
+      save.disabled = !d.col || (!d.reasons.size && !d.note.trim());
+      [...cols.children].forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.col === d.col)));
+      [...reasons.children].forEach((b) => b.setAttribute("aria-pressed", String(d.reasons.has(b.dataset.r))));
+    };
+    for (const col of COLS.filter((x) => x !== o.column))
+      cols.append(el("button", { type: "button", "data-col": col, onclick: () => { d.col = col; refresh(); } }, chip(col)));
+    for (const r of REASONS)
+      reasons.append(el("button", { type: "button", "data-r": r, text: r, onclick: () => { d.reasons.has(r) ? d.reasons.delete(r) : d.reasons.add(r); refresh(); } }));
+    note.addEventListener("input", () => { d.note = note.value; refresh(); });
+    save.addEventListener("click", () => saveDecision(it, "amend", d.col, [...d.reasons], d.note));
+    refresh();
+    box.append(el("div", { class: "row" }, el("span", { class: "meta", text: "Move to" }), cols),
+      el("div", { class: "row" }, el("span", { class: "meta", text: "Why" }), reasons), note,
+      el("div", { class: "row" }, save, el("span", { class: "why", text: "Pick a column, and a reason or a note." })));
+  }
+  if (mine.amend_status) box.append(el("div", { class: "meta", text: "Christopher " + mine.amend_status + " this" + (mine.amend_response ? ": " + mine.amend_response : ".") }));
+  return box;
+}
+
+function card(it) {
+  const mine = S.mine[it.id] || {};
+  const o = ourFor(it.id);
+  const cls = mine.decision === "approve" ? " approved" : mine.decision === "amend" ? " amended" : "";
+  const c = el("article", { class: "card" + cls, id: "card-" + it.id });
+  const body = el("div", { class: "body" });
+  body.append(el("div", { class: "card-head" },
+    el("span", { class: "who", text: it.member }),
+    el("span", { class: "meta", text: it.chamber + " · " + it.jurisdiction }),
+    el("span", { class: "area", text: it.area_name }),
+    el("span", { class: "spacer" }), el("span", { class: "seq", text: it.id })));
+  if (o) {
+    body.append(el("div", { class: "ours" }, el("span", { class: "meta", text: "We place them" }), chip(o.column),
+      o.based_on ? el("span", { class: "meta", text: "based on " + o.based_on }) : null));
+    if ((o.evidence || []).length) body.append(el("ul", { class: "evidence" }, ...o.evidence.map((e) => el("li", { text: e }))));
+  } else body.append(el("div", { class: "meta", text: "Our column is not loaded for this member yet." }));
+  if (asReviewer() && o) body.append(decideBox(it, mine, o));
+  if (S.owner && !S.preview) {
+    const theirs = Object.keys(S.reviewers).map((r) => S.reviewers[r][it.id]).filter((t) => t && t.decision);
+    const line = el("div", { class: "verdict" }, el("span", { class: "meta", text: "Reviewer:" }));
+    if (!theirs.length) line.append(el("span", { class: "meta", text: "not decided yet" }));
+    theirs.forEach((t) => line.append(t.decision === "approve" ? el("span", { class: "pill ok", text: "approved" })
+      : el("span", { class: "verdict" }, el("span", { class: "pill warn", text: "amend to" }), chip(t.amend_to),
+          el("span", { class: "meta", text: "“" + (t.amend_reason || "") + "”" }))));
+    body.append(line);
+  }
+  if (it.photo_source) body.append(el("div", { class: "src" }, "Official portrait: ", el("a", { href: it.photo_source, target: "_blank", rel: "noopener", text: new URL(it.photo_source).hostname })));
+  c.append(face(it), body);
+  return c;
+}
+
+function renderSendbar() {
+  const bar = $("sendbar");
+  bar.hidden = !asReviewer() || !S.items.length || !S.uid;
+  if (bar.hidden) return;
+  const done = S.items.filter((i) => (S.mine[i.id] || {}).decision).length;
+  if (sent()) { bar.replaceChildren(el("b", { text: "Sent back " + new Date(S.marker["sent_" + S.round]).toLocaleString() + "." }), el("span", { class: "meta", text: "Christopher has been told to review your changes. Thank you." })); return; }
+  const btn = el("button", { class: "btn big", type: "button", text: "Send round back", onclick: sendBack });
+  btn.disabled = S.readOnly || done < S.items.length || S.owner;   // in preview the owner never sends a round back
+  bar.replaceChildren(el("span", { class: "meta", text: done < S.items.length ? (S.items.length - done) + " member(s) still to decide before you can send the round back." : "All " + S.items.length + " decided." }), btn);
+}
+
+// One member at a time (Christopher, 9 October 2026).
+function shownItems() {
+  const jur = $("jur-pick").value, state = $("state-pick").value;
+  return S.items.filter((i) => {
+    if (jur && i.jurisdiction !== jur) return false;
+    const dec = !asReviewer() ? (decisionsAll().find((d) => d.item === i.id) || {}).decision : (S.mine[i.id] || {}).decision;
+    if (state === "todo") return !dec; if (state) return dec === state;
+    return true;
+  });
+}
+function step(delta) {
+  const list = shownItems(); if (!list.length) return;
+  const at = Math.max(0, list.findIndex((i) => i.id === S.cur));
+  S.cur = list[Math.min(list.length - 1, Math.max(0, at + delta))].id; render();
+  window.scrollTo({ top: 0 });
+}
+function nextUndecided(fromId) {
+  const list = shownItems(); const at = list.findIndex((i) => i.id === fromId);
+  const after = [...list.slice(at + 1), ...list.slice(0, Math.max(0, at))];
+  const next = after.find((i) => !(S.mine[i.id] || {}).decision && i.id !== fromId);
+  if (next) { S.cur = next.id; window.scrollTo({ top: 0 }); }
+}
+
+function render() {
+  const has = !!S.round && S.items.length > 0;
+  $("filters").hidden = !has;
+  renderOwner();
+  renderSendbar();
+  const done = S.items.filter((i) => (S.mine[i.id] || {}).decision).length;
+  $("progress").hidden = !asReviewer() || !has;
+  if (has) { $("bar-fill").style.width = pct(done, S.items.length).replace("—", "0%"); $("progress-text").textContent = done + " of " + S.items.length + " decided"; }
+  const shown = shownItems();
+  const one = S.view === "one" && asReviewer();
+  $("view-btn").hidden = !asReviewer();
+  $("view-btn").textContent = one ? "Show all as a list" : "One at a time";
+  const cards = $("cards");
+  cards.classList.toggle("one", one);
+  if (!S.round) { cards.replaceChildren(el("div", { class: "empty", text: S.rounds.length ? "Choose a round above." : "No round has been loaded yet." })); return; }
+  if (!S.items.length) { cards.replaceChildren(el("div", { class: "empty", text: "This round has no members loaded yet." })); return; }
+  const focus = document.activeElement && document.activeElement.id;
+  if (one && shown.length) {
+    if (!shown.some((i) => i.id === S.cur)) S.cur = (shown.find((i) => !(S.mine[i.id] || {}).decision) || shown[0]).id;
+    const at = shown.findIndex((i) => i.id === S.cur);
+    const prev = el("button", { class: "btn ghost", type: "button", text: "← Previous", onclick: () => step(-1) });
+    const next = el("button", { class: "btn ghost", type: "button", text: "Next →", onclick: () => step(1) });
+    prev.disabled = at <= 0; next.disabled = at >= shown.length - 1;
+    cards.replaceChildren(
+      el("div", { class: "stepper" }, el("span", { class: "count", text: "Member " + (at + 1) + " of " + shown.length }),
+        el("span", { class: "meta", text: "Approve or amend, and the next member opens. Arrow keys move too." }),
+        el("div", { class: "nav" }, prev, next)),
+      card(shown[at]));
+  } else
+  cards.replaceChildren(...(shown.length ? shown.map(card) : [el("div", { class: "empty", text: "Nothing matches this filter." })]));
+  if (focus && $(focus)) { const f = $(focus); f.focus(); if (f.setSelectionRange && f.value) f.setSelectionRange(f.value.length, f.value.length); }
+}
+
+boot();
+</script>

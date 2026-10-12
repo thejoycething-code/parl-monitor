@@ -1,6 +1,7 @@
 """The Canadian 5CA (tools/ca_5ca.py). No network."""
 
 import csv
+import json
 import importlib.util
 import os
 import sqlite3
@@ -266,9 +267,126 @@ class StanceFileTests(unittest.TestCase):
         entries = list(c5.load_stance(section="divisions").values()) + \
             list(c5.load_stance(section="bills").values())
         self.assertGreater(len(entries), 20)
-        self.assertEqual([e["key"] for e in entries if c5.status(e) == "draft"], [])
+        confirmed_2_oct = ("commons-44-1-377", "commons-44-1-423", "commons-44-1-641", "commons-44-1-646",
+                           "commons-44-1-640", "commons-44-1-874", "commons-44-1-609", "commons-45-1-86",
+                           "commons-45-1-93", "commons-45-1-92", "commons-45-1-167", "senate-45-1-700362",
+                           "senate-45-1-700344")
+        divs = c5.load_stance(section="divisions")
+        self.assertEqual([k for k in confirmed_2_oct if c5.status(divs[k]) != "confirmed"], [])
+        # The 2010-2024 landmarks drafted on 3 October are drafts until he confirms.
+        self.assertEqual(c5.status(divs["commons-41-1-466"]), "confirmed")   # 3 Oct 2026
         ridr = c5.load_stance(section="divisions")["senate-45-1-699935"]
         self.assertEqual(c5.status(ridr), "unplaceable")
 
+    def test_the_read_first_entries_are_confirmed_with_their_text(self):
+        """Drafted 2 October 2026 ("Draft the 10 'read first' readings") and
+        confirmed the same day ("Confirm all the readings, score the C-279
+        definition separately"): Motions 1-8 (642) stay evidence only, the
+        definition of gender identity (643) is scored on its own at +/-1."""
+        divs = c5.load_stance(section="divisions")
+        read = ("commons-41-1-642", "commons-41-1-643", "commons-41-2-235",
+                "senate-42-1-457865", "commons-44-1-853")
+        self.assertEqual([k for k, e in divs.items() if c5.status(e) == "unread"], [])
+        # Drafts remain only from 8 October 2026 (tested below); these are not among them.
+        self.assertEqual([k for k in read if divs[k].get("draft")], [])
+        for k in read:
+            e = divs[k]
+            self.assertTrue(e.get("text") and e.get("moved_by")
+                            and e.get("source") and e.get("lobbies"), k)
+        self.assertEqual(c5.status(divs["commons-41-1-642"]), "unplaceable")
+        self.assertEqual({c5.status(divs[k]) for k in read[1:]}, {"confirmed"})
+        self.assertEqual(c5.vote_stance(divs["commons-41-1-643"], "Yea")[0], -1)
+        self.assertEqual(c5.vote_stance(divs["commons-41-1-643"], "Nay")[0], 1)
+
+    def test_c11_scores_only_the_speech_amendments(self):
+        """Christopher, 3 October 2026: "C-11, the Online Streaming Act, is on
+        our ground but only score amendments specifically related to speech."
+        Every 44-1 C-11 division has an entry; only the four Senate
+        speech amendments carry values, and they are drafts until he
+        confirms them. Each carries the text it was read from."""
+        divs = c5.load_stance(section="divisions")
+        speech = ("senate-44-1-598845", "senate-44-1-605567", "senate-44-1-598337", "senate-44-1-598860")
+        evidence = ("commons-44-1-86", "commons-44-1-87", "commons-44-1-88", "commons-44-1-89",
+                    "commons-44-1-149", "commons-44-1-150", "commons-44-1-158", "commons-44-1-159",
+                    "commons-44-1-160", "commons-44-1-163", "commons-44-1-164", "commons-44-1-291",
+                    "commons-44-1-292", "senate-44-1-579724", "senate-44-1-590158", "senate-44-1-597012",
+                    "senate-44-1-598556", "senate-44-1-598861", "senate-44-1-604953", "senate-44-1-605386",
+                    "senate-44-1-605586", "senate-44-1-605960")
+        # Confirmed by Christopher, 3 October 2026 ("Confirm all the readings").
+        self.assertEqual([k for k in speech if c5.status(divs.get(k)) != "confirmed"], [])
+        self.assertEqual([k for k in evidence if c5.status(divs.get(k)) != "unplaceable"], [])
+        for k in speech:
+            self.assertTrue(divs[k].get("text") and divs[k].get("moved_by") and divs[k].get("source"), k)
+        # Only the one whose sole effect is user uploads reaches +2.
+        # "score Plett at +1" (Christopher, 3 October 2026).
+        self.assertEqual(divs["senate-44-1-598845"]["yea"], 1)
+        self.assertEqual({divs[k]["yea"] for k in speech[1:]}, {1})
+
+    def test_the_8_october_readings_are_drafts_with_their_text(self):
+        """Christopher, 8 October 2026: draft readings for every federal
+        division with areas and no entry. All are drafts until he confirms;
+        every one with values carries the text it was read from, its mover
+        and its source; migration (area 11) is never placed."""
+        divs = c5.load_stance(section="divisions")
+        # Confirmed 8 October 2026 on delegation ("Score for me and Greg can
+        # amend if necessary"): no draft remains from that batch. Later
+        # divisions may arrive as drafts for Christopher to sign (C-218,
+        # drafted 10 October 2026); a draft places nobody.
+        LATER_DRAFTS = {"commons-45-1-177"}
+        self.assertEqual([k for k, e in divs.items() if e.get("draft") and k not in LATER_DRAFTS], [])
+        for k in LATER_DRAFTS & set(divs):
+            if divs[k].get("draft"):
+                self.assertEqual(c5.status(divs[k]), "draft", k)
+        new = {k: e for k, e in divs.items() if e.get("moved_by") or c5.status(e) == "unplaceable"}
+        valued = [k for k, e in new.items() if c5.status(e) == "confirmed"]
+        for k in valued:
+            e = new[k]
+            self.assertTrue(e.get("text") and e.get("moved_by") and e.get("source")
+                            and e.get("lobbies") and e.get("dated") and e.get("result"), k)
+            self.assertTrue(all(abs(e[s]) <= 2 for s in ("yea", "nay") if s in e), k)
+            for s in ("yea", "nay"):
+                if s in e:
+                    self.assertTrue(e.get("why_" + s), k)
+        unplaceable = [e for e in new.values() if c5.status(e) == "unplaceable"]
+        self.assertEqual(len(unplaceable), 205)
+        self.assertTrue(all(e.get("reason") for e in unplaceable))
+        self.assertEqual(sum(1 for e in unplaceable if "excluded_from_5ca" in e["reason"]), 143)
+        # C-16 (2026) is not our ground (Christopher, 2 October 2026).
+        for k in ("commons-45-1-134", "commons-45-1-135", "commons-45-1-136", "commons-45-1-137",
+                  "commons-45-1-153", "senate-45-1-702758"):
+            self.assertEqual(c5.status(divs[k]), "unplaceable", k)
+        # The mental-illness vote is clause-specific and full strength.
+        self.assertEqual((divs["commons-43-2-71"]["yea"], divs["commons-43-2-71"]["nay"]), (2, -2))
+        # A losing lobby of allies and opponents together carries no value.
+        self.assertNotIn("nay", divs["commons-42-1-75"])
+        self.assertNotIn("nay", divs["commons-42-1-76"])
+
+
 if __name__ == "__main__":
     unittest.main()
+
+
+class RoxannesLawSheetTests(unittest.TestCase):
+    """40-3/C-510 (coerced abortion) after its reviewed area correction: its
+    division is on the abortion sheet and not on the MAID sheet."""
+
+    def test_c510_lands_on_area_1_not_area_2(self):
+        spec = importlib.util.spec_from_file_location("ca_rollcalls", os.path.join(ROOT, "tools", "ca_rollcalls.py"))
+        ro = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(ro)
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist-ca.yaml"))
+        subject = "2nd reading of Bill C-510, An Act to amend the Criminal Code (coercion)"
+        areas = ro.classify_division(tax, wl, subject, 40, 3, "C-510").issue_areas
+        conn = store(divisions=[("commons-40-3-151", "2010-12-15T15:05:00", subject, json.dumps(areas))],
+                     votes={"commons-40-3-151": {"1": "Yea", "2": "Nay"}})
+        entry = {"commons-40-3-151": {"key": "commons-40-3-151", "yea": 2, "nay": -1,
+                                      "why_yea": "for", "why_nay": "against"}}
+        self.assertEqual(areas, [1])
+        rows1, divs1, _ = c5.build_rows(conn, 1, "commons", entry, {}, today="2026-10-08")
+        rows2, divs2, _ = c5.build_rows(conn, 2, "commons", entry, {}, today="2026-10-08")
+        self.assertEqual([d["division_key"] for d in divs1], ["commons-40-3-151"])
+        self.assertEqual(divs2, [])
+        self.assertTrue(any("C-510" in c for c in {r["person_id"]: r for r in rows1}["1"]["comments"]))
+        self.assertFalse(any("C-510" in c for r in rows2 for c in r["comments"]))

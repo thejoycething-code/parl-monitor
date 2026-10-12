@@ -1,0 +1,155 @@
+Campaign Name,Campaigner,Date of Submission,Urgency,List,Notes,Approval Date
+"Holborn and St Pancras By-election: Demand Clear Answers on Assisted Suicide, Abortion and Free Speech (DRAFT)",cjoyce@citizengo.net,2026-09-28,🚨 Urgent Campaign,EN GB,"Draft for content review, 28 September 2026. Hand-built with Claude from the parl-monitor store (Starmer and Green MP votes) and the Gorton and Denton, Makerfield and Clacton briefs. Lessons carried forward: (1) Gorton and Denton: a constituency-only send got a 25% action rate from 181 people, and the Reform candidate signed while Labour and the Greens ignored us; we now have an imprint, so publish the grid to voters. (2) Makerfield: evaluate on answers and outcome, not list metrics; a sharp local accountability line ('MP for Makerfield or Davos?') out-travelled the issues list. (3) Clacton: the contact tool is reusable, but its actions must be tracked in Looker, and silence needs a published consequence. Calendar check: the NCID 'Ministry of Truth' campaign delivers at No.10 on 14 October and the hospice follow-up runs to the Budget; Holborn sends go to the constituency segment only, so there is no overlap with national sends. COMPLIANCE, to confirm before launch: third-party campaigning rules for the by-election regulated period (spending limit and whether paid Meta ads count as regulated spend) and the imprint on every digital asset. Not decided here.",
+GENERAL INFORMATION
+Type of Campaign,Obligatory
+Topic,Election Season
+Main Purposes,Political Impact
+Background / Context,"The seat that Keir Starmer used to vote twice for assisted suicide is now empty, and on 8 October 2026 the voters of Holborn and St Pancras will choose who fills it. Starmer resigned as MP on 1 September, six weeks after Andy Burnham replaced him as Prime Minister. Ten days later, with the seat vacant, the Commons threw out Lauren Edwards's Terminally Ill Adults (End of Life) Bill by 286 votes to 270, a margin of just 16. The next MP for Holborn and St Pancras will take their seat in a House that has only just stepped back from legalising assisted suicide and where every vote on life, family and freedom is close.
+
+Fifteen candidates are standing. The contest is a two-horse race between Labour's Sagal Abdi-Wali, Leader of Camden Council and councillor for Camden Square since 2022, and Zack Polanski, leader of the Green Party of England and Wales and a London Assembly member since 2021. PollCheck's model puts Labour on 41.7% and the Greens on 37.8%, and gives Labour a 70% chance of holding the seat. No constituency poll has been published. In 2024 Starmer won with 48.9% and a majority of 11,572 on a 54.1% turnout, ahead of the independent Andrew Feinstein on 18.9%. Feinstein has now endorsed Polanski. At the May 2026 Camden elections Labour took 38.8% to the Greens' 28.8% across the seat's wards. The rest of the field includes the Conservatives' Ewan Cameron, the Liberal Democrats' Patrick Stillman, Reform UK's Peter Newman, George Galloway for the Workers Party, Restore Britain's Tyler Johnson and Helen Spiby-Vann for the Christian Peoples Alliance.
+
+The record shows what is at stake. Starmer voted Aye at Second Reading on 29 November 2024 and at Third Reading on 20 June 2025. On 11 September 2026 all five Green MPs voted to legalise assisted suicide. In June 2025 all four Green MPs then sitting voted for New Clause 1 to the Crime and Policing Bill, which took abortion out of the criminal law up to birth. Polanski leads that party. His Labour opponent has no voting record on any of these questions and has made no public statement on them that we can find. Coverage so far has been about Gaza, hustings attendance and Camden council's record. Nobody has asked either frontrunner whether they would vote to let doctors help patients end their lives, whether they back abortion up to birth, or whether they would stand up for parents, women's spaces and free speech.
+
+This is our fourth Westminster by-election of 2026, after Gorton and Denton (February), Makerfield (June) and Clacton (August), and the first since we secured an election imprint and built the candidate-contact tool. We are asking every candidate the same eight questions, publishing every answer and every silence before polling day, and giving constituents a one-click way to put the questions to the candidates themselves."
+Estimated Launch date,30 September 2026 (questions emailed to all 15 candidates on 29 September)
+Estimated date for Delivering Signatures,No signature hand-in. Candidate answer deadline 5 October 2026; response grid published to constituents 6 October; polling day 8 October.
+Ideas for eventual Offline Actions,"- Supporters put one of the eight questions to the candidates at any remaining hustings and report back what was said.
+- Ask Camden clergy (Catholic, Anglican, evangelical and Coptic) to share the published grid with their congregations on Sunday 4 October, after the answer deadline has been announced.
+- Printed grid leaflets for church doors on 4 October, only if compliance confirms the spend fits the third-party limit."
+Petitions related TIM project (Targeting Inactive Members),"Yes, within the constituency only: include lapsed members with Holborn and St Pancras postcodes in L and RL1. The segment is small, as in Gorton and Denton (181); pull the count from Looker before sign-off."
+PROMPTS FOR AI - PLAN PHASE
+What is the language for this petition?,English (United Kingdom). Use British spelling and UK institutional terminology.
+Who will sign the emails for this petition?,"Christopher Joyce, as for Gorton and Denton and Makerfield."
+Who is the petition addressed to?,Every candidate standing to be the next Member of Parliament for Holborn and St Pancras (15 on the Statement of Persons Nominated).
+What are we asking for in the petition?,"Every candidate standing to be the next MP for Holborn and St Pancras must answer our eight questions in writing by 5pm on Monday 5 October 2026, so that voters can read the answers before they vote on 8 October.
+
+We publish every answer in full and name every candidate who stays silent. This is not about backing or opposing any party. It is about making sure that whoever replaces Keir Starmer does not enter a closely divided Commons without having told voters how they would vote on the lives of the dying, the unborn and children, and on the freedoms of parents, women and believers.
+
+Supporters in the constituency send the questions to all the candidates from one page. Supporters elsewhere share it with anyone they know in Camden."
+Why would they listen to us?,"1. The margin is close and the seat is contested
+This is not Clacton. Labour's lead over the Greens in the model is under four points, and Labour led by ten at the May council elections. Neither frontrunner can ignore a bloc of organised voters, and churchgoers in Camden, Somers Town, King's Cross and Kentish Town are a bloc both need.
+
+2. Silence will be published, with our imprint
+In Gorton and Denton the Green and Labour candidates ignored us and the Reform candidate signed our questionnaire. We had no imprint then, so we could tell only our own list. We have one now: ""Promoted by CitizenGO UK, PO Box 81502, London W10 9FY."" This time the answers and the silences go out to voters two days before the poll.
+
+3. Their own records make answering easy, or refusing telling
+Polanski leads a party whose MPs all voted for assisted suicide and for abortion up to birth. If he agrees with them he can say so; if he differs, this is his moment to say that too. Abdi-Wali has no record. Either way, voters are owed the answer before they vote, not after.
+
+4. Written answers outlast polling day
+The new MP will vote on these questions within months of taking the seat on 12 October. A written answer is a record we can hold up when those votes come, as we did with Starmer's."
+What is happening that we are responding to?,"A former Prime Minister who voted for assisted suicide has left Parliament, and the voters of Holborn and St Pancras will elect his successor on Thursday 8 October 2026. The Commons rejected assisted suicide on 11 September by 16 votes while the seat was empty. The frontrunners are the Labour Council Leader, who has said nothing on life issues, and the Green leader, whose party's MPs voted for assisted suicide and for decriminalising abortion up to birth. The winner will vote on any fresh attempt to legalise assisted suicide, on the Conversion Practices Bill, on the Government's plans for a National Centre for Information Defence and on whatever comes next on abortion.
+
+With ten days to go and postal ballots already in voters' hands, not one candidate has been asked on the record where they stand. We will ask all fifteen, in writing, the same eight questions:
+
+1. Will you oppose any future attempt to legalise assisted suicide, and press for hospice and palliative care to be properly funded instead?
+2. Will you oppose any further deregulation of abortion, and support restoring legal protection for unborn children and for women coerced into abortion?
+3. Will you oppose the PATHWAYS puberty blocker trial on children?
+4. Will you uphold the Supreme Court's ruling that ""sex"" in the Equality Act means biological sex, and defend women's single-sex spaces and sport?
+5. Will you oppose any conversion practices law that would criminalise prayer, pastoral care or parents' guidance of their own children?
+6. Will you oppose Digital ID in every form, including any revival of BritCard under another name?
+7. Will you oppose the proposed National Centre for Information Defence, and any other measure that censors lawful speech?
+8. Will you defend parents' right to direct their children's education, including home educators and Sunday schools, against state monitoring without evidence of harm?"
+What is the key point of injustice that is at stake here?,"1. The dying were nearly abandoned, and could be again
+Holborn and St Pancras's last MP voted twice to let doctors help patients end their lives. The Bill fell on 11 September by just 16 votes. One seat will not decide the next attempt, but sixteen seats did decide the last one. Elderly, disabled and seriously ill people, many already failed by a hospice system the state funds at barely 40p in the pound, deserve an MP who will fight for their care, not for their death.
+
+2. Unborn children and their mothers have lost the law's protection
+Parliament has taken abortion out of the criminal law up to birth. The party of one frontrunner voted for that without exception. Babies who could survive outside the womb, and women pressured into late abortions by abusive partners, have been left with less protection than ever. The pro-life movement fights for both: for the child, and for the mother who deserves support rather than pressure.
+
+3. Children are being enrolled in an experiment
+The PATHWAYS trial is recruiting children as young as 11 to take puberty blockers whose effects on bone, fertility and development are not known. Children cannot consent to lifelong consequences, and their parents should not be pushed aside.
+
+4. Women, parents and believers are being told to be quiet
+A conversion practices law that reaches prayer and parental guidance, a state ""information defence"" body policing lawful speech, and pressure on single-sex spaces all treat ordinary convictions about faith, family and biology as suspect. That betrayal of freedom is the heart of the injustice: voters are asked to elect someone who will vote on all of it, without ever being told where they stand."
+PROMPTS FOR AI - PREPARE PHASE
+What are some arguments supporting our point of view?,"1. Care, not killing, is the compassionate answer
+When patients are given good palliative care, requests to die fall away. The answer to suffering at the end of life is to fund hospices, which the Prime Minister himself says must come first, not to change the purpose of medicine. Every MP elected now should say so.
+
+2. Sixteen votes is not a settled question
+The Bill fell by 16. Campaigners for assisted suicide have said they will try again. Each by-election changes the arithmetic, and Holborn and St Pancras is replacing an Aye.
+
+3. The law should protect life at both ends
+The same principle that stops the state helping the dying to die protects the child before birth: every human life has equal worth, whatever its stage or strength. Decriminalisation up to birth abandons that principle and leaves coerced women without the law's protection.
+
+4. Children deserve caution, and parents deserve to be told
+Where medical evidence is weak, the burden lies on those proposing treatment. Countries across Europe have pulled back from puberty blockers. Parents, not schools or the state, are the first guardians of their children.
+
+5. Freedom of speech and of religion protects everyone
+A free society answers disagreement with argument, not censorship. Prayer, preaching and a parent's counsel to a child are not abuse and must never be treated as crimes.
+
+6. Voters are owed answers before they give power
+A by-election is the one moment when a would-be MP must come to the voters. Holborn and St Pancras will not be asked again until the next general election. Candidates who want the seat should say how they will use it."
+Why is it urgent that we take action now?,"Polling day is Thursday 8 October, ten days from today. Postal votes are already being cast. We need the questions with every candidate by 29 September, answers by 5 October, and the published grid in front of constituents on 6 and 7 October. The Commons returns on 12 October and the new MP is sworn in soon after. There is no second chance: once the result is declared, the voters' leverage is gone until the next general election."
+Describe a bad outcome if we do not win this campaign:,"A new MP takes Keir Starmer's seat without ever saying how they would vote on assisted suicide, abortion, puberty blockers, conversion practices, Digital ID or free speech. When the next assisted suicide Bill comes, as its backers promise it will, Holborn and St Pancras replaces one Aye with another and voters learn only afterwards. Candidates across the country see that these questions can be ignored at no cost."
+Describe a good outcome if we do win this campaign:,"Every candidate is asked on the record and the answers, and the silences, reach Holborn and St Pancras voters before 8 October under our imprint. The winner enters the Commons with a written position we can hold them to, ideally against assisted suicide and for real funding of hospice care. We prove that the Gorton and Denton model works at scale now that we have an imprint and the contact tool, and we have a template for every by-election that follows."
+Which sources do you want to include? Please provide the titles plus URLs:,"- 2026 Holborn and St Pancras by-election [Wikipedia, candidates, 2024 result and campaign timeline]: https://en.wikipedia.org/wiki/2026_Holborn_and_St_Pancras_by-election
+- Holborn and St Pancras constituency by-election, 8 October 2026 [Who Can I Vote For, Democracy Club]: https://whocanivotefor.co.uk/elections/parl.holborn-and-st-pancras.by.2026-10-08/holborn-and-st-pancras/
+- Holborn and St Pancras by-election Statement of Persons Nominated and Notice of Poll [Camden Council]: https://www.camden.gov.uk/holborn-and-st-pancras-by-election-statement-of-persons-nominated-and-notice-of-poll
+- Holborn and St Pancras By-Election: candidates, polls and projection [PollCheck]: https://www.pollcheck.co.uk/by-elections/holborn-and-st-pancras
+- Labour selects Sagal Abdi-Wali as candidate for Holborn and St Pancras by-election [Labour Party]: https://labour.org.uk/updates/members-updates/holborn-and-st-pancras-by-election/
+- Holborn and St Pancras Labour candidate declines to say if she's a Zionist but backs two-state solution [The Jewish Chronicle]: https://www.thejc.com/news/uk/holborn-and-st-pancreas-labour-candidate-declines-to-say-if-shes-a-zionist-but-backs-two-state-solution-hfbeamlb
+- Polanski makes his mark as Labour candidate fails to attend election hustings [Middle East Eye]: https://www.middleeasteye.net/news/polanski-makes-mark-labour-candidate-fails-to-attend-hustings
+- Terminally Ill Adults (End of Life) Bill: Second Reading, division 2428, 11 September 2026 [UK Parliament]: https://votes.parliament.uk/Votes/Commons/Division/2428
+- Terminally Ill Adults (End of Life) Bill: Second Reading, division 1877, 29 November 2024 [UK Parliament]: https://votes.parliament.uk/Votes/Commons/Division/1877
+- Terminally Ill Adults (End of Life) Bill: Third Reading, division 2071, 20 June 2025 [UK Parliament]: https://votes.parliament.uk/Votes/Commons/Division/2071
+- Crime and Policing Bill Report Stage: New Clause 1, division 2058, 17 June 2025 [UK Parliament]: https://votes.parliament.uk/Votes/Commons/Division/2058"
+What should the image for this campaign look like?,"Follow the Makerfield and Clacton format: a side-by-side of the two frontrunners, Sagal Abdi-Wali and Zack Polanski, each with an empty answer box beneath, using rights-cleared official campaign photographs only.
+
+Fallback if cleared photos are not available: text-free 16:9 editorial photograph of a polling station sign outside a London church hall at dusk, a steady stream of voters, St Pancras-style Victorian brickwork behind. Avoid: party colours or logos, rosettes, identifiable members of the public, anything that reads as endorsing a candidate."
+RED FOX FOUR
+PLAN STAGE
+#,Question,"Scoring 
+(-10 to +10)",Comments
+RF#1,"Win or lose, just by fighting this fight, will it bring people or money to our cause?",1,"Scored on the three 2026 by-elections. Makerfield evaluated at 0 (188 signatures, 6 new members, no money). Gorton and Denton evaluated at 1 (46 actions, 2 new members). Clacton evaluated at 0 (362 signatures, 9 new members, €149.72). A constituency-only campaign will not grow the list or raise money, and it is not meant to. The value lies in RF#2 and RF#3."
+RF#2,"Win or lose, just by fighting this fight, will it help our friends or allies?",2,"Written answers from the next MP give every group fighting the next assisted suicide Bill a known vote in a seat that was an Aye. The published grid also gives Camden churches, and allies such as the CPA candidate's supporters, a clear and neutral voter guide."
+RF#3,"Win or lose, just by fighting this fight, will it hurt our enemies and their allies?",2,"Higher than Makerfield or Clacton, because the other side's case is on the record. If the Green leader confirms that he backs assisted suicide and abortion up to birth, or refuses to answer, voters hear it two days before a close poll. In Gorton and Denton we could tell only our own list; with the imprint we can tell the constituency."
+RF#4/1,What's the gain for freedom and our values if we win?,2,"A win means the seat replaces an assisted suicide Aye with a written No, or at least with a named commitment to fund hospice care first. That matters in a House where the last vote was decided by 16."
+RF#4/2,What's the cost to freedom and our values if we lose?,0,"Zero. The seat voted Aye under Starmer; if the new MP does the same, the status quo resumes."
+TOTAL IF WE WIN,,7
+TOTAL IF WE LOSE,,5
+TIMELINE OF MAJOR ACTIONS
+Date,Action,Comment
+1 September 2026,Keir Starmer resigns as MP for Holborn and St Pancras,He voted Aye at Second Reading (29 November 2024) and Third Reading (20 June 2025) of the assisted suicide Bill.
+11 September 2026,Assisted suicide Bill rejected 270 to 286 with the seat vacant: https://votes.parliament.uk/Votes/Commons/Division/2428,All five Green MPs voted Aye. Margin 16.
+22 September 2026,Voter registration deadline,
+28 September 2026,Brief drafted,Source candidate email addresses from party and agent contacts; the SOPN has no emails.
+29 September 2026,"Sign-off; eight questions emailed to all 15 candidates, deadline 5pm 5 October","Contact tool cloned from Clacton (new Vercel project), with Looker tracking set up before launch."
+30 September 2026,L to the constituency segment,Includes lapsed Holborn and St Pancras members (TIM).
+1 October 2026,L RT,
+5 October 2026,Candidate answer deadline,"Reminder to non-responders the morning of 5 October; 'asked, reminded, still silent'."
+6 October 2026,"RL1: the published response grid, with imprint","Answers quoted verbatim, never paraphrased. The only place the grid lives is our page and email."
+7 October 2026,RL1 RT: last call on the eve of the poll,Also post the grid organically; paid boost only if compliance clears it.
+8 October 2026,Polling day,
+9 October 2026,"Report Back: the result and the winner's answers, or their silence",
+12 October 2026,Commons returns; Nurture,Tell the constituency segment the new MP's first test is the next assisted suicide Bill.
+EVALUATE DASHBOARD
+Emails Bluebook link related to this campaign
+Number of total emails sent for this campaign
+Total Signatures
+New List Members
+Reactivated Members
+Acquired %
+Total € raised
+Total € spent
+Cost of the offline actions
+Asana link related to this campaign
+Asana link to the Evaluate task
+Google Doc link to the wording copy package
+Political impact evaluation
+Did you win the political fight?
+Did the media talk about the campaign?
+Did any politician talk about the campaign?
+Did you deliver the signatures?
+How did you deliver the signatures?
+Was it a good decision to run this campaign?
+"Which good practices, if any, can we drawn from this campaign and repeat in future campaigns?"
+"Which improvement areas can you identify in this campaign, so that we can do better in future campaigns?"
+Which specific conclusions can you draw analyzing data of this campaign?
+Top 3 Sources of New Members (by channel & % of total)
+Social Media Strategy in One Line
+Top 5 signature sources (% each) and Top 5 new list member sources (% each)
+"Paid vs. Organic: spend, signups, cost per paid signup, and most efficient channel"
+Best-performing post: link + why it worked + one transferable learning
+Political impact: how social media was used to increase pressure or influence decision-makers?
+Other comments
+Moving forward
+"For more information on how to fill out or interpret this document, check the Campaigns Brief Cheat Sheet"

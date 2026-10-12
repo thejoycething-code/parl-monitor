@@ -1,0 +1,75 @@
+{
+ "code": 200,
+ "status": "success",
+ "data": {
+  "proyectos": [
+   {
+    "perParId": 2026,
+    "pleyNum": 13,
+    "proyectoLey": "00013-2026-2031-S",
+    "desEstado": "EN COMISIÓN",
+    "fecPresentacion": "2026-10-07T00:00:00.000-05:00",
+    "titulo": "PROPUESTA LEGISLATIVA REMITIDA POR LA CÁMARA DE DIPUTADOS - \n\nLEY QUE DELEGA EN EL PODER EJECUTIVO LA FACULTAD DE LEGISLAR EN MATERIA DE SEGURIDAD CIUDADANA Y DEL FENÓMENO EL NIÑO",
+    "desProponente": "Cámara de Diputados",
+    "autores": "",
+    "codTipoParl": "S",
+    "codTipoParlActual": "S",
+    "rowsTotal": 13
+   },
+   {
+    "perParId": 2026,
+    "pleyNum": 12,
+    "proyectoLey": "00012-2026-2031-S",
+    "desEstado": "AUTÓGRAFA",
+    "fecPresentacion": "2026-10-05T00:00:00.000-05:00",
+    "titulo": "PROPOSICIÓN DE RESOLUCIÓN LEGISLATIVA QUE AUTORIZA A LA SEÑORA PRESIDENTA DE LA REPÚBLICA PARA SALIR DEL TERRITORIO NACIONAL DEL 28 AL 31 DE OCTUBRE Y DEL 2 AL 6 DE NOVIEMBRE DE 2026",
+    "desProponente": "PODER EJECUTIVO",
+    "autores": "",
+    "codTipoParl": "S",
+    "codTipoParlActual": "S",
+    "rowsTotal": 13
+   },
+   {
+    "perParId": 2026,
+    "pleyNum": 11,
+    "proyectoLey": "00011-2026-2031-S",
+    "desEstado": "EN COMISIÓN",
+    "fecPresentacion": "2026-10-02T00:00:00.000-05:00",
+    "titulo": "PROPOSICIÓN DE RESOLUCIÓN LEGISLATIVA DEL SENADO QUE APRUEBA EL REGLAMENTO ESPECIAL DE ELECCIÓN DE LOS MAGISTRADOS DEL TRIBUNAL CONSTITUCIONAL",
+    "desProponente": "Senado de la República",
+    "autores": "Juárez Gallegos, Carmen Patricia",
+    "codTipoParl": "S",
+    "codTipoParlActual": "S",
+    "rowsTotal": 13
+   },
+   {
+    "perParId": 2026,
+    "pleyNum": 10,
+    "proyectoLey": "00010-2026-2031-S",
+    "desEstado": "EN COMISIÓN",
+    "fecPresentacion": "2026-09-30T00:00:00.000-05:00",
+    "titulo": "PROPOSICIÓN DE RESOLUCIÓN LEGISLATIVA QUE MODIFICA EL ARTÍCULO 48 DEL REGLAMENTO DEL SENADO PARA ESCINDIR EN DOS COMISIONES ORDINARIAS LEGISLATIVAS A LA COMISIÓN DE ASUNTOS DE SALUD, EDUCACIÓN, CULTURA, MUJER Y DESARROLLO SOCIAL Y DIGITAL",
+    "desProponente": "Senado de la República",
+    "autores": "Alcorta Suero, María Lourdes Pía Luisa; Ampuero Meza, Katherine Milagros; Calisto Giampietri, Francisco José; Jáuregui Martínez de Aguayo, María de los Milagros Jackeline; Mancha Pineda, Estanislao Edgar; Muñante Barrios, Alejandro; Velásquez García, Miguel Ángel; Vásquez Villanueva, Absalón",
+    "codTipoParl": "S",
+    "codTipoParlActual": "S",
+    "rowsTotal": 13
+   },
+   {
+    "perParId": 2026,
+    "pleyNum": 9,
+    "proyectoLey": "00009-2026-2031-S",
+    "desEstado": "Publicada en el Diario Oficial El Peruano",
+    "fecPresentacion": "2026-09-16T00:00:00.000-05:00",
+    "titulo": "PROPOSICIÓN DE RESOLUCIÓN LEGISLATIVA DEL SENADO QUE RATIFICA LA DESIGNACIÓN DEL PRESIDENTE DEL DIRECTORIO DEL BANCO CENTRAL DE RESERVA DEL PERÚ",
+    "desProponente": "Senado de la República",
+    "autores": "",
+    "codTipoParl": "S",
+    "codTipoParlActual": "S",
+    "rowsTotal": 13
+   }
+  ],
+  "rowsTotal": 13
+ },
+ "timestamp": "2026-10-08T23:03:10.781-05:00"
+}

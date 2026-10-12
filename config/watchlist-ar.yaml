@@ -1,0 +1,55 @@
+# Argentine watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed
+# by anyone who campaigns in Argentina.
+#
+# Until a Spanish term list is approved (docs/argentina-scope.md, "Proposed
+# Spanish terms"), this file is the ONLY source of areas for Argentina: the
+# English taxonomy is blind to Spanish. It carries expedientes found on our
+# ground while scoping, each with what is known about it and from where.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/ar_store.add_watch_areas). Keys are
+# '<chamber>/<number>-<origin>-<year>' in each chamber's OWN numbering:
+#   dip/5346-D-2026   a Diputados expediente, as HCDN prints it (unpadded)
+#   sen/159-PE-2025   the Senate's number for the same kind of item
+# A bill that passes one chamber gets a new number in the other, so a bill
+# watched through both chambers needs both keys. Bills lapse under Ley 13.640
+# (two parliamentary years without sanction) and come back, if at all, under
+# new numbers: re-key every entry each March.
+#
+# Every entry below was found in the Diputados register between 5 June and
+# 6 October 2026 (the 2,000 most recent expedientes, read on 9 October 2026)
+# by the proposed Spanish terms; titles quoted as HCDN prints them. The
+# bills' texts were NOT read.
+expedientes:
+  # --- area 1: abortion, and the unborn child ---------------------------------
+  "dip/4139-D-2026": {areas: [1, 9],
+                      why: "Beneplácito for Argentina's adherence to the Geneva Consensus Declaration on women's health and strengthening the family. Five other expedientes (4036, 4188, 4290, 4644, 4645-D-2026) repudiate the same adherence."}
+  "dip/4645-D-2026": {areas: [1, 9],
+                      why: "Pedido de informes to the Executive on joining the Geneva Consensus Declaration: the opposition's formal route against it."}
+  "dip/3336-D-2026": {areas: [1, 9],
+                      why: "Civil and Commercial Code: lets the 'persona gestante' declare during pregnancy the will to give the child for adoption. Same subject as 3390-D-2026."}
+  "dip/3390-D-2026": {areas: [1, 9],
+                      why: "Civil and Commercial Code: adoption declared during pregnancy (companion of 3336-D-2026)."}
+  # --- area 2: assisted dying ---------------------------------------------------
+  "dip/2721-D-2026": {areas: [2],
+                      why: "Regulación de la eutanasia y la asistencia médica para morir: a euthanasia bill."}
+  "dip/2907-D-2026": {areas: [2],
+                      why: "Régimen legal de asistencia para terminar con la propia vida, amending the patients' rights law 26.529 and the Penal Code: a second assisted-dying bill."}
+  # --- area 4: conversion practices ---------------------------------------------
+  "dip/4772-D-2026": {areas: [4, 8],
+                      why: "Declaración welcoming an ecumenical group's statement against 'terapias de conversión'."}
+  # --- areas 6 and 7: children online, parental responsibility -------------------
+  "dip/4477-D-2026": {areas: [6, 7],
+                      why: "Regulates children's access to social media and sets the 'mayoría digital' at fifteen."}
+  "dip/3022-D-2026": {areas: [6, 7],
+                      why: "Régimen legal de protección integral de niñas, niños y adolescentes en entornos digitales."}
+  "dip/4642-D-2026": {areas: [6, 9],
+                      why: "Civil and Commercial Code: emancipation, marriage annulment and 'responsabilidad parental' (the 2015 Code's term for parental authority)."}
+  "dip/2777-D-2026": {areas: [6],
+                      why: "Pedido de informes on compliance with Ley 26.150, Educación Sexual Integral (ESI)."}
+  # --- area 12: prostitution and trafficking --------------------------------------
+  "dip/4948-D-2026": {areas: [12],
+                      why: "A national framework prohibiting establishments of sexual exploitation in federal jurisdiction (the abolitionist position)."}
+  "dip/3116-D-2026": {areas: [12],
+                      why: "Institutes 2 June as the national day of 'personas trabajadoras sexuales' (the sex-work-as-work position)."}
+  "dip/3943-D-2026": {areas: [12],
+                      why: "Penal Code: the buying and selling of children as an autonomous offence and as a form of trafficking."}

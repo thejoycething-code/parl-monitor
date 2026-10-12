@@ -1,0 +1,345 @@
+[
+{
+"key": "richard-ames",
+"surname": "Ames",
+"given": "Richard",
+"party": "Progressive Conservative Party",
+"riding": "Carleton-York"
+},
+{
+"key": "guy-arseneault",
+"surname": "Arseneault",
+"given": "Guy",
+"party": "Liberal Party",
+"riding": "Restigouche East"
+},
+{
+"key": "kris-austin",
+"surname": "Austin",
+"given": "Kris",
+"party": "Progressive Conservative Party",
+"riding": "Fredericton-Grand Lake"
+},
+{
+"key": "kathy-bockus",
+"surname": "Bockus",
+"given": "Kathy",
+"party": "Progressive Conservative Party",
+"riding": "Saint Croix"
+},
+{
+"key": "lyne-boudreau",
+"surname": "Boudreau",
+"given": "Lyne Chantal",
+"party": "Liberal Party",
+"riding": "Champdoré-Irishtown"
+},
+{
+"key": "benoit-bourque",
+"surname": "Bourque",
+"given": "Benoît",
+"party": "Liberal Party",
+"riding": "Beausoleil-Grand-Bouctouche-Kent"
+},
+{
+"key": "chuck-chiasson",
+"surname": "Chiasson",
+"given": "Chuck",
+"party": "Liberal Party",
+"riding": "Grand Falls-Vallée-des-Rivières-Saint-Quentin"
+},
+{
+"key": "keith-chiasson",
+"surname": "Chiasson",
+"given": "Keith",
+"party": "Liberal Party",
+"riding": "Tracadie"
+},
+{
+"key": "michelle-conroy",
+"surname": "Conroy",
+"given": "Michelle",
+"party": "Progressive Conservative Party",
+"riding": "Miramichi East"
+},
+{
+"key": "david-coon",
+"surname": "Coon",
+"given": "David",
+"party": "Green Party",
+"riding": "Fredericton Lincoln"
+},
+{
+"key": "ryan-cullins",
+"surname": "Cullins",
+"given": "Ryan",
+"party": "Progressive Conservative Party",
+"riding": "Fredericton-York"
+},
+{
+"key": "jean-claude-d-amours",
+"surname": "D'Amours",
+"given": "Jean-Claude",
+"party": "Liberal Party",
+"riding": "Edmundston-Vallée-des-Rivières"
+},
+{
+"key": "john-dornan",
+"surname": "Dornan",
+"given": "John",
+"party": "Liberal Party",
+"riding": "Saint John Portland-Simonds"
+},
+{
+"key": "alexandre-doucet",
+"surname": "Doucet",
+"given": "Alexandre Cédric",
+"party": "Liberal Party",
+"riding": "Moncton East"
+},
+{
+"key": "pat-finnigan",
+"surname": "Finnigan",
+"given": "Pat",
+"party": "Liberal Party",
+"riding": "Kent North"
+},
+{
+"key": "robert-gauvin",
+"surname": "Gauvin",
+"given": "Robert",
+"party": "Liberal Party",
+"riding": "Shediac Bay-Dieppe"
+},
+{
+"key": "john-herron",
+"surname": "Herron",
+"given": "John",
+"party": "Liberal Party",
+"riding": "Hampton-Fundy-St. Martins"
+},
+{
+"key": "david-hickey",
+"surname": "Hickey",
+"given": "David",
+"party": "Liberal Party",
+"riding": "Saint John Harbour"
+},
+{
+"key": "bill-hogan",
+"surname": "Hogan",
+"given": "Bill",
+"party": "Progressive Conservative Party",
+"riding": "Woodstock-Hartland"
+},
+{
+"key": "susan-holt",
+"surname": "Holt",
+"given": "Susan",
+"party": "Liberal Party",
+"riding": "Fredericton South-Silverwood"
+},
+{
+"key": "claire-johnson",
+"surname": "Johnson",
+"given": "Claire",
+"party": "Liberal Party",
+"riding": "Moncton South"
+},
+{
+"key": "margaret-johnson",
+"surname": "Johnson",
+"given": "Margaret",
+"party": "Progressive Conservative Party",
+"riding": "Carleton-Victoria"
+},
+{
+"key": "sam-johnston",
+"surname": "Johnston",
+"given": "Sam",
+"party": "Liberal Party",
+"riding": "Miramichi Bay-Neguac"
+},
+{
+"key": "aaron-kennedy",
+"surname": "Kennedy",
+"given": "Aaron",
+"party": "Liberal Party",
+"riding": "Quispamsis"
+},
+{
+"key": "francine-landry",
+"surname": "Landry",
+"given": "Francine",
+"party": "Liberal Party",
+"riding": "Madawaska Les Lacs-Edmundston"
+},
+{
+"key": "jacques-leblanc",
+"surname": "LeBlanc",
+"given": "Jacques",
+"party": "Liberal Party",
+"riding": "Shediac-Cap-Acadie"
+},
+{
+"key": "marco-leblanc",
+"surname": "LeBlanc",
+"given": "Marco",
+"party": "Liberal Party",
+"riding": "Belle-Baie-Belledune"
+},
+{
+"key": "ian-lee",
+"surname": "Lee",
+"given": "Ian",
+"party": "Progressive Conservative Party",
+"riding": "Fundy-The Isles-Saint John Lorneville"
+},
+{
+"key": "rene-legacy",
+"surname": "Legacy",
+"given": "René",
+"party": "Liberal Party",
+"riding": "Bathurst"
+},
+{
+"key": "gilles-lepage",
+"surname": "LePage",
+"given": "Gilles",
+"party": "Liberal Party",
+"riding": "Restigouche West"
+},
+{
+"key": "eric-mallet",
+"surname": "Mallet",
+"given": "Eric",
+"party": "Liberal Party",
+"riding": "Shippagan-Les-Îles"
+},
+{
+"key": "k-c-mckee",
+"surname": "McKee",
+"given": "K.C., Robert",
+"party": "Liberal Party",
+"riding": "Moncton Centre"
+},
+{
+"key": "cindy-miles",
+"surname": "Miles",
+"given": "Cindy",
+"party": "Liberal Party",
+"riding": "Hanwell-New Maryland"
+},
+{
+"key": "megan-mitton",
+"surname": "Mitton",
+"given": "Megan",
+"party": "Green Party",
+"riding": "Tantramar"
+},
+{
+"key": "don-monahan",
+"surname": "Monahan",
+"given": "Don",
+"party": "Progressive Conservative Party",
+"riding": "Arcadia-Butternut Valley-Maple Hills"
+},
+{
+"key": "bill-oliver",
+"surname": "Oliver",
+"given": "Bill",
+"party": "Progressive Conservative Party",
+"riding": "Kings Centre"
+},
+{
+"key": "luke-randall",
+"surname": "Randall",
+"given": "Luke",
+"party": "Liberal Party",
+"riding": "Fredericton North"
+},
+{
+"key": "luc-robichaud",
+"surname": "Robichaud",
+"given": "Luc",
+"party": "Liberal Party",
+"riding": "Hautes-Terres-Nepisiguit"
+},
+{
+"key": "kevin-russell",
+"surname": "Russell",
+"given": "Kevin",
+"party": "Progressive Conservative Party",
+"riding": "Miramichi West"
+},
+{
+"key": "glen-savoie",
+"surname": "Savoie",
+"given": "Glen",
+"party": "Progressive Conservative Party",
+"riding": "Saint John East"
+},
+{
+"key": "tammy-scott-wallace",
+"surname": "Scott-Wallace",
+"given": "Tammy",
+"party": "Progressive Conservative Party",
+"riding": "Sussex-Three Rivers"
+},
+{
+"key": "tania-sodhi",
+"surname": "Sodhi",
+"given": "Tania",
+"party": "Liberal Party",
+"riding": "Moncton Northwest"
+},
+{
+"key": "isabelle-theriault",
+"surname": "Thériault",
+"given": "Isabelle",
+"party": "Liberal Party",
+"riding": "Caraquet"
+},
+{
+"key": "alyson-townsend",
+"surname": "Townsend",
+"given": "Alyson",
+"party": "Liberal Party",
+"riding": "Rothesay"
+},
+{
+"key": "natacha-vautour",
+"surname": "Vautour",
+"given": "Natacha",
+"party": "Liberal Party",
+"riding": "Dieppe-Memramcook"
+},
+{
+"key": "rob-weir",
+"surname": "Weir",
+"given": "Rob",
+"party": "Progressive Conservative Party",
+"riding": "Riverview"
+},
+{
+"key": "kate-wilcott",
+"surname": "Wilcott",
+"given": "Kate",
+"party": "Liberal Party",
+"riding": "Saint John West-Lancaster"
+},
+{
+"key": "mary-wilson",
+"surname": "Wilson",
+"given": "Mary",
+"party": "Progressive Conservative Party",
+"riding": "Oromocto-Sunbury"
+},
+{
+"key": "sherry-wilson",
+"surname": "Wilson",
+"given": "Sherry",
+"party": "Progressive Conservative Party",
+"riding": "Albert-Riverview"
+}
+]

@@ -1,0 +1,2817 @@
+{
+"data": {
+"allMemberParliaments": {
+"nodes": [
+{
+"memberId": 38,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Surrey-White Rock"
+},
+"memberByMemberId": {
+"id": 38,
+"firstName": "Trevor",
+"lastName": "Halford",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 355,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia Green Party",
+"abbreviation": "BC Green Party"
+},
+"constituencyByConstituencyId": {
+"name": "West Vancouver-Sea to Sky"
+},
+"memberByMemberId": {
+"id": 355,
+"firstName": "Jeremy",
+"lastName": "Valeriote",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 356,
+"active": false,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Abbotsford-Mission"
+},
+"memberByMemberId": {
+"id": 356,
+"firstName": "Reann",
+"lastName": "Gasper",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 2,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Kootenay Central"
+},
+"memberByMemberId": {
+"id": 2,
+"firstName": "Brittny",
+"lastName": "Anderson",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 7,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Abbotsford South"
+},
+"memberByMemberId": {
+"id": 7,
+"firstName": "Bruce",
+"lastName": "Banman",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 357,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Abbotsford West"
+},
+"memberByMemberId": {
+"id": 357,
+"firstName": "Korky",
+"lastName": "Neufeld",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 358,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Boundary-Similkameen"
+},
+"memberByMemberId": {
+"id": 358,
+"firstName": "Donegal",
+"lastName": "Wilson",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 359,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Bulkley Valley-Stikine"
+},
+"memberByMemberId": {
+"id": 359,
+"firstName": "Sharon",
+"lastName": "Hartwell",
+"middleName": "L.",
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 41,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Burnaby Centre"
+},
+"memberByMemberId": {
+"id": 41,
+"firstName": "Anne",
+"lastName": "Kang",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 360,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Burnaby East"
+},
+"memberByMemberId": {
+"id": 360,
+"firstName": "Rohini",
+"lastName": "Arora",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 16,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Burnaby-New Westminster"
+},
+"memberByMemberId": {
+"id": 16,
+"firstName": "Raj",
+"lastName": "Chouhan",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 67,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Burnaby North"
+},
+"memberByMemberId": {
+"id": 67,
+"firstName": "Janet",
+"lastName": "Routledge",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 361,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Burnaby South-Metrotown"
+},
+"memberByMemberId": {
+"id": 361,
+"firstName": "Paul",
+"lastName": "Choi",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 27,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Cariboo-Chilcotin"
+},
+"memberByMemberId": {
+"id": 27,
+"firstName": "Lorne",
+"lastName": "Doerkson",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 362,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Chilliwack North"
+},
+"memberByMemberId": {
+"id": 362,
+"firstName": "Heather",
+"lastName": "Maahs",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 363,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Chilliwack-Cultus Lake"
+},
+"memberByMemberId": {
+"id": 363,
+"firstName": "Á'a:líya",
+"lastName": "Warbus",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 364,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Columbia River-Revelstoke"
+},
+"memberByMemberId": {
+"id": 364,
+"firstName": "Scott",
+"lastName": "McInnis",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 366,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Coquitlam-Maillardville"
+},
+"memberByMemberId": {
+"id": 366,
+"firstName": "Jennifer",
+"lastName": "Blatherwick",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 367,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Courtenay-Comox"
+},
+"memberByMemberId": {
+"id": 367,
+"firstName": "Brennan",
+"lastName": "Day",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 368,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Cowichan Valley"
+},
+"memberByMemberId": {
+"id": 368,
+"firstName": "Qwulti'stunaat - Debra",
+"lastName": "Toporowski",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 40,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Delta North"
+},
+"memberByMemberId": {
+"id": 40,
+"firstName": "Ravi",
+"lastName": "Kahlon",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 370,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Esquimalt-Colwood"
+},
+"memberByMemberId": {
+"id": 370,
+"firstName": "Darlene",
+"lastName": "Rotchford",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 371,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Fraser-Nicola"
+},
+"memberByMemberId": {
+"id": 371,
+"firstName": "Tony",
+"lastName": "Luck",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 372,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Juan de Fuca-Malahat"
+},
+"memberByMemberId": {
+"id": 372,
+"firstName": "Dana",
+"lastName": "Lajeunesse",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 52,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Kamloops Centre"
+},
+"memberByMemberId": {
+"id": 52,
+"firstName": "Peter",
+"lastName": "Milobar",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 373,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Kamloops-North Thompson"
+},
+"memberByMemberId": {
+"id": 373,
+"firstName": "Ward",
+"lastName": "Stamer",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 374,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Kelowna-Lake Country-Coldstream"
+},
+"memberByMemberId": {
+"id": 374,
+"firstName": "Tara",
+"lastName": "Armstrong",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 375,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Kelowna-Mission"
+},
+"memberByMemberId": {
+"id": 375,
+"firstName": "Gavin",
+"lastName": "Dew",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 376,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Kootenay-Monashee"
+},
+"memberByMemberId": {
+"id": 376,
+"firstName": "Steve",
+"lastName": "Morissette",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 377,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Kootenay-Rockies"
+},
+"memberByMemberId": {
+"id": 377,
+"firstName": "Pete",
+"lastName": "Davis",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 378,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Ladysmith-Oceanside"
+},
+"memberByMemberId": {
+"id": 378,
+"firstName": "Stephanie",
+"lastName": "Higginson",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 58,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Langford-Highlands"
+},
+"memberByMemberId": {
+"id": 58,
+"firstName": "Ravi",
+"lastName": "Parmar",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 379,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Langley-Abbotsford"
+},
+"memberByMemberId": {
+"id": 379,
+"firstName": "Harman",
+"lastName": "Bhangu",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 380,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Langley-Walnut Grove"
+},
+"memberByMemberId": {
+"id": 380,
+"firstName": "Misty",
+"lastName": "Van Popta",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 381,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Langley-Willowbrook"
+},
+"memberByMemberId": {
+"id": 381,
+"firstName": "Jody",
+"lastName": "Toor",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 382,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Maple Ridge East"
+},
+"memberByMemberId": {
+"id": 382,
+"firstName": "Lawrence",
+"lastName": "Mok",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 8,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Maple Ridge-Pitt Meadows"
+},
+"memberByMemberId": {
+"id": 8,
+"firstName": "Lisa",
+"lastName": "Beare",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 56,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Mid Island-Pacific Rim"
+},
+"memberByMemberId": {
+"id": 56,
+"firstName": "Josie",
+"lastName": "Osborne",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 49,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Nanaimo-Gabriola Island"
+},
+"memberByMemberId": {
+"id": 49,
+"firstName": "Sheila",
+"lastName": "Malcolmson",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 383,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Nanaimo-Lantzville"
+},
+"memberByMemberId": {
+"id": 383,
+"firstName": "George",
+"lastName": "Anderson",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 70,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Nechako Lakes"
+},
+"memberByMemberId": {
+"id": 70,
+"firstName": "John",
+"lastName": "Rustad",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 86,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "New Westminster-Coquitlam"
+},
+"memberByMemberId": {
+"id": 86,
+"firstName": "Jennifer",
+"lastName": "Whiteside",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 384,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "North Coast-Haida Gwaii"
+},
+"memberByMemberId": {
+"id": 384,
+"firstName": "Laanas - Tamara",
+"lastName": "Davidson",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 385,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "North Island"
+},
+"memberByMemberId": {
+"id": 385,
+"firstName": "Anna",
+"lastName": "Kindy",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 48,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "North Vancouver-Lonsdale"
+},
+"memberByMemberId": {
+"id": 48,
+"firstName": "Bowinn",
+"lastName": "Ma",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 14,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "North Vancouver-Seymour"
+},
+"memberByMemberId": {
+"id": 14,
+"firstName": "Susie",
+"lastName": "Chant",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 386,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Oak Bay-Gordon Head"
+},
+"memberByMemberId": {
+"id": 386,
+"firstName": "Diana",
+"lastName": "Gibson",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 387,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Peace River North"
+},
+"memberByMemberId": {
+"id": 387,
+"firstName": "Jordan",
+"lastName": "Kealy",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 388,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Peace River South"
+},
+"memberByMemberId": {
+"id": 388,
+"firstName": "Larry",
+"lastName": "Neufeld",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 389,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Penticton-Summerland"
+},
+"memberByMemberId": {
+"id": 389,
+"firstName": "Amelia",
+"lastName": "Boultbee",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 33,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Port Coquitlam"
+},
+"memberByMemberId": {
+"id": 33,
+"firstName": "Mike",
+"lastName": "Farnworth",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 36,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Port Moody-Burquitlam"
+},
+"memberByMemberId": {
+"id": 36,
+"firstName": "Rick",
+"lastName": "Glumac",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 390,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Powell River-Sunshine Coast"
+},
+"memberByMemberId": {
+"id": 390,
+"firstName": "Randene",
+"lastName": "Neill",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 391,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Prince George-Mackenzie"
+},
+"memberByMemberId": {
+"id": 391,
+"firstName": "Kiel",
+"lastName": "Giddens",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 392,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Prince George-North Cariboo"
+},
+"memberByMemberId": {
+"id": 392,
+"firstName": "Sheldon",
+"lastName": "Clare",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 393,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Prince George-Valemount"
+},
+"memberByMemberId": {
+"id": 393,
+"firstName": "Rosalyn",
+"lastName": "Bird",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 394,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Richmond Centre"
+},
+"memberByMemberId": {
+"id": 394,
+"firstName": "Hon",
+"lastName": "Chan",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 85,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Richmond-Bridgeport"
+},
+"memberByMemberId": {
+"id": 85,
+"firstName": "Teresa",
+"lastName": "Wat",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 37,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Richmond-Steveston"
+},
+"memberByMemberId": {
+"id": 37,
+"firstName": "Kelly",
+"lastName": "Greene",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 395,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Richmond-Queensborough"
+},
+"memberByMemberId": {
+"id": 395,
+"firstName": "Steve",
+"lastName": "Kooner",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 396,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia Green Party",
+"abbreviation": "BC Green Party"
+},
+"constituencyByConstituencyId": {
+"name": "Saanich North and the Islands"
+},
+"memberByMemberId": {
+"id": 396,
+"firstName": "Rob",
+"lastName": "Botterell",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 61,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Saanich South"
+},
+"memberByMemberId": {
+"id": 61,
+"firstName": "Lana",
+"lastName": "Popham",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 397,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Salmon Arm-Shuswap"
+},
+"memberByMemberId": {
+"id": 397,
+"firstName": "David",
+"lastName": "Williams",
+"middleName": "L.",
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 398,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Skeena"
+},
+"memberByMemberId": {
+"id": 398,
+"firstName": "Claire",
+"lastName": "Rattée",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 399,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Surrey City Centre"
+},
+"memberByMemberId": {
+"id": 399,
+"firstName": "Amna",
+"lastName": "Shah",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 400,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Surrey North"
+},
+"memberByMemberId": {
+"id": 400,
+"firstName": "Mandeep",
+"lastName": "Dhaliwal",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 401,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Surrey South"
+},
+"memberByMemberId": {
+"id": 401,
+"firstName": "Brent",
+"lastName": "Chapman",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 82,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Surrey-Cloverdale"
+},
+"memberByMemberId": {
+"id": 82,
+"firstName": "Elenore",
+"lastName": "Sturko",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 12,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Surrey-Fleetwood"
+},
+"memberByMemberId": {
+"id": 12,
+"firstName": "Jagrup",
+"lastName": "Brar",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 402,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Surrey-Newton"
+},
+"memberByMemberId": {
+"id": 402,
+"firstName": "Jessie",
+"lastName": "Sunner",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 403,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Surrey-Panorama"
+},
+"memberByMemberId": {
+"id": 403,
+"firstName": "Bryan",
+"lastName": "Tepper",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 404,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Surrey-Serpentine River"
+},
+"memberByMemberId": {
+"id": 404,
+"firstName": "Linda",
+"lastName": "Hepner",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 17,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-Fraserview"
+},
+"memberByMemberId": {
+"id": 17,
+"firstName": "George",
+"lastName": "Chow",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 72,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-Hastings"
+},
+"memberByMemberId": {
+"id": 72,
+"firstName": "Niki",
+"lastName": "Sharma",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 31,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-Kensington"
+},
+"memberByMemberId": {
+"id": 31,
+"firstName": "Mable",
+"lastName": "Elmore",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 30,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-Point Grey"
+},
+"memberByMemberId": {
+"id": 30,
+"firstName": "David",
+"lastName": "Eby",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 405,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-Langara"
+},
+"memberByMemberId": {
+"id": 405,
+"firstName": "Sunita",
+"lastName": "Dhir",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 406,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-Little Mountain"
+},
+"memberByMemberId": {
+"id": 406,
+"firstName": "Christine",
+"lastName": "Boyle",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 407,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-Quilchena"
+},
+"memberByMemberId": {
+"id": 407,
+"firstName": "Dallas",
+"lastName": "Brodie",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 408,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-Yaletown"
+},
+"memberByMemberId": {
+"id": 408,
+"firstName": "Terry",
+"lastName": "Yung",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 409,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Victoria-Swan Lake"
+},
+"memberByMemberId": {
+"id": 409,
+"firstName": "Nina",
+"lastName": "Krieger",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 410,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "West Kelowna-Peachland"
+},
+"memberByMemberId": {
+"id": 410,
+"firstName": "Macklin",
+"lastName": "McCall",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 411,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "West Vancouver-Capilano"
+},
+"memberByMemberId": {
+"id": 411,
+"firstName": "Lynne",
+"lastName": "Block",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 26,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-Renfrew"
+},
+"memberByMemberId": {
+"id": 26,
+"firstName": "Adrian",
+"lastName": "Dix",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 5,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-South Granville"
+},
+"memberByMemberId": {
+"id": 5,
+"firstName": "Brenda",
+"lastName": "Bailey",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 13,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-West End"
+},
+"memberByMemberId": {
+"id": 13,
+"firstName": "Spencer",
+"lastName": "Chandra Herbert",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 47,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Victoria-Beacon Hill"
+},
+"memberByMemberId": {
+"id": 47,
+"firstName": "Grace",
+"lastName": "Lore",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 60,
+"active": false,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-Strathcona"
+},
+"memberByMemberId": {
+"id": 60,
+"firstName": "Amshen - Joan",
+"lastName": "Phillip",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 71,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Vernon-Lumby"
+},
+"memberByMemberId": {
+"id": 71,
+"firstName": "Harwinder",
+"lastName": "Sandhu",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 9,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Surrey-Guildford"
+},
+"memberByMemberId": {
+"id": 9,
+"firstName": "Garry",
+"lastName": "Begg",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 412,
+"active": true,
+"partyByPartyId": {
+"name": "Conservative Party of British Columbia",
+"abbreviation": "Conservative Party of British Columbia"
+},
+"constituencyByConstituencyId": {
+"name": "Kelowna Centre"
+},
+"memberByMemberId": {
+"id": 412,
+"firstName": "Kristina",
+"lastName": "Loewen",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 59,
+"active": true,
+"partyByPartyId": {
+"name": "Independent",
+"abbreviation": "Independent"
+},
+"constituencyByConstituencyId": {
+"name": "Delta South"
+},
+"memberByMemberId": {
+"id": 59,
+"firstName": "Ian",
+"lastName": "Paton",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+},
+{
+"electionDate": null
+},
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 147,
+"active": true,
+"partyByPartyId": {
+"name": "British Columbia New Democratic Party",
+"abbreviation": "BC NDP"
+},
+"constituencyByConstituencyId": {
+"name": "Coquitlam-Burke Mountain"
+},
+"memberByMemberId": {
+"id": 147,
+"firstName": "Jodie",
+"lastName": "Wickens",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": [
+{
+"electionDate": null
+}
+]
+}
+}
+},
+{
+"memberId": 445,
+"active": false,
+"partyByPartyId": {
+"name": "Vacant",
+"abbreviation": "Vacant"
+},
+"constituencyByConstituencyId": {
+"name": "Abbotsford-Mission"
+},
+"memberByMemberId": {
+"id": 445,
+"firstName": "Vacant",
+"lastName": "Seat",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": []
+}
+}
+},
+{
+"memberId": 446,
+"active": false,
+"partyByPartyId": {
+"name": "Vacant",
+"abbreviation": "Vacant"
+},
+"constituencyByConstituencyId": {
+"name": "Vancouver-Strathcona"
+},
+"memberByMemberId": {
+"id": 446,
+"firstName": "Vacant",
+"lastName": "Seat",
+"middleName": null,
+"memberResignationsByMemberId": {
+"nodes": []
+},
+"memberElectionsByMemberId": {
+"nodes": []
+}
+}
+}
+]
+}
+}
+}

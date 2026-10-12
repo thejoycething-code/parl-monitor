@@ -24,9 +24,10 @@ Two kinds of act can place a member once confirmed:
     advancing a text. A minister sponsoring a government bill is office,
     not choice, and the stance file gives those no value.
 Everything else is evidence and never places anyone:
-  * SPEECHES from Hansard: activity, not direction. A speech's direction is
-    exactly what a person must read, and the no-scoring rule forbids the tool
-    guessing it.
+  * SPEECHES from Hansard, and on a Senate sheet from the Senate floor
+    (tools/ca_senate_debates.py): activity, not direction. A speech's
+    direction is exactly what a person must read, and the no-scoring rule
+    forbids the tool guessing it.
   * PETITIONS an MP presented or authorised. The House's own disclaimer: an
     MP presenting a petition does not endorse it.
   * A PAIRED vote or a Senate ABSTENTION: no direction recorded.
@@ -296,20 +297,24 @@ def build_rows(conn, area, chamber, entries, bill_entries, today=None):
                     label, st, " ".join((entry.get("why_sponsored") or "").split())[:120]))
             else:
                 r["lines"].append("{0} [{1}]".format(label, not_placed(entry)))
-        # Only this chamber's speeches (2 Oct 2026): Senate debates and
-        # committee evidence share the table, and a senator's speech on a
-        # Commons sheet would list someone the sheet never counts.
-        for s in conn.execute("SELECT * FROM ca_speeches WHERE person_id IS NOT NULL "
-                              "AND COALESCE(chamber, 'commons') = ?", (chamber,)):
-            if _in_area(s["areas"], area):
-                where = ("COMMITTEE {0}".format(s["committee"] or "?")
-                         if (s["forum"] or "floor") == "committee" else "SPEECH")
-                rec(s["person_id"])["lines"].append(
-                    "{0} {1} {2}: \"{3}\" [activity, not direction]".format(
-                        s["date"] or "?", where, (s["subject"] or s["rubric"] or "")[:50],
-                        " ".join((s["excerpt"] or "").split())[:100]))
         for line_mp, line in petition_lines(conn, area):
             rec(line_mp)["lines"].append(line)
+
+    # SPEECHES, both chambers: activity, never direction. Only this
+    # chamber's (2 Oct 2026): Senate floor debates (tools/ca_senate_debates.py)
+    # and committee evidence share the table, and a senator's speech on a
+    # Commons sheet would list someone the sheet never counts -- nor an MP's
+    # (a minister answering in the Senate) on a Senate sheet, since only
+    # ca_senators make its rows.
+    for s in conn.execute("SELECT * FROM ca_speeches WHERE person_id IS NOT NULL "
+                          "AND COALESCE(chamber, 'commons') = ?", (chamber,)):
+        if _in_area(s["areas"], area):
+            where = ("COMMITTEE {0}".format(s["committee"] or "?")
+                     if (s["forum"] or "floor") == "committee" else "SPEECH")
+            rec(s["person_id"])["lines"].append(
+                "{0} {1} {2}: \"{3}\" [activity, not direction]".format(
+                    s["date"] or "?", where, (s["subject"] or s["rubric"] or "")[:50],
+                    " ".join((s["excerpt"] or "").split())[:100]))
 
     # The absence rule: the latest DECISIVE signed division -- confirmed, and
     # OUR side scoring +2 (C-62's Nay scores -2, but its Yea only +1, so it is

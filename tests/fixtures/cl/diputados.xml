@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiputadosPeriodoColeccion xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://opendata.camara.cl/camaradiputados/v1">
+  <DiputadoPeriodo>
+    <FechaInicio>2030-03-10T00:00:00</FechaInicio>
+    <FechaTermino xsi:nil="true" />
+    <Diputado>
+      <Id>1074</Id>
+      <Nombre>Marisela</Nombre>
+      <Nombre2 />
+      <ApellidoPaterno>Santibáñez</ApellidoPaterno>
+      <ApellidoMaterno>Novoa</ApellidoMaterno>
+      <FechaNacimiento>1975-04-24T00:00:00</FechaNacimiento>
+      <RUT />
+      <RUTDV />
+      <Sexo Valor="0">Femenino</Sexo>
+      <Militancias>
+        <Militancia>
+          <FechaInicio>2019-04-17T00:00:00</FechaInicio>
+          <FechaTermino>2019-09-26T23:59:59</FechaTermino>
+          <Partido>
+            <Id>IND</Id>
+            <Nombre>Independientes</Nombre>
+            <Alias>IND</Alias>
+          </Partido>
+        </Militancia>
+        <Militancia>
+          <FechaInicio>2018-03-11T00:00:00</FechaInicio>
+          <FechaTermino>2019-04-16T23:59:59</FechaTermino>
+          <Partido>
+            <Id>PRO</Id>
+            <Nombre>Partido Progresista</Nombre>
+            <Alias>PRO</Alias>
+          </Partido>
+        </Militancia>
+        <Militancia>
+          <FechaInicio>2019-09-27T00:00:00</FechaInicio>
+          <FechaTermino>2022-03-10T23:59:59</FechaTermino>
+          <Partido>
+            <Id>PC</Id>
+            <Nombre>Partido Comunista</Nombre>
+            <Alias>PC</Alias>
+          </Partido>
+        </Militancia>
+        <Militancia>
+          <FechaInicio>2022-03-11T00:00:00</FechaInicio>
+          <FechaTermino>2024-01-16T23:59:59</FechaTermino>
+          <Partido>
+            <Id>PC</Id>
+            <Nombre>Partido Comunista</Nombre>
+            <Alias>PC</Alias>
+          </Partido>
+        </Militancia>
+        <Militancia>
+          <FechaInicio>2024-01-17T00:00:00</FechaInicio>
+          <FechaTermino>2026-03-10T23:59:59</FechaTermino>
+          <Partido>
+            <Id>IND</Id>
+            <Nombre>Independientes</Nombre>
+            <Alias>IND</Alias>
+          </Partido>
+        </Militancia>
+        <Militancia>
+          <FechaInicio>2026-03-11T00:00:00</FechaInicio>
+          <FechaTermino>2030-03-10T23:59:59</FechaTermino>
+          <Partido>
+            <Id>IND</Id>
+            <Nombre>Independientes</Nombre>
+            <Alias>IND</Alias>
+          </Partido>
+        </Militancia>
+      </Militancias>
+    </Diputado>
+  </DiputadoPeriodo>
+  <DiputadoPeriodo>
+    <FechaInicio>2030-03-10T00:00:00</FechaInicio>
+    <FechaTermino xsi:nil="true" />
+    <Diputado>
+      <Id>1254</Id>
+      <Nombre>Ignacio</Nombre>
+      <Nombre2 />
+      <ApellidoPaterno>Urcullú</ApellidoPaterno>
+      <ApellidoMaterno>Clèment-Lund</ApellidoMaterno>
+      <FechaNacimiento>1976-03-07T00:00:00</FechaNacimiento>
+      <RUT />
+      <RUTDV />
+      <Sexo Valor="1">Masculino</Sexo>
+      <Militancias>
+        <Militancia>
+          <FechaInicio>2026-03-11T00:00:00</FechaInicio>
+          <FechaTermino>2030-03-10T23:59:59</FechaTermino>
+          <Partido>
+            <Id>PREP</Id>
+            <Nombre>Partido Republicano</Nombre>
+            <Alias>PREP</Alias>
+          </Partido>
+        </Militancia>
+      </Militancias>
+    </Diputado>
+  </DiputadoPeriodo>
+</DiputadosPeriodoColeccion>

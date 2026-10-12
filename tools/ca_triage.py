@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""The judge for Canadian petitions: a 0-3 score and a why-line per petition.
+"""The Canadian judge: a 0-3 score and a why-line per petition and per
+Supreme Court judgment on our ground.
 
     python3 tools/ca_triage.py                       # the newest LIMIT unscored
     python3 tools/ca_triage.py --limit 2000 --budget-seconds 2400
@@ -25,6 +26,14 @@ BUDGET_S, because a job killed by its timeout never publishes the store. The
 rest waits, and the log says how many.
 
 Spend lands in api_spend as 'ca-triage'.
+
+SUPREME COURT JUDGMENTS (2 October 2026). ca_judgments rows on our ground
+(tools/ca_courts.py) join the queue under their own frame,
+SYSTEM_PROMPT_CA_JUDGMENTS: the item is a judgment given by its catchwords and
+the headnote passage that matched, and the Court's holding is judged, never
+the parties' names. A tier-2 match on "coercion" in Trinity Western is
+exactly what a judgement separates. Each slice is one source, so each call
+carries the right frame. A judgment is context only: it never places anyone.
 """
 
 from __future__ import annotations
@@ -63,44 +72,101 @@ SYSTEM_PROMPT_CA = triage.SYSTEM_PROMPT.replace(
     "CitizenGO campaigns", 1)
 assert SYSTEM_PROMPT_CA != triage.SYSTEM_PROMPT
 
+# THE COURT'S FRAME. The petitions frame says the items are petitions and
+# that presenting one is not endorsing it; told that about a judgment, the
+# judge would be judging the wrong thing.
+SYSTEM_PROMPT_CA_JUDGMENTS = triage.SYSTEM_PROMPT.replace(
+    "You are the triage layer of CitizenGO UK's parliamentary monitor. CitizenGO campaigns",
+    "You are the triage layer of CitizenGO's Canadian monitor, which also watches the "
+    "Supreme Court of Canada. Never mark an item down for not being British: a Canadian "
+    "matter in one of these areas is fully in scope. MAID (medical assistance in dying) is "
+    "Canada's statutory name for assisted suicide and euthanasia. The items are JUDGMENTS "
+    "of the Supreme Court of Canada, each given by its catchwords and the passage of its "
+    "headnote that matched: judge what the Court decided and how far it moves the law in "
+    "these areas, never the parties' names -- a criminal appeal that mentions an area in "
+    "passing scores low. CitizenGO campaigns", 1)
+assert SYSTEM_PROMPT_CA_JUDGMENTS != triage.SYSTEM_PROMPT
+
+# Every source the judge reads: table -> (key column, frame). A ca_ table
+# that is classified and carries triage_score belongs here.
+SOURCES = {
+    "ca_petitions": ("petition_id", SYSTEM_PROMPT_CA),
+    "ca_judgments": ("judgment_id", SYSTEM_PROMPT_CA_JUDGMENTS),
+}
+
+
+def _ours(areas_json):
+    areas = json.loads(areas_json or "[]")
+    return areas if [a for a in areas if a not in HIDDEN_AREAS] else None
+
+
+def _catchwords(headnote, cap=900):
+    """The headnote's catchwords ("Constitutional law \u2014 Charter of Rights
+    \u2014 ..."), every such paragraph: the Court's own summary of what the
+    case is about. Carter has two, division of powers first."""
+    lines = [l for l in (headnote or "").split("\n")
+             if len(l) > 60 and l.count("\u2014") >= 2]
+    return " ".join(lines)[:cap]
+
 
 def pending(conn):
-    """Unscored petitions on our ground, newest first, migration-only excluded."""
+    """Unscored rows on our ground, newest first across sources,
+    migration-only excluded."""
     ca_store.ensure_schema(conn)
-    out = []
+    dated = []
     for r in conn.execute(
             "SELECT * FROM ca_petitions WHERE areas IS NOT NULL AND areas != '[]' "
-            "AND triage_score IS NULL "
-            "ORDER BY COALESCE(presented, opened, first_seen) DESC, petition_id DESC"):
-        areas = json.loads(r["areas"] or "[]")
-        if not [a for a in areas if a not in HIDDEN_AREAS]:
+            "AND triage_score IS NULL"):
+        areas = _ours(r["areas"])
+        if not areas:
             continue
         keywords = ", ".join(json.loads(r["keywords"] or "[]"))
         title = "{0} ({1}){2}".format(r["petition_id"], r["category"] or "?",
                                       ": " + keywords if keywords else "")
         text = " ".join((r["prayer"] or "").split())[:1500]
-        out.append(triage.TriageItem(
-            id="ca_petitions:" + r["petition_id"], title=title, text=text,
-            tier=r["tier"] or 2, issue_areas=areas, watchlist_hit=False))
-    return out
+        dated.append((r["presented"] or r["opened"] or r["first_seen"] or "",
+                      triage.TriageItem(
+                          id="ca_petitions:" + r["petition_id"], title=title, text=text,
+                          tier=r["tier"] or 2, issue_areas=areas, watchlist_hit=False)))
+    for r in conn.execute(
+            "SELECT * FROM ca_judgments WHERE areas IS NOT NULL AND areas != '[]' "
+            "AND triage_score IS NULL"):
+        areas = _ours(r["areas"])
+        if not areas:
+            continue
+        subjects = ", ".join(json.loads(r["subjects"] or "[]"))
+        title = "{0} {1}{2}".format(r["citation"] or r["judgment_id"], r["title"] or "",
+                                    " [{0}]".format(subjects) if subjects else "")
+        text = " ".join("{0}\n{1}".format(_catchwords(r["headnote"]), r["excerpt"] or "")
+                        .split())[:1500]
+        dated.append((r["date"] or r["first_seen"] or "",
+                      triage.TriageItem(
+                          id="ca_judgments:" + r["judgment_id"], title=title, text=text,
+                          tier=r["tier"] or 2, issue_areas=areas, watchlist_hit=False)))
+    dated.sort(key=lambda d: (d[0], d[1].id), reverse=True)
+    return [item for _, item in dated]
 
 
 def apply(conn, results):
     n = 0
     for res in results:
-        if res.score is None or not (res.id or "").startswith("ca_petitions:"):
+        table, _, key = (res.id or "").partition(":")
+        if res.score is None or table not in SOURCES:
             continue
-        conn.execute("UPDATE ca_petitions SET triage_score = ?, why_it_matters = ? "
-                     "WHERE petition_id = ?",
-                     (res.score, res.why_it_matters or None, res.id.split(":", 1)[1]))
+        conn.execute("UPDATE {0} SET triage_score = ?, why_it_matters = ? WHERE {1} = ?".format(
+            table, SOURCES[table][0]), (res.score, res.why_it_matters or None, key))
         n += 1
     conn.commit()
     return n
 
 
 def rescore(conn, pid):
-    n = conn.execute("UPDATE ca_petitions SET triage_score = NULL, why_it_matters = NULL "
-                     "WHERE petition_id = ?", (pid,)).rowcount
+    """Re-queue one row: a petition id as before, or 'ca_judgments:<id>'."""
+    table, _, key = pid.partition(":") if pid.startswith("ca_") else ("ca_petitions", "", pid)
+    if table not in SOURCES:
+        return 0
+    n = conn.execute("UPDATE {0} SET triage_score = NULL, why_it_matters = NULL "
+                     "WHERE {1} = ?".format(table, SOURCES[table][0]), (key,)).rowcount
     conn.commit()
     return n
 
@@ -111,10 +177,11 @@ def judge(conn, items, api_key, today, log=print, budget=None, transport=None):
     gaps = [0]
 
     def score_chunk(chunk):
+        system = SOURCES[chunk[0].id.split(":", 1)[0]][1]
         for attempt in (1, 2):
             try:
                 return triage.score_live(
-                    chunk, api_key=api_key, system=SYSTEM_PROMPT_CA, transport=transport,
+                    chunk, api_key=api_key, system=system, transport=transport,
                     usage_sink=lambda usage, model: spend.record(
                         conn, "ca-triage", model, usage, dated=today))
             except Exception as exc:                        # noqa: BLE001
@@ -127,12 +194,18 @@ def judge(conn, items, api_key, today, log=print, budget=None, transport=None):
         half = len(chunk) // 2
         return score_chunk(chunk[:half]) + score_chunk(chunk[half:])
 
+    # One source per slice, so each call carries its own frame; the order
+    # within a source (newest first) is kept.
+    slices = []
+    for table in SOURCES:
+        mine = [it for it in items if it.id.startswith(table + ":")]
+        slices += [mine[i:i + SLICE] for i in range(0, len(mine), SLICE)]
     scored = 0
-    for start in range(0, len(items), SLICE):
+    for done, chunk in enumerate(slices):
         if budget is not None and budget.exhausted():
-            log("  " + budget.disclose("triage slices", start // SLICE))
+            log("  " + budget.disclose("triage slices", done))
             break
-        scored += apply(conn, score_chunk(items[start:start + SLICE]))
+        scored += apply(conn, score_chunk(chunk))
     return scored, gaps[0]
 
 
@@ -142,7 +215,8 @@ def main():
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--limit", type=int, default=LIMIT)
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
-    ap.add_argument("--rescore", nargs="+", metavar="PETITION_ID")
+    ap.add_argument("--rescore", nargs="+", metavar="ID",
+                    help="a petition id, or ca_judgments:<lexum id>")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
     conn = ca_store.ensure_schema(db.init_db(db.connect(args.db)))
@@ -153,7 +227,7 @@ def main():
     items = queued[:args.limit]
     calls = (len(items) + SLICE - 1) // SLICE
     if args.dry_run:
-        print("ca-triage: {0} unscored petition(s) on our ground; this run would judge {1} "
+        print("ca-triage: {0} unscored row(s) on our ground; this run would judge {1} "
               "in about {2} call(s). Nothing sent.".format(len(queued), len(items), calls))
         return 0
     if not items:
@@ -173,10 +247,12 @@ def main():
               "than stub-scored, because scores are written once ever.".format(len(items)))
         return 0
     scored, gaps = judge(conn, items, api_key, today, budget=drain.Budget(args.budget_seconds))
-    dist = dict(conn.execute("SELECT triage_score, COUNT(*) FROM ca_petitions "
-                             "WHERE triage_score IS NOT NULL GROUP BY 1").fetchall())
-    print("ca-triage: {0} of {1} petition(s) scored, {2} gap(s). All scored so far: {3}".format(
-        scored, len(items), gaps, ", ".join("{0}: {1}".format(k, dist[k]) for k in sorted(dist))))
+    for table in SOURCES:
+        dist = dict(conn.execute("SELECT triage_score, COUNT(*) FROM {0} "
+                                 "WHERE triage_score IS NOT NULL GROUP BY 1".format(table)).fetchall())
+        print("  {0} scored so far: {1}".format(
+            table, ", ".join("{0}: {1}".format(k, dist[k]) for k in sorted(dist)) or "none"))
+    print("ca-triage: {0} of {1} row(s) scored, {2} gap(s).".format(scored, len(items), gaps))
     conn.close()
     return 1 if gaps else 0
 

@@ -1,0 +1,63 @@
+{
+ "dados": {
+  "id": "2611313-31",
+  "uri": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+  "data": "2026-09-03",
+  "dataHoraRegistro": "2026-09-03T17:28:34",
+  "siglaOrgao": "PLEN",
+  "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/180",
+  "idOrgao": 180,
+  "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/82965",
+  "idEvento": 82965,
+  "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+  "aprovacao": 1,
+  "descUltimaAberturaVotacao": "Votação em turno único.",
+  "dataHoraUltimaAberturaVotacao": "2026-09-03T17:18:17",
+  "ultimaApresentacaoProposicao": {
+   "dataHoraRegistro": "2026-09-03T17:15:13",
+   "descricao": "Parecer às Emendas de Plenário proferido pelo Relator Dep. Isnaldo Bulhões Jr. (MDB/AL) pela:\r\n• Comissão de Finanças e Tributação, que conclui pela adequação financeira e orçamentária das Emendas de Plenário; e, no mérito, pela aprovação da Emenda nº 1, na forma da Subemenda Substitutiva adotada, e pela rejeição da Emenda nº 2.\r\n• Comissão de Constituição e Justiça e de Cidadania, que conclui pela constitucionalidade, juridicidade e boa técnica legislativa das Emendas de Plenário nºs 1 e 2, e da Subemenda Substitutiva adotada pelo relator da Comissão de Finanças e Tributação.",
+   "uriProposicaoCitada": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2645884"
+  },
+  "efeitosRegistrados": [],
+  "objetosPossiveis": [
+   {
+    "id": 2645883,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2645883",
+    "siglaTipo": "SSP",
+    "codTipo": 509,
+    "numero": 1,
+    "ano": 0,
+    "ementa": "Dispõe sobre regras relativas a benefícios tributários e despesas obrigatórias no exercício de 2026.",
+    "dataApresentacao": "2026-09-03T17:15"
+   },
+   {
+    "id": 2645880,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2645880",
+    "siglaTipo": "PRLE",
+    "codTipo": 1001,
+    "numero": 2,
+    "ano": 0,
+    "ementa": "Dispõe sobre regras relativas a benefícios tributários e despesas obrigatórias no exercício de 2026.",
+    "dataApresentacao": "2026-09-03T17:11"
+   }
+  ],
+  "proposicoesAfetadas": [
+   {
+    "id": 2611313,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2611313",
+    "siglaTipo": "PLP",
+    "codTipo": 140,
+    "numero": 74,
+    "ano": 2026,
+    "ementa": "Dispõe sobre regras relativas a benefícios tributários e despesas obrigatórias no exercício de 2026.",
+    "dataApresentacao": "2026-03-23T17:21"
+   }
+  ]
+ },
+ "links": [
+  {
+   "rel": "self",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31"
+  }
+ ]
+}

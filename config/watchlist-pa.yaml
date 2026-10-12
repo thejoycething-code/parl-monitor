@@ -1,0 +1,22 @@
+# Panama watchlist (9 October 2026), applied by segLegis FICHA, never by title
+# or proyecto number (src/pa_store.watch_areas).
+#
+# The ficha is the integer the Asamblea's tracking system gives every item
+# (https://sistemas.asamblea.gob.pa/segLegis/viewsPublico/SeguimientoLegislativo).
+# Proyecto and anteproyecto numbers restart every five-year term (the current
+# one began on 1 July 2024) and titles repeat, so neither is a key.
+#
+# The Spanish taxonomy, once Christopher approves the term list proposed in
+# docs/panama-scope.md, does most of the work. This file carries only what it
+# cannot: bills whose titles name nothing on our ground but whose content is
+# ours. Format:
+#
+#   bills:
+#     8434: {areas: [9], why: "..."}
+#
+# Empty on purpose. The famous fight, proyecto 61 of the 2014-2019 term (the
+# Crispiano Adames sexuality-education bill, shelved after the 2016 marches),
+# predates segLegis's public list, which starts at July 2024; proyecto 61 of
+# the CURRENT term (ficha 7848) is an unrelated criminal-procedure law. That
+# is exactly why entries are keyed by ficha.
+bills: {}

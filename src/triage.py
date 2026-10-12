@@ -221,8 +221,17 @@ def _parse_reply(reply):
             "the batch needs more room, not a different parser".format(
                 len(text), kinds or "none", reply.get("usage")))
     data = json.loads(_json_body(text))
+    if isinstance(data, dict):
+        data = [data]
+    # 9 October 2026: a reply whose prose held a bracketed list of strings
+    # before the real array gave _json_body that list, and row.get raised
+    # "'str' object has no attribute 'get'". Rows that are not objects are
+    # not scores; an array with none is a malformed reply, said plainly.
+    rows = [r for r in (data if isinstance(data, list) else []) if isinstance(r, dict)]
+    if not rows:
+        raise ValueError("reply held no score objects (got {0})".format(type(data).__name__))
     out = []
-    for row in data:
+    for row in rows:
         kind = (row.get("answer_kind") or "").strip().lower() or None
         if kind not in ANSWER_KINDS:
             kind = None          # an unknown label is no label, never a guess

@@ -71,7 +71,27 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.11 (the same day): the broader same-sex marriage phrases.
         # v1.12 (2 October 2026): two Welsh parental-rights Bills in area 6.
         # v1.13 (3 October 2026): the named person and the Scottish smacking ban.
-        self.assertEqual(version, "1.13")
+        # v1.14 (the same day): the Children and Young People (Scotland) Bill.
+        # v1.15 (the same day): "gender expression", and Quebec's laicity terms.
+        # v1.16 (2 October 2026): "right to withdraw" guarded, and the
+        # [without:] veto for organ-donor leave in labour codes.
+        # v1.17 (9 October 2026): American vocabulary, merged into the areas.
+        # v1.18 (the same day): "human trafficking" vetoed by border-enforcement
+        # company, and the Federal Register's pollutant/pesticide/livestock noise.
+        # v1.19 (the same day): the NDAA amendment wording phase 1b left
+        # unmatched (gender-related medical care, male participation in
+        # female sports, the gender-identity survey).
+        # v1.20 (the same day): the state, Irish and Australian candidates
+        # ("abortions" plural, born alive infant, reproductive freedom,
+        # gender transition for minors, sex-based rights, child abuse
+        # material, online safety, blasphemy, sex for rent, and the rest).
+        # v1.21 (the same day): the three Senate amendment purposes that
+        # matched nothing (home educators, the federal tax-credit scholarships,
+        # overseas family planning), with home school, school choice and
+        # reproductive health services.
+        # v1.22 (12 October 2026): baby loss, pregnancy loss and miscarriage
+        # in area 1, miscarriage vetoed by "miscarriage(s) of justice".
+        self.assertEqual(version, "1.22")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
@@ -101,7 +121,8 @@ class TaxonomySyncTests(unittest.TestCase):
                       areas["6_parental_rights_education"]["tier1"])
         self.assertIn("\"Knowing Our Identity\"",
                       areas["3_gender_medicine_children"]["tier1"])
-        self.assertIn("unborn", areas["1_abortion"]["tier2"])
+        # v1.18: vetoed in livestock company (the Livestock Indemnity Program).
+        self.assertIn("unborn [without: livestock]", areas["1_abortion"]["tier2"])
         # v0.6: area 7 widened to civil liberties, Christopher 2026-08-20.
         seven = areas["7_free_speech_online_safety"]
         self.assertIn("\"pandemic treaty\"", seven["tier1"])
@@ -138,6 +159,83 @@ class TaxonomySyncTests(unittest.TestCase):
         six = areas["6_parental_rights_education"]
         for term in ('"child sexual exploitation"', '"rape gang*"', "CSE"):
             self.assertIn(term, six["tier2"])
+
+
+class WithdrawGuardAndOrganLeaveVetoTests(unittest.TestCase):
+    """v1.16 / qc v0.3 (Christopher, 2 October 2026): "guard both taxonomy
+    terms". The texts are the measured cases from the store and the two
+    provincial Bills, quoted from their official pages."""
+
+    def _areas(self, text, yaml_name="taxonomy.yaml"):
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", yaml_name))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        return filt.filter_item(tax, wl, text, "", "").issue_areas
+
+    def test_quebec_opt_out_is_not_parental_rights(self):
+        self.assertNotIn(6, self._areas(
+            "When the federal proposal clearly includes the right to withdraw "
+            "with full financial compensation, we will vote in favour."))
+
+    def test_strikes_are_not_parental_rights(self):
+        self.assertNotIn(6, self._areas(
+            "the legislation undermines the fundamental rights of workers, most "
+            "notably their right to withdraw their labour"))
+
+    def test_withdrawal_from_religious_observance_still_matches(self):
+        self.assertIn(6, self._areas(
+            "Any regulations for a pupil's right to withdraw from religious "
+            "observance would require significant consultation"))
+
+    def test_parents_right_to_withdraw_still_matches(self):
+        self.assertIn(6, self._areas(
+            "the Member is wrong to say that I'm denying parents the right to withdraw"))
+
+    def test_manitoba_organ_donation_leave_is_employment_law(self):
+        self.assertNotIn(13, self._areas(
+            "for a leave under section 59.2 (compassionate care leave); "
+            "section 59.6 (unpaid leave for organ donation); section 59.8 "
+            "(leave related to critical illness)"))
+
+    def test_newfoundland_organ_donation_leave_is_employment_law(self):
+        self.assertNotIn(13, self._areas(
+            "PART VII.9 LEAVE RELATED TO LONG-TERM ILLNESS, LONG-TERM INJURY AND "
+            "ORGAN DONATION. 43.42 In this Part, \"organ donation\" includes organ "
+            "or tissue removal from an individual for transplant."))
+
+    def test_deemed_consent_still_matches(self):
+        self.assertIn(13, self._areas(
+            "Organ Donation (Deemed Consent) Bill: opt-out organ donation in England"))
+
+    def test_quebec_labour_standards_absence_is_vetoed(self):
+        self.assertNotIn(13, self._areas(
+            "Loi sur les normes du travail : un salarié peut s'absenter du travail "
+            "pour un don d'organes ou de tissus", "taxonomy-qc.yaml"))
+
+    def test_quebec_presumed_consent_still_matches(self):
+        self.assertIn(13, self._areas(
+            "Loi instaurant une présomption de consentement au don d'organes ou "
+            "de tissus après le décès", "taxonomy-qc.yaml"))
+
+
+class WithoutBracketGeneratorTests(unittest.TestCase):
+    def test_without_alone(self):
+        self.assertEqual(generate_taxonomy._split_guarded('"organ donor*" [without: "organ donor leave", "Labour Code"]'),
+                         ('"organ donor*"', [], ['"organ donor leave"', '"Labour Code"']))
+
+    def test_both_brackets(self):
+        self.assertEqual(generate_taxonomy._split_guarded('x [with: a, b] [without: c]'),
+                         ("x", ["a", "b"], ["c"]))
+        self.assertEqual(generate_taxonomy._yaml_term('x [with: a] [without: c]'),
+                         "{term: x, with: [a], without: [c]}")
+
+    def test_with_alone_is_unchanged(self):
+        self.assertEqual(generate_taxonomy._yaml_term('"buffer zone*" [with: clinic*, abortion]'),
+                         '{term: "buffer zone*", with: ["clinic*", abortion]}')
+
+    def test_a_bracket_given_twice_is_refused(self):
+        with self.assertRaises(SystemExit):
+            generate_taxonomy._split_guarded("x [without: a] [without: b]")
 
 
 if __name__ == "__main__":
@@ -178,8 +276,96 @@ class GermanTaxonomyTests(unittest.TestCase):
         for lang, (_m, config) in generate_taxonomy.MASTERS.items():
             with open(config, "r", encoding="utf-8") as handle:
                 loaded[lang] = set((yaml.safe_load(handle).get("areas") or {}))
-        self.assertEqual(loaded["de"], loaded["en"],
-                         "the two taxonomies must describe the same areas")
+        # Every language, not only German (10 October 2026: the country
+        # editions' languages carry the same thirteen keys). A language may
+        # ADD a country-only area (Brazil's gambling and drug
+        # decriminalisation, BR3/BR4), which the next test holds to its
+        # terms being tagged; it may never drop or rename a shared one.
+        for lang, keys in loaded.items():
+            self.assertEqual(keys & loaded["en"], loaded["en"],
+                             "taxonomy-%s must describe the same areas as English" % lang)
+            extra = keys - loaded["en"]
+            self.assertTrue(extra <= COUNTRY_ONLY_AREAS.get(lang, set()),
+                            "taxonomy-%s adds undeclared areas %s" % (lang, sorted(extra)))
+
+    def test_a_country_only_area_matches_for_its_country_alone(self):
+        """BR3/BR4 (10 October 2026): areas 14 and 15 are Brazil's alone.
+        Every term in them carries [only: br], so Portugal, which shares the
+        file, loads both areas empty and matches what it matched before."""
+        import yaml
+        from src import digest, filter as filt
+        for lang, keys in COUNTRY_ONLY_AREAS.items():
+            config = generate_taxonomy.MASTERS[lang][1]
+            with open(config, "r", encoding="utf-8") as handle:
+                areas = yaml.safe_load(handle)["areas"]
+            for key in keys:
+                terms = areas[key]["tier1"] + areas[key]["tier2"]
+                self.assertTrue(terms, key)
+                for t in terms:
+                    self.assertTrue(isinstance(t, dict) and t.get("only"),
+                                    "%s: %r is not country-tagged" % (key, t))
+                num = int(key.split("_", 1)[0])
+                self.assertIn(num, digest.AREA_NAMES, "%s has no display name" % key)
+        path = generate_taxonomy.MASTERS["pt"][1]
+        br, pt = filt.load_taxonomy(path, country="br"), filt.load_taxonomy(path, country="pt")
+        self.assertEqual(pt.terms[14], {1: [], 2: []})
+        self.assertEqual(pt.terms[15], {1: [], 2: []})
+        wl = filt.Watchlist(entities=[], bill_titles=[], act_shorts=[])
+        for text, area in (
+                ("Dispõe sobre a modalidade lotérica denominada apostas de quota fixa", 14),
+                ("Dispõe sobre a exploração de jogos e apostas; jogo do bicho, cassinos e bingos", 14),
+                ("Altera o art. 5º da Constituição Federal (PEC 45/2023), porte de drogas", 15),
+                ("Altera a Lei 11.343 para viabilizar medicamentos de cannabis", 15)):
+            self.assertIn(area, filt.filter_item(br, wl, text).issue_areas, text)
+            self.assertNotIn(area, filt.filter_item(pt, wl, text).issue_areas, text)
+
+
+# Areas a shared language list may carry beyond English's, with every term in
+# them tagged [only: ...]. Brazil's BR3 and BR4 (10 October 2026).
+COUNTRY_ONLY_AREAS = {"pt": {"14_gambling", "15_drug_decriminalisation"}}
+
+
+class QuebecTaxonomyTests(unittest.TestCase):
+    """The Quebec French master generates its own yaml (2 October 2026, for
+    src/ingest/prov_qc.py), with the same areas as English. The behaviour of
+    the terms on real Quebec titles and passages is locked down in
+    tests/test_prov_qc.py (FrenchClassificationTests)."""
+
+    def test_yaml_matches_its_own_master(self):
+        master, config = generate_taxonomy.MASTERS["qc"]
+        with open(config, "r", encoding="utf-8") as handle:
+            on_disk = handle.read()
+        self.assertEqual(
+            on_disk, generate_taxonomy.generate(master, "qc"),
+            "config/taxonomy-qc.yaml is out of sync with its master; run: "
+            "python3 tools/generate_taxonomy.py --lang qc")
+
+    def test_the_header_names_its_own_master_and_command(self):
+        _master, config = generate_taxonomy.MASTERS["qc"]
+        with open(config, "r", encoding="utf-8") as handle:
+            head = "".join(handle.readlines()[:3])
+        self.assertIn("docs/keyword-taxonomy-qc.md", head)
+        self.assertIn("--lang qc", head)
+
+    def test_it_carries_the_same_areas_as_english(self):
+        import yaml
+        loaded = {}
+        for lang in ("en", "qc"):
+            with open(generate_taxonomy.MASTERS[lang][1], "r", encoding="utf-8") as handle:
+                loaded[lang] = set((yaml.safe_load(handle).get("areas") or {}))
+        self.assertEqual(loaded["qc"], loaded["en"])
+
+    def test_every_area_says_how_it_was_measured(self):
+        """A term added without a measurement is a guess: every area's Notes
+        line names the titles or texts its terms were measured on."""
+        master, _config = generate_taxonomy.MASTERS["qc"]
+        with open(master, "r", encoding="utf-8") as handle:
+            _v, areas, _x = generate_taxonomy.parse_master(handle.read())
+        for key, spec in areas.items():
+            self.assertTrue(spec["tier1"], key)
+            note = spec.get("note") or ""
+            self.assertTrue("Measured" in note or "Collated" in note,
+                            "{0} has no measurement note".format(key))
 
 
 class GermanRegressionTests(unittest.TestCase):
@@ -519,8 +705,97 @@ class ScottishParentalRightsTests(unittest.TestCase):
 
     def test_the_holyrood_titles_reach_parental_rights(self):
         for text in ("Named Persons", "the named persons scheme",
-                     "Children (Equal Protection from Assault) (Scotland) Bill"):
+                     "Children (Equal Protection from Assault) (Scotland) Bill",
+                     "Children and Young People (Scotland) Bill"):
             self.assertIn(6, self._areas(text), text)
 
     def test_named_personality_is_not_caught(self):
         self.assertNotIn(6, self._areas("Jamie O'Rourke Named Personality of the Year 2024"))
+
+
+class GenderExpressionEverywhereTests(unittest.TestCase):
+    """v1.15 / de v0.6 / qc v0.2 (Christopher, 3 October 2026): "Add 'gender
+    expression' to the taxonomy, for all parliaments"."""
+
+    def _areas(self, yaml_name, text):
+        from src import filter as filt
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", yaml_name))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        return filt.filter_item(tax, wl, text, "", "").issue_areas
+
+    def test_english(self):
+        self.assertIn(5, self._areas("taxonomy.yaml",
+                      "An Act to amend the Human Rights Code (gender identity and gender expression)"))
+
+    def test_german(self):
+        self.assertIn(5, self._areas("taxonomy-de.yaml", "Schutz des Geschlechtsausdrucks im Grundgesetz"))
+
+    def test_quebec_french(self):
+        self.assertIn(5, self._areas("taxonomy-qc.yaml",
+                      "Loi visant à protéger l'identité ou l'expression de genre"))
+
+    def test_quebec_laicity_in_english(self):
+        self.assertIn(8, self._areas("taxonomy.yaml", "An Act respecting the laicity of the State"))
+
+
+
+class EveryLanguageInSyncTests(unittest.TestCase):
+    """Every language master present on disk generates exactly its yaml
+    (10 October 2026: the country editions' languages joined en/de/qc)."""
+
+    def test_every_master_in_sync(self):
+        for lang, (master, config) in sorted(generate_taxonomy.MASTERS.items()):
+            if not os.path.exists(master):
+                continue
+            with self.subTest(lang=lang):
+                with open(config, "r", encoding="utf-8") as handle:
+                    self.assertEqual(handle.read(), generate_taxonomy.generate(master, lang),
+                                     "regenerate: python3 tools/generate_taxonomy.py --lang " + lang)
+
+
+class CountryTagAndAddendumTests(unittest.TestCase):
+    def test_only_tag_round_trips(self):
+        self.assertEqual(generate_taxonomy._yaml_term('"Ley 4/2023" [only: ES, ar]'),
+                         '{term: "Ley 4/2023", only: [es, ar]}')
+        self.assertEqual(generate_taxonomy._yaml_term('registo* [with: civil] [only: pt]'),
+                         '{term: "registo*", with: [civil], only: [pt]}')
+
+    def test_addendum_appends_without_touching_the_base(self):
+        base = ("0.3", {"1_abortion": {"name": None, "note": "b", "tier1": ["avortement*"], "tier2": []},
+                        "2_assisted_dying": {"name": None, "note": None, "tier1": ["euthanasie"], "tier2": []}},
+                ["genre"])
+        add = ("0.1", {"1_abortion": {"name": None, "note": "fr", "tier1": ["avortement*", "\"délit d'entrave\""],
+                                      "tier2": []}}, ["sexe"])
+        version, areas, excl = generate_taxonomy._merge_addendum(base, add)
+        self.assertEqual(version, "0.1")
+        self.assertEqual(areas["1_abortion"]["tier1"], ["avortement*", "\"délit d'entrave\""])
+        self.assertEqual(areas["2_assisted_dying"]["tier1"], ["euthanasie"])
+        self.assertEqual(excl, ["genre", "sexe"])
+        self.assertEqual(base[1]["1_abortion"]["tier1"], ["avortement*"])
+
+    def test_an_addendum_area_may_replace_a_base_term(self):
+        # 11 October 2026: Switzerland's guard on Quebec's bare "IVG".
+        base = ("0.3", {"1_abortion": {"name": None, "note": None, "tier1": ["avortement*", "IVG"],
+                                       "tier2": ["IVG [with: x]"]}}, ["genre"])
+        add = ("0.1", {"1_abortion": {"name": None, "note": None, "replaces": ["IVG"],
+                                      "tier1": ["IVG [only: fr, be]", "IVG [with: grossesse*] [only: ch]"],
+                                      "tier2": []}}, ["sexe"])
+        _v, areas, _e = generate_taxonomy._merge_addendum(base, add)
+        self.assertEqual(areas["1_abortion"]["tier1"],
+                         ["avortement*", "IVG [only: fr, be]", "IVG [with: grossesse*] [only: ch]"])
+        self.assertEqual(areas["1_abortion"]["tier2"], [])
+        self.assertEqual(base[1]["1_abortion"]["tier1"], ["avortement*", "IVG"])
+
+    def test_replacing_a_term_the_base_lacks_is_refused(self):
+        base = ("0.3", {"1_abortion": {"name": None, "note": None, "tier1": ["avortement*"],
+                                       "tier2": []}}, ["genre"])
+        add = ("0.1", {"1_abortion": {"name": None, "note": None, "replaces": ["IVG"],
+                                      "tier1": [], "tier2": []}}, [])
+        with self.assertRaises(SystemExit):
+            generate_taxonomy._merge_addendum(base, add)
+
+    def test_replaces_is_parsed_from_the_master(self):
+        text = ("**Version 0.1 | x**\n\n### 1. Abortion {#1_abortion}\n\n- **Replaces:** IVG; FIV\n"
+                "- **Tier 1:** IVG [only: fr]\n\n## Global exclusions\n\n- **Terms:** vida\n")
+        _v, areas, _e = generate_taxonomy.parse_master(text)
+        self.assertEqual(areas["1_abortion"]["replaces"], ["IVG", "FIV"])

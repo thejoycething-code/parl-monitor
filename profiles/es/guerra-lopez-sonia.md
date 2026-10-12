@@ -1,0 +1,58 @@
+# Guerra López, Sonia
+
+Spain, Congreso de los Diputados. From the parliamentary monitor's store; positions are as the record gives them, never a verdict. Index: [Spain members](index.md).
+
+- **Party:** Grupo Parlamentario Socialista; latest seen in the member list
+- **Constituency or region:** Barcelona
+- **Electoral list:** PSC-PSOE
+- **Status:** not on the source's current list
+- **Source id:** `Guerra López, Sonia`
+
+## Length of service
+
+- **Last period ended:** 27 August 2024
+- **Periods:** 2 August 2023 to 27 August 2024 (Congreso de los Diputados; legislature 15; Grupo Parlamentario Socialista); 3 February 2020 to 30 May 2023 (Congreso de los Diputados; legislature 14; Grupo Parlamentario Socialista); 9 May 2019 to 24 September 2019 (Congreso de los Diputados; legislature 13; Grupo Parlamentario Socialista)
+- **What the source covers:** every seat in the Congreso since the Constituent legislature (1977). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: Grupo Parlamentario Socialista (23 May 2019 to 24 September 2019); Grupo Parlamentario Socialista (4 February 2020 to 30 May 2023); Grupo Parlamentario Socialista (28 August 2023 to 27 August 2024).
+
+## Party history
+
+- Recorded at votes in the store: GS (first 19 September 2023, last 23 July 2024).
+
+## Votes on our ground (25)
+
+Recorded positions (25): “Abstención” 15, “Sí” 8, “No” 2.
+By area (every vote): sex-based rights: “Sí” 1; parental rights and education: “Abstención” 15; free speech and civil liberties: “Sí” 2; marriage and family: “Sí” 3; prostitution and trafficking: “No” 2, “Sí” 1; organ donation: “Sí” 1.
+
+The latest 20:
+
+| Date | Position | Party at the vote | Vote | Areas |
+|---|---|---|---|---|
+| 25 Jun 2024 | No | GS (at the vote) | [Proposición de Ley del Grupo Parlamentario Popular en el Congreso, Orgánica de modificación de la Ley Orgánica 6/1985, de 1 de julio, del P…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=25/06/2024) | prostitution and trafficking, tier 2 |
+| 20 Jun 2024 | Sí | GS (at the vote) | [Proposición no de Ley del Grupo Parlamentario Socialista, sobre un Acuerdo de País contra los Discursos de Odio.](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=20/06/2024) · their vote meant: to adopt the Socialist group's non-binding motion calling for a national agreement against hate speech (read by the free session judge) | free speech and civil liberties, tier 1 |
+| 20 Jun 2024 | Sí | GS (at the vote) | [Real Decreto-ley 2/2024, de 21 de mayo, por el que se adoptan medidas urgentes para la simplificación y mejora del nivel asistencial de la…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=20/06/2024) | marriage and family, tier 2 |
+| 20 Jun 2024 | Sí | GS (at the vote) | [Tramitación como Proyecto de Ley por el procedimiento de urgencia del Real Decreto-ley 2/2024, de 21 de mayo, por el que se adoptan medidas…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=20/06/2024) | marriage and family, tier 2 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 1. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los meno…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 2. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los meno…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 3. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los meno…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 4. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los meno…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 5. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los meno…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 6. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los meno…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 7. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los meno…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 8. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los meno…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 9. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los meno…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 10. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los men…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 11. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los men…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 12. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los men…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 13. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los men…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 14. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los men…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 13 Jun 2024 | Abstención | GS (at the vote) | [Votación separada por puntos. Punto 15. Proposición no de Ley del Grupo Parlamentario Popular en el Congreso, para la protección de los men…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=13/06/2024) | parental rights and education, tier 1 |
+| 28 May 2024 | Sí | GS (at the vote) | [Proposición de Ley del Grupo Parlamentario Socialista, para la mejora de la protección de las personas donantes en vivo de órganos para su…](https://www.congreso.es/es/opendata/votaciones?p_p_id=votaciones&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&targetLegislatura=XV&targetDate=28/05/2024) | organ donation, tier 2 |
+
+5 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Notes
+
+- Party: The parliamentary group the vote file names at each vote.
+- How these profiles are built, and what they never say: [the index's notes](index.md#notes).

@@ -31,6 +31,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this first, Fridays 07:00 London (tools/mini_run.sh sp-weekly;
+  # 9 October 2026). Every cron here is the backup: skipped while the Mini
+  # runs it and for 20 hours after.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: SP_WEEKLY
+      cover-hours: 20
+
   # THE SECOND SLOT IS A RETRY, NOT A SECOND PASS (22 September 2026).
   # Both slots existed so a dropped or drifted cron still gets the week done,
   # but nothing stopped the second one repeating the whole job: measured over
@@ -45,6 +54,8 @@ jobs:
   # would otherwise queue behind the first on the state group and run anyway.
   # A hand dispatch is never gated.
   gate:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
@@ -141,6 +152,14 @@ jobs:
         # not published state. Offline, no API calls; a sheet that places
         # nobody is deleted and the run says so.
         run: python3 tools/devolved_5ca.py --nation scotland | tee /tmp/sp-5ca.log
+      - name: Rebuild the MSP votes page with each member's record
+        if: always()
+        # Member profiles on our ground (Christopher, 2026-10-09: parity
+        # with Westminster): divisions with the signed 5CA reading, questions,
+        # motions, speeches and 5CA placement per area, offline from the store
+        # this run just refreshed (src/devolved_intel.py). Deployed with the
+        # partner site; committed below so the deploy finds it.
+        run: python3 tools/make_msp_votes.py | tee /tmp/sp-profiles.log
       - name: Health summary
         # Gap lines lifted into the run summary so the Actions page answers
         # "did this week work" at a glance -- same reasoning as ni-weekly.
@@ -186,15 +205,27 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "bot@parl-monitor.invalid"
-          git add data/parl-monitor.db.json data/raw.json
+          git add data/parl-monitor.db.json data/raw.json partner_site/msp-votes.html docs/msp-votes.html
           git diff --cached --quiet || git commit -m "Holyrood weekly refresh $(date -u +%F)"
           # Retry: the rebase closes most of the race, but a push can
           # still lose one, and the store was ALREADY published above --
           # so a lost push leaves the release ahead of the repo and the
           # next run refuses the store. 2026-08-28.
-          for attempt in 1 2 3; do
-            git pull --rebase --autostash origin main || true
-            git push origin main && break
-            echo "push rejected (attempt $attempt); retrying"
-            sleep $((attempt * 5))
+          # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
+          # jittered waits, and never retry while stuck mid-rebase.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin main; then
+              git push origin main && break
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            echo "push not landed (attempt $attempt); retrying"
+            sleep $(( attempt * 10 + RANDOM % 10 ))
           done
+          # A loop that falls out without a successful push must FAIL the step,
+          # or main keeps pointing at an old sidecar (the 6 September cascade).
+          git fetch -q origin main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "the sidecar commit never reached origin"; exit 1
+          fi

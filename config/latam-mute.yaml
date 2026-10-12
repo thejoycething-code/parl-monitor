@@ -1,0 +1,15 @@
+# Chris's mute list for the Latam monitor: items he has read and does not
+# want again. Hand-edited, read by src/latam_noise.py. The instant alerts
+# (tools/latam_alerts.py) always honour it; the monthly edition does too
+# while `mute_in_edition` is true. A watched item is muted only by its key.
+#
+# items:     alert keys as the alert log prints them, "cc|kind|key"
+#            (e.g. "hn|press|press-6abfe174f02476394aff4ad2"), or "cc|key"
+#            for every kind of one item.
+# patterns:  {title: regex, cc: code, kind: kind}; cc and kind optional.
+#            The title is folded as the taxonomy folds it: lower case, no
+#            accents (e.g. {cc: hn, title: 'restauracion de templos'}).
+
+mute_in_edition: true
+items: []
+patterns: []

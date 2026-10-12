@@ -1,0 +1,63 @@
+{
+ "table": {
+  "rows": [
+   {
+    "ID": "546",
+    "BLOQUE": "UCR - UNIÓN CÍVICA RADICAL",
+    "APELLIDO": "ABAD",
+    "NOMBRE": "MAXIMILIANO",
+    "PROVINCIA": "BUENOS AIRES",
+    "PARTIDO O ALIANZA": "JUNTOS POR EL CAMBIO",
+    "D_LEGAL": "2023-12-10",
+    "C_LEGAL": "2029-12-09",
+    "D_REAL": "2023-12-10",
+    "C_REAL": "Sin Datos",
+    "EMAIL": "maximiliano.abad@senado.gob.ar",
+    "TELEFONO": "1045 / 1046",
+    "FOTO": "https://www.senado.gob.ar/bundles/senadosenadores/images/fsena/546.gif",
+    "FACEBOOK": "https://www.facebook.com/maxiabad?mibextid=9R9pXO",
+    "TWITTER": "https://x.com/maxiabad?s=11",
+    "INSTAGRAM": "https://www.instagram.com/maxi.abad?igsh=MXc2YzF3YWduc3hneA==",
+    "YOUTUBE": ""
+   },
+   {
+    "ID": "564",
+    "BLOQUE": "LA LIBERTAD AVANZA",
+    "APELLIDO": "ABDALA",
+    "NOMBRE": "BARTOLOMÉ ESTEBAN",
+    "PROVINCIA": "SAN LUIS",
+    "PARTIDO O ALIANZA": "ALIANZA LA LIBERTAD AVANZA",
+    "D_LEGAL": "2023-12-10",
+    "C_LEGAL": "2029-12-09",
+    "D_REAL": "2023-12-10",
+    "C_REAL": "Sin Datos",
+    "EMAIL": "bartolome.abdala@senado.gob.ar",
+    "TELEFONO": "1501 / 1503",
+    "FOTO": "https://www.senado.gob.ar/bundles/senadosenadores/images/fsena/564.gif",
+    "FACEBOOK": "",
+    "TWITTER": "",
+    "INSTAGRAM": "",
+    "YOUTUBE": ""
+   },
+   {
+    "ID": "583",
+    "BLOQUE": "LA LIBERTAD AVANZA",
+    "APELLIDO": "ALMEIDA",
+    "NOMBRE": "ROMINA MARÍA",
+    "PROVINCIA": "ENTRE RÍOS",
+    "PARTIDO O ALIANZA": "ALIANZA LA LIBERTAD AVANZA",
+    "D_LEGAL": "2025-12-10",
+    "C_LEGAL": "2031-12-09",
+    "D_REAL": "2025-12-10",
+    "C_REAL": "Sin Datos",
+    "EMAIL": "romina.almeida@senado.gob.ar",
+    "TELEFONO": "3522 / 3523",
+    "FOTO": "https://www.senado.gob.ar/bundles/senadosenadores/images/fsena/583.gif",
+    "FACEBOOK": "",
+    "TWITTER": "",
+    "INSTAGRAM": "",
+    "YOUTUBE": ""
+   }
+  ]
+ }
+}

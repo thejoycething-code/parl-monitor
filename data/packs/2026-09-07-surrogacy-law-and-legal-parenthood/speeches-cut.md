@@ -6,3 +6,4 @@ clips/final/speech-*.mp4 (subtitled) and *-clean.mp4 (no burn), with a .srt each
 Recording Unit terms apply.
 
 * Shivani Raja, 16:55:00: 196 s (456 Hansard words); anchors matched 0.70 / 0.88; clips/final/speech-01-shivani-raja-165500.mp4
+* Jonathan Hinder, 17:22:00: 242 s (604 Hansard words); anchors matched 0.64 / 0.73; clips/final/speech-05-jonathan-hinder-172200.mp4

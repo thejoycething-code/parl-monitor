@@ -1,0 +1,373 @@
+{
+ "dados": [
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "Solidaried",
+   "uriBancada": "",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "Fdr PSOL-REDE",
+   "uriBancada": "",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "PL",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/37906",
+   "orientacao": "Liberado"
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "Oposição",
+   "uriBancada": "",
+   "orientacao": "Liberado"
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "Minoria",
+   "uriBancada": "",
+   "orientacao": "Liberado"
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "Missão",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/38011",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "Novo",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/37901",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "PDT",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/36786",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "Governo",
+   "uriBancada": "",
+   "orientacao": "Sim"
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "PSB",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/36832",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "Maioria",
+   "uriBancada": "",
+   "orientacao": "Sim"
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "Fdr PT-PCdoB-PV",
+   "uriBancada": "",
+   "orientacao": "Sim"
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "Avante",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/36898",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "Bl UniPpPsd...",
+   "uriBancada": "",
+   "orientacao": "Sim"
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "siglaBancada": "PRD",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/38010",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "Avante",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/36898",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "Fdr PSOL-REDE",
+   "uriBancada": "",
+   "orientacao": "Sim"
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "Missão",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/38011",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "Governo",
+   "uriBancada": "",
+   "orientacao": "Sim"
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "Bl UniPpPsd...",
+   "uriBancada": "",
+   "orientacao": "Liberado"
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "Novo",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/37901",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "Solidaried",
+   "uriBancada": "",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "Maioria",
+   "uriBancada": "",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "PDT",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/36786",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "Minoria",
+   "uriBancada": "",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "PRD",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/38010",
+   "orientacao": ""
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "PSB",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/36832",
+   "orientacao": "Sim"
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "PL",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/37906",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "Oposição",
+   "uriBancada": "",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "siglaOrgao": "PLEN",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "siglaBancada": "Fdr PT-PCdoB-PV",
+   "uriBancada": "",
+   "orientacao": "Sim"
+  },
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "siglaOrgao": "CCJC",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "siglaBancada": "Minoria",
+   "uriBancada": "",
+   "orientacao": "Sim"
+  },
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "siglaOrgao": "CCJC",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "siglaBancada": "UNIÃO",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/38009",
+   "orientacao": "Sim"
+  },
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "siglaOrgao": "CCJC",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "siglaBancada": "PL",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/37906",
+   "orientacao": "Sim"
+  },
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "siglaOrgao": "CCJC",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "siglaBancada": "Fdr PSOL-REDE",
+   "uriBancada": "",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "siglaOrgao": "CCJC",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "siglaBancada": "Maioria",
+   "uriBancada": "",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "siglaOrgao": "CCJC",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "siglaBancada": "Fdr PT-PCdoB-PV",
+   "uriBancada": "",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "siglaOrgao": "CCJC",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "siglaBancada": "PSB",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/36832",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "siglaOrgao": "CCJC",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "siglaBancada": "PRD",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/38010",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "siglaOrgao": "CCJC",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "siglaBancada": "Governo",
+   "uriBancada": "",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "siglaOrgao": "CCJC",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "siglaBancada": "PSD",
+   "uriBancada": "https://dadosabertos.camara.leg.br/api/v2/partidos/36834",
+   "orientacao": "Não"
+  },
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "siglaOrgao": "CCJC",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "siglaBancada": "Oposição",
+   "uriBancada": "",
+   "orientacao": "Sim"
+  }
+ ]
+}

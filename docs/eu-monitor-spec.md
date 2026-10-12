@@ -388,3 +388,51 @@ alert. It is deliberately NOT in `PIPELINE_FEEDS`: that drives the clobber
 check, and the EP's weeks of recess would age its feeds legitimately and raise
 a false alarm every time. The nightly heartbeat is the honest signal, because
 the sweep runs and stamps one even when nothing sat.
+
+
+## Drafted readings and the absence record (9 October 2026)
+
+Christopher: "raise EU 5CA sign-off coverage". Two of the gaps in "Where the
+EU still differs" move.
+
+**1. Sign-off coverage: drafted, not signed.** The backlog had grown from 121
+divisions to 908 matched, 478 of them shown by the judge. Every shown division
+outside the excluded areas (migration, organ donation) that lacked a reading,
+393 roll calls over 20 reports, now carries a DRAFT in
+`config/eu_divisions.yaml` (`draft: true`, `signed_off: false`), written from
+the store and the adopted texts read in full. 30 propose a side (27 of them
+against: the gender-health report's abortion, SRHR, sexuality-education and
+gender-identity lines, the care report's abortion lines, the global health
+SRHR text; favour on two Nigeria genocide-wording splits and the Pakistan
+blasphemy-law paragraph); 162 are evidence only (53 electronic votes with no
+name lists, near-unanimous votes, split parts without the contested words,
+words not on our ground, the migration report); 201 propose nothing, almost
+all because a plenary amendment's words are not in the store. The Islamist
+entryism resolution (102 roll calls) is left to Christopher whole: free
+speech and freedom of religion pull both ways in it.
+
+Nothing unsigned places an MEP: every consumer reads `signed_off`. The guide is
+`docs/5ca-eu-readings.md` (`src/eureadings.py`, the mapping-file counterpart of
+`src/readings5ca.py`); tick, then `python3 tools/make_eu_5ca.py
+--sign-from-doc`. A tick on a draft with no side is refused.
+
+**4. Absence record: built.** `make_eu_5ca.py` caps ++ at + for an MEP who cast
+a vote on the sitting day of the latest signed division but cast no favour or
+against on it (missed it, or abstained), the Westminster and US rule. The EP
+records no reason for absence, so an MEP away the whole day is not capped.
+Every signed EU reading counts as decisive: the file has no weaker scale. On
+the store of 9 October it caps 4 MEPs.
+
+Preview on a scratch copy of that store (12 signed now; 42 if every draft with
+a side were signed as drafted):
+
+| | ++ | + | 0 | - | -- |
+|---|---|---|---|---|---|
+| now | 70 | 10 | 30 | 598 | 37 |
+| all drafts signed | 56 | 2 | 29 | 627 | 31 |
+
+The second row shows the measure's limit, not the readings': the EU grid is
+tally-based, so a single vote against us anywhere makes an MEP "-". With more
+signed readings almost everyone has one. Westminster's sheet places on the
+strongest act and flags conflicts instead; the EU grid should move to
+`readings5ca.place()` before the backlog is signed in bulk.

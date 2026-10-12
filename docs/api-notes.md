@@ -1529,3 +1529,111 @@ Proof: w/c 2026-07-20 now renders the two Immigration and Asylum Bill
 divisions (reasoned amendment lost 97-358, second reading carried 264-90),
 EDM 603 on the Amnesty anti-rights report, and a Written Statement on Tying
 the Knot -- a live campaign of ours that would have gone unmentioned.
+
+## HUDOC refuses GitHub Actions (8 October 2026)
+
+The EU weekly catch-up run (37828564972) got `HTTP Error 403: Forbidden` on all
+11 HUDOC searches in tools/eu_courts.py; the same query, from the Mac Mini on
+a home connection, answers 200 with results. The 26 September run had no HUDOC
+gaps, so the block is new and looks like the runner IP range (as the Senedd
+WAF, see the Senedd notes). Each refusal is recorded as a gap, so nothing is
+lost silently. Next check: the 10 October Saturday slots. If it holds, the
+choices are a local harvest from the Mini or dropping the source.
+BUILT the same evening (Christopher: "Run the HUDOC search from the Mini"): the Mini
+relays the searches through data/hudoc-relay/ daily, and tools/eu_courts.py reads the
+relay when refused, live first (docs/mac-mini.md).
+CAUSE FOUND, same evening: the 403 is a Cloudflare bot CHALLENGE on the JSON API
+(`cf-mitigated: challenge`), and our Python client gets it from the Mini too (curl does
+not; switching client to dodge a bot check was ruled out). HUDOC's own RSS search feed,
+`/app/transform/rss?library=echreng&query=...`, answers our client with the same query
+grammar but no conclusion text. Order now: JSON API, RSS feed, Mini relay. The 10 Oct
+EU weekly shows whether the RSS feed also answers GitHub Actions.
+
+## Devolved division publication times (9 October 2026)
+
+Measured for the devolved watch (tools/devolved_brief.py), probing live on Friday 9 October at 21:30.
+
+* **Holyrood** `votesmotion?year=N` rows carry `UpdatedElasticDate`, a per-row publication stamp. Rows of the old Parliament were all re-stamped in bulk (8 April and 30 July 2026), so only the new Parliament's 27 sitting days (21 May to 8 October) measure anything. Same evening on 17: 16:08-18:00 UTC, i.e. 17:08-19:00 London, after Decision Time at about 17:00 (the latest: 23 June, 18:00 UTC). Next morning on 7: 08:10-11:22 UTC (09:10-12:22 London). Two to six days late on 3 (8 Sept published the 10th; 10 Sept the 16th; 11 June the 16th). `Time.Start` is the start of the business slot, not the decision.
+* **Holyrood motion text.** The motions dump (`/api/Motionsquestionsanswersmotions`, 85,494 rows, 37 seconds) is current to the hour: the amendments lodged on 7 October for the 8 October debate were in it. No per-id motion endpoint exists (`/Motionsquestionsanswersmotions/<id>`, `/motions/<id>` and `?id=` all 404). The public motion page answers for a base motion (`/chamber-and-committees/votes-and-motions/S7M-01517`) and lists its amendments with results but not their text; an AMENDMENT's own page (`.../S7M-01517.3`) returns a MirrorWeb "Verifying your browser" bot check, which we do not get past.
+* **Senedd** XMLExport carries no publication stamp: neither the index (`MeetingDate` is the sitting's start, 13:30) nor the Votes XML, and the download answers a HEAD with a 302. The 6 and 7 October sittings' votes were present by the Friday.
+* **Assembly** `GetVotesOnDivision_JSON` carries the division's own time (`DivisionDate`, to the second: 21:40 on 28 September, the latest of the session so far) and no publication stamp. `GetDivisionResult_JSON` gives the untruncated title, the outcome as announced, and tallies by designation (501653: 70 ayes = 29 Nationalist + 26 Unionist + 15 Other). The 5 and 6 October divisions and that week's Hansard were all present by the Friday. The list's `endDate` is EXCLUSIVE of a division later in the day: 28 September to 28 September omitted the 21:40 division.
+* Every brief records when the watch first saw its division ("First seen by the devolved watch ..."), so the Senedd's and the Assembly's lag measures itself from the first sitting week; tighten the slots from those stamps.
+
+## Later phases, set A: what the sources did (10 October 2026)
+
+Probed live from the laptop through `src/http.py` on 10 October 2026.
+
+* **dati.camera.it/sparql (IT2)** answered every query in about 0.3 s (it
+  was down for two hours on 9 October). Its web firewall answers a query
+  holding both `&&` and `<` with an HTML "Request Rejected" page (HTTP 200):
+  a date range must be two `FILTER`s. Votes key exactly as Openpolis's
+  (`vs19_723_001`); a vote's `dc:description` then `dc:title` give
+  Openpolis's title. Positions are `ocd:voto` records with the deputy's
+  Camera ID and `dc:type` ("Favorevole", "Contrario", "Astensione", "Non ha
+  votato", "Ha votato" on a secret ballot); "Non ha votato" covers both the
+  absent and those on mission, which Openpolis tells apart. The Camera's
+  names are the names in use ("CUPERLO GIANNI"), Openpolis's the registry
+  names ("Giovanni Cuperlo"): 379 of 399 matched whole, all 399 with the
+  surname within the group.
+* **data.senat.fr Dosleg (FR5)**: the scope's "lost apostrophes"
+  ("lensemble", "lannee") are U+0092 characters a terminal does not show:
+  923 titles carry U+0092, 38 U+009C, 30 U+0096, and none has truly lost
+  its apostrophe. `scr` has no outcome word (`soslib` and `scrbaspag` are
+  NULL on all 696 recent scrutins). 11 scrutins of the 2024-25 session have
+  positions in `votsen` (3,821) but no row in `scr`. The Senate's
+  `loi.url_an` names the Assemblee's path slug (`fin_de_vie_17e.asp`) more
+  often than its uid. The dump's Last-Modified was 9 October 01:47 UTC on
+  10 October at 00:31: it is not regenerated every night.
+* **eerstekamer.nl (NL4)**: robots.txt disallows only search, print, sort,
+  comment and doubled start parameters. "Stemmingen per vergaderdag" pages
+  25 votes at a time (`start_006=<n>&dlastinprev=<date>`), 46 pages back to
+  June 2023, 0.7 to 1 s each. Methods printed: "Stemming bij zitten en
+  opstaan", "Hoofdelijke stemming", "Hamerstuk", "Algemene stemmen",
+  "Zonder stemmen"; a result "staken" (a tie) once.
+* **ws.parlament.ch (CH6)**: the Italian Business records exist for 6,739
+  of the 52nd legislature's 10,178 businesses; 3,416 of the 3,564
+  Fragestunde questions have none (published in the language asked).
+* **nrsr.sk print pages (SK6)**: `sid=zakony/cpt&ZakZborID=13&CisObdobia=9&ID=<tlač>`
+  lists the documents, keyed by term and print number, so no ID mapping is
+  needed (its all-documents ZIP link carries `MasterId=10308` for tlač 418,
+  the open data's `id`; the legislative-process page's MasterID is another
+  number, as the scope found). The page took 2 to
+  270 seconds; `Dynamic/Download.aspx?DocID=<n>` serves the .docx or PDF in
+  under a second. 25 prints' documents took 281 seconds (about 11 a print).
+  No robots.txt (404).
+
+* **asamblea.gob.sv vote list (11 October 2026)**: the Mini's
+  `sesion-plenaria/votaciones-ajax?...&length=500` failed four times on 11
+  October while the site root answered 200. Probed from the laptop that
+  afternoon through src/http.py (honest UA; robots.txt disallows only Drupal's
+  admin and user paths): the Votaciones page's own script is unchanged (GET,
+  DataTables `serverSide`, no CSRF token or extra header, default page size
+  10), and 10, 100 and 500 rows all answered (1, 1 and 6 s; still 6,710 votes).
+  No challenge was seen. The collector now asks again at 100 rows (the
+  page's largest length) when a 500-row page fails, and a list that answers
+  neither is a gap: the run stops cleanly and publishes (tools/sv_rollcalls.py).
+
+## The store as a gzipped release asset (11 October 2026)
+
+GitHub caps each release asset at 2 GiB. The store was 1.76 GB on 11 October
+(sqlite dbstat), up from about 1.0 GB on 9 October, so `tools/db_state.py`
+now publishes `parl-monitor.db.gz` instead of the raw `parl-monitor.db`.
+
+* **Level 4, stdlib gzip, streamed.** On the 963 MB store of 9 October:
+  level 1 3.6x in 6 s, level 3 3.8x in 8 s, level 4 4.0x in 8 s, level 6
+  4.3x in 17 s. On a generated 1.9 GB store of high-entropy text: level 1
+  2.5x in 14 s, level 4 2.85x in 24 s, level 6 2.9x in 103 s. Decompressing
+  and hashing takes about 2 s a GB at any level.
+* **The sidecar keeps the uncompressed sha256 and bytes**, which is what a
+  pull verifies after decompressing and what the lineage guard compares, so a
+  sidecar written by either version means the same store. `gz_sha256` is the
+  asset's own digest: GitHub's `digest` on the asset equals it, and the
+  live-asset check, the push's upload check and `tools/merge_sidecar.py`
+  read it.
+* **Both assets exist only during the switch.** Where they do, the newer by
+  `created_at` is the live one (a rename keeps `created_at`).
+* **Still to come:** past 0.75 GB compressed every push warns "plan the
+  split", past 1.0 GiB "split now" (12 October 2026; until then 1.6 GB
+  uncompressed and 1.5 GB compressed). Gzip buys roughly 4x on today's data, but the store doubled in
+  three days of backfills; the lasting fix is splitting it into several
+  assets (one per region, say), each under the limit.

@@ -1,0 +1,84 @@
+{
+ "dados": [
+  {
+   "idVotacao": "2334926-27",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2334926-27",
+   "data": "2026-02-24",
+   "descricao": "Rejeitado o Requerimento de Retirada de Pauta. Resultado:  18 votos \"Sim\", 19 votos \"Não\". Quórum de votação: 37 votos.",
+   "proposicao_": {
+    "id": 2334926,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2334926",
+    "titulo": "PL 2410/2022",
+    "ementa": "Acrescenta parágrafo ao art. 927 da Lei no 10.406, de 10 de janeiro de 2002, que institui o Código Civil, para dispor sobre danos à imagem.",
+    "codTipo": 139,
+    "siglaTipo": "PL",
+    "numero": 2410,
+    "ano": 2022
+   }
+  },
+  {
+   "idVotacao": "2611313-31",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-31",
+   "data": "2026-09-03",
+   "descricao": "Aprovada a Subemenda Substitutiva ao Projeto de Lei Complementar nº 74, de 2026, adotada pelo relator da Comissão de Finanças e Tributação. Sim: 346; Não: 46; Abstenção: 3; Total: 395.",
+   "proposicao_": {
+    "id": 2611313,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2611313",
+    "titulo": "PLP 74/2026",
+    "ementa": "Dispõe sobre regras relativas a benefícios tributários e despesas obrigatórias no exercício de 2026.",
+    "codTipo": 140,
+    "siglaTipo": "PLP",
+    "numero": 74,
+    "ano": 2026
+   }
+  },
+  {
+   "idVotacao": "2611313-34",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2611313-34",
+   "data": "2026-09-03",
+   "descricao": "Aprovada a Redação Final assinada pelo relator, Dep. Isnaldo Bulhões Jr. (MDB/AL).",
+   "proposicao_": {
+    "id": 2611313,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2611313",
+    "titulo": "PLP 74/2026",
+    "ementa": "Dispõe sobre regras relativas a benefícios tributários e despesas obrigatórias no exercício de 2026.",
+    "codTipo": 140,
+    "siglaTipo": "PLP",
+    "numero": 74,
+    "ano": 2026
+   }
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "data": "2026-07-01",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "proposicao_": {
+    "id": 2612930,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2612930",
+    "titulo": "PL 896/2023",
+    "ementa": "Altera a Lei nº 7.716, de 5 de janeiro de 1989, e o Decreto-Lei nº 2.848, de 7 de dezembro de 1940 (Código Penal), para dispor sobre crimes praticados em razão de misoginia.",
+    "codTipo": 139,
+    "siglaTipo": "PL",
+    "numero": 896,
+    "ano": 2023
+   }
+  },
+  {
+   "idVotacao": "2636281-8",
+   "uriVotacao": "https://dadosabertos.camara.leg.br/api/v2/votacoes/2636281-8",
+   "data": "2026-07-01",
+   "descricao": "Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.",
+   "proposicao_": {
+    "id": 2636281,
+    "uri": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2636281",
+    "titulo": "REQ 3690/2026",
+    "ementa": "Requeiro a Vossa Excelência, com base no art. 155, do Regimento Interno da Câmara dos Deputados, regime de urgência para apreciação do Projeto de Lei nº 896/2023, que Altera a Lei nº 7.716, de 5 de janeiro de 1989, e o Decreto-Lei nº 2.848, de 7 de dezembro de 1940 (Código Penal), para dispor sobre crimes praticados em razão de misoginia.",
+    "codTipo": 392,
+    "siglaTipo": "REQ",
+    "numero": 3690,
+    "ano": 2026
+   }
+  }
+ ]
+}

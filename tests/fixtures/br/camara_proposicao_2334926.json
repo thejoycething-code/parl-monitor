@@ -1,0 +1,46 @@
+{
+ "dados": {
+  "id": 2334926,
+  "uri": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2334926",
+  "siglaTipo": "PL",
+  "codTipo": 139,
+  "numero": 2410,
+  "ano": 2022,
+  "ementa": "Acrescenta parágrafo ao art. 927 da Lei no 10.406, de 10 de janeiro de 2002, que institui o Código Civil, para dispor sobre danos à imagem.",
+  "dataApresentacao": "2022-09-02T18:57",
+  "uriOrgaoNumerador": "https://dadosabertos.camara.leg.br/api/v2/orgaos/2003",
+  "statusProposicao": {
+   "dataHora": "2026-03-18T10:00",
+   "sequencia": 40,
+   "siglaOrgao": "CCJC",
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/2003",
+   "uriUltimoRelator": "https://dadosabertos.camara.leg.br/api/v2/deputados/74160",
+   "regime": "Ordinário (Art. 151, III, RICD)",
+   "descricaoTramitacao": "Notificações",
+   "codTipoTramitacao": "1005",
+   "descricaoSituacao": "Pronta para Pauta",
+   "codSituacao": 924,
+   "despacho": "Encerrada a votação em virtude da falta de quórum durante a votação do Requerimento de Retirada de Pauta. Resultado:  4 votos \"Sim\", 22 votos \"Não\". Quórum de votação: 26 votos.",
+   "url": null,
+   "ambito": "Regimental",
+   "apreciacao": "Proposição Sujeita à Apreciação Conclusiva pelas Comissões - Art. 24 II"
+  },
+  "uriAutores": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2334926/autores",
+  "descricaoTipo": "Projeto de Lei",
+  "ementaDetalhada": "",
+  "keywords": "Alteração, Código Civil (2002), configuração, dano à imagem, Dano presumido, Obrigação de indenizar.",
+  "uriPropPrincipal": null,
+  "uriPropAnterior": null,
+  "uriPropPosterior": null,
+  "urlInteiroTeor": "https://www.camara.leg.br/proposicoesWeb/prop_mostrarintegra?codteor=2206031",
+  "urnFinal": null,
+  "texto": null,
+  "justificativa": null
+ },
+ "links": [
+  {
+   "rel": "self",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2334926"
+  }
+ ]
+}

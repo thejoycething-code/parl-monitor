@@ -1,0 +1,16 @@
+{
+ "dados": [
+  {
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/orgaos/180",
+   "sigla": "PLEN",
+   "nome": "Plenário",
+   "nomePublicacao": "Plenário"
+  },
+  {
+   "uri": "https://dadosabertos.camara.leg.br/api/v2/orgaos/2014",
+   "sigla": "CSAUDE",
+   "nome": "Comissão de Saúde",
+   "nomePublicacao": "Comissão de Saúde"
+  }
+ ]
+}

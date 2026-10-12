@@ -37,6 +37,25 @@ import urllib.error
 import urllib.request
 from urllib.parse import urlsplit
 
+# Intermediate certificates that some servers leave out of their chain
+# (browsers fetch them from the CA; Python does not). Each one is the CA's
+# own published file and verifies against a root already trusted, so a
+# chain still has to reach a root: nothing here is a trust anchor of its
+# own. El Salvador's Asamblea serves its leaf alone (11 October 2026), so
+# every request failed CERTIFICATE_VERIFY_FAILED.
+TLS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "config", "tls")
+
+
+def tls_context():
+    """The default verifying context plus the intermediates in config/tls."""
+    ctx = ssl.create_default_context()
+    if os.path.isdir(TLS_DIR):
+        for name in sorted(os.listdir(TLS_DIR)):
+            if name.endswith(".pem"):
+                ctx.load_verify_locations(cafile=os.path.join(TLS_DIR, name))
+    return ctx
+
+
 DEFAULT_CONTACT = "cjoyce@citizengo.net"
 USER_AGENT_TEMPLATE = "CitizenGO-ParlMonitor/1.0 (contact: {contact})"
 
@@ -77,6 +96,27 @@ _LIMITED_RETRY_STATUS = frozenset({500})
 _LIMITED_RETRY_ATTEMPTS = 2
 
 
+def _maybe_gunzip(raw, headers):
+    """Decompress a gzip-encoded reply (X14).
+
+    Only when the server says it compressed (Content-Encoding: gzip):
+    urllib never decompresses for us. A body that claims gzip and is not is
+    returned as received rather than lost.
+    """
+    encoding = ""
+    if headers is not None:
+        try:
+            encoding = (headers.get("Content-Encoding") or "").lower()
+        except AttributeError:
+            encoding = ""
+    if "gzip" not in encoding:
+        return raw
+    try:
+        return gzip.decompress(raw)
+    except (OSError, EOFError):
+        return raw
+
+
 class FetchError(Exception):
     """Raised when a request still fails after all retries are exhausted.
 
@@ -115,6 +155,7 @@ class _HostState:
         self.lock = threading.Lock()          # serialises throttle bookkeeping
         self.semaphore = threading.Semaphore(concurrency)
         self.last_request_at = None           # monotonic timestamp of last call
+        self.min_interval = None              # per-host floor above the client throttle
 
 
 class HttpClient:
@@ -141,6 +182,7 @@ class HttpClient:
         clock=None,
         rng=None,
         opener=None,
+        accept_gzip=False,
     ):
         self.raw_dir = str(raw_dir)
         self.contact = contact
@@ -178,10 +220,25 @@ class HttpClient:
             self._rng = random.random
         else:
             self._rng = rng
-        self._opener = opener or urllib.request.build_opener()
+        self._opener = opener or urllib.request.build_opener(
+            urllib.request.HTTPSHandler(context=tls_context()))
 
         self._hosts = {}
         self._hosts_guard = threading.Lock()
+        # The headers of the last reply (or refusal), so a caller can read a
+        # rate limit off them (Open States, 9 October 2026). Sequential
+        # callers only: a parallel caller would see another request's.
+        self.last_headers = {}
+
+        # Opt-in compression (X14, country decisions of 10 October 2026).
+        # Off by default, so every existing feed sends exactly the headers it
+        # always has. A collector whose source serves large text (the
+        # Austrian, Polish and Brazilian JSON APIs) turns it on for the whole
+        # client with accept_gzip=True, or for one host with enable_gzip().
+        # The reply is decompressed here, before archiving or parsing, so the
+        # raw archive holds the same bytes either way.
+        self.accept_gzip = bool(accept_gzip)
+        self.gzip_hosts = set()
 
     # -- public API ---------------------------------------------------------
 
@@ -199,7 +256,8 @@ class HttpClient:
         raw = self._fetch(url, feed, slug, timeout, archive=archive)
         return json.loads(raw.decode("utf-8"))
 
-    def get_text(self, url, feed, slug, timeout=None, archive=True, fallback_encoding=None):
+    def get_text(self, url, feed, slug, timeout=None, archive=True, fallback_encoding=None,
+                 headers=None):
         """Fetch and archive a response, returning decoded text.
 
         Used for the HTML/XML feeds (legislation.gov.uk, Holyrood scrape).
@@ -212,8 +270,15 @@ class HttpClient:
         (the Canada Gazette's pre-2020 pages: the é of Montréal as one byte,
         0xE9). With it set, a reply that is not valid UTF-8 is decoded with it
         instead of mangled.
+
+        headers (10 October 2026, additive): extra request headers. camera.it
+        answers "format json not implemented yet" to the default Accept,
+        which puts JSON first; the Italian agenda sends Accept: text/html.
         """
-        raw = self._fetch(url, feed, slug, timeout, archive=archive)
+        if headers:
+            raw = self._fetch(url, feed, slug, timeout, archive=archive, extra_headers=headers)
+        else:   # the old call, unchanged: subclasses and test doubles override _fetch
+            raw = self._fetch(url, feed, slug, timeout, archive=archive)
         if fallback_encoding:
             try:
                 return raw.decode("utf-8")
@@ -221,7 +286,8 @@ class HttpClient:
                 return raw.decode(fallback_encoding, errors="replace")
         return raw.decode("utf-8", errors="replace")
 
-    def get_bytes(self, url, feed, slug, timeout=None, first_bytes=None, archive=True):
+    def get_bytes(self, url, feed, slug, timeout=None, first_bytes=None, archive=True,
+                  headers=None):
         """Fetch and archive a response, returning the raw bytes.
 
         first_bytes issues a Range request. docs.un.org honours it (206 with
@@ -233,6 +299,13 @@ class HttpClient:
         overwrite a real copy with a stub. archive=False for large documents
         whose URL is the provenance (a 2010 Canada Gazette issue is 1-2 MB).
         """
+        if headers:
+            # A KEYED request (9 October 2026: Congress.gov's X-Api-Key). The
+            # key travels as a header, never in the URL, so it cannot reach a
+            # FetchError, a gap row or a log; and the reply is not archived,
+            # because the archive is published and the URL is the provenance.
+            return self._request_with_retries(
+                url, feed, slug, timeout or self.default_timeout, extra_headers=headers)
         if first_bytes:
             return self._request_with_retries(
                 url, feed, slug, timeout or self.default_timeout,
@@ -266,6 +339,39 @@ class HttpClient:
         self._archive(raw, feed, slug)
         return json.loads(raw.decode("utf-8"))
 
+    def post_form(self, url, fields, feed, slug, timeout=None, archive=False):
+        """POST an HTML form (application/x-www-form-urlencoded); return text.
+
+        Added for the Assemblee nationale du Quebec (2 October 2026), whose
+        sitting index shows one month at a time and changes month only by an
+        ASP.NET postback of its own form: the month's procès-verbal links are
+        nowhere else, and their ids cannot be guessed. A read-only listing
+        request, so the same politeness as a GET: the throttle, the per-host
+        cap and the honest UA. Like post_json it does NOT retry -- a POST is
+        not obviously safe to repeat -- and it is not archived by default:
+        the page is a listing whose links are the provenance.
+        """
+        from urllib.parse import urlencode
+        timeout = self.default_timeout if timeout is None else timeout
+        state = self._host_state(urlsplit(url).netloc)
+        payload = urlencode(list(fields.items()) if isinstance(fields, dict) else fields).encode("utf-8")
+        request = urllib.request.Request(
+            url, data=payload, method="POST",
+            headers={"User-Agent": self._ua_for(url),
+                     "Content-Type": "application/x-www-form-urlencoded",
+                     "Accept": "text/html;q=0.9, */*;q=0.8"})
+        with state.semaphore:
+            self._throttle(state)
+            try:
+                response = self._opener.open(request, timeout=timeout)
+                raw = response.read()
+            except (urllib.error.HTTPError, urllib.error.URLError, socket.timeout,
+                    TimeoutError, OSError, http.client.IncompleteRead) as exc:
+                raise FetchError(url, feed, slug, 1, exc)
+        if archive:
+            self._archive(raw, feed, slug)
+        return raw.decode("utf-8", errors="replace")
+
     # -- internals ----------------------------------------------------------
 
     def _host_state(self, host):
@@ -280,7 +386,7 @@ class HttpClient:
         host = urlsplit(url).netloc
         return self.host_user_agents.get(host, self.user_agent)
 
-    def _fetch(self, url, feed, slug, timeout, archive=True):
+    def _fetch(self, url, feed, slug, timeout, archive=True, extra_headers=None):
         timeout = self.default_timeout if timeout is None else timeout
         host = urlsplit(url).netloc
         state = self._host_state(host)
@@ -290,7 +396,7 @@ class HttpClient:
         with state.semaphore:
             self._throttle(state)
             try:
-                raw = self._request_with_retries(url, feed, slug, timeout)
+                raw = self._request_with_retries(url, feed, slug, timeout, extra_headers)
             except FetchError:
                 # 14 Sept 2026: parliament.scot answered CI at 09:16 and refused
                 # the laptop at 10:40, and the edition could not be re-rendered
@@ -316,13 +422,34 @@ class HttpClient:
         with gzip.open(path, "rb") as handle:
             return handle.read()
 
+    def enable_gzip(self, host):
+        """Send Accept-Encoding: gzip to ONE host (X14). See __init__."""
+        self.gzip_hosts.add(host)
+
+    def _wants_gzip(self, url):
+        return self.accept_gzip or urlsplit(url).netloc in self.gzip_hosts
+
+    def set_host_throttle(self, host, seconds):
+        """Space requests to ONE host at least `seconds` apart, above the
+        client-wide throttle: a robots.txt Crawl-delay (legnb.ca asks for
+        10 s) slows that host without slowing every other host the run
+        reads. Never lowers an interval already set."""
+        state = self._host_state(host)
+        state.min_interval = max(float(seconds), state.min_interval or 0.0)
+
+    def host_throttle(self, host):
+        """The interval this host's requests are spaced at."""
+        state = self._host_state(host)
+        return max(self.throttle, state.min_interval or 0.0)
+
     def _throttle(self, state):
-        """Ensure at least `throttle` seconds since this host's last request."""
+        """Ensure at least `throttle` seconds (or the host's own floor) since
+        this host's last request."""
         with state.lock:
             now = self._clock()
             if state.last_request_at is not None:
                 elapsed = now - state.last_request_at
-                wait = self.throttle - elapsed
+                wait = max(self.throttle, state.min_interval or 0.0) - elapsed
                 if wait > 0:
                     self._sleep(wait)
                     now = self._clock()
@@ -338,6 +465,7 @@ class HttpClient:
                 return self._request_once(url, timeout, extra_headers)
             except urllib.error.HTTPError as exc:
                 last_error = exc
+                self.last_headers = dict(exc.headers.items()) if exc.headers else {}
                 if exc.code not in _RETRYABLE_STATUS:
                     raise FetchError(url, feed, slug, attempts, exc)
                 if (exc.code in _LIMITED_RETRY_STATUS
@@ -368,14 +496,14 @@ class HttpClient:
         return base + self._rng() * (base * 0.25)
 
     def _request_once(self, url, timeout, extra_headers=None):
-        request = urllib.request.Request(
-            url,
-            headers={
-                "User-Agent": self._ua_for(url),
-                "Accept": "application/json, text/xml, text/html;q=0.9, */*;q=0.8",
-                **(extra_headers or {}),
-            },
-        )
+        headers = {
+            "User-Agent": self._ua_for(url),
+            "Accept": "application/json, text/xml, text/html;q=0.9, */*;q=0.8",
+        }
+        if self._wants_gzip(url):
+            headers["Accept-Encoding"] = "gzip"
+        headers.update(extra_headers or {})
+        request = urllib.request.Request(url, headers=headers)
         try:
             response = self._opener.open(request, timeout=timeout)
         except (ssl.SSLError, urllib.error.URLError) as exc:
@@ -385,8 +513,10 @@ class HttpClient:
             if "TLSV1_ALERT_PROTOCOL_VERSION" not in str(exc):
                 raise
             return self._fetch_via_curl(url, timeout, exc)
+        headers = getattr(response, "headers", None)
+        self.last_headers = dict(headers.items()) if headers is not None else {}
         try:
-            return response.read()
+            return _maybe_gunzip(response.read(), getattr(response, "headers", None))
         finally:
             close = getattr(response, "close", None)
             if close:
@@ -427,6 +557,14 @@ class HttpClient:
                     " (curl exit {0})".format(done.returncode) if done.returncode else "",
                     url))
         return body
+
+    def archive(self, raw, feed, slug):
+        """Archive bytes fetched with archive=False, once the caller knows
+        they are worth keeping: the Congressional Record collector reads
+        every speech of a day but keeps the page only of the speeches it
+        stores (9 October 2026). Never call it with a keyed request's reply
+        unless the reply itself carries no key."""
+        return self._archive(raw, feed, slug)
 
     def _archive(self, raw, feed, slug):
         """Write raw bytes to data/raw/<date>/<feed>_<slug>.json.gz."""

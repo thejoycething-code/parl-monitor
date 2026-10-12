@@ -1,0 +1,3784 @@
+[
+ {
+  "DataFimleg": "2026-09-15",
+  "DataInicioleg": "2025-06-03",
+  "IniAnexos": [
+   {
+    "anexoFich": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c324e6a4e545a6d4f44457a4c57466d4f5755744e44457a4d7930344e4755794c5745775a6a426d4d6a49355a6d5535597935775a47593d&fich=cc56f813-af9e-4133-84e2-a0f0f229fe9c.pdf&Inline=true",
+    "anexoNome": "A. I. G"
+   }
+  ],
+  "IniAutorDeputados": null,
+  "IniAutorGruposParlamentares": null,
+  "IniAutorOutros": {
+   "iniAutorComissao": null,
+   "nome": "Governo",
+   "sigla": "V"
+  },
+  "IniciativasEuropeias": null,
+  "IniciativasOrigem": null,
+  "IniciativasOriginadas": [
+   {
+    "assunto": "Concessão de processo de urgência – Proposta de Lei n.º 72/XVII/1.ª (GOV)",
+    "dcl": null,
+    "descTipo": "Projeto de Deliberação",
+    "id": "356640",
+    "legislatura": "XVII",
+    "numero": "27",
+    "sessao": "1",
+    "tipo": "D"
+   }
+  ],
+  "IniDescTipo": "Proposta de Lei",
+  "IniEpigrafe": null,
+  "IniEventos": [
+   {
+    "CodigoFase": "10",
+    "DataFase": "2026-04-28",
+    "EvtId": "1",
+    "Fase": "Entrada",
+    "OevId": "1718146"
+   },
+   {
+    "CodigoFase": "20",
+    "DataFase": "2026-05-05",
+    "EvtId": "2",
+    "Fase": "Admissão",
+    "ObsFase": "Despacho PAR \"Proceder à audição dos órgãos próprios das RA\"",
+    "OevId": "1728310"
+   },
+   {
+    "CodigoFase": "180",
+    "DataFase": "2026-05-05",
+    "EvtId": "9",
+    "Fase": "Baixa comissão distribuição inicial generalidade",
+    "ObsFase": "Com conexão à 5.ª comissão",
+    "OevId": "1728312"
+   },
+   {
+    "CodigoFase": "22",
+    "DataFase": "2026-05-05",
+    "EvtId": "144",
+    "Fase": "Audição promovida pelo PAR para a ALRAA",
+    "OevId": "1728303"
+   },
+   {
+    "CodigoFase": "23",
+    "DataFase": "2026-05-05",
+    "EvtId": "145",
+    "Fase": "Audição promovida pelo PAR para a ALRAM",
+    "OevId": "1728304"
+   },
+   {
+    "CodigoFase": "24",
+    "DataFase": "2026-05-05",
+    "EvtId": "146",
+    "Fase": "Audição promovida pelo PAR para o Governo da RAA",
+    "OevId": "1728305"
+   },
+   {
+    "CodigoFase": "25",
+    "DataFase": "2026-05-05",
+    "EvtId": "147",
+    "Fase": "Audição promovida pelo PAR para o Governo da RAM",
+    "OevId": "1728306"
+   },
+   {
+    "CodigoFase": "21",
+    "DataFase": "2026-05-06",
+    "EvtId": "3",
+    "Fase": "Anúncio",
+    "OevId": "1728311"
+   },
+   {
+    "CodigoFase": "180",
+    "DataFase": "2026-05-14",
+    "EvtId": "9",
+    "Fase": "Baixa comissão distribuição inicial generalidade",
+    "ObsFase": "Com conexão às 1.ª e 5 .ª comissões",
+    "OevId": "1729018"
+   },
+   {
+    "ActId": "72275",
+    "CodigoFase": "190",
+    "DataFase": "2026-05-20",
+    "EvtId": "10",
+    "Fase": "Discussão generalidade",
+    "IniciativasConjuntas": [
+     {
+      "autor": "CH",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Lei",
+      "id": "356703",
+      "leg": "XVII",
+      "nr": "609",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "76886",
+        "obs": null,
+        "pag": [
+         "23-44"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-05-21",
+        "pubLeg": "XVII",
+        "pubNr": "93",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/093/2026-05-21/23?pgs=23-44&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "76886",
+        "obs": null,
+        "pag": [
+         "23-44"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-05-21",
+        "pubLeg": "XVII",
+        "pubNr": "93",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/093/2026-05-21/23?pgs=23-44&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "J",
+      "titulo": "Alteração à Lei de Organização e Processo do Tribunal de Contas, aprovada pela Lei n.º 98/97, de 26 de agosto"
+     },
+     {
+      "autor": "L",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Resolução",
+      "id": "356693",
+      "leg": "XVII",
+      "nr": "926",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "76886",
+        "obs": null,
+        "pag": [
+         "23-44"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-05-21",
+        "pubLeg": "XVII",
+        "pubNr": "93",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/093/2026-05-21/23?pgs=23-44&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "76886",
+        "obs": null,
+        "pag": [
+         "23-44"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-05-21",
+        "pubLeg": "XVII",
+        "pubNr": "93",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/093/2026-05-21/23?pgs=23-44&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "R",
+      "titulo": "Recomenda o reforço dos meios humanos e técnicos da Inspeção-Geral de Finanças no âmbito da reforma do controlo financeiro do Estado"
+     }
+    ],
+    "OevId": "1729035"
+   },
+   {
+    "CodigoFase": "174",
+    "DataFase": "2026-05-21",
+    "EvtId": "150",
+    "Fase": "Parecer do Governo da RAA",
+    "OevId": "1729308"
+   },
+   {
+    "ActId": "82549",
+    "CodigoFase": "250",
+    "DataFase": "2026-05-22",
+    "EvtId": "13",
+    "Fase": "Votação na generalidade",
+    "OevId": "1729401",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2026-05-22",
+      "descricao": null,
+      "detalhe": "A Favor: <I>PSD</I>, <I> IL</I>, <I> CDS-PP</I><BR>Contra:<I>CH</I>, <I> 1-PS</I>, <I> L</I>, <I> PCP</I>, <I> BE</I>, <I> PAN</I>, <I> Pedro Vaz (PS)</I><BR>Abstenção:<I>PS</I>, <I> JPP</I>",
+      "id": "171852",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "93",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   },
+   {
+    "CodigoFase": "270",
+    "DataFase": "2026-05-22",
+    "EvtId": "14",
+    "Fase": "Baixa comissão especialidade",
+    "OevId": "1729402"
+   },
+   {
+    "CodigoFase": "172",
+    "DataFase": "2026-05-26",
+    "EvtId": "148",
+    "Fase": "Parecer da ALRAA",
+    "OevId": "1729614"
+   },
+   {
+    "CodigoFase": "173",
+    "DataFase": "2026-05-28",
+    "EvtId": "149",
+    "Fase": "Parecer da ALRAM",
+    "OevId": "1729721"
+   }
+  ],
+  "IniId": "356639",
+  "IniLeg": "XVII",
+  "IniLinkTexto": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c32526c4d574e6b5a6a6c6c4c546b774d6a67744e44526c4e4330344d446b324c5441775a5463785a4751774e6d51775979356b62324e34&fich=de1cdf9e-9028-44e4-8096-00e71dd06d0c.docx&Inline=true",
+  "IniNr": "72",
+  "IniObs": null,
+  "IniSel": "1",
+  "IniTextoSubst": "NAO",
+  "IniTextoSubstCampo": null,
+  "IniTipo": "P",
+  "IniTitulo": "Revoga a Lei n.º 98/97, de 26 de agosto, e aprova a nova lei de organização e processo do Tribunal de Contas",
+  "Links": null,
+  "Peticoes": null,
+  "PropostasAlteracao": null
+ },
+ {
+  "DataFimleg": "2026-09-15",
+  "DataInicioleg": "2025-06-03",
+  "IniAnexos": [],
+  "IniAutorDeputados": [
+   {
+    "GP": "BE",
+    "idCadastro": "4557",
+    "nome": "Mariana Mortágua"
+   }
+  ],
+  "IniAutorGruposParlamentares": [
+   {
+    "GP": "BE"
+   }
+  ],
+  "IniAutorOutros": {
+   "iniAutorComissao": null,
+   "nome": "Grupos Parlamentares",
+   "sigla": "G"
+  },
+  "IniciativasEuropeias": null,
+  "IniciativasOrigem": null,
+  "IniciativasOriginadas": null,
+  "IniDescTipo": "Projeto de Resolução",
+  "IniEpigrafe": null,
+  "IniEventos": [
+   {
+    "CodigoFase": "10",
+    "DataFase": "2025-06-03",
+    "EvtId": "1",
+    "Fase": "Entrada",
+    "OevId": "1627209"
+   },
+   {
+    "CodigoFase": "50",
+    "DataFase": "2025-06-03",
+    "EvtId": "51",
+    "Fase": "Publicação",
+    "OevId": "1642059"
+   },
+   {
+    "CodigoFase": "20",
+    "DataFase": "2025-06-06",
+    "EvtId": "2",
+    "Fase": "Admissão",
+    "OevId": "1627258"
+   },
+   {
+    "CodigoFase": "21",
+    "DataFase": "2025-06-17",
+    "EvtId": "3",
+    "Fase": "Anúncio",
+    "OevId": "1627357"
+   },
+   {
+    "CodigoFase": "181",
+    "DataFase": "2025-06-27",
+    "EvtId": "126",
+    "Fase": "Baixa comissão para discussão",
+    "OevId": "1627814"
+   },
+   {
+    "ActId": "61232",
+    "CodigoFase": "243",
+    "DataFase": "2025-07-11",
+    "EvtId": "64",
+    "Fase": "Apreciação",
+    "IniciativasConjuntas": [
+     {
+      "autor": "PCP",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Resolução",
+      "id": "315037",
+      "leg": "XVII",
+      "nr": "5",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "R",
+      "titulo": "Recomenda ao Governo que reconheça o Estado da Palestina"
+     },
+     {
+      "autor": "L",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Resolução",
+      "id": "315049",
+      "leg": "XVII",
+      "nr": "11",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "R",
+      "titulo": "Recomenda ao Governo o reconhecimento urgente da independência da Palestina"
+     },
+     {
+      "autor": "CH",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Resolução",
+      "id": "315266",
+      "leg": "XVII",
+      "nr": "132",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "R",
+      "titulo": "Recomenda ao Governo que não proceda, por ora, ao reconhecimento da Palestina como Estado soberano "
+     },
+     {
+      "autor": "PAN",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Resolução",
+      "id": "315286",
+      "leg": "XVII",
+      "nr": "145",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "R",
+      "titulo": "Recomenda ao Governo que reconheça o Estado da Palestina e que apoie uma solução de paz e de respeito pelos direitos-humanos"
+     },
+     {
+      "autor": "PAN",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Resolução",
+      "id": "315290",
+      "leg": "XVII",
+      "nr": "149",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "R",
+      "titulo": "Recomenda ao Governo que ative mecanismos urgentes para o acolhimento de crianças provenientes da Faixa de Gaza em necessidade de cuidados médicos especializados"
+     },
+     {
+      "autor": "IL",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Resolução",
+      "id": "315296",
+      "leg": "XVII",
+      "nr": "151",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "R",
+      "titulo": "Recomenda ao Governo uma estratégia equilibrada e responsável para promover uma solução pacífica e sustentável para o conflito israelo-palestiniano"
+     },
+     {
+      "autor": "L",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Resolução",
+      "id": "315306",
+      "leg": "XVII",
+      "nr": "155",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "R",
+      "titulo": "Recomenda a suspensão imediata do Acordo de Associação entre a União Europeia e Israel"
+     },
+     {
+      "autor": "PS",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Resolução",
+      "id": "315335",
+      "leg": "XVII",
+      "nr": "171",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56740",
+        "obs": null,
+        "pag": [
+         "39-58"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-12",
+        "pubLeg": "XVII",
+        "pubNr": "12",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/012/2025-07-12/39?pgs=39-58&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "R",
+      "titulo": "Recomenda ao Governo que proceda ao reconhecimento imediato do Estado da Palestina e que mobilize a sua ação junto das instituições da União Europeia para que esta adote posição comum no mesmo sentido"
+     }
+    ],
+    "OevId": "1628835"
+   },
+   {
+    "CodigoFase": "250",
+    "DataFase": "2025-07-11",
+    "EvtId": "13",
+    "Fase": "Votação na generalidade",
+    "OevId": "1628946",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2025-07-11",
+      "descricao": null,
+      "detalhe": "A Favor: <I>13-PS</I>, <I> L</I>, <I> PCP</I>, <I> BE</I>, <I> PAN</I>, <I> JPP</I>, <I> Pedro Nuno Santos (PS)</I>, <I> Luís Graça (PS)</I>, <I> Edite Estrela (PS)</I>, <I> Frederico Francisco (PS)</I>, <I> Pedro Vaz (PS)</I>, <I> Isabel Alves Moreira (PS)</I>, <I> Eva Cruzeiro (PS)</I>, <I> Miguel Matos (PS)</I>, <I> Sofia Pereira (PS)</I>, <I> Dália Miranda (PS)</I>, <I> José Carlos Barbosa (PS)</I>, <I> Marina Gonçalves (PS)</I>, <I> Rui Jorge Santos (PS)</I><BR>Contra:<I>PSD</I>, <I> CH</I>, <I> IL</I>, <I> CDS-PP</I><BR>Abstenção:<I>PS</I>",
+      "id": "139189",
+      "publicacao": null,
+      "resultado": "Rejeitado",
+      "reuniao": "12",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   }
+  ],
+  "IniId": "315041",
+  "IniLeg": "XVII",
+  "IniLinkTexto": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c324d794d7a6b794d57457a4c546c6c595441744e47457a4e6930344e47466c4c544d79597a6c6c597a497a597a51784d69356b62324e34&fich=c23921a3-9ea0-4a36-84ae-32c9ec23c412.docx&Inline=true",
+  "IniNr": "6",
+  "IniObs": null,
+  "IniSel": "1",
+  "IniTextoSubst": "NAO",
+  "IniTextoSubstCampo": null,
+  "IniTipo": "R",
+  "IniTitulo": "Recomenda ao Governo que reconheça o estado da Palestina ",
+  "Links": null,
+  "Peticoes": null,
+  "PropostasAlteracao": null
+ },
+ {
+  "DataFimleg": "2026-09-15",
+  "DataInicioleg": "2025-06-03",
+  "IniAnexos": [
+   {
+    "anexoFich": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c3255334d574d774e6a6b784c544e6859546b744e4755324d5331694d4759354c5451794e7a64695954597a4f446c68595335775a47593d&fich=e71c0691-3aa9-4e61-b0f9-4277ba6389aa.pdf&Inline=true",
+    "anexoNome": "A.I.G"
+   }
+  ],
+  "IniAutorDeputados": [
+   {
+    "GP": "CDS-PP",
+    "idCadastro": "8723",
+    "nome": "Paulo Núncio"
+   },
+   {
+    "GP": "CDS-PP",
+    "idCadastro": "1657",
+    "nome": "João Pinho de Almeida"
+   }
+  ],
+  "IniAutorGruposParlamentares": [
+   {
+    "GP": "CDS-PP"
+   }
+  ],
+  "IniAutorOutros": {
+   "iniAutorComissao": null,
+   "nome": "Grupos Parlamentares",
+   "sigla": "G"
+  },
+  "IniciativasEuropeias": null,
+  "IniciativasOrigem": null,
+  "IniciativasOriginadas": null,
+  "IniDescTipo": "Projeto de Lei",
+  "IniEpigrafe": null,
+  "IniEventos": [
+   {
+    "CodigoFase": "10",
+    "DataFase": "2026-03-06",
+    "EvtId": "1",
+    "Fase": "Entrada",
+    "OevId": "1705533"
+   },
+   {
+    "CodigoFase": "21",
+    "DataFase": "2026-03-18",
+    "EvtId": "3",
+    "Fase": "Anúncio",
+    "OevId": "1706113"
+   },
+   {
+    "CodigoFase": "20",
+    "DataFase": "2026-03-18",
+    "EvtId": "2",
+    "Fase": "Admissão",
+    "ObsFase": "Despacho do PAR: \"Atentas as observações constantes da nota de admissibilidade\"",
+    "OevId": "1706114"
+   },
+   {
+    "ActId": "71990",
+    "CodigoFase": "190",
+    "DataFase": "2026-03-19",
+    "EvtId": "10",
+    "Fase": "Discussão generalidade",
+    "IniciativasConjuntas": [
+     {
+      "autor": "CH",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Lei",
+      "id": "346025",
+      "leg": "XVII",
+      "nr": "391",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56842",
+        "obs": null,
+        "pag": [
+         "63-83"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-20",
+        "pubLeg": "XVII",
+        "pubNr": "69",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/069/2026-03-20/63?pgs=63-83&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56842",
+        "obs": null,
+        "pag": [
+         "63-83"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-20",
+        "pubLeg": "XVII",
+        "pubNr": "69",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/069/2026-03-20/63?pgs=63-83&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56842",
+        "obs": null,
+        "pag": [
+         "63-83"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-20",
+        "pubLeg": "XVII",
+        "pubNr": "69",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/069/2026-03-20/63?pgs=63-83&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "J",
+      "titulo": "Actualiza a regulação do procedimento de mudança de sexo e de nome próprio no registo civil, em particular no que diz respeito à protecção das crianças e jovens, à luz da evidência científica mais recente e em consonância com os princípios da bioética e da dignidade da pessoa humana"
+     },
+     {
+      "autor": "PSD",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Lei",
+      "id": "356298",
+      "leg": "XVII",
+      "nr": "486",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56842",
+        "obs": null,
+        "pag": [
+         "63-83"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-20",
+        "pubLeg": "XVII",
+        "pubNr": "69",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/069/2026-03-20/63?pgs=63-83&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56842",
+        "obs": null,
+        "pag": [
+         "63-83"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-20",
+        "pubLeg": "XVII",
+        "pubNr": "69",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/069/2026-03-20/63?pgs=63-83&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56842",
+        "obs": null,
+        "pag": [
+         "63-83"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-20",
+        "pubLeg": "XVII",
+        "pubNr": "69",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/069/2026-03-20/63?pgs=63-83&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "J",
+      "titulo": "Altera o regime jurídico de mudança de sexo e de nome próprio no registo civil"
+     },
+     {
+      "autor": "BE",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Lei",
+      "id": "356315",
+      "leg": "XVII",
+      "nr": "493",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56842",
+        "obs": null,
+        "pag": [
+         "63-83"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-20",
+        "pubLeg": "XVII",
+        "pubNr": "69",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/069/2026-03-20/63?pgs=63-83&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56842",
+        "obs": null,
+        "pag": [
+         "63-83"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-20",
+        "pubLeg": "XVII",
+        "pubNr": "69",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/069/2026-03-20/63?pgs=63-83&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56842",
+        "obs": null,
+        "pag": [
+         "63-83"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-20",
+        "pubLeg": "XVII",
+        "pubNr": "69",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/069/2026-03-20/63?pgs=63-83&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "J",
+      "titulo": "Altera a Lei n.º 38/2018, de 7 de agosto e estabelece o quadro jurídico da sua implementação"
+     }
+    ],
+    "OevId": "1706042"
+   },
+   {
+    "ActId": "72399",
+    "CodigoFase": "250",
+    "DataFase": "2026-03-20",
+    "EvtId": "13",
+    "Fase": "Votação na generalidade",
+    "IniciativasConjuntas": [
+     {
+      "autor": "CH",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Lei",
+      "id": "346025",
+      "leg": "XVII",
+      "nr": "391",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56849",
+        "obs": null,
+        "pag": [
+         "84-85"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-21",
+        "pubLeg": "XVII",
+        "pubNr": "70",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/070/2026-03-21/84?pgs=84-85&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56849",
+        "obs": null,
+        "pag": [
+         "84-85"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-21",
+        "pubLeg": "XVII",
+        "pubNr": "70",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/070/2026-03-21/84?pgs=84-85&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "J",
+      "titulo": "Actualiza a regulação do procedimento de mudança de sexo e de nome próprio no registo civil, em particular no que diz respeito à protecção das crianças e jovens, à luz da evidência científica mais recente e em consonância com os princípios da bioética e da dignidade da pessoa humana"
+     },
+     {
+      "autor": "PSD",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Lei",
+      "id": "356298",
+      "leg": "XVII",
+      "nr": "486",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56849",
+        "obs": null,
+        "pag": [
+         "84-85"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-21",
+        "pubLeg": "XVII",
+        "pubNr": "70",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/070/2026-03-21/84?pgs=84-85&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56849",
+        "obs": null,
+        "pag": [
+         "84-85"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2026-03-21",
+        "pubLeg": "XVII",
+        "pubNr": "70",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/070/2026-03-21/84?pgs=84-85&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "J",
+      "titulo": "Altera o regime jurídico de mudança de sexo e de nome próprio no registo civil"
+     }
+    ],
+    "OevId": "1716415",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2026-03-20",
+      "descricao": null,
+      "detalhe": "A Favor: <I>PSD</I>, <I> CH</I>, <I> CDS-PP</I><BR>Contra:<I>PS</I>, <I> IL</I>, <I> L</I>, <I> PCP</I>, <I> BE</I>, <I> PAN</I>, <I> JPP</I>",
+      "id": "171123",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "68",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   },
+   {
+    "CodigoFase": "270",
+    "DataFase": "2026-03-20",
+    "EvtId": "14",
+    "Fase": "Baixa comissão especialidade",
+    "OevId": "1716416"
+   }
+  ],
+  "IniId": "356287",
+  "IniLeg": "XVII",
+  "IniLinkTexto": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c7a6b77595759324e6a646b4c544131593249744e4755774d793035596d4a6a4c5449345a546b784f544a6a4d6a6c6a4e53356b62324e34&fich=90af667d-05cb-4e03-9bbc-28e9192c29c5.docx&Inline=true",
+  "IniNr": "479",
+  "IniObs": null,
+  "IniSel": "1",
+  "IniTextoSubst": "NAO",
+  "IniTextoSubstCampo": null,
+  "IniTipo": "J",
+  "IniTitulo": "Protege a integridade das crianças e proíbe a utilização de bloqueadores da puberdade e/ou terapia hormonal no tratamento da incongruência ou disforia de género em menores de 18 anos",
+  "Links": null,
+  "Peticoes": null,
+  "PropostasAlteracao": null
+ },
+ {
+  "DataFimleg": "2026-09-15",
+  "DataInicioleg": "2025-06-03",
+  "IniAnexos": [
+   {
+    "anexoFich": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c7a49344e6d51354f5445774c5449304f4467744e446c694e693035597a4d784c54646d4d446b335a5459775a4759354e7935775a47593d&fich=286d9910-2488-49b6-9c31-7f097e60df97.pdf&Inline=true",
+    "anexoNome": "A.I.G."
+   }
+  ],
+  "IniAutorDeputados": null,
+  "IniAutorGruposParlamentares": null,
+  "IniAutorOutros": {
+   "iniAutorComissao": null,
+   "nome": "Governo",
+   "sigla": "V"
+  },
+  "IniciativasEuropeias": null,
+  "IniciativasOrigem": null,
+  "IniciativasOriginadas": null,
+  "IniDescTipo": "Proposta de Lei",
+  "IniEpigrafe": null,
+  "IniEventos": [
+   {
+    "CodigoFase": "10",
+    "DataFase": "2025-06-25",
+    "EvtId": "1",
+    "Fase": "Entrada",
+    "OevId": "1627597"
+   },
+   {
+    "CodigoFase": "50",
+    "DataFase": "2025-06-25",
+    "EvtId": "51",
+    "Fase": "Publicação",
+    "OevId": "1641853"
+   },
+   {
+    "CodigoFase": "20",
+    "DataFase": "2025-07-03",
+    "EvtId": "2",
+    "Fase": "Admissão",
+    "OevId": "1628211"
+   },
+   {
+    "CodigoFase": "21",
+    "DataFase": "2025-07-03",
+    "EvtId": "3",
+    "Fase": "Anúncio",
+    "OevId": "1628262"
+   },
+   {
+    "CodigoFase": "180",
+    "DataFase": "2025-07-03",
+    "EvtId": "9",
+    "Fase": "Baixa comissão distribuição inicial generalidade",
+    "OevId": "1628212"
+   },
+   {
+    "ActId": "61155",
+    "CodigoFase": "190",
+    "DataFase": "2025-07-04",
+    "EvtId": "10",
+    "Fase": "Discussão generalidade",
+    "IniciativasConjuntas": [
+     {
+      "autor": "CH",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Lei",
+      "id": "315073",
+      "leg": "XVII",
+      "nr": "20",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56706",
+        "obs": null,
+        "pag": [
+         "4-30"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-05",
+        "pubLeg": "XVII",
+        "pubNr": "9",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/009/2025-07-05/4?pgs=4-30&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56706",
+        "obs": null,
+        "pag": [
+         "4-30"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-05",
+        "pubLeg": "XVII",
+        "pubNr": "9",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/009/2025-07-05/4?pgs=4-30&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "J",
+      "titulo": "Altera a Lei da Nacionalidade no sentido de restringir a aquisição da nacionalidade portuguesa e assegurar a possibilidade da sua perda em determinados casos "
+     },
+     {
+      "autor": "BE",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Lei",
+      "id": "315223",
+      "leg": "XVII",
+      "nr": "67",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56706",
+        "obs": null,
+        "pag": [
+         "4-30"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-05",
+        "pubLeg": "XVII",
+        "pubNr": "9",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/009/2025-07-05/4?pgs=4-30&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56706",
+        "obs": null,
+        "pag": [
+         "4-30"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-07-05",
+        "pubLeg": "XVII",
+        "pubNr": "9",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/009/2025-07-05/4?pgs=4-30&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "J",
+      "titulo": "Altera a Lei da nacionalidade (altera a Lei n.º 37/81, de 3 de outubro)\n\n"
+     }
+    ],
+    "OevId": "1628216"
+   },
+   {
+    "CodigoFase": "237",
+    "DataFase": "2025-07-04",
+    "EvtId": "122",
+    "Fase": "Requerimento Baixa Comissão sem Votação (Generalidade)",
+    "OevId": "1628253",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2025-07-04",
+      "descricao": "Requerimento, apresentado pelo Governo, solicitando a baixa à Comissão de Assuntos Constitucionais, Direitos, Liberdade e Garantias, sem votação, da Proposta de Lei n.º 1/XVII/1.ª (GOV)",
+      "detalhe": "A Favor: <I>PSD</I>, <I> CH</I>, <I> PS</I>, <I> IL</I>, <I> L</I>, <I> CDS-PP</I>, <I> PAN</I>, <I> JPP</I><BR>Contra:<I>PCP</I>, <I> BE</I>",
+      "id": "139074",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "9",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   },
+   {
+    "CodigoFase": "240",
+    "DataFase": "2025-07-04",
+    "EvtId": "12",
+    "Fase": "Nova apreciação comissão generalidade",
+    "OevId": "1628418"
+   },
+   {
+    "CodigoFase": "110",
+    "DataFase": "2025-07-10",
+    "EvtId": "54",
+    "Fase": "Processo de urgência",
+    "ObsFase": "Concedido processo de urgência (Deliberação n.º 9-PL/2025)",
+    "OevId": "1628977"
+   },
+   {
+    "CodigoFase": "260",
+    "DataFase": "2025-10-27",
+    "EvtId": "46",
+    "Fase": "Admissão Proposta de Alteração",
+    "OevId": "1641698"
+   },
+   {
+    "CodigoFase": "260",
+    "DataFase": "2025-10-28",
+    "EvtId": "46",
+    "Fase": "Admissão Proposta de Alteração",
+    "OevId": "1641699"
+   },
+   {
+    "CodigoFase": "250",
+    "DataFase": "2025-10-28",
+    "EvtId": "13",
+    "Fase": "Votação na generalidade",
+    "ObsFase": "* O GOV retirou a sua iniciativa a favor dos textos de substituição.",
+    "OevId": "1641815",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2025-10-28",
+      "descricao": "Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 1/XVII/1.ª (GOV) – Décima primeira alteração à Lei n.º 37/81, de 3 de outubro, que aprova a Lei da nacionalidade",
+      "detalhe": "A Favor: <I>PSD</I>, <I> CH</I>, <I> IL</I>, <I> CDS-PP</I><BR>Contra:<I>PS</I>, <I> L</I>, <I> PCP</I>, <I> BE</I>, <I> PAN</I><BR>Abstenção:<I>JPP</I>",
+      "id": "140043",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "27",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   },
+   {
+    "CodigoFase": "250",
+    "DataFase": "2025-10-28",
+    "EvtId": "13",
+    "Fase": "Votação na generalidade",
+    "ObsFase": "* O GOV retirou a sua iniciativa a favor dos textos de substituição.",
+    "OevId": "1641816",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2025-10-28",
+      "descricao": "Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 1/XVII/1.ª (GOV) – Altera o Código Penal, criando a pena acessória de perda da nacionalidade\n",
+      "detalhe": "A Favor: <I>PSD</I>, <I> CH</I>, <I> IL</I>, <I> CDS-PP</I><BR>Contra:<I>CH</I>, <I> L</I>, <I> PCP</I>, <I> BE</I>, <I> PAN</I><BR>Abstenção:<I>JPP</I>",
+      "id": "140044",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "27",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   },
+   {
+    "CodigoFase": "310",
+    "DataFase": "2025-10-28",
+    "EvtId": "34",
+    "Fase": "Votação na especialidade",
+    "ObsFase": "** Obrigatoriedade de votação na especialidade em Plenário, nos termos da alínea f) do artigo 164.º e do n.º 4 do artigo 168.º da CRP.\n[Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 1/XVII/1.ª (GOV) – Décima primeira alteração à Lei n.º 37/81, de 3 de outubro, que aprova a Lei da nacionalidade] - \n[Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 1/XVII/1.ª (GOV) – Altera o Código Penal, criando a pena acessória de perda da nacionalidade]",
+    "OevId": "1641817"
+   },
+   {
+    "CodigoFase": "320",
+    "DataFase": "2025-10-28",
+    "EvtId": "18",
+    "Fase": "Votação final global",
+    "ObsFase": "**Maioria absoluta dos Deputados em efetividade de funções, com recurso a votação eletrónica, nos termos da alínea f) do artigo 164.º, do n.º 2 do artigo 166.º e n.º 5 do artigo 168.º da CRP e n.º 4 do artigo 94.º do RAR.",
+    "OevId": "1641824",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2025-10-28",
+      "descricao": "Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 1/XVII/1.ª (GOV) – Décima primeira alteração à Lei n.º 37/81, de 3 de outubro, que aprova a Lei da nacionalidade",
+      "detalhe": "A Favor: <I>86-PSD</I>, <I> 59-CH</I>, <I> 9-IL</I>, <I> 2-CDS-PP</I>, <I> 1-JPP</I><BR>Contra:<I>54-PS</I>, <I> 5-L</I>, <I> 3-PCP</I>, <I> 1-BE</I>, <I> 1-PAN</I>",
+      "id": "140052",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "27",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   },
+   {
+    "CodigoFase": "320",
+    "DataFase": "2025-10-28",
+    "EvtId": "18",
+    "Fase": "Votação final global",
+    "ObsFase": "**Maioria absoluta dos Deputados em efetividade de funções, com recurso a votação eletrónica, nos termos da alínea f) do artigo 164.º, do n.º 2 do artigo 166.º e n.º 5 do artigo 168.º da CRP e n.º 4 do artigo 94.º do RAR.",
+    "OevId": "1641825",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2025-10-28",
+      "descricao": "Texto de substituição, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo à Proposta de Lei n.º 1/XVII/1.ª (GOV) – Altera o Código Penal, criando a pena acessória de perda da nacionalidade ",
+      "detalhe": "A Favor: <I>86-PSD</I>, <I> 59-CH</I>, <I> 9-IL</I>, <I> 2-CDS-PP</I>, <I> 1-JPP</I><BR>Contra:<I>54-PS</I>, <I> 5-L</I>, <I> 3-PCP</I>, <I> 1-BE</I>, <I> 1-PAN</I>",
+      "id": "140053",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "27",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   },
+   {
+    "CodigoFase": "348",
+    "DataFase": "2025-11-04",
+    "EvtId": "133",
+    "Fase": "Envio à Comissão para fixação da Redação final",
+    "OevId": "1641873"
+   },
+   {
+    "CodigoFase": "348",
+    "DataFase": "2025-11-04",
+    "EvtId": "133",
+    "Fase": "Envio à Comissão para fixação da Redação final",
+    "OevId": "1641874"
+   },
+   {
+    "CodigoFase": "350",
+    "DataFase": "2025-11-05",
+    "EvtId": "31",
+    "Fase": "Decreto (Publicação)",
+    "OevId": "1641880",
+    "OevTextId": "105163",
+    "TextosAprovados": "105163"
+   },
+   {
+    "CodigoFase": "350",
+    "DataFase": "2025-11-05",
+    "EvtId": "31",
+    "Fase": "Decreto (Publicação)",
+    "OevId": "1641881",
+    "OevTextId": "105164",
+    "TextosAprovados": "105164"
+   },
+   {
+    "CodigoFase": "370",
+    "DataFase": "2025-11-11",
+    "EvtId": "23",
+    "Fase": "Envio para promulgação",
+    "ObsFase": "Decreto n.º 17/XVII",
+    "OevId": "1641909"
+   },
+   {
+    "CodigoFase": "370",
+    "DataFase": "2025-11-11",
+    "EvtId": "23",
+    "Fase": "Envio para promulgação",
+    "ObsFase": "Decreto n.º 18/XVII",
+    "OevId": "1641910"
+   },
+   {
+    "CodigoFase": "409",
+    "DataFase": "2025-12-19",
+    "EvtId": "120",
+    "Fase": "Veto (Receção)",
+    "ObsFase": "Decreto n.º 17/XVII - Acórdão do Tribunal Constitucional n.º 1133/2025",
+    "OevId": "1642799"
+   },
+   {
+    "CodigoFase": "409",
+    "DataFase": "2025-12-19",
+    "EvtId": "120",
+    "Fase": "Veto (Receção)",
+    "ObsFase": "Decreto n.º 18/XVII - Acórdão do Tribunal Constitucional n.º 1134/2025",
+    "OevId": "1642798"
+   },
+   {
+    "CodigoFase": "410",
+    "DataFase": "2026-01-07",
+    "EvtId": "30",
+    "Fase": "Veto (Leitura)",
+    "ObsFase": "Decreto n.º 17/XVII",
+    "OevId": "1663150"
+   },
+   {
+    "CodigoFase": "410",
+    "DataFase": "2026-01-07",
+    "EvtId": "30",
+    "Fase": "Veto (Leitura)",
+    "ObsFase": "Decreto n.º 18/XVII",
+    "OevId": "1663151"
+   },
+   {
+    "CodigoFase": "415",
+    "DataFase": "2026-01-07",
+    "EvtId": "47",
+    "Fase": "Veto (Publicação)",
+    "ObsFase": "Decreto n.º 17/XVII",
+    "OevId": "1663188"
+   },
+   {
+    "CodigoFase": "415",
+    "DataFase": "2026-01-07",
+    "EvtId": "47",
+    "Fase": "Veto (Publicação)",
+    "ObsFase": "Decreto n.º 18/XVII",
+    "OevId": "1663159"
+   },
+   {
+    "CodigoFase": "460",
+    "DataFase": "2026-03-31",
+    "EvtId": "61",
+    "Fase": "Admissão Proposta de Alteração decreto",
+    "OevId": "1716796"
+   },
+   {
+    "ActId": "72051",
+    "CodigoFase": "441",
+    "DataFase": "2026-04-01",
+    "EvtId": "111",
+    "Fase": "Reapreciação do decreto",
+    "ObsFase": "Reapreciação do Decreto da Assembleia da República n.º 17/XVII - \"Alteração à Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade\" e do Decreto da\nAssembleia da República n.º 18/XVII - \"Altera o Código Penal, criando a pena acessória de perda da nacionalidade\"",
+    "OevId": "1716795"
+   },
+   {
+    "CodigoFase": "310",
+    "DataFase": "2026-04-01",
+    "EvtId": "34",
+    "Fase": "Votação na especialidade",
+    "OevId": "1716938"
+   },
+   {
+    "CodigoFase": "511",
+    "DataFase": "2026-04-01",
+    "EvtId": "100",
+    "Fase": "Votação novo decreto",
+    "ObsFase": "Votação do novo Decreto da Assembleia da República sobre \"Alteração à Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade\"",
+    "OevId": "1716940",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2026-04-01",
+      "descricao": null,
+      "detalhe": "A Favor: <I>85-PSD</I>, <I> 57-CH</I>, <I> 8-IL</I>, <I> 2-CDS-PP</I><BR>Contra:<I>54-PS</I>, <I> 6-L</I>, <I> 2-PCP</I>, <I> 1-BE</I>, <I> 1-PAN</I><BR>Abstenção:<I>1-JPP</I>",
+      "id": "171299",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "71",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   },
+   {
+    "CodigoFase": "511",
+    "DataFase": "2026-04-01",
+    "EvtId": "100",
+    "Fase": "Votação novo decreto",
+    "ObsFase": "Votação do novo Decreto da Assembleia da República que \"Altera o Código Penal, criando a pena acessória de perda da nacionalidade\"",
+    "OevId": "1716942",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2026-04-01",
+      "descricao": null,
+      "detalhe": "A Favor: <I>85-PSD</I>, <I> 56-CH</I>, <I> 8-IL</I>, <I> 2-CDS-PP</I><BR>Contra:<I>54-PS</I>, <I> 6-L</I>, <I> 2-PCP</I>, <I> 1-BE</I>, <I> 1-PAN</I>, <I> 1-JPP</I>",
+      "id": "171301",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "71",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   },
+   {
+    "CodigoFase": "519",
+    "DataFase": "2026-04-07",
+    "EvtId": "60",
+    "Fase": "Decreto (2ª versão) (Publicação)",
+    "OevId": "1716968",
+    "OevTextId": "125427",
+    "TextosAprovados": "125427"
+   },
+   {
+    "CodigoFase": "519",
+    "DataFase": "2026-04-07",
+    "EvtId": "60",
+    "Fase": "Decreto (2ª versão) (Publicação)",
+    "OevId": "1716969",
+    "OevTextId": "125428",
+    "TextosAprovados": "125428"
+   },
+   {
+    "CodigoFase": "520",
+    "DataFase": "2026-04-13",
+    "EvtId": "66",
+    "Fase": "Envio para promulgação (2ª versão)",
+    "ObsFase": "Decreto n.º 48/XVII",
+    "OevId": "1717271"
+   },
+   {
+    "CodigoFase": "520",
+    "DataFase": "2026-04-13",
+    "EvtId": "66",
+    "Fase": "Envio para promulgação (2ª versão)",
+    "ObsFase": "Decreto n.º 49/XVII",
+    "OevId": "1717272"
+   },
+   {
+    "CodigoFase": "526",
+    "DataFase": "2026-05-03",
+    "EvtId": "67",
+    "Fase": "Promulgação (2ª versão)",
+    "ObsFase": "Decreto n.º 48/XVII",
+    "OevId": "1728457"
+   },
+   {
+    "CodigoFase": "527",
+    "DataFase": "2026-05-04",
+    "EvtId": "68",
+    "Fase": "Referenda (2ª versão)",
+    "ObsFase": "Decreto n.º 48/XVII",
+    "OevId": "1728458"
+   },
+   {
+    "CodigoFase": "528",
+    "DataFase": "2026-05-06",
+    "EvtId": "69",
+    "Fase": "Envio INCM (2ª versão)",
+    "ObsFase": "Decreto n.º 48/XVII",
+    "OevId": "1728459"
+   },
+   {
+    "CodigoFase": "409",
+    "DataFase": "2026-05-13",
+    "EvtId": "120",
+    "Fase": "Veto (Receção)",
+    "ObsFase": "Decreto n.º 49/XVII",
+    "OevId": "1728986"
+   },
+   {
+    "CodigoFase": "410",
+    "DataFase": "2026-05-14",
+    "EvtId": "30",
+    "Fase": "Veto (Leitura)",
+    "ObsFase": "Decreto n.º 49/XVII",
+    "OevId": "1729012"
+   },
+   {
+    "CodigoFase": "415",
+    "DataFase": "2026-05-14",
+    "EvtId": "47",
+    "Fase": "Veto (Publicação)",
+    "ObsFase": "Decreto n.º 49/XVII",
+    "OevId": "1729013"
+   },
+   {
+    "CodigoFase": "580",
+    "DataFase": "2026-05-18",
+    "EvtId": "32",
+    "Fase": "Lei (Publicação DR)",
+    "ObsFase": "Declaração de Retificação n.º 17/2026/1, de 18 de maio, Retifica a Lei Orgânica n.º 1/2026, de 18 de maio, que altera a Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade",
+    "OevId": "1729179",
+    "OevTextId": "135585",
+    "TextosAprovados": "135585"
+   },
+   {
+    "CodigoFase": "260",
+    "DataFase": "2026-07-02",
+    "EvtId": "46",
+    "Fase": "Admissão Proposta de Alteração",
+    "OevId": "1731227"
+   },
+   {
+    "ActId": "72483",
+    "CodigoFase": "441",
+    "DataFase": "2026-07-03",
+    "EvtId": "111",
+    "Fase": "Reapreciação do decreto",
+    "ObsFase": "Reapreciação do Decreto da Assembleia da República n.º 49/XVII/1.ª - \"Altera o Código Penal, criando a pena acessória de perda da nacionalidade\"",
+    "OevId": "1730967"
+   },
+   {
+    "CodigoFase": "310",
+    "DataFase": "2026-07-03",
+    "EvtId": "34",
+    "Fase": "Votação na especialidade",
+    "ObsFase": "Reapreciação do Decreto da Assembleia da República n.º 49/XVII/1.ª  - \"Altera o Código Penal, criando a pena acessória de perda da nacionalidade\"",
+    "OevId": "1731320"
+   },
+   {
+    "CodigoFase": "512",
+    "DataFase": "2026-07-03",
+    "EvtId": "112",
+    "Fase": "Confirmação do decreto",
+    "ObsFase": "Decreto da Assembleia da República n.º 49/XVII/1.ª  - \"Altera o Código Penal, criando a pena acessória de perda da nacionalidade\"",
+    "OevId": "1731321",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2026-07-03",
+      "descricao": null,
+      "detalhe": "A Favor: <I>54-CH</I>, <I> 2-CDS-PP</I><BR>Contra:<I>80-PSD</I>, <I> 53-PS</I>, <I> 7-IL</I>, <I> 6-L</I>, <I> 3-PCP</I>, <I> 1-BE</I>, <I> 1-PAN</I>, <I> 1-JPP</I>",
+      "id": "172424",
+      "publicacao": null,
+      "resultado": "Rejeitado",
+      "reuniao": "109",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   }
+  ],
+  "IniId": "315160",
+  "IniLeg": "XVII",
+  "IniLinkTexto": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c7a49794f4467344d5745334c5441314f5451744e474933596931694d3259314c546c684e574a6b4d7a5178596a686c4f43356b62324e34&fich=228881a7-0594-4b7b-b3f5-9a5bd341b8e8.docx&Inline=true",
+  "IniNr": "1",
+  "IniObs": null,
+  "IniSel": "1",
+  "IniTextoSubst": "NAO",
+  "IniTextoSubstCampo": null,
+  "IniTipo": "P",
+  "IniTitulo": "Altera a Lei n.º 37/81, de 3 de outubro, que aprova a Lei da Nacionalidade",
+  "Links": null,
+  "Peticoes": [
+   {
+    "assunto": "Pela criação de um regime transitório que mantenha temporariamente o prazo de cinco anos para a naturalização dos estrangeiros residentes legalmente em Portugal, em caso de alteração à Lei da Nacionalidade (Lei n.º 37/81)",
+    "dcl": null,
+    "descTipo": null,
+    "id": "34231",
+    "legislatura": "XVII",
+    "numero": "12",
+    "sessao": "1",
+    "tipo": null
+   },
+   {
+    "assunto": "Alteração à Lei da Nacionalidade relativa à contagem dos cinco anos de residência legal em Portugal para naturalização",
+    "dcl": null,
+    "descTipo": null,
+    "id": "34298",
+    "legislatura": "XVII",
+    "numero": "60",
+    "sessao": "1",
+    "tipo": null
+   },
+   {
+    "assunto": "Solicitam a alteração da Lei da Nacionalidade, no sentido de o prazo de residência, para efeitos de naturalização, continuar a contar-se a partir do momento do pedido da autorização de residência, por qualquer via formulado, e de ser estabelecida uma norma transitória para quem já reúne o requisito vigente da residência legal de 5 anos mas ainda não apresentou o seu pedido",
+    "dcl": null,
+    "descTipo": null,
+    "id": "34311",
+    "legislatura": "XVII",
+    "numero": "73",
+    "sessao": "1",
+    "tipo": null
+   }
+  ],
+  "PropostasAlteracao": null
+ },
+ {
+  "DataFimleg": "2026-09-15",
+  "DataInicioleg": "2025-06-03",
+  "IniAnexos": [
+   {
+    "anexoFich": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c7a426a4d3259304d444d344c544d774e5463744e474a6c4d4331694f4451774c5463305a444579596a6c6d4e5452684e7935775a47593d&fich=0c3f4038-3057-4be0-b840-74d12b9f54a7.pdf&Inline=true",
+    "anexoNome": "A.I.G."
+   }
+  ],
+  "IniAutorDeputados": [
+   {
+    "GP": "CH",
+    "idCadastro": "6535",
+    "nome": "André Ventura"
+   },
+   {
+    "GP": "CH",
+    "idCadastro": "7336",
+    "nome": "Pedro Pinto"
+   },
+   {
+    "GP": "CH",
+    "idCadastro": "6547",
+    "nome": "Cristina Rodrigues"
+   },
+   {
+    "GP": "CH",
+    "idCadastro": "7369",
+    "nome": "Vanessa Barata"
+   },
+   {
+    "GP": "CH",
+    "idCadastro": "8551",
+    "nome": "Idalina Durães"
+   },
+   {
+    "GP": "CH",
+    "idCadastro": "8418",
+    "nome": "Madalena Cordeiro"
+   },
+   {
+    "GP": "CH",
+    "idCadastro": "8693",
+    "nome": "Nuno Gabriel"
+   }
+  ],
+  "IniAutorGruposParlamentares": [
+   {
+    "GP": "CH"
+   }
+  ],
+  "IniAutorOutros": {
+   "iniAutorComissao": null,
+   "nome": "Grupos Parlamentares",
+   "sigla": "G"
+  },
+  "IniciativasEuropeias": null,
+  "IniciativasOrigem": null,
+  "IniciativasOriginadas": null,
+  "IniDescTipo": "Projeto de Lei",
+  "IniEpigrafe": null,
+  "IniEventos": [
+   {
+    "CodigoFase": "10",
+    "DataFase": "2025-06-26",
+    "EvtId": "1",
+    "Fase": "Entrada",
+    "OevId": "1627631"
+   },
+   {
+    "CodigoFase": "50",
+    "DataFase": "2025-06-26",
+    "EvtId": "51",
+    "Fase": "Publicação",
+    "OevId": "1642086"
+   },
+   {
+    "CodigoFase": "20",
+    "DataFase": "2025-07-01",
+    "EvtId": "2",
+    "Fase": "Admissão",
+    "ObsFase": "Despacho PAR \"Ressalvando o respeito pelos princípios constitucionais\"",
+    "OevId": "1627947"
+   },
+   {
+    "CodigoFase": "180",
+    "DataFase": "2025-07-01",
+    "EvtId": "9",
+    "Fase": "Baixa comissão distribuição inicial generalidade",
+    "OevId": "1627948"
+   },
+   {
+    "CodigoFase": "21",
+    "DataFase": "2025-07-02",
+    "EvtId": "3",
+    "Fase": "Anúncio",
+    "OevId": "1627949"
+   },
+   {
+    "ActId": "61478",
+    "CodigoFase": "190",
+    "DataFase": "2025-10-17",
+    "EvtId": "10",
+    "Fase": "Discussão generalidade",
+    "OevId": "1641264"
+   },
+   {
+    "ActId": "61552",
+    "CodigoFase": "250",
+    "DataFase": "2025-10-17",
+    "EvtId": "13",
+    "Fase": "Votação na generalidade",
+    "OevId": "1641522",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2025-10-17",
+      "descricao": null,
+      "detalhe": "A Favor: <I>PSD</I>, <I> CH</I>, <I> IL</I>, <I> CDS-PP</I><BR>Contra:<I>PS</I>, <I> L</I>, <I> PCP</I>, <I> BE</I><BR>Abstenção:<I>PAN</I>, <I> JPP</I>",
+      "id": "139930",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "25",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   },
+   {
+    "CodigoFase": "270",
+    "DataFase": "2025-10-17",
+    "EvtId": "14",
+    "Fase": "Baixa comissão especialidade",
+    "OevId": "1641523"
+   },
+   {
+    "CodigoFase": "320",
+    "DataFase": "2026-07-17",
+    "EvtId": "18",
+    "Fase": "Votação final global",
+    "OevId": "1731825",
+    "Votacao": [
+     {
+      "ausencias": null,
+      "data": "2026-07-17",
+      "descricao": "Texto Final, apresentado pela Comissão de Assuntos Constitucionais, Direitos, Liberdades e Garantias, relativo ao Projeto de Lei n.º 47/XVII/1.ª (CH)",
+      "detalhe": "A Favor: <I>PSD</I>, <I> CH</I>, <I> IL</I>, <I> CDS-PP</I><BR>Contra:<I>PS</I>, <I> L</I>, <I> PCP</I>, <I> BE</I>, <I> JPP</I><BR>Abstenção:<I>PAN</I>",
+      "id": "172580",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "111",
+      "tipoReuniao": "RP",
+      "unanime": null
+     }
+    ]
+   },
+   {
+    "CodigoFase": "348",
+    "DataFase": "2026-07-18",
+    "EvtId": "133",
+    "Fase": "Envio à Comissão para fixação da Redação final",
+    "OevId": "1731802"
+   },
+   {
+    "CodigoFase": "350",
+    "DataFase": "2026-07-24",
+    "EvtId": "31",
+    "Fase": "Decreto (Publicação)",
+    "OevId": "1742084",
+    "OevTextId": "135867",
+    "TextosAprovados": "135867"
+   },
+   {
+    "CodigoFase": "370",
+    "DataFase": "2026-07-30",
+    "EvtId": "23",
+    "Fase": "Envio para promulgação",
+    "OevId": "1752202"
+   },
+   {
+    "CodigoFase": "380",
+    "DataFase": "2026-08-18",
+    "EvtId": "24",
+    "Fase": "Promulgação",
+    "OevId": "1752520"
+   },
+   {
+    "CodigoFase": "390",
+    "DataFase": "2026-08-19",
+    "EvtId": "25",
+    "Fase": "Referenda",
+    "OevId": "1752521"
+   },
+   {
+    "CodigoFase": "400",
+    "DataFase": "2026-08-20",
+    "EvtId": "26",
+    "Fase": "Envio INCM",
+    "OevId": "1752522"
+   },
+   {
+    "CodigoFase": "580",
+    "DataFase": "2026-08-24",
+    "EvtId": "32",
+    "Fase": "Lei (Publicação DR)",
+    "OevId": "1752536",
+    "OevTextId": "135940",
+    "TextosAprovados": "135940"
+   }
+  ],
+  "IniId": "315166",
+  "IniLeg": "XVII",
+  "IniLinkTexto": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c7a45785a4745304f4749794c5451344f5451744e4464694d4330355a44566c4c545533597a557a4d6d453359546b305a53356b62324e34&fich=11da48b2-4894-47b0-9d5e-57c532a7a94e.docx&Inline=true",
+  "IniNr": "47",
+  "IniObs": null,
+  "IniSel": "1",
+  "IniTextoSubst": "NAO",
+  "IniTextoSubstCampo": null,
+  "IniTipo": "J",
+  "IniTitulo": "Proíbe a ocultação do rosto em espaços públicos salvo determinadas exceções\n\n",
+  "Links": null,
+  "Peticoes": null,
+  "PropostasAlteracao": null
+ },
+ {
+  "DataFimleg": "2026-09-15",
+  "DataInicioleg": "2025-06-03",
+  "IniAnexos": [],
+  "IniAutorDeputados": [
+   {
+    "GP": "BE",
+    "idCadastro": "7040",
+    "nome": "Fabian Figueiredo"
+   }
+  ],
+  "IniAutorGruposParlamentares": [
+   {
+    "GP": "BE"
+   }
+  ],
+  "IniAutorOutros": {
+   "iniAutorComissao": null,
+   "nome": "Grupos Parlamentares",
+   "sigla": "G"
+  },
+  "IniciativasEuropeias": null,
+  "IniciativasOrigem": null,
+  "IniciativasOriginadas": null,
+  "IniDescTipo": "Projeto de Resolução",
+  "IniEpigrafe": null,
+  "IniEventos": [
+   {
+    "CodigoFase": "10",
+    "DataFase": "2026-08-18",
+    "EvtId": "1",
+    "Fase": "Entrada",
+    "OevId": "1752506"
+   },
+   {
+    "CodigoFase": "20",
+    "DataFase": "2026-09-01",
+    "EvtId": "2",
+    "Fase": "Admissão",
+    "OevId": "1752633"
+   },
+   {
+    "CodigoFase": "181",
+    "DataFase": "2026-09-01",
+    "EvtId": "126",
+    "Fase": "Baixa comissão para discussão",
+    "OevId": "1752634"
+   },
+   {
+    "CodigoFase": "21",
+    "DataFase": "2026-09-08",
+    "EvtId": "3",
+    "Fase": "Anúncio",
+    "OevId": "1752716"
+   }
+  ],
+  "IniId": "377140",
+  "IniLeg": "XVII",
+  "IniLinkTexto": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c32526b4f47566b4e4441794c545a6b59544d744e4749785a5330354d44526d4c5755794f546330597a5a695a5756694f53356b62324e34&fich=dd8ed402-6da3-4b1e-904f-e2974c6beeb9.docx&Inline=true",
+  "IniNr": "1202",
+  "IniObs": null,
+  "IniSel": "1",
+  "IniTextoSubst": "NAO",
+  "IniTextoSubstCampo": null,
+  "IniTipo": "R",
+  "IniTitulo": "Pela garantia do acesso efetivo e atempado à interrupção voluntária da gravidez no Serviço Nacional de Saúde",
+  "Links": null,
+  "Peticoes": null,
+  "PropostasAlteracao": null
+ },
+ {
+  "DataFimleg": "2026-09-15",
+  "DataInicioleg": "2025-06-03",
+  "IniAnexos": null,
+  "IniAutorDeputados": null,
+  "IniAutorGruposParlamentares": null,
+  "IniAutorOutros": {
+   "iniAutorComissao": null,
+   "nome": "Governo",
+   "sigla": "V"
+  },
+  "IniciativasEuropeias": null,
+  "IniciativasOrigem": null,
+  "IniciativasOriginadas": null,
+  "IniDescTipo": "Proposta de Lei",
+  "IniEpigrafe": null,
+  "IniEventos": [
+   {
+    "CodigoFase": "10",
+    "DataFase": "2025-08-26",
+    "EvtId": "1",
+    "Fase": "Entrada",
+    "OevId": "1629595"
+   },
+   {
+    "CodigoFase": "50",
+    "DataFase": "2025-08-26",
+    "EvtId": "51",
+    "Fase": "Publicação",
+    "OevId": "1752661"
+   },
+   {
+    "CodigoFase": "20",
+    "DataFase": "2025-08-28",
+    "EvtId": "2",
+    "Fase": "Admissão",
+    "OevId": "1629772"
+   },
+   {
+    "CodigoFase": "180",
+    "DataFase": "2025-08-28",
+    "EvtId": "9",
+    "Fase": "Baixa comissão distribuição inicial generalidade",
+    "ObsFase": "Com conexão à 6.ª Comissão.",
+    "OevId": "1629773"
+   },
+   {
+    "CodigoFase": "21",
+    "DataFase": "2025-09-10",
+    "EvtId": "3",
+    "Fase": "Anúncio",
+    "OevId": "1630146"
+   },
+   {
+    "ActId": "61347",
+    "CodigoFase": "190",
+    "DataFase": "2025-09-18",
+    "EvtId": "10",
+    "Fase": "Discussão generalidade",
+    "IniciativasConjuntas": [
+     {
+      "autor": "PCP",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Lei",
+      "id": "315508",
+      "leg": "XVII",
+      "nr": "171",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "J",
+      "titulo": "Reforça medidas urgentes de apoio às vítimas dos incêndios (Primeira alteração ao Decreto-Lei n.º 98-A/2025, de 24 de agosto)\n"
+     },
+     {
+      "autor": "L",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Lei",
+      "id": "315535",
+      "leg": "XVII",
+      "nr": "182",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "J",
+      "titulo": "Revê a metodologia das ações de estabilização de emergência no pós-fogo"
+     },
+     {
+      "autor": "PCP",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Resolução",
+      "id": "315510",
+      "leg": "XVII",
+      "nr": "256",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "R",
+      "titulo": "Apoio extraordinário às Associações Humanitárias de Bombeiros Voluntários"
+     },
+     {
+      "autor": "L",
+      "dataEntrada": null,
+      "descTipo": "Projeto de Resolução",
+      "id": "315520",
+      "leg": "XVII",
+      "nr": "261",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       },
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "56754",
+        "obs": null,
+        "pag": [
+         "64-76"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-19",
+        "pubLeg": "XVII",
+        "pubNr": "18",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/018/2025-09-19/64?pgs=64-76&org=PLC"
+       }
+      ],
+      "sel": "1",
+      "tipo": "R",
+      "titulo": "Recomenda a adoção e financiamento de medidas de estabilização de emergência dos solos em risco após os incêndios "
+     }
+    ],
+    "OevId": "1630236"
+   },
+   {
+    "CodigoFase": "250",
+    "DataFase": "2025-09-19",
+    "EvtId": "13",
+    "Fase": "Votação na generalidade",
+    "OevId": "1630553",
+    "Votacao": [
+     {
+      "ausencias": [
+       "BE"
+      ],
+      "data": "2025-09-19",
+      "descricao": null,
+      "detalhe": "Ausência: <I>BE</I>",
+      "id": "139633",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "17",
+      "tipoReuniao": "RP",
+      "unanime": "unanime"
+     }
+    ]
+   },
+   {
+    "CodigoFase": "310",
+    "DataFase": "2025-09-19",
+    "EvtId": "34",
+    "Fase": "Votação na especialidade",
+    "OevId": "1630554",
+    "Votacao": [
+     {
+      "ausencias": [
+       "BE"
+      ],
+      "data": "2025-09-19",
+      "descricao": null,
+      "detalhe": "Ausência: <I>BE</I>",
+      "id": "139634",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "17",
+      "tipoReuniao": "RP",
+      "unanime": "unanime"
+     }
+    ]
+   },
+   {
+    "CodigoFase": "320",
+    "DataFase": "2025-09-19",
+    "EvtId": "18",
+    "Fase": "Votação final global",
+    "OevId": "1630555",
+    "Votacao": [
+     {
+      "ausencias": [
+       "BE"
+      ],
+      "data": "2025-09-19",
+      "descricao": null,
+      "detalhe": "Ausência: <I>BE</I>",
+      "id": "139635",
+      "publicacao": null,
+      "resultado": "Aprovado",
+      "reuniao": "17",
+      "tipoReuniao": "RP",
+      "unanime": "unanime"
+     }
+    ]
+   },
+   {
+    "CodigoFase": "345",
+    "DataFase": "2025-09-19",
+    "EvtId": "135",
+    "Fase": "Requerimento dispensa do prazo previsto Artº 157 RAR",
+    "ObsFase": "Requerimento oral, apresentado pelo PSD, solicitando a dispensa de redação final e do prazo para apresentação de reclamações contra inexatidões relativamente à Proposta de Lei n.º 27/XVII/1.ª (GOV)",
+    "OevId": "1630557",
+    "Votacao": [
+     {
+      "ausencias": [
+       "BE"
+      ],
+      "data": "2025-09-19",
+      "descricao": null,
+      "detalhe": "Ausência: <I>BE</I>",
+      "id": "139636",
+      "publicacao": [
+       {
+        "debateDtReu": null,
+        "idAct": null,
+        "idDeb": null,
+        "idInt": null,
+        "idPag": "927612",
+        "obs": null,
+        "pag": [
+         "77-77"
+        ],
+        "pagFinalDiarioSupl": null,
+        "pubdt": "2025-09-20",
+        "pubLeg": "XVII",
+        "pubNr": "19",
+        "pubSL": "1",
+        "pubTipo": "DAR I série",
+        "pubTp": "D",
+        "supl": null,
+        "URLDiario": "https://debates.parlamento.pt/catalogo/r3/dar/01/17/01/019/2025-09-20/77?pgs=77&org=PLC"
+       }
+      ],
+      "resultado": "Aprovado",
+      "reuniao": "17",
+      "tipoReuniao": "RP",
+      "unanime": "unanime"
+     }
+    ]
+   },
+   {
+    "CodigoFase": "350",
+    "DataFase": "2025-09-19",
+    "EvtId": "31",
+    "Fase": "Decreto (Publicação)",
+    "OevId": "1630518",
+    "OevTextId": "105076",
+    "TextosAprovados": "105076"
+   },
+   {
+    "CodigoFase": "370",
+    "DataFase": "2025-09-19",
+    "EvtId": "23",
+    "Fase": "Envio para promulgação",
+    "OevId": "1630521"
+   },
+   {
+    "CodigoFase": "380",
+    "DataFase": "2025-09-19",
+    "EvtId": "24",
+    "Fase": "Promulgação",
+    "OevId": "1630671"
+   },
+   {
+    "CodigoFase": "390",
+    "DataFase": "2025-09-23",
+    "EvtId": "25",
+    "Fase": "Referenda",
+    "OevId": "1630672"
+   },
+   {
+    "CodigoFase": "400",
+    "DataFase": "2025-09-23",
+    "EvtId": "26",
+    "Fase": "Envio INCM",
+    "OevId": "1630673"
+   },
+   {
+    "CodigoFase": "580",
+    "DataFase": "2025-09-24",
+    "EvtId": "32",
+    "Fase": "Lei (Publicação DR)",
+    "OevId": "1630676",
+    "OevTextId": "105077",
+    "TextosAprovados": "105077"
+   }
+  ],
+  "IniId": "315492",
+  "IniLeg": "XVII",
+  "IniLinkTexto": "http://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c7a426c597a63784d32566d4c5449304f5745744e47566d4e5330344d5451304c544d775a57466b596d4d3459546b354f43356b62324e34&fich=0ec713ef-249a-4ef5-8144-30eadbc8a998.docx&Inline=true",
+  "IniNr": "27",
+  "IniObs": null,
+  "IniSel": "1",
+  "IniTextoSubst": "NAO",
+  "IniTextoSubstCampo": null,
+  "IniTipo": "P",
+  "IniTitulo": "Altera o Decreto-Lei n.º 98-A/2025, de 24 de agosto, que estabelece medidas de apoio e mitigação do impacto de incêndios rurais",
+  "Links": null,
+  "Peticoes": null,
+  "PropostasAlteracao": null
+ }
+]

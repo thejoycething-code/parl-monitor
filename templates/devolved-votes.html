@@ -56,6 +56,26 @@ box-shadow:0 1px 3px rgba(16,24,40,.08)}
 background:#f0f1f3;border:1px solid #e2e5e9;border-radius:4px;padding:2px 7px;margin-left:8px}
 footer{border-top:1px solid var(--line);margin-top:44px;padding:18px 0 40px;font-size:12.5px;color:#9aa1a9}
 @media(max-width:560px){.vrow{flex-direction:column}.vbox{flex:none;width:100%}.hero h1{font-size:29px}}
+/* On our ground (src/devolved_intel.py) */
+.intel{padding:16px 22px;border-top:1px solid var(--line)}
+.intel .ih{font-size:15px;font-weight:600;color:#23282f;margin:0 0 4px;text-transform:none;letter-spacing:0}
+.intel .iarea{margin-top:14px}
+.intel .iarea h3{font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin:0 0 2px}
+.intel .recn{font-size:13px;margin:0 0 8px;color:#4a5058}
+.intel .recn.more{color:#9aa1a9;font-size:12px;margin-top:6px}
+.intel .pchip{display:inline-block;margin-left:8px;font-size:10.5px;letter-spacing:.04em;text-transform:none;
+  background:#EAF1FE;border:1px solid #cfe0fc;color:#2f6fe0;border-radius:4px;padding:1px 7px}
+.intel .irow{display:flex;gap:12px;padding:8px 0;border-top:1px solid var(--line)}
+.intel .ik{flex:0 0 112px;font-size:10px;font-weight:700;letter-spacing:.05em;color:#4a5058;padding-top:3px}
+.intel .ib{min-width:0;flex:1}
+.intel .it{font-size:14px;color:#23282f}
+.intel .it a{color:#2f6fe0}
+.intel blockquote{font-size:13px;line-height:1.5;color:#4a5058;margin:4px 0 2px;font-style:italic;
+  border-left:3px solid #e2e5e9;padding-left:10px}
+.intel .d{font-size:12px;color:#9aa1a9;margin-top:2px}
+.intel .rd{font-size:12px;color:#6b7178;margin-top:3px}
+.intel .rd.sg{color:#23282f}
+@media(max-width:560px){.intel .irow{flex-direction:column;gap:2px}.intel .ik{flex:none}}
 </style></head>
 <body>
 <header><div class="wrap">
@@ -114,6 +134,68 @@ function renderEmpty(){
     <p class="note">Search above to see how any of the ${DATA.members.length} __MEMBER_PLURAL__ voted.</p>`;
 }
 
+// THE RECORD ON OUR GROUND (9 October 2026; tools: src/devolved_intel.py).
+// Facts of the record only. A vote shows the lobby; a direction appears ONLY
+// where a human has signed that division's 5CA reading, and is labelled as
+// such. Questions and motions are one line and a link, never the answer.
+const KINDWORD = {vote:"", motion:"LODGED", signed:"SUPPORTED", pq:"ASKED", spoke:"SPOKE"};
+const PLACEWORD = {"++":"strongly with us", "+":"leaning with us",
+                   "-":"leaning against us", "--":"strongly against us"};
+function countLine(n){
+  const parts = [];
+  const pl = (c, one, many) => c + " " + (c === 1 ? one : many);
+  if (n.vote) parts.push("voted in " + pl(n.vote, "division", "divisions"));
+  if (n.absent) parts.push("no vote recorded in " + n.absent);
+  if (n.motion) parts.push("lodged " + pl(n.motion, "motion", "motions"));
+  if (n.signed) parts.push("supported " + pl(n.signed, "motion", "motions"));
+  if (n.pq) parts.push("asked " + pl(n.pq, "question", "questions"));
+  if (n.spoke) parts.push("spoke " + pl(n.spoke, "time", "times"));
+  return parts.join(" · ");
+}
+function readingLine(it){
+  if (it.k !== "vote" && it.k !== "motion" && it.k !== "signed") return "";
+  if (it.rs === "signed" && it.dir != null)
+    return `<div class="rd sg">Signed 5CA reading: ${it.dir > 0 ? "+" : ""}${it.dir}${
+      it.why ? " &middot; " + esc(it.why) : ""}</div>`;
+  if (it.rs === "not-placeable")
+    return `<div class="rd">Read and settled: this ${it.k === "vote" ? "division" : "motion"} places nobody.</div>`;
+  if (it.rs === "awaiting")
+    return `<div class="rd">5CA reading awaiting sign-off.</div>`;
+  return "";
+}
+function intelBlock(m){
+  const I = m.intel;
+  if (!I) return "";
+  const areas = Object.keys(Object.assign({}, I.areas || {}, I.place || {}));
+  if (!areas.length) return "";
+  const total = a => Object.values(((I.areas||{})[a]||{}).n || {}).reduce((x,y) => x+y, 0);
+  areas.sort((a,b) => total(b) - total(a));
+  let out = `<div class="intel"><h3 class="ih">On our ground</h3>
+    <p class="recn">Every division, question, motion and speech on the issues we track.
+    Votes carry no judgement unless a human has signed what the division decided.</p>`;
+  for (const a of areas){
+    const blk = (I.areas||{})[a] || {n:{}, items:[]};
+    const pc = (I.place||{})[a];
+    out += `<div class="iarea"><h3>${esc((DATA.intelAreas||{})[a] || "Area " + a)}${
+      pc ? ` <span class="pchip">5CA ${esc(pc)} &middot; ${esc(PLACEWORD[pc]||"")}</span>` : ""}</h3>
+      ${countLine(blk.n) ? `<p class="recn">${countLine(blk.n)}</p>` : ""}`;
+    for (const it of blk.items){
+      const word = it.k === "vote" ? "VOTED " + String(it.v||"").toUpperCase() : KINDWORD[it.k];
+      const title = it.u ? `<a href="${esc(it.u)}" target="_blank" rel="noopener">${esc(it.t)}</a>` : esc(it.t);
+      out += `<div class="irow"><span class="ik">${esc(word)}</span><div class="ib">
+        <div class="it">${title}</div>
+        ${it.q ? `<blockquote>${esc(it.q)}</blockquote>` : ""}
+        <div class="d">${fmtD(it.d)}${it.res ? " &middot; " + esc(it.res) : ""}</div>
+        ${readingLine(it)}</div></div>`;
+    }
+    const shown = blk.items.length, all = total(a);
+    if (all > shown) out += `<p class="recn more">Showing ${shown} of ${all}${
+      blk.n.absent ? " (absences are counted, not listed)" : ""}.</p>`;
+    out += `</div>`;
+  }
+  return out + "</div>";
+}
+
 function renderMember(id){
   const m = DATA.members.find(x => x.id === id);
   if (!m) return;
@@ -150,6 +232,7 @@ function renderMember(id){
         __MEMBER_UPPER__ — no longer sits in the __CHAMBER_NAME__. The votes
         below are from when they did.</div>` : ""}</div>
     ${rows || '<p class="note">No tracked division has a recorded vote for this member.</p>'}
+    <div class="divcard" style="padding:0">${intelBlock(m) || '<p class="note" style="margin:14px 18px">No record on our ground for this member yet.</p>'}</div>
     <p class="note">Votes come from the chamber's own published division records.</p>`;
   location.hash = "m-" + m.id;
 }

@@ -1,0 +1,89 @@
+{
+ "page": 1,
+ "pageSize": 10,
+ "total": 2,
+ "results": [
+  {
+   "titulo": "Sesión 011, Votación  001",
+   "mocion": "Sometido a votación el orden del día correspondiente a la sesión del miércoles 07 de octubre de 2026.",
+   "fecha": "2026-10-07T00:00:00",
+   "votos": {
+    "cantidadTotalVotos": 96,
+    "cantidadVotosSi": 96,
+    "cantidadVotosNo": 0,
+    "cantidadVotosAbastencion": 0
+   },
+   "asistencias": {
+    "cantidadDelegados": 190,
+    "cantidadPresentes": 99,
+    "cantidadAusentes": 0,
+    "totalLegisladores": 0
+   },
+   "sesionId": 134544,
+   "sesion": {
+    "id": 134544,
+    "numero": "00011-2026-SLO",
+    "tipoConvocatoriaId": 0,
+    "descripcion": null
+   },
+   "numeroSesion": null,
+   "tipoConvocatoriaId": 0,
+   "secuenciaAnterior": 0,
+   "tipoId": null,
+   "iniciativaId": null,
+   "iniciativaDescripcion": null,
+   "iniciativaNumero": null,
+   "habilitados": null,
+   "subTitulo": null,
+   "estado": null,
+   "tipo": null,
+   "order": 0,
+   "iniciativa": null,
+   "id": 22789,
+   "numeroVotacion": "001",
+   "votoId": null,
+   "voto": null
+  },
+  {
+   "titulo": "Sesión 011, Votación  002",
+   "mocion": "Sometido a votación el desapoderamiento de la Comisión Permanente de Educación del estudio de las iniciativas números: 06043-2024-2028-CD y 05421-2024-2028-CD, para que fuese apoderada la Comisión Permanente de Educación Superior, Ciencia y Tecnología.",
+   "fecha": "2026-10-07T00:00:00",
+   "votos": {
+    "cantidadTotalVotos": 99,
+    "cantidadVotosSi": 99,
+    "cantidadVotosNo": 0,
+    "cantidadVotosAbastencion": 0
+   },
+   "asistencias": {
+    "cantidadDelegados": 190,
+    "cantidadPresentes": 103,
+    "cantidadAusentes": 0,
+    "totalLegisladores": 0
+   },
+   "sesionId": 134544,
+   "sesion": {
+    "id": 134544,
+    "numero": "00011-2026-SLO",
+    "tipoConvocatoriaId": 0,
+    "descripcion": null
+   },
+   "numeroSesion": null,
+   "tipoConvocatoriaId": 0,
+   "secuenciaAnterior": 0,
+   "tipoId": null,
+   "iniciativaId": null,
+   "iniciativaDescripcion": null,
+   "iniciativaNumero": null,
+   "habilitados": null,
+   "subTitulo": null,
+   "estado": null,
+   "tipo": null,
+   "order": 0,
+   "iniciativa": null,
+   "id": 22790,
+   "numeroVotacion": "002",
+   "votoId": null,
+   "voto": null
+  }
+ ]
+}

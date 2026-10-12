@@ -1,0 +1,34 @@
+# Switzerland edition noise rules (src/noise.py; format documented there).
+# Hand-edited. Patterns match folded text: lower case, accents stripped,
+# 'ss' for 'ß'. A watched item is never filtered.
+#
+# Measured on the scoping store (9 October 2026, replayed offline from the
+# raw archive; taxonomy-atch and taxonomy-fr v0.1 for ch), 9 September to
+# 9 October (the Herbstsession): 82 items on our ground, 42 of them
+# questions (interpellations, Fragestunde questions). Labelled by hand: 18
+# noise, mostly questions matched on one loose term in the French or
+# submitted text ("toilettes" in a question on payment methods, "E-ID" in
+# digital-government questions, "neutralite" for Swiss neutrality, a
+# children's-rights phrase in disability insurance), which the title
+# cannot see.
+#
+# Two false friends leave by title: animal welfare (Lebensschutz,
+# Fristenregelung in seizures of animals), unless the title is about
+# ritual slaughter, which is religious freedom; and disability insurance
+# (the Quebec "IVG" and children's-rights phrases). Over the whole store
+# they drop 3 items, all noise; the ritual-slaughter question (25.3976)
+# stays.
+#
+# Tried and NOT adopted: holding questions to the minimum evidence (a
+# tier-1 term in the title, two distinct terms, or a Criminal Code article
+# number). It dropped 23 questions, but only about half were noise; the
+# rest were tier-2 questions on our ground (prostitution websites run from
+# Switzerland, paedophile recidivism, a 261bis event, residence for victims
+# of trafficking). The remaining noise is tier 2 or a single tier-1 term;
+# it does not lead (the alert rule below) and is for Chris's mute list.
+exclude_titles:
+  - '^(?!.*(ritu|schacht|schlacht|religi|abattage|culte)).*(\btierschutz|\btierwohl\b|\btierhalt|\bschweinehalt)'
+  - '\binvalidenversicherung\b|\bassurance-invalidite\b'
+alert:
+  title_tier1: true
+  distinct_terms: 2

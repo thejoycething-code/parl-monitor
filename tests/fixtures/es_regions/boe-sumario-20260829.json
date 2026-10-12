@@ -1,0 +1,75 @@
+{
+ "status": {
+  "code": "200",
+  "text": "ok"
+ },
+ "data": {
+  "sumario": {
+   "metadatos": {
+    "publicacion": "BOE",
+    "fecha_publicacion": "20260829"
+   },
+   "diario": [
+    {
+     "numero": "213",
+     "sumario_diario": {
+      "identificador": "BOE-S-2026-213",
+      "url_pdf": {
+       "szBytes": "308486",
+       "szKBytes": "301",
+       "texto": "https://www.boe.es/boe/dias/2026/08/29/pdfs/BOE-S-2026-213.pdf"
+      }
+     },
+     "seccion": [
+      {
+       "codigo": "1",
+       "nombre": "I. Disposiciones generales",
+       "departamento": [
+        {
+         "codigo": "8131",
+         "nombre": "COMUNIDAD DE MADRID",
+         "epigrafe": [
+          {
+           "nombre": "Caza y pesca",
+           "item": {
+            "identificador": "BOE-A-2026-18282",
+            "control": "2026/13421",
+            "titulo": "Ley 4/2026, de 2 de julio, de Caza y Pesca de la Comunidad de Madrid.",
+            "url_pdf": {
+             "szBytes": "999831",
+             "szKBytes": "976",
+             "pagina_inicial": "117162",
+             "pagina_final": "117274",
+             "texto": "https://www.boe.es/boe/dias/2026/08/29/pdfs/BOE-A-2026-18282.pdf"
+            },
+            "url_html": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-18282",
+            "url_xml": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2026-18282"
+           }
+          },
+          {
+           "nombre": "Familia",
+           "item": {
+            "identificador": "BOE-A-2026-18283",
+            "control": "2026/13422",
+            "titulo": "Ley 5/2026, de 7 de julio, de reconocimiento del concebido en la aplicación de las medidas de apoyo a la familia en la Comunidad de Madrid.",
+            "url_pdf": {
+             "szBytes": "220876",
+             "szKBytes": "216",
+             "pagina_inicial": "117275",
+             "pagina_final": "117279",
+             "texto": "https://www.boe.es/boe/dias/2026/08/29/pdfs/BOE-A-2026-18283.pdf"
+            },
+            "url_html": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-18283",
+            "url_xml": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2026-18283"
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

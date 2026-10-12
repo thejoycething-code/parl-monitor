@@ -57,7 +57,7 @@ TAXONOMY = os.path.join(ROOT, "config", "taxonomy-de.yaml")
 
 # Kept in one place so the edition, the DM and any later surface cannot
 # drift: the version the note names must be the version the file carries.
-TAXONOMY_VERSION = "v0.5"
+TAXONOMY_VERSION = "v0.6"
 
 # Who has checked the taxonomy. One string, shared by the edition, the DM and
 # the canvas lead, because the DM is the surface most likely to be forwarded

@@ -119,9 +119,10 @@ def place(scored):
 def build_rows(conn, area, entries):
     members = {}
     for r in conn.execute(
-            "SELECT name, party, post FROM sd_members WHERE end_date IS NULL "
-            "OR end_date >= date('now')"):
-        members[norm_name(r["name"])] = {"name": r["name"],
+            "SELECT person_id, name, party, post FROM sd_members WHERE "
+            "end_date IS NULL OR end_date >= date('now')"):
+        members[norm_name(r["name"])] = {"person_id": r["person_id"],
+                                         "name": r["name"],
                                          "party": r["party"],
                                          "post": r["post"]}
     roster = Roster(members)
@@ -209,6 +210,7 @@ def build_rows(conn, area, entries):
             confidence = ""
             comments = ["No recorded activity on this area"]
         rows.append({
+            "person_id": m["person_id"],
             "decision_maker": "{0} ({1}) - {2}".format(
                 m["name"], m["party"] or "?", m["post"] or "?"),
             "column": column, "conflict": conflict,

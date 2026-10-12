@@ -1,0 +1,48 @@
+{
+ "page": 1,
+ "pageSize": 10,
+ "total": 1,
+ "results": [
+  {
+   "titulo": "Sesión 031, Votación  009",
+   "mocion": "Sometida a votación la propuesta de modificación presentada por el diputado Carlos de Pérez, que dice:  ‘Eliminar del proyecto el artículo 49 del proyecto ya que el aumento de 174.5 dólares por tonelada métrica de gas de petróleo’.",
+   "fecha": "2026-06-18T00:00:00",
+   "votos": {
+    "cantidadTotalVotos": 167,
+    "cantidadVotosSi": 27,
+    "cantidadVotosNo": 140,
+    "cantidadVotosAbastencion": 0
+   },
+   "asistencias": {
+    "cantidadDelegados": 190,
+    "cantidadPresentes": 171,
+    "cantidadAusentes": 0,
+    "totalLegisladores": 0
+   },
+   "sesionId": 134514,
+   "sesion": {
+    "id": 134514,
+    "numero": "00031-2026-PLO",
+    "tipoConvocatoriaId": 0,
+    "descripcion": null
+   },
+   "numeroSesion": null,
+   "tipoConvocatoriaId": 0,
+   "secuenciaAnterior": 0,
+   "tipoId": null,
+   "iniciativaId": null,
+   "iniciativaDescripcion": null,
+   "iniciativaNumero": null,
+   "habilitados": null,
+   "subTitulo": null,
+   "estado": null,
+   "tipo": null,
+   "order": 0,
+   "iniciativa": null,
+   "id": 22379,
+   "numeroVotacion": "009",
+   "votoId": null,
+   "voto": null
+  }
+ ]
+}

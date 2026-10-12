@@ -1,0 +1,38 @@
+{
+ "page": 1,
+ "pageSize": 10,
+ "total": 1,
+ "results": [
+  {
+   "titulo": null,
+   "mocion": null,
+   "fecha": null,
+   "votos": null,
+   "asistencias": null,
+   "sesionId": 0,
+   "sesion": null,
+   "numeroSesion": null,
+   "tipoConvocatoriaId": 0,
+   "secuenciaAnterior": 0,
+   "tipoId": null,
+   "iniciativaId": 158412,
+   "iniciativaDescripcion": "Proyecto de ley de medidas procrecimiento económico, simplificación fiscal y mitigación de la crisis internacional. \r\nTÍTULO APROBADO:\r\nLey de medidas de pro-crecimiento económico, simplificación fiscal y mitigación de la crisis internacional.",
+   "iniciativaNumero": "05950-2024-2028-CD",
+   "habilitados": null,
+   "subTitulo": null,
+   "estado": null,
+   "tipo": null,
+   "order": 0,
+   "iniciativa": {
+    "id": 158412,
+    "numero": "05950-2024-2028-CD",
+    "tipoConvocatoriaId": 0,
+    "descripcion": "Proyecto de ley de medidas procrecimiento económico, simplificación fiscal y mitigación de la crisis internacional. \r\nTÍTULO APROBADO:\r\nLey de medidas de pro-crecimiento económico, simplificación fiscal y mitigación de la crisis internacional."
+   },
+   "id": 0,
+   "numeroVotacion": null,
+   "votoId": null,
+   "voto": null
+  }
+ ]
+}

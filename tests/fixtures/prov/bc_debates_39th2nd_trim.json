@@ -1,0 +1,72 @@
+{
+"allHansardFileAttributes": {
+"nodes": [
+{
+"debateAttributes": {
+"nodes": [
+{
+"date": "2010-05-25T00:00:00",
+"bluesModified": null,
+"committeeALink": "https://video.leg.bc.ca/archive-dougfir.asp?video=201005251345&time=14:36:00&toc=archive-dougfir-cmt-a",
+"committeeCLink": null,
+"houseLink": "https://video.leg.bc.ca/archive.asp?video=201005251300&time=13:29:44&toc=archive",
+"live": false,
+"issueNumber": 7,
+"pdfLink": "/Debates/39th2nd/H0525pm-07.pdf",
+"questionPeriodLink": "https://video.leg.bc.ca/archive.asp?video=201005251300&time=13:54:41&duration=00:31:15&toc=archive&type=qp",
+"redirectLink": null,
+"sortOrder": 2,
+"timeOfDay": {
+"name": "Afternoon"
+},
+"bluesStatus": null,
+"volume": 18,
+"debateType": null
+}
+]
+},
+"fileName": "20100525pm-Hansard-v18n7.htm",
+"publishTime": null,
+"published": true,
+"title": "Hansard — Tuesday, May 25, 2010 p.m. — Volume 18, Number 7 (HTML)",
+"notes": null,
+"stringIndex": "/Index/39th2nd/H100525A.htm",
+"lastModified": "2018-03-05T18:06:46",
+"filePath": "/Debates/39th2nd"
+},
+{
+"debateAttributes": {
+"nodes": [
+{
+"date": "2010-05-25T00:00:00",
+"bluesModified": null,
+"committeeALink": "https://video.leg.bc.ca/archive-dougfir.asp?video=201005250930&time=10:07:43&toc=archive-dougfir-cmt-a",
+"committeeCLink": null,
+"houseLink": "https://video.leg.bc.ca/archive.asp?video=201005250930&time=09:59:41&toc=archive",
+"live": false,
+"issueNumber": 6,
+"pdfLink": "/Debates/39th2nd/H0525am-06.pdf",
+"questionPeriodLink": null,
+"redirectLink": null,
+"sortOrder": 1,
+"timeOfDay": {
+"name": "Morning"
+},
+"bluesStatus": null,
+"volume": 18,
+"debateType": null
+}
+]
+},
+"fileName": "20100525am-Hansard-v18n6.htm",
+"publishTime": null,
+"published": true,
+"title": "Hansard — Tuesday, May 25, 2010 a.m. — Volume 18, Number 6 (HTML)",
+"notes": null,
+"stringIndex": "/Index/39th2nd/H100525M.htm",
+"lastModified": "2018-03-05T18:06:11",
+"filePath": "/Debates/39th2nd"
+}
+]
+}
+}

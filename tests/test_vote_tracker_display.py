@@ -1725,9 +1725,14 @@ class AlsoOnRecordTests(unittest.TestCase):
         # so what matters is that they stay vanishingly rare as the page
         # grows, not that they never grow at all.
         share = len(bad) / float(total or 1)
+        # Name the commonest offenders (3 Oct 2026): the CI gate failed with
+        # 1,068 unsourced rows while a local build had 32, and a bare count
+        # gave nothing to go on.
+        import collections
+        top = collections.Counter((k, (t or "")[:50]) for _n, k, t in bad).most_common(5)
         self.assertLess(share, 0.005,
-                        "{0} of {1} roll rows ({2:.2%}) have no source"
-                        .format(len(bad), total, share))
+                        "{0} of {1} roll rows ({2:.2%}) have no source; commonest: {3}"
+                        .format(len(bad), total, share, top))
 
     def test_the_shortlist_counts_debates_not_items(self):
         """A block whose eight newest receipts were EDM signatures scanned

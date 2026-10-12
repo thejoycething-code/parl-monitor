@@ -1,0 +1,33 @@
+# Ireland watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in Ireland. See docs/ireland-scope.md.
+#
+# The shared taxonomy (config/taxonomy.yaml, unchanged) does most of the
+# work. This file carries only bills of the current Houses (34th Dail, 27th
+# Seanad) that are on our ground but whose short and long titles carry no
+# taxonomy term. Irish vocabulary that would catch them generally is
+# PROPOSED in docs/ireland-scope.md for Christopher, not added here.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/ie_store.add_watch_areas). Keys are
+# '<year>/<number>', the Oireachtas's own bill number. Irish bills change
+# title on the way through (the Incitement to Violence or Hatred bill of
+# 2022 is stored as the Criminal Justice (Hate Offences) Bill 2022), and a
+# key survives that. Every bill lapses at the next dissolution; a lapsed
+# bill restored to the order paper keeps its key, a re-introduced one gets a
+# new number, so re-check every entry after the next general election.
+bills:
+  "2026/7": {areas: [7],
+             why: "Online Safety (Recommender Algorithms) Bill 2026 (PMB, defeated at Second Stage on 4 March 2026 after a division). Amends the Online Safety and Media Regulation Act 2022. 'Online Safety Act' is a term; 'Online Safety (...) Bill' and the 2022 Act's Irish name are not."}
+  "2026/93": {areas: [6, 7],
+              why: "Artificial Intelligence Companion Services (Protection of Children) Bill 2026 (PMB). Bans AI companions for children, age assurance, Coimisiún na Meán. The long title says 'age-assurance', hyphenated, which the term 'age assurance' does not match."}
+  "2025/12": {areas: [12],
+              why: "Prohibition of Advertising or Importuning Sex for Rent Bill 2025 (Seanad PMB). Sexual exploitation in housing; 'sex for rent' is not a term."}
+  "2026/8": {areas: [7],
+             why: "Harassment, Harmful Communications and Related Offences (Amendment) Bill 2026 (PMB): non-consensual intimate imagery, including generated imagery. The Irish 'Coco's Law' family; none of its words is a term."}
+  "2026/13": {areas: [7],
+              why: "Harassment, Harmful Communications and Related Offences (Amendment) (No. 2) Bill 2026 (PMB): computer-generated intimate images (sexual deepfakes)."}
+  "2026/76": {areas: [7],
+              why: "Strategic Lawsuits against Public Participation Bill 2026 (Government): the anti-SLAPP Directive. Free-speech ground; 'SLAPP' is not a term."}
+  "2026/19": {areas: [7],
+              why: "Media Regulation Bill 2026 (Government, Seanad): the European Media Freedom Act and Coimisiún na Meán's powers. Free-speech ground, triage to decide."}
+  "2023/26": {areas: [10],
+              why: "Health (Assisted Human Reproduction) Bill 2023 (Seanad PMB, restored to the 27th Seanad): an advisory committee on state funding of IVF. 'Assisted human reproduction', the Irish statutory name for the area, is not a term."}

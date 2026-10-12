@@ -10,6 +10,9 @@
 forecast you did not keep cannot be scored. `find` searches the ledger for the
 division that settled it. `outcome` nominates that division and states which
 way was OUR side. `score` reports what the decision-makers actually did.
+
+This is the UK (Westminster ledger). The new countries have their own,
+country-aware version on the 5CA sign-off layer: tools/country_campaign.py.
 """
 
 from __future__ import annotations

@@ -1,0 +1,19 @@
+# US watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in the US.
+#
+# The shared taxonomy (American vocabulary since v1.17) does most of the
+# work. This file carries only what it cannot: named bills whose titles are
+# either too generic to be a term or say nothing about our ground.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/us_store.add_watch_areas): "Equality
+# Act" as a title term would also match the Refund Equality Act and the
+# TRICARE Equality Act. Keys are '<congress>/<type>/<number>'. Bills die at
+# the end of each Congress and come back under new numbers, so every entry
+# must be re-keyed when the 120th Congress convenes on 3 January 2027.
+bills:
+  "119/hr/15": {areas: [5, 8],
+                why: "Equality Act (218 cosponsors). Adds sexual orientation and gender identity to the Civil Rights Act and bars RFRA as a defence. The taxonomy term is 'Equality Act 2010', so the US bill matched nothing."}
+  "119/s/1503": {areas: [5, 8],
+                 why: "Equality Act, Senate companion of H.R. 15."}
+  "119/s/278": {areas: [6, 7],
+                why: "Kids Off Social Media Act: bans social media accounts under 13. Matched nothing; KOSA and the SCREEN Act did."}

@@ -1,0 +1,69 @@
+[
+{
+"billId": 1028,
+"billNumber": 1,
+"title": "An Act to Ensure the Supremacy of Parliament",
+"committeeReading": null,
+"reportReading": null,
+"royalAssent": null,
+"chapterNumber": null,
+"titleChanged": false,
+"reinstated": false,
+"ruledOutOfOrder": false,
+"billTypeId": 1,
+"thirdReading": null,
+"secondReading": null,
+"firstReading": "2006-02-14",
+"memberId": 236,
+"amendedReading": null,
+"memberAlias": null,
+"files": {
+"nodes": [
+{
+"readingTypeName": "1st Reading",
+"readingTypeId": 1,
+"readingDate": "2006-02-14",
+"fileName": "gov01-1.htm",
+"path": "/ldp/38th2nd/1st_read/gov01-1.htm"
+}
+]
+}
+},
+{
+"billId": 1029,
+"billNumber": 2,
+"title": "Budget Measures Implementation Act, 2006",
+"committeeReading": "2006-03-21",
+"reportReading": "2006-03-21",
+"royalAssent": "2006-03-28",
+"chapterNumber": 2,
+"titleChanged": false,
+"reinstated": false,
+"ruledOutOfOrder": false,
+"billTypeId": 1,
+"thirdReading": "2006-03-21",
+"secondReading": "2006-03-20",
+"firstReading": "2006-02-21",
+"memberId": 268,
+"amendedReading": null,
+"memberAlias": null,
+"files": {
+"nodes": [
+{
+"readingTypeName": "1st Reading",
+"readingTypeId": 1,
+"readingDate": "2006-02-21",
+"fileName": "gov02-1.htm",
+"path": "/ldp/38th2nd/1st_read/gov02-1.htm"
+},
+{
+"readingTypeName": "3rd Reading",
+"readingTypeId": 3,
+"readingDate": "2006-03-21",
+"fileName": "gov02-3.htm",
+"path": "/ldp/38th2nd/3rd_read/gov02-3.htm"
+}
+]
+}
+}
+]

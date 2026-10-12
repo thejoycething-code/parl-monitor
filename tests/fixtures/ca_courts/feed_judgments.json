@@ -1,0 +1,41 @@
+{
+ "description": "Recently published and updated (translated, amended or corrected) documents",
+ "feed_url": "https://decisions.scc-csc.ca/scc-csc/scc-csc/en/json/rss.do",
+ "home_page_url": "https://decisions.scc-csc.ca/scc-csc/en/nav.do",
+ "items": [
+  {
+   "content_text": "Elections - Document updated on 2026-09-18",
+   "date_modified": "2026-09-18",
+   "date_published": "2026-09-18",
+   "id": "21377",
+   "title": "Sinclair-Desgagné v. Canada (Chief Electoral Officer) - 2026 SCC 31 - 2026-09-18",
+   "url": "https://decisions.scc-csc.ca/scc-csc/scc-csc/en/item/21377/index.do"
+  },
+  {
+   "content_text": "Statutes - Constitutional law - Document updated on 2026-09-16",
+   "date_modified": "2026-09-16",
+   "date_published": "1988-12-15",
+   "id": "384",
+   "title": "Ford v. Quebec (Attorney General) - [1988] 2 SCR 712 - 1988-12-15",
+   "url": "https://decisions.scc-csc.ca/scc-csc/scc-csc/en/item/384/index.do"
+  },
+  {
+   "content_text": "Constitutional law - Document updated on 2026-09-15",
+   "date_modified": "2026-09-15",
+   "date_published": "1993-09-30",
+   "id": "1053",
+   "title": "R. v. Morgentaler - [1993] 3 SCR 463 - 1993-09-30",
+   "url": "https://decisions.scc-csc.ca/scc-csc/scc-csc/en/item/1053/index.do"
+  },
+  {
+   "content_text": "Action - Constitutional law - Document updated on 2026-09-11",
+   "date_modified": "2026-09-11",
+   "date_published": "1998-04-02",
+   "id": "1607",
+   "title": "Vriend v. Alberta - [1998] 1 SCR 493 - 1998-04-02",
+   "url": "https://decisions.scc-csc.ca/scc-csc/scc-csc/en/item/1607/index.do"
+  }
+ ],
+ "title": "Supreme Court Judgments",
+ "version": "https://jsonfeed.org/version/1"
+}

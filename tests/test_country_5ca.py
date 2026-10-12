@@ -1,0 +1,673 @@
+"""5CA with stance sign-off for the new countries (src/country5ca.py,
+tools/country_5ca.py, tools/stance_digest.py). Small temporary stores; no
+network, no Slack."""
+
+import csv
+import importlib.util
+import json
+import os
+import re
+import sqlite3
+import sys
+import tempfile
+import unittest
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+
+from src import at_store, fr_store, pl_store  # noqa: E402
+from src import country5ca as c5  # noqa: E402
+from src import readings5ca as r5  # noqa: E402
+
+
+def _load(name):
+    spec = importlib.util.spec_from_file_location(name, os.path.join(ROOT, "tools", name + ".py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+digest_tool = _load("stance_digest")
+QUIET = lambda *a, **k: None  # noqa: E731
+
+PL_STANCE = c5.header("pl") + """
+bill_directions:
+  - key: "10/2110"
+    direction: against
+    status: draft
+    areas: [9]
+    why: "Registered cohabitation contracts."
+    drafted: "test"
+
+divisions:
+"""
+
+PL_DIVS = [
+    # key, number, topic, process_keys, areas, tier, yes, no
+    ("pl-10-1-1", 1, "głosowanie nad całością projektu.", ["10/2110"], [9], 1, 230, 198),
+    ("pl-10-1-2", 2, "poprawka 1", ["10/2110"], [9], 1, 200, 220),
+    ("pl-10-1-3", 3, "wniosek o uzupełnienie porządku dziennego.", ["10/2110"], [9], 1, 240, 190),
+    ("pl-10-1-4", 4, "wniosek o odrzucenie w całości projektu.", ["10/2110"], [9], 1, 193, 228),
+    ("pl-10-1-5", 5, "głosowanie nad całością projektu.", ["10/50"], [7], 2, 300, 100),
+    ("pl-10-1-6", 6, "głosowanie nad całością projektu.", ["10/999"], [1], 1, 210, 220),
+]
+PL_MEMBERS = [("10/1", "Anna Adamska", "PiS"), ("10/2", "Bartosz Bielski", "KO"),
+              ("10/3", "Celina Czarnecka", "PiS")]
+PL_VOTES = {"pl-10-1-1": {"10/1": "NO", "10/2": "YES", "10/3": "ABSENT"},
+            "pl-10-1-4": {"10/1": "YES", "10/2": "NO", "10/3": "YES"},
+            "pl-10-1-2": {"10/1": "YES", "10/2": "NO", "10/3": "YES"}}
+PL_WL = {"10/2110": {"areas": [9]}}
+
+
+def pl_store_at(path):
+    conn = sqlite3.connect(path)
+    pl_store.ensure_schema(conn)
+    for key, number, topic, procs, areas, tier, yes, no in PL_DIVS:
+        conn.execute("INSERT INTO pl_divisions (division_key, term, sitting, number, voted_at, "
+                     "title, topic, process_keys, areas, tier, yes, no) VALUES "
+                     "(?,10,1,?,?,?,?,?,?,?,?,?)",
+                     (key, number, "2026-05-29T10:00:00", "Pkt. 5 Sprawozdanie", topic,
+                      json.dumps(procs), json.dumps(areas), tier, yes, no))
+    for mp, name, club in PL_MEMBERS:
+        conn.execute("INSERT INTO pl_members (mp_key, term, mp_id, name, club, active) "
+                     "VALUES (?,10,?,?,?,1)", (mp, int(mp.split("/")[1]), name, club))
+    for key, got in PL_VOTES.items():
+        for mp, pos in got.items():
+            club = dict((m, c) for m, _, c in PL_MEMBERS)[mp]
+            conn.execute("INSERT INTO pl_votes (division_key, mp_key, position, club) "
+                         "VALUES (?,?,?,?)", (key, mp, pos, club))
+    conn.commit()
+    conn.close()
+    return c5.connect_ro(path)
+
+
+def read_csv(path):
+    with open(path, encoding="utf-8") as h:
+        return list(csv.reader(h))
+
+
+class Base(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.cfg = os.path.join(self.tmp.name, "config")
+        self.docs = os.path.join(self.tmp.name, "docs")
+        self.out = os.path.join(self.tmp.name, "5ca")
+        os.makedirs(self.cfg)
+        os.makedirs(self.docs)
+        with open(os.path.join(self.cfg, "pl_stance.yaml"), "w", encoding="utf-8") as h:
+            h.write(PL_STANCE)
+        self.conn = pl_store_at(os.path.join(self.tmp.name, "store.db"))
+
+    def tearDown(self):
+        self.conn.close()
+        self.tmp.cleanup()
+
+    def draft(self, today="2026-10-10"):
+        return c5.draft(self.conn, "pl", self.cfg, today, QUIET, wl=PL_WL)
+
+    def entries(self):
+        return c5.load("pl", self.cfg)[0]
+
+
+class DrafterTests(Base):
+    def test_watched_and_tier1_votes_are_drafted_by_kind(self):
+        got = self.draft()
+        self.assertEqual(got["new"], 5)               # the tier-2 unwatched vote is not
+        e = self.entries()
+        self.assertNotIn("pl-10-1-5", e)
+        final = e["pl-10-1-1"]
+        self.assertEqual((final["status"], final["vote_kind"], final["yea"], final["nay"]),
+                         ("draft", "final", -2, 2))
+        self.assertIn("AGAINST", final["reasoning"])
+        self.assertIn("Area 9", final["reasoning"])
+        reject = e["pl-10-1-4"]
+        self.assertEqual((reject["vote_kind"], reject["yea"], reject["nay"]), ("reject", 2, -2))
+        amend = e["pl-10-1-2"]
+        self.assertEqual((amend["status"], amend.get("yea")), ("needs_reading", None))
+        self.assertIn("amendment", amend["read_first"])
+        proc = e["pl-10-1-3"]
+        self.assertEqual((proc["status"], proc["placeable"]), ("draft", False))
+
+    def test_no_direction_means_needs_reading_never_a_guess(self):
+        self.draft()
+        e = self.entries()["pl-10-1-6"]
+        self.assertEqual(e["status"], "needs_reading")
+        self.assertIsNone(e.get("yea"))
+        self.assertIn("no bill direction is on file", e["read_first"])
+
+    def test_redraft_appends_nothing_and_never_rewrites(self):
+        self.draft()
+        path = c5.stance_path("pl", self.cfg)
+        with open(path, encoding="utf-8") as h:
+            text = h.read().replace("yea: -2", "yea: -1", 1)
+        with open(path, "w", encoding="utf-8") as h:
+            h.write(text)
+        got = self.draft("2026-10-17")
+        self.assertEqual(got["new"], 0)
+        with open(path, encoding="utf-8") as h:
+            self.assertEqual(h.read(), text)
+
+    def test_lobbies_are_counted_from_positions(self):
+        self.draft()
+        self.assertIn("Za: KO 1", self.entries()["pl-10-1-1"]["lobbies"])
+
+    def test_refuses_when_divisions_is_not_last(self):
+        path = c5.stance_path("pl", self.cfg)
+        with open(path, "a", encoding="utf-8") as h:
+            h.write("\nlater: []\n")
+        with self.assertRaises(SystemExit):
+            self.draft()
+
+
+class SignOffTests(Base):
+    def setUp(self):
+        super().setUp()
+        self.draft()
+
+    def test_confirm_needs_a_named_signer(self):
+        with self.assertRaises(SystemExit):
+            c5.confirm("pl", ["pl-10-1-1"], "", config_dir=self.cfg, log=QUIET)
+        with self.assertRaises(SystemExit):
+            c5.confirm("pl", ["pl-10-1-1"], "Somebody Else", config_dir=self.cfg, log=QUIET)
+
+    def test_confirm_stamps_person_and_date(self):
+        ok = c5.confirm("pl", ["pl-10-1-1"], "Christopher", "2026-10-10", self.cfg, log=QUIET)
+        self.assertEqual(ok, ["pl-10-1-1"])
+        e = self.entries()["pl-10-1-1"]
+        self.assertEqual((e["status"], e["confirmed_by"], e["confirmed_on"]),
+                         ("confirmed", "Christopher", "2026-10-10"))
+        self.assertEqual(r5.status(e), "confirmed")
+
+    def test_needs_reading_cannot_be_confirmed(self):
+        msgs = []
+        ok = c5.confirm("pl", ["pl-10-1-2"], "Christopher", config_dir=self.cfg, log=msgs.append)
+        self.assertEqual(ok, [])
+        self.assertTrue(any("needs_reading" in m for m in msgs))
+        self.assertEqual(self.entries()["pl-10-1-2"]["status"], "needs_reading")
+
+    def test_guide_ticks_sign_and_survive_a_rewrite(self):
+        c5.write_signoff_doc("pl", self.cfg, self.docs, QUIET)
+        path = c5.doc_path("pl", self.docs)
+        with open(path, encoding="utf-8") as h:
+            text = h.read()
+        self.assertIn("### [ ] `pl-10-1-1`", text)
+        self.assertNotIn("### [ ] `pl-10-1-2`", text)          # needs reading: no box
+        ticked = text.replace("### [ ] `pl-10-1-4`", "### [x] `pl-10-1-4`")
+        with open(path, "w", encoding="utf-8") as h:
+            h.write(ticked)
+        kept = c5.write_signoff_doc("pl", self.cfg, self.docs, QUIET)   # the weekly rewrite
+        self.assertEqual(kept, ["pl-10-1-4"])
+        with open(path, encoding="utf-8") as h:
+            self.assertIn("### [x] `pl-10-1-4`", h.read())
+        ok = c5.sign_from_doc("pl", "Christopher", "2026-10-11", self.cfg, self.docs, QUIET)
+        self.assertEqual(ok, ["pl-10-1-4"])
+        self.assertEqual(self.entries()["pl-10-1-4"]["confirmed_on"], "2026-10-11")
+
+
+class StatusTests(unittest.TestCase):
+    def test_status_field(self):
+        self.assertEqual(r5.status({"status": "draft", "yea": 2}), "draft")
+        self.assertEqual(r5.status({"status": "needs_reading"}), "unread")
+        self.assertEqual(r5.status({"status": "confirmed", "yea": 2}), "draft")   # nobody named
+        self.assertEqual(r5.status({"status": "confirmed", "yea": 2, "confirmed_by": "X",
+                                    "confirmed_on": "2026-10-10"}), "confirmed")
+        self.assertEqual(r5.status({"status": "confirmed", "placeable": False,
+                                    "confirmed_by": "X", "confirmed_on": "2026-10-10"}),
+                         "unplaceable")
+
+    def test_older_files_unchanged(self):
+        self.assertEqual(r5.status({"draft": True, "yea": 2}), "draft")
+        self.assertEqual(r5.status({"yea": 2}), "confirmed")
+        self.assertEqual(r5.status({"read_first": "x"}), "unread")
+
+
+class SheetTests(Base):
+    def setUp(self):
+        super().setUp()
+        self.draft()
+        self.sheet = c5.sheet_path("pl", "sejm", 9, self.out)
+
+    def run_sheets(self):
+        return c5.run_sheets(self.conn, "pl", self.cfg, self.out, "2026-10-10", QUIET)
+
+    def test_no_sheet_without_a_confirmed_reading(self):
+        self.assertEqual(self.run_sheets(), [])
+        self.assertFalse(os.path.exists(self.sheet))
+
+    def test_confirmed_reading_places_and_drafts_do_not(self):
+        c5.confirm("pl", ["pl-10-1-1"], "Christopher", "2026-10-10", self.cfg, log=QUIET)
+        self.assertEqual(self.run_sheets(), [self.sheet])
+        rows = {r[0]: r for r in read_csv(self.sheet)}
+        cols = ["++", "+", "0", "-", "--"]
+
+        def column(prefix):
+            row = next(v for k, v in rows.items() if k.startswith(prefix))
+            return cols[[c == "1" for c in row[1:6]].index(True)]
+        self.assertEqual(column("Anna Adamska"), "++")       # voted No on the whole bill
+        self.assertEqual(column("Bartosz Bielski"), "--")
+        self.assertEqual(column("Celina Czarnecka"), "0")    # absent; the reject vote is a draft
+        celina = next(v for k, v in rows.items() if k.startswith("Celina"))
+        self.assertIn("awaiting sign-off -- not placed", celina[11])
+        self.assertNotIn("+2", celina[11])                   # no unconfirmed direction shown
+
+    def test_sheet_removed_when_reading_is_no_longer_confirmed(self):
+        c5.confirm("pl", ["pl-10-1-1"], "Christopher", "2026-10-10", self.cfg, log=QUIET)
+        self.run_sheets()
+        path = c5.stance_path("pl", self.cfg)
+        with open(path, encoding="utf-8") as h:
+            text = h.read().replace("status: confirmed", "status: draft")
+        with open(path, "w", encoding="utf-8") as h:
+            h.write(text)
+        self.run_sheets()
+        self.assertFalse(os.path.exists(self.sheet))
+
+
+class DerivedTests(unittest.TestCase):
+    """Austria: only the Klub's vote is recorded; member rows are DERIVED (X5)."""
+
+    def test_derived_rows_are_labelled(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "at.db")
+            conn = sqlite3.connect(path)
+            at_store.ensure_schema(conn)
+            conn.execute("INSERT INTO at_items (item_key, gp, chamber, title, areas, tier) VALUES "
+                         "('XXVIII/UEA/26', 'XXVIII', 'NR', 'Schutz der biologischen Geschlechter', "
+                         "'[5]', 1)")
+            conn.execute("INSERT INTO at_divisions (division_key, item_key, date, body, question, "
+                         "areas) VALUES ('k1', 'XXVIII/UEA/26', '2025-03-27', 'NR', "
+                         "'Unselbständiger Entschließungsantrag', '[5]')")
+            conn.executemany("INSERT INTO at_votes (division_key, klub, position) VALUES (?,?,?)",
+                             [("k1", "FPÖ", "Dafür"), ("k1", "ÖVP", "Dagegen")])
+            conn.executemany("INSERT INTO at_members (pad, name, chamber, klub) VALUES (?,?,?,?)",
+                             [("1", "Frau F", "NR", "FPÖ"), ("2", "Herr G", "NR", "FPÖ"),
+                              ("3", "Frau O", "NR", "ÖVP")])
+            conn.commit()
+            conn.close()
+            cfg = os.path.join(tmp, "config")
+            os.makedirs(cfg)
+            with open(os.path.join(cfg, "at_stance.yaml"), "w", encoding="utf-8") as h:
+                h.write(c5.header("at") + """
+bill_directions:
+  - key: "XXVIII/UEA/26"
+    direction: with
+    status: draft
+    why: "Protects the two biological sexes."
+
+divisions:
+""")
+            ro = c5.connect_ro(path)
+            c5.draft(ro, "at", cfg, "2026-10-10", QUIET, wl={"XXVIII/UEA/26": {}})
+            e = c5.load("at", cfg)[0]["k1"]
+            self.assertEqual((e["yea"], e["nay"]), (2, -2))
+            self.assertIn("DERIVED", e["lobbies"])
+            c5.confirm("at", ["k1"], "Christopher", "2026-10-10", cfg, log=QUIET)
+            out = os.path.join(tmp, "5ca")
+            written = c5.run_sheets(ro, "at", cfg, out, "2026-10-10", QUIET)
+            rows = read_csv(written[0])
+            frau = next(r for r in rows if r[0].startswith("Frau F"))
+            self.assertIn("[DERIVED]", frau[0])
+            self.assertEqual(frau[1], "1")                   # ++
+            self.assertIn("derived", frau[8])
+            self.assertIn("X5", rows[-1][0])
+            ro.close()
+
+
+class VoteKindTests(unittest.TestCase):
+    CASES = [
+        ("głosowanie nad całością projektu.", "final"),
+        ("wniosek o odrzucenie projektu w pierwszym czytaniu.", "reject"),
+        ("poprawka 12", "amendment"),
+        ("wniosek o uzupełnienie porządku dziennego.", "procedural"),
+        ("l'ensemble de la proposition de loi relative au droit à l'aide à mourir", "final"),
+        ("l'amendement n° 12 de M. Juvin à l'article 2", "amendment"),
+        ("la motion de rejet préalable, déposée par M. Hetzel", "reject"),
+        ("Votazione finale", "final"),
+        ("Votazione questione pregiudiziale", "reject"),
+        ("DDL 2423-A E AB - Q PREG COST 1,2,3 - Votazione", "reject"),
+        ("Schlussabstimmung", "final"),
+        ("Votação na generalidade:", "final"),
+        ("Requerimento dispensa redação final: Requerimento oral", "procedural"),
+        ("Votación conjunta de las enmiendas a la totalidad de devolución", "reject"),
+        ("Votación separada por puntos. Punto 1. Proposición no de Ley", "amendment"),
+        ("Aprovada, em primeiro turno, a Proposta de Emenda à Constituição nº 5", "final"),
+        ("DECRETO POR EL QUE SE REFORMAN ... (EN LO GENERAL Y EN LO PARTICULAR)", "final"),
+        ("Hlasovanie o návrhu zákona ako o celku.", "final"),
+        ("Motie: Motie van het lid Piri c.s. over de regenboogvlag", "final"),
+        ("Amendement: Gewijzigd amendement van het lid Faber", "amendment"),
+        ("Geheel van het wetsvoorstel tot flexibilisering", "final"),
+        ("önálló indítvány minősített többséget igénylő része elfogadva", "final"),
+        ("Fiducia conversione decreto", "other"),
+    ]
+
+    def test_kinds(self):
+        for text, want in self.CASES:
+            self.assertEqual(c5.vote_kind(text)[0], want, text)
+
+    def test_store_flag_wins(self):
+        self.assertEqual(c5.vote_kind("PRIJEDLOG ZAKONA, prvo čitanje", "inverted")[0], "inverted")
+
+    def test_motion_in_a_dossier_is_its_own_text(self):
+        bills = {"36416": {"direction": "against", "why": "Lifts the embryo ban."}}
+        row = {"key": "b1", "question": "Motie: Motie van de leden Bikker over onderzoek",
+               "subject": "Embryowet", "areas": "[10]", "tier": 1, "watch_key": "36416",
+               "zaak_nummer": "2025Z1", "dossiers": '["36416"]', "date": "2025-12-09",
+               "chamber": "tk"}
+        e = c5.draft_entry("nl", row, bills, [], "2026-10-10")
+        self.assertEqual(e["status"], "needs_reading")
+        self.assertIn("its own text", e["read_first"])
+
+
+class SpecTests(unittest.TestCase):
+    def test_every_spec_query_runs_on_the_schema(self):
+        from src import db
+        with tempfile.TemporaryDirectory() as tmp:
+            conn = db.init_db(db.connect(os.path.join(tmp, "s.db")))
+            for cc, spec in c5.SPECS.items():
+                conn.execute(spec.div_sql).fetchall()
+                conn.execute(spec.roster_sql).fetchall()
+                if spec.positions_sql:
+                    conn.execute(spec.positions_sql, ("x",)).fetchall()
+            conn.close()
+
+    def test_every_country_has_a_stance_file_that_parses(self):
+        for cc in c5.COUNTRIES:
+            divs, bills, _ = c5.load(cc)
+            self.assertTrue(os.path.exists(c5.stance_path(cc)), cc)
+            for k, e in divs.items():
+                self.assertIn(e.get("status"), ("draft", "needs_reading", "confirmed"), (cc, k))
+                if e.get("status") == "confirmed":
+                    self.assertTrue(e.get("confirmed_by") and e.get("confirmed_on"), (cc, k))
+            for k, b in bills.items():
+                # `hold` (Chris, 11 October 2026: France's palliative care bill) only
+                # with `needs_reading`, so nothing is drafted or confirmed from it.
+                self.assertIn(b.get("direction"), ("with", "against", "hold"), (cc, k))
+                if b.get("direction") == "hold":
+                    self.assertEqual(b.get("status"), "needs_reading", (cc, k))
+
+
+class DigestTests(Base):
+    def test_digest_lists_country_and_sends_once_a_week(self):
+        self.draft()
+        text = c5.digest_text("2026-10-11", self.cfg, self.docs, countries=("pl",))
+        self.assertIn("*Poland*", text)
+        self.assertIn("2 proposed, 1 procedural, 2 need reading, 0 confirmed", text)
+        self.assertIn("`pl-10-1-1`", text)
+        sent = []
+        state = os.path.join(self.tmp.name, "digest")
+        orig = c5.digest_text
+        c5.digest_text = lambda today: orig(today, self.cfg, self.docs, countries=("pl",))
+        try:
+            fake = lambda t: sent.append(t) or {"ok": True}  # noqa: E731
+            digest_tool.main(["--dm", "--date", "2026-10-11", "--state-dir", state], send=fake)
+            digest_tool.main(["--dm", "--date", "2026-10-11", "--state-dir", state], send=fake)
+            digest_tool.main(["--dm", "--date", "2026-10-18", "--state-dir", state], send=fake)
+        finally:
+            c5.digest_text = orig
+        self.assertEqual(len(sent), 2)                       # once in week 41, once in week 42
+
+    def test_nothing_waiting_sends_nothing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertIsNone(c5.digest_text("2026-10-11", tmp, tmp, countries=("pl",)))
+
+
+# --- France: the sign-off scope (Chris, 10 October 2026) -------------------------------
+
+FR_DOSSIER = "DLR5L17N51670"
+FR_DIVS = [
+    # key, number, title, dossier
+    ("an-17-1", 1, "l'ensemble de la proposition de loi relative au droit à l'aide à mourir "
+                   "(première lecture).", FR_DOSSIER),
+    ("an-17-2", 2, "la motion de rejet préalable, déposée par M. Hetzel, de la proposition de loi "
+                   "relative au droit à l'aide à mourir.", FR_DOSSIER),
+    ("an-17-3", 3, "l'amendement n° 3 de M. Sitzenstuhl de suppression de l'article premier.",
+     FR_DOSSIER),
+    ("an-17-4", 4, "l'amendement n° 77 de Mme Dupont à l'article 2.", FR_DOSSIER),
+    ("an-17-5", 5, "l'article premier de la proposition de loi relative au droit à l'aide à mourir.",
+     FR_DOSSIER),
+    ("an-17-6", 6, "l'amendement n° 12 de M. Martin à l'article 4.", FR_DOSSIER),
+]
+FR_BILLS = """
+bill_directions:
+  - key: "DLR5L17N51670"
+    direction: against
+    status: draft
+    why: "Droit a l'aide a mourir."
+
+divisions:
+"""
+
+
+def fr_wl(amendments=None):
+    entry = {"areas": [2]}
+    if amendments is not None:
+        entry["amendments"] = amendments
+    return {FR_DOSSIER: entry}
+
+
+class FranceBase(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.cfg = os.path.join(self.tmp.name, "config")
+        os.makedirs(self.cfg)
+        with open(c5.stance_path("fr", self.cfg), "w", encoding="utf-8") as h:
+            h.write(c5.header("fr") + FR_BILLS)
+        path = os.path.join(self.tmp.name, "store.db")
+        conn = sqlite3.connect(path)
+        fr_store.ensure_schema(conn)
+        for key, number, title, dossier in FR_DIVS:
+            conn.execute("INSERT INTO fr_divisions (division_key, chamber, legislature, number, date, "
+                         "result, title, dossier_ref, pour, contre, abstentions, areas, tier) "
+                         "VALUES (?,'an',17,?,'2025-05-16','adopté',?,?,80,40,1,'[2]',1)",
+                         (key, number, title, dossier))
+        conn.commit()
+        conn.close()
+        self.conn = c5.connect_ro(path)
+
+    def tearDown(self):
+        self.conn.close()
+        self.tmp.cleanup()
+
+    def draft(self, wl):
+        return c5.draft(self.conn, "fr", self.cfg, "2026-10-10", QUIET, wl=wl)
+
+    def entries(self):
+        return c5.load("fr", self.cfg)[0]
+
+
+class FranceNoScopeTests(FranceBase):
+    """Chris, 12 October 2026: "score all amendments and reverse France's
+    decision". France has no sign-off scope: every vote is drafted."""
+
+    def test_france_has_no_scope_and_drafts_every_vote(self):
+        self.assertIsNone(c5.SPECS["fr"].scope)
+        self.assertIn("12 October 2026", c5.SPECS["fr"].note)
+        self.assertTrue(all(s.scope is None for s in c5.SPECS.values()))
+        got = self.draft(fr_wl())
+        self.assertEqual((got["new"], got["out_of_scope"]), (6, 0))
+        e = self.entries()
+        for k in ("an-17-3", "an-17-4", "an-17-5", "an-17-6"):
+            self.assertEqual((e[k]["vote_kind"], e[k]["status"]), ("amendment", "needs_reading"), k)
+        self.assertTrue(c5.entry_in_scope("fr", e["an-17-6"], fr_wl()))
+
+    def test_prune_out_of_scope_removes_nothing(self):
+        self.draft(fr_wl())
+        path = c5.stance_path("fr", self.cfg)
+        with open(path, encoding="utf-8") as h:
+            text = h.read()
+        self.assertEqual(c5.prune_out_of_scope("fr", self.cfg, wl=fr_wl(), log=QUIET),
+                         {"removed": [], "kept": []})
+        with open(path, encoding="utf-8") as h:
+            self.assertEqual(h.read(), text)
+
+    def test_live_france_file_holds_amendment_entries(self):
+        divs = c5.load("fr")[0]
+        self.assertTrue(any(e.get("vote_kind") == "amendment" for e in divs.values()))
+
+
+class ScopeMachineryTests(FranceBase):
+    """The scope machinery (France's from 10 to 12 October 2026), kept for any
+    future use: tested with final_or_watched() put back on France here only."""
+
+    def setUp(self):
+        super().setUp()
+        self.orig = c5.SPECS["fr"].scope
+        c5.SPECS["fr"].scope = c5.final_or_watched()
+
+    def tearDown(self):
+        c5.SPECS["fr"].scope = self.orig
+        super().tearDown()
+
+    def test_scope_rule(self):
+        wl = fr_wl()
+        for kind in ("final", "reject", "inverted"):
+            self.assertTrue(c5.in_scope("fr", kind, "k", "x", FR_DOSSIER, wl), kind)
+        for kind in ("amendment", "other"):
+            self.assertFalse(c5.in_scope("fr", kind, "k", "x", FR_DOSSIER, wl), kind)
+        self.assertFalse(c5.in_scope("fr", "procedural", "k", "demande de suspension de séance",
+                                     FR_DOSSIER, wl))
+        self.assertTrue(c5.in_scope("fr", "procedural", "k", "suspension de séance avant le vote "
+                                    "sur l'ensemble du projet de loi", FR_DOSSIER, wl))
+        self.assertIsNone(c5.SPECS["pl"].scope)
+        self.assertTrue(c5.in_scope("pl", "amendment", "k", "poprawka 1", None, {}))
+
+    def test_drafter_skips_out_of_scope_votes(self):
+        got = self.draft(fr_wl())
+        self.assertEqual((got["new"], got["out_of_scope"]), (2, 4))
+        self.assertEqual(sorted(self.entries()), ["an-17-1", "an-17-2"])
+
+    def test_watched_amendments_opt_in_by_key_or_number(self):
+        wl = fr_wl(["an-17-5", "n° 3", 77])
+        self.assertEqual(c5.amendment_numbers(FR_DIVS[2][2]), {"3"})
+        got = self.draft(wl)
+        self.assertEqual(got["out_of_scope"], 1)                # only amendment n° 12
+        e = self.entries()
+        self.assertEqual(sorted(e), ["an-17-1", "an-17-2", "an-17-3", "an-17-4", "an-17-5"])
+        other = {"DLR5L17N99999": {"amendments": ["12"]}, FR_DOSSIER: {}}
+        self.assertFalse(c5.in_scope("fr", "amendment", "an-17-6", FR_DIVS[5][2], FR_DOSSIER, other))
+
+    def _everything_drafted(self):
+        c5.SPECS["fr"].scope = None
+        try:
+            self.draft(fr_wl())
+        finally:
+            c5.SPECS["fr"].scope = c5.final_or_watched()
+        self.assertEqual(len(self.entries()), 6)
+
+    def test_prune_never_removes_an_amendment_entry(self):
+        self._everything_drafted()
+        path = c5.stance_path("fr", self.cfg)
+        with open(path, encoding="utf-8") as h:
+            text = h.read()
+        got = c5.prune_out_of_scope("fr", self.cfg, wl=fr_wl(), log=QUIET)
+        self.assertEqual(got["removed"], [])
+        self.assertEqual(sorted(got["kept"]), [(k, c5.AMENDMENT_KEPT) for k in
+                                               ("an-17-3", "an-17-4", "an-17-5", "an-17-6")])
+        with open(path, encoding="utf-8") as h:
+            self.assertEqual(h.read(), text)
+
+    def test_prune_still_removes_other_untouched_out_of_scope_entries(self):
+        self._everything_drafted()
+        path = c5.stance_path("fr", self.cfg)
+        with open(path, encoding="utf-8") as h:
+            text = h.read()
+        # Make an-17-1 a vote of a kind the rules do not recognise: out of scope.
+        start = text.index('- key: "an-17-1"')
+        end = text.index("\n  - key:", start)
+        block = text[start:end].replace("vote_kind: \"final\"", "vote_kind: \"other\"")
+        block = re.sub(r"(?m)^    (yea|nay|why_yea|why_nay|reasoning):.*\n", "", block)
+        block = block.replace("status: draft", "status: needs_reading")
+        with open(path, "w", encoding="utf-8") as h:
+            h.write(text[:start] + block + text[end:])
+        got = c5.prune_out_of_scope("fr", self.cfg, wl=fr_wl(), log=QUIET)
+        self.assertEqual(got["removed"], ["an-17-1"])
+        self.assertEqual(len(got["kept"]), 4)
+        self.assertEqual(sorted(self.entries()), ["an-17-2", "an-17-3", "an-17-4", "an-17-5", "an-17-6"])
+
+
+class OnKeyTests(Base):
+    def test_on_key_is_written_quoted_and_both_spellings_read(self):
+        self.draft()
+        path = c5.stance_path("pl", self.cfg)
+        with open(path, encoding="utf-8") as h:
+            text = h.read()
+        self.assertNotRegex(text, r"(?m)^    on: ")
+        self.assertRegex(text, r'(?m)^    "on": ')
+        quoted = self.entries()
+        self.assertNotIn(True, quoted["pl-10-1-1"])
+        self.assertEqual(quoted["pl-10-1-1"]["on"], "Pkt. 5 Sprawozdanie")
+        with open(path, "w", encoding="utf-8") as h:          # a legacy file: bare `on:`
+            h.write(text.replace('    "on": ', "    on: "))
+        legacy = self.entries()
+        self.assertEqual(legacy, quoted)
+        self.assertEqual(r5.load_stance(path)["pl-10-1-1"]["on"], "Pkt. 5 Sprawozdanie")
+        self.assertIn("- **On:** Pkt. 5", c5.signoff_markdown("pl", self.cfg))
+
+    def test_live_files_quote_the_key(self):
+        for cc in c5.COUNTRIES:
+            with open(c5.stance_path(cc), encoding="utf-8") as h:
+                self.assertNotRegex(h.read(), r"(?m)^    on: ", cc)
+
+
+class OffGroundPruneTests(Base):
+    """A reclassification that takes a drafted vote off our ground (the Swiss
+    IVG guard, 11 October 2026): the unsigned, untouched draft goes; a signed
+    or hand-edited one stays; a vote the store lacks is never touched."""
+
+    def _reclassify(self, *keys):
+        rw = sqlite3.connect(os.path.join(self.tmp.name, "store.db"))
+        for k in keys:
+            rw.execute("UPDATE pl_divisions SET areas='[]', tier=NULL WHERE division_key=?", (k,))
+        rw.commit()
+        rw.close()
+
+    def test_off_ground_drafts_go_and_the_rest_stay(self):
+        self.draft()
+        self.assertIn("pl-10-1-6", self.entries())
+        self._reclassify("pl-10-1-6")
+        PL_WL_NOW = dict(PL_WL)
+        self.assertEqual(c5.off_ground(self.conn, "pl", PL_WL_NOW), {"pl-10-1-5", "pl-10-1-6"})
+        got = c5.prune_off_ground(self.conn, "pl", self.cfg, wl=PL_WL_NOW, log=QUIET)
+        self.assertEqual(got, {"removed": ["pl-10-1-6"], "kept": []})
+        self.assertEqual(sorted(self.entries()), ["pl-10-1-1", "pl-10-1-2", "pl-10-1-3", "pl-10-1-4"])
+        again = c5.prune_off_ground(self.conn, "pl", self.cfg, wl=PL_WL_NOW, log=QUIET)
+        self.assertEqual(again["removed"], [])
+
+    def test_watched_votes_stay_on_ground_and_signed_ones_are_kept(self):
+        self.draft()
+        c5.confirm("pl", ["pl-10-1-1"], "Christopher", "2026-10-11", self.cfg, log=QUIET)
+        # 10/2110 is watched, so its votes stay even with no area of their own.
+        self._reclassify("pl-10-1-1", "pl-10-1-2")
+        got = c5.prune_off_ground(self.conn, "pl", self.cfg, wl=PL_WL, log=QUIET)
+        self.assertEqual(got["removed"], [])
+        # Unwatched, the signed one is kept and the untouched one goes.
+        got = c5.prune_off_ground(self.conn, "pl", self.cfg, wl={}, dry_run=True, log=QUIET)
+        self.assertNotIn("pl-10-1-1", got["removed"])
+        self.assertIn(("pl-10-1-1", "status confirmed"), got["kept"])
+        # An amendment entry is never pruned (Chris, 12 October 2026).
+        self.assertIn(("pl-10-1-2", c5.AMENDMENT_KEPT), got["kept"])
+        self.assertNotIn("pl-10-1-2", got["removed"])
+        self.assertIn("pl-10-1-2", self.entries())
+
+    def test_a_vote_missing_from_the_store_is_never_pruned(self):
+        self.draft()
+        rw = sqlite3.connect(os.path.join(self.tmp.name, "store.db"))
+        rw.execute("DELETE FROM pl_divisions WHERE division_key='pl-10-1-6'")
+        rw.commit()
+        rw.close()
+        got = c5.prune_off_ground(self.conn, "pl", self.cfg, wl=PL_WL, log=QUIET)
+        self.assertEqual(got["removed"], [])
+        self.assertIn("pl-10-1-6", self.entries())
+
+    def test_the_shortlist_marks_an_off_ground_reading_last(self):
+        from src import shortlist5ca as sl
+        self.draft()
+        self._reclassify("pl-10-1-6")
+        ranked = sl.rank("pl", self.cfg, self.conn, today="2026-10-11",
+                         campaigns_dir=self.tmp.name, briefs_dir=self.tmp.name)
+        self.assertEqual(ranked[-1]["key"], "pl-10-1-6")
+        self.assertTrue(any("--prune-off-ground" in w for w in ranked[-1]["why"]))
+        self.assertFalse(any("--prune-off-ground" in w for it in ranked[:-1] for w in it["why"]))
+
+
+if __name__ == "__main__":
+    unittest.main()

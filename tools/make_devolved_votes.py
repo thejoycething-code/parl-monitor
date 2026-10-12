@@ -33,7 +33,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, devolved
+from src import db, devolved, devolved_intel
 
 TEMPLATE = os.path.join(ROOT, "templates", "devolved-votes.html")
 
@@ -219,7 +219,13 @@ def build(conn, nation):
         votes.setdefault(person, {})[key] = {
             "vote": r[vvote],
             "verdict": verdicts.get((key, person))}
+    # THE RECORD ON OUR GROUND (9 October 2026): src/devolved_intel.py.
+    profiles = devolved_intel.build(nation, conn,
+                                    members=[m["id"] for m in members])
+    for m in members:
+        m["intel"] = profiles.get(m["id"])
     return {"members": members, "divisions": divisions, "votes": votes,
+            "intelAreas": devolved_intel.area_labels(),
             "unresolved": sorted(unresolved),
             "former_from_votes": [m["name"] for m in former_from_votes],
             "built": datetime.date.today().isoformat()}
@@ -282,7 +288,8 @@ def build_page(nation):
     summary = ("{0} {1} members, {2} division(s), {3} signed, {4} votes"
                .format(nation, len(data["members"]), len(data["divisions"]),
                        signed, sum(len(v) for v in data["votes"].values())))
-    caveats = []
+    caveats = ["{0} on our ground: {1}".format(nation, devolved_intel.stats(
+        {m["id"]: m["intel"] for m in data["members"] if m.get("intel")}))]
     if data.get("unresolved"):
         # "missing" is load-bearing, and so is the absent indent: the
         # relay drops indented lines outright and lifts the rest only

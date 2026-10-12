@@ -284,3 +284,55 @@ class ArchiveFallbackTests(unittest.TestCase):
             fh.write(b"old")
         with self.assertRaises(http.FetchError):
             client.get_text("https://www.parliament.scot/bills/x", "scotland", "bill-x")
+
+
+class GzipOptInTests(unittest.TestCase):
+    """X14 (country decisions, 10 October 2026): gzip is opt-in, off by
+    default, and a compressed reply is decompressed before archiving."""
+
+    class _Headers(dict):
+        def get(self, key, default=None):
+            return super().get(key, default)
+
+    def _gz_response(self, body):
+        resp = FakeResponse(gzip.compress(body))
+        resp.headers = self._Headers({"Content-Encoding": "gzip"})
+        return resp
+
+    def test_off_by_default_sends_no_accept_encoding(self):
+        tmp = tempfile.mkdtemp()
+        opener = ScriptedOpener([FakeResponse(b"{}")])
+        client, _ = make_client(tmp, opener)
+        client.get_json("https://example.org/a", "feed", "a")
+        self.assertIsNone(opener.requests[0].get_header("Accept-encoding"))
+
+    def test_client_wide_opt_in_sends_header_and_decompresses(self):
+        tmp = tempfile.mkdtemp()
+        opener = ScriptedOpener([self._gz_response(b'{"ok": "\xc3\xb3"}')])
+        client, _ = make_client(tmp, opener)
+        client.accept_gzip = True
+        data = client.get_json("https://example.org/a", "feed", "a")
+        self.assertEqual(data, {"ok": "ó"})
+        self.assertEqual(opener.requests[0].get_header("Accept-encoding"), "gzip")
+        with gzip.open(os.path.join(tmp, "2026-08-01", "feed_a.json.gz"), "rb") as fh:
+            self.assertEqual(fh.read(), b'{"ok": "\xc3\xb3"}')
+
+    def test_per_host_opt_in_only_touches_that_host(self):
+        tmp = tempfile.mkdtemp()
+        opener = ScriptedOpener([self._gz_response(b"zipped"), FakeResponse(b"plain")])
+        client, _ = make_client(tmp, opener)
+        client.enable_gzip("api.example.org")
+        self.assertEqual(client.get_text("https://api.example.org/x", "f", "x"), "zipped")
+        self.assertEqual(client.get_text("https://other.example.org/y", "f", "y"), "plain")
+        self.assertIsNone(opener.requests[1].get_header("Accept-encoding"))
+
+    def test_uncompressed_reply_to_a_gzip_request_passes_through(self):
+        tmp = tempfile.mkdtemp()
+        opener = ScriptedOpener([FakeResponse(b"plain")])
+        client, _ = make_client(tmp, opener)
+        client.accept_gzip = True
+        self.assertEqual(client.get_text("https://example.org/z", "f", "z"), "plain")
+
+    def test_constructor_flag(self):
+        self.assertTrue(http.HttpClient(raw_dir=tempfile.mkdtemp(), accept_gzip=True).accept_gzip)
+        self.assertFalse(http.HttpClient(raw_dir=tempfile.mkdtemp()).accept_gzip)

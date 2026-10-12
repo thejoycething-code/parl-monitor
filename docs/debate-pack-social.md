@@ -156,6 +156,18 @@ sign-off is the one hand step that unlocks the rest.
   lists the other side's members whose words since their last vote lean our way,
   and ours who have drifted. Areas are matched as a JSON list, never as a
   substring (area 2 is not area 12).
+* **Between votes, new countries** (11 October 2026). `tools/country_since_vote.py
+  --cc nl|ch|at|fr|be [--area N] [--since D] [--write]`: per area, each member's last
+  recorded vote on it and what they have said on it since, with excerpts. Unlike the
+  UK command it never infers drift from scores: drift is NAMED only where the vote's
+  reading is CONFIRMED (`config/<cc>_stance.yaml`) and a person or the free session
+  judge has read the words since (`--queue-out` writes the template, keyed by area,
+  member and the latest speech's date, so a new speech makes a read stale; `--reads`
+  loads it; `read_by` must name the reader). Voted against us and read "with" or
+  "unclear": DRIFTING OUR WAY; voted with us and read "against": DRIFTING AWAY. Until
+  then every row is "awaiting sign-off", ranked by recency and volume. A group's vote
+  (X5: NL shows of hands, every Austrian vote) never names drift and is never queued.
+  `tools/member_profiles.py <cc> --since-vote` adds the same rows to each profile.
 
 ## sequence.md
 
@@ -178,7 +190,8 @@ crop: centre
 * `crop:` is `left`, `centre`, `right`, or the speaker's horizontal centre in pixels
   of the 1920-wide frame. Speakers in Westminster Hall are usually a little left of
   centre; check the contact sheet.
-* Six excerpts of 6-16 seconds make about 55 seconds. No end card unless asked.
+* Six excerpts of 6-16 seconds make about 55 seconds. No CitizenGO intro or end card:
+  parliament videos never carry one (Christopher, 7 October 2026).
 
 ## What the tool does, and why
 
@@ -192,14 +205,18 @@ crop: centre
   "his or herself" became "themselves"; a whole clause was added to Rebecca Smith).
 * **Vertical is a full-height 9:16 crop**, placed per speaker, not a blurred
   letterbox: the speaker fills the frame. The landscape master is kept alongside.
-* **Captions are the spoken words**, one or two lines of at most 30 characters,
+* **Captions are the spoken words** in clean white Roboto with a thin black outline,
+  no box and no shadow (chosen by Christopher from eight mock-ups, 7 October 2026), one or two
+  lines of at most 30 characters and at most four words a line on the vertical (ten on
+  the landscape speech cuts, five on 4:5),
   never crossing a sentence, every card centred on the same point (540, 1600) so
   the text never moves. Hansard wording belongs in the article; a caption that
   differs from the audio reads as a misquote.
 * **Name plates** for the first 5.2 seconds of each excerpt: name in bold on
-  CitizenGO principal blue `#4285F4`, party and seat on an ink `#202124` strip,
-  bottom-left above the captions. White CitizenGO logo top-left. Font Helvetica
-  Neue (Roboto, the brand face, is not installed on the build Mac).
+  CitizenGO Brand Blue `#4285F4`, party and seat on a Dark Gray `#52575C` strip
+  (was ink `#202124` until 7 October 2026), bottom-left above the captions. White
+  CitizenGO logo top-left. Font Roboto, the brand face, when `docs/fonts/Roboto-*.ttf`
+  is present; Helvetica Neue otherwise.
 * **Contact sheet and report** so the crop and the words are checked by eye before
   anything is posted.
 * Footage is Parliament's, under the Parliamentary Recording Unit's terms, which
@@ -367,3 +384,228 @@ previous sequence is kept as `sequence-previous.md`). Onside is still the checkl
 decision; the judge only orders it. `debate_report.py --publish --with-clips` then adds
 a "Best speeches" section to the canvas and uploads the reel and the chosen full-speech
 clips into the thread (the Slack app needs the `files:write` scope for that).
+
+## New countries (10 October 2026)
+
+`tools/country_debate_pack.py` (src/country_debatepack.py) builds a pack for one
+upcoming or recent debate in any of the 26 new countries with a store (the fifteen
+own editions and the eleven collected Latam countries). Manual, like the UK and
+German packs; no scheduled job, no network, no AI call.
+
+    python3 tools/country_debate_pack.py --country pl --date 2026-10-15 --list
+    python3 tools/country_debate_pack.py --country pl --date 2026-10-15 --item 10/2110 --speakers "Name; Name"
+    python3 tools/country_debate_pack.py --pack data/packs/pl-2026-10-15-<slug> --onside
+
+On Drive (11 October 2026): a pack committed to the repo and not built with
+`--sample` is uploaded by the Sunday editions-session-judge job to
+`Country editions/<Country>/Debate packs/<date> <title>/` in the Automated
+Briefs shared drive (`tools/country_drive.py`; unchanged files are skipped).
+
+The pack (`data/packs/<cc>-<date>-<slug>/`) is written for campaigners in the
+country's language (`src/debatepack_i18n.py`: Spanish, Italian, French, German,
+Dutch, Polish, Portuguese, Croatian, Slovak, Hungarian; the frame only, titles and
+positions verbatim), as the German briefs are in German; the README is English.
+It holds the item and its bill (the edition's classification, never a raw keyword
+hit), the agenda slot (`country_agenda` by bill key once the country's weekly step has
+read it, the adapter's own week ahead for Croatia, otherwise "not collected"), every recorded vote on the bill with the split by group, the latest
+votes on the same areas, likely speakers (named with `--speakers`: no new
+country's source publishes a list ahead), the members who broke with their group
+(arithmetic, not a stance), every member's record with a link to
+`profiles/<cc>/` when the member-profiles step has written one, and the
+checklist: the campaigner's tasks before the debate, then one `ONSIDE:` line per
+group and per member to watch (yes and no are read in every pack language).
+
+**Placements come only from CONFIRMED readings** in `config/<cc>_stance.yaml`
+(src/country5ca.build_rows). With none confirmed, as on 10 October, every pack
+says "awaiting sign-off" in its own language and places nobody; a draft with
+proposed values places nobody either. Party-group countries (Austria, Portugal,
+the Netherlands' show of hands) mark DERIVED member rows with `*` (X5).
+
+Samples (SAMPLE, nothing confirmed), from the Italian scoping archive replayed
+offline: `data/packs/it-2026-10-14-disposizioni-in-materia-di-morte-volontaria/`
+(the Senate's assisted-dying bill, 19/S.104: 189 senators' positions on its
+June vote, group splits, two named speakers), and
+`data/packs/it-2026-10-30-modifiche-al-codice-penale-e-altre-disposizi/` (an
+upcoming debate: the Camera's religious-fundamentalism bill, 19/C.2562, on the
+Camera's calendar for 30 October, read live by `tools/country_agenda.py` into a
+scratch copy; no Camera vote on it yet). Tested against scratch confirmations
+too: confirming the S.104 vote placed 88 senators ++ and 59 -- on area 2, and
+nothing else changed.
+
+### Debate today and the live read, new countries (10 October 2026)
+
+`tools/country_debate_today.py` and `tools/country_live_debate.py`
+(src/country_live.py) are the new countries' `debate_today` and `live_debate`.
+Manual commands; the only scheduled use is a step in the existing 16:45 net task
+(`ops/scheduled-tasks/debate-day-net.md`), no new job.
+
+    python3 tools/country_debate_today.py --list            # which countries qualify, and why not
+    python3 tools/country_debate_today.py nl                # today's key debate on our ground
+    python3 tools/country_debate_today.py --all --quiet     # all four (the net task's step)
+    python3 tools/country_live_debate.py nl --debate <id>   # words next to votes
+    python3 tools/country_live_debate.py nl --debate <id> --queue-out /tmp/reads.yaml
+    python3 tools/country_live_debate.py nl --debate <id> --reads /tmp/reads.yaml --dm
+
+**Which countries qualify.** Only those whose chamber collector reads speeches
+from a source that publishes them the same day, measured on the live sources on
+10 October 2026:
+
+| Country | Source | Measured delay | Qualifies |
+|---|---|---|---|
+| NL | Handelingen (open data `Verslag`) | first provisional report 2.5 to 3 h after the sitting opens, re-issued 8 to 15 times through the day (eight plenary days, 23 Sep to 8 Oct) | yes, during the debate |
+| CH | Amtliches Bulletin (OData `Transcript`) | "during the sitting" by the Parliament's own account; `Modified` is overwritten by later corrections, so not measurable from outside a session | yes; confirm on the Wintersession's first day |
+| FR | compte rendu (open data XML, per sitting) | each sitting's record the same night (9 Oct's two sittings generated by 00:13 and 01:00) | yes, after each sitting |
+| BE | Integraal Verslag (lachambre.be) | the Thursday plenary's record the same evening (8 Oct stamped 18:54, 1 Oct 19:05, 24 Sep 18:24; 17 Sep reissued 23 Sep) | yes, after the plenary |
+| AT | provisional protocol, speech by speech | the next day or later (NR 28 Sep: sampled speeches all stamped 29 Sep; BR 8 Oct: two of six sampled still unpublished on 10 Oct) | no |
+| PL, BR, PT | questions only | no speech source | no |
+| IT, ES, HR, SK, HU, Latam | no speech collector | | no |
+
+**How the day is read.** The country's own collector (`tools/<cc>_chamber.py`)
+fetches and parses, unchanged, into a throwaway in-memory store with the real
+store attached read-only: nothing is written to `data/parl-monitor.db`, so both
+commands are safe while a Mini job holds the store. Speeches are the
+collector's: matched on their own words, chair never kept. `debate_today`
+adds the day's agenda points on our ground (`country_agenda`, NL, CH, FR, AT
+and others; none for BE) and links a debate to its point by a printed
+reference or the point's words. Its last line is `KEY DEBATE: <cc> | ...`
+(five speakers on our ground, or two on a watched agenda point) or
+`KEY DEBATE: <cc> | none`.
+
+**Before sign-off the live read names no contradiction.** It lists each
+member who spoke on our ground, their words (verbatim excerpt) and their latest
+recorded votes on the debate's areas, each marked "awaiting sign-off", under
+the heading AWAITING SIGN-OFF. A WOBBLE or SLIP is named only when the vote's
+reading is CONFIRMED in `config/<cc>_stance.yaml` AND the member's words have
+been read (with / against / unclear) in a reads file, filled by a person or
+the free session judge (`--queue-out`, then `--reads`); no API call reads
+words. A vote derived from a group's show of hands (X5, the Netherlands) is
+shown with `*` and never names a contradiction. Members are matched by the
+source's member id (CH, FR), else by name (a surname alone only when unique,
+or unique in the printed party).
+
+## Speech clips, new countries (11 October 2026)
+
+`tools/country_clips.py` (src/country_clips.py) is `pick_speeches.py`, `social_cut.py`
+and `speech_cut.py` for the countries whose speeches we store (`<cc>_speeches`, from
+src/chamber_store.py) and whose parliament's video can be fetched and lined up with
+them. Manual, like the UK's; no job; it never posts, uploads or sends anything.
+
+    python3 tools/country_clips.py sources
+    python3 tools/country_clips.py pick ch --since 2026-09-08 --until 2026-09-26 --find "Selbstbestimmung" --top 6
+    python3 tools/country_clips.py pick at --date 2026-09-23 --live          # the day read from the source
+    python3 tools/country_clips.py cut --pack data/clips/<folder> --locate-only
+    python3 tools/country_clips.py cut --pack data/clips/<folder>
+    python3 tools/country_clips.py moments nl --pack data/clips/<folder>     # where on Debat Direct
+    python3 tools/country_clips.py cut --pack data/clips/<folder> --only "Name" --video speech.mp4
+    python3 tools/country_clips.py purge
+
+**Per country** (config/clip-sources.yaml holds the source, the terms, the credit and the status):
+
+| Country | Status | Video and how its times are found | Terms in one line |
+|---|---|---|---|
+| CH | open | each Bulletin speech's own MP4 (`simvid_1.mp4?externalid=<ID>`) | non-commercial, credit (c) ParlCH, no added graphics that change the meaning: no logo |
+| AT | open | the Mediathek's own per-speech download, found by the protocol number in our speech_id | political reporting and education only, credit (c) Parlamentsdirektion, no advertising |
+| NL | manual | Debat Direct's speaker events give the second; the archive answers us with a placeholder, so a person downloads the speech and passes `--video` | freedom of expression allowed; visible credit, copyright line, link to terms, edit noted; no member recruitment; source destroyed within a month |
+| FR | needs agreement | the compte rendu's `stime` per paragraph into the sitting's MP4 (byte ranges) | debates free, but multimedia only with prior agreement: the cut refuses until `fr.agreement` is set |
+| BE | needs agreement | the Chamber's event table of speaker turns into the plenary MP4 | speeches free, the commissioned recordings need authorisation: refuses until `be.agreement` is set |
+| BR, PL, IT, ES | not built | no speeches stored (and PL, IT, ES terms unclear) | see each scope doc |
+
+**Pick** ranks by rule, with no AI call (the UK's `pick_speeches.py` asks a model): tier 1
+before tier 2, more taxonomy terms matched, a member before a minister, enough words; each
+speech gets a passage of whole sentences grown to about 45 seconds around the sentence with
+the most matched terms, never ending on a question. On our ground is not a stance: nothing
+is confirmed for the new countries, so `sequence.md` is PROVISIONAL and the person keeps
+only the speakers the campaign may show. `sequence.md` is the UK shape plus a `speech:`
+line (the stored speech id), which the cut needs.
+
+**Cut** fetches only the speech's span (ffmpeg byte ranges or the speech's own file),
+transcribes it with Whisper in the country's language (`small`, multilingual; Swiss and
+Belgian speeches are detected), finds the passage on accent-folded words, cuts word-exact,
+and renders `final/<cc>-NN-<name>-vertical.mp4` and `-landscape.mp4` with `.srt`, the UK's
+captions and name plate, the CitizenGO logo where the terms allow it, and the source credit
+small in the top right of every frame; a vertical reel when there is more than one clip.
+`clips.md` says what was heard and how well it matched; `README.md` carries the credit for
+the post text. Fetched footage in `windows/` is deleted after 30 days (the Dutch licence's
+rule, applied everywhere).
+
+**Not yet run end to end**: the laptop has no ffmpeg and the Mini's footage bundle
+(faster-whisper, imageio-ffmpeg) is not installed (11 October 2026); the samples were made
+with `--locate-only`: CH 25.455 (Ständerat, 29 September), AT NR sitting 96 (23 September),
+FR 9 October, BE plenary 143 (8 October), all speakers located.
+
+## Debate report, new countries (11 October 2026)
+
+`tools/country_debate_report.py` (src/country_debatereport.py) is `debate_report.py` for
+the countries whose speeches we store: NL, CH, AT, FR and BE. After a debate it writes the
+report (English) and draft social copy, DMs Chris alone for approval, and only after an
+explicit approval makes the Slack canvas, shared with Chris alone. Manual; no job.
+
+    python3 tools/country_debate_report.py --country be --date 2026-10-08 --list
+    python3 tools/country_debate_report.py --country be --date 2026-10-08 --debate 56/143-13
+        [--item KEY | --pack data/packs/<folder>] [--clips data/clips/<folder>] [--live] [--reads FILE]
+    python3 tools/country_debate_report.py --report data/debate-reports/<folder> --render [--dm]
+    python3 tools/country_debate_report.py --report data/debate-reports/<folder> --approve --by "Chris"
+    python3 tools/country_debate_report.py --report data/debate-reports/<folder> --publish
+
+**Inputs.** Speeches from the store (`<cc>_speeches`, the weekly's chamber step), or the
+day read from the source into memory (`--live`, the country's own collector, as the live
+read does; nothing stored), or a clip pack's recorded passages (`--from-clips`). One
+passage per speaker, whole sentences of their own words (src/country_clips.choose_passage),
+checked verbatim against the stored speech. Speakers matched to members by the source's
+id, else by name (src/country_live.match_member). The debate's own bill is found by a
+reference printed in its title (BE 1338, CH 25.455), by `--item`, or from a debate pack;
+then every vote on it (decisive first, at most eight) and the latest decisive votes on
+the same areas, each with its tally, group split, vote meaning (src/vote_meanings.py) and
+each speaker's position. A clip pack for the same debate (`data/clips/`) is linked, with
+the credit the post text needs, or the note that FR and BE need the parliament's agreement.
+
+**Text.** No paid AI. Our sentences are fixed templates over the record. The only other
+text is the English translation of each quotation, the debate's title and each vote's
+question: a person writes it into the report's `translations.yaml` (`english:`, `by:`),
+or the free session judge on the Mini fills it (below). Until then each reads
+"[translation pending]" and publishing refuses. Social copy is a draft for a person:
+lead posts (X, Facebook, Instagram), one post per member with the original beside the
+translation, a thread; `[ACTION LINK]` where our page goes; nothing is posted.
+
+**No verdicts before sign-off.** Until every reading in the sign-off scope of the votes
+shown is CONFIRMED (and at least one), the report, the social copy and the canvas say
+AWAITING SIGN-OFF, describe what was said and how members voted, and place nobody; a check
+refuses verdict words in our own text. Once confirmed, each speaker's vote reads "with us"
+or "against us" with the signer's name, and a "where the speakers stand" list appears;
+a speaker who sounded unlike their confirmed vote is named only with a read of their
+words (`--reads`, the live read's file). Votes derived from a group's show of hands (X5)
+never place a member.
+
+**Approval and the canvas.** `--approve --by NAME` records the approval against a sha256
+of report.md and social.md: change either afterwards and it lapses. `--publish` refuses
+without it (and on failed checks unless `--force`; a SAMPLE never), then creates the
+canvas with the UK's code (src/publish.slack_preview_canvas): access for Chris's user id
+alone, the link DMed to him, never a channel or a social network. A second `--publish`
+rewrites the same canvas in place (src/publish.slack_update_canvas, as
+tools/republish_canvas.py does). Chris shares it onward himself.
+
+**Translations by the session judge** (on the Mini, the work account's plan, no API key):
+
+    cd ~/runner/parl-monitor   # or the dev clone; the report folder must be there
+    SESSION_JUDGE_PROMPT="$(python3 tools/country_debate_report.py --prompt)" \
+      bash tools/session_judge.sh tools/country_debate_report.py 40 20 --report data/debate-reports/<folder>
+    python3 tools/country_debate_report.py --report data/debate-reports/<folder> --render --dm
+
+Each round writes the pending items to a queue in a fresh folder, `claude -p` fills the
+TRANSLATION lines, and `--queue-in` reads them back strictly (a known pending id, once, one
+line, not longer than the original allows; em dashes turned into commas). Translations are
+kept by the words they translate, so a regenerated report keeps them.
+
+**Folder** `data/debate-reports/<cc>-<date>-<slug>/` (never inside a debate pack, so the
+Sunday Drive step never uploads an unapproved report): `inputs.json` (what was gathered:
+rendering needs no store), `translations.yaml`, `report.md`, `social.md`, `report.json`
+(checks, approval, DMs, canvas).
+
+Samples (SAMPLE, translations pending, nothing confirmed), hand-checked:
+`docs/debate-report-samples/` BE 8 October (the bereavement-leave-around-euthanasia bill,
+1338: seven speakers, both votes found by the number in the title), CH 29 September
+(25.455, the constitutional amendment on bodily self-determination: the Nationalrat's vote
+not to proceed, 127 to 66, found by its Geschäftsnummer), AT 23 September (the urgent
+motion on child protection: party-group votes, derived and labelled), FR 6 October
+(violence against women and children: twelve of nineteen speakers), NL 7 October
+(Demonstratierecht, read live: words only, the store held no Dutch votes).

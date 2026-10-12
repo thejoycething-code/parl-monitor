@@ -1,0 +1,117 @@
+{
+"UE": "NO",
+"changeDate": "2026-10-07T13:49:46",
+"description": "projekt dotyczy przyspieszenia przygotowania i budowy najważniejszych inwestycji infrastrukturalnych, które mają znaczenie dla obronności Polski, bezpieczeństwa energetycznego, ochrony przeciwpowodziowej oraz rozwoju gospodarczego. Dla wybranych inwestycji zostaną wprowadzone prostsze procedury administracyjne, krótsze terminy oraz pierwszeństwo w rozpatrywaniu spraw przez urzędy. Projekt obejmuje zamknięty katalog konkretnych inwestycji m.in. \"Droga Czerwona\" w Gdyni zapewniająca dostęp do terminala w porcie, rozbudowa portów w Gdyni i Świnoujściu, inwestycje na lotniskach w Rzeszowie, Krakowie i Warszawie, a także rozbudowa ważnych połączeń kolejowych. Uproszczone procedury obejmą także inwestycje potrzebne do realizacji infrastruktury towarzyszącej elektrowni jądrowej na Pomorzu. Dotyczy to m.in. dróg, kolei i infrastruktury hydrotechnicznej",
+"documentDate": "2026-08-19",
+"documentType": "projekt ustawy",
+"documentTypeEnum": "BILL",
+"legislativeCommittee": false,
+"links": [],
+"number": "3030",
+"passed": false,
+"principleOfSubsidiarity": false,
+"processStartDate": "2026-08-20",
+"rclLink": "https://legislacja.rcl.gov.pl/getIdFromLegislacja?number=RM-0610-131-26",
+"rclNum": "RM-0610-131-26",
+"shortenProcedure": false,
+"stages": [
+{
+"date": "2026-08-20",
+"stageName": "Projekt wpłynął do Sejmu",
+"printNumber": "3030",
+"stageType": "Start"
+},
+{
+"children": [
+{
+"date": "2026-09-01",
+"stageName": "Skierowanie",
+"committeeCode": "INF",
+"stageType": "Referral",
+"type": "NORMAL"
+},
+{
+"date": "2026-09-01",
+"stageName": "Skierowanie",
+"committeeCode": "GMZ",
+"stageType": "Referral",
+"type": "NORMAL"
+}
+],
+"date": "2026-09-01",
+"stageName": "Skierowano do I czytania w komisjach",
+"stageType": "ReadingReferral"
+},
+{
+"date": "2026-09-15",
+"stageName": "I czytanie w komisjach",
+"stageType": "Reading"
+},
+{
+"children": [
+{
+"date": "2026-09-15",
+"stageName": "Sprawozdanie komisji",
+"minorityMotions": 8,
+"printNumber": "3080",
+"proposal": "załączony projekt ustawy",
+"rapporteurID": "220",
+"rapporteurName": "Artur Jarosław Łącki",
+"reportFile": "https://api.sejm.gov.pl/sejm/term10/prints/3080/3080.pdf",
+"stageType": "CommitteeReport",
+"subCommittee": false
+}
+],
+"date": "2026-09-15",
+"stageName": "Praca w komisjach po I czytaniu",
+"stageType": "CommitteeWork"
+},
+{
+"children": [
+{
+"date": "2026-10-06",
+"stageName": "Skierowanie",
+"committeeCode": "INF",
+"stageType": "Referral",
+"type": "NORMAL"
+},
+{
+"date": "2026-10-06",
+"stageName": "Skierowanie",
+"committeeCode": "GMZ",
+"stageType": "Referral",
+"type": "NORMAL"
+}
+],
+"date": "2026-10-06",
+"stageName": "II czytanie na posiedzeniu Sejmu",
+"comment": "poprawki",
+"decision": "skierowano ponownie do komisji w celu przedstawienia sprawozdania",
+"sittingNum": 66,
+"stageType": "SejmReading"
+},
+{
+"children": [
+{
+"date": "2026-10-07",
+"stageName": "Sprawozdanie komisji",
+"minorityMotions": 0,
+"printNumber": "3080-A",
+"proposal": "przyjąć część poprawek",
+"rapporteurID": "220",
+"rapporteurName": "Artur Jarosław Łącki",
+"reportFile": "https://api.sejm.gov.pl/sejm/term10/prints/3080-A/3080-A.pdf",
+"stageType": "CommitteeReport",
+"subCommittee": false
+}
+],
+"date": "2026-10-07",
+"stageName": "Praca w komisjach po II czytaniu",
+"stageType": "CommitteeWork"
+}
+],
+"term": 10,
+"title": "Rządowy projekt ustawy o usprawnieniu procesu inwestycyjnego w zakresie kluczowych inwestycji infrastrukturalnych",
+"urgencyStatus": "NORMAL",
+"webGeneratedDate": "2026-10-07T13:50:20"
+}

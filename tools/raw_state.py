@@ -49,6 +49,7 @@ import subprocess
 import sys
 import tarfile
 import tempfile
+import time
 import urllib.error
 import urllib.request
 
@@ -58,6 +59,8 @@ SIDECAR = os.path.join(ROOT, "data", "raw.json")
 PULLED = os.path.join(ROOT, "data", ".raw-pulled")      # local: {folder: [digests held]}
 REPO = "thejoycething-code/parl-monitor"
 TAG = "raw-archive"
+# GitHub's release-asset limit is 2 GiB; keep a margin for the tar headers.
+ASSET_LIMIT = int(1.9e9)
 API = "https://api.github.com"
 
 
@@ -114,6 +117,7 @@ def extract_union(tar_path, folder_path):
     """Unpack beneath the folder WITHOUT overwriting any local file: the
     merge for two runs that archived into the same day. Rejects members
     that would escape the folder."""
+    folder_path = os.path.abspath(folder_path)    # a relative path failed the escape check
     os.makedirs(folder_path, exist_ok=True)
     added = 0
     with tarfile.open(tar_path, "r") as tar:
@@ -260,14 +264,21 @@ def download_asset(folder, dest):
     """-> True if the tar landed at dest, False if there is no such asset."""
     name = asset_name(folder)
     if have_gh():
-        out = subprocess.run(["gh", "release", "download", TAG, "--repo", REPO, "--pattern", name,
-                              "--output", dest, "--clobber"], capture_output=True, text=True)
-        if out.returncode:
+        # A GitHub 5xx on one asset failed the whole Senedd weekly on 8 Oct
+        # 2026 (HTTP 500 on raw-2026-09-29.tar): retry server errors, never
+        # a missing asset.
+        for attempt in range(3):
+            out = subprocess.run(["gh", "release", "download", TAG, "--repo", REPO, "--pattern", name,
+                                  "--output", dest, "--clobber"], capture_output=True, text=True)
+            if not out.returncode:
+                return True
             err = (out.stderr or "").lower()
             if "no assets match" in err or "release not found" in err or "not found" in err:
                 return False
-            raise RuntimeError("gh download failed for {0}: {1}".format(name, out.stderr.strip()))
-        return True
+            if not any("http {0}".format(c) in err for c in (500, 502, 503, 504)) or attempt == 2:
+                break
+            time.sleep(10 * (attempt + 1))
+        raise RuntimeError("gh download failed for {0}: {1}".format(name, out.stderr.strip()))
     tok = token()
     if not tok:
         raise RuntimeError("no gh and no github_token in config/secrets.yaml")
@@ -383,7 +394,7 @@ def push(log=print):
             "moved-under-you check.")
         theirs = {}
     held = _held()
-    published = unchanged = merged = 0
+    published = unchanged = merged = oversized = 0
     now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     run = os.environ.get("GITHUB_RUN_ID") and "run " + os.environ["GITHUB_RUN_ID"] or "local"
     tmp = tempfile.mkdtemp(prefix="raw-push-")
@@ -395,22 +406,49 @@ def push(log=print):
                 continue
             current = (side["folders"].get(folder) or {}).get("sha256")
             remote = (theirs.get(folder) or {}).get("sha256")
-            if remote and remote != current and remote not in held.get(folder, []):
-                # The folder moved under us: someone published it since we
-                # pulled. Merge their tar beneath our files, then publish the
-                # union -- never their loss, never ours.
+            published_sha = remote or current
+            # MERGE BEFORE EVERY UPLOAD OF A FOLDER THAT IS ALREADY PUBLISHED
+            # (3 October 2026), not only when it moved since our pull. A pull
+            # fetches only changed folders, so a folder this checkout created
+            # under the same date never received the published files -- and
+            # uploading it REPLACED them: 577 CI files of 2026-09-29 were
+            # clobbered by a laptop folder of 3,121 before this was caught.
+            # The only safe skip is a copy this checkout itself published.
+            if (published_sha and digest != published_sha
+                    and published_sha not in held.get(folder, [])):
                 dest = os.path.join(tmp, asset_name(folder))
                 if download_asset(folder, dest):
                     added = extract_union(dest, path)
-                    log("  {0}: published by another run since our pull -- merged {1} of their "
-                        "file(s) in".format(folder, added))
+                    if added or remote != current:
+                        log("  {0}: merged {1} published file(s) in before uploading".format(
+                            folder, added))
                     merged += 1
                     digest, n, size = folder_digest(path)
+                else:
+                    log("  [gap] {0}: could not download the published copy to merge; "
+                        "NOT uploading, so it is not replaced".format(folder))
+                    continue
             if digest == current and digest == (remote or current):
                 unchanged += 1
                 continue
             tar_path = os.path.join(tmp, asset_name(folder))
             make_tar(path, tar_path)
+            # GITHUB REFUSES A RELEASE ASSET OF 2 GiB OR MORE (2 October 2026,
+            # before the provincial speeches backfill: Alberta alone archives
+            # ~1.2 GB of PDFs, and every run of one UTC day shares a folder).
+            # An upload with --clobber replaces the published copy, so an
+            # oversized tar is never sent: the published copy stays, the
+            # sidecar keeps its entry, and the push fails loudly. Pace the
+            # backfills (one big province a UTC day) rather than raise this.
+            tar_bytes = os.path.getsize(tar_path)
+            if tar_bytes > ASSET_LIMIT:
+                log("  [gap] {0}: the tar is {1:.2f} GB, over the {2:.1f} GB release-asset "
+                    "ceiling; NOT uploading, so the published copy is not replaced. Split "
+                    "the day's backfills across days.".format(folder, tar_bytes / 1e9,
+                                                             ASSET_LIMIT / 1e9))
+                os.remove(tar_path)
+                oversized += 1
+                continue
             upload_asset(folder, tar_path)
             os.remove(tar_path)
             side["folders"][folder] = {"sha256": digest, "files": n, "bytes": size,
@@ -423,6 +461,10 @@ def push(log=print):
     write_sidecar(side)
     log("raw archive published: {0} folder(s) uploaded, {1} unchanged, {2} merged; sidecar "
         "written -- COMMIT IT so the repo records this state.".format(published, unchanged, merged))
+    if oversized:
+        log("RAW ARCHIVE INCOMPLETE: {0} folder(s) over the asset ceiling were not "
+            "published.".format(oversized))
+        return 1
     return 0
 
 

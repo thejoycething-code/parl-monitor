@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<atti creazione="2026-10-10">
+<atto>
+   <tipo_atto>MOZ</tipo_atto>
+   <rappresentazione>Mozione n. /XVII</rappresentazione>
+   <legislatura>XVII</legislatura>
+   <numero_atto></numero_atto>
+   <data_presentazione>2026-10-08</data_presentazione>
+   <oggetto></oggetto>
+   <url>https://www.consiglio.provincia.tn.it/_layouts/15/dispatcher/doc_dispatcher.aspx?app=idap&amp;at_id=3009954</url>
+   <materia_principale>
+      <sigla>4.4.</sigla>
+      <voce>Opere pubbliche</voce>
+   </materia_principale>
+   <stato_corrente>(stato) Approvata</stato_corrente>
+</atto>
+<atto>
+   <tipo_atto>MOZ</tipo_atto>
+   <rappresentazione>Mozione n. 23/XVII</rappresentazione>
+   <legislatura>XVII</legislatura>
+   <numero_atto>23</numero_atto>
+   <data_presentazione>2024-06-06</data_presentazione>
+   <oggetto>Introdurre sul territorio provinciale uno o più presidi di "culle per la vita"</oggetto>
+   <url>https://www.consiglio.provincia.tn.it/_layouts/15/dispatcher/doc_dispatcher.aspx?app=idap&amp;at_id=1818269</url>
+   <materia_principale>
+      <sigla>3.2.4.</sigla>
+      <voce>Assistenza sanitaria</voce>
+   </materia_principale>
+   <stato_corrente>(stato) Presso gli organi impegnati</stato_corrente>
+   <testo_corrente>
+      <titolo>testo mozione</titolo>
+      <url>https://www.consiglio.provincia.tn.it/doc/IDAP_1818322.pdf</url>
+   </testo_corrente>
+</atto>
+</atti>

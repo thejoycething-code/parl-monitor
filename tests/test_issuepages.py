@@ -111,6 +111,16 @@ class MondayCommitsTheWholeSiteTests(unittest.TestCase):
         self.assertIn(" partner_site/", adds[0] + " ")
         self.assertRegex(adds[0], r"partner_site/(\s|$)")
 
+    def test_the_monday_commit_adds_the_public_tracker_too(self):
+        """7 Oct 2026: make_vote_tracker writes docs/mp-votes.html beside the
+        partner copy. Committing only partner_site/ left the public copy
+        stale, and the byte-identity test failed after the 5 October run."""
+        wf = open(os.path.join(ROOT, ".github", "workflows", "monday-publish.yml"),
+                  encoding="utf-8").read()
+        adds = [ln for ln in wf.splitlines() if ln.strip().startswith("git add ")
+                and "editions/" in ln]
+        self.assertIn("docs/mp-votes.html", adds[0])
+
     def test_secrets_stay_out_of_the_commit(self):
         ignored = open(os.path.join(ROOT, ".gitignore"), encoding="utf-8").read()
         self.assertIn("partner_site/.vercel/", ignored)

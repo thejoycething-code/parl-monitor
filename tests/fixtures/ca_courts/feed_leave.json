@@ -1,0 +1,33 @@
+{
+ "description": "Recently published and updated (translated, amended or corrected) documents",
+ "feed_url": "https://decisions.scc-csc.ca/scc-csc/scc-l-csc-a/en/json/rss.do",
+ "home_page_url": "https://decisions.scc-csc.ca/scc-csc/en/nav.do",
+ "items": [
+  {
+   "content_text": "Granted - New document published on 2026-10-01",
+   "date_modified": "2026-10-01",
+   "date_published": "2026-10-01",
+   "id": "21663",
+   "title": "Donald Gautreau v. His Majesty the King - 2026-10-01",
+   "url": "https://decisions.scc-csc.ca/scc-csc/scc-l-csc-a/en/item/21663/index.do"
+  },
+  {
+   "content_text": "Granted - New document published on 2026-10-01",
+   "date_modified": "2026-10-01",
+   "date_published": "2026-10-01",
+   "id": "21662",
+   "title": "Nest Exchange Limited (formerly known as Nest Services Limited), et al. v. His Majesty the King - 2026-10-01",
+   "url": "https://decisions.scc-csc.ca/scc-csc/scc-l-csc-a/en/item/21662/index.do"
+  },
+  {
+   "content_text": "Dismissed - New document published on 2026-10-01",
+   "date_modified": "2026-10-01",
+   "date_published": "2026-10-01",
+   "id": "21683",
+   "title": "Nathan K. Dempsey v. Pagefreezer Software Inc., et al. - 2026-10-01",
+   "url": "https://decisions.scc-csc.ca/scc-csc/scc-l-csc-a/en/item/21683/index.do"
+  }
+ ],
+ "title": "Applications for Leave",
+ "version": "https://jsonfeed.org/version/1"
+}

@@ -32,6 +32,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this first, Thursdays 07:00 London (tools/mini_run.sh sd-weekly;
+  # 9 October 2026). Every cron here is the backup: skipped while the Mini
+  # runs it and for 20 hours after.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: SD_WEEKLY
+      cover-hours: 20
+
   # THE SECOND SLOT IS A RETRY, NOT A SECOND PASS (22 September 2026).
   # Both slots existed so a dropped or drifted cron still gets the week done,
   # but nothing stopped the second one repeating the whole job: measured over
@@ -46,6 +55,8 @@ jobs:
   # would otherwise queue behind the first on the state group and run anyway.
   # A hand dispatch is never gated.
   gate:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
@@ -148,6 +159,14 @@ jobs:
         # not published state. Offline, no API calls; a sheet that places
         # nobody is deleted and the run says so.
         run: python3 tools/devolved_5ca.py --nation wales | tee /tmp/sd-5ca.log
+      - name: Rebuild the MS votes page with each member's record
+        if: always()
+        # Member profiles on our ground (Christopher, 2026-10-09: parity
+        # with Westminster): divisions with the signed 5CA reading, questions,
+        # motions, speeches and 5CA placement per area, offline from the store
+        # this run just refreshed (src/devolved_intel.py). Deployed with the
+        # partner site; committed below so the deploy finds it.
+        run: python3 tools/make_devolved_votes.py --nation wales | tee /tmp/sd-profiles.log
       - name: Health summary
         # The tools print their gaps and then exit 0, so a PARTIAL refresh is
         # a green tick with the detail buried in the log. Lifting the gap lines
@@ -212,7 +231,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/
+          git add data/ partner_site/ms-votes.html docs/ms-votes.html
           git diff --cached --quiet || git commit -m "Senedd weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           # The sidecar MUST land: the store was already published above,
           # so a failed push leaves the release ahead of the repo -- the
@@ -220,9 +239,21 @@ jobs:
           # 2026-08-28: this push lost a race with a human push and was
           # rejected, and the next run refused the store. Rebase and retry
           # rather than leave the two out of step.
-          for attempt in 1 2 3; do
-            git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
-            git push && break
-            echo "push rejected (attempt $attempt); retrying"
-            sleep $((attempt * 5))
+          # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
+          # jittered waits, and never retry while stuck mid-rebase.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)"; then
+              git push && break
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            echo "push not landed (attempt $attempt); retrying"
+            sleep $(( attempt * 10 + RANDOM % 10 ))
           done
+          # A loop that falls out without a successful push must FAIL the step,
+          # or main keeps pointing at an old sidecar (the 6 September cascade).
+          git fetch -q origin "$(git rev-parse --abbrev-ref HEAD)"
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "the sidecar commit never reached origin"; exit 1
+          fi

@@ -1,0 +1,207 @@
+# The Oireachtas: what a division or a Private Member's bill sponsorship
+# MEANS, written by a human.
+#
+# The Irish mirror of config/ca_stance.yaml, under the same rule: which lobby
+# is CitizenGO's is the campaigner's judgement, and no tool estimates it.
+# tools/ie_5ca.py applies these lines; it never invents one.
+#
+# EVERY ENTRY IS A DRAFT (9 October 2026). Claude drafted them from the store
+# and from the Dail debate records of the day (the question put, the motion,
+# the tellers), at Christopher's request ("5CA parity for Ireland"). An entry
+# carrying `draft: true` places NOBODY. To sign: tick the box in
+# docs/5ca-ie-readings.md and run `python3 tools/ie_5ca.py --sign-from-doc`,
+# or delete the `draft: true` line by hand.
+#
+# `yea:` is the Ta lobby (stored 'Yes'), `nay:` the Nil lobby ('No'). Staon
+# (a recorded abstention) never places anyone. `sponsored:` applies to the
+# sponsors of a Private Member's bill (weight 3; a vote is weight 5).
+#
+# NOT IN THE STORE: the store holds the 34th Dail and the 27th Seanad only.
+# The safe access zones Act 2024 and the hate offences Bill were voted in the
+# 33rd Dail, so their divisions cannot be read here; if Christopher wants
+# them, ie_rollcalls.py needs a --dail 33 backfill first.
+#
+# Keys are the store's: divisions 'dail/34/2026-06-17/vote_149', bills
+# '2026/47'. `lobbies:` is counted from ie_votes (party AT THE VOTE).
+#
+
+divisions:
+  # --- Area 1: abortion (Dail) ---
+
+  - key: "dail/34/2026-06-17/vote_149"
+    title: "Health (Abolition of Three Day Wait Rule) (Amendment) Bill 2026: Second Stage (Resumed) [Private Members]: Question put:"
+    dated: "2026-06-17"
+    result: "Carried (Tá 86, Níl 70, Staon 0)"
+    lobbies: "Tá: Sinn Féin 35, Social Democrats 12, Fianna Fáil 12, Fine Gael 11, Labour Party 10, People Before Profit-Solidarity 3, Independent 2, Green Party 1. Níl: Fianna Fáil 30, Fine Gael 23, Independent 12, Independent Ireland 3, Aontú 2."
+    tellers: "Tellers: Tá, Deputies Pádraig Mac Lochlainn and David Cullinane; Níl, Deputies Peadar Tóibín and Carol Nolan."
+    motion: "Second Stage of the Health (Abolition of Three Day Wait Rule) (Amendment) Bill 2026 (David Cullinane, Sinn Fein): \"That the Bill be now read a Second Time.\" The Bill amends the Health (Regulation of Termination of Pregnancy) Act 2018 to abolish the mandatory three-day wait for an abortion. Deferred division of 16 June, taken 17 June."
+    aye_means: "For giving the Bill a Second Reading: abolishing the three-day wait before an abortion."
+    yea: -2
+    why_yea: "Voted to give a Second Reading to the Bill abolishing the three-day wait before an abortion."
+    nay: 2
+    why_nay: "Voted against the Bill abolishing the three-day wait before an abortion."
+    flag: "Carried 86-70 with Fianna Fail (12 Ta, 30 Nil) and Fine Gael (11 Ta, 23 Nil) split: the members this sheet exists to find. Tellers confirm the sides: Ta Mac Lochlainn and Cullinane (SF), Nil Toibin and Nolan."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "dail/34/2026-05-13/vote_110"
+    title: "Reproductive Rights (Amendment) Bill 2026: Second Stage (Resumed) [Private Members]: Question put: \"That the Bill be now read a Second Time.\""
+    dated: "2026-05-13"
+    result: "Lost (Tá 30, Níl 85, Staon 36)"
+    lobbies: "Tá: Social Democrats 11, Labour Party 10, People Before Profit-Solidarity 3, Independent 2, Fine Gael 2, Green Party 1, Fianna Fáil 1. Níl: Fianna Fáil 40, Fine Gael 30, Independent 9, Independent Ireland 4, Aontú 2. Staon: Sinn Féin 33, Fianna Fáil 3."
+    tellers: "Tellers: Tá, Deputies Holly Cairns and Pádraig Rice; Níl, Deputies Peadar Tóibín and Paul Lawless."
+    motion: "Second Stage of the Reproductive Rights (Amendment) Bill 2026 (Holly Cairns, Social Democrats): \"That the Bill be now read a Second Time.\" The Bill enacts the O'Shea review's recommendations: terminations for medical reasons, removal of the three-day wait, and ending the criminalisation of doctors."
+    aye_means: "For giving the Bill a Second Reading: widening the 2018 abortion law."
+    yea: -2
+    why_yea: "Voted to give a Second Reading to the Bill widening the 2018 abortion law (O'Shea recommendations)."
+    nay: 2
+    why_nay: "Voted against the Bill widening the 2018 abortion law."
+    flag: "Lost 30-85 with 36 Staon (33 Sinn Fein abstained). A Staon places nobody; Sinn Fein's abstention here and Ta on the three-day wait a month later are both on their rows as evidence."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "dail/34/2025-12-17/vote_205"
+    title: "Health (Regulation of Termination of Pregnancy) (Amendment) Bill 2023: Restoration to Order Paper (Resumed): Question again put:"
+    dated: "2025-12-17"
+    result: "Lost (Tá 71, Níl 73, Staon 4)"
+    lobbies: "Tá: Sinn Féin 35, Social Democrats 10, Labour Party 7, Fine Gael 7, Fianna Fáil 5, People Before Profit-Solidarity 3, Independent 2, Green Party 1, 100% RDR 1. Níl: Fianna Fáil 35, Fine Gael 23, Independent 10, Independent Ireland 3, Aontú 2. Staon: Fine Gael 2, Fianna Fáil 2."
+    tellers: "Tellers: Tá, Deputies Paul Murphy and Ruth Coppinger; Níl, Deputies Danny Healy-Rae and Paul Lawless."
+    motion: "Motion (Paul Murphy, PBP): that the Health (Regulation of Termination of Pregnancy) (Amendment) Bill 2023, which lapsed on the dissolution of the 33rd Dail, be restored to the Order Paper at Committee Stage. Question again put after an electronic division."
+    aye_means: "For restoring the lapsed 2023 Bill amending the abortion Act to the Order Paper."
+    yea: -1
+    why_yea: "Voted to restore the lapsed Bill amending the abortion Act to the Order Paper."
+    nay: 1
+    why_nay: "Voted against restoring the lapsed Bill amending the abortion Act."
+    flag: "A restoration motion, procedure in form: drafted at +/-1. Lost 71-73-4; 5 Fianna Fail and 7 Fine Gael voted Ta."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  # --- Area 6: parental rights and education (Dail) ---
+
+  - key: "dail/34/2025-05-14/vote_58"
+    title: "Parental Choice in Education: Motion (Resumed) [Private Members]: Amendment put:"
+    dated: "2025-05-14"
+    result: "Carried (Tá 84, Níl 65, Staon 0)"
+    lobbies: "Tá: Fianna Fáil 44, Fine Gael 32, Independent 8. Níl: Sinn Féin 34, Labour Party 11, Social Democrats 8, Independent 4, Independent Ireland 3, People Before Profit-Solidarity 2, Aontú 2, Green Party 1."
+    tellers: "Tellers: Tá, Deputies Mary Butler and Emer Currie; Níl, Deputies Jen Cummins and Cian O'Callaghan."
+    motion: "Government amendment No. 1 to the Social Democrats' 'Parental Choice in Education' motion (Jen Cummins): delete the motion and substitute the Government's text. The original motion called for all new schools under non-religious patronage, faith formation outside the school day, and repeal of section 37.1 of the Employment Equality Act; the Government's text keeps both faith-based and multi-denominational choice and continues the reconfiguration process."
+    aye_means: "For replacing the Social Democrats' motion with the Government's text."
+    placeable: false
+    reason: "A Government-versus-opposition division: the Government's text against the opposition's, whipped on both sides. Aontu voted Nil with the Social Democrats and Sinn Fein, for opposition reasons; a Nil does not mean support for removing faith formation, nor a Ta support for denominational schools. The motion is evidence of who carried the secular text, not a direction."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "dail/34/2025-05-14/vote_59"
+    title: "Parental Choice in Education: Motion (Resumed) [Private Members]: Question put: \"That the motion, as amended, be agreed to.\""
+    dated: "2025-05-14"
+    result: "Carried (Tá 87, Níl 62, Staon 0)"
+    lobbies: "Tá: Fianna Fáil 44, Fine Gael 32, Independent 8, Independent Ireland 3. Níl: Sinn Féin 34, Labour Party 11, Social Democrats 8, Independent 4, People Before Profit-Solidarity 2, Aontú 2, Green Party 1."
+    tellers: "Tellers: Tá, Deputies Mary Butler and Emer Currie; Níl, Deputies Jen Cummins and Cian O'Callaghan."
+    motion: "\"That the motion, as amended, be agreed to\": the Government's text on parental choice in education."
+    aye_means: "For the motion as amended by the Government."
+    placeable: false
+    reason: "A Government-versus-opposition division: the Government's text against the opposition's, whipped on both sides. Same lobbies as the amendment before it (Aontu in the Nil lobby)."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "dail/34/2026-07-08/vote_177"
+    title: "Civil Liability (Child Sexual Abuse Proceedings Against Unincorporated Bodies of Persons) Bill 2025: Second Stage (Resumed) [Private Members]: Amendment put:"
+    dated: "2026-07-08"
+    result: "Carried (Tá 80, Níl 65, Staon 0)"
+    lobbies: "Tá: Fianna Fáil 42, Fine Gael 32, Independent 6. Níl: Sinn Féin 37, Social Democrats 10, Labour Party 9, Independent 3, People Before Profit-Solidarity 2, Independent Ireland 2, Aontú 2."
+    tellers: "Tellers: Tá, Deputies Mary Butler and John Clendennen; Níl, Deputies Ivana Bacik and Duncan Smith."
+    motion: "Government amendment to the Second Stage of the Civil Liability (Child Sexual Abuse Proceedings Against Unincorporated Bodies of Persons) Bill 2025 (Ivana Bacik, Labour): read the Bill a second time 'this day six months' to consider its legal and policy implications. The Bill lets abuse survivors sue unincorporated bodies (religious congregations among them) and reach associated trusts' assets."
+    aye_means: "For deferring the Bill six months (the Government's timed amendment)."
+    placeable: false
+    reason: "A Government-versus-opposition division: the Government's text against the opposition's, whipped on both sides. A timed amendment on a redress bill; abuse redress is not a CitizenGO position either way, and the vote tells no member's stance on our ground apart."
+    flag: "If the reach into religious congregations' trust assets is a freedom-of-religion concern for CitizenGO, say so and it can be read again."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  # --- Seanad ---
+
+  - key: "seanad/27/2025-11-05/vote_3"
+    title: "Child Trafficking and Child Sexual Exploitation Material (Amendment) Bill 2022: Report Stage: Question put: \"That the Bill be received for final consideration.\""
+    dated: "2025-11-05"
+    result: "Lost (Tá 13, Níl 28, Staon None)"
+    lobbies: "Tá: Independent 5, Sinn Féin 4, Labour Party 2, Green Party 1, Aontú 1. Níl: Fine Gael 15, Fianna Fáil 12, Independent 1."
+    tellers: "Tellers: Tá, Senators Eileen Flynn and Lynn Ruane; Níl, Senators Garret Ahearn and Paul Daly.."
+    motion: "Report Stage of the Child Trafficking and Child Sexual Exploitation Material (Amendment) Bill 2022 (Eileen Flynn): \"That the Bill be received for final consideration.\" The Bill renames 'child pornography' as 'child sexual abuse material' in the statute book."
+    aye_means: "For moving the Bill to its final stage."
+    placeable: false
+    reason: "Terminology: the Bill renames an offence, and the Government opposed it on drafting grounds (lost 13-28). Neither lobby is for or against CitizenGO's ground."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+bills:
+  - key: "2026/47"
+    title: "Health (Abolition of Three Day Wait Rule) (Amendment) Bill 2026"
+    result: "sponsors David Cullinane; status Current; areas [1]"
+    sponsored: -2
+    why_sponsored: "Sponsored the Bill abolishing the three-day wait before an abortion."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "2026/40"
+    title: "Reproductive Rights (Amendment) Bill 2026"
+    result: "sponsors Holly Cairns; status Defeated; areas [1]"
+    sponsored: -2
+    why_sponsored: "Sponsored the Bill widening the 2018 abortion law."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "2026/10"
+    title: "Health (Regulation of Termination of Pregnancy) (Amendment) Bill 2026"
+    result: "sponsors Paul Murphy, Richard Boyd Barrett, Ruth Coppinger; status Current; areas [1]"
+    sponsored: -2
+    why_sponsored: "Sponsored the Bill abolishing the three-day wait for abortion on request."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "2024/50"
+    title: "Voluntary Assisted Dying Bill 2024"
+    result: "sponsors Gino Kenny; status Current; areas [2]"
+    sponsored: -2
+    why_sponsored: "Sponsored the Bill legalising assisted dying."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "2026/92"
+    title: "Non-Binary and Intersex Recognition Bill 2026"
+    result: "sponsors Paul Murphy, Richard Boyd Barrett, Ruth Coppinger; status Current; areas [1, 5]"
+    sponsored: -2
+    why_sponsored: "Sponsored the Bill recognising a non-binary gender in law (X markers, Gender Recognition Act)."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "2018/39"
+    title: "Prohibition of Conversion Therapies Bill 2018"
+    result: "sponsors Alice-Mary Higgins, Aodhán Ó Ríordáin, Catherine Ardagh, Colette Kelleher, David P.B. Norris, Fintan Warfield, Frances Black, Gerard P. Craughwell, Grace O'Sullivan, Ivana Bacik, Jerry Buttimer, Joan Freeman, Kevin Humphreys, Lynn Ruane, Máire Devine, Niall Ó Donnghaile, Paul Gavan, Pádraig Mac Lochlainn, Rose Conway-Walsh, Victor Boyhan; status Lapsed; areas [4, 5]"
+    sponsored: -2
+    why_sponsored: "Sponsored the 2018 Bill banning 'conversion therapy' as defined by gender identity and expression."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "2025/77"
+    title: "Gender Recognition (Amendment) (Prisons) Bill 2025"
+    result: "sponsors Paul Lawless, Peadar Tóibín; status Current; areas [5]"
+    sponsored: 2
+    why_sponsored: "Sponsored the Bill providing single-sex accommodation in prisons."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "2026/77"
+    title: "Protection of Children (Online Age Verification) Bill 2026"
+    result: "sponsors Aidan Davitt, Aubrey McCarthy, Diarmuid Wilson, Gerard P. Craughwell, Joe Conway, Michael McDowell, Rónán Mullen, Sarah O'Reilly, Sharon Keogan; status Current; areas [6, 7]"
+    sponsored: 1
+    why_sponsored: "Sponsored the Bill requiring age verification for online pornography."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "2024/57"
+    title: "Protection of Children (Online Age Verification) Bill 2024"
+    result: "sponsors Aidan Davitt, Diarmuid Wilson, Erin McGreehan, Gerard P. Craughwell, Michael McDowell, Rónán Mullen, Sharon Keogan; status Lapsed; areas [6, 7]"
+    sponsored: 1
+    why_sponsored: "Sponsored the Bill requiring age verification for online pornography."
+    draft: true
+    drafted: "Claude, 9 October 2026"

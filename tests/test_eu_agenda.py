@@ -92,6 +92,29 @@ class AgendaTests(unittest.TestCase):
         self.assertEqual(len(matched), 1)
         self.assertEqual(per_day, {"2026-09-14": 2})
 
+    def test_next_years_unpublished_calendar_is_skipped_not_fatal(self):
+        # 3 Oct 2026: the horizon crossed into 2027, whose calendar answers
+        # 204 with an empty body; the EU weekly died on the JSON parse.
+        class NextYearEmpty(FakeClient):
+            def get_json(self, url, feed, slug, archive=True):
+                if "year=2027" in url:
+                    raise ValueError("empty 204 body")
+                return FakeClient.get_json(self, url, feed, slug, archive)
+        conn = store()
+        total, ours, gaps = eua.pull(conn, NextYearEmpty(), "2026-11-20",
+                                     log=lambda *a: None)
+        self.assertEqual(gaps, 0)
+
+    def test_this_years_empty_calendar_still_fails_loudly(self):
+        class ThisYearEmpty(FakeClient):
+            def get_json(self, url, feed, slug, archive=True):
+                if "year=2026" in url:
+                    raise ValueError("empty 204 body")
+                return FakeClient.get_json(self, url, feed, slug, archive)
+        with self.assertRaises(ValueError):
+            eua.pull(store(), ThisYearEmpty(), "2026-11-20",
+                     log=lambda *a: None)
+
     def test_the_tool_writes_eu_agenda_only(self):
         src = open(os.path.join(ROOT, "tools", "eu_agenda.py"),
                    encoding="utf-8").read()

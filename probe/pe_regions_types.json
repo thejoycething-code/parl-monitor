@@ -1,0 +1,155 @@
+{
+ "regionamazonas": [
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional"
+ ],
+ "regionancash": [
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "86-acuerdo"
+ ],
+ "regionapurimac": [
+  "108-acuerdo-de-concejo",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "86-acuerdo"
+ ],
+ "regionarequipa": [
+  "111-ordenanza-municipal",
+  "13-ordenanza",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "regionayacucho": [
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "73-acuerdo-de-sala-plena",
+  "79-acuerdo-regional"
+ ],
+ "regioncajamarca": [
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "regioncallao": [
+  "108-acuerdo-de-concejo",
+  "13-ordenanza",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional",
+  "86-acuerdo"
+ ],
+ "regioncusco": [
+  "13-ordenanza",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "regionhuancavelica": [
+  "13-ordenanza",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "regionhuanuco": [
+  "108-acuerdo-de-concejo",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional"
+ ],
+ "regionica": [
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional"
+ ],
+ "regionjunin": [
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "regionlalibertad": [
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "regionlambayeque": [
+  "13-ordenanza",
+  "158-acuerdo-directivo",
+  "2266-acuerdo-de-concejo-ordinario",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional",
+  "86-acuerdo"
+ ],
+ "regionlima": [
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional"
+ ],
+ "regionloreto": [
+  "108-acuerdo-de-concejo",
+  "111-ordenanza-municipal",
+  "1573-acuerdo-de-consejo-directivo",
+  "158-acuerdo-directivo",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "regionmadrededios": [
+  "108-acuerdo-de-concejo",
+  "1573-acuerdo-de-consejo-directivo",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "781-acuerdo-municipal",
+  "79-acuerdo-regional",
+  "86-acuerdo"
+ ],
+ "regionmoquegua": [
+  "2267-acuerdo-de-concejo-extraordinario",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "86-acuerdo"
+ ],
+ "regionpasco": [
+  "108-acuerdo-de-concejo",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional",
+  "86-acuerdo"
+ ],
+ "regionpiura": [
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "regionpuno": [
+  "158-acuerdo-directivo",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "regionsanmartin": [
+  "108-acuerdo-de-concejo",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "regiontacna": [
+  "101-resolucion-de-acuerdo-de-directorio",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "regiontumbes": [
+  "1573-acuerdo-de-consejo-directivo",
+  "2266-acuerdo-de-concejo-ordinario",
+  "246-acuerdo-de-consejo-regional",
+  "40-ordenanza-regional",
+  "86-acuerdo"
+ ],
+ "regionucayali": [
+  "40-ordenanza-regional",
+  "79-acuerdo-regional"
+ ],
+ "munilima": [
+  "108-acuerdo-de-concejo",
+  "111-ordenanza-municipal",
+  "13-ordenanza",
+  "86-acuerdo"
+ ]
+}

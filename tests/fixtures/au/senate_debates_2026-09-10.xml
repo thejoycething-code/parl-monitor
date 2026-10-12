@@ -1,0 +1,669 @@
+<?xml version='1.0' encoding='utf-8'?>
+<debates>
+ <major-heading id="uk.org.publicwhip/lords/2026-09-10.4.1" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+BILLS </major-heading>
+ <minor-heading id="uk.org.publicwhip/lords/2026-09-10.11.1" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026; In Committee </minor-heading>
+ <bills>
+  <bill id="r7512" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r7512">Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026</bill>
+ </bills>
+ <speech approximate_duration="420" approximate_wordcount="47" id="uk.org.publicwhip/lords/2026-09-10.11.2" speakerid="uk.org.publicwhip/lord/100971" speakername="Slade Brockman" talktype="speech" time="10:01" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>The committee is considering the Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026. I will need first to deal with the deferred vote on the government amendments. The question is that government amendments (1) and (2) on sheet ST132 be agreed to.</p><p /> </speech>
+ <division divdate="2026-09-10" divnumber="2" id="uk.org.publicwhip/lords/2026-09-10.12.1" nospeaker="true" time="10:06" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+  <bills>
+   <bill id="r7512" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r7512">Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026</bill>
+  </bills>
+  <divisioncount ayes="33" noes="23" tellerayes="0" tellernoes="0" />
+  <memberlist vote="aye">
+   <member id="uk.org.publicwhip/lord/100931" vote="aye">Penny Allman-Payne</member>
+   <member id="uk.org.publicwhip/lord/100961" vote="aye">Michelle Ananda-Rajah</member>
+   <member id="uk.org.publicwhip/lord/100903" vote="aye">Tim Ayres</member>
+   <member id="uk.org.publicwhip/lord/100974" vote="aye">Vanessa Bleyer</member>
+   <member id="uk.org.publicwhip/lord/100026" vote="aye">Carol Louise Brown</member>
+   <member id="uk.org.publicwhip/lord/100900" vote="aye">Raff Ciccone</member>
+   <member id="uk.org.publicwhip/lord/100951" vote="aye">Lisa Darmanin</member>
+   <member id="uk.org.publicwhip/lord/100960" vote="aye">Josh Dolega</member>
+   <member id="uk.org.publicwhip/lord/100963" vote="aye">Richard Dowling</member>
+   <member id="uk.org.publicwhip/lord/100883" vote="aye">Mehreen Faruqi</member>
+   <member id="uk.org.publicwhip/lord/100950" vote="aye">Varun Ghosh</member>
+   <member id="uk.org.publicwhip/lord/100908" vote="aye">Nita Green</member>
+   <member id="uk.org.publicwhip/lord/100928" vote="aye">Karen Grogan</member>
+   <member id="uk.org.publicwhip/lord/100256" vote="aye">Sarah Hanson-Young</member>
+   <member id="uk.org.publicwhip/lord/100952" vote="aye">Steph Hodgins-May</member>
+   <member id="uk.org.publicwhip/lord/100910" vote="aye">Jacqui Lambie</member>
+   <member id="uk.org.publicwhip/lord/100944" vote="aye">Sue Lines</member>
+   <member id="uk.org.publicwhip/lord/100845" vote="aye">Jenny McAllister</member>
+   <member id="uk.org.publicwhip/lord/100847" vote="aye">Nick McKim</member>
+   <member id="uk.org.publicwhip/lord/100312" vote="aye">Deborah O'Neill</member>
+   <member id="uk.org.publicwhip/lord/100937" vote="aye">Barbara Pocock</member>
+   <member id="uk.org.publicwhip/lord/100938" vote="aye">David Pocock</member>
+   <member id="uk.org.publicwhip/lord/100178" vote="aye">Helen Beatrice Polley</member>
+   <member id="uk.org.publicwhip/lord/100917" vote="aye">Tony Sheldon</member>
+   <member id="uk.org.publicwhip/lord/100939" vote="aye">David Shoebridge</member>
+   <member id="uk.org.publicwhip/lord/100918" vote="aye">Marielle Smith</member>
+   <member id="uk.org.publicwhip/lord/100874" vote="aye">Jordon Steele-John</member>
+   <member id="uk.org.publicwhip/lord/100213" vote="aye">Glenn Sterle</member>
+   <member id="uk.org.publicwhip/lord/100940" vote="aye">Jana Stewart</member>
+   <member id="uk.org.publicwhip/lord/100965" vote="aye">Charlotte Walker</member>
+   <member id="uk.org.publicwhip/lord/100920" vote="aye">Jess Walsh</member>
+   <member id="uk.org.publicwhip/lord/100884" vote="aye">Larissa Waters</member>
+   <member id="uk.org.publicwhip/lord/100966" vote="aye">Ellie Whiteaker</member>
+  </memberlist>
+  <memberlist vote="no">
+   <member id="uk.org.publicwhip/lord/100902" vote="no">Alex Antic</member>
+   <member id="uk.org.publicwhip/lord/100969" vote="no">Sean Bell</member>
+   <member id="uk.org.publicwhip/lord/100956" vote="no">Leah Blyth</member>
+   <member id="uk.org.publicwhip/lord/100904" vote="no">Andrew Bragg</member>
+   <member id="uk.org.publicwhip/lord/100971" vote="no">Slade Brockman</member>
+   <member id="uk.org.publicwhip/lord/100933" vote="no">Ross Cadell</member>
+   <member id="uk.org.publicwhip/lord/100827" vote="no">Matthew Canavan</member>
+   <member id="uk.org.publicwhip/lord/100962" vote="no">Jessica Collins</member>
+   <member id="uk.org.publicwhip/lord/100851" vote="no">Jonathon Duniam</member>
+   <member id="uk.org.publicwhip/lord/100857" vote="no">Pauline Lee Hanson</member>
+   <member id="uk.org.publicwhip/lord/100859" vote="no">Jane Hume</member>
+   <member id="uk.org.publicwhip/lord/100934" vote="no">Kerrynne Liddle</member>
+   <member id="uk.org.publicwhip/lord/100833" vote="no">James McGrath</member>
+   <member id="uk.org.publicwhip/lord/100291" vote="no">Bridget McKenzie</member>
+   <member id="uk.org.publicwhip/lord/100970" vote="no">Andrew McLachlan</member>
+   <member id="uk.org.publicwhip/lord/100935" vote="no">Jacinta Nampijinpa Price</member>
+   <member id="uk.org.publicwhip/lord/100849" vote="no">James Paterson</member>
+   <member id="uk.org.publicwhip/lord/100958" vote="no">Fatima Payman</member>
+   <member id="uk.org.publicwhip/lord/100915" vote="no">Malcolm Roberts</member>
+   <member id="uk.org.publicwhip/lord/100306" vote="no">Anne Ruston</member>
+   <member id="uk.org.publicwhip/lord/100916" vote="no">Paul Scarr</member>
+   <member id="uk.org.publicwhip/lord/100303" vote="no">Dean Smith</member>
+   <member id="uk.org.publicwhip/lord/100967" vote="no">Tyron Whitten</member>
+  </memberlist>
+ </division>
+ <speech approximate_duration="0" approximate_wordcount="21" id="uk.org.publicwhip/lords/2026-09-10.13.1" speakerid="uk.org.publicwhip/lord/100971" speakername="Slade Brockman" talktype="speech" time="10:08" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>Last night's debate was interrupted during consideration of opposition amendments on sheet 4059. Are there any further contributions on these amendments?</p> </speech>
+ <speech approximate_duration="420" approximate_wordcount="654" id="uk.org.publicwhip/lords/2026-09-10.14.1" speakerid="uk.org.publicwhip/lord/100256" speakername="Sarah Hanson-Young" talktype="speech" time="10:08" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>I wanted to come back to the issue that is currently before us, and that is the need to ensure that when implementing any rules and regulations around how big tech engages users and treats members of the public, their users, their customers—it's very hard to implement any of these rules if these companies can keep their tricks and their tactics locked down in secret. That's why we need proper transparency when it comes to exactly what is going on, what is happening under the hood of these toxic algorithms and the techniques that these industries use to keep people addicted.</p><p>We've heard testimony after testimony after testimony from whistleblowers who work within some of the biggest social media companies in the world about how deliberate their tactics are to undermine the very safety of their users. We also know whistleblowers have been very clear about the tactics that are used to undermine the very information that government agencies and authorities around the world can access. No only do these companies design products that are deliberately addictive and that they know harm people but they then find ways of keeping that exact harm and addiction and the deliberate nature of that as secret as possible. They manipulate their own libraries. They manipulate their own public release of data. In the social media big tech bro world, they write their own rules and they'll follow them if and when they choose to do so.</p><p>If we're going to introduce a whole new raft of regulations, we need to make sure that government agencies and independent experts and researchers actually have access to this information. I'm concerned that, unless we have proper commitments from the government to do this, big tech will just get to continue railroading not just civil society and not just the general public but also the very authorities and agencies that are meant to hold them to account. I'd like to ask the minister what commitments the government can give to ensure that independent researchers are going to be able to also get under the hood and have a good look at what's going on.</p><p>I'd like to seek leave to table a letter I received this morning from Minister Anika Wells that goes to some of these issues and a commitment to implementing proper transparency rules.</p><p>Leave granted.</p><p>I'll table that letter now so that everybody can see that the government has given a commitment to working with this place to implement proper transparency rules to ensure these big tech companies can't keep their dirty, nasty, dangerous tactics secret. In saying that, I want to say we will hold your feet to the fire on this. We are absolutely determined. The Greens' perspective is that the general public deserve to know what these companies are up to and the best way they can do that is by ensuring that independent researchers and experts have access to information and can interrogate it. I say that because it can't just be government agencies or authorities; you actually need the experts in the room. You need the experts and the researchers to be there for the public interest and to be able to predict the next step and predict what these companies are going to do to try and avoid sticking by these rules and regulations.</p><p>We know that, if you give big tech an inch, they'll take a mile. So you need tough laws and you need tough penalties. But you need transparency, because they get away with this only because, at the moment, it is so secret, kept in the dark, that no-one can really hold them to account. So you need sunlight, you need transparency, and you need the people who actually understand how these companies operate to be able to get their heads under the hood and give advice properly—not just to the government but to the community as well.</p> </speech>
+ <speech approximate_duration="480" approximate_wordcount="148" id="uk.org.publicwhip/lords/2026-09-10.15.1" speakerid="uk.org.publicwhip/lord/100908" speakername="Nita Green" talktype="speech" time="10:15" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>():  I think Senator Hanson-Young, in tabling that document, has provided an answer to her own question, which is that the government is committed to ensuring that the digital duty of care bill includes a commitment to ensuring transparency around processes and systems and ensuring access to this information by researchers. Of course, we are again talking about a piece of legislation that will be introduced after an exposure draft consultation period. All the caveats around different legal and constitutional advice will be required. But we've made that commitment after advocacy from Senator Hanson-Young, ensuring that the amendment that's been put forward the opposition is instead dealt with through the digital duty of care legislation, for which there will be the opportunity for a consultation period and, particularly, parliamentary scrutiny and submissions from the public so we can ensure that the digital duty of care legislation is carefully scrutinised.</p> </speech>
+ <speech approximate_duration="0" approximate_wordcount="15" id="uk.org.publicwhip/lords/2026-09-10.15.2" speakerid="uk.org.publicwhip/lord/100971" speakername="Slade Brockman" talktype="interjection" time="10:15" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>The question is that opposition amendments (1) and (2) on sheet 4059 be agreed to.</p><p /> </speech>
+ <division divdate="2026-09-10" divnumber="3" id="uk.org.publicwhip/lords/2026-09-10.16.1" nospeaker="true" time="10:20" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+  <bills>
+   <bill id="r7512" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r7512">Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026</bill>
+  </bills>
+  <divisioncount ayes="20" noes="30" tellerayes="0" tellernoes="0" />
+  <memberlist vote="aye">
+   <member id="uk.org.publicwhip/lord/100902" vote="aye">Alex Antic</member>
+   <member id="uk.org.publicwhip/lord/100956" vote="aye">Leah Blyth</member>
+   <member id="uk.org.publicwhip/lord/100904" vote="aye">Andrew Bragg</member>
+   <member id="uk.org.publicwhip/lord/100971" vote="aye">Slade Brockman</member>
+   <member id="uk.org.publicwhip/lord/100933" vote="aye">Ross Cadell</member>
+   <member id="uk.org.publicwhip/lord/100827" vote="aye">Matthew Canavan</member>
+   <member id="uk.org.publicwhip/lord/100962" vote="aye">Jessica Collins</member>
+   <member id="uk.org.publicwhip/lord/100851" vote="aye">Jonathon Duniam</member>
+   <member id="uk.org.publicwhip/lord/100859" vote="aye">Jane Hume</member>
+   <member id="uk.org.publicwhip/lord/100910" vote="aye">Jacqui Lambie</member>
+   <member id="uk.org.publicwhip/lord/100934" vote="aye">Kerrynne Liddle</member>
+   <member id="uk.org.publicwhip/lord/100833" vote="aye">James McGrath</member>
+   <member id="uk.org.publicwhip/lord/100970" vote="aye">Andrew McLachlan</member>
+   <member id="uk.org.publicwhip/lord/100935" vote="aye">Jacinta Nampijinpa Price</member>
+   <member id="uk.org.publicwhip/lord/100849" vote="aye">James Paterson</member>
+   <member id="uk.org.publicwhip/lord/100958" vote="aye">Fatima Payman</member>
+   <member id="uk.org.publicwhip/lord/100938" vote="aye">David Pocock</member>
+   <member id="uk.org.publicwhip/lord/100306" vote="aye">Anne Ruston</member>
+   <member id="uk.org.publicwhip/lord/100916" vote="aye">Paul Scarr</member>
+   <member id="uk.org.publicwhip/lord/100303" vote="aye">Dean Smith</member>
+  </memberlist>
+  <memberlist vote="no">
+   <member id="uk.org.publicwhip/lord/100931" vote="no">Penny Allman-Payne</member>
+   <member id="uk.org.publicwhip/lord/100961" vote="no">Michelle Ananda-Rajah</member>
+   <member id="uk.org.publicwhip/lord/100903" vote="no">Tim Ayres</member>
+   <member id="uk.org.publicwhip/lord/100974" vote="no">Vanessa Bleyer</member>
+   <member id="uk.org.publicwhip/lord/100026" vote="no">Carol Louise Brown</member>
+   <member id="uk.org.publicwhip/lord/100900" vote="no">Raff Ciccone</member>
+   <member id="uk.org.publicwhip/lord/100951" vote="no">Lisa Darmanin</member>
+   <member id="uk.org.publicwhip/lord/100960" vote="no">Josh Dolega</member>
+   <member id="uk.org.publicwhip/lord/100963" vote="no">Richard Dowling</member>
+   <member id="uk.org.publicwhip/lord/100883" vote="no">Mehreen Faruqi</member>
+   <member id="uk.org.publicwhip/lord/100950" vote="no">Varun Ghosh</member>
+   <member id="uk.org.publicwhip/lord/100908" vote="no">Nita Green</member>
+   <member id="uk.org.publicwhip/lord/100928" vote="no">Karen Grogan</member>
+   <member id="uk.org.publicwhip/lord/100256" vote="no">Sarah Hanson-Young</member>
+   <member id="uk.org.publicwhip/lord/100952" vote="no">Steph Hodgins-May</member>
+   <member id="uk.org.publicwhip/lord/100944" vote="no">Sue Lines</member>
+   <member id="uk.org.publicwhip/lord/100845" vote="no">Jenny McAllister</member>
+   <member id="uk.org.publicwhip/lord/100847" vote="no">Nick McKim</member>
+   <member id="uk.org.publicwhip/lord/100937" vote="no">Barbara Pocock</member>
+   <member id="uk.org.publicwhip/lord/100178" vote="no">Helen Beatrice Polley</member>
+   <member id="uk.org.publicwhip/lord/100917" vote="no">Tony Sheldon</member>
+   <member id="uk.org.publicwhip/lord/100939" vote="no">David Shoebridge</member>
+   <member id="uk.org.publicwhip/lord/100918" vote="no">Marielle Smith</member>
+   <member id="uk.org.publicwhip/lord/100874" vote="no">Jordon Steele-John</member>
+   <member id="uk.org.publicwhip/lord/100213" vote="no">Glenn Sterle</member>
+   <member id="uk.org.publicwhip/lord/100940" vote="no">Jana Stewart</member>
+   <member id="uk.org.publicwhip/lord/100965" vote="no">Charlotte Walker</member>
+   <member id="uk.org.publicwhip/lord/100920" vote="no">Jess Walsh</member>
+   <member id="uk.org.publicwhip/lord/100884" vote="no">Larissa Waters</member>
+   <member id="uk.org.publicwhip/lord/100966" vote="no">Ellie Whiteaker</member>
+  </memberlist>
+ </division>
+ <speech approximate_duration="420" approximate_wordcount="1112" id="uk.org.publicwhip/lords/2026-09-10.17.1" speakerid="uk.org.publicwhip/lord/100256" speakername="Sarah Hanson-Young" talktype="speech" time="10:23" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>by leave—I move Australian Greens amendments (1) to (4) on sheet 4091 together:</p><p class="italic">(1) Schedule 1, page 3 (before line 4), before item 1, insert:</p><p class="italic">1A Section 5 (after the definition of <i>age-restricted user</i> )</p><p class="italic">Insert:</p><p class="italic"><i>annual global turnover</i> has the meaning given by section 21A.</p><p class="italic">1B After section 21</p><p class="italic">Insert:</p><p class="italic">21A Annual global turnover</p><p class="italic">(1) The <i>annual global turnover</i> of a body corporate, during a financial year, is the sum of the values of all the supplies that the body corporate, and any body corporate related to the body corporate, have made, or are likely to make, during that year, other than the following supplies:</p><p class="italic">(a) supplies made from any of those bodies corporate to any other of those bodies corporate;</p><p class="italic">(b) supplies that are input taxed;</p><p class="italic">(c) supplies that are not for consideration (and are not taxable supplies under section 72-5 of the <i>A New Tax System (Goods and Services Tax) Act 1999</i>);</p><p class="italic">(d) supplies that are not made in connection with an enterprise that the body corporate carries on.</p><p class="italic">(2) For the purposes of subsection (1), it is immaterial whether the supplies were made, or are likely to be made, within or outside Australia.</p><p class="italic">(3) Expressions used in subsections (1) and (2) that are also used in the <i>A New Tax System (Goods and Services Tax) Act 1999</i> have the same meaning in those subsections as they have in that Act.</p><p class="italic">(4) The question whether 2 bodies corporate are related to each other is to be determined for the purposes of subsection (1) in the same way as for the purposes of the <i>Corporations Act 2001</i>.</p><p class="italic">(2) Schedule 1, item 1, page 3 (line 5), omit "60,000", substitute "10% of the annual global turnover of the provider in the previous financial year."</p><p class="italic">(3) Schedule 1, item 2, page 3 (line 7), omit "60,000", substitute "10% of the annual global turnover of the provider in the previous financial year."</p><p class="italic">(4) Schedule 1, item 3, page 3 (line 9), omit "60,000", substitute "10% of the annual global turnover of the provider in the previous financial year."</p><p>These amendments are really important. This entire piece of legislation is about enforcement of the law and making sure big tech abides by what this parliament agrees to. If we want people to be safe online, big tech has to be held to account.</p><p>We, of course, know that the social media ban has been an absolute failure. It was destined to fail from the beginning. You don't need to take my word for it. The fact that the government is now having to introduce the duty of care bill, which actually goes to the need to protect people, to make their online experience safe, to force companies to provide safety for their users, proves that the social media ban for under-16s has been an utter failure.</p><p>However, what I am concerned about is that, unless we send a message to big tech that, when the parliament agrees to protect their citizens, when we agree that people should have the right to choose what is in their own feeds, when Australians have the right to be able to be online without being bombarded with harmful content and tricked and manipulated with addictive algorithms, if Big Tech flouts those rules, there will be consequences for them. In the current legislation, it's a slap on the wrist. It's 100 million bucks for these huge gorilla big tech companies who make billions and billions of dollars a year; 100 million bucks is nothing to them. It's not just the cost of doing business; it's like the morning coffee run for the office for big tech. It's nothing. So, if we're serious about holding big tech to account and putting in place penalties that will actually deter bad behaviour and force them to clean up their act, then we really need to increase these penalties.</p><p>The rest of the world, when they're looking at how they take on big tech and hold them to account, talk about the need to consider revenue and about how the penalties must be a percentage of their revenue because of course, otherwise, they just keep carrying on this bad behaviour. The difference between the fine and what their profits are just gets bigger and bigger. The only way to have a meaningful penalty on big tech and these huge, enormous companies that are manipulating, addicting and profiting off harm is to make the penalties a percentage of global revenue.</p><p>Australia wouldn't be the first country in the world to do this. The EU has introduced a similar percentage of global revenue for Meta. Other countries around the world are moving in that direction because everybody knows that the way these companies get away with this is that they country shop based on where they bank their business. You can't just have it. You can't even just have a percentage on domestic revenue, because they just put their bank account in Singapore. They do all their business through Ireland.</p><p>We know that Meta here in Australia is already flouting our tax rules because they don't pay their fair share of tax because they offshore their profits. Not only are they profiting off a product that is deliberately addictive, that is harmful, that is manipulating and using Australians; they then have the gall to offshore their profits overseas so that they don't even have to pay tax on their harmful product. So the only way to seriously hold these tech companies, these big global gorillas, to account is to make sure we have a percentage of global revenue as part of the penalty regime.</p><p>That's what this amendment does. It's a penalty of 10 per cent of global revenue. I think that's fair enough. These are the richest companies in the world. Elon Musk is the richest man in the world, a trillionaire, and he gets his kicks out of running a platform that is deliberately designed to be addictive and harmful. Mark Zuckerberg is one of the richest men in the world; he gets his kicks out of and makes profit off of a product that is deliberately designed to be addictive and harmful. If we're going to actually take a swing at that, if we're going to put Australians back in control of what we see in our social media feeds, if we want to be safe online, we've got to hit these buggers where it hurts. It's got to be a much bigger fine than 100 million bucks. That is peanuts to them. So let's get serious. Let's make it a percentage of global revenue, and let's hit them where it hurts.</p> </speech>
+ <speech approximate_duration="480" approximate_wordcount="181" id="uk.org.publicwhip/lords/2026-09-10.18.1" speakerid="uk.org.publicwhip/lord/100908" speakername="Nita Green" talktype="speech" time="10:30" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>I want to briefly respond on the amendments. The government is very keen to pass this bill today, and I can talk more about why that is. But to respond to the amendments, can I simply say that we agree with the principle that stronger penalties are a stronger deterrent. The penalties in this bill are consistent with recently increased penalties in the Competition and Consumer Act and are amongst the highest penalties available in the Commonwealth legislation. Tying penalties to revenue of the digital platforms was considered in the independent statutory review, and I can understand why that's an attractive proposition.</p><p>The setting of sufficiently high penalty amounts does deter noncompliance. There are significant challenges we must consider in determining the global annual revenue of companies based overseas, and this can be made even more difficult and intractable when revenue is generated across multiple jurisdictions. We believe this risks platforms avoiding penalties for failing to protect Australians online rather than increasing protections to deter poor behaviours. That is our goal today. That is why we won't be supporting these amendments.</p> </speech>
+ <speech approximate_duration="0" approximate_wordcount="17" id="uk.org.publicwhip/lords/2026-09-10.18.2" speakerid="uk.org.publicwhip/lord/100956" speakername="Leah Blyth" talktype="interjection" time="10:30" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>The question is that the Australian Greens amendments (1) and (4) on sheet 4091 be agreed to.</p><p /> </speech>
+ <division divdate="2026-09-10" divnumber="4" id="uk.org.publicwhip/lords/2026-09-10.19.1" nospeaker="true" time="10:36" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+  <bills>
+   <bill id="r7512" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r7512">Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026</bill>
+  </bills>
+  <divisioncount ayes="13" noes="26" tellerayes="0" tellernoes="0" />
+  <memberlist vote="aye">
+   <member id="uk.org.publicwhip/lord/100931" vote="aye">Penny Allman-Payne</member>
+   <member id="uk.org.publicwhip/lord/100974" vote="aye">Vanessa Bleyer</member>
+   <member id="uk.org.publicwhip/lord/100883" vote="aye">Mehreen Faruqi</member>
+   <member id="uk.org.publicwhip/lord/100256" vote="aye">Sarah Hanson-Young</member>
+   <member id="uk.org.publicwhip/lord/100952" vote="aye">Steph Hodgins-May</member>
+   <member id="uk.org.publicwhip/lord/100910" vote="aye">Jacqui Lambie</member>
+   <member id="uk.org.publicwhip/lord/100847" vote="aye">Nick McKim</member>
+   <member id="uk.org.publicwhip/lord/100958" vote="aye">Fatima Payman</member>
+   <member id="uk.org.publicwhip/lord/100937" vote="aye">Barbara Pocock</member>
+   <member id="uk.org.publicwhip/lord/100938" vote="aye">David Pocock</member>
+   <member id="uk.org.publicwhip/lord/100939" vote="aye">David Shoebridge</member>
+   <member id="uk.org.publicwhip/lord/100874" vote="aye">Jordon Steele-John</member>
+   <member id="uk.org.publicwhip/lord/100884" vote="aye">Larissa Waters</member>
+  </memberlist>
+  <memberlist vote="no">
+   <member id="uk.org.publicwhip/lord/100961" vote="no">Michelle Ananda-Rajah</member>
+   <member id="uk.org.publicwhip/lord/100903" vote="no">Tim Ayres</member>
+   <member id="uk.org.publicwhip/lord/100969" vote="no">Sean Bell</member>
+   <member id="uk.org.publicwhip/lord/100026" vote="no">Carol Louise Brown</member>
+   <member id="uk.org.publicwhip/lord/100900" vote="no">Raff Ciccone</member>
+   <member id="uk.org.publicwhip/lord/100951" vote="no">Lisa Darmanin</member>
+   <member id="uk.org.publicwhip/lord/100960" vote="no">Josh Dolega</member>
+   <member id="uk.org.publicwhip/lord/100963" vote="no">Richard Dowling</member>
+   <member id="uk.org.publicwhip/lord/100973" vote="no">Chris Gatenby</member>
+   <member id="uk.org.publicwhip/lord/100950" vote="no">Varun Ghosh</member>
+   <member id="uk.org.publicwhip/lord/100908" vote="no">Nita Green</member>
+   <member id="uk.org.publicwhip/lord/100928" vote="no">Karen Grogan</member>
+   <member id="uk.org.publicwhip/lord/100857" vote="no">Pauline Lee Hanson</member>
+   <member id="uk.org.publicwhip/lord/100861" vote="no">Malarndirri McCarthy</member>
+   <member id="uk.org.publicwhip/lord/100312" vote="no">Deborah O'Neill</member>
+   <member id="uk.org.publicwhip/lord/100849" vote="no">James Paterson</member>
+   <member id="uk.org.publicwhip/lord/100178" vote="no">Helen Beatrice Polley</member>
+   <member id="uk.org.publicwhip/lord/100915" vote="no">Malcolm Roberts</member>
+   <member id="uk.org.publicwhip/lord/100917" vote="no">Tony Sheldon</member>
+   <member id="uk.org.publicwhip/lord/100918" vote="no">Marielle Smith</member>
+   <member id="uk.org.publicwhip/lord/100213" vote="no">Glenn Sterle</member>
+   <member id="uk.org.publicwhip/lord/100940" vote="no">Jana Stewart</member>
+   <member id="uk.org.publicwhip/lord/100965" vote="no">Charlotte Walker</member>
+   <member id="uk.org.publicwhip/lord/100920" vote="no">Jess Walsh</member>
+   <member id="uk.org.publicwhip/lord/100966" vote="no">Ellie Whiteaker</member>
+   <member id="uk.org.publicwhip/lord/100967" vote="no">Tyron Whitten</member>
+  </memberlist>
+ </division>
+ <speech approximate_duration="420" approximate_wordcount="265" id="uk.org.publicwhip/lords/2026-09-10.20.1" speakerid="uk.org.publicwhip/lord/100849" speakername="James Paterson" talktype="speech" time="10:38" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>by leave—I move amendments (1) to (5) on sheet 4088 standing in the name of Senator Henderson:</p><p class="italic">(1) Schedule 1, item 4, page 3 (line 15), after "applies to a person", insert "mentioned in subsection (2A)".</p><p class="italic">(2) Schedule 1, item 4, page 3 (lines 17 and 18), omit "that is or may be", substitute "that is".</p><p class="italic">(3) Schedule 1, item 4, page 3 (line 20), after "applies to a person", insert "mentioned in subsection (2A)".</p><p class="italic">(4) Schedule 1, item 4, page 3 (after line 24), after subsection 63G(2), insert:</p><p class="italic">(2A) The following persons are mentioned for the purposes of this subsection:</p><p class="italic">(a) the provider of the electronic service;</p><p class="italic">(b) a related party of the provider of the electronic service.</p><p class="italic">(2B) For the purposes of paragraph (2A)(b), a person is a <i>related party</i> of a provider of an electronic service if the person:</p><p class="italic">(a) provides, or has provided, goods or services to the provider; or</p><p class="italic">(b) if the provider is a body corporate—is a related body corporate (within the meaning of the <i>Corporations Act 2001</i>) of the provider.</p><p class="italic">Note: For example, a person who provides age assurance services to a provider is a related party of the provider.</p><p class="italic">(5) Schedule 1, page 4 (before line 9), before item 6, insert:</p><p class="italic">5B After subsection 220(9)</p><p class="italic">Insert:</p><p class="italic"> <i>Notice to give information or provide documents</i></p><p class="italic">(9A) An application may be made to the Administrative Review Tribunal for a review of a decision of the Commissioner under subsection 63G(3) to give a notice.</p><p>Senator Henderson has already explained the rationale for the coalition's amendments, so I won't elaborate any further.</p> </speech>
+ <speech approximate_duration="0" approximate_wordcount="12" id="uk.org.publicwhip/lords/2026-09-10.20.2" speakerid="uk.org.publicwhip/lord/100971" speakername="Slade Brockman" talktype="interjection" time="10:38" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>The question is that opposition amendments on sheet 4088 be agreed to.</p><p /> </speech>
+ <division divdate="2026-09-10" divnumber="5" id="uk.org.publicwhip/lords/2026-09-10.21.1" nospeaker="true" time="10:43" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+  <bills>
+   <bill id="r7512" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r7512">Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026</bill>
+  </bills>
+  <divisioncount ayes="22" noes="31" pairs="10" tellerayes="0" tellernoes="0" />
+  <memberlist vote="aye">
+   <member id="uk.org.publicwhip/lord/100902" vote="aye">Alex Antic</member>
+   <member id="uk.org.publicwhip/lord/100969" vote="aye">Sean Bell</member>
+   <member id="uk.org.publicwhip/lord/100956" vote="aye">Leah Blyth</member>
+   <member id="uk.org.publicwhip/lord/100904" vote="aye">Andrew Bragg</member>
+   <member id="uk.org.publicwhip/lord/100971" vote="aye">Slade Brockman</member>
+   <member id="uk.org.publicwhip/lord/100933" vote="aye">Ross Cadell</member>
+   <member id="uk.org.publicwhip/lord/100962" vote="aye">Jessica Collins</member>
+   <member id="uk.org.publicwhip/lord/100973" vote="aye">Chris Gatenby</member>
+   <member id="uk.org.publicwhip/lord/100857" vote="aye">Pauline Lee Hanson</member>
+   <member id="uk.org.publicwhip/lord/100910" vote="aye">Jacqui Lambie</member>
+   <member id="uk.org.publicwhip/lord/100833" vote="aye">James McGrath</member>
+   <member id="uk.org.publicwhip/lord/100291" vote="aye">Bridget McKenzie</member>
+   <member id="uk.org.publicwhip/lord/100970" vote="aye">Andrew McLachlan</member>
+   <member id="uk.org.publicwhip/lord/100935" vote="aye">Jacinta Nampijinpa Price</member>
+   <member id="uk.org.publicwhip/lord/100849" vote="aye">James Paterson</member>
+   <member id="uk.org.publicwhip/lord/100958" vote="aye">Fatima Payman</member>
+   <member id="uk.org.publicwhip/lord/100915" vote="aye">Malcolm Roberts</member>
+   <member id="uk.org.publicwhip/lord/100306" vote="aye">Anne Ruston</member>
+   <member id="uk.org.publicwhip/lord/100916" vote="aye">Paul Scarr</member>
+   <member id="uk.org.publicwhip/lord/100949" vote="aye">Dave Sharma</member>
+   <member id="uk.org.publicwhip/lord/100303" vote="aye">Dean Smith</member>
+   <member id="uk.org.publicwhip/lord/100967" vote="aye">Tyron Whitten</member>
+  </memberlist>
+  <memberlist vote="no">
+   <member id="uk.org.publicwhip/lord/100931" vote="no">Penny Allman-Payne</member>
+   <member id="uk.org.publicwhip/lord/100961" vote="no">Michelle Ananda-Rajah</member>
+   <member id="uk.org.publicwhip/lord/100974" vote="no">Vanessa Bleyer</member>
+   <member id="uk.org.publicwhip/lord/100026" vote="no">Carol Louise Brown</member>
+   <member id="uk.org.publicwhip/lord/100900" vote="no">Raff Ciccone</member>
+   <member id="uk.org.publicwhip/lord/100951" vote="no">Lisa Darmanin</member>
+   <member id="uk.org.publicwhip/lord/100960" vote="no">Josh Dolega</member>
+   <member id="uk.org.publicwhip/lord/100963" vote="no">Richard Dowling</member>
+   <member id="uk.org.publicwhip/lord/100883" vote="no">Mehreen Faruqi</member>
+   <member id="uk.org.publicwhip/lord/100950" vote="no">Varun Ghosh</member>
+   <member id="uk.org.publicwhip/lord/100908" vote="no">Nita Green</member>
+   <member id="uk.org.publicwhip/lord/100928" vote="no">Karen Grogan</member>
+   <member id="uk.org.publicwhip/lord/100256" vote="no">Sarah Hanson-Young</member>
+   <member id="uk.org.publicwhip/lord/100952" vote="no">Steph Hodgins-May</member>
+   <member id="uk.org.publicwhip/lord/100944" vote="no">Sue Lines</member>
+   <member id="uk.org.publicwhip/lord/100861" vote="no">Malarndirri McCarthy</member>
+   <member id="uk.org.publicwhip/lord/100847" vote="no">Nick McKim</member>
+   <member id="uk.org.publicwhip/lord/100312" vote="no">Deborah O'Neill</member>
+   <member id="uk.org.publicwhip/lord/100937" vote="no">Barbara Pocock</member>
+   <member id="uk.org.publicwhip/lord/100938" vote="no">David Pocock</member>
+   <member id="uk.org.publicwhip/lord/100178" vote="no">Helen Beatrice Polley</member>
+   <member id="uk.org.publicwhip/lord/100917" vote="no">Tony Sheldon</member>
+   <member id="uk.org.publicwhip/lord/100939" vote="no">David Shoebridge</member>
+   <member id="uk.org.publicwhip/lord/100918" vote="no">Marielle Smith</member>
+   <member id="uk.org.publicwhip/lord/100874" vote="no">Jordon Steele-John</member>
+   <member id="uk.org.publicwhip/lord/100213" vote="no">Glenn Sterle</member>
+   <member id="uk.org.publicwhip/lord/100940" vote="no">Jana Stewart</member>
+   <member id="uk.org.publicwhip/lord/100965" vote="no">Charlotte Walker</member>
+   <member id="uk.org.publicwhip/lord/100920" vote="no">Jess Walsh</member>
+   <member id="uk.org.publicwhip/lord/100884" vote="no">Larissa Waters</member>
+   <member id="uk.org.publicwhip/lord/100966" vote="no">Ellie Whiteaker</member>
+  </memberlist>
+  <pairs>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100827">Matthew Canavan</member>
+    <member id="uk.org.publicwhip/lord/100853">Anthony Chisholm</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100252">Michaelia Cash</member>
+    <member id="uk.org.publicwhip/lord/100241">Penny Ying Yen Wong</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100905">Claire Chandler</member>
+    <member id="uk.org.publicwhip/lord/100907">Katy Gallagher</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100880">Richard Mansell Colbeck</member>
+    <member id="uk.org.publicwhip/lord/100864">Murray Watt</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100921">Sarah Henderson</member>
+    <member id="uk.org.publicwhip/lord/100903">Tim Ayres</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100859">Jane Hume</member>
+    <member id="uk.org.publicwhip/lord/100964">Corinne Mulholland</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100947">Maria Kovacic</member>
+    <member id="uk.org.publicwhip/lord/100972">Tammy Tyrrell</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100934">Kerrynne Liddle</member>
+    <member id="uk.org.publicwhip/lord/100957">Dorinda Cox</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100911">Susan McDonald</member>
+    <member id="uk.org.publicwhip/lord/100845">Jenny McAllister</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100913">Matt O'Sullivan</member>
+    <member id="uk.org.publicwhip/lord/100855">Don Farrell</member>
+   </pair>
+  </pairs>
+ </division>
+ <speech approximate_duration="60" approximate_wordcount="47" id="uk.org.publicwhip/lords/2026-09-10.22.1" speakerid="uk.org.publicwhip/lord/100849" speakername="James Paterson" talktype="speech" time="10:45" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>Deputy President, you are correct in your powers of anticipation. I seek leave to move amendments on page 4104, previously circulated by Senator Henderson, as was the previous amendment. Senator Henderson has articulated the coalition's rationale for these amendments, so I won't detain the chamber any longer.</p> </speech>
+ <speech approximate_duration="0" approximate_wordcount="10" id="uk.org.publicwhip/lords/2026-09-10.22.2" speakerid="uk.org.publicwhip/lord/100971" speakername="Slade Brockman" talktype="interjection" time="10:45" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>You don't need leave. You're free to move the amendment.</p> </speech>
+ <speech approximate_duration="0" approximate_wordcount="824" id="uk.org.publicwhip/lords/2026-09-10.22.3" speakerid="uk.org.publicwhip/lord/100849" speakername="James Paterson" talktype="continuation" time="10:45" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>I move opposition amendment on sheet 4104 as circulated:</p><p class="italic">(1) Schedule 1, page 4 (after line 15), at the end of the bill, add:</p><p class="italic"> <i>Competition and Consumer Act 2010</i></p><p class="italic">7 After Part IV</p><p class="italic">Insert:</p><p class="italic">Part IVAA — Consumer choice of digital safety services</p><p class="italic">Division 1 — Preliminary</p><p class="italic">51AAB Object of this Part</p><p class="italic">The object of this Part is to promote competition, consumer choice and online safety by ensuring that Australian consumers are able to use third-party digital safety services on devices and operating systems.</p><p class="italic">51AAC Application</p><p class="italic">This Part applies to a provider of a device operating system if:</p><p class="italic">(a) the provider is a corporation to which paragraph 51(xx) of the Constitution applies; and</p><p class="italic">(b) the operating system is supplied or made available for use in Australia; and</p><p class="italic">(c) the provider has a substantial degree of market power in the supply of device operating systems in Australia.</p><p class="italic">Division 2 — Consumer choice of digital safety services</p><p class="italic">51AAD Consumer choice of digital safety services</p><p class="italic"> <i>Access to operating system functionality</i></p><p class="italic">(1) A provider must take reasonable steps to provide third-party digital safety services with access to the operating system functionality reasonably necessary to enable that service to perform its digital safety functions effectively.</p><p class="italic">(2) The requirement in subsection (1) to take reasonable steps to provide access may include steps in relation to the following:</p><p class="italic">(a) application programming interfaces;</p><p class="italic">(b) permissions and system privileges;</p><p class="italic">(c) device and application usage information;</p><p class="italic">(d) content filtering and access controls;</p><p class="italic">(e) application and website blocking or restriction functionality;</p><p class="italic">(f) screen-time and usage controls;</p><p class="italic">(g) account and device management functionality;</p><p class="italic">(h) any other operating system functionality or technical capability necessary for the effective operation of the digital safety service.</p><p class="italic"> <i>Prohibition on anti-competitive restrictions</i></p><p class="italic">(3) A provider must not unreasonably:</p><p class="italic">(a) prevent or materially restrict the installation, operation or use of a third-party digital safety service; or</p><p class="italic">(b) withhold, restrict, degrade or delay access to operating system functionality reasonably necessary for the effective operation of a third-party digital safety service; or</p><p class="italic">(c) impose a technical, contractual, commercial or other restriction on a third-party digital safety service that does not apply to an equivalent digital safety service supplied by the provider or a related body corporate; or</p><p class="italic">(d) design or operate the operating system in a manner that materially disadvantages a third-party digital safety service in favour of a digital safety service supplied by the provider or a related body corporate; or</p><p class="italic">(e) require an Australian consumer to use a digital safety service supplied by the provider or a related body corporate as a condition of accessing functionality necessary for digital safety; or</p><p class="italic">(f) otherwise prevent or materially impede an Australian consumer from effectively using a digital safety service of the consumer's choice.</p><p class="italic"> <i>Security and privacy exception</i></p><p class="italic">(4) A provider does not contravene this section by restricting access to operating system functionality if the provider establishes that the restriction is reasonably necessary and proportionate to address a material risk to:</p><p class="italic">(a) the security or integrity of the device or operating system; or</p><p class="italic">(b) the privacy or security of an end-user.</p><p class="italic">(5) Subsection (4) does not apply to the extent that the provider, or a related body corporate, provides substantially equivalent access to that functionality for its own digital safety service.</p><p class="italic">Division 3 — Definitions</p><p class="italic">51AAE Definitions</p><p class="italic">In this Part:</p><p class="italic"><i>digital safety service</i> means software, an application or another digital service that has as a substantial purpose enabling an end-user, parent or guardian to protect or manage a person's use of a device or digital service, including by:</p><p class="italic">(a) filtering, restricting or monitoring content; or</p><p class="italic">(b) managing or restricting access to applications, websites or online services; or</p><p class="italic">(c) imposing screen-time or other usage limits; or</p><p class="italic">(d) managing communications or online interactions; or</p><p class="italic">(e) providing parental controls; or</p><p class="italic">(f) protecting against harmful or age-inappropriate content; or</p><p class="italic">(g) providing other online safety or digital wellbeing functionality.</p><p class="italic"><i>device</i> means a smartphone, tablet, personal computer or other prescribed consumer electronic device.</p><p class="italic"><i>device operating system</i> means software that controls the basic operation of a device and provides the principal interface between applications and the hardware or functionality of the device.</p><p class="italic"><i>third-party digital safety service</i> means a digital safety service that is not supplied by the provider of the relevant device operating system or a related body corporate.</p><p class="italic">Division 4 — Civil penalty</p><p class="italic">51AAF Civil penalty</p><p class="italic">(1) A person that contravenes subsection 51AAD(1) or (3) commits a contravention of a civil penalty provision.</p><p class="italic">(2) The maximum pecuniary penalty that may be imposed for a contravention under subsection (1) is the maximum pecuniary penalty applicable under section 76 in relation to a body corporate for a contravention of a section 45AJ.</p><p class="italic">Division 5 — Monitoring compliance</p><p class="italic">51AAG Regulations relating to compliance</p><p class="italic">(1) The regulations may prescribe a scheme relating to monitoring compliance with this Part.</p><p class="italic">(2) Without limiting subsection (1), the regulations may may confer on a person or body (including the Commission) functions and powers relating to monitoring compliance with this Part.</p> </speech>
+ <speech approximate_duration="540" approximate_wordcount="266" id="uk.org.publicwhip/lords/2026-09-10.23.1" speakerid="uk.org.publicwhip/lord/100908" speakername="Nita Green" talktype="speech" time="10:46" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>I also don't want to detain the chamber any longer. I just did want to make sure that the government's position was on the record on these particular amendments. We oppose the amendments because they will make things worse and not better. Forcing device manufacturers and platforms to open access in the way that this amendment requires would actually create a vulnerability on every device, and any bad actor could say they are a digital safety service and would have full access to system privileges and all device functionality. This could be used by companies to track and monetise deep data or by scammers to install spyware. It would create a backdoor for criminal groups to take control of phones or tablets, or even enable child predators who want to spy on children.</p><p>The social media minimum age legislation places an obligation squarely on social media platforms as these entities are primarily responsible for the harms caused on their services. However, the legislation does not prevent age-restricted platforms from working with other service providers such as app stores and device manufacturers to receive age signals that would assist them to assess whether the user is under 16.</p><p>The government has commenced consultation on the draft legislation for digital duty of care, and these new laws will put an onus on digital service providers to provide a safe online environment, setting minimum standards for features and tools that they use. This proposal requires online service providers to provide user empowerment tools, giving control back to users to determine the kind of content that is recommended for them.</p> </speech>
+ <speech approximate_duration="0" approximate_wordcount="12" id="uk.org.publicwhip/lords/2026-09-10.23.2" speakerid="uk.org.publicwhip/lord/100971" speakername="Slade Brockman" talktype="interjection" time="10:46" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>The question is that the amendment on sheet 4104 be agreed to.</p><p /> </speech>
+ <division divdate="2026-09-10" divnumber="6" id="uk.org.publicwhip/lords/2026-09-10.24.1" nospeaker="true" time="10:52" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+  <bills>
+   <bill id="r7512" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r7512">Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026</bill>
+  </bills>
+  <divisioncount ayes="22" noes="31" pairs="10" tellerayes="0" tellernoes="0" />
+  <memberlist vote="aye">
+   <member id="uk.org.publicwhip/lord/100902" vote="aye">Alex Antic</member>
+   <member id="uk.org.publicwhip/lord/100969" vote="aye">Sean Bell</member>
+   <member id="uk.org.publicwhip/lord/100956" vote="aye">Leah Blyth</member>
+   <member id="uk.org.publicwhip/lord/100904" vote="aye">Andrew Bragg</member>
+   <member id="uk.org.publicwhip/lord/100971" vote="aye">Slade Brockman</member>
+   <member id="uk.org.publicwhip/lord/100933" vote="aye">Ross Cadell</member>
+   <member id="uk.org.publicwhip/lord/100962" vote="aye">Jessica Collins</member>
+   <member id="uk.org.publicwhip/lord/100973" vote="aye">Chris Gatenby</member>
+   <member id="uk.org.publicwhip/lord/100857" vote="aye">Pauline Lee Hanson</member>
+   <member id="uk.org.publicwhip/lord/100910" vote="aye">Jacqui Lambie</member>
+   <member id="uk.org.publicwhip/lord/100833" vote="aye">James McGrath</member>
+   <member id="uk.org.publicwhip/lord/100291" vote="aye">Bridget McKenzie</member>
+   <member id="uk.org.publicwhip/lord/100970" vote="aye">Andrew McLachlan</member>
+   <member id="uk.org.publicwhip/lord/100935" vote="aye">Jacinta Nampijinpa Price</member>
+   <member id="uk.org.publicwhip/lord/100849" vote="aye">James Paterson</member>
+   <member id="uk.org.publicwhip/lord/100958" vote="aye">Fatima Payman</member>
+   <member id="uk.org.publicwhip/lord/100915" vote="aye">Malcolm Roberts</member>
+   <member id="uk.org.publicwhip/lord/100306" vote="aye">Anne Ruston</member>
+   <member id="uk.org.publicwhip/lord/100916" vote="aye">Paul Scarr</member>
+   <member id="uk.org.publicwhip/lord/100949" vote="aye">Dave Sharma</member>
+   <member id="uk.org.publicwhip/lord/100303" vote="aye">Dean Smith</member>
+   <member id="uk.org.publicwhip/lord/100967" vote="aye">Tyron Whitten</member>
+  </memberlist>
+  <memberlist vote="no">
+   <member id="uk.org.publicwhip/lord/100931" vote="no">Penny Allman-Payne</member>
+   <member id="uk.org.publicwhip/lord/100961" vote="no">Michelle Ananda-Rajah</member>
+   <member id="uk.org.publicwhip/lord/100903" vote="no">Tim Ayres</member>
+   <member id="uk.org.publicwhip/lord/100974" vote="no">Vanessa Bleyer</member>
+   <member id="uk.org.publicwhip/lord/100026" vote="no">Carol Louise Brown</member>
+   <member id="uk.org.publicwhip/lord/100900" vote="no">Raff Ciccone</member>
+   <member id="uk.org.publicwhip/lord/100951" vote="no">Lisa Darmanin</member>
+   <member id="uk.org.publicwhip/lord/100960" vote="no">Josh Dolega</member>
+   <member id="uk.org.publicwhip/lord/100963" vote="no">Richard Dowling</member>
+   <member id="uk.org.publicwhip/lord/100883" vote="no">Mehreen Faruqi</member>
+   <member id="uk.org.publicwhip/lord/100950" vote="no">Varun Ghosh</member>
+   <member id="uk.org.publicwhip/lord/100908" vote="no">Nita Green</member>
+   <member id="uk.org.publicwhip/lord/100928" vote="no">Karen Grogan</member>
+   <member id="uk.org.publicwhip/lord/100256" vote="no">Sarah Hanson-Young</member>
+   <member id="uk.org.publicwhip/lord/100952" vote="no">Steph Hodgins-May</member>
+   <member id="uk.org.publicwhip/lord/100944" vote="no">Sue Lines</member>
+   <member id="uk.org.publicwhip/lord/100861" vote="no">Malarndirri McCarthy</member>
+   <member id="uk.org.publicwhip/lord/100847" vote="no">Nick McKim</member>
+   <member id="uk.org.publicwhip/lord/100937" vote="no">Barbara Pocock</member>
+   <member id="uk.org.publicwhip/lord/100938" vote="no">David Pocock</member>
+   <member id="uk.org.publicwhip/lord/100178" vote="no">Helen Beatrice Polley</member>
+   <member id="uk.org.publicwhip/lord/100917" vote="no">Tony Sheldon</member>
+   <member id="uk.org.publicwhip/lord/100939" vote="no">David Shoebridge</member>
+   <member id="uk.org.publicwhip/lord/100918" vote="no">Marielle Smith</member>
+   <member id="uk.org.publicwhip/lord/100874" vote="no">Jordon Steele-John</member>
+   <member id="uk.org.publicwhip/lord/100213" vote="no">Glenn Sterle</member>
+   <member id="uk.org.publicwhip/lord/100940" vote="no">Jana Stewart</member>
+   <member id="uk.org.publicwhip/lord/100965" vote="no">Charlotte Walker</member>
+   <member id="uk.org.publicwhip/lord/100920" vote="no">Jess Walsh</member>
+   <member id="uk.org.publicwhip/lord/100884" vote="no">Larissa Waters</member>
+   <member id="uk.org.publicwhip/lord/100966" vote="no">Ellie Whiteaker</member>
+  </memberlist>
+  <pairs>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100827">Matthew Canavan</member>
+    <member id="uk.org.publicwhip/lord/100312">Deborah O'Neill</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100252">Michaelia Cash</member>
+    <member id="uk.org.publicwhip/lord/100241">Penny Ying Yen Wong</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100905">Claire Chandler</member>
+    <member id="uk.org.publicwhip/lord/100907">Katy Gallagher</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100880">Richard Mansell Colbeck</member>
+    <member id="uk.org.publicwhip/lord/100864">Murray Watt</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100921">Sarah Henderson</member>
+    <member id="uk.org.publicwhip/lord/100964">Corinne Mulholland</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100859">Jane Hume</member>
+    <member id="uk.org.publicwhip/lord/100972">Tammy Tyrrell</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100947">Maria Kovacic</member>
+    <member id="uk.org.publicwhip/lord/100957">Dorinda Cox</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100934">Kerrynne Liddle</member>
+    <member id="uk.org.publicwhip/lord/100853">Anthony Chisholm</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100911">Susan McDonald</member>
+    <member id="uk.org.publicwhip/lord/100845">Jenny McAllister</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100913">Matt O'Sullivan</member>
+    <member id="uk.org.publicwhip/lord/100855">Don Farrell</member>
+   </pair>
+  </pairs>
+ </division>
+ <speech approximate_duration="180" approximate_wordcount="11" id="uk.org.publicwhip/lords/2026-09-10.25.1" speakerid="uk.org.publicwhip/lord/100971" speakername="Slade Brockman" talktype="speech" time="10:55" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>The question is that the bill, as amended, be agreed to.</p><p /><p /> </speech>
+ <division divdate="2026-09-10" divnumber="7" id="uk.org.publicwhip/lords/2026-09-10.26.1" nospeaker="true" time="10:55" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+  <bills>
+   <bill id="r7512" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r7512">Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026</bill>
+  </bills>
+  <divisioncount ayes="32" noes="21" pairs="10" tellerayes="0" tellernoes="0" />
+  <memberlist vote="aye">
+   <member id="uk.org.publicwhip/lord/100931" vote="aye">Penny Allman-Payne</member>
+   <member id="uk.org.publicwhip/lord/100961" vote="aye">Michelle Ananda-Rajah</member>
+   <member id="uk.org.publicwhip/lord/100903" vote="aye">Tim Ayres</member>
+   <member id="uk.org.publicwhip/lord/100974" vote="aye">Vanessa Bleyer</member>
+   <member id="uk.org.publicwhip/lord/100026" vote="aye">Carol Louise Brown</member>
+   <member id="uk.org.publicwhip/lord/100900" vote="aye">Raff Ciccone</member>
+   <member id="uk.org.publicwhip/lord/100951" vote="aye">Lisa Darmanin</member>
+   <member id="uk.org.publicwhip/lord/100960" vote="aye">Josh Dolega</member>
+   <member id="uk.org.publicwhip/lord/100963" vote="aye">Richard Dowling</member>
+   <member id="uk.org.publicwhip/lord/100883" vote="aye">Mehreen Faruqi</member>
+   <member id="uk.org.publicwhip/lord/100950" vote="aye">Varun Ghosh</member>
+   <member id="uk.org.publicwhip/lord/100908" vote="aye">Nita Green</member>
+   <member id="uk.org.publicwhip/lord/100928" vote="aye">Karen Grogan</member>
+   <member id="uk.org.publicwhip/lord/100256" vote="aye">Sarah Hanson-Young</member>
+   <member id="uk.org.publicwhip/lord/100952" vote="aye">Steph Hodgins-May</member>
+   <member id="uk.org.publicwhip/lord/100910" vote="aye">Jacqui Lambie</member>
+   <member id="uk.org.publicwhip/lord/100944" vote="aye">Sue Lines</member>
+   <member id="uk.org.publicwhip/lord/100861" vote="aye">Malarndirri McCarthy</member>
+   <member id="uk.org.publicwhip/lord/100847" vote="aye">Nick McKim</member>
+   <member id="uk.org.publicwhip/lord/100937" vote="aye">Barbara Pocock</member>
+   <member id="uk.org.publicwhip/lord/100938" vote="aye">David Pocock</member>
+   <member id="uk.org.publicwhip/lord/100178" vote="aye">Helen Beatrice Polley</member>
+   <member id="uk.org.publicwhip/lord/100917" vote="aye">Tony Sheldon</member>
+   <member id="uk.org.publicwhip/lord/100939" vote="aye">David Shoebridge</member>
+   <member id="uk.org.publicwhip/lord/100918" vote="aye">Marielle Smith</member>
+   <member id="uk.org.publicwhip/lord/100874" vote="aye">Jordon Steele-John</member>
+   <member id="uk.org.publicwhip/lord/100213" vote="aye">Glenn Sterle</member>
+   <member id="uk.org.publicwhip/lord/100940" vote="aye">Jana Stewart</member>
+   <member id="uk.org.publicwhip/lord/100965" vote="aye">Charlotte Walker</member>
+   <member id="uk.org.publicwhip/lord/100920" vote="aye">Jess Walsh</member>
+   <member id="uk.org.publicwhip/lord/100884" vote="aye">Larissa Waters</member>
+   <member id="uk.org.publicwhip/lord/100966" vote="aye">Ellie Whiteaker</member>
+  </memberlist>
+  <memberlist vote="no">
+   <member id="uk.org.publicwhip/lord/100902" vote="no">Alex Antic</member>
+   <member id="uk.org.publicwhip/lord/100969" vote="no">Sean Bell</member>
+   <member id="uk.org.publicwhip/lord/100956" vote="no">Leah Blyth</member>
+   <member id="uk.org.publicwhip/lord/100904" vote="no">Andrew Bragg</member>
+   <member id="uk.org.publicwhip/lord/100971" vote="no">Slade Brockman</member>
+   <member id="uk.org.publicwhip/lord/100933" vote="no">Ross Cadell</member>
+   <member id="uk.org.publicwhip/lord/100962" vote="no">Jessica Collins</member>
+   <member id="uk.org.publicwhip/lord/100973" vote="no">Chris Gatenby</member>
+   <member id="uk.org.publicwhip/lord/100857" vote="no">Pauline Lee Hanson</member>
+   <member id="uk.org.publicwhip/lord/100833" vote="no">James McGrath</member>
+   <member id="uk.org.publicwhip/lord/100291" vote="no">Bridget McKenzie</member>
+   <member id="uk.org.publicwhip/lord/100970" vote="no">Andrew McLachlan</member>
+   <member id="uk.org.publicwhip/lord/100935" vote="no">Jacinta Nampijinpa Price</member>
+   <member id="uk.org.publicwhip/lord/100849" vote="no">James Paterson</member>
+   <member id="uk.org.publicwhip/lord/100958" vote="no">Fatima Payman</member>
+   <member id="uk.org.publicwhip/lord/100915" vote="no">Malcolm Roberts</member>
+   <member id="uk.org.publicwhip/lord/100306" vote="no">Anne Ruston</member>
+   <member id="uk.org.publicwhip/lord/100916" vote="no">Paul Scarr</member>
+   <member id="uk.org.publicwhip/lord/100949" vote="no">Dave Sharma</member>
+   <member id="uk.org.publicwhip/lord/100303" vote="no">Dean Smith</member>
+   <member id="uk.org.publicwhip/lord/100967" vote="no">Tyron Whitten</member>
+  </memberlist>
+  <pairs>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100853">Anthony Chisholm</member>
+    <member id="uk.org.publicwhip/lord/100947">Maria Kovacic</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100957">Dorinda Cox</member>
+    <member id="uk.org.publicwhip/lord/100859">Jane Hume</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100855">Don Farrell</member>
+    <member id="uk.org.publicwhip/lord/100827">Matthew Canavan</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100907">Katy Gallagher</member>
+    <member id="uk.org.publicwhip/lord/100905">Claire Chandler</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100845">Jenny McAllister</member>
+    <member id="uk.org.publicwhip/lord/100911">Susan McDonald</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100964">Corinne Mulholland</member>
+    <member id="uk.org.publicwhip/lord/100913">Matt O'Sullivan</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100312">Deborah O'Neill</member>
+    <member id="uk.org.publicwhip/lord/100934">Kerrynne Liddle</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100972">Tammy Tyrrell</member>
+    <member id="uk.org.publicwhip/lord/100921">Sarah Henderson</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100864">Murray Watt</member>
+    <member id="uk.org.publicwhip/lord/100880">Richard Mansell Colbeck</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100241">Penny Ying Yen Wong</member>
+    <member id="uk.org.publicwhip/lord/100252">Michaelia Cash</member>
+   </pair>
+  </pairs>
+ </division>
+ <minor-heading id="uk.org.publicwhip/lords/2026-09-10.27.1" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026; Third Reading </minor-heading>
+ <bills>
+  <bill id="r7512" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r7512">Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026</bill>
+ </bills>
+ <speech approximate_duration="420" approximate_wordcount="11" id="uk.org.publicwhip/lords/2026-09-10.27.2" speakerid="uk.org.publicwhip/lord/100908" speakername="Nita Green" talktype="speech" time="10:58" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>I move:</p><p class="italic">That this bill be now read a third time.</p> </speech>
+ <speech approximate_duration="0" approximate_wordcount="9" id="uk.org.publicwhip/lords/2026-09-10.27.3" speakerid="uk.org.publicwhip/lord/100971" speakername="Slade Brockman" talktype="interjection" time="10:58" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>The question is the third reading be agreed to.</p><p /> </speech>
+ <division divdate="2026-09-10" divnumber="8" id="uk.org.publicwhip/lords/2026-09-10.28.1" nospeaker="true" time="11:03" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+  <bills>
+   <bill id="r7512" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r7512">Online Safety Amendment (Strengthening Enforcement for the Social Media Minimum Age) Bill 2026</bill>
+  </bills>
+  <divisioncount ayes="31" noes="20" pairs="10" tellerayes="0" tellernoes="0" />
+  <memberlist vote="aye">
+   <member id="uk.org.publicwhip/lord/100931" vote="aye">Penny Allman-Payne</member>
+   <member id="uk.org.publicwhip/lord/100961" vote="aye">Michelle Ananda-Rajah</member>
+   <member id="uk.org.publicwhip/lord/100903" vote="aye">Tim Ayres</member>
+   <member id="uk.org.publicwhip/lord/100974" vote="aye">Vanessa Bleyer</member>
+   <member id="uk.org.publicwhip/lord/100026" vote="aye">Carol Louise Brown</member>
+   <member id="uk.org.publicwhip/lord/100900" vote="aye">Raff Ciccone</member>
+   <member id="uk.org.publicwhip/lord/100951" vote="aye">Lisa Darmanin</member>
+   <member id="uk.org.publicwhip/lord/100960" vote="aye">Josh Dolega</member>
+   <member id="uk.org.publicwhip/lord/100963" vote="aye">Richard Dowling</member>
+   <member id="uk.org.publicwhip/lord/100883" vote="aye">Mehreen Faruqi</member>
+   <member id="uk.org.publicwhip/lord/100950" vote="aye">Varun Ghosh</member>
+   <member id="uk.org.publicwhip/lord/100908" vote="aye">Nita Green</member>
+   <member id="uk.org.publicwhip/lord/100928" vote="aye">Karen Grogan</member>
+   <member id="uk.org.publicwhip/lord/100256" vote="aye">Sarah Hanson-Young</member>
+   <member id="uk.org.publicwhip/lord/100952" vote="aye">Steph Hodgins-May</member>
+   <member id="uk.org.publicwhip/lord/100910" vote="aye">Jacqui Lambie</member>
+   <member id="uk.org.publicwhip/lord/100861" vote="aye">Malarndirri McCarthy</member>
+   <member id="uk.org.publicwhip/lord/100847" vote="aye">Nick McKim</member>
+   <member id="uk.org.publicwhip/lord/100937" vote="aye">Barbara Pocock</member>
+   <member id="uk.org.publicwhip/lord/100938" vote="aye">David Pocock</member>
+   <member id="uk.org.publicwhip/lord/100178" vote="aye">Helen Beatrice Polley</member>
+   <member id="uk.org.publicwhip/lord/100917" vote="aye">Tony Sheldon</member>
+   <member id="uk.org.publicwhip/lord/100939" vote="aye">David Shoebridge</member>
+   <member id="uk.org.publicwhip/lord/100918" vote="aye">Marielle Smith</member>
+   <member id="uk.org.publicwhip/lord/100874" vote="aye">Jordon Steele-John</member>
+   <member id="uk.org.publicwhip/lord/100213" vote="aye">Glenn Sterle</member>
+   <member id="uk.org.publicwhip/lord/100940" vote="aye">Jana Stewart</member>
+   <member id="uk.org.publicwhip/lord/100965" vote="aye">Charlotte Walker</member>
+   <member id="uk.org.publicwhip/lord/100920" vote="aye">Jess Walsh</member>
+   <member id="uk.org.publicwhip/lord/100884" vote="aye">Larissa Waters</member>
+   <member id="uk.org.publicwhip/lord/100966" vote="aye">Ellie Whiteaker</member>
+  </memberlist>
+  <memberlist vote="no">
+   <member id="uk.org.publicwhip/lord/100902" vote="no">Alex Antic</member>
+   <member id="uk.org.publicwhip/lord/100969" vote="no">Sean Bell</member>
+   <member id="uk.org.publicwhip/lord/100956" vote="no">Leah Blyth</member>
+   <member id="uk.org.publicwhip/lord/100933" vote="no">Ross Cadell</member>
+   <member id="uk.org.publicwhip/lord/100851" vote="no">Jonathon Duniam</member>
+   <member id="uk.org.publicwhip/lord/100973" vote="no">Chris Gatenby</member>
+   <member id="uk.org.publicwhip/lord/100857" vote="no">Pauline Lee Hanson</member>
+   <member id="uk.org.publicwhip/lord/100947" vote="no">Maria Kovacic</member>
+   <member id="uk.org.publicwhip/lord/100833" vote="no">James McGrath</member>
+   <member id="uk.org.publicwhip/lord/100291" vote="no">Bridget McKenzie</member>
+   <member id="uk.org.publicwhip/lord/100970" vote="no">Andrew McLachlan</member>
+   <member id="uk.org.publicwhip/lord/100935" vote="no">Jacinta Nampijinpa Price</member>
+   <member id="uk.org.publicwhip/lord/100849" vote="no">James Paterson</member>
+   <member id="uk.org.publicwhip/lord/100958" vote="no">Fatima Payman</member>
+   <member id="uk.org.publicwhip/lord/100915" vote="no">Malcolm Roberts</member>
+   <member id="uk.org.publicwhip/lord/100306" vote="no">Anne Ruston</member>
+   <member id="uk.org.publicwhip/lord/100916" vote="no">Paul Scarr</member>
+   <member id="uk.org.publicwhip/lord/100949" vote="no">Dave Sharma</member>
+   <member id="uk.org.publicwhip/lord/100303" vote="no">Dean Smith</member>
+   <member id="uk.org.publicwhip/lord/100967" vote="no">Tyron Whitten</member>
+  </memberlist>
+  <pairs>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100853">Anthony Chisholm</member>
+    <member id="uk.org.publicwhip/lord/100934">Kerrynne Liddle</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100957">Dorinda Cox</member>
+    <member id="uk.org.publicwhip/lord/100859">Jane Hume</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100855">Don Farrell</member>
+    <member id="uk.org.publicwhip/lord/100962">Jessica Collins</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100907">Katy Gallagher</member>
+    <member id="uk.org.publicwhip/lord/100905">Claire Chandler</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100845">Jenny McAllister</member>
+    <member id="uk.org.publicwhip/lord/100911">Susan McDonald</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100964">Corinne Mulholland</member>
+    <member id="uk.org.publicwhip/lord/100913">Matt O'Sullivan</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100312">Deborah O'Neill</member>
+    <member id="uk.org.publicwhip/lord/100827">Matthew Canavan</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100972">Tammy Tyrrell</member>
+    <member id="uk.org.publicwhip/lord/100921">Sarah Henderson</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100864">Murray Watt</member>
+    <member id="uk.org.publicwhip/lord/100880">Richard Mansell Colbeck</member>
+   </pair>
+   <pair>
+    <member id="uk.org.publicwhip/lord/100241">Penny Ying Yen Wong</member>
+    <member id="uk.org.publicwhip/lord/100252">Michaelia Cash</member>
+   </pair>
+  </pairs>
+ </division>
+ <major-heading id="uk.org.publicwhip/lords/2026-09-10.33.1" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+NOTICES </major-heading>
+ <minor-heading id="uk.org.publicwhip/lords/2026-09-10.33.2" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+Withdrawal </minor-heading>
+ <speech approximate_duration="0" approximate_wordcount="40" id="uk.org.publicwhip/lords/2026-09-10.33.3" speakerid="uk.org.publicwhip/lord/100312" speakername="Deborah O'Neill" talktype="speech" time="11:17" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>Pursuant to notice given yesterday on behalf of the Senate Standing Committee for the Scrutiny of Delegated Legislation, I withdraw notices of motion proposing the disallowance of three legislative instruments as listed at item 6 on today's order of business.</p> </speech>
+ <minor-heading id="uk.org.publicwhip/lords/2026-09-10.34.1" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+Presentation </minor-heading>
+ <speech approximate_duration="60" approximate_wordcount="972" id="uk.org.publicwhip/lords/2026-09-10.34.2" speakerid="uk.org.publicwhip/lord/100907" speakername="Katy Gallagher" talktype="speech" time="11:17" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>I give notice that, on the next day of sitting, I shall move:</p><p class="italic">That the provisions of paragraphs (5) to (8) of standing order 111 not apply to various bills, allowing them to be considered during this period of sittings.</p><p>I also table statements of reasons justifying the need for these bills to be considered during the sittings and seek leave to have the statements incorporated in <i>Hansard</i>.</p><p>Leave granted.</p><p> <i>The statement</i> <i>s</i> <i> read as follows</i> <i /></p><p class="italic">STATEMENT OF REASONS FOR INTRODUCTION AND PASSAGE IN THE 2026 SPRING SITTINGS</p><p class="italic">NATIONAL STUDENT OMBUDSMAN LEVY BILL</p><p class="italic">TERTIARY EDUCATION QUALITY AND STANDARDS AGENCY AMEDMENT (NATIONAL STUDENT OMBUDSMAN LEVY) BILL</p><p class="italic">Purpose of the Bills</p><p class="italic">The National Student Ombudsman Complaints Levy Bill (the Bill), together with the Tertiary Education Quality and Standards Agency Amendment (National Student Ombudsman Levy) Bill (together, the Bills) will impose a levy on higher education providers to recover the operational costs of the National Student Ombudsman (NSO).</p><p class="italic">Reasons for Urgency</p><p class="italic">Passage of the Bills in the 2026 Spring sittings is required to ensure sustainable long-term funding arrangements for the NSO by enabling cost recovery to commence from 1 January 2027.</p><p class="italic">Early passage of the Bills will also provide certainty for the higher education sector, which will be most impacted by the levy. If passage of the Bill is delayed, there will be a financial impact on the NSO until cost recovery is established. The NSO was originally funded for only two years (from 2024-25), with ongoing funding provisioned in the contingency reserve subject to consideration of cost recovery from the higher education sector.</p><p class="italic">(Circulated by authority of the Minister for Education)</p><p class="italic">_____</p><p class="italic">STATEMENT OF REASONS FOR INTRODUCTION AND PASSAGE IN THE 2026 SPRING SITTINGS</p><p class="italic">PASSENGER MOVEMENT CHARGE AMENDMENT BILL</p><p class="italic">Purpose of the Bill</p><p class="italic">The purpose of the Bill is to amend the <i>Passenger Movement Charge Act 1978</i> to increase the passenger movement charge from $70 to $80 from 1 January 2027 and establish transitional arrangements for implementation of the increase. These transitional arrangements also support the realignment of the amount charged to the date of actual departure of the relevant passengers, rather than the ticket sale date.</p><p class="italic">Reasons for Urgency</p><p class="italic">The 'Uplift of the Passenger Movement Charge' measure announced in the 2026-27 Budget would increase the Passenger Movement Charge by AU$10 from $70 to $80 per eligible passenger from 1 January 2027, supported by an 18-month transition arrangement for carriers from 1 January 2027 where tickets have already been sold before Royal Assent. Legislative amendment of the <i>Passenger Movement Charge Act 1978</i> is required to enable the price increase and transitional arrangements to take effect in line with the implementation plan communicated to industry.</p><p class="italic">(Circulated by authority of the Minister for Home Affairs)</p><p class="italic">_____</p><p class="italic">STATEMENT OF REASONS FOR INTRODUCTION AND PASSAGE IN THE 2026 SPRING SITTINGS</p><p class="italic">WAGE JUSTICE FOR EARLY CHILDHOOD EDUCATION AND CARE WORKERS (SPECIAL ACCOUNT) (EXTENDING SUPPORT AND STRENGTHENING SAFETY) BILL</p><p class="italic">Purpose of the Bill</p><p class="italic">The purpose of the Wage Justice for Early Childhood Education and Care Workers (Special Account) (Extending Support and Strengthening Safety)Bill 2026 (the Bill) is to enable the special account established by the <i>Wage Justice for Early Childhood Education and Care Workers (Special Account) Act 2024 </i>to be used to fund the Worker Retention Payment (WRP) grants for the extension period of 1 December 2026 to 30 June 2028 (extension period). The WRP extension period was announced by the Prime Minister on 17 June 2026. The WRP supports a remuneration increase for workers in the Early Childhood Education and Care (ECEC) sector and reduces fee growth for families through its fee growth cap. The Bill is required to appropriate funding for the extension period and to extend the sunset clause.</p><p class="italic">Reasons for Urgency</p><p class="italic">Passage by the end of the 2026 Spring sittings is required to enable WRP funding to be committed under the special account for the extension period. Currently, this cannot be done via the special account as there are no other opportunities to appropriate funding for the program until the 2026-27 MYEFO Appropriation Bills receive Royal Assent in 2027.</p><p class="italic">Funding must be committed before the current program end date of 30 November 2026. This will enable grant agreements to be executed before then, ensuring ECEC workers do not receive a break in their pay increase and protecting families from higher fees.</p><p class="italic">As such, if the Bill is not passed in the Spring sitting the effect would be increased risk that WRP payments must be made in arrears, resulting in</p><ul /><ul /><p class="italic">(Circulated by authority of the Minister for Education)</p><p class="italic">_____</p><p class="italic">STATEMENT OF REASONS FOR INTRODUCTION AND PASSAGE IN THE 2026 SPRING SITTINGS</p><p class="italic">KNOX CLASS ACTION (FACILITATION) BILL</p><p class="italic">Purpose of the Bill</p><p class="italic">Knox settlement payments are compensation for harms that were the result of the Robodebt scheme. The Bill will exempt settlement payments received by members of the <i>Knox v Commonwealth</i> (VID982/2024) Robodebt class action from the application of the compensation provisions and the income test under the <i>Social Security Act 1991</i> and <i>Veterans' Entitlements Act 1986</i>. The Bill will also amend the <i>National Disability Insurance Act 2013</i> to exempt <i>Knox v Commonwealth</i> settlement payments from recoveries and reductions to the funding of reasonable and necessary supports in participants' plans under the National Disability Insurance Scheme.</p><p class="italic">Reasons for Urgency</p><p class="italic">The court-appointed Scheme Administrator is expected to commence making settlement payments to eligible individuals as soon as late October 2026. Cabinet decided to exempt these payments to avoid adverse outcomes for people who are being compensated for having debts wrongfully raised against them. It will also prevent people who are no longer receiving income support having to re-engage with the systems that caused the harm.</p><p class="italic">Passage of the bill in the 2026 Spring sittings is required to enact income testing and Commonwealth statutory recovery scheme exemptions before settlement payments are made.</p><p class="italic">(Circulated by authority of the Minister for Social Services)</p> </speech>
+ <major-heading id="uk.org.publicwhip/lords/2026-09-10.127.1" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+STATEMENTS BY SENATORS </major-heading>
+ <minor-heading id="uk.org.publicwhip/lords/2026-09-10.141.1" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+Cybersafety </minor-heading>
+ <speech approximate_duration="60" approximate_wordcount="35" id="uk.org.publicwhip/lords/2026-09-10.141.2" speakerid="uk.org.publicwhip/lord/100961" speakername="Michelle Ananda-Rajah" talktype="speech" time="13:59" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>():  The Albanese Labor government is turning the screws on the social media platforms. It's a shame that those opposite are not backing in this bill. They call it censorship, but it is far— <i>(Time expired)</i></p> </speech>
+ <major-heading id="uk.org.publicwhip/lords/2026-09-10.202.1" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+BILLS </major-heading>
+ <minor-heading id="uk.org.publicwhip/lords/2026-09-10.202.2" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+Statute Update Bill 2026; Second Reading </minor-heading>
+ <bills>
+  <bill id="r7500" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r7500">Statute Update Bill 2026</bill>
+ </bills>
+ <speech approximate_duration="300" approximate_wordcount="696" id="uk.org.publicwhip/lords/2026-09-10.202.3" speakerid="uk.org.publicwhip/lord/100252" speakername="Michaelia Cash" talktype="speech" time="15:00" url="http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A10%2F9%2F2026;rec=0;resCount=Default">
+<p>I rise to support the Statute Update Bill 2026 and in particular the amendment that will be moved by the coalition to 'scrap Labor's cruel veterans tax'. That's right: today is a test. In about 30 minutes, the Senate is going to go for a vote, and it is going to be a test for the Prime Minister of this country, Anthony Albanese. Is he directing his Labor senators to support our amendment to stand with the veterans of Australia and scrap his cruel veterans tax? It is also a test, though, for the Minister for Veterans' Affairs, Matt Keogh. He keeps on saying to the veterans: 'I have listened to you. I have heard you.' We heard that from Senator Wong this week: 'The government has heard what the veterans have to say.' Well, given that the veterans have told you they don't want your cap on their allied health, I will assume that, when those division bells ring, you will join the rest of the crossbench and the coalition and you will scrap your cap on allied health.</p><p>Quite frankly, these veterans have served our country. They have stood up for Australia, for the freedoms that we live and breathe on a daily basis, and how dare you look them in the eye and thank them for their service by putting a $5,000 price tag on their care? I tell you the coalition will stand with our veterans each and every single day. We have listened to them. We have met with them. We didn't roll our eyes at them. And I can tell you we absolutely shook their hands when they came into our office, unlike their minister, who is meant to be the person in Australia who actually stands up for them.</p><p>Our amendment is clear. It will well and truly scrap the Prime Minister of Australia's cruel cap on allied health for our veterans who have served our country, because, unlike the Prime Minister and unlike the minister, the coalition doesn't look at our veterans and say: 'We've got a black hole to fill in our budget because of our financial mismanagement, and do you know what I see? I see a bit of a cut there with our veterans. They've served our country. They've come back here. They're injured. But, you know, perhaps they won't notice if we actually take $748 million in a save.' The veterans of Australia!</p><p>Well, guess what. The coalition looks at our veterans very differently. We look at our veterans and what we see is a debt that this country must honour. Australia made a promise to our veterans: if you stand up for your country, your country will stand by you. We know that promise does not expire when the uniform comes off, and I tell you it should not expire when a veteran's allied health care reaches the cap of $5,000. You can call it a cap. You can call it a threshold. You can rebadge it. You can bury it in bureaucratic language and you can make excuses for it. But it doesn't actually change what you are doing to the veterans of Australia. It was heartbreaking to see some of them outside Parliament House, Canberra this week laying down their medals—medals that they had earned for bravery, medals they had earned for standing up not just for their country but for each and every one of us in this chamber so that we can live and breathe democracy on a daily basis. And how do you repay those veterans? You repay them by putting in place a cap on their health care for injuries they sustained while serving our country, because you have lost control of the economy.</p><p>Colleagues, at 3.30 today the bells are going to ring. And I hope the Prime Minister of Australia is on the phone to Minister Keogh and to Senator Wong, saying to them, 'Support the coalition,' because in supporting the coalition you support the veterans. Prime Minister, in about 25 minutes, our veterans will know: do you stand with them or are you going to fail them and betray them yet again? <i>(Time expired)</i></p> </speech>
+ </debates>

@@ -1,0 +1,68 @@
+# Berger Ricarda
+
+Austria, Nationalrat. From the parliamentary monitor's store; positions are as the record gives them, never a verdict. Index: [Austria members](index.md).
+
+- **Party:** FPÖ; latest seen in the member list (the group used for derived positions)
+- **Constituency or region:** 9 Wien (W)
+- **Source id:** `2996`
+
+## Votes on our ground (56)
+
+DERIVED positions (56, from the group's vote, X5; not recorded per member): “Dagegen” 31, “Dafür” 25.
+By area (every vote): abortion: “Dafür” 1, “Dagegen” 1; assisted dying: “Dafür” 3; gender medicine and children: “Dagegen” 1; conversion practices: “Dagegen” 1; sex-based rights: “Dagegen” 10, “Dafür” 3; parental rights and education: “Dagegen” 1; religious freedom: “Dafür” 9, “Dagegen” 1; marriage and family: “Dagegen” 18, “Dafür” 7; organ donation: “Dafür” 2.
+
+The latest 20:
+
+| Date | Position | Party at the vote | Vote | Areas |
+|---|---|---|---|---|
+| 23 Sep 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Abstimmung über die dem Auschussbericht beigedruckten Entschließung 22/AEA; on: Abbau von Hürden bei Kinderbetreuungsgeldanträgen](https://www.parlament.gv.at/gegenstand/XXVIII/I/604) | marriage and family, tier 2 |
+| 23 Sep 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Gesetzesvorschlag in dritter Lesung; on: Familienlastenausgleichsgesetz, Kinderbetreuungsgeldgesetz, Änderung](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/96/A_-_20_18_11_01019168.html#173.1) | marriage and family, tier 2 |
+| 23 Sep 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Gesetzesvorschlag in zweiter Lesung; on: Familienlastenausgleichsgesetz, Kinderbetreuungsgeldgesetz, Änderung](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/96/A_-_20_18_11_01019168.html#173.1) | marriage and family, tier 2 |
+| 23 Sep 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Abänderungsantrag der Abgeordneten Mag. Johanna Jachs, Christian Oxonitsch, Mag. Gertraud Auinger-Oberzaucher, Kolleginnen und Kollegen (AA…](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/96/A_-_19_51_36_01019031.html#165.1) | marriage and family, tier 2 |
+| 23 Sep 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Abstimmung über die dem Auschussbericht beigedruckten Entschließung 22/AEA; on: Abbau von Hürden bei Kinderbetreuungsgeldanträgen](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/96/A_-_20_18_11_01019168.html#173.3) | marriage and family, tier 2 |
+| 23 Sep 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen; on: Abbau von Hürden bei Kinderbetreuungsgeldanträgen](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/96/A_-_20_18_11_01019168.html#173.2) | marriage and family, tier 2 |
+| 9 Sep 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Entschließungsantrag der Abgeordneten Mag. Johanna Jachs, Bernhard Herzog, Johannes Gasser, BA Bakk. MSc, Kolleginnen und Kollegen (17/EAA)…](https://www.parlament.gv.at/gegenstand/XXVIII/A/505) | marriage and family, tier 2 |
+| 7 Jul 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Gesetzesvorschlag in dritter Lesung; on: Sterbeverfügungsgesetz-Novelle 2026 - StVfG-Nov 2026](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/87/A_-_19_42_16_00992382.html#210) · **watched** · their vote meant: to pass XXVIII/I/525 (Sterbeverfügungsgesetz-Novelle 2026 (Regierungsvorlage)) at third reading (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 7 Jul 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Gesetzesvorschlag in zweiter Lesung; on: Sterbeverfügungsgesetz-Novelle 2026 - StVfG-Nov 2026](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/87/A_-_19_42_16_00992382.html#210) · **watched** · their vote meant: to pass XXVIII/I/525 (Sterbeverfügungsgesetz-Novelle 2026 (Regierungsvorlage)) at second reading (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 7 Jul 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Abänderungsantrag der Abgeordneten Mag. Johanna Jachs, Mag. Selma Yildirim, Mag. Sophie Marie Wotschke, Kolleginnen und Kollegen (AA-78); o…](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/87/A_-_19_24_50_00992284.html#205.1) · **watched** · their vote meant: to adopt the amendment moved by Mag. Johanna Jachs and others to XXVIII/I/525 (Sterbeverfügungsgesetz-Novelle 2026 (Regierungsvorlage)) (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 7 Jul 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag der Abgeordneten Barbara Neßler auf Fristsetzung zur Berichterstattung durch den Ausschuss für Familie und Jugend (924/GO); on: Fami…](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/88/A_-_20_46_03_00992936.html#3) | marriage and family, tier 2 |
+| 7 Jul 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen; on: Schluss mit Gender-Ideologie an Schulen!](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/87/A_-_14_27_23_00990355.html#106) · **watched** · their vote meant: against rejecting it, so it goes on (by rule, from the vote's wording and the bill) | gender medicine and children, sex-based rights, parental rights and education, tier 1 |
+| 11 Jun 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag des Abgeordneten David Stögmüller auf Fristsetzung zur Berichterstattung durch den Gleichbehandlungsausschuss (855/GO); on: Konversi…](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/83/A_-_09_05_10_00973993.html#2.7) · their vote meant: against that procedural motion (by rule, from the vote's wording and the bill) | conversion practices, tier 1 |
+| 10 Jun 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Gesetzesvorschlag in dritter Lesung; on: Unterstützungsfondsgesetz - Alleinerziehende - UFG-AE](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/81/A_-_14_45_49_00971722.html#46) | marriage and family, tier 2 |
+| 10 Jun 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Gesetzesvorschlag in zweiter Lesung; on: Unterstützungsfondsgesetz - Alleinerziehende - UFG-AE](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/81/A_-_14_45_49_00971722.html#46) | marriage and family, tier 2 |
+| 10 Jun 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Abänderungsantrag der Abgeordneten Heike Eder, BSc MBA, Mag. Verena Nussbaum, Johannes Gasser, BA Bakk. MSc, Kolleginnen und Kollegen (AA-7…](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/81/A_-_14_23_27_00971631.html#40.1) | marriage and family, tier 2 |
+| 10 Jun 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen; on: Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Gesch…](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/81/A_-_18_30_24_00972937.html#112.1) · their vote meant: against rejecting it, so it goes on (by rule, from the vote's wording and the bill) | sex-based rights, tier 1 |
+| 10 Jun 2026 | Dagegen (DERIVED) | FPÖ (group's vote, X5) | [Antrag, den ablehnenden Ausschussbericht zur Kenntnis zu nehmen; on: Schutz des Frauensports - Teilnahmepflicht nach dem biologischen Gesch…](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/81/A_-_18_30_24_00972937.html#112.2) · their vote meant: against rejecting it, so it goes on (by rule, from the vote's wording and the bill) | sex-based rights, tier 1 |
+| 20 May 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Gesetzesvorschlag in dritter Lesung; on: Organtransplantationsgesetz, Änderung](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/77/A_-_14_29_34_00961774.html#70) · their vote meant: to pass the text “Gesetzesvorschlag in dritter Lesung” at third reading (by rule, from the vote's wording and the bill) | organ donation, tier 1 |
+| 20 May 2026 | Dafür (DERIVED) | FPÖ (group's vote, X5) | [Gesetzesvorschlag in zweiter Lesung; on: Organtransplantationsgesetz, Änderung](https://www.parlament.gv.at/dokument/XXVIII/NRSITZ/77/A_-_14_29_34_00961774.html#70) · their vote meant: to pass the text “Gesetzesvorschlag in zweiter Lesung” at second reading (by rule, from the vote's wording and the bill) | organ donation, tier 1 |
+
+36 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Bills and items on our ground they authored or introduced (2)
+
+| Date | Title | Key | Role | Areas |
+|---|---|---|---|---|
+| 25 Feb 2026 | [Schutz des ungeborenen Lebens: Beratung ausbauen, Datenlage verbessern, werdende Mütter unterstützen](https://www.parlament.gv.at/gegenstand/XXVIII/A/706) | XXVIII/A/706 | named on the item (Selbständiger Entschließungsantrag) | abortion |
+| 15 Oct 2025 | [Schluss mit Gender-Ideologie an Schulen!](https://www.parlament.gv.at/gegenstand/XXVIII/A/504) | XXVIII/A/504 | named on the item (Selbständiger Entschließungsantrag) | gender medicine and children, sex-based rights, parental rights and education, **watched** |
+
+## Questions on our ground (6)
+
+| Date | Title | Key | Role | Areas |
+|---|---|---|---|---|
+| 18 Sep 2026 | [Prognostizierte Bezieherzahlen der Familienbeihilfe per 1. Jänner 2027 aufgeschlüsselt nach Staatsbürgerschaften - Frist für die Beantwortu…](https://www.parlament.gv.at/gegenstand/XXVIII/J/6897) | XXVIII/J/6897 | named on the item (Schriftliche Anfrage) | marriage and family |
+| 25 Aug 2026 | [Bundesweite Schutzzonen vor Einrichtungen, in denen Schwangerschaftsabbrüche durchgeführt werden - Datengrundlage, konkrete Vorfälle und Au…](https://www.parlament.gv.at/gegenstand/XXVIII/J/6815) | XXVIII/J/6815 | named on the item (Schriftliche Anfrage) | abortion |
+| 25 Aug 2026 | [Bundesweite Schutzzonen vor Einrichtungen, in denen Schwangerschaftsabbrüche durchgeführt werden - Datengrundlage, konkrete Vorfälle und Au…](https://www.parlament.gv.at/gegenstand/XXVIII/J/6814) | XXVIII/J/6814 | named on the item (Schriftliche Anfrage) | abortion |
+| 18 May 2026 | [NGO-Business: Förderpraxis und Mittelverwendung des Vereins "Queer Base - Welcome and Support for LGBTIQ Refugees" - beantwortet durch 5477…](https://www.parlament.gv.at/gegenstand/XXVIII/J/6086) | XXVIII/J/6086 | named on the item (Schriftliche Anfrage) | sex-based rights |
+| 25 Nov 2025 | [Verwendung von Steuergeld für Transgender-Bücher und geschlechtsverwirrende Projekte im Kindergartenbereich - beantwortet durch 3527/AB](https://www.parlament.gv.at/gegenstand/XXVIII/J/4031) | XXVIII/J/4031 | named on the item (Schriftliche Anfrage) | gender medicine and children, sex-based rights |
+| 15 Sep 2025 | [Ö3-Jugendstudie - Vereinbarkeit von Familie und Beruf sowie gesellschaftliche Wertschätzung traditioneller Rollenbilder - beantwortet durch…](https://www.parlament.gv.at/gegenstand/XXVIII/J/3195) | XXVIII/J/3195 | named on the item (Schriftliche Anfrage) | marriage and family |
+
+## Committees and groups (10)
+
+- **Committees:** **Ausschuss für Familie und Jugend (Mitglied, since 26 February 2025)** (on our ground: the family committee); **Ausschuss für Familie und Jugend (Obfraustellvertreterin, since 2 April 2025)** (on our ground: the family committee); **Ausschuss für Menschenrechte und Volksanwaltschaft (Ersatzmitglied, since 26 February 2025)** (on our ground: the human rights committee); **Gesundheitsausschuss (Ersatzmitglied, since 26 February 2025)** (on our ground: the health committee); **Gleichbehandlungsausschuss (Mitglied, since 26 February 2025)** (on our ground: the equal treatment committee); Ausschuss für Arbeit und Soziales (Ersatzmitglied, since 26 February 2025); Bildungsausschuss (Mitglied, since 26 February 2025); Kulturausschuss (Mitglied, since 26 February 2025); Ständiger Unterausschuss des Rechnungshofausschusses (Mitglied, since 24 September 2025); Ständiger Unterausschuss des Rechnungshofausschusses (Schriftführerin, since 16 October 2025).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Notes
+
+- Party: The Nationalrat and Bundesrat record only each Klub's vote: every member position here is DERIVED from it (X5), by the member's latest Klub.
+- How these profiles are built, and what they never say: [the index's notes](index.md#notes).

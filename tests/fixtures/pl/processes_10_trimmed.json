@@ -1,0 +1,186 @@
+[
+{
+"ELI": "MP/2023/1261",
+"UE": "NO",
+"address": "WMP20230001261",
+"changeDate": "2023-11-14T11:44:49",
+"closureDate": "2023-11-13",
+"displayAddress": "M.P. 2023 poz. 1261",
+"documentDate": "2023-11-13",
+"documentType": "projekt uchwały",
+"documentTypeEnum": "DRAFT_RESOLUTION",
+"links": [
+{
+"href": "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WMP20230001261",
+"rel": "isap"
+},
+{
+"href": "https://eli.gov.pl/eli/MP/2023/1261/ogl",
+"rel": "eli"
+},
+{
+"href": "https://api.sejm.gov.pl/eli/acts/MP/2023/1261",
+"rel": "eli-api"
+}
+],
+"number": "1",
+"passed": true,
+"printsConsideredJointly": [
+"2"
+],
+"processStartDate": "2023-11-13",
+"shortenProcedure": false,
+"term": 10,
+"title": "Poselski projekt uchwały w sprawie ustalenia liczby wicemarszałków Sejmu Rzeczypospolitej Polskiej",
+"titleFinal": "w sprawie ustalenia liczby wicemarszałków Sejmu",
+"urgencyStatus": "NORMAL",
+"webGeneratedDate": "2023-11-21T14:58:49"
+},
+{
+"ELI": "MP/2023/1261",
+"UE": "NO",
+"address": "WMP20230001261",
+"changeDate": "2023-11-14T11:44:49",
+"closureDate": "2023-11-13",
+"displayAddress": "M.P. 2023 poz. 1261",
+"documentDate": "2023-11-13",
+"documentType": "projekt uchwały",
+"documentTypeEnum": "DRAFT_RESOLUTION",
+"links": [
+{
+"href": "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WMP20230001261",
+"rel": "isap"
+},
+{
+"href": "https://eli.gov.pl/eli/MP/2023/1261/ogl",
+"rel": "eli"
+},
+{
+"href": "https://api.sejm.gov.pl/eli/acts/MP/2023/1261",
+"rel": "eli-api"
+}
+],
+"number": "2",
+"passed": true,
+"printsConsideredJointly": [
+"1"
+],
+"processStartDate": "2023-11-13",
+"shortenProcedure": false,
+"term": 10,
+"title": "Poselski projekt uchwały w sprawie ustalenia liczby wicemarszałków Sejmu Rzeczypospolitej Polskiej",
+"titleFinal": "w sprawie ustalenia liczby wicemarszałków Sejmu",
+"urgencyStatus": "NORMAL",
+"webGeneratedDate": "2023-11-21T14:59:01"
+},
+{
+"UE": "NO",
+"changeDate": "2024-02-23T09:15:59",
+"closureDate": "2024-02-22",
+"comments": "Obywatelski projekt ustawy został wniesiony w IX kadencji Sejmu (druk nr 915). Na podstawie art. 4. ust. 3 ustawy o wykonywaniu inicjatywy ustawodawczej przez obywateli - projekt ustawy, w stosunku do którego postępowanie ustawodawcze nie zostało zakończone w trakcie kadencji Sejmu, w której został wniesiony, jest rozpatrywany przez Sejm następnej kadencji.",
+"description": "projekt dotyczy wyrażenia zgody na wypowiedzenie przez Prezydenta RP Konwencji Rady Europy o zapobieganiu i zwalczaniu przemocy wobec kobiet i przemocy domowej, sporządzonej w Stambule dnia 11 maja 2011 r. oraz utworzenia Zespołu do spraw opracowania założeń międzynarodowej konwencji o prawach rodziny",
+"documentDate": "2023-11-20",
+"documentType": "projekt ustawy",
+"documentTypeEnum": "BILL",
+"links": [],
+"number": "25",
+"passed": false,
+"processStartDate": "2020-12-28",
+"shortenProcedure": false,
+"term": 10,
+"title": "Obywatelski projekt ustawy  - Tak dla rodziny, nie dla gender",
+"urgencyStatus": "NORMAL",
+"webGeneratedDate": "2024-02-23T09:16:06"
+},
+{
+"UE": "NO",
+"changeDate": "2024-07-12T13:50:46",
+"closureDate": "2024-07-12",
+"comments": "Dodatkowy reprezentant wnioskodawców - oprócz pani poseł A. M. Żukowskiej wskazana została pani poseł D. Olko\n",
+"description": "projekt dotyczy częściowej depenalizacji i dekryminalizacji czynów związanych z terminacją ciąży: całkowitego wyłączenia przestępności przerywania ciąży do jej 12 tygodnia za zgodą kobiety oraz wyłączenia karalności przerywania ciąży za zgodą kobiety w sytuacji ciężkiego, nieodwracalnego upośledzenia lub nieuleczalnej choroby płodu",
+"documentDate": "2023-11-13",
+"documentType": "projekt ustawy",
+"documentTypeEnum": "BILL",
+"links": [],
+"number": "176",
+"passed": false,
+"processStartDate": "2023-11-13",
+"shortenProcedure": false,
+"term": 10,
+"title": "Poselski projekt ustawy o zmianie ustawy - Kodeks karny",
+"urgencyStatus": "NORMAL",
+"webGeneratedDate": "2024-07-12T13:50:54"
+},
+{
+"UE": "NO",
+"changeDate": "2026-09-18T13:07:33",
+"closureDate": "2026-09-17",
+"description": "projekt dotyczy uregulowania kwestii związków nieformalnych; osoby żyjące w takich związkach będą mogły zawrzeć przed notariuszem umowę cywilnoprawną, która następnie zostanie zarejestrowana w urzędzie stanu cywilnego i dzięki której zyskają możliwość kształtowania wzajemnych praw i obowiązków w sferze majątkowej, rodzinnej i osobistej m. in. będą mogły razem rozliczać PIT, zyskają dostęp do informacji i dokumentacji medycznej partnera oraz uprawnienia dotyczące ubezpieczenia zdrowotnego, renty rodzinnej, prawa do pochówku czy zasiłku opiekuńczego. Będą także uprawnione do dziedziczenia testamentowego. Nowe przepisy zwiększą też ochronę osób tworzących niesformalizowane związki, niezależnie od płci.",
+"documentDate": "2025-12-30",
+"documentType": "projekt ustawy",
+"documentTypeEnum": "BILL",
+"links": [],
+"number": "2110",
+"passed": false,
+"processStartDate": "2025-12-30",
+"shortenProcedure": false,
+"term": 10,
+"title": "Rządowy projekt ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu",
+"titleFinal": "o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu",
+"urgencyStatus": "NORMAL",
+"webGeneratedDate": "2026-09-18T13:08:49"
+},
+{
+"UE": "NO",
+"changeDate": "2026-05-12T12:31:35",
+"closureDate": "2026-03-13",
+"description": "projekt dotyczy wprowadzenia do prawa polskiego - na wzór unormowań obowiązujących w innych państwach - możliwości pozasądowego rozwiązania małżeństwa (rozwodu pozasądowego). Rozwiązanie małżeństwa będzie następowało w drodze czynności podejmowanych przed kierownikiem urzędu stanu cywilnego, który będzie weryfikował spełnienie ustawowych przesłanek rozwodu pozasądowego i dokona odpowiednich wpisów w rejestrze stanu cywilnego. Procedura pozasądowa dostępna będzie wyłącznie dla małżonków niemających wspólnych małoletnich dzieci, ani wspólnych dzieci poczętych, lecz nieurodzonych. Nowe przepisy realizują działania deregulacyjne rządu",
+"documentDate": "2025-12-19",
+"documentType": "projekt ustawy",
+"documentTypeEnum": "BILL",
+"links": [],
+"number": "2121",
+"passed": true,
+"processStartDate": "2025-12-19",
+"shortenProcedure": false,
+"term": 10,
+"title": "Rządowy projekt ustawy o zmianie ustawy - Kodeks rodzinny i opiekuńczy oraz niektórych innych ustaw",
+"titleFinal": "o zmianie ustawy - Kodeks rodzinny i opiekuńczy oraz niektórych innych ustaw",
+"urgencyStatus": "NORMAL",
+"webGeneratedDate": "2026-05-12T12:31:58"
+},
+{
+"UE": "NO",
+"changeDate": "2026-10-07T13:49:46",
+"description": "projekt dotyczy przyspieszenia przygotowania i budowy najważniejszych inwestycji infrastrukturalnych, które mają znaczenie dla obronności Polski, bezpieczeństwa energetycznego, ochrony przeciwpowodziowej oraz rozwoju gospodarczego. Dla wybranych inwestycji zostaną wprowadzone prostsze procedury administracyjne, krótsze terminy oraz pierwszeństwo w rozpatrywaniu spraw przez urzędy. Projekt obejmuje zamknięty katalog konkretnych inwestycji m.in. \"Droga Czerwona\" w Gdyni zapewniająca dostęp do terminala w porcie, rozbudowa portów w Gdyni i Świnoujściu, inwestycje na lotniskach w Rzeszowie, Krakowie i Warszawie, a także rozbudowa ważnych połączeń kolejowych. Uproszczone procedury obejmą także inwestycje potrzebne do realizacji infrastruktury towarzyszącej elektrowni jądrowej na Pomorzu. Dotyczy to m.in. dróg, kolei i infrastruktury hydrotechnicznej",
+"documentDate": "2026-08-19",
+"documentType": "projekt ustawy",
+"documentTypeEnum": "BILL",
+"links": [],
+"number": "3030",
+"passed": false,
+"processStartDate": "2026-08-20",
+"shortenProcedure": false,
+"term": 10,
+"title": "Rządowy projekt ustawy o usprawnieniu procesu inwestycyjnego w zakresie kluczowych inwestycji infrastrukturalnych",
+"urgencyStatus": "NORMAL",
+"webGeneratedDate": "2026-10-07T13:50:20"
+},
+{
+"UE": "NO",
+"changeDate": "2026-10-06T15:17:41",
+"closureDate": "2026-10-06",
+"documentDate": "2026-10-06",
+"documentType": "wniosek",
+"links": [],
+"number": "3162",
+"passed": true,
+"processStartDate": "2026-10-06",
+"shortenProcedure": false,
+"term": 10,
+"title": "Przedstawiony przez Prezydium Sejmu wniosek w sprawie zmian w składach osobowych komisji sejmowych",
+"titleFinal": "w sprawie zmian w składach osobowych komisji sejmowych",
+"urgencyStatus": "NORMAL",
+"webGeneratedDate": "2026-10-06T09:57:25"
+}
+]

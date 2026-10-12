@@ -1,0 +1,36 @@
+# Who may confirm a 5CA reading, per country (src/country5ca.py).
+#
+# Chris ("Christopher" or "Chris") may always confirm, for every country. A
+# country team member confirms only once named here: `tools/country_5ca.py
+# --confirm ... --by NAME` and `--sign-from-doc --by NAME` refuse anyone else.
+# Chris named himself the signer for every country on 11 October 2026: "Me
+# for all, for now" (docs/country-decisions-2026-10-11.md). Country team
+# members are added beside him as they take over. Since the same day a
+# drafted reading that passes every check is confirmed on his delegation (src/country5ca.py,
+# auto_confirm; docs/5ca-notes.md "Automatic sign-off and amendments"), and
+# anyone listed here for a country may amend any of its readings:
+#   python3 tools/country_5ca.py --cc CC --amend KEY --yea N --nay N --by NAME --why "..."
+# Write names exactly as they should appear in `confirmed_by:`.
+
+signers:
+  it: ["Christopher Joyce"]   # Italy
+  ch: ["Christopher Joyce"]   # Switzerland
+  fr: ["Christopher Joyce"]   # France
+  nl: ["Christopher Joyce"]   # Netherlands
+  be: ["Christopher Joyce"]   # Belgium
+  pl: ["Christopher Joyce"]   # Poland
+  hr: ["Christopher Joyce"]   # Croatia
+  sk: ["Christopher Joyce"]   # Slovakia
+  es: ["Christopher Joyce"]   # Spain
+  br: ["Christopher Joyce"]   # Brazil
+  ar: ["Christopher Joyce"]   # Argentina
+  mx: ["Christopher Joyce"]   # Mexico
+  hu: ["Christopher Joyce"]   # Hungary
+  at: ["Christopher Joyce"]   # Austria
+  pt: ["Christopher Joyce"]   # Portugal
+  cl: ["Christopher Joyce"]   # Chile
+  pe: ["Christopher Joyce"]   # Peru
+  ec: ["Christopher Joyce"]   # Ecuador
+  do: ["Christopher Joyce"]   # Dominican Republic
+  sv: ["Christopher Joyce"]   # El Salvador
+  gt: ["Christopher Joyce"]   # Guatemala

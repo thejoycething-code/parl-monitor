@@ -1,0 +1,25 @@
+{
+ "dados": [
+  {
+   "idEvento": 80872,
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/80872",
+   "idOrgao": 180,
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/180",
+   "siglaOrgao": "PLEN"
+  },
+  {
+   "idEvento": 80965,
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/80965",
+   "idOrgao": 2014,
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/2014",
+   "siglaOrgao": "CSAUDE"
+  },
+  {
+   "idEvento": 80956,
+   "uriEvento": "https://dadosabertos.camara.leg.br/api/v2/eventos/80956",
+   "idOrgao": 2014,
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/2014",
+   "siglaOrgao": "CSAUDE"
+  }
+ ]
+}

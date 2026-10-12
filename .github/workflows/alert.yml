@@ -36,6 +36,43 @@ on:
       # was written and went dark for eleven days with nobody told.
       - "Germany weekly"
       - "Canada weekly"
+      - "US weekly"
+      - "Australia weekly"
+      # Ireland (9 October 2026), registered the day it was written.
+      - "Ireland weekly"
+      - "Austria weekly"
+      - "Netherlands weekly"
+      - "Poland weekly"
+      - "Hungary weekly"
+      - "Italy weekly"
+      - "Switzerland weekly"
+      - "Belgium weekly"
+      - "France weekly"
+      - "Portugal weekly"
+      - "Slovakia weekly"
+      - "Croatia weekly"
+      - "Spain weekly"
+      - "Brazil weekly"
+      - "Chile weekly"
+      - "Dominican Republic weekly"
+      - "El Salvador weekly"
+      - "Peru weekly"
+      - "Ecuador weekly"
+      - "Guatemala weekly"
+      - "Mexico weekly"
+      - "Argentina weekly"
+      - "Colombia weekly"
+      - "Bolivia weekly"
+      - "Panama weekly"
+      - "Honduras weekly"
+      - "Uruguay weekly"
+      # The Latam edition (10 October 2026): Venezuela's news check,
+      # Nicaragua's La Gaceta check, the alerts for both, the monthly DM.
+      - "Latam monthly"
+      # Canada's provincial legislatures (the eight of 3 October 2026, then
+      # Nova Scotia), registered the day the workflow was written. Every province's step exits 1 on a
+      # gap, so a failure here is often one legislature, named in the summary.
+      - "Provinces weekly"
       - "Germany backfill"
       - "Coverage watch"
       # Member profiles pulls service history, party spells and contact
@@ -49,6 +86,14 @@ on:
       # The same-day division brief. A silent failure here on a Friday
       # afternoon is the whole point missed (2026-09-07).
       - "Division watch"
+      # Its devolved sibling (2026-10-09): Holyrood, the Senedd, the Assembly.
+      - "Devolved watch"
+      # The same-day vote briefs for the US, Ireland and Australia (9 October
+      # 2026), the UK watch's siblings. The US one also carries the Senate
+      # half, which only GitHub can read.
+      - "US division watch"
+      - "Ireland division watch"
+      - "Australia division watch"
       # Sign-off to site on the day of a division; a silent failure here
       # leaves the supporter emails pointing at Monday's pages.
       - "Deploy tracker"

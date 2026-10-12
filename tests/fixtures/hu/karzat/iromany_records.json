@@ -1,0 +1,658 @@
+{
+ "derived_at": "2026-09-02",
+ "count": 9,
+ "listed": 588,
+ "note": "Csak a jelenlegi ciklus: az irománylista nem fogad ciklusparamétert, az iromány-adatlap pedig ciklusonként újrakezdődő izon szerint címezhető, így korábbi ciklus irománya nem kérhető le.",
+ "records": {
+  "T/51": {
+   "szam": "T/51",
+   "izon": "51",
+   "title": "Magyarország Alaptörvényének tizenhatodik módosítása",
+   "type": "Alaptörvény elfogadására, illetve módosítására irányuló javaslat",
+   "main_type": "törvényjavaslat",
+   "nature": "módosító",
+   "submitted_on": "2026-05-20",
+   "status": "kihirdetve",
+   "procedure_mode": "normál",
+   "procedure_kind": "normal",
+   "promulgation": {
+    "number": null,
+    "mk_issue": "74",
+    "date": "2026-06-19",
+    "law_ref": null
+   },
+   "submitters": [
+    "Melléthei-Barna Márton (TISZA)",
+    "Dr. Hantosi István (TISZA)"
+   ],
+   "submitter_kind": "kepviselo",
+   "addressee": null,
+   "note": null,
+   "text_url": "szöveges PDF",
+   "text_pdf_url": "https://www.parlament.hu/irom43/00051/00051.pdf",
+   "submitter_azon": "kepviselok_mobil?kepviselo=%7B%22id%22%3A%220017%22%7D",
+   "events": [
+    {
+     "date": "2026-05-21",
+     "text": "bizottság kijelölve tárgysorozatba vételre",
+     "related": "Igazságügyi és Alkotmányügyi Bizottság",
+     "remark": null,
+     "speech": null
+    },
+    {
+     "date": "2026-05-26",
+     "text": "bizottság tárgysorozatba vette",
+     "related": "Igazságügyi és Alkotmányügyi Bizottság",
+     "remark": null,
+     "speech": null
+    },
+    {
+     "date": "2026-05-26",
+     "text": "bizottság bejelentette részletes vita lefolytatását",
+     "related": "Magyarországi Nemzetiségek Bizottsága",
+     "remark": null,
+     "speech": null
+    }
+   ],
+   "votes": [
+    {
+     "ts": "2026.06.15.17:20:04",
+     "outcome": "önálló indítvány minősített többséget igénylő része elfogadva",
+     "igen": 135,
+     "nem": 50,
+     "tartozkodott": 6,
+     "result_raw": "Elfogadva"
+    }
+   ],
+   "committees": [
+    {
+     "name": "Igazságügyi és Alkotmányügyi Bizottság",
+     "role": "Kijelölt bizottság",
+     "rule": "58. § (4) bekezdés"
+    },
+    {
+     "name": "Magyarországi Nemzetiségek Bizottsága",
+     "role": "Vitához kapcsolódó bizottság",
+     "rule": "32. § (2) bekezdés"
+    },
+    {
+     "name": "Igazságügyi és Alkotmányügyi Bizottság",
+     "role": "Kijelölt bizottság (tárgysorozatba vételre)",
+     "rule": "58. § (1) bekezdés"
+    },
+    {
+     "name": "Törvényalkotási Bizottság",
+     "role": "Törvényalkotási Bizottság eljárása",
+     "rule": "46. §"
+    }
+   ],
+   "szam_parsed": {
+    "kind": "T",
+    "number": 51
+   },
+   "days_submission_to_promulgation": 30,
+   "final_vote_ts": "2026.06.15.17:20:04",
+   "days_submission_to_final_vote": 26
+  },
+  "T/324": {
+   "szam": "T/324",
+   "izon": "324",
+   "title": "Magyarország Alaptörvényének tizenhetedik módosítása",
+   "type": "Alaptörvény elfogadására, illetve módosítására irányuló javaslat",
+   "main_type": "törvényjavaslat",
+   "nature": "módosító",
+   "submitted_on": "2026-07-04",
+   "status": "kihirdetve",
+   "procedure_mode": "sürgős tárgyalásban",
+   "procedure_kind": "surgos",
+   "promulgation": {
+    "number": null,
+    "mk_issue": "92",
+    "date": "2026-07-18",
+    "law_ref": null
+   },
+   "submitters": [
+    "kormány (igazságügyi miniszter)"
+   ],
+   "submitter_kind": "kormany",
+   "addressee": null,
+   "note": null,
+   "text_url": "szöveges PDF",
+   "text_pdf_url": "https://www.parlament.hu/irom43/00324/00324.pdf",
+   "submitter_azon": null,
+   "events": [
+    {
+     "date": "2026-07-06",
+     "text": "bizottság kijelölve részletes vita lefolytatására",
+     "related": "Igazságügyi és Alkotmányügyi Bizottság",
+     "remark": null,
+     "speech": null
+    },
+    {
+     "date": "2026-07-06",
+     "text": "bizottság bejelentette részletes vita lefolytatását",
+     "related": "Magyarországi Nemzetiségek Bizottsága",
+     "remark": null,
+     "speech": null
+    },
+    {
+     "date": "2026-07-06",
+     "text": "döntött a részletes vitában megtárgyalandó szerkezeti egységekről",
+     "related": "Magyarországi Nemzetiségek Bizottsága",
+     "remark": null,
+     "speech": null
+    }
+   ],
+   "votes": [
+    {
+     "ts": "2026.07.06.14:22:31",
+     "outcome": "sürgősségi javaslat elfogadva",
+     "igen": 137,
+     "nem": 52,
+     "tartozkodott": 0,
+     "result_raw": "Elfogadva"
+    }
+   ],
+   "committees": [
+    {
+     "name": "Igazságügyi és Alkotmányügyi Bizottság",
+     "role": "Kijelölt bizottság",
+     "rule": "32. § (1) bekezdés"
+    },
+    {
+     "name": "Magyarországi Nemzetiségek Bizottsága",
+     "role": "Vitához kapcsolódó bizottság",
+     "rule": "32. § (2) bekezdés"
+    },
+    {
+     "name": "Törvényalkotási Bizottság",
+     "role": "Törvényalkotási Bizottság eljárása",
+     "rule": "46. §"
+    }
+   ],
+   "szam_parsed": {
+    "kind": "T",
+    "number": 324
+   },
+   "days_submission_to_promulgation": 14,
+   "final_vote_ts": null,
+   "days_submission_to_final_vote": null
+  },
+  "T/9": {
+   "szam": "T/9",
+   "izon": "9",
+   "title": "Magyarország Alaptörvényének tizenhatodik módosítása",
+   "type": "Alaptörvény elfogadására, illetve módosítására irányuló javaslat",
+   "main_type": "törvényjavaslat",
+   "nature": "módosító",
+   "submitted_on": "2026-05-09",
+   "status": "Országgyűlés nem tárgyalja",
+   "procedure_mode": "normál",
+   "procedure_kind": "normal",
+   "promulgation": null,
+   "submitters": [
+    "Toroczkai László (Mi Hazánk)",
+    "Dúró Dóra (Mi Hazánk)",
+    "Dr. Apáti István (Mi Hazánk)",
+    "Novák Előd (Mi Hazánk)",
+    "Dócs Dávid (Mi Hazánk)",
+    "Szabadi István (Mi Hazánk)"
+   ],
+   "submitter_kind": "kepviselo",
+   "addressee": null,
+   "note": null,
+   "text_url": "szöveges PDF",
+   "text_pdf_url": "https://www.parlament.hu/irom43/00009/00009.pdf",
+   "submitter_azon": "kepviselok_mobil?kepviselo=%7B%22id%22%3A%22t058%22%7D",
+   "events": [
+    {
+     "date": "2026-05-20",
+     "text": "bizottság kijelölve tárgysorozatba vételre",
+     "related": "Igazságügyi és Alkotmányügyi Bizottság",
+     "remark": null,
+     "speech": null
+    },
+    {
+     "date": "2026-06-10",
+     "text": "bizottság a tárgysorozatba vételt elutasította",
+     "related": "Igazságügyi és Alkotmányügyi Bizottság",
+     "remark": null,
+     "speech": null
+    }
+   ],
+   "votes": [],
+   "committees": [
+    {
+     "name": "Igazságügyi és Alkotmányügyi Bizottság",
+     "role": "Kijelölt bizottság (tárgysorozatba vételre)",
+     "rule": "58. § (1) bekezdés"
+    }
+   ],
+   "szam_parsed": {
+    "kind": "T",
+    "number": 9
+   },
+   "days_submission_to_promulgation": null,
+   "final_vote_ts": null,
+   "days_submission_to_final_vote": null
+  },
+  "I/133": {
+   "szam": "I/133",
+   "izon": "133",
+   "title": "Két igen és két nem? A Tisza-kormány mit gondol az azonos neműek házasságáról?",
+   "type": "interpelláció",
+   "main_type": "interpelláció",
+   "nature": "új",
+   "submitted_on": "2026-06-03",
+   "status": "elfogadva",
+   "procedure_mode": null,
+   "procedure_kind": null,
+   "promulgation": null,
+   "submitters": [
+    "Rétvári Bence (KDNP)",
+    "Dr. Juhász Hajnalka (KDNP)"
+   ],
+   "submitter_kind": "kepviselo",
+   "addressee": "Miniszterelnökséget vezető államtitkár",
+   "note": null,
+   "text_url": "szöveges PDF",
+   "text_pdf_url": "https://www.parlament.hu/irom43/00133/00133.pdf",
+   "submitter_azon": "kepviselok_mobil?kepviselo=%7B%22id%22%3A%22r023%22%7D",
+   "events": [
+    {
+     "date": "2026-06-08",
+     "text": "ülésvezetés",
+     "related": null,
+     "remark": null,
+     "speech": "6/67"
+    },
+    {
+     "date": "2026-06-08",
+     "text": "ülésvezetés",
+     "related": null,
+     "remark": null,
+     "speech": "6/65"
+    },
+    {
+     "date": "2026-06-08",
+     "text": "ülésvezetés",
+     "related": null,
+     "remark": null,
+     "speech": "6/69"
+    }
+   ],
+   "votes": [
+    {
+     "ts": "2026.06.08.16:04:34",
+     "outcome": "Országgyűlés az interpellációs választ elfogadta",
+     "igen": 132,
+     "nem": 47,
+     "tartozkodott": 0,
+     "result_raw": "Elfogadva"
+    }
+   ],
+   "committees": [],
+   "szam_parsed": {
+    "kind": "I",
+    "number": 133
+   },
+   "days_submission_to_promulgation": null,
+   "final_vote_ts": null,
+   "days_submission_to_final_vote": null
+  },
+  "I/49": {
+   "szam": "I/49",
+   "izon": "49",
+   "title": "Meddig volt őszinte a 480 forintos benzinár ígérete?",
+   "type": "interpelláció",
+   "main_type": "interpelláció",
+   "nature": "új",
+   "submitted_on": "2026-05-20",
+   "status": "elfogadva",
+   "procedure_mode": "normál",
+   "procedure_kind": "normal",
+   "promulgation": null,
+   "submitters": [
+    "Bencsik János (Fidesz)"
+   ],
+   "submitter_kind": "kepviselo",
+   "addressee": "gazdasági és energetikai miniszter",
+   "note": null,
+   "text_url": "szöveges PDF",
+   "text_pdf_url": "https://www.parlament.hu/irom43/00049/00049.pdf",
+   "submitter_azon": "kepviselok_mobil?kepviselo=%7B%22id%22%3A%22b034%22%7D",
+   "events": [
+    {
+     "date": "2026-05-26",
+     "text": "ülésvezetés",
+     "related": null,
+     "remark": null,
+     "speech": "3/43"
+    },
+    {
+     "date": "2026-05-26",
+     "text": "ülésvezetés",
+     "related": null,
+     "remark": null,
+     "speech": "3/49"
+    },
+    {
+     "date": "2026-05-26",
+     "text": "ülésvezetés",
+     "related": null,
+     "remark": null,
+     "speech": "3/45"
+    }
+   ],
+   "votes": [
+    {
+     "ts": "2026.05.26.15:15:08",
+     "outcome": "Országgyűlés az interpellációs választ elfogadta",
+     "igen": 138,
+     "nem": 50,
+     "tartozkodott": 1,
+     "result_raw": "Elfogadva"
+    }
+   ],
+   "committees": [],
+   "szam_parsed": {
+    "kind": "I",
+    "number": 49
+   },
+   "days_submission_to_promulgation": null,
+   "final_vote_ts": null,
+   "days_submission_to_final_vote": null
+  },
+  "I/308": {
+   "szam": "I/308",
+   "izon": "308",
+   "title": "Mi lesz a jövője a megkezdett egyházi beruházásoknak, programoknak?",
+   "type": "interpelláció",
+   "main_type": "interpelláció",
+   "nature": "új",
+   "submitted_on": "2026-07-01",
+   "status": "elfogadva",
+   "procedure_mode": null,
+   "procedure_kind": null,
+   "promulgation": null,
+   "submitters": [
+    "Nacsa Lőrinc (KDNP)"
+   ],
+   "submitter_kind": "kepviselo",
+   "addressee": "Társadalmi Kapcsolatokért és Kultúráért Felelős Minisztérium államtitkára",
+   "note": null,
+   "text_url": "szöveges PDF",
+   "text_pdf_url": "https://www.parlament.hu/irom43/00308/00308.pdf",
+   "submitter_azon": "kepviselok_mobil?kepviselo=%7B%22id%22%3A%22n048%22%7D",
+   "events": [
+    {
+     "date": "2026-07-20",
+     "text": "ülésvezetés",
+     "related": null,
+     "remark": null,
+     "speech": "18/98"
+    },
+    {
+     "date": "2026-07-20",
+     "text": "Interpelláció megtárgyalása",
+     "related": null,
+     "remark": null,
+     "speech": null
+    },
+    {
+     "date": "2026-07-20",
+     "text": "ülésvezetés",
+     "related": null,
+     "remark": null,
+     "speech": "18/96"
+    }
+   ],
+   "votes": [
+    {
+     "ts": "2026.07.20.16:09:34",
+     "outcome": "Országgyűlés az interpellációs választ elfogadta",
+     "igen": 126,
+     "nem": 48,
+     "tartozkodott": 0,
+     "result_raw": "Elfogadva"
+    }
+   ],
+   "committees": [],
+   "szam_parsed": {
+    "kind": "I",
+    "number": 308
+   },
+   "days_submission_to_promulgation": null,
+   "final_vote_ts": null,
+   "days_submission_to_final_vote": null
+  },
+  "S/3": {
+   "szam": "S/3",
+   "izon": "3",
+   "title": "Az Országgyűlés elnökének megválasztásáról",
+   "type": "az Országgyűlés személyi döntését kezdeményező indítvány",
+   "main_type": "az Országgyűlés személyi döntését kezdeményező indítvány",
+   "nature": "új",
+   "submitted_on": "2026-05-09",
+   "status": "kihirdetve",
+   "procedure_mode": "normál",
+   "procedure_kind": "normal",
+   "promulgation": {
+    "number": "14",
+    "mk_issue": "44",
+    "date": "2026-05-09",
+    "law_ref": null
+   },
+   "submitters": [
+    "az Országgyűlés korelnöke"
+   ],
+   "submitter_kind": "other",
+   "addressee": null,
+   "note": null,
+   "text_url": "szöveges PDF",
+   "text_pdf_url": "https://www.parlament.hu/irom43/00003/00003.pdf",
+   "submitter_azon": null,
+   "events": [
+    {
+     "date": "2026-05-09",
+     "text": "Eskü",
+     "related": null,
+     "remark": null,
+     "speech": "1/35"
+    },
+    {
+     "date": "2026-05-09",
+     "text": "Eskütétel",
+     "related": null,
+     "remark": "FORSTHOFFER ÁGNES, az Országgyűlés elnöke",
+     "speech": null
+    },
+    {
+     "date": "2026-05-09",
+     "text": "önálló indítvány elfogadva",
+     "related": null,
+     "remark": null,
+     "speech": "1/34"
+    }
+   ],
+   "votes": [
+    {
+     "ts": "2026.05.09.11:50:00",
+     "outcome": "önálló indítvány elfogadva",
+     "igen": 193,
+     "nem": 2,
+     "tartozkodott": 0,
+     "result_raw": "Elfogadva"
+    }
+   ],
+   "committees": [],
+   "szam_parsed": {
+    "kind": "S",
+    "number": 3
+   },
+   "days_submission_to_promulgation": 0,
+   "final_vote_ts": "2026.05.09.11:50:00",
+   "days_submission_to_final_vote": 0
+  },
+  "B/1": {
+   "szam": "B/1",
+   "izon": "1",
+   "title": "A Nemzeti Választási Bizottság elnökének beszámolója a Nemzeti Választási Bizottságnak az országgyűlési képviselők 2026. április 12-én megtartott általános választásán végzett tevékenységéről",
+   "type": "beszámoló",
+   "main_type": "beszámoló",
+   "nature": "új",
+   "submitted_on": "2026-05-05",
+   "status": "elfogadva",
+   "procedure_mode": "normál",
+   "procedure_kind": "normal",
+   "promulgation": null,
+   "submitters": [
+    "a Nemzeti Választási Bizottság elnöke"
+   ],
+   "submitter_kind": "bizottsag",
+   "addressee": null,
+   "note": null,
+   "text_url": "szöveges PDF",
+   "text_pdf_url": "https://www.parlament.hu/irom43/00001/00001.pdf",
+   "submitter_azon": null,
+   "events": [
+    {
+     "date": "2026-05-09",
+     "text": "előterjesztő nyitóbeszéde",
+     "related": "elnök",
+     "remark": null,
+     "speech": "1/3"
+    },
+    {
+     "date": "2026-05-09",
+     "text": "ülésvezetés",
+     "related": null,
+     "remark": null,
+     "speech": "1/2"
+    },
+    {
+     "date": "2026-05-09",
+     "text": "Bejelentések",
+     "related": null,
+     "remark": null,
+     "speech": null
+    }
+   ],
+   "votes": [
+    {
+     "ts": "2026.05.09.11:42:46",
+     "outcome": "önálló indítvány elfogadva",
+     "igen": 188,
+     "nem": 0,
+     "tartozkodott": 0,
+     "result_raw": "Elfogadva"
+    }
+   ],
+   "committees": [],
+   "szam_parsed": {
+    "kind": "B",
+    "number": 1
+   },
+   "days_submission_to_promulgation": null,
+   "final_vote_ts": "2026.05.09.11:42:46",
+   "days_submission_to_final_vote": 4
+  },
+  "H/179": {
+   "szam": "H/179",
+   "izon": "179",
+   "title": "A Migrációs Paktum elutasításáról",
+   "type": "határozati javaslat",
+   "main_type": "határozati javaslat",
+   "nature": "új",
+   "submitted_on": "2026-06-10",
+   "status": "tárgysorozatba vételre vár",
+   "procedure_mode": "normál",
+   "procedure_kind": "normal",
+   "promulgation": null,
+   "submitters": [
+    "Gulyás Gergely (Fidesz)",
+    "Balla György (Fidesz)",
+    "Balla Mihály (Fidesz)",
+    "Bencsik János (Fidesz)",
+    "Dr. Budai Gyula (Fidesz)",
+    "Dr. Bóka János (Fidesz)",
+    "Dr. Csibi Krisztina (Fidesz)",
+    "Dr. Csuzda Gábor (Fidesz)",
+    "Czirbus Gábor (Fidesz)",
+    "F. Kovács Sándor (Fidesz)",
+    "Gyopáros Alpár (Fidesz)",
+    "Dr. Hankó Balázs (Fidesz)",
+    "Dr. Hargitai János (KDNP)",
+    "Dr. Hegedűs Barbara (Fidesz)",
+    "Hidvéghi Balázs (Fidesz)",
+    "Horváth László (Fidesz)",
+    "Héjj Dávid (Fidesz)",
+    "Dr. Juhász Hajnalka (KDNP)",
+    "Kocsis Máté (Fidesz)",
+    "Dr. Koncz Zsófia (Fidesz)",
+    "Kovács Sándor (Fidesz)",
+    "Dr. Latorcai Csaba (KDNP)",
+    "Lázár János (Fidesz)",
+    "Molnárné Dr. Lezsák Anna (Fidesz)",
+    "Dr. Máthé Zsuzsa (KDNP)",
+    "Nacsa Lőrinc (KDNP)",
+    "Nagy Bálint (Fidesz)",
+    "Németh Balázs Lajos (Fidesz)",
+    "Németh Zsolt (Fidesz)",
+    "Dr. Orbán Balázs (Fidesz)",
+    "Dr. Panyi Miklós (Fidesz)",
+    "Papp Zsolt (Fidesz)",
+    "Pócs János (Fidesz)",
+    "Radics Béla (Fidesz)",
+    "Rétvári Bence (KDNP)",
+    "Dr. Seszták Miklós (KDNP)",
+    "Dr. Simicskó István (KDNP)",
+    "Szalai Piroska (Fidesz)",
+    "Szentkirályi Alexandra (Fidesz)",
+    "Szijjártó Péter (Fidesz)",
+    "Szűcs Gábor (Fidesz)",
+    "Takács Péter (Fidesz)",
+    "Dr. Takács Árpád (Fidesz)",
+    "Dr. Tilki Attila (Fidesz)",
+    "Tuzson Bence (Fidesz)",
+    "V. Németh Zsolt (Fidesz)",
+    "Varga Gábor (Fidesz)",
+    "Vitályos Eszter (Fidesz)",
+    "Dr. Vitányi István József (Fidesz)",
+    "Witzmann Mihály (Fidesz)",
+    "Zsigó Róbert (Fidesz)",
+    "Ágh Péter (Fidesz)"
+   ],
+   "submitter_kind": "kepviselo",
+   "addressee": null,
+   "note": null,
+   "text_url": "szöveges PDF",
+   "text_pdf_url": "https://www.parlament.hu/irom43/00179/00179.pdf",
+   "submitter_azon": "kepviselok_mobil?kepviselo=%7B%22id%22%3A%22g053%22%7D",
+   "events": [
+    {
+     "date": "2026-06-10",
+     "text": "bizottság kijelölve tárgysorozatba vételre",
+     "related": "Európai Ügyek Bizottsága",
+     "remark": null,
+     "speech": null
+    }
+   ],
+   "votes": [],
+   "committees": [
+    {
+     "name": "Európai Ügyek Bizottsága",
+     "role": "Kijelölt bizottság (tárgysorozatba vételre)",
+     "rule": "58. § (1) bekezdés"
+    }
+   ],
+   "szam_parsed": {
+    "kind": "H",
+    "number": 179
+   },
+   "days_submission_to_promulgation": null,
+   "final_vote_ts": null,
+   "days_submission_to_final_vote": null
+  }
+ }
+}

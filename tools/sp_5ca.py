@@ -246,6 +246,7 @@ def build_rows(conn, area, entries, motion_entries=None):
             confidence = ""
             comments = ["No recorded activity on this area"]
         rows.append({
+            "person_id": pid,
             "decision_maker": "{0} ({1}) - {2}".format(
                 m["preferred_name"] and "{0} {1}".format(
                     m["preferred_name"], m["name"].split(",")[0])

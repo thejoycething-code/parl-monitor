@@ -1,0 +1,22 @@
+# Venezuela: items watched BY HAND (VE3, Chris's decisions of 10 October 2026).
+#
+# The Asamblea Nacional publishes no bill numbers that are current (its
+# register stopped in July 2022), so a watched item is a reform known by its
+# name. Each entry carries the terms that identify it in the Legislativa news
+# feed (tools/ve_news.py): a news item whose title or body contains one of
+# them is shown under the item in the Latam edition and raises an instant
+# alert (tools/latam_alerts.py). `status` and `as_of` are written by hand
+# when someone reads a development; the edition prints them as they are.
+watch:
+  "ley-contra-el-odio-reforma":
+    areas: [7]
+    match: ["Ley contra el Odio", "Ley Constitucional contra el Odio",
+            "convivencia pacífica y la tolerancia"]
+    why: >-
+      Reform of the Ley Constitucional contra el Odio, por la Convivencia
+      Pacífica y la Tolerancia (2017), the law used to prosecute journalists
+      and social-media users. A special committee of 11 deputies is drafting
+      the reform; government deputies speak of easing prosecutions of
+      journalists. Free speech; no bill text or number published.
+    status: "Special committee of 11 deputies drafting the reform; no text published"
+    as_of: "2026-10-09"

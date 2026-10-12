@@ -1,0 +1,2335 @@
+{
+"value": [
+{
+"PHID": "00AMR",
+"FamilyName": "KING",
+"GivenName": "Catherine",
+"PreferredName": "",
+"Electorate": "Ballarat",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "00AOL",
+"FamilyName": "COLBECK",
+"GivenName": "Richard",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Tasmania",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "00AOU",
+"FamilyName": "WONG",
+"GivenName": "Penelope ",
+"PreferredName": "(Penny)",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "101351",
+"FamilyName": "KHALIL",
+"GivenName": "Peter",
+"PreferredName": "",
+"Electorate": "Wills",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "102376",
+"FamilyName": "KING",
+"GivenName": "Madeleine",
+"PreferredName": "",
+"Electorate": "Brand",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "112096",
+"FamilyName": "LINES",
+"GivenName": "Susan ",
+"PreferredName": "(Sue)",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "11788",
+"FamilyName": "ALDRED",
+"GivenName": "Mary",
+"PreferredName": "",
+"Electorate": "Monash",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "121628",
+"FamilyName": "McALLISTER",
+"GivenName": "Jennifer ",
+"PreferredName": "(Jenny)",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "122087",
+"FamilyName": "McCARTHY",
+"GivenName": "Malarndirri",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Northern Territory",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "123072",
+"FamilyName": "McDONALD",
+"GivenName": "Susan",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "124514",
+"FamilyName": "McKENZIE",
+"GivenName": "Zoe",
+"PreferredName": "",
+"Electorate": "Flinders",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "13050",
+"FamilyName": "ALY",
+"GivenName": "Anne",
+"PreferredName": "",
+"Electorate": "Cowan",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "132880",
+"FamilyName": "MULINO",
+"GivenName": "Daniel ",
+"PreferredName": "",
+"Electorate": "Fraser",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "138932",
+"FamilyName": "O'BRIEN",
+"GivenName": "Edward",
+"PreferredName": "(Ted)",
+"Electorate": "Fairfax",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "140590",
+"FamilyName": "O'NEIL",
+"GivenName": "Clare",
+"PreferredName": "",
+"Electorate": "Hotham",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "140651",
+"FamilyName": "O'NEILL",
+"GivenName": "Deborah ",
+"PreferredName": "(Deb)",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator",
+"Member"
+]
+},
+{
+"PHID": "144138",
+"FamilyName": "PATERSON",
+"GivenName": "James",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "144732",
+"FamilyName": "PAYNE",
+"GivenName": "Alicia",
+"PreferredName": "",
+"Electorate": "Canberra",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "147140",
+"FamilyName": "PHILLIPS",
+"GivenName": "Fiona",
+"PreferredName": "",
+"Electorate": "Gilmore",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "157125",
+"FamilyName": "ROBERTS",
+"GivenName": "Tracey",
+"PreferredName": "",
+"Electorate": "Pearce",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "159771",
+"FamilyName": "ROWLAND",
+"GivenName": "Michelle",
+"PreferredName": "",
+"Electorate": "Greenway",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "168275",
+"FamilyName": "SHELDON",
+"GivenName": "Anthony",
+"PreferredName": "(Tony)",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "169119",
+"FamilyName": "SHOEBRIDGE",
+"GivenName": "David",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "16913",
+"FamilyName": "AYRES",
+"GivenName": "Timothy",
+"PreferredName": "(Tim)",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "175696",
+"FamilyName": "STEGGALL",
+"GivenName": "Zali",
+"PreferredName": "",
+"Electorate": "Warringah",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "182468",
+"FamilyName": "THISTLETHWAITE",
+"GivenName": "Matthew ",
+"PreferredName": "(Matt)",
+"Electorate": "Kingsford Smith",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Member",
+"Senator"
+]
+},
+{
+"PHID": "192970",
+"FamilyName": "WATERS",
+"GivenName": "Larissa",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "193430",
+"FamilyName": "WATTS",
+"GivenName": "Timothy ",
+"PreferredName": "(Tim)",
+"Electorate": "Gellibrand",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "198084",
+"FamilyName": "WILSON",
+"GivenName": "Richard ",
+"PreferredName": "(Rick)",
+"Electorate": "O'Connor",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "207825",
+"FamilyName": "McKENZIE",
+"GivenName": "Bridget",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "210911",
+"FamilyName": "TEHAN",
+"GivenName": "Daniel ",
+"PreferredName": "(Dan)",
+"Electorate": "Wannon",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "217241",
+"FamilyName": "McGRATH",
+"GivenName": "James",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "218019",
+"FamilyName": "HOGAN",
+"GivenName": "Kevin",
+"PreferredName": "",
+"Electorate": "Page",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "219646",
+"FamilyName": "McCORMACK",
+"GivenName": "Michael",
+"PreferredName": "",
+"Electorate": "Riverina",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "224102",
+"FamilyName": "WHITE",
+"GivenName": "Rebecca",
+"PreferredName": "",
+"Electorate": "Lyons",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "230531",
+"FamilyName": "BUCHHOLZ",
+"GivenName": "Scott",
+"PreferredName": "",
+"Electorate": "Wright",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "231199",
+"FamilyName": "URQUHART",
+"GivenName": "Anne",
+"PreferredName": "",
+"Electorate": "Braddon",
+"SenateState": "Tasmania",
+"MPorSenator": [
+"Member",
+"Senator"
+]
+},
+{
+"PHID": "23497",
+"FamilyName": "BERRY",
+"GivenName": "Carol",
+"PreferredName": "",
+"Electorate": "Whitlam",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "240756",
+"FamilyName": "PASIN",
+"GivenName": "Antony ",
+"PreferredName": "(Tony)",
+"Electorate": "Barker",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "241710",
+"FamilyName": "SMITH",
+"GivenName": "Dean",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "243273",
+"FamilyName": "RUSTON",
+"GivenName": "Anne",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "243609",
+"FamilyName": "GILES",
+"GivenName": "Andrew",
+"PreferredName": "",
+"Electorate": "Scullin",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "245212",
+"FamilyName": "CANAVAN",
+"GivenName": "Matthew",
+"PreferredName": "(Matt)",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "245392",
+"FamilyName": "GOSLING",
+"GivenName": "Luke",
+"PreferredName": "",
+"Electorate": "Solomon",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "245759",
+"FamilyName": "WATT",
+"GivenName": "Murray",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "248181",
+"FamilyName": "CLAYDON",
+"GivenName": "Sharon",
+"PreferredName": "",
+"Electorate": "Newcastle",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "248353",
+"FamilyName": "McBRIDE",
+"GivenName": "Emma",
+"PreferredName": "",
+"Electorate": "Dobell",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "248895",
+"FamilyName": "PENFOLD",
+"GivenName": "Alison",
+"PreferredName": "",
+"Electorate": "Lyne",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "249127",
+"FamilyName": "CONROY",
+"GivenName": "Patrick",
+"PreferredName": "(Pat)",
+"Electorate": "Shortland",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "249147",
+"FamilyName": "KEOGH",
+"GivenName": "Matthew ",
+"PreferredName": "(Matt)",
+"Electorate": "Burt",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "249224",
+"FamilyName": "RYAN",
+"GivenName": "Joanne",
+"PreferredName": "",
+"Electorate": "Lalor",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "249308",
+"FamilyName": "PRICE",
+"GivenName": "Melissa",
+"PreferredName": "",
+"Electorate": "Durack",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "249710",
+"FamilyName": "CHESTERS",
+"GivenName": "Lisa",
+"PreferredName": "",
+"Electorate": "Bendigo",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "249764",
+"FamilyName": "LANDRY",
+"GivenName": "Michelle",
+"PreferredName": "",
+"Electorate": "Capricornia",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "250026",
+"FamilyName": "LAMBIE",
+"GivenName": "Jacquiline ",
+"PreferredName": "(Jacqui)",
+"Electorate": "",
+"SenateState": "Tasmania",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "250156",
+"FamilyName": "STEELE-JOHN",
+"GivenName": "Jordon",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "250362",
+"FamilyName": "FARUQI",
+"GivenName": "Mehreen",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "252157",
+"FamilyName": "WALSH",
+"GivenName": "Jess",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "256063",
+"FamilyName": "BRAGG",
+"GivenName": "Andrew",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "256136",
+"FamilyName": "POCOCK",
+"GivenName": "David",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Australian Capital Territory",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "257613",
+"FamilyName": "GHOSH",
+"GivenName": "Varun",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "25813",
+"FamilyName": "BLEYER",
+"GivenName": "Vanessa",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "259819",
+"FamilyName": "GREEN",
+"GivenName": "Nita",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "260805",
+"FamilyName": "HASTIE",
+"GivenName": "Andrew",
+"PreferredName": "",
+"Electorate": "Canning",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "263418",
+"FamilyName": "DUNIAM",
+"GivenName": "Jonathon",
+"PreferredName": "(Jonno)",
+"Electorate": "",
+"SenateState": "Tasmania",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "263427",
+"FamilyName": "BRISKEY",
+"GivenName": "Jo",
+"PreferredName": "",
+"Electorate": "Maribyrnong",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "263528",
+"FamilyName": "NAMPIJINPA PRICE",
+"GivenName": "Jacinta",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Northern Territory",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "263547",
+"FamilyName": "COKER",
+"GivenName": "Elizabeth",
+"PreferredName": "(Libby)",
+"Electorate": "Corangamite",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "264121",
+"FamilyName": "WELLS",
+"GivenName": "Anika",
+"PreferredName": "",
+"Electorate": "Lilley",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "26417",
+"FamilyName": "BOELE",
+"GivenName": "Nicolette",
+"PreferredName": "",
+"Electorate": "Bradfield",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "264449",
+"FamilyName": "CHANDLER",
+"GivenName": "Claire",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Tasmania",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "265585",
+"FamilyName": "LITTLEPROUD",
+"GivenName": "David",
+"PreferredName": "",
+"Electorate": "Maranoa",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "265967",
+"FamilyName": "WALLACE",
+"GivenName": "Andrew",
+"PreferredName": "",
+"Electorate": "Fisher",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "265970",
+"FamilyName": "WILSON",
+"GivenName": "Joshua ",
+"PreferredName": "(Josh)",
+"Electorate": "Fremantle",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "265979",
+"FamilyName": "FREELANDER",
+"GivenName": "Michael",
+"PreferredName": "(Mike)",
+"Electorate": "Macarthur",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "265980",
+"FamilyName": "SHARKIE",
+"GivenName": "Rebekha",
+"PreferredName": "",
+"Electorate": "Mayo",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "265990",
+"FamilyName": "STANLEY",
+"GivenName": "Anne",
+"PreferredName": "",
+"Electorate": "Werriwa",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "265991",
+"FamilyName": "O'BRIEN",
+"GivenName": "Llewellyn ",
+"PreferredName": "(Llew)",
+"Electorate": "Wide Bay",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "266499",
+"FamilyName": "HUME",
+"GivenName": "Edwina",
+"PreferredName": "(Jane)",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "266524",
+"FamilyName": "ROBERTS",
+"GivenName": "Malcolm",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "269375",
+"FamilyName": "ANTIC",
+"GivenName": "Alexander",
+"PreferredName": "(Alex)",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "270198",
+"FamilyName": "FRANCE",
+"GivenName": "Allison",
+"PreferredName": "(Ali)",
+"Electorate": "Dickson",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "274506",
+"FamilyName": "SHARMA",
+"GivenName": "Devanand",
+"PreferredName": "(Dave)",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator",
+"Member"
+]
+},
+{
+"PHID": "276714",
+"FamilyName": "SMITH",
+"GivenName": "David",
+"PreferredName": "",
+"Electorate": "Bean",
+"SenateState": "Australian Capital Territory",
+"MPorSenator": [
+"Member",
+"Senator"
+]
+},
+{
+"PHID": "277110",
+"FamilyName": "MULHOLLAND",
+"GivenName": "Corinne",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "278522",
+"FamilyName": "BURNS",
+"GivenName": "Joshua",
+"PreferredName": "(Josh)",
+"Electorate": "Macnamara",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "279991",
+"FamilyName": "CONAGHAN",
+"GivenName": "Patrick",
+"PreferredName": "(Pat)",
+"Electorate": "Cowper",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "280304",
+"FamilyName": "THORPE",
+"GivenName": "Lidia",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "281503",
+"FamilyName": "CICCONE",
+"GivenName": "Raffaele",
+"PreferredName": "(Raff)",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "281513",
+"FamilyName": "McINTOSH",
+"GivenName": "Melissa",
+"PreferredName": "",
+"Electorate": "Lindsay",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "281603",
+"FamilyName": "SMITH",
+"GivenName": "Marielle",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "281688",
+"FamilyName": "WEBSTER",
+"GivenName": "Anne",
+"PreferredName": "",
+"Electorate": "Mallee",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "281826",
+"FamilyName": "THOMPSON",
+"GivenName": "Phillip",
+"PreferredName": "",
+"Electorate": "Herbert",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "281988",
+"FamilyName": "McBAIN",
+"GivenName": "Kristy",
+"PreferredName": "",
+"Electorate": "Eden-Monaro",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "282212",
+"FamilyName": "THWAITES",
+"GivenName": "Kate",
+"PreferredName": "",
+"Electorate": "Jagajaga",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "282981",
+"FamilyName": "BELL",
+"GivenName": "Angie",
+"PreferredName": "",
+"Electorate": "Moncrieff",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "282997",
+"FamilyName": "SCARR",
+"GivenName": "Paul",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "283585",
+"FamilyName": "O'SULLIVAN",
+"GivenName": "Matthew",
+"PreferredName": "(Matt)",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "286535",
+"FamilyName": "WILLCOX",
+"GivenName": "Andrew ",
+"PreferredName": "",
+"Electorate": "Dawson",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "287062",
+"FamilyName": "MCLACHLAN",
+"GivenName": "Andrew",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "288713",
+"FamilyName": "BIRRELL",
+"GivenName": "Samuel",
+"PreferredName": "(Sam)",
+"Electorate": "Nicholls",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "290544",
+"FamilyName": "ANANDA-RAJAH",
+"GivenName": "Michelle",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator",
+"Member"
+]
+},
+{
+"PHID": "291387",
+"FamilyName": "HAMILTON",
+"GivenName": "Garth",
+"PreferredName": "",
+"Electorate": "Groom",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "291406",
+"FamilyName": "SMALL",
+"GivenName": "Benjamin",
+"PreferredName": "(Ben)",
+"Electorate": "Forrest",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Member",
+"Senator"
+]
+},
+{
+"PHID": "295588",
+"FamilyName": "GARLAND",
+"GivenName": "Carina",
+"PreferredName": "",
+"Electorate": "Chisholm",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "295676",
+"FamilyName": "LE",
+"GivenName": "Dai",
+"PreferredName": "",
+"Electorate": "Fowler",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "296215",
+"FamilyName": "COX",
+"GivenName": "Dorinda",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "296272",
+"FamilyName": "MILLER-FROST",
+"GivenName": "Louise",
+"PreferredName": "",
+"Electorate": "Boothby",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "296331",
+"FamilyName": "GROGAN",
+"GivenName": "Karen",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "297660",
+"FamilyName": "RYAN",
+"GivenName": "Monique",
+"PreferredName": "",
+"Electorate": "Kooyong",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "297964",
+"FamilyName": "COLLINS",
+"GivenName": "Jessica",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "298121",
+"FamilyName": "SITOU",
+"GivenName": "Sally",
+"PreferredName": "",
+"Electorate": "Reid",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "298574",
+"FamilyName": "JARRETT",
+"GivenName": "Madonna",
+"PreferredName": "",
+"Electorate": "Brisbane",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "298618",
+"FamilyName": "SOON",
+"GivenName": "Zhi",
+"PreferredName": "",
+"Electorate": "Banks",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "298800",
+"FamilyName": "MASCARENHAS",
+"GivenName": "Zaneta",
+"PreferredName": "",
+"Electorate": "Swan",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "298839",
+"FamilyName": "ALLMAN-PAYNE",
+"GivenName": "Penny",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "298840",
+"FamilyName": "REPACHOLI",
+"GivenName": "Dan",
+"PreferredName": "",
+"Electorate": "Hunter",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "299145",
+"FamilyName": "BYRNES",
+"GivenName": "Alison",
+"PreferredName": "",
+"Electorate": "Cunningham",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "299150",
+"FamilyName": "LAWRENCE",
+"GivenName": "Tania",
+"PreferredName": "",
+"Electorate": "Hasluck",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "299174",
+"FamilyName": "LAXALE",
+"GivenName": "Jerome",
+"PreferredName": "",
+"Electorate": "Bennelong",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "299352",
+"FamilyName": "STEWART",
+"GivenName": "Jana",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "299498",
+"FamilyName": "BOYCE",
+"GivenName": "Colin",
+"PreferredName": "",
+"Electorate": "Flynn",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "299623",
+"FamilyName": "SCAMPS",
+"GivenName": "Sophie",
+"PreferredName": "",
+"Electorate": "Mackellar",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "299962",
+"FamilyName": "DOYLE",
+"GivenName": "Mary",
+"PreferredName": "",
+"Electorate": "Aston",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "300120",
+"FamilyName": "PIKE",
+"GivenName": "Henry",
+"PreferredName": "",
+"Electorate": "Bowman",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "300122",
+"FamilyName": "RAE",
+"GivenName": "Samuel",
+"PreferredName": "(Sam)",
+"Electorate": "Hawke",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "300126",
+"FamilyName": "REID",
+"GivenName": "Gordon",
+"PreferredName": "",
+"Electorate": "Robertson",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "300127",
+"FamilyName": "WATSON-BROWN",
+"GivenName": "Elizabeth",
+"PreferredName": "",
+"Electorate": "Ryan",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "300129",
+"FamilyName": "BURNELL",
+"GivenName": "Matthew",
+"PreferredName": "(Matt)",
+"Electorate": "Spence",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "300130",
+"FamilyName": "LIM",
+"GivenName": "Sam",
+"PreferredName": "",
+"Electorate": "Tangney",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "300134",
+"FamilyName": "CADELL",
+"GivenName": "Ross",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "300147",
+"FamilyName": "VIOLI",
+"GivenName": "Aaron",
+"PreferredName": "",
+"Electorate": "Casey",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "300639",
+"FamilyName": "TYRRELL",
+"GivenName": "Tammy",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Tasmania",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "300644",
+"FamilyName": "LIDDLE",
+"GivenName": "Kerrynne",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "300706",
+"FamilyName": "BABET",
+"GivenName": "Ralph",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "300707",
+"FamilyName": "PAYMAN",
+"GivenName": "Fatima",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "301128",
+"FamilyName": "DARMANIN",
+"GivenName": "Lisa",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "30484",
+"FamilyName": "BROCKMAN",
+"GivenName": "William",
+"PreferredName": "(Slade)",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "306168",
+"FamilyName": "KOVACIC",
+"GivenName": "Maria",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "306489",
+"FamilyName": "CALDWELL",
+"GivenName": "Cameron",
+"PreferredName": "",
+"Electorate": "Fadden",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "310860",
+"FamilyName": "HODGINS-MAY",
+"GivenName": "Steph",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "312323",
+"FamilyName": "COFFEY",
+"GivenName": "Renee",
+"PreferredName": "",
+"Electorate": "Griffith",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "312393",
+"FamilyName": "SMITH",
+"GivenName": "Matt",
+"PreferredName": "",
+"Electorate": "Leichhardt",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "312823",
+"FamilyName": "CAMPBELL",
+"GivenName": "Julie-Ann",
+"PreferredName": "",
+"Electorate": "Moreton",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "312871",
+"FamilyName": "COOK",
+"GivenName": "Patricia",
+"PreferredName": "(Trish)",
+"Electorate": "Bullwinkel",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "314526",
+"FamilyName": "TEESDALE",
+"GivenName": "Jess",
+"PreferredName": "",
+"Electorate": "Bass",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "315154",
+"FamilyName": "GREGG",
+"GivenName": "Matt",
+"PreferredName": "",
+"Electorate": "Deakin",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "315170",
+"FamilyName": "BLYTH",
+"GivenName": "Leah",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "315434",
+"FamilyName": "VENNING",
+"GivenName": "Tom",
+"PreferredName": "",
+"Electorate": "Grey",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "315478",
+"FamilyName": "BATT",
+"GivenName": "David",
+"PreferredName": "",
+"Electorate": "Hinkler",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "315618",
+"FamilyName": "AMBIHAIPAHAR",
+"GivenName": "Ashvini",
+"PreferredName": "(Ash)",
+"Electorate": "Barton",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316021",
+"FamilyName": "JORDAN-BAIRD",
+"GivenName": "Alice",
+"PreferredName": "",
+"Electorate": "Gorton",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316052",
+"FamilyName": "NG",
+"GivenName": "Gabriel",
+"PreferredName": "",
+"Electorate": "Menzies",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316101",
+"FamilyName": "CLUTTERHAM",
+"GivenName": "Claire",
+"PreferredName": "",
+"Electorate": "Sturt",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316312",
+"FamilyName": "CHAFFEY",
+"GivenName": "Jamie",
+"PreferredName": "",
+"Electorate": "Parkes",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316537",
+"FamilyName": "COOK",
+"GivenName": "Kara",
+"PreferredName": "",
+"Electorate": "Bonner",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316540",
+"FamilyName": "MONCRIEFF",
+"GivenName": "David",
+"PreferredName": "",
+"Electorate": "Hughes",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316547",
+"FamilyName": "REBELLO",
+"GivenName": "Leon",
+"PreferredName": "",
+"Electorate": "McPherson",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316550",
+"FamilyName": "FRENCH",
+"GivenName": "Tom",
+"PreferredName": "",
+"Electorate": "Moore",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316551",
+"FamilyName": "COMER",
+"GivenName": "Emma",
+"PreferredName": "",
+"Electorate": "Petrie",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316555",
+"FamilyName": "WHITEAKER",
+"GivenName": "Ellie",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "316660",
+"FamilyName": "WITTY",
+"GivenName": "Sarah",
+"PreferredName": "",
+"Electorate": "Melbourne",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316818",
+"FamilyName": "WALKER",
+"GivenName": "Charlotte",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "316915",
+"FamilyName": "ABDO",
+"GivenName": "Basem",
+"PreferredName": "",
+"Electorate": "Calwell",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "316935",
+"FamilyName": "DOLEGA",
+"GivenName": "Josh",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Tasmania",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "317026",
+"FamilyName": "WHITTEN",
+"GivenName": "Tyron",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "319142",
+"FamilyName": "BELL",
+"GivenName": "Sean",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "New South Wales",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "324140",
+"FamilyName": "GATENBY",
+"GivenName": "Chris",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "37998",
+"FamilyName": "CHALMERS",
+"GivenName": "James ",
+"PreferredName": "(Jim)",
+"Electorate": "Rankin",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "39801",
+"FamilyName": "CHISHOLM",
+"GivenName": "Anthony",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "53517",
+"FamilyName": "DICK",
+"GivenName": "Dugald",
+"PreferredName": "(Milton)",
+"Electorate": "Oxley",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "55842",
+"FamilyName": "DOWLING",
+"GivenName": "Richard",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Tasmania",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "74519",
+"FamilyName": "GORMAN",
+"GivenName": "Patrick",
+"PreferredName": "",
+"Electorate": "Perth",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "83M",
+"FamilyName": "PLIBERSEK",
+"GivenName": "Tanya",
+"PreferredName": "",
+"Electorate": "Sydney",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "86256",
+"FamilyName": "HILL",
+"GivenName": "Julian",
+"PreferredName": "",
+"Electorate": "Bruce",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "88411",
+"FamilyName": "HOLZBERGER",
+"GivenName": "Rowan",
+"PreferredName": "",
+"Electorate": "Forde",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "91219",
+"FamilyName": "HUSIC",
+"GivenName": "Edham ",
+"PreferredName": "(Ed)",
+"Electorate": "Chifley",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "BFQ",
+"FamilyName": "POCOCK",
+"GivenName": "Barbara",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "BK6",
+"FamilyName": "HANSON",
+"GivenName": "Pauline",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Senator",
+"Member"
+]
+},
+{
+"PHID": "BU8",
+"FamilyName": "LEIGH",
+"GivenName": "Andrew",
+"PreferredName": "",
+"Electorate": "Fenner",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "DYW",
+"FamilyName": "BURKE",
+"GivenName": "Anthony ",
+"PreferredName": "(Tony)",
+"Electorate": "Watson",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "DZS",
+"FamilyName": "BOWEN",
+"GivenName": "Christopher",
+"PreferredName": "(Chris)",
+"Electorate": "McMahon",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "DZW",
+"FamilyName": "ELLIOT",
+"GivenName": "Maria",
+"PreferredName": "(Justine)",
+"Electorate": "Richmond",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "DZY",
+"FamilyName": "GEORGANAS",
+"GivenName": "Steven ",
+"PreferredName": "(Steve)",
+"Electorate": "Adelaide",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "E0F",
+"FamilyName": "WOOD",
+"GivenName": "Jason",
+"PreferredName": "",
+"Electorate": "La Trobe",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "E5D",
+"FamilyName": "JOYCE",
+"GivenName": "Barnaby",
+"PreferredName": "",
+"Electorate": "New England",
+"SenateState": "Queensland",
+"MPorSenator": [
+"Member",
+"Senator"
+]
+},
+{
+"PHID": "E5X",
+"FamilyName": "POLLEY",
+"GivenName": "Helen",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Tasmania",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "E68",
+"FamilyName": "STERLE",
+"GivenName": "Glenn",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "F2S",
+"FamilyName": "SCRYMGOUR",
+"GivenName": "Marion",
+"PreferredName": "",
+"Electorate": "Lingiari",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "F49",
+"FamilyName": "BROWN",
+"GivenName": "Carol",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Tasmania",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "HVO",
+"FamilyName": "NEUMANN",
+"GivenName": "Shayne",
+"PreferredName": "",
+"Electorate": "Blair",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "HWA",
+"FamilyName": "RISHWORTH",
+"GivenName": "Amanda",
+"PreferredName": "",
+"Electorate": "Kingston",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "HWB",
+"FamilyName": "ZAPPIA",
+"GivenName": "Antonio ",
+"PreferredName": "(Tony)",
+"Electorate": "Makin",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "HWG",
+"FamilyName": "DREYFUS",
+"GivenName": "Mark",
+"PreferredName": "",
+"Electorate": "Isaacs",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "HWK",
+"FamilyName": "BUTLER",
+"GivenName": "Mark",
+"PreferredName": "",
+"Electorate": "Hindmarsh",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "HWL",
+"FamilyName": "CLARE",
+"GivenName": "Jason",
+"PreferredName": "",
+"Electorate": "Blaxland",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "HWM",
+"FamilyName": "COLLINS",
+"GivenName": "Julie",
+"PreferredName": "",
+"Electorate": "Franklin",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "HWO",
+"FamilyName": "HAWKE",
+"GivenName": "Alexander ",
+"PreferredName": "(Alex)",
+"Electorate": "Mitchell",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "HWQ",
+"FamilyName": "MARLES",
+"GivenName": "Richard",
+"PreferredName": "",
+"Electorate": "Corio",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "I0M",
+"FamilyName": "CASH",
+"GivenName": "Michaelia",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Western Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "I0N",
+"FamilyName": "FARRELL",
+"GivenName": "Donald",
+"PreferredName": "(Don)",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "I0U",
+"FamilyName": "HANSON-YOUNG",
+"GivenName": "Sarah",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "South Australia",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "I8M",
+"FamilyName": "CHARLTON",
+"GivenName": "Andrew",
+"PreferredName": "",
+"Electorate": "Parramatta",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "IMW",
+"FamilyName": "WILSON",
+"GivenName": "Timothy ",
+"PreferredName": "(Tim)",
+"Electorate": "Goldstein",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "ING",
+"FamilyName": "GALLAGHER",
+"GivenName": "Katherine ",
+"PreferredName": "(Katy)",
+"Electorate": "",
+"SenateState": "Australian Capital Territory",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "IPZ",
+"FamilyName": "CHESTER",
+"GivenName": "Darren",
+"PreferredName": "",
+"Electorate": "Gippsland",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "JKM",
+"FamilyName": "McKIM",
+"GivenName": "Nicholas ",
+"PreferredName": "(Nick)",
+"Electorate": "",
+"SenateState": "Tasmania",
+"MPorSenator": [
+"Senator"
+]
+},
+{
+"PHID": "LTU",
+"FamilyName": "KEARNEY",
+"GivenName": "Gerardine",
+"PreferredName": "(Ged)",
+"Electorate": "Cooper",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "M3E",
+"FamilyName": "MITCHELL",
+"GivenName": "Robert",
+"PreferredName": "(ROB)",
+"Electorate": "McEwen",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "R36",
+"FamilyName": "ALBANESE",
+"GivenName": "Anthony",
+"PreferredName": "",
+"Electorate": "Grayndler",
+"SenateState": "",
+"MPorSenator": [
+"Member"
+]
+},
+{
+"PHID": "ZN4",
+"FamilyName": "HENDERSON",
+"GivenName": "Sarah",
+"PreferredName": "",
+"Electorate": "",
+"SenateState": "Victoria",
+"MPorSenator": [
+"Senator",
+"Member"
+]
+}
+]
+}

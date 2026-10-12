@@ -1,0 +1,79 @@
+# Poland watchlist -- GROUNDWORK DRAFT (9 October 2026), not yet reviewed by
+# anyone who campaigns in Poland.
+#
+# APPLIED BY KEY, NEVER BY TITLE (src/pl_store.add_watch_areas). Keys are
+# '<term>/<process number>': the Sejm numbers a legislative process by the
+# print (druk) that opened it, and restarts the numbering every term. Bills
+# fall at the end of a term EXCEPT citizens' bills (projekty obywatelskie),
+# which carry over under a new number, so every entry is re-keyed when the
+# 11th Sejm convenes (after the autumn 2027 election).
+#
+# Until config/taxonomy-pl.yaml exists this file is the ONLY source of areas
+# for the Polish edition; a watched process passes its areas to every vote
+# that cites one of its prints. Each entry was found by the proposed Polish
+# terms (docs/poland-scope.md) and read by hand: its subject is plain in the
+# Sejm's own summary of it. Titles such as "o zmianie ustawy - Kodeks karny"
+# say nothing, which is exactly why these are keyed.
+processes:
+  # Abortion
+  "10/176": {areas: [1],
+             why: "Kodeks karny: decriminalises abortion up to 12 weeks with the woman's consent. Title says only 'Kodeks karny'. Rejected at final vote on 12 July 2024, 215 to 218 (sitting 15, vote 9)."}
+  "10/177": {areas: [1, 8],
+             why: "O bezpiecznym przerywaniu ciąży: abortion as a health service to 12 weeks, narrows the conscience clause. Survived a motion to reject at first reading, 12 April 2024."}
+  "10/223": {areas: [1],
+             why: "Amends the 1993 family planning act to reverse the Constitutional Tribunal's October 2020 ruling (eugenic ground restored)."}
+  "10/224": {areas: [1],
+             why: "O świadomym rodzicielstwie: a right to end a pregnancy, state role in family planning."}
+  "10/611": {areas: [1],
+             why: "Kodeks karny: partial decriminalisation of abortion and of helping a woman to one. A motion to reject at first reading failed on 8 November 2024, 216 to 232."}
+  # Gender ideology, LGBT, sex-based rights
+  "10/25": {areas: [5, 9],
+            why: "Citizens' bill 'Tak dla rodziny, nie dla gender': withdraw from the Istanbul Convention and draft a family-rights convention. Carried over from the 9th term; rejected at first reading on 22 February 2024, 234 to 189."}
+  "10/26": {areas: [5],
+            why: "Citizens' bill 'Stop LGBT': bans assemblies promoting same-sex relations or gender change. Rejected at first reading on 22 February 2024, 233 to 189."}
+  "10/876": {areas: [5, 7],
+             why: "Kodeks karny (government, passed): extends hate-speech and hate-crime protection to disability, age, sex and sexual orientation."}
+  "10/2623": {areas: [5],
+              why: "Kodeks pracy: repeals the duty to use gender-neutral job titles in job adverts."}
+  # Marriage, partnerships, family
+  "10/1457": {areas: [9],
+              why: "O związkach partnerskich: registered partnerships, open to same-sex couples."}
+  "10/1458": {areas: [9],
+              why: "Implementing act for the partnerships bill 10/1457."}
+  "10/2110": {areas: [9],
+              why: "O statusie osoby najbliższej (government): registered cohabitation contracts. Passed 29 May 2026 (230 to 198); the President asked the Sejm to reconsider it."}
+  "10/2111": {areas: [9],
+              why: "Implementing act for 10/2110."}
+  "10/2212": {areas: [9],
+              why: "Kodeks karny: new offence of persistently obstructing a parent's contact with a child (art. 209a)."}
+  # Parental rights and education
+  "10/1603": {areas: [6, 8],
+              why: "Citizens' bill: compulsory religion or ethics, two hours a week, in every school; reverses the 2024-25 cuts to religion lessons."}
+  "10/1892": {areas: [6],
+              why: "Kodeks postępowania cywilnego: the child's best interest when children are removed from their parents."}
+  "10/1006": {areas: [6, 7],
+              why: "Citizens' bill: age verification for pornographic sites, blocking for refusal."}
+  "10/2697": {areas: [6, 7],
+              why: "Government bill on protecting minors from online pornography: age verification by digital service providers."}
+  # Free speech and online regulation
+  "10/1757": {areas: [7],
+              why: "DSA implementation (usługi drogą elektroniczną): takedown orders for illegal content, the free-speech fight of 2025-26."}
+  "10/2694": {areas: [7],
+              why: "Second DSA implementation bill: UKE as the digital services coordinator, disinformation and illegal-content procedures."}
+  "10/2488": {areas: [7],
+              why: "Anti-SLAPP: special protection for people in public debate (passed, Dz.U. 2026 poz. 830)."}
+  "10/1114": {areas: [7],
+              why: "Withdrawal from the World Health Organization (Konfederacja); the pandemic-treaty flank."}
+  # Freedom of religion
+  "10/29": {areas: [8, 7],
+            why: "Citizens' bill: protects expressing views grounded in one's religion in the Criminal Code. Carried over from the 9th term."}
+  "10/2145": {areas: [8],
+              why: "Resolution condemning the public desecration of a religious symbol in a school."}
+  # Embryology
+  "10/31": {areas: [10],
+            why: "Citizens' bill (passed, Dz.U. 2023 poz. 2730): state-funded IVF programme."}
+  # Migration (collated, never campaigned, as everywhere else)
+  "10/1043": {areas: [11],
+              why: "Resolution against implementing the EU Pact on Migration and Asylum (passed, M.P. 2025 poz. 683)."}
+  "10/2602": {areas: [11],
+              why: "Citizens' bill on internal security and the EU migration pact (art. 72 TFEU)."}

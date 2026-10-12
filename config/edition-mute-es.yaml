@@ -1,0 +1,6 @@
+# Chris's mutes for the Spain edition (src/noise.py documents the format).
+# Keys: "es|<kind>|<key>" or "es|<key>"; patterns: {title: <regex>, kind: ...}.
+# A pattern never mutes a watched item.
+mute_in_edition: true
+items: []
+patterns: []

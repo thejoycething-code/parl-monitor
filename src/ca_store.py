@@ -1,6 +1,8 @@
 """Tables for the Canadian monitor: House divisions and bills (phase 1),
-Hansard, petitions, Senate votes and the Canada Gazette (phase 2), and
-House and joint committee evidence (ca_committee_meetings, ca_testimony).
+Hansard, petitions, Senate votes and the Canada Gazette (phase 2), Senate
+Debates and House and joint committee evidence (ca_senate_sittings,
+ca_committee_meetings, ca_testimony; 2 October 2026), and the Supreme Court
+of Canada (ca_judgments, ca_leave).
 
 WHY A MODULE OF ITS OWN. Every other jurisdiction's schema lives in
 `src/db.py`. These tables were kept here while the Canadian monitor was
@@ -21,6 +23,8 @@ misattributes every floor-crosser (src/ni_store.py).
 """
 
 from __future__ import annotations
+
+import re
 
 SCHEMA = (
     """CREATE TABLE IF NOT EXISTS ca_members (
@@ -59,7 +63,7 @@ SCHEMA = (
         position     TEXT,               -- 'Yea' / 'Nay' / 'Paired'
         party        TEXT,               -- caucus AT THE VOTE
         PRIMARY KEY (division_key, person_id)
-    )""",
+    ) WITHOUT ROWID""",
     """CREATE TABLE IF NOT EXISTS ca_bills (
         bill_key     TEXT PRIMARY KEY,   -- '<parl>-<session>/<number>'
         parliament   INTEGER NOT NULL,
@@ -199,6 +203,27 @@ SCHEMA = (
         text         TEXT,               -- a NOTICE's own text; a regulation's lives at url
         first_seen   TEXT
     )""",
+    # Senate Debates (2 October 2026, tools/ca_senate_debates.py). Senate
+    # sittings get a table of their own, NOT ca_sittings: ca_hansard's
+    # next_sitting and backfill take MAX(number) per session with no chamber,
+    # so Senate sitting 79 would move the House frontier. The key is the
+    # index URL's own '<PS>/<NNN>db_<date>' -- URLs are never built from a
+    # number (the soft-404). Every sitting READ gets a row whatever it held.
+    """CREATE TABLE IF NOT EXISTS ca_senate_sittings (
+        sitting_key  TEXT PRIMARY KEY,   -- '432/029db_2021-02-17', from the session index
+        parliament   INTEGER NOT NULL,
+        session      INTEGER NOT NULL,
+        number       INTEGER NOT NULL,
+        date         TEXT,
+        url          TEXT,
+        interventions INTEGER,           -- every speaker label on the page
+        chair        INTEGER,            -- the Speaker's and collective labels, counted not stored
+        speakers     INTEGER,            -- distinct individual speakers
+        members_resolved INTEGER,        -- of those, resolved to a person_id
+        on_ground    INTEGER,            -- speeches stored
+        unresolved   INTEGER,            -- stored speeches with no person_id
+        read_on      TEXT
+    )""",
     # Committee evidence (tools/ca_committees.py, 2 October 2026). Every
     # meeting READ gets a row whatever it held -- as every Hansard sitting
     # does -- so a quiet meeting is not mistaken for one never read. Members'
@@ -249,6 +274,58 @@ SCHEMA = (
         first_seen   TEXT
     )""",
     "CREATE INDEX IF NOT EXISTS ca_testimony_meeting ON ca_testimony (meeting_key)",
+    # Supreme Court of Canada (tools/ca_courts.py, 2 October 2026). CONTEXT
+    # ONLY: a judgment never places a parliamentarian and never enters a 5CA
+    # sheet; a stance file may cite one in a reading's `why`.
+    #
+    # Every judgment READ gets a row, ours or not, so the feed's re-listing
+    # of an updated old judgment (Ford v. Quebec, 1988, beside 2026 SCC 31)
+    # is recognised by its id and never read twice.
+    """CREATE TABLE IF NOT EXISTS ca_judgments (
+        judgment_id  TEXT PRIMARY KEY,   -- Lexum item id ('14637'); a Federal Court row is 'fc-<id>'
+        court        TEXT NOT NULL,      -- 'SCC' or 'FC'
+        citation     TEXT,               -- '2015 SCC 5'
+        scr          TEXT,               -- '[2015] 1 SCR 331', once reported
+        docket       TEXT,               -- the SCC case number; joins ca_leave.docket
+        date         TEXT,
+        title        TEXT,
+        subjects     TEXT,               -- JSON list, the Court's own ('Constitutional law')
+        judges       TEXT,               -- JSON list, as printed ('McLachlin, Beverley')
+        on_appeal_from TEXT,             -- 'British Columbia'
+        interveners  TEXT,               -- JSON list of names; NULL = not parsed, [] = none
+        headnote     TEXT,               -- from 'Indexed as' up to 'Cases Cited': what is matched
+        excerpt      TEXT,               -- the strongest qualifying passage
+        matched_on   TEXT,               -- 'headnote', 'opening' (no Cases Cited found) or 'reasons' (FC)
+        areas        TEXT,
+        matched_terms TEXT,
+        tier         INTEGER,
+        triage_score INTEGER,            -- tools/ca_triage.py, once ever
+        why_it_matters TEXT,
+        url          TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    # Applications for leave to appeal: the early-warning layer. A GRANTED
+    # leave is classified on the Registrar's case summary from the docket
+    # page; a dismissed one is stored with no summary (the lower court's
+    # ruling stands, and the leave text names only the parties).
+    """CREATE TABLE IF NOT EXISTS ca_leave (
+        docket       TEXT PRIMARY KEY,   -- the SCC case number
+        lexum_id     TEXT,               -- the leave document's Lexum id: a feed item is read once
+        status       TEXT,               -- 'Granted' / 'Dismissed', the Court's word
+        decided      TEXT,
+        title        TEXT,
+        on_appeal_from TEXT,
+        summary      TEXT,               -- Registrar's keywords + summary (granted only)
+        excerpt      TEXT,
+        areas        TEXT,
+        matched_terms TEXT,
+        tier         INTEGER,
+        url          TEXT,               -- the docket page
+        first_seen   TEXT                -- written once per decision: no sighting column
+    )""",
+    "CREATE INDEX IF NOT EXISTS ca_judgments_docket ON ca_judgments (docket)",
+    "CREATE INDEX IF NOT EXISTS ca_leave_lexum ON ca_leave (lexum_id)",
     "CREATE INDEX IF NOT EXISTS ca_gazette_items_issue ON ca_gazette_items (issue_key)",
     "CREATE INDEX IF NOT EXISTS ca_speeches_sitting ON ca_speeches (sitting_key)",
     "CREATE INDEX IF NOT EXISTS ca_speeches_person ON ca_speeches (person_id)",
@@ -271,6 +348,11 @@ ADDED_COLUMNS = (
     ("ca_speeches", "chamber", "TEXT"),
     ("ca_speeches", "forum", "TEXT"),
     ("ca_speeches", "committee", "TEXT"),
+    # A speaker who does not resolve to a person_id but must stay one person
+    # across sittings: a senator who left before 42-1 (ca_senators is built
+    # from recorded votes, published from December 2015). The folded full
+    # name from the 'Hon. First Last' label -- a key, NEVER an id.
+    ("ca_speeches", "speaker_key", "TEXT"),
     # Phase 3 (the 5CA). Sponsoring a private member's bill is a chosen act
     # of advancing a text, so the sponsor must join to a member by id, never
     # by name. LEGISinfo gives SponsorPersonId for House bills.
@@ -293,6 +375,17 @@ ADDED_COLUMNS = (
     # 2011 names and ridings: "Michelle Rempel", Kyle Seeback in Brampton
     # West (29 September 2026).
     ("ca_members", "as_of", "TEXT"),
+    # 9 October 2026, for the edition (tools/ca_monitor.py): the list feed's
+    # LatestBillEventDateTime is a placeholder for every bill, so what moved
+    # this week comes from the stage dates. bill_type is LEGISinfo's document
+    # type ('House Government Bill', 'Private Member’s Bill', ...);
+    # introduced_at is first reading in the originating chamber; last_stage
+    # and last_stage_at are the latest completed major stage and the latest
+    # stage date (a defeat is not a stage: status says 'Bill defeated').
+    ("ca_bills", "bill_type", "TEXT"),
+    ("ca_bills", "introduced_at", "TEXT"),
+    ("ca_bills", "last_stage", "TEXT"),
+    ("ca_bills", "last_stage_at", "TEXT"),
 )
 
 
@@ -313,6 +406,18 @@ MEMBER_UPSERT = (
     "as_of=CASE WHEN {newer} THEN excluded.as_of ELSE ca_members.as_of END, "
     "last_seen=excluded.last_seen").format(
         newer="COALESCE(excluded.as_of, '') >= COALESCE(ca_members.as_of, '')")
+
+
+def speech_title(subject, bill_number=None, long_title=None):
+    """The title passage a Senate speech is matched with: its subject (h2 --
+    h3) plus the bill and its LONG title, which the caller joins from ca_bills
+    on (parliament, session, number), never on the number alone. Shared by
+    tools/ca_senate_debates.py and tools/ca_retag.py, so a retag re-reads
+    exactly the passage the collector read."""
+    parts = [subject] if subject else []
+    if bill_number:
+        parts.append("Bill {0}{1}".format(bill_number, ", " + long_title if long_title else ""))
+    return " — ".join(parts) or None
 
 
 def ensure_schema(conn):
@@ -352,7 +457,8 @@ def bill_key_areas(path=None):
 
 
 def add_bill_key_areas(res, parliament, session, bill_number, path=None):
-    """Merge a watched bill KEY's areas into a FilterResult, in place."""
+    """Merge a watched bill KEY's areas into a FilterResult, in place, then
+    apply the bill's reviewed area correction if it has one."""
     if not bill_number:
         return res
     key = "{0}-{1}/{2}".format(parliament, session, bill_number)
@@ -362,4 +468,101 @@ def add_bill_key_areas(res, parliament, session, bill_number, path=None):
         res.tier = res.tier or 1
         if key not in (res.watchlist_hits or []):
             res.watchlist_hits = list(res.watchlist_hits or []) + [key]
+    return correct_areas(res, parliament, session, bill_number)
+
+
+_CORRECTIONS = {}
+
+
+def area_corrections(path=None):
+    """{'<parl>-<sess>/<number>': {'areas': [...], 'not_areas': [...]}} from
+    config/ca_area_corrections.yaml (8 October 2026: Roxanne's Law, C-510 of
+    the 40th Parliament, filed under assisted dying on the word "coercion").
+    Each entry is reviewed and keyed to one bill."""
+    import os
+    import yaml
+    path = path or os.path.join(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), "config", "ca_area_corrections.yaml")
+    if path not in _CORRECTIONS:
+        raw = {}
+        if os.path.exists(path):
+            with open(path, encoding="utf-8") as fh:
+                raw = yaml.safe_load(fh) or {}
+        _CORRECTIONS[path] = {str(k): {"areas": list(v.get("areas") or []),
+                                       "not_areas": list(v.get("not_areas") or []),
+                                       "speech_titles": list(v.get("speech_titles") or [])}
+                              for k, v in (raw.get("bills") or {}).items()}
+    return _CORRECTIONS[path]
+
+
+def _fold_title(text):
+    t = (text or "").replace("\u2019", "'").replace("\u2018", "'")
+    return " ".join(t.split()).casefold()
+
+
+def speech_correction(sitting_key, bill_number, subject, path=None):
+    """(bill key, correction) when a speech belongs to a corrected bill's
+    debate, else (None, None). A speech belongs to it when its sitting is in
+    the bill's session (the key opens '<parl>-<sess>-') and either its
+    bill_number is the bill's or its subject is one of the entry's
+    `speech_titles` (the debate heading as the House prints it: Roxanne's
+    Law's second-reading debate of 1 November 2010 is headed by its short
+    title and carries no bill number). 8 October 2026."""
+    m = re.match(r"^(\d+)-(\d+)-", sitting_key or "")
+    if not m:
+        return None, None
+    prefix = "{0}-{1}/".format(m.group(1), m.group(2))
+    for key, c in area_corrections(path).items():
+        if not key.startswith(prefix):
+            continue
+        if bill_number and bill_number == key[len(prefix):]:
+            return key, c
+        if subject and _fold_title(subject) in {_fold_title(t) for t in c["speech_titles"]}:
+            return key, c
+    return None, None
+
+
+def correct_speech_areas(areas, terms, sitting_key, bill_number, subject, path=None):
+    """(areas, terms) with a corrected bill's correction applied to a speech of
+    its debate: `not_areas` removed (the speech's own passages decide every
+    other area, so `areas` is NOT added), and 'corrected:<key>' among the
+    terms. Unchanged for any other speech."""
+    key, c = speech_correction(sitting_key, bill_number, subject, path)
+    if not c:
+        return list(areas or []), list(terms or [])
+    out = sorted(set(areas or []) - set(c["not_areas"]))
+    if out == sorted(set(areas or [])):
+        return list(areas or []), list(terms or [])
+    mark = "corrected:" + key
+    return out, list(terms or []) + ([mark] if mark not in (terms or []) else [])
+
+
+def removed_speech_areas(sitting_key, bill_number, subject, path=None):
+    _, c = speech_correction(sitting_key, bill_number, subject, path)
+    return set(c["not_areas"]) if c else set()
+
+
+def removed_areas(parliament, session, bill_number, path=None):
+    """The areas a reviewed correction takes off this bill and its divisions."""
+    if not bill_number:
+        return set()
+    c = area_corrections(path).get("{0}-{1}/{2}".format(parliament, session, bill_number))
+    return set(c["not_areas"]) if c else set()
+
+
+def correct_areas(res, parliament, session, bill_number, path=None):
+    """Apply a bill's reviewed area correction to a FilterResult, in place:
+    its `areas` added, its `not_areas` removed, and the correction named
+    among the hits ('corrected:<key>')."""
+    if not bill_number:
+        return res
+    key = "{0}-{1}/{2}".format(parliament, session, bill_number)
+    c = area_corrections(path).get(key)
+    if not c:
+        return res
+    res.issue_areas = sorted((set(res.issue_areas or []) | set(c["areas"])) - set(c["not_areas"]))
+    res.tier = (res.tier or 1) if res.issue_areas else None
+    mark = "corrected:" + key
+    if mark not in (res.watchlist_hits or []):
+        res.watchlist_hits = list(res.watchlist_hits or []) + [mark]
     return res

@@ -1,0 +1,24 @@
+{
+ "ar-expresar-beneplacito-por-el-20-aniversario-de-la-dip-5270-d-2026": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "f384f21418b4225b543c9fe9e4e0bca909091ace80ce85b569cffffec12dd955",
+  "generated": "2026-10-10",
+  "key": "dip/5270-D-2026",
+  "ready": false,
+  "sha": "b221aea8f286eb2f428cd64d4bb46888d5aeff1524449fc381bc0d38e0a45735",
+  "title": "EXPRESAR BENEPLACITO POR EL 20° ANIVERSARIO DE LA LEY 26150 DE EDUCACION SEXUAL INTEGRAL (ESI), SANCIONADA EL 4 DE OCTUBRE DE 2006."
+ },
+ "ar-expresar-beneplacito-por-el-vigesimo-aniversario-dip-5342-d-2026": {
+  "changelog": [
+   "2026-10-10 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "8d01c42b40162f79ea3b3e6f400540b0e4b813caf42ce9ff4404fc288b55cb4d",
+  "generated": "2026-10-10",
+  "key": "dip/5342-D-2026",
+  "ready": false,
+  "sha": "88ed1da82d8d961ab16c63f5bef00667fa39355ebf93e0a4dcc4a7aa086d7b6f",
+  "title": "EXPRESAR BENEPLÁCITO POR EL VIGÉSIMO ANIVERSARIO DE LA SANCIÓN DE LA LEY 26150, DE EDUCACIÓN SEXUAL INTEGRAL, Y EXHORTAR AL PODER EJECUTIVO NACIONAL A GARANTIZAR SU EFECTIVO CUMPLIMIENTO."
+ }
+}

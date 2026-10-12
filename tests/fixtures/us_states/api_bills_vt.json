@@ -1,0 +1,5383 @@
+{
+"results": [
+{
+"id": "ocd-bill/5183f1a7-133c-46ea-8913-e71095c1cbc9",
+"session": "2025-2026",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:vt/government",
+"name": "Vermont",
+"classification": "state"
+},
+"from_organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"identifier": "H 951",
+"title": "An act relating to making appropriations for the support of the government",
+"classification": [
+"bill"
+],
+"subject": [],
+"extras": {},
+"created_at": "2026-03-24T23:43:34.913404+00:00",
+"updated_at": "2026-10-07T12:48:28.876476+00:00",
+"openstates_url": "https://openstates.org/vt/bills/2025-2026/H951/",
+"first_action_date": "2026-03-24",
+"latest_action_date": "2026-05-29",
+"latest_action_description": "House message: Governor approved bill on June 16, 2026",
+"latest_passage_date": "2026-05-29",
+"abstracts": [],
+"other_titles": [],
+"sponsorships": [
+{
+"id": "7ae6dfa0-723e-4ebb-978f-a9cf7c562658",
+"name": "House Committee on Appropriations",
+"entity_type": "person",
+"primary": true,
+"classification": "primary"
+}
+],
+"actions": [
+{
+"id": "7b151d89-8470-4845-b0a4-fda5d08f6467",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Committee bill read first time and referred to Committee on Ways and Means per Rule 35(a)",
+"date": "2026-03-24",
+"classification": [
+"introduction"
+],
+"order": 0,
+"related_entities": []
+},
+{
+"id": "4ca4f856-833c-4bc2-b02e-f2952c3d67c4",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Notice Calendar: Favorable",
+"date": "2026-03-25",
+"classification": [],
+"order": 1,
+"related_entities": []
+},
+{
+"id": "35967d8a-355d-4fd9-abe4-b2084993ada1",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Action Calendar: Favorable",
+"date": "2026-03-26",
+"classification": [],
+"order": 2,
+"related_entities": []
+},
+{
+"id": "099983e3-e6a8-4490-b1ea-4ea85e1afc14",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Read second time",
+"date": "2026-03-26",
+"classification": [
+"reading-2"
+],
+"order": 3,
+"related_entities": []
+},
+{
+"id": "b1069d4e-109b-4e17-a869-16244d170b9e",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rep. Scheu of Middlebury spoke for the Committee on Appropriations",
+"date": "2026-03-26",
+"classification": [],
+"order": 4,
+"related_entities": []
+},
+{
+"id": "4f3a5f25-87b0-4bd9-a26c-8d107b2e1e25",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rep. Kornheiser of Brattleboro recommended for the Committee on Ways and Means",
+"date": "2026-03-26",
+"classification": [],
+"order": 5,
+"related_entities": []
+},
+{
+"id": "cf0f54b4-eef9-47a8-bfde-65bbd920fdea",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rep. Scheu of Middlebury, Bluemle of Burlington, Dickinson of St. Albans Town, Feltus of Lyndon, Kascenska of Burke, Laroche of Franklin, Mrowicki of Putney, Nigro of Bennington, Squirrell of Underhill, Stevens of Waterbury, and Yacovone of Morristown moved to amend the bill, which was agreed to",
+"date": "2026-03-26",
+"classification": [],
+"order": 6,
+"related_entities": []
+},
+{
+"id": "df465682-fdc5-4605-9cdf-c339b5f578ac",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Third Reading ordered",
+"date": "2026-03-26",
+"classification": [
+"reading-3"
+],
+"order": 7,
+"related_entities": []
+},
+{
+"id": "aab6b488-4dde-4f00-9de0-e001a153d59a",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Action Calendar: Third Reading",
+"date": "2026-03-27",
+"classification": [
+"reading-3"
+],
+"order": 8,
+"related_entities": []
+},
+{
+"id": "851f201e-5aa5-44dc-b5c4-03862e3de646",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rep. Emmons of Springfield moved to amend the bill, which was agreed to",
+"date": "2026-03-27",
+"classification": [],
+"order": 9,
+"related_entities": []
+},
+{
+"id": "b169433a-2c1a-4b70-9b71-a4b4511a0e03",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Read third time",
+"date": "2026-03-27",
+"classification": [
+"reading-3"
+],
+"order": 10,
+"related_entities": []
+},
+{
+"id": "30a95f33-ba43-4f06-baf7-941304c5b5fe",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rep. McCoy of Poultney demanded yeas and nays",
+"date": "2026-03-27",
+"classification": [],
+"order": 11,
+"related_entities": []
+},
+{
+"id": "7bc4c97b-eaf3-4994-8cce-63a3bf3f2a5a",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Passed",
+"date": "2026-03-27",
+"classification": [
+"passage"
+],
+"order": 12,
+"related_entities": []
+},
+{
+"id": "ff3d5d1c-e2f7-4bb4-a7fc-fcac422d81fa",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Which was agreed to on a Roll Call Passed -- Needed 69 of 137 to Pass -- Yeas = 97, Nays = 40",
+"date": "2026-03-27",
+"classification": [],
+"order": 13,
+"related_entities": []
+},
+{
+"id": "90c40958-ae39-46d6-9fc3-e545b12e37b9",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Read 1st time & referred to Committee on Appropriations",
+"date": "2026-04-01",
+"classification": [
+"introduction"
+],
+"order": 14,
+"related_entities": []
+},
+{
+"id": "144ab316-64f8-4db9-aa8c-f9581fcbd8c7",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Entered on Notice Calendar",
+"date": "2026-04-22",
+"classification": [],
+"order": 15,
+"related_entities": []
+},
+{
+"id": "2daffee7-eba3-4486-9179-92645b6413b3",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Second Reading",
+"date": "2026-04-22",
+"classification": [
+"reading-2"
+],
+"order": 16,
+"related_entities": []
+},
+{
+"id": "18c46231-1153-4c11-97e0-ecc211a2b7c4",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Favorable report with proposal of amendment by Committee on Appropriations",
+"date": "2026-04-22",
+"classification": [
+"amendment-introduction"
+],
+"order": 17,
+"related_entities": []
+},
+{
+"id": "ace2fdb5-c70e-454a-a910-3d241bf928e0",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Referred to Committee on Finance per Senate Rule 31",
+"date": "2026-04-22",
+"classification": [],
+"order": 18,
+"related_entities": []
+},
+{
+"id": "d3118ecb-1396-4e83-b95a-f6cb42a7c730",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Entered on Notice Calendar",
+"date": "2026-04-24",
+"classification": [],
+"order": 19,
+"related_entities": []
+},
+{
+"id": "c8fd1833-c0a1-4102-ad73-a1c99f7854a0",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Second Reading",
+"date": "2026-04-24",
+"classification": [
+"reading-2"
+],
+"order": 20,
+"related_entities": []
+},
+{
+"id": "1b314d88-afdb-4b4a-ad2d-902c92952975",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Favorable report with proposal of amendment by Committee on Appropriations",
+"date": "2026-04-24",
+"classification": [
+"amendment-introduction"
+],
+"order": 21,
+"related_entities": []
+},
+{
+"id": "37375f65-61cf-4fc7-9f91-807e93fd0da3",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Favorable report by Committee on Finance",
+"date": "2026-04-24",
+"classification": [
+"committee-passage"
+],
+"order": 22,
+"related_entities": []
+},
+{
+"id": "f5971148-74fd-42c7-a591-719c4a99ae16",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Second Reading",
+"date": "2026-04-28",
+"classification": [
+"reading-2"
+],
+"order": 23,
+"related_entities": []
+},
+{
+"id": "58caeff1-1c68-427b-9d61-a9832932f6b4",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Favorable report with proposal of amendment by Committee on Appropriations",
+"date": "2026-04-28",
+"classification": [
+"amendment-introduction"
+],
+"order": 24,
+"related_entities": []
+},
+{
+"id": "66826638-9744-4205-be10-491d1feb233d",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Favorable report by Committee on Finance",
+"date": "2026-04-28",
+"classification": [
+"committee-passage"
+],
+"order": 25,
+"related_entities": []
+},
+{
+"id": "0acea4d9-42c5-44c0-9729-225ad7149730",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Read 2nd time, reported favorably with proposal of amendment by Senator Perchlik for Committee on Appropriations",
+"date": "2026-04-28",
+"classification": [
+"amendment-introduction",
+"committee-passage-favorable",
+"reading-2"
+],
+"order": 26,
+"related_entities": []
+},
+{
+"id": "1a2e35b9-39f7-48e1-ba5d-2f77ab90c058",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Reported favorably by Senator Chittenden for Committee on Finance",
+"date": "2026-04-28",
+"classification": [
+"committee-passage-favorable"
+],
+"order": 27,
+"related_entities": []
+},
+{
+"id": "54ee9f63-27f4-4bfe-9670-105be6aef37a",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Senator Hardy proposal of amendment text",
+"date": "2026-04-28",
+"classification": [
+"amendment-introduction"
+],
+"order": 28,
+"related_entities": []
+},
+{
+"id": "45266540-293c-4923-9d71-16011b86e7e5",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Proposal of amendment not agreed to",
+"date": "2026-04-28",
+"classification": [
+"amendment-introduction"
+],
+"order": 29,
+"related_entities": []
+},
+{
+"id": "2fefeaf4-b616-43dd-9490-68636a55cc76",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Roll Call, requested by Senator Hardy, Failed -- Needed 15 of 30 to Pass -- Yeas = 7, Nays = 23",
+"date": "2026-04-28",
+"classification": [],
+"order": 30,
+"related_entities": []
+},
+{
+"id": "1c9de957-35d9-40af-adfd-ad2752ce59de",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Roll Call, Requested by Sen. Hardy",
+"date": "2026-04-28",
+"classification": [],
+"order": 31,
+"related_entities": []
+},
+{
+"id": "b1042aef-b015-464f-9d12-b6662969d339",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Proposal of amendment by Committee on Appropriations agreed to",
+"date": "2026-04-28",
+"classification": [
+"amendment-introduction"
+],
+"order": 32,
+"related_entities": []
+},
+{
+"id": "419275e5-8f29-4140-9b9e-9aee78d2804d",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Proposal of amendment agreed to on roll call, requested by Senator Perchlik, Passed -- Needed 15 of 30 to Pass -- Yeas = 23, Nays = 7",
+"date": "2026-04-28",
+"classification": [
+"amendment-introduction"
+],
+"order": 33,
+"related_entities": []
+},
+{
+"id": "968e5679-349c-457c-89d4-ffe080b415ac",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Roll Call, Requested by Sen. Perchlik",
+"date": "2026-04-28",
+"classification": [],
+"order": 34,
+"related_entities": []
+},
+{
+"id": "2e98ca56-c03f-454a-b46a-7d7c011fc0e0",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "3rd reading ordered",
+"date": "2026-04-28",
+"classification": [],
+"order": 35,
+"related_entities": []
+},
+{
+"id": "55bcd437-8dcc-4d9e-91af-de7cf1620e14",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "New Business/Third Reading",
+"date": "2026-04-29",
+"classification": [
+"reading-3"
+],
+"order": 36,
+"related_entities": []
+},
+{
+"id": "cd37382f-773b-42dc-af2a-68009f38376a",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Proposal of amendment to be offered by Senator(s) Perchlik",
+"date": "2026-04-29",
+"classification": [
+"amendment-introduction"
+],
+"order": 37,
+"related_entities": []
+},
+{
+"id": "a45a67c6-ce26-4ab4-8acc-4b4993d6af76",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Pending third reading, Senator Perchlik, Baruth, Brennan, Lyons, Norris, Watson, and Westman proposal of amendment, agreed to",
+"date": "2026-04-29",
+"classification": [
+"amendment-introduction",
+"reading-3"
+],
+"order": 38,
+"related_entities": []
+},
+{
+"id": "863d604a-c9c4-400b-aea1-a4456f8fd194",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Pending third reading, Senator Hardy, Perchlik, and Collamore proposal of amendment, agreed to",
+"date": "2026-04-29",
+"classification": [
+"amendment-introduction",
+"reading-3"
+],
+"order": 39,
+"related_entities": []
+},
+{
+"id": "72fe4202-59fc-404e-bcb9-77a1c100337d",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Pending third reading, Senator Vyhovsky proposal of amendment, disagreed to",
+"date": "2026-04-29",
+"classification": [
+"amendment-introduction",
+"reading-3"
+],
+"order": 40,
+"related_entities": []
+},
+{
+"id": "3307fc1c-cce3-4994-b7b2-35309502a6a3",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Read 3rd time & passed in concurrence with proposal of amendment",
+"date": "2026-04-29",
+"classification": [
+"amendment-introduction",
+"reading-3"
+],
+"order": 41,
+"related_entities": []
+},
+{
+"id": "ee6e4208-5860-42ce-a7e5-f0d1c4216732",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Rules suspended & messaged to House forthwith, on motion of Senator Baruth",
+"date": "2026-04-29",
+"classification": [
+"passage"
+],
+"order": 42,
+"related_entities": []
+},
+{
+"id": "f26a8248-5417-4d87-bf9b-c257f50bb4e1",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Senate Message: Passed in concurrence with proposal of amendment",
+"date": "2026-04-29",
+"classification": [
+"amendment-introduction"
+],
+"order": 43,
+"related_entities": []
+},
+{
+"id": "bc33dfed-9442-46bf-ab19-fb9d8b1bd011",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Notice Calendar: Senate Proposal of Amendment",
+"date": "2026-04-30",
+"classification": [
+"amendment-introduction"
+],
+"order": 44,
+"related_entities": []
+},
+{
+"id": "23a93a2b-acb2-4018-b35e-cc4176cdab75",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rules suspended and taken up for immediate consideration as moved by Rep. McCoy of Poultney",
+"date": "2026-04-30",
+"classification": [],
+"order": 45,
+"related_entities": []
+},
+{
+"id": "205b9d9d-0c45-4b08-b313-4badfc591d14",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Senate proposal of amendment not concurred in and Committee of Conference requested upon motion of Rep. Scheu of Middlebury",
+"date": "2026-04-30",
+"classification": [
+"amendment-introduction"
+],
+"order": 46,
+"related_entities": []
+},
+{
+"id": "85f4152b-82f8-4d82-9d78-62d6363d8dad",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Speaker appointed Reps. Scheu of Middlebury, Feltus of Lyndon, and Bluemle of Burlington as members of the Committee of Conference on the part of the House",
+"date": "2026-04-30",
+"classification": [],
+"order": 47,
+"related_entities": []
+},
+{
+"id": "19c0e041-7bf9-4f80-9eca-8411608ec89c",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rules suspended and bill messaged forthwith to the Senate as moved by Rep. McCoy of Poultney",
+"date": "2026-04-30",
+"classification": [],
+"order": 48,
+"related_entities": []
+},
+{
+"id": "671a77ac-39c7-4209-b6d0-feb6dd84c822",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "House message: House refused to concur in Senate proposal of amendment & requested Conference Committee; House Conference Committee members appointed",
+"date": "2026-05-01",
+"classification": [
+"amendment-introduction"
+],
+"order": 49,
+"related_entities": []
+},
+{
+"id": "177b5c35-c42d-4a3f-ac5f-18a1eb409de5",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Committee of Conference appointed: Senators Perchlik, Lyons, and Westman",
+"date": "2026-05-01",
+"classification": [],
+"order": 50,
+"related_entities": []
+},
+{
+"id": "09a374a1-3a4c-4209-a24e-fb0befc5c5a0",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Senate Message: Committee of Conference members appointed",
+"date": "2026-05-01",
+"classification": [],
+"order": 51,
+"related_entities": []
+},
+{
+"id": "c5dc4b41-4d57-41fb-8a5c-4fca02d7ede4",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Entered on Notice Calendar",
+"date": "2026-05-29",
+"classification": [],
+"order": 52,
+"related_entities": []
+},
+{
+"id": "5fefda2a-970c-4c10-84b3-93c96c682bdc",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Committee of Conference report",
+"date": "2026-05-29",
+"classification": [],
+"order": 53,
+"related_entities": []
+},
+{
+"id": "3dc6f3c6-2989-412c-8d7f-b719f6b4a8f5",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Rules suspended & taken up for immediate consideration, on motion of Senator Lyons",
+"date": "2026-05-29",
+"classification": [],
+"order": 54,
+"related_entities": []
+},
+{
+"id": "a9e1a2fc-3ee0-484c-b419-b7bb7fdf98e4",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Committee of Conference report submitted by Senator Perchlik for Committee, text",
+"date": "2026-05-29",
+"classification": [],
+"order": 55,
+"related_entities": []
+},
+{
+"id": "2f59e2f8-b316-4ca6-927d-59ad6f07a360",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Committee of Conference report adopted",
+"date": "2026-05-29",
+"classification": [],
+"order": 56,
+"related_entities": []
+},
+{
+"id": "7368e37d-dd59-49b4-9211-40d62a79d16b",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Rules suspended & messaged to House forthwith, on motion of Senator Lyons",
+"date": "2026-05-29",
+"classification": [
+"passage"
+],
+"order": 57,
+"related_entities": []
+},
+{
+"id": "db043620-40f4-497a-9dcd-6fbba5421a96",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Senate Message: Report of Committee of Conference adopted",
+"date": "2026-05-29",
+"classification": [],
+"order": 58,
+"related_entities": []
+},
+{
+"id": "7ccf3a47-cfd4-4ec6-9c13-d381cc352dad",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rules suspended and taken up for immediate consideration, pending entry on Notice Calendar, as moved by Rep. McCoy of Poultney",
+"date": "2026-05-29",
+"classification": [],
+"order": 59,
+"related_entities": []
+},
+{
+"id": "3493d13d-e7ef-4399-a1ad-e911d40df546",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Committee of Conference report adopted (House bill)",
+"date": "2026-05-29",
+"classification": [
+"passage"
+],
+"order": 60,
+"related_entities": []
+},
+{
+"id": "d99ca976-5715-4d5b-ae00-1623e05cae4c",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rep. McCoy of Poultney moved to deliver the bill to the Governor forthwith, which was agreed to",
+"date": "2026-05-29",
+"classification": [],
+"order": 61,
+"related_entities": []
+},
+{
+"id": "23cd3991-5a7e-4ad1-871e-25f8f7169eec",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "House message: House adopted Conference Committee report",
+"date": "2026-05-29",
+"classification": [],
+"order": 62,
+"related_entities": []
+},
+{
+"id": "2f91014e-c95e-41bc-b5ca-20c5b0e62118",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Delivered to Governor on June 10, 2026",
+"date": "2026-05-29",
+"classification": [
+"executive-receipt"
+],
+"order": 63,
+"related_entities": []
+},
+{
+"id": "95eedbd3-5221-4c2e-80ba-9307175349e5",
+"organization": {
+"id": "ocd-organization/300018cf-7c78-415b-8a3c-b00f1a0eb2fa",
+"name": "Office of the Governor",
+"classification": "executive"
+},
+"description": "Signed by Governor on June 16, 2026",
+"date": "2026-05-29",
+"classification": [
+"executive-signature"
+],
+"order": 64,
+"related_entities": []
+},
+{
+"id": "67eb6354-160e-4429-85ef-23b59f0a6ec3",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "House message: Governor approved bill on June 16, 2026",
+"date": "2026-05-29",
+"classification": [],
+"order": 65,
+"related_entities": []
+}
+],
+"sources": [
+{
+"url": "http://legislature.vermont.gov/bill/loadBillRollCalls/2026/2159",
+"note": ""
+},
+{
+"url": "http://legislature.vermont.gov/bill/loadBillDetailedStatus/2026/2159",
+"note": ""
+},
+{
+"url": "http://legislature.vermont.gov/bill/status/2026/H.951",
+"note": ""
+},
+{
+"url": "http://legislature.vermont.gov/bill/loadBillsIntroduced/2026/",
+"note": ""
+}
+],
+"votes": [
+{
+"id": "ocd-vote/df86df0b-8f7d-4756-9b85-d25e189ed33e",
+"motion_text": "Roll Call, requested by Senator Hardy, Failed -- Needed 15 of 30 to Pass -- Yeas = 7, Nays = 23",
+"motion_classification": [
+"passage"
+],
+"start_date": "2026-04-28",
+"result": "fail",
+"identifier": "4/28/2026--Roll Call, requested by Senator Hardy, Failed -- Needed 15 of 30 to Pass -- Yeas = 7, Nays = 23--http://legislature.vermont.gov/bill/loadBillRollCallDetails/2026/132",
+"extras": {},
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"votes": [
+{
+"id": "7b0b0af9-24cc-44fb-bd45-b78eea2d91a8",
+"option": "yes",
+"voter_name": "Clarkson",
+"voter": {
+"id": "ocd-person/a366bc32-20d8-41a8-a2cf-939650b7a2c2",
+"name": "Alison Clarkson",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Windsor",
+"division_id": "ocd-division/country:us/state:vt/sldu:windsor"
+}
+}
+},
+{
+"id": "3370e91b-3deb-4db2-a6c8-876672a76815",
+"option": "yes",
+"voter_name": "Gulick",
+"voter": {
+"id": "ocd-person/a1812863-f6a9-4ce2-8131-d701923dd507",
+"name": "Martine Gulick",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Central",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-central"
+}
+}
+},
+{
+"id": "97738392-b6cc-4411-b174-58c2ae42ba67",
+"option": "yes",
+"voter_name": "Hardy",
+"voter": {
+"id": "ocd-person/84f2c6bd-5fe7-486c-b2ad-555bf69654e8",
+"name": "Ruth Hardy",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Addison",
+"division_id": "ocd-division/country:us/state:vt/sldu:addison"
+}
+}
+},
+{
+"id": "1e1757cc-05dd-4212-9365-7b98f0dd8748",
+"option": "yes",
+"voter_name": "Hashim",
+"voter": {
+"id": "ocd-person/4cae5971-93ee-4029-b5ef-4c69574256da",
+"name": "Nader Hashim",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Windham",
+"division_id": "ocd-division/country:us/state:vt/sldu:windham"
+}
+}
+},
+{
+"id": "082a9288-67c3-44ac-b273-4198a71fea59",
+"option": "yes",
+"voter_name": "Major",
+"voter": {
+"id": "ocd-person/4eba2d1e-5bc7-42e1-bc03-2fdc5f4b4889",
+"name": "Joe Major",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Windsor",
+"division_id": "ocd-division/country:us/state:vt/sldu:windsor"
+}
+}
+},
+{
+"id": "677071c5-5fc5-4ff4-83cd-dd0d5c9525bf",
+"option": "yes",
+"voter_name": "Vyhovsky",
+"voter": {
+"id": "ocd-person/3c832fcc-6a3b-415d-9db8-25b87719082c",
+"name": "Tanya Vyhovsky",
+"party": "Democratic/Progressive",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Central",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-central"
+}
+}
+},
+{
+"id": "8b18bdf1-b116-41de-bb70-c3d0d1ef1a86",
+"option": "yes",
+"voter_name": "White"
+},
+{
+"id": "b08b2e26-28b9-4adf-bda9-88abd59fad30",
+"option": "no",
+"voter_name": "Baruth",
+"voter": {
+"id": "ocd-person/ba794ad6-45fa-40cc-8642-55e759a94d71",
+"name": "Phil Baruth",
+"party": "Democratic/Progressive",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Central",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-central"
+}
+}
+},
+{
+"id": "3794145f-cbaf-494d-a4f4-6eb00ebb5e3d",
+"option": "no",
+"voter_name": "Beck",
+"voter": {
+"id": "ocd-person/d626c3d1-769d-456c-a073-f1efb326fe1d",
+"name": "Scott Beck",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Caledonia",
+"division_id": "ocd-division/country:us/state:vt/sldu:caledonia"
+}
+}
+},
+{
+"id": "6f88d130-dc1a-4f3c-af6f-c160cac9b397",
+"option": "no",
+"voter_name": "Benson"
+},
+{
+"id": "38520e16-0adc-4046-8bb5-b08ea3c7e9a8",
+"option": "no",
+"voter_name": "Bongartz",
+"voter": {
+"id": "ocd-person/28f82298-2bd5-4f82-9e4a-3e2261f0062c",
+"name": "Seth Bongartz",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Bennington",
+"division_id": "ocd-division/country:us/state:vt/sldu:bennington"
+}
+}
+},
+{
+"id": "748dcfa7-6484-4df4-bbc0-171f96146c10",
+"option": "no",
+"voter_name": "Brennan",
+"voter": {
+"id": "ocd-person/44bcd67b-5b5f-4fca-a61a-20f91072c5e7",
+"name": "Patrick Brennan",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Grand Isle",
+"division_id": "ocd-division/country:us/state:vt/sldu:grand_isle"
+}
+}
+},
+{
+"id": "4838379b-8f7e-4fd4-82b4-fd98b67c6189",
+"option": "no",
+"voter_name": "Brock",
+"voter": {
+"id": "ocd-person/e8028cf6-fe46-49bf-b8fc-6c9bcd1fa020",
+"name": "Randy Brock",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Franklin",
+"division_id": "ocd-division/country:us/state:vt/sldu:franklin"
+}
+}
+},
+{
+"id": "3675b859-eab4-4fac-b221-fccbc136b3aa",
+"option": "no",
+"voter_name": "Chittenden",
+"voter": {
+"id": "ocd-person/c3b03c7d-9be1-4da5-994a-aa2980ae35b1",
+"name": "Thomas Chittenden",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Southeast",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-southeast"
+}
+}
+},
+{
+"id": "517bcce5-c483-42cb-acd0-5c841714c3b2",
+"option": "no",
+"voter_name": "Collamore",
+"voter": {
+"id": "ocd-person/d4ead076-6425-4ab7-ad32-b10dce660170",
+"name": "Brian Collamore",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Rutland",
+"division_id": "ocd-division/country:us/state:vt/sldu:rutland"
+}
+}
+},
+{
+"id": "4074f027-af04-4b2a-9fd6-2407224ce62f",
+"option": "no",
+"voter_name": "Cummings",
+"voter": {
+"id": "ocd-person/c34f492a-7cdf-4830-a28a-0ff2fe7c8f71",
+"name": "Ann Cummings",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Washington",
+"division_id": "ocd-division/country:us/state:vt/sldu:washington"
+}
+}
+},
+{
+"id": "32ad1def-f901-43a7-8f29-a6604c8114f9",
+"option": "no",
+"voter_name": "Harrison",
+"voter": {
+"id": "ocd-person/bd5d142d-90c3-41f6-b8af-7591316951da",
+"name": "Jim Harrison",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-11",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-11"
+}
+}
+},
+{
+"id": "99f5e058-e6e3-4bf5-9cf9-2be298ded3c1",
+"option": "no",
+"voter_name": "Heffernan",
+"voter": {
+"id": "ocd-person/0eb14129-49c2-4e33-9abd-34c8802958f1",
+"name": "Steven Heffernan",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Addison",
+"division_id": "ocd-division/country:us/state:vt/sldu:addison"
+}
+}
+},
+{
+"id": "4f40e4cf-f300-4659-b622-2855e4da421f",
+"option": "no",
+"voter_name": "Ingalls",
+"voter": {
+"id": "ocd-person/ec8b2fa8-32e3-43ef-a8e9-101958b5d652",
+"name": "Russ Ingalls",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Essex",
+"division_id": "ocd-division/country:us/state:vt/sldu:essex"
+}
+}
+},
+{
+"id": "8d591288-6e68-4ad1-9322-d7a7744af479",
+"option": "no",
+"voter_name": "Lyons",
+"voter": {
+"id": "ocd-person/91dafbcc-d313-4ef3-a506-0113d4ce1975",
+"name": "Ginny Lyons",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Southeast",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-southeast"
+}
+}
+},
+{
+"id": "62de172f-88c1-47f3-9e16-48d2571776bd",
+"option": "no",
+"voter_name": "Mattos",
+"voter": {
+"id": "ocd-person/1526326f-c2a8-4103-af27-1805f9a8e32a",
+"name": "Chris Mattos",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden North",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-north"
+}
+}
+},
+{
+"id": "5a06f470-b8cc-4e5d-8cb5-971a528845b6",
+"option": "no",
+"voter_name": "Morley"
+},
+{
+"id": "5d3df026-e9db-4f4f-bfb6-2b8d488b75e9",
+"option": "no",
+"voter_name": "Norris",
+"voter": {
+"id": "ocd-person/2f1d3491-871e-4eb6-988b-57d3c9ea7a19",
+"name": "Bob Norris",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Franklin",
+"division_id": "ocd-division/country:us/state:vt/sldu:franklin"
+}
+}
+},
+{
+"id": "f72da0d8-6bcc-4768-af5f-148b094d0b38",
+"option": "no",
+"voter_name": "Perchlik",
+"voter": {
+"id": "ocd-person/1463485e-f279-44f6-a368-f75f213dc7cd",
+"name": "Andrew Perchlik",
+"party": "Democratic/Progressive",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Washington",
+"division_id": "ocd-division/country:us/state:vt/sldu:washington"
+}
+}
+},
+{
+"id": "66c3f962-3875-4997-bc2e-dd84f1303cb8",
+"option": "no",
+"voter_name": "Plunkett",
+"voter": {
+"id": "ocd-person/aabafc36-7412-443d-9fbb-f94ed291dcf7",
+"name": "Rob Plunkett",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Bennington",
+"division_id": "ocd-division/country:us/state:vt/sldu:bennington"
+}
+}
+},
+{
+"id": "9cc724ae-24da-4b0a-83a9-5a62b68564c8",
+"option": "no",
+"voter_name": "Ram Hinsdale",
+"voter": {
+"id": "ocd-person/06f7e87d-e1f3-4d29-bd2c-11cadb89069e",
+"name": "Kesha Ram Hinsdale",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Southeast",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-southeast"
+}
+}
+},
+{
+"id": "e0bd7d5d-220c-4ce6-9639-5d906c3557a9",
+"option": "no",
+"voter_name": "Watson",
+"voter": {
+"id": "ocd-person/70fa5e7e-8ab1-4599-a881-61d12120637c",
+"name": "Anne Watson",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Washington",
+"division_id": "ocd-division/country:us/state:vt/sldu:washington"
+}
+}
+},
+{
+"id": "6ff67235-e0da-46ca-84dc-8224b94c45a8",
+"option": "no",
+"voter_name": "Weeks",
+"voter": {
+"id": "ocd-person/f076a53a-1ebd-485d-8d0f-adb7cf0b00be",
+"name": "Dave Weeks",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Rutland",
+"division_id": "ocd-division/country:us/state:vt/sldu:rutland"
+}
+}
+},
+{
+"id": "276c29c9-4d94-41bd-81fa-64218151a481",
+"option": "no",
+"voter_name": "Westman",
+"voter": {
+"id": "ocd-person/9a4f5d0d-7c71-4f80-bcf0-da9b4882d0d7",
+"name": "Richard Westman",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Lamoille",
+"division_id": "ocd-division/country:us/state:vt/sldu:lamoille"
+}
+}
+},
+{
+"id": "05d71bed-c51d-455f-8f96-414f12c5cb0f",
+"option": "no",
+"voter_name": "Williams",
+"voter": {
+"id": "ocd-person/ba524e3d-a578-4498-8226-6e947840c69f",
+"name": "Terry Williams",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Rutland",
+"division_id": "ocd-division/country:us/state:vt/sldu:rutland"
+}
+}
+}
+],
+"counts": [
+{
+"option": "yes",
+"value": 7
+},
+{
+"option": "no",
+"value": 23
+},
+{
+"option": "not voting",
+"value": 0
+}
+],
+"sources": [
+{
+"url": "http://legislature.vermont.gov/bill/loadBillRollCallDetails/2026/132",
+"note": ""
+}
+]
+},
+{
+"id": "ocd-vote/4efcc4db-2113-4a6f-a07b-add7079e02a1",
+"motion_text": "Which was agreed to on a Roll Call Passed -- Needed 69 of 137 to Pass -- Yeas = 97, Nays = 40",
+"motion_classification": [
+"passage"
+],
+"start_date": "2026-03-27",
+"result": "pass",
+"identifier": "3/27/2026--Which was agreed to on a Roll Call Passed -- Needed 69 of 137 to Pass -- Yeas = 97, Nays = 40--http://legislature.vermont.gov/bill/loadBillRollCallDetails/2026/121",
+"extras": {},
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"votes": [
+{
+"id": "96924358-5063-46b1-afe8-3add81bd9c61",
+"option": "yes",
+"voter_name": "Arsenault",
+"voter": {
+"id": "ocd-person/91f08063-02d6-4167-aa23-bbfb2289bbf1",
+"name": "Angela Arsenault",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-2"
+}
+}
+},
+{
+"id": "dc9fe193-3d4a-47db-9b4a-d6288ad7dfbf",
+"option": "yes",
+"voter_name": "Austin",
+"voter": {
+"id": "ocd-person/c028faa3-479d-440c-b2a5-e4320933c10f",
+"name": "Sarita Austin",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-19",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-19"
+}
+}
+},
+{
+"id": "de3d1078-3c87-4e0d-89c8-c8a05f3227d7",
+"option": "yes",
+"voter_name": "Bartholomew",
+"voter": {
+"id": "ocd-person/d12670e1-fd0b-4e78-a471-ec5d4ddfafb8",
+"name": "John Bartholomew",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-1"
+}
+}
+},
+{
+"id": "346ee42e-25e6-4e40-8c76-ea92e98cdbf8",
+"option": "yes",
+"voter_name": "Berbeco",
+"voter": {
+"id": "ocd-person/c7019f00-84e8-405f-9efe-055112cbb4c4",
+"name": "Daisy Berbeco",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-21",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-21"
+}
+}
+},
+{
+"id": "5609f88d-0dd3-4643-8bba-cbe05eb60fdc",
+"option": "yes",
+"voter_name": "Birong",
+"voter": {
+"id": "ocd-person/e3e3144c-e166-4b0f-a7e7-e3e24cd40039",
+"name": "Matt Birong",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Addison-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:addison-3"
+}
+}
+},
+{
+"id": "8ac7894d-e1fc-4db4-8c90-46478ddf2251",
+"option": "yes",
+"voter_name": "Bishop",
+"voter": {
+"id": "ocd-person/aff4d081-e7eb-46d9-a62f-3ee78cd568c2",
+"name": "Doug Bishop",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-20",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-20"
+}
+}
+},
+{
+"id": "547fd55f-c88a-49c2-88ba-eba2670ab108",
+"option": "yes",
+"voter_name": "Black",
+"voter": {
+"id": "ocd-person/cd4ceb1c-8960-4b10-b6f8-bd0b8ae0c68c",
+"name": "Alyssa Black",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-24",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-24"
+}
+}
+},
+{
+"id": "6aaf98f1-c081-40b4-b7f6-543f27863792",
+"option": "yes",
+"voter_name": "Bluemle",
+"voter": {
+"id": "ocd-person/8210ead4-c6b3-4316-ab90-7564b9f23cdb",
+"name": "Tiff Bluemle",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-13",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-13"
+}
+}
+},
+{
+"id": "b51e9a84-3b8f-4a48-ac84-b3ec2db41ee3",
+"option": "yes",
+"voter_name": "Bos-Lun",
+"voter": {
+"id": "ocd-person/a039bd2d-a206-4976-857e-c6434b26fde1",
+"name": "Michelle Bos-Lun",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windham-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:windham-3"
+}
+}
+},
+{
+"id": "f0aaf40f-5f6d-4196-b53d-bdeee86e3e58",
+"option": "yes",
+"voter_name": "Boutin",
+"voter": {
+"id": "ocd-person/86bf6469-26ea-4367-bda5-b191686ca556",
+"name": "Michael Boutin",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-3"
+}
+}
+},
+{
+"id": "05404a50-45cd-4f3b-a1ef-28d50618187e",
+"option": "yes",
+"voter_name": "Boyden",
+"voter": {
+"id": "ocd-person/95e547fd-21f0-489d-a558-a8937d6341e5",
+"name": "Lucy Boyden",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Lamoille-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:lamoille-3"
+}
+}
+},
+{
+"id": "a8d5f005-1d93-4cc4-8c6b-2da4f94f3b0c",
+"option": "yes",
+"voter_name": "Brady",
+"voter": {
+"id": "ocd-person/e334b770-4785-459a-89cd-1e16ef2444ad",
+"name": "Erin Brady",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-2"
+}
+}
+},
+{
+"id": "c1f2bbeb-19e2-441e-b5cc-b70e61966a86",
+"option": "yes",
+"voter_name": "Brown",
+"voter": {
+"id": "ocd-person/9ce762cd-72a4-4835-876b-71d83b16d44d",
+"name": "Jana Brown",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-1"
+}
+}
+},
+{
+"id": "28cfe546-d395-4d1f-8901-6d6c84fa9773",
+"option": "yes",
+"voter_name": "Burke",
+"voter": {
+"id": "ocd-person/2bf6abc2-667f-494f-896a-812721ee77d3",
+"name": "Mollie Burke",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windham-8",
+"division_id": "ocd-division/country:us/state:vt/sldl:windham-8"
+}
+}
+},
+{
+"id": "c9a5e93d-956d-41d5-85c7-7562c1d82e7c",
+"option": "yes",
+"voter_name": "Burkhardt",
+"voter": {
+"id": "ocd-person/65f7d469-b06a-41d9-96b6-eb4e14ced390",
+"name": "Bridget Burkhardt",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-8",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-8"
+}
+}
+},
+{
+"id": "1421540e-15ea-417c-9022-5032bcf81eba",
+"option": "yes",
+"voter_name": "Burrows",
+"voter": {
+"id": "ocd-person/e7232e6f-4a66-45dc-9a4b-ee9d8b763544",
+"name": "Elizabeth Burrows",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-1"
+}
+}
+},
+{
+"id": "fc84c3e5-e6ec-4d03-9a52-58f055275198",
+"option": "yes",
+"voter_name": "Campbell",
+"voter": {
+"id": "ocd-person/b64a9bcc-5c1d-4e8b-931f-81f89ea5137e",
+"name": "Scott Campbell",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Caledonia-Essex",
+"division_id": "ocd-division/country:us/state:vt/sldl:caledonia-essex"
+}
+}
+},
+{
+"id": "e3ca02ca-852c-49db-a61b-1b83f5a5224f",
+"option": "yes",
+"voter_name": "Canfield",
+"voter": {
+"id": "ocd-person/c66f104c-310a-40a1-9222-6d366b42e576",
+"name": "Bill Canfield",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-10",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-10"
+}
+}
+},
+{
+"id": "87529c6d-b911-483a-9faf-1a916d734e12",
+"option": "yes",
+"voter_name": "Casey"
+},
+{
+"id": "4be50e18-2c09-48cd-9007-163a33488c00",
+"option": "yes",
+"voter_name": "Cina",
+"voter": {
+"id": "ocd-person/35504508-c008-4ecd-869f-6d8e33a4ad56",
+"name": "Brian Cina",
+"party": "Democratic/Progressive",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-15",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-15"
+}
+}
+},
+{
+"id": "1de61919-f272-4112-875d-76e8728cc539",
+"option": "yes",
+"voter_name": "Cole",
+"voter": {
+"id": "ocd-person/62b30d56-d938-4882-b763-2c2495ae6fe5",
+"name": "Esme Cole",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-6",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-6"
+}
+}
+},
+{
+"id": "1cd54056-dbae-4ff6-801d-16c404c850f1",
+"option": "yes",
+"voter_name": "Conlon",
+"voter": {
+"id": "ocd-person/842ac286-38fb-428e-af54-1176d06b6144",
+"name": "Peter Conlon",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Addison-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:addison-2"
+}
+}
+},
+{
+"id": "04d4c9be-b12a-4240-9526-73dd3c9a89fb",
+"option": "yes",
+"voter_name": "Cooper",
+"voter": {
+"id": "ocd-person/3fc028e6-c73a-4959-8889-63b4e3e50f1c",
+"name": "Jonathan Cooper",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Bennington-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:bennington-1"
+}
+}
+},
+{
+"id": "5d87ac0f-a658-43a8-9bd5-b23f6a80602e",
+"option": "yes",
+"voter_name": "Corcoran",
+"voter": {
+"id": "ocd-person/bd42ebbc-3e03-4929-bbd8-f2fe5141d604",
+"name": "Timothy Corcoran",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Bennington-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:bennington-2"
+}
+}
+},
+{
+"id": "bf2976b9-474e-4477-a995-a8db716eedef",
+"option": "yes",
+"voter_name": "Critchlow",
+"voter": {
+"id": "ocd-person/a4282454-4b00-4795-b2b8-ca37f4ce6979",
+"name": "Wendy Critchlow",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-19",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-19"
+}
+}
+},
+{
+"id": "ece3a1a9-e7b5-49ce-be27-12f4a99a200f",
+"option": "yes",
+"voter_name": "Dickinson",
+"voter": {
+"id": "ocd-person/d0698c2f-d5fb-475b-abc9-042971d26a5f",
+"name": "Lynn Dickinson",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Franklin-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:franklin-2"
+}
+}
+},
+{
+"id": "52a6b6f9-8449-4686-aaa8-ffc7bf91ff93",
+"option": "yes",
+"voter_name": "Dodge",
+"voter": {
+"id": "ocd-person/a7ecda71-d1ad-4e61-bc68-16e929cfc11d",
+"name": "Leonora Dodge",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-23",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-23"
+}
+}
+},
+{
+"id": "cc4b9dc0-1b66-498b-a5f1-c860e21ae021",
+"option": "yes",
+"voter_name": "Dolan",
+"voter": {
+"id": "ocd-person/b2d2f2a9-28a3-40c5-a818-9f839adac1fa",
+"name": "Karen Dolan",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-22",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-22"
+}
+}
+},
+{
+"id": "101cb879-991f-47df-bd84-90d54293f321",
+"option": "yes",
+"voter_name": "Donahue",
+"voter": {
+"id": "ocd-person/5321cd58-caae-4d94-8ba0-f1df47d4e75b",
+"name": "Anne Donahue",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-1"
+}
+}
+},
+{
+"id": "6f633d8f-a36e-42db-8319-f1774ee5e9b6",
+"option": "yes",
+"voter_name": "Duke",
+"voter": {
+"id": "ocd-person/90da5348-421e-435b-8458-67123462addf",
+"name": "Abbey Duke",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-17",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-17"
+}
+}
+},
+{
+"id": "b85c14b7-b871-45c1-830d-12753cb47584",
+"option": "yes",
+"voter_name": "Durfee",
+"voter": {
+"id": "ocd-person/500ffe66-07b0-4ebd-9084-d017872daa84",
+"name": "David Durfee",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Bennington-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:bennington-3"
+}
+}
+},
+{
+"id": "522735a5-3b24-4f02-805a-399addea0602",
+"option": "yes",
+"voter_name": "Eastes",
+"voter": {
+"id": "ocd-person/70f4c8cf-b715-484a-a7d1-f02508f7a3b7",
+"name": "Zon Eastes",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windham-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:windham-1"
+}
+}
+},
+{
+"id": "51ee072a-d497-423c-83d8-aeda170dea15",
+"option": "yes",
+"voter_name": "Emmons",
+"voter": {
+"id": "ocd-person/24194dba-4d25-4b8c-be33-8ff50fcd8a8f",
+"name": "Alice Emmons",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-3"
+}
+}
+},
+{
+"id": "de15939c-6f2f-4f23-94ec-457deaff268e",
+"option": "yes",
+"voter_name": "Feltus",
+"voter": {
+"id": "ocd-person/730abe31-c817-47fa-bf5b-fe6697996e4c",
+"name": "Marty Feltus",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Caledonia-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:caledonia-3"
+}
+}
+},
+{
+"id": "c19a11c8-6ab1-4788-90b8-c7f174ac831b",
+"option": "yes",
+"voter_name": "Galfetti",
+"voter": {
+"id": "ocd-person/39c4dae9-aee7-46f6-858d-e1eece72d79e",
+"name": "Gina Galfetti",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-Orange",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-orange"
+}
+}
+},
+{
+"id": "f4f8d87f-b6a3-4d7f-8806-11377869ded2",
+"option": "yes",
+"voter_name": "Garofano",
+"voter": {
+"id": "ocd-person/9fdba4e0-d367-4fd1-86d6-815042abd075",
+"name": "Rey Garofano",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-23",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-23"
+}
+}
+},
+{
+"id": "6eeedf9b-8826-44c6-a8ab-519193912ef2",
+"option": "yes",
+"voter_name": "Goldman",
+"voter": {
+"id": "ocd-person/90a243b6-e5b2-4f16-b19f-612508863535",
+"name": "Leslie Goldman",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windham-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:windham-3"
+}
+}
+},
+{
+"id": "5fe8d8f6-b1b6-4032-96e2-b26847da7b6e",
+"option": "yes",
+"voter_name": "Goodnow",
+"voter": {
+"id": "ocd-person/658fc95f-5d9f-4b9d-afa6-1f759f531e09",
+"name": "Ian Goodnow",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windham-9",
+"division_id": "ocd-division/country:us/state:vt/sldl:windham-9"
+}
+}
+},
+{
+"id": "387c1aff-9560-440c-92b6-7ace80c1d489",
+"option": "yes",
+"voter_name": "Graning",
+"voter": {
+"id": "ocd-person/2f46ddc5-1564-4215-b201-cc3c1521f4c4",
+"name": "Edye Graning",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-3"
+}
+}
+},
+{
+"id": "9a46dc0a-25c5-4050-8afa-ae46ba88a53d",
+"option": "yes",
+"voter_name": "Greer",
+"voter": {
+"id": "ocd-person/207d01c5-2277-4f1d-9373-66722cfd3f8b",
+"name": "Will Greer",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Bennington-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:bennington-2"
+}
+}
+},
+{
+"id": "0cd43c6e-2d80-4654-953b-db8929639ec1",
+"option": "yes",
+"voter_name": "Hango",
+"voter": {
+"id": "ocd-person/99b59993-b8ed-4046-b343-2958d25a58a4",
+"name": "Lisa Hango",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Franklin-5",
+"division_id": "ocd-division/country:us/state:vt/sldl:franklin-5"
+}
+}
+},
+{
+"id": "a76ff84f-83a8-4a4a-bcee-8445a8c406fb",
+"option": "yes",
+"voter_name": "Harple",
+"voter": {
+"id": "ocd-person/b8a71676-1754-4af0-88e5-c38201cef018",
+"name": "Leanne Harple",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Orleans-4",
+"division_id": "ocd-division/country:us/state:vt/sldl:orleans-4"
+}
+}
+},
+{
+"id": "733b6846-937f-4da0-84d5-e21352121efe",
+"option": "yes",
+"voter_name": "Headrick",
+"voter": {
+"id": "ocd-person/4da3dea2-48bb-4162-a1a5-ff0525f7cbf6",
+"name": "Troy Headrick",
+"party": "Independent",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-15",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-15"
+}
+}
+},
+{
+"id": "e27e0060-94f5-4708-a721-2ac6e8055a0a",
+"option": "yes",
+"voter_name": "Holcombe",
+"voter": {
+"id": "ocd-person/610c8e4d-f0c3-4792-a5b6-f935eddc8960",
+"name": "Rebecca Holcombe",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-Orange-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-orange-2"
+}
+}
+},
+{
+"id": "4a01f08b-d864-4894-8f53-958b1b43052a",
+"option": "yes",
+"voter_name": "Houghton",
+"voter": {
+"id": "ocd-person/acf44b62-a884-4de2-8deb-055363849c5b",
+"name": "Lori Houghton",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-22",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-22"
+}
+}
+},
+{
+"id": "c065f9b5-f371-4db0-af4d-5c02626ca723",
+"option": "yes",
+"voter_name": "Howard",
+"voter": {
+"id": "ocd-person/3d835c85-50e3-4a02-8891-baa377f63fa5",
+"name": "Mary Howard",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-6",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-6"
+}
+}
+},
+{
+"id": "e54f0219-c263-477b-8fa9-5559da70687e",
+"option": "yes",
+"voter_name": "Hoyt"
+},
+{
+"id": "27eae0f7-1f7a-493f-8d31-cb2c22408e64",
+"option": "yes",
+"voter_name": "Hunter",
+"voter": {
+"id": "ocd-person/c6250393-5afe-4ded-9b4e-0c04921077f0",
+"name": "Rob Hunter",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Bennington-4",
+"division_id": "ocd-division/country:us/state:vt/sldl:bennington-4"
+}
+}
+},
+{
+"id": "897480d8-d385-4eaf-ae00-4b196ad7d0c7",
+"option": "yes",
+"voter_name": "James",
+"voter": {
+"id": "ocd-person/8b47b675-97d4-4cdc-a3ae-d44c05594b5c",
+"name": "Kathleen James",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Bennington-4",
+"division_id": "ocd-division/country:us/state:vt/sldl:bennington-4"
+}
+}
+},
+{
+"id": "0aa1f5af-5c95-4055-a323-4c0b319d2d11",
+"option": "yes",
+"voter_name": "Kascenska",
+"voter": {
+"id": "ocd-person/b9c3e545-5ef2-4fb2-9128-64a369608dda",
+"name": "John Kascenska",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Essex-Caledonia",
+"division_id": "ocd-division/country:us/state:vt/sldl:essex-caledonia"
+}
+}
+},
+{
+"id": "ee228bda-7289-49f3-b40c-2a0fb5d0c78a",
+"option": "yes",
+"voter_name": "Kimbell",
+"voter": {
+"id": "ocd-person/8e97e883-e34f-441f-83a2-aa72526fef38",
+"name": "Charlie Kimbell",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-5",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-5"
+}
+}
+},
+{
+"id": "008205cf-4e2d-469f-9fa9-a9e8c7bd6df2",
+"option": "yes",
+"voter_name": "Kleppner",
+"voter": {
+"id": "ocd-person/565d034b-76cd-4303-a045-770d4be05f0a",
+"name": "Bram Kleppner",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-13",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-13"
+}
+}
+},
+{
+"id": "0913ede5-92b4-42f4-82bc-8b3f8fa80af1",
+"option": "yes",
+"voter_name": "Kornheiser",
+"voter": {
+"id": "ocd-person/cb033790-7578-41c3-87b6-c9794b289c77",
+"name": "Emilie Kornheiser",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windham-7",
+"division_id": "ocd-division/country:us/state:vt/sldl:windham-7"
+}
+}
+},
+{
+"id": "ee978e93-31a2-4c93-b165-2a45aa38133f",
+"option": "yes",
+"voter_name": "Krasnow",
+"voter": {
+"id": "ocd-person/0ab172d4-ecc7-46e4-a4f1-ee71429595bd",
+"name": "Emilie Krasnow",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-9",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-9"
+}
+}
+},
+{
+"id": "00b56ce5-1f23-4886-9d07-0fcff70c09f2",
+"option": "yes",
+"voter_name": "Lalley",
+"voter": {
+"id": "ocd-person/f9d0a963-ca4d-4ab2-a761-ad4aa6983055",
+"name": "Kate Lalley",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-6",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-6"
+}
+}
+},
+{
+"id": "0bf68bb5-6292-4922-b9a3-c1411adc2f58",
+"option": "yes",
+"voter_name": "LaLonde",
+"voter": {
+"id": "ocd-person/73ee356a-069a-4f2c-938d-2bab3d81b49a",
+"name": "Martin LaLonde",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-12",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-12"
+}
+}
+},
+{
+"id": "23546cfc-96c3-49c1-bf6a-a3e14714d858",
+"option": "yes",
+"voter_name": "Laroche",
+"voter": {
+"id": "ocd-person/1ae38fee-1328-4298-aa0a-11b5d0265730",
+"name": "Wayne Laroche",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Franklin-5",
+"division_id": "ocd-division/country:us/state:vt/sldl:franklin-5"
+}
+}
+},
+{
+"id": "43099cb6-bb1f-4647-b276-ff3a6836b387",
+"option": "yes",
+"voter_name": "Lipsky",
+"voter": {
+"id": "ocd-person/5581159f-1776-41de-ab76-72c8fe5167c0",
+"name": "Jed Lipsky",
+"party": "Independent",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Lamoille-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:lamoille-1"
+}
+}
+},
+{
+"id": "82c36c58-37b9-4cc4-a84d-c0f26da6eb22",
+"option": "yes",
+"voter_name": "Logan",
+"voter": {
+"id": "ocd-person/52b7db57-8a72-4d36-9cfa-5f1a5b69a044",
+"name": "Kate Logan",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-16",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-16"
+}
+}
+},
+{
+"id": "64a3546c-193d-473b-bf99-420087724af7",
+"option": "yes",
+"voter_name": "Long",
+"voter": {
+"id": "ocd-person/36bd1884-fd78-46b4-9ac3-318ca6358a67",
+"name": "Emily Long",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windham-5",
+"division_id": "ocd-division/country:us/state:vt/sldl:windham-5"
+}
+}
+},
+{
+"id": "c24f8fe9-02aa-45b9-a86a-b82cf1003263",
+"option": "yes",
+"voter_name": "Lueders"
+},
+{
+"id": "aebfbe23-a07f-4841-b133-357f1c9df267",
+"option": "yes",
+"voter_name": "Marcotte",
+"voter": {
+"id": "ocd-person/cffd5316-4723-43a2-bd54-2d41a9e61e16",
+"name": "Michael Marcotte",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Orleans-Lamoille",
+"division_id": "ocd-division/country:us/state:vt/sldl:orleans-lamoille"
+}
+}
+},
+{
+"id": "ffae4894-5df6-45ea-8a60-1ca997b7b69d",
+"option": "yes",
+"voter_name": "Masland",
+"voter": {
+"id": "ocd-person/5342eafc-7f58-4ebe-ad1e-0ec4aefe82fe",
+"name": "Jim Masland",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-Orange-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-orange-2"
+}
+}
+},
+{
+"id": "94fbbd16-4392-4072-be5e-b945d25d6a70",
+"option": "yes",
+"voter_name": "McCann",
+"voter": {
+"id": "ocd-person/2f2db82f-4812-4a06-8dc0-1e03877aabf9",
+"name": "Kate McCann",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-4",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-4"
+}
+}
+},
+{
+"id": "ef64c3cc-966d-4130-89b6-7c5671701dac",
+"option": "yes",
+"voter_name": "McFaun",
+"voter": {
+"id": "ocd-person/a7c7d0f6-8795-4f50-928b-15b6c3831ac4",
+"name": "Topper McFaun",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-Orange",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-orange"
+}
+}
+},
+{
+"id": "b442a11c-76d6-4fad-9a20-f4b2b7251337",
+"option": "yes",
+"voter_name": "McGill",
+"voter": {
+"id": "ocd-person/829926f6-054a-45e2-be75-1c1da860f0c4",
+"name": "Jubilee McGill",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Addison-5",
+"division_id": "ocd-division/country:us/state:vt/sldl:addison-5"
+}
+}
+},
+{
+"id": "f3f9d530-ca83-417e-9984-67336d36ba4e",
+"option": "yes",
+"voter_name": "Mihaly",
+"voter": {
+"id": "ocd-person/1f0c898f-0199-4b66-a432-d81c85ad9528",
+"name": "Marc Mihaly",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-6",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-6"
+}
+}
+},
+{
+"id": "bf5e533f-8b48-4701-8546-4441da6d3ceb",
+"option": "yes",
+"voter_name": "Minier",
+"voter": {
+"id": "ocd-person/d44ada7b-9678-4a17-a66c-aa658b03bf38",
+"name": "Brian Minier",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-11",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-11"
+}
+}
+},
+{
+"id": "a1c3e874-5a30-464d-9036-2650abd33ad6",
+"option": "yes",
+"voter_name": "Morris",
+"voter": {
+"id": "ocd-person/aa90c35b-88cb-4f97-9d66-70d777f7cae4",
+"name": "Kristi Morris",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-3"
+}
+}
+},
+{
+"id": "6440ec7e-5559-4841-9511-66e667d77fb7",
+"option": "yes",
+"voter_name": "Morrow",
+"voter": {
+"id": "ocd-person/70fc16c3-0cba-429c-8616-dbcc6b9b7bf7",
+"name": "Chris Morrow",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windham-Windsor-Bennington",
+"division_id": "ocd-division/country:us/state:vt/sldl:windham-bennington-windsor"
+}
+}
+},
+{
+"id": "dea14a99-57ec-4a3e-8938-c47d6d22f4f7",
+"option": "yes",
+"voter_name": "Mrowicki",
+"voter": {
+"id": "ocd-person/4258ac6c-c453-4faf-b15c-4cbd8ea91ebd",
+"name": "Mike Mrowicki",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windham-4",
+"division_id": "ocd-division/country:us/state:vt/sldl:windham-4"
+}
+}
+},
+{
+"id": "9c0ff5ba-f194-464b-82fe-ac003886274e",
+"option": "yes",
+"voter_name": "Nigro",
+"voter": {
+"id": "ocd-person/59b84739-aac0-4d96-bc03-7adbbb7f682e",
+"name": "Michael Nigro",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Bennington-5",
+"division_id": "ocd-division/country:us/state:vt/sldl:bennington-5"
+}
+}
+},
+{
+"id": "29dd4713-6670-497d-9918-376dd7317303",
+"option": "yes",
+"voter_name": "Noyes",
+"voter": {
+"id": "ocd-person/95cd4184-c07f-48a5-993a-e924ad71184f",
+"name": "Dan Noyes",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Lamoille-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:lamoille-2"
+}
+}
+},
+{
+"id": "e92ccacf-ae75-4f23-b59a-85c2a716e426",
+"option": "yes",
+"voter_name": "Nugent",
+"voter": {
+"id": "ocd-person/edf5128d-7630-41be-8b16-c183d7cb24e5",
+"name": "Kate Nugent",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-10",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-10"
+}
+}
+},
+{
+"id": "1eb821f3-edf9-4954-82de-745df8b16bfe",
+"option": "yes",
+"voter_name": "O'Brien",
+"voter": {
+"id": "ocd-person/6b0c1c32-609e-4d13-a9c5-699b73bd1470",
+"name": "John O'Brien",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-Orange-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-orange-1"
+}
+}
+},
+{
+"id": "a169f1b7-b495-4578-beae-665214c11ebe",
+"option": "yes",
+"voter_name": "Ode",
+"voter": {
+"id": "ocd-person/e9036574-9eac-4f0c-9bd2-1b425e96bb8c",
+"name": "Carol Ode",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-18",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-18"
+}
+}
+},
+{
+"id": "07e56d14-9635-49a9-997d-f69e7ade90d5",
+"option": "yes",
+"voter_name": "Olson",
+"voter": {
+"id": "ocd-person/d6336e80-d57f-46df-9c49-9931d8efc0b7",
+"name": "Herb Olson",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Addison-4",
+"division_id": "ocd-division/country:us/state:vt/sldl:addison-4"
+}
+}
+},
+{
+"id": "dcee3369-fd19-4fbc-88bb-1e431c66db0d",
+"option": "yes",
+"voter_name": "Page",
+"voter": {
+"id": "ocd-person/0c2d8e34-55f1-4b34-a6a3-bd7708d2578c",
+"name": "Woody Page",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Orleans-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:orleans-2"
+}
+}
+},
+{
+"id": "ff646726-8cff-4cd3-b374-015a0f79ebd8",
+"option": "yes",
+"voter_name": "Pezzo",
+"voter": {
+"id": "ocd-person/0aa1e822-d69d-4417-a26e-0ca6935b6b8b",
+"name": "Gayle Pezzo",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-20",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-20"
+}
+}
+},
+{
+"id": "95d5c496-9152-4d02-aa6b-ed0b2124c455",
+"option": "yes",
+"voter_name": "Pouech",
+"voter": {
+"id": "ocd-person/424e2c2d-e874-444f-8a1e-e64e2be1b001",
+"name": "Phil Pouech",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-4",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-4"
+}
+}
+},
+{
+"id": "078bde55-0dbc-4918-a86f-e2c8e5c2eb55",
+"option": "yes",
+"voter_name": "Priestley",
+"voter": {
+"id": "ocd-person/64ee14bb-3a28-4062-ba6d-4ec89c25b64c",
+"name": "Monique Priestley",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Orange-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:orange-2"
+}
+}
+},
+{
+"id": "ed814314-5594-4783-b96d-7f5b3f3f9f4a",
+"option": "yes",
+"voter_name": "Rachelson",
+"voter": {
+"id": "ocd-person/26b89cd1-55b7-49ef-b47b-d3b21ed81635",
+"name": "Barbara Rachelson",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-14",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-14"
+}
+}
+},
+{
+"id": "5a9352b0-28ba-4212-b0b0-e5ade866f066",
+"option": "yes",
+"voter_name": "Satcowitz",
+"voter": {
+"id": "ocd-person/d6092ff2-3e4d-4c9a-9317-6d243c7bc0e8",
+"name": "Larry Satcowitz",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Orange-Washington-Addison",
+"division_id": "ocd-division/country:us/state:vt/sldl:orange-washington-addison"
+}
+}
+},
+{
+"id": "b1aa9cc6-6bfd-435d-876a-bd4d40be6592",
+"option": "yes",
+"voter_name": "Scheu",
+"voter": {
+"id": "ocd-person/b463b201-086b-4f98-ab96-75a136e8be35",
+"name": "Robin Scheu",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Addison-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:addison-1"
+}
+}
+},
+{
+"id": "d43caf70-4180-4161-8f5b-e0cfae435322",
+"option": "yes",
+"voter_name": "Sheldon",
+"voter": {
+"id": "ocd-person/f490d01d-80b7-40ae-9577-572bd1c8567a",
+"name": "Amy Sheldon",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Addison-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:addison-1"
+}
+}
+},
+{
+"id": "62d514bb-d77a-4703-82e4-7cc7189ceaa1",
+"option": "yes",
+"voter_name": "Sibilia",
+"voter": {
+"id": "ocd-person/57c62cd8-8701-4af6-9627-b89e735b5632",
+"name": "Laura Sibilia",
+"party": "Independent",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windham-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:windham-2"
+}
+}
+},
+{
+"id": "f2474ffa-207b-48cf-8c9b-4218f3ac8437",
+"option": "yes",
+"voter_name": "Squirrell",
+"voter": {
+"id": "ocd-person/7e019459-6d2e-4c45-8092-72cb8334bf25",
+"name": "Trevor Squirrell",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-3"
+}
+}
+},
+{
+"id": "45715726-776a-4d7d-acf7-883ede8a8c44",
+"option": "yes",
+"voter_name": "Stevens",
+"voter": {
+"id": "ocd-person/0acb9a2c-6cbb-44b3-828c-4c7ad3fd8ce6",
+"name": "Tom Stevens",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-Chittenden",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-chittenden"
+}
+}
+},
+{
+"id": "8a681a5b-9689-4638-b7f9-6780cfeff1a7",
+"option": "yes",
+"voter_name": "Stone",
+"voter": {
+"id": "ocd-person/eda9290c-b27b-4b39-bfc2-c760a63506ef",
+"name": "Mary-Katherine Stone",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-14",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-14"
+}
+}
+},
+{
+"id": "b41c722f-4bbc-4607-b1fd-464980196a40",
+"option": "yes",
+"voter_name": "Sweeney",
+"voter": {
+"id": "ocd-person/e9419bea-beed-4507-bb1d-250a32ea800f",
+"name": "Shawn Sweeney",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-7",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-7"
+}
+}
+},
+{
+"id": "910567a8-1465-47d9-b2c4-94bef559ec99",
+"option": "yes",
+"voter_name": "Tomlinson",
+"voter": {
+"id": "ocd-person/239a4f3b-c9b4-474b-8e2a-eda545f0ef43",
+"name": "Chloe Tomlinson",
+"party": "Democratic/Progressive",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-21",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-21"
+}
+}
+},
+{
+"id": "4f1b7491-86c5-4142-ba09-f488c18934ad",
+"option": "yes",
+"voter_name": "Torre",
+"voter": {
+"id": "ocd-person/46a9d6df-bd07-4fa4-b6b9-b91c0fa37f94",
+"name": "Dara Torre",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-2"
+}
+}
+},
+{
+"id": "0cc58448-9f8a-474e-838a-e265919242e9",
+"option": "yes",
+"voter_name": "Waszazak",
+"voter": {
+"id": "ocd-person/c3b31012-c199-42a6-8256-29f07de76343",
+"name": "Teddy Waszazak",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-3"
+}
+}
+},
+{
+"id": "6a91690e-fa31-45f2-b1ea-7c03a8819418",
+"option": "yes",
+"voter_name": "Waters Evans",
+"voter": {
+"id": "ocd-person/0f7b93b3-9e96-4e44-8bb4-9c60e4be4b72",
+"name": "Chea Evans",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-5",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-5"
+}
+}
+},
+{
+"id": "eefadaee-f6bc-446c-8b21-65e60c4c1f1c",
+"option": "yes",
+"voter_name": "White"
+},
+{
+"id": "e52c0f2f-3363-4356-9b10-03af8a690776",
+"option": "yes",
+"voter_name": "Wood",
+"voter": {
+"id": "ocd-person/f68d3f17-24ca-4b87-8837-6a30737d21d8",
+"name": "Theresa Wood",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-Chittenden",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-chittenden"
+}
+}
+},
+{
+"id": "a5e9e0d5-21a9-490a-899e-bb4e333fede1",
+"option": "yes",
+"voter_name": "Yacovone",
+"voter": {
+"id": "ocd-person/4d489014-c6ba-41df-9f4f-d8846ee2ebba",
+"name": "Dave Yacovone",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Lamoille-Washington",
+"division_id": "ocd-division/country:us/state:vt/sldl:lamoille-washington"
+}
+}
+},
+{
+"id": "cc5e964d-df19-4488-9cc1-65992afe6093",
+"option": "no",
+"voter_name": "Bartley",
+"voter": {
+"id": "ocd-person/62781794-15d5-4362-82db-d6542a0e2f75",
+"name": "Ashley Bartley",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Franklin-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:franklin-1"
+}
+}
+},
+{
+"id": "a845d2fd-c3dd-4e32-83f4-601a5fc5ebd5",
+"option": "no",
+"voter_name": "Bosch",
+"voter": {
+"id": "ocd-person/31f6e27d-151c-4878-845b-f600ea1742e2",
+"name": "Dave Bosch",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-2"
+}
+}
+},
+{
+"id": "7afbf2ca-edbc-457f-95a0-eb203dbdb45b",
+"option": "no",
+"voter_name": "Branagan",
+"voter": {
+"id": "ocd-person/b910e00e-ce75-426a-a0cc-29948edfce5d",
+"name": "Carolyn Branagan",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Franklin-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:franklin-1"
+}
+}
+},
+{
+"id": "59434d1b-a0e1-48b6-858f-193ee07b5c78",
+"option": "no",
+"voter_name": "Brigham"
+},
+{
+"id": "a22a2a92-24d2-4aee-a821-68f6953e5a03",
+"option": "no",
+"voter_name": "Burditt",
+"voter": {
+"id": "ocd-person/68d53f5e-f99c-4167-9dff-3c802fc6e857",
+"name": "Tom Burditt",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-2"
+}
+}
+},
+{
+"id": "74dda743-06b0-4b0e-aac5-2e06ef536d7b",
+"option": "no",
+"voter_name": "Burtt",
+"voter": {
+"id": "ocd-person/c4aa4da8-d01c-485e-8499-03378f12675e",
+"name": "Greg Burtt",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Caledonia-Washington",
+"division_id": "ocd-division/country:us/state:vt/sldl:caledonia-washington"
+}
+}
+},
+{
+"id": "b7281f1b-b4a5-4bb7-84b9-b21aa55234d7",
+"option": "no",
+"voter_name": "Casey"
+},
+{
+"id": "96cd73b8-2b27-4dd7-b0e7-3bd8e8c02c0b",
+"option": "no",
+"voter_name": "Charlton",
+"voter": {
+"id": "ocd-person/21e8e7da-7b5c-4ca1-aa06-3dd53ca5c4a5",
+"name": "Tom Charlton",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-Windham",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-windham"
+}
+}
+},
+{
+"id": "ba64f7e5-2100-4629-af46-14c592afadae",
+"option": "no",
+"voter_name": "Coffin",
+"voter": {
+"id": "ocd-person/72cf372e-7fd5-40f8-bd04-ccd85fe57e5e",
+"name": "V.L. Coffin",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-2"
+}
+}
+},
+{
+"id": "72caa8d2-3b7e-4c2c-a4c0-c77ccf1b7290",
+"option": "no",
+"voter_name": "Demar",
+"voter": {
+"id": "ocd-person/7d3fc311-0a19-48c1-a1ff-d8e27f521479",
+"name": "Penny Demar",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Franklin-7",
+"division_id": "ocd-division/country:us/state:vt/sldl:franklin-7"
+}
+}
+},
+{
+"id": "aa420ba1-9173-480b-86c7-391535e0d0e5",
+"option": "no",
+"voter_name": "Dobrovich",
+"voter": {
+"id": "ocd-person/f668b31d-5c47-4d56-a850-1a1d859c8510",
+"name": "Josh Dobrovich",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Orange-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:orange-3"
+}
+}
+},
+{
+"id": "f2f34e22-f899-41f9-8421-a5584ce19de5",
+"option": "no",
+"voter_name": "Dolgin",
+"voter": {
+"id": "ocd-person/22ae1c1b-d08d-4068-ae58-ea89fecb8a09",
+"name": "Debbie Dolgin",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Caledonia-Essex",
+"division_id": "ocd-division/country:us/state:vt/sldl:caledonia-essex"
+}
+}
+},
+{
+"id": "30778997-b81c-4a91-b326-ca36d8fe2e7c",
+"option": "no",
+"voter_name": "Goslant",
+"voter": {
+"id": "ocd-person/723a6dd0-9f92-4fdf-b506-f6947a3ccfe7",
+"name": "Kenneth Goslant",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-1"
+}
+}
+},
+{
+"id": "ad316d47-b12b-47c9-beeb-fc373f3662cf",
+"option": "no",
+"voter_name": "Harvey",
+"voter": {
+"id": "ocd-person/55538705-111f-48b3-9495-7877bbecb1f3",
+"name": "Zak Harvey",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-3"
+}
+}
+},
+{
+"id": "574cac98-28bc-43af-85f7-9e6920e8fd75",
+"option": "no",
+"voter_name": "Hooper"
+},
+{
+"id": "46011bee-4406-4b69-8d36-ed660fa3560a",
+"option": "no",
+"voter_name": "Howland",
+"voter": {
+"id": "ocd-person/f930a207-e39c-47c9-b82a-d9eca94119c3",
+"name": "Christopher Howland",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-4",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-4"
+}
+}
+},
+{
+"id": "4fc20a0d-5a06-43c8-b524-292824226264",
+"option": "no",
+"voter_name": "Keyser",
+"voter": {
+"id": "ocd-person/568a47fb-6a5e-4346-800f-ac49018a9099",
+"name": "Chris Keyser",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-7",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-7"
+}
+}
+},
+{
+"id": "75d9f5fe-4f19-43e7-a355-ab5bf30d1aba",
+"option": "no",
+"voter_name": "Labor",
+"voter": {
+"id": "ocd-person/b9ffa5dc-833e-4936-9d62-0b653ae44842",
+"name": "Larry Labor",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Essex-Orleans",
+"division_id": "ocd-division/country:us/state:vt/sldl:essex-orleans"
+}
+}
+},
+{
+"id": "60981a22-0eca-4dbd-b4da-6c6421598a05",
+"option": "no",
+"voter_name": "Luneau",
+"voter": {
+"id": "ocd-person/36a9b7c9-0c31-4aff-82da-7d54b3e0721a",
+"name": "Joe Luneau",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Franklin-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:franklin-3"
+}
+}
+},
+{
+"id": "85d11dce-98fa-4ca6-bc7c-f98d9ff84bd8",
+"option": "no",
+"voter_name": "Maguire",
+"voter": {
+"id": "ocd-person/ed272e8b-3ef7-47ce-84c9-9163efac3734",
+"name": "Eric Maguire",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-5",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-5"
+}
+}
+},
+{
+"id": "06839ce2-e89a-4d92-9e19-f9076c346a8f",
+"option": "no",
+"voter_name": "Malay",
+"voter": {
+"id": "ocd-person/6c87b7e7-0047-47a6-94b4-9232ac42175f",
+"name": "Alicia Malay",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-8",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-8"
+}
+}
+},
+{
+"id": "d8598fe3-a519-4888-95ff-11c1053b3939",
+"option": "no",
+"voter_name": "McCoy",
+"voter": {
+"id": "ocd-person/599c54f9-34b6-4e31-bb50-e36708c3509b",
+"name": "Pattie McCoy",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-1"
+}
+}
+},
+{
+"id": "7260229f-da8f-499e-99a4-761cb5fd8d6d",
+"option": "no",
+"voter_name": "Morgan, L.",
+"voter": {
+"id": "ocd-person/5b8b4c48-b09c-4669-a145-c733ae32e293",
+"name": "Leland Morgan",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Grand Isle-Chittenden",
+"division_id": "ocd-division/country:us/state:vt/sldl:grand_isle-chittenden"
+}
+}
+},
+{
+"id": "b6295c12-6d31-45d9-add7-13f54489eb5b",
+"option": "no",
+"voter_name": "Morgan, M.",
+"voter": {
+"id": "ocd-person/ede0cb44-cafd-43ef-9b1c-3e6efdd759e7",
+"name": "Mike Morgan",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Grand Isle-Chittenden",
+"division_id": "ocd-division/country:us/state:vt/sldl:grand_isle-chittenden"
+}
+}
+},
+{
+"id": "e16ff68b-5515-4bd8-878c-7e6b61206723",
+"option": "no",
+"voter_name": "Morrissey",
+"voter": {
+"id": "ocd-person/337fe4da-28df-42bf-82b1-e806bb50e8f3",
+"name": "Mary Morrissey",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Bennington-5",
+"division_id": "ocd-division/country:us/state:vt/sldl:bennington-5"
+}
+}
+},
+{
+"id": "a188662e-4eef-48ca-978a-06e1281b5c3d",
+"option": "no",
+"voter_name": "Nelson",
+"voter": {
+"id": "ocd-person/5a58d1ac-7e52-457a-b6f4-c46a46d073e2",
+"name": "Richard Nelson",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Orleans-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:orleans-1"
+}
+}
+},
+{
+"id": "ec5e0d03-d944-4872-b14b-2324ae8ddc74",
+"option": "no",
+"voter_name": "Nielsen",
+"voter": {
+"id": "ocd-person/81ee4925-031e-4d85-b35b-6561eefa9d24",
+"name": "Todd Nielsen",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-9",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-9"
+}
+}
+},
+{
+"id": "31872c15-a1a7-4ecb-bedb-3c10de9fc061",
+"option": "no",
+"voter_name": "North",
+"voter": {
+"id": "ocd-person/825c4e6c-76c1-4c0c-85af-48be726a9108",
+"name": "Rob North",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Addison-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:addison-3"
+}
+}
+},
+{
+"id": "d08b029b-651c-46f0-98ed-e1a93e2f2645",
+"option": "no",
+"voter_name": "Oliver",
+"voter": {
+"id": "ocd-person/fe8a848a-09ff-4cca-b3b7-5f7c2750556f",
+"name": "Tom Oliver",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Franklin-4",
+"division_id": "ocd-division/country:us/state:vt/sldl:franklin-4"
+}
+}
+},
+{
+"id": "10d30536-0c9b-454f-adfb-3b399a976558",
+"option": "no",
+"voter_name": "Parsons",
+"voter": {
+"id": "ocd-person/54baf00b-c1da-4dc9-95cc-3210c50360e8",
+"name": "Joseph Parsons",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Orange-Caledonia",
+"division_id": "ocd-division/country:us/state:vt/sldl:orange-caledonia"
+}
+}
+},
+{
+"id": "47ca7b12-7f74-4df9-b127-e02eb7c23441",
+"option": "no",
+"voter_name": "Pinsonault",
+"voter": {
+"id": "ocd-person/86633f19-1d0c-437d-93b8-e715452c0d2c",
+"name": "Sandy Pinsonault",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Bennington-Rutland",
+"division_id": "ocd-division/country:us/state:vt/sldl:bennington-rutland"
+}
+}
+},
+{
+"id": "3e83faa7-827a-4954-b20b-af761c32f635",
+"option": "no",
+"voter_name": "Powers",
+"voter": {
+"id": "ocd-person/59bc4503-ca5f-413d-ac29-0bf51790dcb8",
+"name": "Debbie Powers",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Caledonia-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:caledonia-1"
+}
+}
+},
+{
+"id": "d3b96286-65c8-4028-ba14-1b319faace88",
+"option": "no",
+"voter_name": "Pritchard",
+"voter": {
+"id": "ocd-person/482c508a-aefd-405c-a252-4d661dced9a4",
+"name": "Chris Pritchard",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-Bennington",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-bennington"
+}
+}
+},
+{
+"id": "47374992-d4ad-4269-8e73-e36aa9baf8ae",
+"option": "no",
+"voter_name": "Quimby",
+"voter": {
+"id": "ocd-person/54f186e0-f30c-410a-bae4-bbd443611e77",
+"name": "Beth Quimby",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Caledonia-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:caledonia-3"
+}
+}
+},
+{
+"id": "a727cacc-5d4f-476a-af65-092164b30090",
+"option": "no",
+"voter_name": "Southworth",
+"voter": {
+"id": "ocd-person/1cd9cf7f-581d-4861-ac6f-b3414947419e",
+"name": "Mike Southworth",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Caledonia-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:caledonia-2"
+}
+}
+},
+{
+"id": "208f7634-9b07-49b0-8bf5-84de4f8c6d77",
+"option": "no",
+"voter_name": "Steady",
+"voter": {
+"id": "ocd-person/7ddd32be-c3f8-4861-9964-89e07127bec8",
+"name": "Brenda Steady",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-25",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-25"
+}
+}
+},
+{
+"id": "d524e312-ec4c-4074-8243-c59c084bc0ab",
+"option": "no",
+"voter_name": "Tagliavia",
+"voter": {
+"id": "ocd-person/682e6ab6-a457-4a67-bf31-5b94ab2b1333",
+"name": "Mike Tagliavia",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Orange-1",
+"division_id": "ocd-division/country:us/state:vt/sldl:orange-1"
+}
+}
+},
+{
+"id": "577e9be0-c733-48d4-aa98-6f7a496738ac",
+"option": "no",
+"voter_name": "Taylor",
+"voter": {
+"id": "ocd-person/8a7c0a35-c3bc-4b94-a1c3-c726c8ecaaae",
+"name": "Chris Taylor",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-Franklin",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-franklin"
+}
+}
+},
+{
+"id": "071c9207-f8d0-4465-9272-369a6c3c7c92",
+"option": "no",
+"voter_name": "Taylor",
+"voter": {
+"id": "ocd-person/8a7c0a35-c3bc-4b94-a1c3-c726c8ecaaae",
+"name": "Chris Taylor",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-Franklin",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-franklin"
+}
+}
+},
+{
+"id": "64b33d9d-fbf0-4919-b402-0378885ca0af",
+"option": "no",
+"voter_name": "Wells",
+"voter": {
+"id": "ocd-person/a10e8620-2957-408b-a004-481d6d19a832",
+"name": "Ken Wells",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Orleans-3",
+"division_id": "ocd-division/country:us/state:vt/sldl:orleans-3"
+}
+}
+},
+{
+"id": "2bf0f266-23c6-4e2a-bee7-4e96a445b5ff",
+"option": "not voting",
+"voter_name": "Bailey",
+"voter": {
+"id": "ocd-person/e997532b-9034-4d46-8c99-c92d763d8d0e",
+"name": "Richard Bailey",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Lamoille-2",
+"division_id": "ocd-division/country:us/state:vt/sldl:lamoille-2"
+}
+}
+},
+{
+"id": "26a2dd9a-d0ae-4259-b467-aa915d25f493",
+"option": "not voting",
+"voter_name": "Carris Duncan"
+},
+{
+"id": "17a69b1d-e9a3-4325-beb7-42343c5f87cd",
+"option": "not voting",
+"voter_name": "Chapin",
+"voter": {
+"id": "ocd-person/dda44e05-7cb0-49e7-ac32-49963b4aaa7c",
+"name": "Ela Chapin",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Washington-5",
+"division_id": "ocd-division/country:us/state:vt/sldl:washington-5"
+}
+}
+},
+{
+"id": "c41b6c0d-a837-4781-81bb-53321d83820f",
+"option": "not voting",
+"voter_name": "Christie",
+"voter": {
+"id": "ocd-person/dfe297f7-6d88-48d5-8b81-f2605f791de0",
+"name": "Kevin Christie",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Windsor-6",
+"division_id": "ocd-division/country:us/state:vt/sldl:windsor-6"
+}
+}
+},
+{
+"id": "29c49d03-e731-4c96-8ff3-06483e7a2c1c",
+"option": "not voting",
+"voter_name": "Gregoire",
+"voter": {
+"id": "ocd-person/2219c217-1804-40be-8183-ae139cd93f1c",
+"name": "James Gregoire",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Franklin-6",
+"division_id": "ocd-division/country:us/state:vt/sldl:franklin-6"
+}
+}
+},
+{
+"id": "2ff46eff-357e-4cd2-be70-0d0728978ff0",
+"option": "not voting",
+"voter_name": "Higley",
+"voter": {
+"id": "ocd-person/67ac8d03-20fe-47a8-9997-61467b4a8e30",
+"name": "Mark Higley",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Orleans-Lamoille",
+"division_id": "ocd-division/country:us/state:vt/sldl:orleans-lamoille"
+}
+}
+},
+{
+"id": "bce4bdc6-ae91-4026-9d1e-e0da002e9e9f",
+"option": "not voting",
+"voter_name": "Krowinski",
+"voter": {
+"id": "ocd-person/ca098cac-17de-4e6b-ac7c-178d77998970",
+"name": "Jill Krowinski",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-16",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-16"
+}
+}
+},
+{
+"id": "dc121281-98c2-46ff-92da-368484e1063b",
+"option": "not voting",
+"voter_name": "LaMont",
+"voter": {
+"id": "ocd-person/4d7ff594-22ad-4a37-b2ed-2190c6be9e54",
+"name": "Saudia Lamont",
+"party": "Democratic",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Lamoille-Washington",
+"division_id": "ocd-division/country:us/state:vt/sldl:lamoille-washington"
+}
+}
+},
+{
+"id": "4554df1a-ce72-40e3-ad99-e73752c8c415",
+"option": "not voting",
+"voter_name": "Micklus",
+"voter": {
+"id": "ocd-person/9a5bf877-6bb2-4135-a3de-fc344e84c1c6",
+"name": "Tony Micklus",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Chittenden-Franklin",
+"division_id": "ocd-division/country:us/state:vt/sldl:chittenden-franklin"
+}
+}
+},
+{
+"id": "f4559345-1e31-456e-9dd5-38160f6bc5ae",
+"option": "not voting",
+"voter_name": "Walker",
+"voter": {
+"id": "ocd-person/36d8fa28-e00c-4894-96b3-ef2946001d88",
+"name": "Matt Walker",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Franklin-4",
+"division_id": "ocd-division/country:us/state:vt/sldl:franklin-4"
+}
+}
+},
+{
+"id": "c9c6e700-d406-42f4-b875-77a223c90f13",
+"option": "not voting",
+"voter_name": "White"
+},
+{
+"id": "720f2edd-d157-48e2-a9b7-b2cdb0824636",
+"option": "not voting",
+"voter_name": "Winter",
+"voter": {
+"id": "ocd-person/c7254a9c-7d0d-499a-adad-25f869fd7406",
+"name": "Kevin Winter",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-Windsor",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-windsor"
+}
+}
+}
+],
+"counts": [
+{
+"option": "yes",
+"value": 97
+},
+{
+"option": "no",
+"value": 40
+},
+{
+"option": "not voting",
+"value": 12
+}
+],
+"sources": [
+{
+"url": "http://legislature.vermont.gov/bill/loadBillRollCallDetails/2026/121",
+"note": ""
+}
+]
+},
+{
+"id": "ocd-vote/7adcfb51-2c27-4e7c-af30-9cdba880528d",
+"motion_text": "Proposal of amendment agreed to on roll call, requested by Senator Perchlik, Passed -- Needed 15 of 30 to Pass -- Yeas = 23, Nays = 7",
+"motion_classification": [
+"passage"
+],
+"start_date": "2026-04-28",
+"result": "pass",
+"identifier": "4/28/2026--Proposal of amendment agreed to on roll call, requested by Senator Perchlik, Passed -- Needed 15 of 30 to Pass -- Yeas = 23, Nays = 7--http://legislature.vermont.gov/bill/loadBillRollCallDetails/2026/133",
+"extras": {},
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"votes": [
+{
+"id": "5959c736-4bb2-4049-8839-1a2adb0f6280",
+"option": "yes",
+"voter_name": "Baruth",
+"voter": {
+"id": "ocd-person/ba794ad6-45fa-40cc-8642-55e759a94d71",
+"name": "Phil Baruth",
+"party": "Democratic/Progressive",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Central",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-central"
+}
+}
+},
+{
+"id": "3122f09e-a1a0-4f00-bd3f-85228d4415d9",
+"option": "yes",
+"voter_name": "Beck",
+"voter": {
+"id": "ocd-person/d626c3d1-769d-456c-a073-f1efb326fe1d",
+"name": "Scott Beck",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Caledonia",
+"division_id": "ocd-division/country:us/state:vt/sldu:caledonia"
+}
+}
+},
+{
+"id": "3262b4dc-168a-4946-b586-abfce4af6113",
+"option": "yes",
+"voter_name": "Benson"
+},
+{
+"id": "4ae8fb75-4db8-4864-af6e-b4b6295885a7",
+"option": "yes",
+"voter_name": "Bongartz",
+"voter": {
+"id": "ocd-person/28f82298-2bd5-4f82-9e4a-3e2261f0062c",
+"name": "Seth Bongartz",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Bennington",
+"division_id": "ocd-division/country:us/state:vt/sldu:bennington"
+}
+}
+},
+{
+"id": "8d92256e-a6aa-4af1-8d30-37deed710e4f",
+"option": "yes",
+"voter_name": "Brennan",
+"voter": {
+"id": "ocd-person/44bcd67b-5b5f-4fca-a61a-20f91072c5e7",
+"name": "Patrick Brennan",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Grand Isle",
+"division_id": "ocd-division/country:us/state:vt/sldu:grand_isle"
+}
+}
+},
+{
+"id": "f5f18397-6e76-4656-92f2-0f2a0600af76",
+"option": "yes",
+"voter_name": "Chittenden",
+"voter": {
+"id": "ocd-person/c3b03c7d-9be1-4da5-994a-aa2980ae35b1",
+"name": "Thomas Chittenden",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Southeast",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-southeast"
+}
+}
+},
+{
+"id": "237dea4e-c13b-42a3-ab7f-27ba039b6395",
+"option": "yes",
+"voter_name": "Clarkson",
+"voter": {
+"id": "ocd-person/a366bc32-20d8-41a8-a2cf-939650b7a2c2",
+"name": "Alison Clarkson",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Windsor",
+"division_id": "ocd-division/country:us/state:vt/sldu:windsor"
+}
+}
+},
+{
+"id": "ee7395ea-4041-4330-a6b9-330a569dc772",
+"option": "yes",
+"voter_name": "Collamore",
+"voter": {
+"id": "ocd-person/d4ead076-6425-4ab7-ad32-b10dce660170",
+"name": "Brian Collamore",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Rutland",
+"division_id": "ocd-division/country:us/state:vt/sldu:rutland"
+}
+}
+},
+{
+"id": "43372483-72c0-421a-bcca-56d292a7f8cf",
+"option": "yes",
+"voter_name": "Cummings",
+"voter": {
+"id": "ocd-person/c34f492a-7cdf-4830-a28a-0ff2fe7c8f71",
+"name": "Ann Cummings",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Washington",
+"division_id": "ocd-division/country:us/state:vt/sldu:washington"
+}
+}
+},
+{
+"id": "fd38623e-a4e5-4ce9-b591-b95d93da8b4b",
+"option": "yes",
+"voter_name": "Gulick",
+"voter": {
+"id": "ocd-person/a1812863-f6a9-4ce2-8131-d701923dd507",
+"name": "Martine Gulick",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Central",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-central"
+}
+}
+},
+{
+"id": "b03593d7-c076-4fd6-a651-8298bdc1011f",
+"option": "yes",
+"voter_name": "Harrison",
+"voter": {
+"id": "ocd-person/bd5d142d-90c3-41f6-b8af-7591316951da",
+"name": "Jim Harrison",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-11",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-11"
+}
+}
+},
+{
+"id": "34332f76-6ace-4cd6-8682-33800d32c1f5",
+"option": "yes",
+"voter_name": "Hashim",
+"voter": {
+"id": "ocd-person/4cae5971-93ee-4029-b5ef-4c69574256da",
+"name": "Nader Hashim",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Windham",
+"division_id": "ocd-division/country:us/state:vt/sldu:windham"
+}
+}
+},
+{
+"id": "2b18f693-324d-442b-903a-4c50933cb7f0",
+"option": "yes",
+"voter_name": "Lyons",
+"voter": {
+"id": "ocd-person/91dafbcc-d313-4ef3-a506-0113d4ce1975",
+"name": "Ginny Lyons",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Southeast",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-southeast"
+}
+}
+},
+{
+"id": "a6f221da-bcdb-434b-903d-4d60eaa701bc",
+"option": "yes",
+"voter_name": "Major",
+"voter": {
+"id": "ocd-person/4eba2d1e-5bc7-42e1-bc03-2fdc5f4b4889",
+"name": "Joe Major",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Windsor",
+"division_id": "ocd-division/country:us/state:vt/sldu:windsor"
+}
+}
+},
+{
+"id": "8b2fdada-1fe3-4362-9e07-f3e1b0f8597c",
+"option": "yes",
+"voter_name": "Mattos",
+"voter": {
+"id": "ocd-person/1526326f-c2a8-4103-af27-1805f9a8e32a",
+"name": "Chris Mattos",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden North",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-north"
+}
+}
+},
+{
+"id": "c22a9c77-78b5-4218-9ca1-0cffb05689b7",
+"option": "yes",
+"voter_name": "Morley"
+},
+{
+"id": "2d40f0c7-74d9-432a-af31-c200aa43e025",
+"option": "yes",
+"voter_name": "Norris",
+"voter": {
+"id": "ocd-person/2f1d3491-871e-4eb6-988b-57d3c9ea7a19",
+"name": "Bob Norris",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Franklin",
+"division_id": "ocd-division/country:us/state:vt/sldu:franklin"
+}
+}
+},
+{
+"id": "68b436d4-c433-4156-8926-78e7929ddc5f",
+"option": "yes",
+"voter_name": "Perchlik",
+"voter": {
+"id": "ocd-person/1463485e-f279-44f6-a368-f75f213dc7cd",
+"name": "Andrew Perchlik",
+"party": "Democratic/Progressive",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Washington",
+"division_id": "ocd-division/country:us/state:vt/sldu:washington"
+}
+}
+},
+{
+"id": "afe29031-c2c2-434f-8608-c1ae06b8d828",
+"option": "yes",
+"voter_name": "Plunkett",
+"voter": {
+"id": "ocd-person/aabafc36-7412-443d-9fbb-f94ed291dcf7",
+"name": "Rob Plunkett",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Bennington",
+"division_id": "ocd-division/country:us/state:vt/sldu:bennington"
+}
+}
+},
+{
+"id": "367df7f9-3d7b-4c14-a60b-daa63a95a092",
+"option": "yes",
+"voter_name": "Ram Hinsdale",
+"voter": {
+"id": "ocd-person/06f7e87d-e1f3-4d29-bd2c-11cadb89069e",
+"name": "Kesha Ram Hinsdale",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Southeast",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-southeast"
+}
+}
+},
+{
+"id": "41673bfa-1a38-4cce-aae9-9faa96624dc2",
+"option": "yes",
+"voter_name": "Watson",
+"voter": {
+"id": "ocd-person/70fa5e7e-8ab1-4599-a881-61d12120637c",
+"name": "Anne Watson",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Washington",
+"division_id": "ocd-division/country:us/state:vt/sldu:washington"
+}
+}
+},
+{
+"id": "3d927153-5363-4b52-8694-c5f9f8f8acde",
+"option": "yes",
+"voter_name": "Westman",
+"voter": {
+"id": "ocd-person/9a4f5d0d-7c71-4f80-bcf0-da9b4882d0d7",
+"name": "Richard Westman",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Lamoille",
+"division_id": "ocd-division/country:us/state:vt/sldu:lamoille"
+}
+}
+},
+{
+"id": "fbcaaf4c-c1b3-4b9e-bc76-5c8d15ec8597",
+"option": "yes",
+"voter_name": "White"
+},
+{
+"id": "dddfa11f-501f-4575-abbb-8f6aeab299c4",
+"option": "no",
+"voter_name": "Brock",
+"voter": {
+"id": "ocd-person/e8028cf6-fe46-49bf-b8fc-6c9bcd1fa020",
+"name": "Randy Brock",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Franklin",
+"division_id": "ocd-division/country:us/state:vt/sldu:franklin"
+}
+}
+},
+{
+"id": "1fe2326a-e8df-4b6d-8702-d5247b7c8298",
+"option": "no",
+"voter_name": "Hardy",
+"voter": {
+"id": "ocd-person/84f2c6bd-5fe7-486c-b2ad-555bf69654e8",
+"name": "Ruth Hardy",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Addison",
+"division_id": "ocd-division/country:us/state:vt/sldu:addison"
+}
+}
+},
+{
+"id": "d829aa61-d300-4241-8da4-a9ed248323ef",
+"option": "no",
+"voter_name": "Heffernan",
+"voter": {
+"id": "ocd-person/0eb14129-49c2-4e33-9abd-34c8802958f1",
+"name": "Steven Heffernan",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Addison",
+"division_id": "ocd-division/country:us/state:vt/sldu:addison"
+}
+}
+},
+{
+"id": "0ddc356d-a38e-4ad7-872f-21211297ab31",
+"option": "no",
+"voter_name": "Ingalls",
+"voter": {
+"id": "ocd-person/ec8b2fa8-32e3-43ef-a8e9-101958b5d652",
+"name": "Russ Ingalls",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Essex",
+"division_id": "ocd-division/country:us/state:vt/sldu:essex"
+}
+}
+},
+{
+"id": "0224c4c4-5661-452f-97e3-8823b63fb12b",
+"option": "no",
+"voter_name": "Vyhovsky",
+"voter": {
+"id": "ocd-person/3c832fcc-6a3b-415d-9db8-25b87719082c",
+"name": "Tanya Vyhovsky",
+"party": "Democratic/Progressive",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Central",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-central"
+}
+}
+},
+{
+"id": "c2b7bbce-0aa5-490b-a627-3e8ba3234cb2",
+"option": "no",
+"voter_name": "Weeks",
+"voter": {
+"id": "ocd-person/f076a53a-1ebd-485d-8d0f-adb7cf0b00be",
+"name": "Dave Weeks",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Rutland",
+"division_id": "ocd-division/country:us/state:vt/sldu:rutland"
+}
+}
+},
+{
+"id": "f46f57a4-52a4-49fe-a54a-a493a5f32d0d",
+"option": "no",
+"voter_name": "Williams",
+"voter": {
+"id": "ocd-person/ba524e3d-a578-4498-8226-6e947840c69f",
+"name": "Terry Williams",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Rutland",
+"division_id": "ocd-division/country:us/state:vt/sldu:rutland"
+}
+}
+}
+],
+"counts": [
+{
+"option": "yes",
+"value": 23
+},
+{
+"option": "no",
+"value": 7
+},
+{
+"option": "not voting",
+"value": 0
+}
+],
+"sources": [
+{
+"url": "http://legislature.vermont.gov/bill/loadBillRollCallDetails/2026/133",
+"note": ""
+}
+]
+}
+]
+},
+{
+"id": "ocd-bill/e09d3e5f-1f26-4489-9d60-0afa505ecf8f",
+"session": "2025-2026",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:vt/government",
+"name": "Vermont",
+"classification": "state"
+},
+"from_organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"identifier": "H 930",
+"title": "An act relating to addressing and preventing chronic absenteeism",
+"classification": [
+"bill"
+],
+"subject": [],
+"extras": {},
+"created_at": "2026-03-14T15:06:52.796258+00:00",
+"updated_at": "2026-10-07T12:48:04.288408+00:00",
+"openstates_url": "https://openstates.org/vt/bills/2025-2026/H930/",
+"first_action_date": "2026-03-13",
+"latest_action_date": "2026-05-29",
+"latest_action_description": "House message: Governor approved bill on June 8, 2026",
+"latest_passage_date": "",
+"abstracts": [],
+"other_titles": [],
+"sponsorships": [
+{
+"id": "4b6d8b63-2363-4ece-a762-fd96f35a7aac",
+"name": "House Committee on Education",
+"entity_type": "person",
+"primary": true,
+"classification": "primary"
+}
+],
+"actions": [
+{
+"id": "179cac0c-a785-42ea-8eaa-86462d7162e3",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Committee bill read the first time and placed on Notice Calendar of March 17, 2026",
+"date": "2026-03-13",
+"classification": [],
+"order": 0,
+"related_entities": []
+},
+{
+"id": "515b222c-b58e-4d03-9f51-78701181eda2",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Notice Calendar: Committee bill for second reading",
+"date": "2026-03-17",
+"classification": [
+"reading-2"
+],
+"order": 1,
+"related_entities": []
+},
+{
+"id": "da840108-9661-46ff-aff6-3b94a1fc2ed7",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Action Calendar: Committee bill for second reading",
+"date": "2026-03-18",
+"classification": [
+"reading-2"
+],
+"order": 2,
+"related_entities": []
+},
+{
+"id": "e21eb232-c0ea-4f18-ab1a-57d4a834a916",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Read second time",
+"date": "2026-03-18",
+"classification": [
+"reading-2"
+],
+"order": 3,
+"related_entities": []
+},
+{
+"id": "e8a6386b-3975-4024-91a2-8a3db01d56a1",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rep. Hunter of Manchester spoke for the Committee on Education",
+"date": "2026-03-18",
+"classification": [],
+"order": 4,
+"related_entities": []
+},
+{
+"id": "d4c41fe9-a318-4afb-97df-9107d6230888",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Third Reading ordered",
+"date": "2026-03-18",
+"classification": [
+"reading-3"
+],
+"order": 5,
+"related_entities": []
+},
+{
+"id": "f7360284-6669-4e9a-ad96-6740dfeac8eb",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Action Calendar: Third Reading",
+"date": "2026-03-19",
+"classification": [
+"reading-3"
+],
+"order": 6,
+"related_entities": []
+},
+{
+"id": "3d58b8ad-687c-4be1-920e-9febfb99cda7",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rep. Hunter of Manchester moved to postpone action until March 20, 2026, which was agreed to",
+"date": "2026-03-19",
+"classification": [],
+"order": 7,
+"related_entities": []
+},
+{
+"id": "e966a268-dbfe-4b96-8715-c4b7fcad4651",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Action Calendar: Action postponed until March 20, 2026",
+"date": "2026-03-20",
+"classification": [],
+"order": 8,
+"related_entities": []
+},
+{
+"id": "82a1116e-f9c3-4724-b727-8d9ab6c25afd",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rep. Chapin of East Montpelier moved to amend the bill, which was agreed to",
+"date": "2026-03-20",
+"classification": [],
+"order": 9,
+"related_entities": []
+},
+{
+"id": "b462784e-d16d-4e37-b341-c82a1c572909",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Rep. Burrows of West Windsor and LaMont of Morristown moved to amend the bill, which was agreed to",
+"date": "2026-03-20",
+"classification": [],
+"order": 10,
+"related_entities": []
+},
+{
+"id": "e6e00bf4-074f-4199-8cb2-18cd8ead3501",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Read third time and passed",
+"date": "2026-03-20",
+"classification": [
+"reading-3"
+],
+"order": 11,
+"related_entities": []
+},
+{
+"id": "a2dfc8da-6ebd-41b6-b607-b90d28f08e9b",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Read 1st time & referred to Committee on Education",
+"date": "2026-03-25",
+"classification": [
+"introduction"
+],
+"order": 12,
+"related_entities": []
+},
+{
+"id": "8de8ba97-759b-443f-af9d-512480fd5cea",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Entered on Notice Calendar",
+"date": "2026-05-05",
+"classification": [],
+"order": 13,
+"related_entities": []
+},
+{
+"id": "d62c9a1b-420e-4578-81d8-415b1291fdbc",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Second Reading",
+"date": "2026-05-05",
+"classification": [
+"reading-2"
+],
+"order": 14,
+"related_entities": []
+},
+{
+"id": "fe10b6b2-a330-4539-b3d1-ab69f95d4def",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Favorable report with proposal of amendment by Committee on Education",
+"date": "2026-05-05",
+"classification": [
+"amendment-introduction"
+],
+"order": 15,
+"related_entities": []
+},
+{
+"id": "7610c0e5-df82-4c34-a912-0ae4f3334656",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "New Business/Second Reading",
+"date": "2026-05-06",
+"classification": [
+"reading-2"
+],
+"order": 16,
+"related_entities": []
+},
+{
+"id": "ff1d9c60-9bad-405d-95f1-37563fe509dc",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Favorable report with proposal of amendment by Committee on Education",
+"date": "2026-05-06",
+"classification": [
+"amendment-introduction"
+],
+"order": 17,
+"related_entities": []
+},
+{
+"id": "934a6df6-32a1-4d04-a72c-19f9316e05cf",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Unfinished Business/Second Reading",
+"date": "2026-05-07",
+"classification": [
+"reading-2"
+],
+"order": 18,
+"related_entities": []
+},
+{
+"id": "703f9c1b-abdd-4e0f-8e20-611579f1b972",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Favorable report with proposal of amendment by Committee on Education",
+"date": "2026-05-07",
+"classification": [
+"amendment-introduction"
+],
+"order": 19,
+"related_entities": []
+},
+{
+"id": "febf0e42-e9e8-4175-91ee-0edc9660f64c",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Read 2nd time, reported favorably with proposal of amendment by Senator Bongartz for Committee on Education",
+"date": "2026-05-07",
+"classification": [
+"amendment-introduction",
+"committee-passage-favorable",
+"reading-2"
+],
+"order": 20,
+"related_entities": []
+},
+{
+"id": "0c9d363c-51a4-4451-8382-0be8c97aa7f7",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Proposal of amendment by Committee on Education agreed to",
+"date": "2026-05-07",
+"classification": [
+"amendment-introduction"
+],
+"order": 21,
+"related_entities": []
+},
+{
+"id": "78d112d0-fba3-4ce7-8d8e-992876098b2c",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "3rd reading ordered",
+"date": "2026-05-07",
+"classification": [],
+"order": 22,
+"related_entities": []
+},
+{
+"id": "ef53995b-756a-43ae-91a9-a366fe06183f",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "New Business/Third Reading",
+"date": "2026-05-08",
+"classification": [
+"reading-3"
+],
+"order": 23,
+"related_entities": []
+},
+{
+"id": "8ae53948-a92c-4da8-82d7-c4eb3e935dab",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Proposal of amendment to be offered by Senator(s) Gulick",
+"date": "2026-05-08",
+"classification": [
+"amendment-introduction"
+],
+"order": 24,
+"related_entities": []
+},
+{
+"id": "083f2095-4aba-49d6-b6ca-01bb305b3bed",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Pending third reading, Senator Gulick proposal of amendment, disagreed to",
+"date": "2026-05-08",
+"classification": [
+"amendment-introduction",
+"reading-3"
+],
+"order": 25,
+"related_entities": []
+},
+{
+"id": "9f63a5c1-6959-4a7a-8176-d8c0881baf4f",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Roll Call, requested by Senator Heffernan, Failed -- Needed 15 of 30 to Pass -- Yeas = 6, Nays = 24",
+"date": "2026-05-08",
+"classification": [],
+"order": 26,
+"related_entities": []
+},
+{
+"id": "08808403-076f-477d-ac4c-3d7b5f97c177",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Roll Call, Requested by Sen. Heffernan",
+"date": "2026-05-08",
+"classification": [],
+"order": 27,
+"related_entities": []
+},
+{
+"id": "6e1002c2-fa40-4e98-b254-3ea1176de9b7",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "Read 3rd time & passed in concurrence with proposal of amendment",
+"date": "2026-05-08",
+"classification": [
+"amendment-introduction",
+"reading-3"
+],
+"order": 28,
+"related_entities": []
+},
+{
+"id": "4441c599-1dc4-4810-9e7a-3ee0124545ed",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Senate Message: Passed in concurrence with proposal of amendment",
+"date": "2026-05-12",
+"classification": [
+"amendment-introduction"
+],
+"order": 29,
+"related_entities": []
+},
+{
+"id": "05c8b41b-57cf-4efc-8283-ce2f0c25660e",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Notice Calendar: Senate Proposal of Amendment",
+"date": "2026-05-13",
+"classification": [
+"amendment-introduction"
+],
+"order": 30,
+"related_entities": []
+},
+{
+"id": "dd24fd60-a59e-4060-86ea-5cb98f2e84c4",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Action Calendar: Senate Proposal of Amendment",
+"date": "2026-05-14",
+"classification": [
+"amendment-introduction"
+],
+"order": 31,
+"related_entities": []
+},
+{
+"id": "d02fa4ba-2a5e-4e1c-bb7d-ba7684d3de38",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Senate proposal of amendment concurred in",
+"date": "2026-05-14",
+"classification": [
+"amendment-introduction"
+],
+"order": 32,
+"related_entities": []
+},
+{
+"id": "0fda194b-3300-406a-bc98-776b31ffd52b",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "House message: House concurred in Senate proposal of amendment",
+"date": "2026-05-19",
+"classification": [
+"amendment-introduction"
+],
+"order": 33,
+"related_entities": []
+},
+{
+"id": "f9005243-3d25-4ffd-aa96-da8942f0e7bc",
+"organization": {
+"id": "ocd-organization/1bba67ba-1a0c-4edc-a9de-32c2e5c13c6e",
+"name": "House",
+"classification": "lower"
+},
+"description": "Delivered to Governor on June 2, 2026",
+"date": "2026-05-29",
+"classification": [
+"executive-receipt"
+],
+"order": 34,
+"related_entities": []
+},
+{
+"id": "8021da97-d25a-4d7c-b744-e791fc71f22b",
+"organization": {
+"id": "ocd-organization/300018cf-7c78-415b-8a3c-b00f1a0eb2fa",
+"name": "Office of the Governor",
+"classification": "executive"
+},
+"description": "Signed by Governor on June 8, 2026",
+"date": "2026-05-29",
+"classification": [
+"executive-signature"
+],
+"order": 35,
+"related_entities": []
+},
+{
+"id": "c1ee685a-4632-4608-8c3f-2fe0577b599e",
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"description": "House message: Governor approved bill on June 8, 2026",
+"date": "2026-05-29",
+"classification": [],
+"order": 36,
+"related_entities": []
+}
+],
+"sources": [
+{
+"url": "http://legislature.vermont.gov/bill/loadBillRollCalls/2026/2188",
+"note": ""
+},
+{
+"url": "http://legislature.vermont.gov/bill/loadBillDetailedStatus/2026/2188",
+"note": ""
+},
+{
+"url": "http://legislature.vermont.gov/bill/status/2026/H.930",
+"note": ""
+},
+{
+"url": "http://legislature.vermont.gov/bill/loadBillsIntroduced/2026/",
+"note": ""
+}
+],
+"votes": [
+{
+"id": "ocd-vote/6ed78a21-d59d-4bbe-a237-f940cffc81ba",
+"motion_text": "Roll Call, requested by Senator Heffernan, Failed -- Needed 15 of 30 to Pass -- Yeas = 6, Nays = 24",
+"motion_classification": [
+"passage"
+],
+"start_date": "2026-05-08",
+"result": "fail",
+"identifier": "5/8/2026--Roll Call, requested by Senator Heffernan, Failed -- Needed 15 of 30 to Pass -- Yeas = 6, Nays = 24--http://legislature.vermont.gov/bill/loadBillRollCallDetails/2026/148",
+"extras": {},
+"organization": {
+"id": "ocd-organization/21504998-e5c7-44b4-8ebe-99fe57ef520c",
+"name": "Senate",
+"classification": "upper"
+},
+"votes": [
+{
+"id": "2d1553e3-9e2d-46e6-80c4-d5e64175fcb6",
+"option": "yes",
+"voter_name": "Clarkson",
+"voter": {
+"id": "ocd-person/a366bc32-20d8-41a8-a2cf-939650b7a2c2",
+"name": "Alison Clarkson",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Windsor",
+"division_id": "ocd-division/country:us/state:vt/sldu:windsor"
+}
+}
+},
+{
+"id": "7be3c38e-f04e-4e3f-b395-ccbfd0700dfd",
+"option": "yes",
+"voter_name": "Gulick",
+"voter": {
+"id": "ocd-person/a1812863-f6a9-4ce2-8131-d701923dd507",
+"name": "Martine Gulick",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Central",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-central"
+}
+}
+},
+{
+"id": "0aa40b87-97b2-47b1-b677-4f45e83c15df",
+"option": "yes",
+"voter_name": "Hardy",
+"voter": {
+"id": "ocd-person/84f2c6bd-5fe7-486c-b2ad-555bf69654e8",
+"name": "Ruth Hardy",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Addison",
+"division_id": "ocd-division/country:us/state:vt/sldu:addison"
+}
+}
+},
+{
+"id": "aaad9331-c85e-4eb0-aff3-0df1c6d31528",
+"option": "yes",
+"voter_name": "Ram Hinsdale",
+"voter": {
+"id": "ocd-person/06f7e87d-e1f3-4d29-bd2c-11cadb89069e",
+"name": "Kesha Ram Hinsdale",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Southeast",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-southeast"
+}
+}
+},
+{
+"id": "8f99ea8d-4a7d-4bd0-8d09-032dbca393d6",
+"option": "yes",
+"voter_name": "Vyhovsky",
+"voter": {
+"id": "ocd-person/3c832fcc-6a3b-415d-9db8-25b87719082c",
+"name": "Tanya Vyhovsky",
+"party": "Democratic/Progressive",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Central",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-central"
+}
+}
+},
+{
+"id": "4b0c433d-3e95-47ba-9145-eaa86b94c392",
+"option": "yes",
+"voter_name": "White"
+},
+{
+"id": "da00bcaa-6634-42bb-b1bd-e97fad5465fe",
+"option": "no",
+"voter_name": "Baruth",
+"voter": {
+"id": "ocd-person/ba794ad6-45fa-40cc-8642-55e759a94d71",
+"name": "Phil Baruth",
+"party": "Democratic/Progressive",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Central",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-central"
+}
+}
+},
+{
+"id": "1fac4429-f8d4-4ec3-8996-7def21cbdc8f",
+"option": "no",
+"voter_name": "Beck",
+"voter": {
+"id": "ocd-person/d626c3d1-769d-456c-a073-f1efb326fe1d",
+"name": "Scott Beck",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Caledonia",
+"division_id": "ocd-division/country:us/state:vt/sldu:caledonia"
+}
+}
+},
+{
+"id": "20b1af51-820d-44a2-b4d6-77ff6d32e208",
+"option": "no",
+"voter_name": "Benson"
+},
+{
+"id": "c0d29f05-8147-4b53-9d34-8a4bf7cd23fc",
+"option": "no",
+"voter_name": "Bongartz",
+"voter": {
+"id": "ocd-person/28f82298-2bd5-4f82-9e4a-3e2261f0062c",
+"name": "Seth Bongartz",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Bennington",
+"division_id": "ocd-division/country:us/state:vt/sldu:bennington"
+}
+}
+},
+{
+"id": "bbedd001-5e0e-4740-bdbb-e800e09bd6a6",
+"option": "no",
+"voter_name": "Brennan",
+"voter": {
+"id": "ocd-person/44bcd67b-5b5f-4fca-a61a-20f91072c5e7",
+"name": "Patrick Brennan",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Grand Isle",
+"division_id": "ocd-division/country:us/state:vt/sldu:grand_isle"
+}
+}
+},
+{
+"id": "91e0ce5c-0ad2-485a-a0c6-319a570f6948",
+"option": "no",
+"voter_name": "Brock",
+"voter": {
+"id": "ocd-person/e8028cf6-fe46-49bf-b8fc-6c9bcd1fa020",
+"name": "Randy Brock",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Franklin",
+"division_id": "ocd-division/country:us/state:vt/sldu:franklin"
+}
+}
+},
+{
+"id": "8b3cb7b6-da13-49a8-a306-eb784e9e56d7",
+"option": "no",
+"voter_name": "Chittenden",
+"voter": {
+"id": "ocd-person/c3b03c7d-9be1-4da5-994a-aa2980ae35b1",
+"name": "Thomas Chittenden",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Southeast",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-southeast"
+}
+}
+},
+{
+"id": "15147c56-f592-4573-92d0-200ae9dc8e17",
+"option": "no",
+"voter_name": "Collamore",
+"voter": {
+"id": "ocd-person/d4ead076-6425-4ab7-ad32-b10dce660170",
+"name": "Brian Collamore",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Rutland",
+"division_id": "ocd-division/country:us/state:vt/sldu:rutland"
+}
+}
+},
+{
+"id": "01c6bde3-259a-4f4e-94fb-8aa59bfc1f22",
+"option": "no",
+"voter_name": "Cummings",
+"voter": {
+"id": "ocd-person/c34f492a-7cdf-4830-a28a-0ff2fe7c8f71",
+"name": "Ann Cummings",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Washington",
+"division_id": "ocd-division/country:us/state:vt/sldu:washington"
+}
+}
+},
+{
+"id": "d9c7d5d7-c65c-400e-990f-7bf10d5deb8d",
+"option": "no",
+"voter_name": "Harrison",
+"voter": {
+"id": "ocd-person/bd5d142d-90c3-41f6-b8af-7591316951da",
+"name": "Jim Harrison",
+"party": "Republican",
+"current_role": {
+"title": "Representative",
+"org_classification": "lower",
+"district": "Rutland-11",
+"division_id": "ocd-division/country:us/state:vt/sldl:rutland-11"
+}
+}
+},
+{
+"id": "ecdf9d49-4a43-4332-8f20-574401020658",
+"option": "no",
+"voter_name": "Hashim",
+"voter": {
+"id": "ocd-person/4cae5971-93ee-4029-b5ef-4c69574256da",
+"name": "Nader Hashim",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Windham",
+"division_id": "ocd-division/country:us/state:vt/sldu:windham"
+}
+}
+},
+{
+"id": "30f2eb48-628e-4aa3-8e1e-469ad6940ece",
+"option": "no",
+"voter_name": "Heffernan",
+"voter": {
+"id": "ocd-person/0eb14129-49c2-4e33-9abd-34c8802958f1",
+"name": "Steven Heffernan",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Addison",
+"division_id": "ocd-division/country:us/state:vt/sldu:addison"
+}
+}
+},
+{
+"id": "a49be8ce-651e-4f0e-8287-a0e786871cf1",
+"option": "no",
+"voter_name": "Ingalls",
+"voter": {
+"id": "ocd-person/ec8b2fa8-32e3-43ef-a8e9-101958b5d652",
+"name": "Russ Ingalls",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Essex",
+"division_id": "ocd-division/country:us/state:vt/sldu:essex"
+}
+}
+},
+{
+"id": "f1036cfa-9aa9-4e56-bbd1-3319f6484687",
+"option": "no",
+"voter_name": "Lyons",
+"voter": {
+"id": "ocd-person/91dafbcc-d313-4ef3-a506-0113d4ce1975",
+"name": "Ginny Lyons",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden Southeast",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-southeast"
+}
+}
+},
+{
+"id": "44d25109-6a45-45d7-80e7-e5b21ca5b11e",
+"option": "no",
+"voter_name": "Major",
+"voter": {
+"id": "ocd-person/4eba2d1e-5bc7-42e1-bc03-2fdc5f4b4889",
+"name": "Joe Major",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Windsor",
+"division_id": "ocd-division/country:us/state:vt/sldu:windsor"
+}
+}
+},
+{
+"id": "7f9d5cb0-2785-4a2f-9079-e12cfeef7c7a",
+"option": "no",
+"voter_name": "Mattos",
+"voter": {
+"id": "ocd-person/1526326f-c2a8-4103-af27-1805f9a8e32a",
+"name": "Chris Mattos",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Chittenden North",
+"division_id": "ocd-division/country:us/state:vt/sldu:chittenden-north"
+}
+}
+},
+{
+"id": "791faa7c-73be-4b8f-bd04-595fa1233f60",
+"option": "no",
+"voter_name": "Morley"
+},
+{
+"id": "d26fb0a8-f144-42fc-98ff-f2c6a804b39a",
+"option": "no",
+"voter_name": "Norris",
+"voter": {
+"id": "ocd-person/2f1d3491-871e-4eb6-988b-57d3c9ea7a19",
+"name": "Bob Norris",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Franklin",
+"division_id": "ocd-division/country:us/state:vt/sldu:franklin"
+}
+}
+},
+{
+"id": "f5f55091-71ee-498d-a37f-ea4fae1d1bc4",
+"option": "no",
+"voter_name": "Perchlik",
+"voter": {
+"id": "ocd-person/1463485e-f279-44f6-a368-f75f213dc7cd",
+"name": "Andrew Perchlik",
+"party": "Democratic/Progressive",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Washington",
+"division_id": "ocd-division/country:us/state:vt/sldu:washington"
+}
+}
+},
+{
+"id": "a903ceb3-1c5a-411f-87c8-754390748415",
+"option": "no",
+"voter_name": "Plunkett",
+"voter": {
+"id": "ocd-person/aabafc36-7412-443d-9fbb-f94ed291dcf7",
+"name": "Rob Plunkett",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Bennington",
+"division_id": "ocd-division/country:us/state:vt/sldu:bennington"
+}
+}
+},
+{
+"id": "b80599ce-573c-438f-824f-da2658f287c9",
+"option": "no",
+"voter_name": "Watson",
+"voter": {
+"id": "ocd-person/70fa5e7e-8ab1-4599-a881-61d12120637c",
+"name": "Anne Watson",
+"party": "Democratic",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Washington",
+"division_id": "ocd-division/country:us/state:vt/sldu:washington"
+}
+}
+},
+{
+"id": "6f8ad992-383a-47f7-a49b-06ba7b8b8e1a",
+"option": "no",
+"voter_name": "Weeks",
+"voter": {
+"id": "ocd-person/f076a53a-1ebd-485d-8d0f-adb7cf0b00be",
+"name": "Dave Weeks",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Rutland",
+"division_id": "ocd-division/country:us/state:vt/sldu:rutland"
+}
+}
+},
+{
+"id": "658f4387-94c6-4be3-9f3b-b30b18729da5",
+"option": "no",
+"voter_name": "Westman",
+"voter": {
+"id": "ocd-person/9a4f5d0d-7c71-4f80-bcf0-da9b4882d0d7",
+"name": "Richard Westman",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Lamoille",
+"division_id": "ocd-division/country:us/state:vt/sldu:lamoille"
+}
+}
+},
+{
+"id": "13d3691b-aaa8-4cac-91f7-e39ab55fd255",
+"option": "no",
+"voter_name": "Williams",
+"voter": {
+"id": "ocd-person/ba524e3d-a578-4498-8226-6e947840c69f",
+"name": "Terry Williams",
+"party": "Republican",
+"current_role": {
+"title": "Senator",
+"org_classification": "upper",
+"district": "Rutland",
+"division_id": "ocd-division/country:us/state:vt/sldu:rutland"
+}
+}
+}
+],
+"counts": [
+{
+"option": "yes",
+"value": 6
+},
+{
+"option": "no",
+"value": 24
+},
+{
+"option": "not voting",
+"value": 0
+}
+],
+"sources": [
+{
+"url": "http://legislature.vermont.gov/bill/loadBillRollCallDetails/2026/148",
+"note": ""
+}
+]
+}
+]
+}
+],
+"pagination": {
+"per_page": 3,
+"page": 1,
+"max_page": 9,
+"total_items": 26
+}
+}

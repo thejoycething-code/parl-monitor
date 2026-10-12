@@ -1,0 +1,244 @@
+{
+ "d": [
+  {
+   "__metadata": {
+    "id": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'781c2c9d-71d3-4d58-a6af-09119d061e66',Language='DE')",
+    "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'781c2c9d-71d3-4d58-a6af-09119d061e66',Language='DE')",
+    "type": "itsystems.Pd.DataServices.DataModel.MemberCommittee"
+   },
+   "Committees": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'781c2c9d-71d3-4d58-a6af-09119d061e66',Language='DE')/Committees"
+    }
+   },
+   "MembersCouncil": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'781c2c9d-71d3-4d58-a6af-09119d061e66',Language='DE')/MembersCouncil"
+    }
+   },
+   "ID": "781c2c9d-71d3-4d58-a6af-09119d061e66",
+   "Language": "DE",
+   "CommitteeNumber": 3,
+   "PersonNumber": 4331,
+   "PersonIdCode": 3226,
+   "CommitteeFunction": 1,
+   "CommitteeFunctionName": "Mitglied",
+   "FirstName": "Marc",
+   "LastName": "Jost",
+   "GenderAsString": "m",
+   "PartyNumber": 18,
+   "PartyName": "Evangelische Volkspartei der Schweiz",
+   "Council": 1,
+   "CouncilName": "Nationalrat",
+   "Canton": 2,
+   "CantonName": "Bern",
+   "Modified": "/Date(1791556089513)/",
+   "ParlGroupNumber": 3,
+   "ParlGroupName": "Die Mitte-Fraktion. Die Mitte. EVP.",
+   "ParlGroupAbbreviation": "Fraktion M-E",
+   "ParlGroupCode": "M-E",
+   "PartyAbbreviation": "EVP",
+   "CouncilAbbreviation": "NR",
+   "CantonAbbreviation": "BE",
+   "CommitteeName": "Geschäftsprüfungskommission Nationalrat",
+   "Abbreviation": null,
+   "Abbreviation1": "GPK-N",
+   "Abbreviation2": null,
+   "CommitteeType": 1,
+   "CommitteeTypeName": "Ständig",
+   "CommitteeTypeAbbreviation": "ständig"
+  },
+  {
+   "__metadata": {
+    "id": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'92f3de52-fa30-4a63-b24e-2e350b633e9c',Language='DE')",
+    "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'92f3de52-fa30-4a63-b24e-2e350b633e9c',Language='DE')",
+    "type": "itsystems.Pd.DataServices.DataModel.MemberCommittee"
+   },
+   "Committees": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'92f3de52-fa30-4a63-b24e-2e350b633e9c',Language='DE')/Committees"
+    }
+   },
+   "MembersCouncil": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'92f3de52-fa30-4a63-b24e-2e350b633e9c',Language='DE')/MembersCouncil"
+    }
+   },
+   "ID": "92f3de52-fa30-4a63-b24e-2e350b633e9c",
+   "Language": "DE",
+   "CommitteeNumber": 11,
+   "PersonNumber": 4331,
+   "PersonIdCode": 3226,
+   "CommitteeFunction": 1,
+   "CommitteeFunctionName": "Mitglied",
+   "FirstName": "Marc",
+   "LastName": "Jost",
+   "GenderAsString": "m",
+   "PartyNumber": 18,
+   "PartyName": "Evangelische Volkspartei der Schweiz",
+   "Council": 1,
+   "CouncilName": "Nationalrat",
+   "Canton": 2,
+   "CantonName": "Bern",
+   "Modified": "/Date(1791556089513)/",
+   "ParlGroupNumber": 3,
+   "ParlGroupName": "Die Mitte-Fraktion. Die Mitte. EVP.",
+   "ParlGroupAbbreviation": "Fraktion M-E",
+   "ParlGroupCode": "M-E",
+   "PartyAbbreviation": "EVP",
+   "CouncilAbbreviation": "NR",
+   "CantonAbbreviation": "BE",
+   "CommitteeName": "Staatspolitische Kommission Nationalrat",
+   "Abbreviation": null,
+   "Abbreviation1": "SPK-N",
+   "Abbreviation2": null,
+   "CommitteeType": 1,
+   "CommitteeTypeName": "Ständig",
+   "CommitteeTypeAbbreviation": "ständig"
+  },
+  {
+   "__metadata": {
+    "id": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'b3d21a6a-d4cc-493d-8f42-5a774d435173',Language='DE')",
+    "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'b3d21a6a-d4cc-493d-8f42-5a774d435173',Language='DE')",
+    "type": "itsystems.Pd.DataServices.DataModel.MemberCommittee"
+   },
+   "Committees": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'b3d21a6a-d4cc-493d-8f42-5a774d435173',Language='DE')/Committees"
+    }
+   },
+   "MembersCouncil": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'b3d21a6a-d4cc-493d-8f42-5a774d435173',Language='DE')/MembersCouncil"
+    }
+   },
+   "ID": "b3d21a6a-d4cc-493d-8f42-5a774d435173",
+   "Language": "DE",
+   "CommitteeNumber": 789,
+   "PersonNumber": 4331,
+   "PersonIdCode": 3226,
+   "CommitteeFunction": 2,
+   "CommitteeFunctionName": "Präsident/in",
+   "FirstName": "Marc",
+   "LastName": "Jost",
+   "GenderAsString": "m",
+   "PartyNumber": 18,
+   "PartyName": "Evangelische Volkspartei der Schweiz",
+   "Council": 1,
+   "CouncilName": "Nationalrat",
+   "Canton": 2,
+   "CantonName": "Bern",
+   "Modified": "/Date(1791556089513)/",
+   "ParlGroupNumber": 3,
+   "ParlGroupName": "Die Mitte-Fraktion. Die Mitte. EVP.",
+   "ParlGroupAbbreviation": "Fraktion M-E",
+   "ParlGroupCode": "M-E",
+   "PartyAbbreviation": "EVP",
+   "CouncilAbbreviation": "NR",
+   "CantonAbbreviation": "BE",
+   "CommitteeName": "Geschäftsprüfungskommission Nationalrat Subkommission EFD/WBF",
+   "Abbreviation": null,
+   "Abbreviation1": "GPK-N EFD/WBF",
+   "Abbreviation2": null,
+   "CommitteeType": 1,
+   "CommitteeTypeName": "Ständig",
+   "CommitteeTypeAbbreviation": "ständig"
+  },
+  {
+   "__metadata": {
+    "id": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'c91f516d-89bc-43fb-b072-05405b8e429e',Language='DE')",
+    "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'c91f516d-89bc-43fb-b072-05405b8e429e',Language='DE')",
+    "type": "itsystems.Pd.DataServices.DataModel.MemberCommittee"
+   },
+   "Committees": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'c91f516d-89bc-43fb-b072-05405b8e429e',Language='DE')/Committees"
+    }
+   },
+   "MembersCouncil": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'c91f516d-89bc-43fb-b072-05405b8e429e',Language='DE')/MembersCouncil"
+    }
+   },
+   "ID": "c91f516d-89bc-43fb-b072-05405b8e429e",
+   "Language": "DE",
+   "CommitteeNumber": 19,
+   "PersonNumber": 1106,
+   "PersonIdCode": 2600,
+   "CommitteeFunction": 1,
+   "CommitteeFunctionName": "Mitglied",
+   "FirstName": "Brigitte",
+   "LastName": "Häberli-Koller",
+   "GenderAsString": "f",
+   "PartyNumber": 1586,
+   "PartyName": "Die Mitte",
+   "Council": 2,
+   "CouncilName": "Ständerat",
+   "Canton": 20,
+   "CantonName": "Thurgau",
+   "Modified": "/Date(1785937704257)/",
+   "ParlGroupNumber": 3,
+   "ParlGroupName": "Die Mitte-Fraktion. Die Mitte. EVP.",
+   "ParlGroupAbbreviation": "Fraktion M-E",
+   "ParlGroupCode": "M-E",
+   "PartyAbbreviation": "M-E",
+   "CouncilAbbreviation": "SR",
+   "CantonAbbreviation": "TG",
+   "CommitteeName": "Kommission für soziale Sicherheit und Gesundheit Ständerat",
+   "Abbreviation": null,
+   "Abbreviation1": "SGK-S",
+   "Abbreviation2": null,
+   "CommitteeType": 1,
+   "CommitteeTypeName": "Ständig",
+   "CommitteeTypeAbbreviation": "ständig"
+  },
+  {
+   "__metadata": {
+    "id": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'8d442492-0f7b-4ef9-9d12-10b81ce52060',Language='DE')",
+    "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'8d442492-0f7b-4ef9-9d12-10b81ce52060',Language='DE')",
+    "type": "itsystems.Pd.DataServices.DataModel.MemberCommittee"
+   },
+   "Committees": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'8d442492-0f7b-4ef9-9d12-10b81ce52060',Language='DE')/Committees"
+    }
+   },
+   "MembersCouncil": {
+    "__deferred": {
+     "uri": "https://ws.parlament.ch/OData.svc/MemberCommittee(ID=guid'8d442492-0f7b-4ef9-9d12-10b81ce52060',Language='DE')/MembersCouncil"
+    }
+   },
+   "ID": "8d442492-0f7b-4ef9-9d12-10b81ce52060",
+   "Language": "DE",
+   "CommitteeNumber": 6,
+   "PersonNumber": 4280,
+   "PersonIdCode": 3172,
+   "CommitteeFunction": 1,
+   "CommitteeFunctionName": "Mitglied",
+   "FirstName": "Léonore",
+   "LastName": "Porchet",
+   "GenderAsString": "f",
+   "PartyNumber": 20,
+   "PartyName": "GRÜNE Schweiz",
+   "Council": 1,
+   "CouncilName": "Nationalrat",
+   "Canton": 22,
+   "CantonName": "Waadt",
+   "Modified": "/Date(1790083055193)/",
+   "ParlGroupNumber": 6,
+   "ParlGroupName": "Grüne Fraktion",
+   "ParlGroupAbbreviation": "Fraktion G",
+   "ParlGroupCode": "G",
+   "PartyAbbreviation": "GRÜNE",
+   "CouncilAbbreviation": "NR",
+   "CantonAbbreviation": "VD",
+   "CommitteeName": "Kommission für soziale Sicherheit und Gesundheit Nationalrat",
+   "Abbreviation": null,
+   "Abbreviation1": "SGK-N",
+   "Abbreviation2": null,
+   "CommitteeType": 1,
+   "CommitteeTypeName": "Ständig",
+   "CommitteeTypeAbbreviation": "ständig"
+  }
+ ]
+}

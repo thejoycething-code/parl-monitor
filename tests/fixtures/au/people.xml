@@ -1,0 +1,1443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<publicwhip>
+<person id="uk.org.publicwhip/person/10007" latestname="Anthony Albanese">
+  <office current="yes" id="uk.org.publicwhip/member/6" />
+  <office id="uk.org.publicwhip/moffice/190" />
+  <office id="uk.org.publicwhip/moffice/191" />
+  <office id="uk.org.publicwhip/moffice/192" />
+  <office id="uk.org.publicwhip/moffice/193" />
+  <office id="uk.org.publicwhip/moffice/194" />
+  <office id="uk.org.publicwhip/moffice/195" />
+  <office current="yes" id="uk.org.publicwhip/moffice/196" />
+  <office id="uk.org.publicwhip/moffice/1094" />
+  <office id="uk.org.publicwhip/moffice/1095" />
+  <office id="uk.org.publicwhip/moffice/1096" />
+  <office id="uk.org.publicwhip/moffice/1097" />
+  <office id="uk.org.publicwhip/moffice/1098" />
+  <office id="uk.org.publicwhip/moffice/1099" />
+  <office id="uk.org.publicwhip/moffice/1100" />
+  <office id="uk.org.publicwhip/moffice/1101" />
+  <office id="uk.org.publicwhip/moffice/1832" />
+  <office id="uk.org.publicwhip/moffice/1833" />
+  <office id="uk.org.publicwhip/moffice/1834" />
+  <office id="uk.org.publicwhip/moffice/1835" />
+ </person>
+<person id="uk.org.publicwhip/person/10060" latestname="Chris Bowen">
+  <office id="uk.org.publicwhip/member/48" />
+  <office current="yes" id="uk.org.publicwhip/member/623" />
+  <office id="uk.org.publicwhip/moffice/244" />
+  <office id="uk.org.publicwhip/moffice/245" />
+  <office id="uk.org.publicwhip/moffice/246" />
+  <office id="uk.org.publicwhip/moffice/247" />
+  <office id="uk.org.publicwhip/moffice/248" />
+  <office id="uk.org.publicwhip/moffice/249" />
+  <office id="uk.org.publicwhip/moffice/250" />
+  <office id="uk.org.publicwhip/moffice/251" />
+  <office current="yes" id="uk.org.publicwhip/moffice/252" />
+  <office id="uk.org.publicwhip/moffice/1160" />
+  <office id="uk.org.publicwhip/moffice/1161" />
+  <office id="uk.org.publicwhip/moffice/1808" />
+  <office id="uk.org.publicwhip/moffice/1809" />
+  <office id="uk.org.publicwhip/moffice/1810" />
+  <office id="uk.org.publicwhip/moffice/1811" />
+  <office id="uk.org.publicwhip/moffice/1812" />
+ </person>
+<person id="uk.org.publicwhip/person/10071" latestname="Carol Brown">
+  <office current="yes" id="uk.org.publicwhip/lord/100026" />
+  <office id="uk.org.publicwhip/moffice/1034" />
+  <office id="uk.org.publicwhip/moffice/2031" />
+  <office id="uk.org.publicwhip/moffice/2032" />
+  <office id="uk.org.publicwhip/moffice/2033" />
+  <office id="uk.org.publicwhip/moffice/2034" />
+  <office id="uk.org.publicwhip/moffice/2035" />
+  <office id="uk.org.publicwhip/moffice/2036" />
+  <office id="uk.org.publicwhip/moffice/2037" />
+  <office id="uk.org.publicwhip/moffice/2038" />
+  <office id="uk.org.publicwhip/moffice/2039" />
+  <office id="uk.org.publicwhip/moffice/2040" />
+  <office id="uk.org.publicwhip/moffice/2041" />
+ </person>
+<person id="uk.org.publicwhip/person/10081" latestname="Tony Burke">
+  <office current="yes" id="uk.org.publicwhip/member/69" />
+  <office id="uk.org.publicwhip/moffice/545" />
+  <office id="uk.org.publicwhip/moffice/546" />
+  <office id="uk.org.publicwhip/moffice/547" />
+  <office id="uk.org.publicwhip/moffice/548" />
+  <office id="uk.org.publicwhip/moffice/549" />
+  <office id="uk.org.publicwhip/moffice/550" />
+  <office current="yes" id="uk.org.publicwhip/moffice/551" />
+  <office current="yes" id="uk.org.publicwhip/moffice/552" />
+  <office current="yes" id="uk.org.publicwhip/moffice/553" />
+  <office id="uk.org.publicwhip/moffice/554" />
+  <office current="yes" id="uk.org.publicwhip/moffice/555" />
+  <office current="yes" id="uk.org.publicwhip/moffice/556" />
+  <office id="uk.org.publicwhip/moffice/1762" />
+  <office id="uk.org.publicwhip/moffice/1763" />
+  <office id="uk.org.publicwhip/moffice/1764" />
+  <office id="uk.org.publicwhip/moffice/1813" />
+  <office id="uk.org.publicwhip/moffice/1814" />
+  <office id="uk.org.publicwhip/moffice/1815" />
+  <office id="uk.org.publicwhip/moffice/1816" />
+  <office id="uk.org.publicwhip/moffice/1817" />
+  <office id="uk.org.publicwhip/moffice/1818" />
+  <office id="uk.org.publicwhip/moffice/1819" />
+ </person>
+<person id="uk.org.publicwhip/person/10086" latestname="Mark Butler">
+  <office id="uk.org.publicwhip/member/73" />
+  <office current="yes" id="uk.org.publicwhip/member/767" />
+  <office id="uk.org.publicwhip/moffice/425" />
+  <office id="uk.org.publicwhip/moffice/426" />
+  <office id="uk.org.publicwhip/moffice/427" />
+  <office id="uk.org.publicwhip/moffice/428" />
+  <office id="uk.org.publicwhip/moffice/429" />
+  <office id="uk.org.publicwhip/moffice/430" />
+  <office id="uk.org.publicwhip/moffice/431" />
+  <office current="yes" id="uk.org.publicwhip/moffice/432" />
+  <office current="yes" id="uk.org.publicwhip/moffice/433" />
+  <office current="yes" id="uk.org.publicwhip/moffice/434" />
+  <office id="uk.org.publicwhip/moffice/1836" />
+  <office id="uk.org.publicwhip/moffice/1837" />
+  <office id="uk.org.publicwhip/moffice/1838" />
+  <office id="uk.org.publicwhip/moffice/1839" />
+ </person>
+<person id="uk.org.publicwhip/person/10123" latestname="Jason Clare">
+  <office current="yes" id="uk.org.publicwhip/member/106" />
+  <office id="uk.org.publicwhip/moffice/332" />
+  <office id="uk.org.publicwhip/moffice/333" />
+  <office id="uk.org.publicwhip/moffice/334" />
+  <office id="uk.org.publicwhip/moffice/335" />
+  <office id="uk.org.publicwhip/moffice/336" />
+  <office id="uk.org.publicwhip/moffice/337" />
+  <office current="yes" id="uk.org.publicwhip/moffice/338" />
+  <office id="uk.org.publicwhip/moffice/1840" />
+  <office id="uk.org.publicwhip/moffice/1841" />
+  <office id="uk.org.publicwhip/moffice/1842" />
+  <office id="uk.org.publicwhip/moffice/1843" />
+  <office id="uk.org.publicwhip/moffice/1844" />
+ </person>
+<person id="uk.org.publicwhip/person/10131" latestname="Richard Colbeck">
+  <office id="uk.org.publicwhip/lord/100047" />
+  <office current="yes" id="uk.org.publicwhip/lord/100880" />
+  <office id="uk.org.publicwhip/moffice/153" />
+  <office id="uk.org.publicwhip/moffice/154" />
+  <office id="uk.org.publicwhip/moffice/724" />
+  <office id="uk.org.publicwhip/moffice/725" />
+  <office id="uk.org.publicwhip/moffice/726" />
+  <office id="uk.org.publicwhip/moffice/727" />
+  <office id="uk.org.publicwhip/moffice/728" />
+  <office id="uk.org.publicwhip/moffice/729" />
+  <office id="uk.org.publicwhip/moffice/730" />
+  <office id="uk.org.publicwhip/moffice/731" />
+  <office id="uk.org.publicwhip/moffice/732" />
+  <office id="uk.org.publicwhip/moffice/733" />
+  <office id="uk.org.publicwhip/moffice/1633" />
+  <office id="uk.org.publicwhip/moffice/1634" />
+  <office id="uk.org.publicwhip/moffice/1635" />
+  <office id="uk.org.publicwhip/moffice/1636" />
+ </person>
+<person id="uk.org.publicwhip/person/10181" latestname="Mark Dreyfus">
+  <office current="yes" id="uk.org.publicwhip/member/149" />
+  <office id="uk.org.publicwhip/moffice/435" />
+  <office id="uk.org.publicwhip/moffice/436" />
+  <office id="uk.org.publicwhip/moffice/437" />
+  <office id="uk.org.publicwhip/moffice/438" />
+  <office id="uk.org.publicwhip/moffice/439" />
+  <office id="uk.org.publicwhip/moffice/440" />
+  <office id="uk.org.publicwhip/moffice/441" />
+  <office id="uk.org.publicwhip/moffice/442" />
+  <office id="uk.org.publicwhip/moffice/443" />
+  <office id="uk.org.publicwhip/moffice/1820" />
+  <office id="uk.org.publicwhip/moffice/1821" />
+  <office id="uk.org.publicwhip/moffice/1822" />
+  <office id="uk.org.publicwhip/moffice/1823" />
+  <office id="uk.org.publicwhip/moffice/1824" />
+  <office id="uk.org.publicwhip/moffice/1825" />
+ </person>
+<person id="uk.org.publicwhip/person/10195" latestname="Justine Elliot">
+  <office current="yes" id="uk.org.publicwhip/member/160" />
+  <office id="uk.org.publicwhip/moffice/387" />
+  <office id="uk.org.publicwhip/moffice/388" />
+  <office id="uk.org.publicwhip/moffice/389" />
+  <office id="uk.org.publicwhip/moffice/390" />
+ </person>
+<person id="uk.org.publicwhip/person/10245" latestname="Steve Georganas">
+  <office id="uk.org.publicwhip/member/204" />
+  <office id="uk.org.publicwhip/member/693" />
+  <office current="yes" id="uk.org.publicwhip/member/765" />
+ </person>
+<person id="uk.org.publicwhip/person/10280" latestname="Pauline Hanson">
+  <office id="uk.org.publicwhip/member/234" />
+  <office current="yes" id="uk.org.publicwhip/lord/100857" />
+ </person>
+<person id="uk.org.publicwhip/person/10290" latestname="Alex Hawke">
+  <office current="yes" id="uk.org.publicwhip/member/242" />
+  <office id="uk.org.publicwhip/moffice/823" />
+  <office id="uk.org.publicwhip/moffice/824" />
+  <office id="uk.org.publicwhip/moffice/825" />
+  <office id="uk.org.publicwhip/moffice/826" />
+  <office id="uk.org.publicwhip/moffice/827" />
+  <office id="uk.org.publicwhip/moffice/828" />
+  <office id="uk.org.publicwhip/moffice/829" />
+  <office id="uk.org.publicwhip/moffice/2361" />
+  <office id="uk.org.publicwhip/moffice/2362" />
+ </person>
+<person id="uk.org.publicwhip/person/10350" latestname="Barnaby Joyce">
+  <office id="uk.org.publicwhip/member/664" />
+  <office id="uk.org.publicwhip/member/727" />
+  <office id="uk.org.publicwhip/member/856" />
+  <office current="yes" id="uk.org.publicwhip/member/857" />
+  <office id="uk.org.publicwhip/lord/100114" />
+  <office id="uk.org.publicwhip/moffice/593" />
+  <office id="uk.org.publicwhip/moffice/594" />
+  <office id="uk.org.publicwhip/moffice/595" />
+  <office id="uk.org.publicwhip/moffice/596" />
+  <office id="uk.org.publicwhip/moffice/597" />
+  <office id="uk.org.publicwhip/moffice/598" />
+  <office id="uk.org.publicwhip/moffice/599" />
+  <office id="uk.org.publicwhip/moffice/600" />
+  <office id="uk.org.publicwhip/moffice/601" />
+  <office id="uk.org.publicwhip/moffice/1442" />
+  <office id="uk.org.publicwhip/moffice/1443" />
+  <office id="uk.org.publicwhip/moffice/1444" />
+  <office id="uk.org.publicwhip/moffice/1445" />
+ </person>
+<person id="uk.org.publicwhip/person/10368" latestname="Catherine King">
+  <office current="yes" id="uk.org.publicwhip/member/318" />
+  <office id="uk.org.publicwhip/moffice/235" />
+  <office id="uk.org.publicwhip/moffice/236" />
+  <office id="uk.org.publicwhip/moffice/237" />
+  <office id="uk.org.publicwhip/moffice/238" />
+  <office id="uk.org.publicwhip/moffice/239" />
+  <office current="yes" id="uk.org.publicwhip/moffice/240" />
+  <office id="uk.org.publicwhip/moffice/1156" />
+  <office id="uk.org.publicwhip/moffice/1157" />
+  <office id="uk.org.publicwhip/moffice/1854" />
+  <office id="uk.org.publicwhip/moffice/1855" />
+  <office id="uk.org.publicwhip/moffice/1856" />
+ </person>
+<person id="uk.org.publicwhip/person/10418" latestname="Richard Marles">
+  <office current="yes" id="uk.org.publicwhip/member/353" />
+  <office id="uk.org.publicwhip/moffice/493" />
+  <office id="uk.org.publicwhip/moffice/494" />
+  <office id="uk.org.publicwhip/moffice/495" />
+  <office id="uk.org.publicwhip/moffice/496" />
+  <office current="yes" id="uk.org.publicwhip/moffice/497" />
+  <office current="yes" id="uk.org.publicwhip/moffice/498" />
+  <office id="uk.org.publicwhip/moffice/1862" />
+  <office id="uk.org.publicwhip/moffice/1863" />
+  <office id="uk.org.publicwhip/moffice/1864" />
+  <office id="uk.org.publicwhip/moffice/1865" />
+  <office id="uk.org.publicwhip/moffice/1866" />
+  <office id="uk.org.publicwhip/moffice/1867" />
+  <office id="uk.org.publicwhip/moffice/1868" />
+  <office id="uk.org.publicwhip/moffice/1869" />
+ </person>
+<person id="uk.org.publicwhip/person/10485" latestname="Shayne Neumann">
+  <office current="yes" id="uk.org.publicwhip/member/400" />
+  <office id="uk.org.publicwhip/moffice/510" />
+  <office id="uk.org.publicwhip/moffice/511" />
+  <office id="uk.org.publicwhip/moffice/1870" />
+  <office id="uk.org.publicwhip/moffice/1871" />
+  <office id="uk.org.publicwhip/moffice/1872" />
+  <office id="uk.org.publicwhip/moffice/1873" />
+  <office id="uk.org.publicwhip/moffice/1874" />
+ </person>
+<person id="uk.org.publicwhip/person/10513" latestname="Tanya Plibersek">
+  <office current="yes" id="uk.org.publicwhip/member/419" />
+  <office id="uk.org.publicwhip/moffice/525" />
+  <office id="uk.org.publicwhip/moffice/526" />
+  <office id="uk.org.publicwhip/moffice/527" />
+  <office id="uk.org.publicwhip/moffice/528" />
+  <office id="uk.org.publicwhip/moffice/529" />
+  <office id="uk.org.publicwhip/moffice/530" />
+  <office id="uk.org.publicwhip/moffice/531" />
+  <office current="yes" id="uk.org.publicwhip/moffice/532" />
+  <office id="uk.org.publicwhip/moffice/1718" />
+  <office id="uk.org.publicwhip/moffice/1719" />
+  <office id="uk.org.publicwhip/moffice/1720" />
+  <office id="uk.org.publicwhip/moffice/1721" />
+  <office id="uk.org.publicwhip/moffice/1722" />
+  <office id="uk.org.publicwhip/moffice/1723" />
+  <office id="uk.org.publicwhip/moffice/1724" />
+  <office id="uk.org.publicwhip/moffice/1786" />
+  <office id="uk.org.publicwhip/moffice/1787" />
+  <office id="uk.org.publicwhip/moffice/1788" />
+  <office id="uk.org.publicwhip/moffice/1789" />
+  <office id="uk.org.publicwhip/moffice/1790" />
+  <office id="uk.org.publicwhip/moffice/1791" />
+  <office id="uk.org.publicwhip/moffice/1792" />
+  <office id="uk.org.publicwhip/moffice/1793" />
+  <office id="uk.org.publicwhip/moffice/1794" />
+ </person>
+<person id="uk.org.publicwhip/person/10515" latestname="Helen Polley">
+  <office current="yes" id="uk.org.publicwhip/lord/100178" />
+  <office id="uk.org.publicwhip/moffice/2042" />
+  <office id="uk.org.publicwhip/moffice/2043" />
+  <office id="uk.org.publicwhip/moffice/2044" />
+  <office id="uk.org.publicwhip/moffice/2045" />
+  <office id="uk.org.publicwhip/moffice/2046" />
+ </person>
+<person id="uk.org.publicwhip/person/10543" latestname="Amanda Rishworth">
+  <office current="yes" id="uk.org.publicwhip/member/441" />
+  <office id="uk.org.publicwhip/moffice/177" />
+  <office id="uk.org.publicwhip/moffice/178" />
+  <office id="uk.org.publicwhip/moffice/179" />
+  <office current="yes" id="uk.org.publicwhip/moffice/180" />
+  <office id="uk.org.publicwhip/moffice/2023" />
+  <office id="uk.org.publicwhip/moffice/2024" />
+  <office id="uk.org.publicwhip/moffice/2025" />
+  <office id="uk.org.publicwhip/moffice/2026" />
+  <office id="uk.org.publicwhip/moffice/2027" />
+  <office id="uk.org.publicwhip/moffice/2028" />
+  <office id="uk.org.publicwhip/moffice/2029" />
+  <office id="uk.org.publicwhip/moffice/2030" />
+ </person>
+<person id="uk.org.publicwhip/person/10610" latestname="Glenn Sterle">
+  <office current="yes" id="uk.org.publicwhip/lord/100213" />
+  <office id="uk.org.publicwhip/moffice/2119" />
+  <office id="uk.org.publicwhip/moffice/2120" />
+  <office id="uk.org.publicwhip/moffice/2121" />
+  <office id="uk.org.publicwhip/moffice/2122" />
+  <office id="uk.org.publicwhip/moffice/2123" />
+  <office id="uk.org.publicwhip/moffice/2124" />
+ </person>
+<person id="uk.org.publicwhip/person/10678" latestname="Penny Wong">
+  <office current="yes" id="uk.org.publicwhip/lord/100241" />
+  <office id="uk.org.publicwhip/moffice/143" />
+  <office id="uk.org.publicwhip/moffice/144" />
+  <office id="uk.org.publicwhip/moffice/145" />
+  <office id="uk.org.publicwhip/moffice/146" />
+  <office current="yes" id="uk.org.publicwhip/moffice/147" />
+  <office current="yes" id="uk.org.publicwhip/moffice/148" />
+  <office id="uk.org.publicwhip/moffice/1622" />
+  <office id="uk.org.publicwhip/moffice/1623" />
+  <office id="uk.org.publicwhip/moffice/1624" />
+  <office id="uk.org.publicwhip/moffice/1625" />
+  <office id="uk.org.publicwhip/moffice/1626" />
+  <office id="uk.org.publicwhip/moffice/1795" />
+  <office id="uk.org.publicwhip/moffice/1796" />
+  <office id="uk.org.publicwhip/moffice/1797" />
+  <office id="uk.org.publicwhip/moffice/1798" />
+  <office id="uk.org.publicwhip/moffice/1799" />
+  <office id="uk.org.publicwhip/moffice/1800" />
+  <office id="uk.org.publicwhip/moffice/1801" />
+  <office id="uk.org.publicwhip/moffice/1802" />
+  <office id="uk.org.publicwhip/moffice/1803" />
+  <office id="uk.org.publicwhip/moffice/1804" />
+  <office id="uk.org.publicwhip/moffice/1805" />
+ </person>
+<person id="uk.org.publicwhip/person/10679" latestname="Jason Wood">
+  <office id="uk.org.publicwhip/member/552" />
+  <office current="yes" id="uk.org.publicwhip/member/657" />
+  <office id="uk.org.publicwhip/moffice/965" />
+  <office id="uk.org.publicwhip/moffice/1234" />
+  <office id="uk.org.publicwhip/moffice/1235" />
+  <office id="uk.org.publicwhip/moffice/1236" />
+  <office id="uk.org.publicwhip/moffice/1237" />
+ </person>
+<person id="uk.org.publicwhip/person/10695" latestname="Tony Zappia">
+  <office current="yes" id="uk.org.publicwhip/member/563" />
+  <office id="uk.org.publicwhip/moffice/2020" />
+  <office id="uk.org.publicwhip/moffice/2021" />
+ </person>
+<person id="uk.org.publicwhip/person/10703" latestname="Darren Chester">
+  <office current="yes" id="uk.org.publicwhip/member/567" />
+  <office id="uk.org.publicwhip/moffice/656" />
+  <office id="uk.org.publicwhip/moffice/766" />
+  <office id="uk.org.publicwhip/moffice/767" />
+  <office id="uk.org.publicwhip/moffice/768" />
+  <office id="uk.org.publicwhip/moffice/912" />
+  <office id="uk.org.publicwhip/moffice/913" />
+  <office id="uk.org.publicwhip/moffice/914" />
+  <office id="uk.org.publicwhip/moffice/915" />
+  <office id="uk.org.publicwhip/moffice/916" />
+  <office id="uk.org.publicwhip/moffice/917" />
+  <office id="uk.org.publicwhip/moffice/918" />
+  <office id="uk.org.publicwhip/moffice/1182" />
+  <office id="uk.org.publicwhip/moffice/1183" />
+  <office id="uk.org.publicwhip/moffice/1184" />
+  <office id="uk.org.publicwhip/moffice/1185" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1186" />
+ </person>
+<person id="uk.org.publicwhip/person/10707" latestname="Michaelia Cash">
+  <office current="yes" id="uk.org.publicwhip/lord/100252" />
+  <office id="uk.org.publicwhip/moffice/705" />
+  <office id="uk.org.publicwhip/moffice/706" />
+  <office id="uk.org.publicwhip/moffice/707" />
+  <office id="uk.org.publicwhip/moffice/708" />
+  <office id="uk.org.publicwhip/moffice/709" />
+  <office id="uk.org.publicwhip/moffice/710" />
+  <office id="uk.org.publicwhip/moffice/711" />
+  <office id="uk.org.publicwhip/moffice/712" />
+  <office id="uk.org.publicwhip/moffice/713" />
+  <office id="uk.org.publicwhip/moffice/714" />
+  <office id="uk.org.publicwhip/moffice/715" />
+  <office id="uk.org.publicwhip/moffice/716" />
+  <office id="uk.org.publicwhip/moffice/717" />
+  <office id="uk.org.publicwhip/moffice/718" />
+  <office id="uk.org.publicwhip/moffice/1589" />
+  <office id="uk.org.publicwhip/moffice/1590" />
+  <office id="uk.org.publicwhip/moffice/1591" />
+  <office id="uk.org.publicwhip/moffice/1592" />
+  <office id="uk.org.publicwhip/moffice/1593" />
+  <office id="uk.org.publicwhip/moffice/1594" />
+  <office id="uk.org.publicwhip/moffice/1595" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1596" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1597" />
+ </person>
+<person id="uk.org.publicwhip/person/10708" latestname="Don Farrell">
+  <office id="uk.org.publicwhip/lord/100253" />
+  <office current="yes" id="uk.org.publicwhip/lord/100855" />
+  <office id="uk.org.publicwhip/moffice/38" />
+  <office id="uk.org.publicwhip/moffice/39" />
+  <office id="uk.org.publicwhip/moffice/40" />
+  <office id="uk.org.publicwhip/moffice/41" />
+  <office current="yes" id="uk.org.publicwhip/moffice/42" />
+  <office current="yes" id="uk.org.publicwhip/moffice/43" />
+  <office current="yes" id="uk.org.publicwhip/moffice/44" />
+  <office id="uk.org.publicwhip/moffice/1895" />
+  <office id="uk.org.publicwhip/moffice/1896" />
+  <office id="uk.org.publicwhip/moffice/1897" />
+  <office id="uk.org.publicwhip/moffice/1898" />
+  <office id="uk.org.publicwhip/moffice/1899" />
+  <office id="uk.org.publicwhip/moffice/1900" />
+  <office id="uk.org.publicwhip/moffice/1901" />
+  <office id="uk.org.publicwhip/moffice/1902" />
+  <office id="uk.org.publicwhip/moffice/1903" />
+  <office id="uk.org.publicwhip/moffice/1904" />
+  <office id="uk.org.publicwhip/moffice/1905" />
+  <office id="uk.org.publicwhip/moffice/1906" />
+  <office id="uk.org.publicwhip/moffice/1907" />
+  <office id="uk.org.publicwhip/moffice/1908" />
+  <office id="uk.org.publicwhip/moffice/1909" />
+  <office id="uk.org.publicwhip/moffice/1910" />
+  <office id="uk.org.publicwhip/moffice/1911" />
+  <office id="uk.org.publicwhip/moffice/1912" />
+  <office id="uk.org.publicwhip/moffice/1913" />
+  <office id="uk.org.publicwhip/moffice/1914" />
+  <office id="uk.org.publicwhip/moffice/1915" />
+ </person>
+<person id="uk.org.publicwhip/person/10711" latestname="Sarah Hanson-Young">
+  <office current="yes" id="uk.org.publicwhip/lord/100256" />
+ </person>
+<person id="uk.org.publicwhip/person/10733" latestname="Rob Mitchell">
+  <office current="yes" id="uk.org.publicwhip/member/599" />
+ </person>
+<person id="uk.org.publicwhip/person/10742" latestname="Dan Tehan">
+  <office current="yes" id="uk.org.publicwhip/member/608" />
+  <office id="uk.org.publicwhip/moffice/846" />
+  <office id="uk.org.publicwhip/moffice/847" />
+  <office id="uk.org.publicwhip/moffice/848" />
+  <office id="uk.org.publicwhip/moffice/849" />
+  <office id="uk.org.publicwhip/moffice/850" />
+  <office id="uk.org.publicwhip/moffice/851" />
+  <office id="uk.org.publicwhip/moffice/852" />
+  <office id="uk.org.publicwhip/moffice/853" />
+  <office id="uk.org.publicwhip/moffice/854" />
+  <office id="uk.org.publicwhip/moffice/2259" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2260" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2261" />
+ </person>
+<person id="uk.org.publicwhip/person/10743" latestname="Michael McCormack">
+  <office current="yes" id="uk.org.publicwhip/member/609" />
+  <office id="uk.org.publicwhip/moffice/795" />
+  <office id="uk.org.publicwhip/moffice/796" />
+  <office id="uk.org.publicwhip/moffice/797" />
+  <office id="uk.org.publicwhip/moffice/798" />
+  <office id="uk.org.publicwhip/moffice/799" />
+  <office id="uk.org.publicwhip/moffice/800" />
+  <office id="uk.org.publicwhip/moffice/801" />
+  <office id="uk.org.publicwhip/moffice/909" />
+  <office id="uk.org.publicwhip/moffice/910" />
+  <office id="uk.org.publicwhip/moffice/911" />
+  <office id="uk.org.publicwhip/moffice/2222" />
+ </person>
+<person id="uk.org.publicwhip/person/10746" latestname="Andrew Leigh">
+  <office id="uk.org.publicwhip/member/613" />
+  <office current="yes" id="uk.org.publicwhip/member/723" />
+  <office id="uk.org.publicwhip/moffice/181" />
+  <office id="uk.org.publicwhip/moffice/182" />
+  <office id="uk.org.publicwhip/moffice/183" />
+  <office current="yes" id="uk.org.publicwhip/moffice/184" />
+  <office id="uk.org.publicwhip/moffice/1924" />
+  <office id="uk.org.publicwhip/moffice/1925" />
+  <office id="uk.org.publicwhip/moffice/1926" />
+  <office id="uk.org.publicwhip/moffice/1927" />
+  <office id="uk.org.publicwhip/moffice/1928" />
+  <office id="uk.org.publicwhip/moffice/1929" />
+  <office id="uk.org.publicwhip/moffice/1930" />
+  <office id="uk.org.publicwhip/moffice/1931" />
+ </person>
+<person id="uk.org.publicwhip/person/10747" latestname="Deborah O'Neill">
+  <office id="uk.org.publicwhip/member/614" />
+  <office current="yes" id="uk.org.publicwhip/lord/100312" />
+  <office id="uk.org.publicwhip/moffice/2091" />
+  <office id="uk.org.publicwhip/moffice/2092" />
+  <office id="uk.org.publicwhip/moffice/2093" />
+  <office id="uk.org.publicwhip/moffice/2094" />
+  <office id="uk.org.publicwhip/moffice/2095" />
+  <office id="uk.org.publicwhip/moffice/2096" />
+  <office id="uk.org.publicwhip/moffice/2097" />
+  <office id="uk.org.publicwhip/moffice/2098" />
+  <office id="uk.org.publicwhip/moffice/2099" />
+  <office id="uk.org.publicwhip/moffice/2100" />
+ </person>
+<person id="uk.org.publicwhip/person/10749" latestname="Ed Husic">
+  <office current="yes" id="uk.org.publicwhip/member/616" />
+  <office id="uk.org.publicwhip/moffice/1035" />
+  <office id="uk.org.publicwhip/moffice/1999" />
+  <office id="uk.org.publicwhip/moffice/2000" />
+  <office id="uk.org.publicwhip/moffice/2001" />
+  <office id="uk.org.publicwhip/moffice/2002" />
+  <office id="uk.org.publicwhip/moffice/2003" />
+  <office id="uk.org.publicwhip/moffice/2004" />
+ </person>
+<person id="uk.org.publicwhip/person/10751" latestname="Michelle Rowland">
+  <office current="yes" id="uk.org.publicwhip/member/618" />
+  <office id="uk.org.publicwhip/moffice/1028" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1029" />
+  <office id="uk.org.publicwhip/moffice/1933" />
+  <office id="uk.org.publicwhip/moffice/1934" />
+  <office id="uk.org.publicwhip/moffice/1935" />
+ </person>
+<person id="uk.org.publicwhip/person/10752" latestname="Scott Buchholz">
+  <office current="yes" id="uk.org.publicwhip/member/624" />
+  <office id="uk.org.publicwhip/moffice/922" />
+  <office id="uk.org.publicwhip/moffice/923" />
+  <office id="uk.org.publicwhip/moffice/2367" />
+ </person>
+<person id="uk.org.publicwhip/person/10758" latestname="Bridget McKenzie">
+  <office current="yes" id="uk.org.publicwhip/lord/100291" />
+  <office id="uk.org.publicwhip/moffice/891" />
+  <office id="uk.org.publicwhip/moffice/892" />
+  <office id="uk.org.publicwhip/moffice/893" />
+  <office id="uk.org.publicwhip/moffice/894" />
+  <office id="uk.org.publicwhip/moffice/895" />
+  <office id="uk.org.publicwhip/moffice/896" />
+  <office id="uk.org.publicwhip/moffice/897" />
+  <office id="uk.org.publicwhip/moffice/898" />
+  <office id="uk.org.publicwhip/moffice/899" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2283" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2284" />
+ </person>
+<person id="uk.org.publicwhip/person/10762" latestname="Matt Thistlethwaite">
+  <office current="yes" id="uk.org.publicwhip/member/656" />
+  <office id="uk.org.publicwhip/lord/100296" />
+  <office id="uk.org.publicwhip/moffice/121" />
+  <office id="uk.org.publicwhip/moffice/122" />
+  <office id="uk.org.publicwhip/moffice/123" />
+  <office id="uk.org.publicwhip/moffice/124" />
+  <office id="uk.org.publicwhip/moffice/125" />
+  <office current="yes" id="uk.org.publicwhip/moffice/126" />
+  <office current="yes" id="uk.org.publicwhip/moffice/127" />
+  <office id="uk.org.publicwhip/moffice/1976" />
+  <office id="uk.org.publicwhip/moffice/1977" />
+  <office id="uk.org.publicwhip/moffice/1978" />
+  <office id="uk.org.publicwhip/moffice/1979" />
+  <office id="uk.org.publicwhip/moffice/1980" />
+  <office id="uk.org.publicwhip/moffice/1981" />
+  <office id="uk.org.publicwhip/moffice/1982" />
+ </person>
+<person id="uk.org.publicwhip/person/10763" latestname="Anne Urquhart">
+  <office current="yes" id="uk.org.publicwhip/member/854" />
+  <office id="uk.org.publicwhip/lord/100297" />
+ </person>
+<person id="uk.org.publicwhip/person/10764" latestname="Larissa Waters">
+  <office id="uk.org.publicwhip/lord/100298" />
+  <office current="yes" id="uk.org.publicwhip/lord/100884" />
+ </person>
+<person id="uk.org.publicwhip/person/10768" latestname="Dean Smith">
+  <office current="yes" id="uk.org.publicwhip/lord/100303" />
+  <office id="uk.org.publicwhip/moffice/2241" />
+  <office id="uk.org.publicwhip/moffice/2242" />
+  <office id="uk.org.publicwhip/moffice/2243" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2244" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2245" />
+ </person>
+<person id="uk.org.publicwhip/person/10780" latestname="Peter Whish-Wilson">
+  <office id="uk.org.publicwhip/lord/100305" />
+ </person>
+<person id="uk.org.publicwhip/person/10781" latestname="Anne Ruston">
+  <office current="yes" id="uk.org.publicwhip/lord/100306" />
+  <office id="uk.org.publicwhip/moffice/830" />
+  <office id="uk.org.publicwhip/moffice/831" />
+  <office id="uk.org.publicwhip/moffice/832" />
+  <office id="uk.org.publicwhip/moffice/833" />
+  <office id="uk.org.publicwhip/moffice/834" />
+  <office id="uk.org.publicwhip/moffice/835" />
+  <office id="uk.org.publicwhip/moffice/836" />
+  <office id="uk.org.publicwhip/moffice/837" />
+  <office id="uk.org.publicwhip/moffice/838" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2270" />
+  <office id="uk.org.publicwhip/moffice/2271" />
+  <office id="uk.org.publicwhip/moffice/2272" />
+  <office id="uk.org.publicwhip/moffice/2273" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2274" />
+ </person>
+<person id="uk.org.publicwhip/person/10782" latestname="Sue Lines">
+  <office id="uk.org.publicwhip/lord/100307" />
+  <office id="uk.org.publicwhip/lord/100872" />
+  <office current="yes" id="uk.org.publicwhip/lord/100944" />
+ </person>
+<person id="uk.org.publicwhip/person/10784" latestname="Tony Pasin">
+  <office current="yes" id="uk.org.publicwhip/member/635" />
+  <office id="uk.org.publicwhip/moffice/2292" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2293" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2294" />
+ </person>
+<person id="uk.org.publicwhip/person/10787" latestname="Lisa Chesters">
+  <office current="yes" id="uk.org.publicwhip/member/639" />
+  <office id="uk.org.publicwhip/moffice/2086" />
+  <office id="uk.org.publicwhip/moffice/2087" />
+ </person>
+<person id="uk.org.publicwhip/person/10789" latestname="Michelle Landry">
+  <office current="yes" id="uk.org.publicwhip/member/641" />
+  <office id="uk.org.publicwhip/moffice/941" />
+  <office id="uk.org.publicwhip/moffice/942" />
+  <office id="uk.org.publicwhip/moffice/943" />
+  <office id="uk.org.publicwhip/moffice/944" />
+  <office id="uk.org.publicwhip/moffice/2205" />
+ </person>
+<person id="uk.org.publicwhip/person/10790" latestname="Sarah Henderson">
+  <office id="uk.org.publicwhip/member/643" />
+  <office current="yes" id="uk.org.publicwhip/lord/100921" />
+  <office id="uk.org.publicwhip/moffice/940" />
+  <office id="uk.org.publicwhip/moffice/2285" />
+  <office id="uk.org.publicwhip/moffice/2286" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2287" />
+ </person>
+<person id="uk.org.publicwhip/person/10794" latestname="Tim Watts">
+  <office current="yes" id="uk.org.publicwhip/member/649" />
+  <office id="uk.org.publicwhip/moffice/1002" />
+  <office id="uk.org.publicwhip/moffice/2179" />
+  <office id="uk.org.publicwhip/moffice/2180" />
+  <office id="uk.org.publicwhip/moffice/2181" />
+ </person>
+<person id="uk.org.publicwhip/person/10799" latestname="Joanne Ryan">
+  <office current="yes" id="uk.org.publicwhip/member/658" />
+ </person>
+<person id="uk.org.publicwhip/person/10805" latestname="Sharon Claydon">
+  <office current="yes" id="uk.org.publicwhip/member/665" />
+ </person>
+<person id="uk.org.publicwhip/person/10806" latestname="Kevin Hogan">
+  <office current="yes" id="uk.org.publicwhip/member/667" />
+  <office id="uk.org.publicwhip/moffice/969" />
+  <office id="uk.org.publicwhip/moffice/970" />
+  <office id="uk.org.publicwhip/moffice/2218" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2219" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2220" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2221" />
+ </person>
+<person id="uk.org.publicwhip/person/10809" latestname="Jim Chalmers">
+  <office current="yes" id="uk.org.publicwhip/member/671" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1003" />
+  <office id="uk.org.publicwhip/moffice/1968" />
+  <office id="uk.org.publicwhip/moffice/1969" />
+  <office id="uk.org.publicwhip/moffice/1970" />
+  <office id="uk.org.publicwhip/moffice/1971" />
+  <office id="uk.org.publicwhip/moffice/1972" />
+  <office id="uk.org.publicwhip/moffice/1973" />
+  <office id="uk.org.publicwhip/moffice/1974" />
+  <office id="uk.org.publicwhip/moffice/1975" />
+ </person>
+<person id="uk.org.publicwhip/person/10812" latestname="Andrew Giles">
+  <office current="yes" id="uk.org.publicwhip/member/674" />
+  <office id="uk.org.publicwhip/moffice/1045" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1046" />
+  <office id="uk.org.publicwhip/moffice/2061" />
+  <office id="uk.org.publicwhip/moffice/2062" />
+  <office id="uk.org.publicwhip/moffice/2063" />
+  <office id="uk.org.publicwhip/moffice/2064" />
+  <office id="uk.org.publicwhip/moffice/2065" />
+ </person>
+<person id="uk.org.publicwhip/person/10813" latestname="Pat Conroy">
+  <office id="uk.org.publicwhip/member/642" />
+  <office current="yes" id="uk.org.publicwhip/member/711" />
+  <office id="uk.org.publicwhip/moffice/992" />
+  <office id="uk.org.publicwhip/moffice/993" />
+  <office id="uk.org.publicwhip/moffice/994" />
+  <office current="yes" id="uk.org.publicwhip/moffice/995" />
+  <office current="yes" id="uk.org.publicwhip/moffice/996" />
+  <office id="uk.org.publicwhip/moffice/2074" />
+  <office id="uk.org.publicwhip/moffice/2075" />
+  <office id="uk.org.publicwhip/moffice/2076" />
+  <office id="uk.org.publicwhip/moffice/2077" />
+  <office id="uk.org.publicwhip/moffice/2078" />
+  <office id="uk.org.publicwhip/moffice/2079" />
+  <office id="uk.org.publicwhip/moffice/2080" />
+  <office id="uk.org.publicwhip/moffice/2081" />
+ </person>
+<person id="uk.org.publicwhip/person/10814" latestname="Clare O'Neil">
+  <office current="yes" id="uk.org.publicwhip/member/653" />
+  <office id="uk.org.publicwhip/moffice/1040" />
+  <office id="uk.org.publicwhip/moffice/1041" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1042" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1043" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1044" />
+  <office id="uk.org.publicwhip/moffice/2082" />
+  <office id="uk.org.publicwhip/moffice/2083" />
+  <office id="uk.org.publicwhip/moffice/2084" />
+  <office id="uk.org.publicwhip/moffice/2085" />
+ </person>
+<person id="uk.org.publicwhip/person/10816" latestname="Rick Wilson">
+  <office current="yes" id="uk.org.publicwhip/member/666" />
+  <office id="uk.org.publicwhip/moffice/2223" />
+ </person>
+<person id="uk.org.publicwhip/person/10818" latestname="Melissa Price">
+  <office current="yes" id="uk.org.publicwhip/member/646" />
+  <office id="uk.org.publicwhip/moffice/900" />
+  <office id="uk.org.publicwhip/moffice/901" />
+  <office id="uk.org.publicwhip/moffice/902" />
+  <office id="uk.org.publicwhip/moffice/903" />
+  <office id="uk.org.publicwhip/moffice/2363" />
+  <office id="uk.org.publicwhip/moffice/2364" />
+ </person>
+<person id="uk.org.publicwhip/person/10827" latestname="Matthew Canavan">
+  <office current="yes" id="uk.org.publicwhip/lord/100827" />
+  <office id="uk.org.publicwhip/moffice/863" />
+ </person>
+<person id="uk.org.publicwhip/person/10830" latestname="Jacqui Lambie">
+  <office id="uk.org.publicwhip/lord/100830" />
+  <office id="uk.org.publicwhip/lord/100842" />
+  <office current="yes" id="uk.org.publicwhip/lord/100910" />
+ </person>
+<person id="uk.org.publicwhip/person/10833" latestname="James McGrath">
+  <office current="yes" id="uk.org.publicwhip/lord/100833" />
+  <office id="uk.org.publicwhip/moffice/821" />
+  <office id="uk.org.publicwhip/moffice/2196" />
+  <office id="uk.org.publicwhip/moffice/2197" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2198" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2199" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2200" />
+ </person>
+<person id="uk.org.publicwhip/person/10838" latestname="Katy Gallagher">
+  <office id="uk.org.publicwhip/lord/100844" />
+  <office current="yes" id="uk.org.publicwhip/lord/100907" />
+  <office current="yes" id="uk.org.publicwhip/moffice/976" />
+  <office current="yes" id="uk.org.publicwhip/moffice/977" />
+  <office current="yes" id="uk.org.publicwhip/moffice/978" />
+  <office current="yes" id="uk.org.publicwhip/moffice/979" />
+  <office current="yes" id="uk.org.publicwhip/moffice/980" />
+  <office current="yes" id="uk.org.publicwhip/moffice/981" />
+  <office id="uk.org.publicwhip/moffice/2139" />
+  <office id="uk.org.publicwhip/moffice/2140" />
+  <office id="uk.org.publicwhip/moffice/2141" />
+  <office id="uk.org.publicwhip/moffice/2142" />
+ </person>
+<person id="uk.org.publicwhip/person/10839" latestname="Jenny McAllister">
+  <office current="yes" id="uk.org.publicwhip/lord/100845" />
+  <office id="uk.org.publicwhip/moffice/1024" />
+  <office id="uk.org.publicwhip/moffice/1025" />
+  <office id="uk.org.publicwhip/moffice/1026" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1027" />
+  <office id="uk.org.publicwhip/moffice/2107" />
+  <office id="uk.org.publicwhip/moffice/2108" />
+  <office id="uk.org.publicwhip/moffice/2109" />
+  <office id="uk.org.publicwhip/moffice/2110" />
+  <office id="uk.org.publicwhip/moffice/2111" />
+  <office id="uk.org.publicwhip/moffice/2112" />
+  <office id="uk.org.publicwhip/moffice/2113" />
+  <office id="uk.org.publicwhip/moffice/2114" />
+  <office id="uk.org.publicwhip/moffice/2115" />
+  <office id="uk.org.publicwhip/moffice/2116" />
+  <office id="uk.org.publicwhip/moffice/2117" />
+  <office id="uk.org.publicwhip/moffice/2118" />
+ </person>
+<person id="uk.org.publicwhip/person/10841" latestname="Nick McKim">
+  <office current="yes" id="uk.org.publicwhip/lord/100847" />
+ </person>
+<person id="uk.org.publicwhip/person/10843" latestname="Andrew Hastie">
+  <office current="yes" id="uk.org.publicwhip/member/681" />
+  <office id="uk.org.publicwhip/moffice/974" />
+  <office id="uk.org.publicwhip/moffice/2295" />
+  <office id="uk.org.publicwhip/moffice/2296" />
+  <office id="uk.org.publicwhip/moffice/2297" />
+  <office id="uk.org.publicwhip/moffice/2298" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2299" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2300" />
+ </person>
+<person id="uk.org.publicwhip/person/10845" latestname="James Paterson">
+  <office current="yes" id="uk.org.publicwhip/lord/100849" />
+  <office id="uk.org.publicwhip/moffice/2262" />
+  <office id="uk.org.publicwhip/moffice/2263" />
+  <office id="uk.org.publicwhip/moffice/2264" />
+  <office id="uk.org.publicwhip/moffice/2265" />
+  <office id="uk.org.publicwhip/moffice/2266" />
+  <office id="uk.org.publicwhip/moffice/2267" />
+  <office id="uk.org.publicwhip/moffice/2268" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2269" />
+ </person>
+<person id="uk.org.publicwhip/person/10847" latestname="Jonathon Duniam">
+  <office current="yes" id="uk.org.publicwhip/lord/100851" />
+  <office id="uk.org.publicwhip/moffice/962" />
+  <office id="uk.org.publicwhip/moffice/963" />
+  <office id="uk.org.publicwhip/moffice/964" />
+  <office id="uk.org.publicwhip/moffice/2214" />
+  <office id="uk.org.publicwhip/moffice/2215" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2216" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2217" />
+ </person>
+<person id="uk.org.publicwhip/person/10849" latestname="Anthony Chisholm">
+  <office current="yes" id="uk.org.publicwhip/lord/100853" />
+  <office id="uk.org.publicwhip/moffice/1011" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1012" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1013" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1014" />
+ </person>
+<person id="uk.org.publicwhip/person/10853" latestname="Jane Hume">
+  <office current="yes" id="uk.org.publicwhip/lord/100859" />
+  <office id="uk.org.publicwhip/moffice/957" />
+  <office id="uk.org.publicwhip/moffice/958" />
+  <office id="uk.org.publicwhip/moffice/959" />
+  <office id="uk.org.publicwhip/moffice/960" />
+  <office id="uk.org.publicwhip/moffice/961" />
+  <office id="uk.org.publicwhip/moffice/2184" />
+  <office id="uk.org.publicwhip/moffice/2185" />
+  <office id="uk.org.publicwhip/moffice/2186" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2187" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2188" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2189" />
+ </person>
+<person id="uk.org.publicwhip/person/10855" latestname="Malarndirri McCarthy">
+  <office current="yes" id="uk.org.publicwhip/lord/100861" />
+  <office id="uk.org.publicwhip/moffice/987" />
+  <office id="uk.org.publicwhip/moffice/988" />
+  <office current="yes" id="uk.org.publicwhip/moffice/989" />
+ </person>
+<person id="uk.org.publicwhip/person/10856" latestname="Malcolm Roberts">
+  <office id="uk.org.publicwhip/lord/100863" />
+  <office current="yes" id="uk.org.publicwhip/lord/100915" />
+ </person>
+<person id="uk.org.publicwhip/person/10857" latestname="Murray Watt">
+  <office current="yes" id="uk.org.publicwhip/lord/100864" />
+  <office id="uk.org.publicwhip/moffice/1036" />
+  <office id="uk.org.publicwhip/moffice/1037" />
+  <office id="uk.org.publicwhip/moffice/1038" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1039" />
+  <office id="uk.org.publicwhip/moffice/2147" />
+  <office id="uk.org.publicwhip/moffice/2148" />
+  <office id="uk.org.publicwhip/moffice/2149" />
+  <office id="uk.org.publicwhip/moffice/2150" />
+  <office id="uk.org.publicwhip/moffice/2151" />
+  <office id="uk.org.publicwhip/moffice/2152" />
+  <office id="uk.org.publicwhip/moffice/2153" />
+  <office id="uk.org.publicwhip/moffice/2154" />
+  <office id="uk.org.publicwhip/moffice/2155" />
+  <office id="uk.org.publicwhip/moffice/2156" />
+  <office id="uk.org.publicwhip/moffice/2157" />
+  <office id="uk.org.publicwhip/moffice/2158" />
+  <office id="uk.org.publicwhip/moffice/2159" />
+  <office id="uk.org.publicwhip/moffice/2160" />
+  <office id="uk.org.publicwhip/moffice/2161" />
+ </person>
+<person id="uk.org.publicwhip/person/10861" latestname="Matt Keogh">
+  <office current="yes" id="uk.org.publicwhip/member/686" />
+  <office current="yes" id="uk.org.publicwhip/moffice/990" />
+  <office current="yes" id="uk.org.publicwhip/moffice/991" />
+  <office id="uk.org.publicwhip/moffice/2143" />
+  <office id="uk.org.publicwhip/moffice/2144" />
+  <office id="uk.org.publicwhip/moffice/2145" />
+  <office id="uk.org.publicwhip/moffice/2146" />
+ </person>
+<person id="uk.org.publicwhip/person/10863" latestname="Anne Aly">
+  <office current="yes" id="uk.org.publicwhip/member/688" />
+  <office id="uk.org.publicwhip/moffice/1006" />
+  <office id="uk.org.publicwhip/moffice/1007" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1008" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1009" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1010" />
+ </person>
+<person id="uk.org.publicwhip/person/10864" latestname="Emma McBride">
+  <office current="yes" id="uk.org.publicwhip/member/689" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1022" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1023" />
+  <office id="uk.org.publicwhip/moffice/2164" />
+  <office id="uk.org.publicwhip/moffice/2165" />
+ </person>
+<person id="uk.org.publicwhip/person/10872" latestname="Mike Freelander">
+  <office current="yes" id="uk.org.publicwhip/member/697" />
+ </person>
+<person id="uk.org.publicwhip/person/10874" latestname="Rebekha Sharkie">
+  <office id="uk.org.publicwhip/member/699" />
+  <office id="uk.org.publicwhip/member/731" />
+  <office current="yes" id="uk.org.publicwhip/member/735" />
+ </person>
+<person id="uk.org.publicwhip/person/10877" latestname="Luke Gosling">
+  <office current="yes" id="uk.org.publicwhip/member/702" />
+ </person>
+<person id="uk.org.publicwhip/person/10884" latestname="Madeleine King">
+  <office current="yes" id="uk.org.publicwhip/member/709" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1030" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1031" />
+  <office id="uk.org.publicwhip/moffice/2101" />
+  <office id="uk.org.publicwhip/moffice/2102" />
+  <office id="uk.org.publicwhip/moffice/2103" />
+  <office id="uk.org.publicwhip/moffice/2104" />
+  <office id="uk.org.publicwhip/moffice/2105" />
+  <office id="uk.org.publicwhip/moffice/2106" />
+ </person>
+<person id="uk.org.publicwhip/person/10885" latestname="Julian Hill">
+  <office current="yes" id="uk.org.publicwhip/member/710" />
+  <office id="uk.org.publicwhip/moffice/1050" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1051" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1052" />
+ </person>
+<person id="uk.org.publicwhip/person/10887" latestname="Peter Khalil">
+  <office current="yes" id="uk.org.publicwhip/member/713" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1060" />
+ </person>
+<person id="uk.org.publicwhip/person/10890" latestname="David Littleproud">
+  <office current="yes" id="uk.org.publicwhip/member/716" />
+  <office id="uk.org.publicwhip/moffice/904" />
+  <office id="uk.org.publicwhip/moffice/905" />
+  <office id="uk.org.publicwhip/moffice/906" />
+  <office id="uk.org.publicwhip/moffice/907" />
+  <office id="uk.org.publicwhip/moffice/908" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2209" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2210" />
+ </person>
+<person id="uk.org.publicwhip/person/10892" latestname="Llew O'Brien">
+  <office current="yes" id="uk.org.publicwhip/member/718" />
+ </person>
+<person id="uk.org.publicwhip/person/10893" latestname="Josh Wilson">
+  <office id="uk.org.publicwhip/member/719" />
+  <office current="yes" id="uk.org.publicwhip/member/736" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1053" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1054" />
+  <office id="uk.org.publicwhip/moffice/2169" />
+ </person>
+<person id="uk.org.publicwhip/person/10894" latestname="Tim Wilson">
+  <office id="uk.org.publicwhip/member/720" />
+  <office current="yes" id="uk.org.publicwhip/member/855" />
+  <office id="uk.org.publicwhip/moffice/975" />
+  <office id="uk.org.publicwhip/moffice/2338" />
+  <office id="uk.org.publicwhip/moffice/2339" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2340" />
+ </person>
+<person id="uk.org.publicwhip/person/10895" latestname="Anne Stanley">
+  <office current="yes" id="uk.org.publicwhip/member/721" />
+ </person>
+<person id="uk.org.publicwhip/person/10896" latestname="Andrew Wallace">
+  <office id="uk.org.publicwhip/member/722" />
+  <office id="uk.org.publicwhip/member/777" />
+  <office current="yes" id="uk.org.publicwhip/member/814" />
+  <office id="uk.org.publicwhip/moffice/2330" />
+ </person>
+<person id="uk.org.publicwhip/person/10900" latestname="Slade Brockman">
+  <office id="uk.org.publicwhip/lord/100873" />
+  <office id="uk.org.publicwhip/lord/100929" />
+  <office id="uk.org.publicwhip/lord/100943" />
+  <office current="yes" id="uk.org.publicwhip/lord/100971" />
+ </person>
+<person id="uk.org.publicwhip/person/10901" latestname="Jordon Steele-John">
+  <office current="yes" id="uk.org.publicwhip/lord/100874" />
+ </person>
+<person id="uk.org.publicwhip/person/10907" latestname="Ged Kearney">
+  <office id="uk.org.publicwhip/member/729" />
+  <office current="yes" id="uk.org.publicwhip/member/771" />
+  <office id="uk.org.publicwhip/moffice/1018" />
+  <office id="uk.org.publicwhip/moffice/1019" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1020" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1021" />
+  <office id="uk.org.publicwhip/moffice/2166" />
+  <office id="uk.org.publicwhip/moffice/2167" />
+  <office id="uk.org.publicwhip/moffice/2168" />
+ </person>
+<person id="uk.org.publicwhip/person/10910" latestname="David Smith">
+  <office current="yes" id="uk.org.publicwhip/member/772" />
+  <office id="uk.org.publicwhip/lord/100893" />
+ </person>
+<person id="uk.org.publicwhip/person/10911" latestname="Patrick Gorman">
+  <office current="yes" id="uk.org.publicwhip/member/730" />
+  <office current="yes" id="uk.org.publicwhip/moffice/983" />
+  <office current="yes" id="uk.org.publicwhip/moffice/984" />
+  <office id="uk.org.publicwhip/moffice/985" />
+  <office current="yes" id="uk.org.publicwhip/moffice/986" />
+  <office id="uk.org.publicwhip/moffice/2183" />
+ </person>
+<person id="uk.org.publicwhip/person/10912" latestname="Mehreen Faruqi">
+  <office current="yes" id="uk.org.publicwhip/lord/100883" />
+ </person>
+<person id="uk.org.publicwhip/person/10914" latestname="Wendy Askew">
+  <office id="uk.org.publicwhip/lord/100899" />
+ </person>
+<person id="uk.org.publicwhip/person/10915" latestname="Raff Ciccone">
+  <office current="yes" id="uk.org.publicwhip/lord/100900" />
+ </person>
+<person id="uk.org.publicwhip/person/10919" latestname="Alicia Payne">
+  <office current="yes" id="uk.org.publicwhip/member/741" />
+ </person>
+<person id="uk.org.publicwhip/person/10921" latestname="Libby Coker">
+  <office current="yes" id="uk.org.publicwhip/member/743" />
+ </person>
+<person id="uk.org.publicwhip/person/10922" latestname="Pat Conaghan">
+  <office current="yes" id="uk.org.publicwhip/member/744" />
+  <office id="uk.org.publicwhip/moffice/2253" />
+  <office id="uk.org.publicwhip/moffice/2254" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2255" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2256" />
+ </person>
+<person id="uk.org.publicwhip/person/10925" latestname="Daniel Mulino">
+  <office current="yes" id="uk.org.publicwhip/member/747" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1064" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1065" />
+ </person>
+<person id="uk.org.publicwhip/person/10926" latestname="Fiona Phillips">
+  <office current="yes" id="uk.org.publicwhip/member/748" />
+ </person>
+<person id="uk.org.publicwhip/person/10927" latestname="Phillip Thompson">
+  <office current="yes" id="uk.org.publicwhip/member/749" />
+  <office id="uk.org.publicwhip/moffice/2305" />
+  <office id="uk.org.publicwhip/moffice/2306" />
+  <office id="uk.org.publicwhip/moffice/2307" />
+  <office id="uk.org.publicwhip/moffice/2308" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2309" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2310" />
+ </person>
+<person id="uk.org.publicwhip/person/10930" latestname="Kate Thwaites">
+  <office current="yes" id="uk.org.publicwhip/member/752" />
+  <office id="uk.org.publicwhip/moffice/1047" />
+  <office id="uk.org.publicwhip/moffice/1048" />
+  <office id="uk.org.publicwhip/moffice/1049" />
+ </person>
+<person id="uk.org.publicwhip/person/10931" latestname="Anika Wells">
+  <office current="yes" id="uk.org.publicwhip/member/753" />
+  <office id="uk.org.publicwhip/moffice/1015" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1016" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1017" />
+ </person>
+<person id="uk.org.publicwhip/person/10932" latestname="Melissa McIntosh">
+  <office current="yes" id="uk.org.publicwhip/member/754" />
+  <office id="uk.org.publicwhip/moffice/2275" />
+  <office id="uk.org.publicwhip/moffice/2276" />
+  <office id="uk.org.publicwhip/moffice/2277" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2278" />
+  <office id="uk.org.publicwhip/moffice/2279" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2280" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2281" />
+ </person>
+<person id="uk.org.publicwhip/person/10934" latestname="Josh Burns">
+  <office current="yes" id="uk.org.publicwhip/member/756" />
+ </person>
+<person id="uk.org.publicwhip/person/10935" latestname="Anne Webster">
+  <office current="yes" id="uk.org.publicwhip/member/757" />
+  <office id="uk.org.publicwhip/moffice/2288" />
+  <office id="uk.org.publicwhip/moffice/2289" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2290" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2291" />
+ </person>
+<person id="uk.org.publicwhip/person/10936" latestname="Angie Bell">
+  <office current="yes" id="uk.org.publicwhip/member/758" />
+  <office id="uk.org.publicwhip/moffice/2232" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2233" />
+  <office id="uk.org.publicwhip/moffice/2234" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2235" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2236" />
+ </person>
+<person id="uk.org.publicwhip/person/10941" latestname="Zali Steggall">
+  <office current="yes" id="uk.org.publicwhip/member/763" />
+ </person>
+<person id="uk.org.publicwhip/person/10942" latestname="Dave Sharma">
+  <office id="uk.org.publicwhip/member/764" />
+  <office current="yes" id="uk.org.publicwhip/lord/100949" />
+  <office id="uk.org.publicwhip/moffice/2341" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2342" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2343" />
+ </person>
+<person id="uk.org.publicwhip/person/10944" latestname="Tony Sheldon">
+  <office current="yes" id="uk.org.publicwhip/lord/100917" />
+ </person>
+<person id="uk.org.publicwhip/person/10945" latestname="Andrew Bragg">
+  <office current="yes" id="uk.org.publicwhip/lord/100904" />
+  <office id="uk.org.publicwhip/moffice/2321" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2322" />
+  <office id="uk.org.publicwhip/moffice/2323" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2324" />
+ </person>
+<person id="uk.org.publicwhip/person/10946" latestname="Tim Ayres">
+  <office current="yes" id="uk.org.publicwhip/lord/100903" />
+  <office id="uk.org.publicwhip/moffice/997" />
+  <office id="uk.org.publicwhip/moffice/998" />
+  <office id="uk.org.publicwhip/moffice/999" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1000" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1001" />
+ </person>
+<person id="uk.org.publicwhip/person/10949" latestname="Paul Scarr">
+  <office current="yes" id="uk.org.publicwhip/lord/100916" />
+  <office id="uk.org.publicwhip/moffice/2326" />
+  <office id="uk.org.publicwhip/moffice/2327" />
+  <office id="uk.org.publicwhip/moffice/2328" />
+  <office id="uk.org.publicwhip/moffice/2329" />
+ </person>
+<person id="uk.org.publicwhip/person/10950" latestname="Nita Green">
+  <office current="yes" id="uk.org.publicwhip/lord/100908" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1061" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1062" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1063" />
+ </person>
+<person id="uk.org.publicwhip/person/10951" latestname="Susan McDonald">
+  <office current="yes" id="uk.org.publicwhip/lord/100911" />
+  <office id="uk.org.publicwhip/moffice/2201" />
+  <office id="uk.org.publicwhip/moffice/2202" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2203" />
+ </person>
+<person id="uk.org.publicwhip/person/10953" latestname="Marielle Smith">
+  <office current="yes" id="uk.org.publicwhip/lord/100918" />
+ </person>
+<person id="uk.org.publicwhip/person/10954" latestname="Alex Antic">
+  <office current="yes" id="uk.org.publicwhip/lord/100902" />
+ </person>
+<person id="uk.org.publicwhip/person/10955" latestname="Claire Chandler">
+  <office current="yes" id="uk.org.publicwhip/lord/100905" />
+  <office id="uk.org.publicwhip/moffice/2224" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2225" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2226" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2227" />
+ </person>
+<person id="uk.org.publicwhip/person/10956" latestname="Jess Walsh">
+  <office current="yes" id="uk.org.publicwhip/lord/100920" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1067" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1068" />
+ </person>
+<person id="uk.org.publicwhip/person/10958" latestname="Matt O'Sullivan">
+  <office current="yes" id="uk.org.publicwhip/lord/100913" />
+  <office id="uk.org.publicwhip/moffice/2347" />
+  <office id="uk.org.publicwhip/moffice/2348" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2349" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2350" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2351" />
+ </person>
+<person id="uk.org.publicwhip/person/10959" latestname="Andrew McLachlan">
+  <office id="uk.org.publicwhip/lord/100923" />
+  <office id="uk.org.publicwhip/lord/100945" />
+  <office current="yes" id="uk.org.publicwhip/lord/100970" />
+ </person>
+<person id="uk.org.publicwhip/person/10960" latestname="Kristy McBain">
+  <office current="yes" id="uk.org.publicwhip/member/773" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1032" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1033" />
+ </person>
+<person id="uk.org.publicwhip/person/10961" latestname="Lidia Thorpe">
+  <office id="uk.org.publicwhip/lord/100925" />
+  <office current="yes" id="uk.org.publicwhip/lord/100946" />
+ </person>
+<person id="uk.org.publicwhip/person/10962" latestname="Ben Small">
+  <office current="yes" id="uk.org.publicwhip/member/853" />
+  <office id="uk.org.publicwhip/lord/100926" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2380" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2381" />
+ </person>
+<person id="uk.org.publicwhip/person/10963" latestname="Garth Hamilton">
+  <office current="yes" id="uk.org.publicwhip/member/774" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2379" />
+ </person>
+<person id="uk.org.publicwhip/person/10964" latestname="Dorinda Cox">
+  <office id="uk.org.publicwhip/lord/100927" />
+  <office current="yes" id="uk.org.publicwhip/lord/100957" />
+ </person>
+<person id="uk.org.publicwhip/person/10965" latestname="Karen Grogan">
+  <office current="yes" id="uk.org.publicwhip/lord/100928" />
+ </person>
+<person id="uk.org.publicwhip/person/10967" latestname="Jerome Laxale">
+  <office current="yes" id="uk.org.publicwhip/member/779" />
+ </person>
+<person id="uk.org.publicwhip/person/10968" latestname="Louise Miller-Frost">
+  <office current="yes" id="uk.org.publicwhip/member/780" />
+ </person>
+<person id="uk.org.publicwhip/person/10969" latestname="Henry Pike">
+  <office current="yes" id="uk.org.publicwhip/member/781" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2373" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2374" />
+ </person>
+<person id="uk.org.publicwhip/person/10971" latestname="Aaron Violi">
+  <office current="yes" id="uk.org.publicwhip/member/783" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2375" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2376" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2377" />
+ </person>
+<person id="uk.org.publicwhip/person/10972" latestname="Carina Garland">
+  <office current="yes" id="uk.org.publicwhip/member/784" />
+ </person>
+<person id="uk.org.publicwhip/person/10973" latestname="Alison Byrnes">
+  <office current="yes" id="uk.org.publicwhip/member/785" />
+ </person>
+<person id="uk.org.publicwhip/person/10975" latestname="Andrew Willcox">
+  <office current="yes" id="uk.org.publicwhip/member/787" />
+  <office id="uk.org.publicwhip/moffice/2365" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2366" />
+ </person>
+<person id="uk.org.publicwhip/person/10976" latestname="Zoe McKenzie">
+  <office current="yes" id="uk.org.publicwhip/member/788" />
+  <office id="uk.org.publicwhip/moffice/2354" />
+  <office id="uk.org.publicwhip/moffice/2355" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2356" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2357" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2358" />
+ </person>
+<person id="uk.org.publicwhip/person/10977" latestname="Colin Boyce">
+  <office current="yes" id="uk.org.publicwhip/member/789" />
+ </person>
+<person id="uk.org.publicwhip/person/10978" latestname="Dai Le">
+  <office current="yes" id="uk.org.publicwhip/member/790" />
+ </person>
+<person id="uk.org.publicwhip/person/10981" latestname="Tania Lawrence">
+  <office current="yes" id="uk.org.publicwhip/member/793" />
+ </person>
+<person id="uk.org.publicwhip/person/10982" latestname="Sam Rae">
+  <office current="yes" id="uk.org.publicwhip/member/794" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1066" />
+ </person>
+<person id="uk.org.publicwhip/person/10983" latestname="Michelle Ananda-Rajah">
+  <office id="uk.org.publicwhip/member/795" />
+  <office current="yes" id="uk.org.publicwhip/lord/100961" />
+ </person>
+<person id="uk.org.publicwhip/person/10986" latestname="Dan Repacholi">
+  <office current="yes" id="uk.org.publicwhip/member/798" />
+ </person>
+<person id="uk.org.publicwhip/person/10987" latestname="Monique Ryan">
+  <office current="yes" id="uk.org.publicwhip/member/799" />
+ </person>
+<person id="uk.org.publicwhip/person/10988" latestname="Marion Scrymgour">
+  <office current="yes" id="uk.org.publicwhip/member/800" />
+ </person>
+<person id="uk.org.publicwhip/person/10989" latestname="Sophie Scamps">
+  <office current="yes" id="uk.org.publicwhip/member/801" />
+ </person>
+<person id="uk.org.publicwhip/person/10991" latestname="Sam Birrell">
+  <office current="yes" id="uk.org.publicwhip/member/803" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2359" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2360" />
+ </person>
+<person id="uk.org.publicwhip/person/10993" latestname="Andrew Charlton">
+  <office current="yes" id="uk.org.publicwhip/member/805" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1058" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1059" />
+ </person>
+<person id="uk.org.publicwhip/person/10994" latestname="Tracey Roberts">
+  <office current="yes" id="uk.org.publicwhip/member/806" />
+ </person>
+<person id="uk.org.publicwhip/person/10995" latestname="Sally Sitou">
+  <office current="yes" id="uk.org.publicwhip/member/807" />
+ </person>
+<person id="uk.org.publicwhip/person/10996" latestname="Gordon Reid">
+  <office current="yes" id="uk.org.publicwhip/member/808" />
+ </person>
+<person id="uk.org.publicwhip/person/10997" latestname="Elizabeth Watson-Brown">
+  <office current="yes" id="uk.org.publicwhip/member/809" />
+ </person>
+<person id="uk.org.publicwhip/person/10998" latestname="Matt Burnell">
+  <office current="yes" id="uk.org.publicwhip/member/810" />
+ </person>
+<person id="uk.org.publicwhip/person/10999" latestname="Zaneta Mascarenhas">
+  <office current="yes" id="uk.org.publicwhip/member/811" />
+ </person>
+<person id="uk.org.publicwhip/person/11000" latestname="Sam Lim">
+  <office current="yes" id="uk.org.publicwhip/member/812" />
+ </person>
+<person id="uk.org.publicwhip/person/11002" latestname="Penny Allman-Payne">
+  <office current="yes" id="uk.org.publicwhip/lord/100931" />
+ </person>
+<person id="uk.org.publicwhip/person/11003" latestname="Ralph Babet">
+  <office current="yes" id="uk.org.publicwhip/lord/100932" />
+ </person>
+<person id="uk.org.publicwhip/person/11004" latestname="Ross Cadell">
+  <office current="yes" id="uk.org.publicwhip/lord/100933" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2344" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2345" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2346" />
+ </person>
+<person id="uk.org.publicwhip/person/11005" latestname="Kerrynne Liddle">
+  <office current="yes" id="uk.org.publicwhip/lord/100934" />
+  <office id="uk.org.publicwhip/moffice/2317" />
+  <office id="uk.org.publicwhip/moffice/2318" />
+  <office id="uk.org.publicwhip/moffice/2319" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2320" />
+ </person>
+<person id="uk.org.publicwhip/person/11006" latestname="Jacinta Nampijinpa Price">
+  <office current="yes" id="uk.org.publicwhip/lord/100935" />
+  <office id="uk.org.publicwhip/moffice/2312" />
+  <office id="uk.org.publicwhip/moffice/2313" />
+  <office id="uk.org.publicwhip/moffice/2314" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2315" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2316" />
+ </person>
+<person id="uk.org.publicwhip/person/11007" latestname="Fatima Payman">
+  <office id="uk.org.publicwhip/lord/100936" />
+  <office id="uk.org.publicwhip/lord/100953" />
+  <office current="yes" id="uk.org.publicwhip/lord/100958" />
+ </person>
+<person id="uk.org.publicwhip/person/11008" latestname="Barbara Pocock">
+  <office current="yes" id="uk.org.publicwhip/lord/100937" />
+ </person>
+<person id="uk.org.publicwhip/person/11009" latestname="David Pocock">
+  <office current="yes" id="uk.org.publicwhip/lord/100938" />
+ </person>
+<person id="uk.org.publicwhip/person/11010" latestname="David Shoebridge">
+  <office current="yes" id="uk.org.publicwhip/lord/100939" />
+ </person>
+<person id="uk.org.publicwhip/person/11011" latestname="Jana Stewart">
+  <office current="yes" id="uk.org.publicwhip/lord/100940" />
+ </person>
+<person id="uk.org.publicwhip/person/11012" latestname="Tammy Tyrrell">
+  <office id="uk.org.publicwhip/lord/100941" />
+  <office id="uk.org.publicwhip/lord/100955" />
+  <office current="yes" id="uk.org.publicwhip/lord/100972" />
+ </person>
+<person id="uk.org.publicwhip/person/11014" latestname="Maria Kovacic">
+  <office current="yes" id="uk.org.publicwhip/lord/100947" />
+  <office id="uk.org.publicwhip/moffice/2331" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2332" />
+  <office id="uk.org.publicwhip/moffice/2333" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2334" />
+ </person>
+<person id="uk.org.publicwhip/person/11015" latestname="Mary Doyle">
+  <office current="yes" id="uk.org.publicwhip/member/817" />
+ </person>
+<person id="uk.org.publicwhip/person/11016" latestname="Cameron Caldwell">
+  <office current="yes" id="uk.org.publicwhip/member/818" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2378" />
+ </person>
+<person id="uk.org.publicwhip/person/11017" latestname="Varun Ghosh">
+  <office current="yes" id="uk.org.publicwhip/lord/100950" />
+ </person>
+<person id="uk.org.publicwhip/person/11020" latestname="Steph Hodgins-May">
+  <office current="yes" id="uk.org.publicwhip/lord/100952" />
+ </person>
+<person id="uk.org.publicwhip/person/11021" latestname="Lisa Darmanin">
+  <office current="yes" id="uk.org.publicwhip/lord/100951" />
+ </person>
+<person id="uk.org.publicwhip/person/11022" latestname="Leah Blyth">
+  <office current="yes" id="uk.org.publicwhip/lord/100956" />
+  <office id="uk.org.publicwhip/moffice/2368" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2369" />
+ </person>
+<person id="uk.org.publicwhip/person/11023" latestname="Basem Abdo">
+  <office current="yes" id="uk.org.publicwhip/member/823" />
+ </person>
+<person id="uk.org.publicwhip/person/11024" latestname="Mary Aldred">
+  <office current="yes" id="uk.org.publicwhip/member/824" />
+ </person>
+<person id="uk.org.publicwhip/person/11025" latestname="Ash Ambihaipahar">
+  <office current="yes" id="uk.org.publicwhip/member/825" />
+ </person>
+<person id="uk.org.publicwhip/person/11026" latestname="David Batt">
+  <office current="yes" id="uk.org.publicwhip/member/826" />
+ </person>
+<person id="uk.org.publicwhip/person/11027" latestname="Carol Berry">
+  <office current="yes" id="uk.org.publicwhip/member/827" />
+ </person>
+<person id="uk.org.publicwhip/person/11028" latestname="Nicolette Boele">
+  <office current="yes" id="uk.org.publicwhip/member/828" />
+ </person>
+<person id="uk.org.publicwhip/person/11029" latestname="Jo Briskey">
+  <office current="yes" id="uk.org.publicwhip/member/829" />
+ </person>
+<person id="uk.org.publicwhip/person/11031" latestname="Julie-Ann Campbell">
+  <office current="yes" id="uk.org.publicwhip/member/830" />
+ </person>
+<person id="uk.org.publicwhip/person/11032" latestname="Jamie Chaffey">
+  <office current="yes" id="uk.org.publicwhip/member/831" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2352" />
+  <office current="yes" id="uk.org.publicwhip/moffice/2353" />
+ </person>
+<person id="uk.org.publicwhip/person/11033" latestname="Claire Clutterham">
+  <office current="yes" id="uk.org.publicwhip/member/832" />
+ </person>
+<person id="uk.org.publicwhip/person/11034" latestname="Renee Coffey">
+  <office current="yes" id="uk.org.publicwhip/member/833" />
+ </person>
+<person id="uk.org.publicwhip/person/11035" latestname="Emma Comer">
+  <office current="yes" id="uk.org.publicwhip/member/834" />
+ </person>
+<person id="uk.org.publicwhip/person/11036" latestname="Kara Cook">
+  <office current="yes" id="uk.org.publicwhip/member/835" />
+ </person>
+<person id="uk.org.publicwhip/person/11037" latestname="Trish Cook">
+  <office current="yes" id="uk.org.publicwhip/member/836" />
+ </person>
+<person id="uk.org.publicwhip/person/11038" latestname="Ali France">
+  <office current="yes" id="uk.org.publicwhip/member/837" />
+ </person>
+<person id="uk.org.publicwhip/person/11039" latestname="Tom French">
+  <office current="yes" id="uk.org.publicwhip/member/838" />
+ </person>
+<person id="uk.org.publicwhip/person/11040" latestname="Matt Gregg">
+  <office current="yes" id="uk.org.publicwhip/member/839" />
+ </person>
+<person id="uk.org.publicwhip/person/11041" latestname="Rowan Holzberger">
+  <office current="yes" id="uk.org.publicwhip/member/840" />
+ </person>
+<person id="uk.org.publicwhip/person/11042" latestname="Madonna Jarrett">
+  <office current="yes" id="uk.org.publicwhip/member/841" />
+ </person>
+<person id="uk.org.publicwhip/person/11043" latestname="Alice Jordan-Baird">
+  <office current="yes" id="uk.org.publicwhip/member/842" />
+ </person>
+<person id="uk.org.publicwhip/person/11044" latestname="David Moncrieff">
+  <office current="yes" id="uk.org.publicwhip/member/843" />
+ </person>
+<person id="uk.org.publicwhip/person/11045" latestname="Gabriel Ng">
+  <office current="yes" id="uk.org.publicwhip/member/844" />
+ </person>
+<person id="uk.org.publicwhip/person/11046" latestname="Alison Penfold">
+  <office current="yes" id="uk.org.publicwhip/member/845" />
+ </person>
+<person id="uk.org.publicwhip/person/11047" latestname="Leon Rebello">
+  <office current="yes" id="uk.org.publicwhip/member/846" />
+ </person>
+<person id="uk.org.publicwhip/person/11048" latestname="Matt Smith">
+  <office current="yes" id="uk.org.publicwhip/member/847" />
+ </person>
+<person id="uk.org.publicwhip/person/11049" latestname="Zhi Soon">
+  <office current="yes" id="uk.org.publicwhip/member/848" />
+ </person>
+<person id="uk.org.publicwhip/person/11050" latestname="Jess Teesdale">
+  <office current="yes" id="uk.org.publicwhip/member/849" />
+ </person>
+<person id="uk.org.publicwhip/person/11051" latestname="Tom Venning">
+  <office current="yes" id="uk.org.publicwhip/member/850" />
+ </person>
+<person id="uk.org.publicwhip/person/11052" latestname="Rebecca White">
+  <office current="yes" id="uk.org.publicwhip/member/851" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1055" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1056" />
+  <office current="yes" id="uk.org.publicwhip/moffice/1057" />
+ </person>
+<person id="uk.org.publicwhip/person/11053" latestname="Sarah Witty">
+  <office current="yes" id="uk.org.publicwhip/member/852" />
+ </person>
+<person id="uk.org.publicwhip/person/11054" latestname="Josh Dolega">
+  <office current="yes" id="uk.org.publicwhip/lord/100960" />
+ </person>
+<person id="uk.org.publicwhip/person/11055" latestname="Jessica Collins">
+  <office current="yes" id="uk.org.publicwhip/lord/100962" />
+ </person>
+<person id="uk.org.publicwhip/person/11056" latestname="Richard Dowling">
+  <office current="yes" id="uk.org.publicwhip/lord/100963" />
+ </person>
+<person id="uk.org.publicwhip/person/11057" latestname="Corinne Mulholland">
+  <office current="yes" id="uk.org.publicwhip/lord/100964" />
+ </person>
+<person id="uk.org.publicwhip/person/11058" latestname="Charlotte Walker">
+  <office current="yes" id="uk.org.publicwhip/lord/100965" />
+ </person>
+<person id="uk.org.publicwhip/person/11059" latestname="Ellie Whiteaker">
+  <office current="yes" id="uk.org.publicwhip/lord/100966" />
+ </person>
+<person id="uk.org.publicwhip/person/11060" latestname="Tyron Whitten">
+  <office current="yes" id="uk.org.publicwhip/lord/100967" />
+ </person>
+<person id="uk.org.publicwhip/person/11062" latestname="Sean Bell">
+  <office current="yes" id="uk.org.publicwhip/lord/100969" />
+ </person>
+<person id="uk.org.publicwhip/person/11064" latestname="Chris Gatenby">
+  <office current="yes" id="uk.org.publicwhip/lord/100973" />
+ </person>
+<person id="uk.org.publicwhip/person/11065" latestname="Vanessa Bleyer">
+  <office current="yes" id="uk.org.publicwhip/lord/100974" />
+ </person>
+<person id="uk.org.publicwhip/person/10880" latestname="Milton Dick">
+  <office id="uk.org.publicwhip/member/705" />
+  <office current="yes" id="uk.org.publicwhip/member/815" />
+ </person>
+</publicwhip>

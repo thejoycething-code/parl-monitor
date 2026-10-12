@@ -1,0 +1,112 @@
+#
+# robots.txt
+#
+# This file is to prevent the crawling and indexing of certain parts
+# of your site by web crawlers and spiders run by sites like Yahoo!
+# and Google. By telling these "robots" where not to go on your site,
+# you save bandwidth and server resources.
+#
+# This file will be ignored unless it is at the root of your host:
+# Used:    http://example.com/robots.txt
+# Ignored: http://example.com/site/robots.txt
+#
+# For more information about the robots.txt standard, see:
+# http://www.robotstxt.org/robotstxt.html
+
+
+User-agent: *
+# CSS, JS, Images
+Allow: /core/*.css$
+Allow: /core/*.css?
+Allow: /core/*.js$
+Allow: /core/*.js?
+Allow: /core/*.gif
+Allow: /core/*.jpg
+Allow: /core/*.jpeg
+Allow: /core/*.png
+Allow: /core/*.svg
+Allow: /profiles/*.css$
+Allow: /profiles/*.css?
+Allow: /profiles/*.js$
+Allow: /profiles/*.js?
+Allow: /profiles/*.gif
+Allow: /profiles/*.jpg
+Allow: /profiles/*.jpeg
+Allow: /profiles/*.png
+Allow: /profiles/*.svg
+# Directories
+Disallow: /core/
+Disallow: /profiles/
+# Files
+Disallow: /README.txt
+Disallow: /web.config
+# Paths (clean URLs)
+Disallow: /admin/
+Disallow: /comment/reply/
+Disallow: /filter/tips
+Disallow: /node/add/
+Disallow: /search/
+Disallow: /user/register/
+Disallow: /user/password/
+Disallow: /user/login/
+Disallow: /user/logout/
+# Paths (no clean URLs)
+Disallow: /index.php/admin/
+Disallow: /index.php/comment/reply/
+Disallow: /index.php/filter/tips
+Disallow: /index.php/node/add/
+Disallow: /index.php/search/
+Disallow: /index.php/user/password/
+Disallow: /index.php/user/register/
+Disallow: /index.php/user/login/
+Disallow: /index.php/user/logout/
+# Specific URLs to discourage indexing
+Disallow: /en/legislative-business/committees/emergency-management-oversight/parliament-42
+Disallow: /en/legislative-business/committees/emergency-management-oversight/parliament-42/reports
+Disallow: /en/legislative-business/committees/emergency-management-oversight/parliament-42/transcripts
+Disallow: /en/legislative-business/committees/estimates/parliament-42
+Disallow: /en/legislative-business/committees/estimates/parliament-42/reports
+Disallow: /en/legislative-business/committees/estimates/parliament-42/transcripts
+Disallow: /en/legislative-business/committees/finance-economic-affairs/parliament-42
+Disallow: /en/legislative-business/committees/finance-economic-affairs/parliament-42/reports
+Disallow: /en/legislative-business/committees/finance-economic-affairs/parliament-42/transcripts
+Disallow: /en/legislative-business/committees/financial-transparency/parliament-42
+Disallow: /en/legislative-business/committees/financial-transparency/parliament-42/reports
+Disallow: /en/legislative-business/committees/financial-transparency/parliament-42/transcripts
+Disallow: /en/legislative-business/committees/general-government/parliament-42
+Disallow: /en/legislative-business/committees/general-government/parliament-42/reports
+Disallow: /en/legislative-business/committees/general-government/parliament-42/transcripts
+Disallow: /en/legislative-business/committees/government-agencies/parliament-42
+Disallow: /en/legislative-business/committees/government-agencies/parliament-42/reports
+Disallow: /en/legislative-business/committees/government-agencies/parliament-42/transcripts
+Disallow: /en/legislative-business/committees/justice-policy/parliament-42
+Disallow: /en/legislative-business/committees/justice-policy/parliament-42/reports
+Disallow: /en/legislative-business/committees/justice-policy/parliament-42/transcripts
+Disallow: /en/legislative-business/committees/legislative-assembly/parliament-42
+Disallow: /en/legislative-business/committees/legislative-assembly/parliament-42/reports
+Disallow: /en/legislative-business/committees/legislative-assembly/parliament-42/transcripts
+Disallow: /en/legislative-business/committees/public-accounts/parliament-42
+Disallow: /en/legislative-business/committees/public-accounts/parliament-42/reports
+Disallow: /en/legislative-business/committees/public-accounts/parliament-42/transcripts
+Disallow: /en/legislative-business/committees/regulations-private-bills/parliament-42
+Disallow: /en/legislative-business/committees/regulations-private-bills/parliament-42/reports
+Disallow: /en/legislative-business/committees/regulations-private-bills/parliament-42/transcripts
+Disallow: /en/legislative-business/committees/social-policy/parliament-42
+Disallow: /en/legislative-business/committees/social-policy/parliament-42/reports
+Disallow: /en/legislative-business/committees/social-policy/parliament-42/transcripts
+
+# https://acquia.my.site.com/s/article/4408794498199-Block-excessive-crawling-of-Drupal-Views-or-search-results
+# Do not index nor follow links that have a query string
+# (e.g. /search?page=123  or /search?size=small&color=red)
+User-agent: *
+Disallow: /*?
+
+# If your views or search pages use a module to convert facets/filters 
+# to clean URLs (e.g. /search/page/123  or /search/size/small)
+# you can try disallowing the search page's URL
+User-agent: *
+Disallow: /search*
+Disallow: /en/search/results?*
+Disallow: /fr/search/results?*
+
+Sitemap: https://www.ola.org/sitemap.xml

@@ -9,6 +9,17 @@ on:
     # cost nothing when the primary ran and save the morning when it did not.
     - cron: "30 5 * * 1"
     - cron: "0 7 * * 1"
+  # THE CLOCK, off the laptop (8 October 2026; Christopher: "Start the move
+  # off the laptop now"). GitHub creates this repo's scheduled runs 7-8 hours
+  # late (5 Oct: the 03:00 UTC slot ran at 10:03), and the cloud routine
+  # "Parl monitor: Monday publish dispatch" cannot dispatch (its GitHub app
+  # has no Actions write: 403, 28 Sept). But a PUSH it makes starts a
+  # workflow at once (probe run 37731046806, 8 Oct). So at 04:00 London the
+  # routine pushes an empty commit to claude/monday-publish-<date>, this
+  # runs on main (never the trigger branch) as a real publish, and the
+  # trigger branch is deleted at the end. Idempotent per week as ever.
+  push:
+    branches: ["claude/monday-publish**"]
   workflow_dispatch:
     inputs:
       dry_run:
@@ -24,7 +35,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this first, at 04:00 London on Mondays (tools/mini_run.sh monday-publish;
+  # 9 October 2026). Every trigger here is the backup: the gate skips while
+  # the Mini is running it (MINI_RUN_MONDAY_PUBLISH) and, for 20 hours after the
+  # Mini ran it, skips every slot, retries included.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: MONDAY_PUBLISH
+      cover-hours: 20
+
   publish:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     # SIXTY (21 Sept 2026): a dispatched dry run was killed by the 30-minute
     # wall inside run_monday.py with nothing in the log, because Python
@@ -66,7 +89,7 @@ jobs:
       # anywhere. These workflows act on repo STATE, so the tip is always
       # the right thing to act on.
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event_name == 'push' && 'main' || github.ref_name }}
       - uses: actions/setup-python@v7
         if: env.SKIP != '1'
         with:
@@ -254,7 +277,12 @@ jobs:
           # every mid-week Deploy tracker run, which ships the committed
           # tree, put the 17 August front page back in front of partners.
           # .gitignore keeps .vercel/ and .env.local out.
-          git add config/debate_watch.yaml data/ editions/ reviews/ docs/judge-eval.md partner_site/
+          # docs/mp-votes.html too (7 October 2026): tools/make_vote_tracker.py
+          # writes the public and the partner page together, and since Monday
+          # began committing all of partner_site/ (2 October) the public copy
+          # was left stale in git -- the two builds the suite holds
+          # byte-identical diverged at the 5 October publish.
+          git add config/debate_watch.yaml data/ editions/ reviews/ docs/judge-eval.md docs/mp-votes.html partner_site/
           git diff --cached --quiet || git commit -m "Monday publish: $(date -u +%Y-%m-%dT%H:%M)Z"
           # The sidecar MUST land: the store was already published above,
           # so a failed push leaves the release ahead of the repo -- the
@@ -262,9 +290,41 @@ jobs:
           # 2026-08-28: this push lost a race with a human push and was
           # rejected, and the next run refused the store. Rebase and retry
           # rather than leave the two out of step.
-          for attempt in 1 2 3; do
-            git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
-            git push && break
-            echo "push rejected (attempt $attempt); retrying"
-            sleep $((attempt * 5))
+          # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
+          # jittered waits, and never retry while stuck mid-rebase.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)"; then
+              git push && break
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            echo "push not landed (attempt $attempt); retrying"
+            sleep $(( attempt * 10 + RANDOM % 10 ))
           done
+          # A loop that falls out without a successful push must FAIL the step,
+          # or main keeps pointing at an old sidecar (the 6 September cascade).
+          git fetch -q origin "$(git rev-parse --abbrev-ref HEAD)"
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "the sidecar commit never reached origin"; exit 1
+          fi
+      - name: Delete the trigger branch (push runs only)
+        # The routine's empty commit is not state: the branch only exists to
+        # start this run. Deleted whatever the run's outcome.
+        if: always() && github.event_name == 'push' && env.SKIP != '1'
+        run: git push origin --delete "${{ github.ref_name }}" || echo "trigger branch already gone"
+
+  # The cloud routine's trigger branch is not state; the publish job deletes it
+  # at its end. When the gate skips a push run (the Mini published), that job
+  # never runs, so the branch is deleted here instead.
+  tidy-trigger:
+    needs: mini-check
+    if: github.event_name == 'push' && needs.mini-check.outputs.run != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          gh api -X DELETE "repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }}"
+          || echo "trigger branch already gone"

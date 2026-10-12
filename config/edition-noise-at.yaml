@@ -1,0 +1,20 @@
+# Austria edition noise rules (src/noise.py; format documented there).
+# Hand-edited. Patterns match folded text: lower case, accents stripped,
+# 'ß' as 'ss'. A watched item is never filtered.
+#
+# Measured on the scoping store (9 October 2026, reclassified under
+# taxonomy-atch v0.1): from 8 September to 9 October, 43 items on our
+# ground and none of them noise by procedure; the repetition was the same
+# written question put to every ministry (fourteen answers on the 2026
+# Pride Month), which the framework folds into one entry by title. The
+# collector already leaves out "Antrag auf Einholung einer Stellungnahme"
+# votes with no Klubs named. The patterns below are procedure that would
+# inherit an item's areas if a history page ever recorded it as a vote.
+procedural_votes:
+  - '\bantrag auf (abhaltung|durchfuhrung) einer kurzen debatte\b'
+  - '\bantrag auf einholung einer stellungnahme\b'
+  - '\b(antrag auf|verlangen auf) (unterbrechung der sitzung|sitzungsunterbrechung)\b'
+  - '^\W*(anderung|umstellung|erganzung) der tagesordnung\b'
+alert:
+  title_tier1: true
+  distinct_terms: 2

@@ -1,0 +1,15 @@
+# TEST FIXTURE ONLY -- not the proposed Dutch taxonomy (that is in
+# docs/netherlands-scope.md, awaiting Chris). Three terms, enough to test
+# that classification and --reclassify are wired.
+version: test
+areas:
+  5_sex_based_rights:
+    tier1: ["transgender*"]
+    tier2: []
+  10_surrogacy_embryology:
+    tier1: ["Embryowet"]
+    tier2: ["embryo*"]
+  11_migration:
+    tier1: ["asielzoeker*"]
+    tier2: []
+exclusions_global: []

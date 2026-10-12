@@ -30,6 +30,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this first, Sundays 20:00 London (tools/mini_run.sh de-weekly;
+  # 9 October 2026). Every cron here is the backup: skipped while the Mini
+  # runs it and for 20 hours after.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: DE_WEEKLY
+      cover-hours: 20
+
   # THE SECOND SLOT IS A RETRY, NOT A SECOND PASS. Copied from eu-weekly.yml,
   # which learned it the expensive way: two slots existed so a dropped cron
   # still got the week done, and nothing stopped the later one repeating the
@@ -40,6 +49,8 @@ jobs:
   # behind the first on the state group and run anyway. A hand dispatch is
   # never gated.
   gate:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
@@ -186,14 +197,32 @@ jobs:
         run: python3 tools/de_issues.py | tee /tmp/de-issues.log
       - name: Write the German edition and DM the summary
         run: python3 tools/de_monitor.py --edition --dm | tee /tmp/de-monitor.log
+      - name: Build the 5CA sheets
+        # Offline, from the store as it stands (seconds), as jobs/us-weekly.sh
+        # runs tools/us_5ca.py. Runs whatever the collectors did. Only SIGNED
+        # readings in config/de_stance.yaml place anyone. A failure is a
+        # [gap], never a red run: last week's sheets stand. data/5ca/ is
+        # committed with data/ below.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          python3 tools/de_5ca.py --all | tee /tmp/de-5ca.log \
+            || echo "  [gap] de-5ca: the 5CA sheets failed; last week's stand" | tee -a /tmp/de-5ca.log
+      - name: Build the vote page
+        # partner_site/de-votes.html, as tools/make_eu_tracker.py builds
+        # eu-votes.html: committed below, shipped by the Monday Deploy
+        # tracker behind the passphrase. Directions only from signed readings.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          python3 tools/make_de_votes.py | tee /tmp/de-votes.log \
+            || echo "  [gap] de-votes: the vote page failed; last week's stands" | tee -a /tmp/de-votes.log
       - name: Health summary
         if: always()
         run: |
           {
             echo "## Germany weekly"
             echo '```'
-            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-committees:|de-stance:|de-profiles:|de-briefs:|de-issues:|de-triage:|edition:|dm:|\[gap\]" \
-              /tmp/de-*.log 2>/dev/null | head -15 || echo "(no summary lines)"
+            grep -hE "de-rollcalls:|de-documents:|de-agenda:|de-speeches:|de-petitions:|de-courts:|de-amendments:|de-committees:|de-stance:|de-profiles:|de-briefs:|de-issues:|de-triage:|edition:|dm:|sheet\(s\)\. Readings|de-votes:|\[gap\]" \
+              /tmp/de-*.log 2>/dev/null | head -20 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/de-*.log 2>/dev/null \
                       || true; } | awk '{s+=$1} END {print s+0}')
@@ -256,11 +285,23 @@ jobs:
           # when the judge evaluation was scheduled above: without them the
           # step writes a checklist and a report into a workspace that is
           # thrown away at the end of the run.
-          git add data/ editions/ reviews/ docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html
+          git add data/ editions/ reviews/ docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html partner_site/de-votes.html
           git diff --cached --quiet || git commit -m "Germany weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
-          for attempt in 1 2 3; do
-            git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
-            git push && break
-            echo "push rejected (attempt $attempt); retrying"
-            sleep $((attempt * 5))
+          # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
+          # jittered waits, and never retry while stuck mid-rebase.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)"; then
+              git push && break
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            echo "push not landed (attempt $attempt); retrying"
+            sleep $(( attempt * 10 + RANDOM % 10 ))
           done
+          # A loop that falls out without a successful push must FAIL the step,
+          # or main keeps pointing at an old sidecar (the 6 September cascade).
+          git fetch -q origin "$(git rev-parse --abbrev-ref HEAD)"
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "the sidecar commit never reached origin"; exit 1
+          fi

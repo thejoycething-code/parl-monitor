@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SesionSala xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://opendata.camara.cl/camaradiputados/v1">
+  <Id>4740</Id>
+  <Numero>108</Numero>
+  <FechaInicio>2026-01-12T15:04:36</FechaInicio>
+  <FechaTermino>2026-01-12T15:55:06</FechaTermino>
+  <Tipo Valor="2">Especial</Tipo>
+  <Estado Valor="1">Celebrada</Estado>
+  <ListadoAsistencia>
+    <Asistencia>
+      <TipoAsistencia Valor="1">Asiste</TipoAsistencia>
+      <Diputado>
+        <Id>74</Id>
+        <Nombre>Jaime</Nombre>
+        <ApellidoPaterno>Naranjo</ApellidoPaterno>
+        <ApellidoMaterno>Ortiz</ApellidoMaterno>
+      </Diputado>
+    </Asistencia>
+    <Asistencia>
+      <TipoAsistencia Valor="1">Asiste</TipoAsistencia>
+      <Diputado>
+        <Id>803</Id>
+        <Nombre>René</Nombre>
+        <ApellidoPaterno>Alinco</ApellidoPaterno>
+        <ApellidoMaterno>Bustos</ApellidoMaterno>
+      </Diputado>
+    </Asistencia>
+    <Asistencia>
+      <TipoAsistencia Valor="0">No Asiste</TipoAsistencia>
+      <Diputado>
+        <Id>948</Id>
+        <Nombre>Gaspar</Nombre>
+        <ApellidoPaterno>Rivas</ApellidoPaterno>
+        <ApellidoMaterno>Sánchez</ApellidoMaterno>
+      </Diputado>
+    </Asistencia>
+    <Asistencia>
+      <TipoAsistencia Valor="0">No Asiste</TipoAsistencia>
+      <Diputado>
+        <Id>989</Id>
+        <Nombre>Joaquín</Nombre>
+        <ApellidoPaterno>Lavín</ApellidoPaterno>
+        <ApellidoMaterno>León</ApellidoMaterno>
+      </Diputado>
+    </Asistencia>
+  </ListadoAsistencia>
+</SesionSala>

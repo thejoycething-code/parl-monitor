@@ -1,0 +1,30 @@
+# Beto Preto
+
+Brazil, Câmara dos Deputados. From the parliamentary monitor's store; positions are as the record gives them, never a verdict. Index: [Brazil members](index.md).
+
+- **Party:** PSD; latest seen in the member list
+- **Constituency or region:** PR
+- **Status:** sitting, on the source's current list
+- **Source id:** `camara-220698`
+
+## Party history
+
+- Recorded at votes in the store: PSD (first 21 November 2023, last 3 September 2026).
+
+## Votes on our ground (3)
+
+Recorded positions (3): “Sim” 3.
+By area (every vote): free speech and civil liberties: “Sim” 1; religious freedom: “Sim” 2.
+
+Every vote:
+
+| Date | Position | Party at the vote | Vote | Areas |
+|---|---|---|---|---|
+| 1 Jul 2026 | Sim | PSD (at the vote) | [Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 293; Não: 158; Abstenção: 3; Total: 454.; on: PL 896/2023: Altera a Lei nº 7.7…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2612930) · bill's areas | free speech and civil liberties, tier 2 |
+| 28 May 2026 | Sim | PSD (at the vote) | [Aprovada, em primeiro turno, a Proposta de Emenda à Constituição nº 5, de 2023, na forma da Emenda Aglutinativa Substitutiva nº 3. Sim: 385…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas | religious freedom, tier 2 |
+| 28 May 2026 | Sim | PSD (at the vote) | [Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1; Total: 472.; on: PEC 5/2023: Acrescenta § 4º-A ao art. 150 da Constituição Federal,…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas | religious freedom, tier 2 |
+
+## Notes
+
+- Party: The party the vote record names at each vote.
+- How these profiles are built, and what they never say: [the index's notes](index.md#notes).

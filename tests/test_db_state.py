@@ -8,7 +8,9 @@ release asset. These tests pin the properties that make that safe.
 import json
 import os
 import sys
+import tempfile
 import unittest
+from unittest import mock
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -28,7 +30,7 @@ class WorkflowWiringTests(unittest.TestCase):
     STATEFUL = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
                 "sunday-pull.yml", "monday-publish.yml", "upr-monthly.yml",
                 "backfill.yml", "score-stance.yml", "member-profiles.yml",
-                "de-weekly.yml")
+                "de-weekly.yml", "prov-weekly.yml")
 
     def test_every_stateful_workflow_pulls_and_pushes(self):
         for name in self.STATEFUL:
@@ -66,9 +68,22 @@ class WorkflowWiringTests(unittest.TestCase):
 
 class BootstrapGuardTests(unittest.TestCase):
     def test_no_asset_with_a_working_copy_is_a_bootstrap(self):
-        self.assertEqual(db_state._no_asset_yet(), 0,
-                         "the working copy exists, so the first run should "
-                         "proceed and publish it")
+        # Its own working copy, not the real store: data/parl-monitor.db is
+        # gitignored and lives only on machines that have pulled it, so in
+        # a fresh clone the test failed for want of a file it never meant
+        # to test (found 2026-10-12).
+        import tempfile
+        real = db_state.DB
+        with tempfile.TemporaryDirectory() as tmp:
+            try:
+                db_state.DB = os.path.join(tmp, "parl-monitor.db")
+                with open(db_state.DB, "wb") as fh:
+                    fh.write(b"SQLite format 3\x00")
+                self.assertEqual(db_state._no_asset_yet(), 0,
+                                 "the working copy exists, so the first run "
+                                 "should proceed and publish it")
+            finally:
+                db_state.DB = real
 
     def test_no_asset_and_no_working_copy_is_fatal(self):
         real = db_state.DB
@@ -313,7 +328,8 @@ class FailureAlertTests(unittest.TestCase):
 
     WATCHED = ("Sunday pull", "Monday publish", "NI Assembly weekly",
                "Holyrood weekly", "Senedd weekly", "UPR monthly",
-               "Historic backfill", "Score stance", "Germany weekly")
+               "Historic backfill", "Score stance", "Germany weekly",
+               "Provinces weekly")
 
     def test_the_watcher_exists_and_fires_on_failure_and_cancellation(self):
         """A job that hits timeout-minutes is reported as 'cancelled' (19 Sept
@@ -352,6 +368,10 @@ class FailureAlertTests(unittest.TestCase):
     NO_SLACK = ("ni-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
                 "backfill.yml", "score-stance.yml", "upr-monthly.yml",
                 "member-profiles.yml")
+    # prov-weekly.yml left this list on 9 October 2026: it now writes the
+    # provinces edition and DMs it to Christopher, as ie-weekly.yml does
+    # (tests/test_prov_schedule.py keeps the token to that one step). Its
+    # failure alert is still the watcher's, never a step of its own.
 
     def test_the_watching_briefs_hold_no_slack_credential(self):
         """The property the watcher exists to preserve: had the alert been a
@@ -390,6 +410,37 @@ class FailureAlertTests(unittest.TestCase):
         self.assertNotIn("was not published", msg)
         self.assertIn("upsert", msg)
 
+
+
+class LiveAssetTests(unittest.TestCase):
+    """Two machines publish the store without a shared lock (the Mac Mini
+    runner and GitHub): the release's own digest must be one we have seen."""
+
+    def assets(self, *pairs):
+        return [{"name": n, "digest": d} for n, d in pairs]
+
+    def test_our_store_on_the_release_passes(self):
+        self.assertTrue(db_state.live_asset_is_ours(["aaa", "bbb"], self.assets((db_state.ASSET, "bbb"))))
+
+    def test_an_uploaded_store_we_never_saw_is_refused(self):
+        self.assertFalse(db_state.live_asset_is_ours(["aaa"], self.assets((db_state.ASSET, "ccc"))))
+
+    def test_a_push_part_way_through_is_refused(self):
+        self.assertFalse(db_state.live_asset_is_ours(["aaa"], self.assets((db_state.PREV, "aaa"))))
+        self.assertFalse(db_state.live_asset_is_ours(
+            ["aaa"], self.assets((db_state.ASSET, "aaa"), (db_state.PREV, "zzz"))))
+
+    def test_an_unreadable_release_or_no_asset_does_not_block(self):
+        self.assertTrue(db_state.live_asset_is_ours(["aaa"], []))
+        with mock.patch.object(db_state, "_release_assets", return_value=None):
+            self.assertTrue(db_state.live_asset_is_ours(["aaa"]))
+
+    def test_lineage_checks_the_live_asset_after_the_pointer(self):
+        with mock.patch.object(db_state, "published_sha", return_value="aaa"), \
+             mock.patch.object(db_state, "held_shas", return_value=["aaa"]), \
+             mock.patch.object(db_state, "_release_assets",
+                               return_value=self.assets((db_state.ASSET, "ccc"))):
+            self.assertFalse(db_state.check_lineage())
 
 if __name__ == "__main__":
     unittest.main()
@@ -610,7 +661,11 @@ class PlainHttpTests(unittest.TestCase):
                             # flagging it would train people to ignore this
                             # check. The brace is what distinguishes it, and
                             # nothing else in this repo fetches a braced URL.
-                            if line[max(0, m.start() - 1)] == "{":
+                            # So is an IRI in SPARQL's angle brackets
+                            # ("<http://dati.senato.it/osr/>", Italy, 9 October
+                            # 2026): the endpoint is fetched over https and the
+                            # dataset's own identifiers are http.
+                            if line[max(0, m.start() - 1)] in "{<":
                                 continue
                             offenders.append("{0}:{1} {2}".format(
                                 os.path.relpath(path, ROOT), n, m.group(0)))
@@ -633,7 +688,11 @@ class AssetSwapTests(unittest.TestCase):
         self.ds = db_state
         self.calls = []
         self.assets = {db_state.ASSET: 1}
-        self._real = (db_state._rename_asset, db_state._delete_asset)
+        self._real = (db_state._rename_asset, db_state._delete_asset, db_state._asset_records,
+                      db_state._sleep)
+        db_state._sleep = lambda _s: None
+        db_state._asset_records = lambda tok=None: [
+            {"name": n, "id": i, "state": "uploaded", "digest": ""} for n, i in self.assets.items()]
 
         def rename(a, b, tok=None):
             self.calls.append(("rename", a, b))
@@ -648,7 +707,8 @@ class AssetSwapTests(unittest.TestCase):
         db_state._rename_asset, db_state._delete_asset = rename, delete
 
     def tearDown(self):
-        self.ds._rename_asset, self.ds._delete_asset = self._real
+        (self.ds._rename_asset, self.ds._delete_asset, self.ds._asset_records,
+         self.ds._sleep) = self._real
 
     def test_a_good_upload_leaves_exactly_the_new_store(self):
         def upload():
@@ -673,7 +733,7 @@ class AssetSwapTests(unittest.TestCase):
             seen.append(sorted(self.assets))          # what exists mid-upload
             raise RuntimeError("boom")
         self.ds.swap_in_asset(upload, log=lambda *_a: None)
-        self.assertEqual(seen, [[self.ds.PREV]], "a copy must exist while uploading")
+        self.assertEqual(seen, [[self.ds.PREV]] * 3, "a copy must exist during every attempt")
         self.assertEqual(list(self.assets), [self.ds.ASSET])
 
     def test_a_first_ever_publish_has_nothing_to_keep_aside(self):
@@ -693,6 +753,7 @@ class PublishRaceTests(unittest.TestCase):
     def _run(self, holder_state):
         calls, assets = [], {db_state.ASSET: 1}
         orig = (db_state._rename_asset, db_state._delete_asset, db_state._asset_records)
+        sleep, db_state._sleep = db_state._sleep, (lambda _s: None)
 
         def rename(a, b, tok=None):
             calls.append(("rename", a, b))
@@ -712,6 +773,7 @@ class PublishRaceTests(unittest.TestCase):
             ok = db_state.swap_in_asset(upload, log=lambda *_a: None)
         finally:
             db_state._rename_asset, db_state._delete_asset, db_state._asset_records = orig
+            db_state._sleep = sleep
         return ok, calls, assets
 
     def test_a_rivals_finished_publish_is_left_standing(self):
@@ -727,6 +789,166 @@ class PublishRaceTests(unittest.TestCase):
         self.assertIn(("delete", db_state.ASSET), calls)
         self.assertEqual(list(assets), [db_state.ASSET])
         self.assertEqual(assets[db_state.ASSET], 1, "the previous copy is back under its name")
+
+
+class TransientUploadFailureTests(unittest.TestCase):
+    """10 and 11 October 2026: an upload 404 on the Mini read as "ANOTHER PUBLISH
+    LANDED" although nobody else had published. A failed upload is now retried
+    while the release and origin/main show nothing unseen; a store we never
+    held under the name is still a race and still refuses at once."""
+
+    OLD, NEW, RIVAL = "old-gz-sha", "new-gz-sha", "rival-gz-sha"
+
+    def _swap(self, uploads, origin="store-sha", before_upload=None, verify=None):
+        """uploads: one entry per attempt, "ok" or "404". before_upload(assets,
+        attempt) may change the release first (a rival, a lagging listing)."""
+        A, P = db_state.GZ_ASSET, db_state.GZ_PREV
+        assets = {A: {"digest": self.OLD, "state": "uploaded"}}
+        calls, logs, slept, attempt = [], [], [], [0]
+        listing = {"stale": None}
+
+        def rename(a, b, tok=None):
+            calls.append(("rename", a, b))
+            view = listing["stale"] or assets
+            if a not in view or b in assets:
+                return False
+            assets[b] = assets.pop(a); return True
+
+        def delete(n, tok=None):
+            calls.append(("delete", n)); assets.pop(n, None)
+
+        def records(tok=None):
+            view = listing["stale"] or assets
+            return [dict(v, name=n, id=1) for n, v in view.items()]
+
+        def upload():
+            attempt[0] += 1
+            calls.append(("upload",))
+            if before_upload:
+                before_upload(assets, attempt[0], listing)
+            if uploads[attempt[0] - 1] == "ok":
+                assets[A] = {"digest": self.NEW, "state": "uploaded"}
+                return
+            raise RuntimeError("gh upload failed: HTTP 404: Not Found (https://uploads.github.com/...)")
+        with mock.patch.multiple(db_state, _rename_asset=rename, _delete_asset=delete,
+                                 _asset_records=records, _sleep=slept.append,
+                                 published_sha=lambda: origin):
+            ok = db_state.swap_in_asset(upload, log=logs.append, asset=A, prev=P, verify=verify,
+                                        held=["store-sha", self.OLD], ours=self.NEW)
+        return ok, assets, calls, "\n".join(logs), slept
+
+    def test_a_transient_404_then_success_publishes(self):
+        ok, assets, calls, log, slept = self._swap(["404", "ok"])
+        self.assertTrue(ok)
+        self.assertEqual(assets, {db_state.GZ_ASSET: {"digest": self.NEW, "state": "uploaded"}})
+        self.assertEqual(slept, [db_state.UPLOAD_RETRY_DELAYS[0]])
+        self.assertIn("upload failed, no other publish seen", log)
+        self.assertNotIn("ANOTHER PUBLISH LANDED", log)
+
+    def test_a_persistent_404_fails_cleanly_and_restores_the_keep_aside(self):
+        ok, assets, calls, log, slept = self._swap(["404", "404", "404"])
+        self.assertFalse(ok)
+        self.assertEqual(assets, {db_state.GZ_ASSET: {"digest": self.OLD, "state": "uploaded"}},
+                         "the previous store is back under its name, nothing aside")
+        self.assertEqual(calls.count(("upload",)), 3)
+        self.assertEqual(slept, list(db_state.UPLOAD_RETRY_DELAYS))
+        self.assertIn("UPLOAD FAILED, no other publish seen", log)
+        self.assertIn("RESTORED", log)
+        self.assertNotIn("ANOTHER PUBLISH LANDED", log)
+
+    def test_a_real_race_still_refuses_at_once(self):
+        def rival(assets, attempt, _listing):
+            assets[db_state.GZ_ASSET] = {"digest": self.RIVAL, "state": "uploaded"}
+        ok, assets, calls, log, slept = self._swap(["404"], before_upload=rival)
+        self.assertFalse(ok)
+        self.assertEqual(calls.count(("upload",)), 1, "no retry over a rival")
+        self.assertEqual(slept, [])
+        self.assertEqual(assets[db_state.GZ_ASSET]["digest"], self.RIVAL, "the rival's store stands")
+        self.assertIn(db_state.GZ_PREV, assets, "ours stays aside for a person")
+        self.assertNotIn(("delete", db_state.GZ_ASSET), calls)
+        self.assertIn("ANOTHER PUBLISH LANDED", log)
+        self.assertIn("never seen here", log)
+
+    def test_an_unseen_sidecar_on_origin_is_a_race(self):
+        ok, assets, calls, log, slept = self._swap(["404", "ok"], origin="someone-elses-store")
+        self.assertFalse(ok)
+        self.assertEqual(calls.count(("upload",)), 1)
+        self.assertIn("ANOTHER PUBLISH LANDED", log)
+        self.assertIn("origin/main's sidecar", log)
+
+    def test_our_own_old_store_back_under_the_name_is_not_a_rival(self):
+        """What happened on the Mini: a GitHub run's pull renamed our .prev back
+        (or the listing lagged the rename), so the name held OUR old store."""
+        def put_back(assets, attempt, _listing):
+            if attempt == 1:
+                assets[db_state.GZ_ASSET] = assets.pop(db_state.GZ_PREV)
+        ok, assets, calls, log, slept = self._swap(["404", "ok"], before_upload=put_back)
+        self.assertTrue(ok)
+        self.assertNotIn("ANOTHER PUBLISH LANDED", log)
+        self.assertEqual(assets, {db_state.GZ_ASSET: {"digest": self.NEW, "state": "uploaded"}})
+
+    def test_an_upload_that_landed_despite_the_error_is_verified_not_retried(self):
+        def lands(assets, attempt, _listing):
+            assets[db_state.GZ_ASSET] = {"digest": self.NEW, "state": "uploaded"}
+        verified = []
+        ok, assets, calls, log, slept = self._swap(["404"], before_upload=lands,
+                                                   verify=lambda: verified.append(1) or True)
+        self.assertTrue(ok)
+        self.assertEqual(verified, [1])
+        self.assertEqual(calls.count(("upload",)), 1)
+        self.assertNotIn(db_state.GZ_PREV, assets)
+
+    def test_push_passes_the_lineage_to_the_swap(self):
+        body = open(os.path.join(ROOT, "tools", "db_state.py"), encoding="utf-8").read()
+        self.assertIn("held=held_shas(), ours=gz_digest", body)
+
+
+class FreshPrevPullTests(unittest.TestCase):
+    """9-11 October 2026: a GitHub run's pull renamed .prev back while the Mini
+    was uploading. A .prev set aside under 30 minutes ago is read, never renamed."""
+
+    def _pull(self, updated_at):
+        assets = {db_state.GZ_PREV: {"name": db_state.GZ_PREV, "updated_at": updated_at,
+                                     "url": "u"}}
+        renamed, logs = [], []
+        def run(cmd, **_kw):             # gh: the release listing, then the download
+            out = json.dumps({"assets": list(assets.values())}) if cmd[1] == "api" else ""
+            return mock.Mock(returncode=0, stdout=out, stderr="")
+        with mock.patch.multiple(db_state, install_merge_driver=lambda: None, have_gh=lambda: True,
+                                 token=lambda: None, prefers_gz=lambda: True,
+                                 _rename_asset=lambda a, b, tok=None: renamed.append((a, b)) or True,
+                                 install_compressed=lambda *a, **k: 0), \
+             mock.patch.object(db_state.subprocess, "run", run), \
+             mock.patch("builtins.print", logs.append):
+            rc = db_state.pull()
+        return rc, renamed, "\n".join(map(str, logs))
+
+    def stamp(self, minutes_ago):
+        import datetime
+        when = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(minutes=minutes_ago)
+        return when.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    def test_a_fresh_prev_is_taken_read_only(self):
+        rc, renamed, log = self._pull(self.stamp(5))
+        self.assertEqual(rc, 0)
+        self.assertEqual(renamed, [])
+        self.assertIn("read-only", log)
+
+    def test_an_old_prev_is_still_recovered(self):
+        rc, renamed, log = self._pull(self.stamp(45))
+        self.assertEqual(rc, 0)
+        self.assertEqual(renamed, [(db_state.GZ_PREV, db_state.GZ_ASSET)])
+        self.assertIn("failed part-way", log)
+
+    def test_a_prev_with_no_time_is_taken_read_only(self):
+        rc, renamed, _log = self._pull(None)
+        self.assertEqual(renamed, [])
+
+    def test_asset_age_reads_updated_at(self):
+        import datetime
+        now = datetime.datetime(2026, 10, 11, 18, 0, tzinfo=datetime.timezone.utc)
+        self.assertEqual(db_state.asset_age({"updated_at": "2026-10-11T17:30:00Z"}, now), 1800)
+        self.assertIsNone(db_state.asset_age({}, now))
 
 
 class RefusedDownloadTests(unittest.TestCase):
@@ -770,8 +992,13 @@ class RetrySlotsAreGuardedTests(unittest.TestCase):
 
     # Two slots that are two different passes, not a retry: the Day sweep runs
     # in the evening and again next morning for text Hansard publishes late,
-    # and the Division watch polls the House through a sitting day.
-    DIFFERENT_PASSES = ("day-sweep.yml", "division-watch.yml")
+    # and the Division watch polls the House through a sitting day; the
+    # Devolved watch looks back a week in an evening pass and a next-day pass.
+    # The US, Ireland and Australia division watches (9 October 2026) poll
+    # the same way: each slot looks for divisions the last one could not see.
+    DIFFERENT_PASSES = ("day-sweep.yml", "division-watch.yml", "devolved-watch.yml",
+                        "us-division-watch.yml", "ie-division-watch.yml",
+                        "au-division-watch.yml")
 
     def _scheduled(self):
         import glob
@@ -802,8 +1029,9 @@ class RetrySlotsAreGuardedTests(unittest.TestCase):
         # FIVE since 22 September 2026: de-weekly.yml was written with the
         # gate already in it rather than acquiring one after it had billed a
         # month of duplicate collection, which is what the other four did.
+        # SIX since 3 October 2026: prov-weekly.yml, gated from the start.
         for name in ("eu-weekly.yml", "sp-weekly.yml", "sd-weekly.yml",
-                     "ni-weekly.yml", "de-weekly.yml"):
+                     "ni-weekly.yml", "de-weekly.yml", "prov-weekly.yml"):
             text = workflow(name)
             self.assertIn("needs: gate", text, name)
             self.assertIn("needs.gate.outputs.go == 'true'", text, name)
@@ -887,3 +1115,429 @@ class MondayRetrySlotTests(unittest.TestCase):
         step = src[src.index("name: Judge evaluation"):]
         step = step[:step.index("- name:", 10)]
         self.assertIn("steps.publish.outputs.duplicate != '1'", step)
+
+
+class CompressedStoreTests(unittest.TestCase):
+    """11 October 2026: the store reached 1.76GB against GitHub's 2 GiB limit per
+    release asset, so it is published gzipped. The sidecar keeps the
+    UNCOMPRESSED sha and size (what a pull verifies) beside the asset's own."""
+
+    def setUp(self):
+        import sqlite3
+        import tempfile
+        self.d = tempfile.mkdtemp()
+        self.store = os.path.join(self.d, "store.db")
+        conn = sqlite3.connect(self.store)
+        conn.execute("CREATE TABLE speeches (id INTEGER PRIMARY KEY, body TEXT)")
+        conn.executemany("INSERT INTO speeches (body) VALUES (?)",
+                         [("the bill was read a second time %d" % i,) for i in range(5000)])
+        conn.commit(); conn.close()
+        self.db, self.side, self.pulled = [os.path.join(self.d, n) for n in
+                                           ("work.db", "work.db.json", ".pulled")]
+        with open(self.db, "wb") as fh:
+            fh.write(b"working copy")
+
+    def _sidecar(self, **kw):
+        with open(self.side, "w") as fh:
+            json.dump(kw, fh)
+
+    def test_round_trip_restores_the_exact_store(self):
+        gz = os.path.join(self.d, "store.db.gz")
+        sha, size, gz_sha, gz_size = db_state.compress(self.store, gz)
+        self.assertEqual(sha, db_state.sha256(self.store))
+        self.assertEqual(size, os.path.getsize(self.store))
+        self.assertEqual(gz_sha, db_state.sha256(gz))
+        self.assertEqual(gz_size, os.path.getsize(gz))
+        self.assertLess(gz_size, size)
+        with open(gz, "rb") as fh:
+            self.assertEqual(fh.read(2), b"\x1f\x8b", "a gzip file")
+        self._sidecar(sha256=sha, gz_sha256=gz_sha)
+        rc = db_state.install_compressed(gz, os.path.join(self.d, "work.db.download"), db=self.db,
+                                         sidecar=self.side, pulled=self.pulled, log=lambda *_a: None)
+        self.assertEqual(rc, 0)
+        self.assertEqual(db_state.sha256(self.db), sha)
+        self.assertEqual(db_state.table_counts(self.db), {"speeches": 5000})
+        held = open(self.pulled).read().split()
+        self.assertEqual(held, [gz_sha, sha], "the store's own sha must be the last line")
+        self.assertFalse(os.path.exists(gz), "the downloaded .gz is cleared once installed")
+
+    def test_compression_is_deterministic(self):
+        a, b = os.path.join(self.d, "a.gz"), os.path.join(self.d, "b.gz")
+        self.assertEqual(db_state.compress(self.store, a)[2], db_state.compress(self.store, b)[2])
+
+    def test_a_sha_mismatch_after_decompressing_is_refused(self):
+        gz = os.path.join(self.d, "store.db.gz")
+        db_state.compress(self.store, gz)
+        self._sidecar(sha256="0" * 64, gz_sha256="1" * 64)
+        lines = []
+        rc = db_state.install_compressed(gz, os.path.join(self.d, "work.db.download"), db=self.db,
+                                         sidecar=self.side, pulled=self.pulled, log=lines.append)
+        self.assertEqual(rc, 1)
+        self.assertTrue(any("SHA MISMATCH" in l for l in lines))
+        self.assertEqual(open(self.db, "rb").read(), b"working copy")
+        self.assertFalse(os.path.exists(self.pulled))
+
+    def test_a_truncated_download_is_refused(self):
+        gz = os.path.join(self.d, "store.db.gz")
+        db_state.compress(self.store, gz)
+        data = open(gz, "rb").read()
+        with open(gz, "wb") as fh:
+            fh.write(data[:len(data) // 2])
+        lines = []
+        rc = db_state.install_compressed(gz, os.path.join(self.d, "work.db.download"), db=self.db,
+                                         sidecar=self.side, pulled=self.pulled, log=lines.append)
+        self.assertEqual(rc, 1)
+        self.assertTrue(any("CORRUPT DOWNLOAD" in l for l in lines))
+        self.assertEqual(open(self.db, "rb").read(), b"working copy")
+
+
+class PullPlanTests(unittest.TestCase):
+    """Which asset a pull takes: the form the sidecar names, the other as a
+    fallback (the switch), then a .prev a failed push left aside."""
+
+    def test_a_compressed_sidecar_takes_the_gz_and_falls_back_to_raw(self):
+        P = db_state.plan_pull
+        self.assertEqual(P([db_state.GZ_ASSET, db_state.ASSET], True), (db_state.GZ_ASSET, None))
+        self.assertEqual(P([db_state.ASSET], True), (db_state.ASSET, None))
+
+    def test_a_raw_sidecar_takes_the_raw_asset_first(self):
+        """A run still on the old code may publish raw after a compressed push;
+        its sidecar has no gz_sha256, and the raw asset is the one it names."""
+        P = db_state.plan_pull
+        self.assertEqual(P([db_state.GZ_ASSET, db_state.ASSET], False), (db_state.ASSET, None))
+        self.assertEqual(P([db_state.GZ_ASSET], False), (db_state.GZ_ASSET, None))
+
+    def test_a_prev_is_recovered_and_nothing_is_nothing(self):
+        P = db_state.plan_pull
+        self.assertEqual(P([db_state.GZ_PREV], True), (db_state.GZ_PREV, db_state.GZ_ASSET))
+        self.assertEqual(P([db_state.PREV], True), (db_state.PREV, db_state.ASSET))
+        self.assertEqual(P(["raw-2026-10-09.tar"], True), (None, None))
+
+    def test_prefers_gz_reads_the_sidecar(self):
+        import tempfile
+        path = os.path.join(tempfile.mkdtemp(), "s.json")
+        self.assertTrue(db_state.prefers_gz(path), "no sidecar: the current form")
+        json.dump({"sha256": "a" * 64}, open(path, "w"))
+        self.assertFalse(db_state.prefers_gz(path))
+        json.dump({"sha256": "a" * 64, "gz_sha256": "b" * 64}, open(path, "w"))
+        self.assertTrue(db_state.prefers_gz(path))
+
+    def _pull(self, assets, payloads, sidecar):
+        """Run pull() on the token path against a fake release."""
+        import tempfile
+        d = tempfile.mkdtemp()
+        paths = {"DB": os.path.join(d, "s.db"), "SIDECAR": os.path.join(d, "s.db.json"),
+                 "PULLED": os.path.join(d, ".pulled")}
+        open(paths["DB"], "wb").write(b"old working copy")
+        json.dump(sidecar, open(paths["SIDECAR"], "w"))
+        fetched = []
+
+        def download(url, tok, dest):
+            fetched.append(url)
+            open(dest, "wb").write(payloads[url])
+        with mock.patch.multiple(db_state, have_gh=lambda: False, token=lambda: "t",
+                                 install_merge_driver=lambda: None,
+                                 release=lambda tok: {"assets": [{"name": n, "url": n} for n in assets]},
+                                 _api_download=download, **paths):
+            rc = db_state.pull()
+        return rc, open(paths["DB"], "rb").read(), fetched
+
+    def test_pull_falls_back_to_the_raw_asset(self):
+        import hashlib
+        raw = b"raw store bytes"
+        rc, got, fetched = self._pull([db_state.ASSET], {db_state.ASSET: raw},
+                                      {"sha256": hashlib.sha256(raw).hexdigest(), "gz_sha256": "x"})
+        self.assertEqual((rc, got, fetched), (0, raw, [db_state.ASSET]))
+
+    def test_pull_takes_the_compressed_asset_when_both_exist(self):
+        import gzip
+        import hashlib
+        store = b"current store bytes" * 100
+        rc, got, fetched = self._pull(
+            [db_state.ASSET, db_state.GZ_ASSET],
+            {db_state.ASSET: b"stale raw", db_state.GZ_ASSET: gzip.compress(store)},
+            {"sha256": hashlib.sha256(store).hexdigest(), "gz_sha256": "x"})
+        self.assertEqual((rc, got, fetched), (0, store, [db_state.GZ_ASSET]))
+
+    def test_pull_refuses_a_compressed_store_the_sidecar_does_not_name(self):
+        import gzip
+        rc, got, _f = self._pull([db_state.GZ_ASSET], {db_state.GZ_ASSET: gzip.compress(b"other")},
+                                 {"sha256": "0" * 64, "gz_sha256": "x"})
+        self.assertEqual((rc, got), (1, b"old working copy"))
+
+
+class CompressedRaceTests(unittest.TestCase):
+    """The live-asset check must stay as strong with the compressed asset: an
+    unseen upload, or a push part-way (either .prev), refuses."""
+
+    def assets(self, *rows):
+        return [dict(zip(("name", "digest", "created_at"), r)) for r in rows]
+
+    def test_an_unseen_compressed_upload_is_refused(self):
+        self.assertFalse(db_state.live_asset_is_ours(["aaa"], self.assets((db_state.GZ_ASSET, "ccc"))))
+        self.assertTrue(db_state.live_asset_is_ours(["aaa", "ggg"], self.assets((db_state.GZ_ASSET, "ggg"))))
+
+    def test_a_compressed_push_part_way_is_refused(self):
+        self.assertFalse(db_state.live_asset_is_ours(
+            ["ggg"], self.assets((db_state.GZ_ASSET, "ggg"), (db_state.GZ_PREV, "zzz"))))
+
+    def test_the_newer_of_two_store_assets_is_the_live_one(self):
+        both = lambda raw_t, gz_t: self.assets((db_state.ASSET, "rrr", raw_t), (db_state.GZ_ASSET, "ggg", gz_t))
+        # a stale raw asset beside our newer compressed one: ours
+        self.assertTrue(db_state.live_asset_is_ours(["ggg"], both("2026-10-10T00:00:00Z", "2026-10-11T00:00:00Z")))
+        # a raw asset uploaded AFTER it (old code mid-switch), never seen: refused
+        self.assertFalse(db_state.live_asset_is_ours(["ggg"], both("2026-10-12T00:00:00Z", "2026-10-11T00:00:00Z")))
+
+    def test_lineage_still_refuses_through_the_compressed_asset(self):
+        with mock.patch.object(db_state, "published_sha", return_value="aaa"), \
+             mock.patch.object(db_state, "held_shas", return_value=["aaa"]), \
+             mock.patch.object(db_state, "_release_assets",
+                               return_value=self.assets((db_state.GZ_ASSET, "ccc"))):
+            self.assertFalse(db_state.check_lineage())
+
+    def _swap(self, holder_state=None, verify=None):
+        calls, assets = [], {db_state.GZ_ASSET: 1, db_state.ASSET: 0}
+        orig = (db_state._rename_asset, db_state._delete_asset, db_state._asset_records)
+        sleep, db_state._sleep = db_state._sleep, (lambda _s: None)
+
+        def rename(a, b, tok=None):
+            calls.append(("rename", a, b))
+            if a not in assets or b in assets:
+                return False
+            assets[b] = assets.pop(a); return True
+
+        def delete(n, tok=None):
+            calls.append(("delete", n)); assets.pop(n, None)
+
+        def upload():
+            assets[db_state.GZ_ASSET] = 99
+            if holder_state:
+                raise RuntimeError("gh upload failed: HTTP 404")
+        db_state._rename_asset, db_state._delete_asset = rename, delete
+        db_state._asset_records = lambda tok=None: [{"name": n, "id": i, "state": holder_state or "uploaded"}
+                                                    for n, i in assets.items()]
+        try:
+            ok = db_state.swap_in_asset(upload, log=lambda *_a: None, asset=db_state.GZ_ASSET,
+                                        prev=db_state.GZ_PREV, verify=verify)
+        finally:
+            db_state._rename_asset, db_state._delete_asset, db_state._asset_records = orig
+            db_state._sleep = sleep
+        return ok, calls, assets
+
+    def test_another_publish_landing_on_the_gz_name_stands(self):
+        ok, calls, assets = self._swap("uploaded")
+        self.assertFalse(ok)
+        self.assertNotIn(("delete", db_state.GZ_ASSET), calls)
+        self.assertEqual(assets[db_state.GZ_ASSET], 99)
+        self.assertIn(db_state.GZ_PREV, assets)
+        self.assertEqual(assets[db_state.ASSET], 0, "the swap never touches the raw asset")
+
+    def test_a_good_compressed_swap(self):
+        ok, calls, assets = self._swap(verify=lambda: True)
+        self.assertTrue(ok)
+        self.assertEqual(sorted(assets), sorted([db_state.GZ_ASSET, db_state.ASSET]))
+        self.assertEqual(assets[db_state.GZ_ASSET], 99)
+
+    def test_an_upload_that_fails_verification_is_taken_down(self):
+        ok, calls, assets = self._swap(verify=lambda: False)
+        self.assertFalse(ok)
+        self.assertEqual(assets[db_state.GZ_ASSET], 1, "the previous store is back under its name")
+        self.assertNotIn(db_state.GZ_PREV, assets)
+
+    def test_an_unverifiable_upload_stands(self):
+        ok, _calls, assets = self._swap(verify=lambda: None)
+        self.assertTrue(ok)
+        self.assertEqual(assets[db_state.GZ_ASSET], 99)
+
+
+class CompressedPushTests(unittest.TestCase):
+    """push() publishes the .gz, writes both shas, and retires the raw asset
+    only once the upload is verified."""
+
+    def _push(self, verified):
+        import sqlite3
+        import tempfile
+        d = tempfile.mkdtemp()
+        paths = {"DB": os.path.join(d, "s.db"), "SIDECAR": os.path.join(d, "s.db.json"),
+                 "PULLED": os.path.join(d, ".pulled")}
+        conn = sqlite3.connect(paths["DB"]); conn.execute("CREATE TABLE t (a)")
+        conn.executemany("INSERT INTO t VALUES (?)", [(i,) for i in range(1000)])
+        conn.commit(); conn.close()
+        sent, deleted = [], []
+
+        def api(url, tok, data=None, headers=None, method=None):
+            sent.append((url, data.read() if hasattr(data, "read") else data, headers))
+            return b"{}"
+
+        def swap(upload, api_tok=None, log=print, asset=None, prev=None, verify=None,
+                 held=None, ours=None):
+            upload()
+            self.assertEqual((asset, prev), (db_state.GZ_ASSET, db_state.GZ_PREV))
+            verify()
+            return True
+        with mock.patch.multiple(db_state, have_gh=lambda: False, token=lambda: "t",
+                                 check_lineage=lambda: True, stamp_heartbeat=lambda: None,
+                                 held_shas=lambda: [],
+                                 release=lambda tok: {"upload_url": "https://up/x{?name}"},
+                                 _api=api, swap_in_asset=swap,
+                                 check_upload=lambda *a, **k: verified,
+                                 _assets=lambda tok=None: [(db_state.ASSET, 1), (db_state.GZ_ASSET, 2)],
+                                 _delete_asset=lambda n, tok=None: deleted.append(n), **paths), \
+             mock.patch.object(db_state.sys, "argv", ["db_state.py", "--push"]):
+            rc = db_state.push()
+        side = json.load(open(paths["SIDECAR"]))
+        return rc, side, sent, deleted, paths
+
+    def test_push_uploads_the_gz_and_records_both_shas(self):
+        import gzip
+        import hashlib
+        rc, side, sent, deleted, paths = self._push(True)
+        self.assertEqual(rc, 0)
+        url, body, headers = sent[0]
+        self.assertTrue(url.endswith("?name=" + db_state.GZ_ASSET))
+        self.assertEqual(headers["Content-Length"], str(len(body)))
+        store = open(paths["DB"], "rb").read()
+        self.assertEqual(gzip.decompress(body), store)
+        self.assertEqual(side["sha256"], hashlib.sha256(store).hexdigest())
+        self.assertEqual(side["bytes"], len(store))
+        self.assertEqual(side["gz_sha256"], hashlib.sha256(body).hexdigest())
+        self.assertEqual(side["gz_bytes"], len(body))
+        self.assertEqual(open(paths["PULLED"]).read().split(), [side["gz_sha256"], side["sha256"]])
+        self.assertEqual(deleted, [db_state.ASSET], "verified: the raw asset is retired")
+        self.assertFalse(os.path.exists(paths["DB"] + ".gz"), "the .gz is not left in data/")
+
+    def test_an_unverified_push_keeps_the_raw_asset(self):
+        rc, _side, _sent, deleted, _p = self._push(None)
+        self.assertEqual(rc, 0)
+        self.assertEqual(deleted, [])
+
+
+class VacuumTests(unittest.TestCase):
+    """A push vacuums the store before the sha (12 October 2026), bounded and never fatal."""
+
+    def setUp(self):
+        import sqlite3
+        self.tmp = tempfile.TemporaryDirectory()
+        self.path = os.path.join(self.tmp.name, "parl-monitor.db")
+        conn = sqlite3.connect(self.path)
+        conn.execute("CREATE TABLE t (k INTEGER PRIMARY KEY, v TEXT)")
+        conn.execute("CREATE INDEX t_v ON t (v)")
+        conn.executemany("INSERT INTO t (v) VALUES (?)", [("x" * 200,)] * 3000)
+        conn.commit()
+        conn.execute("DELETE FROM t WHERE k % 2 = 0")       # leaves empty space
+        conn.commit()
+        conn.close()
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def _count(self):
+        import sqlite3
+        conn = sqlite3.connect(self.path)
+        try:
+            return conn.execute("SELECT count(*) FROM t").fetchone()[0]
+        finally:
+            conn.close()
+
+    def test_vacuums_in_place_and_keeps_the_rows(self):
+        size = os.path.getsize(self.path)
+        lines = []
+        self.assertTrue(db_state.vacuum_store(self.path, log=lines.append))
+        self.assertLess(os.path.getsize(self.path), size)
+        self.assertEqual(self._count(), 1500)
+        self.assertFalse(os.path.exists(self.path + ".vacuum"))
+        self.assertTrue(any("vacuumed" in ln for ln in lines))
+
+    def test_skipped_when_the_disk_is_short(self):
+        with open(self.path, "rb") as handle:
+            raw = handle.read()
+        lines = []
+        self.assertFalse(db_state.vacuum_store(self.path, log=lines.append, free_bytes=1000))
+        self.assertTrue(any("VACUUM skipped" in ln for ln in lines))
+        with open(self.path, "rb") as handle:
+            self.assertEqual(handle.read(), raw)
+
+    def test_stops_at_its_bound_and_leaves_the_store(self):
+        with open(self.path, "rb") as handle:
+            raw = handle.read()
+        lines = []
+        with mock.patch.object(db_state, "VACUUM_CHECK_EVERY", 1):
+            self.assertFalse(db_state.vacuum_store(self.path, log=lines.append, max_s=-1))
+        self.assertTrue(any("bound" in ln for ln in lines), lines)
+        self.assertFalse(os.path.exists(self.path + ".vacuum"))
+        with open(self.path, "rb") as handle:
+            self.assertEqual(handle.read(), raw)
+
+    def test_not_a_database_is_not_fatal(self):
+        with open(self.path, "wb") as handle:
+            handle.write(b"not sqlite" * 100)
+        lines = []
+        self.assertFalse(db_state.vacuum_store(self.path, log=lines.append))
+        self.assertTrue(any("unvacuumed" in ln for ln in lines))
+
+    def test_env_switch(self):
+        with mock.patch.dict(os.environ, {"DB_STATE_NO_VACUUM": "1"}):
+            self.assertFalse(db_state.vacuum_store(self.path, log=lambda _l: None))
+
+    def test_push_vacuums_after_the_heartbeat_and_before_the_sha(self):
+        src = open(os.path.join(ROOT, "tools", "db_state.py"), encoding="utf-8").read()
+        body = src[src.index("def push():"):src.index("def _publish(")]
+        self.assertLess(body.index("stamp_heartbeat()"), body.index("vacuum_store()"))
+        self.assertLess(body.index("vacuum_store()"), body.index("sha256(DB)"))
+
+
+class SizeGuardTests(unittest.TestCase):
+    """The next step after compression is splitting the store; these raise it early."""
+
+    def test_thresholds(self):
+        # On the COMPRESSED asset only (12 October 2026): the raw size of
+        # today's store (1.85 GB, 454 MB compressed) warns about nothing.
+        self.assertEqual(db_state.size_warnings(1_850_000_000, 454_000_000), [])
+        self.assertEqual(db_state.size_warnings(5_000_000_000, None), [])
+        self.assertEqual(db_state.size_warnings(3_000_000_000, 749_999_999), [])
+        w = db_state.size_warnings(3_100_000_000, 750_000_000)
+        self.assertEqual(len(w), 1)
+        self.assertIn("Plan the split", w[0])
+        self.assertIn("0.75 GB", w[0])
+        w = db_state.size_warnings(4_300_000_000, 1024 ** 3 - 1)
+        self.assertEqual(len(w), 1)
+        self.assertIn("Plan the split", w[0])
+        w = db_state.size_warnings(4_300_000_000, 1024 ** 3)
+        self.assertEqual(len(w), 1)
+        self.assertIn("Split the store now", w[0])
+        self.assertIn("1.07 GB", w[0])
+        w = db_state.size_warnings(5_000_000_000, 1_600_000_000)
+        self.assertEqual(len(w), 1)
+        self.assertIn("Split the store now", w[0])
+
+    def test_the_raw_warning_is_gone(self):
+        self.assertFalse(hasattr(db_state, "STORE_WARN_BYTES"))
+        self.assertEqual(db_state.GZ_PLAN_BYTES, 750_000_000)
+        self.assertEqual(db_state.GZ_WARN_BYTES, 1024 ** 3)
+
+    def test_a_push_warns_and_refuses_over_the_asset_limit(self):
+        src = open(os.path.join(ROOT, "tools", "db_state.py"), encoding="utf-8").read()
+        body = src[src.index("def _publish("):src.index("def main():")]
+        self.assertIn("size_warnings(size, gz_size)", body)
+        self.assertLess(body.index("gz_size >= ASSET_LIMIT"), body.index("swap_in_asset("))
+
+    def test_warn_annotates_on_actions(self):
+        lines = []
+        with mock.patch.dict(os.environ, {"GITHUB_ACTIONS": "true"}):
+            db_state.warn("x", log=lines.append)
+        self.assertEqual(lines, ["::warning::x"])
+
+    def test_the_health_summary_shows_the_store_size(self):
+        import tempfile
+        import health_summary as hs
+        path = os.path.join(tempfile.mkdtemp(), "s.json")
+        json.dump({"bytes": 1_760_000_000, "gz_bytes": 410_000_000}, open(path, "w"))
+        lines = hs.store_size(path)
+        self.assertIn("1.76 GB", lines[0])
+        self.assertEqual(len(lines), 1, "410 MB compressed warns about nothing")
+        json.dump({"bytes": 3_300_000_000, "gz_bytes": 800_000_000}, open(path, "w"))
+        lines = hs.store_size(path)
+        self.assertTrue(any(":warning:" in l and "plan the split" in l.lower() for l in lines))
+        json.dump({"bytes": 900_000_000}, open(path, "w"))
+        self.assertEqual(len(hs.store_size(path)), 1)
+        self.assertIsNone(hs.store_size(path + ".missing"))

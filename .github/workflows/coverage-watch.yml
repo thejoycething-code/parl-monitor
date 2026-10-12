@@ -26,7 +26,16 @@ defaults:
     shell: bash -eo pipefail {0}
 
 jobs:
+  # The Mac Mini runs this daily at 05:30 London (tools/mini_run.sh coverage);
+  # this cron is the backup and skips itself when the Mini already ran.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: COVERAGE
+
   coverage:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -48,7 +57,8 @@ jobs:
         # quiet, or a pipeline ran green over data it did not refresh.
         # The Failure alert workflow watches this one, so that becomes a
         # DM rather than a line in a log nobody opens.
-        run: python3 tools/coverage.py | tee /tmp/coverage.log
+        # jobs/coverage.sh is shared with the Mac Mini runner.
+        run: bash jobs/coverage.sh | tee /tmp/coverage.log
       - name: Report
         if: always()
         run: |

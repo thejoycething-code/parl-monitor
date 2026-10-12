@@ -1,0 +1,79 @@
+{
+ "OgdSearchResult": {
+  "OgdDocumentResults": {
+   "Hits": {
+    "@pageNumber": "1",
+    "@pageSize": "10",
+    "#text": "1"
+   },
+   "OgdDocumentReference": {
+    "Data": {
+     "Metadaten": {
+      "Technisch": {
+       "ID": "LGBLA_WI_20261009_37",
+       "Applikation": "LgblAuth",
+       "Organ": "LReg Wien",
+       "ImportTimestamp": {
+        "@xsi:nil": "true",
+        "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance"
+       }
+      },
+      "Allgemein": {
+       "DokumentUrl": "https://ogd.ris.bka.gv.at/eli/lgbl/WI/2026/37/20261009"
+      },
+      "Landesrecht": {
+       "Kurztitel": "2. Dienstrechts-Novelle 2026 ",
+       "Titel": "Gesetz, mit dem die Dienstordnung 1994, die Besoldungsordnung 1994, die Vertragsbedienstetenordnung 1995, das Wiener Bedienstetengesetz, das Wiener Gleichbehandlungsgesetz und das Wiener Landeslehrerinnen- und Landeslehrer-Gleichbehandlungsgesetz geändert werden (2. Dienstrechts-Novelle 2026)",
+       "Kundmachungsdatum": "2026-10-09",
+       "Bundesland": "Wien",
+       "LgblAuth": {
+        "Lgblnummer": "LGBl. Nr. 37/2026",
+        "Typ": "Landesgesetz",
+        "Gesetzgebungsperiode": "22",
+        "BeschlussDatum": "2026-09-22",
+        "Sitzungsnummer": "14",
+        "Initiativantrag": "Initiativantrag",
+        "InitiativantragLink": "https://www.wien.gv.at/infodat/ergdt?detvid=201629",
+        "Materialien": "Materialien",
+        "MaterialienLink": "https://www.wien.gv.at/infodat/ergdt?detvid=201662",
+        "CelexNummer": {
+         "item": [
+          "32024L1499",
+          "32024L1500"
+         ]
+        },
+        "EuropeanLegislationIdentifier": "https://www.ris.bka.gv.at/eli/lgbl/WI/2026/37/20261009"
+       }
+      }
+     },
+     "Dokumentliste": {
+      "ContentReference": {
+       "ContentType": "MainDocument",
+       "Name": "Hauptdokument",
+       "Urls": {
+        "ContentUrl": [
+         {
+          "DataType": "Xml",
+          "Url": "https://ogd.ris.bka.gv.at/Dokumente/LgblAuth/LGBLA_WI_20261009_37/LGBLA_WI_20261009_37.xml"
+         },
+         {
+          "DataType": "Html",
+          "Url": "https://ogd.ris.bka.gv.at/Dokumente/LgblAuth/LGBLA_WI_20261009_37/LGBLA_WI_20261009_37.html"
+         },
+         {
+          "DataType": "Rtf",
+          "Url": "https://ogd.ris.bka.gv.at/Dokumente/LgblAuth/LGBLA_WI_20261009_37/LGBLA_WI_20261009_37.rtf"
+         },
+         {
+          "DataType": "Authentisch",
+          "Url": "https://ogd.ris.bka.gv.at/Dokumente/LgblAuth/LGBLA_WI_20261009_37/LGBLA_WI_20261009_37.pdf"
+         }
+        ]
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

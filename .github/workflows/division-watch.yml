@@ -44,7 +44,17 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this at 19:00 and 22:00 London Mon-Thu and 14:00,
+  # 16:00 and 18:00 on Fridays (tools/mini_run.sh division-watch); these
+  # crons are the backup and skip a slot the Mini already ran.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: DIVISION_WATCH
+
   brief:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -56,32 +66,33 @@ jobs:
           python-version: "3.11"
       - name: Install dependencies
         run: pip install pyyaml
-      - name: Brief today's divisions
+      - name: Brief today's divisions, publish the raw archive
+        # jobs/division-watch.sh is shared with the Mac Mini runner.
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_DM_USER_ID: U05LJP0BT61
-        run: |
-          ARGS=()
-          [ -n "${{ inputs.date }}" ] && ARGS+=(--date "${{ inputs.date }}")
-          [ "${{ inputs.force }}" = "true" ] && ARGS+=(--force)
-          python3 tools/division_brief.py "${ARGS[@]}" | tee /tmp/division-brief.log
-          { echo "## Division watch"; echo '```'; cat /tmp/division-brief.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
-      - name: Publish the raw archive
-        # The division payloads this fetched. No pull first: a push merges
-        # the published folder beneath the local files, so a folder two
-        # runs archive into on the same day ends as the union.
-        env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 tools/raw_state.py --push
+          DIVISION_DATE: ${{ inputs.date }}
+          DIVISION_FORCE: ${{ inputs.force }}
+        run: |
+          bash jobs/division-watch.sh | tee /tmp/division-brief.log
+          { echo "## Division watch"; echo '```'; cat /tmp/division-brief.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
       - name: Commit briefs and archived payloads
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "bot@parl-monitor.invalid"
           git add data/raw.json data/briefs
-          git diff --cached --quiet || git commit -m "Division brief $(date -u +%FT%H:%MZ)"
-          for attempt in 1 2 3; do
-            git pull --rebase --autostash origin main || true
-            git push origin main && break
-            echo "push rejected (attempt $attempt); retrying"
-            sleep $((attempt * 5))
+          git diff --cached --quiet && exit 0
+          git commit -m "Division brief $(date -u +%FT%H:%MZ)"
+          # Hardened loop (docs/mac-mini-runner.md, step 4): never retry
+          # while stuck mid-rebase, and wait long enough to lose a race once.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin main; then
+              git push origin main && exit 0
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            sleep $(( attempt * 10 + RANDOM % 10 ))
           done
+          echo "push failed six times"; exit 1

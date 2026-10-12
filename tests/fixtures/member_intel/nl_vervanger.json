@@ -1,0 +1,74 @@
+{
+ "value": [
+  {
+   "Id": "7952f8ac-f465-4d38-8056-007af87be4d5",
+   "Functie": "PlvLid",
+   "Van": "2026-03-03T00:00:00+01:00",
+   "TotEnMet": null,
+   "GewijzigdOp": "2026-03-03T15:51:52.4999151+01:00",
+   "ApiGewijzigdOp": "2026-03-03T14:52:12.2959064Z",
+   "Verwijderd": false,
+   "CommissieZetel_Id": "f4115225-cec9-48f6-a0d2-410a4c1aa201",
+   "Persoon_Id": "36ed934d-56c7-4903-a0a8-a9f186d5a96f",
+   "CommissieZetel": {
+    "Id": "f4115225-cec9-48f6-a0d2-410a4c1aa201",
+    "Gewicht": 26,
+    "GewijzigdOp": "2026-09-01T15:38:50.6557726+02:00",
+    "ApiGewijzigdOp": "2026-09-01T13:39:30.8612969Z",
+    "Verwijderd": false,
+    "Commissie_Id": "90f412fa-d124-49d1-a550-37a4220b0b69",
+    "Commissie": {
+     "Id": "90f412fa-d124-49d1-a550-37a4220b0b69",
+     "Nummer": 68961,
+     "Soort": null,
+     "Afkorting": "BHO",
+     "NaamNL": "Vaste commissie voor Buitenlandse Handel en Ontwikkelingssamenwerking",
+     "NaamEN": "Foreign Trade and Development Cooperation",
+     "NaamWebNL": "Buitenlandse Handel en Ontwikkelingssamenwerking",
+     "NaamWebEN": "Foreign Trade and Development Cooperation",
+     "Inhoudsopgave": "Vaste commissies",
+     "DatumActief": "2026-02-25T00:00:00+01:00",
+     "DatumInactief": null,
+     "GewijzigdOp": "2026-02-26T13:10:08.9269911+01:00",
+     "ApiGewijzigdOp": "2026-02-26T12:11:10.2649383Z",
+     "Verwijderd": false
+    }
+   }
+  },
+  {
+   "Id": "a32afc70-38c1-4917-8b2c-009b4454ca04",
+   "Functie": "PlvLid",
+   "Van": "2026-02-25T00:00:00+01:00",
+   "TotEnMet": null,
+   "GewijzigdOp": "2026-02-25T15:50:47.4876883+01:00",
+   "ApiGewijzigdOp": "2026-02-25T14:51:13.8874641Z",
+   "Verwijderd": false,
+   "CommissieZetel_Id": "75153037-c399-43f3-bf2b-5a47c29ddcda",
+   "Persoon_Id": "6616f1dc-73e5-4753-b259-c10856ee7e4d",
+   "CommissieZetel": {
+    "Id": "75153037-c399-43f3-bf2b-5a47c29ddcda",
+    "Gewicht": 15,
+    "GewijzigdOp": "2026-03-31T09:18:42.582995+02:00",
+    "ApiGewijzigdOp": "2026-03-31T07:19:37.9862535Z",
+    "Verwijderd": false,
+    "Commissie_Id": "90f412fa-d124-49d1-a550-37a4220b0b69",
+    "Commissie": {
+     "Id": "90f412fa-d124-49d1-a550-37a4220b0b69",
+     "Nummer": 68961,
+     "Soort": null,
+     "Afkorting": "BHO",
+     "NaamNL": "Vaste commissie voor Buitenlandse Handel en Ontwikkelingssamenwerking",
+     "NaamEN": "Foreign Trade and Development Cooperation",
+     "NaamWebNL": "Buitenlandse Handel en Ontwikkelingssamenwerking",
+     "NaamWebEN": "Foreign Trade and Development Cooperation",
+     "Inhoudsopgave": "Vaste commissies",
+     "DatumActief": "2026-02-25T00:00:00+01:00",
+     "DatumInactief": null,
+     "GewijzigdOp": "2026-02-26T13:10:08.9269911+01:00",
+     "ApiGewijzigdOp": "2026-02-26T12:11:10.2649383Z",
+     "Verwijderd": false
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,56 @@
+{
+ "isError": false,
+ "message": "OK",
+ "data": {
+  "total": 3,
+  "page": 1,
+  "pageSize": 20,
+  "items": [
+   {
+    "roomId": 175,
+    "name": "SESIÓN PLENARIA 20 DE MAYO DEL 2026",
+    "roomStateId": 4,
+    "roomState": "Finalizada",
+    "roomTypeId": 2,
+    "roomType": "Ordinaria",
+    "listName": "Plenaria",
+    "schedule": "2026-05-20 08:00:00",
+    "scheduleEnd": "2026-05-20 17:00:00",
+    "callClockStart": null,
+    "callEnd": null,
+    "isPublic": true,
+    "youtubeUrl": "https://www.youtube.com/watch?v=bjGSMpyKtQQ"
+   },
+   {
+    "roomId": 174,
+    "name": "SESIÓN PLENARIA 19 DE MAYO DEL 2026",
+    "roomStateId": 4,
+    "roomState": "Finalizada",
+    "roomTypeId": 2,
+    "roomType": "Ordinaria",
+    "listName": "Plenaria",
+    "schedule": "2026-05-19 08:00:00",
+    "scheduleEnd": "2026-05-19 17:00:00",
+    "callClockStart": null,
+    "callEnd": null,
+    "isPublic": true,
+    "youtubeUrl": "https://www.youtube.com/watch?v=7QgsS9V8VDc"
+   },
+   {
+    "roomId": 173,
+    "name": "SESIÓN PLENARIA 18 DE MAYO DEL 2026",
+    "roomStateId": 4,
+    "roomState": "Finalizada",
+    "roomTypeId": 2,
+    "roomType": "Ordinaria",
+    "listName": "Plenaria",
+    "schedule": "2026-05-18 08:00:00",
+    "scheduleEnd": "2026-05-18 17:00:00",
+    "callClockStart": null,
+    "callEnd": null,
+    "isPublic": true,
+    "youtubeUrl": "https://www.youtube.com/watch?v=Q1JxH8LYqkQ"
+   }
+  ]
+ }
+}

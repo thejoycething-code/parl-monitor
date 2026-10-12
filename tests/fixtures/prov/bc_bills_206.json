@@ -1,0 +1,99 @@
+[
+{
+"billId": 2404,
+"billNumber": 1,
+"title": "An Act to Ensure the Supremacy of Parliament",
+"committeeReading": null,
+"reportReading": null,
+"royalAssent": null,
+"chapterNumber": null,
+"titleChanged": false,
+"reinstated": false,
+"ruledOutOfOrder": false,
+"billTypeId": 1,
+"thirdReading": null,
+"secondReading": null,
+"firstReading": "2026-02-12",
+"memberId": 72,
+"amendedReading": null,
+"memberAlias": "Niki Sharma",
+"files": {
+"nodes": [
+{
+"readingTypeName": "1st Reading",
+"readingTypeId": 1,
+"readingDate": "2026-02-12",
+"fileName": "gov01-1.htm",
+"path": "/ldp/43rd2nd/1st_read/gov01-1.htm"
+}
+]
+}
+},
+{
+"billId": 2406,
+"billNumber": 3,
+"title": "Budget Measures Implementation Act (No. 2), 2026",
+"committeeReading": "2026-03-05",
+"reportReading": "2026-03-05",
+"royalAssent": "2026-03-12",
+"chapterNumber": 2,
+"titleChanged": false,
+"reinstated": false,
+"ruledOutOfOrder": false,
+"billTypeId": 1,
+"thirdReading": "2026-03-05",
+"secondReading": "2026-02-26",
+"firstReading": "2026-02-17",
+"memberId": 5,
+"amendedReading": null,
+"memberAlias": "Brenda Bailey",
+"files": {
+"nodes": [
+{
+"readingTypeName": "1st Reading",
+"readingTypeId": 1,
+"readingDate": "2026-02-17",
+"fileName": "gov03-1.htm",
+"path": "/ldp/43rd2nd/1st_read/gov03-1.htm"
+},
+{
+"readingTypeName": "3rd Reading",
+"readingTypeId": 3,
+"readingDate": "2026-03-05",
+"fileName": "gov03-3.htm",
+"path": "/ldp/43rd2nd/3rd_read/gov03-3.htm"
+}
+]
+}
+},
+{
+"billId": 2399,
+"billNumber": 226,
+"title": "Motor Vehicle Amendment Act (No. 2), 2025",
+"committeeReading": null,
+"reportReading": null,
+"royalAssent": null,
+"chapterNumber": null,
+"titleChanged": false,
+"reinstated": true,
+"ruledOutOfOrder": false,
+"billTypeId": 2,
+"thirdReading": null,
+"secondReading": "2026-02-23",
+"firstReading": "2025-11-26",
+"memberId": 372,
+"amendedReading": null,
+"memberAlias": "Dana Lajeunesse",
+"files": {
+"nodes": [
+{
+"readingTypeName": "1st Reading",
+"readingTypeId": 1,
+"readingDate": "2025-11-26",
+"fileName": "m226-1.htm",
+"path": "/ldp/43rd2nd/1st_read/m226-1.htm"
+}
+]
+}
+}
+]

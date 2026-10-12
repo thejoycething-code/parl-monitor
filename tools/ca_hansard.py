@@ -349,6 +349,10 @@ def store_sitting(conn, key, parl, sess, number, date, ivs, tax, wl, today, rost
             iv["bill"] = by_title.get(fold(iv["subject"]))
         if pid is None:
             unresolved += 1
+        # A corrected bill's debate (config/ca_area_corrections.yaml) loses
+        # the wrongly earned area; a speech left with no area is still kept,
+        # as it was, since it matched (Roxanne's Law: area 1 remains).
+        areas, terms = ca_store.correct_speech_areas(areas, terms, key, iv["bill"], iv["subject"])
         conn.execute(
             "INSERT INTO ca_speeches (speech_id, sitting_key, date, time, rubric, "
             "subject, bill_number, kind, db_id, person_id, speaker, party, text, "

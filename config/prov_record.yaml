@@ -1,0 +1,1770 @@
+# Canadian PROVINCIAL legislatures: reviewed facts from official records.
+#
+# Every entry here was READ BY A PERSON in an official document and checked
+# against a second record. Nothing is inferred: an entry names the document
+# it was read in, the date, and what it was checked against. The collectors
+# (src/ingest/prov_nb.py, prov_nl.py, prov_ns.py, prov_ab.py) read this file; nothing in
+# it overrides a record that resolves on its own.
+#
+#   label_aliases  A printed name in a division list that is a typo in the
+#                  source. Consulted by src/prov_names.Aliased ONLY after the
+#                  normal resolver has found nobody, ONLY on that date and in
+#                  that document, and ONLY if the member holds a term that
+#                  day. The tally check still runs. Never a fuzzy matcher:
+#                  add an entry only after reading the record yourself.
+#   by_elections   (nl) Vacancies and by-elections, each read in the Elections
+#                  NL report. Used by prov_nl.bridge_year for a year whose
+#                  Members' Attendance summary has no text (2024 is a scan),
+#                  and by prov_nl.date_terms to date the summaries'
+#                  calendar-year terms around them (7 October 2026).
+#   general_elections (nl) Election days, each read in the Elections NL
+#                  report; prov_nl.date_terms ends or starts a summary's term
+#                  on it when the member is absent from the next or the
+#                  previous year's summary. Approved by Christopher, 7
+#                  October 2026.
+#   titles         (nb, nl) The title a record prints for a member, read
+#                  where it joins the title to the full name; settles an
+#                  AMBIGUOUS label only (prov_nb.CaseExact, prov_nl.Titled).
+#   other_surnames A surname a member ALSO sat under, as the member's own
+#                  official page states it. Read by
+#                  src/prov_names.Resolver.with_record: the label is still
+#                  matched against every member valid on the day, so the
+#                  answer stays unique-or-nothing.
+#   riding_aliases A constituency as a record abbreviates it, with the
+#                  constituency's own name. Same reader; a riding still has
+#                  to match one of the member's own terms that day.
+#   added_members  (Christopher, 7 October 2026) A member the Clerk's count
+#                  includes and the printed list omits, with the side, for
+#                  ONE division. Applies only while that side prints fewer
+#                  names than its count, to a member placed nowhere in the
+#                  division, and only from a SECOND official record that
+#                  states the vote (Hansard narrative, the Journals, the
+#                  Assembly's vote record): `record` cites it and `quoted`
+#                  quotes it. Read by src/prov_names.ReviewedDivisions.add;
+#                  the tally check then runs as normal. Nova Scotia's five
+#                  "Premier counted, not printed" divisions (2021-2025) have
+#                  no such record (the Journals print no names and stop in
+#                  2021), so none is entered and they stay known gaps.
+#   hansard_labels, hansard_totals, bill_corrections
+#                  Facts about ONE division (`division:` is its key), read
+#                  by src/prov_names.ReviewedDivisions (Christopher, 2
+#                  October 2026). Where Hansard is explicit for the SAME
+#                  division: settle one bare AMBIGUOUS label in one list (the
+#                  member must be one of the candidates), or supply a total
+#                  the record omits (the tally check then holds the names to
+#                  it). A printed total is replaced ONLY by an entry with
+#                  `replaces:` stating the figure the record prints, and
+#                  only while it still prints exactly that (Christopher, 2
+#                  October 2026); the printed figure stays in tally_note. A
+#                  bill correction applies only while the record still prints
+#                  `printed_bill`, and leaves the printed number in
+#                  tally_note. None of these is ever an alias outside its
+#                  division. A hansard_labels entry with `office: true` names
+#                  who held an office the list prints instead of a name (the
+#                  chair's casting vote, "Deputy Speaker"); it applies only to
+#                  a label that resolved to nobody (Christopher, 2 October
+#                  2026: casting votes are placed).
+#   misprints      (on) One misspelling of one member's name repeated over a
+#                  span of days, in documents under a URL prefix; read by
+#                  Aliased like a label alias. Approved by Christopher, 2
+#                  October 2026.
+#   vp_not_served  (mb) A sitting day whose listed V&P is not served (an
+#                  error page, or a copy of another day's record): the
+#                  day's Hansard PDFs named here are read for their own
+#                  division lists INSTEAD, that day only, and only while the
+#                  listed record still fails. The Clerk's counts are the
+#                  totals the tally check holds the names to.
+#   same_person    (mb) Member keys that are ONE person where the seat rule
+#                  (same surname, same riding, same legislature, given names
+#                  one inside the other) cannot join them: across
+#                  legislatures, or "Tom" and "Thomas". Merged in place by
+#                  prov_store.merge_split_members.
+#
+#   roster_rows, titles, roster_bridges
+#                  (nb) Rows of a compiled Journal's members page (with an
+#                  optional by-election date, `elected:`), the title a record
+#                  prints for a member, and a session's roster read from the
+#                  next session's members page. All three APPROVED by
+#                  Christopher, 7 October 2026 (the 57-1 bridge by name).
+#
+# Built 2 October 2026 for Christopher's "Fix New Brunswick and NL"
+# (3 October 2026). Alberta's entries added 2 October 2026 for the
+# 2010 backfill's tally gaps.
+
+provinces:
+  "ab":
+    other_surnames:
+      - member: "0918"
+        surname: "Glasgo"
+        document: https://www.assembly.ab.ca/members/members-of-the-legislative-assembly/member-information?mid=0918
+        verified_against: >-
+          The member page heads "Michaela Frey (Also served under Glasgo)",
+          30th Legislature, Brooks-Medicine Hat, 16 Apr 2019 - 6 Oct 2022.
+          The V&P of 23 May 2019 (legislature_30/session_1/20190523_1200_01_vp.pdf)
+          prints "Ms Glasgo, Hon. Member for Brooks-Medicine Hat" and the V&P
+          of 25 Oct 2021 (legislature_30/session_2/20211025_1200_01_vp.pdf)
+          "Mrs. Frey, Hon. Member for Brooks-Medicine Hat". Division lists
+          print "Glasgo" from 23 May 2019 to 16 Jun 2021 and "Frey" from
+          25 Oct 2021, never both in one list; the 30th Legislature has no
+          other Glasgo.
+        why: >-
+          "Glasgo" was unresolved in 133 recorded divisions of the 30th
+          Legislature (2019-2021): the roster carries only her later surname.
+    riding_aliases:
+      - printed: "Rimbey-Rocky Mtn. House-Sundre"
+        riding: "Rimbey-Rocky Mountain House-Sundre"
+        document: https://docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_30/session_1/20190523_1200_01_vp.pdf
+        verified_against: >-
+          Jason Nixon's member page (member-information?mid=0892) gives
+          Rimbey-Rocky Mountain House-Sundre for the 29th, 30th and 31st
+          Legislatures; the V&P of 16 Mar 2015
+          (legislature_28/session_3/20150316_1200_01_vp.pdf) spells it in
+          full ("Hon. Member for Rimbey-Rocky Mountain House-Sundre"). No
+          other Alberta constituency begins "Rimbey-Rocky".
+        why: >-
+          With two Nixons sitting (Jason, and Jeremy for Calgary-Klein) the
+          V&P names Jason "Nixon (Rimbey-Rocky Mtn. House-Sundre)", which did
+          not match his riding: unresolved in 185 recorded divisions, 2019-2023.
+    hansard_labels:
+      - division: ab-28-1-2013-11-19-2
+        position: Nay
+        printed: "Johnson"
+        member: "0801"
+        document: https://docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_28/session_1/20131119_1200_01_vp.pdf
+        hansard: https://docs.assembly.ab.ca/LADDAR_files/docs/hansards/han/legislature_28/session_1/20131119_1930_01_han.pdf#page=25
+        quoted: "Johnson, L."
+        why: >-
+          The V&P prints a bare "Johnson" in the Nays on amendment A4 to Bill
+          30 while Jeff (0778) and Linda (0801) Johnson both sat. Hansard for
+          the SAME division (Alberta Hansard p. 2953: "the question on
+          amendment A4", For 5, "Totals: For - 5 Against - 35") lists the same
+          names in the same order with "Johnson, L." in the Against list.
+          Linda Johnson in this division only; a bare Johnson stays ambiguous
+          everywhere else.
+    hansard_totals:
+      - division: ab-28-1-2012-12-03-7
+        position: Nay
+        total: 29
+        document: https://docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_28/session_1/20121203_1200_01_vp.pdf
+        hansard: https://docs.assembly.ab.ca/LADDAR_files/docs/hansards/han/legislature_28/session_1/20121203_1930_01_han.pdf#page=23
+        quoted: "Totals: For - 9 Against - 29"
+        why: >-
+          The V&P prints "Against the amendment" with no total. Hansard for the
+          SAME division (Alberta Hansard p. 1239, "the question, then, on
+          amendment A8", Mr. Saskiw's amendment striking "3 years") lists the
+          same nine names For, in the same order, and gives "Against - 29".
+          The 29 is then held against the names the V&P lists, as any printed
+          total is.
+    bill_corrections:
+      - division: ab-29-1-2015-11-26-3
+        printed_bill: "9"
+        bill: "5"
+        document: https://docs.assembly.ab.ca/LADDAR_files/docs/houserecords/vp/legislature_29/session_1/20151126_1200_01_vp.pdf
+        verified_against: >-
+          The same V&P, after the division: "The following Bill was read a
+          Second time and referred to Committee of the Whole: Bill 5 Public
+          Sector Compensation Transparency Act -- Hon. Ms Ganley", and before
+          it "On the motion that the following Bill be now read a Second time:
+          Bill 5 Public Sector Compensation Transparency Act". Bill 5's own page
+          (bills-by-legislature 29-1) marks Second Reading on 26 Nov 2015
+          "passed on division"; Bill 9 is the Appropriation Act, 2015, read a
+          third time earlier that day.
+        why: >-
+          The V&P's narrative before the division reads "Debate resumed on the
+          motion for Second Reading of Bill 9, Public Sector Compensation
+          Transparency Act": the right title under the wrong number. Stored
+          under Bill 5; tally_note keeps "the record names Bill 9".
+  "bc":
+    other_surnames:
+      - member: "13"
+        surname: "Herbert"
+        document: https://lims.leg.bc.ca/hdms/file/Debates/39th1st/H0825am-01.PDF
+        verified_against: >-
+          The Hansard issue of 25 August 2009 (39th Parliament) lists
+          "herbert, Spencer (nDP) ... Vancouver–West End"; the issue of 19
+          February 2026 (43rd) lists "Chandra Herbert, Hon. Spencer ...
+          Vancouver–West End". The members API holds one member for both,
+          id 13, "Spencer Chandra Herbert", Vancouver-West End, in the 39th
+          to 43rd Parliaments, and no other Herbert. Division lists of 2010
+          print "Herbert" (bc-39-2-2010-03-11-7.1, Nay).
+        why: >-
+          The 39th Parliament's division lists print the surname he then
+          sat under; the roster carries only the later one.
+  "mb":
+    hansard_totals:
+      - division: mb-40-3-2013-12-05-4
+        position: Nay
+        total: 17
+        replaces: 18
+        document: https://www.gov.mb.ca/legislature/business/40th/3rd/votes_017.pdf
+        hansard: https://www.gov.mb.ca/legislature/hansard/40th_3rd/hansardpdf/17b.pdf
+        quoted: "Clerk (Ms. Patricia Chaychuk): Yeas 32, Nays 17."
+        why: >-
+          The V&P's fourth division of 5 December 2013 (concurrence and third
+          reading of Bill 27, The Highway Traffic Amendment Act (Charter Bus
+          Service)) prints "WISHART ... 18" under 17 Nay names. Hansard for
+          the SAME division (p. 705, "The question before the House is
+          concurrence and third reading of Bill 27") lists the same 32 Yeas and
+          the same 17 Nays, Briese to Wishart, and the Clerk reads "Yeas 32,
+          Nays 17". The printed 18 is a misprint; the 17 names are held to 17.
+    vp_not_served:
+      - date: "2017-12-05"
+        record: https://www.gov.mb.ca/legislature/business/41st/3rd/votes_010.pdf
+        hansard:
+          - https://www.gov.mb.ca/legislature/hansard/41st_3rd/hansardpdf/10a.pdf
+          - https://www.gov.mb.ca/legislature/hansard/41st_3rd/hansardpdf/10b.pdf
+        divisions: 1
+        verified_against: >-
+          The 41-3 calendar links 5 December 2017 to votes_010.pdf, which
+          serves the province's "Resource Not Found" page (11,391 bytes) on
+          every fetch (2 October 2026). The day's Hansard, Vol. LXX No. 10A
+          and 10B, both listed under 5 December on 41st_3rd.html: 10A has no
+          recorded vote; 10B p. 377 has one, "the motion to adjourn the
+          debate for second reading of Bill 8", "Deputy Clerk (Mr. Rick
+          Yarish): Yeas 35, Nays 17."
+        why: >-
+          The day's only record of its division is Hansard's own list.
+      - date: "2022-04-25"
+        record: https://www.gov.mb.ca/legislature/business/42nd/4th/votes_041.pdf
+        hansard:
+          - https://www.gov.mb.ca/legislature/hansard/42nd_4th/hansardpdf/41.pdf
+        divisions: 3
+        verified_against: >-
+          The 42-4 calendar lists votes_041.pdf for Monday 25 April 2022, but
+          the file is "VOTES AND PROCEEDINGS No. 42" of Tuesday 26 April,
+          which votes_042.pdf is also listed for. Hansard Vol. LXXVI No. 41
+          ("1:30 p.m., Monday, April 25, 2022") records three divisions: the
+          Opposition amendment to the budget motion ("Yeas 20, Nays 32"), the
+          budget motion ("Yeas 32, Nays 20") and second reading of Bill 18,
+          The Legislative Security Amendment Act ("Yeas 31, Nays 17").
+        why: >-
+          The 25th's own V&P (No. 41) is served nowhere the listing links.
+    same_person:
+      - keys: [cliff-graydon, clifford-graydon]
+        document: https://www.gov.mb.ca/legislature/members/mla_bio_living.html
+        verified_against: >-
+          The Assembly's former-members page has ONE entry, "GRAYDON, Cliff
+          (Emerson) (PC) (IND) October 22, 2018. Elected g.e. May 22, 2007,
+          Re-elected g.e. October 4, 2011, Re-elected g.e. April 19, 2016".
+          The covers print "GRAYDON, Cliff Emerson PC" in the 39th and 40th
+          Legislatures and "GRAYDON, Clifford Emerson" in the 41st, PC until
+          October 2018 and Ind. from the 25 October 2018 cover, as the page
+          dates it.
+        why: >-
+          The same member for Emerson in three legislatures; the seat rule
+          joins keys within one legislature only.
+      - keys: [tom-nevakshonoff, thomas-nevakshonoff]
+        document: https://www.gov.mb.ca/legislature/members/mla_bio_living.html
+        verified_against: >-
+          The Assembly's former-members page has ONE entry, "NEVAKSHONOFF,
+          Thomas (Interlake) (NDP). Elected g.e. September 21, 1999 ...
+          Re-elected g.e. October 4, 2011, Defeated g.e. April 19, 2016. April
+          29, 2015 - May 3, 2016 Minister of Conservation and Water
+          Stewardship". The covers print "NEVAKSHONOFF, Tom Interlake NDP" in
+          the 39th and 40th Legislatures to December 2014 and "Thomas, Hon."
+          from 8 May 2015, the week after he became a minister.
+        why: >-
+          The same member for Interlake; the seat rule's given-name guard
+          (one name contained in the other) cannot match Tom and Thomas.
+  "on":
+    hansard_labels:
+      - division: on-41-2-2017-09-21-1
+        position: Yea
+        printed: "Deputy Speaker"
+        office: true
+        member: soo-wong
+        document: https://www.ola.org/en/legislative-business/house-documents/parliament-41/session-2/2017-09-21/votes-proceedings
+        hansard: https://www.ola.org/sites/default/files/node-files/hansard/document/pdf/2017/2017-09/house-document-hansard-transcript-2-EN-21-SEP-2017_L095.pdf
+        quoted: >-
+          The ayes are 16; the nays are 16. The Deputy Speaker (Ms. Soo Wong): I
+          declare the motion carried.
+        why: >-
+          Second reading of Bill 146 (Gas Pricing Transparency Act, Mr.
+          McNaughton). The V&P prints 17-16 with "Deputy Speaker" as the 17th
+          Aye: the chair's casting vote on a tie. Hansard for the SAME division
+          (p. 5136) names the chair, Soo Wong, who held the office. Christopher
+          (2 October 2026) chose to place casting votes, against the convention
+          that a casting vote is not a stance. This division only: "Deputy
+          Speaker" maps to nobody anywhere else.
+    misprints:
+      - printed: "Cuzzeto"
+        member: rudy-cuzzetto
+        from: 2018-07-19
+        to: 2020-07-21
+        document_prefix: https://www.ola.org/en/legislative-business/house-documents/parliament-42/session-1/
+        documents: >-
+          The Votes and Proceedings of the 42nd Parliament, 1st Session: every
+          division list from 19 July 2018 to 21 July 2020 except 21 February -
+          6 June 2019 (when it is spelt "Cuzzetto"), e.g. .../2018-07-25/votes-proceedings
+          (both divisions) and .../2020-07-21/votes-proceedings (both divisions).
+        verified_against: >-
+          The Hansard of the same sittings: its own division lists print
+          "Cuzzetto, Rudy" where the V&P prints "Cuzzeto" (25 July 2018,
+          25-JUL-2018_L009_1.pdf, both divisions), and its member list prints
+          one "Cuzzetto, Rudy (PC) Mississauga—Lakeshore" and no Cuzzeto (25
+          July 2018 and 21 July 2020). Read 2 October 2026.
+        why: >-
+          135 votes, one in each of 135 divisions, and in 118 of them the only
+          thing wrong. The surname itself is misprinted, so nothing but a
+          reviewed fact can match it; from October 2021 the V&P spells it
+          correctly.
+  "ns":
+    label_aliases:
+      - printed: "Tom Taggar"
+        member: tom-taggart
+        date: 2025-03-25
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_25mar25
+        verified_against: >-
+          The 65th Assembly's Members table (/members/profiles-table) lists one
+          Taggart (Tom Taggart, Colchester North) and no Taggar; the Hansard of
+          8 April 2026 (house_26apr08) prints "Tom Taggart" in the YEAS of the
+          third reading of Bill 201. Read from CI on 2 October 2026.
+        why: >-
+          Hansard's YEAS for the third reading of Bill 6 (carried 39-11) print
+          "Tom  Taggar". It was the division's only unresolved label: with it
+          the 39 YEAS the Clerk counted are all accounted for.
+      - printed: "Hon. Timothy Hallman"
+        member: timothy-halman
+        date: 2024-04-05
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-64-session-1/house_24apr05
+        verified_against: >-
+          The same Hansard's first recorded division that day (the motion to
+          recommit Bill 419, defeated 21-28) prints "Hon. Timothy Halman" in
+          the NAYS; the 64th Assembly's Members table lists one Halman (Timothy
+          Halman, Dartmouth East) and no Hallman. Read from CI on 2 October 2026.
+        why: >-
+          Printed "Hon. Timothy Hallman" in the YEAS of Bill 419's third
+          reading (carried 28-17), the division's only unresolved label. The
+          surname itself is misprinted, so the surname-only retry cannot help.
+      # The 24 aliases below and the hansard_labels entry for 23 April 2013
+      # were read for the 2010 backfill repair (7 October 2026) and signed
+      # off by Christopher on 7 October 2026.
+      - printed: "Mr. Whynot"
+        member: mat-whynott
+        date: 2010-12-03
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-61-session-2/house_10dec03
+        verified_against: >-
+          The same Hansard's first and second recorded divisions that day print "Mr. Whynott" in the YEAS; the 61st Assembly's Members table (/members/profiles-table/61,
+          as the 3 October 2026 backfill stored it) lists Mat Whynott and no member
+          named "Whynot". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. Whynot" in the third division that day (carried 22-1); unresolved, it made the division a tally gap.
+      - printed: "Mr. Zinc"
+        member: trevor-zinck
+        date: 2012-04-27
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-61-session-4/house_12apr27
+        verified_against: >-
+          The same Hansard's first recorded division that day prints "Mr. Zinck" in the NAYS; the 61st Assembly's Members table (/members/profiles-table/61,
+          as the 3 October 2026 backfill stored it) lists Trevor Zinck and no member
+          named "Zinc". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. Zinc" in the NAYS of the third reading of Bill 69 (carried 28-19); unresolved, it made the division a tally gap.
+      - printed: "Mr. Bellivau"
+        member: sterling-belliveau
+        date: 2014-04-01
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-1/house_14apr01
+        verified_against: >-
+          The Hansard of 4 April 2014 (house_14apr04) prints "Mr. Belliveau" in the recorded divisions of that day; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Sterling Belliveau and no member
+          named "Bellivau". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. Bellivau" in all three recorded divisions of the day (the motion defeated 6-32 and two on the second reading of Bill 37, 37-6); unresolved, it made the division a tally gap.
+      - printed: "Mr. McMaster"
+        member: allan-macmaster
+        date: 2014-04-01
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-1/house_14apr01
+        verified_against: >-
+          The same Hansard's first recorded division that day prints "Mr. MacMaster" in the NAYS; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Allan MacMaster and no member
+          named "McMaster". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. McMaster" in the YEAS of the second and third recorded divisions of the day (Bill 37, 37-6); unresolved, it made the division a tally gap.
+      - printed: "Mr. MacNeil"
+        member: stephen-mcneil
+        date: 2014-04-04
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-1/house_14apr04
+        verified_against: >-
+          The same Hansard's first recorded division that day prints "Mr. McNeil" in the YEAS; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Stephen McNeil and no member
+          named "MacNeil". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. MacNeil" in the YEAS of the third reading of Bill 37 (carried 31-17); unresolved, it made the division a tally gap.
+      - printed: "Ms. Whelan"
+        member: diana-whalen
+        date: 2014-09-29
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-2/house_14sep29
+        verified_against: >-
+          The Hansard of 30 September 2014 (house_14sep30) prints "Ms. Whalen" in its recorded divisions; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Diana Whalen and no member
+          named "Whelan". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. Whelan" in the YEAS of the day's recorded division (carried 29-17); unresolved, it made the division a tally gap.
+      - printed: "Ms. Whelan"
+        member: diana-whalen
+        date: 2015-05-11
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-2/house_15may11
+        verified_against: >-
+          The same Hansard's first, second and third recorded divisions that day print "Ms. Whalen"; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Diana Whalen and no member
+          named "Whelan". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. Whelan" in the NAYS of the fourth recorded division of the day (Bill 108, defeated 14-28); unresolved, it made the division a tally gap.
+      - printed: "Mr. Bailey"
+        member: jamie-baillie
+        date: 2014-10-20
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-2/house_14oct20
+        verified_against: >-
+          The Hansard of 14 October 2014 (house_14oct14) prints "Mr. Baillie" in its recorded division; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Jamie Baillie and no member
+          named "Bailey". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. Bailey" in the NAYS of the second reading of Bill 6 (carried 36-9); unresolved, it made the division a tally gap.
+      - printed: "Mr. Bailey"
+        member: jamie-baillie
+        date: 2016-12-05
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-3/house_16dec05
+        verified_against: >-
+          The Hansard of 8 November 2016 (house_16nov08) prints "Mr. Baillie" in its recorded division; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Jamie Baillie and no member
+          named "Bailey". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Mr. Bailey" in the NAYS of the day's recorded division (carried 29-16); unresolved, it made the division a tally gap.
+      - printed: "Ms. McFarlane"
+        member: karla-macfarlane
+        date: 2014-11-14
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-62-session-2/house_14nov14
+        verified_against: >-
+          The same Hansard's first and second recorded divisions that day print "Ms. MacFarlane"; the 62nd Assembly's Members table (/members/profiles-table/62,
+          as the 3 October 2026 backfill stored it) lists Karla MacFarlane and no member
+          named "McFarlane". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. McFarlane" in the NAYS of the third reading of Bill 64 (carried 31-9); unresolved, it made the division a tally gap.
+      - printed: "Ms. Lohnes-Craft"
+        member: suzanne-lohnes-croft
+        date: 2017-10-26
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-63-session-1/house_17oct26
+        verified_against: >-
+          The same Hansard's first recorded division that day prints "Ms. Lohnes-Croft" in the YEAS; the 63rd Assembly's Members table (/members/profiles-table/63,
+          as the 3 October 2026 backfill stored it) lists Suzanne Lohnes-Croft and no member
+          named "Lohnes-Craft". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. Lohnes-Craft" in the YEAS of the third reading of Bill 39 (carried 25-22); unresolved, it made the division a tally gap.
+      - printed: "Ms. DiConstanzo"
+        member: rafah-dicostanzo
+        date: 2017-10-26
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-63-session-1/house_17oct26
+        verified_against: >-
+          The same Hansard's first recorded division that day prints "Ms. DiCostanzo" in the YEAS; the 63rd Assembly's Members table (/members/profiles-table/63,
+          as the 3 October 2026 backfill stored it) lists Rafah DiCostanzo and no member
+          named "DiConstanzo". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. DiConstanzo" in the YEAS of the third reading of Bill 39 (carried 25-22); unresolved, it made the division a tally gap.
+      - printed: "Ms. Maslund"
+        member: kim-masland
+        date: 2018-04-10
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-63-session-1/house_18apr10
+        verified_against: >-
+          The Hansard of 6 April 2018 (house_18apr06) prints "Ms. Masland" in its recorded divisions; the 63rd Assembly's Members table (/members/profiles-table/63,
+          as the 3 October 2026 backfill stored it) lists Kim Masland and no member
+          named "Maslund". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. Maslund" in the YEAS of the third reading of Bill 76 (carried 41-7); unresolved, it made the division a tally gap.
+      - printed: "Ms. Smith McCrossin"
+        member: elizabeth-smith-mccrossin
+        date: 2017-10-13
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-63-session-1/house_17oct13
+        verified_against: >-
+          The same Hansard's first and third recorded divisions that day print "Ms. Smith-McCrossin" (hyphenated); the 63rd Assembly's Members table (/members/profiles-table/63,
+          as the 3 October 2026 backfill stored it) lists Elizabeth Smith-McCrossin and no member
+          named "Smith McCrossin". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ms. Smith McCrossin" in the NAYS of the second reading of Bill 48 (25-23; the division also prints fewer NAYS than the Clerk counted, a known gap); unresolved, it made the division a tally gap.
+      - printed: "Hon. Derek Mombourquett"
+        member: derek-mombourquette
+        date: 2023-04-12
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-64-session-1/house_23apr12
+        verified_against: >-
+          The Hansard of 11 April 2023 (house_23apr11) prints "Hon. Derek Mombourquette" in both its recorded divisions; the 64th Assembly's Members table (/members/profiles-table/64,
+          as the 3 October 2026 backfill stored it) lists Derek Mombourquette and no member
+          named "Derek Mombourquett". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Hon. Derek Mombourquett" in the NAYS of the third reading of Bill 279 (carried 30-19); unresolved, it made the division a tally gap.
+      - printed: "Hon. Greg Murrow"
+        member: greg-morrow
+        date: 2023-11-09
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-64-session-1/house_23nov09
+        verified_against: >-
+          The same Hansard's second recorded division that day prints "Hon. Greg Morrow" in the YEAS; the 64th Assembly's Members table (/members/profiles-table/64,
+          as the 3 October 2026 backfill stored it) lists Greg Morrow and no member
+          named "Greg Murrow". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Hon. Greg Murrow" in the YEAS of the third reading of Bill 340 (carried 36-7); unresolved, it made the division a tally gap.
+      - printed: "Twila Gross"
+        member: twila-rose-grosse
+        date: 2023-10-26
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-64-session-1/house_23oct26
+        verified_against: >-
+          The same Hansard's first and second recorded divisions that day print "Hon. Twila Grosse"; the 64th Assembly's Members table (/members/profiles-table/64,
+          as the 3 October 2026 backfill stored it) lists Twila Grosse and no member
+          named "Twila Gross". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Twila Gross" in the YEAS of the second reading of Bill 340 (carried 33-8); unresolved, it made the division a tally gap.
+      - printed: "Hon. Twila Gross"
+        member: twila-rose-grosse
+        date: 2026-03-24
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26mar24
+        verified_against: >-
+          The same Hansard's second recorded division that day prints "Hon. Twila Grosse" in the YEAS; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Twila Grosse and no member
+          named "Twila Gross". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Hon. Twila Gross" in the YEAS of the day's first recorded division (carried 39-13); unresolved, it made the division a tally gap.
+      - printed: "Hon. Twila Gross"
+        member: twila-rose-grosse
+        date: 2026-03-25
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26mar25
+        verified_against: >-
+          The same Hansard's second recorded division that day prints "Hon. Twila Grosse"; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Twila Grosse and no member
+          named "Twila Gross". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Hon. Twila Gross" in the YEAS of the third reading of Bill 247 (carried 37-12); unresolved, it made the division a tally gap.
+      - printed: "Chris Palme"
+        member: chris-palmer
+        date: 2023-10-25
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-64-session-1/house_23oct25
+        verified_against: >-
+          The Hansard of 26 October 2023 (house_23oct26) prints "Chris Palmer" in its recorded divisions; the 64th Assembly's Members table (/members/profiles-table/64,
+          as the 3 October 2026 backfill stored it) lists Chris Palmer and no member
+          named "Chris Palme". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Chris Palme" in the YEAS of the day's recorded division (carried 28-15); unresolved, it made the division a tally gap.
+      - printed: "Danny MacGillivary"
+        member: danny-macgillivray
+        date: 2026-04-07
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26apr07
+        verified_against: >-
+          The Hansard of 8 April 2026 (house_26apr08) prints "Danny MacGillivray" in the YEAS of the third reading of Bill 201; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Danny MacGillivray and no member
+          named "Danny MacGillivary". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Danny MacGillivary" in the YEAS of the third reading of Bill 203 (carried 45-0); unresolved, it made the division a tally gap.
+      - printed: "Ryan Robichaud"
+        member: ryan-robicheau
+        date: 2026-03-09
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26mar09
+        verified_against: >-
+          The same Hansard's second recorded division that day prints "Ryan Robicheau" in the YEAS; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Ryan Robicheau and no member
+          named "Ryan Robichaud". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ryan Robichaud" in the YEAS of the day's first recorded division (carried 36-13); unresolved, it made the division a tally gap.
+      - printed: "Ryan Robichaud"
+        member: ryan-robicheau
+        date: 2026-04-08
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26apr08
+        verified_against: >-
+          The Hansard of 7 April 2026 (house_26apr07) prints "Ryan Robicheau" in the YEAS of the third reading of Bill 203; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Ryan Robicheau and no member
+          named "Ryan Robichaud". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Ryan Robichaud" in the YEAS of the third reading of Bill 201 (carried 39-12); unresolved, it made the division a tally gap.
+      - printed: "Hon. Colton LeBlancoHon"
+        member: colton-leblanc
+        date: 2026-03-09
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-65-session-1/house_26mar09
+        verified_against: >-
+          The same Hansard's second recorded division that day prints "Hon. Colton LeBlanc" in the YEAS; the 65th Assembly's other LeBlanc is Susan Leblanc (NDP), who is printed "Susan Leblanc" in the NAYS of the same division; the 65th Assembly's Members table (/members/profiles-table/65,
+          as the 3 October 2026 backfill stored it) lists Colton LeBlanc and no member
+          named "Colton LeBlancoHon". Hansard read from CI on 7 October 2026 (probe-hosts run
+          37568416383).
+        why: >-
+          Printed "Hon. Colton LeBlancoHon" in the YEAS of the day's first recorded division (carried 36-13); the line runs the next title into the name; unresolved, it made the division a tally gap.
+    hansard_labels:
+      - division: ns-61-5-2013-04-23-2
+        position: Yea
+        printed: "Ms. MacDonald"
+        member: maureen-macdonald
+        document: https://nslegislature.ca/legislative-business/hansard-debates/assembly-61-session-5/house_13apr23
+        hansard: https://nslegislature.ca/legislative-business/hansard-debates/assembly-61-session-5/house_13apr23
+        quoted: "Ms.  MacDonald"
+        why: >-
+          The 61st Assembly has two MacDonalds, Manning (Liberal, Cape Breton
+          South) and Maureen (NDP, Halifax Needham), so the bare surname is
+          ambiguous. The division (third reading of Bill 58, carried 27-20)
+          prints "Ms." in the government's YEAS; the same day's first
+          division prints "Ms. Maureen MacDonald" among the government
+          members, and Manning MacDonald is printed "Mr. Manning MacDonald"
+          (6 December 2012) and appears in neither list of this division.
+          Read from CI on 7 October 2026 (probe-hosts run 37568416383).
+  "nb":
+    # A member of the current legislature who has left (Christopher, 9 Oct 2026). Read by
+    # prov_nb.fetch_current until the 61st's compiled Journal lists everyone who sat.
+    former_members:
+      - member: "mike-dawson"
+        name: "Mike Dawson"
+        legislature: 61
+        riding: "Miramichi West"
+        party: "Progressive Conservative Party of New Brunswick"
+        start: "2024-11-27"
+        end: "2025-03-25"
+        document: "https://www.legnb.ca/content/house_business/61/1/journals/17250325e.pdf"
+        verified_against: >-
+          The Journals of 28 Nov and 12 Dec 2024 print "Mr. Dawson" in their divisions; the
+          Journal of 25 Mar 2025 records "Madam Speaker recognized Mr. Dawson to make a farewell
+          speech in the House"; the Legislative Library's election database gives the reason
+          for the 6 Oct 2025 Miramichi West by-election as "Dawson, Mike - resigned".
+        why: >-
+          Re-elected for Miramichi West (PC) in Oct 2024, he resigned in March 2025 to stand
+          federally, so he is on no current members page. Start is the 61st's first sitting
+          in the store; end is his last recorded day, the farewell speech.
+    # The day's own Journal where the listing links another day's (Christopher, 9 Oct 2026:
+    # "Something else must need doing to cover gaps"). Read by prov_nb.read_sitting.
+    journal_urls:
+      - date: "2014-05-20"
+        listed: "https://www.legnb.ca/content/house_business/57/4/journals/69140521e.pdf"
+        document: "https://www.legnb.ca/content/house_business/57/4/journals/68140520e.pdf"
+        verified_against: "the file's own heading, read 9 Oct 2026: Daily sitting 68, Tuesday, May 20, 2014"
+        why: >-
+          The sessional listing links 69140521e.pdf (the Journal of 21 May) under 2014-05-20; the day's own
+          Journal is served at 68140520e.pdf, found by the file-name pattern (sitting
+          number, yymmdd) and confirmed by its heading.
+      - date: "2016-07-05"
+        listed: "https://www.legnb.ca/content/house_business/58/2/journals/37160706e.pdf"
+        document: "https://www.legnb.ca/content/house_business/58/2/journals/36160705e.pdf"
+        verified_against: "the file's own heading, read 9 Oct 2026: Daily sitting 36, Tuesday, July 5, 2016"
+        why: >-
+          The sessional listing links 37160706e.pdf (the Journal of 6 July) under 2016-07-05; the day's own
+          Journal is served at 36160705e.pdf, found by the file-name pattern (sitting
+          number, yymmdd) and confirmed by its heading.
+      - date: "2019-05-28"
+        listed: "https://www.legnb.ca/content/house_business/59/2/journals/19190328e.pdf"
+        document: "https://www.legnb.ca/content/house_business/59/2/journals/29190528e.pdf"
+        verified_against: "the file's own heading, read 9 Oct 2026: Daily sitting 29, Tuesday, May 28, 2019"
+        why: >-
+          The sessional listing links 19190328e.pdf (the Journal of 28 March) under 2019-05-28; the day's own
+          Journal is served at 29190528e.pdf, found by the file-name pattern (sitting
+          number, yymmdd) and confirmed by its heading.
+    label_aliases:
+      - printed: "Mr. Russel"
+        member: kevin-russell
+        date: 2025-11-20
+        document: https://www.legnb.ca/content/house_business/61/2/journals/15251120e.pdf
+        verified_against: >-
+          The same Journal's third recorded division that day (Motion 3) prints
+          "Mr. Russell" in the NAYS; the 61st Legislature has one Russell
+          (Kevin Russell, Miramichi West, /en/members/current) and no Russel.
+        why: >-
+          Printed "Mr. Russel" in the YEAS of the sub-amendment to Motion 4
+          (defeated 17-24) and the NAYS of Motion 4 as amended (carried 26-16).
+          With it unresolved both were tally gaps; each list is otherwise
+          complete and both tally once it is cleared.
+      - printed: "Mr. Faigrieve"
+        member: stewart-fairgrieve
+        date: 2018-11-02
+        document: https://www.legnb.ca/content/house_business/59/1/journals/08181102e.pdf
+        verified_against: >-
+          The 59-1 compiled Journal's members page (Journal_59-1.pdf): Carleton,
+          Stewart Fairgrieve; no Faigrieve sits in the 59th Legislature. The same
+          Journal prints "Faigrieve" all three times and never "Fairgrieve".
+        why: >-
+          Printed "Mr. Faigrieve" in all three recorded divisions of 2 November
+          2018, each then a tally gap (two of them also on "Mr. LeBlanc" and
+          "Ms. LeBlanc", settled by the reviewed titles).
+      - printed: "Mr. D’Amour"
+        member: jean-claude-d-amours
+        date: 2019-05-30
+        document: https://www.legnb.ca/content/house_business/59/2/journals/31190530e.pdf
+        verified_against: >-
+          The 59-2 compiled Journal's members page (Journal_59-2.pdf):
+          Edmundston-Madawaska Centre, "Jean - Claude (JC) D’Amours"; no D'Amour
+          sits in the 59th Legislature. The division lists of the 59th print "Mr.
+          D’Amours" on every other day (29 November 2018).
+        why: >-
+          Printed "Mr. D’Amour" in both recorded divisions of 30 May 2019; each
+          was a tally gap on that label (and "Ms. LeBlanc").
+      - printed: "Mr. D’Amour"
+        member: jean-claude-d-amours
+        date: 2021-03-25
+        document: https://www.legnb.ca/content/house_business/60/1/journals/22210325e.pdf
+        verified_against: >-
+          The 60-1 compiled Journal's members page (Journal-60-1-2020-2022-E.pdf):
+          Edmundston-Madawaska Centre, "Jean - Claude (JC) D’Amours"; no D'Amour
+          sits in the 60th Legislature. The same Journal prints "D’Amours" twice
+          elsewhere.
+        why: >-
+          Printed "Mr. D’Amour" in the NAYS of the day's recorded division, its
+          only unresolved label.
+    roster_rows:
+      # Fact type, with `elected:`, approved by Christopher, 7 October 2026.
+      # Rows of a compiled Journal's MEMBERS OF THE LEGISLATIVE ASSEMBLY page
+      # (src/ingest/prov_nb.parse_compiled_roster) that the page prints in a
+      # way no rule reads honestly. Each applies to its own document only,
+      # and only while the row is printed exactly as quoted. Read 2 October
+      # 2026 for the 2010 backfill.
+      - printed: "Grand Falls–Drummond–Saint-André Danny Soucy Grand Falls"
+        document: https://www.legnb.ca/content/house_business/57/2/journals/Journal57-2.pdf
+        riding: "Grand Falls–Drummond–Saint-André"
+        member: "Danny Soucy"
+        verified_against: >-
+          The 57-3 compiled Journal (Journal-57-3-E.pdf) prints the same row as
+          "Grand Falls–Drummond–Saint-André Hon. Danny Soucy Grand Falls"; the
+          Journal of 30 May 2012 (46120530e.pdf) reads "Mr. Soucy, Member for
+          Grand Falls—Drummond—Saint-André".
+        why: >-
+          The page draws constituency and member with one space between them,
+          so the columns cannot be told apart; every other row of the page has
+          two or more.
+      - printed: "Victoria-Tobique Wes McClean Perth-Andover"
+        document: https://www.legnb.ca/content/house_business/57/2/journals/Journal57-2.pdf
+        riding: "Victoria-Tobique"
+        member: "Wes McLean"
+        verified_against: &mclean >-
+          The 57-4 compiled Journal (JOURNALS_2013-2014.pdf) prints "Victoria-
+          Tobique Wes McLean Perth-Andover"; Legislative Activities 2014
+          (legnb.ca, tabled 58-2) lists "Wes McLean, Victoria-Tobique" among the
+          57th Legislature's members; the division lists of the 57th print
+          "Mr. McLean" (13 June 2012) and never McClean.
+        why: &mclean_why >-
+          A misprint of the member's surname on the members page. Read as
+          printed, "Mr. McLean" resolves to nobody and every division he voted
+          in is a tally gap.
+      - printed: "Victoria-Tobique Wes McClean Perth-Andover"
+        document: https://www.legnb.ca/content/house_business/57/3/journals/Journal-57-3-E.pdf
+        riding: "Victoria-Tobique"
+        member: "Wes McLean"
+        verified_against: *mclean
+        why: *mclean_why
+      - printed: "Fredericton-Grand Lake Pan Lynch Fredericton"
+        document: https://www.legnb.ca/content/house_business/58/1/journals/JOURNAL2014-2015-E.pdf
+        riding: "Fredericton-Grand Lake"
+        member: "Pam Lynch"
+        verified_against: &lynch >-
+          The 58-4 compiled Journal (Journal_58-4.pdf) prints "Fredericton-Grand
+          Lake Pam Lynch Fredericton"; Legislative Activities 2014 lists "Pam
+          Lynch, Fredericton-Grand Lake" in the 58th; the 57th's pages print Pam
+          Lynch (Fredericton-Fort Nashwaak).
+        why: &lynch_why >-
+          "Pan" is a misprint of her given name. It would not stop "Ms. Lynch"
+          resolving, but it would file her 58-1 to 58-3 votes under a second
+          key, "pan-lynch".
+      - printed: "Fredericton-Grand Lake Pan Lynch Fredericton"
+        document: https://www.legnb.ca/content/house_business/58/2/journals/JOURNAL2015-2016-E.pdf
+        riding: "Fredericton-Grand Lake"
+        member: "Pam Lynch"
+        verified_against: *lynch
+        why: *lynch_why
+      - printed: "Fredericton - Grand Lake Pan Lynch Fredericton"
+        document: https://www.legnb.ca/content/house_business/58/3/journals/Journal2016-2017E.pdf
+        riding: "Fredericton-Grand Lake"
+        member: "Pam Lynch"
+        verified_against: *lynch
+        why: *lynch_why
+      - printed: "Carleton Stewart Fairgrieve* Riceville"
+        document: https://www.legnb.ca/content/house_business/58/1/journals/JOURNAL2014-2015-E.pdf
+        riding: "Carleton"
+        member: "Stewart Fairgrieve"
+        footnote: "By-election October 5, 2015, vice David Alward resigned May 22, 2015."
+        verified_against: &by58 >-
+          Legislative Activities 2014 (legnb.ca/content/house_business/58/2/
+          tabled_documents/2/LegislativeActivities2014.pdf, "Members of the 58th
+          Legislative Assembly as of December 31, 2014") lists "David Alward,
+          Carleton" and "Glen Savoie, Saint John East": Savoie already sat for
+          Saint John East in 2014, so his by-election is the November 2014 one
+          (vice Keating), and Carleton's member was still Alward.
+        why: &by58_why >-
+          The page prints "*" on both rows and "*" over both by-election
+          footnotes, Keating's first, so the mark alone cannot say which note is
+          whose.
+      - printed: "Saint John East Glen Savoie* Garnett Settlement"
+        document: https://www.legnb.ca/content/house_business/58/1/journals/JOURNAL2014-2015-E.pdf
+        riding: "Saint John East"
+        member: "Glen Savoie"
+        footnote: "By-election November 17, 2014, vice Gary Keating resigned October 14, 2014."
+        verified_against: *by58
+        why: *by58_why
+      - printed: "Restigouche - Chaleur Daniel Guitard Pointe - Verte"
+        document: https://www.legnb.ca/content/house_business/58/3/journals/Journal2016-2017E.pdf
+        riding: "Restigouche-Chaleur"
+        member: "Daniel Guitard"
+        verified_against: >-
+          The 58-2 and 58-4 compiled Journals print "Restigouche-Chaleur Daniel
+          Guitard Pointe-Verte".
+        why: >-
+          The PDF draws "Daniel" and "Guitard" touching, so the row reads
+          "DanielGuitard", which is not a name.
+      - printed: "Edmundston-Madawaska Centre** 0DGHODLQH\u0003'XEp (GPXQGVWRQ"
+        document: https://www.legnb.ca/content/house_business/58/4/journals/Journal_58-4.pdf
+        riding: "Edmundston-Madawaska Centre"
+        member: "Madeleine Dubé"
+        verified_against: >-
+          The row's own mark "**" is explained under the page as "** Madeleine
+          Dubé resigned July 1, 2018."; the 58-3 compiled Journal prints
+          "Edmundston-Madawaska Centre Madeleine Dubé Edmundston".
+        why: >-
+          The member and residence cells are set in a font the PDF cannot map
+          to text ("0DGHODLQH 'XEp (GPXQGVWRQ").
+      - printed: "Miramichi Bay - Neguac * Hon. Réjean Savoie Neguac"
+        document: https://www.legnb.ca/content/house_business/60/1/journals/Journal-60-1-2020-2022-E.pdf
+        riding: "Miramichi Bay-Neguac"
+        member: "Réjean Savoie"
+        elected: "2022-06-20"
+        verified_against: &by60 >-
+          Legislative Activities 2022 (legnb.ca/content/house_business/60/3/
+          tabled_documents/2022 LEG EN.pdf, p. 1): "polling day was June 20. The
+          Progressive Conservatives claimed both ridings, with Réjean Savoie
+          elected in Miramichi Bay-Neguac and Mike Dawson elected in Southwest
+          Miramichi-Bay du Vin"; sworn 5 July; "On this day [4 October 2022], Mr.
+          Dawson and Mr. R. Savoie were also formally introduced". The Journals
+          print "Hon. Mr. Savoie" for Glen Savoie alone until June 2022 and "Hon.
+          Mr. G. Savoie" and "Mr. R. Savoie" from 5 October 2022.
+        why: &by60_why >-
+          The page's footnote ("* Lisa Harris resigned August 16, 2021") dates
+          only the vacancy, so the successor's term started the day after it,
+          and 22 divisions of November 2021 to June 2022 printing "Hon. Mr.
+          Savoie" (Glen) became ambiguous gaps.
+      - printed: "Southwest Miramichi - Bay du Vin ** Mike Dawson South Nelson"
+        document: https://www.legnb.ca/content/house_business/60/1/journals/Journal-60-1-2020-2022-E.pdf
+        riding: "Southwest Miramichi-Bay du Vin"
+        member: "Mike Dawson"
+        elected: "2022-06-20"
+        verified_against: *by60
+        why: >-
+          The same footnote form ("** Jake Stewart resigned August 18, 2021"):
+          without the date his term would start ten months before he was
+          elected.
+      - printed: "*** By-election April 24, 2023, vice Daniel Guitar resigned November 30, 2022."
+        document: https://www.legnb.ca/content/house_business/60/2/journals/Journal_60-2_2022-2023-E.pdf
+        member: "Daniel Guitard"
+        verified_against: >-
+          The 60-1 compiled Journal prints "Restigouche-Chaleur Daniel Guitard";
+          so do the 58th Legislature's.
+        why: >-
+          The footnote misprints the surname of the member who resigned, so his
+          term (25 October to 30 November 2022) would be stored under
+          "Guitar" and "Mr. Guitard" in that autumn's division lists would
+          resolve to nobody.
+    titles:
+      # Fact type approved by Christopher, 7 October 2026.
+      # The title the Journals print for a member, read where the record joins
+      # it to the member's full name. Used by src/ingest/prov_nb.CaseExact only
+      # for a label the resolver found AMBIGUOUS: a candidate whose title is
+      # the other one is ruled out, and the label resolves only if one is
+      # left. In 58-1 every division list prints "Hon. Ms. Landry" and "Hon.
+      # Mr. Landry" (Francine, Denis) and "Ms. LeBlanc" beside "Mr. Bernard
+      # LeBlanc" (Monique; Bertrand LeBlanc also sat). Read 2 October 2026.
+      - member: francine-landry
+        title: "Ms."
+        document: https://www.legnb.ca/content/house_business/58/1/journals/03141204e.pdf
+        quoted: "By Hon. Ms. Landry, Bill 3,"
+        verified_against: >-
+          Bill 3 of 58-1 (An Act to Amend the Employment Standards Act), whose
+          bill page names its sponsor "Hon. Francine LANDRY"
+          (legnb.ca/en/legislation/bills/58/1/3).
+        why: &titles_why >-
+          Without it every 58-1 division with both Landrys (and "Ms. LeBlanc")
+          is a tally gap: the shared resolver ignores titles.
+      - member: denis-landry
+        title: "Mr."
+        document: https://www.legnb.ca/content/house_business/57/2/journals/04111129e.pdf
+        quoted: "Mr. D. Landry, Member for Centre-Péninsule—Saint-Sauveur"
+        verified_against: >-
+          The 57-2 compiled Journal's members page: Centre-Péninsule–Saint-Sauveur,
+          Denis Landry.
+        why: *titles_why
+      - member: bernard-leblanc
+        title: "Mr."
+        document: https://www.legnb.ca/content/house_business/58/1/journals/16150213e.pdf
+        quoted: "Mr. Bernard LeBlanc, Member for Memramcook-Tantramar"
+        verified_against: >-
+          The 58-1 compiled Journal's members page: Memramcook-Tantramar, Bernard
+          LeBlanc.
+        why: *titles_why
+      - member: bertrand-leblanc
+        title: "Mr."
+        document: https://www.legnb.ca/content/house_business/57/2/journals/02111124e.pdf
+        quoted: "Mr. Bertrand LeBlanc, Member for Rogersville-Kouchibouguac"
+        verified_against: >-
+          The 57-2 compiled Journal's members page: Rogersville-Kouchibouguac,
+          Bertrand LeBlanc.
+        why: *titles_why
+      - member: monique-leblanc
+        title: "Ms."
+        document: https://www.legnb.ca/content/house_business/58/3/journals/24170214e.pdf
+        quoted: "By Ms. LeBlanc, Bill 43,"
+        verified_against: >-
+          Bill 43 of 58-3, whose bill page names its sponsor "Monique LEBLANC"
+          (legnb.ca/en/legislation/bills/58/3/43); Bill 63 of 58-3 likewise
+          (Journal of 29 March 2017, "By Ms. LeBlanc, Bill 63,").
+        why: *titles_why
+    roster_bridges:
+      # Approved by Christopher, 7 October 2026.
+      # A session whose journals listing links no compiled Journal, read
+      # from the next session's members page as it stood on that session's
+      # first sitting (src/ingest/prov_nb._store_bridge). Read 2 October 2026.
+      - session: "57-1"
+        from_session: "57-2"
+        document: https://www.legnb.ca/content/house_business/57/2/journals/Journal57-2.pdf
+        as_of: "2011-11-23"
+        verified_against: >-
+          The 57-2 page footnotes the one change of 57-2 (Blaney resigned 25 May
+          2012, Flemming elected 25 June 2012), so on 23 November 2011 the House
+          was the 55 members it lists with Blaney for Rothesay. Nobody entered
+          or left between the 27 September 2010 election and that day:
+          Legislative Activities 2010 (the swearing-in of 12 October 2010, "42
+          seats ... 13") and 2011 (the year in review, which reports every
+          by-election and resignation, as the 2009 and 2010 reports do) record
+          none, and no 57-1 Journal records a Member taking a seat or
+          resigning. Every 57-1 division resolves against it and tallies
+          (scratch re-run, 2 October 2026).
+        why: >-
+          The 57-1 listing links no compiled Journal and the site lists only
+          current members, so without it all 57-1 divisions are gaps.
+  "nl":
+    label_aliases:
+      - printed: "Lloyd Parrot"
+        member: lloyd-parrott
+        date: 2022-10-19
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga50session2/22-10-19.htm
+        verified_against: >-
+          The Journal of the same day (HouseBusiness/Journals/ga50session2/22-10-19.pdf)
+          prints "L. Parrott" at the same place in the Ayes (23rd, between
+          P. Dinn and J. Dwyer); the 2022 Members' Attendance summary has one
+          Parrott (Lloyd, Terra Nova) and no Parrot.
+        why: >-
+          Hansard's Clerk's list for the third reading of Bill 3 (Pay Equity and
+          Pay Transparency Act), carried 29-3, prints "Lloyd Parrot". It was the
+          division's only unresolved label.
+      - printed: "Tom Osbourne"
+        member: thomas-osborne
+        date: 2022-05-18
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga50session1/22-05-18.htm
+        verified_against: >-
+          The Journal of the same day (HouseBusiness/Journals/ga50session1/22-05-18.pdf,
+          p. 322, "The House divided.") prints "T. Osborne" in the Nays, fifth,
+          after G. Byrne, as Hansard's list does; the 2022 Members' Attendance
+          summary has one Osborne (Thomas, Waterford Valley) and no Osbourne.
+        why: >-
+          Hansard's Clerk's list prints "Tom Osbourne"; it was the division's
+          only unresolved label (read 7 October 2026).
+      - printed: "Mr. Brown"
+        member: mark-browne
+        date: 2017-12-05
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga48session2/17-12-05.htm
+        verified_against: >-
+          The 2017 Members' Attendance summary lists no Brown and one Browne
+          (Mark, Placentia West - Bellevue); the same Hansard calls "the
+          Member for Placentia West - Bellevue. MR. BROWNE:" in the same
+          Committee of the Whole debate. The Journal does not record
+          Committee of the Whole divisions.
+        why: >-
+          The Committee of the Whole division of 5 December 2017 (5-23)
+          prints "Mr. Brown" among the Nays; it was the division's only
+          unresolved label (read 7 October 2026).
+      - printed: "Mr. Brown"
+        member: mark-browne
+        date: 2019-04-15
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga48session4/19-04-15.htm
+        verified_against: >-
+          The Journal of the same day (HouseBusiness/Journals/ga48session4/19-04-15.pdf,
+          second reading of Bill 3) prints "Mr. Browne" at the same place in
+          the list in favour (13th, between Mr. Letto and Mr. Bragg); the 2019
+          summary's only Brown, Jordan, was elected on 16 May 2019.
+        why: >-
+          Hansard's list for the second reading of Bill 3 (28-0) prints "Mr.
+          Brown"; it was the division's only unresolved label (read 7
+          October 2026).
+    by_elections:
+      # Read from the Elections NL by-election reports (Chief Electoral
+      # Officer, "By-Election Summary", "Return of the Writ") and checked
+      # against the House's Roll of Members of the 50th General Assembly
+      # (assembly.nl.ca/Members/Rolls/HOA_Roll_50GA.pdf, a scan: "By-Election,
+      # January 30, 2024" etc. under each district). `left` is the vacancy
+      # date the report gives; `sworn` is the day the new Member could vote.
+      - district: "Conception Bay East - Bell Island"
+        vacated_by: {surname: Brazil, given: David}
+        left: 2023-12-29
+        why_left: "resigned his seat"
+        polling: 2024-01-30
+        elected: {surname: Hutton, given: Fred, party: Liberal}
+        sworn: 2024-02-21
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-conceptionbayeast-bellislandby-electionreport.pdf
+      - district: "Fogo Island - Cape Freels"
+        vacated_by: {surname: Bragg, given: Derrick}
+        left: 2024-01-22
+        why_left: "passed away"
+        polling: 2024-04-15
+        elected: {surname: McKenna, given: Jim, party: Progressive Conservative}
+        sworn: 2024-05-02
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-fogoisland-capefreelsby-electionreport.pdf
+      - district: "Baie Verte - Green Bay"
+        vacated_by: {surname: Warr, given: Brian}
+        left: 2024-03-01
+        why_left: "resignation announced 26 February 2024, effective 1 March 2024"
+        polling: 2024-05-27
+        elected: {surname: Paddock, given: Lin, party: Progressive Conservative}
+        sworn: 2024-06-26
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-baieverte-greenbayby-electionreport.pdf
+      - district: "Waterford Valley"
+        vacated_by: {surname: Osborne, given: Thomas}
+        left: 2024-07-08
+        why_left: "resignation announced 24 May 2024, effective 8 July 2024"
+        polling: 2024-08-22
+        elected: {surname: Korab, given: Jamie, party: Liberal}
+        sworn: 2024-09-13
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-waterfordvalleyby-electionreport2024.pdf
+      # Added 7 October 2026 for the 2010 backfill (prov_nl.date_terms dates
+      # the summaries' calendar-year terms with them). Each is read in the
+      # Elections NL report named in `source`; `sworn` is the report's
+      # swearing-in date, or, where it gives none, `polling` stands for it.
+      - district: "Humber West"
+        vacated_by: {surname: Williams, given: Danny}
+        left: 2010-12-03
+        why_left: "resigned as Premier and Member"
+        polling: 2011-02-15
+        elected: {surname: Granter, given: Vaughn}
+        sworn: 2011-03-16
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-11-hw-by-election-report.pdf
+      - district: "Cartwright - L'Anse au Clair"
+        vacated_by: {surname: Jones, given: Yvonne}
+        left: 2013-04-08
+        why_left: "resigned her seat"
+        polling: 2013-06-25
+        elected: {surname: Dempster, given: Lisa}
+        sworn: 2013-07-18
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-13-clac-by-election-report-plain.pdf
+      - district: "Carbonear - Harbour Grace"
+        vacated_by: {surname: Kennedy, given: Jerome}
+        left: 2013-10-02
+        why_left: "resigned his seat"
+        polling: 2013-11-26
+        elected: {surname: Slade, given: Sam}
+        sworn: 2013-12-11
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-13-chg-by-election-report-plain.pdf
+      - district: "Virginia Waters"
+        vacated_by: {surname: Dunderdale, given: Kathy}
+        left: 2014-02-28
+        why_left: "resigned her seat"
+        polling: 2014-04-09
+        elected: {surname: Bennett, given: Cathy}
+        sworn: 2014-05-05
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-14-vw-by-election-report-plain-final.pdf
+      - district: "St. George's - Stephenville East"
+        vacated_by: {surname: Shea, given: Joan}
+        left: 2014-06-02
+        why_left: "resigned her seat"
+        polling: 2014-08-26
+        elected: {surname: Reid, given: Scott}
+        sworn: 2014-09-11
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-14-sgse-by-election-report-plain.pdf
+      - district: "Conception Bay South"
+        vacated_by: {surname: French, given: Terry}
+        left: 2014-09-18
+        why_left: "resigned his seat"
+        polling: 2014-11-05
+        elected: {surname: Hillier, given: Rex}
+        sworn: 2014-11-21
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-14-cbs-by-election-report-plain.pdf
+      - district: "Mount Pearl North"
+        vacated_by: {surname: Kent, given: Steve}
+        left: 2017-10-11
+        why_left: "resigned his seat"
+        polling: 2017-11-21
+        elected: {surname: Lester, given: Jim}
+        sworn: 2017-12-07
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-17.mountpearlnorth.pdf
+      - district: "Windsor Lake"
+        vacated_by: {surname: Bennett, given: Cathy}
+        left: 2018-08-21
+        why_left: "resigned her seat"
+        polling: 2018-09-20
+        elected: {surname: Crosbie, given: Ches}
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-18.windsorlake.pdf
+      - district: "Topsail - Paradise"
+        vacated_by: {surname: Davis, given: Paul}
+        left: 2018-11-02
+        why_left: "resigned his seat"
+        polling: 2019-01-24
+        elected: {surname: Dinn, given: Paul}
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-19.topsailparadise.pdf
+      # 2010 (added 7 October 2026, when the 2009 and 2010 summaries were
+      # found to have a text layer after all). The Topsail report is the
+      # poll-by-poll recapitulation only: it dates polling day and names Paul
+      # Davis (PC) the winner, but gives no vacancy date, so the member who
+      # left (Elizabeth Marshall, in the 2009 summary and not the 2010 one)
+      # gets no 2010 term from it.
+      - district: "Topsail"
+        vacated_by: {surname: Marshall, given: Elizabeth}
+        why_left: "vacancy (the report gives no date)"
+        polling: 2010-03-16
+        elected: {surname: Davis, given: Paul A.}
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-10.topsailbyelectionreport.pdf
+      - district: "Conception Bay East - Bell Island"
+        vacated_by: {surname: Whalen, given: Diane}
+        left: 2010-10-03
+        why_left: "death of Progressive Conservative Dianne Whalen"
+        polling: 2010-12-02
+        elected: {surname: Brazil, given: David}
+        sworn: 2010-12-20
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-10-cbe-bi-by-election-report.pdf
+    other_surnames:
+      - member: joan-shea
+        surname: "Burke"
+        document: https://www.assembly.nl.ca/Members/Attendance/reports/SummaryMembersAttendance2012.pdf
+        verified_against: >-
+          The 2011 summary lists "Burke, Joan" for St. George's - Stephenville
+          East; the 2012, 2013 and 2014 summaries list "Shea, Joan" for the
+          same district, and the Elections NL report of the 2014 by-election
+          there (resources-pdf-electionreports-byelections-14-sgse-by-election-report-plain.pdf)
+          gives "the resignation of Progressive Conservative Member of the
+          House of Assembly, Joan Shea, on June 2, 2014". No by-election was
+          held in the district between the 2011 general election and 2014.
+          Hansard's division lists print "Ms Burke" up to 14 June 2012 and
+          "Ms Shea" from 28 November 2012, never both in one list.
+        why: >-
+          The summaries name her Shea for the whole of 2012, so "Ms Burke" in
+          the twenty divisions of January-June 2012 resolved to nobody
+          (read 7 October 2026).
+    same_person:
+      # One member, two (or three) keys: a key follows each summary's spelling.
+      # Merged by prov_nl.merge_members (prov_store.merge_split_members) on
+      # every collect, keeping `keep:` -- the spelling of the Assembly's
+      # current members page for a sitting member, else the spelling of the
+      # member's own later records. Christopher, 7 October 2026: "Merge them".
+      # Each seat had no by-election between the keys' years (the Elections NL
+      # by-election reports list none in these districts in those spans).
+      - keys: [joan-burke, joan-shea]
+        keep: joan-shea
+        document: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-14-sgse-by-election-report-plain.pdf
+        verified_against: >-
+          The summaries list "Burke, Joan" for St. George's - Stephenville
+          East in 2009-2011 and "Shea, Joan" for the same district in
+          2012-2014; the 2014 by-election report records "the resignation of
+          ... Joan Shea, on June 2, 2014". Hansard calls "the hon. the
+          Minister of Advanced Education and Skills. MS BURKE:" on 18 June
+          2012 (ga47session1/12-06-18.htm) and the same minister "MS SHEA:" on
+          26 November 2012 (ga47session1/12-11-26.htm). No record of the change
+          itself was found on assembly.nl.ca; the same seat, the same office
+          and no by-election between are the evidence.
+        why: >-
+          One member under her earlier and later surnames; joan-shea is the
+          name she sat under from 2012 and resigned under.
+      - keys: [tom-osborne, thomas-osborne]
+        keep: thomas-osborne
+        document: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-byelections-waterfordvalleyby-electionreport2024.pdf
+        verified_against: >-
+          The summaries list "Osborne, Tom" for St. John's South (2010-2014)
+          and Waterford Valley (2015-2018), and "Osborne, Thomas" for
+          Waterford Valley (2019-2023); the 2024 by-election report names the
+          member who left Waterford Valley Thomas Osborne. The Journal of 27
+          October 2011 prints "Mr. Tom Osborne" (Speaker nominations).
+        why: >-
+          One member; Thomas is the spelling of his later records and of the
+          by-election report on his resignation.
+      - keys: [sherry-walsh, sherry-gambin-walsh, sheryl-gambin-walsh]
+        keep: sherry-gambin-walsh
+        document: https://www.assembly.nl.ca/Members/members.aspx
+        verified_against: >-
+          The current members page (js/members-index.js) lists "Gambin-Walsh,
+          Sherry", Placentia - St. Mary's. The summaries list her for the same
+          district every year: "Sherry Gambin Walsh" given name first
+          (2015-2018, read as Walsh, Sherry Gambin), "Gambin-Walsh, Sherry"
+          (2019, 2025) and "Gambin-Walsh, Sheryl" (2020-2024). Hansard reads
+          "Sherry Gambin-Walsh" throughout.
+        why: One sitting member under three printings; the members page's spelling is kept.
+      - keys: [jordan-brown, jordon-brown]
+        keep: jordan-brown
+        document: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2019.pdf
+        verified_against: >-
+          The 2019 general election report: "The elected Member for the
+          district of Labrador West (Jordan Brown) was later affirmed on June
+          25, 2019." The summaries list "Brown, Jordan", Labrador West, in
+          2019-2023 and "Brown, Jordon", Labrador West, in 2025 only.
+        why: One member; "Jordon" is the 2025 summary's misprint.
+      - keys: [jim-dinn, james-dinn]
+        keep: james-dinn
+        document: https://www.assembly.nl.ca/Members/members.aspx
+        verified_against: >-
+          The current members page lists "Dinn, James", St. John's Centre; the
+          summaries list "Dinn, James", St. John's Centre, in 2019-2023 and
+          "Dinn, Jim", St. John's Centre, in 2025. The other Dinns sat for
+          Kilbride (John, 2010-2015) and Topsail - Paradise (Paul, 2019 on).
+        why: One sitting member; the members page's spelling is kept.
+    titles:
+      # The title Hansard prints for a member, read where it joins the title
+      # to the full name. Used by src/ingest/prov_nl.Titled only for a label
+      # the resolver found AMBIGUOUS: a candidate whose title is the other
+      # one is ruled out. Read 7 October 2026; APPROVED by Christopher, 7
+      # October 2026.
+      - member: cathy-bennett
+        title: "Ms"
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session4/15-05-27.htm
+        quoted: "Ms Cathy Bennett, Mr. Jim Bennett"
+        verified_against: >-
+          The 2015 summary: Bennett, Cathy (Windsor Lake) and Bennett, Jim
+          (St. Barbe); the Elections NL report of the 2018 Windsor Lake
+          by-election: "Cathy Bennett ... resigned her seat".
+        why: &nl_titles_why >-
+          'Mr. Bennett' and 'Ms Bennett' (2014-2018), 'Ms Osborne' and 'Mr.
+          Osborne' (2011) came back ambiguous: the shared resolver ignores
+          titles, and each pair sat together.
+      - member: jim-bennett
+        title: "Mr."
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session4/15-05-27.htm
+        quoted: "Ms Cathy Bennett, Mr. Jim Bennett"
+        verified_against: The 2015 summary, Bennett, Jim (St. Barbe).
+        why: *nl_titles_why
+      - member: derek-bennett
+        title: "Mr."
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga48session2/17-04-05.htm
+        quoted: "Mr. Bernard Davis, Mr. Derek Bennett, Mr. Holloway"
+        verified_against: The 2017 summary, Bennett, Derek (Lewisporte - Twillingate).
+        why: *nl_titles_why
+      - member: sheila-osborne
+        title: "Ms"
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga46session4/11-04-20.htm
+        quoted: "Mr. Pollard, Ms Sheila Osborne, Mr. Peach"
+        verified_against: The 2011 summary, Osborne, Sheila (St. John's West).
+        why: *nl_titles_why
+      - member: tom-osborne
+        title: "Mr."
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga46session4/11-04-20.htm
+        quoted: "Mr. Felix Collins, Mr. Tom Osborne, Mr. Kelly"
+        verified_against: >-
+          The 2011 summary, Osborne, Tom (St. John's South); the Journal of 27
+          October 2011 (HouseBusiness/Journals/ga47session1/11-10-27.pdf):
+          "Mr. Tom Osborne and Mr. Ross Wiseman" (nominations for Speaker).
+        why: *nl_titles_why
+    hansard_labels:
+      - division: nl-47-1-2011-10-27-1
+        position: Nay
+        printed: "Mr. Parsons"
+        member: andrew-parsons
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/11-10-27.htm
+        hansard: https://www.assembly.nl.ca/HouseBusiness/Journals/ga47session1/11-10-27.pdf
+        quoted: "Against: Ms Jones, Mr. Ball, Mr. Andrew Parsons, Mr. Edmunds, Ms Michael, Ms Rogers, Mr. Murphy, Mr. Mitchelmore."
+        why: >-
+          Hansard's list of those against prints "Mr. Parsons" (Andrew and
+          Kevin Parsons both sat; Kevin is named in full among the Ayes). The
+          Journal of the same day records the same division (35-8) with the
+          same eight names against, in the same order, and prints "Mr. Andrew
+          Parsons" (read 7 October 2026).
+    hansard_totals:
+      - division: nl-47-1-2012-06-14-4
+        position: Yea
+        total: 32
+        replaces: 31
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-06-14.htm
+        hansard: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-06-14.htm
+        quoted: "AN HON. MEMBER: (Inaudible). CLERK: Mr. Speaker, the ayes: thirty-two; the nays: eleven."
+        why: >-
+          Third reading of Bill 29 (Access to Information and Protection of
+          Privacy). The Clerk reads "the ayes: thirty-one; the nays: eleven",
+          is interrupted, and reads the count again as thirty-two, before
+          the Speaker speaks; thirty-two names are read in favour. The
+          corrected count is the record's own (read 7 October 2026).
+      - division: nl-47-1-2012-12-12-1
+        position: Nay
+        total: 5
+        replaces: 6
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-12-12.htm
+        hansard: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga47session1/12-12-12.htm
+        quoted: "MR. SPEAKER: I wonder if we could read into the record again, please, the corrected number. CLERK: The ayes: thirty-seven; the nays: five."
+        why: >-
+          The amendment's division reads five names against (Michael,
+          Kirby, Murphy, Mitchelmore, Rogers) and a count of six; on Mr.
+          King's point of order ("you indicated six nays; observation was
+          five") the Speaker has the Clerk read the corrected count into the
+          record before the next division (read 7 October 2026).
+    general_elections:
+      # Read in the Elections NL general election reports. prov_nl.date_terms
+      # ends the term of a member absent from the next year's summary on
+      # this day, and starts the term of one absent from the previous year's
+      # summary (and elected at no by-election) on it. This rule, and keeping
+      # a member the summary omits in their resignation year up to the
+      # vacancy (by_elections), were APPROVED by Christopher, 7 October 2026.
+      - date: 2011-10-11
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2011.pdf
+      - date: 2015-11-30
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2015.pdf
+      - date: 2019-05-16
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2019.pdf
+      - date: 2021-02-13
+        source: https://www.elections.gov.nl.ca/files/resources-pdf-electionreports-genelections-gereport2021.pdf
+        note: the report's polling day; voting was extended by mail and results were declared on 27 March 2021. The House did not sit between.
+      - date: 2025-10-14
+        source: https://www.elections.gov.nl.ca/files/2025-General-Election-Report.pdf
+
+  # Quebec: the 2010 backfill (CI run 37048289773, 2 October 2026), read
+  # again on a scratch store 7 October 2026. The Assembly's own rule for
+  # which figure is the vote: "le secrétaire général communique le résultat
+  # à la présidence, qui le proclame à l'Assemblée. Les noms des
+  # parlementaires ayant voté ainsi que leur position sont consignés au
+  # procès-verbal" (https://www.assnat.qc.ca/fr/patrimoine/lexique/vote-electronique.html;
+  # the same words for the roll call, .../lexique/vote-par-appel-nominal.html).
+  # The PROCLAIMED result, as the Journal des débats records it, decides
+  # between the procès-verbal's body and its annex: a body total that
+  # contradicts it is replaced (hansard_totals, replaces:); an annex list
+  # that contradicts it stays a gap (config/prov_known_gaps.yaml).
+  "qc":
+    misprints:
+      - printed: "Charrette"
+        member: "195"
+        from: 2010-05-18
+        to: 2010-09-29
+        document_prefix: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_
+        documents: >-
+          The procès-verbal annexes of 18 May to 29 September 2010 (39-1),
+          e.g. vote no. 88 (18 May 2010, MediaId ..._34721) and no. 107
+          (29 September 2010, ..._40287), print the bare "Charrette" where
+          the annexes before and after print "Charette". No member named
+          Charrette has ever sat (depcir).
+        verified_against: >-
+          The Journal des débats roll calls of the same sittings name "M.
+          Charette (Deux-Montagnes)" (39-1/journal-debats/20100518/17453.html
+          and 20100929/23027.html), Benoit Charette, PQ, Deux-Montagnes
+          2008-2012.
+        why: >-
+          One misspelling repeated across 14 divisions on seven sittings of
+          2010; a label alias per sitting would be seven entries of the same
+          fact.
+      - printed: "Charrette"
+        member: "195"
+        from: 2021-02-10
+        to: 2021-02-10
+        document_prefix: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_171537
+        documents: >-
+          The procès-verbal of 10 February 2021 (42-1): votes nos. 770-776
+          print "Charrette (CAQ)", vote no. 777 of the same annex "Charette
+          (CAQ)"; no list prints both.
+        verified_against: >-
+          The same annex, and every annex of 2 February to 11 June 2021,
+          print "Charette (CAQ)" for Benoit Charette (CAQ, Deux-Montagnes),
+          the only member of either spelling. The Journal des débats of that
+          period records group votes (leaders answer for their groups) and
+          reads no names, so the annex is the only list.
+        why: "The same misspelling as 2010, in one procès-verbal."
+      - printed: "Charrette"
+        member: "195"
+        from: 2021-06-01
+        to: 2021-06-01
+        document_prefix: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_174791
+        documents: >-
+          The procès-verbal of 1 June 2021 (42-1): votes nos. 1041-1046
+          print "Charrette (CAQ)", nos. 1047-1049 of the same annex
+          "Charette (CAQ)"; no list prints both.
+        verified_against: "As for 10 February 2021."
+        why: "The same misspelling, in one procès-verbal."
+    # list_positions (Christopher, 7 October 2026): a list the annex prints
+    # under the wrong heading, for ONE division, while it still prints that
+    # many names there; the printed heading stays in tally_note.
+    list_positions:
+      - division: qc-41-1-2017-12-07-404
+        printed_position: Nay
+        position: Abstain
+        count: 20
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_134619&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20171207/210373.html
+        quoted: "Maintenant, que les députés contre cette motion veuillent bien se lever. Y a-t-il des abstentions? Le Secrétaire adjoint : M. Legault (L'Assomption), ... M. Spénard (Beauce-Nord). ... Le Secrétaire : Pour : 89 Contre : 0 Abstentions : 20"
+        why: >-
+          The annex heads the 20 CAQ members "CONTRE - 20"; the PV body says
+          Contre : 0, Abstentions : 20. In the Journal the chair calls those
+          against and asks for abstentions in one breath, the Secretary
+          reads the same 20 CAQ members, and proclaims 89-0-20.
+      - division: qc-41-1-2017-12-07-405
+        printed_position: Nay
+        position: Abstain
+        count: 20
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_134619&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20171207/210373.html
+        quoted: "Maintenant, que les députés contre cette motion veuillent bien se lever. Et les députés qui s'abstiennent. Le Secrétaire adjoint : M. Legault (L'Assomption), ... M. Spénard (Beauce-Nord). ... Le Secrétaire : Pour : 89 Contre : 0 Abstentions : 20"
+        why: >-
+          The second vote of the day, printed "Identique au vote n° 404" in
+          the annex; the Journal's second roll call reads the same 20 CAQ
+          members as abstaining and proclaims 89-0-20.
+    bill_corrections:
+      - division: qc-42-2-2021-11-30-116
+        printed_bill: "192"
+        bill: "219"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_178767&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        verified_against: >-
+          The bill page of private bill 219 (projet-loi-219-42-1.html, Loi
+          concernant un immeuble situé sur la rue University à Montréal (site
+          de l'hôpital Royal Victoria)) dates its principle to 30 November 2021,
+          "Vote : Pour 98, Contre 17", this division's totals; Bill 192 (the
+          members' oath) has no stage that day.
+        why: >-
+          The PV item reads "le principe du projet de loi d'intérêt privé
+          n° 192, Loi concernant un immeuble situé sur la rue University ..."
+          (and the same for its adoption): Bill 219's title under the number
+          192.
+      - division: qc-42-2-2021-11-30-117
+        printed_bill: "192"
+        bill: "219"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_178767&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        verified_against: >-
+          The bill page of private bill 219 (projet-loi-219-42-1.html, Loi
+          concernant un immeuble situé sur la rue University à Montréal (site
+          de l'hôpital Royal Victoria)) dates its adoption to 30 November 2021,
+          "Vote : Pour 98, Contre 17", this division's totals; Bill 192 (the
+          members' oath) has no stage that day.
+        why: >-
+          The PV item reads "le principe du projet de loi d'intérêt privé
+          n° 192, Loi concernant un immeuble situé sur la rue University ..."
+          (and the same for its adoption): Bill 219's title under the number
+          192.
+    hansard_totals:
+      - division: qc-43-1-2024-09-26-311
+        position: Yea
+        total: 32
+        replaces: 28
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_203215&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/43-1/journal-debats/20240926/389187.html
+        quoted: "Le Secrétaire : Pour : 32 Contre : 72 Abstentions : 1 Le Vice-Président (M. Lévesque) : C'est ce que j'avais noté. Alors, la motion est rejetée."
+        why: >-
+          Vote no. 311 is the amendment of the member for Jean-Talon to the
+          Northvolt motion. The PV body prints "Pour : 28 Contre : 72
+          Abstention : 5", the figures of the main motion (no. 312) that
+          followed; the annex lists 32 Pour, 72 Contre, 1 Abstention. The
+          Journal records the Secretary General's corrected announcement
+          for the amendment, 32-72-1, proclaimed by the chair; the main
+          motion's 28-72-5 is announced separately after it.
+      - division: qc-43-1-2024-09-26-311
+        position: Abstain
+        total: 1
+        replaces: 5
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_203215&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/43-1/journal-debats/20240926/389187.html
+        quoted: "Le Secrétaire : Pour : 32 Contre : 72 Abstentions : 1"
+        why: "The same division and announcement as the Yea entry above."
+    # Bare surnames the annex prints while a homonym sits, settled by the
+    # Journal des debats roll call of the SAME division (the Secretary reads
+    # every member by surname and riding before the electronic vote of
+    # September 2023; during the 2020-2021 group votes nobody is read, and
+    # those stay gaps). Generated from the Journal pages fetched 7 October
+    # 2026; each quoted roll call was read.
+    hansard_labels:
+      - division: qc-41-1-2014-10-21-40
+        position: Yea
+        printed: "Paradis (PLQ)"
+        member: "1113"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_84833&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20141021/118177.html"
+        quoted: "M. Paradis (Brome-Missisquoi)"
+        why: "Bare 'Paradis (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (78-25-0) names only Pierre Paradis."
+      - division: qc-41-1-2014-10-22-41
+        position: Nay
+        printed: "Paradis (PLQ)"
+        member: "1113"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_84973&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20141022/118285.html"
+        quoted: "M. Paradis (Brome-Missisquoi)"
+        why: "Bare 'Paradis (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (46-56-0) names only Pierre Paradis."
+      - division: qc-41-1-2015-09-15-129
+        position: Yea
+        printed: "Blais (PLQ)"
+        member: "15365"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_107125&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20150915/153331.html"
+        quoted: "M. Blais (Charlesbourg)"
+        why: "Bare 'Blais (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (116-0-0) names only François Blais."
+      - division: qc-41-1-2015-11-10-146
+        position: Nay
+        printed: "Ouellet (PQ)"
+        member: "8431"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_109267&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20151110/158391.html"
+        quoted: "Mme Ouellet (Vachon)"
+        why: "Bare 'Ouellet (PQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (63-48-0) names only Martine Ouellet."
+      - division: qc-41-1-2015-11-11-147
+        position: Nay
+        printed: "Ouellet (PQ)"
+        member: "8431"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_109269&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20151111/158493.html"
+        quoted: "Mme Ouellet (Vachon)"
+        why: "Bare 'Ouellet (PQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (74-31-0) names only Martine Ouellet."
+      - division: qc-41-1-2015-11-11-148
+        position: Yea
+        printed: "Ouellet (PQ)"
+        member: "8431"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_109269&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20151111/158493.html"
+        quoted: "Mme Ouellet (Vachon)"
+        why: "Bare 'Ouellet (PQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (27-77-0) names only Martine Ouellet."
+      - division: qc-41-1-2016-12-07-270
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126373&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161207/186553.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: "Bare 'Fournier (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (108-0-0) names only Jean-Marc Fournier."
+      - division: qc-41-1-2016-12-08-271
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126375&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161208/186697.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: "Bare 'Fournier (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (107-0-0) names only Jean-Marc Fournier."
+      - division: qc-41-1-2016-12-09-272
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126377&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187037.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: "Bare 'Fournier (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (100-2-0) names only Jean-Marc Fournier."
+      - division: qc-41-1-2016-12-09-273
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126377&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187037.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: "Bare 'Fournier (PLQ)' while 2 members of that surname sit; the Journal des debats roll call with this division's totals (100-2-0) names only Jean-Marc Fournier."
+      # Read 8 October 2026: the five the 7 October generator missed. Its
+      # pattern wanted 'Pour :' and 21 October 2014 prints 'Alors, pour :';
+      # the 9 December 2016 extraordinary sitting has its own Journal page.
+      - division: qc-41-1-2014-10-21-39
+        position: Yea
+        printed: "Paradis (PLQ)"
+        member: "1113"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_84833&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20141021/118177.html"
+        quoted: "M. Paradis (Brome-Missisquoi)"
+        why: >-
+          Deferred vote on Bill 2's adoption. The Journal's roll call ("que les députés en faveur de cette
+          motion veuillent bien se lever. La Secrétaire adjointe : M. Couillard (Roberval), M. Fournier
+          (Saint-Laurent), Mme Thériault (Anjou—Louis-Riel), M. Paradis (Brome-Missisquoi), ...") ends
+          "Alors, pour : 90 Contre : 20 Abstentions : 0", this division's totals; Pierre Paradis is the
+          only Paradis among those for, François Paradis (Lévis, CAQ) is in no PLQ list.
+      - division: qc-41-1-2016-12-09-274
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126657&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: >-
+          Extraordinary sitting, the motion fixing the time frame (PV: "la motion fixant le cadre temporel
+          est mise aux voix"). The Journal's roll call reads "M. Fournier (Saint-Laurent)" first among
+          those for and ends "La Secrétaire : Pour : 58 Contre : 35 Abstentions : 0"; Catherine Fournier
+          (Marie-Victorin, PQ) is read in neither list.
+      - division: qc-41-1-2016-12-09-275
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126657&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        quoted: "Le Président : Même vote. Alors, la motion est adoptée, et on inscrit le même vote que nous avions précédemment."
+        why: >-
+          The exceptional legislative procedure motion, put straight after vote 274. The Journal has the
+          chair record it as the same vote as the roll call just read (vote 274, 58-35, which names
+          "M. Fournier (Saint-Laurent)" among those for); the PV prints 58-35 again.
+      - division: qc-41-1-2016-12-09-276
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126657&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: >-
+          Bill 106, the amended report. The Journal's roll call ("La Secrétaire adjointe : M. Fournier
+          (Saint-Laurent), M. Paradis (Brome-Missisquoi), ...") ends "Pour : 60 Contre : 35 Abstentions :
+          0", this division's totals; no other Fournier is read.
+      - division: qc-41-1-2016-12-09-277
+        position: Yea
+        printed: "Fournier (PLQ)"
+        member: "3233"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_126657&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20161209/187131.html"
+        quoted: "M. Fournier (Saint-Laurent)"
+        why: >-
+          Bill 106, adoption. The Journal's roll call ("La Secrétaire adjointe : M. Couillard (Roberval),
+          M. Fournier (Saint-Laurent), ...") ends "Pour : 62 Contre : 38 Abstentions : 0", this
+          division's totals; no other Fournier is read.
+      # BY EXCLUSION (Christopher, 8 October 2026: "Place Tardif."). The
+      # annex prints the riding blank and the group vote has no named roll
+      # call; the only other CAQ Tardif sitting is printed with her riding in
+      # the same list, so the label is Denis Tardif. Applies only while she is
+      # placed in this division and he is not (pn.ReviewedDivisions.settle).
+      - division: qc-42-2-2022-02-09-225
+        position: Yea
+        printed: "Tardif (CAQ) ()"
+        member: "17863"
+        by_exclusion: ["18071"]
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_180159&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-2/journal-debats/20220209/317639.html"
+        quoted: "Tardif (CAQ) (Laviolette–Saint-Maurice) ... Tardif (CAQ) ( )"
+        why: >-
+          Vote 225 (98-0-17) prints two CAQ Tardifs among those for: Marie-Louise
+          Tardif with her riding, and one with the riding blank. Two CAQ
+          Tardifs sat (Laviolette–Saint-Maurice, 18071; Rivière-du-Loup–Témiscouata,
+          17863), and the day's three other votes print both with ridings. The
+          Journal reads no names: "j'invite maintenant les leaders
+          parlementaires à m'indiquer le vote de leurs groupes". Placed as
+          Denis Tardif by exclusion, by Christopher's decision of 8 October 2026.
+      # MARILYNE PICARD, FROM THE CHAIR (Christopher, 9 October 2026: "place
+      # Marilyne Picard"). The six group votes of 8 December 2020 on Jennifer
+      # Maccarone's amendments to Bill 70 (conversion therapy) print a bare
+      # "Picard (CAQ)" among those against; two CAQ Picards sat (Soulanges,
+      # 17891; Chutes-de-la-Chaudière, 655), and the annex prints the riding
+      # whenever both are listed (1,578 votes "Picard (CAQ) (Soulanges)"). The
+      # Journal shows Marc Picard, first Vice-President, IN THE CHAIR for all
+      # six ("Le Vice-Président (M. Picard)"), and the chair does not vote:
+      # across the 42nd Legislature Marc Picard has 4 recorded votes and
+      # Marilyne Picard 1,578. So the Picard voting is Marilyne Picard. The
+      # same evidence holds for each vote; only 650 is on our ground.
+      - division: qc-42-1-2020-12-08-650
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, le premier amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 1 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
+      - division: qc-42-1-2020-12-08-651
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, le deuxième amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 2 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
+      - division: qc-42-1-2020-12-08-652
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, ce troisième amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 3 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
+      - division: qc-42-1-2020-12-08-653
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, le quatrième amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 4 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
+      - division: qc-42-1-2020-12-08-654
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, ce cinquième amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 5 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
+      - division: qc-42-1-2020-12-08-655
+        position: Nay
+        printed: "Picard (CAQ)"
+        member: "17891"
+        document: "https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_170149&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz"
+        hansard: "https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20201208/285585.html"
+        quoted: "Le Vice-Président (M. Picard) : Je vous remercie. En conséquence, le sixième amendement présenté par Mme la députée de Westmount—Saint-Louis est rejeté."
+        why: >-
+          Maccarone amendment 6 of 6 (47-73), a group vote with no roll call. Marc Picard
+          (655) was presiding when it was put and declared; the chair does not vote, so the
+          bare "Picard (CAQ)" against is Marilyne Picard (Soulanges).
+      - division: qc-42-1-2019-03-21-41
+        position: Nay
+        printed: "Proulx (CAQ)"
+        member: "17915"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_143663&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20190321/237879.html
+        quoted: "Mme Proulx (Côte-du-Sud)"
+        why: >-
+          The annex prints "Proulx (CAQ) (Berthier)" and a bare "Proulx (CAQ)" in the same division.
+          The Journal's roll call with this division's totals (39-67-0)
+          reads both homonyms by riding, Mme Proulx (Côte-du-Sud) among those against: the bare
+          label is Marie-Eve Proulx.
+      - division: qc-42-1-2019-10-08-191
+        position: Yea
+        printed: "Proulx (CAQ)"
+        member: "17837"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_151249&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20191008/254021.html
+        quoted: "Mme Proulx (Berthier)"
+        why: >-
+          The annex prints "Proulx (CAQ) (Côte-du-Sud)" and a bare "Proulx (CAQ)" in the same division.
+          The Journal's roll call with this division's totals (111-0-0)
+          reads both homonyms by riding, Mme Proulx (Berthier) among those for: the bare
+          label is Caroline Proulx.
+      - division: qc-42-1-2019-10-31-232
+        position: Nay
+        printed: "Proulx (CAQ)"
+        member: "17915"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_151943&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/42-1/journal-debats/20191031/256273.html
+        quoted: "Mme Proulx (Côte-du-Sud)"
+        why: >-
+          The annex prints "Proulx (CAQ) (Berthier)" and a bare "Proulx (CAQ)" in the same division.
+          The Journal's roll call with this division's totals (40-65-0)
+          reads both homonyms by riding, Mme Proulx (Côte-du-Sud) among those against: the bare
+          label is Marie-Eve Proulx.
+      - division: qc-41-1-2018-06-14-488
+        position: Abstain
+        printed: "Ouellet (IND)"
+        member: "8431"
+        document: https://www.assnat.qc.ca/Media/Process.aspx?MediaId=ANQ.Vigie.Bll.DocumentGenerique_139461&process=Default&token=ZyMoxNwUn8ikQ+TRKYwPCjWrKwg+vIv9rjij7p3xLGTZDmLVSmJLoqe/vG7/YWzz
+        hansard: https://www.assnat.qc.ca/fr/travaux-parlementaires/assemblee-nationale/41-1/journal-debats/20180614/223669.html
+        quoted: "Mme Ouellet (Vachon)"
+        why: >-
+          The annex prints "Ouellet (PQ) (René-Lévesque)" and a bare "Ouellet (IND)" in the same division.
+          The Journal's roll call with this division's totals (45-60-2)
+          reads both homonyms by riding, Mme Ouellet (Vachon) among those abstaining: the bare
+          label is Martine Ouellet.
+  "sk":
+    label_aliases:
+      - printed: "Barrett Kropf"
+        member: "barret-kropf"
+        date: 2025-05-05
+        document: "https://docs.legassembly.sk.ca/legdocs/Assembly/Minutes/30L1S/20250505Minutes-HTML.htm"
+        verified_against: >-
+          The same day's Minutes print "Barret Kropf" in the other division's yeas; the 30th
+          Legislature's Hansard covers list one Kropf (Barret Kropf, Dakota-Arm River) and no
+          Barrett. Read 9 Oct 2026.
+        why: >-
+          The second division of 5 May 2025 prints "Barrett Kropf" among the yeas. It was the
+          division's only unresolved label (Christopher, 9 Oct 2026: "Something else must need
+          doing to cover gaps").

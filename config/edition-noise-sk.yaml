@@ -1,0 +1,29 @@
+# Slovakia edition noise filters: free and deterministic, no model (X16).
+# Read by src/noise.py for src/country_edition.py (adapter src/editions/sk.py).
+# Hand-edited; the format is documented in src/noise.py. A WATCHED ITEM IS
+# NEVER FILTERED. Patterns match text folded the way src/filter.py folds it:
+# lower case, accents stripped.
+#
+# A vote inherits its print's areas, so every procedural vote on a print on
+# our ground would otherwise be listed with it. Measured on the scoping
+# store of 9 October 2026 (term 9: 4,606 votes, 157 on our ground under
+# taxonomy-sk).
+
+procedural_votes:
+  # Sending a bill to committees and setting their deadline (11 votes on
+  # our ground), shortening the deadline for amendments (4), and moving
+  # straight to the third reading (7). The decisions that matter on the same
+  # print stay: the first-reading vote, the amendments, the vote as a whole.
+  - '\bhlasovanie o pridelen\w* navrhu zakona vybor\w*'
+  - '\bhlasovanie o skrateni lehoty\b'
+  - '\bhlasovanie o pristupeni k tretiemu citaniu\b'
+  # The quorum check and the order of business.
+  - '^\W*prezentacia\b'
+  - '\bhlasovanie o (navrhu )?(programe?|zmene programu|doplneni programu)\b'
+
+# The lead (and nothing else): a tier-1 item that is not watched leads the
+# edition only with a tier-1 term in its own title, or two distinct terms in
+# shown areas.
+alert:
+  title_tier1: true
+  distinct_terms: 2

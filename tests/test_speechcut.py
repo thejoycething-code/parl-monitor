@@ -205,3 +205,13 @@ class TailAfterHeadTests(unittest.TestCase):
         self.assertIsNotNone(r1); self.assertIsNotNone(r2)
         self.assertGreater(end, start)
         self.assertGreater(end, words[len(seq) - 3][1])           # the SECOND closing, at the true end
+
+
+class BrandCaptionTests(unittest.TestCase):
+    def test_horizontal_captions_keep_to_ten_words_a_line(self):
+        text = ("When a newborn is handed over not because of a tragedy, but because that separation "
+                "was arranged before the child was even conceived, that child has become a commodity.")
+        for card in sc.chunk_caption(text, max_chars=spc.CAPTION_MAX_CHARS, max_words=spc.CAPTION_MAX_WORDS):
+            self.assertLessEqual(len(card), 2)
+            for line in card:
+                self.assertLessEqual(len(line.split()), 10, line)

@@ -25,7 +25,7 @@ on:
         # -- plus the 44th Parliament's divisions, and the Gazette since
         # the 45th Parliament opened. A run cut short by its budget resumes
         # where it stopped when dispatched again.
-        description: "Also run the one-off backfill (announce it first)"
+        description: "Also run the one-off backfill (announce it first). Backfills run on the Mac Mini first: jobs/ca-backfill.sh"
         type: boolean
         default: false
       # BACK TO 2020 (26 September 2026). Earlier sessions are whole
@@ -85,6 +85,16 @@ on:
         description: "Repair members' names/parties/ridings from the rosters (six pages)"
         type: boolean
         default: false
+      # THE FEDERAL BACKFILLS TO 2010 (Christopher, 2 October 2026: "Go ahead
+      # with all four"). One input naming its parts, any of: senate (floor
+      # debates since 40-3, oldest first), committees (the key nine's
+      # evidence, 44-1 back to 40-3), courts (SCC judgments by year index
+      # since 2010). Each part drains on a 45-minute clock and resumes on the
+      # next dispatch; dispatch ONE part a run, as announced, from CI.
+      federal_backfill:
+        description: "Federal backfill parts to run: senate committees courts (one a run)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -101,10 +111,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The Mac Mini runs this first, Tuesdays 11:00 London (tools/mini_run.sh ca-weekly;
+  # 9 October 2026). Every cron here is the backup: skipped while the Mini
+  # runs it and for 20 hours after.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: CA_WEEKLY
+      cover-hours: 20
+
   # THE SECOND SLOT IS A RETRY, NOT A SECOND PASS -- copied from de-weekly.yml.
   # A skipped job bills nothing; an in-progress run counts as done; a hand
   # dispatch is never gated.
   gate:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
@@ -143,7 +164,7 @@ jobs:
     # 60 for the weekly since the judge step (27 September 2026): collection
     # takes ~5 minutes and the judge's clock is 20 by default, 45 at most, and
     # a job killed by its timeout never reaches "Publish the store".
-    timeout-minutes: ${{ (inputs.older_sessions != '' || inputs.gazette_since != '') && 240 || ((inputs.backfill || inputs.retag || inputs.rollcall_sessions != '') && 120 || 60) }}
+    timeout-minutes: ${{ (inputs.older_sessions != '' || inputs.gazette_since != '') && 240 || ((inputs.backfill || inputs.retag || inputs.rollcall_sessions != '' || inputs.federal_backfill != '') && 120 || 90) }}
     env:
       # Unbuffered, or a step killed mid-run leaves an empty log (the EU
       # weekly's 30-minute kill read as an empty log, not a timeout).
@@ -192,6 +213,24 @@ jobs:
         # session's seed (tools/ca_hansard.py SEED_SITTING), never at 1.
         if: always() && steps.fetch.outcome == 'success'
         run: python3 tools/ca_hansard.py --session 45-1 | tee /tmp/ca-hansard.log
+      - name: Senate debates since the last sitting read
+        # 3 October 2026 (tools/ca_senate_debates.py): floor speeches on our
+        # ground, chamber='senate'. After ca_senate, which stores the
+        # senators the speeches resolve against, and after the bills.
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/ca_senate_debates.py --session 45-1 --budget-seconds 900 | tee /tmp/ca-senate-debates.log
+      - name: Committee evidence (the key nine, SDIR included; others by study title)
+        # 3 October 2026 (tools/ca_committees.py). Members' interventions to
+        # ca_speeches (forum='committee'); witnesses only to ca_testimony.
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/ca_committees.py --session 45-1 --budget-seconds 1200 | tee /tmp/ca-committees.log
+      - name: Supreme Court judgments and leave to appeal (feeds)
+        # 3 October 2026 (tools/ca_courts.py). Context only: never places
+        # anyone. Lexum's bot check (Norma) blocked the laptop's VPN after
+        # ~200 pages; the collector stops at the first challenge with ONE
+        # gap, waits 3 s between requests and reads at most 60 pages a run.
+        if: always() && steps.fetch.outcome == 'success'
+        run: python3 tools/ca_courts.py | tee /tmp/ca-courts.log
       - name: Petitions (owed a refresh, newly presented, newly open)
         # 300 page fetches: the open e-petition probe alone is ~190 numbers
         # a week, nearly all of them empty 0-byte answers.
@@ -270,6 +309,33 @@ jobs:
           set -f   # the globs are for SQLite, not the shell
           python3 tools/ca_gazette.py --since "$SINCE" --budget-seconds 3000 ${FORGET:+--forget $FORGET} | tee /tmp/ca-old-gazette.log
 
+      # --- The federal backfills to 2010, only when named at dispatch --------
+      # 2,700 s each, so one part plus the weekly and the judge ends inside
+      # the 120-minute wall. Each tool skips what it has read, so the next
+      # dispatch carries on; a run that reads nothing new says so in its
+      # summary line ("0 sitting(s) read", "0 meeting(s) read", "0
+      # judgment(s) read"), which is how the chain knows a part is done.
+      - name: "Federal backfill: Senate debates since 40-3"
+        if: always() && steps.fetch.outcome == 'success' && contains(inputs.federal_backfill, 'senate')
+        run: python3 tools/ca_senate_debates.py --backfill --limit 400 --budget-seconds 2700 | tee /tmp/ca-fb-senate.log
+      - name: "Federal backfill: the key nine committees, 44-1 back to 40-3"
+        if: always() && steps.fetch.outcome == 'success' && contains(inputs.federal_backfill, 'committees')
+        run: |
+          # One clock across the sessions, newest first: 44-1 is the one a
+          # campaigner is likeliest to need, and a run cut short leaves the
+          # oldest for the next dispatch.
+          rc=0; end=$((SECONDS + 2700))
+          for s in 44-1 43-2 43-1 42-1 41-2 41-1 40-3; do
+            left=$((end - SECONDS)); [ "$left" -lt 180 ] && { echo "  clock spent before $s; the next dispatch carries on"; break; }
+            python3 tools/ca_committees.py --session "$s" --limit 400 --budget-seconds "$left" | tee -a /tmp/ca-fb-committees.log || rc=1
+          done
+          exit $rc
+      - name: "Federal backfill: Supreme Court judgments since 2010"
+        # Lexum's Norma CAPTCHA stops the tool at the first challenge and it
+        # is never worked around: 3 s a request, 200 item pages a run.
+        if: always() && steps.fetch.outcome == 'success' && contains(inputs.federal_backfill, 'courts')
+        run: python3 tools/ca_courts.py --backfill --since 2010 --limit 200 --budget-seconds 2700 | tee /tmp/ca-fb-courts.log
+
       - name: Refresh members from the rosters (a repair)
         if: always() && steps.fetch.outcome == 'success' && inputs.refresh_members
         run: python3 tools/ca_hansard.py --refresh-members | tee /tmp/ca-members.log
@@ -291,13 +357,44 @@ jobs:
           SECS="${{ inputs.judge_seconds }}"; SECS="${SECS:-1200}"
           if [ "$SECS" -gt 2700 ]; then SECS=2700; fi
           python3 tools/ca_triage.py --limit 2000 --budget-seconds "$SECS" | tee /tmp/ca-triage.log
+      - name: The 5CA sheets (offline, from the store just collected)
+        # tools/ca_5ca.py --all, as jobs/ca-weekly.sh runs it: only SIGNED
+        # readings in config/ca_stance.yaml place anyone. A failure is a gap;
+        # last week's sheets stand. The sheets are committed with data/.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          python3 tools/ca_5ca.py --all | tee /tmp/ca-5ca.log \
+            || echo "  [gap] the 5CA sheets failed; last week's stand" | tee -a /tmp/ca-5ca.log
+      - name: Write secrets file
+        # The DM goes to Christopher alone (9 October 2026), as for the US and
+        # Irish editions. Nothing posts to a channel.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          cat > config/secrets.yaml <<EOF
+          slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
+          slack_dm_user_id: U05LJP0BT61
+          EOF
+      - name: The edition, and its DM to Christopher
+        # AFTER the collectors and the judge (tools/ca_monitor.py, 9 October
+        # 2026). SPEAKS ONCE A DAY, as jobs/ca-weekly.sh does: an edition
+        # already committed for today means the Mini (or an earlier run) has
+        # sent the DM, so it is rewritten, not resent.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          if git ls-files --error-unmatch "editions/ca-monitor-$TODAY.md" >/dev/null 2>&1; then
+            echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+            python3 tools/ca_monitor.py --edition | tee /tmp/ca-monitor.log
+          else
+            python3 tools/ca_monitor.py --edition --dm | tee /tmp/ca-monitor.log
+          fi
       - name: Health summary
         if: always()
         run: |
           {
             echo "## Canada weekly"
             echo '```'
-            grep -hE "ca-rollcalls:|ca-senate:|ca-hansard:|ca-petitions:|ca-gazette:|ca-triage:|ca-retag:|backfill|\[gap\]" \
+            grep -hE "edition:|dm:|ca-rollcalls:|ca-senate:|ca-senate-debates:|ca-committees:|ca-courts:|ca-hansard:|ca-petitions:|ca-gazette:|ca-triage:|ca-retag:|backfill|\[gap\]" \
               /tmp/ca-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/ca-*.log 2>/dev/null \
@@ -328,13 +425,19 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/
+          git add data/ editions/
           git diff --cached --quiet || git commit -m "Canada weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
-          for attempt in 1 2 3; do
-            git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)" || true
-            git push && break
-            echo "push rejected (attempt $attempt); retrying"
-            sleep $((attempt * 5))
+          # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
+          # jittered waits, and never retry while stuck mid-rebase.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)"; then
+              git push && break
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            echo "push not landed (attempt $attempt); retrying"
+            sleep $(( attempt * 10 + RANDOM % 10 ))
           done
           # A loop that falls out without a successful push must FAIL the
           # step: "for attempt ... done" with no check is how the 6 September

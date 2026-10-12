@@ -1,0 +1,44 @@
+# Guatemala watchlist: initiatives that lend areas whatever the taxonomy says.
+# KEYED BY INITIATIVE NUMBER, never title (src/gt_store.py). The Congreso
+# numbers initiatives in one sequence across legislatures, so the number is
+# unique on its own. A vote names its initiative only by number, so an entry
+# here classifies every vote on that bill, amendments and chapters included.
+#
+# Areas follow config/taxonomy.yaml's numbering. Proposed 9 October 2026 for
+# Christopher's review (docs/guatemala-scope.md, "Waiting on Chris").
+initiatives:
+  "5272":
+    areas: [1, 5, 6, 9]
+    why: >-
+      Ley para la Protección de la Vida y la Familia. Registered 2017; passed
+      third debate and final wording on 8 March 2022 as Decreto 18-2022
+      (votes gt-34598 to gt-34613, session 41013); shelved on 15 March 2022
+      after the President announced a veto. The ground example for the edition.
+  "5395":
+    areas: [5]
+    why: >-
+      Ley de Identidad de Género (gender self-identification). Opposed by the
+      2022 marches for life and the family. Reported number; confirm against
+      the Congreso's own record.
+  "5376":
+    areas: [1]
+    why: >-
+      Protección integral, acceso a la justicia y reparación para niñas y
+      adolescentes víctimas de violencia sexual; contested as opening abortion
+      access for minors. Reported number; confirm against the Congreso's record.
+  "6453":
+    areas: [6]
+    why: >-
+      Ley de Educación Sexual para la Protección de la Niñez y Adolescencia
+      (plenary took notice 12 November 2024).
+  "6607":
+    areas: [8]
+    why: >-
+      Day of the Bible, first Saturday of August (plenary 12 August 2025;
+      voted on in the X legislature).
+  "6278":
+    areas: [1, 9]
+    why: >-
+      Reform of Decreto 9-2022, which declares 9 March the Día por la Vida y
+      la Familia (plenary 6 September 2023). The listing truncates the
+      summary; the day's name is inferred, confirm.

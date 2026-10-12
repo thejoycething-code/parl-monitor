@@ -1,0 +1,106 @@
+{
+"data": {
+"allSessions": {
+"nodes": [
+{
+"id": 63,
+"number": 1,
+"annotation": "st",
+"startDate": "2020-12-07",
+"endDate": "2021-04-12",
+"parliamentByParliamentId": {
+"id": 42,
+"number": 42,
+"annotation": "nd",
+"startDate": "2020-12-07",
+"endDate": "2024-09-21"
+}
+},
+{
+"id": 64,
+"number": 2,
+"annotation": "nd",
+"startDate": "2021-04-12",
+"endDate": "2022-02-08",
+"parliamentByParliamentId": {
+"id": 42,
+"number": 42,
+"annotation": "nd",
+"startDate": "2020-12-07",
+"endDate": "2024-09-21"
+}
+},
+{
+"id": 65,
+"number": 3,
+"annotation": "rd",
+"startDate": "2022-02-08",
+"endDate": "2023-02-06",
+"parliamentByParliamentId": {
+"id": 42,
+"number": 42,
+"annotation": "nd",
+"startDate": "2020-12-07",
+"endDate": "2024-09-21"
+}
+},
+{
+"id": 66,
+"number": 4,
+"annotation": "th",
+"startDate": "2023-02-06",
+"endDate": "2024-02-20",
+"parliamentByParliamentId": {
+"id": 42,
+"number": 42,
+"annotation": "nd",
+"startDate": "2020-12-07",
+"endDate": "2024-09-21"
+}
+},
+{
+"id": 172,
+"number": 5,
+"annotation": "th",
+"startDate": "2024-02-20",
+"endDate": "2024-09-21",
+"parliamentByParliamentId": {
+"id": 42,
+"number": 42,
+"annotation": "nd",
+"startDate": "2020-12-07",
+"endDate": "2024-09-21"
+}
+},
+{
+"id": 173,
+"number": 1,
+"annotation": "st",
+"startDate": "2025-02-18",
+"endDate": "2026-02-12",
+"parliamentByParliamentId": {
+"id": 43,
+"number": 43,
+"annotation": "rd",
+"startDate": "2025-02-18",
+"endDate": "2026-09-22"
+}
+},
+{
+"id": 206,
+"number": 2,
+"annotation": "nd",
+"startDate": "2026-02-12",
+"endDate": "2026-09-22",
+"parliamentByParliamentId": {
+"id": 43,
+"number": 43,
+"annotation": "rd",
+"startDate": "2025-02-18",
+"endDate": "2026-09-22"
+}
+}
+]
+}
+}
+}

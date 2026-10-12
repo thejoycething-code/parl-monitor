@@ -1,0 +1,98 @@
+name: Ireland division watch
+
+# The same-day vote brief for the Oireachtas (Christopher, 9 October 2026:
+# "start the same-day vote briefs"; parity with division-watch.yml). For each
+# new Dail, Seanad or committee division on our ground:
+# data/briefs/ie-division-<key>.md and one DM to Christopher
+# (tools/ie_division_brief.py, src/vote_brief.py). Speaks once per division.
+# Touches no store.
+#
+# MEASURED (9 October 2026, from the debate transcripts): the Dail divides
+# Tuesday to Thursday; Wednesday's deferred divisions fall between 19:00 and
+# 19:40 (30 September, 23 September), late nights run to 22:00-23:30 (Budget
+# day 6 October, 8 July). The API carries no per-division timestamp, so its
+# lag could not be timed on a non-sitting Friday; Thursday 8 October's record
+# was up by 10:04 UTC the next morning at the latest. Hence two slots: 22:50
+# London Tue-Thu, the same evening, and 07:50 London Wed-Fri, the next
+# morning. Every brief records when it was generated, so the lag is measured
+# from the first weeks of briefs.
+on:
+  schedule:
+    - cron: "50 21 * * 2-4"        # 22:50 London (BST), the Mini first
+    - cron: "50 6 * * 3-5"         # 07:50 London (BST), the Mini first
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "Look back to this date (YYYY-MM-DD; blank = the tool's window)"
+        required: false
+        default: ""
+      force:
+        description: "Rewrite and resend briefs that already exist"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+# Commits the raw sidecar and briefs alongside the workflows that publish state.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  # The Mac Mini runs this at the London hours above (tools/mini_run.sh
+  # ie-division-watch); these crons are the backup and skip a slot the Mini
+  # already ran.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: IE_DIVISION_WATCH
+
+  brief:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml
+      - name: Brief new divisions, publish the raw archive
+        # The job script is shared with the Mac Mini runner.
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DIVISION_SINCE: ${{ inputs.since }}
+          DIVISION_FORCE: ${{ inputs.force }}
+        run: |
+          bash jobs/ie-division-watch.sh | tee /tmp/ie-division-watch.log
+          { echo "## Ireland division watch"; echo '```'; cat /tmp/ie-division-watch.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit briefs and archived payloads
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "bot@parl-monitor.invalid"
+          git add data/raw.json data/briefs
+          git diff --cached --quiet && exit 0
+          git commit -m "Ireland division watch $(date -u +%FT%H:%MZ)"
+          # Hardened loop (docs/mac-mini-runner.md, step 4): never retry
+          # while stuck mid-rebase, and wait long enough to lose a race once.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin main; then
+              git push origin main && exit 0
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            sleep $(( attempt * 10 + RANDOM % 10 ))
+          done
+          echo "push failed six times"; exit 1

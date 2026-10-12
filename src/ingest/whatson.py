@@ -90,9 +90,15 @@ SEQUENCED = "after other business"
 
 
 def _text(value):
-    """Some fields arrive as dicts ({'Name': ...}) rather than strings."""
+    """Some fields arrive as dicts ({'Name': ...}) rather than strings.
+
+    Committee arrives as {'Id': 851, 'Description': 'Draft Conversion
+    Practices Bill (Joint Committee)', ...}, with no Name: reading only Name
+    left every committee event without its committee, so the filter never
+    saw it (found 2026-10-12: the joint committee met on 12 and 15 Oct and
+    neither meeting reached the edition)."""
     if isinstance(value, dict):
-        return value.get("Name") or value.get("name") or ""
+        return value.get("Name") or value.get("name") or value.get("Description") or ""
     return value if isinstance(value, str) else ""
 
 
@@ -169,3 +175,72 @@ def return_dates(events):
         if event.house in ("Commons", "Lords") and event.house not in out and event.start_date:
             out[event.house] = event.start_date
     return out
+
+
+# -- Announced business (2026-10-12) -----------------------------------------
+# The Week ahead table holds only events the taxonomy matched, so business on
+# our ground whose TITLE says nothing taxonomy-shaped never reached the
+# edition. The 5 Oct edition missed both the Commons general debate on Baby
+# Loss Awareness Week and the Westminster Hall petition debate on rejoining
+# the EU (12 Oct), though both were announced on 10 Sep and What's On had
+# them. The announced list shows the week's headline business regardless of
+# keywords, so the reader sees everything announced and judges for themself.
+
+# (house, category) pairs that are headline business. Questions, statements,
+# introductions, adjournments, procedural motions and committee meetings are
+# left out: either they are routine or the existing feeds already cover them.
+HEADLINE = {
+    ("Commons", "General debate"), ("Commons", "Legislation"),
+    ("Commons", "Westminster Hall debate"), ("Commons", "Private Members' Bills"),
+    ("Commons", "Ten Minute Rule Motion"), ("Commons", "Debate"),
+    ("Commons", "Backbench Business"),
+    ("Lords", "Legislation"), ("Lords", "Debate"), ("Lords", "Short debate"),
+    ("Lords", "Question for short debate"),
+}
+# Fridays list every Private Member's Bill on the Order Paper, in order, and
+# only the first few are ever reached (the response order is the Order Paper
+# order). More than three is a list of titles nobody will debate.
+PMB_CAP = 3
+
+
+def is_headline(event):
+    """Headline chamber, Westminster Hall or Grand Committee business."""
+    if _text(event.type) not in ("Main Chamber", "Westminster Hall", "Grand Committee"):
+        return False
+    return (_text(event.house), _text(event.category)) in HEADLINE
+
+
+def announced(events, exclude_ids=()):
+    """The headline business in `events`, in Order Paper order per day.
+
+    Returns (rows, held_back): rows are Events; held_back counts the Private
+    Members' Bills past the cap, per ISO date, so the edition can say how
+    many more are listed without naming them.
+    """
+    exclude = set(i for i in exclude_ids if i)
+    rows, pmbs, held_back = [], {}, {}
+    for e in events:
+        if not is_headline(e) or (e.id and e.id in exclude):
+            continue
+        day = e.start_date.isoformat() if e.start_date else ""
+        if _text(e.category) == "Private Members' Bills":
+            pmbs[day] = pmbs.get(day, 0) + 1
+            if pmbs[day] > PMB_CAP:
+                held_back[day] = held_back.get(day, 0) + 1
+                continue
+        rows.append(e)
+    # Stable sort by day keeps the response's Order Paper order within a day.
+    rows.sort(key=lambda e: (e.start_date or datetime.date.max))
+    return rows, held_back
+
+
+def first_sitting_week(events):
+    """The Monday of the first week in `events` with Commons or Lords chamber
+    business, or None. Used in recess to show the business announced for
+    the return."""
+    days = sorted(e.start_date for e in events
+                  if e.start_date and _text(e.house) in ("Commons", "Lords")
+                  and _text(e.type) in ("Main Chamber", "Westminster Hall", "Grand Committee"))
+    if not days:
+        return None
+    return days[0] - datetime.timedelta(days=days[0].weekday())

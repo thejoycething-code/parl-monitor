@@ -1,0 +1,64 @@
+SAMPLE (never sent): the DM of a live daily dry run, Netherlands only, 10 October 2026 (window 5 to 10 October).
+
+:ballot_box_with_ballot: *Same-day vote briefs: 9 vote briefs*
+
+:flag-nl: *Netherlands, 6 Oct: Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming enbestrijding van mensenhandel en de besc…*
+tier-1 term in the title · prostitution and trafficking
+• _Implementatie van Richtlijn (EU) 2024/1712 van het Europees Parlement en de Raad van 13 juni 2024 tot wijziging van Richtlijn 2011/36/EU inzake de voorkoming e…_: Tally: 150 for, 0 against (show of hands, seats); result as recorded: “Aangenomen”
+• _Amendement van de leden Faber en Diederik van Dijk over expliciteren dat ook commercieel draagmoederschap tussen particulieren verboden is_: Tally: 52 for, 98 against (show of hands, seats); result as recorded: “Verworpen”
+• _Amendement van het lid Faber over mensensmokkel ongeacht het motief strafbaar stellen_: Tally: 39 for, 111 against (show of hands, seats); result as recorded: “Verworpen”
+• and 7 more vote(s) on it, in the brief.
+5CA: no 5CA reading for this vote yet (config/nl_stance.yaml has no entry).
+Brief: https://github.com/thejoycething-code/parl-monitor/blob/main/data/briefs/nl-votes-2026-10-06-36835.md
+Record: https://www.tweedekamer.nl/zoeken?qry=2025Z18907
+
+:flag-nl: *Netherlands, 6 Oct: Motie van het lid Bikker c.s. over terugdringing van de vraag naar diensten van slachtoffers van mensenhandel als thema opnemen in de voortzetting van het programma Samen tegen mensenhandel*
+tier-1 term in the title · prostitution and trafficking
+• Tally: 150 for, 0 against (show of hands, seats); result as recorded: “Aangenomen”
+5CA: no 5CA reading for this vote yet (config/nl_stance.yaml has no entry).
+Brief: https://github.com/thejoycething-code/parl-monitor/blob/main/data/briefs/nl-votes-2026-10-06-2026Z20238.md
+Record: https://www.tweedekamer.nl/zoeken?qry=2026Z20238
+
+:flag-nl: *Netherlands, 6 Oct: Motie van het lid Boomsma c.s. over een pilot met België en Duitsland gericht op gezamenlijke signalering en doorverwijzing van jonge slachtoffers van mensenhandel*
+tier-1 term in the title · prostitution and trafficking
+• Tally: 131 for, 19 against (show of hands, seats); result as recorded: “Aangenomen”
+5CA: no 5CA reading for this vote yet (config/nl_stance.yaml has no entry).
+Brief: https://github.com/thejoycething-code/parl-monitor/blob/main/data/briefs/nl-votes-2026-10-06-2026Z20240.md
+Record: https://www.tweedekamer.nl/zoeken?qry=2026Z20240
+
+:flag-nl: *Netherlands, 6 Oct: Motie van de leden Diederik van Dijk en Bikker over een integraal actieplan tegen seksualisering in de samenleving*
+tier-1 term in the title · prostitution and trafficking
+• Tally: 37 for, 113 against (show of hands, seats); result as recorded: “Verworpen”
+5CA: no 5CA reading for this vote yet (config/nl_stance.yaml has no entry).
+Brief: https://github.com/thejoycething-code/parl-monitor/blob/main/data/briefs/nl-votes-2026-10-06-2026Z20241.md
+Record: https://www.tweedekamer.nl/zoeken?qry=2026Z20241
+
+:flag-nl: *Netherlands, 6 Oct: Motie van de leden Diederik van Dijk en Bikker over waarborgen dat contractuele afspraken waar draagmoeders op terugkomen nooit mogen leiden tot feitelijke dwang of scheiding van moeder en kind*
+tier-1 term in the title · surrogacy and embryology, prostitution and trafficking
+• Tally: 46 for, 104 against (show of hands, seats); result as recorded: “Verworpen”
+5CA: no 5CA reading for this vote yet (config/nl_stance.yaml has no entry).
+Brief: https://github.com/thejoycething-code/parl-monitor/blob/main/data/briefs/nl-votes-2026-10-06-2026Z20242.md
+Record: https://www.tweedekamer.nl/zoeken?qry=2026Z20242
+
+:flag-nl: *Netherlands, 6 Oct: Gewijzigde motie van het lid Bikker c.s. over wettelijke verankering van het Nationaal Verwijsmechanisme (t.v.v. 36835-19)*
+tier-1 term in the title · prostitution and trafficking
+• Tally: 124 for, 26 against (show of hands, seats); result as recorded: “Aangenomen”
+5CA: no 5CA reading for this vote yet (config/nl_stance.yaml has no entry).
+Brief: https://github.com/thejoycething-code/parl-monitor/blob/main/data/briefs/nl-votes-2026-10-06-2026Z20395.md
+Record: https://www.tweedekamer.nl/zoeken?qry=2026Z20395
+
+:flag-nl: *Netherlands, 6 Oct: Motie van het lid Van Houwelingen over uitspreken dat in sommige gevallen voor kinderen thuisonderwijs de meest passende vorm van onderwijs is*
+tier-1 term in the title · parental rights and education
+• Tally: 43 for, 107 against (show of hands, seats); result as recorded: “Verworpen”
+5CA: no 5CA reading for this vote yet (config/nl_stance.yaml has no entry).
+Brief: https://github.com/thejoycething-code/parl-monitor/blob/main/data/briefs/nl-votes-2026-10-06-2026Z20638.md
+Record: https://www.tweedekamer.nl/zoeken?qry=2026Z20638
+
+:flag-nl: *Netherlands, 6 Oct: Motie van de leden Kröger en Vliegenthart over de beschikbaarheid van abortuszorg en noodanticonceptie waarborgen in conflictgebieden*
+tier-1 term in the title · abortion
+• Tally: 101 for, 49 against (show of hands, seats); result as recorded: “Aangenomen”
+5CA: no 5CA reading for this vote yet (config/nl_stance.yaml has no entry).
+Brief: https://github.com/thejoycething-code/parl-monitor/blob/main/data/briefs/nl-votes-2026-10-06-2026Z20841.md
+Record: https://www.tweedekamer.nl/zoeken?qry=2026Z20841
+
+_and 1 more brief(s) in data/briefs/._

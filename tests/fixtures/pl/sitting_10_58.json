@@ -1,0 +1,3623 @@
+[
+{
+"abstain": 2,
+"date": "2026-05-27T10:13:30",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/1/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 194,
+"no": 193,
+"notParticipating": 46,
+"present": 0,
+"sitting": 58,
+"sittingDay": 1,
+"term": 10,
+"title": "Głosowanie proceduralne dotyczące druku nr 2593",
+"topic": "wniosek o uzupełnienie porządku dziennego oraz wniosek o skrócenie terminu, o którym mowa w art. 44 ust. 3 regulaminu Sejmu w sprawie sprawozdania z druku nr 2593",
+"totalVoted": 414,
+"votingNumber": 1,
+"yes": 219
+},
+{
+"abstain": 3,
+"date": "2026-05-27T10:14:33",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/2/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 194,
+"no": 193,
+"notParticipating": 46,
+"present": 0,
+"sitting": 58,
+"sittingDay": 1,
+"term": 10,
+"title": "Głosowanie proceduralne dotyczące druku nr 2594",
+"topic": "wniosek o uzupełnienie porządku dziennego oraz wniosek o skrócenie terminu, o którym mowa w art. 44 ust. 3 regulaminu Sejmu w sprawie sprawozdania z druku nr 2594",
+"totalVoted": 414,
+"votingNumber": 2,
+"yes": 218
+},
+{
+"abstain": 1,
+"date": "2026-05-27T10:15:59",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/3/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 21,
+"no": 20,
+"notParticipating": 46,
+"present": 0,
+"sitting": 58,
+"sittingDay": 1,
+"term": 10,
+"title": "Głosowanie proceduralne dotyczące druku nr 2538",
+"topic": "wniosek o skrócenie terminu, o którym mowa w art. 44 ust. 3 regulaminu Sejmu w sprawie sprawozdania z druku nr 2538",
+"totalVoted": 414,
+"votingNumber": 3,
+"yes": 393
+},
+{
+"abstain": 175,
+"date": "2026-05-27T10:17:21",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/4/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 20,
+"no": 19,
+"notParticipating": 47,
+"present": 0,
+"sitting": 58,
+"sittingDay": 1,
+"term": 10,
+"title": "Głosowanie proceduralne dotyczące planowanego sprawozdania do druku nr 2578",
+"topic": "wniosek o skrócenie terminu, o którym mowa w art. 44 ust. 3 regulaminu Sejmu w sprawie planowanego sprawozdania do druku nr  2578",
+"totalVoted": 413,
+"votingNumber": 4,
+"yes": 219
+},
+{
+"abstain": 1,
+"date": "2026-05-27T10:21:42",
+"description": "wniosek z druku nr 2596",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/5/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 167,
+"no": 166,
+"notParticipating": 50,
+"present": 0,
+"sitting": 58,
+"sittingDay": 1,
+"term": 10,
+"title": "Pkt. 1 Zmiany w składach osobowych komisji sejmowych (druk nr 2596)",
+"topic": "głosowanie nad przyjęciem wniosku z druku.",
+"totalVoted": 410,
+"votingNumber": 5,
+"yes": 243
+},
+{
+"abstain": 7,
+"date": "2026-05-27T10:25:07",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/6/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 217,
+"no": 216,
+"notParticipating": 54,
+"present": 0,
+"sitting": 58,
+"sittingDay": 1,
+"term": 10,
+"title": "58. posiedzenie Sejmu Rzeczypospolitej Polskiej w dniach 27, 28 i 29 maja 2026 r.",
+"topic": "Wniosek o przerwę",
+"totalVoted": 406,
+"votingNumber": 6,
+"yes": 183
+},
+{
+"abstain": 0,
+"date": "2026-05-27T10:48:38",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/7/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 230,
+"no": 0,
+"notParticipating": 48,
+"present": 412,
+"sitting": 58,
+"sittingDay": 1,
+"term": 10,
+"title": "58. posiedzenie Sejmu Rzeczypospolitej Polskiej w dniach 27, 28 i 29 maja 2026 r.",
+"topic": "Głosowanie kworum",
+"totalVoted": 412,
+"votingNumber": 7,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:10:34",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/8/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 2,
+"no": 1,
+"notParticipating": 37,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Głosowanie proceduralne dotyczące druków nr 2586 i 2613",
+"topic": "wniosek o skrócenie terminu, o którym mowa w art. 54 ust. 5 regulaminu Sejmu w sprawie sprawozdania z druku nr 2613",
+"totalVoted": 423,
+"votingNumber": 8,
+"yes": 422
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:11:19",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/9/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 2,
+"no": 1,
+"notParticipating": 38,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Głosowanie proceduralne dotyczące druków nr 2588 i 2591",
+"topic": "wniosek o skrócenie terminu, o którym mowa w art. 54 ust. 5 regulaminu Sejmu w sprawie sprawozdania z druku nr 2591",
+"totalVoted": 422,
+"votingNumber": 9,
+"yes": 421
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:11:56",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/10/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 3,
+"no": 2,
+"notParticipating": 35,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Głosowanie proceduralne dotyczące druków nr 2585 i 2616",
+"topic": "wniosek o skrócenie terminu, o którym mowa w art. 54 ust. 5 regulaminu Sejmu w sprawie sprawozdania z druku nr ...",
+"totalVoted": 425,
+"votingNumber": 10,
+"yes": 423
+},
+{
+"abstain": 18,
+"date": "2026-05-29T09:12:36",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/11/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 2,
+"no": 1,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Głosowanie proceduralne dotyczące druków nr 2587 i 2605",
+"topic": "wniosek o skrócenie terminu, o którym mowa w art. 54 ust. 5 regulaminu Sejmu w sprawie sprawozdania z druku nr  2605",
+"totalVoted": 430,
+"votingNumber": 11,
+"yes": 411
+},
+{
+"abstain": 3,
+"date": "2026-05-29T09:15:07",
+"description": "całość projektu uchwały",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/12/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 1,
+"no": 0,
+"notParticipating": 29,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 21 Sprawozdanie Komisji o komisyjnym projekcie uchwały z okazji 250. rocznicy powstania Stanów Zjednoczonych Ameryki (druki nr 2491 i 2568)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 431,
+"votingNumber": 12,
+"yes": 428
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:19:07",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/13/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 233,
+"no": 232,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "58. posiedzenie Sejmu Rzeczypospolitej Polskiej w dniach 27, 28 i 29 maja 2026 r.",
+"topic": "Wniosek o przerwę",
+"totalVoted": 426,
+"votingNumber": 13,
+"yes": 193
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:22:07",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/14/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 230,
+"no": 0,
+"notParticipating": 31,
+"present": 429,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "58. posiedzenie Sejmu Rzeczypospolitej Polskiej w dniach 27, 28 i 29 maja 2026 r.",
+"topic": "Głosowanie kworum",
+"totalVoted": 429,
+"votingNumber": 14,
+"yes": 0
+},
+{
+"abstain": 5,
+"date": "2026-05-29T09:30:55",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/15/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 29,
+"no": 28,
+"notParticipating": 46,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 7 Sprawozdanie Komisji o przedstawionym przez Prezydenta Rzeczypospolitej Polskiej oraz poselskim projektach ustaw o zmianie ustawy o ochronie zwierząt (druki nr 2270, 2274 i 2538)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 414,
+"votingNumber": 15,
+"yes": 381
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:33:05",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/16/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 252,
+"no": 251,
+"notParticipating": 49,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "wnioski mniejszości nr 1-5, 7-17 oraz 19-21",
+"totalVoted": 411,
+"votingNumber": 16,
+"yes": 159
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:33:47",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/17/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 175,
+"no": 174,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawki nr 1, 3-4, 6 oraz 22-24",
+"totalVoted": 430,
+"votingNumber": 17,
+"yes": 256
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:34:15",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/18/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 175,
+"no": 174,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 2",
+"totalVoted": 427,
+"votingNumber": 18,
+"yes": 253
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:34:43",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/19/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 174,
+"no": 173,
+"notParticipating": 37,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 5",
+"totalVoted": 423,
+"votingNumber": 19,
+"yes": 250
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:35:16",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/20/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 175,
+"no": 174,
+"notParticipating": 35,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawki nr 7 i 29",
+"totalVoted": 425,
+"votingNumber": 20,
+"yes": 251
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:35:55",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/21/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 401,
+"no": 400,
+"notParticipating": 35,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawki nr 8, 20 i 25",
+"totalVoted": 425,
+"votingNumber": 21,
+"yes": 25
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:36:26",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/22/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 236,
+"no": 235,
+"notParticipating": 29,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 9",
+"totalVoted": 431,
+"votingNumber": 22,
+"yes": 195
+},
+{
+"abstain": 18,
+"date": "2026-05-29T09:36:53",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/23/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 179,
+"no": 178,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 10",
+"totalVoted": 429,
+"votingNumber": 23,
+"yes": 233
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:37:22",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/24/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 177,
+"no": 176,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 11",
+"totalVoted": 428,
+"votingNumber": 24,
+"yes": 252
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:37:48",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/25/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 177,
+"no": 176,
+"notParticipating": 37,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 12",
+"totalVoted": 423,
+"votingNumber": 25,
+"yes": 247
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:38:15",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/26/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 242,
+"no": 241,
+"notParticipating": 26,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 13",
+"totalVoted": 434,
+"votingNumber": 26,
+"yes": 192
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:38:45",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/27/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 231,
+"no": 230,
+"notParticipating": 29,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 14",
+"totalVoted": 431,
+"votingNumber": 27,
+"yes": 201
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:39:09",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/28/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 178,
+"no": 177,
+"notParticipating": 36,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 15",
+"totalVoted": 424,
+"votingNumber": 28,
+"yes": 247
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:39:44",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/29/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 220,
+"no": 219,
+"notParticipating": 28,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "wnioski mniejszości nr 6 i 18",
+"totalVoted": 432,
+"votingNumber": 29,
+"yes": 213
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:40:13",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/30/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 179,
+"no": 178,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 16",
+"totalVoted": 430,
+"votingNumber": 30,
+"yes": 252
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:40:41",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/31/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 172,
+"no": 171,
+"notParticipating": 45,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 17",
+"totalVoted": 415,
+"votingNumber": 31,
+"yes": 244
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:41:12",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/32/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 231,
+"no": 230,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawki nr 18 i 30",
+"totalVoted": 428,
+"votingNumber": 32,
+"yes": 197
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:41:44",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/33/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 245,
+"no": 244,
+"notParticipating": 35,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawki nr 19, 27 i 31",
+"totalVoted": 425,
+"votingNumber": 33,
+"yes": 181
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:42:10",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/34/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 166,
+"no": 165,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 21",
+"totalVoted": 427,
+"votingNumber": 34,
+"yes": 261
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:42:38",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/35/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 162,
+"no": 161,
+"notParticipating": 44,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 26",
+"totalVoted": 416,
+"votingNumber": 35,
+"yes": 254
+},
+{
+"abstain": 19,
+"date": "2026-05-29T09:43:04",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/36/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 174,
+"no": 173,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "poprawka 28",
+"totalVoted": 429,
+"votingNumber": 36,
+"yes": 237
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:43:31",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/37/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 186,
+"no": 185,
+"notParticipating": 29,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 13 Sprawozdanie Komisji o rządowym projekcie ustawy o związku metropolitalnym w województwie pomorskim (druki nr 2446, 2560 i 2560-A)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 431,
+"votingNumber": 37,
+"yes": 245
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:45:17",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/38/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 229,
+"no": 228,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 3 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych rozwiązaniach w zakresie rozpoznawania spraw dotyczących zawartych z konsumentami umów kredytu denominowanego lub indeksowanego do franka szwajcarskiego (druki nr 1758, 2369 i 2369-A)",
+"topic": "poprawka 1",
+"totalVoted": 429,
+"votingNumber": 38,
+"yes": 201
+},
+{
+"abstain": 163,
+"date": "2026-05-29T09:45:49",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/39/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 5,
+"no": 4,
+"notParticipating": 42,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 3 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych rozwiązaniach w zakresie rozpoznawania spraw dotyczących zawartych z konsumentami umów kredytu denominowanego lub indeksowanego do franka szwajcarskiego (druki nr 1758, 2369 i 2369-A)",
+"topic": "poprawki nr 2 oraz 4-5",
+"totalVoted": 418,
+"votingNumber": 39,
+"yes": 251
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:46:15",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/40/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 230,
+"no": 229,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 3 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych rozwiązaniach w zakresie rozpoznawania spraw dotyczących zawartych z konsumentami umów kredytu denominowanego lub indeksowanego do franka szwajcarskiego (druki nr 1758, 2369 i 2369-A)",
+"topic": "poprawka 3",
+"totalVoted": 428,
+"votingNumber": 40,
+"yes": 199
+},
+{
+"abstain": 2,
+"date": "2026-05-29T09:46:42",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/41/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 233,
+"no": 232,
+"notParticipating": 28,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 3 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych rozwiązaniach w zakresie rozpoznawania spraw dotyczących zawartych z konsumentami umów kredytu denominowanego lub indeksowanego do franka szwajcarskiego (druki nr 1758, 2369 i 2369-A)",
+"topic": "poprawka 6",
+"totalVoted": 432,
+"votingNumber": 41,
+"yes": 198
+},
+{
+"abstain": 23,
+"date": "2026-05-29T09:47:10",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/42/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 176,
+"no": 175,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 3 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych rozwiązaniach w zakresie rozpoznawania spraw dotyczących zawartych z konsumentami umów kredytu denominowanego lub indeksowanego do franka szwajcarskiego (druki nr 1758, 2369 i 2369-A)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 428,
+"votingNumber": 42,
+"yes": 230
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:49:22",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/43/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 233,
+"no": 232,
+"notParticipating": 28,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 4 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Prawo oświatowe, ustawy o systemie oświaty oraz niektórych innych ustaw (druki nr 2449, 2561 i 2561-A)",
+"topic": "wniosek o odrzucenie w całości projektu.",
+"totalVoted": 432,
+"votingNumber": 43,
+"yes": 200
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:50:05",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/44/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 194,
+"no": 193,
+"notParticipating": 36,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 4 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Prawo oświatowe, ustawy o systemie oświaty oraz niektórych innych ustaw (druki nr 2449, 2561 i 2561-A)",
+"topic": "poprawki nr 1 i 11",
+"totalVoted": 424,
+"votingNumber": 44,
+"yes": 231
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:50:40",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/45/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 174,
+"no": 173,
+"notParticipating": 37,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 4 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Prawo oświatowe, ustawy o systemie oświaty oraz niektórych innych ustaw (druki nr 2449, 2561 i 2561-A)",
+"topic": "poprawka 2",
+"totalVoted": 423,
+"votingNumber": 45,
+"yes": 250
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:51:16",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/46/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 175,
+"no": 174,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 4 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Prawo oświatowe, ustawy o systemie oświaty oraz niektórych innych ustaw (druki nr 2449, 2561 i 2561-A)",
+"topic": "poprawki nr 3 oraz 9-10",
+"totalVoted": 426,
+"votingNumber": 46,
+"yes": 252
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:51:48",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/47/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 191,
+"no": 190,
+"notParticipating": 36,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 4 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Prawo oświatowe, ustawy o systemie oświaty oraz niektórych innych ustaw (druki nr 2449, 2561 i 2561-A)",
+"topic": "poprawki nr 4 i 15",
+"totalVoted": 424,
+"votingNumber": 47,
+"yes": 234
+},
+{
+"abstain": 16,
+"date": "2026-05-29T09:52:16",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/48/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 172,
+"no": 171,
+"notParticipating": 40,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 4 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Prawo oświatowe, ustawy o systemie oświaty oraz niektórych innych ustaw (druki nr 2449, 2561 i 2561-A)",
+"topic": "poprawka 5",
+"totalVoted": 420,
+"votingNumber": 48,
+"yes": 233
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:52:45",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/49/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 193,
+"no": 192,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 4 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Prawo oświatowe, ustawy o systemie oświaty oraz niektórych innych ustaw (druki nr 2449, 2561 i 2561-A)",
+"topic": "poprawka 6",
+"totalVoted": 426,
+"votingNumber": 49,
+"yes": 234
+},
+{
+"abstain": 17,
+"date": "2026-05-29T09:53:12",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/50/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 177,
+"no": 176,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 4 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Prawo oświatowe, ustawy o systemie oświaty oraz niektórych innych ustaw (druki nr 2449, 2561 i 2561-A)",
+"topic": "poprawka 7",
+"totalVoted": 426,
+"votingNumber": 50,
+"yes": 233
+},
+{
+"abstain": 18,
+"date": "2026-05-29T09:53:46",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/51/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 177,
+"no": 176,
+"notParticipating": 29,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 4 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Prawo oświatowe, ustawy o systemie oświaty oraz niektórych innych ustaw (druki nr 2449, 2561 i 2561-A)",
+"topic": "poprawka 8",
+"totalVoted": 431,
+"votingNumber": 51,
+"yes": 237
+},
+{
+"abstain": 2,
+"date": "2026-05-29T09:54:17",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/52/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 174,
+"no": 173,
+"notParticipating": 38,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 4 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Prawo oświatowe, ustawy o systemie oświaty oraz niektórych innych ustaw (druki nr 2449, 2561 i 2561-A)",
+"topic": "poprawki nr 12-14",
+"totalVoted": 422,
+"votingNumber": 52,
+"yes": 247
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:54:43",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/53/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 193,
+"no": 192,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 4 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy - Prawo oświatowe, ustawy o systemie oświaty oraz niektórych innych ustaw (druki nr 2449, 2561 i 2561-A)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 426,
+"votingNumber": 53,
+"yes": 234
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:56:28",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/54/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 231,
+"no": 230,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)",
+"topic": "wniosek o odrzucenie w całości projektu.",
+"totalVoted": 428,
+"votingNumber": 54,
+"yes": 197
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:57:23",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/55/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 419,
+"no": 418,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)",
+"topic": "poprawki nr 1-3, 6, 8-10, 13, 16-35, 37 i 40",
+"totalVoted": 429,
+"votingNumber": 55,
+"yes": 11
+},
+{
+"abstain": 0,
+"date": "2026-05-29T09:58:09",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/56/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 420,
+"no": 419,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)",
+"topic": "poprawki nr 4-5, 7, 11, 14, 36 i 38",
+"totalVoted": 427,
+"votingNumber": 56,
+"yes": 8
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:58:35",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/57/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 396,
+"no": 395,
+"notParticipating": 41,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)",
+"topic": "wniosek mniejszości 1",
+"totalVoted": 419,
+"votingNumber": 57,
+"yes": 23
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:59:03",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/58/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 422,
+"no": 421,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)",
+"topic": "wniosek mniejszości 2",
+"totalVoted": 427,
+"votingNumber": 58,
+"yes": 5
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:59:29",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/59/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 200,
+"no": 199,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)",
+"topic": "poprawka 12",
+"totalVoted": 427,
+"votingNumber": 59,
+"yes": 227
+},
+{
+"abstain": 1,
+"date": "2026-05-29T09:59:57",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/60/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 196,
+"no": 195,
+"notParticipating": 37,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)",
+"topic": "poprawka 15",
+"totalVoted": 423,
+"votingNumber": 60,
+"yes": 227
+},
+{
+"abstain": 1,
+"date": "2026-05-29T10:00:25",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/61/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 196,
+"no": 195,
+"notParticipating": 35,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)",
+"topic": "poprawka 39",
+"totalVoted": 425,
+"votingNumber": 61,
+"yes": 229
+},
+{
+"abstain": 1,
+"date": "2026-05-29T10:00:51",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/62/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 199,
+"no": 198,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 5 Sprawozdanie Komisji o rządowym projekcie ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2110, 2593 i 2593-A)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 429,
+"votingNumber": 62,
+"yes": 230
+},
+{
+"abstain": 1,
+"date": "2026-05-29T10:02:41",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/63/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 229,
+"no": 228,
+"notParticipating": 38,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "wniosek o odrzucenie w całości projektu.",
+"totalVoted": 422,
+"votingNumber": 63,
+"yes": 193
+},
+{
+"abstain": 1,
+"date": "2026-05-29T10:03:30",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/64/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 415,
+"no": 414,
+"notParticipating": 39,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawki nr 1, 38 oraz 44-46",
+"totalVoted": 421,
+"votingNumber": 64,
+"yes": 6
+},
+{
+"abstain": 19,
+"date": "2026-05-29T10:03:59",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/65/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 180,
+"no": 179,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 2",
+"totalVoted": 427,
+"votingNumber": 65,
+"yes": 229
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:04:31",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/66/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 424,
+"no": 423,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka nr 3, wniosek mniejszości nr 1",
+"totalVoted": 430,
+"votingNumber": 66,
+"yes": 7
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:05:02",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/67/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 422,
+"no": 421,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka nr 4, wniosek mniejszości nr 2",
+"totalVoted": 428,
+"votingNumber": 67,
+"yes": 7
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:05:36",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/68/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 426,
+"no": 425,
+"notParticipating": 28,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka nr 5, wniosek mniejszości nr 3",
+"totalVoted": 432,
+"votingNumber": 68,
+"yes": 7
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:06:04",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/69/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 203,
+"no": 202,
+"notParticipating": 28,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 6",
+"totalVoted": 432,
+"votingNumber": 69,
+"yes": 230
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:06:33",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/70/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 195,
+"no": 194,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 7",
+"totalVoted": 426,
+"votingNumber": 70,
+"yes": 232
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:07:18",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/71/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 198,
+"no": 197,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawki nr 8-12, 14-17, 20-22, 26-30 i 57",
+"totalVoted": 429,
+"votingNumber": 71,
+"yes": 232
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:07:44",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/72/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 200,
+"no": 199,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 13",
+"totalVoted": 430,
+"votingNumber": 72,
+"yes": 231
+},
+{
+"abstain": 1,
+"date": "2026-05-29T10:08:10",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/73/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 199,
+"no": 198,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 18",
+"totalVoted": 427,
+"votingNumber": 73,
+"yes": 228
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:08:37",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/74/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 195,
+"no": 194,
+"notParticipating": 37,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 19",
+"totalVoted": 423,
+"votingNumber": 74,
+"yes": 229
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:09:13",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/75/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 200,
+"no": 199,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawki nr 23-24 i 33",
+"totalVoted": 428,
+"votingNumber": 75,
+"yes": 229
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:09:43",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/76/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 196,
+"no": 195,
+"notParticipating": 35,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 25",
+"totalVoted": 425,
+"votingNumber": 76,
+"yes": 230
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:10:10",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/77/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 197,
+"no": 196,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 31",
+"totalVoted": 427,
+"votingNumber": 77,
+"yes": 231
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:10:37",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/78/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 199,
+"no": 198,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 32",
+"totalVoted": 428,
+"votingNumber": 78,
+"yes": 230
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:11:10",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/79/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 197,
+"no": 196,
+"notParticipating": 37,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawki nr 34 i 65",
+"totalVoted": 423,
+"votingNumber": 79,
+"yes": 227
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:11:44",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/80/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 201,
+"no": 200,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawki nr 35 i 52",
+"totalVoted": 428,
+"votingNumber": 80,
+"yes": 228
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:12:11",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/81/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 196,
+"no": 195,
+"notParticipating": 35,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 36",
+"totalVoted": 425,
+"votingNumber": 81,
+"yes": 230
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:12:37",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/82/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 201,
+"no": 200,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 37",
+"totalVoted": 427,
+"votingNumber": 82,
+"yes": 227
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:13:12",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/83/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 420,
+"no": 419,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawki nr 39-42",
+"totalVoted": 429,
+"votingNumber": 83,
+"yes": 10
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:13:36",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/84/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 411,
+"no": 410,
+"notParticipating": 38,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 43",
+"totalVoted": 422,
+"votingNumber": 84,
+"yes": 12
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:14:04",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/85/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 201,
+"no": 200,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 47",
+"totalVoted": 429,
+"votingNumber": 85,
+"yes": 229
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:14:31",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/86/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 202,
+"no": 201,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 48",
+"totalVoted": 428,
+"votingNumber": 86,
+"yes": 227
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:14:59",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/87/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 203,
+"no": 202,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 49",
+"totalVoted": 430,
+"votingNumber": 87,
+"yes": 228
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:15:25",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/88/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 200,
+"no": 199,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 50",
+"totalVoted": 426,
+"votingNumber": 88,
+"yes": 227
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:15:51",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/89/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 199,
+"no": 198,
+"notParticipating": 37,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 51",
+"totalVoted": 423,
+"votingNumber": 89,
+"yes": 225
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:16:18",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/90/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 202,
+"no": 201,
+"notParticipating": 29,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 53",
+"totalVoted": 431,
+"votingNumber": 90,
+"yes": 230
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:16:46",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/91/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 200,
+"no": 199,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 54",
+"totalVoted": 427,
+"votingNumber": 91,
+"yes": 228
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:17:18",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/92/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 203,
+"no": 202,
+"notParticipating": 27,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawki nr 55-56",
+"totalVoted": 433,
+"votingNumber": 92,
+"yes": 231
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:17:47",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/93/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 202,
+"no": 201,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 58",
+"totalVoted": 429,
+"votingNumber": 93,
+"yes": 228
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:18:16",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/94/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 201,
+"no": 200,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 59",
+"totalVoted": 430,
+"votingNumber": 94,
+"yes": 230
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:18:44",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/95/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 198,
+"no": 197,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 60",
+"totalVoted": 426,
+"votingNumber": 95,
+"yes": 229
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:19:14",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/96/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 200,
+"no": 199,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 61",
+"totalVoted": 430,
+"votingNumber": 96,
+"yes": 231
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:19:42",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/97/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 201,
+"no": 200,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 62",
+"totalVoted": 426,
+"votingNumber": 97,
+"yes": 226
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:20:09",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/98/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 200,
+"no": 199,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 63",
+"totalVoted": 429,
+"votingNumber": 98,
+"yes": 230
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:20:39",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/99/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 202,
+"no": 201,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 64",
+"totalVoted": 430,
+"votingNumber": 99,
+"yes": 229
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:21:07",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/100/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 201,
+"no": 200,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 66",
+"totalVoted": 429,
+"votingNumber": 100,
+"yes": 229
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:21:33",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/101/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 198,
+"no": 197,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 67",
+"totalVoted": 426,
+"votingNumber": 101,
+"yes": 229
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:22:00",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/102/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 201,
+"no": 200,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "poprawka 68",
+"totalVoted": 430,
+"votingNumber": 102,
+"yes": 230
+},
+{
+"abstain": 1,
+"date": "2026-05-29T10:22:28",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/103/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 201,
+"no": 200,
+"notParticipating": 29,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 6 Sprawozdanie Komisji o rządowym projekcie ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu (druki nr 2111, 2594 i 2594-A)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 431,
+"votingNumber": 103,
+"yes": 230
+},
+{
+"abstain": 155,
+"date": "2026-05-29T10:23:39",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/104/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 17,
+"no": 16,
+"notParticipating": 42,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 8 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie ustawy o pracowniczych planach kapitałowych oraz ustawy o szczególnych rozwiązaniach związanych z zapobieganiem, przeciwdziałaniem i zwalczaniem COVID-19, innych chorób zakaźnych oraz wywołanych nimi sytuacji kryzysowych (druki nr 2497 i 2565)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 418,
+"votingNumber": 104,
+"yes": 247
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:25:49",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/105/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 231,
+"no": 230,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 9 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych rozwiązaniach związanych z wynikami ewaluacji jakości działalności naukowej za lata 2022-2025 (druki nr 2500, 2566 i 2566-A)",
+"topic": "wniosek o odrzucenie w całości projektu.",
+"totalVoted": 427,
+"votingNumber": 105,
+"yes": 197
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:26:15",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/106/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 195,
+"no": 194,
+"notParticipating": 36,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 9 Sprawozdanie Komisji o rządowym projekcie ustawy o szczególnych rozwiązaniach związanych z wynikami ewaluacji jakości działalności naukowej za lata 2022-2025 (druki nr 2500, 2566 i 2566-A)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 424,
+"votingNumber": 106,
+"yes": 230
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:27:57",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/107/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 237,
+"no": 236,
+"notParticipating": 28,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 14 Sprawozdanie Komisji o poselskich projektach ustaw:- o zmianie ustawy o drogach publicznych oraz o zmianie niektórych innych ustaw,- o zmianie ustawy o drogach publicznych (druki nr 2552, 2551, 2576 i 2576-A)",
+"topic": "poprawka 1",
+"totalVoted": 432,
+"votingNumber": 107,
+"yes": 196
+},
+{
+"abstain": 1,
+"date": "2026-05-29T10:28:24",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/108/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 243,
+"no": 242,
+"notParticipating": 36,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 14 Sprawozdanie Komisji o poselskich projektach ustaw:- o zmianie ustawy o drogach publicznych oraz o zmianie niektórych innych ustaw,- o zmianie ustawy o drogach publicznych (druki nr 2552, 2551, 2576 i 2576-A)",
+"topic": "poprawka 2",
+"totalVoted": 424,
+"votingNumber": 108,
+"yes": 181
+},
+{
+"abstain": 154,
+"date": "2026-05-29T10:28:53",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/109/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 9,
+"no": 8,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 14 Sprawozdanie Komisji o poselskich projektach ustaw:- o zmianie ustawy o drogach publicznych oraz o zmianie niektórych innych ustaw,- o zmianie ustawy o drogach publicznych (druki nr 2552, 2551, 2576 i 2576-A)",
+"topic": "poprawka 3",
+"totalVoted": 426,
+"votingNumber": 109,
+"yes": 264
+},
+{
+"abstain": 178,
+"date": "2026-05-29T10:29:20",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/110/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 1,
+"no": 0,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 14 Sprawozdanie Komisji o poselskich projektach ustaw:- o zmianie ustawy o drogach publicznych oraz o zmianie niektórych innych ustaw,- o zmianie ustawy o drogach publicznych (druki nr 2552, 2551, 2576 i 2576-A)",
+"topic": "poprawka 4",
+"totalVoted": 428,
+"votingNumber": 110,
+"yes": 250
+},
+{
+"abstain": 175,
+"date": "2026-05-29T10:29:48",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/111/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 20,
+"no": 19,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 14 Sprawozdanie Komisji o poselskich projektach ustaw:- o zmianie ustawy o drogach publicznych oraz o zmianie niektórych innych ustaw,- o zmianie ustawy o drogach publicznych (druki nr 2552, 2551, 2576 i 2576-A)",
+"topic": "poprawka 5",
+"totalVoted": 430,
+"votingNumber": 111,
+"yes": 236
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:30:14",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/112/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 2,
+"no": 1,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 14 Sprawozdanie Komisji o poselskich projektach ustaw:- o zmianie ustawy o drogach publicznych oraz o zmianie niektórych innych ustaw,- o zmianie ustawy o drogach publicznych (druki nr 2552, 2551, 2576 i 2576-A)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 430,
+"votingNumber": 112,
+"yes": 429
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:30:57",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/113/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 1,
+"no": 0,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 15 Sprawozdanie Komisji o komisyjnym projekcie ustawy o zmianie ustawy o imprezach turystycznych i powiązanych usługach turystycznych (druki nr 2412 i 2572)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 427,
+"votingNumber": 113,
+"yes": 427
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:32:38",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/114/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 230,
+"no": 229,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 16 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie niektórych ustaw w celu dokonania deregulacji w zakresie energetyki (druki nr 2578, 2606 i 2606-A)",
+"topic": "poprawki nr 1, 3 i 5",
+"totalVoted": 430,
+"votingNumber": 114,
+"yes": 201
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:33:12",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/115/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 239,
+"no": 238,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 16 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie niektórych ustaw w celu dokonania deregulacji w zakresie energetyki (druki nr 2578, 2606 i 2606-A)",
+"topic": "poprawki nr 2, 4 i 6",
+"totalVoted": 430,
+"votingNumber": 115,
+"yes": 192
+},
+{
+"abstain": 3,
+"date": "2026-05-29T10:33:38",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/116/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 183,
+"no": 182,
+"notParticipating": 30,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 16 Sprawozdanie Komisji o rządowym projekcie ustawy o zmianie niektórych ustaw w celu dokonania deregulacji w zakresie energetyki (druki nr 2578, 2606 i 2606-A)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 430,
+"votingNumber": 116,
+"yes": 245
+},
+{
+"abstain": 6,
+"date": "2026-05-29T10:34:30",
+"description": "całość projektu uchwały",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/117/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 8,
+"no": 7,
+"notParticipating": 33,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 17 Sprawozdanie Komisji o poselskim projekcie uchwały w 125. rocznicę urodzin i 45. rocznicę śmierci Bł. Stefana Kardynała Wyszyńskiego (druki nr 2492 i 2569)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 427,
+"votingNumber": 117,
+"yes": 414
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:35:25",
+"description": "całość projektu uchwały",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/118/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 2,
+"no": 1,
+"notParticipating": 36,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 18 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie 25. rocznicy uchwalenia pierwszej ustawy regulującej funkcjonowanie młodzieżowych rad samorządowych w Polsce (druki nr 2469 i 2496)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 424,
+"votingNumber": 118,
+"yes": 423
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:36:21",
+"description": "całość projektu uchwały",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/119/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 1,
+"no": 0,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 19 Sprawozdanie Komisji o poselskim projekcie uchwały w sprawie upamiętnienia 90. rocznicy deportacji ludności polskiej do Kazachstanu (druki nr 2470 i 2570)",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 428,
+"votingNumber": 119,
+"yes": 428
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:37:42",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/120/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 233,
+"no": 232,
+"notParticipating": 35,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 28 Sprawozdanie Komisji o senackim projekcie ustawy o zmianie ustawy - Prawo oświatowe (druki nr 1650, 2366 i 2366-A) - trzecie czytanie",
+"topic": "poprawka 1",
+"totalVoted": 425,
+"votingNumber": 120,
+"yes": 193
+},
+{
+"abstain": 170,
+"date": "2026-05-29T10:38:08",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/121/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 229,
+"no": 228,
+"notParticipating": 40,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 28 Sprawozdanie Komisji o senackim projekcie ustawy o zmianie ustawy - Prawo oświatowe (druki nr 1650, 2366 i 2366-A) - trzecie czytanie",
+"topic": "poprawka 2",
+"totalVoted": 420,
+"votingNumber": 121,
+"yes": 22
+},
+{
+"abstain": 188,
+"date": "2026-05-29T10:38:35",
+"description": "całość projektu ustawy",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/122/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 3,
+"no": 2,
+"notParticipating": 35,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 28 Sprawozdanie Komisji o senackim projekcie ustawy o zmianie ustawy - Prawo oświatowe (druki nr 1650, 2366 i 2366-A) - trzecie czytanie",
+"topic": "głosowanie nad całością projektu.",
+"totalVoted": 425,
+"votingNumber": 122,
+"yes": 235
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:39:44",
+"description": "wniosek o odrzucenie projektu ustawy w pierwszym czytaniu",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/123/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 411,
+"no": 410,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 29 Pierwsze czytanie poselskiego projektu ustawy o zmianie ustawy o podatku akcyzowym oraz niektórych innych ustaw (druk nr 2396) - kontynuacja",
+"topic": "wniosek o odrzucenie projektu w pierwszym czytaniu.",
+"totalVoted": 429,
+"votingNumber": 123,
+"yes": 19
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:40:24",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/124/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 418,
+"no": 417,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 29 Pierwsze czytanie poselskiego projektu ustawy o zmianie ustawy o podatku akcyzowym oraz niektórych innych ustaw (druk nr 2396) - kontynuacja",
+"topic": "głosowanie nad przyjęciem na podst. art. 39 ust. 3 r.S. wniosku o przedstawienie sprawozdania Komisji do dnia 11.06.2026 r.",
+"totalVoted": 428,
+"votingNumber": 124,
+"yes": 11
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:41:22",
+"description": "wniosek o odrzucenie sprawozdania Ministra Spraw Wewnętrznych i Administracji z realizacji w 2025 r. ustawy z dnia 24 marca 1920 r. o nabywaniu nieruchomości przez cudzoziemców",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/125/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 240,
+"no": 239,
+"notParticipating": 29,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 30 Sprawozdanie Ministra Spraw Wewnętrznych i Administracji z realizacji w 2025 r. ustawy z dnia 24 marca 1920 r. o nabywaniu nieruchomości przez cudzoziemców wraz ze stanowiskiem Komisji (druki nr 2420 i 2478) - kontynuacja",
+"topic": "głosowanie nad przyjęciem wniosku o odrzucenie sprawozdania",
+"totalVoted": 431,
+"votingNumber": 125,
+"yes": 192
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:43:09",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/126/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 215,
+"no": 429,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 22 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy - Ordynacja podatkowa (druki nr 2586 i 2613)",
+"topic": "poprawka 1",
+"totalVoted": 429,
+"votingNumber": 126,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:44:38",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/127/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 213,
+"no": 424,
+"notParticipating": 36,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 23 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie niektórych ustaw w związku z uregulowaniem funkcjonowania lotnictwa służb porządku publicznego (druki nr 2588 i 2591)",
+"topic": "poprawka 1",
+"totalVoted": 424,
+"votingNumber": 127,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:45:16",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/128/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 214,
+"no": 426,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 23 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie niektórych ustaw w związku z uregulowaniem funkcjonowania lotnictwa służb porządku publicznego (druki nr 2588 i 2591)",
+"topic": "poprawki nr 2 i 4",
+"totalVoted": 426,
+"votingNumber": 128,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:45:58",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/129/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 212,
+"no": 422,
+"notParticipating": 38,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 23 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie niektórych ustaw w związku z uregulowaniem funkcjonowania lotnictwa służb porządku publicznego (druki nr 2588 i 2591)",
+"topic": "poprawki nr 3 oraz 5-7",
+"totalVoted": 422,
+"votingNumber": 129,
+"yes": 0
+},
+{
+"abstain": 176,
+"date": "2026-05-29T10:47:12",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/130/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 210,
+"no": 239,
+"notParticipating": 42,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 24 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o szczególnych środkach ochrony w postępowaniu cywilnym osób uczestniczących w debacie publicznej (druki nr 2584 i 2590)",
+"topic": "poprawka 1",
+"totalVoted": 418,
+"votingNumber": 130,
+"yes": 3
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:47:44",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/131/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 212,
+"no": 231,
+"notParticipating": 37,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 24 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o szczególnych środkach ochrony w postępowaniu cywilnym osób uczestniczących w debacie publicznej (druki nr 2584 i 2590)",
+"topic": "poprawka 2",
+"totalVoted": 423,
+"votingNumber": 131,
+"yes": 192
+},
+{
+"abstain": 192,
+"date": "2026-05-29T10:48:15",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/132/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 215,
+"no": 236,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 24 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o szczególnych środkach ochrony w postępowaniu cywilnym osób uczestniczących w debacie publicznej (druki nr 2584 i 2590)",
+"topic": "poprawka 3",
+"totalVoted": 428,
+"votingNumber": 132,
+"yes": 0
+},
+{
+"abstain": 171,
+"date": "2026-05-29T10:48:46",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/133/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 215,
+"no": 252,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 24 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o szczególnych środkach ochrony w postępowaniu cywilnym osób uczestniczących w debacie publicznej (druki nr 2584 i 2590)",
+"topic": "poprawka 4",
+"totalVoted": 428,
+"votingNumber": 133,
+"yes": 5
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:50:03",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/134/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 212,
+"no": 422,
+"notParticipating": 38,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 25 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o utworzeniu Wojskowej Akademii Medycznej (druki nr 2585 i 2616)",
+"topic": "poprawki nr 1-2",
+"totalVoted": 422,
+"votingNumber": 134,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:50:39",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/135/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 215,
+"no": 429,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 25 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o utworzeniu Wojskowej Akademii Medycznej (druki nr 2585 i 2616)",
+"topic": "poprawki nr 3 oraz 11-14",
+"totalVoted": 429,
+"votingNumber": 135,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:51:09",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/136/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 213,
+"no": 424,
+"notParticipating": 36,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 25 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o utworzeniu Wojskowej Akademii Medycznej (druki nr 2585 i 2616)",
+"topic": "poprawka 4",
+"totalVoted": 424,
+"votingNumber": 136,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:51:36",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/137/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 214,
+"no": 426,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 25 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o utworzeniu Wojskowej Akademii Medycznej (druki nr 2585 i 2616)",
+"topic": "poprawka 5",
+"totalVoted": 426,
+"votingNumber": 137,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:52:03",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/138/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 214,
+"no": 426,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 25 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o utworzeniu Wojskowej Akademii Medycznej (druki nr 2585 i 2616)",
+"topic": "poprawka 6",
+"totalVoted": 426,
+"votingNumber": 138,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:52:32",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/139/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 214,
+"no": 426,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 25 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o utworzeniu Wojskowej Akademii Medycznej (druki nr 2585 i 2616)",
+"topic": "poprawka 7",
+"totalVoted": 426,
+"votingNumber": 139,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:52:59",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/140/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 213,
+"no": 424,
+"notParticipating": 36,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 25 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o utworzeniu Wojskowej Akademii Medycznej (druki nr 2585 i 2616)",
+"topic": "poprawka 8",
+"totalVoted": 424,
+"votingNumber": 140,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:53:32",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/141/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 213,
+"no": 425,
+"notParticipating": 35,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 25 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o utworzeniu Wojskowej Akademii Medycznej (druki nr 2585 i 2616)",
+"topic": "poprawki nr 9-10",
+"totalVoted": 425,
+"votingNumber": 141,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:54:00",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/142/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 213,
+"no": 424,
+"notParticipating": 36,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 25 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o utworzeniu Wojskowej Akademii Medycznej (druki nr 2585 i 2616)",
+"topic": "poprawka 15",
+"totalVoted": 424,
+"votingNumber": 142,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T10:54:27",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/143/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 211,
+"no": 421,
+"notParticipating": 39,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 25 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o utworzeniu Wojskowej Akademii Medycznej (druki nr 2585 i 2616)",
+"topic": "poprawka 16",
+"totalVoted": 421,
+"votingNumber": 143,
+"yes": 0
+},
+{
+"abstain": 185,
+"date": "2026-05-29T10:55:48",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/144/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 212,
+"no": 238,
+"notParticipating": 37,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 26 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy - Ordynacja podatkowa oraz niektórych innych ustaw (druki nr 2587 i 2605)",
+"topic": "poprawka 1",
+"totalVoted": 423,
+"votingNumber": 144,
+"yes": 0
+},
+{
+"abstain": 187,
+"date": "2026-05-29T10:56:21",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/145/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 213,
+"no": 237,
+"notParticipating": 36,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 26 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy - Ordynacja podatkowa oraz niektórych innych ustaw (druki nr 2587 i 2605)",
+"topic": "poprawka 2",
+"totalVoted": 424,
+"votingNumber": 145,
+"yes": 0
+},
+{
+"abstain": 174,
+"date": "2026-05-29T10:58:11",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/146/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 214,
+"no": 252,
+"notParticipating": 34,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 27 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o zarządzaniu kryzysowym oraz niektórych innych ustaw (druki nr 2589 i 2592)",
+"topic": "poprawki nr 1-4 oraz 6-8",
+"totalVoted": 426,
+"votingNumber": 146,
+"yes": 0
+},
+{
+"abstain": 189,
+"date": "2026-05-29T10:58:43",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/147/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 213,
+"no": 236,
+"notParticipating": 35,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 27 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o zarządzaniu kryzysowym oraz niektórych innych ustaw (druki nr 2589 i 2592)",
+"topic": "poprawka 5",
+"totalVoted": 425,
+"votingNumber": 147,
+"yes": 0
+},
+{
+"abstain": 172,
+"date": "2026-05-29T10:59:17",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/148/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_MAJORITY",
+"majorityVotes": 215,
+"no": 256,
+"notParticipating": 32,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 27 Sprawozdanie Komisji o uchwale Senatu w sprawie ustawy o zmianie ustawy o zarządzaniu kryzysowym oraz niektórych innych ustaw (druki nr 2589 i 2592)",
+"topic": "poprawka 9",
+"totalVoted": 428,
+"votingNumber": 148,
+"yes": 0
+},
+{
+"abstain": 0,
+"date": "2026-05-29T11:01:16",
+"description": "wniosek o wyrażenie przez Sejm Rzeczypospolitej Polskiej zgody na pociągnięcie do odpowiedzialności karnej posła Zbigniewa Ziobry",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/149/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "ABSOLUTE_STATUTORY_MAJORITY",
+"majorityVotes": 231,
+"no": 191,
+"notParticipating": 31,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 20 Sprawozdanie Komisji w sprawie wniosku oskarżycielki prywatnej Doroty Schnepf, reprezentowanej przez adwokatów Wojciecha Łączewskiego i Justynę Borucką, z dnia 9 grudnia 2025 r. o wyrażenie zgody przez Sejm na pociągnięcie do odpowiedzialności karnej posła Zbigniewa Ziobry (druk nr 2562)",
+"topic": "głosowanie nad przyjęciem wniosku o wyrażenie zgody na pociągnięcie do odpowiedzialności karnej posła Zbigniewa Ziobry",
+"totalVoted": 429,
+"votingNumber": 149,
+"yes": 238
+},
+{
+"abstain": 2,
+"date": "2026-05-29T11:02:37",
+"description": "wniosek z druku nr 2617",
+"kind": "ELECTRONIC",
+"links": [
+{
+"href": "https://api.sejm.gov.pl/sejm/term10/votings/58/150/pdf",
+"rel": "pdf"
+}
+],
+"majorityType": "SIMPLE_MAJORITY",
+"majorityVotes": 2,
+"no": 1,
+"notParticipating": 49,
+"present": 0,
+"sitting": 58,
+"sittingDay": 3,
+"term": 10,
+"title": "Pkt. 34 Zmiany w składach osobowych komisji sejmowych (druk nr 2617)",
+"topic": "głosowanie nad przyjęciem wniosku z druku.",
+"totalVoted": 411,
+"votingNumber": 150,
+"yes": 408
+}
+]

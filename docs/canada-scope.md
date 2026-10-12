@@ -3,7 +3,10 @@
 Probed live on 26 September 2026. Every number below was measured, not
 estimated, and is reproducible from `tools/ca_rollcalls.py` and the notes
 here. Groundwork only: nothing is scheduled, nothing reads the `ca_*` tables,
-and the live run was made into a scratch database, not the store.
+and the live run was made into a scratch database, not the store. (That was
+the first day. The weekly has run since 26 September, and since 9 October
+2026 the Canada federal edition reads the tables: see "The Canada federal
+edition" below.)
 
 ## The finding that shapes everything
 
@@ -116,7 +119,9 @@ serves.
   collector is now built (phase 2 below). A 503 is an outage to record, not
   an empty week.
 - **Supreme Court RSS**: the guessed `decisions.scc-csc.ca` path returns 404.
-  The case index page answers 200. The right feed has not been found yet.
+  The case index page answers 200. (Found 1 October: the JSON feeds are
+  `…/scc-csc/en/json/rss.do`; the collector is built, see "Supreme Court of
+  Canada" below.)
 - **Order Paper written questions** were not probed; the `NoticePaper` XML
   path tried was a 404.
 
@@ -145,6 +150,22 @@ feed. Two things matter before anyone says yes to provinces:
   build clear of work in progress on the shared schema. Fold it into
   `init_db` when the monitor is adopted.
 - `config/watchlist-ca.yaml` holds the Canadian additions.
+- `config/ca_area_corrections.yaml` (8 October 2026) holds reviewed area
+  corrections, one bill each, for a bill the taxonomy files under the wrong
+  area. The watchlist can only add an area to a bill key, so a wrong one
+  could never come off. The first is Roxanne's Law (40-3/C-510, coerced
+  abortion), tagged area 2 (assisted dying) on the word "coercion": it is
+  now area 1 and not area 2 on the bill and its division (commons-40-3-151).
+  `src/ca_store.correct_areas` applies it wherever a Canadian bill or
+  division is classified, and `tools/ca_retag.py` writes it to stored rows,
+  the one thing the retag ever removes. The bill's debates are corrected
+  too (Christopher, 8 October 2026: "Remove the tag."): a speech in the
+  bill's session with its bill number, or headed by one of the entry's
+  `speech_titles` (1 November 2010 prints only the short title), loses
+  `not_areas` and gains nothing (`ca_store.correct_speech_areas`, applied by
+  `tools/ca_hansard.py` and the retag). Ten speeches change, four on 1
+  November and six on 13 December 2010, each [1, 2] on "coercion" alone; the
+  first count, eight, came from a query that missed two of 1 November's.
 - `tests/test_ca_rollcalls.py` has 13 tests, and none of them uses the
   network.
 
@@ -317,6 +338,56 @@ How it works:
   (a redesign).
 - **Senate titles use a bill's short title** ("Combatting Hate Act – C-9"),
   so the long title is joined in from `ca_bills`.
+
+### Senate debates (floor speeches), built 2 October 2026
+
+`tools/ca_senate_debates.py` reads the session index
+(`/en/in-the-chamber/debates/<P-S>`) and then each sitting page it links. It
+is not scheduled yet: it joins `ca-weekly.yml` after `ca_hansard`, and
+`coverage.py` needs a `ca_senate_sittings` line (write-once), the day it is.
+
+- **URLs come only from the index.** Its hrefs use backslashes and are
+  normalised; the one forward-slash link is the "latest sitting" box and is
+  dropped. A made-up URL returns 200 with an empty `<title>`, so a page with
+  no `THE SENATE` heading or no speaker labels is a **gap**, recorded and
+  retried, never an empty sitting.
+- **Speakers.** `Hon. First Last (role)` resolves against `ca_senators` on
+  surname plus any given name (the floor says "Margaret Dawn Anderson", the
+  vote pages "Anderson, Dawn"), and `Senator [K.] Last` resolves to the Hon.
+  label seen in the same sitting. The chair and collective labels are
+  counted, not stored. Senators who left before 42-1 (Dec 2015, where the
+  vote record starts) are stored with `person_id` NULL and `speaker_key`, the
+  folded full name, and no id is ever made from a name. A senator appointed
+  since the last recorded vote resolves on the next run after they vote.
+- **Ministers and witnesses.** A minister answering in the Senate
+  (`..., M.P.`) is stored with the House PersonId only if the name is unique
+  in `ca_members`; a witness is stored unattributed. Neither writes a member
+  table or reaches a 5CA sheet.
+- **Matching.** The title passage is h2 + h3 plus the bill's long title,
+  joined on (parliament, session, number). The bill comes from the "On the
+  Order" line or the mover's own sentence. A stage heading under the same
+  subject (a motion in amendment) inherits it. `ca_store.speech_title` builds
+  the passage, so `ca_retag` re-reads exactly what was read.
+- **Storage.** Speeches on our ground go into `ca_speeches` with
+  `chamber='senate'` and `forum='floor'`, keyed `sen-<PS>-<NNN>-<seq>`. Every
+  sitting read gets a `ca_senate_sittings` row. Senate sittings are kept out
+  of `ca_sittings`, whose highest number is the House frontier.
+- **5CA.** Senate sheets now list senators' floor speeches as evidence,
+  "activity, not direction". Commons sheets list only `chamber='commons'`.
+
+**Measured live on 2 October 2026**, against a scratch store holding the
+real `ca_senators` and `ca_bills`:
+
+| Sitting | Interventions | Chair / collective | Speakers resolved | On our ground |
+|---|---|---|---|---|
+| 43-2 / 28, 16 Feb 2021 | 132 | 32 | 42 of 42 | 39 |
+| 43-2 / 29, 17 Feb 2021 (C-7 third reading) | 76 | 18 | 22 of 22 | 12 |
+| 43-2 / 30, 15 Mar 2021 | 154 | 55 | 28 of 28 | 21 |
+
+Plett and Dean resolve and are stored on C-7. On the saved 4 June 2026 page
+(C-9), 89 speeches are on our ground against the scope's 21. The difference
+is the motion-in-amendment debates, which now carry C-9's long title. They
+are C-9 debate, but many are one-line procedural exchanges.
 
 ### The Canada Gazette
 
@@ -687,6 +758,51 @@ blocked, but the next deploy would have been.
 4. **Say whether the sheets go anywhere.** They are written locally and
    posted nowhere, like every other 5CA.
 
+## Supreme Court of Canada, built 2 October 2026
+
+`tools/ca_courts.py`, from section (5) of the federal-sources scope. Not
+scheduled yet: it joins `ca-weekly.yml` after `ca_hansard` in its own try,
+and `ca_judgments` needs a `tools/coverage.py` FEEDS line the same day
+(`tests/test_coverage.py` fails until it has one, by design).
+
+- **Sources.** Lexum's JSON feeds for judgments and for leave to appeal (100
+  items each), and the year index (`<YYYY>/nav_date.do`, 25 a page) for
+  `--backfill --since 2010`. The judgments feed re-lists *updated* old
+  documents (Ford v. Quebec, 1988, beside 2026 SCC 31), so each Lexum id is
+  read once and only re-seen after that.
+- **What is matched.** The headnote, from "Indexed as" to "Cases Cited", with
+  the subjects and the case name as title passages. Never the full text, which
+  drags in every precedent it cites (Carter picks up abortion that way), and
+  never the style of cause, whose intervener names are not what the Court
+  decided. Titles alone match nothing. Carter is area 2, Bedford 7 and 12,
+  Trinity Western 7 and 8 (and 2, via "coercion": the judge's to separate).
+- **Interveners** are stored as a JSON list (`NULL` = could not be read,
+  `[]` = none): Carter has 26, Trinity Western 24. This is the ally and
+  opponent map per case.
+- **Leave.** Every leave decision is stored by docket. A *granted* one is
+  classified on the Registrar's case summary from the docket page on
+  scc-csc.ca, which is the early warning; a dismissed one carries no summary.
+- **The judge.** `tools/ca_triage.py` now scores `ca_judgments` on our ground
+  under its own frame (a judgment, judged on its holding). Not run yet.
+- **Context only.** A judgment never places anyone and never enters a 5CA
+  sheet; a stance file may cite one in a reading's `why`.
+- **Norma.** Lexum's platform served a CAPTCHA (403) after about 200 pages at
+  one a second, on both the SCC and Federal Court instances. The JSON feeds
+  kept answering 200; every HTML page (items, year index) was still 403 more
+  than five hours later. It is never answered: the run stops with one gap and
+  carries on next time. Whether the block lifts by itself, and after how long,
+  is not yet known: until it does, the collector cannot read a page. The
+  collector paces at one request per 3 s and caps a run at 60 pages
+  (`--limit`), so the first run and the backfill (about 1,000 pages) drain
+  over several dispatches.
+- **Federal Court** (`--federal-court`): three in four items are immigration
+  (area 11, hidden) and are skipped unread; the rest are matched on their
+  reasons with the two-passage rule. Low yield, off by default.
+- **Not covered: provincial courts.** CanLII is the only uniform route and
+  answers 401 without a key (free for non-commercial use, on request). The
+  Saskatchewan pronoun case and Alberta's gender laws sit there. Applying is
+  Christopher's call.
+
 ## The weekly schedule, 26 September 2026
 
 `.github/workflows/ca-weekly.yml` ("Canada weekly") runs Tuesday at 10:00
@@ -751,11 +867,88 @@ from 1 would, the second time, start at the frontier and never see the gap.
 `init_db` has created the eleven Canadian tables since phase 3. It fills
 them from the seeds forward.
 
+## The Canada federal edition, built 9 October 2026
+
+Christopher asked for a Canada federal edition on 9 October 2026. It is
+`tools/ca_monitor.py`, modelled on the US and Irish editions, and it goes to
+him alone as a DM (U05LJP0BT61); nothing posts to a channel.
+
+    python3 tools/ca_monitor.py --edition --dm     # editions/ca-monitor-<date>.md + DM
+    python3 tools/ca_monitor.py --print --date 2026-10-09 --db /tmp/scratch.db
+
+**Where it runs.** Both callers of the Canada weekly, after every collector
+and the judge and before the store is published: `jobs/ca-weekly.sh` on the
+Mac Mini (`# mini_run: commit editions`) and the workflow's backup run
+(`git add data/ editions/`). It speaks once a day, as the US weekly does: if
+today's edition is already committed, it is rewritten and the DM is not
+sent again. `tests/test_ca_monitor.py` holds the wiring.
+
+**Sections**, each from what the weekly already collects:
+
+1. **Top lines**: the week's divisions on our ground, bills that moved, new
+   bills, the most-presented petition text, judgments, and any division of
+   the week that has no signed 5CA reading.
+2. **Dates that matter**: 17 March 2027 (MAID for mental illness alone), the
+   fixed election date of 15 October 2029 (Canada Elections Act s.56.1;
+   earlier on a dissolution), open Gazette Part I comment periods, and the
+   last House and Senate sittings read. The sitting calendar is not
+   collected. The prorogation rule is stated: a bill of an earlier session
+   without Royal Assent is treated as fallen whatever its status says.
+3. **Divisions** (House and Senate): the chamber's own result, the tally,
+   the party split by caucus at the vote, and whether the areas came from
+   the division's **own text** or only its **bill** (re-read from the
+   subject alone). Repeats on one bill with one result fold into one line.
+   A quiet week falls back to the last 30 days, then to the latest held.
+4. **Bills**: moved this week (a stage completed, Royal Assent, or a
+   division on the bill), new, live, Royal Assent this session, fallen
+   (defeated, or of an earlier session; that list shows for 60 days after a
+   new session opens).
+5. **Debate on our ground** (House Hansard and the Senate floor): one line
+   per debate and day, the speakers and a link to the day's record, never
+   the text.
+6. **Committees**: witnesses on our ground (`ca_testimony`), one line per
+   meeting with the witnesses, their organisations and the evidence link.
+7. **Petitions**: one line per distinct text (a drive presented by many
+   members is one line), the judge's why-line as the takeaway, and the link.
+8. **Canada Gazette**: items on our ground on a tier-1 term, and comment
+   periods still open.
+9. **Supreme Court**: judgments on our ground with the judge's score, and
+   leave granted in the last 90 days.
+10. **5CA status**: counts of signed, draft, unread and never-placeable
+    readings in `config/ca_stance.yaml`, the drafts listed, divisions on our
+    ground with no reading at all, and private members' bills with no
+    sponsorship reading. It never states a direction, signed or not.
+11. **Coverage**: what is held, what is read with a lag, what is not
+    collected, and what is unscored.
+
+**Scores.** `tools/ca_triage.py` scores petitions and Supreme Court
+judgments. Those are shown at 2 or more, or unscored on a tier-1 term only;
+the rest are counted as held back. Divisions, bills, speeches, testimony and
+the Gazette are unscored and say so. With no judge run at all the edition
+still renders whole.
+
+**A collector fix it needed.** The LEGISinfo list's
+`LatestBillEventDateTime` is the placeholder `0001-01-01T00:00:00` for every
+bill, and `IsGovernmentBill` is False for every bill, C-9 included (measured
+on all 191 bills of 45-1, 9 October 2026). So `ca_bills.latest_event_at`
+never said when a bill moved. `tools/ca_rollcalls.py` now stores
+`bill_type` (the document type, which also sets `is_government`),
+`introduced_at` (first reading in the originating chamber), `last_stage` and
+`last_stage_at` from the list's real stage dates, with no extra call. The
+next weekly fills them for the whole session.
+
+**The first render** (9 October 2026, from a scratch copy of the store with
+the 45-1 bill list re-read): one House division on our ground, C-218's
+second reading on 7 October, negatived 141-187 (Lib 2-166, CPC 133-0, BQ
+0-21, NDP 5-0, GP 1-0), which has no 5CA reading yet; 9 live bills; 16
+speeches in 6 debates; 17 petitions in 8 texts, 7 shown (six C-218 MAID
+texts and e-7005); 2 Gazette items; one leave granted (Alberta v. Wirring).
+
 ## Proposed phasing
 
 1. **Phase 1 (done, scheduled): House divisions, positions, bills.**
 2. **Phase 2 (done, scheduled): Hansard, petitions, Senate votes, the
-   Canada Gazette.** Collected weekly; no edition reads them yet.
+   Canada Gazette.** Collected weekly; the edition reads them (below).
 3. **Phase 3 (built, awaiting sign-off): the Canadian 5CA.** See below.
    Every reading is a draft, so every sheet is an evidence list until
    Christopher confirms readings in `config/ca_stance.yaml`.
@@ -778,8 +971,9 @@ them from the seeds forward.
 
 ## Open questions for Christopher
 
-1. **Who reads it?** Is there a CitizenGO Canada team or campaigner, and do
-   they want an edition of their own (the EU and German pattern) or a DM?
+1. **Who reads it?** Answered 9 October 2026: Christopher, by DM, as the
+   US and Irish editions (see "The Canada federal edition" above). Whether a
+   Canadian campaigner or channel gets it later is still open.
 2. **Federal only, or provinces too?** If provinces, which ones, and is
    Quebec in, given it needs a French term layer?
 3. **The watchlist is a groundwork draft.** Someone who campaigns in Canada

@@ -1,0 +1,83 @@
+{
+ "isError": false,
+ "message": "OK",
+ "data": {
+  "metricas": {
+   "total": 257,
+   "propietarios": 0,
+   "suplentes": 257,
+   "bancadas": 5,
+   "asistenciaPromedio": 0
+  },
+  "diputados": [
+   {
+    "userId": 114,
+    "displayName": "GODOFREDO FAJARDO RAMÍREZ",
+    "name": "GODOFREDO FAJARDO",
+    "lastname": "RAMIREZ",
+    "userDocument": "0000000000000",
+    "citizenId": null,
+    "email": "redacted@example.invalid",
+    "departamento": "FRANCISCO MORAZAN",
+    "party": {
+     "name": "PARTIDO DEMOCRATA CRISTIANO DE HONDURAS"
+    },
+    "imageUrl": "https://hnassets.blob.core.windows.net/assets-production/0801197101197.JPG",
+    "isActive": true,
+    "role": "VP",
+    "createdOn": "2026-05-25T06:12:01.94"
+   },
+   {
+    "userId": 115,
+    "displayName": "FLAVIO JAVIER NÁJERA ZELAYA",
+    "name": "FLAVIO JAVIER",
+    "lastname": "NAJERA ZELAYA",
+    "userDocument": "0000000000001",
+    "citizenId": null,
+    "email": "redacted@example.invalid",
+    "departamento": "FRANCISCO MORAZAN",
+    "party": {
+     "name": "PARTIDO DEMOCRATA CRISTIANO DE HONDURAS"
+    },
+    "imageUrl": "https://hnassets.blob.core.windows.net/assets-production/0801197802576.JPG",
+    "isActive": true,
+    "role": "SU",
+    "createdOn": "2026-05-25T06:12:02.0333333"
+   },
+   {
+    "userId": 116,
+    "displayName": "ROLANDO CONTRERAS MENDOZA",
+    "name": "ROLANDO CONTRERAS",
+    "lastname": "MENDOZA",
+    "userDocument": "0000000000002",
+    "citizenId": null,
+    "email": "redacted@example.invalid",
+    "departamento": "CORTES",
+    "party": {
+     "name": "PARTIDO INNOVACION Y UNIDAD SOCIAL DEMOCRATA"
+    },
+    "imageUrl": "https://hnassets.blob.core.windows.net/assets-production/0505197300326.JPG",
+    "isActive": true,
+    "role": "VP",
+    "createdOn": "2026-05-25T06:12:02.1266667"
+   },
+   {
+    "userId": 117,
+    "displayName": "MARIXA FILOMENA JULIN ZELAYA",
+    "name": "MARIXA FILOMENA",
+    "lastname": "JULIN ZELAYA",
+    "userDocument": "0000000000003",
+    "citizenId": null,
+    "email": "redacted@example.invalid",
+    "departamento": "CORTES",
+    "party": {
+     "name": "PARTIDO INNOVACION Y UNIDAD SOCIAL DEMOCRATA"
+    },
+    "imageUrl": "https://hnassets.blob.core.windows.net/assets-production/0107196701535.JPG",
+    "isActive": true,
+    "role": "SU",
+    "createdOn": "2026-05-25T06:12:02.2166667"
+   }
+  ]
+ }
+}

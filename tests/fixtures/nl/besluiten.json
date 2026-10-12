@@ -1,0 +1,2259 @@
+{
+ "@odata.context": "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/$metadata#Besluit(Stemming(Id,Soort,FractieGrootte,ActorNaam,ActorFractie,Vergissing,Persoon_Id,Fractie_Id),Zaak(Id,Nummer,Soort,Titel,Onderwerp,GestartOp,Kabinetsappreciatie,Afgedaan,Kamerstukdossier(Nummer,Toevoeging,Titel)),Agendapunt(Id,Onderwerp,Activiteit(Id,Datum,Soort)))",
+ "value": [
+  {
+   "Id": "9ea410c3-d0ef-4291-b4ed-01fe9e83d01b",
+   "Agendapunt_Id": "d0973ae1-cbdd-4d26-9d2c-c0c35b4f8a8a",
+   "StemmingsSoort": "Met handopsteken",
+   "BesluitSoort": "Stemmen - verworpen",
+   "BesluitTekst": "Verworpen.",
+   "Opmerking": null,
+   "Status": "Besluit",
+   "AgendapuntZaakBesluitVolgorde": 21,
+   "GewijzigdOp": "2026-10-06T17:15:56.083+02:00",
+   "ApiGewijzigdOp": "2026-10-06T15:16:01.3422172Z",
+   "Verwijderd": false,
+   "Stemming": [
+    {
+     "Id": "ed3b9c7a-c0d5-40e1-ad73-023e4a629323",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "BBB",
+     "ActorFractie": "BBB",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "626555ac-e836-44e3-9978-a6a7f0abc3ce"
+    },
+    {
+     "Id": "44e0b58f-fab7-42ab-b0b4-0911bf542d5f",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "CDA",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "f98a1b89-2c29-4b51-9208-1430c25f0167",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Groep Markuszower",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "c6415c96-4e20-461a-98e1-18e8555f2ca7",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "SP",
+     "ActorFractie": "SP",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "a3689bb6-3914-4d5c-a6a8-42e24582e299"
+    },
+    {
+     "Id": "6322f3a0-ca3d-40cc-9ca7-6e00f4722a90",
+     "Soort": "Voor",
+     "FractieGrootte": 1,
+     "ActorNaam": "Keijzer",
+     "ActorFractie": "Keijzer",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "65b21c25-91e8-4844-a67c-bc5866e457b5"
+    },
+    {
+     "Id": "9b931ad6-e432-4b9c-ac3a-7198972d74f0",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "FVD",
+     "ActorFractie": "FVD",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "e0b7b638-de3c-47cc-85bd-341dd65ea33d"
+    },
+    {
+     "Id": "632965bc-bec9-4434-aaca-867cf4805523",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "D66",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "ad7d4c63-e4f1-4756-b2a4-8ac751775d13",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "PVV",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "cc7a384e-db40-475d-a52a-a8d54f494269",
+     "Soort": "Voor",
+     "FractieGrootte": 2,
+     "ActorNaam": "50PLUS",
+     "ActorFractie": "50PLUS",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "a34bf6c8-834e-4dba-b4d2-f2f1b3957bd2"
+    },
+    {
+     "Id": "f7ff7441-e2d2-41a9-81a5-ba259b5d01d0",
+     "Soort": "Voor",
+     "FractieGrootte": 20,
+     "ActorNaam": "PRO",
+     "ActorFractie": "PRO",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "d60f373a-5bb2-477f-9979-a8f3a0514e6b"
+    },
+    {
+     "Id": "04c0ebfa-5884-4d12-8ac5-bc9c537538f7",
+     "Soort": "Voor",
+     "FractieGrootte": 1,
+     "ActorNaam": "Volt",
+     "ActorFractie": "Volt",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "ae48391e-ce4d-47e0-86e3-ee310282f66f"
+    },
+    {
+     "Id": "54e9b257-a682-42a3-88c6-ca6a1b06437f",
+     "Soort": "Tegen",
+     "FractieGrootte": 9,
+     "ActorNaam": "JA21",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "19468af0-6779-4bf1-9237-d48de64b9c2c",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "VVD",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "05fade82-cefa-464a-a199-d5674f708b37",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "SGP",
+     "ActorFractie": "SGP",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "77f9b6f1-b1a9-4d1b-a05e-9936e79d8fa5"
+    },
+    {
+     "Id": "0c81f4cf-5da5-455d-b8a3-dac4ffd7c829",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "PvdD",
+     "ActorFractie": "PvdD",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "d3b4d880-ef37-4ce6-99ec-4940266ac466"
+    },
+    {
+     "Id": "13aacf6c-ec17-40b3-8b9d-ef3a7a0c3b78",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "DENK",
+     "ActorFractie": "DENK",
+     "Vergissing": true,
+     "Persoon_Id": null,
+     "Fractie_Id": "deb74bb5-63a9-4ffc-98ed-af577167452e"
+    },
+    {
+     "Id": "1f0b1bdc-92d6-4f1d-bc09-ff2bd6d02bac",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "ChristenUnie",
+     "ActorFractie": "ChristenUnie",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "d720f5af-0516-408a-b830-0b6ffb8a581c"
+    }
+   ],
+   "Zaak": [
+    {
+     "Id": "db4bb49a-775f-40b0-b753-5911dd15ff6b",
+     "Nummer": "2026Z20773",
+     "Soort": "Motie",
+     "Titel": "Vaststelling van de begrotingsstaat van het Ministerie van Financiën (IXB) en de begrotingsstaat van Nationale Schuld (IXA) voor het jaar 2027",
+     "Onderwerp": "Motie van het lid Ergin over bezuinigingen niet ten koste laten gaan van de koopkracht van werkenden en mensen met lage inkomens ",
+     "GestartOp": "2026-10-01T00:00:00+02:00",
+     "Afgedaan": true,
+     "Kabinetsappreciatie": "Ontraden",
+     "Kamerstukdossier": [
+      {
+       "Titel": "Vaststelling van de begrotingsstaat van het Ministerie van Financiën (IXB) en de begrotingsstaat van Nationale Schuld (IXA) voor het jaar 2027",
+       "Nummer": 37020,
+       "Toevoeging": "IX"
+      }
+     ]
+    }
+   ],
+   "Agendapunt": {
+    "Id": "d0973ae1-cbdd-4d26-9d2c-c0c35b4f8a8a",
+    "Onderwerp": "Moties ingediend bij de Algemene Financiële Beschouwingen ",
+    "Activiteit": {
+     "Id": "6d243e86-eb01-40ad-902b-5fa3d5b33058",
+     "Soort": "Stemmingen",
+     "Datum": "2026-10-06T15:00:00+02:00"
+    }
+   }
+  },
+  {
+   "Id": "4df30700-56ad-45bb-a916-167b6541228a",
+   "Agendapunt_Id": "f303ef78-1f52-4063-b5a8-71f8e5195c69",
+   "StemmingsSoort": "Hoofdelijk",
+   "BesluitSoort": "Stemmen - verworpen",
+   "BesluitTekst": "Verworpen. (46-97)",
+   "Opmerking": null,
+   "Status": "Besluit",
+   "AgendapuntZaakBesluitVolgorde": 6,
+   "GewijzigdOp": "2026-06-02T17:28:25.753+02:00",
+   "ApiGewijzigdOp": "2026-06-02T15:28:30.8724798Z",
+   "Verwijderd": false,
+   "Stemming": [
+    {
+     "Id": "cf6e788a-9649-4a99-80bb-0262d13e42cf",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Raijer, A.J.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "50b2f0b4-0fd9-473e-bcde-17bdff81fc73",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "d91d1224-9e16-433d-bcb6-03c9eb97a76d",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Eijk van, W.P.J.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "05ca01ed-8f7f-4e1c-850e-3a480c38e775",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "fc8a3933-a823-4e22-b8d3-041a5eb78678",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Rooderkerk, I.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "c055003b-034e-4d30-ae78-dd271b00dcbf",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "8504553b-4d06-4c2d-8e17-06a4f2c2c806",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Werf van der, J.J.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "6a54c095-9872-4322-81be-114b74233d40",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "0cc50f68-f03d-46c1-8994-06ce4ccdbe35",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "Ergin, D.A.",
+     "ActorFractie": "DENK",
+     "Vergissing": false,
+     "Persoon_Id": "02da66c7-029f-4207-a00d-21babf0d3cc6",
+     "Fractie_Id": "deb74bb5-63a9-4ffc-98ed-af577167452e"
+    },
+    {
+     "Id": "fdc40447-be0a-4516-a0ff-0887202a4b3a",
+     "Soort": "Niet deelgenomen",
+     "FractieGrootte": 7,
+     "ActorNaam": "Russcher, T.K.",
+     "ActorFractie": "FVD",
+     "Vergissing": false,
+     "Persoon_Id": "9d29cdee-6873-41d1-b4f5-61940ef11cb7",
+     "Fractie_Id": "e0b7b638-de3c-47cc-85bd-341dd65ea33d"
+    },
+    {
+     "Id": "cdb75a40-a0da-453f-97be-0c038b3f6277",
+     "Soort": "Tegen",
+     "FractieGrootte": 9,
+     "ActorNaam": "Coenradie, I.",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": "a08790d3-915b-44d3-9556-6c53048917a0",
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "5fa0fb26-aec3-4d09-8cc5-0cfcd2ccaefe",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "Ceder, D.G.M.",
+     "ActorFractie": "ChristenUnie",
+     "Vergissing": false,
+     "Persoon_Id": "7cbb2d95-46b2-4fcb-b129-9505f56e7f07",
+     "Fractie_Id": "d720f5af-0516-408a-b830-0b6ffb8a581c"
+    },
+    {
+     "Id": "a7a6c7ed-5add-45f7-9e7b-0feb98fda199",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Koorevaar, J.C.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "48108814-4f16-4de8-85b2-e20e75294676",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "24c3b2d7-adae-493a-9bee-101ad4cc5848",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Ellian, U.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "ea21d788-7cfe-41ff-b22f-0664397139af",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "9c6eee84-c121-4730-aa13-11a39ad12b9d",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Piri, K.P.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "a437e923-725f-415e-a01d-5588a7af933e",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "b1984727-e3d0-41f4-9494-1511e6e26219",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Meijeren van, G.F.C.",
+     "ActorFractie": "FVD",
+     "Vergissing": false,
+     "Persoon_Id": "557f8bd5-9f66-4bed-9b5f-86746bb0600a",
+     "Fractie_Id": "e0b7b638-de3c-47cc-85bd-341dd65ea33d"
+    },
+    {
+     "Id": "5a27d397-e855-41ac-8c24-1527430d4797",
+     "Soort": "Voor",
+     "FractieGrootte": 1,
+     "ActorNaam": "Keijzer, M.C.G.",
+     "ActorFractie": "Keijzer",
+     "Vergissing": false,
+     "Persoon_Id": "8c5a8186-8f46-4bca-956d-06d4fa521635",
+     "Fractie_Id": "65b21c25-91e8-4844-a67c-bc5866e457b5"
+    },
+    {
+     "Id": "0dc32356-3931-43d4-bc54-1810722b2529",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Maeijer, V.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "e5f316f0-e4e7-4cf0-a064-ed9321737487",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "e3d042fd-0193-46f5-9444-19b738fdbf9c",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Huidekooper, D.J.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "8a152678-92d8-41f4-9002-62ee62d2f7b0",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "c34bf652-c5c8-4cd9-8888-19da4526e38c",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Dijck van, A.P.C. (Tony)",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "a396ae20-6309-456b-a5ae-e4068dea8a67",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "7eaa0724-4d90-4bdb-9363-264cec53765b",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Schilder, J.M.M.",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": "45e9917b-95cc-428c-b8a0-9d50cff58a59",
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "3be89215-562e-4fac-b044-271a375ccc1f",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Zalinyan, A.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "6f8efc5e-726c-4919-98d8-c6f1cd6b0b2b",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "0f4f05e2-856c-4efc-a4ca-2732c9889708",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Boon, M.C.H.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "0004fa63-2652-43fe-9866-4130ca4652d8",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "0173e9e2-5585-49b2-a90f-29000b33e1c9",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Leijen van, R.M.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "7a799770-dff0-40ef-9d63-c0a8ed5b0a7a",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "9482a99f-ab52-45de-8453-29f7fc30db78",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Hamstra, S.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "c9f8c464-6703-49e3-96af-366d76b161f6",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "08ef254a-f755-4e65-a6c4-2ad8b0d5724e",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "Grinwis, P.A.",
+     "ActorFractie": "ChristenUnie",
+     "Vergissing": false,
+     "Persoon_Id": "d38ca3cf-9803-48dc-8592-c67c4430168e",
+     "Fractie_Id": "d720f5af-0516-408a-b830-0b6ffb8a581c"
+    },
+    {
+     "Id": "52fdc156-ae72-4a84-9572-2b49f709d3af",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Vellinga-Beemsterboer, M.C.A.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "c4082506-df19-49de-a2e2-ccee0c5c7a81",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "2392a07c-121d-4d89-bc62-2c87e5c90ba7",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Huizenga, R.A.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "67261924-770e-4746-88d3-22e85bf217ed",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "e12dcf15-6bac-4fdb-ac3c-2dca5444ba46",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Bromet, L.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "ccea26dd-dcae-4174-8945-ec5cb568e951",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "023e39da-c05e-49eb-81d6-30d854af494f",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Graus, D.J.G.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "819764fa-3a17-467b-8327-30899ed083b6",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "62eb9851-2a32-4d46-92f8-316cf73b732d",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Lammers, A.N.",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": "10c4f889-d7de-48bb-a0b7-9a7125f1fc98",
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "43c5924f-cde9-47ff-99df-32fda739aec0",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Bühler, J.G.L.M.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "a9b2e7ac-3f50-4f60-bea6-4d78d3d2aefa",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "1a6637c7-272a-45be-aa0a-355f8fd5a587",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Schenk, M.",
+     "ActorFractie": "FVD",
+     "Vergissing": false,
+     "Persoon_Id": "d0ddd0c4-ece0-4b75-85b7-d2396a05f921",
+     "Fractie_Id": "e0b7b638-de3c-47cc-85bd-341dd65ea33d"
+    },
+    {
+     "Id": "87038c0c-1e11-4779-bf17-393257b30281",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Asten van, R.J.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "6616f1dc-73e5-4753-b259-c10856ee7e4d",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "e734ddc1-3953-446f-baa4-3d566e337264",
+     "Soort": "Niet deelgenomen",
+     "FractieGrootte": 3,
+     "ActorNaam": "Plas van der, C.A.M.",
+     "ActorFractie": "BBB",
+     "Vergissing": false,
+     "Persoon_Id": "b41b2403-9f06-4d55-adc5-b0777373ca7e",
+     "Fractie_Id": "626555ac-e836-44e3-9978-a6a7f0abc3ce"
+    },
+    {
+     "Id": "fbbcfa88-05db-44f8-8a95-3d7487835763",
+     "Soort": "Voor",
+     "FractieGrootte": 9,
+     "ActorNaam": "Boomsma, D.T. (Diederik)",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": "5c9533b7-a733-480e-bb38-711e96129684",
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "84881cd9-b881-4397-8aea-3f30de81b65a",
+     "Soort": "Niet deelgenomen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Paulusma, W.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "d89044ef-b7df-4a15-be10-d342fe381664",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "39df87bd-ead6-4f20-bcc0-40250a6c4625",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Jagtenberg, M.H.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "dc160d87-fc55-486d-9b55-a307330e4da0",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "18800139-f9b8-4e0a-9d33-40506befd1eb",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Hollander den, R.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "51036c88-5a8f-4842-8867-0a460bbb611e",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "1ed62a4c-265b-42f3-a3a3-4227859f3c65",
+     "Soort": "Niet deelgenomen",
+     "FractieGrootte": 7,
+     "ActorNaam": "Vos de, L.G.",
+     "ActorFractie": "FVD",
+     "Vergissing": false,
+     "Persoon_Id": "0fa85a58-19e2-4a9e-8d13-0c2bf8ec38da",
+     "Fractie_Id": "e0b7b638-de3c-47cc-85bd-341dd65ea33d"
+    },
+    {
+     "Id": "1f6ac812-7ebf-4d92-bca0-42e195bba70b",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Boelsma-Hoekstra, L.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "80d02106-9cf3-473d-9b4f-3951f48f57ef",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "157438df-0575-4748-a12d-430b5a45b06e",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Moorman, M.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "d32c6620-c63d-41d7-8762-a1dc31ecb882",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "4594eaec-a77d-429f-86e7-445a139a4def",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Kops, A.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "77c541d2-49e3-483f-869d-134df420c5ea",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "74bc68ac-f372-4274-99ef-467183707e8c",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "Beckerman, S.M.",
+     "ActorFractie": "SP",
+     "Vergissing": false,
+     "Persoon_Id": "0ea8e29d-3bfe-4982-8594-9350b527d553",
+     "Fractie_Id": "a3689bb6-3914-4d5c-a6a8-42e24582e299"
+    },
+    {
+     "Id": "e72b5851-9b42-414f-8901-54a5147bb036",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Köse, U.I.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "12d92cdf-9eb4-4e5c-8d1b-b2fa2b00a8ab",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "1f18774d-1097-42c4-a73f-54ae70d1e2e4",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Groningen van, D.A.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "afc7a846-0edb-4172-a6ac-f924caf1b69b",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "7eb74abb-7a25-4f66-9ac1-58339818a392",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Markuszower, G.",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": "754f2d87-8990-4b77-8181-54d8df8fa63a",
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "2917003d-162e-4ba3-bf6b-59314b7f0d51",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Bikkers, B.T.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "d081e81a-72b1-4c57-9d25-2f34292da0cf",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "1353aee8-6160-4a6c-b259-5958ca2bb86d",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Klos, F.C.O.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "3817ddd8-9797-4b14-8d75-77c909b711e0",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "12a23408-4c7c-4b8e-b6f6-59678d3d3a4b",
+     "Soort": "Voor",
+     "FractieGrootte": 9,
+     "ActorNaam": "Ceulemans, S.",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": "1a02adff-bc47-4d06-bc1e-fec2d3ed193d",
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "1bd62aab-8ce0-41e7-8192-5ab12b573ed5",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Campen van, A.A.H.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "bf494e35-c009-4c74-a5c6-3cb2cd26bb51",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "5e4007e9-6772-4a27-9288-5b0f9fedffe1",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Synhaeve, M.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "14642402-bfc5-4471-9246-7fb6742a35e8",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "72ccac51-ebd9-4ba8-a803-5ca6f1d99535",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Oosterhuis, H.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "5f70fd14-3d7a-4936-9667-d76b0d524a61",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "cc8866d2-0e36-41fb-96e4-5ce54548d583",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "Kostić, I.",
+     "ActorFractie": "PvdD",
+     "Vergissing": false,
+     "Persoon_Id": "9e16daf1-18e6-4563-b371-aa50c31b79f6",
+     "Fractie_Id": "d3b4d880-ef37-4ce6-99ec-4940266ac466"
+    },
+    {
+     "Id": "567c42ad-cd1f-46b4-9e79-5d95ed3508fb",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Steen, H.S.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "4acb1921-a68d-40af-9f14-35112c020da5",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "cf4752c4-7a2e-467b-8d04-5e5e7c9df533",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Mutluer, S.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "9f855643-68a2-409e-b4fe-81b92547212a",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "87823e8a-77b5-468c-876f-5e8c8353f471",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Lee van der, T.M.T.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "75a44c3a-5914-4c8e-9ca4-d987853f5844",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "6f01dcca-ea56-4487-b57d-6041a052d125",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Brink van den, T.A. (Tijs)",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "34fc7be9-6938-4163-8c47-f95c5f87e6b5",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "53745759-4eb1-401f-a499-605408d2d43d",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Meulenkamp, W.J.H.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "de1735dc-a542-4e58-8c06-9effd9005686",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "11b8a1a8-1b9b-495f-b2d1-63ef026a33c7",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Dijk van, I. (Inge)",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "1ee767b9-67f3-47e5-9e28-045da1c37b05",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "5f14d368-5b06-45f4-ae84-6401ab08d961",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Müller, A.S.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "3b3c7923-b604-4902-97c1-210aa85182c1",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "15c2e30e-caf3-469f-ac1c-64bc2fce0a68",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Abdi, F.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "68d64b36-9e16-4f0f-9a78-6f22b3aa093a",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "b6508937-8654-4643-b9bb-6541cdbe1f0d",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Neijenhuis, S.J.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "707d820c-5453-4ca5-a193-15e40c1d3f98",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "f195c302-a4e3-4c47-a59d-65792732bfa1",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Patijn, M.H.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "3dd43fe1-c99a-4826-b08f-4ed3fc0dd9ba",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "3243eb54-6fc2-4811-9abf-6671fd34c69e",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Schutz, B.A.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "83886cc3-def7-45bb-bea6-e10200c1cd9e",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "757d0149-7a23-44a0-b9c6-68d5c0cdca41",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Tseggai, M.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "b8e78559-8f69-4ec6-89ce-17645a5eecdb",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "90806124-5c17-4159-8b68-6cbebf16a312",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Vondeling, M.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "f3ebacbe-ae1d-4ee9-bf9f-cef7d9e0f489",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "57d6ce1c-7fad-490a-a2a2-6ea5785d00a6",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Zwinkels, J.M.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "1b823081-5a38-41cf-9d21-63a635df7b06",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "d3941704-a054-4031-b092-7182b65a20d1",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Sneller, J.C.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "da9f33b0-80ca-49eb-a1ec-def3b46538d9",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "1d2f9336-170d-41b7-b019-7402a5bdb312",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Heutink, H.D.",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": "33290394-05f7-44c4-9187-7c6ec6059c27",
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "52c70b03-a336-407d-aca3-75126668738f",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Dijk, H.L.O. (Heera)",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "0079c245-1bd8-45fb-8cb8-afa4b7bc5d36",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "762ac3a5-73fd-4200-ab20-788a8ccc0b0f",
+     "Soort": "Niet deelgenomen",
+     "FractieGrootte": 3,
+     "ActorNaam": "Stoffer, C.",
+     "ActorFractie": "SGP",
+     "Vergissing": false,
+     "Persoon_Id": "98aa8bde-85b0-49ed-9795-e2eeb206e3b8",
+     "Fractie_Id": "77f9b6f1-b1a9-4d1b-a05e-9936e79d8fa5"
+    },
+    {
+     "Id": "3ac93403-8425-4712-a6f1-7890010d843b",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Wendel, H.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "4b6348d0-bf6d-4086-983b-48eb3834efff",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "3c1d6330-ac76-4a72-85c3-797e2752246f",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Belhirch, F.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "59f4fe08-4b7e-42a0-9551-082b07c5945a",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "e22dd678-eff8-49e5-bdea-7c9a597bbdb0",
+     "Soort": "Niet deelgenomen",
+     "FractieGrootte": 3,
+     "ActorNaam": "Ouwehand, E.",
+     "ActorFractie": "PvdD",
+     "Vergissing": false,
+     "Persoon_Id": "1c16919b-5c3f-486c-9cc7-bdd00e29e9a4",
+     "Fractie_Id": "d3b4d880-ef37-4ce6-99ec-4940266ac466"
+    },
+    {
+     "Id": "36c6fea6-fb04-4e55-8ef2-7e7c5369c3cf",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Podt, A.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "950c21d2-8a14-406d-b3af-877360bbd0ab",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "09df2097-ee79-48e5-9380-81a16ca29385",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "Dobbe, S.E.M.",
+     "ActorFractie": "SP",
+     "Vergissing": false,
+     "Persoon_Id": "21cc8db0-5084-4e4d-a083-99df36fa6170",
+     "Fractie_Id": "a3689bb6-3914-4d5c-a6a8-42e24582e299"
+    },
+    {
+     "Id": "fefb9d8c-d6d9-483f-b4aa-8284b70b9695",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Lohman, J.B.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "3c429d84-fe37-4f2a-8d25-8bc2f764b870",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "888eeeb4-2f5e-465a-94ca-86c75c30d615",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Dijk van, E. (Emiel)",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "81552958-ef83-4fab-8a92-6e5b1975c9ef",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "df1a8967-8cd0-4e15-879b-87ebb1eabfe9",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Roon de, R.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "c60c655f-40ba-47b0-8e93-a2c8d1ff4743",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "20c5f603-6301-4712-9f0c-8852acf5c81a",
+     "Soort": "Tegen",
+     "FractieGrootte": 9,
+     "ActorNaam": "Goudzwaard, M.",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": "3322191a-8ca5-4a69-bb2f-d516086c28ae",
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "f19af491-8ed9-41a2-842d-8a15bc9e9cc4",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Houwelingen van, P.",
+     "ActorFractie": "FVD",
+     "Vergissing": false,
+     "Persoon_Id": "64f39510-b420-4b01-8b5e-2b2f2b0aad91",
+     "Fractie_Id": "e0b7b638-de3c-47cc-85bd-341dd65ea33d"
+    },
+    {
+     "Id": "4b301370-5c15-4f84-9c44-8a82879a473c",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Prickaertz, E.C.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "e48a9b77-8c42-4369-a967-7262e8facb29",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "2ccff04e-6946-48b2-91dc-8c167c590389",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Stultiens, L.C.J.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "7a727f46-0e36-493f-8779-736d3250fb27",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "ea10bae5-3099-4e2d-a082-8cab444ab4fb",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Kröger, S.C.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "89d70a20-bd10-46ed-866a-2c79362a0559",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "98c28439-019f-4831-b9b8-8de0c84a96fe",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "Flach, A.J.",
+     "ActorFractie": "SGP",
+     "Vergissing": false,
+     "Persoon_Id": "2bea63db-715f-401f-b710-e91c7650df0c",
+     "Fractie_Id": "77f9b6f1-b1a9-4d1b-a05e-9936e79d8fa5"
+    },
+    {
+     "Id": "548d529c-4a27-4566-881a-8dfd86b460c1",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Hoop de, H.E.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "e70c3ee3-cca2-4521-abea-b124dcec0952",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "01290312-793d-417e-a2ff-8e67d89c4d58",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Bushoff, T.J.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "a824c21d-055a-49ed-a060-a1c7af3262df",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "3cf80566-7949-4ad3-a71c-9080863f33e2",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Maas van der, E.J.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "7da5d1c6-58a0-4a40-89c0-cc5fc3aff9c4",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "cb1ace8e-80e8-47b6-bc9b-911ffb3b357f",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Duijvenvoorde van, P.",
+     "ActorFractie": "FVD",
+     "Vergissing": false,
+     "Persoon_Id": "71a23ba5-15b7-4057-9349-70bf28be58c4",
+     "Fractie_Id": "e0b7b638-de3c-47cc-85bd-341dd65ea33d"
+    },
+    {
+     "Id": "cd3447bc-d6b5-4769-9045-920293fb00aa",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Wilders, G.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "6d33b9bc-7d3a-4a60-b2d7-c2b70cd11ab1",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "f8d1ca73-084f-4857-a3a5-9329419e1367",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Armut, E.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "e71290ca-7a53-4466-889b-fe1d113005ec",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "1ed55f1e-3f52-42f3-a266-94fb31d03f3e",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Hove ten, T.",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": "14fbb153-c31c-4ffd-ac58-2e6314388a38",
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "8ff2911f-30e8-4952-aba0-97a9155ceba0",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Groot de, P.C. (Peter)",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "a0b48551-42b7-4c55-9556-6b997d978ff2",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "0c3029fe-d497-4b24-b246-992ad8c26223",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Schoonis, J.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "05c9a6b8-4642-449a-9a1e-1df4aca70b10",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "841208d3-76e5-4dc8-92ef-99dd130df0d7",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "Baarle van, S.R.T.",
+     "ActorFractie": "DENK",
+     "Vergissing": false,
+     "Persoon_Id": "859e1824-cc60-4304-9293-dca932ebbed2",
+     "Fractie_Id": "deb74bb5-63a9-4ffc-98ed-af577167452e"
+    },
+    {
+     "Id": "cddb44db-c3eb-4026-b1ec-99f7f12f9589",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "Dijk, J.P. (Jimmy)",
+     "ActorFractie": "SP",
+     "Vergissing": false,
+     "Persoon_Id": "990b2d9b-0b83-4dde-ab04-5cd5d8c5c4d3",
+     "Fractie_Id": "a3689bb6-3914-4d5c-a6a8-42e24582e299"
+    },
+    {
+     "Id": "e6b7da3d-4423-4d47-a2c4-9aee5d83b700",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Bosma, M. (Martin)",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "034829b1-019f-4ee2-8961-83e82ac2eaa3",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "0d55c552-ad5a-4a0a-b785-9d672b6f82fd",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Bamenga, P.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "d4b77771-411c-4d3d-a893-767f38e07c67",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "feb70925-828b-459f-9123-9db16e559584",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Biekman, A.N.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "4e24b3c9-966c-48bf-947d-231d3feb649d",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "7ad536a8-6d93-42ad-8beb-9eec5c10a53c",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Lahlah, A.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "71c301a1-74a2-433b-9810-c1f15bf86736",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "43abf936-874e-4100-99bd-9ffd086bca1d",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Michon-Derkzen, I.J.M.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "973da897-66c7-4010-a98d-505e0e97a60c",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "24b5574c-4c50-4e8f-89ac-a0679438ac4a",
+     "Soort": "Tegen",
+     "FractieGrootte": 2,
+     "ActorNaam": "Brenk van, C.M.",
+     "ActorFractie": "50PLUS",
+     "Vergissing": false,
+     "Persoon_Id": "b29c0e00-7ac2-4c28-ab4f-8fceb156337b",
+     "Fractie_Id": "a34bf6c8-834e-4dba-b4d2-f2f1b3957bd2"
+    },
+    {
+     "Id": "0d40e2aa-c0ef-4f5f-a810-a389871efaeb",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Claassen, R.A.B.",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": "510ebeb6-5625-4a9f-9853-36bcd54728e0",
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "59f5553b-020a-4b2a-9b26-a6cdcca4f5f8",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Vliegenthart, L.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "a6a6861d-5972-4650-bc4f-38ba958c6bdc",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "f07b8e0b-44c1-4be3-b72f-ab7feb3211a5",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Mulder, E. (Edgar)",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "48d02bab-281c-4bd0-8a50-26bf90a38cc0",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "c48ba2c5-dede-48a4-a262-abebc6b4711e",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Stöteler, T.S.M.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "d58f3da8-94f6-4b03-ac9f-67ec50e12bf3",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "83cafd63-a748-4bb4-b825-aec2a47004f2",
+     "Soort": "Tegen",
+     "FractieGrootte": 2,
+     "ActorNaam": "Struijs, J.A.",
+     "ActorFractie": "50PLUS",
+     "Vergissing": false,
+     "Persoon_Id": "21674d1a-d86e-46e4-bff5-7cc3e4c7d270",
+     "Fractie_Id": "a34bf6c8-834e-4dba-b4d2-f2f1b3957bd2"
+    },
+    {
+     "Id": "d3f18971-2603-4f2c-b8d0-aeed45fae9a0",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Moinat, N.",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": "5222c31a-b0b0-496b-8f74-55988b1b8dda",
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "407a9dcf-8e2b-46fc-b754-afe128310f9f",
+     "Soort": "Tegen",
+     "FractieGrootte": 9,
+     "ActorNaam": "Eerdmans, B.J.",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": "c6e26bd3-724f-45d3-93af-ef431e6fcd42",
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "0e9f03c7-5cbd-45d0-b7b1-b4975e3b9297",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Boujdaini el, S.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "ffcac8a5-952b-42e8-975a-09860c123d3f",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "62a76853-2d1b-490d-a923-b6d6dc1478a7",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Faber, M.H.M.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "fe1727e3-35bc-4b62-869b-be60b0c861f7",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "c76000bd-324c-416c-a018-b9f8706e7486",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Tijmstra, E.S.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "f177383d-2044-4a7b-b6bb-2b45ff30e972",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "0a8eae58-20f8-48f5-bdc3-ba7ae37b6f03",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Westerveld, E.M.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "c7822b58-103f-4612-87ef-648be97192c6",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "0b1cfac8-e694-4963-a2cb-bb3f8c03494b",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Jansen, C.A. (Chris)",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "3c96ed5d-f7bf-4cae-9ec7-a5a29f5299da",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "07e0b1ef-0304-4bfa-86d8-bc7bd1c63b2f",
+     "Soort": "Voor",
+     "FractieGrootte": 9,
+     "ActorNaam": "Nanninga, A.",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": "a4eb6b9e-dd6c-4cc8-a95c-ccb76860b162",
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "79fc2e31-7980-487c-b15e-be69add56792",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Kathmann, B.C.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "9e79de98-e914-4dc8-8dc7-6d7cb09b93d7",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "5b4c40cc-5679-4571-8549-be83b453ecbf",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Kisteman, A.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "e0ccfbe3-9f51-4eaa-8ed6-c1ba3f6236b5",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "c5be551e-f214-4464-8a2d-bf823bfc3f24",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "Bikker, M.H.",
+     "ActorFractie": "ChristenUnie",
+     "Vergissing": false,
+     "Persoon_Id": "b53f74bf-e57c-4e01-8d65-de2f319f44db",
+     "Fractie_Id": "d720f5af-0516-408a-b830-0b6ffb8a581c"
+    },
+    {
+     "Id": "edec2c3d-d393-4566-a810-c297cbb2cb9b",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Vervuurt, M.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "d36d9afd-613a-4dbe-bfef-785967a9b807",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "1b5f58de-3ffc-492e-91ce-c8b527bae671",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Nobel, J.N.J.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "afca0bba-6d7a-4eb2-ac29-a6dcbc746d0f",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "129d6083-fa25-4db8-a46a-cbf040b470e1",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Oualhadj, A.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "a8ec9ff1-6a91-4063-9a8d-c3af07a11a0d",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "df77ab72-cc05-45fd-8757-cd6e2d6d9e96",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Poortman, A.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "9039e7f6-d05b-40a7-b0af-9a4f98fc03ae",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "f6a3b230-6f9e-4eab-bdf2-cf0f9c02bf53",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Krul, H.M.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "36ed934d-56c7-4903-a0a8-a9f186d5a96f",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "949abb21-b9d3-4719-847e-d1868d6f1148",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Beer de, M.E.E.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "6edaeec8-fad8-4c2c-8103-7aae8594e772",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "27f0f266-958a-4bf1-b792-d3d8839d9051",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Lanschot van, M.R.H.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "dc8f53b8-8247-4797-908d-fa11cb4116e6",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "fc498ca2-9257-4282-8f70-d5e6040fb8a2",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Paternotte, J.M.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "2690bccc-5463-459a-b1df-cb93e222b348",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "1384794c-d12a-46df-a128-d6ca14a28aa2",
+     "Soort": "Tegen",
+     "FractieGrootte": 9,
+     "ActorNaam": "Hoogeveen, M.P.",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": "6938f6a4-a336-4f91-bd93-deed5f45e3f0",
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "db2faf4c-7ba3-4b9e-a2cc-d7ba94d8b29c",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Meetelen van, R.F.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "0f5bdaad-ea3e-4d01-a85f-46010d9fb514",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "7ef7f3db-dd35-4e34-b97c-d95daab93bbe",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Maes, N.C.J.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "ebb3123c-6520-45ad-9045-d78dd5313b30",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "af3b2c6b-99f9-4752-93f6-dcfa397acddb",
+     "Soort": "Voor",
+     "FractieGrootte": 9,
+     "ActorNaam": "Berg van den, D.J.",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": "98f026ef-74d5-4b6e-80ae-4a76e9ec7e81",
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "7f71d6a0-d252-4f8a-99ea-ddd1cf3f7241",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Jumelet, H.G.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "de44b333-86c1-4af7-9439-a0c186d6f2e3",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "1419db74-024b-455d-adda-de793ec917d0",
+     "Soort": "Tegen",
+     "FractieGrootte": 1,
+     "ActorNaam": "Dassen, L.A.J.M.",
+     "ActorFractie": "Volt",
+     "Vergissing": false,
+     "Persoon_Id": "a68468b6-51ea-440c-9387-b44ba10ad8b6",
+     "Fractie_Id": "ae48391e-ce4d-47e0-86e3-ee310282f66f"
+    },
+    {
+     "Id": "2dcfcb99-fa43-4884-b241-dfe678118744",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "Wiersma, F.M.",
+     "ActorFractie": "BBB",
+     "Vergissing": false,
+     "Persoon_Id": "ed5b0339-d627-4d4e-8d65-4a9eb88cb6b0",
+     "Fractie_Id": "626555ac-e836-44e3-9978-a6a7f0abc3ce"
+    },
+    {
+     "Id": "1611f9f4-07d0-4b80-b815-e046acdca73d",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Martens-America, C.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "059453a7-a169-477c-9f89-54dda55b6d40",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "27f06d43-0d63-469b-88b9-e09bc287e194",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Straatman, J.C.G.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "a4e91a4e-3bc4-4dbc-af65-f5770d2eafcb",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "3534b138-2335-4ce1-9f52-e53a0dc0e642",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Bontenbal, H.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "942a29b8-057f-4dba-a8cd-3c35e5a81aaf",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "e9eb046b-99b1-4fa6-921d-e5887f74b24f",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Brekelmans, R.P.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "e5c4753f-d2d8-4a4a-ae9d-62118892a731",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "8af9fcef-d506-456c-a436-e839a0c19f51",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "Ark van, A.F.J.",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": "60a80b41-2618-47c0-8212-2feb0f67c221",
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "dc45fed8-6b07-4adb-8ddc-e9fc1ba6b01b",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "Mathlouti, M.",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": "385c9a11-79c5-428f-9d84-72a49c94bb9a",
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "6c6cd257-e129-4e51-89a2-eb0e167ceb74",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Dekker, R.J.",
+     "ActorFractie": "FVD",
+     "Vergissing": false,
+     "Persoon_Id": "08ad50b1-831e-4f50-bed4-97d9d42b0752",
+     "Fractie_Id": "e0b7b638-de3c-47cc-85bd-341dd65ea33d"
+    },
+    {
+     "Id": "00492cc4-305b-4819-aff9-ec9bc3c4a442",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Mohandis, M.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "b7a52679-bac9-4e00-9dfd-06a22a7cf088",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "1dc83cc9-fad1-487d-b528-ee522a793f30",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Verkuijlen, R.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "13d5095e-c5df-4cbb-a2f4-c0bb142e9397",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "47197622-9dba-4491-8891-ef05332ee22a",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "Vermeer, H.",
+     "ActorFractie": "BBB",
+     "Vergissing": false,
+     "Persoon_Id": "02fab128-a8d3-4010-b936-5500a53caf27",
+     "Fractie_Id": "626555ac-e836-44e3-9978-a6a7f0abc3ce"
+    },
+    {
+     "Id": "2768c53b-c283-427d-b868-f0b31e45ab65",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Mooiman, J.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "b4bbefe3-6926-4d81-b8a4-b1bb6ae2e3c6",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "6363fb75-d982-46fd-9cb0-f3cb68164ce6",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "Teunissen, C. (Christine)",
+     "ActorFractie": "PvdD",
+     "Vergissing": false,
+     "Persoon_Id": "7564c685-2691-4796-9159-ebd5df4fdc8d",
+     "Fractie_Id": "d3b4d880-ef37-4ce6-99ec-4940266ac466"
+    },
+    {
+     "Id": "7b563bc6-4df7-448f-b90f-f6a14e8ff8e4",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Oosterhout van, A.S.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "8f38a474-1b0a-4fcc-a727-28531df173a6",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "a7ab9372-d6a8-4b4c-8d16-f84c389f63d2",
+     "Soort": "Niet deelgenomen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Becker, B.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "a962ffcb-a300-45e1-8850-70c7173c233e",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "435a6a41-4c8a-4c0f-b4fe-fa88dab68f82",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "Klaver, J.F.",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": "0d036fcf-a456-4798-9b76-3f44eb74a451",
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "7dffca45-ce80-4a5b-a12f-fbec1c685e22",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "Vlottes, E.",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": "71653caa-dc3a-4441-80cb-34f6a737ee1e",
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "1a66f8b2-5574-4520-9164-fcc442ed2f91",
+     "Soort": "Tegen",
+     "FractieGrootte": 9,
+     "ActorNaam": "Clemminck, D.R.F.",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": "cf6c0969-6741-4130-bd75-ee65ad71ad1d",
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "2ead3990-74e1-4503-938a-fd6f8a666f03",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "Kort de, A.H.J.",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": "8767e9de-869e-4e8a-940f-1a63d15eab3c",
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "9ef1ecbd-dfe7-4cc6-98ff-ff0e27153ea5",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "Dijk van, D.J.H. (Diederik)",
+     "ActorFractie": "SGP",
+     "Vergissing": false,
+     "Persoon_Id": "dd85a3cc-916a-4f94-aaed-cb341eb6a036",
+     "Fractie_Id": "77f9b6f1-b1a9-4d1b-a05e-9936e79d8fa5"
+    },
+    {
+     "Id": "9d084a3d-9776-4eb6-b155-ff59b3b2a25b",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "Abassi el, I.",
+     "ActorFractie": "DENK",
+     "Vergissing": false,
+     "Persoon_Id": "209ce05e-66ee-4999-928c-00f152b40ead",
+     "Fractie_Id": "deb74bb5-63a9-4ffc-98ed-af577167452e"
+    }
+   ],
+   "Zaak": [
+    {
+     "Id": "5dab871c-d352-4069-8ac2-4f291a8dba4c",
+     "Nummer": "2026Z07564",
+     "Soort": "Amendement",
+     "Titel": "Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie",
+     "Onderwerp": "Amendement van de leden Bikker en Diederik van Dijk over een verbod op het speciaal tot stand brengen van ELS",
+     "GestartOp": "2026-04-09T00:00:00+02:00",
+     "Afgedaan": true,
+     "Kabinetsappreciatie": "Ontraden",
+     "Kamerstukdossier": [
+      {
+       "Titel": "Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie",
+       "Nummer": 36677,
+       "Toevoeging": null
+      }
+     ]
+    }
+   ],
+   "Agendapunt": {
+    "Id": "f303ef78-1f52-4063-b5a8-71f8e5195c69",
+    "Onderwerp": "Wijziging van de Embryowet naar aanleiding van de derde wetsevaluatie ",
+    "Activiteit": {
+     "Id": "f8f3754c-4a7f-45c2-aa77-e0d71154f8fe",
+     "Soort": "Stemmingen",
+     "Datum": "2026-06-02T15:00:00+02:00"
+    }
+   }
+  },
+  {
+   "Id": "65d66131-e28d-4817-bdc7-5c651e761f98",
+   "Agendapunt_Id": "24c61209-bec2-4025-b397-942dd2563680",
+   "StemmingsSoort": "Hoofdelijk",
+   "BesluitSoort": "Stemmen - aangenomen",
+   "BesluitTekst": "Aangenomen (90-36).",
+   "Opmerking": null,
+   "Status": "Besluit",
+   "AgendapuntZaakBesluitVolgorde": 1,
+   "GewijzigdOp": "2026-10-08T23:30:53.487+02:00",
+   "ApiGewijzigdOp": "2026-10-08T21:30:55.4544037Z",
+   "Verwijderd": false,
+   "Stemming": [],
+   "Zaak": [
+    {
+     "Id": "33b34fc0-ef1e-4d0f-b21c-dea6592733cc",
+     "Nummer": "2026Z21728",
+     "Soort": "Motie",
+     "Titel": "Raad Algemene Zaken en Raad Buitenlandse Zaken ",
+     "Onderwerp": "Motie van het lid Piri c.s. over aanstaande zondag de regenboogvlag boven het Kamergebouw hijsen",
+     "GestartOp": "2026-10-08T00:00:00+02:00",
+     "Afgedaan": true,
+     "Kabinetsappreciatie": "Geen (expliciete) appreciatie",
+     "Kamerstukdossier": [
+      {
+       "Titel": "Raad Algemene Zaken en Raad Buitenlandse Zaken ",
+       "Nummer": 21501,
+       "Toevoeging": "02"
+      }
+     ]
+    }
+   ],
+   "Agendapunt": {
+    "Id": "24c61209-bec2-4025-b397-942dd2563680",
+    "Onderwerp": "Hoofdelijke stemming over: motie ingediend bij het tweeminutendebat Raad Buitenlandse Zaken 12 oktober",
+    "Activiteit": {
+     "Id": "cf79d6e7-eacb-426c-a03a-bfe573e415be",
+     "Soort": "Stemmingen",
+     "Datum": "2026-10-08T23:15:00+02:00"
+    }
+   }
+  },
+  {
+   "Id": "2a67b884-e78e-4ccb-a21f-b97df9801d99",
+   "Agendapunt_Id": "dad6a8c4-be35-4b4b-a549-943a706d1c89",
+   "StemmingsSoort": "Met handopsteken",
+   "BesluitSoort": "Stemmen - aangenomen",
+   "BesluitTekst": "Aangenomen.",
+   "Opmerking": null,
+   "Status": "Besluit",
+   "AgendapuntZaakBesluitVolgorde": 2,
+   "GewijzigdOp": "2026-05-12T16:13:32.42+02:00",
+   "ApiGewijzigdOp": "2026-05-12T14:13:38.4771703Z",
+   "Verwijderd": false,
+   "Stemming": [
+    {
+     "Id": "38f409ac-f573-42b1-9ef4-26db6e18854b",
+     "Soort": "Voor",
+     "FractieGrootte": 22,
+     "ActorNaam": "VVD",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "709cbea8-b11a-4df8-b36d-374421f5f3c5",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "PvdD",
+     "ActorFractie": "PvdD",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "d3b4d880-ef37-4ce6-99ec-4940266ac466"
+    },
+    {
+     "Id": "8c3e4b22-5b59-43b0-8378-3a1937498f08",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "PVV",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "1b37e626-eb0a-40c7-9d2b-468ae6fed072",
+     "Soort": "Tegen",
+     "FractieGrootte": 7,
+     "ActorNaam": "FVD",
+     "ActorFractie": "FVD",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "e0b7b638-de3c-47cc-85bd-341dd65ea33d"
+    },
+    {
+     "Id": "13566d8c-56f4-46e6-88f7-484d37f04988",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "DENK",
+     "ActorFractie": "DENK",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "deb74bb5-63a9-4ffc-98ed-af577167452e"
+    },
+    {
+     "Id": "e5b8a550-4a0a-4c81-8314-59e110e1a7b3",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Schilder, J.M.M.",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": "45e9917b-95cc-428c-b8a0-9d50cff58a59",
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "4188e69d-28e1-4ebf-9cb6-836edb49b8dd",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "SP",
+     "ActorFractie": "SP",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "a3689bb6-3914-4d5c-a6a8-42e24582e299"
+    },
+    {
+     "Id": "1047789c-ad71-4ba5-940c-86ffe576fe91",
+     "Soort": "Tegen",
+     "FractieGrootte": 1,
+     "ActorNaam": "Keijzer",
+     "ActorFractie": "Keijzer",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "65b21c25-91e8-4844-a67c-bc5866e457b5"
+    },
+    {
+     "Id": "df3a5935-d9f8-4aef-af35-8cd1ec09fc66",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "SGP",
+     "ActorFractie": "SGP",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "77f9b6f1-b1a9-4d1b-a05e-9936e79d8fa5"
+    },
+    {
+     "Id": "5db08638-fdf7-41ec-b462-90943ef05785",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Moinat, N.",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": "5222c31a-b0b0-496b-8f74-55988b1b8dda",
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "14cc5f7c-c6aa-4f42-8892-95aa6c3acb82",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Lammers, A.N.",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": "10c4f889-d7de-48bb-a0b7-9a7125f1fc98",
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "8447649d-c4f8-4109-aae0-9d179a324694",
+     "Soort": "Voor",
+     "FractieGrootte": 18,
+     "ActorNaam": "CDA",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "52e024e1-c017-49ef-8e61-a1acec80687c",
+     "Soort": "Tegen",
+     "FractieGrootte": 7,
+     "ActorNaam": "Groep Markuszower",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "13aa3dc2-a8f8-4c22-9f43-abf8fca3c786",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "D66",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "a3da7bab-d91f-428d-bc3a-ac16d0a7cf26",
+     "Soort": "Tegen",
+     "FractieGrootte": 1,
+     "ActorNaam": "Volt",
+     "ActorFractie": "Volt",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "ae48391e-ce4d-47e0-86e3-ee310282f66f"
+    },
+    {
+     "Id": "f16bea94-edeb-4f6c-9eef-cdd446eaaba9",
+     "Soort": "Voor",
+     "FractieGrootte": 9,
+     "ActorNaam": "JA21",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "30cdba4a-4232-4e29-981a-d1d667c3f777",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "GroenLinks-PvdA",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "c01a0910-b16c-49c8-9845-d9424c182025",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "BBB",
+     "ActorFractie": "BBB",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "626555ac-e836-44e3-9978-a6a7f0abc3ce"
+    },
+    {
+     "Id": "b1ca80e0-827f-4be4-aa8d-e590ad2a57b9",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "ChristenUnie",
+     "ActorFractie": "ChristenUnie",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "d720f5af-0516-408a-b830-0b6ffb8a581c"
+    },
+    {
+     "Id": "c297faad-da32-483e-8f0a-e9103e3e7ab8",
+     "Soort": "Tegen",
+     "FractieGrootte": 2,
+     "ActorNaam": "50PLUS",
+     "ActorFractie": "50PLUS",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "a34bf6c8-834e-4dba-b4d2-f2f1b3957bd2"
+    }
+   ],
+   "Zaak": [
+    {
+     "Id": "4841bc71-b841-448e-94a8-b302377e624b",
+     "Nummer": "2026Z08607",
+     "Soort": "Motie",
+     "Titel": "Drugbeleid",
+     "Onderwerp": "Motie van het lid Faber over binnen Defensie een zerotolerancebeleid voeren inzake drugs",
+     "GestartOp": "2026-04-21T00:00:00+02:00",
+     "Afgedaan": true,
+     "Kabinetsappreciatie": "Oordeel Kamer",
+     "Kamerstukdossier": [
+      {
+       "Titel": "Drugbeleid",
+       "Nummer": 24077,
+       "Toevoeging": null
+      }
+     ]
+    }
+   ],
+   "Agendapunt": {
+    "Id": "dad6a8c4-be35-4b4b-a549-943a706d1c89",
+    "Onderwerp": "Moties ingediend bij het Tweeminutendebat Drugsbeleid",
+    "Activiteit": {
+     "Id": "50d1bd50-0227-486f-86f0-53df58e66c10",
+     "Soort": "Stemmingen",
+     "Datum": "2026-05-12T15:10:00+02:00"
+    }
+   }
+  },
+  {
+   "Id": "f7f12681-e8da-47a9-80a4-dd96ee6bb78b",
+   "Agendapunt_Id": "2c6d3c3c-6786-415b-8198-f3c65ac6ad6b",
+   "StemmingsSoort": "Met handopsteken",
+   "BesluitSoort": "Stemmen - verworpen",
+   "BesluitTekst": "Verworpen.",
+   "Opmerking": null,
+   "Status": "Besluit",
+   "AgendapuntZaakBesluitVolgorde": 1,
+   "GewijzigdOp": "2026-04-07T16:28:57.307+02:00",
+   "ApiGewijzigdOp": "2026-04-07T14:29:02.369324Z",
+   "Verwijderd": false,
+   "Stemming": [
+    {
+     "Id": "4cd95bf4-8737-47a3-86bc-0788b08a452e",
+     "Soort": "Tegen",
+     "FractieGrootte": 2,
+     "ActorNaam": "50PLUS",
+     "ActorFractie": "50PLUS",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "a34bf6c8-834e-4dba-b4d2-f2f1b3957bd2"
+    },
+    {
+     "Id": "ade6c370-f556-496b-9287-14da944dabac",
+     "Soort": "Tegen",
+     "FractieGrootte": 20,
+     "ActorNaam": "GroenLinks-PvdA",
+     "ActorFractie": "GroenLinks-PvdA",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "0208097d-ef04-438a-8c29-eebb84956204"
+    },
+    {
+     "Id": "c5c31609-d437-4889-b8a6-16814863558b",
+     "Soort": "Tegen",
+     "FractieGrootte": 1,
+     "ActorNaam": "Volt",
+     "ActorFractie": "Volt",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "ae48391e-ce4d-47e0-86e3-ee310282f66f"
+    },
+    {
+     "Id": "00ace8ee-e775-4803-aea4-315503f1419b",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "BBB",
+     "ActorFractie": "BBB",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "626555ac-e836-44e3-9978-a6a7f0abc3ce"
+    },
+    {
+     "Id": "59f0f31e-3682-4baa-aa87-3259a2c981f8",
+     "Soort": "Voor",
+     "FractieGrootte": 1,
+     "ActorNaam": "Keijzer",
+     "ActorFractie": "Keijzer",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "65b21c25-91e8-4844-a67c-bc5866e457b5"
+    },
+    {
+     "Id": "fe8b70c4-2846-470c-bfba-360f7062d6e8",
+     "Soort": "Tegen",
+     "FractieGrootte": 26,
+     "ActorNaam": "D66",
+     "ActorFractie": "D66",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0"
+    },
+    {
+     "Id": "d43992c9-eded-4526-bef8-3c05967dfe19",
+     "Soort": "Tegen",
+     "FractieGrootte": 9,
+     "ActorNaam": "JA21",
+     "ActorFractie": "JA21",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e"
+    },
+    {
+     "Id": "8dd81ba2-61ad-4298-8d9f-4806da40c109",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "Groep Markuszower",
+     "ActorFractie": "Groep Markuszower",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "848c3fca-8931-4236-8fe9-33b6a598fa4d"
+    },
+    {
+     "Id": "281b9a1e-6605-4dc3-855e-4b6b8d660ea7",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "SP",
+     "ActorFractie": "SP",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "a3689bb6-3914-4d5c-a6a8-42e24582e299"
+    },
+    {
+     "Id": "deb9dea3-932a-4004-bdb6-5104d75b59cc",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "DENK",
+     "ActorFractie": "DENK",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "deb74bb5-63a9-4ffc-98ed-af577167452e"
+    },
+    {
+     "Id": "1abb17b8-8315-4fe1-9225-71d5ab308834",
+     "Soort": "Tegen",
+     "FractieGrootte": 18,
+     "ActorNaam": "CDA",
+     "ActorFractie": "CDA",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "62c1a13c-85ff-40ed-90f7-a9546d61f869"
+    },
+    {
+     "Id": "dd8a2fec-690c-4e67-b96c-71e189ccf00d",
+     "Soort": "Tegen",
+     "FractieGrootte": 22,
+     "ActorNaam": "VVD",
+     "ActorFractie": "VVD",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "7476e97a-3243-4122-9df6-ba7d82a5279b"
+    },
+    {
+     "Id": "a9c55e34-0d0c-4373-b9ac-7ab1cc5cbb9d",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "PvdD",
+     "ActorFractie": "PvdD",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "d3b4d880-ef37-4ce6-99ec-4940266ac466"
+    },
+    {
+     "Id": "be90e3b7-2013-4a07-95ff-917eedfa1785",
+     "Soort": "Voor",
+     "FractieGrootte": 19,
+     "ActorNaam": "PVV",
+     "ActorFractie": "PVV",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "65129918-f256-4975-9da4-488da34d6695"
+    },
+    {
+     "Id": "ebb85154-0ac4-4dec-b9f3-a204b9d68258",
+     "Soort": "Voor",
+     "FractieGrootte": 3,
+     "ActorNaam": "SGP",
+     "ActorFractie": "SGP",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "77f9b6f1-b1a9-4d1b-a05e-9936e79d8fa5"
+    },
+    {
+     "Id": "47bc6386-fbae-4ac4-afde-c8cc021efa22",
+     "Soort": "Voor",
+     "FractieGrootte": 7,
+     "ActorNaam": "FVD",
+     "ActorFractie": "FVD",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "e0b7b638-de3c-47cc-85bd-341dd65ea33d"
+    },
+    {
+     "Id": "2f049b06-ae5c-4e77-a3c0-c95e52e8eb4f",
+     "Soort": "Tegen",
+     "FractieGrootte": 3,
+     "ActorNaam": "ChristenUnie",
+     "ActorFractie": "ChristenUnie",
+     "Vergissing": false,
+     "Persoon_Id": null,
+     "Fractie_Id": "d720f5af-0516-408a-b830-0b6ffb8a581c"
+    }
+   ],
+   "Zaak": [
+    {
+     "Id": "ccd7433f-799b-4160-b762-f40309142550",
+     "Nummer": "2026Z06890",
+     "Soort": "Motie",
+     "Titel": "Justitiële Inrichtingen",
+     "Onderwerp": "Motie van het lid Faber over geen transgender vrouwen plaatsen in de vrouwengevangenis ",
+     "GestartOp": "2026-04-02T00:00:00+02:00",
+     "Afgedaan": true,
+     "Kabinetsappreciatie": "Ontraden",
+     "Kamerstukdossier": [
+      {
+       "Titel": "Justitiële Inrichtingen",
+       "Nummer": 24587,
+       "Toevoeging": null
+      }
+     ]
+    }
+   ],
+   "Agendapunt": {
+    "Id": "2c6d3c3c-6786-415b-8198-f3c65ac6ad6b",
+    "Onderwerp": "Moties ingediend bij het tweeminutendebat Gevangeniswezen",
+    "Activiteit": {
+     "Id": "f3b8d88e-d71a-4acb-a6e1-c14e8c8d4fcd",
+     "Soort": "Stemmingen",
+     "Datum": "2026-04-07T15:00:00+02:00"
+    }
+   }
+  }
+ ]
+}

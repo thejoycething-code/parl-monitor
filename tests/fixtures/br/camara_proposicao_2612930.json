@@ -1,0 +1,46 @@
+{
+ "dados": {
+  "id": 2612930,
+  "uri": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2612930",
+  "siglaTipo": "PL",
+  "codTipo": 139,
+  "numero": 896,
+  "ano": 2023,
+  "ementa": "Altera a Lei nº 7.716, de 5 de janeiro de 1989, e o Decreto-Lei nº 2.848, de 7 de dezembro de 1940 (Código Penal), para dispor sobre crimes praticados em razão de misoginia.",
+  "dataApresentacao": "2026-03-30T19:22",
+  "uriOrgaoNumerador": "https://dadosabertos.camara.leg.br/api/v2/orgaos/4",
+  "statusProposicao": {
+   "dataHora": "2026-08-12T14:00",
+   "sequencia": 26,
+   "siglaOrgao": "CDHMIR",
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/2007",
+   "uriUltimoRelator": "https://dadosabertos.camara.leg.br/api/v2/deputados/204534",
+   "regime": "Urgência (Art. 155, RICD)",
+   "descricaoTramitacao": "Aprovação de Requerimento",
+   "codTipoTramitacao": "195",
+   "descricaoSituacao": "Pronta para Pauta",
+   "codSituacao": 924,
+   "despacho": "Aprovado o requerimento nº 82/2026,da Sra. Alice Portugal que requerimento de Emenda de Plenário ao PL 896/2023, que altera a Lei nº 7.716, de 5 de janeiro de 1989, e o Decreto-Lei nº 2.848, de 7 de dezembro de 1940 (Código Penal), para dispor sobre crimes praticados em razão de misoginia.",
+   "url": null,
+   "ambito": "Regimental",
+   "apreciacao": "Proposição Sujeita à Apreciação do Plenário"
+  },
+  "uriAutores": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2612930/autores",
+  "descricaoTipo": "Projeto de Lei",
+  "ementaDetalhada": "",
+  "keywords": "Alteração, Lei Caó (1989), Código Penal (1940), Tipificação de conduta, Misoginia, Discriminação racial, Preconceito racial, Discriminação religiosa, Crime de ódio, Injúria, Violência moral, Violência contra a mulher.",
+  "uriPropPrincipal": null,
+  "uriPropAnterior": null,
+  "uriPropPosterior": null,
+  "urlInteiroTeor": "https://www.camara.leg.br/proposicoesWeb/prop_mostrarintegra?codteor=3107208",
+  "urnFinal": null,
+  "texto": null,
+  "justificativa": null
+ },
+ "links": [
+  {
+   "rel": "self",
+   "href": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2612930"
+  }
+ ]
+}

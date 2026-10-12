@@ -1,0 +1,212 @@
+name: US weekly
+on:
+  schedule:
+    # Friday 10:00 UTC (9 October 2026). Friday 10:00-12:00 was
+    # clear in every other workflow's cron: Friday holds 06:00, 07:00, 13:00-
+    # 17:00 and 21:00 only, and GitHub keeps ONE pending run per state group.
+    # 10:00 UTC is 06:00 in Washington, after the week's last votes, which
+    # are on Thursday (Friday sittings are rare).
+    # Since the Mac Mini went first (9 October 2026) the 12:00 retry slot is
+    # gone: the Mini stamps 09:00 or 10:00 UTC, which a 12:00 slot would read
+    # as "not run" and repeat the week. The 10:00 cron alone is the backup.
+    - cron: "0 10 * * 5"
+  workflow_dispatch:
+    inputs:
+      reclassify:
+        # After a taxonomy or watchlist-us change: re-derive every stored US
+        # bill's and vote's areas, offline, before the pull.
+        description: "Reclassify stored US bills and votes under the current taxonomy"
+        type: boolean
+        default: false
+      rescore:
+        # Keys to judge again, space-separated ('119/hr/28',
+        # 'us_divisions:house-119-1-240'). Spend: announce it first.
+        description: "US items to re-judge, space-separated keys (costs API credit)"
+        type: string
+        default: ""
+      states_full:
+        # After a taxonomy change that widens the net: re-read every current
+        # state session's bulk file whole (--reclassify only narrows).
+        description: "Re-read all fifty states' bulk files whole (after a taxonomy change)"
+        type: boolean
+        default: false
+      senate_only:
+        # Dispatched by the Mac Mini when senate.gov refuses it (jobs/us-weekly.sh):
+        # Senate votes only, published, no edition.
+        description: "Senate votes only (the Mini's request; no edition)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  actions: read      # the gate reads this workflow's own runs
+
+defaults:
+  run:
+    shell: bash -eo pipefail {0}
+
+# Same group as everything that commits data/: one writer at a time.
+concurrency:
+  group: parl-monitor-state
+  cancel-in-progress: false
+
+jobs:
+  # The Mac Mini runs this at 10:00 London on Fridays (tools/mini_run.sh
+  # us-weekly), which is 09:00 UTC in summer and 10:00 in winter; these
+  # crons are the backup and skip a slot the Mini already ran.
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: US_WEEKLY
+      # senate_only is only ever the Mini asking, holding its lock (jobs/us-weekly.sh).
+      from-mini: ${{ inputs.senate_only == true && 'true' || 'false' }}
+
+  # The second slot is a retry, not a second pass (copied from ca-weekly.yml).
+  gate:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "dispatched by hand; running"; echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          TODAY=$(date -u +%Y-%m-%d)T00:00:00Z
+          BUSY=$(gh api "repos/${{ github.repository }}/actions/workflows/us-weekly.yml/runs?per_page=50" \
+                 --jq "[.workflow_runs[]
+                        | select(.created_at >= \"$TODAY\")
+                        | select(.event == \"schedule\")
+                        | select(.id != ${{ github.run_id }})
+                        | select(.conclusion == \"success\" or .status == \"in_progress\" or .status == \"queued\")]
+                       | length" 2>/dev/null || echo 0)
+          if [ "${BUSY:-0}" -gt 0 ]; then
+            echo "$BUSY run(s) already succeeded or are running today; this retry slot has nothing to do"
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "no earlier run today; this slot does the work"
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  pull:
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    # The first run reads the whole 119th Congress: ~54 MB of BILLSTATUS,
+    # 676 House roll calls and ~915 Senate votes. Measured from the laptop
+    # for the House half: 5.5 minutes. Later weeks read the bulk bills again
+    # (they are re-read whole, which is what re-stamps last_seen) and only
+    # the new votes.
+    #
+    # 120 minutes, matching the Mini's JOB_TIMEOUT of 7200 s (9 October 2026).
+    # The step budgets in jobs/us-weekly.sh add up to: roll calls 2700 s,
+    # Federal Register under 120 s (its whole backfill), Supreme Court order
+    # PDFs 900 s (its 18-minute first backfill drains over two weeks), week
+    # ahead 600 s, the state legislatures 600 s (9 October 2026), judge
+    # 1800 s when US_JUDGE is on: about 6700 s, plus the store and archive
+    # transfers. The Congressional Record (phase 3a) runs last of the
+    # collectors on whatever is left, at most 600 s, always keeping 1800 s for
+    # the judge and 600 s for the edition and transfers (jobs/us-weekly.sh), so it
+    # cannot push the job past 120 minutes. In a new Congress's first 45 days the
+    # catch-up adds up to 1200 s; that is the one week that could press the
+    # limit with the judge on, and each step still stops at its own budget.
+    timeout-minutes: 120
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pyyaml pypdf==6.14.2
+      - name: Fetch the store
+        id: fetch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/db_state.py --pull
+      - name: Fetch the raw archive
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/raw_state.py --pull
+      - name: Write secrets file
+        # The DM goes to Christopher alone (9 October 2026: "US edition will
+        # just be me for now"), the same recipient the German edition uses.
+        run: |
+          cat > config/secrets.yaml <<EOF
+          slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
+          slack_dm_user_id: U05LJP0BT61
+          EOF
+      - name: Collect, judge, write the edition and DM, publish raw archive and store
+        # jobs/us-weekly.sh is shared with the Mac Mini runner. It publishes
+        # the raw archive and the store itself. The paid API judge runs only
+        # when the repository variable US_JUDGE is 'on' (SPEND NEEDS A YES,
+        # 5 August 2026); it is the alternative and off. The free default is
+        # the session judge, Mini only (jobs/us-session-judge.sh, Fridays 19:30).
+        # senate_only is the Mini asking for the half senate.gov refuses it.
+        if: always() && steps.fetch.outcome == 'success'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Phase 1b: House amendment purposes from Congress.gov, and phase
+          # 3a: the Congressional Record's listing on GovInfo (one api.data.gov
+          # key; sent as a header by tools/us_rollcalls.py and
+          # tools/us_record.py; on the Mini it is in ~/runner/env).
+          CONGRESS_API_KEY: ${{ secrets.CONGRESS_API_KEY }}
+          # The fifty states (tools/us_states.py): sent as the X-API-KEY
+          # header only. Unset: one [gap] and the step skips.
+          OPENSTATES_API_KEY: ${{ secrets.OPENSTATES_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          US_JUDGE: ${{ vars.US_JUDGE }}
+          US_RECLASSIFY: ${{ inputs.reclassify }}
+          US_SENATE_ONLY: ${{ inputs.senate_only }}
+          US_STATES_FULL: ${{ inputs.states_full }}
+          US_RESCORE: ${{ inputs.rescore }}
+        run: bash jobs/us-weekly.sh
+      - name: Health summary
+        if: always()
+        run: |
+          {
+            echo "## US weekly"
+            echo '```'
+            grep -hE "us-rollcalls:|us-record:|us-triage:|store:|edition:|dm:|\[gap\]" /tmp/us-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
+            echo '```'
+            TOTAL=$({ grep -hc "\[gap\]" /tmp/us-*.log 2>/dev/null \
+                      || true; } | awk '{s+=$1} END {print s+0}')
+            if [ "$TOTAL" -gt 0 ]; then
+              echo "**$TOTAL gap(s) this run** - see the step log."
+            else
+              echo "**No gaps.**"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit state
+        # Paired with the publish above -- an uncommitted sidecar next to a
+        # published store is the divergence this repo has already paid for.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          git config user.name "parl-monitor bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/ editions/ partner_site/ docs/
+          git diff --cached --quiet || git commit -m "US weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
+          # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
+          # jittered waits, and never retry while stuck mid-rebase.
+          for attempt in 1 2 3 4 5 6; do
+            if git pull --rebase --autostash origin "$(git rev-parse --abbrev-ref HEAD)"; then
+              git push && break
+            else
+              git rebase --abort || true
+              echo "rebase conflict (attempt $attempt)"
+            fi
+            echo "push not landed (attempt $attempt); retrying"
+            sleep $(( attempt * 10 + RANDOM % 10 ))
+          done
+          git fetch -q origin "$(git rev-parse --abbrev-ref HEAD)"
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "the sidecar commit never reached origin"; exit 1
+          fi

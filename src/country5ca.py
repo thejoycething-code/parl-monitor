@@ -1,0 +1,2692 @@
+"""5CA with stance sign-off for the new country editions (10 October 2026).
+
+The parity layer of docs/country-parity-handover.md, item 2, for every new
+country whose store holds member-level or party-group votes: Italy,
+Switzerland, France, the Netherlands, Belgium, Poland, Croatia, Slovakia,
+Spain, Brazil, Argentina, Mexico, Chile, Peru, Ecuador, the Dominican
+Republic, El Salvador, Guatemala and Hungary (member level), and Austria,
+Portugal and the Netherlands (party groups, X5).
+
+It generalises what Canada, the US, Ireland and Australia already do
+(tools/ca_5ca.py, src/readings5ca.py) and reuses src/readings5ca.py for the
+placement, the sheet and the checkbox format. Four parts:
+
+1. THE DRAFTER (`draft`). For every watched or tier-1 vote in a country's
+   store it appends an entry to config/<cc>_stance.yaml, never touching an
+   entry already there. The draft is made by RULES, not by a model (no AI
+   call, X16), from three things only:
+     * the issue area(s) the collector stamped on the vote;
+     * the DIRECTION of the bill or motion voted on, read from the
+       `bill_directions` section of the same file: whether passing it is
+       with CitizenGO (`with`) or against it (`against`). Those lines were
+       written by Claude from each watchlist's own description on
+       10 October 2026 and are drafts too; a bill with no line has no
+       direction, and nothing is guessed for it;
+     * what KIND of vote it was, read from the vote's own wording: on the
+       whole text or a motion itself (`final`), a motion to reject it
+       (`reject`, the sides swap), an amendment or a single article
+       (`amendment`), the timetable or the handling (`procedural`), or
+       wording the rules do not recognise (`other`).
+   Only a final or reject vote on a bill WITH a direction gets proposed
+   values (`status: draft`, yea/nay on the -2..2 scale, why lines and the
+   reasoning). A procedural vote gets `status: draft` with `placeable:
+   false` (evidence only, once confirmed). Everything else is
+   `status: needs_reading` with a `read_first:` line saying what a person
+   must read: CitizenGO's side is never invented where the direction is
+   unclear. An amendment or article vote becomes a draft once a reader
+   records whether adopting it is with or against CitizenGO
+   (`amendment_direction`, 12 October 2026; `apply_amendments`).
+
+2. THE SIGN-OFF, as Canada's C-218 (drafted, then confirmed by a named
+   person on a date). `confirm` turns `status: draft` into
+   `status: confirmed` and stamps `confirmed_by:` and `confirmed_on:`. It
+   refuses an entry that is `needs_reading` (a person writes the values
+   first, then confirms), an entry with no values and no `placeable: false`,
+   and a call with no name. Confirming from the checkbox guide
+   (docs/5ca-<cc>-readings.md) works as in Ireland: tick, then
+   `--sign-from-doc --by NAME`. Until 11 October 2026 nothing here
+   confirmed on its own; since then the weekly job confirms, on Chris's
+   delegation, every draft that passes every deterministic check
+   (`auto_confirm`, below), stamped as such, and a country signer amends
+   any reading (`amend`). It also drafts, rewrites the guides (keeping any
+   ticks not yet applied) and reports.
+
+3. THE 5CA (`build_rows`, `run_sheets`): src/readings5ca.py's placement over
+   the CONFIRMED readings only. `readings5ca.status` reads this file's
+   `status:` field (an additive change there): `draft` and `needs_reading`
+   are unsigned, and `confirmed` counts only with both `confirmed_by` and
+   `confirmed_on`. A sheet is written only for a chamber and area with at
+   least one confirmed reading that places someone; otherwise no sheet, and
+   a stale one is removed, so an unconfirmed stance never reaches a
+   published 5CA. Unconfirmed votes appear on a sheet's rows only as
+   "awaiting sign-off -- not placed", with no direction. Party-group
+   countries (AT, PT, NL show of hands) use the stores' own X5 derivations
+   (`<cc>_store.derived_member_positions`): each derived row is labelled
+   DERIVED, weighs less than a recorded vote (4 against 5), and its
+   confidence says so.
+
+4. THE DIGEST (`digest_text`, tools/stance_digest.py): one weekly DM to
+   Chris listing what awaits sign-off, by country. Since 11 October 2026 it
+   leads with each country's top 5 to sign first, ranked by
+   src/shortlist5ca.py (which also writes docs/5ca-<cc>-shortlist.md).
+
+Read-only on the store. Writes config/<cc>_stance.yaml (append only, or the
+confirm edit), docs/5ca-<cc>-readings.md and data/5ca/<cc>-5ca-*.csv.
+"""
+
+from __future__ import annotations
+
+import datetime
+import json
+import os
+import re
+import sqlite3
+
+from src import readings5ca as r5
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CONFIG = os.path.join(ROOT, "config")
+DOCS = os.path.join(ROOT, "docs")
+OUT_DIR = os.path.join(ROOT, "data", "5ca")
+SIGNERS_PATH = os.path.join(CONFIG, "stance_signers.yaml")
+ALWAYS_SIGNS = ("Christopher", "Chris")       # Chris signs for every country
+WEIGHTS = {"vote": 5, "derived": 4}
+DRAFTED_BY = "tools/country_5ca.py (rules, no AI)"
+
+
+def fold(text):
+    from src.filter import _fold
+    return " ".join(_fold(text or "").lower().split())
+
+
+def _json_list(raw):
+    if raw is None:
+        return []
+    if isinstance(raw, (list, tuple)):
+        return [str(x) for x in raw if x not in (None, "")]
+    try:
+        got = json.loads(raw)
+    except (TypeError, ValueError):
+        return [str(raw)] if str(raw).strip() else []
+    if isinstance(got, list):
+        return [str(x) for x in got if x not in (None, "")]
+    return [str(got)] if got not in (None, "") else []
+
+
+def areas_of(raw):
+    out = []
+    for a in _json_list(raw):
+        if str(a).isdigit():
+            out.append(int(a))
+    return sorted(set(out))
+
+
+# --- the countries -----------------------------------------------------------------
+#
+# Each spec says, for one store: which divisions there are (`div_sql`, one row
+# per division with the columns key, chamber, date, question, subject, areas,
+# tier, result, yes, no, abstain, plus anything `refs` and `hint` read); which
+# keys of a division may be watched (`refs`); each division's positions
+# (`positions`: SQL returning member_id, name, party, position, or a store's
+# X5 derivation); the sitting roster (`roster`: member_id, name, party,
+# chamber, sitting); and which stored positions are a Yes, a No and an
+# abstention (folded, lower case). `labels` name the lobbies as the chamber
+# does.
+
+class Spec:
+    def __init__(self, cc, name, div_sql, positions, roster, yea, nay, abstain=(),
+                 refs=None, hint=None, labels=("Yes", "No"), derived=None,
+                 watchlist=None, extra_watched=None, chambers=None, note="", own_key=None,
+                 scope=None):
+        self.cc, self.name = cc, name
+        self.div_sql, self.positions_sql, self.roster_sql = div_sql, positions, roster
+        self.yea = {fold(x) for x in yea}
+        self.nay = {fold(x) for x in nay}
+        self.abstain = {fold(x) for x in abstain}
+        self.refs = refs or (lambda r: [])
+        self.hint = hint or (lambda r: None)
+        self.labels = labels
+        self.derived = derived            # fn(conn, key) -> [dict] (X5), or None
+        self.watchlist_fn = watchlist
+        self.extra_watched = extra_watched or (lambda r, wl: None)
+        self.chambers = chambers or {}
+        self.note = note
+        self.own_key = own_key            # fn(row) -> the key of the item voted on itself
+        # The sign-off scope: fn(kind, key, question, watch_key, wl) -> bool,
+        # whether a vote is drafted for sign-off at all. None: every
+        # qualifying vote (every country, France included since 12 October
+        # 2026; France had final_or_watched from 10 to 12 October).
+        self.scope = scope
+
+    def side(self, position):
+        p = fold(position)
+        if p in self.yea:
+            return "yea"
+        if p in self.nay:
+            return "nay"
+        if p in self.abstain:
+            return "abstain"
+        return None
+
+
+def _edition_watchlist(cc):
+    def load():
+        from src import country_edition as ce
+        return ce.watchlist_of(ce.adapter(cc))
+    return load
+
+
+def _latam_watchlist(cc):
+    def load():
+        from src import latam
+        return latam.watchlist(cc)
+    return load
+
+
+def _ch_refs(r):
+    from src import ch_store
+    if r["short_number"]:
+        return [r["short_number"]]
+    if r["business_id"]:
+        try:
+            return [ch_store.short_number(r["business_id"])]
+        except (TypeError, ValueError):
+            return []
+    return []
+
+
+def _it_refs(r):
+    keys = _json_list(r["bill_keys"])
+    if r["bill_key"] and r["bill_key"] not in keys:
+        keys.insert(0, r["bill_key"])
+    return keys
+
+
+def _br_refs(r):
+    keys = [r["bill_key"]] if r["bill_key"] else []
+    return keys + _json_list(r["linked_bills"]) + _json_list(r["former_keys"])
+
+
+def _ar_refs(r):
+    keys = _json_list(r["exp_keys"])
+    return keys + [x for x in _json_list(r["exp_others"]) if x not in keys]
+
+
+def _mx_watched(r, wl):
+    for key, entry in wl.items():
+        for v in (entry.get("votaciones") or []) if isinstance(entry, dict) else []:
+            try:
+                if int(v) == int(r["votaciont"] or -1):
+                    return key
+            except (TypeError, ValueError):
+                continue
+    return None
+
+
+def _hu_watched(r, wl):
+    return "HU4" if r["rule"] == "HU4" and "HU4" in wl else None
+
+
+def _derive(module, cc):
+    """The store's derivation (X5), corrected by the dated service rows where
+    the store has them (src/member_service.adjust_derived, 11 October 2026):
+    a member is given a group's vote only for a day they sat, by the group
+    they were in that day. Without service rows it is the store's, unchanged."""
+    from src import member_service as ms
+    cache = ms.Cache()
+
+    def derive(conn, key):
+        import importlib
+        store = importlib.import_module("src.{0}_store".format(module))
+        rows = store.derived_member_positions(conn, key)
+        services = cache.get(conn, cc) if ms.has_tables(conn) else {}
+        return ms.adjust_derived(conn, cc, key, rows, services)[0] if services else rows
+    return derive
+
+
+# --- the sign-off scope ----------------------------------------------------------------
+#
+# LIFTED 12 October 2026 (Chris: "score all amendments and reverse France's
+# decision"; docs/country-decisions-2026-10-12.md): no country has a scope
+# now, so every amendment and article vote on our ground is drafted and read.
+# The machinery below is kept, unused, and the prunes never remove an
+# amendment entry (`_prune`). What it did:
+#
+# Chris, 10 October 2026: France's 5CA sign-off is limited to the votes that
+# decide a text (on the whole text, a motion to reject it, or a Yes recorded
+# as rejecting it) and to the amendment and article votes a person has
+# explicitly WATCHED in the country's watchlist, under the dossier's entry:
+#
+#     "DLR5L17N51670": {areas: [2], why: "...",
+#                       amendments: ["an-17-1773", "n° 3"]}
+#
+# An item is a store division key (exact) or an amendment number as the
+# Assemblee's own wording gives it ("l'amendement n° 3 ..."), which matches
+# any vote in that dossier on that number (numbers restart with each reading,
+# so the division key is the exact form). A procedural vote is in scope only
+# when its wording is about the whole text (a final-vote-related procedure),
+# or when it is watched. Everything else is out of scope: not drafted, and
+# prunable while unsigned and untouched (`prune_out_of_scope`).
+
+FINAL_KINDS = ("final", "reject", "inverted")
+_AMENDMENT_NO = re.compile(r"amendements?\s+n\s*[°ºo]\.?\s*(\d+)")
+
+
+def amendment_numbers(question):
+    """The amendment numbers named in a vote's wording, as strings."""
+    return set(_AMENDMENT_NO.findall(fold(question)[:QUESTION_CHARS]))
+
+
+def watched_items(wl, watch_key):
+    """(division keys, amendment numbers) opted in under a dossier's
+    `amendments:` list in the watchlist."""
+    entry = (wl or {}).get(watch_key) if watch_key else None
+    keys, numbers = set(), set()
+    for item in (entry.get("amendments") or []) if isinstance(entry, dict) else []:
+        text = str(item).strip()
+        m = re.match(r"^(?:n\s*[°ºo]\.?\s*)?(\d+)$", text, re.I)
+        if m:
+            numbers.add(m.group(1))
+        elif text:
+            keys.add(text)
+    return keys, numbers
+
+
+def is_watched_item(key, question, watch_key, wl):
+    keys, numbers = watched_items(wl, watch_key)
+    return str(key) in keys or bool(numbers & amendment_numbers(question))
+
+
+def final_or_watched(kinds=FINAL_KINDS):
+    """A scope: votes of `kinds`, final-vote-related procedure, and the
+    explicitly watched amendment and article votes."""
+    def scope(kind, key, question, watch_key, wl):
+        if kind in kinds:
+            return True
+        if is_watched_item(key, question, watch_key, wl):
+            return True
+        if kind == "procedural":
+            q = fold(question)[:QUESTION_CHARS]
+            return any(re.search(p, q) for p in FINAL_FIRST + FINAL)
+        return False
+    return scope
+
+
+SPECS = {
+    "it": Spec(
+        "it", "Italy",
+        "SELECT d.division_key AS key, d.chamber, d.date, d.title AS question, "
+        "b.title AS subject, d.areas, d.tier, d.bill_key, d.bill_keys, d.is_final, "
+        "d.outcome AS result, d.ayes AS yes, d.noes AS no, d.abstentions AS abstain "
+        "FROM it_divisions d LEFT JOIN it_bills b USING (bill_key)",
+        "SELECT v.member_key AS member_id, COALESCE(m.name, v.member_key) AS name, v.grp AS party, "
+        "v.position FROM it_votes v LEFT JOIN it_members m USING (member_key) WHERE v.division_key=?",
+        "SELECT member_key AS member_id, name, grp AS party, chamber, 1 AS sitting FROM it_members",
+        ("aye",), ("no",), ("abstain",), refs=_it_refs,
+        hint=lambda r: "final" if r["is_final"] else None, labels=("Favorevole", "Contrario"),
+        watchlist=_edition_watchlist("it"), chambers={"camera": "Camera", "senato": "Senato"}),
+    "ch": Spec(
+        "ch", "Switzerland",
+        "SELECT d.division_key AS key, d.council AS chamber, d.date, "
+        "COALESCE(NULLIF(d.subject,''), d.meaning_yes) AS question, "
+        "COALESCE(b.title_de, b.title_fr, d.draft_title) AS subject, d.meaning_yes, d.meaning_no, "
+        "d.areas, d.tier, d.short_number, d.business_id, d.result, d.yes, d.no, d.abstain "
+        "FROM ch_divisions d LEFT JOIN ch_businesses b USING (business_id)",
+        "SELECT v.person_number AS member_id, TRIM(COALESCE(m.first_name,'') || ' ' || "
+        "COALESCE(m.last_name,'')) AS name, v.parl_group AS party, v.position FROM ch_votes v "
+        "LEFT JOIN ch_members m USING (person_number) WHERE v.division_key=?",
+        "SELECT person_number AS member_id, TRIM(COALESCE(first_name,'') || ' ' || "
+        "COALESCE(last_name,'')) AS name, parl_group AS party, council AS chamber, "
+        "COALESCE(active, 1) AS sitting FROM ch_members",
+        ("Ja",), ("Nein",), ("Enthaltung",), refs=_ch_refs, labels=("Ja", "Nein"),
+        watchlist=_edition_watchlist("ch"),
+        chambers={"NR": "Nationalrat", "SR": "Ständerat", "N": "Nationalrat", "S": "Ständerat"}),
+    "fr": Spec(
+        "fr", "France",
+        "SELECT d.division_key AS key, d.chamber, d.date, d.title AS question, "
+        "s.title AS subject, d.areas, d.tier, d.dossier_ref, d.result, d.pour AS yes, "
+        "d.contre AS no, d.abstentions AS abstain "
+        "FROM fr_divisions d LEFT JOIN fr_dossiers s USING (dossier_ref)",
+        "SELECT v.acteur_ref AS member_id, COALESCE(m.name, v.acteur_ref) AS name, "
+        "COALESCE(g.abbr, g.label, v.group_ref) AS party, v.position FROM fr_votes v "
+        "LEFT JOIN fr_members m USING (acteur_ref) LEFT JOIN fr_groups g "
+        "ON g.organe_ref = v.group_ref WHERE v.division_key=?",
+        "SELECT m.acteur_ref AS member_id, m.name, COALESCE(g.abbr, g.label, m.group_ref) AS party, "
+        "m.chamber, COALESCE(m.current, 1) AS sitting FROM fr_members m "
+        "LEFT JOIN fr_groups g ON g.organe_ref = m.group_ref",
+        ("pour",), ("contre",), ("abstention",), refs=lambda r: [r["dossier_ref"]] if r["dossier_ref"] else [],
+        labels=("Pour", "Contre"), watchlist=_edition_watchlist("fr"),
+        chambers={"an": "Assemblée nationale", "senat": "Sénat"},
+        # No sign-off scope since 12 October 2026 (Chris: "score all
+        # amendments and reverse France's decision"): every watched or
+        # tier-1 vote is drafted, amendments and articles included, as in
+        # every other country. final_or_watched() stays for any future use.
+        note="Every amendment and article vote on our ground is read and scored, as in every "
+             "other country (Chris, 12 October 2026, lifting the limit of 10 October)."),
+    "nl": Spec(
+        "nl", "Netherlands",
+        "SELECT d.besluit_id AS key, 'tk' AS chamber, d.date, "
+        "COALESCE(z.soort,'') || ': ' || COALESCE(z.onderwerp, d.besluit_tekst, '') AS question, "
+        "z.dossier_titels AS subject, d.areas, z.tier, d.zaak_nummer, z.dossiers, "
+        "d.besluit_tekst AS result, d.voor AS yes, d.tegen AS no, NULL AS abstain "
+        "FROM nl_divisions d LEFT JOIN nl_zaken z USING (zaak_nummer)",
+        None,
+        "SELECT persoon_id AS member_id, name, fractie AS party, 'tk' AS chamber, 1 AS sitting "
+        "FROM nl_members",
+        ("Voor",), ("Tegen",), (), labels=("Voor", "Tegen"),
+        refs=lambda r: [r["zaak_nummer"]] + _json_list(r["dossiers"]),
+        derived=_derive("nl", "nl"), watchlist=_edition_watchlist("nl"),
+        own_key=lambda r: r["zaak_nummer"],
+        chambers={"tk": "Tweede Kamer"},
+        note="Most votes are by show of hands: each member is given the fractie's vote (X5)."),
+    "be": Spec(
+        "be", "Belgium",
+        "SELECT d.division_key AS key, 'kamer' AS chamber, d.date, "
+        "COALESCE(d.heading_nl, d.heading_fr) AS question, COALESCE(s.title_nl, s.title_fr) AS subject, "
+        "d.areas, NULL AS tier, d.dossier_key, d.outcome AS result, d.yes, d.no, d.abstain "
+        "FROM be_divisions d LEFT JOIN be_dossiers s USING (dossier_key)",
+        "SELECT COALESCE(v.member_key, v.member_name) AS member_id, COALESCE(m.name, v.member_name) "
+        "AS name, v.group_seen AS party, v.position FROM be_votes v LEFT JOIN be_members m "
+        "USING (member_key) WHERE v.division_key=?",
+        "SELECT member_key AS member_id, name, party_group AS party, 'kamer' AS chamber, "
+        "COALESCE(current, 1) AS sitting FROM be_members",
+        ("yes",), ("no",), ("abstain",), refs=lambda r: [r["dossier_key"]] if r["dossier_key"] else [],
+        labels=("Ja / Oui", "Nee / Non"), watchlist=_edition_watchlist("be"),
+        chambers={"kamer": "Kamer"}),
+    "pl": Spec(
+        "pl", "Poland",
+        "SELECT division_key AS key, 'sejm' AS chamber, substr(voted_at,1,10) AS date, "
+        "COALESCE(topic, title) AS question, title AS subject, areas, tier, process_keys, "
+        "NULL AS result, yes, no, abstain FROM pl_divisions",
+        "SELECT v.mp_key AS member_id, COALESCE(m.name, v.mp_key) AS name, v.club AS party, "
+        "v.position FROM pl_votes v LEFT JOIN pl_members m USING (mp_key) WHERE v.division_key=?",
+        "SELECT mp_key AS member_id, name, club AS party, 'sejm' AS chamber, "
+        "COALESCE(active, 1) AS sitting FROM pl_members",
+        ("YES",), ("NO",), ("ABSTAIN",), refs=lambda r: _json_list(r["process_keys"]),
+        labels=("Za", "Przeciw"), watchlist=_edition_watchlist("pl"), chambers={"sejm": "Sejm"}),
+    "hr": Spec(
+        "hr", "Croatia",
+        "SELECT d.division_key AS key, 'sabor' AS chamber, substr(d.voted_at,1,10) AS date, "
+        "d.title AS question, COALESCE(i.title, d.title) AS subject, d.areas, d.tier, d.bill_key, "
+        "d.tid, d.yes_means_reject, d.outcome AS result, d.yes, d.no, d.abstain "
+        "FROM hr_divisions d LEFT JOIN hr_items i ON i.tid = d.tid",
+        "SELECT v.slug AS member_id, COALESCE(m.name, v.slug) AS name, v.party_seen AS party, "
+        "v.position FROM hr_votes v LEFT JOIN hr_members m USING (slug) WHERE v.division_key=?",
+        "SELECT slug AS member_id, name, party, 'sabor' AS chamber, "
+        "CASE WHEN mandate = 'Aktivan' THEN 1 ELSE 0 END AS sitting FROM hr_members",
+        ("for",), ("against",), ("abstained",),
+        refs=lambda r: ([r["bill_key"]] if r["bill_key"] else []) + ["item:{0}".format(r["tid"])],
+        hint=lambda r: "inverted" if r["yes_means_reject"] else None, labels=("Za", "Protiv"),
+        watchlist=_edition_watchlist("hr"), chambers={"sabor": "Sabor"}),
+    "sk": Spec(
+        "sk", "Slovakia",
+        "SELECT d.voting_id AS key, 'nrsr' AS chamber, d.date, d.name AS question, "
+        "b.title AS subject, d.areas, d.tier, d.bill_key, d.result, d.agreed AS yes, "
+        "d.disagreed AS no, d.abstained AS abstain FROM sk_divisions d LEFT JOIN sk_bills b "
+        "USING (bill_key)",
+        "SELECT v.mp_id AS member_id, COALESCE(m.name, v.mp_id) AS name, v.club AS party, "
+        "v.position FROM sk_votes v LEFT JOIN sk_members m USING (mp_id) WHERE v.voting_id=?",
+        "SELECT mp_id AS member_id, name, club AS party, 'nrsr' AS chamber, "
+        "CASE WHEN term = (SELECT MAX(term) FROM sk_members) THEN 1 ELSE 0 END AS sitting "
+        "FROM sk_members",
+        ("Z",), ("P",), ("?",), refs=lambda r: [r["bill_key"]] if r["bill_key"] else [],
+        labels=("Za", "Proti"), watchlist=_edition_watchlist("sk"), chambers={"nrsr": "Národná rada"}),
+    "es": Spec(
+        "es", "Spain",
+        "SELECT division_key AS key, chamber, date, "
+        "TRIM(COALESCE(title,'') || ' ' || COALESCE(subgroup,'')) AS question, "
+        "COALESCE(section, session_title) AS subject, areas, tier, initiative_key, "
+        "assent AS result, yes, no, abstain FROM es_divisions",
+        "SELECT name AS member_id, name, grupo AS party, position FROM es_votes WHERE division_key=?",
+        "SELECT name AS member_id, name, grupo AS party, 'congreso' AS chamber, "
+        "CASE WHEN baja IS NULL AND legislature = (SELECT MAX(legislature) FROM es_members) "
+        "THEN 1 ELSE 0 END AS sitting FROM es_members",
+        ("Sí", "Si"), ("No",), ("Abstención",),
+        refs=lambda r: [r["initiative_key"] or r["key"]], labels=("Sí", "No"),
+        watchlist=_edition_watchlist("es"), chambers={"congreso": "Congreso"}),
+    "br": Spec(
+        "br", "Brazil",
+        "SELECT d.division_key AS key, d.chamber, d.date, d.description AS question, "
+        "b.ementa AS subject, d.areas, d.tier, d.bill_key, d.linked_bills, b.former_keys, "
+        "d.result, d.yes, d.no, d.other AS abstain FROM br_divisions d LEFT JOIN br_bills b "
+        "USING (bill_key)",
+        "SELECT v.member_key AS member_id, COALESCE(m.name, v.member_key) AS name, v.party, "
+        "v.position FROM br_votes v LEFT JOIN br_members m USING (member_key) WHERE v.division_key=?",
+        "SELECT member_key AS member_id, name, party, chamber, COALESCE(in_office, 1) AS sitting "
+        "FROM br_members",
+        ("Sim",), ("Não", "Nao"), ("Abstenção", "Abstencao"), refs=_br_refs,
+        labels=("Sim", "Não"), watchlist=_edition_watchlist("br"),
+        chambers={"camara": "Câmara", "senado": "Senado"}),
+    "ar": Spec(
+        "ar", "Argentina",
+        "SELECT d.division_key AS key, d.chamber, d.date, "
+        "TRIM(COALESCE(d.vote_type,'') || ': ' || COALESCE(d.title,'')) AS question, "
+        "d.title AS subject, d.areas, d.tier, d.exp_keys, "
+        "(SELECT json_group_array(b.exp_other) FROM ar_bills b WHERE b.exp_other IS NOT NULL "
+        " AND d.exp_keys LIKE '%' || b.exp_key || '%') AS exp_others, "
+        "d.result, d.ayes AS yes, d.noes AS no, d.abstentions AS abstain FROM ar_divisions d",
+        "SELECT v.member_key AS member_id, COALESCE(m.name, v.member_key) AS name, v.bloc AS party, "
+        "v.position FROM ar_votes v LEFT JOIN ar_members m USING (member_key) WHERE v.division_key=?",
+        "SELECT member_key AS member_id, name, bloc AS party, chamber, COALESCE(current, 1) AS sitting "
+        "FROM ar_members",
+        ("AFIRMATIVO",), ("NEGATIVO",), ("ABSTENCIÓN", "ABSTENCION"), refs=_ar_refs,
+        labels=("Afirmativo", "Negativo"), watchlist=_edition_watchlist("ar"),
+        chambers={"senado": "Senado", "diputados": "Diputados", "sen": "Senado", "dip": "Diputados"}),
+    "mx": Spec(
+        "mx", "Mexico",
+        "SELECT division_key AS key, chamber, date, title AS question, title AS subject, areas, tier, "
+        "ini_keys, votaciont, NULL AS result, favor AS yes, contra AS no, abstencion AS abstain "
+        "FROM mx_divisions",
+        "SELECT v.member_key AS member_id, COALESCE(m.name, v.member_key) AS name, v.party, "
+        "v.position FROM mx_votes v LEFT JOIN mx_members m USING (member_key) WHERE v.division_key=?",
+        "SELECT member_key AS member_id, name, party, 'diputados' AS chamber, "
+        "CASE WHEN legislature = (SELECT MAX(legislature) FROM mx_members) THEN 1 ELSE 0 END "
+        "AS sitting FROM mx_members",
+        ("A favor",), ("En contra",), ("Abstención", "Abstencion"),
+        refs=lambda r: _json_list(r["ini_keys"]), extra_watched=_mx_watched,
+        labels=("A favor", "En contra"), watchlist=_edition_watchlist("mx"),
+        chambers={"diputados": "Cámara de Diputados", "dip": "Cámara de Diputados"}),
+    "hu": Spec(
+        "hu", "Hungary",
+        "SELECT d.vote_ts AS key, 'ogy' AS chamber, d.date, "
+        "COALESCE(d.outcome, d.result, d.motion) AS question, COALESCE(d.title, p.title) AS subject, "
+        "d.areas, d.tier, d.paper_key, d.rule, d.result, d.yes, d.no, d.abstain "
+        "FROM hu_divisions d LEFT JOIN hu_papers p USING (paper_key)",
+        "SELECT name AS member_id, name, faction AS party, position FROM hu_votes WHERE vote_ts=?",
+        "SELECT name AS member_id, name, faction AS party, 'ogy' AS chamber, "
+        "COALESCE(current, 1) AS sitting FROM hu_members",
+        ("igen",), ("nem",), ("tartozkodott",),
+        refs=lambda r: [r["paper_key"]] if r["paper_key"] else [], extra_watched=_hu_watched,
+        labels=("Igen", "Nem"), watchlist=_edition_watchlist("hu"), chambers={"ogy": "Országgyűlés"},
+        note="karzat records only (9 May to 28 August 2026) until the W-API token arrives."),
+    "at": Spec(
+        "at", "Austria",
+        "SELECT d.division_key AS key, d.body AS chamber, d.date, d.question, i.title AS subject, "
+        "COALESCE(d.areas, i.areas) AS areas, i.tier, d.item_key, d.outcome AS result, "
+        "d.yes_count AS yes, d.no_count AS no, NULL AS abstain "
+        "FROM at_divisions d LEFT JOIN at_items i USING (item_key) WHERE d.body IN ('NR', 'BR')",
+        None,
+        "SELECT pad AS member_id, name, klub AS party, chamber, 1 AS sitting FROM at_members",
+        ("Dafür",), ("Dagegen",), (), refs=lambda r: [r["item_key"]] if r["item_key"] else [],
+        labels=("Dafür", "Dagegen"), derived=_derive("at", "at"), watchlist=_edition_watchlist("at"),
+        chambers={"NR": "Nationalrat", "BR": "Bundesrat"},
+        note="Only the Klub's vote is recorded: every member row is DERIVED (X5). "
+             "Committee votes are not sheeted (no membership list)."),
+    "pt": Spec(
+        "pt", "Portugal",
+        "SELECT d.division_key AS key, 'ar' AS chamber, d.date, "
+        "TRIM(COALESCE(d.phase,'') || ': ' || COALESCE(d.description,'')) AS question, "
+        "i.title AS subject, d.areas, d.tier, d.ini_key, d.result, NULL AS yes, NULL AS no, "
+        "NULL AS abstain FROM pt_divisions d LEFT JOIN pt_initiatives i USING (ini_key)",
+        None,
+        "SELECT cad_id AS member_id, name, party, 'ar' AS chamber, "
+        "CASE WHEN situation LIKE 'Efetiv%' THEN 1 ELSE 0 END AS sitting FROM pt_members",
+        ("A Favor",), ("Contra",), ("Abstenção", "Abstencao"),
+        refs=lambda r: [r["ini_key"]] if r["ini_key"] else [], labels=("A favor", "Contra"),
+        derived=_derive("pt", "pt"), watchlist=_edition_watchlist("pt"),
+        chambers={"ar": "Assembleia da República"},
+        note="Groups vote as blocks; deputies named in the record are facts, the rest DERIVED (X5)."),
+    # --- Latin America (collected per country; the Latam monitor reads them) -----
+    "cl": Spec(
+        "cl", "Chile",
+        "SELECT d.division_key AS key, d.chamber, d.date, "
+        "TRIM(COALESCE(d.description,'') || ' ' || COALESCE(d.text,'')) AS question, "
+        "b.title AS subject, d.areas, d.tier, d.boletin, d.result, d.yes, d.no, d.abstain "
+        "FROM cl_divisions d LEFT JOIN cl_bills b USING (boletin)",
+        "SELECT v.member_key AS member_id, COALESCE(m.name, v.member_key) AS name, v.party, "
+        "v.position FROM cl_votes v LEFT JOIN cl_members m USING (member_key) WHERE v.division_key=?",
+        "SELECT member_key AS member_id, name, party, chamber, 1 AS sitting FROM cl_members",
+        ("Afirmativo", "Si", "Sí"), ("En Contra", "No"), ("Abstención", "Abstencion"),
+        refs=lambda r: [r["boletin"]] if r["boletin"] else [], labels=("Afirmativo", "En contra"),
+        watchlist=_latam_watchlist("cl"), chambers={"camara": "Cámara", "senado": "Senado"}),
+    "pe": Spec(
+        "pe", "Peru",
+        "SELECT division_key AS key, chamber, date, subject AS question, subject, areas, tier, "
+        "bill_refs, NULL AS result, yes, no, abstain FROM pe_divisions",
+        "SELECT COALESCE(v.member_key, v.name_raw) AS member_id, COALESCE(m.name, v.name_raw) AS name, "
+        "COALESCE(v.bancada, m.bancada) AS party, v.position FROM pe_votes v LEFT JOIN pe_members m "
+        "USING (member_key) WHERE v.division_key=?",
+        "SELECT member_key AS member_id, name, bancada AS party, chamber, 1 AS sitting FROM pe_members",
+        ("SI", "Sí", "A favor"), ("NO", "En contra"), ("ABST", "Abstención", "Abstencion"),
+        refs=lambda r: _json_list(r["bill_refs"]), labels=("Sí", "No"),
+        watchlist=_latam_watchlist("pe")),
+    "ec": Spec(
+        "ec", "Ecuador",
+        "SELECT division_key AS key, 'asamblea' AS chamber, date, "
+        "TRIM(COALESCE(theme,'') || ' / ' || COALESCE(proposal,'')) AS question, theme AS subject, "
+        "areas, tier, NULL AS result, yes, no, abstain FROM ec_divisions",
+        "SELECT v.name_key AS member_id, v.name, COALESCE(ro.party, ro.party_slug) AS party, v.position "
+        "FROM ec_votes v LEFT JOIN ec_roster ro ON ro.name_key = v.name_key WHERE v.division_key=?",
+        "SELECT name_key AS member_id, name, COALESCE(party, party_slug) AS party, 'asamblea' AS chamber, "
+        "1 AS sitting FROM ec_roster",
+        ("SI", "Sí", "Afirmativo"), ("NO", "Negativo"), ("ABSTENCION", "Abstención", "BLANCO"),
+        refs=lambda r: [r["key"]], labels=("Sí", "No"), watchlist=_latam_watchlist("ec")),
+    "do": Spec(
+        "do", "Dominican Republic",
+        "SELECT division_key AS key, 'cd' AS chamber, date, COALESCE(motion, title) AS question, "
+        "title AS subject, areas, tier, bill_refs, NULL AS result, yes, no, abstain FROM do_divisions",
+        "SELECT v.member_key AS member_id, COALESCE(m.name, v.name) AS name, v.party, v.position "
+        "FROM do_votes v LEFT JOIN do_members m USING (member_key) WHERE v.division_key=?",
+        "SELECT member_key AS member_id, name, party, 'cd' AS chamber, 1 AS sitting FROM do_members",
+        ("SI",), ("NO",), (), refs=lambda r: _json_list(r["bill_refs"]), labels=("Sí", "No"),
+        watchlist=_latam_watchlist("do"), chambers={"cd": "Cámara de Diputados"}),
+    "sv": Spec(
+        "sv", "El Salvador",
+        "SELECT v.division_key AS key, 'al' AS chamber, v.date, "
+        "TRIM(COALESCE(v.label,'') || ': ' || COALESCE(d.extracto, p.extracto, p.leyenda, '')) AS question, "
+        "COALESCE(d.extracto, p.leyenda) AS subject, v.areas, v.tier, v.expediente, v.item_key, "
+        "NULL AS result, v.yes, v.no, v.abstain FROM sv_divisions v "
+        "LEFT JOIN sv_dictamenes d ON d.dictamen_key = v.item_key "
+        "LEFT JOIN sv_piezas p ON p.pieza_key = v.item_key",
+        "SELECT name AS member_id, name, party, position FROM sv_votes WHERE division_key=?",
+        "SELECT name AS member_id, name, party, 'al' AS chamber, 1 AS sitting FROM sv_members",
+        ("SI",), ("NO",), ("ABST",),
+        refs=lambda r: [x for x in (r["expediente"], r["item_key"]) if x], labels=("Sí", "No"),
+        watchlist=_latam_watchlist("sv")),
+    "gt": Spec(
+        "gt", "Guatemala",
+        "SELECT division_key AS key, 'congreso' AS chamber, date, title AS question, title AS subject, "
+        "areas, tier, iniciativa, procedural, NULL AS result, yes, no, NULL AS abstain FROM gt_divisions",
+        "SELECT v.name_key AS member_id, v.name, m.bloque AS party, v.position FROM gt_votes v "
+        "LEFT JOIN gt_members m ON m.name_key = v.name_key WHERE v.division_key=?",
+        "SELECT name_key AS member_id, name, bloque AS party, 'congreso' AS chamber, 1 AS sitting "
+        "FROM gt_members",
+        ("A favor", "SI", "Sí"), ("En contra", "NO"), (),
+        refs=lambda r: [r["iniciativa"]] if r["iniciativa"] else [],
+        hint=lambda r: "procedural" if r["procedural"] else None, labels=("A favor", "En contra"),
+        watchlist=_latam_watchlist("gt"), note="Party is the member's current bloc (GT4, X6)."),
+}
+
+COUNTRIES = tuple(SPECS)
+PARTY_GROUP = ("at", "pt", "nl")
+
+
+# --- what kind of vote it was --------------------------------------------------------
+#
+# Folded (accents off, lower case) patterns over the first QUESTION_CHARS of
+# the vote's own wording (a long quoted amendment must not match on a stray
+# word deep inside it), in this order: a whole-text vote that names its parts
+# (Mexico's "en lo general y en lo particular", Brazil's "aprovada em primeiro
+# turno" of a PEC), a motion to reject, an amendment or article, procedure,
+# and the whole text. Amendment before procedure on purpose: when a wording
+# is both, `needs_reading` is the safe side.
+
+QUESTION_CHARS = 400
+
+FINAL_FIRST = (r"en lo general y en lo particular", r"en general y en particular",
+               r"aprovad\w*,? em (primeiro|segundo) turno", r"votacao final global")
+PROCEDURAL = (r"porzadk\w* dzienn", r"przerw\w* w posiedzeniu", r"odroczeni", r"skroceni\w* termin",
+              r"wybor\w* skladu", r"wniosek formaln", r"sobre la mesa", r"de urgencia",
+              r"orden del dia", r"liberad\w* de", r"remitid\w*.*comision", r"ordnungsantrag",
+              r"fristsetzung", r"pridelen\w* navrhu", r"skrateni\w* lehot",
+              r"pristupeni k tretiemu citaniu ihned", r"prorroga", r"subcomision", r"requerimento",
+              r"preferencia", r"dispensa\w* (de |da )?reda", r"recurso da decisao", r"baixa\w* (a |a )?comissao",
+              r"targyalasara", r"surgossegi", r"szabalyszeru", r"napirend", r"suspension de seance",
+              r"habilitacion", r"mocion de orden", r"vuelta a comision", r"verzoek bij regeling",
+              r"^brief", r"bez (kierowania|odsylania)", r"urgenza")
+REJECT = (r"wniosek o odrzuceni", r"motion de rejet", r"rejet prealable", r"questione pregiudiziale",
+          r"questione sospensiva", r"nichteintret", r"voorstel tot verwerping", r"proposition de rejet",
+          r"nepokracova", r"totalidad de devolucion", r"ablehnenden ausschussbericht",
+          r"proposta de rejeicao", r"\bq\.? preg", r"questioni pregiudiziali", r"ablehnung der motion",
+          r"rejet de la motion", r"rejeter la motion")
+AMENDMENT = (r"poprawk", r"wniosek mniejszosci", r"amendement", r"emendament", r"\bem\.", r"\bemm\.",
+             r"articolo aggiuntivo", r"\bart\.? agg", r"\bodg\b", r"ordine del giorno",
+             r"abanderungsantrag", r"zusatzantrag", r"^art\.", r"\bart\. \d", r"^articolo",
+             r"pozmenujuc", r"enmienda", r"indicacion", r"propuesta de modificacion",
+             r"modificacion propuesta", r"modificacion presentada", r"modosito", r"destaque",
+             r"mantido o texto", r"\bemenda", r"^l'article", r"votacion separada por puntos",
+             r"en particular", r"en lo particular", r"konzeptantrag", r"^ziffer", r"ruckweisung",
+             r"^articulo", r"\bpunto \d", r"^em \d", r"\bem \d", r"proposition de la commission",
+             r"noch offenen bestimmungen",
+             # 12 October 2026: the Senat's article votes ("sur l'article 4 de la
+             # proposition de loi ...") and the Dominican plural.
+             r"^sur l'article", r"modificaciones propuestas")
+FINAL = (r"nad caloscia", r"ponownym uchwaleni", r"votazione finale", r"voto finale",
+         r"gesamtabstimmung", r"schlussabstimmung", r"vote sur l'ensemble", r"vote final",
+         r"abstimmung uber die motion", r"\beintreten\b", r"l'ensemble d", r"votacao na generalidade",
+         r"votacao final", r"dritter lesung", r"zweiter lesung", r"entschliessungsantrag",
+         r"keinen einspruch", r"geheel van het", r"ensemble du projet", r"ensemble de la proposition",
+         r"ako o celku", r"prerokovany v druhom citani", r"navrhu uznesenia", r"votacion de conjunto",
+         r"toma en consideracion", r"votacion del dictamen", r"konacni prijedlog", r"prvo citanje",
+         r"aprovado o projeto", r"en lo general", r"en general", r"sometido a votacion el proyecto",
+         r"aprobad\w* en (primera|segunda|unica) lectura", r"onallo inditvany", r"tercer debate",
+         r"redaccion final", r"^(gewijzigde |nader gewijzigde )?motie", r"^motie:",
+         r"^(wetgeving|initiatiefwetgeving):", r"proposicion no de ley", r"mocion consecuencia",
+         r"^proposicion de ley", r"proyecto de ley, iniciado", r"^(dictamen|pieza)\b",
+         r"adopter le postulat", r"adopter la motion", r"annahme der motion", r"annahme des postulats")
+
+MOTION = r"^(motie|amendement)?:? ?(gewijzigde |nader gewijzigde )?(motie|amendement)"
+
+KIND_WORDS = {"final": "a vote on the whole text or the motion itself",
+              "reject": "a motion to reject the text (the sides are swapped)",
+              "inverted": "a vote whose Yes rejects the text (the record says so)",
+              "amendment": "an amendment, an article or one point",
+              "procedural": "procedure (the timetable or the handling)",
+              "other": "a kind of vote the rules do not recognise"}
+
+
+def vote_kind(question, hint=None):
+    """('final' | 'reject' | 'inverted' | 'amendment' | 'procedural' | 'other',
+    the pattern that decided it). A store's own flag (`hint`) wins."""
+    if hint in KIND_WORDS:
+        return hint, "the store's own flag"
+    q = fold(question)[:QUESTION_CHARS]
+    for kind, pats in (("final", FINAL_FIRST), ("reject", REJECT), ("amendment", AMENDMENT),
+                       ("procedural", PROCEDURAL), ("final", FINAL)):
+        for p in pats:
+            if re.search(p, q):
+                return kind, p
+    return "other", None
+
+
+# --- the stance file ----------------------------------------------------------------
+
+def stance_path(cc, config_dir=None):
+    return os.path.join(config_dir or CONFIG, "{0}_stance.yaml".format(cc))
+
+
+def doc_path(cc, docs_dir=None):
+    return os.path.join(docs_dir or DOCS, "5ca-{0}-readings.md".format(cc))
+
+
+def norm_entry(e):
+    """An entry with YAML 1.1's boolean key put right: a bare `on:` reads as
+    True, so the writer quotes it ("on":) and every reader accepts both."""
+    if isinstance(e, dict) and True in e:
+        e = dict(e)
+        val = e.pop(True)
+        e.setdefault("on", val)
+    return e
+
+
+def load(cc, config_dir=None):
+    """(divisions, bill_directions, meta), each {key: entry}, drafts included."""
+    import yaml
+    path = stance_path(cc, config_dir)
+    if not os.path.exists(path):
+        return {}, {}, {}
+    with open(path, encoding="utf-8") as h:
+        cfg = yaml.safe_load(h) or {}
+    divs = {str(e["key"]): norm_entry(e) for e in (cfg.get("divisions") or []) if e.get("key")}
+    bills = {str(e["key"]): norm_entry(e) for e in (cfg.get("bill_directions") or []) if e.get("key")}
+    return divs, bills, {k: v for k, v in cfg.items() if k not in ("divisions", "bill_directions")}
+
+
+def header(cc):
+    name = SPECS[cc].name
+    return """# {name}: what a recorded vote MEANS for CitizenGO, for the 5CA.
+#
+# Written by tools/country_5ca.py (src/country5ca.py), the 5CA-with-sign-off
+# layer of docs/country-parity-handover.md (item 2), 10 October 2026. The
+# rule is Canada's: which lobby is CitizenGO's is a HUMAN judgement, and
+# nothing places anyone until it is confirmed: by a named person, or (since
+# 11 October 2026, on Chris's delegation) by the automatic checks, after
+# which a signer amends with --amend KEY --yea N --nay N --by NAME --why.
+#
+# status:
+#   draft          proposed by the drafter's rules (or by Claude): unsigned,
+#                  places nobody.
+#   needs_reading  no direction proposed: the drafter could not tell which
+#                  side is ours without reading the text. A person writes
+#                  `yea:`/`nay:` (and why lines), then confirms.
+#   confirmed      signed: `confirmed_by:` (a named person) and
+#                  `confirmed_on:` (the date) are both required, or it still
+#                  counts as unsigned.
+#
+# To confirm: tick the box in docs/5ca-{cc}-readings.md and run
+#   python3 tools/country_5ca.py --cc {cc} --sign-from-doc --by NAME
+# or confirm by key:
+#   python3 tools/country_5ca.py --cc {cc} --confirm KEY [KEY ...] --by NAME
+# To strike a reading for good, write `placeable: false` and a `reason:`.
+#
+# Amendment and article votes (12 October 2026): a reader records whether
+# ADOPTING the amendment is with or against CitizenGO, on the entry, as
+#   amendment_direction: with | against
+#   amendment_why: "what the amendment does, and why that side is ours"
+#   amendment_source: "URL of the text read"
+#   amendment_yes_adopts: false   # only when a Yes here does NOT adopt it
+#   amendment_flag: "..."         # anything a person must look at
+# (or with tools/country_5ca.py --apply-amendments FILE); the rules then
+# derive yea/nay as for a bill direction. A flag blocks the automatic
+# sign-off.
+#
+# bill_directions: whether PASSING a bill or motion is with CitizenGO
+# (`with`) or against it (`against`). Drafted by Claude on 10 October 2026
+# from each watchlist entry's own description, never from a model call; a
+# bill with no line gets no proposed values. Edit or add lines here: the
+# next --draft uses them for NEW votes (an existing entry is never
+# rewritten).
+#
+# divisions: one entry per watched or tier-1 vote, appended by --draft.
+# Keys are the store's division keys. `yea:`/`nay:` are the stance (-2..2)
+# of voting Yes / No as the chamber records it ({yea} / {nay}). An
+# abstention never places anyone. Keep `divisions:` the LAST section: the
+# drafter appends to the end of this file.
+""".format(name=name, cc=cc, yea=SPECS[cc].labels[0], nay=SPECS[cc].labels[1])
+
+
+def _q(text):
+    """A YAML double-quoted scalar (JSON's escapes are valid YAML)."""
+    return json.dumps(" ".join(str(text).split()), ensure_ascii=False)
+
+
+def entry_yaml(e):
+    """One `divisions` entry as YAML text, in a fixed order."""
+    order = ("key", "status", "title", "on", "dated", "chamber", "areas", "tier", "watched",
+             "result", "lobbies", "vote_kind", "placeable", "reason", "yea", "why_yea", "nay",
+             "why_nay", "read_first", "reasoning", "flag", "amendment_direction",
+             "amendment_yes_adopts", "amendment_why", "amendment_source", "amendment_flag", "drafted")
+    lines = []
+    for k in order:
+        if k not in e or e[k] is None or e[k] == "":
+            continue
+        v = e[k]
+        if isinstance(v, bool):
+            val = "true" if v else "false"
+        elif isinstance(v, int):
+            val = str(v)
+        elif isinstance(v, list):
+            val = "[" + ", ".join(str(x) for x in v) + "]"
+        elif k == "status":
+            val = v
+        else:
+            val = _q(v)
+        name = '"on"' if k == "on" else k          # a bare `on` is boolean True in YAML 1.1
+        lines.append("{0}{1}: {2}".format("  - " if not lines else "    ", name, val))
+    return "\n".join(lines) + "\n"
+
+
+# --- reading a store ---------------------------------------------------------------
+
+def connect_ro(path):
+    conn = sqlite3.connect("file:{0}?mode=ro".format(path), uri=True)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def _rows(conn, sql, params=()):
+    try:
+        return [dict(r) for r in conn.execute(sql, params)]
+    except sqlite3.OperationalError:
+        return []
+
+
+def divisions(conn, cc):
+    """Every division of a country's store, as dicts, oldest first."""
+    rows = _rows(conn, SPECS[cc].div_sql)
+    rows.sort(key=lambda r: (str(r.get("date") or ""), str(r["key"])))
+    for r in rows:
+        r["key"] = str(r["key"])
+        r["date"] = str(r.get("date") or "")[:10]
+    return rows
+
+
+def watched_key(spec, r, wl):
+    for k in spec.refs(r):
+        if k and k in wl:
+            return k
+    return spec.extra_watched(r, wl)
+
+
+def qualifying(conn, cc, wl=None):
+    """The watched or tier-1 divisions, each with `watch_key` (or None)."""
+    spec = SPECS[cc]
+    wl = spec.watchlist_fn() if wl is None else wl
+    out = []
+    for r in divisions(conn, cc):
+        w = watched_key(spec, r, wl)
+        if w is None and r.get("tier") != 1:
+            continue
+        if w is None and not areas_of(r.get("areas")):
+            continue
+        r["watch_key"] = w
+        out.append(r)
+    return out
+
+
+def in_scope(cc, kind, key, question, watch_key, wl):
+    """Whether a vote is inside the country's sign-off scope (Spec.scope)."""
+    spec = SPECS[cc]
+    if spec.scope is None:
+        return True
+    return bool(spec.scope(kind, key, question, watch_key, wl))
+
+
+def row_in_scope(cc, r, wl):
+    """in_scope for a store row (its kind read as draft_entry reads it)."""
+    spec = SPECS[cc]
+    if spec.scope is None:
+        return True
+    kind = vote_kind(r.get("question"), spec.hint(r))[0]
+    return in_scope(cc, kind, r["key"], r.get("question"), r.get("watch_key"), wl)
+
+
+def entry_in_scope(cc, e, wl):
+    """in_scope for a stance-file entry (no store needed)."""
+    if SPECS[cc].scope is None:
+        return True
+    kind = e.get("vote_kind") or vote_kind(e.get("title"))[0]
+    return in_scope(cc, kind, e.get("key"), e.get("title"), e.get("watched"), wl)
+
+
+def positions(conn, cc, key):
+    """[{member_id, name, party, position, derived, basis}] for one division."""
+    spec = SPECS[cc]
+    if spec.derived is not None:
+        try:
+            got = spec.derived(conn, key)
+        except sqlite3.OperationalError:
+            return []
+        return [dict(p, member_id=str(p["member_id"] if p["member_id"] is not None else p["name"]))
+                for p in got]
+    out = []
+    for r in _rows(conn, spec.positions_sql, (key,)):
+        out.append({"member_id": str(r["member_id"]), "name": r["name"], "party": r["party"],
+                    "position": r["position"], "derived": False, "basis": "recorded vote"})
+    return out
+
+
+def lobbies(spec, pos):
+    """'Yes: A 10, B 2. No: C 5. Abstain: D 1' counted from the positions."""
+    sides = {"yea": {}, "nay": {}, "abstain": {}}
+    for p in pos:
+        s = spec.side(p["position"])
+        if s:
+            sides[s][p["party"] or "?"] = sides[s].get(p["party"] or "?", 0) + 1
+    parts = []
+    for s, label in (("yea", spec.labels[0]), ("nay", spec.labels[1]), ("abstain", "Abstain")):
+        if sides[s]:
+            parts.append("{0}: {1}".format(label, ", ".join(
+                "{0} {1}".format(p, n) for p, n in sorted(sides[s].items(), key=lambda kv: -kv[1]))))
+    if not parts:
+        return None
+    text = ". ".join(parts)
+    if any(p["derived"] for p in pos):
+        text += " (counts include members DERIVED from their group's vote, X5)"
+    return text
+
+
+# --- the drafter ---------------------------------------------------------------------
+
+def _area_text(areas):
+    from src.latam import AREA_LABELS
+    return ", ".join("{0} ({1})".format(a, AREA_LABELS.get(a, "area {0}".format(a))) for a in areas) \
+        or "no area stamped"
+
+
+def _direction_for(r, bills, spec):
+    """(key, entry) of the bill direction that applies to this vote, or (None, None).
+    Last of all the division's own key (12 October 2026): a vote whose store
+    row names no bill ("this item" in a needs_reading line) takes a direction
+    keyed by its division key."""
+    for k in [r.get("watch_key")] + list(spec.refs(r)) + [r.get("key")]:
+        if k and k in bills and bills[k].get("direction") in ("with", "against"):
+            return k, bills[k]
+    return None, None
+
+
+def rule_values(spec, kind, bkey, bill, area_line, direction=None):
+    """The values the rules give a final, reject or inverted vote on a bill
+    with a direction: yea, nay, why_yea, why_nay and reasoning. Shared by the
+    drafter, the automatic sign-off's recomputation and the resync (11
+    October 2026); `direction` overrides the bill's own (the resync tries
+    both to recognise a draft made before a direction changed)."""
+    s = 1 if (direction or bill["direction"]) == "with" else -1
+    swap = kind in ("reject", "inverted")
+    yea = -2 * s if swap else 2 * s
+    what = r5.clip(bill.get("why") or bill.get("title") or bkey, 200).rstrip(".")
+    short = r5.clip(re.split(r"(?<=[a-z\)])[.;] ", what)[0], 90)
+    passing = "rejecting" if swap else "passing"
+    return {
+        "yea": yea, "nay": -yea,
+        "why_yea": "Voted {0} on {1} ({2}): {3} it, {4} CitizenGO's position.".format(
+            spec.labels[0], bkey, short, "for rejecting" if swap else "for passing",
+            "with" if yea > 0 else "against"),
+        "why_nay": "Voted {0} on {1} ({2}): against {3} it, {4} CitizenGO's position.".format(
+            spec.labels[1], bkey, short, passing, "with" if -yea > 0 else "against"),
+        "reasoning": "{0} Bill direction on file for {1} ({2}): passing it is {3} us -- {4}. "
+                     "This vote is {5}, so {6} is {7} us.".format(
+                         area_line, bkey, "CONFIRMED" if bill.get("status") == "confirmed"
+                         else "a draft", "WITH" if s > 0 else "AGAINST", what, KIND_WORDS[kind],
+                         spec.labels[0], "with" if yea > 0 else "against")}
+
+
+def draft_entry(cc, r, bills, pos=None, today=None):
+    """The drafted entry for one qualifying division (a dict, not yet YAML)."""
+    spec = SPECS[cc]
+    today = today or datetime.date.today().isoformat()
+    areas = areas_of(r.get("areas"))
+    kind, why_kind = vote_kind(r.get("question"), spec.hint(r))
+    q = r5.clip(r.get("question"), 240)
+    e = {"key": r["key"], "title": q or "(no wording stored)",
+         "on": r5.clip(r.get("subject"), 200) if r.get("subject") and r.get("subject") != r.get("question") else None,
+         "dated": r.get("date") or None,
+         "chamber": r.get("chamber"),
+         "areas": areas, "tier": r.get("tier") if isinstance(r.get("tier"), int) else None,
+         "watched": r.get("watch_key"), "vote_kind": kind,
+         "drafted": "{0}, {1}".format(DRAFTED_BY, today)}
+    tally = [x for x in (("{0} {1}".format(spec.labels[0], r["yes"]) if r.get("yes") is not None else None),
+                         ("{0} {1}".format(spec.labels[1], r["no"]) if r.get("no") is not None else None),
+                         ("Abstain {0}".format(r["abstain"]) if r.get("abstain") else None)) if x]
+    e["result"] = "; ".join(x for x in (r5.clip(r.get("result"), 120), ", ".join(tally)) if x) or None
+    if pos:
+        e["lobbies"] = r5.clip(lobbies(spec, pos), 600)
+    area_line = "Area {0}.".format(_area_text(areas))
+    if kind == "procedural":
+        e.update(status="draft", placeable=False,
+                 reason="Procedural ({0}): it decides the timetable or the handling, not the "
+                        "substance, so neither lobby tells members apart on our ground.".format(
+                            r5.clip(q, 120)),
+                 reasoning="{0} The wording reads as {1}.".format(area_line, KIND_WORDS[kind]))
+        return e
+    bkey, bill = _direction_for(r, bills, spec)
+    if bill and spec.own_key is not None and bkey != spec.own_key(r) \
+            and re.search(MOTION, fold(r.get("question"))):
+        # A motion tabled in a bill's dossier is its own text: the bill's
+        # direction says nothing about it (the Netherlands' moties).
+        e.update(status="needs_reading",
+                 read_first="A motion tabled in the dossier of {0} ({1}): its own text decides which "
+                            "side is ours, not the bill's direction. Read it, then write "
+                            "yea/nay.".format(bkey, bill["direction"]),
+                 reasoning="{0} The bill's direction does not carry to a motion.".format(area_line))
+        return e
+    if kind in ("final", "reject", "inverted") and bill:
+        e.update(status="draft", **rule_values(spec, kind, bkey, bill, area_line))
+        flags = []
+        if kind == "inverted":
+            flags.append("The record says a Yes here REJECTS the text; check the question put.")
+        if bill.get("flag"):
+            flags.append("On the bill's direction: " + bill["flag"])
+        if flags:
+            e["flag"] = " ".join(flags)
+        return e
+    if kind in ("final", "reject", "inverted"):
+        refs = ", ".join(k for k in spec.refs(r) if k) or "this item"
+        e.update(status="needs_reading",
+                 read_first="{0}, but no bill direction is on file for {1}: CitizenGO's position on "
+                            "'{2}' needs a human reading. Add a `bill_directions` line or write "
+                            "yea/nay here.".format(KIND_WORDS[kind][0].upper() + KIND_WORDS[kind][1:],
+                                                   refs, r5.clip(r.get("subject") or q, 140)),
+                 reasoning="{0} Direction unclear from the store: nothing proposed.".format(area_line))
+        return e
+    if kind == "amendment":
+        e.update(status="needs_reading",
+                 read_first="An amendment, an article or one point ('{0}'): which side is ours depends "
+                            "on its text, which the store does not hold. Read it, then write "
+                            "yea/nay.".format(r5.clip(q, 120)),
+                 reasoning="{0}{1}".format(area_line, " The bill's direction ({0}: {1}) does not settle an "
+                                           "amendment's.".format(bkey, bill["direction"]) if bill else ""))
+        return e
+    e.update(status="needs_reading",
+             read_first="The kind of vote could not be read from its wording ('{0}'): read the "
+                        "question put, then write yea/nay.".format(r5.clip(q, 120)),
+             reasoning="{0} Nothing proposed.".format(area_line))
+    return e
+
+
+def draft(conn, cc, config_dir=None, today=None, log=print, wl=None):
+    """Append drafts for every qualifying division not yet in the stance file.
+    Returns {'new': n, 'draft': n, 'procedural': n, 'needs_reading': n,
+    'existing': n}. An existing entry is never touched."""
+    spec = SPECS[cc]
+    path = stance_path(cc, config_dir)
+    divs, bills, _ = load(cc, config_dir)
+    counts = {"new": 0, "draft": 0, "procedural": 0, "needs_reading": 0, "existing": len(divs),
+              "out_of_scope": 0}
+    wl = spec.watchlist_fn() if wl is None and spec.scope is not None else wl
+    blocks = []
+    for r in qualifying(conn, cc, wl):
+        if r["key"] in divs:
+            continue
+        if not row_in_scope(cc, r, wl):
+            counts["out_of_scope"] += 1
+            continue
+        e = draft_entry(cc, r, bills, positions(conn, cc, r["key"]), today)
+        divs[r["key"]] = e
+        blocks.append(entry_yaml(e))
+        counts["new"] += 1
+        if e["status"] == "needs_reading":
+            counts["needs_reading"] += 1
+        elif e.get("placeable") is False:
+            counts["procedural"] += 1
+        else:
+            counts["draft"] += 1
+    if not blocks and os.path.exists(path):
+        return counts
+    if not os.path.exists(path):
+        text = header(cc) + "\nbill_directions: []\n\ndivisions:\n"
+    else:
+        with open(path, encoding="utf-8") as h:
+            text = h.read()
+        last = [ln for ln in text.splitlines() if re.match(r"^[A-Za-z_]+:", ln)]
+        if not last or not last[-1].startswith("divisions:"):
+            raise SystemExit("{0}: `divisions:` is not the last section; the drafter appends "
+                             "to the end and will not write".format(path))
+        if re.search(r"^divisions:\s*\[\]\s*$", text, re.M):
+            text = re.sub(r"^divisions:\s*\[\]\s*$", "divisions:", text, flags=re.M)
+        if not text.endswith("\n"):
+            text += "\n"
+    if blocks:
+        text += "\n  # --- drafted {0} by {1} ---\n".format(today or datetime.date.today().isoformat(),
+                                                           DRAFTED_BY)
+        text += "\n".join(blocks)
+    with open(path, "w", encoding="utf-8") as h:
+        h.write(text)
+    log("{0}: {1} new draft(s) -> {2} ({3} with proposed values, {4} procedural, {5} need "
+        "reading; {6} already on file{7})".format(
+            spec.name, counts["new"], os.path.relpath(path, ROOT) if path.startswith(ROOT) else path,
+            counts["draft"], counts["procedural"], counts["needs_reading"], counts["existing"],
+            "; {0} outside the sign-off scope, not drafted".format(counts["out_of_scope"])
+            if counts["out_of_scope"] else ""))
+    return counts
+
+
+# --- pruning what the scope leaves out --------------------------------------------------
+#
+# Only an entry the drafter wrote and nobody has touched may go: unsigned
+# (`needs_reading` or `draft`), stamped `drafted:` by the drafter, carrying no
+# value, strike or signature a person writes (yea/nay, why lines, a
+# `placeable: false` other than the drafter's own procedural one,
+# confirmed_by/confirmed_on) and no comment inside the entry. Anything else
+# outside the scope is kept and reported.
+
+HUMAN_KEYS = ("yea", "nay", "why_yea", "why_nay", "confirmed_by", "confirmed_on",
+              # a reader's amendment reading (12 October 2026, apply_amendments)
+              "amendment_direction", "amendment_why", "amendment_source", "amendment_flag",
+              "amendment_yes_adopts")
+AMENDMENT_KEPT = "an amendment or article vote: every one is read (Chris, 12 October 2026)"
+
+
+def hand_edited(e):
+    """None when an entry is exactly as the drafter leaves it, else why not."""
+    if e.get("status") not in ("needs_reading", "draft"):
+        return "status {0}".format(e.get("status"))
+    if not str(e.get("drafted") or "").startswith(DRAFTED_BY):
+        return "not stamped by the drafter"
+    got = [k for k in HUMAN_KEYS if e.get(k) not in (None, "")]
+    if got:
+        return "has " + ", ".join(got)
+    if e.get("placeable") is False or e.get("reason"):
+        drafted_strike = (e.get("status") == "draft" and e.get("vote_kind") == "procedural"
+                          and str(e.get("reason") or "").startswith("Procedural ("))
+        if not drafted_strike:
+            return "has a placeable: false strike"
+    if e.get("status") == "draft" and e.get("placeable") is not False:
+        return "a draft with no values"
+    return None
+
+
+def _entry_blocks(lines):
+    """[(key, start, end)] for every `divisions` entry: the `- key:` line and
+    the lines indented under it (end exclusive)."""
+    out, in_divs, i = [], False, 0
+    while i < len(lines):
+        line = lines[i]
+        if re.match(r"^[A-Za-z_]+:", line):
+            in_divs = line.startswith("divisions:")
+        k = line_key(line) if in_divs else None
+        if k is None:
+            i += 1
+            continue
+        lead = len(line) - len(line.lstrip(" "))
+        j = i + 1
+        while j < len(lines) and lines[j].strip() and \
+                len(lines[j]) - len(lines[j].lstrip(" ")) > lead + 1:
+            j += 1
+        out.append((k, i, j))
+        i = j
+    return out
+
+
+def prune_out_of_scope(cc, config_dir=None, wl=None, dry_run=False, log=print):
+    """Remove from config/<cc>_stance.yaml every entry outside the sign-off
+    scope that is unsigned and untouched (`hand_edited`). A text edit:
+    comments, bill directions and every other entry are left as they are.
+    Returns {'removed': [keys], 'kept': [(key, why)]}."""
+    spec = SPECS[cc]
+    if spec.scope is None:
+        log("{0}: no sign-off scope; nothing to prune".format(spec.name))
+        return {"removed": [], "kept": []}
+    wl = spec.watchlist_fn() if wl is None else wl
+    return _prune(cc, lambda k, e: not entry_in_scope(cc, e, wl), "outside the sign-off scope",
+                  config_dir, dry_run, log)
+
+
+def off_ground(conn, cc, wl=None):
+    """The division keys of a store that the drafter would no longer draft:
+    in the store, but neither watched nor tier 1 on our ground (a
+    reclassification took their areas away, as Switzerland's IVG guard did
+    on 11 October 2026). A key the store does not hold is never in it."""
+    present = {r["key"] for r in divisions(conn, cc)}
+    return present - {r["key"] for r in qualifying(conn, cc, wl)}
+
+
+def prune_off_ground(conn, cc, config_dir=None, wl=None, dry_run=False, log=print):
+    """Remove from config/<cc>_stance.yaml every unsigned, untouched entry
+    whose division is no longer on our ground in the store (`off_ground`).
+    Confirmed and hand-edited entries are kept and reported, as by
+    `prune_out_of_scope`. Returns {'removed': [keys], 'kept': [(key, why)]}."""
+    gone = off_ground(conn, cc, wl)
+    return _prune(cc, lambda k, e: k in gone, "no longer on our ground",
+                  config_dir, dry_run, log)
+
+
+def _prune(cc, outside, label, config_dir=None, dry_run=False, log=print):
+    """The text edit behind both prunes: drop each entry `outside(key, entry)`
+    says goes, unless it is signed or hand-edited."""
+    spec = SPECS[cc]
+    got = {"removed": [], "kept": []}
+    divs, _, _ = load(cc, config_dir)
+    path = stance_path(cc, config_dir)
+    if not divs:
+        return got
+    with open(path, encoding="utf-8") as h:
+        lines = h.read().splitlines(keepends=True)
+    drop = set()
+    for k, start, end in _entry_blocks(lines):
+        e = divs.get(k)
+        if e is None or not outside(k, e):
+            continue
+        if e.get("vote_kind") == "amendment":
+            # Never pruned, whatever the reason (Chris, 12 October 2026: "score
+            # all amendments"): a reader marks one not_scored instead.
+            got["kept"].append((k, AMENDMENT_KEPT))
+            continue
+        why = hand_edited(e)
+        if why is None and any(ln.lstrip().startswith("#") for ln in lines[start:end]):
+            why = "a comment inside the entry"
+        if why:
+            got["kept"].append((k, why))
+            continue
+        drop.update(range(start, end))
+        got["removed"].append(k)
+    out = [ln for n, ln in enumerate(lines) if n not in drop]
+    # A `# --- drafted ...` separator with no entry left under it goes too.
+    tidy = []
+    for n, ln in enumerate(out):
+        if re.match(r"^\s*# --- drafted ", ln):
+            rest = out[n + 1:]
+            nxt = next((x for x in rest if x.strip()), "")
+            if not nxt or re.match(r"^\s*# --- drafted ", nxt) or re.match(r"^[A-Za-z_]+:", nxt):
+                while tidy and not tidy[-1].strip():
+                    tidy.pop()
+                continue
+        tidy.append(ln)
+    text = "".join(tidy)
+    if not text.endswith("\n"):
+        text += "\n"
+    import yaml
+    after = {str(e["key"]): norm_entry(e) for e in (yaml.safe_load(text).get("divisions") or [])}
+    want = {k: e for k, e in divs.items() if k not in set(got["removed"])}
+    if after != want:
+        raise SystemExit("{0}: the pruned file would not hold exactly the kept entries; "
+                         "nothing written".format(path))
+    if got["removed"] and not dry_run:
+        with open(path, "w", encoding="utf-8") as h:
+            h.write(text)
+    for k, why in got["kept"]:
+        if why != AMENDMENT_KEPT:
+            log("  kept {0} ({1}, but {2})".format(k, label, why))
+    n_amend = sum(1 for _, why in got["kept"] if why == AMENDMENT_KEPT)
+    if n_amend:
+        log("  kept {0} amendment or article entr{1} {2}: every one is read (12 October "
+            "2026)".format(n_amend, "y" if n_amend == 1 else "ies", label))
+    log("{0}: {1} {2} unsigned, untouched entr{3} {4}; {5} kept "
+        "(hand-edited or signed); {6} left".format(
+            spec.name, "would remove" if dry_run else "removed", len(got["removed"]),
+            "y" if len(got["removed"]) == 1 else "ies", label, len(got["kept"]),
+            len(divs) - len(got["removed"]) - len(got["kept"])))
+    return got
+
+
+# --- the sign-off --------------------------------------------------------------------
+
+def signers(cc):
+    """Named signers for a country (config/stance_signers.yaml) plus Chris."""
+    import yaml
+    named = []
+    if os.path.exists(SIGNERS_PATH):
+        with open(SIGNERS_PATH, encoding="utf-8") as h:
+            got = (yaml.safe_load(h) or {}).get("signers") or {}
+        named = [str(x) for x in (got.get(cc) or [])]
+    return named + [x for x in ALWAYS_SIGNS if x not in named]
+
+
+def confirmable(e):
+    """None when the entry can be confirmed as it stands, else the reason not."""
+    if not e:
+        return "no such entry"
+    st = e.get("status")
+    if st == "confirmed":
+        return "already confirmed"
+    if st == "needs_reading":
+        return "needs_reading: write yea/nay (or placeable: false) and set status: draft first"
+    if e.get("placeable") is not False and all(e.get(k) is None for k in r5.VALUE_KEYS):
+        return "no values to confirm"
+    return None
+
+
+_KEY_LINE = re.compile(r"""^\s*-\s+key:\s*(?:"((?:[^"\\]|\\.)*)"|'([^']*)'|([^#\s][^#]*?))\s*(?:#.*)?$""")
+
+
+def line_key(line):
+    """The key on a `- key: ...` line (double-quoted, single-quoted or bare),
+    or None. Keys may hold '#' (Austria's), so a quoted key is read whole."""
+    m = _KEY_LINE.match(line.rstrip("\n"))
+    if not m:
+        return None
+    if m.group(1) is not None:
+        return json.loads('"{0}"'.format(m.group(1)))
+    return (m.group(2) if m.group(2) is not None else m.group(3)).strip()
+
+
+def confirm(cc, keys, by, on=None, config_dir=None, log=print):
+    """Confirm drafted entries by key: status draft -> confirmed, with
+    confirmed_by and confirmed_on. A text edit (comments survive). Returns
+    the keys confirmed; refuses the rest with the reason."""
+    by = (by or "").strip()
+    if not by:
+        raise SystemExit("--by NAME is required: a confirmation names the person")
+    allowed = signers(cc)
+    if by not in allowed:
+        raise SystemExit("{0} is not a named signer for {1} ({2}); add them to "
+                         "config/stance_signers.yaml first".format(by, cc, ", ".join(allowed)))
+    on = on or datetime.date.today().isoformat()
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", on):
+        raise SystemExit("--on must be an ISO date")
+    divs, _, _ = load(cc, config_dir)
+    path = stance_path(cc, config_dir)
+    with open(path, encoding="utf-8") as h:
+        lines = h.read().splitlines(keepends=True)
+    ok, refused = [], []
+    want = set()
+    for k in keys:
+        why = confirmable(divs.get(k))
+        if why:
+            refused.append((k, why))
+        else:
+            want.add(k)
+    out, current, in_divs = [], None, False
+    for line in lines:
+        if re.match(r"^[A-Za-z_]+:", line):
+            in_divs = line.startswith("divisions:")
+        k = line_key(line)
+        if k is not None:
+            current = k if in_divs and k in want else None
+        if current and re.match(r"^\s*status:\s*draft\s*(#.*)?$", line):
+            ind = re.match(r"^(\s*)", line).group(1)
+            out.append("{0}status: confirmed\n{0}confirmed_by: {1}\n{0}confirmed_on: \"{2}\"\n".format(
+                ind, _q(by), on))
+            ok.append(current)
+            current = None
+            continue
+        out.append(line)
+    if ok:
+        with open(path, "w", encoding="utf-8") as h:
+            h.write("".join(out))
+    for k, why in refused:
+        log("  refused {0}: {1}".format(k, why))
+    log("{0}: confirmed {1} reading(s) by {2} on {3}{4}".format(
+        cc, len(ok), by, on, ": " + ", ".join(ok) if ok else ""))
+    return ok
+
+
+def direction_confirmed(b):
+    """True when a `bill_directions` entry is signed: `status: confirmed`
+    with both `confirmed_by` and `confirmed_on`, as a division reading.
+    Added 10 October 2026 for the campaign briefs (src/country_briefs.py):
+    a brief's ask follows the bill's direction, so the direction needs the
+    same named sign-off before a campaigner sees it as a recommendation."""
+    return bool(b) and b.get("status") == "confirmed" and bool(b.get("confirmed_by")) \
+        and bool(b.get("confirmed_on")) and b.get("direction") in ("with", "against")
+
+
+def confirm_direction(cc, keys, by, on=None, config_dir=None, log=print):
+    """Confirm `bill_directions` entries by key, as `confirm` does readings:
+    status draft -> confirmed, with confirmed_by and confirmed_on. Only the
+    bill_directions section is touched. Returns the keys confirmed."""
+    by = (by or "").strip()
+    if not by:
+        raise SystemExit("--by NAME is required: a confirmation names the person")
+    allowed = signers(cc)
+    if by not in allowed:
+        raise SystemExit("{0} is not a named signer for {1} ({2}); add them to "
+                         "config/stance_signers.yaml first".format(by, cc, ", ".join(allowed)))
+    on = on or datetime.date.today().isoformat()
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", on):
+        raise SystemExit("--on must be an ISO date")
+    _, bills, _ = load(cc, config_dir)
+    want, refused = set(), []
+    for k in keys:
+        b = bills.get(k)
+        if not b:
+            refused.append((k, "no such bill direction"))
+        elif b.get("status") == "confirmed":
+            refused.append((k, "already confirmed"))
+        elif b.get("direction") not in ("with", "against"):
+            refused.append((k, "no direction (with/against) to confirm"))
+        else:
+            want.add(k)
+    path = stance_path(cc, config_dir)
+    with open(path, encoding="utf-8") as h:
+        lines = h.read().splitlines(keepends=True)
+    out, current, in_bills, ok = [], None, False, []
+    for line in lines:
+        if re.match(r"^[A-Za-z_]+:", line):
+            in_bills = line.startswith("bill_directions:")
+        k = line_key(line)
+        if k is not None:
+            current = k if in_bills and k in want else None
+        if current and re.match(r"^\s*status:\s*draft\s*(#.*)?$", line):
+            ind = re.match(r"^(\s*)", line).group(1)
+            out.append("{0}status: confirmed\n{0}confirmed_by: {1}\n{0}confirmed_on: \"{2}\"\n".format(
+                ind, _q(by), on))
+            ok.append(current)
+            current = None
+            continue
+        out.append(line)
+    if ok:
+        with open(path, "w", encoding="utf-8") as h:
+            h.write("".join(out))
+    for k, why in refused:
+        log("  refused {0}: {1}".format(k, why))
+    log("{0}: confirmed {1} bill direction(s) by {2} on {3}{4}".format(
+        cc, len(ok), by, on, ": " + ", ".join(ok) if ok else ""))
+    return ok
+
+
+def sign_from_doc(cc, by, on=None, config_dir=None, docs_dir=None, log=print):
+    with open(doc_path(cc, docs_dir), encoding="utf-8") as h:
+        keys = r5.ticked_keys(h.read())
+    divs, _, _ = load(cc, config_dir)
+    keys = [k for k in keys if (divs.get(k) or {}).get("status") != "confirmed"]
+    if not keys:
+        log("{0}: nothing ticked that is not already confirmed".format(cc))
+        return []
+    return confirm(cc, keys, by, on, config_dir, log)
+
+
+def _fmt(v):
+    return "no value" if v is None else "{0:+d}".format(v)
+
+
+def signoff_markdown(cc, config_dir=None, keep_ticks=(), meanings=None):
+    """docs/5ca-<cc>-readings.md: the proposed readings and the procedural
+    calls as checkboxes (tick, then --sign-from-doc --by NAME), the ones that
+    need reading as a list. `keep_ticks` are keys ticked in the previous
+    version and not yet applied: they stay ticked.
+
+    Additive, 11 October 2026: each entry shows what a Yes and a No meant
+    (src/vote_meanings.py). `meanings` ({key: meaning}, from the store) when
+    given; otherwise, and for keys it lacks, a person's line or the rule over
+    the entry's own wording."""
+    spec = SPECS[cc]
+    divs, bills, _ = load(cc, config_dir)
+    keep = set(keep_ticks)
+    from src import vote_meanings as vm
+    people, _ = vm.overrides(cc, config_dir)
+    wl, _ = vm._context(cc, config_dir)
+
+    def meaning(k, e):
+        m = (meanings or {}).get(k) or vm.entry_meaning(cc, e, config_dir, people, wl, bills)
+        return vm.line(m, cc) if m else None
+    try:                                  # what stops each from confirming on its own
+        checks = auto_report(cc, config_dir)
+    except Exception:                     # never cost the guide
+        checks = {}
+
+    def check_line(k):
+        got = failing_text(checks.get(k))
+        return "- **Auto-check:** left for a person: " + got if got else None
+    groups = {"proposed": [], "procedural": [], "needs_reading": [], "confirmed": [], "out": [],
+              "collated": []}
+    excl = excluded()
+    for k, e in divs.items():
+        st = e.get("status")
+        if e.get("draft"):
+            groups["out"].append((k, e))
+        elif st == "confirmed" and confirmable(dict(e, status="draft")) is None \
+                and e.get("confirmed_by") and e.get("confirmed_on"):
+            groups["confirmed"].append((k, e))
+        elif collated_only(e, excl):
+            groups["collated"].append((k, e))
+        elif st == "needs_reading" or st not in ("draft", "confirmed"):
+            groups["needs_reading"].append((k, e))
+        elif e.get("placeable") is False:
+            groups["procedural"].append((k, e))
+        else:
+            groups["proposed"].append((k, e))
+    for g in groups.values():
+        g.sort(key=lambda kv: (str(kv[1].get("dated") or ""), kv[0]), reverse=True)
+    out = ["# {0} 5CA: readings to sign".format(spec.name), "",
+           "Drafted by `tools/country_5ca.py` (src/country5ca.py) from the store's watched and "
+           "tier-1 votes, by rules, never by a model. **Nothing here places anyone until it is "
+           "confirmed**: automatically on Chris's delegation when every check passes (11 October "
+           "2026, `--auto-confirm`), otherwise by a named person. {0}".format(spec.note).strip(), "",
+           "**To amend any reading** (a signer for {0} in `config/stance_signers.yaml`): "
+           "`python3 tools/country_5ca.py --cc {0} --amend KEY --yea N --nay N --by NAME --why \"...\"`, "
+           "or `--take-out` instead of the values to put it out of play. An amended reading is "
+           "never touched by the automation again.".format(cc), "",
+           "**How to sign.** Tick `[x]` on each reading you accept as drafted, then run "
+           "`python3 tools/country_5ca.py --cc {0} --sign-from-doc --by NAME` (it sets "
+           "`status: confirmed` with `confirmed_by` and `confirmed_on` in `config/{0}_stance.yaml`). "
+           "To change a value, edit the stance file first. A reading that needs reading has no "
+           "box: write `yea:`/`nay:` in the stance file, set `status: draft`, then confirm it.".format(cc),
+           "", "Counts: {0} proposed, {1} procedural (evidence only), {2} need reading, {3} confirmed "
+           "({4} automatically){5}.".format(
+               *(len(groups[g]) for g in ("proposed", "procedural", "needs_reading", "confirmed")),
+               sum(1 for _, e in groups["confirmed"] if e.get("confirmed_by") == AUTO_BY),
+               ", {0} taken out of play".format(len(groups["out"])) if groups["out"] else "")
+           + (" {0} more are collated only (an area excluded from the 5CA, e.g. migration): "
+              "they place nobody and need no one.".format(len(groups["collated"]))
+              if groups["collated"] else ""),
+           ""]
+    labels = {"yea": spec.labels[0], "nay": spec.labels[1]}
+    if groups["proposed"]:
+        out += ["## Proposed readings", ""]
+        for k, e in groups["proposed"]:
+            box = "[x]" if k in keep else "[ ]"
+            out.append("### {0} `{1}` {2}".format(box, k, r5.clip(e.get("title"), 160)))
+            out.append("")
+            meta = [str(x) for x in (e.get("dated"), spec.chambers.get(e.get("chamber"), e.get("chamber")),
+                                     e.get("result")) if x]
+            if meta:
+                out.append("- **When / result:** " + "; ".join(meta))
+            if e.get("on"):
+                out.append("- **On:** " + r5.clip(e["on"], 300))
+            if e.get("lobbies"):
+                out.append("- **Lobbies:** " + r5.clip(e["lobbies"], 400))
+            if meaning(k, e):
+                out.append("- " + meaning(k, e))
+            out.append("- **Proposed direction:** {0} {1} ({2}); {3} {4} ({5})".format(
+                labels["yea"], _fmt(e.get("yea")), r5.clip(e.get("why_yea"), 220),
+                labels["nay"], _fmt(e.get("nay")), r5.clip(e.get("why_nay"), 220)))
+            if e.get("reasoning"):
+                out.append("- **Reasoning:** " + r5.clip(e["reasoning"], 500))
+            if e.get("flag"):
+                out.append("- **Flag for you:** " + r5.clip(e["flag"], 300))
+            if e.get("amendment_direction"):
+                out.append("- **Amendment reading:** adopting it is {0} CitizenGO{1} ({2}); text read: "
+                           "{3}".format(e["amendment_direction"],
+                                        "; a Yes here REJECTS it" if e.get("amendment_yes_adopts") is False
+                                        else "", r5.clip(e.get("amendment_why"), 220),
+                                        e.get("amendment_source") or "none given"))
+            if e.get("amendment_flag"):
+                out.append("- **Amendment flag:** " + r5.clip(e["amendment_flag"], 300))
+            if check_line(k):
+                out.append(check_line(k))
+            out.append("")
+    if groups["procedural"]:
+        out += ["## Procedural (evidence only once confirmed)", ""]
+        for k, e in groups["procedural"]:
+            box = "[x]" if k in keep else "[ ]"
+            out.append("### {0} `{1}` {2}".format(box, k, r5.clip(e.get("title"), 160)))
+            out.append("")
+            out.append("- {0}; {1}".format(e.get("dated") or "?", r5.clip(e.get("reason"), 300)))
+            if meaning(k, e):
+                out.append("- " + meaning(k, e))
+            if check_line(k):
+                out.append(check_line(k))
+            out.append("")
+    if groups["needs_reading"]:
+        out += ["## Needs reading (no box: write the values first)", ""]
+        for k, e in groups["needs_reading"]:
+            out.append("- `{0}` {1} {2} [{3}]: {4}".format(
+                k, e.get("dated") or "?", r5.clip(e.get("title"), 110), e.get("vote_kind") or "?",
+                r5.clip(e.get("read_first"), 220)))
+            if e.get("amendment_flag"):
+                out.append("  - **Read, side unclear:** {0}{1}".format(
+                    r5.clip(e["amendment_flag"], 220),
+                    " (text: {0})".format(e["amendment_source"]) if e.get("amendment_source") else ""))
+            if meaning(k, e):
+                out.append("  - " + meaning(k, e))
+        out.append("")
+    if groups["confirmed"]:
+        out += ["## Confirmed", ""]
+        for k, e in groups["confirmed"]:
+            out.append("### [x] `{0}` {1}".format(k, r5.clip(e.get("title"), 160)))
+            out.append("")
+            out.append("- {0}; confirmed by {1} on {2}{3}".format(
+                "out of play: " + r5.clip(e.get("reason"), 200) if e.get("placeable") is False
+                else "{0} {1} / {2} {3}".format(labels["yea"], _fmt(e.get("yea")), labels["nay"],
+                                                _fmt(e.get("nay"))),
+                e.get("confirmed_by"), e.get("confirmed_on"),
+                " ({0})".format(e["auto_checks"]) if e.get("auto_checks") else ""))
+            if e.get("amended_by"):
+                out.append("- Amended by {0} on {1}: {2}".format(
+                    e["amended_by"], e.get("amended_on"), r5.clip(e.get("amended_why"), 200)))
+            if meaning(k, e):
+                out.append("- " + meaning(k, e))
+            out.append("")
+    if groups["out"]:
+        out += ["## Taken out of play (`draft: true`; places nobody)", ""]
+        for k, e in groups["out"]:
+            out.append("- `{0}` {1} {2}{3}".format(
+                k, e.get("dated") or "?", r5.clip(e.get("title"), 110),
+                ": amended by {0} on {1}: {2}".format(e["amended_by"], e.get("amended_on"),
+                                                     r5.clip(e.get("amended_why"), 160))
+                if e.get("amended_by") else ""))
+        out.append("")
+    if groups["collated"]:
+        out += ["## Collated only (an area excluded from the 5CA; places nobody, needs no one)", ""]
+        for k, e in groups["collated"]:
+            out.append("- `{0}` {1} {2}".format(k, e.get("dated") or "?", r5.clip(e.get("title"), 110)))
+        out.append("")
+    if bills:
+        out += ["## Bill directions on file (inputs to the drafts; they place nobody)", ""]
+        for k, b in bills.items():
+            out.append("- `{0}` {1}: {2} ({3})".format(k, b.get("direction"),
+                                                      r5.clip(b.get("why"), 200), b.get("status") or "draft"))
+        out.append("")
+    return "\n".join(out) + "\n"
+
+
+def write_signoff_doc(cc, config_dir=None, docs_dir=None, log=print, conn=None):
+    """Rewrite the guide, keeping ticks on entries not yet confirmed (the
+    weekly job must never throw away a tick a person made). Returns the
+    keys ticked but not applied. With `conn` (additive, 11 October 2026) the
+    meaning lines come from the store (src/vote_meanings.py)."""
+    path = doc_path(cc, docs_dir)
+    keep = []
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as h:
+            ticked = r5.ticked_keys(h.read())
+        divs, _, _ = load(cc, config_dir)
+        keep = [k for k in ticked if (divs.get(k) or {}).get("status") != "confirmed"]
+    divs, _, _ = load(cc, config_dir)
+    if not divs:
+        return keep
+    meanings = None
+    if conn is not None:
+        from src import vote_meanings as vm
+        meanings = vm.lookup_many(conn, cc, list(divs), config_dir)
+    with open(path, "w", encoding="utf-8") as h:
+        h.write(signoff_markdown(cc, config_dir, keep, meanings))
+    if keep:
+        log("  {0}: {1} ticked in the guide but not yet confirmed (run --sign-from-doc --by NAME)"
+            .format(cc, len(keep)))
+    return keep
+
+
+# --- collated-only areas (12 October 2026) ------------------------------------------
+#
+# An area in config/stance_overrides.yaml `excluded_from_5ca` (migration, 11)
+# is collated but never placed: no sheet is written for it (`sheet_pairs`).
+# A reading whose areas are ALL excluded can therefore place nobody, so it
+# never needs a person either: it is left out of the waiting counts, the
+# automatic checks, the guide's lists, the shortlist and the digest, and is
+# shown once in the guide as collated only. The entry stays in the file.
+
+def excluded():
+    try:
+        return r5.excluded_areas(ROOT)
+    except (OSError, ValueError):
+        return set()
+
+
+def collated_only(e, excl=None):
+    """True when every area of the entry is excluded from the 5CA."""
+    excl = excluded() if excl is None else excl
+    areas = areas_of(e.get("areas"))
+    return bool(areas) and all(a in excl for a in areas)
+
+
+# --- the 5CA sheet -------------------------------------------------------------------
+
+def _is_confirmed(e):
+    return r5.status(e) == "confirmed"
+
+
+def build_rows(conn, cc, chamber, area, entries, today=None):
+    """(rows, divisions listed, the latest decisive division) for one chamber
+    and area: src/readings5ca.py's placement over CONFIRMED readings only."""
+    spec = SPECS[cc]
+    today = today or datetime.date.today().isoformat()
+    listed = [e for e in entries.values()
+              if area in (e.get("areas") or []) and str(e.get("chamber") or "") == str(chamber)]
+    listed.sort(key=lambda e: (str(e.get("dated") or ""), str(e["key"])))
+    roster = {}
+    for m in _rows(conn, spec.roster_sql):
+        if str(m.get("chamber") or chamber) not in (chamber, spec.chambers.get(chamber)):
+            continue
+        roster[str(m["member_id"])] = m
+    per = {}
+
+    def rec(pid):
+        return per.setdefault(pid, {"scored": [], "lines": [], "voted": False, "name": None,
+                                    "party": None, "derived": False})
+
+    for pid, m in roster.items():
+        if m.get("sitting"):
+            rec(pid)
+    votes = {}
+    for e in listed:
+        key = str(e["key"])
+        pos = positions(conn, cc, key)
+        votes[key] = {str(p["member_id"]): p for p in pos}
+        base = "{0} {1}{2}".format(e.get("dated") or "?", r5.clip(e.get("title"), 90),
+                                   " (on {0})".format(r5.clip(e.get("on"), 60)) if e.get("on") else "")
+        for p in pos:
+            pid = str(p["member_id"])
+            r = rec(pid)
+            r["name"] = r["name"] or p["name"]
+            r["party"] = p["party"] or r["party"]
+            side = spec.side(p["position"])
+            if p["derived"]:
+                label = "VOTE {0} DERIVED from the {1} group vote (X5): {2}".format(
+                    p["position"] or "?", p["party"] or "?", base)
+            else:
+                label = "VOTE {0} ({1}): {2}".format(p["position"] or "?", p["party"] or "?", base)
+            if side not in ("yea", "nay"):
+                r["lines"].append(label + " [no direction recorded]")
+                continue
+            r["voted"] = True
+            s, why = r5.value(e, side)
+            if s is not None:
+                kind = "derived" if p["derived"] else "vote"
+                r["derived"] = r["derived"] or p["derived"]
+                r["scored"].append((s, e.get("dated") or "", label, kind))
+                r["lines"].append("{0} [{1:+d}: {2}]".format(label, s, r5.clip(why, 120)))
+            else:
+                st = r5.status(e)
+                r["lines"].append("{0} [{1}]".format(
+                    label, "awaiting sign-off -- not placed" if st in ("draft", "unread")
+                    else r5.not_placed(e)))
+    decisive = [e for e in listed if _is_confirmed(e)
+                and max(e.get("yea") or 0, e.get("nay") or 0) >= 2]
+    latest = decisive[-1] if decisive else None
+    rows = []
+    for pid, r in per.items():
+        m = roster.get(pid) or {}
+        sitting = bool(m.get("sitting")) if m else False
+        if not sitting and not r["voted"]:
+            continue
+        cap = None
+        if latest is not None and not r["derived"]:
+            got = votes.get(str(latest["key"]), {}).get(pid)
+            if got is not None and spec.side(got["position"]) not in ("yea", "nay"):
+                cap = ("CAPPED at +: recorded as '{0}' on the latest confirmed decisive vote "
+                       "({1}, {2}). ++ means 'will vote with us'.".format(
+                           got["position"], latest.get("dated"), r5.clip(latest.get("title"), 60)))
+        row = r5.finish_row(pid, r["lines"], r["scored"], WEIGHTS, m.get("name") or r["name"],
+                            m.get("party") or r["party"], None, sitting, cap_note=cap, today=today)
+        best = r5.place(r["scored"], WEIGHTS)[2]
+        if best is not None and best[3] == "derived":
+            row["based_on"] = "DERIVED from the group vote (X5), {0}".format(best[1][:10])
+            row["confidence"] = "derived (group vote, confirmed reading; not the member's own record)"
+            row["decision_maker"] += " [DERIVED]"
+        rows.append(row)
+    return r5.sort_rows(rows), listed, latest
+
+
+def sheet_path(cc, chamber, area, out_dir=None):
+    from src.latam import AREA_LABELS
+    name = AREA_LABELS.get(area, "area-{0}".format(area))
+    return os.path.join(out_dir or OUT_DIR, "{0}-5ca-{1}-{2}.csv".format(
+        cc, r5.slug(str(chamber)), r5.slug(name)))
+
+
+def sheet_pairs(cc, entries):
+    """Every (chamber, area) a country's readings touch, excluded areas left out."""
+    excluded = r5.excluded_areas(ROOT)
+    pairs = set()
+    for e in entries.values():
+        for a in e.get("areas") or []:
+            if a not in excluded:
+                pairs.add((str(e.get("chamber") or ""), a))
+    return sorted(pairs, key=lambda p: (str(p[0]), p[1]))
+
+
+def publishable_sheets(conn, cc, config_dir=None, today=None, entries=None):
+    """THE GATE, shared by the CSV sheets and the web pages (tools/make_country_5ca_web.py):
+    yield one dict per chamber and area that has at least one CONFIRMED reading
+    placing someone, and None-valued `rows` for the rest so a caller can remove a
+    stale output. Keys: chamber, area, rows, listed, signed, unsigned, placed."""
+    if entries is None:
+        entries = load(cc, config_dir)[0]
+    for chamber, area in sheet_pairs(cc, entries):
+        listed_here = [e for e in entries.values()
+                       if area in (e.get("areas") or []) and str(e.get("chamber") or "") == chamber]
+        if not any(_is_confirmed(e) for e in listed_here):
+            # No confirmed reading here: nothing can place anyone, so the store
+            # is not even read (a country awaiting sign-off needs no store).
+            yield {"chamber": chamber, "area": area, "rows": None, "listed": listed_here,
+                   "signed": 0, "unsigned": 0, "placed": 0}
+            continue
+        rows, listed, _latest = build_rows(conn, cc, chamber, area, entries, today)
+        placed = [r for r in rows if r["column"] != "0"]
+        s, u = r5.area_counts([{"division_key": str(e["key"])} for e in listed],
+                              {str(e["key"]): e for e in listed})
+        yield {"chamber": chamber, "area": area, "rows": rows if placed else None,
+               "listed": listed, "signed": s, "unsigned": u, "placed": len(placed)}
+
+
+def run_sheets(conn, cc, config_dir=None, out_dir=None, today=None, log=print):
+    """Write a sheet for every chamber and area with at least one CONFIRMED
+    reading that places someone; remove a sheet whose readings are no longer
+    confirmed. Returns the paths written."""
+    from src.latam import AREA_LABELS
+    out_dir = out_dir or OUT_DIR
+    written = []
+    for sh in publishable_sheets(conn, cc, config_dir, today):
+        chamber, area, rows = sh["chamber"], sh["area"], sh["rows"]
+        path = sheet_path(cc, chamber, area, out_dir)
+        if rows is None:
+            if os.path.exists(path):
+                os.remove(path)
+                log("  {0} {1}: no confirmed reading places anyone now; removed {2}".format(
+                    cc, area, os.path.basename(path)))
+            continue
+        footer = r5.readings_line(sh["signed"], sh["unsigned"], AREA_LABELS.get(area, str(area)))
+        if cc in PARTY_GROUP:
+            footer += " Rows marked [DERIVED] carry the group's vote, not the member's own (X5)."
+        tally = r5.write_sheet(path, rows, footer)
+        written.append(path)
+        log("  {0} {1} {2}: {3} placed; {4} confirmed / {5} unconfirmed -> {6}  ({7})".format(
+            cc, chamber, AREA_LABELS.get(area, area), sh["placed"], sh["signed"], sh["unsigned"],
+            os.path.basename(path),
+            "  ".join("{0} x{1}".format(c, tally[c]) for c in r5.COLUMNS)))
+    return written
+
+
+# --- automatic sign-off on delegation, and amendments (11 October 2026) ----------------
+#
+# Chris, 11 October 2026: "Automate the checks and we'll make it so teams can
+# amend as and when errors come up. Like we're doing with Canada." In Canada
+# he delegated ("Score for me and Greg can amend if necessary"); here the
+# delegation is to deterministic checks. `auto_confirm` confirms a DRAFT entry
+# only when every check below passes, and stamps how. Anything failing stays
+# a draft, listed with the check it failed in docs/5ca-<cc>-readings.md, the
+# shortlist and the digest, for a person to sign by hand. A signer for the
+# country amends any reading (`amend`); an amended entry is never touched by
+# the automation again.
+#
+# The checks, in order (each failure is (check, detail)):
+#   reading    the entry has values to confirm (`needs_reading` has none:
+#              a person writes them, or amends);
+#   drafted    the entry is as the drafter left it: `status: draft`, stamped
+#              `drafted:` by the drafter, no `confirmed_by`, no `amended_*`,
+#              no `draft: true`, no comment inside the entry;
+#   direction  a bill direction applies (the one its why lines name, else
+#              the watched key), says `with` or `against`, is not on hold
+#              or needs reading, and carries no flag; the entry carries no
+#              flag of its own but a copy of a bill flag since cleared;
+#   kind       a vote on the whole text or a motion to reject it (not an
+#              inverted vote, which asks a person to check the question),
+#              or an amendment or article with a reader's reading
+#              (`amendment_direction`, 12 October 2026: its why and source
+#              recorded, no `amendment_flag`) or a direction of its own
+#              keyed by the division;
+#   values     yea, nay and both why lines equal what the rules give that
+#              direction and kind (`rule_values`, recomputed);
+#   placeable  not struck (`placeable: false`), and a recorded tally (the
+#              result line, else the lobbies, else the store's positions)
+#              with members on both sides: a unanimous vote tells nobody
+#              apart;
+#   scope      inside the country's sign-off scope, where a spec has one
+#              (none since 12 October 2026; France's was lifted).
+
+AUTO_CHECKS_VERSION = "auto-checks v1 (2026-10-11)"
+AUTO_BY = "auto-check on delegation (Chris Joyce, 11 Oct 2026)"
+AMEND_KEYS = ("amended_by", "amended_on", "amended_why")
+CHECK_WORDS = {"reading": "needs reading", "drafted": "not as drafted", "direction": "direction not settled",
+               "kind": "kind of vote", "values": "values differ from the rules",
+               "placeable": "not placeable", "scope": "outside the sign-off scope"}
+_BILL_FLAG = "On the bill's direction: "
+
+
+def bill_key_of(spec, e, bills):
+    """The bill direction an entry's values were drafted from: the key its
+    why line names ("Voted Za on 10/31 (..."), else its watched key."""
+    why = str(e.get("why_yea") or "")
+    for k in bills:
+        if why.startswith("Voted {0} on {1} (".format(spec.labels[0], k)):
+            return k
+    w = e.get("watched")
+    return str(w) if w is not None and str(w) in bills else None
+
+
+def _area_line(e):
+    return "Area {0}.".format(_area_text(areas_of(e.get("areas"))))
+
+
+def _tally_of(cc, e, conn=None):
+    """(yes, no) recorded for the vote: from the result line, else the
+    lobbies, else (with `conn`) the store's positions; None if none."""
+    from src import shortlist5ca as sl
+    spec = SPECS[cc]
+    got = sl.tally(e, spec.labels)
+    if got is not None:
+        return got
+    gs = sl.groups(e.get("lobbies"), spec.labels)
+    if gs:
+        return sum(g["yea"] for g in gs.values()), sum(g["nay"] for g in gs.values())
+    if conn is not None:
+        sides = [spec.side(p["position"]) for p in positions(conn, cc, str(e["key"]))]
+        if sides:
+            return sides.count("yea"), sides.count("nay")
+    return None
+
+
+def auto_check(cc, key, e, bills, wl=None, block=None, conn=None):
+    """[(check, detail)]: every check this entry fails; [] means it may be
+    confirmed on the delegation. `block` is the entry's text in the file
+    (for the comment check); `conn` a store for a tally the file lacks."""
+    spec = SPECS[cc]
+    fails = []
+    st = e.get("status")
+    if st == "needs_reading":
+        if e.get("amendment_flag"):
+            return [("reading", "amendment read, side unclear: {0}".format(
+                r5.clip(e["amendment_flag"], 140)))]
+        return [("reading", "no values proposed ({0})".format(
+            r5.clip(e.get("read_first") or "read the text first", 140)))]
+    if st != "draft":
+        fails.append(("drafted", "status {0}".format(st)))
+    if not str(e.get("drafted") or "").startswith(DRAFTED_BY):
+        fails.append(("drafted", "not stamped by the drafter"))
+    if e.get("confirmed_by") or e.get("confirmed_on"):
+        fails.append(("drafted", "carries a confirmation"))
+    if any(e.get(k) for k in AMEND_KEYS):
+        fails.append(("drafted", "amended by {0} on {1}".format(e.get("amended_by"), e.get("amended_on"))))
+    if e.get("draft"):
+        fails.append(("drafted", "taken out of play (draft: true)"))
+    if block and any(ln.lstrip().startswith("#") for ln in block):
+        fails.append(("drafted", "a comment inside the entry"))
+    if e.get("placeable") is False:
+        return fails + [("placeable", "struck or procedural: evidence only, signed by a person")]
+    kind = e.get("vote_kind") or vote_kind(e.get("title"))[0]
+    if e.get("amendment_direction") not in (None, ""):
+        # A reader's amendment reading (12 October 2026): checked like a
+        # final vote, against the values the rules give its own direction.
+        return fails + amendment_checks(cc, key, e, kind) + _tally_scope_checks(cc, e, wl, conn)
+    own = None
+    if kind == "amendment" and key in bills and (
+            spec.scope is None or is_watched_item(key, e.get("title"), e.get("watched"), wl)):
+        own = key                    # an amendment with a direction of its own, keyed by division
+    bkey = own or bill_key_of(spec, e, bills)
+    bill = bills.get(bkey) if bkey else None
+    if bill is None:
+        fails.append(("direction", "no bill direction applies"))
+    elif bill.get("direction") not in ("with", "against"):
+        fails.append(("direction", "{0} is {1}{2}".format(
+            bkey, bill.get("direction") or "without a direction",
+            ": " + r5.clip(bill.get("read_first"), 120) if bill.get("read_first") else "")))
+    elif bill.get("status") in ("needs_reading", "hold"):
+        fails.append(("direction", "{0} is {1}".format(bkey, bill.get("status"))))
+    elif bill.get("flag"):
+        fails.append(("direction", "{0} is flagged: {1}".format(bkey, r5.clip(bill["flag"], 120))))
+    flag = str(e.get("flag") or "")
+    if flag and not flag.startswith(_BILL_FLAG):
+        fails.append(("direction", "flagged for a person: " + r5.clip(flag, 120)))
+    if kind not in ("final", "reject") and not own:
+        fails.append(("kind", "{0}: {1}".format(kind, KIND_WORDS.get(kind, "unknown"))))
+    if bill is not None and bill.get("direction") in ("with", "against") \
+            and (kind in ("final", "reject") or own):
+        want = rule_values(spec, "final" if own else kind, bkey, bill, _area_line(e))
+        diff = [k for k in ("yea", "nay", "why_yea", "why_nay") if e.get(k) != want[k]]
+        if diff:
+            fails.append(("values", "{0} differ{1} from the rules (Yes {2}, No {3} for {4})".format(
+                ", ".join(diff), "s" if len(diff) == 1 else "", _fmt(want["yea"]), _fmt(want["nay"]),
+                bill["direction"])))
+    return fails + _tally_scope_checks(cc, e, wl, conn)
+
+
+def _tally_scope_checks(cc, e, wl=None, conn=None):
+    """The `placeable` (a tally that splits members) and `scope` checks."""
+    spec = SPECS[cc]
+    fails = []
+    t = _tally_of(cc, e, conn)
+    if t is None:
+        fails.append(("placeable", "no recorded tally"))
+    elif min(t) <= 0:
+        fails.append(("placeable", "unanimous ({0} {1}, {2} {3}): it tells nobody apart".format(
+            spec.labels[0], t[0], spec.labels[1], t[1])))
+    if spec.scope is not None and not entry_in_scope(cc, e, wl):
+        fails.append(("scope", "outside {0}'s sign-off scope".format(spec.name)))
+    return fails
+
+
+def _blocks_by_key(cc, config_dir=None):
+    path = stance_path(cc, config_dir)
+    if not os.path.exists(path):
+        return [], {}
+    with open(path, encoding="utf-8") as h:
+        lines = h.read().splitlines(keepends=True)
+    return lines, {k: (s, t) for k, s, t in _entry_blocks(lines)}
+
+
+def _wl_for(cc, wl):
+    if wl is not None or SPECS[cc].scope is None:
+        return wl
+    try:
+        return SPECS[cc].watchlist_fn()
+    except Exception:            # no watchlist: watched amendments simply do not opt in
+        return {}
+
+
+def auto_report(cc, config_dir=None, wl=None, conn=None):
+    """{key: [(check, detail)]} for every unconfirmed entry of a country:
+    what stops each from being confirmed automatically ([] = nothing).
+    Collated-only entries (`collated_only`) are left out: they place nobody."""
+    divs, bills, _ = load(cc, config_dir)
+    lines, where = _blocks_by_key(cc, config_dir)
+    wl = _wl_for(cc, wl)
+    excl = excluded()
+    out = {}
+    for k, e in divs.items():
+        if e.get("status") == "confirmed" or collated_only(e, excl):
+            continue                 # signed, or collated only: nothing for a person
+        s, t = where.get(k, (0, 0))
+        out[k] = auto_check(cc, k, e, bills, wl, lines[s + 1:t], conn)
+    return out
+
+
+def failing_text(fails):
+    """One line for a person: the first failing check and its detail."""
+    if not fails:
+        return None
+    check, detail = fails[0]
+    more = len(fails) - 1
+    return "{0} ({1}){2}".format(CHECK_WORDS.get(check, check), detail,
+                                 "; {0} more".format(more) if more else "")
+
+
+def _render_value(k, v):
+    if isinstance(v, bool):
+        return "true" if v else "false"
+    if isinstance(v, int):
+        return str(v)
+    if isinstance(v, list):
+        return "[" + ", ".join(str(x) for x in v) + "]"
+    if k == "status":
+        return v
+    return _q(v)
+
+
+def _edit_block(lines, start, end, values, drop=()):
+    """The lines of one `divisions` entry with fields set (`values`, in
+    order) and removed (`drop`): an existing field is replaced where it
+    stands (its continuation lines with it), a new one goes after the first
+    replaced field, else at the end of the entry. Comments survive."""
+    lead = len(lines[start]) - len(lines[start].lstrip(" "))
+    ind = " " * (lead + 2)
+    field = re.compile(r"^{0}(\"?[A-Za-z_]+\"?):".format(ind))
+    body, i, placed, anchor = [], start + 1, set(), None
+    while i < end:
+        m = field.match(lines[i])
+        name = m.group(1).strip('"') if m else None
+        j = i + 1
+        if m:
+            while j < end and lines[j].strip() and not field.match(lines[j]) and \
+                    len(lines[j]) - len(lines[j].lstrip(" ")) > len(ind) and \
+                    not lines[j].lstrip().startswith("#"):
+                j += 1
+        if name in values:
+            body.append("{0}{1}: {2}\n".format(ind, name, _render_value(name, values[name])))
+            placed.add(name)
+            anchor = len(body) if anchor is None else anchor
+        elif name in drop:
+            pass
+        else:
+            body.extend(lines[i:j])
+        i = j
+    new = ["{0}{1}: {2}\n".format(ind, k, _render_value(k, v)) for k, v in values.items()
+           if k not in placed]
+    if anchor is None:
+        if body and not body[-1].endswith("\n"):
+            body[-1] += "\n"
+        body.extend(new)
+    else:
+        body[anchor:anchor] = new
+    return [lines[start]] + body
+
+
+def _rewrite(cc, edits, config_dir=None):
+    """Apply {key: (values, drop)} to config/<cc>_stance.yaml as text edits,
+    check that only those entries changed and as intended, then write."""
+    import yaml
+    path = stance_path(cc, config_dir)
+    lines, where = _blocks_by_key(cc, config_dir)
+    before = load(cc, config_dir)[0]
+    out, i = [], 0
+    for k, (s, t) in sorted(where.items(), key=lambda kv: kv[1][0]):
+        if k not in edits:
+            continue
+        out.extend(lines[i:s])
+        out.extend(_edit_block(lines, s, t, *edits[k]))
+        i = t
+    out.extend(lines[i:])
+    text = "".join(out)
+    after = {str(e["key"]): norm_entry(e) for e in (yaml.safe_load(text).get("divisions") or [])}
+    for k, e in before.items():
+        if k in edits:
+            values, drop = edits[k]
+            want = {kk: vv for kk, vv in e.items() if kk not in drop and kk not in values}
+            want.update(values)
+            ok = after.get(k) == want
+        else:
+            ok = after.get(k) == e
+        if not ok:
+            raise SystemExit("{0}: the edit of {1} would not come out as intended; nothing "
+                             "written".format(path, k))
+    with open(path, "w", encoding="utf-8") as h:
+        h.write(text)
+
+
+def auto_confirm(cc, config_dir=None, today=None, dry_run=False, wl=None, conn=None, log=print):
+    """Confirm, on Chris's delegation, every DRAFT entry that passes every
+    check (`auto_check`), stamping `confirmed_by` (AUTO_BY), `confirmed_on`
+    and `auto_checks` (the checks' version). Confirmed, amended and
+    hand-edited entries are never touched. Returns {'confirmed': [keys],
+    'left': {key: [(check, detail)]}}; with `dry_run` nothing is written."""
+    today = today or datetime.date.today().isoformat()
+    report = auto_report(cc, config_dir, wl, conn)
+    ok = [k for k, fails in report.items() if not fails]
+    left = {k: f for k, f in report.items() if f}
+    if ok and not dry_run:
+        _rewrite(cc, {k: ({"status": "confirmed", "confirmed_by": AUTO_BY, "confirmed_on": today,
+                           "auto_checks": AUTO_CHECKS_VERSION}, ()) for k in ok}, config_dir)
+    by_check = {}
+    for fails in left.values():
+        by_check[fails[0][0]] = by_check.get(fails[0][0], 0) + 1
+    log("{0}: {1} {2} reading(s) on the delegation; {3} left for a person{4}".format(
+        SPECS[cc].name, "would confirm" if dry_run else "confirmed", len(ok), len(left),
+        " ({0})".format(", ".join("{0} {1}".format(CHECK_WORDS[c], n) for c, n in
+                                  sorted(by_check.items(), key=lambda kv: -kv[1])))
+        if by_check else ""))
+    return {"confirmed": ok, "left": left}
+
+
+def _lower_first(text):
+    return text[:1].lower() + text[1:] if text else text
+
+
+def resync_directions(cc, config_dir=None, dry_run=False, log=print):
+    """Bring untouched drafts into line with a CHANGED bill direction (11
+    October 2026: Chris's decisions turned some directions round and put one
+    on hold). An entry is resynced only when it is exactly the rules' output
+    for one direction (values and both why lines) and the bill's direction
+    is now the other, or on hold: then it gets the rules' values for the new
+    direction, or becomes `needs_reading` with the bill's `read_first`.
+    Anything a person touched fails the match and is left alone. Returns
+    the keys changed."""
+    spec = SPECS[cc]
+    divs, bills, _ = load(cc, config_dir)
+    lines, where = _blocks_by_key(cc, config_dir)
+    edits = {}
+    for k, e in divs.items():
+        kind = e.get("vote_kind")
+        if e.get("status") != "draft" or kind not in ("final", "reject", "inverted"):
+            continue
+        s, t = where.get(k, (0, 0))
+        untouched = [f for f in auto_check(cc, k, e, bills, {}, lines[s + 1:t]) if f[0] == "drafted"]
+        if untouched:
+            continue
+        bkey = bill_key_of(spec, e, bills)
+        bill = bills.get(bkey) if bkey else None
+        if bill is None:
+            continue
+        made = None
+        for d in ("with", "against"):
+            got = rule_values(spec, kind, bkey, bill, _area_line(e), direction=d)
+            if all(e.get(x) == got[x] for x in ("yea", "nay", "why_yea", "why_nay")):
+                made = d
+        if made is None or made == bill.get("direction"):
+            continue
+        drop = ("flag",) if str(e.get("flag") or "").startswith(_BILL_FLAG) else ()
+        if bill.get("direction") in ("with", "against"):
+            vals = rule_values(spec, kind, bkey, bill, _area_line(e))
+            if bill.get("flag"):
+                vals["flag"] = _BILL_FLAG + bill["flag"]
+            edits[k] = (vals, drop)
+        else:
+            edits[k] = ({"status": "needs_reading",
+                         "read_first": "The direction of {0} is {1}: {2}".format(
+                             bkey, "on hold" if bill.get("direction") == "hold"
+                             else bill.get("direction") or "unset",
+                             _lower_first(bill.get("read_first") or "Read the text, then write yea/nay.")),
+                         "reasoning": "{0} Drafted from {1} as {2}; that direction is no longer on "
+                                      "file, so nothing is proposed.".format(_area_line(e), bkey, made)},
+                        ("yea", "nay", "why_yea", "why_nay") + drop)
+    if edits and not dry_run:
+        _rewrite(cc, edits, config_dir)
+    if edits:
+        log("{0}: {1} {2} draft(s) to a changed bill direction: {3}".format(
+            spec.name, "would resync" if dry_run else "resynced", len(edits), ", ".join(sorted(edits))))
+    return sorted(edits)
+
+
+# The drafter's line for a final, reject or inverted vote on a bill with no
+# direction (draft_entry), read back by `fill_directions`.
+_NO_DIRECTION = re.compile(
+    r"^(?P<kind>.+), but no bill direction is on file for (?P<refs>.+?): CitizenGO's position on "
+    r"'(?P<subject>.*)' needs a human reading\. Add a `bill_directions` line or write yea/nay here\.$")
+# The resync's lines for a draft whose bill direction went on hold, to
+# needs_reading or away (resync_directions), read back by `fill_directions`
+# once the direction is with/against again (12 October 2026).
+_HELD = re.compile(r"^The direction of (?P<bkey>.+?) is (?P<state>[^:]+): ")
+_NO_LONGER = re.compile(
+    r"^(?P<area>.*) Drafted from (?P<bkey>.+) as (?:with|against); that direction is no longer on "
+    r"file, so nothing is proposed\.$")
+_INVERTED_FLAG = "The record says a Yes here REJECTS the text; check the question put."
+LEFT_FOR_PERSON = "Left for a person"
+
+
+def fill_directions(cc, config_dir=None, dry_run=False, log=print):
+    """Draft the readings that waited only for a bill direction (12 October
+    2026). The drafter never rewrites an entry, and `resync_directions` only
+    touches drafts, so a final, reject or inverted vote drafted as
+    `needs_reading` because "no bill direction is on file" stayed so after a
+    direction was added. This turns such an entry into the draft the drafter
+    would now write (`rule_values`, the bill's flag copied as draft_entry
+    does), so the next --auto-confirm can check it.
+
+    It also redrafts a draft the resync turned into `needs_reading` when its
+    bill went on hold (or to needs_reading, or lost its direction): its
+    read_first "The direction of <bill> is on hold: ..." and its reasoning
+    "Drafted from <bill> as ...; that direction is no longer on file" exactly
+    as the resync wrote them. Once that bill is with/against again the entry
+    gets the rules' values for it (12 October 2026: four French palliative
+    law votes needed a one-off script). A bill still held stays as it is.
+
+    Only an UNTOUCHED entry: `read_first` and `reasoning` exactly the rules'
+    text, stamped by the drafter, no values, strike, flag, amendment or
+    comment a person added (`hand_edited`). The direction is looked up as
+    the drafter does, from the stance file alone: the watched key, the refs
+    the read_first line names, then the division's own key ("this item").
+    As in draft_entry, a motion takes no direction but its own: where a
+    country keys the item voted on itself (`Spec.own_key`, the Netherlands'
+    zaak, first among its refs), a motion's direction must be keyed by it.
+    Returns the keys changed."""
+    spec = SPECS[cc]
+    divs, bills, _ = load(cc, config_dir)
+    lines, where = _blocks_by_key(cc, config_dir)
+    edits = {}
+    for k, e in divs.items():
+        kind = e.get("vote_kind")
+        if e.get("status") != "needs_reading" or kind not in FINAL_KINDS:
+            continue
+        bkey = _held_bill(e, bills)
+        held = bkey is not None
+        if not held:
+            m = _NO_DIRECTION.match(str(e.get("read_first") or ""))
+            if not m or m.group("kind") != KIND_WORDS[kind][0].upper() + KIND_WORDS[kind][1:]:
+                continue
+            if e.get("reasoning") != "{0} Direction unclear from the store: nothing proposed.".format(
+                    _area_line(e)):
+                continue
+        flag = e.get("flag")
+        if held and kind == "inverted" and flag == _INVERTED_FLAG:
+            flag = None                  # the drafter's own flag, kept by the resync
+        if hand_edited(e) or flag or e.get("draft") or any(e.get(x) for x in AMEND_KEYS):
+            continue
+        s, t = where.get(k, (0, 0))
+        if any(ln.lstrip().startswith("#") for ln in lines[s + 1:t]):
+            continue
+        if held:
+            if bills[bkey].get("direction") not in ("with", "against"):
+                continue                 # still on hold: it stays needs_reading
+        else:
+            refs = [] if m.group("refs") == "this item" else m.group("refs").split(", ")
+            bkey = next((str(c) for c in [e.get("watched")] + refs + [k]
+                         if c and str(c) in bills and bills[str(c)].get("direction") in ("with", "against")),
+                        None)
+            if bkey is None:
+                continue
+            if spec.own_key is not None and re.search(MOTION, fold(e.get("title"))) \
+                    and (not refs or bkey != refs[0]):
+                continue
+        bill = bills[bkey]
+        vals = dict(status="draft", **rule_values(spec, kind, bkey, bill, _area_line(e)))
+        flags = []
+        if kind == "inverted":
+            flags.append(_INVERTED_FLAG)
+        if bill.get("flag"):
+            flags.append(_BILL_FLAG + bill["flag"])
+        if flags:
+            vals["flag"] = " ".join(flags)
+        edits[k] = (vals, ("read_first",))
+    if edits and not dry_run:
+        _rewrite(cc, edits, config_dir)
+    if edits:
+        log("{0}: {1} {2} needs_reading entr{3} with a bill direction now on file: {4}".format(
+            spec.name, "would draft" if dry_run else "drafted", len(edits),
+            "y" if len(edits) == 1 else "ies", ", ".join(sorted(edits))))
+    return sorted(edits)
+
+
+def _held_bill(e, bills):
+    """The bill a resync-made needs_reading entry names (its read_first "The
+    direction of <bill> is ...: " and its reasoning "Drafted from <bill> as
+    ...; that direction is no longer on file", both as the resync wrote
+    them), when that bill is in the stance file; else None."""
+    m = _HELD.match(str(e.get("read_first") or ""))
+    n = _NO_LONGER.match(str(e.get("reasoning") or ""))
+    if not m or not n or m.group("bkey") != n.group("bkey") or n.group("area") != _area_line(e):
+        return None
+    return m.group("bkey") if m.group("bkey") in bills else None
+
+
+# --- amendment readings (12 October 2026) --------------------------------------------
+#
+# Chris, 12 October 2026: "score all amendments and reverse France's
+# decision". Every amendment and article vote on our ground is read by a
+# person, who records on the entry whether ADOPTING the amendment (or the
+# article) is with CitizenGO or against it:
+#
+#     amendment_direction: with | against
+#     amendment_why: "what it does, and why that side is ours"
+#     amendment_source: "https://... the text read"
+#     amendment_yes_adopts: false     # only where a Yes does NOT adopt it
+#     amendment_flag: "..."           # a person must look; blocks auto-confirm
+#
+# A Yes adopts the amendment unless `amendment_yes_adopts: false` says the
+# question was put the other way (Brazil's "mantido o texto", a vote to keep
+# the text against a destaque). A motion to delete an article is read as
+# itself: adopting the deletion is with or against us. The rules then give
+# the vote's values exactly as for a bill direction (+2 / -2, the sides
+# swapped where a Yes rejects): `amendment_values`. `fill_amendments` turns
+# an untouched needs_reading entry carrying a direction into that draft,
+# `auto_check` checks it like a final vote (`amendment_checks`), and
+# `apply_amendments` applies a reader's JSON file of decisions.
+
+AMENDMENT_KEYS = ("amendment_direction", "amendment_why", "amendment_source", "amendment_flag",
+                  "amendment_yes_adopts")
+VALUE_LINES = ("yea", "nay", "why_yea", "why_nay")
+AMENDMENT_DECISIONS = ("with", "against", "unclear", "not_scored")
+NOT_SCORED = "Not scored (amendment reading"
+
+
+def amendment_values(spec, key, direction, why, area_line, yes_adopts=True):
+    """yea, nay, why_yea, why_nay and reasoning for an amendment or article
+    vote whose adoption is `direction` ('with' or 'against') CitizenGO."""
+    s = 1 if direction == "with" else -1
+    yea = 2 * s if yes_adopts else -2 * s
+    what = r5.clip(why or key, 200).rstrip(".")
+    short = r5.clip(re.split(r"(?<=[a-z\)])[.;] ", what)[0], 90)
+    yes_does = "adopting" if yes_adopts else "rejecting"
+    no_does = "rejecting" if yes_adopts else "adopting"
+    return {
+        "yea": yea, "nay": -yea,
+        "why_yea": "Voted {0} on amendment {1} ({2}): for {3} it, {4} CitizenGO's position.".format(
+            spec.labels[0], key, short, yes_does, "with" if yea > 0 else "against"),
+        "why_nay": "Voted {0} on amendment {1} ({2}): for {3} it, {4} CitizenGO's position.".format(
+            spec.labels[1], key, short, no_does, "with" if -yea > 0 else "against"),
+        "reasoning": "{0} Amendment reading on file: adopting it is {1} us -- {2}. A {3} here {4} "
+                     "it, so {3} is {5} us.".format(
+                         area_line, "WITH" if s > 0 else "AGAINST", what, spec.labels[0],
+                         "adopts" if yes_adopts else "rejects", "with" if yea > 0 else "against")}
+
+
+def is_amendment_entry(e):
+    """An amendment or article vote: drafted as such, or drafted as `other`
+    before the rules knew its wording (the Senat's "sur l'article ...")."""
+    kind = e.get("vote_kind")
+    return kind == "amendment" or (kind == "other" and vote_kind(e.get("title"))[0] == "amendment")
+
+
+def _yes_adopts(e):
+    return e.get("amendment_yes_adopts") is not False
+
+
+def amendment_checks(cc, key, e, kind):
+    """The `kind`, `direction` and `values` checks for an entry carrying an
+    amendment reading (`amendment_direction`)."""
+    spec = SPECS[cc]
+    fails = []
+    d = e.get("amendment_direction")
+    if kind != "amendment":
+        fails.append(("kind", "an amendment reading on {0}".format(KIND_WORDS.get(kind, kind))))
+    if d not in ("with", "against"):
+        fails.append(("direction", "amendment_direction is {0}".format(d)))
+    if not str(e.get("amendment_why") or "").strip() or not str(e.get("amendment_source") or "").strip():
+        fails.append(("direction", "the amendment reading names no why or no source"))
+    if e.get("amendment_flag"):
+        fails.append(("direction", "amendment flagged for a person: " + r5.clip(e["amendment_flag"], 120)))
+    if e.get("flag"):
+        fails.append(("direction", "flagged for a person: " + r5.clip(e["flag"], 120)))
+    if d in ("with", "against"):
+        want = amendment_values(spec, key, d, e.get("amendment_why"), _area_line(e), _yes_adopts(e))
+        diff = [k for k in VALUE_LINES if e.get(k) != want[k]]
+        if diff:
+            fails.append(("values", "{0} differ{1} from the rules (Yes {2}, No {3}: adopting is {4})".format(
+                ", ".join(diff), "s" if len(diff) == 1 else "", _fmt(want["yea"]), _fmt(want["nay"]), d)))
+    return fails
+
+
+def _rules_made_amendment_values(spec, key, e):
+    """True when the entry's yea/nay/why lines are absent, or exactly what
+    `amendment_values` gives its own reading (so a re-application may
+    replace them); False when a person wrote them."""
+    if all(e.get(k) in (None, "") for k in VALUE_LINES):
+        return True
+    d = e.get("amendment_direction")
+    if d not in ("with", "against"):
+        return False
+    want = amendment_values(spec, key, d, e.get("amendment_why"), _area_line(e), _yes_adopts(e))
+    return all(e.get(k) == want[k] for k in VALUE_LINES)
+
+
+def _amendment_read_first(e):
+    return ("An amendment, an article or one point ('{0}'): which side is ours depends on its "
+            "text, which the store does not hold. Read it, then write yea/nay.".format(
+                r5.clip(e.get("title"), 120)))
+
+
+def fill_amendments(cc, config_dir=None, dry_run=False, log=print):
+    """Draft every untouched `needs_reading` amendment entry that carries an
+    amendment reading (`amendment_direction: with|against`), as the rules
+    give it (`amendment_values`), so the next --auto-confirm can check it.
+    Untouched: stamped by the drafter, no values, signature, amendment
+    (`amended_*`), strike or `draft: true`. Returns the keys changed."""
+    spec = SPECS[cc]
+    divs, _, _ = load(cc, config_dir)
+    edits = {}
+    for k, e in divs.items():
+        if e.get("status") != "needs_reading" or e.get("vote_kind") != "amendment":
+            continue
+        d = e.get("amendment_direction")
+        if d not in ("with", "against"):
+            continue
+        if not str(e.get("drafted") or "").startswith(DRAFTED_BY):
+            continue
+        if any(e.get(x) not in (None, "") for x in VALUE_LINES + ("confirmed_by", "confirmed_on")) \
+                or any(e.get(x) for x in AMEND_KEYS) or e.get("draft") or e.get("placeable") is False:
+            continue
+        vals = dict(status="draft", **amendment_values(spec, k, d, e.get("amendment_why"), _area_line(e),
+                                                      _yes_adopts(e)))
+        edits[k] = (vals, ("read_first",))
+    if edits and not dry_run:
+        _rewrite(cc, edits, config_dir)
+    if edits:
+        log("{0}: {1} {2} amendment entr{3} from their reading: {4}".format(
+            spec.name, "would draft" if dry_run else "drafted", len(edits),
+            "y" if len(edits) == 1 else "ies", ", ".join(sorted(edits))))
+    return sorted(edits)
+
+
+def read_decisions(path):
+    """The decisions in an --apply-amendments file: a JSON list of objects,
+    or an object whose `decisions` is that list."""
+    with open(path, encoding="utf-8") as h:
+        got = json.load(h)
+    if isinstance(got, dict):
+        got = got.get("decisions")
+    if not isinstance(got, list) or not all(isinstance(x, dict) for x in got):
+        raise SystemExit("{0}: expected a JSON list of decision objects (or {{\"decisions\": "
+                         "[...]}})".format(path))
+    return got
+
+
+def _decision_edit(spec, key, e, d, today):
+    """(values, drop) for one decision on one entry, or a str: why refused."""
+    decision = str(d.get("direction") or "").strip().lower().replace("-", "_").replace(" ", "_")
+    why = " ".join(str(d.get("why") or "").split())
+    source = " ".join(str(d.get("source") or "").split())
+    flag = " ".join(str(d.get("flag") or "").split())
+    yes_adopts = d.get("yes_adopts", True)
+    if decision not in AMENDMENT_DECISIONS:
+        return "direction must be one of {0}, not {1!r}".format(", ".join(AMENDMENT_DECISIONS),
+                                                                d.get("direction"))
+    if not isinstance(yes_adopts, bool):
+        return "yes_adopts must be true or false"
+    if not is_amendment_entry(e):
+        return "vote_kind is {0}, not amendment".format(e.get("vote_kind"))
+    if e.get("status") == "confirmed":
+        return "already confirmed (amend it with --amend instead)"
+    if any(e.get(x) for x in AMEND_KEYS) or e.get("draft"):
+        return "amended or taken out of play by a signer"
+    if not _rules_made_amendment_values(spec, key, e):
+        return "carries values a person wrote"
+    if e.get("placeable") is False and not str(e.get("reason") or "").startswith(NOT_SCORED):
+        return "struck by a person (placeable: false)"
+    if decision in ("with", "against") and not (why and source):
+        return "with/against needs both `why` and `source`"
+    if decision == "not_scored" and not why:
+        return "not_scored needs a `why`"
+    reading = {}
+    if e.get("vote_kind") != "amendment":
+        reading["vote_kind"] = "amendment"     # drafted as `other` before the pattern knew it
+    if why:
+        reading["amendment_why"] = why
+    if source:
+        reading["amendment_source"] = source
+    if decision in ("with", "against"):
+        vals = {"status": "draft", "amendment_direction": decision}
+        vals.update(reading)
+        drop = ["read_first", "placeable", "reason"]
+        if flag:
+            vals["amendment_flag"] = flag
+        else:
+            drop.append("amendment_flag")
+        if yes_adopts:
+            drop.append("amendment_yes_adopts")
+        else:
+            vals["amendment_yes_adopts"] = False
+        area = _area_line(e)
+        vals.update(amendment_values(spec, key, decision, why, area, yes_adopts))
+        return vals, tuple(x for x in drop if x not in vals)
+    if decision == "unclear":
+        vals = {"status": "needs_reading", "amendment_flag": flag or why or "Read; the side is unclear.",
+                "reasoning": "{0} Amendment read; which side is ours is unclear: nothing "
+                             "proposed.".format(_area_line(e))}
+        vals.update(reading)
+        if not e.get("read_first"):
+            vals["read_first"] = _amendment_read_first(e)
+        return vals, ("amendment_direction", "amendment_yes_adopts", "placeable", "reason") + VALUE_LINES
+    vals = {"status": "draft", "placeable": False,
+            "reason": "{0}, {1}): {2}".format(NOT_SCORED, today, why),
+            "reasoning": "{0} Amendment read and not scored: it places nobody.".format(_area_line(e))}
+    vals.update(reading)
+    if flag:
+        vals["amendment_flag"] = flag
+    return vals, ("amendment_direction", "amendment_yes_adopts", "read_first") + VALUE_LINES + (
+        () if flag else ("amendment_flag",))
+
+
+def apply_amendments(decisions, config_dir=None, today=None, dry_run=False, log=print):
+    """Apply readers' amendment decisions, each {cc, key, direction
+    (with | against | unclear | not_scored), why, source, flag, and
+    optionally yes_adopts (default true)}:
+
+    * with / against: `amendment_direction` and the reading are recorded and
+      the rules draft the values (`status: draft`); a `flag` is kept as
+      `amendment_flag` and blocks the automatic sign-off;
+    * unclear: the entry stays `needs_reading`, with `amendment_flag` (the
+      flag, else the why) shown in the guide;
+    * not_scored: `placeable: false` with the reason (a draft a person signs).
+
+    Only entries of vote_kind amendment, unconfirmed and not amended, whose
+    values (if any) are the rules' own; anything else is refused with the
+    reason. A text edit per country, checked as every rewrite is. Returns
+    {'applied': [(cc, key, direction)], 'refused': [(cc, key, why)]}."""
+    today = today or datetime.date.today().isoformat()
+    got = {"applied": [], "refused": []}
+    per = {}
+    for d in decisions:
+        cc = str(d.get("cc") or "").strip().lower()
+        key = str(d.get("key") or "").strip()
+        if cc not in SPECS:
+            got["refused"].append((cc, key, "unknown country"))
+            continue
+        per.setdefault(cc, []).append((key, d))
+    for cc, items in per.items():
+        spec = SPECS[cc]
+        divs, _, _ = load(cc, config_dir)
+        edits, done = {}, {}
+        for key, d in items:
+            e = divs.get(key)
+            if e is None:
+                got["refused"].append((cc, key, "no such entry in config/{0}_stance.yaml".format(cc)))
+                continue
+            edit = _decision_edit(spec, key, e, d, today)
+            if isinstance(edit, str):
+                got["refused"].append((cc, key, edit))
+                continue
+            if key in edits:
+                log("  {0} {1}: decided twice; the later decision stands".format(cc, key))
+            edits[key] = edit
+            done[key] = str(d.get("direction")).strip().lower()
+        if edits and not dry_run:
+            _rewrite(cc, edits, config_dir)
+        got["applied"] += [(cc, k, v) for k, v in done.items()]
+    for cc, key, why in got["refused"]:
+        log("  refused {0} {1}: {2}".format(cc, key, why))
+    by = {}
+    for _, _, v in got["applied"]:
+        by[v] = by.get(v, 0) + 1
+    log("Amendment decisions: {0} {1} ({2}); {3} refused".format(
+        "would apply" if dry_run else "applied", len(got["applied"]),
+        ", ".join("{0} {1}".format(n, v) for v, n in sorted(by.items())) or "none",
+        len(got["refused"])))
+    return got
+
+
+def amend(cc, key, by, yea=None, nay=None, why=None, take_out=False, on=None, config_dir=None,
+          log=print):
+    """A country signer's amendment of any reading, confirmed or not
+    (Canada's "Greg can amend if necessary"). With `yea`/`nay` the values
+    are set, the why lines say who amended and why, and the entry is
+    confirmed in the signer's name; with `take_out` it gets `draft: true`
+    (out of play, places nobody). Either way `amended_by`, `amended_on` and
+    `amended_why` are stamped, and the automation never touches it again."""
+    by = (by or "").strip()
+    if not by:
+        raise SystemExit("--by NAME is required: an amendment names the person")
+    allowed = signers(cc)
+    if by not in allowed:
+        raise SystemExit("{0} is not a named signer for {1} ({2}); add them to "
+                         "config/stance_signers.yaml first".format(by, cc, ", ".join(allowed)))
+    why = " ".join(str(why or "").split())
+    if not why:
+        raise SystemExit("--why is required: say what was wrong")
+    on = on or datetime.date.today().isoformat()
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", on):
+        raise SystemExit("--on must be an ISO date")
+    divs, _, _ = load(cc, config_dir)
+    if key not in divs:
+        raise SystemExit("{0}: no reading {1} in config/{0}_stance.yaml".format(cc, key))
+    stamp = {"amended_by": by, "amended_on": on, "amended_why": why}
+    if take_out:
+        edits = {key: (dict(stamp, draft=True), ())}
+    else:
+        for name, v in (("--yea", yea), ("--nay", nay)):
+            if v is None or not -2 <= int(v) <= 2:
+                raise SystemExit("{0} must be a stance from -2 to 2".format(name))
+        line = "Amended by {0} on {1}: {2}".format(by, on, why)
+        edits = {key: ({"status": "confirmed", "yea": int(yea), "why_yea": line, "nay": int(nay),
+                        "why_nay": line, "confirmed_by": by, "confirmed_on": on, **stamp},
+                       ("placeable", "reason", "read_first", "auto_checks", "draft"))}
+    _rewrite(cc, edits, config_dir)
+    log("{0}: {1} {2} by {3} on {4} ({5})".format(
+        cc, key, "taken out of play" if take_out else "amended to {0} {1}, {2} {3}".format(
+            SPECS[cc].labels[0], _fmt(int(yea)), SPECS[cc].labels[1], _fmt(int(nay))),
+        by, on, why))
+    return key
+
+
+def auto_confirmed_since(cc, since, config_dir=None):
+    """Keys confirmed by the automation on or after `since` (ISO)."""
+    divs, _, _ = load(cc, config_dir)
+    return sorted(k for k, e in divs.items() if e.get("status") == "confirmed"
+                  and e.get("confirmed_by") == AUTO_BY and str(e.get("confirmed_on") or "") >= since)
+
+
+# --- counts and the digest ------------------------------------------------------------
+
+def counts(cc, config_dir=None):
+    divs, bills, _ = load(cc, config_dir)
+    c = {"proposed": 0, "procedural": 0, "needs_reading": 0, "confirmed": 0, "bills": len(bills),
+         "out": 0, "collated": 0}
+    excl = excluded()
+    for e in divs.values():
+        if e.get("draft"):              # taken out of play by an amendment (11 October 2026)
+            c["out"] += 1
+            continue
+        st = r5.status(e)
+        if st in ("confirmed", "unplaceable") and e.get("status") == "confirmed":
+            c["confirmed"] += 1
+        elif collated_only(e, excl):    # an excluded area only: never waits for a person
+            c["collated"] += 1
+        elif e.get("status") == "needs_reading" or st == "unread":
+            c["needs_reading"] += 1
+        elif e.get("placeable") is False:
+            c["procedural"] += 1
+        else:
+            c["proposed"] += 1
+    return c
+
+
+def digest_text(today=None, config_dir=None, docs_dir=None, per_country=5, countries=COUNTRIES):
+    """The weekly 'stances awaiting sign-off' DM, or None when nothing waits.
+
+    Changed 11 October 2026 (src/shortlist5ca.py): each country now LEADS
+    with its top `per_country` readings to sign first (the ranked shortlist,
+    docs/5ca-<cc>-shortlist.md), then one line of counts, instead of the
+    counts and the newest proposed keys. It still confirms nothing.
+
+    Changed 11 October 2026 (the automatic sign-off): each country also says
+    how many readings were confirmed automatically this ISO week and what
+    still needs a person, counted by the check each first failed."""
+    from src import shortlist5ca as sl
+    today = today or datetime.date.today().isoformat()
+    d = datetime.date.fromisoformat(today)
+    y, w, _ = d.isocalendar()
+    monday = (d - datetime.timedelta(days=d.weekday())).isoformat()
+    parts, waiting, auto_total = [], 0, 0
+    for cc in countries:
+        if not os.path.exists(stance_path(cc, config_dir)):
+            continue
+        spec = SPECS[cc]
+        c = counts(cc, config_dir)
+        pending = c["proposed"] + c["procedural"] + c["needs_reading"]
+        auto = auto_confirmed_since(cc, monday, config_dir)
+        auto_total += len(auto)
+        if not pending:
+            continue
+        waiting += pending
+        names = [s for s in signers(cc) if s not in ALWAYS_SIGNS]
+        ticked = []
+        dp = doc_path(cc, docs_dir)
+        if os.path.exists(dp):
+            divs, _, _ = load(cc, config_dir)
+            with open(dp, encoding="utf-8") as h:
+                ticked = [k for k in r5.ticked_keys(h.read())
+                          if (divs.get(k) or {}).get("status") != "confirmed"]
+        lines = ["*{0}* ({1}): sign these first".format(
+            spec.name, "signer: " + ", ".join(names) if names else "country signer not named yet")]
+        try:
+            lines += sl.digest_lines(cc, config_dir, today, per_country)
+        except Exception as exc:          # the ranking must never cost the digest
+            lines.append("  (shortlist unavailable: {0})".format(type(exc).__name__))
+        tail = "  Waiting: {0} proposed, {1} procedural, {2} need reading, {3} confirmed".format(
+            c["proposed"], c["procedural"], c["needs_reading"], c["confirmed"])
+        if ticked:
+            tail += "; *{0} ticked in the guide, not yet applied*".format(len(ticked))
+        lines.append(tail)
+        try:
+            left = [f for f in auto_report(cc, config_dir).values() if f]
+        except Exception as exc:          # the checks must never cost the digest
+            left = []
+            lines.append("  (auto-checks unavailable: {0})".format(type(exc).__name__))
+        by = {}
+        for f in left:
+            by[f[0][0]] = by.get(f[0][0], 0) + 1
+        lines.append("  Auto-confirmed this week: {0}. Still needs a person: {1}".format(
+            len(auto), ", ".join("{0} {1}".format(n, CHECK_WORDS.get(ch, ch)) for ch, n in
+                                 sorted(by.items(), key=lambda kv: -kv[1])) or "nothing"))
+        lines.append("  Shortlist: docs/5ca-{0}-shortlist.md (guide: docs/5ca-{0}-readings.md)".format(cc))
+        parts.append("\n".join(lines))
+    if not waiting:
+        return None
+    return ("*Stances awaiting sign-off*, week {0} of {1}: {2} readings across {3} countries; "
+            "{6} confirmed automatically this week on your delegation (every check passed). "
+            "Each country's top {4} to sign first, ranked by tools/country_5ca.py --shortlist "
+            "(decisive votes on watched bills, close or split votes, meaning lines, campaigns "
+            "and briefs, recent first). The rest of these failed a check and need a person.\n\n{5}\n\n"
+            "To confirm: `python3 tools/country_5ca.py --cc CC --confirm KEY --by NAME`, or tick "
+            "in the country's guide and `--sign-from-doc --by NAME`. To amend any reading, "
+            "automatic or not: `--cc CC --amend KEY --yea N --nay N --by NAME --why \"...\"`. "
+            "Who signs for each country is config/stance_signers.yaml."
+            .format(w, y, waiting, len(parts), per_country, "\n\n".join(parts), auto_total))

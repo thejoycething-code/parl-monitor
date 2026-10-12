@@ -1,0 +1,3321 @@
+{
+"head": {
+"counts": {
+"billCount": 11,
+"resultCount": 11
+}
+},
+"results": [
+{
+"bill": {
+"act": {
+"actNo": "32",
+"actYear": "2026",
+"dateSigned": "2026-07-21",
+"longTitleEn": "<p>Act to make provision to enable certain registered pharmacists in retail pharmacy businesses to issue prescriptions for certain contraceptive drugs, medicines and products; for that purpose, to amend the Health Act 1970, the Irish Medicines Board Act 1995 and the Pharmacy Act 2007; and to provide for related matters.</p>",
+"longTitleGa": "<p>Acht do dhéanamh socrú chun a chumasú do chógaiseoirí cláraithe áirithe i ngnóthaí cógaisíochta miondíola oidis le haghaidh drugaí, cógais, táirgí agus feistí frithghiniúnacha áirithe a eisiúint; chun na críche sin, do leasú an Achta Sláinte, 1970, an Achta um Bord Leigheasra na hÉireann, 1995 agus an Achta Cógaisíochta, 2007; agus do dhéanamh socrú i dtaobh nithe<br>gaolmhara.</p>",
+"shortTitleEn": "Health (Provision of Contraception Prescribing Service in Retail Pharmacy Businesses) Act 2026",
+"shortTitleGa": "An tAcht Sláinte (Seirbhís Oideasaithe Frithghiniúnach a Sholáthar i nGnóthaí Cógaisíochta Miondíola), 2026",
+"statutebookURI": "http://www.irishstatutebook.ie/eli/2026/act/32",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/act/2026/32"
+},
+"amendmentLists": [
+{
+"amendmentList": {
+"amendmentTypeUri": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/amendment-type/numberedList"
+},
+"chamber": {
+"showAs": "Dail",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/dail"
+},
+"date": "2026-07-14",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/dail/3/amendment/numberedList/eng/b7426d-dcnl.pdf"
+},
+"xml": null
+},
+"showAs": "Numbered List [Dáil]",
+"stage": {
+"showAs": "Committee Stage",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/dail/3"
+},
+"stageNo": "3"
+}
+}
+],
+"billNo": "74",
+"billType": "Public",
+"billTypeURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-type/public",
+"billYear": "2026",
+"debates": [
+{
+"chamber": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"date": "2026-07-16",
+"debateSectionId": "dbsect_25",
+"showAs": "Health (Provision of Contraception Prescribing Service in Retail Pharmacy Businesses) Bill 2026: Second and Subsequent Stages",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/seanad/2026-07-16/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-07-15",
+"debateSectionId": "dbsect_36",
+"showAs": "Health (Provision of Contraception Prescribing Service in Retail Pharmacy Businesses) Bill 2026: Committee and Remaining Stages",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-07-15/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-07-09",
+"debateSectionId": "dbsect_37",
+"showAs": "Health (Provision of Contraception Prescribing Service in Retail Pharmacy Businesses) Bill 2026: Second Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-07-09/debate/main"
+}
+],
+"events": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-06-26"
+},
+{
+"date": "2026-07-21"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/published",
+"showAs": "Published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/published"
+}
+},
+{
+"event": {
+"chamber": null,
+"dates": [
+{
+"date": "2026-07-21"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/enacted",
+"showAs": "Enacted",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/enacted"
+}
+}
+],
+"lastUpdated": "2026-07-29T13:31:03.690000+00:00",
+"longTitleEn": "<p>Bill entitled an Act to make provision to enable certain registered pharmacists in retail pharmacy businesses to issue prescriptions for certain contraceptive drugs, medicines and products; for that purpose, to amend the Health Act 1970, the Irish Medicines Board Act 1995 and the Pharmacy Act 2007; and to provide for related matters.</p>",
+"longTitleGa": "<p>Bille dá ngairtear Acht do dhéanamh socrú chun a chumasú do chógaiseoirí cláraithe áirithe i ngnóthaí cógaisíochta miondíola oidis le haghaidh drugaí, cógais, táirgí agus feistí frithghiniúnacha áirithe a eisiúint; chun na críche sin, do leasú an Achta Sláinte, 1970, an Achta um Bord Leigheasra na hÉireann, 1995 agus an Achta Cógaisíochta, 2007; agus do dhéanamh socrú i dtaobh nithe<br>gaolmhara.</p>",
+"method": "Presented",
+"methodURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-method/presented",
+"mostRecentStage": {
+"event": {
+"chamber": null,
+"dates": [
+{
+"date": "2026-07-21"
+}
+],
+"house": null,
+"progressStage": 10,
+"showAs": "Enacted",
+"stageCompleted": true,
+"stageOutcome": "Enacted",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/enacted",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/stage/oireachtas/enacted"
+}
+},
+"originHouse": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"originHouseURI": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail",
+"relatedDocs": [
+{
+"relatedDoc": {
+"date": "2026-07-06",
+"docType": "gluais",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/mul/gluais/gluais-28-2026-an-bille-slainte-seirbhis-oideasaithe-frithghiniunach-a-sholathar-i-ngnothai-cogaisiochta-miondiola-2026.pdf"
+},
+"xml": null
+},
+"lang": "mul",
+"showAs": "Glossary/Gluais",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/mul/gluais"
+}
+},
+{
+"relatedDoc": {
+"date": "2026-06-26",
+"docType": "memo",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/eng/memo/b7426d-memo.pdf"
+},
+"xml": null
+},
+"lang": "eng",
+"showAs": "Explanatory Memorandum",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/eng/memo"
+}
+}
+],
+"shortTitleEn": "Health (Provision of Contraception Prescribing Service in Retail Pharmacy Businesses) Bill 2026",
+"shortTitleGa": "An Bille Sláinte (Seirbhís Oideasaithe Frithghiniúnach a Sholáthar i nGnóthaí Cógaisíochta Miondíola), 2026",
+"source": "Government",
+"sourceURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-source/government",
+"sponsors": [
+{
+"sponsor": {
+"isPrimary": true,
+"as": {
+"showAs": "Minister for Health",
+"uri": null
+},
+"by": {
+"showAs": null,
+"uri": null
+}
+}
+}
+],
+"stages": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-06-26"
+},
+{
+"date": "2026-06-26"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/stage/dail/1"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-06-26"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/stage/dail/2"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-07-16"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 3,
+"showAs": "Committee Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/3",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/stage/dail/3"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-07-16"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 4,
+"showAs": "Report Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/4",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/stage/dail/4"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-07-16"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 5,
+"showAs": "Fifth Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/5",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/stage/dail/5"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2026-07-16"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 6,
+"showAs": "Second Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/stage/seanad/2"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2026-07-16"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 7,
+"showAs": "Committee Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/3",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/stage/seanad/3"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2026-07-16"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 8,
+"showAs": "Report Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/4",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/stage/seanad/4"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2026-07-16"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 9,
+"showAs": "Fifth Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/5",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/stage/seanad/5"
+}
+},
+{
+"event": {
+"chamber": null,
+"dates": [
+{
+"date": "2026-07-21"
+}
+],
+"house": null,
+"progressStage": 10,
+"showAs": "Enacted",
+"stageCompleted": true,
+"stageOutcome": "Enacted",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/enacted",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/stage/oireachtas/enacted"
+}
+}
+],
+"status": "Enacted",
+"statusURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-status/enacted",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74",
+"versions": [
+{
+"version": {
+"lang": "eng",
+"docType": "act",
+"showAs": "Health (Provision of Contraception Prescribing Service in Retail Pharmacy Businesses) Act 2026",
+"date": "2026-07-21",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/act/2026/32/eng/enacted/a3226.pdf"
+},
+"xml": null
+},
+"uri": "https://data.oireachtas.ie/ie/oireachtas/act/2026/32/eng/enacted"
+}
+},
+{
+"version": {
+"lang": "eng",
+"docType": "bill",
+"showAs": "As passed by Dáil Éireann",
+"date": "2026-07-15",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/eng/ver_a/b74a26d.pdf"
+},
+"xml": null
+},
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/eng/ver_a"
+}
+},
+{
+"version": {
+"lang": "eng",
+"docType": "bill",
+"showAs": "As Initiated",
+"date": "2026-06-26",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/eng/initiated/b7426d.pdf"
+},
+"xml": null
+},
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/74/eng/initiated"
+}
+}
+]
+},
+"contextDate": "2026-07-21",
+"billSort": {
+"actNoSort": 32,
+"actShortTitleEnSort": "health-provision-of-contraception-prescribing-service-in-retail-pharmacy-businesses-act-2026",
+"actShortTitleGaSort": "an-tacht-slainte-seirbhis-oideasaithe-frithghiniunach-a-sholathar-i-ngnothai-cogaisiochta-miondiola-2026",
+"actYearSort": 2026,
+"billNoSort": 74,
+"billShortTitleEnSort": "health-provision-of-contraception-prescribing-service-in-retail-pharmacy-businesses-bill-2026",
+"billShortTitleGaSort": "an-bille-slainte-seirbhis-oideasaithe-frithghiniunach-a-sholathar-i-ngnothai-cogaisiochta-miondiola-2026",
+"billYearSort": 2026
+}
+},
+{
+"bill": {
+"act": null,
+"amendmentLists": [
+{
+"amendmentList": {
+"amendmentTypeUri": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/amendment-type/numberedList"
+},
+"chamber": {
+"showAs": "Dail",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/dail"
+},
+"date": "2026-09-21",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/dail/3/amendment/numberedList/eng/b5426d-dcnl.pdf"
+},
+"xml": null
+},
+"showAs": "Numbered List [Dáil]",
+"stage": {
+"showAs": "Committee Stage",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/dail/3"
+},
+"stageNo": "3"
+}
+}
+],
+"billNo": "54",
+"billType": "Public",
+"billTypeURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-type/public",
+"billYear": "2026",
+"debates": [
+{
+"chamber": {
+"showAs": "Select Committee on Arts, Media, Communications, Culture and Sport",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/committee"
+},
+"date": "2026-09-22",
+"debateSectionId": "dbsect_2",
+"showAs": "Broadcasting (Amendment) Bill 2026: Committee Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/select_committee_on_arts_media_communications_culture_and_sport/2026-09-22/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-06-10",
+"debateSectionId": "dbsect_34",
+"showAs": "Broadcasting (Amendment) Bill 2026: Second Stage (Resumed)",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-06-10/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-06-10",
+"debateSectionId": "dbsect_39",
+"showAs": "Broadcasting (Amendment) Bill 2026: Referral to Select Committee",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-06-10/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-05-28",
+"debateSectionId": "dbsect_36",
+"showAs": "Broadcasting (Amendment) Bill 2026: Second Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-05-28/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-05-28",
+"debateSectionId": "dbsect_39",
+"showAs": "Broadcasting (Amendment) Bill 2026: Second Stage (Resumed)",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-05-28/debate/main"
+}
+],
+"events": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-05-27"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/published",
+"showAs": "Published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/published"
+}
+}
+],
+"lastUpdated": "2026-10-02T13:08:59.090000+00:00",
+"longTitleEn": "<p>Bill entitled an Act to provide for the disclosure and divestment by members of Coimisiún na Meán of relevant interests in certain providers; to give full effect to Articles 5 and 6(3) of Regulation (EU) 2024/1083 of the European Parliament and of the Council of 11 April 2024 establishing a common framework for media services in the internal market and amending Directive 2010/13/EU (European Media Freedom Act); to make further provision about committees of Coimisiún na Meán; to provide, for the purposes of its functions, for a power for Coimisiún na Meán to require certain information from certain providers; to extend the application of duties and codes, and provision about complaints, in relation to public service content published by the corporations; to make further provision about the appointment and functions of the board and the director general of a corporation and the appointment and functions of the audience council of a corporation; to provide for the auditing of the accounts of RTÉ by the Comptroller and Auditor General; to require the publication of information about the remuneration of staff and contractors of the corporations; to provide for appraisals and reviews of funding and performance of the corporations; to make further provision about the commissioning of independent programmes by the corporations; to provide for the renaming of the Broadcasting Fund and for public service content schemes to be funded from the Fund; to amend the provision relating to the European Works Levy; for those purposes to amend the Broadcasting Act 2009 and the Comptroller and Auditor General (Amendment) Act 1993; and to provide for related matters.</p>",
+"longTitleGa": "<p>Bille dá ngairtear Acht do dhéanamh socrú maidir le comhaltaí de Choimisiún na Meán do nochtadh agus do dhífheistiú leasanna iomchuí i soláthraithe áirithe; do thabhairt lánéifeacht d’Airteagail 5 agus 6(3) de Rialachán (AE) 2024/1083 ó Pharlaimint na hEorpa agus ón gComhairle an 11 Aibreán 2024 lena mbunaítear creat comhchoiteann le haghaidh seirbhísí meán sa mhargadh inmheánach agus lena leasaítear Treoir 2010/13/AE (An Gníomh Eorpach um Shaoirse na Meán); do dhéanamh socrú breise maidir le coistí de Choimisiún na Meán; do dhéanamh socrú, chun críocha a fheidhmeanna, maidir le cumhacht a bheith ag Coimisiún na Meán chun faisnéis áirithe a éileamh ó sholáthraithe áirithe; do leathnú cur chun feidhme dualgas agus cód, agus do leathnú na forála maidir le gearáin, i ndáil le lánas seirbhíse poiblí arna fhoilsiú ag na corparáidí; do dhéanamh socrú breise maidir le bord corparáide, agus an t-ardstiúrthóir ar chorparáid, a cheapadh agus maidir lena fheidhmeanna nó lena feidhmeanna, agus maidir leis an gcomhairle lucht féachana agus éisteachta ar chorparáid a cheapadh agus maidir lena feidhmeanna; do dhéanamh socrú maidir leis an Ard-Reachtaire Cuntas agus Ciste d’iniúchadh chuntais RTÉ; dá cheangal faisnéis a fhoilsiú i dtaobh luach saothair chomhaltaí foirne agus chonraitheoirí na gcorparáidí; do dhéanamh socrú maidir le breithmheasanna a thabhairt agus athbhreithnithe a dhéanamh ar mhaoiniú agus ar fheidhmíocht na gcorparáidí; do dhéanamh socrú breise maidir leis na corparáidí do choimisiúnú cláir neamhspleácha; do dhéanamh socrú maidir leis an gCiste Craolacháin a athainmniú agus maidir le scéimeanna lánais seirbhíse poiblí a mhaoiniú as an gCiste; do leasú na forála a bhaineann leis an tobhach i leith saothar Eorpach; chun na gcríoch sin, do leasú an Achta Craolacháin, 2009 agus Acht an Ard-Reachtaire Cuntas agus Ciste (Leasú), 1993; agus do dhéanamh socrú i dtaobh nithe gaolmhara.</p>",
+"method": "Presented",
+"methodURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-method/presented",
+"mostRecentStage": {
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-06-10"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 3,
+"showAs": "Committee Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/3",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/stage/dail/3"
+}
+},
+"originHouse": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"originHouseURI": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail",
+"relatedDocs": [
+{
+"relatedDoc": {
+"date": "2026-05-28",
+"docType": "gluais",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/mul/gluais/gluais-17-2026-an-bille-craolachain-leasu-2026.pdf"
+},
+"xml": null
+},
+"lang": "mul",
+"showAs": "Glossary/Gluais",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/mul/gluais"
+}
+},
+{
+"relatedDoc": {
+"date": "2026-05-27",
+"docType": "memo",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/eng/memo/b5426d-memo.pdf"
+},
+"xml": null
+},
+"lang": "eng",
+"showAs": "Explanatory Memorandum",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/eng/memo"
+}
+}
+],
+"shortTitleEn": "Broadcasting (Amendment) Bill 2026",
+"shortTitleGa": "An Bille Craolacháin (Leasú), 2026",
+"source": "Government",
+"sourceURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-source/government",
+"sponsors": [
+{
+"sponsor": {
+"isPrimary": true,
+"as": {
+"showAs": "Minister for Culture, Communications and Sport",
+"uri": null
+},
+"by": {
+"showAs": null,
+"uri": null
+}
+}
+}
+],
+"stages": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-05-27"
+},
+{
+"date": "2026-05-28"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/stage/dail/1"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-05-28"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/stage/dail/2"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-06-10"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 3,
+"showAs": "Committee Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/3",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/stage/dail/3"
+}
+}
+],
+"status": "Current",
+"statusURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-status/published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54",
+"versions": [
+{
+"version": {
+"lang": "eng",
+"docType": "bill",
+"showAs": "As amended in Committee/Select Committee [Dáil Éireann]",
+"date": "2026-09-22",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/eng/ver_a/b54a26d.pdf"
+},
+"xml": null
+},
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/eng/ver_a"
+}
+},
+{
+"version": {
+"lang": "eng",
+"docType": "bill",
+"showAs": "As Initiated",
+"date": "2026-05-27",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/eng/initiated/b5426d.pdf"
+},
+"xml": null
+},
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/54/eng/initiated"
+}
+}
+]
+},
+"contextDate": "2026-06-10",
+"billSort": {
+"actNoSort": null,
+"actShortTitleEnSort": null,
+"actShortTitleGaSort": null,
+"actYearSort": null,
+"billNoSort": 54,
+"billShortTitleEnSort": "broadcasting-amendment-bill-2026",
+"billShortTitleGaSort": "an-bille-craolachain-leasu-2026",
+"billYearSort": 2026
+}
+},
+{
+"bill": {
+"act": null,
+"amendmentLists": [],
+"billNo": "47",
+"billType": "Public",
+"billTypeURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-type/public",
+"billYear": "2026",
+"debates": [
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-06-17",
+"debateSectionId": "dbsect_67",
+"showAs": "Health (Abolition of Three Day Wait Rule) (Amendment) Bill 2026: Second Stage (Resumed) [Private Members]",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-06-17/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-06-16",
+"debateSectionId": "dbsect_19",
+"showAs": "Health (Abolition of Three Day Wait Rule) (Amendment) Bill 2026: Second Stage [Private Members]",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-06-16/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-05-07",
+"debateSectionId": "dbsect_34",
+"showAs": "Health (Abolition of Three Day Wait Rule) (Amendment) Bill 2026: First Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-05-07/debate/main"
+}
+],
+"events": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-05-06"
+},
+{
+"date": "2026-05-06"
+},
+{
+"date": "2026-05-07"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/admissibility-for-introduction",
+"showAs": "Admissibility for Introduction",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/47/admissibility-for-introduction"
+}
+}
+],
+"lastUpdated": "2026-06-18T11:24:53.730000+00:00",
+"longTitleEn": "<p>Bill entitled an Act to amend the Health (Regulation of Termination of Pregnancy) Act 2018 to abolish the mandatory three day wait rule for access to a termination of pregnancy.</p>",
+"longTitleGa": "<p>Bille dá ngairtear Acht do leasú an Achta Sláinte (Foirceannadh Toirchis a Rialáil), 2018 chun deireadh a chur leis an riail shainordaitheach maidir le feitheamh trí lá le haghaidh rochtain ar fhoirceannadh toirchis.</p>",
+"method": "Introduced",
+"methodURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-method/introduced",
+"mostRecentStage": {
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-05-07"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/47/stage/dail/2"
+}
+},
+"originHouse": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"originHouseURI": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail",
+"relatedDocs": [
+{
+"relatedDoc": {
+"date": "2026-05-07",
+"docType": "memo",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/47/eng/memo/b4726d-memo.pdf"
+},
+"xml": null
+},
+"lang": "eng",
+"showAs": "Explanatory Memorandum",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/47/eng/memo"
+}
+}
+],
+"shortTitleEn": "Health (Abolition of Three Day Wait Rule) (Amendment) Bill 2026",
+"shortTitleGa": "An Bille Sláinte (Deireadh a Chur leis an Riail maidir le Feitheamh Trí Lá) (Leasú), 2026",
+"source": "Private Member",
+"sourceURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-source/private-member",
+"sponsors": [
+{
+"sponsor": {
+"isPrimary": true,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "David Cullinane",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/David-Cullinane.S.2011-05-25"
+}
+}
+}
+],
+"stages": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-05-06"
+},
+{
+"date": "2026-05-06"
+},
+{
+"date": "2026-05-07"
+},
+{
+"date": "2026-05-07"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/47/stage/dail/1"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-05-07"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/47/stage/dail/2"
+}
+}
+],
+"status": "Current",
+"statusURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-status/published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/47",
+"versions": [
+{
+"version": {
+"lang": "eng",
+"docType": "bill",
+"showAs": "As Initiated",
+"date": "2026-05-07",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/47/eng/initiated/b4726d.pdf"
+},
+"xml": null
+},
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/47/eng/initiated"
+}
+}
+]
+},
+"contextDate": "2026-05-07",
+"billSort": {
+"actNoSort": null,
+"actShortTitleEnSort": null,
+"actShortTitleGaSort": null,
+"actYearSort": null,
+"billNoSort": 47,
+"billShortTitleEnSort": "health-abolition-of-three-day-wait-rule-amendment-bill-2026",
+"billShortTitleGaSort": "an-bille-slainte-deireadh-a-chur-leis-an-riail-maidir-le-feitheamh-tri-la-leasu-2026",
+"billYearSort": 2026
+}
+},
+{
+"bill": {
+"act": null,
+"amendmentLists": [],
+"billNo": "40",
+"billType": "Public",
+"billTypeURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-type/public",
+"billYear": "2026",
+"debates": [
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-05-13",
+"debateSectionId": "dbsect_66",
+"showAs": "Reproductive Rights (Amendment) Bill 2026: Second Stage (Resumed) [Private Members]",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-05-13/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-05-13",
+"debateSectionId": "dbsect_9",
+"showAs": "Reproductive Rights (Amendment) Bill 2026: Second Stage [Private Members]",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-05-13/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-04-28",
+"debateSectionId": "dbsect_10",
+"showAs": "Reproductive Rights (Amendment) Bill 2026: First Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-04-28/debate/main"
+}
+],
+"events": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-04-15"
+},
+{
+"date": "2026-04-28"
+},
+{
+"date": "2026-05-13"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/approved-for-initiation",
+"showAs": "Approved for Initiation",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/40/approved-for-initiation"
+}
+}
+],
+"lastUpdated": "2026-05-14T13:41:57.820000+00:00",
+"longTitleEn": "<p>Bill entitled an Act to enact recommendations of the Marie O’Shea report into the operation of legislation on the termination of pregnancy, providing clarity on terminations for medical reasons, removal of the 3 day waiting period, and ending the criminalisation of doctors.</p>",
+"longTitleGa": "<p>Bille dá ngairtear Acht d’achtú moltaí ó thuarascáil Marie O’Shea i dtaobh oibriú na reachtaíochta maidir le foirceannadh toirchis, lena dtugtar soiléireacht maidir le foirceantaí ar chúiseanna liachta, lena gcuirtear deireadh leis an tréimhse feithimh 3 lá, agus lena gcuirtear deireadh le dochtúirí a choiriúlú.</p>",
+"method": "Presented",
+"methodURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-method/presented",
+"mostRecentStage": {
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-04-15"
+},
+{
+"date": "2026-04-28"
+},
+{
+"date": "2026-04-28"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/40/stage/dail/1"
+}
+},
+"originHouse": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"originHouseURI": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail",
+"relatedDocs": [
+{
+"relatedDoc": {
+"date": "2026-04-28",
+"docType": "memo",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/40/eng/memo/b4026d-memo.pdf"
+},
+"xml": null
+},
+"lang": "eng",
+"showAs": "Explanatory Memorandum",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/40/eng/memo"
+}
+}
+],
+"shortTitleEn": "Reproductive Rights (Amendment) Bill 2026",
+"shortTitleGa": "An Bille um Chearta Atáirgthe (Leasú), 2026",
+"source": "Private Member",
+"sourceURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-source/private-member",
+"sponsors": [
+{
+"sponsor": {
+"isPrimary": true,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Holly Cairns",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Holly-Cairns.D.2020-02-08"
+}
+}
+}
+],
+"stages": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-04-15"
+},
+{
+"date": "2026-04-28"
+},
+{
+"date": "2026-04-28"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/40/stage/dail/1"
+}
+}
+],
+"status": "Defeated",
+"statusURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-status/defeated",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/40",
+"versions": [
+{
+"version": {
+"lang": "eng",
+"docType": "bill",
+"showAs": "As Initiated",
+"date": "2026-04-28",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/40/eng/initiated/b4026d.pdf"
+},
+"xml": null
+},
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/40/eng/initiated"
+}
+}
+]
+},
+"contextDate": "2026-04-28",
+"billSort": {
+"actNoSort": null,
+"actShortTitleEnSort": null,
+"actShortTitleGaSort": null,
+"actYearSort": null,
+"billNoSort": 40,
+"billShortTitleEnSort": "reproductive-rights-amendment-bill-2026",
+"billShortTitleGaSort": "an-bille-um-chearta-atairgthe-leasu-2026",
+"billYearSort": 2026
+}
+},
+{
+"bill": {
+"act": null,
+"amendmentLists": [],
+"billNo": "10",
+"billType": "Public",
+"billTypeURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-type/public",
+"billYear": "2026",
+"debates": [
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-05-07",
+"debateSectionId": "dbsect_33",
+"showAs": "Health (Abolition of Three Day Wait Rule) (Amendment) Bill 2026: First Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-05-07/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-01-29",
+"debateSectionId": "dbsect_37",
+"showAs": "Health (Regulation of Termination of Pregnancy) (Amendment) Bill 2026: First Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-01-29/debate/main"
+}
+],
+"events": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-01-29"
+},
+{
+"date": "2026-01-29"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/approved-for-initiation",
+"showAs": "Approved for Initiation",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/10/approved-for-initiation"
+}
+}
+],
+"lastUpdated": "2026-01-30T10:35:38.640000+00:00",
+"longTitleEn": "<p>Bill entitled an Act to amend the Health (Regulation of Termination of Pregnancy) Act 2018 to abolish the 3 day waiting period for abortion on request.</p>",
+"longTitleGa": "<p>Bille dá ngairtear Acht do leasú an Achta Sláinte (Foirceannadh Toirchis a Rialáil), 2018 chun an tréimhse feithimh 3 lá le haghaidh ginmhilleadh ar é a iarraidh a chealú.</p>",
+"method": "Introduced",
+"methodURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-method/introduced",
+"mostRecentStage": {
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-01-29"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/10/stage/dail/2"
+}
+},
+"originHouse": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"originHouseURI": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail",
+"relatedDocs": [
+{
+"relatedDoc": {
+"date": "2026-01-29",
+"docType": "memo",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/10/eng/memo/b1026d-memo.pdf"
+},
+"xml": null
+},
+"lang": "eng",
+"showAs": "Explanatory Memorandum",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/10/eng/memo"
+}
+}
+],
+"shortTitleEn": "Health (Regulation of Termination of Pregnancy) (Amendment) Bill 2026",
+"shortTitleGa": "An Bille Sláinte (Foirceannadh Toirchis a Rialáil) (Leasú), 2026",
+"source": "Private Member",
+"sourceURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-source/private-member",
+"sponsors": [
+{
+"sponsor": {
+"isPrimary": true,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Ruth Coppinger",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Ruth-Coppinger.D.2014-05-23"
+}
+}
+},
+{
+"sponsor": {
+"isPrimary": false,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Richard Boyd Barrett",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Richard-Boyd-Barrett.D.2011-03-09"
+}
+}
+},
+{
+"sponsor": {
+"isPrimary": false,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Paul Murphy",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Paul-Murphy.D.2014-10-10"
+}
+}
+}
+],
+"stages": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-01-29"
+},
+{
+"date": "2026-01-29"
+},
+{
+"date": "2026-01-29"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/10/stage/dail/1"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2026-01-29"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/10/stage/dail/2"
+}
+}
+],
+"status": "Current",
+"statusURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-status/published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/10",
+"versions": [
+{
+"version": {
+"lang": "eng",
+"docType": "bill",
+"showAs": "As Initiated",
+"date": "2026-01-29",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/10/eng/initiated/b1026d.pdf"
+},
+"xml": null
+},
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/10/eng/initiated"
+}
+}
+]
+},
+"contextDate": "2026-01-29",
+"billSort": {
+"actNoSort": null,
+"actShortTitleEnSort": null,
+"actShortTitleGaSort": null,
+"actYearSort": null,
+"billNoSort": 10,
+"billShortTitleEnSort": "health-regulation-of-termination-of-pregnancy-amendment-bill-2026",
+"billShortTitleGaSort": "an-bille-slainte-foirceannadh-toirchis-a-rialail-leasu-2026",
+"billYearSort": 2026
+}
+},
+{
+"bill": {
+"act": null,
+"amendmentLists": [],
+"billNo": "7",
+"billType": "Public",
+"billTypeURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-type/public",
+"billYear": "2026",
+"debates": [
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-03-04",
+"debateSectionId": "dbsect_10",
+"showAs": "Online Safety (Recommender Algorithms) Bill 2026: Second Stage [Private Members]",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-03-04/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-03-04",
+"debateSectionId": "dbsect_25",
+"showAs": "Online Safety (Recommender Algorithms) Bill 2026: Second Stage (Resumed) [Private Members]",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-03-04/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2026-01-22",
+"debateSectionId": "dbsect_35",
+"showAs": "Online Safety (Recommender Algorithms) Bill 2026: First Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2026-01-22/debate/main"
+}
+],
+"events": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2025-05-30"
+},
+{
+"date": "2026-01-22"
+},
+{
+"date": "2026-01-22"
+},
+{
+"date": "2026-03-04"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/admissibility-for-introduction",
+"showAs": "Admissibility for Introduction",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/7/admissibility-for-introduction"
+}
+}
+],
+"lastUpdated": "2026-09-22T10:08:28.080000+00:00",
+"longTitleEn": "<p>Bill entitled an Act to amend the Online Safety and Media Regulation Act 2022 to regulate the use of recommender algorithms by video-sharing platform services. </p>",
+"longTitleGa": "<p>Bille dá ngairtear Acht do leasú an Achta um Rialáil Sábháilteachta ar Líne agus na Meán, 2022, chun úsáid algartam moltaí ag seirbhísí ardáin comhroinnte físeán a rialáil.</p>",
+"method": "Introduced",
+"methodURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-method/introduced",
+"mostRecentStage": {
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2025-05-30"
+},
+{
+"date": "2026-01-22"
+},
+{
+"date": "2026-01-22"
+},
+{
+"date": "2026-01-22"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/7/stage/dail/1"
+}
+},
+"originHouse": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"originHouseURI": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail",
+"relatedDocs": [
+{
+"relatedDoc": {
+"date": "2026-01-22",
+"docType": "memo",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/7/eng/memo/b0726d-memo.pdf"
+},
+"xml": null
+},
+"lang": "eng",
+"showAs": "Explanatory Memorandum",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/7/eng/memo"
+}
+}
+],
+"shortTitleEn": "Online Safety (Recommender Algorithms) Bill 2026",
+"shortTitleGa": "An Bille um Shábháilteacht ar Líne (Algartaim Moltaí), 2026",
+"source": "Private Member",
+"sourceURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-source/private-member",
+"sponsors": [
+{
+"sponsor": {
+"isPrimary": true,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Paul Murphy",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Paul-Murphy.D.2014-10-10"
+}
+}
+},
+{
+"sponsor": {
+"isPrimary": false,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Ruth Coppinger",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Ruth-Coppinger.D.2014-05-23"
+}
+}
+},
+{
+"sponsor": {
+"isPrimary": false,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Richard Boyd Barrett",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Richard-Boyd-Barrett.D.2011-03-09"
+}
+}
+}
+],
+"stages": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2025-05-30"
+},
+{
+"date": "2026-01-22"
+},
+{
+"date": "2026-01-22"
+},
+{
+"date": "2026-01-22"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "34",
+"showAs": "34th Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/34"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/7/stage/dail/1"
+}
+}
+],
+"status": "Defeated",
+"statusURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-status/defeated",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/7",
+"versions": [
+{
+"version": {
+"lang": "eng",
+"docType": "bill",
+"showAs": "As Initiated",
+"date": "2026-01-22",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/7/eng/initiated/b0726d.pdf"
+},
+"xml": null
+},
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2026/7/eng/initiated"
+}
+}
+]
+},
+"contextDate": "2026-01-22",
+"billSort": {
+"actNoSort": null,
+"actShortTitleEnSort": null,
+"actShortTitleGaSort": null,
+"actYearSort": null,
+"billNoSort": 7,
+"billShortTitleEnSort": "online-safety-recommender-algorithms-bill-2026",
+"billShortTitleGaSort": "an-bille-um-shabhailteacht-ar-line-algartaim-moltai-2026",
+"billYearSort": 2026
+}
+},
+{
+"bill": {
+"act": null,
+"amendmentLists": [],
+"billNo": "12",
+"billType": "Public",
+"billTypeURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-type/public",
+"billYear": "2025",
+"debates": [
+{
+"chamber": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"date": "2025-04-09",
+"debateSectionId": "dbsect_10",
+"showAs": "Prohibition of Advertising or Importuning Sex for Rent Bill 2025: Second Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/seanad/2025-04-09/debate/main"
+},
+{
+"chamber": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"date": "2025-04-01",
+"debateSectionId": "dbsect_9",
+"showAs": "Prohibition of Advertising or Importuning Sex for Rent Bill 2025: First Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/seanad/2025-04-01/debate/main"
+}
+],
+"events": [
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2025-03-13"
+},
+{
+"date": "2025-04-01"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/admissibility-for-introduction",
+"showAs": "Admissibility for Introduction",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2025/12/admissibility-for-introduction"
+}
+}
+],
+"lastUpdated": "2025-04-10T13:52:22.800000+00:00",
+"longTitleEn": "<p><span style=\"color:hsl(0, 0%, 0%);\">Bill entitled An Act to prohibit certain acts in relation to soliciting or importuning sexual services in consideration of a reduced rent or in lieu of rent for the letting of a tenancy or other residential accommodation, and to provide for related matters.</span></p>",
+"longTitleGa": "<p>Bille dá ngairtear Acht do thoirmeasc gníomhartha áirithe i ndáil le sireadh nó tathant chun seirbhísí gnéasacha a dhéanamh i gcomaoin cíos laghdaithe nó in ionad cíos ar thionóntacht nó cóiríocht chónaithe eile a ligean, agus do dhéanamh socrú i dtaobh nithe gaolmhara.</p>",
+"method": "Introduced",
+"methodURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-method/introduced",
+"mostRecentStage": {
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2025-04-15"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 3,
+"showAs": "Committee Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/3",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2025/12/stage/seanad/3"
+}
+},
+"originHouse": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"originHouseURI": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad",
+"relatedDocs": [],
+"shortTitleEn": "Prohibition of Advertising or Importuning Sex for Rent Bill 2025",
+"shortTitleGa": "An Bille um Thoirmeasc ar Fhógraíocht nó ar Thathant chun críche Gnéis i gcomhair Cíosa, 2025",
+"source": "Private Member",
+"sourceURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-source/private-member",
+"sponsors": [
+{
+"sponsor": {
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Laura Harmon",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Laura-Harmon.S.2025-01-29"
+},
+"isPrimary": true
+}
+},
+{
+"sponsor": {
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Nessa Cosgrove",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Nessa-Cosgrove.S.2025-01-29"
+},
+"isPrimary": false
+}
+}
+],
+"stages": [
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2025-03-13"
+},
+{
+"date": "2025-04-01"
+},
+{
+"date": "2025-04-01"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2025/12/stage/seanad/1"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2025-04-01"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": false,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2025/12/stage/seanad/2"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2025-04-15"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 3,
+"showAs": "Committee Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/3",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2025/12/stage/seanad/3"
+}
+}
+],
+"status": "Current",
+"statusURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-status/published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2025/12",
+"versions": [
+{
+"version": {
+"date": "2025-04-01",
+"docType": "bill",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2025/12/eng/initiated/b1225s.pdf"
+},
+"xml": null
+},
+"lang": "eng",
+"showAs": "As Initiated",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2025/12/eng/initiated"
+}
+}
+]
+},
+"billSort": {
+"actNoSort": null,
+"actShortTitleEnSort": null,
+"actShortTitleGaSort": null,
+"actYearSort": null,
+"billNoSort": 12,
+"billShortTitleEnSort": "prohibition-of-advertising-or-importuning-sex-for-rent-bill-2025",
+"billShortTitleGaSort": "an-bille-um-thoirmeasc-ar-fhograiocht-no-ar-thathant-chun-criche-gneis-i-gcomhair-ciosa-2025",
+"billYearSort": 2025
+},
+"contextDate": "2025-04-15"
+},
+{
+"bill": {
+"act": null,
+"amendmentLists": [],
+"billNo": "50",
+"billType": "Public",
+"billTypeURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-type/public",
+"billYear": "2024",
+"debates": [
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2024-06-25",
+"debateSectionId": "dbsect_8",
+"showAs": "Voluntary Assisted Dying Bill 2024: First Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2024-06-25/debate/main"
+}
+],
+"events": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2024-06-18"
+},
+{
+"date": "2024-06-18"
+},
+{
+"date": "2024-06-25"
+},
+{
+"date": "2025-05-01"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/approved-for-initiation",
+"showAs": "Approved for Initiation",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2024/50/approved-for-initiation"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2024-11-08"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/bill-lapsed",
+"showAs": "Bill Lapsed",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2024/50/bill-lapsed"
+}
+}
+],
+"lastUpdated": "2025-05-02T13:49:30.840000+00:00",
+"longTitleEn": "<p style=\"text-align:left\">Bill entitled an Act to establish a legal framework for assisted dying in Ireland.</p>\n",
+"longTitleGa": "<p>Bille dá ngairtear Acht do bhunú creat dlíthiúil le haghaidh bás cuidithe in Éirinn.</p>\n",
+"method": "Introduced",
+"methodURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-method/introduced",
+"mostRecentStage": {
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2024-11-08"
+},
+{
+"date": "2025-05-01"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "33",
+"showAs": "33rd Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/33"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2024/50/stage/dail/2"
+}
+},
+"originHouse": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"originHouseURI": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail",
+"relatedDocs": [
+{
+"relatedDoc": {
+"date": "2024-06-25",
+"docType": "memo",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2024/50/eng/memo/b5024d-memo.pdf"
+},
+"xml": null
+},
+"lang": "eng",
+"showAs": "Explanatory Memorandum",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2024/50/eng/memo"
+}
+}
+],
+"shortTitleEn": "Voluntary Assisted Dying Bill 2024",
+"shortTitleGa": "An Bille um Bás Cuidithe Saorálach, 2024",
+"source": "Private Member",
+"sourceURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-source/private-member",
+"sponsors": [
+{
+"sponsor": {
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Gino Kenny",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Gino-Kenny.D.2016-10-03"
+},
+"isPrimary": true
+}
+}
+],
+"stages": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2024-06-18"
+},
+{
+"date": "2024-06-18"
+},
+{
+"date": "2024-06-25"
+},
+{
+"date": "2024-06-25"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "33",
+"showAs": "33rd Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/33"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2024/50/stage/dail/1"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2024-11-08"
+},
+{
+"date": "2025-05-01"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "33",
+"showAs": "33rd Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/33"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2024/50/stage/dail/2"
+}
+}
+],
+"status": "Current",
+"statusURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-status/published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2024/50",
+"versions": [
+{
+"version": {
+"date": "2024-06-25",
+"docType": "bill",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2024/50/eng/initiated/b5024d.pdf"
+},
+"xml": null
+},
+"lang": "eng",
+"showAs": "As Initiated",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2024/50/eng/initiated"
+}
+}
+]
+},
+"billSort": {
+"actNoSort": null,
+"actShortTitleEnSort": null,
+"actShortTitleGaSort": null,
+"actYearSort": null,
+"billNoSort": 50,
+"billShortTitleEnSort": "voluntary-assisted-dying-bill-2024",
+"billShortTitleGaSort": "an-bille-um-bas-cuidithe-saoralach-2024",
+"billYearSort": 2024
+},
+"contextDate": "2025-05-01"
+},
+{
+"bill": {
+"act": null,
+"amendmentLists": [],
+"billNo": "26",
+"billType": "Public",
+"billTypeURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-type/public",
+"billYear": "2023",
+"debates": [
+{
+"chamber": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"date": "2023-04-20",
+"debateSectionId": "dbsect_12",
+"showAs": "Health (Assisted Human Reproduction) Bill 2023: Second Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/seanad/2023-04-20/debate/main"
+},
+{
+"chamber": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"date": "2023-03-28",
+"debateSectionId": "dbsect_11",
+"showAs": "Health (Assisted Human Reproduction) Bill 2023: First Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/seanad/2023-03-28/debate/main"
+}
+],
+"events": [
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2023-03-28"
+},
+{
+"date": "2025-03-27"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/published",
+"showAs": "Published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2023/26/published"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2025-01-29"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/bill-lapsed",
+"showAs": "Bill Lapsed",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2023/26/bill-lapsed"
+}
+}
+],
+"lastUpdated": "2025-03-28T10:59:41.750000+00:00",
+"longTitleEn": "<p>Bill entitled an Act to provide for the establishment of a body, to be known in the Irish language as&nbsp;<em>An Coiste Comhairleach um Chóireáil Atáirgthe Dhaonna Chuidithe</em> or in the English language as the Assisted Human Reproduction Treatment Advisory Committee, to advise on criteria for eligibility for financial assistance with assisted human reproduction treatment and to provide for related matters.</p>\n",
+"longTitleGa": "<p>Bille dá ngairtear Acht do bhunú comhlacht ar a dtabharfar, sa Ghaeilge, An Coiste Comhairleach um Chóireáil Atáirgthe Dhaonna Chuidithe, nó sa Bhéarla, <em>the Assisted Human Reproduction Treatment Advisory Committee</em>, chun comhairle a thabhairt maidir le critéir incháilitheachta le haghaidh cúnamh airgeadais i ndáil le hatáirgeadh daonna cuidithe agus do dhéanamh socrú i dtaobh nithe gaolmhara.</p>\n",
+"method": "Introduced",
+"methodURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-method/introduced",
+"mostRecentStage": {
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2025-01-29"
+},
+{
+"date": "2025-03-27"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 3,
+"showAs": "Committee Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/3",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2023/26/stage/seanad/3"
+}
+},
+"originHouse": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"originHouseURI": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad",
+"relatedDocs": [],
+"shortTitleEn": "Health (Assisted Human Reproduction) Bill 2023",
+"shortTitleGa": "An Bille Sláinte (Atáirgeadh Daonna Cuidithe), 2023",
+"source": "Private Member",
+"sourceURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-source/private-member",
+"sponsors": [
+{
+"sponsor": {
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Catherine Ardagh",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Catherine-Ardagh.S.2016-04-25"
+},
+"isPrimary": true
+}
+},
+{
+"sponsor": {
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Fiona O'Loughlin",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Fiona-O'Loughlin.D.2016-10-03"
+},
+"isPrimary": false
+}
+}
+],
+"stages": [
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2023-03-28"
+},
+{
+"date": "2023-03-28"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "26",
+"showAs": "26th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/26"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2023/26/stage/seanad/1"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2023-03-28"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "26",
+"showAs": "26th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/26"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2023/26/stage/seanad/2"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2025-01-29"
+},
+{
+"date": "2025-03-27"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 3,
+"showAs": "Committee Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/3",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2023/26/stage/seanad/3"
+}
+}
+],
+"status": "Current",
+"statusURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-status/published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2023/26",
+"versions": [
+{
+"version": {
+"date": "2023-03-28",
+"docType": "bill",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2023/26/eng/initiated/b2623s.pdf"
+},
+"xml": null
+},
+"lang": "eng",
+"showAs": "As Initiated",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2023/26/eng/initiated"
+}
+}
+]
+},
+"billSort": {
+"actNoSort": null,
+"actShortTitleEnSort": null,
+"actShortTitleGaSort": null,
+"actYearSort": null,
+"billNoSort": 26,
+"billShortTitleEnSort": "health-assisted-human-reproduction-bill-2023",
+"billShortTitleGaSort": "an-bille-slainte-atairgeadh-daonna-cuidithe-2023",
+"billYearSort": 2023
+},
+"contextDate": "2025-03-27"
+},
+{
+"bill": {
+"act": null,
+"amendmentLists": [
+{
+"amendmentList": {
+"amendmentTypeUri": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/amendment-type/numberedList"
+},
+"chamber": {
+"showAs": "Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/seanad"
+},
+"date": "2025-11-05",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/seanad/4/amendment/numberedList/eng/b14a22s-srnl.pdf"
+},
+"xml": null
+},
+"showAs": "Numbered List [Seanad]",
+"stage": {
+"showAs": "Report Stage",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/seanad/4"
+},
+"stageNo": "4"
+}
+},
+{
+"amendmentList": {
+"amendmentTypeUri": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/amendment-type/numberedList"
+},
+"chamber": {
+"showAs": "Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/seanad"
+},
+"date": "2025-06-11",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/seanad/3/amendment/numberedList/eng/b1422s-scnl.pdf"
+},
+"xml": null
+},
+"showAs": "Numbered List [Seanad]",
+"stage": {
+"showAs": "Committee Stage",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/seanad/3"
+},
+"stageNo": "3"
+}
+}
+],
+"billNo": "14",
+"billType": "Public",
+"billTypeURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-type/public",
+"billYear": "2022",
+"debates": [
+{
+"chamber": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"date": "2025-11-05",
+"debateSectionId": "dbsect_12",
+"showAs": "Child Trafficking and Child Sexual Exploitation Material (Amendment) Bill 2022: Report Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/seanad/2025-11-05/debate/main"
+},
+{
+"chamber": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"date": "2025-06-11",
+"debateSectionId": "dbsect_11",
+"showAs": "Child Trafficking and Child Sexual Exploitation Material (Amendment) Bill 2022: Committee Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/seanad/2025-06-11/debate/main"
+},
+{
+"chamber": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"date": "2022-02-03",
+"debateSectionId": "dbsect_12",
+"showAs": "Child Trafficking and Child Sexual Exploitation Material (Amendment) Bill 2022: Second Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/seanad/2022-02-03/debate/main"
+},
+{
+"chamber": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"date": "2022-02-01",
+"debateSectionId": "dbsect_10",
+"showAs": "Child Trafficking and Child Sexual Exploitation Material (Amendment) Bill 2022: First Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/seanad/2022-02-01/debate/main"
+}
+],
+"events": [
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2022-01-26"
+},
+{
+"date": "2022-02-01"
+},
+{
+"date": "2025-03-04"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/admissibility-for-introduction",
+"showAs": "Admissibility for Introduction",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/admissibility-for-introduction"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2025-01-29"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/bill-lapsed",
+"showAs": "Bill Lapsed",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/bill-lapsed"
+}
+}
+],
+"lastUpdated": "2025-06-12T14:16:40.890000+00:00",
+"longTitleEn": "<p>Bill entitled an Act to amend the title of the Child Trafficking and Pornography Act 1998 whereafter, following commencement of this Act, the Act of 1998 shall be titled the “Child Trafficking and Child Sexual Abuse Material Act 1998”(Amendment); to amend the title of the Child Trafficking and Pornography (Amendment) Act 2004 whereafter, following commencement of this Act, the Act of 2004 shall be titled the “Child Trafficking and Child Sexual Exploitation Material (Amendment) Act 2004”; to substitute the term “Child Pornography” with “Child Sexual Exploitation Material” within those Acts and other Acts.</p>",
+"longTitleGa": "<p>Bille dá ngairtear Acht do leasú theideal an Achta um Gháinneáil ar Leanaí agus Pornagrafaíocht Leanaí, 1998 chun gurb é teideal Acht 1998, tar éis thosach feidhme an Achta seo, “An tAcht um Gháinneáil ar Leanaí agus Ábhar a bhaineann le Drochúsáid Ghnéasach Leanaí 1998”(Leasú); do leasú theideal an Achta um Gháinneáil ar Leanaí agus Pornagrafaíocht Leanaí (Leasú), 2004 chun gurb é teideal Acht 2004, tar éis thosach feidhme an Achta seo, “An tAcht um Gháinneáil ar Leanaí agus Ábhar a bhaineann le Teacht i dTír Gnéasach ar Leanaí (Leasú), 2004”; do chur an téarma “Ábhar a bhaineann le Teacht i dTír Gnéasach ar Leanaí” in ionad an téarma “Pornagrafaíocht Leanaí” sna hAchtanna sin agus in Achtanna eile.</p>",
+"method": "Introduced",
+"methodURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-method/introduced",
+"mostRecentStage": {
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2025-06-11"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 4,
+"showAs": "Report Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/4",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/stage/seanad/4"
+}
+},
+"originHouse": {
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"originHouseURI": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad",
+"relatedDocs": [],
+"shortTitleEn": "Child Trafficking and Child Sexual Exploitation Material (Amendment) Bill 2022",
+"shortTitleGa": "An Bille um Gháinneáil ar Leanaí agus Ábhar a bhaineann le Teacht i dTír Gnéasach ar Leanaí (Leasú), 2022",
+"source": "Private Member",
+"sourceURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-source/private-member",
+"sponsors": [
+{
+"sponsor": {
+"isPrimary": true,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Eileen Flynn",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Eileen-Flynn.S.2020-06-29"
+}
+}
+},
+{
+"sponsor": {
+"isPrimary": false,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Alice-Mary Higgins",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Alice-Mary-Higgins.S.2016-04-25"
+}
+}
+},
+{
+"sponsor": {
+"isPrimary": false,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Lynn Ruane",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Lynn-Ruane.S.2016-04-25"
+}
+}
+},
+{
+"sponsor": {
+"isPrimary": false,
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Frances Black",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Frances-Black.S.2016-04-25"
+}
+}
+}
+],
+"stages": [
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2022-01-26"
+},
+{
+"date": "2022-02-01"
+},
+{
+"date": "2022-02-01"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "26",
+"showAs": "26th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/26"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/stage/seanad/1"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2022-02-02"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "26",
+"showAs": "26th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/26"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/stage/seanad/2"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2022-02-03"
+},
+{
+"date": "2022-02-03"
+},
+{
+"date": "2022-02-03"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "26",
+"showAs": "26th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/26"
+},
+"progressStage": 3,
+"showAs": "Committee Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/3",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/stage/seanad/3"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "seanad",
+"showAs": "Seanad Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/seanad"
+},
+"dates": [
+{
+"date": "2025-06-11"
+}
+],
+"house": {
+"chamberCode": "seanad",
+"chamberType": "house",
+"houseCode": "seanad",
+"houseNo": "27",
+"showAs": "27th Seanad",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/seanad/27"
+},
+"progressStage": 4,
+"showAs": "Report Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/4",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/stage/seanad/4"
+}
+}
+],
+"status": "Current",
+"statusURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-status/published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14",
+"versions": [
+{
+"version": {
+"lang": "eng",
+"docType": "bill",
+"showAs": "As amended in Committee [Seanad Éireann]",
+"date": "2025-06-11",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/eng/ver_a/b14a22s.pdf"
+},
+"xml": null
+},
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/eng/ver_a"
+}
+},
+{
+"version": {
+"lang": "eng",
+"docType": "bill",
+"showAs": "As Initiated",
+"date": "2022-02-01",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/eng/initiated/b1422s.pdf"
+},
+"xml": null
+},
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2022/14/eng/initiated"
+}
+}
+]
+},
+"contextDate": "2025-06-11",
+"billSort": {
+"actNoSort": null,
+"actShortTitleEnSort": null,
+"actShortTitleGaSort": null,
+"actYearSort": null,
+"billNoSort": 14,
+"billShortTitleEnSort": "child-trafficking-and-child-sexual-exploitation-material-amendment-bill-2022",
+"billShortTitleGaSort": "an-bille-um-ghainneail-ar-leanai-agus-abhar-a-bhaineann-le-teacht-i-dtir-gneasach-ar-leanai-leasu-2022",
+"billYearSort": 2022
+}
+},
+{
+"bill": {
+"act": null,
+"amendmentLists": [],
+"billNo": "34",
+"billType": "Public",
+"billTypeURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-type/public",
+"billYear": "2018",
+"debates": [
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2018-04-19",
+"debateSectionId": "dbsect_31",
+"showAs": "Provision of Objective Sex Education Bill 2018: Second Stage (Resumed) [Private Members]",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2018-04-19/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2018-04-19",
+"debateSectionId": "dbsect_32",
+"showAs": "Provision of Objective Sex Education Bill 2018: Referral to Select Committee [Private Members]",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2018-04-19/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2018-04-18",
+"debateSectionId": "dbsect_32",
+"showAs": "Provision of Objective Sex Education Bill 2018: Second Stage [Private Members]",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2018-04-18/debate/main"
+},
+{
+"chamber": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"date": "2018-03-29",
+"debateSectionId": "dbsect_22",
+"showAs": "Provision of Objective Sex Education Bill 2018: First Stage",
+"uri": "https://data.oireachtas.ie/akn/ie/debateRecord/dail/2018-03-29/debate/main"
+}
+],
+"events": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2020-01-14"
+},
+{
+"date": "2024-11-08"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/bill-lapsed",
+"showAs": "Bill Lapsed",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2018/34/bill-lapsed"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2020-09-17"
+},
+{
+"date": "2025-05-01"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/bill-restored",
+"showAs": "Bill Restored",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2018/34/bill-restored"
+}
+},
+{
+"event": {
+"chamber": null,
+"dates": [
+{
+"date": "2018-03-29"
+}
+],
+"eventURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-event/published",
+"showAs": "Published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2018/34/published"
+}
+}
+],
+"lastUpdated": "2025-05-02T11:05:40.270000+00:00",
+"longTitleEn": "Bill entitled an Act to guarantee the right of students to receive factual and objective relationships and sexuality education without regard to the characteristic spirit of the school",
+"longTitleGa": "Bille dá ngairtear Acht do ráthú ceart mac léinn chun oideachas caidreamh agus gnéasachta atá fíorasach agus oibiachtúil a fháil gan aird ar spiorad sainiúil na scoile",
+"method": "Introduced",
+"methodURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-method/introduced",
+"mostRecentStage": {
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2020-01-14"
+},
+{
+"date": "2020-09-17"
+},
+{
+"date": "2024-11-08"
+},
+{
+"date": "2025-05-01"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "32",
+"showAs": "32nd Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/32"
+},
+"progressStage": 3,
+"showAs": "Committee Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/3",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2018/34/stage/dail/3"
+}
+},
+"originHouse": {
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"originHouseURI": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail",
+"relatedDocs": [],
+"shortTitleEn": "Provision of Objective Sex Education Bill 2018",
+"shortTitleGa": "An Bille um Oideachas Gnéis Oibiachtúil a Sholáthar, 2018",
+"source": "Private Member",
+"sourceURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-source/private-member",
+"sponsors": [
+{
+"sponsor": {
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Mick Barry",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Mick-Barry.D.2016-10-03"
+},
+"isPrimary": false
+}
+},
+{
+"sponsor": {
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Paul Murphy",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Paul-Murphy.D.2014-10-10"
+},
+"isPrimary": false
+}
+},
+{
+"sponsor": {
+"as": {
+"showAs": null,
+"uri": null
+},
+"by": {
+"showAs": "Ruth Coppinger",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/member/id/Ruth-Coppinger.D.2014-05-23"
+},
+"isPrimary": true
+}
+}
+],
+"stages": [
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2018-03-29"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "32",
+"showAs": "32nd Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/32"
+},
+"progressStage": 1,
+"showAs": "First Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/1",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2018/34/stage/dail/1"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2018-03-29"
+},
+{
+"date": "2018-03-29"
+},
+{
+"date": "2018-03-29"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "32",
+"showAs": "32nd Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/32"
+},
+"progressStage": 2,
+"showAs": "Second Stage",
+"stageCompleted": true,
+"stageOutcome": null,
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/2",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2018/34/stage/dail/2"
+}
+},
+{
+"event": {
+"chamber": {
+"chamberCode": "dail",
+"showAs": "Dáil Éireann",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/def/house/dail"
+},
+"dates": [
+{
+"date": "2020-01-14"
+},
+{
+"date": "2020-09-17"
+},
+{
+"date": "2024-11-08"
+},
+{
+"date": "2025-05-01"
+}
+],
+"house": {
+"chamberCode": "dail",
+"chamberType": "house",
+"houseCode": "dail",
+"houseNo": "32",
+"showAs": "32nd Dáil",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/house/dail/32"
+},
+"progressStage": 3,
+"showAs": "Committee Stage",
+"stageCompleted": false,
+"stageOutcome": "Current",
+"stageURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-stage/3",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2018/34/stage/dail/3"
+}
+}
+],
+"status": "Current",
+"statusURI": "https://data.oireachtas.ie/ie/oireachtas/def/bill-status/published",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2018/34",
+"versions": [
+{
+"version": {
+"date": "2018-03-29",
+"docType": "bill",
+"formats": {
+"pdf": {
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2018/34/eng/initiated/b3418d.pdf"
+},
+"xml": null
+},
+"lang": "eng",
+"showAs": "As Initiated",
+"uri": "https://data.oireachtas.ie/ie/oireachtas/bill/2018/34/eng/initiated"
+}
+}
+]
+},
+"billSort": {
+"actNoSort": null,
+"actShortTitleEnSort": null,
+"actShortTitleGaSort": null,
+"actYearSort": null,
+"billNoSort": 34,
+"billShortTitleEnSort": "provision-of-objective-sex-education-bill-2018",
+"billShortTitleGaSort": "an-bille-um-oideachas-gneis-oibiachtuil-a-sholathar-2018",
+"billYearSort": 2018
+},
+"contextDate": "2025-05-01"
+}
+]
+}

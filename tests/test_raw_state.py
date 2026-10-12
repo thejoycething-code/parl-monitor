@@ -3,6 +3,7 @@
 import importlib.util
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -34,6 +35,15 @@ def _folder(files):
     return d
 
 
+
+def with_jobs(src):
+    """A workflow's text followed by the jobs/ scripts it runs: a workflow that
+    hands its work to a script shared with the Mac Mini runner publishes from
+    that script, in the order the script does it."""
+    for job in re.findall(r"jobs/[\w-]+\.sh", src):
+        src += open(os.path.join(WORKFLOWS, "..", "..", job), encoding="utf-8").read()
+    return src
+
 class DigestAndTarTests(unittest.TestCase):
     def test_digest_is_content_not_order_or_mtime(self):
         a = _folder({"x.json.gz": b"1", "sub/y.json.gz": b"22"})
@@ -53,6 +63,78 @@ class DigestAndTarTests(unittest.TestCase):
         self.assertEqual(open(os.path.join(dst, "a.gz"), "rb").read(), b"LOCAL")
         self.assertEqual(open(os.path.join(dst, "d", "b.gz"), "rb").read(), b"B")
         self.assertTrue(os.path.exists(os.path.join(dst, "c.gz")))     # nothing deleted
+
+    def test_a_published_folder_is_merged_in_even_when_it_has_not_moved(self):
+        """3 October 2026: a laptop folder created under a date CI had already
+        published never received CI's files (a pull fetches changed folders
+        only), and pushing it REPLACED them -- 577 files of 2026-09-29. The
+        push now merges the published copy before every upload."""
+        raw = tempfile.mkdtemp()
+        published = _folder({"ci-only.json.gz": b"ci"})
+        tar = os.path.join(tempfile.mkdtemp(), "published.tar")
+        rs.make_tar(published, tar)
+        pub_digest = rs.folder_digest(published)[0]
+        os.makedirs(os.path.join(raw, "2026-09-29"))
+        with open(os.path.join(raw, "2026-09-29", "laptop-only.json.gz"), "wb") as fh:
+            fh.write(b"laptop")
+        uploaded = {}
+        saved = {k: getattr(rs, k) for k in ("RAW", "ensure_release", "origin_sidecar", "load_sidecar",
+                                             "write_sidecar", "_held", "_hold", "download_asset",
+                                             "upload_asset", "local_folders")}
+        try:
+            rs.RAW = raw
+            rs.ensure_release = lambda *a, **k: True
+            side = {"folders": {"2026-09-29": {"sha256": pub_digest, "files": 1}}}
+            rs.origin_sidecar = lambda *a, **k: {"2026-09-29": {"sha256": pub_digest}}
+            rs.load_sidecar = lambda *a, **k: side
+            rs.write_sidecar = lambda *a, **k: None
+            rs._held = lambda *a, **k: {}
+            rs._hold = lambda *a, **k: None
+            rs.local_folders = lambda *a, **k: ["2026-09-29"]
+            rs.download_asset = lambda folder, dest: shutil.copy(tar, dest) or True
+            def up(folder, path):
+                import tarfile
+                with tarfile.open(path) as t:
+                    uploaded[folder] = sorted(m.name.lstrip("./") for m in t.getmembers() if m.isfile())
+            rs.upload_asset = up
+            rs.push(log=lambda *a: None)
+        finally:
+            for k, v in saved.items():
+                setattr(rs, k, v)
+        self.assertEqual(uploaded["2026-09-29"], ["ci-only.json.gz", "laptop-only.json.gz"])
+
+    def test_a_tar_over_the_asset_ceiling_is_never_uploaded(self):
+        """2 October 2026: GitHub refuses a release asset of 2 GiB or more, and
+        --clobber replaces the published copy. An oversized day is held back,
+        its sidecar entry kept, and the push fails loudly."""
+        raw = tempfile.mkdtemp()
+        os.makedirs(os.path.join(raw, "2026-10-03"))
+        with open(os.path.join(raw, "2026-10-03", "big.pdf.gz"), "wb") as fh:
+            fh.write(b"x" * 4096)
+        uploaded, lines = [], []
+        side = {"folders": {}}
+        saved = {k: getattr(rs, k) for k in ("RAW", "ensure_release", "origin_sidecar", "load_sidecar",
+                                             "write_sidecar", "_held", "_hold", "upload_asset",
+                                             "local_folders", "ASSET_LIMIT")}
+        try:
+            rs.RAW = raw
+            rs.ASSET_LIMIT = 1024
+            rs.ensure_release = lambda *a, **k: True
+            rs.origin_sidecar = lambda *a, **k: {}
+            rs.load_sidecar = lambda *a, **k: side
+            rs.write_sidecar = lambda *a, **k: None
+            rs._held = lambda *a, **k: {}
+            rs._hold = lambda *a, **k: None
+            rs.local_folders = lambda *a, **k: ["2026-10-03"]
+            rs.upload_asset = lambda folder, path: uploaded.append(folder)
+            rc = rs.push(log=lines.append)
+        finally:
+            for k, v in saved.items():
+                setattr(rs, k, v)
+        self.assertEqual(uploaded, [])
+        self.assertEqual(rc, 1)
+        self.assertNotIn("2026-10-03", side["folders"])
+        self.assertTrue(any("NOT uploading" in l for l in lines))
 
     def test_a_tar_member_that_escapes_is_refused(self):
         import tarfile, io
@@ -126,7 +208,7 @@ class RepoWiringTests(unittest.TestCase):
         the way; publishing one without the other strands provenance."""
         import glob
         for path in glob.glob(os.path.join(WORKFLOWS, "*.yml")):
-            src = open(path, encoding="utf-8").read()
+            src = with_jobs(open(path, encoding="utf-8").read())
             if "db_state.py --push" in src:
                 self.assertIn("raw_state.py --push", src, os.path.basename(path))
                 self.assertLess(src.index("raw_state.py --push"), src.index("db_state.py --push"),
@@ -135,8 +217,9 @@ class RepoWiringTests(unittest.TestCase):
                 self.assertIn("raw_state.py --pull", src, os.path.basename(path))
 
     def test_the_archive_writers_without_a_store_publish_it(self):
-        for name in ("division-watch.yml", "deploy-tracker.yml"):
-            src = open(os.path.join(WORKFLOWS, name), encoding="utf-8").read()
+        for name in ("division-watch.yml", "devolved-watch.yml", "deploy-tracker.yml",
+                     "us-division-watch.yml", "ie-division-watch.yml", "au-division-watch.yml"):
+            src = with_jobs(open(os.path.join(WORKFLOWS, name), encoding="utf-8").read())
             self.assertIn("raw_state.py --push", src, name)
 
     def test_the_merge_driver_is_bound(self):

@@ -1,0 +1,125 @@
+{
+ "@odata.context": "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/$metadata#FractieZetelPersoon(Id,Functie,Van,Persoon_Id,Persoon(Id,Roepnaam,Initialen,Tussenvoegsel,Achternaam),FractieZetel(Id,Fractie(Id,Afkorting)))",
+ "value": [
+  {
+   "Id": "93850b46-aaea-4f72-b457-013d17c6d44f",
+   "Persoon_Id": "cf6c0969-6741-4130-bd75-ee65ad71ad1d",
+   "Functie": "Lid",
+   "Van": "2025-11-12T00:00:00+01:00",
+   "Persoon": {
+    "Id": "cf6c0969-6741-4130-bd75-ee65ad71ad1d",
+    "Initialen": "D.R.F.",
+    "Tussenvoegsel": null,
+    "Achternaam": "Clemminck",
+    "Roepnaam": "Ranjith"
+   },
+   "FractieZetel": {
+    "Id": "fa45982e-8a1d-4cec-b478-7fab61082499",
+    "Fractie": {
+     "Id": "fab6e7e1-9d63-446a-a6e1-e1c74e3f679e",
+     "Afkorting": "JA21"
+    }
+   }
+  },
+  {
+   "Id": "0baf5282-26e0-4cbd-b424-017eafa12816",
+   "Persoon_Id": "a8ec9ff1-6a91-4063-9a8d-c3af07a11a0d",
+   "Functie": "Lid",
+   "Van": "2025-11-12T00:00:00+01:00",
+   "Persoon": {
+    "Id": "a8ec9ff1-6a91-4063-9a8d-c3af07a11a0d",
+    "Initialen": "A.",
+    "Tussenvoegsel": null,
+    "Achternaam": "Oualhadj",
+    "Roepnaam": "Ouafa"
+   },
+   "FractieZetel": {
+    "Id": "45a76891-88f6-4cfc-997d-76fe49e6ae06",
+    "Fractie": {
+     "Id": "4e9f6f5b-2544-4667-8134-6b85c4ebb4e0",
+     "Afkorting": "D66"
+    }
+   }
+  },
+  {
+   "Id": "44b710d5-d0c5-45b6-a63e-0200396fe561",
+   "Persoon_Id": "a437e923-725f-415e-a01d-5588a7af933e",
+   "Functie": "Lid",
+   "Van": "2026-06-10T00:00:00+02:00",
+   "Persoon": {
+    "Id": "a437e923-725f-415e-a01d-5588a7af933e",
+    "Initialen": "K.P.",
+    "Tussenvoegsel": null,
+    "Achternaam": "Piri",
+    "Roepnaam": "Kati"
+   },
+   "FractieZetel": {
+    "Id": "1fd988ec-ef6c-45d2-8675-e6e6eebba884",
+    "Fractie": {
+     "Id": "d60f373a-5bb2-477f-9979-a8f3a0514e6b",
+     "Afkorting": "PRO"
+    }
+   }
+  },
+  {
+   "Id": "a88bdaf1-1f41-4e8e-ada2-02eab50e6021",
+   "Persoon_Id": "75a44c3a-5914-4c8e-9ca4-d987853f5844",
+   "Functie": "Lid",
+   "Van": "2026-06-10T00:00:00+02:00",
+   "Persoon": {
+    "Id": "75a44c3a-5914-4c8e-9ca4-d987853f5844",
+    "Initialen": "T.M.T.",
+    "Tussenvoegsel": "van der",
+    "Achternaam": "Lee",
+    "Roepnaam": "Tom"
+   },
+   "FractieZetel": {
+    "Id": "1e3aa823-0f24-4584-bce5-3d7ddeddb509",
+    "Fractie": {
+     "Id": "d60f373a-5bb2-477f-9979-a8f3a0514e6b",
+     "Afkorting": "PRO"
+    }
+   }
+  },
+  {
+   "Id": "f030dab8-c044-4830-a62a-042e61a518dd",
+   "Persoon_Id": "2bea63db-715f-401f-b710-e91c7650df0c",
+   "Functie": "Lid",
+   "Van": "2023-12-06T00:00:00+01:00",
+   "Persoon": {
+    "Id": "2bea63db-715f-401f-b710-e91c7650df0c",
+    "Initialen": "A.J.",
+    "Tussenvoegsel": null,
+    "Achternaam": "Flach",
+    "Roepnaam": "André"
+   },
+   "FractieZetel": {
+    "Id": "b4af9eeb-9b75-4413-a69f-2b649bed0563",
+    "Fractie": {
+     "Id": "77f9b6f1-b1a9-4d1b-a05e-9936e79d8fa5",
+     "Afkorting": "SGP"
+    }
+   }
+  },
+  {
+   "Id": "7878ad7f-216a-4a16-a04c-07423a1a2ff2",
+   "Persoon_Id": "c7822b58-103f-4612-87ef-648be97192c6",
+   "Functie": "Lid",
+   "Van": "2026-06-10T00:00:00+02:00",
+   "Persoon": {
+    "Id": "c7822b58-103f-4612-87ef-648be97192c6",
+    "Initialen": "E.M.",
+    "Tussenvoegsel": null,
+    "Achternaam": "Westerveld",
+    "Roepnaam": "Lisa"
+   },
+   "FractieZetel": {
+    "Id": "d59ecc9d-1415-4ee9-87ec-8c9f214ff421",
+    "Fractie": {
+     "Id": "d60f373a-5bb2-477f-9979-a8f3a0514e6b",
+     "Afkorting": "PRO"
+    }
+   }
+  }
+ ]
+}

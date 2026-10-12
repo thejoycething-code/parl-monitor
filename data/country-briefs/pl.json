@@ -1,0 +1,68 @@
+{
+ "pl-poselski-projekt-ustawy-o-zmianie-ustawy-kodeks-10-611": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "c86d06bbf13c2e198ca97350797fc9305010c2d91e0bc39fea78c173df2b47f5",
+  "generated": "2026-10-11",
+  "key": "10/611",
+  "ready": false,
+  "sha": "93db4f4c8945d2c86a198e38bd16cf6149cd724418d4dc447616079f68d9f0c3",
+  "title": "Poselski projekt ustawy o zmianie ustawy - Kodeks karny"
+ },
+ "pl-rzadowy-projekt-ustawy-o-statusie-osoby-najblizs-10-2110": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "057954f57437429ace992532cca8c501d41bdfd339002f3efa64b0803db485a5",
+  "generated": "2026-10-11",
+  "key": "10/2110",
+  "ready": false,
+  "sha": "5057b2872c96f2fb8eea02ec25a9a028accc2210a284257acb97756adfe67ca5",
+  "title": "Rządowy projekt ustawy o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu"
+ },
+ "pl-rzadowy-projekt-ustawy-przepisy-wprowadzajace-us-10-2111": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "3c4524e07e8ee33d1359473f78cbe3f36b5ea655ef6742710fcd79b93b3397c7",
+  "generated": "2026-10-11",
+  "key": "10/2111",
+  "ready": false,
+  "sha": "951414004945b6f277df11e780656702a7c2f9db74edb21d01d77c9f129b5a6f",
+  "title": "Rządowy projekt ustawy - Przepisy wprowadzające ustawę o statusie osoby najbliższej w związku i umowie o wspólnym pożyciu"
+ },
+ "pl-sprawozdanie-komisji-nadzwyczajnej-o-poselskim-p-67-13": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "45781811381da311dcecdc7081fb2464ac38bd76441d6c58420020dbfbd6244c",
+  "generated": "2026-10-11",
+  "key": "67-13",
+  "ready": false,
+  "sha": "23291581807906ea2cf59dde591c0f74c19ff7fa5fee0953ed71ddb0601b096c",
+  "title": "Sprawozdanie Komisji Nadzwyczajnej o poselskim projekcie ustawy o zmianie ustawy - Kodeks karny (druki nr 611 i )"
+ },
+ "pl-sprawozdanie-komisji-nadzwyczajnej-o-poselskim-p-67-14": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "2a12fb61b83b21cc062183419659a3f282cd470555ff3b133fc0a411bf08db83",
+  "generated": "2026-10-11",
+  "key": "67-14",
+  "ready": false,
+  "sha": "3e1aea420c8d66e00e28d72ed3b7f6e0a0c824e8fd62a150c1b5ef72803fe6bb",
+  "title": "Sprawozdanie Komisji Nadzwyczajnej o poselskim projekcie ustawy o zmianie ustawy o planowaniu rodziny, ochronie płodu ludzkiego i warunkach dopuszczalności przerywania ciąży (druki nr 223 i )"
+ },
+ "pl-sprawozdanie-z-realizacji-programu-polityki-zdro-10-2880": {
+  "changelog": [
+   "2026-10-11 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "077d773a4850ef8d7b53a619df4567a88a1398e22dd64be49ffa4c3678e5ff53",
+  "generated": "2026-10-11",
+  "key": "10/2880",
+  "ready": false,
+  "sha": "9feca28b8f3cf8327d26baf6d35267ef12a916d3716724e29a136b6e619b2111",
+  "title": "Sprawozdanie z realizacji programu polityki zdrowotnej \"Leczenie niepłodności obejmujące procedury medycznie wspomaganej prokreacji, w tym zapłodnienie pozaustrojowe prowadzone w ośrodku medycznie wspomaganej prokreacji, na lata 2024-2028\" za 2025 r."
+ }
+}

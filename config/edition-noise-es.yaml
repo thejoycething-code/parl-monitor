@@ -1,0 +1,26 @@
+# Spain edition noise filters: free and deterministic, no model (X16).
+# Read by src/noise.py for src/country_edition.py (adapter src/editions/es.py).
+# Hand-edited; the format is documented in src/noise.py. A WATCHED ITEM IS
+# NEVER FILTERED. Patterns match text folded the way src/filter.py folds it:
+# lower case, accents stripped.
+#
+# Measured on the scoping store of 9 October 2026 (the whole XV
+# legislature, 2,187 plenary votes, 89 on our ground under taxonomy-es).
+
+procedural_votes:
+  # Extensions of a subcommittee's or inquiry's deadline. The hate-speech
+  # subcommittee's three extensions (May and December 2025, September
+  # 2026) and the gender-violence pact's one matched on the
+  # subcommittee's name; the vote itself only moves a date.
+  - '\bsolicitud de (la )?comision\b.*\bprorroga\b'
+  - '\bde prorroga (de seis meses )?del plazo\b'
+  # The order of the day and the minutes, should they ever be voted.
+  - '^\W*(el )?orden del dia\b'
+  - '\b(modificacion|alteracion) del orden del dia\b'
+
+# The lead (and nothing else): a tier-1 item that is not watched leads the
+# edition only with a tier-1 term in its own title, or two distinct terms in
+# shown areas.
+alert:
+  title_tier1: true
+  distinct_terms: 2

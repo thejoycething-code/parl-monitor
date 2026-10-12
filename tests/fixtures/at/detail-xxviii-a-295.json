@@ -1,0 +1,685 @@
+{
+ "pagetype": "geschichtsseite",
+ "meta": {
+  "description": "Konversionsmaßnahmen-Schutz-Gesetz – Konv-Sch-G (295/A)",
+  "generationTime": "Fri Aug 14 00:11:35 UTC 2026",
+  "keywords": "\"Gesundheit\"",
+  "lang": "de",
+  "title": "Konversionsmaßnahmen-Schutz-Gesetz – Konv-Sch-G (295/A) | Parlament Österreich",
+  "openGraph": {
+   "image": "https://www.parlament.gv.at/static/img/og.png",
+   "title": "Konversionsmaßnahmen-Schutz-Gesetz – Konv-Sch-G | Parlament Österreich",
+   "description": "295/A"
+  },
+  "scripts": [],
+  "styles": []
+ },
+ "content": {
+  "breadcrumbs": [
+   {
+    "title": "Start",
+    "url": "/"
+   },
+   {
+    "title": "Gesetzesinitiativen",
+    "url": "/recherchieren/gegenstaende/gesetzesinitiativen/"
+   },
+   {
+    "title": "Nationalrat - XXVIII. GP",
+    "url": "/recherchieren/gegenstaende/gesetzesinitiativen/?GP=XXVIII"
+   },
+   {
+    "title": "Selbständiger Antrag",
+    "url": "/recherchieren/gegenstaende/gesetzesinitiativen/?GP=XXVIII&RGES=A"
+   },
+   {
+    "title": "295/A"
+   }
+  ],
+  "type": "Selbständiger Antrag",
+  "sntype": "Selbständiger Antrag",
+  "title": "Konversionsmaßnahmen-Schutz-Gesetz – Konv-Sch-G",
+  "zitation": "295/A",
+  "description": "Antrag der Abgeordneten David Stögmüller, Kolleginnen und Kollegen betreffend ein Bundesgesetz, mit dem ein Bundesgesetz über den Schutz vor Konversionsmaßnahmen und konversiv-reparativen Praktiken (Konversionsmaßnahmen-Schutz-Gesetz – Konv-Sch-G) erlassen wird",
+  "gp_code": "XXVIII",
+  "ityp": "A",
+  "inr": 295,
+  "doktyp": "A",
+  "update": "2026-08-14T02:11:35",
+  "nr_gp_code": "XXVIII",
+  "intranet": "N",
+  "group": "1",
+  "deleted": false,
+  "einlangen": "2025-05-22T00:00:00",
+  "history_ind": 2,
+  "vhg_fertig": "J",
+  "vhg_fertig_docs": "J",
+  "process": "J",
+  "statementsstate": "1",
+  "approvalstate": "9 Keine Zustimmung bei dem Doktyp \"A\" möglich",
+  "statements": {
+   "new": 1,
+   "personform": {
+    "rendertype": "form",
+    "data": {
+     "action": "/PtWeb/api/stellungnahme",
+     "description": "Ihre Stellungnahme wird nur mit Ihrem Einverständnis auf der Parlamentswebsite veröffentlicht. Die Stellungnahme muss der Würde des Hauses entsprechen und darf nicht gegen zwingende gesetzliche Vorschriften verstoßen (z.B. das Strafrecht, Urheberrecht oder Datenschutzrecht).",
+     "fields": [
+      {
+       "fieldType": "hidden",
+       "id": "gpCode",
+       "required": true,
+       "value": "XXVIII"
+      },
+      {
+       "fieldType": "hidden",
+       "id": "ityp",
+       "required": true,
+       "value": "A"
+      },
+      {
+       "fieldType": "hidden",
+       "id": "inr",
+       "required": true,
+       "value": "295"
+      },
+      {
+       "fieldType": "text",
+       "id": "vorname",
+       "label": "Vorname",
+       "required": true
+      },
+      {
+       "fieldType": "text",
+       "id": "nachname",
+       "label": "Nachname",
+       "required": true
+      },
+      {
+       "fieldType": "text",
+       "id": "titel",
+       "label": "Titel",
+       "required": false
+      },
+      {
+       "fieldType": "email",
+       "id": "email",
+       "label": "E-Mail-Adresse",
+       "required": true
+      },
+      {
+       "fieldType": "text",
+       "id": "plz",
+       "label": "PLZ",
+       "required": true
+      },
+      {
+       "fieldType": "text",
+       "id": "ort",
+       "label": "Ort",
+       "required": true
+      },
+      {
+       "fieldType": "textarea",
+       "id": "text",
+       "label": "Stellungnahme",
+       "required": false
+      },
+      {
+       "heading": {
+        "title": "Anlagen",
+        "ebene": 4,
+        "tooltip": {
+         "text": "Hier können Sie Anlagen hinzufügen (Dateiformat: pdf, max. Dateigröße: 10 MB, max. drei Anlagen"
+        }
+       },
+       "fieldType": "heading"
+      },
+      {
+       "fieldType": "file",
+       "id": "uploadStellungnahme",
+       "required": false,
+       "multiple": true,
+       "allowedExtensions": [
+        "pdf"
+       ],
+       "maxFilesize": 10000000,
+       "maxAllowedFiles": 3
+      },
+      {
+       "id": "eingeladen",
+       "entries": [
+        {
+         "label": "Diese Stellungnahme wird auf Eigeninitiative übermittelt.",
+         "value": "eigen",
+         "tooltip": {
+          "text": "Interessierte Privatpersonen können im Rahmen von Begutachtungsverfahren Stellungnahmen abgeben und so einen wichtigen Beitrag zum weiteren Gesetzgebungsprozess leisten."
+         },
+         "selected": true
+        },
+        {
+         "label": "Diese Stellungnahme wird auf persönliche Einladung des zuständigen Bundesministeriums übermittelt.",
+         "value": "bund",
+         "tooltip": {
+          "text": "Das zuständige Bundesministerium hat Sie persönlich kontaktiert und um Stellungnahme ersucht"
+         }
+        }
+       ],
+       "fieldType": "radio"
+      },
+      {
+       "id": "oeffentlich",
+       "checkboxGroupName": "oeffentlich",
+       "entries": [
+        {
+         "label": "Ich bin mit der Veröffentlichung meiner Stellungnahme auf der Parlamentswebsite einverstanden.",
+         "tooltip": {
+          "text": "Ihre Stellungnahme wird jedenfalls den parlamentarischen Klubs und/oder dem zuständigen Ressort für ihre Arbeit zur Verfügung gestellt."
+         }
+        }
+       ],
+       "fieldType": "checkbox"
+      },
+      {
+       "id": "hinweiseGelesen",
+       "checkboxGroupName": "hinweiseGelesen",
+       "entries": [
+        {
+         "label": "Ich bin mindestens 14 Jahre alt und habe den <a href=\\\"/DSH/index.shtml\\\">Datenschutzhinweis</a> zur Kenntnis genommen.",
+         "required": true
+        }
+       ],
+       "fieldType": "checkbox"
+      }
+     ],
+     "method": "POST",
+     "preventDefault": true,
+     "rest": true,
+     "enctype": "multipart/form-data"
+    }
+   },
+   "orgform": {
+    "rendertype": "form",
+    "data": {
+     "action": "/PtWeb/api/stellungnahme?org=true",
+     "description": "Ihre Stellungnahme wird auf der Parlamentswebsite veröffentlicht. Die Stellungnahme muss der Würde des Hauses entsprechen und darf nicht gegen zwingende gesetzliche Vorschriften verstoßen (z.B. das Strafrecht, Urheberrecht oder Datenschutzrecht).",
+     "fields": [
+      {
+       "fieldType": "hidden",
+       "id": "gpCodeO",
+       "required": true,
+       "value": "XXVIII"
+      },
+      {
+       "fieldType": "hidden",
+       "id": "itypO",
+       "required": true,
+       "value": "A"
+      },
+      {
+       "fieldType": "hidden",
+       "id": "inrO",
+       "required": true,
+       "value": "295"
+      },
+      {
+       "heading": {
+        "title": "Institution/Organisation",
+        "ebene": 4
+       },
+       "fieldType": "heading"
+      },
+      {
+       "fieldType": "text",
+       "id": "orgNameO",
+       "label": "Bezeichnung der Institution/Organisation",
+       "required": true
+      },
+      {
+       "fieldType": "text",
+       "id": "orgAbteilungO",
+       "label": "Abteilung",
+       "required": false
+      },
+      {
+       "heading": {
+        "title": "Kontaktdaten",
+        "ebene": 4,
+        "tooltip": {
+         "text": "Für Rückmeldungen & Rückfragen"
+        }
+       },
+       "fieldType": "heading"
+      },
+      {
+       "fieldType": "text",
+       "id": "vornameO",
+       "label": "Vorname",
+       "required": true
+      },
+      {
+       "fieldType": "text",
+       "id": "nachnameO",
+       "label": "Nachname",
+       "required": true
+      },
+      {
+       "fieldType": "email",
+       "id": "emailO",
+       "label": "E-Mail-Adresse",
+       "required": true
+      },
+      {
+       "fieldType": "textarea",
+       "id": "textO",
+       "label": "Stellungnahme",
+       "required": false
+      },
+      {
+       "heading": {
+        "title": "Anlagen",
+        "ebene": 4,
+        "tooltip": {
+         "text": "Hier können Sie Anlagen hinzufügen (Dateiformat: pdf, max. Dateigröße: 10 MB, max. drei Anlagen"
+        }
+       },
+       "fieldType": "heading"
+      },
+      {
+       "fieldType": "file",
+       "id": "uploadStellungnahmeO",
+       "required": false,
+       "multiple": true,
+       "allowedExtensions": [
+        "pdf"
+       ],
+       "maxFilesize": 10000000,
+       "maxAllowedFiles": 3
+      },
+      {
+       "id": "eingeladenO",
+       "entries": [
+        {
+         "label": "Diese Stellungnahme wird auf Eigeninitiative übermittelt.",
+         "value": "eigen",
+         "tooltip": {
+          "text": "Die interessierte Öffentlichkeit kann im Rahmen von Begutachtungsverfahren Stellungnahmen abgeben und so einen wichtigen Beitrag zum weiteren Gesetzgebungsprozess leisten. Diese Möglichkeit steht sowohl privaten als auch öffentlichen Institutionen/Organisationen offen."
+         },
+         "selected": true
+        },
+        {
+         "label": "Ihre Institution/Organisation wurde vom zuständigen Bundesministerium zur Stellungnahme eingeladen.",
+         "value": "bund",
+         "tooltip": {
+          "text": "Das zuständige Bundesministerium hat Ihre Institution/Organisation mittels Einladungsschreiben kontaktiert und um Stellungnahme ersucht."
+         }
+        }
+       ],
+       "fieldType": "radio"
+      },
+      {
+       "fieldType": "info",
+       "infoText": "Informationen zu den erfassten/veröffentlichten Daten finden Sie im <a href=\\\"/DSH/index.shtml\\\">Datenschutzhinweis</a>.",
+       "infoType": "TEXT"
+      }
+     ],
+     "method": "POST",
+     "preventDefault": true,
+     "rest": true,
+     "enctype": "multipart/form-data"
+    }
+   },
+   "documents": [
+    {
+     "title": "Gesetzestext (Arbeitsdokument ParlDion)",
+     "documents": [
+      {
+       "link": "/dokument/XXVIII/A/295/fname_1688045.pdf",
+       "type": "PDF"
+      },
+      {
+       "link": "/dokument/XXVIII/A/295/fnameorig_1688045.html",
+       "type": "HTML"
+      }
+     ]
+    }
+   ],
+   "filter": {
+    "rendertype": "filter",
+    "data": {
+     "type": "FILTER",
+     "resultLayout": "TABLE",
+     "hasForm": true,
+     "hasList": true,
+     "label": "Stellungnahmen",
+     "pagesize": 20,
+     "definition": {
+      "bez": "FP_142_vhg",
+      "listeId": 142,
+      "params": {
+       "BEZUG_GP_CODE": [
+        "XXVIII"
+       ],
+       "BEZUG_ITYP": [
+        "A"
+       ],
+       "BEZUG_INR": [
+        295
+       ]
+      },
+      "fixedParams": {
+       "BEZUG_GP_CODE": [
+        "XXVIII"
+       ],
+       "BEZUG_ITYP": [
+        "A"
+       ],
+       "BEZUG_INR": [
+        295
+       ]
+      },
+      "hideDimensions": [
+       "BEZUG_GP_CODE",
+       "BEZUG_ITYP",
+       "BEZUG_INR"
+      ],
+      "hideColumns": [
+       "16",
+       "17"
+      ],
+      "sortrnr": 5,
+      "ascDesc": "DESC"
+     }
+    }
+   }
+  },
+  "formlink": "/gegenstand/XXVIII/A/295?selectedStage=101&persForm=1#persForm",
+  "status": {
+   "number": 2,
+   "description": "Gleichbehandlungsausschuss: auf <a href=\"/dokument/XXVIII/A-GL/1/00923/TO_16707134.html\">Tagesordnung</a> in der <a href=\"/ausschuss/XXVIII/A-GL/1/00923?selectedStage=105&selectedSession=7&selectedDate=02062026\">7. Sitzung des Ausschusses</a><br>In der Sitzung vom 2. Juni 2026 vertagt"
+  },
+  "progress": [
+   {
+    "name": "Einbringung NR",
+    "id": 1,
+    "empty": false
+   },
+   {
+    "name": "Ausschussberatungen NR",
+    "id": 3,
+    "empty": false
+   },
+   {
+    "name": "Plenarberatungen NR",
+    "id": 4,
+    "empty": true
+   },
+   {
+    "name": "Einlangen BR",
+    "id": 5,
+    "empty": true
+   },
+   {
+    "name": "Ausschussberatungen BR",
+    "id": 6,
+    "empty": true
+   },
+   {
+    "name": "Plenarberatungen BR",
+    "id": 7,
+    "empty": true
+   }
+  ],
+  "phase": [
+   {
+    "name": "Einbringung NR",
+    "id": 1,
+    "stages": [
+     {
+      "date": "22.05.2025",
+      "text": "Einbringung im Nationalrat",
+      "priority": 1
+     },
+     {
+      "date": "22.05.2025",
+      "text": "Übermittlung an das Bundesministerium für Arbeit, Soziales, Gesundheit, Pflege und Konsumentenschutz und das Bundesministerium für Justiz"
+     },
+     {
+      "date": "22.05.2025",
+      "text": "Vorgesehen für den <a href=\"/ausschuss/XXVIII/A-GL/1/00923\">Gleichbehandlungsausschuss</a>"
+     },
+     {
+      "date": "22.05.2025",
+      "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/27\">27. Sitzung des Nationalrates</a>: Mitteilung der Einbringung",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 27,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/27/fnameorig_1739737.html#116",
+        "title": "16:40:09 - Präsidium (RN/116)",
+        "text": "RN/116"
+       }
+      ]
+     }
+    ],
+    "documents": []
+   },
+   {
+    "name": "Ausschussberatungen NR",
+    "id": 3,
+    "stages": [
+     {
+      "date": "22.05.2025",
+      "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/28\">28. Sitzung des Nationalrates</a>: Zuweisung an den <a href=\"/ausschuss/XXVIII/A-GL/1/00923\">Gleichbehandlungsausschuss</a>",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 28,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/28/fnameorig_1732750.html#2",
+        "title": "16:41:57 - Walter Rosenkranz, Präsident des Nationalrates - Präsidium (RN/2)",
+        "text": "RN/2"
+       }
+      ]
+     },
+     {
+      "date": "03.06.2025",
+      "text": "Gleichbehandlungsausschuss: auf <a href=\"/dokument/XXVIII/A-GL/1/00923/TO_16522958.html\">Tagesordnung</a> in der <a href=\"/ausschuss/XXVIII/A-GL/1/00923?selectedStage=105&selectedSession=3&selectedDate=03062025\">3. Sitzung des Ausschusses</a><br>In der Sitzung vom 3. Juni 2025 vertagt"
+     },
+     {
+      "date": "09.09.2025",
+      "text": "Gleichbehandlungsausschuss: auf <a href=\"/dokument/XXVIII/A-GL/1/00923/TO_16566799.html\">Tagesordnung</a> in der <a href=\"/ausschuss/XXVIII/A-GL/1/00923?selectedStage=105&selectedSession=4&selectedDate=09092025\">4. Sitzung des Ausschusses</a><br>In der Sitzung vom 9. September 2025 vertagt"
+     },
+     {
+      "date": "02.06.2026",
+      "text": "Gleichbehandlungsausschuss: auf <a href=\"/dokument/XXVIII/A-GL/1/00923/TO_16707134.html\">Tagesordnung</a> in der <a href=\"/ausschuss/XXVIII/A-GL/1/00923?selectedStage=105&selectedSession=7&selectedDate=02062026\">7. Sitzung des Ausschusses</a><br>In der Sitzung vom 2. Juni 2026 vertagt",
+      "priority": 1
+     },
+     {
+      "date": "11.06.2026",
+      "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/83\">83. Sitzung des Nationalrates</a>: Antrag des Abgeordneten <a href=\"/person/87001\" target=\"_blank\">David Stögmüller</a> auf Fristsetzung zur Berichterstattung durch den Gleichbehandlungsausschuss (<a href=\"/gegenstand/XXVIII/GO/855\">855/GO</a>)<br><b>abgelehnt</b><br>Dafür: GRÜNE, dagegen: FPÖ, ÖVP, SPÖ, NEOS",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 83,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/83/A_-_09_05_10_00973993.html#2.7",
+        "title": "09:05:10 - Walter Rosenkranz, Präsident des Nationalrates - Präsidium (RN/2.7)",
+        "text": "RN/2.7"
+       }
+      ]
+     }
+    ],
+    "documents": [],
+    "correspondence": [
+     {
+      "additional": false,
+      "title": "Verbot von Konversionsmaßnahmen in Aussicht",
+      "date": "03.06.2025",
+      "url": "/aktuelles/pk/jahr_2025/pk0479#XXVIII_A_00295"
+     },
+     {
+      "additional": false,
+      "title": "Gleichbehandlungsausschuss: ÖVP, SPÖ, NEOS und Grüne für Maßnahmen zur Beseitigung der Gender-Bias in der KI",
+      "date": "09.09.2025",
+      "url": "/aktuelles/pk/jahr_2025/pk0762#XXVIII_A_00295"
+     },
+     {
+      "additional": false,
+      "title": "Gleichbehandlungsausschuss fordert Konsequenzen bei missbräuchlichen Deepfakes",
+      "date": "02.06.2026",
+      "url": "/aktuelles/pk/jahr_2026/pk0499#XXVIII_A_00295"
+     },
+     {
+      "additional": false,
+      "title": "Kurzdebatte im Nationalrat zum Verbot von Konversionstherapien",
+      "date": "11.06.2026",
+      "url": "/aktuelles/pk/jahr_2026/pk0540#XXVIII_A_00295"
+     }
+    ]
+   }
+  ],
+  "documents": [
+   {
+    "title": "Selbständiger Antrag (gescanntes Original)",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/A/295/imfname_1687638.pdf",
+      "type": "PDF"
+     }
+    ]
+   },
+   {
+    "title": "Initiativantrag (elektr. übermittelte Version)",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/A/295/fname_1688037.pdf",
+      "type": "PDF"
+     },
+     {
+      "link": "/dokument/XXVIII/A/295/fnameorig_1688037.html",
+      "type": "HTML"
+     }
+    ]
+   },
+   {
+    "title": "Gesetzestext (Arbeitsdokument ParlDion)",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/A/295/fname_1688045.pdf",
+      "type": "PDF"
+     },
+     {
+      "link": "/dokument/XXVIII/A/295/fnameorig_1688045.html",
+      "type": "HTML"
+     }
+    ]
+   },
+   {
+    "title": "Textgegenüberstellung nicht angeboten",
+    "documents": [
+     {
+      "link": "/services/hilfe/website-funktionen/textgegenueberstellung#warum_wird_keine_textgegenuberstellung_angeboten?",
+      "type": "DEFAULT"
+     }
+    ],
+    "linkonly": true
+   }
+  ],
+  "names": [
+   {
+    "funktext": "Eingebracht von",
+    "name": "David Stögmüller",
+    "frak_code": "G",
+    "url": "/person/87001",
+    "portrait": {
+     "rendertype": "image",
+     "data": {
+      "src": "/dokument/bild/201433/20143360_384.jpg",
+      "alt": "Portraitfoto von David Stögmüller",
+      "bildId": 20143360,
+      "copyright": "Parlamentsdirektion/Thomas Topf"
+     }
+    }
+   }
+  ],
+  "correspondence": [
+   {
+    "additional": false,
+    "title": "Neu im Gleichbehandlungsausschuss",
+    "date": "27.05.2025",
+    "url": "/aktuelles/pk/jahr_2025/pk0458#XXVIII_A_00295"
+   },
+   {
+    "additional": false,
+    "title": "Verbot von Konversionsmaßnahmen in Aussicht",
+    "date": "03.06.2025",
+    "url": "/aktuelles/pk/jahr_2025/pk0479#XXVIII_A_00295"
+   },
+   {
+    "additional": false,
+    "title": "Gleichbehandlungsausschuss: ÖVP, SPÖ, NEOS und Grüne für Maßnahmen zur Beseitigung der Gender-Bias in der KI",
+    "date": "09.09.2025",
+    "url": "/aktuelles/pk/jahr_2025/pk0762#XXVIII_A_00295"
+   },
+   {
+    "additional": false,
+    "title": "Gleichbehandlungsausschuss fordert Konsequenzen bei missbräuchlichen Deepfakes",
+    "date": "02.06.2026",
+    "url": "/aktuelles/pk/jahr_2026/pk0499#XXVIII_A_00295"
+   },
+   {
+    "additional": false,
+    "title": "Kurzdebatte im Nationalrat zum Verbot von Konversionstherapien",
+    "date": "11.06.2026",
+    "url": "/aktuelles/pk/jahr_2026/pk0540#XXVIII_A_00295"
+   }
+  ],
+  "topics": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Gesundheit und Ernährung",
+      "link": "/suche?thema=Gesundheit und Ernährung"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  },
+  "headwords": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Gesundheit",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&SW=Gesundheit"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  },
+  "eurovoc": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Gesundheit",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&EUROVOC=Gesundheit"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  }
+ }
+}

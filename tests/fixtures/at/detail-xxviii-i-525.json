@@ -1,0 +1,1321 @@
+{
+ "pagetype": "geschichtsseite",
+ "meta": {
+  "description": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026 (525 d.B.)",
+  "generationTime": "Tue Sep 22 23:10:42 GMT 2026",
+  "keywords": "\"Strafrecht\", \"Gesundheit\"",
+  "lang": "de",
+  "title": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026 (525 d.B.) | Parlament Österreich",
+  "openGraph": {
+   "image": "https://www.parlament.gv.at/static/img/og.png",
+   "title": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026 | Parlament Österreich",
+   "description": "525 d.B."
+  },
+  "scripts": [],
+  "styles": []
+ },
+ "content": {
+  "breadcrumbs": [
+   {
+    "title": "Start",
+    "url": "/"
+   },
+   {
+    "title": "Gesetzesinitiativen",
+    "url": "/recherchieren/gegenstaende/gesetzesinitiativen/"
+   },
+   {
+    "title": "Nationalrat - XXVIII. GP",
+    "url": "/recherchieren/gegenstaende/gesetzesinitiativen/?GP=XXVIII"
+   },
+   {
+    "title": "Regierungsvorlage: Bundes(verfassungs)gesetz",
+    "url": "/recherchieren/gegenstaende/gesetzesinitiativen/?GP=XXVIII&RGES=RV"
+   },
+   {
+    "title": "525 d.B."
+   }
+  ],
+  "type": "Regierungsvorlage: Bundes(verfassungs)gesetz",
+  "sntype": "Regierungsvorlage: Bundes(verfassungs)gesetz",
+  "title": "Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026",
+  "zitation": "525 d.B.",
+  "description": "Bundesgesetz, mit dem das Sterbeverfügungsgesetz geändert wird (Sterbeverfügungsgesetz-Novelle 2026 – StVfG-Nov 2026)",
+  "gp_code": "XXVIII",
+  "ityp": "I",
+  "inr": 525,
+  "doktyp": "RV",
+  "update": "2026-09-23T01:10:38",
+  "nr_gp_code": "XXVIII",
+  "intranet": "N",
+  "group": "1",
+  "deleted": false,
+  "einlangen": "2026-06-10T00:00:00",
+  "history_ind": 2,
+  "vhg_fertig": "J",
+  "vhg_fertig_docs": "J",
+  "process": "J",
+  "statementsstate": "0",
+  "approvalstate": "9 Keine Zustimmung bei dem Doktyp \"RV\" möglich",
+  "statements": {
+   "new": 0,
+   "documents": [
+    {
+     "title": "Gesetzestext",
+     "documents": [
+      {
+       "link": "/dokument/XXVIII/I/525/fname_1763529.pdf",
+       "type": "PDF"
+      },
+      {
+       "link": "/dokument/XXVIII/I/525/fnameorig_1763529.html",
+       "type": "HTML"
+      }
+     ]
+    },
+    {
+     "title": "Geändert im Ausschuss",
+     "documents": [
+      {
+       "link": "/dokument/XXVIII/I/567/fname_1768646.pdf",
+       "type": "PDF"
+      },
+      {
+       "link": "/dokument/XXVIII/I/567/fnameorig_1768646.html",
+       "type": "HTML"
+      }
+     ]
+    },
+    {
+     "title": "Geändert im Plenum",
+     "documents": [
+      {
+       "link": "/dokument/XXVIII/BNR/192/fname_1770789.pdf",
+       "type": "PDF"
+      },
+      {
+       "link": "/dokument/XXVIII/BNR/192/fnameorig_1770789.html",
+       "type": "HTML"
+      }
+     ]
+    }
+   ],
+   "filter": {
+    "rendertype": "filter",
+    "data": {
+     "type": "FILTER",
+     "resultLayout": "TABLE",
+     "hasForm": true,
+     "hasList": true,
+     "label": "Stellungnahmen",
+     "pagesize": 20,
+     "definition": {
+      "bez": "FP_142_vhg",
+      "listeId": 142,
+      "params": {
+       "BEZUG_GP_CODE": [
+        "XXVIII"
+       ],
+       "BEZUG_ITYP": [
+        "I"
+       ],
+       "BEZUG_INR": [
+        525
+       ]
+      },
+      "fixedParams": {
+       "BEZUG_GP_CODE": [
+        "XXVIII"
+       ],
+       "BEZUG_ITYP": [
+        "I"
+       ],
+       "BEZUG_INR": [
+        525
+       ]
+      },
+      "hideDimensions": [
+       "BEZUG_GP_CODE",
+       "BEZUG_ITYP",
+       "BEZUG_INR"
+      ],
+      "hideColumns": [
+       "16",
+       "17"
+      ],
+      "sortrnr": 5,
+      "ascDesc": "DESC"
+     }
+    }
+   }
+  },
+  "status": {
+   "number": 5,
+   "description": "Beschlossen im Bundesrat <a href=\"/gegenstand/XXVIII/BNR/192\">192/BNR</a><br>Dafür: ÖVP, SPÖ, FPÖ, NEOS, dagegen: GRÜNE<br>Beschlossen im Nationalrat <a href=\"/gegenstand/XXVIII/BNR/192\">192/BNR</a>, Dafür: ÖVP, SPÖ, FPÖ, NEOS, dagegen: GRÜNE",
+   "bgbllinks": [
+    {
+     "title": "Bundesgesetzblatt I Nr. 69/2026",
+     "link": "http://www.ris.bka.gv.at/Dokument.wxe?Abfrage=BgblAuth&Dokumentnummer=BGBLA_2026_I_69",
+     "type": "DEFAULT"
+    },
+    {
+     "title": "Kunsttext",
+     "link": "http://www.ris.bka.gv.at/Ergebnis.wxe?Abfrage=Bundesnormen&Kundmachungsorgan=BGBl.+I+Nr.&Kundmachungsnummer=69%2f2026&Suchworte=&ReturnUrl=%2fSuchen.wxe%3fQueryID%3dBundesnormen",
+     "type": "DEFAULT"
+    }
+   ]
+  },
+  "progress": [
+   {
+    "name": "Einlangen NR",
+    "id": 1,
+    "empty": false
+   },
+   {
+    "name": "Ausschussberatungen NR",
+    "id": 3,
+    "empty": false
+   },
+   {
+    "name": "Plenarberatungen NR",
+    "id": 4,
+    "empty": false
+   },
+   {
+    "name": "Einlangen BR",
+    "id": 5,
+    "empty": false
+   },
+   {
+    "name": "Ausschussberatungen BR",
+    "id": 6,
+    "empty": false
+   },
+   {
+    "name": "Plenarberatungen BR",
+    "id": 7,
+    "empty": false
+   }
+  ],
+  "phase": [
+   {
+    "name": "Einlangen NR",
+    "id": 1,
+    "stages": [
+     {
+      "date": "10.06.2026",
+      "text": "Einlangen im Nationalrat",
+      "priority": 1
+     },
+     {
+      "date": "10.06.2026",
+      "text": "Vorgesehen für den <a href=\"/ausschuss/XXVIII/A-JU/1/00926\">Justizausschuss</a>"
+     },
+     {
+      "date": "10.06.2026",
+      "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/82\">82. Sitzung des Nationalrates</a>: Mitteilung des Einlangens",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 82,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/82/A_-_19_53_38_00973323.html#2.3",
+        "title": "19:53:38 - Walter Rosenkranz, Präsident des Nationalrates - Präsidium (RN/2.3)",
+        "text": "RN/2.3"
+       }
+      ]
+     }
+    ],
+    "documents": []
+   },
+   {
+    "name": "Ausschussberatungen NR",
+    "id": 3,
+    "stages": [
+     {
+      "date": "11.06.2026",
+      "text": "<a href=\"/gegenstand/XXVIII/NRSITZ/83\">83. Sitzung des Nationalrates</a>: Zuweisung an den <a href=\"/ausschuss/XXVIII/A-JU/1/00926\">Justizausschuss</a>",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 83,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/83/A_-_09_05_10_00973993.html#2.4",
+        "title": "09:05:10 - Walter Rosenkranz, Präsident des Nationalrates - Präsidium (RN/2.4)",
+        "text": "RN/2.4"
+       }
+      ]
+     },
+     {
+      "date": "30.06.2026",
+      "text": "Justizausschuss: auf <a href=\"/dokument/XXVIII/A-JU/1/00926/TO_16926462.html\">Tagesordnung</a> in der <a href=\"/ausschuss/XXVIII/A-JU/1/00926?selectedStage=105&selectedSession=9&selectedDate=30062026\">9. Sitzung des Ausschusses</a>"
+     },
+     {
+      "date": "30.06.2026",
+      "text": "Justizausschuss: Bericht <a href=\"/gegenstand/XXVIII/I/567\">567 d.B.</a>",
+      "priority": 1
+     },
+     {
+      "date": "30.06.2026",
+      "text": "Justizausschuss: Abänderungsantrag der Abgeordneten <a href=\"/person/72999\" target=\"_blank\">Mag. Klaus Fürlinger</a>, <a href=\"/person/2339\" target=\"_blank\">Mag. Selma Yildirim</a>, <a href=\"/person/30685\" target=\"_blank\">Mag. Sophie Marie Wotschke</a>, Kolleginnen und Kollegen (<a href=\"/gegenstand/XXVIII/AAA/51\">51/AAA</a>)<br><b>angenommen</b><br>Dafür: ÖVP, SPÖ, NEOS, dagegen: FPÖ, GRÜNE"
+     }
+    ],
+    "documents": [
+     {
+      "title": "Abänderungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/AAA/51/imfname_1768647.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Berichterstattung",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/I/567/fname_1768645.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/I/567/fnameorig_1768645.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Gesetzestext",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/I/567/fname_1768646.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/I/567/fnameorig_1768646.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Abänderungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/AAA/51/imfname_1768647.pdf",
+        "type": "PDF"
+       }
+      ]
+     }
+    ],
+    "correspondence": [
+     {
+      "additional": false,
+      "title": "Anpassung des Sterbeverfügungsgesetzes passiert Justizausschuss",
+      "date": "30.06.2026",
+      "url": "/aktuelles/pk/jahr_2026/pk0647#XXVIII_I_00525"
+     }
+    ]
+   },
+   {
+    "name": "Plenarberatungen NR",
+    "id": 4,
+    "stages": [
+     {
+      "date": "07.07.2026",
+      "text": "Auf der <a href=\"/dokument/XXVIII/NRSITZ/87/TO_16798403.html\">Tagesordnung</a> der <a href=\"/gegenstand/XXVIII/NRSITZ/87\">87. Sitzung des Nationalrates</a>"
+     },
+     {
+      "date": "07.07.2026",
+      "text": "Wortmeldungen in der Debatte",
+      "reden": {
+       "rendertype": "table",
+       "data": {
+        "header": [
+         {
+          "label": "Name und Klub",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-namefraktion"
+         },
+         {
+          "label": "Wortmeldungsart",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-wortmeldungsart"
+         },
+         {
+          "label": "Protokoll",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-protokoll"
+         },
+         {
+          "label": "Video",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-video"
+         }
+        ],
+        "rows": [
+         [
+          "<a href=\"/person/51571\" target=\"_blank\">Mag. Harald Stefan (F)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 87,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/87/A_-_19_21_54_00992269.html#204",
+            "title": "19:21:54 - Harald Stefan (FPÖ) - TOP 22 Erneuerungen von Sterbeverfügungen (RN/204)",
+            "text": "RN/204"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/87?DEBATTE=16&TS=1783452122"
+          }
+         ],
+         [
+          "<a href=\"/person/2339\" target=\"_blank\">Mag. Selma Yildirim (S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 87,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/87/A_-_19_24_50_00992284.html#205",
+            "title": "19:24:50 - Selma Yildirim (SPÖ) - TOP 22 Erneuerungen von Sterbeverfügungen (RN/205)",
+            "text": "RN/205"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/87?DEBATTE=16&TS=1783452300"
+          }
+         ],
+         [
+          "<a href=\"/person/2345\" target=\"_blank\">Dr. Alma Zadić, LL.M. (G)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 87,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/87/A_-_19_29_15_00992307.html#206",
+            "title": "19:29:15 - Alma Zadić (Grüne) - TOP 22 Erneuerungen von Sterbeverfügungen (RN/206)",
+            "text": "RN/206"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/87?DEBATTE=16&TS=1783452564"
+          }
+         ],
+         [
+          "<a href=\"/person/1980\" target=\"_blank\">Mag. Johanna Jachs (V)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 87,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/87/A_-_19_32_38_00992327.html#207",
+            "title": "19:32:38 - Johanna Jachs (ÖVP) - TOP 22 Erneuerungen von Sterbeverfügungen (RN/207)",
+            "text": "RN/207"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/87?DEBATTE=16&TS=1783452767"
+          }
+         ],
+         [
+          "<a href=\"/person/30685\" target=\"_blank\">Mag. Sophie Marie Wotschke (N)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 87,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/87/A_-_19_36_18_00992350.html#208",
+            "title": "19:36:18 - Sophie Marie Wotschke (NEOS) - TOP 22 Erneuerungen von Sterbeverfügungen (RN/208)",
+            "text": "RN/208"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/87?DEBATTE=16&TS=1783452987"
+          }
+         ],
+         [
+          "<a href=\"/person/32507\" target=\"_blank\">BM Dr. Anna Sporrer (S)</a>",
+          "Regierungsbank",
+          [
+           {
+            "gp_code": "XXVIII",
+            "sitzung_id": 87,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/XXVIII/NRSITZ/87/A_-_19_39_40_00992369.html#209",
+            "title": "19:39:40 - Anna Sporrer, Bundesministerin für Justiz - TOP 22 Erneuerungen von Sterbeverfügungen (RN/209)",
+            "text": "RN/209"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/XXVIII/NRSITZ/87?DEBATTE=16&TS=1783453190"
+          }
+         ]
+        ]
+       }
+      }
+     },
+     {
+      "date": "07.07.2026",
+      "text": "87. Sitzung des Nationalrates: Abänderungsantrag der Abgeordneten <a href=\"/person/1980\" target=\"_blank\">Mag. Johanna Jachs</a>, <a href=\"/person/2339\" target=\"_blank\">Mag. Selma Yildirim</a>, <a href=\"/person/30685\" target=\"_blank\">Mag. Sophie Marie Wotschke</a>, Kolleginnen und Kollegen (<a href=\"/gegenstand/XXVIII/AA/78\">AA-78</a>)<br><b>angenommen</b><br>Dafür: FPÖ, ÖVP, SPÖ, NEOS, dagegen: GRÜNE",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 87,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/87/A_-_19_24_50_00992284.html#205.1",
+        "title": "19:24:50 - Selma Yildirim (SPÖ) - TOP 22 Erneuerungen von Sterbeverfügungen (RN/205.1)",
+        "text": "RN/205.1"
+       },
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 87,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/87/A_-_19_24_50_00992284.html#205.2",
+        "title": "19:24:50 - Selma Yildirim (SPÖ) - TOP 22 Erneuerungen von Sterbeverfügungen (RN/205.2)",
+        "text": "RN/205.2"
+       }
+      ]
+     },
+     {
+      "date": "07.07.2026",
+      "text": "87. Sitzung des Nationalrates: Gesetzesvorschlag in zweiter Lesung <b>angenommen</b><br>Dafür: FPÖ, ÖVP, SPÖ, NEOS, dagegen: GRÜNE",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 87,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/87/A_-_19_42_16_00992382.html#210",
+        "title": "19:42:16 - Abstimmung - TOP 22 Erneuerungen von Sterbeverfügungen (RN/210)",
+        "text": "RN/210"
+       }
+      ]
+     },
+     {
+      "date": "07.07.2026",
+      "text": "87. Sitzung des Nationalrates: Gesetzesvorschlag in dritter Lesung <b>angenommen</b><br>Dafür: FPÖ, ÖVP, SPÖ, NEOS, dagegen: GRÜNE",
+      "fsth": [
+       {
+        "gp_code": "XXVIII",
+        "sitzung_id": 87,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/XXVIII/NRSITZ/87/A_-_19_42_16_00992382.html#210",
+        "title": "19:42:16 - Abstimmung - TOP 22 Erneuerungen von Sterbeverfügungen (RN/210)",
+        "text": "RN/210"
+       }
+      ]
+     },
+     {
+      "date": "07.07.2026",
+      "text": "Beschluss im Nationalrat <a href=\"/gegenstand/XXVIII/BNR/192\">192/BNR</a>",
+      "priority": 1
+     },
+     {
+      "date": "09.07.2026",
+      "text": "Übermittlung des Beschlusses an den Bundesrat"
+     }
+    ],
+    "documents": [
+     {
+      "title": "Abänderungsantrag (gescanntes Original)",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/AA/78/imfname_1770498.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Gesetzestext",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/192/fname_1770789.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/192/fnameorig_1770789.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Beschlussformel NR",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/192/fname_1770790.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/192/fnameorig_1770790.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Beschlussformel BR",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/192/fname_1772321.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/192/fnameorig_1772321.html",
+        "type": "HTML"
+       }
+      ]
+     }
+    ],
+    "correspondence": [
+     {
+      "additional": false,
+      "title": "Nationalrat genehmigt einhellig EU- Verbraucherschutzvorgaben",
+      "date": "07.07.2026",
+      "url": "/aktuelles/pk/jahr_2026/pk0703#XXVIII_I_00525"
+     }
+    ],
+    "vote": {
+     "result": [
+      {
+       "text": "FPÖ",
+       "code": "F",
+       "color": "#0052FB",
+       "fraction": 57,
+       "infavor": true
+      },
+      {
+       "text": "ÖVP",
+       "code": "V",
+       "color": "#62C3D0",
+       "fraction": 51,
+       "infavor": true
+      },
+      {
+       "text": "SPÖ",
+       "code": "S",
+       "color": "#FF0000",
+       "fraction": 41,
+       "infavor": true
+      },
+      {
+       "text": "NEOS",
+       "code": "N",
+       "color": "#E3257B",
+       "fraction": 18,
+       "infavor": true
+      },
+      {
+       "text": "GRÜNE",
+       "code": "G",
+       "color": "#69B12E",
+       "fraction": 16,
+       "infavor": false
+      }
+     ],
+     "infavor": true,
+     "code": "FVSNg",
+     "text": "Dafür: F, V, S, N, Dagegen: G",
+     "comment": null
+    }
+   },
+   {
+    "name": "Einlangen BR",
+    "id": 5,
+    "stages": [
+     {
+      "date": "09.07.2026",
+      "text": "Änderungen gegenüber dem Gesetzentwurf in der Fassung des Nationalrat-Ausschussberichtes (<a href=\"/gegenstand/BR/I-BR/11836\">11836/BR d.B.</a>)"
+     },
+     {
+      "date": "09.07.2026",
+      "text": "Einlangen im Bundesrat (Frist: 03.09.2026)"
+     },
+     {
+      "date": "09.07.2026",
+      "text": "Mitwirkungsrecht des Bundesrates",
+      "priority": 1
+     }
+    ],
+    "documents": [
+     {
+      "title": "Änderungen im Plenum des Nationalrates ge. dem ursprüngl. Entwurf",
+      "documents": [
+       {
+        "link": "/dokument/BR/I-BR/11836/fname_1770800.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/BR/I-BR/11836/fnameorig_1770800.html",
+        "type": "HTML"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": "Ausschussberatungen BR",
+    "id": 6,
+    "stages": [
+     {
+      "date": "09.07.2026",
+      "text": "Zuweisung an den <a href=\"/ausschuss/BR/A-JU-BR/1/00114\">Justizausschuss des Bundesrates</a>"
+     },
+     {
+      "date": "14.07.2026",
+      "text": "Justizausschuss des Bundesrates: auf <a href=\"/dokument/BR/A-JU-BR/1/00114/TO_16941695.html\">Tagesordnung</a> in der <a href=\"/ausschuss/BR/A-JU-BR/1/00114?selectedStage=105&selectedSession=8&selectedDate=14072026\">8. Sitzung des Ausschusses</a>"
+     },
+     {
+      "date": "14.07.2026",
+      "text": "Justizausschuss des Bundesrates: Bericht <a href=\"/gegenstand/BR/I-BR/11848\">11848/BR d.B.</a>",
+      "priority": 1
+     }
+    ],
+    "documents": [
+     {
+      "title": "Berichterstattung",
+      "documents": [
+       {
+        "link": "/dokument/BR/I-BR/11848/fname_1771931.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/BR/I-BR/11848/fnameorig_1771931.html",
+        "type": "HTML"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "name": "Plenarberatungen BR",
+    "id": 7,
+    "stages": [
+     {
+      "date": "15.07.2026",
+      "text": "Auf der Tagesordnung der <a href=\"/gegenstand/BR/BRSITZ/993\">993. Sitzung</a>"
+     },
+     {
+      "date": "15.07.2026",
+      "text": "993. Sitzung: Berichterstattung durch die Bundesrätin <a href=\"/person/32817\" target=\"_blank\">Amelie Muthsam</a>",
+      "fsth": [
+       {
+        "gp_code": "BR",
+        "sitzung_id": 993,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/993/A_-_13_49_30_01005515.html#13",
+        "title": "13:49:30 - Berichterstatterin Amelie Muthsam - TOP 3 Erneuerungen von Sterbeverfügungen (RN/13)",
+        "text": "RN/13"
+       }
+      ]
+     },
+     {
+      "date": "15.07.2026",
+      "text": "993. Sitzung: Debatte",
+      "fsth": [
+       {
+        "gp_code": "BR",
+        "sitzung_id": 993,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/993/A_-_13_50_11_01005485.html#14",
+        "title": "13:50:11 - Claudia Hauschildt-Buschberger (Grüne/OÖ) - TOP 3 Erneuerungen von Sterbeverfügungen (RN/14)",
+        "text": "RN/14"
+       },
+       {
+        "gp_code": "BR",
+        "sitzung_id": 993,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/993/A_-_14_30_07_01005580.html#21",
+        "title": "14:30:07 - Claudia Hauschildt-Buschberger (Grüne/OÖ) - TOP 3 Erneuerungen von Sterbeverfügungen (RN/21)",
+        "text": "RN/21"
+       }
+      ]
+     },
+     {
+      "date": "15.07.2026",
+      "text": "Wortmeldungen in der Debatte",
+      "reden": {
+       "rendertype": "table",
+       "data": {
+        "header": [
+         {
+          "label": "Name und Fraktion",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-namefraktion"
+         },
+         {
+          "label": "Wortmeldungsart",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-wortmeldungsart"
+         },
+         {
+          "label": "Protokoll",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-protokoll"
+         },
+         {
+          "label": "Video",
+          "sortable": false,
+          "filterable": false,
+          "hidden": false,
+          "additionalInfo": false,
+          "class": "his-col-video"
+         }
+        ],
+        "rows": [
+         [
+          "<a href=\"/person/5932\" target=\"_blank\">Claudia Hauschildt-Buschberger (G/O)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 993,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/993/A_-_13_50_11_01005485.html#14",
+            "title": "13:50:11 - Claudia Hauschildt-Buschberger (Grüne/OÖ) - TOP 3 Erneuerungen von Sterbeverfügungen (RN/14)",
+            "text": "RN/14"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/993?DEBATTE=2&TS=1784123417"
+          }
+         ],
+         [
+          "<a href=\"/person/31957\" target=\"_blank\">Mag. Bernadette Kerschler (S/St)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 993,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/993/A_-_13_57_38_01005501.html#15",
+            "title": "13:57:38 - Bernadette Kerschler (SPÖ/Stmk.) - TOP 3 Erneuerungen von Sterbeverfügungen (RN/15)",
+            "text": "RN/15"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/993?DEBATTE=2&TS=1784123864"
+          }
+         ],
+         [
+          "<a href=\"/person/35471\" target=\"_blank\">Dr. Andrea Eder-Gitschthaler (V/S)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 993,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/993/A_-_14_02_08_01005523.html#16",
+            "title": "14:02:08 - Andrea Eder-Gitschthaler (ÖVP/Sbg.) - TOP 3 Erneuerungen von Sterbeverfügungen (RN/16)",
+            "text": "RN/16"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/993?DEBATTE=2&TS=1784124134"
+          }
+         ],
+         [
+          "<a href=\"/person/31483\" target=\"_blank\">Sandra Jäckel (F/V)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 993,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/993/A_-_14_09_31_01005534.html#17",
+            "title": "14:09:31 - Sandra Jäckel (FPÖ/Vbg.) - TOP 3 Erneuerungen von Sterbeverfügungen (RN/17)",
+            "text": "RN/17"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/993?DEBATTE=2&TS=1784124577"
+          }
+         ],
+         [
+          "<a href=\"/person/32507\" target=\"_blank\">BM Dr. Anna Sporrer (S)</a>",
+          "Regierungsbank",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 993,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/993/A_-_14_14_40_01005548.html#18",
+            "title": "14:14:40 - Anna Sporrer, Bundesministerin - TOP 3 Erneuerungen von Sterbeverfügungen (RN/18)",
+            "text": "RN/18"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/993?DEBATTE=2&TS=1784124887"
+          }
+         ],
+         [
+          "<a href=\"/person/4986\" target=\"_blank\">Ernest Schwindsackl (V/St)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 993,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/993/A_-_14_17_36_01005556.html#19",
+            "title": "14:17:36 - Ernest Schwindsackl (ÖVP/Stmk.) - TOP 3 Erneuerungen von Sterbeverfügungen (RN/19)",
+            "text": "RN/19"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/993?DEBATTE=2&TS=1784125063"
+          }
+         ],
+         [
+          "<a href=\"/person/32831\" target=\"_blank\">Mag. Dr. Julia Deutsch (N/W)</a>",
+          "Pro",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 993,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/993/A_-_14_25_02_01005573.html#20",
+            "title": "14:25:02 - Julia Deutsch (NEOS/W) - TOP 3 Erneuerungen von Sterbeverfügungen (RN/20)",
+            "text": "RN/20"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/993?DEBATTE=2&TS=1784125508"
+          }
+         ],
+         [
+          "<a href=\"/person/5932\" target=\"_blank\">Claudia Hauschildt-Buschberger (G/O)</a>",
+          "Contra",
+          [
+           {
+            "gp_code": "BR",
+            "sitzung_id": 993,
+            "fund_von": null,
+            "fund_bis": null,
+            "url": "/dokument/BR/BRSITZ/993/A_-_14_30_07_01005580.html#21",
+            "title": "14:30:07 - Claudia Hauschildt-Buschberger (Grüne/OÖ) - TOP 3 Erneuerungen von Sterbeverfügungen (RN/21)",
+            "text": "RN/21"
+           }
+          ],
+          {
+           "url": "/aktuelles/mediathek/BR/BRSITZ/993?DEBATTE=2&TS=1784125816"
+          }
+         ]
+        ]
+       }
+      }
+     },
+     {
+      "date": "15.07.2026",
+      "text": "993. Sitzung: Antrag, keinen Einspruch zu erheben, <b>angenommen</b><br>Dafür: ÖVP, SPÖ, FPÖ, NEOS, dagegen: GRÜNE",
+      "fsth": [
+       {
+        "gp_code": "BR",
+        "sitzung_id": 993,
+        "fund_von": null,
+        "fund_bis": null,
+        "url": "/dokument/BR/BRSITZ/993/A_-_14_33_24_01005588.html#22",
+        "title": "14:33:24 - Abstimmung - TOP 3 Erneuerungen von Sterbeverfügungen (RN/22)",
+        "text": "RN/22"
+       }
+      ]
+     },
+     {
+      "date": "15.07.2026",
+      "text": "Beschluss im Bundesrat <a href=\"/gegenstand/XXVIII/BNR/192\">192/BNR</a>",
+      "priority": 1
+     }
+    ],
+    "documents": [
+     {
+      "title": "Gesetzestext",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/192/fname_1770789.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/192/fnameorig_1770789.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Beschlussformel NR",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/192/fname_1770790.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/192/fnameorig_1770790.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Beschlussformel BR",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/BNR/192/fname_1772321.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/BNR/192/fnameorig_1772321.html",
+        "type": "HTML"
+       }
+      ]
+     }
+    ],
+    "correspondence": [
+     {
+      "additional": false,
+      "title": "Bundesrat spricht sich für Widerrufsbutton bei Online-Verträgen sowie für neue Reparaturverpflichtungen aus",
+      "date": "15.07.2026",
+      "url": "/aktuelles/pk/jahr_2026/pk0740#XXVIII_I_00525"
+     }
+    ]
+   }
+  ],
+  "shortinfo": {
+   "titel": "Kurzinformation",
+   "teil1": "Schaffung eines &sect; 8a StVfG zur Erneuerung der Sterbeverf&uuml;gung&nbsp;",
+   "teil2": null,
+   "stand": "10.06.2026"
+  },
+  "documents": [
+   {
+    "title": "Gesetzestext",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/I/525/fname_1763529.pdf",
+      "type": "PDF"
+     },
+     {
+      "link": "/dokument/XXVIII/I/525/fnameorig_1763529.html",
+      "type": "HTML"
+     }
+    ]
+   },
+   {
+    "title": "Erläuterungen",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/I/525/fname_1763531.pdf",
+      "type": "PDF"
+     },
+     {
+      "link": "/dokument/XXVIII/I/525/fnameorig_1763531.html",
+      "type": "HTML"
+     }
+    ]
+   },
+   {
+    "title": "Vorblatt und WFA",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/I/525/imfname_1763533.pdf",
+      "type": "PDF"
+     }
+    ]
+   },
+   {
+    "title": "Textgegenüberstellung",
+    "documents": [
+     {
+      "link": "/dokument/XXVIII/I/525/fname_1763532.pdf",
+      "type": "PDF"
+     },
+     {
+      "link": "/dokument/XXVIII/I/525/fnameorig_1763532.html",
+      "type": "HTML"
+     }
+    ]
+   }
+  ],
+  "preconst": [
+   {
+    "gp_code": "XXVIII",
+    "ityp": "ME",
+    "inr": 115,
+    "zukz": null,
+    "betreff": "Sterbeverfügungsgesetz, Änderung",
+    "zitation": "115/ME",
+    "description": "Ministerialentwurf betreffend Bundesgesetz, mit dem das Sterbeverfügungsgesetz geändert wird",
+    "url": "/gegenstand/XXVIII/ME/115",
+    "shortinfo": {
+     "titel": "Kurzinformation",
+     "teil1": "<h4>Ziel</h4>\nAnpassung des Sterbeverf&uuml;gungsgesetzes (StVfG) an das Erkenntnis des Verfassungsgerichtshofes (VfGH) vom 12. Dezember 2024, G 229 230/2023-57 u.a.\n\n<h4>Inhalt</h4>\nSchaffung eines &sect; 8a StVfG zur Erneuerung der Sterbeverf&uuml;gung<br />\n&nbsp;",
+     "teil2": "<h4>Hauptgesichtspunkte des Entwurfs</h4>\nMit Erkenntnis vom 12. Dezember 2024 hat der VfGH u.a. die Zeichen- und Wortfolge &quot;sowie nach Ablauf eines Jahres nach ihrer Errichtung&quot; in &sect; 10 Abs 2 StVfG und die Wort- und Zeichenfolge &quot;f&uuml;nf Jahre nach Ablauf der Jahresfrist (Abs. 2),&quot; in &sect; 10 Abs 3 Z 1 StVfG mit Wirkung ab 01. Juni 2026 als verfassungswidrig aufgehoben. Dabei erblickte der VfGH einen Versto&szlig; gegen den Gleichheitsgrundsatz darin, dass die sterbewillige Person nach Ablauf blo&szlig; eines Jahres s&auml;mtliche im Sterbeverf&uuml;gungsgesetz vorgesehene Schritte neuerlich durchlaufen m&uuml;sse, um das Pr&auml;parat gem&auml;&szlig; &sect; 11 StVfG in einer &ouml;ffentlichen Apotheke beziehen zu k&ouml;nnen.<br />\n<br />\nIn diesem Sinne soll eine neue Regelung getroffen werden, dass eine abgelaufene Sterbeverf&uuml;gung innerhalb von f&uuml;nf Jahren ab ihrer Errichtung erneuert werden kann, wenn von &auml;rztlicher Seite best&auml;tigt wird, dass die sterbewillige Person nach wie vor entscheidungsf&auml;hig ist, und ihr Entschluss, sich selbst zu t&ouml;ten, nach wie vor frei und selbstbestimmt gefasst und aufrecht ist und nach wie vor eine Krankheit im Sinne des StVfG vorliegt.<br />\n<br />\nEine unbegrenzte Wirksamkeit der Sterbeverf&uuml;gung scheint hingegen nicht geboten, zumal der Gesetzgeber angehalten ist, Sicherungsinstrumente zur Verhinderung von Missbrauch vorzusehen, damit die sterbewillige Person ihre Entscheidung zur Selbstt&ouml;tung nicht unter dem Einfluss einer dritten Person fasst (VfGH G 139/2019-71) und die helfende dritte Person eine hinreichende Grundlage daf&uuml;r haben soll, dass die sterbewillige Person tats&auml;chlich eine auf freier Selbstbestimmung gegr&uuml;ndete Entscheidung zur Selbstt&ouml;tung gefasst hat (VfGH G 139/2019-71). Die neuerliche Pr&uuml;fung der Entscheidungsf&auml;higkeit und des Vorliegens eines freien und selbstbestimmten Entschlusses erscheint gerade im Hinblick auf den schlechten Gesundheitszustand der sterbewilligen Person zumindest nach einem Jahr unbedingt erforderlich, ohne dass damit der sterbewilligen Person allzu gro&szlig;e H&uuml;rden auferlegen w&uuml;rden. Nach f&uuml;nf Jahren soll auch eine neuerliche Aufkl&auml;rung notwendig sein, weil sich in einem solchen Zeitraum die Palliativmedizin h&ouml;chstwahrscheinlich ma&szlig;geblich weiterentwickelt.",
+     "stand": "10.06.2026",
+     "redaktion": "<p class=\"kurzinfoStand\"><strong>Redaktion: <a href=\"https://oesterreich.gv.at/\"><strong>oesterreich.gv.at</strong></a></strong><br/></p>"
+    },
+    "documents": [
+     {
+      "title": "Kurzinformation",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/ME/115/imfname_1763676.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Begleitschreiben",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/ME/115/fname_1763606.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/ME/115/fnameorig_1763606.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Gesetzestext",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/ME/115/fname_1763607.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/ME/115/fnameorig_1763607.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Vorblatt und wirkungsorientierte Folgenabschätzung",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/ME/115/imfname_1763608.pdf",
+        "type": "PDF"
+       }
+      ]
+     },
+     {
+      "title": "Erläuterungen",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/ME/115/fname_1763609.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/ME/115/fnameorig_1763609.html",
+        "type": "HTML"
+       }
+      ]
+     },
+     {
+      "title": "Textgegenüberstellung",
+      "documents": [
+       {
+        "link": "/dokument/XXVIII/ME/115/fname_1763610.pdf",
+        "type": "PDF"
+       },
+       {
+        "link": "/dokument/XXVIII/ME/115/fnameorig_1763610.html",
+        "type": "HTML"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "names": [
+   {
+    "funktext": "Mitglied der Bundesregierung",
+    "name": "Dr. Anna Sporrer",
+    "frak_code": null,
+    "ltext": "Bundesministerium für Justiz",
+    "url": "/person/32507",
+    "portrait": {
+     "rendertype": "image",
+     "data": {
+      "src": "/dokument/bild/201546/20154694_384.jpg",
+      "alt": "Portraitfoto von Dr. Anna Sporrer",
+      "bildId": 20154694,
+      "copyright": "BKA/Andy Wenzel"
+     }
+    }
+   }
+  ],
+  "correspondence": [
+   {
+    "additional": false,
+    "title": "Neu im Justizausschuss",
+    "date": "16.06.2026",
+    "url": "/aktuelles/pk/jahr_2026/pk0568#XXVIII_I_00525"
+   },
+   {
+    "additional": false,
+    "title": "Anpassung des Sterbeverfügungsgesetzes passiert Justizausschuss",
+    "date": "30.06.2026",
+    "url": "/aktuelles/pk/jahr_2026/pk0647#XXVIII_I_00525"
+   },
+   {
+    "additional": false,
+    "title": "Nationalrat genehmigt einhellig EU- Verbraucherschutzvorgaben",
+    "date": "07.07.2026",
+    "url": "/aktuelles/pk/jahr_2026/pk0703#XXVIII_I_00525"
+   },
+   {
+    "additional": false,
+    "title": "Bundesrat spricht sich für Widerrufsbutton bei Online-Verträgen sowie für neue Reparaturverpflichtungen aus",
+    "date": "15.07.2026",
+    "url": "/aktuelles/pk/jahr_2026/pk0740#XXVIII_I_00525"
+   }
+  ],
+  "reference": [
+   {
+    "text": "Bezug zu",
+    "subject": "Sterbeverfügungsgesetz, Änderung",
+    "zitation": "115/ME",
+    "url": "/gegenstand/XXVIII/ME/115",
+    "art": "B"
+   }
+  ],
+  "vote": {
+   "result": [
+    {
+     "text": "FPÖ",
+     "code": "F",
+     "color": "#0052FB",
+     "fraction": 57,
+     "infavor": true
+    },
+    {
+     "text": "ÖVP",
+     "code": "V",
+     "color": "#62C3D0",
+     "fraction": 51,
+     "infavor": true
+    },
+    {
+     "text": "SPÖ",
+     "code": "S",
+     "color": "#FF0000",
+     "fraction": 41,
+     "infavor": true
+    },
+    {
+     "text": "NEOS",
+     "code": "N",
+     "color": "#E3257B",
+     "fraction": 18,
+     "infavor": true
+    },
+    {
+     "text": "GRÜNE",
+     "code": "G",
+     "color": "#69B12E",
+     "fraction": 16,
+     "infavor": false
+    }
+   ],
+   "infavor": true,
+   "code": "FVSNg",
+   "text": "Dafür: F, V, S, N, Dagegen: G",
+   "comment": null
+  },
+  "topics": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Gesundheit und Ernährung",
+      "link": "/suche?thema=Gesundheit und Ernährung"
+     },
+     {
+      "label": "Inneres und Recht",
+      "link": "/suche?thema=Inneres und Recht"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  },
+  "headwords": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Strafrecht",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&SW=Strafrecht"
+     },
+     {
+      "label": "Gesundheit",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&SW=Gesundheit"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  },
+  "eurovoc": {
+   "rendertype": "bubbles",
+   "data": {
+    "title": "",
+    "bubbles": [
+     {
+      "label": "Gesundheit",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&EUROVOC=Gesundheit"
+     },
+     {
+      "label": "Strafrecht",
+      "link": "/recherchieren/gegenstaende/?NRBR=NR&GP_CODE=XXVIII&EUROVOC=Strafrecht"
+     }
+    ],
+    "pretext": null,
+    "subtitle": null
+   }
+  }
+ }
+}

@@ -31,7 +31,15 @@ SECRETS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fi
 # did not, and its first live DM was silently dropped. The fallback lives
 # here now so no caller can miss it. The file always wins over the env.
 ENV_SECRETS = (("slack_bot_token", "SLACK_BOT_TOKEN"),
-               ("slack_dm_user_id", "SLACK_DM_USER_ID"))
+               ("slack_dm_user_id", "SLACK_DM_USER_ID"),
+               # US monitor (9 October 2026): one api.data.gov key serves
+               # Congress.gov, GovInfo and Regulations.gov; Open States
+               # covers the fifty state legislatures.
+               ("congress_api_key", "CONGRESS_API_KEY"),
+               ("openstates_api_key", "OPENSTATES_API_KEY"),
+               # The country editions' combined reading task (11 October
+               # 2026, tools/edition_review.py): the GitHub secret's name.
+               ("asana_pat", "ASANA_PAT"))
 
 
 def load_secrets(path=None):
@@ -48,8 +56,12 @@ def load_secrets(path=None):
 
 
 def _post_json(url, payload, headers, timeout=30):  # pragma: no cover - network
+    # An "X-Method" header (PUT, for an Asana task update) sets the verb and
+    # is not sent; every other caller POSTs as before.
+    headers = dict(headers)
+    method = headers.pop("X-Method", None) or "POST"
     request = urllib.request.Request(
-        url, data=json.dumps(payload).encode("utf-8"),
+        url, data=json.dumps(payload).encode("utf-8"), method=method,
         headers={"Content-Type": "application/json; charset=utf-8", **headers})
     with urllib.request.urlopen(request, timeout=timeout) as response:
         return json.loads(response.read().decode("utf-8"))
@@ -165,8 +177,13 @@ def slack_update_canvas(secrets, canvas_id, canvas_markdown, transport=None):
                 team, canvas_id), "updated": True}
 
 
-def slack_preview_canvas(secrets, title, canvas_markdown, summary_mrkdwn, transport=None):
+def slack_preview_canvas(secrets, title, canvas_markdown, summary_mrkdwn, transport=None,
+                         announce=True):
     """The same canvas, shared with the DM recipient ALONE, linked from the DM.
+
+    announce=False (11 October 2026, additive; the new countries' 5CA canvases,
+    src/country5ca_post.py) creates and shares the canvas but sends no linking
+    message, so a run that makes several sends ONE DM listing them all.
 
     The rehearsal before slack_publish_canvas: the campaigner sees exactly how the
     report renders as a canvas before anything reaches the channel (Christopher,
@@ -197,6 +214,8 @@ def slack_preview_canvas(secrets, title, canvas_markdown, summary_mrkdwn, transp
 
     team = secrets.get("slack_team_id", "T066M0LAJ")
     canvas_url = "https://citizengo.slack.com/docs/{0}/{1}".format(team, canvas_id)
+    if not announce:
+        return {"canvas_id": canvas_id, "canvas_url": canvas_url}
     message = transport("https://slack.com/api/chat.postMessage", {
         "channel": user, "text": summary_mrkdwn + "\n\n" + canvas_url, "unfurl_links": False,
     }, auth)
@@ -402,3 +421,57 @@ def asana_create_reading_task(secrets, week, canvas_url, act_lines, deadline_lin
     if not data.get("gid"):
         return {"error": "asana task creation failed: {0}".format(reply.get("errors"))}
     return {"task_gid": data["gid"], "permalink": data.get("permalink_url")}
+
+
+# The UK reading task's workspace (config/secrets.yaml.example, the workflows).
+ASANA_WORKSPACE = "826488630492934"
+
+
+def _country_reading_notes(week, editions):
+    rows = "".join("<li>{0}</li>".format(e) for e in editions) or "<li>None sent yet.</li>"
+    return ("<body>The new country editions for the week commencing {week}, each sent to "
+            "Chris by DM after its review window (reviews/, config/edition-review.yaml).\n\n"
+            "<strong>Editions sent so far this week:</strong>\n<ul>{rows}</ul>\n"
+            "<strong>Reading checklist:</strong>\n<ul>"
+            "<li>Read what leads each edition and every watched item</li>"
+            "<li>Decide whether anything needs a campaign brief, a target or a stance "
+            "reading (docs/5ca-&lt;cc&gt;-readings.md)</li>"
+            "<li>Mute what was noise (config/edition-mute-&lt;cc&gt;.yaml)</li></ul>\n"
+            "<em>Created by tools/edition_review.py --publish and rewritten as each "
+            "edition of the week goes out: one task for every new-country edition.</em>"
+            "</body>").format(week=week, rows=rows)
+
+
+def asana_country_reading_task(secrets, week, editions, due_on, task_gid=None, transport=None):
+    """The ONE combined reading task for the week's new-country editions
+    (tools/edition_review.py): created the first time (assigned as the UK
+    reading task is: "me" in the workspace), its notes rewritten on every
+    later call with the task's gid. `editions` are HTML <li> bodies, already
+    escaped. Returns a status dict, as everything here does."""
+    pat = secrets.get("asana_pat")
+    workspace = secrets.get("asana_workspace") or ASANA_WORKSPACE
+    if not pat:
+        return {"skipped": "asana_pat missing from config/secrets.yaml (or ASANA_PAT)"}
+    transport = transport or _post_json
+    auth = {"Authorization": "Bearer {0}".format(pat)}
+    notes = _country_reading_notes(week, editions)
+    if task_gid:
+        reply = transport("https://app.asana.com/api/1.0/tasks/{0}".format(task_gid),
+                          {"data": {"html_notes": notes}}, dict(auth, **{"X-Method": "PUT"}))
+        data = reply.get("data") or {}
+        if not data.get("gid"):
+            return {"error": "asana task update failed: {0}".format(reply.get("errors"))}
+        return {"task_gid": data["gid"], "permalink": data.get("permalink_url"),
+                "updated": True}
+    reply = transport("https://app.asana.com/api/1.0/tasks", {"data": {
+        "name": "Read the country editions - w/c {0}".format(week),
+        "assignee": "me",
+        "workspace": workspace,
+        "due_on": due_on,
+        "html_notes": notes,
+    }}, auth)
+    data = reply.get("data") or {}
+    if not data.get("gid"):
+        return {"error": "asana task creation failed: {0}".format(reply.get("errors"))}
+    return {"task_gid": data["gid"], "permalink": data.get("permalink_url")}
+

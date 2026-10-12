@@ -22,7 +22,29 @@ existence, court and date, never its reasoning, which a human reads on
 the page. If the page shape moves, the parse yields ids without titles
 and the run records a gap rather than storing blanks.
 
-Separation guarantee: writes eu_judgments only.
+THE MAC MINI RELAY (8 October 2026). HUDOC began answering 403 to GitHub
+Actions with the EU weekly catch-up of that day, while the same query from
+the Mac Mini's home connection answers 200 (docs/api-notes.md). Christopher:
+"Run the HUDOC search from the Mini". So the Mini runs
+
+    python3 tools/eu_courts.py --relay
+
+each morning (tools/hudoc_relay.sh, launchd), which fetches the same HUDOC
+searches and commits their replies to data/hudoc-relay/<term>.json -- it
+never touches the store, so ONE WRITER AT A TIME holds. When the live
+search is refused here, pull() reads the relay instead if it is at most
+RELAY_MAX_AGE_DAYS old, and says so in the log; an older or missing relay
+is a gap, as before. Live always comes first: if HUDOC lifts the block,
+the relay simply stops being read.
+
+Later the same evening the cause was found: the 403 is a Cloudflare bot
+CHALLENGE on the JSON API (cf-mitigated: challenge), served to our Python
+client from the Mini as well. HUDOC's own RSS search feed answers the same
+client, so the live order is JSON API, then RSS (hudoc_live), then the
+relay. The RSS feed has no conclusion text.
+
+Separation guarantee: writes eu_judgments only (and, with --relay,
+data/hudoc-relay/ only).
 ONE WRITER AT A TIME on data/parl-monitor.db.
 """
 
@@ -105,13 +127,134 @@ def eurlex_cases(client, term, start, end, log=print):
     return rows, True
 
 
+RELAY_DIR = os.path.join(ROOT, "data", "hudoc-relay")
+RELAY_MAX_AGE_DAYS = 8
+
+
+def relay_path(term, relay_dir=RELAY_DIR):
+    return os.path.join(relay_dir, term.replace(" ", "-") + ".json")
+
+
+def read_relay(term, today, relay_dir=RELAY_DIR):
+    """(reply, fetched_on) from the Mini's relay; reply is None when the
+    file is missing, unreadable or older than RELAY_MAX_AGE_DAYS."""
+    try:
+        with open(relay_path(term, relay_dir), encoding="utf-8") as fh:
+            rec = json.load(fh)
+        fetched = rec["fetched_on"]
+        age = (datetime.date.fromisoformat(today)
+               - datetime.date.fromisoformat(fetched)).days
+    except (OSError, ValueError, KeyError, TypeError):
+        return None, None
+    if age > RELAY_MAX_AGE_DAYS or not isinstance(rec.get("reply"), dict):
+        return None, fetched
+    return rec["reply"], fetched
+
+
+def write_relay(client, today, relay_dir=RELAY_DIR, log=print):
+    """The Mini's half: fetch every HUDOC search live and write its reply.
+    -> (written, failed). A failed term leaves its previous file alone, so
+    the age check, not a blank file, decides whether CI may use it."""
+    start = (datetime.date.fromisoformat(today)
+             - datetime.timedelta(days=LOOKBACK_DAYS)).isoformat()
+    os.makedirs(relay_dir, exist_ok=True)
+    written = failed = 0
+    for term in SEARCH_TERMS:
+        try:
+            reply = hudoc_live(client, term, start, log)
+        except (FetchError, ValueError) as exc:
+            log("  [relay gap] hudoc '{0}': {1}".format(term, exc))
+            failed += 1
+            continue
+        with open(relay_path(term, relay_dir), "w", encoding="utf-8") as fh:
+            json.dump({"term": term, "fetched_on": today, "start": start,
+                       "reply": reply}, fh, indent=1, sort_keys=True)
+            fh.write("\n")
+        written += 1
+    return written, failed
+
+
+RSS = ("https://hudoc.echr.coe.int/app/transform/rss?library=echreng"
+       "&query={0}&sort=kpdate%20Descending&start=0&length=50")
+
+
+def parse_rss(xml):
+    """HUDOC's RSS search feed -> a reply in the JSON API's shape. The feed
+    carries name, link (item id), 'appno - doc type' and date; it has no
+    conclusion, so the taxonomy judges the name and the search term, as for
+    the CJEU rows. Raises ValueError on a page that is not the feed."""
+    import html
+    import re
+    if "<rss" not in xml[:500]:
+        raise ValueError("not an RSS feed")
+    results = []
+    for item in re.findall(r"<item>(.*?)</item>", xml, re.S):
+        def tag(name):
+            m = re.search(r"<{0}>(.*?)</{0}>".format(name), item, re.S)
+            return html.unescape(m.group(1).strip()) if m else ""
+        m = re.search(r"[?&]i=([0-9-]+)", tag("link"))
+        if not m:
+            continue
+        appno, _, doctype = tag("description").partition(" - ")
+        name = tag("title")
+        date = None
+        try:
+            date = datetime.datetime.strptime(
+                tag("pubDate")[5:16], "%d %b %Y").date().isoformat()
+        except ValueError:
+            pass
+        results.append({"columns": {
+            "itemid": m.group(1), "docname": name, "doctype": doctype or None,
+            "appno": appno or None, "conclusion": None, "kpdate": date,
+            "respondent": (name.rsplit(" v. ", 1)[1].title()
+                           if " v. " in name else None)}})
+    return {"resultcount": len(results), "results": results, "via": "rss"}
+
+
+def hudoc_live(client, term, start, log=print):
+    """The JSON API, then HUDOC's own RSS search feed. From 8 October 2026
+    Cloudflare answers the JSON API with a bot challenge (403,
+    cf-mitigated: challenge) to our client, on GitHub Actions and on the
+    Mini alike, while the RSS feed answers. Neither route is a way round
+    the challenge: both are HUDOC's published endpoints, called with our
+    own User-Agent."""
+    query = '"{0}"'.format(term)
+    slug = term.replace(" ", "-")
+    try:
+        return client.get_json(build_query(query, start), "eu-courts", slug,
+                               archive=False)
+    except (FetchError, ValueError) as exc:
+        cause = getattr(exc, "cause", exc)
+        q = ('contentsitename:ECHR AND {0} AND ((languageisocode="ENG")) '
+             'AND (kpdate>="{1}")').format(query, start)
+        xml = client.get_text(RSS.format(urllib.parse.quote(q, safe="")),
+                              "eu-courts", "rss-" + slug, archive=False)
+        log("  hudoc '{0}': JSON API refused ({1}); read the RSS "
+            "feed".format(term, cause))
+        return parse_rss(xml)
+
+
+def hudoc_search(client, term, start, today, log=print, relay_dir=RELAY_DIR):
+    """Live first (JSON, then RSS); then the Mini's relay if fresh; else raise."""
+    try:
+        return hudoc_live(client, term, start, log)
+    except (FetchError, ValueError) as exc:
+        reply, fetched = read_relay(term, today, relay_dir)
+        if reply is None:
+            raise
+        cause = getattr(exc, "cause", exc)
+        log("  hudoc '{0}': refused here ({1}); read the Mac Mini relay "
+            "of {2}".format(term, cause, fetched))
+        return reply
+
+
 def build_query(term, start):
     q = ('contentsitename:ECHR AND {0} AND ((languageisocode="ENG")) '
          'AND (kpdate>="{1}")').format(term, start)
     return QUERY.format(urllib.parse.quote(q, safe=""))
 
 
-def pull(conn, client, today, log=print):
+def pull(conn, client, today, log=print, relay_dir=RELAY_DIR):
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     start = (datetime.date.fromisoformat(today)
@@ -120,9 +263,7 @@ def pull(conn, client, today, log=print):
     seen = stored = gaps = 0
     for term in SEARCH_TERMS:
         try:
-            reply = client.get_json(build_query('"{0}"'.format(term), start),
-                                    "eu-courts",
-                                    term.replace(" ", "-"), archive=False)
+            reply = hudoc_search(client, term, start, today, log, relay_dir)
         except (FetchError, ValueError) as exc:
             log("  [gap] hudoc '{0}': {1}".format(term, exc))
             gaps += 1
@@ -192,8 +333,21 @@ def pull(conn, client, today, log=print):
     return seen, stored, gaps
 
 
+HUDOC_HOST = "hudoc.echr.coe.int"
+# Polite spacing for a host behind Cloudflare; the 8 October 2026 refusals
+# were a bot challenge on the JSON API, not a rate limit (see hudoc_live).
+HUDOC_SPACING_S = 3
+
+
 def main():
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    client.set_host_throttle(HUDOC_HOST, HUDOC_SPACING_S)
+    if "--relay" in sys.argv[1:]:
+        today = datetime.date.today().isoformat()
+        written, failed = write_relay(client, today)
+        print("hudoc relay: {0} search(es) written to data/hudoc-relay, "
+              "{1} failed.".format(written, failed))
+        return 1 if failed and not written else 0
     conn = db.init_db(db.connect(os.path.join(ROOT, "data",
                                               "parl-monitor.db")))
     today = datetime.date.today().isoformat()

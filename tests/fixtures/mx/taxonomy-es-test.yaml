@@ -1,0 +1,12 @@
+# TEST FIXTURE ONLY -- not the Spanish taxonomy. Two terms, enough to prove
+# that tools/mx_rollcalls.py classifies when config/taxonomy-es.yaml exists,
+# and that an unaccented upper-case SITL title still matches an accented term.
+version: test
+areas:
+  1_abortion:
+    tier1: ["interrupción legal del embarazo"]
+    tier2: []
+  2_assisted_dying:
+    tier1: ["eutanasia*"]
+    tier2: []
+exclusions_global: []

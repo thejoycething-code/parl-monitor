@@ -1,0 +1,254 @@
+#!/bin/bash
+# US weekly: members, bills, House roll calls and Senate votes of the current
+# Congress, the week ahead (floor lists and committee meetings, both
+# chambers), the Federal Register's executive actions and the Supreme Court
+# (9 October 2026), the fifty state legislatures (Open States, same day), the
+# Congressional Record's floor speeches, the judge when US_JUDGE is on, then
+# the edition and its DM.
+#
+# Called by .github/workflows/us-weekly.yml and, on the Mac Mini, by
+# tools/mini_run.sh us-weekly. One script, two callers (docs/mac-mini.md).
+# Both callers fetch the store first; this script publishes the raw archive
+# and the store itself, and the caller commits data/ and editions/.
+#
+# SENATE.GOV REFUSES SOME NETWORKS. It answered 403 to every page from the
+# laptop on Christopher's home connection (9 October 2026) and answers
+# GitHub's runners. So the Senate half goes one of two ways:
+#   * senate.gov answers this machine: everything runs here.
+#   * it refuses (the Mini, if it shares that connection): the script asks
+#     GitHub for a Senate-only run (us-weekly.yml, input senate_only), waits
+#     for it to publish, fetches the store again and does the rest here with
+#     --no-senate. If GitHub cannot be reached, the week goes ahead without
+#     the new Senate votes and says so in a [gap] line.
+#
+# SPEAKS ONCE A DAY. An edition already committed for today means another
+# run (the Mini, or a GitHub backup) has sent the DM: it is rewritten, not
+# resent.
+#
+#     US_RECLASSIFY=true    re-derive stored areas first (taxonomy change)
+#     US_SENATE_ONLY=true   the Senate-only half GitHub runs for the Mini
+#     US_RECORD_BUDGET=N    seconds for the Congressional Record step
+#     US_JUDGE=on           score new items with the PAID API judge (read from
+#                           the repo variable when unset and gh is available).
+#                           The paid alternative, OFF: since 9 October 2026
+#                           the free default is the session judge,
+#                           jobs/us-session-judge.sh (Claude Code on the Mini,
+#                           Fridays 19:30), which rewrites this edition with
+#                           its scores. US_RESCORE stays with this paid path.
+#
+# THE CONGRESS COMES FROM THE DATE (src/us_store.congress_on): the 119th
+# until 2 January 2027, the 120th from 3 January. For the first 45 days of a
+# new Congress the previous one is collected too (CATCH_UP), so its last
+# votes and its bills' final statuses still land; the edition then shows its
+# unenacted bills as fallen. tools/us_schedule.py derives the Congress itself.
+#
+# mini_run: commit editions partner_site docs
+set -eo pipefail
+cd "$(dirname "$0")/.."
+# The heartbeat (source_runs, stamped when the store is published) is keyed on the
+# workflow's name; on the Mac Mini there is no GITHUB_WORKFLOW, so name it, or
+# tools/coverage.py would see this pipeline stop the day GitHub's backup skips.
+export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-US weekly}"
+LOG="${US_LOG_DIR:-/tmp}"
+mkdir -p "$LOG"
+read -r CONGRESS SESSION CATCH_UP <<<"$(python3 tools/us_rollcalls.py --print-congress)"
+[ "$CATCH_UP" = "-" ] && CATCH_UP=
+echo "US weekly: ${CONGRESS}th Congress, session $SESSION${CATCH_UP:+; catching up the ${CATCH_UP}th}"
+SENATE_MENU="https://www.senate.gov/legislative/LIS/roll_call_lists/vote_menu_${CONGRESS}_${SESSION}.xml"
+# The DM goes to Christopher alone (9 October 2026). On the Mini the Slack
+# token comes from ~/runner/env, as for Division watch.
+export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+UA="parl-monitor (CitizenGO parliamentary monitor; thejoycething-code/parl-monitor)"
+
+if [ "${US_RECLASSIFY:-}" = "true" ]; then
+  python3 tools/us_rollcalls.py --reclassify | tee "$LOG/us-reclassify.log"
+  python3 tools/us_federal_register.py --reclassify | tee -a "$LOG/us-reclassify.log"
+  python3 tools/us_courts.py --reclassify | tee -a "$LOG/us-reclassify.log"
+  # Narrows only: a widened net needs `tools/us_states.py --full` (bulk re-read).
+  python3 tools/us_states.py --reclassify | tee -a "$LOG/us-reclassify.log"
+fi
+
+if [ "${US_SENATE_ONLY:-}" = "true" ]; then
+  if [ -n "$CATCH_UP" ]; then
+    python3 tools/us_rollcalls.py --congress "$CATCH_UP" --no-bills --no-rolls --no-members \
+      --budget-seconds 600 | tee "$LOG/us-rollcalls-catch-up.log" \
+      || echo "  [gap] Senate catch-up of the ${CATCH_UP}th Congress ended with gaps"
+  fi
+  python3 tools/us_rollcalls.py --congress "$CONGRESS" --no-bills --no-rolls --no-members \
+    --budget-seconds 1500 | tee "$LOG/us-rollcalls.log"
+  python3 tools/us_schedule.py --senate-only | tee "$LOG/us-schedule.log" \
+    || echo "  [gap] the Senate week ahead stopped early; its gaps are in the store"
+  python3 tools/raw_state.py --push
+  python3 tools/db_state.py --push
+  exit 0
+fi
+
+SENATE_ARGS=()
+if ! curl -fsS -o /dev/null -m 30 -A "$UA" "$SENATE_MENU" 2>/dev/null; then
+  echo "senate.gov refuses this machine; asking GitHub for the Senate half"
+  SENATE_ARGS=(--no-senate)
+  if [ -z "${GITHUB_ACTIONS:-}" ] && [ -n "${GH_TOKEN:-}" ] && command -v gh >/dev/null 2>&1; then
+    REPO=thejoycething-code/parl-monitor
+    BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+    if gh workflow run us-weekly.yml -R "$REPO" --ref "$BRANCH" -f senate_only=true; then
+      run_id=
+      for _ in $(seq 1 20); do
+        sleep 6
+        run_id=$(gh run list -R "$REPO" --workflow us-weekly.yml --event workflow_dispatch \
+                 --branch "$BRANCH" -L 5 --json databaseId,createdAt \
+                 --jq "[.[] | select(.createdAt >= \"$since\")][0].databaseId // empty")
+        [ -n "$run_id" ] && break
+      done
+      # "Success" is not enough: a run whose gate skipped the work also
+      # succeeds, as the Senate half did on 10 October 2026. Its pull job
+      # must have run and passed.
+      if [ -n "$run_id" ] && gh run watch "$run_id" -R "$REPO" --exit-status >/dev/null \
+         && [ "$(gh run view "$run_id" -R "$REPO" --json jobs \
+                 --jq '[.jobs[] | select(.name == "pull")][0].conclusion // "missing"')" = "success" ]; then
+        echo "GitHub run $run_id published the Senate votes; fetching the store again"
+        git pull -q --rebase --autostash origin "$BRANCH"
+        python3 tools/db_state.py --pull
+      else
+        echo "  [gap] Senate half on GitHub failed or never started (run ${run_id:-none}); this week has no new Senate votes"
+      fi
+    else
+      echo "  [gap] could not dispatch the Senate half to GitHub; this week has no new Senate votes"
+    fi
+  else
+    echo "  [gap] senate.gov refused and gh is unavailable; this week has no new Senate votes"
+  fi
+fi
+
+if [ -n "$CATCH_UP" ]; then
+  # The ended Congress, once a week for its first 45 days gone: final bill
+  # statuses, late roll calls, and their amendment purposes.
+  python3 tools/us_rollcalls.py --congress "$CATCH_UP" --no-members --budget-seconds 1200 \
+    "${SENATE_ARGS[@]}" | tee "$LOG/us-rollcalls-catch-up.log" \
+    || echo "  [gap] catch-up of the ${CATCH_UP}th Congress ended with gaps; the current one still runs"
+fi
+python3 tools/us_rollcalls.py --congress "$CONGRESS" --budget-seconds 2700 "${SENATE_ARGS[@]}" \
+  | tee "$LOG/us-rollcalls.log" \
+  || echo "  [gap] Congress step ended with gaps; what it stored stands"
+
+# The week ahead, after the bills (its rows join us_bills for areas) and
+# before the edition that prints it. Non-zero means a gap, recorded in the
+# store and said in the edition; it never stops the week's edition.
+python3 tools/us_schedule.py "${SENATE_ARGS[@]}" | tee "$LOG/us-schedule.log" \
+  || echo "  [gap] the week ahead stopped early; the edition says what it has"
+
+# The executive and the Court. Neither depends on the Congress: the Federal
+# Register runs by publication date and the Court by its October Term, which
+# tools/us_courts.py derives from the date. Neither stops the edition: a
+# refused source is a [gap] line (and a gaps row), and the edition says what
+# it holds. The Court's first run reads about 275 order PDFs (some 18
+# minutes at robots.txt's one a second); its budget caps a run at 15 minutes
+# and the rest are read the next week, unread files never marked read.
+python3 tools/us_federal_register.py | tee "$LOG/us-federal-register.log" \
+  || echo "  [gap] Federal Register step failed; this week's executive actions may be missing"
+python3 tools/us_courts.py --budget-seconds 900 | tee "$LOG/us-courts.log" \
+  || echo "  [gap] Supreme Court step failed; this week's opinions and grants may be missing"
+
+# The fifty state legislatures (tools/us_states.py, 9 October 2026), through
+# Open States, before the judge so state bills that moved can be scored.
+# NO PAID TIER: the week is read from the per-session bulk files (keyless;
+# Open States writes a new one nightly for every session that changed), and
+# the free key spends two requests on the session list plus a top-up of the
+# last day for live bills on our ground (about 70 to 90 in a sitting week).
+# A ledger in the store keeps every run of a UTC day under 225 of the key's
+# 250, so this and a backup run the same day cannot overrun. States not
+# reached inside the budget go first next week (the rotation). 10 minutes on
+# GitHub keeps the job's step budgets under its 120; 30 on the Mini.
+# No OPENSTATES_API_KEY: one [gap] line and the step skips.
+# US_STATES_FULL=true re-reads every current bulk file whole: after a
+# taxonomy change that WIDENS the net (v1.20, 9 October 2026: 91 state bills
+# newly on our ground were never stored), since --reclassify only narrows.
+# Measured at 945 s for all 66 sessions, so it gets 30 minutes on GitHub too;
+# the Record step after it takes only what the job has left.
+STATES_ARGS=()
+if [ "${US_STATES_FULL:-}" = "true" ]; then STATES_ARGS=(--full); STATES_BUDGET=1800
+elif [ -n "${GITHUB_ACTIONS:-}" ]; then STATES_BUDGET="${US_STATES_BUDGET:-600}"
+else STATES_BUDGET="${US_STATES_BUDGET:-1800}"; fi
+python3 tools/us_states.py --budget-seconds "$STATES_BUDGET" "${STATES_ARGS[@]}" | tee "$LOG/us-states.log" \
+  || echo "  [gap] the state legislatures step ended with gaps; the edition says what it has"
+
+# The Congressional Record (phase 3a, 9 October 2026): floor speeches on our
+# ground, before the judge (which scores them) and the edition (its Floor
+# debate section). Keyed: without CONGRESS_API_KEY it is one [gap] line and
+# the edition says what it already holds. The 119th Congress's backfill is
+# about 20,000 granule pages at three or four a second, some 95 minutes; it
+# drains newest first, so recent weeks are read first and the rest arrive
+# over the following weeks.
+#
+# ITS BUDGET IS WHAT THE JOB HAS LEFT, not a fixed slice. It runs after every
+# other collector, so the clock ($SECONDS) knows what they really took; it
+# gets at most 10 minutes on GitHub and 15 on the Mini, and never more than
+# the job's limit (GitHub 120 minutes, the Mini three hours) less 30 minutes
+# for the judge and, for the edition and the store transfers, 10 on GitHub
+# and 20 on the Mini (its store upload took 13 to 16 minutes on 10 and 11
+# October 2026; tools/collector_budget.sh).
+# Short of a minute, it skips this week and says so.
+if [ -n "${GITHUB_ACTIONS:-}" ]; then JOB_LIMIT=7200; RECORD_MAX=600; TRANSFERS=600
+else JOB_LIMIT="${JOB_TIMEOUT:-10800}"; RECORD_MAX=900; TRANSFERS=1200; fi
+# The judge's half hour is always kept: on the Mini whether it runs is only
+# known below, from the repo variable.
+LEFT=$(( JOB_LIMIT - SECONDS - 1800 - TRANSFERS ))
+RECORD_BUDGET="${US_RECORD_BUDGET:-$(( LEFT < RECORD_MAX ? LEFT : RECORD_MAX ))}"
+if [ "$RECORD_BUDGET" -ge 60 ]; then
+  python3 tools/us_record.py --budget-seconds "$RECORD_BUDGET" | tee "$LOG/us-record.log" \
+    || echo "  [gap] Congressional Record step ended with gaps; the edition shows what the store holds"
+else
+  echo "  [gap] Congressional Record skipped: ${RECORD_BUDGET}s left in the job's budget" \
+    | tee "$LOG/us-record.log"
+fi
+
+JUDGE="${US_JUDGE:-}"
+if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then
+  JUDGE=$(gh variable get US_JUDGE -R thejoycething-code/parl-monitor 2>/dev/null || true)
+fi
+if [ "$JUDGE" = "on" ]; then
+  # US_RESCORE: space-separated keys to judge again on a human's say-so
+  # ('119/hr/28', 'us_divisions:house-119-1-240'). Spend: announce it.
+  if [ -n "${US_RESCORE:-}" ]; then
+    python3 tools/us_triage.py --rescore $US_RESCORE --dry-run | tee "$LOG/us-triage-rescore.log" \
+      || echo "  [gap] the rescore listing failed"
+  fi
+  # A judge gap must not cost the run: on 9 October 2026 one item the judge
+  # could not parse (us_bills:119/s/48) exited 1 here, set -e stopped the
+  # script before the publish below, and the reclassify, the states, the
+  # Record and 204 paid scores were all thrown away with the runner.
+  python3 tools/us_triage.py --limit 800 --budget-seconds 1800 | tee "$LOG/us-triage.log" \
+    || echo "  [gap] the judge left items unscored; they are retried next run"
+fi
+
+# The 5CA sheets (tools/us_5ca.py, data/5ca/us-5ca-*.csv): offline, from the
+# store just collected, seconds to run, as prov_5ca.py runs in the provinces
+# weekly. They place members only from SIGNED readings in config/us_stance.yaml;
+# until one is signed every sheet is an evidence list and says so.
+python3 tools/us_5ca.py --all | tee "$LOG/us-5ca.log" \
+  || echo "  [gap] the 5CA sheets failed; last week's stand"
+
+# The vote tracker and member profiles (tools/make_us_votes.py ->
+# partner_site/us-votes.html and docs/us-votes.html): offline, from the same
+# store, seconds, AFTER the 5CA step because profiles show 5CA placements and
+# both read config/us_stance.yaml the same way. Directions only from SIGNED
+# readings; with none signed the page shows the record and labels nobody.
+# The page is committed with this run; the partner site ships it at its next
+# deploy (Monday publish's Deploy tracker deploys the committed partner_site/).
+python3 tools/make_us_votes.py | tee "$LOG/us-votes.log" \
+  || echo "  [gap] the US vote tracker failed to build; last week's page stands"
+
+TODAY=$(date +%Y-%m-%d)
+if git ls-files --error-unmatch "editions/us-monitor-$TODAY.md" >/dev/null 2>&1; then
+  echo "edition for $TODAY already committed: rewriting it, not resending the DM"
+  python3 tools/us_monitor.py --edition | tee "$LOG/us-monitor.log" \
+    || echo "  [gap] the edition failed to render"
+else
+  python3 tools/us_monitor.py --edition --dm | tee "$LOG/us-monitor.log" \
+    || echo "  [gap] the edition or its DM failed"
+fi
+
+# The raw archive before the store: a store citing payloads the archive
+# lacks is the worse failure. Both merge, never clobber.
+python3 tools/raw_state.py --push
+python3 tools/db_state.py --push

@@ -1,0 +1,56 @@
+{
+ "dados": [
+  {
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/4",
+   "siglaOrgao": "MESA",
+   "nomeOrgao": "Mesa Diretora da Câmara dos Deputados",
+   "nomePublicacaoOrgao": "Mesa Diretora",
+   "uriDeputado": "https://dadosabertos.camara.leg.br/api/v2/deputados/204423",
+   "nomeDeputado": "André Ferreira",
+   "siglaPartido": "PL",
+   "siglaUF": "PE",
+   "cargo": "4º Suplente de Secretário",
+   "dataInicio": "2023-02-01",
+   "dataFim": "2025-02-01"
+  },
+  {
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/4",
+   "siglaOrgao": "MESA",
+   "nomeOrgao": "Mesa Diretora da Câmara dos Deputados",
+   "nomePublicacaoOrgao": "Mesa Diretora",
+   "uriDeputado": "https://dadosabertos.camara.leg.br/api/v2/deputados/178937",
+   "nomeDeputado": "Altineu Côrtes",
+   "siglaPartido": "PL",
+   "siglaUF": "RJ",
+   "cargo": "1º Vice-Presidente",
+   "dataInicio": "2025-02-01",
+   "dataFim": ""
+  },
+  {
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/4",
+   "siglaOrgao": "MESA",
+   "nomeOrgao": "Mesa Diretora da Câmara dos Deputados",
+   "nomePublicacaoOrgao": "Mesa Diretora",
+   "uriDeputado": "https://dadosabertos.camara.leg.br/api/v2/deputados/220638",
+   "nomeDeputado": "Antonio Carlos Rodrigues",
+   "siglaPartido": "PODE",
+   "siglaUF": "SP",
+   "cargo": "1º Suplente de Secretário",
+   "dataInicio": "2025-02-01",
+   "dataFim": ""
+  },
+  {
+   "uriOrgao": "https://dadosabertos.camara.leg.br/api/v2/orgaos/4",
+   "siglaOrgao": "MESA",
+   "nomeOrgao": "Mesa Diretora da Câmara dos Deputados",
+   "nomePublicacaoOrgao": "Mesa Diretora",
+   "uriDeputado": "https://dadosabertos.camara.leg.br/api/v2/deputados/204426",
+   "nomeDeputado": "Carlos Veras",
+   "siglaPartido": "PT",
+   "siglaUF": "PE",
+   "cargo": "1º Secretário",
+   "dataInicio": "2025-02-01",
+   "dataFim": ""
+  }
+ ]
+}

@@ -1,0 +1,61 @@
+# GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
+# Source of truth: docs/keyword-taxonomy-hr.md
+# Regenerate: python3 tools/generate_taxonomy.py --lang hr
+version: 0.1
+areas:
+  1_abortion:
+    tier1: ["pobačaj*", "abortus*", "prekid* trudnoće", "prekidanj* trudnoće", "slobodno odlučivanje o rađanju", "slobodnom odlučivanju o rađanju", "nerođen*", "pravo na život", "prav* na život od začeća", "zaštit* nerođen*", "začeć*", "Hod za život", "40 dana za život", "mifepriston*", "tablet* za pobačaj", "pilul* za pobačaj"]
+    tier2: ["reproduktivn* zdravlj*", "reproduktivn* prav*", "spoln* i reproduktivn*", "kontracepcij*", "trudnic*", "trudnoć*", "priziv* savjesti", "prenatal*", "mrtvorođen*"]
+    # note: Croatia: Measured against the 11th Sabor's titles; 'slobodno odlučivanje o rađanju' is the 1978 law's name.
+  2_assisted_dying:
+    tier1: ["eutanazij*", "potpomognut* samoubojstv*", "asistiran* samoubojstv*", "potpomognut* umiranj*", "usmrćenj* na zahtjev", "dostojanstven* smrt*", "dostojanstven* umiranj*"]
+    tier2: ["palijativ*", "hospicij*", "kraj* život*", "anticipirane naredbe", "obvezujuć* izjav* volje"]
+    # note: No terms proposed for this area.
+  3_gender_medicine_children:
+    tier1: ["blokator* pubertet*", "promjen* spola", "prilagodb* spola", "uskla* spola", "rodn* disforij*", "spoln* disforij*", "rodn* nesklad*", "detranzicij*"]
+    tier2: [{term: "hormonsk* terapij*", with: ["djec*", "maloljet*", "spol*"]}, {term: "tranzicij*", with: ["spol*", "rod*", "maloljet*"]}]
+    # note: Croatia: Tranzicij* is guarded because unguarded it is the economic transition of the 1990s.
+  4_conversion_practices:
+    tier1: ["konverzijsk* terapij*", "terapij* konverzije", "reparativn* terapij*", "konverzijsk* praks*"]
+    tier2: []
+    # note: No terms proposed for this area.
+  5_sex_based_rights:
+    tier1: ["rodn* ideologij*", "rodn* identitet*", "Istanbulsk* konvencij*", "Konvencij* Vijeća Europe o spr*čavanju i borbi protiv nasilja nad ženama", "rodno uvjetovan* nasilj*", "femicid*", "transrodn*", "transseksual*", "nebinarn*", LGBT, LGBTI, LGBTIQ, LGBTQ]
+    tier2: ["spoln* orijentacij*", {term: "ravnopravnost* spolova", without: ["Odbor* za izbor", "Odbor* za ravnopravnost spolova"]}, "rodn* ravnopravnost*", "rodno osjetljiv*", "suzbijanj* diskriminacij*", "nasilj* nad ženama", "interspoln*", "državn* maticama", "pravobranitel* za ravnopravnost spolova"]
+    # note: Croatia: spr*čavanju written to catch both 'sprječavanju' and the withdrawal bill's 'sprečavanju'; ravnopravnost spolova vetoed to cut committee appointments.
+  6_parental_rights_education:
+    tier1: ["zdravstven* odgoj*", "spoln* odgoj*", "seksualn* odgoj*", "građansk* odgoj*", "prav* roditelja", "roditeljsk* prav*", "kućn* školovanj*", "školovanj* kod kuće", "obrazovanj* kod kuće", "nastav* kod kuće", "digitaln* zaštit* djece"]
+    tier2: [{term: "kurikul*", with: ["spol*", "zdravstven*", "građansk*", "rod*", "vjeronauk*"]}, {term: "društven* mrež*", with: ["djec*", "maloljet*", "škol*"]}, {term: "mobitel*", with: ["škol*", "učenik*"]}, "zaštit* djece na internetu", "roditeljsk* skrb*", "osnovnoškolsk* odgoj*", "pravobranitel* za djecu", "odgoj* i obrazovanj* u osnovnoj i srednjoj školi", "udžbenic*", "predškolsk* odgoj*"]
+    # note: No terms proposed for this area.
+  7_free_speech_online_safety:
+    name: "Free speech, privacy and civil liberties"
+    tier1: ["slobod* govora", "slobod* izražavanj*", "slobod* mišljenja", "govor* mržnje", "cenzur*", "Akt o digitalnim uslugama", "Digital Services Act", "Uredbe (EU) 2022/2065", SLAPP, "otkrivanj* sadržaja izvida", "sadržaja izvida", "Lex AP", "slobod* medija", "Europsk* akt* o slobodi medija", "Uredbe (EU) 2024/1083"]
+    tier2: ["dezinformacij*", "lažn* vijest*", "elektroničkim medijima", medijima, "klevet*", "uvred*", "poticanj* na nasilje i mržnju", "zadržavanj* podataka", "nadzor* komunikacij*", "tajn* nadzor*", "Svjetsk* zdravstven* organizacij*"]
+    # note: Croatia: Lex AP is the 2024 offence of leaking investigation material, fought by journalists.
+  8_freedom_of_religion:
+    tier1: ["vjersk* slobod*", "slobod* vjeroispovijesti", "slobod* savjesti", "vjeronauk*", "Svet* Stolic*", "progon* kršćana", "blasfemij*", "vjersk* osjećaj*"]
+    tier2: ["vjersk* zajednic*", "Katoličk* Crkv*", "kršćan*", "crkv*", {term: "nedjelj*", with: ["rad*", "trgovin*", "neradn*"]}, "pravnom položaju vjerskih zajednica", "priziv* savjesti"]
+    # note: No terms proposed for this area.
+  9_marriage_family:
+    tier1: ["brak*", "bračn*", "životn* partnerstv*", "istospoln*", "osob* istog spola", "Obiteljsk* zakon*", "roditelj* odgojitelj*", "obiteljsk* politik*", "pronatal*"]
+    tier2: ["demograf*", "rodiljn*", "roditeljsk* potpor*", "doplat* za djecu", "posvojenj*", "posvojitelj*", "udomitelj*", "udomljavanj*", {term: "obitelj*", without: ["branitelj*", "Odbor* za izbor", "Odbor* za obitelj", "ministr*"]}, "alimentacij*", "uzdržavanj* djece"]
+    # note: Croatia: obitelj* carries vetoes: it matched 22 titles, 16 of them noise (Defenders and their Families Act, committee appointments).
+  10_surrogacy_embryology:
+    tier1: ["surogat*", "zamjensk* majčinstv*", "medicinski pomognut* oplodnj*", "potpomognut* oplodnj*", zametak, "zametk*", "embrij*", "kloniranj*"]
+    tier2: ["matičn* stanic*", "neplodnost*", "biomedicin*", "genetsk* testiranj*"]
+    # note: No terms proposed for this area.
+  11_migration:
+    tier1: ["migracij*", "migrant*", "azil*", "međunarodn* zaštit*", strancima, stranaca, "nezakonit* prelask*"]
+    tier2: ["strani radnici", "stranih radnika", "radn* dozvol*", "granic*"]
+    # note: No terms proposed for this area.
+  12_prostitution:
+    name: "Prostitution, trafficking and sexual exploitation"
+    tier1: ["prostitucij*", "trgovanj* ljudima", "trgovin* ljudima", "trgovac ljudima", "pornograf*", "seksualn* iskorištavanj*", "spoln* iskorištavanj*", "spoln* zlostavljanj*", "seksualn* zlostavljanj*"]
+    tier2: ["zlostavljanj* djece", "iskorištavanj* djece", "dob* pristanka", "provjer* dobi", "dječj* pornograf*"]
+    # note: No terms proposed for this area.
+  13_organ_donation:
+    name: Organ donation and transplant ethics
+    tier1: ["presađivanj*", "transplantacij*", "darivanj* organa", "doniranj* organa", "darivatelj* organa"]
+    tier2: ["darivanj* krvi", "tkiva i stanica"]
+    # note: No terms proposed for this area.
+exclusions_global: [život, spol, zaštita]

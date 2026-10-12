@@ -1,0 +1,143 @@
+# Canadian PROVINCIAL legislatures -- watchlist. GROUNDWORK DRAFT
+# (2 October 2026), not yet reviewed by Christopher or anyone who campaigns
+# in Canada. Read with config/taxonomy.yaml, which is used UNCHANGED.
+#
+# WHY IT EXISTS. Measured before the build (docs/canada-provinces-scope.md,
+# finding 2): the English taxonomy matched 2 of 18 provincial test-case
+# TITLES. Provincial titles name a statute, not a subject. So:
+#   * bills are classified on their TEXT, per passage (src/prov_classify.py);
+#   * `terms:` below add the provincial policy vocabulary the taxonomy
+#     measurably lacks, matched per passage like taxonomy terms (a term with
+#     `with:` needs one of its guards in the SAME passage);
+#   * `provinces.<code>.bills:` watch bill KEYS, '<prov>-<leg>-<sess>/<number>'
+#     ('/x-<slug>' for a bill refused first reading, which never gets a
+#     number). Matched by KEY ONLY, never by title: "Education Amendment Act,
+#     2024" and "Education Amendment Act, 2025" are different bills, and the
+#     title is here for the reader. A watched key gives tier 1.
+#
+# Every entry says why, and which text it was measured on. A term added
+# without a measurement is a guess; mark it so. Titles and keys for the
+# Every province's entries were re-read from the records when its collector
+# was built (Alberta, Saskatchewan and BC; Manitoba, Ontario, New Brunswick,
+# Newfoundland and Labrador and Quebec, 2 October 2026; Nova Scotia from CI).
+
+terms:
+  - term: "Parents' Bill of Rights"
+    areas: [6]
+    why: "Saskatchewan Bill 137 (2023) and the New Brunswick and Alberta debates use it. Taxonomy MISSED the SK title."
+  - term: "Policy 713"
+    areas: [6, 5]
+    why: "New Brunswick's school policy on preferred names and pronouns (2023); the 15 June 2023 motion and the PC rebellion."
+  - term: "SOGI 123"
+    areas: [6]
+    why: "BC's sexual orientation and gender identity school resource. A policy, not a bill: no SOGI division exists (scope, BC)."
+  - term: "preferred name*"
+    with: ["pronoun*", "student*", "school*", "pupil*"]
+    areas: [6]
+    why: "Alberta Bill 27 (2024) s.33.2 'new preferred name or pronouns'; SK Bill 137. Measured on the AB Bill 27 PDF: the taxonomy matched it only on 'home education'."
+  - term: "pronoun*"
+    with: ["student*", "school*", "teacher*", "parent*", "pupil*"]
+    areas: [6]
+    why: "Same bills. Guarded: a bare 'pronoun' in a debate on grammar or translation is not ours."
+  - term: "parental notification"
+    areas: [6]
+    why: "Alberta Bill 27 headings ('Parental notification and consent'). Taxonomy has 'parental consent' but not this."
+  - term: "gender ideology"
+    areas: [6]
+    why: "BC 'Gender Ideology and Child Protection Act' (19 Feb 2026, refused first reading 38-49). The title matched only 'child protection', tier 2."
+  - term: "mixed-sex"
+    with: ["sport*", "league*", "athlet*", "competition*"]
+    areas: [5]
+    why: "Alberta Bill 29 Fairness and Safety in Sport Act s.4: 'mixed-gender or mixed-sex leagues, classes or divisions'. The taxonomy matched NOTHING in its text."
+  - term: "efforts to change sexual orientation or gender identity"
+    areas: [4]
+    why: "Ontario Bill 77 (2015) wording for conversion practices; the taxonomy missed it (scope, finding 2)."
+  - term: "end-of-life care"
+    areas: [2]
+    why: "Quebec's 'Act respecting end-of-life care' (Bill 52, 2013) and Bill 11 (2023). The taxonomy carries 'end of life care' (tier 2) without the hyphens, and tier-2 passages are not kept."
+  - term: "medical assistance in dying"
+    areas: [2]
+    why: "Tier 2 in the taxonomy, where match_passages drops it. Provincial MAID bills (QC Bill 11) are wholly on this ground."
+  - term: "laicity"
+    areas: [8]
+    why: "Quebec Bill 21 English title 'An Act respecting the laicity of the State'. Quebec's own records are French and are read by config/taxonomy-qc.yaml; this term reads only the English bill titles."
+  - term: "religious symbols"
+    areas: [8]
+    why: "Quebec Bill 21 / Bill 94 subject, in the English titles. The French layer carries 'signe* religieux'."
+  - term: "notwithstanding clause"
+    areas: []
+    why: "No area of its own: listed so the judge sees it. Alberta Bill 9 (2025) and Ontario Bill 28 (2022) turn on it; the bill KEY gives the areas where they are ours."
+  - term: "operate notwithstanding"
+    with: ["Charter"]
+    areas: []
+    why: "The statutory FORMULA a bill uses to invoke s.33 ('This Act shall operate notwithstanding sections 2 and 7 to 15 of the Canadian Charter'). Measured on Alberta Bill 9 (2025), whose text never says 'notwithstanding clause'."
+
+provinces:
+  # Keys are QUOTED: YAML 1.1 reads a bare `on:` as the boolean true.
+  "ab":
+    bills:
+      "ab-31-1/26": {title: "Health Statutes Amendment Act, 2024 (No. 2)", areas: [3],
+                     why: "Puberty blockers and cross-sex hormones for minors. The text matches area 3 ('gender dysphoria'); listed as the flagship. Third reading carried 47-35 on 3 Dec 2024."}
+      "ab-31-1/27": {title: "Education Amendment Act, 2024", areas: [6],
+                     why: "Preferred names and pronouns, parental notification, resources on gender identity. Third reading 47-33 on 3 Dec 2024."}
+      "ab-31-1/29": {title: "Fairness and Safety in Sport Act", areas: [5],
+                     why: "Female sport eligibility. Its TEXT says only 'eligibility' and 'mixed-sex leagues': without the key the taxonomy finds nothing. Third reading 47-33 on 3 Dec 2024."}
+      "ab-31-2/9": {title: "Protecting Alberta's Children Statutes Amendment Act, 2025", areas: [3, 5, 6],
+                    why: "Invokes the notwithstanding clause over the Education Act, the Fairness and Safety in Sport Act and Health Professions Act ss.1.91-1.93 -- Bills 27, 29 and 26. Its text (read 2 Oct 2026) never says 'gender': only the key catches it."}
+  "sk":
+    bills:
+      "sk-29-3/137": {title: "The Education (Parents' Bill of Rights) Amendment Act, 2023", areas: [6],
+                      why: "Parental consent for pronoun changes under 16, notwithstanding clause. Third reading carried 40-12 on 20 Oct 2023."}
+  "bc":
+    bills:
+      "bc-43-2/x-gender-ideology-and-child-protection-act": {title: "Gender Ideology and Child Protection Act", areas: [3, 6],
+          why: "Tara Armstrong's bill (medical transition of minors, social transition in schools). Refused first reading 38-49 on 19 Feb 2026, so it never had a number and is absent from the bills JSON."}
+  "mb":
+    bills:
+      "mb-42-3/207": {title: "The Abortion Protest Buffer Zone Act", areas: [1],
+                      why: "Abortion clinic buffer zones (Nahanni Fontaine, NDP opposition). Second reading NEGATIVED 20-30 on 14 Oct 2021 (V&P No. 82): the NDP and Liberals for, the PC government against. Its text matches area 1 on its own; the key makes it tier 1."}
+      "mb-43-2/43": {title: "The Human Rights Code Amendment Act", areas: [5],
+                     why: "Adds 'gender expression' to the Human Rights Code. Third reading carried 33-16 on 2 June 2025 (V&P No. 63): NDP for, PC against. Its title names a statute and says nothing of gender: only the key and the text catch it."}
+  "ns":
+    # Read from the bill pages and first-reading texts fetched from a GitHub
+    # runner on 2 October 2026 (nslegislature.ca resets the laptop's VPN).
+    # "On voice" means the sitting's Hansard puts the reading and records
+    # "The motion is carried." with no recorded vote (src/ingest/prov_ns.py).
+    bills:
+      "ns-63-2/16": {title: "Sexual Orientation and Gender Identity Protection Act", areas: [4],
+                     why: "Conversion-practices ban: 'change efforts' are not insured services and get no public money (Mark Furey, government bill). Third reading 25 Sep 2018, assent 11 Oct 2018. Its text says 'efforts to change THEIR sexual orientation or gender identity', which neither the taxonomy nor the watchlist term matches: only the key catches it."}
+      "ns-63-2/133": {title: "Human Organ and Tissue Donation Act", areas: [13],
+                      why: "Deemed (presumed) consent to organ donation (introduced by Stephen McNeil, government bill). Third reading 12 Apr 2019 on VOICE: the Hansard of that day puts it and records it carried, with no recorded vote. Its text matches area 13 on its own; the key makes it tier 1."}
+      "ns-63-2/242": {title: "Protecting Access to Reproductive Health Care Act", areas: [1],
+                      why: "Abortion access zones: 'access zone', 'besetting', 'interference' around facilities providing abortion services (Claudia Chender, NDP private member's bill). Third reading 10 Mar 2020 on VOICE (Hansard of that day). Its text matches area 1 on its own."}
+      "ns-61-4/140": {title: "Transgendered Persons Protection Act", areas: [5],
+                      why: "Adds gender identity and gender expression to the Human Rights Act (Ross Landry, NDP government). Third reading 30 Nov 2012, assent 6 Dec 2012. Its title names no subject the taxonomy knows; its text matches 'gender expression'."}
+  "on":
+    bills:
+      "on-41-1/77": {title: "Affirming Sexual Orientation and Gender Identity Act, 2015", areas: [4],
+                     why: "Conversion-practices ban ('efforts to change sexual orientation or gender identity'). Third reading 'Carried.' on 4 June 2015 by VOICE: no member record exists, and the 5CA must say so rather than place anyone."}
+      "on-43-1/28": {title: "Keeping Students in Class Act, 2022", areas: [7],
+                     why: "A labour bill that pre-emptively invoked the notwithstanding clause over Charter ss. 2, 7 and 15 (time allocation 78-33, second reading 76-32, third reading 74-34 on 3 Nov 2022; repealed weeks later). Listed because the scope names it for the s.33 precedent. AREA 7 IS A DRAFT JUDGEMENT (civil liberties: s.2 freedoms overridden), not a reviewed one -- Christopher decided 3 Oct 2026: keep it (area 7, as evidence of the s.33 precedent) but it never scores in the 5CA -- config/prov_stance.yaml marks its three divisions placeable: false."}
+  "nb":
+    bills:
+      "nb-60-2/52": {title: "Human Organ and Tissue Donation Act", areas: [13],
+                     why: "Deemed (presumed) consent to organ donation; Jean-Claude D'Amours's private member's bill. Second reading 11 May 2023 and third reading 15 June 2023 both passed on VOICE (the Journal: 'it was resolved in the affirmative', no division), so no member record exists. Built 2 Oct 2026; the key is needed because the 15 June Journal names the bill only by title and number."}
+  "nl":
+    bills:
+      "nl-48-1/43": {title: "Access to Abortion Services Act", areas: [1],
+                     why: "Safe access zones around abortion facilities and providers' homes (2016). Second reading and committee 17 Nov 2016, third reading 21 Nov 2016, all on VOICE: Hansard 'Carried', no division. The TITLE matches area 1; the key keeps it tier 1 whatever its text says. Built 2 Oct 2026."}
+  "qc":
+    # Keys are the bill's OWN page link (projet-loi-<n>-<leg>-<sess>.html):
+    # a bill reinstated in a later session keeps its first session's key.
+    # Measured 2 October 2026 from the bill pages and the procès-verbaux.
+    bills:
+      "qc-42-1/21": {title: "Loi sur la laïcité de l'État (An Act respecting the laicity of the State)", areas: [8],
+                     why: "Bans religious symbols for public employees in positions of authority, under the notwithstanding clause. Adopted 73-35 on 16 June 2019 (PV vote no. 165): Legault and Jolin-Barrette for, Nadeau-Dubois against. Report stage 73-35 the same day; principle 77-38 on 4 June 2019."}
+      "qc-43-1/94": {title: "Loi visant notamment à renforcer la laïcité dans le réseau de l'éducation", areas: [8, 6],
+                     why: "Extends Bill 21's laicity rules to school staff and volunteers and to home schooling (its text regulates 'l'enseignement à la maison', hence area 6). Presented 2025 in 43-1, reinstated in 43-2, adopted 70-27 on 30 October 2025 (PV vote no. 53; report stage on voice, 28 October). The key is 43-1: the bill's own page link."}
+      "qc-40-1/52": {title: "Loi concernant les soins de fin de vie (as first presented)", areas: [2],
+                     why: "Quebec's MAID law as first presented by Véronique Hivon. Principle adopted 84-26 on 29 October 2013 (PV vote no. 64). Died at the 2014 dissolution."}
+      "qc-41-1/52": {title: "Loi concernant les soins de fin de vie (An Act respecting end-of-life care)", areas: [2],
+                     why: "The same bill reinstated in the 41st legislature by unanimous motion on 22 May 2014 and adopted 94-22 on 5 June 2014 (PV vote no. 10). A different bill page, so a different KEY from qc-40-1/52; both are watched."}
+      "qc-43-1/11": {title: "Loi modifiant la Loi concernant les soins de fin de vie et d'autres dispositions législatives", areas: [2],
+                     why: "MAID expansion (advance requests, neuromotor disabilities). Principle on 4 April 2023 with NO recorded vote (a voice decision); report stage 107-0 on 2 June 2023; adoption 103-2-1 on 7 June 2023 (PV vote no. 113). The scope probe's '107-0 at principle' was the report stage."}

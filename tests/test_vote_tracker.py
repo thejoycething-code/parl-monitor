@@ -114,6 +114,39 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(dataset["divisions"], [])
 
 
+class PortraitCreditTests(unittest.TestCase):
+    """The member card shows UK Parliament's official portrait from the
+    Members API; its licence (CC BY 3.0, docs/portraits-logos-licences.md)
+    asks for a credit wherever it appears -- the Brazil/Croatia rule (#139)."""
+
+    setUp = DatasetTests.setUp      # the same small store and dataset
+
+    CREDIT = "Photos: UK Parliament (<a href=\"https://creativecommons.org/licenses/by/3.0/\">CC BY 3.0</a>"
+
+    def page(self):
+        with open(mvt.TEMPLATE, encoding="utf-8") as fh:
+            return mvt.render_page(fh.read(), self.dataset)
+
+    def test_the_built_page_credits_the_photos(self):
+        page = self.page()
+        self.assertIn("members-api.parliament.uk/api/Members/${m.id}/Thumbnail", page)
+        self.assertIn(self.CREDIT, page)
+        self.assertIn("official-portraits-copyright-information", page)
+        self.assertIn('title="Photo: UK Parliament (CC BY 3.0)"', page)
+        # in the footer, which every view of the page shows
+        foot = page[page.index("<footer>"):page.index("</footer>")]
+        self.assertIn(self.CREDIT, foot)
+
+    def test_every_committed_build_carries_the_credit(self):
+        for path in mvt.OUTPUTS:
+            if not os.path.exists(path):
+                continue
+            with open(path, encoding="utf-8") as fh:
+                page = fh.read()
+            if "Members/${m.id}/Thumbnail" in page:
+                self.assertIn(self.CREDIT, page, path)
+
+
 class MemberParsingTests(unittest.TestCase):
     def test_since_takes_the_later_of_the_two_api_dates(self):
         """Continuously-serving and returning members carry the two dates the

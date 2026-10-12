@@ -1,0 +1,626 @@
+# US Congress: what a roll call, a sponsorship or a cosponsorship MEANS,
+# written by a human.
+#
+# The US mirror of config/ca_stance.yaml and config/prov_stance.yaml, under
+# the same rule: which lobby is CitizenGO's is the campaigner's judgement, and
+# no tool estimates it. tools/us_5ca.py applies these lines; it never invents
+# one.
+#
+# EVERY ENTRY IS A DRAFT (9 October 2026). Claude drafted them from the store
+# at Christopher's request ("5CA parity for the US Congress"). An entry
+# carrying `draft: true` places NOBODY, so until readings are signed every
+# US sheet is an evidence list ending "NO SIGNED READINGS". To sign: tick the
+# box in docs/5ca-us-readings.md and run `python3 tools/us_5ca.py
+# --sign-from-doc`, or delete the `draft: true` line by hand. To regenerate
+# the guide after editing this file: `python3 tools/us_5ca.py --signoff-doc`.
+#
+# Four kinds of entry:
+#   * divisions with `yea:` / `nay:` on the stance scale (-2..2), and why
+#     lines -- a reading that, once signed, places every member who voted;
+#   * `placeable: false` with a `reason:` -- the vote tells no member apart
+#     (near-unanimous) or is procedure (a 119th-Congress motion to recommit,
+#     which carries no instructions). Evidence only, once signed;
+#   * `read_first:` with no values -- no direction proposed;
+#   * bills with `sponsored:` / `cosponsored:` -- sponsoring is weight 3,
+#     cosponsoring weight 2, a vote weight 5. Cosponsorship is drafted at +/-1
+#     so that it alone never reaches ++ ("will vote with us"); a vote does.
+#
+# Keys are the store's: roll calls 'house-119-1-27' / 'senate-119-1-11'
+# (chamber-congress-session-roll), bills '119/hr/21'. `motion:` is the
+# amendment purpose the House printed, or the Senate's question; `aye_means:`
+# says what a Yea was for. `lobbies:` is counted from us_votes (party AT THE
+# VOTE), not remembered. `flag:` is a question for the signer.
+#
+
+divisions:
+  # --- Area 5: sex based rights. H.R. 28 / S. 9, Protection of Women and Girls in Sports Act ---
+
+  - key: "house-119-1-12"
+    title: "On Passage: Protection of Women and Girls in Sports Act of 2025"
+    dated: "2025-01-14"
+    result: "Passed 218-206"
+    lobbies: "Yea: R 216, D 2. Nay: D 206."
+    motion: "Protection of Women and Girls in Sports Act"
+    aye_means: "For passing the bill: Title IX barred from letting males take part in athletics designated for women or girls, sex defined by reproductive biology and genetics at birth."
+    yea: 2
+    why_yea: "Voted to pass the Protection of Women and Girls in Sports Act: women's and girls' school sport kept for females."
+    nay: -2
+    why_nay: "Voted against keeping women's and girls' school sport for females."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-1-11"
+    title: "On Motion to Recommit: Protection of Women and Girls in Sports Act of 2025"
+    dated: "2025-01-14"
+    result: "Failed 208-218"
+    lobbies: "Yea: D 208. Nay: R 217, D 1."
+    motion: "Protection of Women and Girls in Sports Act"
+    aye_means: "For sending H.R. 28 back to committee, i.e. against the bill."
+    placeable: false
+    reason: "A motion to recommit in the 119th House carries no instructions: it is the minority's last procedural vote to send the bill back, cast on party lines. The passage vote the same day carries the reading; this one would only count the same members twice."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "senate-119-1-100"
+    title: "On Cloture on the Motion to Proceed S. 9: Protection of Women and Girls in Sports Act of 2025"
+    dated: "2025-03-03"
+    result: "Cloture on the Motion to Proceed Rejected 51-45"
+    lobbies: "Yea: R 51. Nay: D 43, I 2."
+    motion: "Motion to Invoke Cloture: Motion to Proceed to S. 9 | A bill to provide that for purposes of determining compliance with title IX of the Education Amendments of 1972 in athletics, sex shall be recognized based solely on a person's reproductive biology and genetics at birth."
+    aye_means: "For invoking cloture on the motion to proceed to S. 9: ending the filibuster so the Senate could take the bill up. 60 needed; it failed."
+    yea: 2
+    why_yea: "Voted to let the Senate take up the Protection of Women and Girls in Sports Act (cloture on the motion to proceed)."
+    nay: -2
+    why_nay: "Voted to keep the Protection of Women and Girls in Sports Act from the Senate floor (against cloture)."
+    flag: "A cloture vote on a motion to proceed is procedure in form, but it was the Senate's only vote on S. 9 and the filibuster is how the bill died. Drafted at +/-2 as the de facto vote; +/-1 if you read cloture as procedure."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  # --- Area 1: abortion. H.R. 21 / S. 6, Born-Alive Abortion Survivors Protection Act ---
+
+  - key: "house-119-1-27"
+    title: "On Passage: Born-Alive Abortion Survivors Protection Act"
+    dated: "2025-01-23"
+    result: "Passed 217-204"
+    lobbies: "Yea: R 216, D 1. Nay: D 204."
+    motion: "Born-Alive Abortion Survivors Protection Act"
+    aye_means: "For passing the bill: a child born alive after an attempted abortion must receive the care any other child of that gestational age would, and be admitted to hospital."
+    yea: 2
+    why_yea: "Voted to pass the Born-Alive Abortion Survivors Protection Act."
+    nay: -2
+    why_nay: "Voted against requiring care for children born alive after an attempted abortion."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-1-26"
+    title: "On Motion to Recommit: Born-Alive Abortion Survivors Protection Act"
+    dated: "2025-01-23"
+    result: "Failed 205-216"
+    lobbies: "Yea: D 205. Nay: R 216."
+    motion: "Born-Alive Abortion Survivors Protection Act"
+    aye_means: "For sending H.R. 21 back to committee, i.e. against the bill."
+    placeable: false
+    reason: "A motion to recommit in the 119th House carries no instructions: it is the minority's last procedural vote to send the bill back, cast on party lines. The passage vote the same day carries the reading; this one would only count the same members twice."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "senate-119-1-11"
+    title: "On Cloture on the Motion to Proceed S. 6: Born-Alive Abortion Survivors Protection Act"
+    dated: "2025-01-22"
+    result: "Cloture on the Motion to Proceed Rejected 52-47"
+    lobbies: "Yea: R 52. Nay: D 45, I 2."
+    motion: "Motion to Invoke Cloture: Motion to Proceed to S.6 | A bill to amend title 18, United States Code, to prohibit a health care practitioner from failing to exercise the proper degree of care in the case of a child who survives an abortion or attempted abortion."
+    aye_means: "For invoking cloture on the motion to proceed to S. 6 (Born-Alive). 60 needed; it failed 52-47."
+    yea: 2
+    why_yea: "Voted to let the Senate take up the Born-Alive Abortion Survivors Protection Act (cloture)."
+    nay: -2
+    why_nay: "Voted to keep the Born-Alive Abortion Survivors Protection Act from the Senate floor (against cloture)."
+    flag: "As for S. 9: cloture on the motion to proceed, drafted at +/-2 as the Senate's only vote on the bill."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  # --- Area 3 / 5: gender medicine for children. H.R. 3492 and H.R. 498 (17-18 December 2025) ---
+
+  - key: "house-119-1-351"
+    title: "On Passage: Protect Children’s Innocence Act"
+    dated: "2025-12-17"
+    result: "Passed 216-211"
+    lobbies: "Yea: R 213, D 3. Nay: D 207, R 4."
+    motion: "Protect Children’s Innocence Act"
+    aye_means: "For passing the Protect Children's Innocence Act: a federal crime to perform procedures or give hormones to a minor to change the body to correspond to a sex other than the biological sex."
+    yea: 2
+    why_yea: "Voted to pass the Protect Children's Innocence Act (criminalising gender transition procedures on minors)."
+    nay: -2
+    why_nay: "Voted against the Protect Children's Innocence Act."
+    flag: "Four Republicans voted Nay and three Democrats Yea; whether the criminal-law route (rather than funding) is CitizenGO's ask is your call. Drafted +/-2."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-1-350"
+    title: "On Motion to Recommit: Protect Children’s Innocence Act"
+    dated: "2025-12-17"
+    result: "Failed 210-218"
+    lobbies: "Yea: D 210. Nay: R 218."
+    motion: "Protect Children’s Innocence Act"
+    aye_means: "For sending H.R. 3492 back to committee, i.e. against the bill."
+    placeable: false
+    reason: "A motion to recommit in the 119th House carries no instructions: it is the minority's last procedural vote to send the bill back, cast on party lines. The passage vote the same day carries the reading; this one would only count the same members twice."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-1-362"
+    title: "On Passage: Do No Harm in Medicaid Act"
+    dated: "2025-12-18"
+    result: "Passed 215-201"
+    lobbies: "Yea: R 211, D 4. Nay: D 201."
+    motion: "Do No Harm in Medicaid Act"
+    aye_means: "For passing the Do No Harm in Medicaid Act: no federal Medicaid payment for gender transition procedures for under-18s."
+    yea: 2
+    why_yea: "Voted to end federal Medicaid funding of gender transition procedures for minors."
+    nay: -2
+    why_nay: "Voted to keep federal Medicaid funding of gender transition procedures for minors."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-1-361"
+    title: "On Motion to Recommit: Do No Harm in Medicaid Act"
+    dated: "2025-12-18"
+    result: "Failed 204-212"
+    lobbies: "Yea: D 204. Nay: R 212."
+    motion: "Do No Harm in Medicaid Act"
+    aye_means: "For sending H.R. 498 back to committee, i.e. against the bill."
+    placeable: false
+    reason: "A motion to recommit in the 119th House carries no instructions: it is the minority's last procedural vote to send the bill back, cast on party lines. The passage vote the same day carries the reading; this one would only count the same members twice."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  # --- NDAA amendment votes, matched on their own purposes (H.R. 3838, FY2026; H.R. 8800, FY2027) ---
+
+  - key: "house-119-1-245"
+    title: "On Agreeing to the Amendment: Streamlining Procurement for Effective Execution and Delivery and National Defense Authorization Act for Fiscal Year 2026 (Norman "
+    dated: "2025-09-10"
+    result: "Agreed to 221-210"
+    lobbies: "Yea: R 217, D 4. Nay: D 209, R 1."
+    motion: "An amendment numbered 13 printed in Part A of House Report 119-255 to prohibit the provision of gender transition procedures, including surgery or medication, through the Exceptional Family Medical Program. | Amendment prohibits the provision of gender transition procedures, including surgery or medication, through the Exceptional Family Medical Program."
+    aye_means: "For the Norman amendment: no gender transition procedures (surgery or medication) through the Exceptional Family Member Program."
+    yea: 2
+    why_yea: "Voted to bar gender transition procedures through the military's Exceptional Family Member Program."
+    nay: -2
+    why_nay: "Voted against barring gender transition procedures through the Exceptional Family Member Program."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-1-246"
+    title: "On Agreeing to the Amendment: Streamlining Procurement for Effective Execution and Delivery and National Defense Authorization Act for Fiscal Year 2026 (Mace of"
+    dated: "2025-09-10"
+    result: "Agreed to 221-207"
+    lobbies: "Yea: R 215, D 6. Nay: D 205, R 2."
+    motion: "An amendment numbered 14 printed in Part A of House Report 119-255 to prohibit DoD from covering or furnishing gender-related medical treatment under TRICARE. | Amendment prohibits the Department of Defense from covering or furnishing gender-related medical treatment under TRICARE."
+    aye_means: "For the Mace amendment: DoD may not cover or furnish gender-related medical treatment under TRICARE."
+    yea: 2
+    why_yea: "Voted to end TRICARE coverage of gender-related medical treatment."
+    nay: -2
+    why_nay: "Voted to keep TRICARE coverage of gender-related medical treatment."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-1-247"
+    title: "On Agreeing to the Amendment: Streamlining Procurement for Effective Execution and Delivery and National Defense Authorization Act for Fiscal Year 2026 (Mace of"
+    dated: "2025-09-10"
+    result: "Agreed to 227-201"
+    lobbies: "Yea: R 217, D 10. Nay: D 201."
+    motion: "An amendment numbered 15 printed in Part A of House Report 119-255 to prohibit the Superintendent of a Service Academy from allowing a cadet or midshipman who is male from participating in an athletic program or activity that is designated exclusively for females. | Amendment prohibits the Superintendent of a Service Academy from allowing a cadet or midshipman who is male from participating in an athletic program or activity that is designated exclusively for females."
+    aye_means: "For the Mace amendment: no male cadet or midshipman in a service academy athletic programme designated for females."
+    yea: 2
+    why_yea: "Voted to keep women's sport at the service academies for females."
+    nay: -2
+    why_nay: "Voted against keeping women's sport at the service academies for females."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-1-248"
+    title: "On Agreeing to the Amendment: Streamlining Procurement for Effective Execution and Delivery and National Defense Authorization Act for Fiscal Year 2026 (Mace of"
+    dated: "2025-09-10"
+    result: "Agreed to 221-210"
+    lobbies: "Yea: R 217, D 4. Nay: D 209, R 1."
+    motion: "An amendment numbered 16 printed in Part A of House Report 119-255 to prohibit the Secretary of Defense from soliciting information through a form or survey regarding the gender identity of an individual, providing an option to indicate the sex or gender of an individual is something other than male or female, and requiring the Secretary reject a response other than male or female to a required question on a form or survey regarding sex or gender. | Amendment prohibits the Secretary of Defense from soliciting information through a form or survey regarding the gender identity of an individual, providing an option to indicate the sex or gender of an individual is something other than male or f"
+    aye_means: "For the Mace amendment: DoD forms may not ask about gender identity or offer a sex other than male or female."
+    yea: 1
+    why_yea: "Voted to keep DoD forms to male and female, without gender identity questions."
+    nay: -1
+    why_nay: "Voted to allow gender identity questions and non-binary options on DoD forms."
+    flag: "Drafted at +/-1: record-keeping, a weaker signal than the medical and sport votes beside it."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-1-249"
+    title: "On Agreeing to the Amendment: Streamlining Procurement for Effective Execution and Delivery and National Defense Authorization Act for Fiscal Year 2026 (Mace of"
+    dated: "2025-09-10"
+    result: "Agreed to 219-209"
+    lobbies: "Yea: R 216, D 3. Nay: D 208, R 1."
+    motion: "An amendment numbered 17 printed in Part A of House Report 119-255 to prohibit individuals from accessing or using single-sex spaces on military installations which do not correspond to the biological sex of the individual. | Amendment prohibits individuals from accessing or using single-sex spaces on military installations which do not correspond to the biological sex of the individual."
+    aye_means: "For the Mace amendment: single-sex spaces on military installations by biological sex."
+    yea: 2
+    why_yea: "Voted to keep single-sex spaces on military installations by biological sex."
+    nay: -2
+    why_nay: "Voted against single-sex spaces by biological sex on military installations."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-2-266"
+    title: "On Agreeing to the Amendment: National Defense Authorization Act for Fiscal Year 2027 (Boebert of Colorado Part A Amendment No. 18)"
+    dated: "2026-07-21"
+    result: "Failed 212-217"
+    lobbies: "Yea: R 211, I 1. Nay: D 213, R 4."
+    motion: "An amendment numbered 18 printed in Part A of House Report 119-755 to codify Executive Order 14183, which implements a ban on transgender service members by requiring all personnel to serve in accordance with their biological sex, citing military readiness and discipline. | Amendment sought to codify Executive Order 14183, which implements a ban on transgender service members by requiring all personnel to serve in accordance with their biological sex, citing military readiness and discipline."
+    aye_means: "For the Boebert amendment: codify Executive Order 14183, every service member to serve according to biological sex (the transgender service ban). It failed 212-217."
+    yea: 1
+    why_yea: "Voted to codify service by biological sex in the armed forces (EO 14183)."
+    nay: -1
+    why_nay: "Voted against codifying service by biological sex in the armed forces."
+    flag: "Military personnel policy rather than a core CitizenGO ask: drafted at +/-1. Four Republicans voted Nay; strike it (placeable: false) if it is off our ground."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-2-267"
+    title: "On Agreeing to the Amendment: National Defense Authorization Act for Fiscal Year 2027 (Mace of South Carolina Part A Amendment No. 19)"
+    dated: "2026-07-21"
+    result: "Agreed to 219-208"
+    lobbies: "Yea: R 213, D 5, I 1. Nay: D 207, R 1."
+    motion: "An amendment numbered 19 printed in Part A of House Report 119-755 to prohibit gender related medical care under TRICARE and to prevent TRICARE from covering certain gender related medical procedures and treatments. | Amendment prohibits gender-related medical care under TRICARE and prevents TRICARE from covering certain gender-related medical procedures and treatments."
+    aye_means: "For the Mace amendment: no gender-related medical care under TRICARE."
+    yea: 2
+    why_yea: "Voted to end TRICARE coverage of gender-related medical care."
+    nay: -2
+    why_nay: "Voted to keep TRICARE coverage of gender-related medical care."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-2-268"
+    title: "On Agreeing to the Amendment: National Defense Authorization Act for Fiscal Year 2027 (Mace of South Carolina Part A Amendment No. 20)"
+    dated: "2026-07-21"
+    result: "Agreed to 221-203"
+    lobbies: "Yea: R 215, D 5, I 1. Nay: D 203."
+    motion: "An amendment numbered 20 printed in Part A of House Report 119-755 to prohibit male participation in female sports at DoDEA schools. | Amendment prohibits male participation in female sports at Department of Defense Education Activity schools."
+    aye_means: "For the Mace amendment: no male participation in female sports at DoD Education Activity schools."
+    yea: 2
+    why_yea: "Voted to keep girls' sport at DoD schools for girls."
+    nay: -2
+    why_nay: "Voted against keeping girls' sport at DoD schools for girls."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-2-273"
+    title: "On Agreeing to the Amendment: National Defense Authorization Act for Fiscal Year 2027 (Self of Texas Part A Amendment No. 28)"
+    dated: "2026-07-22"
+    result: "Agreed to 221-210"
+    lobbies: "Yea: R 217, D 3, I 1. Nay: D 210."
+    motion: "An amendment numbered 28 printed in Part A of House Report 119-755 to codify protections and responsibilities for chaplains and subject such protections to prosecution under the Uniform Code of Military Justice. | Amendment codifies protections and responsibilities for chaplains and subjects such protections to prosecution under the Uniform Code of Military Justice."
+    aye_means: "For the Self amendment: codify chaplains' protections and responsibilities, enforceable under the UCMJ."
+    yea: 1
+    why_yea: "Voted to codify protections for military chaplains."
+    nay: -1
+    why_nay: "Voted against codifying protections for military chaplains."
+    flag: "Religious freedom (area 8). The purpose text is short; drafted at +/-1 until the amendment is read."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  # --- Area 1: pregnancy support (January 2026) ---
+
+  - key: "house-119-2-37"
+    title: "On Passage: Supporting Pregnant and Parenting Women and Families Act"
+    dated: "2026-01-21"
+    result: "Passed 215-209"
+    lobbies: "Yea: R 214, D 1. Nay: D 209."
+    motion: "Supporting Pregnant and Parenting Women and Families Act"
+    aye_means: "For passing the Supporting Pregnant and Parenting Women and Families Act: states may use TANF funds for pregnancy centres that support the life of the mother and the unborn child."
+    yea: 2
+    why_yea: "Voted to let TANF funds support pro-life pregnancy centres."
+    nay: -2
+    why_nay: "Voted against TANF funding for pro-life pregnancy centres."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "house-119-2-47"
+    title: "On Passage: Pregnant Students’ Rights Act"
+    dated: "2026-01-22"
+    result: "Passed 217-211"
+    lobbies: "Yea: R 216, D 1. Nay: D 211."
+    motion: "Pregnant Students’ Rights Act"
+    aye_means: "For passing the Pregnant Students' Rights Act: colleges must tell students of their rights and resources to carry a pregnancy to term."
+    yea: 1
+    why_yea: "Voted to require colleges to inform pregnant students of resources to carry to term."
+    nay: -1
+    why_nay: "Voted against requiring colleges to inform pregnant students of resources to carry to term."
+    flag: "An information duty, not a protection: drafted at +/-1."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "senate-119-2-12"
+    title: "On Cloture on the Motion to Proceed S. 3627: Pregnant Students’ Rights Act"
+    dated: "2026-01-27"
+    result: "Cloture on the Motion to Proceed Rejected 47-45"
+    lobbies: "Yea: R 47. Nay: D 43, I 2."
+    motion: "Motion to Invoke Cloture on the Motion to Proceed to S. 3627 | A bill to require institutions of higher education to disseminate information on the rights of, and accommodations and resources for, pregnant students, and for other purposes."
+    aye_means: "For cloture on the motion to proceed to S. 3627, the Senate's Pregnant Students' Rights Act. It failed 47-45."
+    yea: 1
+    why_yea: "Voted to let the Senate take up the Pregnant Students' Rights Act (cloture)."
+    nay: -1
+    why_nay: "Voted to keep the Pregnant Students' Rights Act from the Senate floor."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "senate-119-2-72"
+    title: "On the Motion to Proceed S.J.Res. 103: A joint resolution providing for congressional disapproval under chapter 8 of title 5, United States Code, of the rule su"
+    dated: "2026-03-25"
+    result: "Motion to Proceed Rejected 48-50"
+    lobbies: "Yea: D 44, R 2, I 2. Nay: R 50."
+    motion: "Motion to proceed to S.J. Res. 103 | A joint resolution providing for congressional disapproval under chapter 8 of title 5, United States Code, of the rule submitted by the Department of Veterans Affairs relating to \"Reproductive Health Services\"."
+    aye_means: "For proceeding to S.J.Res. 103, which would overturn the VA rule on 'Reproductive Health Services' (the rule that took abortion out of veterans' care). The motion failed 48-50."
+    yea: -2
+    why_yea: "Voted to take up the resolution restoring abortion in VA care."
+    nay: 2
+    why_nay: "Voted against taking up the resolution restoring abortion in VA care."
+    flag: "Here a YEA is AGAINST us: S.J.Res. 103 disapproves a rule that restricts abortion. A motion to proceed, drafted at +/-2 as the resolution's only vote; check the rule's text before signing."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  # --- Area 6: parental rights. H.R. 2616, PROTECT Kids Act ---
+
+  - key: "house-119-2-184"
+    title: "On Passage: Stopping Indoctrination and Protecting Kids Act"
+    dated: "2026-05-20"
+    result: "Passed 217-198"
+    lobbies: "Yea: R 208, D 8, I 1. Nay: D 198."
+    motion: "PROTECT Kids Act"
+    aye_means: "For passing the PROTECT Kids Act: elementary and middle schools must get parental consent before changing a child's gender markers, pronouns, name on forms, or sex-based accommodations."
+    yea: 2
+    why_yea: "Voted to require parental consent before a school socially transitions a child."
+    nay: -2
+    why_nay: "Voted against requiring parental consent before a school socially transitions a child."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  # --- Area 10: IVF ---
+
+  - key: "senate-119-1-82"
+    title: "On the Amendment S.Amdt. 971 to S.Con.Res. 7 (No short title on file): An original concurrent resolution setting forth the congressional budget for the United S"
+    dated: "2025-02-21"
+    result: "Amendment Rejected 49-51"
+    lobbies: "Yea: D 45, R 2, I 2. Nay: R 51."
+    motion: "Duckworth Amdt. No. 971 | To establish a deficit-neutral reserve fund relating to protecting access to fertility services, and eliminating barriers for families in need of high-quality, affordable fertility services by expanding nationwide coverage for in vitro fertilization. | To establish a deficit-neutral reserve fund relating to protecting access to fertility services, and eliminating barriers for families in need of high-quality, affordable fertility services by expanding nationwide coverage for in vitro fertilization."
+    aye_means: "For the Duckworth amendment to the budget resolution: a deficit-neutral reserve fund for expanding IVF coverage nationwide. Rejected 49-51."
+    read_first: "CitizenGO's position on public IVF coverage is not written down anywhere in the repo, and a reserve-fund amendment to a budget resolution is a messaging vote. No direction proposed: give one, or mark it placeable: false."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  # --- Area 12: trafficking ---
+
+  - key: "house-119-1-119"
+    title: "On Motion to Suspend the Rules and Pass: Stop Forced Organ Harvesting Act of 2025"
+    dated: "2025-05-07"
+    result: "Passed 406-1"
+    lobbies: "Yea: R 203, D 203. Nay: R 1."
+    motion: "Stop Forced Organ Harvesting Act"
+    aye_means: "For passing the Stop Forced Organ Harvesting Act under suspension: sanctions on persons involved in forced organ harvesting."
+    placeable: false
+    reason: "Passed 406-1: the lobby tells no member apart."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+bills:
+  # --- Pro-life bills: sponsor +2, cosponsor +1 ---
+
+  - key: "119/hr/21"
+    title: "Born-Alive Abortion Survivors Protection Act (House)"
+    result: "sponsor Rep. Wagner, Ann [R-MO-2]; 163 cosponsors; areas [1]"
+    sponsored: 2
+    why_sponsored: "Introduced the Born-Alive Abortion Survivors Protection Act."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the Born-Alive Abortion Survivors Protection Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/s/6"
+    title: "Born-Alive Abortion Survivors Protection Act (Senate)"
+    result: "sponsor Sen. Lankford, James [R-OK]; 50 cosponsors; areas [1]"
+    sponsored: 2
+    why_sponsored: "Introduced the Born-Alive Abortion Survivors Protection Act."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the Born-Alive Abortion Survivors Protection Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/7"
+    title: "No Taxpayer Funding for Abortion and Abortion Insurance Full Disclosure Act (House)"
+    result: "sponsor Rep. Smith, Christopher H. [R-NJ-4]; 128 cosponsors; areas [1]"
+    sponsored: 2
+    why_sponsored: "Introduced the bill making the Hyde Amendment permanent."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the bill making the Hyde Amendment permanent."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/s/186"
+    title: "No Taxpayer Funding for Abortion and Abortion Insurance Full Disclosure Act (Senate)"
+    result: "sponsor Sen. Wicker, Roger F. [R-MS]; 50 cosponsors; areas [1]"
+    sponsored: 2
+    why_sponsored: "Introduced the bill making the Hyde Amendment permanent."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the bill making the Hyde Amendment permanent."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/722"
+    title: "Life at Conception Act"
+    result: "sponsor Rep. Burlison, Eric [R-MO-7]; 116 cosponsors; areas [1]"
+    sponsored: 2
+    why_sponsored: "Introduced the Life at Conception Act."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the Life at Conception Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/589"
+    title: "FACE Act Repeal Act of 2025"
+    result: "sponsor Rep. Roy, Chip [R-TX-21]; 44 cosponsors; areas [1, 8]"
+    sponsored: 2
+    why_sponsored: "Introduced the repeal of the FACE Act, under which pro-life sidewalk counsellors and protesters were prosecuted."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the repeal of the FACE Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/271"
+    title: "Defund Planned Parenthood Act of 2025"
+    result: "sponsor Rep. Fischbach, Michelle [R-MN-7]; 60 cosponsors; areas [1]"
+    sponsored: 2
+    why_sponsored: "Introduced the bill ending federal funding of Planned Parenthood."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the bill ending federal funding of Planned Parenthood."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  # --- Pro-abortion bills: sponsor -2, cosponsor -1 ---
+
+  - key: "119/hr/12"
+    title: "Women's Health Protection Act of 2025 (House)"
+    result: "sponsor Rep. Chu, Judy [D-CA-28]; 209 cosponsors; areas [1]"
+    sponsored: -2
+    why_sponsored: "Introduced the bill creating a federal statutory right to abortion."
+    cosponsored: -1
+    why_cosponsored: "Cosponsored the federal statutory right to abortion."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/s/2150"
+    title: "Women's Health Protection Act of 2025 (Senate)"
+    result: "sponsor Sen. Baldwin, Tammy [D-WI]; 46 cosponsors; areas [1]"
+    sponsored: -2
+    why_sponsored: "Introduced the bill creating a federal statutory right to abortion."
+    cosponsored: -1
+    why_cosponsored: "Cosponsored the federal statutory right to abortion."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/4611"
+    title: "EACH Act of 2025"
+    result: "sponsor Rep. Pressley, Ayanna [D-MA-7]; 202 cosponsors; areas [1]"
+    sponsored: -2
+    why_sponsored: "Introduced the bill to repeal the Hyde Amendment's effect (abortion coverage in federal insurance)."
+    cosponsored: -1
+    why_cosponsored: "Cosponsored the EACH Act (abortion coverage in federal insurance)."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/2029"
+    title: "Stop Comstock Act"
+    result: "sponsor Rep. Balint, Becca [D-VT-At Large]; 146 cosponsors; areas [1]"
+    sponsored: -2
+    why_sponsored: "Introduced the bill to repeal the Comstock Act's bar on mailing abortion drugs."
+    cosponsored: -1
+    why_cosponsored: "Cosponsored the repeal of the Comstock Act's bar on mailing abortion drugs."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/sjres/103"
+    title: "S.J.Res. 103: disapproving the VA rule on 'Reproductive Health Services'"
+    result: "sponsor Sen. Blumenthal, Richard [D-CT]; 39 cosponsors; areas [1]"
+    sponsored: -2
+    why_sponsored: "Introduced the resolution restoring abortion in VA care."
+    cosponsored: -1
+    why_cosponsored: "Cosponsored the resolution restoring abortion in VA care."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  # --- Sex based rights and gender medicine: sponsor +/-2, cosponsor +/-1 ---
+
+  - key: "119/hr/28"
+    title: "Protection of Women and Girls in Sports Act (House)"
+    result: "sponsor Rep. Steube, W. Gregory [R-FL-17]; 83 cosponsors; areas [5]"
+    sponsored: 2
+    why_sponsored: "Introduced the Protection of Women and Girls in Sports Act."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the Protection of Women and Girls in Sports Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/s/9"
+    title: "Protection of Women and Girls in Sports Act (Senate)"
+    result: "sponsor Sen. Tuberville, Tommy [R-AL]; 44 cosponsors; areas [5]"
+    sponsored: 2
+    why_sponsored: "Introduced the Protection of Women and Girls in Sports Act."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the Protection of Women and Girls in Sports Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/3492"
+    title: "Protect Children's Innocence Act"
+    result: "sponsor Rep. Greene, Marjorie Taylor [R-GA-14]; 44 cosponsors; areas [3, 5]"
+    sponsored: 2
+    why_sponsored: "Introduced the Protect Children's Innocence Act."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the Protect Children's Innocence Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/498"
+    title: "Do No Harm in Medicaid Act"
+    result: "sponsor Rep. Crenshaw, Dan [R-TX-2]; 6 cosponsors; areas [3, 5]"
+    sponsored: 2
+    why_sponsored: "Introduced the Do No Harm in Medicaid Act."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the Do No Harm in Medicaid Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/5483"
+    title: "Chloe Cole Act"
+    result: "sponsor Rep. Onder, Robert F. [R-MO-3]; 44 cosponsors; areas [3]"
+    sponsored: 2
+    why_sponsored: "Introduced the Chloe Cole Act."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the Chloe Cole Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/2616"
+    title: "PROTECT Kids Act (Stopping Indoctrination and Protecting Kids Act)"
+    result: "sponsor Rep. Walberg, Tim [R-MI-5]; 4 cosponsors; areas [6]"
+    sponsored: 2
+    why_sponsored: "Introduced the PROTECT Kids Act (parental consent for social transition at school)."
+    cosponsored: 1
+    why_cosponsored: "Cosponsored the PROTECT Kids Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/15"
+    title: "Equality Act (House)"
+    result: "sponsor Rep. Takano, Mark [D-CA-39]; 218 cosponsors; areas [5, 8]"
+    sponsored: -2
+    why_sponsored: "Introduced the Equality Act (gender identity in the Civil Rights Act, overriding single-sex spaces and RFRA defences)."
+    cosponsored: -1
+    why_cosponsored: "Cosponsored the Equality Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/s/1503"
+    title: "Equality Act (Senate)"
+    result: "sponsor Sen. Merkley, Jeff [D-OR]; 46 cosponsors; areas [5, 8]"
+    sponsored: -2
+    why_sponsored: "Introduced the Equality Act."
+    cosponsored: -1
+    why_cosponsored: "Cosponsored the Equality Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"
+
+  - key: "119/hr/2487"
+    title: "Transgender Health Care Access Act"
+    result: "sponsor Rep. Balint, Becca [D-VT-At Large]; 80 cosponsors; areas [5]"
+    sponsored: -2
+    why_sponsored: "Introduced the Transgender Health Care Access Act."
+    cosponsored: -1
+    why_cosponsored: "Cosponsored the Transgender Health Care Access Act."
+    draft: true
+    drafted: "Claude, 9 October 2026"

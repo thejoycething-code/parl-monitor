@@ -1,0 +1,32 @@
+[
+ {
+  "Legislatura": "L",
+  "Periodo": 2,
+  "Tipo": "ORD",
+  "Sesion": 27,
+  "SesionTipo": "ORD",
+  "SesionFecha": "2026/07/14",
+  "Diario": 4636,
+  "URL": "http://www.diputados.gub.uy/wp-content/uploads/2026/09/d4636.pdf"
+ },
+ {
+  "Legislatura": "L",
+  "Periodo": 1,
+  "Tipo": "ORD",
+  "Sesion": 31,
+  "SesionTipo": "EXT",
+  "SesionFecha": "2025/08/12",
+  "Diario": 4578,
+  "URL": "http://www.diputados.gub.uy/wp-content/uploads/2025/09/d4578.pdf"
+ },
+ {
+  "Legislatura": "XLVII",
+  "Periodo": 5,
+  "Tipo": "ORD",
+  "Sesion": 2,
+  "SesionTipo": "EXT",
+  "SesionFecha": 1394496000000,
+  "Diario": 3911,
+  "URL": "http://www.diputados.gub.uy/wp-content/uploads/2014/03/d3911.pdf"
+ }
+]
