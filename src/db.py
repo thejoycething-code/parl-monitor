@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS cv_votes (
   side TEXT NOT NULL,             -- A | N | TA | TN | X (no vote recorded)
   party TEXT,                     -- as the division list printed it THAT DAY
   PRIMARY KEY (division_id, member_id)
-);
+) WITHOUT ROWID;
 -- Computed by the same tool after each pull: one row per member, plus one
 -- row per defiance so the events are listable without recomputation.
 -- "Whipped" here is the bloc inference the tracker already uses (two
@@ -365,6 +365,10 @@ CREATE TABLE IF NOT EXISTS un_documents (
 -- Recorded votes from HRC session reports. One row per state per vote, which
 -- is what makes "how did Nigeria vote on every SRHR text" a single query --
 -- the same shape as mp_events for Westminster divisions.
+-- The one vote table NOT made WITHOUT ROWID (12 October 2026,
+-- tools/store_compact.py): `draft` is in the key but may be NULL (a vote with
+-- no draft symbol before it), which a WITHOUT ROWID table refuses. It is
+-- tiny and the UN pipeline is paused, so it keeps its rowid.
 CREATE TABLE IF NOT EXISTS un_votes (
   report TEXT NOT NULL,           -- 'A/HRC/58/2'
   draft TEXT,                     -- 'A/HRC/58/L.30/Rev.1'; joins to un_documents
@@ -564,7 +568,7 @@ CREATE TABLE IF NOT EXISTS ni_votes (
   designation TEXT,               -- Unionist | Nationalist | Other
   captured_at TEXT NOT NULL,
   PRIMARY KEY (doc_id, person_id)
-);
+) WITHOUT ROWID;
 -- ============================= HOLYROOD ====================================
 -- Scottish Parliament watching brief (2026-08-20). Same rules as ni_*: its own
 -- tables, never `items`/`mp_events`, so it structurally cannot reach the Slack
@@ -655,7 +659,7 @@ CREATE TABLE IF NOT EXISTS sp_votes (
   party TEXT,                     -- stamped on the vote row by the API itself
   shares_party TEXT,              -- the API's own whip-agreement flag
   PRIMARY KEY (division_key, person_id)
-);
+) WITHOUT ROWID;
 -- Holyrood speech ledger: Official Report contributions that match the
 -- taxonomy, passage-filtered like the Westminster ledger. Speeches are
 -- ACTIVITY evidence in the SP 5CA -- there is no Claude stance scoring in a
@@ -772,7 +776,7 @@ CREATE TABLE IF NOT EXISTS sd_votes (
   member_name TEXT,
   result TEXT,                    -- For | Against | Abstain
   PRIMARY KEY (division_key, member_id)
-);
+) WITHOUT ROWID;
 -- Senedd speech ledger: attributed plenary contributions matching the
 -- taxonomy, passage-filtered. Activity evidence only -- the watching-brief
 -- rule: no stance scoring, a speech never places, it gives a dated quotable
@@ -1353,7 +1357,7 @@ CREATE TABLE IF NOT EXISTS de_votes (
   person_id TEXT NOT NULL,
   position TEXT NOT NULL,         -- 'yes' | 'no' | 'abstain' | 'no_show'
   PRIMARY KEY (vote_id, person_id)
-);
+) WITHOUT ROWID;
 CREATE TABLE IF NOT EXISTS eu_meps (
   person_id TEXT PRIMARY KEY,     -- 'person/197529' -> '197529'
   name TEXT,
@@ -1390,7 +1394,7 @@ CREATE TABLE IF NOT EXISTS eu_votes (
   person_id TEXT NOT NULL,
   position TEXT NOT NULL,         -- 'favor' | 'against' | 'abstention'
   PRIMARY KEY (vote_id, person_id)
-);
+) WITHOUT ROWID;
 CREATE TABLE IF NOT EXISTS eu_texts (
   identifier TEXT PRIMARY KEY,    -- 'TA-10-2026-0006'
   date TEXT, title TEXT,          -- adoption date; EN title

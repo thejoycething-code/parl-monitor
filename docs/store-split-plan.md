@@ -1,7 +1,9 @@
 # Splitting the store: plan and trigger (12 October 2026)
 
-Status: PLAN, nothing implemented except the read-only `tools/store_sizes.py`.
-Decision wanted from Chris: approve Stage 1 now, and the trigger for Stage 3.
+Status: Stage 1 BUILT (12 October 2026, branch `store-compact`); Stages 2 to 4 are a plan.
+Decision wanted from Chris: the trigger for Stage 3 (the warnings below already use it).
+
+- 12 October 2026: Chris approved Stage 1 and the new warnings: "Yes, build and merge it". Built: the vote tables' `CREATE TABLE` statements say `WITHOUT ROWID`; `tools/store_compact.py` converts the published store once (`jobs/store-compact.sh`, run by hand on the Mini); `tools/db_state.py --push` vacuums before every publish; the size warnings are on the compressed asset (0.75 GB "plan the split", 1.0 GiB "split now"). Details in section 3(d) and `docs/mac-mini.md`.
 
 ## The answer in five lines
 
@@ -104,12 +106,12 @@ Every store-writing job pulls and pushes the whole store, one at a time on the M
 |---|---|---|
 | 0.75 GB | about 18 months of steady growth, or one big expansion wave, from the trigger | build Stage 2 (the split code, single-file mode) |
 | **1.0 GiB (1.07 GB)** | **the trigger** | **Stage 3 cutover within two weeks** |
-| 1.5 GB (today's "split now" warning) | too late: on 10 October the store grew about 155 MB compressed in one day; at that rate 1.5 GB to 2 GiB is four days | emergency fallback (option f) |
+| 1.5 GB (the old "split now" warning, until 12 October 2026) | too late: on 10 October the store grew about 155 MB compressed in one day; at that rate 1.5 GB to 2 GiB is four days | emergency fallback (option f) |
 | 2 GiB | GitHub refuses the upload; `db_state.py` already refuses first | |
 
 Also trigger Stage 3 early if either: (a) a planned addition is expected to add more than 0.3 GB compressed within a month while the asset is over 0.75 GB; or (b) the Mini's pull plus push takes over 15 minutes on median across a week (its network has slowed).
 
-The raw-size warning (`STORE_WARN_BYTES`, 1.6 GB) fires on every push and so warns about nothing. Proposed, for Chris to approve (not changed here): replace it with a compressed "plan" warning at 0.75 GB and move the "split now" warning from 1.5 GB to 1.0 GiB; keep the 2 GiB refusal. `tools/health_summary.py`'s Store line would follow.
+The raw-size warning (`STORE_WARN_BYTES`, 1.6 GB) fired on every push and so warned about nothing. **Done (12 October 2026, approved by Chris):** it is gone; `tools/db_state.py` warns "plan the split" when the compressed asset passes 0.75 GB (`GZ_PLAN_BYTES`) and "split now" when it passes 1.0 GiB (`GZ_WARN_BYTES`, was 1.5 GB); the 2 GiB refusal stays. `tools/health_summary.py`'s Store line uses the same function, so it follows.
 
 **Projected date of the 1.0 GiB trigger:**
 
@@ -174,7 +176,16 @@ Each job declares the shards it writes and reads, like the existing `# mini_run:
 
 **Risk:** a job reads a shard it did not declare (fails loudly, fixed by one line); core is still written by nearly every job, so core remains the serialisation point, as the whole store is today.
 
-### (d) Compaction: VACUUM and WITHOUT ROWID (RECOMMENDED now, Stage 1)
+### (d) Compaction: VACUUM and WITHOUT ROWID (Stage 1: BUILT 12 October 2026)
+
+**As built** (Chris approved 12 October 2026: "Yes, build and merge it"):
+- The `CREATE TABLE` of 36 vote tables (all but `pl_votes`, already so, and `un_votes`) ends `WITHOUT ROWID`; a new store is built compact. `un_votes` keeps its rowid: its key column `draft` may be NULL, which `WITHOUT ROWID` refuses (747 rows, pipeline paused). No secondary index was redundant (none is a leading part of a primary key); all are kept.
+- Instead of a migration in each `ensure_schema`, one tool converts the published store once: `tools/store_compact.py` (`--dry-run` prints the plan and the expected saving). It finds every rowid table ending `_votes` in `sqlite_master`, so a vote table a country branch adds later is converted too; per table, in one transaction: create, copy, compare row counts and a sha256 of every row in key order, drop, rename, recreate indexes; then VACUUM. Idempotent. Run by `jobs/store-compact.sh` on the Mini, which then publishes.
+- `src/prov_store.py refresh_party` addresses `prov_votes` rows by their key (division_key, position, ordinal) instead of rowid; on the scratch copy it gave the same counts and the same `party_at_vote` values on the old and the converted store. A test fails if code addresses a vote table by rowid again.
+- `tools/db_state.py --push` runs `vacuum_store()` after the heartbeat and before the sha: `VACUUM INTO` a temporary file, schema checked, `os.replace`; bounded at 240 s and skipped with a warning when the disk is short, never fatal.
+- Measured on a scratch copy of the 12 October store (laptop, since deleted): 36 tables, 8,657,473 rows, rebuilt in 34 s, VACUUM 17 s, 51 s in all; 1,825 MB to 1,480 MB raw (-19%), 447 MB to 308 MB compressed (-31%); all 369 tables' row counts unchanged, `quick_check` ok. A push's VACUUM alone on the unconverted store: 1,825 to 1,693 MB in 9 s.
+
+The analysis as written before the build:
 
 Measured on a scratch copy of the store:
 
@@ -207,9 +218,9 @@ Publish the one `.gz` in parts (`parl-monitor.db.gz.part1..N`, each under 1.9 GB
 
 ## 4. Recommendation and staged plan
 
-Recommended: **(d) now, then (a) at the trigger, then (c)**; (f) only as an emergency; (b) and (e) not at all for now.
+Recommended: **(d) now (built 12 October 2026), then (a) at the trigger, then (c)**; (f) only as an emergency; (b) and (e) not at all for now.
 
-**Stage 1: compact (now, about a day of work).**
+**Stage 1: compact (now, about a day of work). BUILT 12 October 2026; item 3's health-DM table sizes are not done yet.**
 1. `WITHOUT ROWID` for the 37 vote tables with migrations, `prov_store` off rowid, tests.
 2. VACUUM in `db_state.py --push`.
 3. Retune the size warnings (section 2) and add per-table sizes to the health DM's Store line from `tools/store_sizes.py --json` (top five tables and the unused share).

@@ -121,7 +121,7 @@ SCHEMA = (
         position     TEXT,               -- votoId as the SIL gives it: 'SI', 'NO', 'SV', ...
         label        TEXT,               -- voto: 'SI', 'No Voto', ...
         PRIMARY KEY (division_key, member_key)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS do_votes_member ON do_votes (member_key)",
     "CREATE INDEX IF NOT EXISTS do_divisions_session ON do_divisions (session_id)",
 )

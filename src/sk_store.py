@@ -107,7 +107,7 @@ SCHEMA = (
         position     TEXT,                -- 'Z' / 'P' / '?' / 'N' / '0', the source's own codes
         club         TEXT,                -- AT THE VOTE, as the page grouped it; NULL = no club
         PRIMARY KEY (voting_id, mp_id)
-    )""",
+    ) WITHOUT ROWID""",
     """CREATE TABLE IF NOT EXISTS sk_interpellations (
         int_id       INTEGER PRIMARY KEY,
         term         INTEGER,

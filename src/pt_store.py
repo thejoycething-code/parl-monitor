@@ -111,7 +111,7 @@ SCHEMA = (
         position     TEXT NOT NULL,       -- 'A Favor' / 'Contra' / 'Abstencao' / 'Ausente'
         members      INTEGER,             -- NULL: the group; N: a breakaway block of N
         PRIMARY KEY (division_key, party, position)
-    )""",
+    ) WITHOUT ROWID""",
     """CREATE TABLE IF NOT EXISTS pt_votes (
         division_key TEXT NOT NULL,
         name         TEXT NOT NULL,       -- as printed: 'Pedro Vaz'
@@ -119,7 +119,7 @@ SCHEMA = (
         position     TEXT,
         cad_id       INTEGER,             -- resolved by name + party, or NULL
         PRIMARY KEY (division_key, name, party)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS pt_divisions_ini ON pt_divisions (ini_key)",
     "CREATE INDEX IF NOT EXISTS pt_votes_member ON pt_votes (cad_id)",
 )

@@ -124,7 +124,7 @@ SCHEMA = (
                                          -- exactly; 0 is stored, never "fixed"
         first_seen   TEXT,
         last_seen    TEXT
-    )""",
+    ) WITHOUT ROWID""",
     # Every legislator's position. Rewritten whole each time its vote is
     # read. person_id is NULL where Open States could not link the name
     # (Colorado links 18%, New Hampshire 56%; see the scope doc): the name

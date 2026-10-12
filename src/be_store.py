@@ -111,7 +111,7 @@ SCHEMA = (
         position     TEXT NOT NULL,      -- 'yes' / 'no' / 'abstain'
         group_seen   TEXT,               -- the member's group WHEN STORED, not at the vote
         PRIMARY KEY (division_key, member_name)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS be_divisions_dossier ON be_divisions (dossier_key)",
     "CREATE INDEX IF NOT EXISTS be_votes_member ON be_votes (member_key)",
 )

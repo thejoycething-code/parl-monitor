@@ -198,7 +198,7 @@ SCHEMA = (
         source       TEXT NOT NULL,
         as_of        TEXT,
         PRIMARY KEY (vote_ts, member_id)
-    )""",
+    ) WITHOUT ROWID""",
     """CREATE TABLE IF NOT EXISTS hu_sources (
         source       TEXT PRIMARY KEY,   -- 'karzat@<commit>'
         name         TEXT,
