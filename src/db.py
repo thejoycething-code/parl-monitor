@@ -1635,6 +1635,10 @@ TABLES = (
     "uss_vote_people",
     "uss_people",
     "uss_api_ledger",
+    # Alternative sources for the states (13 October 2026): LegiScan and the
+    # states' own feeds, same module.
+    "uss_bill_sources",
+    "uss_source_ledger",
     # Ireland, the Oireachtas (tools/ie_rollcalls.py), created by
     # src/ie_store.ensure_schema -- declared from day one.
     "ie_members",
