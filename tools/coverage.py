@@ -1095,6 +1095,10 @@ ON_DEMAND = {
                                "(jobs/hu-karzat-backfill.sh): the 43rd term's "
                                "papers and votes to 28 August 2026 from karzat's "
                                "open data (HU7); a static source, never a feed.",
+    "Store compact": "run by hand on the Mac Mini, once (jobs/store-compact.sh, "
+                     "12 October 2026): the vote tables rebuilt WITHOUT ROWID "
+                     "and the store vacuumed (docs/store-split-plan.md Stage 1); "
+                     "no cadence is expected.",
     "Retag backfill": "run by hand on the Mac Mini (jobs/retag-backfill.sh): "
                       "UK, devolved and EU rows re-derived after a taxonomy "
                       "change, with the trust check against the old taxonomy.",

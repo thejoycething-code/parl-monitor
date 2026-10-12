@@ -27,8 +27,17 @@ decompressing, plus gz_sha256 and gz_bytes for the asset itself. A pull
 takes the form the sidecar names and falls back to the other: the legacy
 raw parl-monitor.db asset is read while it exists, and a compressed push
 deletes it only once its own upload is verified against GitHub's digest.
-Past 1.6GB uncompressed or 1.5GB compressed every push (and the daily
-health summary) warns: the next step is splitting the store.
+Size warnings follow the real limit, the COMPRESSED asset (12 October 2026,
+docs/store-split-plan.md, approved by Chris): past 0.75 GB every push (and
+the daily health summary) warns "plan the split", past 1.0 GiB "split now",
+and past 2 GiB a push refuses.
+
+Vacuumed before every publish since 12 October 2026 (vacuum_store): a
+VACUUM INTO a temporary file beside the store, checked and swapped in, so the
+published bytes carry no empty space inside pages (12% of the store on that
+day). It is bounded (VACUUM_MAX_S; aborted, the store publishes as it was)
+and skipped with a warning when the disk lacks room for the copy, so it can
+never be the reason a run fails. DB_STATE_NO_VACUUM=1 skips it.
 
 Auth. On Actions, `gh` is present and GITHUB_TOKEN authenticates it. Locally
 `gh` is usually absent, so the REST API is used with `github_token` from
@@ -71,8 +80,11 @@ API = "https://api.github.com"
 # case; decompressing is about 2s a GB at any level.
 GZ_LEVEL = 4
 ASSET_LIMIT = 2 * 1024 ** 3          # GitHub's ceiling for one release asset
-STORE_WARN_BYTES = 1_600_000_000     # uncompressed: time to plan the split
-GZ_WARN_BYTES = 1_500_000_000        # compressed: the split is now urgent
+# Both on the COMPRESSED asset, the thing GitHub limits (12 October 2026,
+# docs/store-split-plan.md section 2, approved by Chris; until then a 1.6 GB
+# UNCOMPRESSED warning fired on every push and so warned about nothing).
+GZ_PLAN_BYTES = 750_000_000          # build the split code (Stage 2)
+GZ_WARN_BYTES = 1024 ** 3            # 1.0 GiB, the trigger: split now (Stage 3)
 CHUNK = 1 << 20
 
 
@@ -138,17 +150,20 @@ def gunzip_sha(src):
 
 
 def size_warnings(size, gz_size=None):
-    """Lines to print when the store nears the per-asset limit. The split
-    (several assets) is the next step; these raise it while there is time."""
+    """Lines to print when the COMPRESSED asset nears the per-asset limit. The
+    split (several assets, docs/store-split-plan.md) is the next step; these
+    raise it while there is time. `size` (uncompressed) is only reported."""
     out = []
-    if size and size >= STORE_WARN_BYTES:
-        out.append("STORE SIZE: {0:.2f} GB uncompressed (warning at {1:.1f} GB). "
-                   "Plan splitting the store before the compressed asset nears "
-                   "GitHub's 2 GiB per-asset limit.".format(size / 1e9, STORE_WARN_BYTES / 1e9))
     if gz_size and gz_size >= GZ_WARN_BYTES:
-        out.append("STORE SIZE: the compressed asset is {0:.2f} GB (warning at {1:.1f} GB; "
-                   "the limit is {2:.2f} GB). Split the store now.".format(
+        out.append("STORE SIZE: the compressed asset is {0:.2f} GB (the trigger is {1:.2f} GB, "
+                   "1.0 GiB; GitHub's limit is {2:.2f} GB). Split the store now "
+                   "(docs/store-split-plan.md, Stage 3).".format(
                        gz_size / 1e9, GZ_WARN_BYTES / 1e9, ASSET_LIMIT / 1e9))
+    elif gz_size and gz_size >= GZ_PLAN_BYTES:
+        out.append("STORE SIZE: the compressed asset is {0:.2f} GB (warning at {1:.2f} GB; "
+                   "the split trigger is {2:.2f} GB). Plan the split: build Stage 2 of "
+                   "docs/store-split-plan.md.".format(
+                       gz_size / 1e9, GZ_PLAN_BYTES / 1e9, GZ_WARN_BYTES / 1e9))
     return out
 
 
@@ -701,6 +716,84 @@ def stamp_heartbeat():
         print("  [warn] could not stamp the heartbeat: {0}".format(exc))
 
 
+# VACUUM before every publish (12 October 2026, docs/store-split-plan.md
+# Stage 1). Measured on a copy of the 1.48 GB compacted store: 12 to 17 s on
+# the laptop. The bound is generous against that and small against the
+# job's PUBLISH_S reserve (tools/collector_budget.sh, 1200 s).
+VACUUM_MAX_S = 240
+VACUUM_SPACE_FACTOR = 1.2            # the copy, plus room to spare
+VACUUM_SPACE_MARGIN = 500_000_000    # never fill the disk to the last bytes
+VACUUM_CHECK_EVERY = 20000           # SQLite VM steps between looks at the clock
+
+
+def _schema(path):
+    import sqlite3
+    conn = sqlite3.connect("file:{0}?mode=ro".format(path), uri=True)
+    try:
+        return sorted(conn.execute("SELECT type, name, tbl_name, sql FROM sqlite_master"))
+    finally:
+        conn.close()
+
+
+def vacuum_store(path=None, log=print, max_s=None, free_bytes=None):
+    """Compact the store before it is hashed and published. -> True if the
+    store was replaced by its vacuumed copy, False if it was left as it was.
+
+    VACUUM INTO a temporary file beside the store, then os.replace: the store
+    is never half-written (a crash leaves only the temporary file, removed by
+    the next run), it needs room for ONE copy where an in-place VACUUM wants
+    two (a copy and a journal), and nothing about the release (the .prev
+    keep-aside, the collision checks) is touched: this runs before the sha is
+    taken, so the published sha is the vacuumed store's.
+
+    Bounded: a progress handler aborts it after `max_s` seconds; skipped with
+    a warning when the disk is short. Neither ever fails the publish."""
+    import sqlite3
+    path = path or DB
+    max_s = VACUUM_MAX_S if max_s is None else max_s
+    if os.environ.get("DB_STATE_NO_VACUUM") == "1":
+        log("  vacuum skipped (DB_STATE_NO_VACUUM=1)")
+        return False
+    tmp = path + ".vacuum"
+    if os.path.exists(tmp):
+        os.remove(tmp)                       # a crashed run's leftover
+    size = os.path.getsize(path)
+    free = shutil.disk_usage(os.path.dirname(os.path.abspath(path))).free \
+        if free_bytes is None else free_bytes
+    want = int(size * VACUUM_SPACE_FACTOR) + VACUUM_SPACE_MARGIN
+    if free < want:
+        warn("VACUUM skipped: {0:.0f} MB free beside the store, {1:.0f} MB wanted. "
+             "Publishing the store unvacuumed.".format(free / 1e6, want / 1e6), log=log)
+        return False
+    started = time.time()
+    deadline = started + max_s
+    conn = sqlite3.connect(path)
+    conn.set_progress_handler(lambda: 1 if time.time() > deadline else 0, VACUUM_CHECK_EVERY)
+    try:
+        conn.execute("VACUUM INTO ?", (tmp,))
+    except sqlite3.Error as exc:
+        conn.close()
+        if os.path.exists(tmp):
+            os.remove(tmp)
+        over = time.time() > deadline
+        warn("VACUUM {0} after {1:.0f}s; publishing the store unvacuumed.".format(
+            "stopped at the {0}s bound".format(max_s) if over else "failed ({0})".format(exc),
+            time.time() - started), log=log)
+        return False
+    conn.close()
+    # The copy must be the same store: same tables, indexes and definitions.
+    if _schema(tmp) != _schema(path):
+        os.remove(tmp)
+        warn("VACUUM copy's schema differs from the store's; publishing the store unvacuumed.",
+             log=log)
+        return False
+    after = os.path.getsize(tmp)
+    os.replace(tmp, path)
+    log("  vacuumed {0:.1f} MB to {1:.1f} MB in {2:.0f}s".format(
+        size / 1e6, after / 1e6, time.time() - started))
+    return True
+
+
 def _assets(tok=None):
     """[(name, id)] on the release, via gh or the API."""
     if tok:
@@ -977,6 +1070,7 @@ def push():
     if not ok:
         return 1
     stamp_heartbeat()          # inside the bytes, before the sha is taken
+    vacuum_store()             # compact, also before the sha (bounded, never fatal)
     tok = token()
     digest, size = sha256(DB), os.path.getsize(DB)
     if not have_gh() and not tok:
@@ -1101,9 +1195,13 @@ def main():
         return push()
     if "--check" in sys.argv:
         ok, _counts = check_counts(accept_loss=False)
-        if os.path.exists(DB):
-            for line in size_warnings(os.path.getsize(DB)):
-                warn(line)
+        try:
+            with open(SIDECAR, encoding="utf-8") as handle:
+                gz = (json.load(handle) or {}).get("gz_bytes")
+        except (OSError, ValueError):
+            gz = None
+        for line in size_warnings(os.path.getsize(DB) if os.path.exists(DB) else None, gz):
+            warn(line)
         return 0 if ok else 1
     print(__doc__)
     return 1

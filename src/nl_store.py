@@ -103,7 +103,7 @@ SCHEMA = (
         position     TEXT,               -- 'Voor' / 'Tegen' / 'Niet deelgenomen'
         zetels       INTEGER,            -- the group's seats, show of hands only
         vergissing   INTEGER             -- 1 when the group declared the vote a mistake
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS nl_votes_besluit ON nl_votes (besluit_id)",
     "CREATE INDEX IF NOT EXISTS nl_votes_persoon ON nl_votes (persoon_id)",
     "CREATE INDEX IF NOT EXISTS nl_divisions_zaak ON nl_divisions (zaak_nummer)",
@@ -150,7 +150,7 @@ SCHEMA = (
         fractie      TEXT,               -- the senator's fractie AT THE VOTE, as printed
         position     TEXT,               -- 'voor' / 'tegen' / 'aantekening'
         PRIMARY KEY (division_key, kind, actor)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS nl_ek_divisions_dossier ON nl_ek_divisions (dossier)",
 )
 

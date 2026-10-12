@@ -99,7 +99,7 @@ SCHEMA = (
         position     TEXT NOT NULL,       -- 'SI' / 'NO' / 'ABSTENCION' / 'BLANCO'
         seat         TEXT,                -- the service's `territorial` field, as printed
         PRIMARY KEY (division_key, name)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS ec_divisions_date ON ec_divisions (date)",
     "CREATE INDEX IF NOT EXISTS ec_votes_member ON ec_votes (name_key)",
 )
