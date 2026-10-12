@@ -1,7 +1,7 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy-atch.md
 # Regenerate: python3 tools/generate_taxonomy.py --lang atch
-version: 0.1
+version: 0.2
 areas:
   1_abortion:
     tier1: ["Schwangerschaftsabbr*", "Abtreibung*", "§ 218", "§218", "Paragraf 218", "Paragraph 218", "§ 219a", "§219a", "Schwangerschaftskonfliktberatung*", "Schwangerschaftskonflikt*", "Fristenregelung*", "Spätabtreibung*", "Abtreibungspille*", Mifegyne, Mifepriston, "Lebensschutz*", "Lebensrechtsbewegung*", "ungeborene* Leben", "Embryonenschutzgesetz*", "Beratungsschein*", "Marsch für das Leben", "Pränataltest*", {term: "Fristenlösung*", only: [at]}, {term: Fristenlösung, only: [ch]}, {term: "Art. 118 StGB", only: [ch]}, {term: "Art. 119 StGB", only: [ch]}]
@@ -34,7 +34,7 @@ areas:
     # note: Austria: Hass im Netz is Austria's 2021 online-hate package; KoPl-G is the platform law. Switzerland: Art. 261bis is the Swiss anti-racism penal norm; E-ID (22 titles, 21 missed) in by CH3 at tier 2.
   8_freedom_of_religion:
     tier1: ["Religionsfreiheit*", "Glaubensfreiheit*", "Christenverfolgung*", "Verfolgung von Christen", "Kirchenasyl*", "Religionsunterricht*", "Kopftuchverbot*", "Kruzifix*", "Gotteslästerung*", "§ 166", "Blasphemieparagraf*", "Körperschaftsstatus*", "christliche* Minderheit*", "religiöse* Minderheit*", "Gesichtsverhüllung*", {term: "Islamgesetz*", only: [at]}, "verfolgte* Christen", "Christen in Nigeria", Verhüllungsverbot]
-    tier2: ["Kirchensteuer*", "Staatsleistungen*", "kirchliches Arbeitsrecht", {term: Gottesdienst, with: [Verbot, Beschränkung, Freiheit, Recht]}, "Beschneidung*", Schächten, "religiöse Symbole", "Islamismus*", "Islamistisch*", "Religionsgemeinschaft*", "Antisemitismus*", "Islamfeindlichkeit*", {term: Kopftuch, with: [Schule, Schulen, Schülerin, Schülerinnen, Kinder, Mädchen, Lehrerin]}, "politische* Islam*", {term: "Dokumentationsstelle Politischer Islam", only: [at]}, "Zwangsverschleierung*", "Kopftuchtrend*", "Moschee*", "Imam*", {term: "Landeskirche*", only: [ch]}]
+    tier2: ["Kirchensteuer*", "Staatsleistungen*", "kirchliches Arbeitsrecht", {term: Gottesdienst, with: [Verbot, Beschränkung, Freiheit, Recht]}, "Beschneidung*", Schächten, "religiöse Symbole", "Islamismus*", "Islamistisch*", "Religionsgemeinschaft*", "Antisemitismus*", "Islamfeindlichkeit*", {term: Kopftuch, with: [Schule, Schulen, Schülerin, Schülerinnen, Kinder, Mädchen, Lehrerin]}, "politische* Islam*", {term: "Dokumentationsstelle Politischer Islam", only: [at]}, "Zwangsverschleierung*", "Kopftuchtrend*", "Moschee*", {term: "Imam*", without: ["İmamoğlu*", "Imamoğlu*", "Imamoglu*"]}, {term: "Landeskirche*", only: [ch]}]
     # note: Switzerland: Verhüllungsverbot (3 titles) in by CH4; Moschee (8 titles, 8 missed).
   9_marriage_family:
     tier1: ["Ehe für alle", "Eheschließung*", "Ehegattensplitting*", "Verantwortungsgemeinschaft*", "Familienförderung*", "Elterngeld*", "Kindergrundsicherung*", "Familienbild*", "Familienpolitik*", "Kinderehe*", "Mehrehe*", "Auslandsehe*", {term: Individualbesteuerung, only: [ch]}, {term: Heiratsstrafe, only: [ch]}, {term: Ehepaarbesteuerung, only: [ch]}]
