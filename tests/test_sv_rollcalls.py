@@ -200,9 +200,12 @@ class VoteListFallbackTests(unittest.TestCase):
         import io
         import tempfile
         from contextlib import redirect_stdout
+        from tests.robots_fakes import RobotsServing
         client = FakeClient(gets={"votaciones-ajax": self._refusal(403)})
         real = sv.HttpClient
-        sv.HttpClient = lambda **kw: client
+        # main() wraps its client in src/robots_guard; robots.txt answers 404
+        # (no rules) so the run reaches the vote list as before.
+        sv.HttpClient = lambda **kw: RobotsServing(client, {})
         try:
             with tempfile.TemporaryDirectory() as tmp:
                 path = os.path.join(tmp, "s.db")
