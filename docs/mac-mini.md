@@ -849,6 +849,18 @@ Without the judge a person writes the translations into `translations.yaml` on a
 - **Privacy:** the XML is never written to `data/raw` (it holds spouses' data and the archive is published); only the CSV's parliamentary rows are archived. Spouses', collaborators', free-text and asset sections are skipped at parse time and never logged.
 - **Coverage:** `mi_downloads.last_seen` is watched (`tools/coverage.py`, cadence 31, grace 14); the log line `fr-hatvp:` says what was read, or "unchanged" / "not due".
 
+## Spain's regional parliaments (12 October 2026, branch `regions-es`)
+
+A step of the Spain weekly, **not a new job** (`jobs/es-weekly.sh`, Saturdays
+08:30): `python3 tools/es_regions.py` after the Congreso collector, budget
+300 s from `tools/collector_budget.sh` (the Congreso collector keeps it back).
+It reads the BOE's open-data summaries since the last issue read and five
+regional parliaments' bill lists (Andalucía, Canarias at its 3 s Crawl-delay,
+La Rioja, Cantabria, the Corts Valencianes) into `esr_*`; measured from the
+laptop, under a minute for a first run and about 4 s plus the BOE days for a
+weekly one. Its gaps are `[gap]` lines; the store is still published. Nothing
+to install. Details: `docs/spain-regions-scope.md`.
+
 ### Member portraits (12 October 2026)
 
 One step in `jobs/editions-session-judge.sh` (Sundays 16:45 London, Mini only), just before the vote pages: `tools/fetch_portraits.py` fetches the official photos of the members on each vote page, **only for countries whose photo licence is OK** (`docs/portraits-logos-licences.md`; now Brazil and Croatia), robots.txt obeyed, at most 150 a country a run, shrunk to 96 px with `sips` (macOS, so Mini only; GitHub's backup keeps the thumbnails already published). Cache `data/portraits/<cc>/` (gitignored, stays on the Mini runner clone), manifest `data/portraits/<cc>.json` (committed with data/). `tools/make_country_votes.py` then copies the on-page thumbnails to `partner_site/portraits/<cc>/`. No new job, no new slot, nothing to install beyond the usual `git pull`. First runs: Brazil's 690 members fill in about five Sundays, Croatia's 174 in two.

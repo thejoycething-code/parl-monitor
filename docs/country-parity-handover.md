@@ -668,7 +668,8 @@ Set A BUILT 10 October 2026 (branch `parity-phases-a`; each scope doc's
 "as built" section): French Senate (FR5), Eerste Kamer via web pages (NL4),
 Slovak bill documents (SK6), Swiss Italian texts (CH6), Italy's official
 Camera service (IT2). Set B below covers UY5, BO4, X8 and X7. Still to
-build: regions and Landtage after national (IT3, AT6, PE4).
+build: regions and Landtage after national (IT3, AT6, PE4); Spain's
+regions built 12 October (below).
 
 **Set B, built 10 October 2026 (branch `parity-phases-b`):** X8
 constitutional courts for Colombia (the exhortations file; the Court's
@@ -682,6 +683,24 @@ X7 OCR designed and guarded (`src/ocr.py`, `tools/pe_ocr.py`; install steps in
 `docs/mac-mini.md`, nothing installed). One hand-run backfill after merge:
 `jobs/latam-courts-backfill.sh`. Samples: `editions/latam-monitor-2026-06-30.md`,
 `editions/latam-monitor-2025-08-31.md`, `editions/pt-monitor-2023-02-05.md`.
+
+**Spain's regional parliaments, built 12 October 2026 (branch `regions-es`,
+`docs/spain-regions-scope.md`):** all seventeen communities' laws and
+decree-laws from the BOE's open-data summaries (Spanish for every community;
+153 acts from January to 9 October 2026), plus bills in passage from the
+lists of Andalucía (RSS), Canarias, La Rioja (government bills) and
+Cantabria, classified with `taxonomy-es`; the Corts Valencianes' bills are
+stored but unclassified (Valencian only) and counted as a gap. A "Regional
+parliaments" section in the Spanish edition and one DM line; a step in
+`jobs/es-weekly.sh` (no new job, nothing to install). Blocked: Madrid,
+Navarra and Galicia (Sucuri, Cloudflare and Akamai bot checks, never
+bypassed), Murcia and Extremadura (robots.txt disallows all), País Vasco,
+Illes Balears and Aragón's tramitación base (no answer from the laptop),
+Cataluña (Catalan only, open-data page 500), Castilla y León, Castilla-La
+Mancha and Asturias (no machine-readable bill list). Canarias' open-data API
+sits under a robots-disallowed `/api/`. Waiting on Chris: the proposed terms
+(`concebido`, `apoyo a la familia`: Madrid's Ley 5/2026 on the conceived child
+is missed today) and a Catalan/Valencian list.
 
 ### 7. Campaign tools
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only
