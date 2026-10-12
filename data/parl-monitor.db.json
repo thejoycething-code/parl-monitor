@@ -1,13 +1,13 @@
 {
   "asset": "thejoycething-code/parl-monitor release db-state",
   "asset_name": "parl-monitor.db.gz",
-  "bytes": 1833828352,
-  "gz_bytes": 449631187,
-  "gz_sha256": "27340086b1bd5d4ff63c3f20ce16f4430b6c1b725a93695e4557e411921a9a93",
+  "bytes": 1833988096,
+  "gz_bytes": 449670637,
+  "gz_sha256": "7af549570787a10c254e08ba159d83dcc1720e8f7b8be7bfc224dfcef92c4256",
   "note": "Derived state; the bytes live as a gzipped release asset. See tools/db_state.py.",
   "published_at": "local",
-  "published_utc": "2026-10-12T07:24:35Z",
-  "sha256": "ceeea509f40b354d0b0dd73346649c0c0e5caf961002a6c98af35527092f250d",
+  "published_utc": "2026-10-12T07:35:19Z",
+  "sha256": "b7ba7824fdf77b1c756a77fb4aaaa1c365a5782102ee979f2670de1a72c7a878",
   "tables": {
     "api_spend": 5407,
     "appg_officers": 24,
@@ -252,8 +252,8 @@
     "ni_sittings": 450,
     "ni_sponsors": 8,
     "ni_votes": 12704,
-    "nic_gazette_issues": 0,
-    "nic_gazette_items": 0,
+    "nic_gazette_issues": 20,
+    "nic_gazette_items": 27,
     "nl_divisions": 4860,
     "nl_ek_bills": 736,
     "nl_ek_divisions": 1108,
@@ -376,7 +376,7 @@
     "uy_members": 348,
     "uy_questions": 2532,
     "uy_sittings": 668,
-    "ve_news": 0,
+    "ve_news": 27,
     "vote_meanings": 1957
   }
 }
