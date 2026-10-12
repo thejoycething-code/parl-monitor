@@ -19,6 +19,7 @@ sys.path.insert(0, ROOT)
 
 from src import ca_store, db, filter as filt  # noqa: E402
 from src.http import FetchError  # noqa: E402
+from src.robots_guard import RobotsRefused  # noqa: E402
 
 FIX = os.path.join(ROOT, "tests", "fixtures")
 
@@ -303,6 +304,66 @@ class ResumeTests(unittest.TestCase):
         s = run(conn, FakeClient(pages), limit=1)
         self.assertEqual((s["read"], s["gaps"]), (0, 1))
         self.assertIn("links no XML", conn.execute("SELECT detail FROM gaps").fetchone()[0])
+
+
+class RefusedClient(FakeClient):
+    """robots.txt refuses some URLs (src/robots_guard.RobotsRefused)."""
+
+    def __init__(self, refused, **kw):
+        super().__init__(**kw)
+        self.refused = set(refused)
+
+    def get_text(self, url, feed, slug, archive=True, **kw):
+        if url in self.refused:
+            self.calls.append((url, archive))
+            raise RobotsRefused(url, feed, slug, "robots.txt disallows " + url)
+        return super().get_text(url, feed, slug, archive, **kw)
+
+
+class StoppedClock:
+    """A drain.Budget whose clock has already run out."""
+
+    seconds = 0
+
+    def exhausted(self):
+        return True
+
+    def disclose(self, what, done):
+        return "budget reached after {0} {1}".format(done, what)
+
+
+class ProductionTests(unittest.TestCase):
+    """12 October 2026: run-time robots.txt, the budget, and gaps that are
+    recorded and never stop the committees after them."""
+
+    def test_a_list_robots_refuses_is_a_gap_and_the_next_committee_still_reads(self):
+        conn = store()
+        just = cm.meetings_url("JUST", 44, 1)
+        client = RefusedClient({just})
+        s = run(conn, client, committees=("JUST", "AMAD"), limit=1)
+        self.assertEqual((s["read"], s["gaps"]), (1, 1))
+        detail = conn.execute("SELECT detail FROM gaps").fetchone()[0]
+        self.assertIn("JUST 44-1: meeting list", detail)
+        self.assertIn("robots.txt", detail)
+        self.assertIsNotNone(conn.execute("SELECT 1 FROM ca_committee_meetings "
+                                          "WHERE meeting_key='44-1-AMAD-10'").fetchone())
+
+    def test_a_spent_budget_fetches_no_evidence_but_records_in_camera(self):
+        conn = store()
+        client = FakeClient()
+        s = run(conn, client, budget=StoppedClock())
+        self.assertEqual((s["read"], s["attempted"], s["gaps"], s["stopped"]), (0, 0, 0, "budget"))
+        self.assertEqual([u for u, _ in client.calls], [AMAD_LIST])
+        self.assertEqual(conn.execute("SELECT status FROM ca_committee_meetings "
+                                      "WHERE meeting_key='44-1-AMAD-12'").fetchone()[0], "in_camera")
+
+    def test_the_live_client_asks_robots_txt_with_the_identified_agent(self):
+        with open(os.path.join(ROOT, "tools", "ca_committees.py"), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("guard(HttpClient(", src)
+        from src import http
+        self.assertEqual(http.USER_AGENT_TEMPLATE.format(contact="cjoyce@citizengo.net"),
+                         "CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)")
 
 
 class Just2010Tests(unittest.TestCase):

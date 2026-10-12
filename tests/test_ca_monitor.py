@@ -219,6 +219,50 @@ class EditionTests(unittest.TestCase):
         self.assertNotIn("—", msg)
 
 
+class CommitteeSectionTests(unittest.TestCase):
+    """Committee evidence in the edition (tools/ca_committees.py feeds it):
+    who testified, for whom, with a link to the Evidence; never the text."""
+
+    def setUp(self):
+        self.conn = store()
+        self.conn.execute(
+            "INSERT INTO ca_committee_meetings (meeting_key, committee, parliament, session, number, "
+            "date, studies, in_camera, status, evidence_url) VALUES (?,?,?,?,?,?,?,?,?,?)",
+            ("45-1-JUST-12", "JUST", 45, 1, 12, "2026-10-07", '["Bill C-218"]', 0, "read",
+             "https://www.ourcommons.ca/DocumentViewer/en/45-1/JUST/meeting-12/evidence"))
+        self.conn.execute(
+            "INSERT INTO ca_speeches (speech_id, sitting_key, date, subject, speaker, areas, text, "
+            "chamber, forum, committee) VALUES (?,?,?,?,?,?,?,?,?,?)",
+            ("cmte-451-JUST-12-1", "45-1-JUST-12", "2026-10-07", "Bill C-218", "Mr. Garnett Genuis", "[2]",
+             "MEMBER TEXT", "commons", "committee", "JUST"))
+        for n, (who, org, areas) in enumerate((
+                ("Dr. Ramona Coelho", "As an Individual", "[2]"),
+                ("Dr. Ramona Coelho", "As an Individual", "[2]"),
+                ("Jane Roe", "Some Association", "[2]"))):
+            self.conn.execute(
+                "INSERT INTO ca_testimony (testimony_id, meeting_key, committee, date, subject, "
+                "witness, organisation, text, areas) VALUES (?,?,?,?,?,?,?,?,?)",
+                ("cmte-451-JUST-12-{0}".format(n + 10), "45-1-JUST-12", "JUST", "2026-10-07",
+                 "Bill C-218", who, org, "WITNESS TEXT MUST NEVER APPEAR", areas))
+
+    def test_lists_witnesses_once_with_the_evidence_link(self):
+        lines, _ = cam.committee_section(self.conn, "2026-10-02", TODAY, {2: "Assisted dying"})
+        text = "\n".join(lines)
+        self.assertIn("(this week: 3 testimony)", text)
+        self.assertIn("1 committee meeting(s) read this week, 1 member intervention(s)", text)
+        self.assertIn("[meeting 12](https://www.ourcommons.ca/DocumentViewer/en/45-1/JUST/"
+                      "meeting-12/evidence)", text)
+        self.assertEqual(text.count("Dr. Ramona Coelho (As an Individual)"), 1)
+        self.assertIn("Jane Roe (Some Association)", text)
+        self.assertIn("Areas: Assisted dying", text)
+        self.assertNotIn("WITNESS TEXT", text)
+        self.assertNotIn("MEMBER TEXT", text)
+
+    def test_quiet_month_says_so(self):
+        lines, _ = cam.committee_section(self.conn, "2026-12-01", "2026-12-09", {})
+        self.assertIn("*No witness testimony on our ground in the last 30 days.*", lines)
+
+
 class StageTests(unittest.TestCase):
     def test_a_senate_bill_counts_its_house_stages_second(self):
         s = {"royal_assent_at": None, "number": "S-209", "last_stage": "First reading in the House of Commons"}
@@ -244,6 +288,13 @@ class WiringTests(unittest.TestCase):
                             text.index("python3 tools/ca_5ca.py --all"))
             self.assertLess(text.index("python3 tools/ca_5ca.py --all"),
                             text.index("python3 tools/ca_monitor.py"))
+        # Committee evidence: collected before the judge and the edition that
+        # shows it; on the Mini its budget follows what the job has left.
+        for text in (job, flow):
+            self.assertLess(text.index("python3 tools/ca_committees.py"),
+                            text.index("python3 tools/ca_triage.py"))
+        self.assertRegex(job, r'ca_committees\.py --session \S+ --budget-seconds '
+                              r'"\$\(bash tools/collector_budget\.sh ')
         self.assertIn("# mini_run: commit editions", job)
         self.assertIn("git add data/ editions/", flow)
         self.assertIn("U05LJP0BT61", job)
