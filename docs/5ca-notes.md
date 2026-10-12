@@ -494,6 +494,15 @@ scored in every country (docs/country-decisions-2026-10-12.md).
   `/Users/chrisjoyce/parl-judge/amendments/worklist.json` (outside the
   repo). No for/against judgement is made by the tools: that is the
   readers'.
+* **Accepting flagged readings as drafted** (Chris, 12 October 2026: "Accept
+  all as drafted"). `python3 tools/country_5ca.py --all-countries
+  --accept-flagged-amendments --by NAME [--on DATE] [--dry-run]`
+  (`accept_flagged_amendments`) takes the `amendment_flag` off every draft
+  with/against reading whose values are the rules' own, unconfirmed, not
+  amended, not struck, with no entry `flag` and no flagged bill, and records
+  `amendment_accepted: "NAME, 12 Oct 2026: accepted as drafted (was
+  flagged: ...)"`. The automatic checks ignore that field, so the reading
+  confirms on Sunday. First run: 313 accepted.
 
 ## The new countries' tracker and partner sheet (10 October 2026, branch `camp-5ca-sheets`)
 

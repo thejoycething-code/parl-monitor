@@ -282,6 +282,57 @@ class ToolTests(AmendBase):
         self.assertEqual(self.entry()["status"], "draft")
 
 
+class AcceptFlaggedTests(AmendBase):
+    """Chris, 12 October 2026: "Accept all as drafted"."""
+    FLAG = "Medium confidence; whole-article vote judged from the bill."
+
+    def accept(self, by="Christopher Joyce", dry_run=False):
+        return c5.accept_flagged_amendments("pl", by, TODAY, self.cfg, dry_run=dry_run, log=QUIET)
+
+    def test_the_flag_goes_into_the_history_and_the_reading_confirms(self):
+        self.apply(decision("with", flag=self.FLAG))
+        self.assertIn("direction", self.checks())
+        self.assertEqual(self.accept(dry_run=True), [KEY])
+        self.assertEqual(self.entry()["amendment_flag"], self.FLAG)       # dry run wrote nothing
+        self.assertEqual(self.accept(), [KEY])
+        e = self.entry()
+        self.assertNotIn("amendment_flag", e)
+        self.assertEqual(e["amendment_accepted"], "Christopher Joyce, 12 Oct 2026: accepted as drafted "
+                                                  "(was flagged: {0})".format(self.FLAG))
+        self.assertEqual((e["status"], e["yea"], e["nay"]), ("draft", 2, -2))
+        # Not a hand edit to the checks: it passes and confirms on the delegation.
+        self.assertEqual(self.checks(), [])
+        self.assertIn(KEY, c5.auto_confirm("pl", self.cfg, TODAY, log=QUIET)["confirmed"])
+        self.assertEqual(self.accept(), [])                               # nothing left to accept
+
+    def test_unclear_not_scored_amended_and_hand_valued_are_left_alone(self):
+        self.apply(decision("unclear", flag="Two versions; which was voted?"),
+                   decision("not_scored", key="pl-10-1-1", flag="Technical."),
+                   decision("with", key="pl-10-1-4", flag=self.FLAG))
+        c5.amend("pl", "pl-10-1-4", "Christopher Joyce", 1, -1, "Weaker than drafted.", on=TODAY,
+                 config_dir=self.cfg, log=QUIET)
+        before = self.text()
+        self.assertEqual(self.accept(), [])
+        self.assertEqual(self.text(), before)
+
+    def test_a_person_must_be_named_and_a_signer(self):
+        self.apply(decision("with", flag=self.FLAG))
+        for by in ("", "Somebody Else"):
+            with self.assertRaises(SystemExit):
+                self.accept(by=by)
+        self.assertEqual(self.entry()["amendment_flag"], self.FLAG)
+
+    def test_the_tool_flag(self):
+        self.apply(decision("with", flag=self.FLAG))
+        run = ToolTests.run_tool
+        self.assertEqual(run(self, "--cc", "pl", "--accept-flagged-amendments", "--by", "Christopher Joyce",
+                             "--on", TODAY, "--dry-run"), 0)
+        self.assertIn("amendment_flag", self.entry())
+        self.assertEqual(run(self, "--cc", "pl", "--accept-flagged-amendments", "--by", "Christopher Joyce",
+                             "--on", TODAY), 0)
+        self.assertIn("amendment_accepted", self.entry())
+
+
 class PruneTests(AmendBase):
     def test_a_read_amendment_is_never_pruned(self):
         self.apply(decision("with"))

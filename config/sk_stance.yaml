@@ -429,7 +429,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Package adds a constitutional ban on surrogacy, defines parents as mother and father, recognises only biological male and female sex, but also deletes parents' right to decide on extra-curricular education."
     amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=567689"
-    amendment_flag: "Mixed package: deletion of the parental opt-out sentence cuts against us; sex-definition and surrogacy points are with us."
     yea: 2
     nay: -2
     why_yea: "Voted Za on amendment 56687 (Package adds a constitutional ban on surrogacy, defines parents as mother and father, reco): for adopting it, with CitizenGO's position."
@@ -445,6 +444,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Package adds a constitutional ban on surrogacy, defines parents as mother and father, recognises only biological male and female sex, but also deletes parents' right to decide on extra-curricular educ. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Mixed package: deletion of the parental opt-out sentence cuts against us; sex-definition and surrogacy points are with us.)"
 
   - key: "56688"
     status: draft

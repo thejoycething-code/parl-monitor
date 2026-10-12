@@ -256,7 +256,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "PP motion on minors in the digital environment, point 11: A new audiovisual code of conduct covering online platforms; protects children and supports parents, so adopting it is with us."
     amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
-    amendment_flag: "Medium confidence: general child-protection measure."
     yea: 2
     nay: -2
     why_yea: "Voted Sí on amendment congreso-15-46-11 (PP motion on minors in the digital environment, point 11: A new audiovisual code of conduc): for adopting it, with CitizenGO's position."
@@ -271,6 +270,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- PP motion on minors in the digital environment, point 11: A new audiovisual code of conduct covering online platforms; protects children and supports parents, so adopting it is with us. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: general child-protection measure.)"
 
   - key: "congreso-15-46-12"
     status: draft
@@ -416,7 +416,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "PP motion on minors in the digital environment, point 5: Accessible user reporting and moderation of inappropriate content; protects children and supports parents, so adopting it is with us."
     amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
-    amendment_flag: "Medium confidence: general child-protection measure."
     yea: 2
     nay: -2
     why_yea: "Voted Sí on amendment congreso-15-46-5 (PP motion on minors in the digital environment, point 5: Accessible user reporting and mod): for adopting it, with CitizenGO's position."
@@ -431,13 +430,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- PP motion on minors in the digital environment, point 5: Accessible user reporting and moderation of inappropriate content; protects children and supports parents, so adopting it is with us. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: general child-protection measure.)"
 
   - key: "congreso-15-46-6"
     status: draft
     amendment_direction: "with"
     amendment_why: "PP motion on minors in the digital environment, point 6: Regulatory frameworks protecting minors' rights, privacy and data online; protects children and supports parents, so adopting it is with us."
     amendment_source: "https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-117.PDF"
-    amendment_flag: "Medium confidence: general child-protection measure."
     yea: 2
     nay: -2
     why_yea: "Voted Sí on amendment congreso-15-46-6 (PP motion on minors in the digital environment, point 6: Regulatory frameworks protecting ): for adopting it, with CitizenGO's position."
@@ -452,6 +451,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- PP motion on minors in the digital environment, point 6: Regulatory frameworks protecting minors' rights, privacy and data online; protects children and supports parents, so adopting it is with us. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: general child-protection measure.)"
 
   - key: "congreso-15-46-7"
     status: draft
@@ -1019,7 +1019,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Transactional text urges mandatory, gender- and diversity-focused comprehensive sex education under the abortion law, and combats critics as reactionary, overriding parents' role; adopting is against us."
     amendment_source: "https://www.congreso.es/enmiendas/atp/15_400_162_000597/e_0102639_n_000.pdf"
-    amendment_flag: "Read from scanned image; the original motion also read."
     yea: -2
     nay: 2
     why_yea: "Voted Sí on amendment congreso-15-164-1 (Transactional text urges mandatory, gender- and diversity-focused comprehensive sex educat): for adopting it, against CitizenGO's position."
@@ -1034,6 +1033,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 1 (abortion), 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Transactional text urges mandatory, gender- and diversity-focused comprehensive sex education under the abortion law, and combats critics as reactionary, overriding parents' role; adopting is against . A Sí here adopts it, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Read from scanned image; the original motion also read.)"
 
   - key: "congreso-15-166-2"
     status: draft
@@ -1193,7 +1193,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Transactional text urges stricter obligations on social networks and AI detection against hate content in sport, which risks curbing lawful speech; adopting is against free speech."
     amendment_source: "https://www.congreso.es/enmiendas/atp/15_400_162_000783/e_0119123_n_000.pdf"
-    amendment_flag: "Medium confidence: aims at racism and misogyny but is broad on speech regulation."
     yea: -2
     nay: 2
     why_yea: "Voted Sí on amendment congreso-15-188-1 (Transactional text urges stricter obligations on social networks and AI detection against ): for adopting it, against CitizenGO's position."
@@ -1208,13 +1207,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 7 (free speech and civil liberties). Amendment reading on file: adopting it is AGAINST us -- Transactional text urges stricter obligations on social networks and AI detection against hate content in sport, which risks curbing lawful speech; adopting is against free speech. A Sí here adopts it, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: aims at racism and misogyny but is broad on speech regulation.)"
 
   - key: "congreso-15-191-1"
     status: draft
     amendment_direction: "against"
     amendment_why: "Amendments from left groups to strengthen the conversion-practices criminal law (aid and housing for victims); they widen a bill that CitizenGO opposes, so adopting is against."
     amendment_source: "https://www.religiondigital.org/espana/sumar-compromis-erc-terapias-conversion_1_1458984.html"
-    amendment_flag: "Medium confidence: exact text of transactional amendment 2 not read; based on press reports of what the group amendments contained."
     yea: -2
     nay: 2
     why_yea: "Voted Sí on amendment congreso-15-191-1 (Amendments from left groups to strengthen the conversion-practices criminal law (aid and h): for adopting it, against CitizenGO's position."
@@ -1229,13 +1228,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Amendment reading on file: adopting it is AGAINST us -- Amendments from left groups to strengthen the conversion-practices criminal law (aid and housing for victims); they widen a bill that CitizenGO opposes, so adopting is against. A Sí here adopts it, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: exact text of transactional amendment 2 not read; based on press reports of what the group amendments contained.)"
 
   - key: "congreso-15-191-14"
     status: draft
     amendment_direction: "against"
     amendment_why: "Transactional text promotes comprehensive affective-sexual education covering gender equality and sexual and gender diversity in schools, with only family information, not parental control."
     amendment_source: "https://www.congreso.es/enmiendas/atp/15_400_162_000796/e_0120771_n_000.pdf"
-    amendment_flag: "Medium confidence: partly teacher training and abuse prevention."
     yea: -2
     nay: 2
     why_yea: "Voted Sí on amendment congreso-15-191-14 (Transactional text promotes comprehensive affective-sexual education covering gender equal): for adopting it, against CitizenGO's position."
@@ -1250,6 +1249,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Transactional text promotes comprehensive affective-sexual education covering gender equality and sexual and gender diversity in schools, with only family information, not parental control. A Sí here adopts it, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: partly teacher training and abuse prevention.)"
 
   - key: "congreso-15-191-15"
     status: draft
@@ -1273,7 +1273,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Transactional amendment 3 adds state financial aid for victims of the new conversion-therapy offence; it strengthens a bill that criminalises conversion practices, so adoption is against us."
     amendment_source: "https://www.congreso.es/enmiendas/comisiones/15_320_122_000201/122-201_Enmiendas_transaccionales_rechazadas_en_Comision.pdf"
-    amendment_flag: "Medium confidence: victim-aid provision, direction inferred from the bill."
     yea: -2
     nay: 2
     why_yea: "Voted Sí on amendment congreso-15-191-2 (Transactional amendment 3 adds state financial aid for victims of the new conversion-thera): for adopting it, against CitizenGO's position."
@@ -1288,6 +1287,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Amendment reading on file: adopting it is AGAINST us -- Transactional amendment 3 adds state financial aid for victims of the new conversion-therapy offence; it strengthens a bill that criminalises conversion practices, so adoption is against us. A Sí here adopts it, so Sí is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: victim-aid provision, direction inferred from the bill.)"
 
   - key: "congreso-15-191-21"
     status: draft
@@ -1365,7 +1365,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "PP amendment 29 deletes the very broad administrative offence of promoting or practising conversion therapies irrespective of consent, to avoid overlap with a narrower criminal offence."
     amendment_source: "https://www.congreso.es/enmiendas/comisiones/15_320_122_000201/122-201_Enmiendas_al_articulado.pdf"
-    amendment_flag: "Medium confidence: removes a sanction but is framed as a coherence fix."
     yea: 2
     nay: -2
     why_yea: "Voted Sí on amendment congreso-15-191-5 (PP amendment 29 deletes the very broad administrative offence of promoting or practising c): for adopting it, with CitizenGO's position."
@@ -1380,6 +1379,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Amendment reading on file: adopting it is WITH us -- PP amendment 29 deletes the very broad administrative offence of promoting or practising conversion therapies irrespective of consent, to avoid overlap with a narrower criminal offence. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence: removes a sanction but is framed as a coherence fix.)"
 
   - key: "congreso-15-191-6"
     status: draft
@@ -1406,7 +1406,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Remaining PP amendments: replace gender identity terms, narrow the offence to coercive harmful practices and bar public funds to those convicted; mostly limiting, but one funding clause pulls the other way."
     amendment_source: "https://www.congreso.es/enmiendas/comisiones/15_320_122_000201/122-201_Enmiendas_al_articulado.pdf"
-    amendment_flag: "Bundled amendments (25, 27, 30); mostly with, check the funding-ban clause."
     yea: 2
     nay: -2
     why_yea: "Voted Sí on amendment congreso-15-191-7 (Remaining PP amendments: replace gender identity terms, narrow the offence to coercive har): for adopting it, with CitizenGO's position."
@@ -1421,6 +1420,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 4 (conversion practices), 5 (sex-based rights). Amendment reading on file: adopting it is WITH us -- Remaining PP amendments: replace gender identity terms, narrow the offence to coercive harmful practices and bar public funds to those convicted; mostly limiting, but one funding clause pulls the othe. A Sí here adopts it, so Sí is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Bundled amendments (25, 27, 30); mostly with, check the funding-ban clause.)"
 
   - key: "congreso-15-192-55"
     status: needs_reading

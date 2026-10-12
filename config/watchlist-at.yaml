@@ -61,6 +61,25 @@ items:
 # src/atl_store.add_watch_areas). Documents of the nine Land parliaments,
 # by the collector's key, never by title: 'noe/XX/1095', 'stmk/XIX/1713/1',
 # 'ooe/XXIX/1469/2026', 'wien/201607', 'sbg/17/4/362-BEA', 'vbg/<unid>',
-# 'bgld/XXIII/2100-0603'. Empty until someone who campaigns in a Land names
-# a document the titles miss.
-landtage: {}
+# 'bgld/XXIII/2100-0603'.
+# Seeded 12 October 2026 (Chris: "Seed from what's on our ground"), keys
+# from a run of tools/at_landtage.py that day; docs/country-decisions-2026-10-12.md.
+# Salzburg's "Salzburg als Safe Space für queere Menschen" is to add when
+# first collected (the Salzburg host answered 503 that day).
+landtage:
+  "stmk/XIX/1644/8": {areas: [8],
+                      why: "Steiermark Landtag decision: a Verbotsgesetz gegen den politischen Islam (a ban law on political Islam)."}
+  "wien/201628": {areas: [8],
+                  why: "Wien: putting the school headscarf ban (Kopftuchverbot) into effect in Vienna's schools."}
+  "wien/201766": {areas: [8],
+                  why: "Wien: the Kopftuchverbot for under-14s from school year 2026/27 and parents' duty to comply."}
+  "wien/201346": {areas: [2],
+                  why: "Wien motion: keep the Sterbeverfügung (assisted-suicide declaration) without its time limit."}
+  "vbg/a8e418e5e0054372c1258e2600404a40": {areas: [5],
+                                           why: "Vorarlberg: where is the LGBTIQ action plan? (question after the Pride parade)."}
+  "vbg/1cfcbee27d31fb44c1258e640042cbbb": {areas: [2],
+                                           why: "Vorarlberg: the challenges facing palliative care in the Land."}
+  "ooe/XXIX/13492/2026": {areas: [1],
+                          why: "Oberösterreich: protecting patients and staff from protests around abortions (buffer zones)."}
+  "ooe/XXIX/13541/2026": {areas: [6],
+                          why: "Oberösterreich: enforcing compulsory schooling on home education (homeschooling)."}

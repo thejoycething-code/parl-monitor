@@ -775,7 +775,8 @@ def entry_yaml(e):
     order = ("key", "status", "title", "on", "dated", "chamber", "areas", "tier", "watched",
              "result", "lobbies", "vote_kind", "placeable", "reason", "yea", "why_yea", "nay",
              "why_nay", "read_first", "reasoning", "flag", "amendment_direction",
-             "amendment_yes_adopts", "amendment_why", "amendment_source", "amendment_flag", "drafted")
+             "amendment_yes_adopts", "amendment_why", "amendment_source", "amendment_flag",
+             "amendment_accepted", "drafted")
     lines = []
     for k in order:
         if k not in e or e[k] is None or e[k] == "":
@@ -1093,7 +1094,7 @@ def draft(conn, cc, config_dir=None, today=None, log=print, wl=None):
 HUMAN_KEYS = ("yea", "nay", "why_yea", "why_nay", "confirmed_by", "confirmed_on",
               # a reader's amendment reading (12 October 2026, apply_amendments)
               "amendment_direction", "amendment_why", "amendment_source", "amendment_flag",
-              "amendment_yes_adopts")
+              "amendment_yes_adopts", "amendment_accepted")
 AMENDMENT_KEPT = "an amendment or article vote: every one is read (Chris, 12 October 2026)"
 
 
@@ -2292,7 +2293,7 @@ def _held_bill(e, bills):
 # `apply_amendments` applies a reader's JSON file of decisions.
 
 AMENDMENT_KEYS = ("amendment_direction", "amendment_why", "amendment_source", "amendment_flag",
-                  "amendment_yes_adopts")
+                  "amendment_yes_adopts", "amendment_accepted")
 VALUE_LINES = ("yea", "nay", "why_yea", "why_nay")
 AMENDMENT_DECISIONS = ("with", "against", "unclear", "not_scored")
 NOT_SCORED = "Not scored (amendment reading"
@@ -2541,6 +2542,58 @@ def apply_amendments(decisions, config_dir=None, today=None, dry_run=False, log=
         ", ".join("{0} {1}".format(n, v) for v, n in sorted(by.items())) or "none",
         len(got["refused"])))
     return got
+
+
+ACCEPTED_AS_DRAFTED = "accepted as drafted"
+
+
+def _short_date(iso):
+    d = datetime.date.fromisoformat(iso)
+    return "{0} {1}".format(d.day, d.strftime("%b %Y"))
+
+
+def accept_flagged_amendments(cc, by, on=None, config_dir=None, dry_run=False, log=print):
+    """Accept, as drafted, every flagged amendment reading of a country
+    (Chris, 12 October 2026: "Accept all as drafted"): a `draft` entry with
+    `amendment_direction: with|against`, an `amendment_flag` and the rules'
+    own values for that reading, unconfirmed, not amended, not taken out of
+    play and carrying no entry `flag`. The flag is removed, so the automatic
+    checks can confirm it, and kept in `amendment_accepted: "<by>, <date>:
+    accepted as drafted (was flagged: <flag>)"`. Unclear and not-scored
+    readings (needs_reading, or `placeable: false`), bill flags and anything
+    a person confirmed or amended are left alone. `by` must be a signer for
+    the country. Returns the keys accepted (with `dry_run`, would be)."""
+    by = (by or "").strip()
+    if not by:
+        raise SystemExit("--by NAME is required: an acceptance names the person")
+    allowed = signers(cc)
+    if by not in allowed:
+        raise SystemExit("{0} is not a named signer for {1} ({2})".format(by, cc, ", ".join(allowed)))
+    on = on or datetime.date.today().isoformat()
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", on):
+        raise SystemExit("--on must be an ISO date")
+    spec = SPECS[cc]
+    divs, bills, _ = load(cc, config_dir)
+    edits = {}
+    for k, e in divs.items():
+        flag = " ".join(str(e.get("amendment_flag") or "").split())
+        if not flag or e.get("status") != "draft" or e.get("amendment_direction") not in ("with", "against"):
+            continue
+        if e.get("confirmed_by") or e.get("confirmed_on") or any(e.get(x) for x in AMEND_KEYS) \
+                or e.get("draft") or e.get("placeable") is False or e.get("flag"):
+            continue
+        bkey = bill_key_of(spec, e, bills)
+        if bkey and (bills.get(bkey) or {}).get("flag"):
+            continue                     # a bill a person must look at (Spain's 15/122/000006)
+        if all(e.get(x) in (None, "") for x in VALUE_LINES) or not _rules_made_amendment_values(spec, k, e):
+            continue                     # values a person wrote: theirs to settle
+        edits[k] = ({"amendment_accepted": "{0}, {1}: {2} (was flagged: {3})".format(
+            by, _short_date(on), ACCEPTED_AS_DRAFTED, flag)}, ("amendment_flag",))
+    if edits and not dry_run:
+        _rewrite(cc, edits, config_dir)
+    log("{0}: {1} {2} flagged amendment reading(s) as drafted".format(
+        spec.name, "would accept" if dry_run else "accepted", len(edits)))
+    return sorted(edits)
 
 
 def amend(cc, key, by, yea=None, nay=None, why=None, take_out=False, on=None, config_dir=None,

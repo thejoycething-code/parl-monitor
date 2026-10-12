@@ -1317,7 +1317,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Article 1 of S.824 makes surrogacy committed abroad by an Italian citizen punishable in Italy, a universal-crime rule; adopting it is with CitizenGO."
     amendment_source: "https://www.senato.it/leg/19/BGT/Schede/Ddliter/testi/57364_testi.htm"
-    amendment_flag: "Article text not read directly (site blocked); based on the bill's known content, check."
     yea: 2
     nay: -2
     why_yea: "Voted Favorevole on amendment senato-19-232-22 (Article 1 of S.824 makes surrogacy committed abroad by an Italian citizen punishable in It): for adopting it, with CitizenGO's position."
@@ -1333,6 +1332,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Article 1 of S.824 makes surrogacy committed abroad by an Italian citizen punishable in Italy, a universal-crime rule; adopting it is with CitizenGO. A Favorevole here adopts it, so Favorevole is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Article text not read directly (site blocked); based on the bill's known content, check.)"
 
   - key: "senato-19-232-23"
     status: needs_reading
@@ -1824,7 +1824,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Limits the ban on sexuality activities to nursery and primary, allowing them in lower secondary schools; approved, so it weakens the bill."
     amendment_source: "https://www.camera.it/leg19/410?idSeduta=0576&tipo=documenti_seduta"
-    amendment_flag: "Adopted: weakens ban"
     yea: -2
     nay: 2
     why_yea: "Voted Favorevole on amendment camera-vs19_576_011 (Limits the ban on sexuality activities to nursery and primary, allowing them in lower seco): for adopting it, against CitizenGO's position."
@@ -1839,13 +1838,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Limits the ban on sexuality activities to nursery and primary, allowing them in lower secondary schools; approved, so it weakens the bill. A Favorevole here adopts it, so Favorevole is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Adopted: weakens ban)"
 
   - key: "camera-vs19_576_012"
     status: draft
     amendment_direction: "with"
     amendment_why: "Final vote on article 1, the prior parental consent rule, as amended; the core of a bill that favours parents' rights, though lower secondary was freed from the ban."
     amendment_source: "https://www.camera.it/leg19/410?idSeduta=0576&tipo=documenti_seduta"
-    amendment_flag: "Article amended by 1.1000 group (lower secondary opened)"
     yea: 2
     nay: -2
     why_yea: "Voted Favorevole on amendment camera-vs19_576_012 (Final vote on article 1, the prior parental consent rule, as amended): for adopting it, with CitizenGO's position."
@@ -1860,6 +1859,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is WITH us -- Final vote on article 1, the prior parental consent rule, as amended; the core of a bill that favours parents' rights, though lower secondary was freed from the ban. A Favorevole here adopts it, so Favorevole is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Article amended by 1.1000 group (lower secondary opened))"
 
   - key: "camera-vs19_576_013"
     status: draft
@@ -2045,7 +2045,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Non-binding motion to prioritise teacher training on affectivity, gender equality and anti-discrimination, promoting gender-focused education."
     amendment_source: "https://www.camera.it/leg19/410?idSeduta=0576&tipo=documenti_seduta"
-    amendment_flag: "Medium confidence"
     yea: -2
     nay: 2
     why_yea: "Voted Favorevole on amendment camera-vs19_576_023 (Non-binding motion to prioritise teacher training on affectivity, gender equality and anti): for adopting it, against CitizenGO's position."
@@ -2060,13 +2059,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Non-binding motion to prioritise teacher training on affectivity, gender equality and anti-discrimination, promoting gender-focused education. A Favorevole here adopts it, so Favorevole is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence)"
 
   - key: "camera-vs19_576_024"
     status: draft
     amendment_direction: "against"
     amendment_why: "Non-binding motion for a school plan on affectivity education and respect for differences, promoting gender-focused education beyond parental consent."
     amendment_source: "https://www.camera.it/leg19/410?idSeduta=0576&tipo=documenti_seduta"
-    amendment_flag: "Medium confidence"
     yea: -2
     nay: 2
     why_yea: "Voted Favorevole on amendment camera-vs19_576_024 (Non-binding motion for a school plan on affectivity education and respect for differences,): for adopting it, against CitizenGO's position."
@@ -2081,13 +2080,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Non-binding motion for a school plan on affectivity education and respect for differences, promoting gender-focused education beyond parental consent. A Favorevole here adopts it, so Favorevole is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence)"
 
   - key: "camera-vs19_576_025"
     status: draft
     amendment_direction: "against"
     amendment_why: "Non-binding motion to fund gender equality education projects under law 107/2015, expanding such teaching despite the bill."
     amendment_source: "https://www.camera.it/leg19/410?idSeduta=0576&tipo=documenti_seduta"
-    amendment_flag: "Medium confidence"
     yea: -2
     nay: 2
     why_yea: "Voted Favorevole on amendment camera-vs19_576_025 (Non-binding motion to fund gender equality education projects under law 107/2015, expandin): for adopting it, against CitizenGO's position."
@@ -2102,6 +2101,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Non-binding motion to fund gender equality education projects under law 107/2015, expanding such teaching despite the bill. A Favorevole here adopts it, so Favorevole is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence)"
 
   - key: "camera-vs19_576_026"
     status: draft
@@ -2299,7 +2299,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Non-binding motion to enable gender alias identities in all schools, with parental consent for minors, promoting self-ID in schools."
     amendment_source: "https://www.camera.it/leg19/410?idSeduta=0576&tipo=documenti_seduta"
-    amendment_flag: "Medium confidence; parental consent condition"
     yea: -2
     nay: 2
     why_yea: "Voted Favorevole on amendment camera-vs19_576_036 (Non-binding motion to enable gender alias identities in all schools, with parental consent): for adopting it, against CitizenGO's position."
@@ -2314,6 +2313,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Non-binding motion to enable gender alias identities in all schools, with parental consent for minors, promoting self-ID in schools. A Favorevole here adopts it, so Favorevole is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Medium confidence; parental consent condition)"
 
   - key: "camera-vs19_576_037"
     status: draft
@@ -2340,7 +2340,6 @@ divisions:
     amendment_direction: "against"
     amendment_why: "Non-binding motion: asks the government to allow middle schools to run sex education activities, undercutting the bill's parental consent requirement."
     amendment_source: "https://www.camera.it/leg19/1008?idLegislatura=19&sezione=documenti&tipoDoc=assemblea_file&idSeduta=0576&nomefile=allegato_a&back_to=2"
-    amendment_flag: "ODG text matched to number by document layout; check"
     yea: -2
     nay: 2
     why_yea: "Voted Favorevole on amendment camera-vs19_576_038 (Non-binding motion: asks the government to allow middle schools to run sex education activ): for adopting it, against CitizenGO's position."
@@ -2355,13 +2354,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Non-binding motion: asks the government to allow middle schools to run sex education activities, undercutting the bill's parental consent requirement. A Favorevole here adopts it, so Favorevole is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: ODG text matched to number by document layout; check)"
 
   - key: "camera-vs19_576_039"
     status: draft
     amendment_direction: "against"
     amendment_why: "Non-binding motion: asks for alternative sex education content for pupils without parental consent, which dilutes the bill's parental consent safeguard."
     amendment_source: "https://www.camera.it/leg19/1008?idLegislatura=19&sezione=documenti&tipoDoc=assemblea_file&idSeduta=0576&nomefile=allegato_a&back_to=2"
-    amendment_flag: "ODG text matched to number by document layout; check"
     yea: -2
     nay: 2
     why_yea: "Voted Favorevole on amendment camera-vs19_576_039 (Non-binding motion: asks for alternative sex education content for pupils without parental): for adopting it, against CitizenGO's position."
@@ -2376,13 +2375,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Non-binding motion: asks for alternative sex education content for pupils without parental consent, which dilutes the bill's parental consent safeguard. A Favorevole here adopts it, so Favorevole is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: ODG text matched to number by document layout; check)"
 
   - key: "camera-vs19_576_040"
     status: draft
     amendment_direction: "against"
     amendment_why: "Non-binding motion: asks that pupils who do not take part still get OMS-guideline sex education through alternative activities, diluting the parental consent rule."
     amendment_source: "https://www.camera.it/leg19/1008?idLegislatura=19&sezione=documenti&tipoDoc=assemblea_file&idSeduta=0576&nomefile=allegato_a&back_to=2"
-    amendment_flag: "ODG text matched to number by document layout; check"
     yea: -2
     nay: 2
     why_yea: "Voted Favorevole on amendment camera-vs19_576_040 (Non-binding motion: asks that pupils who do not take part still get OMS-guideline sex educ): for adopting it, against CitizenGO's position."
@@ -2397,6 +2396,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 6 (parental rights and education). Amendment reading on file: adopting it is AGAINST us -- Non-binding motion: asks that pupils who do not take part still get OMS-guideline sex education through alternative activities, diluting the parental consent rule. A Favorevole here adopts it, so Favorevole is against us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: ODG text matched to number by document layout; check)"
 
   - key: "camera-vs19_576_041"
     status: draft
