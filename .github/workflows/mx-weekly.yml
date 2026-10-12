@@ -102,8 +102,10 @@ jobs:
     # The first run reads every vote of the LXVI: 285 votes, about nine SITL
     # pages each at one a second, stopped by the collector's 40-minute budget
     # and drained on later runs (docs/mexico-scope.md). Later weeks read the
-    # week's new votes and re-read the Gaceta lists (about 5 MB).
-    timeout-minutes: 75
+    # week's new votes and re-read the Gaceta lists (about 5 MB). The state
+    # congresses step (tools/mxs_collect.py, 12 October 2026) adds at most 15
+    # minutes on its own clock.
+    timeout-minutes: 95
     env:
       PYTHONUNBUFFERED: "1"
     steps:
@@ -140,7 +142,7 @@ jobs:
           {
             echo "## Mexico weekly"
             echo '```'
-            grep -hE "mx-rollcalls:|store:|\[gap\]" /tmp/mx-weekly.log 2>/dev/null | head -25 || echo "(no summary lines)"
+            grep -hE "mx-rollcalls:|mxs:|store:|\[gap\]" /tmp/mx-weekly.log 2>/dev/null | head -60 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/mx-weekly.log 2>/dev/null \
                       || true; } | awk '{s+=$1} END {print s+0}')

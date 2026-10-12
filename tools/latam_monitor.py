@@ -210,7 +210,7 @@ def counts(items):
 def count_text(items):
     c = counts(items)
     order = ("new", "moved", "updated", "vote", "report", "agenda", "pedido", "question", "law",
-             "ruling", "petition", "press", "gazette", "news")
+             "ruling", "petition", "press", "gazette", "news", "regional")
     names = {"new": ("new bill", "new bills"), "moved": ("stage move", "stage moves"),
              "updated": ("register update", "register updates"),
              "vote": ("recorded vote", "recorded votes"),
@@ -220,7 +220,8 @@ def count_text(items):
              "gazette": ("gazette notice", "gazette notices"), "news": ("news item", "news items"),
              "question": ("written question", "written questions"),
              "ruling": ("court ruling", "court rulings"),
-             "petition": ("petition or consultation", "petitions and consultations")}
+             "petition": ("petition or consultation", "petitions and consultations"),
+             "regional": ("regional norm", "regional norms")}
     return ", ".join("{0} {1}".format(c[k], names[k][c[k] != 1]) for k in order if c.get(k))
 
 
@@ -239,6 +240,14 @@ def last_seen(conn, cc):
         if v and (best is None or v > best):
             best = v
     return latam.day(best) or None
+
+
+def regional_seen(conn):
+    """'last read 10 October 2026' for Peru's regional layer, or that it has no rows yet."""
+    got = latam.rows(conn, "SELECT MAX(last_seen), COUNT(*) FROM pe_regional_norms")
+    if not got or not got[0][1]:
+        return "no rows in this store yet"
+    return "last read {0}, {1} norm(s) held".format(long_date(latam.day(got[0][0])), got[0][1])
 
 
 # --- the edition ------------------------------------------------------------------
@@ -414,13 +423,19 @@ def render_edition(conn, today, since=None, sample=False, ledger=None, config_di
                 "_{0}. {1}. Store last read {2}._".format(
                     chamber, count_text(items).capitalize(),
                     long_date(last_seen(conn, cc)) if last_seen(conn, cc) else "unknown"), ""]
-        shown = items[:MAX_PER_COUNTRY]
-        for it in shown:
-            out += item_lines(it, config_dir)
-        rest = items[MAX_PER_COUNTRY:]
-        if rest:
-            out.append("- _And {0} more on our ground ({1}), lower in the order; in the store._".format(
-                len(rest), count_text(rest)))
+        # PE4 (12 October 2026): a country's regional layer (latam.REGIONAL)
+        # gets its own sub-heading under the national items, with its own cap.
+        national = [it for it in items if it["kind"] != "regional"]
+        regional = [it for it in items if it["kind"] == "regional"]
+        out += capped_lines(national, config_dir)
+        if regional:
+            if national:
+                out.append("")
+            out += ["### {0}".format(REGIONAL_HEADINGS.get(cc, "Regional governments")), "",
+                    "_{0}. Council acts and decrees on our ground, from the official gazette "
+                    "and the institutions' gob.pe pages._".format(count_text(regional).capitalize()),
+                    ""]
+            out += capped_lines(regional, config_dir)
         out.append("")
 
     out += venezuela_section(conn, since, until, got["ve"], config_dir)
@@ -437,6 +452,9 @@ def render_edition(conn, today, since=None, sample=False, ledger=None, config_di
             "published in a readable form (docs/venezuela-scope.md).",
             "- **Nicaragua:** La Gaceta only, monthly; the Assembly's votes are not followed (NI1).",
             "- **Guatemala** is collected fortnightly on GitHub (X9), so a month holds two pulls.",
+            "- **Peru's regions** (PE4): the 25 regional governments' and Lima Metropolitana's "
+            "ordenanzas, acuerdos and decretos, from El Peruano's Normas Legales and gob.pe, read "
+            "weekly with the Peru collector; {0}.".format(regional_seen(conn)),
             "- Stage moves for Colombia, Chile, Peru, Ecuador, Guatemala, Uruguay and El Salvador "
             "come from the alert pass, which sees a watched bill's status change between "
             "collections; their stores keep no change dates.",
@@ -447,6 +465,21 @@ def render_edition(conn, today, since=None, sample=False, ledger=None, config_di
     text = "\n".join(out)
     refuse_ownerless_act(text)
     return text
+
+
+REGIONAL_HEADINGS = {"pe": "Regional governments and Lima Metropolitana"}
+
+
+def capped_lines(items, config_dir=None):
+    """Item lines for at most MAX_PER_COUNTRY items, and a line for the rest."""
+    out = []
+    for it in items[:MAX_PER_COUNTRY]:
+        out += item_lines(it, config_dir)
+    rest = items[MAX_PER_COUNTRY:]
+    if rest:
+        out.append("- _And {0} more on our ground ({1}), lower in the order; in the store._".format(
+            len(rest), count_text(rest)))
+    return out
 
 
 def refuse_ownerless_act(text):

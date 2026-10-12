@@ -472,6 +472,17 @@ FEEDS = [
     ("es_members", "last_seen", 7, 4, "Congreso deputies (Spain weekly)"),
     ("es_initiatives", "last_seen", 7, 4, "Congreso legislative initiatives (Spain weekly)"),
     ("es_divisions", "last_seen", 31, 92, "Congreso plenary votes (Spain weekly)"),
+    # Spain's regional layer (tools/es_regions.py, 12 October 2026), a step
+    # of the Spain weekly. MEASURED which re-stamp: esr_reads is stamped for
+    # every source on every run (failures included, with their status), and
+    # esr_bills.last_seen for every bill the four Spanish lists and the Corts
+    # Valencianes' page still show, so both move weekly. esr_laws moves only
+    # when a community's act reaches the BOE (5 in September 2026, 9 in
+    # August, never under 5 a month in 2026), so it gets a month plus a
+    # month's grace, as the US's votes do.
+    ("esr_laws", "last_seen", 31, 31, "Spanish regional laws in the BOE (Spain weekly)"),
+    ("esr_reads", "last_seen", 7, 4, "Spanish regional layer, sources read (Spain weekly)"),
+    ("esr_bills", "last_seen", 7, 4, "Spanish regional parliaments' bills in passage (Spain weekly)"),
     # Brazil (9 October 2026). MEASURED which re-stamp: the member lists of
     # both houses are re-read whole every run, and every nominal vote of the
     # current year (and every bill it links) is re-upserted from the
@@ -524,6 +535,10 @@ FEEDS = [
     # X8 (10 October 2026): the press-note listing's first page is re-stamped
     # every run (tools/pe_courts.py), new notes or not.
     ("pe_rulings", "last_seen", 7, 4, "Tribunal Constitucional press notes (Peru weekly)"),
+    # PE4 (12 October 2026): the fortnight's gazette norms and each
+    # institution's first gob.pe page are re-read and re-stamped every run
+    # (tools/pe_regions.py), new norms or not.
+    ("pe_regional_norms", "last_seen", 7, 4, "Regional governments' and Lima Metropolitana's council acts, El Peruano and gob.pe (Peru weekly)"),
     # Ecuador (9 October 2026). MEASURED which re-stamp: the register and the
     # roster are re-read whole every run, and the vote list is re-read from
     # the last stored vote's date less a fortnight, so the latest votes are
@@ -552,6 +567,13 @@ FEEDS = [
     ("mx_members", "last_seen", 14, 4, "Chamber of Deputies members (Mexico weekly)"),
     ("mx_iniciativas", "last_seen", 14, 4, "Gaceta iniciativas lists (Mexico weekly)"),
     ("mx_divisions", "last_seen", 14, 4, "SITL recorded votes (Mexico weekly)"),
+    # Mexico's state congresses (12 October 2026, tools/mxs_collect.py, a
+    # step of the Mexico weekly). mxs_reads is re-stamped for every state
+    # each run, read or not; mxs_items only when a listing names an item
+    # again (each reader re-lists from 30 days back), so both move each
+    # fortnight while any state congress sits.
+    ("mxs_reads", "last_seen", 14, 4, "state congress reads, one row per state (Mexico weekly)"),
+    ("mxs_items", "last_seen", 14, 31, "state congress items, from each readable state's listing (Mexico weekly)"),
     # Argentina (9 October 2026). Both rosters are re-read whole every run,
     # and the Diputados register is re-read from 45 days back, so members and
     # expedientes move every week, recess included (HCDN publishes a Tramite
@@ -769,7 +791,7 @@ PIPELINE_FEEDS = {
     # Votes left out: new rows only, so a recess week cannot move them.
     "Croatia weekly": ["hr_items", "hr_members"],
     # Divisions left out as for the US: a recess (or a dissolution) cannot move them.
-    "Spain weekly": ["es_initiatives", "es_members"],
+    "Spain weekly": ["es_initiatives", "es_members", "esr_reads", "esr_bills"],
     # Members only: bills and divisions are re-stamped from the current
     # year's votes, and in January the new year holds none, so a clean run
     # cannot move them until Congress returns in February.
@@ -848,7 +870,7 @@ AWAITING_FIRST_RUN = {
                                   "scheduled 9 October 2026; its tables fill on its first run"),
     "El Salvador weekly": (("sv_members", "sv_divisions", "sv_dictamenes", "sv_sessions", "sv_piezas"),
                            "scheduled 9 October 2026; its tables fill on its first run"),
-    "Peru weekly": (("pe_members", "pe_bills", "pe_divisions", "pe_rulings"),
+    "Peru weekly": (("pe_members", "pe_bills", "pe_divisions", "pe_rulings", "pe_regional_norms"),
                     "scheduled 9 October 2026; its tables fill on its first run"),
     "Ecuador weekly": (("ec_members", "ec_roster", "ec_divisions", "ec_rulings"),
                        "scheduled 9 October 2026; its tables fill on its first run"),
@@ -907,6 +929,11 @@ AWAITING_FIRST_RUN = {
     # tools/us_states.py stamps "US states" at the end of every stored run.
     "US states": (("uss_sessions", "uss_people", "uss_bills", "uss_votes"),
                   "state legislatures added to US weekly 9 October 2026; "
+                  "their tables fill on the step's first run"),
+    # STEP heartbeat: tools/mxs_collect.py stamps "MX states" after every
+    # stored run, so the state tables are excused only until then.
+    "MX states": (("mxs_items", "mxs_reads"),
+                  "state congresses added to Mexico weekly 12 October 2026; "
                   "their tables fill on the step's first run"),
     "US Supreme Court": (("us_court_cases", "us_court_orders"),
                          "Supreme Court added to US weekly 9 October 2026; "
@@ -1285,6 +1312,14 @@ AWAITING_STEP_UNTIL = {
     "br_speeches": ("2026-11-30", "speeches added to the Brazilian chamber step (tools/"
                     "br_chamber.py) 11 October 2026; they fill as the Câmara sits after the "
                     "election"),
+    # Spain's regional layer joins the Spain weekly (Saturdays 08:30) on
+    # merge, 12 October 2026: empty until its first Saturday run.
+    "esr_reads": ("2026-10-18", "the Spanish regional step (tools/es_regions.py) joins the Spain "
+                  "weekly on merge; it fills on its first Saturday run"),
+    "esr_bills": ("2026-10-18", "the Spanish regional step (tools/es_regions.py) joins the Spain "
+                  "weekly on merge; it fills on its first Saturday run"),
+    "esr_laws": ("2026-10-18", "the Spanish regional step (tools/es_regions.py) joins the Spain "
+                 "weekly on merge; it fills on its first Saturday run"),
 }
 
 

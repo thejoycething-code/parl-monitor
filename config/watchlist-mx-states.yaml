@@ -1,0 +1,12 @@
+# Watched items in Mexico's state congresses (tools/mxs_collect.py,
+# src/mxs_edition.py; docs/mexico-regions-scope.md). Hand-edited.
+#
+# KEYED BY ITEM KEY, never by title: '<state>/<the source's own id>', as the
+# edition prints it (cdmx/8328, chih/LXVIII/774, jal/LXIV/1578). A watched
+# item takes the listed areas and is never filtered by the noise rules.
+#
+#   items:
+#     chih/LXVIII/774:
+#       areas: [1]
+#       why: "PAN reform of the Código Penal on abortion."
+items: {}

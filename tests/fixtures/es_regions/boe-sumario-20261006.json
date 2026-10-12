@@ -1,0 +1,104 @@
+{
+ "status": {
+  "code": "200",
+  "text": "ok"
+ },
+ "data": {
+  "sumario": {
+   "metadatos": {
+    "publicacion": "BOE",
+    "fecha_publicacion": "20261006"
+   },
+   "diario": [
+    {
+     "numero": "248",
+     "sumario_diario": {
+      "identificador": "BOE-S-2026-248",
+      "url_pdf": {
+       "szBytes": "452096",
+       "szKBytes": "442",
+       "texto": "https://www.boe.es/boe/dias/2026/10/06/pdfs/BOE-S-2026-248.pdf"
+      }
+     },
+     "seccion": [
+      {
+       "codigo": "1",
+       "nombre": "I. Disposiciones generales",
+       "departamento": [
+        {
+         "codigo": "7723",
+         "nombre": "JEFATURA DEL ESTADO",
+         "epigrafe": [
+          {
+           "nombre": "Cortes Generales. Disolución y convocatoria de elecciones",
+           "item": {
+            "identificador": "BOE-A-2026-20742",
+            "control": "2026/15385",
+            "titulo": "Real Decreto 806/2026, de 5 de octubre, de disolución del Congreso de los Diputados y del Senado y de convocatoria de elecciones.",
+            "url_pdf": {
+             "szBytes": "231775",
+             "szKBytes": "226",
+             "pagina_inicial": "130564",
+             "pagina_final": "130567",
+             "texto": "https://www.boe.es/boe/dias/2026/10/06/pdfs/BOE-A-2026-20742.pdf"
+            },
+            "url_html": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-20742",
+            "url_xml": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2026-20742"
+           }
+          }
+         ]
+        },
+        {
+         "codigo": "8150",
+         "nombre": "COMUNIDAD AUTÓNOMA DEL PRINCIPADO DE ASTURIAS",
+         "epigrafe": [
+          {
+           "nombre": "Derechos y prestaciones vitales",
+           "item": {
+            "identificador": "BOE-A-2026-20746",
+            "control": "2026/15119",
+            "titulo": "Ley del Principado de Asturias 6/2026, de 10 de septiembre, de modificación de la Ley 3/2021, de 30 de junio, de Garantía de Derechos y Prestaciones Vitales, para la protección de las personas beneficiarias frente al reintegro de prestaciones percibidas por actuaciones imputables a la Administración.",
+            "url_pdf": {
+             "szBytes": "226270",
+             "szKBytes": "221",
+             "pagina_inicial": "130586",
+             "pagina_final": "130591",
+             "texto": "https://www.boe.es/boe/dias/2026/10/06/pdfs/BOE-A-2026-20746.pdf"
+            },
+            "url_html": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-20746",
+            "url_xml": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2026-20746"
+           }
+          }
+         ]
+        },
+        {
+         "codigo": "8170",
+         "nombre": "COMUNIDAD FORAL DE NAVARRA",
+         "epigrafe": [
+          {
+           "nombre": "Medio ambiente",
+           "item": {
+            "identificador": "BOE-A-2026-20747",
+            "control": "2026/15120",
+            "titulo": "Ley Foral 15/2026, de 24 de septiembre, de modificación de la Ley Foral 17/2020, de 16 de diciembre, reguladora de las Actividades con Incidencia Ambiental.",
+            "url_pdf": {
+             "szBytes": "209312",
+             "szKBytes": "204",
+             "pagina_inicial": "130592",
+             "pagina_final": "130595",
+             "texto": "https://www.boe.es/boe/dias/2026/10/06/pdfs/BOE-A-2026-20747.pdf"
+            },
+            "url_html": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-20747",
+            "url_xml": "https://www.boe.es/diario_boe/xml.php?id=BOE-A-2026-20747"
+           }
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

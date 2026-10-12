@@ -216,8 +216,8 @@ publish seen".
   dated source), clips for France and Belgium (agreement needed).
 - Waiting for time: Spain's agendas, speeches and sweep fill from 23
   December when the XVI sits.
-- Not yet built: regions (IT3, PE4, Spain's autonomous
-  communities, Mexico's states; AT6 built 12 October); Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
+- Regions built 12 October 2026 (Spain, Peru, Mexico, Austria, Italy; sections
+  below). Not yet built: Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
   2027); a native read of each language's term list.
 
 ## What exists now
@@ -668,8 +668,8 @@ Set A BUILT 10 October 2026 (branch `parity-phases-a`; each scope doc's
 "as built" section): French Senate (FR5), Eerste Kamer via web pages (NL4),
 Slovak bill documents (SK6), Swiss Italian texts (CH6), Italy's official
 Camera service (IT2). Set B below covers UY5, BO4, X8 and X7. Still to
-build: regions and Landtage after national (IT3, PE4; AT6 built 12 October,
-below).
+build: regions and Landtage after national: built 12 October 2026 (Spain,
+Peru, Mexico, Austria, Italy; below).
 
 **Set B, built 10 October 2026 (branch `parity-phases-b`):** X8
 constitutional courts for Colombia (the exhortations file; the Court's
@@ -701,6 +701,43 @@ Google and Bing) and **Tirol** (lte.tirol.gv.at disallows every robot);
 by data.bka.gv.at's robots.txt and www.ris.bka.gv.at's bot check (parser
 ready and tested, not read). Waiting on Chris: RIS permission, Wien's
 Gemeinderat, Salzburg's unreadable robots.txt (treated as no rules).
+
+### 6b. Regions -- Peru BUILT 12 October 2026 (branch `regions-pe`, PE4)
+
+Peru's 25 regional governments and Lima Metropolitana, all at once
+(`docs/peru-regions-scope.md`): `tools/pe_regions.py` reads El Peruano's
+Normas Legales (one form POST a week; the gazette where every ordenanza
+regional must be published) and each institution's council-act pages on
+gob.pe (61 pages, 3 s apart), into `pe_regional_norms` (keyed
+`<region>/<kind>/<n>-<year>`, the two sources merged on one row). Taxonomy-es
+over heading and sumilla; 19 of 1,352 norms on our ground in the first read
+(child marriage, the Arequipa ESI ordinance, gender-equality plans, violence
+against women). Shown in the monthly Latam monitor as a "Regional governments
+and Lima Metropolitana" sub-heading under Peru; tier-1 and watched norms also
+alert. A step in `jobs/pe-weekly.sh` (budget 300 s); no new Mini job. Blocked
+or not built: votes (regional councils publish no roll calls), sittings and
+agendas (26 different sites, PDF or video), consejeros, El Peruano's full-text
+search (client-side behind a bot-manager script; the Filtro form serves the
+same listing in HTML). Cajamarca, Puno, San Martín, Huánuco and Lima
+Metropolitana keep stale gob.pe pages and are covered by the gazette alone.
+
+**Spain's regional parliaments, built 12 October 2026 (branch `regions-es`,
+`docs/spain-regions-scope.md`):** all seventeen communities' laws and
+decree-laws from the BOE's open-data summaries (Spanish for every community;
+153 acts from January to 9 October 2026), plus bills in passage from the
+lists of Andalucía (RSS), Canarias, La Rioja (government bills) and
+Cantabria, classified with `taxonomy-es`; the Corts Valencianes' bills are
+stored but unclassified (Valencian only) and counted as a gap. A "Regional
+parliaments" section in the Spanish edition and one DM line; a step in
+`jobs/es-weekly.sh` (no new job, nothing to install). Blocked: Madrid,
+Navarra and Galicia (Sucuri, Cloudflare and Akamai bot checks, never
+bypassed), Murcia and Extremadura (robots.txt disallows all), País Vasco,
+Illes Balears and Aragón's tramitación base (no answer from the laptop),
+Cataluña (Catalan only, open-data page 500), Castilla y León, Castilla-La
+Mancha and Asturias (no machine-readable bill list). Canarias' open-data API
+sits under a robots-disallowed `/api/`. Waiting on Chris: the proposed terms
+(`concebido`, `apoyo a la familia`: Madrid's Ley 5/2026 on the conceived child
+is missed today) and a Catalan/Valencian list.
 
 ### 7. Campaign tools
 Debate packs, campaign briefs (`docs/brief-builder`), campaign targets: only
@@ -870,3 +907,31 @@ with the `parl_mini` key (Chris approved, 10 October):
   one plist from `git show origin/main:ops/launchd/<label>.plist` and
   bootstrap it, without pulling the runner clone while jobs are running.
 - A work-account session on the Mini can run Mini steps directly.
+
+## Regional layer: Mexico's 32 state congresses (12 October 2026)
+
+Scope and build: `docs/mexico-regions-scope.md`. Code: `tools/mxs_collect.py`,
+`src/ingest/mxs_<state>.py` (13 readers), `src/mxs_store.py` (`mxs_items`,
+`mxs_reads`), `src/mxs_edition.py`, `config/watchlist-mx-states.yaml`,
+`tests/test_mxs.py`. A step of `jobs/mx-collect.sh` (the Mexican edition's
+fortnightly GitHub job; no new Mini job), on a 15-minute clock.
+
+- **Covered (13):** Estado de México, Ciudad de México, Chiapas, Oaxaca,
+  Chihuahua, Tamaulipas, Baja California, Sinaloa, Yucatán,
+  Quintana Roo, Tabasco, Aguascalientes, Nayarit: every iniciativa (and
+  punto de acuerdo where listed) with date, author, committee and status
+  where the source gives them, classified with taxonomy-es (mx). The
+  edition has a "State congresses" section and the DM a line.
+- **Unreachable from the UK (5):** Veracruz, Guanajuato, Nuevo León,
+  Michoacán (https), Zacatecas; the step asks each from the runner every
+  run and the edition says if one answers.
+- **Blocked (4):** Puebla (Cloudflare challenge), San Luis Potosí (Sucuri
+  challenge), Campeche (robots.txt disallows all), Durango (Wordfence geo
+  block). Never bypassed.
+- **Not built (10):** Jalisco (77 s a page), Querétaro (plain HTTP only),
+  Guerrero, Coahuila (JSF),
+  Sonora (thin), Hidalgo, Morelos (late PDFs), Tlaxcala, Colima (undated),
+  Baja California Sur.
+- **No member votes yet:** Baja California and Estado de México publish
+  them in HTML, Tamaulipas, Coahuila and Tabasco in PDFs (phase 2), with
+  the SCJN list of recent state reforms for enacted laws across all 32.
