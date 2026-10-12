@@ -376,6 +376,13 @@ Every period each member has sat and their dated groups (`tools/member_service.p
 - **Coverage:** `ms_runs.last_seen` is watched (`tools/coverage.py`, cadence 7, grace 4); the log line `member-service <cc>:` says what each source gave, or that it was not due.
 - Nothing to install beyond the usual `git pull` of the runner clone.
 
+## Canada committee evidence in the Canada weekly (12 October 2026, branch `ca-committee-evidence`)
+
+- `tools/ca_committees.py --session 45-1` is a step of `jobs/ca-weekly.sh` (Tuesdays 11:00 London, `JOB_TIMEOUT` 7200), after Senate debates and before the courts. No new job and nothing to install: the plist is unchanged.
+- Its budget on the Mini is `tools/collector_budget.sh 1200 "$SECONDS" 1200`: at most 20 minutes, less if the steps before it overran, keeping the judge's 20 and the publish. GitHub's backup keeps the fixed 1,200 s.
+- robots.txt is asked at run time (`src/robots_guard.guard`, feed `ca-committees`); a refusal or an unloadable list is a `[gap]` and a gaps row, and the steps after it still run.
+- The edition's "Committees: witnesses on our ground" section reads `ca_testimony` and `ca_committee_meetings`; the DM goes to Chris alone, as before.
+
 ## Installing the country jobs (10 October 2026)
 
 One command installs every country-edition job and the Latam monthly, after the runner clone has pulled main:

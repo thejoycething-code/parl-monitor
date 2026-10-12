@@ -25,7 +25,14 @@ python3 tools/ca_rollcalls.py --session 45-1 || rc=1
 python3 tools/ca_senate.py --session 45-1 || rc=1
 python3 tools/ca_hansard.py --session 45-1 || rc=1
 python3 tools/ca_senate_debates.py --session 45-1 --budget-seconds 900 || rc=1
-python3 tools/ca_committees.py --session 45-1 --budget-seconds 1200 || rc=1
+# Committee evidence (tools/ca_committees.py): House and joint committee
+# meetings of the key nine, members' interventions to ca_speeches, witnesses
+# only to ca_testimony. Budget-aware since 12 October 2026: at most 20
+# minutes, less if the steps before it overran, keeping the judge's 20 and
+# the publish (tools/collector_budget.sh; GitHub gets the cap unchanged). A
+# meeting left unread is read next week; gaps are recorded, never fatal to
+# the steps after it.
+python3 tools/ca_committees.py --session 45-1 --budget-seconds "$(bash tools/collector_budget.sh 1200 "$SECONDS" 1200)" || rc=1
 python3 tools/ca_courts.py || rc=1
 python3 tools/ca_petitions.py --limit 300 || rc=1
 python3 tools/ca_gazette.py || rc=1
