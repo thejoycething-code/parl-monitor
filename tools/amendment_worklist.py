@@ -203,7 +203,7 @@ def urls_for(cc, key, row, raw, ids, extra):
         m = re.match(r"^camera-vs(\d+)_(\d+)_(\d+)$", key)
         if m:
             leg, sitting, no = m.groups()
-            out.append(U("vote record (open data)", "http://dati.camera.it/ocd/votazione.rdf/vs{0}_{1}_{2}"
+            out.append(U("vote record (open data)", "https://dati.camera.it/ocd/votazione.rdf/vs{0}_{1}_{2}"
                          .format(leg, sitting, no), False))
             out.append(U("sitting (resoconto and allegati with the emendamenti)",
                          "https://www.camera.it/leg{0}/410?idSeduta={1:04d}&tipo=documenti_seduta".format(
@@ -211,7 +211,7 @@ def urls_for(cc, key, row, raw, ids, extra):
         m = re.match(r"^senato-(\d+)-(\d+)-(\d+)$", key)
         if m:
             leg, sitting, no = m.groups()
-            out.append(U("vote record (open data)", "http://dati.senato.it/votazione/{0}".format(key), False))
+            out.append(U("vote record (open data)", "https://dati.senato.it/votazione/{0}".format(key), False))
             out.append(U("emendamenti (fascicolo of the sitting)",
                          "https://www.senato.it/leg/{0}/BGT/Testi/Emend/...".format(leg), False,
                          "search the bill's 'Emendamenti' tab on senato.it for Em. {0}".format(n0 or "?")))
