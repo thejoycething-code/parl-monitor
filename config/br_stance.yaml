@@ -147,7 +147,6 @@ divisions:
     amendment_direction: "with"
     amendment_why: "Vote keeps the PEC text extending church tax immunity to creches, therapeutic communities, monasteries, seminaries and social work, rejecting the PT-led move to strike it; protects religious bodies."
     amendment_source: "https://dadosabertos.camara.leg.br/api/v2/votacoes/2351506-108"
-    amendment_flag: "Yes keeps the text (the destaque to delete it failed)."
     yea: 2
     nay: -2
     why_yea: "Voted Sim on amendment camara-2351506-108 (Vote keeps the PEC text extending church tax immunity to creches, therapeutic communities,): for adopting it, with CitizenGO's position."
@@ -164,13 +163,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 8 (religious freedom). Amendment reading on file: adopting it is WITH us -- Vote keeps the PEC text extending church tax immunity to creches, therapeutic communities, monasteries, seminaries and social work, rejecting the PT-led move to strike it; protects religious bodies. A Sim here adopts it, so Sim is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Yes keeps the text (the destaque to delete it failed).)"
 
   - key: "camara-2351506-112"
     status: draft
     amendment_direction: "with"
     amendment_why: "Vote keeps the PEC wording giving tax immunity to social-assistance and other non-profit activities of churches, rejecting the PT-led move to strike it; protects religious bodies."
     amendment_source: "https://dadosabertos.camara.leg.br/api/v2/votacoes/2351506-112"
-    amendment_flag: "Yes keeps the text (the destaque to delete it failed)."
     yea: 2
     nay: -2
     why_yea: "Voted Sim on amendment camara-2351506-112 (Vote keeps the PEC wording giving tax immunity to social-assistance and other non-profit a): for adopting it, with CitizenGO's position."
@@ -187,13 +186,13 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 8 (religious freedom). Amendment reading on file: adopting it is WITH us -- Vote keeps the PEC wording giving tax immunity to social-assistance and other non-profit activities of churches, rejecting the PT-led move to strike it; protects religious bodies. A Sim here adopts it, so Sim is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Yes keeps the text (the destaque to delete it failed).)"
 
   - key: "camara-2351506-115"
     status: draft
     amendment_direction: "with"
     amendment_why: "Vote keeps the PEC wording extending church tax immunity to other non-profit activities, rejecting the PT-led move to strike it; protects religious bodies."
     amendment_source: "https://dadosabertos.camara.leg.br/api/v2/votacoes/2351506-115"
-    amendment_flag: "Yes keeps the text (the destaque to delete it failed)."
     yea: 2
     nay: -2
     why_yea: "Voted Sim on amendment camara-2351506-115 (Vote keeps the PEC wording extending church tax immunity to other non-profit activities, r): for adopting it, with CitizenGO's position."
@@ -210,6 +209,7 @@ divisions:
     vote_kind: "amendment"
     reasoning: "Area 8 (religious freedom). Amendment reading on file: adopting it is WITH us -- Vote keeps the PEC wording extending church tax immunity to other non-profit activities, rejecting the PT-led move to strike it; protects religious bodies. A Sim here adopts it, so Sim is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
+    amendment_accepted: "Christopher Joyce, 12 Oct 2026: accepted as drafted (was flagged: Yes keeps the text (the destaque to delete it failed).)"
 
   - key: "camara-2351506-122"
     status: draft
