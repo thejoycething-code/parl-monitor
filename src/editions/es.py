@@ -165,9 +165,11 @@ def dm_notice(conn, today):
 
 
 def edition_notice(conn, today, dm=False):
-    """Country.notice: notice() for the edition, dm_notice() for the DM."""
+    """Country.notice: notice() for the edition, dm_notice() for the DM.
+    The DM's adds the regional layer's one line (12 October 2026)."""
     if dm:
-        return dm_notice(conn, today)
+        lines = [x for x in (dm_notice(conn, today), regional_dm_line(conn, today)) if x]
+        return "\n".join(lines) or None
     return "\n".join(notice(conn, today))
 
 
@@ -296,10 +298,199 @@ def items(conn, since, until, wl):
     return divisions(conn, since, until, wl) + initiatives(conn, since, until, wl)
 
 
+# --- the regional layer (tools/es_regions.py, src/es_regions_store.py) -----------
+#
+# 12 October 2026 (docs/spain-regions-scope.md): the seventeen communities'
+# laws as the BOE publishes them (in Spanish for all seventeen), and the bills
+# new in the regional parliaments whose sites list them. A section of its own,
+# "Regional parliaments", added by post_render() after the Congreso's
+# sections (before the Watchlist, or at the end of a quiet week's form), so
+# the Congreso's counts, lead and quiet-week test are the Congreso's alone.
+# The items go through the same noise filters (config/edition-noise-es.yaml,
+# config/edition-mute-es.yaml) and stub ordering; the session judge and the
+# review window do not read them yet. The DM gets one line saying how many.
+
+REGIONAL_RANKS = ("ley", "decreto-ley", "decreto legislativo")
+RANK_NAMES = {"ley": "Law", "decreto-ley": "Decree-law", "decreto legislativo": "Legislative decree",
+              "decreto": "Decree", "correction": "Correction", "other": "Act"}
+BILL_KINDS = {"proyecto de ley": "Government bill", "proposición de ley": "Members' bill",
+              "decreto-ley": "Decree-law for validation", "ilp": "Popular legislative initiative"}
+MAX_REGIONAL = 12
+
+
+def _esr():
+    from src import es_regions_store
+    return es_regions_store
+
+
+def regional_laws(conn, since, until, wl):
+    esr = _esr()
+    out = []
+    for r in ce.rows(conn, "SELECT * FROM esr_laws WHERE " + ce.window_sql("published")
+                     + " ORDER BY published, boe_id", (since, until)):
+        watched = r["boe_id"] in wl
+        if r["rank"] not in REGIONAL_RANKS and not watched:
+            continue
+        if not ce.on_ground(r["areas"], watched):
+            continue
+        region = esr.REGIONS.get(r["region"], r["region"])
+        takeaway = "{0} of {1}, published in the BOE on {2}{3}".format(
+            RANK_NAMES.get(r["rank"], "Act"), region, ce.long_date(r["published"]),
+            "; a decree-law the regional parliament must validate or reject"
+            if r["rank"] == "decreto-ley" else "")
+        out.append(ce.item(CC, "law", r["boe_id"], r["published"], r["title"],
+                           ce.areas_of(r["areas"]), r["tier"], watched,
+                           url=r["url_html"] or r["url_pdf"], terms=r["matched_terms"],
+                           body=r["heading"] or "", takeaway=takeaway))
+    return out
+
+
+def _bill_date(r):
+    """The date a bill counts as new: its own presentation date when the
+    list gives one, else the day first listed (never a seed row's)."""
+    if r["presented"]:
+        return r["presented"]
+    return None if r["seed"] else r["first_seen"]
+
+
+def regional_bills(conn, since, until, wl):
+    esr = _esr()
+    out = []
+    for r in ce.rows(conn, "SELECT * FROM esr_bills WHERE lang = 'es' AND ("
+                     + ce.window_sql("presented") + " OR (presented IS NULL AND COALESCE(seed, 0) = 0 AND "
+                     + ce.window_sql("first_seen") + ")) ORDER BY region, bill_key",
+                     (since, until, since, until)):
+        watched = r["bill_key"] in wl
+        if not ce.on_ground(r["areas"], watched):
+            continue
+        bits = [BILL_KINDS.get(r["kind"] or "", "Bill"), "in the {0}".format(
+            esr.PARLIAMENTS.get(r["region"], r["region"]))]
+        if r["proponent"]:
+            bits.append("from {0}".format(ce.clean(r["proponent"])))
+        out.append(ce.item(CC, "new", r["bill_key"], _bill_date(r), r["title"],
+                           ce.areas_of(r["areas"]), r["tier"], watched, status=r["status"],
+                           url=r["url"], terms=r["matched_terms"], takeaway=" ".join(bits)))
+    return out
+
+
+def regional_items(conn, since, until, wl, config_dir=None):
+    """(kept, dropped): the regional items in the window after the noise filters."""
+    got = regional_laws(conn, since, until, wl) + regional_bills(conn, since, until, wl)
+    kept, dropped = ce.noise_for(COUNTRY).split(got, config_dir)
+    return ce.score(kept), dropped
+
+
+def regional_coverage(conn, since, until):
+    """The section's own coverage lines: what was read, and the gaps."""
+    esr = _esr()
+    reads = {r["source"]: r for r in ce.rows(conn, "SELECT * FROM esr_reads")}
+    if not reads:
+        return ["The regional layer has not run yet (tools/es_regions.py, Spain weekly)."]
+    lines = []
+    boe = reads.get("boe")
+    n_acts = ce.rows(conn, "SELECT COUNT(*) FROM esr_laws WHERE " + ce.window_sql("published"),
+                     (since, until))
+    if boe:
+        lines.append("The BOE, every community's laws in Spanish: read to {0}; {1} regional act(s) "
+                     "published in this period. A law reaches the BOE weeks after the regional "
+                     "bulletin.".format(ce.long_date(boe["last_day"]) if boe["last_day"] else "never",
+                                        n_acts[0][0] if n_acts else 0))
+    listed = [k for k in ("an", "cn", "ri", "cb") if k in reads]
+    if listed:
+        lines.append("Bills in passage, from the parliaments' own lists: {0}.".format("; ".join(
+            "{0} ({1})".format(esr.REGIONS[k], "read {0}".format(ce.short_date(reads[k]["last_seen"]))
+                               if (reads[k]["status"] or "") == "ok" else "failed: "
+                               + ce.clean(reads[k]["status"] or "unknown"))
+            for k in listed)))
+    other = ce.rows(conn, "SELECT region, COUNT(*) FROM esr_bills WHERE lang != 'es' AND ("
+                    + ce.window_sql("presented") + " OR (presented IS NULL AND COALESCE(seed, 0) = 0 AND "
+                    + ce.window_sql("first_seen") + ")) GROUP BY region", (since, until, since, until))
+    if "vc" in reads or other:
+        n = sum(r[1] for r in other)
+        lines.append("Not classified, published in a co-official language only: {0} new bill(s) in "
+                     "this period ({1}); the Spanish term list is blind to them.".format(
+                         n, ", ".join("{0} {1}".format(r[1], esr.PARLIAMENTS.get(r[0], r[0]))
+                                      for r in other) or "Corts Valencianes, in Valencian"))
+    lines.append("No list of bills is read for Madrid, Navarra and Galicia (bot checks), Murcia and "
+                 "Extremadura (robots.txt), País Vasco, Illes Balears and Aragón (no answer), "
+                 "Cataluña (Catalan only) or Castilla y León, Castilla-La Mancha and Asturias (no "
+                 "list to read): their laws arrive through the BOE "
+                 "([scope]({0}docs/spain-regions-scope.md)).".format(ce.REPO))
+    return lines
+
+
+def regional_section(conn, since, until, wl, config_dir=None):
+    kept, dropped = regional_items(conn, since, until, wl, config_dir)
+    out = ["## Regional parliaments", ""]
+    laws = [it for it in kept if it["kind"] == "law"]
+    bills = [it for it in kept if it["kind"] == "new"]
+    if not kept:
+        out += ["Nothing on our ground from the seventeen autonomous communities in this period.", ""]
+    if laws:
+        out += ["### Regional laws in the BOE", ""]
+        for it in laws[:MAX_REGIONAL]:
+            out += ce.item_lines(it, wl)
+        if len(laws) > MAX_REGIONAL:
+            out.append("- _And {0} more, lower in the order; in the store._".format(len(laws) - MAX_REGIONAL))
+        out.append("")
+    if bills:
+        out += ["### New regional bills", ""]
+        for it in bills[:MAX_REGIONAL]:
+            out += ce.item_lines(it, wl)
+        if len(bills) > MAX_REGIONAL:
+            out.append("- _And {0} more, lower in the order; in the store._".format(len(bills) - MAX_REGIONAL))
+        out.append("")
+    out += ["Regional coverage:", ""]
+    out += ["- " + ce.clean(c) for c in regional_coverage(conn, since, until)]
+    if dropped:
+        out.append("- Left out by the noise filters: {0}.".format(ce.dropped_text(dropped)))
+    out.append("")
+    return out
+
+
+def post_render(conn, country, today, text, wl):
+    """Country.post_render: the regional section, before the Watchlist (or
+    at the end of a quiet week's form)."""
+    since, until = _window(today, text)
+    section = "\n".join(regional_section(conn, since, until, wl))
+    marker = "\n## Watchlist\n"
+    if marker in text:
+        return text.replace(marker, "\n" + section + marker, 1)
+    return text.rstrip("\n") + "\n\n" + section
+
+
+def _window(today, text=None, directory=None):
+    """The edition's window, read back off its subtitle ('covering 3 October
+    2026 to 9 October 2026') so the section matches the Congreso's exactly;
+    the framework's own default when the subtitle is not there."""
+    m = re.search(r"covering (\d{1,2} \w+ \d{4}) to (\d{1,2} \w+ \d{4})", text or "")
+    if m:
+        try:
+            first = datetime.datetime.strptime(m.group(1), "%d %B %Y").date()
+            last = datetime.datetime.strptime(m.group(2), "%d %B %Y").date()
+            return (first - datetime.timedelta(days=1)).isoformat(), last.isoformat()
+        except ValueError:
+            pass
+    return ce.window(CC, today, None, directory, COUNTRY.cadence_days)
+
+
+def regional_dm_line(conn, today, directory=None):
+    """The DM's line: the edition's window, as the framework sets it."""
+    since, until = _window(today, directory=directory)
+    kept, _ = regional_items(conn, since, until, ce.watchlist_of(COUNTRY, None))
+    if not ce.rows(conn, "SELECT 1 FROM esr_reads LIMIT 1"):
+        return None
+    if not kept:
+        return "_Regional parliaments: nothing on our ground this {0}._".format(COUNTRY.period)
+    laws = sum(it["kind"] == "law" for it in kept)
+    return "_Regional parliaments: {0} regional law(s) in the BOE and {1} new regional bill(s) on our ground; in the edition._".format(
+        laws, len(kept) - laws)
+
+
 COUNTRY = ce.Country(
     cc=CC, name="Spain", chamber="Congreso de los Diputados", language="Spanish",
     taxonomies=(("taxonomy-es.yaml", "es"),),
-    items=items, notice=edition_notice,
+    items=items, notice=edition_notice, post_render=post_render,
     week_ahead=agenda.week_ahead_fn(CC), ahead_note=agenda.ahead_note_fn(CC),
     members_note=("Member positions are the Congreso's own, by name, with the parliamentary "
                   "group printed in each vote file, so a member against their group's majority "
@@ -312,6 +503,8 @@ COUNTRY = ce.Country(
         "there is no stage-moves section.",
         "The week ahead is the Congreso's weekly agenda page, classified on its own words; "
         "the plenary's order of the day (a PDF) is not read.",
+        "The seventeen regional parliaments have their own section above, with its own "
+        "coverage lines (docs/spain-regions-scope.md).",
     ),
 )
 

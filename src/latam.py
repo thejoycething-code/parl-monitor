@@ -104,6 +104,9 @@ KINDS = {
     # Added 11 October 2026: petitions and consultations (src/petitions.py),
     # for a Latam country with a source module in src/petition_sources/.
     "petition": "Petition or consultation",
+    # Added 12 October 2026 (PE4): Peru's regional governments' and Lima
+    # Metropolitana's council acts (tools/pe_regions.py, pe_regional_norms).
+    "regional": "Regional norm",
 }
 
 
@@ -657,6 +660,80 @@ def items_uy_diario(conn, since, until, wl):
     return out
 
 
+# --- PE4: Peru's regional governments and Lima Metropolitana --------------------
+
+# How long after its date a norm first seen late still counts as news: the
+# gob.pe pages list some ordenanzas weeks after they were passed.
+REGIONAL_LATE_DAYS = 60
+REGIONAL_SHOWN = ("ordenanza", "acuerdo", "decreto")
+REGIONAL_KIND = {
+    "ordenanza": ("Regional ordinance", "Metropolitan ordinance"),
+    "acuerdo": ("Regional council agreement", "Metropolitan council agreement"),
+    "decreto": ("Regional decree", "Mayoral decree"),
+}
+_REGION_NAMES = {}
+
+
+def region_names(path=None):
+    """{region key: English name} from config/pe-regions.yaml."""
+    path = path or os.path.join(CONFIG, "pe-regions.yaml")
+    if path not in _REGION_NAMES:
+        got = {}
+        if os.path.exists(path):
+            with open(path, encoding="utf-8") as fh:
+                for r in (yaml.safe_load(fh) or {}).get("regions", []):
+                    got[r["key"]] = r.get("name") or r["key"]
+        _REGION_NAMES[path] = got
+    return _REGION_NAMES[path]
+
+
+def items_pe_regional(conn, since, until, wl, config_dir=None):
+    """PE4: ordenanzas, acuerdos and decretos of the 25 regional governments
+    and Lima Metropolitana on our ground or watched (by norm_key, section
+    `regional` of config/watchlist-pe.yaml): dated in the window, or first
+    seen in it when dated at most REGIONAL_LATE_DAYS before it. Rows first
+    seen on the table's first day (the seed) count only by their date, as
+    src/courts.news_rows does, so switching the layer on floods nothing."""
+    try:
+        floor = (datetime.date.fromisoformat(since)
+                 - datetime.timedelta(days=REGIONAL_LATE_DAYS)).isoformat()
+    except ValueError:
+        floor = since
+    seed = rows(conn, "SELECT MIN(substr(first_seen,1,10)) FROM pe_regional_norms")
+    seed = (seed[0][0] if seed else None) or ""
+    got = rows(conn, "SELECT * FROM pe_regional_norms WHERE kind IN ({0}) AND (({1}) OR ({2} "
+               "AND substr(first_seen,1,10) != ? AND substr(date,1,10) > ?)) "
+               "ORDER BY date DESC".format(",".join("?" * len(REGIONAL_SHOWN)), _win("date"),
+                                           _win("first_seen")),
+               REGIONAL_SHOWN + (since, until, since, until, seed, floor))
+    names = region_names(os.path.join(config_dir, "pe-regions.yaml") if config_dir else None)
+    out = []
+    for r in got:
+        w = r["norm_key"] in wl
+        if not on_ground(r["areas"], w):
+            continue
+        metro = r["region"] == "lima-metropolitana"
+        label = REGIONAL_KIND.get(r["kind"], ("Regional norm", "Metropolitan norm"))[metro]
+        where = names.get(r["region"], r["region"])
+        src = {"elperuano": "published in El Peruano",
+               "gob.pe": "listed on gob.pe, not yet seen in El Peruano",
+               "elperuano+gob.pe": "published in El Peruano, also on gob.pe"}.get(r["source"] or "", "")
+        line = "{0}, {1}{2}: {3}{4}.".format(
+            label, "" if metro else "Gobierno Regional de ", where,
+            clean(r["title"]) or "number not printed", "; " + src if src else "")
+        lines = [line]
+        if r["pdf_url"] and r["pdf_url"] != r["url"]:
+            lines.append("Text (PDF): {0}".format(r["pdf_url"]))
+        out.append(item("pe", "regional", r["norm_key"], r["date"],
+                        clip(r["summary"] or r["title"], 400), areas_of(r["areas"]), r["tier"],
+                        w, None, r["url"], lines, terms=r["matched_terms"]))
+    return out
+
+
+# Countries with a regional layer read into the Latam edition (PE4).
+REGIONAL = {"pe": items_pe_regional}
+
+
 ADAPTERS = {"co": items_co, "cl": items_cl, "pe": items_pe, "ec": items_ec, "bo": items_bo,
             "uy": items_uy, "gt": items_gt, "pa": items_pa, "hn": items_hn, "sv": items_sv,
             "do": items_do}
@@ -731,6 +808,8 @@ def country_items(conn, cc, since, until, ledger=None, config_dir=None, dropped=
             got += items_bo_questions(conn, since, until, watchlist(cc, config_dir))
         if cc == "uy":
             got += items_uy_diario(conn, since, until, watchlist(cc, config_dir))
+        if cc in REGIONAL:
+            got += REGIONAL[cc](conn, since, until, watchlist(cc, config_dir), config_dir)
         if cc in PETITIONS:
             from src import petitions
             got += petitions.edition_items(conn, cc, since, until, watchlist(cc, config_dir))
