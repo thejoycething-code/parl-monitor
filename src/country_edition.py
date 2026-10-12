@@ -62,6 +62,8 @@ THE ADAPTER INTERFACE (stable; additive changes only, noted below)
                                      # wl) -> text, run on the edition only
            cadence_days=7,           # 14 for a fortnightly edition; see 7
            frequency="Weekly",       # the subtitle's word for the cadence
+           extra_sections=None,      # optional: fn(conn, since, until, wl) ->
+                                     # [(heading, intro, items, coverage)]; 12 Oct note
        )
 
 2. `items(conn, since, until, wl)` returns the store's items on our ground
@@ -204,8 +206,20 @@ Change log of the interface (additive only):
                    three, from the same `week_ahead` hook the edition uses.
                    The Netherlands sets it (Chris, 11 October 2026: the
                    votes-only Dutch edition, NL3, shows the week ahead).
+  12 October 2026  Country.extra_sections (default None, so every other
+                   edition is unchanged; Austria's Landtage, AT6):
+                   fn(conn, since, until, wl) -> [(heading, intro lines,
+                   items, coverage lines)], a sub-national layer that is
+                   not the chamber's own business. Its items are built with
+                   item(), pass the same noise filters (what they drop is
+                   counted under Coverage) and the same title folding, and
+                   render as their own `## heading` after the Watchlist,
+                   never in the national sections or the lead; the In-brief
+                   and the DM add a line counting them, and a week quiet
+                   nationally but not there is not a quiet week.
 
 Read-only on the store.
+
 """
 
 from __future__ import annotations
@@ -309,6 +323,7 @@ class Country:
     post_render: Optional[Callable] = None
     cadence_days: int = DEFAULT_DAYS
     frequency: str = "Weekly"
+    extra_sections: Optional[Callable] = None
 
     @property
     def period(self):
@@ -911,6 +926,8 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
             config_dir)
     wl = watchlist_of(country, config_dir)
     seen = last_read(conn, country.cc)
+    extras = extras_of(conn, country, since, until, wl, config_dir, dropped)
+    n_extra = sum(len(e[2]) for e in extras)
     out = [title_line(country, today, since), ""]
     if sample:
         out += ["> **{0}.** Rendered from a scoping store (built 9 October 2026), "
@@ -930,7 +947,7 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
     if reviewed:
         out += [reviewed, ""]
 
-    if not got and not ahead:
+    if not got and not ahead and not n_extra:
         out += ["**A quiet {0}.** Nothing on our ground in the {1} between {2} and {3}.".format(
             country.period, country.chamber, long_date(first), long_date(until)), ""]
         out += ["- Watchlist: {0} item(s), none moved.".format(len(wl)),
@@ -939,6 +956,8 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
         note = country.ahead_note(conn, today) if country.ahead_note else None
         if note:
             out.append("- " + clean(note))
+        for _, _, _, cover in extras:
+            out += ["- " + clean(c) for c in cover]
         out.append("")
         return finish(conn, country, today, out, wl)
 
@@ -947,6 +966,11 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
     n_watch = sum(it["watched"] for it in got)
     out.append("**{0} item(s) on our ground**: {1}; {2} watched.".format(
         len(got), count_text(got) or "none", n_watch or "none"))
+    for heading, _, its, _ in extras:
+        if its:
+            out.append("Plus **{0} item(s) in the {1}**: {2}; {3} watched (their own section "
+                       "below).".format(len(its), heading, count_text(its),
+                                        sum(it["watched"] for it in its) or "none"))
     top = one_per_group(lead(country, got, config_dir))[:5]
     if top:
         out += ["", "Leading:"]
@@ -989,6 +1013,19 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
         out.append("None of the {0} watched item(s) moved in this edition's period.".format(len(wl)))
     out.append("")
 
+    for heading, intro, its, _ in extras:
+        if not its:
+            continue
+        out += ["## " + heading, ""]
+        if intro:
+            out += [clean(line) for line in intro] + [""]
+        for it in its[:2 * MAX_PER_SECTION]:
+            out += item_lines(it, wl)
+        if len(its) > 2 * MAX_PER_SECTION:
+            out.append("- _And {0} more, lower in the order; in the store._".format(
+                len(its) - 2 * MAX_PER_SECTION))
+        out.append("")
+
     if ahead:
         out += ["## Week ahead", ""]
         for it in score(ahead)[:MAX_PER_SECTION]:
@@ -1000,6 +1037,8 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
     out += ["- " + clean(c) for c in country.coverage]
     out += ["- " + clean(c) for c in chamber_store.coverage_lines(conn, country.cc, since, until)]
     out += ["- " + clean(c) for c in petitions.coverage_lines(conn, country.cc, since, until)]
+    for _, _, _, cover in extras:
+        out += ["- " + clean(c) for c in cover]
     if country.ahead_note:
         note = country.ahead_note(conn, today)
         if note:
@@ -1012,6 +1051,20 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
             "- Decisions: [docs/country-decisions-2026-10-10.md]({0}docs/"
             "country-decisions-2026-10-10.md).".format(REPO), ""]
     return finish(conn, country, today, out, wl)
+
+
+def extras_of(conn, country, since, until, wl, config_dir=None, dropped=None):
+    """The country's extra sections (12 October 2026 note), noise-filtered and scored:
+    [(heading, intro, items, coverage)]; [] without the hook."""
+    if not country.extra_sections:
+        return []
+    out = []
+    for heading, intro, items, cover in country.extra_sections(conn, since, until, wl) or []:
+        kept, gone = noise_for(country).split(list(items or []), config_dir)
+        if dropped is not None:
+            dropped.extend(gone)
+        out.append((heading, list(intro or []), score(collapse_titles(kept)), list(cover or [])))
+    return out
 
 
 def finish(conn, country, today, out, wl):
@@ -1052,6 +1105,16 @@ def dm_summary(conn, country, today, since=None, path=None, config_dir=None, dir
     else:
         lines.append("*A quiet {0}*: nothing on our ground{1}.".format(
             country.period, " in recorded votes" if country.dm_kinds == ("vote",) else ""))
+    for heading, _, its, _ in extras_of(conn, country, since, until,
+                                        watchlist_of(country, config_dir), config_dir):
+        if its:
+            lines.append("*{0}*: {1} item(s) on our ground or watched.".format(
+                heading[0].upper() + heading[1:], len(its)))
+            for it in its[:3]:
+                lines.append("• {0}: _{1}_ ({2}{3})".format(
+                    KIND_NAMES.get(it["kind"], (it["kind"],))[0].capitalize(),
+                    clip(it.get("title") or "", 90), area_text(it["areas"]) or "watched",
+                    ", watched" if it["watched"] else ""))
     if country.dm_ahead and country.week_ahead:
         ahead, _ = noise_for(country).split(
             country.week_ahead(conn, today, watchlist_of(country, config_dir)) or [], config_dir)
