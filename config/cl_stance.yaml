@@ -147,7 +147,10 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "camara-88946"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Amendment requires free reconnection of utilities in disaster zones; unrelated to CitizenGO areas."
+    amendment_why: "Amendment requires free reconnection of utilities in disaster zones; unrelated to CitizenGO areas."
     title: "Boletín N° 18216-05 Renovación de una indicación de la diputada Ana María Gazmuri para agregar un artículo nuevo permanente, de cuyo tenor dará lectura el señor Secretario: “Artículo nuevo permanente.- Modifícase la ley N° 16.282, que fija"
     "on": "Para la reconstrucción nacional y el desarrollo económico y social"
     dated: "2026-05-20"
@@ -157,12 +160,14 @@ divisions:
     result: "Aprobado; Afirmativo 80, En contra 69, Abstain 4"
     lobbies: "Afirmativo: IND 17, FA 14, PDG 12, PS 10, PC 8, DC 7, PPD 4, PL 2, RN 2, PSC 1, PAH 1, ? 1, PR 1. En contra: PREP 28, UDI 12, RN 8, PNL 8, IND 8, PSC 2, EVOP 2, PDG 1. Abstain: DEM 1, PDG 1, RN 1, FRVS 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Boletín N° 18216-05 Renovación de una indicación de la diputada Ana María Gazmuri para agregar un artículo nuevo permane'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 1 (abortion)."
+    reasoning: "Area 1 (abortion). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "camara-89307"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Amendment requires birth-rate and migration to be considered in school demand estimates; no CitizenGO stake."
+    amendment_why: "Amendment requires birth-rate and migration to be considered in school demand estimates; no CitizenGO stake."
     title: "Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artículo primero del proyecto: “4. Incorpórase, antes del artículo 9º, un artículo 8º sexies nuevo (o el adjetivo numeral qu"
     "on": "Modifica diversos cuerpos legales, con el objeto de facilitar la creación de nuevos establecimientos educacionales"
     dated: "2026-07-07"
@@ -172,8 +177,7 @@ divisions:
     result: "Rechazado; Afirmativo 59, En contra 85"
     lobbies: "Afirmativo: IND 14, FA 12, PS 9, PC 8, DC 6, PPD 4, PL 2, PAH 1, ? 1, FRVS 1, PR 1. En contra: PREP 27, UDI 12, PDG 12, RN 11, IND 10, PNL 8, PSC 2, EVOP 2, DEM 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artí'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family), 11 (migration)."
+    reasoning: "Area 9 (marriage and family), 11 (migration). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "camara-89383"
@@ -193,6 +197,8 @@ divisions:
 
   - key: "camara-90141"
     status: needs_reading
+    amendment_flag: "Question text is truncated; it adds an exemption to the transport-obstruction offence, but the full wording could not be found."
+    amendment_why: "Question text is truncated; it adds an exemption to the transport-obstruction offence, but the full wording could not be found."
     title: "Boletín N° 18584-25 Indicación renovada de la diputada Schneider y los diputados Salinas, Pinilla y Araya, Jaime, para agregar un inciso final nuevo al artículo 268 septies del Código Penal, del siguiente tenor: ‘No constituirán los delitos"
     "on": "Modifica el Código Penal para ampliar el ámbito de aplicación del delito de interrupción u obstaculización de la libre circulación y del funcionamiento de los servicios de transporte"
     dated: "2026-09-23"
@@ -203,5 +209,5 @@ divisions:
     lobbies: "Afirmativo: IND 13, FA 11, PDG 11, PS 8, DC 6, PC 6, PPD 3, PL 2, PAH 1, ? 1, PR 1. En contra: PREP 24, UDI 12, RN 10, IND 9, PNL 8, PCCH 2, EVOP 2, PDG 2, DEM 1. Abstain: IND 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Boletín N° 18584-25 Indicación renovada de la diputada Schneider y los diputados Salinas, Pinilla y Araya, Jaime, para a'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 7 (free speech and civil liberties)."
+    reasoning: "Area 7 (free speech and civil liberties). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"

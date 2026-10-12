@@ -218,7 +218,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "55669"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Committee amendments to the church funding law fix a cross-reference and delete an obsolete annex; technical."
+    amendment_why: "Committee amendments to the church funding law fix a cross-reference and delete an obsolete annex; technical."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=556814"
     title: "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností (tlač 511) - druhé čítanie. Hlasovanie o pozmeňujúcich návrhoch zo spoločnej správy výborov – body 1 a 2."
     "on": "Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských spoločností"
     dated: "2024-11-27"
@@ -228,8 +232,7 @@ divisions:
     result: "Návrh prešiel; Za 95, Proti 0, Abstain 41"
     lobbies: "Za: SMER - SD 41, HLAS - SD 27, SLOVENSKO 10, KDH 9, SNS 8. Abstain: PS 32, SaS 7, ? 1, SLOVENSKO 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 370/2019 Z. z. o finančnej podpore činnosti cirkví a náboženských '): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 8 (religious freedom)."
+    reasoning: "Area 8 (religious freedom). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "55670"
@@ -404,7 +407,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56686"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Amendment only sets the constitutional amendment's effective date to 5 July 2025; technical."
+    amendment_why: "Amendment only sets the constitutional amendment's effective date to 5 July 2025; technical."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=567678"
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - Podmanický."
     "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
@@ -414,12 +421,19 @@ divisions:
     result: "Návrh neprešiel; Za 0, Proti 134"
     lobbies: "Proti: SMER - SD 41, PS 33, HLAS - SD 25, SaS 10, KDH 10, SNS 8, ? 5, SLOVENSKO 2"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56687"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Package adds a constitutional ban on surrogacy, defines parents as mother and father, recognises only biological male and female sex, but also deletes parents' right to decide on extra-curricular education."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=567689"
+    amendment_flag: "Mixed package: deletion of the parental opt-out sentence cuts against us; sex-definition and surrogacy points are with us."
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on amendment 56687 (Package adds a constitutional ban on surrogacy, defines parents as mother and father, reco): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Proti on amendment 56687 (Package adds a constitutional ban on surrogacy, defines parents as mother and father, reco): for rejecting it, against CitizenGO's position."
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - J. Horecký , 1. návr"
     "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
@@ -429,12 +443,15 @@ divisions:
     result: "Návrh prešiel; Za 90, Proti 44"
     lobbies: "Za: SMER - SD 41, HLAS - SD 25, KDH 10, SNS 8, ? 4, SLOVENSKO 2. Proti: PS 33, SaS 10, ? 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Package adds a constitutional ban on surrogacy, defines parents as mother and father, recognises only biological male and female sex, but also deletes parents' right to decide on extra-curricular educ. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56688"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Amendment only changes the effective date to 1 September 2025; technical."
+    amendment_why: "Amendment only changes the effective date to 1 September 2025; technical."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=567689"
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - J. Horecký, 1. návrh"
     "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
@@ -444,12 +461,14 @@ divisions:
     result: "Návrh neprešiel; Za 0, Proti 134"
     lobbies: "Proti: SMER - SD 41, PS 33, HLAS - SD 25, SaS 10, KDH 10, SNS 8, ? 5, SLOVENSKO 2"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56689"
     status: needs_reading
+    amendment_flag: "Adds that health, bodily integrity and abuse-prevention education is part of general age-appropriate schooling without parental consent; narrows the consent rule slightly but could be a loophole."
+    amendment_why: "Adds that health, bodily integrity and abuse-prevention education is part of general age-appropriate schooling without parental consent; narrows the consent rule slightly but could be a loophole."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=567691"
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - J. Horecký , 2. návr"
     "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
@@ -460,11 +479,18 @@ divisions:
     lobbies: "Za: SMER - SD 41, HLAS - SD 25, KDH 10, SNS 8, ? 4, SLOVENSKO 2. Proti: PS 33, SaS 10, ? 1"
     vote_kind: "amendment"
     read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). Amendment read; which side is ours is unclear: nothing proposed."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56690"
-    status: needs_reading
+    status: draft
+    amendment_direction: "with"
+    amendment_why: "Adds a constitutional right to conscientious objection, with details for law or treaty, aimed at health and school staff, including on sex education; strengthens religious freedom and conscience."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=567686"
+    yea: 2
+    nay: -2
+    why_yea: "Voted Za on amendment 56690 (Adds a constitutional right to conscientious objection, with details for law or treaty, ai): for adopting it, with CitizenGO's position."
+    why_nay: "Voted Proti on amendment 56690 (Adds a constitutional right to conscientious objection, with details for law or treaty, ai): for rejecting it, against CitizenGO's position."
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - M. Čaučík."
     "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
@@ -474,12 +500,15 @@ divisions:
     result: "Návrh neprešiel; Za 24, Proti 71, Abstain 50"
     lobbies: "Za: SLOVENSKO 13, KDH 10, SMER - SD 1. Proti: PS 33, HLAS - SD 24, SaS 10, SNS 3, ? 1. Abstain: SMER - SD 40, SNS 5, ? 4, HLAS - SD 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). Amendment reading on file: adopting it is WITH us -- Adds a constitutional right to conscientious objection, with details for law or treaty, aimed at health and school staff, including on sex education; strengthens religious freedom and conscience. A Za here adopts it, so Za is with us."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56691"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Amendment deletes the single-electoral-district rule for parliamentary elections; unrelated to CitizenGO areas."
+    amendment_why: "Amendment deletes the single-electoral-district rule for parliamentary elections; unrelated to CitizenGO areas."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=567550"
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - M. Čellár."
     "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
@@ -489,12 +518,15 @@ divisions:
     result: "Návrh neprešiel; Za 25, Proti 59, Abstain 62"
     lobbies: "Za: HLAS - SD 25. Proti: PS 33, SLOVENSKO 14, SaS 10, ? 1, SNS 1. Abstain: SMER - SD 41, KDH 10, SNS 7, ? 4"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56692"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Amendment only moves the effective date to 1 November 2025; technical."
+    amendment_why: "Amendment only moves the effective date to 1 November 2025; technical."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=567694"
     title: "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov (tlač 733) - druhé čítanie. Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - Z. Plevíková."
     "on": "Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších predpisov"
     dated: "2025-06-17"
@@ -504,8 +536,7 @@ divisions:
     result: "Návrh prešiel; Za 90, Proti 44"
     lobbies: "Za: SMER - SD 41, HLAS - SD 25, KDH 10, SNS 8, ? 4, SLOVENSKO 2. Proti: PS 33, SaS 10, ? 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Vládny návrh ústavného zákona, ktorým sa mení a dopĺňa Ústava Slovenskej republiky č. 460/1992 Zb. v znení neskorších pr'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). The bill's direction (9/733: with) does not settle an amendment's."
+    reasoning: "Area 5 (sex-based rights), 6 (parental rights and education), 9 (marriage and family), 10 (surrogacy and embryology). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "56965"
@@ -647,7 +678,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58023"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Committee amendment is a technical renumbering of a cross-reference in the Family Act bill."
+    amendment_why: "Committee amendment is a technical renumbering of a cross-reference in the Family Act bill."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=591500"
     title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
     dated: "2026-06-02"
@@ -657,12 +692,15 @@ divisions:
     result: "Návrh prešiel; Za 85, Proti 33, Abstain 28"
     lobbies: "Za: SMER - SD 41, HLAS - SD 25, SNS 8, SLOVENSKO 6, ? 4, KDH 1. Proti: PS 32, SLOVENSKO 1. Abstain: KDH 11, SaS 10, SLOVENSKO 4, ? 3"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58024"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Satirical amendment having MPs and ministers give newlyweds 500 euro at weddings; no CitizenGO stake."
+    amendment_why: "Satirical amendment having MPs and ministers give newlyweds 500 euro at weddings; no CitizenGO stake."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=591598"
     title: "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zme"
     dated: "2026-06-02"
@@ -672,8 +710,7 @@ divisions:
     result: "Návrh neprešiel; Za 57, Proti 79, Abstain 11"
     lobbies: "Za: PS 32, KDH 12, SLOVENSKO 11, ? 2. Proti: SMER - SD 41, HLAS - SD 25, SNS 8, ? 5. Abstain: SaS 10, ? 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Návrh poslancov Národnej rady Slovenskej republiky Milana GARAJA, Dagmar KRAMPLOVEJ, Andreja DANKA a Adama LUČANSKÉHO na'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58025"
@@ -711,7 +748,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58250"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Amendment to the minimum maintenance bill (court may set lower child support for hardship, floor 50% of subsistence minimum); no CitizenGO stake."
+    amendment_why: "Amendment to the minimum maintenance bill (court may set lower child support for hardship, floor 50% of subsistence minimum); no CitizenGO stake."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=591520"
     title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
     dated: "2026-09-15"
@@ -721,12 +762,15 @@ divisions:
     result: "Návrh neprešiel; Za 52, Proti 50, Abstain 39"
     lobbies: "Za: PS 29, SaS 11, KDH 10, ? 2. Proti: SMER - SD 40, SNS 7, ? 3. Abstain: HLAS - SD 25, SLOVENSKO 11, SNS 2, ? 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a '): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58251"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Amendment only moves the effective date of the maintenance bill to 1 January 2027; technical."
+    amendment_why: "Amendment only moves the effective date of the maintenance bill to 1 January 2027; technical."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=597432"
     title: "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektor"
     "on": "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z."
     dated: "2026-09-15"
@@ -736,8 +780,7 @@ divisions:
     result: "Návrh prešiel; Za 78, Proti 0, Abstain 62"
     lobbies: "Za: SMER - SD 40, HLAS - SD 25, SNS 9, ? 4. Abstain: PS 29, SLOVENSKO 11, KDH 10, SaS 10, ? 2"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a '): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58252"
@@ -775,7 +818,11 @@ divisions:
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58270"
-    status: needs_reading
+    status: draft
+    placeable: false
+    reason: "Not scored (amendment reading, 2026-10-12): Amendments to the Family Act on paternity challenges, foundling anonymity and best interests of the child, plus effective date; no clear CitizenGO stake."
+    amendment_why: "Amendments to the Family Act on paternity challenges, foundling anonymity and best interests of the child, plus effective date; no clear CitizenGO stake."
+    amendment_source: "https://www.nrsr.sk/web/Dynamic/Download.aspx?DocID=597557"
     title: "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254) - druhé čítanie"
     "on": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorší"
     dated: "2026-09-16"
@@ -785,8 +832,7 @@ divisions:
     result: "Návrh prešiel; Za 118, Proti 1, Abstain 20"
     lobbies: "Za: SMER - SD 40, PS 26, HLAS - SD 25, SaS 11, SNS 9, ? 6, KDH 1. Proti: SLOVENSKO 1. Abstain: KDH 11, SLOVENSKO 8, ? 1"
     vote_kind: "amendment"
-    read_first: "An amendment, an article or one point ('Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č.'): which side is ours depends on its text, which the store does not hold. Read it, then write yea/nay."
-    reasoning: "Area 9 (marriage and family)."
+    reasoning: "Area 9 (marriage and family). Amendment read and not scored: it places nobody."
     drafted: "tools/country_5ca.py (rules, no AI), 2026-10-10"
 
   - key: "58271"
