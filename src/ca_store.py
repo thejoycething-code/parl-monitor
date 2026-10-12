@@ -63,7 +63,7 @@ SCHEMA = (
         position     TEXT,               -- 'Yea' / 'Nay' / 'Paired'
         party        TEXT,               -- caucus AT THE VOTE
         PRIMARY KEY (division_key, person_id)
-    )""",
+    ) WITHOUT ROWID""",
     """CREATE TABLE IF NOT EXISTS ca_bills (
         bill_key     TEXT PRIMARY KEY,   -- '<parl>-<session>/<number>'
         parliament   INTEGER NOT NULL,

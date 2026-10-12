@@ -103,7 +103,7 @@ SCHEMA = (
         position     TEXT,               -- 'A favor' / 'En contra' / 'Abstención' / 'Solo asistencia' / 'Ausente'
         party        TEXT,               -- AT THE VOTE: 'MORENA', 'PAN', ...
         PRIMARY KEY (division_key, member_key)
-    )""",
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS mx_votes_member ON mx_votes (member_key)",
     "CREATE INDEX IF NOT EXISTS mx_iniciativas_ref ON mx_iniciativas (gaceta_ref)",
 )

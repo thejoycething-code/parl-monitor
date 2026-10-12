@@ -165,8 +165,9 @@ check are confirmed on Chris's delegation (a dry run on 11 October: 71 of
   outside the overnight window.
 - Compressed publish: VERIFIED 11 October 2026. The store (1.77 GB) uploads
   as `parl-monitor.db.gz`, 431 MB, compressed in 16 s; the raw asset is gone
-  from the release. The size warning fires because the uncompressed store is
-  above 1.6 GB: plan a split before the compressed asset nears 2 GiB.
+  from the release. Since 12 October 2026 the size warnings are on the
+  compressed asset (0.75 GB: plan the split; 1.0 GiB: split now), so they no
+  longer fire; docs/store-split-plan.md.
 - Install Tesseract when wanted (X7; steps in docs/mac-mini.md) to switch on
   the OCR steps.
 - Check the first `vote-briefs-daily` log: can the Mini reach `dati.senato.it`
@@ -188,8 +189,9 @@ combined weekly Asana reading task (needs `asana_pat` in the Mini's
 
 **The store is published compressed (#89).** It had reached 1.76 GB against
 GitHub's 2 GiB per-asset limit; gzip cuts it about 4x and the upload from
-about 15 minutes to 4 or 5. Pushes warn above 1.6 GB uncompressed and refuse
-above 2 GiB. If it keeps growing, the next step is splitting the new
+about 15 minutes to 4 or 5. Pushes warn when the compressed asset passes
+0.75 GB ("plan the split") and 1.0 GiB ("split now"), and refuse above 2 GiB
+(12 October 2026, docs/store-split-plan.md). If it keeps growing, the next step is splitting the new
 countries into their own store file (Chris: "further changes in the future
 if necessary"). On 11 October it was 1.82 GB uncompressed, 446 MB compressed.
 

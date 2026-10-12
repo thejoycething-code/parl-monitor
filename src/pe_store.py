@@ -103,7 +103,7 @@ SCHEMA = (
         bancada      TEXT,               -- AT THE VOTE: 'FP', 'JP', ...
         position     TEXT,               -- 'SI' / 'NO' / 'ABST' / 'AUS' / 'LO' / 'LE' / 'LP' / 'LV' / 'SUS' / 'PRES' / 'SR'
         PRIMARY KEY (division_key, name_raw)
-    )""",
+    ) WITHOUT ROWID""",
     """CREATE TABLE IF NOT EXISTS pe_vote_files (
         url          TEXT PRIMARY KEY,   -- a vote record PDF in a chamber's media library
         chamber      TEXT NOT NULL,
