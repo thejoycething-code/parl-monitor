@@ -360,3 +360,29 @@ class ForceSlugResolutionTests(unittest.TestCase):
         src = open(os.path.join(ROOT, "tools", "make_briefs.py"), encoding="utf-8").read()
         self.assertIn("force, why_not = resolve_slug(force, subs, done)", src)
         self.assertIn("is not a current brief subject", src)
+
+
+class BackgroundFormatTests(unittest.TestCase):
+    """Christopher, 12 October 2026 (the Anita Meston brief): Background
+    opens BBC-News-style with a CitizenGO slant, then bold labelled lines;
+    no NARRATIVE heading, fact sheet or sources inside it."""
+
+    def test_the_system_prompt_carries_the_format(self):
+        for anchor in ("BBC News story written by", "never impartial",
+                       "ONE sentence of hard news", "**Where it stands:**",
+                       "**What's next:**", "**Why it matters:**",
+                       "**Path to victory:**", 'No "NARRATIVE" heading'):
+            self.assertIn(anchor, mb.DRAFT_SYSTEM)
+        self.assertIn("background", dict(mb.NARRATIVE_FIELDS))
+
+    def test_the_fallback_has_a_lead_and_labelled_lines_only(self):
+        got = mb.background(dict(NI_SUBJECT, deadline="2026-09-30", why=None,
+                                 next_key_date=None), {})
+        lead, _, rest = got.partition("\n\n")
+        self.assertEqual(lead, "Consultation on the RE Core Syllabus.")
+        labels = [ln.split(":**")[0] + ":**" for ln in rest.splitlines()]
+        self.assertEqual(labels, ["**What:**", "**Who:**",
+                                  "**Where it stands:**", "**What's next:**",
+                                  "**Why it matters:**"])
+        for banned in ("NARRATIVE", "Sources", "http"):
+            self.assertNotIn(banned, got)

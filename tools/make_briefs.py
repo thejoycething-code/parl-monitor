@@ -119,6 +119,9 @@ NARRATIVE_FIELDS = [
      "(e.g. 'Mr Paul Givan MLA, Minister of Education for Northern "
      "Ireland'). ONLY if the facts or source material name one; otherwise "
      "omit this field entirely."),
+    ("background", "Background / Context, in the BACKGROUND format of the "
+     "system prompt: a one-sentence hard-news lead, one or two short "
+     "paragraphs with a quote, then the bold labelled lines."),
     ("ask", "What are we asking for in the petition?"),
     ("injustice", "What is the key point of injustice that is at stake here?"),
     ("arguments", "What are some arguments supporting our point of view?"),
@@ -223,6 +226,24 @@ brief, 2026-08-31 - match it):
 - Flowing prose inside every field: no ALL-CAPS headers, no markdown
   headings. Internal telemetry (ledger activity counts) and internal
   fundraising figures never appear in petition-facing fields.
+
+BACKGROUND (Christopher's rule, 12 October 2026, set filling the Anita Meston
+brief). The background field reads like a BBC News story written by
+CitizenGO: never impartial, always from our side.
+- Open with ONE sentence of hard news: who, what and where.
+- Then one or two short paragraphs of detail, carrying one quote from the
+  facts or source material (attributed; never invented).
+- Then these bold labelled lines, each on its own line, in this order:
+  **What:** ...
+  **Who:** ...
+  **Where it stands:** ...
+  **What's next:** ...
+  **Why it matters:** ...
+  and, only if there is a clear one, **Path to victory:** ...
+- No "NARRATIVE" heading, no fact sheet, no list of sources: sources have
+  their own field and the fuller story has its own tab. The double
+  asterisks are the one markdown allowed; the publisher turns them into
+  real bold.
 
 OUTPUT FORMAT. Do NOT use JSON. Return each requested field as a marker line
 on its own, then the field's prose on the lines beneath it:
@@ -733,27 +754,48 @@ def urgency_of(subject, today):
 
 
 def background(subject, activity):
-    bits = []
+    """The deterministic Background / Context: a one-line lead, then the bold
+    labelled lines of Christopher's format (12 October 2026).
+
+    The model drafts the full version (BBC-style lead, a quote, CitizenGO's
+    slant); this is what the store can say on its own, used when no draft
+    exists and handed to the model as facts. Labels the store cannot fill are
+    [CAMPAIGNER] markers, never padding. No heading, no fact sheet, no
+    sources: those have their own places.
+    """
     if subject["kind"] == "bill":
-        bits.append("{0}{1} is at {2} in the {3}.".format(
-            subject["title"],
-            " (sponsor: {0})".format(subject["sponsor"]) if subject["sponsor"] else "",
-            subject["stage"] or "an unknown stage", subject["house"] or "?"))
-        if subject["next_key_date"]:
-            bits.append("Next key date: {0}.".format(subject["next_key_date"]))
-        if subject["what_next"]:
-            bits.append(subject["what_next"] + ".")
+        lead = "{0} is at {1} in the {2}.".format(
+            subject["title"], subject["stage"] or "an unknown stage",
+            subject["house"] or "?")
+        nxt = [b for b in (
+            "Next key date: {0}.".format(subject["next_key_date"])
+            if subject["next_key_date"] else "",
+            subject["what_next"] + "." if subject["what_next"] else "") if b]
+        labelled = [
+            ("What", subject["title"] + "."),
+            ("Who", "Sponsor: {0}.".format(subject["sponsor"])
+             if subject["sponsor"] else "[CAMPAIGNER: who is behind it]"),
+            ("Where it stands", "{0} in the {1}.".format(
+                subject["stage"] or "Stage unknown", subject["house"] or "?")),
+            ("What's next", " ".join(nxt) or "[CAMPAIGNER: next step]")]
     else:
-        bits.append(subject["title"] + ".")
+        lead = subject["title"] + "."
         if subject.get("why"):
-            bits.append(subject["why"])
-        if subject["deadline"]:
-            bits.append("Deadline: {0}.".format(subject["deadline"]))
+            lead += " " + subject["why"]
+        labelled = [
+            ("What", subject["title"] + "."),
+            ("Who", "[CAMPAIGNER: who is behind it]"),
+            ("Where it stands", "Open" if subject.get("deadline")
+             else "[CAMPAIGNER: where it stands]"),
+            ("What's next", "Deadline: {0}.".format(subject["deadline"])
+             if subject.get("deadline") else "[CAMPAIGNER: next step]")]
+    labelled.append(("Why it matters", "[CAMPAIGNER: why it matters]"))
     # The ledger activity tally stays OUT of the rendered Background: it is
     # internal telemetry, and Christopher's refinement of the RE brief cut
     # it ("105 debate contributions and 23 written questions" is not
     # supporter-facing). The model still receives it in facts.activity_6mo.
-    return " ".join(bits)
+    return lead + "\n\n" + "\n".join(
+        "**{0}:** {1}".format(k, v) for k, v in labelled)
 
 
 NARRATIVE_TOKENS = 12000
@@ -1207,8 +1249,7 @@ def main():
             m = re.search(r"\*\*Background / Context\*\*\s*\n(.*?)(?=\n\*\*[A-Z])",
                           source_text, re.S)
             if m:
-                bg = bg + " " + " ".join(m.group(1).split())
-                facts["background"] = bg
+                facts["background"] = bg + "\n\n" + m.group(1).strip()
             facts["source_material"] = source_text
             facts["source_rules"] = (
                 "Ground every claim in the source material. Carry its "
@@ -1238,7 +1279,10 @@ def main():
             # Acquisition, not Political Impact (Christopher's default,
             # 2026-08-31, set refining the RE brief).
             ("Main Purposes", "Acquisition"),
-            ("Background / Context", bg),
+            # The drafted Background (BBC-style lead, CitizenGO slant, bold
+            # labelled lines) wins; the store's own version is the fallback.
+            ("Background / Context",
+             drafted.get("background") or facts["background"]),
             ("Estimated Launch date", "[CAMPAIGNER]"),
             ("Estimated date for Delivering Signatures",
              (delivery_date(s["deadline"]) if s.get("deadline") else "[CAMPAIGNER]")),
@@ -1253,7 +1297,8 @@ def main():
              drafted.get("addressee") or addressed_to(s)),
             field("ask", "What are we asking for in the petition?"),
             field("listen", "Why would they listen to us?"),
-            ("What is happening that we are responding to?", bg),
+            ("What is happening that we are responding to?",
+             facts["background"]),
             field("injustice", "What is the key point of injustice that is at stake here?"),
         ]
         prepare = [
