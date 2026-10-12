@@ -19,6 +19,13 @@ number measured on 12 October 2026), so each Land has its own reader here:
         committees=L and a sitting-day window; 20 rows a page, dated by the
         sitting. /infodat/ergli and /infodat/sukri are disallowed in
         robots.txt and are never asked for.
+  wien-gr  the same INFODAT, committees=G: Vienna's Gemeinderat (the city
+        council: the same people as the Landtag, deciding the city's
+        funding, schools as their owner and its ordinances). About 450
+        rows (23 pages) in a three-week-back, two-month-ahead window on 12
+        October 2026, most of them the Stadtsenat's routine proposals; read
+        up to 40 pages. Its first read is a baseline in full (dated rows
+        included), so the old business never floods the edition.
   noe   TYPO3 'parliament' extension: /gegenstaende/XX/suche?page=N, 25 a
         page, newest number first, undated; the document's own page gives
         the dated Historie and the status (read for rows on our ground).
@@ -89,6 +96,8 @@ LOOKBACK_DAYS = 21          # the dated searches re-read three weeks: upserts ar
 DETAIL_REFRESH_DAYS = 7     # an open item on our ground has its page re-read weekly
 DETAIL_MAX_AGE_DAYS = 120   # ...while it was listed in the last four months
 MAX_DETAILS = 60            # per Land per run; the clock is the real bound
+WIEN_MAX_PAGES = {"wien": 25, "wien-gr": 40}    # INFODAT's 20-row pages per run
+WIEN_COMMITTEE = {"wien": "L", "wien-gr": "G"}  # Landtag, Gemeinderat
 
 # The current Gesetzgebungsperioden (each Land counts its own).
 NOE_GP = "XX"               # since 23 March 2023
@@ -342,15 +351,19 @@ def parse_ooe_detail(page):
     return out
 
 
-def parse_wien_list(page):
-    """INFODAT results -> (rows dated by the sitting, last page number)."""
+def parse_wien_list(page, land="wien"):
+    """INFODAT results -> (rows dated by the sitting, last page number).
+    `land` is 'wien' (committees=L) or 'wien-gr' (committees=G, the
+    Gemeinderat): the same table, a different key prefix."""
     out = []
     for m in re.finditer(r'<tr><td>([^<]*)</td><td>(\d{2}\.\d{2}\.\d{4})</td><td><a[^>]*'
-                         r'href="/infodat/ergdt\?detvid=(\d+)"[^>]*>[^<]*</a></td><td>(.*?)</td>',
+                         r'href="/infodat/ergdt\?detvid=(\d+)"[^>]*>([^<]*)</a></td><td>(.*?)</td>',
                          page or "", re.S):
-        doc_type, date, detvid, title = m.groups()
-        out.append(row("wien", "wien/" + detvid, text_of(title), doc_type=doc_type.strip(),
-                       number="Id({0})".format(detvid), date=de_date(date), date_basis="sitting",
+        doc_type, date, detvid, akt, title = m.groups()
+        # The Aktenzahl as printed ('PGL-1310313-2026-KFP/GAT'), else the Id.
+        out.append(row(land, land + "/" + detvid, text_of(title), doc_type=doc_type.strip(),
+                       number=akt.strip() or "Id({0})".format(detvid), date=de_date(date),
+                       date_basis="sitting",
                        url="{0}/infodat/ergdt?detvid={1}".format(WIEN, detvid)))
     last = re.search(r'aria-label="Letzte Seite"[^>]*href="[^"]*page=(\d+)"', page or "")
     return out, int(last.group(1)) if last else 1
@@ -561,22 +574,28 @@ def read_ooe(ctx, st):
     return rows
 
 
-def read_wien(ctx, st):
+def read_wien(ctx, st, land="wien"):
     rows, page_no, last = [], 1, 1
+    cap = WIEN_MAX_PAGES[land]
     until = (datetime.date.fromisoformat(st["until"]) + datetime.timedelta(days=60)).isoformat()
-    while page_no <= min(last, 25):
-        q = {"committees": "L", "sessionDayFrom": st["since"], "sessionDayTo": until,
-             "page": page_no}
+    while page_no <= min(last, cap):
+        q = {"committees": WIEN_COMMITTEE[land], "sessionDayFrom": st["since"],
+             "sessionDayTo": until, "page": page_no}
         got, last = parse_wien_list(ctx.text(
             WIEN + "/infodat/suchergebnisse?" + urllib.parse.urlencode(q),
-            "wien-list-{0}".format(page_no), archive=True))
+            "{0}-list-{1}".format(land, page_no), archive=True), land)
         rows += got
         if not got or ctx.stop():
             break
         page_no += 1
-    if last > 25:
-        ctx.gap("wien: {0} pages in the window; the first 25 were read".format(last))
+    if last > cap:
+        ctx.gap("{0}: {1} pages in the window; the first {2} were read".format(land, last, cap))
     return rows
+
+
+def read_wien_gr(ctx, st):
+    """Vienna's Gemeinderat: the Landtag's reader with committees=G."""
+    return read_wien(ctx, st, "wien-gr")
 
 
 def read_sbg(ctx, st):
@@ -619,7 +638,7 @@ def read_ris(ctx, st):
         return []
 
 
-READERS = {"wien": read_wien, "noe": read_noe, "ooe": read_ooe, "stmk": read_stmk,
+READERS = {"wien": read_wien, "wien-gr": read_wien_gr, "noe": read_noe, "ooe": read_ooe, "stmk": read_stmk,
            "sbg": read_sbg, "vbg": read_vbg, "bgld": read_bgld, "ris": read_ris}
 DETAILS = {"noe": parse_noe_detail, "stmk": parse_stmk_detail, "ooe": parse_ooe_detail,
            "vbg": parse_vbg_detail}
@@ -635,7 +654,9 @@ def known_keys(conn, land):
 
 def store_rows(conn, rows, tax, wl, today, first_read, wl_path=None):
     """Upsert; returns the number on our ground. A row without a date seen on
-    the Land's first read is a baseline row (never shown as new)."""
+    the Land's first read is a baseline row (never shown as new); for the
+    bodies in atl_store.BASELINE_ALL (Vienna's Gemeinderat) every row of the
+    first read is, dated or not. An upsert never changes `baseline`."""
     ours = 0
     d = atl_store.dumps
     for r in rows:
@@ -660,7 +681,8 @@ def store_rows(conn, rows, tax, wl, today, first_read, wl_path=None):
             "last_seen=excluded.last_seen",
             (r["item_key"], r["land"], r["source"], r["period"], r["number"], r["doc_type"],
              r["kind"], r["title"], r["by_whom"], r["date"], r["date_basis"], r["status"],
-             r["outcome"], r["url"], 1 if (first_read and not r["date"]) else 0,
+             r["outcome"], r["url"],
+             1 if first_read and (not r["date"] or r["land"] in atl_store.BASELINE_ALL) else 0,
              d(res.issue_areas), d((res.matched_terms or []) + (res.watchlist_hits or [])),
              res.tier, today, today))
     return ours
@@ -785,7 +807,8 @@ def main(argv=None):
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--raw-dir", help="raw archive (default data/raw)")
     ap.add_argument("--land", action="append", choices=atl_store.READ,
-                    help="read only these Länder (repeatable); default all seven")
+                    help="read only these Länder (repeatable; 'wien-gr' is Vienna's "
+                         "Gemeinderat); default all")
     ap.add_argument("--ris", action="store_true",
                     help="also ask RIS Landesrecht (robots.txt is asked first and honoured)")
     ap.add_argument("--since", help="ISO date: the dated searches start here "

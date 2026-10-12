@@ -331,7 +331,8 @@ FEEDS = [
     # and Vorarlberg's list is the whole Landtagsperiode, so atl_items moves
     # every week, recess included; atl_reads is stamped for all nine Länder
     # every run (Kärnten and Tirol with the reason they are not read).
-    ("atl_items", "last_seen", 7, 4, "Landtag documents of seven Länder (Austria weekly)"),
+    ("atl_items", "last_seen", 7, 4,
+     "Landtag documents of seven Länder and Vienna's Gemeinderat (Austria weekly)"),
     # Netherlands (9 October 2026). MEASURED which re-stamp: the fracties and
     # the 150 current seats are re-read whole every run, so they move every
     # week, recess included. Votes are re-stamped whenever they fall in the
