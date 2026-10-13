@@ -16,8 +16,10 @@ pages 25 at a time) and flags candidates two ways:
            missed it through phrasing alone
   clause   the title only numbers a clause ("Health Bill: Report Stage: New
            Clause 142"), so the clause itself is read from the Bills API and
-           matched (src/clausetext.py). This is what catches the puberty
-           blockers and single-sex NHS facilities votes of 8 Sept 2026. A
+           matched (src/clausetext.py); a "Lords Amendment N" is read from the
+           Commons debate in Hansard ("Hansard (Lords amendment)"). This is
+           what catches the puberty blockers and single-sex NHS facilities
+           votes of 8 Sept 2026. A
            clause that cannot be read is listed at the end, never dropped.
   debate   tagged speeches that day sat in the SAME debate as the division.
            This is what catches New Clause 1: the abortion speeches of 17
@@ -160,17 +162,19 @@ def main():
         # Lords Amendment 359" is a watched Bill and a vote about the IRGC
         # (batch 1 of the review, 2026-09-10: 13 such tags, none on the issue).
         title_how = "term" if result.tier == 1 else ("watched bill" if result.watchlist_hits else "")
-        clause_terms = []
+        clause_terms, match_source = [], None
         # A watched-Bill hit says only which Bill; the clause says what the
         # vote was about, so it is read whenever no TERM named the subject.
         if title_how != "term":
-            lk = reader.lookup(title, d.date, "Commons", None, d.id)
+            lk = reader.lookup(title, d.date, "Commons", None, d.id, number=d.number,
+                               counts=(d.aye_count, d.no_count))
             if lk.gap:
                 clause_gaps.append((d.id, d.date.isoformat() if d.date else "?", title, lk.gap))
             cres, labels = clausetext.match(lk, tax, wl)
             if labels:
                 title_areas, title_how = set(cres.issue_areas), "clause text"
                 clause_terms = cres.matched_terms + cres.watchlist_hits
+                match_source = clausetext.match_source(lk, labels)
         day_areas = same_debate_areas(
             title, day_debates.get(d.date.isoformat() if d.date else "", []))
         if not title_areas and not day_areas:
@@ -186,7 +190,7 @@ def main():
         candidates.append({
             "id": d.id, "date": d.date.isoformat() if d.date else "?", "title": title,
             "title_areas": sorted(title_areas), "title_how": title_how, "day_areas": day_areas,
-            "clause_terms": clause_terms,
+            "clause_terms": clause_terms, "match_source": match_source,
             "areas": sorted(areas), "in_ledger": d.id in held,
             "hidden_only": not (shown_title or shown_debate),
         })
@@ -219,7 +223,8 @@ def main():
         if c["title_areas"]:
             how = c.get("title_how")
             lead = ("title: " if how == "term" else
-                    "clause text ({0}): ".format(", ".join(c.get("clause_terms") or [])) if how == "clause text"
+                    "{0} ({1}): ".format(c.get("match_source") or "clause text",
+                                         ", ".join(c.get("clause_terms") or [])) if how == "clause text"
                     else "watched Bill (vote may be on anything): ")
             marks.append(lead + ", ".join(names.get(a, str(a)) for a in c["title_areas"]))
         if c["day_areas"]:
