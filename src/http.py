@@ -253,7 +253,11 @@ def _guard_hop(client_ref, req, new):
     origin = getattr(req, "_pm_origin", None) or req.full_url
     new._pm_origin = origin
     client = client_ref()
-    if client is not None and not _is_robots_txt(new.full_url):
+    # A robots.txt read follows its redirects unasked, wherever they go
+    # (RFC 9309 2.3.1.2): asking robots.txt about a hop of a robots.txt read
+    # would read robots.txt again, recursively (a robots.txt that redirects
+    # to a login page did exactly that, 13 October 2026).
+    if client is not None and not _is_robots_txt(origin) and not _is_robots_txt(new.full_url):
         refused = client.redirect_refusal(new.full_url, origin)
         if refused:
             raise _RedirectBlocked(*refused)
@@ -591,7 +595,7 @@ class HttpClient:
         """Safety net for an opener without _RedirectHandler (an injected
         one): if the reply came from another URL, ask the guards about it
         and discard the body when refused."""
-        if final and final != requested:
+        if final and final != requested and not _is_robots_txt(requested):
             refused = self.redirect_refusal(final, requested)
             if refused:
                 raise _RedirectBlocked(*refused)

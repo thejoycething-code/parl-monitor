@@ -183,6 +183,22 @@ class RedirectHopTests(Base):
         with self.assertRaises(RobotsRefused):
             g.get_text("https://a.test/private/x", "t", "s")
 
+    def test_a_robots_txt_that_redirects_to_a_page_does_not_recurse(self):
+        """Found by the live scan: a robots.txt redirecting to a login page
+        made the guard read robots.txt about the hop, which redirected
+        again, until the host's semaphore was exhausted (a hang)."""
+        routes = {
+            "https://a.test/robots.txt": redirect("https://a.test/login?next=/robots.txt"),
+            "https://a.test/login?next=/robots.txt": text("<html>log in</html>"),
+            "https://a.test/page": redirect("https://a.test/other"),
+            "https://a.test/other": text("fine"),
+        }
+        for injected in (False, True):
+            with self.subTest(injected=injected):
+                c, web = self.client(routes, injected=injected)
+                self.assertEqual(self.guarded(c).get_text("https://a.test/page", "t", "s"), "fine")
+                self.assertEqual(web.asked.count("https://a.test/robots.txt"), 1)
+
     def test_a_refused_hop_is_never_served_from_todays_archive(self):
         c, _web = self.client(UN_ROUTES)
         c._archive(b"%PDF-1.7 old copy", "undocs", "A-81-L.6")
