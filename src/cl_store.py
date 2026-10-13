@@ -159,5 +159,43 @@ def add_watch_areas(res, boletin, path=None):
     return res
 
 
+# --- vote-level watch, by DIVISION KEY ------------------------------------------
+#
+# A few Cámara votes say nothing on their own and hang on no bill that would
+# lend them an area: a "Creación Comisión Investigadora" or "Otros" line, or
+# one of hundreds of budget-glosa votes whose bill (the Ley de Presupuestos)
+# is on no ground at all. The `votes:` section of the same file names them by
+# division key ('camara-41286'); their areas are the vote's OWN (13 October
+# 2026, the puberty blocker vote audit: the four PAIG votes).
+
+_VOTE_WATCH = {}
+
+
+def vote_watchlist(path=None):
+    """{division_key: (areas, why)} from the `votes:` section of config/watchlist-cl.yaml."""
+    import yaml
+    path = path or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                "config", "watchlist-cl.yaml")
+    if path not in _VOTE_WATCH:
+        with open(path, encoding="utf-8") as fh:
+            raw = yaml.safe_load(fh) or {}
+        _VOTE_WATCH[path] = {str(k): (list(v.get("areas") or []), v.get("why"))
+                             for k, v in (raw.get("votes") or {}).items()}
+    return _VOTE_WATCH[path]
+
+
+def add_vote_watch_areas(res, division_key, path=None):
+    """Union a watched vote's areas into its own FilterResult, in place."""
+    hit = vote_watchlist(path).get(division_key or "")
+    if not hit:
+        return res
+    areas, _why = hit
+    res.issue_areas = sorted(set(res.issue_areas or []) | set(areas))
+    res.matched_terms = list(res.matched_terms or []) + ["watch:" + division_key]
+    if res.tier is None:
+        res.tier = 2
+    return res
+
+
 def dumps(values):
     return json.dumps(values or [], ensure_ascii=False)

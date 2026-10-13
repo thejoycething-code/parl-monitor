@@ -781,6 +781,13 @@ with the end of its output. Nothing caps the clock here, but give
       nohup ~/runner/parl-monitor/tools/mini_run.sh prov-backfill \
       >> ~/runner/logs/prov-backfill.log 2>&1 &
 
+    # The puberty blocker vote audit's backfills (13 October 2026, PR #192),
+    # ONE AT A TIME: ONE_OFF= us-118 | au-46 | au-47 | nl-2021 | fr-senat |
+    # at-xxvii | cl-2024 (jobs/pb-backfill.sh says what each reads).
+    cd ~ && ONE_OFF=nl-2021 JOB_TIMEOUT=7200 \
+      nohup ~/runner/parl-monitor/tools/mini_run.sh pb-backfill \
+      >> ~/runner/logs/pb-backfill.log 2>&1 &
+
 They record their own heartbeats ("Provinces backfill", "Canada backfill"),
 never the weekly's. They hold the lock while they run, so the scheduled jobs
 queue behind them (up to two hours): start a long one when the calendar is
