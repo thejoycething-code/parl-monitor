@@ -1,14 +1,15 @@
 #!/bin/bash
 # Argentina weekly: members of both chambers, the Diputados register of
 # expedientes, and Senate roll calls with every senator's position
-# (tools/ar_rollcalls.py), then publish the raw archive and the store.
+# (tools/ar_rollcalls.py), the provincial legislatures (tools/ar_regions.py),
+# then publish the raw archive and the store.
 #
 # Called by .github/workflows/ar-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh ar-weekly. One script, two callers. Both callers fetch
 # the store first and commit data/ afterwards.
 #
-#     AR_RECLASSIFY=true    re-derive every stored AR expediente's and
-#                           division's areas, offline, before the pull (after
+#     AR_RECLASSIFY=true    re-derive every stored AR expediente's, division's
+#                           and provincial law's and bill's areas, offline, before the pull (after
 #                           config/taxonomy-es.yaml or watchlist-ar changes)
 #     AR_PUBLISH=false      collect only. The GitHub workflow sets it and
 #                           publishes in its own steps, under the same
@@ -44,6 +45,7 @@ export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Argentina weekly}"
 if [ "${AR_RECLASSIFY:-}" = "true" ]; then
   python3 tools/country_petitions.py ar --reclassify
   python3 tools/ar_rollcalls.py --reclassify
+  python3 tools/ar_regions.py --reclassify
 fi
 rc=0
 # AR6 (10 October 2026): AR_SENATE_BACKFILL=true also reads the 2024 and 2025
@@ -55,7 +57,21 @@ fi
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/ar_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" "${years[@]}" || rc=$?
+# The third argument keeps the provincial step's 300 s (below) out of it.
+python3 tools/ar_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" "${years[@]}" || rc=$?
+# PROVINCIAL LEGISLATURES (13 October 2026, docs/argentina-regions-scope.md):
+# the 24 jurisdictions' laws through SAIJ (four JSON pages) and Buenos Aires
+# province's normative system, and the bills of eight legislatures (Diputados
+# of Buenos Aires province, the CABA Legislatura, Córdoba, the Entre Ríos
+# Senate, Río Negro, Chubut, Jujuy, Corrientes Diputados) (tools/ar_regions.py):
+# about 25 requests, three to four minutes
+# measured, robots.txt asked per host on this run. Before the edition, which
+# shows it as its "Provincial legislatures" section. Gaps go to the store
+# and arp_reads; a failure never stops the run.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/ar_regions.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \
+    || echo "  [gap] ar-regions recorded gaps or failed; the next run retries"
+fi
 # The week ahead (src/agenda.py, tools/country_agenda.py): the Senate's agenda
 # read into the store after the collector, so its expedientes match this week's
 # store and the edition below shows it. Its failure is a [gap] line, never the run's.
