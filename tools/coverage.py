@@ -293,6 +293,12 @@ FEEDS = [
     ("uss_people", "last_seen", 7, 7, "sitting state legislators (US weekly, by rotation)"),
     ("uss_bills", "last_seen", 31, 31, "state bills on our ground that moved (US weekly)"),
     ("uss_votes", "last_seen", 31, 31, "state recorded votes on those bills (US weekly)"),
+    # Alternative state sources (13 October 2026): a row is re-stamped only
+    # when its source shows a change (Kansas's revision, a California daily
+    # file, a Texas file, a LegiScan change_hash), so recess can be quiet for
+    # weeks: a month plus a month's grace, as for the bills.
+    ("uss_bill_sources", "last_seen", 31, 31,
+     "state bills from LegiScan and the KS, CA and TX feeds (US weekly)"),
     # Ireland (9 October 2026). MEASURED which re-stamp: tools/ie_rollcalls.py
     # re-reads both rosters, every bill with an event since the Dail first
     # met, and every division of both Houses whole on each run, and all three
@@ -375,6 +381,13 @@ FEEDS = [
     ("pl_prints", "last_seen", 7, 4, "Sejm prints, the whole term's list (Poland weekly)"),
     ("pl_processes", "last_seen", 7, 4, "Sejm legislative processes (Poland weekly)"),
     ("pl_divisions", "last_seen", 31, 31, "Sejm recorded votes (Poland weekly)"),
+    # Poland's voivodeship assemblies (tools/pl_regions.py, 13 October 2026),
+    # a step of the Poland weekly. MEASURED which re-stamp: plr_reads is
+    # stamped for every source on every run (failures included, with their
+    # status); plr_acts.last_seen for every act the journals' current and
+    # previous months and the four registers still list, so both move weekly.
+    ("plr_reads", "last_seen", 7, 4, "Polish sejmiki, sources read (Poland weekly)"),
+    ("plr_acts", "last_seen", 7, 4, "Polish sejmiki's resolutions: 15 journals, 4 registers (Poland weekly)"),
     # Hungary (10 October 2026). MEASURED which re-stamp: every issue the RSS
     # feed still shows (its newest 100 journals, about eleven weeks of the
     # Magyar Közlöny) is re-stamped on every run, so the issues move every
@@ -398,6 +411,14 @@ FEEDS = [
     # run, and Campania's and Marche's lists to the legislature's first act,
     # so the table moves every week, recess included.
     ("it_reg_acts", "last_seen", 7, 4, "Regional councils' bills and motions: Lombardia, Campania, Marche, Trento (Italy weekly)"),
+    # The Senate's amendment texts (12 October 2026, tools/it_senato_amendments.py).
+    # MEASURED which re-stamp: an act's folder is read when it has a vote on our
+    # ground in the last 90 days or its last read is 28 days old, and every read
+    # (changed or not) re-stamps the act and its files. So the newest last_seen
+    # moves at least every 28 days, and weekly while the Senate votes on our
+    # ground: a month plus a fortnight's grace.
+    ("it_senate_amendments", "last_seen", 31, 14, "Senate amendment and order-of-the-day texts, from the Senate's AkomaNtosoBulkData repository (Italy weekly)"),
+    ("it_senate_amend_acts", "last_seen", 31, 14, "Senate acts whose amendment folders are read (Italy weekly)"),
     # Switzerland (9 October 2026). MEASURED which re-stamp: members and the
     # legislature's sessions are re-read whole every run; businesses only when
     # the service has modified them, which it did to 4,018 between 1 September
@@ -602,6 +623,15 @@ FEEDS = [
     ("ar_members", "last_seen", 7, 4, "Congress members, both chambers (Argentina weekly)"),
     ("ar_bills", "last_seen", 7, 4, "Diputados register and Senate expedientes (Argentina weekly)"),
     ("ar_divisions", "last_seen", 31, 31, "Senate roll calls (Argentina weekly)"),
+    # Argentina's provincial layer (tools/ar_regions.py, 13 October 2026), a
+    # step of the Argentina weekly. MEASURED which re-stamp: arp_reads is
+    # stamped for every source on every run (failures included, with their
+    # status); arp_laws.last_seen for every law in SAIJ's newest 200 rows
+    # (about two months of laws) and arp_bills.last_seen for every expediente
+    # the eight lists still show (CABA re-lists four months), so all move weekly.
+    ("arp_reads", "last_seen", 7, 4, "Argentine provincial layer, sources read (Argentina weekly)"),
+    ("arp_laws", "last_seen", 7, 4, "Argentine provincial laws, SAIJ and normas.gba (Argentina weekly)"),
+    ("arp_bills", "last_seen", 7, 4, "Argentine provincial legislatures' bills (Argentina weekly)"),
     # Colombia (9 October 2026). MEASURED which re-stamp: both chambers'
     # registers, the Cámara attendance file and the Senate roll-call file are
     # each re-read whole every run and upserted, so all three move every week,
@@ -792,7 +822,7 @@ PIPELINE_FEEDS = {
     "Austria weekly": ["at_items", "at_members", "atl_items"],
     # Re-read whole every run; votes are left out for the US's reason.
     "Netherlands weekly": ["nl_members", "nl_fracties"],
-    "Poland weekly": ["pl_processes", "pl_members"],
+    "Poland weekly": ["pl_processes", "pl_members", "plr_reads"],
     # Issues only: the feed's issues are re-stamped every run.
     "Hungary weekly": ["hu_gazette_issues"],
     # Divisions left out for the same reason as the US: a recess week cannot move them.
@@ -829,7 +859,7 @@ PIPELINE_FEEDS = {
     "Guatemala weekly": ["gt_initiatives", "gt_members", "gt_sessions"],
     "Mexico weekly": ["mx_members", "mx_iniciativas", "mx_divisions"],
     # Divisions left out for the same reason as the US: a recess week cannot move them.
-    "Argentina weekly": ["ar_bills", "ar_members"],
+    "Argentina weekly": ["ar_bills", "ar_members", "arp_reads", "arp_bills"],
     "Colombia weekly": ["co_bills", "co_members"],
     "Bolivia weekly": ["bo_bills", "bo_members"],
     # All three are re-read whole each run; the orden del dia list is too,
@@ -945,6 +975,10 @@ AWAITING_FIRST_RUN = {
     "US Federal Register": (("us_fr_documents",),
                             "executive actions added to US weekly 9 October 2026; "
                             "the table fills on the step's first run"),
+    # tools/us_states_direct.py stamps "US states direct" after every run.
+    "US states direct": (("uss_bill_sources",),
+                         "LegiScan and the KS, CA and TX feeds added to US weekly 13 October "
+                         "2026; the table fills on the step's first run"),
     # tools/us_states.py stamps "US states" at the end of every stored run.
     "US states": (("uss_sessions", "uss_people", "uss_bills", "uss_votes"),
                   "state legislatures added to US weekly 9 October 2026; "
@@ -1322,6 +1356,12 @@ def table_exists(conn, table):
 # first heartbeat can excuse it: excused while empty until a date, then
 # OVERDUE like any other. table -> (until, why). Additive, 10 October 2026.
 AWAITING_STEP_UNTIL = {
+    # Poland's voivodeship assemblies join the Poland weekly (Sundays 04:00)
+    # on merge, 13 October 2026: empty until its first Sunday run.
+    "plr_reads": ("2026-10-25", "the sejmiki step (tools/pl_regions.py) joins the Poland weekly "
+                  "on merge; it fills on its first Sunday run"),
+    "plr_acts": ("2026-10-25", "the sejmiki step (tools/pl_regions.py) joins the Poland weekly "
+                 "on merge; it fills on its first Sunday run"),
     "atl_items": ("2026-10-24", "the Landtage step (tools/at_landtage.py) joins the Austria "
                   "weekly on merge; it fills on its next run"),
     "country_agenda": ("2026-10-24", "the week-ahead step (tools/country_agenda.py) joins "
@@ -1356,6 +1396,14 @@ AWAITING_STEP_UNTIL = {
                  "Australia weekly on merge; it fills on its first Friday run"),
     "aus_members": ("2026-10-18", "the states and territories step (tools/au_states.py) joins the "
                     "Australia weekly on merge; it fills on its first Friday run"),
+    # Argentina's provincial layer joins the Argentina weekly (Saturdays
+    # 18:30) on merge, 13 October 2026: empty until its first Saturday run.
+    "arp_reads": ("2026-10-18", "the Argentine provincial step (tools/ar_regions.py) joins the "
+                  "Argentina weekly on merge; it fills on its first Saturday run"),
+    "arp_laws": ("2026-10-18", "the Argentine provincial step (tools/ar_regions.py) joins the "
+                 "Argentina weekly on merge; it fills on its first Saturday run"),
+    "arp_bills": ("2026-10-18", "the Argentine provincial step (tools/ar_regions.py) joins the "
+                  "Argentina weekly on merge; it fills on its first Saturday run"),
 }
 
 

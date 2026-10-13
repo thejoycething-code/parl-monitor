@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<an:akomaNtoso xmlns:an="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/CSD03" xmlns:auto-ns1="http://www.w3.org/2001/XMLSchema-instance" auto-ns1:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/CSD03 ../../Akoma/3.0/akomantoso30.xsd">
+	<an:amendment contains="originalVersion">
+		<an:meta>
+			<an:identification xmlns="http://docs.oasis-open.org/legaldocml/ns/akn/3.0/CSD03" source="#redattore">
+				<an:FRBRWork>
+					<an:FRBRthis value="http://dati.senato.it/19/Emend/S/1735/A/1.23/main"/>
+					<an:FRBRuri value="http://dati.senato.it/19/Emend/S/1735/A/1.23"/>
+					<an:FRBRdate date="2026-06-04" name="presentazione"/>
+					<an:FRBRauthor href="#senato"/>
+					<an:componentInfo>
+						<an:componentData id="wcompmain" href="http://dati.senato.it/19/Emend/S/1735/A/1.23/main" showAs="emendamento" name="emendamento"/>
+					</an:componentInfo>
+					<an:FRBRcountry value="ita"/>
+					<an:FRBRsubtype value="EMEND"/>
+					<an:FRBRnumber value="1.23"/>
+					<an:FRBRname value="Emendamento"/>
+				</an:FRBRWork>
+			</an:identification>
+			<an:references source="#redattore">
+				<an:original id="ro1" href="http://dati.senato.it/19/Emend/S/1735/A/1.23/ita@/main" showAs="generation"/>
+				<an:activeRef id="ar1" href="http://dati.senato.it/DDL/19/1735" showAs="DDL 1735"/>
+				<an:TLCOrganization id="redattore" showAs="Servizio Informatica del Senato della Repubblica" href="/dati.senato.it/osr/Senato/Servizio Informatica"/>
+				<an:TLCOrganization id="senato" showAs="Senato della Repubblica" href="/dati.senato.it/osr/Senato"/>
+				<an:TLCOrganization id="camera" showAs="Camera dei Deputati" href="/dati.senato.it/osr/Camera"/>
+				<an:TLCRole id="tipoSenatore" href="http://dati.senato.it/Senatore" showAs="Senatore"/>
+			</an:references>
+		</an:meta>
+		<an:preface>
+			<an:p>
+				<an:affectedDocument href="#ar1">DDL 1735</an:affectedDocument>
+			</an:p>
+			<an:p>
+				<an:docNumber>Emendamento n. 1.23</an:docNumber>
+			</an:p>
+			<an:p>
+				<an:docProponent refersTo="#IDU250V1KBZNXRP3E5U3URXGY24OOWXQXGA5TGDXHGSKDEYYKPWEDP" as="#tipoSenatore">D'ELIA</an:docProponent>
+			</an:p>
+			<an:p>
+				<an:docProponent refersTo="#IDFFFYIVXFMPOKI3SDVFAXFZEJPBS2JQETKYJ0FBEGUN1BFEKVGJLC" as="#tipoSenatore">CRISANTI</an:docProponent>
+			</an:p>
+			<an:p>
+				<an:docProponent refersTo="#IDICHW20B1MEZCOUKZXBG45P34RLXPNNWXSNQV1LKFLEWUYFVKZGEH" as="#tipoSenatore">RANDO</an:docProponent>
+			</an:p>
+			<an:p>
+				<an:docProponent refersTo="#IDSUJDI0KEIL4SGBZ2JZW0CCCXGLA1BS0UBTM3ETHJFO41IH40C2YO" as="#tipoSenatore">VERDUCCI</an:docProponent>
+			</an:p>
+			<an:p>
+				<an:docProponent refersTo="#IDEK53MTWDNRTFKAEMEXDHF4VVWHP0ZTV52LANSBS3LYP02G1LVRE" as="#tipoSenatore">VALENTE</an:docProponent>
+			</an:p>
+			<an:p>
+				<an:docProponent refersTo="#IDNQQYJE0I21KCEGV3UOIT3IOJMLCH4MLL1BACECO2QNX5OZBNJZW" as="#tipoSenatore">SENSI</an:docProponent>
+			</an:p>
+		</an:preface>
+		<an:amendmentBody>
+			<an:amendmentContent>
+				<an:p>
+					<an:i>
+						<an:b>Al comma 1, primo periodo, sostituire le parole:</an:b>
+					</an:i>
+					<an:b>"il consenso informato preventivo"</an:b>
+					<an:i>
+						<an:b>con le seguenti:</an:b>
+					</an:i>
+					<an:b>"la comunicazione preventiva".</an:b>
+				</an:p>
+				<an:p>
+					<an:i>Conseguentemente:</an:i>
+				</an:p>
+				<an:p>
+					<an:i>1) sostituire il comma 2, con il seguente:</an:i>
+				</an:p>
+			</an:amendmentContent>
+		</an:amendmentBody>
+	</an:amendment>
+</an:akomaNtoso>

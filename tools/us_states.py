@@ -548,26 +548,215 @@ def store_bill(conn, b, res, today):
                      (b["id"], i, s["name"], s["person_id"], int(bool(s["primary"])),
                       s["classification"]))
     for v in b["votes"]:
-        c = v["counts"]
-        conn.execute(
-            "INSERT INTO uss_votes (vote_id, bill_id, state, session, date, motion, "
-            "motion_classification, result, chamber, yes, no, other, url, positions, "
-            "positions_ok, first_seen, last_seen) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(vote_id) DO UPDATE SET "
-            "date=excluded.date, motion=excluded.motion, result=excluded.result, "
-            "yes=excluded.yes, no=excluded.no, other=excluded.other, "
-            "url=COALESCE(excluded.url, uss_votes.url), positions=excluded.positions, "
-            "positions_ok=excluded.positions_ok, last_seen=excluded.last_seen",
-            (v["id"], b["id"], b["state"], b["session"], v["date"], v["motion"],
-             uss.dumps(v["motion_classification"]), v["result"], v["chamber"],
-             c.get("yes", 0), c.get("no", 0),
-             sum(n for o, n in c.items() if o not in ("yes", "no")), v["url"],
-             len(v["people"]), int(len(v["people"]) == sum(c.values())), today, today))
-        conn.execute("DELETE FROM uss_vote_people WHERE vote_id=?", (v["id"],))
-        for i, p in enumerate(v["people"]):
-            conn.execute("INSERT INTO uss_vote_people (vote_id, seq, voter_name, person_id, option) "
-                         "VALUES (?,?,?,?,?)", (v["id"], i, p["name"], p["person_id"], p["option"]))
+        store_vote(conn, b, v, today)
+    if (b["id"] or "").startswith("ocd-bill/"):
+        supersede_foreign(conn, b)
     return key
+
+
+def store_vote(conn, b, v, today):
+    """One vote and every position it lists, for bill b (any source)."""
+    c = v["counts"]
+    conn.execute(
+        "INSERT INTO uss_votes (vote_id, bill_id, state, session, date, motion, "
+        "motion_classification, result, chamber, yes, no, other, url, positions, "
+        "positions_ok, first_seen, last_seen) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(vote_id) DO UPDATE SET "
+        "date=excluded.date, motion=excluded.motion, result=excluded.result, "
+        "yes=excluded.yes, no=excluded.no, other=excluded.other, "
+        "url=COALESCE(excluded.url, uss_votes.url), positions=excluded.positions, "
+        "positions_ok=excluded.positions_ok, last_seen=excluded.last_seen",
+        (v["id"], b["id"], b["state"], b["session"], v["date"], v["motion"],
+         uss.dumps(v["motion_classification"]), v["result"], v["chamber"],
+         c.get("yes", 0), c.get("no", 0),
+         sum(n for o, n in c.items() if o not in ("yes", "no")), v["url"],
+         len(v["people"]), int(len(v["people"]) == sum(c.values())), today, today))
+    conn.execute("DELETE FROM uss_vote_people WHERE vote_id=?", (v["id"],))
+    for i, p in enumerate(v["people"]):
+        conn.execute("INSERT INTO uss_vote_people (vote_id, seq, voter_name, person_id, option) "
+                     "VALUES (?,?,?,?,?)", (v["id"], i, p["name"], p["person_id"], p["option"]))
+
+
+# --- other sources: LegiScan and the states' own feeds (13 October 2026) ---------
+#
+# Additive. tools/us_states_legiscan.py and tools/us_states_direct.py build a
+# bill in the same shape as bills_from_bulk / bill_from_api and hand it to
+# merge_foreign, which never duplicates a bill Open States already has:
+#
+#   * an Open States row for the same bill (matched on state, session and the
+#     NORMALISED identifier, uss.norm_key) keeps its ID, title and areas; the
+#     other source's actions that it lacks are appended, its stage dates are
+#     re-derived from all of them, and a vote it lacks (no vote that day in
+#     that chamber) is added under the source's own vote ID;
+#   * no row: a bill on any area is stored under '<source>:<source id>';
+#   * either way uss_bill_sources records it (provenance, change detection).
+#
+# When Open States later stores the same bill (store_bill), supersede_foreign
+# removes the source's own row and, except where Open States has no votes or
+# no positions for the state (uss.OPENSTATES_VOTE_GAPS), the source's votes:
+# Open States is the record, the others only fill the days it lags and the
+# votes it lacks.
+
+def source_unchanged(conn, source, source_id, change_hash):
+    """True when this source's bill was read before with the same hash."""
+    row = conn.execute("SELECT change_hash FROM uss_bill_sources WHERE source=? AND source_id=?",
+                       (source, str(source_id))).fetchone()
+    return bool(row and change_hash and row[0] == change_hash)
+
+
+def session_index(conn, state, session):
+    """{normalised identifier: (bill_id, areas)} for a session's stored bills."""
+    return {uss.norm_ident(ident): (bid, areas) for bid, ident, areas in conn.execute(
+        "SELECT bill_id, identifier, areas FROM uss_bills WHERE state=? AND session=?",
+        (state, session))}
+
+
+def note_source(conn, source, source_id, b, bill_id, change_hash, url, today):
+    acts = [a["date"] for a in b.get("actions") or [] if a.get("date")]
+    conn.execute(
+        "INSERT INTO uss_bill_sources (source, source_id, state, bill_key, bill_id, change_hash, "
+        "latest_action_at, url, fetched_at, first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?) "
+        "ON CONFLICT(source, source_id) DO UPDATE SET state=excluded.state, "
+        "bill_key=excluded.bill_key, bill_id=COALESCE(excluded.bill_id, uss_bill_sources.bill_id), "
+        "change_hash=excluded.change_hash, latest_action_at=excluded.latest_action_at, "
+        "url=COALESCE(excluded.url, uss_bill_sources.url), fetched_at=excluded.fetched_at, "
+        "last_seen=excluded.last_seen",
+        (source, str(source_id), b["state"],
+         uss.norm_key(b["state"], b["session"], b["identifier"]), bill_id, change_hash,
+         max(acts) if acts else None, url, today, today, today))
+
+
+def _norm_desc(text):
+    return " ".join((text or "").lower().split())
+
+
+def merge_into(conn, bill_id, b, res, today):
+    """Append b's actions and votes that the stored row lacks; re-derive its
+    stage dates. The row's title stays; its areas gain b's."""
+    have = conn.execute("SELECT ord, date, description, classification, chamber FROM uss_actions "
+                        "WHERE bill_id=?", (bill_id,)).fetchall()
+    seen = {(d, _norm_desc(desc)) for _, d, desc, _, _ in have}
+    acts = [{"ord": o, "date": d, "description": desc,
+             "classification": json.loads(cl or "[]"), "chamber": ch}
+            for o, d, desc, cl, ch in have]
+    nxt = max([o for o, *_ in have] + [0]) + 1
+    added = 0
+    for a in sorted(b["actions"], key=lambda a: (a.get("date") or "", a.get("ord") or 0)):
+        if not a.get("date") or (a["date"], _norm_desc(a["description"])) in seen:
+            continue
+        seen.add((a["date"], _norm_desc(a["description"])))
+        conn.execute("INSERT INTO uss_actions (bill_id, ord, date, description, classification, "
+                     "chamber) VALUES (?,?,?,?,?,?)",
+                     (bill_id, nxt, a["date"], a["description"], uss.dumps(a["classification"]),
+                      a["chamber"]))
+        acts.append(dict(a, ord=nxt))
+        nxt += 1
+        added += 1
+    intro, latest, latest_at, lower, upper, law, veto = stage_dates(acts)
+    row = conn.execute("SELECT areas, url FROM uss_bills WHERE bill_id=?", (bill_id,)).fetchone()
+    areas = sorted(set(json.loads(row[0] or "[]")) | set(res.issue_areas or []))
+    conn.execute("UPDATE uss_bills SET introduced_at=?, latest_action=?, latest_action_at=?, "
+                 "passed_lower_at=?, passed_upper_at=?, law_at=?, vetoed_at=?, areas=?, "
+                 "url=COALESCE(url, ?), last_seen=? WHERE bill_id=?",
+                 (intro, latest, latest_at, lower, upper, law, veto, uss.dumps(areas), b.get("url"),
+                  today, bill_id))
+    stored = {(d, ch) for d, ch in conn.execute(
+        "SELECT date, chamber FROM uss_votes WHERE bill_id=?", (bill_id,))}
+    host = dict(b, id=bill_id)
+    for v in b["votes"]:
+        if (v["date"], v["chamber"]) in stored and not conn.execute(
+                "SELECT 1 FROM uss_votes WHERE vote_id=?", (v["id"],)).fetchone():
+            continue
+        store_vote(conn, host, v, today)
+    return added
+
+
+def merge_foreign(conn, tax, wl, source, source_id, b, today, change_hash=None, url=None,
+                  index=None):
+    """Store or merge one bill from a source other than Open States. Returns
+    ('merged' | 'stored' | 'replaced' | 'skipped', bill_id or None, res).
+    index: session_index(conn, state, session), reused across a session."""
+    if index is None:
+        index = session_index(conn, b["state"], b["session"])
+    res = classify(tax, wl, b)
+    hit = index.get(uss.norm_ident(b["identifier"]))
+    own_id = "{0}:{1}".format(source, source_id)
+    if hit and hit[0] == own_id:
+        # Our own row from an earlier read: rewritten whole.
+        b = dict(b, id=own_id)
+        store_bill(conn, b, res, today)
+        note_source(conn, source, source_id, b, own_id, change_hash, url, today)
+        return "replaced", own_id, res
+    if hit:
+        # Stored already (Open States' row, or another source's): it is in
+        # the store for a reason, so it is merged whatever b's own match.
+        bill_id, _areas = hit
+        merge_into(conn, bill_id, b, res, today)
+        note_source(conn, source, source_id, b, bill_id, change_hash, url, today)
+        return "merged", bill_id, res
+    if not res.issue_areas:
+        note_source(conn, source, source_id, b, None, change_hash, url, today)
+        return "skipped", None, res
+    b = dict(b, id=own_id)
+    store_bill(conn, b, res, today)
+    index[uss.norm_ident(b["identifier"])] = (own_id, uss.dumps(res.issue_areas))
+    note_source(conn, source, source_id, b, own_id, change_hash, url, today)
+    return "stored", own_id, res
+
+
+def supersede_foreign(conn, b):
+    """Open States has stored bill b: retire other sources' rows for it."""
+    key = uss.norm_key(b["state"], b["session"], b["identifier"])
+    keep_votes = b["state"] in uss.OPENSTATES_VOTE_GAPS
+    foreign = {r[0] for r in conn.execute(
+        "SELECT bill_id FROM uss_bill_sources WHERE bill_key=? AND bill_id IS NOT NULL "
+        "AND bill_id != ?", (key, b["id"]))}
+    for fid in foreign:
+        if fid.startswith("ocd-bill/"):
+            continue
+        for table in ("uss_actions", "uss_sponsors"):
+            conn.execute("DELETE FROM {0} WHERE bill_id=?".format(table), (fid,))
+        conn.execute("DELETE FROM uss_bills WHERE bill_id=?", (fid,))
+        if keep_votes:
+            conn.execute("UPDATE uss_votes SET bill_id=? WHERE bill_id=?", (b["id"], fid))
+        else:
+            conn.execute("DELETE FROM uss_vote_people WHERE vote_id IN (SELECT vote_id FROM "
+                         "uss_votes WHERE bill_id=?)", (fid,))
+            conn.execute("DELETE FROM uss_votes WHERE bill_id=?", (fid,))
+    if foreign:
+        conn.execute("UPDATE uss_bill_sources SET bill_id=? WHERE bill_key=?", (b["id"], key))
+    if not keep_votes:
+        # Votes another source merged into this row: Open States now has them.
+        conn.execute("DELETE FROM uss_vote_people WHERE vote_id IN (SELECT vote_id FROM uss_votes "
+                     "WHERE bill_id=? AND vote_id NOT LIKE 'ocd-vote/%')", (b["id"],))
+        conn.execute("DELETE FROM uss_votes WHERE bill_id=? AND vote_id NOT LIKE 'ocd-vote/%'",
+                     (b["id"],))
+
+
+class SourceLedger:
+    """Requests per source per period (uss_source_ledger): LegiScan's public
+    key is counted by calendar month. Written before each request."""
+
+    def __init__(self, conn, source, cap, period=None):
+        self.conn, self.source, self.cap = conn, source, cap
+        self._period = period or (lambda: utc_day()[:7])
+
+    def spent(self):
+        row = self.conn.execute("SELECT requests FROM uss_source_ledger WHERE source=? AND period=?",
+                                (self.source, self._period())).fetchone()
+        return row[0] if row else 0
+
+    def left(self):
+        return max(0, self.cap - self.spent())
+
+    def add(self, n=1):
+        self.conn.execute(
+            "INSERT INTO uss_source_ledger (source, period, requests, last_at) VALUES (?,?,?,?) "
+            "ON CONFLICT(source, period) DO UPDATE SET requests=requests+excluded.requests, "
+            "last_at=excluded.last_at",
+            (self.source, self._period(), n,
+             datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")))
+        self.conn.commit()
 
 
 class Tally:
@@ -765,15 +954,52 @@ def read_new_sessions(conn, api, tax, wl, st, sessions, today, args, tally, log=
 
 # --- the top-up: the last day, by API, bills on our ground only --------------------
 
-def live_bills(conn, st, session, today, live_days=LIVE_DAYS):
+def live_bills(conn, st, session, today, live_days=LIVE_DAYS, narrow=False):
     """Identifiers of the session's bills on our ground that moved in the
-    last live_days, most recent first."""
+    last live_days: watched bills first, then tier 1, then the rest, most
+    recent first within each (13 October 2026: so a run cut short by the
+    key's day spends it on the bills that matter most).
+
+    narrow=True keeps only watched and tier-1 bills: used when a same-day
+    source (LegiScan) already refreshes the rest (see topup_plan)."""
     cutoff = (datetime.date.fromisoformat(today) - datetime.timedelta(days=live_days)).isoformat()
     conn.row_factory = None
-    rows = conn.execute("SELECT identifier, areas FROM uss_bills WHERE state=? AND session=? "
-                        "AND latest_action_at >= ? ORDER BY latest_action_at DESC, "
-                        "COALESCE(tier, 9), identifier", (st, session, cutoff)).fetchall()
-    return [ident for ident, areas in rows if on_our_ground(json.loads(areas or "[]"))]
+    rows = conn.execute("SELECT identifier, areas, tier, matched_terms, latest_action_at "
+                        "FROM uss_bills WHERE state=? AND session=? AND latest_action_at >= ? "
+                        "AND bill_id LIKE 'ocd-bill/%'", (st, session, cutoff)).fetchall()
+    ranked = []
+    for ident, areas, tier, terms, at in rows:
+        if not on_our_ground(json.loads(areas or "[]")):
+            continue
+        watched = "watch:" in (terms or "")
+        if narrow and not (watched or tier == 1):
+            continue
+        ranked.append(((not watched, tier != 1, _neg(at), ident), ident))
+    return [ident for _, ident in sorted(ranked)]
+
+
+def _neg(iso_date):
+    """Sort key: later dates first."""
+    return tuple(-ord(ch) for ch in (iso_date or ""))
+
+
+# Sources that read a state's own feed the same day (tools/us_states_direct.py):
+# a state one of them read in the last DIRECT_FRESH_DAYS needs no top-up.
+DIRECT_SOURCES = ("ks-kliss", "ca-leginfo", "tx-ftp")
+DIRECT_FRESH_DAYS = 8
+
+
+def same_day_cover(conn, today):
+    """(states a direct reader covers, whether LegiScan is active): read from
+    uss_bill_sources, i.e. what those readers did in the last week."""
+    since = (datetime.date.fromisoformat(today)
+             - datetime.timedelta(days=DIRECT_FRESH_DAYS)).isoformat()
+    direct = {r[0] for r in conn.execute(
+        "SELECT DISTINCT state FROM uss_bill_sources WHERE fetched_at >= ? AND source IN ({0})"
+        .format(",".join("?" * len(DIRECT_SOURCES))), (since,) + DIRECT_SOURCES) if r[0]}
+    legiscan = bool(conn.execute("SELECT 1 FROM uss_bill_sources WHERE source='legiscan' "
+                                 "AND fetched_at >= ? LIMIT 1", (since,)).fetchone())
+    return direct, legiscan
 
 
 def salience(conn, st, today, live_days=LIVE_DAYS):
@@ -789,21 +1015,30 @@ def salience(conn, st, today, live_days=LIVE_DAYS):
     return live, tier1
 
 
-def topup_plan(conn, by_state, states, today):
+def topup_plan(conn, by_state, states, today, use_cover=False):
     """[(state, session, since, [identifiers])], states in order of
     salience: a file more than STALE_DAYS behind first (an export missed),
     then live bills on our ground, then tier-1 bills. Only sessions read
-    from a bulk file with days still to cover, and only live bills."""
+    from a bulk file with days still to cover, and only live bills.
+
+    use_cover (13 October 2026, the weekly's default; --topup-all turns it
+    off): a state a direct same-day reader covered in the last week is left
+    out, and while LegiScan is active only watched and tier-1 bills are
+    topped up (LegiScan refreshes the rest the same day, on its own
+    allowance). The key's 250 a day then goes where nothing else reaches."""
     stale_day = (datetime.date.fromisoformat(today)
                  - datetime.timedelta(days=STALE_DAYS)).isoformat()
+    direct, legiscan = same_day_cover(conn, today) if use_cover else (set(), False)
     per_state = []
     for st in states:
+        if st in direct:
+            continue
         items = []
         for s in current_sessions(by_state.get(st, []), today):
             _, through, read_at = read_state(conn, st, s["session"])
             if not read_at or not through or through >= today:
                 continue
-            ids = live_bills(conn, st, s["session"], today)
+            ids = live_bills(conn, st, s["session"], today, narrow=legiscan)
             if ids:
                 items.append((st, s["session"], through, ids))
         if items:
@@ -933,6 +1168,9 @@ def main(argv=None):
                     help="API pages a session with no bulk file may take")
     ap.add_argument("--no-topup", action="store_true",
                     help="bulk files only: two keyed requests (the jurisdiction list)")
+    ap.add_argument("--topup-all", action="store_true",
+                    help="top up every live bill, even in states a same-day source covers "
+                         "(tools/us_states_direct.py, tools/us_states_legiscan.py)")
     ap.add_argument("--full", action="store_true",
                     help="re-read every current session's bulk file whole (after a taxonomy "
                          "change that widens the net)")
@@ -1036,7 +1274,7 @@ def main(argv=None):
         read_new_sessions(conn, api, tax, wl, st, sessions, today, args, tally)
     # 3. The top-up: the last day, by API, live bills on our ground only.
     if not (args.no_topup or args.full):
-        plan = topup_plan(conn, by_state, present, today)
+        plan = topup_plan(conn, by_state, present, today, use_cover=not args.topup_all)
         if budget.exhausted():
             print("  us-states: no time left for the top-up; the bulk files stand "
                   "({0} state(s) would have been topped up)".format(len({p[0] for p in plan})))

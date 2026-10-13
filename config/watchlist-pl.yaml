@@ -77,3 +77,12 @@ processes:
               why: "Resolution against implementing the EU Pact on Migration and Asylum (passed, M.P. 2025 poz. 683)."}
   "10/2602": {areas: [11],
               why: "Citizens' bill on internal security and the EU migration pact (art. 72 TFEU)."}
+
+# --- voivodeship assemblies (sejmiki, 13 October 2026) ---------------------
+# Resolutions of the sixteen sejmiki read by tools/pl_regions.py, by
+# plr_acts.act_key: '<region>/<number as printed>' for a sejmik's own
+# register ('ld/XXXI/396/2026', 'mz/154/26'), '<region>/dz/<year>/<position>'
+# for a voivodeship journal ('mz/dz/2026/9183'). By KEY: a repeal reads
+# only "w sprawie uchylenia uchwały nr XXIII/353/19". Empty until a run on
+# the live store shows what is on our ground (docs/poland-regions-scope.md).
+regional: {}
