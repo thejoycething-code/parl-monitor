@@ -610,6 +610,15 @@ FEEDS = [
     ("ar_members", "last_seen", 7, 4, "Congress members, both chambers (Argentina weekly)"),
     ("ar_bills", "last_seen", 7, 4, "Diputados register and Senate expedientes (Argentina weekly)"),
     ("ar_divisions", "last_seen", 31, 31, "Senate roll calls (Argentina weekly)"),
+    # Argentina's provincial layer (tools/ar_regions.py, 13 October 2026), a
+    # step of the Argentina weekly. MEASURED which re-stamp: arp_reads is
+    # stamped for every source on every run (failures included, with their
+    # status); arp_laws.last_seen for every law in SAIJ's newest 200 rows
+    # (about two months of laws) and arp_bills.last_seen for every expediente
+    # the eight lists still show (CABA re-lists four months), so all move weekly.
+    ("arp_reads", "last_seen", 7, 4, "Argentine provincial layer, sources read (Argentina weekly)"),
+    ("arp_laws", "last_seen", 7, 4, "Argentine provincial laws, SAIJ and normas.gba (Argentina weekly)"),
+    ("arp_bills", "last_seen", 7, 4, "Argentine provincial legislatures' bills (Argentina weekly)"),
     # Colombia (9 October 2026). MEASURED which re-stamp: both chambers'
     # registers, the Cámara attendance file and the Senate roll-call file are
     # each re-read whole every run and upserted, so all three move every week,
@@ -837,7 +846,7 @@ PIPELINE_FEEDS = {
     "Guatemala weekly": ["gt_initiatives", "gt_members", "gt_sessions"],
     "Mexico weekly": ["mx_members", "mx_iniciativas", "mx_divisions"],
     # Divisions left out for the same reason as the US: a recess week cannot move them.
-    "Argentina weekly": ["ar_bills", "ar_members"],
+    "Argentina weekly": ["ar_bills", "ar_members", "arp_reads", "arp_bills"],
     "Colombia weekly": ["co_bills", "co_members"],
     "Bolivia weekly": ["bo_bills", "bo_members"],
     # All three are re-read whole each run; the orden del dia list is too,
@@ -1364,6 +1373,14 @@ AWAITING_STEP_UNTIL = {
                   "weekly on merge; it fills on its first Saturday run"),
     "esr_laws": ("2026-10-18", "the Spanish regional step (tools/es_regions.py) joins the Spain "
                  "weekly on merge; it fills on its first Saturday run"),
+    # Argentina's provincial layer joins the Argentina weekly (Saturdays
+    # 18:30) on merge, 13 October 2026: empty until its first Saturday run.
+    "arp_reads": ("2026-10-18", "the Argentine provincial step (tools/ar_regions.py) joins the "
+                  "Argentina weekly on merge; it fills on its first Saturday run"),
+    "arp_laws": ("2026-10-18", "the Argentine provincial step (tools/ar_regions.py) joins the "
+                 "Argentina weekly on merge; it fills on its first Saturday run"),
+    "arp_bills": ("2026-10-18", "the Argentine provincial step (tools/ar_regions.py) joins the "
+                  "Argentina weekly on merge; it fills on its first Saturday run"),
 }
 
 
