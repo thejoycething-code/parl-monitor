@@ -326,7 +326,12 @@ class RealStanceFileTests(unittest.TestCase):
             bills = r5.load_stance(mod.STANCE_PATH, "bills")
             self.assertTrue(entries, cc)
             for key, e in list(entries.items()) + list(bills.items()):
-                self.assertEqual(r5.status(e), "draft", (cc, key))
+                # Signed readings (ticked in the guide, `--sign-from-doc`,
+                # which stamps `signed:`) are the only ones not drafts.
+                if e.get("signed"):
+                    self.assertNotEqual(r5.status(e), "draft", (cc, key))
+                else:
+                    self.assertEqual(r5.status(e), "draft", (cc, key))
                 self.assertTrue(e.get("drafted"), (cc, key))
             for key, e in entries.items():
                 self.assertTrue(e.get("aye_means"), (cc, key))
@@ -345,8 +350,9 @@ class RealStanceFileTests(unittest.TestCase):
             bills = r5.load_stance(mod.STANCE_PATH, "bills") if has_bills else {}
             with open(mod.DOC_PATH, encoding="utf-8") as h:
                 doc = h.read()
-            for key in list(entries) + list(bills):
-                self.assertIn("### [ ] `{0}`".format(key), doc, (cc, key))
+            for key, e in list(entries.items()) + list(bills.items()):
+                box = "x" if e.get("signed") else " "
+                self.assertIn("### [{0}] `{1}`".format(box, key), doc, (cc, key))
 
 
 if __name__ == "__main__":

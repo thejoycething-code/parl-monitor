@@ -232,7 +232,7 @@ last procedural vote against the bill, so it is drafted as evidence only.
 - **Lobbies:** Yea: R 203, D 203. Nay: R 1.
 - **Proposed direction:** evidence only, never places -- Passed 406-1: the lobby tells no member apart.
 
-### [ ] `senate-119-1-643` On the Cloture Motion: Motion to Proceed to S. 3386, Health Care Freedom for Patients Act of 2025
+### [x] `senate-119-1-643` On the Cloture Motion: Motion to Proceed to S. 3386, Health Care Freedom for Patients Act of 2025
 
 - **When / result:** 2025-12-11; Cloture Motion Rejected 51-48
 - **Motion:** Motion to Invoke Cloture: Motion to Proceed to S. 3386 | A bill to provide a health savings account contribution to certain enrollees, to reduce health care costs, and for other purposes.
@@ -240,22 +240,25 @@ last procedural vote against the bill, so it is drafted as evidence only.
 - **Lobbies:** Yea: R 51. Nay: D 45, I 2, R 1.
 - **Proposed direction:** Yea +1 (Voted to let the Senate take up the Health Care Freedom for Patients Act, which bars federal funding of gender-transition procedures (cloture on the motion to proceed).); Nay -1 (Voted to keep the Health Care Freedom for Patients Act, with its bar on federal funding of gender-transition procedures, from the Senate floor.)
 - **Flag for you:** A multi-issue health-costs bill (the store tags it areas 1, 3 and 11 from its text): our provisions ride on HSA and premium measures, and the vote split on party lines over the bill as a whole. Drafted at +/-1, not +/-2; check that the gender-transition and Hyde clauses are in the text put, or mark it placeable: false.
+- **Signed:** 2026-10-13, ticked in 5ca-us-readings.md
 
-### [ ] `house-119-1-343` On Ordering the Previous Question: H.Res. 953 (rule for H.R. 6703, H.R. 498 and H.R. 3492)
+### [x] `house-119-1-343` On Ordering the Previous Question: H.Res. 953 (rule for H.R. 6703, H.R. 498 and H.R. 3492)
 
 - **When / result:** 2025-12-17; Passed 204-203
 - **Motion:** Providing for consideration of the bills (H.R. 6703) Lower Health Care Premiums for All Americans Act; (H.R. 498) Do No Harm in Medicaid Act; and (H.R. 3492) Protect Children's Innocence Act
 - **A Yea means:** For ordering the previous question on the rule: procedure.
 - **Lobbies:** Yea: R 204. Nay: D 203.
 - **Proposed direction:** evidence only, never places -- A vote on the rule's previous question is procedure, cast on party lines; the passage votes on H.R. 498 (roll 362) and H.R. 3492 (roll 351) carry the readings.
+- **Signed:** 2026-10-13, ticked in 5ca-us-readings.md
 
-### [ ] `house-119-1-344` On Agreeing to the Resolution: H.Res. 953 (rule for H.R. 6703, H.R. 498 and H.R. 3492)
+### [x] `house-119-1-344` On Agreeing to the Resolution: H.Res. 953 (rule for H.R. 6703, H.R. 498 and H.R. 3492)
 
 - **When / result:** 2025-12-17; Passed 213-209
 - **Motion:** Providing for consideration of the bills (H.R. 6703) Lower Health Care Premiums for All Americans Act; (H.R. 498) Do No Harm in Medicaid Act; and (H.R. 3492) Protect Children's Innocence Act
 - **A Yea means:** For adopting the rule that brought three bills to the floor, one of them a health-premiums bill: procedure.
 - **Lobbies:** Yea: R 213. Nay: D 208, R 1.
 - **Proposed direction:** evidence only, never places -- A rule bundling three bills is procedure, cast on party lines; the passage votes on H.R. 498 (roll 362) and H.R. 3492 (roll 351) carry the readings.
+- **Signed:** 2026-10-13, ticked in 5ca-us-readings.md
 
 ## Bills (sponsorship)
 
