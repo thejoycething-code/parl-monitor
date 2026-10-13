@@ -3,8 +3,10 @@
 www.ohchr.org put the HRC sessions page and the calls-for-input listing behind
 a Cloudflare challenge. HRC sessions now come from the HRC's own portal
 (hrcportal.ohchr.org, where hrcmeetings.ohchr.org redirects); the treaty body
-calendar is not fetched while tbinternet's robots.txt disallows it; calls for
-input have no legitimate alternative yet and say so. Fixtures only.
+master calendar is not fetched while tbinternet's robots.txt disallows it (the
+request goes through src/robots_guard) and treaty body SESSIONS come from
+Indico.UN instead; calls for input have no legitimate alternative yet and say
+so. Fixtures only.
 """
 
 import datetime
@@ -19,12 +21,16 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 from src import un_checks  # noqa: E402
 from src.http import FetchError  # noqa: E402
 from src.ingest import un_calendar  # noqa: E402
+from tests.robots_fakes import guarded  # noqa: E402
 from tests.test_un_checks import Unreachable  # noqa: E402
 from tests.un_fixtures import fixture_text, un_filter  # noqa: E402
 
 import un_forward  # noqa: E402
 
 PORTAL = fixture_text("hrcportal-sessions-all.html.gz")
+INDICO = {un_calendar.TB_INDICO_ICS.format(c): fixture_text("indico-category-{0}.ics".format(c))
+          for _t, c, _n in un_calendar.TB_INDICO_CATEGORIES}
+DISALLOW_ALL = "User-agent: *\nDisallow: /\n"
 CHALLENGE = "HTTP Error 403: Forbidden (cf-mitigated: challenge)"
 
 
@@ -58,10 +64,13 @@ class PortalParseTests(unittest.TestCase):
 
 
 class Client(Unreachable):
-    """hrcportal answers; www.ohchr.org is challenged; tbinternet's robots.txt
-    says Disallow: /. Every request is recorded."""
+    """hrcportal answers; www.ohchr.org is challenged; Indico.UN serves the
+    treaty body exports; tbinternet's robots.txt says Disallow: /. Every
+    request that is actually sent is recorded (robots.txt reads are served by
+    tests/robots_fakes and recorded there)."""
 
-    tb_robots = "User-agent: *\nDisallow: /\n"
+    tb_robots = DISALLOW_ALL
+    indico = INDICO
 
     def __init__(self):
         self.asked = []
@@ -70,17 +79,21 @@ class Client(Unreachable):
         self.asked.append(url)
         if url == un_calendar.HRC_PORTAL_SESSIONS:
             return PORTAL
-        if url == "https://tbinternet.ohchr.org/robots.txt":
-            return self.tb_robots
+        if url in self.indico:
+            return self.indico[url]
         if "www.ohchr.org" in url:
             raise FetchError(url, feed, slug, 1, CHALLENGE)
         raise FetchError(url, feed, slug, 1, "HTTP Error 503")
 
 
-def collect(client):
+def collect(client, robots=None):
     tax, wl = un_filter()
+    tb_client, _serving = guarded(
+        client, robots if robots is not None else {"tbinternet.ohchr.org": client.tb_robots},
+        "uncal")
     return un_forward.collect(client, datetime.date(2026, 10, 13), 180, tax, wl,
-                              walk=False, pga_client=client, log=lambda *a: None)
+                              walk=False, pga_client=client, log=lambda *a: None,
+                              tb_client=tb_client)
 
 
 class CheckLogWiringTests(unittest.TestCase):
@@ -110,12 +123,27 @@ class CheckLogWiringTests(unittest.TestCase):
         self.assertIn("hrcportal.ohchr.org: HTTP Error 502", hrc.detail)
         self.assertIn("www.ohchr.org: HTTP Error 403", hrc.detail)
 
-    def test_treaty_bodies_not_fetched_against_robots_txt(self):
+    def test_treaty_bodies_read_ok_via_indico_deadlines_refused_by_robots(self):
         client = Client()
-        tb = {c.source: c for c in collect(client).checks.checks}["Treaty bodies (OHCHR)"]
-        self.assertEqual(tb.status, un_checks.NOT_READ)
-        self.assertIn("robots.txt", tb.detail)
+        got = collect(client)
+        tb = {c.source: c for c in got.checks.checks}[un_forward.TB_SOURCE]
+        self.assertEqual(tb.status, un_checks.READ_OK)
+        self.assertEqual(tb.count, 12)
+        self.assertIn("sessions via indico.un.org", tb.detail)
+        self.assertIn("robots.txt disallows", tb.detail)
+        # The master calendar was never requested: robots.txt refused it.
         self.assertNotIn(un_calendar.TB_CALENDAR, client.asked)
+        sessions = [r for r in got.rows if r[1] == "SESSION" and r[2].startswith(
+            ("CEDAW", "CRC", "CCPR"))]
+        names = [r[2] for r in sessions]
+        self.assertIn("CEDAW 93rd session", names)       # sitting now
+        self.assertIn("CCPR 146th session", names)
+        self.assertIn("CRC 102nd session", names)
+        self.assertNotIn("CRC 101st session", names)     # ended 28 September
+        ccpr = next(r for r in sessions if r[2] == "CCPR 146th session")
+        self.assertEqual(ccpr[4], "committee")
+        self.assertIn("reviews Austria, Cameroon, Jamaica, Rwanda", ccpr[3])
+        self.assertEqual(ccpr[6], "session:ccpr:146")
 
     def test_treaty_bodies_fetched_when_robots_txt_allows(self):
         class Allowed(Client):
@@ -124,6 +152,16 @@ class CheckLogWiringTests(unittest.TestCase):
         client = Allowed()
         collect(client)
         self.assertIn(un_calendar.TB_CALENDAR, client.asked)
+
+    def test_indico_refused_by_robots_is_not_read_and_says_why(self):
+        client = Client()
+        got = collect(client, robots={"tbinternet.ohchr.org": DISALLOW_ALL,
+                                      "indico.un.org": DISALLOW_ALL})
+        tb = {c.source: c for c in got.checks.checks}[un_forward.TB_SOURCE]
+        self.assertEqual(tb.status, un_checks.NOT_READ)
+        self.assertIn("indico.un.org", tb.detail)
+        self.assertIn("robots.txt disallows", tb.detail)
+        self.assertFalse([u for u in client.asked if "indico.un.org" in u])
 
     def test_calls_for_input_say_no_alternative_was_found(self):
         calls = {c.source: c for c in collect(Client()).checks.checks}["OHCHR calls for input"]

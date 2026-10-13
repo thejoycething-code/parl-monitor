@@ -79,6 +79,14 @@ class Unreachable:
         pass
 
 
+def quiet_guard(client):
+    """The robots-guarded client the treaty body sources use (13 October
+    2026), with every robots.txt answering 404 (no rules), so what the test
+    sees is the client's own answers, with no robots.txt read on the wire."""
+    from tests.robots_fakes import guarded
+    return guarded(client, {}, "uncal")[0]
+
+
 class ForwardLookFailsLoudTests(unittest.TestCase):
     """Every UN source unreadable: every one says so, nothing says 'nothing new'."""
 
@@ -87,7 +95,8 @@ class ForwardLookFailsLoudTests(unittest.TestCase):
         self.today = datetime.date(2026, 10, 8)
         client = Unreachable()
         self.got = un_forward.collect(client, self.today, 180, tax, wl, conn=None,
-                                      walk=True, pga_client=client, log=lambda *a: None)
+                                      walk=True, pga_client=client, log=lambda *a: None,
+                                      tb_client=quiet_guard(client))
 
     def test_every_source_is_could_not_read(self):
         statuses = {c.source: c.status for c in self.got.checks.checks}
@@ -95,7 +104,7 @@ class ForwardLookFailsLoudTests(unittest.TestCase):
                        "UN Journal: Third Committee", "UN Journal: GA plenaries",
                        "PGA letters (un.org/pga)", "docs.un.org GA plenary drafts",
                        "docs.un.org Third Committee drafts", "UPR sessions (UPR Info)",
-                       "GA session window (un.org)", "Treaty bodies (OHCHR)",
+                       "GA session window (un.org)", un_forward.TB_SOURCE,
                        "OHCHR calls for input"):
             self.assertEqual(statuses.get(source), un_checks.NOT_READ, source)
 
@@ -121,7 +130,8 @@ class ReadButEmptyTests(unittest.TestCase):
                 raise RuntimeError("HTTP 400: Incorrect parameters")
 
         got = un_forward.collect(Client(), datetime.date(2026, 10, 8), 180, tax, wl,
-                                 walk=False, pga_client=Client(), log=lambda *a: None)
+                                 walk=False, pga_client=Client(), log=lambda *a: None,
+                                 tb_client=quiet_guard(Client()))
         statuses = {c.source: c for c in got.checks.checks}
         self.assertEqual(statuses["UN Journal: Third Committee"].status, un_checks.READ_EMPTY)
         self.assertIn("near-term", statuses["UN Journal: Third Committee"].detail)
@@ -149,7 +159,8 @@ class ReadOkTests(unittest.TestCase):
                 raise FetchError(url, feed, slug, 1, "HTTP Error 503")
 
         got = un_forward.collect(Client(), datetime.date(2026, 10, 13), 180, tax, wl,
-                                 walk=False, pga_client=Client(), log=lambda *a: None)
+                                 walk=False, pga_client=Client(), log=lambda *a: None,
+                                 tb_client=quiet_guard(Client()))
         by = {c.source: c for c in got.checks.checks}
         self.assertEqual(by["UN Journal: GA plenaries"].status, un_checks.READ_OK)
         self.assertEqual(by["UN Journal: GA plenaries"].newest_date, "2026-10-13")

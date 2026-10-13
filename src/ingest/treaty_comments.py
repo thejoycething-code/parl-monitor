@@ -17,6 +17,45 @@ OHCHR page that lists open consultations answers 403 to a non-browser client
 what the treaty bodies have DECIDED, not what they are deciding. Recorded
 rather than glossed, because the difference is the difference between a
 campaign and a briefing.
+
+ROBOTS.TXT (13 October 2026). tbinternet.ohchr.org/robots.txt now reads
+"User-agent: * / Disallow: /". fetch_general_comments therefore sends every
+request through the robots guard (src/robots_guard.GuardedClient, the reader
+the provinces use: RFC 9309 matcher, patient read, 24-hour cache): while the
+host disallows us it raises RobotsRefused (a FetchError) and the search is
+never fetched; tools/un_comments.py prints "could not read: robots.txt
+disallows ..." and stores nothing. It resumes by itself if the robots.txt
+relents. Never routed around: no cache, no Wayback copy, no other agent.
+
+ALTERNATIVE ROUTES TRIED, 13 October 2026 (docs/un-sources.md keeps the
+table). The standing rule is to look for a legitimate other route before
+recording a gap. None was found for general comments or for calls for
+comments on draft general comments:
+
+  - docs.un.org by symbol (CEDAW/C/GC/40, CRC/C/GC/26, CCPR/C/GC/37 ...):
+    the page is a frame over documents.un.org/api/symbol/access, and
+    ?direct=true answers 302 to the same address. documents.un.org's
+    robots.txt disallows /api, /doc and /access; so do daccess-ods.un.org and
+    documents-dds-ny.un.org. Not used.
+  - UN Digital Library (digitallibrary.un.org): record pages are allowed but
+    can only be found through /search, which robots.txt disallows (it
+    answers 202 with an empty body in any case); the sitemap answers the same
+    empty 202. Not used.
+  - Universal Human Rights Index (uhri.ohchr.org): a documented REST API and
+    a daily full export, but of treaty body RECOMMENDATIONS (concluding
+    observations, UPR, special procedures), not general comments; the API
+    itself is by arrangement (uhrisupport@ohchr.org). A lead for concluding
+    observations, not for this feed.
+  - Indico.UN (indico.un.org, no robots.txt): carries the committees'
+    sessions (now the treaty body calendar, src/ingest/un_calendar.py), but
+    no general comments and no calls for comments.
+  - UN Journal, Geneva (journal-api.un.org): treaty body meetings by number
+    only ("3022nd meeting, 93rd session"), closed, no agenda.
+  - The calls for comments on draft general comments are listed only on
+    www.ohchr.org (Cloudflare challenge since 13 October 2026) and tbinternet
+    (robots.txt Disallow: /).
+Still worth asking, by a human: whether OHCHR would allow an identified
+monitor on tbinternet, or offers the treaty body documents as a feed.
 """
 
 from __future__ import annotations
@@ -96,6 +135,20 @@ def parse_general_comments(html):
     return out
 
 
-def fetch_general_comments(client):
+def guarded(client, log=print):
+    """`client` with every request asking robots.txt first; a client that is
+    already a GuardedClient (a caller's, a test's) is used as it is."""
+    from src.robots_guard import GuardedClient
+    if isinstance(client, GuardedClient):
+        return client
+    return GuardedClient(client, "tb", log=log)
+
+
+def fetch_general_comments(client, log=print):
+    """General comments from the treaty body search, robots.txt permitting.
+
+    Raises RobotsRefused (src/robots_guard, a FetchError) without sending the
+    request while tbinternet's robots.txt disallows it.
+    """
     return parse_general_comments(
-        client.get_text(TB_SEARCH, "tb", "general-comments"))
+        guarded(client, log=log).get_text(TB_SEARCH, "tb", "general-comments"))

@@ -112,8 +112,17 @@ is covered, because it is the only body whose calendar could be read:
       not read", never "0 open".
     - Treaty bodies: tbinternet.ohchr.org/robots.txt now reads
       "User-agent: * / Disallow: /" (seen 13 October 2026). The master
-      calendar is therefore NOT fetched (robots_allows below) and the check
-      log says why; it resumes by itself if the robots.txt relents.
+      calendar is therefore NOT fetched (the request goes through
+      src/robots_guard, which refuses it) and the check log says why; it
+      resumes by itself if the robots.txt relents.
+      SESSIONS NOW COME FROM INDICO.UN (13 October 2026): UNOG's meeting
+      registration system files every treaty body session under the
+      committee's category, and its calendar export (events.ics) gives
+      CEDAW, CRC and CCPR sessions about a year ahead, with the states under
+      review where the description lists them. Sitting dates, not reporting
+      deadlines: the deadlines exist only on tbinternet. The other routes
+      tried (UN Journal Geneva, docs.un.org, the Digital Library, UN Geneva's
+      pages) are listed above fetch_treaty_sessions.
 
 Nothing on the original list is now missing. Recorded here rather than hidden,
 so nobody mistakes near-term Journal coverage for a long-range schedule.
@@ -314,13 +323,222 @@ def parse_treaty_deadlines(html):
     return sorted(out, key=lambda d: d.due)
 
 
+def guarded(client, feed="uncal"):
+    """`client` with every request asking robots.txt first (src/robots_guard).
+
+    A client that is already a GuardedClient is returned as it is, so a
+    caller (tools/un_forward.collect, a test) can pass its own. Nothing is
+    exempt: tbinternet and Indico.UN are websites, not documented APIs.
+    """
+    from src.robots_guard import GuardedClient
+    if isinstance(client, GuardedClient):
+        return client
+    return GuardedClient(client, feed)
+
+
 def fetch_treaty_deadlines(client):
-    """Not fetched while tbinternet's robots.txt disallows it (13 October 2026)."""
-    if not robots_allows(client, TB_CALENDAR):
-        raise FetchError(TB_CALENDAR, "uncal", "tb-calendar", 0,
-                         "robots.txt on tbinternet.ohchr.org disallows it "
-                         "(Disallow: / since at least 13 October 2026); not fetched")
-    return parse_treaty_deadlines(client.get_text(TB_CALENDAR, "uncal", "tb-calendar"))
+    """Not fetched while tbinternet's robots.txt disallows it (13 October 2026).
+
+    The request goes through the robots guard: while robots.txt reads
+    "Disallow: /" it raises RobotsRefused (a FetchError) whose reason says
+    "robots.txt disallows ...; not fetched", and nothing is sent. It resumes
+    by itself if the robots.txt relents.
+    """
+    return parse_treaty_deadlines(guarded(client).get_text(TB_CALENDAR, "uncal", "tb-calendar"))
+
+
+# ---------------------------------------------------------------------------
+# Treaty body SESSIONS from Indico.UN (13 October 2026).
+#
+# The route that replaced tbinternet's master calendar. UNOG runs Indico.UN,
+# the registration system for meetings at the Palais des Nations; every
+# treaty body session has an event there, filed under the committee's
+# category in "OHCHR" (category 800). Indico's own calendar export,
+# /category/<id>/events.ics, is plain iCalendar for calendar programs: one
+# VEVENT per event with SUMMARY ("93rd session"), DTSTART/DTEND, URL, and for
+# some sessions a DESCRIPTION naming the states under review. It runs about a
+# year ahead (CEDAW's 94th, 3-26 February 2027, and 96th, 4-22 October 2027,
+# were listed on 13 October 2026), which is further than tbinternet ever was.
+#
+# robots.txt: indico.un.org answers 404 for /robots.txt (no rules, RFC 9309
+# 2.3.1.2); the requests still go through the robots guard, so a robots.txt
+# that appears later is obeyed. One request per committee per run.
+#
+# What it gives is SITTING DATES, not the reporting deadlines the master
+# calendar listed: the deadlines live only on tbinternet (robots.txt
+# Disallow: /), so they are not read, and the check log says so.
+#
+# Noise handled here: the category export includes the sub-categories
+# (pre-sessional working groups, optional-protocol working groups), whose
+# events share the "Nth session" form and even the numbers ("96th session",
+# 1-5 March 2027, is CEDAW's pre-sessional group). A committee's plenary
+# session runs three to four weeks; every working group meeting seen ran a
+# week or less. So a session is kept when it is not CANCELLED, its title is
+# "Nth session" without a working-group word, and it spans at least
+# TB_PLENARY_MIN_DAYS. Where two events still share a number, the longer wins.
+#
+# OTHER ROUTES TRIED for the calendar, 13 October 2026 (docs/un-sources.md):
+#   - UN Journal API, location Geneva (journal-api.un.org, robots.txt 404):
+#     WORKS but near-term only. GlobalCalendar with the treaty body organ
+#     UUIDs (CEDAW c216d07d-..., CRC f2e3d777-..., CCPR 8d79c089-...) returns
+#     every meeting with times, published to about three weeks ahead (CCPR's
+#     146th to 30 October on 13 October); meeting details carry no agenda or
+#     state names (closed meetings). Not wired: Indico gives the same sessions
+#     a year ahead. Kept as the fallback to reach for if Indico goes.
+#   - docs.un.org provisional agendas (CEDAW/C/94/1 ...): docs.un.org answers
+#     302 to documents.un.org/api/symbol/access, and documents.un.org's
+#     robots.txt disallows /api, /doc and /access (as do daccess-ods.un.org
+#     and documents-dds-ny.un.org). Not used.
+#   - UN Digital Library: /search and /rss disallowed by robots.txt; the
+#     sitemap it names answers 202 with an empty body (the same block as its
+#     search). Not used.
+#   - www.ungeneva.org "Calendar of major meetings": robots.txt allows it,
+#     but it is a hand-kept page, last updated 27 February 2026, that stops
+#     in September and omits CEDAW's 93rd and CCPR's 146th. The biweekly
+#     press calendar lists no treaty bodies. Not used.
+#   - conf.unog.ch: robots.txt Disallow: / (bar its help and recordings).
+# ---------------------------------------------------------------------------
+
+INDICO = "https://indico.un.org"
+TB_INDICO_ICS = INDICO + "/category/{0}/events.ics"
+# Indico.UN categories under OHCHR (category 800), read 13 October 2026.
+TB_INDICO_CATEGORIES = (
+    ("CEDAW", 828, "Committee on the Elimination of Discrimination against Women"),
+    ("CRC", 833, "Committee on the Rights of the Child"),
+    ("CCPR", 821, "Human Rights Committee"),
+)
+TB_PLENARY_MIN_DAYS = 10
+_ICS_EVENT = re.compile(r"BEGIN:VEVENT\n(.*?)\nEND:VEVENT", re.S)
+_ICS_FIELD = re.compile(r"^([A-Z][A-Z-]*)(?:;[^:\n]*)?:(.*)$", re.M)
+_ICS_DATE = re.compile(r"^(\d{4})(\d{2})(\d{2})")
+_TB_NUMBER = re.compile(r"\b(\d{1,3})(?:st|nd|rd|th)\s+session\b", re.I)
+_TB_NOT_PLENARY = re.compile(r"cancel|working\s*group|\bWG\b|pre[- ]?sessional|"
+                             r"dual chamber|annual session", re.I)
+# "The Committee will consider the reports of the following States Parties:
+# Austria Cameroon Jamaica Rwanda The List of issues ..."
+_TB_STATES_START = re.compile(
+    r"(?:reports? of the following States? Part(?:y|ies)|countries under review|"
+    r"States? parties[’']? reports)\s*:?", re.I)
+_TB_STATES_END = re.compile(r"(?:the\s+)?list of issues|LOIPR|once accredited|accreditation|"
+                            r"for further|please|registration", re.I)
+
+
+@dataclass
+class TreatySession(Session):
+    treaty: str = ""             # CEDAW | CRC | CCPR
+    states: tuple = ()           # states whose reports it will consider, when listed
+
+    @property
+    def name(self):
+        return "{0} {1}{2} session".format(self.treaty, self.number,
+                                           _ordinal_suffix(self.number))
+
+    @property
+    def ours(self):
+        return self.treaty.upper() in TB_OURS
+
+
+def _ics_unescape(value):
+    return (value.replace("\\n", "\n").replace("\\N", "\n").replace("\\,", ",")
+            .replace("\\;", ";").replace("\\\\", "\\"))
+
+
+def _ics_events(text):
+    """[{FIELD: value}] from an iCalendar text, folded lines joined."""
+    text = (text or "").replace("\r\n", "\n").replace("\r", "\n")
+    text = re.sub(r"\n[ \t]", "", text)
+    out = []
+    for block in _ICS_EVENT.findall(text):
+        fields = {}
+        for key, value in _ICS_FIELD.findall(block):
+            fields.setdefault(key, _ics_unescape(value))
+        out.append(fields)
+    return out
+
+
+def _ics_date(value):
+    m = _ICS_DATE.match(value or "")
+    if not m:
+        return None
+    try:
+        return datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    except ValueError:
+        return None
+
+
+def _states_under_review(description):
+    """The states a session will review, when the Indico description lists them."""
+    start = _TB_STATES_START.search(description or "")
+    if not start:
+        return ()
+    rest = description[start.end():]
+    end = _TB_STATES_END.search(rest)
+    if end:
+        rest = rest[:end.start()]
+    states = []
+    for part in re.split(r"[\n,]+|\band\b", rest):
+        name = part.strip(" .:; \t").strip()
+        if name and len(name) <= 60 and not re.search(r"\d|:", name) and name not in states:
+            states.append(name)
+    return tuple(states)
+
+
+def parse_indico_sessions(text, treaty):
+    """Plenary sessions of one committee from its Indico.UN category export.
+
+    Past sessions are returned too (the export keeps events that ended in the
+    last four weeks), so an empty result means the export changed, not that
+    nothing is scheduled; callers filter with upcoming().
+    """
+    best = {}
+    for ev in _ics_events(text):
+        title = ev.get("SUMMARY", "").strip()
+        if _TB_NOT_PLENARY.search(title):
+            continue
+        number = _TB_NUMBER.search(title)
+        starts, ends = _ics_date(ev.get("DTSTART")), _ics_date(ev.get("DTEND"))
+        if not number or not starts or not ends:
+            continue
+        span = (ends - starts).days + 1
+        if span < TB_PLENARY_MIN_DAYS:
+            continue
+        n = int(number.group(1))
+        url = (ev.get("URL") or "").strip() or INDICO
+        session = TreatySession(body=treaty, number=n, starts=starts, ends=ends, url=url,
+                                treaty=treaty,
+                                states=_states_under_review(ev.get("DESCRIPTION", "")))
+        held = best.get(n)
+        if held is None or span > (held.ends - held.starts).days + 1:
+            best[n] = session
+    return sorted(best.values(), key=lambda s: s.starts)
+
+
+def fetch_treaty_sessions(client, categories=TB_INDICO_CATEGORIES):
+    """(sessions, failures): CEDAW, CRC and CCPR plenary sessions from Indico.UN.
+
+    Every request asks robots.txt first (guarded). A committee whose export
+    cannot be read, or parses to nothing, is named in `failures` and the
+    others are still returned; when none can be read the first FetchError is
+    raised, so the caller reports the source as not read.
+    """
+    gc = guarded(client)
+    out, failures, first_error = [], [], None
+    for treaty, category, _name in categories:
+        url = TB_INDICO_ICS.format(category)
+        try:
+            got = parse_indico_sessions(
+                gc.get_text(url, "uncal", "tb-indico-{0}".format(category)), treaty)
+        except FetchError as exc:
+            first_error = first_error or exc
+            failures.append("{0}: {1}".format(treaty, getattr(exc, "cause", None) or exc))
+            continue
+        if not got:
+            failures.append("{0}: Indico export parsed to nothing (layout change?)".format(treaty))
+        out.extend(got)
+    if not out and first_error is not None:
+        raise FetchError(first_error.url, "uncal", "tb-indico", first_error.attempts,
+                         "; ".join(failures))
+    return sorted(out, key=lambda s: s.starts), failures
 
 
 # UN Women writes it in prose: "from 8 to 19 March 2027". Hyphen and en-dash

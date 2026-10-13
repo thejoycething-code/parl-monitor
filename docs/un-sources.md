@@ -15,6 +15,7 @@ client code that fetches it.
 | OHCHR calls for input | 15 open consultations with deadlines | Listing only. **Detail pages return 403** to non-browser clients, so there is no description text to match on. **Since 13 Oct 2026 the listing itself is Cloudflare-challenged; no alternative route found (below).** |
 | ~~OHCHR HRC sessions page~~ HRC portal (13 Oct 2026) | Every HRC regular session from the 46th, with date range and a page per session | `hrcportal.ohchr.org/hrc-sessions-all` (`hrcmeetings.ohchr.org` now 301s there). Replaces `www.ohchr.org/en/hr-bodies/hrc/regular-sessions`, challenged since 13 Oct 2026, which stays as the fallback only. Drupal; robots.txt allows it, Crawl-delay 10 (one request a run). |
 | Treaty body master calendar | 49 reporting deadlines by country and committee | `MasterCalendar.aspx`. `SessionsList.aspx` is a Telerik postback grid that stays empty — that difference cost an hour. **Not fetched since 13 Oct 2026: `tbinternet.ohchr.org/robots.txt` is `Disallow: /`** (checked on every run; it resumes if that changes). |
+| Indico.UN treaty body sessions (13 Oct 2026) | CEDAW, CRC and CCPR plenary sessions about a year ahead, with the states under review where listed | `indico.un.org/category/{828,833,821}/events.ics`: UNOG's meeting registration system, its own calendar export. No robots.txt (404); requests still go through the robots guard. Sub-category working groups share the numbering, so plenaries are told apart by length (10 days or more) and CANCELLED events dropped. Sitting dates, **not** reporting deadlines. Replaces the master calendar in the check log (`Treaty bodies (Indico.UN; OHCHR)`). |
 | UN Women CSW pages | CSW session ranges (CSW71: 8–19 March 2027) | The landing page has almost no dates; the **per-session pages** carry them in prose ("from 8 to 19 March 2027"). |
 | UN GA session page | Session window (81st: 8 Sep 2026 – 7 Sep 2027) | Session number = year − 1945, derived not hardcoded. |
 | docs.un.org | Draft resolutions by symbol (`A/C.3/81/L.7`, `A/HRC/63/L.4`) | Needs `?direct=true`. Existence is decided by **content type**, not status: a missing symbol answers 200 with an HTML page. Range requests honoured, so a check costs 64 bytes — but ~10s each, which is server latency not transfer. |
@@ -175,7 +176,7 @@ below went out with the honest User-Agent, a few seconds apart.
 | The same two pages from the Mac Mini | challenged too: not one address being throttled | no |
 | `spinternet.ohchr.org` (Special Procedures) | `200`, but no calls listing | no |
 | ReliefWeb API | `403` "not using an approved appname"; an appname must be requested (Chris's call), and ReliefWeb does not syndicate OHCHR calls in any case | no |
-| `tbinternet.ohchr.org/robots.txt` | `User-agent: *` / `Disallow: /` | treaty body calendar no longer fetched |
+| `tbinternet.ohchr.org/robots.txt` | `User-agent: *` / `Disallow: /` | treaty body calendar and general comments no longer fetched (see below) |
 | Wayback Machine or any other cache | not tried on purpose: it would route the challenged page through a third party | no |
 | GitHub's runners | answered by the backup workflow's own check log: dispatch `un-calls-weekly.yml` with `dry_run` (stateless, sends nothing) | see the PR |
 
@@ -184,3 +185,40 @@ not read" in the check log, with the reason, and the DM says the number of open
 calls is unknown, never zero. Still worth asking, by a human: whether OHCHR
 offers the calls listing as a feed to registered NGOs, or would allow-list an
 identified monitor.
+
+
+## Treaty bodies after tbinternet's `Disallow: /` (13 October 2026)
+
+`tbinternet.ohchr.org/robots.txt` reads `User-agent: *` / `Disallow: /`. Both
+things the monitor read there now go through the robots guard
+(`src/robots_guard.GuardedClient`) and are refused before any request is sent:
+the master calendar (`src/ingest/un_calendar.fetch_treaty_deadlines`, run by
+the weekday UN job) and the general-comment search
+(`src/ingest/treaty_comments.py`, run by hand as `tools/un_comments.py`, which
+now prints `could not read: robots.txt disallows ...`, stores nothing and exits
+2). Both resume by themselves if the robots.txt relents. Alternatives tried,
+every request with the honest User-Agent, a few seconds apart:
+
+| Tried | Result | Used? |
+|---|---|---|
+| `indico.un.org` (UNOG's Indico.UN) | no robots.txt (404). Category exports `/category/<id>/events.ics` (CEDAW 828, CRC 833, CCPR 821, under OHCHR 800) list every session to late 2027, e.g. CEDAW 94th 3-26 Feb 2027, CCPR 146th 19 Oct-6 Nov 2026 with the states under review | **YES: treaty body sessions** |
+| UN Journal API, location Geneva (`journal-api.un.org`, robots.txt 404) | works: `GlobalCalendar` with the committee organ UUIDs gives every meeting with times, but only about three weeks ahead; meeting details are closed and carry no agenda | not wired (Indico is a year ahead); the fallback if Indico goes |
+| `docs.un.org/<symbol>` for provisional agendas (`CEDAW/C/94/1`) and general comments (`CRC/C/GC/26`) | the page is a frame over, and `?direct=true` a 302 to, `documents.un.org/api/symbol/access`; `documents.un.org/robots.txt` disallows `/api`, `/doc`, `/access` (so do `daccess-ods.un.org`, `documents-dds-ny.un.org`) | no |
+| `digitallibrary.un.org` | robots.txt disallows `/search` and `/rss`; records can only be found by search; the sitemap it names answers `202` with an empty body | no |
+| `uhri.ohchr.org` (Universal Human Rights Index) | documented API and daily full export, but of recommendations (concluding observations, UPR), not general comments; API by arrangement (`uhrisupport@ohchr.org`) | no (a lead for concluding observations) |
+| `www.ungeneva.org` calendar of major meetings | robots.txt allows; hand-kept, last updated 27 Feb 2026, stops in September, omits CEDAW 93rd and CCPR 146th; the biweekly press calendar lists no treaty bodies | no |
+| `conf.unog.ch` | robots.txt `Disallow: /` (bar help and recordings) | no |
+| Wayback Machine or any other cache | not tried on purpose | no |
+
+**So:** treaty body SESSIONS read OK again, from Indico.UN, further ahead than
+tbinternet ever gave. Reporting deadlines and general comments stay unread: no
+legitimate route found. Calls for comments on draft general comments are listed
+only on `www.ohchr.org` (Cloudflare challenge) and tbinternet (robots.txt).
+Worth asking, by a human: whether OHCHR would allow an identified monitor on
+tbinternet.
+
+**Open, found while probing:** `docs.un.org/<symbol>?direct=true`, the route the
+draft-resolution walks (`src/ingest/un_docs.py`) and the session reports use,
+now answers `302` to `documents.un.org/api/symbol/access`, a path
+`documents.un.org/robots.txt` disallows. The redirect is followed by the HTTP
+client without a second robots check. Not changed here; raised with Chris.
