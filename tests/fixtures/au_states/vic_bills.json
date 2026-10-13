@@ -1,0 +1,591 @@
+{
+ "took": 892,
+ "timed_out": false,
+ "_shards": {
+  "total": 3,
+  "successful": 3,
+  "skipped": 0,
+  "failed": 0
+ },
+ "hits": {
+  "total": {
+   "value": 7,
+   "relation": "eq"
+  },
+  "max_score": null,
+  "hits": [
+   {
+    "_index": "content-legislation-vic-gov-au__production__sapi_node",
+    "_id": "entity:node/22938:en",
+    "_score": null,
+    "_source": {
+     "_language": "en",
+     "field_legislation_status": [
+      "Passed and Assented to"
+     ],
+     "field_bill_introduced_year": [
+      "2026"
+     ],
+     "bill_assembly_section_introduced_by": [
+      "Hon Ben Carroll"
+     ],
+     "field_bill_parliament_current": [
+      false
+     ],
+     "nid": [
+      22938
+     ],
+     "title_az": [
+      "independent broad-based anti-corruption commission amendment bill 2026"
+     ],
+     "title": [
+      "Independent Broad-based Anti-corruption Commission Amendment Bill 2026"
+     ],
+     "type": [
+      "bill"
+     ],
+     "uuid": [
+      "2c4bfe56-70fd-4b2a-bb5e-3016cf8f863b"
+     ],
+     "langcode": [
+      "en"
+     ],
+     "uid": [
+      9100
+     ],
+     "field_legislation_type": [
+      "bill"
+     ],
+     "bill_council_section_introduced_by": [
+      "Hon. Ingrid Stitt"
+     ],
+     "field_bill_status": [
+      "passed_assented_to"
+     ],
+     "created": [
+      "2026-09-07T16:40:25+10:00"
+     ],
+     "field_bill_parliament_term": [
+      "2026"
+     ],
+     "url": [
+      "/site-6/bills/independent-broad-based-anti-corruption-commission-amendment-bill-2026"
+     ],
+     "field_bill_pre_2004": [
+      false
+     ],
+     "field_legislation_year": [
+      "2026"
+     ],
+     "legislation_type": [
+      "bill"
+     ],
+     "legislation_year": [
+      "2026"
+     ],
+     "field_node_site": [
+      6
+     ],
+     "changed": [
+      "2026-10-01T13:02:50+10:00"
+     ],
+     "status": [
+      true
+     ]
+    },
+    "sort": [
+     22938
+    ]
+   },
+   {
+    "_index": "content-legislation-vic-gov-au__production__sapi_node",
+    "_id": "entity:node/22713:en",
+    "_score": null,
+    "_source": {
+     "_language": "en",
+     "field_legislation_status": [
+      "Council - second reading"
+     ],
+     "field_bill_introduced_year": [
+      "2026"
+     ],
+     "field_bill_parliament_current": [
+      true
+     ],
+     "nid": [
+      22713
+     ],
+     "title_az": [
+      "equal opportunity amendment (medical treatment) bill 2026"
+     ],
+     "title": [
+      "Equal Opportunity Amendment (Medical Treatment) Bill 2026"
+     ],
+     "type": [
+      "bill"
+     ],
+     "uuid": [
+      "d7093ba3-03c6-4029-b4da-0767b1e92c37"
+     ],
+     "langcode": [
+      "en"
+     ],
+     "uid": [
+      9099
+     ],
+     "field_legislation_type": [
+      "bill"
+     ],
+     "bill_council_section_introduced_by": [
+      "Mr. David Ettershank"
+     ],
+     "field_bill_status": [
+      "council_2nd_reading"
+     ],
+     "created": [
+      "2026-03-13T14:11:13+11:00"
+     ],
+     "field_bill_parliament_term": [
+      "2026"
+     ],
+     "url": [
+      "/site-6/bills/equal-opportunity-amendment-medical-treatment-bill-2026"
+     ],
+     "field_bill_pre_2004": [
+      false
+     ],
+     "field_legislation_year": [
+      "2026"
+     ],
+     "legislation_type": [
+      "bill"
+     ],
+     "legislation_year": [
+      "2026"
+     ],
+     "field_node_site": [
+      6
+     ],
+     "changed": [
+      "2026-04-01T15:50:22+11:00"
+     ],
+     "status": [
+      true
+     ]
+    },
+    "sort": [
+     22713
+    ]
+   },
+   {
+    "_index": "content-legislation-vic-gov-au__production__sapi_node",
+    "_id": "entity:node/22702:en",
+    "_score": null,
+    "_source": {
+     "_language": "en",
+     "field_legislation_status": [
+      "Defeated"
+     ],
+     "field_bill_introduced_year": [
+      "2026"
+     ],
+     "bill_assembly_section_introduced_by": [
+      "James Newbury"
+     ],
+     "field_bill_parliament_current": [
+      false
+     ],
+     "nid": [
+      22702
+     ],
+     "title_az": [
+      "independent broad-based anti-corruption commission amendment (follow the money) bill 2026"
+     ],
+     "title": [
+      "Independent Broad-based Anti-corruption Commission Amendment (Follow the Money) Bill 2026"
+     ],
+     "type": [
+      "bill"
+     ],
+     "uuid": [
+      "68a1f091-5790-46f1-813c-1e4189e9690c"
+     ],
+     "langcode": [
+      "en"
+     ],
+     "uid": [
+      9100
+     ],
+     "field_legislation_type": [
+      "bill"
+     ],
+     "bill_council_section_introduced_by": [
+      "Mr. Evan Mulholland"
+     ],
+     "field_bill_status": [
+      "assembly_introduced_defeated_passed_council"
+     ],
+     "created": [
+      "2026-03-03T12:56:19+11:00"
+     ],
+     "field_bill_parliament_term": [
+      "2026"
+     ],
+     "url": [
+      "/site-6/bills/independent-broad-based-anti-corruption-commission-amendment-follow-money-bill-2026"
+     ],
+     "field_bill_pre_2004": [
+      false
+     ],
+     "field_legislation_year": [
+      "2026"
+     ],
+     "legislation_type": [
+      "bill"
+     ],
+     "legislation_year": [
+      "2026"
+     ],
+     "field_node_site": [
+      6
+     ],
+     "changed": [
+      "2026-07-31T11:17:50+10:00"
+     ],
+     "status": [
+      true
+     ]
+    },
+    "sort": [
+     22702
+    ]
+   },
+   {
+    "_index": "content-legislation-vic-gov-au__production__sapi_node",
+    "_id": "entity:node/22623:en",
+    "_score": null,
+    "_source": {
+     "_language": "en",
+     "field_legislation_status": [
+      "Passed and Assented to"
+     ],
+     "field_bill_introduced_year": [
+      "2025"
+     ],
+     "bill_assembly_section_introduced_by": [
+      "Hon Mary-Anne Thomas"
+     ],
+     "field_bill_parliament_current": [
+      false
+     ],
+     "nid": [
+      22623
+     ],
+     "title_az": [
+      "health safeguards for people born with variations in sex characteristics bill 2025"
+     ],
+     "title": [
+      "Health Safeguards for People Born with Variations in Sex Characteristics Bill 2025"
+     ],
+     "type": [
+      "bill"
+     ],
+     "uuid": [
+      "cfbe153f-b9e9-4642-8b2d-aafacf91e13b"
+     ],
+     "langcode": [
+      "en"
+     ],
+     "uid": [
+      9099
+     ],
+     "field_legislation_type": [
+      "bill"
+     ],
+     "bill_council_section_introduced_by": [
+      "Hon Ingrid Stitt"
+     ],
+     "field_bill_status": [
+      "passed_assented_to"
+     ],
+     "created": [
+      "2025-12-02T13:43:19+11:00"
+     ],
+     "field_bill_parliament_term": [
+      "2025"
+     ],
+     "url": [
+      "/site-6/bills/health-safeguards-people-born-variations-sex-characteristics-bill-2025"
+     ],
+     "field_bill_pre_2004": [
+      false
+     ],
+     "field_legislation_year": [
+      "2025"
+     ],
+     "legislation_type": [
+      "bill"
+     ],
+     "legislation_year": [
+      "2025"
+     ],
+     "field_node_site": [
+      6
+     ],
+     "changed": [
+      "2026-02-24T09:49:40+11:00"
+     ],
+     "status": [
+      true
+     ]
+    },
+    "sort": [
+     22623
+    ]
+   },
+   {
+    "_index": "content-legislation-vic-gov-au__production__sapi_node",
+    "_id": "entity:node/22549:en",
+    "_score": null,
+    "_source": {
+     "_language": "en",
+     "field_legislation_status": [
+      "Passed and Assented to"
+     ],
+     "field_bill_introduced_year": [
+      "2025"
+     ],
+     "bill_assembly_section_introduced_by": [
+      "Hon Mary-Anne Thomas"
+     ],
+     "field_bill_parliament_current": [
+      false
+     ],
+     "nid": [
+      22549
+     ],
+     "title_az": [
+      "voluntary assisted dying amendment bill 2025"
+     ],
+     "title": [
+      "Voluntary Assisted Dying Amendment Bill 2025"
+     ],
+     "type": [
+      "bill"
+     ],
+     "uuid": [
+      "943f7aa2-1a13-4814-9e1f-ebbfa1e51240"
+     ],
+     "langcode": [
+      "en"
+     ],
+     "uid": [
+      9099
+     ],
+     "field_legislation_type": [
+      "bill"
+     ],
+     "bill_council_section_introduced_by": [
+      "Hon Ingrid Stitt"
+     ],
+     "field_bill_status": [
+      "passed_assented_to"
+     ],
+     "created": [
+      "2025-10-14T13:21:47+11:00"
+     ],
+     "field_bill_parliament_term": [
+      "2025"
+     ],
+     "url": [
+      "/site-6/bills/voluntary-assisted-dying-amendment-bill-2025"
+     ],
+     "field_bill_pre_2004": [
+      false
+     ],
+     "field_legislation_year": [
+      "2025"
+     ],
+     "legislation_type": [
+      "bill"
+     ],
+     "legislation_year": [
+      "2025"
+     ],
+     "field_node_site": [
+      6
+     ],
+     "changed": [
+      "2025-11-25T09:43:13+11:00"
+     ],
+     "status": [
+      true
+     ]
+    },
+    "sort": [
+     22549
+    ]
+   },
+   {
+    "_index": "content-legislation-vic-gov-au__production__sapi_node",
+    "_id": "entity:node/22301:en",
+    "_score": null,
+    "_source": {
+     "_language": "en",
+     "field_legislation_status": [
+      "Council - second reading"
+     ],
+     "field_bill_introduced_year": [
+      "2024"
+     ],
+     "field_bill_parliament_current": [
+      true
+     ],
+     "nid": [
+      22301
+     ],
+     "title_az": [
+      "voluntary assisted dying amendment (equity and access) bill 2024"
+     ],
+     "title": [
+      "Voluntary Assisted Dying Amendment (Equity and Access) Bill 2024"
+     ],
+     "type": [
+      "bill"
+     ],
+     "uuid": [
+      "0db56b5b-0cfb-444e-84d1-3ccff7bcc8b4"
+     ],
+     "langcode": [
+      "en"
+     ],
+     "uid": [
+      9099
+     ],
+     "field_legislation_type": [
+      "bill"
+     ],
+     "bill_council_section_introduced_by": [
+      "Sarah Mansfield"
+     ],
+     "field_bill_status": [
+      "council_2nd_reading"
+     ],
+     "created": [
+      "2025-03-03T16:21:41+11:00"
+     ],
+     "field_bill_parliament_term": [
+      "2025"
+     ],
+     "url": [
+      "/site-6/bills/voluntary-assisted-dying-amendment-equity-and-access-bill-2024"
+     ],
+     "field_bill_pre_2004": [
+      false
+     ],
+     "field_legislation_year": [
+      "2024"
+     ],
+     "legislation_type": [
+      "bill"
+     ],
+     "legislation_year": [
+      "2024"
+     ],
+     "field_node_site": [
+      6
+     ],
+     "changed": [
+      "2025-03-05T10:12:39+11:00"
+     ],
+     "status": [
+      true
+     ]
+    },
+    "sort": [
+     22301
+    ]
+   },
+   {
+    "_index": "content-legislation-vic-gov-au__production__sapi_node",
+    "_id": "entity:node/22286:en",
+    "_score": null,
+    "_source": {
+     "_language": "en",
+     "field_legislation_status": [
+      "Council - second reading"
+     ],
+     "field_bill_introduced_year": [
+      "2024"
+     ],
+     "field_bill_parliament_current": [
+      true
+     ],
+     "nid": [
+      22286
+     ],
+     "title_az": [
+      "constitution amendment (abortion) bill 2024"
+     ],
+     "title": [
+      "Constitution Amendment (Abortion) Bill 2024"
+     ],
+     "type": [
+      "bill"
+     ],
+     "uuid": [
+      "983840e0-e052-40cc-a291-202076572f70"
+     ],
+     "langcode": [
+      "en"
+     ],
+     "uid": [
+      13660
+     ],
+     "field_legislation_type": [
+      "bill"
+     ],
+     "bill_council_section_introduced_by": [
+      "Dr Sarah Mansfield"
+     ],
+     "field_bill_status": [
+      "council_2nd_reading"
+     ],
+     "created": [
+      "2025-01-31T14:09:41+11:00"
+     ],
+     "field_bill_parliament_term": [
+      "2025"
+     ],
+     "url": [
+      "/site-6/bills/constitution-amendment-abortion-bill-2024"
+     ],
+     "field_bill_pre_2004": [
+      false
+     ],
+     "field_legislation_year": [
+      "2024"
+     ],
+     "legislation_type": [
+      "bill"
+     ],
+     "legislation_year": [
+      "2024"
+     ],
+     "field_node_site": [
+      6
+     ],
+     "changed": [
+      "2025-02-06T09:07:23+11:00"
+     ],
+     "status": [
+      true
+     ]
+    },
+    "sort": [
+     22286
+    ]
+   }
+  ]
+ }
+}

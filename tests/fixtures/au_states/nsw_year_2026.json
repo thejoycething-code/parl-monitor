@@ -1,0 +1,27 @@
+[
+ {
+  "date": "2026-09-16",
+  "style": "",
+  "tooltip": "",
+  "Events": [
+   {
+    "Chamber": "Legislative Assembly",
+    "PdfDocId": "HANSARD-1323879322-168797",
+    "TocDocId": "HANSARD-1323879322-168542",
+    "Uncorrected": false
+   },
+   {
+    "Chamber": "Legislative Council",
+    "PdfDocId": "HANSARD-1820781676-105313",
+    "TocDocId": "HANSARD-1820781676-105230",
+    "Uncorrected": true
+   }
+  ]
+ },
+ {
+  "date": "2026-09-15",
+  "style": "",
+  "tooltip": "",
+  "Events": []
+ }
+]

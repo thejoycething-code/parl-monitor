@@ -523,6 +523,19 @@ FEEDS = [
     ("esr_laws", "last_seen", 31, 31, "Spanish regional laws in the BOE (Spain weekly)"),
     ("esr_reads", "last_seen", 7, 4, "Spanish regional layer, sources read (Spain weekly)"),
     ("esr_bills", "last_seen", 7, 4, "Spanish regional parliaments' bills in passage (Spain weekly)"),
+    # Australia's states and territories (tools/au_states.py, 13 October
+    # 2026), a step of the Australia weekly. MEASURED which re-stamp:
+    # aus_reads is stamped for every source on every run (failures included,
+    # with their status); aus_bills.last_seen for every bill the Victorian,
+    # Queensland, South Australian, Tasmanian and Northern Territory lists
+    # still show, aus_acts.last_seen for every Act the WA, Tasmanian and
+    # Queensland feeds still show, and aus_members.last_seen for South
+    # Australia's session members: all four move weekly whatever sat.
+    # aus_divisions (NSW) carries no sighting column: new rows only.
+    ("aus_reads", "last_seen", 7, 4, "Australian states and territories, sources read (Australia weekly)"),
+    ("aus_bills", "last_seen", 7, 4, "Australian state and territory bills (Australia weekly)"),
+    ("aus_acts", "last_seen", 7, 4, "Australian state and territory Acts (Australia weekly)"),
+    ("aus_members", "last_seen", 7, 4, "NSW and South Australian members (Australia weekly)"),
     # Brazil (9 October 2026). MEASURED which re-stamp: the member lists of
     # both houses are re-read whole every run, and every nominal vote of the
     # current year (and every bill it links) is re-upserted from the
@@ -1401,6 +1414,16 @@ AWAITING_STEP_UNTIL = {
                   "weekly on merge; it fills on its first Saturday run"),
     "esr_laws": ("2026-10-18", "the Spanish regional step (tools/es_regions.py) joins the Spain "
                  "weekly on merge; it fills on its first Saturday run"),
+    # Australia's states and territories join the Australia weekly (Fridays
+    # 02:00) on merge, 13 October 2026: empty until its first Friday run.
+    "aus_reads": ("2026-10-18", "the states and territories step (tools/au_states.py) joins the "
+                  "Australia weekly on merge; it fills on its first Friday run"),
+    "aus_bills": ("2026-10-18", "the states and territories step (tools/au_states.py) joins the "
+                  "Australia weekly on merge; it fills on its first Friday run"),
+    "aus_acts": ("2026-10-18", "the states and territories step (tools/au_states.py) joins the "
+                 "Australia weekly on merge; it fills on its first Friday run"),
+    "aus_members": ("2026-10-18", "the states and territories step (tools/au_states.py) joins the "
+                    "Australia weekly on merge; it fills on its first Friday run"),
     # Belgium's communities and regions join the Belgium weekly (Saturdays
     # 02:30) on merge, 13 October 2026: empty until its first Saturday run.
     "ber_docs": ("2026-10-18", "the communities and regions step (tools/be_regions.py) joins "

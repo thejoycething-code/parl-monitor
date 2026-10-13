@@ -13,7 +13,9 @@ Nothing posts to a channel. Modelled on tools/us_monitor.py.
 WHAT LEADS. The Federal Parliament moves our ground through divisions (House
 and Senate, with the Senate's pairs), bills reaching a new stage in the
 Hansard, new bills, and Acts; speeches in debate (tools/au_debates.py) and
-what is coming up (tools/au_schedule.py). The edition leads with the week and says
+what is coming up (tools/au_schedule.py); and, since 13 October 2026, the six
+states and two territories in their own section (tools/au_states.py,
+src/au_states_edition.py). The edition leads with the week and says
 plainly when Parliament did not sit, rather than padding the top.
 
 NO VERDICTS. A division carries its question, its tally, its pairs and its
@@ -610,6 +612,12 @@ def render_edition(conn, today):
     out += ([BILL_HEAD] + [bill_row(r, names) for r in sorted(
         enacted, key=lambda r: r["assent_date"] or "", reverse=True)]) if enacted else ["*None.*"]
 
+    # The states and territories (tools/au_states.py, 13 October 2026):
+    # their own section, from src/au_states_edition.py.
+    from src import au_states_edition
+    out += [""] + au_states_edition.render(conn, today, names)
+    conn.row_factory = sqlite3.Row
+
     n = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
     out += ["", "## Coverage", "",
             "- **Collected:** {0} bills of the {1}th Parliament ({2} on our ground, {3} became "
@@ -634,7 +642,10 @@ def render_edition(conn, today):
             "file(s) read for debates (the speeches themselves are never stored).".format(
                 _count(conn, "SELECT COUNT(*) FROM au_speeches"),
                 _count(conn, "SELECT COUNT(*) FROM au_debate_days")),
-            "- **Not yet collected:** the High Court, and the states and territories.",
+            "- **States and territories:** {0} bills and motions and {1} Acts from the eight "
+            "state and territory sources (tools/au_states.py); what each answered and what is "
+            "blocked is under State coverage above.".format(*au_states_edition.coverage_count(conn)),
+            "- **Not yet collected:** the High Court.",
             "- **Migration** is matched and stored but not shown, as in every edition here.",
             "- Specification and decisions: [docs/australia-scope.md]({0}docs/australia-scope.md)."
             .format(REPO), ""]
@@ -678,6 +689,11 @@ def dm_summary(conn, today, path=None):
     ahead = coming_up_dm(conn, today)
     if ahead:
         lines.append(ahead)
+    from src import au_states_edition
+    states = au_states_edition.dm_line(conn, today)
+    conn.row_factory = sqlite3.Row
+    if states:
+        lines.append(states)
     lines.append("_Areas from taxonomy v{0} plus watchlist-au; bills matched on titles only "
                  "(aph.gov.au refuses our collectors)._".format(taxonomy_version()))
     if path:

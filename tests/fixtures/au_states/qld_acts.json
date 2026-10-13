@@ -1,0 +1,201 @@
+{
+ "data": [
+  {
+   "version.series.id": {
+    "__type__": "UniString",
+    "__value__": "699c55a0-8ef6-473f-8ca7-0e18fb76354e"
+   },
+   "version.desc.id": {
+    "__type__": "UniString",
+    "__value__": "d220d977-8c12-4e60-943e-54e98b97383f"
+   },
+   "parliament.no": {
+    "__type__": "UniString",
+    "__value__": "58"
+   },
+   "type": {
+    "__type__": "UniString",
+    "__value__": "act"
+   },
+   "id": {
+    "__type__": "UniString",
+    "__value__": "act-2026-004"
+   },
+   "publication.date": "2026-03-11T00:00:00",
+   "otherRenditions": {
+    "filename": "26AC004.pdf",
+    "mimetype": "ASMADE_PDF",
+    "filesize": {
+     "__type__": "Integer",
+     "__value__": 760012
+    }
+   },
+   "title": {
+    "__type__": "UniString",
+    "__value__": "Fighting Antisemitism and Keeping Guns out of the Hands of Terrorists and Criminals Amendment Act 2026"
+   },
+   "title_v": {
+    "__type__": "UniString",
+    "__value__": "Fighting Antisemitism and Keeping Guns out of the Hands of Terrorists and Criminals Amendment Act 2026"
+   },
+   "year": {
+    "__type__": "UniString",
+    "__value__": "2026"
+   },
+   "no": {
+    "__type__": "UniString",
+    "__value__": "4"
+   },
+   "print.type": {
+    "__type__": "UniString",
+    "__value__": "act.new"
+   },
+   "repealed": {
+    "__type__": "UniString",
+    "__value__": "N"
+   },
+   "enabling.acts": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "enabling.acts.repeating": {
+    "__type__": "UniString",
+    "__value__": ""
+   }
+  },
+  {
+   "version.series.id": {
+    "__type__": "UniString",
+    "__value__": "61d366a8-2627-4e96-9aea-003c5b539953"
+   },
+   "version.desc.id": {
+    "__type__": "UniString",
+    "__value__": "3d3a0817-c8bc-4351-ad9f-13573b2cfeca"
+   },
+   "parliament.no": {
+    "__type__": "UniString",
+    "__value__": "58"
+   },
+   "type": {
+    "__type__": "UniString",
+    "__value__": "act"
+   },
+   "id": {
+    "__type__": "UniString",
+    "__value__": "act-2026-007"
+   },
+   "publication.date": "2026-04-30T00:00:00",
+   "otherRenditions": {
+    "filename": "26AC007.pdf",
+    "mimetype": "ASMADE_PDF",
+    "filesize": {
+     "__type__": "Integer",
+     "__value__": 485923
+    }
+   },
+   "title": {
+    "__type__": "UniString",
+    "__value__": "Expanding Adult Crime, Adult Time and Taking a Strong Stance on Drugs and Anti-Social Behaviour Amendment Act 2026"
+   },
+   "title_v": {
+    "__type__": "UniString",
+    "__value__": "Expanding Adult Crime, Adult Time and Taking a Strong Stance on Drugs and Anti-Social Behaviour Amendment Act 2026"
+   },
+   "year": {
+    "__type__": "UniString",
+    "__value__": "2026"
+   },
+   "no": {
+    "__type__": "UniString",
+    "__value__": "7"
+   },
+   "print.type": {
+    "__type__": "UniString",
+    "__value__": "act.new"
+   },
+   "repealed": {
+    "__type__": "UniString",
+    "__value__": "N"
+   },
+   "enabling.acts": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "enabling.acts.repeating": {
+    "__type__": "UniString",
+    "__value__": ""
+   }
+  },
+  {
+   "version.series.id": {
+    "__type__": "UniString",
+    "__value__": "84572eda-4f3f-4db0-a159-f7072f3acd92"
+   },
+   "version.desc.id": {
+    "__type__": "UniString",
+    "__value__": "101384a7-f2f3-42f8-b70f-55d3e7d52cab"
+   },
+   "parliament.no": {
+    "__type__": "UniString",
+    "__value__": "58"
+   },
+   "type": {
+    "__type__": "UniString",
+    "__value__": "act"
+   },
+   "id": {
+    "__type__": "UniString",
+    "__value__": "act-2026-001"
+   },
+   "publication.date": "2026-02-19T00:00:00",
+   "otherRenditions": {
+    "filename": "26AC001.pdf",
+    "mimetype": "ASMADE_PDF",
+    "filesize": {
+     "__type__": "Integer",
+     "__value__": 482956
+    }
+   },
+   "title": {
+    "__type__": "UniString",
+    "__value__": "Electoral Laws (Restoring Electoral Fairness) Amendment Act 2026"
+   },
+   "title_v": {
+    "__type__": "UniString",
+    "__value__": "Electoral Laws (Restoring Electoral Fairness) Amendment Act 2026"
+   },
+   "year": {
+    "__type__": "UniString",
+    "__value__": "2026"
+   },
+   "no": {
+    "__type__": "UniString",
+    "__value__": "1"
+   },
+   "print.type": {
+    "__type__": "UniString",
+    "__value__": "act.new"
+   },
+   "repealed": {
+    "__type__": "UniString",
+    "__value__": "N"
+   },
+   "enabling.acts": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "enabling.acts.repeating": {
+    "__type__": "UniString",
+    "__value__": ""
+   }
+  }
+ ],
+ "totalCount": {
+  "__type__": "Integer",
+  "__value__": 3
+ },
+ "filteredCount": {
+  "__type__": "Integer",
+  "__value__": 24
+ }
+}

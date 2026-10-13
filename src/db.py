@@ -1611,6 +1611,17 @@ TABLES = (
     # Australian debates (tools/au_debates.py, 9 October 2026), same module.
     "au_speeches",
     "au_debate_days",
+    # Australia's states and territories (tools/au_states.py, 13 October
+    # 2026): bills with their stage, Acts, NSW divisions and members, created
+    # by src/au_states_store.ensure_schema.
+    "aus_bills",
+    "aus_bill_events",
+    "aus_acts",
+    "aus_divisions",
+    "aus_votes",
+    "aus_members",
+    "aus_hansard_days",
+    "aus_reads",
     # The week ahead (tools/us_schedule.py, 9 October 2026).
     "us_schedule",
     "us_meetings",
@@ -2223,6 +2234,8 @@ def init_db(conn):
     us_states_store.ensure_schema(conn)
     from src import au_store
     au_store.ensure_schema(conn)
+    from src import au_states_store
+    au_states_store.ensure_schema(conn)
     from src import ie_store
     ie_store.ensure_schema(conn)
     from src import at_store

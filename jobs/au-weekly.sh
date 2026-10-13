@@ -1,7 +1,8 @@
 #!/bin/bash
 # Australia weekly: members, bills and House and Senate divisions of the
 # Federal Parliament (tools/au_rollcalls.py), the week ahead
-# (tools/au_schedule.py), speeches on our ground (tools/au_debates.py), the judge when AU_JUDGE is on,
+# (tools/au_schedule.py), speeches on our ground (tools/au_debates.py), the
+# states and territories (tools/au_states.py), the judge when AU_JUDGE is on,
 # the edition and its DM to Christopher (tools/au_monitor.py), then (on the
 # Mini) publish the raw archive and the store.
 #
@@ -12,7 +13,8 @@
 #
 #     AU_RECLASSIFY=true    re-derive every stored AU bill's and division's
 #                           areas, offline, before the pull (after a taxonomy
-#                           or watchlist-au change)
+#                           or watchlist-au change), the states' too
+#                           (watchlist-au-states)
 #     AU_JUDGE=on           score new items with the PAID API judge (SPEND
 #                           NEEDS A YES; read from the repo variable when unset
 #                           and gh is available). The paid alternative, OFF:
@@ -52,12 +54,14 @@ export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Australia weekly}"
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 if [ "${AU_RECLASSIFY:-}" = "true" ]; then
   python3 tools/au_rollcalls.py --reclassify
+  python3 tools/au_states.py --reclassify || echo "  [gap] the states reclassify failed"
 fi
 rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/au_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" || rc=$?
+# The third argument keeps the debates' 10 minutes and the states' 5 (below).
+python3 tools/au_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 900)" || rc=$?
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "au-rollcalls failed (exit $rc); no edition, nothing published"
   exit "$rc"
@@ -77,6 +81,16 @@ python3 tools/au_schedule.py || echo "  [gap] au-schedule exited non-zero; Comin
 # three runs, then a sitting week is about a minute. A failure is a gap: the
 # days it missed are read next run.
 python3 tools/au_debates.py --budget-seconds 600 || echo "  [gap] au-debates exited non-zero; unread days wait for next week"
+
+# The states and territories (tools/au_states.py, docs/australia-states-scope.md,
+# 13 October 2026): each state's bills with their stage, Acts, and New South
+# Wales' divisions from its Hansard API, into the aus_* tables, for the
+# edition's States and territories section. Eight sources, robots.txt asked
+# at run time; a sitting week is a minute or two, NSW's first backfill (last
+# year and this) drains newest first over two or three runs. Exit 3 is gaps
+# recorded, never a lost edition: last week's rows stand.
+python3 tools/au_states.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \
+  || echo "  [gap] au-states: the states layer recorded gaps or failed; last week's rows stand"
 
 JUDGE="${AU_JUDGE:-}"
 if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then

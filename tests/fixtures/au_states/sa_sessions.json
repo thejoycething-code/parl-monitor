@@ -1,0 +1,29 @@
+[
+ {
+  "sessionId": 182,
+  "parliamentId": 56.0,
+  "sessionNumber": 1.0,
+  "startDate": "2026-05-05T00:00:00",
+  "endDate": null,
+  "abbreviation": "56th/1st",
+  "title": "56th Parliament 1st Session (05/05/2026 - )"
+ },
+ {
+  "sessionId": 181,
+  "parliamentId": 55.0,
+  "sessionNumber": 1.0,
+  "startDate": "2022-05-03T00:00:00",
+  "endDate": "2026-02-21T00:00:00",
+  "abbreviation": "55th/1st",
+  "title": "55th Parliament 1st Session (03/05/2022 - 21/02/2026)"
+ },
+ {
+  "sessionId": 180,
+  "parliamentId": 54.0,
+  "sessionNumber": 2.0,
+  "startDate": "2020-02-05T00:00:00",
+  "endDate": "2022-02-19T00:00:00",
+  "abbreviation": "54th/2nd",
+  "title": "54th Parliament 2nd Session (05/02/2020 - 19/02/2022)"
+ }
+]

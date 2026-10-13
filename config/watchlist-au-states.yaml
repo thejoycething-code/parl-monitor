@@ -1,0 +1,33 @@
+# Australian states and territories watchlist -- GROUNDWORK DRAFT (13 October
+# 2026), not yet reviewed by anyone who campaigns in Australia.
+#
+# The shared taxonomy (config/taxonomy.yaml) does most of the work. This file
+# carries only what it cannot: bills and Acts whose titles say nothing the
+# taxonomy knows. Each was found by reading every title the first live run of
+# tools/au_states.py stored on 13 October 2026 (docs/australia-states-scope.md).
+# The bills' TEXTS WERE NOT READ: each "why" says what is known and from where.
+#
+# APPLIED BY KEY, NEVER BY TITLE (tools/au_states.classify). Keys are the
+# aus_bills or aus_acts key: '<state>:<the source's own ID>'. A bill that
+# lapses at a dissolution returns, if at all, under a new ID, so entries must
+# be re-keyed after each state's election.
+bills:
+  # --- area 2: assisted dying -------------------------------------------------
+  "nt:EBD33A287B5F496FBF9D3DE24A9FD373": {areas: [2],
+      why: "Rights of the Terminally Ill Bill 2026 (Northern Territory): introduced 23 July, passed with amendments 27 August 2026. The Territory's voluntary assisted dying law; 'terminally ill' is not a taxonomy term."}
+  # --- area 3: gender medicine and children ----------------------------------------
+  "vic:22623": {areas: [3],
+      why: "Health Safeguards for People Born with Variations in Sex Characteristics Bill 2025 (Victoria), assented: regulates medical interventions on intersex children. Whether it is our ground is Christopher's call; listed so it is seen."}
+  # --- area 5: sex-based rights (birth certificates) ----------------------------------
+  "sa:5631": {areas: [5],
+      why: "Births, Deaths and Marriages Registration (Birth Certificates) Amendment (South Australia), introduced in the Legislative Council by Hon R A Simms on 20 May 2026, assented. The text was not read: birth certificates are where state law sets sex markers, but this amendment may concern something else (early pregnancy loss certificates, for one). Listed so it is seen; Christopher keeps or drops it. The taxonomy does not know the Births, Deaths and Marriages Acts by name."}
+  "sa:5640": {areas: [5],
+      why: "Births, Deaths and Marriages Registration (Birth Certificates) Amendment (South Australia): the same title's House of Assembly record (3 June 2026; the tracking system keeps one record per House), assented."}
+  "wa:A147447": {areas: [5],
+      why: "Births, Deaths and Marriages Registration Amendment (Sex or Gender Changes) Act 2024 (Western Australia): gender self-identification on birth certificates."}
+  # --- area 7: speech -----------------------------------------------------------
+  "wa:A147445": {areas: [7],
+      why: "Criminal Code Amendment (Prohibition on Display of Nazi Symbols or Gesture) Act 2024 (Western Australia): a speech offence, as the federal hate package is filed in area 7."}
+  # --- area 8: religious freedom ---------------------------------------------------
+  "nt:AF92C56CA0444E02854B67F968762F60": {areas: [8],
+      why: "Anti-Discrimination Amendment Bill 2025 (Northern Territory), passed. Background, not measured here: the Territory's 2022 amendments narrowed religious bodies' exemptions, and this bill amends the same Act. The text was not read; listed so it is seen, for Christopher to keep or drop."}
