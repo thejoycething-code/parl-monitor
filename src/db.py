@@ -1713,6 +1713,9 @@ TABLES = (
     "ch_businesses",
     "ch_divisions",
     "ch_votes",
+    # CH7 (13 October 2026): the cantonal parliaments (tools/ch_cantons.py).
+    "ch_canton_acts",
+    "ch_canton_divisions",
     # Belgium's federal Chamber (tools/be_rollcalls.py), created by
     # src/be_store.ensure_schema -- declared from day one.
     "be_members",
@@ -1720,6 +1723,13 @@ TABLES = (
     "be_sittings",
     "be_divisions",
     "be_votes",
+    # Belgium's community and regional parliaments (tools/be_regions.py, 13
+    # October 2026), created by src/be_regions_store.ensure_schema.
+    "ber_docs",
+    "ber_votes",
+    "ber_positions",
+    "ber_members",
+    "ber_reads",
     # France's Assemblee nationale (tools/fr_rollcalls.py), created by
     # src/fr_store.ensure_schema -- declared from day one.
     "fr_members",
@@ -1844,6 +1854,12 @@ TABLES = (
     "ar_bills",
     "ar_divisions",
     "ar_votes",
+    # Argentina's provincial layer (tools/ar_regions.py, 13 October 2026):
+    # the 24 jurisdictions' laws (SAIJ) and four legislatures' bills,
+    # created by src/ar_regions_store.ensure_schema.
+    "arp_laws",
+    "arp_bills",
+    "arp_reads",
     # Colombia's Congress (tools/co_rollcalls.py), created by
     # src/co_store.ensure_schema -- declared from day one.
     "co_bills",
@@ -2225,6 +2241,8 @@ def init_db(conn):
     ch_store.ensure_schema(conn)
     from src import be_store
     be_store.ensure_schema(conn)
+    from src import be_regions_store
+    be_regions_store.ensure_schema(conn)
     from src import fr_store
     fr_store.ensure_schema(conn)
     from src import pt_store
@@ -2259,6 +2277,8 @@ def init_db(conn):
     mxs_store.ensure_schema(conn)
     from src import ar_store
     ar_store.ensure_schema(conn)
+    from src import ar_regions_store
+    ar_regions_store.ensure_schema(conn)
     from src import co_store
     co_store.ensure_schema(conn)
     from src import bo_store

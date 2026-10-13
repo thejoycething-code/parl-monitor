@@ -431,6 +431,12 @@ FEEDS = [
     ("ch_sessions", "last_seen", 7, 4, "Federal Assembly sessions (Switzerland weekly)"),
     ("ch_businesses", "last_seen", 7, 7, "Federal Assembly businesses, DE and FR (Switzerland weekly)"),
     ("ch_divisions", "last_seen", 31, 45, "Nationalrat and Staenderat votes (Switzerland weekly)"),
+    # CH7 (13 October 2026): the cantonal parliaments (tools/ch_cantons.py).
+    # MEASURED which re-stamp: Bern's two daily exports, Vaud's pending lists,
+    # Ticino's order of the day and Geneva's searches are re-read whole every
+    # run, recess included, so both tables move every week.
+    ("ch_canton_acts", "last_seen", 7, 4, "Cantonal parliaments' business: Zürich, Bern, Geneva, Vaud, Ticino (Switzerland weekly)"),
+    ("ch_canton_divisions", "last_seen", 7, 4, "Grosser Rat Bern votes with tallies (Switzerland weekly)"),
     # Belgium (9 October 2026). MEASURED which re-stamp: both member lists and
     # all 39 pages of the dossier index are re-read whole every run, so
     # be_members and be_dossiers move every week, recess included. Divisions
@@ -440,6 +446,13 @@ FEEDS = [
     ("be_members", "last_seen", 7, 4, "Chamber members (Belgium weekly)"),
     ("be_dossiers", "last_seen", 7, 4, "Chamber dossier index (Belgium weekly)"),
     ("be_divisions", "last_seen", 31, 31, "Chamber recorded votes (Belgium weekly)"),
+    # Belgium's communities and regions (13 October 2026; tools/be_regions.py,
+    # a step of the Belgium weekly). MEASURED which re-stamp: the Flemish
+    # documents of the legislature, the Walloon publications and the Brussels
+    # dossier file are re-read whole every run, so ber_docs moves every week,
+    # recess included.
+    ("ber_docs", "last_seen", 7, 4,
+     "Flemish, Walloon, FWB, Brussels and COCOM parliaments' documents (Belgium weekly)"),
     # France (9 October 2026). MEASURED which re-stamp: every dossier and
     # every sitting deputy is re-read whole from the AN's nightly zips on
     # every run, recess included. Scrutins are written once, then re-read for
@@ -610,6 +623,15 @@ FEEDS = [
     ("ar_members", "last_seen", 7, 4, "Congress members, both chambers (Argentina weekly)"),
     ("ar_bills", "last_seen", 7, 4, "Diputados register and Senate expedientes (Argentina weekly)"),
     ("ar_divisions", "last_seen", 31, 31, "Senate roll calls (Argentina weekly)"),
+    # Argentina's provincial layer (tools/ar_regions.py, 13 October 2026), a
+    # step of the Argentina weekly. MEASURED which re-stamp: arp_reads is
+    # stamped for every source on every run (failures included, with their
+    # status); arp_laws.last_seen for every law in SAIJ's newest 200 rows
+    # (about two months of laws) and arp_bills.last_seen for every expediente
+    # the eight lists still show (CABA re-lists four months), so all move weekly.
+    ("arp_reads", "last_seen", 7, 4, "Argentine provincial layer, sources read (Argentina weekly)"),
+    ("arp_laws", "last_seen", 7, 4, "Argentine provincial laws, SAIJ and normas.gba (Argentina weekly)"),
+    ("arp_bills", "last_seen", 7, 4, "Argentine provincial legislatures' bills (Argentina weekly)"),
     # Colombia (9 October 2026). MEASURED which re-stamp: both chambers'
     # registers, the Cámara attendance file and the Senate roll-call file are
     # each re-read whole every run and upserted, so all three move every week,
@@ -837,7 +859,7 @@ PIPELINE_FEEDS = {
     "Guatemala weekly": ["gt_initiatives", "gt_members", "gt_sessions"],
     "Mexico weekly": ["mx_members", "mx_iniciativas", "mx_divisions"],
     # Divisions left out for the same reason as the US: a recess week cannot move them.
-    "Argentina weekly": ["ar_bills", "ar_members"],
+    "Argentina weekly": ["ar_bills", "ar_members", "arp_reads", "arp_bills"],
     "Colombia weekly": ["co_bills", "co_members"],
     "Bolivia weekly": ["bo_bills", "bo_members"],
     # All three are re-read whole each run; the orden del dia list is too,
@@ -957,6 +979,10 @@ AWAITING_FIRST_RUN = {
     "US states direct": (("uss_bill_sources",),
                          "LegiScan and the KS, CA and TX feeds added to US weekly 13 October "
                          "2026; the table fills on the step's first run"),
+    # tools/us_states_routes.py stamps "US states routes" after every run.
+    "US states routes": (("uss_bill_sources",),
+                         "the PA, MO and AR routes added to US weekly 13 October 2026; "
+                         "the table fills on the step's first run"),
     # tools/us_states.py stamps "US states" at the end of every stored run.
     "US states": (("uss_sessions", "uss_people", "uss_bills", "uss_votes"),
                   "state legislatures added to US weekly 9 October 2026; "
@@ -1022,6 +1048,13 @@ AWAITING_FIRST_RUN.update({
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
 EXEMPT = {
+    # 13 October 2026: Belgium's regional members (tools/be_regions.py) are
+    # read in the same step as ber_docs, which is watched; the member lists
+    # are a side read (a failure there is a [gap] line of that step), so a
+    # stale ber_members is the same failure ber_docs already reports.
+    "ber_members": "read in the same step as ber_docs (watched): the Flemish and Walloon "
+                   "member lists are a side read of tools/be_regions.py, whose failure is "
+                   "already a gap line and shows as a stale ber_docs",
     # 11 October 2026: one row per petition per run (src/petitions.py), the
     # history behind "passed a threshold this week". Its parent,
     # country_petitions, is watched; a snapshot table that stopped moving
@@ -1334,6 +1367,10 @@ def table_exists(conn, table):
 # first heartbeat can excuse it: excused while empty until a date, then
 # OVERDUE like any other. table -> (until, why). Additive, 10 October 2026.
 AWAITING_STEP_UNTIL = {
+    "ch_canton_acts": ("2026-10-31", "the cantons step (tools/ch_cantons.py) joins the "
+                       "Switzerland weekly on merge; it fills on its next run"),
+    "ch_canton_divisions": ("2026-10-31", "the cantons step (tools/ch_cantons.py) joins the "
+                        "Switzerland weekly on merge; it fills on its next run"),
     # Poland's voivodeship assemblies join the Poland weekly (Sundays 04:00)
     # on merge, 13 October 2026: empty until its first Sunday run.
     "plr_reads": ("2026-10-25", "the sejmiki step (tools/pl_regions.py) joins the Poland weekly "
@@ -1364,6 +1401,18 @@ AWAITING_STEP_UNTIL = {
                   "weekly on merge; it fills on its first Saturday run"),
     "esr_laws": ("2026-10-18", "the Spanish regional step (tools/es_regions.py) joins the Spain "
                  "weekly on merge; it fills on its first Saturday run"),
+    # Belgium's communities and regions join the Belgium weekly (Saturdays
+    # 02:30) on merge, 13 October 2026: empty until its first Saturday run.
+    "ber_docs": ("2026-10-18", "the communities and regions step (tools/be_regions.py) joins "
+                 "the Belgium weekly on merge; it fills on its first Saturday run"),
+    # Argentina's provincial layer joins the Argentina weekly (Saturdays
+    # 18:30) on merge, 13 October 2026: empty until its first Saturday run.
+    "arp_reads": ("2026-10-18", "the Argentine provincial step (tools/ar_regions.py) joins the "
+                  "Argentina weekly on merge; it fills on its first Saturday run"),
+    "arp_laws": ("2026-10-18", "the Argentine provincial step (tools/ar_regions.py) joins the "
+                 "Argentina weekly on merge; it fills on its first Saturday run"),
+    "arp_bills": ("2026-10-18", "the Argentine provincial step (tools/ar_regions.py) joins the "
+                  "Argentina weekly on merge; it fills on its first Saturday run"),
 }
 
 

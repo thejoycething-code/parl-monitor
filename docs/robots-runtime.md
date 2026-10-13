@@ -270,10 +270,14 @@ names the client that is wrapped when it is not the collector's own.
 | au_division_brief | data.openaustralia.org.au | API | no | API only (au_rollcalls.make_client) |
 | au_schedule | handbookapi.aph.gov.au, api.prod.legislation.gov.au | API | no | |
 | bo_questions | apisi.senado.gob.bo, diputados.gob.bo/wp-json | scraper | yes | allowed |
+| be_regions | ws.vlpar.be/e/opendata/, www.parlement-wallonie.be/opendata/ | API | API | the Flemish Parliament's open-data web services and the Walloon Parliament's documented Open Data (13 October 2026) |
+| be_regions | ws.vlpar.be/api/search/ | scraper | yes | the Flemish website's search route; robots.txt redirects to the host's access page (no rules) |
+| be_regions | www.parlement.brussels, www.pfwb.be | scraper | yes | the Brussels dossier file behind the website; the PFWB pages; both allowed |
 | ca_committee_reports | www.ourcommons.ca, www.parl.ca, sencanada.ca | scraper | yes | allowed (12 October 2026) |
 | ca_committees | www.ourcommons.ca, www.parl.ca | scraper | yes | allowed |
 | ca_senate_committees | sencanada.ca | scraper | yes | allowed (12 October 2026) |
 | ca_senate_debates | sencanada.ca | scraper | yes | allowed |
+| ch_cantons (CH7, 13 October 2026) | parlzhcdws.cmicloud.ch, ogd.parl.apps.be.ch, ge.ch, www.vd.ch, www4.ti.ch | scraper and open data | yes (GuardedClient, no exemptions) | all allowed on 13 October 2026 (cmicloud and ogd.parl 404, ge.ch serves a web page as robots.txt); Ticino's acts search is disallowed and not used. Not read because robots.txt refuses: data.bs.ch, data.bl.ch, daten.sg.ch, data.tg.ch (`/api/`), www.ag.ch (`/grossrat`) |
 | cl_senate_parties | datos.bcn.cl/sparql | API | no | |
 | country_agenda, country_petitions, country_attendance, country_vote_briefs, country_debate_today, country_live_debate | (drivers) | | yes | wrapped once, see above |
 | devolved_brief | parl-monitor-partner.vercel.app, github.com | own | no | our own site and repository |
@@ -307,6 +311,9 @@ names the client that is wrapped when it is not the collector's own.
 | us_states_legiscan | api.legiscan.com (keyed, optional) | API | no | legiscan.com itself answers a Cloudflare challenge: never bypassed |
 | us_states_direct | ftp.legis.state.tx.us/bills/ | API (FTP) | no | the Council's Acceptable Use notice asks data users to use the FTP; FTP has no robots.txt |
 | us_states_direct | www.kslegislature.gov/li/api/ (KLISS), downloads.leginfo.legislature.ca.gov | open data | yes | robots.txt 404 on both (no rules), 13 October 2026 |
+| us_states_routes | www.palegis.us/data (LDPC bill history) | open data | yes | robots.txt has one group, for the UserWay scanner only; /data is open to all, 13 October 2026 |
+| us_states_routes | documents.house.mo.gov (House XML exports) | open data | yes | allowed; Crawl-delay 20 honoured |
+| us_states_routes | arkleg.state.ar.us (bill, activity and vote pages) | scraper | yes | allowed (only ChatGPT's agents are disallowed) |
 | ve_news | www.asambleanacional.gob.ve | scraper | yes | allowed |
 | ve_news_crawl, ve_probe | www.asambleanacional.gob.ve (and any probed URL) | scraper | yes (probe_refusal) | allowed |
 

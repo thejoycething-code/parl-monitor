@@ -365,9 +365,12 @@ channel that matters most to CitizenGO.
    Chancellery's signature-collection chronology once its data source is
    found. Consultations (Vernehmlassungen, fedlex.admin.ch, answers 200) and
    the Amtliches Bulletin (`Transcript`) for debate packs.
-5. **Phase 4: cantonal parliaments**, later and by block (below).
+5. **Phase 4: cantonal parliaments.** CH7a BUILT 13 October 2026 (branch
+   `regions-ch`): Zürich, Bern, Geneva, Vaud and Ticino, a Cantons section
+   in the edition; Basel-Stadt, Basel-Landschaft, St. Gallen, Thurgau and
+   Aargau refused by robots.txt. See docs/switzerland-cantons-scope.md.
 
-## Cantonal parliaments (later; listed, not probed)
+## Cantonal parliaments (probed and partly built: docs/switzerland-cantons-scope.md)
 
 26 cantons, each with its own parliament (Grosser Rat, Kantonsrat, Landrat,
 Grand Conseil, Gran Consiglio), most with their own business databases, and

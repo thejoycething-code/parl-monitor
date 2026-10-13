@@ -1,0 +1,24 @@
+{
+"publications_infos": {
+"nb_pub": "1"
+},
+"publications": [
+{
+"PUB_ID": "53081",
+"PUB_TYPE": "PARCHEMIN",
+"PUB_TYPECOMPLET": "Parchemin",
+"PUB_NUMERO": "657",
+"PUB_REFERENCE": "PARCHEMIN 657 (2025-2026)",
+"PUB_DATUM": "30/09/2026",
+"PUB_ID_LEG": "12",
+"PUB_ID_SES": "55",
+"PUB_MOIS": "9",
+"PUB_ANNEE": "2026",
+"PUB_TITRE": "PARCHEMIN -- Séance plénière",
+"PUB_SDOC_LIBELLE": null,
+"PUB_FICHIER": "657.pdf",
+"PUB_LIEN": "http://nautilus.parlement-wallon.be/Archives/2026_2027/PARCHEMIN/657.pdf",
+"AG_ID_COM": "1"
+}
+]
+}

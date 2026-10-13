@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGGC</title>
+    <link rel="icon" type="image/x-icon" href="/grandconseil/searchm/favicon.ico">
+    <script type="importmap">
+      {
+        "imports": {
+          "/js/": "/grandconseil/searchm/js/",
+          "js/": "/grandconseil/searchm/js/",
+          "/": "/grandconseil/searchm/js/",
+          "@": "/grandconseil/searchm/js",
+          "vue": "/grandconseil/searchm/js/lib/vue.3.5.13.esm.prod.js"
+                      , "quasar": "/grandconseil/searchm/js/lib/quasar.2.11.9.esm.prod.js"
+                  }
+      }
+    </script>
+    <script src="/grandconseil/searchm/js/utils/dom.js"></script>
+          <link rel="stylesheet" href="/grandconseil/searchm/css/quasar.2.11.9.prod.css">
+      <link rel="stylesheet" href="/grandconseil/searchm/css/material-icons.css">
+        <link rel="stylesheet" href="/grandconseil/searchm/css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <main data-role="results" data-is-mobile="0">
+  <form action="/grandconseil/searchm/search/index" method="get" name="search">
+    <div class="search-row">
+      <input class="search" type="text" name="q" id="frmSearch" placeholder="Num. d'objet ou mots clés" value="genre" autofocus>
+      <input type="submit" class="submit frmSearchSubmit" value="Go">
+      <input type="hidden" name="m" value="0">
+      <button type="button" id="helpBtn" class="help-btn" aria-label="Aide à la recherche">?</button>
+    </div>
+    <div style="display: none;">
+      <div class="filter-row" id="dateFilterRow" style="display: none;">
+        <label for="date" class="smaller">Rechercher dans les documents de</label>
+        <select name="date" id="date" class="date-filter">
+          <option value="" >date indifférente</option>
+          <option value="m1" >moins d'un mois</option>
+          <option value="y1" selected>moins d'une année</option>
+          <option value="y5" >moins de 5 ans</option>
+        </select>
+      </div>
+    </div>
+  </form>
+
+  <div id="helpPanel" class="help-panel" style="display: none;">
+    <div class="help-content">
+      <p>
+        <strong>Recherche par mot clé :</strong> indiquez un ou plusieurs mots clés successifs.<br>
+        <em>Exemple :</em> <code>rade port</code>
+      </p>
+      <p>
+        <strong>Recherche plein texte :</strong> entourez l'expression recherchée avec des guillemets.<br>
+        <em>Exemple :</em> <code>"amélioration des infrastructures"</code>
+      </p>
+            <p>
+        <strong>Recherche d'un objet parlementaire :</strong> indiquez le numéro d'objet, ou, pour une recherche plus fine,
+        ajoutez l'acronyme du type d'objet avant le numéro suivi d'un espace.<br>
+        <em>Exemples :</em> <code>12005</code> ou <code>PL 12005</code>
+      </p>
+    </div>
+    <button type="button" id="closeHelp" class="close-help-btn">Fermer</button>
+  </div>
+
+      <div class="tabs"
+      data-has-pdfs="1"
+      data-memo-ajax="1"
+      data-memos-url="/grandconseil/searchm/search/memos"
+      data-memo-base-url="https://ge.ch/grandconseil/memorial/seances/"
+      data-query="genre"
+      data-date="y1">
+      <div class="tab-bar">
+                  <button class="tab-btn" data-tab="pdfs">Objets</button>
+                          <button class="tab-btn" data-tab="memos">Mémoriaux</button>
+                      </div>
+              <div class="tab-panel" id="tab-pdfs">
+                <div class="lighter">
+      <a href="https://ge.ch/grandconseil/data/texte/M03137A.pdf" target="_blank" class="pdf-link">
+        <img src="/grandconseil/searchm/images/pdf.svg" alt="PDF" class="pdf-icon">
+        M 3137-A Rapport de la commission des Droits de l&#039;Homme (droits de la personne) chargée d&#039;étudier la proposition de motion de Yves Nidegger, Patrick Lussi, Lionel Dugerdil, Julien Ramu, Marc Falquet, Florian Dugerdil, Stéphane Florey, Christo Ivanov, Daniel Noël, Guy Mettan demandant un moratoire sur les interventions de réassignation/conversion sexuelle destinées à des mineurs      </a>
+              <br>
+        <span class="smaller date">Janv. 2026</span>
+                                          -
+                    <span class="smaller">
+            Objet refusé <span class="date-deci">23 janv. 2026</span>          </span>
+                          <br>
+          <img src="/grandconseil/searchm/images/search.svg" alt="Détails" class="search-icon">
+                    <a class="more" href="/grandconseil/searchm/search/index?q=M+3137&amp;m=0">
+            Rechercher les details de l'objet parlementaire
+          </a>
+                  </div>
+      <div class="lighter">
+      <a href="https://ge.ch/grandconseil/data/texte/M03010A.pdf" target="_blank" class="pdf-link">
+        <img src="/grandconseil/searchm/images/pdf.svg" alt="PDF" class="pdf-icon">
+        M 3010-A Rapport de la commission des Droits de l&#039;Homme (droits de la personne) chargée d&#039;étudier la proposition de motion de Joëlle Fiss, Céline Zuber-Roy, Christina Meissner, Murat-Julian Alder, Alexis Barbey, Philippe Meyer, Geoffray Sirolli, Pierre Nicollier, Fabienne Monbaron, Rémy Burri, Gabriela Sonderegger : Interventions de réassignation sexuelle : pour un consentement éclairé et un bon encadrement médical      </a>
+              <br>
+        <span class="smaller date">Janv. 2026</span>
+                                          -
+                    <span class="smaller">
+            Objet refusé <span class="date-deci">23 janv. 2026</span>          </span>
+                          <br>
+          <img src="/grandconseil/searchm/images/search.svg" alt="Détails" class="search-icon">
+                    <a class="more" href="/grandconseil/searchm/search/index?q=M+3010&amp;m=0">
+            Rechercher les details de l'objet parlementaire
+          </a>
+                  </div>
+      <div class="lighter">
+      <a href="https://ge.ch/grandconseil/data/texte/PL13324A.pdf" target="_blank" class="pdf-link">
+        <img src="/grandconseil/searchm/images/pdf.svg" alt="PDF" class="pdf-icon">
+        PL 13324-A Rapport de la commission des Droits de l&#039;Homme (droits de la personne) chargée d&#039;étudier le projet de loi de Lionel Dugerdil, Guy Mettan, Virna Conti, Florian Dugerdil, Patrick Lussi, Charles Poncet, Marc Falquet, Michael Andersen modifiant la loi sur la santé (LS) (K 1 03) (Interdiction des interventions de réassignation sexuelle destinées aux mineurs)      </a>
+              <br>
+        <span class="smaller date">Janv. 2026</span>
+                                          -
+                    <span class="smaller">
+            Objet refusé <span class="date-deci">23 janv. 2026</span>          </span>
+                          <br>
+          <img src="/grandconseil/searchm/images/search.svg" alt="Détails" class="search-icon">
+                    <a class="more" href="/grandconseil/searchm/search/index?q=PL+13324&amp;m=0">
+            Rechercher les details de l'objet parlementaire
+          </a>
+                  </div>
+      <div class="lighter">
+      <a href="https://ge.ch/grandconseil/data/texte/PL13327A.pdf" target="_blank" class="pdf-link">
+        <img src="/grandconseil/searchm/images/pdf.svg" alt="PDF" class="pdf-icon">
+        PL 13327-A sur l’interdiction des pratiques visant à modifier ou réprimer l’orientation affective et sexuelle ou l’identité de genre (LIMOIG) (A 2 92)      </a>
+              <br>
+        <span class="smaller date">Janv. 2026</span>
+                                          -
+                    <span class="smaller">
+            Urgence <span class="date-deci">3 sept. 2026</span>, Objet renvoyé en commission <span class="date-deci">3 sept. 2026</span>          </span>
+                          <br>
+          <img src="/grandconseil/searchm/images/search.svg" alt="Détails" class="search-icon">
+                    <a class="more" href="/grandconseil/searchm/search/index?q=PL+13327&amp;m=0">
+            Rechercher les details de l'objet parlementaire
+          </a>
+                  </div>
+      <div class="lighter">
+      <a href="https://ge.ch/grandconseil/data/texte/M03087A.pdf" target="_blank" class="pdf-link">
+        <img src="/grandconseil/searchm/images/pdf.svg" alt="PDF" class="pdf-icon">
+        M 3087-A pour intégrer les soins de transition de genre dans le cadre de la médecine hautement spécialisée (MHS)      </a>
+              <br>
+        <span class="smaller date">Janv. 2026</span>
+                                          -
+                    <span class="smaller">
+            Urgence <span class="date-deci">22 janv. 2026</span>, Objet adopté et renvoyé au Conseil d&#039;Etat <span class="date-deci">23 janv. 2026</span>          </span>
+                          <br>
+          <img src="/grandconseil/searchm/images/search.svg" alt="Détails" class="search-icon">
+                    <a class="more" href="/grandconseil/searchm/search/index?q=M+3087&amp;m=0">
+            Rechercher les details de l'objet parlementaire
+          </a>
+                  </div>
+      <div class="lighter">
+      <a href="https://ge.ch/grandconseil/data/texte/M03087B.pdf" target="_blank" class="pdf-link">
+        <img src="/grandconseil/searchm/images/pdf.svg" alt="PDF" class="pdf-icon">
+        M 3087-B pour intégrer les soins de transition de genre dans le cadre de la médecine hautement spécialisée (MHS)      </a>
+              <br>
+        <span class="smaller date">Juill. 2026</span>
+                                          -
+                    <span class="smaller">
+            Pris acte <span class="date-deci">4 sept. 2026</span>          </span>
+                          <br>
+          <img src="/grandconseil/searchm/images/search.svg" alt="Détails" class="search-icon">
+                    <a class="more" href="/grandconseil/searchm/search/index?q=M+3087&amp;m=0">
+            Rechercher les details de l'objet parlementaire
+          </a>
+                  </div>
+      <div class="lighter">
+      <a href="https://ge.ch/grandconseil/data/texte/Q04136A.pdf" target="_blank" class="pdf-link">
+        <img src="/grandconseil/searchm/images/pdf.svg" alt="PDF" class="pdf-icon">
+        Q 4136-A Réponse du Conseil d’Etat à la question écrite de Esther Um : Quelle prise en compte du genre dans l&#039;agriculture genevoise ?      </a>
+              <br>
+        <span class="smaller date">Sept. 2026</span>
+                                          -
+                    <span class="smaller">
+            Objet clos <span class="date-deci">2 oct. 2026</span>          </span>
+                          <br>
+          <img src="/grandconseil/searchm/images/search.svg" alt="Détails" class="search-icon">
+                    <a class="more" href="/grandconseil/searchm/search/index?q=Q+4136&amp;m=0">
+            Rechercher les details de l'objet parlementaire
+          </a>
+                  </div>
+      <div class="lighter">
+      <a href="https://ge.ch/grandconseil/data/texte/Q04136.pdf" target="_blank" class="pdf-link">
+        <img src="/grandconseil/searchm/images/pdf.svg" alt="PDF" class="pdf-icon">
+        Q 4136 Question écrite de Esther Um : Quelle prise en compte du genre dans l&#039;agriculture genevoise ?      </a>
+              <br>
+        <span class="smaller date">Juin 2026</span>
+                                          -
+                    <span class="smaller">
+            Objet renvoyé au Conseil d&#039;Etat <span class="date-deci">19 juin 2026</span>          </span>
+                          <br>
+          <img src="/grandconseil/searchm/images/search.svg" alt="Détails" class="search-icon">
+                    <a class="more" href="/grandconseil/searchm/search/index?q=Q+4136&amp;m=0">
+            Rechercher les details de l'objet parlementaire
+          </a>
+                  </div>
+      <div class="lighter">
+      <a href="https://ge.ch/grandconseil/data/texte/Q04162.pdf" target="_blank" class="pdf-link">
+        <img src="/grandconseil/searchm/images/pdf.svg" alt="PDF" class="pdf-icon">
+        Q 4162 Question écrite de Isabel Jan-Hess : Qu&#039;est-il proposé aujourd&#039;hui dans les écoles genevoises en termes de sensibilisation au harcèlement et aux agressions liés au genre et à l&#039;orientation sexuelle ?      </a>
+              <br>
+        <span class="smaller date">Sept. 2026</span>
+                                          -
+                    <span class="smaller">
+            Objet renvoyé au Conseil d&#039;Etat <span class="date-deci">2 oct. 2026</span>          </span>
+                          <br>
+          <img src="/grandconseil/searchm/images/search.svg" alt="Détails" class="search-icon">
+                    <a class="more" href="/grandconseil/searchm/search/index?q=Q+4162&amp;m=0">
+            Rechercher les details de l'objet parlementaire
+          </a>
+                  </div>
+      <div class="lighter">
+      <a href="https://ge.ch/grandconseil/data/texte/PL07752A.pdf" target="_blank" class="pdf-link">
+        <img src="/grandconseil/searchm/images/pdf.svg" alt="PDF" class="pdf-icon">
+        PL 7752-A       </a>
+                                      <br>
+          <img src="/grandconseil/searchm/images/search.svg" alt="Détails" class="search-icon">
+                    <a class="more" href="/grandconseil/searchm/search/index?q=PL+7752&amp;m=0">
+            Rechercher les details de l'objet parlementaire
+          </a>
+                  </div>
+  
+    <div class="pagination">
+        <span class="page-info">Page 1 / 24 <span class="page-total">(231 résultats)</span></span>
+          <a href="/grandconseil/searchm/search/index?q=genre&amp;pdfPage=2&amp;date=y1" class="page-nav" aria-label="Page suivante">→</a>
+      </div>
+        </div>
+                    <div class="tab-panel" id="tab-memos">
+                      <p class="tab-loading">Chargement des mémoriaux…</p>
+                  </div>
+                </div>
+  </main>
+
+<data-set id="types" data-json="[&quot;IUE&quot;,&quot;QUE&quot;,&quot;POV&quot;,&quot;GR&quot;,&quot;IN&quot;,&quot;IU&quot;,&quot;MV&quot;,&quot;PL&quot;,&quot;PO&quot;,&quot;RD&quot;,&quot;RV&quot;,&quot;C&quot;,&quot;E&quot;,&quot;I&quot;,&quot;L&quot;,&quot;M&quot;,&quot;P&quot;,&quot;Q&quot;,&quot;R&quot;]"></data-set>
+
+<link rel="stylesheet" href="/grandconseil/searchm/search/index-css">
+
+<script type="module" src="/grandconseil/searchm/search/index-js"></script>  </body>
+</html>
