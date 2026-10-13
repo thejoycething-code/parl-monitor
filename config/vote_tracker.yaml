@@ -930,6 +930,29 @@ divisions:
       Opposed the delay: in favour of the Bill proceeding to a Second
       Reading.
 
+  # -- Opposition Day, 23 June 2026. Drafted 2026-10-13 by Claude at Christopher's
+  #    instruction (Asana: puberty blocker vote audit); NOT YET SIGNED OFF, so it
+  #    renders with no verdict. The motion, moved by Dr Caroline Johnson, called on
+  #    the Government to take steps to prevent the PATHWAYS clinical trial into
+  #    puberty suppressing hormones for children with gender incongruence (Hansard
+  #    debate 396A04DC-A60D-47C4-B46D-352A202F6214; the Speaker selected no
+  #    amendment). our_side verified against the mover's OWN vote: she voted Aye.
+  #    Lost 112-283; Labour's Mary Glindon, Jonathan Brash and Jonathan Hinder
+  #    voted Aye. Signing off publishes a verdict on about 395 members.
+  - id: 2390
+    issue: gender-medicine
+    stage: Opposition Day motion
+    stage_group: Division
+    landmark: true
+    signed_off: false
+    our_side: aye
+    short: PATHWAYS trial
+    context: ""
+    meaning_aye: >-
+      Voted to call on the Government to stop the PATHWAYS clinical trial of
+      puberty blockers in children with gender incongruence.
+    meaning_no: Voted against calling on the Government to stop the PATHWAYS trial.
+
   # -- Health Bill report stage, 8 September 2026. Drafted 2026-09-10; signed off
   #    by Christopher, 2026-09-10. our_side is verified against the sponsor's OWN
   #    vote -- Dr Caroline Johnson voted Aye in both, as mover -- never off the
