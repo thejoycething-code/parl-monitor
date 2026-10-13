@@ -226,6 +226,41 @@ class ClassifyTests(unittest.TestCase):
         finally:
             os.unlink(path)
 
+    def test_a_watched_vote_gets_its_areas_as_its_own(self):
+        fd, path = tempfile.mkstemp(suffix=".yaml")
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write("bills: {}\nvotes:\n  'camara-41286':\n    areas: [3]\n    why: test\n")
+        try:
+            res = cl_store.add_vote_watch_areas(
+                clr.classify(TAX, "3-Creacion Comision Investigadora"), "camara-41286", path=path)
+            self.assertEqual(res.issue_areas, [3])
+            self.assertIn("watch:camara-41286", res.matched_terms)
+            other = cl_store.add_vote_watch_areas(
+                clr.classify(TAX, "3-Creacion Comision Investigadora"), "camara-41287", path=path)
+            self.assertEqual(other.issue_areas, [])
+        finally:
+            os.unlink(path)
+
+    def test_the_four_paig_votes_are_watched_and_stored_with_area_3(self):
+        watched = cl_store.vote_watchlist()
+        for vid in ("41286", "42674", "42675", "82391"):
+            self.assertEqual(watched["camara-" + vid][0], [3], vid)
+        conn = db.init_db(db.connect(":memory:"))
+        areas = clr.store_division(conn, TAX, {
+            "division_key": "camara-82391", "chamber": "camara", "source_id": "82391",
+            "date": "2025-05-15T14:05:20", "boletin": None, "kind": "Otros",
+            "description": "1-Otros", "text": None, "positions": []}, "2026-10-13")
+        self.assertEqual(areas, [3])
+        conn.execute("UPDATE cl_divisions SET areas='[]', own_areas='[]'")
+        clr.reclassify(conn, TAX, log=lambda *_: None)
+        self.assertEqual(tuple(conn.execute("SELECT own_areas, areas FROM cl_divisions").fetchone()),
+                         ("[3]", "[3]"))
+
+    def test_the_real_vote_watchlist_is_keyed_by_division(self):
+        for key, (areas, why) in cl_store.vote_watchlist().items():
+            self.assertRegex(key, r"^(camara|senado)-\S+$")
+            self.assertTrue(areas and why, key)
+
     def test_the_real_watchlist_loads(self):
         for boletin, (areas, why) in cl_store.watchlist().items():
             self.assertRegex(boletin, r"^\d{4,5}-\d{2}$")

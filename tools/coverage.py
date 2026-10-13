@@ -1231,6 +1231,12 @@ ON_DEMAND = {
     "Retag backfill": "run by hand on the Mac Mini (jobs/retag-backfill.sh): "
                       "UK, devolved and EU rows re-derived after a taxonomy "
                       "change, with the trust check against the old taxonomy.",
+    "Puberty blocker backfill": "run by hand on the Mac Mini, one backfill at "
+                                "a time (jobs/pb-backfill.sh, 13 October 2026): "
+                                "the earlier votes the puberty blocker vote audit "
+                                "found missing (US 118th House, AU Senate 46th and "
+                                "47th, NL since 2021, FR Senat 2023-24, AT XXVII, "
+                                "CL Camara since July 2024); no cadence is expected.",
     "Germany backfill": "workflow_dispatch only: the one-off read of Bundestag "
                         "protocols and votes back to 2020, then its judging in "
                         "bounded chunks; re-dispatched until the queue is empty.",

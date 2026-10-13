@@ -320,6 +320,23 @@ class PullTests(unittest.TestCase):
         gaps = [g for (g,) in conn.execute("SELECT detail FROM gaps WHERE feed=?", (aur.FEED,))]
         self.assertTrue(any("representatives" in g for g in gaps))
 
+    def test_a_chamber_filter_reads_that_chamber_only(self):
+        conn = with_members()
+        client = self._client()
+        s = aur.pull_days(conn, client, TODAY, tax=TAX, wl=WL, log=lambda *_: None,
+                          chambers=("senate",))
+        # The House listing is never asked for, so its emptiness is no gap.
+        self.assertNotIn(aur.LISTING.format("representatives"), client.asked)
+        self.assertEqual(s["files"], 2)
+        self.assertEqual(s["gaps"], 4)
+
+    def test_the_46th_parliament_has_its_dates(self):
+        # The puberty blocker vote audit's Senate division of 15 June 2021.
+        self.assertEqual(aur.parliament_of("2021-06-15"), 46)
+        self.assertEqual(aur.parliament_of("2019-07-02"), 46)
+        self.assertIsNone(aur.parliament_of("2022-05-21"))
+        self.assertEqual(aur.parliament_of("2022-07-26"), 47)
+
     def test_an_unchanged_day_is_not_read_twice_and_a_reparsed_one_is(self):
         conn = with_members()
         aur.pull_days(conn, self._client(), TODAY, tax=TAX, wl=WL, log=lambda *_: None)
