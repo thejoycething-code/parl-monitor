@@ -17,6 +17,14 @@ on:
         description: "Reclassify stored BR bills and divisions under the current watchlist and taxonomy"
         type: boolean
         default: false
+      states_github:
+        # Dispatched by the Mac Mini at the start of its week (jobs/br-weekly.sh,
+        # tools/github_half.sh; 13 October 2026): ALESC (Santa Catarina)
+        # answers GitHub's runners and not the Mini, so GitHub reads it and
+        # publishes the store while the Mini holds its lock and waits.
+        description: "GitHub-only state sources only (the Mini's request; no edition)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -42,6 +50,8 @@ jobs:
     with:
       job: BR_WEEKLY
       grace-minutes: 300
+      # states_github is only ever the Mini asking, holding its lock.
+      from-mini: ${{ inputs.states_github == true && 'true' || 'false' }}
 
   # The second slot is a retry, not a second pass (copied from us-weekly.yml):
   # when the 09:30 backup already ran today, 13:30 has nothing to do.
@@ -116,6 +126,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BR_RECLASSIFY: ${{ inputs.reclassify }}
+          BR_STATES_GITHUB: ${{ inputs.states_github }}
           # The edition DMs Chris alone (src/country_edition.py forces his id).
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_DM_USER_ID: U05LJP0BT61

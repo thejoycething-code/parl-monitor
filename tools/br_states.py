@@ -58,6 +58,8 @@ THE SOURCES, all keyless, all probed live with robots.txt read first:
   pa   ALEPA, its proposições search (a form POST; newest ten of a type,
        numbered gaps asked one by one).
   go   Goiás, adopted laws from the Casa Civil's legislation API.
+  sc   ALESC (Santa Catarina), the e-Legis portal's proposições list
+       (GITHUB ONLY: its host answers GitHub's runners alone; 13 October 2026).
   pr   Paraná, adopted laws from the Casa Civil's Sistema Estadual de
        Legislação (ALEP's bill search is behind reCAPTCHA, never bypassed;
        its documented open-data API answers only plain HTTP, which the
@@ -66,8 +68,9 @@ THE SOURCES, all keyless, all probed live with robots.txt read first:
 Not read, and why (the scope doc has the detail): Rio Grande do Sul,
 Espírito Santo, Amapá, Distrito Federal (no answer from outside Brazil, the
 GitHub runners included; DF's SINJ search backend is disallowed by
-robots.txt), Santa Catarina and Mato Grosso's bill report (answer GitHub's
-runners only: a GitHub-side step is proposed, not built), Mato Grosso do
+robots.txt), Mato Grosso (its bill report answers GitHub's runners only and
+pages and filters only under /proposicao?, which robots.txt disallows; its
+API at api.al.mt.gov.br answers 401 without OAuth credentials), Mato Grosso do
 Sul (proof-of-work captcha), Sergipe (no list of bills), Bahia (ALBA's own
 list stops in July 2025; the Casa Civil's LegislaBahia groups '*' with a
 Disallow: / in its robots.txt, read as disallowed). LexML Brasil's SRU
@@ -192,16 +195,21 @@ SAPL_DELAY = 60.0        # every SAPL robots.txt asks this; the guard reads it t
 
 # The alternative routes (second pass, 13 October 2026): see the readers below.
 ALT_SOURCES = ("pr", "pe", "ce", "pa", "go", "rn")
-SOURCE_ORDER = ("sp", "mg", "rj") + ALT_SOURCES + tuple("sapl:" + uf for uf in SAPL_HOSTS)
+# Sources whose hosts answer GitHub's runners only (13 October 2026): read
+# where they answer (jobs/br-weekly.sh decides; tools/github_half.sh).
+GITHUB_SOURCES = ("sc",)
+SOURCE_ORDER = (("sp", "mg", "rj") + ALT_SOURCES + GITHUB_SOURCES
+                + tuple("sapl:" + uf for uf in SAPL_HOSTS))
 
 # Assemblies NOT read, and why (13 October 2026), for the edition's coverage
 # line. docs/brazil-regions-scope.md has the measurements.
 NOT_READ = {
     "rs": "no answer from outside Brazil, GitHub's runners included",
-    "sc": "answers GitHub's runners only (a GitHub-side step is proposed)",
     "df": "no answer from outside Brazil; SINJ's search backend is disallowed by robots.txt",
     "es": "no answer from outside Brazil, GitHub's runners included",
-    "mt": "its SAPL holds nothing recent; its bill report answers GitHub's runners only",
+    "mt": ("its SAPL holds nothing recent; its bill report (GitHub's runners only) pages and "
+           "filters only under /proposicao?, which robots.txt disallows, and its API needs "
+           "OAuth credentials (401)"),
     "ms": "bill search behind a proof-of-work captcha",
     "ap": "no answer from outside Brazil, GitHub's runners included",
     "se": "no list of bills; its legislation host does not answer from outside Brazil",
@@ -209,6 +217,7 @@ NOT_READ = {
 }
 
 HOST_THROTTLE = {"www.al.sp.gov.br": 2.0, "www.almg.gov.br": 2.0,
+                 "portalelegis.alesc.sc.gov.br": 3.0,
                  "alerjln1.alerj.rj.gov.br": 5.0,
                  "api-transparencialegislativa.al.rn.leg.br": 3.0, "www2.al.ce.gov.br": 3.0,
                  "dadosabertos.alepe.pe.gov.br": 3.0, "www.alepa.pa.gov.br": 3.0,
@@ -1494,8 +1503,88 @@ def fetch_pr(client, ctx):
     return res
 
 
+# Santa Catarina (ALESC): the e-Legis portal's proposições list. GITHUB ONLY
+# (13 October 2026; Chris: include Santa Catarina in the GitHub-side step):
+# portalelegis.alesc.sc.gov.br answers GitHub's runners and not the Mini or
+# the laptop, so jobs/br-weekly.sh runs this source where it answers (on
+# GitHub's own run, or in the run the Mini asks GitHub for while it holds its
+# lock; tools/github_half.sh). The list is server-rendered HTML, ten a page,
+# newest first (/proposicoes/processo-legislativo?page=N); its robots.txt
+# answers 404 (no rules), asked every run. Each card gives the type, number
+# and year ("PL./0640/2026"), ementa, entry date, authors and the current
+# situação. Bills only (PL, PLC, PEC, PDL); a first read takes SC_SEED_PAGES,
+# later reads go on until a page holds nothing new (at most SC_MAX_PAGES).
+
+SC_BASE = "https://portalelegis.alesc.sc.gov.br"
+SC_LIST = SC_BASE + "/proposicoes/processo-legislativo?page={0}"
+SC_TYPES = {"PL": "Projeto de Lei", "PLC": "Projeto de Lei Complementar",
+            "PEC": "Proposta de Emenda Constitucional", "PDL": "Projeto de Decreto Legislativo"}
+SC_SEED_PAGES = 3
+SC_MAX_PAGES = 8
+SC_CARD = re.compile(r'(?s)<div class="card card-alesc[^"]*">(.*?)<div class="mt-3 text-end">')
+
+
+def parse_sc_cards(text):
+    """ALESC's e-Legis cards -> [bill dict] (bills only)."""
+    out = []
+    for card in SC_CARD.findall(text):
+        m = re.search(r'<a href="/proposicoes/(\w+)">([^<]+)</a>', card)
+        if not m:
+            continue
+        sid, head = m.group(1), fold(m.group(2))
+        k = re.match(r"([A-Z]+)\.?/0*(\d+)/(\d{4})$", head)
+        if not k or k.group(1) not in SC_TYPES:
+            continue
+        kind, number, year = k.group(1), int(k.group(2)), int(k.group(3))
+        ementa = re.search(r'(?s)<p class="mb-1[^"]*"[^>]*>(.*?)</p>', card)
+        fields = {fold(a): b for a, b in re.findall(
+            r'(?s)<div class="col-lg-2[^"]*">(.*?)</div>\s*<div class="col-lg-10">(.*?)</div>', card)}
+        authors = [fold(a) for a in re.findall(r"(?s)<li>(.*?)</li>", fields.get("Autoria", ""))]
+        authors = [re.sub(r"^Deputad[oa]\s+", "", a) for a in authors if a]
+        out.append({
+            "bill_key": brs_store.bill_key("sc", kind, number, year), "uf": "sc", "source": "sc",
+            "source_id": sid, "kind": kind, "kind_name": SC_TYPES[kind], "number": number,
+            "year": year, "title": _clean(fold(ementa.group(1))) if ementa else None,
+            "authors": "; ".join(authors) or None,
+            "presented": iso_dmy(fold(fields.get("Entrada", ""))),
+            "status": _clean(fold(fields.get("Situação atual", ""))) or None,
+            "url": "{0}/proposicoes/{1}".format(SC_BASE, sid)})
+    return out
+
+
+def fetch_sc(client, ctx):
+    res = Result("sc", "sc")
+    tax, budget, known = ctx["tax"], ctx["budget"], ctx["known"]
+    first = not ctx["read_ok"].get("sc")
+    listed = {}
+    for n in range(1, (SC_SEED_PAGES if first else SC_MAX_PAGES) + 1):
+        if budget.exhausted():
+            res.gap("ALESC: time budget reached at page {0}".format(n))
+            break
+        try:
+            cards = parse_sc_cards(decode(client.get_bytes(SC_LIST.format(n), FEED,
+                                                           "sc-page-{0}".format(n), archive=False)))
+        except FetchError as e:
+            if not listed:
+                return _fail(res, "ALESC (Santa Catarina)", e)
+            res.gap("ALESC page {0}: {1}".format(n, gap_text(e)))
+            break
+        fresh = 0
+        for b in cards:
+            old = known["bills"].get(b["bill_key"])
+            fresh += old is None or (old[0] or "") != (b.get("status") or "")
+            listed.setdefault(b["bill_key"], b)
+        if not cards or (not first and not fresh):
+            break
+    for b in listed.values():
+        b = classified(tax, b, ctx.get("watch_path"))
+        res.bills.append(b)
+        _through(res, b)
+    return res
+
+
 ALT_FETCHERS = {"rn": fetch_rn, "ce": fetch_ce, "pe": fetch_pe, "pa": fetch_pa, "go": fetch_go,
-                "pr": fetch_pr}
+                "pr": fetch_pr, "sc": fetch_sc}
 
 
 # --- writing -------------------------------------------------------------------------
@@ -1644,6 +1733,10 @@ def main(argv=None):
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"),
                     help="store path (default: the shared store)")
     ap.add_argument("--sources", help="comma-separated: " + ",".join(SOURCE_ORDER))
+    # Additive, 13 October 2026: the Mini leaves out the GitHub-only sources
+    # GitHub's half already read (jobs/br-weekly.sh).
+    ap.add_argument("--exclude-sources", default="",
+                    help="comma-separated sources to leave out (e.g. sc)")
     ap.add_argument("--taxonomy", help="a taxonomy file (default config/taxonomy-pt.yaml)")
     ap.add_argument("--reclassify", action="store_true",
                     help="re-derive every stored bill's areas, offline")
@@ -1658,7 +1751,9 @@ def main(argv=None):
         conn.close()
         return 0
     wanted = [s.strip() for s in args.sources.split(",")] if args.sources else list(SOURCE_ORDER)
-    for s in wanted:
+    excluded = {s.strip() for s in args.exclude_sources.split(",") if s.strip()}
+    wanted = [s for s in wanted if s not in excluded]
+    for s in wanted + sorted(excluded):
         if s not in SOURCE_ORDER:
             print("br-states: unknown source {0!r}".format(s))
             return 1

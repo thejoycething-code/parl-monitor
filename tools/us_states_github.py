@@ -44,11 +44,14 @@ provenance and the change detection; the edition says "(via ...)".
     document with its title and sponsors (12.5 MB, one request a run); for
     the bills on our ground (or already stored), least recently read first
     and those that moved lately first, the history
-    (/Documents/{bill}/DocumentHistoryActions) and, when it changed, the
-    document's roll calls (/RollCalls/{n}: every member's vote by member
-    code; names from the sponsors in the list). A roll call is stored only
-    when the history dates it ("Roll Call #n" or "Yea and Nay No. n");
-    never guessed. At most --ma-max-bills bills a run (80 on GitHub).
+    (/Documents/{bill}/DocumentHistoryActions). Votes come from the history's
+    own lines ("25 YEAS to 132 NAYS (See YEA and NAY No. 30)"), dated by
+    them: the House's roll calls are not in the API's roll-call lists (its
+    House list answers 404 and a document's RollCalls stay empty for them).
+    A Senate roll call the document lists (/RollCalls/{n}) gets every
+    member's vote by member code, names from the sponsors in the list.
+    Never guessed: a vote no history line dates is not stored. At most
+    --ma-max-bills bills a run (80 on GitHub's half, 40 inline).
   * MICHIGAN, mi-leg: legislature.mi.gov, under its Automated Data Collection
     Policy ("Automated collection of data ... is permitted", at most one
     request a second: we keep 1.5 s; robots.txt answers 404, no rules). Its

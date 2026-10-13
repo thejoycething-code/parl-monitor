@@ -149,42 +149,15 @@ if [ -z "${GITHUB_ACTIONS:-}" ] && ! gh_states_reach; then
   GH_STATES_MODE=skipped
 fi
 if [ "$NEED_SENATE" = "true" ] || [ "$NEED_STATES" = "true" ]; then
-  # One run for both halves (the Mini waits once). The Mini holds its lock
-  # while it waits: GitHub's run is the only store writer meanwhile.
-  if [ -z "${GITHUB_ACTIONS:-}" ] && [ -n "${GH_TOKEN:-}" ] && command -v gh >/dev/null 2>&1; then
-    REPO=thejoycething-code/parl-monitor
-    BRANCH=$(git rev-parse --abbrev-ref HEAD)
-    since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-    if gh workflow run us-weekly.yml -R "$REPO" --ref "$BRANCH" \
-         -f senate_only="$NEED_SENATE" -f states_github="$NEED_STATES"; then
-      run_id=
-      for _ in $(seq 1 20); do
-        sleep 6
-        run_id=$(gh run list -R "$REPO" --workflow us-weekly.yml --event workflow_dispatch \
-                 --branch "$BRANCH" -L 5 --json databaseId,createdAt \
-                 --jq "[.[] | select(.createdAt >= \"$since\")][0].databaseId // empty")
-        [ -n "$run_id" ] && break
-      done
-      # "Success" is not enough: a run whose gate skipped the work also
-      # succeeds, as the Senate half did on 10 October 2026. Its pull job
-      # must have run and passed.
-      if [ -n "$run_id" ] && gh run watch "$run_id" -R "$REPO" --exit-status >/dev/null \
-         && [ "$(gh run view "$run_id" -R "$REPO" --json jobs \
-                 --jq '[.jobs[] | select(.name == "pull")][0].conclusion // "missing"')" = "success" ]; then
-        echo "GitHub run $run_id published its half (senate $NEED_SENATE, states $NEED_STATES); fetching the store again"
-        git pull -q --rebase --autostash origin "$BRANCH"
-        python3 tools/db_state.py --pull
-        if [ "$NEED_STATES" = "true" ]; then GH_STATES_MODE=github; fi
-      else
-        if [ "$NEED_SENATE" = "true" ]; then echo "  [gap] Senate half on GitHub failed or never started (run ${run_id:-none}); this week has no new Senate votes"; fi
-        if [ "$NEED_STATES" = "true" ]; then echo "  [gap] states half on GitHub failed or never started (run ${run_id:-none}); NJ, MA and MI rest on Open States this week"; fi
-      fi
-    else
-      echo "  [gap] could not dispatch to GitHub; this week has no new Senate votes (if asked) and NJ, MA and MI rest on Open States (if asked)"
-    fi
+  # One run for both halves (the Mini waits once), while the Mini holds its
+  # lock: GitHub's run is the only store writer meanwhile (tools/github_half.sh).
+  source tools/github_half.sh
+  if github_half us-weekly.yml -f senate_only="$NEED_SENATE" -f states_github="$NEED_STATES"; then
+    echo "GitHub published its half (senate $NEED_SENATE, states $NEED_STATES)"
+    if [ "$NEED_STATES" = "true" ]; then GH_STATES_MODE=github; fi
   else
-    if [ "$NEED_SENATE" = "true" ]; then echo "  [gap] senate.gov refused and gh is unavailable; this week has no new Senate votes"; fi
-    if [ "$NEED_STATES" = "true" ]; then echo "  [gap] NJ, MA and MI do not answer and gh is unavailable; they rest on Open States this week"; fi
+    if [ "$NEED_SENATE" = "true" ]; then echo "  [gap] Senate half on GitHub failed, never started or could not be asked for; this week has no new Senate votes"; fi
+    if [ "$NEED_STATES" = "true" ]; then echo "  [gap] states half on GitHub failed, never started or could not be asked for; NJ, MA and MI rest on Open States this week"; fi
   fi
 fi
 

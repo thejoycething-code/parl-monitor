@@ -178,6 +178,8 @@ VIA = {
     "pa": "ALEPA's proposições search",
     "go": "the Goiás Casa Civil's legislation portal: adopted law",
     "pr": "the Paraná Casa Civil's Sistema Estadual de Legislação: adopted law",
+    # GitHub-only (tools/br_states.py fetch_sc, 13 October 2026).
+    "sc": "ALESC's e-Legis portal, read from GitHub",
 }
 
 
