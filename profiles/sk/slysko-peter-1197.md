@@ -14,12 +14,12 @@ Slovakia, Národná rada. From the parliamentary monitor's store; positions are 
 
 ## Party history
 
-- Recorded at votes in the store: HLAS - SD (first 8 February 2024, last 24 September 2026).
+- Recorded at votes in the store: HLAS - SD (first 8 December 2023, last 24 September 2026).
 
-## Votes on our ground (279)
+## Votes on our ground (706)
 
-Recorded positions (279): “Z (za)” 146, “P (proti)” 84, “? (zdržal sa)” 49.
-By area (every vote): abortion: “? (zdržal sa)” 10, “Z (za)” 10, “P (proti)” 5; gender medicine and children: “Z (za)” 14, “P (proti)” 12, “? (zdržal sa)” 5; sex-based rights: “Z (za)” 17, “? (zdržal sa)” 9, “P (proti)” 4; parental rights and education: “Z (za)” 70, “P (proti)” 44, “? (zdržal sa)” 22; free speech and civil liberties: “P (proti)” 31, “Z (za)” 28, “? (zdržal sa)” 2; religious freedom: “Z (za)” 20, “? (zdržal sa)” 6, “P (proti)” 6; marriage and family: “Z (za)” 73, “P (proti)” 34, “? (zdržal sa)” 27; surrogacy and embryology: “Z (za)” 12, “P (proti)” 4, “? (zdržal sa)” 3; organ donation: “Z (za)” 11, “P (proti)” 6, “? (zdržal sa)” 1.
+Recorded positions (706): “P (proti)” 494, “Z (za)” 157, “? (zdržal sa)” 49, “0 (neprítomný)” 5, “N (nehlasoval)” 1.
+By area (every vote): abortion: “? (zdržal sa)” 10, “Z (za)” 10, “P (proti)” 5; gender medicine and children: “Z (za)” 14, “P (proti)” 12, “? (zdržal sa)” 5; sex-based rights: “Z (za)” 17, “? (zdržal sa)” 9, “P (proti)” 4; parental rights and education: “Z (za)” 70, “P (proti)” 44, “? (zdržal sa)” 22; free speech and civil liberties: “P (proti)” 31, “Z (za)” 28, “? (zdržal sa)” 2; religious freedom: “Z (za)” 24, “P (proti)” 19, “? (zdržal sa)” 6, “0 (neprítomný)” 1, “N (nehlasoval)” 1; marriage and family: “P (proti)” 431, “Z (za)” 80, “? (zdržal sa)” 27, “0 (neprítomný)” 4; surrogacy and embryology: “Z (za)” 12, “P (proti)” 4, “? (zdržal sa)” 3; organ donation: “Z (za)” 11, “P (proti)” 6, “? (zdržal sa)” 1.
 
 The latest 20:
 
@@ -46,7 +46,7 @@ The latest 20:
 | 21 Oct 2025 | ? (zdržal sa) | HLAS - SD (at the vote) | [Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - posl. Kosová. Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 245/200…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=57140) | parental rights and education, marriage and family, tier 2 |
 | 21 Oct 2025 | ? (zdržal sa) | HLAS - SD (at the vote) | [Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - posl. Horecký, body 9, 13, 15 a 19. Vládny návrh zákona, ktorým sa mení a d…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=57141) | parental rights and education, marriage and family, tier 2 |
 
-259 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+686 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Notes
 

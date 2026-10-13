@@ -14,12 +14,12 @@ Slovakia, Národná rada. From the parliamentary monitor's store; positions are 
 
 ## Party history
 
-- Recorded at votes in the store: SMER - SD (first 8 February 2024, last 27 June 2024).
+- Recorded at votes in the store: SMER - SD (first 8 December 2023, last 27 June 2024).
 
-## Votes on our ground (33)
+## Votes on our ground (460)
 
-Recorded positions (33): “Z (za)” 14, “? (zdržal sa)” 12, “P (proti)” 6, “0 (neprítomný)” 1.
-By area (every vote): abortion: “? (zdržal sa)” 4; gender medicine and children: “0 (neprítomný)” 1; sex-based rights: “? (zdržal sa)” 5, “0 (neprítomný)” 1, “P (proti)” 1; parental rights and education: “Z (za)” 5, “? (zdržal sa)” 4, “P (proti)” 1; free speech and civil liberties: “? (zdržal sa)” 2, “P (proti)” 1, “Z (za)” 1; religious freedom: “? (zdržal sa)” 2; marriage and family: “Z (za)” 11, “? (zdržal sa)” 6, “P (proti)” 5, “0 (neprítomný)” 1; surrogacy and embryology: “0 (neprítomný)” 1.
+Recorded positions (460): “P (proti)” 415, “Z (za)” 25, “? (zdržal sa)” 12, “0 (neprítomný)” 5, “N (nehlasoval)” 3.
+By area (every vote): abortion: “? (zdržal sa)” 4; gender medicine and children: “0 (neprítomný)” 1; sex-based rights: “? (zdržal sa)” 5, “0 (neprítomný)” 1, “P (proti)” 1; parental rights and education: “Z (za)” 5, “? (zdržal sa)” 4, “P (proti)” 1; free speech and civil liberties: “? (zdržal sa)” 2, “P (proti)” 1, “Z (za)” 1; religious freedom: “P (proti)” 14, “Z (za)” 4, “? (zdržal sa)” 2, “0 (neprítomný)” 1; marriage and family: “P (proti)” 400, “Z (za)” 18, “? (zdržal sa)” 6, “0 (neprítomný)” 4, “N (nehlasoval)” 3; surrogacy and embryology: “0 (neprítomný)” 1.
 
 The latest 20:
 
@@ -46,7 +46,7 @@ The latest 20:
 | 7 May 2024 | ? (zdržal sa) | SMER - SD (at the vote) | [Hlasovanie o tom, aby bol návrh zákona prerokovaný v druhom čítaní. Návrh poslankýň Národnej rady Slovenskej republiky Simony PETRÍK a Beát…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=54709) | sex-based rights, tier 2 |
 | 7 May 2024 | ? (zdržal sa) | SMER - SD (at the vote) | [Hlasovanie o tom, aby bol návrh zákona prerokovaný v druhom čítaní. Návrh poslankýň Národnej rady Slovenskej republiky Lucie PLAVÁKOVEJ a S…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=54703) · bill's areas | abortion |
 
-13 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+440 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Notes
 

@@ -170,7 +170,7 @@ Left blank at build time (rulebook cell 35).
   - `57919` 2026-05-06 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
   - `57920` 2026-05-06 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
   - `58269` 2026-09-16 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
-  - `58270` 2026-09-16 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: needs reading
+  - `58270` 2026-09-16 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
   - `58271` 2026-09-16 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
   - `58272` 2026-09-16 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
 - Confirm in docs/5ca-sk-readings.md (tick, then `python3 tools/country_5ca.py --cc sk --sign-from-doc --by NAME`).
@@ -188,3 +188,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-12 tools/country_briefs.py drafted every cell
+- 2026-10-13 tools/country_briefs.py refreshed by the builder

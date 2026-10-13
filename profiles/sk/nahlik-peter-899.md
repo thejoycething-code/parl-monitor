@@ -14,12 +14,12 @@ Slovakia, Národná rada. From the parliamentary monitor's store; positions are 
 
 ## Party history
 
-- Recorded at votes in the store: HLAS - SD (first 8 February 2024, last 6 October 2026).
+- Recorded at votes in the store: HLAS - SD (first 8 December 2023, last 6 October 2026).
 
-## Votes on our ground (350)
+## Votes on our ground (777)
 
-Recorded positions (350): “Z (za)” 188, “P (proti)” 104, “? (zdržal sa)” 58.
-By area (every vote): abortion: “Z (za)” 20, “? (zdržal sa)” 12, “P (proti)” 11; gender medicine and children: “Z (za)” 14, “P (proti)” 12, “? (zdržal sa)” 5; sex-based rights: “Z (za)” 23, “? (zdržal sa)” 11, “P (proti)” 9; parental rights and education: “Z (za)” 84, “P (proti)” 50, “? (zdržal sa)” 27; free speech and civil liberties: “P (proti)” 37, “Z (za)” 36, “? (zdržal sa)” 4; religious freedom: “Z (za)” 19, “? (zdržal sa)” 7, “P (proti)” 7; marriage and family: “Z (za)” 104, “P (proti)” 49, “? (zdržal sa)” 32; surrogacy and embryology: “Z (za)” 12, “P (proti)” 4, “? (zdržal sa)” 3; prostitution and trafficking: “Z (za)” 3, “P (proti)” 1; organ donation: “Z (za)” 16, “P (proti)” 7, “? (zdržal sa)” 1.
+Recorded positions (777): “P (proti)” 517, “Z (za)” 199, “? (zdržal sa)” 58, “0 (neprítomný)” 2, “N (nehlasoval)” 1.
+By area (every vote): abortion: “Z (za)” 20, “? (zdržal sa)” 12, “P (proti)” 11; gender medicine and children: “Z (za)” 14, “P (proti)” 12, “? (zdržal sa)” 5; sex-based rights: “Z (za)” 23, “? (zdržal sa)” 11, “P (proti)” 9; parental rights and education: “Z (za)” 84, “P (proti)” 50, “? (zdržal sa)” 27; free speech and civil liberties: “P (proti)” 37, “Z (za)” 36, “? (zdržal sa)” 4; religious freedom: “Z (za)” 23, “P (proti)” 21, “? (zdržal sa)” 7, “0 (neprítomný)” 1; marriage and family: “P (proti)” 448, “Z (za)” 111, “? (zdržal sa)” 32, “0 (neprítomný)” 1, “N (nehlasoval)” 1; surrogacy and embryology: “Z (za)” 12, “P (proti)” 4, “? (zdržal sa)” 3; prostitution and trafficking: “Z (za)” 3, “P (proti)” 1; organ donation: “Z (za)” 16, “P (proti)” 7, “? (zdržal sa)” 1.
 
 The latest 20:
 
@@ -46,7 +46,7 @@ The latest 20:
 | 9 Jun 2026 | Z (za) | HLAS - SD (at the vote) | [Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - posl. A. Lučanský. Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 35…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=58145) · bill's areas | marriage and family |
 | 9 Jun 2026 | Z (za) | HLAS - SD (at the vote) | [Hlasovanie o návrhu zákona ako o celku. Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 355/2007 Z. z. o ochrane, podpore a rozvoji v…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=58148) · bill's areas | marriage and family |
 
-330 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+757 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Notes
 

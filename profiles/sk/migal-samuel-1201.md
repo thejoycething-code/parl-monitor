@@ -14,12 +14,12 @@ Slovakia, Národná rada. From the parliamentary monitor's store; positions are 
 
 ## Party history
 
-- Recorded at votes in the store: HLAS - SD (first 8 February 2024, last 10 December 2024).
+- Recorded at votes in the store: HLAS - SD (first 8 December 2023, last 10 December 2024).
 
-## Votes on our ground (129)
+## Votes on our ground (556)
 
-Recorded positions (129): “Z (za)” 62, “P (proti)” 38, “? (zdržal sa)” 28, “0 (neprítomný)” 1.
-By area (every vote): abortion: “Z (za)” 8, “? (zdržal sa)” 7, “P (proti)” 5; gender medicine and children: “P (proti)” 8, “Z (za)” 6, “? (zdržal sa)” 5; sex-based rights: “? (zdržal sa)” 10, “Z (za)” 4; parental rights and education: “P (proti)” 32, “Z (za)” 32, “? (zdržal sa)” 10; free speech and civil liberties: “Z (za)” 7, “? (zdržal sa)” 3, “P (proti)” 1; religious freedom: “Z (za)” 16, “P (proti)” 6, “? (zdržal sa)” 4; marriage and family: “Z (za)” 31, “P (proti)” 22, “? (zdržal sa)” 14; surrogacy and embryology: “Z (za)” 4, “? (zdržal sa)” 2; organ donation: “Z (za)” 11, “P (proti)” 6, “0 (neprítomný)” 1.
+Recorded positions (556): “P (proti)” 451, “Z (za)” 74, “? (zdržal sa)” 28, “0 (neprítomný)” 2, “N (nehlasoval)” 1.
+By area (every vote): abortion: “Z (za)” 8, “? (zdržal sa)” 7, “P (proti)” 5; gender medicine and children: “P (proti)” 8, “Z (za)” 6, “? (zdržal sa)” 5; sex-based rights: “? (zdržal sa)” 10, “Z (za)” 4; parental rights and education: “P (proti)” 32, “Z (za)” 32, “? (zdržal sa)” 10; free speech and civil liberties: “Z (za)” 7, “? (zdržal sa)” 3, “P (proti)” 1; religious freedom: “Z (za)” 21, “P (proti)” 20, “? (zdržal sa)” 4; marriage and family: “P (proti)” 421, “Z (za)” 38, “? (zdržal sa)” 14, “0 (neprítomný)” 1, “N (nehlasoval)” 1; surrogacy and embryology: “Z (za)” 4, “? (zdržal sa)” 2; organ donation: “Z (za)” 11, “P (proti)” 6, “0 (neprítomný)” 1.
 
 The latest 20:
 
@@ -46,7 +46,7 @@ The latest 20:
 | 5 Dec 2024 | Z (za) | HLAS - SD (at the vote) | [Hlasovanie o pozmeňujúcich návrhoch zo spoločnej správy výborov - body 1 až 10 a 12 až 23. Vládny návrh zákona, ktorým sa mení a dopĺňa zák…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=55829) · bill's areas | religious freedom, organ donation |
 | 5 Dec 2024 | P (proti) | HLAS - SD (at the vote) | [Hlasovanie o pozmeňujúcom návrhu zo spoločnej správy výborov - bod 11. Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 580/2004 Z. z.…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=55830) · bill's areas | religious freedom, organ donation |
 
-109 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+536 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Notes
 

@@ -1,13 +1,16 @@
-# Country editions: parity plan and handover (updated 12 October 2026)
+# Country editions: parity plan and handover (updated 13 October 2026)
 
 Written by the personal-account Claude session that built the 30 new
-countries and their parity layers (9-12 October 2026), for Chris's
+countries and their parity layers (9-13 October 2026), for Chris's
 work-account Claude to take over. Everything it built is merged to main
-(through #150, 12 October 2026). Read also
+(through #169, 13 October 2026). Read also
 `docs/country-decisions-2026-10-11.md` and `docs/country-decisions-2026-10-12.md`.
 Read this with `docs/country-decisions-2026-10-10.md` (Chris's signed-off
 decisions, the spec) and each `docs/<country>-scope.md` (sources, quirks,
-phase lists, "Waiting on Chris"). The Mini runbook is `docs/mac-mini.md`.
+phase lists, "Waiting on Chris"). Regional layers each have their own scope
+doc (`docs/<country>-regions-scope.md`, `docs/switzerland-cantons-scope.md`,
+`docs/australia-states-scope.md`, `docs/us-states-scope.md`) and a section
+near the end of this file. The Mini runbook is `docs/mac-mini.md`.
 
 ## Start here: where things stand
 
@@ -50,7 +53,7 @@ France's new dossiers, about 2 minutes a day in all (#117); speeches for
 Croatia, Slovakia, Poland (transcripts now answer) and Brazil within a
 small budget (#118).
 
-**12 October 2026 round (#120-#150):**
+**12 October 2026 round (#120-#151):**
 - Judging and readings: the free judge's backlog cleared on Chris's own
   account (#120, jobs `judge-queue-out` / `judge-queue-in`: 400 then 111
   items, none refused); Chris's 11 October decisions and automatic 5CA
@@ -63,8 +66,9 @@ small budget (#118).
   implementing texts (#121).
 - Regional parliaments: Spain (all 17 via the BOE plus four bill lists,
   #137), Peru (25 regions and Lima, #138), Mexico (13 state congresses, on
-  GitHub, #141), Austria (7 Landtage, #142), Italy (4 councils, #143). All
-  run as steps in existing weeklies; no new Mini job.
+  GitHub, #141), Austria (7 Landtage, #142), Italy (4 councils, #143).
+- Portraits: licence table for every legislature, Brazil and Croatia first,
+  colour chips, no logos (#139); the UK tracker's photo credit line (#144).
 - Keyword terms: Spain and Mexico in the shared Spanish list, plus a new
   Catalan/Valencian list (#145); Italy (#146). Stored rows re-tagged by
   reclassify runs of the ES, IT and CH weeklies on 12 October.
@@ -77,205 +81,153 @@ small budget (#118).
   regional collector (#144) and 76 scrapers (#147) check it on each run
   (`src/robots_guard.py`, `docs/robots-runtime.md`); patient reads with
   retries and a 24-hour cache (#149).
-- Portraits and logos: licence table for every legislature
-  (`docs/portraits-logos-licences.md`); portraits for Brazil and Croatia
-  only, party colour chips, no logos (#139); the UK tracker's photo credit
-  line (#144).
 - Fixes: es_regions default store path (#148). Canada committee evidence:
   already on main; a time budget and tests added (#150).
 
-**Nothing is published from a 5CA yet.** Every reading is still a draft or
-awaiting the first automatic sign-off (France's limit to final votes and
-watched amendments was lifted on 12 October, #127). Briefs, packs, targets, the partner sheet and the
-live read all render "awaiting sign-off" until a reading is confirmed. From
-the Sunday run after 11 October 2026 the drafts that pass every automatic
-check are confirmed on Chris's delegation (dry runs: 71 of 1,001 on 11
-October; about 940 after the 12 October bill directions and amendment
-readings), the rest wait for a person, and country signers amend
-(docs/country-decisions-2026-10-11.md, docs/country-decisions-2026-10-12.md,
-docs/5ca-notes.md). The first real run is Sunday's editions-session-judge.
+**12-13 October 2026 round (#152-#169):**
+- 5CA readings: the 313 flagged amendment readings accepted as drafted
+  (Chris: "Accept all as drafted", `--accept-flagged-amendments`, #156);
+  the 34 Italian Senate readings re-read from the Senate's GitHub repository
+  and applied (#159). Dry run: about 1,243 readings confirm at the first real
+  automatic sign-off.
+- Regional and state layers, all as steps of existing weeklies (no new Mini
+  job), robots.txt asked on every run, nothing bypassed. See the parity
+  table's regional row and the sections near the end of this file.
+- Portraits (#139, #154): enabled for BR, HR, PL, PT, NL, AT, CH (Chris: the
+  passphrase-gated partner pages are internal use); the 21 unclear-licence
+  countries used on Chris's instruction where a store key maps to a photo;
+  the 8 not-allowed stay off; party colour chips, no logos
+  (`docs/portraits-logos-licences.md`). First fill-in from Sunday 18 October.
+- Canada: Senate committee transcripts and committee reports (#157).
+- Taxonomy: atch v0.2 (veto `Imam*` beside İmamoğlu, #153), pl v0.3 (Family
+  Charter and ideology-free zones terms, #168), es/ca (#145), it (#146).
+- Seeded regional watchlists (#156 and the regional PRs): IT, AT, PE, MX
+  states, PL, AR provincial, CH cantons, BE regions, AU states (BR states
+  empty). All await Chris's review.
+- Fix: `test_it_rollcalls` accepts regional watchlist keys (#160).
+
+**Nothing is published from a 5CA yet.** Every reading is a draft until the
+first automatic sign-off, Sunday's `editions-session-judge` (16:45 London,
+18 October). From then the drafts that pass every automatic check are
+confirmed on Chris's delegation (dry runs: 71 of 1,001 on 11 October; about
+1,243 after #156 and #159), the rest wait for a person, and country signers
+amend (docs/country-decisions-2026-10-11.md,
+docs/country-decisions-2026-10-12.md, docs/5ca-notes.md). Briefs, packs,
+targets, the partner sheet and the live read render "awaiting sign-off"
+until a reading is confirmed.
 
 **Waiting on Chris (decisions and actions):**
 
-1. DONE (11 October 2026): Chris signs for every country, "for now"
-   (`config/stance_signers.yaml`); team members are added as they take over.
-2. DONE (11 October 2026): the flagged bill directions are decided and
-   confirmed (religious-symbol bans, IVF, the euthanasia referendum, minors
-   online, puberty blockers, conversion-practices ban, sex-work licensing,
-   GT and HU against us; France's palliative care bill on hold until read).
-3. DONE (11 October 2026, #121): checked against Loi n° 2026-794 du 18 août 2026
-   (JORF 19 August). None of its implementing texts is published yet; the
-   watchlist now lists nine (the HAS list and pharmacy rules are not decrees;
-   conscience register, prices arrêté due about 18 November, register-check
-   start and overseas ordonnance added).
-4. HANDED OVER (11 October 2026): the Looker list prefixes per country
-   (`docs/campaign-benchmarks.md`) go to the work-account Claude, which has
-   Looker access.
-5. DONE: sent on 9 October from cjoyce@citizengo.net (Hungary W-API, Spain
-   Senado, meineabgeordneten.at, Paraguay, Open States, Australia aph.gov.au)
-   and on 12 October (Guatemala's court via comunicacion@cc.gob.gt, asking it
-   to forward to the information unit; El Salvador's missing votes, a LAIP
-   request to transparencia@asamblea.gob.sv). Costa Rica PARKED: the address
-   bounced and no external one is published. Watch for replies.
-6. Update the work account's **debate-day-net** scheduled task from
-   `ops/scheduled-tasks/debate-day-net.md` (adds STEP 1B, debate today for
-   NL, CH, FR, BE). It lives on the work account, not the personal one.
-7. DONE (11 October 2026): the Dutch edition shows the week ahead, now in
-   its votes-only DM too (`dm_ahead` in `src/editions/nl.py`).
-8. DONE (11 October 2026): the rainbow-flag motion (dossier 21501-02, zaak
-   2026Z21728) stays watched.
-9. DONE (11 October 2026): `config/member-intel-groups.yaml` approved as
-   drafted.
-10. DONE (11 October 2026, #121): all four checked against the law. Portugal
-    gained the >2,500 committee-debate tier (art. 24-A); Belgium's 25,000 and
-    regional split cite the Law of 2 May 2019 art. 4.
-11. DECIDED (12 October 2026): no outreach to the country teams; the
-    openings stay in the editions' Petitions section.
-12. ASKED (12 October 2026): prior-agreement requests sent to
-    communication@assemblee-nationale.fr and pri@dekamer.be (short credited
-    clips on CitizenGO's channels). When either agrees, set `fr.agreement` /
-    `be.agreement` in `config/clip-sources.yaml`.
-13. DONE (11 October 2026, #95): the Mini's run slot is first in, first out
-    (a ticket queue in `tools/mini_run.sh`). Keep hand backfills out of the
-    overnight weekly window.
-15. DONE (11 October 2026): sign-off is now automatic with team amendments
-    (`--auto-confirm` weekly; a signer amends with `--amend`). What fails a
-    check is listed, with the check, in each shortlist and guide for a
-    person to sign.
-16. DECIDED (11 October 2026): debate reports keep English summaries with
-    verbatim source-language quotes. Translations still come from a person
-    in `translations.yaml` or the free judge run by hand on the Mini
-    (command in `docs/mac-mini.md`); "publish" means a canvas for Chris alone.
-14. DONE (12 October 2026): 400 items scored once on Chris's personal Claude
-    account (jobs/judge-queue-out.sh / judge-queue-in.sh, #120): 27 edition
-    scores and 373 vote meanings, none refused; 13 editions rewritten. The
-    last 111 meanings were scored the same way later that day: no vote
-    meaning is waiting (cap unchanged at 100).
-17. DONE (12 October 2026, `docs/country-decisions-2026-10-12.md`): the 126
-    bills with no direction are decided (91 directions, 29 with no CitizenGO
-    stake taken out of play, 6 left for a person); religious-symbol bans are
-    all with us, veils included (Belgium reversed, Quebec's laicity readings
-    flipped); `--fill-directions` drafts the votes that waited on them, and
-    migration-only readings no longer count as needing a person.
-18. OPEN: HazteOir to confirm Spain's SUMAR free-expression reform
-    (15/122/000006). Drafted `with`, flagged, so nothing confirms on it
-    until the flag is cleared.
-19. DONE (12 October 2026, `docs/country-decisions-2026-10-12.md`, "The seven
-    read for a person"): FR palliative law and entryism bill with us, NL
-    Embryowet and motie Podt against, NL 2026Z08649, PL 10/529 and HR 11/228
-    not scored. (Quebec's Bill 9 decided 12 October 2026: against us; the
-    other Quebec laicity flips kept.)
+Open:
 
-20. DONE (12 October 2026): every amendment read (Chris: "Score every
-    amendment"; France's limit lifted, #127). 1,555 applied: 818 with, 272
-    against, 256 not scored, 209 unclear; 313 flagged for a person. About
-    936 readings confirm on Sunday's automatic sign-off. Unclear ones are
-    mostly the Italian Senate and Hungary (bot checks), the Dominican
-    Chamber (no readable text) and some French Sénat votes.
-21. DONE (12 October 2026, Chris: "Accept all as drafted"): the 313
-    flagged amendment readings accepted with `--accept-flagged-amendments`
-    (flag kept as `amendment_accepted`); 302 more would confirm on Sunday
-    (1,243 in all on the dry run). `docs/country-decisions-2026-10-12.md`,
-    "Decision backlog, 12 October".
-22. OPEN: the 209 unclear amendments: leave, or ask the Italian Senate and
-    parlament.hu for access. Italy's 34 Senate ones are SETTLED (item 27):
-    re-read from the Senate's own GitHub repository, so no access request
-    to the Senate is needed.
-23. OPEN (portraits, #139): do the partner pages count as internal or
-    non-commercial use for Italy, the Netherlands, Austria and Switzerland?
-    For the 21 unclear countries, ask press offices or allow Wikimedia
-    Commons per file? Confirm colour chips only, no logos.
-24. DECIDED (regions, 12 October 2026): the regional watchlists are seeded
-    (Chris: "Seed from what's on our ground": IT 11, AT 8, PE 7, MX states
-    11); Vienna's Gemeinderat is read since #152; the emails to Puebla, San
-    Luis Potosí and Campeche and alternative routes are being built
-    separately; Peru's
-    instant alerts for regional tier-1 norms are kept; the RIS API is not
-    requested; a Mexican VPN exit for the Mini waits for GitHub's run
-    (Veracruz, Guanajuato, Nuevo León, Michoacán, Zacatecas).
-25. DONE (Canada, 12 October 2026, branch `ca-senate-committees`): Senate
-    committee transcripts (`tools/ca_senate_committees.py`: SOCI, LCJC, RIDR
-    in full, SECD by study title; senators to `ca_speeches` with
-    chamber='senate', forum='committee', witnesses only to `ca_testimony`)
-    and committee reports, House key nine and Senate three, with
-    recommendations and government responses
-    (`tools/ca_committee_reports.py`, new table `ca_committee_reports`). Both
-    are steps of `jobs/ca-weekly.sh` and `ca-weekly.yml`; no new Mini job.
-    See `docs/canada-scope.md`.
-27. DONE (Italy, 12 October 2026, branch `senato-amendments`): the 34
-    Italian Senate amendment readings left unclear (senato.it's bot check)
-    re-read from the Senate's official repository
-    (github.com/SenatoDellaRepubblica/AkomaNtosoBulkData) and applied with
-    `--apply-amendments`: 29 against, 3 not scored, 2 unclear (they
-    replaced untouched 'unclear' readings, which the tool already allows, so
-    no new option); 8 flagged ones accepted as drafted (Chris: "accept all
-    as drafted"). And, Chris: "Yes, build it": a permanent collector,
-    `tools/it_senato_amendments.py` (step of `jobs/it-weekly.sh`, no new
-    Mini job), reads the amendment and order-of-the-day texts of every
-    Senate act with votes on our ground into `it_senate_amendments` and links
-    each vote to its text (`it_senate_amendment_votes`; a split "1a parte"
-    vote is flagged, never guessed). The 5CA drafts, the amendment worklist
-    and the session judge's queue now carry the text, so a new Senate
-    amendment vote is no longer unclear for lack of it. Smoke read (scratch
-    store): S.1735 153 Assembly texts and 126 committee, S.824 29 and 25;
-    all 38 numbers voted on our ground linked (2 split). See
-    `docs/italy-scope.md`, "Senate amendment texts".
-26. WATCH: Panama's bills feed is dark while sistemas.asamblea.gob.pa's
-    robots.txt answers HTTP 500 (asked 12 October, see below). Mexico's SITL
-    and Gaceta time out from the UK; check the next GitHub run.
+- OPEN (HazteOir): confirm Spain's SUMAR free-expression reform
+  (15/122/000006). Drafted `with`, flagged, so nothing confirms on it.
+- OPEN: the remaining unclear amendment readings (mostly Hungary, the
+  Dominican Chamber's unreadable texts, some French Sénat votes): leave, or
+  wait on Hungary's W-API reply. Italy's are settled (#159).
+- OPEN: update the work account's **debate-day-net** scheduled task from
+  `ops/scheduled-tasks/debate-day-net.md` (STEP 1B, debate today for NL, CH,
+  FR, BE). It lives on the work account.
+- OPEN (Switzerland): Basel-Stadt, Basel-Landschaft, St. Gallen and Thurgau
+  publish open data whose robots.txt disallows `/api/` to all but Googlebot.
+  Leave, or write to their open-data offices? Aargau disallows its whole
+  parliament section: ask its Parlamentsdienst or leave?
+- OPEN (Argentina): Santa Fe Diputados' SIEL names AI agents in robots.txt
+  (our own UA is not named). Recommended: do not build; email instead.
+  Salta: both chambers fail TLS verification (verification stays on).
+- OPEN (US states): New Jersey, Massachusetts, New York's Senate API and
+  Michigan answer GitHub's runners only, not the Mini. Add a GitHub-side
+  states step? New York's needs a free key.
+- OPEN (Brazil): ALMG's open-data API is disallowed by robots.txt (the
+  website is read instead): ask ALMG? A Brazilian-address machine for the
+  nine assemblies that do not answer from the UK?
+- OPEN (Mexico): the five states unreachable from the UK (Veracruz,
+  Guanajuato, Nuevo León, Michoacán, Zacatecas): wait for the GitHub run;
+  the SCJN route (as for Puebla) is ready as a fallback. No Mexican VPN exit
+  unless Chris says so.
+- OPEN: review the seeded watchlists (IT, AT, PE, MX states, PL, AR
+  provincial, CH cantons, BE regions, AU states) and the proposed taxonomy
+  terms in each regional scope doc.
+- OPEN (Poland): keep Kujawsko-Pomorskie's draft resolutions ("On a
+  sejmik's agenda") in the edition?
+- OPEN: when France or Belgium agrees to short credited clips, set
+  `fr.agreement` / `be.agreement` in `config/clip-sources.yaml`.
+
+Done or decided (details in the decisions docs):
+
+- Signers: Chris signs for every country "for now" (11 October,
+  `config/stance_signers.yaml`). Sign-off is automatic with team amendments
+  (`--auto-confirm`, `--amend`).
+- Bill directions: the flagged ones (11 October) and the 126 with none (12
+  October: 91 directions, 29 out of play, 6 for a person); the seven read for
+  a person (12 October); Quebec's Bill 9 against, laicity flips kept.
+- Amendments: every one read (1,555, #127, #128); the 313 flagged accepted
+  as drafted (#156); Italy's 34 re-read and a permanent Senate amendment
+  texts collector (#159, `tools/it_senato_amendments.py`).
+- Law checks: Loi n° 2026-794 implementing texts (nine watched) and the four
+  petition thresholds (#121).
+- Portraits (#154): internal use for IT, NL, AT, CH; the 21 unclear used;
+  colour chips, no logos.
+- Regions (12 October): watchlists seeded from what's on our ground; Vienna's
+  Gemeinderat read (#152); Peru's regional tier-1 alerts kept; RIS API not
+  requested; Puebla, San Luis Potosí and Campeche emailed and alternative
+  routes built (#155, #158).
+- US states (13 October): no budget for Open States' paid tier; free routes
+  built (#161, #166); LegiScan built but dropped by Chris (no key).
+- Standing rule (13 October): when a source blocks us, look for legitimate
+  alternative routes before recording a gap (Rules to keep).
+- Other: Looker prefixes handed to the work account; Dutch week ahead in its
+  DM; rainbow-flag motion watched; member-intel groups approved; no outreach
+  to country teams; FIFO run slot (#95); English debate summaries with
+  verbatim quotes; the judge's 511 queued items scored on Chris's account
+  (#120).
+
+**Watch:**
+- Panama's bills feed is dark while sistemas.asamblea.gob.pa's robots.txt
+  answers HTTP 500 (asked 12 October).
+- Mexico's SITL and Gaceta, and the five unreachable states, from the next
+  GitHub run.
+- The first automatic sign-off, Sunday 18 October 16:45 (`editions-session-judge`).
+- Saturday's first regional weekly runs (ES, IT, AT, PE and the new
+  regional steps in the PL, AR, CH, BE, BR, AU and US weeklies).
 
 **Still to run on the Mini (store writers, one at a time):**
 
-- `latam-courts-backfill`: DONE (10 October, 03:22Z).
-- One-off runs on 12 October 2026, all DONE and their launchd jobs removed:
-  `judge-queue-in` twice (the 400 and the 111 judged items), `store-compact`
-  (the compaction above), and the ES, IT and CH weeklies with
-  `*_RECLASSIFY=true` for the new keyword terms (Spain's first try crashed on
-  the missing store path, fixed in #148, then ran clean). On-demand jobs kept:
-  `jobs/judge-queue-out.sh` / `jobs/judge-queue-in.sh` (score a batch of the
-  free judge's queue off the Mini) and `jobs/store-compact.sh`.
-- First scheduled regional runs: Saturday's ES, IT, AT and PE weeklies; MX on
-  its next fortnightly GitHub run. France's Assemblée is now read at its
-  30 s Crawl-delay, so `fr_chamber` carries more over between runs.
-- `sk-docs-backfill`: DONE (11 October 2026). Run 1 read the whole document
-  backlog (then timed out after publishing; the budget now comes from
-  `tools/collector_budget.sh`, #94); runs 2 and 3 found nothing left.
-  The one-shot launchd job is removed.
-- Austria and Portugal weeklies: rerun 11 October 2026 (kickstarted after the
-  Slovak runs, queued in order by the FIFO run slot, #95); both published and
-  sent their editions.
-- Speech clip tools: INSTALLED 11 October 2026 (user site of the Mini's
-  /usr/bin/python3 3.9: imageio-ffmpeg with ffmpeg 7.1, yt-dlp 2025.10.14,
-  faster-whisper 1.2.1; Whisper "small" pre-fetched, 464 MB in
-  ~/.cache/huggingface). Clips can be cut for CH and AT, and NL from a
-  hand-downloaded video; FR and BE refuse until agreement is recorded. Test
-  clip cut 11 October 2026 (CH 25.455, Jessica Jaccoud, 44.7 s, match 0.86):
-  captions and the ParlCH credit checked; the test clips and footage were
-  then deleted on both the Mini and the laptop. Clip
-  footage under `data/clips/*/windows/` and `final/` is git-ignored (#99);
-  a person picks who goes in (the pick ranks by topic, not by side).
-- First runs: the Netherlands, Chile and Colombia ran on the Mini on 11
-  October 2026 (kickstarted; all published, editions sent; the Dutch run
-  needed a rerun, see below). Still to come: Mexico and Guatemala (GitHub,
-  fortnightly) and El Salvador (failed 11 October, fixed in #85; next run
-  Sunday 18 October). The Dominican Republic's 11 October Mini run timed out
-  before the #85 budget fix; check its next run. To run a weekly sooner,
-  kickstart its installed job on the Mini
-  (`launchctl kickstart gui/$(id -u)/net.citizengo.parlmonitor.<cc>-weekly`),
-  outside the overnight window.
-- Compressed publish: VERIFIED 11 October 2026. The store (1.77 GB) uploads
-  as `parl-monitor.db.gz`, 431 MB, compressed in 16 s; the raw asset is gone
-  from the release. Since 12 October 2026 the size warnings are on the
-  compressed asset (0.75 GB: plan the split; 1.0 GiB: split now), so they no
-  longer fire; docs/store-split-plan.md.
-- Install Tesseract when wanted (X7; steps in docs/mac-mini.md) to switch on
-  the OCR steps.
-- Check the first `vote-briefs-daily` log: can the Mini reach `dati.senato.it`
-  (it refuses the laptop)?
-- The store is now published gzipped (`parl-monitor.db.gz`, 11 October 2026; docs/mac-mini.md, "The store is published compressed"): nothing to do on the Mini, but a branch without that change cannot pull once the raw asset is retired, so merge main into any branch before testing it there.
+- Nothing to install for the regional layers: every one is a step of an
+  existing weekly. First scheduled regional runs are this week's weeklies
+  (Saturday's ES, IT, AT, PE and the others in turn); MX on its next
+  fortnightly GitHub run. The NSW backfill drains over three or four
+  Fridays with a [gap] line each until done.
+- pypdf for Świętokrzyskie's register PDF: already in the Mini's runner
+  venv (pypdf 6.14.2, checked 13 October 2026); nothing to install.
 - The first Sunday 16:45 run of `editions-session-judge` (Claude Code on the
   Mini is signed in to the work account; over SSH it reports "Not logged in"
-  because the keychain is locked for SSH, which is expected).
+  because the keychain is locked for SSH, which is expected). The portrait
+  fill-in step runs with it: PT, NL, AT, CH by 25 October, PL by 8 November.
+- On-demand jobs kept: `jobs/judge-queue-out.sh` / `jobs/judge-queue-in.sh`
+  (score a batch of the free judge's queue off the Mini) and
+  `jobs/store-compact.sh`.
+- First runs still to come: Guatemala (GitHub, fortnightly) and El Salvador
+  (failed 11 October, fixed in #85; next run Sunday 18 October). The
+  Dominican Republic's 11 October Mini run timed out before the #85 budget
+  fix; check its next run. To run a weekly sooner, kickstart its installed
+  job on the Mini
+  (`launchctl kickstart gui/$(id -u)/net.citizengo.parlmonitor.<cc>-weekly`),
+  outside the overnight window.
+- Check the first `vote-briefs-daily` log: can the Mini reach `dati.senato.it`
+  (it refuses the laptop)?
+- Install Tesseract when wanted (X7; steps in docs/mac-mini.md) to switch on
+  the OCR steps.
+- Merge main into any branch before testing it on the Mini: the store is
+  published gzipped (`parl-monitor.db.gz`), and a branch without that change
+  cannot pull.
+- Done (kept for the record): `latam-courts-backfill` (10 October),
+  `sk-docs-backfill` (11 October), the Austria and Portugal reruns, the NL,
+  CL and CO first runs (11 October), speech clip tools installed and tested
+  (11 October; clips for CH and AT, NL from a hand-downloaded video, FR and
+  BE refuse until agreement), compressed publish verified (11 October), and
+  the 12 October one-offs (`judge-queue-in` twice, `store-compact`, the ES,
+  IT and CH reclassify runs), their launchd jobs removed.
 
 **The review window (#88) is built but OFF** (Chris, 11 October 2026: the UK
 retired its own review loop on 21 August). Editions are DMed straight after
@@ -291,9 +243,8 @@ combined weekly Asana reading task (needs `asana_pat` in the Mini's
 GitHub's 2 GiB per-asset limit; gzip cuts it about 4x and the upload from
 about 15 minutes to 4 or 5. Pushes warn when the compressed asset passes
 0.75 GB ("plan the split") and 1.0 GiB ("split now"), and refuse above 2 GiB
-(12 October 2026, docs/store-split-plan.md). If it keeps growing, the next step is splitting the new
-countries into their own store file (Chris: "further changes in the future
-if necessary"). On 11 October it was 1.82 GB uncompressed, 446 MB compressed.
+(docs/store-split-plan.md). After the 12 October compaction it was 1,532 MB
+raw, 315 MB compressed. The regional layers add to it; watch the warnings.
 
 **Publish collisions fixed (#109).** Three runs lost their store with "gh
 upload failed: HTTP 404 ... ANOTHER PUBLISH LANDED" (prov-backfill 9 October,
@@ -307,18 +258,25 @@ guard can miss an old keep-aside. Watch the logs for "upload failed, no other
 publish seen".
 
 **What could come next (not started):**
-- Still blocked by the source: Hungary's bills and votes (CAPTCHA; API token
-  requested), Italy's Senate (refuses us), Mexico's Senate (robots.txt) and
-  its same-day agendas (UK connections refused), Swiss committees
-  (confidential), the Dutch and Polish consultation portals (robots.txt),
-  committee attendance in PL, CH, AT and IT (not published), Austrian
-  interests (licence), Colombia's and El Salvador's daily sweep (no cheap
-  dated source), clips for France and Belgium (agreement needed).
+- Still blocked by the source: Hungary's bills and votes (CAPTCHA; W-API
+  token requested, followed up), Italy's Senate website (amendment texts now
+  come from its GitHub), Mexico's Senate (robots.txt) and its same-day
+  agendas (UK connections refused), Swiss committees (confidential), the
+  Dutch and Polish consultation portals (robots.txt), committee attendance in
+  PL, CH, AT and IT (not published), Austrian interests (licence), Colombia's
+  and El Salvador's daily sweep (no cheap dated source), clips for France and
+  Belgium (agreement needed).
+- Regional gaps, each listed in its scope doc: Brazil's other 17 assemblies
+  (alternative routes being built), Mexico's remaining states, the blocked
+  and unreachable Italian and Spanish councils, Switzerland's other 21
+  cantons, Belgium's German-speaking Community, COCOF and VGC, member votes
+  outside NSW, Flanders, ALESP committees and the Mexican states that
+  publish them.
 - Waiting for time: Spain's agendas, speeches and sweep fill from 23
-  December when the XVI sits.
-- Regions built 12 October 2026 (Spain, Peru, Mexico, Austria, Italy; sections
-  below); Belgium's communities and regions 13 October 2026. Not yet built: Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
-  2027); a native read of each language's term list.
+  December when the XVI sits; Texas' feed from the 90th Legislature (January
+  2027).
+- Not yet built: Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1 2027); a
+  native read of each language's term list.
 
 ## What exists now
 
@@ -352,7 +310,7 @@ publish seen".
 | Debate report (report and social copy after a debate, DM for approval, canvas) | yes (`tools/debate_report.py`, one paid call) | no | no | no | **built** 11 Oct (`tools/country_debate_report.py`, `src/country_debatereport.py`, branch `ukp2-debate-report`, manual) for the five countries whose speeches we store: NL, CH, AT, FR, BE. English report from templates over the record (no paid AI): speakers on our ground with a verbatim source-language passage each, translations by a person or the free session judge (`--queue-out`/`--queue-in` via `tools/session_judge.sh`), the debated bill's votes (found by the reference in the title, `--item` or a debate pack) and the latest on the same ground with tallies, group splits and vote meanings; clip pack linked. AWAITING SIGN-OFF, no verdicts, until the readings shown are confirmed. DM to Chris alone; `--approve --by NAME` records approval against the files; `--publish` makes the canvas with the UK's code, shared with Chris alone (never a channel), rewritten in place on a re-run. Samples `docs/debate-report-samples/` |
 | Words since the last vote (`since_last_vote.py`) | yes | no | no | no | **built** 11 Oct (`tools/country_since_vote.py`, `src/country_since_vote.py`, branch `ukp2-since-last-vote`, manual) for the countries with speeches and votes: NL, CH, AT, FR, BE. Per area, each member's last recorded vote on it (watched or tier 1, procedure never) and their speeches since, with excerpts. Drift is named only once the vote's reading is CONFIRMED and a person or the free session judge has read the words (`--queue-out` / `--reads`, `read_by` required, a read goes stale when new words arrive); before that "awaiting sign-off", ranked by recency and volume. Group votes (NL shows of hands, AT) never name drift. Optional profile section: `tools/member_profiles.py <cc> --since-vote` (off in the weeklies). Samples `docs/since-vote-samples/` (CH, FR, BE; the published store holds no NL votes or speeches and no AT speeches yet) |
 | Health summary, Drive | health DM; briefs and debate footage on Drive | health DM | health DM | health DM | **built** 11 Oct (branch `ukp-health-drive`): the 07:30 health DM has one compact section per region (Europe, Latam) plus shared jobs, failed and stale jobs first, step gaps by step, editions behind, the countries' overdue sources (`src/country_health.py`); briefs as Sheets from the UK template and real debate packs on Drive under `Country editions/<Country>/` in the Automated Briefs shared drive, a step of the Sunday `editions-session-judge` (`tools/country_drive.py`, ledger `data/country-drive.json`, at most 30 new sheets a run) |
-| Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | Built 12 Oct 2026: Italy four councils (IT3), Austria seven Landtage (AT6), Spain all 17 via the BOE plus four bill lists, Peru 25 regions + Lima (PE4), Mexico 13 state congresses plus adopted decrees of 4 more from their official gazettes (SLP, Campeche, Durango, Querétaro); 13 Oct 2026: Argentina all 24 jurisdictions' laws via SAIJ plus eight legislatures' bills; Switzerland five cantons (CH7, 13 Oct: Zürich, Bern, Geneva, Vaud, Ticino; four open-data cantons refused by robots.txt); Belgium's Flemish, Walloon, Brussels, COCOM and (in part) FWB parliaments, Flemish votes by member (German-speaking Community blocked); others later, per decisions |
+| Regional / state parliaments | devolved | Länder (part) | US states: Open States free tier (watched and tier-1 bills first) plus direct feeds for KS, CA, TX, PA, MO, AR (#161, #166; LegiScan built, dropped: no key); AU states: NSW in full with divisions, the other seven bills or Acts (#167) | provinces; Senate committees and committee reports (#157) | All as steps of existing weeklies, robots.txt asked every run. Spain all 17 via the BOE plus four bill lists (#137); Peru 25 regions + Lima (#138); Mexico 13 state congresses plus gazette routes for SLP, Campeche, Durango, Querétaro and Puebla (via the SCJN reform list), about 58% of the population (#141, #155, #158); Austria 7 Landtage + Vienna's Gemeinderat (#142, #152); Italy 4 councils + Senate amendment texts from the Senate's GitHub (#143, #159); Poland journals 15/16, registers 13/16, Family Charter terms, watchlist (#162, #168); Argentina SAIJ laws for all 24 + 8 legislatures' bills (#163); Switzerland 5 cantons (#164); Belgium Flemish, Walloon, Brussels and COCOM, FWB in part, Flemish votes by member (#165); Brazil 10 of 27 assemblies, alternative routes being built (#169). Gaps and blocks in each regional scope doc |
 | Vote meanings (what a Yes and a No meant) | yes (`meaning_aye`/`meaning_no`, written by hand) | no | no | no | **built** 11 Oct (`src/vote_meanings.py`, `tools/vote_meanings.py`, branch `ukp-meanings`): every watched and tier-1 vote in the 21 countries with recorded votes, rules first, then the free session judge after the editions' scores within the same ~100 items a week; stored per division (`vote_meanings`); a person overrides in `config/vote-meanings-<cc>.yaml`; shown in editions, the Latam monitor, vote briefs, profiles, debate packs and the 5CA readings guides |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
@@ -1048,11 +1006,11 @@ All from cjoyce@citizengo.net.
 
 | Item | Asked of | Status |
 |---|---|---|
-| Hungary bills and votes (CAPTCHA): W-API token | api-reg2@parlament.hu | sent 9 Oct; karzat covers 9 May to 28 Aug meanwhile |
+| Hungary bills and votes (CAPTCHA): W-API token | api-reg2@parlament.hu (follow-up cc kozadat@parlament.hu) | sent 9 Oct, follow-up 12-13 Oct; karzat covers 9 May to 28 Aug meanwhile |
 | Spain Senate (403 everywhere): open data | informacion@senado.es | sent 9 Oct |
 | Paraguay (SILpy robots.txt disallows) | parlamentoabierto@senado.gov.py, cc silpy@diputados.gov.py | sent 9 Oct |
 | meineabgeordneten.at licence | office@meineabgeordneten.at | sent 9 Oct |
-| Open States (US) | contact@openstates.org | sent 9 Oct; replied with paid tier pricing. No budget: free tier kept, free alternatives built 13 Oct (below) |
+| Open States (US) | contact@openstates.org | replied with paid tier pricing. No budget: free tier kept, free routes built 13 Oct (#161, #166). Closed |
 | Australia | webmanager@aph.gov.au | sent 9 Oct |
 | Guatemala court (bot challenge) | comunicacion@cc.gob.gt, asked to forward to the Unidad de Información Pública | sent 12 Oct |
 | El Salvador missing votes (sessions 41-64, 98): LAIP request | transparencia@asamblea.gob.sv | sent 12 Oct |
@@ -1061,6 +1019,8 @@ All from cjoyce@citizengo.net.
 | Uruguay main site (403 everywhere): open-data team | datosabiertos@diputados.gub.uy, cc ctip@parlamento.gub.uy | sent 12 Oct |
 | Argentina Diputados roll-call votes (open-data set stops Feb 2020) | dtl.dgis@hcdn.gob.ar, cc dip@hcdn.gob.ar | sent 12 Oct (the sites answered the laptop that day) |
 | Panama segLegis (robots.txt answers HTTP 500, so not read) | bhislop@asamblea.gob.pa (open-data maintainer), cc wmaster@asamblea.gob.pa | sent 12 Oct |
+| San Luis Potosí Congress (Sucuri bot check): access | unidadtransparenciaslp@gmail.com | sent 12-13 Oct; adopted decrees read from the gazette meanwhile (#155) |
+| Campeche Congress (robots.txt disallows all): access, and whether legislacion.congresocam.gob.mx may be read | procesoslegislativos@congresocam.gob.mx | sent 12-13 Oct; gazette read meanwhile (#155) |
 | Costa Rica (refuses foreign connections) | participacion-consultas@asamblea.go.cr takes internal senders only; no external address published | bounced, parked |
 
 ## Rules to keep (learned the hard way)
@@ -1068,6 +1028,10 @@ All from cjoyce@citizengo.net.
 - Never solve or bypass CAPTCHAs or bot checks; respect robots.txt; never use
   credentials found in a site's code (Ecuador portal, DR Senate, Peru's
   encrypted endpoint: PE2 left out).
+- When a source blocks us, explore legitimate alternative routes (an official
+  gazette, a documented API, open data, a compilation on another official
+  host, an email to the source) before recording a gap; never bypass the
+  block (Chris, 13 October 2026: "Do this always when AI is blocked").
 - Never hand-edit generated taxonomy YAML; edit `docs/keyword-taxonomy-*.md`
   and regenerate. `taxonomy-qc` stays unchanged for Belgium and Switzerland.
 - AI judge: the paid API judge stays off (X16); the free session judge runs
@@ -1119,7 +1083,7 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
   Michoacán (https), Zacatecas; the step asks each from the runner every
   run and the edition says if one answers.
 - **Blocked (4):** Puebla (Cloudflare challenge; decrees via the SCJN), San Luis Potosí (Sucuri
-  challenge), Campeche (robots.txt disallows all), Durango (Wordfence geo
+  challenge; decrees via its gazette), Campeche (robots.txt disallows all), Durango (Wordfence geo
   block). Never bypassed.
 - **Not built (10):** Jalisco (77 s a page), Querétaro (plain HTTP only),
   Guerrero, Coahuila (JSF),
@@ -1137,12 +1101,12 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
   **Durango** (each edition's HTML contents) and **Querétaro** (La Sombra
   de Arteaga's annual index PDF, over HTTPS). Adopted acts only, no bills
   in passage; the edition marks them "(from the official gazette)".
-  `src/ingest/mxs_{slp,cam,dgo,qro}_gazette.py`, same step and clock.
-  **Puebla**: no route yet (the gazette, the Orden Jurídico Poblano and the
-  state's open-data portal refuse UK connections; the step asks the
-  gazette's home page from the runner each run). The PNT/SIPOT sits behind
-  a Cloudflare challenge; the SCJN recent-reforms page answered a server
-  error on 12 October. Details in `docs/mexico-regions-scope.md`.
+  `src/ingest/mxs_{slp,cam,dgo,qro,pue}_gazette.py`, same step and clock.
+  **Puebla** (13 October): its gazette refuses UK connections, so its
+  decrees are read from the Supreme Court's compilation of the gazette
+  (legislacion.scjn.gob.mx, the 50 most recent Puebla reforms, one
+  postback of the page's own form; `src/ingest/mxs_pue_gazette.py`, #158).
+  Details in `docs/mexico-regions-scope.md`.
 
 ## Regional layer: Brazil's state assemblies (13 October 2026)
 
@@ -1215,13 +1179,6 @@ routes tried: `docs/brazil-regions-scope.md`, "Alternative routes".
   asking LexML to allow `/busca/SRU`.
 
 
-  `src/ingest/mxs_{slp,cam,dgo,qro,pue}_gazette.py`, same step and clock.
-  **Puebla** (13 October): its gazette refuses UK connections, so its
-  decrees are read from the Supreme Court's compilation of the gazette
-  (legislacion.scjn.gob.mx, the 50 most recent Puebla reforms, one
-  postback of the page's own form; `src/ingest/mxs_pue_gazette.py`).
-Details in `docs/mexico-regions-scope.md`.
-
 ## US states: free alternatives beside Open States' free tier (13 October 2026)
 
 Chris: "We can't pay for Open States access so may need to explore
@@ -1237,9 +1194,8 @@ alternatives whilst keeping the current tier we have." Built on branch
 - **LegiScan** (`tools/us_states_legiscan.py`): all 50 states, same day, on
   the free public key; CC BY 4.0, credited in the edition. Planned for a
   9,000-query month (the manual says 30,000; one LegiScan page says 10,000).
-  **Needs Chris:** a free OneVote account and API key at
-  https://legiscan.com/legiscan, then `LEGISCAN_API_KEY` as a repo secret and
-  in `~/runner/env` on the Mini. Without it the step skips with one line.
+  **Dropped** by Chris on 13 October (no key; see "Other routes" below).
+  Without a key the step skips with one line.
 - **State feeds** (`tools/us_states_direct.py`, no key): Kansas KLISS API (1
   request, adds the votes Open States lacks), California's leginfo daily
   change files (floor votes with names), the Texas Legislative Council's FTP
@@ -1390,3 +1346,38 @@ robots.txt asked at run time (`GuardedClient`, no exemptions).
   user agent.
 - **Mini:** nothing to install; the NSW backfill drains over three or four
   Fridays with a [gap] line each until done.
+
+### Australia: divisions beyond NSW, the alternative routes (13 October 2026)
+
+Branch `au-divisions-alt`; every route tried is tabled state by state in
+`docs/australia-states-scope.md` ("Divisions: the alternative routes").
+Four new sources of `tools/au_states.py` (`vic-votes`, `sa-votes`,
+`tas-votes`, `act-votes`; parsers in `src/au_states_votes.py`) read the
+official records that list each division with every member's vote, from
+hosts that answer us, into the existing `aus_divisions`/`aus_votes`/
+`aus_members`/`aus_hansard_days` tables (additively; members keyed by the
+printed name, `teller` set). The edition's Divisions block now names the
+states.
+
+- **Divisions now read:** Victoria (Votes and Proceedings and Council
+  Minutes, Word files from `www.parliament.vic.gov.au`'s House documents
+  listing), South Australia (Votes and Proceedings and Council Minutes,
+  PDFs from the Parliament's document library backend), Tasmania (each
+  House's daily Hansard, Word files, from the Parliament's search engine),
+  the ACT (the daily Hansard PDF from `www.hansard.act.gov.au`). First live
+  read: 370 divisions, 17,071 votes; on our ground Victoria's Voluntary
+  Assisted Dying Amendment Bill 2025 (six divisions, both Houses) and South
+  Australia's two late-term abortion bills (three divisions).
+- **Still none:** Queensland, Western Australia, the Northern Territory:
+  every record is behind Azure WAF or Cloudflare, from GitHub's runners too
+  (read-only probe run 38332141239); Territory Stories disallows its PDFs in
+  robots.txt. Queensland gained bill passage dates from the register's
+  bill-as-passed prints (`PrintType="bill.third"`). They Vote For You covers
+  the Commonwealth only (and answers our user agent 403): nothing built,
+  no key needed.
+- **Budget:** the states step 5 to 8 minutes (`jobs/au-weekly.sh`), the
+  federal collector's reserve 900 to 1,080 seconds; records capped per run,
+  newest first, big files not archived.
+- **Waiting on Chris:** whether to write to the Queensland, Western
+  Australian and Northern Territory parliaments asking for our user agent.
+- **Mini:** nothing to install; the backlogs drain over a few Fridays.
