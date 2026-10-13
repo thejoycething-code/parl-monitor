@@ -289,8 +289,67 @@ def read_day(ctx, day):
         return None, ["the Hansard PDF was not fetched"]
     try:
         return parse_pdf(raw), []
-    except Unreadable:
-        raise
+    except Unreadable as exc:
+        # What the server said it was sending, kept with the gap: a file
+        # legnb.ca later replaces (the 28 May 2026 Hansard, re-uploaded
+        # complete on 9 October 2026) is then told apart by source_changed.
+        raise Unreadable("{0}{1}".format(exc, served(ctx, len(raw))))
+
+
+def served(ctx, size):
+    """' (served N bytes, Last-Modified ...)' from the last reply's headers."""
+    headers = getattr(ctx.client, "last_headers", None) or {}
+    low = {str(k).lower(): v for k, v in headers.items()}
+    told = low.get("content-length")
+    parts = ["served {0:,} bytes".format(size)]
+    if told and str(told).strip().isdigit() and int(told) != size:
+        parts.append("Content-Length {0:,}".format(int(told)))
+    if low.get("last-modified"):
+        parts.append("Last-Modified {0}".format(low["last-modified"]))
+    return " ({0})".format(", ".join(parts))
+
+
+_SIZE = re.compile(r"\bserved ([\d,]+) bytes|\bin (\d+) bytes")
+_MODIFIED = re.compile(r"Last-Modified ([^,)]+(?:, [^,)]+)?)")
+
+
+def source_changed(ctx, day, note):
+    """True when the PDF legnb.ca now serves for a day stored 'unreadable'
+    is not the one that was read: its size (from a one-byte Range request's
+    Content-Range, so the megabyte is not fetched to find out) or its
+    Last-Modified differs from what the gap recorded. A note that records
+    neither is never re-read on this account.
+
+    THE 28 MAY 2026 HANSARD (61-2, sitting 43). The collector read it on 8-9
+    October 2026 at 1,257,984 bytes, cut off inside the last stream with no
+    %%EOF, and the day was stored unreadable and listed as a known gap.
+    Nothing in the client capped or cut it: the server sent exactly what its
+    Content-Length announced. legnb.ca re-uploaded the file at 13:42 GMT on
+    9 October 2026 (its Last-Modified), complete at 1,258,291 bytes and 115
+    pages ending "(The House adjourned at 6 p.m.)", byte-identical to the
+    Legislative Library's copy; by then the day was past the weekly's
+    120-day owed window (prov_speeches.OWED_DAYS), so it was never read
+    again. This check is what reads it again."""
+    m = _SIZE.search(note or "")
+    then_size = int((m.group(1) or m.group(2)).replace(",", "")) if m else None
+    lm = _MODIFIED.search(note or "")
+    then_modified = lm.group(1).strip() if lm else None
+    if then_size is None and then_modified is None:
+        return False
+    if not ctx.allowed(day["url"]):
+        return False
+    ctx.client.get_bytes(day["url"], ctx.feed, "hansard-check-{0}".format(day["key"]), first_bytes=1)
+    low = {str(k).lower(): v for k, v in (getattr(ctx.client, "last_headers", None) or {}).items()}
+    now_size = None
+    cr = re.search(r"/(\d+)\s*$", str(low.get("content-range") or ""))
+    if cr:
+        now_size = int(cr.group(1))
+    elif str(low.get("content-length") or "").strip().isdigit() and int(low["content-length"]) > 1:
+        now_size = int(low["content-length"])      # the server ignored the Range: its whole length
+    now_modified = (low.get("last-modified") or "").strip() or None
+    if then_size is not None and now_size is not None and now_size != then_size:
+        return True
+    return bool(then_modified and now_modified and now_modified != then_modified)
 
 
 def resolver(ctx):

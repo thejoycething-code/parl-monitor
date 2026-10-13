@@ -1651,7 +1651,9 @@ def read_sitting(ctx, legislature, session, rec, resolver, wl):
     raw = ctx.text(url, "hansard-{0}{1}".format(date, rec.get("part") or ""), encoding="cp1252")
     if raw is None:
         return 0, 1
-    if "</html>" not in raw[-4000:].lower():
+    if "</html>" not in raw[-4000:].lower() and not pn.reviewed_complete(PROV, url, raw, date):
+        # (A record the House of Assembly has confirmed complete is read as it
+        # is: config/prov_record.yaml `complete_records`, 3 October 2022.)
         ctx.gap("{0}: {1}: truncated Hansard (no closing </html>)".format(skey, url))
         ps.store_sitting(ctx.conn, PROV, skey, date, url, status="unreadable")
         ctx.conn.commit()

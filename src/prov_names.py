@@ -409,6 +409,53 @@ def load_vp_not_served(prov, path=None):
     return out
 
 
+def load_complete_records(prov, path=None):
+    """`complete_records:` (13 October 2026) -- a sitting record our
+    completeness check calls truncated which the legislature has confirmed
+    complete. Needs date, document (the URL as listed), quoted (words at the
+    record's end, which must still be in its last part for the entry to
+    apply), verified_against (who confirmed it, when) and why. NL, 3 October
+    2022: the prorogation day's Hansard is short and has no closing </html>."""
+    out = []
+    for a in _reviewed(prov, "complete_records", ("date", "document", "quoted", "verified_against", "why"), path):
+        out.append(dict(a, date=str(a["date"]), document=str(a["document"]), quoted=str(a["quoted"])))
+    return out
+
+
+def reviewed_complete(prov, url, text, date=None, path=None):
+    """The complete_records entry that vouches for this record, or None: the
+    URL (and the date, when given) must match and the quoted closing words
+    must be in the record's last 4,000 characters, so a record that changes
+    is checked afresh."""
+    tail = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", (text or "")[-4000:]))
+    for a in load_complete_records(prov, path):
+        if a["document"] != url or (date and a["date"] != str(date)):
+            continue
+        if " ".join(a["quoted"].split()) in tail:
+            return a
+    return None
+
+
+def load_not_sittings(prov, path=None):
+    """`not_sittings:` (13 October 2026) -- a day a legislature's calendar
+    links that the House did not sit, confirmed by the legislature. Needs
+    date, listed (the URL the calendar links for it, which must still be the
+    one listed), verified_against and why. MB, 10 May 2024: the House
+    adjourned on 9 May until the Monday; the calendar's link is spurious."""
+    out = []
+    for a in _reviewed(prov, "not_sittings", ("date", "listed", "verified_against", "why"), path):
+        out.append(dict(a, date=str(a["date"]), listed=str(a["listed"])))
+    return out
+
+
+def reviewed_not_sitting(prov, date, url, path=None):
+    """The not_sittings entry for this day and listed URL, or None."""
+    for a in load_not_sittings(prov, path):
+        if a["date"] == str(date) and a["listed"] == url:
+            return a
+    return None
+
+
 # -- reviewed facts about ONE division ---------------------------------------
 #
 # Christopher, 2 October 2026: where Hansard is explicit for the SAME division,
