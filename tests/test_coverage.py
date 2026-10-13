@@ -18,6 +18,7 @@ import os
 import sqlite3
 import sys
 import unittest
+from unittest import mock
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -64,13 +65,17 @@ class PipelineTests(unittest.TestCase):
     def test_a_paused_pipeline_is_never_reported_as_broken(self):
         """UN was paused on purpose on 2026-08-17. A pause that reads as a
         failure trains people to ignore the alert; a pause nobody records
-        reads as health."""
+        reads as health. (UN itself was unpaused on 13 October 2026, so the
+        rule is tested with a stand-in.)"""
         conn = store()
         lines = []
-        cov.check(conn, today=TODAY, log=lines.append)
-        self.assertNotIn("UN calls weekly", cov.PIPELINES)
-        self.assertIn("UN calls weekly", cov.PAUSED)
-        self.assertTrue(any("PAUSED" in ln for ln in lines))
+        with mock.patch.dict(cov.PAUSED, {"Stand-in weekly": "paused for the test"}):
+            cov.check(conn, today=TODAY, log=lines.append)
+        self.assertTrue(any("PAUSED" in ln and "Stand-in weekly" in ln for ln in lines))
+
+    def test_un_calls_are_unpaused_and_watched_every_weekday(self):
+        self.assertNotIn("UN calls weekly", cov.PAUSED)
+        self.assertEqual(cov.PIPELINES["UN calls weekday"][0], 1)
 
     def test_the_monthly_cadence_is_not_judged_weekly(self):
         conn = store(pipelines=[("UPR monthly", "2026-08-20")])

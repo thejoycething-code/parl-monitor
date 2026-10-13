@@ -17,7 +17,7 @@ on:
       - "Holyrood weekly"
       - "Senedd weekly"
       - "UPR monthly"
-      - "UN calls weekly"
+      - "UN calls weekday"
       - "Historic backfill"
       - "Score stance"
       # EU weekly was missing from this list from the day it was written:

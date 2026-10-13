@@ -151,7 +151,19 @@ class DmTests(unittest.TestCase):
                 mock.patch.object(sys, "argv", ["post_un_calls.py"]):
             code = post_un_calls.main()
         self.assertEqual(sent["user"], "U05LJP0BT61")
-        self.assertEqual(code, 1, "a source that could not be read makes the run fail loudly")
+        # 3, not 0 and not 1: sent, but a source could not be read. Apart from
+        # 1 (not sent) so the weekday Mini job does not trigger GitHub's
+        # backup into sending the same DM again (tools/post_un_calls.py).
+        self.assertEqual(code, 3, "a source that could not be read is a distinct exit")
+
+    def test_a_failed_send_exits_1(self):
+        got = self.collected()
+        with mock.patch.object(un_forward, "collect", return_value=got), \
+                mock.patch.object(post_un_calls.publish, "load_secrets", return_value={}), \
+                mock.patch.object(post_un_calls.publish, "slack_dm",
+                                  return_value={"error": "channel_not_found"}), \
+                mock.patch.object(sys, "argv", ["post_un_calls.py"]):
+            self.assertEqual(post_un_calls.main(), 1)
 
 
 if __name__ == "__main__":

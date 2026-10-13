@@ -12,9 +12,9 @@ client code that fetches it.
 |---|---|---|
 | UPR Info Uwazi API | 2,331 recommendations: who asked, who was asked, Supported/Noted | `upr-info-database.uwazi.io/api`. Issue filter values must be **full UUIDs** from `/api/thesauris`; an abbreviated id returns `totalRows=0` with HTTP 200. `searchTerm` needs **quoted phrases** or it matches everything. |
 | UPR Info session list | UPR working group schedule to January 2031 | Month precision only. Used because OHCHR's own UPR pages are Cloudflare-challenged. |
-| OHCHR calls for input | 15 open consultations with deadlines | Listing only. **Detail pages return 403** to non-browser clients, so there is no description text to match on. |
-| OHCHR HRC sessions page | Every HRC regular session with date range | Plain HTML, stable. |
-| Treaty body master calendar | 49 reporting deadlines by country and committee | `MasterCalendar.aspx`. `SessionsList.aspx` is a Telerik postback grid that stays empty — that difference cost an hour. |
+| OHCHR calls for input | 15 open consultations with deadlines | Listing only. **Detail pages return 403** to non-browser clients, so there is no description text to match on. **Since 13 Oct 2026 the listing itself is Cloudflare-challenged; no alternative route found (below).** |
+| ~~OHCHR HRC sessions page~~ HRC portal (13 Oct 2026) | Every HRC regular session from the 46th, with date range and a page per session | `hrcportal.ohchr.org/hrc-sessions-all` (`hrcmeetings.ohchr.org` now 301s there). Replaces `www.ohchr.org/en/hr-bodies/hrc/regular-sessions`, challenged since 13 Oct 2026, which stays as the fallback only. Drupal; robots.txt allows it, Crawl-delay 10 (one request a run). |
+| Treaty body master calendar | 49 reporting deadlines by country and committee | `MasterCalendar.aspx`. `SessionsList.aspx` is a Telerik postback grid that stays empty — that difference cost an hour. **Not fetched since 13 Oct 2026: `tbinternet.ohchr.org/robots.txt` is `Disallow: /`** (checked on every run; it resumes if that changes). |
 | UN Women CSW pages | CSW session ranges (CSW71: 8–19 March 2027) | The landing page has almost no dates; the **per-session pages** carry them in prose ("from 8 to 19 March 2027"). |
 | UN GA session page | Session window (81st: 8 Sep 2026 – 7 Sep 2027) | Session number = year − 1945, derived not hardcoded. |
 | docs.un.org | Draft resolutions by symbol (`A/C.3/81/L.7`, `A/HRC/63/L.4`) | Needs `?direct=true`. Existence is decided by **content type**, not status: a missing symbol answers 200 with an HTML page. Range requests honoured, so a check costs 64 bytes — but ~10s each, which is server latency not transfer. |
@@ -154,3 +154,33 @@ item, so a source that could not be read is never mistaken for a quiet week.
 October), the letter (7 October) and the plenary listing (8 October) leading
 the output before the vote.
 
+
+## OHCHR behind a Cloudflare challenge: routes tried (13 October 2026)
+
+By 13 October `www.ohchr.org` answered the HRC sessions page and the
+calls-for-input listing with `403`, `cf-mitigated: challenge` ("Just a
+moment..."), from the laptop and from the Mac Mini alike. The standing rule:
+look for a legitimate other route, never defeat the challenge (no browser
+User-Agent, no challenge solver, no cache or proxy in between). Every request
+below went out with the honest User-Agent, a few seconds apart.
+
+| Tried | Result | Used? |
+|---|---|---|
+| `hrcmeetings.ohchr.org` | `301` to `hrcportal.ohchr.org` | via the portal |
+| `hrcportal.ohchr.org/robots.txt` | allows all but `/admin`, `/search`, `/user/*`, core paths; `Crawl-delay: 10` for `*` | honoured |
+| `hrcportal.ohchr.org/hrc-sessions-all` | `200`, 18 regular sessions (46th to 63rd) with dates and `/node/N` pages | **YES: HRC sessions, READ OK** |
+| `hrcportal.ohchr.org/sitemap.xml` (167 URLs) | no calls-for-input listing anywhere on the portal | no |
+| `www.ohchr.org/en/rss.xml` | `200`, not challenged, but it is the front-page node feed: ten topic pages, no calls | no |
+| `www.ohchr.org/en/calls-for-input`, `/en/calls-for-input-listing/rss.xml`, `/sitemap.xml`, `/en` | all challenged | no |
+| The same two pages from the Mac Mini | challenged too: not one address being throttled | no |
+| `spinternet.ohchr.org` (Special Procedures) | `200`, but no calls listing | no |
+| ReliefWeb API | `403` "not using an approved appname"; an appname must be requested (Chris's call), and ReliefWeb does not syndicate OHCHR calls in any case | no |
+| `tbinternet.ohchr.org/robots.txt` | `User-agent: *` / `Disallow: /` | treaty body calendar no longer fetched |
+| Wayback Machine or any other cache | not tried on purpose: it would route the challenged page through a third party | no |
+| GitHub's runners | answered by the backup workflow's own check log: dispatch `un-calls-weekly.yml` with `dry_run` (stateless, sends nothing) | see the PR |
+
+**So:** HRC sessions read OK again via the portal. Calls for input stay "could
+not read" in the check log, with the reason, and the DM says the number of open
+calls is unknown, never zero. Still worth asking, by a human: whether OHCHR
+offers the calls listing as a feed to registered NGOs, or would allow-list an
+identified monitor.

@@ -72,7 +72,21 @@ class SameStepsAsTheWorkflowTests(unittest.TestCase):
              ("ni-weekly.yml", "ni-weekly.sh"), ("eu-weekly.yml", "eu-weekly.sh"),
              ("de-weekly.yml", "de-weekly.sh"), ("ca-weekly.yml", "ca-weekly.sh"),
              ("prov-weekly.yml", "prov-weekly.sh"), ("upr-monthly.yml", "upr-monthly.sh"),
-             ("member-profiles.yml", "member-profiles.sh"))
+             ("member-profiles.yml", "member-profiles.sh"),
+             ("un-calls-weekly.yml", "un-weekday.sh"))
+
+    # Backups that run WITHOUT the store (13 October 2026): the Mini job holds
+    # the store and passes it to the same tool (--db), publishing it after;
+    # GitHub's copy runs the same tools in the same order without it, and so
+    # commits nothing. Compared with the store arguments and pushes taken out.
+    STATELESS_BACKUPS = ("un-calls-weekly.yml",)
+    STATE = ("tools/db_state.py --push", "tools/raw_state.py --push")
+
+    def _job_commands(self, wf, script):
+        cmds = _commands(script)
+        if wf in self.STATELESS_BACKUPS:
+            cmds = [re.sub(r" --db$", "", c) for c in cmds if c not in self.STATE]
+        return cmds
 
     def _read(self, wf, job):
         return (open(os.path.join(ROOT, ".github", "workflows", wf), encoding="utf-8").read(),
@@ -82,14 +96,19 @@ class SameStepsAsTheWorkflowTests(unittest.TestCase):
         for wf, job in self.PAIRS:
             flow, script = self._read(wf, job)
             self.assertTrue(_scheduled_commands(flow), wf)
-            self.assertEqual(_scheduled_commands(flow), _commands(script), "{0} and {1} disagree".format(wf, job))
+            self.assertEqual(_scheduled_commands(flow), self._job_commands(wf, script),
+                             "{0} and {1} disagree".format(wf, job))
 
     def test_same_things_committed(self):
         for wf, job in self.PAIRS:
             flow, script = self._read(wf, job)
-            add = next(ln for ln in flow.splitlines() if ln.strip().startswith("git add "))
-            want = {p.rstrip("/") for p in add.split()[2:]
-                    if p.rstrip("/") != "data" and not p.startswith("data/")}
+            add = next((ln for ln in flow.splitlines() if ln.strip().startswith("git add ")), None)
+            if add is None:
+                self.assertIn(wf, self.STATELESS_BACKUPS, wf + " commits nothing")
+                want = set()
+            else:
+                want = {p.rstrip("/") for p in add.split()[2:]
+                        if p.rstrip("/") != "data" and not p.startswith("data/")}
             m = re.search(r"^# mini_run: commit (.+)$", script, re.M)
             got = set(m.group(1).split()) if m else set()
             self.assertEqual(want, got, "{0} commits {1}, {2} commits {3}".format(wf, sorted(want), job, sorted(got)))
@@ -104,6 +123,12 @@ class SameStepsAsTheWorkflowTests(unittest.TestCase):
         self.assertIn("gh workflow run deploy-tracker.yml", after)
         self.assertIn("workflow_dispatch:", open(os.path.join(
             ROOT, ".github", "workflows", "deploy-tracker.yml"), encoding="utf-8").read())
+
+    def test_a_stateless_backup_never_touches_the_store(self):
+        for wf in self.STATELESS_BACKUPS:
+            flow = open(os.path.join(ROOT, ".github", "workflows", wf), encoding="utf-8").read()
+            self.assertNotIn("db_state.py", flow, wf)
+            self.assertNotIn("group: parl-monitor-state", flow, wf)
 
     def test_both_workflows_are_gated_with_cover_hours(self):
         for wf, _job in self.PAIRS:

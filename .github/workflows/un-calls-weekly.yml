@@ -1,17 +1,29 @@
-name: UN calls weekly
+name: UN calls weekday
 
-# PAUSED 2026-08-17 (Christopher): nothing UN-related publishes until the
-# monitor covers the issues and the forward calendar properly. The schedule
-# below is deliberately commented out rather than deleted -- the cadence
-# reasoning is the part worth keeping, and re-enabling should be one edit.
+# UNPAUSED 13 October 2026 (Chris): the UN check runs EVERY WEEKDAY, as a DM
+# to Chris alone (tools/post_un_calls.py forces U05LJP0BT61 whatever the
+# secrets say; no channel id is written below). It had been paused since
+# 17 August until the monitor covered the issues and the forward calendar;
+# the PGA letters, GA plenaries, plenary drafts and the check log (PR #187)
+# were the conditions. The file keeps its old name so its history stays in
+# one place.
 #
-# When it comes back: 07:00 UTC Thursday. Weekly, unlike the monthly UPR
-# harvest, because these carry deadlines. Thursday keeps it clear of the
-# Sunday pull and Monday publish, which share the parl-monitor-state
-# concurrency group.
+# The Mac Mini runs it first, Monday to Friday 08:30 London
+# (tools/mini_run.sh un-weekday; jobs/un-weekday.sh). This cron is the
+# BACKUP: 10:00 UTC, 90 to 150 minutes after the Mini's slot, and skipped
+# while the Mini runs it and for 20 hours after.
+#
+# STATELESS, unlike the Mini job and unlike upr-monthly: no store, so no
+# db_state pull or push, no parl-monitor-state concurrency group, nothing to
+# commit. The Mini job holds the store (--db: "new since the last run", the
+# draft walks resume); this backup only runs when the Mini did not, and then
+# a first sign is one dated in the last seven days. upr-monthly needs the
+# store because its whole output IS the store; this one's output is a DM. A
+# stateful backup would download and re-upload a 1.1 GB store on weekday
+# mornings to send one message, and queue behind every other store writer.
 on:
-  # schedule:
-  #   - cron: "0 7 * * 4"
+  schedule:
+    - cron: "0 10 * * 1-5"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -23,20 +35,21 @@ permissions:
   contents: read
 
 jobs:
+  mini-check:
+    uses: ./.github/workflows/mini-check.yml
+    with:
+      job: UN_WEEKDAY
+      cover-hours: 20
+
   calls:
+    needs: mini-check
+    if: needs.mini-check.outputs.run == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
-      # ref: the branch TIP at checkout time, not github.sha. A dispatched
-      # or scheduled run PINS github.sha when it is created; queued behind
-      # another run in the parl-monitor-state group, it then checks out a
-      # sidecar OLDER than the store that run just published, and the fetch
-      # refuses the mismatch. Found 2026-08-31: a sunday-pull dispatched
-      # while a publish ran died exactly this way -- the fourth known route
-      # to store/sidecar divergence, and the first that needs no failure
-      # anywhere. These workflows act on repo STATE, so the tip is always
-      # the right thing to act on.
+      # ref: the branch TIP at checkout time, not github.sha (see
+      # upr-monthly.yml): these workflows act on repo state.
         with:
           ref: ${{ github.ref_name }}
       - uses: actions/setup-python@v7
@@ -45,23 +58,33 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml pypdf
       - name: Write secrets file
+        # No slack_channel_id: the UN report goes to Chris's DM only.
         run: |
           cat > config/secrets.yaml <<EOF
           slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
-          slack_channel_id: C9RH217PZ
           slack_team_id: T066M0LAJ
           slack_dm_user_id: U05LJP0BT61
           EOF
-      - name: Post the week's open calls
-        # No commit step: this reads a live page and sends a message. It
-        # stores nothing, so there is no state to push and nothing to make
-        # idempotent -- a duplicate run costs one duplicate DM, not a
-        # corrupted store.
-        env:
-          NO_PUBLISH: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '1' || '0' }}
+      - name: Print the message (dry run)
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run
+        # Exit 3 = printed, but a source could not be read: the check log
+        # at the end of the message names it (this is how to see whether
+        # GitHub's runners are challenged by www.ohchr.org).
         run: |
-          if [ "$NO_PUBLISH" = "1" ]; then
-            python3 tools/post_un_calls.py --dry-run
-          else
-            python3 tools/post_un_calls.py
-          fi
+          set +e
+          python3 tools/post_un_calls.py --dry-run
+          rc=$?
+          [ "$rc" = 3 ] && { echo "::warning::some UN sources could not be read; see the check log above"; exit 0; }
+          exit $rc
+      - name: Send the DM
+        if: github.event_name == 'schedule' || !inputs.dry_run
+        # No commit step: this reads live pages and sends a message. Exit 3
+        # means the DM went out but a source could not be read (the DM says
+        # which): delivered, so the step passes with a warning. Exit 1 (not
+        # sent) fails it and the failure alert fires.
+        run: |
+          set +e
+          python3 tools/post_un_calls.py
+          rc=$?
+          [ "$rc" = 3 ] && { echo "::warning::DM sent; some UN sources could not be read (named in the DM)"; exit 0; }
+          exit $rc

@@ -902,7 +902,8 @@ If a mid-week pull of the coming week is ever wanted deliberately, delete its
 Other scheduled workflows, checked at the same time: `ni-weekly` (Sat 06:00 and
 14:00 UTC) is a pull with no publish attached, so NI still cannot reach Slack;
 `un-calls-weekly` has its cron **commented out** and is dispatch-only, so nothing
-UN publishes; `upr-monthly` is the 3rd of the month. Only `monday-publish`
+UN publishes (unpaused 13 October 2026: every weekday, a DM to Chris only, Mac
+Mini first); `upr-monthly` is the 3rd of the month. Only `monday-publish`
 publishes.
 
 ## The WHO name needed the same guard as the acronym (v0.8, 2026-08-20)

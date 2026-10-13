@@ -100,6 +100,8 @@ def _why(exc):
     """
     cause = str(getattr(exc, "cause", None) or exc)
     url = str(getattr(exc, "url", "") or "")
+    if "hrcportal.ohchr.org" in (url + cause) or "robots.txt" in cause:
+        return cause            # already says which route failed, and why
     if "403" in cause and "ohchr.org" in (url + cause):
         return ("HTTP 403 from www.ohchr.org (a Cloudflare bot challenge since "
                 "13 October 2026; not bypassed)")
@@ -217,13 +219,11 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
     open_calls = []
 
     try:
-        sessions = un_calendar.fetch_sessions(client)
-        if not sessions:
-            checks.failed("HRC sessions (OHCHR)", "page parsed to nothing (layout change?)")
-            gaps.append("HRC sessions: page parsed to nothing (layout change?)")
-        else:
-            checks.read("HRC sessions (OHCHR)", sessions, key=lambda s: s.starts,
-                        title=lambda s: s.name)
+        # hrcportal.ohchr.org first: www.ohchr.org is behind a Cloudflare
+        # challenge since 13 October 2026 (src/ingest/un_calendar.py).
+        sessions, route = un_calendar.fetch_sessions_routed(client)
+        checks.read("HRC sessions (OHCHR)", sessions, key=lambda s: s.starts,
+                    title=lambda s: s.name, detail="via " + route)
         for s in un_calendar.upcoming(sessions, today=today, horizon_days=days):
             rows.append((s.starts, "SESSION", s.name, s.when, "", s.url,
                          un_store.item_id("session", s.body, s.number), s))
@@ -378,7 +378,8 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
                          ",".join(str(a) for a in areas), c.url,
                          un_store.item_id("call", c.url.rsplit("/", 1)[-1]), c))
     except FetchError as exc:
-        checks.failed("OHCHR calls for input", _why(exc))
+        checks.failed("OHCHR calls for input", _why(exc) + "; no unchallenged "
+                      "alternative found (docs/un-sources.md)")
         gaps.append("calls for input: {0}".format(_why(exc)))
 
     signals = un_signals.build_signals(letters, plenaries, drafts, tax, wl, as_of=today)

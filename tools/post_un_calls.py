@@ -1,13 +1,15 @@
-"""The UN DM: first signs on our ground, then the week's open calls for input.
+"""The UN DM: first signs on our ground, then the open calls for input.
 
     python3 tools/post_un_calls.py              # send the DM (Chris only)
     python3 tools/post_un_calls.py --dry-run    # print it, send nothing
     python3 tools/post_un_calls.py --db PATH    # use (and update) a store copy
     python3 tools/post_un_calls.py --walk       # also walk the draft series
 
-Weekly rather than monthly, unlike the UPR harvest: these carry deadlines,
-and a fortnight's silence can be the difference between making a submission
-and reading about one.
+Every weekday (Chris, 13 October 2026; jobs/un-weekday.sh on the Mac Mini,
+.github/workflows/un-calls-weekly.yml the backup), not monthly like the UPR
+harvest: these carry deadlines, and first signs (a PGA letter naming a vote
+date) can come only days ahead. The 12 October pandemic declaration was
+announced five days before the vote.
 
 WHAT LEADS (13 October 2026). Anything on our ground due within 14 days,
 then the FIRST SIGNS on our ground: a draft tabled, a GA plenary listed, a
@@ -27,8 +29,16 @@ name are read. With --db the store says what is new and the walks resume.
 
 The CHECK LOG ends every message: each source, read OK / read but empty /
 could not read, with its newest item. A source that could not be read is
-said so in the message, never left to look like a quiet week, and the run
-exits 1.
+said so in the message, never left to look like a quiet week.
+
+EXIT CODES (13 October 2026, when the check went to every weekday on the Mac
+Mini). 0: sent (or printed), every source read. 3: sent (or printed), but at
+least one source could not be read; the message itself says so in its check
+log. 1: the DM could not be sent. Kept apart because on the Mini a nonzero
+exit leaves MINI_LAST unset, so GitHub's backup would send the same DM a
+second time and a failure alert a third, every weekday OHCHR stays
+challenged. jobs/un-weekday.sh treats 3 as delivered; the backup workflow
+treats it as delivered too and says so in its log.
 
 To Chris alone, as a DM (CHRIS below, whatever secrets.yaml says). Never a
 channel.
@@ -51,6 +61,7 @@ from pull_un_calls import areas_for, load_un_filter  # noqa: E402
 
 URGENT_DAYS = 21
 CHRIS = "U05LJP0BT61"          # the DM goes to Chris alone
+UNREAD = 3                     # exit: delivered, but a source could not be read
 
 
 def build_message(calls, tax, wl, top=None, checks=None):
@@ -142,14 +153,20 @@ def main():
                                 un_signals.first_signs(got.signals, today, new_ids=new_ids),
                                 today)
     text = build_message(got.calls, tax, wl, top=top, checks=got.checks)
+    unread = UNREAD if got.checks.unread() else 0
     if dry_run:
         print(text)
-        return 1 if got.checks.unread() else 0
+        return unread
     secrets = publish.load_secrets()
     secrets["slack_dm_user_id"] = CHRIS       # Chris alone, whatever secrets.yaml says
     result = publish.slack_dm(secrets, text)
     print("un dm: {0}".format(result))
-    return 1 if ("error" in result or got.checks.unread()) else 0
+    if "error" in result:
+        return 1
+    if unread:
+        print("un dm: sent, but {0} source(s) could not be read (the DM's check log "
+              "names them)".format(len(got.checks.unread())))
+    return unread
 
 
 if __name__ == "__main__":

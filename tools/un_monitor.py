@@ -231,7 +231,8 @@ def main():
           "would unlock it.")
     print("  * Nothing here is scheduled except the monthly UPR harvest. The "
           "calendar, drafts and votes are refreshed only when run by hand.")
-    print("  * The weekly DM is PAUSED (.github/workflows/un-calls-weekly.yml).")
+    print("  * The UN DM goes to Chris every weekday (jobs/un-weekday.sh on the "
+          "Mac Mini; .github/workflows/un-calls-weekly.yml the backup).")
     print("  * Draft subjects need pypdf; agendas come from L.1 of a session.")
     conn.close()
     return 0
