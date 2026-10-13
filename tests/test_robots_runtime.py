@@ -114,6 +114,19 @@ class GuardTests(unittest.TestCase):
         client.get_text("https://www.lachambre.be/kvvcr/index.cfm", "be-rollcalls", "x")
         self.assertEqual(serving.host_throttles.get("www.lachambre.be"), 5.0)
 
+    def test_disallows_for_us_reads_only_groups_that_apply_to_us(self):
+        # Santa Fe's SIEL (13 October 2026): groups for named AI agents only
+        named = "User-agent: ClaudeBot\nDisallow: /\n\nUser-agent: GPTBot\nDisallow: /\n"
+        cases = {named: [],
+                 named + "\nUser-agent: *\nDisallow: /privado/\n": ["/privado/"],
+                 named + "\nUser-agent: CitizenGO-ParlMonitor\nDisallow: /\n": ["/"],
+                 "User-agent: *\nDisallow:\n": []}
+        for text, want in cases.items():
+            client, _ = guarded_api(Routes({}), {"siel.example.ar": text}, "f")
+            self.assertEqual(client.disallows_for_us("https://siel.example.ar/"), want, text)
+        client, _ = guarded_api(Routes({}), {"siel.example.ar": 503}, "f")
+        self.assertTrue(client.disallows_for_us("https://siel.example.ar/")[0].startswith("unreachable"))
+
 
 class AgendaTests(unittest.TestCase):
     """src/agendas/it.py: the Camera's calendar (camera.it, a website)."""

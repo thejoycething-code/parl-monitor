@@ -106,6 +106,9 @@ LEGISLATURES = {
     "chu": "Legislatura del Chubut",
     "juj": "Legislatura de Jujuy",
     "ctes-dip": "Cámara de Diputados de Corrientes",
+    "sf-dip": "Cámara de Diputados de Santa Fe",
+    "sal-sen": "Cámara de Senadores de Salta",
+    "sal-dip": "Cámara de Diputados de Salta",
 }
 
 SCHEMA = (
