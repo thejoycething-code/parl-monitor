@@ -3,7 +3,7 @@
 Written by the personal-account Claude session that built the 30 new
 countries and their parity layers (9-13 October 2026), for Chris's
 work-account Claude to take over. Everything it built is merged to main
-(through #169, 13 October 2026). Read also
+(through #179, 13 October 2026). Read also
 `docs/country-decisions-2026-10-11.md` and `docs/country-decisions-2026-10-12.md`.
 Read this with `docs/country-decisions-2026-10-10.md` (Chris's signed-off
 decisions, the spec) and each `docs/<country>-scope.md` (sources, quirks,
@@ -103,8 +103,36 @@ small budget (#118).
   Charter and ideology-free zones terms, #168), es/ca (#145), it (#146).
 - Seeded regional watchlists (#156 and the regional PRs): IT, AT, PE, MX
   states, PL, AR provincial, CH cantons, BE regions, AU states (BR states
-  empty). All await Chris's review.
+  empty). Accepted as seeded 13 October (#179), with Brazil's seeded.
 - Fix: `test_it_rollcalls` accepts regional watchlist keys (#160).
+
+**13 October 2026 afternoon round (#172-#179):**
+- Australia divisions: Victoria, South Australia, Tasmania and the ACT from
+  their official records on hosts that answer us (#172), Queensland from the
+  Record of Proceedings PDFs on documents.parliament.qld.gov.au (#177); NSW
+  as before. WA and NT: no route (emailed). Page-cap test fix (#175).
+- Switzerland: five more cantons (#177), Basel-Stadt, Basel-Landschaft,
+  St. Gallen and Thurgau via their parliaments' own business systems, Aargau
+  adopted acts only (the AGS). Ten of 26 cantons.
+- Argentina (#173): Santa Fe Diputados' SIEL built (its robots.txt blocks AI
+  agents by name and allows our UA; a guard skips the run if any rule ever
+  covers our UA); Salta: wrong hostnames, not a missing intermediate, so
+  readers on the two hosts that verify, verification fully on. Salta
+  Diputados' Asuntos Entrados read from the sitting PDFs (#179).
+- Brazil: 16 of 27 assemblies, about 73% of the population (#174), 17 with
+  Santa Catarina on the GitHub-side step (#176; Mato Grosso not buildable:
+  robots.txt and OAuth); Paraná's bills via ALEP open data under the one
+  plain-HTTP exception (#178); LexML has no allowed route and the six states
+  it holds are read already, so no email. Watchlist seeded with ten bills
+  (#179).
+- US states: the GitHub-side step for New Jersey, Massachusetts and
+  Michigan (#176), the senate.gov half's store-safety pattern
+  (`tools/github_half.sh`), no new cron. New York stays on Open States.
+- Keyword terms, measured before and after (#179): English v1.23, French
+  v0.3, Dutch v0.3 (Belgium), German additions v0.3, Spanish v0.4. Regional
+  watchlists accepted as seeded.
+- Access emails sent 13 October to five Swiss cantons, WA, NT and ALMG
+  (table under "Blocked, waiting on replies").
 
 **Nothing is published from a 5CA yet.** Every reading is a draft until the
 first automatic sign-off, Sunday's `editions-session-judge` (16:45 London,
@@ -120,6 +148,16 @@ until a reading is confirmed.
 
 Open:
 
+- OPEN (Mini, hand-run): English taxonomy v1.23 (#179) changes stored UK,
+  devolved and EU rows, which only `jobs/retag-backfill.sh` re-tags, run by
+  hand on the Mini with `RETAG_BASELINE` set to the v1.22 commit
+  (`RETAG_BASELINE=4620a030`, as a one-shot launchd job, see "Reaching the
+  Mini"; command in `docs/mac-mini.md`). Canada through `jobs/ca-backfill.sh`
+  with `CA_RETAG=true`; US, IE and AU through their weeklies' reclassify
+  inputs.
+- OPEN (Mexico): the five states unreachable from the UK (Veracruz,
+  Guanajuato, Nuevo León, Michoacán, Zacatecas): wait for the next GitHub
+  run; the SCJN route (as for Puebla) is ready as a fallback.
 - OPEN (HazteOir): confirm Spain's SUMAR free-expression reform
   (15/122/000006). Drafted `with`, flagged, so nothing confirms on it.
 - OPEN: the remaining unclear amendment readings (mostly Hungary, the
@@ -128,28 +166,6 @@ Open:
 - OPEN: update the work account's **debate-day-net** scheduled task from
   `ops/scheduled-tasks/debate-day-net.md` (STEP 1B, debate today for NL, CH,
   FR, BE). It lives on the work account.
-- OPEN (Switzerland): Basel-Stadt, Basel-Landschaft, St. Gallen and Thurgau
-  publish open data whose robots.txt disallows `/api/` to all but Googlebot.
-  Leave, or write to their open-data offices? Aargau disallows its whole
-  parliament section: ask its Parlamentsdienst or leave?
-- OPEN (Argentina): Salta Diputados' intake (pending lists empty, Asuntos
-  Entrados as PDFs): read the PDFs or ask the chamber? (Santa Fe SIEL and
-  both Salta chambers built 13 October, `docs/argentina-regions-scope.md`.)
-- OPEN (US states): New Jersey, Massachusetts, New York's Senate API and
-  Michigan answer GitHub's runners only, not the Mini. Add a GitHub-side
-  states step? New York's needs a free key.
-- OPEN (Brazil): ALMG's open-data API is disallowed by robots.txt (the
-  website is read instead): ask ALMG? A Brazilian-address machine for the
-  nine assemblies that do not answer from the UK?
-- OPEN (Mexico): the five states unreachable from the UK (Veracruz,
-  Guanajuato, Nuevo León, Michoacán, Zacatecas): wait for the GitHub run;
-  the SCJN route (as for Puebla) is ready as a fallback. No Mexican VPN exit
-  unless Chris says so.
-- OPEN: review the seeded watchlists (IT, AT, PE, MX states, PL, AR
-  provincial, CH cantons, BE regions, AU states) and the proposed taxonomy
-  terms in each regional scope doc.
-- OPEN (Poland): keep Kujawsko-Pomorskie's draft resolutions ("On a
-  sejmik's agenda") in the edition?
 - OPEN: when France or Belgium agrees to short credited clips, set
   `fr.agreement` / `be.agreement` in `config/clip-sources.yaml`.
 
@@ -176,6 +192,19 @@ Done or decided (details in the decisions docs):
   built (#161, #166); LegiScan built but dropped by Chris (no key).
 - Standing rule (13 October): when a source blocks us, look for legitimate
   alternative routes before recording a gap (Rules to keep).
+- Access and routes (13 October): the Swiss open-data cantons and Aargau,
+  ALMG, and the QLD, WA and NT parliaments: emailed (WA, NT, five cantons,
+  ALMG) and external routes built (#177; Queensland's divisions found a
+  route, so no email). Santa Fe SIEL: build (#173). Salta: the legitimate fix
+  tried (the right hostnames, #173), and its intake read from the PDFs
+  (#179). US GitHub-side step for NJ, MA and MI, NY stays on Open States
+  (#176). No paid or local exits for Brazil or Mexico: GitHub and other
+  alternatives first. Paraná: the narrow HTTP exception (#178). LexML: no
+  email.
+- Terms and watchlists (13 October): every seeded regional watchlist
+  accepted, the proposed terms applied after measuring (#179); Brazil's state
+  watchlist seeded. Poland: Kujawsko-Pomorskie's draft resolutions stay in
+  the edition.
 - Other: Looker prefixes handed to the work account; Dutch week ahead in its
   DM; rainbow-flag motion watched; member-intel groups approved; no outreach
   to country teams; FIFO run slot (#95); English debate summaries with
@@ -183,21 +212,32 @@ Done or decided (details in the decisions docs):
   (#120).
 
 **Watch:**
-- Panama's bills feed is dark while sistemas.asamblea.gob.pa's robots.txt
-  answers HTTP 500 (asked 12 October).
+- Friday 16 October: the first live run of the GitHub-side step (NJ, MA, MI
+  at the start of the US weekly, 10:00 London; Santa Catarina at the start
+  of Saturday's Brazil weekly).
+- Saturday 17 October: the first regional weekly runs (ES, IT, AT, PE and
+  the regional steps of the PL, AR, CH, BE, BR, AU and US weeklies), with the
+  new readers (Swiss cantons, Australian divisions, Santa Fe, Salta, Paraná,
+  the Brazilian alternatives).
+- Sunday 18 October 16:45: the first automatic sign-off
+  (`editions-session-judge`), about 1,243 readings.
 - Mexico's SITL and Gaceta, and the five unreachable states, from the next
   GitHub run.
-- The first automatic sign-off, Sunday 18 October 16:45 (`editions-session-judge`).
-- Saturday's first regional weekly runs (ES, IT, AT, PE and the new
-  regional steps in the PL, AR, CH, BE, BR, AU and US weeklies).
+- Replies to the access emails (table under "Blocked, waiting on replies").
+- Panama's bills feed is dark while sistemas.asamblea.gob.pa's robots.txt
+  answers HTTP 500 (asked 12 October).
 
 **Still to run on the Mini (store writers, one at a time):**
 
-- Nothing to install for the regional layers: every one is a step of an
-  existing weekly. First scheduled regional runs are this week's weeklies
-  (Saturday's ES, IT, AT, PE and the others in turn); MX on its next
-  fortnightly GitHub run. The NSW backfill drains over three or four
-  Fridays with a [gap] line each until done.
+- The v1.23 retag of UK, devolved and EU rows: `jobs/retag-backfill.sh`
+  with `RETAG_BASELINE=4620a030` (OPEN above), then `ca-backfill` with
+  `CA_RETAG=true`.
+- Nothing to install for the regional layers or the GitHub-side step: each
+  is a step of an existing weekly (`git pull` of the runner clone is
+  enough). `GH_TOKEN` for the GitHub halves comes from `gh auth token` in
+  `tools/mini_run.sh`; nothing to add to `~/runner/env`. MX on its next
+  fortnightly GitHub run. The NSW and other Australian division backlogs
+  drain over a few Fridays with a [gap] line each until done.
 - pypdf for Świętokrzyskie's register PDF: already in the Mini's runner
   venv (pypdf 6.14.2, checked 13 October 2026); nothing to install.
 - The first Sunday 16:45 run of `editions-session-judge` (Claude Code on the
@@ -266,12 +306,14 @@ publish seen".
   PL, CH, AT and IT (not published), Austrian interests (licence), Colombia's
   and El Salvador's daily sweep (no cheap dated source), clips for France and
   Belgium (agreement needed).
-- Regional gaps, each listed in its scope doc: Brazil's other 17 assemblies
-  (alternative routes being built), Mexico's remaining states, the blocked
-  and unreachable Italian and Spanish councils, Switzerland's other 21
-  cantons, Belgium's German-speaking Community, COCOF and VGC, member votes
-  outside NSW, Flanders, ALESP committees and the Mexican states that
-  publish them.
+- Regional gaps, each listed in its scope doc: Brazil's other 10 assemblies
+  (RS, DF, ES, AP, MA unreachable; RR 403; MS captcha; SE no list; BA stale;
+  MT robots.txt and OAuth; plus member votes for Paraná, reCAPTCHA),
+  Mexico's remaining states, the blocked and unreachable Italian and Spanish
+  councils, Switzerland's other 16 cantons and Aargau's Grosser Rat
+  business, Belgium's German-speaking Community, COCOF and VGC, WA and NT
+  divisions (awaiting replies), Argentina's unbuilt and blocked chambers,
+  ALESP committees and the Mexican states that publish them.
 - Waiting for time: Spain's agendas, speeches and sweep fill from 23
   December when the XVI sits; Texas' feed from the 90th Legislature (January
   2027).
@@ -310,7 +352,7 @@ publish seen".
 | Debate report (report and social copy after a debate, DM for approval, canvas) | yes (`tools/debate_report.py`, one paid call) | no | no | no | **built** 11 Oct (`tools/country_debate_report.py`, `src/country_debatereport.py`, branch `ukp2-debate-report`, manual) for the five countries whose speeches we store: NL, CH, AT, FR, BE. English report from templates over the record (no paid AI): speakers on our ground with a verbatim source-language passage each, translations by a person or the free session judge (`--queue-out`/`--queue-in` via `tools/session_judge.sh`), the debated bill's votes (found by the reference in the title, `--item` or a debate pack) and the latest on the same ground with tallies, group splits and vote meanings; clip pack linked. AWAITING SIGN-OFF, no verdicts, until the readings shown are confirmed. DM to Chris alone; `--approve --by NAME` records approval against the files; `--publish` makes the canvas with the UK's code, shared with Chris alone (never a channel), rewritten in place on a re-run. Samples `docs/debate-report-samples/` |
 | Words since the last vote (`since_last_vote.py`) | yes | no | no | no | **built** 11 Oct (`tools/country_since_vote.py`, `src/country_since_vote.py`, branch `ukp2-since-last-vote`, manual) for the countries with speeches and votes: NL, CH, AT, FR, BE. Per area, each member's last recorded vote on it (watched or tier 1, procedure never) and their speeches since, with excerpts. Drift is named only once the vote's reading is CONFIRMED and a person or the free session judge has read the words (`--queue-out` / `--reads`, `read_by` required, a read goes stale when new words arrive); before that "awaiting sign-off", ranked by recency and volume. Group votes (NL shows of hands, AT) never name drift. Optional profile section: `tools/member_profiles.py <cc> --since-vote` (off in the weeklies). Samples `docs/since-vote-samples/` (CH, FR, BE; the published store holds no NL votes or speeches and no AT speeches yet) |
 | Health summary, Drive | health DM; briefs and debate footage on Drive | health DM | health DM | health DM | **built** 11 Oct (branch `ukp-health-drive`): the 07:30 health DM has one compact section per region (Europe, Latam) plus shared jobs, failed and stale jobs first, step gaps by step, editions behind, the countries' overdue sources (`src/country_health.py`); briefs as Sheets from the UK template and real debate packs on Drive under `Country editions/<Country>/` in the Automated Briefs shared drive, a step of the Sunday `editions-session-judge` (`tools/country_drive.py`, ledger `data/country-drive.json`, at most 30 new sheets a run) |
-| Regional / state parliaments | devolved | Länder (part) | US states: Open States free tier (watched and tier-1 bills first) plus direct feeds for KS, CA, TX, PA, MO, AR (#161, #166; LegiScan built, dropped: no key); AU states: NSW in full with divisions, the other seven bills or Acts (#167) | provinces; Senate committees and committee reports (#157) | All as steps of existing weeklies, robots.txt asked every run. Spain all 17 via the BOE plus four bill lists (#137); Peru 25 regions + Lima (#138); Mexico 13 state congresses plus gazette routes for SLP, Campeche, Durango, Querétaro and Puebla (via the SCJN reform list), about 58% of the population (#141, #155, #158); Austria 7 Landtage + Vienna's Gemeinderat (#142, #152); Italy 4 councils + Senate amendment texts from the Senate's GitHub (#143, #159); Poland journals 15/16, registers 13/16, Family Charter terms, watchlist (#162, #168); Argentina SAIJ laws for all 24 + 8 legislatures' bills (#163); Switzerland 5 cantons (#164); Belgium Flemish, Walloon, Brussels and COCOM, FWB in part, Flemish votes by member (#165); Brazil 10 of 27 assemblies, alternative routes being built (#169). Gaps and blocks in each regional scope doc |
+| Regional / state parliaments | devolved | Länder (part) | US states: Open States free tier (watched and tier-1 bills first) plus direct feeds for KS, CA, TX, PA, MO, AR (#161, #166) and a GitHub-side step for NJ, MA, MI (#176; NY on Open States; LegiScan built, dropped: no key); AU states: bills or Acts for all eight (#167), divisions with every member's vote for NSW, Vic, SA, Tas, ACT and Qld (#172, #177), none for WA or NT (no route) | provinces; Senate committees and committee reports (#157) | All as steps of existing weeklies, robots.txt asked every run. Spain all 17 via the BOE plus four bill lists (#137); Peru 25 regions + Lima (#138); Mexico 13 state congresses plus gazette routes for SLP, Campeche, Durango, Querétaro and Puebla (via the SCJN reform list), about 58% of the population (#141, #155, #158); Austria 7 Landtage + Vienna's Gemeinderat (#142, #152); Italy 4 councils + Senate amendment texts from the Senate's GitHub (#143, #159); Poland journals 15/16, registers 13/16, Family Charter terms, watchlist (#162, #168); Argentina SAIJ laws for all 24 + bills from 11 chambers (#163; Santa Fe Diputados and both Salta chambers #173, Salta's intake from PDFs #179); Switzerland 10 of 26 cantons (#164; BS, BL, SG, TG and Aargau's adopted acts #177); Belgium Flemish, Walloon, Brussels and COCOM, FWB in part, Flemish votes by member (#165); Brazil 17 of 27 assemblies (16, about 73% of the population, after #169 and #174; Santa Catarina on GitHub #176; Paraná's bills over the one HTTP exception #178). Gaps and blocks in each regional scope doc |
 | Vote meanings (what a Yes and a No meant) | yes (`meaning_aye`/`meaning_no`, written by hand) | no | no | no | **built** 11 Oct (`src/vote_meanings.py`, `tools/vote_meanings.py`, branch `ukp-meanings`): every watched and tier-1 vote in the 21 countries with recorded votes, rules first, then the free session judge after the editions' scores within the same ~100 items a week; stored per division (`vote_meanings`); a person overrides in `config/vote-meanings-<cc>.yaml`; shown in editions, the Latam monitor, vote briefs, profiles, debate packs and the 5CA readings guides |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
@@ -1021,6 +1063,14 @@ All from cjoyce@citizengo.net.
 | Panama segLegis (robots.txt answers HTTP 500, so not read) | bhislop@asamblea.gob.pa (open-data maintainer), cc wmaster@asamblea.gob.pa | sent 12 Oct |
 | San Luis Potosí Congress (Sucuri bot check): access | unidadtransparenciaslp@gmail.com | sent 12-13 Oct; adopted decrees read from the gazette meanwhile (#155) |
 | Campeche Congress (robots.txt disallows all): access, and whether legislacion.congresocam.gob.mx may be read | procesoslegislativos@congresocam.gob.mx | sent 12-13 Oct; gazette read meanwhile (#155) |
+| Basel-Stadt open data (`/api/` disallowed to all but Googlebot) | opendata@bs.ch, cc parlamentsdienst@bs.ch | sent 13 Oct; grosserrat.bs.ch read meanwhile (#177) |
+| Basel-Landschaft open data (same) | daten@bl.ch, cc landeskanzlei@bl.ch | sent 13 Oct; baselland.talus.ch read meanwhile (#177) |
+| St. Gallen open data (same) | statistik@sg.ch, cc parlamentsdienste@sg.ch | sent 13 Oct; ratsinfo.sg.ch read meanwhile (#177) |
+| Thurgau open data (same) | ogd@tg.ch, cc grossrat.sk@tg.ch | sent 13 Oct; grgeko.tg.ch read meanwhile (#177) |
+| Aargau (robots.txt disallows the parliament section) | parlamentsdienst@ag.ch | sent 13 Oct; adopted acts from the AGS meanwhile (#177) |
+| Western Australia Parliament (robots.txt answers 403): allow our UA | receptionservices@parliament.wa.gov.au, cc laquery@parliament.wa.gov.au | sent 13 Oct; Acts as passed only meanwhile |
+| Northern Territory Assembly (robots.txt answers 403): allow our UA | LA.Committees@nt.gov.au | sent 13 Oct; bills by session meanwhile |
+| Minas Gerais ALMG open-data API (robots.txt disallows) | ouvidoria@almg.gov.br | sent 13 Oct; the website's bill search read meanwhile |
 | Costa Rica (refuses foreign connections) | participacion-consultas@asamblea.go.cr takes internal senders only; no external address published | bounced, parked |
 
 ## Rules to keep (learned the hard way)
@@ -1043,8 +1093,21 @@ All from cjoyce@citizengo.net.
   `src/` or `tools/`, and `HttpClient` refuses a POST over HTTP or any
   other path on that host. No new exception without Chris, dated, in that
   dict.
+- A robots.txt that names other agents but has no group covering our UA
+  (Santa Fe's SIEL) allows us; the reader checks before every run and stops
+  if a rule ever covers our UA (`GuardedClient.disallows_for_us`). TLS
+  verification stays on everywhere; fix a failing host by finding the
+  hostname that verifies (Salta), never by trusting a certificate.
+- GitHub-side reads for hosts only GitHub's runners reach go through
+  `tools/github_half.sh` at the start of the Mini's weekly (dispatch, wait
+  for the pull, refetch the store, exclude those sources); never a new cron
+  or a laptop dispatch.
+- No paid data tiers, paid proxies or local VPN exits (Brazil, Mexico)
+  without Chris; GitHub and other legitimate alternatives first.
 - Never hand-edit generated taxonomy YAML; edit `docs/keyword-taxonomy-*.md`
   and regenerate. `taxonomy-qc` stays unchanged for Belgium and Switzerland.
+  An English taxonomy change needs the hand-run retag on the Mini
+  (`jobs/retag-backfill.sh` with `RETAG_BASELINE`, plus `CA_RETAG`).
 - AI judge: the paid API judge stays off (X16); the free session judge runs
   on the Mini under the work account's plan, capped at about 100 items a week.
 - Never dispatch store-writing GitHub workflows from the laptop (they lose the
@@ -1148,9 +1211,8 @@ assemblies" section of the Brazilian edition and one DM line.
   Mato Grosso do Sul (JavaScript app), Pernambuco (open data without bills).
 - **Flaky:** ALMG and ALERJ time out or drop connections for spells; a gap
   each run they fail, resumed the next.
-- **Waiting on Chris:** ALMG's API (ask them, or rule on documented APIs
-  that robots.txt disallows), seeding the state watchlist, a few taxonomy-pt
-  false positives, and whether a Brazilian vantage point is worth it.
+- **Decided 13 October:** ALMG emailed; state watchlist seeded (#179);
+  no Brazilian vantage point (GitHub and alternatives first).
 
 ### Second pass: alternative routes (13 October 2026, branch `br-states-alt`)
 
@@ -1188,9 +1250,8 @@ routes tried: `docs/brazil-regions-scope.md`, "Alternative routes".
   endometriosis/infertility awareness weeks are left out of the Brazilian
   edition by `exclude_titles` in `config/edition-noise-br.yaml` (no
   taxonomy change); measured before/after in the scope doc.
-- **Waiting on Chris:** ALEP's documented open-data API is plain HTTP only
-  (allow it, or ask ALEP for https); asking LexML to allow `/busca/SRU`.
-  (The GitHub-side step for SC was approved and built 13 October 2026.)
+- **Decided 13 October:** ALEP's API allowed as the one HTTP exception
+  (third pass below); LexML not emailed; SC built on the GitHub-side step.
 
 ### Third pass: Paraná's bills over the HTTP exception, LexML (13 October 2026, branch `br-parana-lexml`)
 
@@ -1305,8 +1366,9 @@ alternatives whilst keeping the current tier we have." Built on branch
   concurrency group and publishes with `db_state.py --push` (lineage check).
   GitHub's own backup crons (US Friday 10:00 UTC, Brazil Saturday 09:30 and
   13:30 UTC) read them inline. Nothing to install on the Mini (`git pull`
-  is enough); the Mini needs `GH_TOKEN` in `~/runner/env`, as for the
-  Senate half. Heartbeat "US states GitHub" in `tools/coverage.py`.
+  is enough); `GH_TOKEN` comes from `gh auth token` in `tools/mini_run.sh`,
+  as for the Senate half (nothing to add to `~/runner/env`). Heartbeat
+  "US states GitHub" in `tools/coverage.py`.
 
 ## Regional layer: Poland's 16 voivodeship assemblies (13 October 2026)
 
@@ -1434,9 +1496,9 @@ robots.txt asked at run time (`GuardedClient`, no exemptions).
 - **Phase 2:** Victorian and Tasmanian divisions from their reachable
   Hansard/Votes search engines; South Australian motions; NSW member
   parties (needed for party splits and 5CA).
-- **Waiting on Chris:** the seven-entry watchlist (three provisional), the
-  proposed vocabulary, and whether to ask the six parliaments to allow our
-  user agent.
+- **Decided 13 October:** watchlist accepted, vocabulary applied after
+  measuring (v1.23, #179); divisions found for five more states, WA and NT
+  emailed.
 - **Mini:** nothing to install; the NSW backfill drains over three or four
   Fridays with a [gap] line each until done.
 
@@ -1471,8 +1533,8 @@ states.
 - **Budget:** the states step 5 to 8 minutes (`jobs/au-weekly.sh`), the
   federal collector's reserve 900 to 1,080 seconds; records capped per run,
   newest first, big files not archived.
-- **Waiting on Chris:** whether to write to the Queensland, Western
-  Australian and Northern Territory parliaments asking for our user agent.
+- **Decided 13 October:** Queensland's divisions found a route (#177);
+  WA and NT emailed.
 - **Mini:** nothing to install; the backlogs drain over a few Fridays.
 
 ## Blocked sources: contacts and external routes (13 October 2026, branch `access-routes`)
@@ -1511,11 +1573,10 @@ robots.txt itself; Territory Stories disallows the NT records' PDFs and
 search; Trove's API disallows all. Brazil's Minas Gerais alternatives are
 the branch `br-states-alt`'s (not repeated).
 
-**Waiting on Chris: the emails** (addresses, sources and confidence are in
-the three scope docs): opendata@bs.ch, daten@bl.ch, statistik@sg.ch,
-ogd@tg.ch, parlamentsdienst@ag.ch; ALMG's "Fale com a Assembleia" form (or
-ouvidoria@almg.gov.br); webmaster@parliament.qld.gov.au,
-receptionservices@parliament.wa.gov.au, LA.Committees@nt.gov.au.
+**Emails sent 13 October** from cjoyce@citizengo.net to the five cantons,
+WA, NT and ALMG (see "Blocked, waiting on replies"). Queensland was not
+emailed (its divisions found a route); webmaster@parliament.qld.gov.au is
+kept in `docs/australia-states-scope.md` if ever needed.
 
 ## Regional terms round, watchlists and Salta's intake (13 October 2026)
 
