@@ -4,6 +4,8 @@
     python3 tools/un_drafts.py 80              # Third Committee, session 80
     python3 tools/un_drafts.py --hrc 63        # HRC session 63
     python3 tools/un_drafts.py --max 40        # cap the walk
+    python3 tools/un_drafts.py --plenary       # GA plenary drafts (A/81/L.n)
+    python3 tools/un_drafts.py --plenary 80    # GA plenary, session 80
 
 Draft resolutions are where the text of a fight actually lives -- the family
 language, the SRHR language, the mandate renewals. They are numbered
@@ -63,18 +65,56 @@ def store(conn, rows, body, session, today):
     return [r for r in rows if r[0].symbol not in before]
 
 
+def read_drafts(client, docs, tax, wl, log=print):
+    """(Document, Draft, areas) for each found draft, from its first page.
+
+    A draft whose PDF will not read is kept with an empty Draft and no areas,
+    and logged: it still exists, which is a signal in itself.
+    """
+    rows = []
+    for doc in docs:
+        try:
+            text = un_docs.document_text(client, doc.symbol, pages=1)
+        except Exception as exc:
+            log("  {0}: could not read ({1})".format(doc.symbol, str(exc)[:50]))
+            rows.append((doc, un_docs.Draft(symbol=doc.symbol), []))
+            continue
+        draft = un_docs.parse_draft(doc.symbol, text)
+        # Classify on the draft's own title where it has one: the HRC's agenda
+        # item 3 is an omnibus whose title matches nothing, which made every
+        # HRC draft unclassifiable in the first version.
+        # Title AND an amendment's operative text: L.64 is titled "Rights of
+        # the child" and its instruction deletes "sexual and reproductive
+        # health" from four paragraphs. Title alone made it area 6; both make
+        # it areas 1 and 6, which is why it matters.
+        areas = filt.filter_item(tax, wl, draft.classify_on).issue_areas
+        rows.append((doc, draft, areas))
+    return rows
+
+
 def main():
     argv = sys.argv[1:]
     hrc = "--hrc" in argv
+    plenary = "--plenary" in argv
     max_n = int(argv[argv.index("--max") + 1]) if "--max" in argv else 120
     if "--max" in argv:                      # the value is not a session number
         argv = [a for i, a in enumerate(argv)
                 if i not in (argv.index("--max"), argv.index("--max") + 1)]
+    # --db PATH: a scratch copy of the store (never the live one in a test).
+    db_path = os.path.join(ROOT, "data", "parl-monitor.db")
+    if "--db" in argv:
+        db_path = argv[argv.index("--db") + 1]
+        argv = [a for i, a in enumerate(argv)
+                if i not in (argv.index("--db"), argv.index("--db") + 1)]
     today = datetime.date.today()
     if hrc:
         idx = argv.index("--hrc")
         session = int(argv[idx + 1]) if len(argv) > idx + 1 and argv[idx + 1].isdigit() else 63
         pattern, body = un_docs.HRC_DRAFTS, "Human Rights Council"
+    elif plenary:
+        positional = [a for a in argv if a.isdigit()]
+        session = int(positional[0]) if positional else today.year - GA_EPOCH
+        pattern, body = un_docs.GA_PLENARY_DRAFTS, "General Assembly"
     else:
         # A positional argument wins; otherwise the GA session opening in
         # September of year Y is Y - 1945. Without the override the tool could
@@ -96,26 +136,9 @@ def main():
     tax = filt.load_taxonomy(os.path.join(ROOT, "config", "un-taxonomy.yaml"))
     wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
     print("reading subjects (one fetch each)...", flush=True)
-    rows = []
-    for doc in docs:
-        try:
-            text = un_docs.document_text(client, doc.symbol, pages=1)
-        except Exception as exc:
-            print("  {0}: could not read ({1})".format(doc.symbol, str(exc)[:50]))
-            rows.append((doc, un_docs.Draft(symbol=doc.symbol), []))
-            continue
-        draft = un_docs.parse_draft(doc.symbol, text)
-        # Classify on the draft's own title where it has one: the HRC's agenda
-        # item 3 is an omnibus whose title matches nothing, which made every
-        # HRC draft unclassifiable in the first version.
-        # Title AND an amendment's operative text: L.64 is titled "Rights of
-        # the child" and its instruction deletes "sexual and reproductive
-        # health" from four paragraphs. Title alone made it area 6; both make
-        # it areas 1 and 6, which is why it matters.
-        areas = filt.filter_item(tax, wl, draft.classify_on).issue_areas
-        rows.append((doc, draft, areas))
+    rows = read_drafts(client, docs, tax, wl)
 
-    conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
+    conn = db.init_db(db.connect(db_path))
     fresh = store(conn, rows, body, session, today.isoformat())
 
     ours = [r for r in rows if r[2]]

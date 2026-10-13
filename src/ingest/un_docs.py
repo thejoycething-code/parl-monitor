@@ -41,6 +41,13 @@ DOC_URL = "https://docs.un.org/{lang}/{symbol}?direct=true"
 # SRHR and religious-freedom resolutions; the HRC takes the thematic mandates.
 THIRD_COMMITTEE_DRAFTS = "A/C.3/{session}/L.{n}"
 HRC_DRAFTS = "A/HRC/{session}/L.{n}"
+# General Assembly PLENARY drafts (13 October 2026). The political
+# declarations of high-level meetings are adopted here, not in a committee:
+# A/81/L.6, "Political declaration on pandemic prevention, preparedness and
+# response", dated 5 October 2026 and adopted on 12 October, was never seen
+# because only the Third Committee and HRC series were walked. Same walk,
+# same existence test, same first-page parse.
+GA_PLENARY_DRAFTS = "A/{session}/L.{n}"
 
 
 @dataclass
@@ -138,6 +145,11 @@ _SPONSOR_END = re.compile(
     r"\s*(?P<target>A/[A-Z0-9./]+)?|draft\s+(?P<kind>resolution|decision))\s*$", re.I)
 _TITLE_PREFIX = re.compile(r"^\d+/[\u2026.]+\s*")
 _BODY_START = re.compile(r"^The (Human Rights Council|General Assembly|Third Committee)\s*,", re.I)
+# A plenary draft put forward by the President carries no sponsor list: its
+# own title follows "Draft resolution submitted by the President of the
+# General Assembly" and runs to "The General Assembly", whose comma pypdf
+# sometimes loses (A/81/L.6).
+_BODY_LINE = re.compile(r"^The (Human Rights Council|General Assembly|Third Committee)\s*,?$", re.I)
 
 
 @dataclass
@@ -269,24 +281,65 @@ def parse_draft(symbol, text):
             draft.instruction = ("".join(parts[1:])).strip()[:400]
         if 8 < len(candidate) < 260:
             draft.title = candidate.strip(" :,.")
+    if draft.title is None and draft.sponsors and _SUBMITTED.match(draft.sponsors):
+        draft.title = _title_after_submitted(lines, draft.sponsors)
     return draft
 
 
-def enumerate_drafts(client, pattern, session, max_n=120, stop_after_misses=5):
+def _title_after_submitted(lines, sponsors):
+    """The lines between "Draft resolution submitted by ..." and the body.
+
+    Added 13 October 2026 for GA plenary drafts. Without it A/81/L.6 was
+    classified on its agenda item, "Global health and foreign policy", which
+    matches nothing, instead of its title, "Political declaration on pandemic
+    prevention, preparedness and response", which is our ground.
+    """
+    try:
+        start = lines.index(sponsors) + 1
+    except ValueError:
+        return None
+    title = []
+    for line in lines[start:start + 4]:
+        if _BODY_LINE.match(line) or line.lower().startswith("the general assembly"):
+            break
+        title.append(line)
+    text = re.sub(r"\s+", " ", " ".join(title)).strip(" :,.")
+    return text if 8 < len(text) < 260 else None
+
+
+def enumerate_drafts(client, pattern, session, max_n=120, stop_after_misses=5, start=1):
     """Draft symbols that exist for a session, walking L.1 upward.
 
     Stops after `stop_after_misses` consecutive misses rather than at the
     first one: numbering has gaps in practice (a withdrawn or renumbered
     draft), and stopping at the first hole would silently truncate the set.
     Returns (documents, checked) so the caller can report the cost.
+
+    start (13 October 2026, additive): resume after the highest symbol a
+    store already holds, so a weekly run checks only what may be new
+    instead of re-walking a session at ~10 s a symbol.
     """
-    found, misses, checked = [], 0, 0
-    for n in range(1, max_n + 1):
+    found, checked, _errors = walk_drafts(client, pattern, session, max_n=max_n,
+                                          stop_after_misses=stop_after_misses, start=start)
+    return found, checked
+
+
+def walk_drafts(client, pattern, session, max_n=120, stop_after_misses=5, start=1):
+    """enumerate_drafts, plus the symbols whose check FAILED.
+
+    A fetch error counts as a miss for the walk, but it is not the same as
+    "no such draft". The UN check log (src/un_checks.py) needs the
+    difference: a walk where every check failed could not read docs.un.org,
+    and must never be reported as "no new drafts".
+    """
+    found, misses, checked, errors = [], 0, 0, []
+    for n in range(max(1, start), max_n + 1):
         symbol = pattern.format(session=session, n=n)
         checked += 1
         try:
             doc = head(client, symbol)
         except Exception:
+            errors.append(symbol)
             misses += 1
             if misses >= stop_after_misses:
                 break
@@ -298,4 +351,4 @@ def enumerate_drafts(client, pattern, session, max_n=120, stop_after_misses=5):
             misses += 1
             if misses >= stop_after_misses:
                 break
-    return found, checked
+    return found, checked, errors
