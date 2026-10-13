@@ -1,0 +1,82 @@
+{
+ "count": 6741,
+ "next": null,
+ "previous": null,
+ "results": [
+  {
+   "id": 7214,
+   "is_confidential": false,
+   "is_urgent": false,
+   "has_signature_sheet": false,
+   "committee_id": 468,
+   "number": "61.26.79",
+   "title": "Entlastungspaket oder Kostenverschiebung? Warum werden ländliche Gemeinden zusätzlich belastet?",
+   "type_id": 3,
+   "responsible_id": 503,
+   "process_state_id": 42,
+   "begin_date": "2026-10-12",
+   "end_date": null,
+   "touched": "2026-10-12T21:45:12.017815+02:00"
+  },
+  {
+   "id": 7181,
+   "is_confidential": false,
+   "is_urgent": false,
+   "has_signature_sheet": false,
+   "committee_id": 468,
+   "number": "61.26.78",
+   "title": "Ressource Wasser: Herausforderungen gezielt angehen",
+   "type_id": 3,
+   "responsible_id": 500,
+   "process_state_id": 42,
+   "begin_date": "2026-10-05",
+   "end_date": null,
+   "touched": "2026-10-05T11:30:09.707962+02:00"
+  },
+  {
+   "id": 7179,
+   "is_confidential": false,
+   "is_urgent": false,
+   "has_signature_sheet": false,
+   "committee_id": 468,
+   "number": "61.26.77",
+   "title": "Vorgeschlagene Kürzungen bei der Kulturförderung – was bedeuten sie konkret vor Ort?",
+   "type_id": 3,
+   "responsible_id": 502,
+   "process_state_id": 42,
+   "begin_date": "2026-10-01",
+   "end_date": null,
+   "touched": "2026-10-01T17:15:09.585134+02:00"
+  },
+  {
+   "id": 7178,
+   "is_confidential": false,
+   "is_urgent": false,
+   "has_signature_sheet": false,
+   "committee_id": 468,
+   "number": "61.26.76",
+   "title": "PFAS: zuerst Recht schaffen, dann vollziehen",
+   "type_id": 3,
+   "responsible_id": 500,
+   "process_state_id": 42,
+   "begin_date": "2026-09-29",
+   "end_date": null,
+   "touched": "2026-09-29T16:15:07.239145+02:00"
+  },
+  {
+   "id": 7177,
+   "is_confidential": false,
+   "is_urgent": false,
+   "has_signature_sheet": false,
+   "committee_id": 468,
+   "number": "61.26.75",
+   "title": "Bodycams, Videoüberwachung und automatisierte Fahrzeugfahndung: Welche Lehren zieht die Regierung aus dem Bundesgerichtsurteil zum Berner Polizeigesetz?",
+   "type_id": 3,
+   "responsible_id": 505,
+   "process_state_id": 42,
+   "begin_date": "2026-09-28",
+   "end_date": null,
+   "touched": "2026-09-28T16:00:10.863646+02:00"
+  }
+ ]
+}

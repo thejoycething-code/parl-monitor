@@ -1,0 +1,114 @@
+{
+ "sucesso": true,
+ "erro": null,
+ "valor": {
+  "codigo": 131487,
+  "numero": 781,
+  "ano": 2026,
+  "autor": "PODER EXECUTIVO",
+  "dataEntrada": "2026-10-06T07:00:00.000+0000",
+  "dataRecebimento": "2026-10-06T22:10:38.000+0000",
+  "dataPrazo": null,
+  "siglaTipoProposicao": "PRO",
+  "tipoProposicao": "PROJETO DE LEI",
+  "assunto": "ORÇAMENTO",
+  "palavraChave": "RECEITA, DESPESA, ORÇAMENTO, 2027",
+  "ementa": "MENSAGEM Nº 46/2026 - ESTIMA A RECEITA E FIXA A DESPESA PARA O EXERCÍCIO FINANCEIRO DE 2027.",
+  "status": "TRAMITANDO",
+  "localAtual": "DL -  AUTUAÇÃO",
+  "nomeArquivo": "PROJETO DE LEI_781_2026.pdf",
+  "numeroDiarioLocal": null,
+  "dataDiarioLocal": null,
+  "situacaoProcesso": null,
+  "regimeUrgencia": "NÃO",
+  "numeroProtocolo": "3685",
+  "anoProtocolo": null,
+  "observacao": null,
+  "tipoArquivamento": null,
+  "normasLegais": [],
+  "tramites": [
+   {
+    "codigo": 837762,
+    "ordem": 1,
+    "dataLancamento": "2026-10-06T22:03:21.000+0000",
+    "data": "2026-10-06T22:25:36.000+0000",
+    "local": "DAP - DIRETORIA DE ASSISTÊNCIA AO PLENÁRIO",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 530721,
+      "ordem": 1,
+      "data": "2026-10-06T22:03:21.000+0000",
+      "descricao": "ELABORAÇÃO DA ÍNTEGRA",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 259053,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 530726,
+      "ordem": 2,
+      "data": "2026-10-06T22:11:30.000+0000",
+      "descricao": "DESPACHO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 259058,
+      "anexoCancelado": "NAO"
+     }
+    ]
+   },
+   {
+    "codigo": 837768,
+    "ordem": 2,
+    "dataLancamento": "2026-10-06T22:36:25.000+0000",
+    "data": "2026-10-06T23:19:56.000+0000",
+    "local": "DL -  AUTUAÇÃO",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 530730,
+      "ordem": 3,
+      "data": "2026-10-06T22:36:58.000+0000",
+      "descricao": "AUTUADO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": null,
+      "anexoCancelado": null
+     },
+     {
+      "codigo": 530735,
+      "ordem": 4,
+      "data": "2026-10-06T22:44:30.000+0000",
+      "descricao": "INFORMAÇÃO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 259064,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 530736,
+      "ordem": 5,
+      "data": "2026-10-06T22:46:25.000+0000",
+      "descricao": "ENCAMINHADO(A)",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 259065,
+      "anexoCancelado": "NAO"
+     }
+    ]
+   },
+   {
+    "codigo": 837768,
+    "ordem": 3,
+    "dataLancamento": null,
+    "data": null,
+    "local": "COMISSÃO DE ORÇAMENTO",
+    "observacao": null,
+    "acoes": []
+   }
+  ]
+ },
+ "camposCustomizados": null,
+ "mensagemSucesso": null,
+ "mensagemAlerta": null
+}

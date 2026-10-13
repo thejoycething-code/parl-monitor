@@ -235,7 +235,9 @@ database, never the store.
 | **Queensland** | `www.parliament.qld.gov.au`, `documents.parliament.qld.gov.au` (Record of Proceedings, Votes and Proceedings), `data.parliament.qld.gov.au` | 403 Azure WAF from the laptop; from the runner robots.txt answers 403 (`www`) and the page 403 (`documents`): **blocked** |
 | | `www.data.qld.gov.au` (CKAN) | the API disallowed by robots.txt; the dataset search answered an empty page: nothing parliamentary |
 | | `www.legislation.qld.gov.au/projectdata`, `PrintType="bill.third"` (the register's bill-as-passed print, published when the Assembly amended a bill) | **works, built** into the `qld` source: passage dated before the Act appears (8 bills in 2026). No votes: the register records no division |
+| | **`documents.parliament.qld.gov.au`** (the Parliament's document host; robots.txt 404, no rules), 13 October 2026: the host refuses only its directory listing (an IIS "403 - Forbidden: Access is denied" page, not the WAF); its files answer our user agent. The Record of Proceedings is one PDF per sitting day, `/events/han/<year>/<yyyy_mm_dd>_WEEKLY.pdf` | **works, built** (`qld-votes`, branch `access-routes`): each division with every member's name by party ("AYES, 51: LNP, 51—Baillie, ..."), pairs, question and result. The pages that link the files are on the challenged www host, so each candidate day is asked for by its file name: each week's Tuesday and Wednesday, the rest of a week that sat; a day still 404 after two weeks is marked as not sitting |
 | **Western Australia** | `www.parliament.wa.gov.au` (Hansard, Votes and Proceedings, bill progress) | 403 Azure WAF from the laptop; robots.txt 403 from the runner: **blocked** |
+| | 13 October 2026 (access-routes): robots.txt itself answers 403 from the laptop, so the guard reads the whole host as disallowed; no second Parliament host found. The WA Government Gazette and Acts are on `www.legislation.wa.gov.au` (Acts as passed already read; the Gazette gives assent notices, no votes). The State Library (SLWA) holds no current Hansard copy online | **blocked**: no division route |
 | | `www.legislation.wa.gov.au` | answers; Acts as passed only (already read). No third-reading record with votes |
 | **South Australia** | the Parliament's document library backend, `dynamic-content-api.parliament.sa.gov.au/api/` (`documentlibrary`, `GetFileDownloadLink`; robots.txt 404), behind `dynamic-content.parliament.sa.gov.au`, which the Parliament's own Votes and Proceedings and Minutes pages embed; each file comes through a short-lived read-only link the library hands every visitor (Azure blob storage) | **works, built** (`sa-votes`): the House of Assembly's Votes and Proceedings of the 56th Parliament (21 sitting days so far) and the Legislative Council's Minutes (its library has no 56th-Parliament folder yet, so its latest, the 55th, is read until one appears) |
 | | `hansardsearch.parliament.sa.gov.au` | Azure WAF challenge from the laptop and the runner: **blocked** |
@@ -248,6 +250,8 @@ database, never the store.
 | **Northern Territory** | `parliament.nt.gov.au` (Minutes of Proceedings, Parliamentary Record) | Cloudflare from the laptop; robots.txt 403 from the runner: **blocked** |
 | | `territorystories.nt.gov.au` (the NT Library's archive, which holds the Assembly's records) | answers, but robots.txt disallows `/search/`, `/documents/` and every `.pdf`: not used |
 | | `legislation.nt.gov.au` | bills by session (already read); no votes |
+| | 13 October 2026 (access-routes): `territorystories.nt.gov.au` again: robots.txt allows `/api/content` and `/api/full_record`, but disallows `/search/`, `/documents/` and every PDF, and the only way to find a record without searching is its 100-file sitemap (unordered); `/api/content` wants a handle, `/api/full_record/<id>` answers 404. `nt.gov.au` (the Gazette) answers 403. | **blocked**: no division route that respects robots.txt |
+| | Trove / NLA: `api.trove.nla.gov.au` answers `Disallow: /` (and needs a key); Trove's site disallows `/api/search/`; the NLA's web archive holds months-old snapshots only. YouTube channels: `/feeds/videos.xml` is disallowed, and video titles carry no votes. The State Library of Queensland's legal deposit is a catalogue, not the records | not used |
 | **All** | They Vote For You (`theyvoteforyou.org.au`, OpenAustralia Foundation) | the Commonwealth Parliament only, no state data; and a 403 to our user agent from the laptop and the runner (`openaustralia.org.au` too). Nothing built, no account, no key needed |
 | | state open-data portals (Victoria, Queensland, ACT above; SA, WA, NT not needed) | no parliamentary divisions dataset found |
 | | official GitHub repositories | none of the eight parliaments publishes one |
@@ -326,8 +330,9 @@ later division 2 to 16). Every member's vote is stored for each.
 1. **Built (13 October 2026):** above.
 2. **Divisions beyond NSW: built 13 October 2026** for Victoria, South
    Australia, Tasmania and the ACT (above). Still to do: South Australian
-   motions; Queensland, Western Australia and the Northern Territory if a
-   parliament lets our user agent in.
+   motions; Western Australia and the Northern Territory if a parliament
+   lets our user agent in. **Queensland built 13 October 2026** (`qld-votes`,
+   from the Parliament's document host; below).
 3. **Member profiles and 5CA sheets for NSW:** every vote is stored with the
    member's ID; parties are not in the Hansard API and would come from the
    member pages, which are on the challenged site.
@@ -346,6 +351,28 @@ later division 2 to 16). Every member's vote is stored for each.
 3. **Whether to write to the parliaments** behind the challenges (NSW,
    Queensland, Western Australia, Tasmania, the ACT, the Northern Territory)
    asking for our user agent to be allowed, as was done for aph.gov.au.
-   Queensland, Western Australia and the Northern Territory matter most now:
-   they are the three with no division read at all (13 October 2026), and
-   the challenge answers GitHub's runners as well as the laptop.
+   Western Australia and the Northern Territory matter most now: they are
+   the two with no division read at all (Queensland's are read from its
+   document host since 13 October 2026), and the challenge answers GitHub's
+   runners as well as the laptop. Contacts found 13 October 2026 (nothing
+   sent): Queensland webmaster@parliament.qld.gov.au (its Copyright page
+   sends reuse requests there; also ClerksOffice@parliament.qld.gov.au);
+   Western Australia receptionservices@parliament.wa.gov.au (Parliamentary
+   Services; also laquery@parliament.wa.gov.au), from its contact-us page;
+   Northern Territory LA.Committees@nt.gov.au (the only departmental inbox
+   found, from committee reports; no general or web address is published:
+   the Clerk's office is (08) 8946 1450).
+
+### Queensland divisions from the document host (13 October 2026, branch `access-routes`)
+
+`qld-votes` in `tools/au_states.py`, parser `parse_qld` in
+`src/au_states_votes.py`. First live read into a scratch database: 10
+sitting days (23 June to 17 September 2026) in two runs of six and four
+records, **38 divisions, every one's named votes matching its printed
+tally**, 92 members; 14 divisions linked to their bills (the State
+Development and Public Works Organisation (Critical Minerals) bill's second
+and third readings and amendments, the Youth Justice (Circuit Breaker)
+Amendment Bill's second and third readings). None on our ground in that
+window. A day's PDF is 0.9 to 1.7 MB (not archived); about 70 seconds for
+six. Headings are the record's own capitals heading (with its subheading
+when it names no bill, e.g. "Motion: Dissent from Speaker's Ruling").

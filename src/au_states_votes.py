@@ -23,6 +23,13 @@ Pure functions, no network, no store: tools/au_states.py fetches and stores.
     Assembly's Hansard site, which answers us although
     www.parliament.act.gov.au challenges). Names are laid out in columns,
     so the pages with a division are read with their x positions.
+  * Queensland (13 October 2026, branch access-routes): the weekly Record
+    of Proceedings (Hansard) PDF from documents.parliament.qld.gov.au, the
+    Parliament's document host, which serves its files to our user agent
+    (robots.txt 404: no rules) although www.parliament.qld.gov.au answers
+    an Azure WAF 403. "Division: Question put—That ..." then "AYES, 51:"
+    and the names by party ("LNP, 51—Baillie, Barounis, ..."), "NOES",
+    "Pair: Marr, Whiting." and "Resolved in the affirmative.".
 
 Every parser returns a list of divisions:
 
@@ -570,4 +577,158 @@ def parse_act(rows, pages=None):
         d["ayes"] = d["ayes"] if d["ayes"] is not None else sum(v[1] == "aye" for v in d["votes"])
         d["noes"] = d["noes"] if d["noes"] is not None else sum(v[1] == "no" for v in d["votes"])
         out.append(d)
+    return out
+
+
+# --- Queensland: the weekly Record of Proceedings PDF ---------------------------
+
+QLD_MON = {m: i + 1 for i, m in enumerate(
+    ("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"))}
+# A page's running head: '25 Aug 2026 Petitions 2361' or '2362 Petitions 25 Aug 2026'.
+QLD_HEAD = re.compile(r"^\s*(?:\d{3,5}\s+.{0,90}?\s+)?(\d{1,2})\s+([A-Z][a-z]{2})\s+(\d{4})(?:\s+.{0,90}?\s+\d{3,5})?\s*$")
+# "Division: Question put—That ..." (the table of contents repeats it with
+# dot leaders, skipped); "In division—" and interjections may come before AYES.
+QLD_DIVISION = re.compile(r"Division:\s*Question put\s*[—–-]\s*([^\n]*)(\n[^\n]*)?")
+QLD_PARTY = re.compile(r"(?:^|\n|\.\s)\s*([A-Z][A-Za-z]{1,10}),\s*\d+\s*[—–]\s*")
+QLD_RESULT = re.compile(r"Resolved in the (affirmative|negative)\.?", re.I)
+QLD_PAIR = re.compile(r"Pairs?:\s*([^\n]*)")
+
+
+def qld_pages(page_texts):
+    """[(iso date or None, page text without its running head)]."""
+    out, last = [], None
+    for text in page_texts:
+        lines = (text or "").split("\n")
+        date = None
+        for i, line in enumerate(lines[:4]):
+            m = QLD_HEAD.match(line)
+            if m and m.group(2).lower() in QLD_MON:
+                date = "{0}-{1:02d}-{2:02d}".format(int(m.group(3)), QLD_MON[m.group(2).lower()],
+                                                    int(m.group(1)))
+                lines = lines[:i] + lines[i + 1:]
+                break
+        if date:
+            last = date
+        out.append((date or last, "\n".join(lines)))
+    return out
+
+
+def qld_name(raw):
+    """A printed name with the PDF's stray spaces mended ('B ates' -> 'Bates',
+    'O ’Shea' -> 'O’Shea'; 'B.  James' and 'de Brenni' kept)."""
+    name = re.sub(r"\s+", " ", (raw or "").replace("\xa0", " ")).strip(" .;,")
+    name = re.sub(r"(?<=[A-Za-z’']) (?=[a-z’'])", "", name)
+    name = re.sub(r"(?<=\b[A-Z]) (?=[a-z]{2,})", "", name)
+    name = re.sub(r"\b(de|van|von|di|da)(?=[A-Z])", r"\1 ", name)
+    return name if re.search(r"[A-Za-z]{2}", name) and len(name) < 40 else None
+
+
+def _qld_side(block):
+    """Names of one side ('LNP, 51—Baillie, ...  Grn, 1—Berkman.')."""
+    names = []
+    parts = QLD_PARTY.split("\n" + block)
+    # parts: [before, party, names, party, names, ...]
+    for k in range(1, len(parts) - 1, 2):
+        # A party's list ends with a full stop; a page's running head may
+        # follow it before the next party.
+        listed = re.split(r"(?<![A-Z])\.\s*(?:\n|$)", parts[k + 1])[0]
+        for raw in re.split(r",", listed):
+            got = qld_name(raw)
+            if got:
+                names.append(got)
+    return names
+
+
+def _qld_caps(line):
+    s = re.sub(r"\s+", " ", line or "").strip()
+    letters = re.findall(r"[A-Za-z]", s)
+    toks = s.split(" ")
+    return (len(letters) >= 3 and sum(c.isupper() for c in letters) >= 0.9 * len(letters)
+            and sum(1 for t in toks if len(t.strip("(),;")) <= 2) <= 0.25 * len(toks)
+            and not s.startswith(("AYES", "NOES")))
+
+
+def qld_heading(before):
+    """The debate a division belongs to: the last heading in capitals
+    before it (a bill's name, or MOTIONS ...) with, when it names no bill,
+    the subheading under it ('Motions: Business Program'); the PDF's
+    letter-spaced running heads are skipped."""
+    lines = before.split("\n")
+    for i in range(len(lines) - 1, -1, -1):
+        s = re.sub(r"\s+", " ", lines[i]).strip()
+        letters = re.findall(r"[A-Za-z]", s)
+        if len(letters) < 6 or len(s) > 160:
+            continue
+        if sum(c.isupper() for c in letters) < 0.9 * len(letters):
+            continue
+        toks = s.split(" ")
+        if sum(1 for t in toks if len(t.strip("(),;")) <= 2) > 0.25 * len(toks):
+            continue
+        if s.startswith(("AYES", "NOES")):
+            continue
+        j = i
+        while j > 0 and _qld_caps(lines[j - 1]):   # a heading printed over two lines
+            j -= 1
+            s = re.sub(r"\s+", " ", lines[j]).strip() + " " + s
+        heading = tidy_caps(s)
+        if "BILL" not in s:
+            sub = next((re.sub(r"\s+", " ", x).strip() for x in lines[i + 1:i + 4] if x.strip()), "")
+            if sub and len(sub) < 100 and not re.search(r"\(|:\s|—", sub):
+                heading += ": " + sub
+        return heading
+    return None
+
+
+def parse_qld(page_texts):
+    """[(iso date, division)] from a weekly Record of Proceedings (the
+    page texts of src/prov_fetch.pdf_text split on its page marker). The
+    date is the sitting day of the page the division starts on."""
+    pages = qld_pages(page_texts)
+    text, marks = "", []
+    for date, body in pages:
+        marks.append((len(text), date))
+        text += body + "\n"
+    out = []
+    for m in QLD_DIVISION.finditer(text):
+        if "...." in m.group(0):
+            continue
+        start = m.start()
+        date = None
+        for pos, d in marks:
+            if pos <= start:
+                date = d
+            else:
+                break
+        question = m.group(1).strip()
+        nxt = (m.group(2) or "").strip()
+        if nxt and not question.endswith(".") and not nxt.startswith(("AYES", "In division")):
+            question += " " + nxt
+        rest = text[m.end(1):m.end(1) + 9000]
+        ayes_m = re.search(r"\bAYES,\s*(\d+)\s*:", rest)
+        if not ayes_m or ayes_m.start() > 4000:
+            continue
+        res = QLD_RESULT.search(rest, ayes_m.end())
+        if not res:
+            continue
+        body = rest[:res.start()]
+        noes_m = re.search(r"\bNOES,\s*(\d+)\s*:", body[ayes_m.end():])
+        if not noes_m:
+            continue
+        noes_m = re.search(r"\bNOES,\s*(\d+)\s*:", body)
+        pair_m = QLD_PAIR.search(body, noes_m.end())
+        ayes_txt = body[ayes_m.end():noes_m.start()]
+        noes_txt = body[noes_m.end():pair_m.start() if pair_m else len(body)]
+        votes = [(n, "aye", False) for n in _qld_side(ayes_txt)]
+        votes += [(n, "no", False) for n in _qld_side(noes_txt)]
+        pairs = []
+        if pair_m:
+            pairs = [qld_name(x) for x in re.split(r",|;", pair_m.group(1).strip().rstrip("."))]
+            pairs = [x for x in pairs if x]
+            votes += [(n, "pair", False) for n in pairs]
+        question = re.sub(r"\s+", " ", question).strip()
+        out.append((date, {
+            "heading": qld_heading(text[max(0, start - 80000):start]),
+            "question": question[:400], "result": "Resolved in the {0}".format(res.group(1).lower()),
+            "ayes": int(ayes_m.group(1)), "noes": int(noes_m.group(1)),
+            "pairs": len(pairs) // 2, "votes": votes}))
     return out

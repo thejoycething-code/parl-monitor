@@ -56,6 +56,69 @@ def tls_context():
     return ctx
 
 
+# THE ONE PLACE PLAIN HTTP IS ALLOWED. Every source is fetched over https
+# (tests/test_db_state.PlainHttpTests fails on any other http:// URL in src/
+# or tools/). Each entry here is a single, dated, named exception decided by
+# Chris; the test accepts an http:// URL only if it starts with an entry's
+# prefix, and HttpClient refuses anything on an excepted host outside it, and
+# any POST over plain HTTP.
+#
+#   alep (13 October 2026, Chris: "Allow the narrow exception"): the
+#     Assembleia Legislativa do Paraná's documented open-data API
+#     (transparencia.assembleia.pr.leg.br/servicos/dados-abertos names its
+#     base URL as webservices.assembleia.pr.leg.br/api/public, plain HTTP).
+#     Its https port presents a self-signed "BLACKHOLE" certificate and
+#     answers 403, from the UK and from GitHub's runners, and the same paths
+#     on the https bill search demand a reCAPTCHA token (never bypassed). It
+#     is the only readable source for Paraná's bills and their stages.
+#     Conditions: GET only, the honest User-Agent, no credentials; every
+#     item it gives is marked "(via ALEP open data, unencrypted)" in the
+#     edition, and a law it names is cross-checked against the Casa Civil's
+#     https law list, a mismatch recorded as a gap rather than trusted
+#     (tools/br_alep.py). The same host's robots.txt is read over the same
+#     scheme on every run.
+PLAIN_HTTP_EXCEPTIONS = {
+    "alep": {
+        "prefix": "http://webservices.assembleia.pr.leg.br/api/public/",
+        "robots": "http://webservices.assembleia.pr.leg.br/robots.txt",
+        "date": "2026-10-13",
+        "decided_by": "Chris Joyce",
+        "decision": "Allow the narrow exception",
+        "reason": ("ALEP's documented open-data API (Paraná's bills and stages) answers only "
+                   "plain HTTP; its https port presents a self-signed certificate and answers 403"),
+        "methods": ("GET",),
+    },
+}
+
+
+def plain_http_allowed(url, method="GET"):
+    """True when `url` may be fetched: any non-http URL, or a plain-HTTP URL
+    under an entry of PLAIN_HTTP_EXCEPTIONS (its prefix, or its robots.txt)
+    with a method that entry allows. Anything else over http:// is False."""
+    if not (url or "").lower().startswith("http://"):
+        return True
+    for entry in PLAIN_HTTP_EXCEPTIONS.values():
+        if method.upper() in entry["methods"] and (
+                url.startswith(entry["prefix"]) or url == entry["robots"]):
+            return True
+    return False
+
+
+def _refused_plain(url, method):
+    """The reason a request must not be sent, or None. Only for a POST over
+    plain HTTP, or a request to an excepted host outside its entry: every
+    other URL is left exactly as it was (the static test keeps http://
+    literals out of the code)."""
+    if not (url or "").lower().startswith("http://"):
+        return None
+    host = urlsplit(url).netloc.lower()
+    on_excepted = any(urlsplit(e["prefix"]).netloc == host for e in PLAIN_HTTP_EXCEPTIONS.values())
+    if method.upper() != "GET" or on_excepted:
+        if not plain_http_allowed(url, method):
+            return "plain HTTP {0} refused (not in src/http.PLAIN_HTTP_EXCEPTIONS)".format(method.upper())
+    return None
+
+
 DEFAULT_CONTACT = "cjoyce@citizengo.net"
 USER_AGENT_TEMPLATE = "CitizenGO-ParlMonitor/1.0 (contact: {contact})"
 
@@ -321,6 +384,9 @@ class HttpClient:
         safe to repeat and this one answers 400 for a legitimately
         out-of-range request rather than as a transient fault.
         """
+        refused = _refused_plain(url, "POST")
+        if refused:
+            raise FetchError(url, feed, slug, 0, refused)
         timeout = self.default_timeout if timeout is None else timeout
         state = self._host_state(urlsplit(url).netloc)
         payload = body.encode("utf-8") if isinstance(body, str) else body
@@ -355,6 +421,9 @@ class HttpClient:
         served in Latin-1 (the Ceará Assembly's proposições search).
         """
         from urllib.parse import urlencode
+        refused = _refused_plain(url, "POST")
+        if refused:
+            raise FetchError(url, feed, slug, 0, refused)
         timeout = self.default_timeout if timeout is None else timeout
         state = self._host_state(urlsplit(url).netloc)
         payload = urlencode(list(fields.items()) if isinstance(fields, dict) else fields).encode("utf-8")
@@ -499,6 +568,10 @@ class HttpClient:
         return base + self._rng() * (base * 0.25)
 
     def _request_once(self, url, timeout, extra_headers=None):
+        refused = _refused_plain(url, "GET")
+        if refused:
+            # Not a transient fault: _request_with_retries gives up at once.
+            raise urllib.error.HTTPError(url, 400, refused, None, None)
         headers = {
             "User-Agent": self._ua_for(url),
             "Accept": "application/json, text/xml, text/html;q=0.9, */*;q=0.8",

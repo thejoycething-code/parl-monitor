@@ -189,7 +189,9 @@ def reads_line(conn):
         bits.append("Read cleanly ({0} of 27, last {1}): {2}.".format(
             len(ok), ce.long_date(when) if when else "?",
             ", ".join(brs_store.ASSEMBLIES.get(r["uf"], r["uf"])
-                      + (" (adopted laws only)" if r["source"] in brs_store.LAWS_ONLY else "")
+                      + (" ({0})".format(brs_store.READ_NOTES[r["source"]])
+                         if r["source"] in brs_store.READ_NOTES else
+                         " (adopted laws only)" if r["source"] in brs_store.LAWS_ONLY else "")
                       for r in ok)))
     if gap:
         bits.append("Read with gaps: {0}.".format(", ".join(

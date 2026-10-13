@@ -1,0 +1,15 @@
+{
+ "sucesso": true,
+ "erro": null,
+ "valor": {
+  "codigo": 131520,
+  "numero": null,
+  "ano": 2026,
+  "siglaTipoProposicao": "PRO",
+  "tipoProposicao": "PROJETO DE LEI",
+  "status": "AGUARDANDO RECEBIMENTO",
+  "ementa": null,
+  "tramites": [],
+  "normasLegais": []
+ }
+}

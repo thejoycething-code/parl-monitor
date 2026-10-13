@@ -331,7 +331,9 @@ class Pipeline(unittest.TestCase):
             self.assertGreater(step, job.find("tools/{0}_rollcalls.py --".format(cc))
                                if cc != "fr" else job.find("tools/fr_rollcalls.py ||"), cc)
             self.assertLess(step, job.find("tools/{0}_monitor.py --edition".format(cc)), cc)
-            self.assertLess(step, job.find("tools/db_state.py --push"), cc)
+            # The run's own publish (the last one: br-weekly.sh's GitHub half
+            # publishes and exits early, 13 October 2026).
+            self.assertLess(step, job.rfind("tools/db_state.py --push"), cc)
 
 
 class Http(unittest.TestCase):

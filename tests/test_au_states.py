@@ -487,6 +487,9 @@ def votes_replies():
             "x", S.FEED, "x", 1, urllib.error.HTTPError("x", 404, "Not Found", {}, None)),
         "https://www.hansard.act.gov.au/hansard/11th-assembly/2026/PDF/tP260924.pdf":
             fixture_bytes("act_hansard_260924_p114-118.pdf"),
+        # Queensland: one sitting day's Record of Proceedings (twelve of its
+        # pages); every other candidate day answers 404 (VotesClient._get).
+        S.qld_hansard_url("2026-09-15"): fixture_bytes("qld_hansard_2026-09-15.pdf"),
     }
     post = {
         (S.SA_DOCLIB, "7", ""): fixture("sa_lib_root.json"),
@@ -507,6 +510,8 @@ class VotesClient:
 
     def _get(self, url):
         self.asked.append(url)
+        if url not in self.get and url.startswith("https://documents.parliament.qld.gov.au/"):
+            raise FetchError(url, S.FEED, "x", 1, urllib.error.HTTPError(url, 404, "Not Found", {}, None))
         if url not in self.get:
             raise AssertionError("unexpected URL " + url)
         body = self.get[url]
@@ -638,6 +643,32 @@ class VotesParserTests(unittest.TestCase):
         self.assertEqual(first["result"], "Question resolved in the negative.")
         self.assertTrue(first["question"].startswith("That Mr Emerson"))
 
+    def test_queensland_record_of_proceedings(self):
+        got = V.parse_qld(pdf_text(fixture_bytes("qld_hansard_2026-09-15.pdf")).split("\n=====PAGE\n"))
+        self.assertEqual(len(got), 3)     # the table of contents' entries are not divisions
+        date, d = got[0]
+        self.assertEqual(date, "2026-09-15")
+        self.assertEqual((d["ayes"], d["noes"], d["pairs"]), (34, 49, 1))
+        self.assertEqual(sum(v[1] == "aye" for v in d["votes"]), 34)
+        self.assertEqual(sum(v[1] == "no" for v in d["votes"]), 49)
+        self.assertEqual(d["question"], "That leave be granted.")
+        self.assertEqual(d["result"], "Resolved in the negative")
+        self.assertEqual(d["heading"], "Leave to Move Motion")
+        names = [v[0] for v in d["votes"]]
+        self.assertIn("de Brenni", names)
+        self.assertIn("J. Kelly", names)
+        self.assertIn("O’Shea", names)    # printed 'O ’Shea' in the PDF's text
+        self.assertEqual([v[0] for v in d["votes"] if v[1] == "pair"], ["Camm", "Enoch"])
+        # 'Grn, 1—Berkman. Pair: ...' on one line: the pair is not a no vote.
+        second = got[1][1]
+        self.assertEqual(sum(v[1] == "no" for v in second["votes"]), 33)
+
+    def test_queensland_name_mending(self):
+        self.assertEqual(V.qld_name("B ates"), "Bates")
+        self.assertEqual(V.qld_name("Mart in"), "Martin")
+        self.assertEqual(V.qld_name("B.  James"), "B. James")
+        self.assertEqual(V.qld_name("de Brenni"), "de Brenni")
+
     def test_dates_and_names(self):
         self.assertEqual(V.iso_dmy_words("021 Votes Thurs 17 September 2026 pp 121-126.pdf"), "2026-09-17")
         self.assertEqual(V.iso_dmy_words("178 - 27.11.2025.pdf"), "2025-11-27")
@@ -667,7 +698,7 @@ class VotesCollectorTests(unittest.TestCase):
         gaps, client = self.run_votes(conn)
         self.assertEqual(gaps, 0)
         got = dict(conn.execute("SELECT state, COUNT(*) FROM aus_divisions GROUP BY state").fetchall())
-        self.assertEqual(got, {"vic": 5, "sa": 3, "tas": 2, "act": 3})
+        self.assertEqual(got, {"vic": 5, "sa": 3, "tas": 2, "act": 3, "qld": 3})
         # Every division's stored votes match its tally.
         for dkey, ayes, noes in conn.execute(
                 "SELECT division_key, ayes, noes FROM aus_divisions WHERE state != 'nsw'").fetchall():
@@ -692,13 +723,23 @@ class VotesCollectorTests(unittest.TestCase):
         self.assertEqual(days[("tas", "2026-09-10", "Legislative Council")], 0)
         self.assertEqual(days[("tas", "2026-09-11", "House of Assembly")], 0)
         self.assertEqual(days[("vic", "2026-09-10", "Legislative Assembly")], 2)
+        # Queensland: the day read, and a candidate day long past that
+        # answered 404 marked as not sitting (asked once).
+        self.assertEqual(days[("qld", "2026-09-15", "Legislative Assembly")], 3)
+        self.assertEqual(days[("qld", "2026-09-08", "Legislative Assembly")], 0)
+        self.assertNotIn(("qld", "2026-10-07", "Legislative Assembly"), days)
         # A second run reads nothing it has read; the ACT's backlog (one
         # record a run here) drains newest first.
         nxt = "https://www.hansard.act.gov.au/hansard/11th-assembly/2026/PDF/tP260923.pdf"
         _g, again = self.run_votes(conn, VotesClient({nxt: fixture_bytes("act_hansard_260924_p114-118.pdf")}))
-        docs = [u for u in again.asked if isinstance(u, str) and u.endswith((".docx", ".pdf"))]
+        docs = [u for u in again.asked if isinstance(u, str) and u.endswith((".docx", ".pdf"))
+                and "parliament.qld.gov.au" not in u]
         self.assertEqual(docs, [nxt])
         self.assertNotIn(SA_PDF, again.asked)
+        # Queensland asks again only for the days of the last two weeks.
+        qld = [u for u in again.asked if isinstance(u, str) and "parliament.qld.gov.au" in u]
+        self.assertNotIn(S.qld_hansard_url("2026-09-15"), qld)
+        self.assertTrue(all(u >= S.qld_hansard_url("2026-09-29") for u in qld), qld)
 
     def test_a_disallowed_record_is_a_gap_and_never_fetched(self):
         conn = store()

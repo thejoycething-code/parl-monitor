@@ -1,0 +1,66 @@
+{
+ "id": 7449,
+ "title": "Antrag SP-GRÜNE-GLP-Fraktion auf Unterstellung des Erlasses unter die Volksabstimmung (Ratsreferendum)",
+ "agenda_item_id": 8010,
+ "date": "2026-09-16T16:59:14.600000+02:00",
+ "created": "2026-09-16T15:15:26.862186Z",
+ "meaning_of_yes": "Zustimmung",
+ "meaning_of_no": "Ablehnung",
+ "results": {
+  "yes": 33,
+  "no": 78,
+  "abstention": 3,
+  "absent": 6
+ },
+ "result_string": "J:33, N:78, E:3, NA:6",
+ "ballots": [
+  {
+   "id": 976349,
+   "vote": "absent",
+   "vote_display": "Nicht abgestimmt",
+   "person_political_name": "Abderhalden-Nesslau",
+   "person_id": 898,
+   "person_election_district_title": "Toggenburg",
+   "person_party": "FDP"
+  },
+  {
+   "id": 976350,
+   "vote": "no",
+   "vote_display": "Nein",
+   "person_political_name": "Aerne-Eschenbach",
+   "person_id": 899,
+   "person_election_district_title": "See-Gaster",
+   "person_party": "Die Mitte"
+  },
+  {
+   "id": 976351,
+   "vote": "yes",
+   "vote_display": "Ja",
+   "person_political_name": "Akeret-St.Gallen",
+   "person_id": 900,
+   "person_election_district_title": "St.Gallen",
+   "person_party": "SP"
+  }
+ ],
+ "business": {
+  "id": 6891,
+  "title": "Nachtrag zum Einführungsgesetz zum Bundesgesetz über die Förderung der Ausbildung im Bereich der Pflege (Titel der Botschaft: Entlastungspaket 2026: Sammelvorlage II)",
+  "number": "22.26.15",
+  "begin_date": "2026-04-22",
+  "end_date": null,
+  "process_state_id": 46,
+  "type_id": 4,
+  "gever_dossier_url": "",
+  "assignee_id": null
+ },
+ "is_public": false,
+ "is_ad_hoc": false,
+ "can_be_published_to_web": false,
+ "publish_date": null,
+ "published_date": null,
+ "republished_date": null,
+ "conceal_date": null,
+ "is_published_to_web": false,
+ "will_be_published_to_web": false,
+ "votes_needed_for_quorum": 0
+}

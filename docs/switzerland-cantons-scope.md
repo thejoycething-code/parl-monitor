@@ -16,6 +16,13 @@ existing `Country.extra_sections` hook), a step in `jobs/ch-weekly.sh`,
 entries in `tools/coverage.py`, and `tests/test_ch_cantons.py` on trimmed
 real pages in `tests/fixtures/ch_cantons/`.
 
+**Update, 13 October 2026 (branch `access-routes`, below "Alternative
+routes"):** Basel-Stadt, Basel-Landschaft, St. Gallen and Thurgau are now
+read from their parliaments' own business systems, on hosts whose
+robots.txt allows us, and Aargau from its official law collection (adopted
+acts only). The open-data portals and www.ag.ch/grossrat are still never
+asked. **Covered now: ten of 26**, about 6.4 of 9 million people.
+
 **Covered: five of 26** (Zürich, Bern, Vaud, Geneva, Ticino): the two
 largest German-speaking cantons, the two largest French-speaking ones and
 the Italian-speaking one, about 4.4 of Switzerland's 9 million people.
@@ -55,18 +62,18 @@ Ranked by population, then by what the first read found on our ground.
 | Zürich (1.6 m) | Kantonsrat | `parlzhcdws.cmicloud.ch/parlzh5/cdws/Index/GESCHAEFT/searchdetails` (the CMI service behind kantonsrat.zh.ch) | XML, CQL queries, 25 a page, 19,008 Geschäfte since 1987 | 404 (no rules) | **yes** |
 | Bern (1.06 m) | Grosser Rat | `ogd.parl.apps.be.ch/data/geschaeft.json`, `abstimmung_tagblatt.json` (on opendata.swiss) | JSON, daily, DE and FR | 404 (no rules) | **yes** |
 | Vaud (0.85 m) | Grand Conseil | `www.vd.ch/gc/liste-des-objets-en-attente-de-traitement-par-le-grand-conseil/<department>` | HTML, 8 pages | allows these paths | **yes** |
-| Aargau (0.73 m) | Grosser Rat | `www.ag.ch/grossrat/grweb/` | HTML (GRWeb) | **`Disallow: /grossrat`** | **no** |
-| St. Gallen (0.53 m) | Kantonsrat | `daten.sg.ch` datasets "Geschäfte im Kantonsrat", "Abstimmungen im Kantonsrat" | Opendatasoft API | **`Disallow: /api/`** | **no** |
+| Aargau (0.73 m) | Grosser Rat | `www.ag.ch/grossrat/grweb/` | HTML (GRWeb) | **`Disallow: /grossrat`** | **no**; adopted acts **yes** via `gesetzessammlungen.ag.ch` (below) |
+| St. Gallen (0.53 m) | Kantonsrat | `daten.sg.ch` datasets "Geschäfte im Kantonsrat", "Abstimmungen im Kantonsrat" | Opendatasoft API | **`Disallow: /api/`** | **no**; **yes** via `www.ratsinfo.sg.ch` (below) |
 | Geneva (0.52 m) | Grand Conseil | `ge.ch/grandconseil/searchm/search/index?q=<term>&date=y1` | HTML search, one page per term | none (the URL returns a web page, read as no rules) | **yes** |
 | Lucerne (0.43 m) | Kantonsrat | `www.lu.ch/kr/parlamentsgeschaefte` (ASP.NET form posting to `/api/klu/search/result`); members, sessions and interests as CSV on opendata.swiss | HTML form, undocumented JSON | allows | not yet |
 | Ticino (0.36 m) | Gran Consiglio | `www4.ti.ch/poteri/gc/attivita/ordine-del-giorno/` | HTML | allows it; **disallows the acts search** (`/poteri/gc/ricerca-messaggi-e-atti/ricerca/`) | **yes** (order of the day) |
 | Valais (0.36 m) | Grand Conseil / Grosser Rat | `parlement.vs.ch/app/` (Sitrox single-page app, backend `api/fe/v1/search/...`) | undocumented JSON | empty (no rules) | not yet |
 | Fribourg (0.34 m) | Grand Conseil | `www.fr.ch/gc` | Drupal pages | disallows `/fr/`, `/search/` and `?page` | not yet |
-| Basel-Landschaft (0.30 m) | Landrat | `data.bl.ch` datasets 13090 (business since 2017), 13080 (member votes since 2018) | Opendatasoft API | **`Disallow: /api/`** | **no** |
+| Basel-Landschaft (0.30 m) | Landrat | `data.bl.ch` datasets 13090 (business since 2017), 13080 (member votes since 2018) | Opendatasoft API | **`Disallow: /api/`** | **no**; **yes** via `baselland.talus.ch` (below) |
 | Solothurn (0.29 m) | Kantonsrat | `so.ch/parlament/` | TYPO3 pages | allows | not yet |
-| Thurgau (0.29 m) | Grosser Rat | `data.tg.ch` datasets sk-stat-140 (business), sk-stat-136 (votes) | Opendatasoft API | **`Disallow: /api/`** | **no** |
+| Thurgau (0.29 m) | Grosser Rat | `data.tg.ch` datasets sk-stat-140 (business), sk-stat-136 (votes) | Opendatasoft API | **`Disallow: /api/`** | **no**; **yes** via `grgeko.tg.ch` (below) |
 | Graubünden (0.20 m) | Grosser Rat | `www.gr.ch` (SharePoint) | HTML | disallows search and list views | not yet |
-| Basel-Stadt (0.20 m) | Grosser Rat | `data.bs.ch` datasets 100311 (business), 100086 (motions), members, agendas | Opendatasoft API | **`Disallow: /api/`** | **no** |
+| Basel-Stadt (0.20 m) | Grosser Rat | `data.bs.ch` datasets 100311 (business), 100086 (motions), members, agendas | Opendatasoft API | **`Disallow: /api/`** | **no**; **yes** via `grosserrat.bs.ch` (below) |
 | Neuchâtel (0.18 m) | Grand Conseil | `www.ne.ch` | Drupal | allows | not yet |
 | Schwyz (0.17 m) | Kantonsrat | `www.sz.ch/kantonsrat` | HTML | allows | not yet |
 | Zug (0.13 m) | Kantonsrat | `zg.ch/de/kantonsrat` | Magnolia pages | allows | not yet |
@@ -120,6 +127,51 @@ Ranked by population, then by what the first read found on our ground.
   department, the procedure and the sitting's date. 19 points on 5 October
   2026, none on our ground. The acts search would give far more, but its
   path is disallowed. About 1 second.
+
+## Alternative routes (13 October 2026, branch `access-routes`)
+
+Chris, 13 October 2026, on the five blocked cantons: "Email all and explore
+external ways too". Every route below was asked from the laptop with the
+honest user agent, robots.txt read first; the collector asks robots.txt
+again every run (`GuardedClient`, no exemptions). Nothing was bypassed: the
+open-data portals and www.ag.ch/grossrat are never asked.
+
+### Routes tried
+
+| Route | Outcome |
+|---|---|
+| **opendata.swiss** (the federal portal) | Its dataset pages for these parliaments (e.g. "Grosser Rat: Geschäfte", "Abstimmungen im Kantonsrat St.Gallen", "Abstimmungen im Grossen Rat des Kantons Thurgau") only **link back** to the cantons' `/api/v2/.../exports/` URLs; no file is hosted on opendata.swiss. `ckan.opendata.swiss` disallows `/api/` itself. **Does not help.** |
+| The portals' other paths | `data.bs.ch`, `data.bl.ch`, `daten.sg.ch`, `data.tg.ch` also disallow `/explore/dataset/*/download` and `/explore/download`: there is no file route on the portals. |
+| Official gazettes | `www.kantonsblatt.ch` (Basel-Stadt), `www.amtsblattportal.ch` (the shared platform), `www.publikationen.sg.ch` (St. Gallen) and `amtsblatt.tg.ch` (Thurgau) all answer `Disallow: /` to every agent. **Not used.** |
+| LexFind (`www.lexfind.ch`) | robots.txt allows everything; an aggregator of all cantonal law. Not needed: Aargau's own collection answers (below). |
+| **grosserrat.bs.ch** (Basel-Stadt's Grand Council) | robots.txt disallows `/api/` and system folders only. `/ratsbetrieb/neue-vorstoesse` (the motions, interpellations, written questions lodged for each of the last three sittings) and `/ratsbetrieb/neue-berichte-und-schreiben` (every weekly Grossratsversand since February: commission reports, the government's Ratschläge and written answers, each with its business number). **Built (`bs`).** A business's own page loads its content from `/api/` (disallowed): not read. The vote results page lists each vote with a PDF per vote, which has no text layer: not read. |
+| **baselland.talus.ch** (the Landrat's "Politik Baselland" business system) | robots.txt disallows only `/*searchTerm=` and some named bad bots. `/de/politik/cdws/neuste-geschaefte.php`: about 200 newest documents (six weeks): motion, postulate and interpellation texts, Vorlagen, committee reports and decisions, answers, each with the business number, title and date. **Built (`bl`).** |
+| **www.ratsinfo.sg.ch** (St. Gallen's Kantonsrat RIS) | robots.txt answers the app's page (no rules). The RIS page loads `/api/config`, `/api/businesses`, `/api/business_types`, `/api/process_states`, `/api/votings` and `/api/votings/<id>`: 6,741 businesses with type, state and dates, and 4,343 recorded votes with the tally and every member's ballot. **Built (`sg`):** business changed in the last 60 days, and the tallies of votes (last 120 days) on business on our ground. Ballots are not stored (the cantonal table holds tallies). |
+| **grgeko.tg.ch** (Thurgau's Grosser Rat business database) | robots.txt `Disallow:` (empty: allows all). `/de/web/grgeko/pendente-geschaefte`: the 95 pending businesses with the registration date, the register number and the title (with authors). **Built (`tg`).** The search and per-type lists are JSF post-backs: not read. The newest pending item is dated 27 May 2026, so the list may lag. |
+| **gesetzessammlungen.ag.ch** (Aargau's official law collection, LexWork) | robots.txt disallows its search paths only. `/api/de/change_documents/lightweight_index` (what the collection's app loads): every act published in the Aargauische Gesetzessammlung since 2007 with its AGS number, title and date. **Built (`ag`):** acts since January 2025 (laws, decrees, ordinances). The Grosser Rat's business itself stays on the disallowed `/grossrat`. |
+
+### First live read (13 October 2026, scratch database)
+
+| Canton | Read | On our ground |
+|---|---|---|
+| St. Gallen | 198 businesses (60 days of changes) | 5: the motion for a legal basis for assisted suicide (42.26.17), the motion on mosques and foreign influence (42.26.22), childcare and individual taxation |
+| Basel-Landschaft | 199 businesses | 4: interpellation on the conversion-practices ban (2026/6529), palliative care, sex work, childcare tax |
+| Basel-Stadt | 539 businesses (Versand since February, three sittings' motions) | 18: anonymous births (26.5228), the "LGBTI label" motion, religion or ethics classes, prostitution and trafficking, palliative care |
+| Thurgau | 95 pending | 2: the motion to restrict irreversible gender reassignment to adults (2024/117), the interpellation on abortion (2024/261) |
+| Aargau | 122 acts published since 2025 | 2 (family allowances) |
+
+About 10 requests and 9 seconds for the five. No St. Gallen vote in the last
+120 days was on business on our ground, so no tally was read.
+
+### Contacts (Waiting on Chris: write to them, nothing was sent)
+
+| Canton | Best address | Second | Source |
+|---|---|---|---|
+| Basel-Stadt | opendata@bs.ch (Open Data Basel-Stadt) | parlamentsdienst@bs.ch | data.bs.ch home page; grosserrat.bs.ch footer |
+| Basel-Landschaft | daten@bl.ch (Amt für Daten und Statistik, OGD office) | landeskanzlei@bl.ch | search results only (baselland.ch answered 403); the portal itself offers a form |
+| St. Gallen | statistik@sg.ch (Amt für Daten und Statistik) | parlamentsdienste@sg.ch | sg.ch statistics and Parlamentsdienste pages |
+| Thurgau | ogd@tg.ch (Koordinationsstelle OGD) | grossrat.sk@tg.ch | data.tg.ch start page; parlament.tg.ch / grgeko.tg.ch footer |
+| Aargau | parlamentsdienst@ag.ch | info@ag.ch | www.ag.ch/grossrat footer (seen by a person's search, not fetched by the collector) |
 
 ## Classification
 
@@ -213,6 +265,11 @@ areas offline. Nothing new to install on the Mini.
 
 ## Waiting on Chris
 
+0. **(13 October 2026)** The four Opendatasoft cantons and Aargau are now
+   read from other official hosts (above); the emails in "Contacts" would
+   still unlock what those routes lack (Basel-Landschaft's member votes,
+   Thurgau's votes and speeches, Basel-Stadt's full business data, the
+   Aargau Grosser Rat's business). Nothing was sent.
 1. **The four Opendatasoft cantons.** Basel-Stadt, Basel-Landschaft,
    St. Gallen and Thurgau publish exactly what we want as open government
    data, listed on opendata.swiss, but their portals' robots.txt disallows
