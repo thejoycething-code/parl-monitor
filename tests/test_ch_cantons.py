@@ -10,7 +10,11 @@ Geneva's search ('genre', last year), Vaud's list of objects awaiting
 treatment for the health and social department, and Ticino's order of the
 day of 5 October 2026. Basel-Stadt's Grand Council exports (bs_gribs_*,
 13 October 2026): ten rows of the Geschaefte table (JSON, and the same rows
-as CSV), with their documents, steps and sittings. No network.
+as CSV), with their documents, steps and sittings. Basel-Landschaft's
+data.bl.ch exports (bl_ods_*, 13 October 2026): seven Landrat businesses
+(13090), their authors (13140) and documents of the window (13130), and
+seventeen member votes from two votes of 10 September 2026 (13080). No
+network.
 """
 
 import json
@@ -20,6 +24,7 @@ import sys
 import tempfile
 import unittest
 import urllib.error
+import urllib.parse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -452,13 +457,99 @@ class OpenDataTests(unittest.TestCase):
         self.assertEqual((options["yes"], options["no"]), (None, None))
         self.assertIn("Antrag GFK 3", options["result"])
 
+    def bl(self):
+        return by_key(C.parse_bl_api(load("bl_ods_geschaefte.json"),
+                                     C.bl_authors(load("bl_ods_urheber.json")),
+                                     C.bl_newest_docs(load("bl_ods_dokumente.json"), "2026-10-13"),
+                                     today="2026-10-13"))
+
+    def test_basel_landschaft_business_authors_and_documents(self):
+        acts = self.bl()
+        self.assertEqual(len(acts), 7)
+        p = acts["bl/2026/6808"]                      # the key baselland.talus.ch gives it too
+        self.assertEqual((p["kind"], p["label"], p["presented"], p["status_date"], p["initiative"]),
+                         ("Postulat", "Postulat 2026/6808", "2026-09-10", "2026-09-10", "Adil Koller"))
+        self.assertEqual(p["status"], "In Bearbeitung; überwiesen bzw. Abschreibung abgelehnt; "
+                                      "neuestes Dokument: Beschluss des Landrats vom 10.09.2026 "
+                                      "(10.09.2026)")
+        self.assertEqual(p["url"], C.BL_URL.format("b914110cadc9481d94fde8044593a14b"))
+        self.assertEqual(p["source_url"], "https://data.bl.ch/explore/dataset/13090/")
+        # A Vorlage answering an interpellation is shown as the interpellation.
+        i = acts["bl/2026/4870"]
+        self.assertEqual((i["kind"], i["question"], i["initiative"]),
+                         ("Interpellation", True, "Miriam Locher"))
+        c = acts["bl/2026/6529"]
+        self.assertEqual((c["status"], c["status_date"]), ("In Bearbeitung; neu, noch nicht behandelt",
+                                                           "2026-08-27"))
+        m = acts["bl/2025/129"]
+        self.assertEqual((m["status"], m["status_date"]), ("Abgeschlossen am 10.09.2026; abgeschrieben",
+                                                           "2026-09-10"))
+        self.assertIsNone(m["initiative"])           # 'Zuständig' is not an author
+        g = acts["bl/2026/5745"]
+        self.assertEqual((g["kind"], g["committee"], g["status_date"]),
+                         ("Geschäft", "Geschäftsprüfungskommission", "2026-05-27"))
+        self.assertTrue(all(a["dated"] for a in acts.values()))
+
+    def test_basel_landschaft_authors_and_newest_document(self):
+        got = C.bl_authors([
+            {"geschaeft_laufnummer": "2026/1", "person_vorname": "A", "person_name": "B",
+             "person_rolle": "Urheberin"},
+            {"geschaeft_laufnummer": "2026/1", "person_vorname": "C", "person_name": "D",
+             "person_rolle": "Mitunterzeichner"},
+            {"geschaeft_laufnummer": "2026/1", "person_vorname": "E", "person_name": "F",
+             "person_rolle": "Zuständig"}])
+        self.assertEqual(got, {"2026/1": (["A B"], 1)})
+        a = by_key(C.parse_bl_api([{"laufnummer": "2026/1", "titel": "t", "status": "In Bearbeitung",
+                                    "geschaeftstyp": "Motion", "vorstossart": "Motion",
+                                    "beginn": "2026-09-01", "geschaeft_id": "x"}], got,
+                                  today="2026-10-13"))["bl/2026/1"]
+        self.assertEqual(a["initiative"], "A B and 1 other(s)")
+        docs = C.bl_newest_docs([
+            {"geschaeft_laufnummer": "2026/1", "dokument_datum": "2026-09-10", "dokument_titel": "Text Motion"},
+            {"geschaeft_laufnummer": "2026/1", "dokument_datum": "2026-09-10",
+             "dokument_titel": "Beschluss des Landrats vom 10.09.2026"},
+            {"geschaeft_laufnummer": "2026/1", "dokument_datum": "2026-11-01", "dokument_titel": "later"}],
+            "2026-10-13")
+        self.assertEqual(docs, {"2026/1": ("2026-09-10", "Beschluss des Landrats vom 10.09.2026")})
+        self.assertEqual(C.parse_bl_api([{"laufnummer": "2026/2", "geschaeftstyp": "Begnadigung",
+                                          "titel": "x"}]), [])
+
+    def test_basel_landschaft_votes_tallied_from_members(self):
+        votes = C.parse_bl_api_votes(load("bl_ods_abstimmungen.json"),
+                                     {"b914110cadc9481d94fde8044593a14b": "2026/6808"})
+        self.assertEqual(len(votes), 2)
+        v = [x for x in votes if x["act_key"]][0]
+        self.assertEqual((v["act_key"], v["date"], v["subject"], v["yes"], v["no"], v["abstain"],
+                          v["counts_from"], v["result"]),
+                         ("bl/2026/6808", "2026-09-10", "Überweisung", 4, 3, 2, "tallied", None))
+        self.assertEqual(len(v["positions"]), 11)
+        self.assertEqual(v["positions"][0]["member"], "Alain Bai")
+        self.assertEqual(v["positions"][0]["parl_group"], "FDP")
+        self.assertEqual({p["position"] for p in v["positions"]}, {"Ja", "Nein", "Enthaltung", "Abwesend"})
+        self.assertTrue(v["key"].startswith("bl/v/2026-09-10/"))
+        self.assertEqual(v["source_url"], "https://data.bl.ch/explore/dataset/13080/")
+        # A vote on business the map does not hold keeps its printed title, no act.
+        o = [x for x in votes if not x["act_key"]][0]
+        self.assertEqual((o["yes"], o["no"], o["abstain"]), (3, 2, 0))
+        self.assertTrue(o["act_title"].startswith("Digitale Teilnahme an Landratssitzungen"))
+        # The member's abstimmung_id is not the vote's: the same vote, one key.
+        again = C.parse_bl_api_votes(list(reversed(load("bl_ods_abstimmungen.json"))))
+        self.assertEqual(sorted(x["key"] for x in again), sorted(x["key"] for x in votes))
+
+    @unittest.skipUnless(HAVE_TAX, "taxonomies missing")
+    def test_basel_landschaft_conversion_interpellation_is_on_our_ground(self):
+        self.assertIn(4, C.classify(C.Taxonomies(), self.bl()["bl/2026/6529"])[0])
+
     def test_every_api_url_is_under_a_written_permission(self):
         from src import robots_guard as rg
         urls = [C.ods_export(C.BS_ODS, d, "x") for d in C.BS_SETS.values()]
         urls += [C.ods_export(C.TG_ODS, d, "x") for d in C.TG_SETS.values()]
+        urls += [C.ods_export(C.BL_ODS, d, "x") for d in C.BL_SETS.values()]
         for u in urls:
             self.assertIsNotNone(rg.permission_for(u), u)
         self.assertIsNone(rg.permission_for(C.ods_export(C.BS_ODS, "100307", "x")))
+        self.assertIsNone(rg.permission_for(C.ods_export(C.BL_ODS, "13110", "x")))
+        self.assertIn("data.bl.ch", C.POLITE_HOSTS)
         self.assertEqual(C.batches("2026-09-01", "2026-09-30", 14),
                          [("2026-09-01", "2026-09-14"), ("2026-09-15", "2026-09-28"),
                           ("2026-09-29", "2026-09-30")])
@@ -584,14 +675,15 @@ class MainTests(unittest.TestCase):
                  (C.TG_PENDING, fixture("tg_pendente.html")),
                  (C.AG_INDEX, fixture("ag_index.json"))]
         rc, gaps, stored, base, votes, inner = self.run_main(pages, ["sg", "bl", "bs", "tg", "ag"])
-        # No Grand Council export, data.bs.ch or data.tg.ch fixture: all fail,
-        # and both cantons fall back to their parliaments' own pages, one gap
-        # for each step down.
+        # No Grand Council export, data.bs.ch, data.tg.ch or data.bl.ch
+        # fixture: all fail, and the three cantons fall back to their
+        # parliaments' own pages, one gap for each step down.
         self.assertEqual(rc, 3)
-        self.assertEqual(len(gaps), 3)
+        self.assertEqual(len(gaps), 4)
         self.assertTrue(any("Geschaefte export not read" in g for g in gaps))
         api = [g for g in gaps if "open-data API not read" in g]
-        self.assertEqual(len(api), 2)
+        self.assertEqual(len(api), 3)
+        self.assertTrue(any(g.startswith("Landrat Basel-Landschaft") for g in api))
         self.assertTrue(all("own site instead" in g for g in api))
         self.assertEqual(stored, {"sg": 5, "bl": 27, "bs": 18, "tg": 8, "ag": 8})
         self.assertEqual(base, 18)        # Basel-Stadt prints no submission date: a baseline
@@ -638,6 +730,50 @@ class MainTests(unittest.TestCase):
         self.assertNotIn("data.bs.ch", self.serving.robots_asked)
         self.assertNotIn("data.tg.ch", self.serving.robots_asked)
         self.assertTrue(all("/exports/json?" in u for u in inner.urls if "data." in u))
+
+    def test_basel_landschaft_from_data_bl_ch(self):
+        pages = [(C.BL_ODS + "13090/", fixture("bl_ods_geschaefte.json")),
+                 (C.BL_ODS + "13140/", fixture("bl_ods_urheber.json")),
+                 (C.BL_ODS + "13130/", fixture("bl_ods_dokumente.json")),
+                 (C.BL_ODS + "13080/", fixture("bl_ods_abstimmungen.json"))]
+        seen = {}
+
+        def check(conn):
+            seen["src"] = conn.execute("SELECT COUNT(*) FROM ch_canton_acts WHERE source_url IS NULL"
+                                       ).fetchone()[0]
+            seen["members"] = conn.execute("SELECT COUNT(*) FROM ch_canton_votes").fetchone()[0]
+            seen["votes"] = {r[0]: r[1:] for r in conn.execute(
+                "SELECT act_key, yes, no, abstain, counts_from, source_url FROM ch_canton_divisions")}
+            seen["init"] = conn.execute("SELECT initiative FROM ch_canton_acts WHERE "
+                                        "act_key='bl/2026/6529'").fetchone()[0]
+        rc, gaps, stored, base, votes, inner = self.run_main(
+            pages, ["bl"], robots={"data.bl.ch": "User-agent: *\nDisallow: /api/\n"}, check=check)
+        self.assertEqual((rc, gaps), (0, []))
+        self.assertEqual(stored, {"bl": 7})
+        self.assertEqual(base, 0)
+        self.assertEqual(votes, 2)
+        self.assertEqual(seen["src"], 0)
+        self.assertEqual(seen["members"], 17)
+        self.assertEqual(seen["votes"]["bl/2026/6808"][:4], (4, 3, 2, "tallied"))
+        self.assertIn(None, seen["votes"])           # its business is in no 13090 row
+        self.assertEqual(seen["init"], "Flavia Müller")
+        # The first read starts at the legislature, one export a quarter.
+        exports = [u for u in inner.urls if "/13080/" in u]
+        self.assertEqual(len(exports), len(C.batches(C.BL_VOTE_SINCE, "2026-10-13", C.BL_BATCH_DAYS)))
+        self.assertIn("2023-07-01", urllib.parse.unquote(exports[0]))
+        # The vote's business not in this run's rows is looked up once, by id.
+        self.assertTrue(any("geschaeft_id%20in" in u for u in inner.urls))
+        self.assertNotIn("data.bl.ch", self.serving.robots_asked)
+        self.assertTrue(all("/exports/json?" in u for u in inner.urls))
+        self.assertFalse(any("talus" in u for u in inner.urls))
+
+    def test_basel_landschaft_api_down_reads_talus(self):
+        rc, gaps, stored, base, votes, inner = self.run_main(
+            [(C.BL_NEW, fixture("bl_neuste.html"))], ["bl"])
+        self.assertEqual(rc, 3)
+        self.assertEqual(stored, {"bl": 27})
+        self.assertEqual(len(gaps), 1)
+        self.assertIn("Landrat Basel-Landschaft: open-data API not read", gaps[0])
 
     GRIBS_ROBOTS = ("User-agent: *\nDisallow: /administrator/\nDisallow: /api/\n"
                     "Allow: /media/\n\nUser-agent: GPTBot\nDisallow: /\n")
@@ -855,6 +991,16 @@ class EditionTests(unittest.TestCase):
             self.assertIn(url, text)
         self.assertIn("written permission", text)
         self.assertIn("CC BY 4.0", text)
+        for url in ("https://data.bl.ch/explore/dataset/13090/",
+                    "https://data.bl.ch/explore/dataset/13080/"):
+            self.assertIn(url, text)
+        self.assertIn("Landrat Basel-Landschaft is read from data.bl.ch", text)
+        self.assertNotIn("Basel-Landschaft and St. Gallen", text)
+        self.assertIn("Basel-Landschaft's carry every member's vote", " ".join(intro))
+        line = ch_ed.source_line("bl", "https://data.bl.ch/explore/dataset/13080/")
+        self.assertEqual(line, "Source: [data.bl.ch](https://data.bl.ch/explore/dataset/13080/) "
+                               "(free use, source must be cited (opendata.swiss terms_by), "
+                               "Landeskanzlei des Kantons Basel-Landschaft).")
 
     def test_grand_council_items_link_the_grand_council(self):
         line = ch_ed.source_line("bs", "https://grosserrat.bs.ch/?gnr=26.5228")

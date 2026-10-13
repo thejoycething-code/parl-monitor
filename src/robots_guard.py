@@ -155,10 +155,11 @@ class Permission:
 
 _ODS_BS = "https://data.bs.ch/api/explore/v2.1/catalog/datasets/"
 _ODS_TG = "https://data.tg.ch/api/explore/v2.1/catalog/datasets/"
+_ODS_BL = "https://data.bl.ch/api/explore/v2.1/catalog/datasets/"
 
-# Written permissions, dated. Both portals are Opendatasoft instances whose
-# robots.txt disallows /api/ to every agent but Googlebot; both owners wrote
-# that our targeted API use is welcome. Only the Grand Council datasets
+# Written permissions, dated. All three portals are Opendatasoft instances
+# whose robots.txt disallows /api/ to every agent but Googlebot; each owner
+# wrote that our targeted API use is welcome. Only the parliament datasets
 # tools/ch_cantons.py reads are listed (records and exports, dataset by
 # dataset); the rest of each portal's API is still asked.
 PERMISSIONS = (
@@ -179,6 +180,17 @@ PERMISSIONS = (
         "retrieval of individual datasets is explicitly intended. "
         "CitizenGO-ParlMonitor/1.0 may retrieve the Grosser Rat datasets about weekly "
         "via the API; the licence allows commercial and non-commercial use.",
+        "docs/robots-runtime.md#written-permissions"),
+    Permission(
+        tuple(_ODS_BL + d + "/" for d in ("13090", "13140", "13130", "13080")),
+        "Basel-Landschaft: Johannes Hool, Statistisches Amt / Office for Data and Statistics "
+        "(data.bl.ch)",
+        "2026-10-13",
+        "CitizenGO-ParlMonitor/1.0 is authorised to retrieve the Landrat's open data, voting "
+        "results included, through the data.bl.ch API; large-scale retrieval is fine. The "
+        "robots.txt /api/ rule targets generic crawlers; requests to specific, deliberately "
+        "selected dataset endpoints count as API-client usage and it does not apply to them. "
+        "No robots.txt change is needed: the email is the confirmation.",
         "docs/robots-runtime.md#written-permissions"),
 )
 
