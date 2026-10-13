@@ -78,11 +78,42 @@ is covered, because it is the only body whose calendar could be read:
   * OHCHR NOW CHALLENGED, measured 13 October 2026: www.ohchr.org answers
     the HRC sessions page (and the calls-for-input listing) with HTTP 403,
     cf-mitigated: challenge, "Just a moment...", where on 17 August only the
-    UPR paths were. Not bypassed. The forward look reports both as "could not
-    read" (src/un_checks.py), never as "no sessions". Alternatives still to
-    try, all legitimate: hrcmeetings.ohchr.org (answered 200 to the laptop),
-    the UN Journal's Geneva location for HRC meetings, and whether GitHub's
-    runners are challenged too (a probe workflow).
+    UPR paths were. Not bypassed: no browser User-Agent, no challenge
+    solver, no third-party cache or proxy. The same 403 came back from the
+    laptop and from the Mac Mini (a different network), so it is not one
+    address being throttled.
+
+    ALTERNATIVE ROUTES TRIED, 13 October 2026 (docs/un-sources.md keeps the
+    table). The standing rule is to look for a legitimate other route before
+    recording a gap:
+
+    - HRC sessions: WORKS via the HRC's own portal. hrcmeetings.ohchr.org
+      now answers 301 to hrcportal.ohchr.org (Drupal 11, the HRC extranet's
+      public side). Its robots.txt allows everything but /admin, /search,
+      /user and the core paths, with Crawl-delay 10 for "*" (one request per
+      run here, so the delay is met by construction). /hrc-sessions-all
+      lists every regular session from the 46th with "Date : 7 Sep - 7 Oct
+      2026" and a /node/N link per session; parse_hrcportal_sessions reads
+      it. It lists sessions once the Council has fixed them, so the 64th
+      (February 2027) appears there when it is announced, not before. The
+      www.ohchr.org page stays as a fallback only, should the portal fail.
+    - OHCHR calls for input: NO legitimate route found. Tried:
+      www.ohchr.org/en/rss.xml (200, not challenged, but it is the front-page
+      node feed: ten topic pages, no calls); /en/calls-for-input,
+      /en/calls-for-input-listing/rss.xml and /sitemap.xml (all challenged);
+      hrcportal.ohchr.org (no calls listing, none in its 167-URL sitemap);
+      spinternet.ohchr.org (Special Procedures; no calls listing);
+      ReliefWeb's API (needs an approved appname, which only Chris can
+      request, and it does not syndicate OHCHR calls in any case). Not used:
+      the Wayback Machine or any other cache, which would be routing the
+      challenged page through a third party. Whether GitHub's runners are
+      challenged is answered by the backup workflow's own check log (a
+      dispatched dry run prints it). Until then the check log says "could
+      not read", never "0 open".
+    - Treaty bodies: tbinternet.ohchr.org/robots.txt now reads
+      "User-agent: * / Disallow: /" (seen 13 October 2026). The master
+      calendar is therefore NOT fetched (robots_allows below) and the check
+      log says why; it resumes by itself if the robots.txt relents.
 
 Nothing on the original list is now missing. Recorded here rather than hidden,
 so nobody mistakes near-term Journal coverage for a long-range schedule.
@@ -96,7 +127,14 @@ import datetime
 import re
 from dataclasses import dataclass
 
+from src.http import FetchError
+
 HRC_SESSIONS = "https://www.ohchr.org/en/hr-bodies/hrc/regular-sessions"
+# The HRC's own portal (hrcmeetings.ohchr.org redirects here). Not behind the
+# Cloudflare challenge that www.ohchr.org put up by 13 October 2026; robots.txt
+# allows it, Crawl-delay 10 (one request per run).
+HRC_PORTAL = "https://hrcportal.ohchr.org"
+HRC_PORTAL_SESSIONS = HRC_PORTAL + "/hrc-sessions-all"
 TB_CALENDAR = ("https://tbinternet.ohchr.org/_layouts/15/TreatyBodyExternal/"
                "MasterCalendar.aspx?Lang=en")
 
@@ -277,6 +315,11 @@ def parse_treaty_deadlines(html):
 
 
 def fetch_treaty_deadlines(client):
+    """Not fetched while tbinternet's robots.txt disallows it (13 October 2026)."""
+    if not robots_allows(client, TB_CALENDAR):
+        raise FetchError(TB_CALENDAR, "uncal", "tb-calendar", 0,
+                         "robots.txt on tbinternet.ohchr.org disallows it "
+                         "(Disallow: / since at least 13 October 2026); not fetched")
     return parse_treaty_deadlines(client.get_text(TB_CALENDAR, "uncal", "tb-calendar"))
 
 
@@ -620,7 +663,111 @@ def fetch_ga_plenaries(client, start=None, days=21):
 
 
 def fetch_sessions(client):
-    return parse_hrc_sessions(client.get_text(HRC_SESSIONS, "uncal", "hrc-sessions"))
+    return fetch_sessions_routed(client)[0]
+
+
+def fetch_sessions_routed(client):
+    """(sessions, route) with route naming the host that answered.
+
+    hrcportal.ohchr.org first (not challenged), www.ohchr.org only when the
+    portal fails or parses to nothing. Raises FetchError naming both when
+    neither can be read.
+    """
+    why = []
+    try:
+        got = parse_hrcportal_sessions(
+            client.get_text(HRC_PORTAL_SESSIONS, "uncal", "hrcportal-sessions"))
+        if got:
+            return got, "hrcportal.ohchr.org"
+        why.append("hrcportal.ohchr.org parsed to nothing (layout change?)")
+    except FetchError as exc:
+        why.append("hrcportal.ohchr.org: {0}".format(getattr(exc, "cause", None) or exc))
+    try:
+        got = parse_hrc_sessions(client.get_text(HRC_SESSIONS, "uncal", "hrc-sessions"))
+        if got:
+            return got, "www.ohchr.org"
+        why.append("www.ohchr.org parsed to nothing")
+    except FetchError as exc:
+        why.append("www.ohchr.org: {0}".format(getattr(exc, "cause", None) or exc))
+    raise FetchError(HRC_PORTAL_SESSIONS, "uncal", "hrcportal-sessions", 1, "; ".join(why))
+
+
+# One session on hrcportal.ohchr.org/hrc-sessions-all (13 October 2026):
+#   <article class="node node--session ..."> <h2><a href="/node/18091">63rd
+#   regular session of the Human Rights Council</a></h2> ... Location: Geneva
+#   ... <div class="field_session_dates"><svg .../> Date : 7 Sep – 7 Oct 2026
+# The start's year is printed only when it differs from the end's.
+_PORTAL_ARTICLE = re.compile(r'<article[^>]*node--session[^>]*>(.*?)</article>', re.S)
+_PORTAL_TITLE = re.compile(
+    r'<h2>\s*<a href="([^"]+)">\s*(\d{1,3})(?:st|nd|rd|th)\s+regular session of the '
+    r'Human Rights Council\s*</a>', re.I)
+_PORTAL_DATES = re.compile(
+    r"Date\s*:\s*(\d{1,2})\s+([A-Za-z]{3,9})\.?(?:\s+(20\d\d))?\s*[\u2013\u2014-]\s*"
+    r"(\d{1,2})\s+([A-Za-z]{3,9})\.?\s+(20\d\d)")
+_SVG = re.compile(r"<svg.*?</svg>", re.S)
+
+
+def _month(name):
+    key = name[:3].capitalize()
+    return [m[:3] for m in MONTHS].index(key) + 1
+
+
+def parse_hrcportal_sessions(html):
+    """HRC regular sessions on hrcportal.ohchr.org, earliest first.
+
+    Organisational meetings and special sessions are skipped (only "regular
+    session" titles match). Past sessions are returned, as parse_hrc_sessions
+    does, so an empty result means the page changed, not "nothing ahead".
+    """
+    out, seen = [], set()
+    for block in _PORTAL_ARTICLE.findall(html or ""):
+        title = _PORTAL_TITLE.search(block)
+        if not title:
+            continue
+        text = re.sub(r"\s+", " ", _TAGS.sub(" ", _SVG.sub("", block)))
+        dates = _PORTAL_DATES.search(text)
+        if not dates:
+            continue
+        number = int(title.group(2))
+        if number in seen:
+            continue
+        try:
+            end_year = int(dates.group(6))
+            ends = datetime.date(end_year, _month(dates.group(5)), int(dates.group(4)))
+            start_month = _month(dates.group(2))
+            start_year = int(dates.group(3)) if dates.group(3) else (
+                end_year if start_month <= ends.month else end_year - 1)
+            starts = datetime.date(start_year, start_month, int(dates.group(1)))
+        except ValueError:
+            continue
+        seen.add(number)
+        href = title.group(1)
+        out.append(Session(body="Human Rights Council", number=number, starts=starts,
+                           ends=ends, url=href if href.startswith("http") else HRC_PORTAL + href))
+    return sorted(out, key=lambda s: s.starts)
+
+
+def robots_allows(client, url, agent="CitizenGO-ParlMonitor"):
+    """True when the host's robots.txt lets `agent` fetch `url`.
+
+    Added 13 October 2026 when tbinternet.ohchr.org's robots.txt turned out to
+    read "Disallow: /". A robots.txt that answers 404 allows everything (the
+    standard's rule); any other failure to read it raises, so the caller
+    reports the source as not read rather than guessing.
+    """
+    import urllib.parse
+    import urllib.robotparser
+    parts = urllib.parse.urlsplit(url)
+    robots = "{0}://{1}/robots.txt".format(parts.scheme, parts.netloc)
+    try:
+        text = client.get_text(robots, "robots", parts.netloc.replace(".", "-"), archive=False)
+    except FetchError as exc:
+        if "404" in str(getattr(exc, "cause", "") or exc):
+            return True
+        raise
+    parser = urllib.robotparser.RobotFileParser()
+    parser.parse((text or "").splitlines())
+    return parser.can_fetch(agent, url)
 
 
 def upcoming(sessions, today=None, horizon_days=None):

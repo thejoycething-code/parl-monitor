@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- UN calls weekday check on the Mac Mini (jobs/un-weekday.sh): Monday to Friday, 08:30 London.
+     Time limit 60 minutes.
+     Why 08:30 and not 10:45 (13 October 2026): 10:45 sits inside four store-writing
+     windows, one per weekday from Tuesday: ca-weekly (Tue 11:00), prov-weekly (Wed 11:00,
+     4h50 budget), co-weekly (Thu 09:30, queued behind cl-weekly 09:00, which ran an hour
+     on 11 October) and us-weekly (Fri 10:00, 3h budget; 17 minutes to 1h36 measured).
+     08:30 follows day-sweep (Tue-Sat 08:00, 11-21 minutes measured) and is clear of
+     cl-weekly (Thu 09:00) and ie-weekly (Fri 09:30); Monday morning is empty. The DM
+     also lands at the start of Chris's day. A late neighbour only queues it (mini_run's lock).
+     GitHub's backup (un-calls-weekly.yml, 10:00 UTC Mon-Fri) skips itself once this has run.
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.un-weekday.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.un-weekday</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>un-weekday</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>JOB_TIMEOUT</key>
+    <string>3600</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Weekday</key><integer>1</integer><key>Hour</key><integer>8</integer><key>Minute</key><integer>30</integer></dict>
+    <dict><key>Weekday</key><integer>2</integer><key>Hour</key><integer>8</integer><key>Minute</key><integer>30</integer></dict>
+    <dict><key>Weekday</key><integer>3</integer><key>Hour</key><integer>8</integer><key>Minute</key><integer>30</integer></dict>
+    <dict><key>Weekday</key><integer>4</integer><key>Hour</key><integer>8</integer><key>Minute</key><integer>30</integer></dict>
+    <dict><key>Weekday</key><integer>5</integer><key>Hour</key><integer>8</integer><key>Minute</key><integer>30</integer></dict>
+  </array>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/un-weekday.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/un-weekday.log</string>
+</dict>
+</plist>
