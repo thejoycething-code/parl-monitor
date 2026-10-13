@@ -21,12 +21,32 @@
 #     --no-senate. If GitHub cannot be reached, the week goes ahead without
 #     the new Senate votes and says so in a [gap] line.
 #
+# NEW JERSEY, MASSACHUSETTS AND MICHIGAN ANSWER ONLY GITHUB (13 October 2026;
+# Christopher: "Add the GitHub step, skip NY"). Their legislatures time out
+# or refuse UK networks and answer GitHub's US runners, so
+# tools/us_states_github.py runs where they answer, on the Senate half's
+# pattern above:
+#   * they answer this machine (GitHub's own run): the step runs inline,
+#     after the other state readers;
+#   * they do not (the Mini): the same dispatch that asks GitHub for the
+#     Senate half asks it for the states half too (us-weekly.yml input
+#     states_github), at the START of the week, before this machine writes
+#     anything, while the Mini holds its lock: one store writer at a time.
+#     GitHub reads Open States for NJ, MA and MI, then the three
+#     legislatures on top, and publishes the store; this machine fetches it
+#     again and leaves those three states out of its own Open States step
+#     (--exclude-states), so nothing it reads later wipes the same-day rows.
+#     If GitHub cannot be reached, the week goes ahead with Open States alone
+#     for the three and says so in a [gap] line.
+#
 # SPEAKS ONCE A DAY. An edition already committed for today means another
 # run (the Mini, or a GitHub backup) has sent the DM: it is rewritten, not
 # resent.
 #
 #     US_RECLASSIFY=true    re-derive stored areas first (taxonomy change)
 #     US_SENATE_ONLY=true   the Senate-only half GitHub runs for the Mini
+#     US_STATES_GITHUB=true the NJ/MA/MI states half GitHub runs for the Mini
+#                           (with or without US_SENATE_ONLY; no edition)
 #     US_RECORD_BUDGET=N    seconds for the Congressional Record step
 #     US_JUDGE=on           score new items with the PAID API judge (read from
 #                           the repo variable when unset and gh is available).
@@ -68,7 +88,36 @@ if [ "${US_RECLASSIFY:-}" = "true" ]; then
   python3 tools/us_states.py --reclassify | tee -a "$LOG/us-reclassify.log"
 fi
 
-if [ "${US_SENATE_ONLY:-}" = "true" ]; then
+# The GitHub-only states (tools/us_states_github.py): which of their hosts
+# this machine can reach decides whether the step runs here or on GitHub.
+GH_STATES="nj,ma,mi"
+gh_states_reach() {
+  local u
+  for u in https://pub.njleg.gov/votes/ https://malegislature.gov/robots.txt \
+           https://www.legislature.mi.gov/Home/AutomatedDataCollectionPolicy; do
+    curl -fsS -o /dev/null -m 20 -A "$UA" "$u" 2>/dev/null || return 1
+  done
+}
+gh_states_half() {
+  # Open States first for the three (their bulk files and top-up), then the
+  # legislatures' own same-day rows on top (the weekly's order). Neither
+  # stops the publish below.
+  python3 tools/us_states.py --states "$GH_STATES" --budget-seconds 300 | tee "$LOG/us-states.log" \
+    || echo "  [gap] the Open States read for NJ, MA and MI ended with gaps"
+  python3 tools/us_states_github.py --budget-seconds "${1:-600}" | tee "$LOG/us-states-github.log" \
+    || echo "  [gap] the GitHub states step (NJ, MA, MI) ended with gaps; Open States stands"
+}
+
+if [ "${US_SENATE_ONLY:-}" = "true" ] || [ "${US_STATES_GITHUB:-}" = "true" ]; then
+  # The half GitHub runs for the Mini (or both halves in one run): what was
+  # asked, then the raw archive and the store, and no edition.
+  if [ "${US_SENATE_ONLY:-}" != "true" ]; then
+    gh_states_half 600
+    python3 tools/raw_state.py --push
+    python3 tools/db_state.py --push
+    exit 0
+  fi
+  if [ "${US_STATES_GITHUB:-}" = "true" ]; then gh_states_half 600; fi
   if [ -n "$CATCH_UP" ]; then
     python3 tools/us_rollcalls.py --congress "$CATCH_UP" --no-bills --no-rolls --no-members \
       --budget-seconds 600 | tee "$LOG/us-rollcalls-catch-up.log" \
@@ -84,14 +133,30 @@ if [ "${US_SENATE_ONLY:-}" = "true" ]; then
 fi
 
 SENATE_ARGS=()
+NEED_SENATE=false
+NEED_STATES=false
+# How the GitHub-only states go this week: here (inline), done by GitHub's
+# half (github), or not at all (skipped, a [gap] line said why).
+GH_STATES_MODE=inline
 if ! curl -fsS -o /dev/null -m 30 -A "$UA" "$SENATE_MENU" 2>/dev/null; then
   echo "senate.gov refuses this machine; asking GitHub for the Senate half"
   SENATE_ARGS=(--no-senate)
+  NEED_SENATE=true
+fi
+if [ -z "${GITHUB_ACTIONS:-}" ] && ! gh_states_reach; then
+  echo "the New Jersey, Massachusetts or Michigan legislature does not answer this machine; asking GitHub for the states half"
+  NEED_STATES=true
+  GH_STATES_MODE=skipped
+fi
+if [ "$NEED_SENATE" = "true" ] || [ "$NEED_STATES" = "true" ]; then
+  # One run for both halves (the Mini waits once). The Mini holds its lock
+  # while it waits: GitHub's run is the only store writer meanwhile.
   if [ -z "${GITHUB_ACTIONS:-}" ] && [ -n "${GH_TOKEN:-}" ] && command -v gh >/dev/null 2>&1; then
     REPO=thejoycething-code/parl-monitor
     BRANCH=$(git rev-parse --abbrev-ref HEAD)
     since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-    if gh workflow run us-weekly.yml -R "$REPO" --ref "$BRANCH" -f senate_only=true; then
+    if gh workflow run us-weekly.yml -R "$REPO" --ref "$BRANCH" \
+         -f senate_only="$NEED_SENATE" -f states_github="$NEED_STATES"; then
       run_id=
       for _ in $(seq 1 20); do
         sleep 6
@@ -106,17 +171,20 @@ if ! curl -fsS -o /dev/null -m 30 -A "$UA" "$SENATE_MENU" 2>/dev/null; then
       if [ -n "$run_id" ] && gh run watch "$run_id" -R "$REPO" --exit-status >/dev/null \
          && [ "$(gh run view "$run_id" -R "$REPO" --json jobs \
                  --jq '[.jobs[] | select(.name == "pull")][0].conclusion // "missing"')" = "success" ]; then
-        echo "GitHub run $run_id published the Senate votes; fetching the store again"
+        echo "GitHub run $run_id published its half (senate $NEED_SENATE, states $NEED_STATES); fetching the store again"
         git pull -q --rebase --autostash origin "$BRANCH"
         python3 tools/db_state.py --pull
+        if [ "$NEED_STATES" = "true" ]; then GH_STATES_MODE=github; fi
       else
-        echo "  [gap] Senate half on GitHub failed or never started (run ${run_id:-none}); this week has no new Senate votes"
+        if [ "$NEED_SENATE" = "true" ]; then echo "  [gap] Senate half on GitHub failed or never started (run ${run_id:-none}); this week has no new Senate votes"; fi
+        if [ "$NEED_STATES" = "true" ]; then echo "  [gap] states half on GitHub failed or never started (run ${run_id:-none}); NJ, MA and MI rest on Open States this week"; fi
       fi
     else
-      echo "  [gap] could not dispatch the Senate half to GitHub; this week has no new Senate votes"
+      echo "  [gap] could not dispatch to GitHub; this week has no new Senate votes (if asked) and NJ, MA and MI rest on Open States (if asked)"
     fi
   else
-    echo "  [gap] senate.gov refused and gh is unavailable; this week has no new Senate votes"
+    if [ "$NEED_SENATE" = "true" ]; then echo "  [gap] senate.gov refused and gh is unavailable; this week has no new Senate votes"; fi
+    if [ "$NEED_STATES" = "true" ]; then echo "  [gap] NJ, MA and MI do not answer and gh is unavailable; they rest on Open States this week"; fi
   fi
 fi
 
@@ -166,7 +234,10 @@ python3 tools/us_courts.py --budget-seconds 900 | tee "$LOG/us-courts.log" \
 # Measured at 945 s for all 66 sessions, so it gets 30 minutes on GitHub too;
 # the Record step after it takes only what the job has left.
 STATES_ARGS=()
-if [ "${US_STATES_FULL:-}" = "true" ]; then STATES_ARGS=(--full); STATES_BUDGET=1800
+# GitHub's states half has read NJ, MA and MI from Open States and laid the
+# legislatures' same-day rows on top: this run leaves those three out.
+if [ "$GH_STATES_MODE" = "github" ]; then STATES_ARGS+=(--exclude-states "$GH_STATES"); fi
+if [ "${US_STATES_FULL:-}" = "true" ]; then STATES_ARGS+=(--full); STATES_BUDGET=1800
 elif [ -n "${GITHUB_ACTIONS:-}" ]; then STATES_BUDGET="${US_STATES_BUDGET:-600}"
 else STATES_BUDGET="${US_STATES_BUDGET:-1800}"; fi
 python3 tools/us_states.py --budget-seconds "$STATES_BUDGET" "${STATES_ARGS[@]}" | tee "$LOG/us-states.log" \
@@ -206,6 +277,24 @@ if [ -n "${GITHUB_ACTIONS:-}" ]; then ROUTES_BUDGET=300; ROUTES_ARGS=(--mo-max-f
 else ROUTES_BUDGET=900; ROUTES_ARGS=(); fi
 python3 tools/us_states_routes.py --budget-seconds "$ROUTES_BUDGET" "${ROUTES_ARGS[@]}" | tee "$LOG/us-states-routes.log" \
   || echo "  [gap] the state routes step (PA, MO, AR) ended with gaps; Open States stands"
+
+# New Jersey, Massachusetts and Michigan (tools/us_states_github.py, 13
+# October 2026; Christopher: "Add the GitHub step, skip NY"): after the other
+# state readers, where those legislatures answer (GitHub's runners). On the
+# Mini the dispatched GitHub half did it at the start of the week (above).
+# Budgets: 5 minutes inline on GitHub, inside the 120 (the Record step below
+# takes what is left); the dispatched half has 10.
+case "$GH_STATES_MODE" in
+  inline)
+    python3 tools/us_states_github.py --budget-seconds 300 --ma-max-bills 40 --mi-max-bills 30 \
+      | tee "$LOG/us-states-github.log" \
+      || echo "  [gap] the GitHub states step (NJ, MA, MI) ended with gaps; Open States stands" ;;
+  github)
+    echo "us-states-github: done by GitHub's half this week (NJ, MA, MI)" | tee "$LOG/us-states-github.log" ;;
+  *)
+    echo "  [gap] us-states-github: NJ, MA and MI not read from their legislatures this week; Open States stands" \
+      | tee "$LOG/us-states-github.log" ;;
+esac
 
 # The Congressional Record (phase 3a, 9 October 2026): floor speeches on our
 # ground, before the judge (which scores them) and the edition (its Floor

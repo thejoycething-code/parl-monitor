@@ -176,7 +176,7 @@ SCHEMA = (
     # source_id 'file:...' rows record a file read (California's daily
     # deltas), with the file's stamp as change_hash.
     """CREATE TABLE IF NOT EXISTS uss_bill_sources (
-        source       TEXT NOT NULL,      -- 'legiscan' / 'ks-kliss' / 'ca-leginfo' / 'tx-ftp' / 'pa-ldpc' / 'mo-house' / 'ar-arkleg'
+        source       TEXT NOT NULL,      -- 'legiscan' / 'ks-kliss' / 'ca-leginfo' / 'tx-ftp' / 'pa-ldpc' / 'mo-house' / 'ar-arkleg' / 'nj-leg' / 'ma-api' / 'mi-leg'
         source_id    TEXT NOT NULL,      -- the source's own bill ID ('1167968', 'HB2010', ...)
         state        TEXT,
         bill_key     TEXT,               -- norm_key: 'TX/89R/HB229'
@@ -221,6 +221,11 @@ SOURCE_NAMES = {
     "pa-ldpc": "the Pennsylvania LDPC's bill history export",
     "mo-house": "the Missouri House's XML exports",
     "ar-arkleg": "the Arkansas Legislature's bill pages",
+    # tools/us_states_github.py (13 October 2026, "Add the GitHub step, skip
+    # NY"): hosts that answer GitHub's runners only.
+    "nj-leg": "the New Jersey Legislature's data downloads",
+    "ma-api": "the Massachusetts Legislature's API",
+    "mi-leg": "the Michigan Legislature's website",
 }
 
 # Where Open States gives no recorded votes, or totals with no positions
