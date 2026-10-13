@@ -60,6 +60,15 @@ sources, read politely, each a few requests a week:
   * sal-dip   Cámara de Diputados de Salta (added 13 October 2026): this
               year's approved laws, resolutions and declarations (three
               pages); its pending lists are empty and its intake is PDF.
+  * sal-dip-ae  the same chamber's intake (added 13 October 2026): the
+              Asuntos Entrados index, then each new sitting's PDF (at most
+              SAL_AE_PDFS a run, read with pypdf), every project of law,
+              resolution and declaration a new bill under the same
+              'sal-dip:<expediente>' key the approved lists use. Read after
+              sal-dip, and only for keys not stored yet, so an approval is
+              never overwritten by the older intake line. The first read
+              takes the newest PDFs only (a seed) and marks the older ones
+              read.
 
 NOT READ, and why (the scope doc has the measurements): the Buenos Aires
 Senate's search carries a reCAPTCHA; Mendoza's Senate answers 403 and its
@@ -120,7 +129,7 @@ BA_DIP_MAX_PAGES = 6
 WATCHLIST = os.path.join(ROOT, "config", "watchlist-ar.yaml")
 SUMMARY_CHARS = 2000
 SOURCES = ("saij", "normas-gba", "ba-dip", "caba", "cba", "er-sen", "rn", "chu", "juj", "ctes-dip",
-           "sf-dip", "sal-sen", "sal-dip")
+           "sf-dip", "sal-sen", "sal-dip", "sal-dip-ae")
 CTES_MAX_PAGES = 8
 SF_MAX_PAGES = 8
 SAL_SEN_NEW = 100
@@ -175,6 +184,14 @@ SAL_SEN_CATS = {52: ("declaracion", "En trámite"), 53: ("resolucion", "En trám
                 57: ("resolucion", "Aprobado"), 58: ("declaracion", "Aprobado")}
 SAL_DIP_APPROVED = "https://www.diputadosalta.gob.ar/web/proyectos_aprobados_por_periodo?periodo={0}&tipo={1}"
 SAL_DIP_ROOT = "https://www.diputadosalta.gob.ar"
+# Salta Diputados' intake (13 October 2026, Chris: "Accept the watchlists, apply the terms after
+# measuring", with the Salta step): the Asuntos Entrados index lists one PDF per
+# sitting, newest first (2021 to date); each PDF lists the sitting's new
+# projects of law, resolution and declaration with expediente, carátula,
+# committees and authors. At most SAL_AE_PDFS new PDFs a run (one sitting a
+# week; about 450 KB each), so the step stays inside the AR budget.
+SAL_DIP_AE = SAL_DIP_ROOT + "/web/asuntos_entrados"
+SAL_AE_PDFS = 2
 
 # Per-host intervals (seconds), never lower than a Crawl-delay robots.txt asks.
 DELAYS = {"www.saij.gob.ar": 3.0, "normas.gba.gob.ar": 3.0, "www.hcdiputados-ba.gov.ar": 5.0,
@@ -715,6 +732,157 @@ def parse_sal_dip(page, kind):
     return out
 
 
+# --- Salta Diputados' Asuntos Entrados (PDF) ----------------------------------------
+
+SAL_AE_ROW = re.compile(r'<a href="(/documentos_legislativos/(\d+)/download_file)">\s*Asuntos Entrados\s*</a>'
+                        r'\s*</td>\s*<td[^>]*>\s*(\d{1,2}/\d{1,2}/\d{4})\s*</td>', re.S | re.I)
+SAL_AE_KIND = re.compile(r"^PROYECTOS DE (LEY|RESOLUCI[OÓ]N|DECLARACI[OÓ]N)$")
+SAL_AE_EXP = re.compile(r"Expediente:\s*(\d+)\s*-\s*([\d.]+)\s*/\s*(\d{2,4})")
+SAL_AE_FIELD = re.compile(r"^(Carátula|A las? Comisi[oó]n(?:es)?|Autor(?:a|es|as)?)\s*:\s*(.*)$")
+SAL_AE_ROMAN = re.compile(r"^[IVXL]+$")
+SAL_AE_MONTHS = {"enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5, "junio": 6, "julio": 7,
+                 "agosto": 8, "septiembre": 9, "setiembre": 9, "octubre": 10, "noviembre": 11,
+                 "diciembre": 12}
+
+
+def parse_sal_ae_index(page):
+    """[(document id, ISO date, PDF url)] from the Asuntos Entrados index,
+    newest first as the page lists them."""
+    out = []
+    for href, doc_id, when in SAL_AE_ROW.findall(page or ""):
+        out.append((doc_id, dmy(when), SAL_DIP_ROOT + href))
+    return out
+
+
+def sal_pdf_text(blob):
+    """The PDF's text in pypdf's layout mode (the plain mode splits words at
+    kerning gaps, "E rradicación"); pypdf is imported only here."""
+    try:
+        import io
+        import pypdf
+    except ImportError:
+        raise ValueError("pypdf is not installed: Salta's Asuntos Entrados (PDF) are not read")
+    try:
+        reader = pypdf.PdfReader(io.BytesIO(blob))
+        pages = list(reader.pages)
+    except Exception as exc:                 # pypdf raises a zoo of types
+        raise ValueError("unreadable PDF: {0}".format(str(exc)[:100]))
+    out = []
+    for page in pages:
+        if "/Contents" not in page:          # a blank page (layout mode trips on it)
+            continue
+        try:
+            out.append(page.extract_text(extraction_mode="layout") or "")
+        except Exception:                    # one odd page: the plain mode, else nothing
+            try:
+                out.append(page.extract_text() or "")
+            except Exception:
+                continue
+    return "\n".join(out)
+
+
+def _sal_ae_heading(line):
+    """A section heading of the document: a roman numeral, or a line in
+    capitals (two words or more) such as 'DICTAMEN DE COMISIÓN' or
+    'INCORPORADOS EN ASUNTOS ENTRADOS DURANTE LA SESIÓN (25-08-2026)'."""
+    if SAL_AE_ROMAN.match(line):
+        return True
+    words = re.findall(r"[^\W\d_]+", line)
+    return len(words) >= 2 and not re.search(r"[a-záéíóúñ]", line) and "EXPEDIENTE" not in line
+
+
+def _sal_ae_kind(text):
+    m = re.search(r"Proyectos? de (Ley|Resoluci[oó]n|Declaraci[oó]n)", text or "", re.I)
+    if not m:
+        return None
+    word = fold(m.group(1))
+    return "ley" if word == "LEY" else ("resolucion" if word.startswith("RESOLU") else "declaracion")
+
+
+def sal_ae_session_date(text):
+    m = re.search(r"(\d{1,2}) de ([a-z]+) de (\d{4})", fold(text[:2000]).lower())
+    if not m or m.group(2) not in SAL_AE_MONTHS:
+        return None
+    try:
+        return datetime.date(int(m.group(3)), SAL_AE_MONTHS[m.group(2)], int(m.group(1))).isoformat()
+    except ValueError:
+        return None
+
+
+def parse_sal_ae(text, when=None, url=None):
+    """Every project of law, resolution and declaration in one sitting's
+    Asuntos Entrados (pypdf's text): the PROYECTOS DE ... sections, the
+    projects added during the sitting and the documents section (each names
+    its kind), and the Senate's bills in revision among the communications.
+    Notes, decrees and committee reports ('Exptes.') are skipped."""
+    when = when or sal_ae_session_date(text or "")
+    out, kind, cur, field = [], None, None, None
+
+    def close():
+        if cur and cur.get("title"):
+            note = " ".join(cur.pop("_note", []))
+            status = "Entrado"
+            if re.search(r"archivo", note, re.I):
+                status = "Entrado y archivado"
+            authors = re.sub(r"\bDip\.\s*", "", " ".join(cur["_author"])).strip(" .-–")
+            out.append({"bill_key": "sal-dip:" + cur["expediente"], "legislature": "sal-dip",
+                        "province": "sal", "expediente": cur["expediente"], "kind": cur["kind"],
+                        "title": re.sub(r"\s+", " ", " ".join(cur["title"])).strip(),
+                        "author": re.sub(r"\s*[-–]\s*", "; ", re.sub(r"\s+", " ", authors)) or None,
+                        "status": status,
+                        "committee": re.sub(r"\s+", " ", " ".join(cur["_committee"])).strip() or None,
+                        "presented": when, "sanctioned": 0, "url": url, "stage": False})
+
+    for raw in (text or "").splitlines():
+        line = re.sub(r"\s+", " ", raw).strip()
+        if not line or re.fullmatch(r"\d{1,3}", line):
+            continue
+        m = SAL_AE_KIND.match(line)
+        if m:
+            close()
+            cur, field = None, None
+            kind = {"LEY": "ley"}.get(m.group(1), "resolucion" if m.group(1).startswith("RESOLU")
+                                      else "declaracion")
+            continue
+        if _sal_ae_heading(line):
+            close()
+            # projects added during the sitting may name no kind: 'proyecto'
+            cur, field, kind = None, None, ("proyecto" if line.startswith("INCORPORADOS") else None)
+            continue
+        if re.fullmatch(r"Proyectos? de (Ley|Resoluci[oó]n|Declaraci[oó]n)", line, re.I):
+            close()
+            cur, field, kind = None, None, _sal_ae_kind(line)
+            continue
+        m = SAL_AE_EXP.search(line)
+        if m and line.lstrip("0123456789. ").startswith("Expediente"):
+            close()
+            cur, field = None, None
+            this = _sal_ae_kind(line[m.end():]) or kind
+            if this is None:
+                continue
+            year = m.group(3)[-2:]
+            cur = {"expediente": "{0}-{1}/{2}".format(m.group(1), m.group(2).replace(".", ""), year),
+                   "kind": this, "title": [], "_committee": [], "_author": [], "_note": []}
+            continue
+        if cur is None:
+            continue
+        if line.startswith("---"):
+            field = "_note"
+            cur["_note"].append(line.strip("- "))
+            continue
+        m = SAL_AE_FIELD.match(line)
+        if m:
+            label = m.group(1).lower()
+            field = "title" if label.startswith("car") else ("_committee" if label.startswith("a la")
+                                                            else "_author")
+            cur[field].append(m.group(2))
+            continue
+        if field:
+            cur[field].append(line)
+    close()
+    return out
+
+
 def load_taxonomy(path=None):
     from src import filter as filt
     path = path or os.path.join(ROOT, "config", "taxonomy-es.yaml")
@@ -1244,6 +1412,51 @@ def pull_sal_dip(run):
             "ground.".format(len(rows), run.today.year, new, ours))
 
 
+def pull_sal_dip_ae(run):
+    """Salta Diputados' intake: the Asuntos Entrados index, then each new
+    sitting's PDF (at most SAL_AE_PDFS a run), as new bills. Keys already
+    stored (an approved list saw them first) are left alone."""
+    seed = first_read(run.conn, "sal-dip-ae")
+    try:
+        index = run.client.get_text(SAL_DIP_AE, FEED, "sal-dip-ae-index")
+    except FetchError as exc:
+        run.gap("sal-dip-ae", "Diputados (Salta) Asuntos Entrados index unreadable: " + _fail(exc))
+        return
+    docs = parse_sal_ae_index(index)
+    if not docs:
+        run.gap("sal-dip-ae", "Diputados (Salta) Asuntos Entrados listed no sitting; its markup may have changed")
+        return
+    done = set(read_cursor(run.conn, "sal-dip-ae"))
+    todo = [d for d in docs if d[0] not in done][:SAL_AE_PDFS]
+    if seed:
+        # the first read: the newest sittings only; the archive is not news
+        done |= {d[0] for d in docs[SAL_AE_PDFS:]}
+    rows, read = [], []
+    for doc_id, when, url in todo:
+        try:
+            blob = run.client.get_bytes(url, FEED, "sal-dip-ae-{0}".format(doc_id))
+            got = parse_sal_ae(sal_pdf_text(blob), when, url)
+        except (FetchError, ValueError) as exc:
+            run.gap("sal-dip-ae", "Diputados (Salta) Asuntos Entrados of {0} unreadable: {1}".format(
+                when, _fail(exc) if isinstance(exc, FetchError) else str(exc)[:150]))
+            if isinstance(exc, RobotsRefused):
+                break
+            continue
+        read.append(doc_id)
+        if not got:
+            run.log("  sal-dip-ae: the Asuntos Entrados of {0} listed no project".format(when))
+        rows += got
+    stored = {r[0] for r in run.conn.execute(
+        "SELECT bill_key FROM arp_bills WHERE legislature='sal-dip'").fetchall()}
+    fresh = [r for r in rows if r["bill_key"] not in stored]
+    new, ours = run.bills(fresh, seed)
+    keep = sorted(done | set(read), key=lambda x: int(x) if x.isdigit() else 0)[-300:]
+    if read or not todo:
+        record_read(run.conn, "sal-dip-ae", run.today.isoformat(), len(rows), "ok", json.dumps(keep))
+    run.log("ar-regions: Diputados (Salta) Asuntos Entrados: {0} sitting(s) read, {1} project(s), {2} new, "
+            "{3} new on our ground.".format(len(read), len(rows), new, ours))
+
+
 def collect(conn, client, today, sources=SOURCES, tax=None, watch=None, saij_pages=SAIJ_PAGES,
             deadline=None, log=print):
     """Read every source in `sources`; returns the number of gaps."""
@@ -1254,7 +1467,8 @@ def collect(conn, client, today, sources=SOURCES, tax=None, watch=None, saij_pag
              "cba": lambda: pull_cba(run), "er-sen": lambda: pull_er_sen(run, since),
              "rn": lambda: pull_rn(run), "chu": lambda: pull_chu(run), "juj": lambda: pull_juj(run),
              "ctes-dip": lambda: pull_ctes(run, since), "sf-dip": lambda: pull_sf_dip(run, since),
-             "sal-sen": lambda: pull_sal_sen(run), "sal-dip": lambda: pull_sal_dip(run)}
+             "sal-sen": lambda: pull_sal_sen(run), "sal-dip": lambda: pull_sal_dip(run),
+             "sal-dip-ae": lambda: pull_sal_dip_ae(run)}
     for name in SOURCES:
         if name not in sources:
             continue

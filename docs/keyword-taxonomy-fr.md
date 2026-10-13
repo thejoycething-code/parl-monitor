@@ -1,6 +1,6 @@
 # Parliamentary Monitor: French (France, Belgium, Switzerland) keyword taxonomy
 
-**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.3 | 13 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 **Extends:** qc
 
@@ -60,8 +60,8 @@ Noise round (v0.2, 10 October 2026, approved by Chris).
 ### 3. Gender medicine and children {#3_gender_medicine_children}
 
 - **Tier 1:** "questionnement de genre" [only: fr]; transidentité* [with: mineur*, enfant*, jeune*, élève*]; transition [with: mineur*, enfant*]; "changement de sexe"
-- **Tier 2:** transidentité* [only: fr]
-- **Notes:** France: questionnement de genre caught DLR5L16N49654; transidentité* guarded at tier 1, bare at tier 2. Belgium: Only the guarded transition term is new beside taxonomy-qc. Switzerland: Counterpart of Geschlechtsumwandlung.
+- **Tier 2:** transidentité* [only: fr]; "transition de genre"; réassignation*
+- **Notes:** France: questionnement de genre caught DLR5L16N49654; transidentité* guarded at tier 1, bare at tier 2. Belgium: Only the guarded transition term is new beside taxonomy-qc. Switzerland: Counterpart of Geschlechtsumwandlung. v0.3 (Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring"; docs/switzerland-cantons-scope.md): "transition de genre" and the stem réassignation* at tier 2, shared. The stem reads Geneva's slash form "réassignation/conversion sexuelle" (M 3137, newly on our ground) as well as PL 13324 and M 3010; "transition de genre" files M 3087 (transition care in highly specialised medicine). Measured on a scratch read of the cantons (2,643 acts) and the federal, French and Belgian stores: 4 matches, 0 false positives (no labour-law "réassignation" anywhere). The spelled-out EVRAS ("éducation à la vie relationnelle, affective et sexuelle", proposed for area 6) is NOT added: "éducation à la vie relationnelle" (tier 1) already matches every title that spells it out.
 
 ### 4. Conversion practices {#4_conversion_practices}
 
@@ -95,8 +95,8 @@ Noise round (v0.2, 10 October 2026, approved by Chris).
 ### 9. Marriage and family {#9_marriage_family}
 
 - **Tier 1:** "mariage pour tous" [only: fr]; coparentalité; "co-mère*" [only: be]; "imposition individuelle" [only: ch]; "pénalisation du mariage" [only: ch]
-- **Tier 2:** "congé de naissance" [only: fr]; "adoption d'enfant*"; "adoption internationale"; "cohabitation légale" [only: be]; "congé parental"
-- **Notes:** France: Sham-marriage bill (42 scrutins) not guarded: no guard approved. Belgium: Bare 'adoption' dropped: it is the adoption of a law; plural 'adoptions' escapes 'adoption d'enfant*'. Switzerland: Imposition individuelle: 13 titles, 12 missed; in by CH2.
+- **Tier 2:** "congé de naissance" [only: fr]; "adoption d'enfant*"; "adoption internationale"; "cohabitation légale" [only: be]; "congé parental"; "allocations familiales"
+- **Notes:** France: Sham-marriage bill (42 scrutins) not guarded: no guard approved. Belgium: Bare 'adoption' dropped: it is the adoption of a law; plural 'adoptions' escapes 'adoption d'enfant*'. Switzerland: Imposition individuelle: 13 titles, 12 missed; in by CH2. v0.3 (Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring"; docs/belgium-regions-scope.md): "allocations familiales" at tier 2, shared (not tagged be) on measurement: every match is family-allowance policy in all three countries. Wallonia 10 motions on the allowances and COCOM B-39 (scratch read of the regional parliaments, 863 French titles), the federal Chamber 1, the Assemblée nationale 11 and the Sénat 2 (universal allowances, allowances of children in care, of delinquents' parents), the Federal Assembly 14 (the Family Allowances Act, frontier workers); all 39 newly on our ground; 0 false positives. Triage decides, as for kinderbijslag.
 
 ### 10. Surrogacy and embryology {#10_surrogacy_embryology}
 

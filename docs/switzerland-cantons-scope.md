@@ -203,11 +203,16 @@ single-sex PE (26_POS_7).
 review): Geneva M 3137 ("réassignation/conversion sexuelle"), Geneva M 3087
 ("soins de transition de genre"), Bern 2023.RRGR.193
 ("Geschlechtsänderungen"), Bern 2024.RRGR.225 ("Genderstern") and Bern
-2023.RRGR.109 (sex education, "Aufklärung"). **Proposed terms** (not
-applied; taxonomy files are generated): German `Geschlechtsänderung*`
-(area 3, tier 2) and `Genderstern` (area 5, tier 2); French `transition de
-genre` (area 3, tier 2) and a slash-tolerant `réassignation` stem (area 3).
-All are Swiss-usable in the shared lists; none is canton-specific.
+2023.RRGR.109 (sex education, "Aufklärung"). **Terms, APPLIED 13 October
+2026** (Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring"; taxonomy-atch v0.3, taxonomy-fr v0.3): German
+`Geschlechtsänderung*` (area 3, tier 2) and `Genderstern*` (area 5, tier 2);
+French `transition de genre` (area 3, tier 2) and the stem `réassignation*`
+(area 3, tier 2), which reads the slash form. Measured on a scratch read of
+the cantons (2,643 acts) and the federal, Austrian, French and Belgian stores:
+Bern 2023.RRGR.193 and 2024.RRGR.225 and Geneva M 3137 and M 3087 gain their
+areas (M 3010 and PL 13324 had them), nothing else matches, 0 false
+positives. All shared, none canton-specific. The five watchlist entries stay
+(accepted the same day); 2023.RRGR.109 still needs its key.
 
 ## Dates, new and moved
 
@@ -273,8 +278,8 @@ areas offline. Nothing new to install on the Mini.
    agent; or decide that a listed OGD dataset counts as a documented API
    (the `DOCUMENTED_APIS` route in `src/robots_guard.py`, which the regional
    collectors do not use). Nothing is read until you decide.
-2. **Review the five seeded `cantons` watchlist entries** and the proposed
-   terms above.
+2. ~~Review the five seeded `cantons` watchlist entries and the proposed
+   terms~~: accepted and applied 13 October 2026 (above).
 3. **Aargau** disallows its whole parliament section; ask its Parlamentsdienst
    or leave it?
 

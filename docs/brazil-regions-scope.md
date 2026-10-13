@@ -457,8 +457,18 @@ every route tried.)
    ALMG pages (2013; low-medium confidence); main line (31) 2108-7000. The
    alternative routes for Minas Gerais (the Diário do Legislativo, LexML)
    are the branch `br-states-alt`'s work, not repeated here.
-2. **Seed `config/watchlist-br-states.yaml`** with the state bills that
-   matter (empty at launch).
+2. ~~Seed `config/watchlist-br-states.yaml`~~: seeded 13 October 2026
+   (Chris: "Accept the watchlists, apply the terms after measuring") with ten
+   bills found by the two passes, each key checked against that day's
+   scratch store: Alagoas PLO 1275/2025 (abortion-prevention programme,
+   awaiting sanction, area 1); São Paulo PL 734/2026 (trans toilets, 5),
+   PL 457/2026 (toilets by biological sex, 5), PL 670/2026 (the Bible as a
+   school text, 6 and 8), PL 336/2026 (pupils' conscientious objection, 6
+   and 8), PL 1275/2025 (sexual and reproductive rights policy, 1), PL
+   183/2025 (legal-abortion care programme, 1), PL 543/2025 (burial of the
+   unborn and stillborn, 1), PL 646/2024 (children barred from the Pride
+   parade, 5 and 6), PL 440/2025 (removal of teachers for indoctrination,
+   6). A watched bill takes its areas and is never noise-filtered.
 3. ~~Taxonomy-pt false positives~~: done in the second pass through the
    edition's noise rules (`config/edition-noise-br.yaml`, measured below).
 4. Whether a Brazilian vantage point (a small VPS or a partner's machine)

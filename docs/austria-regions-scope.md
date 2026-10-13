@@ -220,8 +220,8 @@ data beyond the introducers' names the Landtage print on each document.
    as Disallow: / (RFC 9309 2.3.1), so Salzburg is skipped, with a gap line,
    until its robots.txt answers; a 4xx still means no rules.
 4. **Wien's Gemeinderat**: done, 12 October 2026 (above). `Imam*` in
-   taxonomy-atch also matches "İmamoğlu"; worth an exclusion in the
-   taxonomy source.
+   taxonomy-atch also matched "İmamoğlu": vetoed in taxonomy-atch v0.2 (12
+   October 2026, PR #152); nothing left proposed after the 13 October round.
 5. **Watchlist**: the `landtage` section is empty; keys are listed in
    `config/watchlist-at.yaml`.
 6. **Votes**: Oberösterreich's search can list every decision with its

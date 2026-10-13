@@ -9,6 +9,7 @@ import json
 import os
 import sys
 import unittest
+from unittest import mock
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -73,6 +74,10 @@ class FakeClient:
         self.forms.append((url, fields))
         return self._find(url)
 
+    def get_bytes(self, url, feed, slug, **kw):
+        body = self._find(url)
+        return body.encode("utf-8") if isinstance(body, str) else body
+
 
 EMPTY_SAIJ = json.dumps({"searchResults": {"documentResultList": []}})
 
@@ -99,13 +104,23 @@ def routes(saij=None, caba=None):
         ("senadosalta.gob.ar/wp-json/wp/v2/posts", read("sal-sen.json")),
         ("diputadosalta.gob.ar/web/proyectos_aprobados_por_periodo?periodo=2026&tipo=ley", read("sal-dip.html")),
         ("diputadosalta.gob.ar/web/proyectos_aprobados_por_periodo", "<html></html>"),
+        ("diputadosalta.gob.ar/web/asuntos_entrados", read("sal-dip-ae.html")),
+        ("diputadosalta.gob.ar/documentos_legislativos/2059/", b"2059"),
+        ("diputadosalta.gob.ar/documentos_legislativos/2058/", b"2058"),
     ]
 
 
-def collect(conn, client=None, watch=None, sources=R.SOURCES, today=TODAY):
+def fake_pdf_text(blob):
+    """The Asuntos Entrados 'PDFs' of the routes are their document ids; the
+    text is pypdf's own output of 13 October 2026 (layout mode)."""
+    return read("sal-dip-ae-{0}.txt".format(blob.decode("ascii")))
+
+
+def collect(conn, client=None, watch=None, sources=R.SOURCES, today=TODAY, robots=None):
     client = client or FakeClient(routes())
-    g, _ = guarded(client, {}, R.FEED)
-    gaps = R.collect(conn, g, today, sources, R.load_taxonomy(), watch or {}, log=quiet)
+    g, _ = guarded(client, robots or {}, R.FEED)
+    with mock.patch.object(R, "sal_pdf_text", fake_pdf_text):
+        gaps = R.collect(conn, g, today, sources, R.load_taxonomy(), watch or {}, log=quiet)
     return gaps, client
 
 
@@ -335,7 +350,7 @@ class Collect(unittest.TestCase):
         self.assertEqual(n["ctes-dip"], 5)
         self.assertEqual(n["sf-dip"], 8)        # five new, three from the media-sanción list
         self.assertEqual(n["sal-sen"], 12)
-        self.assertEqual(n["sal-dip"], 5)
+        self.assertEqual(n["sal-dip"], 109)     # 5 approved, 104 from two Asuntos Entrados
         # Córdoba: only sessions in the last CBA_SESSION_DAYS, each read once
         cba_reads = [u for u in client.asked if "Asuntos.aspx?id=" in u]
         self.assertTrue(cba_reads)
@@ -396,7 +411,9 @@ class Collect(unittest.TestCase):
         conn = store()
         collect(conn, watch={"ba-dip:D-3281/26-27": [3]}, sources=("ba-dip",))
         areas, tier = conn.execute("SELECT areas, tier FROM arp_bills WHERE bill_key='ba-dip:D-3281/26-27'").fetchone()
-        self.assertEqual(json.loads(areas), [3])
+        # area 1 from taxonomy-es v0.4's "salud sexual" (Argentina): the bill
+        # is the adhesion to World Sexual Health Day; area 3 from the watch key
+        self.assertEqual(json.loads(areas), [1, 3])
         self.assertEqual(tier, 1)
 
     def test_failure_is_a_gap_not_fatal(self):
@@ -459,10 +476,131 @@ class Edition(unittest.TestCase):
         self.assertLess(out.index("## Provincial legislatures"), out.index("## Watchlist"))
         self.assertLess(out.index("## Nearing lapse"), out.index("## Provincial legislatures"))
 
+    def test_salta_intake_in_coverage_and_the_patron_saint_left_out(self):
+        text = "\n".join(self.ar.provincial_section(self.conn, "2026-08-01", "2026-10-13", self.wl))
+        self.assertIn("Asuntos Entrados PDFs (read 13 Oct", text)
+        # 'nonato*' in San Ramón Nonato's feast day: the noise rule drops it
+        self.assertNotIn("sal-dip:91-54567/26", text)
+        kept, dropped = self.ar.provincial_items(self.conn, "2026-08-01", "2026-10-13", self.wl)
+        self.assertIn("sal-dip:91-54567/26", [it["key"] for it in dropped])
+
     def test_no_provincial_rows_says_not_run(self):
         conn = store()
         lines = self.ar.provincial_coverage(conn, "2026-09-28", "2026-10-13")
         self.assertIn("has not run yet", lines[0])
+
+
+class SaltaAsuntosEntrados(unittest.TestCase):
+    """Salta Diputados' intake (13 October 2026): the Asuntos Entrados index
+    and two sittings' PDFs as pypdf read them (tests/fixtures/ar_regions/
+    sal-dip-ae-2059.txt and -2058.txt, layout mode)."""
+
+    def test_index(self):
+        got = R.parse_sal_ae_index(read("sal-dip-ae.html"))
+        self.assertEqual(len(got), 4)
+        self.assertEqual(got[0], ("2059", "2026-08-25",
+                                  "https://www.diputadosalta.gob.ar/documentos_legislativos/2059/download_file"))
+        self.assertEqual([d[0] for d in got], ["2059", "2058", "2057", "2042"])
+
+    def test_sitting_of_25_august(self):
+        rows = R.parse_sal_ae(read("sal-dip-ae-2059.txt"), None, "u")
+        self.assertEqual(len(rows), 64)
+        self.assertEqual(len({r["bill_key"] for r in rows}), 64)
+        first = rows[0]
+        self.assertEqual(first["bill_key"], "sal-dip:91-54525/26")
+        self.assertEqual(first["kind"], "ley")
+        self.assertEqual(first["presented"], "2026-08-25")         # from the PDF's own header
+        self.assertTrue(first["title"].startswith("Programa Provincial de Erradicación Progresiva"))
+        self.assertEqual(first["author"], "CARTUCCIA, Laura D")
+        self.assertTrue(first["committee"].startswith("de Asuntos Municipales y Transporte"))
+        self.assertFalse(first["stage"])
+        kinds = {r["expediente"]: r["kind"] for r in rows}
+        self.assertEqual(kinds["91-54553/26"], "ley")              # VIH adhesion, section III
+        self.assertEqual(kinds["91-54523/26"], "resolucion")
+        self.assertEqual(kinds["91-54580/26"], "resolucion")       # documentation, kind inline
+        self.assertEqual(kinds["91-54583/26"], "proyecto")         # added during the sitting
+        # the official notes ('Expte. 91 -54.162/26 - Cde.') are not projects
+        self.assertNotIn("91-54162/26", kinds)
+        archived = {r["expediente"]: r["status"] for r in rows}
+        self.assertEqual(archived["91-54523/26"], "Entrado y archivado")
+        self.assertEqual(archived["91-54525/26"], "Entrado")
+
+    def test_sitting_of_11_august(self):
+        rows = {r["expediente"]: r for r in R.parse_sal_ae(read("sal-dip-ae-2058.txt"), "2026-08-11", "u")}
+        self.assertEqual(len(rows), 40)
+        self.assertEqual(rows["90-34083/25"]["kind"], "ley")       # a Senate bill in revision
+        self.assertEqual(rows["91-54522/26"]["kind"], "ley")       # under 'Proyecto de Ley'
+        self.assertEqual(rows["91-54519/26"]["kind"], "declaracion")
+        self.assertNotIn("91-54263/26", rows)                     # a committee report ('Exptes.')
+        self.assertTrue(all(r["presented"] == "2026-08-11" for r in rows.values()))
+
+    def test_blank_pdf_has_no_projects(self):
+        import io
+        import pypdf
+        w = pypdf.PdfWriter()
+        w.add_blank_page(width=595, height=842)
+        buf = io.BytesIO()
+        w.write(buf)
+        self.assertEqual(R.parse_sal_ae(R.sal_pdf_text(buf.getvalue())), [])
+        with self.assertRaises(ValueError):
+            R.sal_pdf_text(b"not a pdf")
+
+    def test_first_read_takes_the_newest_sittings_and_marks_the_rest(self):
+        conn = store()
+        gaps, client = collect(conn, sources=("sal-dip", "sal-dip-ae"))
+        self.assertEqual(gaps, 0)
+        pdfs = [u for u in client.asked if "documentos_legislativos" in u]
+        self.assertEqual(len(pdfs), R.SAL_AE_PDFS)
+        n = conn.execute("SELECT COUNT(*) FROM arp_bills WHERE legislature='sal-dip' AND status LIKE "
+                         "'Entrado%'").fetchone()[0]
+        self.assertEqual(n, 104)
+        self.assertEqual(conn.execute("SELECT MIN(seed) FROM arp_bills WHERE status LIKE 'Entrado%'")
+                         .fetchone()[0], 1)
+        cursor = json.loads(conn.execute("SELECT cursor FROM arp_reads WHERE source='sal-dip-ae'").fetchone()[0])
+        self.assertEqual(set(cursor), {"2059", "2058", "2057", "2042"})
+        # the second week asks the index only
+        _, again = collect(conn, sources=("sal-dip-ae",))
+        self.assertEqual([u for u in again.asked if "documentos_legislativos" in u], [])
+
+    def test_new_sitting_is_read_and_an_approval_is_not_overwritten(self):
+        conn = store()
+        collect(conn, sources=("sal-dip", "sal-dip-ae"))
+        # a week later: a new sitting (2060) lists a project the approved list
+        # already holds, and one more
+        index = read("sal-dip-ae.html").replace(
+            "<tbody>", '<tbody>\n<tr><td><a href="/documentos_legislativos/2060/download_file">'
+            'Asuntos Entrados</a></td><td>01/09/2026</td></tr>', 1)
+        text = read("sal-dip-ae-2058.txt").replace("91-54489/26", "91-52092/25").replace(
+            "91-54491/26", "91-55555/26")
+        later = TODAY + datetime.timedelta(days=7)
+        client = FakeClient([("asuntos_entrados", index), ("documentos_legislativos/2060/", b"2060")])
+        g, _ = guarded(client, {}, R.FEED)
+        with mock.patch.object(R, "sal_pdf_text", lambda blob: text):
+            gaps = R.collect(conn, g, later, ("sal-dip-ae",), R.load_taxonomy(), {}, log=quiet)
+        self.assertEqual(gaps, 0)
+        self.assertEqual([u for u in client.asked if "documentos_legislativos" in u],
+                         ["https://www.diputadosalta.gob.ar/documentos_legislativos/2060/download_file"])
+        approved = conn.execute("SELECT status, moved FROM arp_bills WHERE bill_key='sal-dip:91-52092/25'").fetchone()
+        self.assertEqual(approved[0], "Aprobado")
+        fresh = conn.execute("SELECT status, seed, presented, first_seen FROM arp_bills "
+                             "WHERE bill_key='sal-dip:91-55555/26'").fetchone()
+        self.assertEqual(tuple(fresh), ("Entrado", 0, "2026-09-01", later.isoformat()))
+
+    def test_unreadable_pdf_is_a_gap_and_the_other_is_read(self):
+        conn = store()
+        bad = [("documentos_legislativos/2059/", FetchError("u", R.FEED, "s", 3, "HTTP 500"))] + routes()
+        gaps, _ = collect(conn, FakeClient(bad), sources=("sal-dip-ae",))
+        self.assertEqual(gaps, 1)
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM arp_bills").fetchone()[0], 40)
+        self.assertEqual(conn.execute("SELECT status FROM arp_reads WHERE source='sal-dip-ae'").fetchone()[0], "ok")
+
+    def test_robots_refusal_reads_no_pdf(self):
+        conn = store()
+        robots = {"www.diputadosalta.gob.ar": "User-agent: *\nDisallow: /documentos_legislativos/"}
+        gaps, client = collect(conn, sources=("sal-dip-ae",), robots=robots)
+        self.assertEqual(gaps, 1)
+        self.assertEqual([u for u in client.asked if "documentos_legislativos" in u], [])
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM arp_bills").fetchone()[0], 0)
 
 
 if __name__ == "__main__":

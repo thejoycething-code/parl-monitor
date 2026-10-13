@@ -58,7 +58,7 @@ Oficiales were measured (below) but are not needed while SAIJ answers.
 | Entre Ríos | Senado | senadoer.gob.ar/buscador-proyectos (WordPress) | GET, HTML, ten a page | allowed (only /wp-admin/) | **BUILT** (`er-sen`): number, type, author, committee, media sanción and sanción |
 | Entre Ríos | Diputados | hcder.gov.ar | | timed out (twice) | unreachable from the laptop |
 | Salta | Senado | senadosalta.gob.ar, WordPress REST (`/wp-json/wp/v2/posts` by project category) | JSON | allowed (Yoast, `Disallow:` empty) | **BUILT** 13 October (`sal-sen`): expediente, entry date, subject, authors, kind, en trámite or approved. The `www.` host serves a self-signed certificate: not used |
-| Salta | Diputados | www.diputadosalta.gob.ar `/web/proyectos_aprobados_por_periodo` | HTML | no rules | **BUILT** 13 October (`sal-dip`), stages only: this year's approved laws, resolutions, declarations. Its pending lists answer "0 expedientes" and Asuntos Entrados are PDFs (newest 25 August). The bare `diputadosalta.gob.ar` fails TLS (wildcard certificate): not used |
+| Salta | Diputados | www.diputadosalta.gob.ar `/web/proyectos_aprobados_por_periodo`; `/web/asuntos_entrados` (one PDF per sitting) | HTML; PDF | no rules | **BUILT** 13 October (`sal-dip`): this year's approved laws, resolutions, declarations; and (`sal-dip-ae`, same day) the intake, read from the Asuntos Entrados PDFs (newest 25 August). Its pending lists answer "0 expedientes". The bare `diputadosalta.gob.ar` fails TLS (wildcard certificate): not used |
 | Río Negro | Legislatura | web.legisrn.gov.ar/legislativa/proyectos | GET, HTML, 100 a page | allowed | **BUILT** (`rn`): 1,256 projects in 2026, with type, extracto, authors (no date in the list: new by first sight) |
 | Chubut | Legislatura | larus.legislaturadelchubut.gob.ar/api/public/documentos | GET, JSON | allowed | **BUILT** (`chu`): identifier, extracto, type, authors, current stage. The reply also carries staff login e-mails: never read or stored |
 | Jujuy | Legislatura | legislaturajujuy.gov.ar/rest/index.php/labor/legislativa/proyectos/lista | GET, JSON, 20 newest (filters are request headers) | allowed | **BUILT** (`juj`): number, text, date; 655 projects in 2026 |
@@ -119,11 +119,15 @@ list; the national noise rules apply unchanged (suicide-prevention days,
 `culto*`), plus one new exclusion for "cultor" (a Corrientes law honouring a
 musician matched `culto*`).
 
-Proposed taxonomy terms (NOT added; `config/taxonomy-es.yaml` is generated
-and never hand-edited): "salud sexual" for Argentina (Buenos Aires' "Día
-Mundial de la Salud Sexual" declaration and CABA's requests on "salud sexual
-y reproductiva" matched only through other words); "protocolo ILE" /
-"interrupción legal del embarazo" already exist.
+Taxonomy term **APPLIED 13 October 2026** (Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring";
+`docs/keyword-taxonomy-es.md` v0.4): "salud sexual" for Argentina (`[only:
+ar]`, area 1, tier 2). Measured on scratch reads of the provincial layer
+(2,374 Buenos Aires, CABA and Córdoba expedientes, 671 Salta Diputados
+projects, 117 SAIJ laws) and the national store: 3 matches, Buenos Aires
+D-3281/26-27 (adhesion to World Sexual Health Day) newly on our ground,
+CABA 2124-D-2026 and Salta 91-53619/26 already area 1 through "salud sexual y
+reproductiva"; 0 false positives; Mexico, Chile and Spain unchanged.
+"protocolo ILE" / "interrupción legal del embarazo" already exist.
 
 ## What was built
 
@@ -235,15 +239,39 @@ request fails and is a gap.
   access to social networks, a change to the Observatorio de Violencia
   contra las Mujeres law).
 
-The three readers together: about 16 requests, 65 seconds measured; the
-weekly step's budget went from 300 s to 420 s.
+- **Diputados' intake (`sal-dip-ae`, 13 October 2026, Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring", with the Salta step):** the
+  Asuntos Entrados index (`/web/asuntos_entrados`, one row per sitting since
+  2021, newest first: a PDF link and the sitting's date) and each new
+  sitting's PDF (`/documentos_legislativos/<id>/download_file`, about 450 KB,
+  7 or 8 pages), read with pypdf in layout mode (the plain mode splits words
+  at kerning gaps: "E rradicación"). Every project of law, resolution and
+  declaration becomes a bill under the same `sal-dip:<expediente>` key the
+  approved lists use, with its carátula, committees, authors and the
+  sitting's date; the PROYECTOS DE ... sections, the projects added during
+  the sitting, the "documentación ingresada" and the Senate's bills in
+  revision are read, the notes, decrees and committee reports are not. At
+  most two new PDFs a run (one sitting a week), after `sal-dip`, and only for
+  keys not stored yet, so an approval is never overwritten by the older
+  intake line. The first read takes the newest two sittings (a seed) and
+  marks the older ones read. robots.txt (comments only) is asked per run
+  through `GuardedClient`, the PDFs included; a refused or unreadable PDF is
+  a gap. Live read (scratch store): the sittings of 11 and 25 August, 104
+  projects (40 and 64), 61 new beside the 610 approved; 43 had already been
+  approved. Noise seen: `nonato*` in a declaration on San Ramón Nonato's
+  feast day, now an exclusion in `config/edition-noise-ar.yaml`. Fixtures:
+  `tests/fixtures/ar_regions/sal-dip-ae*.{html,txt}` (pypdf's own output),
+  tests `SaltaAsuntosEntrados`.
+
+The four readers together: about 19 requests, 95 seconds measured (the
+intake about 30 s); the weekly step's 420 s budget is unchanged.
 
 ## Phase list
 
 1. **Done:** SAIJ for all 24; bills for eight legislatures (Buenos Aires
    Diputados, CABA, Córdoba, Entre Ríos Senate, Río Negro, Chubut, Jujuy,
    Corrientes Diputados); on 13 October Santa Fe Diputados (SIEL), the Salta
-   Senate and Salta Diputados (approved lists).
+   Senate and Salta Diputados (approved lists, and its Asuntos Entrados
+   PDFs).
 2. **Next:** Tucumán's expediente app (answered late on 13 October),
    Misiones (40 JSON requests a week), Tierra del Fuego's sumario, Córdoba's
    approved texts (to mark sanctions), Jujuy's second page (the
@@ -255,7 +283,9 @@ weekly step's budget went from 300 s to 420 s.
 
 ## Waiting on Chris
 
-- Review the five seeded `provincial` watchlist entries.
-- Approve "salud sexual" (Argentina) for the next taxonomy generation.
-- Salta Diputados' intake: its pending lists are empty and the Asuntos
-  Entrados are PDFs; read those PDFs (phase 3) or ask the chamber?
+- ~~Review the five seeded `provincial` watchlist entries~~: accepted 13
+  October 2026 ("Accept the watchlists").
+- ~~Approve "salud sexual" (Argentina)~~: applied 13 October 2026
+  (taxonomy-es v0.4, above).
+- ~~Salta Diputados' intake~~: read from the Asuntos Entrados PDFs since 13
+  October 2026 (`sal-dip-ae`, above).

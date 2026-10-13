@@ -64,8 +64,9 @@ python3 tools/ar_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh
 # province's normative system, and the bills of eight legislatures (Diputados
 # of Buenos Aires province, the CABA Legislatura, Córdoba, the Entre Ríos
 # Senate, Río Negro, Chubut, Jujuy, Corrientes Diputados, and since 13 October
-# 2026 Santa Fe Diputados' SIEL and Salta's two chambers) (tools/ar_regions.py):
-# about 40 requests, four to five minutes
+# 2026 Santa Fe Diputados' SIEL and Salta's two chambers, with Salta
+# Diputados' Asuntos Entrados PDFs, at most two a run) (tools/ar_regions.py):
+# about 43 requests, four to five minutes
 # measured, robots.txt asked per host on this run. Before the edition, which
 # shows it as its "Provincial legislatures" section. Gaps go to the store
 # and arp_reads; a failure never stops the run.

@@ -278,8 +278,9 @@ gains one line when there are state items. A watched item is keyed in
 2. **Whether to run from a Mexican address** (a VPN exit on the Mini) for
    the five unreachable states, if GitHub's runners cannot reach them
    either. Not done: a decision for Christopher.
-3. **The proposed state terms** above, especially whether **crímenes de
-   odio** and **violencia vicaria** are ours.
+3. ~~The proposed state terms~~: applied 12 October 2026 (taxonomy-es v0.3,
+   above), "crímenes de odio" and "violencia vicaria" included; nothing left
+   proposed after the 13 October round.
 4. **Tamaulipas' robots.txt** carries Cloudflare's content-signal preamble
    reserving "ai-input" where a signal says no; no signal is set today.
    Our use is a keyword filter, with the free session judge reading titles

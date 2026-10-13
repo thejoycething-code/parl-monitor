@@ -40,8 +40,11 @@ went into `config/watchlist-ca.yaml` with its reason:
   (attacks on places of worship), were missed too.
 
 Consider a taxonomy change: stem "pornograph*" in the English list itself.
-The same miss will happen at Westminster. That call belongs to Christopher
-and his taxonomy versioning, so this build did not make it.
+The same miss will happen at Westminster. **Done 13 October 2026** (Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring";
+taxonomy v1.23): "pornography" became the stem `pornograph*` (tier 2,
+area 7). C-270 and C-302 ("pornographic material") gain area 7, with 78
+petitions (9 newly on our ground), 3 provincial bills, 6 Congress and 55 US
+state bills, 3 Irish bills; 0 false positives.
 
 ## What Canada publishes
 
@@ -1099,7 +1102,8 @@ texts and e-7005); 2 Gazette items; one leave granted (Alberta v. Wirring).
 3. **The watchlist is a groundwork draft.** Someone who campaigns in Canada
    should confirm the areas, especially C-9 as area 8 and whether S-228
    (sterilization procedures) belongs to us. S-228 was left out.
-4. **Stem "pornograph*" in the shared taxonomy?** The miss is not Canadian.
+4. ~~**Stem "pornograph*" in the shared taxonomy?**~~ Done 13 October 2026
+   (taxonomy v1.23).
 5. **The Senate and petitions are scrapers**, not feeds. Are they worth the
    upkeep for a section, or should they wait until the House coverage has
    earned it?

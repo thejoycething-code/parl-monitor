@@ -484,6 +484,28 @@ class Edition(unittest.TestCase):
         self.assertIsNone(brs_edition.notice(self.conn, TODAY, dm=False))
 
 
+class WatchlistSeed(unittest.TestCase):
+    """config/watchlist-br-states.yaml, seeded 13 October 2026: exact bill
+    keys ('<uf>/<type> <number>/<year>') with areas and a why."""
+
+    def test_keys_are_bill_keys_with_areas(self):
+        wl = brs_store.watchlist()
+        self.assertGreaterEqual(len(wl), 10)
+        for key, spec in wl.items():
+            self.assertRegex(key, r"^[a-z]{2}/[A-Z]{2,4} \d+/\d{4}$")
+            self.assertIn(key.split("/")[0], brs_store.STATES)
+            self.assertTrue(spec["areas"] and all(1 <= a <= 15 for a in spec["areas"]), key)
+            self.assertTrue(spec["why"], key)
+        self.assertEqual(wl["al/PLO 1275/2025"]["areas"], [1])
+        self.assertIn("sp/PL 734/2026", wl)
+
+    def test_watched_key_lends_its_areas(self):
+        from src import filter as filt
+        res = brs_store.add_watch_areas(filt.FilterResult(), "sp/PL 670/2026")
+        self.assertEqual(res.issue_areas, [6, 8])
+        self.assertIn("watch:sp/PL 670/2026", res.watchlist_hits)
+
+
 class SantaCatarina(unittest.TestCase):
     """ALESC's e-Legis list (tools/br_states.py fetch_sc), the GitHub-only source."""
 

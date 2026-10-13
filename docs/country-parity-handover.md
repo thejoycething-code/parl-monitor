@@ -1516,3 +1516,42 @@ the three scope docs): opendata@bs.ch, daten@bl.ch, statistik@sg.ch,
 ogd@tg.ch, parlamentsdienst@ag.ch; ALMG's "Fale com a Assembleia" form (or
 ouvidoria@almg.gov.br); webmaster@parliament.qld.gov.au,
 receptionservices@parliament.wa.gov.au, LA.Committees@nt.gov.au.
+
+## Regional terms round, watchlists and Salta's intake (13 October 2026)
+
+Chris, 13 October 2026: "Accept the watchlists, apply the terms after
+measuring". Branch `terms-round`. Every term proposed in the regional scope
+docs was measured before and after (the local store opened read-only, plus
+scratch reads of the regional layers where the store holds none), then
+applied or left out; counts and false positives are in each master's dated
+note, and the scope docs say what was applied.
+
+- **English v1.23:** "terminally ill" (tier 2, guarded: bare it filed
+  benefits and carers' questions), "end of life choices" (both spellings),
+  "Births, Deaths and Marriages Registration" guarded by sex or gender,
+  "religious exceptions", "religious educational institution*", "Equal
+  Opportunity Amendment" guarded by religio*, and pornography widened to
+  `pornograph*` (Canada's C-270 and C-302; 0 false positives in about 160
+  matches).
+- **Dutch v0.3:** Groeipakket* and gezinsbijslag* (be). **French v0.3:**
+  "allocations familiales" (shared after measuring Belgium, France and
+  Switzerland), "transition de genre", réassignation*. **German additions
+  v0.3:** Geschlechtsänderung*, Genderstern*. **Spanish v0.4:** "salud
+  sexual" (ar), "uniones infantiles tempranas forzadas" and Ley 31945 as a
+  guarded number (pe).
+- **Not added:** the spelled-out EVRAS and the Flemish Erkenningsdecreet
+  (both already matched by existing terms). Mexico's, Italy's, Poland's and
+  the US states' proposals were applied before this round; Austria's İmamoğlu
+  veto in PR #152. taxonomy-qc and taxonomy-de are unchanged.
+- **Watchlists accepted** as seeded (Australia's states, the cantons,
+  Belgium's regions, Argentina's provinces); **`config/watchlist-br-states.yaml`
+  seeded** with ten bills (Alagoas PLO 1275/2025; São Paulo's trans and
+  biological-sex toilet bills, the Bible as a school text, pupils'
+  conscientious objection, three abortion bills, children at Pride, teacher
+  indoctrination).
+- **Salta Diputados' intake** (`sal-dip-ae` in `tools/ar_regions.py`): the
+  Asuntos Entrados index and at most two new sitting PDFs a run (pypdf,
+  layout mode), each project a new bill under the approved lists' key, only
+  for keys not stored yet. Live scratch read: 104 projects from the sittings
+  of 11 and 25 August, 61 new. Inside the AR step's 420 s budget; no new Mini
+  job (pypdf is already on the Mini).
