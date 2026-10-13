@@ -26,6 +26,12 @@ the assembly's own words, verbatim. Areas come from config/taxonomy-pt.yaml
 (country 'br') and the watchlist, by key. NULL areas mean unclassified,
 '[]' classified and on nobody's ground.
 
+ADOPTED LAWS. Where an assembly's bills cannot be read, the laws it passed
+are read from the state's own legislation portal (Goiás, Paraná):
+one row per law, keyed '<uf>/<Lei|LC|EC> <number>/<year>' ('pr/Lei
+23448/2026'), its publication date as `presented`, `source` naming the
+route (VIA below), so the edition shows it the week it is published.
+
 VOTES. brs_votes holds one row per recorded vote ON A BILL STORED HERE:
 ALESP's committee votes (each member's vote is published, brs_positions)
 and the SAPL houses' plenary tallies (registrovotacao: yes, no, abstentions
@@ -68,7 +74,7 @@ SCHEMA = (
     """CREATE TABLE IF NOT EXISTS brs_bills (
         bill_key     TEXT PRIMARY KEY,   -- 'sp/PL 652/2026'
         uf           TEXT NOT NULL,      -- 'sp', see STATES
-        source       TEXT NOT NULL,      -- 'sp', 'mg', 'rj', 'sapl'
+        source       TEXT NOT NULL,      -- 'sp', 'mg', 'rj', 'sapl', or an alternative route (VIA)
         source_id    TEXT,               -- the assembly's own internal id
         kind         TEXT,               -- the assembly's type abbreviation: 'PL', 'PLC', 'PEC', 'PLO' ...
         kind_name    TEXT,               -- its name: 'Projeto de lei Complementar'
@@ -160,6 +166,28 @@ def bill_key(uf, kind, number, year):
 def assembly(uf):
     """'ALESP (São Paulo)'."""
     return "{0} ({1})".format(ASSEMBLIES.get(uf, uf.upper()), STATES.get(uf, uf))
+
+
+# Where an item came from when it is not the assembly's own bill system: the
+# edition adds "(via ...)" to its line (13 October 2026, the alternative
+# routes of tools/br_states.py). Keyed by brs_bills.source.
+VIA = {
+    "rn": "ALRN's Transparência Legislativa data",
+    "ce": "ALECE's proposições lists",
+    "pe": "ALEPE's open-data API",
+    "pa": "ALEPA's proposições search",
+    "go": "the Goiás Casa Civil's legislation portal: adopted law",
+    "pr": "the Paraná Casa Civil's Sistema Estadual de Legislação: adopted law",
+}
+
+
+# Routes that read the laws an assembly passed, not its bills.
+LAWS_ONLY = ("go", "pr")
+
+
+def via(source):
+    """'(via ALEPE's open-data API)', or '' for an assembly's own system."""
+    return "(via {0})".format(VIA[source]) if source in VIA else ""
 
 
 # --- the watchlist, applied by bill KEY ----------------------------------------

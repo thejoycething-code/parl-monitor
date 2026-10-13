@@ -175,6 +175,22 @@ class RobotsGuard(Context):
         rp = self._parser("{0}://{1}/".format(scheme, host))
         return rp.crawl_delay(self.client.user_agent)
 
+    def disallows_for_us(self, url):
+        """Every Disallow pattern on `url`'s host whose group applies to OUR
+        user agent: a group naming us (a token of our product name) or '*',
+        read by both readers (Robots and star_rules). [] when none does.
+
+        For hosts whose robots.txt singles out other agents (13 October
+        2026: Santa Fe's SIEL names AI crawlers, ClaudeBot among them, and
+        has no '*' group): a collector can stop the moment any rule covers
+        us, not only when the URL it asks for is disallowed."""
+        rp = self._parser(url)
+        ua = self.client.user_agent
+        found = [p for allow, p in getattr(rp, "star_rules", []) if not allow and p]
+        for _agents, rules, _delay in rp._groups_for(ua):
+            found += [p for allow, p in rules if not allow and p]
+        return sorted(set(found))
+
 
 class GuardedClient:
     """An HttpClient whose every request asks robots.txt first. Everything
@@ -201,6 +217,14 @@ class GuardedClient:
         if self.exempt and is_documented_api(url, self.exempt):
             return True
         return self.robots.refusal(url) is None
+
+    def disallows_for_us(self, url):
+        """RobotsGuard.disallows_for_us, or ['unreachable: <reason>'] when
+        robots.txt could not be read (read as Disallow: / for the host)."""
+        refused = self.robots.refusal(url)
+        if refused and refused[1]:
+            return ["unreachable: " + refused[0]]
+        return self.robots.disallows_for_us(url)
 
     def crawl_delay(self, host):
         return self.robots.crawl_delay(host)

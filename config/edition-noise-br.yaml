@@ -29,6 +29,29 @@ exclude_titles:
   - '\bexercicio da profissao de doula\b'
   - '\bcria a universidade federal do esporte\b'
 
+# The state assemblies (13 October 2026, docs/brazil-regions-scope.md, measured
+# there before and after on the state bills and the Câmara's proposições).
+# Lookaheads: the title must carry the loose term AND one of the noise words,
+# and none of the words that make it our ground.
+#   - 'religios*' (area 8, tier 2) on religious tourism, sanctuaries, feasts,
+#     heritage listings and utilidade-pública declarations, unless the title
+#     is about freedom, intolerance, persecution, discrimination, tax
+#     immunity or exemption, temples or the lay state;
+  - '^(?=.*\breligios)(?=.*\b(turismo|turistic\w*|rotas?|roteiros?|patrimonio|calendario|festas?|festejos?|festividades?|santuarios?|basilicas?|paroquias?|romarias?|peregrinac\w*|utilidade publica|bem (material|imaterial)|interesse turistico)\b)(?!.*\b(liberdade|intolerancia|perseguic\w*|racismo|discriminac\w*|preconceito|imunidade|isen\w*|templos?|laic\w*)\b)'
+#   - 'transplante*' (area 13, tier 2) on transplant services and patient
+#     support, unless the title is about organ donation itself (doação,
+#     doador, removal or harvesting, presumed consent, brain death,
+#     trafficking, the Lei dos Transplantes 9.434);
+  - '^(?=.*\btransplant)(?!.*\b(doac\w*|doador\w*|remocao|retirada|captacao|presumid\w*|consentimento|morte (encefalica|cerebral)|trafico|9\.?434)\b)'
+#   - 'casamento civil' (area 9, tier 1) on community or collective wedding
+#     programmes (and the "pet-friendly" one), unless the title is about who
+#     may marry;
+  - '^(?=.*\bcasamentos? civ(il|is)\b)(?=.*\b(comunitari\w*|coletiv\w*|pet|animais|animal|gratuit\w*|programa)\b)(?!.*\b(mesmo sexo|homoafetiv\w*|menores?|infantil)\b)'
+#   - 'infertilidade' / 'endometriose' (area 10, tier 2) on awareness days,
+#     weeks, months and campaigns, unless the title is about assisted
+#     reproduction itself (IVF, embryos, insemination, surrogacy).
+  - '^(?=.*\b(dia|semana|mes|campanha|conscientizacao)\b)(?=.*\b(infertilidade|endometriose)\b)(?!.*\b(fertilizacao|reproducao (humana )?assistida|embri\w*|inseminacao|substituicao|barriga (solidaria|de aluguel)|cessao (temporaria )?de utero)\b)'
+
 # What may lead the edition, for an item that is not watched: a tier-1 term
 # in its own title, or two distinct terms in shown areas.
 alert:

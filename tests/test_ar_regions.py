@@ -92,6 +92,13 @@ def routes(saij=None, caba=None):
         ("larus.legislaturadelchubut.gob.ar", read("chu.json")),
         ("legislaturajujuy.gov.ar", read("juj.json")),
         ("hcdcorrientes.gov.ar", read("ctes-dip.html")),
+        ("siel.diputadossantafe.gov.ar/index.php?go=le", read("sf-dip-state.html")),
+        ("siel.diputadossantafe.gov.ar/index.php?i=", "<html></html>"),
+        ("siel.diputadossantafe.gov.ar/", read("sf-dip.html")),
+        ("senadosalta.gob.ar/wp-json/wp/v2/posts?categories=56,57,58", read("sal-sen-approved.json")),
+        ("senadosalta.gob.ar/wp-json/wp/v2/posts", read("sal-sen.json")),
+        ("diputadosalta.gob.ar/web/proyectos_aprobados_por_periodo?periodo=2026&tipo=ley", read("sal-dip.html")),
+        ("diputadosalta.gob.ar/web/proyectos_aprobados_por_periodo", "<html></html>"),
     ]
 
 
@@ -207,6 +214,108 @@ class Parsers(unittest.TestCase):
         self.assertEqual(got["20459"]["presented"], "2026-09-23")
 
 
+    def test_sf_dip_list(self):
+        got = {r["expediente"]: r for r in R.parse_sf_dip(read("sf-dip.html"))}
+        self.assertEqual(len(got), 5)
+        r = got["60170"]
+        self.assertIn("LEY JOHANNA", r["title"])
+        self.assertNotIn("BLOQUE", r["title"])            # the bloc goes to the author
+        self.assertEqual(r["author"], "BROUWER, Beatriz Ana (BLOQUE UNITE POR SANTA FE)")
+        self.assertEqual(r["kind"], "ley")
+        self.assertEqual(r["status"], "En Carátula")
+        self.assertEqual(r["presented"], "2026-10-09")
+        self.assertEqual(r["url"], "https://siel.diputadossantafe.gov.ar/index.php?go=d&id=60132")
+        self.assertEqual(got["60174"]["kind"], "declaracion")
+        self.assertFalse(r["stage"])
+        # a bloc printed without the word BLOQUE still goes to the author
+        page = read("sf-dip.html").replace("*BLOQUE UNITE POR SANTA FE*", "*COMPROMISO JUSTICIALISTA*")
+        r = next(x for x in R.parse_sf_dip(page) if x["expediente"] == "60170")
+        self.assertTrue(r["title"].endswith("PERINATAL)"))
+        self.assertEqual(r["author"], "BROUWER, Beatriz Ana (COMPROMISO JUSTICIALISTA)")
+
+    def test_sf_dip_state_list_has_the_extra_column(self):
+        # the search results show the 'Pasada' column the list hides in a comment
+        got = {r["expediente"]: r for r in R.parse_sf_dip(read("sf-dip-state.html"), stage=True)}
+        self.assertEqual(set(got), {"59497", "59163", "58516"})
+        self.assertEqual(got["59497"]["status"], "1/2 Sanción")
+        self.assertTrue(got["59497"]["title"].startswith("VENIDO EN REVISIÓN"))
+        self.assertEqual(got["58516"]["status"], "1/2 Sanción (Ley 14486)")
+        self.assertTrue(all(r["stage"] for r in got.values()))
+        self.assertEqual(R.sf_search_fields("11")["estado"], "11")
+
+    def test_sal_sen(self):
+        got = {r["expediente"]: r for r in R.parse_sal_sen(read("sal-sen.json"))}
+        self.assertEqual(len(got), 9)
+        r = got["90-34699/2026"]
+        self.assertEqual(r["bill_key"], "sal-sen:90-34699/2026")
+        self.assertEqual(r["kind"], "declaracion")
+        self.assertEqual(r["status"], "En trámite")
+        self.assertEqual(r["presented"], "2026-10-08")
+        self.assertEqual(r["author"], "ESTEBAN D’ANDREA CORNEJO, EDGARDO GONZALO GUAYMAS, JOSÉ ROLANDO GUAIMÁS")
+        self.assertTrue(r["title"].startswith("Medidas de asistencia económica"))
+        self.assertIn("90-34648/2026", got)               # 'Expte.N°90-...' with no spaces
+        self.assertEqual(got["91-54649/2026"]["status"], "Aprobado")
+        self.assertEqual(got["91-54649/2026"]["author"], "Cámara de Diputados")
+        self.assertEqual(got["91-54649/2026"]["sanctioned"], 0)      # a law: chamber approval only
+        self.assertEqual(got["90-34684/2026"]["sanctioned"], 1)      # a resolution: final
+
+    def test_sal_dip(self):
+        got = R.parse_sal_dip(read("sal-dip.html"), "ley")
+        self.assertEqual(len(got), 5)
+        self.assertEqual(got[0]["bill_key"], "sal-dip:91-52092/25")
+        self.assertEqual(got[0]["presented"], "2025-04-03")
+        self.assertEqual(got[0]["status"], "Aprobado")
+        self.assertEqual(got[0]["url"], "https://www.diputadosalta.gob.ar/web/expediente/67938")
+        self.assertTrue(all(r["stage"] for r in got))
+
+
+class SantaFeRobots(unittest.TestCase):
+    """SIEL's robots.txt names AI agents and has no '*' group (13 October
+    2026). Our collector's user agent is allowed; the reader stops the
+    moment any rule covers our user agent."""
+
+    def run_sf(self, robots_txt):
+        conn = store()
+        client = FakeClient(routes())
+        g, _ = guarded(client, {"siel.diputadossantafe.gov.ar": robots_txt}, R.FEED)
+        gaps = R.collect(conn, g, TODAY, ("sf-dip",), R.load_taxonomy(), {}, log=quiet)
+        return conn, client, gaps
+
+    def test_live_robots_allows_our_agent(self):
+        conn, client, gaps = self.run_sf(read("siel-robots.txt"))
+        self.assertEqual(gaps, 0)
+        self.assertIn("User-agent: ClaudeBot", read("siel-robots.txt"))
+        self.assertTrue(any("siel.diputadossantafe" in u for u in client.asked))
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM arp_bills WHERE legislature='sf-dip'").fetchone()[0], 8)
+
+    def test_wildcard_disallow_anywhere_stops_siel(self):
+        # even a rule for a path we never ask for: a rule now covers us
+        txt = read("siel-robots.txt") + "\nUser-agent: *\nDisallow: /privado/\n"
+        conn, client, gaps = self.run_sf(txt)
+        self.assertEqual(gaps, 1)
+        self.assertEqual(client.asked, [])
+        status = conn.execute("SELECT status FROM arp_reads WHERE source='sf-dip'").fetchone()[0]
+        self.assertIn("covering our user agent", status)
+
+    def test_our_name_stops_siel(self):
+        txt = read("siel-robots.txt") + "\nUser-agent: CitizenGO-ParlMonitor\nDisallow: /\n"
+        _, client, gaps = self.run_sf(txt)
+        self.assertEqual(gaps, 1)
+        self.assertEqual(client.asked, [])
+
+    def test_unreachable_robots_stops_siel(self):
+        _, client, gaps = self.run_sf(503)
+        self.assertGreaterEqual(gaps, 1)
+        self.assertEqual(client.asked, [])
+
+    def test_unguarded_client_never_reads_siel(self):
+        conn = store()
+        client = FakeClient(routes())
+        gaps = R.collect(conn, client, TODAY, ("sf-dip",), None, {}, log=quiet)
+        self.assertEqual(gaps, 1)
+        self.assertEqual(client.asked, [])
+
+
 class Collect(unittest.TestCase):
 
     def test_weekly_read_stores_every_source(self):
@@ -224,6 +333,9 @@ class Collect(unittest.TestCase):
         self.assertEqual(n["chu"], 4)
         self.assertEqual(n["juj"], 4)
         self.assertEqual(n["ctes-dip"], 5)
+        self.assertEqual(n["sf-dip"], 8)        # five new, three from the media-sanción list
+        self.assertEqual(n["sal-sen"], 12)
+        self.assertEqual(n["sal-dip"], 5)
         # Córdoba: only sessions in the last CBA_SESSION_DAYS, each read once
         cba_reads = [u for u in client.asked if "Asuntos.aspx?id=" in u]
         self.assertTrue(cba_reads)
@@ -257,6 +369,28 @@ class Collect(unittest.TestCase):
         self.assertEqual(got[0][1], later.isoformat())
         self.assertTrue(got[0][2].startswith("EN COMISION"))
         self.assertTrue(got[0][3].startswith("CON DESPACHO"))
+
+    def test_first_sight_in_a_stage_list_is_a_move(self):
+        conn = store()
+        collect(conn, sources=("sal-dip",))                 # first read: seeds, no moves
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM arp_bills WHERE moved IS NOT NULL").fetchone()[0], 0)
+        extra = read("sal-dip.html").replace("91-52092/25", "91-59999/26")
+        later = TODAY + datetime.timedelta(days=7)
+        client = FakeClient([("tipo=ley", extra), ("diputadosalta.gob.ar", "<html></html>")])
+        collect(conn, client, sources=("sal-dip",), today=later)
+        got = conn.execute("SELECT moved, status, seed FROM arp_bills WHERE bill_key='sal-dip:91-59999/26'").fetchone()
+        self.assertEqual(tuple(got), (later.isoformat(), "Aprobado", 0))
+
+    def test_salta_senate_approval_is_a_stage_move(self):
+        conn = store()
+        moved = read("sal-sen.json").replace('"categories": [\n52\n]', '"categories": [\n58\n]', 1)
+        collect(conn, sources=("sal-sen",))
+        self.assertNotEqual(moved, read("sal-sen.json"))
+        later = TODAY + datetime.timedelta(days=7)
+        client = FakeClient([("categories=56,57,58", "[]"), ("senadosalta.gob.ar", moved)])
+        collect(conn, client, sources=("sal-sen",), today=later)
+        got = conn.execute("SELECT prev_status, status, moved FROM arp_bills WHERE moved IS NOT NULL").fetchall()
+        self.assertEqual([tuple(r) for r in got], [("En trámite", "Aprobado", later.isoformat())])
 
     def test_watch_key_marks_tier_one(self):
         conn = store()

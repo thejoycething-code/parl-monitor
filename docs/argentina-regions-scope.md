@@ -50,14 +50,15 @@ Oficiales were measured (below) but are not needed while SAIJ answers.
 | Buenos Aires | Senado | legislativa.senado-ba.gov.ar, Leyes y proyectos | ASP.NET form with a reCAPTCHA field | allowed | **BLOCKED** (CAPTCHA, never bypassed); its bills reach Diputados with half sanction |
 | CABA | Legislatura | parlamentaria.legislatura.gob.ar, the expediente search's XML web service (`Json.asmx/GetExpedienteAvanzada`) | read-only POST, XML | 404 (no rules) | **BUILT** (`caba`): 1,287 expedientes started in 120 days, with authors, type, current committee and stage, sanction flag |
 | Córdoba | Legislatura (unicameral) | gld.legislaturacba.gob.ar, Asuntos Entrados per session; Leyes, Resoluciones y Declaraciones | GET, HTML (2 MB a session) | an HTML page (no rules) | **BUILT** (`cba`): 195 asuntos in the session of 7 October, with number, extracto, author and committees |
-| Santa Fe | Diputados | siel.diputadossantafe.gov.ar (SIEL) | POST search | names AI agents (GPTBot, ClaudeBot, Claude-User ...), no `*` group | **NOT BUILT, Chris to decide**: our collector's user agent is allowed, but the agent that built this layer is a Claude agent and did not probe past the home page |
+| Santa Fe | Diputados | siel.diputadossantafe.gov.ar (SIEL): the expediente list (GET, 20 a page) and the search by state (read-only POST) | HTML | names AI agents (GPTBot, ClaudeBot, Claude-User ...), no `*` group | **BUILT** 13 October (`sf-dip`, Chris: "Build it"): number, type, author and bloc, entry date, state; media sanción and sanción lists. Stops if any rule ever covers our user agent (below) |
 | Santa Fe | Senado | senadosantafe.gob.ar | | timed out (twice) | unreachable from the laptop |
 | Mendoza | Senado | senadomendoza.gob.ar | | allowed | **403** to our requests |
 | Mendoza | Diputados | hcdmza.gob.ar/site/ | HTML; projects listed in the session diaries (PDF) | Crawl-delay 60 | slow and timed out once; not built (a minute a request) |
 | Tucumán | Legislatura | legislaturadetucuman.gob.ar (React app); app2.legislaturadetucuman.gob.ar/consultaexpedientes | HTML | | the expediente app timed out, then answered later the same day: **next step** |
 | Entre Ríos | Senado | senadoer.gob.ar/buscador-proyectos (WordPress) | GET, HTML, ten a page | allowed (only /wp-admin/) | **BUILT** (`er-sen`): number, type, author, committee, media sanción and sanción |
 | Entre Ríos | Diputados | hcder.gov.ar | | timed out (twice) | unreachable from the laptop |
-| Salta | Senado, Diputados | senadosalta.gob.ar, diputadosalta.gob.ar | | TLS fails (self-signed; hostname mismatch) | **BLOCKED** (TLS verification is not turned off) |
+| Salta | Senado | senadosalta.gob.ar, WordPress REST (`/wp-json/wp/v2/posts` by project category) | JSON | allowed (Yoast, `Disallow:` empty) | **BUILT** 13 October (`sal-sen`): expediente, entry date, subject, authors, kind, en trámite or approved. The `www.` host serves a self-signed certificate: not used |
+| Salta | Diputados | www.diputadosalta.gob.ar `/web/proyectos_aprobados_por_periodo` | HTML | no rules | **BUILT** 13 October (`sal-dip`), stages only: this year's approved laws, resolutions, declarations. Its pending lists answer "0 expedientes" and Asuntos Entrados are PDFs (newest 25 August). The bare `diputadosalta.gob.ar` fails TLS (wildcard certificate): not used |
 | Río Negro | Legislatura | web.legisrn.gov.ar/legislativa/proyectos | GET, HTML, 100 a page | allowed | **BUILT** (`rn`): 1,256 projects in 2026, with type, extracto, authors (no date in the list: new by first sight) |
 | Chubut | Legislatura | larus.legislaturadelchubut.gob.ar/api/public/documentos | GET, JSON | allowed | **BUILT** (`chu`): identifier, extracto, type, authors, current stage. The reply also carries staff login e-mails: never read or stored |
 | Jujuy | Legislatura | legislaturajujuy.gov.ar/rest/index.php/labor/legislativa/proyectos/lista | GET, JSON, 20 newest (filters are request headers) | allowed | **BUILT** (`juj`): number, text, date; 655 projects in 2026 |
@@ -97,7 +98,8 @@ Buenos Aires (17.6 m), CABA (3.1 m), Córdoba (3.8 m), Santa Fe (3.5 m),
 Mendoza (2.0 m), Tucumán (1.7 m), Entre Ríos (1.4 m), Salta (1.4 m),
 Misiones, Chaco, Corrientes, then the rest. CABA's Legislatura is the most
 active on our ground by far (below); Salta matters for religious education
-and is blocked by TLS; Misiones has an explicitly pro-life bloc.
+(read since 13 October); Misiones has an explicitly pro-life bloc, and Santa
+Fe's Diputados has "Vida y Familia" and "Somos Vida" blocs.
 
 ## What the first read found (13 October 2026, scratch store)
 
@@ -128,7 +130,8 @@ y reproductiva" matched only through other words); "protocolo ILE" /
 - `src/ar_regions_store.py`: `arp_laws` (key `<province>/ley/<number>`),
   `arp_bills` (key `<legislature>:<number>`, with `moved`/`prev_status` for
   stage moves), `arp_reads`; created by `db.init_db`.
-- `tools/ar_regions.py`: ten sources (`saij`, `normas-gba`, `ba-dip`,
+- `tools/ar_regions.py`: ten sources (thirteen since 13 October: `sf-dip`,
+  `sal-sen`, `sal-dip`, below) (`saij`, `normas-gba`, `ba-dip`,
   `caba`, `cba`, `er-sen`, `rn`, `chu`, `juj`, `ctes-dip`), all through
   `GuardedClient`; failures and refusals are gaps (exit 3), never fatal.
   Classified on titles and sumarios only, `taxonomy-es` with `ar`, plus
@@ -150,11 +153,97 @@ Shared files touched: `src/db.py` (three table names, two lines in
 `init_db`), `tools/coverage.py`, `config/edition-noise-ar.yaml` (one
 exclusion), `config/watchlist-ar.yaml` (new `provincial` section).
 
+## Santa Fe Diputados and Salta (13 October 2026, branch `ar-santafe-salta`)
+
+### Santa Fe Diputados: SIEL
+
+Chris, 13 October: "Build it". SIEL's robots.txt (fixture
+`tests/fixtures/ar_regions/siel-robots.txt`) has one `Disallow: /` group per
+named AI agent (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot,
+Claude-SearchBot, Claude-User, Google-Extended, PerplexityBot, CCBot,
+Bytespider and others) and no `*` group, so the collector's own user agent
+(`CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)`) is not covered.
+Every request, the probing included, went through `src/http.HttpClient`
+with that user agent inside `GuardedClient`; no browser and no
+Claude-identified fetcher touched the host. Probing was 7 requests (robots.txt,
+the list's first two pages, three state searches).
+
+- **What it reads:** the list (`index.php`, then `index.php?i=20&ord=DESC`
+  ...; 20 a page, newest number first, about 20 expedientes every three
+  days) until a page is older than the 14-day window (at most 8 pages),
+  then the search by state (`index.php?go=le`, a read-only POST of the
+  public form) for "1/2 Sanción" (state 11, current: newest 23 July 2026)
+  and "Sancionado" (state 12, rarely updated). Columns are read from the
+  table head: the list hides the "Pasada" column in an HTML comment, the
+  search shows it. The bloc printed in asterisks at the end of each
+  description goes to the author; a sanctioned expediente's law number goes
+  to the stage words.
+- **The robots rule (Chris):** before any SIEL request each run,
+  `GuardedClient.disallows_for_us` lists every Disallow in a group that
+  applies to OUR user agent (a `*` group, or one naming a token of our
+  product name), by both readers. If there is any (even for a path we never
+  ask), or robots.txt cannot be read, SIEL is not read that run: a gap, not
+  a failure. Every page is then also checked as usual. Tests:
+  `SantaFeRobots` in `tests/test_ar_regions.py` and
+  `test_disallows_for_us_reads_only_groups_that_apply_to_us`.
+- **Smoke read (scratch store, 13 October):** 160 expedientes (120 from the
+  list, 40 from the two state lists), 7 on our ground, among them a bill to
+  adhere to the national Ley Johanna (perinatal death), a bill creating a
+  provincial ESI programme "with a gender and diversity perspective"
+  (`sf-dip:60131`), a maternity-support plan for elite sportswomen.
+- Not read: the detail page (`index.php?go=d&id=`, committee route); a
+  phase-2 look if the list's state words prove too coarse.
+
+### Salta: the TLS diagnosis
+
+Measured with `openssl s_client -showcerts` and Python's own verifying
+context (`src/http.tls_context`) on 13 October 2026:
+
+| Host | Certificate served | Chain | Python verifies |
+|---|---|---|---|
+| `senadosalta.gob.ar` | CN=senadosalta.gob.ar, issuer Let's Encrypt YR1, expires 17 Dec 2026, SHA-256 E6:0B:A7:85:...:77:44 | complete: leaf, YR1, ISRG "Root YR" (cross-signed by ISRG Root X1) | **yes** |
+| `www.senadosalta.gob.ar` | CN=proxy510, self-signed, expires 11 Nov 2033, SHA-256 62:EE:06:C4:...:4B:0E | none | no: self-signed |
+| `www.diputadosalta.gob.ar` | CN=*.diputadosalta.gob.ar, issuer Let's Encrypt YR2, expires 20 Dec 2026, SHA-256 2B:5C:F8:65:...:04:F0 | complete: leaf, YR2, Root YR | **yes** |
+| `diputadosalta.gob.ar` | the same wildcard | complete | no: hostname mismatch (a wildcard does not cover the bare domain) |
+
+So no intermediate is missing and nothing was added to `config/tls/` or a
+new `config/ca-intermediates/`: the earlier failures were the two wrong
+hostnames (a self-signed proxy and a wildcard mismatch), which stay
+unused. Both readers use the hostnames whose certificates verify, with
+verification fully on. If either chamber's certificate changes, the
+request fails and is a gap.
+
+- **Senate (`sal-sen`):** the WordPress site files each project as a post in
+  a category (measured from `/wp-json/wp/v2/categories`: en trámite 52
+  declaración, 53 resolución, 54 ley; aprobados 56 ley, 57 resolución, 58
+  declaración). A post keeps its entry date and moves category when
+  approved, so two requests: the 100 newest by date, and the 50 approved by
+  last change (`orderby=modified`). Title: "Expte. N° 90-34.699/2026 –
+  08/10/26 – subject"; the excerpt opens with the authors. Approval of a
+  resolution or declaration is final (sanctioned); a law's is the chamber's
+  (stage words "Aprobado"). Smoke read: 123 projects, 2 on our ground
+  (a suicide-prevention bill; a contest for the Senate's seat on the
+  Observatorio de Violencia contra las Mujeres).
+- **Diputados (`sal-dip`):** only the approved lists are readable
+  (`/web/proyectos_aprobados_por_periodo?periodo=<year>&tipo=ley|resolucion|declaracion`,
+  one page each: number, entry date, title). The pending lists answered
+  "Resultado: 0 expedientes", the expediente search needs a number, and the
+  intake (Asuntos Entrados) is PDF, newest 25 August. Every row is a stage
+  row: an expediente first seen in an approved list after the first read is
+  a stage move (`upsert_bill`, `stage`). Smoke read: 610 approved projects
+  of 2026, 30 on our ground (a hate-crimes awareness law, a bill on minors'
+  access to social networks, a change to the Observatorio de Violencia
+  contra las Mujeres law).
+
+The three readers together: about 16 requests, 65 seconds measured; the
+weekly step's budget went from 300 s to 420 s.
+
 ## Phase list
 
 1. **Done:** SAIJ for all 24; bills for eight legislatures (Buenos Aires
    Diputados, CABA, Córdoba, Entre Ríos Senate, Río Negro, Chubut, Jujuy,
-   Corrientes Diputados).
+   Corrientes Diputados); on 13 October Santa Fe Diputados (SIEL), the Salta
+   Senate and Salta Diputados (approved lists).
 2. **Next:** Tucumán's expediente app (answered late on 13 October),
    Misiones (40 JSON requests a week), Tierra del Fuego's sumario, Córdoba's
    approved texts (to mark sanctions), Jujuy's second page (the
@@ -166,11 +255,7 @@ exclusion), `config/watchlist-ar.yaml` (new `provincial` section).
 
 ## Waiting on Chris
 
-- Santa Fe Diputados' SIEL: its robots.txt names AI agents (ClaudeBot,
-  Claude-User and others) but has no rule for other agents, so our
-  collector's own user agent is allowed. Build it or not?
 - Review the five seeded `provincial` watchlist entries.
 - Approve "salud sexual" (Argentina) for the next taxonomy generation.
-- Salta: both chambers fail TLS verification; we do not turn verification
-  off. A pinned certificate (as for Mexico, `config/mx-ca-intermediates.pem`)
-  would need someone to vouch for it.
+- Salta Diputados' intake: its pending lists are empty and the Asuntos
+  Entrados are PDFs; read those PDFs (phase 3) or ask the chamber?

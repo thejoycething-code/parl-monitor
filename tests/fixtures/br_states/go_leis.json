@@ -1,0 +1,77 @@
+{
+ "total_resultados": 549,
+ "resultados": [
+  {
+   "id": 117986,
+   "ano": 2026,
+   "numero": "24.564",
+   "ementa": "Altera a legislação que especifica para reconhecer os correspondentes bens imateriais como patrimônios gastronômicos goianos.",
+   "data_legislacao": "08/10/2026",
+   "link_externo": "",
+   "tipo_legislacao": {
+    "id": 2,
+    "nome": "Lei Ordinária"
+   },
+   "diarios": [
+    {
+     "data_diario": "08/10/2026",
+     "numero": "24.882",
+     "suplemento": "Sim",
+     "link_download": "https://diariooficial.abc.go.gov.br/portal/edicoes/download/7400"
+    }
+   ],
+   "estado_legislacao": {
+    "id": 1,
+    "nome": "Em Vigor"
+   }
+  },
+  {
+   "id": 117985,
+   "ano": 2026,
+   "numero": "24.563",
+   "ementa": "Inclui, no Calendário Cívico, Cultural e Turístico do Estado de Goiás, o Festival Canta Goiânia, realizado no Município de Goiânia/GO.",
+   "data_legislacao": "08/10/2026",
+   "link_externo": "",
+   "tipo_legislacao": {
+    "id": 2,
+    "nome": "Lei Ordinária"
+   },
+   "diarios": [
+    {
+     "data_diario": "08/10/2026",
+     "numero": "24.882",
+     "suplemento": "Sim",
+     "link_download": "https://diariooficial.abc.go.gov.br/portal/edicoes/download/7400"
+    }
+   ],
+   "estado_legislacao": {
+    "id": 1,
+    "nome": "Em Vigor"
+   }
+  },
+  {
+   "id": 117828,
+   "ano": 2026,
+   "numero": "24.562",
+   "ementa": "Autoriza a aquisição, por doação onerosa do Município de São Domingos/GO, do imóvel que especifica.",
+   "data_legislacao": "30/09/2026",
+   "link_externo": "",
+   "tipo_legislacao": {
+    "id": 2,
+    "nome": "Lei Ordinária"
+   },
+   "diarios": [
+    {
+     "data_diario": "30/09/2026",
+     "numero": "24.876",
+     "suplemento": "Sim",
+     "link_download": "https://diariooficial.abc.go.gov.br/portal/edicoes/download/7387"
+    }
+   ],
+   "estado_legislacao": {
+    "id": 1,
+    "nome": "Em Vigor"
+   }
+  }
+ ]
+}

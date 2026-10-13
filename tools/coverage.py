@@ -551,7 +551,7 @@ FEEDS = [
     # again: ALESP's open-data file re-lists every bill of the legislature
     # each run, so it moves weekly even through a recess.
     ("brs_reads", "last_seen", 7, 4, "state assembly reads, one row per source (Brazil weekly)"),
-    ("brs_bills", "last_seen", 7, 4, "state assembly bills: ALESP, ALMG, ALERJ and the SAPL houses (Brazil weekly)"),
+    ("brs_bills", "last_seen", 7, 4, "state assembly bills: ALESP, ALMG, ALERJ, the SAPL houses, ALRN, ALECE, ALEPE, ALEPA, PR and GO laws (Brazil weekly)"),
     ("br_divisions", "last_seen", 31, 31, "Câmara and Senado nominal votes (Brazil weekly)"),
     # Chile (9 October 2026). MEASURED which re-stamp: the deputy and senator
     # lists are re-read whole every run, and so are the bills introduced this

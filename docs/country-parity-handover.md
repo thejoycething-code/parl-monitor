@@ -132,9 +132,9 @@ Open:
   publish open data whose robots.txt disallows `/api/` to all but Googlebot.
   Leave, or write to their open-data offices? Aargau disallows its whole
   parliament section: ask its Parlamentsdienst or leave?
-- OPEN (Argentina): Santa Fe Diputados' SIEL names AI agents in robots.txt
-  (our own UA is not named). Recommended: do not build; email instead.
-  Salta: both chambers fail TLS verification (verification stays on).
+- OPEN (Argentina): Salta Diputados' intake (pending lists empty, Asuntos
+  Entrados as PDFs): read the PDFs or ask the chamber? (Santa Fe SIEL and
+  both Salta chambers built 13 October, `docs/argentina-regions-scope.md`.)
 - OPEN (US states): New Jersey, Massachusetts, New York's Senate API and
   Michigan answer GitHub's runners only, not the Mini. Add a GitHub-side
   states step? New York's needs a free key.
@@ -1141,6 +1141,43 @@ assemblies" section of the Brazilian edition and one DM line.
   that robots.txt disallows), seeding the state watchlist, a few taxonomy-pt
   false positives, and whether a Brazilian vantage point is worth it.
 
+### Second pass: alternative routes (13 October 2026, branch `br-states-alt`)
+
+The standing rule (look for a legitimate other route when blocked, never
+bypass) applied to the 17 assemblies not covered. Per-assembly table of
+routes tried: `docs/brazil-regions-scope.md`, "Alternative routes".
+
+- **Now covered: 16 of 27.** New sources of `tools/br_states.py`, each
+  item's edition line ending "(via ...)" (`brs_store.VIA`): Rio Grande do
+  Norte (the JSON ALRN's Transparência Legislativa app loads: bills with
+  party and stage, plenary results), Ceará (ALECE's www2 proposições
+  lists: bills, stage, law number), Pernambuco (ALEPE's open-data host,
+  `proposicoes/projetos`: bills with authors), Pará (ALEPA's search as a
+  plain form POST: newest ten a type, gaps by number), and **adopted laws
+  only** for Paraná (the Casa Civil's Sistema Estadual de Legislação) and
+  Goiás (the Casa Civil's legislation API). About a minute a run, inside
+  the step's 600 s. ALMG's reader now retries (30 s, 90 s) within the
+  budget.
+- **GitHub's runners only:** Santa Catarina (e-Legis) and Mato Grosso
+  ("Projetos em tramitação" report). A GitHub-side step is proposed in the
+  scope doc, not built.
+- **Still not read:** Rio Grande do Sul, Distrito Federal, Espírito Santo,
+  Amapá, Maranhão (no answer from the UK or GitHub; DF's SINJ backend is
+  disallowed by robots.txt), Roraima (403), Mato Grosso do Sul (proof-of-work
+  captcha), Sergipe (no list), Bahia (ALBA's list stops in July 2025;
+  LegislaBahia's robots.txt reads as disallowed).
+- **LexML Brasil:** robots.txt disallows `/busca/`, where its SRU lives; not
+  used.
+- **Taxonomy noise:** `religios*` (religious tourism, sanctuaries, festas,
+  utilidade pública), `transplante*` (transplant services without organ
+  donation), `casamento civil` (community wedding programmes) and the
+  endometriosis/infertility awareness weeks are left out of the Brazilian
+  edition by `exclude_titles` in `config/edition-noise-br.yaml` (no
+  taxonomy change); measured before/after in the scope doc.
+- **Waiting on Chris:** ALEP's documented open-data API is plain HTTP only
+  (allow it, or ask ALEP for https); the GitHub-side step for SC and MT;
+  asking LexML to allow `/busca/SRU`.
+
 
 ## US states: free alternatives beside Open States' free tier (13 October 2026)
 
@@ -1251,7 +1288,7 @@ edition has a "Regional assemblies" section. Scope:
 Scope and build: `docs/argentina-regions-scope.md`. Code:
 `tools/ar_regions.py`, `src/ar_regions_store.py` (`arp_laws`, `arp_bills`,
 `arp_reads`), a "Provincial legislatures" section in `src/editions/ar.py`,
-a 300 s step in `jobs/ar-weekly.sh` (no new Mini job).
+a 300 s step in `jobs/ar-weekly.sh` (420 s since 13 October; no new Mini job).
 
 - **Laws, all 24:** SAIJ's search (JSON, four pages a week; 118 laws from
   17 provinces in the newest 200, one to three weeks after the Boletín
@@ -1263,15 +1300,25 @@ a 300 s step in `jobs/ar-weekly.sh` (no new Mini job).
   First read: 2,579 expedientes, 84 on our ground (CABA's conversion-practice
   ban, ESI floor, IVE programme and the Geneva Consensus pair seed
   `watchlist-ar.yaml` `provincial`).
-- **Blocked:** Buenos Aires Senate (reCAPTCHA), Salta both chambers (TLS
-  verification fails), Mendoza Senate and Catamarca Senate (403), Santa Cruz
+- **Blocked:** Buenos Aires Senate (reCAPTCHA), Mendoza Senate and Catamarca Senate (403), Santa Cruz
   (robots.txt disallows every page; SILEG login), Santiago del Estero (no
   site). Unreachable from the UK: Santa Fe Senate, Entre Ríos Diputados,
   San Luis, La Pampa. Not built yet: Tucumán, Misiones, Tierra del Fuego,
   Neuquén, San Juan, La Rioja, Chaco, Mendoza Diputados (60 s Crawl-delay),
-  Catamarca Diputados, Formosa (laws only). Santa Fe Diputados' SIEL names
-  AI agents in robots.txt (our UA allowed): waiting on Chris.
+  Catamarca Diputados, Formosa (laws only).
 - **No roll calls** from any province in a readable form.
+- **Added 13 October 2026 (branch `ar-santafe-salta`):** Santa Fe Diputados'
+  SIEL (`sf-dip`; Chris: "Build it"): the expediente list and the media-sanción
+  and sanción lists, all through our identified client; its robots.txt names
+  AI agents only, and the reader stops before any request if a rule ever
+  covers our user agent (`GuardedClient.disallows_for_us`). Salta: no
+  certificate was missing. `senadosalta.gob.ar` and `www.diputadosalta.gob.ar`
+  serve complete Let's Encrypt chains that verify; the failures were
+  `www.senadosalta.gob.ar` (self-signed proxy certificate) and the bare
+  `diputadosalta.gob.ar` (wildcard mismatch), now unused. Built: the Senate
+  (`sal-sen`, WordPress REST, new and approved projects) and Diputados
+  (`sal-dip`, approved lists only; intake is PDF). Smoke read: 893 rows, 39
+  on our ground. Budget of the weekly step 300 s to 420 s; no new Mini job.
 
 ## Regional layer: Australia's states and territories (13 October 2026)
 
