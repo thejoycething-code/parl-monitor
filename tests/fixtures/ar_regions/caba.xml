@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfExpedienteAvanzado xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://tempuri.org/">
+  <expedienteAvanzado>
+    <id_expediente>142818</id_expediente>
+    <nro_de_expediente>3199-D-2026</nro_de_expediente>
+    <fch_inicio>9/10/2026 17:27:00</fch_inicio>
+    <autor_des>CRUCITTA, ALDANA BELÉN</autor_des>
+    <coautores_des>LOSPENNATO, SILVIA</coautores_des>
+    <autor_id>30912</autor_id>
+    <coautores_id>30944</coautores_id>
+    <tipo_proyecto_des>RESOLUCION</tipo_proyecto_des>
+    <fch_movimiento>9/10/2026 18:45:51</fch_movimiento>
+    <ubicacion_des>SP</ubicacion_des>
+    <descripcion>ESPERANDO FIRMA DE ASIGNACION DE GIRO  (ESPERANDO RECEPCION)</descripcion>
+    <id_proyecto_tipo>2</id_proyecto_tipo>
+    <id_business_party>53</id_business_party>
+    <nro_de_orden_JefeGob />
+    <TieneSancion>0</TieneSancion>
+    <sumario>SE CONMEMORA LOS 90 AÑOS DEL EDIFICIO SEDE DE LA PROCURACIÓN GENERAL DE LA CIUDAD AUTÓNOMA DE BUENOS AIRES. SE DISPONE LA ENTREGA DE UNA BANDEJA PROTOCOLAR .-</sumario>
+    <urlDoc>227862</urlDoc>
+  </expedienteAvanzado>
+<expedienteAvanzado>
+    <id_expediente>142275</id_expediente>
+    <nro_de_expediente>2686-E-2026</nro_de_expediente>
+    <fch_inicio>1/9/2026 15:32:52</fch_inicio>
+    <autor_des>COLEGIO, "ESCLAVAS DEL SAGRADO CORAZÓN DE JESÚS"</autor_des>
+    <coautores_des />
+    <autor_id>2262</autor_id>
+    <coautores_id />
+    <tipo_proyecto_des>ESCUELAS</tipo_proyecto_des>
+    <fch_movimiento>3/9/2026 16:36:20</fch_movimiento>
+    <ubicacion_des>EDUCACIÓN, CIENCIA Y TECNOLOGÍA</ubicacion_des>
+    <descripcion>EN COMISION</descripcion>
+    <id_proyecto_tipo>6</id_proyecto_tipo>
+    <id_business_party>520</id_business_party>
+    <nro_de_orden_JefeGob />
+    <TieneSancion>0</TieneSancion>
+    <sumario>PISO MÍNIMO, TRANSPARENCIA Y REFERENTE DE EDUCACIÓN SEXUAL INTEGRAL</sumario>
+    <urlDoc>226444</urlDoc>
+  </expedienteAvanzado>
+<expedienteAvanzado>
+    <id_expediente>142146</id_expediente>
+    <nro_de_expediente>2563-D-2026</nro_de_expediente>
+    <fch_inicio>21/8/2026 12:07:45</fch_inicio>
+    <autor_des>FERRARIO, EMMANUEL</autor_des>
+    <coautores_des>NEIRA, CLAUDIA; OCAÑA, MARÍA GRACIELA; RODRÍGUEZ LARRETA, HORACIO; TAGLIAFERRI, GUADALUPE; THOURTE, MANUELA</coautores_des>
+    <autor_id>30880</autor_id>
+    <coautores_id>30716, 30742, 30950, 30948, 30858</coautores_id>
+    <tipo_proyecto_des>LEY</tipo_proyecto_des>
+    <fch_movimiento>26/8/2026 13:13:29</fch_movimiento>
+    <ubicacion_des>MUJERES, GÉNEROS Y DIVERSIDADES</ubicacion_des>
+    <descripcion>EN COMISION</descripcion>
+    <id_proyecto_tipo>1</id_proyecto_tipo>
+    <id_business_party>535</id_business_party>
+    <nro_de_orden_JefeGob />
+    <TieneSancion>0</TieneSancion>
+    <sumario>PROHIBICIÓN DE LAS MAL LLAMADAS “TERAPIAS DE CONVERSIÓN” EN LA CIUDAD</sumario>
+    <urlDoc>226116</urlDoc>
+  </expedienteAvanzado>
+<expedienteAvanzado>
+    <id_expediente>141591</id_expediente>
+    <nro_de_expediente>2068-D-2026</nro_de_expediente>
+    <fch_inicio>1/7/2026 12:04:40</fch_inicio>
+    <autor_des>FREIRE, VICTORIA</autor_des>
+    <coautores_des>BARROETAVEÑA, MATÍAS; CAPORICCIO, FRANCISCO; GONZÁLEZ, ANDREA MARIANA; LAMMENS , MATÍAS; VELÁZQUEZ, DELFINA</coautores_des>
+    <autor_id>30916</autor_id>
+    <coautores_id>30841, 30943, 30939, 30914, 30919</coautores_id>
+    <tipo_proyecto_des>LEY</tipo_proyecto_des>
+    <fch_movimiento>3/7/2026 16:01:36</fch_movimiento>
+    <ubicacion_des>SALUD</ubicacion_des>
+    <descripcion>EN COMISION</descripcion>
+    <id_proyecto_tipo>1</id_proyecto_tipo>
+    <id_business_party>542</id_business_party>
+    <nro_de_orden_JefeGob />
+    <TieneSancion>0</TieneSancion>
+    <sumario>PROGRAMA “ATENCIÓN INTEGRAL DE LA INTERRUPCIÓN VOLUNTARIA DEL EMBARAZO”.</sumario>
+    <urlDoc>225051</urlDoc>
+  </expedienteAvanzado>
+</ArrayOfExpedienteAvanzado>

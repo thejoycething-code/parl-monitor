@@ -60,6 +60,25 @@ where it prints only the current status, a run that sees it change stamps the
 day it saw it and sets `status_seen`, and the first sighting is never a
 change.
 
+THE SENATE'S AMENDMENT TEXTS (12 October 2026, Chris: "Yes, build it").
+`it_senate_amendments` holds the text of every amendment and order of the
+day (ordine del giorno) the Senate publishes for an act with votes on our
+ground, read by tools/it_senato_amendments.py from the Senate's own
+Akoma Ntoso repository (github.com/SenatoDellaRepubblica/AkomaNtosoBulkData,
+Leg<n>/Atto<idFase, 8 digits>/emend for the Assembly, emendc for
+committee). One row per file, keyed by its path in that repository, with
+the file's git blob sha so an unchanged file is never fetched twice.
+`number` is the Senate's FRBRnumber, the number the vote wording uses
+("1.23", "2.0.2", "G1.104", "7.0.100/151"); `sede` is 'A' (Assembly) or
+'C' (committee), because a committee's 1.13 and the Assembly's 1.13 are
+different texts. `it_senate_amendment_votes` links each Senate amendment
+vote on our ground to its text by (act, Assembly, number) read from the
+vote's wording: 'linked', 'split' (only a part was put: "1a parte"; the
+whole text is linked and the vote flagged, the part is never guessed),
+'not_found', 'ambiguous' (two texts carry the number) or 'not_read' (an
+act the vote names is not read yet). `it_senate_amend_acts` is the per-act state:
+the idFase from dati.senato.it, the folder's tree sha and when it was read.
+
 A BILL LAPSES WITH ITS LEGISLATURE. The 19th ends by October 2027 at the
 latest; every pending bill dies and comes back, if at all, under a new
 number. `it_bills.legislature` is what a board reads, never `status`.
@@ -159,12 +178,53 @@ SCHEMA = (
         first_seen   TEXT,
         last_seen    TEXT
     )""",
+    # The Senate's amendment texts (12 October 2026, tools/it_senato_amendments.py):
+    # see the module docstring.
+    """CREATE TABLE IF NOT EXISTS it_senate_amendments (
+        file_path    TEXT PRIMARY KEY,   -- 'Leg19/Atto00059761/emend/01503268-em.akn.xml'
+        legislature  INTEGER NOT NULL,
+        act          TEXT NOT NULL,      -- '19/S.1735' (it_bills.bill_key)
+        id_fase      INTEGER,            -- the Senate's idFase of the reading
+        sede         TEXT NOT NULL,      -- 'A' Assembly (emend) / 'C' committee (emendc)
+        number       TEXT,               -- FRBRnumber: '1.23', 'G1.104', '7.0.100/151'
+        number_norm  TEXT,               -- src/it_amendments.norm(number), the join key
+        kind         TEXT,               -- FRBRname: 'Emendamento', 'Ordine del giorno', ...
+        proposers    TEXT,               -- JSON list of docProponent names, as printed
+        text         TEXT,               -- amendmentBody, paragraphs joined by newlines
+        presented    TEXT,               -- FRBRdate 'presentazione'
+        frbr_uri     TEXT,               -- <http://dati.senato.it/19/Emend/S/1735/A/1.23>, an identifier
+        file_sha     TEXT,               -- the git blob sha (checked on download)
+        url          TEXT,               -- the file on github.com
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    "CREATE INDEX IF NOT EXISTS it_senate_amendments_num ON it_senate_amendments (act, sede, number_norm)",
+    """CREATE TABLE IF NOT EXISTS it_senate_amendment_votes (
+        division_key TEXT NOT NULL,      -- 'senato-19-424-2'
+        number       TEXT NOT NULL,      -- as the wording gives it: '1.23'
+        part         TEXT,               -- '1a parte' on a split vote, else NULL
+        status       TEXT NOT NULL,      -- linked / split / not_found / ambiguous / not_read
+        act          TEXT,               -- the act whose text matched
+        file_path    TEXT,               -- it_senate_amendments.file_path, when linked or split
+        linked_on    TEXT,
+        PRIMARY KEY (division_key, number)
+    ) WITHOUT ROWID""",
+    """CREATE TABLE IF NOT EXISTS it_senate_amend_acts (
+        act          TEXT PRIMARY KEY,   -- '19/S.824'
+        id_fase      INTEGER,
+        tree_sha     TEXT,               -- the act folder's git tree sha when last read
+        files        INTEGER,            -- emend + emendc files in the folder
+        checked      TEXT,               -- the day the folder was last read
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
     "CREATE INDEX IF NOT EXISTS it_reg_acts_region ON it_reg_acts (region, presented)",
     "CREATE INDEX IF NOT EXISTS it_divisions_bill ON it_divisions (bill_key)",
     "CREATE INDEX IF NOT EXISTS it_votes_member ON it_votes (member_key)",
 )
 
-TABLES = ("it_members", "it_bills", "it_divisions", "it_votes", "it_reg_acts")
+TABLES = ("it_members", "it_bills", "it_divisions", "it_votes", "it_reg_acts",
+          "it_senate_amendments", "it_senate_amendment_votes", "it_senate_amend_acts")
 
 # Columns added after a table was first shipped: (table, column, type).
 # IT2 (10 October 2026): the dati.camera.it backup for the Camera.

@@ -178,7 +178,9 @@ docs/5ca-notes.md). The first real run is Sunday's editions-session-judge.
     (1,243 in all on the dry run). `docs/country-decisions-2026-10-12.md`,
     "Decision backlog, 12 October".
 22. OPEN: the 209 unclear amendments: leave, or ask the Italian Senate and
-    parlament.hu for access.
+    parlament.hu for access. Italy's 34 Senate ones are SETTLED (item 27):
+    re-read from the Senate's own GitHub repository, so no access request
+    to the Senate is needed.
 23. OPEN (portraits, #139): do the partner pages count as internal or
     non-commercial use for Italy, the Netherlands, Austria and Switzerland?
     For the 21 unclear countries, ask press offices or allow Wikimedia
@@ -200,6 +202,24 @@ docs/5ca-notes.md). The first real run is Sunday's editions-session-judge.
     (`tools/ca_committee_reports.py`, new table `ca_committee_reports`). Both
     are steps of `jobs/ca-weekly.sh` and `ca-weekly.yml`; no new Mini job.
     See `docs/canada-scope.md`.
+27. DONE (Italy, 12 October 2026, branch `senato-amendments`): the 34
+    Italian Senate amendment readings left unclear (senato.it's bot check)
+    re-read from the Senate's official repository
+    (github.com/SenatoDellaRepubblica/AkomaNtosoBulkData) and applied with
+    `--apply-amendments`: 29 against, 3 not scored, 2 unclear (they
+    replaced untouched 'unclear' readings, which the tool already allows, so
+    no new option); 8 flagged ones accepted as drafted (Chris: "accept all
+    as drafted"). And, Chris: "Yes, build it": a permanent collector,
+    `tools/it_senato_amendments.py` (step of `jobs/it-weekly.sh`, no new
+    Mini job), reads the amendment and order-of-the-day texts of every
+    Senate act with votes on our ground into `it_senate_amendments` and links
+    each vote to its text (`it_senate_amendment_votes`; a split "1a parte"
+    vote is flagged, never guessed). The 5CA drafts, the amendment worklist
+    and the session judge's queue now carry the text, so a new Senate
+    amendment vote is no longer unclear for lack of it. Smoke read (scratch
+    store): S.1735 153 Assembly texts and 126 committee, S.824 29 and 25;
+    all 38 numbers voted on our ground linked (2 split). See
+    `docs/italy-scope.md`, "Senate amendment texts".
 26. WATCH: Panama's bills feed is dark while sistemas.asamblea.gob.pa's
     robots.txt answers HTTP 500 (asked 12 October, see below). Mexico's SITL
     and Gaceta time out from the UK; check the next GitHub run.
@@ -332,7 +352,7 @@ publish seen".
 | Debate report (report and social copy after a debate, DM for approval, canvas) | yes (`tools/debate_report.py`, one paid call) | no | no | no | **built** 11 Oct (`tools/country_debate_report.py`, `src/country_debatereport.py`, branch `ukp2-debate-report`, manual) for the five countries whose speeches we store: NL, CH, AT, FR, BE. English report from templates over the record (no paid AI): speakers on our ground with a verbatim source-language passage each, translations by a person or the free session judge (`--queue-out`/`--queue-in` via `tools/session_judge.sh`), the debated bill's votes (found by the reference in the title, `--item` or a debate pack) and the latest on the same ground with tallies, group splits and vote meanings; clip pack linked. AWAITING SIGN-OFF, no verdicts, until the readings shown are confirmed. DM to Chris alone; `--approve --by NAME` records approval against the files; `--publish` makes the canvas with the UK's code, shared with Chris alone (never a channel), rewritten in place on a re-run. Samples `docs/debate-report-samples/` |
 | Words since the last vote (`since_last_vote.py`) | yes | no | no | no | **built** 11 Oct (`tools/country_since_vote.py`, `src/country_since_vote.py`, branch `ukp2-since-last-vote`, manual) for the countries with speeches and votes: NL, CH, AT, FR, BE. Per area, each member's last recorded vote on it (watched or tier 1, procedure never) and their speeches since, with excerpts. Drift is named only once the vote's reading is CONFIRMED and a person or the free session judge has read the words (`--queue-out` / `--reads`, `read_by` required, a read goes stale when new words arrive); before that "awaiting sign-off", ranked by recency and volume. Group votes (NL shows of hands, AT) never name drift. Optional profile section: `tools/member_profiles.py <cc> --since-vote` (off in the weeklies). Samples `docs/since-vote-samples/` (CH, FR, BE; the published store holds no NL votes or speeches and no AT speeches yet) |
 | Health summary, Drive | health DM; briefs and debate footage on Drive | health DM | health DM | health DM | **built** 11 Oct (branch `ukp-health-drive`): the 07:30 health DM has one compact section per region (Europe, Latam) plus shared jobs, failed and stale jobs first, step gaps by step, editions behind, the countries' overdue sources (`src/country_health.py`); briefs as Sheets from the UK template and real debate packs on Drive under `Country editions/<Country>/` in the Automated Briefs shared drive, a step of the Sunday `editions-session-judge` (`tools/country_drive.py`, ledger `data/country-drive.json`, at most 30 new sheets a run) |
-| Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | Built 12 Oct 2026: Italy four councils (IT3), Austria seven Landtage (AT6), Spain all 17 via the BOE plus four bill lists, Peru 25 regions + Lima (PE4), Mexico 13 state congresses plus adopted decrees of 4 more from their official gazettes (SLP, Campeche, Durango, Querétaro); 13 Oct: Belgium's Flemish, Walloon, Brussels, COCOM and (in part) FWB parliaments, Flemish votes by member (German-speaking Community blocked); others later, per decisions |
+| Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | Built 12 Oct 2026: Italy four councils (IT3), Austria seven Landtage (AT6), Spain all 17 via the BOE plus four bill lists, Peru 25 regions + Lima (PE4), Mexico 13 state congresses plus adopted decrees of 4 more from their official gazettes (SLP, Campeche, Durango, Querétaro); 13 Oct 2026: Argentina all 24 jurisdictions' laws via SAIJ plus eight legislatures' bills; Belgium's Flemish, Walloon, Brussels, COCOM and (in part) FWB parliaments, Flemish votes by member (German-speaking Community blocked); others later, per decisions |
 | Vote meanings (what a Yes and a No meant) | yes (`meaning_aye`/`meaning_no`, written by hand) | no | no | no | **built** 11 Oct (`src/vote_meanings.py`, `tools/vote_meanings.py`, branch `ukp-meanings`): every watched and tier-1 vote in the 21 countries with recorded votes, rules first, then the free session judge after the editions' scores within the same ~100 items a week; stored per division (`vote_meanings`); a person overrides in `config/vote-meanings-<cc>.yaml`; shown in editions, the Latam monitor, vote briefs, profiles, debate packs and the 5CA readings guides |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
@@ -1006,7 +1026,7 @@ All from cjoyce@citizengo.net.
 | Spain Senate (403 everywhere): open data | informacion@senado.es | sent 9 Oct |
 | Paraguay (SILpy robots.txt disallows) | parlamentoabierto@senado.gov.py, cc silpy@diputados.gov.py | sent 9 Oct |
 | meineabgeordneten.at licence | office@meineabgeordneten.at | sent 9 Oct |
-| Open States (US) | contact@openstates.org | sent 9 Oct; replied with paid tier pricing |
+| Open States (US) | contact@openstates.org | sent 9 Oct; replied with paid tier pricing. No budget: free tier kept, free alternatives built 13 Oct (below) |
 | Australia | webmanager@aph.gov.au | sent 9 Oct |
 | Guatemala court (bot challenge) | comunicacion@cc.gob.gt, asked to forward to the Unidad de Información Pública | sent 12 Oct |
 | El Salvador missing votes (sessions 41-64, 98): LAIP request | transparencia@asamblea.gob.sv | sent 12 Oct |
@@ -1072,7 +1092,7 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
 - **Unreachable from the UK (5):** Veracruz, Guanajuato, Nuevo León,
   Michoacán (https), Zacatecas; the step asks each from the runner every
   run and the edition says if one answers.
-- **Blocked (4):** Puebla (Cloudflare challenge), San Luis Potosí (Sucuri
+- **Blocked (4):** Puebla (Cloudflare challenge; decrees via the SCJN), San Luis Potosí (Sucuri
   challenge), Campeche (robots.txt disallows all), Durango (Wordfence geo
   block). Never bypassed.
 - **Not built (10):** Jalisco (77 s a page), Querétaro (plain HTTP only),
@@ -1091,9 +1111,97 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
   **Durango** (each edition's HTML contents) and **Querétaro** (La Sombra
   de Arteaga's annual index PDF, over HTTPS). Adopted acts only, no bills
   in passage; the edition marks them "(from the official gazette)".
-  `src/ingest/mxs_{slp,cam,dgo,qro}_gazette.py`, same step and clock.
-  **Puebla**: no route yet (the gazette, the Orden Jurídico Poblano and the
-  state's open-data portal refuse UK connections; the step asks the
-  gazette's home page from the runner each run). The PNT/SIPOT sits behind
-  a Cloudflare challenge; the SCJN recent-reforms page answered a server
-  error on 12 October. Details in `docs/mexico-regions-scope.md`.
+  `src/ingest/mxs_{slp,cam,dgo,qro,pue}_gazette.py`, same step and clock.
+  **Puebla** (13 October): its gazette refuses UK connections, so its
+  decrees are read from the Supreme Court's compilation of the gazette
+  (legislacion.scjn.gob.mx, the 50 most recent Puebla reforms, one
+  postback of the page's own form; `src/ingest/mxs_pue_gazette.py`).
+Details in `docs/mexico-regions-scope.md`.
+
+## US states: free alternatives beside Open States' free tier (13 October 2026)
+
+Chris: "We can't pay for Open States access so may need to explore
+alternatives whilst keeping the current tier we have." Built on branch
+`us-states-alt`; details and measurements in `docs/us-states-scope.md`
+("Free alternatives beside the free tier").
+
+- **Kept:** the Open States collector as it was (bulk files for the week,
+  the free key's 250 a day for the last day), with a smarter top-up:
+  watched bills, then tier 1, then the rest; states a direct reader covered
+  are skipped, and while LegiScan is active only watched and tier-1 bills
+  are topped up (`--topup-all` restores the old behaviour).
+- **LegiScan** (`tools/us_states_legiscan.py`): all 50 states, same day, on
+  the free public key; CC BY 4.0, credited in the edition. Planned for a
+  9,000-query month (the manual says 30,000; one LegiScan page says 10,000).
+  **Needs Chris:** a free OneVote account and API key at
+  https://legiscan.com/legiscan, then `LEGISCAN_API_KEY` as a repo secret and
+  in `~/runner/env` on the Mini. Without it the step skips with one line.
+- **State feeds** (`tools/us_states_direct.py`, no key): Kansas KLISS API (1
+  request, adds the votes Open States lacks), California's leginfo daily
+  change files (floor votes with names), the Texas Legislative Council's FTP
+  (from the 90th Legislature, January 2027). Smoke read: KS 68 bills on our
+  ground and 92 tallies; CA 35 changed bills in recess; TX 25 files read.
+- **No duplicates:** `merge_foreign` adds to Open States' row; a bill it
+  does not hold yet is stored under the source's ID and superseded when
+  Open States' file catches up (`uss_bill_sources`, `uss_source_ledger`).
+- **Steps:** two lines after the Open States step in `jobs/us-weekly.sh`
+  (6 minutes on GitHub, 15 on the Mini for the feeds; 5 and 15 for
+  LegiScan). No new Mini job.
+
+## Regional layer: Poland's 16 voivodeship assemblies (13 October 2026)
+
+`tools/pl_regions.py` into `plr_acts` / `plr_reads`
+(`src/pl_regions_store.py`), a step of `jobs/pl-weekly.sh` (no new Mini
+job), robots.txt asked at run time (`src/robots_guard.py`), classified with
+taxonomy-pl plus watchlist-pl's new `regional` section by key. The Polish
+edition has a "Regional assemblies" section. Scope:
+`docs/poland-regions-scope.md`.
+
+- **Journals, 15 of 16:** fifteen voivodes' official journals run the same
+  e-Dziennik platform with a JSON month list: every sejmik's published acts
+  (local law, budgets, statutes, programmes) and the voivode's rulings on
+  them, two requests a journal a run. Kujawsko-Pomorskie's journal does not
+  answer from the UK (listed, `--region kp` tries it).
+- **Registers of resolutions, 4 of 16:** Mazowieckie and Śląskie (the same
+  BIP CMS), Łódzkie (one table of the term), Podkarpackie (sittings with
+  their resolutions as attachments): every resolution, binding or not, so
+  stanowiska and declarations such as the Family Charter, which the
+  journals never carry.
+- **Not read:** twelve registers (Opolskie times out, Podlaskie's BIP
+  domain no longer resolves, Małopolskie, Pomorskie and Dolnośląskie are
+  JavaScript applications, seven plain-HTML layouts not parsed yet);
+  councillors' recorded votes and members (PDFs per sitting, phase 2);
+  eSesja (`*.esesja.pl`) answers with a Cloudflare challenge: blocked,
+  never bypassed.
+- **First run (scratch store):** 892 acts, 3 on our ground at tier 2, two of
+  them yearly boilerplate now in `config/edition-noise-pl.yaml`.
+- **Waiting on Chris:** the Family Charter term ("Kart* Praw Rodzin*") for
+  the Polish taxonomy, seeding the regional watchlist, and which registers
+  come next (Małopolskie, Lubelskie, Świętokrzyskie suggested).
+
+## Regional layer: Argentina's 24 provincial legislatures (13 October 2026)
+
+Scope and build: `docs/argentina-regions-scope.md`. Code:
+`tools/ar_regions.py`, `src/ar_regions_store.py` (`arp_laws`, `arp_bills`,
+`arp_reads`), a "Provincial legislatures" section in `src/editions/ar.py`,
+a 300 s step in `jobs/ar-weekly.sh` (no new Mini job).
+
+- **Laws, all 24:** SAIJ's search (JSON, four pages a week; 118 laws from
+  17 provinces in the newest 200, one to three weeks after the Boletín
+  Oficial), plus Buenos Aires province's normas.gba.gob.ar.
+- **Bills, eight legislatures:** Buenos Aires Diputados (date search POST),
+  CABA (the expediente XML service, stage refreshed for 120 days), Córdoba
+  (Asuntos Entrados per session), Entre Ríos Senate, Río Negro, Chubut
+  (public API; staff logins dropped), Jujuy (REST), Corrientes Diputados.
+  First read: 2,579 expedientes, 84 on our ground (CABA's conversion-practice
+  ban, ESI floor, IVE programme and the Geneva Consensus pair seed
+  `watchlist-ar.yaml` `provincial`).
+- **Blocked:** Buenos Aires Senate (reCAPTCHA), Salta both chambers (TLS
+  verification fails), Mendoza Senate and Catamarca Senate (403), Santa Cruz
+  (robots.txt disallows every page; SILEG login), Santiago del Estero (no
+  site). Unreachable from the UK: Santa Fe Senate, Entre Ríos Diputados,
+  San Luis, La Pampa. Not built yet: Tucumán, Misiones, Tierra del Fuego,
+  Neuquén, San Juan, La Rioja, Chaco, Mendoza Diputados (60 s Crawl-delay),
+  Catamarca Diputados, Formosa (laws only). Santa Fe Diputados' SIEL names
+  AI agents in robots.txt (our UA allowed): waiting on Chris.
+- **No roll calls** from any province in a readable form.

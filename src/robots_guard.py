@@ -95,6 +95,12 @@ DOCUMENTED_APIS = (
     "https://v3.openstates.org/",
     "https://data.openstates.org/",
     "https://unitedstates.github.io/congress-legislators/",
+    # US states, alternative sources (13 October 2026): LegiScan's documented
+    # Pull API (keyed; legiscan.com itself sits behind a Cloudflare challenge
+    # we never bypass). Kansas KLISS and California's leginfo downloads are
+    # NOT listed: robots.txt is asked for them every run. The Texas FTP (no
+    # robots.txt exists for FTP) is exempted in tools/us_states_direct.py.
+    "https://api.legiscan.com/",
     # Australia
     "https://api.prod.legislation.gov.au/",
     "https://handbookapi.aph.gov.au/api/",
@@ -105,7 +111,11 @@ DOCUMENTED_APIS = (
     # the Walloon Parliament's documented Open Data (JSON/CSV, /opendata/)
     "https://ws.vlpar.be/e/opendata/",
     "https://www.parlement-wallonie.be/opendata/",
-    # Wikidata, GitHub (our own repository), our own partner site
+    # Wikidata, GitHub (our own repository, and since 12 October 2026 the
+    # Italian Senate's AkomaNtosoBulkData repository read by
+    # tools/it_senato_amendments.py: the git trees API and raw files;
+    # github.com's robots.txt sends programs to the API, and both hosts
+    # answer 404 for robots.txt), our own partner site
     "https://query.wikidata.org/sparql",
     "https://api.github.com/",
     "https://raw.githubusercontent.com/",
