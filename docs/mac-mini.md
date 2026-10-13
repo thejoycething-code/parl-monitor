@@ -408,7 +408,7 @@ Mato Grosso is not read: its report pages and filters only under `/proposicao?`,
 
 **Schedule: no new cron.** The halves run inside the weekly slots, while the Mini waits; GitHub's own backup crons (US Friday 10:00 UTC; Brazil Saturday 09:30 and 13:30 UTC) read the sources inline when the Mini has not run. The laptop never dispatches any of this.
 
-**On the Mini:** nothing to install; `git pull` of the runner clone is enough. `~/runner/env` needs `GH_TOKEN` (already there for the Senate half). The US weekly's wait is about 10 to 15 minutes (store fetch, read, store publish on GitHub), inside its three hours; the Brazil weekly's likewise, inside its hour (the state-assemblies step then has less of its budget).
+**On the Mini:** nothing to install; `git pull` of the runner clone is enough. `GH_TOKEN` comes from `gh auth token` in `tools/mini_run.sh`, as for the Senate half; nothing to add to `~/runner/env`. The US weekly's wait is about 10 to 15 minutes (store fetch, read, store publish on GitHub), inside its three hours; the Brazil weekly's likewise, inside its hour (the state-assemblies step then has less of its budget).
 
 ## Installing the country jobs (10 October 2026)
 
