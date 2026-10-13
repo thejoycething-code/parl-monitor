@@ -162,6 +162,43 @@ SCHEMA = (
         requests     INTEGER NOT NULL,
         last_at      TEXT                -- UTC time of the latest request
     )""",
+    # ALTERNATIVE SOURCES (13 October 2026, additive; Christopher: "We can't
+    # pay for Open States access so may need to explore alternatives whilst
+    # keeping the current tier we have"). One row per bill a source other
+    # than Open States has given us: LegiScan's free public API
+    # (tools/us_states_legiscan.py) and the states' own feeds
+    # (tools/us_states_direct.py: Kansas KLISS, California's leginfo
+    # downloads, the Texas Legislative Council's FTP). It is the provenance
+    # of every row such a source wrote, and its change detection: a bill
+    # whose change_hash is unchanged is never fetched or merged again.
+    # bill_key is the NORMALISED key (norm_key below), so a later Open States
+    # read of the same bill finds and supersedes the source's own row.
+    # source_id 'file:...' rows record a file read (California's daily
+    # deltas), with the file's stamp as change_hash.
+    """CREATE TABLE IF NOT EXISTS uss_bill_sources (
+        source       TEXT NOT NULL,      -- 'legiscan' / 'ks-kliss' / 'ca-leginfo' / 'tx-ftp' / 'pa-ldpc' / 'mo-house' / 'ar-arkleg'
+        source_id    TEXT NOT NULL,      -- the source's own bill ID ('1167968', 'HB2010', ...)
+        state        TEXT,
+        bill_key     TEXT,               -- norm_key: 'TX/89R/HB229'
+        bill_id      TEXT,               -- the uss_bills row it wrote or merged into
+        change_hash  TEXT,               -- LegiScan's change_hash, or our hash of what we read
+        latest_action_at TEXT,
+        url          TEXT,               -- the source's page for the bill (never a keyed URL)
+        fetched_at   TEXT,
+        first_seen   TEXT,
+        last_seen    TEXT,
+        PRIMARY KEY (source, source_id)
+    )""",
+    # Requests per source per period, for allowances that are not Open
+    # States' day: LegiScan's public key is monthly (period 'YYYY-MM').
+    """CREATE TABLE IF NOT EXISTS uss_source_ledger (
+        source       TEXT NOT NULL,
+        period       TEXT NOT NULL,
+        requests     INTEGER NOT NULL,
+        last_at      TEXT,
+        PRIMARY KEY (source, period)
+    )""",
+    "CREATE INDEX IF NOT EXISTS uss_bill_sources_key ON uss_bill_sources (bill_key)",
     "CREATE INDEX IF NOT EXISTS uss_bills_key ON uss_bills (bill_key)",
     "CREATE INDEX IF NOT EXISTS uss_bills_state ON uss_bills (state, session)",
     "CREATE INDEX IF NOT EXISTS uss_actions_date ON uss_actions (date)",
@@ -170,7 +207,27 @@ SCHEMA = (
 )
 
 TABLES = ("uss_sessions", "uss_bills", "uss_actions", "uss_sponsors", "uss_votes",
-          "uss_vote_people", "uss_people", "uss_api_ledger")
+          "uss_vote_people", "uss_people", "uss_api_ledger", "uss_bill_sources",
+          "uss_source_ledger")
+
+# Sources other than Open States (13 October 2026), as the edition names them.
+SOURCE_NAMES = {
+    "legiscan": "LegiScan (CC BY 4.0)",
+    "ks-kliss": "the Kansas Legislature's KLISS API",
+    "ca-leginfo": "California's leginfo downloads",
+    "tx-ftp": "the Texas Legislative Council's FTP",
+    # tools/us_states_routes.py (13 October 2026, "where states block find
+    # other routes"): each legislature's own publication.
+    "pa-ldpc": "the Pennsylvania LDPC's bill history export",
+    "mo-house": "the Missouri House's XML exports",
+    "ar-arkleg": "the Arkansas Legislature's bill pages",
+}
+
+# Where Open States gives no recorded votes, or totals with no positions
+# (measured 9 October 2026, docs/us-states-scope.md): a vote another source
+# gives for these states is KEPT when Open States later re-reads the bill.
+# Elsewhere Open States' own vote supersedes the other source's copy.
+OPENSTATES_VOTE_GAPS = ("al", "ar", "ks", "nj", "ak", "mo")
 
 # The fifty, by postal code. DC and Puerto Rico are in Open States but not
 # in the decision (Christopher, 9 October 2026: all 50 state legislatures).
@@ -239,6 +296,48 @@ def add_watch_areas(res, key, path=None):
     if res.tier is None:
         res.tier = 2
     return res
+
+
+def norm_ident(identifier):
+    """'HB 229', 'HB229', 'HB0229', 'hb 229' -> 'HB229'. Spaces removed,
+    upper case, leading zeros of the number dropped (LegiScan and the states
+    pad some numbers; Open States does not)."""
+    ident = re.sub(r"\s+", "", identifier or "").upper()
+    return re.sub(r"^([A-Z.]*?)0+(\d)", r"\1\2", ident)
+
+
+def norm_key(state, session, identifier):
+    """bill_key with the identifier normalised: how a bill from another
+    source is matched with Open States' row for it."""
+    return "{0}/{1}/{2}".format((state or "").upper(), session, norm_ident(identifier))
+
+
+def session_for(conn, state, year_start, year_end=None, special=False):
+    """The Open States session identifier (as uss_sessions holds it) for a
+    session another source names by its years, or None when the store has
+    no session for the state yet.
+
+    Open States' dates are not reliable (see the scope doc), so the
+    identifier is tried first: a non-special session whose identifier
+    carries the start year ('2025-2026', '20252026', '2026'), then one whose
+    start_date falls in the years; the latest start wins. A special session
+    is matched only to a special one starting in that year."""
+    year_end = year_end or year_start
+    rows = conn.execute("SELECT session, name, classification, start_date FROM uss_sessions "
+                        "WHERE state=?", (state,)).fetchall()
+    cands = []
+    for session, name, classification, start in rows:
+        spec = (classification == "special" or any(
+            w in (name or "").lower() for w in ("special", "extraordinary", "called",
+                                                 "extra session")))
+        if bool(spec) != bool(special):
+            continue
+        y = int((start or "0")[:4] or 0)
+        by_ident = str(year_start) in (session or "") or str(year_end) in (session or "")
+        by_date = year_start <= y <= year_end
+        if by_ident or by_date:
+            cands.append((by_ident, start or "", session))
+    return sorted(cands)[-1][2] if cands else None
 
 
 def dumps(values):

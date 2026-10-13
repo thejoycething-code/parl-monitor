@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Polish keyword taxonomy
 
-**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.3 | 13 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 ## Purpose
 
@@ -53,9 +53,9 @@ Scope calls applied while merging:
 
 ### 5. Sex-based rights and single-sex spaces {#5_sex_based_rights}
 
-- **Tier 1:** "ideologi* gender"; "ideologi* LGBT"; gender; LGBT*; "konwencj* stambulsk*"; "Konwencj* Rady Europy o zapobieganiu i zwalczaniu przemocy wobec kobiet"; "tożsamoś* płciow*"; "ekspresj* płciow*"; "płe* kulturow*"; "płc* kulturow*"; "płe* biologiczn*"; "płc* biologiczn*"; "płe* metrykaln*"; "płc* metrykaln*"; "strefy wolne od LGBT"; "kobiet* trans*"; "sport* kobiet*"; "neutralnoś* pod względem płci"; feminatyw*
+- **Tier 1:** "ideologi* gender"; "ideologi* LGBT"; gender; LGBT*; "konwencj* stambulsk*"; "Konwencj* Rady Europy o zapobieganiu i zwalczaniu przemocy wobec kobiet"; "tożsamoś* płciow*"; "ekspresj* płciow*"; "płe* kulturow*"; "płc* kulturow*"; "płe* biologiczn*"; "płc* biologiczn*"; "płe* metrykaln*"; "płc* metrykaln*"; "strefy wolne od LGBT"; "stref* wolne od ideologii"; "kobiet* trans*"; "sport* kobiet*"; "neutralnoś* pod względem płci"; feminatyw*
 - **Tier 2:** "orientacj* seksualn*"; "osob* LGBT*"; "mniejszoś* seksualn*"; "równoś* płci"; "równego traktowania"; "przemoc* ze względu na płeć"; "przemoc* wobec kobiet"; "przemoc* domow*"; parytet*; homofobi*; transfobi*; "pełnomocni* rządu do spraw równego traktowania"; "pełnomocni* rządu do spraw równości"
-- **Notes:** Poland: Bare 'gender' kept at tier 1: in Polish political usage the English word is the ideology debate.
+- **Notes:** Poland: Bare 'gender' kept at tier 1: in Polish political usage the English word is the ideology debate. Poland v0.3 (Chris, 13 October 2026: "Add both"): "stref* wolne od ideologii" at tier 1, beside "strefy wolne od LGBT", for the 2019-20 "strefa wolna od ideologii LGBT" declarations of the sejmiki and councils. MEASURED: 0 matches in the national store (pl_prints 3,422, pl_processes 1,740, pl_divisions 4,941, pl_questions 39; no Polish petitions stored), 0 in the regional layer's first live read (3,041 acts, 13 registers and 15 journals, scratch store), 0 in the history read once for the watchlist (Lubelskie register and stanowiska, Małopolskie 2019-21, Świętokrzyskie 2018-24): the sejmiki titled their declarations "ideologii LGBT", already caught by LGBT* and "ideologi* LGBT". The term matches the nominative plural only ("strefy wolne od ideologii"), not "strefa wolna" or "stref wolnych"; no false positive.
 
 ### 6. Parental rights and education {#6_parental_rights_education}
 
@@ -78,9 +78,9 @@ Scope calls applied while merging:
 
 ### 9. Marriage and family {#9_marriage_family}
 
-- **Tier 1:** "małżeństw* jednopłciow*"; "związ* jednopłciow*"; "pary jednopłciow*"; "par* jednopłciow*"; "związ* partnersk*"; "status* osoby najbliższej"; "osob* najbliższ*"; "umow* o wspólnym pożyciu"; "równoś* małżeńsk*"; "art. 18 Konstytucji"; "definicj* małżeństwa"; "rozwod* pozasądow*"; "rozwiązani* małżeństwa"
+- **Tier 1:** "małżeństw* jednopłciow*"; "związ* jednopłciow*"; "pary jednopłciow*"; "par* jednopłciow*"; "związ* partnersk*"; "status* osoby najbliższej"; "osob* najbliższ*"; "umow* o wspólnym pożyciu"; "równoś* małżeńsk*"; "art. 18 Konstytucji"; "definicj* małżeństwa"; "rozwod* pozasądow*"; "rozwiązani* małżeństwa"; "Kart* Praw Rodzin*"
 - **Tier 2:** rozwod*; "Kodeks* rodzinn*"; "utrudniani* kontaktu"; babciow*; "Aktywn* rodzic*"; małżeńst*; małżeńsk*; "rodzin* wielodzietn*"; "Karta Dużej Rodziny"; "Karty Dużej Rodziny"; "świadczeni* wychowawcz*"; "800 plus"; 800+; "Rodzin* 800"; rodzicielstw*; macierzyńsk*; ojcostw*; dzietnoś*; demograf*; "polityk* rodzinn*"; alimen*; "urlop* rodzicielsk*"; becikow*; "przemoc* ekonomiczn*"
-- **Notes:** No terms proposed for this area.
+- **Notes:** Poland v0.3 (Chris, 13 October 2026: "Add both"): "Kart* Praw Rodzin*" at tier 1 for the Samorządowa Karta Praw Rodzin (the 2019-20 Family Charter) and the "Karta Praw Rodziny" petitions. MEASURED: 0 matches in the national store (the same Polish tables as area 5); 1 in the regional layer's first live read (3,041 acts): Małopolskie XXVIII/418/26 of 30 March 2026, the answer to a petition to adopt the Samorządowa Karta Praw Rodzin; 2 more in the history read once for the watchlist: Lubelskie XXXVIII/591/2022 and Świętokrzyskie XLIV/558/22, both petitions to adopt the "Karta Praw Rodziny". All three on our ground: 0 false positives. "Karta Dużej Rodziny" (the large-family card, tier 2) is not matched by it.
 
 ### 10. Surrogacy and embryology {#10_surrogacy_embryology}
 

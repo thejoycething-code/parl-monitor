@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title type="html">Tasmanian Royal Assents for the last year</title>
+<subtitle type="html"></subtitle>
+<author>
+<name>TAS Parliamentary Counsel's Office</name>
+<uri>https://www.legislation.tas.gov.au</uri>
+</author>
+<link rel="related" type="text/html" hreflang="en" href="https://www.legislation.tas.gov.au/feed?id=act-year"/>
+<id>https://www.legislation.tas.gov.au/feed?id=act-year</id>
+<logo>https://www.legislation.tas.gov.au/images/tas_coa.gif</logo>
+<updated>2026-10-13T10:51:55+10:00</updated>
+<entry>
+<title type="html">Statutory Holidays Amendment Act 2026</title>
+<link rel="alternate" type="text/html" hreflang="en" href="https://www.legislation.tas.gov.au/view/html/inforce/2026-10-09/act-2026-018" />
+<id>act-2026-018</id>
+<updated>2026-10-09T00:00:00+10:00</updated>
+<content type="html">
+Published:  9 October 2026
+</content>
+</entry><entry>
+<title type="html">Taxation and Related Legislation (Miscellaneous Amendments) Act 2026</title>
+<link rel="alternate" type="text/html" hreflang="en" href="https://www.legislation.tas.gov.au/view/html/inforce/2026-10-09/act-2026-019" />
+<id>act-2026-019</id>
+<updated>2026-10-09T00:00:00+10:00</updated>
+<content type="html">
+Published:  9 October 2026
+</content>
+</entry><entry>
+<title type="html">Commission for Children and Young People Act 2025</title>
+<link rel="alternate" type="text/html" hreflang="en" href="https://www.legislation.tas.gov.au/view/html/inforce/2026-10-08/act-2025-030" />
+<id>act-2025-030</id>
+<updated>2026-10-08T00:00:00+10:00</updated>
+<content type="html">
+Published:  8 October 2026
+</content>
+</entry></feed>

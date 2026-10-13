@@ -1,0 +1,663 @@
+{
+"count": "4",
+"firstindex": "1",
+"lastindex": "4",
+"result": [
+{
+"id": "http://be.vlp.feed/2076509/pfls/2373834",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2076509",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "de Vlaamse Regering"
+},
+{
+"name": "zittingsjaar",
+"value": "2026-2027"
+},
+{
+"name": "bodh",
+"value": "nieuwe status en nieuw document"
+},
+{
+"name": "nummer",
+"value": "1008"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "bevoegdheid",
+"value": "Gewest"
+},
+{
+"name": "documenttype",
+"value": "tekst"
+},
+{
+"name": "onderwerp",
+"value": "tot wijziging van het decreet van 5 april 1995 houdende algemene bepalingen inzake milieubeleid, wat betreft vliegtuigexploitanten"
+},
+{
+"name": "aggregaat",
+"value": "Voorstel of ontwerp van decreet"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2076509"
+},
+{
+"name": "themadatum",
+"value": "2026-10-12"
+},
+{
+"name": "basisstuk",
+"value": "Ontwerp van decreet tot wijziging van het decreet van 5 april 1995 houdende algemene bepalingen inzake milieubeleid, wat betreft vliegtuigexploitanten"
+},
+{
+"name": "status",
+"value": "verwezen naar commissie"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-10-12"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-10-12"
+},
+{
+"name": "initiatief",
+"value": "Ontwerp van decreet"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-12T13:53:07Z"
+},
+{
+"name": "document",
+"value": "https://docs.vlaamsparlement.be/pfile?id=2373834"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/2076509"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Wonen, Toerisme, Energie en Klimaat"
+},
+{
+"name": "datum",
+"value": "2026-10-12"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Ontwerp van decreet tot wijziging van het decreet van 5 april 1995 houdende algemene bepalingen inzake milieubeleid, wat betreft vliegtuigexploitanten"
+},
+{
+"name": "thema",
+"value": "Klimaatbeleid"
+},
+{
+"name": "thema",
+"value": "Mobiliteit en Verkeer"
+},
+{
+"name": "thema",
+"value": "Natuur en Milieu"
+},
+{
+"name": "indienertype",
+"value": "rechtspersoon"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-10-12"
+},
+{
+"name": "aggregaattype",
+"value": "Ontwerp van decreet"
+},
+{
+"name": "mimetype",
+"value": "application/pdf"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/2076588",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2076588",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "de Vlaamse Regering"
+},
+{
+"name": "zittingsjaar",
+"value": "2026-2027"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "1010"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "bevoegdheid",
+"value": "Gemeenschap"
+},
+{
+"name": "onderwerp",
+"value": "tot instelling van een toetsingskader en een vaste commissie om verzoeken tot teruggave van cultuurgoederen die geroofd zijn in het kader van de nazivervolging, te behandelen"
+},
+{
+"name": "aggregaat",
+"value": "Voorstel of ontwerp van decreet"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2076588"
+},
+{
+"name": "basisstuk",
+"value": "Ontwerp van decreet tot instelling van een toetsingskader en een vaste commissie om verzoeken tot teruggave van cultuurgoederen die geroofd zijn in het kader van de nazivervolging, te behandelen"
+},
+{
+"name": "status",
+"value": "ingediend"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-10-12"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-10-12"
+},
+{
+"name": "initiatief",
+"value": "Ontwerp van decreet"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-12T15:23:09Z"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/2076588"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Cultuur, Jeugd, Sport en Media"
+},
+{
+"name": "datum",
+"value": "2026-10-12"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Ontwerp van decreet tot instelling van een toetsingskader en een vaste commissie om verzoeken tot teruggave van cultuurgoederen die geroofd zijn in het kader van de nazivervolging, te behandelen"
+},
+{
+"name": "indienertype",
+"value": "rechtspersoon"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-10-12"
+},
+{
+"name": "aggregaattype",
+"value": "Ontwerp van decreet"
+},
+{
+"name": "mimetype",
+"value": "text/plain"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/2039398/pfls/2328228",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2039398",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "Anaf, Hannes"
+},
+{
+"name": "indiener",
+"value": "Roggeman, Tomas"
+},
+{
+"name": "indiener",
+"value": "Schryvers, Katrien"
+},
+{
+"name": "indiener",
+"value": "Daniëls, Koen"
+},
+{
+"name": "indiener",
+"value": "Tombeur, Ine"
+},
+{
+"name": "indiener",
+"value": "Van Havere, Tina"
+},
+{
+"name": "indiener",
+"value": "Vandeurzen, Toon"
+},
+{
+"name": "zittingsjaar",
+"value": "2025-2026"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "871"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "bevoegdheid",
+"value": "Gemeenschap"
+},
+{
+"name": "documenttype",
+"value": "tekst"
+},
+{
+"name": "onderwerp",
+"value": "tot wijziging van het Groeipakketdecreet van 2018 en het decreet van 7 juli 2017 tot oprichting van een publiekrechtelijk vormgegeven extern verzelfstandigd agentschap Vlaams Agentschap voor de Uitbetaling van Toelagen in het kader van het Gezinsbeleid, tot vaststelling van vergunningsnormen voor private uitbetalingsactoren en tot wijziging van het decreet van 30 april 2004 betreffende de oprichting van het intern verzelfstandigd agentschap met rechtspersoonlijkheid Kind en Gezin"
+},
+{
+"name": "aggregaat",
+"value": "Voorstel of ontwerp van decreet"
+},
+{
+"name": "statusdatum_plen_in_behandeling",
+"value": "2026-07-08"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2039398"
+},
+{
+"name": "themadatum",
+"value": "2026-06-01"
+},
+{
+"name": "numac",
+"value": "2026006089"
+},
+{
+"name": "basisstuk",
+"value": "Voorstel van decreet van Hannes Anaf, Tomas Roggeman, Katrien Schryvers, Koen Daniëls, Ine Tombeur, Tina Van Havere en Toon Vandeurzen tot wijziging van het Groeipakketdecreet van 2018 en het decreet "
+},
+{
+"name": "intervenant",
+"value": "De Reuse, Immanuel"
+},
+{
+"name": "intervenant",
+"value": "Lachaert, Egbert"
+},
+{
+"name": "intervenant",
+"value": "Vandecasteele, Lise"
+},
+{
+"name": "intervenant",
+"value": "Ben Chikha, Fourat"
+},
+{
+"name": "intervenant",
+"value": "Lachaert, Egbert"
+},
+{
+"name": "intervenant",
+"value": "Vandecasteele, Lise"
+},
+{
+"name": "intervenant",
+"value": "De Reuse, Immanuel"
+},
+{
+"name": "intervenant",
+"value": "Ben Chikha, Fourat"
+},
+{
+"name": "status",
+"value": "bekendgemaakt in Belgisch Staatsblad"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-08-13"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-06-01"
+},
+{
+"name": "statusdatum_comm_aangenomen",
+"value": "2026-06-23"
+},
+{
+"name": "initiatief",
+"value": "Voorstel van decreet"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-09-18T14:51:06Z"
+},
+{
+"name": "verslaggever",
+"value": "Perdaens, Freya"
+},
+{
+"name": "document",
+"value": "https://docs.vlaamsparlement.be/pfile?id=2328228"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/2039398"
+},
+{
+"name": "statusdatum_plen_aangenomen",
+"value": "2026-07-08"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Welzijn, Volksgezondheid, Gezin, Armoedebestrijding en Gelijke Kansen"
+},
+{
+"name": "datum",
+"value": "2026-08-13"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Voorstel van decreet tot wijziging van het Groeipakketdecreet van 2018 en het decreet van 7 juli 2017 tot oprichting van een publiekrechtelijk vormgegeven extern verzelfstandigd agentschap Vlaams Agentschap voor de Uitbetaling van Toelagen in het kader van het Gezinsbeleid, tot vaststelling van vergunningsnormen voor private uitbetalingsactoren en tot wijziging van het decreet van 30 april 2004 betreffende de oprichting van het intern verzelfstandigd agentschap met rechtspersoonlijkheid Kind en Gezin"
+},
+{
+"name": "thema",
+"value": "Welzijn en Gezin"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-06-01"
+},
+{
+"name": "aggregaattype",
+"value": "Voorstel van decreet"
+},
+{
+"name": "mimetype",
+"value": "application/pdf"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/1934130/pfls/2193215",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/1934130",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "Anaf, Hannes"
+},
+{
+"name": "indiener",
+"value": "Roggeman, Tomas"
+},
+{
+"name": "indiener",
+"value": "Schryvers, Katrien"
+},
+{
+"name": "indiener",
+"value": "Dillen, Koen"
+},
+{
+"name": "indiener",
+"value": "Ryde, Eva"
+},
+{
+"name": "indiener",
+"value": "Van Havere, Tina"
+},
+{
+"name": "indiener",
+"value": "Vandeurzen, Toon"
+},
+{
+"name": "zittingsjaar",
+"value": "2024-2025"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "433"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "bevoegdheid",
+"value": "Gemeenschap"
+},
+{
+"name": "documenttype",
+"value": "tekst"
+},
+{
+"name": "onderwerp",
+"value": "tot wijziging van artikel 68, §2/1, van het Groeipakketdecreet van 2018, wat de aanpassing van de verdelingsregels van de toelagen in het kader van het gezinsbeleid betreft"
+},
+{
+"name": "aggregaat",
+"value": "Voorstel of ontwerp van decreet"
+},
+{
+"name": "statusdatum_plen_in_behandeling",
+"value": "2025-07-16"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/1934130"
+},
+{
+"name": "themadatum",
+"value": "2025-07-15"
+},
+{
+"name": "numac",
+"value": "2025005715"
+},
+{
+"name": "basisstuk",
+"value": "Voorstel van decreet van Hannes Anaf, Tomas Roggeman, Katrien Schryvers, Koen Dillen, Eva Ryde, Tina Van Havere en Toon Vandeurzen tot wijziging van artikel 68, §2/1, van het Groeipakketdecreet van 20"
+},
+{
+"name": "status",
+"value": "bekendgemaakt in Belgisch Staatsblad"
+},
+{
+"name": "publicatiedatum",
+"value": "2025-07-30"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2025-07-15"
+},
+{
+"name": "initiatief",
+"value": "Voorstel van decreet"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-03-30T11:00:04Z"
+},
+{
+"name": "document",
+"value": "https://docs.vlaamsparlement.be/pfile?id=2193215"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/1934130"
+},
+{
+"name": "statusdatum_plen_aangenomen",
+"value": "2025-07-16"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Welzijn, Volksgezondheid, Gezin, Armoedebestrijding en Gelijke Kansen"
+},
+{
+"name": "datum",
+"value": "2025-07-30"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Voorstel van decreet tot wijziging van artikel 68, §2/1, van het Groeipakketdecreet van 2018, wat de aanpassing van de verdelingsregels van de toelagen in het kader van het gezinsbeleid betreft"
+},
+{
+"name": "thema",
+"value": "Welzijn en Gezin"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2025-07-15"
+},
+{
+"name": "aggregaattype",
+"value": "Voorstel van decreet"
+},
+{
+"name": "mimetype",
+"value": "application/pdf"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+}
+]
+}

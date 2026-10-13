@@ -77,3 +77,77 @@ processes:
               why: "Resolution against implementing the EU Pact on Migration and Asylum (passed, M.P. 2025 poz. 683)."}
   "10/2602": {areas: [11],
               why: "Citizens' bill on internal security and the EU migration pact (art. 72 TFEU)."}
+
+# --- voivodeship assemblies (sejmiki, 13 October 2026) ---------------------
+# Resolutions of the sixteen sejmiki read by tools/pl_regions.py, by
+# plr_acts.act_key: '<region>/<number as printed>' for a sejmik's own
+# register ('ld/XXXI/396/2026', 'pm/366/XXX/26'), '<region>/<kind>/<number>'
+# for kinds numbered apart ('ma/deklaracja/1/19'), '<region>/doc/<BIP id>'
+# for unnumbered positions ('lu/doc/1382854'), '<region>/dz/<year>/<position>'
+# for a voivodeship journal ('mz/dz/2026/9183').
+#
+# Seeded 13 October 2026 (Chris: "Yes, seed it") from the first live run of
+# the thirteen registers (scratch store) and from the 2019-20 "LGBT ideology"
+# declarations and Family Charter resolutions and their later repeals, read in
+# the registers themselves (Lubelskie's document lists, Małopolskie's
+# Deklaracje menu and 2021 register, Świętokrzyskie's VI-term register PDF).
+#
+# CITED BY NUMBER OR PHRASE (src/pl_regions_store.cited): most of these are
+# older than any window a reader takes, so they are matched when a later act
+# of the same voivodeship cites them: a title naming the number ("uchylenia
+# uchwały nr X/125/19", "Deklaracji Nr 1/19") or one of the entry's `cites:`
+# phrases inherits the entry's areas.
+regional:
+  # From the first live run (13 October 2026)
+  "ma/XXVIII/418/26": {areas: [9],
+                       why: "Małopolskie, 30 March 2026: the sejmik's answer to a citizen's petition to adopt the Samorządowa Karta Praw Rodzin (the Family Charter). Matches the new term \"Kart* Praw Rodzin*\" (taxonomy-pl v0.3)."}
+  "ma/apel/6/25": {areas: [6, 8],
+                   why: "Małopolskie, 1 July 2025: appeal on the planned changes to religion teaching in public schools."}
+  "ma/apel/8/26": {areas: [7],
+                   why: "Małopolskie, 23 February 2026: appeal to the Sejm and the government for a statutory ban on social media for under-15s."}
+  "ld/XXV/307/2026": {areas: [5],
+                      why: "Łódzkie, 31 March 2026: the 2026-2030 regional programme against domestic violence (the Istanbul Convention's framing; context, not a campaign)."}
+  "lu/XVII/264/2025": {areas: [5],
+                       why: "Lubelskie, 1 December 2025: the 2026-2030 regional programme against domestic violence (context)."}
+  # Lubelskie: the 25 April 2019 position and its 2021 amendment
+  "lu/doc/1382854": {areas: [5],
+                     why: "Lubelskie, 25 April 2019: Stanowisko 'w sprawie wprowadzania ideologii LGBT do wspólnot samorządowych' (stanowiska list, BIP document 1382854). Older than the window read.",
+                     cites: ["stanowisko z dnia 25 kwietnia 2019", "z dnia 25 kwietnia 2019 r. w sprawie wprowadzania ideologii"]}
+  "lu/doc/1677532": {areas: [5],
+                     why: "Lubelskie, 27 September 2021: 'Stanowisko ... zmieniające stanowisko z dnia 25 kwietnia 2019 r.', the amendment of the 2019 position; its title names only the date."}
+  "lu/XVI/268/2020": {areas: [5],
+                      why: "Lubelskie, 27 May 2020: the answer to the Ombudsman's complaint against the 25 April 2019 position."}
+  "lu/XXXVIII/591/2022": {areas: [9],
+                          why: "Lubelskie, 22 June 2022: petition asking the sejmik to adopt the 'Karta Praw Rodziny'."}
+  # Małopolskie: Deklaracja Nr 1/19 and its repeal
+  "ma/deklaracja/1/19": {areas: [5],
+                         why: "Małopolskie, 29 April 2019: Deklaracja Nr 1/19 'w sprawie sprzeciwu wobec wprowadzenia ideologii LGBT do wspólnot samorządowych'. Older than the window read (the Deklaracje menu's current and previous year)."}
+  "ma/deklaracja/5/21": {areas: [5],
+                         why: "Małopolskie, 27 September 2021: Deklaracja Nr 5/21 repealing Deklaracja Nr 1/19."}
+  "ma/XLVI/652/21": {areas: [5],
+                     why: "Małopolskie, 25 October 2021: petition demanding the repeal of Deklaracja Nr 1/19."}
+  "ma/XLVI/653/21": {areas: [5],
+                     why: "Małopolskie, 25 October 2021: a second petition demanding the repeal of Deklaracja Nr 1/19."}
+  # Świętokrzyskie: uchwała X/125/19 and what followed (VI-term register PDF)
+  "sk/X/125/19": {areas: [5],
+                  why: "Świętokrzyskie, 19 June 2019: resolution adopting the position 'w sprawie sprzeciwu wobec prób wprowadzenia ideologii LGBT do wspólnot samorządowych oraz promocji tej ideologii w życiu publicznym'. VI term: not in the register read (VII term)."}
+  "sk/XII/168/19": {areas: [5],
+                    why: "Świętokrzyskie, 26 August 2019: a citizen's complaint against X/125/19."}
+  "sk/XXV/350/20": {areas: [5],
+                    why: "Świętokrzyskie, 2020: a legal person's complaint (14 September 2020) against X/125/19."}
+  "sk/XXVII/369/20": {areas: [5],
+                      why: "Świętokrzyskie, December 2020: petition to repeal the position adopted by X/125/19."}
+  "sk/XXXV/486/21": {areas: [5],
+                     why: "Świętokrzyskie, 22 September 2021: the position 'w sprawie poszanowania wielowiekowej tradycji i kultury Rzeczypospolitej Polskiej oraz równouprawnienia i sprawiedliwego traktowania', adopted when the sejmik withdrew the 2019 position (press reports; the register line itself does not cite X/125/19)."}
+  "sk/XLIV/558/22": {areas: [9],
+                     why: "Świętokrzyskie, 24 February 2022: petition about adopting the 'Karta Praw Rodziny'."}
+# To add when first collected (no register we read reaches them, so no key):
+#   - Łódzkie: the Samorządowa Karta Praw Rodzin (adopted early 2020) and its
+#     repeal (September 2021, press reports). bip.lodzkie.pl's table holds the
+#     current term only; the numbers are not yet seen. Once known, an entry
+#     here also catches any later act citing them.
+#   - Podkarpackie: the 2019 position against "LGBT ideology" and its 2021
+#     change. The register before 22 May 2026 is on archiwumbip.podkarpackie.pl,
+#     not read.
+#   - Lubelskie's and Świętokrzyskie's Family Charter equivalents, if any were
+#     adopted: none found in the registers read (only the petitions above).

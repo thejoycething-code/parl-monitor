@@ -1611,6 +1611,17 @@ TABLES = (
     # Australian debates (tools/au_debates.py, 9 October 2026), same module.
     "au_speeches",
     "au_debate_days",
+    # Australia's states and territories (tools/au_states.py, 13 October
+    # 2026): bills with their stage, Acts, NSW divisions and members, created
+    # by src/au_states_store.ensure_schema.
+    "aus_bills",
+    "aus_bill_events",
+    "aus_acts",
+    "aus_divisions",
+    "aus_votes",
+    "aus_members",
+    "aus_hansard_days",
+    "aus_reads",
     # The week ahead (tools/us_schedule.py, 9 October 2026).
     "us_schedule",
     "us_meetings",
@@ -1635,6 +1646,10 @@ TABLES = (
     "uss_vote_people",
     "uss_people",
     "uss_api_ledger",
+    # Alternative sources for the states (13 October 2026): LegiScan and the
+    # states' own feeds, same module.
+    "uss_bill_sources",
+    "uss_source_ledger",
     # Ireland, the Oireachtas (tools/ie_rollcalls.py), created by
     # src/ie_store.ensure_schema -- declared from day one.
     "ie_members",
@@ -1698,6 +1713,10 @@ TABLES = (
     "it_votes",
     # IT3 (12 October 2026): the regional councils (tools/it_regions.py).
     "it_reg_acts",
+    # The Senate's amendment texts (12 October 2026, tools/it_senato_amendments.py).
+    "it_senate_amendments",
+    "it_senate_amendment_votes",
+    "it_senate_amend_acts",
     # Swiss Federal Assembly (tools/ch_rollcalls.py), created by
     # src/ch_store.ensure_schema -- declared from day one.
     "ch_members",
@@ -1705,6 +1724,9 @@ TABLES = (
     "ch_businesses",
     "ch_divisions",
     "ch_votes",
+    # CH7 (13 October 2026): the cantonal parliaments (tools/ch_cantons.py).
+    "ch_canton_acts",
+    "ch_canton_divisions",
     # Belgium's federal Chamber (tools/be_rollcalls.py), created by
     # src/be_store.ensure_schema -- declared from day one.
     "be_members",
@@ -1712,6 +1734,13 @@ TABLES = (
     "be_sittings",
     "be_divisions",
     "be_votes",
+    # Belgium's community and regional parliaments (tools/be_regions.py, 13
+    # October 2026), created by src/be_regions_store.ensure_schema.
+    "ber_docs",
+    "ber_votes",
+    "ber_positions",
+    "ber_members",
+    "ber_reads",
     # France's Assemblee nationale (tools/fr_rollcalls.py), created by
     # src/fr_store.ensure_schema -- declared from day one.
     "fr_members",
@@ -1761,6 +1790,11 @@ TABLES = (
     "esr_laws",
     "esr_bills",
     "esr_reads",
+    # Poland's regional layer (tools/pl_regions.py, 13 October 2026): the
+    # sixteen sejmiki's acts from the voivodeship journals and the sejmiki's
+    # own registers, created by src/pl_regions_store.ensure_schema.
+    "plr_acts",
+    "plr_reads",
     # Brazil's National Congress (tools/br_rollcalls.py), created by
     # src/br_store.ensure_schema -- declared from day one.
     "br_members",
@@ -1839,6 +1873,12 @@ TABLES = (
     "ar_bills",
     "ar_divisions",
     "ar_votes",
+    # Argentina's provincial layer (tools/ar_regions.py, 13 October 2026):
+    # the 24 jurisdictions' laws (SAIJ) and four legislatures' bills,
+    # created by src/ar_regions_store.ensure_schema.
+    "arp_laws",
+    "arp_bills",
+    "arp_reads",
     # Colombia's Congress (tools/co_rollcalls.py), created by
     # src/co_store.ensure_schema -- declared from day one.
     "co_bills",
@@ -2202,6 +2242,8 @@ def init_db(conn):
     us_states_store.ensure_schema(conn)
     from src import au_store
     au_store.ensure_schema(conn)
+    from src import au_states_store
+    au_states_store.ensure_schema(conn)
     from src import ie_store
     ie_store.ensure_schema(conn)
     from src import at_store
@@ -2220,6 +2262,8 @@ def init_db(conn):
     ch_store.ensure_schema(conn)
     from src import be_store
     be_store.ensure_schema(conn)
+    from src import be_regions_store
+    be_regions_store.ensure_schema(conn)
     from src import fr_store
     fr_store.ensure_schema(conn)
     from src import pt_store
@@ -2232,6 +2276,8 @@ def init_db(conn):
     es_store.ensure_schema(conn)
     from src import es_regions_store
     es_regions_store.ensure_schema(conn)
+    from src import pl_regions_store
+    pl_regions_store.ensure_schema(conn)
     from src import br_store
     br_store.ensure_schema(conn)
     from src import brs_store
@@ -2254,6 +2300,8 @@ def init_db(conn):
     mxs_store.ensure_schema(conn)
     from src import ar_store
     ar_store.ensure_schema(conn)
+    from src import ar_regions_store
+    ar_regions_store.ensure_schema(conn)
     from src import co_store
     co_store.ensure_schema(conn)
     from src import bo_store

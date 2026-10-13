@@ -1,0 +1,316 @@
+<hansard.toc sid="HANSARD-1820781676-105213" pid="HANSARD-1820781676-105313">
+  <hansard.header>
+    <date>2026-09-16T00:00:00+10:00</date>
+    <parliament.number>58</parliament.number>
+    <session.number>1</session.number>
+    <parliament.session.name>Fifty-Eighth Parliament, First Session (58-1)</parliament.session.name>
+    <chamber>Legislative Council</chamber>
+    <draft>true</draft>
+  </hansard.header>
+  <proceeding>
+<proceedinginfo>
+      <text>Bills</text>
+    </proceedinginfo>
+<topic uid="HANSARD-1820781676-105296" ref="80">
+      <topicinfo>
+        <text id="18938" type="Bill">Electricity Infrastructure Investment Amendment Bill 2026</text>
+      </topicinfo>
+      <subproceeding>
+        <subproceedinginfo>
+          <text>First Reading</text>
+        </subproceedinginfo>
+      </subproceeding>
+    </topic>
+</proceeding>
+<proceeding>
+<proceedinginfo>
+      <text>Bills</text>
+    </proceedinginfo>
+<topic uid="HANSARD-1820781676-105298" ref="82">
+      <topicinfo>
+        <text id="18794" type="Bill">Abortion Law Reform Amendment (Sex Selection Prohibition) Bill 2025</text>
+      </topicinfo>
+      <subproceeding>
+        <subproceedinginfo>
+          <text>Second Reading Debate</text>
+        </subproceedinginfo>
+        <speech>
+          <talk.start>
+            <talker>
+              <talk.time></talk.time>
+              <id>2251</id>
+              <name>The Hon. MARK LATHAM</name>
+              <electorate></electorate>
+              <portfolios />
+              <question.number />
+              <question.date />
+            </talker>
+          </talk.start>
+        </speech>
+        <speech>
+          <talk.start>
+            <talker>
+              <talk.time></talk.time>
+              <id>2299</id>
+              <name>The Hon. CAMERON MURPHY</name>
+              <electorate></electorate>
+              <portfolios />
+              <question.number />
+              <question.date />
+            </talker>
+          </talk.start>
+        </speech>
+        <speech>
+          <talk.start>
+            <talker>
+              <talk.time></talk.time>
+              <id>2262</id>
+              <name>The Hon. SCOTT BARRETT</name>
+              <electorate></electorate>
+              <portfolios />
+              <question.number />
+              <question.date />
+            </talker>
+          </talk.start>
+        </speech>
+        <speech>
+          <talk.start>
+            <talker>
+              <talk.time></talk.time>
+              <id>93</id>
+              <name>The Hon. SARAH MITCHELL</name>
+              <electorate></electorate>
+              <portfolios />
+              <question.number />
+              <question.date />
+            </talker>
+          </talk.start>
+        </speech>
+        <speech>
+          <talk.start>
+            <talker>
+              <talk.time></talk.time>
+              <id>2269</id>
+              <name>The Hon. AILEEN MacDONALD</name>
+              <electorate></electorate>
+              <portfolios />
+              <question.number />
+              <question.date />
+            </talker>
+          </talk.start>
+        </speech>
+        <speech>
+          <talk.start>
+            <talker>
+              <talk.time></talk.time>
+              <id>2256</id>
+              <name>The Hon. MARK BANASIAK</name>
+              <electorate></electorate>
+              <portfolios />
+              <question.number />
+              <question.date />
+            </talker>
+          </talk.start>
+        </speech>
+        <speech>
+          <talk.start>
+            <talker>
+              <talk.time></talk.time>
+              <id>115</id>
+              <name>The Hon. DAMIEN TUDEHOPE</name>
+              <electorate></electorate>
+              <portfolios />
+              <question.number />
+              <question.date />
+            </talker>
+          </talk.start>
+        </speech>
+        <speech>
+          <talk.start>
+            <talker>
+              <talk.time></talk.time>
+              <id>122</id>
+              <name>The Hon. SCOTT FARLOW</name>
+              <electorate></electorate>
+              <portfolios />
+              <question.number />
+              <question.date />
+            </talker>
+          </talk.start>
+        </speech>
+        <speech>
+          <talk.start>
+            <talker>
+              <talk.time></talk.time>
+              <id>2301</id>
+              <name>The Hon. JOHN RUDDICK</name>
+              <electorate></electorate>
+              <portfolios />
+              <question.number />
+              <question.date />
+            </talker>
+          </talk.start>
+        </speech>
+        <division>
+          <ayes>
+            <text></text>
+            <count>16</count>
+            <aye>
+              <id>2256</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>2251</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>2266</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>2302</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>2297</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>2267</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>26</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>88</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>2255</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>2232</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>2231</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>2301</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>122</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>2304</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>115</id>
+              <name></name>
+            </aye>
+            <aye>
+              <id>130</id>
+              <name></name>
+            </aye>
+          </ayes>
+          <noes>
+            <text></text>
+            <count>21</count>
+            <noe>
+              <id>2262</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2268</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2303</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2257</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2254</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2299</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2253</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2258</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2295</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2300</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2296</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>3</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2252</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2269</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>28</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2198</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>93</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2298</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2224</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2250</id>
+              <name></name>
+            </noe>
+            <noe>
+              <id>2236</id>
+              <name></name>
+            </noe>
+          </noes>
+          <questionresolved />
+        </division>
+      </subproceeding>
+    </topic>
+</proceeding>
+</hansard.toc>

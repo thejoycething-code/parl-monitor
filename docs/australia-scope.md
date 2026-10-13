@@ -650,8 +650,8 @@ Parity with the UK Division watch (Christopher: "start the same-day vote briefs"
    above).
 4. **Phase 3: the Australian 5CA** (votes, pairs, private bills, second
    reading amendments).
-5. **Phase 4: states and territories**, in the order the open data allows
-   (below).
+5. **Phase 4: states and territories**: BUILT 13 October 2026
+   (`docs/australia-states-scope.md`); divisions beyond NSW are its phase 2.
 
 ## Dates that matter
 
@@ -667,7 +667,17 @@ Parity with the UK Division watch (Christopher: "start the same-day vote briefs"
 - **Mid-2028 at the latest: the next election**, and with it every pending
   bill lapses at once (see "How bills lapse").
 
-## States and territories (scoped, not built)
+## States and territories (built 13 October 2026: docs/australia-states-scope.md)
+
+**Built** on branch `states-au`: `tools/au_states.py`, a step of the
+Australia weekly, reads each state's own open channel (the NSW Hansard API
+with every division and member vote; the Victorian, Queensland, Western
+Australian, Tasmanian, ACT and Northern Territory legislation registers;
+South Australia's Legislative Tracking system) into the `aus_*` tables, and
+the edition carries a "States and territories" section. Everything measured
+is in `docs/australia-states-scope.md`; the paragraphs below are the first
+scoping of 9 October, kept for the record.
+
 
 Much of our ground is state law. Background, not measured here: voluntary
 assisted dying is legal in all six states and the ACT's law has passed;

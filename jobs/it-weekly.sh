@@ -21,6 +21,9 @@
 # store is not worth the divergence of a published store whose sidecar never
 # got committed, and the next run re-reads whatever this one missed.
 #
+# THE SENATE'S AMENDMENT TEXTS (12 October 2026): after the regional councils,
+# tools/it_senato_amendments.py (see its step below).
+#
 # THE EDITION (10 October 2026): after the collector, the Italian weekly
 # edition (tools/it_monitor.py, src/country_edition.py) is rendered to
 # editions/it-monitor-<date>.md and DMed to Chris alone. Once a day: an
@@ -43,8 +46,9 @@ rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-# The third argument keeps the regional councils' 5 minutes (below) out of it.
-python3 tools/it_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" || rc=$?
+# The third argument keeps the regional councils' 5 minutes and the Senate
+# amendment texts' 5 minutes (below) out of it.
+python3 tools/it_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" || rc=$?
 # The regional councils (IT3, tools/it_regions.py, docs/italy-regions-scope.md):
 # Lombardia, Campania, Marche and the Provincia autonoma di Trento into
 # it_reg_acts, before the edition, which shows them in a section of their own.
@@ -55,6 +59,23 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/it_regions.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" || r=$?
   if [ "$r" -ne 0 ] && [ "$r" -ne 3 ]; then
     echo "  [gap] the regional councils step failed (exit $r); last week's acts stand"
+  fi
+fi
+# The Senate's amendment texts (12 October 2026, tools/it_senato_amendments.py,
+# src/it_amendments.py): for the Senate acts with votes on our ground, the
+# amendment and order-of-the-day files from the Senate's own GitHub
+# repository (AkomaNtosoBulkData) into it_senate_amendments, each vote linked
+# to its text, so the 5CA drafts, the amendment worklist and the session
+# judge's queue carry the text. One git trees API request per act due and
+# raw files only when new or changed (GitHub's anonymous 60 an hour; a
+# GITHUB_TOKEN already in the runner's environment is used if present).
+# After the collector, so this week's votes are linked. Its failure (exit
+# other than 0 or 3) is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  r=0
+  python3 tools/it_senato_amendments.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" || r=$?
+  if [ "$r" -ne 0 ] && [ "$r" -ne 3 ]; then
+    echo "  [gap] the Senate amendment texts step failed (exit $r); last week's texts stand"
   fi
 fi
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read

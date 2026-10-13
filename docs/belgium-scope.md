@@ -354,6 +354,13 @@ about eighteen weekly runs at 100 pages.
    - Parliament of the German-speaking Community, `pdg.be`.
    Education, youth and much of health and family policy are community
    matters, so these carry ground the Chamber does not.
+   **Built 13 October 2026** (branch `regions-be`,
+   `docs/belgium-regions-scope.md`): Flanders (documents, dated statuses,
+   recorded votes with every member, members, from its open data), Wallonia
+   (its Open Data), Brussels and the COCOM (the dossier file), the FWB in
+   part (newest documents and plenary agendas), in a "Communities and
+   regions" section of the edition; the German-speaking Community is behind
+   a Cloudflare challenge, COCOF and the VGC are not built.
 
 ## Dates that matter
 

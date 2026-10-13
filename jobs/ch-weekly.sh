@@ -1,7 +1,7 @@
 #!/bin/bash
 # Switzerland weekly: members, sessions, businesses and the recorded votes of
-# the Nationalrat and the Staenderat (tools/ch_rollcalls.py), then publish the
-# raw archive and the store.
+# the Nationalrat and the Staenderat (tools/ch_rollcalls.py), the cantonal
+# parliaments (tools/ch_cantons.py), then publish the raw archive and the store.
 #
 # Called by .github/workflows/ch-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh ch-weekly. One script, two callers. Both callers fetch
@@ -44,12 +44,27 @@ if [ "${CH_RECLASSIFY:-}" = "true" ]; then
   python3 tools/country_petitions.py ch --reclassify
   python3 tools/ch_rollcalls.py --reclassify
   python3 tools/ch_chamber.py --reclassify
+  python3 tools/ch_cantons.py --reclassify || echo "  [gap] the cantonal reclassify failed"
 fi
 rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/ch_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" || rc=$?
+# The third argument keeps the cantons' 7 minutes (below) out of it.
+python3 tools/ch_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 420)" || rc=$?
+# The cantonal parliaments (CH7, tools/ch_cantons.py,
+# docs/switzerland-cantons-scope.md): Zuerich, Bern, Geneva, Vaud and Ticino
+# into ch_canton_acts / ch_canton_divisions, before the edition, which shows them
+# in a Cantons section of their own. About 60 requests (Bern's two daily
+# exports are 17 MB); every request asks robots.txt first. Its failure (exit
+# other than 0 or 3) is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  r=0
+  python3 tools/ch_cantons.py --budget-seconds "$(bash tools/collector_budget.sh 420 "$SECONDS")" || r=$?
+  if [ "$r" -ne 0 ] && [ "$r" -ne 3 ]; then
+    echo "  [gap] the cantonal parliaments step failed (exit $r); last week's acts stand"
+  fi
+fi
 # What was said and asked in the chamber (tools/ch_chamber.py, parity layer 5):
 # time-boxed to what is left of the hour, never fatal, skipped on GitHub.
 bash tools/chamber_step.sh ch "$SECONDS"

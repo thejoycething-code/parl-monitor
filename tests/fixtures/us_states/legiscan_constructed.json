@@ -1,0 +1,339 @@
+{
+ "getSessionList": {
+  "status": "OK",
+  "sessions": [
+   {
+    "session_id": 2172,
+    "state_id": 43,
+    "year_start": 2025,
+    "year_end": 2025,
+    "prefile": 0,
+    "sine_die": 1,
+    "prior": 0,
+    "special": 0,
+    "session_tag": "Regular Session",
+    "session_title": "89th Legislature Regular Session",
+    "session_name": "89th Legislature",
+    "dataset_hash": "aaaa"
+   },
+   {
+    "session_id": 2100,
+    "state_id": 5,
+    "year_start": 2025,
+    "year_end": 2026,
+    "prefile": 0,
+    "sine_die": 0,
+    "prior": 0,
+    "special": 0,
+    "session_tag": "Regular Session",
+    "session_title": "2025-2026 Regular Session",
+    "session_name": "2025-2026 Session",
+    "dataset_hash": "bbbb"
+   },
+   {
+    "session_id": 1791,
+    "state_id": 5,
+    "year_start": 2021,
+    "year_end": 2022,
+    "prefile": 0,
+    "sine_die": 1,
+    "prior": 1,
+    "special": 0,
+    "session_tag": "Regular Session",
+    "session_title": "2021-2022 Regular Session",
+    "session_name": "2021-2022 Session",
+    "dataset_hash": "cccc"
+   },
+   {
+    "session_id": 2201,
+    "state_id": 30,
+    "year_start": 2026,
+    "year_end": 2027,
+    "prefile": 0,
+    "sine_die": 0,
+    "prior": 0,
+    "special": 0,
+    "session_tag": "Regular Session",
+    "session_title": "222nd Legislature",
+    "session_name": "222nd Legislature",
+    "dataset_hash": "dddd"
+   }
+  ]
+ },
+ "getMasterList-2100": {
+  "status": "OK",
+  "masterlist": {
+   "session": {
+    "session_id": 2100,
+    "session_name": "2025-2026 Session"
+   },
+   "0": {
+    "bill_id": 1900001,
+    "number": "AB1999",
+    "change_hash": "h1999",
+    "url": "https://legiscan.com/CA/bill/AB1999/2025",
+    "status_date": "2026-09-14",
+    "status": "4",
+    "last_action_date": "2026-10-08",
+    "last_action": "Chaptered by Secretary of State.",
+    "title": "Abortion: reproductive health care services.",
+    "description": "An act relating to abortion."
+   },
+   "1": {
+    "bill_id": 1900002,
+    "number": "AB2",
+    "change_hash": "h2",
+    "url": "https://legiscan.com/CA/bill/AB2/2025",
+    "status_date": "2026-09-01",
+    "status": "1",
+    "last_action_date": "2026-10-07",
+    "last_action": "Read first time.",
+    "title": "Community colleges: California College Promise.",
+    "description": "An act to amend Section 76396.3."
+   },
+   "2": {
+    "bill_id": 1900003,
+    "number": "SB10",
+    "change_hash": "h10",
+    "url": "https://legiscan.com/CA/bill/SB10/2025",
+    "status_date": "2026-01-01",
+    "status": "1",
+    "last_action_date": "2026-01-05",
+    "last_action": "Introduced.",
+    "title": "Assisted suicide: end of life options.",
+    "description": ""
+   }
+  }
+ },
+ "getMasterList-2201": {
+  "status": "OK",
+  "masterlist": {
+   "0": {
+    "bill_id": 2000001,
+    "number": "A0123",
+    "change_hash": "hnj",
+    "url": "https://legiscan.com/NJ/bill/A123/2026",
+    "status_date": "2026-10-06",
+    "status": "2",
+    "last_action_date": "2026-10-06",
+    "last_action": "Passed by the Assembly (52-20-0)",
+    "title": "Requires parental consent for minors' gender transition procedures.",
+    "description": "Requires parental consent."
+   }
+  }
+ },
+ "getBill-1900001": {
+  "status": "OK",
+  "bill": {
+   "bill_id": 1900001,
+   "change_hash": "h1999",
+   "session_id": 2100,
+   "url": "https://legiscan.com/CA/bill/AB1999/2025",
+   "state_link": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260AB1999",
+   "status": 4,
+   "progress": [
+    {
+     "date": "2025-02-20",
+     "event": 1
+    },
+    {
+     "date": "2026-05-28",
+     "event": 2
+    },
+    {
+     "date": "2026-08-20",
+     "event": 3
+    },
+    {
+     "date": "2026-09-14",
+     "event": 4
+    }
+   ],
+   "state": "CA",
+   "bill_number": "AB1999",
+   "bill_type": "B",
+   "body": "A",
+   "title": "Abortion: reproductive health care services.",
+   "description": "An act relating to abortion.",
+   "history": [
+    {
+     "date": "2025-02-20",
+     "action": "Read first time. To print.",
+     "chamber": "A",
+     "importance": 1
+    },
+    {
+     "date": "2026-05-28",
+     "action": "Read third time. Passed. Ordered to the Senate.",
+     "chamber": "A",
+     "importance": 1
+    },
+    {
+     "date": "2026-08-20",
+     "action": "Senate amendments concurred in. To Engrossing and Enrolling.",
+     "chamber": "A",
+     "importance": 1
+    },
+    {
+     "date": "2026-09-14",
+     "action": "Approved by the Governor.",
+     "chamber": "A",
+     "importance": 1
+    },
+    {
+     "date": "2026-10-08",
+     "action": "Chaptered by Secretary of State - Chapter 512, Statutes of 2026.",
+     "chamber": "A",
+     "importance": 1
+    }
+   ],
+   "sponsors": [
+    {
+     "people_id": 4718,
+     "name": "Cecilia Aguiar-Curry",
+     "sponsor_type_id": 1
+    }
+   ],
+   "subjects": [
+    {
+     "subject_id": 1,
+     "subject_name": "Health"
+    }
+   ],
+   "votes": [
+    {
+     "roll_call_id": 806862,
+     "date": "2026-10-08",
+     "desc": "Assembly Floor - Concurrence",
+     "yea": 60,
+     "nay": 15,
+     "nv": 5,
+     "absent": 0,
+     "total": 80,
+     "passed": 1,
+     "chamber": "A",
+     "url": "https://legiscan.com/CA/rollcall/AB1999/id/806862",
+     "state_link": null
+    }
+   ]
+  }
+ },
+ "getBill-2000001": {
+  "status": "OK",
+  "bill": {
+   "bill_id": 2000001,
+   "change_hash": "hnj",
+   "session_id": 2201,
+   "url": "https://legiscan.com/NJ/bill/A123/2026",
+   "state_link": "https://www.njleg.state.nj.us/bill-search/2026/A123",
+   "status": 2,
+   "progress": [
+    {
+     "date": "2026-01-13",
+     "event": 1
+    },
+    {
+     "date": "2026-10-06",
+     "event": 2
+    }
+   ],
+   "state": "NJ",
+   "bill_number": "A123",
+   "bill_type": "B",
+   "body": "A",
+   "title": "Requires parental consent for minors' gender transition procedures.",
+   "description": "Requires parental consent.",
+   "history": [
+    {
+     "date": "2026-01-13",
+     "action": "Introduced, Referred to Assembly Health Committee",
+     "chamber": "A"
+    },
+    {
+     "date": "2026-10-06",
+     "action": "Passed by the Assembly (52-20-0)",
+     "chamber": "A"
+    }
+   ],
+   "sponsors": [
+    {
+     "people_id": 11,
+     "name": "Jane Doe",
+     "sponsor_type_id": 1
+    }
+   ],
+   "subjects": [],
+   "votes": [
+    {
+     "roll_call_id": 900001,
+     "date": "2026-10-06",
+     "desc": "Assembly Floor - Third Reading",
+     "yea": 2,
+     "nay": 1,
+     "nv": 0,
+     "absent": 0,
+     "total": 3,
+     "passed": 1,
+     "chamber": "A",
+     "url": "https://legiscan.com/NJ/rollcall/A123/id/900001",
+     "state_link": null
+    }
+   ]
+  }
+ },
+ "getSessionPeople-2201": {
+  "status": "OK",
+  "sessionpeople": {
+   "session": {
+    "session_id": 2201
+   },
+   "people": [
+    {
+     "people_id": 11,
+     "name": "Jane Doe"
+    },
+    {
+     "people_id": 12,
+     "name": "John Roe"
+    },
+    {
+     "people_id": 13,
+     "name": "Ann Poe"
+    }
+   ]
+  }
+ },
+ "getRollCall-900001": {
+  "status": "OK",
+  "roll_call": {
+   "roll_call_id": 900001,
+   "bill_id": 2000001,
+   "date": "2026-10-06",
+   "desc": "Assembly Floor - Third Reading",
+   "yea": 2,
+   "nay": 1,
+   "nv": 0,
+   "absent": 0,
+   "total": 3,
+   "passed": 1,
+   "chamber": "A",
+   "votes": [
+    {
+     "people_id": 11,
+     "vote_id": 1,
+     "vote_text": "Yea"
+    },
+    {
+     "people_id": 12,
+     "vote_id": 1,
+     "vote_text": "Yea"
+    },
+    {
+     "people_id": 13,
+     "vote_id": 2,
+     "vote_text": "Nay"
+    }
+   ]
+  }
+ }
+}
