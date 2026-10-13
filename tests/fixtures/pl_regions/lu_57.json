@@ -1,0 +1,33 @@
+{
+"sEcho": 1,
+"iTotalDisplayRecords": "135",
+"iTotalRecords": "135",
+"aaData": [
+{
+"id_dokumentu": "2328449",
+"id_menu": "57",
+"wprowadzajacy": "",
+"wytwarzajacy": "",
+"data_utworzenia": "2026-06-25",
+"tresc": "Stanowisko Sejmiku Województwa Lubelskiego  w sprawie wzmocnienia wschodniej flanki NATO poprzez utworzenie stałej bazy wojsk Stanów Zjednoczonych Ameryki na terenie Województwa Lubelskiego",
+"znak": null,
+"wydzial": "0",
+"dziennik_link": null,
+"opis": "",
+"kolejnosc": "2"
+},
+{
+"id_dokumentu": "1677532",
+"id_menu": "57",
+"wprowadzajacy": "",
+"wytwarzajacy": "",
+"data_utworzenia": "2021-09-27",
+"tresc": "Stanowisko Sejmiku Województwa Lubelskiego zmieniające stanowisko z dnia 25 kwietnia 2019 r.",
+"znak": null,
+"wydzial": "0",
+"dziennik_link": null,
+"opis": "",
+"kolejnosc": "1"
+}
+]
+}

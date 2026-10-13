@@ -10,6 +10,18 @@ index and one sitting's attachments. One journal position is EDITED: a
 supervisory ruling on a municipal council's act with its Subject changed to
 "Sejmik Województwa Mazowieckiego" and its position to 99999, because no
 ruling on a sejmik's act was published in the two months read. No network.
+
+Second build (13 October 2026, nine more registers), trimmed the same way:
+Wielkopolskie's index of sittings and one sitting's table; Lubelskie's two
+document lists (the page's own JSON; staff names blanked, and the 27
+September 2021 amending position appended from the first read's reply,
+because the weekly read's twenty rows stop in 2024); two Kujawsko-Pomorskie
+agendas and one agenda's items; Warmińsko-Mazurskie's filtered act list and
+stanowiska category; Świętokrzyskie's register page and the text of its
+register PDF (pypdf's output, first and last sittings); Lubuskie's filtered
+act list plus one board resolution from the unfiltered list; the Madkom JSON
+of Małopolskie, Pomorskie and Dolnośląskie (a menu's year children and two
+articles of a year list).
 """
 
 import json
@@ -62,6 +74,13 @@ class FakeClient:
 
     def get_text(self, url, feed, slug, **kw):
         return self._get(url)
+
+    def get_bytes(self, url, feed, slug, **kw):
+        return self._get(url).encode("utf-8")
+
+    def post_form(self, url, fields, feed, slug, **kw):
+        self.posted = dict(fields)
+        return self._get(url + "#post")
 
     def set_host_throttle(self, host, seconds):
         pass
@@ -278,6 +297,194 @@ class MainRun(unittest.TestCase):
             self.assertIn("robots.txt", conn.execute("SELECT detail FROM gaps").fetchone()[0])
 
 
+class NewRegisters(unittest.TestCase):
+    """The nine registers added on 13 October 2026."""
+
+    def test_wielkopolskie(self):
+        sessions = R.parse_wp_index(fixture("wp_index.html"))
+        self.assertEqual(sessions[0][1:], ("XXVIII sesja", "2026-09-28"))
+        acts = R.parse_wp_session(fixture("wp_session.html"), sessions[0][0], *sessions[0][1:])
+        self.assertEqual([a["key"] for a in acts], ["wp/XXVIII/681/26", "wp/XXVIII/682/26"])
+        self.assertTrue(acts[0]["title"].startswith("zmieniająca uchwałę Nr XX/473/25"))
+        self.assertEqual(acts[0]["url"], "https://bip.umww.pl/artykuly/2834351/pliki/"
+                         "20260929113036_uchwaanrxxviii68126.pdf")
+        self.assertEqual(acts[0]["adopted"], "2026-09-28")
+
+    def test_lubelskie(self):
+        acts = R.parse_lubelskie(json.loads(fixture("lu_56.json")), 56)
+        self.assertEqual(acts[0]["key"], "lu/XXV/427/2026")
+        self.assertEqual(acts[0]["adopted"], "2026-09-23")
+        self.assertIn("p1=szczegoly&p2=", acts[0]["url"])
+        docs = by_key(R.parse_lubelskie(json.loads(fixture("lu_57.json")), 57))
+        self.assertEqual(docs["lu/doc/1677532"]["kind"], "stanowisko")
+        self.assertIsNone(docs["lu/doc/1677532"]["number"])
+        self.assertIn("iDisplayLength=60", R.lu_url(56, 60))
+
+    def test_kujawsko_pomorskie_drafts(self):
+        sessions = R.parse_kp_index(fixture("kp_index.html"))
+        self.assertEqual([s[1] for s in sessions], ["XXX sesja", "XXIX sesja"])
+        acts = R.parse_kp_agenda(fixture("kp_agenda.html"), *sessions[0])
+        self.assertEqual([a["key"] for a in acts], ["kp/druk/64/26", "kp/druk/65/26", "kp/druk/63/26"])
+        self.assertEqual(acts[0]["kind"], "projekt uchwały")
+        self.assertEqual(acts[0]["adopted"], "2026-09-28")
+        self.assertTrue(acts[2]["title"].startswith("w sprawie udzielenia pomocy finansowej"))
+
+    def test_warminsko_mazurskie(self):
+        acts = R.parse_wn(fixture("wn_list.html"))
+        self.assertEqual(acts[0]["key"], "wn/XXVII/465/26")
+        self.assertEqual(acts[0]["adopted"], "2026-09-29")
+        self.assertTrue(acts[0]["title"].startswith("w sprawie"))
+        st = R.parse_wn(fixture("wn_stanowiska.html"), R.WN_STANOWISKA)
+        self.assertEqual(st[0]["key"], "wn/doc/4232")
+        self.assertEqual(st[0]["kind"], "stanowisko")
+
+    def test_swietokrzyskie(self):
+        self.assertTrue(R.parse_sk_pdf_link(fixture("sk_page.html")).startswith(
+            "https://bip.sejmik.kielce.pl/download/"))
+        acts = by_key(R.parse_sk_register(fixture("sk_register.txt")))
+        self.assertEqual(acts["sk/I/1/24"]["adopted"], "2024-05-06")
+        a = acts["sk/XXX/362/26"]
+        self.assertEqual(a["adopted"], "2026-08-17")
+        self.assertEqual(a["session"], "XXX sesja")
+        self.assertNotIn("Wojewoda", a["title"])
+        self.assertTrue(a["title"].startswith("w sprawie przyjęcia apelu"))
+        self.assertNotIn("RIO", acts["sk/XXX/359/26"]["title"])
+
+    def test_pdf_without_pypdf_is_a_gap(self):
+        import builtins
+        real = builtins.__import__
+
+        def no_pypdf(name, *a, **kw):
+            if name == "pypdf":
+                raise ImportError(name)
+            return real(name, *a, **kw)
+        builtins.__import__ = no_pypdf
+        try:
+            with self.assertRaises(ValueError):
+                R.pdf_text(b"%PDF-1.6")
+        finally:
+            builtins.__import__ = real
+
+    def test_lubuskie(self):
+        acts = R.parse_lubuskie(fixture("lb_list.html"))
+        self.assertEqual([a["key"] for a in acts], ["lb/XXIII/365/26", "lb/XXIII/364/26"])  # board's dropped
+        self.assertEqual(acts[0]["adopted"], "2026-09-21")
+        self.assertTrue(acts[1]["title"].startswith("w sprawie rozpatrzenia petycji"))
+        form = '<select name="filtr[id_grupa]"><option value="61" >Uchwa&#x142;y Sejmiku 2027</option>'
+        self.assertEqual(R.lb_year_group(form, 2027), "61")
+        self.assertEqual(R.lb_year_group("<html></html>", 2026), "59")
+        self.assertIsNone(R.lb_year_group("<html></html>", 2031))
+
+    def test_madkom_three_layouts(self):
+        ma = R.parse_madkom(json.loads(fixture("ma_2026.json")), "ma", "uchwała", R.MADKOM["ma"][0])
+        self.assertEqual(ma[0]["key"], "ma/XXXIV/513/26")
+        self.assertEqual(ma[0]["adopted"], "2026-09-28")
+        self.assertTrue(ma[0]["title"].startswith("w sprawie zmian w składach"))
+        self.assertTrue(ma[0]["url"].startswith("https://bip.malopolska.pl/umwm,a,2946979,"))
+        dk = by_key(R.parse_madkom(json.loads(fixture("ma_deklaracje_2021.json")), "ma", "deklaracja",
+                                   R.MADKOM["ma"][0]))
+        self.assertEqual(dk["ma/deklaracja/5/21"]["adopted"], "2021-09-27")
+        self.assertEqual(dk["ma/deklaracja/5/21"]["kind"], "deklaracja")
+        pm = R.parse_madkom(json.loads(fixture("pm_2026.json")), "pm", "uchwała", R.MADKOM["pm"][0])
+        self.assertEqual(pm[0]["key"], "pm/366/XXX/26")          # Pomorskie's own number order
+        ds = R.parse_madkom(json.loads(fixture("ds_2026.json")), "ds", "uchwała", R.MADKOM["ds"][0])
+        self.assertEqual(ds[0]["key"], "ds/XXX/898/26")
+        self.assertEqual(ds[0]["published"], "2026-10-07")       # only a publication date: adopted falls back
+        self.assertEqual(ds[0]["adopted"], "2026-10-07")
+
+    def test_madkom_years(self):
+        self.assertEqual(R.madkom_years(json.loads(fixture("pm_menu_42.json")), "42")[0], (2026, "762"))
+        ds = R.madkom_years(json.loads(fixture("ds_menu_1914.json")), "1914")
+        self.assertEqual(ds[0], (2026, "2842"))                  # 'Rejestr Uchwał' is not a year
+        self.assertNotIn("1983", [m for _, m in ds])
+
+
+class Citations(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.path = os.path.join(self.tmp.name, "watchlist-pl.yaml")
+        with open(self.path, "w", encoding="utf-8") as fh:
+            fh.write('regional:\n'
+                     '  "sk/X/125/19": {areas: [5], why: "2019 position"}\n'
+                     '  "ma/deklaracja/1/19": {areas: [5], why: "Deklaracja Nr 1/19"}\n'
+                     '  "lu/doc/1382854": {areas: [5], why: "2019 position", '
+                     'cites: ["stanowisko z dnia 25 kwietnia 2019"]}\n')
+        self.tax = filt.load_taxonomy(TAX, country="pl")
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def res(self, key, title):
+        return R.classify(self.tax, R.empty_watchlist(), act(key, title, region=key.split("/")[0]), self.path)
+
+    def test_repeal_citing_the_number(self):
+        r = self.res("sk/XL/600/22", "w sprawie uchylenia uchwały Nr X/125/19 Sejmiku Województwa")
+        self.assertEqual(r.issue_areas, [5])
+        self.assertIn("cites:sk/X/125/19", r.watchlist_hits)
+        self.assertEqual(r.tier, 2)
+
+    def test_kind_numbered_apart_needs_the_kind(self):
+        self.assertIn("cites:ma/deklaracja/1/19", self.res(
+            "ma/deklaracja/5/21", "Deklaracja Nr 5/21 w sprawie uchylenia Deklaracji Nr 1/19").watchlist_hits)
+        self.assertEqual(self.res("ma/apel/2/19", "Apel Nr 1/19 w sprawie kolei").issue_areas, [])
+
+    def test_phrase_for_an_unnumbered_position(self):
+        r = self.res("lu/doc/1677532", "Stanowisko Sejmiku Województwa Lubelskiego zmieniające stanowisko "
+                                       "z dnia 25 kwietnia 2019 r.")
+        self.assertIn("cites:lu/doc/1382854", r.watchlist_hits)
+
+    def test_other_voivodeship_and_longer_numbers_do_not_match(self):
+        self.assertEqual(self.res("ld/XL/600/22", "w sprawie uchylenia uchwały Nr X/125/19").issue_areas, [])
+        self.assertEqual(self.res("sk/XL/601/22", "zmieniająca uchwałę Nr XX/125/19").issue_areas, [])
+        self.assertEqual(self.res("sk/XL/602/22", "zmieniająca uchwałę Nr X/125/190").issue_areas, [])
+
+
+class NewTerms(unittest.TestCase):
+    """taxonomy-pl v0.3 (Chris, 13 October 2026: "Add both")."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tax = filt.load_taxonomy(TAX, country="pl")
+
+    def res(self, title):
+        return filt.filter_item(self.tax, R.empty_watchlist(), title, title=title)
+
+    def test_family_charter(self):
+        for t in ("w sprawie przyjęcia Samorządowej Karty Praw Rodzin",
+                  "w sprawie petycji dotyczącej przyjęcia „Karty Praw Rodziny”"):
+            r = self.res(t)
+            self.assertIn(9, r.issue_areas)
+            self.assertIn("Kart* Praw Rodzin*", r.matched_terms)
+            self.assertEqual(r.tier, 1)
+        self.assertNotIn("Kart* Praw Rodzin*", self.res("Karta Dużej Rodziny").matched_terms or [])
+
+    def test_ideology_free_zones(self):
+        r = self.res("w sprawie uchylenia deklaracji: strefy wolne od ideologii")
+        self.assertIn(5, r.issue_areas)
+        self.assertIn("stref* wolne od ideologii", r.matched_terms)
+
+
+class NewRegistersRun(unittest.TestCase):
+    def test_lubuskie_posts_its_filter_and_madkom_reads_the_year(self):
+        site = R.MADKOM["pm"][0]
+        pages = [(R.LB_LIST, "<html></html>"), (R.LB_LIST + "#post", fixture("lb_list.html")),
+                 (R.madkom_menu_url(site, "42"), fixture("pm_menu_42.json")),
+                 (site + "api/menu/762/articles*", fixture("pm_2026.json")),
+                 (site + "api/menu/693/articles*", '{"columns": [], "articles": []}')]
+        with tempfile.TemporaryDirectory() as tmp:
+            rc, conn, client = run_main(pages, ["--region", "lb", "pm", "--source", "bip"], tmp)
+            self.assertEqual(rc, 0)
+            got = dict(conn.execute("SELECT region, COUNT(*) FROM plr_acts GROUP BY region").fetchall())
+            self.assertEqual(got, {"lb": 2, "pm": 2})
+            self.assertEqual(client.posted["filtr[id_grupa]"], R.LB_YEAR_GROUP[2026])
+            self.assertTrue(any("/api/menu/762/articles?limit=200" in u for u in client.urls))  # first read
+
+    def test_every_register_has_a_reader(self):
+        self.assertEqual(set(R.REGISTERS), set(R.REGISTER_FETCH))
+        self.assertEqual(set(R.REGISTERS), set(pl_ed.REGISTERS))
+        self.assertEqual(len(R.REGISTERS) + len(pl_ed.NOT_READ), 16)
+
+
 class Edition(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -324,6 +531,20 @@ class Edition(unittest.TestCase):
         out = pl_ed.post_render(self.conn, pl_ed.COUNTRY, "2026-10-13", text, {})
         self.assertLess(out.index("## Regional assemblies"), out.index("## Watchlist"))
         self.assertIn("in vitro", out)
+
+    def test_draft_on_an_agenda_is_not_called_adopted(self):
+        tax = filt.load_taxonomy(TAX, country="pl")
+        a = act("kp/druk/70/26", "w sprawie przyjęcia programu in vitro", region="kp", number="druk nr 70/26")
+        a["kind"] = "projekt uchwały"
+        R.store_all(self.conn, [a], tax, R.empty_watchlist(), "2026-10-13", seed=True)
+        got = {it["key"]: it for it in pl_ed.regional_items(self.conn, "2026-10-04", "2026-10-11", {})}
+        it = got["kp/druk/70/26"]
+        self.assertEqual(it["layer"], "agenda")
+        self.assertIn("Draft resolution (druk nr 70/26) on the agenda", it["takeaway"])
+        self.assertNotIn("adopted", it["takeaway"])
+        text = "\n".join(pl_ed.regional_section(self.conn, pl_ed.COUNTRY, "2026-10-04", "2026-10-11", {}))
+        self.assertIn("### On a sejmik's agenda", text)
+        self.assertIn("Not read: the registers of Zachodniopomorskie", text)
 
     def test_no_section_before_first_run(self):
         with tempfile.TemporaryDirectory() as tmp:

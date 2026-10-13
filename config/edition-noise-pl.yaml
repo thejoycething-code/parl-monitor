@@ -29,6 +29,13 @@ exclude_titles:
   # oświatowe").
   - '\bocen\w* zasobow pomocy spolecznej\b'
   - '\bplanu sieci publicznych placowek doskonalenia nauczycieli\b'
+  # Second build (13 October 2026, thirteen registers): place and
+  # institution names the taxonomy's religion terms catch: Gmina Kościelisko
+  # ("Kościel*", a Małopolskie road grant) and the Catholic University of
+  # Lublin's property and hospital-asset deals ("katolick*", four Lubelskie
+  # resolutions).
+  - '\bkoscielisk\w*'
+  - '\bkatolickiego uniwersytetu lubelskiego\b'
 alert:
   title_tier1: true
   distinct_terms: 2

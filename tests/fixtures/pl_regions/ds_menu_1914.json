@@ -1,0 +1,75 @@
+[
+{
+"id": "3",
+"name": "Menu podmiotowe",
+"type": "S",
+"children": [
+{
+"id": "1914",
+"targetId": 1914,
+"link": "m,1914,uchwaly-sejmiku.html",
+"name": "Uchwały Sejmiku",
+"parent": 1796,
+"type": "D",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": [
+{
+"id": "1983",
+"targetId": 1983,
+"link": "m,1983,rejestr-uchwal.html",
+"name": "Rejestr Uchwał",
+"parent": 1914,
+"type": "N",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": null
+},
+{
+"id": "2842",
+"targetId": 2842,
+"link": "m,2842,2026-vii-kadencja.html",
+"name": "2026 VII kadencja",
+"parent": 1914,
+"type": "N",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": null
+},
+{
+"id": "2751",
+"targetId": 2751,
+"link": "m,2751,2025-vii-kadencja.html",
+"name": "2025 VII kadencja",
+"parent": 1914,
+"type": "N",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": null
+},
+{
+"id": "2716",
+"targetId": 2716,
+"link": "m,2716,2024-vii-kadencja.html",
+"name": "2024 VII kadencja",
+"parent": 1914,
+"type": "N",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": null
+}
+]
+}
+]
+}
+]

@@ -1,0 +1,62 @@
+[
+{
+"id": "3",
+"name": "Menu podmiotowe",
+"type": "S",
+"children": [
+{
+"id": "1032",
+"targetId": "469259",
+"link": "umwm,m,469259,2026.html",
+"name": "Uchwały Sejmiku",
+"parent": 5,
+"type": "D",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": [
+{
+"id": "469259",
+"targetId": 469259,
+"link": "umwm,m,469259,2026.html",
+"name": "2026",
+"parent": 1032,
+"type": "N",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": null
+},
+{
+"id": "449687",
+"targetId": 449687,
+"link": "umwm,m,449687,2025.html",
+"name": "2025",
+"parent": 1032,
+"type": "N",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": null
+},
+{
+"id": "428003",
+"targetId": 428003,
+"link": "umwm,m,428003,2024.html",
+"name": "2024",
+"parent": 1032,
+"type": "N",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": null
+}
+]
+}
+]
+}
+]

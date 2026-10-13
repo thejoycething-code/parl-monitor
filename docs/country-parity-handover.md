@@ -1135,19 +1135,46 @@ edition has a "Regional assemblies" section. Scope:
   (local law, budgets, statutes, programmes) and the voivode's rulings on
   them, two requests a journal a run. Kujawsko-Pomorskie's journal does not
   answer from the UK (listed, `--region kp` tries it).
-- **Registers of resolutions, 4 of 16:** Mazowieckie and Śląskie (the same
-  BIP CMS), Łódzkie (one table of the term), Podkarpackie (sittings with
-  their resolutions as attachments): every resolution, binding or not, so
-  stanowiska and declarations such as the Family Charter, which the
-  journals never carry.
-- **Not read:** twelve registers (Opolskie times out, Podlaskie's BIP
-  domain no longer resolves, Małopolskie, Pomorskie and Dolnośląskie are
-  JavaScript applications, seven plain-HTML layouts not parsed yet);
-  councillors' recorded votes and members (PDFs per sitting, phase 2);
+- **Registers of resolutions, 13 of 16** (4 on the first build, 9 more the
+  same day after Chris's "Build all reachable ones"): Mazowieckie and Śląskie
+  (the same BIP CMS), Łódzkie (one table of the term), Podkarpackie (sittings
+  with their resolutions as attachments), Małopolskie, Pomorskie and
+  Dolnośląskie (one platform: a JavaScript application over its own JSON API
+  at `/api/` on the same host, which robots.txt allows), Lubelskie (the
+  page's own DataTables JSON call), Świętokrzyskie (the term's register PDF,
+  read with pypdf: a gap where pypdf is missing), Wielkopolskie (sittings
+  with a table each), Warmińsko-Mazurskie (a GET filter of the BIP's act
+  list), Lubuskie (the BIP's own filter form, a POST, cookies kept for the
+  run) and Kujawsko-Pomorskie (no list of adopted resolutions is published
+  and the sejmik's own site answers us 403: the sittings' agendas are read
+  and their draft resolutions stored as drafts, shown under "On a sejmik's
+  agenda"). Every resolution, binding or not, so stanowiska, apele and
+  declarations, which the journals never carry.
+- **Not read:** three registers: Zachodniopomorskie (since 2021 a staff
+  application, baw2.wzp.pl, whose bundle has no public list endpoint; older
+  resolutions are an article), Podlaskie (BIP domain gone), Opolskie (times
+  out); councillors' recorded votes and members (PDFs per sitting, phase 2);
   eSesja (`*.esesja.pl`) answers with a Cloudflare challenge: blocked,
   never bypassed.
-- **First run (scratch store):** 892 acts, 3 on our ground at tier 2, two of
-  them yearly boilerplate now in `config/edition-noise-pl.yaml`.
-- **Waiting on Chris:** the Family Charter term ("Kart* Praw Rodzin*") for
-  the Polish taxonomy, seeding the regional watchlist, and which registers
-  come next (Małopolskie, Lubelskie, Świętokrzyskie suggested).
+- **First run (scratch store):** 892 acts with four registers; 3,041 with
+  thirteen (2,961 from the registers), 106 s for the first read and 74 s
+  for a weekly one, inside the step's five minutes (unchanged). 25 on our
+  ground after the watchlist (2 at tier 1, 23 at tier 2); two place or institution names the religion terms
+  caught (Gmina Kościelisko, the Catholic University of Lublin) are now in
+  `config/edition-noise-pl.yaml`.
+- **Taxonomy-pl v0.3** (Chris, "Add both"): "Kart* Praw Rodzin*" (area 9,
+  tier 1) and "stref* wolne od ideologii" (area 5, tier 1). National store:
+  0 matches for either. Regional: the Family Charter term 1 in the live read
+  (Małopolskie's answer to a Family Charter petition, March 2026) and 2 in
+  the registers' history (petitions in Lubelskie 2022 and Świętokrzyskie
+  2022), no false positive; the zones term 0 (the sejmiki titled their
+  declarations "ideologii LGBT", already matched).
+- **Regional watchlist seeded** (Chris, "Yes, seed it"): 19 entries in
+  `config/watchlist-pl.yaml`'s `regional:`, 5 from the live run and 14 from
+  the 2019-20 declarations and their repeals in Lubelskie, Małopolskie and
+  Świętokrzyskie, with exact keys as the readers store them. A later act of
+  the same voivodeship citing a watched act's number ("uchylenia uchwały nr
+  X/125/19") or an entry's `cites:` phrase inherits its areas
+  (`src/pl_regions_store.cited`). Łódzkie's Family Charter and Podkarpackie's
+  2019 position are listed "to add when first collected" (no register read
+  reaches them).

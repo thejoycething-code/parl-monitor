@@ -1,0 +1,46 @@
+{
+"sEcho": 1,
+"iTotalDisplayRecords": "4441",
+"iTotalRecords": "4441",
+"aaData": [
+{
+"id_dokumentu": "2358574",
+"id_menu": "56",
+"wprowadzajacy": "",
+"wytwarzajacy": "",
+"data_utworzenia": "2026-09-23",
+"tresc": "w sprawie zmian w uchwale budżetowej na 2026 rok",
+"znak": "XXV/427/2026",
+"wydzial": "0",
+"dziennik_link": null,
+"opis": "",
+"kolejnosc": "6"
+},
+{
+"id_dokumentu": "2358568",
+"id_menu": "56",
+"wprowadzajacy": "",
+"wytwarzajacy": "",
+"data_utworzenia": "2026-09-23",
+"tresc": "w sprawie zmiany Wieloletniej Prognozy Finansowej Województwa Lubelskiego",
+"znak": "XXV/426/2026",
+"wydzial": "0",
+"dziennik_link": null,
+"opis": "",
+"kolejnosc": "5"
+},
+{
+"id_dokumentu": "2358565",
+"id_menu": "56",
+"wprowadzajacy": "",
+"wytwarzajacy": "",
+"data_utworzenia": "2026-09-23",
+"tresc": "w sprawie zmiany Statutu Wojewódzkiego Szpitala Specjalistycznego w Białej Podlaskiej",
+"znak": "XXV/425/2026",
+"wydzial": "0",
+"dziennik_link": "https://edziennik.lublin.uw.gov.pl/WDU_L/2026/4601/akt.pdf",
+"opis": "",
+"kolejnosc": "4"
+}
+]
+}

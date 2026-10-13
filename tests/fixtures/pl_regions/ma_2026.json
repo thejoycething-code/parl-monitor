@@ -1,0 +1,154 @@
+{
+"limit": 20,
+"offset": 0,
+"total": 154,
+"listTitle": null,
+"hasArchived": false,
+"mainArticleId": 2813621,
+"menuPath": [
+{
+"id": "469259",
+"parentId": "1032",
+"name": "2026",
+"url": "umwm,m,469259,2026.html"
+},
+{
+"id": "1032",
+"parentId": "5",
+"name": "Uchwały Sejmiku",
+"url": "umwm,m,1032,uchwaly-sejmiku.html"
+},
+{
+"id": "5",
+"parentId": "3",
+"name": "Sejmik Województwa",
+"url": "umwm,m,5,sejmik-wojewodztwa.html"
+},
+{
+"id": "3",
+"parentId": null,
+"name": "Menu podmiotowe",
+"url": "umwm,m,3,menu-podmiotowe.html"
+}
+],
+"actualListLink": "umwm,m,469259,2026.html",
+"outdatedListLink": "umwm,o,469259,2026.html",
+"tabs": [],
+"linkMoreEnabled": false,
+"columns": [
+{
+"id": 4708,
+"name": "Nazwa",
+"position": 0,
+"width": 60,
+"columnFields": [
+{
+"id": "title",
+"name": "Tytuł",
+"position": 0,
+"templateFieldId": null,
+"fieldContent": "title",
+"isLink": true
+}
+]
+},
+{
+"id": 4709,
+"name": "Numer",
+"position": 0,
+"width": 15,
+"columnFields": [
+{
+"id": 9500,
+"name": "Numer aktu",
+"position": 0,
+"templateFieldId": 9500,
+"fieldContent": null,
+"isLink": false
+}
+]
+},
+{
+"id": 4710,
+"name": "Data",
+"position": 0,
+"width": 15,
+"columnFields": [
+{
+"id": 9498,
+"name": "Data utworzenia aktu",
+"position": 0,
+"templateFieldId": 9498,
+"fieldContent": null,
+"isLink": false
+}
+]
+},
+{
+"id": 4711,
+"name": "Akta prawa miejscowego",
+"position": 0,
+"width": 10,
+"columnFields": [
+{
+"id": 9501,
+"name": "Czy jest to akt prawa miejscowego?",
+"position": 0,
+"templateFieldId": 9501,
+"fieldContent": null,
+"isLink": false
+}
+]
+}
+],
+"searchFields": [],
+"sortFields": [],
+"articles": [
+{
+"id": "2946979",
+"link": "umwm,a,2946979,uchwala-nr-xxxiv51326-sejmiku-wojewodztwa-malopolskiego-z-dnia-28-wrzesnia-2026-r-w-sprawie-zmian-w-.html",
+"columnFields": [
+{
+"fieldId": "title",
+"value": "Uchwała Nr XXXIV/513/26 Sejmiku Wojew&oacute;dztwa Małopolskiego z dnia 28 września 2026 r. w sprawie zmian w składach osobowych komisji Sejmiku Wojew&oacute;dztwa Małopolskiego"
+},
+{
+"fieldId": 9501,
+"value": "NIE"
+},
+{
+"fieldId": 9498,
+"value": "2026-09-28"
+},
+{
+"fieldId": 9500,
+"value": "513"
+}
+]
+},
+{
+"id": "2946968",
+"link": "umwm,a,2946968,uchwala-nr-xxxiv51226-sejmiku-wojewodztwa-malopolskiego-z-dnia-28-wrzesnia-2026-r-w-sprawie-rozstrzy.html",
+"columnFields": [
+{
+"fieldId": "title",
+"value": "Uchwała Nr XXXIV/512/26 Sejmiku Wojew&oacute;dztwa Małopolskiego z dnia 28 września 2026 r. w sprawie rozstrzygnięcia skargi * na Marszałka Wojew&oacute;dztwa Małopolskiego w zakresie wniosk&oacute;w o przyznanie stypendium w ramach Małopolskiego programu wspierania uczni&oacute;w na rok szkolny 2024/2025"
+},
+{
+"fieldId": 9501,
+"value": "NIE"
+},
+{
+"fieldId": 9498,
+"value": "2026-09-28"
+},
+{
+"fieldId": 9500,
+"value": "512"
+}
+]
+}
+],
+"recursiveMenuDisplayEnabled": false,
+"menuShowOrderedListEnabled": false
+}

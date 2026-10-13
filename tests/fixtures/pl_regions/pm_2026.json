@@ -1,0 +1,194 @@
+{
+"limit": 5,
+"offset": 0,
+"total": 107,
+"listTitle": null,
+"hasArchived": false,
+"mainArticleId": null,
+"menuPath": [
+{
+"id": "762",
+"parentId": "42",
+"name": "2026",
+"url": "m,762,2026.html"
+},
+{
+"id": "42",
+"parentId": "23",
+"name": "Uchwały sejmiku",
+"url": "m,42,uchwaly-sejmiku.html"
+},
+{
+"id": "23",
+"parentId": "7",
+"name": "Sejmik",
+"url": "m,23,sejmik.html"
+},
+{
+"id": "7",
+"parentId": null,
+"name": "Menu podmiotowe",
+"url": "m,7,menu-podmiotowe.html"
+}
+],
+"actualListLink": "m,762,2026.html",
+"outdatedListLink": "o,762,2026.html",
+"tabs": [],
+"linkMoreEnabled": true,
+"columns": [
+{
+"id": 249,
+"name": "Uchwała Nr",
+"position": 0,
+"width": 10,
+"columnFields": [
+{
+"id": 314,
+"name": "Nr uchwały",
+"position": 0,
+"templateFieldId": 235,
+"fieldContent": null,
+"isLink": false
+},
+{
+"id": 315,
+"name": "Ukośnik prawy",
+"position": 1,
+"templateFieldId": null,
+"fieldContent": "/",
+"isLink": false
+},
+{
+"id": 316,
+"name": "Nr posiedzenia",
+"position": 2,
+"templateFieldId": 236,
+"fieldContent": null,
+"isLink": false
+},
+{
+"id": 317,
+"name": "Ukośnik prawy",
+"position": 3,
+"templateFieldId": null,
+"fieldContent": "/",
+"isLink": false
+},
+{
+"id": 318,
+"name": "Rok uchwały",
+"position": 4,
+"templateFieldId": 237,
+"fieldContent": null,
+"isLink": false
+}
+]
+},
+{
+"id": 250,
+"name": "z dnia",
+"position": 0,
+"width": 10,
+"columnFields": [
+{
+"id": 319,
+"name": "Data podjęcia",
+"position": 0,
+"templateFieldId": 238,
+"fieldContent": null,
+"isLink": false
+}
+]
+},
+{
+"id": 251,
+"name": "w sprawie",
+"position": 0,
+"width": 80,
+"columnFields": [
+{
+"id": 320,
+"name": "Tytuł artykułu",
+"position": 0,
+"templateFieldId": null,
+"fieldContent": "title",
+"isLink": true
+}
+]
+}
+],
+"searchFields": [],
+"sortFields": [],
+"articles": [
+{
+"id": "76790",
+"link": "a,76790,w-sprawie-zatwierdzenia-wyboru-radnych-do-mlodziezowego-sejmiku-wojewodztwa-pomorskiego-v-kadencji.html",
+"columnFields": [
+{
+"fieldId": 314,
+"value": "366"
+},
+{
+"fieldId": 315,
+"value": "/"
+},
+{
+"fieldId": 316,
+"value": "XXX"
+},
+{
+"fieldId": 317,
+"value": "/"
+},
+{
+"fieldId": 318,
+"value": "26"
+},
+{
+"fieldId": 319,
+"value": "2026-09-28"
+},
+{
+"fieldId": 320,
+"value": "w sprawie zatwierdzenia wyboru radnych do Młodzieżowego Sejmiku Województwa Pomorskiego V kadencji"
+}
+]
+},
+{
+"id": "76789",
+"link": "a,76789,o-zmianie-uchwaly-w-sprawie-powolania-komisji-strategii-rozwoju-i-polityki-przestrzennej-sejmiku-woj.html",
+"columnFields": [
+{
+"fieldId": 314,
+"value": "365"
+},
+{
+"fieldId": 315,
+"value": "/"
+},
+{
+"fieldId": 316,
+"value": "XXX"
+},
+{
+"fieldId": 317,
+"value": "/"
+},
+{
+"fieldId": 318,
+"value": "26"
+},
+{
+"fieldId": 319,
+"value": "2026-09-28"
+},
+{
+"fieldId": 320,
+"value": "o zmianie uchwały w sprawie powołania Komisji Strategii Rozwoju i  Polityki Przestrzennej Sejmiku Województwa Pomorskiego"
+}
+]
+}
+],
+"recursiveMenuDisplayEnabled": false,
+"menuShowOrderedListEnabled": false
+}

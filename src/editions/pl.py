@@ -120,7 +120,11 @@ def items(conn, since, until, wl):
 REGIONS_DOC = ce.REPO + "docs/poland-regions-scope.md"
 MAX_REGIONAL = 12
 LATE_DAYS = 28          # a register lists a resolution late: shown if adopted within this
-REGISTERS = ("mz", "sl", "ld", "pk")
+# The registers tools/pl_regions.py reads (its REGISTERS), and why the rest
+# are not read (docs/poland-regions-scope.md).
+REGISTERS = ("mz", "sl", "ld", "pk", "ma", "lu", "sk", "wp", "pm", "ds", "wn", "lb", "kp")
+NOT_READ = {"zp": "a staff application since 2021, no public list found",
+            "pd": "its BIP domain no longer resolves", "op": "its BIP does not answer"}
 
 
 def _plr():
@@ -130,7 +134,8 @@ def _plr():
 
 KINDS = {"uchwała": "Resolution", "stanowisko": "Position (stanowisko)", "apel": "Appeal (apel)",
          "rezolucja": "Resolution (rezolucja)", "deklaracja": "Declaration",
-         "obwieszczenie": "Notice (obwieszczenie)"}
+         "obwieszczenie": "Notice (obwieszczenie)", "oświadczenie": "Statement (oświadczenie)",
+         "projekt uchwały": "Draft resolution"}
 
 
 def _reg_takeaway(r):
@@ -146,9 +151,18 @@ def _reg_takeaway(r):
         if r["published"]:
             bits.append("published in the {0} on {1}".format(
                 r["journal_ref"] or "voivodeship journal", ce.long_date(ce.day(r["published"]))))
-    else:
-        bits = ["{0} {1} of the Sejmik Województwa {2}".format(
+    elif r["kind"] == "projekt uchwały":
+        # Kujawsko-Pomorskie publishes agendas, not a list of what was adopted.
+        bits = ["{0} ({1}) on the agenda of the Sejmik Województwa {2}".format(
             kind, r["number"], plr.SEJMIK.get(r["region"], region).split("Województwa ", 1)[-1])]
+        if r["adopted"]:
+            bits.append("for its sitting of {0}; the outcome is not published as a list".format(
+                ce.long_date(ce.day(r["adopted"]))))
+        return "; ".join(bits)
+    else:
+        bits = ["{0}{1} of the Sejmik Województwa {2}".format(
+            kind, " " + r["number"] if r["number"] else "",
+            plr.SEJMIK.get(r["region"], region).split("Województwa ", 1)[-1])]
         if r["adopted"]:
             bits.append("adopted on {0}".format(ce.long_date(ce.day(r["adopted"]))))
         if r["session"]:
@@ -170,7 +184,7 @@ def regional_items(conn, since, until, wl):
         shown.add((r["region"], r["number"]))
         it = ce.item("pl", "new", r["act_key"], r["adopted"], r["title"], ce.areas_of(r["areas"]),
                      r["tier"], w, url=r["url"], terms=r["matched_terms"], takeaway=_reg_takeaway(r))
-        it["region"], it["layer"] = r["region"], "bip"
+        it["region"], it["layer"] = r["region"], "agenda" if r["kind"] == "projekt uchwały" else "bip"
         out.append(it)
     for r in ce.rows(conn, "SELECT * FROM plr_acts WHERE source = 'journal' AND areas IS NOT NULL AND "
                      + ce.window_sql("published") + " ORDER BY region, published, act_key", (since, until)):
@@ -205,8 +219,10 @@ def regional_coverage(conn):
     if regs:
         lines.append("The sejmiki's own registers of resolutions, every resolution binding or not: {0}.".format(
             "; ".join("{0} ({1})".format(plr.REGIONS[k], st) for k, st in regs)))
-    lines.append("Not read: the other twelve registers, and every councillor's recorded vote (published as "
-                 "PDFs or on eSesja, which answers us with a bot check) ([scope]({0})).".format(REGIONS_DOC))
+    lines.append("Not read: the registers of {0}, and every councillor's recorded vote (published as "
+                 "PDFs or on eSesja, which answers us with a bot check) ([scope]({1})).".format(
+                     "; ".join("{0} ({1})".format(plr.REGIONS[k], why) for k, why in NOT_READ.items()),
+                     REGIONS_DOC))
     return lines
 
 
@@ -219,7 +235,8 @@ def regional_section(conn, country, since, until, wl):
         first = (datetime.date.fromisoformat(since) + datetime.timedelta(days=1)).isoformat()
         out += ["Nothing on our ground from the sixteen voivodeship assemblies between {0} and {1}.".format(
             ce.long_date(first), ce.long_date(until)), ""]
-    for layer, head in (("bip", "### Adopted by the sejmiki"), ("journal", "### In the voivodeship journals")):
+    for layer, head in (("bip", "### Adopted by the sejmiki"), ("agenda", "### On a sejmik's agenda"),
+                        ("journal", "### In the voivodeship journals")):
         these = [it for it in kept if it.get("layer") == layer]
         if not these:
             continue
