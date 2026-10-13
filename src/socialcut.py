@@ -436,6 +436,27 @@ def _run(cmd):
     subprocess.run(cmd, check=True, capture_output=True)
 
 
+def whole_debate_offset(state, media_name):
+    """Seconds from the start of the sitting's recording to the start of the
+    whole-debate file. Word times in whole-debate.words.json count from the file;
+    the 1080p windows are fetched by offset into the recording, so the two differ
+    whenever --download-debate started after the sitting did (Rejoining the EU,
+    12 Oct 2026: the file began at 16:50, the recording at 16:29:38, and every
+    window landed twenty minutes early). pack.json records the offset since then;
+    older packs fall back to the HHMM in the file name."""
+    rec = state.get("whole_debate") or {}
+    if rec.get("file") == media_name and rec.get("offset") is not None:
+        return float(rec["offset"])
+    m = re.match(r"00-whole-debate-(\d{2})(\d{2})-\d{4}\.mp4$", media_name or "")
+    if not (m and state.get("event_start") and state.get("date")):
+        return 0.0
+    from src import debatepack as dp
+    d = datetime.date.fromisoformat(state["date"])
+    start = datetime.datetime(d.year, d.month, d.day, int(m.group(1)), int(m.group(2)), tzinfo=dp.LONDON)
+    began = datetime.datetime.fromisoformat(state["event_start"])
+    return max(0.0, (start - datetime.timedelta(seconds=dp.PAD_BEFORE) - began).total_seconds())
+
+
 def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.en"):
     """Read sequence.md, pull 1080p windows, cut, crop, caption, render, report."""
     from src import debatepack as dp
@@ -452,6 +473,11 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
         os.makedirs(d, exist_ok=True)
     whole = [tuple(x) for x in json.load(open(os.path.join(clips, "whole-debate.words.json")))] \
         if os.path.exists(os.path.join(clips, "whole-debate.words.json")) else None
+    if whole:
+        media = sorted(f for f in os.listdir(clips) if f.startswith("00-whole-debate") and f.endswith(".mp4"))
+        shift = whole_debate_offset(state, media[-1] if media else None)
+        if shift:
+            whole = [(w, a + shift, b + shift) for w, a, b in whole]
     if not render_only:
         from src import alignment
         alignment.check(pack_dir, ff, whisper_model=whisper_model, log=log)

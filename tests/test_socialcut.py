@@ -546,3 +546,25 @@ class MonotoneCardTimingTests(unittest.TestCase):
         self.assertTrue(all(times[i][0] <= times[i + 1][0] for i in range(len(times) - 1)))
         gaps = [times[i + 1][0] - times[i][1] for i in range(len(times) - 1)]
         self.assertLess(max(gaps), 2.0)
+
+
+class WholeDebateOffsetTests(unittest.TestCase):
+    STATE = {"date": "2026-10-12", "event_start": "2026-10-12T16:29:38+01:00"}
+
+    def test_recorded_offset_wins(self):
+        st = dict(self.STATE, whole_debate={"file": "00-whole-debate-1650-1842.mp4", "offset": 1217.0})
+        self.assertEqual(sc.whole_debate_offset(st, "00-whole-debate-1650-1842.mp4"), 1217.0)
+
+    def test_falls_back_to_the_file_name_less_the_pad(self):
+        # 16:50:00 less five seconds of pad, from 16:29:38
+        self.assertAlmostEqual(sc.whole_debate_offset(self.STATE, "00-whole-debate-1650-1842.mp4"), 1217.0)
+
+    def test_a_record_for_another_file_is_ignored(self):
+        st = dict(self.STATE, whole_debate={"file": "00-whole-debate-1630-1700.mp4", "offset": 17.0})
+        self.assertAlmostEqual(sc.whole_debate_offset(st, "00-whole-debate-1650-1842.mp4"), 1217.0)
+
+    def test_a_file_from_the_start_needs_no_shift(self):
+        self.assertEqual(sc.whole_debate_offset(self.STATE, "00-whole-debate-1628-1805.mp4"), 0.0)
+
+    def test_no_event_start_means_no_shift(self):
+        self.assertEqual(sc.whole_debate_offset({"date": "2026-10-12"}, "00-whole-debate-1650-1842.mp4"), 0.0)
