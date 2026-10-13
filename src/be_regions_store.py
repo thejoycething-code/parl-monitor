@@ -94,7 +94,7 @@ SCHEMA = (
         areas        TEXT,               -- JSON; the document's areas
         matched_terms TEXT,
         first_seen   TEXT
-    )""",
+    ) WITHOUT ROWID""",
     """CREATE TABLE IF NOT EXISTS ber_positions (
         vote_key     TEXT NOT NULL,
         member_key   TEXT NOT NULL,      -- 'vl/4070'
@@ -102,7 +102,7 @@ SCHEMA = (
         group_name   TEXT,               -- the fractie the vote record prints
         position     TEXT,               -- 'yes','no','abstain'
         PRIMARY KEY (vote_key, member_key)
-    )""",
+    ) WITHOUT ROWID""",  # vote tables carry no rowid (#140, src/store_compact.py)
     """CREATE TABLE IF NOT EXISTS ber_members (
         member_key   TEXT PRIMARY KEY,   -- 'vl/4070', 'pw/3676'
         parliament   TEXT NOT NULL,
