@@ -177,8 +177,8 @@ def write_worksheet(area_filter=None):
                           .format(c["id"]))
             if c.get("title_how") == "clause text":
                 # Why a bare "New Clause 142" title is here (src/clausetext.py).
-                blocks.append("- matched on clause text: {0}".format(
-                    ", ".join(c.get("clause_terms") or [])))
+                blocks.append("- matched on {0}: {1}".format(
+                    c.get("match_source") or "clause text", ", ".join(c.get("clause_terms") or [])))
             for field in FIELDS:
                 blocks.append("{0}: ".format(field))
             blocks.append("")

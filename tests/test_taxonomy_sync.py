@@ -98,7 +98,10 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.24 (13 October 2026): the puberty blocker vote audit (two US
         # bill names, the Welsh prescribing regulations, the GnRH analogues
         # order); tests/test_v124_terms.py.
-        self.assertEqual(version, "1.24")
+        # v1.25 (13 October 2026): the unhyphenated "single sex" forms and
+        # "single-sex facilit*" in area 5 (Health Bill NC143, division
+        # 2422); tests/test_v125_terms.py.
+        self.assertEqual(version, "1.25")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
