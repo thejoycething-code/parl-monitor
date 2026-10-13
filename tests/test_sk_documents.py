@@ -4,12 +4,17 @@ No network: print-9-1218.html and its two .docx documents were read live on
 10 October 2026 (tlač 1218, an amendment to the Family Act 36/2005 whose
 documents say it bans corporal punishment of children)."""
 
+import gzip
 import importlib.util
+import io
 import json
 import os
+import shutil
 import sqlite3
 import sys
+import tempfile
 import unittest
+import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -201,6 +206,115 @@ class SchemaTests(unittest.TestCase):
         self.assertIn('--doc-budget-seconds 600 --budget-seconds '
                       '"$(bash tools/collector_budget.sh 2100 "$SECONDS" '
                       '"$(( 600 + ${SK_CHAMBER_SECONDS:-300} ))")"', job)
+
+
+def docx(*paragraphs):
+    """A minimal Word document: what src/eudoc.paragraphs reads."""
+    body = "".join("<w:p><w:r><w:t>{0}</w:t></w:r></w:p>".format(p) for p in paragraphs)
+    out = io.BytesIO()
+    with zipfile.ZipFile(out, "w") as z:
+        z.writestr("word/document.xml", '<?xml version="1.0"?><w:document xmlns:w="x">'
+                   "<w:body>" + body + "</w:body></w:document>")
+    return out.getvalue()
+
+
+class RematchTests(unittest.TestCase):
+    """P7 (13 October 2026): a print's documents are read once, so a taxonomy
+    change reached the stored doc_areas only through a re-match from the raw
+    archive (--reclassify, SK_RECLASSIFY), fetching nothing."""
+
+    def setUp(self):
+        self.raw = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.raw)
+
+    def archive(self, doc_id, blob_bytes, day="2026-10-11"):
+        folder = os.path.join(self.raw, day)
+        os.makedirs(folder, exist_ok=True)
+        with gzip.open(os.path.join(folder, "sk-rollcalls_doc-{0}.json.gz".format(doc_id)),
+                       "wb") as fh:
+            fh.write(blob_bytes)
+
+    def read_1218(self):
+        conn = store()
+        add_bill(conn, "1218", TITLE_1218)
+        conn.execute("INSERT INTO sk_divisions (voting_id, term, bill_key, name, is_secret, areas) "
+                     "VALUES (1, 9, '9/1218', 'Hlasovanie o návrhu zákona ako o celku.', 0, '[9]')")
+        skr.read_documents(conn, client_1218(), TODAY, 9, TAX, WL, **QUIET)
+        # As an older taxonomy left it: bare "zmen* pohlav*" filed it under 3.
+        conn.execute("UPDATE sk_bills SET doc_areas='[3, 6]', areas='[3, 6, 9]', "
+                     "doc_terms='[\"zmen* pohlav*\", \"telesn* tresta*\"]'")
+        conn.execute("UPDATE sk_divisions SET areas='[3, 6, 9]'")
+        return conn
+
+    def test_an_area_the_taxonomy_no_longer_gives_is_dropped_from_print_and_votes(self):
+        conn = self.read_1218()
+        self.archive(586024, blob("doc-586024.docx"))
+        self.archive(586025, blob("doc-586025.docx"))
+        skr.reclassify(conn, TAX, raw_dir=self.raw, **QUIET)
+        row = conn.execute("SELECT doc_areas, doc_terms, areas FROM sk_bills").fetchone()
+        self.assertEqual(json.loads(row[0]), [6, 9])        # as read fresh
+        self.assertNotIn("zmen* pohlav*", json.loads(row[1]))
+        self.assertEqual(json.loads(row[2]), [6, 9])
+        self.assertEqual(json.loads(conn.execute("SELECT areas FROM sk_divisions").fetchone()[0]),
+                         [6, 9])
+
+    def test_without_the_archive_the_stored_areas_are_kept(self):
+        conn = self.read_1218()
+        self.archive(586024, blob("doc-586024.docx"))      # one of the two only
+        self.assertEqual(skr.rematch_documents(conn, TAX, WL, self.raw, **QUIET), (0, 0, 1))
+        self.assertEqual(json.loads(conn.execute("SELECT doc_areas FROM sk_bills").fetchone()[0]),
+                         [3, 6])
+
+    def test_a_damaged_copy_never_trades_text_for_less(self):
+        conn = self.read_1218()
+        self.archive(586024, blob("doc-586024.docx"))
+        self.archive(586025, b"PK not a zip")
+        self.assertEqual(skr.rematch_documents(conn, TAX, WL, self.raw, **QUIET), (0, 0, 1))
+
+    def test_the_newest_copy_is_read(self):
+        self.archive(1, b"old", day="2026-10-10")
+        self.archive(1, b"new", day="2026-10-12")
+        with gzip.open(skr.archived_documents(self.raw)[1], "rb") as fh:
+            self.assertEqual(fh.read(), b"new")
+        self.assertEqual(skr.archived_documents(os.path.join(self.raw, "none")), {})
+
+    def test_change_of_sex_counts_only_in_minors_company(self):
+        """Taxonomy v0.3: the 2025 amendment's legal change of sex is not the
+        puberty blocker area; a minor's change of sex is."""
+        conn = store()
+        for tlac, doc_id, text in (
+                ("733", 11, "Zmena pohlavia je možná len zo závažných dôvodov ustanovených zákonom."),
+                ("734", 12, "Zmena pohlavia maloletého sa zakazuje.")):
+            add_bill(conn, tlac, "Vládny návrh zákona, ktorým sa mení zákon č. 1/2000 Z. z.")
+            conn.execute("UPDATE sk_bills SET docs_read=?, doc_ids=?, doc_areas='[3]' "
+                         "WHERE tlac=?", (TODAY, json.dumps([{"id": doc_id, "fmt": "docx",
+                                                              "chars": len(text)}]), tlac))
+            self.archive(doc_id, docx(text))
+        self.assertEqual(skr.rematch_documents(conn, TAX, WL, self.raw, **QUIET), (2, 1, 0))
+        got = dict(conn.execute("SELECT tlac, doc_areas FROM sk_bills").fetchall())
+        self.assertNotIn(3, json.loads(got["733"]))
+        self.assertIn(3, json.loads(got["734"]))
+
+    def test_documents_never_read_are_left_to_the_weekly(self):
+        conn = store()
+        add_bill(conn, "1218", TITLE_1218)
+        self.archive(586024, blob("doc-586024.docx"))
+        self.assertEqual(skr.rematch_documents(conn, TAX, WL, self.raw, **QUIET), (0, 0, 0))
+        self.assertIsNone(conn.execute("SELECT docs_read FROM sk_bills").fetchone()[0])
+
+
+class PositionsBackfillJobTests(unittest.TestCase):
+    def test_the_backfill_reads_only_vote_pages_and_can_reclassify_first(self):
+        with open(os.path.join(ROOT, "jobs", "sk-positions-backfill.sh"), encoding="utf-8") as fh:
+            job = fh.read()
+        self.assertIn("--positions all --no-interpellations --no-documents", job)
+        self.assertIn('--budget-seconds "$BUDGET"', job)
+        self.assertLess(job.index("--reclassify"), job.index("--positions all"))
+        self.assertLess(job.index("raw_state.py --push"), job.index("db_state.py --push"))
+
+    def test_sk_reclassify_in_the_weekly_reaches_the_documents(self):
+        with open(os.path.join(ROOT, "jobs", "sk-weekly.sh"), encoding="utf-8") as fh:
+            self.assertIn("python3 tools/sk_rollcalls.py --reclassify", fh.read())
 
 
 if __name__ == "__main__":

@@ -1216,6 +1216,11 @@ ON_DEMAND = {
                                    "(jobs/sk-docs-backfill.sh, SK6): the term's "
                                    "backlog of bill documents, rerun until no print "
                                    "is owed; the weekly reads new prints' documents.",
+    "Slovakia positions backfill": "run by hand on the Mac Mini "
+                                   "(jobs/sk-positions-backfill.sh, P7): every "
+                                   "member's position on the term's votes, rerun "
+                                   "until no vote is owed; the weekly reads about "
+                                   "440 a week, our ground first.",
     "Latam courts backfill": "run by hand on the Mac Mini, once, after the "
                              "parity merge (jobs/latam-courts-backfill.sh): the X8 "
                              "courts, BO4 questions and UY5 Diarios seeded before "

@@ -37,7 +37,7 @@ LATAM = ("ar", "bo", "br", "cl", "co", "do", "ec", "gt", "hn", "mx", "pa", "pe",
 # "latam" is the monthly Latam monitor (Venezuela and Nicaragua): its job is
 # latam-monthly, its edition latam-monitor-<date>.md, its tables ve_ and nic_.
 REGIONS = (
-    ("Europe", EUROPE, ("sk-docs-backfill", "hu-karzat-backfill")),
+    ("Europe", EUROPE, ("sk-docs-backfill", "sk-positions-backfill", "hu-karzat-backfill")),
     ("Latam", LATAM + ("latam",), ("latam-courts-backfill",)),
 )
 SHARED = ("vote-briefs-daily", "editions-session-judge")

@@ -5,7 +5,8 @@ every member's position on our ground, and interpellations.
     python3 tools/sk_rollcalls.py                       # the current term
     python3 tools/sk_rollcalls.py --term 8              # an earlier one
     python3 tools/sk_rollcalls.py --dry-run             # count, store nothing
-    python3 tools/sk_rollcalls.py --reclassify          # re-derive areas, offline
+    python3 tools/sk_rollcalls.py --reclassify          # re-derive areas, offline,
+                                                        # documents again from data/raw
     python3 tools/sk_rollcalls.py --positions all       # every vote's positions (slow)
     python3 tools/sk_rollcalls.py --taxonomy draft.yaml # classify with another term list
     python3 tools/sk_rollcalls.py --db /tmp/sk.db       # anywhere but the store
@@ -78,6 +79,7 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import gzip
 import html
 import json
 import os
@@ -111,6 +113,9 @@ DOC_BUDGET_S = 900
 # A bill titled by the act it amends, or a constitutional law.
 AMENDS = re.compile(r"ktorým sa (?:mení|menia|dopĺňa|dopĺňajú)|ústavn\w* zákon", re.I)
 BUDGET_S = drain.DEFAULT_S
+# The raw archive, where every document read is kept as fetched
+# (data/raw/<date>/sk-rollcalls_doc-<id>.json.gz): --reclassify matches it again.
+RAW_DIR = os.path.join(ROOT, "data", "raw")
 # Migration is collated, never campaigned (src/partner.py HIDDEN_AREAS).
 HIDDEN_AREAS = (11,)
 NO_CLUB = "Poslanci, ktorí nie sú členmi poslaneckých klubov"
@@ -626,12 +631,80 @@ def pull_interpellations(conn, client, today, term=CURRENT_TERM, tax=None, wl=No
 
 # --- offline -------------------------------------------------------------------
 
-def reclassify(conn, tax=None, log=print):
+_ARCHIVED_DOC = re.compile(r"^" + re.escape(FEED) + r"_doc-(\d+)\.json\.gz$")
+
+
+def archived_documents(raw_dir=RAW_DIR):
+    """{doc_id: path} of every bill document in the raw archive; the newest
+    copy where a document was read on more than one day."""
+    out = {}
+    try:
+        days = sorted(os.listdir(raw_dir))
+    except OSError:
+        return out
+    for day in days:
+        folder = os.path.join(raw_dir, day)
+        if not os.path.isdir(folder):
+            continue
+        for name in os.listdir(folder):
+            m = _ARCHIVED_DOC.match(name)
+            if m:
+                out[int(m.group(1))] = os.path.join(folder, name)
+    return out
+
+
+def rematch_documents(conn, tax, wl, raw_dir=RAW_DIR, log=print):
+    """P7 (13 October 2026): match every read print's documents again with
+    the current taxonomy, from the raw archive, fetching nothing. A print is
+    read once (docs_read), so without this a taxonomy change (v0.3's guarded
+    "zmen* pohlav*") never reached the doc_areas already stored. A print
+    whose documents are not all in the archive here (the GitHub runner keeps
+    no archive) keeps what it had. Returns (rematched, changed, kept)."""
+    index = archived_documents(raw_dir)
+    rematched = changed = kept = 0
+    rows = conn.execute("SELECT bill_key, term, tlac, title, doc_ids, doc_areas FROM sk_bills "
+                        "WHERE docs_read IS NOT NULL").fetchall()
+    for bkey, term, tlac, title, ids_raw, old in rows:
+        # Only the documents that gave text when read: an old .doc, a refused
+        # or an unreadable file gave none then and gives none now.
+        read = [n for n in json.loads(ids_raw or "[]") if n.get("chars")]
+        if any(n.get("id") not in index for n in read):
+            kept += 1
+            continue
+        texts = []
+        for n in read:
+            try:
+                with gzip.open(index[n["id"]], "rb") as fh:
+                    text = document_text(fh.read(), n.get("fmt"))
+            except Exception:                           # noqa: BLE001 (a damaged copy)
+                text = ""
+            if text:
+                texts.append(text)
+        if len(texts) < len(read):
+            kept += 1                                   # never trade text for less
+            continue
+        known = classify_bill(tax, wl, {"term": term, "tlac": tlac, "title": title}).issue_areas
+        areas, terms, excerpt = classify_documents(tax, wl, texts, known or [])
+        new = sk_store.dumps(areas)
+        changed += new != (old or "[]")
+        conn.execute("UPDATE sk_bills SET doc_areas=?, doc_terms=?, doc_excerpt=? WHERE bill_key=?",
+                     (new, sk_store.dumps(terms), excerpt, bkey))
+        rematched += 1
+    conn.commit()
+    log("sk-rollcalls: documents of {0} print(s) matched again from the archive, {1} changed "
+        "area; {2} kept their stored areas (documents not archived here)".format(
+            rematched, changed, kept))
+    return rematched, changed, kept
+
+
+def reclassify(conn, tax=None, log=print, raw_dir=RAW_DIR):
     """Re-derive print, vote and interpellation areas, offline, after a
-    taxonomy or watchlist change. Prints first: votes inherit from them. A
-    vote newly on our ground has positions_at NULL and is read next run."""
+    taxonomy or watchlist change. The documents first (rematch_documents),
+    then the prints: votes inherit from them. A vote newly on our ground has
+    positions_at NULL and is read next run."""
     tax = tax if tax is not None else load_taxonomy()
     wl = empty_watchlist()
+    rematch_documents(conn, tax, wl, raw_dir, log=log)
     changed_b = changed_d = 0
     for (key, term, tlac, title, areas) in conn.execute(
             "SELECT bill_key, term, tlac, title, areas FROM sk_bills").fetchall():
@@ -692,7 +765,10 @@ def main():
                     help="clock budget for bill documents (SK6; default %(default)s)")
     ap.add_argument("--doc-limit", type=int, help="stop after this many prints' documents")
     ap.add_argument("--reclassify", action="store_true",
-                    help="re-derive areas for stored prints, votes and interpellations, offline")
+                    help="re-derive areas for stored prints (their archived documents too), "
+                         "votes and interpellations, offline")
+    ap.add_argument("--raw-dir", default=RAW_DIR,
+                    help="the raw archive --reclassify reads documents from (default data/raw)")
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
     ap.add_argument("--limit", type=int, help="stop after this many vote pages")
     ap.add_argument("--dry-run", action="store_true",
@@ -713,7 +789,7 @@ def main():
         return 0
     conn = db.init_db(db.connect(args.db))
     if args.reclassify:
-        reclassify(conn, tax)
+        reclassify(conn, tax, raw_dir=args.raw_dir)
         summary(conn)
         conn.close()
         return 0
