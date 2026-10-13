@@ -410,6 +410,12 @@ FEEDS = [
     ("ch_sessions", "last_seen", 7, 4, "Federal Assembly sessions (Switzerland weekly)"),
     ("ch_businesses", "last_seen", 7, 7, "Federal Assembly businesses, DE and FR (Switzerland weekly)"),
     ("ch_divisions", "last_seen", 31, 45, "Nationalrat and Staenderat votes (Switzerland weekly)"),
+    # CH7 (13 October 2026): the cantonal parliaments (tools/ch_cantons.py).
+    # MEASURED which re-stamp: Bern's two daily exports, Vaud's pending lists,
+    # Ticino's order of the day and Geneva's searches are re-read whole every
+    # run, recess included, so both tables move every week.
+    ("ch_canton_acts", "last_seen", 7, 4, "Cantonal parliaments' business: Zürich, Bern, Geneva, Vaud, Ticino (Switzerland weekly)"),
+    ("ch_canton_votes", "last_seen", 7, 4, "Grosser Rat Bern votes with tallies (Switzerland weekly)"),
     # Belgium (9 October 2026). MEASURED which re-stamp: both member lists and
     # all 39 pages of the dossier index are re-read whole every run, so
     # be_members and be_dossiers move every week, recess included. Divisions
@@ -1309,6 +1315,10 @@ def table_exists(conn, table):
 # first heartbeat can excuse it: excused while empty until a date, then
 # OVERDUE like any other. table -> (until, why). Additive, 10 October 2026.
 AWAITING_STEP_UNTIL = {
+    "ch_canton_acts": ("2026-10-31", "the cantons step (tools/ch_cantons.py) joins the "
+                       "Switzerland weekly on merge; it fills on its next run"),
+    "ch_canton_votes": ("2026-10-31", "the cantons step (tools/ch_cantons.py) joins the "
+                        "Switzerland weekly on merge; it fills on its next run"),
     "atl_items": ("2026-10-24", "the Landtage step (tools/at_landtage.py) joins the Austria "
                   "weekly on merge; it fills on its next run"),
     "country_agenda": ("2026-10-24", "the week-ahead step (tools/country_agenda.py) joins "

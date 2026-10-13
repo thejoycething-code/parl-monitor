@@ -31,6 +31,20 @@ texts too). Added 10 October 2026, additively: `ch_businesses.title_it`,
 `areas_it` (config/taxonomy-it.yaml for `ch` on the Italian title and
 submitted text), `terms_it` and `tier_it`, created on old stores by ensure_schema
 (ADDED_COLUMNS). `areas` is now de | fr | it | watchlist.
+
+THE CANTONS (CH7, 13 October 2026). `ch_canton_acts` holds the business
+items of the cantonal parliaments read by tools/ch_cantons.py
+(docs/switzerland-cantons-scope.md): Zuerich, Bern, Geneva, Vaud and
+Ticino. Keys carry the canton and its own number ('zh/376/2026',
+'be/2026.GRPARL.151', 'ge/M3137', 'vd/26_MOT_10', 'ti/134780'), so a
+cantonal item never collides with a federal business. Where the source
+dates a step, `status_date` is that date; where it prints only the current
+status, a run that sees it change stamps the day it saw it and sets
+`status_seen`. `baseline` marks rows of an undated canton's first read
+(never shown as new). `ch_canton_votes` holds Bern's Tagblatt votes with
+their published tallies, linked to the act they name; no canton read
+publishes member positions we can read. Additive: new tables only, created
+by ensure_schema; nothing here touches the federal tables.
 """
 
 from __future__ import annotations
@@ -125,11 +139,55 @@ SCHEMA = (
         canton       TEXT,
         PRIMARY KEY (division_key, person_number)
     ) WITHOUT ROWID""",
+    """CREATE TABLE IF NOT EXISTS ch_canton_acts (
+        act_key      TEXT PRIMARY KEY,   -- 'zh/376/2026', 'be/2026.GRPARL.151', 'ge/M3137'
+        canton       TEXT NOT NULL,      -- 'zh' / 'be' / 'ge' / 'vd' / 'ti'
+        kind         TEXT NOT NULL,      -- the canton's own type: 'Motion', 'Anfrage', 'PL', ...
+        number       TEXT,               -- the canton's own number, as printed
+        label        TEXT,
+        title        TEXT,               -- in the canton's language (Bern: German)
+        title_fr     TEXT,               -- Bern's French title
+        presented    TEXT,               -- submission / start date where the source gives one
+        status       TEXT,               -- the canton's own words, never derived
+        status_date  TEXT,               -- the source's date; else the run that saw it change
+        status_seen  INTEGER DEFAULT 0,  -- 1: status_date is when a run SAW the change
+        initiative   TEXT,               -- first signatory (party) or author, as printed
+        committee    TEXT,
+        url          TEXT,
+        seq          INTEGER,            -- Zuerich's index sequence (incremental reads)
+        question     INTEGER DEFAULT 0,  -- 1: an Anfrage / Interpellation / question
+        baseline     INTEGER DEFAULT 0,  -- 1: seen on an undated canton's first read
+        areas        TEXT,               -- JSON; the language list + watchlist-ch `cantons`
+        matched_terms TEXT,
+        tier         INTEGER,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS ch_canton_votes (
+        vote_key     TEXT PRIMARY KEY,   -- 'be/v/<abstimmung_uid>'
+        canton       TEXT NOT NULL,
+        act_key      TEXT,               -- the act the vote names, or NULL
+        date         TEXT,
+        subject      TEXT,               -- what was voted on: 'Ziff. 1', 'Antrag 2, BaK'
+        result       TEXT,               -- as published: 'Annahme / Adoption'
+        yes          INTEGER,
+        no           INTEGER,
+        abstain      INTEGER,
+        url          TEXT,
+        areas        TEXT,               -- the act's
+        matched_terms TEXT,
+        tier         INTEGER,
+        first_seen   TEXT,
+        last_seen    TEXT
+    )""",
+    "CREATE INDEX IF NOT EXISTS ch_canton_acts_canton ON ch_canton_acts (canton, presented)",
+    "CREATE INDEX IF NOT EXISTS ch_canton_votes_act ON ch_canton_votes (act_key)",
     "CREATE INDEX IF NOT EXISTS ch_divisions_business ON ch_divisions (business_id)",
     "CREATE INDEX IF NOT EXISTS ch_votes_member ON ch_votes (person_number)",
 )
 
-TABLES = ("ch_members", "ch_sessions", "ch_businesses", "ch_divisions", "ch_votes")
+TABLES = ("ch_members", "ch_sessions", "ch_businesses", "ch_divisions", "ch_votes",
+          "ch_canton_acts", "ch_canton_votes")
 
 # Columns added after a table was first shipped: (table, column, type).
 # CH6 (10 October 2026): the Italian pass.
@@ -178,6 +236,31 @@ def watch_areas(business_id, path=None):
     if not hit:
         return [], None
     return list(hit[0]), "watch:{0}".format(int(business_id))
+
+
+_CANTON_WATCH = {}
+
+
+def canton_watchlist(path=None):
+    """{act_key: (areas, why)} from config/watchlist-ch.yaml's `cantons`
+    section (CH7), keyed by ch_canton_acts.act_key."""
+    import yaml
+    path = path or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                "config", "watchlist-ch.yaml")
+    if path not in _CANTON_WATCH:
+        with open(path, encoding="utf-8") as fh:
+            raw = yaml.safe_load(fh) or {}
+        _CANTON_WATCH[path] = {str(k): (list(v.get("areas") or []), v.get("why"))
+                               for k, v in (raw.get("cantons") or {}).items()}
+    return _CANTON_WATCH[path]
+
+
+def canton_watch_areas(act_key, path=None):
+    """(areas, hit label) for a watched cantonal act, else ([], None)."""
+    hit = canton_watchlist(path).get(act_key) if act_key else None
+    if not hit:
+        return [], None
+    return list(hit[0]), "watch:{0}".format(act_key)
 
 
 def short_number(business_id):

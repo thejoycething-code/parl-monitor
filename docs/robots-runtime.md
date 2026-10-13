@@ -274,6 +274,7 @@ names the client that is wrapped when it is not the collector's own.
 | ca_committees | www.ourcommons.ca, www.parl.ca | scraper | yes | allowed |
 | ca_senate_committees | sencanada.ca | scraper | yes | allowed (12 October 2026) |
 | ca_senate_debates | sencanada.ca | scraper | yes | allowed |
+| ch_cantons (CH7, 13 October 2026) | parlzhcdws.cmicloud.ch, ogd.parl.apps.be.ch, ge.ch, www.vd.ch, www4.ti.ch | scraper and open data | yes (GuardedClient, no exemptions) | all allowed on 13 October 2026 (cmicloud and ogd.parl 404, ge.ch serves a web page as robots.txt); Ticino's acts search is disallowed and not used. Not read because robots.txt refuses: data.bs.ch, data.bl.ch, daten.sg.ch, data.tg.ch (`/api/`), www.ag.ch (`/grossrat`) |
 | cl_senate_parties | datos.bcn.cl/sparql | API | no | |
 | country_agenda, country_petitions, country_attendance, country_vote_briefs, country_debate_today, country_live_debate | (drivers) | | yes | wrapped once, see above |
 | devolved_brief | parl-monitor-partner.vercel.app, github.com | own | no | our own site and repository |
