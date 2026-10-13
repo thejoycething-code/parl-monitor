@@ -1,7 +1,7 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy-sk.md
 # Regenerate: python3 tools/generate_taxonomy.py --lang sk
-version: 0.2
+version: 0.3
 areas:
   1_abortion:
     tier1: ["potrat*", "umel* preruš* tehotenstva", "73/1986", "interrupci*", "nenaroden*", "ochran* nenaroden*", "počat* život*", "od počatia", "potratov* tabletk*", "mifepriston*", Medabon, "ochran* života od počatia", "Pochod za život"]
@@ -12,9 +12,9 @@ areas:
     tier2: ["paliatív*", "hospic*", "nevyliečiteľn* chor*", "konc* život*"]
     # note: No terms proposed for this area.
   3_gender_medicine_children:
-    tier1: ["blokátor* puberty", "zmen* pohlav*", "rodov* dysfóri*", "pohlavn* dysfóri*", "prechod* pohlav*", "tranzíci* pohlav*"]
+    tier1: ["blokátor* puberty", {term: "zmen* pohlav*", with: ["malolet*", "neplnolet*", "dieť*", deti, detí, "mladistv*"]}, "rodov* dysfóri*", "pohlavn* dysfóri*", "prechod* pohlav*", "tranzíci* pohlav*"]
     tier2: ["hormonáln* liečb*", "tranzíci*", "detranzíci*", "rodov* tranzíci*"]
-    # note: No terms proposed for this area.
+    # note: v0.3 (13 October 2026, the puberty blocker vote audit): "zmen* pohlav*" GUARDED by minors' company. Bare, it is any change of sex, legal or medical, and it filed three prints into this area from their documents alone: the 2025 constitutional amendment (print 733, two sexes; no medical clause), the birth-number bill (print 44) and the school-financing act (print 400), 33 votes in all. Legal sex change stays on our ground through area 5 ("biologick* pohlav*", "dv* pohlav*", 301/1995).
   4_conversion_practices:
     tier1: ["konverzn* terapi*", "konverzn* praktik*", "reparatívn* terapi*"]
     tier2: []

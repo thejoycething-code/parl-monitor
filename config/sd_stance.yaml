@@ -63,3 +63,95 @@ divisions:
     # scatter on the substance: it is a party question about consent
     # mechanics, and reading it as an assisted dying position would misfile
     # most of the chamber.
+
+  # --- 13 October 2026: the puberty blocker vote audit (area 3). DRAFTS by
+  # Claude; Christopher confirms each by deleting `draft: true`. Motion and
+  # amendment wording summarised from the Senedd's motion record
+  # (record.senedd.wales/Motion/8563) as search results quote it, and the
+  # press; business.senedd.wales served a "Service unavailable" page to this
+  # audit, so read the texts there before signing.
+  - key: "587351"
+    title: "Welsh Conservatives Debate - The Cass review (NDM8563): motion without amendment"
+    dated: "2024-05-01"
+    result: "14 for / 38 against -- Motion rejected"
+    # Darren Millar's motion: notes the Cass review's call for extreme caution
+    # in prescribing puberty blockers and cross-sex hormones to under-18s,
+    # welcomes that there is no pathway for under-18s in Wales to receive
+    # puberty blockers, and calls on the Welsh Government to adopt the
+    # review's recommendations. Weight 1: an expression of view, not law.
+    # Against includes members who preferred the government's replacement
+    # text, which also notes NHS England's finding on the evidence.
+    "for": 1
+    why_for: >
+      Voted for the motion calling on the Welsh Government to adopt the Cass
+      review's recommendations, including extreme caution over puberty
+      blockers and cross-sex hormones for under-18s.
+    against: -1
+    why_against: >
+      Voted against the motion calling on the Welsh Government to adopt the
+      Cass review's recommendations.
+    draft: true
+
+  - key: "587356"
+    title: "Welsh Conservatives Debate - The Cass review: amendment 1 (Jane Hutt, delete all)"
+    dated: "2024-05-01"
+    result: "Amendment agreed"
+    # The government's delete-all amendment replaced the call to adopt the
+    # review's recommendations with four noting points: the review's
+    # publication, that NHS Wales commissions the service from NHS England,
+    # NHS England's finding that the evidence for puberty suppressing
+    # hormones is insufficient, and continued work on trans guidance for
+    # schools. It drops the commitment, not the caution: drafted at +/-1.
+    "for": -1
+    why_for: >
+      Voted to replace the call to adopt the Cass review's recommendations
+      with a government text that only notes the review.
+    against: 1
+    why_against: >
+      Voted to keep the motion's call to adopt the Cass review's
+      recommendations, against the government's replacement text.
+    draft: true
+
+  - key: "587358"
+    title: "Welsh Conservatives Debate - The Cass review: amendment 2 (Heledd Fychan)"
+    dated: "2024-05-01"
+    result: "Amendment rejected"
+    # Plaid Cymru's amendment added two points: regret at the absence of
+    # comprehensive specialist gender identity services in Wales, and that
+    # everyone, whatever their gender identity, deserves respect and access
+    # to suitable support and healthcare. A call for more gender-identity
+    # provision for young people in Wales: drafted at +/-1.
+    "for": -1
+    why_for: >
+      Voted to regret the absence of specialist gender identity services in
+      Wales, in a debate on the Cass review's caution over puberty blockers.
+    against: 1
+    why_against: >
+      Voted against adding a call for specialist gender identity services to
+      the Cass review motion.
+    draft: true
+
+  - key: "587363"
+    title: "Welsh Conservatives Debate - The Cass review: motion as amended"
+    dated: "2024-05-01"
+    result: "52 for / 0 against -- Motion as amended agreed"
+    # NOT PLACEABLE -- unanimous, on the government's noting text. It tells
+    # no member apart.
+
+  - key: "638118"
+    title: "Motion to annul the NHS (GMS Contracts) (Prescription of Drugs Etc.) (Wales) (Amendment) (No. 2) Regulations 2024"
+    dated: "2024-12-10"
+    result: "12 for / 36 against -- Motion rejected"
+    # Adam Price's motion to annul the Welsh regulations that stop GPs
+    # prescribing puberty blockers to under-18s for gender incongruence or
+    # dysphoria (the Welsh counterpart of the UK-wide restriction). A vote on
+    # law, not a view: drafted at +/-2. Tagged area 3 from taxonomy v1.24.
+    "for": -2
+    why_for: >
+      Voted to annul the Welsh regulations restricting GP prescribing of
+      puberty blockers to under-18s.
+    against: 2
+    why_against: >
+      Voted to keep the Welsh regulations restricting GP prescribing of
+      puberty blockers to under-18s.
+    draft: true

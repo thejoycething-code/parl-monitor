@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Slovak keyword taxonomy
 
-**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.3 | 13 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 ## Purpose
 
@@ -50,9 +50,9 @@ Noise round (v0.2, 10 October 2026, approved by Chris). Measured on the bill doc
 
 ### 3. Gender medicine and children {#3_gender_medicine_children}
 
-- **Tier 1:** "blokátor* puberty"; "zmen* pohlav*"; "rodov* dysfóri*"; "pohlavn* dysfóri*"; "prechod* pohlav*"; "tranzíci* pohlav*"
+- **Tier 1:** "blokátor* puberty"; "zmen* pohlav*" [with: malolet*, neplnolet*, dieť*, deti, detí, mladistv*]; "rodov* dysfóri*"; "pohlavn* dysfóri*"; "prechod* pohlav*"; "tranzíci* pohlav*"
 - **Tier 2:** "hormonáln* liečb*"; tranzíci*; detranzíci*; "rodov* tranzíci*"
-- **Notes:** No terms proposed for this area.
+- **Notes:** v0.3 (13 October 2026, the puberty blocker vote audit): "zmen* pohlav*" GUARDED by minors' company. Bare, it is any change of sex, legal or medical, and it filed three prints into this area from their documents alone: the 2025 constitutional amendment (print 733, two sexes; no medical clause), the birth-number bill (print 44) and the school-financing act (print 400), 33 votes in all. Legal sex change stays on our ground through area 5 ("biologick* pohlav*", "dv* pohlav*", 301/1995).
 
 ### 4. Conversion practices {#4_conversion_practices}
 
