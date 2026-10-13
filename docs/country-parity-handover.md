@@ -999,7 +999,7 @@ All from cjoyce@citizengo.net.
 | Spain Senate (403 everywhere): open data | informacion@senado.es | sent 9 Oct |
 | Paraguay (SILpy robots.txt disallows) | parlamentoabierto@senado.gov.py, cc silpy@diputados.gov.py | sent 9 Oct |
 | meineabgeordneten.at licence | office@meineabgeordneten.at | sent 9 Oct |
-| Open States (US) | contact@openstates.org | sent 9 Oct; replied with paid tier pricing |
+| Open States (US) | contact@openstates.org | sent 9 Oct; replied with paid tier pricing. No budget: free tier kept, free alternatives built 13 Oct (below) |
 | Australia | webmanager@aph.gov.au | sent 9 Oct |
 | Guatemala court (bot challenge) | comunicacion@cc.gob.gt, asked to forward to the Unidad de Información Pública | sent 12 Oct |
 | El Salvador missing votes (sessions 41-64, 98): LAIP request | transparencia@asamblea.gob.sv | sent 12 Oct |
@@ -1090,6 +1090,36 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
   (legislacion.scjn.gob.mx, the 50 most recent Puebla reforms, one
   postback of the page's own form; `src/ingest/mxs_pue_gazette.py`).
 Details in `docs/mexico-regions-scope.md`.
+
+## US states: free alternatives beside Open States' free tier (13 October 2026)
+
+Chris: "We can't pay for Open States access so may need to explore
+alternatives whilst keeping the current tier we have." Built on branch
+`us-states-alt`; details and measurements in `docs/us-states-scope.md`
+("Free alternatives beside the free tier").
+
+- **Kept:** the Open States collector as it was (bulk files for the week,
+  the free key's 250 a day for the last day), with a smarter top-up:
+  watched bills, then tier 1, then the rest; states a direct reader covered
+  are skipped, and while LegiScan is active only watched and tier-1 bills
+  are topped up (`--topup-all` restores the old behaviour).
+- **LegiScan** (`tools/us_states_legiscan.py`): all 50 states, same day, on
+  the free public key; CC BY 4.0, credited in the edition. Planned for a
+  9,000-query month (the manual says 30,000; one LegiScan page says 10,000).
+  **Needs Chris:** a free OneVote account and API key at
+  https://legiscan.com/legiscan, then `LEGISCAN_API_KEY` as a repo secret and
+  in `~/runner/env` on the Mini. Without it the step skips with one line.
+- **State feeds** (`tools/us_states_direct.py`, no key): Kansas KLISS API (1
+  request, adds the votes Open States lacks), California's leginfo daily
+  change files (floor votes with names), the Texas Legislative Council's FTP
+  (from the 90th Legislature, January 2027). Smoke read: KS 68 bills on our
+  ground and 92 tallies; CA 35 changed bills in recess; TX 25 files read.
+- **No duplicates:** `merge_foreign` adds to Open States' row; a bill it
+  does not hold yet is stored under the source's ID and superseded when
+  Open States' file catches up (`uss_bill_sources`, `uss_source_ledger`).
+- **Steps:** two lines after the Open States step in `jobs/us-weekly.sh`
+  (6 minutes on GitHub, 15 on the Mini for the feeds; 5 and 15 for
+  LegiScan). No new Mini job.
 
 ## Regional layer: Poland's 16 voivodeship assemblies (13 October 2026)
 

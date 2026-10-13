@@ -162,6 +162,10 @@ jobs:
           # The fifty states (tools/us_states.py): sent as the X-API-KEY
           # header only. Unset: one [gap] and the step skips.
           OPENSTATES_API_KEY: ${{ secrets.OPENSTATES_API_KEY }}
+          # LegiScan's free public key (tools/us_states_legiscan.py, 13
+          # October 2026): optional; unset, the step prints one line and
+          # skips. It travels in LegiScan's query string, never logged.
+          LEGISCAN_API_KEY: ${{ secrets.LEGISCAN_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           US_JUDGE: ${{ vars.US_JUDGE }}
           US_RECLASSIFY: ${{ inputs.reclassify }}

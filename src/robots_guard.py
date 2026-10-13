@@ -95,6 +95,12 @@ DOCUMENTED_APIS = (
     "https://v3.openstates.org/",
     "https://data.openstates.org/",
     "https://unitedstates.github.io/congress-legislators/",
+    # US states, alternative sources (13 October 2026): LegiScan's documented
+    # Pull API (keyed; legiscan.com itself sits behind a Cloudflare challenge
+    # we never bypass). Kansas KLISS and California's leginfo downloads are
+    # NOT listed: robots.txt is asked for them every run. The Texas FTP (no
+    # robots.txt exists for FTP) is exempted in tools/us_states_direct.py.
+    "https://api.legiscan.com/",
     # Australia
     "https://api.prod.legislation.gov.au/",
     "https://handbookapi.aph.gov.au/api/",

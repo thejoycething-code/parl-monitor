@@ -37,6 +37,9 @@ ENV_SECRETS = (("slack_bot_token", "SLACK_BOT_TOKEN"),
                # covers the fifty state legislatures.
                ("congress_api_key", "CONGRESS_API_KEY"),
                ("openstates_api_key", "OPENSTATES_API_KEY"),
+               # LegiScan's free public key (13 October 2026, optional:
+               # tools/us_states_legiscan.py skips cleanly without it).
+               ("legiscan_api_key", "LEGISCAN_API_KEY"),
                # The country editions' combined reading task (11 October
                # 2026, tools/edition_review.py): the GitHub secret's name.
                ("asana_pat", "ASANA_PAT"))

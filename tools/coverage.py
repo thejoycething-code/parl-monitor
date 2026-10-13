@@ -293,6 +293,12 @@ FEEDS = [
     ("uss_people", "last_seen", 7, 7, "sitting state legislators (US weekly, by rotation)"),
     ("uss_bills", "last_seen", 31, 31, "state bills on our ground that moved (US weekly)"),
     ("uss_votes", "last_seen", 31, 31, "state recorded votes on those bills (US weekly)"),
+    # Alternative state sources (13 October 2026): a row is re-stamped only
+    # when its source shows a change (Kansas's revision, a California daily
+    # file, a Texas file, a LegiScan change_hash), so recess can be quiet for
+    # weeks: a month plus a month's grace, as for the bills.
+    ("uss_bill_sources", "last_seen", 31, 31,
+     "state bills from LegiScan and the KS, CA and TX feeds (US weekly)"),
     # Ireland (9 October 2026). MEASURED which re-stamp: tools/ie_rollcalls.py
     # re-reads both rosters, every bill with an event since the Dail first
     # met, and every division of both Houses whole on each run, and all three
@@ -947,6 +953,10 @@ AWAITING_FIRST_RUN = {
     "US Federal Register": (("us_fr_documents",),
                             "executive actions added to US weekly 9 October 2026; "
                             "the table fills on the step's first run"),
+    # tools/us_states_direct.py stamps "US states direct" after every run.
+    "US states direct": (("uss_bill_sources",),
+                         "LegiScan and the KS, CA and TX feeds added to US weekly 13 October "
+                         "2026; the table fills on the step's first run"),
     # tools/us_states.py stamps "US states" at the end of every stored run.
     "US states": (("uss_sessions", "uss_people", "uss_bills", "uss_votes"),
                   "state legislatures added to US weekly 9 October 2026; "
