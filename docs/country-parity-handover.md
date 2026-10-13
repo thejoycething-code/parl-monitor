@@ -132,9 +132,9 @@ Open:
   publish open data whose robots.txt disallows `/api/` to all but Googlebot.
   Leave, or write to their open-data offices? Aargau disallows its whole
   parliament section: ask its Parlamentsdienst or leave?
-- OPEN (Argentina): Santa Fe Diputados' SIEL names AI agents in robots.txt
-  (our own UA is not named). Recommended: do not build; email instead.
-  Salta: both chambers fail TLS verification (verification stays on).
+- OPEN (Argentina): Salta Diputados' intake (pending lists empty, Asuntos
+  Entrados as PDFs): read the PDFs or ask the chamber? (Santa Fe SIEL and
+  both Salta chambers built 13 October, `docs/argentina-regions-scope.md`.)
 - OPEN (US states): New Jersey, Massachusetts, New York's Senate API and
   Michigan answer GitHub's runners only, not the Mini. Add a GitHub-side
   states step? New York's needs a free key.
@@ -1251,7 +1251,7 @@ edition has a "Regional assemblies" section. Scope:
 Scope and build: `docs/argentina-regions-scope.md`. Code:
 `tools/ar_regions.py`, `src/ar_regions_store.py` (`arp_laws`, `arp_bills`,
 `arp_reads`), a "Provincial legislatures" section in `src/editions/ar.py`,
-a 300 s step in `jobs/ar-weekly.sh` (no new Mini job).
+a 300 s step in `jobs/ar-weekly.sh` (420 s since 13 October; no new Mini job).
 
 - **Laws, all 24:** SAIJ's search (JSON, four pages a week; 118 laws from
   17 provinces in the newest 200, one to three weeks after the Boletín
@@ -1263,15 +1263,25 @@ a 300 s step in `jobs/ar-weekly.sh` (no new Mini job).
   First read: 2,579 expedientes, 84 on our ground (CABA's conversion-practice
   ban, ESI floor, IVE programme and the Geneva Consensus pair seed
   `watchlist-ar.yaml` `provincial`).
-- **Blocked:** Buenos Aires Senate (reCAPTCHA), Salta both chambers (TLS
-  verification fails), Mendoza Senate and Catamarca Senate (403), Santa Cruz
+- **Blocked:** Buenos Aires Senate (reCAPTCHA), Mendoza Senate and Catamarca Senate (403), Santa Cruz
   (robots.txt disallows every page; SILEG login), Santiago del Estero (no
   site). Unreachable from the UK: Santa Fe Senate, Entre Ríos Diputados,
   San Luis, La Pampa. Not built yet: Tucumán, Misiones, Tierra del Fuego,
   Neuquén, San Juan, La Rioja, Chaco, Mendoza Diputados (60 s Crawl-delay),
-  Catamarca Diputados, Formosa (laws only). Santa Fe Diputados' SIEL names
-  AI agents in robots.txt (our UA allowed): waiting on Chris.
+  Catamarca Diputados, Formosa (laws only).
 - **No roll calls** from any province in a readable form.
+- **Added 13 October 2026 (branch `ar-santafe-salta`):** Santa Fe Diputados'
+  SIEL (`sf-dip`; Chris: "Build it"): the expediente list and the media-sanción
+  and sanción lists, all through our identified client; its robots.txt names
+  AI agents only, and the reader stops before any request if a rule ever
+  covers our user agent (`GuardedClient.disallows_for_us`). Salta: no
+  certificate was missing. `senadosalta.gob.ar` and `www.diputadosalta.gob.ar`
+  serve complete Let's Encrypt chains that verify; the failures were
+  `www.senadosalta.gob.ar` (self-signed proxy certificate) and the bare
+  `diputadosalta.gob.ar` (wildcard mismatch), now unused. Built: the Senate
+  (`sal-sen`, WordPress REST, new and approved projects) and Diputados
+  (`sal-dip`, approved lists only; intake is PDF). Smoke read: 893 rows, 39
+  on our ground. Budget of the weekly step 300 s to 420 s; no new Mini job.
 
 ## Regional layer: Australia's states and territories (13 October 2026)
 

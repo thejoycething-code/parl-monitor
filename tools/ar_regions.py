@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Argentina's provincial legislatures: the 24 jurisdictions' laws and eight
+"""Argentina's provincial legislatures: the 24 jurisdictions' laws and eleven
 legislatures' bills (13 October 2026).
 
     python3 tools/ar_regions.py                        # the weekly read
@@ -23,7 +23,7 @@ sources, read politely, each a few requests a week:
               Oficial's, normas.gba.gob.ar): its newest laws, two pages.
               Earlier than SAIJ for the largest province.
 
-  BILLS (arp_bills), eight legislatures
+  BILLS (arp_bills), eleven legislatures
   * ba-dip    Cámara de Diputados de la Provincia de Buenos Aires: the
               read-only search by "fecha de estado parlamentario" (a form
               POST), last LOOKBACK_DAYS days, 200 rows a page. Every
@@ -47,14 +47,24 @@ sources, read politely, each a few requests a week:
   * juj       Legislatura de Jujuy: the REST project list, 20 newest.
   * ctes-dip  Cámara de Diputados de Corrientes: the expediente list (five a
               page), until a page is older than the window.
+  * sf-dip    Cámara de Diputados de Santa Fe (SIEL, added 13 October 2026):
+              the expediente list (20 a page, newest first) until a page is
+              older than the window, then the media-sanción and sanción
+              lists (the search form, by state). SIEL's robots.txt names AI
+              agents and has no '*' group: the reader stops before any
+              request if a rule ever applies to OUR user agent.
+  * sal-sen   Cámara de Senadores de Salta (added 13 October 2026): the
+              project posts of its WordPress site (REST), 100 newest by
+              entry and 50 approved by last change (a post moves category
+              when approved).
+  * sal-dip   Cámara de Diputados de Salta (added 13 October 2026): this
+              year's approved laws, resolutions and declarations (three
+              pages); its pending lists are empty and its intake is PDF.
 
 NOT READ, and why (the scope doc has the measurements): the Buenos Aires
-Senate's search carries a reCAPTCHA; Salta's two chambers fail TLS
-verification; Mendoza's Senate answers 403 and its Chamber asks a 60 s
-Crawl-delay and timed out; Santa Fe's Senate did not answer; Santa Fe's
-Diputados expediente system (SIEL) names Claude agents in its robots.txt
-(our collector's own user agent is allowed, but the agent that built this
-did not probe it further: Chris to decide); Tucumán's expediente app did not
+Senate's search carries a reCAPTCHA; Mendoza's Senate answers 403 and its
+Chamber asks a 60 s Crawl-delay and timed out; Santa Fe's Senate did not
+answer; Tucumán's expediente app did not
 answer at first (it did later: not built yet). Misiones (JSON per deputy,
 about 40 requests), Tierra del Fuego (a pending-business page), Neuquén,
 San Juan, La Rioja and Chaco (PDFs or POST searches) are listed in the
@@ -109,8 +119,12 @@ NORMAS_PAGES = 2
 BA_DIP_MAX_PAGES = 6
 WATCHLIST = os.path.join(ROOT, "config", "watchlist-ar.yaml")
 SUMMARY_CHARS = 2000
-SOURCES = ("saij", "normas-gba", "ba-dip", "caba", "cba", "er-sen", "rn", "chu", "juj", "ctes-dip")
+SOURCES = ("saij", "normas-gba", "ba-dip", "caba", "cba", "er-sen", "rn", "chu", "juj", "ctes-dip",
+           "sf-dip", "sal-sen", "sal-dip")
 CTES_MAX_PAGES = 8
+SF_MAX_PAGES = 8
+SAL_SEN_NEW = 100
+SAL_SEN_MOVED = 50
 
 SAIJ = ("https://www.saij.gob.ar/busqueda?o={offset}&p={size}&f=Total%7CTipo+de+Documento"
         "%2FLegislaci%C3%B3n%2FLey%7CJurisdicci%C3%B3n%2FLocal&s=fecha-rango%7CDESC&v=colapsada")
@@ -134,12 +148,41 @@ JUJ = "https://www.legislaturajujuy.gov.ar/rest/index.php/labor/legislativa/proy
 JUJ_SITE = "https://www.legislaturajujuy.gov.ar/"
 CTES = "https://hcdcorrientes.gov.ar/?post_type=expedientes&paged={0}"
 
+# Santa Fe Diputados, SIEL (added 13 October 2026, Chris: "Build it"). Its
+# robots.txt names AI agents (ClaudeBot, Claude-User ...) and has no '*'
+# group; our collector's own user agent is not named, so it is allowed. The
+# reader stops the moment any rule covers our user agent (pull_sf_dip).
+SF_ROOT = "https://siel.diputadossantafe.gov.ar/"
+SF_LIST = "https://siel.diputadossantafe.gov.ar/index.php?i={0}&ord=DESC"
+SF_SEARCH = "https://siel.diputadossantafe.gov.ar/index.php?go=le"
+SF_DETAIL = "https://siel.diputadossantafe.gov.ar/index.php?go=d&id={0}"
+# SIEL's stage lists read every week (the state code of its search form):
+# media sanción and sanción, newest 20 of each.
+SF_STAGES = (("11", "1/2 Sanción"), ("12", "Sancionado"))
+
+# Salta (added 13 October 2026). The certificates were never the problem of
+# a missing intermediate: senadosalta.gob.ar and www.diputadosalta.gob.ar
+# serve complete Let's Encrypt chains that verify; www.senadosalta.gob.ar
+# serves a self-signed proxy certificate and the bare diputadosalta.gob.ar
+# a wildcard that does not cover it. So these two hostnames, verification on.
+SAL_SEN_POSTS = ("https://senadosalta.gob.ar/wp-json/wp/v2/posts?categories={cats}&per_page={n}"
+                 "&orderby={order}&order=desc&_fields=id,date,modified,link,title,categories,excerpt")
+# WordPress categories of the Senate's project posts (measured 13 October
+# 2026 from /wp-json/wp/v2/categories). A post moves from "en trámite" to
+# "aprobados" when the chamber approves it (its date stays the entry date).
+SAL_SEN_CATS = {52: ("declaracion", "En trámite"), 53: ("resolucion", "En trámite"),
+                54: ("ley", "En trámite"), 56: ("ley", "Aprobado"),
+                57: ("resolucion", "Aprobado"), 58: ("declaracion", "Aprobado")}
+SAL_DIP_APPROVED = "https://www.diputadosalta.gob.ar/web/proyectos_aprobados_por_periodo?periodo={0}&tipo={1}"
+SAL_DIP_ROOT = "https://www.diputadosalta.gob.ar"
+
 # Per-host intervals (seconds), never lower than a Crawl-delay robots.txt asks.
 DELAYS = {"www.saij.gob.ar": 3.0, "normas.gba.gob.ar": 3.0, "www.hcdiputados-ba.gov.ar": 5.0,
           "parlamentaria.legislatura.gob.ar": 3.0, "gld.legislaturacba.gob.ar": 5.0,
           "www.senadoer.gob.ar": 3.0, "web.legisrn.gov.ar": 3.0,
           "larus.legislaturadelchubut.gob.ar": 3.0, "www.legislaturajujuy.gov.ar": 3.0,
-          "hcdcorrientes.gov.ar": 3.0}
+          "hcdcorrientes.gov.ar": 3.0, "siel.diputadossantafe.gov.ar": 5.0,
+          "senadosalta.gob.ar": 3.0, "www.diputadosalta.gob.ar": 3.0}
 
 
 # --- text helpers --------------------------------------------------------------------
@@ -522,6 +565,156 @@ def parse_ctes(page):
 
 # --- classification and the store -----------------------------------------------------------
 
+# --- Santa Fe Diputados (SIEL) and Salta's two chambers (added 13 October 2026) ------
+
+SF_ROW = re.compile(r'<tr class="odd gradeX">(.*?)</tr>', re.S)
+SF_BLOC = re.compile(r"\*\s*([^*]{3,160}?)\s*\*\.?\s*$")
+SF_DONE = ("SANCIONADO", "PROMULGADO", "APROBADO")
+
+
+def sf_search_fields(state):
+    """SIEL's read-only search form, by state only (the form's own fields)."""
+    fields = {k: "" for k in ("numero", "estado", "comisionmenu", "tipoexpediente", "numerodeley",
+                              "fechainicio", "fechafin", "idAutorDiputado", "idAutorSenador",
+                              "idAutorDiputadoPrevio", "firmantes", "endescripcion")}
+    fields.update({"estado": state, "Buscar": "Buscar"})
+    return fields
+
+
+def sf_columns(page):
+    """SIEL's column order from the table head: the expediente list hides
+    'Pasada' in an HTML comment, the search results show it."""
+    head = re.search(r"<thead>(.*?)</thead>", re.sub(r"<!--.*?-->", "", page or "", flags=re.S), re.S)
+    names = [fold(flat(h)) for h in re.findall(r"<th[^>]*>(.*?)</th>", head.group(1), re.S)] if head else []
+    want = {"NUMERO": "number", "TIPO": "kind", "AUTOR": "author", "FECHA DE INGRESO": "entered",
+            "ESTADO": "state", "DESCRIPCION": "desc"}
+    cols = {want[n]: i for i, n in enumerate(names) if n in want}
+    if len(cols) < len(want):
+        cols = {"number": 0, "kind": 1, "author": 2, "entered": 3, "state": 4, "desc": 5}
+    return cols
+
+
+def parse_sf_dip(page, stage=False):
+    """SIEL's expediente table (20 a page, newest number first): number,
+    type, author, entry date, state, description (the bloc in asterisks at
+    its end goes to the author), and the detail page's id. A sanctioned
+    expediente's number cell also prints its law number."""
+    out = []
+    cols = sf_columns(page)
+    for block in SF_ROW.findall(page or ""):
+        block = re.sub(r"<!--.*?-->", "", block, flags=re.S)
+        cells = [flat(c) for c in re.findall(r"<td[^>]*>(.*?)</td>", block, re.S)]
+        if len(cells) <= max(cols.values()):
+            continue
+        number_cell, kind, author, entered, state, desc = (
+            cells[cols[k]] for k in ("number", "kind", "author", "entered", "state", "desc"))
+        m = re.match(r"(\d+)\b(.*)", number_cell)
+        if not m:
+            continue
+        number, law = m.group(1), re.search(r"LEY\s*Nro:?\s*(\d+)", m.group(2), re.I)
+        bloc = SF_BLOC.search(desc)
+        title = desc[:bloc.start()].strip(" .-") if bloc else desc
+        if bloc:
+            author = "{0} ({1})".format(author, bloc.group(1).strip()) if author else bloc.group(1).strip()
+        if law and state:
+            state = "{0} (Ley {1})".format(state, law.group(1))
+        detail = re.search(r"index\.php\?go=d&(?:amp;)?id=(\d+)", block)
+        out.append({"bill_key": "sf-dip:" + number, "legislature": "sf-dip", "province": "sf",
+                    "expediente": number, "kind": kind_of(kind) or (fold(kind).lower() or None),
+                    "title": title, "author": author or None, "status": state or None,
+                    "committee": None, "presented": dmy(entered),
+                    "sanctioned": 1 if fold(state).startswith(SF_DONE) else 0,
+                    "url": SF_DETAIL.format(detail.group(1)) if detail else SF_ROOT,
+                    "stage": stage})
+    return out
+
+
+SAL_EXPTE = re.compile(r"Expte\.?\s*N\s*[°ºo]?\s*\.?\s*(\d+)\s*-\s*([\d.]+)\s*/\s*(\d{2,4})\s*[–—-]+\s*"
+                       r"(\d{1,2}/\d{1,2}/\d{2,4})?\s*[–—-]*\s*(.*)$", re.S)
+SAL_AUTHOR = re.compile(r"^De(?:l| la| las| los)?\s+(?:se[ñn]or(?:a|es|as)?\s+)?Senador(?:a|es|as)?\s+(.*)$",
+                        re.I | re.S)
+SAL_AUTHOR_END = re.compile(r"(?i:,?\s+(?:que|declarar|declara|viendo|de conformidad|solicita\w*|ver[ií]a\w*|"
+                            r"mediante|por el cual|para|sobre|a fin|instituir|crear|modificar)\b)"
+                            r"|,\s+(?=[a-záéíóúñ])")
+SAL_AUTHOR_JOIN = re.compile(r",?\s*\by\s+(?:l[oa]s?\s+|el\s+)?(?:se[ñn]or(?:a|es|as)?\s+)?(?:Senador(?:a|es|as)?\s+)?",
+                             re.I)
+
+
+SAL_OFFICE = re.compile(r"^Autor:\s*(C[áa]mara de Diputados|Poder Ejecutivo|Ministerio P[úu]blico|"
+                        r"Corte de Justicia|Auditor[íi]a General de la Provincia|Tribunal de Cuentas)", re.I)
+
+
+def sal_authors(excerpt):
+    """'De los Señores Senadores A, B y C que ...' -> 'A, B, C'."""
+    office = SAL_OFFICE.search(excerpt or "")
+    if office:
+        return office.group(1)
+    m = SAL_AUTHOR.search(excerpt or "")
+    if not m:
+        return None
+    rest = m.group(1)
+    end = SAL_AUTHOR_END.search(rest)
+    names = rest[:end.start()] if end else rest
+    names = SAL_AUTHOR_JOIN.sub(", ", names).strip(" ,.")
+    return names if 0 < len(names) <= 300 else None
+
+
+def _year4(text):
+    return text if len(text) == 4 else "20" + text
+
+
+def short_dmy(text):
+    """'08/10/26' or '08/10/2026' -> ISO."""
+    m = re.match(r"(\d{1,2})/(\d{1,2})/(\d{2,4})$", (text or "").strip())
+    return dmy("{0}/{1}/{2}".format(m.group(1), m.group(2), _year4(m.group(3)))) if m else None
+
+
+def parse_sal_sen(reply, stage=False):
+    """Salta Senate's project posts (WordPress REST, JSON): the title is
+    'Expte. N° 90-34.699/2026 – 08/10/26 – subject'; the category says the
+    kind and whether it is still en trámite or approved; the excerpt opens
+    with the authors."""
+    out = []
+    for post in json.loads(reply or "[]"):
+        title = flat((post.get("title") or {}).get("rendered", ""))
+        m = SAL_EXPTE.search(title)
+        cats = [SAL_SEN_CATS[c] for c in post.get("categories") or [] if c in SAL_SEN_CATS]
+        if not m or not cats:
+            continue
+        kind, state = cats[0]
+        number = "{0}-{1}/{2}".format(m.group(1), m.group(2).replace(".", ""), _year4(m.group(3)))
+        excerpt = flat((post.get("excerpt") or {}).get("rendered", ""))
+        subject = m.group(5).strip(" –-")
+        out.append({"bill_key": "sal-sen:" + number, "legislature": "sal-sen", "province": "sal",
+                    "expediente": number, "kind": kind,
+                    "title": "{0}: {1}".format(subject, excerpt) if excerpt and subject else (subject or excerpt),
+                    "author": sal_authors(excerpt), "status": state,
+                    "committee": None,
+                    "presented": short_dmy(m.group(4)) or (post.get("date") or "")[:10] or None,
+                    "sanctioned": 1 if state == "Aprobado" and kind != "ley" else 0,
+                    "url": post.get("link"), "stage": stage})
+    return out
+
+
+SAL_DIP_ROW = re.compile(r'<a href="(/web/expediente/\d+)">([^<]+)</a></td>\s*<td[^>]*>([^<]*)</td>\s*'
+                         r'<td>(.*?)</td>', re.S)
+
+
+def parse_sal_dip(page, kind):
+    """Salta Diputados' approved projects of one period and type (one page):
+    number, entry date, title. Its pending lists answered '0 expedientes' on
+    13 October 2026, so this is the chamber's stage list, not its intake."""
+    out = []
+    for href, number, entered, title in SAL_DIP_ROW.findall(page or ""):
+        number = flat(number)
+        out.append({"bill_key": "sal-dip:" + number, "legislature": "sal-dip", "province": "sal",
+                    "expediente": number, "kind": kind, "title": flat(title), "author": None,
+                    "status": "Aprobado", "committee": None, "presented": dmy(entered),
+                    "sanctioned": 0 if kind == "ley" else 1, "url": SAL_DIP_ROOT + href,
+                    "stage": True})
+    return out
+
+
 def load_taxonomy(path=None):
     from src import filter as filt
     path = path or os.path.join(ROOT, "config", "taxonomy-es.yaml")
@@ -622,6 +815,10 @@ def upsert_bill(conn, row, tax, watch, today, seed=False):
                                           "presented", "sanctioned", "url")}
         seed_flag = 1 if seed else 0
         moved = prev = None
+        if row.get("stage") and not seed:
+            # First seen in a stage list (a chamber's approved or media-sanción
+            # list), after the source's first read: the stage is the news.
+            moved = today
     areas, terms, tier = classify(tax, watch, row["bill_key"], merged["title"])
     conn.execute(
         "INSERT INTO arp_bills (bill_key, legislature, province, expediente, kind, title, author, "
@@ -934,6 +1131,119 @@ def pull_ctes(run, since):
         len(rows), new, ours))
 
 
+def pull_sf_dip(run, since):
+    """Santa Fe Diputados (SIEL): the newest expedientes, 20 a page, until a
+    page is older than the window; then the media-sanción and sanción lists
+    (one search each). Before any of it: if robots.txt has ANY rule that
+    applies to our user agent (a '*' group, or a group naming us), or cannot
+    be read, SIEL is not read at all this run (Chris, 13 October 2026)."""
+    if hasattr(run.client, "disallows_for_us"):
+        covering = run.client.disallows_for_us(SF_ROOT)
+    else:
+        covering = ["this client does not read robots.txt"]
+    if covering:
+        run.gap("sf-dip", "SIEL not read: robots.txt has a rule covering our user agent, or could "
+                "not be checked ({0}); stopped".format(", ".join(covering)[:120]))
+        return
+    seed = first_read(run.conn, "sf-dip")
+    rows = []
+    for page_no in range(SF_MAX_PAGES):
+        url = SF_ROOT if page_no == 0 else SF_LIST.format(page_no * 20)
+        try:
+            page = run.client.get_text(url, FEED, "sf-dip-{0}".format(page_no + 1))
+        except FetchError as exc:
+            if not rows:
+                run.gap("sf-dip", "Diputados (Santa Fe) SIEL unreadable: " + _fail(exc))
+                return
+            run.log("  sf-dip: stopped at page {0}: {1}".format(page_no + 1, _fail(exc)))
+            break
+        got = parse_sf_dip(page)
+        rows += got
+        dates = [r["presented"] for r in got if r["presented"]]
+        if not got or (dates and min(dates) < since.isoformat()):
+            break
+    if not rows:
+        run.gap("sf-dip", "Diputados (Santa Fe) SIEL listed nothing; its markup may have changed")
+        return
+    staged = 0
+    for state, label in SF_STAGES:
+        try:
+            page = run.client.post_form(SF_SEARCH, sf_search_fields(state), FEED,
+                                        "sf-dip-state-{0}".format(state), archive=True)
+        except FetchError as exc:
+            run.gap("sf-dip", "SIEL's {0} list unreadable: {1}".format(label, _fail(exc)))
+            if isinstance(exc, RobotsRefused):
+                break
+            continue
+        got = parse_sf_dip(page, stage=True)
+        staged += len(got)
+        rows += got
+    new, ours = run.bills(rows, seed)
+    record_read(run.conn, "sf-dip", run.today.isoformat(), len(rows), "ok")
+    run.log("ar-regions: Diputados (Santa Fe) {0} expediente(s) ({1} from its stage lists), {2} new, "
+            "{3} new on our ground.".format(len(rows), staged, new, ours))
+
+
+def pull_sal_sen(run):
+    """Salta Senate: the newest project posts (by entry), then the approved
+    ones by last change (a post moves category when approved)."""
+    seed = first_read(run.conn, "sal-sen")
+    pending = ",".join(str(c) for c, v in SAL_SEN_CATS.items() if v[1] == "En trámite")
+    approved = ",".join(str(c) for c, v in SAL_SEN_CATS.items() if v[1] == "Aprobado")
+    asks = ((SAL_SEN_POSTS.format(cats=pending + "," + approved, n=SAL_SEN_NEW, order="date"),
+             "sal-sen-new", False),
+            (SAL_SEN_POSTS.format(cats=approved, n=SAL_SEN_MOVED, order="modified"),
+             "sal-sen-approved", True))
+    rows = []
+    for url, slug, stage in asks:
+        try:
+            got = parse_sal_sen(run.client.get_text(url, FEED, slug), stage=stage)
+        except (FetchError, ValueError) as exc:
+            if not rows:
+                run.gap("sal-sen", "Senado (Salta) project posts unreadable: " + _fail(exc))
+                return
+            run.gap("sal-sen", "Senado (Salta) approved posts unreadable: " + _fail(exc))
+            break
+        rows += got
+    if not rows:
+        run.gap("sal-sen", "Senado (Salta) listed no projects; its reply may have changed")
+        return
+    # one row per expediente: the approved read (later) wins over the intake read
+    keyed = {}
+    for r in rows:
+        keyed[r["bill_key"]] = r if r["bill_key"] not in keyed or r["stage"] else keyed[r["bill_key"]]
+    new, ours = run.bills(list(keyed.values()), seed)
+    record_read(run.conn, "sal-sen", run.today.isoformat(), len(keyed), "ok")
+    run.log("ar-regions: Senado (Salta) {0} project(s), {1} new, {2} new on our ground.".format(
+        len(keyed), new, ours))
+
+
+def pull_sal_dip(run):
+    """Salta Diputados: this year's approved projects (laws, resolutions,
+    declarations), one page each; its intake lists are empty and its Asuntos
+    Entrados are PDFs (scope doc)."""
+    seed = first_read(run.conn, "sal-dip")
+    rows, failed = [], []
+    for tipo, kind in (("ley", "ley"), ("resolucion", "resolucion"), ("declaracion", "declaracion")):
+        url = SAL_DIP_APPROVED.format(run.today.year, tipo)
+        try:
+            rows += parse_sal_dip(run.client.get_text(url, FEED, "sal-dip-{0}-{1}".format(
+                tipo, run.today.year)), kind)
+        except FetchError as exc:
+            failed.append("{0}: {1}".format(tipo, _fail(exc)))
+            if isinstance(exc, RobotsRefused):
+                break
+    if not rows:
+        run.gap("sal-dip", "Diputados (Salta) approved lists unreadable or empty: " + "; ".join(failed))
+        return
+    for f in failed:
+        run.log("  sal-dip: {0}".format(f))
+    new, ours = run.bills(rows, seed)
+    record_read(run.conn, "sal-dip", run.today.isoformat(), len(rows), "ok")
+    run.log("ar-regions: Diputados (Salta) {0} approved project(s) of {1}, {2} new, {3} new on our "
+            "ground.".format(len(rows), run.today.year, new, ours))
+
+
 def collect(conn, client, today, sources=SOURCES, tax=None, watch=None, saij_pages=SAIJ_PAGES,
             deadline=None, log=print):
     """Read every source in `sources`; returns the number of gaps."""
@@ -943,7 +1253,8 @@ def collect(conn, client, today, sources=SOURCES, tax=None, watch=None, saij_pag
              "ba-dip": lambda: pull_ba_dip(run, since), "caba": lambda: pull_caba(run),
              "cba": lambda: pull_cba(run), "er-sen": lambda: pull_er_sen(run, since),
              "rn": lambda: pull_rn(run), "chu": lambda: pull_chu(run), "juj": lambda: pull_juj(run),
-             "ctes-dip": lambda: pull_ctes(run, since)}
+             "ctes-dip": lambda: pull_ctes(run, since), "sf-dip": lambda: pull_sf_dip(run, since),
+             "sal-sen": lambda: pull_sal_sen(run), "sal-dip": lambda: pull_sal_dip(run)}
     for name in SOURCES:
         if name not in sources:
             continue

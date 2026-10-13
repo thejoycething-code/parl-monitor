@@ -1,0 +1,100 @@
+# ==========================
+# OpenAI / ChatGPT
+# ==========================
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+
+# ==========================
+# Anthropic / Claude
+# ==========================
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-SearchBot
+Disallow: /
+
+User-agent: Claude-User
+Disallow: /
+
+
+# ==========================
+# Google / Gemini
+# ==========================
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Google-CloudVertexBot
+Disallow: /
+
+User-agent: Google-Agent
+Disallow: /
+
+User-agent: Google-GeminiNotebook
+Disallow: /
+
+# Nombre anterior, vigente hasta agosto de 2026
+User-agent: Google-NotebookLM
+Disallow: /
+
+
+# ==========================
+# Perplexity
+# ==========================
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Perplexity-User
+Disallow: /
+
+
+# ==========================
+# Apple Intelligence
+# ==========================
+
+User-agent: Applebot-Extended
+Disallow: /
+
+
+# ==========================
+# Meta
+# ==========================
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: meta-externalfetcher
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+
+# ==========================
+# Otros agentes y datasets IA
+# ==========================
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: DuckAssistBot
+Disallow: /
+
+User-agent: MistralAI-User
+Disallow: /
