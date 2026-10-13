@@ -1,0 +1,255 @@
+{
+"count": "2",
+"firstindex": "1",
+"lastindex": "2",
+"result": [
+{
+"id": "http://be.vlp.feed/2076603",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2076603",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "Beckers, Roosmarijn"
+},
+{
+"name": "indiener",
+"value": "Laeremans, Jan"
+},
+{
+"name": "indiener",
+"value": "Claesen, Mercina"
+},
+{
+"name": "indiener",
+"value": "Claes, Bart"
+},
+{
+"name": "indiener",
+"value": "Slagmulder, Kristof"
+},
+{
+"name": "indiener",
+"value": "Janssens, Chris"
+},
+{
+"name": "zittingsjaar",
+"value": "2026-2027"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "1009"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "onderwerp",
+"value": "tot besluit van de op 8 oktober in commissie gehouden interpellaties 1° door Line De Witte aan minister Zuhal Demir over de resultaten van PISA 2025 en 2° door Roosmarijn Beckers  aan minister Zuhal Demir over de opnieuw verder dalende leerprestaties van Vlaamse 15-jarigen uit het PISA 2025-onderzoek"
+},
+{
+"name": "aggregaat",
+"value": "Motie"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2076603"
+},
+{
+"name": "basisstuk",
+"value": "Motie van Roosmarijn Beckers, Jan Laeremans, Mercina Claesen, Bart Claes, Kristof Slagmulder en Chris Janssens tot besluit van de op 8 oktober in commissie gehouden interpellaties 1° door Line De Witt"
+},
+{
+"name": "status",
+"value": "naar voorzitter"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-10-12"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-10-12"
+},
+{
+"name": "initiatief",
+"value": "Motie"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-12T15:23:09Z"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/2076603"
+},
+{
+"name": "datum",
+"value": "2026-10-12"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Motie tot besluit van de op 8 oktober in commissie gehouden interpellaties 1° door Line De Witte aan minister Zuhal Demir over de resultaten van PISA 2025 en 2° door Roosmarijn Beckers  aan minister Zuhal Demir over de opnieuw verder dalende leerprestaties van Vlaamse 15-jarigen uit het PISA 2025-onderzoek"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-10-12"
+},
+{
+"name": "aggregaattype",
+"value": "Motie"
+},
+{
+"name": "mimetype",
+"value": "text/plain"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/2076645",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2076645",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "De Witte, Line"
+},
+{
+"name": "zittingsjaar",
+"value": "2026-2027"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "1011"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "onderwerp",
+"value": "tot besluit van de op 8 oktober in commissie gehouden interpellaties 1° door Line De Witte aan minister Zuhal Demir over de resultaten van PISA 2025 en 2° door Roosmarijn Beckers  aan minister Zuhal Demir over de opnieuw verder dalende leerprestaties van Vlaamse 15-jarigen uit het PISA 2025-onderzoek"
+},
+{
+"name": "aggregaat",
+"value": "Motie"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2076645"
+},
+{
+"name": "basisstuk",
+"value": "Motie van Line De Witte tot besluit van de op 8 oktober in commissie gehouden interpellaties 1° door Line De Witte aan minister Zuhal Demir over de resultaten van PISA 2025 en 2° door Roosmarijn Becke"
+},
+{
+"name": "status",
+"value": "ingediend"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-10-12"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-10-12"
+},
+{
+"name": "initiatief",
+"value": "Motie"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-12T15:53:06Z"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/2076645"
+},
+{
+"name": "datum",
+"value": "2026-10-12"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Motie tot besluit van de op 8 oktober in commissie gehouden interpellaties 1° door Line De Witte aan minister Zuhal Demir over de resultaten van PISA 2025 en 2° door Roosmarijn Beckers  aan minister Zuhal Demir over de opnieuw verder dalende leerprestaties van Vlaamse 15-jarigen uit het PISA 2025-onderzoek"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-10-12"
+},
+{
+"name": "aggregaattype",
+"value": "Motie"
+},
+{
+"name": "mimetype",
+"value": "text/plain"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+}
+]
+}

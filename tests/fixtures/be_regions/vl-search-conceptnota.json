@@ -1,0 +1,311 @@
+{
+"count": "2",
+"firstindex": "1",
+"lastindex": "2",
+"result": [
+{
+"id": "http://be.vlp.feed/2061889/pfls/2367514",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2061889",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "Christiaens, An"
+},
+{
+"name": "indiener",
+"value": "Poelaert, Kris"
+},
+{
+"name": "indiener",
+"value": "Warnez, Brecht"
+},
+{
+"name": "indiener",
+"value": "Mertens, Sofie"
+},
+{
+"name": "indiener",
+"value": "Van Rompuy, Peter"
+},
+{
+"name": "indiener",
+"value": "Dochy, Bart"
+},
+{
+"name": "zittingsjaar",
+"value": "2025-2026"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "940"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "documenttype",
+"value": "tekst"
+},
+{
+"name": "onderwerp",
+"value": "over een sterker en toekomstgericht verkeerseducatiebeleid voor jongeren"
+},
+{
+"name": "aggregaat",
+"value": "Conceptnota voor nieuwe regelgeving"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2061889"
+},
+{
+"name": "themadatum",
+"value": "2026-07-09"
+},
+{
+"name": "basisstuk",
+"value": "Conceptnota voor nieuwe regelgeving van An Christiaens, Kris Poelaert, Brecht Warnez, Sofie Mertens, Peter Van Rompuy en Bart Dochy over een sterker en toekomstgericht verkeerseducatiebeleid voor jong"
+},
+{
+"name": "status",
+"value": "in behandeling in commissie"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-10-08"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-07-09"
+},
+{
+"name": "initiatief",
+"value": "Conceptnota voor nieuwe regelgeving"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-08T15:23:06Z"
+},
+{
+"name": "verslaggever",
+"value": "Vanden Eede, Stephanie"
+},
+{
+"name": "verslaggever",
+"value": "Erens, Frédéric"
+},
+{
+"name": "document",
+"value": "https://docs.vlaamsparlement.be/pfile?id=2367514"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/2061889"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Mobiliteit en Openbare Werken"
+},
+{
+"name": "datum",
+"value": "2026-10-08"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Conceptnota voor nieuwe regelgeving over een sterker en toekomstgericht verkeerseducatiebeleid voor jongeren"
+},
+{
+"name": "thema",
+"value": "Mobiliteit en Verkeer"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-07-09"
+},
+{
+"name": "aggregaattype",
+"value": "Conceptnota voor nieuwe regelgeving"
+},
+{
+"name": "mimetype",
+"value": "application/pdf"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/2075319",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2075319",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "Vandromme, Loes"
+},
+{
+"name": "indiener",
+"value": "Schryvers, Katrien"
+},
+{
+"name": "indiener",
+"value": "Vandeurzen, Toon"
+},
+{
+"name": "indiener",
+"value": "Van Dooren, Lien"
+},
+{
+"name": "zittingsjaar",
+"value": "2026-2027"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "1001"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "onderwerp",
+"value": "over hervormingen van de multifunctionele centra met het oog op het beter garanderen van toegang tot gepaste ondersteuning voor kinderen met een handicap"
+},
+{
+"name": "aggregaat",
+"value": "Conceptnota voor nieuwe regelgeving"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2075319"
+},
+{
+"name": "themadatum",
+"value": "2026-10-08"
+},
+{
+"name": "basisstuk",
+"value": "Conceptnota voor nieuwe regelgeving van Loes Vandromme, Katrien Schryvers, Toon Vandeurzen en Lien Van Dooren over hervormingen van de multifunctionele centra met het oog op het beter garanderen van t"
+},
+{
+"name": "status",
+"value": "verwezen naar commissie"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-10-08"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-10-08"
+},
+{
+"name": "initiatief",
+"value": "Conceptnota voor nieuwe regelgeving"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-12T10:23:09Z"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/2075319"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Welzijn, Volksgezondheid, Gezin, Armoedebestrijding en Gelijke Kansen"
+},
+{
+"name": "datum",
+"value": "2026-10-08"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Conceptnota voor nieuwe regelgeving over hervormingen van de multifunctionele centra met het oog op het beter garanderen van toegang tot gepaste ondersteuning voor kinderen met een handicap"
+},
+{
+"name": "thema",
+"value": "Welzijn en Gezin"
+},
+{
+"name": "thema",
+"value": "Gezondheid"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-10-08"
+},
+{
+"name": "aggregaattype",
+"value": "Conceptnota voor nieuwe regelgeving"
+},
+{
+"name": "mimetype",
+"value": "text/plain"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+}
+]
+}

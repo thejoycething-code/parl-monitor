@@ -105,6 +105,12 @@ DOCUMENTED_APIS = (
     "https://api.prod.legislation.gov.au/",
     "https://handbookapi.aph.gov.au/api/",
     "https://data.openaustralia.org.au/",
+    # Belgium's regional parliaments (tools/be_regions.py, 13 October 2026):
+    # the Flemish Parliament's open-data web services (the search route
+    # ws.vlpar.be/api/search/ behind its website is not listed: checked), and
+    # the Walloon Parliament's documented Open Data (JSON/CSV, /opendata/)
+    "https://ws.vlpar.be/e/opendata/",
+    "https://www.parlement-wallonie.be/opendata/",
     # Wikidata, GitHub (our own repository, and since 12 October 2026 the
     # Italian Senate's AkomaNtosoBulkData repository read by
     # tools/it_senato_amendments.py: the git trees API and raw files;
