@@ -40,6 +40,10 @@ Titles are verbatim in the canton's language. Basel-Stadt and Thurgau
 permission) carry members' votes (ch_canton_votes), shown as the federal
 votes are (tally, Fraktion split, members against their Fraktion), and a
 "Source:" line linking the dataset, as Basel-Stadt's CC BY licence asks.
+Basel-Stadt's business items come, since the same day, from the Grand
+Council's own raw data exports (grosserrat.bs.ch, offered by its
+Parlamentsdienst): their "Source:" line links the Grand Council's page of
+the business; its votes keep the data.bs.ch dataset link.
 """
 
 from __future__ import annotations
@@ -223,6 +227,24 @@ OPEN_DATA = {
             ("Vorstösser", "https://data.tg.ch/explore/dataset/sk-stat-141/"),
             ("Abstimmungen", "https://data.tg.ch/explore/dataset/sk-stat-136/"))),
 }
+# Read from a parliament's own raw data exports, offered by its staff (13
+# October 2026; robots.txt allows them). The Source line links the
+# parliament's page of each business.
+OWN_EXPORTS = {
+    "bs": ("grosserrat.bs.ch", "Peter Frankenbach, Parlamentsdienst des Grossen Rates",
+           (("Geschäfte", "https://grosserrat.bs.ch/component/gribs?chosentable=ges&view=exporter"
+                          "&Itemid=105&format=json"),
+            ("Dokumente", "https://grosserrat.bs.ch/component/gribs?chosentable=dok&view=exporter"
+                          "&Itemid=105&format=json"),
+            ("Vorgänge", "https://grosserrat.bs.ch/component/gribs?chosentable=vor&view=exporter"
+                         "&Itemid=105&format=json"),
+            ("Sitzungen", "https://grosserrat.bs.ch/component/gribs?chosentable=siz&view=exporter"
+                          "&Itemid=105&format=json"))),
+}
+# The host of an item's source_url, when it is a parliament's own page (the
+# licence line of OPEN_DATA does not apply to it).
+OWN_SOURCES = {"grosserrat.bs.ch": "Grosser Rat Basel-Stadt, from its Parlamentsdienst's "
+                                   "Geschäfte export"}
 CANTONS_BLOCKED = (
     "Basel-Landschaft and St. Gallen: their open-data portals' robots.txt disallows /api/ "
     "(not read); their parliaments are read from their own business systems instead "
@@ -256,9 +278,15 @@ def _canton_takeaway(r, new):
 
 
 def source_line(canton, url):
-    """The dataset link an open-data canton's licence asks for."""
+    """The dataset link an open-data canton's licence asks for, or the
+    parliament's own page where the item came from its own export."""
+    if not url:
+        return None
+    host = url.split("/")[2] if "://" in url else ""
+    if host in OWN_SOURCES:
+        return "Source: [{0}]({1}) ({2}).".format(host, url, OWN_SOURCES[host])
     got = OPEN_DATA.get(canton)
-    if not got or not url:
+    if not got:
         return None
     return "Source: [{0}]({1}) ({2}).".format(got[0], url, got[1])
 
@@ -356,17 +384,25 @@ def canton_coverage(conn):
     lines = ["Cantonal parliaments read (last read): {0}.".format(", ".join(read) or "none yet")]
     if never:
         lines.append("Not read yet: {0}.".format(", ".join(never)))
+    for code, (host, offered, sets) in OWN_EXPORTS.items():
+        lines.append("{0}'s business items are read from the Grand Council's own raw data "
+                     "exports on {1}, offered by {2} (13 October 2026): {3}.".format(
+                         CANTON_NAMES[code], host, offered, ", ".join(
+                             "[{0}]({1})".format(n, u) for n, u in sets)))
     for code, (host, licence, sets) in OPEN_DATA.items():
-        lines.append("{0} is read from {1}'s open-data API with the owner's written permission "
+        what = ("{0}'s votes (and its business items, if the Grand Council's exports fail) are"
+                .format(CANTON_NAMES[code]) if code in OWN_EXPORTS
+                else "{0} is".format(CANTON_NAMES[code]))
+        lines.append("{0} read from {1}'s open-data API with the owner's written permission "
                      "(13 October 2026; robots.txt there refuses programs): {2}; {3}.".format(
-                         CANTON_NAMES[code], host, ", ".join("[{0}]({1})".format(n, u)
-                                                            for n, u in sets), licence))
+                         what, host, ", ".join("[{0}]({1})".format(n, u)
+                                               for n, u in sets), licence))
     lines += [b + "." for b in CANTONS_BLOCKED]
     lines.append("Cantonal titles are matched in their own language (taxonomy-atch, taxonomy-fr, "
                  "taxonomy-it for Ticino); Geneva is read through its keyword search, Vaud from "
                  "its lists of pending objects, Ticino from the order of the day, Basel-Landschaft "
                  "from its newest documents. Basel-Stadt and Thurgau fall back to their "
-                 "parliaments' own pages if the API fails (a gap line says so).")
+                 "parliaments' own pages if their exports and APIs fail (a gap line says so).")
     return lines
 
 

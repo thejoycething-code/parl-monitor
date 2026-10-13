@@ -110,6 +110,23 @@ If either API fails, the canton is read from its parliament's own pages as
 before (grosserrat.bs.ch, grgeko.tg.ch) and one gap line says so. Scope:
 docs/switzerland-cantons-scope.md.
 
+**Basel-Stadt, later on 13 October 2026 (branch `bs-gribs`).** The data.bs.ch
+permission above **stands** and is still used: for the votes (100186, every
+member's vote) and as the business fallback (100311, 100313, 100314). The
+Grand Council's business is now read first from its own raw data exports,
+offered the same day by Peter Frankenbach (IT lead and webmaster,
+Parlamentsdienst des Grossen Rates Basel-Stadt), who wrote that data.bs.ch's
+robots.txt is outside his control:
+`https://grosserrat.bs.ch/component/gribs?chosentable=<table>&view=exporter&Itemid=105&format=json`
+(or `format=csv`), tables `ges`, `dok`, `vor`, `siz`. **These need no
+permission entry:** grosserrat.bs.ch's robots.txt allows `/component/` to
+`*` (it disallows `/administrator/`, `/api/`, system folders, and five AI
+crawlers by name, none of them ours), so the run-time guard asks robots.txt
+for them like any other page and would refuse them if that changed (tested:
+a `Disallow: /component/` makes Basel-Stadt step down to data.bs.ch with a
+gap). Collector: `fetch_baselstadt_gribs`; order: exports, then data.bs.ch,
+then the Grand Council's pages.
+
 A new permission is added by appending a `Permission(...)` to
 `robots_guard.PERMISSIONS` with the same fields and a row here;
 `tests/test_robots_runtime.py` (`WrittenPermissionTests`) checks that every
@@ -306,7 +323,7 @@ names the client that is wrapped when it is not the collector's own.
 | ca_committees | www.ourcommons.ca, www.parl.ca | scraper | yes | allowed |
 | ca_senate_committees | sencanada.ca | scraper | yes | allowed (12 October 2026) |
 | ca_senate_debates | sencanada.ca | scraper | yes | allowed |
-| ch_cantons (CH7, 13 October 2026) | parlzhcdws.cmicloud.ch, ogd.parl.apps.be.ch, ge.ch, www.vd.ch, www4.ti.ch | scraper and open data | yes (GuardedClient, no exemptions) | all allowed on 13 October 2026 (cmicloud and ogd.parl 404, ge.ch serves a web page as robots.txt); Ticino's acts search is disallowed and not used. data.bs.ch and data.tg.ch (`/api/` disallowed): the Grand Council datasets only, read with written permission since 13 October 2026 (see "Written permissions"). Not read because robots.txt refuses: data.bl.ch, daten.sg.ch (`/api/`), www.ag.ch (`/grossrat`). Added 13 October 2026 (access-routes), all allowed: grosserrat.bs.ch (disallows `/api/`, not used), baselland.talus.ch (disallows `/*searchTerm=`, not used), www.ratsinfo.sg.ch (serves its app page as robots.txt: no rules), grgeko.tg.ch (allows all), gesetzessammlungen.ag.ch (disallows its search paths, not used) |
+| ch_cantons (CH7, 13 October 2026) | parlzhcdws.cmicloud.ch, ogd.parl.apps.be.ch, ge.ch, www.vd.ch, www4.ti.ch | scraper and open data | yes (GuardedClient, no exemptions) | all allowed on 13 October 2026 (cmicloud and ogd.parl 404, ge.ch serves a web page as robots.txt); Ticino's acts search is disallowed and not used. data.bs.ch and data.tg.ch (`/api/` disallowed): the Grand Council datasets only, read with written permission since 13 October 2026 (see "Written permissions"). Not read because robots.txt refuses: data.bl.ch, daten.sg.ch (`/api/`), www.ag.ch (`/grossrat`). Added 13 October 2026 (access-routes), all allowed: grosserrat.bs.ch (disallows `/api/`, not used; since `bs-gribs` its `/component/gribs` exports, allowed, are Basel-Stadt's primary business source), baselland.talus.ch (disallows `/*searchTerm=`, not used), www.ratsinfo.sg.ch (serves its app page as robots.txt: no rules), grgeko.tg.ch (allows all), gesetzessammlungen.ag.ch (disallows its search paths, not used) |
 | cl_senate_parties | datos.bcn.cl/sparql | API | no | |
 | country_agenda, country_petitions, country_attendance, country_vote_briefs, country_debate_today, country_live_debate | (drivers) | | yes | wrapped once, see above |
 | devolved_brief | parl-monitor-partner.vercel.app, github.com | own | no | our own site and repository |
