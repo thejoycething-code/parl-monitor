@@ -1,0 +1,44 @@
+[
+ {
+  "beschlnr": null,
+  "vermerk": null,
+  "siz_datum": "2026-11-11",
+  "signatur_ges": "26.5405"
+ },
+ {
+  "beschlnr": null,
+  "vermerk": null,
+  "siz_datum": "2026-10-14",
+  "signatur_ges": "26.5337"
+ },
+ {
+  "beschlnr": null,
+  "vermerk": null,
+  "siz_datum": "2026-10-14",
+  "signatur_ges": "25.1234"
+ },
+ {
+  "beschlnr": null,
+  "vermerk": null,
+  "siz_datum": "2026-10-14",
+  "signatur_ges": "26.5383"
+ },
+ {
+  "beschlnr": "26/39/50G",
+  "vermerk": "Überweisung an RR Frist: 23.09.2028",
+  "siz_datum": "2026-09-23",
+  "signatur_ges": "26.5228"
+ },
+ {
+  "beschlnr": "26/39/133G",
+  "vermerk": "Überweisung an RR Frist: 23.12.2026",
+  "siz_datum": "2026-09-23",
+  "signatur_ges": "26.5411"
+ },
+ {
+  "beschlnr": "26/37/02.107G",
+  "vermerk": "Kenntnisnahme",
+  "siz_datum": "2026-09-09",
+  "signatur_ges": "26.5215"
+ }
+]

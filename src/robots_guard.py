@@ -37,6 +37,17 @@ listings, search pages, a website's RSS, an undocumented JSON backend behind
 a website) asks robots.txt first. The classification, collector by collector,
 is docs/robots-runtime.md. GuardedClient's default (exempt nothing) is what
 the regional collectors of #144 use, unchanged.
+
+WRITTEN PERMISSIONS (13 October 2026). A host whose robots.txt refuses us
+can still answer a written request from its owner. PERMISSIONS records each
+such permission: the URL prefixes it covers (host and path, as narrow as the
+datasets we read), who granted it, when, the condition in the grantor's own
+words and where it is documented (docs/robots-runtime.md, "Written
+permissions"). A URL under one of those prefixes is fetched with no
+robots.txt read, by every GuardedClient (with or without the DOCUMENTED_APIS
+exemption) and by probe_refusal; every other URL on the same host is still
+asked. A permission is never inferred: only a prefix listed here skips the
+check.
 """
 
 from __future__ import annotations
@@ -123,6 +134,63 @@ DOCUMENTED_APIS = (
 )
 
 
+class Permission:
+    """One written permission to fetch what a host's robots.txt refuses."""
+
+    __slots__ = ("prefixes", "granted_by", "date", "condition", "docs")
+
+    def __init__(self, prefixes, granted_by, date, condition, docs):
+        self.prefixes = tuple(prefixes)
+        self.granted_by = granted_by
+        self.date = date
+        self.condition = condition
+        self.docs = docs
+
+    def covers(self, url):
+        return any(url.startswith(p) for p in self.prefixes)
+
+    def __repr__(self):
+        return "Permission({0}, {1})".format(self.granted_by, self.date)
+
+
+_ODS_BS = "https://data.bs.ch/api/explore/v2.1/catalog/datasets/"
+_ODS_TG = "https://data.tg.ch/api/explore/v2.1/catalog/datasets/"
+
+# Written permissions, dated. Both portals are Opendatasoft instances whose
+# robots.txt disallows /api/ to every agent but Googlebot; both owners wrote
+# that our targeted API use is welcome. Only the Grand Council datasets
+# tools/ch_cantons.py reads are listed (records and exports, dataset by
+# dataset); the rest of each portal's API is still asked.
+PERMISSIONS = (
+    Permission(
+        tuple(_ODS_BS + d + "/" for d in ("100311", "100313", "100314", "100186")),
+        "Basel-Stadt: Orhan Saeedi, Statistisches Amt Basel-Stadt (data.bs.ch)",
+        "2026-10-13",
+        "\"Sie können sehr gerne die API benutzen unter Einhaltung der Lizenz. Das "
+        "heisst sie müssen die Datenquelle irgendwie verlinken.\" If the API is slow, "
+        "download in batches.",
+        "docs/robots-runtime.md#written-permissions"),
+    Permission(
+        tuple(_ODS_TG + d + "/" for d in ("sk-stat-140", "sk-stat-141", "sk-stat-136",
+                                          "sk-stat-139")),
+        "Thurgau: Felix Lorenz, Amt für Daten und Statistik (ogd@tg.ch, data.tg.ch)",
+        "2026-10-13",
+        "robots.txt is aimed at crawlers indexing the whole portal; targeted API "
+        "retrieval of individual datasets is explicitly intended. "
+        "CitizenGO-ParlMonitor/1.0 may retrieve the Grosser Rat datasets about weekly "
+        "via the API; the licence allows commercial and non-commercial use.",
+        "docs/robots-runtime.md#written-permissions"),
+)
+
+
+def permission_for(url, permissions=None):
+    """The Permission covering `url`, or None."""
+    for p in (PERMISSIONS if permissions is None else permissions):
+        if p.covers(url):
+            return p
+    return None
+
+
 def is_documented_api(url, exempt=DOCUMENTED_APIS):
     return any(url.startswith(p) for p in exempt)
 
@@ -196,17 +264,32 @@ class GuardedClient:
     """An HttpClient whose every request asks robots.txt first. Everything
     else (throttles, user_agent, raw_dir) passes through to the client."""
 
-    def __init__(self, client, feed, log=print, exempt=(), budget=None, **robots_kwargs):
+    def __init__(self, client, feed, log=print, exempt=(), budget=None, permissions=None,
+                 **robots_kwargs):
         self._client = client
         self.robots = RobotsGuard(client, feed, log=log, budget=budget, **robots_kwargs)
         # URL prefixes fetched with no robots.txt read (documented APIs).
         self.exempt = tuple(exempt or ())
+        # Written permissions (PERMISSIONS unless a test passes its own).
+        self.permissions = PERMISSIONS if permissions is None else tuple(permissions)
+        self._log = log
+        self._told = set()
+
+    def _permitted(self, url):
+        p = permission_for(url, self.permissions)
+        if p is not None and p.granted_by not in self._told:
+            self._told.add(p.granted_by)
+            self._log("  robots.txt not asked for {0}: written permission, {1}, {2} ({3})".format(
+                urlsplit(url).netloc, p.granted_by, p.date, p.docs))
+        return p is not None
 
     def __getattr__(self, name):
         return getattr(self._client, name)
 
     def check(self, url, feed=None, slug=""):
         if self.exempt and is_documented_api(url, self.exempt):
+            return
+        if self._permitted(url):
             return
         refused = self.robots.refusal(url)
         if refused:
@@ -215,6 +298,8 @@ class GuardedClient:
 
     def allowed(self, url):
         if self.exempt and is_documented_api(url, self.exempt):
+            return True
+        if permission_for(url, self.permissions) is not None:
             return True
         return self.robots.refusal(url) is None
 
@@ -269,7 +354,7 @@ def probe_refusal(url, feed="robots-probe"):
     ve_news_crawl.py), which have no HttpClient to wrap: None when robots.txt
     allows `url`, else the reason. robots.txt is read once per host per run,
     through an HttpClient (same UA), with the same rules as guard()."""
-    if is_documented_api(url):
+    if is_documented_api(url) or permission_for(url) is not None:
         return None
     if feed not in _PROBE_GUARDS:
         import os

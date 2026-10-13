@@ -1,0 +1,110 @@
+[
+ {
+  "nr": 411,
+  "fraktion": "FDP",
+  "name_vorname": "Brenner Martin",
+  "stimme": "Ja",
+  "datum": "2025-09-10",
+  "geschaeftsnummer": "24/BS 18/179",
+  "traktandum": "3. Kantonsreferendum gegen das Bundesgesetz über die Individualbesteuerung (24/BS 18/179): Abstimmung Beschlussesentwurf"
+ },
+ {
+  "nr": 345,
+  "fraktion": "GRÜNE",
+  "name_vorname": "Engeli-Sager Brigitta",
+  "stimme": "Ja",
+  "datum": "2025-09-10",
+  "geschaeftsnummer": "24/BS 18/179",
+  "traktandum": "3. Kantonsreferendum gegen das Bundesgesetz über die Individualbesteuerung (24/BS 18/179): Abstimmung Beschlussesentwurf"
+ },
+ {
+  "nr": 393,
+  "fraktion": "Die Mitte/EVP",
+  "name_vorname": "Fäsi Christina",
+  "stimme": "Ja",
+  "datum": "2025-09-10",
+  "geschaeftsnummer": "24/BS 18/179",
+  "traktandum": "3. Kantonsreferendum gegen das Bundesgesetz über die Individualbesteuerung (24/BS 18/179): Abstimmung Beschlussesentwurf"
+ },
+ {
+  "nr": 28,
+  "fraktion": "Die Mitte/EVP",
+  "name_vorname": "Gemperle Josef",
+  "stimme": "Ja",
+  "datum": "2025-09-10",
+  "geschaeftsnummer": "24/BS 18/179",
+  "traktandum": "3. Kantonsreferendum gegen das Bundesgesetz über die Individualbesteuerung (24/BS 18/179): Abstimmung Beschlussesentwurf"
+ },
+ {
+  "nr": 409,
+  "fraktion": "FDP",
+  "name_vorname": "Bernold Claudio",
+  "stimme": "Nein",
+  "datum": "2025-09-10",
+  "geschaeftsnummer": "24/BS 18/179",
+  "traktandum": "3. Kantonsreferendum gegen das Bundesgesetz über die Individualbesteuerung (24/BS 18/179): Abstimmung Beschlussesentwurf"
+ },
+ {
+  "nr": 408,
+  "fraktion": "SP und Gewerkschaften",
+  "name_vorname": "Brüllmann Markus",
+  "stimme": "Nein",
+  "datum": "2025-09-10",
+  "geschaeftsnummer": "24/BS 18/179",
+  "traktandum": "3. Kantonsreferendum gegen das Bundesgesetz über die Individualbesteuerung (24/BS 18/179): Abstimmung Beschlussesentwurf"
+ },
+ {
+  "nr": 336,
+  "fraktion": "SP und Gewerkschaften",
+  "name_vorname": "Dätwyler Weber Barbara",
+  "stimme": "Nein",
+  "datum": "2025-09-10",
+  "geschaeftsnummer": "24/BS 18/179",
+  "traktandum": "3. Kantonsreferendum gegen das Bundesgesetz über die Individualbesteuerung (24/BS 18/179): Abstimmung Beschlussesentwurf"
+ },
+ {
+  "nr": 338,
+  "fraktion": "GRÜNE",
+  "name_vorname": "Bétrisey Karin",
+  "stimme": "Enthaltung",
+  "datum": "2025-09-10",
+  "geschaeftsnummer": "24/BS 18/179",
+  "traktandum": "3. Kantonsreferendum gegen das Bundesgesetz über die Individualbesteuerung (24/BS 18/179): Abstimmung Beschlussesentwurf"
+ },
+ {
+  "nr": 350,
+  "fraktion": "SVP",
+  "name_vorname": "Häberli Jürgen",
+  "stimme": "Abwesend",
+  "datum": "2025-09-10",
+  "geschaeftsnummer": "24/BS 18/179",
+  "traktandum": "3. Kantonsreferendum gegen das Bundesgesetz über die Individualbesteuerung (24/BS 18/179): Abstimmung Beschlussesentwurf"
+ },
+ {
+  "nr": null,
+  "fraktion": "SVP",
+  "name_vorname": "Amrhein Daniel",
+  "stimme": "Antrag GFK",
+  "datum": "2023-12-06",
+  "geschaeftsnummer": "20/BS 59/567",
+  "traktandum": "Baubeschluss Werkhof Amriswil (1)"
+ },
+ {
+  "nr": null,
+  "fraktion": "GRÜNE",
+  "name_vorname": "Bétrisey Karin",
+  "stimme": "Antrag GFK",
+  "datum": "2023-12-06",
+  "geschaeftsnummer": "20/BS 59/567",
+  "traktandum": "Baubeschluss Werkhof Amriswil (1)"
+ },
+ {
+  "nr": null,
+  "fraktion": "SVP",
+  "name_vorname": "Brühwiler Konrad",
+  "stimme": "Antrag GFK",
+  "datum": "2023-12-06",
+  "geschaeftsnummer": "20/BS 59/567",
+  "traktandum": "Baubeschluss Werkhof Amriswil (1)"
+ }
+]

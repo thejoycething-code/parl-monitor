@@ -16,7 +16,19 @@
 #                    tool locates and plans the clip but refuses to fetch or cut
 #                    until `agreement:` below names the written agreement
 #                    (who, when). Nobody has written to ask yet.
+#   allowed          the parliament has given written agreement, recorded in
+#                    `agreement:` (date, grantor, conditions; all three
+#                    required, or the tool refuses). The tool fetches and cuts
+#                    under the recorded conditions; `edits: trim-only` is
+#                    enforced by the tool (src/country_clips.py, TRIM-ONLY).
 #   not-built        no clip tool: say why.
+#
+# edits: full (default) or trim-only. trim-only: the clip is one continuous
+# span of the source, cut at its start and end and nothing else: no reordering,
+# no joining of clips (no reel), no speed change, no crop (the 9:16 version is
+# the whole picture letterboxed), no logo, no name plate; the only overlays
+# are the credit and captions of the passage as spoken. The tool refuses any
+# ffmpeg filter or subtitle style outside that list.
 #
 # credit: burned into every frame of a clip (small, top right), and written in
 # the pack README for the post text. logo: whether the CitizenGO logo may be
@@ -106,8 +118,17 @@ at:
   language: de
 
 fr:
-  status: needs-agreement
-  agreement: null       # e.g. "communication@assemblee-nationale.fr, reply of <date> to <name>"
+  status: allowed
+  agreement:
+    date: "2026-10-12"
+    grantor: "Assemblée nationale, Cellule GILDA (Fabien Chauvineau), in reply to Chris's request to communication@assemblee-nationale.fr"
+    conditions: >-
+      Clips of the plenary video are allowed on condition that they are not
+      distorted and/or modified (no distortion or modification), and the
+      credit reads « Archives audiovisuelles de l'Assemblée nationale » on
+      screen and in the post.
+    recorded: "2026-10-13, Chris approved acting on it"
+  edits: trim-only
   source: "Portail video de l'Assemblee nationale (videos.assemblee-nationale.fr)"
   how: >-
     Each paragraph of the compte rendu carries `stime`, seconds into the
@@ -125,11 +146,15 @@ fr:
     with integrity, author, source and a link; but 'les graphismes,
     photographies et ressources multimedias ne peuvent etre reproduits sans
     accord prealable'. The portal itself offers clip downloads (by e-mail).
-    So: ask communication@assemblee-nationale.fr before the first clip.
+    We asked; the Assemblee's Cellule GILDA agreed in writing on 12 October
+    2026 (agreement: above): clips allowed if not distorted or modified,
+    credited « Archives audiovisuelles de l'Assemblée nationale ». So the
+    tool cuts trim-only (edits: above) and burns that credit in. Clips stay
+    files for Chris: nothing is posted by the tool.
   terms_url: "https://www.assemblee-nationale.fr/dyn/info-site"
-  credit: "© Assemblée nationale"
-  post_credit: "Video: Assemblee nationale (videos.assemblee-nationale.fr)"
-  logo: true
+  credit: "Archives audiovisuelles de l'Assemblée nationale"
+  post_credit: "Archives audiovisuelles de l'Assemblée nationale"
+  logo: false
   retention_days: 30
   language: fr
 

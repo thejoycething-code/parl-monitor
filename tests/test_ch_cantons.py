@@ -303,9 +303,110 @@ class AlternativeRouteTests(unittest.TestCase):
         self.assertIn(3, C.classify(tax, a)[0])
 
     def test_the_closed_portals_are_never_asked(self):
+        # The page routes (Basel-Stadt's and Thurgau's are now the fallback)
+        # never touch a portal whose robots.txt refuses us.
         for url in (C.SG_API, C.BL_NEW, C.BS_NEW, C.BS_VERSAND, C.TG_PENDING, C.AG_INDEX):
             self.assertNotRegex(url, r"data\.bs\.ch|data\.bl\.ch|daten\.sg\.ch|data\.tg\.ch|"
                                      r"www\.ag\.ch/grossrat")
+
+
+def load(name):
+    return json.loads(fixture(name))
+
+
+class OpenDataTests(unittest.TestCase):
+    """Basel-Stadt (data.bs.ch) and Thurgau (data.tg.ch), read with the
+    owners' written permission of 13 October 2026. Fixtures: trimmed exports
+    of the live datasets, read on 13 October 2026."""
+
+    def bs(self, rows=None):
+        return by_key(C.parse_bs_api(rows if rows is not None else load("bs_ods_geschaefte.json"),
+                                     load("bs_ods_dokumente.json"), load("bs_ods_vorgaenge.json"),
+                                     today="2026-10-13", since="2026-08-29"))
+
+    def test_basel_stadt_businesses_dated_by_document_or_step(self):
+        acts = self.bs()
+        a = acts["bs/26.5228"]
+        self.assertEqual((a["kind"], a["presented"], a["status_date"]),
+                         ("Anzug", "2026-06-24", "2026-09-23"))
+        self.assertEqual(a["status"], "Grosser Rat, Sitzung vom 23.09.2026: Überweisung an RR "
+                                      "Frist: 23.09.2028 (In Bearbeitung)")
+        self.assertEqual(a["initiative"], "Andrea Strahm and 1 other(s)")   # one row per co-author
+        self.assertEqual(a["title"], "Ermöglichung von anonymen Geburten")
+        self.assertEqual(a["url"], "https://grosserrat.bs.ch/?gnr=26.5228")
+        self.assertEqual(a["source_url"],
+                         "https://data.bs.ch/explore/dataset/100311/?refine.signatur_ges=26.5228")
+        q = acts["bs/26.5411"]
+        self.assertEqual((q["presented"], q["question"], q["initiative"]),
+                         ("2026-09-23", True, "Amina Trevisan (SP)"))
+        # A step scheduled for a later sitting is not a status yet.
+        self.assertEqual(acts["bs/26.5405"]["status_date"], "2026-09-17")
+        closed = acts["bs/26.5215"]
+        self.assertEqual((closed["status"], closed["status_date"]), ("Abgeschlossen", "2026-09-14"))
+        self.assertTrue(all(x["dated"] and "data.bs.ch" in x["source_url"] for x in acts.values()))
+
+    def test_basel_stadt_skips_elections_and_untouched_business(self):
+        rows = load("bs_ods_geschaefte.json") + [
+            {"signatur_ges": "26.9001", "ga_rr_gr": "Wahl", "titel_ges": "Wahl", "beginn_ges": "2026-10-01"},
+            {"signatur_ges": "19.5000", "ga_rr_gr": "Anzug", "titel_ges": "Anzug X betreffend alt",
+             "beginn_ges": "2019-01-01", "status_ges": "In Bearbeitung"}]
+        acts = self.bs(rows)
+        self.assertNotIn("bs/26.9001", acts)
+        self.assertNotIn("bs/19.5000", acts)       # pending, nothing in the window
+        self.assertEqual(len(acts), 7)
+
+    def test_basel_stadt_votes_with_every_members_vote(self):
+        votes = {v["key"]: v for v in C.parse_bs_api_votes(load("bs_ods_abstimmungen.json"))}
+        v = votes["bs/v/0009609-20260923-212113"]
+        self.assertEqual((v["act_key"], v["date"], v["yes"], v["no"], v["abstain"], v["counts_from"]),
+                         ("bs/26.5228", "2026-09-23", 44, 38, 10, "published"))
+        self.assertEqual(len(v["positions"]), 12)
+        self.assertEqual(v["positions"][0], {"member": "Melanie Eberhard", "member_id": "15004054",
+                                             "parl_group": "SP", "position": "Ja"})
+        self.assertIn("data.bs.ch/explore/dataset/100186", v["source_url"])
+        positions = {p["position"] for x in votes.values() for p in x["positions"]}
+        self.assertTrue(positions <= set(C.BS_POSITIONS.values()))
+
+    def test_thurgau_business_and_signatories(self):
+        acts = by_key(C.parse_tg_api(load("tg_ods_geschaefte.json"),
+                                     C.tg_authors(load("tg_ods_urheber.json")), today="2026-10-13"))
+        self.assertEqual(sorted(acts), ["tg/2024/117", "tg/2024/173", "tg/2024/391"])  # no Wahlgeschäft
+        m = acts["tg/2024/117"]                       # the key the pending list gives it too
+        self.assertIn("Geschlechtsumwandlung", m["title"])
+        self.assertEqual((m["presented"], m["status_date"]), ("2025-02-19", "2026-09-16"))
+        self.assertEqual(m["status"], "Abgeschlossen; Abschluss am 16.09.2026; "
+                                      "Erheblicherklärung: nein; Teilerheblicherklärung: nein")
+        self.assertEqual(m["initiative"], "Christian Caviezel (EDU) and 2 other(s)")
+        ea = acts["tg/2024/391"]
+        self.assertEqual((ea["status"], ea["question"]), ("In Bearbeitung; pendent bei: Regierungsrat", True))
+        self.assertTrue(all(a["source_url"] == "https://data.tg.ch/explore/dataset/sk-stat-140/"
+                            for a in acts.values()))
+        self.assertEqual(C.tg_key("96/PE 1/98"), "tg/1996/98")
+        self.assertIsNone(C.tg_key("Wahl"))
+
+    def test_thurgau_votes_tallied_from_members(self):
+        votes = C.parse_tg_api_votes(load("tg_ods_abstimmungen.json"))
+        plain = [v for v in votes if v["date"] == "2025-09-10"][0]
+        self.assertEqual((plain["act_key"], plain["subject"], plain["yes"], plain["no"], plain["abstain"],
+                          plain["counts_from"]), ("tg/2024/179", "Abstimmung Beschlussesentwurf", 4, 3, 1,
+                                                  "tallied"))
+        self.assertEqual(plain["act_title"],
+                         "Kantonsreferendum gegen das Bundesgesetz über die Individualbesteuerung")
+        self.assertEqual(len(plain["positions"]), 9)
+        options = [v for v in votes if v["date"] == "2023-12-06"][0]
+        self.assertEqual((options["yes"], options["no"]), (None, None))
+        self.assertIn("Antrag GFK 3", options["result"])
+
+    def test_every_api_url_is_under_a_written_permission(self):
+        from src import robots_guard as rg
+        urls = [C.ods_export(C.BS_ODS, d, "x") for d in C.BS_SETS.values()]
+        urls += [C.ods_export(C.TG_ODS, d, "x") for d in C.TG_SETS.values()]
+        for u in urls:
+            self.assertIsNotNone(rg.permission_for(u), u)
+        self.assertIsNone(rg.permission_for(C.ods_export(C.BS_ODS, "100307", "x")))
+        self.assertEqual(C.batches("2026-09-01", "2026-09-30", 14),
+                         [("2026-09-01", "2026-09-14"), ("2026-09-15", "2026-09-28"),
+                          ("2026-09-29", "2026-09-30")])
 
 
 class StoreTests(unittest.TestCase):
@@ -379,15 +480,16 @@ class StoreTests(unittest.TestCase):
 
 @unittest.skipUnless(HAVE_TAX, "a taxonomy file is missing")
 class MainTests(unittest.TestCase):
-    def run_main(self, pages, cantons, robots=None):
+    def run_main(self, pages, cantons, robots=None, check=None):
         with tempfile.TemporaryDirectory() as d:
             path = os.path.join(d, "s.db")
             inner = FakeClient(pages)
             client = RobotsServing(inner, robots) if robots is not None else inner
+            self.serving = client
             orig = C.HttpClient
             C.HttpClient = lambda **kw: client
             try:
-                rc = C.main(["--db", path, "--canton"] + list(cantons))
+                rc = C.main(["--db", path, "--today", "2026-10-13", "--canton"] + list(cantons))
             finally:
                 C.HttpClient = orig
             conn = sqlite3.connect(path)
@@ -396,6 +498,8 @@ class MainTests(unittest.TestCase):
                 "SELECT canton, COUNT(*) FROM ch_canton_acts GROUP BY canton")}
             base = conn.execute("SELECT COUNT(*) FROM ch_canton_acts WHERE baseline=1").fetchone()[0]
             votes = conn.execute("SELECT COUNT(*) FROM ch_canton_divisions").fetchone()[0]
+            if check:
+                check(conn)
             conn.close()
             return rc, gaps, stored, base, votes, inner
 
@@ -425,12 +529,52 @@ class MainTests(unittest.TestCase):
                  (C.TG_PENDING, fixture("tg_pendente.html")),
                  (C.AG_INDEX, fixture("ag_index.json"))]
         rc, gaps, stored, base, votes, inner = self.run_main(pages, ["sg", "bl", "bs", "tg", "ag"])
-        self.assertEqual((rc, gaps), (0, []))
+        # No data.bs.ch / data.tg.ch fixture: their APIs fail, and both fall
+        # back to their parliaments' own pages, one gap each.
+        self.assertEqual(rc, 3)
+        self.assertEqual(len(gaps), 2)
+        self.assertTrue(all("open-data API not read" in g and "own site instead" in g for g in gaps))
         self.assertEqual(stored, {"sg": 5, "bl": 27, "bs": 18, "tg": 8, "ag": 8})
         self.assertEqual(base, 18)        # Basel-Stadt prints no submission date: a baseline
         # The only vote listed is on business off our ground: its tally is not asked for.
         self.assertEqual(votes, 0)
         self.assertFalse(any("votings/7449" in u for u in inner.urls))
+
+    def test_the_open_data_apis_with_written_permission(self):
+        pages = [(C.BS_ODS + "100311/", fixture("bs_ods_geschaefte.json")),
+                 (C.BS_ODS + "100313/", fixture("bs_ods_dokumente.json")),
+                 (C.BS_ODS + "100314/", fixture("bs_ods_vorgaenge.json")),
+                 (C.BS_ODS + "100186/", fixture("bs_ods_abstimmungen.json")),
+                 (C.TG_ODS + "sk-stat-140/", fixture("tg_ods_geschaefte.json")),
+                 (C.TG_ODS + "sk-stat-141/", fixture("tg_ods_urheber.json")),
+                 (C.TG_ODS + "sk-stat-136/", fixture("tg_ods_abstimmungen.json"))]
+        refuse = "User-agent: *\nDisallow: /api/\n"
+        seen = {}
+
+        def check(conn):
+            seen["src"] = conn.execute("SELECT COUNT(*) FROM ch_canton_acts WHERE source_url IS "
+                                       "NULL").fetchone()[0]
+            seen["members"] = conn.execute("SELECT COUNT(*) FROM ch_canton_votes").fetchone()[0]
+            seen["vote"] = conn.execute(
+                "SELECT yes, no, abstain, counts_from, areas FROM ch_canton_divisions WHERE "
+                "vote_key='bs/v/0009609-20260923-212113'").fetchone()
+            seen["tg_vote_areas"] = conn.execute(
+                "SELECT areas FROM ch_canton_divisions WHERE act_key='tg/2024/179'").fetchone()[0]
+        rc, gaps, stored, base, votes, inner = self.run_main(
+            pages, ["bs", "tg"], robots={"data.bs.ch": refuse, "data.tg.ch": refuse}, check=check)
+        self.assertEqual((rc, gaps), (0, []))
+        self.assertEqual(stored, {"bs": 7, "tg": 3})
+        self.assertEqual(base, 0)                      # dated: never a baseline
+        self.assertEqual(votes, 4)                     # two in Basel-Stadt, two in Thurgau
+        self.assertEqual(seen["src"], 0)               # every act links its dataset
+        self.assertEqual(seen["members"], 24 + 12)
+        self.assertEqual(tuple(seen["vote"][:4]), (44, 38, 10, "published"))
+        self.assertIn("1", seen["vote"][4])            # the act's areas (anonymous births)
+        self.assertIn("9", seen["tg_vote_areas"])      # an act not stored: its printed title
+        # robots.txt refuses /api/ there; the written permission covers these datasets.
+        self.assertNotIn("data.bs.ch", self.serving.robots_asked)
+        self.assertNotIn("data.tg.ch", self.serving.robots_asked)
+        self.assertTrue(all("/exports/json?" in u for u in inner.urls))
 
     def test_robots_disallow_is_a_gap(self):
         rc, gaps, stored, _, _, inner = self.run_main(
@@ -461,12 +605,15 @@ class MainTests(unittest.TestCase):
 
 class SchemaTests(unittest.TestCase):
     def test_declared_and_created(self):
-        for t in ("ch_canton_acts", "ch_canton_divisions"):
+        for t in ("ch_canton_acts", "ch_canton_divisions", "ch_canton_votes"):
             self.assertIn(t, db.TABLES)
             self.assertIn(t, ch_store.TABLES)
         conn = db.init_db(sqlite3.connect(":memory:"))
         cols = {r[1] for r in conn.execute("PRAGMA table_info(ch_canton_acts)")}
-        self.assertTrue({"act_key", "canton", "status_seen", "baseline", "seq", "last_seen"} <= cols)
+        self.assertTrue({"act_key", "canton", "status_seen", "baseline", "seq", "last_seen",
+                         "source_url"} <= cols)
+        cols = {r[1] for r in conn.execute("PRAGMA table_info(ch_canton_divisions)")}
+        self.assertTrue({"source_url", "counts_from"} <= cols)
         ch_store.ensure_schema(conn)   # idempotent
 
     def test_the_federal_watchlist_ignores_the_cantons_section(self):
@@ -546,6 +693,51 @@ class EditionTests(unittest.TestCase):
         (_, _, items, cover), = ch_ed.cantons(conn, "2026-10-06", "2026-10-13", {})
         self.assertEqual(items, [])
         self.assertIn("none yet", cover[0])
+
+    def test_open_data_items_link_their_dataset_and_show_members_votes(self):
+        self.conn.execute(ACT, ("bs/26.5228", "bs", "Anzug", "26.5228", "Anzug 26.5228",
+                                "Ermöglichung von anonymen Geburten", None, "2026-06-24",
+                                "Grosser Rat, Sitzung vom 09.10.2026: Überweisung", "2026-10-09", 0,
+                                "Andrea Strahm", None, "https://grosserrat.bs.ch/?gnr=26.5228", 0, 0,
+                                "[1]", "[]", 2, "2026-10-13", "2026-10-13"))
+        self.conn.execute("UPDATE ch_canton_acts SET source_url=? WHERE act_key='bs/26.5228'",
+                          ("https://data.bs.ch/explore/dataset/100311/?refine.signatur_ges=26.5228",))
+        self.conn.execute("INSERT INTO ch_canton_divisions (vote_key, canton, act_key, date, subject, "
+                          "yes, no, abstain, url, areas, matched_terms, tier, source_url, counts_from) "
+                          "VALUES ('bs/v/9609','bs','bs/26.5228','2026-10-09','Abstimmung',2,1,0,'u',"
+                          "'[1]','[]',2,'https://data.bs.ch/explore/dataset/100186/','published')")
+        self.conn.executemany("INSERT INTO ch_canton_votes VALUES ('bs/v/9609',?,?,?,?)",
+                              [("A B", "1", "SP", "Ja"), ("C D", "2", "SP", "Nein"),
+                               ("E F", "3", "SP", "Ja"), ("G H", "4", "SVP", "Nein")])
+        self.conn.execute("INSERT INTO ch_canton_divisions (vote_key, canton, act_key, date, subject, "
+                          "result, url, areas, matched_terms, tier, source_url, counts_from) VALUES "
+                          "('tg/v/x','tg',NULL,'2026-10-09','Wahl zwischen Anträgen','Stimmen je Antrag "
+                          "(gezählt): Antrag GFK 70, Antrag Wyss 46','u','[1]','[]',2,"
+                          "'https://data.tg.ch/explore/dataset/sk-stat-136/','tallied')")
+        self.conn.commit()
+        got = {it["key"]: it for it in ch_ed.canton_items(self.conn, "2026-10-06", "2026-10-13", {})}
+        act = " ".join(got["bs/26.5228"]["lines"])
+        self.assertIn("Source: [data.bs.ch](https://data.bs.ch/explore/dataset/100311/"
+                      "?refine.signatur_ges=26.5228) (CC BY 4.0", act)
+        vote = " ".join(got["bs/v/9609"]["lines"])
+        self.assertIn("2 for, 1 against", vote)
+        self.assertIn("By Fraktion", vote)
+        self.assertIn("SP 2-1", vote)
+        self.assertIn("4 member positions stored. Against their group's majority: C D (SP)", vote)
+        self.assertIn("Source: [data.bs.ch](https://data.bs.ch/explore/dataset/100186/)", vote)
+        self.assertEqual(len(got["bs/v/9609"]["positions"]), 4)
+        tg = " ".join(got["tg/v/x"]["lines"])
+        self.assertIn("Antrag GFK 70, Antrag Wyss 46 (tallied from the members' votes; data.tg.ch "
+                      "publishes no totals)", tg)
+        self.assertIn("Source: [data.tg.ch]", tg)
+        (_, intro, _items, cover), = ch_ed.cantons(self.conn, "2026-10-06", "2026-10-13", {})
+        text = " ".join(cover)
+        for url in ("https://data.bs.ch/explore/dataset/100311/", "https://data.bs.ch/explore/dataset/100186/",
+                    "https://data.tg.ch/explore/dataset/sk-stat-140/",
+                    "https://data.tg.ch/explore/dataset/sk-stat-136/"):
+            self.assertIn(url, text)
+        self.assertIn("written permission", text)
+        self.assertIn("CC BY 4.0", text)
 
     def test_watched_by_key(self):
         got = ch_ed.canton_items(self.conn, "2026-10-06", "2026-10-13", {"vd/26_POS_9": {}})
