@@ -985,7 +985,11 @@ def _neg(iso_date):
 
 # Sources that read a state's own feed the same day (tools/us_states_direct.py):
 # a state one of them read in the last DIRECT_FRESH_DAYS needs no top-up.
-DIRECT_SOURCES = ("ks-kliss", "ca-leginfo", "tx-ftp")
+# 13 October 2026: Pennsylvania's LDPC export (tools/us_states_routes.py)
+# holds every bill, hourly, so it joins. The Missouri House's exports (House
+# bills only, a capped number a run) and Arkansas's pages (capped) do not:
+# those states keep their top-up.
+DIRECT_SOURCES = ("ks-kliss", "ca-leginfo", "tx-ftp", "pa-ldpc")
 DIRECT_FRESH_DAYS = 8
 
 

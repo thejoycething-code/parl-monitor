@@ -176,7 +176,7 @@ SCHEMA = (
     # source_id 'file:...' rows record a file read (California's daily
     # deltas), with the file's stamp as change_hash.
     """CREATE TABLE IF NOT EXISTS uss_bill_sources (
-        source       TEXT NOT NULL,      -- 'legiscan' / 'ks-kliss' / 'ca-leginfo' / 'tx-ftp'
+        source       TEXT NOT NULL,      -- 'legiscan' / 'ks-kliss' / 'ca-leginfo' / 'tx-ftp' / 'pa-ldpc' / 'mo-house' / 'ar-arkleg'
         source_id    TEXT NOT NULL,      -- the source's own bill ID ('1167968', 'HB2010', ...)
         state        TEXT,
         bill_key     TEXT,               -- norm_key: 'TX/89R/HB229'
@@ -216,6 +216,11 @@ SOURCE_NAMES = {
     "ks-kliss": "the Kansas Legislature's KLISS API",
     "ca-leginfo": "California's leginfo downloads",
     "tx-ftp": "the Texas Legislative Council's FTP",
+    # tools/us_states_routes.py (13 October 2026, "where states block find
+    # other routes"): each legislature's own publication.
+    "pa-ldpc": "the Pennsylvania LDPC's bill history export",
+    "mo-house": "the Missouri House's XML exports",
+    "ar-arkleg": "the Arkansas Legislature's bill pages",
 }
 
 # Where Open States gives no recorded votes, or totals with no positions

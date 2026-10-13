@@ -1146,6 +1146,23 @@ alternatives whilst keeping the current tier we have." Built on branch
 - **Steps:** two lines after the Open States step in `jobs/us-weekly.sh`
   (6 minutes on GitHub, 15 on the Mini for the feeds; 5 and 15 for
   LegiScan). No new Mini job.
+- **Other routes (13 October 2026, branch `us-states-routes`).** Chris:
+  "Where states block find other routes"; then "Legiscan needs an API for
+  each state so look for other methods": **LegiScan dropped**, no key
+  needed (its step skips). `tools/us_states_routes.py`, no key, robots.txt
+  asked every run: **Pennsylvania** (LDPC bill-history export, every bill
+  hourly; PA joins `DIRECT_SOURCES`), **Missouri** (House XML exports,
+  Crawl-delay 20, capped), **Arkansas** (bill pages and roll calls by name;
+  Open States has no AR votes). One more line in `jobs/us-weekly.sh` (15
+  minutes on the Mini, 5 on GitHub); heartbeat "US states routes" in
+  `tools/coverage.py`. Smoke: PA 5,163 bills, 114 merged, 12 new on our
+  ground. Per-state table (NJ, NY, MA, OH, FL, TN, PA, MI, GA, MO, AK, AL)
+  in `docs/us-states-scope.md`, "Other routes, state by state". Tennessee's
+  robots.txt closes it to all but search engines; Georgia's web services
+  time out from the UK and GitHub. **Needs Chris (a decision, not a
+  sign-up):** New Jersey (an Access database, 175 MB), Massachusetts' API,
+  New York's Senate API (free key) and Michigan answer GitHub's runners but
+  not the Mini; a GitHub-side states step would be needed to use them.
 
 ## Regional layer: Poland's 16 voivodeship assemblies (13 October 2026)
 

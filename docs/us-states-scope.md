@@ -6,9 +6,11 @@ built the same day, from the laptop, with the team's Open States key. Every
 number below was measured, not estimated. Live runs went into a scratch
 database (`/tmp`), never the store, with the raw archive under `/tmp` too.
 
-Since 13 October 2026, free alternatives beside the free tier (LegiScan,
-and the Kansas, California and Texas feeds): see "Free alternatives beside
-the free tier" below.
+Since 13 October 2026, free alternatives beside the free tier (the Kansas,
+California and Texas feeds, and LegiScan, since dropped): see "Free
+alternatives beside the free tier" below; and the legislatures' own routes
+for Pennsylvania, Missouri and Arkansas, with a per-state table of what was
+found for every blocked state: "Other routes, state by state".
 
 Built: `src/us_states_store.py` (tables `uss_*`, declared in `db.TABLES`),
 `tools/us_states.py` (the collector), `config/watchlist-us-states.yaml`
@@ -318,6 +320,9 @@ for the last day, 250 a day). Added beside it, all free, all through
 
 ### LegiScan: terms, allowance and what Christopher must do
 
+**Dropped 13 October 2026** ("Legiscan needs an API for each state so look
+for other methods"): kept below for the record; Christopher need do nothing.
+
 - **Terms.** legiscan.com answers our client with a Cloudflare challenge
   (403; recorded, never bypassed), so its pages were read through a search
   engine on 13 October 2026: the API and dataset data are **CC BY 4.0**
@@ -373,6 +378,72 @@ for the last day, 250 a day). Added beside it, all free, all through
   behind a web front end (Michigan's robots.txt answers 403), Missouri
   publishes no machine feed found; Pennsylvania's robots.txt disallows
   `/legislation/bills/*` to everything but one scanner. Not built.
+
+## Other routes, state by state (13 October 2026)
+
+Christopher, 13 October 2026: "Where states block find other routes." And
+later the same day: **"Legiscan needs an API for each state so look for
+other methods."** LegiScan is therefore **dropped**: no key will be
+requested, nothing relies on it, and `tools/us_states_legiscan.py` stays in
+the weekly only because it skips cleanly with one line when
+`LEGISCAN_API_KEY` is absent. Coverage rests on Open States (the record, a
+day behind) plus each legislature's own publications.
+
+Rules kept: each host was asked from the laptop with the CitizenGO UA,
+robots.txt first; nothing behind a bot check, CAPTCHA or geo-block was
+worked around (no proxy, no VPN); no account, no key. Hosts the UK cannot
+reach were asked from a GitHub runner with the existing read-only workflow
+`probe-hosts.yml` (no store, no secrets; runs 38326956077 and 38327146688,
+13 October 2026), which reads robots.txt the same way.
+
+**Built** in `tools/us_states_routes.py` (step in `jobs/us-weekly.sh` after
+the LegiScan line: 15 minutes on the Mini, 5 on GitHub), on the #161 pattern
+(`merge_foreign`, `uss_bill_sources`, the edition's "(via ...)", the budget,
+the run-time robots guard with no exemptions):
+
+| Source | Module | What it adds | Cost a run |
+|---|---|---|---|
+| **Pennsylvania** LDPC Bill History export, `www.palegis.us/data` | `pa-ldpc` | every bill and resolution the same day (hourly, Monday to Friday), sponsors, every action, floor tallies on passage; Pennsylvania joins `DIRECT_SOURCES`, so its top-up is no longer needed | 1 page, plus a 1.7 MB zip only when the listed stamp changed |
+| **Missouri** House XML exports, `documents.house.mo.gov` | `mo-house` | House bills on our ground the same day (actions in both chambers, floor roll-call totals); Missouri keeps its top-up (Senate bills, and the cap) | 2 small files + at most 40 bills (10 on GitHub) at robots.txt's Crawl-delay of 20 s |
+| **Arkansas** bill pages, `arkleg.state.ar.us` | `ar-arkleg` | the days' moved bills, every action with its time, and **roll calls with every member's vote** (Open States has none for Arkansas; kept when it supersedes the row); Arkansas keeps its top-up | 1 page a day since the last read (at most 8), then up to 120 bills (40 on GitHub) and their recent roll calls, 2 s apart |
+
+**Smoke read** (laptop, a scratch copy of the first-read store in the
+session scratchpad, 13 October 2026): Pennsylvania 5,163 bills read in one
+download, 114 merged into Open States' rows, **12 stored new** (bills the
+v1.20 terms put on our ground that the 9 October store predates, e.g. HB
+1638 "reproductive freedom", SB 570 "End of Life Options", SB 885 and 886
+"reproductive health services"), 27 floor tallies; a second run read
+nothing (stamp unchanged). Missouri: 86 House bills on our ground listed,
+the first 4 read and merged (Missouri is in recess; nothing new). Arkansas:
+the fiscal session closed in May; no bill moved in the days read.
+
+**Per state** (UK = from the laptop; GH = from a GitHub runner):
+
+| State | Route found | UK | GH | robots.txt | Status | What Christopher must do |
+|---|---|---|---|---|---|---|
+| Pennsylvania | LDPC Bill History XML (hourly zip), `palegis.us/data`; House and Senate RSS (roll calls, calendars) beside it | yes | not asked | open to us (one group, for the UserWay scanner only; #161 misread it as disallowing everyone) | **built** (`pa-ldpc`) | nothing |
+| Missouri | House XML exports (`<yearcode>-BillList.XML`, one XML a bill; past sessions as zips) | yes | not asked | Crawl-delay 20, honoured | **built** (`mo-house`), House bills | nothing |
+| Arkansas | bill pages, daily Recent Bill Activity, roll-call pages with names | yes | not asked | allowed (only ChatGPT disallowed) | **built** (`ar-arkleg`) | nothing |
+| New Jersey | the Legislature's database, `pub.njleg.gov/leg-databases/2026data/DB2026.zip`: a **Microsoft Access file**, 175 MB zipped, 910 MB unzipped, rebuilt nightly about 20:00 Eastern; DB2026_TEXT.zip (1.4 MB) beside it | **times out** | answers | `pub.njleg.gov` robots.txt redirects (no rules); `www.njleg.gov` allows all | not built: GitHub-only, and reading `.mdb` needs `mdbtools` (not stdlib); the gain is NJ's votes, which Open States lacks | decide whether a GitHub-side step (apt `mdbtools`, 175 MB a run) is wanted; the weekly runs on the Mini, which cannot reach it |
+| New York | Senate Open Legislation API, `legislation.nysenate.gov/api/3` (free key); `nyassembly.gov/leg/` bill pages (actions, votes) | API: **times out**; Assembly pages: yes | API: answers | API: allows all; Assembly: only GPTBot disallowed | not built: Open States already has New York's votes (99% of positions) and is a day behind; the API needs a key and a US runner | nothing now. If same-day New York is ever wanted: a free key at legislation.nysenate.gov (Christopher registers), `NYSENATE_API_KEY` secret, and a GitHub-run step |
+| Massachusetts | the Legislature's documented API, `malegislature.gov/api` (Swagger), bill pages | **times out** | answers | allows all (`Disallow:` empty) | not built: GitHub-only; Open States carries MA a day behind | nothing now; a GitHub-run step if wanted |
+| Michigan | `legislature.mi.gov` | **403 to everything** (robots.txt included) | answers (robots.txt 404, no rules) | none from GH | not built: GitHub-only; Open States is fine for MI (99% positions) | nothing |
+| Ohio | `search-prod.lis.state.oh.us/solarapi` (Open States' own source) and `legislature.ohio.gov` | times out | solarapi path answers 404 at the guessed URL; the site's TLS certificate failed verification on the runner | | not built (no verified route) | nothing |
+| Tennessee | `capitol.tn.gov`, `wapp.capitol.tn.gov`; acts at `publications.tnsosfiles.com` | refused / 403 | robots.txt answers | **disallows every agent but named search engines**; the SoS acts host answers 403 | **closed to us**: not built, and not to be | nothing; Open States stays the route (TN is 99% positions) |
+| Georgia | the General Assembly's web services, `webservices.legis.ga.gov/GGAServices` (SOAP; Open States' source) | times out | **times out** | not readable | not built (unreachable from both) | nothing |
+| Florida | `flsenate.gov` bill pages (`/Session/` allowed, `/api/` disallowed, Crawl-delay 10); session laws at `laws.flrules.org` (Crawl-delay 10) | answers (one timeout) | not asked | allows `/Session/` | not built: Open States has Florida a day behind with votes; HTML only | nothing |
+| Alaska | BASIS public service XML, `akleg.gov/publicservice/basis/` (no key; a version header) | answers | not asked | `/publicservice/` not disallowed | not built yet: the gain is member positions (Open States gives totals only); session January to May | nothing (a candidate for the next round) |
+| Alabama | ALISON's GraphQL backend behind its site | answers | not asked | robots.txt answers the site's HTML (no rules) | not built: an undocumented backend, so robots and terms would be read again first; Alabama has NO votes in Open States and is active on our ground, so it is the first candidate for the next round with Alaska | nothing |
+| Hawaii, North Carolina | | 403 | NC answers, HI 403 | | not needed: Open States covers both | nothing |
+
+**Which hosts answer GitHub but not the UK:** New Jersey (`pub.njleg.gov`,
+`www.njleg.gov`), New York's Senate API, Massachusetts (`malegislature.gov`),
+Michigan (`legislature.mi.gov`), Idaho (`legislature.idaho.gov`). The US
+weekly runs on the Mac Mini first (UK network), with GitHub only as backup,
+so a reader for these would run only on GitHub's backup runs. Using them
+properly needs a GitHub-side states step (as the Senate-only half already
+does for senate.gov, `us-weekly.yml` input `senate_only`): **Christopher's
+call**; none was added.
 
 ## What Open States gives, per state
 
@@ -649,9 +720,11 @@ empty tables until the first run.
 2. **The tier.** No paid tier (no budget). The free key's 250 a day carries
    the "No paid tier" route with room to spare; the options that need
    Christopher are listed there (keys to request, nothing to buy).
-   **13 October 2026:** the free alternatives are built; the one thing left
-   for Christopher is a free LegiScan key (steps in "LegiScan: terms,
-   allowance and what Christopher must do").
+   **13 October 2026:** the free alternatives are built. LegiScan was then
+   dropped (Christopher: "Legiscan needs an API for each state so look for
+   other methods"): no key is needed. Other routes for PA, MO and AR are
+   built ("Other routes, state by state"); the GitHub-only hosts (NJ, MA,
+   NY's API, MI) wait on a decision about a GitHub-side step.
 3. ~~Taxonomy terms~~ for the state names above: adopted at v1.20
    (9 October 2026), above. The 46 watchlist entries stay.
 4. **Noise in area 6 and 12** from "foster care", "child protection" and
