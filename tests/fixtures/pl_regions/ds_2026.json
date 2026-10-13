@@ -1,0 +1,130 @@
+{
+"limit": 5,
+"offset": 0,
+"total": 293,
+"listTitle": null,
+"hasArchived": false,
+"mainArticleId": null,
+"menuPath": [
+{
+"id": "2842",
+"parentId": "1914",
+"name": "2026 VII kadencja",
+"url": "m,2842,2026-vii-kadencja.html"
+},
+{
+"id": "1914",
+"parentId": "1796",
+"name": "Uchwały Sejmiku",
+"url": "m,1914,uchwaly-sejmiku.html"
+},
+{
+"id": "1796",
+"parentId": "7",
+"name": "Sejmik",
+"url": "m,1796,sejmik.html"
+},
+{
+"id": "7",
+"parentId": null,
+"name": "Menu podmiotowe",
+"url": "m,7,menu-podmiotowe.html"
+}
+],
+"actualListLink": "m,2842,2026-vii-kadencja.html",
+"outdatedListLink": "o,2842,2026-vii-kadencja.html",
+"tabs": [],
+"linkMoreEnabled": true,
+"columns": [
+{
+"id": 29,
+"name": "Data publikacji",
+"position": 0,
+"width": 20,
+"columnFields": [
+{
+"id": 28,
+"name": "Data publikacji",
+"position": 0,
+"templateFieldId": null,
+"fieldContent": "activeYMD",
+"isLink": false
+}
+]
+},
+{
+"id": 30,
+"name": "Symbol dokumentu",
+"position": 0,
+"width": 30,
+"columnFields": [
+{
+"id": 29,
+"name": "Symbol dokumentu",
+"position": 0,
+"templateFieldId": 40,
+"fieldContent": null,
+"isLink": false
+}
+]
+},
+{
+"id": 31,
+"name": "Tytuł dokumentu",
+"position": 0,
+"width": 50,
+"columnFields": [
+{
+"id": 30,
+"name": "Tytuł artykułu",
+"position": 0,
+"templateFieldId": null,
+"fieldContent": "title",
+"isLink": false
+}
+]
+}
+],
+"searchFields": [],
+"sortFields": [],
+"articles": [
+{
+"id": "146514",
+"link": "a,146514,uchwala-w-sprawie-przyznania-boleslawowi-burylo-odznaki-honorowej-srebrnej-zasluzony-dla-wojewodztwa.html",
+"columnFields": [
+{
+"fieldId": 28,
+"value": "2026-10-07"
+},
+{
+"fieldId": 29,
+"value": "XXX/898/26"
+},
+{
+"fieldId": 30,
+"value": "Uchwała w sprawie przyznania Bolesławowi Buryło Odznaki Honorowej Srebrnej Zasłużony dla Województwa Dolnośląskiego"
+}
+]
+},
+{
+"id": "146512",
+"link": "a,146512,uchwala-w-sprawie-przyznania-agnieszce-babicz-odznaki-honorowej-srebrnej-zasluzony-dla-wojewodztwa-d.html",
+"columnFields": [
+{
+"fieldId": 28,
+"value": "2026-10-07"
+},
+{
+"fieldId": 29,
+"value": "XXX/897/26"
+},
+{
+"fieldId": 30,
+"value": "Uchwała w sprawie przyznania Agnieszce Babicz Odznaki Honorowej Srebrnej Zasłużony dla Województwa Dolnośląskiego"
+}
+]
+}
+],
+"recursiveMenuDisplayEnabled": false,
+"menuShowOrderedListEnabled": false
+}

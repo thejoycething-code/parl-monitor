@@ -1,0 +1,62 @@
+[
+{
+"id": "3",
+"name": "Menu podmiotowe",
+"type": "S",
+"children": [
+{
+"id": "42",
+"targetId": 42,
+"link": "m,42,uchwaly-sejmiku.html",
+"name": "Uchwały sejmiku",
+"parent": 23,
+"type": "D",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": [
+{
+"id": "762",
+"targetId": 762,
+"link": "m,762,2026.html",
+"name": "2026",
+"parent": 42,
+"type": "N",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": null
+},
+{
+"id": "693",
+"targetId": 693,
+"link": "m,693,2025.html",
+"name": "2025",
+"parent": 42,
+"type": "N",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": null
+},
+{
+"id": "653",
+"targetId": 653,
+"link": "m,653,2024-kadencja-2024-2029.html",
+"name": "2024 (kadencja 2024-2029)",
+"parent": 42,
+"type": "N",
+"target": "_self",
+"redirectUrl": null,
+"showChildrenAsTiles": false,
+"description": "",
+"children": null
+}
+]
+}
+]
+}
+]

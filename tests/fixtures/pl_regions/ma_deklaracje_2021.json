@@ -1,0 +1,114 @@
+{
+"limit": 100,
+"offset": 0,
+"total": 2,
+"listTitle": null,
+"hasArchived": false,
+"mainArticleId": null,
+"menuPath": [
+{
+"id": "344255",
+"parentId": "1070",
+"name": "2021",
+"url": "umwm,m,344255,2021.html"
+},
+{
+"id": "1070",
+"parentId": "5",
+"name": "Deklaracje Sejmiku",
+"url": "umwm,m,1070,deklaracje-sejmiku.html"
+},
+{
+"id": "5",
+"parentId": "3",
+"name": "Sejmik Województwa",
+"url": "umwm,m,5,sejmik-wojewodztwa.html"
+},
+{
+"id": "3",
+"parentId": null,
+"name": "Menu podmiotowe",
+"url": "umwm,m,3,menu-podmiotowe.html"
+}
+],
+"actualListLink": "umwm,m,344255,2021.html",
+"outdatedListLink": "umwm,o,344255,2021.html",
+"tabs": [],
+"linkMoreEnabled": false,
+"columns": [
+{
+"id": 1594,
+"name": "Tytuł artykułu",
+"position": 0,
+"width": 90,
+"columnFields": [
+{
+"id": "title",
+"name": "Tytuł",
+"position": 0,
+"templateFieldId": null,
+"fieldContent": "title",
+"isLink": true
+}
+]
+},
+{
+"id": 1595,
+"name": "Data ostatniej zmiany",
+"position": 0,
+"width": 10,
+"columnFields": [
+{
+"id": "activeYMD",
+"name": "Data publikacji",
+"position": 0,
+"templateFieldId": null,
+"fieldContent": "activeYMD",
+"isLink": false
+}
+]
+}
+],
+"searchFields": [],
+"sortFields": [],
+"articles": [
+{
+"id": "1996118",
+"link": "umwm,a,1996118,deklaracja-nr-521-sejmiku-wojewodztwa-malopolskiego-z-dnia-27-wrzesnia-2021-r-w-sprawie-uchylenia-de.html",
+"columnFields": [
+{
+"fieldId": "activeYMD",
+"value": "2021-09-30"
+},
+{
+"fieldId": "title",
+"value": "Deklaracja Nr 5/21 Sejmiku Wojew&oacute;dztwa Małopolskiego z dnia 27 września 2021 r. w sprawie uchylenia Deklaracji Nr 1/19 Sejmiku Wojew&oacute;dztwa Małopolskiego z dnia 29 kwietnia 2019 r. w sprawie sprzeciwu wobec wprowadzenia ideologii &bdquo;LGBT&rdquo; do wsp&oacute;lnot samorządowych"
+},
+{
+"fieldId": "active",
+"value": "2021-09-30 12:20:16"
+}
+]
+},
+{
+"id": "1893357",
+"link": "umwm,a,1893357,deklaracja-nr-421-sejmiku-wojewodztwa-malopolskiego-z-dnia-22-lutego-2021-r-o-obchodach-narodowego-s.html",
+"columnFields": [
+{
+"fieldId": "activeYMD",
+"value": "2021-03-01"
+},
+{
+"fieldId": "title",
+"value": "Deklaracja nr 4/21 Sejmiku Wojew&oacute;dztwa Małopolskiego z dnia 22 lutego 2021 r.  o obchodach Narodowego Święta Pracy w Małopolsce w dniu 1 maja 2021 roku"
+},
+{
+"fieldId": "active",
+"value": "2021-03-01 12:42:16"
+}
+]
+}
+],
+"recursiveMenuDisplayEnabled": false,
+"menuShowOrderedListEnabled": false
+}

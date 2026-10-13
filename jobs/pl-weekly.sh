@@ -54,11 +54,14 @@ python3 tools/pl_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh
 bash tools/chamber_step.sh pl "$SECONDS"
 # The voivodeship assemblies (tools/pl_regions.py, docs/poland-regions-scope.md,
 # 13 October 2026): the sixteen sejmiki's acts from fifteen voivodeship
-# journals (two JSON requests each) and four sejmiki's own registers of
-# resolutions, into plr_acts before the edition, which shows them in a
-# "Regional assemblies" section. Time-boxed to five minutes of what is left
-# of the hour (tools/collector_budget.sh), robots.txt asked at run time;
-# its failure or gaps are a [gap] line, never the run's.
+# journals (two JSON requests each) and thirteen sejmiki's own registers of
+# resolutions (four until the second build the same day), into plr_acts
+# before the edition, which shows them in a "Regional assemblies" section.
+# Time-boxed to five minutes of what is left of the hour
+# (tools/collector_budget.sh), robots.txt asked at run time; its failure or
+# gaps are a [gap] line, never the run's. Measured from the laptop with the
+# thirteen registers: 106 s for the first read, 74 s for a weekly one, so
+# the five minutes stand.
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/pl_regions.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \
     || echo "  [gap] pl-regions: the regional layer recorded gaps or failed; last run's rows stand"

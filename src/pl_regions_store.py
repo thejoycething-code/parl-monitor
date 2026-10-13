@@ -130,12 +130,37 @@ def dumps(values):
 # A sejmik's titles are mostly plain ("w sprawie przyjęcia Samorządowej Karty
 # Praw Rodzin"), but a repeal reads "w sprawie uchylenia uchwały nr
 # XXIII/353/19": the key is how it reaches the edition.
+#
+# CITED BY NUMBER OR PHRASE (13 October 2026). Most of the 2019-20
+# declarations are older than any window a reader takes, so a watched act may
+# never be collected itself; what arrives is the act that repeals, amends or
+# answers a petition about it. So an act of the SAME voivodeship whose title
+# cites a watched act's number ("uchylenia uchwały nr X/125/19",
+# "uchylenia Deklaracji Nr 1/19") inherits its areas, and so does one whose
+# title contains one of the entry's `cites:` phrases (for the unnumbered
+# stanowiska: "zmieniające stanowisko z dnia 25 kwietnia 2019"). The stored
+# row says so: watchlist_hits gets "cites:<watched key>".
 
 _WATCH = {}
 
+# Key prefixes that are not a resolution number: journal positions, BIP
+# document ids, draft prints.
+_NOT_A_NUMBER = ("dz", "doc", "st", "druk")
+# Key prefixes naming a kind numbered on its own ("ma/deklaracja/1/19"): the
+# citation must name the kind too, or "1/19" would match any act's number.
+_KIND_STEMS = {"deklaracja": "deklaracj", "apel": "apel", "rezolucja": "rezolucj",
+               "stanowisko": "stanowisk", "oswiadczenie": "oświadczeni"}
+
+
+def _fold(s):
+    import unicodedata
+    s = unicodedata.normalize("NFKD", (s or "").lower().replace("ł", "l"))
+    return "".join(ch for ch in s if not unicodedata.combining(ch))
+
 
 def watchlist(path=None):
-    """{act_key: (areas, why)} from config/watchlist-pl.yaml's `regional`."""
+    """{act_key: (areas, why, cites)} from config/watchlist-pl.yaml's
+    `regional`; `cites` is the entry's list of title phrases (may be empty)."""
     import yaml
     path = path or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                                 "config", "watchlist-pl.yaml")
@@ -145,20 +170,59 @@ def watchlist(path=None):
                 raw = yaml.safe_load(fh) or {}
         except FileNotFoundError:
             raw = {}
-        _WATCH[path] = {str(k): (list((v or {}).get("areas") or []), (v or {}).get("why"))
+        _WATCH[path] = {str(k): (list((v or {}).get("areas") or []), (v or {}).get("why"),
+                                 [str(c) for c in ((v or {}).get("cites") or [])])
                         for k, v in (raw.get("regional") or {}).items()}
     return _WATCH[path]
 
 
-def add_watch_areas(res, key, path=None):
+def citation_pattern(key):
+    """The regex a title must match to cite the watched act `key`, or None
+    when the key carries no number (a journal position, a document id)."""
+    import re
+    parts = key.split("/")
+    if len(parts) < 3 or parts[1] in _NOT_A_NUMBER:
+        return None
+    if parts[1] in _KIND_STEMS:
+        number = "/".join(parts[2:])
+        return re.compile(r"(?i)" + _KIND_STEMS[parts[1]] + r"\w*\s+(?:nr\.?\s*)?" + re.escape(number)
+                          + r"(?![\w/])")
+    number = "/".join(parts[1:])
+    return re.compile(r"(?i)(?<![\w/])" + re.escape(number) + r"(?![\w/])")
+
+
+def cited(key, title, path=None):
+    """[(watched key, areas)] that the act `key` with `title` cites (same
+    voivodeship, never itself)."""
+    if not title:
+        return []
+    region = key.split("/", 1)[0]
+    folded = _fold(title)
+    out = []
+    for wkey, (areas, _why, phrases) in watchlist(path).items():
+        if wkey == key or wkey.split("/", 1)[0] != region:
+            continue
+        pat = citation_pattern(wkey)
+        if (pat and pat.search(title)) or any(_fold(p) in folded for p in phrases if p):
+            out.append((wkey, areas))
+    return out
+
+
+def add_watch_areas(res, key, path=None, title=None):
     """Union a watched act's areas into a FilterResult, in place, and say so
-    in watchlist_hits so the stored row shows where the area came from."""
+    in watchlist_hits so the stored row shows where the area came from: by
+    key ("watch:<key>"), or because the title cites a watched act of the same
+    voivodeship ("cites:<watched key>")."""
+    hits = []
     hit = watchlist(path).get(key)
-    if not hit:
+    if hit:
+        hits.append(("watch:" + key, hit[0]))
+    hits += [("cites:" + wkey, areas) for wkey, areas in cited(key, title, path)]
+    if not hits:
         return res
-    areas, _why = hit
-    res.issue_areas = sorted(set(res.issue_areas or []) | set(areas))
-    res.watchlist_hits = list(res.watchlist_hits or []) + ["watch:" + key]
+    for label, areas in hits:
+        res.issue_areas = sorted(set(res.issue_areas or []) | set(areas))
+        res.watchlist_hits = list(res.watchlist_hits or []) + [label]
     if res.tier is None:
         res.tier = 2
     return res
