@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Switzerland's cantonal parliaments (CH7, 13 October 2026): business items
 and, where published, recorded votes of the cantons with a usable source,
-into ch_canton_acts and ch_canton_votes (src/ch_store.py).
+into ch_canton_acts and ch_canton_divisions (src/ch_store.py).
 
     python3 tools/ch_cantons.py                      # every canton below
     python3 tools/ch_cantons.py --canton zh be       # some of them
@@ -111,7 +111,9 @@ UNDATED = ("ge", "vd", "ti")
 
 # --- Zuerich -------------------------------------------------------------------
 ZH_API = "https://parlzhcdws.cmicloud.ch/parlzh5/cdws/Index/GESCHAEFT/searchdetails"
-ZH_NS = {"g": "http://www.cmiag.ch/cdws/Geschaeft"}
+# The Geschaeft records' XML namespace (an identifier, in Clark notation).
+ZH_G = "{http://www.cmiag.ch/cdws/Geschaeft}"
+ZH_NS = {"g": ZH_G.strip("{}")}
 ZH_PAGE = 25
 ZH_MAX_PAGES = 12
 ZH_NEW_DAYS = 45
@@ -231,7 +233,7 @@ def parse_zuerich(raw):
         raw = raw.encode("utf-8")
     root = ET.fromstring(raw)
     out = []
-    for g in root.iter("{%s}Geschaeft" % ZH_NS["g"]):
+    for g in root.iter(ZH_G + "Geschaeft"):
         guid = g.get("OBJ_GUID")
         number = _zh(g, "KRNr") or _zh(g, "VorlageNr")
         if not guid or not number:
@@ -652,7 +654,7 @@ def store_vote(conn, v, today):
     row = conn.execute("SELECT areas, matched_terms, tier FROM ch_canton_acts WHERE act_key=?",
                        (v.get("act_key"),)).fetchone() if v.get("act_key") else None
     conn.execute(
-        "INSERT INTO ch_canton_votes (vote_key, canton, act_key, date, subject, result, yes, "
+        "INSERT INTO ch_canton_divisions (vote_key, canton, act_key, date, subject, result, yes, "
         "no, abstain, url, areas, matched_terms, tier, first_seen, last_seen) "
         "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(vote_key) DO UPDATE SET "
         "act_key=excluded.act_key, date=excluded.date, subject=excluded.subject, "
@@ -772,11 +774,11 @@ def reclassify(conn, tax, watch_path=None):
         conn.execute("UPDATE ch_canton_acts SET areas=?, matched_terms=?, tier=? WHERE act_key=?",
                      (ch_store.dumps(areas), ch_store.dumps(terms), tier, r[0]))
         n += 1
-    conn.execute("UPDATE ch_canton_votes SET areas=COALESCE((SELECT a.areas FROM ch_canton_acts a "
-                 "WHERE a.act_key=ch_canton_votes.act_key), '[]'), matched_terms=COALESCE(("
+    conn.execute("UPDATE ch_canton_divisions SET areas=COALESCE((SELECT a.areas FROM ch_canton_acts a "
+                 "WHERE a.act_key=ch_canton_divisions.act_key), '[]'), matched_terms=COALESCE(("
                  "SELECT a.matched_terms FROM ch_canton_acts a WHERE a.act_key="
-                 "ch_canton_votes.act_key), '[]'), tier=(SELECT a.tier FROM ch_canton_acts a "
-                 "WHERE a.act_key=ch_canton_votes.act_key)")
+                 "ch_canton_divisions.act_key), '[]'), tier=(SELECT a.tier FROM ch_canton_acts a "
+                 "WHERE a.act_key=ch_canton_divisions.act_key)")
     conn.commit()
     print("ch-cantons: reclassified {0} cantonal act(s)".format(n))
 

@@ -54,7 +54,7 @@ rc=0
 python3 tools/ch_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 420)" || rc=$?
 # The cantonal parliaments (CH7, tools/ch_cantons.py,
 # docs/switzerland-cantons-scope.md): Zuerich, Bern, Geneva, Vaud and Ticino
-# into ch_canton_acts / ch_canton_votes, before the edition, which shows them
+# into ch_canton_acts / ch_canton_divisions, before the edition, which shows them
 # in a Cantons section of their own. About 60 requests (Bern's two daily
 # exports are 17 MB); every request asks robots.txt first. Its failure (exit
 # other than 0 or 3) is a [gap] line, never the run's.

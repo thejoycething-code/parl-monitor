@@ -28,7 +28,7 @@ The week ahead is the councils' order of business from the sessions programme
 (src/agendas/ch.py): empty between sessions, which the Coverage line says.
 
 THE CANTONS (CH7, 13 October 2026): the cantonal parliaments read by
-tools/ch_cantons.py (ch_canton_acts, ch_canton_votes; Zuerich, Bern,
+tools/ch_cantons.py (ch_canton_acts, ch_canton_divisions; Zuerich, Bern,
 Geneva, Vaud, Ticino) are a "Cantons" section of their own after the
 Watchlist (Country.extra_sections), never mixed into the Federal
 Assembly's. An act is new by its submission date, or, in a canton that
@@ -267,7 +267,7 @@ def canton_items(conn, since, until, wl):
                            terms=r["matched_terms"], takeaway=_canton_takeaway(r, new),
                            lines=lines))
     for r in ce.rows(conn, "SELECT v.*, a.title AS act_title, a.label AS act_label FROM "
-                           "ch_canton_votes v LEFT JOIN ch_canton_acts a USING (act_key) WHERE "
+                           "ch_canton_divisions v LEFT JOIN ch_canton_acts a USING (act_key) WHERE "
                            + ce.window_sql("v.date"), (since, until)):
         w = bool(r["act_key"]) and r["act_key"] in wl
         if not ce.on_ground(r["areas"], w):

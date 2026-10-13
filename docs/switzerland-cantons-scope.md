@@ -9,7 +9,7 @@ database inside the worktree, never the store.
 
 **Built:** `tools/ch_cantons.py` (one reader per canton, a common store
 step), two additive tables in `src/ch_store.py` (`ch_canton_acts`,
-`ch_canton_votes`, declared in `db.TABLES`), a `cantons` section in
+`ch_canton_divisions`, declared in `db.TABLES`), a `cantons` section in
 `config/watchlist-ch.yaml` (five seeded entries, for Chris to review), a
 **Cantons** section in the Swiss edition (`src/editions/ch.py`, through the
 existing `Country.extra_sections` hook), a step in `jobs/ch-weekly.sh`,

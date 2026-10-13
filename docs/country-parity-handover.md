@@ -838,7 +838,7 @@ Grosser Rat's daily OGD exports in German and French, with the Tagblatt's
 votes and tallies), **Geneva** (the Grand Conseil's search, 17 French terms,
 last year), **Vaud** (the lists of objects awaiting treatment) and
 **Ticino** (the order of the day). `tools/ch_cantons.py` into
-`ch_canton_acts` / `ch_canton_votes` (`src/ch_store.py`), classified in each
+`ch_canton_acts` / `ch_canton_divisions` (`src/ch_store.py`), classified in each
 canton's language (taxonomy-atch, taxonomy-fr, taxonomy-it for `ch`), a
 `cantons` watchlist section by key (five seeded entries for Chris to
 review), and a **Cantons** section in the Swiss edition after the Watchlist

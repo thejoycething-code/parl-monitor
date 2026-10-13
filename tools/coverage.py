@@ -436,7 +436,7 @@ FEEDS = [
     # Ticino's order of the day and Geneva's searches are re-read whole every
     # run, recess included, so both tables move every week.
     ("ch_canton_acts", "last_seen", 7, 4, "Cantonal parliaments' business: Zürich, Bern, Geneva, Vaud, Ticino (Switzerland weekly)"),
-    ("ch_canton_votes", "last_seen", 7, 4, "Grosser Rat Bern votes with tallies (Switzerland weekly)"),
+    ("ch_canton_divisions", "last_seen", 7, 4, "Grosser Rat Bern votes with tallies (Switzerland weekly)"),
     # Belgium (9 October 2026). MEASURED which re-stamp: both member lists and
     # all 39 pages of the dossier index are re-read whole every run, so
     # be_members and be_dossiers move every week, recess included. Divisions
@@ -1342,7 +1342,7 @@ def table_exists(conn, table):
 AWAITING_STEP_UNTIL = {
     "ch_canton_acts": ("2026-10-31", "the cantons step (tools/ch_cantons.py) joins the "
                        "Switzerland weekly on merge; it fills on its next run"),
-    "ch_canton_votes": ("2026-10-31", "the cantons step (tools/ch_cantons.py) joins the "
+    "ch_canton_divisions": ("2026-10-31", "the cantons step (tools/ch_cantons.py) joins the "
                         "Switzerland weekly on merge; it fills on its next run"),
     # Poland's voivodeship assemblies join the Poland weekly (Sundays 04:00)
     # on merge, 13 October 2026: empty until its first Sunday run.

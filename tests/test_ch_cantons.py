@@ -284,7 +284,7 @@ class StoreTests(unittest.TestCase):
         C.store_all(self.conn, be, self.tax, "2026-10-13")
         for v in C.parse_bern_votes(json.loads(fixture("be_abstimmung.json"))):
             C.store_vote(self.conn, v, "2026-10-13")
-        got = self.conn.execute("SELECT areas FROM ch_canton_votes WHERE act_key="
+        got = self.conn.execute("SELECT areas FROM ch_canton_divisions WHERE act_key="
                                 "'be/2023.RRGR.210'").fetchall()
         self.assertTrue(got and all("3" in r[0] for r in got))
         self.conn.execute("UPDATE ch_canton_acts SET areas='[]'")
@@ -311,7 +311,7 @@ class MainTests(unittest.TestCase):
             stored = {r[0]: r[1] for r in conn.execute(
                 "SELECT canton, COUNT(*) FROM ch_canton_acts GROUP BY canton")}
             base = conn.execute("SELECT COUNT(*) FROM ch_canton_acts WHERE baseline=1").fetchone()[0]
-            votes = conn.execute("SELECT COUNT(*) FROM ch_canton_votes").fetchone()[0]
+            votes = conn.execute("SELECT COUNT(*) FROM ch_canton_divisions").fetchone()[0]
             conn.close()
             return rc, gaps, stored, base, votes, inner
 
@@ -358,7 +358,7 @@ class MainTests(unittest.TestCase):
 
 class SchemaTests(unittest.TestCase):
     def test_declared_and_created(self):
-        for t in ("ch_canton_acts", "ch_canton_votes"):
+        for t in ("ch_canton_acts", "ch_canton_divisions"):
             self.assertIn(t, db.TABLES)
             self.assertIn(t, ch_store.TABLES)
         conn = db.init_db(sqlite3.connect(":memory:"))
@@ -409,7 +409,7 @@ class EditionTests(unittest.TestCase):
         ]
         for r in rows:
             self.conn.execute(ACT, r)
-        self.conn.execute("INSERT INTO ch_canton_votes (vote_key, canton, act_key, date, subject, "
+        self.conn.execute("INSERT INTO ch_canton_divisions (vote_key, canton, act_key, date, subject, "
                           "result, yes, no, abstain, url, areas, matched_terms, tier) VALUES "
                           "('be/v/1','be','be/2026.GRPARL.151','2026-10-09','Ziff. 1',"
                           "'Annahme / Adoption',145,0,0,'u','[2]','[]',2)")

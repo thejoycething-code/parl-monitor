@@ -41,7 +41,7 @@ cantonal item never collides with a federal business. Where the source
 dates a step, `status_date` is that date; where it prints only the current
 status, a run that sees it change stamps the day it saw it and sets
 `status_seen`. `baseline` marks rows of an undated canton's first read
-(never shown as new). `ch_canton_votes` holds Bern's Tagblatt votes with
+(never shown as new). `ch_canton_divisions` holds Bern's Tagblatt votes with
 their published tallies, linked to the act they name; no canton read
 publishes member positions we can read. Additive: new tables only, created
 by ensure_schema; nothing here touches the federal tables.
@@ -163,7 +163,7 @@ SCHEMA = (
         first_seen   TEXT,
         last_seen    TEXT
     )""",
-    """CREATE TABLE IF NOT EXISTS ch_canton_votes (
+    """CREATE TABLE IF NOT EXISTS ch_canton_divisions (
         vote_key     TEXT PRIMARY KEY,   -- 'be/v/<abstimmung_uid>'
         canton       TEXT NOT NULL,
         act_key      TEXT,               -- the act the vote names, or NULL
@@ -181,13 +181,13 @@ SCHEMA = (
         last_seen    TEXT
     )""",
     "CREATE INDEX IF NOT EXISTS ch_canton_acts_canton ON ch_canton_acts (canton, presented)",
-    "CREATE INDEX IF NOT EXISTS ch_canton_votes_act ON ch_canton_votes (act_key)",
+    "CREATE INDEX IF NOT EXISTS ch_canton_divisions_act ON ch_canton_divisions (act_key)",
     "CREATE INDEX IF NOT EXISTS ch_divisions_business ON ch_divisions (business_id)",
     "CREATE INDEX IF NOT EXISTS ch_votes_member ON ch_votes (person_number)",
 )
 
 TABLES = ("ch_members", "ch_sessions", "ch_businesses", "ch_divisions", "ch_votes",
-          "ch_canton_acts", "ch_canton_votes")
+          "ch_canton_acts", "ch_canton_divisions")
 
 # Columns added after a table was first shipped: (table, column, type).
 # CH6 (10 October 2026): the Italian pass.
