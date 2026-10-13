@@ -34,8 +34,99 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from urllib.parse import urlsplit
+
+from src.http import RobotsRefused
 
 DOC_URL = "https://docs.un.org/{lang}/{symbol}?direct=true"
+
+# ROBOTS.TXT ON THE REDIRECT (13 October 2026). docs.un.org/<symbol>
+# ?direct=true now answers 302 to documents.un.org/api/symbol/access?s=...,
+# and documents.un.org/robots.txt reads "User-agent: * / Disallow: /doc,
+# /access, /api". The HTTP client used to follow that redirect unasked; it
+# now asks robots.txt about every hop (src/http._RedirectHandler), and every
+# fetch here goes through the robots guard (_guarded), so the walks below
+# are refused before anything reaches documents.un.org. A refusal is NOT "no
+# such draft": walk_drafts raises it, and the forward look's check log says
+# "could not read: robots.txt disallows (documents.un.org)", so the DM calls
+# the number of new drafts unknown, never zero. Resumes by itself if the
+# redirect or the robots.txt changes.
+#
+# Routes tried for the drafts and their titles instead (every request with
+# the honest User-Agent, seconds apart; docs/un-sources.md has the table):
+#   * UN Journal API (journal-api.un.org, robots.txt 404): GA plenary
+#     agendas name the draft symbols they act on ("Item 129: Draft
+#     resolution (A/81/L.6)"), already read; the GA calendar also lists
+#     informal consultations on drafts with their titles ("Informal
+#     consultations on the draft resolution entitled ..."), now read as a
+#     first sign (src/ingest/un_calendar.parse_ga_consultations). Third
+#     Committee consultations are not listed there: the Journal points to
+#     iGov. USED.
+#   * PGA letters (www.un.org/pga/81/, robots.txt allows, Crawl-delay 10):
+#     name the drafts they submit ("to be annexed to draft resolution
+#     A/81/L.6"). Already read; a draft named there or on a plenary agenda
+#     is now known by its symbol and that context even when its PDF cannot
+#     be read (named_drafts). USED.
+#   * www.un.org/en/ga/info/draft/ (allowed): a stale list (A/66/L.n).
+#     www.un.org/en/ga/third/81/documentation.shtml (allowed): lists L.1
+#     (organisation of work) only. Not used.
+#   * igov.un.org (the GA's "iGov" portal; robots.txt answers the app page,
+#     so no rules): the proposals feed its own app loads
+#     (igov/api/proposals/<session>/<committee>) answers an empty list for
+#     sessions 80 and 81. Not used; worth re-checking once action begins.
+#   * press.un.org (allowed but /search/): meetings coverage names drafts
+#     and votes on the day of action, which is after the first sign. Not
+#     wired.
+#   * digitallibrary.un.org: robots.txt disallows /search and /rss, and a
+#     record can only be found by search. Not used.
+#   * research.un.org (allowed for '*', Crawl-delay 10): guides that link to
+#     docs.un.org. Not a source of its own.
+#   * daccess-ods.un.org, documents-dds-ny.un.org: robots.txt disallows the
+#     document paths too. Wayback or any cache: not tried, on purpose.
+ROBOTS_NOTE = "robots.txt disallows (documents.un.org)"
+
+
+def refusal_note(exc):
+    """'robots.txt disallows (<host>)' for a refused fetch, naming the host
+    whose robots.txt refused (the redirect target, not docs.un.org)."""
+    reason = str(getattr(exc, "reason", "") or exc)
+    m = re.search(r"disallows (\S+)", reason)
+    host = urlsplit(m.group(1)).netloc if m else ""
+    return "robots.txt disallows ({0})".format(host) if host else reason
+
+
+
+def refusal_detail(exc):
+    """The check-log line for a refusal: the note, then where the redirect
+    went (path only), short enough for the DM. 'robots.txt disallows
+    (documents.un.org): docs.un.org redirects to
+    https://documents.un.org/api/symbol/access'."""
+    reason = str(getattr(exc, "reason", "") or exc)
+    m = re.search(r"disallows (\S+)", reason)
+    if not m:
+        return reason
+    hop = urlsplit(m.group(1))
+    origin = re.search(r"redirected from (\S+?)\)", reason)
+    src = urlsplit(origin.group(1)).netloc if origin else ""
+    where = "{0}://{1}{2}".format(hop.scheme, hop.netloc, hop.path)
+    if src:
+        return "{0}: {1} redirects to {2}".format(refusal_note(exc), src, where)
+    return "{0}: {1}".format(refusal_note(exc), where)
+
+
+def _guarded(client):
+    """Every fetch here asks robots.txt (and, through the client, every
+    redirect hop). A real HttpClient is wrapped once (kept on the client);
+    an already guarded client and the tests' fake clients pass through."""
+    from src.http import HttpClient
+    from src.robots_guard import GuardedClient, guard
+    if isinstance(client, GuardedClient) or not isinstance(client, HttpClient):
+        return client
+    wrapped = client.__dict__.get("_undocs_guard")
+    if wrapped is None:
+        wrapped = guard(client, "undocs")
+        client.__dict__["_undocs_guard"] = wrapped
+    return wrapped
 
 # The two bodies whose drafts matter to us. Third Committee takes the family,
 # SRHR and religious-freedom resolutions; the HRC takes the thematic mandates.
@@ -77,7 +168,7 @@ def head(client, symbol, lang="en"):
     # 64 bytes is enough: %PDF- means the document exists, <!doct means the
     # not-found page. Downloading the whole PDF to learn that cost 11s per
     # symbol and ~300KB (measured before adding the Range request).
-    raw = client.get_bytes(url, "undocs", symbol.replace("/", "-"), first_bytes=64)
+    raw = _guarded(client).get_bytes(url, "undocs", symbol.replace("/", "-"), first_bytes=64)
     kind = "application/pdf" if raw[:5] == b"%PDF-" else "text/html"
     return Document(symbol=symbol, url=url, size=len(raw), content_type=kind)
 
@@ -91,8 +182,8 @@ def document_text(client, symbol, lang="en", pages=None):
     """
     import io
     import pypdf
-    raw = client.get_bytes(doc_url(symbol, lang), "undocs",
-                           "text-" + symbol.replace("/", "-"))
+    raw = _guarded(client).get_bytes(doc_url(symbol, lang), "undocs",
+                                     "text-" + symbol.replace("/", "-"))
     if raw[:5] != b"%PDF-":
         return ""
     reader = pypdf.PdfReader(io.BytesIO(raw))
@@ -328,7 +419,8 @@ def walk_drafts(client, pattern, session, max_n=120, stop_after_misses=5, start=
     """enumerate_drafts, plus the symbols whose check FAILED.
 
     A fetch error counts as a miss for the walk, but it is not the same as
-    "no such draft". The UN check log (src/un_checks.py) needs the
+    "no such draft". A robots.txt refusal (RobotsRefused) is raised at the
+    first symbol rather than counted: it is a refusal of the source. The UN check log (src/un_checks.py) needs the
     difference: a walk where every check failed could not read docs.un.org,
     and must never be reported as "no new drafts".
     """
@@ -338,6 +430,11 @@ def walk_drafts(client, pattern, session, max_n=120, stop_after_misses=5, start=
         checked += 1
         try:
             doc = head(client, symbol)
+        except RobotsRefused:
+            # robots.txt refused (13 October 2026: the redirect to
+            # documents.un.org/api/...). Every symbol goes the same way, so
+            # stop at once and let the caller say "could not read".
+            raise
         except Exception:
             errors.append(symbol)
             misses += 1

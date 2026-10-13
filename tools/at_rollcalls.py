@@ -55,7 +55,7 @@ import urllib.robotparser
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import at_store, db, drain, filter as filt  # noqa: E402
+from src import at_store, db, drain, filter as filt, robots_guard  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
 
 FEED = "at-rollcalls"
@@ -627,6 +627,8 @@ def main():
     gaps += g
     if not args.no_details:
         robots = load_robots(client)
+        # Redirect hops asked of robots.txt too (13 October 2026).
+        robots_guard.check_redirects(client, FEED)
         pages, divs, skipped, g = pull_details(conn, client, today, robots=robots,
                                                limit=args.limit, budget=budget)
         gaps += g

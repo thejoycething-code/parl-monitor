@@ -134,6 +134,34 @@ A new permission is added by appending a `Permission(...)` to
 `tests/test_robots_runtime.py` (`WrittenPermissionTests`) checks that every
 entry is dated, attributed, dataset-narrow and documented on this page.
 
+## Redirects: every hop is asked (13 October 2026)
+
+Until 13 October robots.txt was asked about the URL a collector requested,
+and urllib then followed any redirect unasked. `docs.un.org/<symbol>?direct=true`
+had begun answering `302` to `documents.un.org/api/symbol/access`, a path
+`documents.un.org/robots.txt` disallows (docs/un-sources.md). Now:
+
+* `src/http.HttpClient` asks its registered redirect guards about every hop
+  before requesting it (`_RedirectHandler`; an opener a collector passes in has
+  urllib's redirect handler wrapped the same way). A refused hop raises
+  `RobotsRefused` (a `FetchError`): "robots.txt disallows <hop> (redirected
+  from <first url>); not fetched". Nothing is sent to the refused URL, and it
+  is never served from the day's archive.
+* `GuardedClient`, `guard()` and `prov_fetch.Context` register themselves; a
+  hop under `DOCUMENTED_APIS` or a written permission passes unasked, as a
+  first URL does. A robots.txt file is always fetchable (redirects included).
+* Collectors with their own `urllib.robotparser` check register with
+  `robots_guard.check_redirects(client, feed)`: `src/member_service.fetch_at`,
+  `src/agendas/at.py`, `tools/at_rollcalls.py`. The urllib probes open through
+  `robots_guard.probe_urlopen` (`tools/nic_probe.py`, `ve_probe.py`,
+  `ve_news_crawl.py`).
+* A client nothing has registered on (a documented API's) follows redirects
+  exactly as before.
+
+Tests: `tests/test_robots_redirects.py`. The read-only scan of configured
+source URLs run the same day is in the PR (#see git log) and in
+docs/un-sources.md for the UN.
+
 ## Patient robots.txt reads
 
 12 October 2026, Chris: "Patient robots.txt reads". One slow robots.txt

@@ -732,8 +732,14 @@ def parse_journal_meetings(payload, organ_filter="Third"):
                 if organ_filter and organ_filter in related and organ_filter not in organ:
                     label = next((str(r.get("value")) for r in (m.get("relatedOrganizations") or [])
                                   if organ_filter in str(r.get("value"))), organ)
+                # The meeting id (13 October 2026, additive): an official
+                # Third Committee meeting's agenda names the draft symbols it
+                # acts on (fetch_committee_drafts).
+                mid = m.get("id") or ""
+                url = (JOURNAL_MEETING_PAGE.format(mid, starts.date().isoformat())
+                       if mid else Meeting.url)
                 out.append(Meeting(organ=label or primary, title=title,
-                                   starts=starts, kind=m.get("type") or ""))
+                                   starts=starts, kind=m.get("type") or "", url=url, id=mid))
     return sorted(out, key=lambda x: x.starts)
 
 
@@ -855,7 +861,103 @@ def fetch_meeting_detail(client, meeting_id):
     return parse_meeting_detail(_json.loads(text))
 
 
-def fetch_ga_plenaries(client, start=None, days=21):
+# Informal consultations on a draft, as the GA calendar lists them (13
+# October 2026): "Informal consultations on the draft resolution entitled
+# "Extension of the preparatory period ..." (under agenda item 9) (convened
+# by the Permanent Mission of Qatar)". The draft's title, before it has a
+# symbol: a first sign that does not need docs.un.org, whose redirect to
+# documents.un.org/api/... robots.txt now disallows (src/ingest/un_docs.py).
+_CONSULT_ITEM = re.compile(r"\(under agenda item ([0-9]+)", re.I)
+_CONSULT_TITLE = re.compile(
+    r"draft (?:resolution|decision|declaration|political declaration|outcome document)s?"
+    r"(?: entitled| on)?\s*[\"\u201c\u2018']?(?P<title>.+?)[\"\u201d\u2019']?\s*"
+    r"(?:\(under agenda item|\(convened by|$)", re.I)
+_CONVENED = re.compile(r"\(convened by (?:the )?([^)]+)\)", re.I)
+
+
+@dataclass
+class Consultation:
+    """Informal consultations on a GA draft, from the Journal calendar."""
+    title: str                   # the whole Journal line
+    draft_title: str             # the draft's title as the line gives it
+    starts: datetime.datetime
+    id: str = ""
+    url: str = "https://journal.un.org/en/new-york/all"
+    agenda_item: int = None
+    convened_by: str = ""
+
+    @property
+    def match_text(self):
+        return self.draft_title or self.title
+
+
+def parse_ga_consultations(payload):
+    """Informal consultations on drafts, from the same GlobalCalendar payload
+    as parse_ga_plenaries (no request of its own). Cancelled rows dropped,
+    repeats per day group dropped."""
+    out, seen = [], set()
+    for group in payload or []:
+        for og in group.get("organGroup", []) or []:
+            for m in og.get("meetings", []) or []:
+                organ = og.get("organ") or m.get("organ") or ""
+                primary = m.get("primaryOrgan") or ""
+                if "General Assembly" not in (organ + " " + primary):
+                    continue
+                title = _plain(m.get("title"))
+                if not _CONSULTATIONS.match(title) or m.get("isCancelled"):
+                    continue
+                raw = (m.get("startDate") or "")[:16]
+                try:
+                    starts = datetime.datetime.strptime(raw, "%Y-%m-%dT%H:%M")
+                except ValueError:
+                    continue
+                key = (m.get("id") or title, raw)
+                if key in seen:
+                    continue
+                seen.add(key)
+                found = _CONSULT_TITLE.search(title)
+                item = _CONSULT_ITEM.search(title)
+                conv = _CONVENED.search(title)
+                mid = m.get("id") or ""
+                out.append(Consultation(
+                    title=title,
+                    draft_title=(found.group("title").strip(" .,;") if found else ""),
+                    starts=starts, id=mid,
+                    url=(JOURNAL_MEETING_PAGE.format(mid, starts.date().isoformat())
+                         if mid else Consultation.url),
+                    agenda_item=int(item.group(1)) if item else None,
+                    convened_by=conv.group(1).strip() if conv else ""))
+    return sorted(out, key=lambda x: x.starts)
+
+
+_NUMBERED_MEETING = re.compile(r"^\d+(?:st|nd|rd|th) (?:plenary )?meeting\b", re.I)
+
+
+def fetch_committee_drafts(client, meetings, start, end, limit=15):
+    """Read the agendas of a committee's numbered (official) meetings from
+    `start` to `end` (dates) and fill each Meeting's agenda and symbols. The
+    Third Committee's agendas name the drafts it acts on ("Item 66: Draft
+    resolution (A/C.3/81/L.20)") once action begins: the symbol and the
+    agenda item's title without docs.un.org (13 October 2026). Returns
+    (meetings read, failures). At most `limit` requests."""
+    read, failures = [], []
+    for m in meetings:
+        if len(read) + len(failures) >= limit:
+            break
+        if not m.id or not _NUMBERED_MEETING.match(m.title or ""):
+            continue
+        if not (start <= m.starts.date() <= end):
+            continue
+        try:
+            m.agenda, m.programme, m.symbols = fetch_meeting_detail(client, m.id)
+            read.append(m)
+        except Exception as exc:
+            failures.append("{0} {1}: agenda not read ({2})".format(
+                m.starts.date(), m.title, str(exc)[:80]))
+    return read, failures
+
+
+def fetch_ga_plenaries(client, start=None, days=21, consultations=None):
     """GA plenaries in the window, each with its agenda read.
 
     Returns (meetings, why, failures): `why` is the horizon note when the
@@ -864,9 +966,16 @@ def fetch_ga_plenaries(client, start=None, days=21):
     is kept with an empty agenda and named in `failures`, so a missing agenda
     is a gap, not a quiet row.
     """
+    def parse(payload):
+        # consultations (13 October 2026, additive): a list to fill with the
+        # informal consultations on drafts in the same payload.
+        if consultations is not None:
+            consultations.extend(parse_ga_consultations(payload))
+        return parse_ga_plenaries(payload)
+
     meetings, why = fetch_journal_meetings(client, organ=GENERAL_ASSEMBLY,
                                            start=start, days=days,
-                                           organ_filter=None, parser=parse_ga_plenaries,
+                                           organ_filter=None, parser=parse,
                                            slug="journal-ga")
     failures = []
     for m in meetings:

@@ -102,6 +102,9 @@ def parse_to(page, entry):
 
 
 def robots(client):
+    # Redirect hops asked of robots.txt too (13 October 2026).
+    from src import robots_guard
+    robots_guard.check_redirects(client, FEED)
     rp = urllib.robotparser.RobotFileParser()
     try:
         rp.parse(client.get_text(ROBOTS, FEED, "robots", archive=False).splitlines())

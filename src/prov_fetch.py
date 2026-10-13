@@ -261,6 +261,13 @@ class Context:
         self._stopped = False
         if getattr(client, "throttle", None) is not None and client.throttle < MIN_THROTTLE:
             client.throttle = MIN_THROTTLE
+        # 13 October 2026: robots.txt is asked about every redirect hop too,
+        # not only the first URL (src/http._RedirectHandler). A hop it
+        # disallows raises RobotsRefused, which text()/bytes() record as a
+        # gap like any other FetchError.
+        add_guard = getattr(client, "add_redirect_guard", None)
+        if robots and callable(add_guard):
+            add_guard(self.redirect_refusal)
 
     # -- bookkeeping ----------------------------------------------------------
 
@@ -331,6 +338,39 @@ class Context:
                     self.client.throttle = float(delay)
             self._robots[host] = rp
         return self._robots[host]
+
+    def refusal(self, url):
+        """None when robots.txt allows `url`, else (reason, host_skipped):
+        host_skipped is True when robots.txt could not be read at all."""
+        if not self.robots:
+            return None
+        rp = self._parser(url)
+        unreachable = getattr(rp, "unreachable", None)
+        if unreachable:
+            return unreachable, True
+        if self.allowed(url):
+            return None
+        return "robots.txt disallows {0}; not fetched".format(url), False
+
+    def redirect_exempt(self, url):
+        """True for a hop fetched with no robots.txt read (GuardedClient
+        sets this for documented APIs and written permissions)."""
+        return False
+
+    def redirect_refusal(self, url, origin):
+        """The redirect guard (src/http.HttpClient.add_redirect_guard): None
+        when robots.txt allows the hop to `url`, else (reason, False). The
+        reason names the hop and the URL first asked for."""
+        if not self.robots or self.redirect_exempt(url):
+            return None
+        refused = self.refusal(url)
+        if not refused:
+            return None
+        reason, unreachable = refused
+        if unreachable:
+            return ("{0}; {1} (redirected from {2}) not fetched".format(reason, url, origin), False)
+        return ("robots.txt disallows {0} (redirected from {1}); not fetched".format(url, origin),
+                False)
 
     def allowed(self, url):
         if not self.robots:

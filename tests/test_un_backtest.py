@@ -2,7 +2,10 @@
 pandemic prevention, preparedness and response must surface BEFORE the vote.
 
 The monitor missed it. The draft (A/81/L.6, 5 October), the PGA's letter (7
-October, naming 12 October) and the plenary listing were all public. This
+October, naming 12 October) and the plenary listing were all public. Since
+13 October 2026 the draft's own text is out of reach (documents.un.org's
+robots.txt), so the draft is caught from 7 October, by the letter that names
+it (tools/un_backtest.py says why). This
 replays the archived responses (tests/fixtures/un/, fetched 13 October 2026)
 as each earlier day would have seen them, through tools/un_backtest.py,
 which uses the same src/un_signals.py as the forward look and the DM.
@@ -35,11 +38,23 @@ class PandemicDeclarationBacktest(unittest.TestCase):
         due, first = un_backtest.as_of(day, *self.data)
         return {s.id: s for s in due}, {s.id: s for s in first}
 
-    def test_the_draft_is_a_first_sign_on_5_october(self):
-        _due, first = self.at(D(2026, 10, 5))
+    def test_nothing_on_5_and_6_october_by_the_new_route(self):
+        """13 October 2026: the draft's PDF (dated 5 October) is behind
+        docs.un.org's redirect to documents.un.org/api/..., which
+        robots.txt disallows, so the replay no longer reads it. Nothing
+        readable named A/81/L.6 before the PGA letter of 7 October. An
+        honest two-day loss, recorded rather than faked."""
+        for day in (D(2026, 10, 5), D(2026, 10, 6)):
+            due, first = self.at(day)
+            self.assertNotIn(DRAFT, first)
+            self.assertEqual(due, {})
+
+    def test_the_draft_is_a_first_sign_on_7_october_named_by_the_letter(self):
+        _due, first = self.at(D(2026, 10, 7))
         self.assertIn(DRAFT, first)
-        self.assertEqual(first[DRAFT].sign_date, D(2026, 10, 5))
+        self.assertEqual(first[DRAFT].sign_date, D(2026, 10, 7))
         self.assertEqual(first[DRAFT].areas, [7])
+        self.assertIn("named by PGA letter", first[DRAFT].detail)
 
     def test_the_letter_names_the_date_on_7_october(self):
         due, first = self.at(D(2026, 10, 7))
@@ -69,7 +84,7 @@ class PandemicDeclarationBacktest(unittest.TestCase):
                 self.assertLess(s.sign_date, VOTE)
 
     def test_the_plenary_listing_date_is_taken_from_its_own_notes(self):
-        _letters, plenaries, _drafts = self.data
+        _letters, plenaries, _consultations = self.data
         p = [m for m in plenaries if m.id.startswith("f0bd129c")][0]
         self.assertEqual(un_backtest.listed_from(p), D(2026, 10, 8))
 

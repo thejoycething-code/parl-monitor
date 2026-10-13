@@ -11,7 +11,7 @@ re-runs read the archive instead of the network.
 """
 import gzip, json, os, re, sys, time, html, urllib.request
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.robots_guard import probe_refusal  # noqa: E402  robots.txt asked at run time
+from src.robots_guard import probe_refusal, probe_urlopen  # noqa: E402  robots.txt asked at run time
 UA = "CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
 BASE = "https://verifica.asamblea.gob.ni/vtn/Votaciones_/"
 OUT = "data/raw/nic/lists"; os.makedirs(OUT, exist_ok=True)
@@ -25,7 +25,7 @@ def get(q):
     req = urllib.request.Request(BASE + "Votaciones.aspx?" + q, headers={"User-Agent": UA})
     for wait in (2, 8, 20, None):
         try:
-            s = urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "replace"); break
+            s = probe_urlopen(req, "nic-probe", timeout=60).read().decode("utf-8", "replace"); break
         except OSError as e:
             if wait is None: raise
             print("retry", q, e, flush=True); time.sleep(wait)
