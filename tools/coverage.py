@@ -979,6 +979,10 @@ AWAITING_FIRST_RUN = {
     "US states direct": (("uss_bill_sources",),
                          "LegiScan and the KS, CA and TX feeds added to US weekly 13 October "
                          "2026; the table fills on the step's first run"),
+    # tools/us_states_routes.py stamps "US states routes" after every run.
+    "US states routes": (("uss_bill_sources",),
+                         "the PA, MO and AR routes added to US weekly 13 October 2026; "
+                         "the table fills on the step's first run"),
     # tools/us_states.py stamps "US states" at the end of every stored run.
     "US states": (("uss_sessions", "uss_people", "uss_bills", "uss_votes"),
                   "state legislatures added to US weekly 9 October 2026; "
