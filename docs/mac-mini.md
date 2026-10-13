@@ -770,6 +770,14 @@ with the end of its output. Nothing caps the clock here, but give
     cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh sk-docs-backfill \
       >> ~/runner/logs/sk-docs-backfill.log 2>&1 &
 
+    # Slovakia, P7: every member's position on the term's 4,606 votes (the
+    # weekly reads about 440 a week); vote pages only, as long as JOB_TIMEOUT
+    # leaves after the publish; rerun until it says no vote is owed.
+    # SK_RECLASSIFY=true first re-matches the stored prints' documents from
+    # the raw archive (after a taxonomy-sk change; about a minute, no fetching).
+    cd ~ && JOB_TIMEOUT=7200 nohup ~/runner/parl-monitor/tools/mini_run.sh \
+      sk-positions-backfill >> ~/runner/logs/sk-positions-backfill.log 2>&1 &
+
     # The store, once (12 October 2026): vote tables WITHOUT ROWID, VACUUM,
     # publish (see "The store is compacted" above). About a minute plus the push.
     cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh store-compact \
@@ -858,6 +866,7 @@ merge the runner picks them up on its next `git pull` (mini_run.sh does it).
 | CH6, Swiss Italian texts | `jobs/ch-weekly.sh`, inside `ch_rollcalls.py` | A third language pass (22 more pages on a full read, a few on a weekly one). The first weekly after the merge reads every business's Italian record once (about 6,700 have one; Fragestunde questions mostly do not and are marked so). |
 | Swiss IVG guard (11 October 2026, branch `ch-ivg-guard`) | `jobs/ch-weekly.sh` once with `CH_RECLASSIFY=true`, then `jobs/editions-session-judge.sh` | taxonomy-fr and taxonomy-it no longer read the Invalidity Insurance Act's "IVG" as abortion for `ch`. After the merge, once on the Mini (never while another job writes the store): `cd ~ && CH_RECLASSIFY=true JOB_TIMEOUT=5400 nohup ~/runner/parl-monitor/tools/mini_run.sh ch-weekly > ~/ch-reclassify.log 2>&1 &` (it re-reads the businesses, about two minutes, re-derives every division, and is otherwise the normal weekly, edition DM included). 14 divisions leave area 1 (22.062, 24.066, 24.078). The next editions-session-judge (Sunday 16:45 London) then prunes their 14 unsigned stance drafts (`--prune-off-ground`); to see it first: `python3 tools/country_5ca.py --cc ch --prune-off-ground --dry-run`. |
 | SK6, Slovak bill documents | `jobs/sk-weekly.sh` (Tuesdays): documents get the first 10 minutes of the old 45-minute positions budget | The backlog by hand: `sk-docs-backfill` above, three runs. |
+| P7, Slovak positions and document re-match (13 October 2026, branch `sk-positions`) | `jobs/sk-weekly.sh` (Tuesdays) as before; `SK_RECLASSIFY=true` now also re-matches every read print's bill documents from the raw archive (`tools/sk_rollcalls.py --reclassify`, offline; a print whose documents are not all archived on the machine keeps its stored areas) | The positions backlog by hand: `sk-positions-backfill` above. |
 
 
 ## Edition review window and edition publish (11 October 2026, branch `ukp-review-window`)
