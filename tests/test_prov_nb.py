@@ -926,8 +926,10 @@ class Backfill2010KnownGapTests(unittest.TestCase):
         self.known = prov_collect.known_gap
 
     def test_the_record_errors_are_known_and_nothing_else_is(self):
-        self.assertTrue(self.known("nb", "nb-56-4-2010-02-04-1: tally check failed (no roster for 56-4; "
-                                         "Yea: unresolved 'Mr. Fitch'); positions not trusted"))
+        # 56-4 has a roster since 13 October 2026 (the Legislative Library's
+        # members page, config/prov-nb-56-4/): a tally gap there fails the run
+        self.assertFalse(self.known("nb", "nb-56-4-2010-02-04-1: tally check failed (no roster for 56-4; "
+                                          "Yea: unresolved 'Mr. Fitch'); positions not trusted"))
         self.assertTrue(self.known("nb", "nb 57-2: the Hansard listing names no transcript for the session, "
                                          "so no party at the vote for its 6 division day(s)"))
         self.assertTrue(self.known("nb", "nb-57-4-2014-05-20: the listing files the Journal of 2014-05-21 under "
