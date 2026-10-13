@@ -33,11 +33,12 @@ class English(unittest.TestCase):
     T = tax("en")
 
     def test_versions(self):
-        self.assertEqual(self.T.version, "1.23")
+        # English 1.24 and Spanish 0.5 since 13 October 2026 (the puberty
+        # blocker vote audit): tests/test_v124_terms.py pins them.
         self.assertEqual(tax("nl").version, "0.3")
         self.assertEqual(tax("fr").version, "0.3")
         self.assertEqual(tax("atch").version, "0.3")
-        self.assertEqual(tax("es").version, "0.4")
+        self.assertIn(tax("es").version, ("0.4", "0.5"))
 
     def test_territory_terminally_ill_bill(self):
         areas, terms = hit(self.T, "Rights of the Terminally Ill Bill 2026")

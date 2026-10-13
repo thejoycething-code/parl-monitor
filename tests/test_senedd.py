@@ -267,7 +267,17 @@ class SD5caTests(unittest.TestCase):
         discipline, with Welsh cross-tab evidence). A NOT PLACEABLE entry
         must never move a Member."""
         entries = self.m.load_stance()
-        self.assertEqual(len(entries), 5)
+        self.assertEqual(len(entries), 10)
+        # 13 October 2026, the puberty blocker vote audit: the Cass review
+        # debate (587351, 587356, 587358) and the annulment of the Welsh
+        # prescribing regulations (638118) are DRAFTS, which place nobody
+        # until confirmed; the unanimous motion as amended (587363) is NOT
+        # PLACEABLE.
+        for key in ("587351", "587356", "587358", "638118"):
+            self.assertTrue(entries[key].get("draft"), key)
+        self.assertEqual((entries["638118"]["for"], entries["638118"]["against"]), (-2, 2))
+        self.assertIsNone(entries["587363"].get("for"))
+        self.assertIsNone(entries["587363"].get("against"))
         e = entries["623756"]
         self.assertFalse(e.get("draft"))
         self.assertEqual((e["for"], e["against"]), (-1, 1))

@@ -95,7 +95,10 @@ class TaxonomySyncTests(unittest.TestCase):
         # guarded, end of life choices, the guarded BDM Registration and
         # Equal Opportunity Amendment names, religious exceptions, the
         # pornograph* stem); tests/test_v123_terms.py.
-        self.assertEqual(version, "1.23")
+        # v1.24 (13 October 2026): the puberty blocker vote audit (two US
+        # bill names, the Welsh prescribing regulations, the GnRH analogues
+        # order); tests/test_v124_terms.py.
+        self.assertEqual(version, "1.24")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on
