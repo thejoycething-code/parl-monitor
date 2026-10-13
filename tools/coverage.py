@@ -551,7 +551,7 @@ FEEDS = [
     # again: ALESP's open-data file re-lists every bill of the legislature
     # each run, so it moves weekly even through a recess.
     ("brs_reads", "last_seen", 7, 4, "state assembly reads, one row per source (Brazil weekly)"),
-    ("brs_bills", "last_seen", 7, 4, "state assembly bills: ALESP, ALMG, ALERJ and the SAPL houses (Brazil weekly)"),
+    ("brs_bills", "last_seen", 7, 4, "state assembly bills: ALESP, ALMG, ALERJ, the SAPL houses, ALRN, ALECE, ALEPE, ALEPA, PR and GO laws (Brazil weekly)"),
     ("br_divisions", "last_seen", 31, 31, "Câmara and Senado nominal votes (Brazil weekly)"),
     # Chile (9 October 2026). MEASURED which re-stamp: the deputy and senator
     # lists are re-read whole every run, and so are the bills introduced this
@@ -1003,6 +1003,12 @@ AWAITING_FIRST_RUN = {
     "US states routes": (("uss_bill_sources",),
                          "the PA, MO and AR routes added to US weekly 13 October 2026; "
                          "the table fills on the step's first run"),
+    # tools/us_states_github.py stamps "US states GitHub" after every run
+    # (GitHub's runners only: inline on GitHub's US weekly, or the half the
+    # Mini asks GitHub for; 13 October 2026).
+    "US states GitHub": (("uss_bill_sources",),
+                         "the NJ, MA and MI GitHub-side step added to US weekly 13 October "
+                         "2026; the table fills on the step's first run"),
     # tools/us_states.py stamps "US states" at the end of every stored run.
     "US states": (("uss_sessions", "uss_people", "uss_bills", "uss_votes"),
                   "state legislatures added to US weekly 9 October 2026; "

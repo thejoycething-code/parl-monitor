@@ -38,19 +38,19 @@ connections from abroad.
 | MG | ALMG | Open-data API dadosabertos.almg.gov.br/ws | JSON/XML | **Disallow: /** (only the documentation allowed) | | no: robots.txt |
 | RJ | ALERJ | Lotus Notes view scpro2327.nsf/Internet/LeiInt | HTML, 15 a page | none (404) | yes, slow, drops connections | **yes**: bills, author, committees, date |
 | BA | ALBA | www.al.ba.gov.br / www.alba.ba.gov.br | | TLS handshake times out / self-signed certificate | no | no |
-| PR | ALEP | consultas.assembleia.pr.leg.br (JHipster app) | JSON behind the app | allows | yes | **no: every search needs a reCAPTCHA token** (never bypassed) |
+| PR | ALEP | consultas.assembleia.pr.leg.br (JHipster app) | JSON behind the app | allows | yes | **no: every search needs a reCAPTCHA token** (never bypassed); second pass: **adopted laws via the Casa Civil (`pr`)** |
 | PR | ALEP | transparencia: Ordem do Dia, Controle de votações | PDFs; vote search reCAPTCHA-gated; the "dados abertos" per session answers 404 | allows | yes | no (agenda PDFs only; phase 2 candidate) |
 | RS | ALRS | www.al.rs.gov.br, ww4.al.rs.gov.br | | robots.txt times out (read as Disallow: /) | no | no |
-| PE | ALEPE | dadosabertos.alepe.pe.gov.br/api/v1 | JSON/CSV | allows | yes | no: the API has members, staff and contracts, no bills |
-| CE | ALECE | www.al.ce.gov.br (avulsos, ordem do dia) | HTML + PDFs | allows | yes | no machine-readable list found |
-| PA | ALEPA | /Home/Page/Proposicoes | DevExpress MVC callbacks | allows | yes | no (callback form; phase 2 candidate). Has a "Votações Nominais" page |
+| PE | ALEPE | dadosabertos.alepe.pe.gov.br/api/v1 | JSON/CSV | allows | yes | first pass no; second pass: **yes (`pe`)**, the same API's `proposicoes/projetos` |
+| CE | ALECE | www.al.ce.gov.br (avulsos, ordem do dia) | HTML + PDFs | allows | yes | first pass no; second pass: **yes (`ce`)**, the www2 proposições lists |
+| PA | ALEPA | /Home/Page/Proposicoes | DevExpress MVC callbacks | allows | yes | first pass no; second pass: **yes (`pa`)**, a plain form POST. Has a "Votações Nominais" page |
 | SC | ALESC | www.alesc.sc.gov.br | | robots.txt times out | no | no |
-| GO | ALEGO | portal.al.go.leg.br | | allows | yes | no list of bills found |
+| GO | ALEGO | portal.al.go.leg.br | | allows | yes | no list of bills found; second pass: **adopted laws via the Casa Civil (`go`)** |
 | MA | ALEMA | www.al.ma.leg.br, sapl.al.ma.leg.br | SAPL | robots.txt times out | no | tried every run (SAPL) |
 | AM | ALEAM | **sapl.al.am.leg.br** | SAPL REST API | allows, Crawl-delay 60 | yes | **yes** |
 | ES | ALES | www.al.es.gov.br | | robots.txt times out | no | no |
 | PB | ALPB | **sapl.al.pb.leg.br** | SAPL REST API | allows, Crawl-delay 60 | yes | **yes** |
-| RN | ALRN | www.al.rn.leg.br | | TLS times out | no | no |
+| RN | ALRN | www.al.rn.leg.br | | TLS times out | no (yes later that day) | second pass: **yes (`rn`)**, its Transparência Legislativa data |
 | MT | ALMT | www.al.mt.gov.br; sapl.al.mt.leg.br | SAPL | main site times out; SAPL allows | SAPL yes | no: its SAPL lists no matéria for 2026 |
 | AL | ALE-AL | **sapl.al.al.leg.br** | SAPL REST API | allows, Crawl-delay 60 | yes | **yes** |
 | PI | ALEPI | **sapl.al.pi.leg.br** | SAPL REST API | allows, Crawl-delay 60 | yes | **yes** |
@@ -63,9 +63,109 @@ connections from abroad.
 | AP | ALAP | www.al.ap.gov.br | | times out; no SAPL host | no | no |
 | RR | ALE-RR | sapl.al.rr.leg.br | SAPL | allows | the API answers 403 Forbidden | tried every run (SAPL) |
 
-**Covered: 10 of 27** (SP, MG, RJ, AM, PB, AL, PI, RO, TO, AC), plus RR and
-MA tried each run. Together the ten hold about 47% of Brazil's population
-(SP 21.5%, MG 10%, RJ 7.8%, the SAPL seven about 8%).
+**Covered: 10 of 27** after the first pass (SP, MG, RJ, AM, PB, AL, PI, RO,
+TO, AC), plus RR and MA tried each run. Together the ten hold about 47% of
+Brazil's population (SP 21.5%, MG 10%, RJ 7.8%, the SAPL seven about 8%).
+
+**Covered: 16 of 27 after the second pass** (13 October 2026, "Alternative
+routes" below): Pernambuco, Ceará, Pará and Rio Grande do Norte through
+their own data on other hosts (bills), Paraná and Goiás through the state's
+legislation portal (adopted laws only). About 73% of the population.
+
+## Alternative routes (second pass, 13 October 2026)
+
+The standing rule (Chris, 13 October): when a source blocks us, look for a
+legitimate other route before recording a gap; never bypass the block.
+Every route below was probed from the laptop with the honest User-Agent and
+robots.txt read first; the hosts that did not answer the laptop were asked
+from GitHub's runners with the read-only probe workflow
+(`.github/workflows/probe-hosts.yml`: `contents: read`, no secrets, GET
+only, an artifact; runs 38332427738 and 38334238732).
+
+| UF | Routes tried | Outcome |
+|---|---|---|
+| PR | ALEP's bill search (consultas.assembleia.pr.leg.br): reCAPTCHA. ALEP's **documented open-data API** (transparencia → Dados Abertos: `POST /proposicao/filtrar`, `GET /proposicao/{id}`, `/norma-legal/...`) at `http://webservices.assembleia.pr.leg.br/api/public`: works, but **plain HTTP only** (its https port presents a self-signed "BLACKHOLE" certificate and answers 403, from the laptop and from GitHub; the same paths on consultas over https demand the reCAPTCHA token). The repository never fetches over plain HTTP (`tests/test_db_state.PlainHttpTests`). Diários da Assembleia page: an archive to 2011 only. Infolep: the staff intranet. LexML (below). **Casa Civil's Sistema Estadual de Legislação** (www.legislacao.pr.gov.br, no robots.txt: 404): the year list of laws, a form POST, 482 laws of 2026 on one page. | **Built (`pr`): adopted laws** (Lei, Lei Complementar, Emenda Constitucional), 3 requests a run. Waiting on Chris: ALEP's API over HTTP, or ask ALEP to serve it over https. |
+| MG | Open-data API: robots.txt disallows (respected). Diário do Legislativo: same host as the website. The website and every almg.gov.br host timed out from the laptop on 13 October; from GitHub "network unreachable". | The existing website reader now **retries** (30 s, then 90 s, within the budget); once a type's search has failed even so, the other types get one try each. |
+| RN | www.al.rn.leg.br answers now (it did not this morning). Its Transparência Legislativa app (transparencialegislativa.al.rn.leg.br) is a React app that loads JSON from `api-transparencialegislativa.al.rn.leg.br/elegis-api-transp-legislativa/` (robots.txt answers the app's HTML: no rules). `processo?tipoPropositura=` lists bills newest first with author, party and publication stage; `processo/ultimas-votacoes` the plenary results. | **Built (`rn`)**: PL, PLC, PDL, PEC, 50 a page, plus plenary results (no tallies printed). |
+| CE | ALECE's transparency API (Swagger, transparencia.al.ce.gov.br/api): contracts and payments only. **Its proposições lists** (www2.al.ce.gov.br/legislativo/proposicoes/, linked from the transparency portal; no robots.txt): one search (POST, `escolha=ano`) returns every bill of a year and type, in passage (T) or decided (D), with author, law number and result. Roll calls: "Votações nominais" PDFs and spreadsheets (phase 2). | **Built (`ce`)**: PL, PLC, PEC, PDL; 8 requests a run. The lists print no dates: a new bill is dated the day first listed (the first read is a seed). |
+| PE | dadosabertos.alepe.pe.gov.br: the documented endpoints are members, staff and contracts, but ALEPE's own proposições app (proposicoes.alepe.pe.gov.br) reads `/api/v1/proposicoes/projetos/?ano=` from the same open-data host (no robots.txt): every projeto of a year, one XML. | **Built (`pe`)**: PLO, PLC, PEC, PDL with authors and publication date; no stage. |
+| PA | The proposições page is a DevExpress form, but a plain form POST (`Ano`, the type) returns the newest ten of a type, server-rendered, with author, date and ementa; by `Numero` a single bill. | **Built (`pa`)**: PLO, PLC, PEC, PDL; numbered gaps since the last run asked one by one (12 a run). |
+| GO | portal.al.go.leg.br: no bill list; alegodigital.al.go.leg.br (the bill system, "Opine") resets the connection from the laptop and from GitHub. **Casa Civil's legislation portal** (legisla.casacivil.go.gov.br, robots.txt answers the app's HTML: no rules): the JSON its app loads, `/api/v2/pesquisa/legislacoes?tipo_legislacao=2,1,13&ano=`. | **Built (`go`): adopted laws** with the Diário Oficial edition. |
+| BA | www.al.ba.gov.br answers now. Its proposições list (atividade-legislativa-nova/proposicoes) stops at PL 25.888/2025 of 30 July 2025: nothing newer. The Casa Civil's LegislaBahia lists laws, but its robots.txt puts `User-agent: *` and `User-agent: SemrushBot` in one group with `Disallow: /`, which the repository's reader (RFC 9309) reads as disallowed for everyone. | Not built. (One list page was fetched by hand before the robots.txt was read correctly; nothing from it is kept.) |
+| SC | www.alesc.sc.gov.br, leis.alesc.sc.gov.br and the e-Legis portal (portalelegis.alesc.sc.gov.br/proposicoes/processo-legislativo, the same e-Legis family as Rio Grande do Norte's) answer **GitHub's runners only**. | **Built 13 October 2026 (`sc`), read on GitHub only** (the GitHub-side step, below): the e-Legis list (server-rendered, ten a page, newest first; robots.txt answers 404, no rules): type, number, year, ementa, entry date, authors, situação. |
+| MT | Its SAPL holds nothing after 2025. www.al.mt.gov.br/proposicao ("Projetos em tramitação", a server-rendered report; robots.txt disallows only `/proposicao?` with a query) and api.al.mt.gov.br (an API landing page) answer **GitHub's runners only**. legislacao.mt.gov.br redirects to a private aggregator behind a Cloudflare challenge (not bypassed). | **Not buildable** (13 October 2026): page 1 of the report is all robots.txt allows (every page and filter is `/proposicao?...`, disallowed), and page 1 lists the number 1 of each type; api.al.mt.gov.br's proposição endpoints answer 401 (OAuth 2.0, for the Assembly's suppliers; we hold no credentials and create no account). |
+| MS | sgpl.consulta.al.ms.gov.br: its public API (`/sgpl/sgpl-api/public/`) sits behind a proof-of-work captcha (`captcha/challenge`): a bot check, not bypassed. diariooficial.al.ms.gov.br lists the Diário's PDFs (phase 2: PDF parsing). aacpdappls.net.ms.gov.br (state legislation) answers 403. | Not built. |
+| SE | al.se.leg.br: WordPress, atas and audio only. aleselegis.al.se.leg.br (its legislation system) times out from the laptop and from GitHub. | Not built. |
+| DF | www.cl.df.gov.br and dadosabertos.cl.df.gov.br time out from the laptop and from GitHub. SINJ (the DF's legal database) answers, but its search backend `/sinj/ashx/` is disallowed by robots.txt. | Not built. |
+| RS, ES, AP | Every host tried (www.al.rs.gov.br, ww4/ww3.al.rs.gov.br; www.al.es.gov.br, www3.al.es.gov.br; www.al.ap.gov.br, www.al.ap.leg.br) times out from the laptop and from GitHub. ES's Diário Oficial (ioes.dio.es.gov.br) answers: PDF editions (phase 2). | Not built. |
+| MA, RR | sapl.al.ma.leg.br times out from GitHub too; sapl.al.rr.leg.br answers 403 to robots.txt from GitHub too. | Still tried every run. |
+
+**LexML Brasil** (the national legal-information network): its robots.txt
+disallows `/busca/`, where the documented SRU endpoint lives
+(`/busca/SRU`); it allows `/sru` and `/urn`, but `/sru` answers 404 and
+the URN resolver needs a known URN (it cannot list). Not used; asking the
+Senate's LexML team to allow `/busca/SRU` for identified programs would
+open every state's laws at once.
+
+**Adopted laws are not bills.** For Paraná and Goiás the edition shows a
+law the week it is published (keyed `pr/Lei 23448/2026`, kind Lei, LC or
+EC), with "(via the ... Casa Civil's ...: adopted law)" on its line; a bill
+in passage there is not seen until it becomes law.
+
+**BUILT 13 October 2026 for Santa Catarina (Chris: include SC and MT in the
+GitHub-side step; branch `us-github-states`); Mato Grosso not buildable
+(above).** The step is shared with the US one (`tools/github_half.sh`,
+`docs/mac-mini.md` "The GitHub-side step"): GitHub's own Brazil weekly reads
+`sc` inline; on the Mini, `jobs/br-weekly.sh` asks GitHub at the start of
+its week, before anything is written and while it holds its lock, for a run
+of `br-weekly.yml` with `states_github=true`, which reads `sc` and publishes
+the store; the Mini fetches it again and runs its step with
+`--exclude-sources sc`. No artifact hand-off and no new workflow were
+needed. The original proposal, kept for the record: A job on GitHub's runners (the IP they answer), read-only
+towards the assemblies, that fetches ALESC's e-Legis proposições (once its
+JSON backend is identified from the runner) and ALMT's "Projetos em
+tramitação" report, writes the parsed rows as a small JSON artifact (or a
+commit to a data branch), and lets the Brazil weekly import them into
+`brs_bills` with source `sc` / `mt`. Needs Chris's go-ahead (a new
+workflow that commits, or a new artifact hand-off to the Mini).
+
+**Volumes measured on 13 October 2026** (first read, scratch store):
+ALRN 176 bills (11 on our ground) and 46 plenary results; ALECE 602 bills
+of 2026 (23 on our ground); ALEPE 536 (29); ALEPA 38 (newest ten of each
+type); Goiás 50 laws; Paraná 490 laws of 2026 (6 on our ground). The six
+take about a minute together.
+
+## Taxonomy noise (second pass, 13 October 2026)
+
+The false positives the first pass listed are left out of the Brazilian
+edition by four `exclude_titles` rules in `config/edition-noise-br.yaml`
+(hand-edited; no taxonomy change, so the store keeps every match and
+`--reclassify` is not needed). Each rule needs the loose term **and** a
+noise word in the title, and none of the words that make it our ground.
+Measured on 13 October 2026 over the bills on our ground in a scratch store
+(7,751 state bills from 15 assemblies: ALESP's whole legislature, the SAPL
+houses' last month, the six new routes) plus the 1,080 Câmara proposições
+of the federal store (read-only):
+
+| Term (area, tier) | Rule leaves out when the title also has | Matched | Left out after | Before |
+|---|---|---|---|---|
+| `religios*` (8, 2) | turismo, rota, roteiro, patrimônio, calendário, festa, santuário, basílica, paróquia, romaria, peregrinação, utilidade pública, bem material/imaterial, interesse turístico; **kept** with liberdade, intolerância, perseguição, racismo, discriminação, preconceito, imunidade, isenção, templo, laico | 64 | 30 | 0 |
+| `transplante*` (13, 2) | (anything) **kept** with doação, doador, remoção, retirada, captação, presumido, consentimento, morte encefálica/cerebral, tráfico, Lei 9.434 | 7 | 4 | 0 |
+| `casamento civil` (9, 1) | comunitário, coletivo, pet, animais, gratuito, programa; **kept** with mesmo sexo, homoafetivo, menores, infantil | 1 | 1 | 0 |
+| `infertilidade` / endometriose (10, 2) | dia, semana, mês, campanha, conscientização; **kept** with fertilização, reprodução assistida, embrião, inseminação, substituição, barriga solidária/de aluguel | 2 | 2 | 0 |
+
+In all 37 of 340 items on our ground leave the edition (none federal). Left
+out, for example: ALESP's "Rota Turística Religiosa" and utilidade-pública
+declarations for religious associations, Pernambuco's sanctuaries as
+"Área de Interesse Turístico Religioso", Paraná's religious-route laws,
+ALESP's PL 648/2026 (care for transplant patients) and PL 630/2026 (organ
+transport vehicles), ALESP's PL 690/2026 ("Programa Casamento Pet
+Friendly"), Amazonas' PL 317/2026 (an infertility awareness week) and
+Pernambuco's PLO 3892/2026 (an infertility awareness campaign). Kept, for
+example: the Lei de Liberdade Religiosa amendments, religious intolerance
+days, tax exemptions for religious entities, the "Dia do Doador de Órgãos"
+and the federal PL 2288/2015 (the Lei dos Transplantes). One noise item
+stays: a pedestrian-crossing bill near temples (PLO 3850/2026, PE).
 
 ## The sources in detail
 
@@ -210,7 +310,8 @@ Maranhão did not answer.
 600 s (`tools/collector_budget.sh 600`; the collector's own budget keeps
 600 s for it). Its gaps never cost the run.
 
-**Classification false positives seen** (taxonomy matters, not code):
+**Classification false positives seen** (taxonomy matters, not code;
+handled in the second pass, "Taxonomy noise" above):
 `religios*` on utilidade-pública declarations for religious associations,
 `imigrante*` on the Rodovia dos Imigrantes (area 11, hidden anyway),
 `casamento civil` on a "pet-friendly wedding" programme, `transplante*`
@@ -219,18 +320,21 @@ can take them out.
 
 ## Not built, and why
 
+(Updated after the second pass; the table under "Alternative routes" has
+every route tried.)
+
 - **Paraná (ALEP)**: the proposições search and the vote search both demand
-  a reCAPTCHA token; never bypassed. The Ordem do Dia (weekly PDFs listing
-  the bills on the floor) is open and could be read for "on the floor this
-  week" (phase 2).
-- **Unreachable from the UK** (time out, drop the TLS handshake or present
-  a failing certificate): Rio Grande do Sul, Santa Catarina, Bahia,
-  Distrito Federal, Espírito Santo, Rio Grande do Norte, Amapá, Maranhão,
-  Mato Grosso (main site). They may answer from a Brazilian address; the
-  Mini is in the UK too.
-- **No usable list**: Goiás, Ceará, Sergipe (sites without a bill list),
-  Pará (DevExpress callback form), Mato Grosso do Sul (JavaScript app),
-  Pernambuco (open-data API without bills).
+  a reCAPTCHA token; never bypassed. ALEP's open-data API answers only plain
+  HTTP. The state's adopted laws are read instead (`pr`). The Ordem do Dia
+  (weekly PDFs listing the bills on the floor) could be read for "on the
+  floor this week" (phase 2).
+- **Unreachable from the UK and from GitHub's runners**: Rio Grande do Sul,
+  Distrito Federal, Espírito Santo, Amapá, Maranhão. **GitHub only**: Santa
+  Catarina (read by the GitHub-side step since 13 October 2026), Mato
+  Grosso (not buildable: robots.txt and an OAuth API, above).
+- **Blocked**: Mato Grosso do Sul (proof-of-work captcha); Bahia's laws
+  portal (robots.txt). **No list**: Sergipe; Bahia's own list stops in July
+  2025.
 - **Votes**: no assembly read publishes plenary roll calls by member as
   data. ALESP's per-member committee votes are the exception; Pará and
   Ceará have "Votações nominais" pages (phase 2).
@@ -251,10 +355,18 @@ can take them out.
    are the branch `br-states-alt`'s work, not repeated here.
 2. **Seed `config/watchlist-br-states.yaml`** with the state bills that
    matter (empty at launch).
-3. **Taxonomy-pt false positives** above: cut `religios*` from utilidade
-   pública titles, `transplante*`, `casamento civil` with "pet"?
+3. ~~Taxonomy-pt false positives~~: done in the second pass through the
+   edition's noise rules (`config/edition-noise-br.yaml`, measured below).
 4. Whether a Brazilian vantage point (a small VPS or a partner's machine)
-   is worth it for the nine assemblies that do not answer from the UK.
+   is worth it for the five assemblies that answer neither the UK nor
+   GitHub (RS, DF, ES, AP, MA).
+5. **ALEP's open-data API over plain HTTP** (Paraná's bills, stages and
+   laws, documented by the Assembly): allow this one plain-HTTP source, or
+   ask ALEP to serve it over https.
+6. ~~The GitHub-side step~~ for Santa Catarina: built 13 October 2026; Mato
+   Grosso not buildable (above).
+7. **LexML**: ask the LexML team to allow `/busca/SRU` for identified
+   programs (one source for every state's laws).
 
 ## Files touched outside the layer's own
 

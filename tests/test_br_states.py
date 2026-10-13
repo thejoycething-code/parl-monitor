@@ -47,18 +47,54 @@ ROUTES = (
     ("materia/tramitacao", "sapl_tramitacao.json"),
     ("base/autor", "sapl_autor.json"),
     ("sessao/registrovotacao", "sapl_votos.json"),
+    # The alternative routes (13 October 2026), fetched live that day, trimmed.
+    ("transparencialegislativa.al.rn.leg.br/elegis-api-transp-legislativa/processo/ultimas", "rn_votos.json"),
+    ("transparencialegislativa.al.rn.leg.br/elegis-api-transp-legislativa/processo?", "rn_processos.json"),
+    ("dadosabertos.alepe.pe.gov.br/api/v1/proposicoes/projetos/", "pe_projetos.xml"),
+    ("legisla.casacivil.go.gov.br/api/v2/pesquisa/legislacoes", "go_leis.json"),
+    # Santa Catarina, GitHub only: read from a GitHub runner (the read-only
+    # probe workflow, runs 38334238732 and 38337781720, 13 October 2026), trimmed.
+    ("processo-legislativo?page=1", "sc_elegis_page1_trimmed.html"),
+    ("processo-legislativo?page=2", "sc_elegis_page2_trimmed.html"),
+)
+
+# POSTed forms: URL fragment -> fixture (and its encoding).
+POST_ROUTES = (
+    ("busca.php?nome=31_legislatura&tabela=projeto_lei&opcao=T", "ce_tramitando.html", "latin-1"),
+    ("busca.php?nome=31_legislatura&tabela=projeto_lei&opcao=D", "ce_deliberados.html", "latin-1"),
+    ("www.alepa.pa.gov.br/Legislativo/Proposicoes", "pa_proposicoes.html", "utf-8"),
+    ("www.legislacao.pr.gov.br/legislacao/listarAtosAno.do", "pr_leis.html", "utf-8"),
 )
 
 
 class FakeClient:
-    def __init__(self, fail=()):
+    def __init__(self, fail=(), fail_times=0):
         self.urls = []
+        self.posts = []
         self.fail = fail
+        self.fail_times = fail_times    # fail the first N matching requests, then answer
+
+    def post_form(self, url, fields, feed, slug, encoding="utf-8", **kw):
+        self.urls.append(url)
+        self.posts.append((url, dict(fields)))
+        if any(f in url for f in self.fail):
+            raise FetchError(url, feed, slug, 1, "HTTP Error 503")
+        for frag, name, enc in POST_ROUTES:
+            if frag in url:
+                if "Numero" in fields:      # ALEPA, asked by number: no card
+                    return "<html></html>"
+                return fixture(name).decode(enc)
+        return "<html></html>"     # an empty list (the other CE tables)
 
     def get_bytes(self, url, feed, slug, **kw):
         self.urls.append(url)
-        if any(f in url for f in self.fail):
-            raise FetchError(url, feed, slug, 1, "HTTP Error 503")
+        if any(f in url for f in self.fail) and self.fail_times != -1:
+            if not self.fail_times:
+                raise FetchError(url, feed, slug, 1, "HTTP Error 503")
+            self.fail_times -= 1
+            if not self.fail_times:
+                self.fail_times = -1        # answered from here on
+            raise FetchError(url, feed, slug, 1, "timed out")
         for frag, name in ROUTES:
             if frag in url:
                 return fixture(name)
@@ -145,11 +181,146 @@ class Parsers(unittest.TestCase):
         self.assertIsNone(S.parse_sapl_vote("ro", votes[1], {"57992": "ro/PLO 1542/2026"}))
 
 
+class AltParsers(unittest.TestCase):
+    """The alternative routes of 13 October 2026."""
+
+    def test_rn_processo(self):
+        rows = json.loads(fixture("rn_processos.json"))["dados"]
+        b, member = S.parse_rn_processo(rows[0])
+        self.assertEqual(b["bill_key"], "rn/PL 428/2026")
+        self.assertEqual(b["presented"], "2026-10-08")
+        self.assertEqual(b["authors"], "TAVEIRA JÚNIOR (PSDB)")
+        self.assertEqual(b["status"], "Publicado no Diário Oficial Eletrônico da ALRN")
+        self.assertEqual(b["url"], "https://transparencialegislativa.al.rn.leg.br/projeto/64058")
+        self.assertEqual(member, ("rn/55", "rn", "TAVEIRA JÚNIOR", "PSDB"))
+
+    def test_rn_votes_keep_bills_only(self):
+        rows = json.loads(fixture("rn_votos.json"))["dados"]
+        got = [S.parse_rn_vote(r) for r in rows]
+        keys = sorted(v["bill_key"] for v in got if v)
+        self.assertEqual(keys, ["rn/PL 195/2026", "rn/PLC 22/2026"])     # the REQ is not a bill
+        v = [v for v in got if v and v["bill_key"] == "rn/PL 195/2026"][0]
+        self.assertEqual((v["date"], v["result"], v["yes"]), ("2026-09-22", "Aprovada", None))
+
+    def test_ce_lists(self):
+        got = S.parse_ce_search(fixture("ce_deliberados.html").decode("latin-1"), "projeto_lei", "PL",
+                                "Projeto de Lei", 31)
+        b = got[0]
+        self.assertEqual(b["bill_key"], "ce/PL 58/2026")
+        self.assertEqual(b["status"], "Deliberado: Aprovado (Lei nº 19.865)")
+        self.assertEqual(b["authors"], "ALMIR BIÉ")
+        self.assertTrue(b["url"].endswith("ver.php?nome=31_legislatura&tabela=projeto_lei&codigo=3410"))
+        got = S.parse_ce_search(fixture("ce_tramitando.html").decode("latin-1"), "projeto_lei", "PL",
+                                "Projeto de Lei", 31)
+        self.assertEqual(len(got), 3)
+        self.assertEqual(got[0]["status"], "Tramitando")
+
+    def test_ce_legislature(self):
+        self.assertEqual(S.ce_legislature("2026-10-13"), 31)
+        self.assertEqual(S.ce_legislature("2027-01-20"), 31)
+        self.assertEqual(S.ce_legislature("2027-02-01"), 32)
+
+    def test_pe_projetos_bills_only(self):
+        got = {b["bill_key"]: b for b in S.parse_pe_projetos(fixture("pe_projetos.xml"))}
+        # The resolution (a medal) is not a bill.
+        self.assertEqual(sorted(got), ["pe/PLO 3692/2026", "pe/PLO 3763/2026", "pe/PLO 80/2019"])
+        self.assertEqual(got["pe/PLO 80/2019"]["status"], "Desarquivado")
+        self.assertEqual(got["pe/PLO 3763/2026"]["presented"], "2026-02-10")
+        self.assertIn("docid=16133", got["pe/PLO 3763/2026"]["url"])
+
+    def test_pa_cards(self):
+        got = S.parse_pa_cards(fixture("pa_proposicoes.html").decode("utf-8"))
+        self.assertEqual([b["bill_key"] for b in got], ["pa/PLO 665/2026", "pa/PLO 664/2026", "pa/PLO 663/2026"])
+        self.assertEqual((got[0]["presented"], got[0]["authors"]), ("2026-10-07", "JOÃO PINGARILHO"))
+
+    def test_laws(self):
+        go = S.parse_go_laws(json.loads(fixture("go_leis.json")))
+        self.assertEqual(go[0]["bill_key"], "go/Lei 24564/2026")
+        self.assertEqual(go[0]["presented"], "2026-10-08")
+        self.assertEqual(go[0]["status"], "Lei Ordinária publicada no Diário Oficial nº 24.882 (em vigor)")
+        pr = S.parse_pr_laws(fixture("pr_leis.html").decode("utf-8"))
+        self.assertEqual([b["bill_key"] for b in pr], ["pr/Lei 23448/2026", "pr/Lei 23447/2026",
+                                                        "pr/Lei 23446/2026"])
+        self.assertEqual(pr[0]["presented"], "2026-09-09")
+        self.assertTrue(pr[0]["url"].endswith("action=exibir&codAto=405228"))
+        self.assertNotIn("jsessionid", pr[0]["url"])
+
+
 class Collect(unittest.TestCase):
-    def run_sources(self, conn, sources, client=None, budget=600):
+    def run_sources(self, conn, sources, client=None, budget=600, sleeps=None):
         client = client or FakeClient()
         return S.run(conn, sources, tax(), TODAY, drain.Budget(budget), lambda: client,
-                     now=TODAY + "T10:00:00", workers=1), client
+                     now=TODAY + "T10:00:00", workers=1,
+                     sleep=(sleeps.append if sleeps is not None else (lambda s: None))), client
+
+    def test_alternative_routes(self):
+        conn = store()
+        (_res, gaps), client = self.run_sources(conn, ["rn", "ce", "pe", "pa", "go", "pr"])
+        self.assertEqual(gaps, 0)
+        reads = {r["source"]: r["status"] for r in conn.execute("SELECT * FROM brs_reads")}
+        self.assertEqual(set(reads.values()), {"ok"})
+        n = dict(conn.execute("SELECT uf, COUNT(*) FROM brs_bills GROUP BY uf").fetchall())
+        self.assertEqual(n, {"rn": 5, "ce": 5, "pe": 3, "pa": 3, "go": 3, "pr": 3})
+        # ALRN: the bill on our ground (religious organisations) and the votes.
+        b = conn.execute("SELECT * FROM brs_bills WHERE bill_key='rn/PL 419/2026'").fetchone()
+        self.assertIn(8, json.loads(b["areas"]))
+        self.assertEqual([r[0] for r in conn.execute("SELECT vote_key FROM brs_votes ORDER BY 1")],
+                         ["rn/v59662", "rn/v59665"])
+        self.assertEqual(conn.execute("SELECT party FROM brs_members WHERE member_key='rn/55'").fetchone()[0],
+                         "PSDB")
+        # ALEPE: the LGBT bill is on our ground.
+        b = conn.execute("SELECT * FROM brs_bills WHERE bill_key='pe/PLO 3763/2026'").fetchone()
+        self.assertEqual(json.loads(b["areas"]), [5])
+        # ALECE: a bill in both lists keeps the decided one.
+        b = conn.execute("SELECT status FROM brs_bills WHERE bill_key='ce/PL 58/2026'").fetchone()
+        self.assertTrue(b[0].startswith("Deliberado"))
+        ce_posts = [f for u, f in client.posts if "al.ce.gov.br" in u]
+        self.assertEqual(len(ce_posts), 8)       # four tables, in passage and decided
+        self.assertEqual(ce_posts[0], {"pesquisa": "26", "escolha": "ano", "B1": "Busca"})
+        # The laws carry their source, for the edition's "(via ...)".
+        self.assertEqual(conn.execute("SELECT source FROM brs_bills WHERE bill_key='pr/Lei 23448/2026'")
+                         .fetchone()[0], "pr")
+
+    def test_pa_fills_numbered_gaps(self):
+        conn = store()
+        b = {"bill_key": "pa/PLO 655/2026", "uf": "pa", "source": "pa", "title": "x"}
+        brs_store.upsert_bill(conn, b, [], [], None, "2026-10-01", True)
+        brs_store.record_read(conn, "pa", "pa", "ok", None, 1, 1, None, "2026-10-01T10:00:00")
+        conn.commit()
+
+        class TenCards(FakeClient):
+            def post_form(self, url, fields, feed, slug, **kw):
+                text = super().post_form(url, fields, feed, slug, **kw)
+                if "alepa" in url and "Numero" not in fields and fields["ComboBoxTipoProposicao_VI"] == "3":
+                    # pretend the page held ten cards, the oldest 660
+                    cards = text.count("card-proposicao")
+                    return text + "".join(
+                        text[text.index("<div onclick"):text.index("</div>") + 6]
+                        .replace("665/2026", "{0}/2026".format(n)) for n in range(660, 660 + 10 - cards))
+                return text
+
+        (_res, _g), client = self.run_sources(conn, ["pa"], client=TenCards())
+        asked = [f["Numero"] for u, f in client.posts if "Numero" in f]
+        self.assertEqual(asked, [str(n) for n in range(656, 660)])
+
+    def test_mg_retries_then_reads(self):
+        conn = store()
+        sleeps = []
+        client = FakeClient(fail=("www.almg.gov.br/atividade-parlamentar",), fail_times=2)
+        (_res, gaps), _c = self.run_sources(conn, ["mg"], client=client, sleeps=sleeps)
+        self.assertEqual(sleeps, list(S.MG_RETRY_WAITS))
+        self.assertTrue(conn.execute("SELECT 1 FROM brs_bills WHERE bill_key='mg/PL 6070/2026'").fetchone())
+
+    def test_mg_down_gives_up_without_burning_the_budget(self):
+        conn = store()
+        sleeps = []
+        client = FakeClient(fail=("www.almg.gov.br",))
+        (_res, gaps), _c = self.run_sources(conn, ["mg"], client=client, sleeps=sleeps)
+        # The first type is retried; the other two get one try each.
+        self.assertEqual(sleeps, list(S.MG_RETRY_WAITS))
+        self.assertEqual(sum("pesquisou=true" in u for u in client.urls), 3 + 1 + 1)
+        self.assertEqual(conn.execute("SELECT status FROM brs_reads WHERE source='mg'").fetchone()[0],
+                         "unreachable")
 
     def test_sp_bills_stage_and_committee_votes(self):
         conn = store()
@@ -287,7 +458,7 @@ class Edition(unittest.TestCase):
         self.assertLess(out.index("## State assemblies"), out.index("## Watchlist"))
         self.assertIn("ro/PLO 1542/2026", out)
         self.assertIn("Read cleanly (2 of 27", out)
-        self.assertIn("ALEP (bill search and votes behind reCAPTCHA)", out)
+        self.assertIn("ALRS (no answer from outside Brazil)", out)
         self.assertNotIn("—", out)
 
     def test_quiet_section(self):
@@ -295,8 +466,65 @@ class Edition(unittest.TestCase):
         out = "\n".join(brs_edition.section(self.conn, country, "2026-01-01", "2026-01-08"))
         self.assertIn("Nothing on our ground in the state assemblies read this week.", out)
 
+    def test_via_note_on_alternative_routes(self):
+        client = FakeClient()
+        S.run(self.conn, ["pe"], tax(), TODAY, drain.Budget(600), lambda: client,
+              now=TODAY + "T10:00:00", workers=1)
+        got = brs_edition.items(self.conn, "2026-02-01", "2026-02-28", wl={})
+        it = [i for i in got if i["key"] == "pe/PLO 3763/2026"][0]
+        self.assertIn("(via ALEPE's open-data API)", it["takeaway"])
+
+    def test_coverage_line_marks_laws_only(self):
+        client = FakeClient()
+        S.run(self.conn, ["pr"], tax(), TODAY, drain.Budget(600), lambda: client,
+              now=TODAY + "T10:00:00", workers=1)
+        self.assertIn("ALEP (adopted laws only)", brs_edition.reads_line(self.conn))
+
     def test_dm_notice(self):
         self.assertIsNone(brs_edition.notice(self.conn, TODAY, dm=False))
+
+
+class SantaCatarina(unittest.TestCase):
+    """ALESC's e-Legis list (tools/br_states.py fetch_sc), the GitHub-only source."""
+
+    def test_cards(self):
+        got = S.parse_sc_cards(fixture("sc_elegis_page1_trimmed.html").decode("utf-8"))
+        self.assertEqual([b["bill_key"] for b in got], ["sc/PL 640/2026", "sc/PL 639/2026",
+                                                        "sc/PL 638/2026"])
+        b = got[0]
+        self.assertEqual((b["presented"], b["authors"], b["status"]),
+                         ("2026-10-07", "Altair Silva", "Aguardando Publicação"))
+        self.assertTrue(b["title"].startswith("Altera a Lei Estadual nº 19.720"))
+        self.assertEqual(b["url"], "https://portalelegis.alesc.sc.gov.br/proposicoes/NQeb8")
+
+    def test_first_read_and_via_note(self):
+        conn = store()
+        client = FakeClient()
+        _res, gaps = S.run(conn, ["sc"], tax(), TODAY, drain.Budget(600), lambda: client,
+                           now=TODAY + "T10:00:00", workers=1)
+        # A first read asks three pages; the third has no fixture: one gap, rows kept.
+        self.assertEqual(sum("page=" in u for u in client.urls), 3)
+        n = conn.execute("SELECT COUNT(*) FROM brs_bills WHERE uf='sc'").fetchone()[0]
+        self.assertEqual(n, 5)
+        self.assertEqual(gaps, 1)
+        self.assertEqual(brs_store.via("sc"), "(via ALESC's e-Legis portal, read from GitHub)")
+
+    def test_later_read_stops_at_a_page_with_nothing_new(self):
+        conn = store()
+        S.run(conn, ["sc"], tax(), TODAY, drain.Budget(600), lambda: FakeClient(),
+              now=TODAY + "T10:00:00", workers=1)
+        brs_store.record_read(conn, "sc", "sc", "ok", None, 5, 5, None, TODAY + "T10:00:00")
+        conn.commit()
+        client = FakeClient()
+        S.run(conn, ["sc"], tax(), TODAY, drain.Budget(600), lambda: client,
+              now=TODAY + "T11:00:00", workers=1)
+        self.assertEqual(sum("page=" in u for u in client.urls), 1)
+
+    def test_exclude_sources(self):
+        self.assertIn("sc", S.SOURCE_ORDER)
+        self.assertIn("sc", S.GITHUB_SOURCES)
+        self.assertNotIn("sc", S.NOT_READ)
+        self.assertIn("robots.txt disallows", S.NOT_READ["mt"])
 
 
 if __name__ == "__main__":

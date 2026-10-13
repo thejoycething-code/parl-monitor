@@ -273,7 +273,8 @@ LAW_RECENT_DAYS = 45
 MAX_PROVINCIAL = 12
 BILL_KINDS = {"ley": "Bill", "resolucion": "Draft resolution", "declaracion": "Draft declaration",
               "comunicacion": "Draft communication", "solicitud de informes": "Request for information",
-              "decreto": "Draft decree", "nota": "Note", "pliego": "Nomination"}
+              "decreto": "Draft decree", "nota": "Note", "pliego": "Nomination",
+              "mensaje": "Executive message"}
 ADHESION = re.compile(r"\badhi[eé]r\w*|\badhesi[oó]n\b", re.I)
 
 
@@ -390,10 +391,10 @@ def provincial_coverage(conn, since, until):
                  n_laws[0][1] if n_laws else 0)]
     lines.append("Bills, from the legislatures' own lists: {0}.".format("; ".join(
         "{0} ({1})".format(arp.LEGISLATURES[k], state(k)) for k in arp.LEGISLATURES)))
-    lines.append("No bills are read from the other 16 jurisdictions, nor from the Senates of Buenos "
-                 "Aires, Corrientes, Catamarca, San Luis, Santa Fe, Mendoza and Salta or the Diputados "
-                 "of Entre Ríos (a reCAPTCHA, TLS failures, refusals, timeouts, PDF-only or no list to "
-                 "read, or not yet built): their laws arrive through SAIJ "
+    lines.append("No bills are read from the other 14 jurisdictions, nor from the Senates of Buenos "
+                 "Aires, Corrientes, Catamarca, San Luis, Santa Fe and Mendoza or the Diputados of Entre "
+                 "Ríos (a reCAPTCHA, refusals, timeouts, PDF-only or no list to read, or not yet built), "
+                 "and Salta's Diputados only through its approved lists: their laws arrive through SAIJ "
                  "([scope]({0}docs/argentina-regions-scope.md)). No provincial legislature publishes "
                  "roll calls in a form we read.".format(ce.REPO))
     return lines

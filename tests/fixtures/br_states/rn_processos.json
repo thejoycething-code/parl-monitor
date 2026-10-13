@@ -1,0 +1,237 @@
+{
+ "dados": [
+  {
+   "id": 64058,
+   "numero": 3109,
+   "ano": 2026,
+   "numeroExterno": null,
+   "anoExterno": null,
+   "ementa": "Projeto de Lei: Institui o Dia Estadual de Luto e de Memória das Mulheres Vítimas de Feminicídio, e dá providências correlatas.",
+   "informacaoLei": null,
+   "dataEntrada": "2026-10-08T10:03:29.203Z",
+   "dataArquivamento": null,
+   "propositura": {
+    "tipo": {
+     "id": 1,
+     "sigla": "PL",
+     "descricao": "PROJETO DE LEI"
+    },
+    "numero": 428,
+    "ano": 2026
+   },
+   "inclusao": {
+    "data": "2026-10-08T10:03:29.203Z"
+   },
+   "exclusao": {
+    "data": null
+   },
+   "iniciativa": {
+    "id": 1319,
+    "tipo": "PARLAMENTAR",
+    "descricao": "DEP. TAVEIRA JUNIOR",
+    "parlamentar": {
+     "id": 55,
+     "nomeParlamentar": "DEPUTADO TAVEIRA JÚNIOR",
+     "partido": {
+      "id": 7,
+      "nome": "PSDB",
+      "nomeOriginal": "Partido da Social Democracia Brasileira"
+     }
+    }
+   },
+   "apensamentos": [],
+   "apensamento": null,
+   "documento": {
+    "id": 306820,
+    "ementa": "Projeto de Lei: Institui o Dia Estadual de Luto e de Memória das Mulheres Vítimas de Feminicídio, e dá providências correlatas.",
+    "tipoDocumento": {
+     "id": 9,
+     "descricao": "Projeto de Lei"
+    }
+   },
+   "reuniaoProcesso": null,
+   "publicacao": [
+    {
+     "id": 529424,
+     "observacao": "Publicado no DLE do dia 09/10/2026.",
+     "linkDOE": "https://dle.al.rn.leg.br/abrearquivo/310EB546-8419-4480-A4FC-B8661CBBD9A9-N/",
+     "origem": {
+      "setor": {
+       "id": 22,
+       "nome": "DIÁRIO OFICIAL ELETRÔNICO DA ALRN",
+       "sigla": "DOE AL/RN",
+       "comissao": null
+      },
+      "data": "2026-10-09T07:27:32.000Z"
+     },
+     "situacaoProcesso": {
+      "id": 13,
+      "nome": "Publicado no Diário Oficial Eletrônico da ALRN"
+     }
+    }
+   ],
+   "emenda": [],
+   "comissao": []
+  },
+  {
+   "id": 63954,
+   "numero": 3019,
+   "ano": 2026,
+   "numeroExterno": null,
+   "anoExterno": null,
+   "ementa": "Projeto de Lei reconhece as organizações religiosas como integrantes da sociedade civil que desempenham relevante função social no Estado do Rio Grande do Norte",
+   "informacaoLei": null,
+   "dataEntrada": "2026-09-28T09:47:28.677Z",
+   "dataArquivamento": null,
+   "propositura": {
+    "tipo": {
+     "id": 1,
+     "sigla": "PL",
+     "descricao": "PROJETO DE LEI"
+    },
+    "numero": 419,
+    "ano": 2026
+   },
+   "inclusao": {
+    "data": "2026-09-28T09:47:28.677Z"
+   },
+   "exclusao": {
+    "data": null
+   },
+   "iniciativa": {
+    "id": 40,
+    "tipo": "PARLAMENTAR",
+    "descricao": "DEP. CORONEL AZEVEDO",
+    "parlamentar": {
+     "id": 7,
+     "nomeParlamentar": "DEPUTADO CORONEL AZEVEDO",
+     "partido": {
+      "id": 17,
+      "nome": "PL",
+      "nomeOriginal": "Partido Liberal"
+     }
+    }
+   },
+   "apensamentos": [],
+   "apensamento": null,
+   "documento": {
+    "id": 306169,
+    "ementa": "Projeto de Lei reconhece as organizações religiosas como integrantes da sociedade civil que desempenham relevante função social no Estado do Rio Grande do Norte",
+    "tipoDocumento": {
+     "id": 9,
+     "descricao": "Projeto de Lei"
+    }
+   },
+   "reuniaoProcesso": null,
+   "publicacao": [
+    {
+     "id": 528305,
+     "observacao": "Publicado no DLE do dia 30/09/2026.",
+     "linkDOE": "https://dle.al.rn.leg.br/abrearquivo/8FBA2139-D3F0-406C-B981-E68967375B31-N/",
+     "origem": {
+      "setor": {
+       "id": 22,
+       "nome": "DIÁRIO OFICIAL ELETRÔNICO DA ALRN",
+       "sigla": "DOE AL/RN",
+       "comissao": null
+      },
+      "data": "2026-09-30T07:14:05.000Z"
+     },
+     "situacaoProcesso": {
+      "id": 13,
+      "nome": "Publicado no Diário Oficial Eletrônico da ALRN"
+     }
+    }
+   ],
+   "emenda": [],
+   "comissao": [
+    {
+     "sigla": "CCJR",
+     "descricao": "Comissão de Constituição, Justiça e Redação",
+     "assessor": null,
+     "relator": null
+    },
+    {
+     "sigla": "CECTDSMAT",
+     "descricao": "Comissão de Educação, Ciência e Tecnologia, Desenvolvimento Socioeconômico, Meio Ambiente e Turismo",
+     "assessor": null,
+     "relator": null
+    }
+   ]
+  },
+  {
+   "id": 63945,
+   "numero": 2999,
+   "ano": 2026,
+   "numeroExterno": null,
+   "anoExterno": null,
+   "ementa": "Projeto de Indicação de Lei que dispõe sobre o termo inicial da licença-gestante das militares estaduais nos casos de internação hospitalar prolongada da mãe ou do recém-nascido ",
+   "informacaoLei": null,
+   "dataEntrada": "2026-09-23T10:52:54.060Z",
+   "dataArquivamento": null,
+   "propositura": {
+    "tipo": {
+     "id": 1,
+     "sigla": "PL",
+     "descricao": "PROJETO DE LEI"
+    },
+    "numero": 416,
+    "ano": 2026
+   },
+   "inclusao": {
+    "data": "2026-09-23T10:52:54.060Z"
+   },
+   "exclusao": {
+    "data": null
+   },
+   "iniciativa": {
+    "id": 40,
+    "tipo": "PARLAMENTAR",
+    "descricao": "DEP. CORONEL AZEVEDO",
+    "parlamentar": {
+     "id": 7,
+     "nomeParlamentar": "DEPUTADO CORONEL AZEVEDO",
+     "partido": {
+      "id": 17,
+      "nome": "PL",
+      "nomeOriginal": "Partido Liberal"
+     }
+    }
+   },
+   "apensamentos": [],
+   "apensamento": null,
+   "documento": {
+    "id": 305906,
+    "ementa": "Projeto de Indicação de Lei que dispõe sobre o termo inicial da licença-gestante das militares estaduais nos casos de internação hospitalar prolongada da mãe ou do recém-nascido ",
+    "tipoDocumento": {
+     "id": 9,
+     "descricao": "Projeto de Lei"
+    }
+   },
+   "reuniaoProcesso": null,
+   "publicacao": [
+    {
+     "id": 527682,
+     "observacao": "Publicado no DLE do dia 24/09/2026.",
+     "linkDOE": "https://dle.al.rn.leg.br/abrearquivo/E1ED8F19-58EB-4CE2-A11F-D8788E1F4C8A-N/",
+     "origem": {
+      "setor": {
+       "id": 22,
+       "nome": "DIÁRIO OFICIAL ELETRÔNICO DA ALRN",
+       "sigla": "DOE AL/RN",
+       "comissao": null
+      },
+      "data": "2026-09-24T07:12:09.000Z"
+     },
+     "situacaoProcesso": {
+      "id": 13,
+      "nome": "Publicado no Diário Oficial Eletrônico da ALRN"
+     }
+    }
+   ],
+   "emenda": [],
+   "comissao": []
+  }
+ ],
+ "total": 3841
+}

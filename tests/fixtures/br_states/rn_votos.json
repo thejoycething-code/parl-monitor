@@ -1,0 +1,316 @@
+{
+ "dados": [
+  {
+   "id": 62106,
+   "numero": 1325,
+   "ano": 2026,
+   "numeroExterno": null,
+   "anoExterno": null,
+   "ementa": "Institui a Política Estadual \u001cCidade Segura\u001d e estabelece diretrizes para a promoção de ações integradas de prevenção à violência e fortalecimento da segurança pública no âmbito do Estado do Rio Grande do Norte.\n\n",
+   "informacaoLei": null,
+   "dataEntrada": "2026-04-30T09:14:34.120Z",
+   "dataArquivamento": null,
+   "propositura": {
+    "tipo": {
+     "id": 1,
+     "sigla": "PL",
+     "descricao": "PROJETO DE LEI"
+    },
+    "numero": 195,
+    "ano": 2026
+   },
+   "inclusao": {
+    "data": "2026-04-30T09:14:34.120Z"
+   },
+   "exclusao": {
+    "data": null
+   },
+   "iniciativa": {
+    "id": 1319,
+    "tipo": "PARLAMENTAR",
+    "descricao": "DEP. TAVEIRA JUNIOR",
+    "parlamentar": {
+     "id": 55,
+     "nomeParlamentar": "DEPUTADO TAVEIRA JÚNIOR",
+     "partido": {
+      "id": 7,
+      "nome": "PSDB",
+      "nomeOriginal": "Partido da Social Democracia Brasileira"
+     }
+    }
+   },
+   "apensamentos": [],
+   "apensamento": null,
+   "documento": {
+    "id": 286119,
+    "ementa": "Institui a Política Estadual “Cidade Segura” e estabelece diretrizes para a promoção de ações integradas de prevenção à violência e fortalecimento da segurança pública no âmbito do Estado do Rio Grande do Norte.\n\n",
+    "tipoDocumento": {
+     "id": 9,
+     "descricao": "Projeto de Lei"
+    }
+   },
+   "reuniaoProcesso": [
+    {
+     "id": 59662,
+     "dataSituacaoAbertura": "2026-09-22T11:17:45.000Z",
+     "dataSituacaoFechamento": "2026-09-22T11:17:51.000Z",
+     "resultadoVotacao": "A",
+     "reuniao": {
+      "id": 3028
+     }
+    }
+   ],
+   "tipoVotacao": "O",
+   "resultadoVotacao": {
+    "id": 59662,
+    "dataSituacaoAbertura": "2026-09-22T11:17:45.000Z",
+    "dataSituacaoFechamento": "2026-09-22T11:17:51.000Z",
+    "resultadoVotacao": "A",
+    "reuniao": {
+     "id": 3028
+    }
+   },
+   "publicacao": [
+    {
+     "id": 498119,
+     "observacao": "Publicado no DLE do dia 01/05/2026.",
+     "linkDOE": "https://dle.al.rn.leg.br/abrearquivo/31FB3D63-5071-4660-992A-5BBDF62954F9-N/",
+     "origem": {
+      "setor": {
+       "id": 22,
+       "nome": "DIÁRIO OFICIAL ELETRÔNICO DA ALRN",
+       "sigla": "DOE AL/RN",
+       "comissao": null
+      },
+      "data": "2026-05-04T07:14:07.000Z"
+     },
+     "situacaoProcesso": {
+      "id": 13,
+      "nome": "Publicado no Diário Oficial Eletrônico da ALRN"
+     }
+    }
+   ],
+   "emenda": [
+    {
+     "id": 290147,
+     "documento": {
+      "id": 291750,
+      "ementa": "Suprime  o  art.  5º  do  Projeto  de  Lei  nº\n195/2026",
+      "sigiloso": false,
+      "publico": false,
+      "tipoDocumento": {
+       "id": 43,
+       "descricao": "Emenda"
+      },
+      "emenda": {
+       "id": 5053,
+       "numero": 1,
+       "ano": 2026,
+       "tipoEmenda": {
+        "id": 3,
+        "descricao": "Supressiva"
+       },
+       "iniciativa": {
+        "id": 1269,
+        "tipo": "ORGAO",
+        "descricao": "COMISSÃO DE CONSTITUIÇÃO, JUSTIÇA E REDAÇÃO",
+        "parlamentar": null
+       }
+      }
+     },
+     "tipoVotacao": "O",
+     "resultadoVotacao": {
+      "id": 59663,
+      "dataSituacaoAbertura": "2026-09-22T11:17:45.000Z",
+      "dataSituacaoFechamento": "2026-09-22T11:17:51.000Z",
+      "resultadoVotacao": "A",
+      "reuniaoEvento": {
+       "id": 33485
+      }
+     }
+    }
+   ],
+   "comissao": [
+    {
+     "sigla": "CCJR",
+     "descricao": "Comissão de Constituição, Justiça e Redação",
+     "assessor": "Victor Augusto Gonçalves Soares",
+     "relator": "DEPUTADO GALENO TORQUATO"
+    },
+    {
+     "sigla": "CASPTSP",
+     "descricao": "Comissão de Administração, Serviços Públicos, Trabalho e Segurança Pública",
+     "assessor": "PRISCILLA QUEIROGA CÂMARA",
+     "relator": "DEPUTADO TOMBA FARIAS"
+    }
+   ]
+  },
+  {
+   "id": 61455,
+   "numero": 723,
+   "ano": 2026,
+   "numeroExterno": null,
+   "anoExterno": null,
+   "ementa": "Requer a realização de Sessão Solene em homenagem ao Deputado Estadual José Dias, em reconhecimento à sua notável trajetória pública, marcada por 10 mandatos parlamentares.",
+   "informacaoLei": null,
+   "dataEntrada": "2026-03-23T09:05:18.473Z",
+   "dataArquivamento": null,
+   "propositura": {
+    "tipo": {
+     "id": 9,
+     "sigla": "REQ",
+     "descricao": "REQUERIMENTO"
+    },
+    "numero": 470,
+    "ano": 2026
+   },
+   "inclusao": {
+    "data": "2026-03-23T09:05:18.473Z"
+   },
+   "exclusao": {
+    "data": null
+   },
+   "iniciativa": {
+    "id": 10,
+    "tipo": "PARLAMENTAR",
+    "descricao": "DEP. GUSTAVO CARVALHO",
+    "parlamentar": {
+     "id": 16,
+     "nomeParlamentar": "DEPUTADO GUSTAVO CARVALHO",
+     "partido": {
+      "id": 17,
+      "nome": "PL",
+      "nomeOriginal": "Partido Liberal"
+     }
+    }
+   },
+   "apensamentos": [],
+   "apensamento": null,
+   "documento": {
+    "id": 305839,
+    "ementa": "Despacho de Conclusão - Requerimento de Sessão Solene Aprovado",
+    "tipoDocumento": {
+     "id": 24,
+     "descricao": "Despacho - ADM"
+    }
+   },
+   "reuniaoProcesso": [
+    {
+     "id": 59664,
+     "dataSituacaoAbertura": "2026-09-22T11:15:30.000Z",
+     "dataSituacaoFechamento": "2026-09-22T11:15:35.000Z",
+     "resultadoVotacao": "A",
+     "reuniao": {
+      "id": 3028
+     }
+    }
+   ],
+   "tipoVotacao": "O",
+   "resultadoVotacao": {
+    "id": 59664,
+    "dataSituacaoAbertura": "2026-09-22T11:15:30.000Z",
+    "dataSituacaoFechamento": "2026-09-22T11:15:35.000Z",
+    "resultadoVotacao": "A",
+    "reuniao": {
+     "id": 3028
+    }
+   },
+   "publicacao": [],
+   "emenda": [],
+   "comissao": []
+  },
+  {
+   "id": 63851,
+   "numero": 2911,
+   "ano": 2026,
+   "numeroExterno": "43",
+   "anoExterno": 2026,
+   "ementa": "Altera as disposições da Lei Complementar Estadual nº 425, de 08 de junho de 2010, Lei Complementar Estadual nº 446, de 29 de novembro de 2010 e dá outras providências.",
+   "informacaoLei": null,
+   "dataEntrada": "2026-09-14T00:00:00.000Z",
+   "dataArquivamento": null,
+   "propositura": {
+    "tipo": {
+     "id": 2,
+     "sigla": "PLC",
+     "descricao": "PROJETO DE LEI COMPLEMENTAR"
+    },
+    "numero": 22,
+    "ano": 2026
+   },
+   "inclusao": {
+    "data": "2026-09-14T13:05:12.620Z"
+   },
+   "exclusao": {
+    "data": null
+   },
+   "iniciativa": {
+    "id": 51,
+    "tipo": "ORGAO",
+    "descricao": "MINISTÉRIO PÚBLICO",
+    "parlamentar": null
+   },
+   "apensamentos": [],
+   "apensamento": null,
+   "documento": {
+    "id": 305867,
+    "ementa": "Autógrafo",
+    "tipoDocumento": {
+     "id": 40,
+     "descricao": "DL - Autógrafo"
+    }
+   },
+   "reuniaoProcesso": [
+    {
+     "id": 59665,
+     "dataSituacaoAbertura": "2026-09-22T11:07:39.000Z",
+     "dataSituacaoFechamento": "2026-09-22T11:09:03.000Z",
+     "resultadoVotacao": "A",
+     "reuniao": {
+      "id": 3028
+     }
+    }
+   ],
+   "tipoVotacao": "A",
+   "resultadoVotacao": {
+    "id": 59665,
+    "dataSituacaoAbertura": "2026-09-22T11:07:39.000Z",
+    "dataSituacaoFechamento": "2026-09-22T11:09:03.000Z",
+    "resultadoVotacao": "A",
+    "reuniao": {
+     "id": 3028
+    }
+   },
+   "publicacao": [
+    {
+     "id": 526503,
+     "observacao": "Publicado no DLE do dia 16/09/2026.",
+     "linkDOE": "https://dle.al.rn.leg.br/abrearquivo/88F038B0-D842-473A-9F5B-DAFDB6DC47A8-N/",
+     "origem": {
+      "setor": {
+       "id": 22,
+       "nome": "DIÁRIO OFICIAL ELETRÔNICO DA ALRN",
+       "sigla": "DOE AL/RN",
+       "comissao": null
+      },
+      "data": "2026-09-16T07:19:49.000Z"
+     },
+     "situacaoProcesso": {
+      "id": 13,
+      "nome": "Publicado no Diário Oficial Eletrônico da ALRN"
+     }
+    }
+   ],
+   "emenda": [],
+   "comissao": [
+    {
+     "sigla": "CCJR",
+     "descricao": "Comissão de Constituição, Justiça e Redação",
+     "assessor": null,
+     "relator": null
+    }
+   ]
+  }
+ ],
+ "total": 2429
+}

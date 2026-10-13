@@ -424,10 +424,10 @@ the fiscal session closed in May; no bill moved in the days read.
 | Pennsylvania | LDPC Bill History XML (hourly zip), `palegis.us/data`; House and Senate RSS (roll calls, calendars) beside it | yes | not asked | open to us (one group, for the UserWay scanner only; #161 misread it as disallowing everyone) | **built** (`pa-ldpc`) | nothing |
 | Missouri | House XML exports (`<yearcode>-BillList.XML`, one XML a bill; past sessions as zips) | yes | not asked | Crawl-delay 20, honoured | **built** (`mo-house`), House bills | nothing |
 | Arkansas | bill pages, daily Recent Bill Activity, roll-call pages with names | yes | not asked | allowed (only ChatGPT disallowed) | **built** (`ar-arkleg`) | nothing |
-| New Jersey | the Legislature's database, `pub.njleg.gov/leg-databases/2026data/DB2026.zip`: a **Microsoft Access file**, 175 MB zipped, 910 MB unzipped, rebuilt nightly about 20:00 Eastern; DB2026_TEXT.zip (1.4 MB) beside it | **times out** | answers | `pub.njleg.gov` robots.txt redirects (no rules); `www.njleg.gov` allows all | not built: GitHub-only, and reading `.mdb` needs `mdbtools` (not stdlib); the gain is NJ's votes, which Open States lacks | decide whether a GitHub-side step (apt `mdbtools`, 175 MB a run) is wanted; the weekly runs on the Mini, which cannot reach it |
-| New York | Senate Open Legislation API, `legislation.nysenate.gov/api/3` (free key); `nyassembly.gov/leg/` bill pages (actions, votes) | API: **times out**; Assembly pages: yes | API: answers | API: allows all; Assembly: only GPTBot disallowed | not built: Open States already has New York's votes (99% of positions) and is a day behind; the API needs a key and a US runner | nothing now. If same-day New York is ever wanted: a free key at legislation.nysenate.gov (Christopher registers), `NYSENATE_API_KEY` secret, and a GitHub-run step |
-| Massachusetts | the Legislature's documented API, `malegislature.gov/api` (Swagger), bill pages | **times out** | answers | allows all (`Disallow:` empty) | not built: GitHub-only; Open States carries MA a day behind | nothing now; a GitHub-run step if wanted |
-| Michigan | `legislature.mi.gov` | **403 to everything** (robots.txt included) | answers (robots.txt 404, no rules) | none from GH | not built: GitHub-only; Open States is fine for MI (99% positions) | nothing |
+| New Jersey | the Legislature's nightly downloads on `pub.njleg.gov`: DB2026_TEXT.zip (1.4 MB, the same tables as the 175 MB Access file DB2026.zip, which holds no vote tables), and floor votes with every member in `/votes/A2026.zip`, `/votes/S2026.zip` | **times out** | answers | `pub.njleg.gov` robots.txt redirects to `njleg.state.nj.us` (Allow: /) | **built on GitHub** (`nj-leg`, `tools/us_states_github.py`); NJ joins `DIRECT_SOURCES` | nothing |
+| New York | Senate Open Legislation API, `legislation.nysenate.gov/api/3` (free key); `nyassembly.gov/leg/` bill pages (actions, votes) | API: **times out**; Assembly pages: yes | API: answers | API: allows all; Assembly: only GPTBot disallowed | not built: Open States already has New York's votes (99% of positions) and is a day behind; the API needs a key and a US runner | Christopher, 13 October 2026: "skip NY": stays on Open States (no key). If same-day New York is ever wanted: a free key at legislation.nysenate.gov (Christopher registers), `NYSENATE_API_KEY` secret, and a GitHub-run step |
+| Massachusetts | the Legislature's documented API, `malegislature.gov/api` (Swagger at `/api/swagger/v1/swagger.json`) | **times out** | answers | allows all (`Disallow:` empty) | **built on GitHub** (`ma-api`): documents list (12.5 MB) then histories of bills on our ground, capped; House tallies from history lines (the API lists no House roll calls), Senate roll calls with members | nothing |
+| Michigan | `www.legislature.mi.gov`: the activity search (`/Search/ExecuteSearch?dateFromStr=...&dailyReport=todaysbillactivity`) and bill pages; its Automated Data Collection Policy permits automated collection at up to one request a second (we keep 1.5 s) | **403 to everything** (robots.txt included) | answers (robots.txt 404, no rules) | none from GH | **built on GitHub** (`mi-leg`): moved bills since the last read, pages for those on our ground (capped), roll-call totals | nothing |
 | Ohio | `search-prod.lis.state.oh.us/solarapi` (Open States' own source) and `legislature.ohio.gov` | times out | solarapi path answers 404 at the guessed URL; the site's TLS certificate failed verification on the runner | | not built (no verified route) | nothing |
 | Tennessee | `capitol.tn.gov`, `wapp.capitol.tn.gov`; acts at `publications.tnsosfiles.com` | refused / 403 | robots.txt answers | **disallows every agent but named search engines**; the SoS acts host answers 403 | **closed to us**: not built, and not to be | nothing; Open States stays the route (TN is 99% positions) |
 | Georgia | the General Assembly's web services, `webservices.legis.ga.gov/GGAServices` (SOAP; Open States' source) | times out | **times out** | not readable | not built (unreachable from both) | nothing |
@@ -442,8 +442,69 @@ Michigan (`legislature.mi.gov`), Idaho (`legislature.idaho.gov`). The US
 weekly runs on the Mac Mini first (UK network), with GitHub only as backup,
 so a reader for these would run only on GitHub's backup runs. Using them
 properly needs a GitHub-side states step (as the Senate-only half already
-does for senate.gov, `us-weekly.yml` input `senate_only`): **Christopher's
-call**; none was added.
+does for senate.gov, `us-weekly.yml` input `senate_only`). **Christopher,
+13 October 2026: "Add the GitHub step, skip NY"**: built, next section.
+
+### The GitHub-side step (built 13 October 2026, branch `us-github-states`)
+
+`tools/us_states_github.py`, readers `nj`, `ma`, `mi`, on the #161 pattern
+(`merge_foreign`, `uss_bill_sources` for provenance and change detection,
+"(via the New Jersey Legislature's data downloads)", "(via the
+Massachusetts Legislature's API)", "(via the Michigan Legislature's
+website)" in the edition), every request through `src/http.py` (CitizenGO
+UA) and `src/robots_guard.GuardedClient` (robots.txt every run, no
+exemptions). Hosts probed from GitHub's runners with the read-only
+`probe-hosts.yml` (runs 38336420497, 38336688578, 38337271051); fixtures
+are those replies, trimmed.
+
+- **New Jersey.** The brief named the Access database (DB2026.zip, 175 MB
+  zipped, 910 MB, mdbtools). Its catalogue was read: it holds the same
+  tables as **DB2026_TEXT.zip** (1.4 MB, comma-delimited, rebuilt at the
+  same hour, about 20:00 Eastern) and **no vote tables**, so the lighter
+  official feed is read and no mdbtools is installed. Floor votes come from
+  `pub.njleg.gov/votes/` (`_Readme.txt` documents them): A2026.zip (111 KB)
+  and S2026.zip (52 KB), one row a member a vote. The directory listings
+  give each file's stamp: nothing is downloaded when they are unchanged.
+  **Budget: at most about 1.6 MB a run.** Committee votes (CA/CS files) are
+  not read. Open States has no NJ votes, so these are kept when it
+  supersedes a row (`OPENSTATES_VOTE_GAPS`). Action codes (INT, REP, PA,
+  PS, APP, AV, CV ...) are spelled out with committee names from
+  COMMITTEE.TXT, the code kept in brackets.
+- **Massachusetts.** One request for the 194th General Court's documents
+  list (11,910 documents; 109 bills on our ground on 13 October), then each
+  candidate's history: bills that moved in the last 30 days (by the store)
+  first, then never or least recently read; 80 a run on the half, 40
+  inline. Unchanged histories merge nothing. Votes from history lines with
+  their totals, dated by them; Senate roll calls the document lists get
+  every member's vote (names from the sponsors in the list). Never guessed.
+- **Michigan.** The activity search since the day before the last read
+  (first run: eight days) lists every bill that moved with its description;
+  those on our ground or stored have their page read (60 a run on the half,
+  30 inline): every action (House in lower case, Senate in capitals),
+  sponsors, roll-call totals ("Roll Call #143 Yeas 104 Nays 2 ..."). A run
+  cut short keeps its start date for the next.
+- **New York:** skipped (Christopher), Open States as before.
+
+**Replay of the real replies** (the probe runs' files through the readers,
+a scratch store with the three sessions, 13 October 2026): New Jersey 11,167
+bills read, **342 on our ground stored**, their floor votes with members;
+Massachusetts 109 bills on our ground or stored, the four histories fetched
+read; Michigan 154 moved bills since 5 October, 3 on our ground.
+
+**Where it runs, and the store.** Only GitHub reaches these hosts. GitHub's
+own US weekly (the backup, Friday 10:00 UTC) runs the step inline after the
+other state readers (5 minutes). When the Mac Mini runs the week (Friday
+10:00 London), it finds the hosts do not answer and, at the START of its
+week, before writing anything, asks GitHub for a run of `us-weekly.yml`
+with `states_github=true` (and `senate_only=true` too when senate.gov
+refuses it: one run for both halves), via `tools/github_half.sh`, while it
+holds its lock. That run (the `parl-monitor-state` concurrency group) reads
+Open States for NJ, MA and MI, then the three legislatures on top, and
+publishes the raw archive and the store (`db_state.py --push`, which
+refuses to publish over a store it has not seen). The Mini then fetches the
+store again and runs its own Open States step with `--exclude-states
+nj,ma,mi`, so nothing it reads can wipe the same-day rows. No new cron, so
+nothing to overlap; nothing to install on the Mini.
 
 ## What Open States gives, per state
 
@@ -723,8 +784,8 @@ empty tables until the first run.
    **13 October 2026:** the free alternatives are built. LegiScan was then
    dropped (Christopher: "Legiscan needs an API for each state so look for
    other methods"): no key is needed. Other routes for PA, MO and AR are
-   built ("Other routes, state by state"); the GitHub-only hosts (NJ, MA,
-   NY's API, MI) wait on a decision about a GitHub-side step.
+   built ("Other routes, state by state"); the GitHub-side step for NJ, MA
+   and MI is built (Christopher: "Add the GitHub step, skip NY").
 3. ~~Taxonomy terms~~ for the state names above: adopted at v1.20
    (9 October 2026), above. The 46 watchlist entries stay.
 4. **Noise in area 6 and 12** from "foster care", "child protection" and
