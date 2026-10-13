@@ -1,0 +1,52 @@
+[
+ {
+  "person_name": "Abt",
+  "person_vorname": "Simone",
+  "person_rolle": "Urheberin",
+  "geschaeft_titel": "Wieviel ist dem Kanton Basel-Landschaft die Palliative Care wert?",
+  "geschaeft_laufnummer": "2026/7052",
+  "geachaeft_beginn": "2026-09-24",
+  "person_id": "f7dfd1b59fd54e22ba5406f9ff8c5bc1",
+  "geschaeft_id": "8a80884fafd8476d8a33599dd34db58a"
+ },
+ {
+  "person_name": "Koller",
+  "person_vorname": "Adil",
+  "person_rolle": "Urheber",
+  "geschaeft_titel": "Kinderbetreuungsgesetz per 1. August 2027 in Kraft setzen",
+  "geschaeft_laufnummer": "2026/6808",
+  "geachaeft_beginn": "2026-09-10",
+  "person_id": "d21ca5f0f02149728cc359e44c37fc70",
+  "geschaeft_id": "b914110cadc9481d94fde8044593a14b"
+ },
+ {
+  "person_name": "Müller",
+  "person_vorname": "Flavia",
+  "person_rolle": "Urheberin",
+  "geschaeft_titel": "Stand Verbot von Konversionsmassnahmen im Kanton BL?",
+  "geschaeft_laufnummer": "2026/6529",
+  "geachaeft_beginn": "2026-08-27",
+  "person_id": "0acba9825ac445619f107d95046735e6",
+  "geschaeft_id": "7de66effa6ed422596556e14603747f9"
+ },
+ {
+  "person_name": "Locher",
+  "person_vorname": "Miriam",
+  "person_rolle": "Urheberin",
+  "geschaeft_titel": "Schutz und Unterstützung für Sexarbeitende",
+  "geschaeft_laufnummer": "2026/4870",
+  "geachaeft_beginn": "2026-03-26",
+  "person_id": "09aa6013119f4fe0bf9404fd916851b0",
+  "geschaeft_id": "a1b2e05f0cf3463caef333b20bce946f"
+ },
+ {
+  "person_name": "Wicker-Hägeli",
+  "person_vorname": "Christina",
+  "person_rolle": "Zuständig",
+  "geschaeft_titel": "Digitale Teilnahme an den Landratssitzungen",
+  "geschaeft_laufnummer": "2025/129",
+  "geachaeft_beginn": "2025-03-27",
+  "person_id": "51b225be84964054a9aa4272582d042f",
+  "geschaeft_id": "9e1687ce376f4a6a92d75dc4804675ea"
+ }
+]

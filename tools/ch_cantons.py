@@ -42,7 +42,9 @@ single-page app with an undocumented backend, small cantons not probed yet).
 ALTERNATIVE ROUTES (13 October 2026, branch access-routes; Chris: "Email all
 and explore external ways too"). The open-data portals of Basel-Stadt,
 Basel-Landschaft, St. Gallen and Thurgau (robots.txt: Disallow /api/) and
-www.ag.ch/grossrat stay unread. Each canton is read instead from another
+www.ag.ch/grossrat were unread; Basel-Stadt, Thurgau and (since the same
+day) Basel-Landschaft are now read there under written permissions (below),
+with these routes as their fallback. Each canton is read from another
 official host of its own whose robots.txt allows it (asked every run):
 
   bs  Grosser Rat Basel-Stadt. Since 13 October 2026 (branch bs-gribs)
@@ -58,10 +60,12 @@ official host of its own whose robots.txt allows it (asked every run):
       motions page (the business numbers and titles lodged for the next
       sitting) and the weekly Grossratsversand page (every report, Ratschlag
       and written answer since February, dated).
-  bl  Landrat Basel-Landschaft (via baselland.talus.ch, the Landrat's
-      business system "Politik Baselland"): the newest documents list, about
-      six weeks of motions, postulates, interpellations, Vorlagen, committee
-      reports and answers, each with its business number and date.
+  bl  Landrat Basel-Landschaft. Since 13 October 2026 from data.bl.ch (see
+      WRITTEN PERMISSIONS below); the fallback is baselland.talus.ch, the
+      Landrat's business system "Politik Baselland": the newest documents
+      list, about six weeks of motions, postulates, interpellations,
+      Vorlagen, committee reports and answers, each with its business
+      number and date.
   sg  Kantonsrat St. Gallen (via www.ratsinfo.sg.ch, the Kantonsrat's
       Ratsinformationssystem; its robots.txt sets no rules): the JSON the
       RIS page itself loads, /api/businesses (ordered by last change) with
@@ -87,9 +91,10 @@ St. Gallen and Thurgau Amtsblatt) all disallow every path to every agent.
 
 WRITTEN PERMISSIONS (13 October 2026; src/robots_guard.PERMISSIONS,
 docs/robots-runtime.md "Written permissions"). Basel-Stadt's Statistisches
-Amt and Thurgau's Amt fuer Daten und Statistik wrote that our targeted use
-of their Opendatasoft APIs is welcome, though robots.txt there disallows
-/api/. Only the Grand Council datasets below are read; JSON exports filtered
+Amt, Thurgau's Amt fuer Daten und Statistik and Basel-Landschaft's
+Statistisches Amt (Johannes Hool) wrote that our targeted use of their
+Opendatasoft APIs is welcome, though robots.txt there disallows /api/. Only
+the parliament datasets below are read; JSON exports filtered
 server-side to the window, votes in date batches (Basel-Stadt: "if the API
 is slow, download in batches"), 3 s between requests, once a week:
 
@@ -104,6 +109,16 @@ is slow, download in batches"), 3 s between requests, once a week:
       the signatories; sk-stat-136 each member's vote (or the option they
       chose in a vote between motions), counts tallied from them (the
       dataset prints none).
+  bl  data.bl.ch (the Landeskanzlei's datasets; opendata.swiss terms_by:
+      free use, the source must be cited): 13090 business begun or ended in
+      the last BL_API_DAYS days and everything in progress, its state,
+      Landrat standing and committee; 13130 the newest document of the
+      window as its latest step; 13140 the authors (and the count of
+      co-signatories) of motions and questions not yet stored with them;
+      13080 each member's vote since the newest stored (the first read
+      from the 2023-2027 legislature, BL_VOTE_SINCE), counts tallied from
+      them (the dataset prints none); a vote's act through its
+      geschaeft_id. Items link the Landrat's page on baselland.talus.ch.
 
 Every act and vote read there carries `source_url`, its dataset link, shown
 on the item in the edition. Members' votes go to ch_canton_votes. If an API
@@ -133,13 +148,13 @@ ROBOTS.TXT AT RUN TIME: every request goes through
 src/robots_guard.GuardedClient (no exemptions but the written permissions), which reads each host's
 robots.txt once per run before the first request. A disallowed URL, or a
 host whose robots.txt cannot be read, is a [gap] line and a gaps row,
-never fetched and never fatal. That is why the open-data portals of
-Basel-Landschaft and St. Gallen (Opendatasoft portals whose robots.txt
-disallows /api/ to every agent but Googlebot) and Aargau's
-www.ag.ch/grossrat are never asked; those cantons are read through the
-routes under ALTERNATIVE ROUTES above. data.bs.ch and data.tg.ch are asked
-only under their written permissions (the listed datasets skip the
-robots.txt read; anything else on those hosts is still refused).
+never fetched and never fatal. That is why the open-data portal of
+St. Gallen (an Opendatasoft portal whose robots.txt disallows /api/ to
+every agent but Googlebot) and Aargau's www.ag.ch/grossrat are never
+asked; those cantons are read through the routes under ALTERNATIVE ROUTES
+above. data.bs.ch, data.tg.ch and data.bl.ch are asked only under their
+written permissions (the listed datasets skip the robots.txt read;
+anything else on those hosts is still refused).
 """
 
 from __future__ import annotations
@@ -268,7 +283,7 @@ SG_URL = "https://www.ratsinfo.sg.ch/businesses/{0}"
 SG_VOTE_URL = "https://www.ratsinfo.sg.ch/votings/{0}"
 SG_QUESTIONS = ("Einfache Anfrage", "Interpellation")
 
-# --- Basel-Landschaft (via baselland.talus.ch) -------------------------------------
+# --- Basel-Landschaft (via baselland.talus.ch, the fallback since 13 October 2026) --
 BL_NEW = "https://baselland.talus.ch/de/politik/cdws/neuste-geschaefte.php"
 BL_URL = "https://baselland.talus.ch/de/politik/cdws/geschaeft.php?gid={0}"
 BL_QUESTIONS = ("Interpellation", "Schriftliche Anfrage", "Fragestunde")
@@ -300,7 +315,7 @@ AG_SINCE = "2025-01-01"      # the Grosser Rat's legislature began in January 20
 # filtered server-side to the window and fetched in date batches (Basel-Stadt
 # asked for batches if the API is slow); about one weekly run's volume.
 BS_ODS = "https://data.bs.ch/api/explore/v2.1/catalog/datasets/"
-POLITE_HOSTS = ("data.bs.ch", "data.tg.ch", "grosserrat.bs.ch")
+POLITE_HOSTS = ("data.bs.ch", "data.tg.ch", "data.bl.ch", "grosserrat.bs.ch")
 POLITE_S = 3.0              # seconds between two requests to one of these hosts
 BS_SETS = {"geschaefte": "100311", "dokumente": "100313", "vorgaenge": "100314",
            "abstimmungen": "100186"}
@@ -363,6 +378,33 @@ TG_FLAGS = (("erheblichkeitserklaerung", "Erheblicherklärung"),
 # option of a vote between motions ('Antrag GFK', 'Kommissionsfassung').
 TG_PLAIN = ("Ja", "Nein", "Enthaltung", "Abwesend", "Abwesend/Keine Stimmabgabe",
             "Keine Stimmabgabe")
+
+# --- Basel-Landschaft: data.bl.ch (written permission, 13 October 2026) ------------
+# Johannes Hool, Statistisches Amt (Office for Data and Statistics, Finance and
+# Church Directorate) wrote that CitizenGO-ParlMonitor/1.0 may retrieve the
+# Landrat's open data, votes included, through the data.bl.ch API, at scale;
+# robots.txt's /api/ rule is for generic crawlers. The Landeskanzlei's datasets
+# (opendata.swiss terms_by: free use, the source must be cited):
+BL_ODS = "https://data.bl.ch/api/explore/v2.1/catalog/datasets/"
+BL_SETS = {"geschaefte": "13090", "urheber": "13140", "dokumente": "13130",
+           "abstimmungen": "13080"}
+BL_DATASET = "https://data.bl.ch/explore/dataset/{0}/"
+BL_LICENCE = ("free use, source must be cited (opendata.swiss terms_by), "
+              "Landeskanzlei des Kantons Basel-Landschaft")
+BL_API_DAYS = 45               # business begun or ended, documents since then
+BL_VOTE_SINCE = "2023-07-01"   # the 2023-2027 legislature: the first read's start
+BL_BATCH_DAYS = 92             # one export per quarter of votes (about 90 rows a vote)
+BL_SKIP = ("Begnadigung",)
+BL_API_QUESTIONS = ("Interpellation", "Schriftliche Anfrage", "Fragestunde")
+BL_AUTHORS = ("Urheber", "Urheberin")
+BL_COSIGNERS = ("Mitunterzeichner", "Mitunterzeichnerin")
+BL_POSITIONS = {"abwesend": "Abwesend"}
+BL_GES_FIELDS = ("titel,laufnummer,status,komission,beginn,ende,stand_lr,geschaeft_id,"
+                 "ueberweisungsdatum,geschaeftstyp,vorstossart")
+BL_VOTE_FIELDS = ("person_name,person_vorname,geschaeft_titel,abstimmung_gegenstand,"
+                  "abstimmung_datum,abstimmung_art,person_fraktion,person_partei,person_id,"
+                  "abstimmung_id,geschaeft_id,traktandum_id")
+BL_CHUNK = 60                  # business numbers or ids per "in (...)" filter
 
 
 # --- small helpers -------------------------------------------------------------
@@ -1341,6 +1383,127 @@ def parse_tg_api_votes(rows):
     return list(votes.values())
 
 
+
+# --- Basel-Landschaft, data.bl.ch (written permission) ---------------------------
+
+def bl_authors(rows):
+    """{Laufnummer: ([author, ...], co-signatories)} from data.bl.ch 13140.
+    The 'Zustaendig' rows (the member of government in charge) are not authors."""
+    out = {}
+    for r in rows or []:
+        nr = (r.get("geschaeft_laufnummer") or "").strip()
+        name = " ".join(x for x in (r.get("person_vorname"), r.get("person_name")) if x)
+        role = (r.get("person_rolle") or "").strip()
+        if not nr or not name or role not in BL_AUTHORS + BL_COSIGNERS:
+            continue
+        got = out.setdefault(nr, ([], [0]))
+        if role in BL_AUTHORS:
+            if name not in got[0]:
+                got[0].append(name)
+        else:
+            got[1][0] += 1
+    return {nr: (names, n[0]) for nr, (names, n) in out.items()}
+
+
+def bl_newest_docs(rows, today=None):
+    """{Laufnummer: (day, title)}: each business's newest document from
+    data.bl.ch 13130 (on one day, a decision before the text it decides)."""
+    today = today or datetime.date.today().isoformat()
+    out = {}
+    for r in rows or []:
+        nr, day = (r.get("geschaeft_laufnummer") or "").strip(), iso(r.get("dokument_datum") or "")
+        title = text(r.get("dokument_titel")) or "Dokument"
+        if not nr or not day or day > today:
+            continue
+        rank = (day, not title.startswith("Text "), title)
+        if nr not in out or rank > out[nr][0]:
+            out[nr] = (rank, (day, title))
+    return {nr: v[1] for nr, v in out.items()}
+
+
+def parse_bl_api(rows, authors=None, docs=None, today=None):
+    """Acts from data.bl.ch 13090 (the Landeskanzlei's business database),
+    with the authors of 13140 and the newest document of 13130. Status: the
+    dataset's own state and Landrat standing, the newest document; dated by
+    the newest of that document, the referral (Ueberweisung) and the close."""
+    today = today or datetime.date.today().isoformat()
+    authors, docs = authors or {}, docs or {}
+    out = []
+    for r in rows or []:
+        nr = (r.get("laufnummer") or "").strip()
+        kind = (r.get("vorstossart") or r.get("geschaeftstyp") or "").strip() or "Geschäft"
+        if not re.match(r"^\d{4}/\d+$", nr) or kind in BL_SKIP \
+                or (r.get("geschaeftstyp") or "") in BL_SKIP:
+            continue
+        presented = iso(r.get("beginn") or "")
+        state = (r.get("status") or "").strip()
+        closed = iso(r.get("ende") or "") if state == "Abgeschlossen" else ""
+        bits = ["{0} am {1}".format(state, _dmy(closed)) if closed and closed <= today else state]
+        if r.get("stand_lr"):
+            bits.append(text(r["stand_lr"]))
+        doc = docs.get(nr)
+        if doc:
+            bits.append("neuestes Dokument: {0} ({1})".format(doc[1], _dmy(doc[0])))
+        dates = [d for d in (doc[0] if doc else "", iso(r.get("ueberweisungsdatum") or ""), closed)
+                 if d and d <= today]
+        names, others = authors.get(nr, ([], 0))
+        initiative = ", ".join(names) or None
+        if initiative and others:
+            initiative += " and {0} other(s)".format(others)
+        gid = (r.get("geschaeft_id") or "").strip()
+        out.append({
+            "key": "bl/" + nr, "canton": "bl", "kind": kind, "number": nr,
+            "label": "{0} {1}".format(kind, nr), "title": text(r.get("titel")), "title_fr": None,
+            "presented": presented or None, "status": "; ".join(b for b in bits if b) or None,
+            "status_date": max(dates) if dates else (presented or None), "dated": True,
+            "initiative": initiative, "committee": r.get("komission") or None,
+            "url": BL_URL.format(gid) if gid else BL_DATASET.format(BL_SETS["geschaefte"]),
+            "source_url": BL_DATASET.format(BL_SETS["geschaefte"]), "seq": None,
+            "question": kind in BL_API_QUESTIONS})
+    return out
+
+
+def parse_bl_api_votes(rows, numbers=None):
+    """Divisions from data.bl.ch 13080 (one row per member and vote; the
+    row's abstimmung_id is the member's, so a vote is its agenda item, time
+    and subject). No totals are printed: they are tallied from the members'
+    votes. `numbers`: {geschaeft_id: Laufnummer}, for the act a vote is on."""
+    import hashlib
+    numbers = numbers or {}
+    votes = {}
+    for r in rows or []:
+        when = (r.get("abstimmung_datum") or "").strip()
+        subject = text(r.get("abstimmung_gegenstand"))
+        day = iso(when[:10])
+        if not day or not subject:
+            continue
+        ident = "|".join((r.get("traktandum_id") or r.get("geschaeft_id") or "", when, subject))
+        key = "bl/v/{0}/{1}".format(day, hashlib.sha1(ident.encode("utf-8")).hexdigest()[:12])
+        v = votes.get(key)
+        if v is None:
+            nr = numbers.get(r.get("geschaeft_id") or "")
+            v = votes[key] = {"key": key, "canton": "bl", "act_key": "bl/" + nr if nr else None,
+                              "date": day, "subject": subject,
+                              "act_title": text(r.get("geschaeft_titel")) or None, "result": None,
+                              "url": BL_DATASET.format(BL_SETS["abstimmungen"]),
+                              "source_url": BL_DATASET.format(BL_SETS["abstimmungen"]),
+                              "counts_from": "tallied", "positions": []}
+        name = " ".join(x for x in (r.get("person_vorname"), r.get("person_name")) if x)
+        if name and (r.get("abstimmung_id") or (name, r.get("person_id"))) not in v.setdefault(
+                "_seen", set()):
+            # a member's row read twice (overlapping exports) counts once
+            v["_seen"].add(r.get("abstimmung_id") or (name, r.get("person_id")))
+            pos = (r.get("abstimmung_art") or "").strip()
+            v["positions"].append({"member": name, "member_id": r.get("person_id") or None,
+                                   "parl_group": r.get("person_fraktion") or r.get("person_partei")
+                                   or None,
+                                   "position": BL_POSITIONS.get(pos, pos) or None})
+    for v in votes.values():
+        v.pop("_seen", None)
+        got = [p["position"] for p in v["positions"]]
+        v["yes"], v["no"], v["abstain"] = got.count("Ja"), got.count("Nein"), got.count("Enthaltung")
+    return list(votes.values())
+
 # --- classification and storing --------------------------------------------------
 
 class Taxonomies:
@@ -1612,8 +1775,91 @@ def fetch_stgallen(client, conn=None, today=None, log=print, budget=None):
     return list(acts.values()), gaps, votes
 
 
-def fetch_baselland(client, conn=None, today=None, log=print, budget=None):
+def fetch_baselland_pages(client, conn=None, today=None, log=print, budget=None):
+    """The fallback: the Landrat's newest documents (baselland.talus.ch)."""
     return parse_bl(client.get_text(BL_NEW, FEED, "bl-neuste")), 0
+
+
+def _bl_in(field, values):
+    q = '"{0}"'.format
+    return "{0} in ({1})".format(field, ", ".join(q(v.replace('"', "")) for v in values))
+
+
+def _stored_bl(conn):
+    """{act_key: (initiative, geschaeft_id)} of the stored Basel-Landschaft acts."""
+    if conn is None:
+        return {}
+    out = {}
+    for k, ini, url in conn.execute("SELECT act_key, initiative, url FROM ch_canton_acts "
+                                    "WHERE canton='bl'").fetchall():
+        m = re.search(r"gid=(\w+)", url or "")
+        out[k] = (ini, m.group(1) if m else None)
+    return out
+
+
+def fetch_baselland_api(client, conn=None, today=None, log=print, budget=None):
+    """data.bl.ch (written permission, 13 October 2026): business begun or
+    ended in the last BL_API_DAYS days and everything in progress, the
+    authors of the motions and questions not stored with them yet, the
+    documents of the window, and every vote since the newest stored one,
+    quarter by quarter, with each member's vote."""
+    today = today or datetime.date.today().isoformat()
+    since = _since(today, BL_API_DAYS)
+    q = '"{0}"'.format
+    rows = client.get_json(ods_export(
+        BL_ODS, BL_SETS["geschaefte"],
+        "beginn >= {0} or ende >= {0} or status = \"In Bearbeitung\"".format(q(since)),
+        select=BL_GES_FIELDS), FEED, "bl-ods-geschaefte", timeout=180)
+    if not isinstance(rows, list):
+        raise ValueError("data.bl.ch answered with no list of Geschaefte")
+    docs = client.get_json(ods_export(
+        BL_ODS, BL_SETS["dokumente"],
+        "dokument_datum >= {0} and dokument_datum <= {1}".format(q(since), q(today)),
+        select="dokument_titel,dokument_datum,geschaeft_laufnummer"),
+        FEED, "bl-ods-dokumente", timeout=180) or []
+    stored = _stored_bl(conn)
+    numbers = sorted({r["laufnummer"] for r in rows if r.get("laufnummer") and r.get("vorstossart")
+                      and not (stored.get("bl/" + r["laufnummer"]) or (None,))[0]})
+    signers = []
+    for i in range(0, len(numbers), BL_CHUNK):
+        signers += client.get_json(ods_export(
+            BL_ODS, BL_SETS["urheber"], _bl_in("geschaeft_laufnummer", numbers[i:i + BL_CHUNK]),
+            select="person_name,person_vorname,person_rolle,geschaeft_laufnummer"),
+            FEED, "bl-ods-urheber-{0}".format(i // BL_CHUNK), timeout=180) or []
+    acts = parse_bl_api(rows, bl_authors(signers), bl_newest_docs(docs, today), today=today)
+    # The act a vote is on: its geschaeft_id, from this run's rows, the store,
+    # or (for older business) one look-up in 13090.
+    ids = {r["geschaeft_id"]: r["laufnummer"] for r in rows
+           if r.get("geschaeft_id") and r.get("laufnummer")}
+    ids.update({gid: k[3:] for k, (_ini, gid) in stored.items() if gid and gid not in ids})
+    votes, part, got = [], 0, []
+    for k, (a, b) in enumerate(batches(_vote_start(conn, "bl", BL_VOTE_SINCE), today, BL_BATCH_DAYS)):
+        if budget is not None and budget.exhausted():
+            log(budget.disclose("Basel-Landschaft vote batches", k))
+            part = 1
+            break
+        got += client.get_json(ods_export(
+            BL_ODS, BL_SETS["abstimmungen"],
+            # a datetime field: ODSQL compares it with a day by the day
+            "abstimmung_datum >= {0} and abstimmung_datum <= {1}".format(q(a), q(b)),
+            select=BL_VOTE_FIELDS), FEED, "bl-ods-abstimmungen-" + a, timeout=300) or []
+    missing = sorted({r["geschaeft_id"] for r in got if r.get("geschaeft_id")} - set(ids))
+    for i in range(0, len(missing), BL_CHUNK):
+        if budget is not None and budget.exhausted():
+            break
+        for r in client.get_json(ods_export(
+                BL_ODS, BL_SETS["geschaefte"], _bl_in("geschaeft_id", missing[i:i + BL_CHUNK]),
+                select="laufnummer,geschaeft_id"), FEED,
+                "bl-ods-geschaefte-ids-{0}".format(i // BL_CHUNK), timeout=180) or []:
+            if r.get("geschaeft_id") and r.get("laufnummer"):
+                ids[r["geschaeft_id"]] = r["laufnummer"]
+    votes = parse_bl_api_votes(got, ids)
+    return acts, part, votes
+
+
+def fetch_baselland(client, conn=None, today=None, log=print, budget=None):
+    return _api_or_pages(fetch_baselland_api, fetch_baselland_pages, CANTONS["bl"], client,
+                         conn, today, log, budget)
 
 
 def fetch_baselstadt_pages(client, conn=None, today=None, log=print, budget=None):

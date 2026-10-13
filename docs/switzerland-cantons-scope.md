@@ -38,6 +38,13 @@ them). Basel-Stadt's business is now read from those exports first;
 `data.bs.ch` (written permission) keeps the votes and is the business
 fallback; the Grand Council's pages are the last resort.
 
+**Update, 13 October 2026 (branch `ch-bl-ods`, below "Basel-Landschaft:
+data.bl.ch"):** Basel-Landschaft wrote back too (Johannes Hool,
+Statistisches Amt). The Landrat is now read from `data.bl.ch` (13090
+business, 13140 authors, 13130 documents, 13080 **every member's vote**),
+recorded in `src/robots_guard.PERMISSIONS`; `baselland.talus.ch` is the
+fallback. St. Gallen (no reply yet) and Aargau stay as they were.
+
 **Covered: five of 26** (Zürich, Bern, Vaud, Geneva, Ticino): the two
 largest German-speaking cantons, the two largest French-speaking ones and
 the Italian-speaking one, about 4.4 of Switzerland's 9 million people.
@@ -84,7 +91,7 @@ Ranked by population, then by what the first read found on our ground.
 | Ticino (0.36 m) | Gran Consiglio | `www4.ti.ch/poteri/gc/attivita/ordine-del-giorno/` | HTML | allows it; **disallows the acts search** (`/poteri/gc/ricerca-messaggi-e-atti/ricerca/`) | **yes** (order of the day) |
 | Valais (0.36 m) | Grand Conseil / Grosser Rat | `parlement.vs.ch/app/` (Sitrox single-page app, backend `api/fe/v1/search/...`) | undocumented JSON | empty (no rules) | not yet |
 | Fribourg (0.34 m) | Grand Conseil | `www.fr.ch/gc` | Drupal pages | disallows `/fr/`, `/search/` and `?page` | not yet |
-| Basel-Landschaft (0.30 m) | Landrat | `data.bl.ch` datasets 13090 (business since 2017), 13080 (member votes since 2018) | Opendatasoft API | **`Disallow: /api/`** | **no**; **yes** via `baselland.talus.ch` (below) |
+| Basel-Landschaft (0.30 m) | Landrat | `data.bl.ch` datasets 13090 (business since 2017), 13140 (authors), 13130 (documents), 13080 (member votes since 2018) | Opendatasoft API | **`Disallow: /api/`** | **yes, with written permission (13 Oct 2026)**, business and members' votes; fallback `baselland.talus.ch` (below) |
 | Solothurn (0.29 m) | Kantonsrat | `so.ch/parlament/` | TYPO3 pages | allows | not yet |
 | Thurgau (0.29 m) | Grosser Rat | `data.tg.ch` datasets sk-stat-140 (business), sk-stat-136 (votes) | Opendatasoft API | **`Disallow: /api/`** | **yes, with written permission (13 Oct 2026)**, business and members' votes; fallback `grgeko.tg.ch` (below) |
 | Graubünden (0.20 m) | Grosser Rat | `www.gr.ch` (SharePoint) | HTML | disallows search and list views | not yet |
@@ -227,6 +234,46 @@ recent Thurgau votes arrive late. A second run read one batch per canton
 The fallback: if an API fails, the canton is read from its parliament's
 own pages (grosserrat.bs.ch, grgeko.tg.ch) as before, with one gap line
 saying so; Basel-Stadt's API rows are dated, so they are never a baseline.
+
+## Basel-Landschaft: data.bl.ch (13 October 2026, branch `ch-bl-ods`)
+
+Johannes Hool (Project Manager, Statistisches Amt / Office for Data and
+Statistics, Finance and Church Directorate) wrote on 13 October 2026, in
+substance: our client "CitizenGO-ParlMonitor/1.0" is authorised to retrieve
+the Landrat's open data records, voting results included, through the
+data.bl.ch API, and large-scale retrieval is fine; the robots.txt `/api/`
+rule targets generic crawlers, and requests to specific, deliberately
+selected dataset endpoints count as API-client usage, so it does not apply;
+no robots.txt change is needed, the email is the confirmation.
+
+The Landrat datasets, found through the portal's sitemap (`/sitemap.xml`,
+allowed) and the dataset pages on opendata.swiss, never by crawling `/api/`.
+All are published by the Landeskanzlei des Kantons Basel-Landschaft, updated
+nightly, under opendata.swiss `terms_by` ("Freie Nutzung. Quellenangabe ist
+Pflicht": free use, commercial allowed, the source must be cited):
+
+| Dataset | Title | Rows (13 Oct 2026) | Read |
+|---|---|---|---|
+| 13090 | Landratsgeschäfte (seit 2017) | 6,412 | yes: number (Laufnummer), type and Vorstoss type, title, state, Landrat standing, committee, begun, ended, referred (Überweisung), the business id. Begun or ended in the last 45 days, and everything in progress (about 650 rows) |
+| 13140 | Beteiligungen von Landratsmitgliedern an Vorstössen (seit 2017) | 5,379 | yes: authors (Urheber/in) and the count of co-signatories (Mitunterzeichner/in) of motions and questions not yet stored with them ("Zuständig", the member of government in charge, is not an author) |
+| 13130 | Unterlagen zu Landratsgeschäften (seit 2017) | 17,676 | yes: documents dated in the window; a business's newest one is its latest step |
+| 13080 | Abstimmungsverhalten der Landratsmitglieder (seit 2018) | 266,253 | yes: **every member's vote** (Ja, Nein, Enthaltung, abwesend), party and Fraktion, the subject (e.g. "Überweisung", "Schlussabstimmung LRB"), the time, the business and agenda item. No totals: counts are tallied from the members' votes. Each row's `abstimmung_id` is the member's, so a vote is its agenda item, time and subject |
+| 13100, 13110, 13120, 13150, 13160 | interests, memberships, agendas, bodies | | no (not in the permission entry; still refused at run time) |
+
+Keys: `bl/<Laufnummer>`, the same as the talus pages', so the rows read
+there are updated in place. Items link the Landrat's page of the business
+on baselland.talus.ch (13090's `geschaeft_id` is talus's `gid`); `source_url`
+is the dataset link the licence asks for. A vote's act comes through its
+`geschaeft_id` (this run's rows, the store, or one look-up in 13090).
+
+First live read (13 October 2026, scratch database, never the store): 650
+businesses, 16 on our ground (among them the interpellation on the
+conversion-practices ban 2026/6529, palliative care 2026/7052, sex work
+2026/4870); votes from the start of the 2023-2027 legislature (first vote 31
+August 2023) to 24 September 2026: 1,076 votes, 96,786 members' votes, every
+one tied to its business, in 1 minute 46 seconds (14 quarterly exports, 3 s
+apart). Later weekly runs re-read from the newest stored vote day: one export.
+The vote dataset reaches 2018; earlier legislatures are not read.
 
 ## Basel-Stadt: the Grand Council's own exports (13 October 2026, branch `bs-gribs`)
 
@@ -411,8 +458,8 @@ areas offline. Nothing new to install on the Mini.
    above.
 2. **CH7b:** Basel-Stadt and Thurgau from their open data, with members'
    votes: **built 13 October 2026** (written permissions, above).
-   Basel-Landschaft (with member votes) and St. Gallen: waiting on their
-   replies.
+   Basel-Landschaft with member votes: **built 13 October 2026**
+   (`ch-bl-ods`, written permission). St. Gallen: waiting on its reply.
 3. **CH7c:** Lucerne (the search form's JSON) and Valais (the Sitrox
    backend), both undocumented backends behind web pages, so robots.txt is
    asked first (both allow today); then Solothurn, Fribourg, Neuchâtel,
@@ -430,7 +477,7 @@ areas offline. Nothing new to install on the Mini.
    Aargau Grosser Rat's business). Nothing was sent.
 1. **The four Opendatasoft cantons.** (13 October 2026: Basel-Stadt and
    Thurgau granted written permission and are read from their APIs;
-   Basel-Landschaft and St. Gallen have not replied.) Basel-Stadt, Basel-Landschaft,
+   Basel-Landschaft too, later the same day; St. Gallen has not replied.) Basel-Stadt, Basel-Landschaft,
    St. Gallen and Thurgau publish exactly what we want as open government
    data, listed on opendata.swiss, but their portals' robots.txt disallows
    `/api/` to every agent but Googlebot. Options: leave them; write to the

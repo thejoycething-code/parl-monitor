@@ -184,8 +184,9 @@ SCHEMA = (
         last_seen    TEXT
     )""",
     # Members' individual votes in a cantonal division, where the canton
-    # publishes them (13 October 2026: Basel-Stadt's data.bs.ch 100186 and
-    # Thurgau's data.tg.ch sk-stat-136, read with written permission).
+    # publishes them (13 October 2026: Basel-Stadt's data.bs.ch 100186,
+    # Thurgau's data.tg.ch sk-stat-136 and Basel-Landschaft's data.bl.ch
+    # 13080, read with written permission).
     """CREATE TABLE IF NOT EXISTS ch_canton_votes (
         vote_key     TEXT NOT NULL,      -- ch_canton_divisions.vote_key
         member       TEXT NOT NULL,      -- 'Vorname Name', as the dataset prints it
@@ -212,7 +213,7 @@ ADDED_COLUMNS = (
     ("ch_businesses", "terms_it", "TEXT"),   # JSON: the Italian matched terms
     ("ch_businesses", "tier_it", "INTEGER"), # the Italian match's own tier
     # 13 October 2026 (written permissions): the open-data dataset an act or
-    # a vote was read from (data.bs.ch / data.tg.ch), which the licence asks
+    # a vote was read from (data.bs.ch / data.tg.ch / data.bl.ch), which the licence asks
     # us to link; NULL for the cantons read from their own sites.
     ("ch_canton_acts", "source_url", "TEXT"),
     ("ch_canton_divisions", "source_url", "TEXT"),
