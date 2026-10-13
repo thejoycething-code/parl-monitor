@@ -431,6 +431,12 @@ FEEDS = [
     ("ch_sessions", "last_seen", 7, 4, "Federal Assembly sessions (Switzerland weekly)"),
     ("ch_businesses", "last_seen", 7, 7, "Federal Assembly businesses, DE and FR (Switzerland weekly)"),
     ("ch_divisions", "last_seen", 31, 45, "Nationalrat and Staenderat votes (Switzerland weekly)"),
+    # CH7 (13 October 2026): the cantonal parliaments (tools/ch_cantons.py).
+    # MEASURED which re-stamp: Bern's two daily exports, Vaud's pending lists,
+    # Ticino's order of the day and Geneva's searches are re-read whole every
+    # run, recess included, so both tables move every week.
+    ("ch_canton_acts", "last_seen", 7, 4, "Cantonal parliaments' business: Zürich, Bern, Geneva, Vaud, Ticino (Switzerland weekly)"),
+    ("ch_canton_divisions", "last_seen", 7, 4, "Grosser Rat Bern votes with tallies (Switzerland weekly)"),
     # Belgium (9 October 2026). MEASURED which re-stamp: both member lists and
     # all 39 pages of the dossier index are re-read whole every run, so
     # be_members and be_dossiers move every week, recess included. Divisions
@@ -979,6 +985,10 @@ AWAITING_FIRST_RUN = {
     "US states direct": (("uss_bill_sources",),
                          "LegiScan and the KS, CA and TX feeds added to US weekly 13 October "
                          "2026; the table fills on the step's first run"),
+    # tools/us_states_routes.py stamps "US states routes" after every run.
+    "US states routes": (("uss_bill_sources",),
+                         "the PA, MO and AR routes added to US weekly 13 October 2026; "
+                         "the table fills on the step's first run"),
     # tools/us_states.py stamps "US states" at the end of every stored run.
     "US states": (("uss_sessions", "uss_people", "uss_bills", "uss_votes"),
                   "state legislatures added to US weekly 9 October 2026; "
@@ -1356,6 +1366,10 @@ def table_exists(conn, table):
 # first heartbeat can excuse it: excused while empty until a date, then
 # OVERDUE like any other. table -> (until, why). Additive, 10 October 2026.
 AWAITING_STEP_UNTIL = {
+    "ch_canton_acts": ("2026-10-31", "the cantons step (tools/ch_cantons.py) joins the "
+                       "Switzerland weekly on merge; it fills on its next run"),
+    "ch_canton_divisions": ("2026-10-31", "the cantons step (tools/ch_cantons.py) joins the "
+                        "Switzerland weekly on merge; it fills on its next run"),
     # Poland's voivodeship assemblies join the Poland weekly (Sundays 04:00)
     # on merge, 13 October 2026: empty until its first Sunday run.
     "plr_reads": ("2026-10-25", "the sejmiki step (tools/pl_regions.py) joins the Poland weekly "

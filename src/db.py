@@ -1724,6 +1724,9 @@ TABLES = (
     "ch_businesses",
     "ch_divisions",
     "ch_votes",
+    # CH7 (13 October 2026): the cantonal parliaments (tools/ch_cantons.py).
+    "ch_canton_acts",
+    "ch_canton_divisions",
     # Belgium's federal Chamber (tools/be_rollcalls.py), created by
     # src/be_store.ensure_schema -- declared from day one.
     "be_members",
