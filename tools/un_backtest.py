@@ -10,9 +10,25 @@ day before the vote would have seen them, through the same code the forward
 look and the UN DM use (src/un_signals.py), and prints the block that would
 have led the output.
 
+THE ROUTE, since 13 October 2026. The draft's own PDF is no longer read:
+docs.un.org/<symbol>?direct=true redirects to documents.un.org/api/symbol/
+access, which documents.un.org/robots.txt disallows, and the HTTP client now
+refuses that hop (src/http.py). So the replay no longer reads the draft's
+first page (tests/fixtures/un/a-81-l-6-page1.txt stays, for the parser's own
+tests, but it is not a route the monitor has any more). A draft is known
+only when something the monitor CAN read names it: a PGA letter ("to be
+annexed to draft resolution A/81/L.6") or a Journal agenda ("Item 129: Draft
+resolution (A/81/L.6)"), through src/un_signals.drafts_named, exactly as
+tools/un_forward.py does when docs.un.org is refused. The informal
+consultations in the same Journal payload are replayed too (none of them is
+on our ground). Result: A/81/L.6 surfaces on 7 October (the letter), not 5
+October; nothing on 5 and 6 October.
+
 What each day could see is decided by each item's OWN date, never by
 hindsight:
-  * the draft, from its date line ("5 October 2026");
+  * a draft, from the date it was NAMED (the letter's or the listing's);
+  * a consultation, from its own meeting date (conservative: the Journal
+    lists it some days ahead);
   * the PGA letter, from its date on the letters listing (7 October 2026);
   * the plenary listing, from the latest PGA letter its Journal programme
     notes cite ("Letters from the President of the General Assembly, dated
@@ -50,8 +66,7 @@ def listed_from(meeting):
 
 
 def load():
-    """(letters, plenaries, drafts) from the fixtures, classified."""
-    tax, wl = un_filter()
+    """(letters, plenaries, consultations) from the fixtures."""
     letters = pga_letters.parse_letters(fixture_text("pga-letters-81.html.gz"))
     for letter in letters:
         if letter.url.endswith("letter-pandemic-prevention-declaration-7-october-2026/"):
@@ -65,29 +80,36 @@ def load():
         for key, name in details.items():
             if m.id.startswith(key):
                 m.agenda, m.programme, m.symbols = un_calendar.parse_meeting_detail(fixture_json(name))
-    drafts = []
-    for symbol, name in (("A/81/L.6", "a-81-l-6-page1.txt"), ("A/81/L.3", "a-81-l-3-page1.txt")):
-        d = un_docs.parse_draft(symbol, fixture_text(name))
-        drafts.append(un_signals.DraftInfo(
-            symbol=symbol, title=d.topic or "", dated=un_signals.parse_un_date(d.dated or ""),
-            areas=filt.filter_item(tax, wl, d.classify_on).issue_areas,
-            url=un_docs.doc_url(symbol), agenda_item=d.agenda_item))
-    return letters, plenaries, drafts
+    consultations = un_calendar.parse_ga_consultations(fixture_json("journal-ga-2026-10-01.json"))
+    return letters, plenaries, consultations
 
 
-def as_of(day, letters, plenaries, drafts):
+def drafts_as_of(day, letters, plenaries):
+    """The drafts `day` could know of: named by a letter dated by then or a
+    listing visible by then (docs.un.org's PDFs are not read; see above)."""
+    tax, wl = un_filter()
+    seen = [l for l in letters if l.dated <= day]
+    visible = [m for m in plenaries if (listed_from(m) or day) <= day]
+    return un_signals.drafts_named(seen, visible, tax, wl, meeting_date=listed_from,
+                                   doc_url=un_docs.doc_url)
+
+
+def as_of(day, letters, plenaries, consultations=()):
     """(due_soon, first_signs) as `day` would have seen them (stateless)."""
     tax, wl = un_filter()
     visible = [m for m in plenaries if (listed_from(m) or day) <= day]
-    signals = un_signals.build_signals(letters, visible, drafts, tax, wl, as_of=day)
+    drafts = drafts_as_of(day, letters, plenaries)
+    held = [c for c in consultations if c.starts.date() <= day]
+    signals = un_signals.build_signals(letters, visible, drafts, tax, wl, as_of=day,
+                                       consultations=held)
     return un_signals.due_soon(signals, day), un_signals.first_signs(signals, day)
 
 
 def main():
-    letters, plenaries, drafts = load()
+    letters, plenaries, consultations = load()
     day = datetime.date(2026, 10, 5)
     while day < VOTE:
-        due, first = as_of(day, letters, plenaries, drafts)
+        due, first = as_of(day, letters, plenaries, consultations)
         left = (VOTE - day).days
         print("=== as of {0} ({1} day{2} before the vote) ===".format(
             day.strftime("%a %d %B %Y"), left, "" if left == 1 else "s"))

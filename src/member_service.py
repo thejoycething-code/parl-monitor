@@ -1087,6 +1087,9 @@ def fetch_fr(conn, client, today, log=print, **_):
 
 def fetch_at(conn, client, today, log=print, budget=None, **_):
     import urllib.robotparser
+    from src import robots_guard
+    # Redirect hops asked of robots.txt too (13 October 2026).
+    robots_guard.check_redirects(client, FEED)
     members = {str(a): b for a, b in conn.execute("SELECT pad, klub FROM at_members")}
     robots = None
     try:

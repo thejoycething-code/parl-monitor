@@ -23,6 +23,7 @@ client code that fetches it.
 | UN Journal API, GA plenaries (13 Oct 2026) | General Assembly plenaries and high-level meetings, with each meeting's agenda and draft symbols | `GlobalCalendar` with the General Assembly organ (`9615d07d-d53c-e711-84fb-0050569f00b6`). A plenary's title is only a number, so `GET officials/<meeting id>` (headers `location`, `language`) is read for the agenda ("Global health and foreign policy - Item 129: Draft resolution (A/81/L.6)") and programme notes (which PGA letters announced it). About a week ahead. |
 | PGA letters (13 Oct 2026) | Every letter of the President of the General Assembly to member states, dated, with title, PDF and a summary page | `www.un.org/pga/81/documents/letters/` (the session number moves each September). Plain HTML; robots.txt allows it with Crawl-delay 10, honoured. Not challenged. Where plenary votes are announced first: the 7 October 2026 letter named the 12 October vote on the pandemic declaration. |
 | docs.un.org, GA plenary drafts (13 Oct 2026) | `A/81/L.n`, the series political declarations are adopted from | Same walk and first-page parse as `A/C.3/81/L.n`. A President's draft has no sponsor list; its title follows "submitted by the President". |
+| ~~docs.un.org~~ **refused since 13 Oct 2026** | | `?direct=true` now redirects to `documents.un.org/api/symbol/access`, which `documents.un.org/robots.txt` disallows. Every docs.un.org row in the check log says "could not read: robots.txt disallows (documents.un.org)". See the section at the end. |
 
 ## Not available, with the reason
 
@@ -217,8 +218,76 @@ only on `www.ohchr.org` (Cloudflare challenge) and tbinternet (robots.txt).
 Worth asking, by a human: whether OHCHR would allow an identified monitor on
 tbinternet.
 
-**Open, found while probing:** `docs.un.org/<symbol>?direct=true`, the route the
-draft-resolution walks (`src/ingest/un_docs.py`) and the session reports use,
-now answers `302` to `documents.un.org/api/symbol/access`, a path
-`documents.un.org/robots.txt` disallows. The redirect is followed by the HTTP
-client without a second robots check. Not changed here; raised with Chris.
+**Found while probing, fixed 13 October 2026 (below):** `docs.un.org/<symbol>?direct=true`,
+the route the draft-resolution walks (`src/ingest/un_docs.py`) and the session
+reports use, now answers `302` to `documents.un.org/api/symbol/access`, a path
+`documents.un.org/robots.txt` disallows. The HTTP client followed the redirect
+without a second robots check.
+
+
+## docs.un.org redirects to a disallowed path (13 October 2026)
+
+`docs.un.org/en/A/81/L.6?direct=true` answers `302` to
+`documents.un.org/api/symbol/access?s=A/81/L.6&l=en&t=pdf`, and
+`documents.un.org/robots.txt` reads `User-agent: *` / `Disallow: /doc`,
+`/access`, `/api`. (`docs.un.org/robots.txt` itself answers the language picker
+page: no rules.)
+
+**The client fix, general, not UN only.** `src/http.HttpClient` now asks
+robots.txt about EVERY hop of a redirect chain before requesting it
+(`_RedirectHandler`; an opener a collector passes in has its redirect handler
+wrapped the same way). Every robots-checked wrapper registers itself as a
+redirect guard: `src/robots_guard.GuardedClient` and `guard()`, and
+`src/prov_fetch.Context` (the provinces, US/AU/... state collectors). The
+collectors with their own `urllib.robotparser` first-URL check register through
+`robots_guard.check_redirects` (`src/member_service.fetch_at`,
+`src/agendas/at.py`, `tools/at_rollcalls.py`); the urllib one-off probes open
+through `robots_guard.probe_urlopen` (`tools/nic_probe.py`, `ve_probe.py`,
+`ve_news_crawl.py`). A refused hop raises `RobotsRefused`
+("robots.txt disallows <hop> (redirected from <first url>); not fetched"),
+nothing is sent to the refused URL, and it is never served from the day's
+archive. A robots.txt file is always fetchable; a hop under a documented API or
+a written permission passes unasked, as a first URL does. Tests:
+`tests/test_robots_redirects.py` (a real HttpClient over an in-memory web).
+
+**The UN side.** Every `un_docs` fetch goes through the robots guard. A walk
+stops at the first refusal (every symbol goes the same way) and the forward
+look's check log says, for each docs.un.org row, `COULD NOT READ  robots.txt
+disallows (documents.un.org): docs.un.org redirects to
+https://documents.un.org/api/symbol/access`; the DM adds "new drafts are
+unknown, not zero". `tools/un_drafts.py` and `tools/un_votes.py` print
+`could not read: robots.txt disallows (documents.un.org)` and exit 2. The HRC
+session reports (`A/HRC/NN/2`, the voting records) go the same way: no
+alternative found yet.
+
+### Alternative routes for GA and Third Committee drafts, tried 13 October 2026
+
+Every request with the honest User-Agent, seconds apart.
+
+| Tried | robots.txt | Result | Used? |
+|---|---|---|---|
+| PGA letters, `www.un.org/pga/81/documents/letters/` | allows, Crawl-delay 10 | a letter submitting a draft names it ("to be annexed to draft resolution A/81/L.6") and says what it is | **YES**: a draft named there is known by symbol, the letter's subject and date (`un_signals.drafts_named`) |
+| UN Journal API, GA plenary agendas (`journal-api.un.org`) | 404 (no rules) | "Global health and foreign policy - Item 129: Draft resolution (A/81/L.6)" about a week ahead | **YES** (already read); now also a source of named drafts |
+| UN Journal API, GA calendar, informal consultations | 404 | "Informal consultations on the draft resolution entitled ... (under agenda item 9) (convened by ...)": the draft's title before it has a symbol | **YES**: `un_calendar.parse_ga_consultations`, a CONSULT first sign when on our ground; same payload, no extra request |
+| UN Journal API, Third Committee official meetings (`officials/<id>`) | 404 | the agenda names the item and, once action begins (late October), the `A/C.3/81/L.n` drafts acted on | **YES**: `un_calendar.fetch_committee_drafts`, the next 14 days, at most 15 requests |
+| UN Journal, Third Committee informal consultations | 404 | the Journal only says the schedule "is available on iGov" | no |
+| `igov.un.org` (iGov portal) | the path answers the app page (no rules) | the proposals list its own app loads (`igov/api/proposals/<session>/<committee>`) answers an empty list for sessions 80 and 81; not explored further | no; re-check once Third Committee action begins |
+| `www.un.org/en/ga/info/draft/` | allows | a stale list of A/66/L.n | no |
+| `www.un.org/en/ga/third/81/documentation.shtml` | allows | lists L.1 (organisation of work) only, linking to undocs.org | no |
+| `press.un.org` meetings coverage | allows (not `/search/`) | names drafts and votes on the day of action: after the first sign | not wired |
+| `digitallibrary.un.org` | disallows `/search`, `/rss` | records can be found only by search | no |
+| `research.un.org` | allows `*` (Crawl-delay 10; AI crawlers named) | research guides linking to docs.un.org | no |
+| `daccess-ods.un.org`, `documents-dds-ny.un.org` | disallow the document paths | | no |
+| Wayback Machine or any other cache | not tried on purpose | | no |
+
+**Backtest** (`tools/un_backtest.py`, replaying the archived responses through
+the new route honestly; the old first-page fixture is kept for the parser's own
+tests but is no longer a route): A/81/L.6 is flagged from **7 October** (named
+by the PGA letter, area 7, due 12 October), with the 18th and 19th plenary
+listings from 8 October. **5 and 6 October now show nothing**: the draft's own
+PDF, dated 5 October, is out of reach, and nothing readable named it before
+the letter. Two days of lead lost, five days still ahead of the vote.
+
+Worth asking, by a human: whether the UN's Documents Management would allow an
+identified monitor on `documents.un.org/api/symbol/access`, or publishes the
+documents feed it serves to `docs.un.org`.

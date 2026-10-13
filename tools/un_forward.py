@@ -55,7 +55,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from src import db, filter as filt, robots_guard, un_checks, un_signals, un_store  # noqa: E402
-from src.http import FetchError, HttpClient  # noqa: E402
+from src.http import FetchError, HttpClient, RobotsRefused  # noqa: E402
 from src.ingest import ohchr_calls, pga_letters, un_calendar, un_docs  # noqa: E402
 
 sys.path.insert(0, os.path.join(ROOT, "tools"))
@@ -143,17 +143,38 @@ def _info(doc, draft, areas):
                                 agenda_item=draft.agenda_item)
 
 
-def collect_drafts(client, checks, session, known, named, tax, wl, walk=True, log=print):
+def collect_drafts(client, checks, session, known, named, tax, wl, walk=True, log=print,
+                   mentions=(), mention_date=None):
     """Drafts for linking: the store's, a resumed walk of each series, and
     any symbol a plenary agenda or PGA letter names. Returns (DraftInfo
-    list, rows to store in un_documents as (doc, draft, areas, body))."""
+    list, rows to store in un_documents as (doc, draft, areas, body)).
+
+    ROBOTS.TXT (13 October 2026): docs.un.org now redirects every symbol to
+    documents.un.org/api/symbol/access, which documents.un.org/robots.txt
+    disallows, and the client refuses that hop (RobotsRefused). The first
+    refusal ends every docs.un.org read this run (each would go the same
+    way); each docs.un.org row in the check log then says "could not read:
+    robots.txt disallows (documents.un.org)", so the DM calls new drafts
+    unknown, not zero. `mentions` (PGA letters, Journal meetings with their
+    agendas read) then stand in: a draft they name is known by its symbol
+    and what they say of it (un_signals.drafts_named), never stored in
+    un_documents (it was not read), and listed in its own check row.
+    """
     infos = dict(known)
     stored = []
+    refused = None
     if walk:
         for label, pattern, body in DRAFT_SERIES:
+            if refused is not None:
+                checks.failed("docs.un.org " + label, refused)
+                continue
             start = _series_start(known, pattern, session)
             try:
                 found, checked, errors = un_docs.walk_drafts(client, pattern, session, start=start)
+            except RobotsRefused as exc:
+                refused = un_docs.refusal_detail(exc)
+                checks.failed("docs.un.org " + label, refused)
+                continue
             except Exception as exc:   # pragma: no cover - walk_drafts catches per symbol
                 checks.failed("docs.un.org " + label, exc)
                 continue
@@ -176,8 +197,15 @@ def collect_drafts(client, checks, session, known, named, tax, wl, walk=True, lo
     if missing:
         docs, failed = [], []
         for symbol in missing:
+            if refused is not None:
+                failed.append(symbol)
+                continue
             try:
                 doc = un_docs.head(client, symbol)
+            except RobotsRefused as exc:
+                refused = un_docs.refusal_detail(exc)
+                failed.append(symbol)
+                continue
             except Exception as exc:
                 failed.append("{0} ({1})".format(symbol, str(_why(exc))[:60]))
                 continue
@@ -187,7 +215,10 @@ def collect_drafts(client, checks, session, known, named, tax, wl, walk=True, lo
             infos[doc.symbol] = _info(doc, draft, areas)
             body = "Third Committee" if "/C.3/" in doc.symbol else "General Assembly"
             stored.append((doc, draft, areas, body))
-        if failed and not docs:
+        if refused is not None and not docs:
+            checks.failed("docs.un.org named drafts", "{0} [{1} named: {2}]".format(
+                refused, len(failed), ", ".join(failed[:6])))
+        elif failed and not docs:
             checks.failed("docs.un.org named drafts", "; ".join(failed))
         else:
             checks.read("docs.un.org named drafts", docs,
@@ -197,6 +228,21 @@ def collect_drafts(client, checks, session, known, named, tax, wl, walk=True, lo
     elif not walk:
         checks.read("docs.un.org named drafts", [],
                     detail="no new symbol named; walk skipped this run")
+    # The alternative route: drafts known from what names them.
+    letters = [m for m in mentions if hasattr(m, "dated")]
+    meetings = [m for m in mentions if not hasattr(m, "dated")]
+    by_mention = [d for d in un_signals.drafts_named(letters, meetings, tax, wl,
+                                                     meeting_date=mention_date,
+                                                     doc_url=un_docs.doc_url)
+                  if d.symbol not in infos]
+    for d in by_mention:
+        infos[d.symbol] = d
+    if refused is not None or by_mention:
+        checks.read("Drafts named by PGA letters and Journal agendas", by_mention,
+                    key=lambda i: (i.dated or datetime.date.min),
+                    title=lambda i: "{0} {1}".format(i.symbol, i.title),
+                    detail="symbol and context only; the draft's text is not read"
+                    + (" (docs.un.org refused by robots.txt)" if refused else ""))
     return list(infos.values()), stored
 
 
@@ -254,6 +300,7 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
         checks.failed("CSW sessions (UN Women)", _why(exc))
         gaps.append("CSW sessions: {0}".format(_why(exc)))
 
+    c3_read = []
     try:
         meetings, why = un_calendar.fetch_journal_meetings(client, start=today,
                                                            days=min(days, JOURNAL_DAYS))
@@ -261,8 +308,18 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
             # A range past the last Journal issue: the source answered, and
             # said it has nothing that far ahead. Read, empty, with the reason.
             gaps.append("Third Committee: {0}".format(why))
+        # The agendas of the committee's official meetings over the next two
+        # weeks name the drafts it acts on (13 October 2026): the route to
+        # A/C.3/81/L.n now that docs.un.org is refused by robots.txt.
+        c3_read, c3_failures = un_calendar.fetch_committee_drafts(
+            client, meetings, today, today + datetime.timedelta(days=14))
+        gaps.extend("Third Committee: " + f for f in c3_failures)
+        detail = why or ""
+        if c3_read or c3_failures:
+            detail = "; ".join(x for x in (detail, "{0} agenda(s) read{1}".format(
+                len(c3_read), ", {0} not".format(len(c3_failures)) if c3_failures else "")) if x)
         checks.read("UN Journal: Third Committee", meetings, key=lambda m: m.starts,
-                    title=lambda m: m.title, detail=why or "")
+                    title=lambda m: m.title, detail=detail)
         for m in meetings:
             rows.append((m.starts.date(), "MEETING",
                          "{0}: {1}".format(m.organ, m.title),
@@ -278,10 +335,11 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
     # when on our ground; un_signals decides, after the drafts are known.
     # Asked from a week back, so a plenary listed since the last weekly run
     # and already held still counts as read.
-    plenaries = []
+    plenaries, consultations = [], []
     try:
         plenaries, why, failures = un_calendar.fetch_ga_plenaries(
-            client, start=today - datetime.timedelta(days=7), days=min(days, JOURNAL_DAYS) + 7)
+            client, start=today - datetime.timedelta(days=7), days=min(days, JOURNAL_DAYS) + 7,
+            consultations=consultations)
         if why:
             gaps.append("GA plenaries: {0}".format(why))
         gaps.extend("GA plenaries: " + f for f in failures)
@@ -291,6 +349,9 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
             detail = why or ""
             if failures:
                 detail = "{0} agenda(s) not read".format(len(failures))
+            if consultations:
+                detail = "; ".join(x for x in (detail, "{0} informal consultation(s) on "
+                                               "drafts".format(len(consultations))) if x)
             checks.read("UN Journal: GA plenaries", plenaries, key=lambda m: m.starts,
                         title=lambda m: m.title, detail=detail)
     except Exception as exc:
@@ -310,14 +371,15 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
         gaps.append("PGA letters: {0}".format(_why(exc)))
 
     named = []
-    for item in list(plenaries) + list(letters):
+    for item in list(plenaries) + list(c3_read) + list(letters):
         for s in un_signals.draft_symbols(item.symbols):
             if s not in named:
                 named.append(s)
     session = pga_letters.session_for(today)
     known = known_drafts(conn)
     drafts, drafts_to_store = collect_drafts(client, checks, session, known, named,
-                                             tax, wl, walk=walk, log=log)
+                                             tax, wl, walk=walk, log=log,
+                                             mentions=list(letters) + list(plenaries) + list(c3_read))
 
     try:
         upr = un_calendar.fetch_upr_sessions(client)
@@ -416,7 +478,9 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
                       "alternative found (docs/un-sources.md)")
         gaps.append("calls for input: {0}".format(_why(exc)))
 
-    signals = un_signals.build_signals(letters, plenaries, drafts, tax, wl, as_of=today)
+    signals = un_signals.build_signals(letters, plenaries, drafts, tax, wl, as_of=today,
+                                       consultations=consultations,
+                                       committee_meetings=c3_read)
     for s in signals:
         if not un_signals.in_forward_look(s, today, days):
             continue

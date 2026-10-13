@@ -17,7 +17,7 @@ from pathlib import Path
 
 UA = "CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from src.robots_guard import probe_refusal  # noqa: E402  robots.txt asked at run time
+from src.robots_guard import probe_refusal, probe_urlopen  # noqa: E402  robots.txt asked at run time
 OUT = Path(__file__).resolve().parent.parent / "data" / "raw" / "ve-probe"
 
 
@@ -34,7 +34,7 @@ def probe(url: str, verify: bool = True) -> None:
     t0 = time.monotonic()
     slug = re.sub(r"[^A-Za-z0-9]+", "_", url)[:120]
     try:
-        with urllib.request.urlopen(req, timeout=30, context=ctx) as r:
+        with probe_urlopen(req, "ve-probe", timeout=30, context=ctx) as r:
             body = r.read()
             status, ctype, final = r.status, r.headers.get("Content-Type"), r.geturl()
     except urllib.error.HTTPError as e:

@@ -92,6 +92,18 @@ def build_message(calls, tax, wl, top=None, checks=None):
                   "{0} open, {1} touching our issues, {2} closing within {3} days."
                   .format(len(calls), len(flagged), len(urgent), URGENT_DAYS), ""]
 
+    # Draft resolutions (13 October 2026): docs.un.org redirects to
+    # documents.un.org/api/..., which robots.txt disallows. When it could not
+    # be read the number of new drafts is unknown, never zero.
+    drafts_unread = [c for c in (checks.checks if checks is not None else [])
+                     if c.source.startswith("docs.un.org") and c.status == "could not read"]
+    if drafts_unread:
+        why = drafts_unread[0].detail.split(":", 1)[0]
+        lines += ["*Draft resolutions*",
+                  "COULD NOT READ docs.un.org this run ({0}), so new drafts are unknown, "
+                  "not zero. Drafts named by PGA letters and Journal agendas are still "
+                  "caught (above, and in the check log).".format(why), ""]
+
     if flagged:
         lines.append("*Ours*")
         for call, hits in flagged:

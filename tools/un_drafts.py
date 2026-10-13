@@ -32,7 +32,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from src import db, filter as filt
-from src.http import HttpClient
+from src.http import HttpClient, RobotsRefused
 from src.ingest import un_docs
 
 GA_EPOCH = 1945
@@ -126,7 +126,13 @@ def main():
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     print("walking {0} session {1} (up to L.{2}); ~10s per symbol"
           .format(body, session, max_n), flush=True)
-    docs, checked = un_docs.enumerate_drafts(client, pattern, session, max_n=max_n)
+    try:
+        docs, checked = un_docs.enumerate_drafts(client, pattern, session, max_n=max_n)
+    except RobotsRefused as exc:
+        # 13 October 2026: docs.un.org redirects to documents.un.org/api/...,
+        # which robots.txt disallows. Unknown, not "none yet".
+        print("could not read: {0} ({1})".format(un_docs.refusal_note(exc), exc.reason))
+        return 2
     print("{0} draft(s) found from {1} checks".format(len(docs), checked))
     if not docs:
         print("none yet -- drafts appear once the session is under way, and "

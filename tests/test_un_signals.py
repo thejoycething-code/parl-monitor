@@ -25,10 +25,13 @@ D = datetime.date
 class LinkingTests(unittest.TestCase):
     def setUp(self):
         self.tax, self.wl = un_filter()
-        self.letters, self.plenaries, self.drafts = un_backtest.load()
+        self.letters, self.plenaries, _consultations = un_backtest.load()
 
     def signals(self, day):
-        return un_signals.build_signals(self.letters, self.plenaries, self.drafts,
+        # Drafts as the new route knows them (13 October 2026): named by a
+        # letter or an agenda visible that day; docs.un.org is refused.
+        drafts = un_backtest.drafts_as_of(day, self.letters, self.plenaries)
+        return un_signals.build_signals(self.letters, self.plenaries, drafts,
                                         self.tax, self.wl, as_of=day)
 
     def test_the_plenary_is_ours_through_the_draft_it_acts_on(self):
@@ -56,14 +59,26 @@ class LinkingTests(unittest.TestCase):
     def test_as_of_hides_what_did_not_exist_yet(self):
         ids = [s.id for s in self.signals(D(2026, 10, 6))]
         self.assertNotIn("letter:letter-pandemic-prevention-declaration-7-october-2026", ids)
-        self.assertIn("draft:A/81/L.6", ids)
+        # The draft is known only once something readable names it: its PDF
+        # (dated 5 October) is behind documents.un.org's robots.txt.
+        self.assertNotIn("draft:A/81/L.6", ids)
+        self.assertIn("draft:A/81/L.6", [s.id for s in self.signals(D(2026, 10, 7))])
+
+    def test_a_draft_known_by_name_says_so(self):
+        d = [s for s in self.signals(D(2026, 10, 8)) if s.id == "draft:A/81/L.6"][0]
+        self.assertEqual(d.areas, [7])
+        self.assertEqual(d.sign_date, D(2026, 10, 7))
+        self.assertIn("named by PGA letter of 7 October 2026 (text not read)", d.detail)
+        self.assertNotIn("tabled", d.detail)
+        self.assertIn("political declaration on pandemic prevention", d.title)
 
 
 class AlertTests(unittest.TestCase):
     def setUp(self):
         tax, wl = un_filter()
-        letters, plenaries, drafts = un_backtest.load()
+        letters, plenaries, _c = un_backtest.load()
         self.day = D(2026, 10, 8)
+        drafts = un_backtest.drafts_as_of(self.day, letters, plenaries)
         self.signals = un_signals.build_signals(letters, plenaries, drafts, tax, wl, as_of=self.day)
 
     def test_due_within_14_days(self):
@@ -111,8 +126,9 @@ class AlertTests(unittest.TestCase):
 class DmTests(unittest.TestCase):
     def collected(self):
         tax, wl = un_filter()
-        letters, plenaries, drafts = un_backtest.load()
+        letters, plenaries, _c = un_backtest.load()
         day = D(2026, 10, 8)
+        drafts = un_backtest.drafts_as_of(day, letters, plenaries)
         signals = un_signals.build_signals(letters, plenaries, drafts, tax, wl, as_of=day)
         checks = un_checks.CheckLog()
         checks.read("PGA letters (un.org/pga)", letters, key=lambda l: l.dated,

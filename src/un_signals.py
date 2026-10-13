@@ -57,11 +57,16 @@ class DraftInfo:
     areas: list = field(default_factory=list)
     url: str = ""
     agenda_item: int = None
+    # Set when the draft's own text could not be read and it is known only
+    # because something named it (13 October 2026: docs.un.org's redirect to
+    # documents.un.org/api/..., which robots.txt disallows): "PGA letter" or
+    # "Journal agenda". `dated` is then the date it was named, not tabled.
+    named_by: str = ""
 
 
 @dataclass
 class Signal:
-    kind: str                       # DRAFT | PLENARY | LETTER
+    kind: str                       # DRAFT | PLENARY | LETTER | CONSULT
     id: str
     title: str
     sign_date: datetime.date = None  # when it was tabled or announced
@@ -96,6 +101,75 @@ def draft_symbols(symbols):
     return [s for s in symbols if _DRAFT_SYMBOL.search(s)]
 
 
+_LETTER_SUBJECT = re.compile(r"^(?:submission|transmission|circulation) of (?:the )?", re.I)
+_LETTER_TAIL = re.compile(r"\s+to the General Assembly\b.*$|,\s*\d{1,2} \w+ 20\d\d$", re.I)
+_AGENDA_SEGMENT = re.compile(r"^(?P<subject>.+?) - Item (?P<item>\d+)")
+
+
+def _letter_subject(title):
+    """'Submission of the political declaration on X to the General Assembly
+    for adoption, 12 October 2026' -> 'political declaration on X'."""
+    text = _LETTER_TAIL.sub("", _LETTER_SUBJECT.sub("", title or "").strip())
+    return text.strip(" ,.") or (title or "")
+
+
+def _agenda_subject(agenda, symbol):
+    """(subject, item) of the agenda segment that names `symbol`:
+    'Global health and foreign policy - Item 129: Draft resolution
+    ( A/81/L.6 )' -> ('Global health and foreign policy', 129)."""
+    for seg in (agenda or "").split(" ; "):
+        if re.search(re.escape(symbol) + r"(?![\d/])", seg.replace(" ", "")):
+            m = _AGENDA_SEGMENT.match(seg.strip())
+            if m:
+                return m.group("subject").strip(), int(m.group("item"))
+    return "", None
+
+
+def drafts_named(letters, meetings, tax, wl, meeting_date=None, doc_url=None):
+    """DraftInfo for every draft symbol a PGA letter or a Journal agenda
+    names, built from what names it (13 October 2026).
+
+    The draft's own PDF is behind docs.un.org's redirect to
+    documents.un.org/api/..., which documents.un.org/robots.txt disallows,
+    so its title and date cannot be read. What names it still says what it
+    is: a PGA letter's title ("Submission of the political declaration on
+    pandemic prevention, preparedness and response ...", classified on the
+    letter's whole text) and a Journal agenda's item ("Global health and
+    foreign policy - Item 129"). `dated` is when it was NAMED (the letter's
+    date; for a meeting, meeting_date(m) when given, else None), and
+    named_by says by what, so nothing claims a tabling date it never read.
+    """
+    out = {}
+    for l in letters or []:
+        for s in draft_symbols(getattr(l, "symbols", ()) or ()):
+            areas = filt.filter_item(tax, wl, l.match_text).issue_areas
+            d = out.get(s)
+            if d is None:
+                out[s] = DraftInfo(symbol=s, title=_letter_subject(l.title), dated=l.dated,
+                                   areas=list(areas), url=doc_url(s) if doc_url else "",
+                                   named_by="PGA letter")
+                continue
+            d.areas = _merge(d.areas, areas)
+            if l.dated and (d.dated is None or l.dated < d.dated):
+                d.dated, d.named_by, d.title = l.dated, "PGA letter", _letter_subject(l.title)
+    for m in meetings or []:
+        when = meeting_date(m) if meeting_date else None
+        for s in draft_symbols(getattr(m, "symbols", ()) or ()):
+            subject, item = _agenda_subject(m.agenda, s)
+            areas = filt.filter_item(tax, wl, subject).issue_areas if subject else []
+            d = out.get(s)
+            if d is None:
+                out[s] = DraftInfo(symbol=s, title=subject, dated=when, areas=list(areas),
+                                   url=doc_url(s) if doc_url else "", agenda_item=item,
+                                   named_by="Journal agenda")
+                continue
+            d.areas = _merge(d.areas, areas)
+            d.agenda_item = d.agenda_item or item
+            if when and (d.dated is None or when < d.dated):
+                d.dated, d.named_by = when, "Journal agenda"
+    return list(out.values())
+
+
 def _merge(*area_lists):
     out = set()
     for a in area_lists:
@@ -103,7 +177,8 @@ def _merge(*area_lists):
     return sorted(out)
 
 
-def build_signals(letters, plenaries, drafts, tax, wl, as_of=None):
+def build_signals(letters, plenaries, drafts, tax, wl, as_of=None, consultations=(),
+                  committee_meetings=()):
     """Every item on our ground, plus every flagged PGA letter, linked.
 
     letters: pga_letters.Letter; plenaries: un_calendar.Meeting (with
@@ -111,6 +186,11 @@ def build_signals(letters, plenaries, drafts, tax, wl, as_of=None):
     is what a backtest needs (a letter of 7 October did not exist on 6
     October). Returns Signals; a letter is kept when flagged even if not on
     our ground, so the forward look can list it unmarked.
+
+    consultations (13 October 2026): un_calendar.Consultation, informal
+    consultations on a draft, a CONSULT signal when the draft's title is on
+    our ground. committee_meetings: Third Committee meetings with their
+    agendas read; only used to date the drafts they act on.
     """
     by_symbol = {d.symbol: d for d in drafts
                  if not (as_of and d.dated and d.dated > as_of)}
@@ -125,7 +205,25 @@ def build_signals(letters, plenaries, drafts, tax, wl, as_of=None):
         if day and (symbol not in due or day < due[symbol]):
             due[symbol] = day
 
+    for m in committee_meetings or ():
+        for s in draft_symbols(m.symbols):
+            note_due(s, m.starts.date())
+
     out = []
+    for c in consultations or ():
+        areas = filt.filter_item(tax, wl, c.match_text).issue_areas
+        if not areas:
+            continue
+        bits = [c.starts.strftime("%H:%M") + " informal consultations"]
+        if c.agenda_item:
+            bits.append("agenda item {0}".format(c.agenda_item))
+        if c.convened_by:
+            bits.append("convened by " + c.convened_by)
+        out.append(Signal(kind="CONSULT", id="consult:" + (c.id or c.title[:60]),
+                          title="Draft in negotiation: " + (c.draft_title or c.title),
+                          sign_date=None, due=c.starts.date(), areas=areas,
+                          url=c.url, detail="; ".join(bits), obj=c))
+
     for m in plenaries:
         own = filt.filter_item(tax, wl, m.title, m.agenda).issue_areas
         named = draft_symbols(m.symbols)
@@ -164,7 +262,11 @@ def build_signals(letters, plenaries, drafts, tax, wl, as_of=None):
     for d in by_symbol.values():
         if not d.areas:
             continue
-        detail = "tabled {0}".format(d.dated.strftime("%d %B %Y").lstrip("0") if d.dated else "(date unread)")
+        if d.named_by:
+            detail = "named by {0}{1} (text not read)".format(
+                d.named_by, " of " + d.dated.strftime("%d %B %Y").lstrip("0") if d.dated else "")
+        else:
+            detail = "tabled {0}".format(d.dated.strftime("%d %B %Y").lstrip("0") if d.dated else "(date unread)")
         if d.agenda_item:
             detail += ", agenda item {0}".format(d.agenda_item)
         if d.symbol in due:
@@ -204,6 +306,11 @@ def first_signs(signals, today, new_ids=None, days=FIRST_SIGN_DAYS):
         if s.sign_date and 0 <= (today - s.sign_date).days <= days:
             out.append(s)
         elif s.kind == "PLENARY" and s.due and 0 <= (s.due - today).days <= DUE_SOON_DAYS:
+            out.append(s)
+        elif (s.kind == "CONSULT" and s.due
+              and -days <= (s.due - today).days <= DUE_SOON_DAYS):
+            # A consultation has no date of its own but its meeting's; one
+            # held in the last week is still a first sign of the draft.
             out.append(s)
     return out
 

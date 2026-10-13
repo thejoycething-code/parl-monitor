@@ -4,7 +4,7 @@ import sys, re, time, json, gzip, html, urllib.request
 from pathlib import Path
 sys.path.insert(0, 'tools')
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from src.robots_guard import probe_refusal  # noqa: E402  robots.txt asked at run time
+from src.robots_guard import probe_refusal, probe_urlopen  # noqa: E402  robots.txt asked at run time
 UA = "CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
 OUT = Path('data/raw/ve-probe/news'); OUT.mkdir(parents=True, exist_ok=True)
 B = "https://www.asambleanacional.gob.ve"
@@ -17,7 +17,7 @@ def get(url):
         ERR.append((url, why)); return ""
     time.sleep(2)
     try:
-        with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=30) as r:
+        with probe_urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), "ve-probe", timeout=30) as r:
             b = r.read()
     except Exception as e:
         ERR.append((url, str(e))); return ""
