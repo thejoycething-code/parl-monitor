@@ -88,6 +88,10 @@ def routes(saij=None, caba=None):
         ("Asuntos.aspx?id=", read("cba-session.html")),
         ("Asuntos.aspx", read("cba-sessions.html")),
         ("senadoer.gob.ar/buscador-proyectos", read("er-sen.html")),
+        ("web.legisrn.gov.ar", read("rn.html")),
+        ("larus.legislaturadelchubut.gob.ar", read("chu.json")),
+        ("legislaturajujuy.gov.ar", read("juj.json")),
+        ("hcdcorrientes.gov.ar", read("ctes-dip.html")),
     ]
 
 
@@ -172,6 +176,37 @@ class Parsers(unittest.TestCase):
         self.assertTrue(any(r["sanctioned"] for r in got))
 
 
+    def test_rn(self):
+        got = R.parse_rn(read("rn.html"))
+        self.assertEqual(len(got), 5)
+        self.assertEqual(got[0]["bill_key"], "rn:1256/2026")
+        self.assertEqual(got[0]["kind"], "declaracion")
+        self.assertEqual(got[0]["author"], "SCAVO Roberta")
+        self.assertIsNone(got[0]["presented"])       # new by the day first listed
+        self.assertTrue(got[0]["url"].startswith("https://web.legisrn.gov.ar/legislativa/proyectos/ver?c=P&n=1256"))
+
+    def test_chu_keeps_no_staff_logins(self):
+        got = R.parse_chu(read("chu.json"))
+        self.assertEqual(got[0]["bill_key"], "chu:PL120/2026")
+        self.assertEqual(got[0]["kind"], "ley")
+        self.assertEqual(got[0]["presented"], "2026-10-09")
+        self.assertTrue(got[0]["status"].startswith("Comisiones"))
+        self.assertNotIn("@", json.dumps(got))
+
+    def test_juj(self):
+        got = R.parse_juj(read("juj.json"))
+        self.assertEqual(got[0]["bill_key"], "juj:18-CC-26")
+        self.assertEqual(got[0]["presented"], "2026-10-01")
+
+    def test_ctes(self):
+        got = {r["expediente"]: r for r in R.parse_ctes(read("ctes-dip.html"))}
+        self.assertEqual(len(got), 5)
+        self.assertEqual(got["20431"]["kind"], "ley")
+        self.assertEqual(got["20431"]["author"], "Senadora Ascúa")
+        self.assertEqual(got["20459"]["sanctioned"], 1)
+        self.assertEqual(got["20459"]["presented"], "2026-09-23")
+
+
 class Collect(unittest.TestCase):
 
     def test_weekly_read_stores_every_source(self):
@@ -185,6 +220,10 @@ class Collect(unittest.TestCase):
         self.assertEqual(n["caba"], 4)
         self.assertEqual(n["ba-dip"], 4)
         self.assertEqual(n["er-sen"], 10)
+        self.assertEqual(n["rn"], 5)
+        self.assertEqual(n["chu"], 4)
+        self.assertEqual(n["juj"], 4)
+        self.assertEqual(n["ctes-dip"], 5)
         # Córdoba: only sessions in the last CBA_SESSION_DAYS, each read once
         cba_reads = [u for u in client.asked if "Asuntos.aspx?id=" in u]
         self.assertTrue(cba_reads)

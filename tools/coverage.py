@@ -594,7 +594,7 @@ FEEDS = [
     # stamped for every source on every run (failures included, with their
     # status); arp_laws.last_seen for every law in SAIJ's newest 200 rows
     # (about two months of laws) and arp_bills.last_seen for every expediente
-    # the four lists still show (CABA re-lists four months), so all move weekly.
+    # the eight lists still show (CABA re-lists four months), so all move weekly.
     ("arp_reads", "last_seen", 7, 4, "Argentine provincial layer, sources read (Argentina weekly)"),
     ("arp_laws", "last_seen", 7, 4, "Argentine provincial laws, SAIJ and normas.gba (Argentina weekly)"),
     ("arp_bills", "last_seen", 7, 4, "Argentine provincial legislatures' bills (Argentina weekly)"),

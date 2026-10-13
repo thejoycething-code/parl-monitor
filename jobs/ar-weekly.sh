@@ -61,9 +61,10 @@ fi
 python3 tools/ar_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" "${years[@]}" || rc=$?
 # PROVINCIAL LEGISLATURES (13 October 2026, docs/argentina-regions-scope.md):
 # the 24 jurisdictions' laws through SAIJ (four JSON pages) and Buenos Aires
-# province's normative system, and the bills of four legislatures (Diputados
+# province's normative system, and the bills of eight legislatures (Diputados
 # of Buenos Aires province, the CABA Legislatura, Córdoba, the Entre Ríos
-# Senate) (tools/ar_regions.py): about 20 requests, two to three minutes
+# Senate, Río Negro, Chubut, Jujuy, Corrientes Diputados) (tools/ar_regions.py):
+# about 25 requests, three to four minutes
 # measured, robots.txt asked per host on this run. Before the edition, which
 # shows it as its "Provincial legislatures" section. Gaps go to the store
 # and arp_reads; a failure never stops the run.

@@ -102,6 +102,10 @@ LEGISLATURES = {
     "caba": "Legislatura de la Ciudad Autónoma de Buenos Aires",
     "cba": "Legislatura de la Provincia de Córdoba",
     "er-sen": "Cámara de Senadores de Entre Ríos",
+    "rn": "Legislatura de Río Negro",
+    "chu": "Legislatura del Chubut",
+    "juj": "Legislatura de Jujuy",
+    "ctes-dip": "Cámara de Diputados de Corrientes",
 }
 
 SCHEMA = (

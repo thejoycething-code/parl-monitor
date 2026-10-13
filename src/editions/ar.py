@@ -262,8 +262,8 @@ def items(conn, since, until, wl):
 #
 # 13 October 2026 (docs/argentina-regions-scope.md): the 24 jurisdictions'
 # laws as SAIJ indexes them (and Buenos Aires province's own normative
-# system), the bills new in the four legislatures whose lists are read, and
-# the stage moves of the bills on our ground there. A section of its own,
+# system), the bills new in the eight legislatures whose lists are read, and
+# the stage moves of the bills on our ground there (eight legislatures). A section of its own,
 # "Provincial legislatures", added by post_render() after the national
 # sections, so the Congress's counts, lead and quiet-week test stay the
 # Congress's alone. The items go through the same noise filters
@@ -389,10 +389,11 @@ def provincial_coverage(conn, since, until):
                  state("saij"), state("normas-gba"), n_laws[0][0] if n_laws else 0,
                  n_laws[0][1] if n_laws else 0)]
     lines.append("Bills, from the legislatures' own lists: {0}.".format("; ".join(
-        "{0} ({1})".format(arp.LEGISLATURES[k], state(k)) for k in ("ba-dip", "caba", "cba", "er-sen"))))
-    lines.append("No bills are read from the other 20 jurisdictions or the second chambers of Buenos "
-                 "Aires, Santa Fe, Mendoza, Salta and Entre Ríos (a reCAPTCHA, TLS failures, refusals, "
-                 "no list to read, or not yet built): their laws arrive through SAIJ "
+        "{0} ({1})".format(arp.LEGISLATURES[k], state(k)) for k in arp.LEGISLATURES)))
+    lines.append("No bills are read from the other 16 jurisdictions, nor from the Senates of Buenos "
+                 "Aires, Corrientes, Catamarca, San Luis, Santa Fe, Mendoza and Salta or the Diputados "
+                 "of Entre Ríos (a reCAPTCHA, TLS failures, refusals, timeouts, PDF-only or no list to "
+                 "read, or not yet built): their laws arrive through SAIJ "
                  "([scope]({0}docs/argentina-regions-scope.md)). No provincial legislature publishes "
                  "roll calls in a form we read.".format(ce.REPO))
     return lines

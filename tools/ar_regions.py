@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Argentina's provincial legislatures: the 24 jurisdictions' laws and four
+"""Argentina's provincial legislatures: the 24 jurisdictions' laws and eight
 legislatures' bills (13 October 2026).
 
     python3 tools/ar_regions.py                        # the weekly read
@@ -9,7 +9,7 @@ legislatures' bills (13 October 2026).
     python3 tools/ar_regions.py --reclassify
     python3 tools/ar_regions.py --db /tmp/ar.db
 
-docs/argentina-regions-scope.md says how every source was measured. Six
+docs/argentina-regions-scope.md says how every source was measured. Ten
 sources, read politely, each a few requests a week:
 
   LAWS (arp_laws), all 24 jurisdictions
@@ -23,7 +23,7 @@ sources, read politely, each a few requests a week:
               Oficial's, normas.gba.gob.ar): its newest laws, two pages.
               Earlier than SAIJ for the largest province.
 
-  BILLS (arp_bills), four legislatures
+  BILLS (arp_bills), eight legislatures
   * ba-dip    Cámara de Diputados de la Provincia de Buenos Aires: the
               read-only search by "fecha de estado parlamentario" (a form
               POST), last LOOKBACK_DAYS days, 200 rows a page. Every
@@ -40,6 +40,13 @@ sources, read politely, each a few requests a week:
   * er-sen    Cámara de Senadores de Entre Ríos: the project list
               (buscador-proyectos), newest first, until a page is older
               than the window; it prints media sanción and sanción.
+  * rn        Legislatura de Río Negro: the year's project list, 100 newest
+              (GET; no date in the list, so new by first sight).
+  * chu       Legislatura del Chubut: LARUS's public document API, 50 newest,
+              with the current stage. Staff logins in the reply are dropped.
+  * juj       Legislatura de Jujuy: the REST project list, 20 newest.
+  * ctes-dip  Cámara de Diputados de Corrientes: the expediente list (five a
+              page), until a page is older than the window.
 
 NOT READ, and why (the scope doc has the measurements): the Buenos Aires
 Senate's search carries a reCAPTCHA; Salta's two chambers fail TLS
@@ -48,7 +55,12 @@ Crawl-delay and timed out; Santa Fe's Senate did not answer; Santa Fe's
 Diputados expediente system (SIEL) names Claude agents in its robots.txt
 (our collector's own user agent is allowed, but the agent that built this
 did not probe it further: Chris to decide); Tucumán's expediente app did not
-answer. Their laws arrive through SAIJ.
+answer at first (it did later: not built yet). Misiones (JSON per deputy,
+about 40 requests), Tierra del Fuego (a pending-business page), Neuquén,
+San Juan, La Rioja and Chaco (PDFs or POST searches) are listed in the
+scope doc as next steps; Santa Cruz's robots.txt rules out its pages,
+Santiago del Estero has no site, San Luis's Diputados and La Pampa timed
+out, Catamarca's Senate answered 403. Their laws arrive through SAIJ.
 
 WHAT IS CLASSIFIED: the title or extracto (and a law's sumario), never full
 texts; taxonomy-es with Argentina's country tag, plus watchlist-ar's
@@ -97,7 +109,8 @@ NORMAS_PAGES = 2
 BA_DIP_MAX_PAGES = 6
 WATCHLIST = os.path.join(ROOT, "config", "watchlist-ar.yaml")
 SUMMARY_CHARS = 2000
-SOURCES = ("saij", "normas-gba", "ba-dip", "caba", "cba", "er-sen")
+SOURCES = ("saij", "normas-gba", "ba-dip", "caba", "cba", "er-sen", "rn", "chu", "juj", "ctes-dip")
+CTES_MAX_PAGES = 8
 
 SAIJ = ("https://www.saij.gob.ar/busqueda?o={offset}&p={size}&f=Total%7CTipo+de+Documento"
         "%2FLegislaci%C3%B3n%2FLey%7CJurisdicci%C3%B3n%2FLocal&s=fecha-rango%7CDESC&v=colapsada")
@@ -113,10 +126,20 @@ CBA_SESSIONS = "https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx"
 ER_SEN = "https://www.senadoer.gob.ar/buscador-proyectos/"
 ER_SEN_PAGE = "https://www.senadoer.gob.ar/buscador-proyectos/page/{0}/"
 
+RN = ("https://web.legisrn.gov.ar/legislativa/proyectos/index?filter%5BCLASE%5D=P&filter%5BA%C3%91O%5D={0}"
+      "&page=1&per-page=100")
+RN_ROOT = "https://web.legisrn.gov.ar"
+CHU = "https://larus.legislaturadelchubut.gob.ar/api/public/documentos?page=0&size=50&sort=id,desc"
+JUJ = "https://www.legislaturajujuy.gov.ar/rest/index.php/labor/legislativa/proyectos/lista"
+JUJ_SITE = "https://www.legislaturajujuy.gov.ar/"
+CTES = "https://hcdcorrientes.gov.ar/?post_type=expedientes&paged={0}"
+
 # Per-host intervals (seconds), never lower than a Crawl-delay robots.txt asks.
 DELAYS = {"www.saij.gob.ar": 3.0, "normas.gba.gob.ar": 3.0, "www.hcdiputados-ba.gov.ar": 5.0,
           "parlamentaria.legislatura.gob.ar": 3.0, "gld.legislaturacba.gob.ar": 5.0,
-          "www.senadoer.gob.ar": 3.0}
+          "www.senadoer.gob.ar": 3.0, "web.legisrn.gov.ar": 3.0,
+          "larus.legislaturadelchubut.gob.ar": 3.0, "www.legislaturajujuy.gov.ar": 3.0,
+          "hcdcorrientes.gov.ar": 3.0}
 
 
 # --- text helpers --------------------------------------------------------------------
@@ -402,6 +425,98 @@ def parse_er_sen(page):
                     "presented": dmy(parts[0]),
                     "sanctioned": 1 if any(k.startswith("Sancion") for k, _ in stages) else 0,
                     "url": head.group(1)})
+    return out
+
+
+# --- Río Negro, Chubut, Jujuy, Corrientes (added 13 October 2026) --------------------------
+
+RN_ITEM = re.compile(r'<a href="(/legislativa/proyectos/ver\?c=P&amp;n=(\d+)&amp;a=(\d{4}))">'
+                     r'Proyecto ([^<]*?) N\S* \d+/\d{4}</a>(.*?)</div>', re.S)
+
+
+def parse_rn(page):
+    """Río Negro's project list (one page of 100, newest first). No date in
+    the list: a project is new by the day first listed."""
+    out = []
+    for m in RN_ITEM.finditer(page or ""):
+        body = m.group(5)
+        author = re.search(r"<b>Autor/es:</b>(.*?)</p>", body, re.S)
+        title = flat(re.split(r"<p", body, 1)[0])
+        exp = "{0}/{1}".format(m.group(2), m.group(3))
+        out.append({"bill_key": "rn:" + exp, "legislature": "rn", "province": "rn", "expediente": exp,
+                    "kind": kind_of(m.group(4)), "title": title,
+                    "author": flat(author.group(1)) if author else None, "status": None,
+                    "committee": None, "presented": None, "sanctioned": None,
+                    "url": RN_ROOT + htmllib.unescape(m.group(1))})
+    return out
+
+
+def parse_chu(reply):
+    """Chubut's public document API (LARUS). Staff logins in the reply
+    (usuarioAlta, usuario) are never read or stored."""
+    out = []
+    for d in json.loads(reply or "[]"):
+        ident = (d.get("identificador") or "").strip()
+        if not ident:
+            continue
+        movs = [m for m in d.get("movimientos") or [] if m.get("actual")]
+        stage = None
+        if movs:
+            m = movs[-1]
+            stage = " · ".join(x for x in (((m.get("instancia") or {}).get("nombre")),
+                                            flat(m.get("observaciones") or "").rstrip(" .-")) if x)
+        authors = "; ".join(a.get("nombre") for a in d.get("autores") or [] if a.get("nombre"))
+        out.append({"bill_key": "chu:" + ident, "legislature": "chu", "province": "chu",
+                    "expediente": ident, "kind": kind_of((d.get("tipo") or {}).get("descripcion")),
+                    "title": flat(d.get("extracto")), "author": authors or
+                    ((d.get("origen") or {}).get("descripcion")), "status": stage,
+                    "committee": None, "presented": (d.get("fechaAlta") or "")[:10] or None,
+                    "sanctioned": None, "url": None})
+    return out
+
+
+def parse_juj(reply):
+    """Jujuy's project list (REST, 20 newest). The list gives number, text
+    and date; its 'forma' code is not labelled anywhere we read, so the
+    kind is left unset."""
+    data = json.loads(reply or "{}")
+    out = []
+    for r in (data.get("rows") if isinstance(data, dict) else data) or []:
+        exp = (r.get("expediente") or "").strip()
+        if not exp:
+            continue
+        out.append({"bill_key": "juj:" + exp, "legislature": "juj", "province": "juj", "expediente": exp,
+                    "kind": None, "title": flat(r.get("proyecto")), "author": None, "status": None,
+                    "committee": None, "presented": dmy(r.get("fecha")), "sanctioned": None,
+                    "url": JUJ_SITE})
+    return out
+
+
+CTES_ARTICLE = re.compile(r'<article id="post-\d+" class="[^"]*type-expedientes[^"]*">(.*?)</article>', re.S)
+
+
+def parse_ctes(page):
+    """Corrientes Diputados' expediente list (five a page, newest first)."""
+    out = []
+    for art in CTES_ARTICLE.findall(page or ""):
+        art = re.sub(r"<!--.*?-->", "", art, flags=re.S)
+        cols = re.findall(r'<div class="col-md-\d col-table-resume"[^>]*>(.*?)</div>', art, re.S)
+        if len(cols) < 4:
+            continue
+        num = flat(cols[0])
+        if not re.match(r"^\d+$", num):
+            continue
+        fields = {flat(k): flat(v) for k, v in re.findall(
+            r"<b>([^<:]{3,40}):</b>\s*</td>\s*<td[^>]*>(.*?)</td>", art, re.S)}
+        approved = fields.get("Aprobación")
+        out.append({"bill_key": "ctes-dip:" + num, "legislature": "ctes-dip", "province": "ctes",
+                    "expediente": num, "kind": kind_of(flat(cols[1])), "title": flat(cols[3]),
+                    "author": flat(cols[2]).rstrip(".") or None,
+                    "status": ("Aprobado " + approved) if approved else None,
+                    "committee": fields.get("Comisión", "").rstrip(".") or None,
+                    "presented": dmy(fields.get("Ingreso H.C.D.")),
+                    "sanctioned": 1 if approved else 0,
+                    "url": "https://hcdcorrientes.gov.ar/expedientes/{0}/".format(num)})
     return out
 
 
@@ -760,6 +875,65 @@ def pull_er_sen(run, since):
         len(rows), new, ours))
 
 
+def _simple(run, source, label, fetch, parse):
+    """One request, one parse, one store: the shape of the four sources
+    added on 13 October 2026."""
+    seed = first_read(run.conn, source)
+    try:
+        rows = parse(fetch())
+    except (FetchError, ValueError) as exc:
+        run.gap(source, "{0} unreadable: {1}".format(label, _fail(exc)))
+        return
+    if not rows:
+        run.gap(source, "{0} listed nothing; its reply may have changed".format(label))
+        return
+    new, ours = run.bills(rows, seed)
+    record_read(run.conn, source, run.today.isoformat(), len(rows), "ok")
+    run.log("ar-regions: {0} {1} expediente(s), {2} new, {3} new on our ground.".format(
+        label, len(rows), new, ours))
+
+
+def pull_rn(run):
+    _simple(run, "rn", "Legislatura (Río Negro)",
+            lambda: run.client.get_text(RN.format(run.today.year), FEED, "rn-{0}".format(run.today.year)),
+            parse_rn)
+
+
+def pull_chu(run):
+    _simple(run, "chu", "Legislatura (Chubut)",
+            lambda: run.client.get_text(CHU, FEED, "chu-documentos"), parse_chu)
+
+
+def pull_juj(run):
+    _simple(run, "juj", "Legislatura (Jujuy)",
+            lambda: run.client.get_text(JUJ, FEED, "juj-proyectos"), parse_juj)
+
+
+def pull_ctes(run, since):
+    seed = first_read(run.conn, "ctes-dip")
+    rows = []
+    for page_no in range(1, CTES_MAX_PAGES + 1):
+        try:
+            page = run.client.get_text(CTES.format(page_no), FEED, "ctes-dip-{0}".format(page_no))
+        except FetchError as exc:
+            if not rows:
+                run.gap("ctes-dip", "Diputados (Corrientes) unreadable: " + _fail(exc))
+                return
+            break
+        got = parse_ctes(page)
+        rows += got
+        dates = [r["presented"] for r in got if r["presented"]]
+        if not got or (dates and min(dates) < since.isoformat()):
+            break
+    if not rows:
+        run.gap("ctes-dip", "Diputados (Corrientes) listed nothing; its markup may have changed")
+        return
+    new, ours = run.bills(rows, seed)
+    record_read(run.conn, "ctes-dip", run.today.isoformat(), len(rows), "ok")
+    run.log("ar-regions: Diputados (Corrientes) {0} expediente(s), {1} new, {2} new on our ground.".format(
+        len(rows), new, ours))
+
+
 def collect(conn, client, today, sources=SOURCES, tax=None, watch=None, saij_pages=SAIJ_PAGES,
             deadline=None, log=print):
     """Read every source in `sources`; returns the number of gaps."""
@@ -767,7 +941,9 @@ def collect(conn, client, today, sources=SOURCES, tax=None, watch=None, saij_pag
     since = today - datetime.timedelta(days=LOOKBACK_DAYS)
     steps = {"saij": lambda: pull_saij(run, saij_pages), "normas-gba": lambda: pull_normas(run),
              "ba-dip": lambda: pull_ba_dip(run, since), "caba": lambda: pull_caba(run),
-             "cba": lambda: pull_cba(run), "er-sen": lambda: pull_er_sen(run, since)}
+             "cba": lambda: pull_cba(run), "er-sen": lambda: pull_er_sen(run, since),
+             "rn": lambda: pull_rn(run), "chu": lambda: pull_chu(run), "juj": lambda: pull_juj(run),
+             "ctes-dip": lambda: pull_ctes(run, since)}
     for name in SOURCES:
         if name not in sources:
             continue
