@@ -191,6 +191,21 @@ provinces:
           The 39th Parliament's division lists print the surname he then
           sat under; the roster carries only the later one.
   "mb":
+    # A day the Hansard calendar links that the House did not sit (13 October
+    # 2026). Read by src/ingest/prov_mb_hansard.read_day: the day is stored as
+    # no sitting, not owed.
+    not_sittings:
+      - date: "2024-05-10"
+        listed: https://www.gov.mb.ca/legislature/hansard/43rd_1st/vol_54c/summary_c.html
+        verified_against: >-
+          Todd LaRue, Manitoba Hansard, 9 October 2026: there was no sitting on
+          Friday 10 May 2024; the House adjourned on Thursday 9 May until the
+          Monday. The store holds the 9 May sitting (vol_54a, vol_54b) and 13 May
+          (vol_55); the vol_54c summary links no transcript (9 Oct 2026).
+        why: >-
+          The 43rd Legislature 1st Session calendar links "Vol. 54C" under 10 May
+          2024; the link is spurious, and the day read as "links no HTML
+          transcript", a gap every run.
     hansard_totals:
       - division: mb-40-3-2013-12-05-4
         position: Nay
@@ -718,6 +733,20 @@ provinces:
         why: >-
           Printed "Mr. D’Amour" in the NAYS of the day's recorded division, its
           only unresolved label.
+      - printed: "Mr. Northup"
+        member: bruce-northrup
+        date: 2010-03-26
+        document: https://www.legnb.ca/content/house_business/56/4/journals/100326e.pdf
+        verified_against: >-
+          The Legislative Library's copy of the 56-4 compiled Journal's members
+          page (config/prov-nb-56-4/members.csv, scans of 9 October 2026): Kings
+          East, Bruce Northrup; no Northup sits in the 56th Legislature. The same
+          Journal's first division that day prints "Mr. Northrup" in the YEAS,
+          and every other 56-4 division list prints "Mr. Northrup" (read 13
+          October 2026).
+        why: >-
+          Printed "Mr. Northup" in the NAYS of Motion 60 (carried 24-18), the
+          division's only unresolved label once the session has a roster.
     roster_rows:
       # Fact type, with `elected:`, approved by Christopher, 7 October 2026.
       # Rows of a compiled Journal's MEMBERS OF THE LEGISLATIVE ASSEMBLY page
@@ -920,6 +949,34 @@ provinces:
           (legnb.ca/en/legislation/bills/58/3/43); Bill 63 of 58-3 likewise
           (Journal of 29 March 2017, "By Ms. LeBlanc, Bill 63,").
         why: *titles_why
+      # 56-4 (read 13 October 2026, the roster from the Legislative Library's
+      # copy of the compiled Journal's members page): every division list
+      # prints "Mr. Robichaud" (Paul, Lamèque-Shippagan-Miscou, the Opposition
+      # House Leader) beside "Ms. Robichaud" (Carmel, Miramichi Bay-Neguac, the
+      # Deputy Speaker); the page lists no other Robichaud.
+      - member: paul-robichaud
+        title: "Mr."
+        document: https://www.legnb.ca/content/house_business/56/4/journals/091215e.pdf
+        quoted: "Mr. Robichaud, Member for Lamèque-Shippagan-Miscou, Opposition House Leader"
+        verified_against: >-
+          The Legislative Library's copy of the 56-4 compiled Journal's members
+          page (config/prov-nb-56-4/members.csv): Lamèque-Shippagan-Miscou, Paul
+          Robichaud.
+        why: &titles_why_564 >-
+          Without it all eleven 56-4 divisions are tally gaps on "Mr. Robichaud"
+          and "Ms. Robichaud": the shared resolver ignores titles.
+      - member: carmel-robichaud
+        title: "Ms."
+        document: https://www.legnb.ca/content/house_business/56/4/journals/091126e.pdf
+        quoted: "Ms. Robichaud, the Deputy Speaker, took the chair as Acting Speaker."
+        verified_against: >-
+          The Legislative Library's copy of the 56-4 compiled Journal's members
+          page lists two Robichauds, Paul (Lamèque-Shippagan-Miscou, printed "Mr.
+          Robichaud, Member for Lamèque-Shippagan-Miscou" in the Journal of 15
+          December 2009) and Carmel (Miramichi Bay-Neguac); the Journals print
+          "Ms. Robichaud" and "Mr. Robichaud" in the same division lists, so
+          "Ms." is Carmel Robichaud.
+        why: *titles_why_564
     roster_bridges:
       # Approved by Christopher, 7 October 2026.
       # A session whose journals listing links no compiled Journal, read
@@ -944,6 +1001,23 @@ provinces:
           The 57-1 listing links no compiled Journal and the site lists only
           current members, so without it all 57-1 divisions are gaps.
   "nl":
+    # A record our completeness check calls truncated that the House of
+    # Assembly has confirmed complete (13 October 2026). Read by
+    # src/ingest/prov_nl.read_sitting and prov_nl_hansard.read_day, only
+    # while the quoted closing words are still at the record's end.
+    complete_records:
+      - date: "2022-10-03"
+        document: https://www.assembly.nl.ca/HouseBusiness/Hansard/ga50session1/22-10-03.htm
+        quoted: "Pursuant to the Speech of Her Honour, this House do now stand prorogued."
+        verified_against: >-
+          Lorie, Newfoundland and Labrador Hansard, 9 October 2026: the page is
+          short because 3 October 2022 was the prorogation day of the 50th
+          General Assembly's 1st session, and it is complete. Re-read 13 October
+          2026: 8,058 characters, the Lieutenant Governor's prorogation speech
+          and the Speaker's closing words, no closing </html>.
+        why: >-
+          With no closing </html> the day was stored unreadable (votes and
+          speeches) and listed as a known gap ("served truncated").
     label_aliases:
       - printed: "Lloyd Parrot"
         member: lloyd-parrott

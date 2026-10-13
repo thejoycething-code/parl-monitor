@@ -250,6 +250,16 @@ Done or decided (details in the decisions docs):
 
 **Still to run on the Mini (store writers, one at a time):**
 
+- New Brunswick 56-4 and three corrected days, once (13 October 2026,
+  branch `nb-56-4-gaps`; docs/mac-mini.md, "New Brunswick 56-4"):
+  `cd ~ && ONE_OFF=nb-56-4 MINUTES=60 JOB_TIMEOUT=4800 nohup
+  ~/runner/parl-monitor/tools/mini_run.sh prov-backfill >>
+  ~/runner/logs/prov-backfill.log 2>&1 &`. It stores 56-4's 11 recorded
+  divisions with every voter attributed (493 votes, from the Legislative
+  Library's copy of the members page, `config/prov-nb-56-4/`), re-reads the
+  NB Hansard of 28 May 2026 (re-uploaded complete by legnb.ca on 9 October),
+  and re-reads NL 3 October 2022 (complete) and MB 10 May 2024 (no sitting),
+  whose known gaps are removed. About 30 minutes; outside 00:00-05:00.
 - The v1.23 retag of UK, devolved and EU rows: `jobs/retag-backfill.sh`
   with `RETAG_BASELINE=4620a030` (OPEN above), then `ca-backfill` with
   `CA_RETAG=true`.

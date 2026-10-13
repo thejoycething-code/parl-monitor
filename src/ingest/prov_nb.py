@@ -26,6 +26,10 @@ division twice.
     the by-election) to its last sitting (or the resignation). The page
     prints NO PARTY. The compiled Journal's header names its session and is
     checked: the 60-3 listing links a file named for 2022-2023.
+  * A SESSION WITH NO COMPILED JOURNAL ONLINE. 56-4 (2009-10): the
+    Legislative Library's copy of its members page and its index of recorded
+    votes, checked into config/prov-nb-56-4/ (13 October 2026; load_seed_roster,
+    check_seed_votes). Read as a compiled Journal's page would be.
   * PARTY AT THE VOTE, DATED TO THE SITTING. Each daily Hansard prints a
     "LIST OF MEMBERS BY CONSTITUENCY" with party codes and a legend
     ("Fredericton West-Hanwell (I) Dominic Cardy", 15 June 2023). For every
@@ -72,9 +76,11 @@ not a PDF is a gap with status 'unreadable', never an empty day.
 
 from __future__ import annotations
 
+import csv
 import datetime
 import html as _html
 import json
+import os
 import re
 from urllib.parse import quote, urljoin
 
@@ -626,6 +632,10 @@ def fetch_roster(ctx, legislature, session, listing):
                                                                   listing["compiled"], parsed["session"]))
                 elif parsed["members"]:
                     return _store_compiled(ctx, legislature, session, parsed, first, last)
+    if not listing["compiled"] and seed_paths(legislature, session).get("members"):
+        n = _store_seed(ctx, legislature, session, first, last)
+        if n:
+            return n
     if legislature == _current_legislature():
         return fetch_current(ctx, legislature)
     bridge = next((b for b in load_roster_bridges() if b["session"] == "{0}-{1}".format(legislature, session)),
@@ -642,6 +652,135 @@ def fetch_roster(ctx, legislature, session, listing):
     ctx.gap("nb {0}-{1}: no roster for the session (no usable compiled Journal, and the site lists "
             "only current members); its divisions cannot be resolved".format(legislature, session))
     return 0
+
+
+# -- a session's members page from the Legislative Library ---------------------
+#
+# 56-4 (November 2009 - April 2010) lists no compiled Journal on legnb.ca and no
+# later session of the 56th exists to bridge from, so its divisions could not
+# be resolved. The Legislative Library of New Brunswick sent scans of that
+# compiled Journal's members page and of its index of recorded votes (Kenda
+# Clark-Gorey, 9 October 2026), transcribed and checked into
+# config/prov-nb-<leg>-<sess>/ (members.csv, recorded-votes.csv, README.md). The
+# members page is read exactly as a compiled Journal's would be: a term from
+# the session's first sitting to its last, and a seat printed "Vacant" with a
+# note ("Hon. Michael Murphy, Q.C., resigned February 5, 2010") ending the
+# member's term on that day. Stored under its own source, 'library-<leg>-<sess>'.
+
+SEED_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+                        "config", "prov-nb-{0}-{1}")
+
+
+def seed_paths(legislature, session, root=None):
+    """{'members': path, 'votes': path} for the files that exist."""
+    d = (root or SEED_DIR).format(legislature, session)
+    out = {}
+    for k, name in (("members", "members.csv"), ("votes", "recorded-votes.csv")):
+        p = os.path.join(d, name)
+        if os.path.exists(p):
+            out[k] = p
+    return out
+
+
+def load_seed_roster(path, legislature, session):
+    """The Library's members page as parse_compiled_roster returns a compiled
+    Journal's: {'session', 'members', 'vacant', 'notes', 'problems'}. Columns
+    constituency, member, note and member_key (ours: a key the store already
+    holds for the member under another form of the name)."""
+    out = {"session": (legislature, session), "members": [], "vacant": [], "notes": [], "problems": []}
+    with open(path, encoding="utf-8", newline="") as fh:
+        rows = list(csv.DictReader(fh))
+    for r in rows:
+        riding = re.sub(r"\s*-\s*", "-", (r.get("constituency") or "").strip())
+        printed = (r.get("member") or "").strip()
+        note = (r.get("note") or "").strip()
+        if not riding or not printed:
+            out["problems"].append("library members page: row without constituency or member: {0!r}".format(r))
+            continue
+        if printed.lower() == "vacant":
+            parsed = _footnote("* " + note) if note else None
+            if note and (parsed is None or parsed["kind"] != "left"):
+                out["problems"].append("library members page: note not understood: {0!r}".format(note))
+                parsed = None
+            if parsed:
+                parsed["mark"] = None
+                out["notes"].append(parsed)
+            out["vacant"].append({"riding": riding, "mark": None, "note": parsed, "unbound": False})
+            continue
+        member = clean_member(printed)
+        if not _NAME.match(clean_given(member)):
+            out["problems"].append("library members page: {0!r} is not a name".format(printed))
+            continue
+        given, surname = _split_name(member)
+        key = (r.get("member_key") or "").strip() or member_key(given, surname)
+        out["members"].append({"riding": riding, "given": given, "surname": surname,
+                               "name": clean_given(given) + " " + surname, "key": key, "mark": None,
+                               "reviewed": True, "footnote": None, "elected": None, "note": None,
+                               "unbound": False})
+    if not out["members"]:
+        out["problems"].append("no members read from the library members page {0}".format(path))
+    return out
+
+
+def load_seed_votes(path):
+    """[{item, result, journal_page, date}] from the Library's index of the
+    session's recorded votes."""
+    with open(path, encoding="utf-8", newline="") as fh:
+        return [{k: (v or "").strip() for k, v in r.items()} for r in csv.DictReader(fh)]
+
+
+def _store_seed(ctx, legislature, session, first, last):
+    path = seed_paths(legislature, session)["members"]
+    parsed = load_seed_roster(path, legislature, session)
+    for p in parsed["problems"]:
+        ctx.gap("nb {0}-{1}: {2}".format(legislature, session, p))
+    if parsed["problems"] or not first or not last:
+        return 0
+    source = "library-{0}-{1}".format(legislature, session)
+    rows = terms_from_compiled(parsed, legislature, first, last)
+    if ctx.dry_run:
+        return len({m["key"] for m, _t in rows})
+    by_key = {}
+    for m, t in rows:
+        by_key.setdefault(m["key"], (m, []))[1].append(t)
+    for key, (m, terms) in by_key.items():
+        ps.upsert_member(ctx.conn, PROV, key, name=m["name"], surname=m["surname"],
+                         given=clean_given(m["given"]))
+        ps.replace_terms(ctx.conn, PROV, key, terms, source)
+    ctx.conn.commit()
+    ctx.log("  nb roster {0}-{1}: {2} member(s) from the Legislative Library's copy of the compiled "
+            "Journal's members page (config/prov-nb-{0}-{1}/members.csv; {3} resignation(s))".format(
+                legislature, session, len(by_key), len(parsed["notes"])))
+    return len(by_key)
+
+
+def check_seed_votes(ctx, legislature, session):
+    """Every recorded vote in the Library's index of the session must be a
+    recorded division stored on its day. Returns (index entries in the
+    window, found), or None when the session has no index; a day short of
+    the index is a gap."""
+    path = seed_paths(legislature, session).get("votes")
+    if not path:
+        return None
+    index = [v for v in load_seed_votes(path) if ctx.in_window(v["date"])]
+    by_day = {}
+    for v in index:
+        by_day.setdefault(v["date"], []).append(v)
+    found = 0
+    for date, items in sorted(by_day.items()):
+        have = ctx.conn.execute(
+            "SELECT COUNT(*) FROM prov_divisions WHERE prov=? AND legislature=? AND session=? AND date=? "
+            "AND kind='recorded'", (PROV, legislature, session, date)).fetchone()[0]
+        found += min(have, len(items))
+        if have < len(items):
+            ctx.gap("nb {0}-{1} {2}: the Legislative Library's index lists {3} recorded vote(s) that day "
+                    "({4}); the store holds {5}".format(
+                        legislature, session, date, len(items),
+                        "; ".join("{0}, Journal p. {1}".format(v["item"], v["journal_page"]) for v in items),
+                        have))
+    ctx.log("  nb {0}-{1}: {2} of the {3} recorded vote(s) in the Legislative Library's index are "
+            "stored".format(legislature, session, found, len(index)))
+    return len(index), found
 
 
 def load_roster_bridges(path=None):
@@ -2093,6 +2232,11 @@ def collect(ctx, session=CURRENT_SESSION, roster=True, bills=True, party=True):
             read_dates.add(rec["date"])
     stats.update({"records_read": read, "divisions": divs, "tally_gaps": gaps,
                   "listing_misses": check_listing_stages(ctx, legislature, sess, read_dates) if bills else 0})
+    # A session the Legislative Library documented (config/prov-nb-<s>/): its
+    # index of recorded votes must all be in the store.
+    seeded = check_seed_votes(ctx, legislature, sess)
+    if seeded:
+        stats["library_votes"] = "{1}/{0}".format(*seeded)
     # Party at the vote, from each division day's Hansard member list, then
     # written onto every stored vote of the session the dated terms cover.
     days = {r[0] for r in ctx.conn.execute(

@@ -456,17 +456,45 @@ def resume_since(conn, prov, today=None, log=print):
     return since
 
 
-def collect_days(ctx, days, read_day, resolver_for, tax, wl, language="en"):
+def unreadable_note(conn, key):
+    """The stored note of a day recorded 'unreadable', else None."""
+    row = conn.execute("SELECT status, note FROM prov_speech_sittings WHERE sitting_key=?", (key,)).fetchone()
+    return (row[1] or "") if row and row[0] == "unreadable" else None
+
+
+def collect_days(ctx, days, read_day, resolver_for, tax, wl, language="en", recheck=None):
     """Read every listed day in the window not already read cleanly.
     read_day(day) -> (turns, problems) or raises prov_fetch.Unreadable, or
     NoSitting when the page is the House's own notice that it did not sit;
-    resolver_for(day) -> the resolver for that day (built once a session)."""
+    resolver_for(day) -> the resolver for that day (built once a session).
+
+    recheck(day, note) -> bool (additive, 13 October 2026; a reader's
+    `source_changed`): a listed day BEFORE the window that was stored
+    'unreadable' is read again when it says the source has changed since.
+    The weekly window only reaches back OWED_DAYS, and legnb.ca replaced the
+    truncated Hansard of 28 May 2026 with the complete file on 9 October
+    2026, 134 days on: without this the day stayed a gap for good."""
     from src.prov_fetch import Unreadable
     stats = {"days_listed": len(days), "days_read": 0, "turns": 0, "members": 0, "resolved": 0,
              "speeches": 0, "unresolved_stored": 0, "day_gaps": 0}
     for day in days:
         if not ctx.in_window(day["date"]):
-            continue
+            note = (unreadable_note(ctx.conn, day["key"])
+                    if recheck and not ctx.dry_run and ctx.since and day["date"] and day["date"] < ctx.since
+                    else None)
+            if note is None:
+                continue
+            try:
+                changed = bool(recheck(day, note))
+            except Exception as exc:  # noqa: BLE001 -- a failed check is "not changed", said out loud
+                ctx.log("  {0} {1}: could not check whether the source changed ({2})".format(
+                    ctx.prov, day["key"], exc))
+                changed = False
+            if not changed:
+                continue
+            ctx.log("  {0} {1}: stored unreadable, and the source has changed since; read again".format(
+                ctx.prov, day["key"]))
+            stats["rechecked"] = stats.get("rechecked", 0) + 1
         if not ctx.refresh and day_done(ctx.conn, day["key"]):
             continue
         if ctx.stop():

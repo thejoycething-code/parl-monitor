@@ -26,7 +26,7 @@ from __future__ import annotations
 
 import re
 
-from src import prov_speeches as sp
+from src import prov_names as pn, prov_speeches as sp
 from src.ingest import prov_nl as base
 
 PROV = "nl"
@@ -151,7 +151,9 @@ def read_day(ctx, day):
     raw = ctx.text(day["url"], "hansard-{0}".format(day["key"]), encoding="cp1252", archive=True)
     if raw is None:
         return None, ["the Hansard file was not fetched"]
-    if "</html>" not in raw[-4000:].lower():
+    if "</html>" not in raw[-4000:].lower() and not pn.reviewed_complete(PROV, day["url"], raw, day["date"]):
+        # The prorogation day of 3 October 2022 is short and unclosed, and
+        # complete (NL Hansard, 9 October 2026; config/prov_record.yaml).
         return None, ["truncated Hansard (no closing </html>)"]
     notice = no_sitting(raw)
     if notice:

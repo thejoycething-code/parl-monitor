@@ -370,9 +370,14 @@ class HttpClient:
             return self._request_with_retries(
                 url, feed, slug, timeout or self.default_timeout, extra_headers=headers)
         if first_bytes:
-            return self._request_with_retries(
-                url, feed, slug, timeout or self.default_timeout,
-                extra_headers={"Range": "bytes=0-{0}".format(int(first_bytes) - 1)})
+            # Throttled like every other request (13 October 2026, additive):
+            # a ranged check on legnb.ca must wait out its 10 s Crawl-delay too.
+            state = self._host_state(urlsplit(url).netloc)
+            with state.semaphore:
+                self._throttle(state)
+                return self._request_with_retries(
+                    url, feed, slug, timeout or self.default_timeout,
+                    extra_headers={"Range": "bytes=0-{0}".format(int(first_bytes) - 1)})
         return self._fetch(url, feed, slug, timeout, archive=archive)
 
     def post_json(self, url, body, feed, slug, headers=None, timeout=None):

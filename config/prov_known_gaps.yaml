@@ -11,28 +11,8 @@
 #     why: "The 9 June 2023 Journal is served truncated (129,024 bytes, no %%EOF) on every fetch."
 
 nb:
-  - contains: "nb-61-2-2026-05-28: "
-    reviewed: 2026-10-09
-    why: >-
-      legnb.ca serves the PDF cut off inside its text (1,257,984 bytes, no xref to rebuild); its index lists no other copy and the bil/e/plain variants answer the site's not-found page (9 Oct 2026). To solve: Asana 1219341037128199.
-      Logged as known on Christopher's instruction, 9 Oct 2026 ("Log the leftover gaps as known gaps").
   # New Brunswick: the 2010 backfill (CI run 37026741496), re-read 2 October
   # 2026 on a scratch store. What is left is the record's own.
-  - contains: "nb 56-4: no roster for the session"
-    reviewed: 2026-10-02
-    why: >-
-      56-4 (November 2009 - April 2010) is the last session of the 56th
-      Legislature. Its journals listing links no compiled Journal, nor do
-      56-1 to 56-3's; the site lists only current members; Elections NB
-      answers 403; no later session of the 56th exists to bridge from. The
-      compiled Journal was requested from the Legislative Library, 7 Oct 2026
-      (Christopher).
-  - contains: "(no roster for 56-4; "
-    reviewed: 2026-10-07
-    why: >-
-      The 7 recorded divisions of 56-4 in 2010: no roster (above), so no name
-      can be resolved. The compiled Journal was requested from the Legislative
-      Library, 7 Oct 2026.
   - contains: "nb 57: no report of the Chief Electoral Officer on the general election is tabled"
     reviewed: 2026-10-07
     why: >-
@@ -182,11 +162,6 @@ bc:
 # is a copy of the 26th) read from Hansard's own division lists. Left: a
 # V&P served only in French (a day with no division) and a blank stray link.
 mb:
-  - contains: "mb-43-1-2024-05-10-c: "
-    reviewed: 2026-10-09
-    why: >-
-      The day summary (43rd_1st/vol_54c/summary_c.html) links no HTML transcript at all, measured 9 Oct 2026. To solve: Asana 1219341037128199.
-      Logged as known on Christopher's instruction, 9 Oct 2026 ("Log the leftover gaps as known gaps").
   - contains: "business/42nd/4th/votes_036.pdf: HTTP Error 300"
     reviewed: 2026-10-02
     why: >-
@@ -250,11 +225,6 @@ mb:
 # end to end on a scratch store, 7 October 2026. What is left is the record's
 # own; each entry names the evidence.
 nl:
-  - contains: "nl-50-1-2022-10-03: "
-    reviewed: 2026-10-09
-    why: >-
-      assembly.nl.ca serves this Hansard page truncated (no closing </html>). To solve: Asana 1219341037128199.
-      Logged as known on Christopher's instruction, 9 Oct 2026 ("Log the leftover gaps as known gaps").
   - contains: "nl-46-3-2010-05-19-1: tally check failed"
     reviewed: 2026-10-07
     why: >-
@@ -299,9 +269,6 @@ nl:
       added orally after a point of order ('He's against the motion, okay.
       What about Mr. Lane?') and the count is the ayes 15, the nays 24. The
       list as read does not contain them.
-  - contains: "nl-50-1-2022-10-03:"
-    reviewed: 2026-10-07
-    why: "The Hansard of 3 October 2022 is served truncated (no closing </html>)."
   - contains: "nl-46-3/6: the progress table dates Second Reading to 2010-05-31"
     reviewed: 2026-10-07
     why: "The Hansard of 31 May 2010 records no second reading of Bill 6: a progress-table date error."

@@ -82,6 +82,12 @@ def list_days(ctx, session):
 
 
 def read_day(ctx, day):
+    fact = pn.reviewed_not_sitting(PROV, day["date"], day["summary"])
+    if fact:
+        # The calendar links a day the House did not sit (10 May 2024, vol_54c:
+        # adjourned on 9 May until the Monday; Manitoba Hansard, 9 October 2026).
+        raise sp.NoSitting("not a sitting day ({0}; config/prov_record.yaml not_sittings)".format(
+            " ".join(str(fact["verified_against"]).split())))
     page = ctx.text(day["summary"], "hansard-summary-{0}".format(day["key"]), encoding="cp1252")
     if page is None:
         return None, ["the day's summary page was not fetched"]

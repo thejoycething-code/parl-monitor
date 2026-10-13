@@ -133,8 +133,10 @@ def run(conn, client, prov, session=None, since=None, until=None, limit=None,
             # just widened the terms (Saskatchewan, Manitoba, Ontario).
             return reader.resolver(ctx)
 
+        changed = getattr(reader, "source_changed", None)
         got = sp.collect_days(ctx, days, lambda day: reader.read_day(ctx, day), resolver_for, tax, wl,
-                              language=reader.LANGUAGE)
+                              language=reader.LANGUAGE,
+                              recheck=(lambda day, note: changed(ctx, day, note)) if changed else None)
         for k, v in got.items():
             stats[k] = stats.get(k, 0) + v
     stats["sessions"] = len(codes)
