@@ -105,7 +105,7 @@ def summarise(conn, new_ids, moved, gone):
                 r["starts"], r["kind"].upper(), (r["title"] or "")[:70],
                 "  areas " + ",".join(str(a) for a in areas) if areas else ""))
     for _id, title, was, now in moved:
-        lines.append("MOVED: {0} — {1} -> {2}".format((title or "")[:60], was, now))
+        lines.append("MOVED: {0}: {1} -> {2}".format((title or "")[:60], was, now))
     for r in gone:
         lines.append("NO LONGER LISTED: {0} {1} (was {2})".format(
             r["kind"].upper(), (r["title"] or "")[:60], r["starts"]))
