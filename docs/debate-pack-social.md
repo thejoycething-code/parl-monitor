@@ -506,9 +506,24 @@ them. Manual, like the UK's; no job; it never posts, uploads or sends anything.
 | CH | open | each Bulletin speech's own MP4 (`simvid_1.mp4?externalid=<ID>`) | non-commercial, credit (c) ParlCH, no added graphics that change the meaning: no logo |
 | AT | open | the Mediathek's own per-speech download, found by the protocol number in our speech_id | political reporting and education only, credit (c) Parlamentsdirektion, no advertising |
 | NL | manual | Debat Direct's speaker events give the second; the archive answers us with a placeholder, so a person downloads the speech and passes `--video` | freedom of expression allowed; visible credit, copyright line, link to terms, edit noted; no member recruitment; source destroyed within a month |
-| FR | needs agreement | the compte rendu's `stime` per paragraph into the sitting's MP4 (byte ranges) | debates free, but multimedia only with prior agreement: the cut refuses until `fr.agreement` is set |
+| FR | allowed (agreement recorded), trim-only | the compte rendu's `stime` per paragraph into the sitting's MP4 (byte ranges) | written agreement of 12 October 2026 (Cellule GILDA, Fabien Chauvineau): clips allowed if not distorted or modified; credit « Archives audiovisuelles de l'Assemblée nationale » on screen and in the post; the tool cuts trim-only (below) |
 | BE | needs agreement | the Chamber's event table of speaker turns into the plenary MP4 | speeches free, the commissioned recordings need authorisation: refuses until `be.agreement` is set |
 | BR, PL, IT, ES | not built | no speeches stored (and PL, IT, ES terms unclear) | see each scope doc |
+
+**France, trim-only (13 October 2026).** `config/clip-sources.yaml` fr: `status: allowed`,
+`agreement:` (date 2026-10-12, grantor, conditions; the cut refuses if any of the three is
+missing), `edits: trim-only`, credit and post credit exactly "Archives audiovisuelles de
+l'Assemblée nationale", `logo: false`. What the tool enforces for a trim-only country
+(`src/country_clips.py`, `check_trim_only_cmd`, `check_trim_only_ass`, refusing with
+`ClipRefused`): every ffmpeg command may use only scale, pad, format, fps, setsar and ass
+(no setpts or atempo, so no speed change; no crop; no overlay, drawtext or reverse); one
+input only (no logo, no second clip); no concat, so no reel; the 9:16 version is the whole
+picture letterboxed, not a crop; the subtitles carry only the captions and the credit,
+exactly as recorded (no name plate); the passage must be heard at a word match of 0.75 or
+better before it is cut. What it cannot enforce, written into the pack README and
+`clips.md`: nobody edits the files afterwards, and the captions (the compte rendu's words
+for the passage) are checked against the audio before use; the speaker's name goes in the
+post text, not on the picture. Clips remain files for Chris; nothing is posted.
 
 **Pick** ranks by rule, with no AI call (the UK's `pick_speeches.py` asks a model): tier 1
 before tier 2, more taxonomy terms matched, a member before a minister, enough words; each
@@ -523,7 +538,8 @@ transcribes it with Whisper in the country's language (`small`, multilingual; Sw
 Belgian speeches are detected), finds the passage on accent-folded words, cuts word-exact,
 and renders `final/<cc>-NN-<name>-vertical.mp4` and `-landscape.mp4` with `.srt`, the UK's
 captions and name plate, the CitizenGO logo where the terms allow it, and the source credit
-small in the top right of every frame; a vertical reel when there is more than one clip.
+small in the top right of every frame; a vertical reel when there is more than one clip
+(trim-only countries, France: no name plate, no logo, no crop and no reel, above).
 `clips.md` says what was heard and how well it matched; `README.md` carries the credit for
 the post text. Fetched footage in `windows/` is deleted after 30 days (the Dutch licence's
 rule, applied everywhere).

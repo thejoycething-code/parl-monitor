@@ -35,6 +35,21 @@ TWO STEPS, both manual, like the UK's:
    an .srt each, a vertical reel of all clips, and the source credit burned in
    small on every frame. clips.md reports the match and what was heard.
 
+TRIM-ONLY (13 October 2026). A country whose agreement allows clips only if
+the footage is not distorted or modified (France: the Assemblee nationale's
+Cellule GILDA, 12 October 2026) carries `edits: trim-only` in
+config/clip-sources.yaml. The tool then enforces, on every ffmpeg command and
+subtitle file it writes for that country: one continuous span, cut at its
+start and end only; no speed change, no reordering, no joining of clips (no
+reel), no crop (the 9:16 version is the whole picture letterboxed), no logo,
+no name plate; the only overlays are the credit and the passage's captions.
+Video filters outside TRIM_ONLY_FILTERS and subtitle styles outside
+TRIM_ONLY_STYLES are refused (ClipRefused), and the passage must be heard at
+TRIM_ONLY_MIN_RATIO or better so the captions follow the speech. What the
+tool cannot enforce (that a person editing the files afterwards keeps to
+the terms, that the captions' wording matches the audio word for word) is
+written into the pack README and clips.md.
+
 NEVER POSTED. Clips are files for a person: nothing here uploads, posts or
 messages. Fetched source footage (windows/) is deleted after the country's
 retention_days (the Dutch licence's one month, applied everywhere); finished
@@ -63,7 +78,19 @@ PACKS = os.path.join(ROOT, "data", "clips")
 UA = "CitizenGO-ParlMonitor/1.0 (contact: cjoyce@citizengo.net)"
 FEED = "clips"
 
-STATUSES = ("open", "manual", "needs-agreement", "not-built")
+STATUSES = ("open", "manual", "needs-agreement", "allowed", "not-built")
+EDITS = ("full", "trim-only")
+AGREEMENT_FIELDS = ("date", "grantor", "conditions")
+# trim-only: the only ffmpeg filters allowed (resize, letterbox, pixel format,
+# frame rate, sample aspect, burned subtitles) and the only subtitle styles.
+TRIM_ONLY_FILTERS = ("scale", "pad", "format", "fps", "setsar", "ass")
+TRIM_ONLY_STYLES = ("Caption", "Credit")
+TRIM_ONLY_MIN_RATIO = 0.75
+TRIM_ONLY_NOTE = ("Trim-only (the agreement's terms): each clip is one continuous span of the "
+                  "official video, cut at its start and end; no speed change, reordering, joining, "
+                  "crop, logo or name plate; the only overlays are the credit and the captions. "
+                  "Do not edit these files further, and check the captions against the audio "
+                  "before use: they are the compte rendu's words for the passage.")
 WORDS_PER_SECOND = 2.5          # debatepack's spoken pace; close enough in NL, DE, FR
 PASSAGE_FLOOR_S = 20.0
 PASSAGE_TARGET_S = 45.0
@@ -87,7 +114,100 @@ def load_sources(path=CONFIG):
     for cc, entry in data.items():
         if (entry or {}).get("status") not in STATUSES:
             raise ValueError("{0}: status must be one of {1}".format(cc, ", ".join(STATUSES)))
+        if (entry.get("edits") or "full") not in EDITS:
+            raise ValueError("{0}: edits must be one of {1}".format(cc, ", ".join(EDITS)))
+        if trim_only(entry) and entry.get("logo"):
+            raise ValueError("{0}: edits: trim-only allows no logo overlay (logo: false)".format(cc))
     return data
+
+
+def trim_only(entry):
+    return (entry or {}).get("edits") == "trim-only"
+
+
+def agreement_recorded(entry):
+    """True when `agreement:` records the written agreement: for status
+    allowed, a mapping with a date, a grantor and the conditions."""
+    got = (entry or {}).get("agreement")
+    if entry.get("status") == "allowed":
+        return isinstance(got, dict) and all(str(got.get(k) or "").strip() for k in AGREEMENT_FIELDS)
+    return bool(got)
+
+
+def agreement_text(entry):
+    got = (entry or {}).get("agreement")
+    if isinstance(got, dict):
+        return "written agreement of {0}, {1}: {2}".format(
+            got.get("date"), got.get("grantor"), " ".join(str(got.get("conditions") or "").split()))
+    return str(got) if got else ""
+
+
+def filter_names(graph):
+    """The filter names in an ffmpeg filtergraph ('[0:v]scale=..,pad=..[v]')."""
+    out = []
+    for part in re.split(r"[;,]", graph or ""):
+        part = re.sub(r"^\s*(?:\[[^\]]*\]\s*)*", "", part)
+        part = re.sub(r"(?:\[[^\]]*\]\s*)*$", "", part).strip()
+        if part:
+            out.append(part.split("=", 1)[0].strip())
+    return out
+
+
+def check_trim_only_cmd(entry, cmd):
+    """Raise ClipRefused when a trim-only country's ffmpeg command would do
+    more than trim: a filter outside TRIM_ONLY_FILTERS, a second input (a
+    logo, another clip), a concat, a loop or an offset."""
+    if not trim_only(entry):
+        return
+    cmd = [str(c) for c in cmd]
+    for flag in ("-vf", "-af", "-filter_complex", "-filter:v", "-filter:a", "-lavfi"):
+        for i, c in enumerate(cmd[:-1]):
+            if c == flag:
+                bad = [n for n in filter_names(cmd[i + 1]) if n not in TRIM_ONLY_FILTERS]
+                if bad:
+                    raise ClipRefused("trim-only: filter(s) {0} would modify the footage; refused"
+                                      .format(", ".join(bad)))
+    if cmd.count("-i") > 1:
+        raise ClipRefused("trim-only: a second input (logo or another clip) is not allowed")
+    for i, c in enumerate(cmd[:-1]):
+        if c == "-f" and cmd[i + 1] == "concat":
+            raise ClipRefused("trim-only: joining clips (a reel) is not allowed")
+    for c in ("-stream_loop", "-itsoffset", "-itsscale"):
+        if c in cmd:
+            raise ClipRefused("trim-only: {0} would modify the footage; refused".format(c))
+
+
+def check_trim_only_ass(entry, ass):
+    """Raise ClipRefused when a trim-only clip's subtitles carry anything but
+    the captions and the credit (exactly as recorded)."""
+    if not trim_only(entry):
+        return
+    styles = re.findall(r"^Dialogue:\s*\d+,[^,]*,[^,]*,([^,]*),", ass or "", flags=re.M)
+    bad = sorted({x for x in styles if x not in TRIM_ONLY_STYLES})
+    if bad:
+        raise ClipRefused("trim-only: overlay style(s) {0} are not allowed".format(", ".join(bad)))
+    credit = entry.get("credit") or ""
+    if not credit or not re.search(r"^Dialogue:[^\n]*,Credit,,0,0,0,," + re.escape(credit) + "$",
+                                   ass or "", flags=re.M):
+        raise ClipRefused("trim-only: the required credit ({0}) is missing".format(credit))
+
+
+def strip_plate(ass):
+    """The subtitles without the name plate (its Shape, Name and Party lines)."""
+    return "".join(ln for ln in (ass or "").splitlines(True)
+                   if not re.match(r"Dialogue:\s*\d+,[^,]*,[^,]*,(Shape|Name|Party),", ln))
+
+
+def vertical_filter(entry, crop_spec):
+    """The 9:16 version: a crop of the speaker, or for trim-only the whole
+    picture scaled and letterboxed (nothing cut from the frame)."""
+    from src import socialcut as sc
+    if trim_only(entry):
+        return ("scale=%d:-2:flags=lanczos,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,setsar=1,format=yuv420p"
+                % (sc.FRAME_W, sc.FRAME_W, sc.FRAME_H))
+    x = sc.crop_x(crop_spec)
+    return "crop=%d:%d:%d:0,scale=%d:%d:flags=lanczos,format=yuv420p" % (
+        sc.CROP_W, sc.CROP_H, x, sc.FRAME_W, sc.FRAME_H)
 
 
 def gate(sources, cc, video=None):
@@ -99,10 +219,11 @@ def gate(sources, cc, video=None):
     status = entry["status"]
     if status == "not-built":
         raise ClipRefused("{0}: no clip tool: {1}".format(cc, " ".join((entry.get("terms") or "").split())))
-    if status == "needs-agreement" and not entry.get("agreement"):
+    if status in ("needs-agreement", "allowed") and not agreement_recorded(entry):
         raise ClipRefused("{0}: the reuse terms ask for prior written agreement for video and none "
-                          "is recorded (config/clip-sources.yaml, {0}.agreement). See {1}"
-                          .format(cc, entry.get("terms_url", "")))
+                          "is recorded (config/clip-sources.yaml, {0}.agreement{1}). See {2}"
+                          .format(cc, ": date, grantor and conditions" if status == "allowed" else "",
+                                  entry.get("terms_url", "")))
     if status == "manual" and not video:
         raise ClipRefused("{0}: the tool cannot fetch this source; download the speech on {1} "
                           "and pass it with --video FILE".format(cc, entry.get("source")))
@@ -321,9 +442,13 @@ def readme(cc, entry, title, date):
              "Made by tools/country_clips.py. Files for a person: nothing here is posted, "
              "uploaded or sent anywhere by the tool.", "",
              "Status for {0}: **{1}**.".format(cc.upper(), st)]
-    if st == "needs-agreement" and not entry.get("agreement"):
+    if st in ("needs-agreement", "allowed") and not agreement_recorded(entry):
         lines.append("The terms ask for written agreement before the video is reused; the cut "
                      "step refuses until it is recorded in config/clip-sources.yaml.")
+    elif entry.get("agreement"):
+        lines.append("Agreement: {0}.".format(agreement_text(entry).rstrip(".")))
+    if trim_only(entry):
+        lines += ["", TRIM_ONLY_NOTE]
     lines += ["", "Source: {0}".format(entry.get("source")), "",
               "Reuse terms ({0}): {1}".format(entry.get("terms_url", "no URL"),
                                               " ".join((entry.get("terms") or "").split())), "",
@@ -706,6 +831,11 @@ def cut_pack(pack_dir, sources=None, only=None, video=None, model=WHISPER_MODEL,
     if video and len(seq) != 1:
         raise SystemExit("--video is one speaker's download: name that speaker with --only")
     client = client or _client(cc)
+    trim = trim_only(entry)
+
+    def run(cmd):
+        check_trim_only_cmd(entry, cmd)
+        _run(cmd)
     retention = int(entry.get("retention_days") or 30)
     purge(pack_dir, retention, log=log)
     ff = None if locate_only else tools()
@@ -745,7 +875,8 @@ def cut_pack(pack_dir, sources=None, only=None, video=None, model=WHISPER_MODEL,
                     continue
             words = alignclip.transcribe(window, window[:-4] + ".wav", ff, model_size=model,
                                          words_json=words_json, log=lambda *_a: None, language=lang)
-            got = find_passage(words, e["passage"])
+            got = find_passage(words, e["passage"],
+                               min_ratio=TRIM_ONLY_MIN_RATIO if trim else 0.5)
             if got:
                 found = (window, words, got, span)
                 break
@@ -757,14 +888,12 @@ def cut_pack(pack_dir, sources=None, only=None, video=None, model=WHISPER_MODEL,
         window, words, (first, last, ratio), span = found
         start, end = sc.cut_bounds(words, first, last)
         part, vpart = os.path.join(wdir, s + "-part.mp4"), os.path.join(wdir, s + "-v.mp4")
-        _run([ff, "-y", "-loglevel", "error", "-ss", "%.3f" % start, "-i", window, "-t", "%.3f" % (end - start),
-              "-vf", "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,fps=25,format=yuv420p",
-              "-c:v", "libx264", "-crf", "18", "-preset", "medium",
-              "-c:a", "aac", "-b:a", "160k", "-ar", "48000", "-ac", "2", part])
-        x = sc.crop_x(e.get("crop"))
-        _run([ff, "-y", "-loglevel", "error", "-i", part, "-vf",
-              "crop=%d:%d:%d:0,scale=%d:%d:flags=lanczos,format=yuv420p" % (sc.CROP_W, sc.CROP_H, x, sc.FRAME_W, sc.FRAME_H),
-              "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-c:a", "copy", vpart])
+        run([ff, "-y", "-loglevel", "error", "-ss", "%.3f" % start, "-i", window, "-t", "%.3f" % (end - start),
+             "-vf", "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,fps=25,format=yuv420p",
+             "-c:v", "libx264", "-crf", "18", "-preset", "medium",
+             "-c:a", "aac", "-b:a", "160k", "-ar", "48000", "-ac", "2", part])
+        run([ff, "-y", "-loglevel", "error", "-i", part, "-vf", vertical_filter(entry, e.get("crop")),
+             "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-c:a", "copy", vpart])
         dur = sc._dur(ff, part)
         heard = alignclip.transcribe(part, part[:-4] + ".wav", ff, model_size=model,
                                      words_json=part[:-4] + ".words.json", log=lambda *_a: None, language=lang)
@@ -774,7 +903,7 @@ def cut_pack(pack_dir, sources=None, only=None, video=None, model=WHISPER_MODEL,
                              speechcut.CAPTION_MAX_CHARS, speechcut.CAPTION_MAX_WORDS)
         fontsdir = os.path.join(wdir, "fonts")
         sc.copy_fonts(fontsdir)
-        logo = sc.LOGO if (entry.get("logo") and os.path.exists(sc.LOGO)) else None
+        logo = sc.LOGO if (entry.get("logo") and not trim and os.path.exists(sc.LOGO)) else None
         credit = entry.get("credit") or ""
         outs = []
         for kind, src, item, ass_text, size in (
@@ -782,14 +911,16 @@ def cut_pack(pack_dir, sources=None, only=None, video=None, model=WHISPER_MODEL,
                                                             sc.CAPTION_SIZE, sc.PLATE_Y, 60), 34),
                 ("landscape", part, litem, speechcut.ass_landscape(litem), 30)):
             ass_path = os.path.join(wdir, "{0}-{1}.ass".format(s, kind))
+            ass_out = with_credit(strip_plate(ass_text) if trim else ass_text, credit, dur, size)
+            check_trim_only_ass(entry, ass_out)
             with open(ass_path, "w", encoding="utf-8") as fh:
-                fh.write(with_credit(ass_text, credit, dur, size))
+                fh.write(ass_out)
             out = os.path.join(final, "{0}-{1}-{2}.mp4".format(cc, s, kind))
             filt = ("[1:v]scale=%d:-1[lg];[0:v][lg]overlay=60:70[v1];[v1]" % (sc.LOGO_W if kind == "vertical" else 240)
                     if logo else "[0:v]") + "ass=%s:fontsdir=%s[v]" % (ass_path, fontsdir)
-            _run([ff, "-y", "-loglevel", "error", "-i", src] + (["-i", logo] if logo else []) +
-                 ["-filter_complex", filt, "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-crf", "18",
-                  "-preset", "medium", "-c:a", "copy", "-movflags", "+faststart", out])
+            run([ff, "-y", "-loglevel", "error", "-i", src] + (["-i", logo] if logo else []) +
+                ["-filter_complex", filt, "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-crf", "18",
+                 "-preset", "medium", "-c:a", "copy", "-movflags", "+faststart", out])
             with open(out[:-4] + ".srt", "w", encoding="utf-8") as fh:
                 fh.write(speechcut.srt(item))
             outs.append(out)
@@ -799,7 +930,9 @@ def cut_pack(pack_dir, sources=None, only=None, video=None, model=WHISPER_MODEL,
             dur, ratio, "the downloaded file" if video else span["media"], span["start"] + start,
             span["note"], heard_text[:600]), outs))
         log("  {0:<28} {1:5.1f}s  match {2:.2f}".format(e["name"], dur, ratio))
-    if len(items) > 1:
+    if len(items) > 1 and trim:
+        log("  no reel: the agreement allows trimming only, not joining clips")
+    elif len(items) > 1:
         lst = os.path.join(wdir, "concat.txt")
         with open(lst, "w") as fh:
             fh.write("".join("file '%s'\n" % os.path.abspath(p) for p in items))
@@ -814,6 +947,10 @@ def write_report(pack_dir, cc, entry, report, locate_only=False):
              "Credit on every frame: `{0}`. For the post text: `{1}`.".format(
                  entry.get("credit", ""), " ".join((entry.get("post_credit") or "").split())),
              "Nothing here has been posted. {0}.".format(AWAITING.capitalize()), ""]
+    if entry.get("agreement"):
+        lines += ["Agreement: {0}.".format(agreement_text(entry).rstrip(".")), ""]
+    if trim_only(entry):
+        lines += [TRIM_ONLY_NOTE + " No reel is made.", ""]
     for e, status, detail, outs in report:
         lines.append("## {0}: {1}".format(e["name"], status))
         lines.append(detail)
@@ -828,7 +965,9 @@ def write_report(pack_dir, cc, entry, report, locate_only=False):
 def sources_table(sources):
     rows = ["| Country | Status | Source | Credit |", "|---|---|---|---|"]
     for cc, e in sources.items():
-        st = e["status"] + (" (agreement recorded)" if e.get("agreement") else "")
+        st = e["status"] + (" (agreement recorded{0})".format(
+            " " + str(e["agreement"].get("date")) if isinstance(e.get("agreement"), dict) else "")
+            if e.get("agreement") else "") + (", trim-only" if trim_only(e) else "")
         rows.append("| {0} | {1} | {2} | {3} |".format(cc.upper(), st, e.get("source", ""), e.get("credit", "")))
     return "\n".join(rows)
 

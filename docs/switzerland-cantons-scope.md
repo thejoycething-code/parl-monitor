@@ -23,6 +23,14 @@ robots.txt allows us, and Aargau from its official law collection (adopted
 acts only). The open-data portals and www.ag.ch/grossrat are still never
 asked. **Covered now: ten of 26**, about 6.4 of 9 million people.
 
+**Update, 13 October 2026 (branch `permissions-1013`, below "Written
+permissions"):** Basel-Stadt and Thurgau wrote back. Both allow our targeted
+use of their Opendatasoft APIs, though robots.txt there disallows `/api/`.
+Both cantons are now read from `data.bs.ch` and `data.tg.ch` (the Grand
+Council datasets only, recorded in `src/robots_guard.PERMISSIONS`), **with
+every member's vote**; the pages above are their fallback. Basel-Landschaft
+and St. Gallen (no reply yet) and Aargau stay as they were.
+
 **Covered: five of 26** (Zürich, Bern, Vaud, Geneva, Ticino): the two
 largest German-speaking cantons, the two largest French-speaking ones and
 the Italian-speaking one, about 4.4 of Switzerland's 9 million people.
@@ -71,9 +79,9 @@ Ranked by population, then by what the first read found on our ground.
 | Fribourg (0.34 m) | Grand Conseil | `www.fr.ch/gc` | Drupal pages | disallows `/fr/`, `/search/` and `?page` | not yet |
 | Basel-Landschaft (0.30 m) | Landrat | `data.bl.ch` datasets 13090 (business since 2017), 13080 (member votes since 2018) | Opendatasoft API | **`Disallow: /api/`** | **no**; **yes** via `baselland.talus.ch` (below) |
 | Solothurn (0.29 m) | Kantonsrat | `so.ch/parlament/` | TYPO3 pages | allows | not yet |
-| Thurgau (0.29 m) | Grosser Rat | `data.tg.ch` datasets sk-stat-140 (business), sk-stat-136 (votes) | Opendatasoft API | **`Disallow: /api/`** | **no**; **yes** via `grgeko.tg.ch` (below) |
+| Thurgau (0.29 m) | Grosser Rat | `data.tg.ch` datasets sk-stat-140 (business), sk-stat-136 (votes) | Opendatasoft API | **`Disallow: /api/`** | **yes, with written permission (13 Oct 2026)**, business and members' votes; fallback `grgeko.tg.ch` (below) |
 | Graubünden (0.20 m) | Grosser Rat | `www.gr.ch` (SharePoint) | HTML | disallows search and list views | not yet |
-| Basel-Stadt (0.20 m) | Grosser Rat | `data.bs.ch` datasets 100311 (business), 100086 (motions), members, agendas | Opendatasoft API | **`Disallow: /api/`** | **no**; **yes** via `grosserrat.bs.ch` (below) |
+| Basel-Stadt (0.20 m) | Grosser Rat | `data.bs.ch` datasets 100311 (business), 100313 (documents), 100314 (steps), 100186 (votes, per member), 100086 (motions), members, agendas | Opendatasoft API | **`Disallow: /api/`** | **yes, with written permission (13 Oct 2026)**, business and members' votes; fallback `grosserrat.bs.ch` (below) |
 | Neuchâtel (0.18 m) | Grand Conseil | `www.ne.ch` | Drupal | allows | not yet |
 | Schwyz (0.17 m) | Kantonsrat | `www.sz.ch/kantonsrat` | HTML | allows | not yet |
 | Zug (0.13 m) | Kantonsrat | `zg.ch/de/kantonsrat` | Magnolia pages | allows | not yet |
@@ -162,6 +170,56 @@ open-data portals and www.ag.ch/grossrat are never asked.
 
 About 10 requests and 9 seconds for the five. No St. Gallen vote in the last
 120 days was on business on our ground, so no tally was read.
+
+## Written permissions (13 October 2026, branch `permissions-1013`)
+
+Chris wrote to the four Opendatasoft cantons on 13 October. Two replied the
+same day, and Chris approved acting on both:
+
+| Canton | Who | What they wrote | Condition we keep |
+|---|---|---|---|
+| Basel-Stadt | Orhan Saeedi, Statistisches Amt (data.bs.ch) | "Sie können sehr gerne die API benutzen unter Einhaltung der Lizenz. Das heisst sie müssen die Datenquelle irgendwie verlinken." If the API is slow, download in batches. | CC BY 4.0: every Basel-Stadt item and vote in the edition carries a "Source:" link to its dataset, and the Cantons coverage line links all four datasets. Votes are exported in 14-day batches |
+| Thurgau | Felix Lorenz, Amt für Daten und Statistik (ogd@tg.ch) | robots.txt targets crawlers indexing the whole portal; targeted API retrieval of individual datasets is explicitly intended; "CitizenGO-ParlMonitor/1.0" may retrieve the Grosser Rat datasets about weekly; the licence allows commercial and non-commercial use. | About weekly (a step of `jobs/ch-weekly.sh`); CC0, the dataset is linked all the same |
+
+How it is recorded: `src/robots_guard.PERMISSIONS` lists each permission with
+its URL prefixes (one dataset each: Basel-Stadt 100311, 100313, 100314,
+100186; Thurgau sk-stat-140, 141, 136, 139), the grantor, the date, the
+condition and a pointer to docs/robots-runtime.md ("Written permissions").
+Only those prefixes skip the robots.txt read; any other path on either host
+is still asked and refused.
+
+What each API gives (read by `tools/ch_cantons.py`, `fetch_baselstadt_api`
+and `fetch_thurgau_api`, JSON exports filtered server-side, 3 s between
+requests):
+
+| | Basel-Stadt (data.bs.ch) | Thurgau (data.tg.ch) |
+|---|---|---|
+| Business | 100311 Geschäfte: number, type, title, author with party and co-authors, begun and ended dates, state. Read: begun or ended in the last 45 days, or touched in them by a document or a step | sk-stat-140: number, type, title, received and closed dates, state, where it is pending, answer date, Erheblicherklärung and other flags as printed. Read: received or closed in the last 45 days, and everything pending |
+| Status | the newest dated document (100313, e.g. "Text Anzug", "Schriftliche Antwort") or Grosser Rat step (100314, the step's own words, e.g. "Überweisung an RR Frist: 23.12.2026"); future sittings are not a status | the dataset's state, "pendent bei", the newest dated step, the flags (e.g. "Erheblicherklärung: nein") |
+| Authors | in 100311 itself | sk-stat-141 Vorstösser (first signatories and co-signatories with party) |
+| Votes | 100186 Live-Abstimmungsergebnisse: **every member's vote** (J, N, E, A, P: yes, no, abstain, absent, president), the Fraktion at the vote, the published counts, the business it was on, a link to the vote's own record | sk-stat-136: **every member's vote** (Ja, Nein, Enthaltung, absent, or the option chosen in a vote between motions, e.g. "Antrag GFK"), the Fraktion at the vote, the day and agenda item; no totals, so the counts are tallied from the members' votes |
+| Weekly volume | 3 exports for business (about 1,000 rows of which a few hundred kept), then votes from the newest stored day: one or two 14-day batches (about 100 rows per vote) | 1 export for business (about 130 rows), 2 to 3 for signatories, then votes from the newest stored day in quarterly batches (the first read: the 2024-2028 legislature, about 300 votes) |
+| Stored | `ch_canton_acts` (dated; `source_url` = the dataset link refined to the business), `ch_canton_divisions` (`counts_from` = published), `ch_canton_votes` (one row per member) | the same; `counts_from` = tallied; keys `tg/<legislature>/<GRG number>`, the same as the pending list's, so the page rows were updated in place |
+
+First live read (13 October 2026, scratch database, never the store):
+Basel-Stadt 326 businesses in the 45-day window, 9 on our ground (anonymous
+births 26.5228, the facial-recognition Anzug, written questions on the
+safety of queer people, sexual exploitation of minors, ethics or religion
+classes, femicide prevention, prostitution's withholding tax), 63 votes
+since 14 August with 6,300 members' votes; the vote on the anonymous-births
+Anzug (23 September, 44-38-10) shows the Fraktion split and six SP members
+against their Fraktion. Thurgau 104 businesses (62 of them the pending list's,
+updated in place, 42 new), 2 on our ground (the gender-reassignment motion
+2024/117, closed on 16 September 2026, "Erheblicherklärung: nein"; the
+abortion interpellation 2024/261, answered 26 May 2026), 302 votes since June
+2024 with 39,357 members' votes. Thurgau's vote dataset was last updated on
+26 June 2026 and ends on 29 April 2026: it lags the sittings by months, so
+recent Thurgau votes arrive late. A second run read one batch per canton
+(27 and 4 votes re-read): about weekly volume.
+
+The fallback: if an API fails, the canton is read from its parliament's
+own pages (grosserrat.bs.ch, grgeko.tg.ch) as before, with one gap line
+saying so; Basel-Stadt's API rows are dated, so they are never a baseline.
 
 ### Contacts (Waiting on Chris: write to them, nothing was sent)
 
@@ -252,9 +310,10 @@ areas offline. Nothing new to install on the Mini.
 
 1. **CH7a (built, 13 October 2026):** Zürich, Bern, Geneva, Vaud, Ticino as
    above.
-2. **CH7b, if Chris agrees (Waiting on Chris, 1):** Basel-Stadt,
-   Basel-Landschaft (with member votes), St. Gallen and Thurgau from their
-   open data.
+2. **CH7b:** Basel-Stadt and Thurgau from their open data, with members'
+   votes: **built 13 October 2026** (written permissions, above).
+   Basel-Landschaft (with member votes) and St. Gallen: waiting on their
+   replies.
 3. **CH7c:** Lucerne (the search form's JSON) and Valais (the Sitrox
    backend), both undocumented backends behind web pages, so robots.txt is
    asked first (both allow today); then Solothurn, Fribourg, Neuchâtel,
@@ -270,7 +329,9 @@ areas offline. Nothing new to install on the Mini.
    still unlock what those routes lack (Basel-Landschaft's member votes,
    Thurgau's votes and speeches, Basel-Stadt's full business data, the
    Aargau Grosser Rat's business). Nothing was sent.
-1. **The four Opendatasoft cantons.** Basel-Stadt, Basel-Landschaft,
+1. **The four Opendatasoft cantons.** (13 October 2026: Basel-Stadt and
+   Thurgau granted written permission and are read from their APIs;
+   Basel-Landschaft and St. Gallen have not replied.) Basel-Stadt, Basel-Landschaft,
    St. Gallen and Thurgau publish exactly what we want as open government
    data, listed on opendata.swiss, but their portals' robots.txt disallows
    `/api/` to every agent but Googlebot. Options: leave them; write to the
@@ -291,4 +352,6 @@ areas offline. Nothing new to install on the Mini.
 federal budget's third argument), `tools/coverage.py` (two freshness rows,
 two `AWAITING_STEP_UNTIL` entries), `config/watchlist-ch.yaml` (the
 `cantons` section), `docs/country-parity-handover.md`, `docs/mac-mini.md`,
-`docs/robots-runtime.md`.
+`docs/robots-runtime.md`. 13 October 2026 (`permissions-1013`):
+`src/robots_guard.py` (`PERMISSIONS`), `src/ch_store.py` (`ch_canton_votes`,
+`source_url`, `counts_from`), `src/db.py` (one name in `TABLES`).

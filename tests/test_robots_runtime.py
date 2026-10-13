@@ -71,6 +71,64 @@ class Routes:
         pass
 
 
+class WrittenPermissionTests(unittest.TestCase):
+    """robots_guard.PERMISSIONS (13 October 2026): a host's owner wrote that
+    our targeted use of what its robots.txt refuses is welcome. Only the
+    listed prefixes skip the robots.txt read; the rest of the host is asked."""
+
+    REFUSE = "User-agent: *\nDisallow: /api/\n"
+    BS = "https://data.bs.ch/api/explore/v2.1/catalog/datasets/"
+    TG = "https://data.tg.ch/api/explore/v2.1/catalog/datasets/"
+
+    def client(self, permissions=None):
+        from tests.robots_fakes import RobotsServing
+        serving = RobotsServing(Routes({"data.bs.ch": "[]", "data.tg.ch": "[]"}),
+                                {"data.bs.ch": self.REFUSE, "data.tg.ch": self.REFUSE})
+        return rg.GuardedClient(serving, "ch-cantons", log=quiet, permissions=permissions), serving
+
+    def test_listed_prefixes_skip_the_robots_read(self):
+        client, serving = self.client()
+        self.assertEqual(client.get_json(self.BS + "100186/exports/json?where=x", "ch-cantons", "v"), [])
+        self.assertEqual(client.get_json(self.TG + "sk-stat-136/exports/json?where=x", "ch-cantons",
+                                         "v"), [])
+        self.assertEqual(serving.robots_asked, [])
+        self.assertTrue(client.allowed(self.BS + "100311/records"))
+
+    def test_the_rest_of_the_host_is_still_asked_and_refused(self):
+        client, serving = self.client()
+        for url in (self.BS + "100307/exports/json", self.TG + "sk-stat-51/records",
+                    "https://data.bs.ch/api/explore/v2.1/catalog/datasets"):
+            with self.assertRaises(rg.RobotsRefused):
+                client.get_json(url, "ch-cantons", "x")
+        self.assertEqual(sorted(set(serving.robots_asked)), ["data.bs.ch", "data.tg.ch"])
+        self.assertEqual(len(serving.inner.asked), 0, "a refused URL is never requested")
+
+    def test_no_permission_no_skip(self):
+        client, serving = self.client(permissions=())
+        with self.assertRaises(rg.RobotsRefused):
+            client.get_json(self.BS + "100186/exports/json", "ch-cantons", "v")
+        self.assertEqual(serving.robots_asked, ["data.bs.ch"])
+
+    def test_every_permission_is_dated_attributed_and_documented(self):
+        doc = open(os.path.join(ROOT, "docs", "robots-runtime.md"), encoding="utf-8").read()
+        self.assertIn("## Written permissions", doc)
+        hosts = set()
+        for p in rg.PERMISSIONS:
+            self.assertRegex(p.date, r"^\d{4}-\d\d-\d\d$")
+            self.assertTrue(p.granted_by and p.condition)
+            self.assertTrue(p.docs.startswith("docs/robots-runtime.md#written-permissions"))
+            for prefix in p.prefixes:
+                # host and a dataset path: never a whole host or a whole /api/
+                self.assertRegex(prefix, r"^https://[^/]+/api/explore/v2\.1/catalog/datasets/[^/]+/$")
+                hosts.add(prefix.split("/")[2])
+                self.assertIn(prefix.split("/datasets/")[1].rstrip("/"), doc)
+        self.assertEqual(hosts, {"data.bs.ch", "data.tg.ch"})
+        self.assertIn("Sie können sehr gerne die API benutzen", rg.PERMISSIONS[0].condition)
+        self.assertIsNone(rg.probe_refusal(self.BS + "100311/records"))
+        self.assertIsNotNone(rg.permission_for(self.TG + "sk-stat-140/exports/json"))
+        self.assertIsNone(rg.permission_for(self.TG + "sk-stat-1400/exports/json"))
+
+
 class GuardTests(unittest.TestCase):
 
     def test_a_documented_api_is_fetched_with_no_robots_read(self):

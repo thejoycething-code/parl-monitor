@@ -110,13 +110,48 @@ class Sources(unittest.TestCase):
         with self.assertRaises(cc.ClipRefused):
             cc.gate(self.src, "nl")                                   # manual: needs --video
         self.assertIsNone(cc.gate(self.src, "nl", video="speech.mp4"))
-        for code in ("fr", "be"):
+        with self.assertRaises(cc.ClipRefused):
+            cc.gate(self.src, "be")                                   # no agreement recorded
+        src = dict(self.src, be=dict(self.src["be"], agreement="written reply of 1 Nov 2026"))
+        self.assertIsNone(cc.gate(src, "be"))
+        # France: agreement recorded 12 October 2026, status allowed.
+        self.assertIsNone(cc.gate(self.src, "fr"))
+        for missing in ("date", "grantor", "conditions"):
+            ag = dict(self.src["fr"]["agreement"], **{missing: ""})
             with self.assertRaises(cc.ClipRefused):
-                cc.gate(self.src, code)                               # no agreement recorded
-        src = dict(self.src, fr=dict(self.src["fr"], agreement="written reply of 1 Nov 2026"))
-        self.assertIsNone(cc.gate(src, "fr"))
+                cc.gate(dict(self.src, fr=dict(self.src["fr"], agreement=ag)), "fr")
+        with self.assertRaises(cc.ClipRefused):
+            cc.gate(dict(self.src, fr=dict(self.src["fr"], agreement="yes")), "fr")
         with self.assertRaises(cc.ClipRefused):
             cc.gate(self.src, "br")
+
+    def test_france_agreement_and_credit(self):
+        fr = self.src["fr"]
+        self.assertEqual(fr["status"], "allowed")
+        self.assertEqual(fr["edits"], "trim-only")
+        self.assertEqual(fr["agreement"]["date"], "2026-10-12")
+        self.assertIn("Cellule GILDA", fr["agreement"]["grantor"])
+        self.assertIn("Fabien Chauvineau", fr["agreement"]["grantor"])
+        self.assertIn("not distorted and/or modified", " ".join(fr["agreement"]["conditions"].split()))
+        credit = "Archives audiovisuelles de l'Assemblée nationale"
+        self.assertEqual(fr["credit"], credit)
+        self.assertEqual(fr["post_credit"], credit)
+        self.assertFalse(fr["logo"])
+        table = cc.sources_table(self.src)
+        self.assertIn("| FR | allowed (agreement recorded 2026-10-12), trim-only |", table)
+        readme = cc.readme("fr", fr, "t", "2026-10-09")
+        self.assertIn("Agreement: written agreement of 2026-10-12", readme)
+        self.assertIn("Trim-only", readme)
+        self.assertIn("Credit for the post text: `{0}`".format(credit), readme)
+
+    def test_trim_only_with_a_logo_is_refused_at_load(self):
+        import yaml
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "s.yaml")
+            with open(path, "w") as fh:
+                yaml.safe_dump({"fr": dict(self.src["fr"], logo=True)}, fh, allow_unicode=True)
+            with self.assertRaises(ValueError):
+                cc.load_sources(path)
 
     def test_no_em_dashes(self):
         self.assertNotIn("—", open(cc.CONFIG, encoding="utf-8").read())
@@ -211,6 +246,61 @@ class Render(unittest.TestCase):
             self.assertEqual(os.listdir(w), ["new.mp4"])
 
 
+class TrimOnly(unittest.TestCase):
+    """France's agreement (12 October 2026): no distortion or modification.
+    The tool checks every ffmpeg command and subtitle file it writes."""
+
+    def setUp(self):
+        self.fr = cc.load_sources()["fr"]
+        self.ch = cc.load_sources()["ch"]
+
+    def test_the_vertical_is_letterboxed_not_cropped(self):
+        vf = cc.vertical_filter(self.fr, None)
+        self.assertNotIn("crop", vf)
+        self.assertEqual(cc.filter_names(vf), ["scale", "pad", "setsar", "format"])
+        self.assertIn("crop=", cc.vertical_filter(self.ch, None))     # CH's terms allow cropping
+
+    def test_trimming_and_resizing_pass(self):
+        ok = [["ffmpeg", "-y", "-ss", "12.000", "-i", "w.mp4", "-t", "40.000", "-vf",
+               "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,"
+               "fps=25,format=yuv420p", "-c:a", "aac", "part.mp4"],
+              ["ffmpeg", "-i", "part.mp4", "-vf", cc.vertical_filter(self.fr, None), "v.mp4"],
+              ["ffmpeg", "-i", "v.mp4", "-filter_complex", "[0:v]ass=/p/x.ass:fontsdir=/p/fonts[v]",
+               "-map", "[v]", "-map", "0:a", "out.mp4"]]
+        for cmd in ok:
+            self.assertIsNone(cc.check_trim_only_cmd(self.fr, cmd))
+
+    def test_anything_beyond_trimming_is_refused(self):
+        bad = [["ffmpeg", "-i", "a.mp4", "-vf", "setpts=0.8*PTS", "o.mp4"],                 # speed
+               ["ffmpeg", "-i", "a.mp4", "-af", "atempo=1.25", "o.mp4"],                    # speed
+               ["ffmpeg", "-i", "a.mp4", "-vf", "crop=608:1080:600:0,scale=1080:1920", "o.mp4"],
+               ["ffmpeg", "-i", "a.mp4", "-vf", "reverse", "o.mp4"],                        # order
+               ["ffmpeg", "-i", "a.mp4", "-vf", "drawtext=text=x", "o.mp4"],                # overlay
+               ["ffmpeg", "-i", "a.mp4", "-i", "logo.png", "-filter_complex",
+                "[1:v]scale=200:-1[lg];[0:v][lg]overlay=60:70[v]", "o.mp4"],                # logo
+               ["ffmpeg", "-f", "concat", "-safe", "0", "-i", "l.txt", "-c", "copy", "r.mp4"],  # reel
+               ["ffmpeg", "-itsscale", "0.9", "-i", "a.mp4", "o.mp4"]]
+        for cmd in bad:
+            with self.assertRaises(cc.ClipRefused, msg=" ".join(cmd)):
+                cc.check_trim_only_cmd(self.fr, cmd)
+        for cmd in bad:                                             # a full-edit country: unchecked
+            self.assertIsNone(cc.check_trim_only_cmd(self.ch, cmd))
+
+    def test_subtitles_carry_only_captions_and_the_exact_credit(self):
+        from src import socialcut as sc
+        item = {"name": "Mme X", "party": "LR", "duration": 4.0, "cards": [(["Bonjour."], 0.2, 1.0)]}
+        ass = sc.ass_document([item], sc.FONT, (1080, 1920), sc.CAPTION_POS, sc.CAPTION_SIZE,
+                              sc.PLATE_Y, 60)
+        with self.assertRaises(cc.ClipRefused):                     # the name plate
+            cc.check_trim_only_ass(self.fr, cc.with_credit(ass, self.fr["credit"], 4.0, 34))
+        clean = cc.with_credit(cc.strip_plate(ass), self.fr["credit"], 4.0, 34)
+        self.assertIsNone(cc.check_trim_only_ass(self.fr, clean))
+        self.assertIn(",Credit,,0,0,0,,Archives audiovisuelles de l'Assemblée nationale\n", clean)
+        self.assertIn("Bonjour.", clean)
+        with self.assertRaises(cc.ClipRefused):                     # a different credit
+            cc.check_trim_only_ass(self.fr, cc.with_credit(cc.strip_plate(ass), "© AN", 4.0, 34))
+
+
 class CutPack(unittest.TestCase):
     def _pack(self, tmp, country):
         rows = [_row(422044, speaker="Jaccoud Jessica")]
@@ -226,9 +316,23 @@ class CutPack(unittest.TestCase):
 
     def test_refuses_without_agreement(self):
         with tempfile.TemporaryDirectory() as tmp:
-            pack = self._pack(tmp, "fr")
+            pack = self._pack(tmp, "be")
             with self.assertRaises(cc.ClipRefused):
                 cc.cut_pack(pack, client=object(), log=lambda *_a: None)
+        src = cc.load_sources()
+        src["fr"] = dict(src["fr"], agreement=None)
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = self._pack(tmp, "fr")
+            with self.assertRaises(cc.ClipRefused):
+                cc.cut_pack(pack, sources=src, client=object(), log=lambda *_a: None)
+
+    def test_france_pack_readme_records_the_agreement(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = self._pack(tmp, "fr")
+            readme = open(os.path.join(pack, "README.md"), encoding="utf-8").read()
+            self.assertIn("Cellule GILDA", readme)
+            self.assertIn("Archives audiovisuelles de l'Assemblée nationale", readme)
+            self.assertIn("Do not edit these files further", readme)
 
 
 class FrenchTimes(unittest.TestCase):

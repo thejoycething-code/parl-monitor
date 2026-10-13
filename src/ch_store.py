@@ -41,9 +41,12 @@ cantonal item never collides with a federal business. Where the source
 dates a step, `status_date` is that date; where it prints only the current
 status, a run that sees it change stamps the day it saw it and sets
 `status_seen`. `baseline` marks rows of an undated canton's first read
-(never shown as new). `ch_canton_divisions` holds Bern's Tagblatt votes with
-their published tallies, linked to the act they name; no canton read
-publishes member positions we can read. Additive: new tables only, created
+(never shown as new). Since 13 October 2026 Basel-Stadt and Thurgau are read
+from their open-data APIs (written permission; `source_url` names the
+dataset, as the licence asks) and their members' individual votes go to
+`ch_canton_votes`. `ch_canton_divisions` holds Bern's Tagblatt votes with
+their published tallies, linked to the act they name (St. Gallen's, Basel-Stadt's
+and Thurgau's too). Additive: new tables only, created
 by ensure_schema; nothing here touches the federal tables.
 """
 
@@ -180,6 +183,18 @@ SCHEMA = (
         first_seen   TEXT,
         last_seen    TEXT
     )""",
+    # Members' individual votes in a cantonal division, where the canton
+    # publishes them (13 October 2026: Basel-Stadt's data.bs.ch 100186 and
+    # Thurgau's data.tg.ch sk-stat-136, read with written permission).
+    """CREATE TABLE IF NOT EXISTS ch_canton_votes (
+        vote_key     TEXT NOT NULL,      -- ch_canton_divisions.vote_key
+        member       TEXT NOT NULL,      -- 'Vorname Name', as the dataset prints it
+        member_id    TEXT,               -- the canton's own member number, where given
+        parl_group   TEXT,               -- the Fraktion AT THE VOTE
+        position     TEXT,               -- 'Ja' / 'Nein' / 'Enthaltung' / 'Abwesend' /
+                                         -- 'Präsident' / a named option ('Antrag GFK')
+        PRIMARY KEY (vote_key, member)
+    ) WITHOUT ROWID""",
     "CREATE INDEX IF NOT EXISTS ch_canton_acts_canton ON ch_canton_acts (canton, presented)",
     "CREATE INDEX IF NOT EXISTS ch_canton_divisions_act ON ch_canton_divisions (act_key)",
     "CREATE INDEX IF NOT EXISTS ch_divisions_business ON ch_divisions (business_id)",
@@ -187,7 +202,7 @@ SCHEMA = (
 )
 
 TABLES = ("ch_members", "ch_sessions", "ch_businesses", "ch_divisions", "ch_votes",
-          "ch_canton_acts", "ch_canton_divisions")
+          "ch_canton_acts", "ch_canton_divisions", "ch_canton_votes")
 
 # Columns added after a table was first shipped: (table, column, type).
 # CH6 (10 October 2026): the Italian pass.
@@ -196,6 +211,12 @@ ADDED_COLUMNS = (
     ("ch_businesses", "areas_it", "TEXT"),   # JSON: taxonomy-it (for ch) on the Italian text
     ("ch_businesses", "terms_it", "TEXT"),   # JSON: the Italian matched terms
     ("ch_businesses", "tier_it", "INTEGER"), # the Italian match's own tier
+    # 13 October 2026 (written permissions): the open-data dataset an act or
+    # a vote was read from (data.bs.ch / data.tg.ch), which the licence asks
+    # us to link; NULL for the cantons read from their own sites.
+    ("ch_canton_acts", "source_url", "TEXT"),
+    ("ch_canton_divisions", "source_url", "TEXT"),
+    ("ch_canton_divisions", "counts_from", "TEXT"),   # 'published' / 'tallied'
 )
 
 

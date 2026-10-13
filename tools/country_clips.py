@@ -16,8 +16,11 @@ country's own collector into memory; it makes no AI call. The cut fetches only
 each speech's span of official video, transcribes it (faster-whisper, model
 "small"), aligns the passage, and renders a captioned 9:16 and 16:9 clip with
 the source credit. It never posts, uploads or sends anything: the clips are
-files for a person. Countries whose terms ask for prior agreement (FR, BE)
-refuse to cut until config/clip-sources.yaml records it. See
+files for a person. Countries whose terms ask for prior agreement (BE)
+refuse to cut until config/clip-sources.yaml records it; France's agreement
+(12 October 2026) is recorded, and its clips are cut trim-only (no edit
+beyond the start and end, credit "Archives audiovisuelles de l'Assemblée
+nationale"), which the tool enforces. See
 docs/debate-pack-social.md, "Speech clips, new countries".
 """
 

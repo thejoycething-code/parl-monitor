@@ -86,6 +86,35 @@ Slower (Crawl-delay now honoured):
 
 Every other scraper host answered and allows every sample URL.
 
+## Written permissions
+
+13 October 2026. Some hosts whose robots.txt refuses programs answered a
+written request from Chris with permission for our targeted use. Chris
+approved acting on them. `src/robots_guard.PERMISSIONS` records each one: the
+URL prefixes it covers (host and path, one Opendatasoft dataset each, never a
+whole host or a whole `/api/`), who granted it, the date, the condition in the
+grantor's words, and a pointer to this section. A URL under a listed prefix
+is fetched with no robots.txt read by every `GuardedClient` (wrapped with or
+without `DOCUMENTED_APIS`) and by `probe_refusal`; the guard logs the
+permission once per run. Every other URL on the same host still asks
+robots.txt and is refused there (tested). A permission is never inferred: a
+dataset not listed is asked.
+
+| Host | Prefixes (datasets) | Granted by | Date | Condition (their words) | Our side |
+|---|---|---|---|---|---|
+| data.bs.ch | `/api/explore/v2.1/catalog/datasets/` 100311 (Grosser Rat: Geschäfte), 100313 (Dokumente), 100314 (Vorgänge von Geschäften), 100186 (Live-Abstimmungsergebnisse, members' votes) | Orhan Saeedi, Statistisches Amt Basel-Stadt | 13 Oct 2026 | "Sie können sehr gerne die API benutzen unter Einhaltung der Lizenz. Das heisst sie müssen die Datenquelle irgendwie verlinken." If the API is slow, download in batches. | Licence CC BY 4.0 (Parlamentsdienst des Grossen Rates). Every Basel-Stadt item and vote in the Swiss edition carries a "Source:" link to its dataset (`ch_canton_acts.source_url`, `ch_canton_divisions.source_url`), and the Cantons coverage line links all four datasets. Exports filtered server-side; votes fetched in 14-day batches; 3 s between requests |
+| data.tg.ch | `/api/explore/v2.1/catalog/datasets/` sk-stat-140 (Politische Geschäfte des Grossen Rats), sk-stat-141 (Vorstösserinnen und Vorstösser), sk-stat-136 (Abstimmungen im Grossen Rat, members' votes), sk-stat-139 (Dokumente; listed, not read yet) | Felix Lorenz, Amt für Daten und Statistik (ogd@tg.ch) | 13 Oct 2026 | robots.txt is aimed at crawlers indexing the whole portal; targeted API retrieval of individual datasets is explicitly intended; our client "CitizenGO-ParlMonitor/1.0" may retrieve the Grosser Rat datasets about weekly via the API; the licence allows commercial and non-commercial use. | Licence CC0 1.0. Read once a week by jobs/ch-weekly.sh; votes from the newest stored day on (the first read: the 2024-2028 legislature in quarterly batches). Items carry their dataset link too |
+
+Collector: `tools/ch_cantons.py` (`fetch_baselstadt_api`, `fetch_thurgau_api`).
+If either API fails, the canton is read from its parliament's own pages as
+before (grosserrat.bs.ch, grgeko.tg.ch) and one gap line says so. Scope:
+docs/switzerland-cantons-scope.md.
+
+A new permission is added by appending a `Permission(...)` to
+`robots_guard.PERMISSIONS` with the same fields and a row here;
+`tests/test_robots_runtime.py` (`WrittenPermissionTests`) checks that every
+entry is dated, attributed, dataset-narrow and documented on this page.
+
 ## Patient robots.txt reads
 
 12 October 2026, Chris: "Patient robots.txt reads". One slow robots.txt
@@ -277,7 +306,7 @@ names the client that is wrapped when it is not the collector's own.
 | ca_committees | www.ourcommons.ca, www.parl.ca | scraper | yes | allowed |
 | ca_senate_committees | sencanada.ca | scraper | yes | allowed (12 October 2026) |
 | ca_senate_debates | sencanada.ca | scraper | yes | allowed |
-| ch_cantons (CH7, 13 October 2026) | parlzhcdws.cmicloud.ch, ogd.parl.apps.be.ch, ge.ch, www.vd.ch, www4.ti.ch | scraper and open data | yes (GuardedClient, no exemptions) | all allowed on 13 October 2026 (cmicloud and ogd.parl 404, ge.ch serves a web page as robots.txt); Ticino's acts search is disallowed and not used. Not read because robots.txt refuses: data.bs.ch, data.bl.ch, daten.sg.ch, data.tg.ch (`/api/`), www.ag.ch (`/grossrat`). Added 13 October 2026 (access-routes), all allowed: grosserrat.bs.ch (disallows `/api/`, not used), baselland.talus.ch (disallows `/*searchTerm=`, not used), www.ratsinfo.sg.ch (serves its app page as robots.txt: no rules), grgeko.tg.ch (allows all), gesetzessammlungen.ag.ch (disallows its search paths, not used) |
+| ch_cantons (CH7, 13 October 2026) | parlzhcdws.cmicloud.ch, ogd.parl.apps.be.ch, ge.ch, www.vd.ch, www4.ti.ch | scraper and open data | yes (GuardedClient, no exemptions) | all allowed on 13 October 2026 (cmicloud and ogd.parl 404, ge.ch serves a web page as robots.txt); Ticino's acts search is disallowed and not used. data.bs.ch and data.tg.ch (`/api/` disallowed): the Grand Council datasets only, read with written permission since 13 October 2026 (see "Written permissions"). Not read because robots.txt refuses: data.bl.ch, daten.sg.ch (`/api/`), www.ag.ch (`/grossrat`). Added 13 October 2026 (access-routes), all allowed: grosserrat.bs.ch (disallows `/api/`, not used), baselland.talus.ch (disallows `/*searchTerm=`, not used), www.ratsinfo.sg.ch (serves its app page as robots.txt: no rules), grgeko.tg.ch (allows all), gesetzessammlungen.ag.ch (disallows its search paths, not used) |
 | cl_senate_parties | datos.bcn.cl/sparql | API | no | |
 | country_agenda, country_petitions, country_attendance, country_vote_briefs, country_debate_today, country_live_debate | (drivers) | | yes | wrapped once, see above |
 | devolved_brief | parl-monitor-partner.vercel.app, github.com | own | no | our own site and repository |
@@ -328,5 +357,10 @@ robots.txt and a 404 one. `tests/robots_fakes.guarded_api()` builds a
 timeout then success is allowed, three timeouts are Disallow: / with one gap
 inside 150 s, the collector's budget caps the retries, a prompt 503 gets one
 retry then Disallow: /, a 404 is no rules at once, a saved copy under 24 h is
-used when the host is unreachable and one over 24 h is ignored. `tests/test_sv_rollcalls.py`'s main() test now serves
+used when the host is unreachable and one over 24 h is ignored.
+`WrittenPermissionTests`: a listed dataset prefix is fetched with no
+robots.txt read although robots.txt disallows `/api/`; an unlisted dataset,
+the catalogue and every other path on the same host are still asked and
+refused; with no permissions passed, the listed prefix is asked too; every
+`PERMISSIONS` entry is dated, attributed, dataset-narrow and listed here. `tests/test_sv_rollcalls.py`'s main() test now serves
 robots.txt as 404.

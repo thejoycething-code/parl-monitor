@@ -114,6 +114,25 @@ small budget (#118).
 - Switzerland: five more cantons (#177), Basel-Stadt, Basel-Landschaft,
   St. Gallen and Thurgau via their parliaments' own business systems, Aargau
   adopted acts only (the AGS). Ten of 26 cantons.
+
+**13 October 2026 evening: written permissions received (branch `permissions-1013`):**
+- Basel-Stadt (Statistisches Amt, data.bs.ch) and Thurgau (Amt für Daten und
+  Statistik, data.tg.ch) allow our targeted API use although robots.txt there
+  disallows `/api/`. Recorded, dated and quoted in `src/robots_guard.PERMISSIONS`
+  (dataset-narrow prefixes; everything else on the hosts is still asked) and
+  docs/robots-runtime.md "Written permissions". Both cantons are now read from
+  the APIs with **every member's vote** (`ch_canton_votes`, new table), shown in
+  the Cantons section like the federal votes (tally, Fraktion split, members
+  against their Fraktion), each item with a "Source:" link to its dataset as
+  Basel-Stadt's CC BY licence asks. The page routes stay as the fallback.
+  Details: docs/switzerland-cantons-scope.md, "Written permissions".
+- France, Assemblée nationale (Cellule GILDA, 12 October): plenary clips
+  allowed if not distorted or modified, credited « Archives audiovisuelles de
+  l'Assemblée nationale ». `config/clip-sources.yaml` fr: `status: allowed`, the
+  agreement recorded (date, grantor, conditions), `edits: trim-only`, that
+  credit on screen and in the post text, no logo. The clip tool enforces
+  trim-only (no speed change, reordering, joining, crop, logo or name plate;
+  only the credit and captions). Clips stay files for Chris; nothing is posted.
 - Argentina (#173): Santa Fe Diputados' SIEL built (its robots.txt blocks AI
   agents by name and allows our UA; a guard skips the run if any rule ever
   covers our UA); Salta: wrong hostnames, not a missing intermediate, so
@@ -166,8 +185,10 @@ Open:
 - OPEN: update the work account's **debate-day-net** scheduled task from
   `ops/scheduled-tasks/debate-day-net.md` (STEP 1B, debate today for NL, CH,
   FR, BE). It lives on the work account.
-- OPEN: when France or Belgium agrees to short credited clips, set
-  `fr.agreement` / `be.agreement` in `config/clip-sources.yaml`.
+- OPEN: when Belgium agrees to short credited clips, set `be.agreement` in
+  `config/clip-sources.yaml`. France's agreement is recorded (13 October,
+  `status: allowed`, trim-only, credit « Archives audiovisuelles de
+  l'Assemblée nationale »).
 
 Done or decided (details in the decisions docs):
 
@@ -848,7 +869,9 @@ motions, Geneva's reassignment-for-minors and LIMOIG bills, Vaud's headscarf
 postulate). A step of `jobs/ch-weekly.sh` (7-minute budget); no new Mini job.
 **Blocked by robots.txt:** Basel-Stadt, Basel-Landschaft (whose open data
 includes every member's vote since 2018), St. Gallen and Thurgau (their
-Opendatasoft portals disallow `/api/`), Aargau (`/grossrat` disallowed);
+Opendatasoft portals disallow `/api/`; Basel-Stadt and Thurgau read from
+their APIs with written permission since 13 October 2026, members' votes
+included), Aargau (`/grossrat` disallowed);
 Ticino's acts search (disallowed; the order of the day is read instead).
 **Not built yet:** Lucerne and Valais (undocumented JSON backends), the
 smaller cantons. No canton read publishes member positions we can read.
@@ -1056,17 +1079,17 @@ All from cjoyce@citizengo.net.
 | Australia | webmanager@aph.gov.au | sent 9 Oct |
 | Guatemala court (bot challenge) | comunicacion@cc.gob.gt, asked to forward to the Unidad de Información Pública | sent 12 Oct |
 | El Salvador missing votes (sessions 41-64, 98): LAIP request | transparencia@asamblea.gob.sv | sent 12 Oct |
-| France clip agreement | communication@assemblee-nationale.fr | sent 12 Oct |
+| France clip agreement | communication@assemblee-nationale.fr | **granted 12 Oct** (Cellule GILDA, Fabien Chauvineau): clips allowed if not distorted or modified, credit « Archives audiovisuelles de l'Assemblée nationale ». Recorded 13 Oct (`config/clip-sources.yaml` fr: allowed, trim-only). Closed |
 | Belgium clip agreement | pri@dekamer.be | sent 12 Oct |
 | Uruguay main site (403 everywhere): open-data team | datosabiertos@diputados.gub.uy, cc ctip@parlamento.gub.uy | sent 12 Oct |
 | Argentina Diputados roll-call votes (open-data set stops Feb 2020) | dtl.dgis@hcdn.gob.ar, cc dip@hcdn.gob.ar | sent 12 Oct (the sites answered the laptop that day) |
 | Panama segLegis (robots.txt answers HTTP 500, so not read) | bhislop@asamblea.gob.pa (open-data maintainer), cc wmaster@asamblea.gob.pa | sent 12 Oct |
 | San Luis Potosí Congress (Sucuri bot check): access | unidadtransparenciaslp@gmail.com | sent 12-13 Oct; adopted decrees read from the gazette meanwhile (#155) |
 | Campeche Congress (robots.txt disallows all): access, and whether legislacion.congresocam.gob.mx may be read | procesoslegislativos@congresocam.gob.mx | sent 12-13 Oct; gazette read meanwhile (#155) |
-| Basel-Stadt open data (`/api/` disallowed to all but Googlebot) | opendata@bs.ch, cc parlamentsdienst@bs.ch | sent 13 Oct; grosserrat.bs.ch read meanwhile (#177) |
+| Basel-Stadt open data (`/api/` disallowed to all but Googlebot) | opendata@bs.ch, cc parlamentsdienst@bs.ch | **granted 13 Oct** (Orhan Saeedi, Statistisches Amt): use the API under the licence, link the data source; batches if slow. Built 13 Oct (`permissions-1013`): business and members' votes from data.bs.ch, dataset linked on every item. Closed |
 | Basel-Landschaft open data (same) | daten@bl.ch, cc landeskanzlei@bl.ch | sent 13 Oct; baselland.talus.ch read meanwhile (#177) |
 | St. Gallen open data (same) | statistik@sg.ch, cc parlamentsdienste@sg.ch | sent 13 Oct; ratsinfo.sg.ch read meanwhile (#177) |
-| Thurgau open data (same) | ogd@tg.ch, cc grossrat.sk@tg.ch | sent 13 Oct; grgeko.tg.ch read meanwhile (#177) |
+| Thurgau open data (same) | ogd@tg.ch, cc grossrat.sk@tg.ch | **granted 13 Oct** (Felix Lorenz, Amt für Daten und Statistik): targeted API retrieval intended, Grosser Rat datasets about weekly, commercial and non-commercial use. Built 13 Oct (`permissions-1013`): business and members' votes from data.tg.ch. Closed |
 | Aargau (robots.txt disallows the parliament section) | parlamentsdienst@ag.ch | sent 13 Oct; adopted acts from the AGS meanwhile (#177) |
 | Western Australia Parliament (robots.txt answers 403): allow our UA | receptionservices@parliament.wa.gov.au, cc laquery@parliament.wa.gov.au | sent 13 Oct; Acts as passed only meanwhile |
 | Northern Territory Assembly (robots.txt answers 403): allow our UA | LA.Committees@nt.gov.au | sent 13 Oct; bills by session meanwhile |

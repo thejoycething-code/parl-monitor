@@ -45,11 +45,13 @@ Basel-Landschaft, St. Gallen and Thurgau (robots.txt: Disallow /api/) and
 www.ag.ch/grossrat stay unread. Each canton is read instead from another
 official host of its own whose robots.txt allows it (asked every run):
 
-  bs  Grosser Rat Basel-Stadt (via grosserrat.bs.ch, the Grand Council's
-      own site; its robots.txt disallows only /api/ and system folders): the
-      new parliamentary motions page (the business numbers and titles
-      lodged for the next sitting) and the weekly Grossratsversand page
-      (every report, Ratschlag and written answer since February, dated).
+  bs  Grosser Rat Basel-Stadt. Since 13 October 2026 from data.bs.ch (see
+      WRITTEN PERMISSIONS below); the fallback, if that API fails, is
+      grosserrat.bs.ch, the Grand Council's own site (its robots.txt
+      disallows only /api/ and system folders): the new parliamentary
+      motions page (the business numbers and titles lodged for the next
+      sitting) and the weekly Grossratsversand page (every report, Ratschlag
+      and written answer since February, dated).
   bl  Landrat Basel-Landschaft (via baselland.talus.ch, the Landrat's
       business system "Politik Baselland"): the newest documents list, about
       six weeks of motions, postulates, interpellations, Vorlagen, committee
@@ -60,9 +62,11 @@ official host of its own whose robots.txt allows it (asked every run):
       its business types and process states, and /api/votings: every
       recorded vote with its tally (read for the votes on business on our
       ground).
-  tg  Grosser Rat Thurgau (via grgeko.tg.ch, the Grosser Rat's electronic
-      business database; robots.txt allows everything): the list of pending
-      business (Pendente Geschäfte), with each item's registration date.
+  tg  Grosser Rat Thurgau. Since 13 October 2026 from data.tg.ch (see
+      WRITTEN PERMISSIONS below); the fallback is grgeko.tg.ch, the Grosser
+      Rat's electronic business database (robots.txt allows everything): the
+      list of pending business (Pendente Geschäfte), with each item's
+      registration date.
   ag  Aargau (via gesetzessammlungen.ag.ch, the canton's official law
       collection; robots.txt disallows only its search paths): the
       Aargauische Gesetzessammlung's chronological index of published acts
@@ -74,6 +78,30 @@ link back to the cantons' /api/ exports (no file is hosted on
 opendata.swiss), and ckan.opendata.swiss disallows /api/ itself. The
 official gazettes (Kantonsblatt Basel-Stadt, amtsblattportal.ch, the
 St. Gallen and Thurgau Amtsblatt) all disallow every path to every agent.
+
+WRITTEN PERMISSIONS (13 October 2026; src/robots_guard.PERMISSIONS,
+docs/robots-runtime.md "Written permissions"). Basel-Stadt's Statistisches
+Amt and Thurgau's Amt fuer Daten und Statistik wrote that our targeted use
+of their Opendatasoft APIs is welcome, though robots.txt there disallows
+/api/. Only the Grand Council datasets below are read; JSON exports filtered
+server-side to the window, votes in date batches (Basel-Stadt: "if the API
+is slow, download in batches"), 3 s between requests, once a week:
+
+  bs  data.bs.ch (CC BY 4.0: the data source must be linked): 100311
+      Geschaefte begun or ended in the last BS_API_DAYS days, or touched in
+      them by a document (100313) or a Grosser Rat step (100314, its
+      'vermerk' as the status); 100186 every vote since the newest stored,
+      with its published counts and each member's vote (J/N/E/A/P).
+  tg  data.tg.ch (CC0): sk-stat-140 business received or closed in the last
+      TG_API_DAYS days and everything pending, its state, where it is
+      pending, its newest dated step and its flags as printed; sk-stat-141
+      the signatories; sk-stat-136 each member's vote (or the option they
+      chose in a vote between motions), counts tallied from them (the
+      dataset prints none).
+
+Every act and vote read there carries `source_url`, its dataset link, shown
+on the item in the edition. Members' votes go to ch_canton_votes. If an API
+fails, the canton is read from the pages above and one gap says so.
 
 CLASSIFICATION as the federal collector does it (tools/ch_rollcalls.py):
 German text with config/taxonomy-atch.yaml for `ch`, French with
@@ -96,14 +124,16 @@ and [gap] lines): jobs/ch-weekly.sh treats its failure as a [gap] line and
 never as the run's.
 
 ROBOTS.TXT AT RUN TIME: every request goes through
-src/robots_guard.GuardedClient (no exemptions), which reads each host's
+src/robots_guard.GuardedClient (no exemptions but the written permissions), which reads each host's
 robots.txt once per run before the first request. A disallowed URL, or a
 host whose robots.txt cannot be read, is a [gap] line and a gaps row,
 never fetched and never fatal. That is why the open-data portals of
-Basel-Stadt, Basel-Landschaft, St. Gallen and Thurgau (Opendatasoft portals
-whose robots.txt disallows /api/ to every agent but Googlebot) and Aargau's
+Basel-Landschaft and St. Gallen (Opendatasoft portals whose robots.txt
+disallows /api/ to every agent but Googlebot) and Aargau's
 www.ag.ch/grossrat are never asked; those cantons are read through the
-routes under ALTERNATIVE ROUTES above.
+routes under ALTERNATIVE ROUTES above. data.bs.ch and data.tg.ch are asked
+only under their written permissions (the listed datasets skip the
+robots.txt read; anything else on those hosts is still refused).
 """
 
 from __future__ import annotations
@@ -239,8 +269,9 @@ BL_QUESTIONS = ("Interpellation", "Schriftliche Anfrage", "Fragestunde")
 BS_NEW = "https://grosserrat.bs.ch/ratsbetrieb/neue-vorstoesse"
 BS_VERSAND = "https://grosserrat.bs.ch/ratsbetrieb/neue-berichte-und-schreiben"
 BS_URL = "https://grosserrat.bs.ch/ratsbetrieb/geschaefte/{0}"
-BS_KINDS = ("Interpellation", "Schriftliche Anfrage", "Motion", "Anzug", "Budgetpostulat",
-            "Planungsanzug", "Petition", "Ratschlag", "Bericht", "Schreiben", "Standesinitiative")
+BS_KINDS = ("Interpellation", "Schriftliche Anfrage", "Kleine Anfrage", "Motion", "Anzug",
+            "Budgetpostulat", "Vorgezogenes Budgetpostulat", "Planungsanzug", "Planungsauftrag",
+            "Petition", "Ratschlag", "Bericht", "Schreiben", "Standesinitiative", "Resolution")
 BS_QUESTIONS = ("Interpellation", "Schriftliche Anfrage")
 
 # --- Thurgau (via grgeko.tg.ch) -------------------------------------------------------
@@ -251,6 +282,60 @@ TG_QUESTIONS = ("Interpellation", "Einfache Anfrage")
 AG_INDEX = "https://gesetzessammlungen.ag.ch/api/de/change_documents/lightweight_index"
 AG_URL = "https://gesetzessammlungen.ag.ch/app/de/change_documents/{0}"
 AG_SINCE = "2025-01-01"      # the Grosser Rat's legislature began in January 2025
+
+# --- Basel-Stadt and Thurgau open data (written permission, 13 October 2026) ------
+# Both portals' robots.txt disallows /api/; both owners wrote to say targeted
+# API use is welcome (src/robots_guard.PERMISSIONS, docs/robots-runtime.md,
+# "Written permissions"). Basel-Stadt: CC BY 4.0, the data source must be
+# linked; Thurgau: CC0. Every act and vote read here carries its dataset link
+# (ch_canton_acts.source_url / ch_canton_divisions.source_url). Exports,
+# filtered server-side to the window and fetched in date batches (Basel-Stadt
+# asked for batches if the API is slow); about one weekly run's volume.
+BS_ODS = "https://data.bs.ch/api/explore/v2.1/catalog/datasets/"
+POLITE_HOSTS = ("data.bs.ch", "data.tg.ch")
+POLITE_S = 3.0              # seconds between two requests to either portal
+BS_SETS = {"geschaefte": "100311", "dokumente": "100313", "vorgaenge": "100314",
+           "abstimmungen": "100186"}
+BS_DATASET = "https://data.bs.ch/explore/dataset/{0}/"
+BS_ITEM = "https://data.bs.ch/explore/dataset/100311/?refine.signatur_ges={0}"
+BS_LICENCE = "CC BY 4.0, Parlamentsdienst des Grossen Rates Basel-Stadt"
+BS_API_DAYS = 45            # businesses begun or ended, documents and steps since then
+BS_VOTE_DAYS = 60           # votes: the first read; later runs start at the newest stored
+BS_BATCH_DAYS = 14          # one export per fortnight of votes
+BS_SKIP = ("Wahl", "Rücktritt", "Abbitte", "Urteil", "Mutation", "Personal", "Anlass")
+BS_API_QUESTIONS = ("Interpellation", "Schriftliche Anfrage", "Kleine Anfrage")
+BS_POSITIONS = {"J": "Ja", "N": "Nein", "E": "Enthaltung", "A": "Abwesend", "P": "Präsident"}
+BS_VOTE_SKIP = ("Anwesenheit", "ungültig")
+BS_GES_FIELDS = ("beginn_ges,ende_ges,signatur_ges,status_ges,titel_ges,ga_rr_gr,url_ges,"
+                 "name_urheber,vorname_urheber,name_vorname_urheber,partei_kname_urheber,"
+                 "gremientyp_urheber,name_vorname_miturheber")
+BS_VOTE_FIELDS = ("datum,anr,abst_nr,typ,traktandum,subtraktandum,geschaeft,signatur_ges,"
+                  "signatur_dok,anz_j,anz_n,anz_e,anz_a,anz_p,mitglied_vorname,"
+                  "mitglied_nachname,mitglied_name,fraktion,entscheid_mitglied,gr_uni_nr,"
+                  "url_abstimmung_dok")
+
+TG_ODS = "https://data.tg.ch/api/explore/v2.1/catalog/datasets/"
+TG_SETS = {"geschaefte": "sk-stat-140", "urheber": "sk-stat-141", "abstimmungen": "sk-stat-136"}
+TG_DATASET = "https://data.tg.ch/explore/dataset/{0}/"
+TG_ITEM = "https://data.tg.ch/explore/dataset/sk-stat-140/table/?q={0}"
+TG_LICENCE = "CC0 1.0, Staatskanzlei Kanton Thurgau"
+TG_API_DAYS = 45
+TG_VOTE_SINCE = "2024-06-01"   # the 2024-2028 legislature: the first read's start
+TG_BATCH_DAYS = 92             # one export per quarter of votes
+TG_SKIP = ("Wahlgeschäft", "Einbürgerungsgesuch", "Begnadigungsgesuch")
+TG_API_QUESTIONS = ("Interpellation", "Einfache Anfrage", "Fragestunde")
+TG_STEPS = (("datum_beantwortung", "vom Regierungsrat beantwortet"),
+            ("datum_erheblicherklaerung", "erheblich erklärt"),
+            ("datum_behoerdenreferendum", "Behördenreferendum"),
+            ("datum_volksabstimmung", "Volksabstimmung"),
+            ("datum_geschaeft_abschluss", "Abschluss"))
+TG_FLAGS = (("erheblichkeitserklaerung", "Erheblicherklärung"),
+            ("teilerheblicherklaerung", "Teilerheblicherklärung"),
+            ("rueckzug", "Rückzug"), ("abschreibung", "Abschreibung"))
+# A member's vote that is not Ja, Nein, Enthaltung or an absence names an
+# option of a vote between motions ('Antrag GFK', 'Kommissionsfassung').
+TG_PLAIN = ("Ja", "Nein", "Enthaltung", "Abwesend", "Abwesend/Keine Stimmabgabe",
+            "Keine Stimmabgabe")
 
 
 # --- small helpers -------------------------------------------------------------
@@ -890,6 +975,253 @@ def parse_ag(data, since=AG_SINCE):
     return out
 
 
+# --- Basel-Stadt and Thurgau, open-data APIs (written permission) ------------------
+
+def ods_export(base, dataset, where, select=None, order_by=None):
+    """An Opendatasoft v2.1 JSON export, filtered server-side (ODSQL)."""
+    params = {"where": where, "timezone": "Europe/Zurich"}
+    if select:
+        params["select"] = select
+    if order_by:
+        params["order_by"] = order_by
+    return base + dataset + "/exports/json?" + urllib.parse.urlencode(
+        params, quote_via=urllib.parse.quote)
+
+
+def batches(since, until, days):
+    """[(start, end)] inclusive ISO-date windows of `days` covering since..until."""
+    out, a = [], datetime.date.fromisoformat(since)
+    end = datetime.date.fromisoformat(until)
+    while a <= end:
+        b = min(end, a + datetime.timedelta(days=days - 1))
+        out.append((a.isoformat(), b.isoformat()))
+        a = b + datetime.timedelta(days=1)
+    return out
+
+
+def _dmy(day):
+    return "{2}.{1}.{0}".format(*day.split("-")) if day else ""
+
+
+def _num(v):
+    try:
+        return int(float(v)) if v not in (None, "") else None
+    except (TypeError, ValueError):
+        return None
+
+
+def parse_bs_api(rows, docs=(), steps=(), today=None, since=None):
+    """Acts from data.bs.ch: Geschaefte (100311, one row per co-author), each
+    with its newest dated document (100313) or Grosser Rat step (100314) up
+    to today as its status, in the dataset's own words."""
+    today = today or datetime.date.today().isoformat()
+    biz = {}
+    for r in rows or []:
+        sig = (r.get("signatur_ges") or "").strip()
+        if not sig:
+            continue
+        b = biz.setdefault(sig, {"row": r, "co": set()})
+        if r.get("name_vorname_miturheber"):
+            b["co"].add(r["name_vorname_miturheber"])
+    events, first = {}, {}
+    for d in docs or []:
+        sig, day = d.get("signatur_ges"), iso(d.get("dokudatum") or "")
+        if not sig or not day or day > today:
+            continue
+        events.setdefault(sig, []).append((day, "Dokument: " + (text(d.get("titel_dok")) or "?")))
+        if (d.get("signatur_dok") or "").endswith(".01"):
+            first[sig] = min(first.get(sig, day), day)
+    for v in steps or []:
+        sig, day = v.get("signatur_ges"), iso(v.get("siz_datum") or "")
+        if not sig or not day or day > today:
+            continue
+        events.setdefault(sig, []).append(
+            (day, "Grosser Rat, Sitzung vom {0}: {1}".format(_dmy(day),
+                                                           text(v.get("vermerk")) or "traktandiert")))
+    out = []
+    for sig, b in biz.items():
+        r = b["row"]
+        kind = (r.get("ga_rr_gr") or "").strip() or "Geschäft"
+        if kind in BS_SKIP:
+            continue
+        begun, ended = iso(r.get("beginn_ges") or ""), iso(r.get("ende_ges") or "")
+        if ended and ended > today:
+            ended = None
+        ev = sorted(events.get(sig, []))
+        if since and not ev and not any(x and since <= x <= today for x in (begun, ended)):
+            continue          # pending, but nothing happened to it in the window
+        presented = first.get(sig) or (begun if begun and begun <= today else None)
+        state = (r.get("status_ges") or "").strip()
+        if ev:
+            status, status_date = "{0} ({1})".format(ev[-1][1], state) if state else ev[-1][1], ev[-1][0]
+            if ended and ended > status_date:
+                status, status_date = state or "Abgeschlossen", ended
+        else:
+            status, status_date = state or None, ended or presented
+        _k, _a, words = bs_split(r.get("titel_ges"))
+        who = r.get("name_vorname_urheber") or ""
+        if r.get("vorname_urheber") and r.get("name_urheber"):
+            who = "{0} {1}".format(r["vorname_urheber"], r["name_urheber"])
+        if who and r.get("partei_kname_urheber"):
+            who += " ({0})".format(r["partei_kname_urheber"])
+        if who and b["co"]:
+            who += " and {0} other(s)".format(len(b["co"]))
+        out.append({
+            "key": "bs/" + sig, "canton": "bs", "kind": kind, "number": sig,
+            "label": "{0} {1}".format(kind, sig), "title": words or text(r.get("titel_ges")),
+            "title_fr": None, "presented": presented, "status": (status or "")[:300] or None,
+            "status_date": status_date, "dated": True, "initiative": who or None,
+            "committee": None, "url": r.get("url_ges") or BS_URL.format(sig),
+            "source_url": BS_ITEM.format(sig), "seq": None,
+            "question": kind in BS_API_QUESTIONS})
+    return out
+
+
+def parse_bs_api_votes(rows):
+    """Divisions from data.bs.ch 100186 (one row per member and vote): the
+    published counts and every member's vote."""
+    votes = {}
+    for r in rows or []:
+        anr = (r.get("anr") or "").strip()
+        if not anr or r.get("typ") in BS_VOTE_SKIP:
+            continue
+        v = votes.get(anr)
+        if v is None:
+            sig = (r.get("signatur_ges") or "").strip()
+            subject = r.get("typ") or "Abstimmung"
+            if r.get("abst_nr"):
+                subject += ", Abstimmung Nr. {0}".format(r["abst_nr"])
+            v = votes[anr] = {
+                "key": "bs/v/" + anr, "canton": "bs", "act_key": "bs/" + sig if sig else None,
+                "date": iso(r.get("datum") or ""), "subject": subject, "result": None,
+                "yes": _num(r.get("anz_j")), "no": _num(r.get("anz_n")),
+                "abstain": _num(r.get("anz_e")), "url": r.get("url_abstimmung_dok"),
+                "source_url": BS_DATASET.format(BS_SETS["abstimmungen"]),
+                "counts_from": "published", "positions": [], "act_title": r.get("geschaeft")}
+        name = " ".join(x for x in (r.get("mitglied_vorname"), r.get("mitglied_nachname")) if x)
+        name = name or r.get("mitglied_name")
+        if not name:
+            continue
+        pos = r.get("entscheid_mitglied")
+        v["positions"].append({"member": name, "member_id": r.get("gr_uni_nr"),
+                               "parl_group": r.get("fraktion"),
+                               "position": BS_POSITIONS.get(pos, pos)})
+    return list(votes.values())
+
+
+_TG_NR = re.compile(r"^(\d\d)/.*?/\s*(\d+)\s*$")
+
+
+def tg_key(number):
+    """'24/MO 14/115' -> 'tg/2024/115' (the key the pending list gives it too)."""
+    m = _TG_NR.match((number or "").strip())
+    if not m:
+        return None
+    yy = int(m.group(1))
+    return "tg/{0}/{1}".format(1900 + yy if yy > 50 else 2000 + yy, int(m.group(2)))
+
+
+def tg_authors(rows):
+    """{Geschaeftsnummer: [(name (party), first signatory?)]} from sk-stat-141."""
+    out = {}
+    for r in rows or []:
+        nr = r.get("geschaeftsnummer")
+        name = " ".join(x for x in (r.get("vorname"), r.get("nachname")) if x)
+        if not nr or not name:
+            continue
+        if r.get("partei"):
+            name += " ({0})".format(r["partei"])
+        out.setdefault(nr, []).append((name, (r.get("erstunterzeichner") or "").lower() == "ja"))
+    return out
+
+
+def parse_tg_api(rows, authors=None, today=None):
+    """Acts from data.tg.ch sk-stat-140, with the signatories of sk-stat-141.
+    Status: the dataset's own state, where it is pending, and its newest
+    dated step; flags (Erheblicherklaerung ...) printed as the dataset has them."""
+    today = today or datetime.date.today().isoformat()
+    authors = authors or {}
+    out = []
+    for r in rows or []:
+        kind = (r.get("geschaftsart") or "").strip() or "Geschäft"
+        nr = (r.get("geschaeftsnummer") or "").strip()
+        key = tg_key(nr)
+        if kind in TG_SKIP or not key:
+            continue
+        title = text(r.get("geschaftstitel"))
+        m = _TG_KIND.match(title)
+        words = m.group(3).strip() if m else title
+        firsts = [n for n, f in authors.get(nr, []) if f]
+        others = len(authors.get(nr, [])) - len(firsts)
+        initiative = ", ".join(firsts) or (m.group(2).strip() if m else None)
+        if initiative and others > 0:
+            initiative += " and {0} other(s)".format(others)
+        steps = sorted((iso(r.get(f) or ""), what) for f, what in TG_STEPS
+                       if iso(r.get(f) or "") and iso(r.get(f) or "") <= today)
+        state = {"inbearbeitung": "In Bearbeitung", "abgeschlossen": "Abgeschlossen"}.get(
+            (r.get("status") or "").lower(), r.get("status") or "")
+        bits = [state] if state else []
+        if r.get("pendent_bei"):
+            bits.append("pendent bei: {0}".format(r["pendent_bei"]))
+        if steps:
+            bits.append("{0} am {1}".format(steps[-1][1], _dmy(steps[-1][0])))
+        bits += ["{0}: {1}".format(label, {"true": "ja", "false": "nein"}.get(
+                     str(r.get(f)).lower(), r.get(f)))
+                 for f, label in TG_FLAGS if r.get(f) not in (None, "")]
+        presented = iso(r.get("datum_geschaeft_eingang") or "")
+        out.append({
+            "key": key, "canton": "tg", "kind": kind, "number": nr,
+            "label": "{0} {1}".format(kind, nr), "title": words, "title_fr": None,
+            "presented": presented, "status": "; ".join(bits) or None,
+            "status_date": steps[-1][0] if steps else presented, "dated": True,
+            "initiative": initiative or None, "committee": r.get("kommission") or None,
+            "url": TG_ITEM.format(urllib.parse.quote('"{0}"'.format(nr))),
+            "source_url": TG_DATASET.format(TG_SETS["geschaefte"]), "seq": None,
+            "question": kind in TG_API_QUESTIONS})
+    return out
+
+
+def parse_tg_api_votes(rows):
+    """Divisions from data.tg.ch sk-stat-136 (one row per member and vote; a
+    vote is its day and agenda item). The dataset prints no totals: they are
+    tallied from the members' votes. A vote between options names them."""
+    import hashlib
+    votes = {}
+    for r in rows or []:
+        day, item = iso(r.get("datum") or ""), re.sub(r"\s+", " ", r.get("traktandum") or "").strip()
+        if not day or not item:
+            continue
+        key = "tg/v/{0}/{1}".format(day, hashlib.sha1(item.encode("utf-8")).hexdigest()[:12])
+        v = votes.get(key)
+        if v is None:
+            cut = re.search(r"\)\s*:\s*", item)
+            subject = item[cut.end():] if cut else re.sub(r"^\d+\.\s*", "", item)
+            head = re.sub(r"\s*\(\d\d/[^)]*\)\s*:.*$", "", item)
+            head = re.sub(r"^\d+\.\s*", "", head).strip(" \"„“”«»")
+            v = votes[key] = {"key": key, "canton": "tg", "act_key": tg_key(r.get("geschaeftsnummer")),
+                              "date": day, "subject": subject, "act_title": head, "result": None,
+                              "url": TG_DATASET.format(TG_SETS["abstimmungen"]),
+                              "source_url": TG_DATASET.format(TG_SETS["abstimmungen"]),
+                              "counts_from": "tallied", "positions": []}
+        name = (r.get("name_vorname") or "").strip()
+        if name:
+            v["positions"].append({"member": name, "member_id": str(r["nr"]) if r.get("nr") else None,
+                                   "parl_group": r.get("fraktion"),
+                                   "position": (r.get("stimme") or "").strip() or None})
+    for v in votes.values():
+        got = [p["position"] for p in v["positions"]]
+        options = sorted({p for p in got if p and p not in TG_PLAIN})
+        if options:
+            counts = sorted(((got.count(o), o) for o in options), reverse=True)
+            v["yes"] = v["no"] = None
+            v["abstain"] = got.count("Enthaltung") or None
+            v["result"] = "Stimmen je Antrag (gezählt): " + ", ".join(
+                "{0} {1}".format(o, n) for n, o in counts)
+        else:
+            v["yes"], v["no"], v["abstain"] = got.count("Ja"), got.count("Nein"), got.count("Enthaltung")
+    return list(votes.values())
+
+
 # --- classification and storing --------------------------------------------------
 
 class Taxonomies:
@@ -952,8 +1284,8 @@ def store_act(conn, a, cls, today, baseline=False):
     conn.execute(
         "INSERT INTO ch_canton_acts (act_key, canton, kind, number, label, title, title_fr, "
         "presented, status, status_date, status_seen, initiative, committee, url, seq, "
-        "question, baseline, areas, matched_terms, tier, first_seen, last_seen) "
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+        "question, baseline, areas, matched_terms, tier, first_seen, last_seen, source_url) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
         "ON CONFLICT(act_key) DO UPDATE SET kind=excluded.kind, number=excluded.number, "
         "label=excluded.label, title=excluded.title, title_fr=excluded.title_fr, "
         "presented=COALESCE(excluded.presented, ch_canton_acts.presented), "
@@ -963,30 +1295,46 @@ def store_act(conn, a, cls, today, baseline=False):
         "ch_canton_acts.committee), url=excluded.url, "
         "seq=COALESCE(excluded.seq, ch_canton_acts.seq), question=excluded.question, "
         "areas=excluded.areas, matched_terms=excluded.matched_terms, tier=excluded.tier, "
-        "last_seen=excluded.last_seen",
+        "last_seen=excluded.last_seen, source_url=excluded.source_url",
         (a["key"], a["canton"], a["kind"], a.get("number"), a.get("label"), a.get("title"),
          a.get("title_fr"), a.get("presented"), a.get("status"), status_date, seen,
          a.get("initiative"), a.get("committee"), a.get("url"), a.get("seq"),
          1 if a.get("question") else 0, base, ch_store.dumps(areas), ch_store.dumps(terms),
-         tier, today, today))
+         tier, today, today, a.get("source_url")))
     return state
 
 
-def store_vote(conn, v, today):
+def store_vote(conn, v, today, tax=None):
     row = conn.execute("SELECT areas, matched_terms, tier FROM ch_canton_acts WHERE act_key=?",
                        (v.get("act_key"),)).fetchone() if v.get("act_key") else None
+    if row is None and tax is not None and v.get("act_title"):
+        # A vote on business this run did not read: its areas from the title
+        # the vote dataset prints for it.
+        areas, terms, tier = classify(tax, {"key": v.get("act_key") or "", "canton": v["canton"],
+                                            "title": v["act_title"]})
+        row = (ch_store.dumps(areas), ch_store.dumps(terms), tier)
     conn.execute(
         "INSERT INTO ch_canton_divisions (vote_key, canton, act_key, date, subject, result, yes, "
-        "no, abstain, url, areas, matched_terms, tier, first_seen, last_seen) "
-        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(vote_key) DO UPDATE SET "
+        "no, abstain, url, areas, matched_terms, tier, first_seen, last_seen, source_url, "
+        "counts_from) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(vote_key) DO UPDATE SET "
         "act_key=excluded.act_key, date=excluded.date, subject=excluded.subject, "
         "result=excluded.result, yes=excluded.yes, no=excluded.no, abstain=excluded.abstain, "
         "url=excluded.url, areas=excluded.areas, matched_terms=excluded.matched_terms, "
-        "tier=excluded.tier, last_seen=excluded.last_seen",
+        "tier=excluded.tier, last_seen=excluded.last_seen, source_url=excluded.source_url, "
+        "counts_from=excluded.counts_from",
         (v["key"], v["canton"], v.get("act_key"), v.get("date"), v.get("subject"),
          v.get("result"), v.get("yes"), v.get("no"), v.get("abstain"), v.get("url"),
          row[0] if row else "[]", row[1] if row else "[]", row[2] if row else None,
-         today, today))
+         today, today, v.get("source_url"), v.get("counts_from")))
+    if v.get("positions"):
+        # The members' votes: replaced whole, so a corrected export leaves no stale row.
+        conn.execute("DELETE FROM ch_canton_votes WHERE vote_key=?", (v["key"],))
+        conn.executemany(
+            "INSERT OR REPLACE INTO ch_canton_votes (vote_key, member, member_id, parl_group, "
+            "position) VALUES (?,?,?,?,?)",
+            [(v["key"], p["member"], p.get("member_id"), p.get("parl_group"), p.get("position"))
+             for p in v["positions"] if p.get("member")])
 
 
 def store_all(conn, acts, tax, today, baseline=False):
@@ -1149,7 +1497,8 @@ def fetch_baselland(client, conn=None, today=None, log=print, budget=None):
     return parse_bl(client.get_text(BL_NEW, FEED, "bl-neuste")), 0
 
 
-def fetch_baselstadt(client, conn=None, today=None, log=print, budget=None):
+def fetch_baselstadt_pages(client, conn=None, today=None, log=print, budget=None):
+    """The fallback: the Grand Council's own pages (grosserrat.bs.ch)."""
     new = parse_bs_new(client.get_text(BS_NEW, FEED, "bs-vorstoesse"))
     versand = []
     if budget is None or not budget.exhausted():
@@ -1157,8 +1506,127 @@ def fetch_baselstadt(client, conn=None, today=None, log=print, budget=None):
     return merge_bs(new, versand), 0
 
 
-def fetch_thurgau(client, conn=None, today=None, log=print, budget=None):
+def _since(today, days):
+    return (datetime.date.fromisoformat(today) - datetime.timedelta(days=days)).isoformat()
+
+
+def _vote_start(conn, canton, default):
+    """The newest stored vote's day (re-read: an export may have grown), else `default`."""
+    if conn is None:            # a dry run: the last month only
+        return max(default, (datetime.date.today() - datetime.timedelta(days=30)).isoformat())
+    got = conn.execute("SELECT MAX(date) FROM ch_canton_divisions WHERE canton=? AND "
+                       "counts_from IS NOT NULL", (canton,)).fetchone()
+    return max(default, got[0]) if got and got[0] else default
+
+
+def fetch_baselstadt_api(client, conn=None, today=None, log=print, budget=None):
+    """data.bs.ch (written permission, 13 October 2026): Geschaefte begun or
+    ended in the last BS_API_DAYS days or touched by a document or a Grosser
+    Rat step in them, and every vote since the newest stored one, fortnight by
+    fortnight, with each member's vote."""
+    today = today or datetime.date.today().isoformat()
+    since = _since(today, BS_API_DAYS)
+    q = '"{0}"'.format
+    ges = client.get_json(ods_export(
+        BS_ODS, BS_SETS["geschaefte"],
+        "beginn_ges >= {0} or ende_ges >= {0} or status_ges = \"In Bearbeitung\"".format(q(since)),
+        select=BS_GES_FIELDS), FEED, "bs-ods-geschaefte", timeout=180)
+    docs = client.get_json(ods_export(
+        BS_ODS, BS_SETS["dokumente"], "dokudatum >= {0} and dokudatum <= {1}".format(q(since), q(today)),
+        select="dokudatum,signatur_dok,titel_dok,signatur_ges"), FEED, "bs-ods-dokumente", timeout=180)
+    steps = client.get_json(ods_export(
+        BS_ODS, BS_SETS["vorgaenge"], "siz_datum >= {0} and siz_datum <= {1}".format(q(since), q(today)),
+        select="beschlnr,vermerk,siz_datum,signatur_ges"), FEED, "bs-ods-vorgaenge", timeout=180)
+    if not isinstance(ges, list):
+        raise ValueError("data.bs.ch answered with no list of Geschaefte")
+    acts = parse_bs_api(ges, docs, steps, today=today, since=since)
+    votes, part = [], 0
+    for k, (a, b) in enumerate(batches(_vote_start(conn, "bs", _since(today, BS_VOTE_DAYS)), today,
+                                       BS_BATCH_DAYS)):
+        if budget is not None and budget.exhausted():
+            log(budget.disclose("Basel-Stadt vote batches", k))
+            part = 1
+            break
+        rows = client.get_json(ods_export(
+            BS_ODS, BS_SETS["abstimmungen"], "datum >= {0} and datum <= {1}".format(q(a), q(b)),
+            select=BS_VOTE_FIELDS), FEED, "bs-ods-abstimmungen-" + a, timeout=180)
+        votes += parse_bs_api_votes(rows)
+    return acts, part, votes
+
+
+def fetch_thurgau_pages(client, conn=None, today=None, log=print, budget=None):
+    """The fallback: the Grosser Rat's list of pending business (grgeko.tg.ch)."""
     return parse_tg(client.get_text(TG_PENDING, FEED, "tg-pendente")), 0
+
+
+TG_AUTHOR_CHUNK = 60
+
+
+def fetch_thurgau_api(client, conn=None, today=None, log=print, budget=None):
+    """data.tg.ch (written permission, 13 October 2026, "about weekly"):
+    business received or closed in the last TG_API_DAYS days and
+    everything pending, their signatories, and every vote since the newest
+    stored one, quarter by quarter, with each member's vote."""
+    today = today or datetime.date.today().isoformat()
+    since = _since(today, TG_API_DAYS)
+    q = '"{0}"'.format
+    rows = client.get_json(ods_export(
+        TG_ODS, TG_SETS["geschaefte"],
+        # datum_beantwortung and the other step dates are text fields: ODSQL
+        # cannot compare them, so pending business stands in for them.
+        "datum_geschaeft_eingang >= {0} or datum_geschaeft_abschluss >= {0} or "
+        "status = \"InBearbeitung\"".format(q(since))),
+        FEED, "tg-ods-geschaefte", timeout=180)
+    if not isinstance(rows, list):
+        raise ValueError("data.tg.ch answered with no list of Geschaefte")
+    numbers = sorted({r.get("geschaeftsnummer") for r in rows if r.get("geschaeftsnummer")
+                      and (r.get("geschaftsart") or "") not in TG_SKIP})
+    signers = []
+    for i in range(0, len(numbers), TG_AUTHOR_CHUNK):
+        chunk = numbers[i:i + TG_AUTHOR_CHUNK]
+        signers += client.get_json(ods_export(
+            TG_ODS, TG_SETS["urheber"], "geschaeftsnummer in ({0})".format(
+                ", ".join(q(n.replace('"', "")) for n in chunk))),
+            FEED, "tg-ods-urheber-{0}".format(i // TG_AUTHOR_CHUNK), timeout=180) or []
+    acts = parse_tg_api(rows, tg_authors(signers), today=today)
+    votes, part = [], 0
+    for k, (a, b) in enumerate(batches(_vote_start(conn, "tg", TG_VOTE_SINCE), today, TG_BATCH_DAYS)):
+        if budget is not None and budget.exhausted():
+            log(budget.disclose("Thurgau vote batches", k))
+            part = 1
+            break
+        got = client.get_json(ods_export(
+            TG_ODS, TG_SETS["abstimmungen"], "datum >= {0} and datum <= {1}".format(q(a), q(b))),
+            FEED, "tg-ods-abstimmungen-" + a, timeout=180)
+        votes += parse_tg_api_votes(got)
+    return acts, part, votes
+
+
+def _api_or_pages(api, pages, name, client, conn, today, log, budget):
+    """The open-data API; if it fails, the canton's own pages, and one gap
+    saying so (the 4th element: gaps already recorded)."""
+    today = today or datetime.date.today().isoformat()
+    try:
+        return api(client, conn, today, log=log, budget=budget)
+    except (FetchError, ValueError, TypeError, AttributeError) as e:
+        detail = "{0}: open-data API not read ({1}); read from its own site instead".format(
+            name, str(e)[:160])
+        if conn is not None:
+            _gap(conn, today, detail, log=log)
+        else:
+            log("  [gap] " + detail)
+        acts, g = pages(client, conn, today, log=log, budget=budget)
+        return acts, g, [], 1
+
+
+def fetch_baselstadt(client, conn=None, today=None, log=print, budget=None):
+    return _api_or_pages(fetch_baselstadt_api, fetch_baselstadt_pages, CANTONS["bs"], client,
+                         conn, today, log, budget)
+
+
+def fetch_thurgau(client, conn=None, today=None, log=print, budget=None):
+    return _api_or_pages(fetch_thurgau_api, fetch_thurgau_pages, CANTONS["tg"], client,
+                         conn, today, log, budget)
 
 
 def fetch_aargau(client, conn=None, today=None, log=print, budget=None):
@@ -1178,11 +1646,13 @@ def reclassify(conn, tax, watch_path=None):
         conn.execute("UPDATE ch_canton_acts SET areas=?, matched_terms=?, tier=? WHERE act_key=?",
                      (ch_store.dumps(areas), ch_store.dumps(terms), tier, r[0]))
         n += 1
+    # A vote whose act is not stored keeps the areas its own printed title gave it.
     conn.execute("UPDATE ch_canton_divisions SET areas=COALESCE((SELECT a.areas FROM ch_canton_acts a "
                  "WHERE a.act_key=ch_canton_divisions.act_key), '[]'), matched_terms=COALESCE(("
                  "SELECT a.matched_terms FROM ch_canton_acts a WHERE a.act_key="
                  "ch_canton_divisions.act_key), '[]'), tier=(SELECT a.tier FROM ch_canton_acts a "
-                 "WHERE a.act_key=ch_canton_divisions.act_key)")
+                 "WHERE a.act_key=ch_canton_divisions.act_key) WHERE act_key IN (SELECT act_key "
+                 "FROM ch_canton_acts) OR counts_from IS NULL")
     conn.commit()
     print("ch-cantons: reclassified {0} cantonal act(s)".format(n))
 
@@ -1203,11 +1673,17 @@ def main(argv=None):
     ap.add_argument("--canton", nargs="*", choices=ORDER, help="default: every canton read")
     ap.add_argument("--reclassify", action="store_true")
     ap.add_argument("--budget-seconds", type=float, default=BUDGET_S)
+    ap.add_argument("--today", default=None, help=argparse.SUPPRESS)   # tests: a fixed day
     ap.add_argument("--dry-run", action="store_true",
                     help="read each canton once, print what was parsed, store nothing")
     args = ap.parse_args(argv)
     client = GuardedClient(HttpClient(raw_dir=os.path.join(ROOT, "data", "raw")), FEED)
-    today = datetime.date.today().isoformat()
+    for host in POLITE_HOSTS:
+        try:
+            client.set_host_throttle(host, POLITE_S)
+        except AttributeError:
+            pass
+    today = args.today or datetime.date.today().isoformat()
     cantons = args.canton or list(ORDER)
     if args.dry_run:
         for canton in cantons:
@@ -1249,6 +1725,7 @@ def main(argv=None):
             continue
         acts, g = got[0], got[1]
         votes = got[2] if len(got) > 2 else []
+        gaps += got[3] if len(got) > 3 else 0
         if g:
             _gap(conn, today, "{0}: read in part (time budget)".format(CANTONS[canton]))
         gaps += g
@@ -1256,15 +1733,20 @@ def main(argv=None):
             _gap(conn, today, "{0}: the source answered with no acts".format(CANTONS[canton]))
             gaps += 1
             continue
+        # An undated canton's first read is a baseline; Basel-Stadt's API rows
+        # (source_url) carry their own dates and never are.
         n, ours, new, moved = store_all(conn, acts, tax, today,
-                                        baseline=first_read and canton in UNDATED)
+                                        baseline=first_read and canton in UNDATED
+                                        and not any(a.get("source_url") for a in acts))
         for v in votes:
-            store_vote(conn, v, today)
+            store_vote(conn, v, today, tax=tax)
         conn.commit()
+        npos = sum(len(v.get("positions") or []) for v in votes)
         print("ch-cantons: {0}: {1} act(s) read, {2} on our ground, {3} new to the store, "
               "{4} with a changed status{5}".format(
                   CANTONS[canton], n, ours, new, moved,
-                  "; {0} vote(s)".format(len(votes)) if votes else ""))
+                  "; {0} vote(s){1}".format(len(votes), ", {0} member vote(s)".format(npos)
+                                            if npos else "") if votes else ""))
     summary(conn)
     conn.close()
     return 3 if gaps else 0

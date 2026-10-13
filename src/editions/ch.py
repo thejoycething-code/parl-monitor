@@ -35,7 +35,11 @@ Assembly's. An act is new by its submission date, or, in a canton that
 prints none (Geneva, Vaud, Ticino), by the day we first saw it after that
 canton's first read; otherwise it is a stage move by its status date. Bern's
 votes come with their published tallies, grouped on the act they name.
-Titles are verbatim in the canton's language.
+Titles are verbatim in the canton's language. Basel-Stadt and Thurgau
+(since 13 October 2026, from data.bs.ch and data.tg.ch with written
+permission) carry members' votes (ch_canton_votes), shown as the federal
+votes are (tally, Fraktion split, members against their Fraktion), and a
+"Source:" line linking the dataset, as Basel-Stadt's CC BY licence asks.
 """
 
 from __future__ import annotations
@@ -204,11 +208,25 @@ CANTON_NAMES = {"zh": "Kantonsrat Zürich", "be": "Grosser Rat Bern",
 CANTONS_READ = ("zh", "be", "sg", "bl", "bs", "tg", "ag", "ge", "vd", "ti")
 CANTONS_UNDATED = ("ge", "vd", "ti", "bs")
 CANTONS_DOC = ce.REPO + "docs/switzerland-cantons-scope.md"
+# Read from an open-data API whose robots.txt refuses programs, with the
+# owner's written permission (13 October 2026; src/robots_guard.PERMISSIONS).
+# The licence asks for the data source to be linked: every item carries its
+# dataset link, and so does the coverage line.
+OPEN_DATA = {
+    "bs": ("data.bs.ch", "CC BY 4.0, Parlamentsdienst des Grossen Rates Basel-Stadt",
+           (("Geschäfte", "https://data.bs.ch/explore/dataset/100311/"),
+            ("Dokumente", "https://data.bs.ch/explore/dataset/100313/"),
+            ("Vorgänge", "https://data.bs.ch/explore/dataset/100314/"),
+            ("Abstimmungen", "https://data.bs.ch/explore/dataset/100186/"))),
+    "tg": ("data.tg.ch", "CC0 1.0, Staatskanzlei Kanton Thurgau",
+           (("Geschäfte", "https://data.tg.ch/explore/dataset/sk-stat-140/"),
+            ("Vorstösser", "https://data.tg.ch/explore/dataset/sk-stat-141/"),
+            ("Abstimmungen", "https://data.tg.ch/explore/dataset/sk-stat-136/"))),
+}
 CANTONS_BLOCKED = (
-    "Basel-Stadt, Basel-Landschaft, St. Gallen and Thurgau: their open-data portals' "
-    "robots.txt disallows /api/ (not read); their parliaments are read from their own "
-    "business systems instead (grosserrat.bs.ch, baselland.talus.ch, ratsinfo.sg.ch, "
-    "grgeko.tg.ch)",
+    "Basel-Landschaft and St. Gallen: their open-data portals' robots.txt disallows /api/ "
+    "(not read); their parliaments are read from their own business systems instead "
+    "(baselland.talus.ch, ratsinfo.sg.ch)",
     "Aargau: www.ag.ch's robots.txt disallows /grossrat (not read); only the acts published "
     "in the Aargauische Gesetzessammlung are read",
     "Lucerne, Valais and the other sixteen cantons are not read yet ([scope]({0}))".format(
@@ -235,6 +253,20 @@ def _canton_takeaway(r, new):
         else:
             bits.append("status dated {0}".format(ce.long_date(ce.day(r["status_date"]))))
     return "; ".join(bits)
+
+
+def source_line(canton, url):
+    """The dataset link an open-data canton's licence asks for."""
+    got = OPEN_DATA.get(canton)
+    if not got or not url:
+        return None
+    return "Source: [{0}]({1}) ({2}).".format(got[0], url, got[1])
+
+
+def _canton_positions(conn, vote_key):
+    return [(v["member"], v["parl_group"], v["position"]) for v in ce.rows(
+        conn, "SELECT member, parl_group, position FROM ch_canton_votes WHERE vote_key=? "
+              "ORDER BY member", (vote_key,))]
 
 
 def canton_items(conn, since, until, wl):
@@ -266,6 +298,9 @@ def canton_items(conn, since, until, wl):
         lines = []
         if r["title_fr"] and r["title_fr"] != r["title"]:
             lines.append("French title: *{0}*".format(ce.clip(r["title_fr"], 300)))
+        src = source_line(r["canton"], r["source_url"])
+        if src:
+            lines.append(src)
         out.append(ce.item("ch", kind, r["act_key"], date, r["title"], ce.areas_of(r["areas"]),
                            r["tier"], w, status=r["status"], url=r["url"],
                            terms=r["matched_terms"], takeaway=_canton_takeaway(r, new),
@@ -277,16 +312,35 @@ def canton_items(conn, since, until, wl):
         if not ce.on_ground(r["areas"], w):
             continue
         title = ce.clean(r["subject"]) or "Abstimmung"
+        name = CANTON_NAMES.get(r["canton"], "Grosser Rat")
         take = "{0}, on {1}".format(CANTON_NAMES.get(r["canton"], r["canton"]),
                                     ce.clean(r["act_label"]) or r["act_key"] or "an item")
+        pairs = _canton_positions(conn, r["vote_key"])
+        if r["counts_from"] == "tallied" and r["yes"] is None and r["no"] is None:
+            # A vote between options: the counts per option are the result line.
+            lines = ["Tally: {0} (tallied from the members' votes; {1} publishes no totals)."
+                     .format(ce.clean(r["result"]) or "not available", OPEN_DATA.get(
+                         r["canton"], ("the source",))[0])]
+        elif r["counts_from"] == "tallied":
+            lines = [ce.tally_line(r["yes"], r["no"], r["abstain"], r["result"],
+                                   "tallied from the members' votes; {0} publishes no totals"
+                                   .format(OPEN_DATA.get(r["canton"], ("the source",))[0]))]
+        else:
+            lines = [ce.tally_line(r["yes"], r["no"], r["abstain"], r["result"],
+                                   "{0}, as published".format(name))]
+        reb = ce.rebels(pairs, POS_YES, POS_NO) if pairs else None
+        if pairs:
+            lines.append(ce.split_line(ce.group_counts([(g, p) for _, g, p in pairs],
+                                                       POS_YES, POS_NO, POS_ABST), "By Fraktion"))
+            lines.append(ce.members_line(len(pairs), reb, "Fraktion as printed on the vote."))
+        lines.append(source_line(r["canton"], r["source_url"]))
         out.append(ce.vote("ch", r["vote_key"], r["date"], title, ce.areas_of(r["areas"]),
-                           r["tier"], w, [ce.tally_line(r["yes"], r["no"], r["abstain"],
-                                                        r["result"], "{0}, as published".format(
-                                                            CANTON_NAMES.get(r["canton"], "Grosser Rat")))],
+                           r["tier"], w, lines,
                            url=r["url"], terms=r["matched_terms"], takeaway=take,
                            group="cantons:" + (r["act_key"] or r["vote_key"]),
                            group_title=r["act_title"],
-                           watch_key=r["act_key"] if w else None))
+                           watch_key=r["act_key"] if w else None,
+                           positions=pairs or None, rebels=reb))
     return out
 
 
@@ -302,18 +356,25 @@ def canton_coverage(conn):
     lines = ["Cantonal parliaments read (last read): {0}.".format(", ".join(read) or "none yet")]
     if never:
         lines.append("Not read yet: {0}.".format(", ".join(never)))
+    for code, (host, licence, sets) in OPEN_DATA.items():
+        lines.append("{0} is read from {1}'s open-data API with the owner's written permission "
+                     "(13 October 2026; robots.txt there refuses programs): {2}; {3}.".format(
+                         CANTON_NAMES[code], host, ", ".join("[{0}]({1})".format(n, u)
+                                                            for n, u in sets), licence))
     lines += [b + "." for b in CANTONS_BLOCKED]
     lines.append("Cantonal titles are matched in their own language (taxonomy-atch, taxonomy-fr, "
                  "taxonomy-it for Ticino); Geneva is read through its keyword search, Vaud from "
-                 "its lists of pending objects, Ticino from the order of the day, Thurgau from its "
-                 "list of pending business, Basel-Landschaft from its newest documents.")
+                 "its lists of pending objects, Ticino from the order of the day, Basel-Landschaft "
+                 "from its newest documents. Basel-Stadt and Thurgau fall back to their "
+                 "parliaments' own pages if the API fails (a gap line says so).")
     return lines
 
 
 def cantons(conn, since, until, wl):
     intro = ["The cantonal parliaments' own business on our ground: Zürich, Bern, Geneva, Vaud "
              "and Ticino, each from its own system; titles verbatim in the canton's language, "
-             "statuses in its own words. Bern's votes carry the Tagblatt's published tallies."]
+             "statuses in its own words. Bern's votes carry the Tagblatt's published tallies; "
+             "Basel-Stadt's and Thurgau's carry every member's vote, with the Fraktion split."]
     return [("Cantons", intro, canton_items(conn, since, until, wl), canton_coverage(conn))]
 
 
