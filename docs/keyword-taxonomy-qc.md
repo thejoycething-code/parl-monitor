@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Quebec French keyword taxonomy
 
-**Version 0.3 | 2 October 2026 | Owner: Christopher | Status: AI DRAFT, MEASURED AGAINST ASSNAT, NOT YET VERIFIED BY A QUEBEC READER**
+**Version 0.4 | 13 October 2026 | Owner: Christopher | Status: AI DRAFT, MEASURED AGAINST ASSNAT, NOT YET VERIFIED BY A QUEBEC READER**
 
 ## Purpose
 
@@ -149,8 +149,8 @@ words, not "en ligne" (Bill 9 of 43-3 sells energy drinks online). After the ful
 ### 3. Gender medicine and children {#3_gender_medicine_children}
 
 - **Tier 1:** "dysphorie de genre"; "bloqueur* de puberté"; "bloqueur* d'hormones"; "inhibiteur* de puberté"; "mineur* transgenre*"; "enfant* transgenre*"; "transition de genre" [with: mineur*, enfant*, jeune*, élève*]; "Comité de sages sur l'identité de genre"
-- **Tier 2:** transgenre*; "identité de genre"; "affirmation de genre"; "personne* trans"; détransition*; "réassignation sexuelle"
-- **Notes:** Measured: Bill 103 (2016) "améliorer notamment la situation des mineurs transgenres" is the only title. `identité de genre` is tier 2 on purpose: it is a Charter ground cited in many texts that are not about medicine or children (Bill 70, Bill 2), and tier 2 sends it to the judge.
+- **Tier 2:** transgenre* [with: mineur*, enfant*, jeune*, élève*, école*, adolescent*]; "identité de genre" [with: mineur*, enfant*, jeune*, élève*, école*, adolescent*]; "affirmation de genre"; "personne* trans"; détransition*; "réassignation sexuelle"
+- **Notes:** Measured: Bill 103 (2016) "améliorer notamment la situation des mineurs transgenres" is the only title. `identité de genre` is tier 2 on purpose: it is a Charter ground cited in many texts that are not about medicine or children (Bill 70, Bill 2), and tier 2 sends it to the judge. v0.4 (13 October 2026, the puberty blocker vote audit): transgenre* and "identité de genre" GUARDED by minors' company. Unguarded, they filed every text naming the Charter ground into this area wherever a store tags tier 2 directly: the Swiss Federal Assembly's French titles (23.4337 on multiple discrimination, 23.3238 on the Equality Act, 23.317 Geneva's sexual-health initiative: none about children's medicine) and Quebec's Bill 70 (conversion therapy, area 4) and Bill 2 (family law, area 9). The tier-1 terms for transgender minors are unchanged, so Bill 103 (2016) keeps area 3.
 
 ### 4. Conversion practices {#4_conversion_practices}
 

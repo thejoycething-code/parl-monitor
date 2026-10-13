@@ -1,7 +1,7 @@
 # GENERATED FILE - do not hand-edit (handoff section 6 / CLAUDE.md).
 # Source of truth: docs/keyword-taxonomy-qc.md
 # Regenerate: python3 tools/generate_taxonomy.py --lang qc
-version: 0.3
+version: 0.4
 areas:
   1_abortion:
     tier1: ["avortement*", "interruption* volontaire* de grossesse", IVG, "pilule* abortive*", mifépristone, {term: "zone* tampon*", with: ["avortement*", IVG, "grossesse*", "clinique*"]}]
@@ -13,8 +13,8 @@ areas:
     # note: Measured: Bill 52 (2013, reinstated 2014) "Loi concernant les soins de fin de vie" and Bill 11 (2023) "Loi modifiant la Loi concernant les soins de fin de vie", both in titles and in every passage of their texts that grants "l'aide médicale à mourir". The English taxonomy carries "end of life care" at tier 2 only; in Quebec "soins de fin de vie" is the name of the regime, so it is tier 1 here. `mourir dans la dignité` is the 2009-2012 select committee's name.
   3_gender_medicine_children:
     tier1: ["dysphorie de genre", "bloqueur* de puberté", "bloqueur* d'hormones", "inhibiteur* de puberté", "mineur* transgenre*", "enfant* transgenre*", {term: "transition de genre", with: ["mineur*", "enfant*", "jeune*", "élève*"]}, "Comité de sages sur l'identité de genre"]
-    tier2: ["transgenre*", "identité de genre", "affirmation de genre", "personne* trans", "détransition*", "réassignation sexuelle"]
-    # note: Measured: Bill 103 (2016) "améliorer notamment la situation des mineurs transgenres" is the only title. `identité de genre` is tier 2 on purpose: it is a Charter ground cited in many texts that are not about medicine or children (Bill 70, Bill 2), and tier 2 sends it to the judge.
+    tier2: [{term: "transgenre*", with: ["mineur*", "enfant*", "jeune*", "élève*", "école*", "adolescent*"]}, {term: "identité de genre", with: ["mineur*", "enfant*", "jeune*", "élève*", "école*", "adolescent*"]}, "affirmation de genre", "personne* trans", "détransition*", "réassignation sexuelle"]
+    # note: Measured: Bill 103 (2016) "améliorer notamment la situation des mineurs transgenres" is the only title. `identité de genre` is tier 2 on purpose: it is a Charter ground cited in many texts that are not about medicine or children (Bill 70, Bill 2), and tier 2 sends it to the judge. v0.4 (13 October 2026, the puberty blocker vote audit): transgenre* and "identité de genre" GUARDED by minors' company. Unguarded, they filed every text naming the Charter ground into this area wherever a store tags tier 2 directly: the Swiss Federal Assembly's French titles (23.4337 on multiple discrimination, 23.3238 on the Equality Act, 23.317 Geneva's sexual-health initiative: none about children's medicine) and Quebec's Bill 70 (conversion therapy, area 4) and Bill 2 (family law, area 9). The tier-1 terms for transgender minors are unchanged, so Bill 103 (2016) keeps area 3.
   4_conversion_practices:
     tier1: ["thérapie* de conversion", "pratique* de conversion", "thérapie* réparatrice*"]
     tier2: [{term: "orientation sexuelle", with: [changer, modifier, réprimer]}]
