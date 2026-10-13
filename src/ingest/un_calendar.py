@@ -55,8 +55,39 @@ is covered, because it is the only body whose calendar could be read:
     So this is a NEAR-TERM feed of days to a few weeks, not a months-ahead
     calendar, and it will fill in once the 81st session is under way.
 
+  * General Assembly PLENARIES and high-level meetings -- YES, added
+    13 October 2026, after the monitor missed the plenary vote on the
+    political declaration on pandemic prevention, preparedness and response
+    (12 October 2026, 18th plenary, draft A/81/L.6). The GA window above says
+    only that the Assembly is sitting; the plenary is where it decides.
+    GlobalCalendar asked for the General Assembly's own organ
+    (9615d07d-d53c-e711-84fb-0050569f00b6) returns its plenaries, informal
+    plenaries, high-level meetings and missions' informal consultations; the
+    consultations are dropped (no agenda). A plenary's TITLE is only a number
+    ("18th plenary meeting"), so each one's detail is read too: GET
+    officials/<meeting id> (the app bundle's loadMeetingDetails) carries the
+    agenda ("Global health and foreign policy - Item 129: Draft resolution
+    (A/81/L.6) / Action on the draft resolution") and the programme notes
+    ("Letters from the President of the General Assembly, dated 7 October
+    2026 ..."). The draft symbols in the agenda are what tie a plenary to a
+    draft on our ground (src/ingest/un_docs.py walks A/81/L.n).
+    Horizon, measured 13 October 2026: GA rows were served to 3 November, so
+    plenaries appear in the Journal about a week ahead; the same 400 marks a
+    range past the last issue.
+
+  * OHCHR NOW CHALLENGED, measured 13 October 2026: www.ohchr.org answers
+    the HRC sessions page (and the calls-for-input listing) with HTTP 403,
+    cf-mitigated: challenge, "Just a moment...", where on 17 August only the
+    UPR paths were. Not bypassed. The forward look reports both as "could not
+    read" (src/un_checks.py), never as "no sessions". Alternatives still to
+    try, all legitimate: hrcmeetings.ohchr.org (answered 200 to the laptop),
+    the UN Journal's Geneva location for HRC meetings, and whether GitHub's
+    runners are challenged too (a probe workflow).
+
 Nothing on the original list is now missing. Recorded here rather than hidden,
 so nobody mistakes near-term Journal coverage for a long-range schedule.
+Announcements that come BEFORE the Journal lists a plenary are in the PGA's
+letters (src/ingest/pga_letters.py).
 """
 
 from __future__ import annotations
@@ -99,6 +130,16 @@ JOURNAL_LOCATION = "New York"
 # Third Committee (Social, Humanitarian & Cultural) -- the GA committee that
 # takes the family, SRHR and religious-freedom resolutions.
 THIRD_COMMITTEE = "38e3d777-d53c-e711-84fb-0050569f00b6"
+# The General Assembly itself (AdvancedSearch/Organs, 13 October 2026). Asked
+# for on its own, GlobalCalendar returns the plenaries, high-level meetings,
+# informal plenaries and informal consultations held under the Assembly.
+GENERAL_ASSEMBLY = "9615d07d-d53c-e711-84fb-0050569f00b6"
+# One meeting's detail: the agenda (items, draft symbols, "Action on the
+# draft resolution") and the programme notes (which PGA letters announced
+# it). Path from the app bundle's loadMeetingDetails: base + category + id.
+# GET, with the same location/language headers as GlobalCalendar.
+JOURNAL_MEETING = JOURNAL_API + "officials/{0}"
+JOURNAL_HEADERS = {"location": JOURNAL_LOCATION, "language": "en"}
 
 MONTHS = ("January February March April May June July August September "
           "October November December").split()
@@ -376,10 +417,20 @@ class Meeting:
     starts: datetime.datetime
     kind: str                    # "Official" | "Informal"
     url: str = "https://journal.un.org/en/new-york/all"
+    # Added 13 October 2026 for GA plenaries; empty for Third Committee rows.
+    id: str = ""                 # the Journal's meeting UUID
+    agenda: str = ""             # plain text of the meeting's agenda
+    programme: str = ""          # programme notes ("Letters from the PGA ...")
+    symbols: tuple = ()          # document symbols the agenda names
 
     @property
     def days_until(self):
         return (self.starts.date() - datetime.date.today()).days
+
+    @property
+    def match_text(self):
+        """What the taxonomy reads: the title, then the agenda."""
+        return " ".join(p for p in (self.title, self.agenda) if p)
 
 
 def parse_journal_meetings(payload, organ_filter="Third"):
@@ -426,12 +477,16 @@ def parse_journal_meetings(payload, organ_filter="Third"):
 
 
 def fetch_journal_meetings(client, organ=THIRD_COMMITTEE, start=None, days=21,
-                           organ_filter="Third"):
+                           organ_filter="Third", parser=None, slug="journal"):
     """Near-term meetings for one organ, or ([], reason) beyond the horizon.
 
     A 400 means the range reaches past the last published Journal issue, not
     that the request was malformed -- so it is reported as a horizon limit
     rather than raised as an error.
+
+    parser/slug (13 October 2026, additive): the GA plenary path passes
+    parse_ga_plenaries and its own archive slug; the defaults are the Third
+    Committee call, unchanged.
     """
     import json as _json
     start = start or datetime.date.today()
@@ -442,7 +497,7 @@ def fetch_journal_meetings(client, organ=THIRD_COMMITTEE, start=None, days=21,
                         "organs": [organ]})
     try:
         payload = client.post_json(JOURNAL_CALENDAR, body, "uncal",
-                                   "journal-{0}".format(start.isoformat()),
+                                   "{0}-{1}".format(slug, start.isoformat()),
                                    headers={"location": JOURNAL_LOCATION,
                                             "language": "en"})
     except Exception as exc:
@@ -450,7 +505,118 @@ def fetch_journal_meetings(client, organ=THIRD_COMMITTEE, start=None, days=21,
             return [], ("Journal has no issue covering {0} to {1} yet "
                         "(near-term feed only)".format(start, end))
         raise
+    if parser is not None:
+        return parser(payload), None
     return parse_journal_meetings(payload, organ_filter), None
+
+
+JOURNAL_MEETING_PAGE = "https://journal.un.org/en/new-york/meeting/officials/{0}/{1}"
+# A document symbol as the Journal agenda writes it: A/81/L.6, A/81/387,
+# A/C.3/81/L.12/Rev.1, A/81/297/Add.1.
+_SYMBOL = re.compile(r"\bA/(?:C\.\d/)?\d{2}/(?:L\.\d+|\d+)(?:/(?:Rev|Add|Corr)\.\d+)*")
+# Plenaries and high-level meetings. Informal consultations on a draft are
+# convened by a mission, carry no agenda in the Journal, and are left out
+# (the drafts themselves are read by symbol, src/ingest/un_docs.py).
+_PLENARY = re.compile(r"\bplenary\b|\bhigh[- ]level\b", re.I)
+_CONSULTATIONS = re.compile(r"^\s*informal consultations\b", re.I)
+
+
+def _plain(html_text):
+    """Tags off, entities decoded, whitespace collapsed."""
+    import html as _html
+    text = re.sub(r"</p>|<br\s*/?>", " ; ", html_text or "")
+    text = _html.unescape(_TAGS.sub(" ", text))
+    text = re.sub(r"\s+", " ", text).strip(" ;")
+    return re.sub(r"(?:\s*;\s*)+", " ; ", text)
+
+
+def parse_ga_plenaries(payload):
+    """General Assembly plenaries and high-level meetings from GlobalCalendar.
+
+    A query for the Assembly's own organ also returns informal consultations
+    on drafts (convened by a mission, no agenda); those are dropped. What
+    stays is every official plenary ("18th plenary meeting"), every informal
+    plenary and every high-level meeting, with the meeting id kept so its
+    agenda can be read (fetch_meeting_detail): the title alone is only a
+    number, and the agenda is where "Global health and foreign policy - Item
+    129: Draft resolution (A/81/L.6)" is said.
+    """
+    out, seen = [], set()
+    for group in payload or []:
+        for og in group.get("organGroup", []) or []:
+            for m in og.get("meetings", []) or []:
+                organ = og.get("organ") or m.get("organ") or ""
+                primary = m.get("primaryOrgan") or ""
+                if "General Assembly" not in (organ + " " + primary):
+                    continue
+                title = _plain(m.get("title"))
+                if not _PLENARY.search(title) or _CONSULTATIONS.match(title):
+                    continue
+                if m.get("isCancelled"):
+                    continue
+                raw = (m.get("startDate") or "")[:16]
+                try:
+                    starts = datetime.datetime.strptime(raw, "%Y-%m-%dT%H:%M")
+                except ValueError:
+                    continue
+                key = (m.get("id") or title, raw)
+                if key in seen:     # the payload repeats rows per day group
+                    continue
+                seen.add(key)
+                mid = m.get("id") or ""
+                url = (JOURNAL_MEETING_PAGE.format(mid, starts.date().isoformat())
+                       if mid else Meeting.url)
+                out.append(Meeting(organ="General Assembly", title=title,
+                                   starts=starts, kind=m.get("type") or "",
+                                   url=url, id=mid))
+    return sorted(out, key=lambda x: x.starts)
+
+
+def parse_meeting_detail(payload):
+    """(agenda, programme, symbols) from one Journal meeting record."""
+    def en(field):
+        value = (payload or {}).get(field) or {}
+        return value.get("en") if isinstance(value, dict) else str(value)
+    agenda = _plain(en("agenda"))
+    programme = _plain(en("programme"))
+    symbols = []
+    for s in _SYMBOL.findall(agenda + " " + programme):
+        if s not in symbols:
+            symbols.append(s)
+    return agenda, programme, tuple(symbols)
+
+
+def fetch_meeting_detail(client, meeting_id):
+    import json as _json
+    text = client.get_text(JOURNAL_MEETING.format(meeting_id), "uncal",
+                           "journal-meeting-{0}".format(meeting_id),
+                           headers=JOURNAL_HEADERS)
+    return parse_meeting_detail(_json.loads(text))
+
+
+def fetch_ga_plenaries(client, start=None, days=21):
+    """GA plenaries in the window, each with its agenda read.
+
+    Returns (meetings, why, failures): `why` is the horizon note when the
+    Journal has no issue covering the range (the same 400 as
+    fetch_journal_meetings), else None. A meeting whose detail will not load
+    is kept with an empty agenda and named in `failures`, so a missing agenda
+    is a gap, not a quiet row.
+    """
+    meetings, why = fetch_journal_meetings(client, organ=GENERAL_ASSEMBLY,
+                                           start=start, days=days,
+                                           organ_filter=None, parser=parse_ga_plenaries,
+                                           slug="journal-ga")
+    failures = []
+    for m in meetings:
+        if not m.id:
+            continue
+        try:
+            m.agenda, m.programme, m.symbols = fetch_meeting_detail(client, m.id)
+        except Exception as exc:
+            failures.append("{0} {1}: agenda not read ({2})".format(
+                m.starts.date(), m.title, str(exc)[:80]))
+    return meetings, why, failures
 
 
 def fetch_sessions(client):

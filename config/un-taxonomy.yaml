@@ -23,7 +23,7 @@
 #
 # Areas match taxonomy.yaml exactly. Area 11 stays collated-only: tracked for
 # intelligence, never campaigned.
-version: 0.1
+version: 0.2
 areas:
   1_abortion:
     tier1: ["abortion", "decriminalize abortion", "decriminalise abortion", "safe and legal abortion", "unsafe abortion", "termination of pregnancy", "post-abortion care", "sexual and reproductive health and rights", SRHR, "reproductive rights", "Maputo Protocol", {term: "right to life", with: ["unborn", "conception", "prenatal", "abortion"]}, {term: "conscientious objection", with: ["abortion", "health", "medical", "termination", "reproductive"]}]
@@ -63,8 +63,19 @@ areas:
     # after A/C.3/80/L.20 ("Promotion and protection of the rights of
     # children") matched nothing at all.
   7_free_speech_online_safety:
-    tier1: ["freedom of expression", "hate speech", "blasphemy", "online safety", "age verification", "age assurance", "child sexual abuse material", {term: "digital environment", with: ["child", "young", "safety", "rights"]}]
-    tier2: ["incitement to hatred", "defamation of religion", "content moderation", "disinformation", "online violence"]
+    tier1: ["freedom of expression", "hate speech", "blasphemy", "online safety", "age verification", "age assurance", "child sexual abuse material", {term: "digital environment", with: ["child", "young", "safety", "rights"]},
+            "pandemic treaty", "pandemic accord", "pandemic agreement", "International Health Regulations", IHR, "pandemic prevention, preparedness and response"]
+    tier2: ["incitement to hatred", "defamation of religion", "content moderation", "disinformation", "online violence",
+            "pandemic preparedness", "health sovereignty", {term: "World Health Organization", with: [pandemic, treaty, "health regulations", accord]}, {term: "World Health Organisation", with: [pandemic, treaty, "health regulations", accord]}, {term: WHO, with: [pandemic, treaty, "health regulations", accord]}]
+    # note: health sovereignty (13 October 2026). The freedom pillar was widened to
+    # WHO/pandemic treaty/IHR in the parliamentary taxonomy at v0.6 (Christopher,
+    # 2026-08-20), but those terms never reached this file, so the UN monitor
+    # could not see the General Assembly's political declaration on pandemic
+    # prevention, preparedness and response (A/81/L.6, adopted 12 October
+    # 2026). Same terms, plus the UN's own set phrase: "pandemic prevention,
+    # preparedness and response" does not contain "pandemic preparedness".
+    # WHO is guarded exactly as in taxonomy.yaml (most WHO mentions are global
+    # health aid, not sovereignty).
   8_freedom_of_religion:
     tier1: ["freedom of religion or belief", "freedom of religion", FoRB,
             "forced conversion", "forced conversions", "religious minorities", "places of worship", "religious freedom", {term: "conscientious objection", with: ["religio", "belief", "military", "conscience"]}]
