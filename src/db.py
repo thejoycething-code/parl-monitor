@@ -1768,6 +1768,14 @@ TABLES = (
     "br_divisions",
     "br_votes",
     "br_orientations",
+    # Brazil's state assemblies (tools/br_states.py, 13 October 2026): the
+    # bills, votes and members the readable Assembleias publish, created by
+    # src/brs_store.ensure_schema.
+    "brs_bills",
+    "brs_votes",
+    "brs_positions",
+    "brs_members",
+    "brs_reads",
     # Chile's National Congress (tools/cl_rollcalls.py), created by
     # src/cl_store.ensure_schema -- declared from day one.
     "cl_members",
@@ -2226,6 +2234,8 @@ def init_db(conn):
     es_regions_store.ensure_schema(conn)
     from src import br_store
     br_store.ensure_schema(conn)
+    from src import brs_store
+    brs_store.ensure_schema(conn)
     from src import cl_store
     cl_store.ensure_schema(conn)
     from src import do_store

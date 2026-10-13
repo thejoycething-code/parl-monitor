@@ -1,7 +1,8 @@
 #!/bin/bash
 # Brazil weekly: members, nominal votes of the Câmara dos Deputados and the
 # Senado Federal with every position, and the bills they are about
-# (tools/br_rollcalls.py), then publish the raw archive and the store.
+# (tools/br_rollcalls.py), the state assemblies (tools/br_states.py), then
+# publish the raw archive and the store.
 #
 # Called by .github/workflows/br-weekly.yml and, on the Mac Mini, by
 # tools/mini_run.sh br-weekly. One script, two callers. Both callers fetch
@@ -10,7 +11,8 @@
 #
 #     BR_RECLASSIFY=true    re-derive every stored BR bill's and division's
 #                           areas, offline, before the pull (after a
-#                           watchlist-br change, or once taxonomy-pt exists)
+#                           watchlist-br change, or once taxonomy-pt exists),
+#                           and the state assemblies' bills (tools/br_states.py)
 #
 # Exit codes. The collector exits 3 when it stored what it could and recorded
 # gaps (in the gaps table and as [gap] lines in the log): that run is still
@@ -37,12 +39,27 @@ if [ "${BR_RECLASSIFY:-}" = "true" ]; then
   python3 tools/country_petitions.py br --reclassify
   python3 tools/br_rollcalls.py --reclassify
   python3 tools/br_chamber.py --reclassify
+  python3 tools/br_states.py --reclassify
 fi
 rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/br_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" || rc=$?
+# The third argument keeps 600 s for the state-assemblies step below.
+python3 tools/br_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" || rc=$?
+# The state assemblies (tools/br_states.py, docs/brazil-regions-scope.md): the
+# bills, stages and published votes of ALESP (open-data files), ALMG (its
+# bill search), ALERJ (its Notes view) and the SAPL houses (Acre, Alagoas,
+# Amazonas, Paraíba, Piauí, Rondônia, Tocantins; Roraima and Maranhão tried),
+# into the brs_* tables, for the edition's "State assemblies" section. The
+# sources are read in parallel; every SAPL robots.txt asks a minute between
+# requests, so the step takes its whole budget when the houses have news.
+# Its failure or gaps are [gap] lines, never the run's: the Congress's store
+# is still published.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  python3 tools/br_states.py --budget-seconds "$(bash tools/collector_budget.sh 600 "$SECONDS")" \
+    || echo "  [gap] br-states: the state assemblies recorded gaps or failed; last run's rows stand"
+fi
 # What was said and asked in the chamber (tools/br_chamber.py, parity layer 5):
 # time-boxed to what is left of the hour, never fatal, skipped on GitHub.
 bash tools/chamber_step.sh br "$SECONDS"

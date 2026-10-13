@@ -450,7 +450,8 @@ document. No taxonomy file, no `src/http.py` change.
 4. **Phase 4: edition and 5CA**: a Portuguese-language or English-language
    edition (Christopher's call), triage, and a Brazilian 5CA from positions
    plus orientations. Divisions are signed by hand, as everywhere.
-5. **Phase 5: state assemblies** (below).
+5. **Phase 5: state assemblies** (below). BUILT 13 October 2026 for ten of
+   27 (`docs/brazil-regions-scope.md`).
 
 ## Dates that matter
 
@@ -470,6 +471,14 @@ document. No taxonomy file, no `src/http.py` change.
   seat) are why party is stored per vote.
 
 ## State assemblies (later; listed, not probed)
+
+**BUILT 13 October 2026 (branch `states-br`): `docs/brazil-regions-scope.md`.**
+`tools/br_states.py` reads ALESP (open-data files: bills, stages, committee
+votes with each member's vote), ALMG (its bill search), ALERJ (its Notes
+view) and seven SAPL houses (Acre, Alagoas, Amazonas, Paraíba, Piauí,
+Rondônia, Tocantins) into `brs_*`, a step of the Brazilian weekly, shown as
+a "State assemblies" section of the edition. Paraná is behind reCAPTCHA;
+nine assemblies do not answer from the UK; the rest publish no usable list.
 
 26 Assembleias Legislativas plus the Câmara Legislativa do Distrito Federal.
 Open-data quality varies widely and there is no aggregator like Open States.

@@ -498,6 +498,13 @@ FEEDS = [
     # February. br_votes and br_orientations carry no sighting column.
     ("br_members", "last_seen", 7, 4, "Câmara and Senado members (Brazil weekly)"),
     ("br_bills", "last_seen", 7, 4, "Proposições the nominal votes are about (Brazil weekly)"),
+    # Brazil's state assemblies (13 October 2026, tools/br_states.py, a step
+    # of the Brazil weekly). brs_reads is re-stamped for every source each
+    # run, read or not. brs_bills moves whenever any source lists a bill
+    # again: ALESP's open-data file re-lists every bill of the legislature
+    # each run, so it moves weekly even through a recess.
+    ("brs_reads", "last_seen", 7, 4, "state assembly reads, one row per source (Brazil weekly)"),
+    ("brs_bills", "last_seen", 7, 4, "state assembly bills: ALESP, ALMG, ALERJ and the SAPL houses (Brazil weekly)"),
     ("br_divisions", "last_seen", 31, 31, "Câmara and Senado nominal votes (Brazil weekly)"),
     # Chile (9 October 2026). MEASURED which re-stamp: the deputy and senator
     # lists are re-read whole every run, and so are the bills introduced this
@@ -1003,6 +1010,15 @@ EXEMPT = {
     # would mean the parent stopped too.
     "country_petition_snapshots": "per-run signature snapshots of country_petitions, "
                                   "which is watched (FEEDS)",
+    # 13 October 2026: Brazil's state assemblies (tools/br_states.py). Votes
+    # are new rows only, and a recess or an election campaign cannot move
+    # them; members are re-stamped only when a source names them again
+    # (ALESP's list every run, but ALMG's and SAPL's only through new bills).
+    # Both parents' freshness is brs_reads and brs_bills, which are watched.
+    "brs_votes": "state assembly votes: new rows only, a recess cannot move them; "
+                 "brs_reads and brs_bills are watched (FEEDS)",
+    "brs_members": "state assembly members, re-stamped only when a source names them; "
+                   "brs_reads and brs_bills are watched (FEEDS)",
 }
 
 # Not watched, because they write no table and run on no clock: the manual
@@ -1333,6 +1349,12 @@ AWAITING_STEP_UNTIL = {
                   "weekly on merge; it fills on its first Saturday run"),
     "esr_laws": ("2026-10-18", "the Spanish regional step (tools/es_regions.py) joins the Spain "
                  "weekly on merge; it fills on its first Saturday run"),
+    # Brazil's state-assemblies step joins the Brazil weekly (Saturdays
+    # 09:30) on merge, 13 October 2026: empty until its first Saturday run.
+    "brs_reads": ("2026-10-18", "the Brazilian state-assemblies step (tools/br_states.py) joins "
+                  "the Brazil weekly on merge; it fills on its first Saturday run"),
+    "brs_bills": ("2026-10-18", "the Brazilian state-assemblies step (tools/br_states.py) joins "
+                  "the Brazil weekly on merge; it fills on its first Saturday run"),
 }
 
 

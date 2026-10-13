@@ -1070,3 +1070,37 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
   gazette's home page from the runner each run). The PNT/SIPOT sits behind
   a Cloudflare challenge; the SCJN recent-reforms page answered a server
   error on 12 October. Details in `docs/mexico-regions-scope.md`.
+
+## Regional layer: Brazil's state assemblies (13 October 2026)
+
+Scope and build: `docs/brazil-regions-scope.md`. Code: `tools/br_states.py`,
+`src/brs_store.py` (`brs_bills`, `brs_votes`, `brs_positions`,
+`brs_members`, `brs_reads`), `src/brs_edition.py`,
+`config/watchlist-br-states.yaml` (empty), `tests/test_br_states.py`. A step
+of `jobs/br-weekly.sh` (600 s; no new Mini job), shown as a "State
+assemblies" section of the Brazilian edition and one DM line.
+
+- **Covered (10 of 27):** São Paulo (ALESP open-data files: every PL, PLC,
+  PEC and PDL of the legislature, authors with party, current stage, and
+  committee votes with each member's vote: 5,236 bills, 224 on our ground,
+  115 committee votes on them), Minas Gerais (the website's bill search:
+  authors with party, situação; bill pages for bills on our ground), Rio de
+  Janeiro (ALERJ's Notes view: author, committees, date), and seven SAPL
+  houses through the one Interlegis API (Acre, Alagoas, Amazonas, Paraíba,
+  Piauí, Rondônia, Tocantins: bills, plenary vote tallies, the latest
+  tramitação for bills on our ground). Roraima and Maranhão's SAPL are
+  tried every run.
+- **Blocked:** Paraná (bill and vote searches behind reCAPTCHA; never
+  bypassed); ALMG's open-data API (robots.txt disallows all; the website is
+  read instead).
+- **Unreachable from the UK (9):** Rio Grande do Sul, Santa Catarina,
+  Bahia, Distrito Federal, Espírito Santo, Rio Grande do Norte, Amapá,
+  Maranhão, Mato Grosso.
+- **No usable list (6):** Goiás, Ceará, Sergipe, Pará (callback form),
+  Mato Grosso do Sul (JavaScript app), Pernambuco (open data without bills).
+- **Flaky:** ALMG and ALERJ time out or drop connections for spells; a gap
+  each run they fail, resumed the next.
+- **Waiting on Chris:** ALMG's API (ask them, or rule on documented APIs
+  that robots.txt disallows), seeding the state watchlist, a few taxonomy-pt
+  false positives, and whether a Brazilian vantage point is worth it.
+
