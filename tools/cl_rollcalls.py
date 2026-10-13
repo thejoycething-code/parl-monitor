@@ -556,8 +556,10 @@ def bill_areas(conn, boletin):
     return json.loads(row[0] or "[]") if row else []
 
 
-def classify_division(tax, text, bill_area_list):
-    own = classify(tax, text or "")
+def classify_division(tax, text, bill_area_list, division_key=None):
+    """(own result, combined areas). A watched vote (the `votes:` section of
+    config/watchlist-cl.yaml) adds its areas to its own."""
+    own = cl_store.add_vote_watch_areas(classify(tax, text or ""), division_key)
     return own, sorted(set(own.issue_areas or []) | set(bill_area_list or []))
 
 
@@ -565,7 +567,8 @@ def store_division(conn, tax, d, today):
     """d: chamber, division_key, source_id, date, boletin, kind, description,
     text, stage, quorum, result, yes, no, abstain, paired, positions[member_key,
     position, party]. Returns the division's combined areas."""
-    own, areas = classify_division(tax, d.get("text"), bill_areas(conn, d.get("boletin")))
+    own, areas = classify_division(tax, d.get("text"), bill_areas(conn, d.get("boletin")),
+                                   d["division_key"])
     conn.execute(
         "INSERT INTO cl_divisions (division_key, chamber, source_id, date, boletin, kind, "
         "description, text, stage, quorum, result, yes, no, abstain, paired, own_areas, areas, "
@@ -868,7 +871,7 @@ def reclassify(conn, tax, log=print):
                       res.tier, boletin))
     for key, boletin, text, areas in conn.execute(
             "SELECT division_key, boletin, text, areas FROM cl_divisions").fetchall():
-        own, combined = classify_division(tax, text, bill_areas(conn, boletin))
+        own, combined = classify_division(tax, text, bill_areas(conn, boletin), key)
         new = cl_store.dumps(combined)
         changed_d += new != (areas or "[]")
         conn.execute("UPDATE cl_divisions SET own_areas=?, areas=?, matched_terms=?, tier=? "

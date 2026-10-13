@@ -22,7 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from src import db
-from src.http import HttpClient
+from src.http import HttpClient, RobotsRefused
 from src.ingest import un_docs, un_votes as votes_mod
 
 # The Council has 47 members. A tally may be LOWER (an absent member appears
@@ -56,6 +56,11 @@ def main():
           flush=True)
     try:
         votes, report = votes_mod.fetch_session_votes(client, session, un_docs)
+    except RobotsRefused as exc:
+        # 13 October 2026: docs.un.org redirects to documents.un.org/api/...,
+        # which robots.txt disallows.
+        print("could not read the report: {0} ({1})".format(un_docs.refusal_note(exc), exc.reason))
+        return 2
     except Exception as exc:
         print("could not read the report: {0}".format(str(exc)[:90]))
         return 1

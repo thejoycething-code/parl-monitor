@@ -35,6 +35,7 @@ import threading
 import time
 import urllib.error
 import urllib.request
+import weakref
 from urllib.parse import urlsplit
 
 # Intermediate certificates that some servers leave out of their chain
@@ -201,6 +202,99 @@ class FetchError(Exception):
         )
 
 
+class RobotsRefused(FetchError):
+    """A request robots.txt does not allow; it was never sent.
+
+    Defined here (13 October 2026) rather than in src/robots_guard, which
+    re-exports it, so the redirect check below can raise it: a redirect
+    hop that robots.txt disallows is refused by HttpClient itself."""
+
+    def __init__(self, url, feed, slug, reason, host_skipped=False):
+        super().__init__(url, feed, slug, 0, reason)
+        self.reason = reason
+        self.host_skipped = host_skipped
+
+    def __str__(self):
+        return self.reason
+
+
+class _RedirectBlocked(Exception):
+    """Raised inside urllib's redirect handling when a hop is refused.
+    Deliberately not an OSError, so the retry ladder never retries it;
+    _request_with_retries turns it into RobotsRefused."""
+
+    def __init__(self, reason, host_skipped=False):
+        super().__init__(reason)
+        self.reason = reason
+        self.host_skipped = host_skipped
+
+
+# REDIRECTS ARE CHECKED HOP BY HOP (13 October 2026). docs.un.org/<symbol>
+# ?direct=true began answering 302 to documents.un.org/api/symbol/access, a
+# path documents.un.org/robots.txt disallows, and urllib followed it: the
+# robots check had been made on the first URL only. Now every robots-checked
+# client (src/robots_guard.GuardedClient, src/prov_fetch.Context) registers
+# a redirect guard on its HttpClient, and _RedirectHandler asks every guard
+# about every hop BEFORE requesting it. A refused hop raises RobotsRefused
+# with "robots.txt disallows <hop> (redirected from <first url>)"; nothing is
+# sent to the refused URL. A robots.txt file itself is always fetchable.
+
+
+def _is_robots_txt(url):
+    return urlsplit(url).path == "/robots.txt"
+
+
+def _guard_hop(client_ref, req, new):
+    """Ask the client's redirect guards about the hop `new` (a Request),
+    remembering the first URL of the chain; raise _RedirectBlocked if any
+    guard refuses."""
+    if new is None:
+        return None
+    origin = getattr(req, "_pm_origin", None) or req.full_url
+    new._pm_origin = origin
+    client = client_ref()
+    # A robots.txt read follows its redirects unasked, wherever they go
+    # (RFC 9309 2.3.1.2): asking robots.txt about a hop of a robots.txt read
+    # would read robots.txt again, recursively (a robots.txt that redirects
+    # to a login page did exactly that, 13 October 2026).
+    if client is not None and not _is_robots_txt(origin) and not _is_robots_txt(new.full_url):
+        refused = client.redirect_refusal(new.full_url, origin)
+        if refused:
+            raise _RedirectBlocked(*refused)
+    return new
+
+
+class _RedirectHandler(urllib.request.HTTPRedirectHandler):
+    """urllib's redirect handler, asking the client's redirect guards first."""
+
+    def __init__(self, client):
+        self._client_ref = weakref.ref(client)
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        new = super().redirect_request(req, fp, code, msg, headers, newurl)
+        return _guard_hop(self._client_ref, req, new)
+
+
+def _install_redirect_check(opener, client):
+    """An opener passed in by a collector (its own TLS context, a cookie
+    jar) carries urllib's plain redirect handler: wrap that handler's
+    redirect_request so its hops are asked too. A test double with no
+    handlers is left alone (the final-URL check in _request_once still
+    applies)."""
+    ref = weakref.ref(client)
+    for handler in getattr(opener, "handlers", None) or []:
+        if (isinstance(handler, urllib.request.HTTPRedirectHandler)
+                and not isinstance(handler, _RedirectHandler)
+                and not getattr(handler, "_pm_guarded", False)):
+            plain = handler.redirect_request
+
+            def guarded(req, fp, code, msg, headers, newurl, _plain=plain, _ref=ref):
+                return _guard_hop(_ref, req, _plain(req, fp, code, msg, headers, newurl))
+
+            handler.redirect_request = guarded
+            handler._pm_guarded = True
+
+
 def slugify(value, max_length=80):
     """Filesystem-safe slug for raw-archive filenames."""
     value = (value or "").strip().lower()
@@ -284,7 +378,14 @@ class HttpClient:
         else:
             self._rng = rng
         self._opener = opener or urllib.request.build_opener(
-            urllib.request.HTTPSHandler(context=tls_context()))
+            urllib.request.HTTPSHandler(context=tls_context()), _RedirectHandler(self))
+        if opener is not None:
+            _install_redirect_check(opener, self)
+        # Redirect guards (13 October 2026): callables (hop_url, first_url)
+        # -> None or (reason, host_skipped), registered by robots-checked
+        # wrappers (add_redirect_guard). Weak references: a wrapper that is
+        # gone stops being asked.
+        self._redirect_guards = []
 
         self._hosts = {}
         self._hosts_guard = threading.Lock()
@@ -405,6 +506,8 @@ class HttpClient:
             try:
                 response = self._opener.open(request, timeout=timeout)
                 raw = response.read()
+            except _RedirectBlocked as exc:
+                raise RobotsRefused(url, feed, slug, exc.reason, exc.host_skipped)
             except urllib.error.HTTPError as exc:
                 raise FetchError(url, feed, slug, 1, exc)
         self._archive(raw, feed, slug)
@@ -442,12 +545,60 @@ class HttpClient:
             try:
                 response = self._opener.open(request, timeout=timeout)
                 raw = response.read()
+            except _RedirectBlocked as exc:
+                raise RobotsRefused(url, feed, slug, exc.reason, exc.host_skipped)
             except (urllib.error.HTTPError, urllib.error.URLError, socket.timeout,
                     TimeoutError, OSError, http.client.IncompleteRead) as exc:
                 raise FetchError(url, feed, slug, 1, exc)
         if archive:
             self._archive(raw, feed, slug)
         return raw.decode(encoding or "utf-8", errors="replace")
+
+    # -- redirect guards (13 October 2026) ------------------------------------
+
+    def add_redirect_guard(self, guard):
+        """Ask `guard(hop_url, first_url)` before following any redirect hop.
+        It returns None to allow, or (reason, host_skipped) to refuse; a
+        refusal raises RobotsRefused and the hop is never requested. A bound
+        method is held weakly, so a short-lived wrapper drops out."""
+        try:
+            ref = weakref.WeakMethod(guard)
+        except TypeError:
+            ref = (lambda g=guard: g)
+        for existing in self._guards_alive():
+            if existing == guard:
+                return
+        self.__dict__.setdefault("_redirect_guards", []).append(ref)
+
+    def _guards_alive(self):
+        alive, keep = [], []
+        for ref in getattr(self, "_redirect_guards", []):
+            g = ref()
+            if g is not None:
+                alive.append(g)
+                keep.append(ref)
+        self._redirect_guards = keep
+        return alive
+
+    def redirect_refusal(self, url, origin):
+        """None when every guard allows the hop to `url`, else the first
+        refusal as (reason, host_skipped)."""
+        if _is_robots_txt(url):
+            return None
+        for guard in self._guards_alive():
+            refused = guard(url, origin)
+            if refused:
+                return refused
+        return None
+
+    def _check_final_url(self, requested, final):
+        """Safety net for an opener without _RedirectHandler (an injected
+        one): if the reply came from another URL, ask the guards about it
+        and discard the body when refused."""
+        if final and final != requested and not _is_robots_txt(requested):
+            refused = self.redirect_refusal(final, requested)
+            if refused:
+                raise _RedirectBlocked(*refused)
 
     # -- internals ----------------------------------------------------------
 
@@ -474,6 +625,9 @@ class HttpClient:
             self._throttle(state)
             try:
                 raw = self._request_with_retries(url, feed, slug, timeout, extra_headers)
+            except RobotsRefused:
+                # A refused redirect hop: never served from the archive.
+                raise
             except FetchError:
                 # 14 Sept 2026: parliament.scot answered CI at 09:16 and refused
                 # the laptop at 10:40, and the edition could not be re-rendered
@@ -540,6 +694,8 @@ class HttpClient:
             attempts = attempt + 1
             try:
                 return self._request_once(url, timeout, extra_headers)
+            except _RedirectBlocked as exc:
+                raise RobotsRefused(url, feed, slug, exc.reason, exc.host_skipped)
             except urllib.error.HTTPError as exc:
                 last_error = exc
                 self.last_headers = dict(exc.headers.items()) if exc.headers else {}
@@ -596,6 +752,15 @@ class HttpClient:
             return self._fetch_via_curl(url, timeout, exc)
         headers = getattr(response, "headers", None)
         self.last_headers = dict(headers.items()) if headers is not None else {}
+        geturl = getattr(response, "geturl", None)
+        if geturl is not None and self._guards_alive():
+            try:
+                self._check_final_url(url, geturl())
+            except _RedirectBlocked:
+                close = getattr(response, "close", None)
+                if close:
+                    close()
+                raise
         try:
             return _maybe_gunzip(response.read(), getattr(response, "headers", None))
         finally:

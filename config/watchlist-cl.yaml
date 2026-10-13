@@ -54,3 +54,26 @@ bills:
   "17967-07":
     areas: [8]
     why: "Creates a constitutional action protecting freedom of conscience, religion and worship"
+
+# Vote-level watch, keyed by DIVISION KEY (camara-<opendata vote id>), never by
+# text: votes whose own line is generic ("Creación Comisión Investigadora",
+# "Otros", a bare "Boletín N° 17142-05" on the Ley de Presupuestos) and whose
+# bill lends no area. Their areas join the vote's OWN areas
+# (src/cl_store.add_vote_watch_areas). Added 13 October 2026 from the puberty
+# blocker vote audit (PR #192): the four Cámara votes on the PAIG (Programa de
+# Acompañamiento para la Identidad de Género, the Health Ministry's programme
+# for minors). Cámara vote 42265 (the 2025 budget's PAIG glosa) is not here:
+# taxonomy-es v0.5 matches its own text ("bloqueo de la pubertad").
+votes:
+  "camara-41286":
+    areas: [3]
+    why: "PAIG, per the audit: vote of 8 July 2024 creating an investigative committee; its line says only 'Creacion Comision Investigadora'"
+  "camara-42674":
+    areas: [3]
+    why: "PAIG, per the audit: 2025 Budget (boletín 17142-05) vote of 15 November 2024, rejected 54-53; its line names only the bill"
+  "camara-42675":
+    areas: [3]
+    why: "PAIG, per the audit: 2025 Budget (boletín 17142-05) vote of 15 November 2024, rejected 54-55; its line names only the bill"
+  "camara-82391":
+    areas: [3]
+    why: "PAIG, per the audit: vote of 15 May 2025; its line says only 'Otros'"

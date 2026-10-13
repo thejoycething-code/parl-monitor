@@ -80,8 +80,11 @@ FRL_ACTS = ("https://api.prod.legislation.gov.au/v1/titles?$filter=collection%20
             "%20and%20year%20eq%20{0}&$select=id,name,makingDate,originatingBillUri&$top=500")
 CHAMBERS = (("house", "representatives"), ("senate", "senate"))
 # The Parliaments: (first sitting day, the day the House was dissolved). The
-# 48th was elected on 3 May 2025 and first sat on 22 July 2025.
-PARLIAMENTS = {47: ("2022-07-26", "2025-03-28"), 48: ("2025-07-22", None)}
+# 48th was elected on 3 May 2025 and first sat on 22 July 2025. The 46th
+# (first sat 2 July 2019, dissolved 11 April 2022) is here for the puberty
+# blocker vote audit's backfill (13 October 2026; Senate 15 June 2021).
+PARLIAMENTS = {46: ("2019-07-02", "2022-04-11"), 47: ("2022-07-26", "2025-03-28"),
+               48: ("2025-07-22", None)}
 CURRENT_PARLIAMENT = 48
 # The lowest bill ID each Parliament can have introduced, by prefix. MEASURED
 # 9 October 2026, because OpenAustralia resolves some bill tags BY TITLE and
@@ -510,9 +513,9 @@ def _offices(conn):
 
 
 def pull_days(conn, client, today, parliament=CURRENT_PARLIAMENT, tax=None, wl=None,
-              log=print, limit=None, budget=None, wl_path=None):
+              log=print, limit=None, budget=None, wl_path=None, chambers=None):
     """Every sitting day of the Parliament whose file is new or re-parsed since
-    it was read. Returns a dict of counts."""
+    it was read; `chambers` ('house', 'senate') narrows it. Returns a dict of counts."""
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
     wl = wl if wl is not None else empty_watchlist()
     first, last = PARLIAMENTS[parliament]
@@ -521,6 +524,8 @@ def pull_days(conn, client, today, parliament=CURRENT_PARLIAMENT, tax=None, wl=N
     # they are the source's known habit, not a fetch that went wrong.
     stats = {"files": 0, "divisions": 0, "ours": 0, "gaps": 0, "bills": set(), "lapsed_tags": 0}
     for chamber, folder in CHAMBERS:
+        if chambers and chamber not in chambers:
+            continue
         try:
             listing = parse_listing(client.get_text(LISTING.format(folder), FEED,
                                                     "listing-" + folder))
@@ -697,6 +702,8 @@ def main():
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--raw-dir", help="archive raw payloads here instead of data/raw "
                     "(for a scratch run beside --db)")
+    ap.add_argument("--chamber", choices=[c for c, _ in CHAMBERS],
+                    help="read only this chamber's Hansard day files (a backfill)")
     ap.add_argument("--no-members", action="store_true")
     ap.add_argument("--no-days", action="store_true", help="skip the Hansard day files")
     ap.add_argument("--no-acts", action="store_true")
@@ -749,7 +756,8 @@ def main():
             n, args.parliament, g))
     if not args.no_days:
         s = pull_days(conn, client, today, parliament=args.parliament, tax=tax, wl=wl,
-                      limit=args.limit, budget=budget)
+                      limit=args.limit, budget=budget,
+                      chambers=(args.chamber,) if args.chamber else None)
         gaps += s["gaps"]
         print("au-rollcalls: {0} Hansard day file(s) read; {1} division(s), {2} on our "
               "ground; {3} bill(s) named, {4} tag(s) of an earlier Parliament's bill ID; "

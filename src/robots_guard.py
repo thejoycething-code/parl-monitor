@@ -21,6 +21,13 @@ run, with the provinces' reader and rules (src/prov_fetch.Context):
     interval (HttpClient.set_host_throttle never lowers one already set, so a
     collector's own per-host delay stands).
 
+REDIRECTS (13 October 2026): every hop of a redirect chain is asked too,
+before it is requested (src/http._RedirectHandler; the guard is registered
+by Context.__init__). A refused hop raises RobotsRefused with "robots.txt
+disallows <hop> (redirected from <first url>)". Found when docs.un.org began
+redirecting to documents.un.org/api/..., which documents.un.org/robots.txt
+disallows.
+
 A refused request raises RobotsRefused, a FetchError, so the collectors'
 existing `except FetchError` paths turn it into a [gap] line and a gaps row
 and move on: never fatal, never a silent skip. `host_skipped` is True when
@@ -52,9 +59,10 @@ check.
 
 from __future__ import annotations
 
+import urllib.request
 from urllib.parse import urlsplit
 
-from src.http import FetchError
+from src.http import FetchError, RobotsRefused  # noqa: F401 (re-exported)
 from src.prov_fetch import Context
 
 
@@ -207,18 +215,6 @@ def is_documented_api(url, exempt=DOCUMENTED_APIS):
     return any(url.startswith(p) for p in exempt)
 
 
-class RobotsRefused(FetchError):
-    """A request robots.txt does not allow; it was never sent."""
-
-    def __init__(self, url, feed, slug, reason, host_skipped=False):
-        super().__init__(url, feed, slug, 0, reason)
-        self.reason = reason
-        self.host_skipped = host_skipped
-
-    def __str__(self):
-        return self.reason
-
-
 class RobotsGuard(Context):
     """Context's robots.txt reader without the rest of Context: no store, no
     budget. Gaps are the caller's to record (refusal() returns the reason)."""
@@ -239,16 +235,6 @@ class RobotsGuard(Context):
         # The caller records the gap (it owns the store and the feed); the
         # unreachable reason comes back through refusal().
         self.gaps.append(detail)
-
-    def refusal(self, url):
-        """None when robots.txt allows `url`, else (reason, host_skipped)."""
-        rp = self._parser(url)
-        unreachable = getattr(rp, "unreachable", None)
-        if unreachable:
-            return unreachable, True
-        if self.allowed(url):
-            return None
-        return "robots.txt disallows {0}; not fetched".format(url), False
 
     def crawl_delay(self, host, scheme="https"):
         """The Crawl-delay robots.txt asks of us on `host` (None if none)."""
@@ -286,6 +272,15 @@ class GuardedClient:
         self.permissions = PERMISSIONS if permissions is None else tuple(permissions)
         self._log = log
         self._told = set()
+        # Redirect hops (13 October 2026): RobotsGuard registered itself on
+        # the client as a redirect guard (src/prov_fetch.Context); a hop
+        # under a documented API or a written permission passes unasked,
+        # exactly as a first URL does.
+        self.robots.redirect_exempt = self._passes_unasked
+
+    def _passes_unasked(self, url):
+        return bool((self.exempt and is_documented_api(url, self.exempt))
+                    or permission_for(url, self.permissions) is not None)
 
     def _permitted(self, url):
         p = permission_for(url, self.permissions)
@@ -376,3 +371,54 @@ def probe_refusal(url, feed="robots-probe"):
                                           feed, log=lambda *a, **k: None)
     refused = _PROBE_GUARDS[feed].refusal(url)
     return refused[0] if refused else None
+
+
+def check_redirects(client, feed, log=print, budget=None):
+    """Ask robots.txt about every redirect hop on `client` (13 October 2026).
+
+    For the collectors that check the FIRST URL with their own robots.txt
+    reader (urllib.robotparser: src/member_service.fetch_at,
+    src/agendas/at.py, tools/at_rollcalls.py, tools/cr_probe.py,
+    tools/mx_probe.py) and fetch through a plain HttpClient: their redirects
+    were followed unasked. This registers a RobotsGuard on the client as its
+    redirect guard (kept alive by the client) and returns it. GuardedClient
+    and Context need nothing: they register themselves."""
+    if isinstance(client, GuardedClient):
+        return client.robots
+    if not callable(getattr(client, "add_redirect_guard", None)):
+        return None
+    rg = RobotsGuard(client, feed, log=log, budget=budget)
+    client.__dict__.setdefault("_redirect_guard_owners", []).append(rg)
+    return rg
+
+
+class _ProbeRedirectHandler(urllib.request.HTTPRedirectHandler):
+    """urllib's redirect handler for the one-off probes, asking
+    probe_refusal about each hop before it is requested."""
+
+    def __init__(self, feed):
+        self.feed = feed
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        new = super().redirect_request(req, fp, code, msg, headers, newurl)
+        if new is None or urlsplit(new.full_url).path == "/robots.txt":
+            return new
+        origin = getattr(req, "_pm_origin", None) or req.full_url
+        new._pm_origin = origin
+        why = probe_refusal(new.full_url, self.feed)
+        if why:
+            reason = ("robots.txt disallows {0} (redirected from {1}); not fetched".format(
+                new.full_url, origin) if why.startswith("robots.txt disallows") else
+                "{0}; {1} (redirected from {2}) not fetched".format(why, new.full_url, origin))
+            raise RobotsRefused(origin, self.feed, "", reason)
+        return new
+
+
+def probe_urlopen(request, feed="robots-probe", timeout=30, context=None):
+    """urllib.request.urlopen for the probes, with every redirect hop asked
+    of robots.txt (probe_refusal) before it is followed. The first URL is
+    the caller's to check, as before."""
+    handlers = [_ProbeRedirectHandler(feed)]
+    if context is not None:
+        handlers.append(urllib.request.HTTPSHandler(context=context))
+    return urllib.request.build_opener(*handlers).open(request, timeout=timeout)

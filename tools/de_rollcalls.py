@@ -362,6 +362,9 @@ def main():
     args = ap.parse_args()
     import datetime
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    # abgeordnetenwatch.de/api asks for at most 30 requests a minute per IP
+    # (HTTP 429 above it): 2.5 s apart keeps us under it with room.
+    client.set_host_throttle("www.abgeordnetenwatch.de", 2.5)
     today = datetime.date.today().isoformat()
     if args.dry_run:
         leg, label = (args.legislature, "") if args.legislature else current_legislature(client)

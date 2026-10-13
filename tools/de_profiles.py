@@ -280,6 +280,9 @@ def main():
     args = ap.parse_args()
 
     client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+    # abgeordnetenwatch.de/api asks for at most 30 requests a minute per IP
+    # (HTTP 429 above it): 2.5 s apart keeps us under it with room.
+    client.set_host_throttle("www.abgeordnetenwatch.de", 2.5)
     conn = db.init_db(db.connect(args.db))
     today = datetime.date.today().isoformat()
 
