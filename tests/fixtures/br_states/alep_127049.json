@@ -1,0 +1,506 @@
+{
+ "sucesso": true,
+ "erro": null,
+ "valor": {
+  "codigo": 127049,
+  "numero": 1122,
+  "ano": 2025,
+  "autor": "PODER EXECUTIVO",
+  "dataEntrada": "2025-11-24T08:00:00.000+0000",
+  "dataRecebimento": "2025-11-25T00:43:44.000+0000",
+  "dataPrazo": null,
+  "siglaTipoProposicao": "PRO",
+  "tipoProposicao": "PROJETO DE LEI",
+  "assunto": "IMÓVEL",
+  "palavraChave": "MENSAGEM N° 161/2025, LEI N° 15.699, DOAÇÃO, IMÓVEL, SÃO JOSÉ DOS PINHAIS",
+  "ementa": "MENSAGEM Nº 161/2025 - ALTERA A LEI Nº 15.699, DE 27 DE NOVEMBRO DE 2007, QUE AUTORIZA O PODER EXECUTIVO A EFETUAR A DOAÇÃO DO IMÓVEL QUE ESPECIFICA AO MUNICÍPIO DE SÃO JOSÉ DOS PINHAIS.",
+  "status": "ARQUIVADA",
+  "localAtual": "DIRETORIA LEGISLATIVA",
+  "nomeArquivo": "PROJETO DE LEI_1122_2025.pdf",
+  "numeroDiarioLocal": null,
+  "dataDiarioLocal": null,
+  "situacaoProcesso": null,
+  "regimeUrgencia": "SIM",
+  "numeroProtocolo": "5624",
+  "anoProtocolo": null,
+  "observacao": null,
+  "tipoArquivamento": "ARQUIVADO",
+  "normasLegais": [
+   {
+    "codigo": 65281,
+    "data": "2025-12-12T08:00:00.000+0000",
+    "palavraChave": "MENSAGEM N° 161/2025, LEI N° 15.699, DOAÇÃO, IMÓVEL, SÃO JOSÉ DOS PINHAIS",
+    "ementa": "ALTERA A LEI Nº 15.699, DE 27 DE NOVEMBRO DE 2007, QUE AUTORIZA O PODER EXECUTIVO A EFETUAR A DOAÇÃO DO IMÓVEL QUE ESPECIFICA AO MUNICÍPIO DE SÃO JOSÉ DOS PINHAIS.",
+    "resumo": null,
+    "assunto": "IMÓVEL",
+    "autores": "PODER EXECUTIVO",
+    "numero": 22906,
+    "ano": 2025,
+    "dataPublicacao": null,
+    "numeroDiarioOficial": null,
+    "nomeArquivo": null,
+    "nomeArquivoAtual": null,
+    "codigoTipoNormaLegal": 1,
+    "descricaoTipoNormaLegal": "Lei",
+    "numeroDiarioOficialMovimentacao": null,
+    "tipoMovimentacao": null,
+    "conclusaoMovimentacao": null,
+    "dataPublicacaoDiarioOficialMovimentacao": null,
+    "veiculoPublicacao": null,
+    "acaoDiretaInconstitucionalidade": {
+     "codigo": null,
+     "numero": null,
+     "exercicio": null,
+     "data": null,
+     "nomeArquivo": null,
+     "resumo": null,
+     "efeito": null,
+     "autor": null
+    },
+    "movimentacoes": [
+     {
+      "codigo": 48835,
+      "codigoNormaLegal": 65281,
+      "data": "2025-12-12T08:00:00.000+0000",
+      "dataLancamento": "2025-12-18T01:53:46.000+0000",
+      "dataPublicacaoDiarioOficial": "2025-12-12T08:00:00.000+0000",
+      "nomeArquivo": "22906.pdf",
+      "numeroDiarioOficial": "12048",
+      "observacao": null,
+      "tipo": "SANCIONADO(A)",
+      "conclusao": "Sancionada"
+     }
+    ],
+    "proposicoes": []
+   }
+  ],
+  "tramites": [
+   {
+    "codigo": 817490,
+    "ordem": 1,
+    "dataLancamento": "2025-11-25T00:23:43.000+0000",
+    "data": "2025-11-25T01:23:20.000+0000",
+    "local": "DAP - DIRETORIA DE ASSISTÊNCIA AO PLENÁRIO",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 493093,
+      "ordem": 1,
+      "data": "2025-11-25T00:23:43.000+0000",
+      "descricao": "ELABORAÇÃO DA ÍNTEGRA",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 228834,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 493152,
+      "ordem": 2,
+      "data": "2025-11-25T00:48:49.000+0000",
+      "descricao": "DESPACHO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 228852,
+      "anexoCancelado": "NAO"
+     }
+    ]
+   },
+   {
+    "codigo": 817523,
+    "ordem": 2,
+    "dataLancamento": "2025-11-25T01:28:37.000+0000",
+    "data": "2025-11-25T02:41:02.000+0000",
+    "local": "DL -  AUTUAÇÃO",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 493231,
+      "ordem": 3,
+      "data": "2025-11-25T01:28:49.000+0000",
+      "descricao": "AUTUADO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": null,
+      "anexoCancelado": null
+     },
+     {
+      "codigo": 493233,
+      "ordem": 4,
+      "data": "2025-11-25T01:28:55.000+0000",
+      "descricao": "INFORMAÇÃO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 228912,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 493309,
+      "ordem": 5,
+      "data": "2025-11-25T01:42:08.000+0000",
+      "descricao": "INFORMAÇÃO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 228977,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 493310,
+      "ordem": 6,
+      "data": "2025-11-25T01:42:35.000+0000",
+      "descricao": "ENCAMINHADO(A)",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 228978,
+      "anexoCancelado": "NAO"
+     }
+    ]
+   },
+   {
+    "codigo": 817609,
+    "ordem": 3,
+    "dataLancamento": "2025-11-25T17:38:19.000+0000",
+    "data": "2025-11-25T21:42:13.000+0000",
+    "local": "COMISSÃO DE CONSTITUIÇÃO E JUSTIÇA",
+    "observacao": null,
+    "acoes": []
+   },
+   {
+    "codigo": 817775,
+    "ordem": 4,
+    "dataLancamento": "2025-11-26T00:17:20.000+0000",
+    "data": "2025-11-26T00:20:36.000+0000",
+    "local": "GABINETE - DEPUTADO HUSSEIN BAKRI",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 493686,
+      "ordem": 7,
+      "data": "2025-11-26T00:17:35.000+0000",
+      "descricao": "PARECER FAVORÁVEL ",
+      "relator": "DEPUTADO HUSSEIN BAKRI",
+      "observacao": null,
+      "codigoAnexo": 229291,
+      "anexoCancelado": "NAO"
+     }
+    ]
+   },
+   {
+    "codigo": 817812,
+    "ordem": 5,
+    "dataLancamento": "2025-11-26T00:59:57.000+0000",
+    "data": "2025-11-26T01:01:09.000+0000",
+    "local": "COMISSÃO DE CONSTITUIÇÃO E JUSTIÇA",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 493769,
+      "ordem": 8,
+      "data": "2025-11-26T01:00:10.000+0000",
+      "descricao": "PARECER FAVORÁVEL ",
+      "relator": "DEPUTADO HUSSEIN BAKRI",
+      "observacao": "APROVADO O PARECER FAVORÁVEL ",
+      "codigoAnexo": null,
+      "anexoCancelado": null
+     }
+    ]
+   },
+   {
+    "codigo": 818102,
+    "ordem": 6,
+    "dataLancamento": "2025-11-26T19:17:55.000+0000",
+    "data": "2025-11-27T19:03:52.000+0000",
+    "local": "DIRETORIA LEGISLATIVA",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 494036,
+      "ordem": 9,
+      "data": "2025-11-26T19:25:47.000+0000",
+      "descricao": "INFORMAÇÃO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 229583,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 494037,
+      "ordem": 10,
+      "data": "2025-11-26T19:26:41.000+0000",
+      "descricao": "ENCAMINHADO(A)",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 229584,
+      "anexoCancelado": "NAO"
+     }
+    ]
+   },
+   {
+    "codigo": 818161,
+    "ordem": 7,
+    "dataLancamento": "2025-11-28T18:32:46.000+0000",
+    "data": "2025-11-28T22:26:44.000+0000",
+    "local": "COMISSÃO DE OBRAS PÚBLICAS, TRANSPORTES E COMUNICAÇÃO",
+    "observacao": null,
+    "acoes": []
+   },
+   {
+    "codigo": 818378,
+    "ordem": 8,
+    "dataLancamento": "2025-12-01T21:24:43.000+0000",
+    "data": "2025-12-02T01:51:29.000+0000",
+    "local": "GABINETE - DEPUTADO BATATINHA",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 494431,
+      "ordem": 11,
+      "data": "2025-12-01T21:34:22.000+0000",
+      "descricao": "PARECER FAVORÁVEL ",
+      "relator": "DEPUTADO BATATINHA",
+      "observacao": null,
+      "codigoAnexo": 229925,
+      "anexoCancelado": "NAO"
+     }
+    ]
+   },
+   {
+    "codigo": 818463,
+    "ordem": 9,
+    "dataLancamento": "2025-12-02T16:19:01.000+0000",
+    "data": "2025-12-02T16:23:44.000+0000",
+    "local": "COMISSÃO DE OBRAS PÚBLICAS, TRANSPORTES E COMUNICAÇÃO",
+    "observacao": null,
+    "acoes": []
+   },
+   {
+    "codigo": 818634,
+    "ordem": 10,
+    "dataLancamento": "2025-12-02T19:04:59.000+0000",
+    "data": "2025-12-02T20:54:37.000+0000",
+    "local": "DIRETORIA LEGISLATIVA",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 494998,
+      "ordem": 12,
+      "data": "2025-12-02T19:05:04.000+0000",
+      "descricao": "INFORMAÇÃO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 230382,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 494999,
+      "ordem": 13,
+      "data": "2025-12-02T19:06:06.000+0000",
+      "descricao": "ENCAMINHADO(A)",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 230383,
+      "anexoCancelado": "NAO"
+     }
+    ]
+   },
+   {
+    "codigo": 820164,
+    "ordem": 11,
+    "dataLancamento": "2025-12-09T00:19:04.000+0000",
+    "data": "2025-12-09T03:32:47.000+0000",
+    "local": "DAP - ORDEM DO DIA",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 497046,
+      "ordem": 14,
+      "data": "2025-12-09T01:42:22.000+0000",
+      "descricao": "1º TURNO - APROVADO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": null,
+      "anexoCancelado": null
+     },
+     {
+      "codigo": 497089,
+      "ordem": 15,
+      "data": "2025-12-09T01:59:33.000+0000",
+      "descricao": "2º TURNO - APROVADO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": null,
+      "anexoCancelado": null
+     },
+     {
+      "codigo": 497102,
+      "ordem": 16,
+      "data": "2025-12-09T02:00:25.000+0000",
+      "descricao": "REDAÇÃO FINAL DISPENSADA",
+      "relator": null,
+      "observacao": "REDAÇÃO FINAL DISPENSADA, NOS TERMOS DO §2° DO ART. 221 DO REGIMENTO INTERNO.",
+      "codigoAnexo": 232080,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 497127,
+      "ordem": 17,
+      "data": "2025-12-09T02:15:53.000+0000",
+      "descricao": "INFORMAÇÃO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 232103,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 497149,
+      "ordem": 18,
+      "data": "2025-12-09T02:23:58.000+0000",
+      "descricao": "DESPACHO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 232125,
+      "anexoCancelado": "NAO"
+     }
+    ]
+   },
+   {
+    "codigo": 820801,
+    "ordem": 12,
+    "dataLancamento": "2025-12-09T03:36:07.000+0000",
+    "data": "2025-12-10T04:21:45.000+0000",
+    "local": "DAP - COORDENADORIA DE AUTOGRAFIA",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 497199,
+      "ordem": 19,
+      "data": "2025-12-09T03:54:48.000+0000",
+      "descricao": "DESPACHO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 232172,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 497220,
+      "ordem": 20,
+      "data": "2025-12-09T04:31:07.000+0000",
+      "descricao": "OFÍCIO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 232193,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 497231,
+      "ordem": 21,
+      "data": "2025-12-09T04:46:43.000+0000",
+      "descricao": "AUTÓGRAFO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 232204,
+      "anexoCancelado": "NAO"
+     }
+    ]
+   },
+   {
+    "codigo": 821101,
+    "ordem": 13,
+    "dataLancamento": "2025-12-11T02:37:36.000+0000",
+    "data": "2025-12-11T02:37:44.000+0000",
+    "local": "DIRETORIA LEGISLATIVA",
+    "observacao": null,
+    "acoes": []
+   },
+   {
+    "codigo": 821475,
+    "ordem": 14,
+    "dataLancamento": "2025-12-11T02:37:54.000+0000",
+    "data": "2025-12-18T22:23:31.000+0000",
+    "local": "DL - ENVIO PARA SANÇÃO",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 499190,
+      "ordem": 22,
+      "data": "2025-12-12T00:32:03.000+0000",
+      "descricao": "AUTÓGRAFO ENVIADO",
+      "relator": null,
+      "observacao": "AUTÓGRAFO ENCAMINHADO Á CASA CIVIL ATRAVÉS DO E-PROT. 21.705.384-6, NO DIA 11/12/2025.",
+      "codigoAnexo": 233894,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 499192,
+      "ordem": 23,
+      "data": "2025-12-12T00:33:38.000+0000",
+      "descricao": "ENCAMINHADO À SANÇÃO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 233896,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 499891,
+      "ordem": 24,
+      "data": "2025-12-18T01:49:08.000+0000",
+      "descricao": "INCLUSÃO DE DOCUMENTO EXTERNO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 234512,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 499892,
+      "ordem": 25,
+      "data": "2025-12-18T01:53:46.000+0000",
+      "descricao": "LEI SANCIONADA",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": null,
+      "anexoCancelado": null
+     },
+     {
+      "codigo": 499893,
+      "ordem": 26,
+      "data": "2025-12-18T01:53:59.000+0000",
+      "descricao": "INFORMAÇÃO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 234513,
+      "anexoCancelado": "NAO"
+     },
+     {
+      "codigo": 499894,
+      "ordem": 27,
+      "data": "2025-12-18T01:55:32.000+0000",
+      "descricao": "DESPACHO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": 234514,
+      "anexoCancelado": "NAO"
+     }
+    ]
+   },
+   {
+    "codigo": null,
+    "ordem": 15,
+    "dataLancamento": "2025-12-18T22:23:48.000+0000",
+    "data": null,
+    "local": "DIRETORIA LEGISLATIVA",
+    "observacao": null,
+    "acoes": [
+     {
+      "codigo": 500099,
+      "ordem": 28,
+      "data": "2025-12-18T22:24:21.000+0000",
+      "descricao": "ARQUIVADO",
+      "relator": null,
+      "observacao": null,
+      "codigoAnexo": null,
+      "anexoCancelado": null
+     }
+    ]
+   }
+  ]
+ }
+}

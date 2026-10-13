@@ -1,0 +1,15 @@
+{
+ "sucesso": true,
+ "erro": null,
+ "valor": {
+  "codigo": 131481,
+  "numero": 2172,
+  "ano": 2026,
+  "siglaTipoProposicao": "REQ",
+  "tipoProposicao": "REQUERIMENTO",
+  "status": "TRAMITANDO",
+  "ementa": "REQUER ...",
+  "tramites": [],
+  "normasLegais": []
+ }
+}

@@ -1032,6 +1032,17 @@ All from cjoyce@citizengo.net.
   gazette, a documented API, open data, a compilation on another official
   host, an email to the source) before recording a gap; never bypass the
   block (Chris, 13 October 2026: "Do this always when AI is blocked").
+- Every source over https. **One dated, named exception** (Chris, 13 October
+  2026: "Allow the narrow exception"): ALEP's documented open-data API,
+  `http://webservices.assembleia.pr.leg.br/api/public/` (its https port has
+  a self-signed certificate and answers 403), recorded in one place,
+  `src/http.PLAIN_HTTP_EXCEPTIONS`. GET only, our UA, no credentials; every
+  item says "(via ALEP open data, unencrypted)"; laws it names are
+  cross-checked against the Casa Civil's https list (a mismatch is a gap).
+  `tests/test_db_state.PlainHttpTests` fails on any other http:// URL in
+  `src/` or `tools/`, and `HttpClient` refuses a POST over HTTP or any
+  other path on that host. No new exception without Chris, dated, in that
+  dict.
 - Never hand-edit generated taxonomy YAML; edit `docs/keyword-taxonomy-*.md`
   and regenerate. `taxonomy-qc` stays unchanged for Belgium and Switzerland.
 - AI judge: the paid API judge stays off (X16); the free session judge runs
@@ -1177,6 +1188,44 @@ routes tried: `docs/brazil-regions-scope.md`, "Alternative routes".
 - **Waiting on Chris:** ALEP's documented open-data API is plain HTTP only
   (allow it, or ask ALEP for https); the GitHub-side step for SC and MT;
   asking LexML to allow `/busca/SRU`.
+
+### Third pass: Paraná's bills over the HTTP exception, LexML (13 October 2026, branch `br-parana-lexml`)
+
+Chris, 13 October: Paraná "Allow the narrow exception"; LexML "Yes, both"
+(look for an allowed interface; find the contact).
+
+- **Paraná's bills now read** (`alep`, `tools/br_alep.py`): ALEP's
+  documented open-data API over plain HTTP, the repository's single
+  exception (Rules to keep). Its bill list is a POST, so it is not used:
+  bills are read one by one with the documented `GET /proposicao/{código}`,
+  walking up the código sequence from the last one seen (about 125 new
+  códigos a week across every document type; 200 GETs a run at most, about
+  three minutes, inside the step's 600 s). PL, PLC, PDL and PEC with author,
+  received date, the latest substantive tramitação step, plenary results
+  ("1º TURNO - APROVADO", result only) and committee decisions ("APROVADO O
+  PARECER FAVORÁVEL"). **No member votes**: the API has none, and ALEP's
+  "Controle de votações" is reCAPTCHA-gated. Each item: "(via ALEP open
+  data, unencrypted)". A law ALEP names is checked against the Casa Civil's
+  https list (`pr`, read first in the same run): another title under the
+  same number, or the same text under another number, is a gap line and
+  ALEP's copy is not trusted. Measured: 22 of 23 sampled 2026 laws match;
+  the one mismatch is real (ALEP's PL 493/2026 "Lei 23976/2026" is the Casa
+  Civil's Lei 23276/2026).
+- **LexML: no allowed interface.** Its robots.txt allows only `/urn` and
+  `/sru` (and static files); `/sru` answers 404, and the URN resolver
+  needs a known URN. The documented webservice (the Senate's open-data
+  catalogue, "Webservice do acervo do Portal LexML") is the SRU under
+  `/busca/`, disallowed; the catalogue's own pages sit behind a JavaScript
+  bot check (not bypassed). OAI-PMH is LexML's harvesting protocol in the
+  other direction (LexML harvests the providers; it exposes none), and
+  there are no published dumps (github.com/lexml holds code and schemas
+  only). Of the states LexML holds, only Santa Catarina is not otherwise
+  covered. Nothing built.
+- **LexML contact for a permission request:** `lexml@senado.leg.br`
+  ("Equipe LexML - Senado Federal/Prodasen", tel. (61) 3311-3673), from the
+  official LexML toolkit's leiame.txt,
+  https://github.com/lexml/lexml-toolkit/blob/master/lexml-toolkit-dist/src/main/doc/leiame.txt
+  (projeto.lexml.gov.br/contact-info answers 403). Nothing sent.
 
 
 ## US states: free alternatives beside Open States' free tier (13 October 2026)

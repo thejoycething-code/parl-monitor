@@ -644,32 +644,91 @@ class PlainHttpTests(unittest.TestCase):
     traffic where an unencrypted hop lets a network alter the answer.
     """
 
+    # A plain-HTTP URL literal in the code: up to whitespace, a quote or a
+    # closing bracket (13 October 2026: the whole URL, not just the host, so
+    # an excepted host cannot carry other paths).
+    URL = r"http://[^\s\"'<>)\]}]+"
+
+    @classmethod
+    def offenders_in(cls, lines, where="?"):
+        """The plain-HTTP URLs in `lines` that src/http.PLAIN_HTTP_EXCEPTIONS
+        does not allow."""
+        import re
+        from src.http import plain_http_allowed
+        found = []
+        for n, line in enumerate(lines, 1):
+            for m in re.finditer(cls.URL, line):
+                # An XML NAMESPACE is an identifier, not an
+                # address: ElementTree's Clark notation
+                # "{http://purl.org/dc/elements/1.1/}date" is
+                # matched against tag names and never fetched, so
+                # flagging it would train people to ignore this
+                # check. The brace is what distinguishes it, and
+                # nothing else in this repo fetches a braced URL.
+                # So is an IRI in SPARQL's angle brackets
+                # ("<http://dati.senato.it/osr/>", Italy, 9 October
+                # 2026): the endpoint is fetched over https and the
+                # dataset's own identifiers are http.
+                if line[max(0, m.start() - 1)] in "{<":
+                    continue
+                # The single, dated, named exceptions (13 October 2026:
+                # ALEP's open-data API, Chris). Nothing else passes.
+                if plain_http_allowed(m.group(0)):
+                    continue
+                found.append("{0}:{1} {2}".format(where, n, m.group(0)))
+        return found
+
     def test_no_source_is_fetched_over_plain_http(self):
         import glob
-        import re
         offenders = []
         for root in ("src", "tools"):
             for path in glob.glob(os.path.join(ROOT, root, "**", "*.py"),
                                   recursive=True):
                 with open(path, encoding="utf-8") as fh:
-                    for n, line in enumerate(fh, 1):
-                        for m in re.finditer(r"http://[a-z0-9._-]+", line):
-                            # An XML NAMESPACE is an identifier, not an
-                            # address: ElementTree's Clark notation
-                            # "{http://purl.org/dc/elements/1.1/}date" is
-                            # matched against tag names and never fetched, so
-                            # flagging it would train people to ignore this
-                            # check. The brace is what distinguishes it, and
-                            # nothing else in this repo fetches a braced URL.
-                            # So is an IRI in SPARQL's angle brackets
-                            # ("<http://dati.senato.it/osr/>", Italy, 9 October
-                            # 2026): the endpoint is fetched over https and the
-                            # dataset's own identifiers are http.
-                            if line[max(0, m.start() - 1)] in "{<":
-                                continue
-                            offenders.append("{0}:{1} {2}".format(
-                                os.path.relpath(path, ROOT), n, m.group(0)))
+                    offenders += self.offenders_in(fh, os.path.relpath(path, ROOT))
         self.assertEqual(offenders, [], "plain-HTTP sources: {0}".format(offenders))
+
+    def test_only_the_listed_exception_passes(self):
+        alep = "http://webservices.assembleia.pr.leg.br/api/public/proposicao/131487"
+        self.assertEqual(self.offenders_in(['URL = "{0}"'.format(alep)]), [])
+        for other in ("http://www.al.rj.gov.br/x", "http://webservices.assembleia.pr.leg.br/api/account",
+                      "http://webservices.assembleia.pr.leg.br.evil.example/api/public/",
+                      "http://example.org/"):
+            self.assertEqual(len(self.offenders_in(['URL = "{0}"'.format(other)])), 1, other)
+        # namespaces and IRIs are still identifiers, not fetches
+        self.assertEqual(self.offenders_in(['t = "{http://purl.org/dc/elements/1.1/}date"']), [])
+
+    def test_the_exception_list_is_single_dated_and_named(self):
+        from src.http import PLAIN_HTTP_EXCEPTIONS
+        self.assertEqual(list(PLAIN_HTTP_EXCEPTIONS), ["alep"])
+        e = PLAIN_HTTP_EXCEPTIONS["alep"]
+        self.assertEqual(e["date"], "2026-10-13")
+        self.assertEqual(e["decided_by"], "Chris Joyce")
+        self.assertTrue(e["reason"])
+        self.assertEqual(tuple(e["methods"]), ("GET",))
+        self.assertTrue(e["prefix"].startswith("http://webservices.assembleia.pr.leg.br/api/public/"))
+
+    def test_the_client_refuses_a_post_or_an_off_prefix_get(self):
+        from src.http import FetchError, HttpClient
+
+        class Opener:
+            def __init__(self):
+                self.calls = []
+
+            def open(self, request, timeout=None):
+                self.calls.append(request.full_url)
+                raise AssertionError("must not be sent")
+
+        opener = Opener()
+        c = HttpClient(raw_dir="/nonexistent", opener=opener, sleep=lambda s: None, max_retries=0)
+        base = "http://webservices.assembleia.pr.leg.br/api/public/"
+        with self.assertRaises(FetchError):
+            c.post_form(base + "proposicao/filtrar", {"ano": "2026"}, "t", "t")
+        with self.assertRaises(FetchError):
+            c.post_json(base + "proposicao/filtrar", "{}", "t", "t")
+        with self.assertRaises(FetchError):
+            c.get_bytes("http://webservices.assembleia.pr.leg.br/api/account", "t", "t", archive=False)
+        self.assertEqual(opener.calls, [])
 
     def test_the_ni_endpoints_are_https(self):
         from src.ingest import niassembly

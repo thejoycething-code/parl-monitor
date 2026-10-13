@@ -178,7 +178,14 @@ VIA = {
     "pa": "ALEPA's proposições search",
     "go": "the Goiás Casa Civil's legislation portal: adopted law",
     "pr": "the Paraná Casa Civil's Sistema Estadual de Legislação: adopted law",
+    # The one plain-HTTP source (src/http.PLAIN_HTTP_EXCEPTIONS, Chris, 13
+    # October 2026): every item says so.
+    "alep": "ALEP open data, unencrypted",
 }
+
+# What the coverage line adds after an assembly's name, per source.
+READ_NOTES = {"go": "adopted laws only", "pr": "adopted laws only",
+              "alep": "bills via open data, unencrypted"}
 
 
 # Routes that read the laws an assembly passed, not its bills.
