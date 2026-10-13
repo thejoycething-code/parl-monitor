@@ -26,8 +26,9 @@ meetings with their agendas (UN Journal; near-term, about a week ahead),
 Third Committee meetings (UN Journal; near-term), the PGA's letters to member
 states (src/ingest/pga_letters.py), draft resolutions by symbol for the GA
 plenary (A/81/L.n) and the Third Committee (A/C.3/81/L.n) (docs.un.org),
-treaty body reporting deadlines (CEDAW/CRC/CCPR flagged) and OHCHR calls for
-input. HRC drafts (A/HRC/NN/L.n) are walked by tools/un_drafts.py --hrc,
+treaty body sessions for CEDAW, CRC and CCPR (Indico.UN, about a year ahead;
+tbinternet's reporting deadlines only while its robots.txt allows) and OHCHR
+calls for input. HRC drafts (A/HRC/NN/L.n) are walked by tools/un_drafts.py --hrc,
 not here.
 
 THE CHECK LOG. Every source reports "read OK", "read but empty" or "could
@@ -209,8 +210,15 @@ class Collected:
     calls: list             # open OHCHR calls (for the DM)
 
 
-def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None, log=print):
+TB_SOURCE = "Treaty bodies (Indico.UN; OHCHR)"
+
+
+def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None, log=print,
+            tb_client=None):
     """Read every UN source into a Collected. Nothing is written.
+
+    tb_client (13 October 2026): the robots-guarded client for the treaty
+    body sources (Indico.UN, tbinternet); built over `client` when not passed.
 
     rows are the chronological list; signals the linked ground items
     (un_signals.build_signals); checks the CheckLog.
@@ -343,14 +351,32 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
         checks.failed("GA session window (un.org)", _why(exc))
         gaps.append("GA session: {0}".format(_why(exc)))
 
+    # Treaty bodies (13 October 2026): sessions from Indico.UN, reporting
+    # deadlines from tbinternet only while its robots.txt allows (it reads
+    # Disallow: / since 13 October). Both go through the robots guard. One
+    # check row: read OK when either source gave rows, the detail says which.
+    tc = tb_client or robots_guard.GuardedClient(client, "uncal", log=log)
+    tb_items, tb_notes, tb_errors = [], [], []
     try:
-        deadlines = un_calendar.fetch_treaty_deadlines(client)
+        tb_sessions, tb_failures = un_calendar.fetch_treaty_sessions(tc)
+        tb_items.extend(tb_sessions)
+        tb_notes.append("sessions via indico.un.org")
+        tb_notes.extend(tb_failures)
+        gaps.extend("treaty body sessions: " + f for f in tb_failures)
+        for s in un_calendar.upcoming(tb_sessions, today=today, horizon_days=days):
+            detail = s.when
+            if s.states:
+                detail += "; reviews " + ", ".join(s.states)
+            rows.append((s.starts, "SESSION", s.name, detail,
+                         "committee" if s.ours else "", s.url,
+                         un_store.item_id("session", s.treaty, s.number), s))
+    except FetchError as exc:
+        tb_errors.append("indico.un.org: {0}".format(_why(exc)))
+    try:
+        deadlines = un_calendar.fetch_treaty_deadlines(tc)
         if not deadlines:
-            checks.failed("Treaty bodies (OHCHR)", "parsed to nothing (layout change?)")
-            gaps.append("treaty body calendar: parsed to nothing (layout change?)")
-        else:
-            checks.read("Treaty bodies (OHCHR)", deadlines, key=lambda d: d.due,
-                        title=lambda d: "{0}: {1}".format(d.treaty, d.country))
+            tb_errors.append("tbinternet deadlines parsed to nothing (layout change?)")
+        tb_items.extend(deadlines)
         for d in deadlines:
             if d.due < today or (days and (d.due - today).days > days):
                 continue
@@ -359,8 +385,16 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
                 "due {0}".format(d.due), "committee" if d.ours else "", d.url,
                 un_store.item_id("treaty", d.treaty, d.country, d.document), d))
     except FetchError as exc:
-        checks.failed("Treaty bodies (OHCHR)", _why(exc))
-        gaps.append("treaty body calendar: {0}".format(_why(exc)))
+        tb_errors.append("reporting deadlines not read: tbinternet.ohchr.org: {0}".format(_why(exc)))
+    if tb_items:
+        checks.read(TB_SOURCE, tb_items,
+                    key=lambda x: getattr(x, "starts", None) or x.due,
+                    title=lambda x: getattr(x, "name", None) or "{0}: {1}".format(
+                        x.treaty, x.country),
+                    detail="; ".join(tb_notes + tb_errors))
+    else:
+        checks.failed(TB_SOURCE, "; ".join(tb_errors + tb_notes[1:]) or "nothing parsed")
+    gaps.extend("treaty bodies: " + e for e in tb_errors)
 
     try:
         calls = ohchr_calls.fetch_calls(client)
@@ -440,7 +474,8 @@ def render(rows, today, days, signals, checks, gaps, changes=None, stored=False,
                "(UPR at month precision), the General Assembly window, GA plenaries "
                "and high-level meetings with their agendas, Third Committee meetings, "
                "the PGA's letters, GA plenary and Third Committee drafts by symbol, "
-               "treaty body reporting deadlines (CEDAW/CRC/CCPR flagged) and OHCHR "
+               "CEDAW, CRC and CCPR sessions (Indico.UN; reporting deadlines only "
+               "while tbinternet's robots.txt allows) and OHCHR "
                "calls for input. Journal rows are NEAR-TERM only (about a week "
                "ahead). See src/ingest/un_calendar.py.")
     out.append("")

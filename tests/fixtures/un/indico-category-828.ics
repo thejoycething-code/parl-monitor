@@ -1,0 +1,264 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//CERN//INDICO//EN
+BEGIN:VEVENT
+SUMMARY:32nd session
+DTSTART:20261001T080000Z
+DTEND:20261002T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1017995@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1017995/
+LOCATION:Room S4 (Palais des Nations)
+URL:https://indico.un.org/event/1017995/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 66th session
+DTSTART:20261002T080000Z
+DTEND:20261002T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1018755@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1018755/
+LOCATION:Palais des Nations
+URL:https://indico.un.org/event/1018755/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 35th session
+DTSTART:20261002T080000Z
+DTEND:20261002T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1017990@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1017990/
+LOCATION:Palais des Nations
+URL:https://indico.un.org/event/1017990/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:62nd session
+DTSTART:20261002T080000Z
+DTEND:20261002T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1010919@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1010919/
+LOCATION:Room VIII (Palais des Nations)
+URL:https://indico.un.org/event/1010919/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:93rd session
+DTSTART:20261005T080000Z
+DTEND:20261030T170000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1017962@indico.un.org
+CONTACT:ohchr-cedaw@un.org
+DESCRIPTION:The 93rd session of the Committee on the Elimination of Discri
+ mination against Women (CEDAW) will take place from 5 to 30 October 2026 a
+ t the Palais des Nations.\nFor further information\, please consult the we
+ bpage for the 93rd session.\nAll public meetings of the Committee will b
+ e webcast live on the following website: https://webtv.un.org/en.\nUNOG D
+ igital Badging System\nConference participants will receive a digital badg
+ e that includes their photo\, a QR code\, and the conference name and date
+ s. The badge will be sent by email once accreditation has been approved by
+  the conference organizer. After downloading it to a mobile phone or other
+  mobile device\, participants can use the digital badge for faster access 
+ to the Palais des Nations\, avoiding the time required to issue a physical
+  badge. The digital badge may also be printed\, and the QR code will funct
+ ion in the same way.\nTo activate the badge\, participants must present th
+ e digital badge received by email together with an official identity docum
+ ent (passport) at the Pass and Identification Unit in Geneva\, located at 
+ the Pregny Gate.\n\nhttps://indico.un.org/event/1017962/
+LOCATION:Room XVI (Palais des Nations)
+URL:https://indico.un.org/event/1017962/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 95th session
+DTSTART:20261005T080000Z
+DTEND:20261023T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1017961@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1017961/
+LOCATION:Palais des Nations
+URL:https://indico.un.org/event/1017961/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 97th session
+DTSTART:20261026T090000Z
+DTEND:20261030T170000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1017954@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1017954/
+LOCATION:Palais des Nations
+URL:https://indico.un.org/event/1017954/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:33rd session
+DTSTART:20270201T090000Z
+DTEND:20270202T170000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1018000@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1018000/
+LOCATION:Room S4 (Palais des Nations)
+URL:https://indico.un.org/event/1018000/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:63rd session
+DTSTART:20270202T090000Z
+DTEND:20270202T170000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1010905@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1010905/
+LOCATION:Room V (Palais des Nations)
+URL:https://indico.un.org/event/1010905/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:94th session
+DTSTART:20270203T090000Z
+DTEND:20270226T170000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1017960@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1017960/
+LOCATION:Room V (Palais des Nations)
+URL:https://indico.un.org/event/1017960/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:96th session
+DTSTART:20270301T090000Z
+DTEND:20270305T170000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1010921@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1010921/
+LOCATION:Room V (Palais des Nations)
+URL:https://indico.un.org/event/1010921/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:34th session
+DTSTART:20270614T080000Z
+DTEND:20270615T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1024929@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1024929/
+LOCATION:Room S4 (Palais des Nations)
+URL:https://indico.un.org/event/1024929/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:64th session
+DTSTART:20270615T080000Z
+DTEND:20270615T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1018754@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1018754/
+LOCATION:Room V (Palais des Nations)
+URL:https://indico.un.org/event/1018754/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:95th session
+DTSTART:20270616T080000Z
+DTEND:20270709T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1024927@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1024927/
+LOCATION:Room V (Palais des Nations)
+URL:https://indico.un.org/event/1024927/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:97th session
+DTSTART:20270712T080000Z
+DTEND:20270716T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1017952@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1017952/
+LOCATION:Room V (Palais des Nations)
+URL:https://indico.un.org/event/1017952/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 37th session
+DTSTART:20271001T080000Z
+DTEND:20271001T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1023045@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1023045/
+URL:https://indico.un.org/event/1023045/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 66th session
+DTSTART:20271001T080000Z
+DTEND:20271001T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1023072@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1023072/
+URL:https://indico.un.org/event/1023072/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 67th session
+DTSTART:20271001T080000Z
+DTEND:20271001T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1023073@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1023073/
+URL:https://indico.un.org/event/1023073/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:35th session
+DTSTART:20271001T080000Z
+DTEND:20271001T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1024922@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1024922/
+LOCATION:Room S4 (Palais des Nations)
+URL:https://indico.un.org/event/1024922/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:65th session
+DTSTART:20271001T080000Z
+DTEND:20271001T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1025302@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1025302/
+LOCATION:Room VII (Palais des Nations)
+URL:https://indico.un.org/event/1025302/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:96th session
+DTSTART:20271004T080000Z
+DTEND:20271022T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1025915@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1025915/
+LOCATION:Room V (Palais des Nations)
+URL:https://indico.un.org/event/1025915/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 97th session
+DTSTART:20271005T080000Z
+DTEND:20271022T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1023053@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1023053/
+URL:https://indico.un.org/event/1023053/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 97th session
+DTSTART:20271025T080000Z
+DTEND:20271029T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1023048@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1023048/
+URL:https://indico.un.org/event/1023048/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 96th session
+DTSTART:20271025T080000Z
+DTEND:20271029T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1023049@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1023049/
+URL:https://indico.un.org/event/1023049/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:95th session
+DTSTART:20271025T080000Z
+DTEND:20271029T160000Z
+DTSTAMP:20261013T122300Z
+UID:indico-event-1025883@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1025883/
+LOCATION:Room V (Palais des Nations)
+URL:https://indico.un.org/event/1025883/
+END:VEVENT
+END:VCALENDAR

@@ -7,7 +7,13 @@ import unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
+from src.http import FetchError
 from src.ingest import treaty_comments as tc
+from src.robots_guard import GuardedClient, RobotsRefused
+from tests.robots_fakes import guarded
+
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+import un_comments  # noqa: E402
 
 LISTING = """
 <table>
@@ -48,3 +54,69 @@ class TreatyCommentTests(unittest.TestCase):
 
     def test_empty_parse_is_distinguishable_from_no_comments(self):
         self.assertEqual(tc.parse_general_comments("<table></table>"), [])
+
+
+DISALLOW_ALL = "User-agent: *\nDisallow: /\n"
+
+
+class Search:
+    """The treaty body search: serves LISTING and records every request sent."""
+
+    def __init__(self):
+        self.asked = []
+
+    def get_text(self, url, feed, slug, *a, **k):
+        self.asked.append(url)
+        if url == tc.TB_SEARCH:
+            return LISTING
+        raise FetchError(url, feed, slug, 1, "HTTP Error 404")
+
+
+class RobotsGuardTests(unittest.TestCase):
+    """tbinternet's robots.txt reads Disallow: / since 13 October 2026: the
+    search must be refused before it is sent, and say so."""
+
+    def test_disallowed_search_is_refused_and_never_sent(self):
+        search = Search()
+        client, serving = guarded(search, {"tbinternet.ohchr.org": DISALLOW_ALL}, "tb")
+        with self.assertRaises(RobotsRefused) as ctx:
+            tc.fetch_general_comments(client)
+        self.assertEqual(search.asked, [])
+        self.assertEqual(serving.robots_asked, ["tbinternet.ohchr.org"])
+        self.assertIn("robots.txt disallows", str(ctx.exception))
+        self.assertIn(tc.TB_SEARCH, str(ctx.exception))
+
+    def test_refusal_is_a_fetch_error(self):
+        """Callers that catch FetchError still catch a refusal."""
+        client, _ = guarded(Search(), {"tbinternet.ohchr.org": DISALLOW_ALL}, "tb")
+        with self.assertRaises(FetchError):
+            tc.fetch_general_comments(client)
+
+    def test_allowed_search_is_fetched_and_parsed(self):
+        search = Search()
+        client, _ = guarded(search, {"tbinternet.ohchr.org": "User-agent: *\nDisallow: /admin/\n"},
+                            "tb")
+        rows = tc.fetch_general_comments(client)
+        self.assertEqual(search.asked, [tc.TB_SEARCH])
+        self.assertEqual(len(rows), 2)
+
+    def test_a_plain_client_is_wrapped_in_the_guard(self):
+        self.assertIsInstance(tc.guarded(Search(), log=lambda *a, **k: None), GuardedClient)
+        client, _ = guarded(Search(), {}, "tb")
+        self.assertIs(tc.guarded(client), client)
+
+    def test_the_tool_reports_could_not_read_and_stores_nothing(self):
+        import contextlib
+        import io
+        search = Search()
+        client, _ = guarded(search, {"tbinternet.ohchr.org": DISALLOW_ALL}, "tb")
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            code = un_comments.main(client)
+        self.assertEqual(code, 2)
+        self.assertIn("could not read: robots.txt disallows", out.getvalue())
+        self.assertEqual(search.asked, [])
+
+
+if __name__ == "__main__":
+    unittest.main()

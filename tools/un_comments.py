@@ -13,6 +13,11 @@ WHAT THIS IS NOT: the consultation window. Draft general comments go out for
 public comment before adoption and that is the campaignable moment, but every
 OHCHR page listing open consultations answers 403 to a non-browser client. This
 tells you what the treaty bodies have DECIDED, not what they are deciding.
+
+ROBOTS.TXT (13 October 2026): tbinternet.ohchr.org disallows every path, so
+the search is not fetched while that stands. The run prints "could not read:
+robots.txt disallows ..." and exits 2, storing nothing; no other route was
+found (src/ingest/treaty_comments.py lists what was tried).
 """
 
 from __future__ import annotations
@@ -28,21 +33,28 @@ sys.path.insert(0, ROOT)
 from src import db, filter as filt
 from src.http import FetchError, HttpClient
 from src.ingest import treaty_comments
+from src.robots_guard import RobotsRefused
 
 
-def main():
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
-    tax = filt.load_taxonomy(os.path.join(ROOT, "config", "un-taxonomy.yaml"))
-    wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+def main(client=None):
+    client = client or HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
     try:
         comments = treaty_comments.fetch_general_comments(client)
+    except RobotsRefused as exc:
+        print("treaty body general comments: could not read: {0}".format(exc.reason))
+        print("Not fetched and nothing stored. No legitimate alternative route found "
+              "(src/ingest/treaty_comments.py, docs/un-sources.md).")
+        return 2
     except FetchError as exc:
-        print("treaty body search failed: {0}".format(exc.cause))
+        print("treaty body general comments: could not read: {0}".format(exc.cause))
         return 1
     if not comments:
         print("parsed ZERO general comments. The document search layout has "
               "probably changed -- check before believing none exist.")
         return 1
+
+    tax = filt.load_taxonomy(os.path.join(ROOT, "config", "un-taxonomy.yaml"))
+    wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
 
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
     before = {r["symbol"] for r in conn.execute("SELECT symbol FROM un_documents")}

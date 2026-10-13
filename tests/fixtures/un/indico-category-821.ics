@@ -1,0 +1,170 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//CERN//INDICO//EN
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 148th session
+DTSTART:20261005T080000Z
+DTEND:20261009T160000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1017946@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1017946/
+LOCATION:Palais des Nations
+URL:https://indico.un.org/event/1017946/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:146th session
+DTSTART:20261012T080000Z
+DTEND:20261016T160000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1017945@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1017945/
+LOCATION:Room V (Palais des Nations)
+URL:https://indico.un.org/event/1017945/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 148th session
+DTSTART:20261012T080000Z
+DTEND:20261030T170000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1017965@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1017965/
+LOCATION:Palais des Nations
+URL:https://indico.un.org/event/1017965/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CCPR 146th session
+DTSTART:20261019T080000Z
+DTEND:20261106T170000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1017963@indico.un.org
+CONTACT:ohchr-ccpr@un.org
+DESCRIPTION:Palais des Nations\, Conference Room V\nThe Committee will con
+ sider the reports of the following States Parties:\n\n\nAustria\n\n\nCamer
+ oon\n\n\nJamaica\n\n\nRwanda\n\n\nThe List of issues prior to reporting (L
+ OIPR) of the following States Parties will be adopted during the session:
+  \n\n\nBahrain\n\n\nCzechia\n\n\nDemocratic Republic of the Congo\n\n\nDo
+ minica\n\n\nEl Salvador\n\n\nLithuania\n\n\nPortugal\n\n\nRomania\n\n\nTha
+ iland\n\n\nTunisia\n\n\nUzbekistan\n\n\n\n\n\n\nOnce accredited to the ses
+ sion\, you will receive your Indico digital badge by email. You would have
+  to present your digital badge\, along with your valid passport to the Sec
+ urity Officers at the Pregny Gate for identity check and badge activation.
+  The digital badge does not need to be printed. Presenting it on a mobile 
+ phone will be sufficient.  \n\n\n\n\n\nhttps://indico.un.org/event/10179
+ 63/
+LOCATION:Room V (Palais des Nations)
+URL:https://indico.un.org/event/1017963/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - Third annual session - dual chamber
+DTSTART:20261026T090000Z
+DTEND:20261030T170000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1015036@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1015036/
+LOCATION:Palais des Nations
+URL:https://indico.un.org/event/1015036/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:147th session
+DTSTART:20270224T090000Z
+DTEND:20270226T170000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1017944@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1017944/
+LOCATION:Room IX (Palais des Nations)
+URL:https://indico.un.org/event/1017944/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:147th session
+DTSTART:20270301T090000Z
+DTEND:20270319T170000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1017964@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1017964/
+LOCATION:Room XII (Palais des Nations)
+URL:https://indico.un.org/event/1017964/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - First annual session - dual chamber
+DTSTART:20270315T090000Z
+DTEND:20270319T170000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1021597@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1021597/
+URL:https://indico.un.org/event/1021597/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:148th session
+DTSTART:20270616T080000Z
+DTEND:20270618T160000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1024923@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1024923/
+LOCATION:Room VIII (Palais des Nations)
+URL:https://indico.un.org/event/1024923/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:148th session
+DTSTART:20270621T080000Z
+DTEND:20270716T160000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1025926@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1025926/
+URL:https://indico.un.org/event/1025926/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - Second annual session - dual chamber
+DTSTART:20270705T080000Z
+DTEND:20270709T160000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1021598@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1021598/
+URL:https://indico.un.org/event/1021598/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:149th session
+DTSTART:20271004T080000Z
+DTEND:20271008T160000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1025855@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1025855/
+URL:https://indico.un.org/event/1025855/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 150th session
+DTSTART:20271004T080000Z
+DTEND:20271008T160000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1023071@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1023071/
+URL:https://indico.un.org/event/1023071/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:149th session
+DTSTART:20271011T080000Z
+DTEND:20271029T160000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1025919@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1025919/
+LOCATION:Room VII (Palais des Nations)
+URL:https://indico.un.org/event/1025919/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - 150th session
+DTSTART:20271011T080000Z
+DTEND:20271029T160000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1023077@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1023077/
+URL:https://indico.un.org/event/1023077/
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:CANCELLED - Third annual session - dual chamber
+DTSTART:20271025T080000Z
+DTEND:20271029T160000Z
+DTSTAMP:20261013T122400Z
+UID:indico-event-1021596@indico.un.org
+DESCRIPTION:https://indico.un.org/event/1021596/
+URL:https://indico.un.org/event/1021596/
+END:VEVENT
+END:VCALENDAR
