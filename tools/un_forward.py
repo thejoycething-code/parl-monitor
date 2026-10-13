@@ -24,7 +24,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, un_store
+from src import db, filter as filt, un_store
 from src.http import FetchError, HttpClient
 from src.ingest import ohchr_calls, un_calendar
 
@@ -96,6 +96,25 @@ def main():
                                           m.starts.strftime("%Y%m%d%H%M")), m))
     except FetchError as exc:
         gaps.append("Third Committee meetings: {0}".format(exc.cause))
+
+    # GA plenaries and high-level meetings (13 October 2026). Only our ground
+    # is listed: the title and agenda go through the UN taxonomy.
+    try:
+        plenaries, why, failures = un_calendar.fetch_ga_plenaries(client, days=min(days, 30))
+        if why:
+            gaps.append("GA plenaries: {0}".format(why))
+        gaps.extend("GA plenaries: " + f for f in failures)
+        for m in plenaries:
+            areas = filt.filter_item(tax, wl, m.title, m.agenda).issue_areas
+            if not areas:
+                continue
+            rows.append((m.starts.date(), "PLENARY",
+                         "General Assembly: {0}".format(m.title),
+                         m.starts.strftime("%Y-%m-%d %H:%M") + " " + m.agenda[:120],
+                         ",".join(str(a) for a in areas), m.url,
+                         un_store.item_id("plenary", m.id or m.title), m))
+    except FetchError as exc:
+        gaps.append("GA plenaries: {0}".format(exc.cause))
 
     try:
         upr = un_calendar.fetch_upr_sessions(client)
