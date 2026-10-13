@@ -79,11 +79,13 @@ class WrittenPermissionTests(unittest.TestCase):
     REFUSE = "User-agent: *\nDisallow: /api/\n"
     BS = "https://data.bs.ch/api/explore/v2.1/catalog/datasets/"
     TG = "https://data.tg.ch/api/explore/v2.1/catalog/datasets/"
+    BL = "https://data.bl.ch/api/explore/v2.1/catalog/datasets/"
 
     def client(self, permissions=None):
         from tests.robots_fakes import RobotsServing
-        serving = RobotsServing(Routes({"data.bs.ch": "[]", "data.tg.ch": "[]"}),
-                                {"data.bs.ch": self.REFUSE, "data.tg.ch": self.REFUSE})
+        serving = RobotsServing(Routes({"data.bs.ch": "[]", "data.tg.ch": "[]", "data.bl.ch": "[]"}),
+                                {"data.bs.ch": self.REFUSE, "data.tg.ch": self.REFUSE,
+                                 "data.bl.ch": self.REFUSE})
         return rg.GuardedClient(serving, "ch-cantons", log=quiet, permissions=permissions), serving
 
     def test_listed_prefixes_skip_the_robots_read(self):
@@ -91,16 +93,20 @@ class WrittenPermissionTests(unittest.TestCase):
         self.assertEqual(client.get_json(self.BS + "100186/exports/json?where=x", "ch-cantons", "v"), [])
         self.assertEqual(client.get_json(self.TG + "sk-stat-136/exports/json?where=x", "ch-cantons",
                                          "v"), [])
+        for d in ("13090", "13140", "13130", "13080"):
+            self.assertEqual(client.get_json(self.BL + d + "/records?limit=1", "ch-cantons", "b"), [])
         self.assertEqual(serving.robots_asked, [])
         self.assertTrue(client.allowed(self.BS + "100311/records"))
 
     def test_the_rest_of_the_host_is_still_asked_and_refused(self):
         client, serving = self.client()
         for url in (self.BS + "100307/exports/json", self.TG + "sk-stat-51/records",
-                    "https://data.bs.ch/api/explore/v2.1/catalog/datasets"):
+                    "https://data.bs.ch/api/explore/v2.1/catalog/datasets",
+                    self.BL + "13110/records", self.BL + "130900/records",
+                    "https://data.bl.ch/api/explore/v2.1/catalog/datasets?where=x"):
             with self.assertRaises(rg.RobotsRefused):
                 client.get_json(url, "ch-cantons", "x")
-        self.assertEqual(sorted(set(serving.robots_asked)), ["data.bs.ch", "data.tg.ch"])
+        self.assertEqual(sorted(set(serving.robots_asked)), ["data.bl.ch", "data.bs.ch", "data.tg.ch"])
         self.assertEqual(len(serving.inner.asked), 0, "a refused URL is never requested")
 
     def test_no_permission_no_skip(self):
@@ -122,11 +128,15 @@ class WrittenPermissionTests(unittest.TestCase):
                 self.assertRegex(prefix, r"^https://[^/]+/api/explore/v2\.1/catalog/datasets/[^/]+/$")
                 hosts.add(prefix.split("/")[2])
                 self.assertIn(prefix.split("/datasets/")[1].rstrip("/"), doc)
-        self.assertEqual(hosts, {"data.bs.ch", "data.tg.ch"})
+        self.assertEqual(hosts, {"data.bs.ch", "data.tg.ch", "data.bl.ch"})
         self.assertIn("Sie können sehr gerne die API benutzen", rg.PERMISSIONS[0].condition)
         self.assertIsNone(rg.probe_refusal(self.BS + "100311/records"))
         self.assertIsNotNone(rg.permission_for(self.TG + "sk-stat-140/exports/json"))
         self.assertIsNone(rg.permission_for(self.TG + "sk-stat-1400/exports/json"))
+        bl = rg.permission_for(self.BL + "13080/records?limit=100")
+        self.assertIn("Johannes Hool", bl.granted_by)
+        self.assertEqual(bl.date, "2026-10-13")
+        self.assertIsNone(rg.permission_for(self.BL + "13100/records"))   # interests: not listed
 
 
 class GuardTests(unittest.TestCase):

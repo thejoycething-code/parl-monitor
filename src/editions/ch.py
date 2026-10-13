@@ -35,9 +35,9 @@ Assembly's. An act is new by its submission date, or, in a canton that
 prints none (Geneva, Vaud, Ticino), by the day we first saw it after that
 canton's first read; otherwise it is a stage move by its status date. Bern's
 votes come with their published tallies, grouped on the act they name.
-Titles are verbatim in the canton's language. Basel-Stadt and Thurgau
-(since 13 October 2026, from data.bs.ch and data.tg.ch with written
-permission) carry members' votes (ch_canton_votes), shown as the federal
+Titles are verbatim in the canton's language. Basel-Stadt, Thurgau and
+Basel-Landschaft (since 13 October 2026, from data.bs.ch, data.tg.ch and
+data.bl.ch with written permission) carry members' votes (ch_canton_votes), shown as the federal
 votes are (tally, Fraktion split, members against their Fraktion), and a
 "Source:" line linking the dataset, as Basel-Stadt's CC BY licence asks.
 Basel-Stadt's business items come, since the same day, from the Grand
@@ -226,6 +226,12 @@ OPEN_DATA = {
            (("Geschäfte", "https://data.tg.ch/explore/dataset/sk-stat-140/"),
             ("Vorstösser", "https://data.tg.ch/explore/dataset/sk-stat-141/"),
             ("Abstimmungen", "https://data.tg.ch/explore/dataset/sk-stat-136/"))),
+    "bl": ("data.bl.ch", "free use, source must be cited (opendata.swiss terms_by), "
+                         "Landeskanzlei des Kantons Basel-Landschaft",
+           (("Geschäfte", "https://data.bl.ch/explore/dataset/13090/"),
+            ("Unterlagen", "https://data.bl.ch/explore/dataset/13130/"),
+            ("Vorstösser", "https://data.bl.ch/explore/dataset/13140/"),
+            ("Abstimmungen", "https://data.bl.ch/explore/dataset/13080/"))),
 }
 # Read from a parliament's own raw data exports, offered by its staff (13
 # October 2026; robots.txt allows them). The Source line links the
@@ -246,9 +252,8 @@ OWN_EXPORTS = {
 OWN_SOURCES = {"grosserrat.bs.ch": "Grosser Rat Basel-Stadt, from its Parlamentsdienst's "
                                    "Geschäfte export"}
 CANTONS_BLOCKED = (
-    "Basel-Landschaft and St. Gallen: their open-data portals' robots.txt disallows /api/ "
-    "(not read); their parliaments are read from their own business systems instead "
-    "(baselland.talus.ch, ratsinfo.sg.ch)",
+    "St. Gallen: its open-data portal's robots.txt disallows /api/ (not read); its "
+    "parliament is read from its own business system instead (ratsinfo.sg.ch)",
     "Aargau: www.ag.ch's robots.txt disallows /grossrat (not read); only the acts published "
     "in the Aargauische Gesetzessammlung are read",
     "Lucerne, Valais and the other sixteen cantons are not read yet ([scope]({0}))".format(
@@ -400,9 +405,10 @@ def canton_coverage(conn):
     lines += [b + "." for b in CANTONS_BLOCKED]
     lines.append("Cantonal titles are matched in their own language (taxonomy-atch, taxonomy-fr, "
                  "taxonomy-it for Ticino); Geneva is read through its keyword search, Vaud from "
-                 "its lists of pending objects, Ticino from the order of the day, Basel-Landschaft "
-                 "from its newest documents. Basel-Stadt and Thurgau fall back to their "
-                 "parliaments' own pages if their exports and APIs fail (a gap line says so).")
+                 "its lists of pending objects, Ticino from the order of the day. Basel-Stadt, "
+                 "Thurgau and Basel-Landschaft fall back to their parliaments' own pages "
+                 "(Basel-Landschaft: its newest documents on baselland.talus.ch) if their "
+                 "exports and APIs fail (a gap line says so).")
     return lines
 
 
@@ -410,7 +416,8 @@ def cantons(conn, since, until, wl):
     intro = ["The cantonal parliaments' own business on our ground: Zürich, Bern, Geneva, Vaud "
              "and Ticino, each from its own system; titles verbatim in the canton's language, "
              "statuses in its own words. Bern's votes carry the Tagblatt's published tallies; "
-             "Basel-Stadt's and Thurgau's carry every member's vote, with the Fraktion split."]
+             "Basel-Stadt's, Thurgau's and Basel-Landschaft's carry every member's vote, with "
+             "the Fraktion split."]
     return [("Cantons", intro, canton_items(conn, since, until, wl), canton_coverage(conn))]
 
 

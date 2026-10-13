@@ -53,6 +53,11 @@ PIPELINES = {
     # not that Brussels is quiet. Grace of 2 covers a cancelled slot.
     "EU day sweep": (1, 2, "the EP swept per sitting day (roll calls and adopted texts)"),
     "UPR monthly": (31, 7, "UN Universal Periodic Review"),
+    # Unpaused 13 October 2026 (Chris), every weekday: the Mac Mini runs it
+    # (jobs/un-weekday.sh) and stamps this when it publishes the store. Cadence 1
+    # with a grace of 3, as the Day sweep: Friday to Monday is the longest
+    # legitimate gap. GitHub's backup is stateless, so it stamps nothing.
+    "UN calls weekday": (1, 3, "UN first signs and calls for input, DM to Chris"),
     # Missing until 2026-09-04, like EU weekly was from the alert list:
     # it pulls service history, party spells and contact details for
     # every chamber, and nothing would have said if it stopped.
@@ -136,11 +141,9 @@ PIPELINES = {
 
 # Pipelines deliberately not running. Listed so a PAUSE never reads as a
 # failure, and a pause nobody remembers never reads as health.
-PAUSED = {
-    "UN calls weekly": "paused 2026-08-17 by Christopher: nothing "
-                       "UN-related publishes until the monitor covers the "
-                       "issues and the forward calendar properly.",
-}
+# "UN calls weekly" was paused here from 17 August 2026 until Chris unpaused
+# it, as "UN calls weekday", on 13 October 2026.
+PAUSED = {}
 
 # table -> (freshness column, expected days, grace, note)
 FEEDS = [

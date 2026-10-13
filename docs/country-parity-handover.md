@@ -137,6 +137,18 @@ small budget (#118).
   the business fallback; the Grand Council's pages are last. Waiting on
   Frankenbach for a votes export. Details: docs/switzerland-cantons-scope.md,
   "Basel-Stadt: the Grand Council's own exports".
+- Basel-Landschaft, data.bl.ch (branch `ch-bl-ods`): Johannes Hool
+  (Statistisches Amt / Office for Data and Statistics) granted written
+  permission for the Landrat's open data, votes included, at scale; recorded
+  in `src/robots_guard.PERMISSIONS` for datasets 13090 (business), 13140
+  (authors), 13130 (documents), 13080 (members' votes since 2018) only.
+  The Landrat is now read from them with **every member's vote** (counts
+  tallied: the dataset prints none), each item and vote linking its dataset
+  (opendata.swiss `terms_by`: source must be cited); `baselland.talus.ch` is
+  the fallback, with one gap line. The next weekly run's first read takes the
+  2023-2027 legislature's votes (about 1,100 votes, 97,000 member votes, under
+  two minutes in the live test). Details: docs/switzerland-cantons-scope.md,
+  "Basel-Landschaft: data.bl.ch".
 - France, Assemblée nationale (Cellule GILDA, 12 October): plenary clips
   allowed if not distorted or modified, credited « Archives audiovisuelles de
   l'Assemblée nationale ». `config/clip-sources.yaml` fr: `status: allowed`, the
@@ -1108,7 +1120,7 @@ All from cjoyce@citizengo.net.
 | San Luis Potosí Congress (Sucuri bot check): access | unidadtransparenciaslp@gmail.com | sent 12-13 Oct; adopted decrees read from the gazette meanwhile (#155) |
 | Campeche Congress (robots.txt disallows all): access, and whether legislacion.congresocam.gob.mx may be read | procesoslegislativos@congresocam.gob.mx | sent 12-13 Oct; gazette read meanwhile (#155) |
 | Basel-Stadt open data (`/api/` disallowed to all but Googlebot) | opendata@bs.ch, cc parlamentsdienst@bs.ch | **granted 13 Oct** (Orhan Saeedi, Statistisches Amt): use the API under the licence, link the data source; batches if slow. Built 13 Oct (`permissions-1013`): business and members' votes from data.bs.ch, dataset linked on every item. Closed |
-| Basel-Landschaft open data (same) | daten@bl.ch, cc landeskanzlei@bl.ch | sent 13 Oct; baselland.talus.ch read meanwhile (#177) |
+| Basel-Landschaft open data (same) | daten@bl.ch, cc landeskanzlei@bl.ch | **granted 13 Oct** (Johannes Hool, Statistisches Amt): the Landrat's open data, votes included, via the API, large-scale fine; the `/api/` rule targets generic crawlers. Built 13 Oct (`ch-bl-ods`): business, authors, documents and members' votes from data.bl.ch, dataset linked on every item; baselland.talus.ch is the fallback. Closed |
 | St. Gallen open data (same) | statistik@sg.ch, cc parlamentsdienste@sg.ch | sent 13 Oct; ratsinfo.sg.ch read meanwhile (#177) |
 | Thurgau open data (same) | ogd@tg.ch, cc grossrat.sk@tg.ch | **granted 13 Oct** (Felix Lorenz, Amt für Daten und Statistik): targeted API retrieval intended, Grosser Rat datasets about weekly, commercial and non-commercial use. Built 13 Oct (`permissions-1013`): business and members' votes from data.tg.ch. Closed |
 | Aargau (robots.txt disallows the parliament section) | parlamentsdienst@ag.ch | sent 13 Oct; adopted acts from the AGS meanwhile (#177) |
