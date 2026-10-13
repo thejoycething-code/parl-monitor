@@ -223,6 +223,10 @@ HOST_THROTTLE = {"api.parliament.nsw.gov.au": 1.5, "www.legislation.act.gov.au":
 
 # --- small helpers ------------------------------------------------------------
 
+
+# Most pages of a bill list read in one run (a cap, not the 11 issue areas).
+MAX_LIST_PAGES = 10
+
 def fold(text):
     """Strip tags, unescape, collapse whitespace."""
     text = re.sub(r"<[^>]+>", " ", text or "")
@@ -1355,7 +1359,7 @@ def pull_vic_votes(conn, client, today, tax, budget):
     """(records read, divisions, on our ground, gaps)."""
     since, done = _window_start(today), _days_read(conn, "vic")
     todo, gaps = [], 0
-    for page in range(1, 11):
+    for page in range(1, MAX_LIST_PAGES + 1):
         try:
             data = client.get_json(VIC_PAPERS.format(page=page), FEED, "vic-papers-{0}".format(page))
         except FetchError as e:
