@@ -91,7 +91,19 @@ def to_item(row):
 
 
 def _why(exc):
-    return getattr(exc, "cause", None) or exc
+    """The reason a source could not be read, in words a reader can act on.
+
+    www.ohchr.org answered every request with a Cloudflare challenge
+    (cf-mitigated: challenge, "Just a moment...") on 13 October 2026, the
+    HRC branch included, which it had not on 17 August. That is a block to
+    route around, never to defeat, so it is named as one.
+    """
+    cause = str(getattr(exc, "cause", None) or exc)
+    url = str(getattr(exc, "url", "") or "")
+    if "403" in cause and "ohchr.org" in (url + cause):
+        return ("HTTP 403 from www.ohchr.org (a Cloudflare bot challenge since "
+                "13 October 2026; not bypassed)")
+    return cause
 
 
 def known_drafts(conn):

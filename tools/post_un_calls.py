@@ -67,10 +67,19 @@ def build_message(calls, tax, wl, top=None, checks=None):
         lines.append("```")
         lines.append("")
 
-    lines += ["*Calls for input*",
-              "Written submissions the UN is currently inviting. "
-              "{0} open, {1} touching our issues, {2} closing within {3} days."
-              .format(len(calls), len(flagged), len(urgent), URGENT_DAYS), ""]
+    unread = checks is not None and any(
+        c.source == "OHCHR calls for input" and c.status == "could not read"
+        for c in checks.checks)
+    if unread:
+        # Never "0 open": the listing was not read, so the number is unknown.
+        lines += ["*Calls for input*",
+                  "COULD NOT READ the OHCHR calls listing this run, so open calls "
+                  "are unknown, not zero. See the check log.", ""]
+    else:
+        lines += ["*Calls for input*",
+                  "Written submissions the UN is currently inviting. "
+                  "{0} open, {1} touching our issues, {2} closing within {3} days."
+                  .format(len(calls), len(flagged), len(urgent), URGENT_DAYS), ""]
 
     if flagged:
         lines.append("*Ours*")

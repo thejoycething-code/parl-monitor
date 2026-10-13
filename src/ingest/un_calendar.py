@@ -75,6 +75,15 @@ is covered, because it is the only body whose calendar could be read:
     plenaries appear in the Journal about a week ahead; the same 400 marks a
     range past the last issue.
 
+  * OHCHR NOW CHALLENGED, measured 13 October 2026: www.ohchr.org answers
+    the HRC sessions page (and the calls-for-input listing) with HTTP 403,
+    cf-mitigated: challenge, "Just a moment...", where on 17 August only the
+    UPR paths were. Not bypassed. The forward look reports both as "could not
+    read" (src/un_checks.py), never as "no sessions". Alternatives still to
+    try, all legitimate: hrcmeetings.ohchr.org (answered 200 to the laptop),
+    the UN Journal's Geneva location for HRC meetings, and whether GitHub's
+    runners are challenged too (a probe workflow).
+
 Nothing on the original list is now missing. Recorded here rather than hidden,
 so nobody mistakes near-term Journal coverage for a long-range schedule.
 Announcements that come BEFORE the Journal lists a plenary are in the PGA's
