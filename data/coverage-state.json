@@ -1,1 +1,27 @@
-{}
+{
+  "empty:ca_committee_reports": {
+    "first": "2026-10-13",
+    "reported": "2026-10-13",
+    "reported_age": null
+  },
+  "empty:it_senate_amend_acts": {
+    "first": "2026-10-13",
+    "reported": "2026-10-13",
+    "reported_age": null
+  },
+  "empty:it_senate_amendments": {
+    "first": "2026-10-13",
+    "reported": "2026-10-13",
+    "reported_age": null
+  },
+  "empty:mi_downloads": {
+    "first": "2026-10-13",
+    "reported": "2026-10-13",
+    "reported_age": null
+  },
+  "empty:pe_regional_norms": {
+    "first": "2026-10-13",
+    "reported": "2026-10-13",
+    "reported_age": null
+  }
+}
