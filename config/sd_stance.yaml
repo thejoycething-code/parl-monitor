@@ -64,8 +64,9 @@ divisions:
     # mechanics, and reading it as an assisted dying position would misfile
     # most of the chamber.
 
-  # --- 13 October 2026: the puberty blocker vote audit (area 3). DRAFTS by
-  # Claude; Christopher confirms each by deleting `draft: true`. Motion and
+  # --- 13 October 2026: the puberty blocker vote audit (area 3). Signed off by
+  # Christopher, 13 October 2026 (drafted by
+  # Claude). Motion and
   # amendment wording summarised from the Senedd's motion record
   # (record.senedd.wales/Motion/8563) as search results quote it, and the
   # press; business.senedd.wales served a "Service unavailable" page to this
@@ -90,7 +91,6 @@ divisions:
     why_against: >
       Voted against the motion calling on the Welsh Government to adopt the
       Cass review's recommendations.
-    draft: true
 
   - key: "587356"
     title: "Welsh Conservatives Debate - The Cass review: amendment 1 (Jane Hutt, delete all)"
@@ -110,7 +110,6 @@ divisions:
     why_against: >
       Voted to keep the motion's call to adopt the Cass review's
       recommendations, against the government's replacement text.
-    draft: true
 
   - key: "587358"
     title: "Welsh Conservatives Debate - The Cass review: amendment 2 (Heledd Fychan)"
@@ -129,7 +128,6 @@ divisions:
     why_against: >
       Voted against adding a call for specialist gender identity services to
       the Cass review motion.
-    draft: true
 
   - key: "587363"
     title: "Welsh Conservatives Debate - The Cass review: motion as amended"
@@ -154,4 +152,3 @@ divisions:
     why_against: >
       Voted to keep the Welsh regulations restricting GP prescribing of
       puberty blockers to under-18s.
-    draft: true

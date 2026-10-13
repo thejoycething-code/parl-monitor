@@ -270,11 +270,11 @@ class SD5caTests(unittest.TestCase):
         self.assertEqual(len(entries), 10)
         # 13 October 2026, the puberty blocker vote audit: the Cass review
         # debate (587351, 587356, 587358) and the annulment of the Welsh
-        # prescribing regulations (638118) are DRAFTS, which place nobody
-        # until confirmed; the unanimous motion as amended (587363) is NOT
-        # PLACEABLE.
+        # prescribing regulations (638118), drafted by Claude and signed off
+        # by Christopher the same day, place; the unanimous motion as
+        # amended (587363) is NOT PLACEABLE.
         for key in ("587351", "587356", "587358", "638118"):
-            self.assertTrue(entries[key].get("draft"), key)
+            self.assertFalse(entries[key].get("draft"), key)
         self.assertEqual((entries["638118"]["for"], entries["638118"]["against"]), (-2, 2))
         self.assertIsNone(entries["587363"].get("for"))
         self.assertIsNone(entries["587363"].get("against"))
