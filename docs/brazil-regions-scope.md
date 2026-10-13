@@ -74,8 +74,8 @@ legislation portal (adopted laws only). About 73% of the population.
 
 **Third pass** (13 October 2026, "Third pass" below): Paraná's **bills**,
 stages and plenary/committee results are read too, from ALEP's open-data
-API over plain HTTP (the repository's single, dated exception), still 16
-of 27.
+API over plain HTTP (the repository's single, dated exception). Paraná
+was already counted (adopted laws), so the count does not change here.
 
 ## Alternative routes (second pass, 13 October 2026)
 
@@ -97,8 +97,8 @@ only, an artifact; runs 38332427738 and 38334238732).
 | PA | The proposições page is a DevExpress form, but a plain form POST (`Ano`, the type) returns the newest ten of a type, server-rendered, with author, date and ementa; by `Numero` a single bill. | **Built (`pa`)**: PLO, PLC, PEC, PDL; numbered gaps since the last run asked one by one (12 a run). |
 | GO | portal.al.go.leg.br: no bill list; alegodigital.al.go.leg.br (the bill system, "Opine") resets the connection from the laptop and from GitHub. **Casa Civil's legislation portal** (legisla.casacivil.go.gov.br, robots.txt answers the app's HTML: no rules): the JSON its app loads, `/api/v2/pesquisa/legislacoes?tipo_legislacao=2,1,13&ano=`. | **Built (`go`): adopted laws** with the Diário Oficial edition. |
 | BA | www.al.ba.gov.br answers now. Its proposições list (atividade-legislativa-nova/proposicoes) stops at PL 25.888/2025 of 30 July 2025: nothing newer. The Casa Civil's LegislaBahia lists laws, but its robots.txt puts `User-agent: *` and `User-agent: SemrushBot` in one group with `Disallow: /`, which the repository's reader (RFC 9309) reads as disallowed for everyone. | Not built. (One list page was fetched by hand before the robots.txt was read correctly; nothing from it is kept.) |
-| SC | www.alesc.sc.gov.br, leis.alesc.sc.gov.br and the e-Legis portal (portalelegis.alesc.sc.gov.br/proposicoes/processo-legislativo, the same e-Legis family as Rio Grande do Norte's) answer **GitHub's runners only**. | Not built. **Proposed:** a GitHub-side step (below). |
-| MT | Its SAPL holds nothing after 2025. www.al.mt.gov.br/proposicao ("Projetos em tramitação", a server-rendered report; robots.txt disallows only `/proposicao?` with a query) and api.al.mt.gov.br (an API landing page) answer **GitHub's runners only**. legislacao.mt.gov.br redirects to a private aggregator behind a Cloudflare challenge (not bypassed). | Not built. **Proposed:** the GitHub-side step. |
+| SC | www.alesc.sc.gov.br, leis.alesc.sc.gov.br and the e-Legis portal (portalelegis.alesc.sc.gov.br/proposicoes/processo-legislativo, the same e-Legis family as Rio Grande do Norte's) answer **GitHub's runners only**. | **Built 13 October 2026 (`sc`), read on GitHub only** (the GitHub-side step, below): the e-Legis list (server-rendered, ten a page, newest first; robots.txt answers 404, no rules): type, number, year, ementa, entry date, authors, situação. |
+| MT | Its SAPL holds nothing after 2025. www.al.mt.gov.br/proposicao ("Projetos em tramitação", a server-rendered report; robots.txt disallows only `/proposicao?` with a query) and api.al.mt.gov.br (an API landing page) answer **GitHub's runners only**. legislacao.mt.gov.br redirects to a private aggregator behind a Cloudflare challenge (not bypassed). | **Not buildable** (13 October 2026): page 1 of the report is all robots.txt allows (every page and filter is `/proposicao?...`, disallowed), and page 1 lists the number 1 of each type; api.al.mt.gov.br's proposição endpoints answer 401 (OAuth 2.0, for the Assembly's suppliers; we hold no credentials and create no account). |
 | MS | sgpl.consulta.al.ms.gov.br: its public API (`/sgpl/sgpl-api/public/`) sits behind a proof-of-work captcha (`captcha/challenge`): a bot check, not bypassed. diariooficial.al.ms.gov.br lists the Diário's PDFs (phase 2: PDF parsing). aacpdappls.net.ms.gov.br (state legislation) answers 403. | Not built. |
 | SE | al.se.leg.br: WordPress, atas and audio only. aleselegis.al.se.leg.br (its legislation system) times out from the laptop and from GitHub. | Not built. |
 | DF | www.cl.df.gov.br and dadosabertos.cl.df.gov.br time out from the laptop and from GitHub. SINJ (the DF's legal database) answers, but its search backend `/sinj/ashx/` is disallowed by robots.txt. | Not built. |
@@ -118,8 +118,16 @@ law the week it is published (keyed `pr/Lei 23448/2026`, kind Lei, LC or
 EC), with "(via the ... Casa Civil's ...: adopted law)" on its line; a bill
 in passage there is not seen until it becomes law.
 
-**Proposed, not built: a GitHub-side step for Santa Catarina and Mato
-Grosso.** A job on GitHub's runners (the IP they answer), read-only
+**BUILT 13 October 2026 for Santa Catarina (Chris: include SC and MT in the
+GitHub-side step; branch `us-github-states`); Mato Grosso not buildable
+(above).** The step is shared with the US one (`tools/github_half.sh`,
+`docs/mac-mini.md` "The GitHub-side step"): GitHub's own Brazil weekly reads
+`sc` inline; on the Mini, `jobs/br-weekly.sh` asks GitHub at the start of
+its week, before anything is written and while it holds its lock, for a run
+of `br-weekly.yml` with `states_github=true`, which reads `sc` and publishes
+the store; the Mini fetches it again and runs its step with
+`--exclude-sources sc`. No artifact hand-off and no new workflow were
+needed. The original proposal, kept for the record: A job on GitHub's runners (the IP they answer), read-only
 towards the assemblies, that fetches ALESC's e-Legis proposições (once its
 JSON backend is identified from the runner) and ALMT's "Projetos em
 tramitação" report, writes the parsed rows as a small JSON artifact (or a
@@ -220,7 +228,7 @@ for the next run, under three minutes.
 | The Senate's open-data catalogue, "Acervo do portal LexML" (www12.senado.leg.br/dados-abertos) | documents a "Webservice do acervo", the SRU, which lives under `/busca/` (disallowed); the webservice pages themselves sit behind a JavaScript bot check (not bypassed) |
 | projeto.lexml.gov.br (documentation, downloads) | OAI-PMH is how LexML **harvests** its providers (Parte 4, the provider kit); LexML exposes none. Downloads: the provider toolkit only |
 | github.com/lexml | code, schemas, vocabularies; no data dumps |
-| The acervo (desc_acervo.html) | state providers: SC, AL, RO, AM, MG, SP; only Santa Catarina is not otherwise covered |
+| The acervo (desc_acervo.html) | state providers: SC, AL, RO, AM, MG, SP; all six are read already (Santa Catarina by the GitHub-side step), so LexML would add state laws, not new assemblies |
 
 Nothing built; never `/busca/` or any way round it.
 
@@ -426,7 +434,8 @@ every route tried.)
   the floor) could be read for "on the floor this week" (phase 2).
 - **Unreachable from the UK and from GitHub's runners**: Rio Grande do Sul,
   Distrito Federal, Espírito Santo, Amapá, Maranhão. **GitHub only**: Santa
-  Catarina, Mato Grosso (a GitHub-side step is proposed above).
+  Catarina (read by the GitHub-side step since 13 October 2026), Mato
+  Grosso (not buildable: robots.txt and an OAuth API, above).
 - **Blocked**: Mato Grosso do Sul (proof-of-work captcha); Bahia's laws
   portal (robots.txt). **No list**: Sergipe; Bahia's own list stops in July
   2025.
@@ -441,6 +450,13 @@ every route tried.)
 1. **ALMG's open-data API**: its robots.txt disallows everything; the
    website search is used instead. Ask ALMG to allow it, or decide that a
    documented open-data API is exempt (the repository's rule today: no).
+   Contact (13 October 2026, branch `access-routes`; nothing sent): ALMG
+   publishes no email for the open-data service; its portal points to the
+   "Fale com a Assembleia" form (www.almg.gov.br/servicos/fale-com-a-assembleia/),
+   and the Ouvidoria's address, ouvidoria@almg.gov.br, appears on older
+   ALMG pages (2013; low-medium confidence); main line (31) 2108-7000. The
+   alternative routes for Minas Gerais (the Diário do Legislativo, LexML)
+   are the branch `br-states-alt`'s work, not repeated here.
 2. **Seed `config/watchlist-br-states.yaml`** with the state bills that
    matter (empty at launch).
 3. ~~Taxonomy-pt false positives~~: done in the second pass through the
@@ -450,7 +466,8 @@ every route tried.)
    GitHub (RS, DF, ES, AP, MA).
 5. ~~ALEP's open-data API over plain HTTP~~: allowed by Chris on 13
    October 2026 as the single exception; built (`alep`, third pass).
-6. **The GitHub-side step** for Santa Catarina and Mato Grosso (above).
+6. ~~The GitHub-side step~~ for Santa Catarina: built 13 October 2026; Mato
+   Grosso not buildable (above).
 7. **LexML**: no allowed interface exists (third pass). Ask the LexML team
    (lexml@senado.leg.br) to allow `/busca/SRU` for identified programs (one
    source for every state's laws); not sent.

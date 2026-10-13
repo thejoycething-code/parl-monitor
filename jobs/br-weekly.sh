@@ -28,6 +28,20 @@
 # is rewritten, not resent. Its failure is a [gap] line and never costs the
 # store.
 #
+# SANTA CATARINA ANSWERS ONLY GITHUB (13 October 2026; Chris: include it in
+# the GitHub-side step). ALESC's e-Legis portal answers GitHub's runners and
+# not the Mini, so tools/br_states.py's `sc` source runs where it answers, on
+# the US Senate half's pattern (tools/github_half.sh): inline on GitHub's own
+# run; on the Mini, a GitHub run of this workflow with states_github=true,
+# asked for at the START of the week before anything is written, while the
+# Mini holds its lock (one store writer at a time). The Mini then fetches the
+# store again and leaves `sc` out of its own state-assemblies step. Mato
+# Grosso is not read (its report pages and filters only under /proposicao?,
+# which robots.txt disallows; its API needs OAuth credentials).
+#
+#     BR_STATES_GITHUB=true the GitHub-only state sources (sc) only, published,
+#                           no edition: the half GitHub runs for the Mini
+#
 # mini_run: commit editions profiles briefs reviews
 set -eo pipefail
 cd "$(dirname "$0")/.."
@@ -35,6 +49,32 @@ cd "$(dirname "$0")/.."
 # workflow's name; on the Mini there is no GITHUB_WORKFLOW, so name it here or
 # the coverage watch would never see the Mini's runs.
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Brazil weekly}"
+BR_GH_SOURCES=sc
+if [ "${BR_STATES_GITHUB:-}" = "true" ]; then
+  # The half GitHub runs for the Mini: the GitHub-only sources, then the raw
+  # archive and the store. br_states.py exits 3 on gaps: still published.
+  python3 tools/br_states.py --sources "$BR_GH_SOURCES" --budget-seconds 600 \
+    || echo "  [gap] br-states: the GitHub-only sources ($BR_GH_SOURCES) recorded gaps or failed"
+  python3 tools/raw_state.py --push
+  python3 tools/db_state.py --push
+  exit 0
+fi
+# Where the GitHub-only sources are read this week: here (GitHub's own run),
+# by GitHub's half (asked for now, before this machine writes anything), or
+# not at all (a [gap] line says so).
+BR_STATES_ARGS=()
+if [ -z "${GITHUB_ACTIONS:-}" ] \
+   && ! curl -fsS -o /dev/null -m 20 -A "parl-monitor (CitizenGO parliamentary monitor)" \
+        https://portalelegis.alesc.sc.gov.br/proposicoes/processo-legislativo 2>/dev/null; then
+  echo "ALESC (Santa Catarina) does not answer this machine; asking GitHub for the states half"
+  BR_STATES_ARGS=(--exclude-sources "$BR_GH_SOURCES")
+  source tools/github_half.sh
+  if github_half br-weekly.yml -f states_github=true; then
+    echo "GitHub published the GitHub-only state sources ($BR_GH_SOURCES)"
+  else
+    echo "  [gap] br-states: GitHub's half failed, never started or could not be asked for; Santa Catarina is not read this week"
+  fi
+fi
 if [ "${BR_RECLASSIFY:-}" = "true" ]; then
   python3 tools/country_petitions.py br --reclassify
   python3 tools/br_rollcalls.py --reclassify
@@ -60,7 +100,7 @@ python3 tools/br_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh
 # Its failure or gaps are [gap] lines, never the run's: the Congress's store
 # is still published.
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
-  python3 tools/br_states.py --budget-seconds "$(bash tools/collector_budget.sh 600 "$SECONDS")" \
+  python3 tools/br_states.py --budget-seconds "$(bash tools/collector_budget.sh 600 "$SECONDS")" "${BR_STATES_ARGS[@]}" \
     || echo "  [gap] br-states: the state assemblies recorded gaps or failed; last run's rows stand"
 fi
 # What was said and asked in the chamber (tools/br_chamber.py, parity layer 5):

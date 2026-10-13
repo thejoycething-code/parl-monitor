@@ -1170,8 +1170,11 @@ routes tried: `docs/brazil-regions-scope.md`, "Alternative routes".
   the step's 600 s. ALMG's reader now retries (30 s, 90 s) within the
   budget.
 - **GitHub's runners only:** Santa Catarina (e-Legis) and Mato Grosso
-  ("Projetos em tramitação" report). A GitHub-side step is proposed in the
-  scope doc, not built.
+  ("Projetos em tramitação" report). **Santa Catarina BUILT 13 October 2026**
+  (branch `us-github-states`, source `sc`, read on GitHub: see "The
+  GitHub-side step" under US states below). Mato Grosso not buildable: its
+  report pages and filters only under `/proposicao?` (disallowed by
+  robots.txt) and its API needs OAuth credentials (401).
 - **Still not read:** Rio Grande do Sul, Distrito Federal, Espírito Santo,
   Amapá, Maranhão (no answer from the UK or GitHub; DF's SINJ backend is
   disallowed by robots.txt), Roraima (403), Mato Grosso do Sul (proof-of-work
@@ -1186,8 +1189,8 @@ routes tried: `docs/brazil-regions-scope.md`, "Alternative routes".
   edition by `exclude_titles` in `config/edition-noise-br.yaml` (no
   taxonomy change); measured before/after in the scope doc.
 - **Waiting on Chris:** ALEP's documented open-data API is plain HTTP only
-  (allow it, or ask ALEP for https); the GitHub-side step for SC and MT;
-  asking LexML to allow `/busca/SRU`.
+  (allow it, or ask ALEP for https); asking LexML to allow `/busca/SRU`.
+  (The GitHub-side step for SC was approved and built 13 October 2026.)
 
 ### Third pass: Paraná's bills over the HTTP exception, LexML (13 October 2026, branch `br-parana-lexml`)
 
@@ -1219,8 +1222,8 @@ Chris, 13 October: Paraná "Allow the narrow exception"; LexML "Yes, both"
   bot check (not bypassed). OAI-PMH is LexML's harvesting protocol in the
   other direction (LexML harvests the providers; it exposes none), and
   there are no published dumps (github.com/lexml holds code and schemas
-  only). Of the states LexML holds, only Santa Catarina is not otherwise
-  covered. Nothing built.
+  only). The states LexML holds (SC, AL, RO, AM, MG, SP) are all read
+  already. Nothing built.
 - **LexML contact for a permission request:** `lexml@senado.leg.br`
   ("Equipe LexML - Senado Federal/Prodasen", tel. (61) 3311-3673), from the
   official LexML toolkit's leiame.txt,
@@ -1273,6 +1276,37 @@ alternatives whilst keeping the current tier we have." Built on branch
   sign-up):** New Jersey (an Access database, 175 MB), Massachusetts' API,
   New York's Senate API (free key) and Michigan answer GitHub's runners but
   not the Mini; a GitHub-side states step would be needed to use them.
+- **The GitHub-side step (13 October 2026, branch `us-github-states`).**
+  Chris: "Add the GitHub step, skip NY", and the same day: include Brazil's
+  Santa Catarina and Mato Grosso. `tools/us_states_github.py` reads
+  **New Jersey** (the Legislature's nightly text export DB2026_TEXT.zip,
+  1.4 MB, the same tables as the 175 MB Access file, which holds no vote
+  tables and so is not downloaded and needs no mdbtools; floor votes with
+  every member from `pub.njleg.gov/votes/` A2026.zip and S2026.zip; NJ joins
+  `DIRECT_SOURCES`), **Massachusetts** (its documented API: the documents
+  list, then histories of the bills on our ground, 80 a run on the half, 40
+  inline; House tallies from the history lines, Senate roll calls with
+  members) and **Michigan** (under its Automated Data Collection Policy,
+  1.5 s apart: the activity search since the last read, bill pages for bills
+  on our ground, roll-call totals). New York stays on Open States.
+  Brazil: `tools/br_states.py` source `sc` (ALESC's e-Legis list). **Mato
+  Grosso is not buildable:** its report pages and filters only under
+  `/proposicao?`, which robots.txt disallows, and its API answers 401
+  without OAuth credentials. Edition lines say "(via ...)".
+  **Store safety and schedule:** no new cron. `tools/github_half.sh` (one
+  helper for the Senate half, the US states half and the Brazil half): at
+  the START of the Mini's Friday US weekly (10:00 London) and Saturday
+  Brazil weekly (09:30 London), before anything is written and while the
+  Mini holds its lock, the Mini dispatches the same workflow with
+  `states_github=true` (US: together with `senate_only` when senate.gov
+  refuses it, one run), waits for its `pull` job to pass, fetches the store
+  again and leaves those sources out (`--exclude-states nj,ma,mi`,
+  `--exclude-sources sc`). GitHub's run is in the `parl-monitor-state`
+  concurrency group and publishes with `db_state.py --push` (lineage check).
+  GitHub's own backup crons (US Friday 10:00 UTC, Brazil Saturday 09:30 and
+  13:30 UTC) read them inline. Nothing to install on the Mini (`git pull`
+  is enough); the Mini needs `GH_TOKEN` in `~/runner/env`, as for the
+  Senate half. Heartbeat "US states GitHub" in `tools/coverage.py`.
 
 ## Regional layer: Poland's 16 voivodeship assemblies (13 October 2026)
 
@@ -1440,3 +1474,45 @@ states.
 - **Waiting on Chris:** whether to write to the Queensland, Western
   Australian and Northern Territory parliaments asking for our user agent.
 - **Mini:** nothing to install; the backlogs drain over a few Fridays.
+
+## Blocked sources: contacts and external routes (13 October 2026, branch `access-routes`)
+
+Chris, 13 October 2026, on the Swiss open-data cantons (Basel-Stadt,
+Basel-Landschaft, St. Gallen, Thurgau), Aargau, ALMG's open-data API and the
+Queensland, Western Australia and Northern Territory parliaments: "Email all
+and explore external ways too". Nothing was sent; nothing was bypassed.
+
+**Built:**
+- **Switzerland** (`tools/ch_cantons.py`, five new readers; the edition's
+  Cantons section and coverage lines know them): Basel-Stadt via
+  grosserrat.bs.ch (new motions and the weekly Grossratsversand),
+  Basel-Landschaft via baselland.talus.ch (the Landrat's newest documents),
+  St. Gallen via www.ratsinfo.sg.ch (the RIS's own JSON: businesses and vote
+  tallies), Thurgau via grgeko.tg.ch (pending business), Aargau via
+  gesetzessammlungen.ag.ch (acts published in the AGS; the Grosser Rat's own
+  business stays unread). Ten of 26 cantons now. First read: 31 items on our
+  ground, among them St. Gallen's assisted-suicide motion, Thurgau's motion
+  on gender reassignment for minors and its abortion interpellation,
+  Basel-Landschaft's interpellation on the conversion-practices ban and
+  Basel-Stadt's anonymous-births Anzug. They run in the existing
+  `jobs/ch-weekly.sh` cantons step (about 10 more requests, 9 seconds).
+- **Queensland divisions** (`qld-votes` in `tools/au_states.py`,
+  `parse_qld` in `src/au_states_votes.py`): each sitting day's Record of
+  Proceedings PDF from documents.parliament.qld.gov.au, which serves its
+  files to our user agent although www.parliament.qld.gov.au answers an
+  Azure WAF 403. 38 divisions (June to September 2026), every member named,
+  every tally matched. In the default `jobs/au-weekly.sh` run.
+
+**Not found (no legitimate route):** opendata.swiss only links back to the
+cantons' disallowed `/api/` exports; the cantonal gazettes (Kantonsblatt,
+amtsblattportal.ch, St. Gallen and Thurgau Amtsblatt) disallow everything;
+Western Australia's and the Northern Territory's parliaments answer 403 for
+robots.txt itself; Territory Stories disallows the NT records' PDFs and
+search; Trove's API disallows all. Brazil's Minas Gerais alternatives are
+the branch `br-states-alt`'s (not repeated).
+
+**Waiting on Chris: the emails** (addresses, sources and confidence are in
+the three scope docs): opendata@bs.ch, daten@bl.ch, statistik@sg.ch,
+ogd@tg.ch, parlamentsdienst@ag.ch; ALMG's "Fale com a Assembleia" form (or
+ouvidoria@almg.gov.br); webmaster@parliament.qld.gov.au,
+receptionservices@parliament.wa.gov.au, LA.Committees@nt.gov.au.

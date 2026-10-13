@@ -1,0 +1,100 @@
+{
+ "count": 4343,
+ "next": null,
+ "previous": null,
+ "results": [
+  {
+   "id": 7449,
+   "title": "Antrag SP-GRÜNE-GLP-Fraktion auf Unterstellung des Erlasses unter die Volksabstimmung (Ratsreferendum)",
+   "agenda_item": {
+    "id": 8010,
+    "title": "Nachtrag zum Einführungsgesetz zum Bundesgesetz über die Förderung der Ausbildung im Bereich der Pflege (Titel der Botschaft: Entlastungspaket 2026: Sammelvorlage II)",
+    "meeting": {
+     "additional_title": "Herbstsession",
+     "id": 109,
+     "title": "Session des Kantonsrates vom 14. bis 16. September 2026, Herbstsession"
+    },
+    "business": {
+     "id": 6891,
+     "number": "22.26.15",
+     "title": "Nachtrag zum Einführungsgesetz zum Bundesgesetz über die Förderung der Ausbildung im Bereich der Pflege (Titel der Botschaft: Entlastungspaket 2026: Sammelvorlage II)",
+     "type": {
+      "id": 4,
+      "title": "KR Gesetzgebungsgeschäft"
+     }
+    }
+   },
+   "date": "2026-09-16T16:59:14.600000+02:00",
+   "is_public": false,
+   "can_be_published_to_web": false,
+   "publish_date": null,
+   "published_date": null,
+   "republished_date": null,
+   "conceal_date": null,
+   "is_published_to_web": false,
+   "will_be_published_to_web": false
+  },
+  {
+   "id": 7448,
+   "title": "Schlussabstimmung",
+   "agenda_item": {
+    "id": 8010,
+    "title": "Nachtrag zum Einführungsgesetz zum Bundesgesetz über die Förderung der Ausbildung im Bereich der Pflege (Titel der Botschaft: Entlastungspaket 2026: Sammelvorlage II)",
+    "meeting": {
+     "additional_title": "Herbstsession",
+     "id": 109,
+     "title": "Session des Kantonsrates vom 14. bis 16. September 2026, Herbstsession"
+    },
+    "business": {
+     "id": 6891,
+     "number": "22.26.15",
+     "title": "Nachtrag zum Einführungsgesetz zum Bundesgesetz über die Förderung der Ausbildung im Bereich der Pflege (Titel der Botschaft: Entlastungspaket 2026: Sammelvorlage II)",
+     "type": {
+      "id": 4,
+      "title": "KR Gesetzgebungsgeschäft"
+     }
+    }
+   },
+   "date": "2026-09-16T16:57:46.300000+02:00",
+   "is_public": false,
+   "can_be_published_to_web": false,
+   "publish_date": null,
+   "published_date": null,
+   "republished_date": null,
+   "conceal_date": null,
+   "is_published_to_web": false,
+   "will_be_published_to_web": false
+  },
+  {
+   "id": 7447,
+   "title": "Schlussabstimmung",
+   "agenda_item": {
+    "id": 8011,
+    "title": "II. Nachtrag zum Gesetz über Wohnbau- und Eigentumsförderung (Titel der Botschaft: Entlastungspaket 2026: Sammelvorlage II)",
+    "meeting": {
+     "additional_title": "Herbstsession",
+     "id": 109,
+     "title": "Session des Kantonsrates vom 14. bis 16. September 2026, Herbstsession"
+    },
+    "business": {
+     "id": 6898,
+     "number": "22.26.14",
+     "title": "II. Nachtrag zum Gesetz über Wohnbau- und Eigentumsförderung (Titel der Botschaft: Entlastungspaket 2026: Sammelvorlage II)",
+     "type": {
+      "id": 4,
+      "title": "KR Gesetzgebungsgeschäft"
+     }
+    }
+   },
+   "date": "2026-09-16T16:54:19.200000+02:00",
+   "is_public": false,
+   "can_be_published_to_web": false,
+   "publish_date": null,
+   "published_date": null,
+   "republished_date": null,
+   "conceal_date": null,
+   "is_published_to_web": false,
+   "will_be_published_to_web": false
+  }
+ ]
+}

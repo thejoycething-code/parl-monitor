@@ -989,7 +989,11 @@ def _neg(iso_date):
 # holds every bill, hourly, so it joins. The Missouri House's exports (House
 # bills only, a capped number a run) and Arkansas's pages (capped) do not:
 # those states keep their top-up.
-DIRECT_SOURCES = ("ks-kliss", "ca-leginfo", "tx-ftp", "pa-ldpc")
+# 13 October 2026 (tools/us_states_github.py, the GitHub-side step): New
+# Jersey's nightly database export holds every bill, so nj-leg joins.
+# Massachusetts (ma-api, capped) and Michigan (mi-leg, capped) keep their
+# top-up.
+DIRECT_SOURCES = ("ks-kliss", "ca-leginfo", "tx-ftp", "pa-ldpc", "nj-leg")
 DIRECT_FRESH_DAYS = 8
 
 
@@ -1159,6 +1163,12 @@ def main(argv=None):
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--states", default="",
                     help="postal codes, comma-separated (default: all fifty)")
+    # Additive, 13 October 2026: the Mac Mini leaves out the states GitHub's
+    # states half (tools/us_states_github.py) already read from Open States
+    # and topped up the same day, so its own read cannot wipe the same-day
+    # actions that half merged on top (jobs/us-weekly.sh).
+    ap.add_argument("--exclude-states", default="",
+                    help="postal codes, comma-separated, to leave out of this run")
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     ap.add_argument("--raw-dir", default=os.path.join(ROOT, "data", "raw"))
     ap.add_argument("--since", help="ISO date: re-read every current bulk file for bills with an "
@@ -1186,7 +1196,9 @@ def main(argv=None):
     args = ap.parse_args(argv)
     today = datetime.date.today().isoformat()
     states = [s.strip().lower() for s in args.states.split(",") if s.strip()] or sorted(uss.STATES)
-    bad = [s for s in states if s not in uss.STATES]
+    excluded = {s.strip().lower() for s in args.exclude_states.split(",") if s.strip()}
+    states = [s for s in states if s not in excluded]
+    bad = [s for s in states + sorted(excluded) if s not in uss.STATES]
     if bad:
         ap.error("not a state: {0}".format(", ".join(bad)))
     if args.reclassify:

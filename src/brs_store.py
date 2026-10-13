@@ -181,6 +181,8 @@ VIA = {
     # The one plain-HTTP source (src/http.PLAIN_HTTP_EXCEPTIONS, Chris, 13
     # October 2026): every item says so.
     "alep": "ALEP open data, unencrypted",
+    # GitHub-only (tools/br_states.py fetch_sc, 13 October 2026).
+    "sc": "ALESC's e-Legis portal, read from GitHub",
 }
 
 # What the coverage line adds after an assembly's name, per source.
