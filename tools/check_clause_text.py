@@ -8,12 +8,15 @@ Read-only over cv_divisions (every Commons division of this Parliament,
 tools/pull_division_rolls.py): for each division whose TITLE matches nothing
 but names a clause ("Health Bill: Report Stage: New Clause 142"), read the
 clause from the Bills API and run the taxonomy over it (src/clausetext.py).
+A "Lords Amendment N" division is read from the Commons debate in Hansard
+instead (match source "Hansard (Lords amendment)").
 Prints the divisions it would flag -- the votes the title sweep missed -- and
 the ones whose clause text could not be read, which are NOT no-matches.
 
 The store is opened read-only (mode=ro), so nothing is cached there; a run
 re-reads the Bills API, one search and one stage list per Bill plus one
-amendment list per stage, held in memory for the run. Nothing is published.
+amendment list per stage, and Hansard, one division search per day plus one
+call per debate, held in memory for the run. Nothing is published.
 """
 
 from __future__ import annotations
@@ -31,18 +34,23 @@ from src.http import HttpClient
 
 
 def scan(rows, reader, tax, wl):
-    """(flagged, gaps) over (division_id, date, title) rows."""
+    """(flagged, gaps) over (division_id, date, title[, ayes, noes]) rows.
+
+    The counts find a "Lords Amendment N" division in Hansard."""
     flagged, gaps = [], []
-    for did, date, title in rows:
+    for row in rows:
+        did, date, title = row[:3]
+        counts = tuple(row[3:5]) if len(row) >= 5 and row[3] is not None else None
         title = " ".join((title or "").split())
         if filt.filter_item(tax, wl, title).matched():
             continue                    # the title sweep already sees it
-        lk = reader.lookup(title, date, "Commons", None, did)
+        lk = reader.lookup(title, date, "Commons", None, did, counts=counts)
         if lk.gap:
             gaps.append((did, date, title, lk.gap))
         result, labels = clausetext.match(lk, tax, wl)
         if labels:
             flagged.append({"id": did, "date": date, "title": title, "clauses": labels,
+                            "source": clausetext.match_source(lk, labels),
                             "areas": result.issue_areas, "tier": result.tier,
                             "terms": result.matched_terms + result.watchlist_hits,
                             "why": clausetext.describe(lk, labels),
@@ -56,7 +64,7 @@ def main():
         datetime.date.fromisoformat(until) - datetime.timedelta(days=183)).isoformat()
     path = os.environ.get("PARL_DB") or os.path.join(ROOT, "data", "parl-monitor.db")
     conn = sqlite3.connect("file:{0}?mode=ro".format(path), uri=True)
-    rows = conn.execute("SELECT division_id, date, title FROM cv_divisions "
+    rows = conn.execute("SELECT division_id, date, title, ayes, noes FROM cv_divisions "
                         "WHERE date BETWEEN ? AND ? ORDER BY date, division_id",
                         (since, until)).fetchall()
     conn.close()
