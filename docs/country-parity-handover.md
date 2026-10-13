@@ -1312,3 +1312,38 @@ robots.txt asked at run time (`GuardedClient`, no exemptions).
   user agent.
 - **Mini:** nothing to install; the NSW backfill drains over three or four
   Fridays with a [gap] line each until done.
+
+### Australia: divisions beyond NSW, the alternative routes (13 October 2026)
+
+Branch `au-divisions-alt`; every route tried is tabled state by state in
+`docs/australia-states-scope.md` ("Divisions: the alternative routes").
+Four new sources of `tools/au_states.py` (`vic-votes`, `sa-votes`,
+`tas-votes`, `act-votes`; parsers in `src/au_states_votes.py`) read the
+official records that list each division with every member's vote, from
+hosts that answer us, into the existing `aus_divisions`/`aus_votes`/
+`aus_members`/`aus_hansard_days` tables (additively; members keyed by the
+printed name, `teller` set). The edition's Divisions block now names the
+states.
+
+- **Divisions now read:** Victoria (Votes and Proceedings and Council
+  Minutes, Word files from `www.parliament.vic.gov.au`'s House documents
+  listing), South Australia (Votes and Proceedings and Council Minutes,
+  PDFs from the Parliament's document library backend), Tasmania (each
+  House's daily Hansard, Word files, from the Parliament's search engine),
+  the ACT (the daily Hansard PDF from `www.hansard.act.gov.au`). First live
+  read: 370 divisions, 17,071 votes; on our ground Victoria's Voluntary
+  Assisted Dying Amendment Bill 2025 (six divisions, both Houses) and South
+  Australia's two late-term abortion bills (three divisions).
+- **Still none:** Queensland, Western Australia, the Northern Territory:
+  every record is behind Azure WAF or Cloudflare, from GitHub's runners too
+  (read-only probe run 38332141239); Territory Stories disallows its PDFs in
+  robots.txt. Queensland gained bill passage dates from the register's
+  bill-as-passed prints (`PrintType="bill.third"`). They Vote For You covers
+  the Commonwealth only (and answers our user agent 403): nothing built,
+  no key needed.
+- **Budget:** the states step 5 to 8 minutes (`jobs/au-weekly.sh`), the
+  federal collector's reserve 900 to 1,080 seconds; records capped per run,
+  newest first, big files not archived.
+- **Waiting on Chris:** whether to write to the Queensland, Western
+  Australian and Northern Territory parliaments asking for our user agent.
+- **Mini:** nothing to install; the backlogs drain over a few Fridays.

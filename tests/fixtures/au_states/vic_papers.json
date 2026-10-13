@@ -1,0 +1,104 @@
+{
+ "result": {
+  "totalMatching": 4,
+  "hits": [
+   {
+    "id": "tile-6b148efa-817d-4fd5-8342-1294e8e7f621",
+    "category": "Legislative Council",
+    "meta": "10 September 2026",
+    "title": "Daily Sitting Summary No. 186",
+    "richDescription": "",
+    "downloads": true,
+    "buttons": [
+     {
+      "suffix": "pdf",
+      "label": null,
+      "href": "/4a5ddc/globalassets/house-paper-documents/house-paper-7248/dss-186-100926.pdf"
+     },
+     {
+      "suffix": "doc",
+      "label": null,
+      "href": "/4a5ddd/globalassets/house-paper-documents/house-paper-7248/dss-186-100926.docx"
+     }
+    ],
+    "theme": {
+     "accent": "text-red"
+    }
+   },
+   {
+    "id": "tile-b411a49f-8de2-45a0-aadf-4e5d2020149e",
+    "category": "Legislative Assembly",
+    "meta": "10 September 2026",
+    "title": "Votes and Proceedings No 199",
+    "richDescription": "",
+    "downloads": true,
+    "buttons": [
+     {
+      "suffix": "pdf",
+      "label": null,
+      "href": "/4a5bc9/globalassets/house-paper-documents/house-paper-7246/2026vp199.pdf"
+     },
+     {
+      "suffix": "doc",
+      "label": null,
+      "href": "/4a5bc9/globalassets/house-paper-documents/house-paper-7246/2026vp199.docx"
+     }
+    ],
+    "theme": {
+     "accent": "text-green"
+    }
+   },
+   {
+    "id": "tile-m178",
+    "category": "Legislative Council",
+    "meta": "13 August 2026",
+    "title": "Minutes of the Proceedings No. 178",
+    "richDescription": "",
+    "downloads": true,
+    "buttons": [
+     {
+      "suffix": "pdf",
+      "label": null,
+      "href": "/4a3478/globalassets/house-paper-documents/house-paper-7209/m178.pdf"
+     },
+     {
+      "suffix": "doc",
+      "label": null,
+      "href": "/4a3478/globalassets/house-paper-documents/house-paper-7209/m178.docx"
+     }
+    ],
+    "theme": {
+     "accent": "text-red"
+    }
+   },
+   {
+    "id": "tile-6b148efa-817d-4fd5-8342-1294e8e7f621",
+    "category": "Legislative Council",
+    "meta": "12 March 2024",
+    "title": "Votes and Proceedings No 1",
+    "richDescription": "",
+    "downloads": true,
+    "buttons": [
+     {
+      "suffix": "pdf",
+      "label": null,
+      "href": "/4a5ddc/globalassets/house-paper-documents/house-paper-7248/dss-186-100926.pdf"
+     },
+     {
+      "suffix": "doc",
+      "label": null,
+      "href": "/4a5ddd/globalassets/house-paper-documents/house-paper-7248/dss-186-100926.docx"
+     }
+    ],
+    "theme": {
+     "accent": "text-red"
+    }
+   }
+  ],
+  "page": 1,
+  "pageSize": 20,
+  "sortType": 2
+ },
+ "error": null,
+ "_comment": "Trimmed from the live listing of 13 October 2026; the Minutes No. 178 tile is built from its real link, and the last tile's date is CONSTRUCTED (older than the window) to test where paging stops."
+}

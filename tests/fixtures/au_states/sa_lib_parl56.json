@@ -1,0 +1,23 @@
+{
+ "folderName": "Parliament 56 (2026-)",
+ "serverRelativeUrl": "Parliament 56 (2026-)",
+ "folderCount": 1,
+ "itemCount": 0,
+ "defaultFolder": "Parliament 54/Session 1",
+ "nextPage": "",
+ "pageCount": 0,
+ "folders": [
+  {
+   "folderName": "Session 1 (2026-)",
+   "serverRelativeUrl": "Parliament 56 (2026-)/Session 1 (2026-)",
+   "folderCount": 0,
+   "itemCount": 21,
+   "defaultFolder": null,
+   "nextPage": null,
+   "pageCount": 0,
+   "folders": null,
+   "files": null
+  }
+ ],
+ "files": []
+}

@@ -18,6 +18,7 @@ import sqlite3
 import sys
 import unittest
 import urllib.error
+import urllib.parse
 from contextlib import redirect_stdout
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -64,6 +65,9 @@ def replies():
         S.qld_url('Repealed=N AND PrintType=("bill.first" OR "bill.firstnongovintro") AND '
                   'ParliamentNo=58 AND Year=2025?'): empty_qld,
         S.qld_url("Repealed=N AND PrintType=act.new AND Year=2025?"): empty_qld,
+        S.qld_url('Repealed=N AND PrintType="bill.third" AND ParliamentNo=58 AND Year=2026?'):
+            fixture("qld_third.json"),
+        S.qld_url('Repealed=N AND PrintType="bill.third" AND ParliamentNo=58 AND Year=2025?'): empty_qld,
         S.SA_API + "GetSessions": fixture("sa_sessions.json"),
         S.SA_API + "Search/?resultsPerPage=4000&parliamentSession=56th%2F1st": fixture("sa_search.json"),
         S.SA_API + "GetMembersforSession?sessionId=182": fixture("sa_members.json"),
@@ -345,7 +349,7 @@ class EditionTests(unittest.TestCase):
     def test_the_section_renders_without_em_dashes(self):
         text = "\n".join(E.render(self.conn, "2026-09-20", self.names))
         self.assertIn("## States and territories", text)
-        self.assertIn("### Divisions this week (1, New South Wales)", text)
+        self.assertIn("### Divisions this week (1: NSW 1)", text)
         self.assertIn("**Negatived** 16-21", text)
         self.assertIn("matched on bill only", text)
         self.assertIn("Abortion Law Reform Amendment (Sex Selection Prohibition) Bill 2025", text)
@@ -378,7 +382,7 @@ class EditionTests(unittest.TestCase):
     def test_the_dm_line(self):
         line = E.dm_line(self.conn, "2026-09-20")
         self.assertIn("States and territories", line)
-        self.assertIn("1 NSW division(s)", line)
+        self.assertIn("1 division(s)", line)
 
     def test_a_store_that_never_ran_the_layer_says_so(self):
         conn = store()
@@ -405,12 +409,12 @@ class WiringTests(unittest.TestCase):
         step = self.job.index("python3 tools/au_states.py --budget-seconds")
         self.assertLess(self.job.index("python3 tools/au_debates.py"), step)
         self.assertLess(step, self.job.index("tools/au_monitor.py --edition --dm"))
-        self.assertIn('au_states.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")"',
+        self.assertIn('au_states.py --budget-seconds "$(bash tools/collector_budget.sh 480 "$SECONDS")"',
                       self.job)
         self.assertRegex(self.job, r'au_states\.py --budget-seconds[^\n]*\\\n\s*\|\| echo "  \[gap\]')
         self.assertIn("python3 tools/au_states.py --reclassify", self.job)
         # The federal collector's budget keeps room for the debates and the states.
-        self.assertIn('collector_budget.sh 2700 "$SECONDS" 900', self.job)
+        self.assertIn('collector_budget.sh 2700 "$SECONDS" 1080', self.job)
 
     def test_the_tables_are_declared(self):
         for t in aus.TABLES:
@@ -429,6 +433,314 @@ class WiringTests(unittest.TestCase):
         for k in keys:
             self.assertRegex(k, r"^(nsw|vic|qld|wa|sa|tas|act|nt):\S+$")
             self.assertFalse(re.search(r"\s", k))
+
+
+# --- Divisions beyond NSW (src/au_states_votes.py, 13 October 2026) ---------
+#
+# Fixtures, trimmed from the live replies of 13 October 2026: Victoria's
+# House documents listing (vic_papers.json, one tile's date CONSTRUCTED, it
+# says so), the Votes and Proceedings No 199 (10 September 2026) and the
+# Council's Minutes No 178 (13 August 2026) as Word files cut to their
+# divisions; South Australia's document library (the latest Parliament, its
+# session, one file), a download-link reply (signature redacted) and the
+# Assembly's Votes and Proceedings of 17 June 2026 (PDF, whole); Tasmania's
+# sitting days and the Hansard search for 10 September 2026 (cut to their
+# links) and the House of Assembly's Hansard of that day cut to two
+# divisions; the ACT's 2026 Hansard list (four links) and five pages of the
+# Hansard of 24 September 2026.
+
+from src import au_states_votes as V  # noqa: E402
+from src.prov_fetch import pdf_rows, pdf_text  # noqa: E402
+
+
+def fixture_bytes(name):
+    with open(os.path.join(FIX, name), "rb") as fh:
+        return fh.read()
+
+
+TAS_HA = ("https://search.parliament.tas.gov.au/search/isysquery/9fce1737-3cb5-4b24-bf37-40b72100b0cd/"
+          "1/doc/HA%20Thursday%2010%20September%202026.docx")
+TAS_LC = TAS_HA.replace("/1/doc/HA%20", "/2/doc/LC%20")
+SA_PDF = json.loads(fixture("sa_link_011.json"))["downloadLink"]
+
+
+def votes_replies():
+    """GET URL -> body (str, bytes or an Exception); POST (url, ctrl, folder) -> JSON text."""
+    tas = lambda p: S.TAS_SEARCH.format(phrase=urllib.parse.quote(p))  # noqa: E731
+    get = {
+        S.VIC_PAPERS.format(page=1): fixture("vic_papers.json"),
+        S.VIC_PARL + "/4a5bc9/globalassets/house-paper-documents/house-paper-7246/2026vp199.docx":
+            fixture_bytes("vic_vp199.docx"),
+        S.VIC_PARL + "/4a3478/globalassets/house-paper-documents/house-paper-7209/m178.docx":
+            fixture_bytes("vic_m178.docx"),
+        S.SA_DOCLINK.format(ctrl="7", id="7809bfd9-0967-4ec6-81a6-806125fc1992"): fixture("sa_link_011.json"),
+        SA_PDF: fixture_bytes("sa_votes_011.pdf"),
+        S.TAS_SITTINGS.format(year=2026): fixture("tas_sittings_2026.html"),
+        tas("Thursday 10 September 2026"): fixture("tas_search_2026-09-10.html"),
+        tas("Friday 11 September 2026"): "<html><body>No documents found</body></html>",
+        TAS_HA: fixture_bytes("tas_ha_2026-09-10.docx"),
+        # The Council's day: a Word file with no division table (Victoria's
+        # Minutes stand in; parse_tas reads tables only).
+        TAS_LC: fixture_bytes("vic_m178.docx"),
+        S.ACT_HANSARD.format(assembly=S.ACT_ASSEMBLY, year=2026): fixture("act_hansard_2026.html"),
+        S.ACT_HANSARD.format(assembly=S.ACT_ASSEMBLY, year=2025): FetchError(
+            "x", S.FEED, "x", 1, urllib.error.HTTPError("x", 404, "Not Found", {}, None)),
+        "https://www.hansard.act.gov.au/hansard/11th-assembly/2026/PDF/tP260924.pdf":
+            fixture_bytes("act_hansard_260924_p114-118.pdf"),
+    }
+    post = {
+        (S.SA_DOCLIB, "7", ""): fixture("sa_lib_root.json"),
+        (S.SA_DOCLIB, "7", "Parliament 56 (2026-)"): fixture("sa_lib_parl56.json"),
+        (S.SA_DOCLIB, "7", "Parliament 56 (2026-)/Session 1 (2026-)"): fixture("sa_lib_session.json"),
+        (S.SA_DOCLIB, "2", ""): json.dumps({"folderName": "Minutes", "folders": [], "files": []}),
+    }
+    return get, post
+
+
+class VotesClient:
+    """Serves votes_replies(); records every URL asked for."""
+
+    def __init__(self, overrides=None):
+        self.get, self.post = votes_replies()
+        self.get.update(overrides or {})
+        self.asked = []
+
+    def _get(self, url):
+        self.asked.append(url)
+        if url not in self.get:
+            raise AssertionError("unexpected URL " + url)
+        body = self.get[url]
+        if isinstance(body, Exception):
+            raise body
+        return body
+
+    def get_text(self, url, feed, slug, *a, **kw):
+        body = self._get(url)
+        return body.decode("utf-8") if isinstance(body, bytes) else body
+
+    def get_bytes(self, url, feed, slug, *a, **kw):
+        body = self._get(url)
+        return body if isinstance(body, bytes) else body.encode("utf-8")
+
+    def get_json(self, url, feed, slug, *a, **kw):
+        return json.loads(self.get_text(url, feed, slug))
+
+    def post_json(self, url, body, feed, slug, *a, **kw):
+        b = json.loads(body)
+        key = (url, b["controlId"], b["folderRelativeUrl"])
+        self.asked.append(key)
+        if key not in self.post:
+            raise AssertionError("unexpected POST {0}".format(key))
+        return json.loads(self.post[key])
+
+
+class VotesParserTests(unittest.TestCase):
+    def test_victoria_votes_and_proceedings(self):
+        divs = V.parse_vic(V.docx_paragraphs(fixture_bytes("vic_vp199.docx")))
+        self.assertEqual(len(divs), 2)
+        d = divs[0]
+        self.assertEqual((d["ayes"], d["noes"]), (31, 48))
+        self.assertEqual(sum(v[1] == "aye" for v in d["votes"]), 31)
+        self.assertEqual(sum(v[1] == "no" for v in d["votes"]), 48)
+        self.assertEqual(d["heading"], "Automated External Defibrillators (Public Access) Bill 2026")
+        self.assertTrue(d["question"].startswith("That the Member for Ringwood introduce"))
+        self.assertEqual(d["result"], "Question defeated.")
+        # A non-breaking hyphen in a name is kept.
+        self.assertIn(("Kathleen Matthews-Ward", "no", False), d["votes"])
+        self.assertEqual(divs[1]["question"], "That the amendments made by the Council be agreed to")
+
+    def test_victoria_council_minutes_with_commas_and_the_clerks_note(self):
+        divs = V.parse_vic(V.docx_paragraphs(fixture_bytes("vic_m178.docx")))
+        d = divs[0]
+        self.assertEqual((d["ayes"], d["noes"]), (32, 4))
+        noes = [n for n, v, _t in d["votes"] if v == "no"]
+        self.assertEqual(noes, ["Jeff Bourman", "Moira Deeming", "David Limbrick", "Rikkie-Lee Tyrrell"])
+        self.assertEqual(d["heading"], "Firearms Amendment Bill 2026")
+        self.assertEqual(d["result"], "Question agreed to.")
+
+    def test_victoria_free_vote_names_its_tellers(self):
+        # The shape of the Votes and Proceedings of 28 October 2025 (Voluntary
+        # Assisted Dying Amendment Bill 2025), cut to a few names.
+        paras = ["4 VOLUNTARY ASSISTED DYING AMENDMENT BILL 2025 — Debate continued.",
+                 "Question — That this Bill be now read a second time — put.",
+                 "The House divided (the Speaker, Maree Edwards, in the Chair) —", "", "Ayes 3", "",
+                 "Juliana Addison; Jess\xa0Wilson. Tellers: Bronwyn\xa0Halfpenny; Michaela\xa0Settle.",
+                 "Noes 2", "", "Matthew\xa0Guy. Tellers: Chris\xa0Crewther.", "Question agreed to."]
+        d = V.parse_vic(paras)[0]
+        self.assertEqual(d["votes"], [("Juliana Addison", "aye", False), ("Jess Wilson", "aye", False),
+                                      ("Bronwyn Halfpenny", "aye", True), ("Michaela Settle", "aye", True),
+                                      ("Matthew Guy", "no", False), ("Chris Crewther", "no", True)])
+        self.assertEqual(d["heading"], "Voluntary Assisted Dying Amendment Bill 2025")
+        self.assertEqual(d["question"], "That this Bill be now read a second time")
+
+    def test_south_australia_two_columns(self):
+        divs = V.parse_sa(pdf_text(fixture_bytes("sa_votes_011.pdf")))
+        self.assertEqual([(d["ayes"], d["noes"]) for d in divs], [(33, 8), (28, 11), (9, 36)])
+        for d in divs:
+            self.assertEqual(sum(v[1] == "aye" for v in d["votes"]), d["ayes"])
+            self.assertEqual(sum(v[1] == "no" for v in d["votes"]), d["noes"])
+        last = divs[2]
+        self.assertEqual(last["heading"], "Termination of Pregnancy (Restrictions on Terminations after 24 "
+                                          "Weeks and 6 Days) Amendment Bill")
+        self.assertEqual(last["question"], "That this Bill be now read a second time.")
+        self.assertEqual(last["result"], "So it passed in the negative")
+        self.assertIn(("Mrs Thomas", "aye", True), last["votes"])
+        self.assertIn(("Hon. K A Hildyard", "no", True), last["votes"])
+        self.assertIn(("Hon. N P Clancy", "no", False), last["votes"])
+
+    def test_south_australia_line_splitting(self):
+        self.assertEqual(V._sa_split("S Andrews Mr Paton"), ["S Andrews", "Mr Paton"])
+        self.assertEqual(V._sa_split("Hon. Z L Bettison Mr Telfer"), ["Hon. Z L Bettison", "Mr Telfer"])
+        self.assertEqual(V._sa_split("Mrs Thomas (Teller) Hon. N D Champion"),
+                         ["Mrs Thomas (Teller)", "Hon. N D Champion"])
+
+    def test_south_australia_council_one_name_a_line(self):
+        text = "\n".join([
+            "27.  On the Order of the Day being read for the adjourned debate on the question - That the",
+            "Statutes Amendment (Energy and Mining Reforms) Bill be now read a second time:",
+            "  Question - That the amendment be agreed to - put.", "     Committee divided: ",
+            "Ayes, 2", "The Hon. T. A. Franks", "The Hon. N. J. Centofanti (Teller)",
+            " So it was resolved in the affirmative. ", "Noes, 1", "The Hon. K. J. Maher (Teller)", ""])
+        d = V.parse_sa(text)[0]
+        self.assertEqual((d["ayes"], d["noes"]), (2, 1))
+        self.assertEqual(d["votes"], [("Hon. T. A. Franks", "aye", False),
+                                      ("Hon. N. J. Centofanti", "aye", True),
+                                      ("Hon. K. J. Maher", "no", True)])
+        self.assertEqual(d["heading"], "Statutes Amendment (Energy and Mining Reforms) Bill")
+        self.assertEqual(d["question"], "That the amendment be agreed to")
+
+    def test_tasmania_hansard_tables_tellers_and_pairs(self):
+        divs = V.parse_tas(V.docx_body(fixture_bytes("tas_ha_2026-09-10.docx")))
+        self.assertEqual([(d["ayes"], d["noes"]) for d in divs], [(15, 17), (5, 27)])
+        d = divs[0]
+        self.assertEqual(d["pairs"], 1)
+        self.assertIn(("Ms Dow", "aye", True), d["votes"])
+        self.assertIn(("Mr O'Byrne", "no", True), d["votes"])
+        self.assertIn(("Ms Finlay", "pair", False), d["votes"])
+        self.assertEqual(d["heading"], "Firearms Amendment (Strengthening Firearms Security) Bill 2026 (No. 30)")
+        self.assertEqual(d["question"], "The question is that the amendment be agreed to.")
+        self.assertEqual(d["result"], "Amendment negatived.")
+
+    def test_act_hansard_columns(self):
+        raw = fixture_bytes("act_hansard_260924_p114-118.pdf")
+        pages = pdf_text(raw).split("\n=====PAGE\n")
+        sel = V.act_vote_pages(pages)
+        divs = V.parse_act(pdf_rows(raw, pages=sel), sel)
+        self.assertEqual([(d["ayes"], d["noes"]) for d in divs], [(6, 15), (6, 15), (15, 6)])
+        first = divs[0]
+        ayes = [n for n, v, _t in first["votes"] if v == "aye"]
+        noes = [n for n, v, _t in first["votes"] if v == "no"]
+        self.assertEqual(len(ayes), 6)
+        self.assertEqual(len(noes), 15)
+        self.assertIn("Andrew Braddock", ayes)
+        self.assertIn("Rachel Stephen-Smith", noes)
+        self.assertIn("Taimus Werner-Gibbings", noes)
+        self.assertEqual(first["result"], "Question resolved in the negative.")
+        self.assertTrue(first["question"].startswith("That Mr Emerson"))
+
+    def test_dates_and_names(self):
+        self.assertEqual(V.iso_dmy_words("021 Votes Thurs 17 September 2026 pp 121-126.pdf"), "2026-09-17")
+        self.assertEqual(V.iso_dmy_words("178 - 27.11.2025.pdf"), "2025-11-27")
+        self.assertEqual(V.clean_name("The Hon. N. J. Centofanti (Teller)"), ("Hon. N. J. Centofanti", True))
+        self.assertEqual(V.name_key("Hon. D.G.E. Hood"), "hon-d-g-e-hood")
+        self.assertEqual(V.tidy_caps("HEALTH (ABORTION) BILL 2026"), "Health (Abortion) Bill 2026")
+
+
+class VotesCollectorTests(unittest.TestCase):
+    def setUp(self):
+        self._caps = (S.ACT_VOTES_PER_RUN,)
+        S.ACT_VOTES_PER_RUN = 1
+
+    def tearDown(self):
+        (S.ACT_VOTES_PER_RUN,) = self._caps
+
+    def run_votes(self, conn, client=None, robots=None, sources=S.VOTES_ORDER):
+        inner = client or VotesClient()
+        g, _serving = guarded(inner, robots or {}, S.FEED)
+        with redirect_stdout(io.StringIO()):
+            gaps = S.run(conn, g, TODAY, S.load_taxonomy(), drain.Budget(600), list(sources))
+        return gaps, inner
+
+    def test_every_votes_source_stores_divisions_with_each_vote(self):
+        conn = store()
+        run(conn, sources=("vic", "sa"))     # the bills, for matching headings
+        gaps, client = self.run_votes(conn)
+        self.assertEqual(gaps, 0)
+        got = dict(conn.execute("SELECT state, COUNT(*) FROM aus_divisions GROUP BY state").fetchall())
+        self.assertEqual(got, {"vic": 5, "sa": 3, "tas": 2, "act": 3})
+        # Every division's stored votes match its tally.
+        for dkey, ayes, noes in conn.execute(
+                "SELECT division_key, ayes, noes FROM aus_divisions WHERE state != 'nsw'").fetchall():
+            n = dict(conn.execute("SELECT vote, COUNT(*) FROM aus_votes WHERE division_key=? GROUP BY vote",
+                                  (dkey,)).fetchall())
+            self.assertEqual((n.get("aye", 0), n.get("no", 0)), (ayes, noes), dkey)
+        sa = conn.execute("SELECT heading, question, result, areas, chamber FROM aus_divisions "
+                          "WHERE division_key='sa:2026-06-17:ha:3'").fetchone()
+        self.assertIn("Termination of Pregnancy", sa[0])
+        self.assertEqual(sa[2], "So it passed in the negative")
+        self.assertIn(1, json.loads(sa[3]))
+        self.assertEqual(sa[4], "House of Assembly")
+        self.assertEqual(conn.execute("SELECT vote, teller FROM aus_votes WHERE division_key='sa:2026-06-17:ha:3' "
+                                      "AND member_key='sa:name:mrs-thomas'").fetchone(), ("aye", 1))
+        self.assertEqual(conn.execute("SELECT name, chamber FROM aus_members WHERE member_key="
+                                      "'vic:name:moira-deeming'").fetchone(),
+                         ("Moira Deeming", "Legislative Council"))
+        # Each record is read once; the Council's empty day and a day with no
+        # Hansard more than three weeks on are marked read.
+        days = {(s, d, c): t for s, d, c, t in conn.execute(
+            "SELECT state, date, chamber, topics FROM aus_hansard_days WHERE state != 'nsw'").fetchall()}
+        self.assertEqual(days[("tas", "2026-09-10", "Legislative Council")], 0)
+        self.assertEqual(days[("tas", "2026-09-11", "House of Assembly")], 0)
+        self.assertEqual(days[("vic", "2026-09-10", "Legislative Assembly")], 2)
+        # A second run reads nothing it has read; the ACT's backlog (one
+        # record a run here) drains newest first.
+        nxt = "https://www.hansard.act.gov.au/hansard/11th-assembly/2026/PDF/tP260923.pdf"
+        _g, again = self.run_votes(conn, VotesClient({nxt: fixture_bytes("act_hansard_260924_p114-118.pdf")}))
+        docs = [u for u in again.asked if isinstance(u, str) and u.endswith((".docx", ".pdf"))]
+        self.assertEqual(docs, [nxt])
+        self.assertNotIn(SA_PDF, again.asked)
+
+    def test_a_disallowed_record_is_a_gap_and_never_fetched(self):
+        conn = store()
+        robots = {"www.parliament.vic.gov.au": "User-agent: *\nDisallow: /4a5bc9/\n"}
+        gaps, client = self.run_votes(conn, robots=robots, sources=("vic-votes",))
+        self.assertEqual(gaps, 1)
+        self.assertNotIn(S.VIC_PARL + "/4a5bc9/globalassets/house-paper-documents/house-paper-7246/"
+                                      "2026vp199.docx", client.asked)
+        # The Council's Minutes (another path) were still read: three divisions.
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM aus_divisions WHERE state='vic'").fetchone()[0], 3)
+
+    def test_a_failed_listing_is_a_gap(self):
+        conn = store()
+        gaps, _c = self.run_votes(conn, VotesClient({S.VIC_PAPERS.format(page=1): refused(S.VIC_PAPERS)}),
+                                  sources=("vic-votes",))
+        self.assertEqual(gaps, 1)
+        self.assertTrue(conn.execute("SELECT 1 FROM gaps WHERE detail LIKE 'Victoria Votes%'").fetchone())
+
+    def test_the_edition_shows_other_states_divisions(self):
+        conn = store()
+        run(conn, sources=("sa",))
+        self.run_votes(conn, sources=("sa-votes",))
+        names = {1: "Abortion"}
+        text = "\n".join(E.render(conn, "2026-06-20", names))
+        # Of the day's three divisions, the abortion bill's is on our ground.
+        self.assertIn("### Divisions this week (1: SA 1)", text)
+        self.assertIn("**SA House of Assembly**", text)
+        self.assertIn("Termination of Pregnancy", text)
+        self.assertIn("**Negatived** 9-36", text)
+        self.assertIn("1 division(s)", E.dm_line(conn, "2026-06-20"))
+        self.assertIn("3 divisions with every member's vote (SA 3)", text)
+
+
+class QueenslandThirdReadingTests(unittest.TestCase):
+    def test_a_bill_printed_as_passed_moves_to_passed(self):
+        conn = store()
+        run(conn, sources=("qld",))
+        row = conn.execute("SELECT stage, status FROM aus_bills WHERE bill_key='qld:bill-2025-079'").fetchone()
+        self.assertEqual(row[0], S.QLD_PASSED)
+        self.assertIn(row[1], ("passed", "assented"))
+        self.assertTrue(conn.execute("SELECT 1 FROM aus_bill_events WHERE bill_key='qld:bill-2025-079' "
+                                     "AND stage=? AND date='2026-04-23'", (S.QLD_PASSED,)).fetchone())
 
 
 if __name__ == "__main__":

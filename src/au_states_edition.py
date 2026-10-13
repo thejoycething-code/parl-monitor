@@ -11,8 +11,11 @@ WHAT IT SHOWS, for items on our ground only (area 11 is never shown):
   * moved this week: a stage dated in the window (New South Wales from the
     Hansard sitting day; elsewhere the day a weekly read saw the change, or
     Victoria's own last-changed date);
-  * divisions (New South Wales): the question where the Hansard fragment was
-    read, the tally, and whether its own words matched or only its bill did;
+  * divisions: New South Wales from its Hansard API (the question where the
+    Hansard fragment was read); Victoria, South Australia, Tasmania and the
+    ACT from their Votes and Proceedings, Minutes or Hansard records
+    (src/au_states_votes.py, 13 October 2026), each with every member's
+    vote; the tally, and whether its own words matched or only its bill did;
   * Acts made this week (the registers' Acts, for the states whose bill
     lists are out of reach);
   * what is before each state parliament now, and a coverage block saying
@@ -39,12 +42,25 @@ DIVISION_LINES = 12
 BLOCKED = (
     "every parliament's own website except Victoria's and South Australia's refuses our "
     "collectors with a bot challenge (Cloudflare: New South Wales, Tasmania, the ACT, the "
-    "Northern Territory; Azure WAF: Queensland, Western Australia), as do South Australia's "
-    "Hansard search and the NSW and SA legislation registers. So: divisions only for New South "
-    "Wales (its Hansard API); Queensland bills read 'introduced' until an Act of their name "
-    "appears; Western Australia shows Acts only; Tasmania names its bills without a stage; the "
-    "ACT shows only what its register listed in the last seven days."
+    "Northern Territory; Azure WAF: Queensland, Western Australia), from GitHub's runners as "
+    "from the laptop, as do South Australia's Hansard search and the NSW and SA legislation "
+    "registers. Divisions come from other official hosts: NSW's Hansard API, Victoria's and "
+    "South Australia's Votes and Proceedings and Minutes, Tasmania's Hansard search engine, the "
+    "ACT's Hansard site. None for Queensland, Western Australia or the Northern Territory, whose "
+    "every record of a division is behind the challenges. Queensland bills read 'introduced' "
+    "until passed or an Act of their name appears; Western Australia shows Acts only; Tasmania "
+    "names its bills without a stage; the ACT shows only what its register listed in the last "
+    "seven days."
 )
+
+
+def _states_of(rows):
+    """'NSW 3, Vic 2' for a list of division rows."""
+    counts = {}
+    for r in rows:
+        counts[r["state"]] = counts.get(r["state"], 0) + 1
+    return ", ".join("{0} {1}".format(aus.SHORT.get(k, k), counts[k])
+                     for k in aus.STATES if k in counts)
 
 
 def _visible(areas_json):
@@ -146,6 +162,9 @@ def division_line(conn, r, names):
     own = _visible(r["own_areas"])
     q = r["question"] or "{0}{1}".format(_clip(r["heading"], 90),
                                          ", " + r["stage"] if r["stage"] else "")
+    if r["question"] and r["heading"] and r["state"] != "nsw":
+        # The records' questions ('That the amendment be agreed to') need their item.
+        q = "{0}: {1}".format(_clip(r["heading"], 110), r["question"])
     pairs = ", {0} pair(s)".format(r["pairs"]) if r["pairs"] else ""
     result = " The record: *{0}*".format(_one(r["result"])) if r["result"] else ""
     return ("- **{0} {1}**, [{2}]({3}): {4} **{5}** {6}-{7}{8}.{9} *Areas: {10} (matched on {11}).*"
@@ -157,9 +176,10 @@ def division_line(conn, r, names):
 def _read_line(conn):
     reads = {r["source"]: r for r in _rows(conn, "SELECT * FROM aus_reads")}
     parts = []
-    for code, sources in (("nsw", ("nsw",)), ("vic", ("vic",)), ("qld", ("qld-bills", "qld-acts")),
-                          ("sa", ("sa",)), ("wa", ("wa-acts",)), ("tas", ("tas-bills", "tas-acts")),
-                          ("act", ("act-acts",)), ("nt", ("nt",))):
+    for code, sources in (("nsw", ("nsw",)), ("vic", ("vic", "vic-votes")),
+                          ("qld", ("qld-bills", "qld-acts")), ("sa", ("sa", "sa-votes")),
+                          ("wa", ("wa-acts",)), ("tas", ("tas-bills", "tas-acts", "tas-votes")),
+                          ("act", ("act-acts", "act-votes")), ("nt", ("nt",))):
         got = [reads[s] for s in sources if s in reads]
         if not got:
             parts.append("{0} not read yet".format(aus.SHORT[code]))
@@ -205,12 +225,12 @@ def render(conn, today, names):
 
     week = divisions(conn, since, today)
     if week:
-        out += ["", "### Divisions this week ({0}, New South Wales)".format(len(week)), ""]
+        out += ["", "### Divisions this week ({0}: {1})".format(len(week), _states_of(week)), ""]
         out += [division_line(conn, r, names) for r in week[:DIVISION_LINES]]
     else:
         recent = divisions(conn, month, today)
-        out += ["", "### Divisions (none this week; last 30 days: {0}, New South Wales)".format(
-            len(recent)), ""]
+        out += ["", "### Divisions (none this week; last 30 days: {0}{1})".format(
+            len(recent), ": " + _states_of(recent) if recent else ""), ""]
         out += [division_line(conn, r, names) for r in recent[:DIVISION_LINES]] or [
             "*None on our ground in the last 30 days.*"]
         week = recent
@@ -234,11 +254,12 @@ def render(conn, today, names):
     c = lambda sql: (_rows(conn, sql) or [[0]])[0][0]  # noqa: E731
     out += ["", "### State coverage", "",
             "- **Collected:** {0} bills and motions across the eight ({1} on our ground), {2} "
-            "Acts, {3} New South Wales divisions with every member's vote from {4} House sitting "
-            "days of its Hansard. {5}.".format(
+            "Acts, {3} divisions with every member's vote ({4}) from {5} House sitting days' "
+            "records. {6}.".format(
                 c("SELECT COUNT(*) FROM aus_bills"),
                 len(_ours(_rows(conn, "SELECT areas FROM aus_bills"))),
                 c("SELECT COUNT(*) FROM aus_acts"), c("SELECT COUNT(*) FROM aus_divisions"),
+                _states_of(_rows(conn, "SELECT state FROM aus_divisions")) or "none yet",
                 c("SELECT COUNT(*) FROM aus_hansard_days"), _read_line(conn)),
             "- **Blocked:** " + BLOCKED, ""]
     return out
@@ -255,7 +276,7 @@ def dm_line(conn, today):
     acts = acts_made(conn, today)
     states = sorted({aus.SHORT[r["state"]] for r in new} |
                     {aus.SHORT.get(k.split(":")[0], k.split(":")[0]) for k in moved})
-    return ("*States and territories:* {0} new, {1} moved, {2} NSW division(s), {3} Act(s) on our "
+    return ("*States and territories:* {0} new, {1} moved, {2} division(s), {3} Act(s) on our "
             "ground{4}.".format(len(new), len(moved), len(week), len(acts),
                                 " ({0})".format(", ".join(states)) if states else ""))
 
