@@ -1,0 +1,15 @@
+# Watched bills in Brazil's state assemblies (tools/br_states.py,
+# src/brs_edition.py; docs/brazil-regions-scope.md). Hand-edited.
+#
+# KEYED BY BILL KEY, never by title: '<uf>/<the assembly's own type> <number>/<year>',
+# as the edition prints it (sp/PL 652/2026, mg/PEC 41/2026, rj/PL 8397/2026,
+# ro/PLO 1541/2026). A watched bill takes the listed areas and is never
+# filtered by the noise rules.
+#
+#   bills:
+#     sp/PL 652/2026:
+#       areas: [6]
+#       why: "Escola sem Partido for the state school network."
+#
+# Empty at launch (13 October 2026): nothing is watched until Chris names it.
+bills: {}

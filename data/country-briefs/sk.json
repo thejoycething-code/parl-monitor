@@ -1,13 +1,14 @@
 {
  "sk-navrh-poslancov-narodnej-rady-slovenskej-republi-9-1252": {
   "changelog": [
-   "2026-10-12 tools/country_briefs.py drafted every cell"
+   "2026-10-12 tools/country_briefs.py drafted every cell",
+   "2026-10-13 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "f2187aa065897e299562ae891a2e9b4568dac29943d173df4c2e9ceb2bb65f73",
+  "content": "a48f55356f933b9d1326f3a4943b949496f60f9ff131fb9d7e1d159ea3111099",
   "generated": "2026-10-12",
   "key": "9/1252",
   "ready": false,
-  "sha": "7742d9b328886da41d517de8d4fb225afa910d20f73d43c204f3dc1487fb1a22",
+  "sha": "161d82758025585a6ae948984543c742f3e34bc3448f0b83f120a7ec0aa7b67f",
   "title": "Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Jozefa CECHA a Zdenky MAČICOVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov"
  },
  "sk-navrh-poslancov-narodnej-rady-slovenskej-republi-9-1528": {
@@ -23,13 +24,14 @@
  },
  "sk-navrh-poslankyne-narodnej-rady-slovenskej-republ-9-1254": {
   "changelog": [
-   "2026-10-12 tools/country_briefs.py drafted every cell"
+   "2026-10-12 tools/country_briefs.py drafted every cell",
+   "2026-10-13 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "c8bb38c8c33443922bee89b618d4654c71b427bee13aad21c3de33b9cf464e3f",
+  "content": "fd43f0e31234dd96162e5a54c19673a1d266bad0eff056ba732593fec311e487",
   "generated": "2026-10-12",
   "key": "9/1254",
   "ready": false,
-  "sha": "2b717f4d3c5e65785ce7bbe0ad80d4778eb59655f3e7e8c087ab721048e73eb7",
+  "sha": "ef5d9fe509ea22e3b65c46e9d86c16bcb68763d6c8e59ab22ac6cc655cfd48fd",
   "title": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov"
  }
 }

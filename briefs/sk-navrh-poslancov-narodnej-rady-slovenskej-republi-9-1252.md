@@ -168,8 +168,8 @@ Left blank at build time (rulebook cell 35).
 - SIGN-OFF: no bill direction on file for `9/1252`. Add a `bill_directions` line (direction with/against, why) to config/sk_stance.yaml, then confirm it: `python3 tools/country_5ca.py --cc sk --confirm-direction 9/1252 --by NAME`.
 - Readings of this bill's watched or tier-1 votes: 5 on file, 2 confirmed, 3 waiting.
   - `57871` 2026-05-05 Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice L...: draft
-  - `58250` 2026-09-15 Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice L...: needs reading
-  - `58251` 2026-09-15 Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice L...: needs reading
+  - `58250` 2026-09-15 Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice L...: draft
+  - `58251` 2026-09-15 Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice L...: draft
 - Confirm in docs/5ca-sk-readings.md (tick, then `python3 tools/country_5ca.py --cc sk --sign-from-doc --by NAME`).
 - Recorded votes on the bill (5), newest last:
   - 2026-05-05 nrsr 'Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ,...' Za 144, Proti 0 Návrh prešiel
@@ -184,3 +184,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-12 tools/country_briefs.py drafted every cell
+- 2026-10-13 tools/country_briefs.py refreshed by the builder

@@ -19,6 +19,13 @@ became PL 1338/2022). The collector renames the bill in place and keeps the
 old number in br_bills.former_keys; every line here shows both, and a
 watchlist entry still keyed on the old number keeps matching.
 
+THE STATE ASSEMBLIES (13 October 2026): a "State assemblies" section,
+placed before the Watchlist by src/brs_edition.py through post_render, from
+what tools/br_states.py reads of the Assembleias Legislativas
+(docs/brazil-regions-scope.md). The Congress's counts, lead and quiet-week
+test stay the Congress's alone; the DM gets one line when the section has
+items.
+
 Areas 14 (gambling and betting) and 15 (drug decriminalisation) are
 Brazil's own (BR3, BR4; taxonomy-pt, every term [only: br]); their labels
 are added to the shared label map here, additively.
@@ -29,7 +36,7 @@ from __future__ import annotations
 import json
 import re
 
-from src import agenda
+from src import agenda, brs_edition
 from src import country_edition as ce
 from src.filter import _fold
 
@@ -276,6 +283,7 @@ COUNTRY = ce.Country(
     cc=CC, name="Brazil", chamber="Câmara dos Deputados and Senado Federal",
     language="Portuguese", taxonomies=(("taxonomy-pt.yaml", "br"),), items=items,
     flag=":flag-br:", week_ahead=agenda.week_ahead_fn(CC), ahead_note=agenda.ahead_note_fn(CC),
+    post_render=brs_edition.post_render, notice=brs_edition.notice,
     members_note=("Positions are stored for every nominal vote, with each member's party at "
                   "the vote; most decisions in both houses are symbolic votes, which record no "
                   "position and are not in the store. A Senate secret ballot records only who "
@@ -284,7 +292,10 @@ COUNTRY = ce.Country(
         "Collected: every nominal vote of both houses with positions, the Câmara leaders' "
         "orientations, and the proposições those votes name (tools/br_rollcalls.py, phase 1).",
         "Not yet collected: the bill register (phase 2), so a bill filed but never voted is "
-        "not seen; tramitação steps (phase 3); the state assemblies.",
+        "not seen; tramitação steps (phase 3).",
+        "State assemblies: the readable Assembleias (São Paulo, Minas Gerais, Rio de Janeiro "
+        "and the SAPL houses) in their own section below; the coverage line under it names "
+        "the ones not read and why.",
         "The week ahead is the Câmara's pauta (plenary and committees) and the Senado's "
         "plenary agenda, matched to bills by number.",
         "Areas 14 (gambling and betting) and 15 (drug decriminalisation) are Brazil's own "

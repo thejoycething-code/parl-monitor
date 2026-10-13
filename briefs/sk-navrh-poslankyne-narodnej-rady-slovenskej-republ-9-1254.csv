@@ -108,7 +108,7 @@ Launch window: earliest 2026-10-15; delivery 2026-11-05 (estimate). Working days
 - `57919` 2026-05-06 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
 - `57920` 2026-05-06 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
 - `58269` 2026-09-16 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
-- `58270` 2026-09-16 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: needs reading
+- `58270` 2026-09-16 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
 - `58271` 2026-09-16 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
 - `58272` 2026-09-16 Návrh poslankyne Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ na vydan...: draft
 "Confirm in docs/5ca-sk-readings.md (tick, then `python3 tools/country_5ca.py --cc sk --sign-from-doc --by NAME`)."
@@ -123,3 +123,4 @@ Language: campaigner text in English (rulebook rule 6); the petition itself is i
 "Not available to the builder: Bluebook (comparables, TIM, RF#1), the Asana campaigns calendar (launch clash check), postcode member counts, the framing glossary (0 entries), the allies and opponents registers (0 / 0), the hostile-outlet deny-list."
 Campaigner checklist (cells holding [CAMPAIGNER: ...]): Background / Context; Campaign Name; Main Purposes; Petitions related TIM project; Who is the petition addressed to?; What is happening that we are responding to?; Why would they listen to us?; What is the key point of injustice; Why is it urgent that we take action now?; Which sources do you want to include?; What should the image look like?; What are some arguments; Describe a bad outcome; Describe a good outcome; RF#1 comment; RF#2 comment; RF#3 comment; RF#4/1 comment.
 Changelog: 2026-10-12 tools/country_briefs.py drafted every cell
+Changelog: 2026-10-13 tools/country_briefs.py refreshed by the builder

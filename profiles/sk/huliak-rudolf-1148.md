@@ -14,12 +14,12 @@ Slovakia, Národná rada. From the parliamentary monitor's store; positions are 
 
 ## Party history
 
-- Recorded at votes in the store: SNS (first 8 February 2024, last 3 October 2024).
+- Recorded at votes in the store: SNS (first 8 December 2023, last 3 October 2024).
 
-## Votes on our ground (129)
+## Votes on our ground (556)
 
-Recorded positions (129): “0 (neprítomný)” 38, “P (proti)” 36, “Z (za)” 35, “? (zdržal sa)” 20.
-By area (every vote): abortion: “0 (neprítomný)” 14, “? (zdržal sa)” 4, “P (proti)” 2; gender medicine and children: “P (proti)” 9, “Z (za)” 6, “? (zdržal sa)” 4; sex-based rights: “? (zdržal sa)” 7, “0 (neprítomný)” 4, “P (proti)” 2, “Z (za)” 1; parental rights and education: “P (proti)” 27, “Z (za)” 21, “0 (neprítomný)” 18, “? (zdržal sa)” 8; free speech and civil liberties: “0 (neprítomný)” 4, “Z (za)” 3, “? (zdržal sa)” 2, “P (proti)” 2; religious freedom: “0 (neprítomný)” 20, “? (zdržal sa)” 3, “Z (za)” 2, “P (proti)” 1; marriage and family: “P (proti)” 24, “Z (za)” 20, “0 (neprítomný)” 14, “? (zdržal sa)” 9; surrogacy and embryology: “0 (neprítomný)” 4, “? (zdržal sa)” 2; organ donation: “0 (neprítomný)” 15, “Z (za)” 2, “? (zdržal sa)” 1.
+Recorded positions (556): “P (proti)” 449, “Z (za)” 46, “0 (neprítomný)” 40, “? (zdržal sa)” 20, “N (nehlasoval)” 1.
+By area (every vote): abortion: “0 (neprítomný)” 14, “? (zdržal sa)” 4, “P (proti)” 2; gender medicine and children: “P (proti)” 9, “Z (za)” 6, “? (zdržal sa)” 4; sex-based rights: “? (zdržal sa)” 7, “0 (neprítomný)” 4, “P (proti)” 2, “Z (za)” 1; parental rights and education: “P (proti)” 27, “Z (za)” 21, “0 (neprítomný)” 18, “? (zdržal sa)” 8; free speech and civil liberties: “0 (neprítomný)” 4, “Z (za)” 3, “? (zdržal sa)” 2, “P (proti)” 2; religious freedom: “0 (neprítomný)” 21, “P (proti)” 15, “Z (za)” 6, “? (zdržal sa)” 3; marriage and family: “P (proti)” 423, “Z (za)” 27, “0 (neprítomný)” 15, “? (zdržal sa)” 9, “N (nehlasoval)” 1; surrogacy and embryology: “0 (neprítomný)” 4, “? (zdržal sa)” 2; organ donation: “0 (neprítomný)” 15, “Z (za)” 2, “? (zdržal sa)” 1.
 
 The latest 20:
 
@@ -46,7 +46,7 @@ The latest 20:
 | 5 Dec 2024 | 0 (neprítomný) | - (as listed, not at the vote) | [Hlasovanie o pozmeňujúcich návrhoch zo spoločnej správy výborov - body 1 až 10 a 12 až 23. Vládny návrh zákona, ktorým sa mení a dopĺňa zák…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=55829) · bill's areas | religious freedom, organ donation |
 | 5 Dec 2024 | 0 (neprítomný) | - (as listed, not at the vote) | [Hlasovanie o pozmeňujúcom návrhu zo spoločnej správy výborov - bod 11. Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 580/2004 Z. z.…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=55830) · bill's areas | religious freedom, organ donation |
 
-109 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+536 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Notes
 

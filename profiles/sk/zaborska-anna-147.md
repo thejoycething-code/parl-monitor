@@ -14,12 +14,12 @@ Slovakia, Národná rada. From the parliamentary monitor's store; positions are 
 
 ## Party history
 
-- Recorded at votes in the store: SLOVENSKO (first 8 February 2024, last 17 June 2025).
+- Recorded at votes in the store: SLOVENSKO (first 8 December 2023, last 17 June 2025).
 
-## Votes on our ground (238)
+## Votes on our ground (665)
 
-Recorded positions (238): “Z (za)” 80, “P (proti)” 65, “? (zdržal sa)” 59, “0 (neprítomný)” 31, “N (nehlasoval)” 3.
-By area (every vote): abortion: “Z (za)” 12, “? (zdržal sa)” 8, “0 (neprítomný)” 4; gender medicine and children: “Z (za)” 18, “P (proti)” 6, “? (zdržal sa)” 5, “0 (neprítomný)” 1; sex-based rights: “Z (za)” 10, “? (zdržal sa)” 8, “P (proti)” 4, “0 (neprítomný)” 3; parental rights and education: “Z (za)” 54, “? (zdržal sa)” 32, “P (proti)” 15, “0 (neprítomný)” 13; free speech and civil liberties: “P (proti)” 48, “Z (za)” 5, “0 (neprítomný)” 4, “? (zdržal sa)” 4; religious freedom: “Z (za)” 15, “? (zdržal sa)” 13, “0 (neprítomný)” 4; marriage and family: “Z (za)” 42, “? (zdržal sa)” 26, “0 (neprítomný)” 17, “P (proti)” 10, “N (nehlasoval)” 1; surrogacy and embryology: “Z (za)” 10, “? (zdržal sa)” 4, “P (proti)” 4; organ donation: “? (zdržal sa)” 9, “Z (za)” 6, “N (nehlasoval)” 2, “0 (neprítomný)” 1.
+Recorded positions (665): “0 (neprítomný)” 346, “Z (za)” 191, “P (proti)” 65, “? (zdržal sa)” 60, “N (nehlasoval)” 3.
+By area (every vote): abortion: “Z (za)” 12, “? (zdržal sa)” 8, “0 (neprítomný)” 4; gender medicine and children: “Z (za)” 18, “P (proti)” 6, “? (zdržal sa)” 5, “0 (neprítomný)” 1; sex-based rights: “Z (za)” 10, “? (zdržal sa)” 8, “P (proti)” 4, “0 (neprítomný)” 3; parental rights and education: “Z (za)” 54, “? (zdržal sa)” 32, “P (proti)” 15, “0 (neprítomný)” 13; free speech and civil liberties: “P (proti)” 48, “Z (za)” 5, “0 (neprítomný)” 4, “? (zdržal sa)” 4; religious freedom: “0 (neprítomný)” 23, “Z (za)” 15, “? (zdržal sa)” 13; marriage and family: “0 (neprítomný)” 313, “Z (za)” 153, “? (zdržal sa)” 27, “P (proti)” 10, “N (nehlasoval)” 1; surrogacy and embryology: “Z (za)” 10, “? (zdržal sa)” 4, “P (proti)” 4; organ donation: “? (zdržal sa)” 9, “Z (za)” 6, “N (nehlasoval)” 2, “0 (neprítomný)” 1.
 
 The latest 20:
 
@@ -46,7 +46,7 @@ The latest 20:
 | 5 Jun 2025 | ? (zdržal sa) | SLOVENSKO (at the vote) | [Hlasovanie o pozmeňujúcom návrhu zo spoločnej správy výborov - bod 2. Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 245/2008 Z. z.…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=56583) | parental rights and education, tier 2 |
 | 5 Jun 2025 | P (proti) | SLOVENSKO (at the vote) | [Hlasovanie o 2. námietke posl. P. Puškárová. Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 245/2008 Z. z. o výchove a vzdelávaní (š…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=56584) | parental rights and education, tier 2 |
 
-218 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+645 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Notes
 
