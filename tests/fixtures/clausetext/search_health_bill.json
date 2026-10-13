@@ -1,0 +1,100 @@
+{
+ "items": [
+  {
+   "billId": 4124,
+   "shortTitle": "Health Bill",
+   "formerShortTitle": null,
+   "currentHouse": "Lords",
+   "originatingHouse": "Commons",
+   "lastUpdate": "2026-10-07T12:19:56.9742422",
+   "billWithdrawn": null,
+   "isDefeated": false,
+   "billTypeId": 1,
+   "introducedSessionId": 40,
+   "includedSessionIds": [
+    40
+   ],
+   "isAct": false,
+   "currentStage": {
+    "id": 21193,
+    "stageId": 2,
+    "sessionId": 40,
+    "description": "2nd reading",
+    "abbreviation": "2R",
+    "house": "Lords",
+    "stageSittings": [
+     {
+      "id": 18599,
+      "stageId": 2,
+      "billStageId": 21193,
+      "billId": 4124,
+      "date": "2026-10-13T00:00:00"
+     }
+    ],
+    "sortOrder": 12
+   }
+  },
+  {
+   "billId": 4149,
+   "shortTitle": "Mental Health Support (Sentence of Detention and Imprisonment for Public Protection) Bill [HL]",
+   "formerShortTitle": null,
+   "currentHouse": "Lords",
+   "originatingHouse": "Lords",
+   "lastUpdate": "2026-09-09T13:52:58.9139311",
+   "billWithdrawn": null,
+   "isDefeated": false,
+   "billTypeId": 2,
+   "introducedSessionId": 40,
+   "includedSessionIds": [
+    40
+   ],
+   "isAct": false,
+   "currentStage": {
+    "id": 20829,
+    "stageId": 2,
+    "sessionId": 40,
+    "description": "2nd reading",
+    "abbreviation": "2R",
+    "house": "Lords",
+    "stageSittings": [],
+    "sortOrder": 2
+   }
+  },
+  {
+   "billId": 4238,
+   "shortTitle": "Public Health (Control of Disease) Act 1984 (Amendment) Bill",
+   "formerShortTitle": null,
+   "currentHouse": "Commons",
+   "originatingHouse": "Commons",
+   "lastUpdate": "2026-06-25T11:56:34.9493753",
+   "billWithdrawn": null,
+   "isDefeated": false,
+   "billTypeId": 8,
+   "introducedSessionId": 40,
+   "includedSessionIds": [
+    40
+   ],
+   "isAct": false,
+   "currentStage": {
+    "id": 21013,
+    "stageId": 7,
+    "sessionId": 40,
+    "description": "2nd reading",
+    "abbreviation": "2R",
+    "house": "Commons",
+    "stageSittings": [
+     {
+      "id": 18399,
+      "stageId": 7,
+      "billStageId": 21013,
+      "billId": 4238,
+      "date": "2027-03-05T00:00:00"
+     }
+    ],
+    "sortOrder": 2
+   }
+  }
+ ],
+ "totalResults": 3,
+ "itemsPerPage": 20
+}

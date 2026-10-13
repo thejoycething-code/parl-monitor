@@ -175,6 +175,10 @@ def write_worksheet(area_filter=None):
             blocks.append("- {0} | {1}".format(c["date"], c["title"]))
             blocks.append("- record: https://votes.parliament.uk/Votes/Commons/Division/{0}"
                           .format(c["id"]))
+            if c.get("title_how") == "clause text":
+                # Why a bare "New Clause 142" title is here (src/clausetext.py).
+                blocks.append("- matched on clause text: {0}".format(
+                    ", ".join(c.get("clause_terms") or [])))
             for field in FIELDS:
                 blocks.append("{0}: ".format(field))
             blocks.append("")

@@ -1,0 +1,183 @@
+{
+ "amendmentLines": [
+  {
+   "text": "To move the following Clause\u2014",
+   "indentation": 0,
+   "hangingIndentation": null,
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "<b>\u201cPuberty blockers</b>",
+   "indentation": 1,
+   "hangingIndentation": null,
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "Within three months of the passage of this Act the Secretary of State must make regulations which ensure that puberty blockers may not be prescribed, dispensed or supplied to persons under 18 years of age for the purposes of treatment related to gender dysphoria, gender incongruence or a combination of both, in the United Kingdom.",
+   "indentation": 1,
+   "hangingIndentation": "(1)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "Regulations under this section must ensure that such drugs cannot be given out or used as part of clinical trials for the treatment of gender dysphoria, gender incongruence or a combination of both, unless that trial has specifically been approved by a resolution of both Houses of Parliament.",
+   "indentation": 1,
+   "hangingIndentation": "(2)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "For the purposes of this section, puberty blockers means\u2014",
+   "indentation": 1,
+   "hangingIndentation": "(3)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "a \u201cgonadotrophin-releasing hormone (\u201cGnRH\u201d) analogue\u201d which means a medicinal product that consists of or contains buserelin, gonadorelin, goserelin, leuprorelin acetate, nafarelin or triptorelin, and",
+   "indentation": 2,
+   "hangingIndentation": "(a)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "any other drug which has the effect of suppressing or delaying puberty that the Secretary of State may by regulation appoint.\u201d",
+   "indentation": 2,
+   "hangingIndentation": "(b)",
+   "isImage": false,
+   "imageType": null
+  }
+ ],
+ "explanatoryTextPrefix": "Member's explanatory statement",
+ "explanatoryText": "<p>This new clause would create a requirement for the Secretary of State to make regulations which prevent puberty blockers from being prescribed to persons under 18 years of age for the purposes of treatment related to gender incongruence, or being given in clinical trials related to gender incongruence unless specifically approved by Parliament.</p>",
+ "amendmentNote": null,
+ "amendmentLocation": "",
+ "mainHeader": "",
+ "amendmentId": 10038149,
+ "amendmentType": "AddClauseOrSchedule",
+ "clause": null,
+ "schedule": null,
+ "pageNumber": null,
+ "lineNumber": null,
+ "amendmentPosition": null,
+ "marshalledListText": "NC142",
+ "dNum": "hoc389",
+ "id": 0,
+ "billId": 4124,
+ "billStageId": 21130,
+ "statusIndicator": null,
+ "decision": "NoDecision",
+ "decisionExplanation": "The House has not considered this amendment.",
+ "sponsors": [
+  {
+   "isLead": true,
+   "sortOrder": 1,
+   "memberId": 4592,
+   "name": "Dr Caroline Johnson",
+   "party": "Conservative",
+   "partyColour": "0063ba",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/4592/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/4592/contact",
+   "memberFrom": "Sleaford and North Hykeham"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 2,
+   "memberId": 3969,
+   "name": "Damian Hinds",
+   "party": "Conservative",
+   "partyColour": "0063ba",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/3969/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/3969/contact",
+   "memberFrom": "East Hampshire"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 3,
+   "memberId": 4616,
+   "name": "Rosie Duffield",
+   "party": "Independent",
+   "partyColour": "909090",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/4616/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/4616/contact",
+   "memberFrom": "Canterbury"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 4,
+   "memberId": 4759,
+   "name": "Joy Morrissey",
+   "party": "Conservative",
+   "partyColour": "0063ba",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/4759/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/4759/contact",
+   "memberFrom": "Beaconsfield"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 5,
+   "memberId": 5297,
+   "name": "Rebecca Paul",
+   "party": "Conservative",
+   "partyColour": "0063ba",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/5297/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/5297/contact",
+   "memberFrom": "Reigate"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 6,
+   "memberId": 5264,
+   "name": "Jonathan Hinder",
+   "party": "Labour",
+   "partyColour": "d50000",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/5264/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/5264/contact",
+   "memberFrom": "Pendle and Clitheroe"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 7,
+   "memberId": 5403,
+   "name": "Sarah Pochin",
+   "party": "Reform UK",
+   "partyColour": "12b6cf",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/5403/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/5403/contact",
+   "memberFrom": "Runcorn and Helsby"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 8,
+   "memberId": 5268,
+   "name": "Iqbal Mohamed",
+   "party": "Independent",
+   "partyColour": "909090",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/5268/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/5268/contact",
+   "memberFrom": "Dewsbury and Batley"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 9,
+   "memberId": 4857,
+   "name": "Carla Lockhart",
+   "party": "Democratic Unionist Party",
+   "partyColour": "d46a4c",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/4857/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/4857/contact",
+   "memberFrom": "Upper Bann"
+  }
+ ]
+}
