@@ -199,6 +199,10 @@ def download(args):
         end = datetime.datetime(d.year, d.month, d.day, h2, m2, tzinfo=tz)
         out = os.path.join(clips, "00-whole-debate-{0}-{1}.mp4".format(args.frm.replace(":", ""), args.to.replace(":", "")))
         dp.download_clip(manifest, start, end, out, yt, ff, args.quality, guid=guid, event_start=event_start, windowed=windowed)
+        # where the file sits in the recording, for social_cut (src/socialcut.py whole_debate_offset)
+        state["whole_debate"] = {"file": os.path.basename(out),
+                                 "offset": max(0.0, (start - datetime.timedelta(seconds=dp.PAD_BEFORE) - event_start).total_seconds())}
+        json.dump(state, open(os.path.join(args.pack, "pack.json"), "w"), indent=1)
         print("downloaded {0} ({1:.1f} MB)".format(os.path.relpath(out, ROOT), os.path.getsize(out) / 1e6))
         return 0
     confirmed = dp.parse_checklist(os.path.join(args.pack, "checklist.md"))
