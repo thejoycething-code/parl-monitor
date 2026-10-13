@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><ComissoesReunioesVotacao>
+<ReuniaoComissaoVotacao><Voto>Favorável ao voto do relator </Voto><IdComissao>12445</IdComissao><IdDeputado>1000000342</IdDeputado><IdDocumento>1000699001</IdDocumento><IdPauta>1000008618</IdPauta><IdReuniao>1000007752</IdReuniao><Deputado>Alex Madureira</Deputado><TipoVoto>F</TipoVoto></ReuniaoComissaoVotacao>
+<ReuniaoComissaoVotacao><Voto>Favorável ao voto do relator </Voto><IdComissao>12445</IdComissao><IdDeputado>1000000973</IdDeputado><IdDocumento>1000699001</IdDocumento><IdPauta>1000008618</IdPauta><IdReuniao>1000007752</IdReuniao><Deputado>Fabiana Bolsonaro</Deputado><TipoVoto>F</TipoVoto></ReuniaoComissaoVotacao>
+<ReuniaoComissaoVotacao><Voto>Contrário ao voto do relator</Voto><IdComissao>12445</IdComissao><IdDeputado>12384</IdDeputado><IdDocumento>1000699001</IdDocumento><IdPauta>1000008618</IdPauta><IdReuniao>1000007752</IdReuniao><Deputado>Luiz Claudio Marcolino</Deputado><TipoVoto>F</TipoVoto></ReuniaoComissaoVotacao>
+<ReuniaoComissaoVotacao><Voto>Favorável ao parecer</Voto><IdComissao>12445</IdComissao><IdDeputado>4926</IdDeputado><IdDocumento>1000699002</IdDocumento><IdPauta>1000008618</IdPauta><IdReuniao>1000007752</IdReuniao><Deputado>Mauro Bragato</Deputado><TipoVoto>F</TipoVoto></ReuniaoComissaoVotacao>
+</ComissoesReunioesVotacao>

@@ -1,0 +1,443 @@
+<html><body><div id="collapse-InfoGerais" class="accordion-collapse collapse" aria-labelledby="heading_1" data-bs-parent="#accordion-InfoProjeto">
+							<div class="accordion-body">
+								<span class="text-gray-550  d-block">Situação atual</span>
+									Aguardando designação de relator em comissão<hr />
+									<span class="text-gray-550  d-block">Local</span>
+									Comissão de Constituição e Justiça<hr />
+									<span class="text-gray-550  d-block">Regime de tramitação</span>
+									Deliberação em turno único nas comissões<hr />
+									<span class="text-gray-550  d-block">Publicação</span>
+									
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+    
+        
+
+        <a href="https://diariolegislativo.almg.gov.br/2026/L20260814.pdf">
+            Di&aacute;rio do Legislativo em 14/08/2026
+        </a>
+
+        
+    
+
+	
+    
+<hr />
+									<span class="text-gray-550  d-block">Indexação</span>
+									<div class=" p-0 ">
+		<a href="/atividade-parlamentar/projetos-de-lei/?tag=Sabará">Sabará</a>
+		<br />
+		</div>
+<div class=" ps-2 ms-n2 py-2 my-1 bg-light ">
+		<a href="/atividade-parlamentar/projetos-de-lei/?tag=Utilidade Pública">Utilidade Pública</a>
+		<br />
+		</div>
+<!--   SSI 306913
+								 -->
+								</div>
+						</div>
+					</div>
+
+					<!-- Sugestões de PLE -->
+					</div>
+				
+				
+				<!-- Inserir o tratamento da régua de tramitação aqui. !-->
+				<!-- Tratamento para régua de tramitação. -->
+<style>
+		.js_regua.steps {}
+		
+		.js_regua.steps .step {
+			text-align: center;
+			position: relative;
+			flex:1;
+		}
+
+		.js_regua.steps .step-circle {
+			width: 40px;
+			min-width: 40px;
+			height: 40px;
+			line-height: 40px;
+			border-radius: 50%;
+			display: inline-block;
+			font-weight: bold;
+			z-index:2;
+		}
+		
+		.js_regua.steps .step[data-pos='before'] .step-circle {
+			background-color: #007baf;
+			color: #fff;
+		}
+			/*.step[data-pos='before'].active .step-circle {
+				color:#58e7f7;
+			}*/
+		
+		.js_regua.steps .step[data-pos='current'] .step-circle {
+			background-color: #007baf;
+			color: #fff;
+		}
+			/*.step[data-pos='current'].active .step-circle {
+				color:#58e7f7;
+			}*/
+
+		.js_regua.steps .step[data-pos='after'] .step-circle {
+			background-color: #c5c5c5;
+			color: #fff;
+		}
+			/*.step[data-pos='after'].active .step-circle {
+				color:#636363;
+			}*/
+		
+		.js_regua.steps .step-label {
+			z-index:2;
+		}
+		
+		.js_regua.steps .step:hover .step-label {
+			text-decoration:underline !important;
+		}
+
+		.js_regua.steps .step-line-x {
+			position: absolute;
+			top: 20px;
+			left: 0;
+			width: 100%;
+			height: 4px;
+			background-color: #e0e0e0;
+			z-index: -1;
+		}
+
+		.js_regua.steps .step-line-x div {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 0;
+			height: 4px;
+			background-color: #007baf;
+		}
+		
+		.js_regua.steps .step-line-y {
+			position: absolute;
+			top: 0;
+			left: 20px;
+			width: 4px;
+			margin-left:-2px;
+			height: 100%;
+			background-color: #e0e0e0;
+			z-index: -1;
+		}
+
+		.js_regua.steps .step-line-y div {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 4px;
+			height: 0;
+			background-color: #007baf;
+		}
+		
+		.js_regua.steps .step-arrow-x {
+			clear:both;
+			margin-bottom: -1px;
+			z-index: 9;
+			width:0;
+			height:0;
+			border-left:13px solid transparent;
+			border-right:13px solid transparent;
+			border-bottom:11px solid #c3e6ec;
+			transition: all .4s;
+		}
+		
+		.js_regua.steps .step-arrow-y {
+			clear:both;
+			margin-right: -1px;
+			z-index: 9;
+			width:0;
+			height:0;
+			border-top:13px solid transparent;
+			border-bottom:13px solid transparent;
+			border-right:11px solid #c3e6ec;
+			transition: all .4s;
+		}
+
+		.js_regua.steps .step-info {
+			background-color: #c3e6ec;		
+			padding: 16px;
+			color:#161825;
+			border:1px solid #a6d9dc;
+			transition: all .4s;
+		}
+	</style>
+	
+	<script>
+		//Elementos
+		var geral = ".steps";
+		var item = ".step"
+		var progressX = ".step-line-x div";
+		var progressY = ".step-line-y div";
+		var info = ".step-info div";
+		var arrowX = ".step-arrow-x";
+		var arrowY = ".step-arrow-y";
+		var attrCount = "data-count";
+		
+		//Variaveis globais
+		var initStep;
+		var currStep;
+		var infoTop;
+		
+		function elementsPos(trigger){			 
+			//Seta
+			var currLeft = $(item+"["+attrCount+"="+currStep+"]").offset().left - $(geral).offset().left + $(item+"["+attrCount+"="+currStep+"]").outerWidth()/2 - $(arrowX).outerWidth()/2;
+			var currTop = $(item+"["+attrCount+"="+currStep+"]").offset().top - $(geral).offset().top + $(item+"["+attrCount+"="+currStep+"]").outerHeight()/2 - $(arrowY).outerHeight()/2;
+			
+			$(arrowX).css("margin-left", currLeft);
+			$(arrowY).css("margin-top", currTop -1);
+			
+			//Progresso
+			var initLeft = $(item+"["+attrCount+"="+initStep+"]").offset().left - $(geral).offset().left + $(item+"["+attrCount+"="+initStep+"]").outerWidth()/2 - $(arrowX).outerWidth()/2;
+			var initTop = $(item+"["+attrCount+"="+initStep+"]").offset().top - $(geral).offset().top + $(item+"["+attrCount+"="+initStep+"]").outerHeight()/2 - $(arrowY).outerHeight()/2;
+			
+			$(progressX).css("width", initLeft);
+			$(progressY).css("height", initTop);
+			
+			//Info
+			var infoTopNew;			
+			if(window.innerWidth<=768){ //md
+				infoTopNew = currTop - $(info).parent().outerHeight()/2 + $(arrowY).outerHeight()/2;
+				if(infoTopNew < 0) infoTopNew = 0;
+				if(infoTopNew > $(geral).outerHeight() - $(info).parent().outerHeight() - 10) infoTopNew = $(geral).outerHeight() - $(info).parent().outerHeight() - 10; //10 margem de seguranca
+				$(info).parent().css("margin-top", infoTopNew);
+			}else{
+				infoTopNew = 0;
+			}
+			if(infoTopNew != infoTop){
+				$(info).parent().css("margin-top", infoTopNew);
+				infoTop = infoTopNew;
+			}
+		}
+
+		function stepChange(trigger){
+			//console.log("[Regua] " + currStep);
+			
+			//Texto
+			$(info).hide();
+			$(info+"["+attrCount+"="+currStep+"]").show();
+			
+			//Seta e Progresso
+			elementsPos(trigger);
+			setTimeout(function(){
+				elementsPos(trigger); //Essa segunda chamada ser como fix para um bug: no modo mobile, quando 'info' está na última posição e o usuário clica em outra posicao, cujo texto é maior. Por uma fracao de segundo, a atura de 'geral' é aumentada.
+			}, 250);
+			
+			//Regua
+			$(item).removeClass("active");
+			if(trigger=="click") $(item+"["+attrCount+"="+currStep+"]").addClass("active");
+		}
+		
+		$(geral).ready(function(){
+			if($(geral).length>0){				
+				//Gatilho init
+				currStep = $(item+"[data-pos='current']").attr(attrCount);
+				initStep = currStep;
+				stepChange("init");
+				
+				//Gatilho do evento de clique
+				$(item).click(function(){
+					//if($(this).hasClass("active")) currStep = initStep;
+					currStep = $(this).attr(attrCount);
+					stepChange("click");
+				});
+			}
+		});
+		
+		//Gatilho resize
+		var stepVW = window.innerWidth;
+		var waitFinalResizeSteps = (function () {
+			var timers = {};
+			return function (callback, ms, uniqueId) {
+				if(!uniqueId) uniqueId = "Don't call this twice without a uniqueId";
+				if(timers[uniqueId]) clearTimeout (timers[uniqueId]);
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
+		$(window).resize(function () {
+			waitFinalResizeSteps(function(){
+				if($(geral).length>0 && stepVW != window.innerWidth) elementsPos("resize");
+			}, 100, "some unique string");
+		});
+	</script>
+	
+	<div class="lead mt-5 mb-4 lh-sm"><strong>Regime de Tramitação:</strong> Regime de tramitação de deliberação em turno único nas comissões</div>
+	
+	<div class="js_regua steps d-flex m-0 mb-6 flex-row flex-md-column">
+			<div class="d-flex m-0 flex-column flex-md-row justify-content-between position-relative user-select-none">
+				
+				<div class="step-line-x d-none d-md-block"><div></div></div>
+				<div class="step-line-y d-block d-md-none"><div></div></div>
+
+				<div class="step py-3 py-md-0 d-flex flex-row flex-md-column even" data-pos="before" data-count="0" data-order="1" role="button"> 
+						<div class="bg-white w-50 h-50 position-absolute top-0 start-0"></div><div class="step-circle align-self-center">
+							<span class="material-icons-round text-white pt-2">insert_drive_file</span></div>
+						<div class="step-label ms-3 ms-md-0 text-start text-md-center fw-bold lh-sm align-self-center mt-md-3">Apresentação</div>
+					</div>
+					
+					<div class="step py-3 py-md-0 d-flex flex-row flex-md-column odd" data-pos="current" data-count="1" data-order="2" role="button"> 
+						<div class="step-circle align-self-center">
+							<span class="material-icons-round text-white pt-2">group</span></div>
+						<div class="step-label ms-3 ms-md-0 text-start text-md-center fw-bold lh-sm align-self-center mt-md-3">Turno único nas Comissões</div>
+					</div>
+					
+					<div class="step py-3 py-md-0 d-flex flex-row flex-md-column even" data-pos="after" data-count="2" data-order="3" role="button"> 
+						<div class="step-circle align-self-center">
+							<span class="material-icons-round text-white pt-2">create</span></div>
+						<div class="step-label ms-3 ms-md-0 text-start text-md-center fw-bold lh-sm align-self-center mt-md-3">Redação final</div>
+					</div>
+					
+					<div class="step py-3 py-md-0 d-flex flex-row flex-md-column odd" data-pos="after" data-count="3" data-order="4" role="button"> 
+						<div class="bg-white w-50 h-50 position-absolute bottom-0 top-md-0 end-md-0"></div><div class="step-circle align-self-center">
+							<span class="material-icons-round text-white pt-2">verified</span></div>
+						<div class="step-label ms-3 ms-md-0 text-start text-md-center fw-bold lh-sm align-self-center mt-md-3">Sanção, promulgação ou veto</div>
+					</div>
+					
+					</div>
+			
+			<div class="step-arrow-x mt-2 d-none d-md-block"></div>
+			<div class="step-arrow-y ms-2 d-block d-md-none"></div>
+			
+			<div class="step-info align-self-start align-self-md-stretch rounded">
+				<div data-count="0"> 
+						
+
+
+- O projeto foi recebido pela Mesa da Assembleia, numerado, publicado e encaminhado às Comissões para análise
+<br \>
+
+</div>
+
+					<div data-count="1"> 
+						
+
+
+- Comissões discutem o projeto e dão pareceres, que podem sugerir emendas ao texto original
+<br \>
+- Comissão discute e vota conclusivamente o projeto
+<br \>
+
+</div>
+
+					<div data-count="2"> 
+						
+
+
+- Comissão dá parecer sobre a redação final do projeto
+<br \>
+- Parecer é votado por Comissão
+<br \>
+
+</div>
+
+					<div data-count="3"> 
+						
+
+
+- Governador recebe o projeto aprovado e pode transformá-lo em lei ou vetá-lo
+<br \>
+
+</div>
+
+					</div>
+		</div>
+	<hr />
+					<div class="h4 mb-3 text-gray-550">Documentos</div>
+					<ul class="mb-4 p-0">
+						<li class="list-group-item p-3 border-0 bg-light">
+								
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+
+<img src="/atividade-parlamentar/projetos-de-lei/imgs/documento.svg" alt="Documento" style="height:40px;" class="" />
+
+	
+		
+		
+			
+
+
+
+
+
+
+<a href="/atividade-parlamentar/projetos-de-lei/texto/?tipo=PL&num=6055&ano=2026">
+
+  Texto original
+  
+
+</a>
+
+		
+		
+		
+	
+</li>
+						</ul>
+				<hr />
+					<div class="h4 mb-3 text-gray-550">Tramitação</div>
+					<div class="step">
+						<div class="step-item">
+								<div class="step-row">
+									<span class="step-icon text-white bg-secondary">2</span>
+									<div class="step-content w-100">
+										<div class="alert alert-secondary mb-0" role="alert">
+											<span class="d-block">14/08/2026</span>
+											<div class="h4 alert-heading">Comissão de Constituição e Justiça</div>
+											<hr class="my-2">
+											Proposição recebida na Comissão de Constituição e Justiça. 
+</div>
+									</div>
+								</div>
+							</div>
+							<div class="step-item">
+								<div class="step-row">
+									<span class="step-icon text-white bg-secondary">1</span>
+									<div class="step-content w-100">
+										<div class="alert alert-secondary mb-0" role="alert">
+											<span class="d-block">12/08/2026</span>
+											<div class="h4 alert-heading">Plenário</div>
+											<hr class="my-2">
+											Proposição recebida em Plenário. 
+Publicado no DL em <a href='https://diariolegislativo.almg.gov.br/2026/L20260814.pdf#page=123'>14/8/2026</a>, pág 123. 
+Às Comissões de Constituição e Justiça e do Trabalho, da Previdência e da Assistência Social, para deliberação. 
+</div>
+									</div>
+								</div>
+							</div>
+							</div>
+				</section>
+	</body></html>
