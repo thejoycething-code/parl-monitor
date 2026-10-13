@@ -457,8 +457,9 @@ def build(pack_dir, ff, yt, render_only=False, log=print, whisper_model="small.e
         alignment.check(pack_dir, ff, whisper_model=whisper_model, log=log)
     manifest = event_start = None
     items, report, skipped = [], [], []
-    for e in entries:
-        s = slug(e["name"])
+    for n, e in enumerate(entries, 1):
+        # numbered, so a speaker who appears twice gets a window per passage
+        s = "%02d-%s" % (n, slug(e["name"]))
         window = os.path.join(hd, s + "-window.mp4")
         words_json = os.path.join(hd, s + "-window.words.json")
         if not render_only and not os.path.exists(window):
