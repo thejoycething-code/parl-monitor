@@ -360,11 +360,20 @@ def main():
             state = "   [NOT APPLIED: mapping untrusted]"
         elif apply_it and changes:
             keycol = spec[0]
+            # Not every table stores a tier (ni_items has none: 13 October
+            # 2026, the v1.23 retag stopped there with "no such column: tier").
+            has_tier = "tier" in cols
             for key, _old, new, terms, tier, _row in changes:
-                conn.execute(
-                    "UPDATE {0} SET areas = ?, matched_terms = ?, tier = ? "
-                    "WHERE {1} = ?".format(table, keycol),
-                    (json.dumps(new), json.dumps(terms), tier, key))
+                if has_tier:
+                    conn.execute(
+                        "UPDATE {0} SET areas = ?, matched_terms = ?, tier = ? "
+                        "WHERE {1} = ?".format(table, keycol),
+                        (json.dumps(new), json.dumps(terms), tier, key))
+                else:
+                    conn.execute(
+                        "UPDATE {0} SET areas = ?, matched_terms = ? "
+                        "WHERE {1} = ?".format(table, keycol),
+                        (json.dumps(new), json.dumps(terms), key))
             conn.commit()
             state = "   [written]"
         print("{0:<18} {1:>6} rows: +{2} gained, ~{3} moved, -{4} cleared{5}"
