@@ -26,6 +26,16 @@ the Gesamtabstimmung or Schlussabstimmung decisive.
 
 The week ahead is the councils' order of business from the sessions programme
 (src/agendas/ch.py): empty between sessions, which the Coverage line says.
+
+THE CANTONS (CH7, 13 October 2026): the cantonal parliaments read by
+tools/ch_cantons.py (ch_canton_acts, ch_canton_divisions; Zuerich, Bern,
+Geneva, Vaud, Ticino) are a "Cantons" section of their own after the
+Watchlist (Country.extra_sections), never mixed into the Federal
+Assembly's. An act is new by its submission date, or, in a canton that
+prints none (Geneva, Vaud, Ticino), by the day we first saw it after that
+canton's first read; otherwise it is a stage move by its status date. Bern's
+votes come with their published tallies, grouped on the act they name.
+Titles are verbatim in the canton's language.
 """
 
 from __future__ import annotations
@@ -184,6 +194,123 @@ def items(conn, since, until, wl):
     return _businesses(conn, since, until, wl) + _votes(conn, since, until, wl)
 
 
+# --- the cantonal parliaments (CH7) ---------------------------------------------
+
+CANTON_NAMES = {"zh": "Kantonsrat Zürich", "be": "Grosser Rat Bern",
+                "ge": "Grand Conseil de Genève", "vd": "Grand Conseil vaudois",
+                "ti": "Gran Consiglio ticinese"}
+CANTONS_READ = ("zh", "be", "ge", "vd", "ti")
+CANTONS_UNDATED = ("ge", "vd", "ti")
+CANTONS_DOC = ce.REPO + "docs/switzerland-cantons-scope.md"
+CANTONS_BLOCKED = (
+    "Basel-Stadt, Basel-Landschaft, St. Gallen and Thurgau publish their parliaments' "
+    "business and votes as open data, but on portals whose robots.txt disallows /api/ to "
+    "every agent but Googlebot: not read",
+    "Aargau: www.ag.ch's robots.txt disallows /grossrat: not read",
+    "Lucerne, Valais and the other sixteen cantons are not read yet ([scope]({0}))".format(
+        CANTONS_DOC),
+)
+
+
+def _canton_takeaway(r, new):
+    bits = ["{0}: {1}".format(CANTON_NAMES.get(r["canton"], r["canton"]),
+                              ce.clean(r["label"]) or r["kind"])]
+    if r["initiative"]:
+        bits.append("by {0}".format(ce.clip(ce.clean(r["initiative"]), 160)))
+    if r["committee"]:
+        bits.append("committee: {0}".format(ce.clean(r["committee"])))
+    if new and r["presented"]:
+        bits.append("submitted on {0}".format(ce.long_date(ce.day(r["presented"]))))
+    elif new:
+        bits.append("first seen by the weekly run of {0}".format(
+            ce.long_date(ce.day(r["first_seen"]))))
+    elif r["status_date"]:
+        if r["status_seen"]:
+            bits.append("status change seen by the weekly run of {0}".format(
+                ce.long_date(ce.day(r["status_date"]))))
+        else:
+            bits.append("status dated {0}".format(ce.long_date(ce.day(r["status_date"]))))
+    return "; ".join(bits)
+
+
+def canton_items(conn, since, until, wl):
+    """The cantonal acts on our ground, new or moved in the window, and
+    Bern's votes on them."""
+    out = []
+    undated = ",".join("'{0}'".format(c) for c in CANTONS_UNDATED)
+    got = ce.rows(conn, "SELECT * FROM ch_canton_acts WHERE ({0}) OR ({1}) OR (presented IS NULL "
+                        "AND COALESCE(baseline, 0)=0 AND canton IN ({2}) AND {3})".format(
+                            ce.window_sql("presented"), ce.window_sql("status_date"), undated,
+                            ce.window_sql("first_seen")),
+                  (since, until, since, until, since, until))
+    for r in got:
+        w = r["act_key"] in wl
+        if not ce.on_ground(r["areas"], w):
+            continue
+        if r["presented"]:
+            new = since < ce.day(r["presented"]) <= until
+        else:
+            new = (r["canton"] in CANTONS_UNDATED and not r["baseline"]
+                   and since < ce.day(r["first_seen"]) <= until)
+        moved = bool(r["status_date"]) and since < ce.day(r["status_date"]) <= until
+        if not new and not moved:
+            continue
+        if r["question"] and not new:
+            continue
+        kind = "question" if r["question"] else ("new" if new else "moved")
+        date = (r["presented"] or r["first_seen"]) if new else r["status_date"]
+        lines = []
+        if r["title_fr"] and r["title_fr"] != r["title"]:
+            lines.append("French title: *{0}*".format(ce.clip(r["title_fr"], 300)))
+        out.append(ce.item("ch", kind, r["act_key"], date, r["title"], ce.areas_of(r["areas"]),
+                           r["tier"], w, status=r["status"], url=r["url"],
+                           terms=r["matched_terms"], takeaway=_canton_takeaway(r, new),
+                           lines=lines))
+    for r in ce.rows(conn, "SELECT v.*, a.title AS act_title, a.label AS act_label FROM "
+                           "ch_canton_divisions v LEFT JOIN ch_canton_acts a USING (act_key) WHERE "
+                           + ce.window_sql("v.date"), (since, until)):
+        w = bool(r["act_key"]) and r["act_key"] in wl
+        if not ce.on_ground(r["areas"], w):
+            continue
+        title = ce.clean(r["subject"]) or "Abstimmung"
+        take = "{0}, on {1}".format(CANTON_NAMES.get(r["canton"], r["canton"]),
+                                    ce.clean(r["act_label"]) or r["act_key"] or "an item")
+        out.append(ce.vote("ch", r["vote_key"], r["date"], title, ce.areas_of(r["areas"]),
+                           r["tier"], w, [ce.tally_line(r["yes"], r["no"], r["abstain"],
+                                                        r["result"], "Grosser Rat, as published")],
+                           url=r["url"], terms=r["matched_terms"], takeaway=take,
+                           group="cantons:" + (r["act_key"] or r["vote_key"]),
+                           group_title=r["act_title"],
+                           watch_key=r["act_key"] if w else None))
+    return out
+
+
+def canton_coverage(conn):
+    read, never = [], []
+    for code in CANTONS_READ:
+        got = ce.rows(conn, "SELECT MAX(last_seen) AS seen, COUNT(*) AS n FROM ch_canton_acts "
+                            "WHERE canton=?", (code,))
+        if got and got[0]["seen"]:
+            read.append("{0} {1}".format(CANTON_NAMES[code], ce.short_date(got[0]["seen"])))
+        else:
+            never.append(CANTON_NAMES[code])
+    lines = ["Cantonal parliaments read (last read): {0}.".format(", ".join(read) or "none yet")]
+    if never:
+        lines.append("Not read yet: {0}.".format(", ".join(never)))
+    lines += [b + "." for b in CANTONS_BLOCKED]
+    lines.append("Cantonal titles are matched in their own language (taxonomy-atch, taxonomy-fr, "
+                 "taxonomy-it for Ticino); Geneva is read through its keyword search, Vaud from "
+                 "its lists of pending objects, Ticino from the order of the day.")
+    return lines
+
+
+def cantons(conn, since, until, wl):
+    intro = ["The cantonal parliaments' own business on our ground: Zürich, Bern, Geneva, Vaud "
+             "and Ticino, each from its own system; titles verbatim in the canton's language, "
+             "statuses in its own words. Bern's votes carry the Tagblatt's published tallies."]
+    return [("Cantons", intro, canton_items(conn, since, until, wl), canton_coverage(conn))]
+
+
 COUNTRY = ce.Country(
     cc="ch", name="Switzerland", chamber="Nationalrat and Ständerat", language="German or French",
     taxonomies=(("taxonomy-atch.yaml", "ch"), ("taxonomy-fr.yaml", "ch")),
@@ -195,6 +322,7 @@ COUNTRY = ce.Country(
               "Ständerat votes from its session spreadsheets.",
               "Matched on German (taxonomy-atch), French (taxonomy-fr) and, since CH6, Italian "
               "(taxonomy-it, Italy's list without its Italy-only terms) texts.",
-              "Statuses are the Parliament's own German words. Cantonal parliaments and federal "
-              "popular votes are later phases."),
+              "Statuses are the Parliament's own German words. Federal popular votes are a "
+              "later phase; five cantonal parliaments are read since CH7 (the Cantons section)."),
+    extra_sections=cantons,
 )

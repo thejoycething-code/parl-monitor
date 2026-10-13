@@ -53,3 +53,22 @@ expedientes:
                       why: "Institutes 2 June as the national day of 'personas trabajadoras sexuales' (the sex-work-as-work position)."}
   "dip/3943-D-2026": {areas: [12],
                       why: "Penal Code: the buying and selling of children as an autonomous offence and as a form of trafficking."}
+
+# --- provincial legislatures (13 October 2026) ----------------------------------
+# Read by tools/ar_regions.py (docs/argentina-regions-scope.md), applied BY
+# KEY: '<legislature>:<the legislature's own number>' for a bill
+# ('caba:2563-D-2026', 'ba-dip:D-3281/26-27', 'cba:47972/L/26',
+# 'er-sen:34495') and '<province>/ley/<number>' for a law ('ba/ley/15625').
+# Seeded by the build from the first live read of 13 October 2026, the
+# clearest items on our ground in the CABA Legislatura; for Chris to review.
+provincial:
+  "caba:2563-D-2026": {areas: [4],
+                       why: "CABA: bans 'terapias de conversión' in the City (in the Mujeres, Géneros y Diversidades committee)."}
+  "caba:2686-E-2026": {areas: [6],
+                       why: "CABA, from the Executive: a minimum floor, transparency and a designated lead for Educación Sexual Integral in schools."}
+  "caba:2068-D-2026": {areas: [1],
+                       why: "CABA: a City programme of 'atención integral' for the interrupción voluntaria del embarazo (IVE)."}
+  "caba:2498-D-2026": {areas: [1, 9],
+                       why: "CABA: welcomes Argentina's adherence to the Geneva Consensus Declaration (companion to the national dip/4139-D-2026)."}
+  "caba:2565-D-2026": {areas: [1, 9],
+                       why: "CABA: repudiates the same adherence to the Geneva Consensus Declaration."}

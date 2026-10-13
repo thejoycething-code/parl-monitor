@@ -36,3 +36,24 @@ businesses:
              why: "Ip. 25.4726 Nigeria: more than 41,000 Christians killed."}
   20240026: {areas: [9],
              why: "BRG 24.026, the federal message on the popular initiative for marital-status-independent individual taxation and its indirect counter-proposal: the Swiss marriage-tax fight. CHRIS TO CONFIRM that individual taxation is our ground; 12 titles carry 'Individualbesteuerung' and none matched."}
+
+# --- the cantonal parliaments (CH7, 13 October 2026) ---------------------------
+# Acts of the cantonal parliaments read by tools/ch_cantons.py, by
+# ch_canton_acts key: '<canton>/<the canton's own number>' ('zh/376/2026',
+# 'be/2026.GRPARL.151', 'ge/M3137', 'vd/26_MOT_10', 'ti/134780'). Applied by
+# key, never by title (src/ch_store.canton_watch_areas).
+# Seeded 13 October 2026 from the first read (as decision 24 of
+# docs/country-parity-handover.md seeded the other regional lists: "Seed
+# from what's on our ground"): only acts on our ground that the language
+# lists missed. CHRIS TO REVIEW.
+cantons:
+  "ge/M3137": {areas: [3],
+               why: "Geneva motion for a moratorium on gender reassignment ('réassignation/conversion sexuelle') for minors; refused 23 January 2026. taxonomy-fr has 'réassignation sexuelle', not the slashed form."}
+  "ge/M3087": {areas: [3],
+               why: "Geneva motion to put gender-transition care ('soins de transition de genre') into highly specialised medicine; noted 4 September 2026. No French term for 'transition de genre'."}
+  "be/2023.RRGR.193": {areas: [3],
+                       why: "Bern interpellation on the misuse of the simplified change of legal sex ('Geschlechtsänderungen'). taxonomy-atch has 'Geschlechtsumwandlung', not 'Geschlechtsänderung'."}
+  "be/2024.RRGR.225": {areas: [5],
+                       why: "Bern interpellation on the gender asterisk and colon ('Genderstern/Doppelpunkt') in official documents."}
+  "be/2023.RRGR.109": {areas: [6],
+                       why: "Bern motion on preventing sexual exploitation through sex education ('Aufklärung') in schools."}

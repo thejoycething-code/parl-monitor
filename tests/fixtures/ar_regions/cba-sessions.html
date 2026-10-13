@@ -1,0 +1,1061 @@
+
+
+<!DOCTYPE html>
+
+<html>
+<head><meta charset="UTF-8" /><meta name="description" content="Medio de ingreso para los proyectos, notas, comunicaciones oficiales y pliegos a la Mesa de Entrada de Secretaría Legislativa de la Unicameral" /><meta name="keyword" content="Gestión,Legislativa,Digital,Legislatura,Provincia,Córdoba" /><meta name="author" content="Legislatura de la Provincia de Córdoba" /><meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><title>
+	Gestión Legislativa Digital
+</title><link rel="shortcut icon" href="../Images/favicon.ico" type="image/x-icon" />
+
+    
+    
+    <link rel="stylesheet" href="../Vendors/Bootstrap/bootstrap.min.css?1.37.1" />
+    
+    <link rel="stylesheet" href="../Vendors/Icons/font-awesome.min.css?1.37.1" />
+    
+    <link rel="stylesheet" href="../Vendors/Pace/pace.min.css?1.37.1">
+    
+    <link rel="stylesheet" href="../Vendors/SweetAlert2/sweetalert2.min.css?1.37.1">
+    
+    <link rel="stylesheet" href="../Vendors/ChecksRadios/checks-radios.css?1.37.1">
+    
+    <link rel="stylesheet" href="../Vendors/Select2/select2.min.css?1.37.1">
+    
+    <link rel="stylesheet" href="../Vendors/DatePicker/datepicker.min.css?1.37.1">
+    
+    <link rel="stylesheet" href="../Vendors/TimePicker/timepicker.min.css?1.37.1">
+    
+    <link rel="stylesheet" href="../Vendors/DataTables/datatables.min.css?1.37.1">
+    
+    <link rel="stylesheet" href="../Vendors/Switchery/switchery.min.css?1.37.1" />
+    
+    <link rel="stylesheet" href="../Content/Public.css?1.37.1">
+    
+    <style>
+    </style>
+
+    
+    
+    <script src="../Vendors/Pace/pace.min.js?1.37.1"></script>
+    
+    <script src="../Vendors/jQuery/jquery.min.js?1.37.1"></script>
+    
+    <script src="../Vendors/Bootstrap/bootstrap.min.js?1.37.1"></script>
+    
+    <script src="../Vendors/SweetAlert2/sweetalert2.min.js?1.37.1"></script>
+    
+    <script src="../Vendors/AutoNumeric/autonumeric.min.js?1.37.1"></script>
+    
+    <script src="../Vendors/Select2/select2.min.js?1.37.1"></script>
+    <script src="../Vendors/Select2/es.js?1.37.1"></script>
+    
+    <script src="../Vendors/DatePicker/datepicker.min.js?1.37.1"></script>
+    
+    <script src="../Vendors/TimePicker/timepicker.min.js?1.37.1"></script>
+    
+    <script src="../Vendors/DataTables/datatables.min.js?1.37.1"></script>
+    <script src="../Vendors/DataTables/plugins/buttons.html5.min.js?1.37.1"></script>
+    <script src="../Vendors/DataTables/plugins/buttons.print.min.js?1.37.1"></script>
+    <script src="../Vendors/DataTables/plugins/datatables.buttons.min.js?1.37.1"></script>
+    <script src="../Vendors/DataTables/plugins/jszip.min.js?1.37.1"></script>
+    
+    <script src="../Vendors/Switchery/switchery.min.js?1.37.1"></script>
+    
+    <script src="../Vendors/Mask/mask.min.js?1.37.1"></script>
+    
+    <script src="../Scripts/App.js?1.37.1"></script>
+    
+    <script>
+
+        var regionalSettings = {
+            DateFormat: "dd/MM/yyyy",
+            FirstWeekDay: 0,
+            MoneyDecimalDigits: 2,
+            MoneyDecimalSymbol: ",",
+            MoneyFillDecimalsWithZeros: true,
+            MoneyGroupSeparator: ".",
+            MoneyLeadZeros: false,
+            MoneySymbol: "AR$",
+            MoneySymbolPosition: "p",
+            NumericDecimalDigits: 2,
+            NumericDecimalSymbol: ",",
+            NumericFillDecimalsWithZeros: true,
+            NumericGroupSeparator: ".",
+            NumericLeadZeros: false,
+            ServerOffSet: 0,
+            TimeFormat: 24,
+            TimeZoneOffSet: -180
+        };
+
+        $(document).ready(function () {
+
+            // Evento de actualizacion de un UpdatePanel
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+            prm.add_endRequest(function () {
+
+                SetRegionalSettings(regionalSettings);
+
+            });
+
+            SetRegionalSettings(regionalSettings);
+        });
+    </script>
+
+    
+
+    
+    
+    <style>
+    </style>
+
+    
+    
+    <script>
+
+        function pageLoad() {
+            $('#mdlVer').off('show.bs.modal');
+            $('#mdlVer').on('show.bs.modal', function (e) {
+                $("#Body_HF_HTML").val($("#Body_UP_Ver").html());
+            });
+        }
+
+        function CopyLink(element) {
+            var dataLink = $(element).data("link");
+            console.log(dataLink);
+            navigator.clipboard.writeText(dataLink);
+
+            Swal.fire({
+                title: 'Enlace copiado',
+                type: 'success',
+                confirmButtonText: 'Aceptar',
+                timer: 1000
+            });
+        }
+    </script>
+</head>
+<body>
+
+    
+    <img id="img-logo-legislatura" class="d-none d-sm-block" src="../Images/Landing/logo-legislatura.svg" alt="Legislatura de la Provincia de Córdoba">
+    
+
+    <nav id="nav-bar" class="navbar sticky-top">
+
+        <a id="HL_Tiron" class="btn btn-info mr-4" href="http://datos.legiscba.gob.ar/biblioteca-virtual/">
+            Datos anteriores a
+            <b>
+            2021
+            </b>
+        </a>
+
+        <a class="btn btn-outline-dark" href="../Landing.aspx"><span>Inicio</span></a>
+    </nav>
+
+    <div class="container">
+        <form name="aspnetForm" method="post" action="./Asuntos.aspx" id="ctl02" autocomplete="off">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+
+
+<script src="/ScriptResource.axd?d=nnHyWnZ5bTPuYszCeiYmK_eeTlrLWHReLX6EdGxUbYAlnhCKCuTDz5_2GlRdYMBhQgd1TC3dL9wHuJc49FMsPdJyOV3GdVWilvQd6n9vRJ5XGc1xbVLH1fGx6eahTKKky2NdzXwfSw8BtWrI_nIRfLYDiCdHBc-JIHWHkBVS9Fo1&amp;t=ffffffffe6d5a9ac" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="A16EE2B9" />
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="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" />
+            
+
+            <header>
+                
+
+    <h5>
+        <span>Asuntos Entrados</span>
+    </h5>
+
+    <div id="Body_P_Filtros">
+	
+
+        <div class="row">
+
+            
+            <div id="Body_P_Camara" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 form-group">
+		
+                <span id="Body_L_Camara">Cámara</span>
+                <select name="ctl00$Body$DDL_Camara" id="Body_DDL_Camara" class="form-control select-single">
+			<option value="nNFzMzcYLBg=">Diputados</option>
+			<option value="SxihSaMsjBQ=">Senadores</option>
+			<option selected="selected" value="Zc2H83wA9Rw=">Poder Legislativo Unicameral</option>
+
+		</select>
+            
+	</div>
+
+            
+            <div id="Body_P_Periodo" class="col-xl-3 col-lg-3 col-md-3 col-sm-12 form-group">
+		
+                <span id="Body_L_Periodo">Período</span>
+                <select name="ctl00$Body$DDL_Periodo" id="Body_DDL_Periodo" class="form-control select-single">
+			<option selected="selected" value="zXbeKwXB5-s=">148 - A&#241;o: 2026</option>
+			<option value="QHBmzgtMdl0=">147 - A&#241;o: 2025</option>
+			<option value="gf38IAaP-1E=">146 - A&#241;o: 2024</option>
+			<option value="Jy6PKZOznAM=">145 - A&#241;o: 2023</option>
+			<option value="rhxtfSFoqEg=">144 - A&#241;o: 2022</option>
+			<option value="Kq-bM0mFHXo=">143 - A&#241;o: 2021</option>
+			<option value="SXXbCrdlN08=">142 - A&#241;o: 2020</option>
+			<option value="9y-vjYQWpDU=">141 - A&#241;o: 2019</option>
+			<option value="SN6UE-b_4-o=">140 - A&#241;o: 2018</option>
+			<option value="btHlXBmleY4=">139 - A&#241;o: 2017</option>
+			<option value="priE3DYWIek=">138 - A&#241;o: 2016</option>
+			<option value="o7wE1jQPimA=">137 - A&#241;o: 2015</option>
+			<option value="IISzCSxObi4=">136 - A&#241;o: 2014</option>
+			<option value="HyzvFJfkjgw=">135 - A&#241;o: 2013</option>
+			<option value="fATJVaLhlog=">134 - A&#241;o: 2012</option>
+			<option value="IzenJcKNxLY=">133 - A&#241;o: 2011</option>
+			<option value="57UrG-Xee54=">132 - A&#241;o: 2010</option>
+			<option value="KXHRUP9vva8=">131 - A&#241;o: 2009</option>
+			<option value="qizG_qnJH0w=">130 - A&#241;o: 2008</option>
+			<option value="ORzvofJ6yF4=">129 - A&#241;o: 2007</option>
+			<option value="5aTpKdkZ7Vc=">128 - A&#241;o: 2006</option>
+			<option value="6pHcN_GfMzI=">127 - A&#241;o: 2005</option>
+			<option value="4RVXc8Iwp_w=">126 - A&#241;o: 2004</option>
+			<option value="0ZRIEIuurWE=">125 - A&#241;o: 2003</option>
+			<option value="nZpmE4Fr-CY=">124 - A&#241;o: 2002</option>
+			<option value="3D54FEXKeEk=">123 - A&#241;o: 2001</option>
+
+		</select>
+            
+	</div>
+
+            
+            <div id="Body_P_Sesion" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 form-group">
+		
+                <span id="Body_L_Sesion">Sesión</span>
+                <div id="Body_ctl02">
+			
+                        <select name="ctl00$Body$DDL_Sesion" id="Body_DDL_Sesion" class="form-control select-single">
+				<option selected="selected" value="">Seleccione la sesi&#243;n legislativa</option>
+				<option value="gW-Us6BtpHU=">22 - 11/11/2026 - Ordinaria</option>
+				<option value="ggBCWCv4Io4=">21 - 04/11/2026 - Ordinaria</option>
+				<option value="GIdO1imClOg=">20 - 28/10/2026 - Ordinaria</option>
+				<option value="hKRPwJSRuNg=">19 - 21/10/2026 - Ordinaria</option>
+				<option value="dT2aAtkUvDU=">18 - 14/10/2026 - Ordinaria</option>
+				<option value="fLowkEu2HiM=">17 - 07/10/2026 - Ordinaria</option>
+				<option value="tz1E7KQn_Ys=">16 - 22/09/2026 - Ordinaria</option>
+				<option value="3y5E9ZLWk-0=">3 - 22/09/2026 - Especial</option>
+				<option value="IIE6dHRMoHE=">15 - 02/09/2026 - Ordinaria</option>
+				<option value="rJL3s8JnklE=">14 - 26/08/2026 - Ordinaria</option>
+				<option value="KRIoyrsRvRs=">13 - 12/08/2026 - Ordinaria</option>
+				<option value="qTgrpFB9LYo=">12 - 05/08/2026 - Ordinaria</option>
+				<option value="f7dcJJfWLoU=">11 - 08/07/2026 - Ordinaria</option>
+				<option value="Y0o7t1gaF28=">10 - 25/06/2026 - Ordinaria</option>
+				<option value="djAg5renvTQ=">9 - 10/06/2026 - Ordinaria</option>
+				<option value="K_Q5yvfdUi4=">8 - 28/05/2026 - Ordinaria</option>
+				<option value="JBD3qNFEjhY=">2 - 28/05/2026 - Especial</option>
+				<option value="kzMf7WHVdWM=">7 - 05/05/2026 - Ordinaria</option>
+				<option value="1QCuYviDpBY=">6 - 20/04/2026 - Ordinaria</option>
+				<option value="i891eCgQ-qI=">5 - 08/04/2026 - Ordinaria</option>
+				<option value="SgBuqkLB9RY=">1 - 26/03/2026 - Especial</option>
+				<option value="Wlb_pdVTAQc=">4 - 18/03/2026 - Ordinaria</option>
+				<option value="cECv_Pwoqvs=">3 - 05/03/2026 - Ordinaria</option>
+				<option value="CvM26LwPlas=">2 - 19/02/2026 - Ordinaria</option>
+				<option value="HvpRx34v-r8=">1 - 04/02/2026 - Ordinaria</option>
+				<option value="9Y_BJHSfp3w=">1 - 01/02/2026 - Apertura de Periodo Legislativo</option>
+				<option value="xzOKks49R6Y=">2 - 17/12/2025 - Preparatoria</option>
+
+			</select>
+                    
+		</div>
+            
+	</div>
+
+            
+            <div id="Body_P_Buscar" class="col-xl-2 col-lg-2 col-md-2 col-sm-12 form-group">
+		
+                <br />
+                <input type="submit" name="ctl00$Body$B_Buscar" value="Buscar" id="Body_B_Buscar" class="btn btn-primary w-100" />
+            
+	</div>
+        </div>
+    
+</div>
+
+    <div id="Body_P_Resultados" class="mt-3">
+	
+
+        <div id="Body_UP_Resultados">
+		
+
+                <div>
+			<table class="data-table show-buttons" cellspacing="0" rules="all" data-Order="2-asc" Border="0" border="1" id="Body_GV_Resultados" width="100%">
+				<tr>
+					<th scope="col">&nbsp;</th><th class="crypto-id-column" scope="col">#</th><th scope="col">C&#225;mara</th><th scope="col">Per&#237;odo</th><th scope="col">Sesi&#243;n</th><th scope="col">Tipo</th><th scope="col">Fecha</th><th class="text-center" scope="col">Enlace</th>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">40IZo5e99lI=</td><td>Unicameral</td><td>148</td><td>17</td><td>Ordinaria</td><td>07/10/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_0" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl02$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_0" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=40IZo5e99lI=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl02$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_0" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=40IZo5e99lI=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">FNJwqNWZm3Y=</td><td>Unicameral</td><td>148</td><td>16</td><td>Ordinaria</td><td>22/09/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_1" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl03$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_1" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=FNJwqNWZm3Y=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl03$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_1" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=FNJwqNWZm3Y=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">odRJfQm7rdk=</td><td>Unicameral</td><td>148</td><td>3</td><td>Especial</td><td>22/09/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_2" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl04$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_2" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=odRJfQm7rdk=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl04$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_2" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=odRJfQm7rdk=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">SeKyNVbxBw8=</td><td>Unicameral</td><td>148</td><td>15</td><td>Ordinaria</td><td>02/09/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_3" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl05$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_3" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=SeKyNVbxBw8=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl05$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_3" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=SeKyNVbxBw8=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">lW79jZPzvmw=</td><td>Unicameral</td><td>148</td><td>14</td><td>Ordinaria</td><td>26/08/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_4" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl06$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_4" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=lW79jZPzvmw=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl06$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_4" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=lW79jZPzvmw=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">X9-Az1nuIOo=</td><td>Unicameral</td><td>148</td><td>13</td><td>Ordinaria</td><td>12/08/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_5" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl07$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_5" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=X9-Az1nuIOo=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl07$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_5" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=X9-Az1nuIOo=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">14GNdM37niA=</td><td>Unicameral</td><td>148</td><td>12</td><td>Ordinaria</td><td>05/08/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_6" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl08$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_6" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=14GNdM37niA=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl08$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_6" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=14GNdM37niA=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">PbdH3VBZK-4=</td><td>Unicameral</td><td>148</td><td>11</td><td>Ordinaria</td><td>08/07/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_7" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl09$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_7" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=PbdH3VBZK-4=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl09$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_7" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=PbdH3VBZK-4=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">g4UxmTFTTPk=</td><td>Unicameral</td><td>148</td><td>10</td><td>Ordinaria</td><td>25/06/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_8" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl10$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_8" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=g4UxmTFTTPk=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl10$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_8" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=g4UxmTFTTPk=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">qR7nflaeajk=</td><td>Unicameral</td><td>148</td><td>9</td><td>Ordinaria</td><td>10/06/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_9" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl11$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_9" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=qR7nflaeajk=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl11$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_9" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=qR7nflaeajk=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">Put8LgPMkRI=</td><td>Unicameral</td><td>148</td><td>8</td><td>Ordinaria</td><td>28/05/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_10" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl12$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_10" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=Put8LgPMkRI=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl12$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_10" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=Put8LgPMkRI=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">BzZI96BfMyI=</td><td>Unicameral</td><td>148</td><td>2</td><td>Especial</td><td>28/05/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_11" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl13$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_11" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=BzZI96BfMyI=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl13$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_11" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=BzZI96BfMyI=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">EzQBxvJVV9c=</td><td>Unicameral</td><td>148</td><td>7</td><td>Ordinaria</td><td>05/05/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_12" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl14$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_12" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=EzQBxvJVV9c=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl14$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_12" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=EzQBxvJVV9c=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">pH2vAN9G27Q=</td><td>Unicameral</td><td>148</td><td>6</td><td>Ordinaria</td><td>20/04/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_13" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl15$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_13" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=pH2vAN9G27Q=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl15$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_13" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=pH2vAN9G27Q=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">JYF6CVKRM3A=</td><td>Unicameral</td><td>148</td><td>5</td><td>Ordinaria</td><td>08/04/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_14" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl16$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_14" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=JYF6CVKRM3A=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl16$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_14" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=JYF6CVKRM3A=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">umxD0gBdfzs=</td><td>Unicameral</td><td>148</td><td>1</td><td>Especial</td><td>26/03/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_15" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl17$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_15" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=umxD0gBdfzs=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl17$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_15" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=umxD0gBdfzs=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">IpArXdThrGQ=</td><td>Unicameral</td><td>148</td><td>4</td><td>Ordinaria</td><td>18/03/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_16" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl18$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_16" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=IpArXdThrGQ=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl18$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_16" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=IpArXdThrGQ=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">KffwCUV-u4s=</td><td>Unicameral</td><td>148</td><td>3</td><td>Ordinaria</td><td>05/03/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_17" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl19$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_17" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=KffwCUV-u4s=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl19$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_17" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=KffwCUV-u4s=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">UzOAqctst_w=</td><td>Unicameral</td><td>148</td><td>2</td><td>Ordinaria</td><td>19/02/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_18" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl20$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_18" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=UzOAqctst_w=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl20$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_18" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=UzOAqctst_w=</span>
+
+                            </td>
+				</tr><tr>
+					<td></td><td class="crypto-id-column">q_QhUUanP8A=</td><td>Unicameral</td><td>148</td><td>1</td><td>Ordinaria</td><td>04/02/2026                    </td><td class="text-center">
+                                <a id="Body_GV_Resultados_LB_VerAsuntoEntrado_19" title="Ver Asuntos Entrados" class="btn btn-primary btn-sm" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl21$LB_VerAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </a>
+
+                                <a onclick="CopyLink(this); return false;" id="Body_GV_Resultados_LB_LinkAsuntoEntrado_19" title="Copiar enlace" class="btn btn-primary btn-sm" data-link="https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=q_QhUUanP8A=" href="javascript:__doPostBack(&#39;ctl00$Body$GV_Resultados$ctl21$LB_LinkAsuntoEntrado&#39;,&#39;&#39;)">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </a>
+
+                                <span id="Body_GV_Resultados_L_LinkAsuntoEntrado_19" class="d-none">https://gld.legislaturacba.gob.ar/Publics/Asuntos.aspx?id=q_QhUUanP8A=</span>
+
+                            </td>
+				</tr>
+			</table>
+		</div>
+            
+	</div>
+    
+</div>
+
+    
+    <div class="row mt-3">
+        <div class="col-12 text-center text-secondary mb-3">
+            <small>
+                <span id="Body_L_Version">Versión 1.37.1</span>
+            </small>
+        </div>
+    </div>
+
+    
+    <div id="Body_UP_Dummy">
+
+</div>
+
+    
+    <div id="mdlVer" class="modal fade">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span>Asuntos Entrados</span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div id="Body_UP_Ver">
+	
+
+                            <table style="width: 100%;">
+                                <tbody>
+
+                                    
+                                    <tr>
+                                        <td>
+                                            <img id="Body_I_VerPortada" src="../Images/no-portada.jpg" border="0" style="width: 100%;" />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr>
+                                        <td>
+                                            <img id="Body_I_VerAutoridades" src="../Images/no-autoridades.jpg" border="0" style="width: 100%;" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <br />
+                                            <br />
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <h1>
+                                                <span id="Body_L_VerSesion">...</span>
+                                            </h1>
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <h2>
+                                                <span id="Body_L_VerPeriodo">...</span>
+                                            </h2>
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <h3>
+                                                <span id="Body_L_VerFecha">...</span>
+                                            </h3>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    
+                                    <tr id="tr1">
+                                        <td style="text-align: center;">
+                                            <h4>
+                                                <span>ASUNTOS ENTRADOS EN LA PRESENTE SESIÓN</span>
+                                            </h4>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr11">
+                                        <td style="text-align: center; font-size: 20pt;">
+                                            <h5>
+                                                <span>DE LAS COMUNICACIONES OFICIALES</span>
+                                            </h5>
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr111">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>NOTAS</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr111br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr112">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>PLIEGOS</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr112br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr113">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>COMUNICACIONES PARTICULARES</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr113br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr114">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>CUESTIONES DE PRIVILEGIO</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr114br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr115">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>OTRAS COMUNICACIONES</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr115br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr12">
+                                        <td style="text-align: center;">
+                                            <h5>
+                                                <span>DE LOS PROYECTOS PRESENTADOS</span>
+                                            </h5>
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr121">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>DE LOS SEÑORES LEGISLADORES</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr121br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr122">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>DEL PODER EJECUTIVO</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr122br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr123">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>INSTITUTO DE INICIATIVA POPULAR</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr123br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr13">
+                                        <td style="text-align: center;">
+                                            <h5>
+                                                <span>DE LOS DESPACHOS DE COMISIÓN</span>
+                                            </h5>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr13br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    
+                                    <tr id="tr2">
+                                        <td style="text-align: center;">
+                                            <h4>
+                                                <span>ASUNTOS ENTRADOS FUERA DE TÉRMINO (ART. 109 RI)</span>
+                                            </h4>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr21">
+                                        <td style="text-align: center;">
+                                            <h5>
+                                                <span>DE LAS COMUNICACIONES OFICIALES</span>
+                                            </h5>
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr211">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>NOTAS</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr211br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr212">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>PLIEGOS</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr212br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr213">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>COMUNICACIONES PARTICULARES</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr213br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr214">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>CUESTIONES DE PRIVILEGIO</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr214br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr215">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>OTRAS COMUNICACIONES</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr215br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr22">
+                                        <td style="text-align: center;">
+                                            <h5>
+                                                <span>DE LOS PROYECTOS PRESENTADOS</span>
+                                            </h5>
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr221">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>DE LOS SEÑORES LEGISLADORES</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr221br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr222">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>DEL PODER EJECUTIVO</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr222br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr223">
+                                        <td style="text-align: center;">
+                                            <h6>
+                                                <span>INSTITUTO DE INICIATIVA POPULAR</span>
+                                            </h6>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr223br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr id="tr23">
+                                        <td style="text-align: center;">
+                                            <h5>
+                                                <span>DE LOS DESPACHOS DE COMISIÓN</span>
+                                            </h5>
+                                        </td>
+                                    </tr>
+
+                                    
+
+                                    <tr id="tr23br">
+                                        <td>
+                                            <br />
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr>
+                                        <td>
+                                            <img id="Body_I_VerBloques" src="../Images/no-Bloques.jpg" border="0" style="width: 100%;" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            
+                            <input type="hidden" name="ctl00$Body$HF_HTML" id="Body_HF_HTML" />
+                        
+</div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" name="ctl00$Body$B_Close" value="Cerrar" onclick="return false;" id="Body_B_Close" class="btn btn-secondary" data-dismiss="modal" />
+
+                    <a onclick="setTimeout(function(){$(&#39;#working&#39;).hide();}, 3000);" id="Body_LB_SaveDOCX" class="btn btn-primary" href="javascript:__doPostBack(&#39;ctl00$Body$LB_SaveDOCX&#39;,&#39;&#39;)">
+                        <i class="fa fa-file-word-o" aria-hidden="true"></i>
+                        <span class="ml-1">Descargar .DOCX</span></a>
+
+                    <a onclick="setTimeout(function(){$(&#39;#working&#39;).hide();}, 3000);" id="Body_LB_SavePDF" class="btn btn-primary" href="javascript:__doPostBack(&#39;ctl00$Body$LB_SavePDF&#39;,&#39;&#39;)">
+                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                        <span class="ml-1">Descargar .PDF</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+            </header>
+        </form>
+    </div>
+</body>
+</html>

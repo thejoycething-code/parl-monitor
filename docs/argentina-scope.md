@@ -459,7 +459,10 @@ unescapes them.
    San Luis, Santa Fe) and 16 unicameral (Ciudad Autónoma de Buenos Aires,
    Chaco, Chubut, Córdoba, Formosa, Jujuy, La Pampa, La Rioja, Misiones,
    Neuquén, Río Negro, San Juan, Santa Cruz, Santiago del Estero,
-   Tierra del Fuego, Tucumán). Not probed.
+   Tierra del Fuego, Tucumán). **Built 13 October 2026** (branch
+   `regions-ar`, `docs/argentina-regions-scope.md`): all 24 jurisdictions'
+   laws through SAIJ, and bills from eight legislatures, as a "Provincial
+   legislatures" section of the edition.
 
 ## Shared files touched (for the merge of the 13 country branches)
 

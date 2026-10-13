@@ -35,13 +35,17 @@ procedural_votes:
 #     whose title opens with its name ('protección de datos personales' is
 #     a tier-2 free-speech term);
 #   - pipe organs and harmoniums in churches declared national heritage
-#     ('templo*').
+#     ('templo*');
+#   - the provincial layer (13 October 2026, tools/ar_regions.py): 'culto*'
+#     inside 'cultor' / 'cultora' (a Corrientes law honouring a chamamé
+#     "cultor y creador", SAIJ, 25 September 2026).
 exclude_titles:
   - 'comercio internacional y culto'
   - 'medidas fiscales paliativas'
   - '^(?!.*(eutanasi|muerte (digna|asistida|voluntaria)|terminar con la propia vida)).*(prevencion del suicidio|conductas suicidas)'
   - '^proteccion de datos personales\b'
   - '\borganos y armonios\b'
+  - '^(?!.*\b(culto|cultos|religios\w*|iglesia)\b).*\bcultor(a|es|as)?\b'
 
 # What may lead the edition, for an item that is not watched: a tier-1 term
 # in its own title (a register title IS the extracto), or two distinct terms
