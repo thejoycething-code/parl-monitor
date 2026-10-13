@@ -1070,3 +1070,40 @@ fortnightly GitHub job; no new Mini job), on a 15-minute clock.
   gazette's home page from the runner each run). The PNT/SIPOT sits behind
   a Cloudflare challenge; the SCJN recent-reforms page answered a server
   error on 12 October. Details in `docs/mexico-regions-scope.md`.
+
+## Regional layer: Australia's states and territories (13 October 2026)
+
+Branch `states-au`; everything measured is in
+`docs/australia-states-scope.md`. `tools/au_states.py`, a step of the
+Australia weekly (`jobs/au-weekly.sh`, after the debates, 5-minute budget),
+into the `aus_*` tables (`src/au_states_store.py`); the Australian edition
+has a "States and territories" section (`src/au_states_edition.py`) and the
+DM a line. English taxonomy plus `config/watchlist-au-states.yaml` by key.
+robots.txt asked at run time (`GuardedClient`, no exemptions).
+
+- **Covered (8 of 8, at different depths):** New South Wales in full from
+  the Parliament's Hansard API: bills with every stage dated by the sitting,
+  every division with each member's vote (708 divisions, 37,744 votes in
+  2025 and 2026), the question and result for divisions on our ground,
+  members named. Victoria (every bill with its stage, from the legislation
+  register's search backend), South Australia (every bill of the session
+  with its status, and members, from the Legislative Tracking system's
+  backend), the Northern Territory (bills by session with introduced and
+  passed dates), Queensland (bills as introduced and Acts, an Act settling
+  its bill), Tasmania (bill titles from the Parliament's search engine,
+  royal assents), Western Australia (Acts as passed only), the ACT (what
+  the register lists each week).
+- **Blocked:** the parliaments' own sites of NSW, Tasmania, the ACT and the
+  NT (Cloudflare challenge), Queensland and Western Australia (Azure WAF),
+  South Australia's Hansard search (Azure WAF challenge), the NSW and SA
+  legislation registers (Cloudflare). Never bypassed. So divisions only for
+  NSW; WA has no bills in passage; Tasmania's bills carry no stage; the
+  ACT's bill lists sit under a robots.txt-disallowed path.
+- **Phase 2:** Victorian and Tasmanian divisions from their reachable
+  Hansard/Votes search engines; South Australian motions; NSW member
+  parties (needed for party splits and 5CA).
+- **Waiting on Chris:** the seven-entry watchlist (three provisional), the
+  proposed vocabulary, and whether to ask the six parliaments to allow our
+  user agent.
+- **Mini:** nothing to install; the NSW backfill drains over three or four
+  Fridays with a [gap] line each until done.

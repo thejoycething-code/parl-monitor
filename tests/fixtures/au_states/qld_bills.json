@@ -1,0 +1,312 @@
+{
+ "data": [
+  {
+   "version.series.id": {
+    "__type__": "UniString",
+    "__value__": "699c55a0-8ef6-473f-8ca7-0e18fb76354e"
+   },
+   "version.desc.id": {
+    "__type__": "UniString",
+    "__value__": "3e96e2c3-919c-4788-8c86-a631385f6d38"
+   },
+   "parliament.no": {
+    "__type__": "UniString",
+    "__value__": "58"
+   },
+   "type": {
+    "__type__": "UniString",
+    "__value__": "act"
+   },
+   "id": {
+    "__type__": "UniString",
+    "__value__": "bill-2026-003"
+   },
+   "publication.date": "2026-02-10T00:00:00",
+   "otherRenditions": {
+    "filename": "B26_0003_Fighting_Antisemitism_and_Keeping_Guns_out_of_the_Hands_of_Terrorists_and_Criminals_Amendment_Bill_2026.pdf",
+    "mimetype": "ASMADE_PDF",
+    "filesize": {
+     "__type__": "Integer",
+     "__value__": 798996
+    }
+   },
+   "title": {
+    "__type__": "UniString",
+    "__value__": "Fighting Antisemitism and Keeping Guns out of the Hands of Terrorists and Criminals Amendment Bill 2026"
+   },
+   "title_v": {
+    "__type__": "UniString",
+    "__value__": "Fighting Antisemitism and Keeping Guns out of the Hands of Terrorists and Criminals Amendment Bill 2026"
+   },
+   "year": {
+    "__type__": "UniString",
+    "__value__": "2026"
+   },
+   "no": {
+    "__type__": "UniString",
+    "__value__": "3"
+   },
+   "print.type": {
+    "__type__": "UniString",
+    "__value__": "bill.first"
+   },
+   "repealed": {
+    "__type__": "UniString",
+    "__value__": "N"
+   },
+   "enabling.acts": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "indicative.reprints": [
+    {
+     "__type__": "UniString",
+     "__value__": "act-2000-005"
+    },
+    {
+     "__type__": "UniString",
+     "__value__": "act-1990-071"
+    },
+    {
+     "__type__": "UniString",
+     "__value__": "act-1992-048"
+    },
+    {
+     "__type__": "UniString",
+     "__value__": "act-1899-009"
+    }
+   ],
+   "enabling.acts.repeating": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "associated.docs": [
+    "bill.first.exp",
+    "bill.first.hrc"
+   ]
+  },
+  {
+   "version.series.id": {
+    "__type__": "UniString",
+    "__value__": "61d366a8-2627-4e96-9aea-003c5b539953"
+   },
+   "version.desc.id": {
+    "__type__": "UniString",
+    "__value__": "5aea9bf0-200a-4bba-9c3e-2a07913964cc"
+   },
+   "parliament.no": {
+    "__type__": "UniString",
+    "__value__": "58"
+   },
+   "type": {
+    "__type__": "UniString",
+    "__value__": "act"
+   },
+   "id": {
+    "__type__": "UniString",
+    "__value__": "bill-2025-079"
+   },
+   "publication.date": "2026-03-03T00:00:00",
+   "otherRenditions": {
+    "filename": "B25_0079_Expanding_Adult_Crime_Adult_Time_and_Taking_a_Strong_Stance_on_Drugs_and_Anti-Social_Behaviour_Amendment_Bill_2026.pdf",
+    "mimetype": "ASMADE_PDF",
+    "filesize": {
+     "__type__": "Integer",
+     "__value__": 698148
+    }
+   },
+   "title": {
+    "__type__": "UniString",
+    "__value__": "Expanding Adult Crime, Adult Time and Taking a Strong Stance on Drugs and Anti-Social Behaviour Amendment Bill 2026"
+   },
+   "title_v": {
+    "__type__": "UniString",
+    "__value__": "Expanding Adult Crime, Adult Time and Taking a Strong Stance on Drugs and Anti-Social Behaviour Amendment Bill 2026"
+   },
+   "year": {
+    "__type__": "UniString",
+    "__value__": "2026"
+   },
+   "no": {
+    "__type__": "UniString",
+    "__value__": "79"
+   },
+   "print.type": {
+    "__type__": "UniString",
+    "__value__": "bill.first"
+   },
+   "repealed": {
+    "__type__": "UniString",
+    "__value__": "N"
+   },
+   "enabling.acts": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "indicative.reprints": [
+    {
+     "__type__": "UniString",
+     "__value__": "act-1999-070"
+    },
+    {
+     "__type__": "UniString",
+     "__value__": "act-2000-005"
+    },
+    {
+     "__type__": "UniString",
+     "__value__": "act-1992-044"
+    }
+   ],
+   "enabling.acts.repeating": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "associated.docs": [
+    "bill.first.hrc",
+    "bill.first.exp"
+   ]
+  },
+  {
+   "version.series.id": {
+    "__type__": "UniString",
+    "__value__": "4e0904cf-055b-4d39-8d55-175632ba3d7c"
+   },
+   "version.desc.id": {
+    "__type__": "UniString",
+    "__value__": "c0864141-1878-43df-9d3d-61766d01aeed"
+   },
+   "parliament.no": {
+    "__type__": "UniString",
+    "__value__": "58"
+   },
+   "type": {
+    "__type__": "UniString",
+    "__value__": "act"
+   },
+   "id": {
+    "__type__": "UniString",
+    "__value__": "bill-2025-023"
+   },
+   "publication.date": "2026-02-11T00:00:00",
+   "otherRenditions": {
+    "filename": "B25_0023_Transport_Affordability_Amendment_Bill_2026.pdf",
+    "mimetype": "ASMADE_PDF",
+    "filesize": {
+     "__type__": "Integer",
+     "__value__": 378568
+    }
+   },
+   "title": {
+    "__type__": "UniString",
+    "__value__": "Transport Affordability Amendment Bill 2026"
+   },
+   "title_v": {
+    "__type__": "UniString",
+    "__value__": "Transport Affordability Amendment Bill 2026*"
+   },
+   "year": {
+    "__type__": "UniString",
+    "__value__": "2026"
+   },
+   "no": {
+    "__type__": "UniString",
+    "__value__": "23"
+   },
+   "print.type": {
+    "__type__": "UniString",
+    "__value__": "bill.first"
+   },
+   "repealed": {
+    "__type__": "UniString",
+    "__value__": "N"
+   },
+   "enabling.acts": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "enabling.acts.repeating": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "associated.docs": [
+    "bill.first.hrc",
+    "bill.first.exp"
+   ]
+  },
+  {
+   "version.series.id": {
+    "__type__": "UniString",
+    "__value__": "31d3da9e-3512-47d7-bd2c-199a52248c2b"
+   },
+   "version.desc.id": {
+    "__type__": "UniString",
+    "__value__": "b874aec7-e74a-4eec-98f8-f80c2aca0234"
+   },
+   "parliament.no": {
+    "__type__": "UniString",
+    "__value__": "58"
+   },
+   "type": {
+    "__type__": "UniString",
+    "__value__": "act"
+   },
+   "id": {
+    "__type__": "UniString",
+    "__value__": "bill-2025-067"
+   },
+   "publication.date": "2026-03-04T00:00:00",
+   "otherRenditions": {
+    "filename": "B25_0067_Criminal_Code_(Defence_of_Dwellings_and_Other_Premises-Castle_Law)_Amendment_Bill_2026.pdf",
+    "mimetype": "ASMADE_PDF",
+    "filesize": {
+     "__type__": "Integer",
+     "__value__": 315227
+    }
+   },
+   "title": {
+    "__type__": "UniString",
+    "__value__": "Criminal Code (Defence of Dwellings and Other Premises\u2014Castle Law) Amendment Bill 2026"
+   },
+   "title_v": {
+    "__type__": "UniString",
+    "__value__": "Criminal Code (Defence of Dwellings and Other Premises\u2014Castle Law) Amendment Bill 2026*"
+   },
+   "year": {
+    "__type__": "UniString",
+    "__value__": "2026"
+   },
+   "no": {
+    "__type__": "UniString",
+    "__value__": "67"
+   },
+   "print.type": {
+    "__type__": "UniString",
+    "__value__": "bill.first"
+   },
+   "repealed": {
+    "__type__": "UniString",
+    "__value__": "N"
+   },
+   "enabling.acts": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "enabling.acts.repeating": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "associated.docs": [
+    "bill.first.exp",
+    "bill.first.hrc"
+   ]
+  }
+ ],
+ "totalCount": {
+  "__type__": "Integer",
+  "__value__": 4
+ },
+ "filteredCount": {
+  "__type__": "Integer",
+  "__value__": 35
+ }
+}

@@ -1,0 +1,294 @@
+<hansard>
+  <hansard.header>
+    <date>2026-09-16T00:00:00+10:00</date>
+    <parliament.number>58</parliament.number>
+    <session.number>1</session.number>
+    <parliament.session.name>Fifty-Eighth Parliament, First Session (58-1)</parliament.session.name>
+    <chamber>Legislative Council</chamber>
+    <draft>true</draft>
+  </hansard.header>
+  <chamber.xscript>
+<fragment.text>
+<body>
+<p class="Normal-P" style="direction:ltr;unicode-bidi:normal;" xmlns="http://www.w3.org/1999/xhtml">
+          <span class="Normal-H">
+            <span class="OfficeUpper-H">The PRESIDENT:</span>  The question is that this bill be now read a second time.</span>
+        </p>
+        <p class="NormalBold-P" style="direction:ltr;unicode-bidi:normal;" xmlns="http://www.w3.org/1999/xhtml">
+          <span class="NormalBold-H">The House divided.</span>
+        </p>
+        <p class="DivisionSummary-H" style="&#xA;        text-align:" xmlns="http://www.w3.org/1999/xhtml">
+          <span>Ayes<span style="&#xA;          margin-left:26pt&#xA;        " />16</span>
+        </p>
+        <p class="DivisionSummary-H" style="&#xA;        text-align:" xmlns="http://www.w3.org/1999/xhtml">
+          <span>Noes<span style="&#xA;          margin-left:26pt&#xA;        " />21</span>
+        </p>
+        <p class="DivisionSummary-H" style="&#xA;        text-align:" xmlns="http://www.w3.org/1999/xhtml">
+          <span>Majority<span style="&#xA;          margin-left:26pt&#xA;        " />5</span>
+        </p>
+        <div align="center" xmlns="http://www.w3.org/1999/xhtml">
+          <table class="TableGrid-T" cellspacing="0" style="border-collapse:collapse;margin-left:;">
+            <tr class="-R" style="height:0;page-break-inside:avoid;">
+              <td class="-C" colspan="3" style="&#xA;    width:450.8pt&#xA;      ;&#xA;  vertical-align:middle;border-top:none windowtext 0pt;border-right:none windowtext 0pt;border-bottom:none windowtext 0pt;border-left:none windowtext 0pt;border-top:none windowtext 0pt;border-right:none windowtext 0pt;border-bottom:none windowtext 0pt;border-left:none windowtext 0pt;">
+                <p class="DivisionHeading-P" style="direction:ltr;unicode-bidi:normal;">
+                  <span class="DivisionHeading-H">AYES</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Banasiak</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Latham</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Overall</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Carter</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Lawrence</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Rath</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Donnelly</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Maclaren-Jones</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Roberts</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Fang</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Martin</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Ruddick (teller)</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Farlow (teller)</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Merton</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Tudehope</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Houssos</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  border-top:none windowtext 0pt;border-right:none windowtext 0pt;border-bottom:none windowtext 0pt;border-left:none windowtext 0pt;border-top:none windowtext 0pt;border-right:none windowtext 0pt;border-bottom:none windowtext 0pt;border-left:none windowtext 0pt;">
+                <p class="Normal-P" style="direction:ltr;unicode-bidi:normal;&#xA;          text-indent:0pt;&#xA;        ">
+                  <span class="Normal-H"> </span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  border-top:none windowtext 0pt;border-right:none windowtext 0pt;border-bottom:none windowtext 0pt;border-left:none windowtext 0pt;border-top:none windowtext 0pt;border-right:none windowtext 0pt;border-bottom:none windowtext 0pt;border-left:none windowtext 0pt;">
+                <p class="Normal-P" style="direction:ltr;unicode-bidi:normal;&#xA;          text-indent:0pt;&#xA;        ">
+                  <span class="Normal-H"> </span>
+                </p>
+              </td>
+            </tr>
+            <tr height="0">
+              <td style="&#xA;              margin:0;padding:0;border:none;width:150.25pt&#xA;      ;&#xA;            " />
+              <td style="&#xA;              margin:0;padding:0;border:none;width:150.25pt&#xA;      ;&#xA;            " />
+              <td style="&#xA;              margin:0;padding:0;border:none;width:150.3pt&#xA;      ;&#xA;            " />
+            </tr>
+          </table>
+        </div>
+        <p class="DivisionSpace-H" style="&#xA;        text-align:" xmlns="http://www.w3.org/1999/xhtml">
+          <span />
+        </p>
+        <div align="center" xmlns="http://www.w3.org/1999/xhtml">
+          <table class="TableGrid-T" cellspacing="0" style="border-collapse:collapse;margin-left:;">
+            <tr class="-R" style="height:0;page-break-inside:avoid;">
+              <td class="-C" colspan="3" style="&#xA;    width:450.8pt&#xA;      ;&#xA;  vertical-align:middle;border-top:none windowtext 0pt;border-right:none windowtext 0pt;border-bottom:none windowtext 0pt;border-left:none windowtext 0pt;border-top:none windowtext 0pt;border-right:none windowtext 0pt;border-bottom:none windowtext 0pt;border-left:none windowtext 0pt;">
+                <p class="DivisionHeading-P" style="direction:ltr;unicode-bidi:normal;">
+                  <span class="DivisionHeading-H">NOES</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Barrett</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Higginson</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Munro</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Boyd</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Hurst</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Murphy (teller)</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Buttigieg</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Jackson</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Nanva (teller)</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Cohn</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Kaine</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Primrose</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>D'Adam</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>MacDonald</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Sharpe</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Faehrmann</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Mitchell</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Suvaal</span>
+                </p>
+              </td>
+            </tr>
+            <tr class="-R" style="height:0;">
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Graham</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.25pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Moriarty</span>
+                </p>
+              </td>
+              <td class="-C" style="&#xA;    width:150.3pt&#xA;      ;&#xA;  ">
+                <p class="DivisionThreeColumn-H" style="&#xA;        text-align:">
+                  <span>Ward</span>
+                </p>
+              </td>
+            </tr>
+            <tr height="0">
+              <td style="&#xA;              margin:0;padding:0;border:none;width:150.25pt&#xA;      ;&#xA;            " />
+              <td style="&#xA;              margin:0;padding:0;border:none;width:150.25pt&#xA;      ;&#xA;            " />
+              <td style="&#xA;              margin:0;padding:0;border:none;width:150.3pt&#xA;      ;&#xA;            " />
+            </tr>
+          </table>
+        </div>
+        <p class="DivisionSpace-H" style="&#xA;        text-align:" xmlns="http://www.w3.org/1999/xhtml">
+          <span />
+        </p>
+        <p class="NormalBold-P" style="direction:ltr;unicode-bidi:normal;" xmlns="http://www.w3.org/1999/xhtml">
+          <span class="NormalBold-H">Motion negatived.</span>
+        </p>
+</body>
+</fragment.text>
+</chamber.xscript>
+</hansard>
