@@ -19,6 +19,9 @@ client code that fetches it.
 | UN GA session page | Session window (81st: 8 Sep 2026 – 7 Sep 2027) | Session number = year − 1945, derived not hardcoded. |
 | docs.un.org | Draft resolutions by symbol (`A/C.3/81/L.7`, `A/HRC/63/L.4`) | Needs `?direct=true`. Existence is decided by **content type**, not status: a missing symbol answers 200 with an HTML page. Range requests honoured, so a check costs 64 bytes — but ~10s each, which is server latency not transfer. |
 | UN Journal API | Third Committee meetings with times, official/informal | Base from `journal.un.org/assets/config.json`. `GlobalCalendar` is **POST** with `{locationValue, startDate, endDate, organs}` and **ISO datetimes** — plain dates return 400. Organ UUIDs from `AdvancedSearch/Organs` (3,495). |
+| UN Journal API, GA plenaries (13 Oct 2026) | General Assembly plenaries and high-level meetings, with each meeting's agenda and draft symbols | `GlobalCalendar` with the General Assembly organ (`9615d07d-d53c-e711-84fb-0050569f00b6`). A plenary's title is only a number, so `GET officials/<meeting id>` (headers `location`, `language`) is read for the agenda ("Global health and foreign policy - Item 129: Draft resolution (A/81/L.6)") and programme notes (which PGA letters announced it). About a week ahead. |
+| PGA letters (13 Oct 2026) | Every letter of the President of the General Assembly to member states, dated, with title, PDF and a summary page | `www.un.org/pga/81/documents/letters/` (the session number moves each September). Plain HTML; robots.txt allows it with Crawl-delay 10, honoured. Not challenged. Where plenary votes are announced first: the 7 October 2026 letter named the 12 October vote on the pandemic declaration. |
+| docs.un.org, GA plenary drafts (13 Oct 2026) | `A/81/L.n`, the series political declarations are adopted from | Same walk and first-page parse as `A/C.3/81/L.n`. A President's draft has no sponsor list; its title follows "submitted by the President". |
 
 ## Not available, with the reason
 
@@ -134,3 +137,20 @@ app bundle naming its own API, or a config file naming its base URL.
 `cf-mitigated` means a bot challenge — route around it, do not defeat it. 202
 with an empty body means blocked while looking successful. 503 with
 `Retry-After` means slow down, and is worth waiting for.
+
+## The 12 October 2026 miss, and the check log
+
+The General Assembly voted on the political declaration on pandemic
+prevention, preparedness and response on 12 October 2026 and the monitor
+said nothing: the GA calendar held only the session window, nothing read PGA
+letters, plenary drafts were never walked, the UN taxonomy lacked the
+health-sovereignty terms the parliamentary one has carried since v0.6, and UN
+output had been paused since 17 August. All four sources above now feed
+`tools/un_forward.py` and the UN DM, with first signs on our ground at the
+top (`src/un_signals.py`) and a check log on every run (`src/un_checks.py`):
+each source "read OK", "read but empty" or "could not read", with its newest
+item, so a source that could not be read is never mistaken for a quiet week.
+`tools/un_backtest.py` replays the archived responses and shows the draft (5
+October), the letter (7 October) and the plenary listing (8 October) leading
+the output before the vote.
+
