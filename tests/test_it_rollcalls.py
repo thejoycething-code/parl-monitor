@@ -317,8 +317,10 @@ class TestSchema(unittest.TestCase):
 
     def test_watchlist_keys_are_well_formed(self):
         import re
+        # National bills (19/C.123) and, since the regional section (#143,
+        # seeded 12 Oct 2026), regional acts (lom/XII/pdl-56, tn/XVII/at3007878).
         for key in it_store.watchlist():
-            self.assertRegex(key, r"^\d+/[CS]\.\d+(-[A-Z]+)?$")
+            self.assertRegex(key, r"^(\d+/[CS]\.\d+(-[A-Z]+)?|[a-z]{2,3}/[IVXL]+/[\w.-]+)$")
 
 
 if __name__ == "__main__":

@@ -284,6 +284,7 @@ names the client that is wrapped when it is not the collector's own.
 | hr_party_history | edoc.sabor.hr | scraper | yes | allowed |
 | hu_gazette | magyarkozlony.hu | scraper | yes | feed, listing, PDFs; allowed |
 | hu_karzat_backfill | api.github.com, raw.githubusercontent.com | API | no | our own repository |
+| it_senato_amendments | dati.senato.it/sparql, api.github.com, raw.githubusercontent.com | API | API | the Senate's AkomaNtosoBulkData repository (12 October 2026): git trees API and raw files; github.com's robots.txt sends programs to the API, both hosts answer 404 for robots.txt |
 | ie_debates, ie_questions | api.oireachtas.ie | API | no | |
 | ie_division_brief | api.oireachtas.ie, data.oireachtas.ie | API | no | |
 | ie_schedule | www.oireachtas.ie | scraper | yes | allowed |
@@ -304,6 +305,9 @@ names the client that is wrapped when it is not the collector's own.
 | us_record | www.govinfo.gov (metadata, content) | scraper | yes | allowed |
 | us_schedule | docs.house.gov, www.senate.gov | scraper | yes | allowed |
 | us_states | v3.openstates.org, data.openstates.org | API | no | |
+| us_states_legiscan | api.legiscan.com (keyed, optional) | API | no | legiscan.com itself answers a Cloudflare challenge: never bypassed |
+| us_states_direct | ftp.legis.state.tx.us/bills/ | API (FTP) | no | the Council's Acceptable Use notice asks data users to use the FTP; FTP has no robots.txt |
+| us_states_direct | www.kslegislature.gov/li/api/ (KLISS), downloads.leginfo.legislature.ca.gov | open data | yes | robots.txt 404 on both (no rules), 13 October 2026 |
 | ve_news | www.asambleanacional.gob.ve | scraper | yes | allowed |
 | ve_news_crawl, ve_probe | www.asambleanacional.gob.ve (and any probed URL) | scraper | yes (probe_refusal) | allowed |
 
