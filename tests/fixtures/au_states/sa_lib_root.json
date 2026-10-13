@@ -1,0 +1,45 @@
+{
+ "folderName": "Votes",
+ "serverRelativeUrl": "Votes",
+ "folderCount": 56,
+ "itemCount": 0,
+ "defaultFolder": "Parliament 54/Session 1",
+ "nextPage": "",
+ "pageCount": 0,
+ "folders": [
+  {
+   "folderName": "Parliament 54 (2018-2021)",
+   "serverRelativeUrl": "Parliament 54 (2018-2021)",
+   "folderCount": 2,
+   "itemCount": 0,
+   "defaultFolder": null,
+   "nextPage": null,
+   "pageCount": 0,
+   "folders": null,
+   "files": null
+  },
+  {
+   "folderName": "Parliament 55 (2022-2025)",
+   "serverRelativeUrl": "Parliament 55 (2022-2025)",
+   "folderCount": 1,
+   "itemCount": 0,
+   "defaultFolder": null,
+   "nextPage": null,
+   "pageCount": 0,
+   "folders": null,
+   "files": null
+  },
+  {
+   "folderName": "Parliament 56 (2026-)",
+   "serverRelativeUrl": "Parliament 56 (2026-)",
+   "folderCount": 1,
+   "itemCount": 0,
+   "defaultFolder": null,
+   "nextPage": null,
+   "pageCount": 0,
+   "folders": null,
+   "files": null
+  }
+ ],
+ "files": []
+}

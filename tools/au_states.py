@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Australia's states and territories: bills with their stage, Acts, and New
-South Wales' divisions and members, for the Australian edition.
+"""Australia's states and territories: bills with their stage, Acts, and
+divisions with every member's vote (New South Wales, Victoria, South
+Australia, Tasmania, the ACT), for the Australian edition.
 
     python3 tools/au_states.py                        # every source
     python3 tools/au_states.py --sources nsw,sa       # some of them
+    python3 tools/au_states.py --sources vic-votes    # one records source
     python3 tools/au_states.py --nsw-years 2023,2024  # read NSW further back
     python3 tools/au_states.py --reclassify           # re-derive areas, offline
     python3 tools/au_states.py --db /tmp/aus.db       # anywhere but the store
@@ -56,12 +58,39 @@ THE SOURCES, all keyless, all probed live from the laptop:
        bill with its serial number, introduced and passed dates and remarks.
        parliament.nt.gov.au is behind a Cloudflare challenge.
 
+DIVISIONS BEYOND NSW (13 October 2026, src/au_states_votes.py parses them):
+
+  vic-votes  www.parliament.vic.gov.au (the Parliament's own site answers
+       us): the House documents listing's JSON (/api/search/house-papers/,
+       what its page loads), then each sitting day's Votes and Proceedings
+       (Assembly) and Minutes of the Proceedings (Council) as Word files:
+       every division with every member's name.
+  sa-votes  the Parliament's document library backend
+       (dynamic-content-api.parliament.sa.gov.au, which its Votes and
+       Proceedings and Minutes pages embed): the latest Parliament's session
+       folder, then each day's PDF through the short-lived read-only link the
+       library hands every visitor. The Council's 56th-Parliament minutes
+       are not in the library yet; its latest folder (the 55th) is read.
+  tas-votes  search.parliament.tas.gov.au: the year's sitting days, then
+       the Hansard search for each day and each House's Word file, whose
+       divisions are tables (Ayes left, Noes right, pairs below).
+  act-votes  www.hansard.act.gov.au (the Assembly's Hansard site; robots.txt
+       allows everything): each sitting day's Hansard PDF; the pages with
+       'The Assembly voted' are read with their x positions (names in
+       columns).
+
+  Each record is read once (aus_hansard_days), newest first, a few a run;
+  members are keyed by the printed name ('vic:name:moira-deeming'), the
+  records carrying no IDs. Big files are not archived (archive=False).
+
 Not read, and why: every parliament site behind a challenge (NSW, Queensland,
-Western Australia, Tasmania, the ACT, the Northern Territory), South
-Australia's Hansard search (Azure WAF challenge), the NSW and South Australian
-legislation registers (Cloudflare and a 403). Divisions are built for New
-South Wales only; the others publish them in Hansard or Votes and Proceedings
-PDFs, or behind the challenges (scope doc, phase 2).
+Western Australia, Tasmania, the ACT, the Northern Territory), from GitHub's
+runners too (probe of 13 October 2026), South Australia's Hansard search
+(Azure WAF challenge), the NSW and South Australian legislation registers
+(Cloudflare and a 403). No divisions for Queensland, Western Australia or the
+Northern Territory: every record of them is behind the challenges, and
+Territory Stories (the NT Library's archive) disallows its PDFs in
+robots.txt. Every route tried is in the scope doc.
 
 CLASSIFICATION. The shared English taxonomy (config/taxonomy.yaml) on every
 title, plus config/watchlist-au-states.yaml applied by bill key, never by
@@ -96,7 +125,7 @@ import urllib.parse
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import au_states_store as aus, db, drain, filter as filt  # noqa: E402
+from src import au_states_store as aus, au_states_votes as votes, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
 from src.robots_guard import GuardedClient, RobotsRefused  # noqa: E402
 
@@ -107,6 +136,12 @@ HIDDEN_AREAS = (11,)   # migration: collated, never campaigned (repo-wide rule)
 BUDGET_S = drain.DEFAULT_S
 
 SOURCE_ORDER = ("nsw", "vic", "qld", "sa", "wa", "tas", "act", "nt")
+# Divisions beyond NSW (13 October 2026, src/au_states_votes.py): the official
+# records with each member's vote, on hosts that answer us.
+VOTES_ORDER = ("vic-votes", "sa-votes", "tas-votes", "act-votes")
+# A plain run reads the list sources, then the votes records, then NSW, whose
+# first backfill is the slow part and drains under the budget over weeks.
+DEFAULT_ORDER = ("vic", "qld", "sa", "wa", "tas", "act", "nt") + VOTES_ORDER + ("nsw",)
 
 # --- New South Wales ---
 NSW_API = "https://api.parliament.nsw.gov.au/api/hansard/search/"
@@ -143,9 +178,47 @@ ACT_BASE = "https://www.legislation.act.gov.au"
 NT_SESSIONS = "https://legislation.nt.gov.au/en/LegislationPortal/Bills/By-Session"
 NT_BASE = "https://legislation.nt.gov.au/"
 
+# --- Divisions beyond NSW: the official records (src/au_states_votes.py) ---
+# Victoria: the House documents database's listing (the JSON its page loads;
+# 865788 is the 'Minutes of the Houses' listing's page ID), then each day's
+# Votes and Proceedings (Assembly) and Minutes of the Proceedings (Council)
+# as Word files on the same host.
+VIC_PARL = "https://www.parliament.vic.gov.au"
+VIC_PAPERS = VIC_PARL + "/api/search/house-papers/865788?page={page}&pageSize=50&sortType=2"
+VIC_PAPER_KINDS = (("Votes and Proceedings", "Legislative Assembly"),
+                   ("Minutes of the Proceedings", "Legislative Council"))
+# South Australia: the Parliament's document library (the backend of the
+# library its Votes and Proceedings and Minutes pages embed): folders by
+# Parliament and session, each file a sitting day's PDF; a file's download
+# link is a short-lived read-only link the library hands every visitor.
+SA_DOCLIB = "https://dynamic-content-api.parliament.sa.gov.au/api/documentlibrary"
+SA_DOCLINK = ("https://dynamic-content-api.parliament.sa.gov.au/api/GetFileDownloadLink?"
+              "controlId={ctrl}&fileId={id}")
+SA_LIBRARIES = (("7", "House of Assembly"), ("2", "Legislative Council"))
+# Tasmania: each sitting day's Hansard (Word) for each House, found by the
+# Parliament's own search engine from the year's sitting days.
+TAS_SEARCH_BASE = "https://search.parliament.tas.gov.au"
+TAS_SITTINGS = TAS_SEARCH_BASE + "/search/quicksearch/{year}/sittingdays.html"
+TAS_SEARCH = TAS_SEARCH_BASE + "/Search/search/search?IW_FIELD_ADVANCE_PHRASE={phrase}&IW_DATABASE=Hansard&IW_SORT=-9"
+TAS_HOUSES = (("HA", "House of Assembly"), ("LC", "Legislative Council"))
+# The ACT: the Assembly's Hansard site, each sitting day's PDF.
+ACT_HANSARD = "https://www.hansard.act.gov.au/hansard/{assembly}/{year}/debates(PDF).htm"
+ACT_ASSEMBLY = "11th-assembly"   # elected 19 October 2024; the next election is October 2028
+# Records read per run, newest first; the backlog drains over weekly runs.
+VIC_VOTES_PER_RUN = 30
+SA_VOTES_PER_RUN = 8             # per House
+TAS_VOTES_PER_RUN = 8            # Word files of about 3 MB
+ACT_VOTES_PER_RUN = 4            # PDFs of about 1 MB
+VOTES_WINDOW_DAYS = 400          # how far back a first read goes
+TAS_WINDOW_DAYS = 180
+TAS_GIVE_UP_DAYS = 21            # a House with no Hansard this long after a sitting day did not sit
+CHAMBER_CODE = {"Legislative Assembly": "la", "Legislative Council": "lc", "House of Assembly": "ha"}
+
 # robots.txt Crawl-delays raise these where higher (src/robots_guard).
 HOST_THROTTLE = {"api.parliament.nsw.gov.au": 1.5, "www.legislation.act.gov.au": 10.0,
-                 "www.legislation.vic.gov.au": 2.0}
+                 "www.legislation.vic.gov.au": 2.0, "www.parliament.vic.gov.au": 2.0,
+                 "dynamic-content-api.parliament.sa.gov.au": 2.0,
+                 "search.parliament.tas.gov.au": 3.0, "www.hansard.act.gov.au": 2.0}
 
 
 # --- small helpers ------------------------------------------------------------
@@ -763,6 +836,24 @@ def parse_qld(data, acts=False):
     return out
 
 
+QLD_PASSED = "passed (third reading, as amended)"
+
+
+def pass_qld_bill(conn, b, today):
+    """A bill the register prints as passed: stage, status 'passed' (unless an
+    Act already settled it) and a dated event. Returns True when it moved."""
+    key = "qld:" + b["ext_id"]
+    row = conn.execute("SELECT stage, act_key FROM aus_bills WHERE bill_key=?", (key,)).fetchone()
+    if not row or row[0] == QLD_PASSED:
+        return False
+    date = b.get("introduced") or today
+    conn.execute("UPDATE aus_bills SET stage=?, stage_date=?, status=CASE WHEN act_key IS NULL "
+                 "THEN 'passed' ELSE status END WHERE bill_key=?", (QLD_PASSED, date, key))
+    conn.execute("INSERT OR IGNORE INTO aus_bill_events (bill_key, date, chamber, stage, source) "
+                 "VALUES (?,?,?,?,?)", (key, date, "Legislative Assembly", QLD_PASSED, "list"))
+    return True
+
+
 def qld_total(data):
     t = (data or {}).get("totalCount")
     return int(t.get("__value__") if isinstance(t, dict) else (t or 0))
@@ -803,6 +894,18 @@ def pull_qld(conn, client, today, tax):
     ours = sum(on_our_ground(store_bill(conn, tax, b, today, seed_b)[0]) for b in bills)
     for a in acts:
         store_act(conn, tax, a, today, seed_a)
+    # Bills as passed (the register's third-reading print, published when the
+    # Assembly amended a bill): passage dated before the Act appears.
+    for y in (year - 1, year):
+        try:
+            for data in _qld_fetch(client, 'Repealed=N AND PrintType="bill.third" AND ParliamentNo={0} '
+                                           'AND Year={1}?'.format(QLD_PARLIAMENT, y),
+                                   "qld-third-{0}".format(y)):
+                for b in parse_qld(data):
+                    pass_qld_bill(conn, b, today)
+        except FetchError as e:
+            _gap(conn, today, "Queensland bills as passed {0}: {1}".format(y, _cause(e)))
+            gaps += 1
     settled = settle_acts(conn, "qld", today)
     _read(conn, "qld-bills", today, len(bills), "ok" if bills else "empty")
     _read(conn, "qld-acts", today, len(acts), "ok" if acts else "empty")
@@ -1123,6 +1226,388 @@ def pull_nt(conn, client, today, tax):
     return len(bills), ours, 0
 
 
+# --- Divisions beyond NSW: the official records ---------------------------------------
+#
+# Each record is a sitting day of one House: Victoria's Votes and Proceedings
+# and Minutes, South Australia's Votes and Proceedings and Minutes, Tasmania's
+# Hansard, the ACT's Hansard. Each is read once (aus_hansard_days keeps the
+# record's ID per state, date and House) and its divisions stored like NSW's,
+# with every member's vote keyed by the name as printed
+# ('vic:name:brad-battin'): these records carry no member IDs.
+
+def _window_start(today, days=VOTES_WINDOW_DAYS):
+    return (datetime.date.fromisoformat(today) - datetime.timedelta(days=days)).isoformat()
+
+
+def _days_read(conn, state):
+    return {(d, c): t for d, c, t in conn.execute(
+        "SELECT date, chamber, toc_id FROM aus_hansard_days WHERE state=?", (state,)).fetchall()}
+
+
+def _mark_day(conn, state, date, chamber, doc_id, today, n):
+    conn.execute("INSERT INTO aus_hansard_days (state, date, chamber, toc_id, draft, read_on, topics) "
+                 "VALUES (?,?,?,?,?,?,?) ON CONFLICT(state, date, chamber) DO UPDATE SET "
+                 "toc_id=excluded.toc_id, read_on=excluded.read_on, topics=excluded.topics",
+                 (state, date, chamber, doc_id, None, today, n))
+
+
+def bill_index(conn, state):
+    """{folded bill name: bill_key} for matching a division's heading."""
+    out = {}
+    for key, title, introduced in conn.execute(
+            "SELECT bill_key, title, introduced FROM aus_bills WHERE state=? AND kind != 'motion' "
+            "ORDER BY COALESCE(introduced, '')", (state,)).fetchall():
+        name = bill_name(title)
+        if name:
+            out[name] = key
+    return out
+
+
+def store_vote_division(conn, tax, state, date, chamber, n, d, url, today, bills=None):
+    """Store one division parsed from an official record; returns 1 when it
+    is on our ground. The key is '<state>:<date>:<house>:<n>', n the
+    division's place in that day's record."""
+    ch = CHAMBER_CODE.get(chamber, slug(chamber))
+    dkey = "{0}:{1}:{2}:{3}".format(state, date, ch, n)
+    bills = bill_index(conn, state) if bills is None else bills
+    hit = bills.get(bill_name(d.get("heading"))) if d.get("heading") else None
+    keys = [hit] if hit else []
+    bill_areas = set()
+    for key in keys:
+        r = conn.execute("SELECT areas FROM aus_bills WHERE bill_key=?", (key,)).fetchone()
+        bill_areas |= set(json.loads(r[0] or "[]")) if r and r[0] else set()
+    own, terms, _tier = classify(tax, None, "" if keys else (d.get("heading") or ""),
+                                 d.get("question") or "")
+    areas = sorted(set(own or []) | bill_areas) if own is not None else None
+    heading = d.get("heading")
+    if hit:
+        heading = conn.execute("SELECT title FROM aus_bills WHERE bill_key=?", (hit,)).fetchone()[0]
+    conn.execute(
+        "INSERT INTO aus_divisions (division_key, state, chamber, date, topic_uid, heading, stage, "
+        "bill_keys, question, result, ayes, noes, pairs, url, areas, own_areas, matched_terms, "
+        "fragment_read, first_seen) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+        "ON CONFLICT(division_key) DO UPDATE SET heading=excluded.heading, bill_keys=excluded.bill_keys, "
+        "question=excluded.question, result=excluded.result, ayes=excluded.ayes, noes=excluded.noes, "
+        "pairs=excluded.pairs, url=excluded.url, areas=excluded.areas, own_areas=excluded.own_areas, "
+        "matched_terms=excluded.matched_terms, fragment_read=excluded.fragment_read",
+        (dkey, state, chamber, date, None, heading, None, aus.dumps(keys), d.get("question"),
+         d.get("result"), d.get("ayes"), d.get("noes"), d.get("pairs") or 0, url, _areas_sql(areas),
+         _areas_sql(own), aus.dumps(terms), today, today))
+    conn.execute("DELETE FROM aus_votes WHERE division_key=?", (dkey,))
+    for name, vote, teller in d.get("votes") or []:
+        mkey = "{0}:name:{1}".format(state, votes.name_key(name))
+        conn.execute("INSERT OR IGNORE INTO aus_votes (division_key, member_key, vote, teller) "
+                     "VALUES (?,?,?,?)", (dkey, mkey, vote, 1 if teller else 0))
+        conn.execute(
+            "INSERT INTO aus_members (member_key, state, name, electorate, chamber, first_seen, last_seen) "
+            "VALUES (?,?,?,?,?,?,?) ON CONFLICT(member_key) DO UPDATE SET "
+            "chamber=excluded.chamber, first_seen=MIN(aus_members.first_seen, excluded.first_seen), "
+            "last_seen=MAX(aus_members.last_seen, excluded.last_seen)",
+            (mkey, state, name, None, chamber, date, date))
+    q = d.get("question") or ""
+    if keys and READING.search(q) and votes.outcome_from_result(d.get("result")) == "negatived":
+        defeat_bills(conn, dkey, READING.search(q).group(1))
+    return 1 if on_our_ground(areas) else 0
+
+
+def _store_record(conn, tax, state, date, chamber, divisions, url, today, doc_id):
+    bills = bill_index(conn, state)
+    ours = sum(store_vote_division(conn, tax, state, date, chamber, n, d, url, today, bills)
+               for n, d in enumerate(divisions, 1))
+    _mark_day(conn, state, date, chamber, doc_id, today, len(divisions))
+    conn.commit()
+    return ours
+
+
+def _votes_read(conn, source, today, n, gaps):
+    _read(conn, source, today, n, "ok" if not gaps else ("gaps" if n else "failed: see gaps"))
+    conn.commit()
+
+
+# Victoria
+
+def parse_vic_papers(data, since):
+    """[(date, chamber, paper_id, docx url, title)] of the Votes and
+    Proceedings and Minutes in one listing page, dated on or after `since`;
+    and whether the page reached back past `since`."""
+    out, older = [], False
+    for h in ((data or {}).get("result") or {}).get("hits") or []:
+        title, cat = h.get("title") or "", h.get("category") or ""
+        date = votes.iso_dmy_words(h.get("meta"))
+        if not date:
+            continue
+        if date < since:
+            older = True
+            continue
+        chamber = next((c for k, c in VIC_PAPER_KINDS if title.startswith(k) and c == cat), None)
+        if not chamber:
+            continue
+        doc = next((b.get("href") for b in h.get("buttons") or [] if b.get("suffix") == "doc"), None)
+        if not doc:
+            continue
+        m = re.search(r"house-paper-(\d+)", doc)
+        out.append((date, chamber, "paper-" + (m.group(1) if m else slug(doc)),
+                    VIC_PARL + doc if doc.startswith("/") else doc, title))
+    return out, older
+
+
+def pull_vic_votes(conn, client, today, tax, budget):
+    """(records read, divisions, on our ground, gaps)."""
+    since, done = _window_start(today), _days_read(conn, "vic")
+    todo, gaps = [], 0
+    for page in range(1, 11):
+        try:
+            data = client.get_json(VIC_PAPERS.format(page=page), FEED, "vic-papers-{0}".format(page))
+        except FetchError as e:
+            _gap(conn, today, "Victoria Votes and Proceedings listing: {0}".format(_cause(e)))
+            gaps += 1
+            break
+        got, older = parse_vic_papers(data, since)
+        todo += [g for g in got if (g[0], g[1]) not in done]
+        if older or not got and not ((data or {}).get("result") or {}).get("hits"):
+            break
+    read = ndiv = ours = 0
+    for date, chamber, pid, url, title in sorted(todo, reverse=True)[:VIC_VOTES_PER_RUN]:
+        if budget.exhausted():
+            _gap(conn, today, "Victoria: time budget reached with {0} record(s) unread (read next "
+                              "run)".format(len(todo) - read))
+            gaps += 1
+            break
+        try:
+            raw = client.get_bytes(url, FEED, "vic-" + pid, archive=False)
+            divs = votes.parse_vic(votes.docx_paragraphs(raw))
+        except FetchError as e:
+            _gap(conn, today, "Victoria {0} {1}: {2}".format(chamber, date, _cause(e)))
+            gaps += 1
+            continue
+        except Exception as e:  # a damaged Word file
+            _gap(conn, today, "Victoria {0} {1}: unreadable ({2})".format(chamber, date, str(e)[:80]))
+            gaps += 1
+            continue
+        ours += _store_record(conn, tax, "vic", date, chamber, divs, url, today, pid)
+        read += 1
+        ndiv += len(divs)
+    if len(todo) > VIC_VOTES_PER_RUN:
+        print("  vic-votes: {0} record(s) wait for the next run".format(len(todo) - VIC_VOTES_PER_RUN))
+    _votes_read(conn, "vic-votes", today, read, gaps)
+    return read, ndiv, ours, gaps
+
+
+# South Australia
+
+def _sa_library(client, ctrl, folder, slug_):
+    body = json.dumps({"controlId": ctrl, "folderRelativeUrl": folder, "pageInfo": "",
+                       "pageSize": "100", "sortFolders": "asc", "sortFiles": "desc"})
+    return client.post_json(SA_DOCLIB, body, FEED, slug_)
+
+
+def sa_latest_folder(listing, word):
+    """The folder with the highest number after `word` ('Parliament 56
+    (2026-)', 'Session 1 (2026-)'), else None."""
+    best = None
+    for f in (listing or {}).get("folders") or []:
+        m = re.search(word + r"\s*0*(\d+)", f.get("folderName") or "")
+        if m and (best is None or int(m.group(1)) > best[0]):
+            best = (int(m.group(1)), f.get("serverRelativeUrl"))
+    return best[1] if best else None
+
+
+def sa_files(listing, since):
+    """[(date, file id, file name)] of a session folder's PDFs on or after `since`."""
+    out = []
+    for f in (listing or {}).get("files") or []:
+        date = votes.iso_dmy_words(f.get("fileName"))
+        if date and date >= since and (f.get("fileExtension") or "").lower() == ".pdf" and f.get("id"):
+            out.append((date, f["id"], f.get("fileName")))
+    return sorted(out, reverse=True)
+
+
+def pull_sa_votes(conn, client, today, tax, budget):
+    from src.prov_fetch import pdf_text
+    since, done = _window_start(today), _days_read(conn, "sa")
+    read = ndiv = ours = gaps = 0
+    for ctrl, chamber in SA_LIBRARIES:
+        try:
+            root = _sa_library(client, ctrl, "", "sa-lib-{0}".format(ctrl))
+            folder = sa_latest_folder(root, "Parliament")
+            listing = _sa_library(client, ctrl, folder, "sa-lib-{0}-p".format(ctrl)) if folder else None
+            session = sa_latest_folder(listing, "Session")
+            if session:
+                listing = _sa_library(client, ctrl, session, "sa-lib-{0}-s".format(ctrl))
+        except FetchError as e:
+            _gap(conn, today, "South Australia {0} records (document library): {1}".format(
+                chamber, _cause(e)))
+            gaps += 1
+            continue
+        files = [f for f in sa_files(listing, since) if (f[0], chamber) not in done]
+        for date, fid, name in files[:SA_VOTES_PER_RUN]:
+            if budget.exhausted():
+                _gap(conn, today, "South Australia {0}: time budget reached (read next run)".format(chamber))
+                gaps += 1
+                break
+            try:
+                link = client.get_json(SA_DOCLINK.format(ctrl=ctrl, id=fid), FEED, "sa-link-" + fid)
+                url = (link or {}).get("downloadLink")
+                if not url:
+                    raise ValueError("no download link")
+                divs = votes.parse_sa(pdf_text(client.get_bytes(url, FEED, "sa-" + fid, archive=False)))
+            except FetchError as e:
+                _gap(conn, today, "South Australia {0} {1}: {2}".format(chamber, date, _cause(e)))
+                gaps += 1
+                continue
+            except Exception as e:  # an unreadable PDF
+                _gap(conn, today, "South Australia {0} {1}: unreadable ({2})".format(
+                    chamber, date, str(e)[:80]))
+                gaps += 1
+                continue
+            # The stored link is the library's page, not the short-lived file link.
+            page = ("https://www.parliament.sa.gov.au/en/House-of-Assembly/Votes-and-Proceedings"
+                    if ctrl == "7" else
+                    "https://www.parliament.sa.gov.au/en/Legislative-Council/Minutes-of-the-Proceedings")
+            ours += _store_record(conn, tax, "sa", date, chamber, divs, page, today, fid)
+            read += 1
+            ndiv += len(divs)
+    _votes_read(conn, "sa-votes", today, read, gaps)
+    return read, ndiv, ours, gaps
+
+
+# Tasmania
+
+TAS_PHRASE = re.compile(r"IW_FIELD_ADVANCE_PHRASE=((?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|"
+                        r"Sunday)(?: |%20|\+)\d{1,2}(?: |%20|\+)[A-Za-z]+(?: |%20|\+)\d{4})")
+
+
+def parse_tas_sittings(text):
+    """{iso date: 'Thursday 10 September 2026'} from a year's sitting days."""
+    out = {}
+    for m in TAS_PHRASE.findall(text or ""):
+        phrase = urllib.parse.unquote_plus(m)
+        date = votes.iso_dmy_words(phrase)
+        if date:
+            out[date] = phrase
+    return out
+
+
+def parse_tas_results(text, phrase):
+    """{'HA' | 'LC': docx URL} for the day's Hansard of each House."""
+    out = {}
+    for href in re.findall(r'href="([^"]+?\.docx)"', text or ""):
+        href = html.unescape(href)
+        name = urllib.parse.unquote(href.rsplit("/", 1)[-1])[:-5]
+        for code, _c in TAS_HOUSES:
+            if name == "{0} {1}".format(code, phrase) and code not in out:
+                out[code] = urllib.parse.urljoin(TAS_SEARCH_BASE + "/", href)
+    return out
+
+
+def pull_tas_votes(conn, client, today, tax, budget):
+    since, done = _window_start(today, TAS_WINDOW_DAYS), _days_read(conn, "tas")
+    give_up = _window_start(today, TAS_GIVE_UP_DAYS)
+    days, gaps = {}, 0
+    for year in sorted({int(since[:4]), int(today[:4])}):
+        try:
+            days.update(parse_tas_sittings(client.get_text(TAS_SITTINGS.format(year=year), FEED,
+                                                           "tas-sittings-{0}".format(year))))
+        except FetchError as e:
+            _gap(conn, today, "Tasmania sitting days {0}: {1}".format(year, _cause(e)))
+            gaps += 1
+    read = ndiv = ours = 0
+    for date in sorted((d for d in days if since <= d < today), reverse=True):
+        want = [(code, ch) for code, ch in TAS_HOUSES if (date, ch) not in done]
+        if not want:
+            continue
+        if read >= TAS_VOTES_PER_RUN or budget.exhausted():
+            break
+        phrase = days[date]
+        try:
+            found = parse_tas_results(client.get_text(
+                TAS_SEARCH.format(phrase=urllib.parse.quote(phrase)), FEED, "tas-search-" + date), phrase)
+        except FetchError as e:
+            _gap(conn, today, "Tasmania Hansard search {0}: {1}".format(date, _cause(e)))
+            gaps += 1
+            continue
+        for code, chamber in want:
+            url = found.get(code)
+            if not url:
+                if date < give_up:   # that House did not sit, or never published the day
+                    _mark_day(conn, "tas", date, chamber, None, today, 0)
+                continue
+            try:
+                divs = votes.parse_tas(votes.docx_body(client.get_bytes(url, FEED, "tas-{0}-{1}".format(
+                    code, date), archive=False)))
+            except FetchError as e:
+                _gap(conn, today, "Tasmania {0} {1}: {2}".format(chamber, date, _cause(e)))
+                gaps += 1
+                continue
+            except Exception as e:
+                _gap(conn, today, "Tasmania {0} {1}: unreadable ({2})".format(chamber, date, str(e)[:80]))
+                gaps += 1
+                continue
+            # The search result's link carries a session ID; the stored link is the day's search.
+            ours += _store_record(conn, tax, "tas", date, chamber, divs,
+                                  TAS_SEARCH.format(phrase=urllib.parse.quote(phrase)), today,
+                                  "{0} {1}".format(code, phrase))
+            read += 1
+            ndiv += len(divs)
+        conn.commit()
+    _votes_read(conn, "tas-votes", today, read, gaps)
+    return read, ndiv, ours, gaps
+
+
+# The ACT
+
+def parse_act_list(text):
+    """[(iso date, pdf url)] from a year's Hansard (PDF) page."""
+    out = {}
+    for href, ymd in re.findall(r'href="([^"]*/PDF/t[A-Za-z]?(\d{6})\.pdf)"', text or ""):
+        date = "20{0}-{1}-{2}".format(ymd[:2], ymd[2:4], ymd[4:6])
+        out[date] = urllib.parse.urljoin("https://www.hansard.act.gov.au/", html.unescape(href))
+    return sorted(out.items(), reverse=True)
+
+
+def pull_act_votes(conn, client, today, tax, budget):
+    from src.prov_fetch import pdf_rows, pdf_text
+    since, done = _window_start(today), _days_read(conn, "act")
+    chamber, todo, gaps = "Legislative Assembly", [], 0
+    for year in sorted({int(since[:4]), int(today[:4])}, reverse=True):
+        try:
+            todo += [(d, u) for d, u in parse_act_list(client.get_text(
+                ACT_HANSARD.format(assembly=ACT_ASSEMBLY, year=year), FEED, "act-hansard-{0}".format(year)))
+                if since <= d <= today and (d, chamber) not in done]
+        except FetchError as e:
+            if "404" not in _cause(e):   # a year the Assembly has no page for yet
+                _gap(conn, today, "ACT Hansard list {0}: {1}".format(year, _cause(e)))
+                gaps += 1
+    read = ndiv = ours = 0
+    for date, url in sorted(todo, reverse=True)[:ACT_VOTES_PER_RUN]:
+        if budget.exhausted():
+            _gap(conn, today, "ACT Hansard: time budget reached (read next run)")
+            gaps += 1
+            break
+        try:
+            raw = client.get_bytes(url, FEED, "act-hansard-" + date, archive=False)
+            pages = pdf_text(raw).split("\n=====PAGE\n")
+            sel = votes.act_vote_pages(pages)
+            divs = votes.parse_act(pdf_rows(raw, pages=sel), sel) if sel else []
+        except FetchError as e:
+            _gap(conn, today, "ACT Hansard {0}: {1}".format(date, _cause(e)))
+            gaps += 1
+            continue
+        except Exception as e:
+            _gap(conn, today, "ACT Hansard {0}: unreadable ({1})".format(date, str(e)[:80]))
+            gaps += 1
+            continue
+        ours += _store_record(conn, tax, "act", date, chamber, divs, url, today, url.rsplit("/", 1)[-1])
+        read += 1
+        ndiv += len(divs)
+    _votes_read(conn, "act-votes", today, read, gaps)
+    return read, ndiv, ours, gaps
+
+
+VOTES_PULL = {"vic-votes": pull_vic_votes, "sa-votes": pull_sa_votes, "tas-votes": pull_tas_votes,
+              "act-votes": pull_act_votes}
+
+
 # --- reclassify ------------------------------------------------------------------------
 
 def reclassify(conn, tax, watch_path=None):
@@ -1157,7 +1642,7 @@ def reclassify(conn, tax, watch_path=None):
 
 def summary(conn):
     c = lambda sql: conn.execute(sql).fetchone()[0]  # noqa: E731
-    print("au-states store: {0} bill(s) and motion(s), {1} Act(s), {2} NSW division(s), "
+    print("au-states store: {0} bill(s) and motion(s), {1} Act(s), {2} division(s), "
           "{3} member(s)".format(c("SELECT COUNT(*) FROM aus_bills"), c("SELECT COUNT(*) FROM aus_acts"),
                                  c("SELECT COUNT(*) FROM aus_divisions"),
                                  c("SELECT COUNT(*) FROM aus_members")))
@@ -1210,6 +1695,10 @@ def run(conn, client, today, tax, budget, wanted, nsw_years_=None):
             elif src == "nt":
                 n, o, g = pull_nt(conn, client, today, tax)
                 print("au-states nt: {0} bill(s), {1} on our ground, {2} gap(s)".format(n, o, g))
+            elif src in VOTES_PULL:
+                r, d, o, g = VOTES_PULL[src](conn, client, today, tax, budget)
+                print("au-states {0}: {1} record(s) read, {2} division(s), {3} on our ground, {4} "
+                      "gap(s)".format(src, r, d, o, g))
         except RobotsRefused as e:
             _gap(conn, today, "{0}: {1}".format(src, e.reason))
             g = 1
@@ -1221,7 +1710,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"),
                     help="store path (default: the shared store)")
-    ap.add_argument("--sources", help="comma-separated: " + ",".join(SOURCE_ORDER))
+    ap.add_argument("--sources", help="comma-separated: " + ",".join(SOURCE_ORDER + VOTES_ORDER))
     ap.add_argument("--nsw-years", help="NSW Hansard years to read (default: this year and last)")
     ap.add_argument("--taxonomy", help="a taxonomy file (default config/taxonomy.yaml)")
     ap.add_argument("--reclassify", action="store_true",
@@ -1237,9 +1726,9 @@ def main(argv=None):
         summary(conn)
         conn.close()
         return 0
-    wanted = [s.strip() for s in args.sources.split(",")] if args.sources else list(SOURCE_ORDER)
+    wanted = [s.strip() for s in args.sources.split(",")] if args.sources else list(DEFAULT_ORDER)
     for src in wanted:
-        if src not in SOURCE_ORDER:
+        if src not in SOURCE_ORDER + VOTES_ORDER:
             print("au-states: unknown source {0!r}".format(src))
             return 1
     today = args.date or datetime.date.today().isoformat()

@@ -28,15 +28,21 @@ Tasmanian bill is keyed 'tas:<year>:<the title folded to a slug>'.
     or carry no stage (Western Australia, Tasmania, the ACT; Queensland's
     Acts settle its bills' passage). An Act whose title matches a stored
     bill marks that bill assented (`act_key`).
-  * aus_divisions and aus_votes: New South Wales only (its Hansard API
-    publishes every division with each member's ID). A division takes its
-    bills' areas; `own_areas` keeps its own words' match apart, as the
-    federal au_divisions does.
+  * aus_divisions and aus_votes: New South Wales (its Hansard API publishes
+    every division with each member's ID) and, from 13 October 2026,
+    Victoria, South Australia, Tasmania and the ACT (their Votes and
+    Proceedings, Minutes or Hansard records: names, no IDs, so those
+    members are keyed '<state>:name:<the name folded>'; `teller` is set). A
+    division takes its bills' areas; `own_areas` keeps its own words' match
+    apart, as the federal au_divisions does.
   * aus_members: New South Wales (every speaker the Hansard names, with the
     Parliament's member ID) and South Australia (the session's members from
-    the Legislative Tracking system). Names and electorates only; never a
-    spouse, never a private detail.
-  * aus_hansard_days: the New South Wales sitting-day contents read.
+    the Legislative Tracking system), and every member a Victorian, South
+    Australian, Tasmanian or ACT division names ('<state>:name:...').
+    Names and electorates only; never a spouse, never a private detail.
+  * aus_hansard_days: each sitting day's record read, per state and House
+    (NSW's contents documents; the other states' Votes and Proceedings,
+    Minutes or Hansard files, `toc_id` their ID, `topics` their divisions).
   * aus_reads: one row per source read, ok or not.
 
 AREAS. NULL means unclassified, '[]' classified and on nobody's ground. The

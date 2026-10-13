@@ -1,0 +1,146 @@
+{
+ "data": [
+  {
+   "version.series.id": {
+    "__type__": "UniString",
+    "__value__": "699c55a0-8ef6-473f-8ca7-0e18fb76354e"
+   },
+   "version.desc.id": {
+    "__type__": "UniString",
+    "__value__": "8ec66c13-05ee-4f8e-a476-eea6b1cb847e"
+   },
+   "parliament.no": {
+    "__type__": "UniString",
+    "__value__": "58"
+   },
+   "type": {
+    "__type__": "UniString",
+    "__value__": "act"
+   },
+   "id": {
+    "__type__": "UniString",
+    "__value__": "bill-2026-003"
+   },
+   "publication.date": "2026-03-05T00:00:00",
+   "otherRenditions": {
+    "filename": "B26_0003_Fighting_Antisemitism_and_Keeping_Guns_out_of_the_Hands_of_Terrorists_and_Criminals_Amendment_Bill_2026.pdf",
+    "mimetype": "ASMADE_PDF",
+    "filesize": {
+     "__type__": "Integer",
+     "__value__": 740098
+    }
+   },
+   "title": {
+    "__type__": "UniString",
+    "__value__": "Fighting Antisemitism and Keeping Guns out of the Hands of Terrorists and Criminals Amendment Bill 2026"
+   },
+   "title_v": {
+    "__type__": "UniString",
+    "__value__": "Fighting Antisemitism and Keeping Guns out of the Hands of Terrorists and Criminals Amendment Bill 2026"
+   },
+   "year": {
+    "__type__": "UniString",
+    "__value__": "2026"
+   },
+   "no": {
+    "__type__": "UniString",
+    "__value__": "3"
+   },
+   "print.type": {
+    "__type__": "UniString",
+    "__value__": "bill.third"
+   },
+   "repealed": {
+    "__type__": "UniString",
+    "__value__": "N"
+   },
+   "enabling.acts": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "enabling.acts.repeating": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "associated.docs": [
+    "bill.third.hrc",
+    "bill.third.exp"
+   ]
+  },
+  {
+   "version.series.id": {
+    "__type__": "UniString",
+    "__value__": "61d366a8-2627-4e96-9aea-003c5b539953"
+   },
+   "version.desc.id": {
+    "__type__": "UniString",
+    "__value__": "9d3edfbc-3e36-4dba-95b4-bbe54414cf8c"
+   },
+   "parliament.no": {
+    "__type__": "UniString",
+    "__value__": "58"
+   },
+   "type": {
+    "__type__": "UniString",
+    "__value__": "act"
+   },
+   "id": {
+    "__type__": "UniString",
+    "__value__": "bill-2025-079"
+   },
+   "publication.date": "2026-04-23T00:00:00",
+   "otherRenditions": {
+    "filename": "B25_0079_Expanding_Adult_Crime_Adult_Time_and_Taking_a_Strong_Stance_on_Drugs_and_Anti-Social_Behaviour_Amendment_Bill_2026.pdf",
+    "mimetype": "ASMADE_PDF",
+    "filesize": {
+     "__type__": "Integer",
+     "__value__": 623151
+    }
+   },
+   "title": {
+    "__type__": "UniString",
+    "__value__": "Expanding Adult Crime, Adult Time and Taking a Strong Stance on Drugs and Anti-Social Behaviour Amendment Bill 2026"
+   },
+   "title_v": {
+    "__type__": "UniString",
+    "__value__": "Expanding Adult Crime, Adult Time and Taking a Strong Stance on Drugs and Anti-Social Behaviour Amendment Bill 2026"
+   },
+   "year": {
+    "__type__": "UniString",
+    "__value__": "2026"
+   },
+   "no": {
+    "__type__": "UniString",
+    "__value__": "79"
+   },
+   "print.type": {
+    "__type__": "UniString",
+    "__value__": "bill.third"
+   },
+   "repealed": {
+    "__type__": "UniString",
+    "__value__": "N"
+   },
+   "enabling.acts": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "enabling.acts.repeating": {
+    "__type__": "UniString",
+    "__value__": ""
+   },
+   "associated.docs": [
+    "bill.third.hrc",
+    "bill.third.exp"
+   ]
+  }
+ ],
+ "totalCount": {
+  "__type__": "Integer",
+  "__value__": 2
+ },
+ "filteredCount": {
+  "__type__": "Integer",
+  "__value__": 2
+ }
+}
