@@ -419,6 +419,13 @@ FEEDS = [
     ("be_members", "last_seen", 7, 4, "Chamber members (Belgium weekly)"),
     ("be_dossiers", "last_seen", 7, 4, "Chamber dossier index (Belgium weekly)"),
     ("be_divisions", "last_seen", 31, 31, "Chamber recorded votes (Belgium weekly)"),
+    # Belgium's communities and regions (13 October 2026; tools/be_regions.py,
+    # a step of the Belgium weekly). MEASURED which re-stamp: the Flemish
+    # documents of the legislature, the Walloon publications and the Brussels
+    # dossier file are re-read whole every run, so ber_docs moves every week,
+    # recess included.
+    ("ber_docs", "last_seen", 7, 4,
+     "Flemish, Walloon, FWB, Brussels and COCOM parliaments' documents (Belgium weekly)"),
     # France (9 October 2026). MEASURED which re-stamp: every dossier and
     # every sitting deputy is re-read whole from the AN's nightly zips on
     # every run, recess included. Scrutins are written once, then re-read for
@@ -997,6 +1004,13 @@ AWAITING_FIRST_RUN.update({
 # is exactly how EU weekly stayed off the failure alert from the day it
 # was written, and how Member profiles was missing from this file.
 EXEMPT = {
+    # 13 October 2026: Belgium's regional members (tools/be_regions.py) are
+    # read in the same step as ber_docs, which is watched; the member lists
+    # are a side read (a failure there is a [gap] line of that step), so a
+    # stale ber_members is the same failure ber_docs already reports.
+    "ber_members": "read in the same step as ber_docs (watched): the Flemish and Walloon "
+                   "member lists are a side read of tools/be_regions.py, whose failure is "
+                   "already a gap line and shows as a stale ber_docs",
     # 11 October 2026: one row per petition per run (src/petitions.py), the
     # history behind "passed a threshold this week". Its parent,
     # country_petitions, is watched; a snapshot table that stopped moving
@@ -1333,6 +1347,10 @@ AWAITING_STEP_UNTIL = {
                   "weekly on merge; it fills on its first Saturday run"),
     "esr_laws": ("2026-10-18", "the Spanish regional step (tools/es_regions.py) joins the Spain "
                  "weekly on merge; it fills on its first Saturday run"),
+    # Belgium's communities and regions join the Belgium weekly (Saturdays
+    # 02:30) on merge, 13 October 2026: empty until its first Saturday run.
+    "ber_docs": ("2026-10-18", "the communities and regions step (tools/be_regions.py) joins "
+                 "the Belgium weekly on merge; it fills on its first Saturday run"),
 }
 
 

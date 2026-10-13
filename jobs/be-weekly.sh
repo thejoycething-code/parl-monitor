@@ -22,6 +22,10 @@
 # BE_PUBLISH=false the collector's exit code is passed straight through, so a
 # gap turns the GitHub step red and the failure alert hears of it.
 #
+# COMMUNITIES AND REGIONS (13 October 2026): tools/be_regions.py after the
+# collector reads the regional and community parliaments for the edition's
+# "Communities and regions" section (BE_RECLASSIFY re-applies the lists to them too).
+#
 # THE EDITION (10 October 2026): after the collector, the Belgian weekly
 # edition (tools/be_monitor.py, src/country_edition.py) is rendered to
 # editions/be-monitor-<date>.md and DMed to Chris alone. Once a day: an
@@ -39,12 +43,27 @@ if [ "${BE_RECLASSIFY:-}" = "true" ]; then
   python3 tools/country_petitions.py be --reclassify
   python3 tools/be_rollcalls.py --reclassify
   python3 tools/be_chamber.py --reclassify
+  python3 tools/be_regions.py --reclassify || echo "  [gap] the regional reclassify failed"
 fi
 rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-python3 tools/be_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS")" || rc=$?
+# The third argument keeps the communities and regions' 5 minutes (below) out of it.
+python3 tools/be_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" || rc=$?
+# The communities and regions (tools/be_regions.py, docs/belgium-regions-scope.md):
+# the Flemish, Walloon, French Community (FWB), Brussels and COCOM parliaments
+# into the ber_* tables, with the Flemish recorded votes, before the edition,
+# which shows them in a "Communities and regions" section of their own. About
+# 30 requests, 20 s on the laptop. Its failure (exit other than 0 or 3) is a
+# [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  r=0
+  python3 tools/be_regions.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" || r=$?
+  if [ "$r" -ne 0 ] && [ "$r" -ne 3 ]; then
+    echo "  [gap] the communities and regions step failed (exit $r); last week's documents stand"
+  fi
+fi
 # What was said and asked in the chamber (tools/be_chamber.py, parity layer 5):
 # time-boxed to what is left of the hour, never fatal, skipped on GitHub.
 bash tools/chamber_step.sh be "$SECONDS"

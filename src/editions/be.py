@@ -13,6 +13,19 @@ New dossiers are those deposited in the week (or first seen in it, once
 the store is older than the week); the Chamber's dossier pages carry no
 history, so there are no stage moves. Titles are the Chamber's Dutch, with
 its French beside it.
+
+COMMUNITIES AND REGIONS (13 October 2026): the documents of the Flemish,
+Walloon, French Community (FWB), Brussels and COCOM parliaments on our ground
+or watched (src/be_regions_store.py, tools/be_regions.py; watchlist-be.yaml,
+`regions`), and the Flemish Parliament's recorded votes on them with every
+member's position, in their own section after the Watchlist
+(Country.extra_sections), never mixed into the Chamber's. Education, youth,
+family allowances and health prevention are community matters, so EVRAS,
+gender in schools and family policy land here. A document is new in the
+week it was deposited; an older one whose status the source dates in the
+week (or a run first saw change) is a stage move. The German-speaking
+Community's parliament, COCOF and the VGC are not read; the Coverage section
+says why every week.
 """
 
 from __future__ import annotations
@@ -20,6 +33,7 @@ from __future__ import annotations
 import json
 
 from src import agenda
+from src import be_regions_store as ber
 from src import country_edition as ce
 
 HOST = "https://www.lachambre.be"
@@ -109,6 +123,122 @@ def items(conn, since, until, wl):
     return _dossiers(conn, since, until, wl) + _votes(conn, since, until, wl)
 
 
+# Our kinds (tools/be_regions.bill_kind) -> the framework's for a new document.
+REGION_KIND = {"bill": "new", "resolution": "new", "motion": "new", "concept": "new",
+               "petition": "petition", "question": "question"}
+REGION_WORDS = {"bill": "bill", "resolution": "resolution", "motion": "motion",
+                "concept": "concept note", "petition": "petition", "question": "question",
+                "other": "document"}
+HIDDEN = {11}
+
+
+def _region_ground(areas_raw, watched):
+    return watched or bool(set(ce.areas_of(areas_raw)) - HIDDEN)
+
+
+def region_doc_items(conn, since, until, wl):
+    out = []
+    got = ce.rows(conn, "SELECT * FROM ber_docs WHERE ({0}) OR ({1})".format(
+        ce.window_sql("date"), ce.window_sql("status_date")), (since, until, since, until))
+    for r in got:
+        w = r["doc_key"] in wl
+        if not _region_ground(r["areas"], w):
+            continue
+        fresh = bool(r["date"]) and since < r["date"] <= until
+        if fresh:
+            kind = REGION_KIND.get(r["kind"]) or ("new" if w else None)
+        else:
+            kind = "moved" if r["kind"] not in ("question",) else None
+        if not kind:
+            continue
+        date = r["date"] if fresh else r["status_date"]
+        house = ber.HOUSE.get(r["parliament"], r["parliament"])
+        what = r["doc_type"] or REGION_WORDS.get(r["kind"], "document")
+        take = "{0}: {1}".format(house, what[0].lower() + what[1:] if what else "document")
+        if r["number"]:
+            take += " {0}{1}".format(r["number"], " ({0})".format(r["session"])
+                                     if r["session"] else "")
+        if r["date"]:
+            take += "; deposited {0}".format(ce.long_date(ce.day(r["date"])))
+        if not fresh and r["status_date"]:
+            # the status itself is printed by the framework from `status`
+            take += "; status {0} {1}".format(
+                "first seen by us" if r["status_seen"] else "dated",
+                ce.long_date(ce.day(r["status_date"])))
+        if r["authors"]:
+            take += "; by {0}".format(ce.clip(r["authors"], 160))
+        lines = []
+        if r["title_alt"]:
+            lines.append("NL: *{0}*".format(ce.clip(r["title_alt"], 300)))
+        out.append(ce.item("be", kind, r["doc_key"], date, r["title"], ce.areas_of(r["areas"]),
+                           r["tier"], w, status=r["status"], url=r["url"], lines=lines,
+                           terms=r["matched_terms"], takeaway=take))
+    return out
+
+
+def region_vote_items(conn, since, until, wl):
+    out = []
+    for r in ce.rows(conn, "SELECT v.*, d.title AS d_title FROM ber_votes v LEFT JOIN ber_docs d "
+                           "ON d.doc_key = v.doc_key WHERE " + ce.window_sql("v.date"),
+                     (since, until)):
+        w = (r["doc_key"] or "") in wl
+        if not _region_ground(r["areas"], w):
+            continue
+        got = ce.rows(conn, "SELECT member_name, group_name, position FROM ber_positions "
+                            "WHERE vote_key=?", (r["vote_key"],))
+        pairs = [(v["member_name"], v["group_name"], v["position"]) for v in got]
+        result = None if r["adopted"] is None else ("aangenomen" if r["adopted"] else "verworpen")
+        lines = [ce.tally_line(r["yes"], r["no"], r["abstain"], result, "nominal vote")]
+        reb = ce.rebels(pairs) if pairs else None
+        if pairs:
+            lines.append(ce.split_line(ce.group_counts([(g, p) for _, g, p in pairs]),
+                                       "By group"))
+            lines.append(ce.members_line(len(pairs), reb,
+                                         "Groups are as the vote record prints them."))
+        house = ber.HOUSE.get(r["parliament"], r["parliament"])
+        out.append(ce.vote("be", r["vote_key"], r["date"], r["title"] or r["d_title"],
+                           ce.areas_of(r["areas"]), None, w, lines, url=r["url"],
+                           terms=r["matched_terms"],
+                           takeaway="{0}: plenary vote on {1}{2}".format(
+                               house, r["doc_key"],
+                               " ({0} matter)".format(r["matter"].lower()) if r["matter"] else ""),
+                           group=r["doc_key"], group_title=r["d_title"], final=True,
+                           watch_key=r["doc_key"], positions=pairs or None, rebels=reb))
+    return out
+
+
+def region_coverage(conn):
+    seen = ber.reads(conn)
+    read, never = [], []
+    for code in ber.READ:
+        r = seen.get(code)
+        if r and r[1]:
+            read.append("{0} {1}{2}".format(ber.NAMES[code], ce.short_date(r[1]),
+                                            "" if r[2] == r[1] else " (with a gap)"))
+        else:
+            never.append(ber.NAMES[code])
+    lines = ["Communities and regions read (last read): {0}.".format(", ".join(read) or "none yet")]
+    if never:
+        lines.append("Communities and regions not read yet: {0}.".format(", ".join(never)))
+    lines += ["{0}: partial; {1}.".format(ber.HOUSE[c], why) for c, why in sorted(ber.PARTIAL.items())]
+    lines += ["{0} not read: {1}.".format(ber.HOUSE[c], why) for c, why in sorted(ber.BLOCKED.items())]
+    lines.append("Of the community and regional parliaments only the Flemish Parliament "
+                 "publishes its recorded votes as data; the others print them in PDF reports, "
+                 "not read. Titles are classified with taxonomy-nl (Dutch) and taxonomy-fr "
+                 "(French) for Belgium.")
+    return lines
+
+
+def regions(conn, since, until, wl):
+    intro = ["The community and regional parliaments' own documents on our ground: education, "
+             "youth, family allowances, health prevention and culture are community matters, "
+             "so school sex education (EVRAS), gender in schools and family policy are decided "
+             "here. Titles verbatim (Brussels: French, with the Dutch beside it); Flemish "
+             "recorded votes with every member's position."]
+    got = region_doc_items(conn, since, until, wl) + region_vote_items(conn, since, until, wl)
+    return [("Communities and regions", intro, got, region_coverage(conn))]
+
+
 COUNTRY = ce.Country(
     cc="be", name="Belgium", chamber="Chamber of Representatives", language="Dutch (with the French)",
     taxonomies=(("taxonomy-nl.yaml", "be"), ("taxonomy-fr.yaml", "be")),
@@ -121,4 +251,5 @@ COUNTRY = ce.Country(
               "The week ahead is the Chamber's plenary and committee agendas (eMeeting), "
               "published about a week ahead.",
               "The Senate and written questions are not collected yet."),
+    extra_sections=regions,
 )

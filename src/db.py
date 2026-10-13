@@ -1712,6 +1712,13 @@ TABLES = (
     "be_sittings",
     "be_divisions",
     "be_votes",
+    # Belgium's community and regional parliaments (tools/be_regions.py, 13
+    # October 2026), created by src/be_regions_store.ensure_schema.
+    "ber_docs",
+    "ber_votes",
+    "ber_positions",
+    "ber_members",
+    "ber_reads",
     # France's Assemblee nationale (tools/fr_rollcalls.py), created by
     # src/fr_store.ensure_schema -- declared from day one.
     "fr_members",
@@ -2212,6 +2219,8 @@ def init_db(conn):
     ch_store.ensure_schema(conn)
     from src import be_store
     be_store.ensure_schema(conn)
+    from src import be_regions_store
+    be_regions_store.ensure_schema(conn)
     from src import fr_store
     fr_store.ensure_schema(conn)
     from src import pt_store
