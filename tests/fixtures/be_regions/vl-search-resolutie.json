@@ -1,0 +1,979 @@
+{
+"count": "6",
+"firstindex": "1",
+"lastindex": "6",
+"result": [
+{
+"id": "http://be.vlp.feed/2076292",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2076292",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "Platteau, Eva"
+},
+{
+"name": "indiener",
+"value": "Schauvliege, Mieke"
+},
+{
+"name": "indiener",
+"value": "Jaques, Bram"
+},
+{
+"name": "indiener",
+"value": "Vaneeckhout, Jeremie"
+},
+{
+"name": "indiener",
+"value": "Ben Chikha, Fourat"
+},
+{
+"name": "zittingsjaar",
+"value": "2026-2027"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "1004"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "onderwerp",
+"value": "over de afzonderlijke verkoop van de ambtswoning van de gouverneur in Hasselt en de omvorming van de bijbehorende tuin tot een publiek stadspark"
+},
+{
+"name": "aggregaat",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2076292"
+},
+{
+"name": "basisstuk",
+"value": "Voorstel van resolutie van Eva Platteau, Mieke Schauvliege, Bram Jaques, Jeremie Vaneeckhout en Fourat Ben Chikha over de afzonderlijke verkoop van de ambtswoning van de gouverneur in Hasselt en de om"
+},
+{
+"name": "status",
+"value": "verwezen naar commissie"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-10-08"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-10-08"
+},
+{
+"name": "initiatief",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-12T12:53:06Z"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/2076292"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Algemeen Beleid, Financiën, Begroting, Justitie en Onroerend Erfgoed"
+},
+{
+"name": "datum",
+"value": "2026-10-08"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Voorstel van resolutie over de afzonderlijke verkoop van de ambtswoning van de gouverneur in Hasselt en de omvorming van de bijbehorende tuin tot een publiek stadspark"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-10-08"
+},
+{
+"name": "aggregaattype",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "mimetype",
+"value": "text/plain"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/2071269/pfls/2368546",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2071269",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "Brusselmans, Filip"
+},
+{
+"name": "indiener",
+"value": "Van Opstal, Bart"
+},
+{
+"name": "indiener",
+"value": "Claesen, Mercina"
+},
+{
+"name": "indiener",
+"value": "Slootmans, Klaas"
+},
+{
+"name": "indiener",
+"value": "Van den Driessche, Freija"
+},
+{
+"name": "indiener",
+"value": "Lamont, Tom"
+},
+{
+"name": "indiener",
+"value": "Janssens, Chris"
+},
+{
+"name": "zittingsjaar",
+"value": "2026-2027"
+},
+{
+"name": "bodh",
+"value": "nieuwe status en nieuw document"
+},
+{
+"name": "nummer",
+"value": "994"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "documenttype",
+"value": "tekst"
+},
+{
+"name": "onderwerp",
+"value": "over de herziening van de besparingsprioriteiten binnen het cultuurbeleid en het uitstel van de beslissing in afwachting van een grondig parlementair debat"
+},
+{
+"name": "aggregaat",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2071269"
+},
+{
+"name": "themadatum",
+"value": "2026-10-06"
+},
+{
+"name": "basisstuk",
+"value": "Voorstel van resolutie van Filip Brusselmans, Bart Van Opstal, Mercina Claesen, Klaas Slootmans, Freija Van den Driessche, Tom Lamont en Chris Janssens over de herziening van de besparingsprioriteiten"
+},
+{
+"name": "status",
+"value": "te behandelen in commissie"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-10-12"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-10-02"
+},
+{
+"name": "initiatief",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-11T22:23:06Z"
+},
+{
+"name": "document",
+"value": "https://docs.vlaamsparlement.be/pfile?id=2368546"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/2071269"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Cultuur, Jeugd, Sport en Media"
+},
+{
+"name": "datum",
+"value": "2026-10-02"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Voorstel van resolutie over de herziening van de besparingsprioriteiten binnen het cultuurbeleid en het uitstel van de beslissing in afwachting van een grondig parlementair debat"
+},
+{
+"name": "thema",
+"value": "Cultuur"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-10-02"
+},
+{
+"name": "aggregaattype",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "mimetype",
+"value": "application/pdf"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/2048385/pfls/2337075",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2048385",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "Vaneeckhout, Jeremie"
+},
+{
+"name": "indiener",
+"value": "Schauvliege, Mieke"
+},
+{
+"name": "indiener",
+"value": "Buyst, Kim"
+},
+{
+"name": "indiener",
+"value": "Platteau, Eva"
+},
+{
+"name": "indiener",
+"value": "Naji, Nadia"
+},
+{
+"name": "indiener",
+"value": "Ben Chikha, Fourat"
+},
+{
+"name": "indiener",
+"value": "Jaques, Bram"
+},
+{
+"name": "zittingsjaar",
+"value": "2025-2026"
+},
+{
+"name": "bodh",
+"value": "nieuwe status en nieuw document"
+},
+{
+"name": "nummer",
+"value": "897"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "documenttype",
+"value": "tekst"
+},
+{
+"name": "onderwerp",
+"value": "over het waarborgen van zelfbeschikking en kwaliteitsvolle zorg voor vrouwen door de uitbreiding van de abortustermijn naar achttien weken"
+},
+{
+"name": "aggregaat",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/2048385"
+},
+{
+"name": "themadatum",
+"value": "2026-06-17"
+},
+{
+"name": "basisstuk",
+"value": "Voorstel van resolutie van Jeremie Vaneeckhout, Mieke Schauvliege, Kim Buyst, Eva Platteau, Nadia Naji, Fourat Ben Chikha en Bram Jaques over het waarborgen van zelfbeschikking en kwaliteitsvolle zorg"
+},
+{
+"name": "intervenant",
+"value": "Verduyckt, Kris"
+},
+{
+"name": "intervenant",
+"value": "Verduyckt, Kris"
+},
+{
+"name": "status",
+"value": "te behandelen in commissie"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-06-25"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-06-17"
+},
+{
+"name": "initiatief",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-07-02T03:15:07Z"
+},
+{
+"name": "document",
+"value": "https://docs.vlaamsparlement.be/pfile?id=2337075"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/2048385"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Welzijn, Volksgezondheid, Gezin, Armoedebestrijding en Gelijke Kansen"
+},
+{
+"name": "datum",
+"value": "2026-06-17"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Voorstel van resolutie over het waarborgen van zelfbeschikking en kwaliteitsvolle zorg voor vrouwen door de uitbreiding van de abortustermijn naar achttien weken"
+},
+{
+"name": "thema",
+"value": "Welzijn en Gezin"
+},
+{
+"name": "thema",
+"value": "Gezondheid"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-06-17"
+},
+{
+"name": "aggregaattype",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "mimetype",
+"value": "application/pdf"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/1998980/pfls/2286432",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/1998980",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "Vaneeckhout, Jeremie"
+},
+{
+"name": "indiener",
+"value": "Schauvliege, Mieke"
+},
+{
+"name": "indiener",
+"value": "Ben Chikha, Fourat"
+},
+{
+"name": "indiener",
+"value": "Platteau, Eva"
+},
+{
+"name": "indiener",
+"value": "Horch, Aimen"
+},
+{
+"name": "zittingsjaar",
+"value": "2025-2026"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "704"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "documenttype",
+"value": "tekst"
+},
+{
+"name": "onderwerp",
+"value": "over het afbouwplan van transnationale adoptie in Vlaanderen"
+},
+{
+"name": "aggregaat",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/1998980"
+},
+{
+"name": "themadatum",
+"value": "2026-02-23"
+},
+{
+"name": "basisstuk",
+"value": "Voorstel van resolutie van Jeremie Vaneeckhout, Mieke Schauvliege, Fourat Ben Chikha, Eva Platteau en Aimen Horch over het afbouwplan van transnationale adoptie in Vlaanderen"
+},
+{
+"name": "status",
+"value": "in behandeling in commissie"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-05-06"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-02-19"
+},
+{
+"name": "initiatief",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-05T11:53:06Z"
+},
+{
+"name": "verslaggever",
+"value": "Perdaens, Freya"
+},
+{
+"name": "document",
+"value": "https://docs.vlaamsparlement.be/pfile?id=2286432"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/1998980"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Welzijn, Volksgezondheid, Gezin, Armoedebestrijding en Gelijke Kansen"
+},
+{
+"name": "datum",
+"value": "2026-02-19"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Voorstel van resolutie over het afbouwplan van transnationale adoptie in Vlaanderen"
+},
+{
+"name": "thema",
+"value": "Welzijn en Gezin"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-02-19"
+},
+{
+"name": "aggregaattype",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "mimetype",
+"value": "application/pdf"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/1960322/pfls/2230261",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/1960322",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "Deckmyn, Johan"
+},
+{
+"name": "indiener",
+"value": "Slagmulder, Kristof"
+},
+{
+"name": "indiener",
+"value": "Erens, Frédéric"
+},
+{
+"name": "indiener",
+"value": "Verheyden, Wim"
+},
+{
+"name": "indiener",
+"value": "Slootmans, Klaas"
+},
+{
+"name": "indiener",
+"value": "Janssens, Chris"
+},
+{
+"name": "zittingsjaar",
+"value": "2025-2026"
+},
+{
+"name": "bodh",
+"value": "nieuwe status en nieuw document"
+},
+{
+"name": "nummer",
+"value": "552"
+},
+{
+"name": "statusdatum_plen_verworpen",
+"value": "2025-11-05"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "documenttype",
+"value": "tekst"
+},
+{
+"name": "onderwerp",
+"value": "over de humanitaire crisis en de vervolging van christenen in Soedan"
+},
+{
+"name": "aggregaat",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "statusdatum_plen_in_behandeling",
+"value": "2025-11-05"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/1960322"
+},
+{
+"name": "themadatum",
+"value": "2025-11-04"
+},
+{
+"name": "basisstuk",
+"value": "Voorstel van resolutie van Johan Deckmyn, Kristof Slagmulder, Frédéric Erens, Wim Verheyden, Klaas Slootmans en Chris Janssens over de humanitaire crisis en de vervolging van christenen in Soedan"
+},
+{
+"name": "intervenant",
+"value": "de Moor, Nicole"
+},
+{
+"name": "intervenant",
+"value": "Joosen, Sofie"
+},
+{
+"name": "intervenant",
+"value": "Maghroud, Nawal"
+},
+{
+"name": "intervenant",
+"value": "Pillen, Jasper"
+},
+{
+"name": "intervenant",
+"value": "D'Haese, Jos"
+},
+{
+"name": "intervenant",
+"value": "Naji, Nadia"
+},
+{
+"name": "intervenant",
+"value": "Joosen, Sofie"
+},
+{
+"name": "intervenant",
+"value": "D'Haese, Jos"
+},
+{
+"name": "intervenant",
+"value": "de Moor, Nicole"
+},
+{
+"name": "intervenant",
+"value": "Maghroud, Nawal"
+},
+{
+"name": "intervenant",
+"value": "Naji, Nadia"
+},
+{
+"name": "intervenant",
+"value": "Pillen, Jasper"
+},
+{
+"name": "status",
+"value": "verworpen in plenaire vergadering"
+},
+{
+"name": "publicatiedatum",
+"value": "2025-11-05"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2025-11-04"
+},
+{
+"name": "initiatief",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2025-11-20T10:07:08Z"
+},
+{
+"name": "document",
+"value": "https://docs.vlaamsparlement.be/pfile?id=2230261"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/1960322"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Buitenlands Beleid, Europese Aangelegenheden en Internationale Samenwerking"
+},
+{
+"name": "datum",
+"value": "2025-11-05"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Voorstel van resolutie over de humanitaire crisis en de vervolging van christenen in Soedan"
+},
+{
+"name": "thema",
+"value": "Buitenlands beleid"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2025-11-04"
+},
+{
+"name": "aggregaattype",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "mimetype",
+"value": "application/pdf"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/1889842/pfls/2143094",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/1889842",
+"metatags": {
+"metatag": [
+{
+"name": "indiener",
+"value": "Kasmi, M'Hamed"
+},
+{
+"name": "zittingsjaar",
+"value": "2024-2025"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "277"
+},
+{
+"name": "soort",
+"value": "PI"
+},
+{
+"name": "statusdatum_comm_verworpen",
+"value": "2025-04-29"
+},
+{
+"name": "documenttype",
+"value": "tekst"
+},
+{
+"name": "onderwerp",
+"value": "over de bescherming van academische vrijheid en internationale studenten"
+},
+{
+"name": "aggregaat",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/parlementaire-initiatieven/1889842"
+},
+{
+"name": "themadatum",
+"value": "2025-04-02"
+},
+{
+"name": "basisstuk",
+"value": "Voorstel van resolutie van M'Hamed Kasmi over de bescherming van academische vrijheid en internationale studenten"
+},
+{
+"name": "status",
+"value": "verworpen in commissie"
+},
+{
+"name": "publicatiedatum",
+"value": "2025-04-29"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2025-04-01"
+},
+{
+"name": "initiatief",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2025-10-10T18:21:07Z"
+},
+{
+"name": "verslaggever",
+"value": "Van Tendeloo, Kelly"
+},
+{
+"name": "document",
+"value": "https://docs.vlaamsparlement.be/pfile?id=2143094"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/pi/1889842"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Buitenlands Beleid, Europese Aangelegenheden en Internationale Samenwerking"
+},
+{
+"name": "datum",
+"value": "2025-04-29"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Voorstel van resolutie over de bescherming van academische vrijheid en internationale studenten"
+},
+{
+"name": "thema",
+"value": "Buitenlands beleid"
+},
+{
+"name": "thema",
+"value": "Onderwijs en Vorming"
+},
+{
+"name": "indienertype",
+"value": "parlementslid"
+},
+{
+"name": "eerstepublicatie",
+"value": "2025-04-01"
+},
+{
+"name": "aggregaattype",
+"value": "Voorstel van resolutie"
+},
+{
+"name": "mimetype",
+"value": "application/pdf"
+},
+{
+"name": "volgnummer",
+"value": "1"
+},
+{
+"name": "medeondertekenaars",
+"value": "N"
+}
+]
+}
+}
+]
+}

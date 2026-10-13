@@ -270,6 +270,9 @@ names the client that is wrapped when it is not the collector's own.
 | au_division_brief | data.openaustralia.org.au | API | no | API only (au_rollcalls.make_client) |
 | au_schedule | handbookapi.aph.gov.au, api.prod.legislation.gov.au | API | no | |
 | bo_questions | apisi.senado.gob.bo, diputados.gob.bo/wp-json | scraper | yes | allowed |
+| be_regions | ws.vlpar.be/e/opendata/, www.parlement-wallonie.be/opendata/ | API | API | the Flemish Parliament's open-data web services and the Walloon Parliament's documented Open Data (13 October 2026) |
+| be_regions | ws.vlpar.be/api/search/ | scraper | yes | the Flemish website's search route; robots.txt redirects to the host's access page (no rules) |
+| be_regions | www.parlement.brussels, www.pfwb.be | scraper | yes | the Brussels dossier file behind the website; the PFWB pages; both allowed |
 | ca_committee_reports | www.ourcommons.ca, www.parl.ca, sencanada.ca | scraper | yes | allowed (12 October 2026) |
 | ca_committees | www.ourcommons.ca, www.parl.ca | scraper | yes | allowed |
 | ca_senate_committees | sencanada.ca | scraper | yes | allowed (12 October 2026) |

@@ -317,7 +317,7 @@ publish seen".
 - Waiting for time: Spain's agendas, speeches and sweep fill from 23
   December when the XVI sits.
 - Regions built 12 October 2026 (Spain, Peru, Mexico, Austria, Italy; sections
-  below). Not yet built: Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
+  below); Belgium's communities and regions 13 October 2026. Not yet built: Africa (Kenya, Nigeria, Uganda: Chris's aim is Q1
   2027); a native read of each language's term list.
 
 ## What exists now
@@ -352,7 +352,7 @@ publish seen".
 | Debate report (report and social copy after a debate, DM for approval, canvas) | yes (`tools/debate_report.py`, one paid call) | no | no | no | **built** 11 Oct (`tools/country_debate_report.py`, `src/country_debatereport.py`, branch `ukp2-debate-report`, manual) for the five countries whose speeches we store: NL, CH, AT, FR, BE. English report from templates over the record (no paid AI): speakers on our ground with a verbatim source-language passage each, translations by a person or the free session judge (`--queue-out`/`--queue-in` via `tools/session_judge.sh`), the debated bill's votes (found by the reference in the title, `--item` or a debate pack) and the latest on the same ground with tallies, group splits and vote meanings; clip pack linked. AWAITING SIGN-OFF, no verdicts, until the readings shown are confirmed. DM to Chris alone; `--approve --by NAME` records approval against the files; `--publish` makes the canvas with the UK's code, shared with Chris alone (never a channel), rewritten in place on a re-run. Samples `docs/debate-report-samples/` |
 | Words since the last vote (`since_last_vote.py`) | yes | no | no | no | **built** 11 Oct (`tools/country_since_vote.py`, `src/country_since_vote.py`, branch `ukp2-since-last-vote`, manual) for the countries with speeches and votes: NL, CH, AT, FR, BE. Per area, each member's last recorded vote on it (watched or tier 1, procedure never) and their speeches since, with excerpts. Drift is named only once the vote's reading is CONFIRMED and a person or the free session judge has read the words (`--queue-out` / `--reads`, `read_by` required, a read goes stale when new words arrive); before that "awaiting sign-off", ranked by recency and volume. Group votes (NL shows of hands, AT) never name drift. Optional profile section: `tools/member_profiles.py <cc> --since-vote` (off in the weeklies). Samples `docs/since-vote-samples/` (CH, FR, BE; the published store holds no NL votes or speeches and no AT speeches yet) |
 | Health summary, Drive | health DM; briefs and debate footage on Drive | health DM | health DM | health DM | **built** 11 Oct (branch `ukp-health-drive`): the 07:30 health DM has one compact section per region (Europe, Latam) plus shared jobs, failed and stale jobs first, step gaps by step, editions behind, the countries' overdue sources (`src/country_health.py`); briefs as Sheets from the UK template and real debate packs on Drive under `Country editions/<Country>/` in the Automated Briefs shared drive, a step of the Sunday `editions-session-judge` (`tools/country_drive.py`, ledger `data/country-drive.json`, at most 30 new sheets a run) |
-| Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | Built 12 Oct 2026: Italy four councils (IT3), Austria seven Landtage (AT6), Spain all 17 via the BOE plus four bill lists, Peru 25 regions + Lima (PE4), Mexico 13 state congresses plus adopted decrees of 4 more from their official gazettes (SLP, Campeche, Durango, Querétaro); 13 Oct 2026: Argentina all 24 jurisdictions' laws via SAIJ plus eight legislatures' bills; Switzerland five cantons (CH7, 13 Oct: Zürich, Bern, Geneva, Vaud, Ticino; four open-data cantons refused by robots.txt); others later, per decisions |
+| Regional / state parliaments | devolved | Länder (part) | US states (in progress) | provinces | Built 12 Oct 2026: Italy four councils (IT3), Austria seven Landtage (AT6), Spain all 17 via the BOE plus four bill lists, Peru 25 regions + Lima (PE4), Mexico 13 state congresses plus adopted decrees of 4 more from their official gazettes (SLP, Campeche, Durango, Querétaro); 13 Oct 2026: Argentina all 24 jurisdictions' laws via SAIJ plus eight legislatures' bills; Switzerland five cantons (CH7, 13 Oct: Zürich, Bern, Geneva, Vaud, Ticino; four open-data cantons refused by robots.txt); Belgium's Flemish, Walloon, Brussels, COCOM and (in part) FWB parliaments, Flemish votes by member (German-speaking Community blocked); others later, per decisions |
 | Vote meanings (what a Yes and a No meant) | yes (`meaning_aye`/`meaning_no`, written by hand) | no | no | no | **built** 11 Oct (`src/vote_meanings.py`, `tools/vote_meanings.py`, branch `ukp-meanings`): every watched and tier-1 vote in the 21 countries with recorded votes, rules first, then the free session judge after the editions' scores within the same ~100 items a week; stored per division (`vote_meanings`); a person overrides in `config/vote-meanings-<cc>.yaml`; shown in editions, the Latam monitor, vote briefs, profiles, debate packs and the 5CA readings guides |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
@@ -854,6 +854,33 @@ Ticino's acts search (disallowed; the order of the day is read instead).
 smaller cantons. No canton read publishes member positions we can read.
 Waiting on Chris: the four Opendatasoft cantons (permission, exemption or
 leave), the seeded watchlist and four proposed terms.
+
+### 6a-bis. Regions -- Belgium's communities and regions BUILT 13 October 2026 (branch `regions-be`)
+
+`docs/belgium-regions-scope.md`. Education, youth, family allowances and
+health prevention are community matters, so EVRAS, gender in schools and
+family policy are decided here. `tools/be_regions.py` into `ber_docs`,
+`ber_votes`, `ber_positions`, `ber_members`, `ber_reads`
+(`src/be_regions_store.py`). Covered: the **Vlaams Parlement** from its open
+data (ws.vlpar.be: 899 documents of the legislature with dated statuses,
+recorded votes with every member's vote and fractie for documents on our
+ground, 124 members); the **Parlement de Wallonie** from its documented Open
+Data (505 documents, 75 members, name, group and constituency only); the
+**Brussels Parliament and the COCOM** from the dossier file its site loads
+(275 and 65 dossiers, French and Dutch titles); the **FWB** in part (its
+newest-documents page and plenary agendas: the full index is an Algolia
+search whose key is in the site code, not used). First read: 24 documents on
+our ground (Flanders 17: the 18-week abortion resolution, ending intercountry
+adoption, the persecution of Christians; Wallonia 2, Brussels 3, COCOM 2);
+taxonomy-nl and taxonomy-fr for `be`, each title against its own language.
+A "Communities and regions" section in the Belgian edition after the
+Watchlist; a step in `jobs/be-weekly.sh` (300 s budget, about 20 s); no new
+Mini job. A `regions` watchlist section, seeded with nine documents. Blocked:
+the **German-speaking Community** (pdg.be and ostbelgien sites answer a
+Cloudflare challenge, robots.txt included); not built: COCOF (script-only
+search), the VGC (PDFs), votes outside Flanders (PDF reports). Proposed for
+Chris (no taxonomy edited): `Groeipakket*`, `gezinsbijslag*`, `allocations
+familiales` (area 9, tier 2), EVRAS spelled out (area 6).
 
 ### 6b. Regions -- Peru BUILT 12 October 2026 (branch `regions-pe`, PE4)
 

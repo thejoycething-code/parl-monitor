@@ -1,0 +1,451 @@
+{
+"count": "4",
+"firstindex": "1",
+"lastindex": "4",
+"result": [
+{
+"id": "http://be.vlp.feed/2075563",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/verzoekschriften/2075563",
+"metatags": {
+"metatag": [
+{
+"name": "zittingsjaar",
+"value": "2026-2027"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "3"
+},
+{
+"name": "soort",
+"value": "VZS"
+},
+{
+"name": "onderwerp",
+"value": "over de afbouw/beperking van de leeftijdstoeslagen vóór kinderen geboren voor 1 januari 2019 in het Vlaams groeipakket"
+},
+{
+"name": "aggregaat",
+"value": "Advies of verslag van Rekenhof, Raad van State en andere"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/verzoekschriften/2075563"
+},
+{
+"name": "status",
+"value": "ingediend"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-10-08"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-10-08"
+},
+{
+"name": "initiatief",
+"value": "Verzoekschrift"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-08T08:53:06Z"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/vzs/2075563"
+},
+{
+"name": "datum",
+"value": "2026-10-08"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Verzoekschrift over de afbouw/beperking van de leeftijdstoeslagen vóór kinderen geboren voor 1 januari 2019 in het Vlaams groeipakket"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-10-08"
+},
+{
+"name": "aggregaattype",
+"value": "Verzoekschrift"
+},
+{
+"name": "mimetype",
+"value": "text/plain"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/2041097",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/verzoekschriften/2041097",
+"metatags": {
+"metatag": [
+{
+"name": "zittingsjaar",
+"value": "2025-2026"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "86"
+},
+{
+"name": "soort",
+"value": "VZS"
+},
+{
+"name": "onderwerp",
+"value": "tot parlementaire behandeling en bijsturing van de hervorming van de technische keuring van voertuigen vóór de definitieve goedkeuring (VR2026 2905 DOC.0554)"
+},
+{
+"name": "aggregaat",
+"value": "Advies of verslag van Rekenhof, Raad van State en andere"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/verzoekschriften/2041097"
+},
+{
+"name": "themadatum",
+"value": "2026-06-24"
+},
+{
+"name": "status",
+"value": "afgehandeld in commissie"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-10-08"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-06-03"
+},
+{
+"name": "initiatief",
+"value": "Verzoekschrift"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-08T13:53:07Z"
+},
+{
+"name": "verslaggever",
+"value": "Erens, Frédéric"
+},
+{
+"name": "verslaggever",
+"value": "Mertens, Sofie"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/vzs/2041097"
+},
+{
+"name": "statusdatum_comm_afgehandeld",
+"value": "2026-10-08"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Mobiliteit en Openbare Werken"
+},
+{
+"name": "datum",
+"value": "2026-10-08"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Verzoekschrift tot parlementaire behandeling en bijsturing van de hervorming van de technische keuring van voertuigen vóór de definitieve goedkeuring (VR2026 2905 DOC.0554)"
+},
+{
+"name": "thema",
+"value": "Mobiliteit en Verkeer"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-06-03"
+},
+{
+"name": "aggregaattype",
+"value": "Verzoekschrift"
+},
+{
+"name": "mimetype",
+"value": "text/plain"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/2070351",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/verzoekschriften/2070351",
+"metatags": {
+"metatag": [
+{
+"name": "zittingsjaar",
+"value": "2025-2026"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "149"
+},
+{
+"name": "soort",
+"value": "VZS"
+},
+{
+"name": "onderwerp",
+"value": "over kinderbijslag"
+},
+{
+"name": "aggregaat",
+"value": "Advies of verslag van Rekenhof, Raad van State en andere"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/verzoekschriften/2070351"
+},
+{
+"name": "themadatum",
+"value": "2026-10-07"
+},
+{
+"name": "status",
+"value": "verwezen naar commissie"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-09-29"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-09-27"
+},
+{
+"name": "initiatief",
+"value": "Verzoekschrift"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-10-07T07:53:07Z"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/vzs/2070351"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Welzijn, Volksgezondheid, Gezin, Armoedebestrijding en Gelijke Kansen"
+},
+{
+"name": "datum",
+"value": "2026-09-29"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Verzoekschrift over kinderbijslag"
+},
+{
+"name": "thema",
+"value": "Welzijn en Gezin"
+},
+{
+"name": "thema",
+"value": "Onderwijs en Vorming"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-09-27"
+},
+{
+"name": "aggregaattype",
+"value": "Verzoekschrift"
+},
+{
+"name": "mimetype",
+"value": "text/plain"
+}
+]
+}
+},
+{
+"id": "http://be.vlp.feed/1998528",
+"date": null,
+"mimetype": null,
+"index": "vp-engine",
+"rank": "0.0",
+"snippet": "",
+"title": null,
+"url": "https://www.vlaamsparlement.be/parlementaire-documenten/verzoekschriften/1998528",
+"metatags": {
+"metatag": [
+{
+"name": "zittingsjaar",
+"value": "2025-2026"
+},
+{
+"name": "bodh",
+"value": "nieuwe status"
+},
+{
+"name": "nummer",
+"value": "39"
+},
+{
+"name": "soort",
+"value": "VZS"
+},
+{
+"name": "onderwerp",
+"value": "over parlementair onderzoek naar illegale adopties"
+},
+{
+"name": "aggregaat",
+"value": "Advies of verslag van Rekenhof, Raad van State en andere"
+},
+{
+"name": "statusdatum_plen_in_behandeling",
+"value": "2026-07-15"
+},
+{
+"name": "displayurl",
+"value": "https://www.vlaamsparlement.be/parlementaire-documenten/verzoekschriften/1998528"
+},
+{
+"name": "themadatum",
+"value": "2026-02-17"
+},
+{
+"name": "status",
+"value": "afgehandeld in plenaire vergadering"
+},
+{
+"name": "publicatiedatum",
+"value": "2026-07-15"
+},
+{
+"name": "statusdatum_ingediend",
+"value": "2026-02-17"
+},
+{
+"name": "initiatief",
+"value": "Verzoekschrift"
+},
+{
+"name": "legislatuur",
+"value": "2024-2029"
+},
+{
+"name": "last_modified",
+"value": "2026-07-22T13:27:06Z"
+},
+{
+"name": "verslaggever",
+"value": "Smeyers, Sarah"
+},
+{
+"name": "verslaggever",
+"value": "Wouters, Suzy"
+},
+{
+"name": "opendata",
+"value": "http://ws.vlpar.be/e/opendata/vzs/1998528"
+},
+{
+"name": "statusdatum_comm_afgehandeld",
+"value": "2026-06-30"
+},
+{
+"name": "commissie",
+"value": "Commissie voor Welzijn, Volksgezondheid, Gezin, Armoedebestrijding en Gelijke Kansen"
+},
+{
+"name": "datum",
+"value": "2026-07-15"
+},
+{
+"name": "paginatype",
+"value": "Parlementair document"
+},
+{
+"name": "titel",
+"value": "Verzoekschrift over parlementair onderzoek naar illegale adopties"
+},
+{
+"name": "thema",
+"value": "Welzijn en Gezin"
+},
+{
+"name": "eerstepublicatie",
+"value": "2026-02-17"
+},
+{
+"name": "aggregaattype",
+"value": "Verzoekschrift"
+},
+{
+"name": "mimetype",
+"value": "text/plain"
+}
+]
+}
+}
+]
+}

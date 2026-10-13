@@ -62,3 +62,22 @@ dossiers:
   "56/1112": {areas: [10], why: "Medically assisted procreation and supernumerary embryos: a special procedure for egg donation."}
   # --- 12 Prostitution, trafficking and sexual exploitation ----------------
   "56/109": {areas: [12], why: "Evaluation of the 2022 legal framework on prostitution (article 433quater/8 of the Penal Code), after decriminalisation."}
+
+# COMMUNITIES AND REGIONS (13 October 2026; tools/be_regions.py,
+# src/be_regions_store.watchlist). Keyed by the regional parliament's own
+# document number, never a title: 'vl/<zittingsjaar>/<stuk>',
+# 'pw/<session>/<doc>', 'fwb/<session>/<doc>', 'bru/24-29/<A-n>',
+# 'cocom/24-29/<B-n>'. Seeded from the first read's documents on our ground,
+# each read by title, as the other regional watchlists were (decision 24,
+# docs/country-parity-handover.md: "Seed from what's on our ground"). The
+# federal Chamber's dossiers stay under `dossiers`.
+regions:
+  "vl/2025-2026/897": {areas: [1], why: "Flemish resolution to extend the abortion time limit to 18 weeks (Groen); to be dealt with in committee."}
+  "vl/2024-2025/232": {areas: [1], why: "Flemish decree bill on youth care for the unborn child and expectant parents (integrale jeugdhulp): recognition of the unborn child in care law."}
+  "vl/2025-2026/763": {areas: [9], why: "Flemish resolution for the definitive end of intercountry adoption; in committee."}
+  "vl/2025-2026/704": {areas: [9], why: "Flemish resolution on the plan to wind down transnational adoption; in committee."}
+  "vl/2025-2026/552": {areas: [8], why: "Flemish resolution on the persecution of Christians in Sudan (Vlaams Belang); rejected in plenary 5 November 2025, 27-91. A text CitizenGO would SUPPORT."}
+  "vl/2025-2026/594": {areas: [8], why: "Flemish decree bill amending the recognition decree for local faith communities (financial viability as a recognition criterion)."}
+  "pw/2024-2025/227": {areas: [8], why: "Walloon decree bill on the recognised religions (cultes) in the local democracy code."}
+  "bru/24-29/A-8": {areas: [8], why: "Brussels ordinance bill banning ritual slaughter without stunning."}
+  "cocom/24-29/B-39": {areas: [9], why: "COCOM resolution that 'a child is a child' in Brussels family allowances, without discrimination."}

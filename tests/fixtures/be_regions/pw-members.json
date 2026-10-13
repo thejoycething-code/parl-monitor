@@ -1,0 +1,118 @@
+{
+"deputes_infos": {
+"dep_count": "75"
+},
+"deputes": [
+{
+"dep_id": "3676",
+"dep_nomcomplet": "AIT ALOUHA Rachida",
+"dep_nom": "AIT ALOUHA",
+"dep_prenom": "Rachida",
+"dep_civ": "F",
+"dep_parti": "Indépendant",
+"dep_circons": "Liège",
+"dep_province": "Liège",
+"dep_adresse_postale": {
+"dep_adresse": "REDACTED street",
+"dep_cp": "0000",
+"dep_localite": "REDACTED"
+},
+"dep_tel": "000",
+"dep_fax": null,
+"dep_email": "redacted@example.invalid",
+"dep_url": null,
+"dep_social_nt": {
+"dep_facebook": "https://example.invalid/redacted",
+"dep_twitter": null,
+"dep_instagram": null
+},
+"dep_presidentgroupe": "non",
+"dep_mandat_seance_pleniere": "Membre effectif",
+"dep_membre_bureau": "non",
+"dep_fonction_bureau": null,
+"dep_ordre_bureau": "0",
+"dep_membre_bureau_elargi": "non",
+"dep_fonction_bureau_elargi": null,
+"dep_ordre_bureau_elargi": "0",
+"dep_membre_conf_pres": "non",
+"dep_fonction_conf_pres": null,
+"dep_ordre_conf_pres": "0",
+"dep_siege": "D020",
+"dep_photo": "https://nautilus.parlement-wallon.be/Archives/Photos/deputes/officiel/3676.jpg"
+},
+{
+"dep_id": "3677",
+"dep_nomcomplet": "AMMI Jamila",
+"dep_nom": "AMMI",
+"dep_prenom": "Jamila",
+"dep_civ": "F",
+"dep_parti": "PTB",
+"dep_circons": "Charleroi-Thuin",
+"dep_province": "Hainaut",
+"dep_adresse_postale": {
+"dep_adresse": "REDACTED street",
+"dep_cp": "0000",
+"dep_localite": "REDACTED"
+},
+"dep_tel": "000",
+"dep_fax": null,
+"dep_email": "redacted@example.invalid",
+"dep_url": null,
+"dep_social_nt": {
+"dep_facebook": "https://example.invalid/redacted",
+"dep_twitter": null,
+"dep_instagram": null
+},
+"dep_presidentgroupe": "non",
+"dep_mandat_seance_pleniere": "Membre effectif",
+"dep_membre_bureau": "non",
+"dep_fonction_bureau": null,
+"dep_ordre_bureau": "0",
+"dep_membre_bureau_elargi": "non",
+"dep_fonction_bureau_elargi": null,
+"dep_ordre_bureau_elargi": "0",
+"dep_membre_conf_pres": "non",
+"dep_fonction_conf_pres": null,
+"dep_ordre_conf_pres": "0",
+"dep_siege": "D040",
+"dep_photo": "https://nautilus.parlement-wallon.be/Archives/Photos/deputes/officiel/3677.jpg"
+},
+{
+"dep_id": "3174",
+"dep_nomcomplet": "BASTIN Christophe",
+"dep_nom": "BASTIN",
+"dep_prenom": "Christophe",
+"dep_civ": "M",
+"dep_parti": "Les Engagés",
+"dep_circons": "Dinant-Philippeville",
+"dep_province": "Namur",
+"dep_adresse_postale": {
+"dep_adresse": "REDACTED street",
+"dep_cp": "0000",
+"dep_localite": "REDACTED"
+},
+"dep_tel": "000",
+"dep_fax": null,
+"dep_email": "redacted@example.invalid",
+"dep_url": "https://www.christophebastin.be",
+"dep_social_nt": {
+"dep_facebook": "https://example.invalid/redacted",
+"dep_twitter": null,
+"dep_instagram": null
+},
+"dep_presidentgroupe": "non",
+"dep_mandat_seance_pleniere": "Membre effectif",
+"dep_membre_bureau": "non",
+"dep_fonction_bureau": null,
+"dep_ordre_bureau": "0",
+"dep_membre_bureau_elargi": "non",
+"dep_fonction_bureau_elargi": null,
+"dep_ordre_bureau_elargi": "0",
+"dep_membre_conf_pres": "non",
+"dep_fonction_conf_pres": null,
+"dep_ordre_conf_pres": "0",
+"dep_siege": "D070",
+"dep_photo": "https://nautilus.parlement-wallon.be/Archives/Photos/deputes/officiel/3174.jpg"
+}
+]
+}
