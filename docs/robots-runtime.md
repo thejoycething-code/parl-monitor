@@ -158,9 +158,30 @@ had begun answering `302` to `documents.un.org/api/symbol/access`, a path
 * A client nothing has registered on (a documented API's) follows redirects
   exactly as before.
 
-Tests: `tests/test_robots_redirects.py`. The read-only scan of configured
-source URLs run the same day is in the PR (#see git log) and in
-docs/un-sources.md for the UN.
+A robots.txt read follows its own redirects unasked (RFC 9309): the first
+live scan hung on a robots.txt that redirected to a login page, because the
+guard asked robots.txt about that hop, recursively.
+
+Tests: `tests/test_robots_redirects.py`.
+
+**Read-only scan, 13 October 2026.** Every `https://` URL literal in `src/`,
+`tools/` and `config/` (392 hosts; one URL per host and two-segment path
+prefix, at most 12 per host, `{...}` templates cut at the placeholder), each
+fetched once as a 1-byte ranged GET through `guard()` with the honest
+User-Agent: 416 read, 209 errors (mostly the cut templates answering 404),
+38 refused on the first URL (already refused before this change), and 6
+refused on a redirect hop:
+
+| URL | Redirect | Effect on collectors |
+|---|---|---|
+| `docs.un.org/en/<symbol>?direct=true` (scanned separately) | `documents.un.org/api/symbol/access` (`Disallow: /api`) | UN drafts and HRC session reports: could not read (docs/un-sources.md) |
+| `www.ourcommons.ca/Content/House/`, `/DocumentViewer/en/`, `/petitions/en/Petition/Details?Petition=`; `www.parl.ca/legisinfo/en/bill/` | a missing page redirects to `/ErrorPage/Default.aspx?...StatusCode=404`, which robots.txt disallows | only pages that do not exist: on a guarded client (`tools/ca_committees.py`, `ca_senate_committees.py`, `ca_committee_reports.py`) such a miss is now a `RobotsRefused` gap naming the ErrorPage instead of the error page; real pages are unaffected. `tools/ca_hansard.py` (an unguarded client, which detects its frontier by a 404) is unchanged |
+| `datos.hcdn.gob.ar/api/` (the bare base) | `http://datos.hcdn.gob.ar/api` (robots.txt answered 500) | none: the collectors' real paths (`/api/3/action/...`) do not redirect |
+| `www.abgeordnetenwatch.de/api/v2` (no slash) | `/api/v2/`, which robots.txt **disallows** (`Disallow: /api/v2/`) | none from the redirect (the real URLs carry the slash), but note: robots.txt disallows the whole API that `tools/de_rollcalls.py` and `tools/de_profiles.py` read, unguarded. Raised with Chris, not changed here |
+
+Also seen: `www.nrsr.sk` redirects some https URLs to plain `http://`; the
+hop is asked of robots.txt like any other, but a downgrade is not refused as
+such (outside this change).
 
 ## Patient robots.txt reads
 
