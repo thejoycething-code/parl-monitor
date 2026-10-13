@@ -52,6 +52,10 @@ ROUTES = (
     ("transparencialegislativa.al.rn.leg.br/elegis-api-transp-legislativa/processo?", "rn_processos.json"),
     ("dadosabertos.alepe.pe.gov.br/api/v1/proposicoes/projetos/", "pe_projetos.xml"),
     ("legisla.casacivil.go.gov.br/api/v2/pesquisa/legislacoes", "go_leis.json"),
+    # Santa Catarina, GitHub only: read from a GitHub runner (the read-only
+    # probe workflow, runs 38334238732 and 38337781720, 13 October 2026), trimmed.
+    ("processo-legislativo?page=1", "sc_elegis_page1_trimmed.html"),
+    ("processo-legislativo?page=2", "sc_elegis_page2_trimmed.html"),
 )
 
 # POSTed forms: URL fragment -> fixture (and its encoding).
@@ -478,6 +482,49 @@ class Edition(unittest.TestCase):
 
     def test_dm_notice(self):
         self.assertIsNone(brs_edition.notice(self.conn, TODAY, dm=False))
+
+
+class SantaCatarina(unittest.TestCase):
+    """ALESC's e-Legis list (tools/br_states.py fetch_sc), the GitHub-only source."""
+
+    def test_cards(self):
+        got = S.parse_sc_cards(fixture("sc_elegis_page1_trimmed.html").decode("utf-8"))
+        self.assertEqual([b["bill_key"] for b in got], ["sc/PL 640/2026", "sc/PL 639/2026",
+                                                        "sc/PL 638/2026"])
+        b = got[0]
+        self.assertEqual((b["presented"], b["authors"], b["status"]),
+                         ("2026-10-07", "Altair Silva", "Aguardando Publicação"))
+        self.assertTrue(b["title"].startswith("Altera a Lei Estadual nº 19.720"))
+        self.assertEqual(b["url"], "https://portalelegis.alesc.sc.gov.br/proposicoes/NQeb8")
+
+    def test_first_read_and_via_note(self):
+        conn = store()
+        client = FakeClient()
+        _res, gaps = S.run(conn, ["sc"], tax(), TODAY, drain.Budget(600), lambda: client,
+                           now=TODAY + "T10:00:00", workers=1)
+        # A first read asks three pages; the third has no fixture: one gap, rows kept.
+        self.assertEqual(sum("page=" in u for u in client.urls), 3)
+        n = conn.execute("SELECT COUNT(*) FROM brs_bills WHERE uf='sc'").fetchone()[0]
+        self.assertEqual(n, 5)
+        self.assertEqual(gaps, 1)
+        self.assertEqual(brs_store.via("sc"), "(via ALESC's e-Legis portal, read from GitHub)")
+
+    def test_later_read_stops_at_a_page_with_nothing_new(self):
+        conn = store()
+        S.run(conn, ["sc"], tax(), TODAY, drain.Budget(600), lambda: FakeClient(),
+              now=TODAY + "T10:00:00", workers=1)
+        brs_store.record_read(conn, "sc", "sc", "ok", None, 5, 5, None, TODAY + "T10:00:00")
+        conn.commit()
+        client = FakeClient()
+        S.run(conn, ["sc"], tax(), TODAY, drain.Budget(600), lambda: client,
+              now=TODAY + "T11:00:00", workers=1)
+        self.assertEqual(sum("page=" in u for u in client.urls), 1)
+
+    def test_exclude_sources(self):
+        self.assertIn("sc", S.SOURCE_ORDER)
+        self.assertIn("sc", S.GITHUB_SOURCES)
+        self.assertNotIn("sc", S.NOT_READ)
+        self.assertIn("robots.txt disallows", S.NOT_READ["mt"])
 
 
 if __name__ == "__main__":

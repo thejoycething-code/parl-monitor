@@ -1003,6 +1003,12 @@ AWAITING_FIRST_RUN = {
     "US states routes": (("uss_bill_sources",),
                          "the PA, MO and AR routes added to US weekly 13 October 2026; "
                          "the table fills on the step's first run"),
+    # tools/us_states_github.py stamps "US states GitHub" after every run
+    # (GitHub's runners only: inline on GitHub's US weekly, or the half the
+    # Mini asks GitHub for; 13 October 2026).
+    "US states GitHub": (("uss_bill_sources",),
+                         "the NJ, MA and MI GitHub-side step added to US weekly 13 October "
+                         "2026; the table fills on the step's first run"),
     # tools/us_states.py stamps "US states" at the end of every stored run.
     "US states": (("uss_sessions", "uss_people", "uss_bills", "uss_votes"),
                   "state legislatures added to US weekly 9 October 2026; "

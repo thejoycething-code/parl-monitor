@@ -52,6 +52,7 @@ HUDOC refuses GitHub Actions (403) but answers the Mini. Christopher: "Run the H
 Christopher: "add the US weekly to the Mini". `jobs/us-weekly.sh` is now the one script both callers run: `tools/mini_run.sh us-weekly` on the Mini (launchd, Fridays 10:00 London, plist in `ops/launchd/`) and `.github/workflows/us-weekly.yml` as the backup (Friday 10:00 UTC, gated by `mini-check` with `MINI_LAST_US_WEEKLY`; the old 12:00 retry slot is gone).
 
 - **senate.gov refuses Christopher's home connection** (the laptop, 9 October). If it refuses the Mini too, the script dispatches a Senate-only run on GitHub (`senate_only=true`), waits for it to publish the store, fetches the store again and does the rest with `--no-senate`. If that fails, the edition goes out without the week's Senate votes and the log says so in a `[gap]` line.
+- **New Jersey, Massachusetts and Michigan answer GitHub only** (13 October 2026, "Add the GitHub step, skip NY"; section "The GitHub-side step" below): the same dispatch asks GitHub for the states half too (`states_github=true`, one run with the Senate half), and the Mini's own Open States step then leaves those three states out.
 - **The edition is committed by the runner**: the script's `# mini_run: commit editions` line tells `mini_run.sh` to commit `editions/` beside `data/`.
 - **Speaks once a day**: an edition already committed for today is rewritten without resending the DM, so a GitHub backup after a Mini run cannot DM twice.
 - **On the Mini, `~/runner/env` needs** `SLACK_BOT_TOKEN` (already there for Division watch) and, only when the repo variable `US_JUDGE` is `on` (the paid alternative; off since 9 October 2026, when the session judge, below, became the default), `ANTHROPIC_API_KEY`. `JOB_TIMEOUT` is three hours in the plist: the step budgets (roll calls, Federal Register, Supreme Court, week ahead, the states, judge, a wait for the Senate half on GitHub) add up to about two and three quarters; the Congressional Record runs last of the collectors on what is left, at most 15 minutes, always keeping 40 for the judge, the edition and the transfers. The Congressional Record step needs `CONGRESS_API_KEY` there too (the same key as the amendment purposes).
@@ -390,6 +391,24 @@ Every period each member has sat and their dated groups (`tools/member_service.p
 - The first runs are the 45-1 baseline: 40 transcripts and 60 reports a week at most, so about three weeks to catch up (LCJC 51 transcripts, SOCI 41, RIDR 21; about 100 reports across the twelve committees).
 - robots.txt asked at run time (`src/robots_guard.guard`, feeds `ca-senate-committees` and `ca-committee-reports`); refusals and unloadable pages are `[gap]` lines and gaps rows, never fatal.
 - The edition's "Committees: witnesses on our ground" section now names Senate committees ("Senate LCJC") and ends with "Committee reports on our ground"; the DM goes to Chris alone, as before.
+
+## The GitHub-side step: NJ, MA, MI and Santa Catarina (13 October 2026, branch `us-github-states`)
+
+Chris, 13 October 2026: "Add the GitHub step, skip NY", and the same day: include Brazil's Santa Catarina and Mato Grosso. These legislatures answer GitHub's US runners and not the Mini (or the laptop):
+
+| Source | Reader | Job | Workflow input |
+|---|---|---|---|
+| senate.gov (since 9 October) | `tools/us_rollcalls.py` | `jobs/us-weekly.sh` | `senate_only` |
+| New Jersey, Massachusetts, Michigan | `tools/us_states_github.py` | `jobs/us-weekly.sh` | `states_github` |
+| Santa Catarina (ALESC e-Legis) | `tools/br_states.py --sources sc` | `jobs/br-weekly.sh` | `states_github` |
+
+Mato Grosso is not read: its report pages and filters only under `/proposicao?`, which robots.txt disallows, and its API answers 401 without OAuth credentials. New York stays on Open States.
+
+**One store writer at a time.** One helper, `tools/github_half.sh`. At the START of the Mini's run (US weekly Friday 10:00 London; Brazil weekly Saturday 09:30 London), before anything is written, the job checks whether the hosts answer; on the Mini they do not, so it dispatches the same workflow with the half's input (US: one run carrying `senate_only` and `states_github` as needed) and waits while it holds the runner's lock, so no other Mini job writes the store. GitHub's run sits in the `parl-monitor-state` concurrency group, is let through `mini-check` as the Mini's own request (`from-mini`), pulls the store, reads the GitHub-only sources (US: Open States for NJ, MA and MI first, then the legislatures on top), publishes the raw archive and the store with `db_state.py --push` (its lineage check refuses to publish over a store it has not seen) and commits the sidecar. The wait succeeds only when that run's `pull` job ran and passed; the Mini then pulls the branch and the store again and does the rest of its week, leaving those sources out (`--exclude-states nj,ma,mi`, `--exclude-sources sc`). If GitHub cannot be reached, the week goes ahead without them and says so in a `[gap]` line.
+
+**Schedule: no new cron.** The halves run inside the weekly slots, while the Mini waits; GitHub's own backup crons (US Friday 10:00 UTC; Brazil Saturday 09:30 and 13:30 UTC) read the sources inline when the Mini has not run. The laptop never dispatches any of this.
+
+**On the Mini:** nothing to install; `git pull` of the runner clone is enough. `~/runner/env` needs `GH_TOKEN` (already there for the Senate half). The US weekly's wait is about 10 to 15 minutes (store fetch, read, store publish on GitHub), inside its three hours; the Brazil weekly's likewise, inside its hour (the state-assemblies step then has less of its budget).
 
 ## Installing the country jobs (10 October 2026)
 
