@@ -224,6 +224,90 @@ class TicinoTests(unittest.TestCase):
 
 
 @unittest.skipUnless(HAVE_TAX, "a taxonomy file is missing")
+class AlternativeRouteTests(unittest.TestCase):
+    """The cantons whose open-data portals (or www.ag.ch/grossrat) robots.txt
+    closes, read from their parliaments' own hosts (access-routes, 13
+    October 2026)."""
+
+    def test_stgallen_businesses_types_and_states(self):
+        types = C.sg_names(json.loads(fixture("sg_business_types.json")))
+        states = C.sg_names(json.loads(fixture("sg_process_states.json")))
+        self.assertEqual(types[6], "Motion")
+        self.assertEqual(states[46], "Geschäft abgeschlossen")
+        acts, oldest = C.parse_sg_businesses(json.loads(fixture("sg_businesses.json")), types, states)
+        self.assertEqual(len(acts), 5)
+        a = acts[0]
+        self.assertEqual((a["key"], a["kind"], a["presented"], a["status"]),
+                         ("sg/61.26.79", "Einfache Anfrage", "2026-10-12", "Beratung durch Regierung"))
+        self.assertTrue(a["question"])
+        self.assertEqual(a["url"], "https://www.ratsinfo.sg.ch/businesses/7214")
+        self.assertEqual(oldest, "2026-09-28")
+
+    def test_stgallen_votes_and_tally(self):
+        got = C.parse_sg_votings(json.loads(fixture("sg_votings.json")))
+        self.assertEqual(got[0]["act_key"], "sg/22.26.15")
+        self.assertEqual(got[0]["date"], "2026-09-16")
+        v = C.parse_sg_voting(json.loads(fixture("sg_voting_7449.json")), got[0])
+        self.assertEqual((v["yes"], v["no"], v["abstain"], v["result"]), (33, 78, 3, "Abgelehnt"))
+        self.assertEqual(v["act_key"], "sg/22.26.15")
+        self.assertEqual(v["key"], "sg/v/7449")
+
+    def test_baselland_newest_documents(self):
+        acts = by_key(C.parse_bl(fixture("bl_neuste.html")))
+        m = acts["bl/2026/6989"]
+        self.assertEqual((m["kind"], m["presented"], m["status_date"]), ("Motion", "2026-09-24", "2026-09-24"))
+        self.assertEqual(m["status"], "Eingereicht (Text Motion)")
+        r = acts["bl/2025/571"]
+        self.assertEqual(r["status"], "Bericht der Bildungs-, Kultur- und Sportkommission")
+        self.assertEqual(r["status_date"], "2026-10-12")
+        self.assertIn("geschaeft.php?gid=", r["url"])
+
+    def test_baselstadt_motions_and_versand(self):
+        new = C.parse_bs_new(fixture("bs_vorstoesse.html"))
+        self.assertEqual(len(new), 9)
+        a = by_key(new)["bs/26.5441"]
+        self.assertEqual((a["kind"], a["initiative"]), ("Interpellation", "Franziska Stier"))
+        self.assertEqual(a["title"], "Entsiegeln und Begrünen - Erfahrungen und Umsetzung in Basel-Stadt")
+        self.assertEqual(a["status"], "Eingereicht für die Sitzung vom 14.10.2026")
+        self.assertEqual(by_key(new)["bs/26.5263"]["status"], "Eingereicht für die Sitzung vom 24.06.2026")
+        versand = C.parse_bs_versand(fixture("bs_versand.html"))
+        self.assertEqual(versand[0][:3], ("2026-10-02", "Bericht oder Schreiben einer Kommission", "26.5272"))
+        cats = {v[1] for v in versand}
+        self.assertIn("Schriftliche Antwort des Regierungsrates", cats)
+        merged = by_key(C.merge_bs(new, versand))
+        answered = merged["bs/26.5307"]
+        self.assertEqual((answered["kind"], answered["initiative"], answered["status_date"]),
+                         ("Interpellation", "Lukas Hug", "2026-09-25"))
+        self.assertTrue(answered["status"].startswith("Schriftliche Antwort des Regierungsrates"))
+
+    def test_thurgau_pending_business(self):
+        acts = by_key(C.parse_tg(fixture("tg_pendente.html")))
+        m = acts["tg/2024/117"]
+        self.assertEqual((m["kind"], m["presented"]), ("Motion", "2025-02-19"))
+        self.assertIn("Geschlechtsumwandlung", m["title"])
+        self.assertEqual(m["initiative"], "Christian Caviezel, Raphael Stutz, Christina Fäsi")
+        self.assertEqual(acts["tg/2024/281"]["kind"], "Einfache Anfrage")
+        self.assertTrue(acts["tg/2024/281"]["question"])
+
+    def test_aargau_law_collection(self):
+        acts = C.parse_ag(json.loads(fixture("ag_index.json")))
+        self.assertEqual(len(acts), 8)                 # the 2024 entries predate AG_SINCE
+        a = by_key(acts)["ag/2026/06-03"]
+        self.assertEqual((a["kind"], a["presented"], a["status_date"]), ("Dekret", "2026-08-20", "2026-08-20"))
+        self.assertEqual(a["url"], "https://gesetzessammlungen.ag.ch/app/de/change_documents/1820")
+
+    @unittest.skipUnless(HAVE_TAX, "taxonomies missing")
+    def test_thurgau_gender_motion_is_on_our_ground(self):
+        tax = C.Taxonomies()
+        a = by_key(C.parse_tg(fixture("tg_pendente.html")))["tg/2024/117"]
+        self.assertIn(3, C.classify(tax, a)[0])
+
+    def test_the_closed_portals_are_never_asked(self):
+        for url in (C.SG_API, C.BL_NEW, C.BS_NEW, C.BS_VERSAND, C.TG_PENDING, C.AG_INDEX):
+            self.assertNotRegex(url, r"data\.bs\.ch|data\.bl\.ch|daten\.sg\.ch|data\.tg\.ch|"
+                                     r"www\.ag\.ch/grossrat")
+
+
 class StoreTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -328,6 +412,25 @@ class MainTests(unittest.TestCase):
     def test_an_undated_cantons_first_read_is_a_baseline(self):
         rc, gaps, stored, base, _, _ = self.run_main([(C.TI_ODG, fixture("ti_odg.html"))], ["ti"])
         self.assertEqual((rc, gaps, stored, base), (0, [], {"ti": 19}, 19))
+
+    def test_the_alternative_routes_store_their_cantons(self):
+        pages = [(C.SG_API + "business_types", fixture("sg_business_types.json")),
+                 (C.SG_API + "process_states", fixture("sg_process_states.json")),
+                 (C.SG_API + "businesses", fixture("sg_businesses.json")),
+                 (C.SG_API + "votings?", fixture("sg_votings.json")),
+                 (C.SG_API + "votings/7449", fixture("sg_voting_7449.json")),
+                 (C.BL_NEW, fixture("bl_neuste.html")),
+                 (C.BS_NEW, fixture("bs_vorstoesse.html")),
+                 (C.BS_VERSAND, fixture("bs_versand.html")),
+                 (C.TG_PENDING, fixture("tg_pendente.html")),
+                 (C.AG_INDEX, fixture("ag_index.json"))]
+        rc, gaps, stored, base, votes, inner = self.run_main(pages, ["sg", "bl", "bs", "tg", "ag"])
+        self.assertEqual((rc, gaps), (0, []))
+        self.assertEqual(stored, {"sg": 5, "bl": 27, "bs": 18, "tg": 8, "ag": 8})
+        self.assertEqual(base, 18)        # Basel-Stadt prints no submission date: a baseline
+        # The only vote listed is on business off our ground: its tally is not asked for.
+        self.assertEqual(votes, 0)
+        self.assertFalse(any("votings/7449" in u for u in inner.urls))
 
     def test_robots_disallow_is_a_gap(self):
         rc, gaps, stored, _, _, inner = self.run_main(

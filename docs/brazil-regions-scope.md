@@ -346,6 +346,13 @@ every route tried.)
 1. **ALMG's open-data API**: its robots.txt disallows everything; the
    website search is used instead. Ask ALMG to allow it, or decide that a
    documented open-data API is exempt (the repository's rule today: no).
+   Contact (13 October 2026, branch `access-routes`; nothing sent): ALMG
+   publishes no email for the open-data service; its portal points to the
+   "Fale com a Assembleia" form (www.almg.gov.br/servicos/fale-com-a-assembleia/),
+   and the Ouvidoria's address, ouvidoria@almg.gov.br, appears on older
+   ALMG pages (2013; low-medium confidence); main line (31) 2108-7000. The
+   alternative routes for Minas Gerais (the Diário do Legislativo, LexML)
+   are the branch `br-states-alt`'s work, not repeated here.
 2. **Seed `config/watchlist-br-states.yaml`** with the state bills that
    matter (empty at launch).
 3. ~~Taxonomy-pt false positives~~: done in the second pass through the

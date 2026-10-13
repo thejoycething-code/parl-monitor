@@ -1425,3 +1425,45 @@ states.
 - **Waiting on Chris:** whether to write to the Queensland, Western
   Australian and Northern Territory parliaments asking for our user agent.
 - **Mini:** nothing to install; the backlogs drain over a few Fridays.
+
+## Blocked sources: contacts and external routes (13 October 2026, branch `access-routes`)
+
+Chris, 13 October 2026, on the Swiss open-data cantons (Basel-Stadt,
+Basel-Landschaft, St. Gallen, Thurgau), Aargau, ALMG's open-data API and the
+Queensland, Western Australia and Northern Territory parliaments: "Email all
+and explore external ways too". Nothing was sent; nothing was bypassed.
+
+**Built:**
+- **Switzerland** (`tools/ch_cantons.py`, five new readers; the edition's
+  Cantons section and coverage lines know them): Basel-Stadt via
+  grosserrat.bs.ch (new motions and the weekly Grossratsversand),
+  Basel-Landschaft via baselland.talus.ch (the Landrat's newest documents),
+  St. Gallen via www.ratsinfo.sg.ch (the RIS's own JSON: businesses and vote
+  tallies), Thurgau via grgeko.tg.ch (pending business), Aargau via
+  gesetzessammlungen.ag.ch (acts published in the AGS; the Grosser Rat's own
+  business stays unread). Ten of 26 cantons now. First read: 31 items on our
+  ground, among them St. Gallen's assisted-suicide motion, Thurgau's motion
+  on gender reassignment for minors and its abortion interpellation,
+  Basel-Landschaft's interpellation on the conversion-practices ban and
+  Basel-Stadt's anonymous-births Anzug. They run in the existing
+  `jobs/ch-weekly.sh` cantons step (about 10 more requests, 9 seconds).
+- **Queensland divisions** (`qld-votes` in `tools/au_states.py`,
+  `parse_qld` in `src/au_states_votes.py`): each sitting day's Record of
+  Proceedings PDF from documents.parliament.qld.gov.au, which serves its
+  files to our user agent although www.parliament.qld.gov.au answers an
+  Azure WAF 403. 38 divisions (June to September 2026), every member named,
+  every tally matched. In the default `jobs/au-weekly.sh` run.
+
+**Not found (no legitimate route):** opendata.swiss only links back to the
+cantons' disallowed `/api/` exports; the cantonal gazettes (Kantonsblatt,
+amtsblattportal.ch, St. Gallen and Thurgau Amtsblatt) disallow everything;
+Western Australia's and the Northern Territory's parliaments answer 403 for
+robots.txt itself; Territory Stories disallows the NT records' PDFs and
+search; Trove's API disallows all. Brazil's Minas Gerais alternatives are
+the branch `br-states-alt`'s (not repeated).
+
+**Waiting on Chris: the emails** (addresses, sources and confidence are in
+the three scope docs): opendata@bs.ch, daten@bl.ch, statistik@sg.ch,
+ogd@tg.ch, parlamentsdienst@ag.ch; ALMG's "Fale com a Assembleia" form (or
+ouvidoria@almg.gov.br); webmaster@parliament.qld.gov.au,
+receptionservices@parliament.wa.gov.au, LA.Committees@nt.gov.au.

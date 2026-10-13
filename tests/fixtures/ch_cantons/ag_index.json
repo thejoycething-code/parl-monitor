@@ -1,0 +1,88 @@
+{
+"c202608": [
+{
+"id": 1820,
+"number": "2026/06-03",
+"document_title": "Dekret zur Prämienverbilligung (DPV)",
+"change_document_category_id": "c202608",
+"is_structured": false,
+"date_string": "20.08.2026"
+},
+{
+"id": 1819,
+"number": "2026/06-02",
+"document_title": "Verordnung zum Einführungsgesetz zur Bundesgesetzgebung über den Schutz von Umwelt und Gewässern (V EG UWR)",
+"change_document_category_id": "c202608",
+"is_structured": false,
+"date_string": "20.08.2026"
+},
+{
+"id": 1818,
+"number": "2026/06-01",
+"document_title": "Richtlinien des Büros des Grossen Rats zur Vorbereitung und Durchführung der durch den Grossen Rat vorzunehmenden Wahlen",
+"change_document_category_id": "c202608",
+"is_structured": false,
+"date_string": "20.08.2026"
+}
+],
+"c202606": [
+{
+"id": 1817,
+"number": "2026/05-18",
+"document_title": "Bauverordnung (BauV)",
+"change_document_category_id": "c202606",
+"is_structured": false,
+"date_string": "19.06.2026"
+},
+{
+"id": 1816,
+"number": "2026/05-17",
+"document_title": "Verordnung über die Berufsmaturität an Berufsfachschulen (V Berufsmaturität BFS)",
+"change_document_category_id": "c202606",
+"is_structured": false,
+"date_string": "19.06.2026"
+},
+{
+"id": 1815,
+"number": "2026/05-16",
+"document_title": "Verordnung über die Allgemeinbildung in der beruflichen Grundbildung (V ABU)",
+"change_document_category_id": "c202606",
+"is_structured": false,
+"date_string": "19.06.2026"
+},
+{
+"id": 1814,
+"number": "2026/05-15",
+"document_title": "Interkantonale Vereinbarung für Schulen mit spezifisch-strukturierten Angeboten für Hochbegabte",
+"change_document_category_id": "c202606",
+"is_structured": false,
+"date_string": "19.06.2026"
+},
+{
+"id": 1813,
+"number": "2026/05-14",
+"document_title": "Regionales Schulabkommen über die gegenseitige Aufnahme von Auszubildenden und Ausrichtung von Beiträgen (RSA 2009)",
+"change_document_category_id": "c202606",
+"is_structured": false,
+"date_string": "19.06.2026"
+}
+],
+"c202412": [
+{
+"id": 1698,
+"number": "2024/10-28",
+"document_title": "Verordnung über die Schuldienste (V Schuldienste)",
+"change_document_category_id": "c202412",
+"is_structured": false,
+"date_string": "20.12.2024"
+},
+{
+"id": 1697,
+"number": "2024/10-27",
+"document_title": "Verordnung über die Quellensteuer (QStV-AG)",
+"change_document_category_id": "c202412",
+"is_structured": false,
+"date_string": "20.12.2024"
+}
+]
+}
