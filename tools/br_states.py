@@ -61,9 +61,12 @@ THE SOURCES, all keyless, all probed live with robots.txt read first:
   sc   ALESC (Santa Catarina), the e-Legis portal's proposições list
        (GITHUB ONLY: its host answers GitHub's runners alone; 13 October 2026).
   pr   Paraná, adopted laws from the Casa Civil's Sistema Estadual de
-       Legislação (ALEP's bill search is behind reCAPTCHA, never bypassed;
-       its documented open-data API answers only plain HTTP, which the
-       repository never fetches).
+       Legislação (ALEP's bill search is behind reCAPTCHA, never bypassed).
+  alep Paraná's bills, stages and plenary/committee results from ALEP's
+       documented open-data API, the repository's ONE plain-HTTP source
+       (Chris, 13 October 2026; src/http.PLAIN_HTTP_EXCEPTIONS): GET only,
+       "(via ALEP open data, unencrypted)" on every item, its laws
+       cross-checked against `pr`. tools/br_alep.py.
 
 Not read, and why (the scope doc has the detail): Rio Grande do Sul,
 Espírito Santo, Amapá, Distrito Federal (no answer from outside Brazil, the
@@ -987,8 +990,8 @@ def fetch_sapl(client, ctx, uf):
 #       (legisla.casacivil.go.gov.br/api/v2): adopted laws only, no bills.
 #   pr  Paraná: the laws ALEP passed, from the Casa Civil's Sistema Estadual de
 #       Legislação (www.legislacao.pr.gov.br): adopted laws only. ALEP's own
-#       bill search and its open-data API are not read (reCAPTCHA; the API is
-#       plain HTTP only).
+#       bill search is not read (reCAPTCHA); its open-data API is, as `alep`
+#       (tools/br_alep.py, the one plain-HTTP exception, 13 October 2026).
 
 def _clean(text):
     """Collapse whitespace; the C0 control characters some sources leave
@@ -1625,6 +1628,12 @@ def store_result(conn, res, today, now):
         brs_store.upsert_vote(conn, v, today)
         if v["vote_key"] in res.positions:
             brs_store.replace_positions(conn, v["vote_key"], res.positions[v["vote_key"]])
+    # A source's own check against what is already stored (13 October 2026:
+    # ALEP's laws against the Casa Civil's, tools/br_alep.crosscheck).
+    after = getattr(res, "after_store", None)
+    if after is not None:
+        for g in after(conn):
+            res.gap(g)
     for g in res.gaps:
         _gap(conn, today, g)
     status = res.status
@@ -1653,6 +1662,21 @@ def snapshot(conn):
         read_ok[source] = bool(last_ok)
     return {"bills": bills, "watched": watched, "source_ids": source_ids,
             "members": members}, meta, read_ok
+
+
+# Paraná's bills through ALEP's open data (tools/br_alep.py), the one
+# plain-HTTP source (src/http.PLAIN_HTTP_EXCEPTIONS, 13 October 2026). It is
+# read and stored right after the Casa Civil's laws ('pr'), so the laws it
+# names are cross-checked against them in the same run.
+if os.path.dirname(os.path.abspath(__file__)) not in sys.path:
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import br_alep  # noqa: E402
+
+ALT_FETCHERS["alep"] = lambda client, ctx: br_alep.fetch_alep(client, ctx, sys.modules[__name__])
+HOST_THROTTLE[br_alep.ALEP_HOST] = br_alep.ALEP_THROTTLE
+if "alep" not in SOURCE_ORDER:
+    _at = SOURCE_ORDER.index("pr") + 1
+    SOURCE_ORDER = SOURCE_ORDER[:_at] + ("alep",) + SOURCE_ORDER[_at:]
 
 
 def make_client(throttle_hosts=HOST_THROTTLE, budget=None):
