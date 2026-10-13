@@ -775,6 +775,12 @@ with the end of its output. Nothing caps the clock here, but give
     cd ~ && nohup ~/runner/parl-monitor/tools/mini_run.sh store-compact \
       >> ~/runner/logs/store-compact.log 2>&1 &
 
+    # New Brunswick 56-4 and three corrected days, once (13 October 2026; see
+    # "New Brunswick 56-4" below). About 30 minutes at legnb.ca's 10 s crawl-delay.
+    cd ~ && ONE_OFF=nb-56-4 MINUTES=60 JOB_TIMEOUT=4800 \
+      nohup ~/runner/parl-monitor/tools/mini_run.sh prov-backfill \
+      >> ~/runner/logs/prov-backfill.log 2>&1 &
+
 They record their own heartbeats ("Provinces backfill", "Canada backfill"),
 never the weekly's. They hold the lock while they run, so the scheduled jobs
 queue behind them (up to two hours): start a long one when the calendar is
@@ -799,6 +805,31 @@ and Austria's weekly gave up after 7,200 s.
 The scoping probes (`*-probe.yml`, `probe-hosts.yml`) stay on GitHub: they
 exist to ask whether a site answers GitHub's runners, which only a runner
 can answer. They are one-off; delete each once its collector is built.
+
+### New Brunswick 56-4 (13 October 2026, branch `nb-56-4-gaps`)
+
+A one-off of `jobs/prov-backfill.sh` (`ONE_OFF=nb-56-4`, no `PROVINCES`;
+`MINUTES` at least 30). It runs, in order: `prov_collect.py --prov nb
+--session 56-4 --since 2009-11-17 --until 2010-04-16` (the roster from the
+Legislative Library's copy of the compiled Journal's members page,
+`config/prov-nb-56-4/members.csv`; the 20 sittings of 2009 the 2010 backfill
+never read; the sittings stored before 3 October 2026 or with a gap read
+again; the Library's index of the 11 recorded votes checked against the
+store); `prov_speeches.py --prov nb --session 61-2` for 28 May 2026 (the
+Hansard legnb.ca re-uploaded complete on 9 October); `prov_collect.py` and
+`prov_speeches.py --prov nl --session 50-1` for 3 October 2022 (complete,
+NL Hansard); `prov_speeches.py --prov mb --session 43-1` for 10 May 2024 (no
+sitting, Manitoba Hansard); then the 5CA sheets of nb, nl and mb, the raw
+archive and the store. Expect in the log "nb roster 56-4: 55 member(s) from
+the Legislative Library's copy" and "11 of the 11 recorded vote(s) in the
+Legislative Library's index are stored". If the clock runs out first (bill pages
+for the 2009 window are read too), run it again: nothing read cleanly is
+fetched twice. On a scratch store all 11 divisions
+tallied and 493 of 493 votes were attributed. 56-4's votes carry no party
+(the existing known gap: no Hansard online for the session). The weekly
+needs nothing new: from now on it also re-reads any NB Hansard day stored
+unreadable whose file legnb.ca has since replaced
+(`prov_nb_hansard.source_changed`). Run it once; a second run only re-checks.
 
 ## Later phases, set A (10 October 2026, branch `parity-phases-a`)
 
