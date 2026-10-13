@@ -182,7 +182,9 @@ python3 tools/us_states.py --budget-seconds "$STATES_BUDGET" "${STATES_ARGS[@]}"
 #    Texas lists about 130 FTP directories (about 4 minutes) before reading
 #    changed files; a run cut short says so and the rest go next week.
 #  * tools/us_states_legiscan.py: every state, same day, on LegiScan's free
-#    public key (LEGISCAN_API_KEY; unset, one line and it skips). At most
+#    public key (LEGISCAN_API_KEY; unset, one line and it skips). DROPPED
+#    13 October 2026 (Christopher: "Legiscan needs an API for each state so
+#    look for other methods"): no key will be added; the step stays and skips. At most
 #    1,500 queries a run and 9,000 a calendar month (ledger in the store).
 # Next week's Open States top-up leaves out states a direct reader covered
 # and, while LegiScan is active, tops up only watched and tier-1 bills.
@@ -192,6 +194,18 @@ python3 tools/us_states_direct.py --budget-seconds "$DIRECT_BUDGET" | tee "$LOG/
   || echo "  [gap] the state feeds step (KS, CA, TX) ended with gaps; Open States stands"
 python3 tools/us_states_legiscan.py --budget-seconds "$LEGISCAN_BUDGET" | tee "$LOG/us-states-legiscan.log" \
   || echo "  [gap] the LegiScan step ended with gaps; Open States stands"
+# Other official routes (13 October 2026; Christopher: "Where states block
+# find other routes", and LegiScan dropped the same day: "Legiscan needs an
+# API for each state so look for other methods"). tools/us_states_routes.py:
+# Pennsylvania's LDPC bill-history export (every bill, hourly, one 1.7 MB
+# zip), the Missouri House's XML exports (Crawl-delay 20, so a capped number
+# of bills on our ground a run) and Arkansas's bill pages (the days' moved
+# bills, roll calls by name: Open States has no Arkansas votes). No key;
+# robots.txt asked every run. docs/us-states-scope.md, "Other routes".
+if [ -n "${GITHUB_ACTIONS:-}" ]; then ROUTES_BUDGET=300; ROUTES_ARGS=(--mo-max-files 10 --ar-max-bills 40)
+else ROUTES_BUDGET=900; ROUTES_ARGS=(); fi
+python3 tools/us_states_routes.py --budget-seconds "$ROUTES_BUDGET" "${ROUTES_ARGS[@]}" | tee "$LOG/us-states-routes.log" \
+  || echo "  [gap] the state routes step (PA, MO, AR) ended with gaps; Open States stands"
 
 # The Congressional Record (phase 3a, 9 October 2026): floor speeches on our
 # ground, before the judge (which scores them) and the edition (its Floor

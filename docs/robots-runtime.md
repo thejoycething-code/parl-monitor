@@ -307,6 +307,9 @@ names the client that is wrapped when it is not the collector's own.
 | us_states_legiscan | api.legiscan.com (keyed, optional) | API | no | legiscan.com itself answers a Cloudflare challenge: never bypassed |
 | us_states_direct | ftp.legis.state.tx.us/bills/ | API (FTP) | no | the Council's Acceptable Use notice asks data users to use the FTP; FTP has no robots.txt |
 | us_states_direct | www.kslegislature.gov/li/api/ (KLISS), downloads.leginfo.legislature.ca.gov | open data | yes | robots.txt 404 on both (no rules), 13 October 2026 |
+| us_states_routes | www.palegis.us/data (LDPC bill history) | open data | yes | robots.txt has one group, for the UserWay scanner only; /data is open to all, 13 October 2026 |
+| us_states_routes | documents.house.mo.gov (House XML exports) | open data | yes | allowed; Crawl-delay 20 honoured |
+| us_states_routes | arkleg.state.ar.us (bill, activity and vote pages) | scraper | yes | allowed (only ChatGPT's agents are disallowed) |
 | ve_news | www.asambleanacional.gob.ve | scraper | yes | allowed |
 | ve_news_crawl, ve_probe | www.asambleanacional.gob.ve (and any probed URL) | scraper | yes (probe_refusal) | allowed |
 
