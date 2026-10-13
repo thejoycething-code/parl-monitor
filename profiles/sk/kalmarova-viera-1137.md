@@ -14,12 +14,12 @@ Slovakia, Národná rada. From the parliamentary monitor's store; positions are 
 
 ## Party history
 
-- Recorded at votes in the store: PS (first 8 February 2024, last 17 June 2025).
+- Recorded at votes in the store: PS (first 8 December 2023, last 17 June 2025).
 
-## Votes on our ground (238)
+## Votes on our ground (665)
 
-Recorded positions (238): “P (proti)” 88, “Z (za)” 86, “? (zdržal sa)” 56, “0 (neprítomný)” 8.
-By area (every vote): abortion: “Z (za)” 14, “P (proti)” 8, “? (zdržal sa)” 2; gender medicine and children: “P (proti)” 16, “Z (za)” 9, “? (zdržal sa)” 5; sex-based rights: “P (proti)” 13, “Z (za)” 11, “? (zdržal sa)” 1; parental rights and education: “? (zdržal sa)” 42, “Z (za)” 39, “P (proti)” 30, “0 (neprítomný)” 3; free speech and civil liberties: “P (proti)” 49, “? (zdržal sa)” 6, “Z (za)” 6; religious freedom: “Z (za)” 21, “? (zdržal sa)” 8, “P (proti)” 3; marriage and family: “Z (za)” 41, “? (zdržal sa)” 27, “P (proti)” 24, “0 (neprítomný)” 4; surrogacy and embryology: “P (proti)” 13, “Z (za)” 4, “? (zdržal sa)” 1; organ donation: “Z (za)” 13, “? (zdržal sa)” 3, “0 (neprítomný)” 1, “P (proti)” 1.
+Recorded positions (665): “? (zdržal sa)” 373, “Z (za)” 157, “P (proti)” 91, “0 (neprítomný)” 42, “N (nehlasoval)” 2.
+By area (every vote): abortion: “Z (za)” 14, “P (proti)” 8, “? (zdržal sa)” 2; gender medicine and children: “P (proti)” 16, “Z (za)” 9, “? (zdržal sa)” 5; sex-based rights: “P (proti)” 13, “Z (za)” 11, “? (zdržal sa)” 1; parental rights and education: “? (zdržal sa)” 42, “Z (za)” 39, “P (proti)” 30, “0 (neprítomný)” 3; free speech and civil liberties: “P (proti)” 49, “? (zdržal sa)” 6, “Z (za)” 6; religious freedom: “Z (za)” 34, “? (zdržal sa)” 8, “P (proti)” 6, “0 (neprítomný)” 2, “N (nehlasoval)” 1; marriage and family: “? (zdržal sa)” 344, “Z (za)” 99, “0 (neprítomný)” 36, “P (proti)” 24, “N (nehlasoval)” 1; surrogacy and embryology: “P (proti)” 13, “Z (za)” 4, “? (zdržal sa)” 1; organ donation: “Z (za)” 13, “? (zdržal sa)” 3, “0 (neprítomný)” 1, “P (proti)” 1.
 
 The latest 20:
 
@@ -46,7 +46,7 @@ The latest 20:
 | 5 Jun 2025 | ? (zdržal sa) | PS (at the vote) | [Hlasovanie o pozmeňujúcom návrhu zo spoločnej správy výborov - bod 2. Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 245/2008 Z. z.…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=56583) | parental rights and education, tier 2 |
 | 5 Jun 2025 | P (proti) | PS (at the vote) | [Hlasovanie o 2. námietke posl. P. Puškárová. Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 245/2008 Z. z. o výchove a vzdelávaní (š…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=56584) | parental rights and education, tier 2 |
 
-218 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+645 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Notes
 

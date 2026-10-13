@@ -106,8 +106,8 @@ Launch window: earliest 2026-10-15; delivery 2026-11-05 (estimate). Working days
 "SIGN-OFF: no bill direction on file for `9/1252`. Add a `bill_directions` line (direction with/against, why) to config/sk_stance.yaml, then confirm it: `python3 tools/country_5ca.py --cc sk --confirm-direction 9/1252 --by NAME`."
 "Readings of this bill's watched or tier-1 votes: 5 on file, 2 confirmed, 3 waiting."
 "- `57871` 2026-05-05 Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice L...: draft"
-"- `58250` 2026-09-15 Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice L...: needs reading"
-"- `58251` 2026-09-15 Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice L...: needs reading"
+"- `58250` 2026-09-15 Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice L...: draft"
+"- `58251` 2026-09-15 Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice L...: draft"
 "Confirm in docs/5ca-sk-readings.md (tick, then `python3 tools/country_5ca.py --cc sk --sign-from-doc --by NAME`)."
 "Recorded votes on the bill (5), newest last:"
 "- 2026-05-05 nrsr 'Návrh poslancov Národnej rady Slovenskej republiky Pauly PUŠKÁROVEJ, Ľubice LAŠŠÁKOVEJ,...' Za 144, Proti 0 Návrh prešiel"
@@ -119,3 +119,4 @@ Language: campaigner text in English (rulebook rule 6); the petition itself is i
 "Not available to the builder: Bluebook (comparables, TIM, RF#1), the Asana campaigns calendar (launch clash check), postcode member counts, the framing glossary (0 entries), the allies and opponents registers (0 / 0), the hostile-outlet deny-list."
 Campaigner checklist (cells holding [CAMPAIGNER: ...]): Background / Context; Campaign Name; Main Purposes; Petitions related TIM project; Who is the petition addressed to?; What are we asking for in the petition?; What is happening that we are responding to?; Why would they listen to us?; What is the key point of injustice; Why is it urgent that we take action now?; Which sources do you want to include?; What should the image look like?; What are some arguments; Describe a bad outcome; Describe a good outcome; RF#1 comment; RF#2 comment; RF#3 comment; RF#4/1 comment.
 Changelog: 2026-10-12 tools/country_briefs.py drafted every cell
+Changelog: 2026-10-13 tools/country_briefs.py refreshed by the builder

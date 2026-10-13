@@ -14,12 +14,12 @@ Slovakia, Národná rada. From the parliamentary monitor's store; positions are 
 
 ## Party history
 
-- Recorded at votes in the store: KDH (first 8 February 2024, last 25 November 2025).
+- Recorded at votes in the store: KDH (first 8 December 2023, last 25 November 2025).
 
-## Votes on our ground (276)
+## Votes on our ground (703)
 
-Recorded positions (276): “Z (za)” 95, “0 (neprítomný)” 63, “? (zdržal sa)” 59, “P (proti)” 59.
-By area (every vote): abortion: “Z (za)” 14, “? (zdržal sa)” 10, “0 (neprítomný)” 9; gender medicine and children: “Z (za)” 18, “? (zdržal sa)” 9, “P (proti)” 4; sex-based rights: “? (zdržal sa)” 12, “Z (za)” 12, “0 (neprítomný)” 9, “P (proti)” 5; parental rights and education: “Z (za)” 50, “0 (neprítomný)” 45, “? (zdržal sa)” 29, “P (proti)” 8; free speech and civil liberties: “P (proti)” 45, “Z (za)” 9, “? (zdržal sa)” 4, “0 (neprítomný)” 3; religious freedom: “Z (za)” 17, “? (zdržal sa)” 14, “P (proti)” 1; marriage and family: “Z (za)” 51, “0 (neprítomný)” 41, “? (zdržal sa)” 28, “P (proti)” 12; surrogacy and embryology: “Z (za)” 9, “? (zdržal sa)” 7, “P (proti)” 3; organ donation: “? (zdržal sa)” 11, “Z (za)” 6, “0 (neprítomný)” 1.
+Recorded positions (703): “Z (za)” 239, “? (zdržal sa)” 207, “0 (neprítomný)” 190, “P (proti)” 65, “N (nehlasoval)” 2.
+By area (every vote): abortion: “Z (za)” 14, “? (zdržal sa)” 10, “0 (neprítomný)” 9; gender medicine and children: “Z (za)” 18, “? (zdržal sa)” 9, “P (proti)” 4; sex-based rights: “? (zdržal sa)” 12, “Z (za)” 12, “0 (neprítomný)” 9, “P (proti)” 5; parental rights and education: “Z (za)” 50, “0 (neprítomný)” 45, “? (zdržal sa)” 29, “P (proti)” 8; free speech and civil liberties: “P (proti)” 45, “Z (za)” 9, “? (zdržal sa)” 4, “0 (neprítomný)” 3; religious freedom: “Z (za)” 29, “? (zdržal sa)” 16, “P (proti)” 3, “0 (neprítomný)” 2, “N (nehlasoval)” 1; marriage and family: “Z (za)” 183, “? (zdržal sa)” 174, “0 (neprítomný)” 166, “P (proti)” 16, “N (nehlasoval)” 1; surrogacy and embryology: “Z (za)” 9, “? (zdržal sa)” 7, “P (proti)” 3; organ donation: “? (zdržal sa)” 11, “Z (za)” 6, “0 (neprítomný)” 1.
 
 The latest 20:
 
@@ -46,7 +46,7 @@ The latest 20:
 | 21 Oct 2025 | Z (za) | KDH (at the vote) | [Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - posl. Horecký, body 2, 3, 4, 6, 7, 11, 16 a 17. Vládny návrh zákona, ktorým…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=57143) | parental rights and education, marriage and family, tier 2 |
 | 21 Oct 2025 | Z (za) | KDH (at the vote) | [Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - posl. Gažovičová, 1. návrh. Vládny návrh zákona, ktorým sa mení a dopĺňa zá…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=57144) | parental rights and education, marriage and family, tier 2 |
 
-256 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+683 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Notes
 

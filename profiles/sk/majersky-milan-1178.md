@@ -14,12 +14,12 @@ Slovakia, Národná rada. From the parliamentary monitor's store; positions are 
 
 ## Party history
 
-- Recorded at votes in the store: KDH (first 8 February 2024, last 6 October 2026).
+- Recorded at votes in the store: KDH (first 8 December 2023, last 6 October 2026).
 
-## Votes on our ground (350)
+## Votes on our ground (777)
 
-Recorded positions (350): “Z (za)” 134, “? (zdržal sa)” 97, “P (proti)” 76, “0 (neprítomný)” 42, “N (nehlasoval)” 1.
-By area (every vote): abortion: “Z (za)” 18, “? (zdržal sa)” 14, “0 (neprítomný)” 11; gender medicine and children: “Z (za)” 18, “? (zdržal sa)” 9, “P (proti)” 4; sex-based rights: “? (zdržal sa)” 14, “Z (za)” 13, “0 (neprítomný)” 11, “P (proti)” 5; parental rights and education: “Z (za)” 79, “? (zdržal sa)” 52, “P (proti)” 17, “0 (neprítomný)” 12, “N (nehlasoval)” 1; free speech and civil liberties: “P (proti)” 48, “Z (za)” 15, “? (zdržal sa)” 12, “0 (neprítomný)” 2; religious freedom: “Z (za)” 17, “? (zdržal sa)” 8, “0 (neprítomný)” 7, “P (proti)” 1; marriage and family: “Z (za)” 79, “? (zdržal sa)” 53, “0 (neprítomný)” 29, “P (proti)” 24; surrogacy and embryology: “Z (za)” 9, “? (zdržal sa)” 6, “P (proti)” 3, “0 (neprítomný)” 1; prostitution and trafficking: “? (zdržal sa)” 3, “Z (za)” 1; organ donation: “? (zdržal sa)” 9, “0 (neprítomný)” 8, “Z (za)” 6, “P (proti)” 1.
+Recorded positions (777): “Z (za)” 269, “0 (neprítomný)” 251, “? (zdržal sa)” 173, “P (proti)” 78, “N (nehlasoval)” 6.
+By area (every vote): abortion: “Z (za)” 18, “? (zdržal sa)” 14, “0 (neprítomný)” 11; gender medicine and children: “Z (za)” 18, “? (zdržal sa)” 9, “P (proti)” 4; sex-based rights: “? (zdržal sa)” 14, “Z (za)” 13, “0 (neprítomný)” 11, “P (proti)” 5; parental rights and education: “Z (za)” 79, “? (zdržal sa)” 52, “P (proti)” 17, “0 (neprítomný)” 12, “N (nehlasoval)” 1; free speech and civil liberties: “P (proti)” 48, “Z (za)” 15, “? (zdržal sa)” 12, “0 (neprítomný)” 2; religious freedom: “Z (za)” 29, “? (zdržal sa)” 12, “0 (neprítomný)” 9, “P (proti)” 2; marriage and family: “0 (neprítomný)” 236, “Z (za)” 202, “? (zdržal sa)” 125, “P (proti)” 25, “N (nehlasoval)” 5; surrogacy and embryology: “Z (za)” 9, “? (zdržal sa)” 6, “P (proti)” 3, “0 (neprítomný)” 1; prostitution and trafficking: “? (zdržal sa)” 3, “Z (za)” 1; organ donation: “? (zdržal sa)” 9, “0 (neprítomný)” 8, “Z (za)” 6, “P (proti)” 1.
 
 The latest 20:
 
@@ -46,7 +46,7 @@ The latest 20:
 | 9 Jun 2026 | P (proti) | KDH (at the vote) | [Hlasovanie o pozmeňujúcich a doplňujúcich návrhoch z rozpravy - posl. A. Lučanský. Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 35…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=58145) · bill's areas | marriage and family |
 | 9 Jun 2026 | 0 (neprítomný) | KDH (at the vote) | [Hlasovanie o návrhu zákona ako o celku. Vládny návrh zákona, ktorým sa mení a dopĺňa zákon č. 355/2007 Z. z. o ochrane, podpore a rozvoji v…](https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasklub&ID=58148) · bill's areas | marriage and family |
 
-330 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+757 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Notes
 
