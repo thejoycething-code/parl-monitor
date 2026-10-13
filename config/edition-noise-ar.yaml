@@ -38,7 +38,9 @@ procedural_votes:
 #     ('templo*');
 #   - the provincial layer (13 October 2026, tools/ar_regions.py): 'culto*'
 #     inside 'cultor' / 'cultora' (a Corrientes law honouring a chamamé
-#     "cultor y creador", SAIJ, 25 September 2026).
+#     "cultor y creador", SAIJ, 25 September 2026);
+#   - 'nonato*' in the patron saint San Ramón Nonato (a Salta Diputados
+#     declaration on his feast day, Asuntos Entrados of 25 August 2026).
 exclude_titles:
   - 'comercio internacional y culto'
   - 'medidas fiscales paliativas'
@@ -46,6 +48,7 @@ exclude_titles:
   - '^proteccion de datos personales\b'
   - '\borganos y armonios\b'
   - '^(?!.*\b(culto|cultos|religios\w*|iglesia)\b).*\bcultor(a|es|as)?\b'
+  - '\bsan ramon nonato\b'
 
 # What may lead the edition, for an item that is not watched: a tier-1 term
 # in its own title (a register title IS the extracto), or two distinct terms

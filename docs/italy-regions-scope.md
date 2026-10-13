@@ -173,7 +173,8 @@ store and on the 958 acts of the 12 October regional archive:
    that is a new service, so only on your say-so.
 3. **Lombardia's vote PDFs** as a later phase (per-member votes, if the
    verbale prints them).
-4. **The proposed terms** above.
+4. ~~The proposed terms~~: applied 12 October 2026 (taxonomy-it v0.3, above);
+   nothing left proposed after the 13 October round.
 5. **Regional watchlist entries**: add acts by key under `regional:` in
    `config/watchlist-it.yaml` (e.g. the Liberi Subito bills, if they should
    lead even when nothing changes).

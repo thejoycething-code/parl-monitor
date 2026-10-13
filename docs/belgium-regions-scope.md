@@ -147,9 +147,25 @@ the persecution of Christians, the faith-communities recognition decree, a
 petition on transgender protection), Wallonia 2 of 505, Brussels 3 of 275,
 COCOM 2 of 65, FWB 0 of 18.
 
-### Proposed terms (for Chris; no taxonomy file was edited)
+### Terms (APPLIED 13 October 2026: taxonomy-nl v0.3, taxonomy-fr v0.3)
 
-Measured misses in the first read; all Belgium-specific:
+Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring". Applied after measuring on a scratch read of the five readable
+parliaments (1,762 documents) and the federal, French and Swiss stores
+(read-only); the counts are in each master's dated note:
+
+- **Applied, NL** (tagged `be`): `Groeipakket*` and `gezinsbijslag*`, area 9
+  tier 2: 16 documents gain them, 12 newly on our ground (the Groeipakket
+  decree amendments and 5 petitions; COCOM B-19, B-26, B-27, B-58, B-70);
+  0 false positives.
+- **Applied, FR** (shared, not tagged): `allocations familiales`, area 9 tier
+  2: Wallonia 10 motions and COCOM B-39, plus 1 federal, 13 French and 14
+  Swiss titles, all family-allowance policy (39 newly on our ground, 0 false
+  positives), so the term serves all three French-speaking countries.
+- **Not added**: the spelled-out EVRAS (every title that spells it out
+  already matches "éducation à la vie relationnelle", tier 1) and the
+  Erkenningsdecreet (already caught by `geloofsgemeenschap*`).
+
+The proposals as first written (first read, 13 October):
 
 - NL, area 9, tier 2: `Groeipakket*` (Flanders' family allowance since 2019;
   10 documents and 5 petitions, none matched except through "gezinsbeleid"),

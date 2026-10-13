@@ -91,7 +91,11 @@ class TaxonomySyncTests(unittest.TestCase):
         # reproductive health services.
         # v1.22 (12 October 2026): baby loss, pregnancy loss and miscarriage
         # in area 1, miscarriage vetoed by "miscarriage(s) of justice".
-        self.assertEqual(version, "1.22")
+        # v1.23 (13 October 2026): the regional terms round (terminally ill
+        # guarded, end of life choices, the guarded BDM Registration and
+        # Equal Opportunity Amendment names, religious exceptions, the
+        # pornograph* stem); tests/test_v123_terms.py.
+        self.assertEqual(version, "1.23")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on

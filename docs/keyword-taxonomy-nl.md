@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Dutch (Netherlands and Flanders) keyword taxonomy
 
-**Version 0.2 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.3 | 13 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 ## Purpose
 
@@ -90,8 +90,8 @@ Noise round (v0.2, 10 October 2026, approved by Chris).
 ### 9. Marriage and family {#9_marriage_family}
 
 - **Tier 1:** kindhuwelijk*; huwelijksdwang; "gedwongen huwelijk*"; polygamie; meerouderschap [only: nl]; meeroudergezag [only: nl]; deelgezag [only: nl]; "Staatscommissie Herijking ouderschap" [only: nl]; gezinsbeleid [only: nl]; familiebeleid; huwelijksgevangenschap; "huwelijk tussen personen van hetzelfde geslacht"; meeouderschap; afstamming; meemoeder* [only: be]
-- **Tier 2:** gezinsbeleid; huwelijk*; kinderbijslag; "kindgebonden budget" [only: nl]; geboorteverlof; ouderschapsverlof; adoptie*; "interlandelijke adoptie"; eenoudergezin*; echtscheiding*; "geregistreerd partnerschap"; "gezag over kinderen"; "kinderrechten in de Grondwet"; huwelijk; echtscheiding; adoptie; "wettelijke samenwoning" [only: be]; geboortecijfer
-- **Notes:** Netherlands: Measured: 31 zaken; huwelijk* catches huwelijksvermogensrecht (marital property tax). Belgium: Stillborn and family terms as drafted.
+- **Tier 2:** gezinsbeleid; huwelijk*; kinderbijslag; "kindgebonden budget" [only: nl]; geboorteverlof; ouderschapsverlof; adoptie*; "interlandelijke adoptie"; eenoudergezin*; echtscheiding*; "geregistreerd partnerschap"; "gezag over kinderen"; "kinderrechten in de Grondwet"; huwelijk; echtscheiding; adoptie; "wettelijke samenwoning" [only: be]; geboortecijfer; Groeipakket* [only: be]; gezinsbijslag* [only: be]
+- **Notes:** Netherlands: Measured: 31 zaken; huwelijk* catches huwelijksvermogensrecht (marital property tax). Belgium: Stillborn and family terms as drafted. Belgium, v0.3 (Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring"; docs/belgium-regions-scope.md): Groeipakket* (Flanders' family allowance since 2019, the Groeipakketdecreet) and gezinsbijslag* (Brussels' and the COCOM's word) at tier 2, tagged be. Measured on a scratch read of the regional parliaments (1,239 Dutch titles): 16 documents gain them, 12 newly on our ground (Groeipakket 10: decree amendments and 5 petitions; gezinsbijslag 7: COCOM ordinances B-19, B-26, B-27, B-58, B-70); 0 false positives; the federal Chamber (1,779 dossiers) and the Tweede Kamer (4,860 zaken) unchanged. Erkenningsdecreet Lokale Geloofsgemeenschappen, also proposed, is NOT added: geloofsgemeenschap* already catches it.
 
 ### 10. Surrogacy and embryology {#10_surrogacy_embryology}
 

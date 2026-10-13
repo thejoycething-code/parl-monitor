@@ -140,7 +140,23 @@ not read:
 - `nt:AF92C56CA0444E02854B67F968762F60`, the Territory's **Anti-Discrimination
   Amendment Bill 2025** (passed): area 8, provisionally.
 
-### Proposed vocabulary (not added: `config/taxonomy.yaml` is generated)
+### Vocabulary (APPLIED 13 October 2026, taxonomy v1.23)
+
+Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring". Measured on a scratch read of the state layer (613 bills and
+motions, 290 Acts) and the local store (read-only), counts in
+`docs/keyword-taxonomy.md`: "terminally ill" (tier 2, guarded by "rights of
+the", dying, euthanasia, suicide or "assisted death"; bare it filed benefits,
+carers' and hospital-discharge questions) gives the Territory's Rights of the
+Terminally Ill Bill area 2; "end of life choices" (tier 1, both spellings; no
+row today); "Births, Deaths and Marriages Registration" guarded by sex or
+gender gives Western Australia's Sex or Gender Changes Act area 5 (South
+Australia's Birth Certificates bill stays on its key); "religious exceptions"
+and "religious educational institution*" (no row today), and "Equal
+Opportunity Amendment" guarded by religio* (bare, it filed Victoria's Work
+from Home and Medical Treatment bills). 0 false positives after the guards.
+The seven watchlist entries are accepted as they stand.
+
+The proposal as first written:
 
 For Christopher to approve into `docs/keyword-taxonomy.md`, all Australian
 statute names a title would carry:
@@ -321,10 +337,12 @@ later division 2 to 16). Every member's vote is stored for each.
 
 ## Waiting on Chris
 
-1. **The watchlist** (seven entries above), especially the provisional ones
+1. ~~**The watchlist**~~ accepted 13 October 2026 ("Accept the watchlists").
+   It was: seven entries above, especially the provisional ones
    (South Australia's birth certificates bill, Victoria's sex
    characteristics bill, the Territory's Anti-Discrimination Amendment).
-2. **The proposed vocabulary** above, into `docs/keyword-taxonomy.md`.
+2. ~~The proposed vocabulary~~: applied 13 October 2026 (v1.23, above); the
+   watchlist accepted the same day.
 3. **Whether to write to the parliaments** behind the challenges (NSW,
    Queensland, Western Australia, Tasmania, the ACT, the Northern Territory)
    asking for our user agent to be allowed, as was done for aph.gov.au.

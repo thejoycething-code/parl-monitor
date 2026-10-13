@@ -127,10 +127,15 @@ ordenanza guaranteeing school access and continuity for girls, Tumbes's
 "protección integral" of children): the session judge or a watchlist entry is
 the route for those, not a looser term.
 
-No term-list change is proposed: the national list covers what the regions
-pass. Country-specific candidates for a later taxonomy round, NOT added
-(never hand-edit generated taxonomy YAML): "uniones infantiles tempranas
-forzadas", "Ley 31945".
+No term-list change was proposed at the build: the national list covers what
+the regions pass. The two country-specific candidates were **APPLIED 13
+October 2026** (Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring"; taxonomy-es v0.4, both tagged pe, area 9):
+"uniones infantiles tempranas forzadas" (tier 1) and Ley 31945 as the number
+`31945` guarded by ley, matrimonio* or menores (tier 1), because the gazette
+prints the law as Ley N"31945 and Ley N."° 31945, which no phrase matched.
+Measured on the 2,238 stored regional norms: Arequipa's ordinance 561-2026
+and Ayacucho's 19-2025 and 21-2025 match, all already area 9 through
+"matrimonio"; national bills unchanged; 0 false positives.
 
 ## What is classified
 

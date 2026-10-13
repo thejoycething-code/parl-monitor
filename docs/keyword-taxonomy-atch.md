@@ -1,6 +1,6 @@
 # Parliamentary Monitor: German additions (Austria and Switzerland) keyword taxonomy
 
-**Version 0.2 | 12 October 2026 (v0.2: Imam* vetoed beside İmamoğlu, the jailed mayor of Istanbul, a false hit in Vienna's Gemeinderat, PR #152) | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.3 | 13 October 2026 (v0.3: the cantons' terms, Geschlechtsänderung* and Genderstern*; v0.2, 12 October: Imam* vetoed beside İmamoğlu, the jailed mayor of Istanbul, a false hit in Vienna's Gemeinderat, PR #152) | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 **Extends:** de
 
@@ -47,8 +47,8 @@ Scope calls applied while merging:
 ### 3. Gender medicine and children {#3_gender_medicine_children}
 
 - **Tier 1:** Geschlechtsumwandlung*; Gender-Ideologie
-- **Tier 2:** intergeschlechtlich* [with: Kind*, Jugendliche*, Behandlung*, medizinisch*]; Transgender
-- **Notes:** Switzerland: Mo. 23.4408 'Stopp der Gender-Ideologie ... Geschlechtsumwandlung' had no term in either list.
+- **Tier 2:** intergeschlechtlich* [with: Kind*, Jugendliche*, Behandlung*, medizinisch*]; Transgender; Geschlechtsänderung*
+- **Notes:** Switzerland: Mo. 23.4408 'Stopp der Gender-Ideologie ... Geschlechtsumwandlung' had no term in either list. v0.3 (Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring"; docs/switzerland-cantons-scope.md): Geschlechtsänderung* at tier 2, shared by Austria and Switzerland. Bern 2023.RRGR.193 ("Geschlechtsänderungen: Wie bekämpft der Regierungsrat das Missbrauchspotenzial?") gains area 3 (scratch read of the cantons, 2,643 acts); the Federal Assembly (10,956 German titles), the Nationalrat (19,199 items) and the Landtage (1,839) unchanged; 0 false positives.
 
 ### 4. Conversion practices {#4_conversion_practices}
 
@@ -58,8 +58,8 @@ Scope calls applied while merging:
 ### 5. Sex-based rights and single-sex spaces {#5_sex_based_rights}
 
 - **Tier 1:** Genderideologie*; Gender-Ideologie*; "biologische* Geschlecht*"; Transgender*; nonbinär*; non-binär*
-- **Tier 2:** LGBTIQ*; LGBTQ*; intergeschlechtlich*; queer*; Pride* [with: Parade*, Flagge*, LGBT*, queer*, Kosten, Förderung*]; Binnen-I; Regenbogen* [with: Flagge*, Parade*, Fahne*]; LGBT*; "häusliche Gewalt"
-- **Notes:** Austria: LGBTIQ*/LGBTQ* added because taxonomy-de has LSBTIQ only; Pride and queer funding in (AT3), tier 2. Switzerland: LGBTIQ is the Swiss acronym (base has LSBTIQ); häusliche Gewalt at tier 2 under X11 (9 titles, all missed).
+- **Tier 2:** LGBTIQ*; LGBTQ*; intergeschlechtlich*; queer*; Pride* [with: Parade*, Flagge*, LGBT*, queer*, Kosten, Förderung*]; Binnen-I; Regenbogen* [with: Flagge*, Parade*, Fahne*]; LGBT*; "häusliche Gewalt"; Genderstern*
+- **Notes:** Austria: LGBTIQ*/LGBTQ* added because taxonomy-de has LSBTIQ only; Pride and queer funding in (AT3), tier 2. Switzerland: LGBTIQ is the Swiss acronym (base has LSBTIQ); häusliche Gewalt at tier 2 under X11 (9 titles, all missed). v0.3 (Chris, 13 October 2026: "Accept the watchlists, apply the terms after measuring"; docs/switzerland-cantons-scope.md): Genderstern* at tier 2, shared. Bern 2024.RRGR.225 (the "Genderstern/Doppelpunkt" in official documents) gains area 5; nothing else in the Swiss or Austrian stores matches; 0 false positives.
 
 ### 6. Parental rights and education {#6_parental_rights_education}
 

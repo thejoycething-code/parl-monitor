@@ -11,5 +11,38 @@
 #       areas: [6]
 #       why: "Escola sem Partido for the state school network."
 #
-# Empty at launch (13 October 2026): nothing is watched until Chris names it.
-bills: {}
+# Seeded 13 October 2026 (Chris: "Accept the watchlists, apply the terms after
+# measuring"): ten bills on our ground found by the first and second passes
+# (PRs #169 and #174, docs/brazil-regions-scope.md), each key checked against
+# the scratch store of that day (7,751 state bills). Status as read then.
+bills:
+  al/PLO 1275/2025:
+    areas: [1]
+    why: "Alagoas: a state abortion-prevention programme for women (Dep. Mesaque Padilha); passed, awaiting the governor's sanction since 7 October 2026."
+  sp/PL 734/2026:
+    areas: [5]
+    why: "São Paulo: separate toilets for transgender and non-binary people and no urinals in women's toilets (Valeria Bolsonaro, PL); on the plenary agenda in July 2026."
+  sp/PL 457/2026:
+    areas: [5]
+    why: "São Paulo: toilets, changing rooms and shared spaces segregated by biological sex (Gil Diniz Bolsonaro, PL); in committee."
+  sp/PL 670/2026:
+    areas: [6, 8]
+    why: "São Paulo: the Bible as a supplementary school text in public and private schools (Gil Diniz Bolsonaro, PL); before the CCJR since 15 July 2026."
+  sp/PL 336/2026:
+    areas: [6, 8]
+    why: "São Paulo: conscientious objection for pupils to teaching at odds with their religious and moral convictions (André Bueno, MDB); in committee."
+  sp/PL 1275/2025:
+    areas: [1]
+    why: "São Paulo: a state policy on mental health and sexual and reproductive rights (Marina Helou, PSB); returned to its committee in April 2026."
+  sp/PL 183/2025:
+    areas: [1]
+    why: "São Paulo: a programme of 'humanised care' for legal abortion (Bancada Feminista, PSOL)."
+  sp/PL 543/2025:
+    areas: [1]
+    why: "São Paulo: a dignified burial for the unborn and stillborn (Dr. Elton, UNIÃO); in committee."
+  sp/PL 646/2024:
+    areas: [5, 6]
+    why: "São Paulo: bars children and adolescents from the Pride parade (Gil Diniz Bolsonaro, PL); on a committee agenda since April 2026."
+  sp/PL 440/2025:
+    areas: [6]
+    why: "São Paulo: removal of teachers who engage in political and ideological indoctrination in class (Fabiana Bolsonaro, PL); with a rapporteur."
