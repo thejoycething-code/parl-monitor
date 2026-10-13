@@ -149,7 +149,7 @@ Open:
   provincial, CH cantons, BE regions, AU states) and the proposed taxonomy
   terms in each regional scope doc.
 - OPEN (Poland): keep Kujawsko-Pomorskie's draft resolutions ("On a
-  sejmik's agenda") in the edition? Is pypdf on the Mini (Świętokrzyskie)?
+  sejmik's agenda") in the edition?
 - OPEN: when France or Belgium agrees to short credited clips, set
   `fr.agreement` / `be.agreement` in `config/clip-sources.yaml`.
 
@@ -198,8 +198,8 @@ Done or decided (details in the decisions docs):
   (Saturday's ES, IT, AT, PE and the others in turn); MX on its next
   fortnightly GitHub run. The NSW backfill drains over three or four
   Fridays with a [gap] line each until done.
-- pypdf for Świętokrzyskie's register PDF (otherwise a gap line); not
-  installed.
+- pypdf for Świętokrzyskie's register PDF: already in the Mini's runner
+  venv (pypdf 6.14.2, checked 13 October 2026); nothing to install.
 - The first Sunday 16:45 run of `editions-session-judge` (Claude Code on the
   Mini is signed in to the work account; over SSH it reports "Not logged in"
   because the keychain is locked for SSH, which is expected). The portrait
