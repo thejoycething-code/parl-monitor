@@ -1,0 +1,74 @@
+{
+ "Positions": [
+  {
+   "Day": 25,
+   "Month": 9,
+   "PublicationDate": "2026-09-25T13:54:16.727",
+   "ActDate": "2026-09-22T00:00:00",
+   "PdfUrl": "GetActPdf.ashx?year=2026&book=0&position=3712",
+   "PdfDisplayName": null,
+   "Subject": "w sprawie zasad wynajmu lokali stanowiących mieszkaniowy zasób Województwa Podlaskiego",
+   "Publisher": null,
+   "CaseNumber": "XXVIII/317/2026",
+   "HasExpired": false,
+   "LegalActType": "Uchwała",
+   "ActTypeId": 18,
+   "PublishersList": [
+    {
+     "Name": "Sejmiku Województwa Podlaskiego",
+     "Oid": 156
+    }
+   ],
+   "PublishersListFlat": "sejmik województwa podlaskiego",
+   "PdfBookUrlList": [
+    {
+     "Url": "GetActPdf.ashx?year=2026&book=0&position=3712",
+     "Name": "Akt.pdf"
+    }
+   ],
+   "Title": "Uchwała nr XXVIII/317/2026 Sejmiku Województwa Podlaskiego z dnia 22 września 2026 r. w sprawie zasad wynajmu lokali stanowiących mieszkaniowy zasób Województwa Podlaskiego",
+   "IsTechnicalPosition": false,
+   "Oid": 117563,
+   "Position": 3712,
+   "Year": 2026,
+   "DuplicateChar": null,
+   "JournalNumber": 0
+  },
+  {
+   "Day": 25,
+   "Month": 9,
+   "PublicationDate": "2026-09-25T13:55:26.897",
+   "ActDate": "2026-09-22T00:00:00",
+   "PdfUrl": "GetActPdf.ashx?year=2026&book=0&position=3713",
+   "PdfDisplayName": null,
+   "Subject": "zmieniająca uchwałę w sprawie określenia warunków wynagradzania egzaminatorów zatrudnionych w wojewódzkich ośrodkach ruchu drogowego Województwa Podlaskiego",
+   "Publisher": null,
+   "CaseNumber": "XXVIII/318/2026",
+   "HasExpired": false,
+   "LegalActType": "Uchwała",
+   "ActTypeId": 18,
+   "PublishersList": [
+    {
+     "Name": "Sejmiku Województwa Podlaskiego",
+     "Oid": 156
+    }
+   ],
+   "PublishersListFlat": "sejmik województwa podlaskiego",
+   "PdfBookUrlList": [
+    {
+     "Url": "GetActPdf.ashx?year=2026&book=0&position=3713",
+     "Name": "Akt.pdf"
+    }
+   ],
+   "Title": "Uchwała nr XXVIII/318/2026 Sejmiku Województwa Podlaskiego z dnia 22 września 2026 r. zmieniająca uchwałę w sprawie określenia warunków wynagradzania egzaminatorów zatrudnionych w wojewódzkich ośrodkach ruchu drogowego Województwa Podlaskiego",
+   "IsTechnicalPosition": false,
+   "Oid": 117564,
+   "Position": 3713,
+   "Year": 2026,
+   "DuplicateChar": null,
+   "JournalNumber": 0
+  }
+ ],
+ "Month": 9,
+ "Year": 2026
+}

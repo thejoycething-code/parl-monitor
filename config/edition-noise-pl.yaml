@@ -21,6 +21,14 @@ procedural_votes:
   - '\bwniosek o (uzupelnienie|zmiane) porzadku dziennego\b'
 exclude_titles:
   - '\bwychowaniu w trzezwosci\b'
+  # Regional assemblies (13 October 2026, tools/pl_regions.py): two yearly
+  # administrative resolutions every sejmik adopts, measured on the first
+  # run of the four registers: the social-care resources assessment ("ocena
+  # zasobów pomocy społecznej", area 9 through "demograf*") and the network
+  # plan of teacher-training centres and libraries (area 6 through "prawo
+  # oświatowe").
+  - '\bocen\w* zasobow pomocy spolecznej\b'
+  - '\bplanu sieci publicznych placowek doskonalenia nauczycieli\b'
 alert:
   title_tier1: true
   distinct_terms: 2

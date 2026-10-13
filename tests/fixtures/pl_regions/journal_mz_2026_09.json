@@ -1,0 +1,110 @@
+{
+ "JournalNumbersList": [],
+ "HasJournal": false,
+ "Positions": [
+  {
+   "Day": 23,
+   "Month": 9,
+   "PublicationDate": "2026-09-23T10:05:29.683",
+   "ActDate": "2026-09-22T00:00:00",
+   "PdfUrl": "GetActPdf.ashx?year=2026&book=0&position=9183",
+   "PdfDisplayName": null,
+   "Subject": "w sprawie ograniczenia populacji dzików na terenie miasta stołecznego Warszawy",
+   "Publisher": null,
+   "CaseNumber": "154/26",
+   "HasExpired": false,
+   "LegalActType": "Uchwała",
+   "ActTypeId": 18,
+   "PublishersList": [
+    {
+     "Name": "Sejmik Województwa Mazowieckiego",
+     "Oid": 71
+    }
+   ],
+   "PublishersListFlat": "sejmik województwa mazowieckiego",
+   "PdfBookUrlList": [
+    {
+     "Url": "GetActPdf.ashx?year=2026&book=0&position=9183",
+     "Name": "Akt.pdf"
+    }
+   ],
+   "Title": "Uchwała nr 154/26 Sejmiku Województwa Mazowieckiego z dnia 22 września 2026 r. w sprawie ograniczenia populacji dzików na terenie miasta stołecznego Warszawy",
+   "IsTechnicalPosition": false,
+   "Oid": 222627,
+   "Position": 9183,
+   "Year": 2026,
+   "DuplicateChar": null,
+   "JournalNumber": 0
+  },
+  {
+   "Day": 2,
+   "Month": 9,
+   "PublicationDate": "2026-09-02T14:58:10.333",
+   "ActDate": "2026-09-01T00:00:00",
+   "PdfUrl": "GetActPdf.ashx?year=2026&book=0&position=8431",
+   "PdfDisplayName": null,
+   "Subject": "Rada Gminy Lesznowola",
+   "Publisher": null,
+   "CaseNumber": "WP-I.4131.236.2026",
+   "HasExpired": false,
+   "LegalActType": "Rozstrzygnięcie nadzorcze",
+   "ActTypeId": 15,
+   "PublishersList": [
+    {
+     "Name": "Wojewoda Mazowiecki",
+     "Oid": 1117
+    }
+   ],
+   "PublishersListFlat": "wojewoda mazowiecki",
+   "PdfBookUrlList": [
+    {
+     "Url": "GetActPdf.ashx?year=2026&book=0&position=8431",
+     "Name": "Akt.pdf"
+    }
+   ],
+   "Title": "Rozstrzygnięcie nadzorcze nr WP-I.4131.236.2026 Wojewody Mazowieckiego z dnia 1 września 2026 r. Rada Gminy Lesznowola",
+   "IsTechnicalPosition": false,
+   "Oid": 221875,
+   "Position": 8431,
+   "Year": 2026,
+   "DuplicateChar": null,
+   "JournalNumber": 0
+  },
+  {
+   "Day": 2,
+   "Month": 9,
+   "PublicationDate": "2026-09-02T14:58:10.333",
+   "ActDate": "2026-09-01T00:00:00",
+   "PdfUrl": "GetActPdf.ashx?year=2026&book=0&position=8431",
+   "PdfDisplayName": null,
+   "Subject": "Sejmik Województwa Mazowieckiego",
+   "Publisher": null,
+   "CaseNumber": "WP-I.4131.236.2026",
+   "HasExpired": false,
+   "LegalActType": "Rozstrzygnięcie nadzorcze",
+   "ActTypeId": 15,
+   "PublishersList": [
+    {
+     "Name": "Wojewoda Mazowiecki",
+     "Oid": 1117
+    }
+   ],
+   "PublishersListFlat": "wojewoda mazowiecki",
+   "PdfBookUrlList": [
+    {
+     "Url": "GetActPdf.ashx?year=2026&book=0&position=8431",
+     "Name": "Akt.pdf"
+    }
+   ],
+   "Title": "Rozstrzygnięcie nadzorcze nr WP-I.4131.236.2026 Wojewody Mazowieckiego z dnia 1 września 2026 r. Rada Gminy Lesznowola",
+   "IsTechnicalPosition": false,
+   "Oid": 1,
+   "Position": 99999,
+   "Year": 2026,
+   "DuplicateChar": null,
+   "JournalNumber": 0
+  }
+ ],
+ "Month": 9,
+ "Year": 2026
+}
