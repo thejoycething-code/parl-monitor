@@ -1,0 +1,206 @@
+{
+ "amendmentLines": [
+  {
+   "text": "To move the following Clause\u2014",
+   "indentation": 0,
+   "hangingIndentation": null,
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "<b>\u201cSingle sex facilities</b>",
+   "indentation": 1,
+   "hangingIndentation": null,
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "The Secretary of State is required to ensure that there are single sex\u2014",
+   "indentation": 1,
+   "hangingIndentation": "(1)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "changing rooms for NHS staff,",
+   "indentation": 2,
+   "hangingIndentation": "(a)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "toilets and washing facilities for NHS staff,",
+   "indentation": 2,
+   "hangingIndentation": "(b)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "wards for NHS patients, and",
+   "indentation": 2,
+   "hangingIndentation": "(c)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "toilets and washing facilities for NHS patients.",
+   "indentation": 2,
+   "hangingIndentation": "(d)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "The Secretary of State may make exemptions to the duty in subsection (1)(c) and (1)(d) where necessary for\u2014",
+   "indentation": 1,
+   "hangingIndentation": "(2)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "children,",
+   "indentation": 2,
+   "hangingIndentation": "(a)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "intensive care units,",
+   "indentation": 2,
+   "hangingIndentation": "(b)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "critical care, and",
+   "indentation": 2,
+   "hangingIndentation": "(c)",
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "specialist high observation areas such as resuscitation in Accident and Emergency and the initial recovery area in theatres.\u201d",
+   "indentation": 2,
+   "hangingIndentation": "(d)",
+   "isImage": false,
+   "imageType": null
+  }
+ ],
+ "explanatoryTextPrefix": "Member's explanatory statement",
+ "explanatoryText": "<p>This new clause creates a requirement for the Secretary of State to ensure certain single sex facilities are made available for NHS staff and patients. It provides exemptions in certain circumstances.</p>",
+ "amendmentNote": null,
+ "amendmentLocation": "",
+ "mainHeader": "",
+ "amendmentId": 10038150,
+ "amendmentType": "AddClauseOrSchedule",
+ "clause": null,
+ "schedule": null,
+ "pageNumber": null,
+ "lineNumber": null,
+ "amendmentPosition": null,
+ "marshalledListText": "NC143",
+ "dNum": "hoc390",
+ "id": 0,
+ "billId": 4124,
+ "billStageId": 21130,
+ "statusIndicator": null,
+ "decision": "NoDecision",
+ "decisionExplanation": "The House has not considered this amendment.",
+ "sponsors": [
+  {
+   "isLead": true,
+   "sortOrder": 1,
+   "memberId": 4592,
+   "name": "Dr Caroline Johnson",
+   "party": "Conservative",
+   "partyColour": "0063ba",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/4592/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/4592/contact",
+   "memberFrom": "Sleaford and North Hykeham"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 2,
+   "memberId": 3969,
+   "name": "Damian Hinds",
+   "party": "Conservative",
+   "partyColour": "0063ba",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/3969/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/3969/contact",
+   "memberFrom": "East Hampshire"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 3,
+   "memberId": 4616,
+   "name": "Rosie Duffield",
+   "party": "Independent",
+   "partyColour": "909090",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/4616/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/4616/contact",
+   "memberFrom": "Canterbury"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 4,
+   "memberId": 4759,
+   "name": "Joy Morrissey",
+   "party": "Conservative",
+   "partyColour": "0063ba",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/4759/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/4759/contact",
+   "memberFrom": "Beaconsfield"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 5,
+   "memberId": 5297,
+   "name": "Rebecca Paul",
+   "party": "Conservative",
+   "partyColour": "0063ba",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/5297/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/5297/contact",
+   "memberFrom": "Reigate"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 6,
+   "memberId": 5403,
+   "name": "Sarah Pochin",
+   "party": "Reform UK",
+   "partyColour": "12b6cf",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/5403/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/5403/contact",
+   "memberFrom": "Runcorn and Helsby"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 7,
+   "memberId": 5268,
+   "name": "Iqbal Mohamed",
+   "party": "Independent",
+   "partyColour": "909090",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/5268/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/5268/contact",
+   "memberFrom": "Dewsbury and Batley"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 8,
+   "memberId": 4857,
+   "name": "Carla Lockhart",
+   "party": "Democratic Unionist Party",
+   "partyColour": "d46a4c",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/4857/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/4857/contact",
+   "memberFrom": "Upper Bann"
+  }
+ ]
+}
