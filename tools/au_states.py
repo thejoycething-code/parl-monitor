@@ -79,6 +79,16 @@ DIVISIONS BEYOND NSW (13 October 2026, src/au_states_votes.py parses them):
        'The Assembly voted' are read with their x positions (names in
        columns).
 
+  qld-votes  (13 October 2026, branch access-routes) via
+       documents.parliament.qld.gov.au, the Parliament's document host:
+       each sitting day's Record of Proceedings PDF ('..._WEEKLY.pdf', one
+       per sitting day). The host serves its files to our user agent
+       (robots.txt 404: no rules); only its directory listing is refused, and
+       the pages that link the files are on www.parliament.qld.gov.au (Azure
+       WAF 403), so each candidate day is asked for by its published file
+       name: every week's Tuesday and Wednesday, the rest of a week that sat.
+       "AYES, 51: LNP, 51—Baillie, ..." gives every member's vote by party.
+
   Each record is read once (aus_hansard_days), newest first, a few a run;
   members are keyed by the printed name ('vic:name:moira-deeming'), the
   records carrying no IDs. Big files are not archived (archive=False).
@@ -87,10 +97,11 @@ Not read, and why: every parliament site behind a challenge (NSW, Queensland,
 Western Australia, Tasmania, the ACT, the Northern Territory), from GitHub's
 runners too (probe of 13 October 2026), South Australia's Hansard search
 (Azure WAF challenge), the NSW and South Australian legislation registers
-(Cloudflare and a 403). No divisions for Queensland, Western Australia or the
-Northern Territory: every record of them is behind the challenges, and
-Territory Stories (the NT Library's archive) disallows its PDFs in
-robots.txt. Every route tried is in the scope doc.
+(Cloudflare and a 403). No divisions for Western Australia or the Northern Territory:
+every record of them is behind the challenges (www.parliament.wa.gov.au and
+parliament.nt.gov.au answer 403 even for robots.txt), and Territory Stories
+(the NT Library's archive) disallows its PDFs, /documents/ and /search/ in
+robots.txt. Queensland's divisions come from its document host (qld-votes). Every route tried is in the scope doc.
 
 CLASSIFICATION. The shared English taxonomy (config/taxonomy.yaml) on every
 title, plus config/watchlist-au-states.yaml applied by bill key, never by
@@ -138,7 +149,7 @@ BUDGET_S = drain.DEFAULT_S
 SOURCE_ORDER = ("nsw", "vic", "qld", "sa", "wa", "tas", "act", "nt")
 # Divisions beyond NSW (13 October 2026, src/au_states_votes.py): the official
 # records with each member's vote, on hosts that answer us.
-VOTES_ORDER = ("vic-votes", "sa-votes", "tas-votes", "act-votes")
+VOTES_ORDER = ("vic-votes", "sa-votes", "tas-votes", "act-votes", "qld-votes")
 # A plain run reads the list sources, then the votes records, then NSW, whose
 # first backfill is the slow part and drains under the budget over weeks.
 DEFAULT_ORDER = ("vic", "qld", "sa", "wa", "tas", "act", "nt") + VOTES_ORDER + ("nsw",)
@@ -209,6 +220,17 @@ VIC_VOTES_PER_RUN = 30
 SA_VOTES_PER_RUN = 8             # per House
 TAS_VOTES_PER_RUN = 8            # Word files of about 3 MB
 ACT_VOTES_PER_RUN = 4            # PDFs of about 1 MB
+# Queensland (13 October 2026, branch access-routes): the Record of
+# Proceedings, one PDF per sitting day, on the Parliament's document host.
+# Its index pages are on www.parliament.qld.gov.au (Azure WAF 403), so each
+# file is asked for by its published name, one candidate day at a time: the
+# Tuesday and Wednesday of each week, and the rest of that week's days only
+# when one of them sat. A day that answers 404 for QLD_GIVE_UP_DAYS is
+# marked as not sitting.
+QLD_HANSARD = "https://documents.parliament.qld.gov.au/events/han/{year}/{ymd}_WEEKLY.pdf"
+QLD_VOTES_PER_RUN = 6            # PDFs of 1 to 1.7 MB
+QLD_WINDOW_DAYS = 120
+QLD_GIVE_UP_DAYS = 14
 VOTES_WINDOW_DAYS = 400          # how far back a first read goes
 TAS_WINDOW_DAYS = 180
 TAS_GIVE_UP_DAYS = 21            # a House with no Hansard this long after a sitting day did not sit
@@ -1604,8 +1626,82 @@ def pull_act_votes(conn, client, today, tax, budget):
     return read, ndiv, ours, gaps
 
 
+# Queensland
+
+def qld_candidate_weeks(today, window=QLD_WINDOW_DAYS):
+    """[(tuesday, [the week's days Tuesday to Friday])], newest first."""
+    t = datetime.date.fromisoformat(today)
+    start = t - datetime.timedelta(days=window)
+    tue = t - datetime.timedelta(days=(t.weekday() - 1) % 7)
+    out = []
+    while tue >= start:
+        out.append((tue.isoformat(), [(tue + datetime.timedelta(days=k)).isoformat()
+                                      for k in range(4) if tue + datetime.timedelta(days=k) <= t]))
+        tue -= datetime.timedelta(days=7)
+    return out
+
+
+def qld_hansard_url(date):
+    return QLD_HANSARD.format(year=date[:4], ymd=date.replace("-", "_"))
+
+
+def pull_qld_votes(conn, client, today, tax, budget):
+    """The Record of Proceedings of each sitting day not read yet (via the
+    Parliament's document host, documents.parliament.qld.gov.au)."""
+    from src.prov_fetch import pdf_text
+    chamber = "Legislative Assembly"
+    done = _days_read(conn, "qld")
+    give_up = _window_start(today, QLD_GIVE_UP_DAYS)
+    read = ndiv = ours = gaps = 0
+
+    def one(date):
+        """True if the day's record exists (read now or before)."""
+        nonlocal read, ndiv, ours, gaps
+        if (date, chamber) in done:
+            return bool(done[(date, chamber)])
+        url = qld_hansard_url(date)
+        try:
+            raw = client.get_bytes(url, FEED, "qld-hansard-" + date, archive=False)
+        except FetchError as e:
+            if "404" in _cause(e):
+                if date < give_up:   # the House did not sit that day
+                    _mark_day(conn, "qld", date, chamber, None, today, 0)
+                    conn.commit()
+                return False
+            _gap(conn, today, "Queensland Record of Proceedings {0}: {1}".format(date, _cause(e)))
+            gaps += 1
+            return False
+        try:
+            divs = [d for _date, d in votes.parse_qld(pdf_text(raw).split("\n=====PAGE\n"))]
+        except Exception as e:  # an unreadable PDF
+            _gap(conn, today, "Queensland Record of Proceedings {0}: unreadable ({1})".format(
+                date, str(e)[:80]))
+            gaps += 1
+            return True
+        ours += _store_record(conn, tax, "qld", date, chamber, divs, url, today, url.rsplit("/", 1)[-1])
+        read += 1
+        ndiv += len(divs)
+        return True
+
+    for tue, days in qld_candidate_weeks(today):
+        if read >= QLD_VOTES_PER_RUN:
+            break
+        if budget.exhausted():
+            _gap(conn, today, "Queensland Record of Proceedings: time budget reached (read next run)")
+            gaps += 1
+            break
+        sat = False
+        for day in days[:2]:
+            sat = one(day) or sat
+        if sat:
+            for day in days[2:]:
+                one(day)
+    _votes_read(conn, "qld-votes", today, read, gaps)
+    return read, ndiv, ours, gaps
+
+
 VOTES_PULL = {"vic-votes": pull_vic_votes, "sa-votes": pull_sa_votes, "tas-votes": pull_tas_votes,
-              "act-votes": pull_act_votes}
+              "act-votes": pull_act_votes, "qld-votes": pull_qld_votes}
 
 
 # --- reclassify ------------------------------------------------------------------------

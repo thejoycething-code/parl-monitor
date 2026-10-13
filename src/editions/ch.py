@@ -198,15 +198,19 @@ def items(conn, since, until, wl):
 
 CANTON_NAMES = {"zh": "Kantonsrat Zürich", "be": "Grosser Rat Bern",
                 "ge": "Grand Conseil de Genève", "vd": "Grand Conseil vaudois",
-                "ti": "Gran Consiglio ticinese"}
-CANTONS_READ = ("zh", "be", "ge", "vd", "ti")
-CANTONS_UNDATED = ("ge", "vd", "ti")
+                "ti": "Gran Consiglio ticinese", "sg": "Kantonsrat St. Gallen",
+                "bl": "Landrat Basel-Landschaft", "bs": "Grosser Rat Basel-Stadt",
+                "tg": "Grosser Rat Thurgau", "ag": "Kanton Aargau (Gesetzessammlung)"}
+CANTONS_READ = ("zh", "be", "sg", "bl", "bs", "tg", "ag", "ge", "vd", "ti")
+CANTONS_UNDATED = ("ge", "vd", "ti", "bs")
 CANTONS_DOC = ce.REPO + "docs/switzerland-cantons-scope.md"
 CANTONS_BLOCKED = (
-    "Basel-Stadt, Basel-Landschaft, St. Gallen and Thurgau publish their parliaments' "
-    "business and votes as open data, but on portals whose robots.txt disallows /api/ to "
-    "every agent but Googlebot: not read",
-    "Aargau: www.ag.ch's robots.txt disallows /grossrat: not read",
+    "Basel-Stadt, Basel-Landschaft, St. Gallen and Thurgau: their open-data portals' "
+    "robots.txt disallows /api/ (not read); their parliaments are read from their own "
+    "business systems instead (grosserrat.bs.ch, baselland.talus.ch, ratsinfo.sg.ch, "
+    "grgeko.tg.ch)",
+    "Aargau: www.ag.ch's robots.txt disallows /grossrat (not read); only the acts published "
+    "in the Aargauische Gesetzessammlung are read",
     "Lucerne, Valais and the other sixteen cantons are not read yet ([scope]({0}))".format(
         CANTONS_DOC),
 )
@@ -277,7 +281,8 @@ def canton_items(conn, since, until, wl):
                                     ce.clean(r["act_label"]) or r["act_key"] or "an item")
         out.append(ce.vote("ch", r["vote_key"], r["date"], title, ce.areas_of(r["areas"]),
                            r["tier"], w, [ce.tally_line(r["yes"], r["no"], r["abstain"],
-                                                        r["result"], "Grosser Rat, as published")],
+                                                        r["result"], "{0}, as published".format(
+                                                            CANTON_NAMES.get(r["canton"], "Grosser Rat")))],
                            url=r["url"], terms=r["matched_terms"], takeaway=take,
                            group="cantons:" + (r["act_key"] or r["vote_key"]),
                            group_title=r["act_title"],
@@ -300,7 +305,8 @@ def canton_coverage(conn):
     lines += [b + "." for b in CANTONS_BLOCKED]
     lines.append("Cantonal titles are matched in their own language (taxonomy-atch, taxonomy-fr, "
                  "taxonomy-it for Ticino); Geneva is read through its keyword search, Vaud from "
-                 "its lists of pending objects, Ticino from the order of the day.")
+                 "its lists of pending objects, Ticino from the order of the day, Thurgau from its "
+                 "list of pending business, Basel-Landschaft from its newest documents.")
     return lines
 
 
