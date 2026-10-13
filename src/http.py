@@ -339,7 +339,7 @@ class HttpClient:
         self._archive(raw, feed, slug)
         return json.loads(raw.decode("utf-8"))
 
-    def post_form(self, url, fields, feed, slug, timeout=None, archive=False):
+    def post_form(self, url, fields, feed, slug, timeout=None, archive=False, encoding="utf-8"):
         """POST an HTML form (application/x-www-form-urlencoded); return text.
 
         Added for the Assemblee nationale du Quebec (2 October 2026), whose
@@ -350,6 +350,9 @@ class HttpClient:
         cap and the honest UA. Like post_json it does NOT retry -- a POST is
         not obviously safe to repeat -- and it is not archived by default:
         the page is a listing whose links are the provenance.
+
+        encoding (13 October 2026): how the reply is decoded, for a listing
+        served in Latin-1 (the Ceará Assembly's proposições search).
         """
         from urllib.parse import urlencode
         timeout = self.default_timeout if timeout is None else timeout
@@ -370,7 +373,7 @@ class HttpClient:
                 raise FetchError(url, feed, slug, 1, exc)
         if archive:
             self._archive(raw, feed, slug)
-        return raw.decode("utf-8", errors="replace")
+        return raw.decode(encoding or "utf-8", errors="replace")
 
     # -- internals ----------------------------------------------------------
 

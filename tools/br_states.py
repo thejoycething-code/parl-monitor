@@ -48,12 +48,30 @@ THE SOURCES, all keyless, all probed live with robots.txt read first:
        Amazonas, Paraíba, Piauí, Rondônia, Tocantins; tried every run:
        Roraima and Maranhão (no answer from outside Brazil on 13 October).
 
-Not read, and why (the scope doc has the detail): Paraná (bill search and
-votes behind reCAPTCHA), Rio Grande do Sul, Santa Catarina, Bahia,
-Pernambuco's bills, Distrito Federal, Espírito Santo, Mato Grosso, Mato
-Grosso do Sul, Rio Grande do Norte, Amapá (no answer from the laptop, or a
-certificate that fails), Goiás, Ceará, Pará, Sergipe (no machine-readable
-list of bills found).
+  THE ALTERNATIVE ROUTES (second pass, 13 October 2026), for assemblies whose
+  own search is blocked or missing; each item's edition line says "(via ...)":
+  rn   ALRN, the JSON its Transparência Legislativa app loads: bills with
+       author, party and stage; plenary results ("últimas votações").
+  ce   ALECE, its proposições lists on www2 (one search per type, year and
+       in-passage/decided): bills with author, stage and law number.
+  pe   ALEPE, its open-data API's projetos (one XML a year).
+  pa   ALEPA, its proposições search (a form POST; newest ten of a type,
+       numbered gaps asked one by one).
+  go   Goiás, adopted laws from the Casa Civil's legislation API.
+  pr   Paraná, adopted laws from the Casa Civil's Sistema Estadual de
+       Legislação (ALEP's bill search is behind reCAPTCHA, never bypassed;
+       its documented open-data API answers only plain HTTP, which the
+       repository never fetches).
+
+Not read, and why (the scope doc has the detail): Rio Grande do Sul,
+Espírito Santo, Amapá, Distrito Federal (no answer from outside Brazil, the
+GitHub runners included; DF's SINJ search backend is disallowed by
+robots.txt), Santa Catarina and Mato Grosso's bill report (answer GitHub's
+runners only: a GitHub-side step is proposed, not built), Mato Grosso do
+Sul (proof-of-work captcha), Sergipe (no list of bills), Bahia (ALBA's own
+list stops in July 2025; the Casa Civil's LegislaBahia groups '*' with a
+Disallow: / in its robots.txt, read as disallowed). LexML Brasil's SRU
+search sits under /busca/, which its robots.txt disallows.
 
 CLASSIFICATION: config/taxonomy-pt.yaml with country 'br' (accent-
 sensitive; the titles are the assemblies' own Portuguese, ALERJ's in
@@ -81,6 +99,7 @@ import json
 import os
 import re
 import sys
+import time
 import unicodedata
 import xml.etree.ElementTree as ET
 import zipfile
@@ -137,6 +156,11 @@ MG_MOVED_PAGES = {"PL": 3, "PLC": 1, "PEC": 1}
 MG_DETAIL_CAP = 12      # bill pages read per run (bills on our ground only)
 # A list entry whose "ementa" is really the last action (ALMG prints the
 # last action where a bill has no ementa, e.g. 'Distribuído a 2 comissões').
+# Retries (13 October 2026): the ALMG host answers in the morning and times
+# out for an hour at a time. A failed search page or bill page is asked again
+# after these waits (seconds), within the run's budget; once a whole type's
+# search has failed even so, the other types get one try each.
+MG_RETRY_WAITS = (30, 90)
 MG_ACTION = re.compile(r"^(Distribu[íi]d|Recebid|Proposi[çc][ãa]o recebida|Encaminhad|Anexad|"
                        r"Arquivad|Aprovad|Publicad)", re.I)
 
@@ -166,30 +190,29 @@ SAPL_AUTHOR_CAP = 2      # autor reads per house per run
 SAPL_TYPES_DAYS = 28     # the type list is re-read every four weeks
 SAPL_DELAY = 60.0        # every SAPL robots.txt asks this; the guard reads it too
 
-SOURCE_ORDER = ("sp", "mg", "rj") + tuple("sapl:" + uf for uf in SAPL_HOSTS)
+# The alternative routes (second pass, 13 October 2026): see the readers below.
+ALT_SOURCES = ("pr", "pe", "ce", "pa", "go", "rn")
+SOURCE_ORDER = ("sp", "mg", "rj") + ALT_SOURCES + tuple("sapl:" + uf for uf in SAPL_HOSTS)
 
 # Assemblies NOT read, and why (13 October 2026), for the edition's coverage
 # line. docs/brazil-regions-scope.md has the measurements.
 NOT_READ = {
-    "pr": "bill search and votes behind reCAPTCHA",
-    "rs": "no answer from outside Brazil",
-    "sc": "no answer from outside Brazil",
-    "ba": "certificate fails / no answer",
-    "pe": "open data has no bills",
-    "df": "no answer from outside Brazil",
-    "es": "no answer from outside Brazil",
-    "mt": "its SAPL holds nothing after 2025; main site no answer",
-    "ms": "no answer; bill search is a JavaScript app",
-    "rn": "no answer from outside Brazil",
-    "ap": "no answer from outside Brazil",
-    "go": "no list of bills found",
-    "ce": "no list of bills found",
-    "pa": "bill search is a DevExpress callback form",
-    "se": "no list of bills found",
+    "rs": "no answer from outside Brazil, GitHub's runners included",
+    "sc": "answers GitHub's runners only (a GitHub-side step is proposed)",
+    "df": "no answer from outside Brazil; SINJ's search backend is disallowed by robots.txt",
+    "es": "no answer from outside Brazil, GitHub's runners included",
+    "mt": "its SAPL holds nothing recent; its bill report answers GitHub's runners only",
+    "ms": "bill search behind a proof-of-work captcha",
+    "ap": "no answer from outside Brazil, GitHub's runners included",
+    "se": "no list of bills; its legislation host does not answer from outside Brazil",
+    "ba": "ALBA's own list stops in July 2025; LegislaBahia's robots.txt disallows us",
 }
 
 HOST_THROTTLE = {"www.al.sp.gov.br": 2.0, "www.almg.gov.br": 2.0,
-                 "alerjln1.alerj.rj.gov.br": 5.0}
+                 "alerjln1.alerj.rj.gov.br": 5.0,
+                 "api-transparencialegislativa.al.rn.leg.br": 3.0, "www2.al.ce.gov.br": 3.0,
+                 "dadosabertos.alepe.pe.gov.br": 3.0, "www.alepa.pa.gov.br": 3.0,
+                 "legisla.casacivil.go.gov.br": 3.0, "www.legislacao.pr.gov.br": 5.0}
 
 
 # --- small helpers ---------------------------------------------------------------
@@ -572,11 +595,28 @@ def parse_mg_bill(text):
     return out
 
 
+def with_retries(call, budget, waits, sleep):
+    """call(), asked again after each of `waits` seconds when it fails with
+    a FetchError (never a robots.txt refusal), as long as the budget leaves
+    the wait and a minute besides."""
+    for i in range(len(waits) + 1):
+        try:
+            return call()
+        except RobotsRefused:
+            raise
+        except FetchError:
+            if i == len(waits) or budget.seconds - budget.spent() < waits[i] + 60:
+                raise
+            sleep(waits[i])
+
+
 def fetch_mg(client, ctx):
     res = Result("mg", "mg")
     tax, budget, known = ctx["tax"], ctx["budget"], ctx["known"]
     first = not ctx["read_ok"].get("mg")
     listed = {}
+    sleep = ctx.get("sleep") or time.sleep
+    waits = {"now": MG_RETRY_WAITS}
 
     def page(tipo, ordem, n, ano):
         # A search naming the year answers in about three seconds; one without
@@ -584,12 +624,13 @@ def fetch_mg(client, ctx):
         # every search names the year.
         url = MG_SEARCH.format(tipo=tipo, ordem=ordem, ano="&ano={0}".format(ano),
                                page="" if n == 1 else "&pagina={0}".format(n))
-        return parse_mg_list(decode(client.get_bytes(url, FEED, "mg-{0}-{1}-{2}-{3}".format(
-            tipo, ordem, ano, n))))
+        return with_retries(lambda: parse_mg_list(decode(client.get_bytes(
+            url, FEED, "mg-{0}-{1}-{2}-{3}".format(tipo, ordem, ano, n)))), budget, waits["now"], sleep)
 
     def bill_page(url, key):
-        return parse_mg_bill(decode(client.get_bytes(url, FEED, "mg-bill-" + key.split("/", 1)[1]
-                                                     .replace(" ", "-").replace("/", "-"))))
+        return with_retries(lambda: parse_mg_bill(decode(client.get_bytes(
+            url, FEED, "mg-bill-" + key.split("/", 1)[1].replace(" ", "-").replace("/", "-")))),
+            budget, waits["now"], sleep)
 
     year = int(ctx["today"][:4])
     # In January and February a bill presented late last year is still news.
@@ -624,6 +665,7 @@ def fetch_mg(client, ctx):
             return res
         except FetchError as e:
             failed += 1
+            waits["now"] = ()       # the host is down: one try each from here
             res.gap("ALMG {0} search: {1}".format(kind, gap_text(e)))
     if failed == len(MG_TYPES) and not listed:
         res.status, res.detail = "unreachable", res.gaps[-1] if res.gaps else "no answer"
@@ -918,6 +960,544 @@ def fetch_sapl(client, ctx, uf):
     return res
 
 
+# --- the alternative routes (13 October 2026, second pass) -----------------------
+#
+# Assemblies whose own bill search is blocked or missing, read where they or
+# their state publish the same record in a form a program may read (robots.txt
+# asked every run; docs/brazil-regions-scope.md has what was tried per state):
+#
+#   rn  ALRN's Transparência Legislativa: the JSON its own web app loads
+#       (api-transparencialegislativa.al.rn.leg.br; robots.txt sets no rules).
+#   ce  ALECE's proposições lists (www2.al.ce.gov.br), one search a year and
+#       type: in passage (T) and decided (D), with the law number.
+#   pe  ALEPE's open-data API (dadosabertos.alepe.pe.gov.br/api/v1/proposicoes/
+#       projetos/?ano=): the XML ALEPE's own proposições app reads.
+#   pa  ALEPA's proposições search (a plain form POST, newest ten of a type,
+#       gaps filled by number).
+#   go  Goiás: the laws ALEGO passed, from the Casa Civil's legislation portal
+#       (legisla.casacivil.go.gov.br/api/v2): adopted laws only, no bills.
+#   pr  Paraná: the laws ALEP passed, from the Casa Civil's Sistema Estadual de
+#       Legislação (www.legislacao.pr.gov.br): adopted laws only. ALEP's own
+#       bill search and its open-data API are not read (reCAPTCHA; the API is
+#       plain HTTP only).
+
+def _clean(text):
+    """Collapse whitespace; the C0 control characters some sources leave
+    where a quote or a dash was ('\\u001c', '\\u0013') become the character
+    they stood for."""
+    text = (text or "").replace("\u001c", "“").replace("\u001d", "”").replace("\u0013", "–")
+    text = re.sub(r"[\u0000-\u0008\u000b\u000c\u000e-\u001f]", "", text)
+    return re.sub(r"\s+", " ", html.unescape(text)).strip() or None
+
+
+def _int(text):
+    """'24.564' or '58 -' -> 24564 / 58; None when there is no number."""
+    m = re.search(r"\d[\d.]*", text or "")
+    return int(m.group(0).replace(".", "")) if m else None
+
+
+def _through(res, b):
+    if b.get("presented") and (res.through is None or b["presented"] > res.through):
+        res.through = b["presented"]
+
+
+def _years(today):
+    """This year, and last year too in January and February."""
+    year = int(today[:4])
+    return [year] + ([year - 1] if int(today[5:7]) <= 2 else [])
+
+
+def _fail(res, label, e):
+    res.status, res.detail = ("blocked" if isinstance(e, RobotsRefused) and not e.host_skipped
+                              else "unreachable"), gap_text(e)
+    res.gap("{0}: {1}".format(label, res.detail))
+    return res
+
+
+# Rio Grande do Norte (ALRN): the JSON the Transparência Legislativa app loads
+
+RN_API = "https://api-transparencialegislativa.al.rn.leg.br/elegis-api-transp-legislativa/"
+RN_PAGE = "https://transparencialegislativa.al.rn.leg.br/projeto/{0}"
+RN_TYPES = {1: ("PL", "Projeto de Lei"), 2: ("PLC", "Projeto de Lei Complementar"),
+            6: ("PDL", "Projeto de Decreto Legislativo"), 7: ("PEC", "Proposta de Emenda Constitucional")}
+RN_PAGE_SIZE = 50
+RN_MAX_PAGES = 3
+RN_RESULT = {"A": "Aprovada", "R": "Rejeitada", "X": "Retirada de pauta", "N": "Não apreciada"}
+RN_VIA = "ALRN's Transparência Legislativa"
+
+
+def parse_rn_processo(r):
+    """One ALRN processo -> (bill dict, member tuple or None), or None for a
+    type that is not a bill."""
+    prop = r.get("propositura") or {}
+    t = RN_TYPES.get((prop.get("tipo") or {}).get("id"))
+    if not t or prop.get("numero") is None or prop.get("ano") is None:
+        return None
+    ini = r.get("iniciativa") or {}
+    par = ini.get("parlamentar") or {}
+    party = (par.get("partido") or {}).get("nome")
+    name = par.get("nomeParlamentar")
+    if name:
+        name = re.sub(r"^DEPUTAD[OA]\s+", "", name).strip()
+        authors = "{0} ({1})".format(name, party) if party else name
+    else:
+        authors = _clean(ini.get("descricao"))
+    pubs = [p for p in (r.get("publicacao") or []) if (p.get("situacaoProcesso") or {}).get("nome")]
+    pubs.sort(key=lambda p: ((p.get("origem") or {}).get("data") or ""))
+    status, when = None, None
+    if pubs:
+        status = _clean(pubs[-1]["situacaoProcesso"]["nome"])
+        when = ((pubs[-1].get("origem") or {}).get("data") or "")[:10] or None
+    if r.get("dataArquivamento"):
+        status, when = "Arquivado", r["dataArquivamento"][:10]
+    number, year = int(prop["numero"]), int(prop["ano"])
+    b = {"bill_key": brs_store.bill_key("rn", t[0], number, year), "uf": "rn", "source": "rn",
+         "source_id": str(r.get("id")), "kind": t[0], "kind_name": t[1], "number": number, "year": year,
+         "title": _clean(r.get("ementa")), "authors": authors,
+         "presented": (r.get("dataEntrada") or "")[:10] or None, "status": status,
+         "status_date": when, "url": RN_PAGE.format(r.get("id"))}
+    member = ("rn/{0}".format(par["id"]), "rn", name, party) if name and par.get("id") else None
+    return b, member
+
+
+def parse_rn_vote(r):
+    """A processo of ALRN's 'últimas votações' -> vote dict (result only:
+    the list prints no tally), or None."""
+    got = parse_rn_processo(r)
+    v = r.get("resultadoVotacao") or {}
+    if not got or not v.get("id"):
+        return None
+    b = got[0]
+    code = v.get("resultadoVotacao")
+    return {"vote_key": "rn/v{0}".format(v["id"]), "uf": "rn", "bill_key": b["bill_key"],
+            "date": (v.get("dataSituacaoAbertura") or "")[:10] or None, "body": "plenary",
+            "description": "Plenary vote, sitting {0}".format((v.get("reuniao") or {}).get("id") or "?"),
+            "result": RN_RESULT.get(code, code), "yes": None, "no": None, "abstain": None}
+
+
+def fetch_rn(client, ctx):
+    res = Result("rn", "rn")
+    tax, budget, known = ctx["tax"], ctx["budget"], ctx["known"]
+    first = not ctx["read_ok"].get("rn")
+    listed = {}
+
+    def get(path, slug):
+        return json.loads(decode(client.get_bytes(RN_API + path, FEED, "rn-" + slug)))
+
+    try:
+        for tid, (kind, _name) in RN_TYPES.items():
+            for n in range(1 if first else RN_MAX_PAGES):
+                if budget.exhausted():
+                    res.gap("ALRN: time budget reached in the {0} list".format(kind))
+                    break
+                data = get("processo?pagina={0}&tamanhoPagina={1}&tipoPropositura={2}".format(
+                    n, RN_PAGE_SIZE, tid), "{0}-{1}".format(kind.lower(), n))
+                rows = data.get("dados") or []
+                fresh = 0
+                for r in rows:
+                    got = parse_rn_processo(r)
+                    if not got:
+                        continue
+                    b, member = got
+                    fresh += b["bill_key"] not in known["bills"] and b["bill_key"] not in listed
+                    listed.setdefault(b["bill_key"], b)
+                    if member:
+                        res.members.append(member)
+                if len(rows) < RN_PAGE_SIZE or not fresh:
+                    break
+        votes = get("processo/ultimas-votacoes?pagina=0&tamanhoPagina=50", "votos")
+    except (FetchError, ValueError) as e:
+        if not listed:
+            return _fail(res, "ALRN (Rio Grande do Norte)", e)
+        res.gap("ALRN: " + gap_text(e))
+        votes = {}
+    for r in votes.get("dados") or []:
+        v = parse_rn_vote(r)
+        if not v:
+            continue
+        got = parse_rn_processo(r)
+        listed.setdefault(v["bill_key"], got[0])
+        res.votes.append(v)
+    for b in listed.values():
+        b = classified(tax, b, ctx.get("watch_path"))
+        res.bills.append(b)
+        _through(res, b)
+    return res
+
+
+# Ceará (ALECE): the proposições lists on www2.al.ce.gov.br
+
+CE_BASE = "https://www2.al.ce.gov.br/legislativo/proposicoes/"
+CE_SEARCH = CE_BASE + "busca.php?nome={leg}_legislatura&tabela={table}&opcao={opcao}"
+CE_TABLES = (("projeto_lei", "PL", "Projeto de Lei"), ("projeto_compl", "PLC", "Projeto de Lei Complementar"),
+             ("projeto_emen", "PEC", "Proposta de Emenda Constitucional"),
+             ("projeto_decre", "PDL", "Projeto de Decreto Legislativo"))
+# The list's own abbreviations, spelled out.
+CE_WORDS = (("tramit", "Tramitando"), ("delib", "Deliberado"), ("aprov", "Aprovado"),
+            ("rejeit", "Rejeitado"), ("retir", "Retirado"), ("prejud", "Prejudicado"),
+            ("arquiv", "Arquivado"), ("vetad", "Vetado"), ("veto", "Veto"), ("dil", "Em diligência"),
+            ("sobrest", "Sobrestado"), ("visto", "Pedido de vista"), ("prazo", "Prazo"))
+
+
+def ce_legislature(today):
+    """The Ceará legislature in office: the 31st from 1 February 2023, a new
+    one every four years."""
+    y, m = int(today[:4]), int(today[5:7])
+    return 31 + (y - 2023 - (1 if m < 2 else 0)) // 4
+
+
+def _ce_word(text):
+    t = plain(text).strip(" .-")
+    if not t:
+        return None
+    for prefix, word in CE_WORDS:
+        if t.startswith(prefix):
+            return word
+    return _clean(text)
+
+
+def parse_ce_search(text, table, kind, kind_name, leg):
+    """One ALECE search page -> [bill dict]. Cells: number, year (two
+    digits), author, law number, ementa (capitals), situação, result, link."""
+    out = []
+    for row in re.findall(r"<tr[^>]*>(.*?)</tr>", text, re.S):
+        cells = re.findall(r"<td[^>]*>(.*?)</td>", row, re.S)
+        if len(cells) < 7:
+            continue
+        number, yy = _int(fold(cells[0])), _int(fold(cells[1]))
+        if number is None or yy is None:
+            continue
+        year = yy + 2000 if yy < 100 else yy
+        law = fold(cells[3]).strip(" -") or None
+        words = [w for w in (_ce_word(fold(cells[5])), _ce_word(fold(cells[6]))) if w]
+        status = ": ".join(words) or None
+        if status and law:
+            status += " (Lei nº {0})".format(law)
+        code = re.search(r"codigo=(\d+)", row)
+        out.append({
+            "bill_key": brs_store.bill_key("ce", kind, number, year), "uf": "ce", "source": "ce",
+            "source_id": code.group(1) if code else None, "kind": kind, "kind_name": kind_name,
+            "number": number, "year": year, "title": _clean(fold(cells[4])),
+            "authors": _clean(re.sub(r"^(AUTORIA:\s*)?(DEPUTAD[OA]\s+)?", "", fold(cells[2]))), "status": status,
+            "url": (CE_BASE + "ver.php?nome={0}_legislatura&tabela={1}&codigo={2}".format(
+                leg, table, code.group(1))) if code else None,
+        })
+    return out
+
+
+def fetch_ce(client, ctx):
+    res = Result("ce", "ce")
+    tax, budget = ctx["tax"], ctx["budget"]
+    leg = ce_legislature(ctx["today"])
+    listed, failed, tried = {}, 0, 0
+    for table, kind, name in CE_TABLES:
+        for opcao in ("T", "D"):
+            for year in _years(ctx["today"]):
+                if budget.exhausted():
+                    res.gap("ALECE: time budget reached in the {0} lists".format(kind))
+                    break
+                tried += 1
+                try:
+                    text = client.post_form(CE_SEARCH.format(leg=leg, table=table, opcao=opcao),
+                                            {"pesquisa": "{0:02d}".format(year % 100), "escolha": "ano",
+                                             "B1": "Busca"},
+                                            FEED, "ce-{0}-{1}-{2}".format(kind.lower(), opcao, year),
+                                            encoding="latin-1")
+                except RobotsRefused as e:
+                    return _fail(res, "ALECE (Ceará)", e)
+                except FetchError as e:
+                    failed += 1
+                    res.gap("ALECE {0} {1} list: {2}".format(kind, opcao, gap_text(e)))
+                    continue
+                for b in parse_ce_search(text, table, kind, name, leg):
+                    # A bill decided this year is in the D list; it wins.
+                    if opcao == "D" or b["bill_key"] not in listed:
+                        listed[b["bill_key"]] = b
+    if tried and failed == tried:
+        res.status, res.detail = "unreachable", res.gaps[-1] if res.gaps else "no answer"
+        return res
+    for b in listed.values():
+        res.bills.append(classified(tax, b, ctx.get("watch_path")))
+    # The lists print no dates: new bills are dated the day first listed.
+    return res
+
+
+# Pernambuco (ALEPE): the open-data API's projetos, one request a year
+
+PE_URL = "https://dadosabertos.alepe.pe.gov.br/api/v1/proposicoes/projetos/?ano={0}"
+PE_PAGE = "https://proposicoes.alepe.pe.gov.br/proposicoes/detalhes?docid={0}&tipoprop=p"
+PE_TYPES = {"PROJETO DE LEI ORDINARIA": ("PLO", "Projeto de Lei Ordinária"),
+            "PROJETO DE LEI COMPLEMENTAR": ("PLC", "Projeto de Lei Complementar"),
+            "PROPOSTA DE EMENDA A CONSTITUICAO": ("PEC", "Proposta de Emenda à Constituição"),
+            "PROJETO DE DECRETO LEGISLATIVO": ("PDL", "Projeto de Decreto Legislativo")}
+
+
+def parse_pe_projetos(raw):
+    """ALEPE's projetos XML -> [bill dict] (bills only: no resolutions,
+    budget laws keep their type name and are left out)."""
+    out = []
+    root = ET.fromstring(raw)
+    for p in root.iter("projeto"):
+        tipo = re.sub(r"\s+DESARQUIVAD[OA]$", "", plain(p.get("tipo")).upper().strip())
+        t = PE_TYPES.get(tipo)
+        if not t:
+            continue
+        try:
+            number, year = int(p.get("numero")), int(p.get("ano"))
+        except (TypeError, ValueError):
+            continue
+        authors = [a.get("nome") for a in p.iter("autor") if a.get("nome")]
+        status = "Desarquivado" if "DESARQUIVAD" in (p.get("tipo") or "").upper() else None
+        out.append({
+            "bill_key": brs_store.bill_key("pe", t[0], number, year), "uf": "pe", "source": "pe",
+            "source_id": p.get("docid"), "kind": t[0], "kind_name": t[1], "number": number, "year": year,
+            "title": _clean(p.get("ementa")), "authors": "; ".join(authors) or None,
+            "presented": iso_dmy(p.get("dataPublicacao")), "status": status,
+            "url": PE_PAGE.format(p.get("docid")) if p.get("docid") else None,
+        })
+    return out
+
+
+def fetch_pe(client, ctx):
+    res = Result("pe", "pe")
+    tax = ctx["tax"]
+    for year in _years(ctx["today"]):
+        try:
+            raw = client.get_bytes(PE_URL.format(year), FEED, "pe-projetos-{0}".format(year), archive=False)
+            bills = parse_pe_projetos(raw)
+        except (FetchError, ET.ParseError) as e:
+            if not res.bills:
+                return _fail(res, "ALEPE (Pernambuco)", e)
+            res.gap("ALEPE projetos {0}: {1}".format(year, gap_text(e)))
+            continue
+        for b in bills:
+            b = classified(tax, b, ctx.get("watch_path"))
+            res.bills.append(b)
+            _through(res, b)
+    return res
+
+
+# Pará (ALEPA): the proposições search, a plain form POST
+
+PA_URL = "https://www.alepa.pa.gov.br/Legislativo/Proposicoes"
+PA_HOST = "https://www.alepa.pa.gov.br"
+PA_TYPES = ((3, "PLO", "Projeto de Lei Ordinária"), (4, "PLC", "Projeto de Lei Complementar"),
+            (2, "PEC", "Projeto de Emenda Constitucional"), (1, "PDL", "Projeto de Decreto Legislativo"))
+PA_FILL_CAP = 12        # numbered gaps looked up one by one per run
+PA_CARD = re.compile(r"""onCardClick\("([^"]+)"\)'\s*class='card-proposicao'>\s*<h3[^>]*>(.*?)</h3>\s*"""
+                     r"""<span>(.*?)</span>\s*<p>(.*?)</p>""", re.S)
+
+
+def parse_pa_cards(text):
+    """ALEPA's result cards -> [bill dict]: author, 'PROJETO DE LEI
+    ORDINÁRIA Nº 640/2026, DE 09/09/2026', ementa, detail link. The type is
+    read off the card (cards of other types are left out)."""
+    out = []
+    names = {plain(n).upper(): (k, n) for _t, k, n in PA_TYPES}
+    for link, author, head, ementa in PA_CARD.findall(text):
+        m = re.search(r"^(.*?)\s+N[º°o]\s*(\d+)/(\d{4}),?\s*DE\s*(\d{1,2}/\d{1,2}/\d{4})", fold(head))
+        t = names.get(plain(m.group(1)).upper().strip()) if m else None
+        if not t:
+            continue
+        kind, kind_name = t
+        m = re.search(r"N[º°o]\s*(\d+)/(\d{4}),?\s*DE\s*(\d{1,2}/\d{1,2}/\d{4})", fold(head))
+        number, year = int(m.group(1)), int(m.group(2))
+        sid = re.search(r"IdProposicao=(\d+)", link)
+        author = _clean(fold(author))
+        if author:
+            author = re.sub(r"^DEP\.\s+", "", author)
+        out.append({
+            "bill_key": brs_store.bill_key("pa", kind, number, year), "uf": "pa", "source": "pa",
+            "source_id": sid.group(1) if sid else None, "kind": kind, "kind_name": kind_name,
+            "number": number, "year": year, "title": _clean(fold(ementa)), "authors": author,
+            "presented": iso_dmy(m.group(3)), "url": PA_HOST + html.unescape(link),
+        })
+    return out
+
+
+def fetch_pa(client, ctx):
+    res = Result("pa", "pa")
+    tax, budget, known = ctx["tax"], ctx["budget"], ctx["known"]
+    first = not ctx["read_ok"].get("pa")
+    year = int(ctx["today"][:4])
+    listed = {}
+
+    def search(tid, kind, name, numero=None):
+        fields = {"Ano": str(year), "ComboBoxTipoProposicao_VI": str(tid), "ComboBoxTipoProposicao": str(tid)}
+        if numero:
+            fields["Numero"] = str(numero)
+        text = client.post_form(PA_URL, fields, FEED, "pa-{0}-{1}{2}".format(
+            kind.lower(), year, "-" + str(numero) if numero else ""))
+        return [b for b in parse_pa_cards(text) if b["kind"] == kind]
+
+    try:
+        for tid, kind, name in PA_TYPES:
+            if budget.exhausted():
+                res.gap("ALEPA: time budget reached in the {0} search".format(kind))
+                break
+            got = search(tid, kind, name)
+            for b in got:
+                listed.setdefault(b["bill_key"], b)
+            # The search shows the newest ten. Numbers between the last run's
+            # newest and this page's oldest are asked one by one (a few a run).
+            if first or len(got) < 10:
+                continue
+            prefix = "pa/{0} ".format(kind)
+            seen = [int(k[len(prefix):].split("/")[0]) for k in known["bills"]
+                    if k.startswith(prefix) and k.endswith("/{0}".format(year))]
+            if not seen:
+                continue
+            low = min(b["number"] for b in got)
+            missing = [n for n in range(max(seen) + 1, low)][:PA_FILL_CAP]
+            for n in missing:
+                if budget.exhausted():
+                    break
+                for b in search(tid, kind, name, numero=n):
+                    listed.setdefault(b["bill_key"], b)
+            if max(seen) + 1 + PA_FILL_CAP < low:
+                res.gap("ALEPA {0}: more than {1} new since the last run; the rest next run".format(
+                    kind, PA_FILL_CAP))
+    except FetchError as e:
+        if not listed:
+            return _fail(res, "ALEPA (Pará)", e)
+        res.gap("ALEPA: " + gap_text(e))
+    for b in listed.values():
+        b = classified(tax, b, ctx.get("watch_path"))
+        res.bills.append(b)
+        _through(res, b)
+    return res
+
+
+# Adopted laws from the states' own legislation portals (Goiás, Paraná)
+
+def law_bill(uf, source, kind, kind_name, number, year, title, published, status, url, sid=None):
+    """An adopted law as a brs_bills row: keyed like a bill, '<uf>/<Lei|LC|EC>
+    <number>/<year>', its publication date as 'presented', so the edition
+    shows it the week it is published."""
+    return {"bill_key": brs_store.bill_key(uf, kind, number, year), "uf": uf, "source": source,
+            "source_id": sid, "kind": kind, "kind_name": kind_name, "number": number, "year": year,
+            "title": title, "presented": published, "status": status, "status_date": published,
+            "url": url}
+
+
+GO_URL = ("https://legisla.casacivil.go.gov.br/api/v2/pesquisa/legislacoes?page={page}"
+          "&qtd_por_pagina=50&tipo_legislacao=2,1,13&ano={year}&ordenarPor=data")
+GO_PAGE = "https://legisla.casacivil.go.gov.br/pesquisa_legislacao/{0}"
+GO_KINDS = {"lei ordinaria": ("Lei", "Lei Ordinária"), "lei complementar": ("LC", "Lei Complementar"),
+            "emenda constitucional": ("EC", "Emenda Constitucional")}
+GO_MAX_PAGES = 3
+
+
+def parse_go_laws(data):
+    out = []
+    for r in data.get("resultados") or []:
+        k = GO_KINDS.get(plain((r.get("tipo_legislacao") or {}).get("nome")).strip())
+        number, year = _int(r.get("numero")), r.get("ano")
+        if not k or number is None or not year:
+            continue
+        diarios = r.get("diarios") or []
+        published = iso_dmy((diarios[0] if diarios else {}).get("data_diario") or r.get("data_legislacao"))
+        state = ((r.get("estado_legislacao") or {}).get("nome") or "").strip()
+        status = "{0} publicada{1}{2}".format(
+            k[1], " no Diário Oficial nº {0}".format(diarios[0]["numero"]) if diarios and diarios[0].get("numero")
+            else "", " ({0})".format(state.lower()) if state else "")
+        out.append(law_bill("go", "go", k[0], k[1], number, int(year), _clean(r.get("ementa")), published,
+                            status, GO_PAGE.format(r.get("id")), str(r.get("id"))))
+    return out
+
+
+def fetch_go(client, ctx):
+    res = Result("go", "go")
+    tax, budget, known = ctx["tax"], ctx["budget"], ctx["known"]
+    first = not ctx["read_ok"].get("go")
+    listed = {}
+    try:
+        for year in _years(ctx["today"]):
+            for page in range(1, (1 if first else GO_MAX_PAGES) + 1):
+                if budget.exhausted():
+                    break
+                data = json.loads(decode(client.get_bytes(GO_URL.format(page=page, year=year), FEED,
+                                                          "go-leis-{0}-{1}".format(year, page))))
+                got = parse_go_laws(data)
+                fresh = [b for b in got if b["bill_key"] not in known["bills"] and b["bill_key"] not in listed]
+                for b in got:
+                    listed.setdefault(b["bill_key"], b)
+                if len(data.get("resultados") or []) < 50 or not fresh:
+                    break
+    except (FetchError, ValueError) as e:
+        if not listed:
+            return _fail(res, "Goiás laws (Casa Civil)", e)
+        res.gap("Goiás laws: " + gap_text(e))
+    for b in listed.values():
+        b = classified(tax, b, ctx.get("watch_path"))
+        res.bills.append(b)
+        _through(res, b)
+    return res
+
+
+PR_LIST = ("https://www.legislacao.pr.gov.br/legislacao/listarAtosAno.do?action=listarAtos"
+           "&anoAto={year}&isPaginado=false")
+PR_PAGE = "https://www.legislacao.pr.gov.br/legislacao/listarAtosAno.do?action=exibir&codAto={0}"
+# The system's act types: id -> (kind, name).
+PR_TYPES = ((1, "Lei", "Lei"), (3, "LC", "Lei Complementar"), (9, "EC", "Emenda Constitucional"))
+
+
+def parse_pr_laws(text):
+    """The Sistema Estadual de Legislação's year list -> [law dict]: rows of
+    'Lei 23.448 - 9 de setembro de 2026' (the type read off the epigraph:
+    'Lei Complementar 270 - ...', 'Emenda Constitucional 58 - ...'), súmula,
+    publication date."""
+    out = []
+    for code, epigrafe in re.findall(r'<div id="(\d+)_epigrafeAto">(.*?)</div>', text, re.S):
+        m = re.search(r"^(.*?)\s*(\d[\d.]*)\s*-\s*.*?(\d{4})\s*$", fold(epigrafe))
+        if not m:
+            continue
+        head = plain(m.group(1)).strip()
+        kind, kind_name = next(((k, n) for _t, k, n in sorted(PR_TYPES, key=lambda t: -len(t[2]))
+                                if head == plain(n)), (None, None))
+        if not kind:
+            continue
+        m = re.search(r"(\d[\d.]*)\s*-\s*.*?(\d{4})\s*$", fold(epigrafe))
+        sumula = re.search(r'<div id="{0}_descricaoItemAto">(.*?)</div>'.format(code), text, re.S)
+        pub = re.search(r'<div id="{0}_dataPublicacao">(.*?)</div>'.format(code), text, re.S)
+        published = iso_dmy(fold(pub.group(1))) if pub else None
+        out.append(law_bill("pr", "pr", kind, kind_name, _int(m.group(1)), int(m.group(2)),
+                            _clean(fold(sumula.group(1))) if sumula else None, published,
+                            "{0} publicada".format(kind_name), PR_PAGE.format(code), code))
+    return out
+
+
+def fetch_pr(client, ctx):
+    res = Result("pr", "pr")
+    tax, budget = ctx["tax"], ctx["budget"]
+    listed = {}
+    try:
+        for year in _years(ctx["today"]):
+            for tid, kind, name in PR_TYPES:
+                if budget.exhausted():
+                    break
+                fields = {"codTipoAto": str(tid), "codTipoAtoSelecionado": str(tid), "codOrgaoUnidade": "1100",
+                          "codOrgaoUnidadeSelecionado": "1100", "isPaginado": "false", "site": "1"}
+                text = client.post_form(PR_LIST.format(year=year), fields, FEED,
+                                        "pr-{0}-{1}".format(kind.lower(), year))
+                for b in parse_pr_laws(text):
+                    if b["kind"] == kind:
+                        listed.setdefault(b["bill_key"], b)
+    except FetchError as e:
+        if not listed:
+            return _fail(res, "Paraná laws (Casa Civil)", e)
+        res.gap("Paraná laws: " + gap_text(e))
+    for b in listed.values():
+        b = classified(tax, b, ctx.get("watch_path"))
+        res.bills.append(b)
+        _through(res, b)
+    return res
+
+
+ALT_FETCHERS = {"rn": fetch_rn, "ce": fetch_ce, "pe": fetch_pe, "pa": fetch_pa, "go": fetch_go,
+                "pr": fetch_pr}
+
+
 # --- writing -------------------------------------------------------------------------
 
 def _gap(conn, today, detail):
@@ -1006,6 +1586,8 @@ def fetch_one(source, ctx, client_factory):
             return fetch_mg(client, ctx)
         if source == "rj":
             return fetch_rj(client, ctx)
+        if source in ALT_FETCHERS:
+            return ALT_FETCHERS[source](client, ctx)
         return fetch_sapl(client, ctx, source.split(":", 1)[1])
     except RobotsRefused as e:
         res = Result(source, source.split(":")[-1] if ":" in source else source)
@@ -1019,11 +1601,11 @@ def fetch_one(source, ctx, client_factory):
         return res
 
 
-def run(conn, sources, tax, today, budget, client_factory, now=None, workers=None):
+def run(conn, sources, tax, today, budget, client_factory, now=None, workers=None, sleep=None):
     now = now or datetime.datetime.now().isoformat(timespec="seconds")
     known, meta, read_ok = snapshot(conn)
     ctx = {"tax": tax, "budget": budget, "known": known, "meta": meta, "read_ok": read_ok,
-           "today": today}
+           "today": today, "sleep": sleep}
     with ThreadPoolExecutor(workers or max(1, len(sources))) as ex:
         results = list(ex.map(lambda s: fetch_one(s, ctx, client_factory), sources))
     gaps = 0
