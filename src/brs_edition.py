@@ -44,24 +44,18 @@ NOT_A_STAGE = re.compile(r"coautoria|arquivado pelo setor de arquivo|^publicad[o
 # A gap line names its assembly first ('ALPB (Paraíba): ...'); the coverage
 # line names it already.
 _PREFIX = re.compile(r"^[A-Z][A-Z-]+[^:]{0,30}:\s*")
-# The assemblies listed by tools/br_states.NOT_READ, kept here too so the
-# edition never imports a tool. Short reasons; the scope doc has the detail.
+# The assemblies listed by tools/br_states.NOT_READ (updated 13 October 2026,
+# the alternative routes), kept here too so the edition never imports a tool. Short reasons; the scope doc has the detail.
 NOT_READ = {
-    "pr": "bill search and votes behind reCAPTCHA",
     "rs": "no answer from outside Brazil",
-    "sc": "no answer from outside Brazil",
-    "ba": "certificate fails / no answer",
-    "pe": "open data has no bills",
+    "sc": "answers GitHub's runners only",
     "df": "no answer from outside Brazil",
     "es": "no answer from outside Brazil",
-    "mt": "its SAPL holds nothing recent",
-    "ms": "no answer; bill search is a JavaScript app",
-    "rn": "no answer from outside Brazil",
+    "mt": "its SAPL holds nothing recent; bill report answers GitHub only",
+    "ms": "bill search behind a proof-of-work captcha",
     "ap": "no answer from outside Brazil",
-    "go": "no list of bills found",
-    "ce": "no list of bills found",
-    "pa": "bill search is a callback form",
     "se": "no list of bills found",
+    "ba": "own list stale since July 2025; laws portal disallowed by robots.txt",
 }
 
 
@@ -93,6 +87,9 @@ def bill_takeaway(r):
         bits.append("from {0}".format(ce.clip(r["authors"], 160)))
     if r["committees"]:
         bits.append("({0})".format(ce.clip(r["committees"], 160)))
+    via = brs_store.via(r["source"])
+    if via:
+        bits.append(via)
     return " ".join(bits)
 
 
@@ -160,7 +157,7 @@ def items(conn, since, until, wl=None, cc="br"):
                            ce.areas_of(r["areas"]), r["tier"], watched, status=r["status"],
                            url=r["url"], terms=r["matched_terms"], takeaway=bill_takeaway(r)))
     for v in ce.rows(conn, "SELECT v.*, b.title, b.areas, b.tier, b.matched_terms, b.url, "
-                           "b.kind_name, b.kind, b.status FROM brs_votes v JOIN brs_bills b USING (bill_key) "
+                           "b.kind_name, b.kind, b.status, b.source FROM brs_votes v JOIN brs_bills b USING (bill_key) "
                            "WHERE " + ce.window_sql("v.date"), (since, until)):
         watched = v["bill_key"] in wl
         if not ce.on_ground(v["areas"], watched):
@@ -170,8 +167,9 @@ def items(conn, since, until, wl=None, cc="br"):
         out.append(ce.vote(cc, v["vote_key"], v["date"], ce.clean(v["title"]), ce.areas_of(v["areas"]),
                            v["tier"], watched, vote_lines(conn, v), url=v["url"],
                            terms=v["matched_terms"], watch_key=v["bill_key"],
-                           takeaway="{0}: {1}, on {2}".format(
+                           takeaway=" ".join(t for t in ("{0}: {1}, on {2}".format(
                                where, ce.clip(v["description"] or "recorded vote", 160), v["bill_key"]),
+                               brs_store.via(v["source"])) if t),
                            group=("bill", v["uf"], v["bill_key"]),
                            group_title="{0}: {1}".format(v["bill_key"], ce.clean(v["title"]))))
     return out
@@ -190,7 +188,9 @@ def reads_line(conn):
         when = max((r["read_at"] or "")[:10] for r in ok)
         bits.append("Read cleanly ({0} of 27, last {1}): {2}.".format(
             len(ok), ce.long_date(when) if when else "?",
-            ", ".join(brs_store.ASSEMBLIES.get(r["uf"], r["uf"]) for r in ok)))
+            ", ".join(brs_store.ASSEMBLIES.get(r["uf"], r["uf"])
+                      + (" (adopted laws only)" if r["source"] in brs_store.LAWS_ONLY else "")
+                      for r in ok)))
     if gap:
         bits.append("Read with gaps: {0}.".format(", ".join(
             "{0} ({1})".format(brs_store.ASSEMBLIES.get(r["uf"], r["uf"]),

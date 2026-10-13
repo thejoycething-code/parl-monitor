@@ -51,6 +51,9 @@ python3 tools/br_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh
 # bills, stages and published votes of ALESP (open-data files), ALMG (its
 # bill search), ALERJ (its Notes view) and the SAPL houses (Acre, Alagoas,
 # Amazonas, Paraíba, Piauí, Rondônia, Tocantins; Roraima and Maranhão tried),
+# and, by the alternative routes of 13 October 2026, ALRN, ALECE, ALEPE and
+# ALEPA's bills from their own data on other hosts and the laws Paraná and
+# Goiás publish (the Casa Civil's legislation portals; about a minute in all),
 # into the brs_* tables, for the edition's "State assemblies" section. The
 # sources are read in parallel; every SAPL robots.txt asks a minute between
 # requests, so the step takes its whole budget when the houses have news.
