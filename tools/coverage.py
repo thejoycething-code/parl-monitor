@@ -381,6 +381,13 @@ FEEDS = [
     ("pl_prints", "last_seen", 7, 4, "Sejm prints, the whole term's list (Poland weekly)"),
     ("pl_processes", "last_seen", 7, 4, "Sejm legislative processes (Poland weekly)"),
     ("pl_divisions", "last_seen", 31, 31, "Sejm recorded votes (Poland weekly)"),
+    # Poland's voivodeship assemblies (tools/pl_regions.py, 13 October 2026),
+    # a step of the Poland weekly. MEASURED which re-stamp: plr_reads is
+    # stamped for every source on every run (failures included, with their
+    # status); plr_acts.last_seen for every act the journals' current and
+    # previous months and the four registers still list, so both move weekly.
+    ("plr_reads", "last_seen", 7, 4, "Polish sejmiki, sources read (Poland weekly)"),
+    ("plr_acts", "last_seen", 7, 4, "Polish sejmiki's resolutions: 15 journals, 4 registers (Poland weekly)"),
     # Hungary (10 October 2026). MEASURED which re-stamp: every issue the RSS
     # feed still shows (its newest 100 journals, about eleven weeks of the
     # Magyar Közlöny) is re-stamped on every run, so the issues move every
@@ -793,7 +800,7 @@ PIPELINE_FEEDS = {
     "Austria weekly": ["at_items", "at_members", "atl_items"],
     # Re-read whole every run; votes are left out for the US's reason.
     "Netherlands weekly": ["nl_members", "nl_fracties"],
-    "Poland weekly": ["pl_processes", "pl_members"],
+    "Poland weekly": ["pl_processes", "pl_members", "plr_reads"],
     # Issues only: the feed's issues are re-stamped every run.
     "Hungary weekly": ["hu_gazette_issues"],
     # Divisions left out for the same reason as the US: a recess week cannot move them.
@@ -1327,6 +1334,12 @@ def table_exists(conn, table):
 # first heartbeat can excuse it: excused while empty until a date, then
 # OVERDUE like any other. table -> (until, why). Additive, 10 October 2026.
 AWAITING_STEP_UNTIL = {
+    # Poland's voivodeship assemblies join the Poland weekly (Sundays 04:00)
+    # on merge, 13 October 2026: empty until its first Sunday run.
+    "plr_reads": ("2026-10-25", "the sejmiki step (tools/pl_regions.py) joins the Poland weekly "
+                  "on merge; it fills on its first Sunday run"),
+    "plr_acts": ("2026-10-25", "the sejmiki step (tools/pl_regions.py) joins the Poland weekly "
+                 "on merge; it fills on its first Sunday run"),
     "atl_items": ("2026-10-24", "the Landtage step (tools/at_landtage.py) joins the Austria "
                   "weekly on merge; it fills on its next run"),
     "country_agenda": ("2026-10-24", "the week-ahead step (tools/country_agenda.py) joins "

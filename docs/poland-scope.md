@@ -207,7 +207,10 @@ Mini or GitHub's runners has not been tried.
 - **Regions, later:** the 16 voivodeship assemblies (sejmiki województw) passed
   the 2019-20 "LGBT-free" and Family Charter resolutions that the EU later
   tied to funding; Warsaw city hall's 2024 order removing crosses from its
-  offices is the municipal analogue. No source probed.
+  offices is the municipal analogue. **Built 13 October 2026**
+  (`tools/pl_regions.py`, `docs/poland-regions-scope.md`): fifteen
+  voivodeship journals and four sejmiki's registers of resolutions, in the
+  edition's "Regional assemblies" section; roll calls are phase 2.
 
 ## Proposed Polish terms (for Chris to approve)
 

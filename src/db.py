@@ -1769,6 +1769,11 @@ TABLES = (
     "esr_laws",
     "esr_bills",
     "esr_reads",
+    # Poland's regional layer (tools/pl_regions.py, 13 October 2026): the
+    # sixteen sejmiki's acts from the voivodeship journals and the sejmiki's
+    # own registers, created by src/pl_regions_store.ensure_schema.
+    "plr_acts",
+    "plr_reads",
     # Brazil's National Congress (tools/br_rollcalls.py), created by
     # src/br_store.ensure_schema -- declared from day one.
     "br_members",
@@ -2232,6 +2237,8 @@ def init_db(conn):
     es_store.ensure_schema(conn)
     from src import es_regions_store
     es_regions_store.ensure_schema(conn)
+    from src import pl_regions_store
+    pl_regions_store.ensure_schema(conn)
     from src import br_store
     br_store.ensure_schema(conn)
     from src import cl_store
