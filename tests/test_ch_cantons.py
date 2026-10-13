@@ -8,7 +8,9 @@ geschaeft.json and twelve of its abstimmung_tagblatt.json (two before the
 legislature), one page of
 Geneva's search ('genre', last year), Vaud's list of objects awaiting
 treatment for the health and social department, and Ticino's order of the
-day of 5 October 2026. No network.
+day of 5 October 2026. Basel-Stadt's Grand Council exports (bs_gribs_*,
+13 October 2026): ten rows of the Geschaefte table (JSON, and the same rows
+as CSV), with their documents, steps and sittings. No network.
 """
 
 import json
@@ -355,6 +357,59 @@ class OpenDataTests(unittest.TestCase):
         self.assertNotIn("bs/19.5000", acts)       # pending, nothing in the window
         self.assertEqual(len(acts), 7)
 
+    # --- the Grand Council's own exports (grosserrat.bs.ch, 13 October 2026) ---
+
+    def gribs(self, name="bs_gribs_ges.json", keep=()):
+        ges = C.gribs_geschaefte(C.gribs_rows(fixture(name)))
+        sigs = {r["laufnr"]: r["signatur_ges"] for r in ges}
+        docs = C.gribs_dokumente(load("bs_gribs_dok.json"), sigs, "2026-08-29", "2026-10-13")
+        steps = C.gribs_vorgaenge(load("bs_gribs_vor.json"), load("bs_gribs_siz.json"), sigs,
+                                  "2026-08-29", "2026-10-13")
+        return ges, by_key(C.parse_bs_api(ges, docs, steps, today="2026-10-13", since="2026-08-29",
+                                          source=C.BS_GES_URL, keep=keep))
+
+    def test_gribs_json_and_csv_are_the_same_rows(self):
+        ges_json, _ = self.gribs()
+        ges_csv, _ = self.gribs("bs_gribs_ges.csv")
+        self.assertEqual(len(ges_json), 10)
+        key = lambda r: r["signatur_ges"]  # noqa: E731
+        self.assertEqual(sorted(ges_json, key=key), sorted(ges_csv, key=key))
+        row = [r for r in ges_json if r["signatur_ges"] == "26.5228"][0]
+        self.assertEqual((row["beginn_ges"], row["ende_ges"], row["status_ges"], row["url_ges"]),
+                         ("2026-06-24", None, "In Bearbeitung", "https://grosserrat.bs.ch/?gnr=26.5228"))
+
+    def test_gribs_gives_what_the_api_gave_linked_to_the_grand_council(self):
+        _, acts = self.gribs()
+        api = self.bs()
+        self.assertEqual(sorted(acts), sorted(api))          # elections and untouched business out
+        for k, a in acts.items():
+            self.assertEqual((a["status"], a["status_date"], a["presented"]),
+                             (api[k]["status"], api[k]["status_date"], api[k]["presented"]), k)
+            self.assertEqual(a["source_url"], "https://grosserrat.bs.ch/?gnr=" + a["number"])
+            self.assertEqual(a["url"], a["source_url"])
+        # The export prints no author fields worth reading: the title names the author.
+        self.assertEqual(acts["bs/26.5411"]["initiative"], "Amina Trevisan")
+        self.assertEqual(acts["bs/26.5228"]["title"], "Ermöglichung von anonymen Geburten")
+
+    def test_gribs_diff_keeps_business_closed_since_stored(self):
+        ges, acts = self.gribs()
+        self.assertNotIn("bs/25.5381", acts)                  # closed in March: out of the window
+        keep = C.gribs_closed_since_stored(ges, {"bs/25.5381": "Grosser Rat ... (In Bearbeitung)",
+                                                 "bs/26.5215": "Abgeschlossen"})
+        self.assertEqual(keep, {"25.5381"})
+        _, acts = self.gribs(keep=keep)
+        self.assertEqual((acts["bs/25.5381"]["status"], acts["bs/25.5381"]["status_date"]),
+                         ("Abgeschlossen", "2026-03-02"))
+
+    def test_gribs_dates_and_junk(self):
+        self.assertEqual(C.gribs_day("1791936000"), "2026-10-14")
+        self.assertEqual(C.gribs_day(0), None)
+        self.assertEqual(C.gribs_day("12.10.2026"), "2026-10-12")
+        with self.assertRaises(ValueError):
+            C.gribs_rows("<html>Fehler</html>")
+        with self.assertRaises(ValueError):
+            C.gribs_rows('{"error": 1}')
+
     def test_basel_stadt_votes_with_every_members_vote(self):
         votes = {v["key"]: v for v in C.parse_bs_api_votes(load("bs_ods_abstimmungen.json"))}
         v = votes["bs/v/0009609-20260923-212113"]
@@ -529,11 +584,15 @@ class MainTests(unittest.TestCase):
                  (C.TG_PENDING, fixture("tg_pendente.html")),
                  (C.AG_INDEX, fixture("ag_index.json"))]
         rc, gaps, stored, base, votes, inner = self.run_main(pages, ["sg", "bl", "bs", "tg", "ag"])
-        # No data.bs.ch / data.tg.ch fixture: their APIs fail, and both fall
-        # back to their parliaments' own pages, one gap each.
+        # No Grand Council export, data.bs.ch or data.tg.ch fixture: all fail,
+        # and both cantons fall back to their parliaments' own pages, one gap
+        # for each step down.
         self.assertEqual(rc, 3)
-        self.assertEqual(len(gaps), 2)
-        self.assertTrue(all("open-data API not read" in g and "own site instead" in g for g in gaps))
+        self.assertEqual(len(gaps), 3)
+        self.assertTrue(any("Geschaefte export not read" in g for g in gaps))
+        api = [g for g in gaps if "open-data API not read" in g]
+        self.assertEqual(len(api), 2)
+        self.assertTrue(all("own site instead" in g for g in api))
         self.assertEqual(stored, {"sg": 5, "bl": 27, "bs": 18, "tg": 8, "ag": 8})
         self.assertEqual(base, 18)        # Basel-Stadt prints no submission date: a baseline
         # The only vote listed is on business off our ground: its tally is not asked for.
@@ -562,7 +621,11 @@ class MainTests(unittest.TestCase):
                 "SELECT areas FROM ch_canton_divisions WHERE act_key='tg/2024/179'").fetchone()[0]
         rc, gaps, stored, base, votes, inner = self.run_main(
             pages, ["bs", "tg"], robots={"data.bs.ch": refuse, "data.tg.ch": refuse}, check=check)
-        self.assertEqual((rc, gaps), (0, []))
+        # No Grand Council export fixture: Basel-Stadt steps down to data.bs.ch, one gap.
+        self.assertEqual(rc, 3)
+        self.assertEqual(len(gaps), 1)
+        self.assertIn("Geschaefte export not read", gaps[0])
+        self.assertIn("read from data.bs.ch instead", gaps[0])
         self.assertEqual(stored, {"bs": 7, "tg": 3})
         self.assertEqual(base, 0)                      # dated: never a baseline
         self.assertEqual(votes, 4)                     # two in Basel-Stadt, two in Thurgau
@@ -574,7 +637,61 @@ class MainTests(unittest.TestCase):
         # robots.txt refuses /api/ there; the written permission covers these datasets.
         self.assertNotIn("data.bs.ch", self.serving.robots_asked)
         self.assertNotIn("data.tg.ch", self.serving.robots_asked)
-        self.assertTrue(all("/exports/json?" in u for u in inner.urls))
+        self.assertTrue(all("/exports/json?" in u for u in inner.urls if "data." in u))
+
+    GRIBS_ROBOTS = ("User-agent: *\nDisallow: /administrator/\nDisallow: /api/\n"
+                    "Allow: /media/\n\nUser-agent: GPTBot\nDisallow: /\n")
+
+    def gribs_pages(self, ges=None):
+        g = C.BS_GRIBS.format
+        return (ges or [(g("ges", "json"), fixture("bs_gribs_ges.json"))]) + [
+            (g("dok", "json"), fixture("bs_gribs_dok.json")),
+            (g("vor", "json"), fixture("bs_gribs_vor.json")),
+            (g("siz", "json"), fixture("bs_gribs_siz.json")),
+            (C.BS_ODS + "100186/", fixture("bs_ods_abstimmungen.json"))]
+
+    def test_basel_stadt_from_the_grand_councils_exports(self):
+        seen = {}
+
+        def check(conn):
+            seen["src"] = {r[0] for r in conn.execute(
+                "SELECT substr(source_url, 1, 24) FROM ch_canton_acts")}
+            seen["vote_src"] = {r[0] for r in conn.execute(
+                "SELECT source_url FROM ch_canton_divisions")}
+        rc, gaps, stored, base, votes, inner = self.run_main(
+            self.gribs_pages(), ["bs"], robots={"grosserrat.bs.ch": self.GRIBS_ROBOTS,
+                                                "data.bs.ch": "User-agent: *\nDisallow: /api/\n"},
+            check=check)
+        self.assertEqual((rc, gaps), (0, []))
+        self.assertEqual(stored, {"bs": 7})
+        self.assertEqual((base, votes), (0, 2))
+        self.assertEqual(seen["src"], {"https://grosserrat.bs.ch"})   # the Grand Council as source
+        self.assertEqual(seen["vote_src"], {"https://data.bs.ch/explore/dataset/100186/"})
+        # robots.txt is asked for the Grand Council's host (it allows /component/), not for
+        # data.bs.ch (written permission); one request per table, no data.bs.ch business read.
+        self.assertIn("grosserrat.bs.ch", self.serving.robots_asked)
+        self.assertNotIn("data.bs.ch", self.serving.robots_asked)
+        gribs = [u for u in inner.urls if "grosserrat.bs.ch" in u]
+        self.assertEqual(len(gribs), 4)
+        self.assertFalse(any("/100311/" in u or "/100313/" in u or "/100314/" in u
+                             for u in inner.urls))
+
+    def test_basel_stadt_reads_the_csv_when_the_json_fails(self):
+        g = C.BS_GRIBS.format
+        pages = self.gribs_pages([(g("ges", "json"), "<html>Wartung</html>"),
+                                  (g("ges", "csv"), fixture("bs_gribs_ges.csv"))])
+        rc, gaps, stored, _, _, inner = self.run_main(
+            pages, ["bs"], robots={"grosserrat.bs.ch": self.GRIBS_ROBOTS})
+        self.assertEqual((rc, gaps, stored), (0, [], {"bs": 7}))
+        self.assertTrue(any(u.endswith("format=csv") for u in inner.urls))
+
+    def test_basel_stadt_exports_refused_by_robots_step_down(self):
+        rc, gaps, stored, _, _, inner = self.run_main(
+            self.gribs_pages(), ["bs"],
+            robots={"grosserrat.bs.ch": "User-agent: *\nDisallow: /component/\n"})
+        self.assertEqual(rc, 3)
+        self.assertFalse(any("grosserrat.bs.ch/component" in u for u in inner.urls))
+        self.assertTrue(any("Geschaefte export not read" in g for g in gaps))
 
     def test_robots_disallow_is_a_gap(self):
         rc, gaps, stored, _, _, inner = self.run_main(
@@ -738,6 +855,18 @@ class EditionTests(unittest.TestCase):
             self.assertIn(url, text)
         self.assertIn("written permission", text)
         self.assertIn("CC BY 4.0", text)
+
+    def test_grand_council_items_link_the_grand_council(self):
+        line = ch_ed.source_line("bs", "https://grosserrat.bs.ch/?gnr=26.5228")
+        self.assertEqual(line, "Source: [grosserrat.bs.ch](https://grosserrat.bs.ch/?gnr=26.5228) "
+                               "(Grosser Rat Basel-Stadt, from its Parlamentsdienst's Geschäfte "
+                               "export).")
+        self.assertIn("data.bs.ch", ch_ed.source_line("bs", "https://data.bs.ch/explore/dataset/100186/"))
+        text = " ".join(ch_ed.canton_coverage(self.conn))
+        self.assertIn("chosentable=ges", text)
+        self.assertIn("Peter Frankenbach", text)
+        self.assertIn("Grosser Rat Basel-Stadt's votes (and its business items, if the Grand "
+                      "Council's exports fail) are read from data.bs.ch", text)
 
     def test_watched_by_key(self):
         got = ch_ed.canton_items(self.conn, "2026-10-06", "2026-10-13", {"vd/26_POS_9": {}})
