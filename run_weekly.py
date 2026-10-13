@@ -22,7 +22,7 @@ from concurrent import futures
 
 import yaml
 
-from src import (actionable, board, daysweep, db, digest, filter as filt, intel, members, publish, review,
+from src import (actionable, board, clausetext, daysweep, db, digest, filter as filt, intel, members, publish, review,
                  spend, stance, triage)
 from src.http import FetchError, HttpClient
 from src.ingest import (amendments, bills, caselaw, committee_pubs, committees, consultations, divisions,
@@ -842,19 +842,41 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
         found.extend(("Lords", "l", divisions.fetch_lords_breakdown, dv) for dv in
                      divisions.fetch_lords_divisions(client, report_start.isoformat(),
                                                      report_end.isoformat()))
+        # A title that only NUMBERS a clause ("Health Bill: Report Stage: New
+        # Clause 142") carries no term: the puberty blockers and single-sex
+        # NHS facilities votes of 8 Sept 2026 passed this sweep unseen. Such
+        # titles have the clause itself read from the Bills API and matched
+        # instead (src/clausetext.py), and the item says so. A clause that
+        # cannot be read is a gap, never a silent no-match; one gap line per
+        # Bill and reason, or a ping-pong day would print a dozen.
+        reader = clausetext.ClauseReader(client, conn)
+        clause_gaps = {}
         for house, prefix, breakdown, dv in found:
             r = filt.filter_item(tax, wl, dv.title or "")
+            extra = None
             if not r.matched():
-                continue
+                lk = reader.lookup(dv.title, dv.date, house, getattr(dv, "notes", None), dv.id)
+                if lk.gap:
+                    clause_gaps.setdefault((lk.bill, lk.reason), []).append(str(dv.id))
+                r, labels = clausetext.match(lk, tax, wl)
+                if not labels:
+                    continue
+                extra = {"match_source": clausetext.SOURCE, "clauses": labels,
+                         "why": clausetext.describe(lk, labels),
+                         "ledger": clausetext.ledger_ok(lk, labels, tax, wl)}
             title = " ".join((dv.title or "").split())  # source carries double spaces
+            if extra:
+                title += " (matched on clause text)"     # a reviewer must see why a bare title is here
             store_item(conn, "division:{0}".format(dv.id), "division", "division",
                        "Division #{0} ({1}-{2}): {3}".format(dv.number, dv.aye_count, dv.no_count, title),
-                       dv.url, r, event_date=dv.date.isoformat() if dv.date else None)
+                       dv.url, r, event_date=dv.date.isoformat() if dv.date else None, extra=extra)
             # Member-level breakdown -> ledger (profiles, timelines, 5CA).
             # Precision-gated like every other ledger path; never listed in
             # the weekly section, only counted (Christopher's flooding rule).
             if not (r.tier == 1 or r.watchlist_hits) or not dv.date:
                 continue
+            if extra and not extra["ledger"]:
+                continue        # clause body only, not its stated purpose: triage decides (clausetext.ledger_ok)
             try:
                 division, voters = breakdown(client, dv.id)
             except Exception as exc:
@@ -863,6 +885,9 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                 continue
             division.house = house
             intel.record_votes(conn, division, voters, prefix, r.issue_areas)
+        for (bill, reason), ids in sorted(clause_gaps.items(), key=lambda kv: str(kv[0])):
+            record_gap(conn, edition, "division", "division(s) {0} ({1}): could not read clause text ({2})".format(
+                ", ".join(ids), bill, reason))
 
     def _hansard():
         """Spoken contributions -> ledger. The MP section's standing subtitle

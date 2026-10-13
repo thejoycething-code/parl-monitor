@@ -1,0 +1,71 @@
+{
+ "amendmentLines": [
+  {
+   "text": "To move the following Clause\u2014",
+   "indentation": 0,
+   "hangingIndentation": null,
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "<b>\u201cResponse to the Hughes Report: options for redress for those harmed by valproate and pelvic mesh</b>",
+   "indentation": 1,
+   "hangingIndentation": null,
+   "isImage": false,
+   "imageType": null
+  },
+  {
+   "text": "The Secretary of State must, within 30 days of the day on which this Act is passed, publish the Government\u2019s response to the Hughes Report.\u201d",
+   "indentation": 1,
+   "hangingIndentation": null,
+   "isImage": false,
+   "imageType": null
+  }
+ ],
+ "explanatoryTextPrefix": "Member's explanatory statement",
+ "explanatoryText": "<p>This new clause would require the Secretary of State to publish the Government\u2019s response to the Hughes Report within 30 days of this Act being passed.</p>",
+ "amendmentNote": null,
+ "amendmentLocation": "",
+ "mainHeader": "",
+ "amendmentId": 10038152,
+ "amendmentType": "AddClauseOrSchedule",
+ "clause": null,
+ "schedule": null,
+ "pageNumber": null,
+ "lineNumber": null,
+ "amendmentPosition": null,
+ "marshalledListText": "NC145",
+ "dNum": "hoc392",
+ "id": 0,
+ "billId": 4124,
+ "billStageId": 21130,
+ "statusIndicator": null,
+ "decision": "NegativedOnDivision",
+ "decisionExplanation": "This amendment was debated and rejected, following a vote.",
+ "sponsors": [
+  {
+   "isLead": true,
+   "sortOrder": 1,
+   "memberId": 4592,
+   "name": "Dr Caroline Johnson",
+   "party": "Conservative",
+   "partyColour": "0063ba",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/4592/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/4592/contact",
+   "memberFrom": "Sleaford and North Hykeham"
+  },
+  {
+   "isLead": false,
+   "sortOrder": 2,
+   "memberId": 3969,
+   "name": "Damian Hinds",
+   "party": "Conservative",
+   "partyColour": "0063ba",
+   "house": "Commons",
+   "memberPhoto": "https://members-api.parliament.uk/api/Members/3969/Thumbnail",
+   "memberPage": "https://members.parliament.uk/member/3969/contact",
+   "memberFrom": "East Hampshire"
+  }
+ ]
+}

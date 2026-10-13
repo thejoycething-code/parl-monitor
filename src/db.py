@@ -182,6 +182,18 @@ CREATE TABLE IF NOT EXISTS cv_divisions (
   title TEXT NOT NULL,
   ayes INTEGER, noes INTEGER
 );
+-- Clause text read for divisions whose titles only NUMBER a clause ("Health
+-- Bill: Report Stage: New Clause 142"): src/clausetext.py. One row per
+-- division read successfully, so a division is never re-read; failures are
+-- not stored and are retried. division_key is house initial + id (c2421).
+CREATE TABLE IF NOT EXISTS clause_text (
+  division_key TEXT PRIMARY KEY,
+  bill TEXT, bill_id INTEGER,
+  stage TEXT, stage_id INTEGER,
+  refs TEXT,                      -- json [{kind, number}]
+  clauses TEXT,                   -- json [{label, amendment_id, url, decision, text}]
+  fetched_at TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS cv_votes (
   division_id INTEGER NOT NULL,
   member_id INTEGER NOT NULL,
@@ -1532,6 +1544,7 @@ TABLES = (
     "member_interest",
     "cv_divisions",
     "cv_votes",
+    "clause_text",
     "mp_alignment",
     "mp_defiance",
     "mp_events",

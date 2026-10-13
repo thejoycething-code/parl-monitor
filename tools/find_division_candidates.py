@@ -14,6 +14,11 @@ pages 25 at a time) and flags candidates two ways:
 
   title    the taxonomy matches the division title -- the sweep may have
            missed it through phrasing alone
+  clause   the title only numbers a clause ("Health Bill: Report Stage: New
+           Clause 142"), so the clause itself is read from the Bills API and
+           matched (src/clausetext.py). This is what catches the puberty
+           blockers and single-sex NHS facilities votes of 8 Sept 2026. A
+           clause that cannot be read is listed at the end, never dropped.
   debate   tagged speeches that day sat in the SAME debate as the division.
            This is what catches New Clause 1: the abortion speeches of 17
            June 2025 are filed under "Crime and Policing Bill", exactly the
@@ -40,7 +45,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, filter as filt, intel
+from src import clausetext, db, filter as filt, intel
 from src.http import FetchError, HttpClient
 from src.ingest.divisions import COMMONS_API, parse_commons_response
 
@@ -142,7 +147,8 @@ def main():
     print("{0} divisions found; {1} already in the ledger, {2} on the tracker\n".format(
         len(divisions), len(held), len(tracked)))
 
-    candidates = []
+    candidates, clause_gaps = [], []
+    reader = clausetext.ClauseReader(client, conn)
     for d in divisions:
         if not d.id or d.id in tracked:
             continue
@@ -154,6 +160,17 @@ def main():
         # Lords Amendment 359" is a watched Bill and a vote about the IRGC
         # (batch 1 of the review, 2026-09-10: 13 such tags, none on the issue).
         title_how = "term" if result.tier == 1 else ("watched bill" if result.watchlist_hits else "")
+        clause_terms = []
+        # A watched-Bill hit says only which Bill; the clause says what the
+        # vote was about, so it is read whenever no TERM named the subject.
+        if title_how != "term":
+            lk = reader.lookup(title, d.date, "Commons", None, d.id)
+            if lk.gap:
+                clause_gaps.append((d.id, d.date.isoformat() if d.date else "?", title, lk.gap))
+            cres, labels = clausetext.match(lk, tax, wl)
+            if labels:
+                title_areas, title_how = set(cres.issue_areas), "clause text"
+                clause_terms = cres.matched_terms + cres.watchlist_hits
         day_areas = same_debate_areas(
             title, day_debates.get(d.date.isoformat() if d.date else "", []))
         if not title_areas and not day_areas:
@@ -169,6 +186,7 @@ def main():
         candidates.append({
             "id": d.id, "date": d.date.isoformat() if d.date else "?", "title": title,
             "title_areas": sorted(title_areas), "title_how": title_how, "day_areas": day_areas,
+            "clause_terms": clause_terms,
             "areas": sorted(areas), "in_ledger": d.id in held,
             "hidden_only": not (shown_title or shown_debate),
         })
@@ -199,8 +217,11 @@ def main():
     for c in fresh[:40]:
         marks = []
         if c["title_areas"]:
-            marks.append(("title: " if c.get("title_how") == "term" else "watched Bill (vote may be on anything): ")
-                         + ", ".join(names.get(a, str(a)) for a in c["title_areas"]))
+            how = c.get("title_how")
+            lead = ("title: " if how == "term" else
+                    "clause text ({0}): ".format(", ".join(c.get("clause_terms") or [])) if how == "clause text"
+                    else "watched Bill (vote may be on anything): ")
+            marks.append(lead + ", ".join(names.get(a, str(a)) for a in c["title_areas"]))
         if c["day_areas"]:
             marks.append("same debate: " + ", ".join(
                 "{0} x{1}".format(names.get(a, a), n)
@@ -210,6 +231,11 @@ def main():
         print("        {0}{1}".format(" | ".join(marks), flag))
     if len(fresh) > 40:
         print("\n  ...and {0} more".format(len(fresh) - 40))
+    if clause_gaps:
+        print("\n{0} division(s) name a clause whose text could not be read -- NOT "
+              "a no-match, check by hand:".format(len(clause_gaps)))
+        for did, date, title, gap in clause_gaps[:40]:
+            print("  id {0:5}  {1}  {2}\n        {3}".format(did, date, title[:70], gap))
     print("\nNothing here is published. Add the ones that belong to "
           "config/vote_tracker.yaml with a meaning line a human has written.")
 
@@ -219,7 +245,9 @@ def main():
     with open(out_path, "w", encoding="utf-8") as handle:
         json.dump({"start": start, "end": end,
                    "enumerated": len(divisions),
-                   "candidates": candidates}, handle, indent=1)
+                   "candidates": candidates,
+                   "clause_gaps": [{"id": g[0], "date": g[1], "title": g[2], "gap": g[3]}
+                                   for g in clause_gaps]}, handle, indent=1)
     print("structured queue: {0}".format(out_path))
     conn.close()
 
