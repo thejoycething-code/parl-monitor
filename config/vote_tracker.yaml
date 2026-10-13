@@ -931,8 +931,8 @@ divisions:
       Reading.
 
   # -- Opposition Day, 23 June 2026. Drafted 2026-10-13 by Claude at Christopher's
-  #    instruction (Asana: puberty blocker vote audit); NOT YET SIGNED OFF, so it
-  #    renders with no verdict. The motion, moved by Dr Caroline Johnson, called on
+  #    instruction (Asana: puberty blocker vote audit); signed off by Christopher,
+  #    2026-10-13. The motion, moved by Dr Caroline Johnson, called on
   #    the Government to take steps to prevent the PATHWAYS clinical trial into
   #    puberty suppressing hormones for children with gender incongruence (Hansard
   #    debate 396A04DC-A60D-47C4-B46D-352A202F6214; the Speaker selected no
@@ -944,7 +944,7 @@ divisions:
     stage: Opposition Day motion
     stage_group: Division
     landmark: true
-    signed_off: false
+    signed_off: true
     our_side: aye
     short: PATHWAYS trial
     context: ""
