@@ -45,9 +45,15 @@ Basel-Landschaft, St. Gallen and Thurgau (robots.txt: Disallow /api/) and
 www.ag.ch/grossrat stay unread. Each canton is read instead from another
 official host of its own whose robots.txt allows it (asked every run):
 
-  bs  Grosser Rat Basel-Stadt. Since 13 October 2026 from data.bs.ch (see
-      WRITTEN PERMISSIONS below); the fallback, if that API fails, is
-      grosserrat.bs.ch, the Grand Council's own site (its robots.txt
+  bs  Grosser Rat Basel-Stadt. Since 13 October 2026 (branch bs-gribs)
+      first from the Grand Council's own raw data exports on
+      grosserrat.bs.ch/component/gribs (offered by its Parlamentsdienst,
+      Peter Frankenbach; robots.txt allows /component/): the whole
+      Geschaefte table (ges, JSON, the CSV if the JSON fails), its documents
+      (dok) and steps (vor, dated by siz), diffed against the store. Votes,
+      and the business if an export fails, from data.bs.ch (see WRITTEN
+      PERMISSIONS below); the last fallback is the Grand Council's
+      pages on grosserrat.bs.ch (its robots.txt
       disallows only /api/ and system folders): the new parliamentary
       motions page (the business numbers and titles lodged for the next
       sitting) and the weekly Grossratsversand page (every report, Ratschlag
@@ -139,8 +145,10 @@ robots.txt read; anything else on those hosts is still refused).
 from __future__ import annotations
 
 import argparse
+import csv
 import datetime
 import html
+import io
 import json
 import os
 import re
@@ -153,7 +161,7 @@ sys.path.insert(0, ROOT)
 
 from src import ch_store, db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
-from src.robots_guard import GuardedClient  # noqa: E402
+from src.robots_guard import GuardedClient, RobotsRefused  # noqa: E402
 
 FEED = "ch-cantons"
 TAXONOMY_DE = os.path.join(ROOT, "config", "taxonomy-atch.yaml")
@@ -292,8 +300,8 @@ AG_SINCE = "2025-01-01"      # the Grosser Rat's legislature began in January 20
 # filtered server-side to the window and fetched in date batches (Basel-Stadt
 # asked for batches if the API is slow); about one weekly run's volume.
 BS_ODS = "https://data.bs.ch/api/explore/v2.1/catalog/datasets/"
-POLITE_HOSTS = ("data.bs.ch", "data.tg.ch")
-POLITE_S = 3.0              # seconds between two requests to either portal
+POLITE_HOSTS = ("data.bs.ch", "data.tg.ch", "grosserrat.bs.ch")
+POLITE_S = 3.0              # seconds between two requests to one of these hosts
 BS_SETS = {"geschaefte": "100311", "dokumente": "100313", "vorgaenge": "100314",
            "abstimmungen": "100186"}
 BS_DATASET = "https://data.bs.ch/explore/dataset/{0}/"
@@ -313,6 +321,25 @@ BS_VOTE_FIELDS = ("datum,anr,abst_nr,typ,traktandum,subtraktandum,geschaeft,sign
                   "signatur_dok,anz_j,anz_n,anz_e,anz_a,anz_p,mitglied_vorname,"
                   "mitglied_nachname,mitglied_name,fraktion,entscheid_mitglied,gr_uni_nr,"
                   "url_abstimmung_dok")
+
+# --- Basel-Stadt: the Grand Council's own raw data exports (13 October 2026) ---------
+# Peter Frankenbach, IT lead and webmaster of the Parlamentsdienst des Grossen
+# Rates Basel-Stadt, offered these exports of the Grand Council's business
+# system (GRIBS) on 13 October 2026 in place of data.bs.ch, whose robots.txt
+# is outside his control. grosserrat.bs.ch's robots.txt allows /component/ to
+# every agent but the AI crawlers it names, so the run-time guard asks it and
+# no exemption is needed. Each table is the whole table, one request a run:
+# ges (Geschaefte, the primary business list), dok (Dokumente, dated) and vor
+# (Vorgaenge, the Grosser Rat's steps) with siz (Sitzungen, the sitting
+# dates vor refers to by number). JSON first, the CSV of the same table if
+# the JSON fails. The rows are diffed against the store: only business begun,
+# ended or touched in the window, or closed since we stored it, is kept.
+# The exporter has no votes table: votes stay on data.bs.ch 100186.
+BS_GRIBS = ("https://grosserrat.bs.ch/component/gribs?chosentable={0}&view=exporter"
+            "&Itemid=105&format={1}")
+BS_GRIBS_TABLES = {"geschaefte": "ges", "dokumente": "dok", "vorgaenge": "vor", "sitzungen": "siz"}
+BS_GES_URL = "https://grosserrat.bs.ch/?gnr={0}"      # the Grand Council's page of a business
+BS_GRIBS_STATUS = {"A": "Abgeschlossen", "B": "In Bearbeitung"}
 
 TG_ODS = "https://data.tg.ch/api/explore/v2.1/catalog/datasets/"
 TG_SETS = {"geschaefte": "sk-stat-140", "urheber": "sk-stat-141", "abstimmungen": "sk-stat-136"}
@@ -1010,10 +1037,13 @@ def _num(v):
         return None
 
 
-def parse_bs_api(rows, docs=(), steps=(), today=None, since=None):
+def parse_bs_api(rows, docs=(), steps=(), today=None, since=None, source=BS_ITEM, keep=()):
     """Acts from data.bs.ch: Geschaefte (100311, one row per co-author), each
     with its newest dated document (100313) or Grosser Rat step (100314) up
-    to today as its status, in the dataset's own words."""
+    to today as its status, in the dataset's own words. The Grand Council's
+    own exports are mapped to the same rows (gribs_*) and read here too, with
+    `source` their item link; `keep` names business numbers kept whatever
+    the window (closed since we stored them)."""
     today = today or datetime.date.today().isoformat()
     biz = {}
     for r in rows or []:
@@ -1048,7 +1078,8 @@ def parse_bs_api(rows, docs=(), steps=(), today=None, since=None):
         if ended and ended > today:
             ended = None
         ev = sorted(events.get(sig, []))
-        if since and not ev and not any(x and since <= x <= today for x in (begun, ended)):
+        if since and not ev and sig not in keep and not any(
+                x and since <= x <= today for x in (begun, ended)):
             continue          # pending, but nothing happened to it in the window
         presented = first.get(sig) or (begun if begun and begun <= today else None)
         state = (r.get("status_ges") or "").strip()
@@ -1058,8 +1089,8 @@ def parse_bs_api(rows, docs=(), steps=(), today=None, since=None):
                 status, status_date = state or "Abgeschlossen", ended
         else:
             status, status_date = state or None, ended or presented
-        _k, _a, words = bs_split(r.get("titel_ges"))
-        who = r.get("name_vorname_urheber") or ""
+        _k, author, words = bs_split(r.get("titel_ges"))
+        who = r.get("name_vorname_urheber") or author or ""
         if r.get("vorname_urheber") and r.get("name_urheber"):
             who = "{0} {1}".format(r["vorname_urheber"], r["name_urheber"])
         if who and r.get("partei_kname_urheber"):
@@ -1072,7 +1103,7 @@ def parse_bs_api(rows, docs=(), steps=(), today=None, since=None):
             "title_fr": None, "presented": presented, "status": (status or "")[:300] or None,
             "status_date": status_date, "dated": True, "initiative": who or None,
             "committee": None, "url": r.get("url_ges") or BS_URL.format(sig),
-            "source_url": BS_ITEM.format(sig), "seq": None,
+            "source_url": source.format(sig), "seq": None,
             "question": kind in BS_API_QUESTIONS})
     return out
 
@@ -1107,6 +1138,94 @@ def parse_bs_api_votes(rows):
                                "parl_group": r.get("fraktion"),
                                "position": BS_POSITIONS.get(pos, pos)})
     return list(votes.values())
+
+
+def gribs_rows(body):
+    """The rows of one Grand Council export: its JSON (a list of objects), or
+    its CSV (a header line, then one line per row) if `body` is not JSON."""
+    if isinstance(body, bytes):
+        body = body.decode("utf-8-sig", "replace")
+    if isinstance(body, list):
+        return body
+    body = (body or "").lstrip("\ufeff")
+    try:
+        got = json.loads(body)
+    except ValueError:
+        got = None
+    if isinstance(got, list):
+        return got
+    if got is not None or not body.strip():
+        raise ValueError("the Grand Council export is neither a JSON list nor a CSV table")
+    rows = list(csv.DictReader(io.StringIO(body)))
+    if not rows or "idnr" not in rows[0]:
+        raise ValueError("the Grand Council export is neither a JSON list nor a CSV table")
+    return rows
+
+
+def gribs_day(v):
+    """An export date: epoch seconds at midnight UTC ('1791936000', or an int;
+    0 or '' is none), or '12.10.2026' -> ISO date."""
+    if v in (None, "", 0, "0"):
+        return None
+    s = str(v).strip()
+    if re.fullmatch(r"-?\d+", s):
+        return datetime.datetime.utcfromtimestamp(int(s)).date().isoformat()
+    return iso(s)
+
+
+def gribs_geschaefte(rows):
+    """The ges export as rows of data.bs.ch 100311 (for parse_bs_api)."""
+    out = []
+    for r in rows or []:
+        sig = (r.get("signatur") or "").strip()
+        if not sig:
+            continue
+        title = re.sub(r"\s+", " ", r.get("titel") or "").strip()
+        kind = (r.get("ga_rr_gr") or "").strip() or bs_split(title)[0] or ""
+        out.append({"signatur_ges": sig, "laufnr": str(r.get("laufnr") or ""),
+                    "beginn_ges": gribs_day(r.get("beginn")), "ende_ges": gribs_day(r.get("ende")),
+                    "status_ges": BS_GRIBS_STATUS.get((r.get("status") or "").strip(),
+                                                      (r.get("status") or "").strip() or None),
+                    "titel_ges": title, "ga_rr_gr": kind, "url_ges": BS_GES_URL.format(sig)})
+    return out
+
+
+def _in(day, since, today):
+    return bool(day) and (since is None or since <= day) and day <= today
+
+
+def gribs_dokumente(rows, sigs, since=None, today=None):
+    """The dok export as rows of 100313, those dated since..today."""
+    today = today or datetime.date.today().isoformat()
+    out = []
+    for r in rows or []:
+        sig, day = sigs.get(str(r.get("ges_laufnr") or "")), gribs_day(r.get("datum"))
+        if sig and _in(day, since, today):
+            out.append({"signatur_ges": sig, "dokudatum": day, "titel_dok": r.get("titel"),
+                        "signatur_dok": r.get("signatur")})
+    return out
+
+
+def gribs_vorgaenge(rows, sittings, sigs, since=None, today=None):
+    """The vor export as rows of 100314, dated by the siz export (sitting
+    number -> date), those since..today."""
+    today = today or datetime.date.today().isoformat()
+    days = {str(s.get("siz_nr") or s.get("idnr")): gribs_day(s.get("datum")) for s in sittings or []}
+    out = []
+    for r in rows or []:
+        sig, day = sigs.get(str(r.get("ges_laufnr") or "")), days.get(str(r.get("siz_nr") or ""))
+        if sig and _in(day, since, today):
+            out.append({"signatur_ges": sig, "siz_datum": day, "vermerk": r.get("vermerk"),
+                        "beschlnr": r.get("beschlnr")})
+    return out
+
+
+def gribs_closed_since_stored(ges, stored):
+    """Business numbers the export shows closed whose stored row was not:
+    the diff against the store a whole-table export allows."""
+    return {r["signatur_ges"] for r in ges
+            if r.get("status_ges") == "Abgeschlossen" and "bs/" + r["signatur_ges"] in stored
+            and "Abgeschlossen" not in (stored["bs/" + r["signatur_ges"]] or "")}
 
 
 _TG_NR = re.compile(r"^(\d\d)/.*?/\s*(\d+)\s*$")
@@ -1531,15 +1650,31 @@ def fetch_baselstadt_api(client, conn=None, today=None, log=print, budget=None):
         BS_ODS, BS_SETS["geschaefte"],
         "beginn_ges >= {0} or ende_ges >= {0} or status_ges = \"In Bearbeitung\"".format(q(since)),
         select=BS_GES_FIELDS), FEED, "bs-ods-geschaefte", timeout=180)
+    docs, steps = bs_api_docs_steps(client, since, today)
+    if not isinstance(ges, list):
+        raise ValueError("data.bs.ch answered with no list of Geschaefte")
+    acts = parse_bs_api(ges, docs, steps, today=today, since=since)
+    votes, part = bs_api_votes(client, conn, today, log=log, budget=budget)
+    return acts, part, votes
+
+
+def bs_api_docs_steps(client, since, today):
+    """Documents (100313) and Grosser Rat steps (100314) dated since..today, from data.bs.ch."""
+    q = '"{0}"'.format
     docs = client.get_json(ods_export(
         BS_ODS, BS_SETS["dokumente"], "dokudatum >= {0} and dokudatum <= {1}".format(q(since), q(today)),
         select="dokudatum,signatur_dok,titel_dok,signatur_ges"), FEED, "bs-ods-dokumente", timeout=180)
     steps = client.get_json(ods_export(
         BS_ODS, BS_SETS["vorgaenge"], "siz_datum >= {0} and siz_datum <= {1}".format(q(since), q(today)),
         select="beschlnr,vermerk,siz_datum,signatur_ges"), FEED, "bs-ods-vorgaenge", timeout=180)
-    if not isinstance(ges, list):
-        raise ValueError("data.bs.ch answered with no list of Geschaefte")
-    acts = parse_bs_api(ges, docs, steps, today=today, since=since)
+    return docs, steps
+
+
+def bs_api_votes(client, conn, today, log=print, budget=None):
+    """(votes, read in part): every vote since the newest stored one, from
+    data.bs.ch 100186, fortnight by fortnight, with each member's vote. The
+    Grand Council's exporter has no votes table (13 October 2026)."""
+    q = '"{0}"'.format
     votes, part = [], 0
     for k, (a, b) in enumerate(batches(_vote_start(conn, "bs", _since(today, BS_VOTE_DAYS)), today,
                                        BS_BATCH_DAYS)):
@@ -1551,7 +1686,72 @@ def fetch_baselstadt_api(client, conn=None, today=None, log=print, budget=None):
             BS_ODS, BS_SETS["abstimmungen"], "datum >= {0} and datum <= {1}".format(q(a), q(b)),
             select=BS_VOTE_FIELDS), FEED, "bs-ods-abstimmungen-" + a, timeout=180)
         votes += parse_bs_api_votes(rows)
-    return acts, part, votes
+    return votes, part
+
+
+def gribs_get(client, table):
+    """One Grand Council export table's rows: the JSON, or the CSV if the JSON fails."""
+    # Not archived under data/raw: whole tables (8 to 12 MB each), read again every week.
+    try:
+        return gribs_rows(client.get_text(BS_GRIBS.format(table, "json"), FEED,
+                                          "bs-gribs-" + table, timeout=300, archive=False))
+    except RobotsRefused:
+        raise                           # robots.txt refused it: the CSV would be refused too
+    except (FetchError, ValueError):
+        return gribs_rows(client.get_text(BS_GRIBS.format(table, "csv"), FEED,
+                                          "bs-gribs-" + table + "-csv", timeout=300,
+                                          archive=False))
+
+
+def _stored_bs(conn):
+    if conn is None:
+        return {}
+    return {k: st for k, st in conn.execute(
+        "SELECT act_key, status FROM ch_canton_acts WHERE canton='bs'").fetchall()}
+
+
+def fetch_baselstadt_gribs(client, conn=None, today=None, log=print, budget=None):
+    """The Grand Council's own exports (offered by its Parlamentsdienst, 13
+    October 2026): the whole Geschaefte table, diffed against the store,
+    with its documents and Grosser Rat steps (dok, vor + siz; data.bs.ch's
+    if those fail), and the votes from data.bs.ch 100186."""
+    today = today or datetime.date.today().isoformat()
+    since = _since(today, BS_API_DAYS)
+    ges = gribs_geschaefte(gribs_get(client, BS_GRIBS_TABLES["geschaefte"]))
+    if not ges:
+        raise ValueError("the Grand Council's Geschaefte export has no rows")
+    sigs = {r["laufnr"]: r["signatur_ges"] for r in ges if r.get("laufnr")}
+    gaps = 0
+    try:
+        docs = gribs_dokumente(gribs_get(client, BS_GRIBS_TABLES["dokumente"]), sigs, since, today)
+        steps = gribs_vorgaenge(gribs_get(client, BS_GRIBS_TABLES["vorgaenge"]),
+                                gribs_get(client, BS_GRIBS_TABLES["sitzungen"]), sigs, since, today)
+    except (FetchError, ValueError) as e:
+        detail = ("{0}: the Grand Council's document/step exports not read ({1}); "
+                  "read from data.bs.ch instead").format(CANTONS["bs"], str(e)[:160])
+        if conn is not None:
+            _gap(conn, today, detail, log=log)
+        else:
+            log("  [gap] " + detail)
+        gaps = 1
+        try:
+            docs, steps = bs_api_docs_steps(client, since, today)
+        except (FetchError, ValueError) as e2:
+            log("  ch-cantons: Basel-Stadt documents and steps not read ({0})".format(str(e2)[:160]))
+            docs, steps = [], []
+    keep = gribs_closed_since_stored(ges, _stored_bs(conn))
+    acts = parse_bs_api(ges, docs, steps, today=today, since=since, source=BS_GES_URL, keep=keep)
+    votes, part = [], 0
+    try:
+        votes, part = bs_api_votes(client, conn, today, log=log, budget=budget)
+    except (FetchError, ValueError, TypeError, AttributeError) as e:
+        detail = "{0}: votes not read from data.bs.ch ({1})".format(CANTONS["bs"], str(e)[:160])
+        if conn is not None:
+            _gap(conn, today, detail, log=log)
+        else:
+            log("  [gap] " + detail)
+        gaps += 1
+    return acts, part, votes, gaps
 
 
 def fetch_thurgau_pages(client, conn=None, today=None, log=print, budget=None):
@@ -1620,8 +1820,23 @@ def _api_or_pages(api, pages, name, client, conn, today, log, budget):
 
 
 def fetch_baselstadt(client, conn=None, today=None, log=print, budget=None):
-    return _api_or_pages(fetch_baselstadt_api, fetch_baselstadt_pages, CANTONS["bs"], client,
-                         conn, today, log, budget)
+    """The Grand Council's exports; if they fail, data.bs.ch's API (written
+    permission); if that fails too, the Grand Council's pages. A gap line
+    for each step down."""
+    today = today or datetime.date.today().isoformat()
+    try:
+        return fetch_baselstadt_gribs(client, conn, today, log=log, budget=budget)
+    except (FetchError, ValueError, TypeError, AttributeError) as e:
+        detail = ("{0}: the Grand Council's Geschaefte export not read ({1}); "
+                  "read from data.bs.ch instead").format(CANTONS["bs"], str(e)[:160])
+        if conn is not None:
+            _gap(conn, today, detail, log=log)
+        else:
+            log("  [gap] " + detail)
+    acts, g, votes, gaps = (list(_api_or_pages(fetch_baselstadt_api, fetch_baselstadt_pages,
+                                               CANTONS["bs"], client, conn, today, log, budget))
+                            + [0])[:4]
+    return acts, g, votes, gaps + 1
 
 
 def fetch_thurgau(client, conn=None, today=None, log=print, budget=None):

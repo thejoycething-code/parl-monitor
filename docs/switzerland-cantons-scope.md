@@ -31,6 +31,13 @@ Council datasets only, recorded in `src/robots_guard.PERMISSIONS`), **with
 every member's vote**; the pages above are their fallback. Basel-Landschaft
 and St. Gallen (no reply yet) and Aargau stay as they were.
 
+**Update, 13 October 2026 (branch `bs-gribs`, below "Basel-Stadt: the
+Grand Council's own exports"):** Peter Frankenbach, the Grand Council's IT
+lead, offered its raw data exports on `grosserrat.bs.ch` (robots.txt allows
+them). Basel-Stadt's business is now read from those exports first;
+`data.bs.ch` (written permission) keeps the votes and is the business
+fallback; the Grand Council's pages are the last resort.
+
 **Covered: five of 26** (Zürich, Bern, Vaud, Geneva, Ticino): the two
 largest German-speaking cantons, the two largest French-speaking ones and
 the Italian-speaking one, about 4.4 of Switzerland's 9 million people.
@@ -81,7 +88,7 @@ Ranked by population, then by what the first read found on our ground.
 | Solothurn (0.29 m) | Kantonsrat | `so.ch/parlament/` | TYPO3 pages | allows | not yet |
 | Thurgau (0.29 m) | Grosser Rat | `data.tg.ch` datasets sk-stat-140 (business), sk-stat-136 (votes) | Opendatasoft API | **`Disallow: /api/`** | **yes, with written permission (13 Oct 2026)**, business and members' votes; fallback `grgeko.tg.ch` (below) |
 | Graubünden (0.20 m) | Grosser Rat | `www.gr.ch` (SharePoint) | HTML | disallows search and list views | not yet |
-| Basel-Stadt (0.20 m) | Grosser Rat | `data.bs.ch` datasets 100311 (business), 100313 (documents), 100314 (steps), 100186 (votes, per member), 100086 (motions), members, agendas | Opendatasoft API | **`Disallow: /api/`** | **yes, with written permission (13 Oct 2026)**, business and members' votes; fallback `grosserrat.bs.ch` (below) |
+| Basel-Stadt (0.20 m) | Grosser Rat | the Grand Council's exports `grosserrat.bs.ch/component/gribs` (ges, dok, vor, siz; offered 13 Oct 2026); `data.bs.ch` datasets 100311 (business), 100313 (documents), 100314 (steps), 100186 (votes, per member), 100086 (motions), members, agendas | JSON/CSV exports; Opendatasoft API | exports allowed; data.bs.ch **`Disallow: /api/`** | **yes**: business from the Grand Council's exports; members' votes from data.bs.ch (written permission, 13 Oct 2026); fallbacks data.bs.ch, then `grosserrat.bs.ch` pages (below) |
 | Neuchâtel (0.18 m) | Grand Conseil | `www.ne.ch` | Drupal | allows | not yet |
 | Schwyz (0.17 m) | Kantonsrat | `www.sz.ch/kantonsrat` | HTML | allows | not yet |
 | Zug (0.13 m) | Kantonsrat | `zg.ch/de/kantonsrat` | Magnolia pages | allows | not yet |
@@ -221,6 +228,98 @@ The fallback: if an API fails, the canton is read from its parliament's
 own pages (grosserrat.bs.ch, grgeko.tg.ch) as before, with one gap line
 saying so; Basel-Stadt's API rows are dated, so they are never a baseline.
 
+## Basel-Stadt: the Grand Council's own exports (13 October 2026, branch `bs-gribs`)
+
+**The offer.** On 13 October 2026 Peter Frankenbach, IT lead and webmaster
+of the Parlamentsdienst des Grossen Rates Basel-Stadt, wrote that
+`data.bs.ch`'s robots.txt is outside his control and offered instead the
+Grand Council's own raw data exports of its business system (GRIBS):
+
+- <https://grosserrat.bs.ch/component/gribs/?chosentable=ges&view=exporter&Itemid=105&format=csv>
+- <https://grosserrat.bs.ch/component/gribs/?chosentable=ges&view=exporter&Itemid=105&format=json>
+
+and said there are further export links matching the portal's datasets (we
+asked him for the votes, documents/status and members links). Chris:
+"temporarily switch to his exports and then find something else for
+ongoing builds and data if needed". `grosserrat.bs.ch`'s robots.txt allows
+`/component/` for `*` (it disallows `/administrator/`, `/api/`, system
+folders, and GPTBot, ChatGPT-User, Google-Extended, CCBot and PerplexityBot
+by name); our agent is allowed, so the per-run guard asks robots.txt and no
+exemption or permission entry is needed. (The URL with `/gribs/?` answers a
+302 to `/gribs?`; the collector asks the canonical form.)
+
+**What the Geschäfte export contains (live, 13 October 2026).** The whole
+table, every business since 1988: **21,197 rows** (998 pending, `status`
+B; 20,199 closed, A), 7.8 MB as JSON, 4.2 MB as CSV, the same rows in both.
+Fields: `idnr`, `beginn` (epoch seconds at midnight UTC; business lodged
+for the next sitting is dated that sitting, e.g. 14 October), `ende` (0 or
+epoch seconds, some with a time), `laufnr` (the business system's running
+number, which the other tables refer to), `signatur` (the business number,
+e.g. 26.5228, the same key as data.bs.ch's `signatur_ges`), `status` (A/B),
+`titel` (the full title, author included: "Anzug Andrea Strahm und Marina
+Schai betreffend ..."), `bempublic` (empty), `ga_rr_gr` (the type:
+Interpellation 4,830, Anzug 4,511, Schriftliche Anfrage 2,652, Bericht,
+Ratschlag, Wahl, Motion, Kleine Anfrage, Petition, ...; empty for 377
+rows), `departement`, `geseigner` (always Parlamentsdienst), `gr_urheber`
+(the author's member number), `gr_urheber_name` (surname and first name run
+together, "ThüringJoël": not used; the author is read from the title). No
+party, no co-authors.
+
+**Other tables (task: probe politely, at most ten requests; eight were
+sent).** The exporter's own form (`/component/gribs?view=exporter&Itemid=105`,
+one request) lists its tables: `ges` Geschäfte, `dok` Dokumente, `vor`
+Vorgänge, `zuw` Zuweisungen, `kon` Konsorten, `adr` Personen / Adressen,
+`gre` Gremien, `mit` Mitgliedschaften, `intr` Interessenbindungen, `par`
+Parteien, `siz` Sitzungen, `unt` Unterlagen, `gr_sitzung` Sessionen,
+`gr_tagesordnung` Tagesordnungen, `gr_tagesordnung_pos`
+Tagesordnungs-Traktanden. **There is no votes table.** Fetched once each:
+`dok` (56,858 documents, 11 MB: `dok_nr`, `ges_laufnr`, `titel`, `url` of
+the PDF, `datum` dd.mm.yyyy, `signatur`), `vor` (45,159 Grosser Rat steps,
+12 MB: `ges_laufnr`, `siz_nr`, `vermerk` the decision in the Council's
+words, `beschlnr`, `titel`), `siz` (1,287 sittings, 65 KB: `siz_nr`,
+`datum`). The requests were: the two `/gribs/?` forms (302), `ges` JSON,
+`ges` CSV, the exporter form, `vor`, `dok`, `siz`. Not fetched: `adr`,
+`mit`, `kon` and the rest (the collector has no use for members' addresses;
+members' names and Fraktion come with each vote). Guessed names such as
+`abstimmungen`, `abs` or `sta` were not tried: the form lists every table.
+
+**Wired.** `tools/ch_cantons.py fetch_baselstadt_gribs`: `ges` is the
+primary Basel-Stadt business list (JSON; the CSV of the same table if the
+JSON fails), `dok` and `vor` + `siz` give each business its newest dated
+document or step, exactly as data.bs.ch 100313/100314 did (the fixtures'
+seven businesses come out with the same statuses and dates from both).
+One request per table per run (4 a week, about 31 MB, 3 s apart, not
+archived under `data/raw`). The rows are diffed against the store: only
+business begun, ended or touched (document or step) in the last 45 days,
+or closed since we stored it open, is kept (326 of 21,197 in the first live
+read, the same 326 the API gave: 0 new, 0 moved against the API rows
+already in the scratch store). Votes stay on data.bs.ch 100186 (the
+exporter has none). Edition: Basel-Stadt business items link to the Grand
+Council's page of the business (`https://grosserrat.bs.ch/?gnr=<number>`,
+the "Source:" line names grosserrat.bs.ch); votes keep the data.bs.ch
+dataset link, as its CC BY licence requires; the coverage line links the
+four exports and names Frankenbach's offer.
+
+### Ongoing source plan for Basel-Stadt
+
+1. **Primary: the Grand Council's own exports** (`grosserrat.bs.ch/component/gribs`,
+   offered by the Parlamentsdienst, 13 October 2026; robots.txt allows
+   them): business (`ges`), documents (`dok`), steps (`vor` + `siz`). When
+   Frankenbach sends a votes export, it replaces data.bs.ch 100186 here.
+2. **Secondary: `data.bs.ch`'s API under the Statistisches Amt's written
+   permission** (Orhan Saeedi, 13 October 2026, `src/robots_guard.PERMISSIONS`):
+   votes with every member's vote (100186) now; business, documents and
+   steps (100311, 100313, 100314) when an export fails (a gap line says
+   which).
+3. **Last: the Grand Council's pages** (`/ratsbetrieb/neue-vorstoesse`,
+   `/ratsbetrieb/neue-berichte-und-schreiben`), if both of the above fail.
+
+Both permissions are recorded: the data.bs.ch permission in
+`src/robots_guard.PERMISSIONS` and docs/robots-runtime.md ("Written
+permissions"); the Grand Council's offer here and in docs/robots-runtime.md
+(it needs no entry: robots.txt allows the exports). Waiting on
+Frankenbach's reply for a votes export and the exact links he meant.
+
 ### Contacts (Waiting on Chris: write to them, nothing was sent)
 
 | Canton | Best address | Second | Source |
@@ -355,3 +454,5 @@ two `AWAITING_STEP_UNTIL` entries), `config/watchlist-ch.yaml` (the
 `docs/robots-runtime.md`. 13 October 2026 (`permissions-1013`):
 `src/robots_guard.py` (`PERMISSIONS`), `src/ch_store.py` (`ch_canton_votes`,
 `source_url`, `counts_from`), `src/db.py` (one name in `TABLES`).
+13 October 2026 (`bs-gribs`): `src/editions/ch.py` (`OWN_EXPORTS`,
+`OWN_SOURCES`, the Basel-Stadt source line).

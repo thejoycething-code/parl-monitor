@@ -126,6 +126,17 @@ small budget (#118).
   against their Fraktion), each item with a "Source:" link to its dataset as
   Basel-Stadt's CC BY licence asks. The page routes stay as the fallback.
   Details: docs/switzerland-cantons-scope.md, "Written permissions".
+- Basel-Stadt, the Grand Council's own exports (branch `bs-gribs`): Peter
+  Frankenbach (IT lead, Parlamentsdienst des Grossen Rates) offered the GRIBS
+  raw data exports on grosserrat.bs.ch (robots.txt allows `/component/`; no
+  exemption). Business (`ges`, 21,197 rows, the whole table, diffed against
+  the store), documents (`dok`) and steps (`vor` + `siz`) are now read from
+  them first, JSON with CSV fallback, one request per table a run; items link
+  to the Grand Council's page. The exporter has no votes table: votes stay on
+  data.bs.ch 100186 (the Statistisches Amt's permission stands), which is also
+  the business fallback; the Grand Council's pages are last. Waiting on
+  Frankenbach for a votes export. Details: docs/switzerland-cantons-scope.md,
+  "Basel-Stadt: the Grand Council's own exports".
 - France, Assemblée nationale (Cellule GILDA, 12 October): plenary clips
   allowed if not distorted or modified, credited « Archives audiovisuelles de
   l'Assemblée nationale ». `config/clip-sources.yaml` fr: `status: allowed`, the
