@@ -1,6 +1,6 @@
 # Hungary: member profiles
 
-Store read 12 October 2026. 201 member(s) listed (sitting, or with a record), 201 with a record on our ground (a profile each); 43 vote(s) on our ground in the store.
+Store read 14 October 2026. 201 member(s) listed (sitting, or with a record), 201 with a record on our ground (a profile each); 43 vote(s) on our ground in the store.
 
 | Member | Party | Chamber | Constituency or region | Service | Votes | Authored | Questions |
 |---|---|---|---|---|---|---|---|
