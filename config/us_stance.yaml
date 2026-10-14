@@ -448,6 +448,22 @@ divisions:
     signed: "2026-10-13, ticked in 5ca-us-readings.md"
     drafted: "Claude, 13 October 2026"
 
+  # --- 14 October 2026: the US vote-level watch (area 3, config/watchlist-us.yaml votes:) ---
+  - key: "house-118-2-500"
+    title: "On Motion to Concur in the Senate Amendment with an Amendment: H.R. 5009, Servicemember Quality of Life Improvement and National Defense Authorization Act for Fiscal Year 2025"
+    dated: "2024-12-11"
+    result: "Passed 281-140"
+    lobbies: "Yea: R 200, D 81. Nay: D 124, R 16."
+    motion: "WILD Act (the shell bill H.R. 5009 that carried the FY2025 NDAA)"
+    aye_means: "For the final FY2025 NDAA, whose text kept the TRICARE ban on gender-dysphoria treatments for under-18s that could result in sterilisation (sec. 708)."
+    yea: 1
+    why_yea: "Voted for the FY2025 NDAA, which bars TRICARE from covering gender-dysphoria treatments for minors that could result in sterilisation."
+    nay: -1
+    why_nay: "Voted against the FY2025 NDAA, which bars TRICARE from covering gender-dysphoria treatments for minors that could result in sterilisation."
+    flag: "A whole-bill vote on an $895bn defence authorisation: the minors' TRICARE ban was the reason the Armed Services ranking Democrat, Adam Smith, gave for opposing it and most Democrats voted Nay, but the 16 Republican Nays and many of the 281 Yeas turned on the defence bill as a whole, not on this clause. Drafted at +/-1, never +/-2. The Senate's motion to concur (senate-118-2-325, 85-14) is watched too but not yet stored; read it when it is."
+    draft: true
+    drafted: "Claude, 14 October 2026"
+
 bills:
   # --- Pro-life bills: sponsor +2, cosponsor +1 ---
 

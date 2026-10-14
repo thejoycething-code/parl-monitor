@@ -128,20 +128,76 @@ def decide(event, cron, last_text, now, grace_minutes=75, window_hours=20,
         last_text, ago, slot_text)
 
 
+def running_jobs(variables, now, running_max_minutes=240):
+    """The Mini jobs holding its lock right now, from the repo's variables
+    ({name: value}, as `toJSON(vars)` gives them): every MINI_RUN_<JOB> set
+    within running-max minutes. For a hand dispatch that writes the store
+    outside its own job's slot (us-weekly.yml's `congress` input, 14 October
+    2026): the per-job marker above only knows about its own job, and any
+    Mini job's publish would race this one's (tools/db_state.py refuses the
+    later push, and that run's work is lost). A marker older than the limit
+    is a Mini that died mid-run, as above; 240 minutes because the longest
+    hand-run Mini jobs (sk-positions-backfill) hold the lock for three hours."""
+    busy = []
+    for name, value in sorted((variables or {}).items()):
+        if not name.startswith("MINI_RUN_"):
+            continue
+        started = parse_stamp(value or "")
+        if started is not None and dt.timedelta(0) <= now - started < dt.timedelta(
+                minutes=running_max_minutes):
+            busy.append((name[len("MINI_RUN_"):], value.strip(),
+                         int((now - started).total_seconds() // 60)))
+    return busy
+
+
+def idle_main(args):
+    import json
+    try:
+        variables = json.loads(os.environ.get(args.vars_env) or "{}")
+    except ValueError:
+        variables = {}
+    busy = running_jobs(variables, dt.datetime.now(UTC), args.running_max_minutes)
+    if busy:
+        why = "the Mini is writing the store ({0}): not running; dispatch again when it is idle".format(
+            "; ".join("{0} started {1}, {2} min ago".format(*b) for b in busy))
+    else:
+        why = "no Mini job is running: going ahead"
+    print(why)
+    if os.environ.get("GITHUB_OUTPUT"):
+        with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as out:
+            out.write("idle={0}\n".format("false" if busy else "true"))
+    if os.environ.get("GITHUB_STEP_SUMMARY"):
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as out:
+            out.write("**Mini idle check:** {0}\n".format(why))
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--job", required=True)
-    ap.add_argument("--event", required=True)
+    ap.add_argument("--idle", action="store_true",
+                    help="only say whether ANY Mini job is running (MINI_RUN_* in the "
+                         "JSON of the env var named by --vars-env); prints idle=true/false")
+    ap.add_argument("--vars-env", default="MINI_VARS")
+    ap.add_argument("--job")
+    ap.add_argument("--event")
     ap.add_argument("--schedule", default="")
     ap.add_argument("--last", default="")
     ap.add_argument("--grace-minutes", type=int, default=75)
     ap.add_argument("--window-hours", type=int, default=20)
     ap.add_argument("--cover-hours", type=int, default=0)
     ap.add_argument("--running", default="")
-    ap.add_argument("--running-max-minutes", type=int, default=180)
+    ap.add_argument("--running-max-minutes", type=int, default=None)
     ap.add_argument("--from-mini", default="false",
                     help="'true' when the Mini dispatched this run itself")
     args = ap.parse_args(argv)
+    if args.idle:
+        if args.running_max_minutes is None:
+            args.running_max_minutes = 240
+        return idle_main(args)
+    if not args.job or not args.event:
+        ap.error("--job and --event are required (or --idle)")
+    if args.running_max_minutes is None:
+        args.running_max_minutes = 180
     run, why = decide(args.event, args.schedule, args.last, dt.datetime.now(UTC),
                       args.grace_minutes, args.window_hours, args.cover_hours,
                       args.running, args.running_max_minutes,

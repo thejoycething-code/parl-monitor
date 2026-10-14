@@ -720,3 +720,152 @@ class SenatePurposeTests(unittest.TestCase):
         for chamber in ("house", "senate", None):
             self.assertTrue(us_store.has_own_purpose("To strike all earmarks.", chamber))
             self.assertFalse(us_store.has_own_purpose("In the nature of a substitute.", chamber))
+
+
+# --- the vote-level watch (14 October 2026) ---------------------------------
+
+def house_118(roll, session, **kw):
+    return roll_xml(roll, session=session, **kw).replace(
+        b"<congress>119</congress>", b"<congress>118</congress>")
+
+
+NDAA25 = dict(legis="H R 5009", question="On Motion to Concur in the Senate Amendment with an Amendment",
+              desc="WILD Act", author="", date="11-Dec-2024")
+
+
+def senate_118_2_325():
+    """The real 119-1-11 file, renumbered as the FY2025 NDAA concurrence."""
+    raw = fixture("vote_119_1_00011.xml").decode("utf-8")
+    for a, b in (("<congress>119</congress>", "<congress>118</congress>"),
+                 ("<session>1</session>", "<session>2</session>"),
+                 ("<congress_year>2025</congress_year>", "<congress_year>2024</congress_year>"),
+                 ("<vote_number>11</vote_number>", "<vote_number>325</vote_number>"),
+                 ("January 22, 2025", "December 18, 2024"),
+                 ("<document_congress>119</document_congress>", "<document_congress>118</document_congress>"),
+                 ("<document_type>S.</document_type>", "<document_type>H.R.</document_type>"),
+                 ("<document_number>6</document_number>", "<document_number>5009</document_number>"),
+                 ("<document_name>S. 6</document_name>", "<document_name>H.R. 5009</document_name>")):
+        raw = raw.replace(a, b)
+    raw = re.sub(r"<vote_question_text>.*?</vote_question_text>",
+                 "<vote_question_text>On the Motion to Concur in the House Amendment to the "
+                 "Senate Amendment H.R. 5009</vote_question_text>", raw, flags=re.S)
+    raw = re.sub(r"<vote_document_text>.*?</vote_document_text>",
+                 "<vote_document_text>A bill to reauthorize the Wildlife Innovation and "
+                 "Longevity Driver reauthorization Act.</vote_document_text>", raw, flags=re.S)
+    raw = re.sub(r"<document_title>.*?</document_title>",
+                 "<document_title>WILD Act</document_title>", raw, flags=re.S)
+    return raw.encode("utf-8")
+
+
+def watch_file(body):
+    import tempfile
+    fd, path = tempfile.mkstemp(suffix=".yaml")
+    with os.fdopen(fd, "w", encoding="utf-8") as fh:
+        fh.write(body)
+    return path
+
+
+class VoteWatchTests(unittest.TestCase):
+    def test_a_watched_roll_call_gets_its_areas_as_its_own(self):
+        path = watch_file("bills: {}\nvotes:\n  'house-118-2-500':\n    areas: [3]\n    why: test\n")
+        try:
+            d = usr.parse_roll(house_118(500, "2nd", **NDAA25))
+            res = us_store.add_vote_watch_areas(
+                usr.classify_division(TAX, WL, d, [])[0], "house-118-2-500", path=path)
+            self.assertEqual(res.issue_areas, [3])
+            self.assertIn("watch:house-118-2-500", res.matched_terms)
+            self.assertEqual(res.tier, 2)
+            other = us_store.add_vote_watch_areas(
+                usr.classify_division(TAX, WL, d, [])[0], "house-118-2-501", path=path)
+            self.assertEqual(other.issue_areas, [])
+        finally:
+            os.unlink(path)
+
+    def test_the_fy25_ndaa_concurrences_are_watched_with_area_3(self):
+        watched = us_store.vote_watchlist()
+        self.assertEqual(watched["house-118-2-500"][0], [3])
+        self.assertEqual(watched["senate-118-2-325"][0], [3])
+        # The Rosendale TRICARE amendment matches on its own text: not watched.
+        self.assertNotIn("house-118-1-301", watched)
+
+    def test_store_and_reclassify_give_the_house_vote_area_3_on_top_of_its_bill(self):
+        conn = store()
+        b = usr.parse_billstatus(bill_xml(btype="HR", number=5009, title="WILD Act",
+                                          summary="Prohibits the Hyde Amendment from lapsing.")
+                                 .replace(b"<congress>119</congress>", b"<congress>118</congress>"))
+        usr.store_bill(conn, b, usr.classify_bill(TAX, WL, b), "2026-10-14")
+        key, areas = usr.store_division(conn, usr.parse_roll(house_118(500, "2nd", **NDAA25)),
+                                        TAX, WL, "2026-10-14")
+        self.assertEqual(key, "house-118-2-500")
+        self.assertEqual(areas, [1, 3])
+        self.assertEqual(conn.execute("SELECT own_areas FROM us_divisions").fetchone()[0], "[3]")
+        conn.execute("UPDATE us_divisions SET areas='[1]', own_areas='[]'")
+        self.assertEqual(usr.reclassify(conn, TAX, log=lambda *a: None), (0, 1))
+        self.assertEqual(tuple(conn.execute("SELECT own_areas, areas FROM us_divisions").fetchone()),
+                         ("[3]", "[1, 3]"))
+
+    def test_the_fy24_tricare_amendment_stays_area_5_only(self):
+        conn = store()
+        d = usr.parse_roll(house_118(301, "1st", legis="H R 2670",
+                                     author="Rosendale of Montana Amendment No. 10",
+                                     date="13-Jul-2023"))
+        # Its stored text (BILLSTATUS), as the store held it on 14 October 2026.
+        d["amendment_text"] = (
+            "An amendment numbered 10 printed in House Report 118-142 to prohibit TRICARE from "
+            "covering and the Department of Defense from furnishing sex reassignment surgeries and "
+            "gender hormone treatments for transgender individuals. | Amendment prohibits TRICARE "
+            "from covering and the Department of Defense from furnishing sex reassignment surgeries "
+            "and gender hormone treatments for transgender individuals.")
+        d["purpose_source"] = "billstatus"
+        key, areas = usr.store_division(conn, d, TAX, WL, "2026-10-14")
+        self.assertEqual(key, "house-118-1-301")
+        self.assertEqual(areas, [5])
+        self.assertFalse(any(t.startswith("watch:") for t in json.loads(
+            conn.execute("SELECT matched_terms FROM us_divisions").fetchone()[0])))
+
+    def test_the_118th_senate_is_read_by_congress_and_its_concurrence_watched(self):
+        conn = store()
+        client = FakeClient({usr.SENATE_MENU.format(118, 1): senate_menu(),
+                             usr.SENATE_MENU.format(118, 2): senate_menu(325, issue="H.R. 5009"),
+                             usr.SENATE_VOTE.format(118, 2, 325): senate_118_2_325()},
+                            json_pages={usr.MEMBERS_HISTORICAL: []})
+        stored, ours, _gaps = usr.pull_senate(conn, client, "2026-10-14", congress=118, tax=TAX,
+                                              wl=WL, log=lambda *a: None)
+        self.assertEqual((stored, ours), (1, 1))
+        self.assertIn(usr.SENATE_VOTE.format(118, 2, 325), client.asked)
+        row = conn.execute("SELECT division_key, bill_key, own_areas FROM us_divisions").fetchone()
+        self.assertEqual(row[0], "senate-118-2-325")
+        self.assertEqual(row[1], "118/hr/5009")
+        self.assertIn(3, json.loads(row[2]))
+
+    def test_the_real_vote_watchlist_is_keyed_by_division(self):
+        for key, (areas, why) in us_store.vote_watchlist().items():
+            self.assertRegex(key, r"^(house|senate)-\d{3}-[12]-\d+$")
+            self.assertTrue(areas and why, key)
+            self.assertTrue(all(isinstance(a, int) for a in areas), key)
+
+
+class SenateCongressInputTests(unittest.TestCase):
+    """us-weekly.yml's `congress` input reaches the Senate collector, implies
+    the Senate-only half and never passes as the Mini's own dispatch."""
+
+    def test_the_workflow_passes_congress_and_checks_the_mini_is_idle(self):
+        import yaml
+        with open(os.path.join(ROOT, ".github", "workflows", "us-weekly.yml"), encoding="utf-8") as fh:
+            text = fh.read()
+        wf = yaml.safe_load(text)
+        on = wf.get("on") or wf.get(True)
+        self.assertEqual(on["workflow_dispatch"]["inputs"]["congress"]["default"], "")
+        self.assertIn("inputs.congress == ''", wf["jobs"]["mini-check"]["with"]["from-mini"])
+        steps = wf["jobs"]["gate"]["steps"]
+        idle = [s for s in steps if s.get("id") == "idle"][0]
+        self.assertIn("--idle", idle["run"])
+        self.assertIn("toJSON(vars)", idle["env"]["MINI_VARS"])
+        pull_env = [s for s in wf["jobs"]["pull"]["steps"] if s.get("run") == "bash jobs/us-weekly.sh"][0]["env"]
+        self.assertEqual(pull_env["US_SENATE_CONGRESS"], "${{ inputs.congress }}")
+
+    def test_the_job_reads_only_that_congress_senate(self):
+        with open(os.path.join(ROOT, "jobs", "us-weekly.sh"), encoding="utf-8") as fh:
+            job = fh.read()
+        self.assertIn('US_SENATE_CONGRESS', job)
+        self.assertRegex(job, r'tools/us_rollcalls.py --congress "\$SENATE_CONGRESS" --no-bills --no-rolls')

@@ -139,3 +139,40 @@ class FromMiniTests(unittest.TestCase):
     def test_the_flag_parses_from_the_workflow(self):
         self.assertEqual(mc.main(["--job", "MX_WEEKLY", "--event", "workflow_dispatch",
                                   "--running", "2026-10-12T06:08:50Z", "--from-mini", "true"]) or 0, 0)
+
+
+class IdleTests(unittest.TestCase):
+    """Any Mini job running stops a by-hand store writer (14 October 2026)."""
+
+    def test_a_fresh_marker_of_any_job_is_busy(self):
+        now = at("2026-10-19 01:30")
+        busy = mc.running_jobs({"MINI_RUN_SK_POSITIONS_BACKFILL": "2026-10-18T23:40:00Z",
+                                "MINI_LAST_US_WEEKLY": "2026-10-16T09:00:00Z",
+                                "US_JUDGE": "off"}, now)
+        self.assertEqual([b[0] for b in busy], ["SK_POSITIONS_BACKFILL"])
+
+    def test_stale_or_unreadable_markers_are_ignored(self):
+        now = at("2026-10-19 12:00")
+        self.assertEqual(mc.running_jobs({"MINI_RUN_EU_DAY_SWEEP": "2026-10-18T23:00:00Z",
+                                          "MINI_RUN_X": "garbage"}, now), [])
+        self.assertEqual(mc.running_jobs({}, now), [])
+
+    def test_idle_main_writes_the_output(self):
+        import tempfile
+        fd, out = tempfile.mkstemp()
+        os.close(fd)
+        old = dict(os.environ)
+        try:
+            os.environ["GITHUB_OUTPUT"] = out
+            os.environ.pop("GITHUB_STEP_SUMMARY", None)
+            fresh = (dt.datetime.now(UTC) - dt.timedelta(minutes=5)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            os.environ["MINI_VARS"] = '{"MINI_RUN_US_WEEKLY": "%s"}' % fresh
+            mc.main(["--idle"])
+            os.environ["MINI_VARS"] = "{}"
+            mc.main(["--idle"])
+            with open(out, encoding="utf-8") as fh:
+                self.assertEqual(fh.read().split(), ["idle=false", "idle=true"])
+        finally:
+            os.environ.clear()
+            os.environ.update(old)
+            os.unlink(out)

@@ -46,6 +46,16 @@ on:
         description: "NJ, MA and MI states half only (the Mini's request; no edition)"
         type: boolean
         default: false
+      congress:
+        # BY HAND (14 October 2026): the Senate votes of an EARLIER Congress
+        # ('118'), which senate.gov serves GitHub's runners and not the Mini.
+        # Implies the Senate-only half (leave senate_only unticked); reads
+        # that Congress alone, then publishes; no edition. It writes the
+        # store, so the gate below runs it only when NO Mini job is running
+        # (any MINI_RUN_* marker). Empty: the current Congress, as before.
+        description: "Senate votes of an earlier Congress only, e.g. 118 (by hand; empty = current)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -70,7 +80,9 @@ jobs:
       job: US_WEEKLY
       # senate_only and states_github are only ever the Mini asking, holding
       # its lock (jobs/us-weekly.sh).
-      from-mini: ${{ (inputs.senate_only == true || inputs.states_github == true) && 'true' || 'false' }}
+      # A `congress` dispatch is Chris's, never the Mini's, so the Mini's
+      # marker still stops it.
+      from-mini: ${{ (inputs.congress == '' && (inputs.senate_only == true || inputs.states_github == true)) && 'true' || 'false' }}
 
   # The second slot is a retry, not a second pass (copied from ca-weekly.yml).
   gate:
@@ -81,10 +93,26 @@ jobs:
     outputs:
       go: ${{ steps.check.outputs.go }}
     steps:
+      - uses: actions/checkout@v7
+        if: inputs.congress != ''
+        with:
+          sparse-checkout: tools/mini_check.py
+          sparse-checkout-cone-mode: false
+      - id: idle
+        # A `congress` run writes the store outside any slot: it must not
+        # overlap ANY Mini job (one store writer at a time). Every Mini job
+        # sets MINI_RUN_<JOB> while it holds its lock (tools/mini_run.sh).
+        if: inputs.congress != ''
+        env:
+          MINI_VARS: ${{ toJSON(vars) }}
+        run: python3 tools/mini_check.py --idle
       - id: check
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          if [ "${{ steps.idle.outputs.idle }}" = "false" ]; then
+            echo "go=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "dispatched by hand; running"; echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
           fi
@@ -183,6 +211,7 @@ jobs:
           US_JUDGE: ${{ vars.US_JUDGE }}
           US_RECLASSIFY: ${{ inputs.reclassify }}
           US_SENATE_ONLY: ${{ inputs.senate_only }}
+          US_SENATE_CONGRESS: ${{ inputs.congress }}
           US_STATES_GITHUB: ${{ inputs.states_github }}
           US_STATES_FULL: ${{ inputs.states_full }}
           US_RESCORE: ${{ inputs.rescore }}

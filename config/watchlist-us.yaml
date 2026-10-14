@@ -17,3 +17,20 @@ bills:
                  why: "Equality Act, Senate companion of H.R. 15."}
   "119/s/278": {areas: [6, 7],
                 why: "Kids Off Social Media Act: bans social media accounts under 13. Matched nothing; KOSA and the SCREEN Act did."}
+
+# Vote-level watch, keyed by DIVISION KEY (chamber-congress-session-roll, as
+# the store writes it), never by text: roll calls whose bill carries our
+# ground in a provision its title and summary never mention, so neither the
+# taxonomy nor the bill watch above can give it. Their areas join the vote's
+# OWN areas (src/us_store.add_vote_watch_areas), whatever the amendment's
+# purpose says. Added 14 October 2026 (Chris), the mirror of Chile's votes:
+# section (PR #197). Keys never need re-keying: a roll call is never renumbered.
+# house-118-1-301 (the Rosendale TRICARE amendment to the FY24 NDAA) is NOT
+# here: it matches by its own text and stays area 5.
+votes:
+  "house-118-2-500":
+    areas: [3]
+    why: "FY2025 NDAA (H.R. 5009), House motion to concur in the Senate amendment with an amendment, 11 December 2024, passed 281-140: the conference text kept the TRICARE ban on gender-dysphoria treatments for under-18s that could result in sterilisation (sec. 708). The bill's title and summary never say so."
+  "senate-118-2-325":
+    areas: [3]
+    why: "FY2025 NDAA (H.R. 5009), Senate motion to concur in the House amendment to the Senate amendment, 18 December 2024, agreed 85-14: the same text, the minors' TRICARE ban included. Clerk roll 325 of the 2nd session (Voteview RS1180677); not yet in the store, which holds the 118th House only."

@@ -45,6 +45,9 @@
 #
 #     US_RECLASSIFY=true    re-derive stored areas first (taxonomy change)
 #     US_SENATE_ONLY=true   the Senate-only half GitHub runs for the Mini
+#     US_SENATE_CONGRESS=N  the Senate votes of Congress N only (GitHub, by
+#                           hand: us-weekly.yml's `congress` input); implies
+#                           US_SENATE_ONLY. US_SENATE_BUDGET=seconds (4500)
 #     US_STATES_GITHUB=true the NJ/MA/MI states half GitHub runs for the Mini
 #                           (with or without US_SENATE_ONLY; no edition)
 #     US_RECORD_BUDGET=N    seconds for the Congressional Record step
@@ -108,9 +111,36 @@ gh_states_half() {
     || echo "  [gap] the GitHub states step (NJ, MA, MI) ended with gaps; Open States stands"
 }
 
+# An earlier Congress's Senate votes (US_SENATE_CONGRESS, the `congress`
+# input of us-weekly.yml, 14 October 2026): senate.gov refuses the Mini, so
+# only GitHub can read, say, the 118th Senate. Chris dispatches it by hand;
+# it implies the Senate-only half and reads that Congress alone.
+SENATE_CONGRESS="${US_SENATE_CONGRESS:-}"
+if [ -n "$SENATE_CONGRESS" ]; then
+  if ! [[ "$SENATE_CONGRESS" =~ ^[0-9]+$ ]] || [ "$SENATE_CONGRESS" -lt 101 ] \
+     || [ "$SENATE_CONGRESS" -gt "$CONGRESS" ]; then
+    echo "US_SENATE_CONGRESS must be a Congress number from 101 to $CONGRESS, not '$SENATE_CONGRESS'"
+    exit 2
+  fi
+  US_SENATE_ONLY=true
+fi
+
 if [ "${US_SENATE_ONLY:-}" = "true" ] || [ "${US_STATES_GITHUB:-}" = "true" ]; then
   # The half GitHub runs for the Mini (or both halves in one run): what was
   # asked, then the raw archive and the store, and no edition.
+  if [ -n "$SENATE_CONGRESS" ] && [ "$SENATE_CONGRESS" != "$CONGRESS" ]; then
+    # Only the votes not yet stored are read, so a run cut short by its
+    # budget resumes where it stopped (about 690 votes in a two-year
+    # Congress). No week ahead: that is the current Congress's.
+    rc=0
+    python3 tools/us_rollcalls.py --congress "$SENATE_CONGRESS" --no-bills --no-rolls \
+      --no-members --budget-seconds "${US_SENATE_BUDGET:-4500}" \
+      | tee "$LOG/us-rollcalls-senate-$SENATE_CONGRESS.log" || rc=$?
+    [ "$rc" -ne 0 ] && echo "  [gap] the ${SENATE_CONGRESS}th Senate read ended with gaps (exit $rc); what was read is published"
+    python3 tools/raw_state.py --push
+    python3 tools/db_state.py --push
+    exit 0
+  fi
   if [ "${US_SENATE_ONLY:-}" != "true" ]; then
     gh_states_half 600
     python3 tools/raw_state.py --push
