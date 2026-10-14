@@ -7,7 +7,7 @@ _Weekly, after the Provinces weekly collection; to Christopher by DM._
 
 ## Top lines
 
-- **Activity on our ground in 1 of 9 provinces**: Manitoba (1 speaker-debate in Hansard).
+- **Activity on our ground in 1 of 9 provinces**: Manitoba (4 speaker-debates in Hansard).
 
 **Quiet this week** (nothing on our ground): Alberta, Saskatchewan, British Columbia, Ontario, Quebec, New Brunswick, Newfoundland and Labrador, Nova Scotia.
 
@@ -15,10 +15,13 @@ _Weekly, after the Provinces weekly collection; to Christopher by DM._
 
 ## Manitoba
 
-_Legislative Assembly of Manitoba. 1 speaker-debate in Hansard. Latest division in the store 8 Oct; latest Hansard day read 8 Oct._
+_Legislative Assembly of Manitoba. 4 speaker-debates in Hansard. Latest division in the store 8 Oct; latest Hansard day read 13 Oct._
 
-**Hansard on our ground (1 speaker-debate(s); one line each, never the speech)**
+**Hansard on our ground (4 speaker-debate(s); one line each, never the speech)**
 
+- **Diljeet Brar** (NDP) · 13 Oct · Res. 16-Standing Against Anti-Sikh Hate: “Today, all of us in this Chamber are working together to call this hatred and negativity out with one voice-a loud voice-and we say: anti-Sikh hatred has no pl…” (Free speech, privacy and civil liberties) [Hansard](https://www.gov.mb.ca/legislature/hansard/43rd_3rd/vol_71a/h71a.html)
+- **Jodie Byram** (PC) · 13 Oct · Res. 16-Standing Against Anti-Sikh Hate - Debate: “It's important to recognize that hate is not always expressed through physical violence. It appears in hateful comments, racist stereotypes, intimidation, hara…” (Freedom of religion) [Hansard](https://www.gov.mb.ca/legislature/hansard/43rd_3rd/vol_71a/h71a.html)
+- **Wayne Ewasko** (PC) · 13 Oct · Res. 16-Standing Against Anti-Sikh Hate - Debate: “I did want to say, quickly, that this isn't just a New Democrat political stripe endeavour. Back in 2019, we, the Progressive Conservatives, led Manitoba's for…” (Freedom of religion) [Hansard](https://www.gov.mb.ca/legislature/hansard/43rd_3rd/vol_71a/h71a.html)
 - **[1]** **Mike Moroz** (NDP) · 7 Oct · Third Anniversary of Hamas Attack in Israel: “We must also recognize the rise in Islamophobia and the terrible suffering and killing of Palestinians over the past three years in Gaza and the West Bank. We'…” (Free speech, privacy and civil liberties) [Hansard](https://www.gov.mb.ca/legislature/hansard/43rd_3rd/vol_69/h69.html) _(collected late)_
   _A members' statement on the Gaza conflict and Islamophobia. Background on community tension and religious belief in Manitoba, with no bill, vote or policy proposal attached._
 
@@ -32,7 +35,7 @@ _Legislative Assembly of Manitoba. 1 speaker-debate in Hansard. Latest division 
 - **Alberta:** store last read 14 October 2026; latest division 13 May 2026, latest Hansard day 14 May 2026.
 - **Saskatchewan:** store last read 9 October 2026; latest division 12 May 2026, latest Hansard day 14 May 2026.
 - **British Columbia:** store last read 14 October 2026; latest division 28 May 2026, latest Hansard day 28 May 2026.
-- **Manitoba:** store last read 14 October 2026; latest division 8 October 2026, latest Hansard day 8 October 2026.
+- **Manitoba:** store last read 14 October 2026; latest division 8 October 2026, latest Hansard day 13 October 2026.
 - **Ontario:** store last read 9 October 2026; latest division 2 June 2026, latest Hansard day 2 June 2026.
 - **Quebec:** store last read 14 October 2026; latest division 12 June 2026, latest Hansard day 12 June 2026.
 - **New Brunswick:** store last read 14 October 2026; latest division 11 June 2026, latest Hansard day 12 June 2026.
