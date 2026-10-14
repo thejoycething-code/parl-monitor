@@ -260,6 +260,15 @@ last procedural vote against the bill, so it is drafted as evidence only.
 - **Proposed direction:** evidence only, never places -- A rule bundling three bills is procedure, cast on party lines; the passage votes on H.R. 498 (roll 362) and H.R. 3492 (roll 351) carry the readings.
 - **Signed:** 2026-10-13, ticked in 5ca-us-readings.md
 
+### [ ] `house-118-2-500` On Motion to Concur in the Senate Amendment with an Amendment: H.R. 5009, Servicemember Quality of Life Improvement and National Defense Authorization Act for Fiscal Year 2025
+
+- **When / result:** 2024-12-11; Passed 281-140
+- **Motion:** WILD Act (the shell bill H.R. 5009 that carried the FY2025 NDAA)
+- **A Yea means:** For the final FY2025 NDAA, whose text kept the TRICARE ban on gender-dysphoria treatments for under-18s that could result in sterilisation (sec. 708).
+- **Lobbies:** Yea: R 200, D 81. Nay: D 124, R 16.
+- **Proposed direction:** Yea +1 (Voted for the FY2025 NDAA, which bars TRICARE from covering gender-dysphoria treatments for minors that could result in sterilisation.); Nay -1 (Voted against the FY2025 NDAA, which bars TRICARE from covering gender-dysphoria treatments for minors that could result in sterilisation.)
+- **Flag for you:** A whole-bill vote on an $895bn defence authorisation: the minors' TRICARE ban was the reason the Armed Services ranking Democrat, Adam Smith, gave for opposing it and most Democrats voted Nay, but the 16 Republican Nays and many of the 281 Yeas turned on the defence bill as a whole, not on this clause. Drafted at +/-1, never +/-2. The Senate's motion to concur (senate-118-2-325, 85-14) is watched too but not yet stored; read it when it is.
+
 ## Bills (sponsorship)
 
 ### [ ] `119/hr/21` Born-Alive Abortion Survivors Protection Act (House)
@@ -367,4 +376,4 @@ last procedural vote against the bill, so it is drafted as evidence only.
 - **When / result:** sponsor Rep. Balint, Becca [D-VT-At Large]; 80 cosponsors; areas [5]
 - **Proposed direction:** sponsor -2 (Introduced the Transgender Health Care Access Act.); cosponsor -1 (Cosponsored the Transgender Health Care Access Act.)
 
-50 entries.
+51 entries.

@@ -12,7 +12,9 @@
 #                 us-118    US 118th Congress: bills and HOUSE roll calls
 #                           (senate.gov refuses the Mini, and us-weekly.yml's
 #                           Senate half reads only the current Congress, so
-#                           the 118th's Senate votes stay pending)
+#                           the 118th's Senate votes stay pending here; since
+#                           14 October 2026 GitHub reads them: us-weekly.yml
+#                           dispatched by hand with congress=118)
 #                 au-46     Australian Senate, 46th Parliament (2019-2022)
 #                 au-47     Australian Senate, 47th Parliament (2022-2025)
 #                 nl-2021   Tweede Kamer votes since 1 January 2021

@@ -243,10 +243,13 @@ def has_own_purpose(d):
     return us_store.has_own_purpose(d.get("amendment_text"), d.get("chamber"))
 
 
-def classify_division(tax, wl, d, bill_areas):
-    """(own FilterResult, areas): the rule in the module docstring."""
+def classify_division(tax, wl, d, bill_areas, key=None):
+    """(own FilterResult, areas): the rule in the module docstring. A watched
+    roll call (the `votes:` section of config/watchlist-us.yaml, by division
+    key) adds its areas to its own."""
     own = filt.filter_item(tax, wl, d.get("description") or "", d.get("question") or "",
                            d.get("amendment_author") or "", d.get("amendment_text") or "")
+    own = us_store.add_vote_watch_areas(own, key)
     if has_own_purpose(d):
         return own, sorted(set(own.issue_areas or []))
     return own, sorted(set(own.issue_areas or []) | set(bill_areas or []))
@@ -269,7 +272,7 @@ def store_division(conn, d, tax, wl, today):
                             (key,)).fetchone()
         if prev and prev[0]:
             d = dict(d, amendment_text=prev[0])
-    own, areas = classify_division(tax, wl, d, _bill_areas(conn, bkey))
+    own, areas = classify_division(tax, wl, d, _bill_areas(conn, bkey), key)
     # A Senate vote brings its amendment's purpose with it (parse_senate_vote);
     # a House roll never does, and COALESCE keeps what BILLSTATUS or the API
     # wrote earlier.
@@ -687,7 +690,7 @@ def fill_amendments(conn, client, today, key, tax=None, wl=None, log=print, budg
         text = amendment_text(record)
         d = {"description": desc, "question": question, "amendment_author": author,
              "amendment_text": text, "chamber": "house"}
-        own, areas = classify_division(tax, wl, d, _bill_areas(conn, bkey))
+        own, areas = classify_division(tax, wl, d, _bill_areas(conn, bkey), dkey)
         conn.execute("UPDATE us_divisions SET amendment_key=?, amendment_text=?, "
                      "amendment_checked=?, purpose_source=?, own_areas=?, areas=?, "
                      "matched_terms=?, tier=? WHERE division_key=?",
@@ -797,7 +800,7 @@ def link_amendments(conn, amap, today, tax=None, wl=None):
             continue
         own, areas = classify_division(tax, wl, {
             "description": desc, "question": question, "amendment_author": author,
-            "amendment_text": new_text, "chamber": "house"}, _bill_areas(conn, bkey))
+            "amendment_text": new_text, "chamber": "house"}, _bill_areas(conn, bkey), key)
         conn.execute("UPDATE us_divisions SET amendment_key=?, amendment_text=?, "
                      "purpose_source='billstatus', amendment_checked=CASE WHEN ? IS NULL THEN "
                      "amendment_checked ELSE COALESCE(amendment_checked, ?) END, "
@@ -1033,7 +1036,7 @@ def reclassify(conn, tax=None, log=print):
                              (senate_amendment_key(congress, anum), amend, key))
         d = {"description": desc, "question": question, "amendment_author": author,
              "amendment_text": amend, "chamber": chamber}
-        own, combined = classify_division(tax, wl, d, _bill_areas(conn, bkey))
+        own, combined = classify_division(tax, wl, d, _bill_areas(conn, bkey), key)
         new = us_store.dumps(combined)
         changed_d += new != (areas or "[]")
         conn.execute("UPDATE us_divisions SET own_areas=?, areas=?, matched_terms=?, tier=? "

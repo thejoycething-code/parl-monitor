@@ -522,6 +522,45 @@ def add_watch_areas(res, bill_key, path=None):
     return res
 
 
+# --- vote-level watch, by DIVISION KEY ------------------------------------
+#
+# A few roll calls carry our ground in a bill whose title and summary say
+# nothing about it: an NDAA whose conference text kept a TRICARE ban on
+# gender-dysphoria treatment for minors. The `votes:` section of
+# config/watchlist-us.yaml names them by division key ('house-118-2-500',
+# chamber-congress-session-roll); their areas are the vote's OWN, joined
+# whatever the bill or the amendment's purpose say (14 October 2026, the
+# mirror of Chile's src/cl_store.add_vote_watch_areas, PR #197).
+
+_VOTE_WATCH = {}
+
+
+def vote_watchlist(path=None):
+    """{division_key: (areas, why)} from the `votes:` section of config/watchlist-us.yaml."""
+    import yaml
+    path = path or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                "config", "watchlist-us.yaml")
+    if path not in _VOTE_WATCH:
+        with open(path, encoding="utf-8") as fh:
+            raw = yaml.safe_load(fh) or {}
+        _VOTE_WATCH[path] = {str(k): (list(v.get("areas") or []), v.get("why"))
+                             for k, v in (raw.get("votes") or {}).items()}
+    return _VOTE_WATCH[path]
+
+
+def add_vote_watch_areas(res, division_key, path=None):
+    """Union a watched roll call's areas into its own FilterResult, in place."""
+    hit = vote_watchlist(path).get(division_key or "")
+    if not hit:
+        return res
+    areas, _why = hit
+    res.issue_areas = sorted(set(res.issue_areas or []) | set(areas))
+    res.matched_terms = list(res.matched_terms or []) + ["watch:" + division_key]
+    if res.tier is None:
+        res.tier = 2
+    return res
+
+
 def clean_key(value):
     """An API key as a secrets file may hold it: pasted from Markdown, the
     key in config/secrets.yaml arrived wrapped in backticks (9 October 2026)

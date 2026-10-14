@@ -777,6 +777,15 @@ with the end of its output. Nothing caps the clock here, but give
     # the raw archive (after a taxonomy-sk change; about a minute, no fetching).
     cd ~ && JOB_TIMEOUT=7200 nohup ~/runner/parl-monitor/tools/mini_run.sh \
       sk-positions-backfill >> ~/runner/logs/sk-positions-backfill.log 2>&1 &
+    # www.nrsr.sk is ~2.7 s a vote in the small hours and ~19 s in the evening
+    # (353 votes in 6,818 s from 22:56 London, 13 October). So on 14 October
+    # two ONE-OFF launchd jobs were installed on the Mini (not in ops/launchd):
+    # net.citizengo.parlmonitor.sk-positions-once-20261019 and -20261026,
+    # Mondays 00:40 London (the only small-hours window clear of every job:
+    # eu-day-sweep 00:00 ends by 00:20, monday-publish 04:00), JOB_TIMEOUT
+    # 10800, LOCK_WAIT 900. Each deletes its plist and boots itself out after
+    # its run; if one is still listed afterwards (launchctl list | grep once),
+    # bootout and rm it by hand.
 
     # The store, once (12 October 2026): vote tables WITHOUT ROWID, VACUUM,
     # publish (see "The store is compacted" above). About a minute plus the push.
