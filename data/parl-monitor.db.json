@@ -1,13 +1,13 @@
 {
   "asset": "thejoycething-code/parl-monitor release db-state",
   "asset_name": "parl-monitor.db.gz",
-  "bytes": 1903964160,
-  "gz_bytes": 400747193,
-  "gz_sha256": "f864cce00c91684ed81e11d7f705ec47b27d431f97a488b4b564c1436fae9117",
+  "bytes": 1903996928,
+  "gz_bytes": 400751360,
+  "gz_sha256": "3285a594a3b3bfba7aaf3596122a647fe6caeb0e70cb10bc56e3c6c3256a4e69",
   "note": "Derived state; the bytes live as a gzipped release asset. See tools/db_state.py.",
   "published_at": "local",
-  "published_utc": "2026-10-14T02:04:50Z",
-  "sha256": "005296a4dbfade77046cd7f7c896ecdcdd959325de3e528eb22feded85784523",
+  "published_utc": "2026-10-14T04:43:57Z",
+  "sha256": "4ddc0f1c84cf34468c83479daf1cf1afee0b10b9c04015fa000a8a292d3553d6",
   "tables": {
     "api_spend": 5416,
     "appg_officers": 24,
