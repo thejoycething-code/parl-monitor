@@ -53,6 +53,7 @@ class Line:
     deadline: str = None
     date: str = None      # ISO date, for the Week ahead day grouping
     event: dict = None    # What's On fields for the Week ahead table (2026-09-07)
+    areas: list = None    # issue areas, for the countdown's Issue column (2026-10-15)
 
 
 @dataclass
@@ -99,6 +100,14 @@ class Edition:
     announced_week: str = None
     announced_held: dict = field(default_factory=dict)
     gaps: list = field(default_factory=list)            # [(feed, detail)]
+    # The countdown (Christopher, 15 October 2026; src/countdown.py): one
+    # timeline of countdown.Row across Westminster and the devolved bodies,
+    # big dates flagged on the rows themselves.
+    timeline: list = field(default_factory=list)
+    forward_note: str = None      # "Holyrood and Senedd: forward business not collected yet."
+    latest_votes: list = field(default_factory=list)   # dicts: date/where/title/url/result
+    devolved_board: list = field(default_factory=list)  # dicts: title/where/stage/next/areas/url
+    whatson_live: set = None      # event ids the Monday re-read saw; None = no re-read
     late_detections: int = 0   # actionable devolved items first seen <21 days from deadline
 
 
@@ -1275,120 +1284,227 @@ def render_devolved(edition):
     return "\n".join(out).rstrip()
 
 
+def _demote(block):
+    """A section rendered for the top level, moved under Reference."""
+    if not block:
+        return block
+    return re.sub(r"^## ", "### ", block, flags=re.M)
+
+
+def render_bills_board(rows, devolved=None):
+    """Bills we track, all legislatures (the countdown's Reference, 2026-10-15).
+
+    The old board's data, with a Where column and the devolved bills on our
+    ground beside the Westminster ones: Bill, Where, Stage, Next, Issue, Why
+    we track it, Movement. "What happens next" said the stage again
+    ("Awaiting Committee stage") and is folded into Next.
+    """
+    from src import countdown
+    lines = ["## Bills we track, all legislatures", "",
+             "| Bill | Where | Stage | Next | Issue | Why we track it | Movement |",
+             "|---|---|---|---|---|---|---|"]
+    live = [r for r in rows if r.status == "live"]
+    closing = [r for r in rows if r.status == "closed"]
+    seen = set()
+    for r in order_board(live) + closing:
+        seen.add((r.title or "").lower())
+        bill = "[{0}]({1})".format(r.title, r.link)
+        where = "Westminster" if r.house in ("Commons", "Lords", "Unassigned", None, "") else r.house
+        stage = ", ".join(x for x in (r.house if where == "Westminster" else None, r.stage) if x)
+        if r.status == "closed":
+            nxt, move = r.closed_note or "Closed", "closing"
+        else:
+            nxt = countdown.day_label(r.next_key_date) if r.next_key_date not in (TBA, None, "") else "none set"
+            move = r.movement or "no change"
+        lines.append("| {0} | {1} | {2} | {3} | {4} | {5} | {6} |".format(
+            bill, where, stage, nxt, _areas_label(getattr(r, "areas", None)) or "-",
+            (getattr(r, "why", None) or "").replace("|", "/"), move))
+    for d in devolved or []:
+        if (d.get("title") or "").lower() in seen:
+            continue
+        seen.add((d.get("title") or "").lower())
+        bill = "[{0}]({1})".format(d["title"], d["url"]) if d.get("url") else d["title"]
+        stage = d.get("stage") or ""
+        if d.get("date"):
+            stage += ", " + countdown.day_label(d["date"])[4:] + " " + d["date"][:4]
+        lines.append("| {0} | {1} | {2} | {3} | {4} | {5} | {6} |".format(
+            bill, d.get("where") or "", stage.strip(", "), d.get("next") or "none set",
+            countdown.issue_label(d.get("areas") or []) or "-", d.get("why") or "", d.get("move") or "-"))
+    lines.append("")
+    lines.append(MOVEMENT_KEY)
+    lines.append("")
+    return "\n".join(lines)
+
+
+def render_latest_votes(edition):
+    """Latest votes on our issues, across legislatures: this week's divisions
+    first (the old Votes and amendments section), then the most recent votes
+    the vote tracker and the devolved monitors hold."""
+    rows = list(edition.latest_votes or [])
+    if not rows:
+        # A hand-assembled edition: the devolved payload's votes.
+        for v in (edition.devolved or {}).get("divisions") or []:
+            where, _, title = (v.get("title") or "").partition(": ")
+            rows.append({"date": v.get("dated"), "where": where, "title": title,
+                         "result": v.get("result")})
+    listed = {v.get("url") for v in rows if v.get("url")}
+    week_lines = [l for l in (edition.votes or []) if not (l.url and l.url in listed)]
+    if not week_lines and not rows:
+        return None
+    from src import countdown
+    out = ["## Latest votes on our issues", ""]
+    out.extend(_fmt_line(l) for l in week_lines)
+    for v in rows:
+        title = v.get("title") or ""
+        if v.get("url"):
+            title = "[{0}]({1})".format(title, v["url"])
+        result = v.get("result")
+        out.append("- {0} · **{1}** · {2}{3}".format(
+            countdown.day_label(v.get("date"))[4:], v.get("where") or "", title,
+            ", " + result if result else ""))
+    out.append("")
+    return "\n".join(out)
+
+
+def render_deadlines_beyond(edition, shown_urls):
+    """Consultations and calls for evidence NOT already in the countdown
+    tables (rolling, or closing after the 8-week horizon). Nothing the old
+    deadlines table showed is lost; nothing prints twice."""
+    rows = [r for r in edition.deadlines
+            if not (r.get("deadline") and r["deadline"] < edition.week_commencing)
+            and r.get("url") not in shown_urls]
+    if not rows:
+        return None
+    keep = edition.deadlines
+    edition.deadlines = rows
+    try:
+        block = render_deadlines(edition)
+    finally:
+        edition.deadlines = keep
+    if block:
+        block = block.replace("## Consultations and calls for evidence",
+                              "## Consultations and calls for evidence, later or rolling", 1)
+    return block
+
+
 def render(edition):
+    """The countdown layout (Christopher, 15 October 2026, "A · Countdown"):
+    Big dates, This week, Further afield, then Reference. Every data section
+    the edition carried before is kept; they are reordered under Reference,
+    and the devolved section is merged into the timeline and the board."""
+    from src import countdown
     validate(edition)
     recess = edition.mode == "recess"
+    ws, we, fs, he = countdown.windows(edition.week_commencing)
     parts = ["# Parliamentary Monitor",
-             "### Week commencing Monday {0} | Edition {1}{2}".format(
-                 edition.week_commencing, edition.number, " | RECESS" if recess else ""),
+             "### Edition {0} · Monday {1} {2} {3}{4} · Westminster, Holyrood, the Senedd and Northern Ireland".format(
+                 edition.number, ws.day, countdown._MONTHS_LONG[ws.month], ws.year,
+                 " · RECESS" if recess else ""),
              ""]
+    timeline = countdown.timeline_for(edition)
+    big = sorted((r for r in timeline if r.big), key=countdown.Row.sort_key)
+    block = countdown.render_big_dates(big)
+    if block:
+        parts.append(block)
 
-    top_lines = list(_cap(edition.top_lines, 6))
+    # Top lines that are not a dated row of the countdown (a Royal Assent
+    # in-force check) keep a place under the big dates; dated ones (deadline
+    # items) are rows of the tables below and would print twice.
+    notes = [l for l in (edition.top_lines or []) if not l.deadline]
+    if notes:
+        parts.append(_render_section("Also this week", _cap(notes, 6)))
+
+    this_week, further = countdown.split(timeline, edition.week_commencing)
+    out = ["## This week · {0}".format(countdown.span_label(ws, we)), ""]
     if edition.recess_note:
-        top_lines.append(Line(edition.recess_note, "NOTE"))
-    top = _render_section("Top lines", top_lines)
-    if top:
-        parts.append(top)
-    # Decisions needed sit directly under Top lines (Christopher, 2026-09-07):
-    # the questions the monitor is waiting on, with owner and date, so a
-    # why-line's "still an open decision" cannot recur unlogged.
+        out += ["*{0}*".format(edition.recess_note), ""]
+    if this_week:
+        out += countdown.render_table(this_week)
+    else:
+        out.append("*Neither House sits this week, and nothing on our issues is in the diary.*"
+                   if recess else "*Nothing on our issues in the diary this week.*")
+    out.append("")
+    if edition.forward_note:
+        out += ["*{0}*".format(edition.forward_note), ""]
+    parts.append("\n".join(out))
+
+    out = ["## Further afield · {0}".format(countdown.span_label(fs, he, long=True)), ""]
+    if further:
+        out += countdown.render_table(further)
+    else:
+        out.append("*Nothing on our issues in the diary yet.*")
+    out.append("")
+    parts.append("\n".join(out))
+
     from src import decisions as _decisions
     block = _decisions.render(edition.decisions) if edition.decisions else None
     if block:
         parts.append(block)
 
-    # What's on sits directly under Top lines in BOTH modes (Christopher,
-    # 2026-09-24). It used to live inside the sitting-week branch alone.
-    bill_ids = {r.title: r.bill_id for r in (edition.board_rows or [])
-                if getattr(r, "bill_id", None)}
-    whats_on = render_whats_on(edition, bill_ids, recess=recess)
-    if whats_on:
-        parts.append(whats_on)
+    parts.append("## Reference\n")
+    shown_urls = {r.url for r in timeline if r.url}
+    devolved = edition.devolved or {}
+    blocks = [render_bills_board(edition.board_rows, edition.devolved_board or devolved.get("bills"))]
+    if not recess:
+        blocks.append(render_amendments(edition.amendment_rows))
+    blocks.append(render_latest_votes(edition) if not recess else render_latest_votes(
+        _without_week_votes(edition)))
+    blocks.append(render_si(edition))
+    blocks.append(render_pqs(edition))
+    blocks.append(render_deadlines_beyond(edition, shown_urls))
+    blocks.append(render_reports(edition.report_rows))
+    blocks.append(render_courts(edition.judgment_rows))
+    if not recess:
+        blocks.append(_render_section("Early day motions", edition.edms, 5))
+        blocks.append(_render_section("Statements and announcements", edition.statements, None))
+    blocks.append(render_mp_section(edition.mp_notes, edition.spoke))
+    announced = render_announced(edition)
+    if announced:
+        announced = announced.replace("**Also announced this week**, not matched by our keywords",
+                                      "## Also announced, not on our issues", 1)
+        announced = announced.replace("**Announced for the return**", "## Announced for the return", 1)
+        announced = re.sub(r"^## Announced for the return \(week of ([^)]*)\), not matched by our keywords",
+                           r"## Announced for the return (week of \1), not on our issues", announced, flags=re.M)
+    blocks.append(announced)
+    for b in blocks:
+        if b:
+            parts.append(_demote(b))
 
-    if recess:
-        # Recess status + return dates render once, as a top line (composed via
-        # recess_line() by the orchestrator); no separate banner or footer.
-        deadlines = render_deadlines(edition)
-        if deadlines:
-            parts.append(deadlines)
-        # Committees publish and courts sit through recess.
-        for block in (render_reports(edition.report_rows), render_courts(edition.judgment_rows)):
-            if block:
-                parts.append(block)
-        # Departments answer written questions through recess, so the section
-        # belongs here too: omitting it hid a whole week of real activity
-        # (Christopher, 2026-08-05 -- show everything gathered).
-        pqs = render_pqs(edition)
-        if pqs:
-            parts.append(pqs)
-        parts.append(render_board(edition.board_rows))
-        si = render_si(edition)
-        if si:
-            parts.append(si)
-        mp = render_mp_section(edition.mp_notes, edition.spoke)
-        if mp:
-            parts.append(mp)
-        devolved = render_devolved(edition)
-        if devolved:
-            parts.append(devolved)
-    else:
-        section = _render_section("Votes and amendments", edition.votes, None)
-        if section:
-            parts.append(section)
-        amend = render_amendments(edition.amendment_rows)
-        if amend:
-            parts.append(amend)
-        pqs = render_pqs(edition)
-        if pqs:
-            parts.append(pqs)
-        deadlines = render_deadlines(edition)
-        if deadlines:
-            parts.append(deadlines)
-        for block in (render_reports(edition.report_rows), render_courts(edition.judgment_rows)):
-            if block:
-                parts.append(block)
-        for title, lines, cap in [
-            ("Early day motions", edition.edms, 5),
-            ("Statements and announcements", edition.statements, None),
-        ]:
-            section = _render_section(title, lines, cap)
-            if section:
-                parts.append(section)
-        parts.append(render_board(edition.board_rows))
-        si = render_si(edition)
-        if si:
-            parts.append(si)
-        mp = render_mp_section(edition.mp_notes, edition.spoke)
-        if mp:
-            parts.append(mp)
-        devolved = render_devolved(edition)
-        if devolved:
-            parts.append(devolved)
-
-    # Footer: disclose gaps.
-    parts.append("---")
+    # Coverage notes (the old footer): every gap row, the late-detection
+    # counter, the devolved forward-business line, and the taxonomy version.
+    parts.append("### Coverage notes\n")
     if edition.gaps:
-        parts.append("**Coverage gaps this edition:**")
         for feed, detail in edition.gaps:
             parts.append("- {0}: {1}".format(feed, detail))
     else:
-        parts.append("*No coverage gaps recorded this edition.*")
+        parts.append("- No coverage gaps recorded this edition.")
+    if edition.forward_note:
+        parts.append("- {0}".format(edition.forward_note))
     if edition.late_detections:
         # The deadline-proximity guard's counter: how many actionable items
         # the monitor first saw under 21 days from their deadline. Visible,
         # not silent -- the Scottish justice consultation reached an edition
         # with 0 days left.
-        parts.append("*Late detection: {0} item{1} first surfaced under 21 "
-                     "days before the deadline.*".format(
+        parts.append("- Late detection: {0} item{1} first surfaced under 21 "
+                     "days before the deadline.".format(
                          edition.late_detections,
                          "" if edition.late_detections == 1 else "s"))
     parts.append("")
     # The version is read from the taxonomy, never hardcoded: the footer sat at
     # v0.2 while the taxonomy had moved to v0.4, on a page partners read.
-    parts.append("*Compiled from Parliament's open data feeds via the CitizenGO issue "
+    parts.append("*Compiled from Parliament's open data feeds and the devolved "
+                 "legislatures' and governments' published business via the CitizenGO issue "
                  "taxonomy{0} with human review.*".format(
                      " v" + edition.taxonomy_version if edition.taxonomy_version else ""))
     return "\n".join(parts) + "\n"
+
+
+def _without_week_votes(edition):
+    """Recess has no divisions of its own week to report."""
+    import copy
+    e = copy.copy(edition)
+    e.votes = []
+    return e
 
 
 def write_edition(conn, edition, editions_dir, generated_at):

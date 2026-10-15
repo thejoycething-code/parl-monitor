@@ -66,14 +66,16 @@ class RenderTests(unittest.TestCase):
         self.assertIsNone(decisions.render({"open": [], "decided": [], "unlogged": []}))
         self.assertIsNone(decisions.render(None))
 
-    def test_it_sits_directly_under_top_lines(self):
+    def test_it_sits_after_the_countdown_before_reference(self):
+        """The countdown (2026-10-15) leads with the big dates and the two
+        tables; the decisions block follows them, ahead of Reference."""
         e = digest.Edition(week_commencing="2026-09-07", number=6, mode="normal")
         e.board_rows = []
         e.top_lines = [digest.Line("Something urgent", 3)]
         e.decisions = decisions.collect(LOG, [], "2026-09-07")
         md = digest.render(e)
-        self.assertLess(md.index("## Top lines"), md.index("## Decisions needed"))
-        self.assertLess(md.index("## Decisions needed"), md.index("## Active bills board"))
+        self.assertLess(md.index("## Further afield"), md.index("## Decisions needed"))
+        self.assertLess(md.index("## Decisions needed"), md.index("## Reference"))
 
     def test_the_weekly_wires_it(self):
         src = open(os.path.join(ROOT, "run_weekly.py"), encoding="utf-8").read()

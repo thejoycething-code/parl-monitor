@@ -31,14 +31,16 @@ class RecessRenderTests(unittest.TestCase):
             mp_notes=[digest.Line("An MP note", "NOTE")],
         )
         md = digest.render(e)
-        for present in ("## Top lines", "## Active bills board",
-                        "## Consultations and calls for evidence", "## Parliamentarians on our issues"):
+        # The countdown (2026-10-15): the deadline is a DEADLINE row of
+        # Further afield; the board and the MP section sit under Reference.
+        for present in ("## This week", "## Further afield", "### Bills we track, all legislatures",
+                        "| DEADLINE |", "### Parliamentarians on our issues", "### Coverage notes"):
             self.assertIn(present, md)
-        for absent in ("## Votes", "## EDMs",
-                       "## Scotland, Wales and Northern Ireland", "## Statements",
-                       "Return dates below", "**Return dates:**"):
+        for absent in ("## Votes", "## EDMs", "### Early day motions",
+                       "## Scotland, Wales and Northern Ireland", "Statements and announcements",
+                       "Return dates below", "**Return dates:**", "## Top lines"):
             self.assertNotIn(absent, md)
-        # The single top line carries recess + return dates + deadlines note.
+        # The recess line (a top line with no deadline) renders once.
         self.assertEqual(md.count("Both Houses return 2026-09-01"), 1)
 
     def test_whats_on_renders_in_recess_too(self):
@@ -48,15 +50,18 @@ class RecessRenderTests(unittest.TestCase):
         two scored events sat in further_ahead and were shown to nobody, both
         after the House returned."""
         e = base_edition(further_ahead=[digest.Line("Lords: after the return", 2,
-                                                    date="2026-10-15")])
+                                                    date="2026-09-15")])
         md = digest.render(e)
-        self.assertIn("## What's on", md)
-        self.assertIn("Lords: after the return", md)
+        further = md[md.index("## Further afield"):md.index("## Reference")]
+        self.assertIn("Lords: after the return", further)
         self.assertIn("Neither House sits this week", md)
-        self.assertNotIn("Nothing on our ground in the chamber this week", md)
+        self.assertNotIn("Nothing on our issues in the diary this week", md)
 
-    def test_nothing_ahead_at_all_still_drops_the_section(self):
-        self.assertNotIn("## What's on", digest.render(base_edition()))
+    def test_nothing_ahead_at_all_says_so(self):
+        """The countdown's two tables always render, with a line when empty:
+        the reader is told the diary is empty rather than left guessing."""
+        md = digest.render(base_edition())
+        self.assertIn("Nothing on our issues in the diary yet.", md)
 
     def test_the_recess_note_comes_last_and_survives_the_cap(self):
         """Christopher, 2026-09-24: "Top lines should lead with what's
@@ -69,11 +74,12 @@ class RecessRenderTests(unittest.TestCase):
         e.recess_note = digest.recess_line({"Commons": "2026-09-01",
                                             "Lords": "2026-09-01"})
         md = digest.render(e)
-        top = md[md.index("## Top lines"):md.index("\n## ", md.index("## Top lines") + 5)]
-        lines = [l for l in top.splitlines() if l.startswith("- ")]
-        self.assertEqual(len(lines), 7, "six capped actionable lines plus the note")
-        self.assertIn("Recess:", lines[-1])
-        self.assertNotIn("Recess:", lines[0])
+        # Dated top lines are rows of the countdown now (they would print
+        # twice); the recess note heads This week, outside any cap.
+        self.assertNotIn("## Top lines", md)
+        week = md[md.index("## This week"):md.index("## Further afield")]
+        self.assertIn("*Recess: neither House sits this week.", week)
+        self.assertEqual(md.count("Recess: neither House sits"), 1)
 
     def test_recess_line_combines_or_splits_dates(self):
         self.assertEqual(
@@ -88,7 +94,7 @@ class RecessRenderTests(unittest.TestCase):
 
     def test_board_always_renders_even_when_empty_elsewhere(self):
         md = digest.render(base_edition())
-        self.assertIn("## Active bills board", md)
+        self.assertIn("### Bills we track, all legislatures", md)
         self.assertIn("bills/4157", md)
 
     def test_westminster_rows_use_bills_parliament_uk(self):
@@ -404,8 +410,8 @@ class FooterTests(unittest.TestCase):
     def test_gaps_disclosed_in_footer(self):
         e = base_edition(gaps=[("pq", "PATHWAYS sweep failed after retries")])
         md = digest.render(e)
-        self.assertIn("Coverage gaps this edition", md)
-        self.assertIn("PATHWAYS sweep failed after retries", md)
+        self.assertIn("### Coverage notes", md)
+        self.assertIn("- pq: PATHWAYS sweep failed after retries", md)
 
     def test_no_gaps_message(self):
         self.assertIn("No coverage gaps", digest.render(base_edition()))
@@ -593,11 +599,13 @@ class NormalModeFullRenderTests(unittest.TestCase):
 
     def test_all_sitting_week_sections_render_in_order(self):
         md = digest.render(self._full_edition())
-        order = ["## Top lines", "## What's on", "## Votes and amendments",
-                 "## " + digest.QUESTIONS_HEADING,
-                 "## Consultations and calls for evidence",
-                 "## Early day motions", "## Statements and announcements",
-                 "## Active bills board", "## Parliamentarians on our issues"]
+        # The countdown order (Christopher, 2026-10-15): the timeline first,
+        # then Reference with every section the edition carried before.
+        order = ["## This week", "## Further afield", "## Reference",
+                 "### Bills we track, all legislatures", "### Latest votes on our issues",
+                 "### " + digest.QUESTIONS_HEADING,
+                 "### Early day motions", "### Statements and announcements",
+                 "### Parliamentarians on our issues", "### Coverage notes"]
         positions = [md.index(h) for h in order]
         self.assertEqual(positions, sorted(positions),
                          "sitting-week sections out of order")
@@ -639,25 +647,29 @@ class DevolvedSectionTests(unittest.TestCase):
         self.assertIsNone(digest.render_devolved(e))
         self.assertNotIn("## Scotland, Wales and Northern Ireland", digest.render(e))
 
-    def test_renders_at_the_very_bottom(self):
+    def test_merged_into_the_countdown_not_a_section(self):
+        """The countdown (Christopher, 2026-10-15): no separate devolved
+        section. A consultation is a row tagged with its government, a bill
+        joins the board with its Where, a vote joins Latest votes."""
         e = base_edition(mp_notes=[digest.Line("An MP note", 2)])
         e.devolved = self.PAYLOAD
         md = digest.render(e)
-        self.assertIn("## Scotland, Wales and Northern Ireland", md)
-        self.assertGreater(md.index("## Scotland, Wales and Northern Ireland"),
-                           md.index("## Parliamentarians on our issues"),
-                           "Devolved belongs at the very bottom, after the "
-                           "Westminster sections")
+        self.assertNotIn("## Scotland, Wales and Northern Ireland", md)
+        further = md[md.index("## Further afield"):md.index("## Reference")]
+        self.assertIn("| Mon 31 Aug | SCOT GOVT | [Protections in the justice system](https://c/1)", further)
+        board = md[md.index("### Bills we track"):md.index("*Movement:")]
+        self.assertIn("| A Scottish Bill | Holyrood | Stage 3, 17 Mar 2026 |", board)
+        self.assertIn("**Holyrood** · a vote, Defeated", md)
 
-    def test_bottom_in_sitting_weeks_too(self):
+    def test_merged_in_sitting_weeks_too(self):
         e = digest.Edition(week_commencing="2026-08-31", number=5,
                            mode="normal")
         e.board_rows = [live_row(4157, "TIA Bill", "2026-09-11")]
         e.statements = [digest.Line("A statement", 2)]
         e.devolved = self.PAYLOAD
         md = digest.render(e)
-        self.assertGreater(md.index("## Scotland, Wales and Northern Ireland"),
-                           md.index("## Statements and announcements"))
+        week = md[md.index("## This week"):md.index("## Further afield")]
+        self.assertIn("| Mon 31 Aug | SCOT GOVT |", week)
 
     def test_deadlines_lead(self):
         e = base_edition()
@@ -710,13 +722,17 @@ class FurtherAfieldTests(unittest.TestCase):
                                        date="2026-09-11")]
         return e
 
-    def test_it_sits_inside_whats_on_not_as_its_own_heading(self):
+    def test_two_tables_this_week_then_further_afield(self):
+        """The countdown (Christopher, 2026-10-15): two tables in one format,
+        This week (Mon to Sun) then Further afield (next Monday, 8 weeks)."""
         md = digest.render(self._edition())
-        self.assertIn("## What's on", md)
-        self.assertIn("**Further afield** (next 8 weeks)", md)
-        self.assertNotIn("## Further afield", md)
+        self.assertIn("## This week · Mon 31 August to Sun 6 September", md)
+        self.assertIn("## Further afield · Mon 7 September to 1 November", md)
+        self.assertEqual(md.count("| When | Where | What | Issue |"), 2)
         self.assertLess(md.index("Commons: this week"),
-                        md.index("Further afield"))
+                        md.index("## Further afield"))
+        self.assertGreater(md.index("Commons: three weeks out"),
+                           md.index("## Further afield"))
 
     def test_dates_ascend_and_match_the_week_ahead_format(self):
         """Since 2026-09-07 both blocks are the same five-column table and
@@ -736,9 +752,9 @@ class FurtherAfieldTests(unittest.TestCase):
         e = self._edition()
         e.week_ahead = []
         md = digest.render(e)
-        self.assertIn("## What's on", md)
-        self.assertIn("Further afield", md)
-        self.assertIn("Nothing on our ground in the chamber this week", md)
+        self.assertIn("## Further afield", md)
+        self.assertIn("Lords: a fortnight out", md)
+        self.assertIn("Nothing on our issues in the diary this week", md)
 
 
 class WeekAheadTableTests(unittest.TestCase):

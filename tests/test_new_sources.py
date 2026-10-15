@@ -283,8 +283,11 @@ class RenderTests(unittest.TestCase):
                       "(https://committees.parliament.uk/publications/54700/) (DHSC) | Sets the line. |", md)
         self.assertIn("| Thu 3 Sep | Supreme Court | [For Women Scotland v Scottish Ministers [2025] UKSC 16]"
                       "(https://caselaw.nationalarchives.gov.uk/uksc/2025/16) |  |", md)
-        self.assertLess(md.index("## Consultations and calls for evidence"), md.index("## Committee reports"))
-        self.assertLess(md.index("## Committee reports"), md.index("## Courts"))
+        # The countdown (2026-10-15): the consultation is a DEADLINE row of
+        # the timeline; reports then courts sit under Reference.
+        self.assertLess(md.index("| DEADLINE | [Open one](u)"), md.index("## Reference"))
+        self.assertLess(md.index("## Reference"), md.index("### Committee reports"))
+        self.assertLess(md.index("### Committee reports"), md.index("### Courts"))
 
     def test_small_batches_get_a_floor_and_truncation_names_the_blocks(self):
         from src import triage

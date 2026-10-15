@@ -31,6 +31,17 @@ bills:                    # Westminster, by ID (never by title). `why` renders o
   # nothing the taxonomy could catch. Remaining stages passed unseen on 13 Oct.
   4083: {title: "Courts and Tribunals Bill", areas: [6, 9],
          why: "Clause 17 repeals the Children Act presumption that both parents' involvement furthers the child's welfare; family and parental rights"}
+  # Added 2026-10-15 (Christopher's countdown redesign): its Lords committee
+  # stage starts Wed 28 Oct 2026 and it was not on the board. In the Commons
+  # it carried NC142 (puberty blockers, rejected 108 to 357) and NC143
+  # (single-sex NHS facilities, rejected 106 to 302) on 8 Sep 2026; Lords
+  # committee is where both can be tabled again. A large structural NHS
+  # bill: match_title false (its name is not a matching entity, so NHS
+  # divisions and questions naming it do not reach the ledger as gender
+  # medicine; What's On admits its sittings by BillId) and text-matched
+  # amendments (not all_amendments).
+  4124: {title: "Health Bill", areas: [3, 5], match_title: false,
+         why: "Carried NC142 (puberty blockers) and NC143 (single-sex facilities) in the Commons; Lords committee day 1 is Wed 28 Oct 2026, where amendments on both can be tabled again"}
 fallen_bills:             # prior-session bills whose closing entries the board owns
   3774: {title: "Terminally Ill Adults (End of Life) Bill", areas: [2],
          why: "Leadbeater assisted suicide bill; fell at prorogation in Lords committee"}

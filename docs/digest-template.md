@@ -1,6 +1,8 @@
 # Parliamentary Monitor: weekly digest template
 **Version 0.1 (draft for review) | 1 August 2026 | Owner: Christopher**
 
+> **Superseded layout, 15 October 2026.** Christopher approved the "A · Countdown" redesign: the edition now leads with **Big dates** (score-3 items inside the 8-week horizon, at most three, each with a Context line from the vote tracker), then **This week** (Mon to Sun) and **Further afield** (next Monday, 8 weeks) as two tables in one format (When | Where | What | Issue; dates as "Thu 22 Oct"; Where tags COMMONS, LORDS, NI ASSEMBLY, NI GOVT, HOLYROOD, SCOT GOVT, SENEDD, WELSH GOVT, DEADLINE), Westminster and the devolved bodies on one timeline. Every older section survives under **Reference**: bills board with a Where column (devolved bills included), amendments, latest votes across legislatures, secondary legislation, questions, later or rolling deadlines, reports, courts, EDMs, statements, parliamentarians, "Also announced, not on our issues" and Coverage notes. Code: src/countdown.py, digest.render. The Monday channel post is countdown.slack_post. The template below is the August 2026 original, kept for its design rules.
+
 ## How this digest is produced
 
 The digest is a byproduct, not a document anyone writes. Every item lives in the store with its fields (see appendix). The Monday edition is a query: everything with an event date in the coming week, everything captured in the past week, plus the active bills board, which renders every edition regardless.
