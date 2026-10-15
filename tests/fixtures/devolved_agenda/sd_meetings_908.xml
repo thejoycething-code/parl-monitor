@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<getmeetings>
+  <meetingscount> 14</meetingscount>
+  <committeescount> 1</committeescount>
+  <committee>
+    <committeeid>908</committeeid>
+    <committeetitle>Plenary</committeetitle>
+    <committeemeetingcount> 14</committeemeetingcount>
+    <committeemeetings>
+      <meeting>
+        <meetingid>16317</meetingid>
+        <meetingdate>20/10/2026</meetingdate>
+        <meetingstatus>Confirmed</meetingstatus>
+        <meetingtime>13.30</meetingtime>
+        <iswebcast>True</iswebcast>
+      </meeting>
+      <meeting>
+        <meetingid>16318</meetingid>
+        <meetingdate>21/10/2026</meetingdate>
+        <meetingstatus>Confirmed</meetingstatus>
+        <meetingtime>13.30</meetingtime>
+        <iswebcast>True</iswebcast>
+      </meeting>
+      <meeting>
+        <meetingid>16420</meetingid>
+        <meetingdate>03/11/2026</meetingdate>
+        <meetingstatus>Confirmed</meetingstatus>
+        <meetingtime>13.30</meetingtime>
+        <iswebcast>True</iswebcast>
+      </meeting>
+    </committeemeetings>
+  </committee>
+</getmeetings>
