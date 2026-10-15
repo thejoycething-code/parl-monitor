@@ -189,6 +189,10 @@ FEEDS = [
     ("sd_events", "last_seen", 7, 4, "Senedd events"),
     ("sd_bills", "last_seen", 7, 4, "Senedd bill register"),
     ("sd_committees", "last_seen", 7, 4, "Senedd committees"),
+    # Forward agendas (15 October 2026): re-stamped every weekly run that
+    # finds the item still listed, so a stale table means the step stopped.
+    ("sp_agenda", "last_seen", 7, 4, "Holyrood forward agenda (Chamber and committees)"),
+    ("sd_agenda", "last_seen", 7, 4, "Senedd forward agenda (Plenary and committees)"),
     ("ni_committees", "last_seen", 7, 4, "NI committees"),
     ("eu_cmte_meetings", "last_seen", 7, 3, "EP committee meetings"),
     ("dv_post", "last_seen", 31, 7, "devolved members' posts"),   # Member profiles is monthly
@@ -1416,6 +1420,12 @@ def table_exists(conn, table):
 # first heartbeat can excuse it: excused while empty until a date, then
 # OVERDUE like any other. table -> (until, why). Additive, 10 October 2026.
 AWAITING_STEP_UNTIL = {
+    # Forward agendas join the Holyrood (Fridays) and Senedd (Thursdays)
+    # weeklies on merge, 15 October 2026: empty until their first Mini run.
+    "sp_agenda": ("2026-10-31", "the forward-agenda step (tools/sp_agenda.py) joins the "
+                  "Holyrood weekly on merge; it fills on its next Friday run"),
+    "sd_agenda": ("2026-10-31", "the forward-agenda step (tools/sd_agenda.py) joins the "
+                  "Senedd weekly on merge; it fills on its next Thursday run"),
     "ch_canton_acts": ("2026-10-31", "the cantons step (tools/ch_cantons.py) joins the "
                        "Switzerland weekly on merge; it fills on its next run"),
     "ch_canton_divisions": ("2026-10-31", "the cantons step (tools/ch_cantons.py) joins the "

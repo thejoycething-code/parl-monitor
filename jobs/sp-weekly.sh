@@ -1,7 +1,7 @@
 #!/bin/bash
 # Holyrood weekly on the Mac Mini (tools/mini_run.sh sp-weekly, Fridays 07:00
 # London): roster, questions and motions, divisions and member votes,
-# committee scrutiny, Scottish Government consultations, petitions, the scored
+# committee scrutiny, the forward agenda (sp_agenda), Scottish Government consultations, petitions, the scored
 # divisions and the Holyrood 5CA sheets; then the raw archive and the store.
 # .github/workflows/sp-weekly.yml is the backup and skips itself when this
 # has run (mini-check).
@@ -24,6 +24,7 @@ rc=0
 python3 tools/sp_pull.py || rc=1
 python3 tools/sp_divisions.py || rc=1
 python3 tools/sp_committees.py || rc=1
+python3 tools/sp_agenda.py || rc=1
 python3 tools/dg_consultations.py --nation scotland || rc=1
 python3 tools/dv_petitions.py --nation scotland || rc=1
 python3 tools/sp_score.py --apply || rc=1

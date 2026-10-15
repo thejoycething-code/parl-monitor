@@ -1,5 +1,6 @@
 #!/bin/bash
 # Senedd weekly on the Mac Mini (tools/mini_run.sh sd-weekly, Thursdays 07:00 London).
+# Includes the forward agenda (tools/sd_agenda.py -> sd_agenda).
 # .github/workflows/sd-weekly.yml is the backup and skips itself when this has run
 # (mini-check).
 #
@@ -24,6 +25,7 @@ python3 tools/sd_pull.py || rc=1
 python3 tools/sd_divisions.py --parl 908 || rc=1
 python3 tools/sd_bills.py || rc=1
 python3 tools/sd_committees.py || rc=1
+python3 tools/sd_agenda.py || rc=1
 python3 tools/dg_consultations.py --nation wales || rc=1
 python3 tools/dv_petitions.py --nation wales || rc=1
 python3 tools/devolved_score.py --nation wales --apply || rc=1

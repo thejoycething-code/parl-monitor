@@ -509,6 +509,47 @@ CREATE TABLE IF NOT EXISTS ni_agenda (
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
   PRIMARY KEY (event_id, item_order)
 );
+-- Forward business at Holyrood and the Senedd (15 October 2026), one row
+-- per agenda item of a Chamber/Plenary sitting or a committee meeting, from
+-- the day of the run to as far ahead as each source publishes (Holyrood's
+-- What's on about four weeks, with committee agendas about a week ahead;
+-- the Senedd's ModernGov web service lists sittings two months ahead and
+-- each agenda once published). ni_agenda's conventions: the business text
+-- is classified with the English taxonomy, areas/matched_terms are JSON,
+-- first_seen survives a re-read and last_seen is the run that saw it.
+-- A day (sp) or meeting (sd) read in full replaces its rows: an item the
+-- source no longer lists is removed, so a placeholder ("Scottish Government
+-- Business") does not linger beside the debate that replaced it.
+-- Written by tools/sp_agenda.py and tools/sd_agenda.py (src/devolved_agenda.py).
+--   body       'Chamber' / 'Plenary', or the committee's name
+--   item_type  procedural | questions | statement | debate | members'
+--              business | bill stage | legislative consent | subordinate
+--              legislation | petition | committee evidence | committee
+--              business | chamber business | to be announced
+--   source     sp: 'whats-on' (parliament.scot) or 'business-programme'
+--              (data.parliament.scot, the fallback); sd: 'moderngov'
+CREATE TABLE IF NOT EXISTS sp_agenda (
+  key TEXT PRIMARY KEY,           -- sp:<date>:<body>:<business slug>[#n]
+  dated TEXT NOT NULL,            -- YYYY-MM-DD
+  item_time TEXT, body TEXT NOT NULL, item_order INTEGER,
+  business TEXT NOT NULL, detail TEXT, item_type TEXT,
+  reference TEXT,                 -- S7M-..... where the item is one motion
+  meeting_id TEXT, url TEXT, source TEXT,
+  areas TEXT, matched_terms TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS sp_agenda_dated ON sp_agenda (dated);
+CREATE TABLE IF NOT EXISTS sd_agenda (
+  key TEXT PRIMARY KEY,           -- sd:<meeting id>:<agenda item id>
+  dated TEXT NOT NULL,
+  item_time TEXT, body TEXT NOT NULL, item_order INTEGER,
+  business TEXT NOT NULL, detail TEXT, item_type TEXT,
+  reference TEXT,                 -- NDM.... / the item number
+  meeting_id TEXT, url TEXT, source TEXT,
+  areas TEXT, matched_terms TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS sd_agenda_dated ON sd_agenda (dated);
 -- One row per Hansard sitting already fetched, so a re-run costs nothing --
 -- the same job ni_store.dates_present does for rosters.
 -- Profiles for devolved members, added 2026-08-29. Westminster members have
@@ -2033,6 +2074,8 @@ TABLES = (
     "ni_divisions",
     "ni_sponsors",
     "ni_agenda",
+    "sp_agenda",
+    "sd_agenda",
     "sp_scored",
     "dv_contact",
     "dv_post",

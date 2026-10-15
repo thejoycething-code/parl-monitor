@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<meeting>
+  <meetingid>16301</meetingid>
+  <meetingdate>22/10/2026</meetingdate>
+  <meetingstatus>Confirmed; Hybrid, Private</meetingstatus>
+  <isdisplayallowed>True</isdisplayallowed>
+  <meetingtime>09.00</meetingtime>
+  <meetingactualstarttime>
+  </meetingactualstarttime>
+  <meetingplannedfinishtime>12.30</meetingplannedfinishtime>
+  <meetingactualfinishtime>
+  </meetingactualfinishtime>
+  <meetinglocation>Pierhead Building, Pierhead Street, CF99 1NA</meetinglocation>
+  <iswebcast>False</iswebcast>
+  <agendaid>16278</agendaid>
+  <agendapublished>True</agendapublished>
+  <decisionpublished>False</decisionpublished>
+  <minutepublished>False</minutepublished>
+  <agendaitems>
+    <agendaitem>
+      <agendaitemid>108804</agendaitemid>
+      <agendaitemtitle>This is a draft agenda. Details are subject to change. A full agenda and all papers will be published at least 2 working days before the meeting.</agendaitemtitle>
+      <agendatext>
+      </agendatext>
+      <actualmeetingdate>22/10/2026</actualmeetingdate>
+      <agendaitemnumber>0</agendaitemnumber>
+      <agendaitemsubnumber>
+      </agendaitemsubnumber>
+      <fulldisplaynumberformat>
+      </fulldisplaynumberformat>
+      <authorusername>
+      </authorusername>
+      <commentlabel1>Presented By</commentlabel1>
+      <commenttext1>
+      </commenttext1>
+      <commentlabel2>Actions</commentlabel2>
+      <commenttext2>
+      </commenttext2>
+      <declarationcount>0</declarationcount>
+      <iscallin>False</iscallin>
+      <iscomment>True</iscomment>
+      <isdecision>False</isdecision>
+      <isdecisionpublished>False</isdecisionpublished>
+      <isminutepublished>False</isminutepublished>
+      <ispubliccanspeak>False</ispubliccanspeak>
+      <isrestricted>False</isrestricted>
+      <isdisplayallowed>True</isdisplayallowed>
+      <meetingdate>22/10/2026</meetingdate>
+      <meetingtime>09.00</meetingtime>
+      <minutesitemnumber>0</minutesitemnumber>
+      <minutesitemsubnumber>
+      </minutesitemsubnumber>
+      <preferreddate>
+      </preferreddate>
+      <refertocommittee>
+      </refertocommittee>
+    </agendaitem>
+    <agendaitem>
+      <agendaitemid>108796</agendaitemid>
+      <agendaitemtitle>Private Meeting</agendaitemtitle>
+      <agendatext>
+      </agendatext>
+      <actualmeetingdate>22/10/2026</actualmeetingdate>
+      <agendaitemnumber>0</agendaitemnumber>
+      <agendaitemsubnumber>
+      </agendaitemsubnumber>
+      <fulldisplaynumberformat>
+      </fulldisplaynumberformat>
+      <authorusername>
+      </authorusername>
+      <commentlabel1>Presented By</commentlabel1>
+      <commenttext1>
+      </commenttext1>
+      <commentlabel2>Actions</commentlabel2>
+      <commenttext2>
+      </commenttext2>
+      <declarationcount>0</declarationcount>
+      <iscallin>False</iscallin>
+      <iscomment>True</iscomment>
+      <isdecision>False</isdecision>
+      <isdecisionpublished>False</isdecisionpublished>
+      <isminutepublished>False</isminutepublished>
+      <ispubliccanspeak>False</ispubliccanspeak>
+      <isrestricted>False</isrestricted>
+      <isdisplayallowed>True</isdisplayallowed>
+      <meetingdate>22/10/2026</meetingdate>
+      <meetingtime>09.00</meetingtime>
+      <minutesitemnumber>0</minutesitemnumber>
+      <minutesitemsubnumber>
+      </minutesitemsubnumber>
+      <preferreddate>22/10/2026</preferreddate>
+      <refertocommittee>
+      </refertocommittee>
+    </agendaitem>
+    <agendaitem>
+      <agendaitemid>108799</agendaitemid>
+      <agendaitemtitle>Health and Social Care Committee: Strategic Planning session</agendaitemtitle>
+      <agendatext>
+      </agendatext>
+      <actualmeetingdate>22/10/2026</actualmeetingdate>
+      <agendaitemnumber>1</agendaitemnumber>
+      <agendaitemsubnumber>
+      </agendaitemsubnumber>
+      <fulldisplaynumberformat>1.</fulldisplaynumberformat>
+      <authorusername>
+      </authorusername>
+      <commentlabel1>Presented By</commentlabel1>
+      <commenttext1>
+      </commenttext1>
+      <commentlabel2>Actions</commentlabel2>
+      <commenttext2>
+      </commenttext2>
+      <declarationcount>0</declarationcount>
+      <iscallin>False</iscallin>
+      <iscomment>False</iscomment>
+      <isdecision>False</isdecision>
+      <isdecisionpublished>False</isdecisionpublished>
+      <isminutepublished>False</isminutepublished>
+      <ispubliccanspeak>False</ispubliccanspeak>
+      <isrestricted>False</isrestricted>
+      <isdisplayallowed>True</isdisplayallowed>
+      <meetingdate>22/10/2026</meetingdate>
+      <meetingtime>09.00</meetingtime>
+      <minutesitemnumber>1</minutesitemnumber>
+      <minutesitemsubnumber>
+      </minutesitemsubnumber>
+      <preferreddate>22/10/2026</preferreddate>
+      <refertocommittee>Health and Social Care Committee</refertocommittee>
+    </agendaitem>
+    <agendaitem>
+      <agendaitemid>108803</agendaitemid>
+      <agendaitemtitle>Consideration of draft report on the Legislative Consent Memorandum (LCM) for the Health Bill</agendaitemtitle>
+      <agendatext>
+
+&lt;div class=WordSection1&gt;
+
+&lt;p class=MsoNormal&gt;Paper X – draft report on the LCM for the Health Bill&lt;/p&gt;
+
+&lt;/div&gt;
+
+</agendatext>
+      <actualmeetingdate>22/10/2026</actualmeetingdate>
+      <agendaitemnumber>2</agendaitemnumber>
+      <agendaitemsubnumber>
+      </agendaitemsubnumber>
+      <fulldisplaynumberformat>2.</fulldisplaynumberformat>
+      <authorusername>
+      </authorusername>
+      <commentlabel1>Presented By</commentlabel1>
+      <commenttext1>
+      </commenttext1>
+      <commentlabel2>Actions</commentlabel2>
+      <commenttext2>
+      </commenttext2>
+      <declarationcount>0</declarationcount>
+      <iscallin>False</iscallin>
+      <iscomment>False</iscomment>
+      <isdecision>False</isdecision>
+      <isdecisionpublished>False</isdecisionpublished>
+      <isminutepublished>False</isminutepublished>
+      <ispubliccanspeak>False</ispubliccanspeak>
+      <isrestricted>False</isrestricted>
+      <isdisplayallowed>True</isdisplayallowed>
+      <meetingdate>22/10/2026</meetingdate>
+      <meetingtime>09.00</meetingtime>
+      <minutesitemnumber>2</minutesitemnumber>
+      <minutesitemsubnumber>
+      </minutesitemsubnumber>
+      <preferreddate>22/10/2026</preferreddate>
+      <refertocommittee>Health and Social Care Committee</refertocommittee>
+    </agendaitem>
+  </agendaitems>
+</meeting>

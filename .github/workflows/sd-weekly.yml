@@ -136,6 +136,12 @@ jobs:
       - name: Harvest committee scrutiny and the forward look
         if: always()
         run: python3 tools/sd_committees.py | tee /tmp/sd-committees.log
+      - name: Read the forward agenda (Plenary and committees, eight weeks)
+        # ModernGov's web service (mgWebService.asmx answers the identified
+        # UA; robots.txt asked) -> sd_agenda. An unreadable call is a gap and
+        # keeps its rows. From GitHub's runners the host may refuse: a gap.
+        if: always()
+        run: python3 tools/sd_agenda.py | tee /tmp/sd-agenda.log
       - name: Pull open Welsh Government consultations
         if: always()
         run: python3 tools/dg_consultations.py --nation wales | tee /tmp/sd-consultations.log
@@ -177,7 +183,7 @@ jobs:
         run: |
           {
             echo "## Senedd weekly refresh"
-            for f in members pull divisions bills committees consultations scored 5ca; do
+            for f in members pull divisions bills committees agenda consultations scored 5ca; do
               echo "### $f"
               if [ -f "/tmp/sd-$f.log" ]; then
                 echo '```'

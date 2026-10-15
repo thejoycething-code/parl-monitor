@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<committees>
+  <committeescount> 6</committeescount>
+  <committee>
+    <committeeid>578</committeeid>
+    <committeetitle>Agriculture and Rural Development Committee  - First Assembly</committeetitle>
+    <committeedeleted>False</committeedeleted>
+    <committeeexpired>True</committeeexpired>
+    <committeecategory>Committees</committeecategory>
+  </committee>
+  <committee>
+    <committeeid>909</committeeid>
+    <committeetitle>Business Committee</committeetitle>
+    <committeedeleted>False</committeedeleted>
+    <committeeexpired>False</committeeexpired>
+    <committeecategory>Business Committee</committeecategory>
+  </committee>
+  <committee>
+    <committeeid>983</committeeid>
+    <committeetitle>Equality, Human Rights and Social Justice Committee</committeetitle>
+    <committeedeleted>False</committeedeleted>
+    <committeeexpired>False</committeeexpired>
+    <committeecategory>Committees</committeecategory>
+  </committee>
+  <committee>
+    <committeeid>985</committeeid>
+    <committeetitle>Health and Social Care Committee</committeetitle>
+    <committeedeleted>False</committeedeleted>
+    <committeeexpired>False</committeeexpired>
+    <committeecategory>Committees</committeecategory>
+  </committee>
+  <committee>
+    <committeeid>908</committeeid>
+    <committeetitle>Plenary</committeetitle>
+    <committeedeleted>False</committeedeleted>
+    <committeeexpired>False</committeeexpired>
+    <committeecategory>Plenary</committeecategory>
+  </committee>
+  <committee>
+    <committeeid>896</committeeid>
+    <committeetitle>Welsh Youth Parliament 3 - Plenary</committeetitle>
+    <committeedeleted>False</committeedeleted>
+    <committeeexpired>False</committeeexpired>
+    <committeecategory>Welsh Youth Parliament</committeecategory>
+  </committee>
+</committees>

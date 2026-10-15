@@ -433,6 +433,9 @@ names the client that is wrapped when it is not the collector's own.
 | us_states_routes | documents.house.mo.gov (House XML exports) | open data | yes | allowed; Crawl-delay 20 honoured |
 | us_states_routes | arkleg.state.ar.us (bill, activity and vote pages) | scraper | yes | allowed (only ChatGPT's agents are disallowed) |
 | ve_news | www.asambleanacional.gob.ve | scraper | yes | allowed |
+| sp_agenda (15 October 2026) | www.parliament.scot (`/chamber-and-committees/whats-on-and-watch-live/whats-on?dateFrom=`) | scraper | yes | allowed: robots.txt disallows only `/sitecore`, `/temp/`, `/upload/`, `/xsl/` and app folders. The old Business Bulletin paths 301 to webarchive.nrscotland.gov.uk (the new site's catch-all for unknown paths); not followed, not used |
+| sp_agenda | data.parliament.scot (`/api/MotionsQuestionsAnswersMotionsBusiness?motionfilter=programme`) | open data | yes | robots.txt 404 (no rules); the Parliament's open-data API, asked anyway like the rest of the client |
+| sd_agenda (15 October 2026) | business.senedd.wales (`/mgWebService.asmx/`) | API (ModernGov web service) | yes | robots.txt answers the Azure WAF's 403 page (a 4xx: no rules, RFC 9309). The web service answers the identified UA with 200 and XML; the host's web pages (calendar, agenda pages) answer that UA and every non-browser client 403, and are not read. The browser UA src/http.py keeps for this host is removed on this client |
 | ve_news_crawl, ve_probe | www.asambleanacional.gob.ve (and any probed URL) | scraper | yes (probe_refusal) | allowed |
 
 ## Tests

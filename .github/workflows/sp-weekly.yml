@@ -129,6 +129,12 @@ jobs:
         # upserts make re-runs safe.
         if: always()
         run: python3 tools/sp_committees.py | tee /tmp/sp-committees.log
+      - name: Read the forward agenda (Chamber and committees, eight weeks)
+        # parliament.scot What's on per weekday (robots.txt asked) with the
+        # data.parliament.scot Business Programme as fallback -> sp_agenda.
+        # An unreadable day is a gap and keeps its rows.
+        if: always()
+        run: python3 tools/sp_agenda.py | tee /tmp/sp-agenda.log
       - name: Pull open Scottish Government consultations
         if: always()
         run: python3 tools/dg_consultations.py --nation scotland | tee /tmp/sp-consultations.log
@@ -167,11 +173,11 @@ jobs:
         run: |
           {
             echo "## Holyrood weekly refresh"
-            for f in pull divisions committees consultations 5ca; do
+            for f in pull divisions committees agenda consultations 5ca; do
               echo "### $f"
               if [ -f "/tmp/sp-$f.log" ]; then
                 echo '```'
-                grep -E "gap|no gaps|stored|match our areas|division|member|contribution|consultation" \
+                grep -E "gap|no gaps|stored|match our areas|agenda item|division|member|contribution|consultation" \
                   "/tmp/sp-$f.log" | head -15 || echo "(no summary lines)"
                 echo '```'
               else
